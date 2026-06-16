@@ -7,6 +7,7 @@
 
 import { useEffect, useCallback, useRef } from 'react';
 import { useRealtimeSync } from './useRealtimeSync';
+import { migrateArcanoneerClassResource } from '../utils/arcanoneerMigration';
 
 export const useCharacterPersistence = () => {
   const persistenceService = require('../services/firebase/persistenceService').default;
@@ -164,6 +165,14 @@ export const useCharacterPersistence = () => {
       const result = await persistenceService.loadCharacterState(user.uid, currentCharacterId);
 
       if (result) {
+        // One-time migration: legacy Arcanoneer block IDs → new canonical IDs.
+        // Idempotent; no-op for non-Arcanoneer characters and already-migrated data.
+        const migratedClassResource = migrateArcanoneerClassResource(result.classResource);
+        if (migratedClassResource !== result.classResource) {
+          result.classResource = migratedClassResource;
+          console.log('🔄 Migrated legacy Arcanoneer block IDs to new canonical IDs.');
+        }
+
         // Update stores with remote data
         useCharacterStore?.setState({
           // Basic resources
@@ -307,7 +316,9 @@ export const useCharacterPersistence = () => {
         tempMana: remoteData.tempMana || 0,
         tempActionPoints: remoteData.tempActionPoints || 0,
         exhaustionLevel: remoteData.exhaustionLevel || 0,
-        classResource: remoteData.classResource,
+        // One-time migration on remote update too — covers a party member on an
+        // older client broadcasting legacy IDs.
+        classResource: migrateArcanoneerClassResource(remoteData.classResource),
         skillRanks: remoteData.skillRanks || {},
         skillProgress: remoteData.skillProgress || {},
         skillPointsSpent: remoteData.skillPointsSpent || 0,

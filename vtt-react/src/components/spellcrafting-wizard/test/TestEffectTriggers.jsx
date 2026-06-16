@@ -8,7 +8,7 @@ const TestEffectTriggers = () => {
     name: "Elemental Fury",
     description: "A spell that combines damage and healing with different triggers",
     level: 5,
-    school: "Evocation",
+    school: "ember",
     spellType: "ACTION",
     effectTypes: ["damage", "healing"],
     damageConfig: {

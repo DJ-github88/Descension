@@ -82,6 +82,11 @@ const DAMAGE_TYPES = {
         icon: getCustomIconUrl('Psychic/Psychic Telepathy', 'abilities'),
         color: '#7A2040'
     },
+    divine: {
+        name: 'Divine',
+        icon: getCustomIconUrl('Radiant/Radiant Divinity', 'abilities'),
+        color: '#DAA520'
+    },
     healing: {
         name: 'Healing',
         icon: getCustomIconUrl('Healing/Golden Heart', 'abilities'),
@@ -405,7 +410,7 @@ export default function CharacterStats() {
         }
 
         // Initialize spell power types if they don't exist (needed for buff effects)
-        const spellDamageTypes = ['ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd'];
+        const spellDamageTypes = ['ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'divine'];
         spellDamageTypes.forEach(type => {
             const spellPowerKey = `${type}SpellPower`;
             if (!totalStats.hasOwnProperty(spellPowerKey)) {

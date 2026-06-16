@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Skill-Based Abilities Data
  * 
  * These are special abilities unlocked by skill proficiency.
@@ -127,7 +127,7 @@ export const SKILL_ABILITIES = [
     spellType: 'ACTION',
     effectTypes: ['control'],
     typeConfig: {
-      school: 'nature',
+      school: 'primal',
       icon: 'ability_hunter_beastcall',
       tags: ['skill', 'animalHandling', 'control', 'proficient']
     },
@@ -304,7 +304,7 @@ export const SKILL_ABILITIES = [
     spellType: 'ACTION',
     effectTypes: ['debuff'],
     typeConfig: {
-      school: 'mental',
+      school: 'wyrd',
       icon: 'ability_rogue_deceive',
       tags: ['skill', 'deception', 'debuff', 'proficient']
     },
@@ -362,7 +362,7 @@ export const SKILL_ABILITIES = [
     spellType: 'ACTION',
     effectTypes: ['utility'],
     typeConfig: {
-      school: 'mental',
+      school: 'wyrd',
       icon: 'spell_holy_magicalsentry',
       tags: ['skill', 'history', 'utility', 'proficient']
     },
@@ -420,7 +420,7 @@ export const SKILL_ABILITIES = [
     spellType: 'ACTION',
     effectTypes: ['buff'],
     typeConfig: {
-      school: 'mental',
+      school: 'wyrd',
       icon: 'spell_nature_mirrorimage',
       tags: ['skill', 'insight', 'buff', 'proficient']
     },
@@ -480,7 +480,7 @@ export const SKILL_ABILITIES = [
     spellType: 'REACTION',
     effectTypes: ['control'],
     typeConfig: {
-      school: 'mental',
+      school: 'wyrd',
       icon: 'ability_warrior_challange',
       tags: ['skill', 'intimidation', 'control', 'proficient']
     },
@@ -543,7 +543,7 @@ export const SKILL_ABILITIES = [
     spellType: 'ACTION',
     effectTypes: ['utility'],
     typeConfig: {
-      school: 'mental',
+      school: 'wyrd',
       icon: 'spell_holy_magicalsentry',
       tags: ['skill', 'investigation', 'utility', 'proficient']
     },
@@ -652,7 +652,7 @@ export const SKILL_ABILITIES = [
     spellType: 'ACTION',
     effectTypes: ['utility'],
     typeConfig: {
-      school: 'nature',
+      school: 'primal',
       icon: 'spell_nature_naturetouchgrow',
       tags: ['skill', 'nature', 'utility', 'proficient']
     },
@@ -710,7 +710,7 @@ export const SKILL_ABILITIES = [
     spellType: 'PASSIVE',
     effectTypes: ['buff'],
     typeConfig: {
-      school: 'mental',
+      school: 'wyrd',
       icon: 'spell_nature_sentinal',
       tags: ['skill', 'perception', 'buff', 'passive', 'proficient']
     },
@@ -763,7 +763,7 @@ export const SKILL_ABILITIES = [
     spellType: 'ACTION',
     effectTypes: ['control'],
     typeConfig: {
-      school: 'mental',
+      school: 'wyrd',
       icon: 'ability_rogue_distract',
       tags: ['skill', 'performance', 'control', 'proficient']
     },
@@ -829,7 +829,7 @@ export const SKILL_ABILITIES = [
     spellType: 'ACTION',
     effectTypes: ['debuff'],
     typeConfig: {
-      school: 'mental',
+      school: 'wyrd',
       icon: 'ability_rogue_distract',
       tags: ['skill', 'persuasion', 'debuff', 'proficient']
     },
@@ -1116,7 +1116,7 @@ export const SKILL_ABILITIES = [
     spellType: 'ACTION',
     effectTypes: ['utility'],
     typeConfig: {
-      school: 'nature',
+      school: 'primal',
       icon: 'ability_rogue_trip',
       tags: ['skill', 'survival', 'utility', 'proficient']
     },

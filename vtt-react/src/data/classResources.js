@@ -1011,7 +1011,7 @@ export const initializeClassResource = (className, characterStats) => {
         }
     }
 
-    // Initialize custom fields for Revenant and Apex
+    // Initialize custom fields for Revenant, Apex, and Arcanoneer
     if (className === 'Revenant') {
         baseResource.bloodTokens = 0;
         baseResource.stacks = [true, false, false, false, false, false, false];
@@ -1020,6 +1020,15 @@ export const initializeClassResource = (className, characterStats) => {
         baseResource.companionMaxHP = config.mechanics.companion?.maxHP || 50;
         baseResource.current = config.mechanics.quarryMarks?.current || 0;
         baseResource.max = config.mechanics.quarryMarks?.max || 5;
+    } else if (className === 'Arcanoneer') {
+        // Building Blocks: array of block ids banked in the iron sleeve.
+        // `spheres` is the legacy field name retained for save-file compatibility
+        // with the generic characterStore shape; UI refers to them as "blocks".
+        baseResource.spheres = config.mechanics.spheres || [];
+        baseResource.current = 0;          // current = live count of banked blocks
+        baseResource.max = config.mechanics.max;  // hard cap = 12
+        baseResource.rollsPerTurn = 4;     // 4d8 baseline (Entropy Weaver raises to 5)
+        baseResource.rerollsUsed = 0;
     }
 
     return baseResource;
@@ -1138,26 +1147,27 @@ CLASS_RESOURCE_TYPES['Animist'] = {
 };
 
 CLASS_RESOURCE_TYPES['Arcanoneer'] = {
+    // NOTE: `id` and `visual.type` are kept stable for save-file compat and dispatch routing.
     id: 'elementalSpheres',
     name: 'Elemental Spheres',
     shortName: 'Spheres',
     type: 'spheres',
-    description: 'Roll 4d8 each turn to generate random elemental spheres that can be combined to cast spells',
+    description: 'Roll 4d8 each turn to generate elemental spheres. Combine any two to produce a formulation from the 36-combination matrix.',
     visual: {
         type: 'elemental-spheres',
-        count: 8, // 2x4 grid for 8 element types
-        arrangement: 'grid',
-        layout: '2x4',
+        count: 8,
+        arrangement: 'row',
+        layout: '1x8',
         baseColor: 'rgba(255, 255, 255, 0.1)',
         emptyColor: 'rgba(255, 255, 255, 0.05)',
         icon: '🔮',
         effects: ['elemental', 'combination', 'magicka']
     },
     mechanics: {
-        max: 12, // Max banked spheres (prevents hoarding exploits)
+        max: 12,
         current: 0,
-        spheres: [], // Array of element names: ['fire', 'fire', 'frost', 'healing']
-        generation: '4d8', // Roll 4d8 each turn
+        spheres: [],
+        generation: '4d8',
         regen: 0,
         consumeVerb: 'combine',
         gainVerb: 'generate',
@@ -1165,11 +1175,18 @@ CLASS_RESOURCE_TYPES['Arcanoneer'] = {
     },
     tooltip: {
         title: 'Elemental Spheres',
-        description: 'Magicka-inspired sphere combination system. Roll 4d8 each turn to generate random elemental spheres.',
+        description: 'Roll 4d8 each turn to generate elemental spheres. Combine any two to produce a formulation.',
         showSpheres: true,
         showBreakdown: true,
         showCombinations: true
     },
+    // The canonical 8 elemental sphere types. This is the SINGLE SOURCE OF TRUTH —
+    // the combination matrix, SphereComboFinder, the bar renderer, and saved
+    // character data all reference these exact `id` values.
+    // IDs match the names already used throughout the system (ember, blight, rime, etc.).
+    // The only fix from the original: `radiant` splits the old `ember` collision
+    // (d8=2 Radiance vs d8=4 Flames), and `flesh` replaces `healing` for d8=7
+    // (the entry is "Gristle Blockade" — lore-correct).
     elements: [
         {
             id: 'arcane',
@@ -1178,34 +1195,42 @@ CLASS_RESOURCE_TYPES['Arcanoneer'] = {
             glowColor: '#BA9FE8',
             d8Value: 1,
             icon: 'fas fa-wand-magic-sparkles',
-            description: 'Raw magical force'
+            theme: 'Raw Magic',
+            summary: 'Force damage, disorientation, magical effects',
+            flavor: 'The shape behind all other shapes — raw kinetic intent.'
         },
         {
-            id: 'ember',
-            name: 'Ember',
+            id: 'divine',
+            name: 'Divine',
             color: '#FFD700',
             glowColor: '#FFE55C',
             d8Value: 2,
             icon: 'fas fa-sun',
-            description: 'Divine radiance'
+            theme: 'Divine Light',
+            summary: 'Divine damage, blinding, stunning, protection',
+            flavor: 'The first clause of the First Contract: let there be sight.'
         },
         {
             id: 'blight',
             name: 'Blight',
-            color: '#1C1C1C',
-            glowColor: '#4A4A4A',
+            color: '#3D2C4E',
+            glowColor: '#6B4E7F',
             d8Value: 3,
             icon: 'fas fa-skull',
-            description: 'Blight corruption'
+            theme: 'Darkness',
+            summary: 'Blight damage, curses, life drain, debuffs',
+            flavor: 'The silence after the clause — what the light leaves behind.'
         },
         {
-            id: 'ember2',
+            id: 'ember',
             name: 'Ember',
             color: '#FF4500',
             glowColor: '#FF6347',
             d8Value: 4,
             icon: 'fas fa-fire',
-            description: 'Scorching flames'
+            theme: 'Flames',
+            summary: 'Fire damage, burning, ignition, explosions',
+            flavor: 'The first tool humanity mastered, captured in a crystal shard.'
         },
         {
             id: 'rime',
@@ -1214,34 +1239,42 @@ CLASS_RESOURCE_TYPES['Arcanoneer'] = {
             glowColor: '#6495ED',
             d8Value: 5,
             icon: 'fas fa-snowflake',
-            description: 'Bitter frost'
+            theme: 'Frost',
+            summary: 'Cold damage, freezing, slowing, disorientation',
+            flavor: 'Entropy deferred — motion held still in crystal lattice.'
         },
         {
-            id: 'nature',
-            name: 'Nature',
+            id: 'primal',
+            name: 'Primal',
             color: '#32CD32',
             glowColor: '#90EE90',
             d8Value: 6,
-            icon: 'fas fa-leaf',
-            description: 'Thunder and vines'
+            icon: 'fas fa-bolt',
+            theme: 'Storm & Growth',
+            summary: 'Lightning, vines, restraint, poison',
+            flavor: 'The green arc between seed and sky.'
         },
         {
-            id: 'healing',
-            name: 'Healing',
-            color: '#FFFF00',
-            glowColor: '#FFFFE0',
+            id: 'storm',
+            name: 'Storm',
+            color: '#1E90FF',
+            glowColor: '#87CEEB',
             d8Value: 7,
-            icon: 'fas fa-heart',
-            description: 'Life energy'
+            icon: 'fas fa-bolt-lightning',
+            theme: 'Lightning & Thunder',
+            summary: 'Lightning damage, thunder, stunning, chain effects',
+            flavor: 'The sky\'s voice captured in crystal — raw current and sound.'
         },
         {
-            id: 'chaos',
-            name: 'Chaos',
+            id: 'wyrd',
+            name: 'Wyrd',
             color: 'linear-gradient(45deg, #FF0000, #FF7F00, #FFFF00, #00FF00, #0000FF, #4B0082, #9400D3)',
             glowColor: '#FF00FF',
             d8Value: 8,
-            icon: 'fas fa-random',
-            description: 'Unpredictable magic',
+            icon: 'fas fa-dice-d20',
+            theme: 'Unpredictability',
+            summary: 'Random effects, wild magic, variable damage',
+            flavor: 'The clause the Keeper will not interpret.',
             isGradient: true
         }
     ]

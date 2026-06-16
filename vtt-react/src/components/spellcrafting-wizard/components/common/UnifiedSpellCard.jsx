@@ -41,13 +41,14 @@ const GLOBAL_STAT_MAP = {
   'ragegeneration': 'Rage Generation', 'rage_generation': 'Rage Generation', 'rage generation': 'Rage Generation',
   'momentumgeneration': 'Momentum Generation', 'momentum_generation': 'Momentum Generation', 'momentum generation': 'Momentum Generation',
   'all_resistances': 'All Resistances', 'all_primary_stats': 'All Primary Stats',
-  // Spell power stats
-  'fire_spell_power': 'Fire Spell Power', 'frost_spell_power': 'Frost Spell Power',
-  'lightning_spell_power': 'Lightning Spell Power', 'arcane_spell_power': 'Arcane Spell Power',
-  'nature_spell_power': 'Nature Spell Power', 'force_spell_power': 'Force Spell Power',
-  'necrotic_spell_power': 'Necrotic Spell Power', 'radiant_spell_power': 'Radiant Spell Power',
-  'poison_spell_power': 'Poison Spell Power', 'psychic_spell_power': 'Psychic Spell Power',
-  'chaos_spell_power': 'Chaos Spell Power', 'void_spell_power': 'Void Spell Power',
+  // Spell power stats (canonical 8 + legacy aliases for backward compat)
+  'ember_spell_power': 'Ember Spell Power', 'fire_spell_power': 'Fire Spell Power',
+  'rime_spell_power': 'Rime Spell Power', 'frost_spell_power': 'Frost Spell Power', 'cold_spell_power': 'Cold Spell Power', 'ice_spell_power': 'Ice Spell Power',
+  'storm_spell_power': 'Storm Spell Power', 'lightning_spell_power': 'Lightning Spell Power', 'thunder_spell_power': 'Thunder Spell Power', 'force_spell_power': 'Force Spell Power',
+  'arcane_spell_power': 'Arcane Spell Power',
+  'primal_spell_power': 'Primal Spell Power', 'nature_spell_power': 'Nature Spell Power',
+  'blight_spell_power': 'Blight Spell Power', 'necrotic_spell_power': 'Necrotic Spell Power', 'poison_spell_power': 'Poison Spell Power', 'acid_spell_power': 'Acid Spell Power', 'shadow_spell_power': 'Shadow Spell Power', 'void_spell_power': 'Void Spell Power',
+  'wyrd_spell_power': 'Wyrd Spell Power', 'psychic_spell_power': 'Psychic Spell Power', 'chaos_spell_power': 'Chaos Spell Power',
   // Transition/Stance stats
   'multistancebenefits': 'Multi-Stance Benefits', 'multiStanceBenefits': 'Multi-Stance Benefits', 'multi_stance_benefits': 'Multi-Stance Benefits',
   'multistanceecho': 'Multi-Stance Echo', 'multiStanceEcho': 'Multi-Stance Echo', 'multi_stance_echo': 'Multi-Stance Echo',
@@ -447,6 +448,7 @@ const UnifiedSpellCard = ({
       'primal': 'spell-primal',
       'blight': 'spell-blight',
       'wyrd': 'spell-wyrd',
+      'divine': 'spell-divine',
       'physical': 'spell-physical',
       // Legacy aliases
       'fire': 'spell-ember',
@@ -590,14 +592,15 @@ const UnifiedSpellCard = ({
     if (!resistanceName) return 'damage';
 
     const name = resistanceName.toLowerCase();
-    if (name.includes('ember') || name.includes('ember') || name.includes('ember') || name.includes('ember')) return 'ember';
-    if (name.includes('rime') || name.includes('rime') || name.includes('ice') || name.includes('rime')) return 'rime';
-    if (name.includes('storm') || name.includes('electric') || name.includes('arcane') || name.includes('storm') || name.includes('storm')) return 'storm';
+    if (name.includes('ember') || name.includes('fire')) return 'ember';
+    if (name.includes('rime') || name.includes('ice') || name.includes('frost') || name.includes('cold')) return 'rime';
+    if (name.includes('storm') || name.includes('lightning') || name.includes('electric') || name.includes('thunder')) return 'storm';
     if (name.includes('arcane')) return 'arcane';
     if (name.includes('nature') || name.includes('primal')) return 'primal';
-    if (name.includes('blight') || name.includes('blight') || name.includes('blight') || name.includes('blight') || name.includes('death') || name.includes('blight') || name.includes('blight')) return 'blight';
-    if (name.includes('wyrd') || name.includes('mental') || name.includes('chaos') || name.includes('wyrd')) return 'wyrd';
-    if (name.includes('physical') || name.includes('physical') || name.includes('physical') || name.includes('physical')) return 'physical';
+    if (name.includes('blight') || name.includes('necrotic') || name.includes('death') || name.includes('shadow')) return 'blight';
+    if (name.includes('wyrd') || name.includes('mental') || name.includes('chaos') || name.includes('psychic')) return 'wyrd';
+    if (name.includes('divine') || name.includes('radiant') || name.includes('holy')) return 'divine';
+    if (name.includes('physical')) return 'physical';
     if (name.includes('all')) return 'all damage';
 
     return 'damage';
@@ -1540,27 +1543,7 @@ const UnifiedSpellCard = ({
       const durationValue = buffData.durationValue || buffData.duration;
 
       if (durationValue && buffData.durationType !== 'instant') {
-        let durationText = '';
-
-        if (buffData.durationType === 'permanent') {
-          durationText = 'Permanent';
-        } else if (buffData.durationType === 'rounds') {
-          durationText = `${durationValue} ${durationValue === 1 ? 'round' : 'rounds'}`;
-        } else if (buffData.durationType === 'turns') {
-          durationText = `${durationValue} ${durationValue === 1 ? 'turn' : 'turns'}`;
-        } else if (buffData.durationType === 'rest') {
-          const restType = buffData.restType || 'long';
-          durationText = `Until ${restType.charAt(0).toUpperCase() + restType.slice(1)} Rest`;
-        } else if (buffData.durationType === 'minutes') {
-          durationText = `${durationValue} ${durationValue === 1 ? 'minute' : 'minutes'}`;
-        } else if (buffData.durationType === 'hours') {
-          durationText = `${durationValue} ${durationValue === 1 ? 'hour' : 'hours'}`;
-        } else if (buffData.durationType === 'time' && durationValue) {
-          const unit = buffData.durationUnit || 'rounds';
-          durationText = `${durationValue} ${unit}`;
-        } else if (durationValue) {
-          durationText = `${durationValue} rounds`;
-        }
+        let durationText = formatDurationText(durationValue, buffData.durationType, buffData.durationUnit, buffData.restType);
 
         // Add concentration requirement if applicable
         if (buffData.concentrationRequired) {
@@ -1577,6 +1560,16 @@ const UnifiedSpellCard = ({
         }
 
         return durationText;
+      }
+    }
+
+    // Check for debuff configuration duration
+    if (spell.effectTypes?.includes('debuff') && spell.debuffConfig) {
+      const debuffData = spell.debuffConfig;
+      const durationValue = debuffData.durationValue || debuffData.duration;
+
+      if (durationValue && debuffData.durationType !== 'instant') {
+        return formatDurationText(durationValue, debuffData.durationType, debuffData.durationUnit, debuffData.restType);
       }
     }
 
@@ -1600,12 +1593,37 @@ const UnifiedSpellCard = ({
       return `${zoneDuration} ${unit}`;
     }
 
+    // Check durationConfig
+    if (spell.durationConfig?.durationType && spell.durationConfig.durationType !== 'instant') {
+      const dv = spell.durationConfig.durationValue || spell.durationConfig.duration || 1;
+      return formatDurationText(dv, spell.durationConfig.durationType, spell.durationConfig.durationUnit);
+    }
+
     const duration = spell.duration ||
                      (spell.durationConfig && spell.durationConfig.duration) ||
                      (spell.typeConfig && spell.typeConfig.duration) ||
                      'Instant';
 
     return duration;
+  };
+
+  // Helper: format duration text from components
+  const formatDurationText = (durationValue, durationType, durationUnit, restType) => {
+    if (durationType === 'permanent') return 'Permanent';
+    if (durationType === 'rounds') return `${durationValue} ${durationValue === 1 ? 'round' : 'rounds'}`;
+    if (durationType === 'turns') return `${durationValue} ${durationValue === 1 ? 'turn' : 'turns'}`;
+    if (durationType === 'rest') {
+      const rt = restType || 'long';
+      return `Until ${rt.charAt(0).toUpperCase() + rt.slice(1)} Rest`;
+    }
+    if (durationType === 'minutes') return `${durationValue} ${durationValue === 1 ? 'minute' : 'minutes'}`;
+    if (durationType === 'hours') return `${durationValue} ${durationValue === 1 ? 'hour' : 'hours'}`;
+    if (durationType === 'time' && durationValue) {
+      const unit = durationUnit || 'rounds';
+      return `${durationValue} ${unit}`;
+    }
+    if (durationValue) return `${durationValue} rounds`;
+    return 'Instant';
   };
 
   // Format cooldown from wizard cooldownConfig
@@ -5290,15 +5308,15 @@ const UnifiedSpellCard = ({
           if (damageTypes !== 'all') {
             const typeText = damageTypes === 'physical' ? 'Physical' :
                             damageTypes === 'magical' ? 'Magical' :
-                            damageTypes === 'ember' ? 'ember' :
-                            damageTypes === 'rime' ? 'rime' :
-                            damageTypes === 'storm' ? 'storm' :
+                            damageTypes === 'ember' ? 'Fire' :
+                            damageTypes === 'rime' ? 'Frost' :
+                            damageTypes === 'storm' ? 'Lightning' :
                             damageTypes === 'arcane' ? 'Arcane' :
                             damageTypes === 'nature' ? 'Nature' :
-                            damageTypes === 'blight' ? 'blight' :
-                            damageTypes === 'blight' ? 'blight' :
-                            damageTypes === 'ember' ? 'ember' :
-                            damageTypes === 'arcane' ? 'arcane' :
+                            damageTypes === 'blight' ? 'Necrotic' :
+                            damageTypes === 'primal' ? 'Nature' :
+                            damageTypes === 'wyrd' ? 'Psychic' :
+                            damageTypes === 'divine' ? 'Radiant' :
                             damageTypes.charAt(0).toUpperCase() + damageTypes.slice(1);
             shieldBullets.push(`${typeText} only`);
           }
@@ -5488,7 +5506,8 @@ const UnifiedSpellCard = ({
 
       // Only check spell name and description for type hints if we have damage config
       const spellText = `${spell.name || ''} ${spell.description || ''}`.toLowerCase();
-      if (spellText.includes('ember') || spellText.includes('flame') || spellText.includes('burn') || spellText.includes('ember') || spellText.includes('ember') || spellText.includes('divine') || spellText.includes('light')) damageTypesSet.add('ember');
+      if (spellText.includes('divine') || spellText.includes('sacred') || spellText.includes('holy light')) damageTypesSet.add('divine');
+      else if (spellText.includes('ember') || spellText.includes('flame') || spellText.includes('burn') || spellText.includes('ember') || spellText.includes('ember') || spellText.includes('light')) damageTypesSet.add('ember');
       else if (spellText.includes('rime') || spellText.includes('rime') || spellText.includes('ice')) damageTypesSet.add('rime');
       else if (spellText.includes('storm') || spellText.includes('electric')) damageTypesSet.add('storm');
       else if (spellText.includes('arcane')) damageTypesSet.add('arcane');
@@ -5507,7 +5526,7 @@ const UnifiedSpellCard = ({
     }
 
     // Valid damage types (normalize old types to new 8-type schema)
-    const validDamageTypes = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd',
+    const validDamageTypes = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'divine',
                              'ember', 'rime', 'storm', 'arcane', 'storm', 'ember', 'nature',
                              'blight', 'blight', 'blight', 'blight', 'wyrd', 'chaos',
                              'physical', 'physical', 'physical',
@@ -5568,22 +5587,20 @@ const UnifiedSpellCard = ({
     const isPositive = magnitude > 0;
     const isPercentage = magnitudeType === 'percentage';
 
-    // Enhanced naming for primary stats
     const statEnhancements = {
-      'strength': isPositive ? 'Might Enhancement' : 'Strength Drain',
-      'agility': isPositive ? 'Grace Enhancement' : 'Agility Drain',
-      'constitution': isPositive ? 'Vitality Enhancement' : 'Constitution Drain',
-      'intelligence': isPositive ? 'Mental Acuity' : 'Intelligence Drain',
+      'strength': isPositive ? 'Might' : 'Strength Drain',
+      'agility': isPositive ? 'Grace' : 'Agility Drain',
+      'constitution': isPositive ? 'Vitality' : 'Constitution Drain',
+      'intelligence': isPositive ? 'Mental Acuity' : 'Mind Fog',
       'spirit': isPositive ? 'Spiritual Power' : 'Spirit Drain',
-      'charisma': isPositive ? 'Presence Enhancement' : 'Charisma Drain',
+      'charisma': isPositive ? 'Presence' : 'Charisma Drain',
 
-      // Enhanced naming for secondary stats
-      'health': isPositive ? 'Vigor Boost' : 'Health Penalty',
+      'health': isPositive ? 'Vigor' : 'Health Penalty',
       'mana': isPositive ? 'Arcane Reservoir' : 'Mana Drain',
-      'stamina': isPositive ? 'Endurance Boost' : 'Stamina Penalty',
+      'stamina': isPositive ? 'Endurance' : 'Fatigue',
       'speed': isPositive ? 'Swiftness' : 'Sluggishness',
       'damage': isPositive ? 'Combat Prowess' : 'Damage Penalty',
-      'damage_reduction': 'Damage Resistance'
+      'damage_reduction': 'Toughness'
     };
 
     return statEnhancements[baseName] || (statName.charAt(0).toUpperCase() + statName.slice(1));
@@ -5647,610 +5664,354 @@ const UnifiedSpellCard = ({
 
     // Format based on specific effect types
     const effectId = (status.id || '').toLowerCase();
+    const option = status.option || null;
 
-    // LUCK EFFECT
+    // ===== BUFF EFFECTS =====
+
+    // LUCK EFFECT — popup writes option: minor|major|fate, rerollCount
     if (effectId === 'luck') {
-      const luckType = status.luckType || 'bonus';
-      if (luckType === 'bonus') {
-        const bonus = status.luckBonus || 1;
-        const appliesTo = status.appliesTo || 'all';
-        mechanicsParts.push(`+${bonus} bonus to ${appliesTo === 'all' ? 'all dice rolls' : appliesTo === 'd20' ? 'd20 rolls' : appliesTo === 'damage' ? 'damage rolls' : appliesTo}`);
-      } else if (luckType === 'reroll') {
-        const rerollCount = status.rerollCount || 1;
-        const rerollCondition = status.rerollCondition || 'any';
-        mechanicsParts.push(`Reroll ${rerollCount === -1 ? 'unlimited' : rerollCount} ${rerollCondition === 'any' ? 'unfavorable' : rerollCondition} ${rerollCount === 1 ? 'roll' : 'rolls'}`);
-      } else if (luckType === 'minimum') {
-        const minValue = status.minimumValue || 10;
-        const appliesTo = status.appliesTo || 'd20';
-        mechanicsParts.push(`Minimum roll of ${minValue} on ${appliesTo === 'all' ? 'all dice' : appliesTo === 'd20' ? 'd20 rolls' : appliesTo === 'damage' ? 'damage rolls' : appliesTo}`);
-      } else if (luckType === 'choose') {
-        const choiceCount = status.choiceCount || 1;
-        mechanicsParts.push(`Choose result from ${choiceCount} ${choiceCount === 1 ? 'roll' : 'rolls'}`);
+      if (option === 'minor') {
+        mechanicsParts.push(`Reroll ${status.rerollCount || 1} bad ${status.rerollCount === 1 ? 'roll' : 'rolls'}, keep the new result`);
+      } else if (option === 'major') {
+        mechanicsParts.push(`Reroll ${status.rerollCount || 1} failed ${status.rerollCount === 1 ? 'roll' : 'rolls'} during the duration`);
+      } else if (option === 'fate') {
+        mechanicsParts.push("Pick the number you want instead of rolling");
       }
     }
 
-    // HASTE EFFECT
+    // HASTE EFFECT — popup writes option: movement|action|casting, speedBonus, extraActions, castingReduction
     else if (effectId === 'haste') {
-      const speedMultiplier = status.speedMultiplier || 2;
-      const extraActions = status.extraActions || 0;
-      const extraAttacks = status.extraAttacks || 0;
+      if (option === 'movement') {
+        const sb = status.speedBonus || '50';
+        mechanicsParts.push(`+${sb}% movement speed`);
+      } else if (option === 'action') {
+        mechanicsParts.push(`+${status.extraActions || '1'} extra action${status.extraActions === '1' ? '' : 's'} per turn`);
+      } else if (option === 'casting') {
+        mechanicsParts.push(`${status.castingReduction || '50'}% faster spellcasting`);
+      }
+      if (status.hasLethargy) mechanicsParts.push('slowed when it wears off');
+    }
 
-      mechanicsParts.push(`${speedMultiplier}× movement speed`);
-      if (extraActions > 0) mechanicsParts.push(`+${extraActions} ${extraActions === 1 ? 'action' : 'actions'} per turn`);
-      if (extraAttacks > 0) mechanicsParts.push(`+${extraAttacks} ${extraAttacks === 1 ? 'attack' : 'attacks'} per turn`);
-      if (status.hasLethargy) mechanicsParts.push('Lethargy when ends');
+    // COMBAT ADVANTAGE — popup writes advantageType, affectsMelee, affectsRanged, damageTypes, magnitude
+    else if (effectId === 'combat_advantage') {
+      const advType = status.advantageType || 'attack';
+      if (advType === 'attack') {
+        const types = [];
+        if (status.affectsMelee) types.push('melee');
+        if (status.affectsRanged) types.push('ranged');
+        mechanicsParts.push(`Roll twice, keep best on ${types.length ? types.join(' and ') : 'all'} attacks`);
+      } else if (advType === 'damage') {
+        const dmgTypes = status.damageTypes?.length ? status.damageTypes.join(', ') : 'all';
+        mechanicsParts.push(`+${status.magnitude || 2}${status.magnitudeType === 'percentage' ? '%' : ''} to ${dmgTypes} damage`);
+      } else if (advType === 'healing') {
+        mechanicsParts.push(`+${status.magnitude || 2}${status.magnitudeType === 'percentage' ? '%' : ''} to healing rolls`);
+      } else if (advType === 'critical') {
+        mechanicsParts.push(`Expanded crit range (+${status.magnitude || 2})`);
+      }
+    }
+
+    // ATTACKERS ADVANTAGE — popup writes option: all|melee|ranged|spell, magnitude
+    else if (effectId === 'attackers_advantage') {
+      const target = option || 'all';
+      mechanicsParts.push(`Attackers get +${status.magnitude || 0}${status.magnitudeType === 'percentage' ? '%' : ''} to hit with ${target} attacks`);
+    }
+
+    // SKILL MASTERY — popup writes option: physical|mental|social, magnitude
+    else if (effectId === 'skill_mastery') {
+      const skillArea = option || 'physical';
+      mechanicsParts.push(`+${status.magnitude || 2} to ${skillArea} skill checks`);
+    }
+
+    // EMPOWER NEXT — popup writes option: spell|heal|weapon, multiplier
+    else if (effectId === 'empower_next') {
+      const mult = status.multiplier || '1.5';
+      const pct = mult === 'max' ? 'maximum' : `${Math.round((parseFloat(mult) - 1) * 100)}% more`;
+      if (option === 'spell') mechanicsParts.push(`Next spell deals ${pct} damage`);
+      else if (option === 'heal') mechanicsParts.push(`Next heal restores ${pct} HP`);
+      else if (option === 'weapon') mechanicsParts.push(`Next weapon hit deals ${pct} damage`);
+    }
+
+    // DAMAGE SHIELD — popup writes option: physical|magical|complete, reductionPercent, hitCount
+    else if (effectId === 'damage_shield') {
+      const shieldArea = option || 'physical';
+      mechanicsParts.push(`${status.reductionPercent || '50'}% less ${shieldArea} damage for ${status.hitCount || 3} hit${(status.hitCount || 3) > 1 ? 's' : ''}`);
+    }
+
+    // ELEMENTAL INFUSION — popup writes option: ember|rime|storm, extraDamage, procChance
+    else if (effectId === 'elemental_infusion') {
+      const elem = option || 'ember';
+      mechanicsParts.push(`+${status.extraDamage || '1d6'} ${elem} on every hit`);
+      if (status.procChance && status.procChance !== '100') mechanicsParts.push(`${status.procChance}% chance to trigger`);
+    }
+
+    // INVISIBILITY — popup writes option: partial|complete|greater, detectionDC
+    else if (effectId === 'invisibility' || effectId === 'invisible') {
+      if (option === 'partial') mechanicsParts.push(`Advantage on stealth (detection DC ${status.detectionDC || 15})`);
+      else if (option === 'complete') mechanicsParts.push("Can't be seen — breaks on attack or spell");
+      else if (option === 'greater') mechanicsParts.push('Invisible even while attacking or casting');
+    }
+
+    // INSPIRATION — popup writes option: focus|insight|creativity, magnitude
+    else if (effectId === 'inspiration') {
+      const inspireType = option || 'focus';
+      mechanicsParts.push(`+${status.magnitude || 3} to ${inspireType === 'focus' ? 'concentration checks' : inspireType === 'insight' ? 'Intelligence checks' : 'Charisma (Performance) checks'}`);
+    }
+
+    // LIFELINK — popup writes option: hp_to_hp|mana_to_mana|etc, transferRatio, maxTransfer
+    else if (effectId === 'lifelink') {
+      const linkMap = {
+        'hp_to_hp': 'HP ↔ HP link',
+        'mana_to_mana': 'Mana ↔ Mana link',
+        'hp_to_mana': 'HP → Mana conversion',
+        'mana_to_hp': 'Mana → HP conversion',
+        'damage_to_healing': 'Damage → Healing conversion',
+        'healing_to_damage': 'Healing → Damage conversion'
+      };
+      mechanicsParts.push(linkMap[option] || option || 'Life link');
+      mechanicsParts.push(`${status.transferRatio || '50'}% transfer rate`);
+      if (status.maxTransfer) mechanicsParts.push(`max ${status.maxTransfer} per trigger`);
+    }
+
+    // INSPIRED — popup writes option: bardic|guidance|heroism, inspirationDie, usesPerDuration, appliesTo
+    else if (effectId === 'inspired') {
+      const die = status.inspirationDie || 'd6';
+      const uses = status.usesPerDuration || 1;
+      const applyTo = status.appliesTo || 'any';
+      const appliesText = applyTo === 'any' ? 'any roll' : applyTo === 'attacks' ? 'attack rolls' : applyTo === 'saves' ? 'saving throws' : 'skill checks';
+      if (option === 'bardic') mechanicsParts.push(`Add ${die} to ${appliesText}, ${uses} ${uses === 1 ? 'use' : 'uses'}`);
+      else if (option === 'guidance') mechanicsParts.push(`Add ${die} to one ${appliesText}`);
+      else if (option === 'heroism') mechanicsParts.push(`Immune to fear, +${die} to saves`);
+    }
+
+    // BLESSED — popup writes option: protection|fortune|life, bonusType, rollBonus, bonusDie, affects...
+    else if (effectId === 'blessed') {
+      const bt = status.bonusType || 'flat';
+      const bonusVal = bt === 'dice' ? (status.bonusDie || 'd4') : (status.rollBonus ? `+${status.rollBonus}` : '+2');
+      const affects = [];
+      if (status.affectsAttacks !== false) affects.push('attacks');
+      if (status.affectsSaves !== false) affects.push('saves');
+      if (status.affectsSkills) affects.push('skills');
+      const affectsText = affects.length ? affects.join(', ') : 'all rolls';
+      if (option === 'protection') mechanicsParts.push(`${bonusVal} to ${affectsText} and AC`);
+      else if (option === 'fortune') mechanicsParts.push(`${bonusVal} to ${affectsText}`);
+      else if (option === 'life') mechanicsParts.push(`${bonusVal} to saves + temp HP each turn`);
+    }
+
+    // STRENGTHENED — popup writes option: physical|magical|overall, damageBonus, strengthBonus
+    else if (effectId === 'strengthened') {
+      const dmgBonus = status.damageBonus || '+2';
+      if (option === 'physical') mechanicsParts.push(`${dmgBonus} physical damage, +${status.strengthBonus || 2} STR`);
+      else if (option === 'magical') mechanicsParts.push(`${dmgBonus} spell damage`);
+      else if (option === 'overall') mechanicsParts.push(`${dmgBonus} to all damage`);
+    }
+
+    // RESISTANCE — popup writes option: elemental|physical|magical, damageTypes, resistanceValue, absorptionAmount
+    else if (effectId === 'resistance') {
+      const resistLevel = status.resistanceValue || '50';
+      const levelMap = { '0': 'Immune', '25': 'Minor resistance', '50': 'Resistant (half damage)', '75': 'Guarded' };
+      const dmgTypes = status.damageTypes?.length ? status.damageTypes.join(', ') : (option || 'all');
+      mechanicsParts.push(`${levelMap[resistLevel] || `${resistLevel}% resistance`} to ${dmgTypes}`);
+      if (status.absorptionAmount) mechanicsParts.push(`absorbs ${status.absorptionAmount} first`);
+    }
+
+    // VULNERABILITY — popup writes damageTypes, vulnerabilityValue
+    else if (effectId === 'vulnerability') {
+      const pct = status.vulnerabilityValue || '150';
+      const dmgTypes = status.damageTypes?.length ? status.damageTypes.join(', ') : 'all';
+      const label = pct === '125' ? 'Susceptible' : pct === '150' ? 'Vulnerable' : pct === '200' ? 'Highly vulnerable' : `${pct}% damage taken`;
+      mechanicsParts.push(`${label} to ${dmgTypes}`);
+    }
+
+    // ===== DEBUFF EFFECTS =====
+
+    // BLINDED — popup writes blindType: full|partial|darkness, attackPenalty
+    else if (effectId === 'blinded' || effectId === 'blind') {
+      const bt = status.blindType || option || 'full';
+      if (bt === 'full') mechanicsParts.push(`Can't see anything (${status.attackPenalty || -5} to attacks)`);
+      else if (bt === 'partial') mechanicsParts.push(`Reduced vision (${status.attackPenalty || -5} to attacks)`);
+      else if (bt === 'darkness') mechanicsParts.push(`Magical darkness — can't see through it`);
+    }
+
+    // CHARMED — popup writes option: friendly|dominated|infatuated, saveDC, saveType
+    else if (effectId === 'charmed' || effectId === 'charm') {
+      if (option === 'friendly') mechanicsParts.push('Sees the caster as a trusted friend');
+      else if (option === 'dominated') mechanicsParts.push('Must obey the caster\'s commands');
+      else if (option === 'infatuated') mechanicsParts.push('Devoted — will defend the caster');
+      if (status.saveDC) mechanicsParts.push(`${status.saveType || 'Spirit'} DC ${status.saveDC} to resist`);
+      if (status.canAttackCharmer === false) mechanicsParts.push("can't attack the charmer");
+    }
+
+    // FRIGHTENED — popup writes option: shaken|terrified|panicked, fearRadius, penaltyMagnitude
+    else if (effectId === 'frightened' || effectId === 'fear') {
+      if (option === 'shaken') mechanicsParts.push(`-${status.penaltyMagnitude || 2} to checks while source is visible`);
+      else if (option === 'terrified') mechanicsParts.push(`Won't approach the fear source (${status.fearRadius || 30}ft radius)`);
+      else if (option === 'panicked') mechanicsParts.push('Must run away from the fear source');
+      if (status.saveType) mechanicsParts.push(`${status.saveType} save to shake it off`);
+    }
+
+    // PARALYZED — popup writes option: partial|complete|magical, canSpeak, canCastNonSomatic
+    else if (effectId === 'paralyzed' || effectId === 'paralyze') {
+      if (option === 'partial') mechanicsParts.push('Speed reduced, limited movement');
+      else if (option === 'complete') mechanicsParts.push("Can't move, act, or speak — attacks against them have advantage");
+      else if (option === 'magical') mechanicsParts.push('Held in magical stasis');
+      if (status.canSpeak) mechanicsParts.push('can still speak');
+      if (status.canCastNonSomatic) mechanicsParts.push('can cast non-somatic spells');
+    }
+
+    // POISONED — popup writes option: weakening|debilitating|paralyzing, damagePerRound, saveDC
+    else if (effectId === 'poisoned' || effectId === 'poison') {
+      if (option === 'weakening') mechanicsParts.push('Disadvantage on STR and CON checks');
+      else if (option === 'debilitating') mechanicsParts.push(`Takes ${status.damagePerRound || '1d4'} blight damage each round`);
+      else if (option === 'paralyzing') mechanicsParts.push(`Takes ${status.damagePerRound || '1d4'} damage, may paralyze on failed save`);
+      if (status.saveDC) mechanicsParts.push(`Constitution DC ${status.saveDC}`);
+    }
+
+    // RESTRAINED — popup writes option: ensnared|grappled|bound, escapeDC, struggleDamage
+    else if (effectId === 'restrained' || effectId === 'restrain') {
+      if (option === 'ensnared') mechanicsParts.push('Tangled up — speed drops to 0');
+      else if (option === 'grappled') mechanicsParts.push(`Grappled — escape DC ${status.escapeDC || 15}`);
+      else if (option === 'bound') mechanicsParts.push(`Trussed up — escape DC ${status.escapeDC || 15}, can't use hands`);
+      if (status.struggleDamage && status.struggleDamage !== '0') mechanicsParts.push(`${status.struggleDamage} damage if you struggle`);
+    }
+
+    // SILENCED — popup writes option: magical|muted|temporal, silenceRadius, affectsSpells
+    else if (effectId === 'silenced' || effectId === 'silence') {
+      if (option === 'magical') mechanicsParts.push(`No sound in ${status.silenceRadius || 20}ft radius — can't cast verbal spells`);
+      else if (option === 'muted') mechanicsParts.push("Can't speak at all");
+      else if (option === 'temporal') mechanicsParts.push('Speech keeps glitching — verbal casting unreliable');
+    }
+
+    // SLOWED — popup writes option: hindered|lethargic|temporal, speedReduction, actionPointReduction
+    else if (effectId === 'slowed' || effectId === 'slow') {
+      const sr = status.speedReduction || '50';
+      if (option === 'hindered') mechanicsParts.push(`Movement ${sr}% slower`);
+      else if (option === 'lethargic') mechanicsParts.push(`-${status.actionPointReduction || 1} action point${(status.actionPointReduction || 1) > 1 ? 's' : ''} per turn`);
+      else if (option === 'temporal') mechanicsParts.push(`Caught in time distortion — ${sr}% slower, -${status.actionPointReduction || 1} AP`);
+    }
+
+    // BURNING — popup writes option: mild|intense|magical, damagePerRound, spreadChance
+    else if (effectId === 'burning' || effectId === 'burn') {
+      mechanicsParts.push(`${status.damagePerRound || '1d6'} ember damage per round`);
+      if (status.spreadChance && status.spreadChance !== '0') mechanicsParts.push(`${status.spreadChance}% chance to spread to nearby targets`);
+      if (option === 'magical') mechanicsParts.push('ignores resistance');
+    }
+
+    // FROZEN — popup writes option: chilled|frostbitten|frozen, coldDamage, movementPenalty
+    else if (effectId === 'frozen' || effectId === 'freeze') {
+      const mp = status.movementPenalty || '50';
+      if (option === 'chilled') mechanicsParts.push(`${mp}% slower`);
+      else if (option === 'frostbitten') mechanicsParts.push(`${status.coldDamage || '1d6'} rime damage, ${mp}% slower, disadvantage on Agility`);
+      else if (option === 'frozen') mechanicsParts.push(`Encased in ice — ${status.coldDamage || '1d4'} damage, can't move`);
+    }
+
+    // WEAKENED — popup writes option: fatigued|exhausted|drained, damageReduction, strengthPenalty
+    else if (effectId === 'weakened' || effectId === 'weak') {
+      const dr = status.damageReduction || '25';
+      if (option === 'fatigued') mechanicsParts.push(`${dr}% less damage dealt`);
+      else if (option === 'exhausted') mechanicsParts.push(`${dr}% less damage, disadvantage on physical checks`);
+      else if (option === 'drained') mechanicsParts.push(`${dr}% less damage, -${status.strengthPenalty || 2} STR`);
+    }
+
+    // CONFUSED — popup writes option: disoriented|befuddled|insane, randomActionChance, accuracyPenalty
+    else if (effectId === 'confused' || effectId === 'confusion') {
+      const rac = status.randomActionChance || '25';
+      if (option === 'disoriented') mechanicsParts.push(`-${status.accuracyPenalty || 2} to attacks, ${rac}% chance to lose action`);
+      else if (option === 'befuddled') mechanicsParts.push(`${rac}% chance to attack random target`);
+      else if (option === 'insane') mechanicsParts.push(`${rac}% chance to act randomly each turn`);
+    }
+
+    // DISEASED — popup writes option: infected|contagious|terminal, damagePerDay, contagionRadius
+    else if (effectId === 'diseased' || effectId === 'disease') {
+      if (option === 'infected') mechanicsParts.push("Can't regain HP naturally");
+      else if (option === 'contagious') mechanicsParts.push(`${status.damagePerDay || '1d4'} damage/day, ${status.contagionRadius || 5}ft contagion`);
+      else if (option === 'terminal') mechanicsParts.push(`${status.damagePerDay || '1d4'} damage/day, disadvantage on death saves`);
+    }
+
+    // BLEEDING — popup writes option: minor|severe|hemorrhaging, damagePerRound, healingDC
+    else if (effectId === 'bleeding' || effectId === 'bleed') {
+      mechanicsParts.push(`${status.damagePerRound || '1d4'} damage at start of each turn`);
+      if (status.healingDC) mechanicsParts.push(`Healing DC ${status.healingDC} to stop the bleed`);
+      if (option === 'hemorrhaging') mechanicsParts.push('incapacitated from blood loss');
+    }
+
+    // SLEPT — popup writes option: drowsy|asleep|comatose, wakeDC, wakesOnDamage
+    else if (effectId === 'slept' || effectId === 'sleep') {
+      if (option === 'drowsy') mechanicsParts.push('Disadvantage on Perception and initiative');
+      else if (option === 'asleep') mechanicsParts.push(`Unconscious${status.wakesOnDamage ? ' — wakes on damage' : ''}`);
+      else if (option === 'comatose') mechanicsParts.push('Deep magical sleep — only woken by magic');
+      if (status.wakeDC) mechanicsParts.push(`Wake DC ${status.wakeDC}`);
+    }
+
+    // CURSED — popup writes option: jinxed|hexed|doomed, failureChance, rollPenalty
+    else if (effectId === 'cursed' || effectId === 'curse') {
+      const fc = status.failureChance || '10';
+      if (option === 'jinxed') mechanicsParts.push(`${fc}% chance any roll fails, -${status.rollPenalty || 1} to all rolls`);
+      else if (option === 'hexed') mechanicsParts.push(`${fc}% failure chance on specific rolls`);
+      else if (option === 'doomed') mechanicsParts.push(`${fc}% failure chance, -${status.rollPenalty || 1} to everything, hard to remove`);
+    }
+
+    // DAZED — popup writes option: lightheaded|disoriented|concussed, focusPenalty, actionDelay
+    else if (effectId === 'dazed' || effectId === 'daze') {
+      const fp = status.focusPenalty || 2;
+      if (option === 'lightheaded') mechanicsParts.push(`-${fp} to attack rolls`);
+      else if (option === 'disoriented') mechanicsParts.push(`-${fp} to initiative, may move randomly`);
+      else if (option === 'concussed') mechanicsParts.push(`-${fp} to attacks, can't take reactions`);
     }
 
     // REGENERATION EFFECT
     else if (effectId === 'regeneration' || effectId === 'regen') {
       const calculationType = status.calculationType || 'fixed';
       if (calculationType === 'fixed') {
-        const healAmount = status.healAmount || 5;
-        mechanicsParts.push(`Restore ${healAmount} HP per round`);
+        mechanicsParts.push(`Restore ${status.healAmount || 5} HP per round`);
       } else if (calculationType === 'percentage') {
-        const percentage = status.healPercentage || 5;
-        mechanicsParts.push(`Restore ${percentage}% of max HP per round`);
+        mechanicsParts.push(`Restore ${status.healPercentage || 5}% of max HP per round`);
       } else if (calculationType === 'dice') {
-        const diceCount = status.diceCount || 1;
-        const diceType = status.diceType || 'd6';
-        mechanicsParts.push(`Restore ${diceCount}${diceType} HP per round`);
+        mechanicsParts.push(`Restore ${status.diceCount || 1}${status.diceType || 'd6'} HP per round`);
       }
-
-      if (status.canRegrowLimbs) mechanicsParts.push('Can regrow lost limbs');
     }
 
     // SHIELD/SHIELDED EFFECT
     else if (effectId === 'shielded' || effectId === 'shield') {
       const shieldAmount = status.shieldAmount || 15;
       const shieldType = status.shieldType || 'absorb';
-
-      if (shieldType === 'absorb') {
-        mechanicsParts.push(`Absorbs ${shieldAmount} damage`);
-      } else if (shieldType === 'reflect') {
-        mechanicsParts.push(`Reflects ${shieldAmount} damage back to attacker`);
-      } else if (shieldType === 'thorns') {
-        mechanicsParts.push(`Deals ${shieldAmount} damage to attackers`);
-      }
-    }
-
-    // BURNING EFFECT
-    else if (effectId === 'burning') {
-      const diceCount = status.diceCount || 1;
-      const diceType = status.diceType || 'd6';
-      const damageType = status.damageType || 'ember';
-      mechanicsParts.push(`${diceCount}${diceType} ${damageType} damage per round`);
-
-      if (status.canSpread) mechanicsParts.push('Can spread to nearby targets');
-      if (status.extinguishDC) mechanicsParts.push(`DC ${status.extinguishDC} to extinguish`);
+      if (shieldType === 'absorb') mechanicsParts.push(`Soaks up to ${shieldAmount} damage`);
+      else if (shieldType === 'reflect') mechanicsParts.push(`Bounces ${shieldAmount} damage back at the attacker`);
+      else if (shieldType === 'thorns') mechanicsParts.push(`Hits attackers for ${shieldAmount} damage`);
     }
 
     // STUNNED/STUN EFFECT
     else if (effectId === 'stunned' || effectId === 'stun') {
-      const stunLevel = status.stunLevel || 'full';
-      if (stunLevel === 'full') {
-        mechanicsParts.push('Cannot take actions or reactions');
-      } else if (stunLevel === 'partial') {
-        mechanicsParts.push('Can take limited actions only');
-      } else if (stunLevel === 'dazed') {
-        mechanicsParts.push('Disadvantage on attacks and ability checks');
-      }
-    }
-
-    // CHARMED/CHARM EFFECT
-    else if (effectId === 'charmed' || effectId === 'charm') {
-      const charmLevel = status.charmLevel || 'friendly';
-      if (charmLevel === 'dominated') {
-        mechanicsParts.push('Caster has full control over actions');
-      } else if (charmLevel === 'friendly') {
-        mechanicsParts.push('Regards caster as friendly ally');
-      } else if (charmLevel === 'suggestion') {
-        mechanicsParts.push('Follows reasonable suggestions');
-      }
-
-      if (status.saveTrigger) {
-        const triggerMap = {
-          'harmful': 'save when given harmful command',
-          'turn': 'save each turn',
-          'damage': 'save when taking damage'
-        };
-        mechanicsParts.push(triggerMap[status.saveTrigger] || 'periodic saves');
-      }
-    }
-
-    // INVISIBILITY EFFECT
-    else if (effectId === 'invisibility') {
-      const invisType = status.invisibilityType || 'standard';
-      if (invisType === 'standard') {
-        mechanicsParts.push('Invisible to sight');
-      } else if (invisType === 'greater') {
-        mechanicsParts.push('Invisible to all senses');
-      } else if (invisType === 'improved') {
-        mechanicsParts.push('Invisible, does not break on attack');
-      }
-
-      if (status.breaksOnAttack && invisType !== 'improved') {
-        mechanicsParts.push('Breaks when attacking');
-      }
-    }
-
-    // FLIGHT EFFECT
-    else if (effectId === 'flight') {
-      const flySpeed = status.flySpeed || 60;
-      const maneuverability = status.maneuverability || 'average';
-      mechanicsParts.push(`Fly speed ${flySpeed}ft (${maneuverability} maneuverability)`);
-    }
-
-    // COMBAT ADVANTAGE EFFECT
-    else if (effectId === 'combat_advantage') {
-      const advantageType = status.advantageType || 'attack';
-
-      if (advantageType === 'attack') {
-        const attackTypes = [];
-        if (status.affectsMelee) attackTypes.push('melee');
-        if (status.affectsRanged) attackTypes.push('ranged');
-        if (status.affectsSpell) attackTypes.push('spell');
-
-        const attackTypeText = attackTypes.length === 0 ? 'all' :
-                               attackTypes.length === 3 ? 'all' :
-                               attackTypes.join(' and ');
-        mechanicsParts.push(`Advantage on ${attackTypeText} attack rolls`);
-      } else if (advantageType === 'damage') {
-        const diceCount = status.damageBonusDiceCount || 1;
-        const diceType = status.damageBonusDiceType || 'd6';
-        const damageTypes = [];
-        if (status.affectsPhysical) damageTypes.push('physical');
-        if (status.affectsMagical) damageTypes.push('magical');
-        if (status.affectsAllDamageTypes) damageTypes.push('all');
-
-        const damageTypeText = damageTypes.includes('all') ? 'all' :
-                               damageTypes.length === 0 ? 'all' :
-                               damageTypes.join(' and ');
-        mechanicsParts.push(`+${diceCount}${diceType} bonus to ${damageTypeText} damage rolls`);
-      } else if (advantageType === 'healing') {
-        const diceCount = status.healingBonusDiceCount || 1;
-        const diceType = status.healingBonusDiceType || 'd6';
-        mechanicsParts.push(`+${diceCount}${diceType} bonus to healing rolls`);
-      } else if (advantageType === 'saving') {
-        const saveTypes = [];
-        if (status.affectsStrength) saveTypes.push('Strength');
-        if (status.affectsAgility) saveTypes.push('Agility');
-        if (status.affectsConstitution) saveTypes.push('Constitution');
-        if (status.affectsIntelligence) saveTypes.push('Intelligence');
-        if (status.affectsSpirit) saveTypes.push('Spirit');
-        if (status.affectsCharisma) saveTypes.push('Charisma');
-
-        const saveTypeText = saveTypes.length === 0 ? 'all' :
-                            saveTypes.length === 6 ? 'all' :
-                            saveTypes.join(', ');
-        mechanicsParts.push(`Advantage on ${saveTypeText} saving throws`);
-      } else if (advantageType === 'initiative') {
-        mechanicsParts.push('Advantage on initiative rolls');
-      } else if (advantageType === 'super') {
-        mechanicsParts.push('Roll 3 dice, take highest for attacks');
-      }
-    }
-
-    // ATTACKERS ADVANTAGE EFFECT (BUFF)
-    else if (effectId === 'attackers_advantage_buff') {
-      const attackType = status.attackType || 'all';
-      mechanicsParts.push(`Attackers have advantage against you (${attackType} attacks)`);
-    }
-
-    // ATTACKERS DISADVANTAGE EFFECT
-    else if (effectId === 'attackers_disadvantage') {
-      const attackType = status.attackType || 'all';
-      mechanicsParts.push(`Attackers have disadvantage against you (${attackType} attacks)`);
-    }
-
-    // SKILL MASTERY EFFECT
-    else if (effectId === 'skill_mastery') {
-      const skillType = status.skillType || 'physical';
-      if (skillType === 'physical') {
-        mechanicsParts.push('Advantage on Strength and Agility checks');
-      } else if (skillType === 'mental') {
-        mechanicsParts.push('Advantage on Intelligence and Spirit checks');
-      } else if (skillType === 'social') {
-        mechanicsParts.push('Advantage on Charisma checks');
-      }
-    }
-
-    // EMPOWER NEXT EFFECT
-    else if (effectId === 'empower_next') {
-      const empowerType = status.empowerType || 'spell';
-      const uses = status.uses || 1;
-      if (empowerType === 'spell') {
-        mechanicsParts.push(`Next ${uses} ${uses === 1 ? 'spell deals' : 'spells deal'} maximum damage`);
-      } else if (empowerType === 'heal') {
-        mechanicsParts.push(`Next ${uses} healing ${uses === 1 ? 'spell heals' : 'spells heal'} for maximum value`);
-      } else if (empowerType === 'weapon') {
-        mechanicsParts.push(`Next ${uses} weapon ${uses === 1 ? 'attack deals' : 'attacks deal'} maximum damage`);
-      }
-    }
-
-    // DAMAGE SHIELD EFFECT
-    else if (effectId === 'damage_shield') {
-      const shieldType = status.shieldType || 'physical';
-      const hitCount = status.hitCount || 3;
-      const reduction = status.reductionPercent || 50;
-      mechanicsParts.push(`Reduce ${shieldType} damage by ${reduction}% for next ${hitCount} hits`);
-    }
-
-    // ELEMENTAL INFUSION EFFECT
-    else if (effectId === 'elemental_infusion') {
-      const element = status.element || 'ember';
-      const bonusDamage = status.bonusDamage || '1d6';
-      mechanicsParts.push(`Attacks deal +${bonusDamage} ${element} damage`);
-    }
-
-    // INVISIBILITY EFFECT (DETAILED)
-    else if (effectId === 'invisible') {
-      const invisType = status.invisibilityType || 'standard';
-      if (invisType === 'partial') {
-        mechanicsParts.push('Heavily obscured, harder to detect');
-      } else if (invisType === 'full') {
-        mechanicsParts.push('Completely invisible until you attack');
-      } else if (invisType === 'selective') {
-        mechanicsParts.push('Invisible to specific creatures');
-      }
-    }
-
-    // INSPIRED EFFECT
-    else if (effectId === 'inspired') {
-      const inspirationType = status.inspirationType || 'bardic';
-      const dieSize = status.inspirationDie || 6;
-      mechanicsParts.push(`Add 1d${dieSize} to ability checks, attacks, or saves`);
-    }
-
-    // BLESSED EFFECT
-    else if (effectId === 'blessed') {
-      const blessType = status.blessType || 'protection';
-      if (blessType === 'protection') {
-        mechanicsParts.push('Gain Armor bonus and resistance to certain damage types');
-      } else if (blessType === 'fortune') {
-        mechanicsParts.push('Can reroll one die roll per round');
-      } else if (blessType === 'life') {
-        mechanicsParts.push('Gain bonus to healing received');
-      }
-    }
-
-    // TEMPORARY HIT POINTS EFFECT
-    else if (effectId === 'temporary_hp') {
-      const tempHp = status.temporaryHitPoints || status.amount || '1d4';
-      mechanicsParts.push(`Gain ${tempHp} temporary hit points`);
-    }
-
-    // RESISTANCE EFFECT
-    else if (effectId === 'resistance') {
-      const resistType = status.resistanceType || status.elementType || 'elemental';
-      const amount = status.resistanceAmount || status.magnitude || 50;
-
-      // Use thematic descriptions for standard resistance levels
-      if (amount === -200) {
-        mechanicsParts.push(getThematicResistanceDescription('vampiric', resistType));
-      } else if (amount === -100) {
-        mechanicsParts.push(getThematicResistanceDescription('absorbing', resistType));
-      } else if (amount === -50) {
-        mechanicsParts.push(getThematicResistanceDescription('draining', resistType));
-      } else if (amount === -25) {
-        mechanicsParts.push(getThematicResistanceDescription('siphoning', resistType));
-      } else if (amount === 0) {
-        mechanicsParts.push(getThematicResistanceDescription('immune', resistType));
-      } else if (amount === 25) {
-        mechanicsParts.push(getThematicResistanceDescription('highly_resistant', resistType));
-      } else if (amount === 50) {
-        mechanicsParts.push(getThematicResistanceDescription('resistant', resistType));
-      } else if (amount === 75) {
-        mechanicsParts.push(getThematicResistanceDescription('guarded', resistType));
-      } else if (amount === 100) {
-        mechanicsParts.push(getThematicResistanceDescription('nullified', resistType));
-      } else if (amount === 125) {
-        mechanicsParts.push(getThematicResistanceDescription('susceptible', resistType));
-      } else if (amount === 150) {
-        mechanicsParts.push(getThematicResistanceDescription('exposed', resistType));
-      } else if (amount === 200) {
-        mechanicsParts.push(getThematicResistanceDescription('vulnerable', resistType));
-      } else {
-        // Fallback for custom percentages
-        if (amount > 100) {
-          mechanicsParts.push(`Increased ${resistType} vulnerability (takes ${amount}% damage)`);
-        } else if (amount < 0) {
-          mechanicsParts.push(`Absorbs ${resistType} damage (heals for ${Math.abs(amount)}% of damage taken)`);
-        } else {
-          mechanicsParts.push(`${resistType.charAt(0).toUpperCase() + resistType.slice(1)} resistance (takes ${amount}% damage)`);
-        }
-      }
-    }
-
-    // FLYING/FLIGHT EFFECT (DETAILED)
-    else if (effectId === 'flying') {
-      const flySpeed = status.flightSpeed || status.flySpeed || 60;
-      const maneuverability = status.maneuverability || 'good';
-      mechanicsParts.push(`Fly speed ${flySpeed}ft (${maneuverability} maneuverability)`);
-    }
-
-    // TRUESIGHT EFFECT
-    else if (effectId === 'truesight') {
-      const range = status.truesightRange || 60;
-      mechanicsParts.push(`See through illusions and darkness within ${range}ft`);
-    }
-
-    // ENERGIZED EFFECT
-    else if (effectId === 'energized') {
-      const bonusAP = status.bonusActionPoints || 2;
-      mechanicsParts.push(`+${bonusAP} action points, improved energy recovery`);
-    }
-
-    // EMPOWERED EFFECT
-    else if (effectId === 'empowered') {
-      const powerIncrease = status.powerIncrease || 25;
-      mechanicsParts.push(`+${powerIncrease}% spell power and damage`);
-    }
-
-    // LIFELINK EFFECT
-    else if (effectId === 'lifelink') {
-      const linkType = status.linkType || 'damage_to_healing';
-      const percentage = status.percentage || 25;
-      if (linkType === 'damage_to_healing') {
-        mechanicsParts.push(`Convert ${percentage}% of Damage Dealt to healing`);
-      } else if (linkType === 'healing_to_damage') {
-        mechanicsParts.push(`Convert ${percentage}% of healing done to bonus damage`);
-      }
-    }
-
-    // REMOVED: Duration is now included in description, not mechanicsText
-    // This prevents duplicate "Duration: X round" display
-
-    // DEBUFF EFFECTS
-
-    // BLINDED EFFECT
-    else if (effectId === 'blinded') {
-      const blindLevel = status.blindLevel || 'complete';
-      if (blindLevel === 'partial') {
-        mechanicsParts.push('Vision severely obscured, disadvantage on perception');
-      } else if (blindLevel === 'complete') {
-        mechanicsParts.push('Cannot see, automatically fail sight-based checks');
-      } else if (blindLevel === 'flash') {
-        mechanicsParts.push('Temporary blindness that fades over time');
-      }
-    }
-
-    // FRIGHTENED/FEAR EFFECT
-    else if (effectId === 'frightened' || effectId === 'fear') {
-      const fearLevel = status.fearLevel || 'shaken';
-      if (fearLevel === 'shaken') {
-        mechanicsParts.push('Disadvantage on ability checks while fear source is visible');
-      } else if (fearLevel === 'terrified') {
-        mechanicsParts.push('Cannot willingly move closer to source of fear');
-      } else if (fearLevel === 'panicked') {
-        mechanicsParts.push('Must use actions to flee from source of fear');
-      }
-    }
-
-    // PARALYZED EFFECT
-    else if (effectId === 'paralyzed') {
-      const paralysisLevel = status.paralysisLevel || 'complete';
-      if (paralysisLevel === 'partial') {
-        mechanicsParts.push('Speed reduced to 0, disadvantage on Agility saves');
-      } else if (paralysisLevel === 'complete') {
-        mechanicsParts.push('Cannot move or take actions, auto-fail STR and AGI saves');
-      } else if (paralysisLevel === 'magical') {
-        mechanicsParts.push('Cannot move but can cast non-somatic spells');
-      }
-    }
-
-    // POISONED EFFECT
-    else if (effectId === 'poisoned') {
-      const poisonType = status.poisonType || 'weakening';
-      const poisonDamage = status.poisonDamage || '1d6';
-      if (poisonType === 'weakening') {
-        mechanicsParts.push('Disadvantage on STR and CON checks and saves');
-      } else if (poisonType === 'debilitating') {
-        mechanicsParts.push(`Takes ${poisonDamage} poison damage per round`);
-      } else if (poisonType === 'paralyzing') {
-        mechanicsParts.push('May cause paralysis on failed save');
-      }
-    }
-
-    // RESTRAINED EFFECT
-    else if (effectId === 'restrained') {
-      const restraintType = status.restraintType || 'ensnared';
-      if (restraintType === 'ensnared') {
-        mechanicsParts.push('Caught in vines/webs, speed becomes 0');
-      } else if (restraintType === 'grappled') {
-        mechanicsParts.push('Held by creature, can attempt to break free');
-      } else if (restraintType === 'bound') {
-        mechanicsParts.push('Tied up, very difficult to escape');
-      }
+      mechanicsParts.push("Can't act or react");
     }
 
     // PRONE EFFECT
     else if (effectId === 'prone') {
-      description = 'Knocked prone';
-      mechanicsParts.push('Disadvantage on attack rolls');
-      mechanicsParts.push('Attacks against target have advantage');
-      mechanicsParts.push('Costs half movement to stand up');
+      mechanicsParts.push('Disadvantage on attacks, others have advantage hitting them');
+      mechanicsParts.push('Costs half movement to stand');
     }
 
-    // SILENCED EFFECT
-    else if (effectId === 'silenced') {
-      const silenceType = status.silenceType || 'magical';
-      if (silenceType === 'magical') {
-        mechanicsParts.push('No sound can be created, cannot cast verbal spells');
-      } else if (silenceType === 'muted') {
-        mechanicsParts.push('Cannot speak, verbal spells fail');
-      } else if (silenceType === 'temporal') {
-        mechanicsParts.push('Speech unreliable, verbal casting may fail');
-      }
+    // FLIGHT EFFECT
+    else if (effectId === 'flight' || effectId === 'flying') {
+      mechanicsParts.push(`Fly speed ${status.flySpeed || status.flightSpeed || 60}ft`);
     }
 
-    // DISADVANTAGE ON ATTACKS EFFECT
-    else if (effectId === 'disadvantage_attack' || effectId === 'attackers_advantage') {
-      const attackTypes = [];
-      if (status.affectsMelee) attackTypes.push('melee');
-      if (status.affectsRanged) attackTypes.push('ranged');
-      if (status.affectsSpell) attackTypes.push('spell');
-
-      const attackTypeText = attackTypes.length === 0 ? 'all' :
-                             attackTypes.length === 3 ? 'all' :
-                             attackTypes.join(' and ');
-      mechanicsParts.push(`Disadvantage on ${attackTypeText} attack rolls`);
+    // TRUESIGHT EFFECT
+    else if (effectId === 'truesight') {
+      mechanicsParts.push(`See through illusions and darkness (${status.truesightRange || 60}ft)`);
     }
 
-    // DISADVANTAGE ON SAVES EFFECT
-    else if (effectId === 'disadvantage_save') {
-      const saveTypes = [];
-      if (status.affectsStrength) saveTypes.push('Strength');
-      if (status.affectsAgility) saveTypes.push('Agility');
-      if (status.affectsConstitution) saveTypes.push('Constitution');
-      if (status.affectsIntelligence) saveTypes.push('Intelligence');
-      if (status.affectsSpirit) saveTypes.push('Spirit');
-      if (status.affectsCharisma) saveTypes.push('Charisma');
-
-      const saveTypeText = saveTypes.length === 0 ? 'all' :
-                          saveTypes.length === 6 ? 'all' :
-                          saveTypes.join(', ');
-      mechanicsParts.push(`Disadvantage on ${saveTypeText} saving throws`);
+    // TEMPORARY HIT POINTS EFFECT
+    else if (effectId === 'temporary_hp') {
+      mechanicsParts.push(`Gain ${status.temporaryHitPoints || status.amount || '1d4'} temp HP`);
     }
 
-    // DAMAGE VULNERABILITY EFFECT
-    else if (effectId === 'damage_vulnerability') {
-      const vulnType = status.vulnerabilityType || 'physical';
-      const percentage = status.vulnerabilityPercent || 100;
-      mechanicsParts.push(`Take ${percentage}% more ${vulnType} damage`);
+    // Generic fallback — if we have a magnitude, show it
+    else if (status.magnitude) {
+      mechanicsParts.push(`${status.magnitudeType === 'percentage' ? `${status.magnitude}%` : `+${status.magnitude}`}`);
     }
-
-    // REDUCED SPEED EFFECT
-    else if (effectId === 'reduced_speed') {
-      const speedReduction = status.speedReduction || 50;
-      mechanicsParts.push(`Movement speed reduced by ${speedReduction}%`);
-    }
-
-    // STAT REDUCTION EFFECT
-    else if (effectId === 'stat_reduction') {
-      const statReductions = status.statReductions || {};
-      const reductionTexts = [];
-      Object.entries(statReductions).forEach(([stat, value]) => {
-        if (value > 0) {
-          reductionTexts.push(`-${value} ${stat.charAt(0).toUpperCase() + stat.slice(1)}`);
-        }
-      });
-      if (reductionTexts.length > 0) {
-        mechanicsParts.push(reductionTexts.join(', '));
-      }
-    }
-
-    // ACTION POINT DRAIN EFFECT
-    else if (effectId === 'action_point_drain') {
-      const drainType = status.drainType || 'immediate';
-      const amount = status.immediateReduction || status.regenReduction || 2;
-      if (drainType === 'immediate') {
-        mechanicsParts.push(`Immediately lose ${amount} action points`);
-      } else if (drainType === 'sustained') {
-        mechanicsParts.push(`Action point regeneration reduced by ${amount}`);
-      } else if (drainType === 'increasing') {
-        mechanicsParts.push(`Actions cost ${amount} more action points`);
-      }
-    }
-
-    // SLOWED EFFECT
-    // REMOVED: Mechanics text for slowed - description already contains the effect details
-    // (e.g., "Movement speed reduced by 10 feet" is in the description)
-    else if (effectId === 'slowed' || effectId === 'slow') {
-      // Don't add mechanics text - description already has the details
-    }
-
-    // FROZEN EFFECT
-    else if (effectId === 'frozen') {
-      const frozenType = status.frozenType || 'immobilized';
-      if (frozenType === 'immobilized') {
-        mechanicsParts.push('Cannot move, speed becomes 0');
-      } else if (frozenType === 'slowed') {
-        const speedReduction = status.speedReduction || 75;
-        mechanicsParts.push(`Movement speed reduced by ${speedReduction}%`);
-      } else if (frozenType === 'frozen_solid') {
-        mechanicsParts.push('Completely frozen, cannot take any actions');
-      }
-    }
-
-    // WEAKENED EFFECT
-    else if (effectId === 'weakened') {
-      const weakenType = status.weakenType || 'damage';
-      const reduction = status.damageReduction || 50;
-      mechanicsParts.push(`Damage output reduced by ${reduction}%`);
-    }
-
-    // CONFUSED EFFECT
-    else if (effectId === 'confused') {
-      const confusionType = status.confusionType || 'random_actions';
-      if (confusionType === 'random_actions') {
-        mechanicsParts.push('Takes random actions each turn');
-      } else if (confusionType === 'attack_allies') {
-        mechanicsParts.push('May attack allies instead of enemies');
-      } else if (confusionType === 'wander') {
-        mechanicsParts.push('Wanders randomly, cannot take purposeful actions');
-      }
-    }
-
-    // DISEASED EFFECT
-    else if (effectId === 'diseased') {
-      const diseaseType = status.diseaseType || 'wasting';
-      const damageDice = status.diseaseDamage || '1d4';
-      mechanicsParts.push(`${diseaseType} disease, takes ${damageDice} damage per round`);
-    }
-
-    // BLEEDING EFFECT
-    else if (effectId === 'bleeding' || effectId === 'bleed') {
-      const bleedDamage = status.bleedDamage || '1d6';
-      mechanicsParts.push(`Takes ${bleedDamage} bleeding damage per round`);
-      if (status.canStack) mechanicsParts.push('stacks with multiple applications');
-    }
-
-    // SLEPT/SLEEP EFFECT
-    else if (effectId === 'slept' || effectId === 'sleep') {
-      mechanicsParts.push('Unconscious, wakes on damage or loud noise');
-    }
-
-    // CURSED EFFECT
-    else if (effectId === 'cursed' || effectId === 'curse') {
-      const curseType = status.curseType || 'misfortune';
-      if (curseType === 'misfortune') {
-        mechanicsParts.push('Disadvantage on all rolls');
-      } else if (curseType === 'weakness') {
-        mechanicsParts.push('All stats reduced by 2');
-      } else if (curseType === 'doom') {
-        mechanicsParts.push('Takes increasing damage each round');
-      }
-    }
-
-    // DAZED EFFECT
-    else if (effectId === 'dazed') {
-      mechanicsParts.push('Can take only limited actions per turn');
-    }
-
-    // STRENGTHENED EFFECT
-    else if (effectId === 'strengthened') {
-      const damageIncrease = status.damageIncrease || 25;
-      mechanicsParts.push(`Damage output increased by ${damageIncrease}%`);
-    }
-
-    // VULNERABILITY EFFECT
-    else if (effectId === 'vulnerability') {
-      const vulnType = status.vulnerabilityType || 'all';
-      const percentage = status.vulnerabilityPercent || 100;
-      mechanicsParts.push(`Take ${percentage}% more ${vulnType} damage`);
-    }
-
-    // INSPIRATION EFFECT
-    else if (effectId === 'inspiration') {
-      const inspirationDie = status.inspirationDie || 'd6';
-      mechanicsParts.push(`Add ${inspirationDie} to ability checks, attacks, or saves`);
-    }
-
-    // REMOVED: Save information is now included in description, not mechanicsText
-    // This prevents duplicate "Constitution save DC X (negate)" display
 
     // Combine all mechanics parts
-    mechanicsText = mechanicsParts.length > 0 ? mechanicsParts.join(', ') : (status.mechanicsText || description);
+    mechanicsText = mechanicsParts.length > 0 ? mechanicsParts.join(', ') : (status.mechanicsText || '');
 
     return {
       name: effectName,
@@ -8098,12 +7859,12 @@ const UnifiedSpellCard = ({
         if (effectData.id === 'charmed' || effectData.id === 'charm') {
           const charmType = effectData.charmType || effectData.option || 'friendly';
           const charmDescriptions = {
-            'friendly': 'regards you as a friend but maintains free will',
-            'dominated': 'must obey your commands without question',
-            'infatuated': 'is devoted to you and will protect you at all costs'
+            'friendly': 'sees the caster as a friend but keeps free will',
+            'dominated': 'must obey commands without question',
+            'infatuated': 'is devoted and will protect the caster at any cost'
           };
 
-          description = `${displayName} - target ${charmDescriptions[charmType] || 'is charmed'}`;
+          description = `${displayName} — target ${charmDescriptions[charmType] || 'is charmed'}`;
 
           // Add restrictions based on configuration
           const restrictions = [];
@@ -8125,37 +7886,37 @@ const UnifiedSpellCard = ({
           if (effectData.blindType || effectData.option) {
             const blindType = effectData.blindType || effectData.option;
             const typeMap = {
-              'partial': 'Partially Blinded - limited vision, disadvantage on perception and attacks',
-              'complete': 'Completely Blinded - cannot see, automatically fails sight-based checks',
-              'flash': 'Flash Blinded - temporary blindness that fades over time'
+              'partial': 'Partially blind — limited vision, disadvantage on perception and ranged attacks',
+              'complete': 'Totally blind — can\'t see at all, auto-fails sight checks',
+              'flash': 'Flash-blinded — temporary blindness that fades quickly'
             };
-            description = typeMap[blindType] || `${displayName} - cannot see and has disadvantage on attacks`;
+            description = typeMap[blindType] || `${displayName} — can't see and has disadvantage on attacks`;
           } else {
-            description = `${displayName} - cannot see and has disadvantage on attacks`;
+            description = `${displayName} — can't see and has disadvantage on attacks`;
           }
 
         } else if (effectData.id === 'paralyzed' || effectData.id === 'paralyze') {
           if (effectData.option) {
             const typeMap = {
-              'partial': 'Partially Paralyzed - some limbs affected, reduced movement and actions',
-              'complete': 'Completely Paralyzed - cannot move or take actions, attacks against have advantage',
-              'magical': 'Magical Paralysis - held by supernatural forces, aware but unable to act'
+              'partial': 'Partially paralyzed — some limbs affected, reduced movement',
+              'complete': 'Completely paralyzed — can\'t move or act, attacks against them have advantage',
+              'magical': 'Magically paralyzed — held in place by supernatural forces, aware but helpless'
             };
-            description = typeMap[effectData.option] || `${displayName} - cannot move or take actions`;
+            description = typeMap[effectData.option] || `${displayName} — can't move or act`;
           } else {
-            description = `${displayName} - cannot move or take actions`;
+            description = `${displayName} — can't move or act`;
           }
 
         } else if (effectData.id === 'frightened' || effectData.id === 'fear') {
           if (effectData.option) {
             const typeMap = {
-              'shaken': 'Shaken - disadvantage on ability checks while fear source is visible',
-              'terrified': 'Terrified - cannot willingly move closer to the source of fear',
-              'panicked': 'Panicked - must use actions to flee from source of fear'
+              'shaken': 'Shaken — on edge, disadvantage on checks while the scary thing is visible',
+              'terrified': 'Terrified — absolutely refuses to go near the source of fear',
+              'panicked': 'Panicked — using all their actions to run away from the fear'
             };
-            description = typeMap[effectData.option] || `${displayName} - overcome with dread and terror`;
+            description = typeMap[effectData.option] || `${displayName} — overcome with dread`;
           } else {
-            description = `${displayName} - overcome with dread and terror`;
+            description = `${displayName} — overcome with dread`;
           }
 
         } else {
@@ -8259,22 +8020,22 @@ const UnifiedSpellCard = ({
         const saveType = effectData.saveType || getDefaultSaveType(effectData.id || effect);
 
         if (saveType && saveType !== 'none') {
-          mechanicsParts.push(`${normalizeSaveType(saveType)} save DC ${saveDC}`);
-
-          if (effectData.saveOutcome) {
-            mechanicsParts.push(`(${effectData.saveOutcome})`);
-          }
+          const outcomeText = effectData.saveOutcome === 'negates' ? 'to shake it off' :
+                              effectData.saveOutcome === 'ends_early' ? 'ends next turn on success' :
+                              effectData.saveOutcome === 'reduces_level' ? 'to reduce severity' :
+                              `(${effectData.saveOutcome})`;
+          mechanicsParts.push(`${normalizeSaveType(saveType)} DC ${saveDC} ${outcomeText}`);
 
           // Add save frequency information
           if (effectData.saveFrequency && effectData.saveFrequency !== 'initial') {
             const frequencyMap = {
-              'end_of_turn': 'save each turn',
-              'when_damaged': 'save when damaged',
-              'out_of_sight': 'save when out of sight',
-              'ally_help': 'save when ally helps',
-              'special_trigger': 'save on special trigger'
+              'end_of_turn': 'can retry each turn',
+              'when_damaged': 'can retry when hit',
+              'out_of_sight': 'can retry when out of sight',
+              'ally_help': 'can retry when an ally helps',
+              'special_trigger': 'retries on special trigger'
             };
-            mechanicsParts.push(frequencyMap[effectData.saveFrequency] || 'repeated saves');
+            mechanicsParts.push(frequencyMap[effectData.saveFrequency] || 'repeated saves allowed');
           }
         }
 
@@ -8315,9 +8076,8 @@ const UnifiedSpellCard = ({
           }
         }
 
-        // Add concentration requirement if applicable
         if (effectData.concentrationRequired || debuffConfig.concentrationRequired) {
-          mechanicsParts.push('(Concentration)');
+          mechanicsParts.push('requires concentration');
         }
 
         // Add specific effect mechanics
@@ -9136,7 +8896,11 @@ const UnifiedSpellCard = ({
             // Determine if we need to wrap effects in a border container
             // Wrap together if there are global triggers/required that affect multiple effects
             // Otherwise, wrap individually if effect-specific triggers exist
-            const hasEffectsToWrap = hasGlobalTriggerOrRequired && (triggerHeader || shouldRenderDamage || shouldRenderHealing);
+            // NOTE: hasEffectsToWrap is disabled to prevent silently dropping buff/debuff/utility/control/
+            // summoning/transformation/purification/restoration/rollable-table/prophecy sections when a
+            // spell has both global triggers AND damage/healing. The wrapping is purely visual;
+            // forcing false ensures ALL effect sections always render via the else branch.
+            const hasEffectsToWrap = false;
             const shouldWrapDamageIndividually = hasDamageEffectTriggers && !hasGlobalTriggerOrRequired;
             const shouldWrapHealingIndividually = hasHealingEffectTriggers && !hasGlobalTriggerOrRequired;
 
@@ -10836,11 +10600,11 @@ const UnifiedSpellCard = ({
 
 
 
-              {/* Duration (if not instant) - exclude CHANNELED, ZONE, and BUFF since buff duration is shown in effect description */}
+              {/* Duration (if not instant) - exclude CHANNELED, ZONE, BUFF, and DEBUFF which show duration in their effect sections */}
               {((spell?.durationType && spell.durationType !== 'instant') ||
-                (spell?.effectTypes?.includes('buff') && spell?.buffConfig?.durationType && spell.buffConfig.durationType !== 'instant')) &&
+                (spell?.durationConfig?.durationType && spell.durationConfig.durationType !== 'instant')) &&
                (!spell?.spellType || !['CHANNELED', 'ZONE'].includes(spell.spellType)) &&
-               (!spell?.effectTypes?.includes('buff')) ? (
+               (!spell?.effectTypes?.includes('buff') && !spell?.effectTypes?.includes('debuff')) ? (
                 <div className="unified-spell-stat">
                   <span className="unified-stat-label">Duration:</span>
                   <span className="unified-stat-value">
@@ -11248,14 +11012,96 @@ const UnifiedSpellCard = ({
                     }
                   });
 
-                  // Add stat effects - each as a separate entry
-                  statEffects.forEach((effect) => {
+                  // Consolidate stat effects into a single buff entry with duration
+                  if (statEffects.length > 0) {
+                    const durationValue = buffData.durationValue || buffData.duration;
+                    let durationText = '';
+                    if (durationValue && buffData.durationType !== 'instant') {
+                      if (buffData.durationType === 'permanent') {
+                        durationText = 'Permanent';
+                      } else if (buffData.durationType === 'rounds') {
+                        durationText = `${durationValue} ${durationValue === 1 ? 'Round' : 'Rounds'}`;
+                      } else if (buffData.durationType === 'turns') {
+                        durationText = `${durationValue} ${durationValue === 1 ? 'Turn' : 'Turns'}`;
+                      } else if (buffData.durationType === 'rest') {
+                        const restType = buffData.restType || 'long';
+                        durationText = `Until ${restType.charAt(0).toUpperCase() + restType.slice(1)} Rest`;
+                      } else if (buffData.durationType === 'minutes') {
+                        durationText = `${durationValue} ${durationValue === 1 ? 'Minute' : 'Minutes'}`;
+                      } else if (buffData.durationType === 'hours') {
+                        durationText = `${durationValue} ${durationValue === 1 ? 'Hour' : 'Hours'}`;
+                      } else if (buffData.durationType === 'time' && durationValue) {
+                        const unit = buffData.durationUnit || 'rounds';
+                        durationText = `${durationValue} ${unit.charAt(0).toUpperCase() + unit.slice(1)}`;
+                      } else if (durationValue) {
+                        durationText = `${durationValue} Rounds`;
+                      }
+                    }
+                    if (buffData.concentrationRequired && durationText) {
+                      durationText += ' (Concentration)';
+                    }
+                    if (buffData.durationType === 'permanent') {
+                      if (buffData.canBeDispelled === false) {
+                        durationText += ' (Cannot be dispelled)';
+                      } else if (buffData.canBeDispelled === true) {
+                        durationText += ' (Dispellable)';
+                      }
+                    }
+
+                    const statMechanics = statEffects
+                      .map(effect => effect.mechanicsText || effect.description)
+                      .filter(Boolean)
+                      .join(', ');
+
+                    let mechanicsText = statMechanics;
+
+                    // If this is a progressive buff, show stage-by-stage stat modifiers
+                    if (buffData.isProgressive && buffData.progressiveStages && buffData.progressiveStages.length > 0) {
+                      const getTriggerUnit = () => {
+                        const durationType = buffData?.durationType || 'rounds';
+                        if (durationType === 'time') {
+                          return buffData?.durationUnit || 'rounds';
+                        } else if (durationType === 'rest') {
+                          return buffData?.restType === 'short' ? 'short rest' : 'long rest';
+                        } else if (durationType === 'permanent') {
+                          return 'permanent';
+                        }
+                        return 'round';
+                      };
+
+                      const triggerUnit = getTriggerUnit();
+                      const unitLabel = triggerUnit === 'round' ? 'Round' :
+                                        triggerUnit === 'turn' ? 'Turn' :
+                                        triggerUnit.charAt(0).toUpperCase() + triggerUnit.slice(1);
+
+                      const progressiveStagesText = buffData.progressiveStages.map((stage, stageIndex) => {
+                        const triggerAt = stage.triggerAt || (stageIndex + 1);
+                        const stageStatTexts = stage.statModifiers?.map(stat => {
+                          const rawId = stat.id?.toLowerCase() || '';
+                          const statName = stat.name || GLOBAL_STAT_MAP[rawId] ||
+                            (stat.id ? stat.id.replace(/_/g, ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : 'Stat');
+                          const value = Number(stat.magnitude || stat.value || 0);
+                          const sign = value >= 0 ? '+' : '';
+                          const typeText = stat.magnitudeType === 'percentage' ? '%' : '';
+                          return `${sign}${value}${typeText} ${statName}`;
+                        }).join(', ') || '';
+
+                        if (!stageStatTexts) return null;
+                        return `${unitLabel} ${triggerAt}: ${stageStatTexts}`;
+                      }).filter(Boolean).join(' → ');
+
+                      if (progressiveStagesText) {
+                        mechanicsText = progressiveStagesText;
+                      }
+                    }
+
+                    const baseName = buffData?.customName || spell?.buffConfig?.customName || 'Buff Effect';
                     buffEffectsToRender.push({
-                      name: effect.name,
-                      description: '', // Don't show duration separately - it's in mechanicsText
-                      mechanicsText: effect.mechanicsText || effect.description
+                      name: baseName,
+                      description: durationText,
+                      mechanicsText: mechanicsText
                     });
-                  });
+                  }
                   
                   // Add other effects (non-statModifier effects)
                   otherEffects.forEach(effect => {
@@ -11477,31 +11323,33 @@ const UnifiedSpellCard = ({
                               };
 
                               const progressiveStagesText = buffData.progressiveStages.map((stage, stageIndex) => {
-                                const triggerAt = stage.triggerAt || 1;
+                                const triggerAt = stage.triggerAt || (stageIndex + 1);
                                 
                                 // Format stat modifiers with actual numbers for this stage
                                 const stageStatTexts = stage.statModifiers?.map(stat => {
                                   const rawId = stat.id?.toLowerCase() || '';
                                   const statName = stat.name || statMap[rawId] || 
                                                   (stat.id ? stat.id.replace(/_/g, ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : 'Stat');
-                                  const value = stat.magnitude || stat.value || 0;
+                                  const value = Number(stat.magnitude || stat.value || 0);
                                   const sign = value >= 0 ? '+' : '';
                                   const typeText = stat.magnitudeType === 'percentage' ? '%' : '';
                                   return `${sign}${value}${typeText} ${statName}`;
-                                }).join(', ') || 'None';
+                                }).join(', ') || '';
 
+                                // Only show stages that have stat modifiers configured
+                                if (!stageStatTexts) return null;
                                 return `${unitLabel} ${triggerAt}: ${stageStatTexts}`;
-                              }).join(' → ');
+                              }).filter(Boolean).join(' → ');
 
-                              finalMechanicsText = progressiveStagesText;
+                              finalMechanicsText = progressiveStagesText || mechanicsText;
                             }
 
                             // Use customName from buffConfig if provided
-                            const progressiveBaseName = buffData?.customName || spell?.buffConfig?.customName || 'Buff Effect';
-                            // Don't show duration as separate line
+                            const baseName = buffData?.customName || spell?.buffConfig?.customName || 'Buff Effect';
+                            // Show duration in description for all buff effects
                             buffEffectsToRender.push({
-                              name: progressiveBaseName,
-                              description: '', // No separate duration line
+                              name: baseName,
+                              description: durationText,
                               mechanicsText: finalMechanicsText || (isProgressive ? '' : mechanicsText)
                             });
                           }
@@ -11513,12 +11361,10 @@ const UnifiedSpellCard = ({
                   // Format status effect based on its configuration
                   const formattedEffect = formatStatusEffectDetails(status, 'buff');
 
-                  // For status effects, don't show mechanicsText if description already contains all info
-                  // The description already contains all the information (e.g., duration, save info)
                   buffEffectsToRender.push({
                     name: formattedEffect.name,
                     description: formattedEffect.description,
-                    mechanicsText: '' // Don't show mechanicsText for status effects - description has everything
+                    mechanicsText: formattedEffect.mechanicsText
                   });
                 });
               }
@@ -11565,60 +11411,59 @@ const UnifiedSpellCard = ({
                   mechanicsText: buffData.customDescription
                 });
               }
-              // If spell has buff effect type but no config, show a basic effect with duration if available
-              else if ((hasBuffType || legacyBuffData) && buffEffectsToRender.length === 0) {
-                let mechanicsText = 'Effect details not configured';
-                // Use customName from buffConfig if provided, otherwise fallback to 'Buff Effect'
-                let effectName = buffData?.customName || spell?.buffConfig?.customName || 'Buff Effect';
+                // If spell has buff effect type but no config, show a basic effect with duration if available
+                else if ((hasBuffType || legacyBuffData) && buffEffectsToRender.length === 0) {
+                  let effectName = buffData?.customName || spell?.buffConfig?.customName || 'Buff Effect';
+                  let durationDesc = '';
 
-                // Add duration information if configured
-                if (buffData) {
-                  const durationValue = buffData.durationValue || buffData.duration;
-                  const durationParts = [];
+                  // Build duration description
+                  if (buffData) {
+                    const durationValue = buffData.durationValue || buffData.duration;
+                    const durationParts = [];
 
-                  if (durationValue && buffData.durationType !== 'instant') {
+                    if (durationValue && buffData.durationType !== 'instant') {
+                      if (buffData.durationType === 'permanent') {
+                        durationParts.push('Permanent');
+                      } else if (buffData.durationType === 'rounds') {
+                        durationParts.push(`${durationValue} ${durationValue === 1 ? 'round' : 'rounds'}`);
+                      } else if (buffData.durationType === 'turns') {
+                        durationParts.push(`${durationValue} ${durationValue === 1 ? 'turn' : 'turns'}`);
+                      } else if (buffData.durationType === 'rest') {
+                        const restType = buffData.restType || 'long';
+                        durationParts.push(`Until ${restType.charAt(0).toUpperCase() + restType.slice(1)} Rest`);
+                      } else if (buffData.durationType === 'minutes') {
+                        durationParts.push(`${durationValue} ${durationValue === 1 ? 'minute' : 'minutes'}`);
+                      } else if (buffData.durationType === 'hours') {
+                        durationParts.push(`${durationValue} ${durationValue === 1 ? 'hour' : 'hours'}`);
+                      } else if (buffData.durationType === 'time' && durationValue) {
+                        const unit = buffData.durationUnit || 'rounds';
+                        durationParts.push(`${durationValue} ${unit}`);
+                      } else if (durationValue) {
+                        durationParts.push(`${durationValue} rounds`);
+                      }
+                    }
+
+                    if (buffData.concentrationRequired && durationParts.length > 0) {
+                      durationParts.push('Concentration');
+                    }
+
                     if (buffData.durationType === 'permanent') {
-                      durationParts.push('Permanent');
-                    } else if (buffData.durationType === 'rounds') {
-                      durationParts.push(`${durationValue} ${durationValue === 1 ? 'round' : 'rounds'}`);
-                    } else if (buffData.durationType === 'turns') {
-                      durationParts.push(`${durationValue} ${durationValue === 1 ? 'turn' : 'turns'}`);
-                    } else if (buffData.durationType === 'rest') {
-                      const restType = buffData.restType || 'long';
-                      durationParts.push(`Until ${restType.charAt(0).toUpperCase() + restType.slice(1)} Rest`);
-                    } else if (buffData.durationType === 'minutes') {
-                      durationParts.push(`${durationValue} ${durationValue === 1 ? 'minute' : 'minutes'}`);
-                    } else if (buffData.durationType === 'hours') {
-                      durationParts.push(`${durationValue} ${durationValue === 1 ? 'hour' : 'hours'}`);
-                    } else if (buffData.durationType === 'time' && durationValue) {
-                      const unit = buffData.durationUnit || 'rounds';
-                      durationParts.push(`${durationValue} ${unit}`);
-                    } else if (durationValue) {
-                      durationParts.push(`${durationValue} rounds`);
+                      if (buffData.canBeDispelled === false) {
+                        durationParts.push('Cannot be dispelled');
+                      } else if (buffData.canBeDispelled === true) {
+                        durationParts.push('Dispellable');
+                      }
                     }
+
+                    durationDesc = durationParts.join(', ');
                   }
 
-                  if (buffData.concentrationRequired) {
-                    durationParts.push('Concentration');
-                  }
-
-                  if (buffData.durationType === 'permanent') {
-                    if (buffData.canBeDispelled === false) {
-                      durationParts.push('Cannot be dispelled');
-                    } else if (buffData.canBeDispelled === true) {
-                      durationParts.push('Dispellable');
-                    }
-                  }
-
+                  buffEffectsToRender.push({
+                    name: effectName,
+                    description: durationDesc,
+                    mechanicsText: buffData?.statModifiers?.length > 0 ? '' : 'No stats configured yet'
+                  });
                 }
-
-                // Don't show duration as separate line for fallback buffs either
-                buffEffectsToRender.push({
-                  name: effectName,
-                  description: '', // No separate duration line
-                  mechanicsText: mechanicsText
-                });
-              }
 
               // Attach conditional formulas and targeting to buff effects
               const buffTriggers = getBuffTriggersAndFormulas('buff');
@@ -11731,7 +11576,12 @@ const UnifiedSpellCard = ({
                   spell.debuffConfig.effects?.length > 0 ||
                   spell.debuffConfig.duration ||
                   spell.debuffConfig.durationType ||
-                  spell.debuffConfig.durationValue
+                  spell.debuffConfig.durationValue ||
+                  spell.debuffConfig.difficultyClass ||
+                  spell.debuffConfig.savingThrow ||
+                  spell.debuffConfig.saveType ||
+                  spell.debuffConfig.saveOutcome ||
+                  spell.debuffConfig.magnitude
                 );
 
                 if (!hasAnyDebuffConfiguration) return null;
@@ -11992,15 +11842,19 @@ const UnifiedSpellCard = ({
                               durationText = 'Permanent';
                             } else if (debuffData.durationType === 'rounds') {
                               durationText = `${durationValue} ${durationValue === 1 ? 'Round' : 'Rounds'}`;
+                            } else if (debuffData.durationType === 'turns') {
+                              durationText = `${durationValue} ${durationValue === 1 ? 'Turn' : 'Turns'}`;
                             } else if (debuffData.durationType === 'minutes') {
                               durationText = `${durationValue} ${durationValue === 1 ? 'Minute' : 'Minutes'}`;
                             } else if (debuffData.durationType === 'hours') {
                               durationText = `${durationValue} ${durationValue === 1 ? 'Hour' : 'Hours'}`;
+                            } else if (debuffData.durationType === 'rest') {
+                              durationText = `Until ${(debuffData.restType || 'long').charAt(0).toUpperCase().charAt(0).toUpperCase() + (debuffData.restType || 'long').slice(1)} Rest`;
                             } else if (debuffData.durationType === 'time' && durationValue) {
                               const unit = debuffData.durationUnit || 'rounds';
                               durationText = `${durationValue} ${unit}`;
                             } else if (durationValue) {
-                              durationText = `${durationValue} rounds`;
+                              durationText = `${durationValue} ${durationValue === 1 ? 'turn' : 'turns'}`;
                             }
                           }
 
@@ -12192,13 +12046,10 @@ const UnifiedSpellCard = ({
 
                               const finalDescription = descriptionParts.join(' • ');
 
-                              // For status effects with descriptions, don't show mechanicsText
-                              // The description already contains all the information (e.g., "Movement speed reduced by 10 feet")
-                              // This prevents redundant mechanics text like "Movement speed reduced by 50%"
                               effects.push({
                                 name: formattedEffect.name,
                                 description: finalDescription,
-                                mechanicsText: '', // Don't show mechanicsText for status effects - description has everything
+                                mechanicsText: formattedEffect.mechanicsText,
                                 targeting: debuffTargeting
                               });
                             }
@@ -12263,21 +12114,84 @@ const UnifiedSpellCard = ({
 
                         // Handle status effects with enhanced formatting (legacy structure)
                         if (debuffData?.statusEffects?.length > 0) {
+                          // Build global save and duration text for status effects
+                          const isSaveObj = debuffData.savingThrow && typeof debuffData.savingThrow === 'object';
+                          const globalSaveType = (isSaveObj ? debuffData.savingThrow.ability : debuffData.savingThrow) || debuffData.saveType;
+                          const globalSaveDC = (isSaveObj ? debuffData.savingThrow.difficultyClass : null) || debuffData.difficultyClass || debuffData.saveDC;
+
                           debuffData.statusEffects.forEach(status => {
                             // Format status effect based on its configuration
                             const formattedEffect = formatStatusEffectDetails(status, 'debuff', debuffData);
+
+                            // Build save/duration info for this status effect
+                            let configParts = [];
+
+                            // Use effect-specific save if available, otherwise fall back to global
+                            const effSaveType = status.saveType || globalSaveType;
+                            const effSaveDC = status.saveDC || globalSaveDC;
+                            if (effSaveType && effSaveType !== 'none') {
+                              const outcomeText = status.saveOutcome === 'negates' ? 'to shake it off' :
+                                                  status.saveOutcome === 'ends_early' ? 'ends on success' :
+                                                  status.saveOutcome === 'reduces_level' ? 'reduces severity on success' :
+                                                  '';
+                              configParts.push(`${normalizeSaveType(effSaveType)} DC ${effSaveDC}${outcomeText ? ' ' + outcomeText : ''}`);
+                            }
+
+                            // Add duration info
+                            const durVal = status.durationValue || debuffData.durationValue || debuffData.duration;
+                            const durType = status.durationType || debuffData.durationType;
+                            if (durVal && durType !== 'instant' && durType !== 'permanent') {
+                              const unitMap = { 'turns': durVal === 1 ? 'turn' : 'turns', 'rounds': durVal === 1 ? 'round' : 'rounds', 'minutes': durVal === 1 ? 'minute' : 'minutes', 'hours': durVal === 1 ? 'hour' : 'hours', 'time': debuffData.durationUnit || 'rounds' };
+                              const unit = unitMap[durType] || durType || 'rounds';
+                              configParts.push(`for ${durVal} ${unit}`);
+                            } else if (durType === 'permanent') {
+                              configParts.push('Permanent');
+                            }
+
+                            // Add concentration
+                            if (status.concentrationRequired || debuffData.concentrationRequired) {
+                              configParts.push('concentration');
+                            }
+
+                            const configText = configParts.length > 0 ? ` (${configParts.join(', ')})` : '';
+                            const fullMechanics = formattedEffect.mechanicsText + configText;
 
                           const debuffTargeting = formatEffectTargeting('debuff');
                           effects.push({
                             name: formattedEffect.name,
                             description: formattedEffect.description,
-                            mechanicsText: formattedEffect.mechanicsText,
+                            mechanicsText: fullMechanics,
                             targeting: debuffTargeting
                           });
                           });
                         }
 
-                        // REMOVED: Always show duration/save info - now handled by individual effects
+                        // If we still have no effects but have save/duration config, show a basic entry
+                        if (effects.length === 0) {
+                          let configParts = [];
+                          const isSaveObj = debuffData.savingThrow && typeof debuffData.savingThrow === 'object';
+                          const saveType = (isSaveObj ? debuffData.savingThrow.ability : debuffData.savingThrow) || debuffData.saveType;
+                          const saveDC = (isSaveObj ? debuffData.savingThrow.difficultyClass : null) || debuffData.difficultyClass || debuffData.saveDC;
+                          if (saveType && saveType !== 'none' && saveDC) {
+                            configParts.push(`${normalizeSaveType(saveType)} DC ${saveDC}`);
+                          }
+                          const durVal = debuffData.durationValue || debuffData.duration;
+                          const durType = debuffData.durationType;
+                          if (durVal && durType !== 'instant' && durType !== 'permanent') {
+                            const unitMap = { 'turns': durVal === 1 ? 'turn' : 'turns', 'rounds': durVal === 1 ? 'round' : 'rounds', 'minutes': durVal === 1 ? 'minute' : 'minutes', 'hours': durVal === 1 ? 'hour' : 'hours' };
+                            const unit = unitMap[durType] || durType || 'rounds';
+                            configParts.push(`for ${durVal} ${unit}`);
+                          }
+                          if (configParts.length > 0) {
+                            const debuffTargeting = formatEffectTargeting('debuff');
+                            effects.push({
+                              name: debuffData?.customName || 'Debuff Effect',
+                              description: configParts.join(' • '),
+                              mechanicsText: '',
+                              targeting: debuffTargeting
+                            });
+                          }
+                        }
 
                         // REMOVED: Fallback debuff effects - individual effects should handle all cases
 
@@ -12405,18 +12319,15 @@ const UnifiedSpellCard = ({
                 const hasAnyUtilityConfiguration = hasUtilityConfig && (
                   hasSelectedEffects ||
                   spell.utilityConfig.duration ||
+                  spell.utilityConfig.durationType ||
                   spell.utilityConfig.enhancementType ||
-                  spell.utilityConfig.enhancementValue
+                  spell.utilityConfig.enhancementValue ||
+                  spell.utilityConfig.utilityType ||
+                  spell.utilityConfig.choiceConfig
                 );
 
-                // Only show utility section if there are actually configured utility effects
-                // Don't show just because utilityType is set - need actual effects or enhancements
+                // Show utility section if utility effect type is selected or any utility config exists
                 if (!hasUtilityType && !hasAnyUtilityConfiguration) return null;
-                
-                // If utilityType is set but no actual effects/enhancements/choices, don't show generic utility
-                if (hasUtilityType && !hasSelectedEffects && !spell.utilityConfig?.enhancementType && !spell.utilityConfig?.enhancementValue && !spell.utilityConfig?.choiceConfig?.options?.length) {
-                  return null;
-                }
 
                 const utilityData = spell?.utilityConfig;
                 const effects = [];
@@ -14698,7 +14609,7 @@ const UnifiedSpellCard = ({
 };
 UnifiedSpellCard.propTypes = {
   spell: PropTypes.object.isRequired,
-  variant: PropTypes.oneOf(['spellbook', 'library', 'collection', 'wizard', 'compact', 'preview']),
+  variant: PropTypes.oneOf(['spellbook', 'library', 'collection', 'wizard', 'compact', 'preview', 'rules']),
   showActions: PropTypes.bool,
   showDescription: PropTypes.bool,
   showStats: PropTypes.bool,

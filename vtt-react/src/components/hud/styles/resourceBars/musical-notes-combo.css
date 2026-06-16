@@ -1,174 +1,602 @@
+/* ===== MINSTREL - MUSICAL NOTES COMBO =====
+   Redesigned resource bar: discrete pips (not a fluid fill), specialization pill,
+   live cadence-readiness chips, and musical-staff theming.
+   Layout: [header: spec pill + totals] / [7 note segments w/ pips] / [cadence chips]
+*/
+
 .musical-notes-combo {
     background: transparent;
     border: none;
     box-shadow: none;
 }
 
-/* Default (normal/large) Minstrel sizing for rules page */
+/* ---------- Container ---------- */
 .minstrel-container {
     display: flex;
-    align-items: center;
-    gap: 8px;
+    flex-direction: column;
+    gap: 4px;
     width: 100%;
     max-width: 600px;
-    margin-bottom: 6px;
 }
 
+/* ---------- Header ---------- */
+.minstrel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    min-height: 18px;
+}
+
+.minstrel-title-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    color: #c9b896;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+.minstrel-title-label i { color: #f0c870; }
+
+.minstrel-spec-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 2px 8px 2px 6px;
+    border: 1px solid var(--spec-color, #8b7355);
+    border-radius: 10px;
+    background: linear-gradient(135deg, rgba(42, 24, 16, 0.55), rgba(26, 15, 8, 0.65));
+    color: #f5e6c8;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: filter 0.15s ease, box-shadow 0.15s ease;
+}
+.minstrel-spec-pill:hover:not(:disabled) {
+    filter: brightness(1.2);
+    box-shadow: 0 0 6px var(--spec-glow, #8b7355);
+}
+.minstrel-spec-pill:disabled { cursor: default; opacity: 0.85; }
+
+.minstrel-spec-pill .spec-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--spec-color, #8b7355);
+    box-shadow: 0 0 4px var(--spec-glow, #8b7355);
+    flex-shrink: 0;
+}
+
+.minstrel-totals {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    color: #c9b896;
+    font-variant-numeric: tabular-nums;
+}
+.minstrel-total-count { font-weight: 600; letter-spacing: 0.3px; }
+
+.minstrel-ready-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 1px 6px;
+    border-radius: 8px;
+    background: rgba(60, 40, 25, 0.6);
+    color: #8a7a5a;
+    border: 1px solid rgba(139, 115, 85, 0.4);
+    font-weight: 700;
+    transition: all 0.2s ease;
+}
+.minstrel-ready-badge.has-ready {
+    background: linear-gradient(135deg, rgba(46, 125, 50, 0.35), rgba(56, 142, 60, 0.25));
+    color: #b6f0a0;
+    border-color: rgba(104, 220, 90, 0.6);
+    box-shadow: 0 0 6px rgba(104, 220, 90, 0.35);
+    animation: minstrelReadyPulse 2s ease-in-out infinite;
+}
+@keyframes minstrelReadyPulse {
+    0%, 100% { box-shadow: 0 0 5px rgba(104, 220, 90, 0.3); }
+    50% { box-shadow: 0 0 9px rgba(104, 220, 90, 0.55); }
+}
+
+/* ---------- Notes bar ---------- */
 .musical-notes-bar-wrapper {
-    flex: 1;
     position: relative;
-    height: 40px;
-    min-width: 0; /* Allow flex shrinking */
+    height: 42px;
+    min-width: 0;
+}
+
+/* Faint musical staff lines behind the notes */
+.staff-lines-bg {
+    position: absolute;
+    inset: 6px 0;
+    pointer-events: none;
+    background-image:
+        linear-gradient(to bottom, transparent calc(20% - 0.5px), rgba(139, 115, 85, 0.28) 20%, transparent calc(20% + 0.5px)),
+        linear-gradient(to bottom, transparent calc(35% - 0.5px), rgba(139, 115, 85, 0.28) 35%, transparent calc(35% + 0.5px)),
+        linear-gradient(to bottom, transparent calc(50% - 0.5px), rgba(139, 115, 85, 0.28) 50%, transparent calc(50% + 0.5px)),
+        linear-gradient(to bottom, transparent calc(65% - 0.5px), rgba(139, 115, 85, 0.28) 65%, transparent calc(65% + 0.5px)),
+        linear-gradient(to bottom, transparent calc(80% - 0.5px), rgba(139, 115, 85, 0.28) 80%, transparent calc(80% + 0.5px));
+    opacity: 0.7;
 }
 
 .musical-notes-segments {
+    position: relative;
     display: flex;
     gap: 4px;
     height: 100%;
     width: 100%;
+    z-index: 1;
 }
 
+/* ---------- Each note segment ---------- */
 .musical-note-segment {
     flex: 1;
     position: relative;
-    background: linear-gradient(180deg, rgba(250, 245, 235, 0.9) 0%, rgba(245, 240, 230, 0.95) 100%);
-    border: 1px solid;
-    border-radius: 4px;
-    overflow: visible; /* Allow adjustment menu to show outside segment */
-    transition: all 0.2s ease;
-    cursor: pointer;
-    min-width: 35px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 3px 2px;
+    background: linear-gradient(180deg, rgba(250, 245, 235, 0.92) 0%, rgba(238, 228, 210, 0.95) 100%);
+    border: 1px solid rgba(139, 115, 85, 0.4);
+    border-radius: 5px;
+    overflow: visible;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    min-width: 34px;
     max-width: 70px;
 }
-
-/* Small size (HUD) - compact version */
-.small .minstrel-container {
-    gap: 3px;
-    max-width: 100%; /* Fill available HUD width */
-}
-
-/* Party member frame constraints - prevent stretching */
-.party-member-frame .minstrel-container {
-    max-width: 200px; /* Constrain width in party frames */
-    width: auto; /* Don't stretch to 100% */
-    overflow: visible; /* Allow content to extend beyond container */
-}
-
-.party-member-frame .musical-note-segment {
-    min-width: 20px; /* Smaller minimum in party frames */
-    max-width: 30px; /* Smaller maximum in party frames */
-}
-
-.party-member-frame .musical-notes-bar-wrapper {
-    flex: none; /* Don't stretch in party frames */
-    overflow: visible; /* Allow menus to extend beyond wrapper */
-}
-
-.small .musical-notes-bar-wrapper {
-    height: 24px; /* Very compact height for HUD */
-}
-
-.small .musical-notes-segments {
-    gap: 1px;
-}
-
-.small .musical-note-segment {
-    border-radius: 3px;
-    min-width: 18px; /* Very small minimum for compact HUD */
-    max-width: 28px; /* Very small maximum for compact HUD */
-}
-
-.musical-note-segment:hover {
-    transform: translateY(-1px);
-    filter: brightness(1.15);
-}
-
-.musical-note-segment.empty {
-    background: linear-gradient(180deg, rgba(250, 245, 235, 0.9) 0%, rgba(245, 240, 230, 0.95) 100%) !important;
-}
-
-.musical-note-segment.filled .note-numeral,
-.musical-note-segment.filled .note-count {
-    color: inherit; /* Use the glow color from parent .note-label */
-    font-weight: 700; /* Make it bolder for better visibility */
-    text-shadow: 
-        -1px -1px 0 rgba(0, 0, 0, 0.8),
-        1px -1px 0 rgba(0, 0, 0, 0.8),
-        -1px 1px 0 rgba(0, 0, 0, 0.8),
-        1px 1px 0 rgba(0, 0, 0, 0.8),
-        0 0 2px rgba(0, 0, 0, 0.9); /* Dark outline for better contrast on light backgrounds */
-}
+.musical-note-segment:hover { transform: translateY(-1px); filter: brightness(1.08); }
 
 .musical-note-segment.filled {
-    animation: noteGlow 2s ease-in-out infinite;
+    border-color: var(--note-glow, #8b7355);
+    box-shadow: 0 0 6px color-mix(in srgb, var(--note-glow, #8b7355) 45%, transparent);
+}
+.musical-note-segment.filled:hover {
+    box-shadow: 0 0 10px color-mix(in srgb, var(--note-glow, #8b7355) 70%, transparent);
 }
 
-@keyframes noteGlow {
-    0%, 100% {
-        filter: brightness(1);
-    }
-    50% {
-        filter: brightness(1.2);
-    }
-}
-
-.note-fill {
-    position: absolute;
-    bottom: 0;
-    left: 0;
+/* ---------- Discrete pips (the key intuitiveness improvement) ---------- */
+.note-pips {
+    display: flex;
+    flex-direction: column-reverse; /* fill bottom-up like a note stack */
+    align-items: center;
+    gap: 2px;
+    flex: 1;
+    justify-content: center;
     width: 100%;
-    transition: height 0.3s ease;
-    border-radius: 0 0 3px 3px; /* Match parent's bottom border-radius */
-    pointer-events: none; /* Allow clicks to pass through to parent */
+    pointer-events: none;
+}
+.note-pip {
+    width: 70%;
+    max-width: 14px;
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(139, 115, 85, 0.18);
+    transition: all 0.2s ease;
+}
+.note-pip.on {
+    background: var(--note-color, #DC143C);
+    box-shadow: 0 0 4px var(--note-glow, #FF6B6B);
 }
 
-/* Default (normal/large) text sizing for rules page */
+/* Roman numeral + count badge */
 .note-label {
     position: relative;
     z-index: 2;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100%;
-    gap: 2px;
-    pointer-events: none; /* Allow clicks to pass through to parent */
+    pointer-events: none;
+    line-height: 1;
 }
-
 .note-numeral {
-    font-size: 12px;
-    font-weight: bold;
-    text-shadow: none;
-    color: #2d1810;
-    line-height: 1;
-}
-
-.note-count {
     font-size: 11px;
-    font-weight: bold;
-    text-shadow: none;
+    font-weight: 700;
     color: #2d1810;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+.musical-note-segment.filled .note-numeral { color: #1a0e08; }
+
+.note-count-badge {
+    position: absolute;
+    top: 1px;
+    right: 2px;
+    font-size: 9px;
+    font-weight: 800;
+    color: #6a5638;
     line-height: 1;
+    font-variant-numeric: tabular-nums;
+    pointer-events: none;
+}
+.musical-note-segment.filled .note-count-badge {
+    color: var(--note-glow, #6a5638);
+    text-shadow:
+        -0.5px -0.5px 0 rgba(255, 255, 255, 0.8),
+        0.5px -0.5px 0 rgba(255, 255, 255, 0.8),
+        -0.5px 0.5px 0 rgba(255, 255, 255, 0.8),
+        0.5px 0.5px 0 rgba(255, 255, 255, 0.8);
 }
 
-/* Small size (HUD) - compact text */
-.small .note-label {
-    gap: 0px;
+/* ---------- Cadence availability chips ---------- */
+.minstrel-cadence-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+}
+.cadence-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 7px;
+    border-radius: 9px;
+    border: 1px solid rgba(139, 115, 85, 0.45);
+    background: rgba(45, 30, 18, 0.55);
+    color: #7a6a4a;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    cursor: not-allowed;
+    transition: all 0.15s ease;
+    user-select: none;
+}
+.cadence-chip i { font-size: 8px; }
+
+.cadence-chip.ready {
+    cursor: pointer;
+    color: #d8c8a0;
+    background: rgba(60, 45, 28, 0.7);
+}
+.cadence-chip.ready:hover {
+    filter: brightness(1.25);
+    transform: translateY(-1px);
+}
+/* Category tints when ready */
+.cadence-chip.ready.cat-offensive { border-color: rgba(220, 60, 60, 0.7); box-shadow: 0 0 4px rgba(220, 60, 60, 0.3); }
+.cadence-chip.ready.cat-healing   { border-color: rgba(80, 200, 120, 0.7); box-shadow: 0 0 4px rgba(80, 200, 120, 0.3); }
+.cadence-chip.ready.cat-control   { border-color: rgba(160, 90, 200, 0.7); box-shadow: 0 0 4px rgba(160, 90, 200, 0.3); }
+.cadence-chip.ready.cat-buff      { border-color: rgba(220, 200, 90, 0.7); box-shadow: 0 0 4px rgba(220, 200, 90, 0.3); }
+
+/* Highlight cadences matching current specialization */
+.cadence-chip.spec-match.ready {
+    box-shadow: 0 0 7px currentColor;
+    filter: brightness(1.1);
 }
 
-.small .note-numeral {
+/* ---------- Pip adjuster inside context menu ---------- */
+.minstrel-pip-adjuster {
+    display: flex;
+    gap: 4px;
+    justify-content: center;
+    padding: 4px 0;
+}
+.pip-button {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1px solid rgba(139, 115, 85, 0.6);
+    background: rgba(60, 45, 28, 0.4);
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.1s ease;
+}
+.pip-button:hover { transform: scale(1.15); }
+.pip-button.active { box-shadow: 0 0 4px rgba(0, 0, 0, 0.3); }
+
+/* ---------- Tooltip cadence list ---------- */
+.minstrel-tooltip-cadences {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.minstrel-cadence-line {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 0.82rem;
+    padding: 1px 0;
+}
+.minstrel-cadence-line.ready .cadence-line-name { color: #2E5A22; font-weight: 600; }
+.minstrel-cadence-line.locked .cadence-line-name { color: #6a5638; }
+.cadence-line-cost {
+    font-size: 0.72rem;
+    color: #5a4628;
+    font-style: italic;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ====================================================================
+   SIZE VARIANTS
+   ==================================================================== */
+
+/* Small (HUD) — compact */
+.small .minstrel-container { gap: 2px; max-width: 100%; }
+
+.small .minstrel-header { min-height: 13px; }
+.small .minstrel-spec-pill { padding: 1px 5px 1px 4px; font-size: 8px; border-radius: 8px; }
+.small .minstrel-spec-pill .spec-dot { width: 5px; height: 5px; }
+.small .minstrel-spec-pill .spec-label { display: none; }
+.small .minstrel-totals { font-size: 8px; gap: 4px; }
+.small .minstrel-total-count { font-size: 8px; }
+.small .minstrel-ready-badge { padding: 0 4px; font-size: 8px; }
+
+.small .musical-notes-bar-wrapper { height: 24px; }
+.small .staff-lines-bg { inset: 3px 0; opacity: 0.45; }
+.small .musical-notes-segments { gap: 1px; }
+.small .musical-note-segment {
+    border-radius: 3px;
+    padding: 1px 1px;
+    min-width: 16px;
+    max-width: 26px;
+}
+.small .note-pips { gap: 1px; }
+.small .note-pip { height: 2px; max-width: 9px; border-radius: 1px; }
+.small .note-numeral { font-size: 8px; }
+.small .note-count-badge { font-size: 7px; top: 0; right: 1px; }
+
+/* Condensed chips in HUD: icon-only, tighter */
+.small .minstrel-cadence-chips { gap: 2px; }
+.small .cadence-chip { padding: 1px 4px; font-size: 0; gap: 0; border-radius: 6px; }
+.small .cadence-chip i { font-size: 8px; }
+.small .cadence-chip .cadence-chip-name { display: none; }
+
+/* Party member frame — very constrained width */
+.party-member-frame .minstrel-container { max-width: 220px; }
+.party-member-frame .musical-note-segment { min-width: 14px; max-width: 24px; }
+.party-member-frame .musical-notes-bar-wrapper { flex: none; overflow: visible; }
+
+/* ====================================================================
+   COMPACT PARTY-HUD MODE (.party-context)
+   A single thin row that matches the HP/Mana/AP bar rhythm.
+   All rich content (spec, full pips, cadences) lives in a popover panel.
+   ==================================================================== */
+.musical-notes-combo.party-context {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    height: auto;
+}
+
+.minstrel-compact-row {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    height: 14px;            /* matches .class-resource-bar.small rhythm */
+    width: 100%;
+    padding: 0 1px;
+    box-sizing: border-box;
+}
+
+.minstrel-compact-spec-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.minstrel-compact-notes {
+    display: flex;
+    flex: 1;
+    gap: 1px;
+    min-width: 0;
+    height: 100%;
+}
+
+.minstrel-compact-cell {
+    flex: 1;
+    min-width: 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+    border: 1px solid rgba(139, 115, 85, 0.35);
+    background: rgba(250, 245, 235, 0.55);
+    overflow: hidden;
+    transition: filter 0.15s ease;
+}
+.minstrel-compact-cell.filled {
+    border-color: color-mix(in srgb, var(--note-glow, #8b7355) 70%, transparent);
+}
+.minstrel-compact-cell:hover { filter: brightness(1.12); }
+
+/* Vertical fill — height encodes the accumulated count (0–5) */
+.compact-cell-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: color-mix(in srgb, var(--note-color, #DC143C) 55%, transparent);
+    box-shadow: 0 0 4px color-mix(in srgb, var(--note-glow, #FF6B6B) 60%, transparent);
+    transition: height 0.25s ease;
+    pointer-events: none;
+}
+
+.compact-cell-numeral {
+    position: relative;
+    z-index: 1;
     font-size: 8px;
+    font-weight: 800;
+    line-height: 1;
+    color: #2d1810;
+    /* Strong outline so the numeral stays legible over any fill color */
+    text-shadow:
+        -0.5px -0.5px 0 rgba(255, 255, 255, 0.9),
+        0.5px -0.5px 0 rgba(255, 255, 255, 0.9),
+        -0.5px 0.5px 0 rgba(255, 255, 255, 0.9),
+        0.5px 0.5px 0 rgba(255, 255, 255, 0.9),
+        0 0 2px rgba(0, 0, 0, 0.45);
 }
 
-.small .note-count {
+/* Expand / ready button at the row end */
+.minstrel-compact-expand {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    flex-shrink: 0;
+    height: 100%;
+    padding: 0 3px;
+    border-radius: 3px;
+    border: 1px solid rgba(139, 115, 85, 0.45);
+    background: rgba(45, 30, 18, 0.55);
+    color: #8a7a5a;
     font-size: 7px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+.minstrel-compact-expand:hover:not(:disabled) { filter: brightness(1.25); }
+.minstrel-compact-expand:disabled { cursor: default; opacity: 0.6; }
+.minstrel-compact-expand.has-ready {
+    color: #b6f0a0;
+    border-color: rgba(104, 220, 90, 0.6);
+    background: linear-gradient(135deg, rgba(46, 125, 50, 0.35), rgba(56, 142, 60, 0.25));
+    box-shadow: 0 0 5px rgba(104, 220, 90, 0.35);
+}
+.expand-count {
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
 }
 
-/* ===== OBSOLETE MENU STYLES ===== */
+/* ---------- Popover panel ----------
+   NOTE: the panel uses the unified-context-menu container, which has a LIGHT
+   beige/cream background. All text here must be DARK for contrast.
+*/
+.minstrel-panel-menu .context-menu-main {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.minstrel-panel-menu .minstrel-header { margin-bottom: 2px; }
+
+/* Header totals need dark text on the light menu (spec pill & ready badge are self-contained) */
+.minstrel-panel-menu .minstrel-totals { color: #3a2a1a; }
+.minstrel-panel-menu .minstrel-total-count { color: #3a2a1a; }
+.minstrel-panel-menu .minstrel-title-label { color: #3a2a1a; }
+.minstrel-panel-menu .minstrel-title-label i { color: #8B6508; }
+
+.minstrel-panel-section {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.minstrel-panel-section-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: #5a3e22;
+    border-bottom: 1px solid rgba(139, 115, 85, 0.45);
+    padding-bottom: 2px;
+}
+.panel-ready-count {
+    color: #2E7D32;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.minstrel-panel-notes {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.minstrel-panel-note-row {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 2px 3px;
+    border-radius: 3px;
+    background: rgba(90, 70, 45, 0.1);
+}
+.panel-note-numeral {
+    font-size: 11px;
+    font-weight: 800;
+    width: 18px;
+    text-align: center;
+    color: #2d1810;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+.panel-note-name {
+    font-size: 9px;
+    font-weight: 600;
+    color: #2d1810;
+    width: 62px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.panel-note-pips {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 1px;
+    flex: 1;
+    align-items: flex-start;
+}
+.panel-pip {
+    width: 100%;
+    max-width: 40px;
+    height: 2px;
+    border-radius: 1px;
+    background: rgba(90, 70, 45, 0.25);
+}
+.panel-pip.on {
+    background: var(--note-color, #DC143C);
+    box-shadow: 0 0 3px var(--note-glow, #FF6B6B);
+}
+.panel-note-controls {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    flex-shrink: 0;
+}
+.panel-mini-btn {
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+    border: 1px solid rgba(60, 45, 28, 0.8);
+    background: rgba(80, 60, 38, 0.85);
+    color: #f5e6c8;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.panel-mini-btn:hover:not(:disabled) { filter: brightness(1.3); }
+.panel-mini-btn:disabled { opacity: 0.35; cursor: default; }
+.panel-note-count {
+    font-size: 11px;
+    font-weight: 800;
+    min-width: 10px;
+    text-align: center;
+    color: #2d1810;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Inside the panel, chips always show their short name */
+.minstrel-panel-menu .cadence-chip { font-size: 9px; }
+.minstrel-panel-menu .cadence-chip .cadence-chip-name { display: inline; }
+
+/* ====================================================================
+   LEGACY / OBSOLETE MENU STYLES
+   ==================================================================== */
 /* Note Adjustment Menu - OBSOLETE: Now uses unified-context-menu.css */
 /* All menu styles removed - now using unified-context-menu.css system */
 
-/* Default (normal/large) Minstrel Specialization Indicator for rules page */
+/* Legacy spec indicator (unused in current render, kept for safety) */
 .minstrel-spec-indicator {
     position: relative;
     display: flex;
@@ -180,35 +608,27 @@
     border-radius: 4px;
     cursor: pointer;
     transition: all 0.2s ease;
-    height: 40px; /* Match the bar height */
-    width: 40px; /* Square icon button */
-    flex-shrink: 0; /* Don't shrink the spec indicator */
+    height: 40px;
+    width: 40px;
+    flex-shrink: 0;
+}
+.minstrel-spec-indicator:hover { filter: brightness(1.2); }
+.minstrel-spec-indicator i { font-size: 16px; }
+
+/* Legacy vertical fill (replaced by pips) — kept so any stale refs don't break */
+.note-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    transition: height 0.3s ease;
+    border-radius: 0 0 3px 3px;
+    pointer-events: none;
 }
 
-.minstrel-spec-indicator:hover {
-    filter: brightness(1.2);
-}
-
-.minstrel-spec-indicator i {
-    font-size: 16px;
-}
-
-/* Small size (HUD) - compact spec indicator */
-.small .minstrel-spec-indicator {
-    padding: 4px;
-    border-radius: 3px;
-    height: 24px; /* Match the small bar height */
-    width: 24px; /* Square icon button */
-}
-
-.small .minstrel-spec-indicator i {
-    font-size: 11px;
-}
-
-/* Minstrel Specialization Menu - OBSOLETE: Now uses unified-context-menu.css */
-/* All menu styles removed - now using unified-context-menu.css system */
-
-/* ===== PATHFINDER-STYLE RESOURCE TOOLTIP ===== */
+/* ====================================================================
+   PATHFINDER-STYLE RESOURCE TOOLTIP (shared/duplicated — kept for safety)
+   ==================================================================== */
 .pathfinder-resource-tooltip {
     background: linear-gradient(135deg, rgba(245, 245, 220, 0.95), rgba(240, 240, 210, 0.9));
     border: 2px solid #8b7355;
@@ -220,74 +640,30 @@
     font-family: 'Cinzel', 'Times New Roman', serif;
     color: #5a1e12;
 }
-
-.pathfinder-tooltip-content {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
+.pathfinder-tooltip-content { display: flex; flex-direction: column; gap: 4px; }
 .pathfinder-tooltip-title {
-    font-size: 12px;
-    font-weight: bold;
-    color: #7a3b2e;
-    text-align: center;
-    border-bottom: 1px solid #8b7355;
-    padding-bottom: 3px;
-    margin-bottom: 3px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+    font-size: 12px; font-weight: bold; color: #7a3b2e; text-align: center;
+    border-bottom: 1px solid #8b7355; padding-bottom: 3px; margin-bottom: 3px;
+    text-transform: uppercase; letter-spacing: 0.5px; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
 }
-
-.pathfinder-tooltip-section {
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-}
-
+.pathfinder-tooltip-section { display: flex; flex-direction: column; gap: 1px; }
 .pathfinder-resource-line {
-    font-size: 10px;
-    font-weight: bold;
-    color: #5a1e12;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-    text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.1);
+    font-size: 10px; font-weight: bold; color: #5a1e12; text-transform: uppercase;
+    letter-spacing: 0.3px; text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.1);
 }
-
 .pathfinder-tooltip-description {
-    font-size: 9px;
-    color: #8b7355;
-    font-style: italic;
-    line-height: 1.2;
-    margin-top: 2px;
+    font-size: 9px; color: #8b7355; font-style: italic; line-height: 1.2; margin-top: 2px;
     text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.05);
 }
-
 .pathfinder-tooltip-controls {
-    font-size: 8px;
-    color: #daa520;
-    line-height: 1.3;
-    margin-top: 2px;
+    font-size: 8px; color: #daa520; line-height: 1.3; margin-top: 2px;
     text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.1);
 }
-
 .pathfinder-tooltip-spec {
-    font-size: 9px;
-    color: #4a5d23;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-    margin-top: 1px;
-    text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.1);
+    font-size: 9px; color: #4a5d23; font-weight: bold; text-transform: uppercase;
+    letter-spacing: 0.3px; margin-top: 1px; text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.1);
 }
-
 .pathfinder-tooltip-limits {
-    font-size: 8px;
-    color: #8b4513;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-    margin-top: 1px;
-    text-align: center;
-    text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.1);
+    font-size: 8px; color: #8b4513; text-transform: uppercase; letter-spacing: 0.3px;
+    margin-top: 1px; text-align: center; text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.1);
 }

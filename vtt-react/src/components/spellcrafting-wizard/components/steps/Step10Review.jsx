@@ -436,12 +436,12 @@ const Step10Review = ({
       controlConfig: spellState.controlConfig || null,
 
       // Summoning configuration
-      summonConfig: spellState.summonConfig || null,
-      summoningConfig: spellState.summonConfig || null,
+      summonConfig: spellState.summoningConfig || null,
+      summoningConfig: spellState.summoningConfig || null,
 
       // Transformation configuration
-      transformConfig: spellState.transformConfig || null,
-      transformationConfig: spellState.transformConfig || null,
+      transformConfig: spellState.transformationConfig || null,
+      transformationConfig: spellState.transformationConfig || null,
 
       // Resource configuration
       resourceCost: {

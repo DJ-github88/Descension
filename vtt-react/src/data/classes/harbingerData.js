@@ -161,17 +161,17 @@ Simultaneously, they cannot feel warmth, not physical, not emotional. They exper
       {
         title: "Escalating Zone (41-60 Mayhem)",
         stats: "Tier II: Incipient Friction",
-        details: "All spells gain **+1 bonus damage/healing die** of the spell's damage type. Magic begins to shear your physical matrix: all casts have a **10% chance to misfire**, dealing 2d6 force damage directly to your HP."
+        details: "All spells gain **+1 bonus damage/healing die** of the spell's damage type. Magic begins to shear your physical matrix: all casts have a **10% chance to misfire**, dealing 2d6 storm damage directly to your HP."
       },
       {
         title: "Volatile Zone (61-80 Mayhem)",
         stats: "Tier III: Planar Thinning",
-        details: "All spells gain **+2 bonus damage/healing dice**, and area-of-effect spells have their **radii expanded by +5 feet**. Casts have a **25% chance to misfire** (2d6 force damage), and your unstable molecular density gains **25% physical bludgeoning/slashing vulnerability**."
+        details: "All spells gain **+2 bonus damage/healing dice**, and area-of-effect spells have their **radii expanded by +5 feet**. Casts have a **25% chance to misfire** (2d6 storm damage), and your unstable molecular density gains **25% physical bludgeoning/slashing vulnerability**."
       },
       {
         title: "Maximum Zone (81-99 Mayhem)",
         stats: "Tier IV: Redline",
-        details: "All spells gain **+3 bonus damage/healing dice**, area-of-effect spells gain **+10 feet radius**, and single-target spells **target 1 additional adjacent creature** within 10 feet. Casts have a **25% chance to misfire** (2d6 force damage), and you suffer **50% physical bludgeoning/slashing vulnerability**."
+        details: "All spells gain **+3 bonus damage/healing dice**, area-of-effect spells gain **+10 feet radius**, and single-target spells **target 1 additional adjacent creature** within 10 feet. Casts have a **25% chance to misfire** (2d6 storm damage), and you suffer **50% physical bludgeoning/slashing vulnerability**."
       }
     ],
 
@@ -201,7 +201,7 @@ Simultaneously, they cannot feel warmth, not physical, not emotional. They exper
 
     overheatRules: {
       title: "Overheat: d100 Master Wild Surge & Prophecy Backlash",
-      content: `When Mayhem reaches 100, the pressure gauge vents violently. The local timeline fractures completely. The Harbinger instantly triggers a **d100 Master Wild Surge** and suffers **Anomalous Dissociation** (molecular density falls to zero, imposing 100% vulnerability to physical bludgeoning and slashing damage for 2 rounds). Mayhem resets to 0.
+      content: `When Mayhem reaches 100, the pressure gauge vents violently. The local timeline fractures completely. The Harbinger instantly triggers a **d100 Master Wild Surge** and suffers **Anomalous Dissociation** (molecular density falls to zero, imposing 100% vulnerability to physical bludgeoning and physical damage for 2 rounds). Mayhem resets to 0.
 
 The Master Wild Surge table is structured across four absolute thematic categories:
 1. **Unstable Miracles (30% Chance, Rolls 1-30)**: Time loops, localized gravity shields, and beneficial reality warping that repairs and protects allies.
@@ -380,6 +380,24 @@ The Master Wild Surge table is structured across four absolute thematic categori
         outside: { backlash: "1d8 wyrd to self", havocGain: 0, description: "The prophecy turns inward. Deals 1d8 wyrd damage to you." }
       }}],
       damageConfig: { formula: "2d8", damageTypes: ["blight"], resolution: "PROPHECY" },
+      debuffConfig: {
+        debuffType: "curse",
+        effects: [
+          { id: "doom_i_debuff",
+            name: "Doom I",
+            description: "Branded with prophetic doom. Suffers -1 to Spirit saves for 2 rounds. Stacks with other Doom effects.",
+            statusType: "doom",
+            doomStack: true,
+            doomStackValue: 1,
+            statPenalty: { stat: "spirit", value: -1, magnitudeType: "flat" }
+          },
+        ],
+        savingThrow: { ability: "spirit", difficultyClass: 13, saveOutcome: "negates" },
+        durationType: "rounds",
+        durationValue: 2,
+        durationUnit: "rounds",
+        canBeDispelled: false,
+      },
       cooldownConfig: { cooldownType: "none", cooldownValue: 0 },
       tags: ["damage", "debuff", "blight", "prophecy", "universal", "doom"]
     },
@@ -393,18 +411,18 @@ The Master Wild Surge table is structured across four absolute thematic categori
       cooldownConfig: { cooldownType: "none", cooldownValue: 0 }, resolution: "DICE",
       damageConfig: { formula: "1d8 + intelligence", damageTypes: ["storm"], resolution: "DICE" },
       mechanicsConfig: { rollableTable: { enabled: true, tableName: "Chaos Bolt Effects", description: "Roll on this table each time you cast Chaos Bolt", diceFormula: "1d12", entries: [
-        { range: { min: 1, max: 1 }, customName: "Wild Ricochet", effect: "1d8 force damage + bolt bounces to a random creature within 15ft dealing 1d4 force.", effectConfig: { damageFormula: "1d8", damageType: "storm", bounceDamage: "1d4", bounceRange: 15 } },
-        { range: { min: 2, max: 2 }, customName: "Entropy Siphon", effect: "1d8 force damage + generate 2 Mayhem.", effectConfig: { damageFormula: "1d8", damageType: "storm", mayhemBonus: 2 } },
-        { range: { min: 3, max: 3 }, customName: "Phase Bolt", effect: "1d8 force damage that ignores Armor entirely.", effectConfig: { damageFormula: "1d8", damageType: "storm", armorPenetration: 1.0 } },
-        { range: { min: 4, max: 4 }, customName: "Gravity Warp", effect: "1d8 force damage + target floats 10ft upward for 1 round then crashes for 1d6 falling damage.", effectConfig: { damageFormula: "1d8", damageType: "storm", launchHeight: 10, fallDamage: "1d6", floatDuration: 1 } },
+        { range: { min: 1, max: 1 }, customName: "Wild Ricochet", effect: "1d8 storm damage + bolt bounces to a random creature within 15ft dealing 1d4 force.", effectConfig: { damageFormula: "1d8", damageType: "storm", bounceDamage: "1d4", bounceRange: 15 } },
+        { range: { min: 2, max: 2 }, customName: "Entropy Siphon", effect: "1d8 storm damage + generate 2 Mayhem.", effectConfig: { damageFormula: "1d8", damageType: "storm", mayhemBonus: 2 } },
+        { range: { min: 3, max: 3 }, customName: "Phase Bolt", effect: "1d8 storm damage that ignores Armor entirely.", effectConfig: { damageFormula: "1d8", damageType: "storm", armorPenetration: 1.0 } },
+        { range: { min: 4, max: 4 }, customName: "Gravity Warp", effect: "1d8 storm damage + target floats 10ft upward for 1 round then crashes for 1d6 falling damage.", effectConfig: { damageFormula: "1d8", damageType: "storm", launchHeight: 10, fallDamage: "1d6", floatDuration: 1 } },
         { range: { min: 5, max: 5 }, customName: "Chromatic Shift", effect: "Damage type changes randomly (fire/frost/psychic/necrotic) and deals 1d10 instead of 1d8.", effectConfig: { damageFormula: "1d10", damageType: "random_elemental" } },
-        { range: { min: 6, max: 6 }, customName: "Temporal Flicker", effect: "1d8 force damage + target's next action is delayed to end of initiative order.", effectConfig: { damageFormula: "1d8", damageType: "storm", delayEffect: true } },
-        { range: { min: 7, max: 7 }, customName: "Probability Inversion", effect: "1d8 force damage + target's next hit misses and next miss hits.", effectConfig: { damageFormula: "1d8", damageType: "storm", probabilityInvert: true } },
+        { range: { min: 6, max: 6 }, customName: "Temporal Flicker", effect: "1d8 storm damage + target's next action is delayed to end of initiative order.", effectConfig: { damageFormula: "1d8", damageType: "storm", delayEffect: true } },
+        { range: { min: 7, max: 7 }, customName: "Probability Inversion", effect: "1d8 storm damage + target's next hit misses and next miss hits.", effectConfig: { damageFormula: "1d8", damageType: "storm", probabilityInvert: true } },
         { range: { min: 8, max: 8 }, customName: "Timeline Deletion", effect: "Target slowed by 10 feet for 2 rounds.", effectConfig: { damageFormula: "1d8", damageType: "storm", speedPenalty: -10, duration: 2 } },
-        { range: { min: 9, max: 9 }, customName: "Midas Glitch", effect: "1d8 force damage + target's weapon turns to gold for 1 round.", effectConfig: { damageFormula: "1d8", damageType: "storm", bonusDamage: 3, disarmDuration: 1 } },
-        { range: { min: 10, max: 10 }, customName: "Quantum Entanglement", effect: "1d8 force damage + you and target swap positions for 1 round.", effectConfig: { damageFormula: "1d8", damageType: "storm", swapPositions: true, duration: 1 } },
-        { range: { min: 11, max: 11 }, customName: "Spaghettification", effect: "1d8 force damage + Reach +10ft but -2 Agility for 1 round.", effectConfig: { damageFormula: "1d8", damageType: "storm", reachBonus: 10, dexPenalty: -2, duration: 1 } },
-        { range: { min: 12, max: 12 }, customName: "Chaos Butterfly", effect: "1d8 force damage + roll again for secondary effect (ignoring 12s).", effectConfig: { damageFormula: "1d8", damageType: "storm", rollAgain: true, excludeSelf: true } }
+        { range: { min: 9, max: 9 }, customName: "Midas Glitch", effect: "1d8 storm damage + target's weapon turns to gold for 1 round.", effectConfig: { damageFormula: "1d8", damageType: "storm", bonusDamage: 3, disarmDuration: 1 } },
+        { range: { min: 10, max: 10 }, customName: "Quantum Entanglement", effect: "1d8 storm damage + you and target swap positions for 1 round.", effectConfig: { damageFormula: "1d8", damageType: "storm", swapPositions: true, duration: 1 } },
+        { range: { min: 11, max: 11 }, customName: "Spaghettification", effect: "1d8 storm damage + Reach +10ft but -2 Agility for 1 round.", effectConfig: { damageFormula: "1d8", damageType: "storm", reachBonus: 10, dexPenalty: -2, duration: 1 } },
+        { range: { min: 12, max: 12 }, customName: "Chaos Butterfly", effect: "1d8 storm damage + roll again for secondary effect (ignoring 12s).", effectConfig: { damageFormula: "1d8", damageType: "storm", rollAgain: true, excludeSelf: true } }
       ]}},
       tags: ["storm", "damage", "rollable table", "wild_prophet"], specialization: "wild_prophet"
     },
@@ -430,7 +448,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 }, resolution: "DICE",
       buffConfig: { buffType: "statusEffectBuff", effects: [{ id: "ghostly_state", name: "Flickering Form", description: "Gain 50% resistance to physical damage and can move through solid objects for 1 round.", statusEffect: { resistanceType: "physical", resistanceAmount: 50 } }], durationValue: 1, durationUnit: "rounds" },
       mechanicsConfig: { rollableTable: { enabled: true, tableName: "Flicker Table", description: "Dimensional anomalies from slipping planar seams", diceFormula: "1d6", entries: [
-        { range: { min: 1, max: 1 }, customName: "Static Charge", effect: "Next creature to touch you takes 1d6 lightning damage.", effectConfig: { staticDamage: "1d6" } },
+        { range: { min: 1, max: 1 }, customName: "Static Charge", effect: "Next creature to touch you takes 1d6 storm damage.", effectConfig: { staticDamage: "1d6" } },
         { range: { min: 2, max: 2 }, customName: "Spatial Lag", effect: "Movement reduced by 10 feet for 1 round.", effectConfig: { speedPenalty: -10, duration: 1 } },
         { range: { min: 3, max: 3 }, customName: "Temporal Echo", effect: "A duplicate appears 5ft away. 50% chance attacks hit the duplicate.", effectConfig: { mirrorCount: 1, missChance: 50 } },
         { range: { min: 4, max: 4 }, customName: "Entropic Rupture", effect: "All creatures within 5ft take 1d4 wyrd damage.", effectConfig: { damageFormula: "1d4", damageType: "wyrd", radius: 5 } },
@@ -457,13 +475,30 @@ The Master Wild Surge table is structured across four absolute thematic categori
         outside: { backlash: "1d8 blight to self", havocGain: 0, description: "The countdown backfires. Deals 1d8 blight damage to you." }
       }}],
       damageConfig: { formula: "1d6", damageTypes: ["blight"], resolution: "PROPHECY" },
+      debuffConfig: {
+        debuffType: "curse",
+        effects: [
+          { id: "doom_countdown_debuff",
+            name: "Doom I (Countdown)",
+            description: "Branded by a ticking countdown of blight certainty. Suffers -1 to Spirit saves for 2 rounds. Stacks with other Doom effects.",
+            statusType: "doom",
+            doomStack: true,
+            doomStackValue: 1,
+            statPenalty: { stat: "spirit", value: -1, magnitudeType: "flat" }
+          },
+        ],
+        durationType: "rounds",
+        durationValue: 2,
+        durationUnit: "rounds",
+        canBeDispelled: false,
+      },
       durationConfig: { durationValue: 3, durationUnit: "rounds", concentrationRequired: true, durationType: "rounds" },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
       tags: ["damage", "debuff", "blight", "prophecy", "fate_rift", "delayed", "concentration", "doom"]
     },
     { id: "harbinger-universal-dimensional_rift",
       name: "Dimensional Rift",
-      description: "Force a localized collapse in space, tearing a rift that deals force damage and violently drags the target through the planar fabric.",
+      description: "Force a localized collapse in space, tearing a rift that deals storm damage and violently drags the target through the planar fabric.",
       level: 2, icon: "Arcane/Open Portal", spellType: "ACTION", effectTypes: ["damage", "utility"],
       typeConfig: { school: "storm", icon: "Arcane/Open Portal", tags: ["storm", "damage", "teleport", "universal"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 45, targetRestrictions: ["enemy", "ally"] },
@@ -490,7 +525,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
       description: "The ground ruptures in prophetic fire as you speak the zone into existence. Flames erupt in a ring of devastation, and the earth itself remembers what you said and refuses to forget.",
       spellType: "ACTION", icon: "Fire/Fire Storm", level: 2, specialization: "wild_prophet",
       effectTypes: ["damage"],
-      typeConfig: { school: "ember", castTime: 1, castTimeType: "IMMEDIATE", icon: "Fire/Fire Storm", tags: ["ember", "damage", "prophecy", "wild_prophet", "area"] },
+      typeConfig: { school: "ember", secondaryElement: "storm", castTime: 1, castTimeType: "IMMEDIATE", icon: "Fire/Fire Storm", tags: ["ember", "damage", "prophecy", "wild_prophet", "area"] },
       targetingConfig: { targetingType: "area", areaShape: "circle", areaSize: 15, rangeDistance: 40, rangeType: "ranged", targetRestrictions: ["enemies"] },
       resourceCost: { actionPoints: 2, mana: 10, classResource: { type: "mayhem", cost: -4 } },
       resolution: "PROPHECY",
@@ -507,7 +542,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     // LEVEL 3 SPELLS
     { id: "harbinger-universal-havoc_blast",
       name: "Havoc Blast",
-      description: "You tear open a wound in fate itself and convert raw Mayhem into a devastating blast of pure force. Muscles tearing, veins bulging black.",
+      description: "You tear open a wound in fate itself and convert raw Mayhem into a devastating blast of pure storm. Muscles tearing, veins bulging black.",
       spellType: "ACTION", icon: "Arcane/Swirling Vortex", level: 3, specialization: "universal",
       effectTypes: ["damage"],
       typeConfig: { school: "storm", castTime: 1, castTimeType: "IMMEDIATE", icon: "Arcane/Swirling Vortex", tags: ["storm", "damage", "prophecy", "universal", "havoc"] },
@@ -516,9 +551,9 @@ The Master Wild Surge table is structured across four absolute thematic categori
       resolution: "PROPHECY",
       mechanicsConfig: [{ enabled: true, system: "PROPHECY", prophecy: {
         rangeDice: ["d10", "d10"], resolutionDie: "d10",
-        prophesied: { damage: "5d10", havocGain: 0, description: "Deals 5d10 force damage." },
-        base: { damage: "3d10", havocGain: 0, description: "Deals 3d10 force damage." },
-        outside: { backlash: "2d10 force to self", havocGain: 0, description: "The Havoc detonates in your grasp. 2d10 force damage to you." }
+        prophesied: { damage: "5d10", havocGain: 0, description: "Deals 5d10 storm damage." },
+        base: { damage: "3d10", havocGain: 0, description: "Deals 3d10 storm damage." },
+        outside: { backlash: "2d10 force to self", havocGain: 0, description: "The Havoc detonates in your grasp. 2d10 storm damage to you." }
       }}],
       damageConfig: { formula: "3d10", damageTypes: ["storm"], resolution: "PROPHECY" },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
@@ -539,7 +574,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
         { range: { min: 3, max: 3 }, customName: "Searing Spark", effect: "Deals wyrd damage. Leaps to 2 nearby enemies within 15ft for 2d6 psychic.", effectConfig: { damageType: "wyrd", leapTargets: 2, leapDamage: "2d6" } },
         { range: { min: 4, max: 4 }, customName: "Marrow Corrosion", effect: "Deals blight damage. Physical attack rolls reduced by 3 for 2 rounds.", effectConfig: { damageType: "blight", rollPenalty: -3, duration: 2 } },
         { range: { min: 5, max: 5 }, customName: "Deathly Void", effect: "Deals blight damage. Cannot receive healing for 2 rounds.", effectConfig: { damageType: "blight", healBlock: true, duration: 2 } },
-        { range: { min: 6, max: 6 }, customName: "Temporal Stutter", effect: "Deals force damage. AP cost increased by 1 for 1 round.", effectConfig: { damageType: "storm", apTax: 1, duration: 1 } },
+        { range: { min: 6, max: 6 }, customName: "Temporal Stutter", effect: "Deals storm damage. AP cost increased by 1 for 1 round.", effectConfig: { damageType: "storm", apTax: 1, duration: 1 } },
         { range: { min: 7, max: 7 }, customName: "Planar Blindness", effect: "Deals ember damage. Blinded for 1 round.", effectConfig: { damageType: "ember", blindDuration: 1 } },
         { range: { min: 8, max: 8 }, customName: "Synaptic Shred", effect: "Deals wyrd damage + 3d6 extra psychic + disadvantage on next roll.", effectConfig: { damageType: "wyrd", extraDamage: "3d6", disadvantage: true } }
       ]}},
@@ -559,25 +594,43 @@ The Master Wild Surge table is structured across four absolute thematic categori
         tickDamage: { formula: "1d8", scaling: "+1d6 per round", damageTypes: ["storm"] },
         prophesied: { damage: "4d10", effect: { id: "doom_ii", name: "Doom II", duration: 2, unit: "rounds", damagePerRound: "2d6", damageType: "storm", statModifiers: [{ stat: "spirit", value: -2, magnitudeType: "penalty" }], description: "2d6 force/round + -2 Spirit saves for 2 rounds.", doomStack: true, doomStackValue: 2 }, havocGain: 5, description: "4d10 force detonation + 2d6 force/round for 2 rounds + Doom II." },
         base: { damage: "2d10", havocGain: 2, description: "2d10 force detonation plus accumulated bonus damage." },
-        outside: { backlash: "1d10 force to self", havocGain: 0, description: "The doom collapses. 1d10 force damage to you." }
+        outside: { backlash: "1d10 force to self", havocGain: 0, description: "The doom collapses. 1d10 storm damage to you." }
       }}],
       damageConfig: { formula: "1d8", damageTypes: ["storm"], resolution: "PROPHECY" },
+      debuffConfig: {
+        debuffType: "curse",
+        effects: [
+          { id: "escalating_doom_debuff",
+            name: "Doom II (Escalating)",
+            description: "Branded by escalating doom. Suffers -2 to Spirit saves for 2 rounds. Stacks with other Doom effects.",
+            statusType: "doom",
+            doomStack: true,
+            doomStackValue: 2,
+            statPenalty: { stat: "spirit", value: -2, magnitudeType: "flat" }
+          },
+        ],
+        savingThrow: { ability: "spirit", difficultyClass: 15, saveOutcome: "negates" },
+        durationType: "rounds",
+        durationValue: 2,
+        durationUnit: "rounds",
+        canBeDispelled: false,
+      },
       durationConfig: { durationValue: 5, durationUnit: "rounds", concentrationRequired: true, durationType: "rounds" },
-      triggerConfig: { triggers: [{ id: "escalation_tick", name: "Doom Escalation", triggerType: "start_of_turn", action: "Increase bonus damage by 1d6 and deal 1d8 base force damage" }] },
+      triggerConfig: { triggers: [{ id: "escalation_tick", name: "Doom Escalation", triggerType: "start_of_turn", action: "Increase bonus damage by 1d6 and deal 1d8 base storm damage" }] },
       tableConfig: { name: "Detonation Table", die: "1d6", rolls: [
         { roll: "1-2", effect: "Shockwave: All targets within 10ft knocked back 10ft" },
         { roll: "3-4", effect: "Lingering Void: Target takes 1d10 force/round for 2 rounds" },
         { roll: "5", effect: "Fate Breach: Target suffers -2 to next saving throw" },
-        { roll: "6", effect: "Cascading Blast: Additional +2d10 force damage" }
+        { roll: "6", effect: "Cascading Blast: Additional +2d10 storm damage" }
       ]},
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
       tags: ["damage", "debuff", "storm", "prophecy", "fate_rift", "delayed", "escalating", "concentration", "doom"]
     },
     { id: "harbinger-deaths_seer-chaos_burst",
       name: "Chaos Burst",
-      description: "Condense a sphere of compressed necrotic embers and launch it at a target. On impact, the sphere explodes dealing necrotic and ember damage.",
+      description: "Condense a sphere of compressed blighted embers and launch it at a target. On impact, the sphere explodes dealing blight and ember damage.",
       level: 3, icon: "Fire/Hellfire", spellType: "ACTION", effectTypes: ["damage"],
-      typeConfig: { school: "wyrd", icon: "Fire/Hellfire", tags: ["blight", "ember", "damage", "burst", "deaths_seer"], castTime: 1, castTimeType: "IMMEDIATE" },
+      typeConfig: { school: "wyrd", secondaryElement: "ember", icon: "Fire/Hellfire", tags: ["blight", "ember", "damage", "burst", "deaths_seer"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 60, targetRestrictions: ["enemy"] },
       resourceCost: { actionPoints: 1, mana: 7, classResource: { type: "mayhem", cost: -4 }, components: ["verbal", "somatic"] },
       cooldownConfig: { cooldownType: "none", cooldownValue: 0 }, resolution: "DICE",
@@ -608,7 +661,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     },
     { id: "harbinger-universal-reality_storm",
       name: "Reality Storm",
-      description: "Summon a massive 35ft spatial vortex that twists and folds space. All creatures inside take force damage, are pulled randomly, and their armor collapses.",
+      description: "Summon a massive 35ft spatial vortex that twists and folds space. All creatures inside take storm damage, are pulled randomly, and their armor collapses.",
       level: 4, icon: "Void/Black Hole", spellType: "ACTION", effectTypes: ["damage", "debuff"],
       typeConfig: { school: "wyrd", icon: "Void/Black Hole", tags: ["storm", "damage", "area", "pull", "universal"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 60, areaShape: "circle", areaSize: 35, targetRestrictions: ["enemy", "ally"] },
@@ -632,7 +685,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     },
     { id: "harbinger-wild_prophet-cataclysm_blast",
       name: "Cataclysm Blast",
-      description: "A massive area prophecy detonation that tears open a wound in the world. Fire and necrotic energy cascade outward in a ring of annihilation.",
+      description: "A massive area prophecy detonation that tears open a wound in the world. Ember and blight cascade outward in a ring of annihilation.",
       spellType: "ACTION", icon: "Fire/Volcanic Erupt", level: 4, specialization: "wild_prophet",
       effectTypes: ["damage"],
       typeConfig: { school: "ember", secondaryElement: "blight", castTime: 1, castTimeType: "IMMEDIATE", icon: "Fire/Volcanic Erupt", tags: ["ember", "blight", "damage", "prophecy", "wild_prophet", "area"] },
@@ -667,7 +720,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     },
     { id: "harbinger-universal-prophecy_of_ruin",
       name: "Prophecy of Ruin",
-      description: "Reality itself ruptures. You speak a word that IS ending, that MAKES ending. Fire, necrotic rot, psychic dissolution, and raw force cascade across the battlefield.",
+      description: "Reality itself ruptures. You speak a word that IS ending, that MAKES ending. Ember, blight, wyrd dissolution, and raw storm cascade across the battlefield.",
       spellType: "ACTION", icon: "Void/Red Energy Burst", level: 5, specialization: "universal",
       effectTypes: ["damage", "debuff"],
       typeConfig: { school: "ember", secondaryElement: "blight", castTime: 1, castTimeType: "IMMEDIATE", icon: "Void/Red Energy Burst", tags: ["ember", "blight", "wyrd", "storm", "damage", "debuff", "prophecy", "universal", "area", "doom"] },
@@ -681,6 +734,24 @@ The Master Wild Surge table is structured across four absolute thematic categori
         outside: { backlash: "3d8 to self + Doom II", havocGain: 0, effect: { id: "doom_ii", name: "Doom II", duration: 2, unit: "rounds", statModifiers: [{ stat: "spirit", value: -2, magnitudeType: "penalty" }], description: "Word of ruin turns on speaker.", doomStack: true, doomStackValue: 2 }, description: "3d8 to you + Doom II." }
       }}],
       damageConfig: { formula: "5d8", damageTypes: ["ember", "blight", "wyrd", "storm"], resolution: "PROPHECY" },
+      debuffConfig: {
+        debuffType: "curse",
+        effects: [
+          { id: "prophecy_of_ruin_debuff",
+            name: "Doom III (Ruin)",
+            description: "Branded by the word of ruin. Suffers -3 to Spirit saves for 2 rounds. Stacks with other Doom effects.",
+            statusType: "doom",
+            doomStack: true,
+            doomStackValue: 3,
+            statPenalty: { stat: "spirit", value: -3, magnitudeType: "flat" }
+          },
+        ],
+        savingThrow: { ability: "spirit", difficultyClass: 17, saveOutcome: "negates" },
+        durationType: "rounds",
+        durationValue: 2,
+        durationUnit: "rounds",
+        canBeDispelled: false,
+      },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       tags: ["damage", "debuff", "prophecy", "universal", "area", "doom"]
     },
@@ -697,9 +768,9 @@ The Master Wild Surge table is structured across four absolute thematic categori
     },
     { id: "harbinger-wild_prophet-pandemonic_pulse",
       name: "Pandemonic Pulse",
-      description: "Release a deafening, reality-warping soundwave in a 25ft area. All creatures take fire and chaos damage and are struck with interdimensional terror, fleeing in panic.",
+      description: "Release a deafening, reality-warping soundwave in a 25ft area. All creatures take ember and wyrd damage and are struck with interdimensional terror, fleeing in panic.",
       level: 5, icon: "Fire/Hellfire", spellType: "ACTION", effectTypes: ["damage", "debuff"],
-      typeConfig: { school: "wyrd", icon: "Fire/Hellfire", tags: ["ember", "wyrd", "damage", "area", "debuff", "wild_prophet"], castTime: 1, castTimeType: "IMMEDIATE" },
+      typeConfig: { school: "wyrd", secondaryElement: "wyrd", icon: "Fire/Hellfire", tags: ["ember", "wyrd", "damage", "area", "debuff", "wild_prophet"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "self_centered", areaShape: "circle", areaSize: 25, targetRestrictions: ["enemy"] },
       resourceCost: { actionPoints: 1, mana: 9, classResource: { type: "mayhem", cost: -6 }, components: ["verbal", "somatic"] },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 }, resolution: "DICE",
@@ -732,7 +803,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
       name: "Chaotic Eruption",
       description: "Force an immediate dimensional blowout beneath a point on the ground. A towering plume of burning entropic plasma erupts in a 25ft area, incinerating all targets.",
       level: 6, icon: "Fire/Hellfire", spellType: "ACTION", effectTypes: ["damage"],
-      typeConfig: { school: "wyrd", icon: "Fire/Hellfire", tags: ["ember", "storm", "damage", "area", "wild_prophet"], castTime: 1, castTimeType: "IMMEDIATE" },
+      typeConfig: { school: "wyrd", secondaryElement: "storm", icon: "Fire/Hellfire", tags: ["ember", "storm", "damage", "area", "wild_prophet"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 60, areaShape: "circle", areaSize: 25, targetRestrictions: ["enemy"] },
       resourceCost: { actionPoints: 1, mana: 11, classResource: { type: "mayhem", cost: -6 }, components: ["verbal", "somatic"] },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 }, resolution: "DICE",
@@ -809,7 +880,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
       name: "Chaos Nova",
       description: "Release a blinding stellar core of pure interdimensional decay in a massive 40ft area. All enemies take severe damage and are permanently thinned, losing Armor and sight.",
       level: 7, icon: "Radiant/Radiant Divinity", spellType: "ACTION", effectTypes: ["damage", "debuff"],
-      typeConfig: { school: "wyrd", icon: "Radiant/Radiant Divinity", tags: ["storm", "wyrd", "damage", "area", "blind", "wild_prophet"], castTime: 1, castTimeType: "IMMEDIATE" },
+      typeConfig: { school: "wyrd", secondaryElement: "wyrd", icon: "Radiant/Radiant Divinity", tags: ["storm", "wyrd", "damage", "area", "blind", "wild_prophet"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "self_centered", areaShape: "circle", areaSize: 40, targetRestrictions: ["enemy"] },
       resourceCost: { actionPoints: 1, mana: 12, classResource: { type: "mayhem", cost: -8 }, components: ["verbal", "somatic"] },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 }, resolution: "DICE",
@@ -826,8 +897,21 @@ The Master Wild Surge table is structured across four absolute thematic categori
       resourceCost: { actionPoints: 2, mana: 14, classResource: { type: "mayhem", cost: -8 }, components: ["verbal", "somatic"] },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 }, resolution: "DICE",
       damageConfig: { formula: "5d10", damageTypes: ["wyrd"], resolution: "DICE" },
+      controlConfig: {
+        controlType: "zone",
+        effects: [
+          { id: "master_chaos_control",
+            name: "Master Chaos Catastrophes",
+            description: "Roll d100 on the Master Chaos Table. Outcomes include gravitational pinning (2 rounds), total AP depletion, disadvantage on all rolls (2 rounds), forced teleportation, and singularity obliteration.",
+            config: { zoneType: "reality_distortion", duration: 2, durationUnit: "rounds" }
+          },
+        ],
+        savingThrow: { ability: "constitution", difficultyClass: 19, saveOutcome: "reduced_duration" },
+        duration: 2,
+        durationUnit: "rounds",
+      },
       mechanicsConfig: { rollableTable: { enabled: true, tableName: "Master Chaos Catastrophes", description: "Apocalyptic timeline distortions", diceFormula: "1d100", entries: [
-        { range: { min: 1, max: 20 }, customName: "Gravitational Collapse", effect: "D100: 1-20. Gravity intensifies. 8d8 force damage, pinned for 2 rounds.", effectConfig: { damageFormula: "8d8", pinDuration: 2 } },
+        { range: { min: 1, max: 20 }, customName: "Gravitational Collapse", effect: "D100: 1-20. Gravity intensifies. 8d8 storm damage, pinned for 2 rounds.", effectConfig: { damageFormula: "8d8", pinDuration: 2 } },
         { range: { min: 21, max: 40 }, customName: "Entropic Dissolution", effect: "D100: 21-40. Matter melts. 6d12 necrotic + Armor shredded by 10.", effectConfig: { damageFormula: "6d12", armorShred: -10 } },
         { range: { min: 41, max: 60 }, customName: "Chronostutter Cascade", effect: "D100: 41-60. Time splinters. Targets lose all AP, initiative delayed by 3 ticks.", effectConfig: { apDeplete: true, initDelay: 3 } },
         { range: { min: 61, max: 75 }, customName: "Prismatic Ruin", effect: "D100: 61-75. Roll four d8s on Prismatic Table, apply all four.", effectConfig: { multiRoll: 4 } },
@@ -907,7 +991,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     // LEVEL 9 SPELLS
     { id: "harbinger-universal-the_end",
       name: "The End",
-      description: "The Word of Ending. Reality RECOILS. Necrotic, fire, psychic, and raw force cascade outward in equal measure. Nothing is spared.",
+      description: "The Word of Ending. Reality RECOILS. Blight, ember, wyrd, and raw storm cascade outward in equal measure. Nothing is spared.",
       spellType: "ACTION", icon: "Void/Red Energy Burst", level: 9, specialization: "universal",
       effectTypes: ["damage"],
       typeConfig: { school: "blight", secondaryElement: "ember", castTime: 1, castTimeType: "IMMEDIATE", icon: "Void/Red Energy Burst", tags: ["blight", "ember", "wyrd", "storm", "damage", "prophecy", "universal", "area", "friendly_fire"] },
@@ -956,9 +1040,9 @@ The Master Wild Surge table is structured across four absolute thematic categori
     },
     { id: "harbinger-deaths_seer-entropy_wave",
       name: "Entropy Wave",
-      description: "Release a crushing ripple of molecular dissolution in a massive 50ft area. Immense necrotic and force damage, instantly crumbling all Armor to zero.",
+      description: "Release a crushing ripple of molecular dissolution in a massive 50ft area. Immense blight and storm damage, instantly crumbling all Armor to zero.",
       level: 9, icon: "Necrotic/Corrosive Beam", spellType: "ACTION", effectTypes: ["damage", "debuff"],
-      typeConfig: { school: "blight", icon: "Necrotic/Corrosive Beam", tags: ["blight", "storm", "damage", "area", "armor-erase", "deaths_seer"], castTime: 1, castTimeType: "IMMEDIATE" },
+      typeConfig: { school: "blight", secondaryElement: "storm", icon: "Necrotic/Corrosive Beam", tags: ["blight", "storm", "damage", "area", "armor-erase", "deaths_seer"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "self_centered", areaShape: "circle", areaSize: 50, targetRestrictions: ["enemy"] },
       resourceCost: { actionPoints: 2, mana: 18, classResource: { type: "mayhem", cost: -10 }, components: ["verbal", "somatic"] },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 }, resolution: "DICE",

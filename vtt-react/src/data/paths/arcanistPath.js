@@ -1,4 +1,4 @@
-export const ARCANIST_PATH = {
+﻿export const ARCANIST_PATH = {
     id: 'arcanist',
     name: 'Arcanist',
     description: 'Scholars of arcane theory and magical mastery',
@@ -178,14 +178,14 @@ export const ARCANIST_PATH = {
             damageTypes: ['ember'],
 
             typeConfig: {
-                school: 'fire',
+                school: 'ember',
                 icon: 'Arcane/Conjure Elements',
                 tags: ['action', 'damage', 'elemental', 'blast', 'aoe']
             },
 
             damageConfig: {
                 damageType: 'direct',
-                elementType: 'fire',
+                elementType: 'ember',
                 formula: '5d6 + intelligence',
                 resolution: 'DICE',
                 hasDotEffect: false,
@@ -255,14 +255,14 @@ export const ARCANIST_PATH = {
                     damageTypes: ['ember', 'rime', 'storm'],
 
                     typeConfig: {
-                        school: 'fire',
+                        school: 'ember',
                         icon: 'Arcane/Conjure Elements',
                         tags: ['damage', 'elemental', 'blast', 'aoe']
                     },
 
                     damageConfig: {
                         damageType: 'direct',
-                        elementType: 'fire',
+                        elementType: 'ember',
                         formula: '5d6 + INT',
                         resolution: 'DICE',
                         hasDotEffect: false,

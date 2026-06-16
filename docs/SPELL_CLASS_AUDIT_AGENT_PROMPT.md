@@ -2,21 +2,39 @@
 
 ## Instructions for Orchestrator
 
-Run **3 agents in parallel**, each assigned a batch of classes. Each agent reads this prompt in full, then audits and enhances every spell in its assigned batch. Completed classes are marked below — **skip them**.
+> **Updated June 2026.** The engine ships **20 classes** (not 30 — see `classes/index.js` and
+> `SPELL_DATA_REFERENCE.md §8` for the consolidation map). The class list below supersedes the old
+> 30-class batch assignment. Run agents in parallel over the 20 current `*Data.js` files.
+> **Animist is `implemented: false` (no spells yet) — skip it** until its spell migration is done.
 
-### Agent Assignment
+### Agent Assignment (20 classes)
 
-| Agent | Classes |
+| Agent | Files |
 |-------|---------|
-| **Agent A** | gamblerData.js, chaosWeaverData.js, fateWeaverData.js, huntressData.js, falseProphetData.js, pyrofiendData.js, lunarchData.js, augurData.js, berserkerData.js, bladedancerData.js |
-| **Agent B** | chronarchData.js, covenbaneData.js, deathcallerData.js, doomsayerData.js, dreadnaughtData.js, exorcistData.js, formbenderData.js, inscriptorData.js, lichborneData.js, martyrData.js |
-| **Agent C** | minstrelData.js, oracleData.js, plaguebringerData.js, primalistData.js, spellguardData.js, toxicologistData.js, wardenData.js, witchDoctorData.js, arcanoneerData.js |
+| **Agent A** | apexData.js, arcanoneerData.js, augurData.js, berserkerData.js, chronarchData.js, falseProphetData.js, gambitData.js |
+| **Agent B** | harbingerData.js, inquisitorData.js, lunarchData.js, martyrData.js, minstrelData.js, plaguebringerData.js, pyrofiendData.js |
+| **Agent C** | revenantData.js, shaperData.js, spellguardData.js, toxicologistData.js, wardenData.js |
 
-### Already Completed (DO NOT RE-AUDIT)
+### Consolidation map (old → current file)
 
-- **titanData.js** / `titan/titanSpells.js` — 32 spells audited and fixed
-- **wardenData.js** — 32 spells audited and fixed
-- **toxicologistData.js** — 30 spells audited and fixed
+| Old class (pre-consolidation) | Current file |
+|---|---|
+| Bladedancer, Formbender | shaperData.js |
+| Covenbane, Exorcist | inquisitorData.js |
+| Deathcaller, Lichborne | revenantData.js |
+| Gambler, Fate Weaver | gambitData.js |
+| Chaos Weaver, Doomsayer | harbingerData.js |
+| Huntress | apexData.js |
+| Oracle | augurData.js |
+| Primalist, Witch Doctor, Inscriptor | animistData.js (**unimplemented — skip**) |
+| Titan | wardenData.js (Monolith spec) |
+| Dreadnaught | martyrData.js (Ironclad spec) |
+
+### Already Completed (DO NOT RE-AUDIT unless re-running validation)
+
+- **All 20 class files** — Layer-1 structural sweep complete 2026-06-15 (effectType↔config, schools,
+  secondaryElement, resolution, icons). See `docs/SPELL_AUDIT_REPORT_2026-06.md` §8.
+- Re-run the scanner to validate: `node …\opencode\audit_layer1.mjs`.
 
 ---
 

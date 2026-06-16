@@ -83,6 +83,9 @@ const calculateDurationTime = (durationType, amount, gameTimeConfig = {}) => {
         case 'rounds':
             gameSeconds = amount * config.roundSeconds;
             break;
+        case 'turns':
+            gameSeconds = amount * config.roundSeconds; // 1 turn ≈ 1 round
+            break;
         case 'minutes':
             gameSeconds = amount * 60 * config.gameMinuteRatio;
             break;

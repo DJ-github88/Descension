@@ -1,4 +1,4 @@
-export const TRICKSTER_PATH = {
+﻿export const TRICKSTER_PATH = {
     id: 'trickster',
     name: 'Trickster',
     description: 'Masters of deception, cunning, and misdirection',
@@ -41,7 +41,7 @@ export const TRICKSTER_PATH = {
             damageTypes: [],
 
             typeConfig: {
-                school: 'necrotic',
+                school: 'blight',
                 icon: 'Psychic/Mind Radiance',
                 tags: ['passive', 'perception', 'initiative', 'deception']
             },
@@ -99,7 +99,7 @@ export const TRICKSTER_PATH = {
             damageTypes: [],
 
             typeConfig: {
-                school: 'necrotic',
+                school: 'blight',
                 icon: 'Utility/Ducking Figure',
                 tags: ['reaction', 'defensive', 'mobility', 'evasion']
             },
@@ -198,7 +198,7 @@ export const TRICKSTER_PATH = {
             damageTypes: [],
 
             typeConfig: {
-                school: 'necrotic',
+                school: 'blight',
                 icon: 'Utility/Hide',
                 tags: ['action', 'utility', 'teleport', 'shadow', 'mobility']
             },
@@ -493,7 +493,7 @@ export const TRICKSTER_PATH = {
 
                     damageConfig: {
                         damageType: 'direct',
-                        elementType: 'psychic',
+                        elementType: 'wyrd',
                         formula: '2d8 + INT',
                         resolution: 'DICE',
                         hasDotEffect: false,
@@ -673,7 +673,7 @@ export const TRICKSTER_PATH = {
 
                     damageConfig: {
                         damageType: 'dot',
-                        elementType: 'poison',
+                        elementType: 'blight',
                         formula: '2d6',
                         resolution: 'DICE',
                         hasDotEffect: true,

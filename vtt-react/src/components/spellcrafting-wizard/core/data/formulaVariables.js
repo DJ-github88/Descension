@@ -183,14 +183,12 @@ export const CARD_VARIABLES = {
   STRAIGHT: { name: 'Straight', description: 'Boolean: true if cards form a sequence', category: 'Cards', example: 'STRAIGHT ? CARD_VALUE * 2 : CARD_VALUE' },
   ROYAL_FLUSH: { name: 'Royal Flush', description: 'Boolean: true if 10-J-Q-K-A of same suit', category: 'Cards', example: 'ROYAL_FLUSH ? 100 : 0' },
   POKER_HAND_RANK: { name: 'Poker Hand Rank', description: 'Poker hand strength (1-10, 10=Royal Flush)', category: 'Cards', example: 'POKER_HAND_RANK * 8' },
-  STRAIGHT: { name: 'Straight', description: 'Boolean: true if cards form a sequence', category: 'Cards', example: 'STRAIGHT ? 40 : 0' },
   THREE_KIND: { name: 'Three of a Kind', description: 'Boolean: true if three cards have same value', category: 'Cards', example: 'THREE_KIND ? 30 : 0' },
   FOUR_KIND: { name: 'Four of a Kind', description: 'Boolean: true if four cards have same value', category: 'Cards', example: 'FOUR_KIND ? 60 : 0' },
   FULL_HOUSE: { name: 'Full House', description: 'Boolean: true if three of a kind + pair', category: 'Cards', example: 'FULL_HOUSE ? 45 : 0' },
   RED_COUNT: { name: 'Red Count', description: 'Number of red cards (hearts/diamonds)', category: 'Cards', example: 'RED_COUNT * 3' },
   BLACK_COUNT: { name: 'Black Count', description: 'Number of black cards (clubs/spades)', category: 'Cards', example: 'BLACK_COUNT * 3' },
-  ACE_COUNT: { name: 'Ace Count', description: 'Number of aces in hand', category: 'Cards', example: 'ACE_COUNT * 15' },
-  ROYAL_FLUSH: { name: 'Royal Flush', description: 'Boolean: true if 10, J, Q, K, A of same suit', category: 'Cards', example: 'ROYAL_FLUSH ? 100 : 0' }
+  ACE_COUNT: { name: 'Ace Count', description: 'Number of aces in hand', category: 'Cards', example: 'ACE_COUNT * 15' }
 };
 
 // Coin variables for coin-based resolution
@@ -204,7 +202,6 @@ export const COIN_VARIABLES = {
   CONSECUTIVE_TAILS: { name: 'Consecutive Tails', description: 'Longest streak of consecutive tails', category: 'Coins', example: 'CONSECUTIVE_TAILS * 6' },
   PATTERN_MATCH: { name: 'Pattern Match', description: 'Number of specific patterns found', category: 'Coins', example: 'PATTERN_MATCH * 12' },
   TOTAL_FLIPS: { name: 'Total Flips', description: 'Total number of coins flipped', category: 'Coins', example: 'TOTAL_FLIPS * 2' },
-  CONSECUTIVE_HEADS: { name: 'Consecutive Heads', description: 'Longest streak of consecutive heads', category: 'Coins', example: 'CONSECUTIVE_HEADS * 8' },
   ALTERNATING_PATTERN: { name: 'Alternating Pattern', description: 'Boolean: true if coins alternate H-T-H-T', category: 'Coins', example: 'ALTERNATING_PATTERN ? 30 : 0' }
 };
 

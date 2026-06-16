@@ -821,7 +821,7 @@ export const formatEffectComponent = (spell, effectType, subType = null) => {
 };
 
 const DAMAGE_TYPE_COLORS = {
-  // 8-type schema (primary)
+  // 9-type schema (primary)
   ember: '#a62626',
   rime: '#24587a',
   storm: '#a3811f',
@@ -829,6 +829,7 @@ const DAMAGE_TYPE_COLORS = {
   primal: '#2b5c20',
   blight: '#53236e',
   wyrd: '#87206f',
+  divine: '#DAA520',
   physical: '#51626b',
   // Legacy aliases
   fire: '#a62626',
@@ -844,8 +845,8 @@ const DAMAGE_TYPE_COLORS = {
   psychic: '#87206f',
   force: '#6c3dbf',
   // Other legacy types
-  holy: '#8B7328',
-  radiant: '#8B7328',
+  holy: '#DAA520',
+  radiant: '#DAA520',
   poison: '#2D6A3F',
   acid: '#2D6A3F',
   void: '#1A1A2E',
@@ -980,13 +981,15 @@ export const getSpellSchoolColor = (school) => {
 
   const schoolLower = school.toLowerCase();
   if (schoolLower === 'ember') return 'spell-fire';
-  if (schoolLower === 'rime' || schoolLower === 'rime') return 'spell-frost';
+  if (schoolLower === 'rime' || schoolLower === 'frost' || schoolLower === 'cold') return 'spell-frost';
   if (schoolLower === 'arcane') return 'spell-arcane';
-  if (schoolLower === 'nature') return 'spell-nature';
-  if (schoolLower === 'blight') return 'spell-shadow';
-  if (schoolLower === 'ember') return 'spell-holy';
-  if (schoolLower === 'storm') return 'spell-lightning';
-  return 'spell-physical';
+  if (schoolLower === 'primal' || schoolLower === 'nature') return 'spell-nature';
+  if (schoolLower === 'blight' || schoolLower === 'shadow' || schoolLower === 'necrotic') return 'spell-shadow';
+  if (schoolLower === 'divine' || schoolLower === 'holy') return 'spell-holy';
+  if (schoolLower === 'storm' || schoolLower === 'lightning') return 'spell-lightning';
+  if (schoolLower === 'wyrd' || schoolLower === 'psychic' || schoolLower === 'chaos') return 'spell-shadow';
+  if (schoolLower === 'physical') return 'spell-physical';
+  return 'spell-arcane';
 };
 
 // Get rarity class

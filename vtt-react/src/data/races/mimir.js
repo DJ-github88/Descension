@@ -1,4 +1,4 @@
-export const mimir = {
+﻿export const mimir = {
         id: 'mimir',
         name: 'Mimir',
         essence: 'The Mask-Bound',
@@ -217,8 +217,8 @@ Death rites are the same across all subraces: the dying Mimir removes their own 
                 spellType: 'PASSIVE',
                 effectTypes: ['buff', 'debuff'],
                 typeConfig: {
-                    school: 'spirit',
-                    secondaryElement: 'psychic',
+                    school: 'wyrd',
+                    secondaryElement: 'wyrd',
                     icon: 'spell_holy_divinespirit',
                     tags: ['companion', 'memory', 'fetch', 'passive', 'shared']
                 },
@@ -264,7 +264,7 @@ Death rites are the same across all subraces: the dying Mimir removes their own 
                 spellType: 'PASSIVE',
                 effectTypes: ['buff', 'debuff'],
                 typeConfig: {
-                    school: 'spirit',
+                    school: 'wyrd',
                     secondaryElement: 'arcane',
                     icon: 'spell_shadow_antimagicshell',
                     tags: ['mask', 'identity', 'protection', 'passive', 'shared']
@@ -322,8 +322,7 @@ Death rites are the same across all subraces: the dying Mimir removes their own 
                         spellType: 'PASSIVE',
                         effectTypes: ['buff', 'debuff'],
                         typeConfig: {
-                            school: 'spirit',
-                            secondaryElement: 'ancestral',
+                            school: 'wyrd',
                             icon: 'spell_holy_divinefavor',
                             tags: ['social', 'lineage', 'aristocracy', 'passive']
                         },
@@ -371,7 +370,7 @@ Death rites are the same across all subraces: the dying Mimir removes their own 
                         spellType: 'PASSIVE',
                         effectTypes: ['buff', 'debuff'],
                         typeConfig: {
-                            school: 'spirit',
+                            school: 'wyrd',
                             icon: 'spell_holy_mindvision',
                             tags: ['vision', 'fog', 'darkvision', 'light-sensitivity', 'passive']
                         },
@@ -419,8 +418,7 @@ Death rites are the same across all subraces: the dying Mimir removes their own 
                         spellType: 'ACTION',
                         effectTypes: ['buff', 'debuff'],
                         typeConfig: {
-                            school: 'spirit',
-                            secondaryElement: 'ancestral',
+                            school: 'wyrd',
                             icon: 'spell_arcane_arcanebrilliance',
                             tags: ['ancestral', 'skill', 'memory', 'active']
                         },
@@ -470,7 +468,7 @@ Death rites are the same across all subraces: the dying Mimir removes their own 
                 },
                 savingThrowModifiers: {
                     advantage: ['charm', 'identity_effects'],
-                    disadvantage: ['poison']
+                    disadvantage: ['blight']
                 }
             },
             mistwoven: {
@@ -496,7 +494,7 @@ Death rites are the same across all subraces: the dying Mimir removes their own 
                         spellType: 'PASSIVE',
                         effectTypes: ['buff', 'debuff'],
                         typeConfig: {
-                            school: 'lightning',
+                            school: 'storm',
                             secondaryElement: 'physical',
                             icon: 'spell_lightning_lightning',
                             tags: ['tremorsense', 'vibration', 'thunder', 'passive']
@@ -520,8 +518,8 @@ Death rites are the same across all subraces: the dying Mimir removes their own 
                                 {
                                     id: 'thunder_shock',
                                     name: 'Sensory Overload',
-                                    description: 'When you take thunder damage or are within 30ft of a loud concussive impact (explosion, avalanche, collapsing structure), you are Dazed for 1 round. Constitution save DC 14 negates. Your sensitivity cuts both ways.',
-                                    statusEffect: { level: 'moderate', description: 'Dazed 1 round on thunder damage or concussion. DC 14 Constitution negates.' }
+                                    description: 'When you take storm damage or are within 30ft of a loud concussive impact (explosion, avalanche, collapsing structure), you are Dazed for 1 round. Constitution save DC 14 negates. Your sensitivity cuts both ways.',
+                                    statusEffect: { level: 'moderate', description: 'Dazed 1 round on storm damage or concussion. DC 14 Constitution negates.' }
                                 }
                             ],
                             durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
@@ -581,7 +579,7 @@ Death rites are the same across all subraces: the dying Mimir removes their own 
                         spellType: 'PASSIVE',
                         effectTypes: ['buff', 'debuff'],
                         typeConfig: {
-                            school: 'spirit',
+                            school: 'wyrd',
                             icon: 'ability_rogue_findweakness',
                             tags: ['initiative', 'vigilance', 'friendly-fire', 'passive']
                         },
@@ -631,7 +629,7 @@ Death rites are the same across all subraces: the dying Mimir removes their own 
                 },
                 savingThrowModifiers: {
                     advantage: ['fear'],
-                    disadvantage: ['thunder', 'charm']
+                    disadvantage: ['storm', 'charm']
                 }
             },
             unwoven: {
@@ -657,20 +655,20 @@ Death rites are the same across all subraces: the dying Mimir removes their own 
                         spellType: 'PASSIVE',
                         effectTypes: ['buff', 'debuff'],
                         typeConfig: {
-                            school: 'poison',
-                            secondaryElement: 'nature',
+                            school: 'blight',
+                            secondaryElement: 'primal',
                             icon: 'spell_nature_poison',
                             tags: ['poison', 'disease', 'scent', 'animals', 'passive']
                         },
                         buffConfig: {
                             buffType: 'immunity',
-                            customDescription: 'Resistance to poison damage. Advantage on saving throws against disease and poison effects.',
+                            customDescription: 'Resistance to blight damage. Advantage on saving throws against disease and poison effects.',
                             effects: [
                                 {
                                     id: 'poison_resistance',
                                     name: 'Poison Resistance',
-                                    description: 'Resistance to poison damage.',
-                                    statusEffect: { level: 'moderate', description: '50% poison damage resistance.' }
+                                    description: 'Resistance to blight damage.',
+                                    statusEffect: { level: 'moderate', description: '50% blight damage resistance.' }
                                 },
                                 {
                                     id: 'disease_resistance',
@@ -706,8 +704,8 @@ Death rites are the same across all subraces: the dying Mimir removes their own 
                         spellType: 'PASSIVE',
                         effectTypes: ['buff', 'debuff'],
                         typeConfig: {
-                            school: 'psychic',
-                            secondaryElement: 'necrotic',
+                            school: 'wyrd',
+                            secondaryElement: 'blight',
                             icon: 'spell_shadow_deathcoil',
                             tags: ['harvest', 'skill', 'fragments', 'passive']
                         },
@@ -749,8 +747,8 @@ Death rites are the same across all subraces: the dying Mimir removes their own 
                         spellType: 'ACTION',
                         effectTypes: ['utility', 'debuff'],
                         typeConfig: {
-                            school: 'nature',
-                            secondaryElement: 'psychic',
+                            school: 'primal',
+                            secondaryElement: 'wyrd',
                             icon: 'ability_rogue_track',
                             tags: ['tracking', 'spore', 'divination', 'active']
                         },
@@ -771,7 +769,7 @@ Death rites are the same across all subraces: the dying Mimir removes their own 
                                 {
                                     id: 'trail_overwhelm',
                                     name: 'Crowd Drowning',
-                                    description: 'Attempting to read spore-trails in a settlement or location with more than 50 inhabitants deals 1d6 psychic damage and yields only confused, useless fragments. The floor cannot distinguish individuals when too many have spoken over each other.',
+                                    description: 'Attempting to read spore-trails in a settlement or location with more than 50 inhabitants deals 1d6 wyrd damage and yields only confused, useless fragments. The floor cannot distinguish individuals when too many have spoken over each other.',
                                     statusEffect: { level: 'moderate', description: 'Overwhelming in crowds — 1d6 psychic, no useful information.' }
                                 }
                             ],
@@ -797,8 +795,8 @@ Death rites are the same across all subraces: the dying Mimir removes their own 
                     initiative: 0
                 },
                 savingThrowModifiers: {
-                    advantage: ['poison', 'disease'],
-                    disadvantage: ['radiant']
+                    advantage: ['blight', 'disease'],
+                    disadvantage: ['divine']
                 }
             }
         }

@@ -95,8 +95,14 @@ export const transformSpellForCard = (spell) => {
     }
   }
 
-  // Ensure damage types exist
-  transformedSpell.damageTypes = transformedSpell.damageTypes || [];
+  // Ensure damage types exist as an array (coerce string to array)
+  if (!Array.isArray(transformedSpell.damageTypes)) {
+    if (typeof transformedSpell.damageTypes === 'string' && transformedSpell.damageTypes) {
+      transformedSpell.damageTypes = [transformedSpell.damageTypes];
+    } else {
+      transformedSpell.damageTypes = [];
+    }
+  }
 
   // If we have a school in typeConfig but no damageTypes, add it
   if (transformedSpell.typeConfig?.school && transformedSpell.damageTypes.length === 0) {
@@ -121,7 +127,7 @@ export const transformSpellForCard = (spell) => {
   // Ensure resource configuration exists
   if (!transformedSpell.resourceCost) {
     transformedSpell.resourceCost = {
-      actionPoints: 0,
+      actionPoints: 1,
       primaryResourceType: 'Mana',
       classResourceCost: 0,
       components: [],
@@ -135,10 +141,8 @@ export const transformSpellForCard = (spell) => {
   // Ensure cooldown configuration exists
   if (!transformedSpell.cooldownConfig) {
     transformedSpell.cooldownConfig = {
-      type: 'turn_based',
-      value: 1,
-      charges: 1,
-      recovery: 1,
+      cooldownType: 'turn_based',
+      cooldownValue: 0,
       sharesCooldown: false,
       cooldownGroup: ''
     };

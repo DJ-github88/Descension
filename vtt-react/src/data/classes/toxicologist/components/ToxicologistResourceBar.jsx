@@ -4,6 +4,7 @@ import useChatStore from '../../../../store/chatStore';
 import useGameStore from '../../../../store/gameStore';
 import useCharacterStore from '../../../../store/characterStore';
 import '../styles/ToxicologistResourceBar.css';
+import { useResourceBarTooltip } from '../../../../components/hud/useResourceBarTooltip';
 import '../../../../styles/unified-context-menu.css';
 
 const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud', isOwner = true, onClassResourceUpdate = null }) => {
@@ -22,7 +23,7 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
     const [showSpecMenu, setShowSpecMenu] = useState(false);
     
     const barRef = useRef(null);
-    const tooltipRef = useRef(null);
+    const tooltipRef = useResourceBarTooltip(barRef, showTooltip);
     
     // Get chat store for combat notifications
     const { addCombatNotification } = useChatStore();
@@ -272,14 +273,13 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
 
     return (
         <div className="toxicologist-resource-container">
-            {/* Spec Button - Positioned Absolutely to the Left */}
-            <button
+            {/* Center divider badge (decorative — specialization selection is on hold) */}
+            <span
                 className="spec-button"
-                onClick={() => { if (isOwner) setShowSpecMenu(!showSpecMenu); }}
-                title="Change Specialization"
+                title="Alchemical Bench"
             >
-                <i className="fas fa-cog"></i>
-            </button>
+                <i className="fas fa-flask-vial"></i>
+            </span>
 
             {/* Single Split Bar */}
             <div
@@ -408,12 +408,7 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
                             <div className="tooltip-divider"></div>
                             <div className="tooltip-section">
                                 <div className="tooltip-label">Alchemical Expertise (Shared)</div>
-                                <div className="passive-desc">Craft poisons/concoctions using action points. Deploy contraptions as action. Immune to own poisons, resist all poison damage.</div>
-                            </div>
-                            <div className="tooltip-divider"></div>
-                            <div className="tooltip-section">
-                                <div className="tooltip-label">{currentSpec.passive} ({currentSpec.name})</div>
-                                <div className="passive-desc">{currentSpec.passiveDesc}</div>
+                                <div className="passive-desc">Craft poisons/concoctions using action points. Deploy contraptions as action. Immune to own poisons, resist all poison damage. Healing received is halved; fire/radiant damage detonates active poisons inside you.</div>
                             </div>
                         </>
                     )}
@@ -438,80 +433,10 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
                             <div className="tooltip-divider"></div>
                             <div className="tooltip-section">
                                 <div className="tooltip-label">Alchemical Expertise (Shared)</div>
-                                <div className="passive-desc">Craft poisons/concoctions using action points. Deploy contraptions as action. Immune to own poisons, resist all poison damage.</div>
-                            </div>
-                            <div className="tooltip-divider"></div>
-                            <div className="tooltip-section">
-                                <div className="tooltip-label">{currentSpec.passive} ({currentSpec.name})</div>
-                                <div className="passive-desc">{currentSpec.passiveDesc}</div>
+                                <div className="passive-desc">Craft poisons/concoctions using action points. Deploy contraptions as action. Immune to own poisons, resist all poison damage. Healing received is halved; fire/radiant damage detonates active poisons inside you.</div>
                             </div>
                         </>
                     )}
-                </div>,
-                document.body
-            )}
-
-            {/* Specialization Menu */}
-            {showSpecMenu && barRef.current && ReactDOM.createPortal(
-                <div
-                    className={`unified-context-menu compact toxicologist-context-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
-                    onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
-                    onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
-                    style={{
-                        position: 'fixed',
-                        top: (() => {
-                            if (!barRef.current) return '50%';
-                            const rect = barRef.current.getBoundingClientRect();
-                            let hudContainer = barRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
-                            let hudBottom = rect.bottom;
-                            if (hudContainer) {
-                                const hudRect = hudContainer.getBoundingClientRect();
-                                hudBottom = hudRect.bottom;
-                            }
-                            return hudBottom + 8;
-                        })(),
-                        left: (() => {
-                            if (!barRef.current) return '50%';
-                            const rect = barRef.current.getBoundingClientRect();
-                            return rect.left + (rect.width / 2);
-                        })(),
-                        transform: 'translateX(-50%)',
-                        zIndex: 100000
-                    }}
-                >
-                    <div className="context-menu-main">
-                        <div className="menu-title">Specialization</div>
-                        <div className="toxicologist-spec-grid">
-                            {Object.entries(specConfigs).map(([specKey, spec]) => (
-                                <button
-                                    key={specKey}
-                                    className={`context-menu-button ${selectedSpec === specKey ? 'active' : ''}`}
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        setSelectedSpec(specKey);
-                                        setShowSpecMenu(false);
-                                    }}
-                                    title={spec.name}
-                                >
-                                    <i className={`fas ${spec.icon}`}></i>
-                                    <span>{spec.name}</span>
-                                </button>
-                            ))}
-                        </div>
-                        <div className="toxicologist-quick-actions">
-                            <button 
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    setShowSpecMenu(false);
-                                }} 
-                                className="context-menu-button"
-                                title="Close"
-                            >
-                                <i className="fas fa-times"></i>
-                                <span>Close</span>
-                            </button>
-                        </div>
-                    </div>
                 </div>,
                 document.body
             )}

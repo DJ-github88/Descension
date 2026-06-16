@@ -4,6 +4,7 @@ import useChatStore from '../../../../store/chatStore';
 import useGameStore from '../../../../store/gameStore';
 import useCharacterStore from '../../../../store/characterStore';
 import '../styles/WardenResourceBar.css';
+import { useResourceBarTooltip } from '../../../../components/hud/useResourceBarTooltip';
 import '../../../../styles/unified-context-menu.css';
 
 const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud', isOwner = true, onClassResourceUpdate = null }) => {
@@ -20,7 +21,7 @@ const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
     const [showControls, setShowControls] = useState(false);
     
     const barRef = useRef(null);
-    const tooltipRef = useRef(null);
+    const tooltipRef = useResourceBarTooltip(barRef, showTooltip);
 
     const maxVP = 10;
 
@@ -30,10 +31,10 @@ const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
         }
     }, [classResource?.current]);
 
-    // Specialization configurations
+    // Specialization configurations — names aligned to wardenData.js
     const specConfigs = {
         shadowblade: {
-            name: 'Shadowblade',
+            name: 'Flayed Stalker',
             baseColor: '#1a0a2e',
             activeColor: '#2E0854',
             glowColor: '#7B2CBF',
@@ -44,7 +45,7 @@ const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
             uniquePassiveDesc: 'Stealth attacks: +1 VP (total 3 VP), +1d8 damage, hide using action points. After spending 3+ VP: invisible for 1 round.'
         },
         jailer: {
-            name: 'Jailer',
+            name: 'Iron Gaoler',
             baseColor: '#1f2937',
             activeColor: '#4A5568',
             glowColor: '#94A3B8',
@@ -55,7 +56,7 @@ const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
             uniquePassiveDesc: 'Cages cost -2 VP (4 instead of 6). Maintain 2 cages simultaneously. Caged enemies take +1d6 damage from all sources (+2d6 if marked).'
         },
         vengeanceSeeker: {
-            name: 'Vengeance Seeker',
+            name: 'Relentless Tormentor',
             baseColor: '#450a0a',
             activeColor: '#8B0000',
             glowColor: '#DC2626',
@@ -64,10 +65,21 @@ const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
             sharedPassiveDesc: 'Advantage on Survival/Perception to track. Move at full speed while tracking.',
             uniquePassive: 'Inexorable Pursuit + Endless Vengeance',
             uniquePassiveDesc: 'Marked targets cannot hide/go invisible. Free dash to marked targets. Avatar lasts +2 rounds (6 total). Avatar attacks on marked: +1 VP (total 3 VP).'
+        },
+        monolith: {
+            name: 'Monolith',
+            baseColor: '#3a2a20',
+            activeColor: '#533C33',
+            glowColor: '#8a6a4a',
+            icon: 'fa-mountain',
+            sharedPassive: 'Relentless Hunter',
+            sharedPassiveDesc: 'Advantage on Survival/Perception to track. Move at full speed while tracking.',
+            uniquePassive: 'Ossified Anchor + Terminal Density',
+            uniquePassiveDesc: 'Spending Tether Tension converts it to Calcified Armor (DR bonus, max +10), decaying by 2/turn. Cannot be dragged while Calcified Armor is active. Advantage vs being moved/pushed/prone, but Dodge locked to 0 while calcified. +50% blight damage dissolves all Calcified Armor.'
         }
     };
 
-    const currentSpec = specConfigs[selectedSpec];
+    const currentSpec = specConfigs[selectedSpec] || specConfigs.shadowblade;
 
     // Auto-adjust tooltip position
     useEffect(() => {
@@ -203,7 +215,7 @@ const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
             const newValue = Math.max(0, Math.min(maxVP, prev + delta));
             const actualAmount = Math.abs(newValue - prev);
             if (actualAmount > 0) {
-                logClassResourceChange('Vengeance Point', actualAmount, delta > 0, 'vengeancePoints');
+                logClassResourceChange('Tether Tension', actualAmount, delta > 0, 'vengeancePoints');
                 if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
             }
             return newValue;
@@ -509,20 +521,6 @@ const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
                                 </>
                             )}
 
-                            {/* Specialization */}
-                            <div className="context-menu-section-header" style={{fontSize: '12px', marginTop: '12px', marginBottom: '8px'}}>Specialization</div>
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '4px', marginBottom: '8px' }}>
-                                {Object.entries(specConfigs).map(([key, spec]) => (
-                                    <button
-                                        key={key}
-                                        className={`context-menu-button ${selectedSpec === key ? 'active' : ''}`}
-                                        onClick={(e) => { e.stopPropagation(); handleSpecChange(key); }}
-                                    >
-                                        <i className={`fas ${spec.icon}`}></i> {spec.name}
-                                    </button>
-                                ))}
-                            </div>
-
                             <div className="context-menu-main-separator" style={{margin: '12px 0'}}></div>
 
                             {/* Quick Actions */}
@@ -549,7 +547,7 @@ const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
                                         setLocalVP(0);
                                         setShowControls(false);
                                         if (resetAmount > 0) {
-                                            logClassResourceChange('Vengeance Point', resetAmount, false, 'vengeancePoints');
+                                            logClassResourceChange('Tether Tension', resetAmount, false, 'vengeancePoints');
                                             if (onClassResourceUpdate) onClassResourceUpdate('current', 0);
                                         }
                                     }}
@@ -565,7 +563,7 @@ const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
                                         setLocalVP(maxVP);
                                         setShowControls(false);
                                         if (gainAmount > 0) {
-                                            logClassResourceChange('Vengeance Point', gainAmount, true, 'vengeancePoints');
+                                            logClassResourceChange('Tether Tension', gainAmount, true, 'vengeancePoints');
                                             if (onClassResourceUpdate) onClassResourceUpdate('current', maxVP);
                                         }
                                     }}
@@ -590,27 +588,22 @@ const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
             {/* Simplified Tooltip */}
             {showTooltip && !showControls && ReactDOM.createPortal(
                 <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
-                    <div className="tooltip-title">Vengeance Points: {localVP}/{maxVP}</div>
-                    <div className="tooltip-spec">{currentSpec.name}</div>
+                    <div className="tooltip-title">Tether Tension: {localVP}/{maxVP}</div>
 
                     <div className="tooltip-divider"></div>
 
                     <div className="tooltip-section">
-                        <strong>Generation:</strong> Attack +1 VP, Marked +2 VP, Evasion +1 VP, Crit +2 VP
+                        <strong>Generation:</strong> Attack +1, Marked target +2, Evasion +1, Crit +2. Drive a Flesh Tether (1d6 self-blight) to begin reeling.
                     </div>
 
                     <div className="tooltip-section">
-                        <strong>Spending:</strong> 2 VP (+2d6 dmg) • 3 VP (multi-target) • 4 VP (heal+Armor) • {selectedSpec === 'jailer' ? '4' : '6'} VP (cage) • 10 VP (Avatar)
+                        <strong>Spending:</strong> 2 (Barbed Lash, +2d6) • 3 (Sweeping Chains, multi-target) • 4 (Penitent Resolve, brace) • 6 (Iron Gaol) • 10 (Flayed Ascendancy)
                     </div>
 
                     <div className="tooltip-divider"></div>
 
                     <div className="tooltip-section">
-                        <strong>Shared:</strong> {currentSpec.sharedPassiveDesc}
-                    </div>
-
-                    <div className="tooltip-section">
-                        <strong>Unique:</strong> {currentSpec.uniquePassiveDesc}
+                        You absorb 50% of AoE damage aimed at your tethered target. Stronger foes can drag you (recoil bludgeoning). Shared Torment spreads 50% of single-target damage to the tethered target.
                     </div>
                 </div>,
                 document.body

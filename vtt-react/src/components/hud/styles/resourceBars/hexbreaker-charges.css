@@ -327,3 +327,16 @@
 /* ========================================
    DEATHCALLER - ASCENSION PATHS & BLOOD TOKENS
    ======================================== */
+
+/* Spend/gain action grids — keep amounts readable.
+   Two columns balances compactness with label legibility (-1/-2/-3/-6). */
+.covenbane-action-grid.two-col {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px;
+}
+.covenbane-action-grid.two-col .context-menu-button {
+    width: 100%;
+    justify-content: center;
+    margin: 0;
+}

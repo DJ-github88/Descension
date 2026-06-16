@@ -920,6 +920,11 @@
   color: var(--pf-wyrd);
 }
 
+/* Divine */
+.pf-damage-type-badge.divine {
+  color: var(--pf-divine);
+}
+
 /* Void */
 .pf-damage-type-badge.void {
   color: var(--pf-void);

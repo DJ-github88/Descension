@@ -1,4 +1,4 @@
-export const vreken = {
+﻿export const vreken = {
     id: 'vreken',
     name: 'Vreken',
     essence: 'The Gloom-Lit',
@@ -64,7 +64,7 @@ To the humans of the Gloom Forest, the Vreken are the grave-lights: lantern-eyed
             icon: 'spell_holy_innerfire',
             spellType: 'PASSIVE',
             effectTypes: ['buff', 'debuff'],
-            typeConfig: { school: 'nature', icon: 'spell_holy_innerfire', tags: ['trail-sight', 'lantern-eyes', 'bioluminescence', 'passive', 'shared'] },
+            typeConfig: { school: 'primal', icon: 'spell_holy_innerfire', tags: ['trail-sight', 'lantern-eyes', 'bioluminescence', 'passive', 'shared'] },
             buffConfig: {
                 buffType: 'custom',
                 effects: [
@@ -102,7 +102,7 @@ To the humans of the Gloom Forest, the Vreken are the grave-lights: lantern-eyed
             icon: 'spell_shadow_deathanddecay',
             spellType: 'PASSIVE',
             effectTypes: ['buff', 'debuff'],
-            typeConfig: { school: 'necrotic', icon: 'spell_shadow_deathanddecay', tags: ['witness', 'death', 'echo', 'passive', 'shared'] },
+            typeConfig: { school: 'blight', icon: 'spell_shadow_deathanddecay', tags: ['witness', 'death', 'echo', 'passive', 'shared'] },
             buffConfig: {
                 buffType: 'custom',
                 effects: [
@@ -121,8 +121,8 @@ To the humans of the Gloom Forest, the Vreken are the grave-lights: lantern-eyed
                     {
                         id: 'death_echo_disorient',
                         name: 'The Echo\'s Weight',
-                        description: 'After experiencing a final heartbeat, the echo disorients you. You cannot take reactions until the end of your next turn as the death-moment reverberates through your fungal bond. Additionally, you suffer 1 psychic damage — the cost of carrying another\'s last breath in your own lungs.',
-                        statusEffect: { level: 'minor', description: 'Cannot take reactions for 1 round after using Witness-Touch. Take 1 psychic damage when the echo is received.' }
+                        description: 'After experiencing a final heartbeat, the echo disorients you. You cannot take reactions until the end of your next turn as the death-moment reverberates through your fungal bond. Additionally, you suffer 1 wyrd damage — the cost of carrying another\'s last breath in your own lungs.',
+                        statusEffect: { level: 'minor', description: 'Cannot take reactions for 1 round after using Witness-Touch. Take 1 wyrd damage when the echo is received.' }
                     }
                 ],
                 durationValue: 1, durationType: 'round', durationUnit: 'round', canBeDispelled: false
@@ -223,9 +223,9 @@ Death rites are simple and grueling. The dying Vreken is carried to the nearest 
             {
                 id: 'the_parent',
                 name: 'The Parent',
-                question: 'You held your parent\'s hand as the crypt-light dimmed. You felt their final heartbeat as if it were your own — the slow, heavy pulse of a life that had burned for nearly two centuries finally going quiet. You have their heartbeat memorized. It surfaces in your second pulse during moments of stress, and when you close your eyes in a quiet room, you can still see the exact shade of their death-light. Choose: what were their last words to you? Once per long rest, when you fail a saving throw against fear, you may hear their voice beneath the panic and reroll the save — but you take 1d4 psychic damage as the echo of their death replays fresh.',
+                question: 'You held your parent\'s hand as the crypt-light dimmed. You felt their final heartbeat as if it were your own — the slow, heavy pulse of a life that had burned for nearly two centuries finally going quiet. You have their heartbeat memorized. It surfaces in your second pulse during moments of stress, and when you close your eyes in a quiet room, you can still see the exact shade of their death-light. Choose: what were their last words to you? Once per long rest, when you fail a saving throw against fear, you may hear their voice beneath the panic and reroll the save — but you take 1d4 wyrd damage as the echo of their death replays fresh.',
                 rerollSaveType: 'fear',
-                cost: '1d4 psychic damage'
+                cost: '1d4 wyrd damage'
             },
             {
                 id: 'the_patient',
@@ -244,9 +244,9 @@ Death rites are simple and grueling. The dying Vreken is carried to the nearest 
             {
                 id: 'the_overlit_kin',
                 name: 'The Over-Lit Kin',
-                question: 'You are — or were — an Inquisitor. You killed your own blood: a cousin, a sibling, a friend who over-lit past the point of recovery. You tracked them through the deep caves, you found them in the dead-end dark, and you ended them. Their final heartbeat was not fear. It was not pain. It was relief — the hush had been screaming in their skull for years, and your blade was the first silence they had felt since the addiction took hold. You don\'t know what to do with that. Choose: who were they to you? When you deal damage to a Marked Vreken enemy, you deal +1d4 psychic damage — you know exactly where the hush has weakened them, because you have studied the addiction your whole life. But you cannot harm a Marked Vreken who has surrendered without reliving the echo, and you suffer 1d4 psychic damage each time you do.',
-                buffDamage: '+1d4 psychic damage to Marked Vreken enemies',
-                costOnSurrender: '1d4 psychic damage when harming a surrendered Marked Vreken'
+                question: 'You are — or were — an Inquisitor. You killed your own blood: a cousin, a sibling, a friend who over-lit past the point of recovery. You tracked them through the deep caves, you found them in the dead-end dark, and you ended them. Their final heartbeat was not fear. It was not pain. It was relief — the hush had been screaming in their skull for years, and your blade was the first silence they had felt since the addiction took hold. You don\'t know what to do with that. Choose: who were they to you? When you deal damage to a Marked Vreken enemy, you deal +1d4 wyrd damage — you know exactly where the hush has weakened them, because you have studied the addiction your whole life. But you cannot harm a Marked Vreken who has surrendered without reliving the echo, and you suffer 1d4 wyrd damage each time you do.',
+                buffDamage: '+1d4 wyrd damage to Marked Vreken enemies',
+                costOnSurrender: '1d4 wyrd damage when harming a surrendered Marked Vreken'
             }
         ]
     },
@@ -276,15 +276,15 @@ The Clean rarely leave the Gloom Forest. When they do, they travel in monastic v
                     icon: 'spell_nature_resistnature',
                     spellType: 'PASSIVE',
                     effectTypes: ['buff', 'debuff'],
-                    typeConfig: { school: 'nature', icon: 'spell_nature_resistnature', tags: ['deep-glow', 'immunity', 'poison', 'passive'] },
+                    typeConfig: { school: 'primal', icon: 'spell_nature_resistnature', tags: ['deep-glow', 'immunity', 'poison', 'passive'] },
                     buffConfig: {
                         buffType: 'custom',
                         effects: [
                             {
                                 id: 'overlit_immunity',
                                 name: 'Hush-Immunity',
-                                description: 'Immune to the Over-Lit addiction and resistant to poison damage. Your Deep-Glow blood is stable, ancient, and cannot be intoxicated by the fungal strains that consume the Marked.',
-                                statusEffect: { level: 'moderate', description: 'Immune to Over-Lit addiction. Resistant to poison damage.' }
+                                description: 'Immune to the Over-Lit addiction and resistant to blight damage. Your Deep-Glow blood is stable, ancient, and cannot be intoxicated by the fungal strains that consume the Marked.',
+                                statusEffect: { level: 'moderate', description: 'Immune to Over-Lit addiction. Resistant to blight damage.' }
                             }
                         ],
                         durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
@@ -319,7 +319,7 @@ The Clean rarely leave the Gloom Forest. When they do, they travel in monastic v
                     icon: 'inv_misc_book_09',
                     spellType: 'PASSIVE',
                     effectTypes: ['buff', 'debuff'],
-                    typeConfig: { school: 'spirit', icon: 'inv_misc_book_09', tags: ['knowledge', 'scriptorium', 'lore', 'passive'] },
+                    typeConfig: { school: 'arcane', icon: 'inv_misc_book_09', tags: ['knowledge', 'scriptorium', 'lore', 'passive'] },
                     buffConfig: {
                         buffType: 'proficiency',
                         effects: [
@@ -356,8 +356,8 @@ The Clean rarely leave the Gloom Forest. When they do, they travel in monastic v
                     level: 1,
                     icon: 'spell_holy_divinefavor',
                     spellType: 'ACTION',
-                    effectTypes: ['buff', 'utility', 'debuff'],
-                    typeConfig: { school: 'necrotic', icon: 'spell_holy_divinefavor', tags: ['chant', 'ancestral', 'support', 'clean'] },
+                    effectTypes: ['buff', 'debuff'],
+                    typeConfig: { school: 'blight', icon: 'spell_holy_divinefavor', tags: ['chant', 'ancestral', 'support', 'clean'] },
                     buffConfig: { buffType: 'statEnhancement', effects: [{ id: 'ancestral_blessing', name: 'Ancestral Blessing', description: 'One ally within 30ft gains advantage on their next saving throw before end of your next long rest.', statModifier: { stat: 'savingThrow', magnitude: 1, magnitudeType: 'advantage', conditions: { nextSavingThrow: true, allyWithinRange: true } } }], durationValue: 0, durationType: 'next_long_rest', durationUnit: 'long_rest', canBeDispelled: false },
                     debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'lantern_bloom', name: 'Lantern-Bloom', description: 'Your lantern-eyes brighten for the chant duration — all within 120ft know your location.', statusEffect: { level: 'minor', description: 'Announced location within 120ft during chanting.' } }], durationValue: 1, durationType: 'minute', durationUnit: 'minute', canBeDispelled: false },
                     targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 30 },
@@ -368,7 +368,7 @@ The Clean rarely leave the Gloom Forest. When they do, they travel in monastic v
             languages: ['Common', 'Gloom-Tongue'],
             speed: 25,
             baseStats: { armor: 0, hp: 22, mana: 14, ap: 3, passivePerception: 12, swimSpeed: 10, climbSpeed: 15, visionRange: 50, darkvision: 30, initiative: 1 },
-            savingThrowModifiers: { advantage: ['poison', 'disease'], disadvantage: [] }
+            savingThrowModifiers: { advantage: ['blight', 'disease'], disadvantage: [] }
         },
 
         marked: {
@@ -397,7 +397,7 @@ The Marked rarely serve as trade delegates or diplomatic envoys. Their eyes are 
                     icon: 'spell_holy_mindvision',
                     spellType: 'PASSIVE',
                     effectTypes: ['buff', 'debuff'],
-                    typeConfig: { school: 'nature', secondaryElement: 'radiant', icon: 'spell_holy_mindvision', tags: ['ghost-mycelium', 'trail-sight', 'darkvision', 'passive'] },
+                    typeConfig: { school: 'primal', secondaryElement: 'ember', icon: 'spell_holy_mindvision', tags: ['ghost-mycelium', 'trail-sight', 'darkvision', 'passive'] },
                     buffConfig: {
                         buffType: 'custom',
                         effects: [
@@ -440,7 +440,7 @@ The Marked rarely serve as trade delegates or diplomatic envoys. Their eyes are 
                     icon: 'spell_shadow_shadetruesight',
                     spellType: 'ACTION',
                     effectTypes: ['buff', 'debuff'],
-                    typeConfig: { school: 'nature', secondaryElement: 'psychic', icon: 'spell_shadow_shadetruesight', tags: ['amplification', 'hush', 'risk', 'active'] },
+                    typeConfig: { school: 'primal', secondaryElement: 'wyrd', icon: 'spell_shadow_shadetruesight', tags: ['amplification', 'hush', 'risk', 'active'] },
                     buffConfig: {
                         buffType: 'custom',
                         effects: [
@@ -482,7 +482,7 @@ The Marked rarely serve as trade delegates or diplomatic envoys. Their eyes are 
                     icon: 'spell_shadow_deathanddecay',
                     spellType: 'ACTION',
                     effectTypes: ['utility', 'buff', 'debuff'],
-                    typeConfig: { school: 'necrotic', icon: 'spell_shadow_deathanddecay', tags: ['trail-sight', 'echo', 'sensing', 'marked'] },
+                    typeConfig: { school: 'blight', icon: 'spell_shadow_deathanddecay', tags: ['trail-sight', 'echo', 'sensing', 'marked'] },
                     utilityConfig: { utilityType: 'sensing', selectedEffects: [{ id: 'trail_echo', name: 'Trail Echo', description: '1/long rest: touch surface to sense creatures present in last hour, their emotional states, and shadow of intent. No faces or words.' }] },
                     buffConfig: { buffType: 'custom', effects: [{ id: 'echo_insight', name: 'Echo Insight', description: 'Learn presence, emotional state, and intent-shadow of creatures who were at this location within 1 hour.' }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
                     debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'root_burn', name: 'Root-Burn', description: 'Gain 1 level of Exhaustion after using Root-Veil Echo — the fungal bond must regrow the tendril burned by reaching backward.', statusEffect: { level: 'severe', description: '1 level of Exhaustion after use.' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
@@ -494,7 +494,7 @@ The Marked rarely serve as trade delegates or diplomatic envoys. Their eyes are 
             languages: ['Common', 'Gloom-Tongue'],
             speed: 25,
             baseStats: { armor: 0, hp: 18, mana: 12, ap: 4, passivePerception: 15, swimSpeed: 10, climbSpeed: 20, visionRange: 50, darkvision: 90, initiative: 3 },
-            savingThrowModifiers: { advantage: ['perception'], disadvantage: ['poison'] }
+            savingThrowModifiers: { advantage: ['perception'], disadvantage: ['blight'] }
         }
     }
 };

@@ -581,6 +581,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       specialization: "torment-weaver",
       typeConfig: {
         school: "wyrd",
+        secondaryElement: "blight",
         icon: "Psychic/Mental Chaos",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -853,6 +854,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       healingConfig: {
         formula: "damage / 2",
         healingType: "self",
+        resolution: "AUTOMATIC",
         canOverheal: false
       },
       specialMechanics: {
@@ -1163,7 +1165,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     { id: "pb_necrotic_burst",
       effectTypes: ["damage"],
       name: "Necrotic Burst",
-      description: "Detonate the necrotic decay in a host, dealing 4d6 blight damage to all enemies in a 15ft radius. Requires a Stage 1+ affliction on the primary host. Cultivates as a Decay category spell.",
+      description: "Detonate the blighted decay in a host, dealing 4d6 blight damage to all enemies in a 15ft radius. Requires a Stage 1+ affliction on the primary host. Cultivates as a Decay category spell.",
       spellType: "ACTION",
       icon: "Necrotic/Skull Explosion",
       level: 4,
@@ -1334,6 +1336,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       healingConfig: {
         formula: "2d10",
         healingType: "self",
+        resolution: "DICE",
         canOverheal: false
       },
       debuffConfig: {
@@ -1465,7 +1468,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       damageConfig: {
         formula: "Immediate tick of all active DoTs",
         elementType: "blight",
-        damageTypes: ["blight", "blight"],
+        damageTypes: ["blight"],
         resolution: "AUTOMATIC"
       },
       specialMechanics: {
@@ -1820,7 +1823,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       flavorText: "One cough. Two stagger. Ten rot. The battlefield belongs to the garden."
     },
     { id: "pb_decay_field",
-      effectTypes: ["damage"],
+      effectTypes: ["damage", "debuff"],
       name: "Decay Field",
       description: "Saturate a 30ft radius circle in creeping rot, dealing 5d8 blight damage per round for 4 rounds. Enemies inside have Dodge reduced by 5. Cultivates active afflictions as Decay.",
       spellType: "ACTION",
@@ -1916,6 +1919,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       specialization: "decay-harbinger",
       typeConfig: {
         school: "blight",
+        secondaryElement: "wyrd",
         icon: "Poison/Poison Plague",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -2294,7 +2298,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     { id: "pb_plague_god",
       effectTypes: ["transformation"],
       name: "Plague God",
-      description: "Ascend to become the Plague God for 4 rounds. All your afflictions deal +50% damage. Your weapon attacks apply random Stage 2 afflictions. You gain immunity to poison and necrotic. Cultivates as Decay.",
+      description: "Ascend to become the Plague God for 4 rounds. Your attributes surge (+8 Intelligence, +8 Constitution, +6 Spirit), all active afflictions deal +50% damage, your weapon attacks apply random Stage 2 afflictions, and your Virulence locks at 100. Cultivates as Decay.",
       spellType: "ACTION",
       icon: "Poison/Poison Contagion",
       level: 10,
@@ -2481,7 +2485,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     },
     { id: "plague_sterile_environment",
       name: "Sterile Environment",
-      description: "In cleansed areas (holy magic, healing, alchemical purification), diseases are suppressed. Cannot apply new diseases; existing ones stop dealing damage. Purity is your weakness.",
+      description: "In cleansed areas (primal magic, healing, alchemical purification), diseases are suppressed. Cannot apply new diseases; existing ones stop dealing damage. Purity is your weakness.",
       level: 3,
       spellType: "PASSIVE",
       icon: "Healing/Cure Within",
@@ -2513,7 +2517,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
         "spellType": "ACTION",
         "icon": "Necrotic/Miasma",
         "typeConfig": {
-          "school": "shadow",
+          "school": "blight",
           "icon": "Necrotic/Miasma",
           "tags": [
             "utility",

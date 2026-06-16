@@ -4,6 +4,7 @@ import useChatStore from '../../../../store/chatStore';
 import useGameStore from '../../../../store/gameStore';
 import useCharacterStore from '../../../../store/characterStore';
 import '../styles/AugurResourceBar.css';
+import { useResourceBarTooltip } from '../../../../components/hud/useResourceBarTooltip';
 
 const AugurResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud', isOwner = true, onClassResourceUpdate = null }) => {
     const benediction = classResource?.benediction ?? 0;
@@ -16,7 +17,7 @@ const AugurResourceBar = ({ classResource = {}, size = 'normal', config = {}, co
     const [showTooltip, setShowTooltip] = useState(false);
     const [showControls, setShowControls] = useState(false);
     const barRef = useRef(null);
-    const tooltipRef = useRef(null);
+    const tooltipRef = useResourceBarTooltip(barRef, showTooltip);
     const controlsMenuRef = useRef(null);
 
     const { addCombatNotification } = useChatStore();
@@ -211,13 +212,14 @@ const AugurResourceBar = ({ classResource = {}, size = 'normal', config = {}, co
             {showTooltip && ReactDOM.createPortal(
                 <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
                     <div className="tooltip-header">
-                        <i className={`fas ${currentSpec.icon}`} style={{ color: '#C8A2C8' }}></i>
-                        Omen Resources — {currentSpec.name}
+                        <i className="fas fa-eye" style={{ color: '#8B5A8B' }}></i>
+                        Omen Resources
                     </div>
 
                     <div className="tooltip-section">
                         <div className="tooltip-label">Benediction (Radiant Omen)</div>
                         <div style={{ fontSize: '0.85rem', color: '#B8860B', fontWeight: 600 }}>{benediction} / {maxBenediction}</div>
+                        <div style={{ fontSize: '0.8rem', color: 'rgba(58,42,26,0.7)' }}>Spend to force misses, ward allies, and preempt incoming strikes.</div>
                     </div>
 
                     <div className="tooltip-divider"></div>
@@ -225,29 +227,30 @@ const AugurResourceBar = ({ classResource = {}, size = 'normal', config = {}, co
                     <div className="tooltip-section">
                         <div className="tooltip-label">Malediction (Dark Omen)</div>
                         <div style={{ fontSize: '0.85rem', color: '#8B5A8B', fontWeight: 600 }}>{malediction} / {maxMalediction}</div>
+                        <div style={{ fontSize: '0.8rem', color: 'rgba(58,42,26,0.7)' }}>Spend to cripple, curse, and rot your enemies.</div>
+                    </div>
+
+                    <div className="tooltip-divider"></div>
+
+                    <div className="tooltip-section">
+                        <div className="tooltip-label">How Omens Are Generated</div>
+                        <div style={{ fontSize: '0.8rem', color: 'rgba(58,42,26,0.85)', lineHeight: 1.4 }}>
+                            Every d20 rolled within 60 ft (yours, an ally's, or an enemy's) generates an Omen:
+                            <strong> even results → Benediction</strong>, <strong>odd results → Malediction</strong>.
+                            With no bleeding targets or corpses available, you must <strong>Self-Mutilate</strong> (1d6 slashing + Bleed) to generate either.
+                        </div>
                     </div>
 
                     {omenDebt < 0 && (
                         <>
                             <div className="tooltip-divider"></div>
                             <div className="tooltip-section">
-                                <div className="tooltip-label" style={{ color: '#B22222' }}>Omen Debt</div>
+                                <div className="tooltip-label" style={{ color: '#B22222' }}>Omen Debt (Flesh Tax)</div>
                                 <div style={{ fontSize: '0.85rem', color: '#B22222', fontWeight: 600 }}>{omenDebt}</div>
-                                <div style={{ fontSize: '0.8rem', color: 'rgba(58,42,26,0.5)' }}>-1 per unused point at long rest (cap -10)</div>
+                                <div style={{ fontSize: '0.8rem', color: 'rgba(58,42,26,0.7)' }}>Unused points at long rest become permanent Debt: -1 to all saves per point (cap -10).</div>
                             </div>
                         </>
                     )}
-
-                    <div className="tooltip-divider"></div>
-
-                    <div className="tooltip-section">
-                        <div className="tooltip-label">Specialization Maxes</div>
-                        <div style={{ fontSize: '0.8rem' }}>
-                            <div>Auspex: 10 BN / 10 ML</div>
-                            <div>Harbinger: 5 BN / 15 ML</div>
-                            <div>Hierophant: 15 BN / 5 ML</div>
-                        </div>
-                    </div>
                 </div>,
                 document.body
             )}
@@ -313,38 +316,6 @@ const AugurResourceBar = ({ classResource = {}, size = 'normal', config = {}, co
                         </div>
 
                         <div className="context-menu-separator" style={{ margin: '8px 0' }}></div>
-
-                        {/* Specialization Selection */}
-                        <div className="context-menu-section">
-                            <div className="context-menu-section-title">Specialization</div>
-                            <div className="spec-options-grid">
-                                {Object.entries(specConfigs).map(([key, spec]) => (
-                                    <button
-                                        key={key}
-                                        className={`context-menu-button ${specialization === key ? 'active' : ''}`}
-                                        style={{ fontSize: '9px', padding: '4px 6px' }}
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            if (specialization === key) return;
-                                            const newSpec = specConfigs[key];
-                                            const benOverflow = benediction > newSpec.benMax;
-                                            const malOverflow = malediction > newSpec.malMax;
-                                            if (benOverflow || malOverflow) {
-                                                const parts = [];
-                                                if (benOverflow) parts.push(`Benediction ${benediction} → ${newSpec.benMax}`);
-                                                if (malOverflow) parts.push(`Malediction ${malediction} → ${newSpec.malMax}`);
-                                                if (!window.confirm(`Changing to ${spec.name} will reduce your ${parts.join(' and ')}. Continue?`)) return;
-                                            }
-                                            if (onClassResourceUpdate) onClassResourceUpdate('specialization', key);
-                                        }}
-                                        title={spec.desc}
-                                    >
-                                        <i className={`fas ${spec.icon}`} style={{ width: '12px' }}></i>
-                                        {spec.name}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
 
                         <button className="context-menu-button danger" onClick={() => setShowControls(false)} style={{ width: '100%', padding: '6px', justifyContent: 'center', marginTop: '4px' }}>
                             <i className="fas fa-times"></i> Close

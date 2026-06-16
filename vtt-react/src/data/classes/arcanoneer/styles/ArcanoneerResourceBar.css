@@ -1,0 +1,848 @@
+﻿/* ============================================================================
+   ArcanoneerResourceBar.css
+   ----------------------------------------------------------------------------
+   Stylesheet for the Arcanoneer "Building Blocks" resource bar.
+   Models the Minstrel rework: discrete pip segments, per-block color theming
+   via CSS custom properties, full + compact layouts, portal-rendered menus.
+   ========================================================================== */
+
+/* ----------------------------------------------------------------------------
+   Layout shell
+   ------------------------------------------------------------------------- */
+.class-resource-bar.arcanoneer-blocks {
+    width: 100%;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    color: #f5e9d4;
+}
+
+.arc-container {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 6px 8px;
+    background: linear-gradient(180deg, rgba(28, 16, 36, 0.85) 0%, rgba(18, 10, 24, 0.92) 100%);
+    border: 1px solid rgba(180, 130, 220, 0.25);
+    border-radius: 6px;
+}
+
+/* ----------------------------------------------------------------------------
+   Header
+   ------------------------------------------------------------------------- */
+.arc-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 2px 0;
+}
+
+.arc-title-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #d9c5e8;
+    letter-spacing: 0.3px;
+}
+.arc-title-label i {
+    color: #b48ce6;
+    font-size: 11px;
+}
+
+.arc-totals {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.arc-total-count {
+    font-size: 11px;
+    color: #e8d5ff;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    padding: 2px 8px;
+    background: linear-gradient(135deg, rgba(180, 140, 230, 0.25), rgba(140, 100, 200, 0.18));
+    border: 1px solid rgba(180, 140, 230, 0.35);
+    border-radius: 4px;
+    text-shadow: 0 0 6px rgba(180, 140, 230, 0.3);
+}
+
+.arc-ready-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 10px;
+    padding: 2px 7px;
+    background: linear-gradient(135deg, rgba(100, 180, 220, 0.18), rgba(70, 140, 200, 0.12));
+    color: #7ec8e8;
+    border: 1px solid rgba(100, 180, 220, 0.3);
+    border-radius: 10px;
+    font-variant-numeric: tabular-nums;
+    transition: all 160ms ease;
+}
+.arc-ready-badge i {
+    color: #5fb8e0;
+    text-shadow: 0 0 5px rgba(95, 184, 224, 0.5);
+}
+.arc-ready-badge.has-ready {
+    background: linear-gradient(135deg, rgba(70, 220, 130, 0.22), rgba(50, 180, 100, 0.16));
+    color: #6effa8;
+    border-color: rgba(70, 220, 130, 0.6);
+    animation: arcReadyPulse 1.6s ease-in-out infinite;
+}
+.arc-ready-badge.has-ready i {
+    color: #66ff9a;
+    text-shadow: 0 0 8px rgba(102, 255, 154, 0.6);
+}
+@keyframes arcReadyPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(70, 220, 130, 0.0); }
+    50%      { box-shadow: 0 0 0 3px rgba(70, 220, 130, 0.15); }
+}
+
+/* Roll button */
+.arc-roll-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #ffe9a8;
+    background: linear-gradient(135deg, rgba(180, 100, 40, 0.6), rgba(120, 60, 25, 0.7));
+    border: 1.5px solid rgba(255, 190, 80, 0.55);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 140ms ease;
+    text-shadow: 0 0 8px rgba(255, 200, 80, 0.5);
+    box-shadow: inset 0 1px 0 rgba(255, 220, 140, 0.15), 0 0 6px rgba(200, 120, 40, 0.2);
+}
+.arc-roll-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, rgba(210, 130, 50, 0.75), rgba(150, 75, 30, 0.85));
+    border-color: rgba(255, 210, 100, 0.85);
+    box-shadow: inset 0 1px 0 rgba(255, 230, 160, 0.25), 0 0 12px rgba(255, 190, 80, 0.4);
+}
+.arc-roll-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+.arc-roll-btn.rolling {
+    background: linear-gradient(135deg, rgba(255, 120, 50, 0.75), rgba(200, 80, 30, 0.85));
+    border-color: rgba(255, 230, 130, 0.95);
+    box-shadow: 0 0 14px rgba(255, 150, 50, 0.5);
+}
+.arc-roll-label {
+    font-size: 10.5px;
+}
+
+/* ----------------------------------------------------------------------------
+   Block grid (full mode) â€” 8 segments in a single row
+   ------------------------------------------------------------------------- */
+.arc-block-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 4px;
+    padding: 4px 2px;
+}
+
+.arc-block-segment {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-end;
+    height: 64px;
+    padding: 4px 3px 3px;
+    background: linear-gradient(180deg, rgba(45, 32, 56, 0.85) 0%, rgba(28, 18, 38, 0.92) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 5px;
+    cursor: pointer;
+    user-select: none;
+    transition: border-color 140ms ease, transform 100ms ease, box-shadow 140ms ease;
+    overflow: hidden;
+}
+.arc-block-segment.empty {
+    opacity: 0.55;
+}
+.arc-block-segment.filled {
+    border-color: color-mix(in srgb, var(--block-color, #888) 55%, transparent);
+    box-shadow: inset 0 0 8px color-mix(in srgb, var(--block-glow, #aaa) 20%, transparent);
+}
+.arc-block-segment.hovered {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--block-glow, #fff) 80%, transparent);
+    box-shadow:
+        inset 0 0 12px color-mix(in srgb, var(--block-glow, #fff) 35%, transparent),
+        0 2px 8px color-mix(in srgb, var(--block-color, #888) 35%, transparent);
+}
+
+/* Per-segment color tint at the bottom edge for quick visual ID */
+.arc-block-segment.filled::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 4px;
+    background: var(--block-color, transparent);
+    box-shadow: 0 -1px 6px var(--block-glow, transparent);
+}
+
+/* Wyrd (gradient) block â€” special rainbow tint */
+.arc-block-segment.filled[style*="block-color"],
+.arc-block-grid .arc-block-segment.filled:nth-child(8)::after {
+    /* fallback handled inline via --block-color */
+}
+
+/* Pip stack inside a segment â€” fills bottom-up */
+.arc-block-pips {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 2px;
+    flex: 1;
+    margin-bottom: 14px; /* leave room for the label */
+}
+
+/* Showcase-mode solid fill overlay — replaces pip strips with a full block fill */
+.arc-block-fill-overlay {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: var(--fill-percent, 0%);
+    background: linear-gradient(180deg,
+        color-mix(in srgb, var(--block-color, #888) 70%, transparent) 0%,
+        color-mix(in srgb, var(--block-color, #888) 45%, transparent) 100%);
+    box-shadow: inset 0 2px 8px color-mix(in srgb, var(--block-glow, #fff) 30%, transparent);
+    transition: height 200ms ease;
+    z-index: 0;
+}
+.arc-block-pip {
+    width: 18px;
+    height: 5px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.08);
+    transition: background 120ms ease;
+}
+.arc-block-pip.on {
+    background: var(--block-color, #ccc);
+    box-shadow: 0 0 4px var(--block-glow, #fff);
+}
+.arc-block-pip-overflow {
+    font-size: 9px;
+    color: var(--block-glow, #fff);
+    margin-top: 2px;
+    font-weight: 700;
+}
+
+/* Label area at the bottom */
+.arc-block-label {
+    position: absolute;
+    left: 0; right: 0; bottom: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    font-size: 9.5px;
+    line-height: 1;
+    color: #d9c5e8;
+    z-index: 2;
+}
+.arc-block-icon {
+    font-size: 8.5px;
+    color: var(--block-glow, #aaa);
+}
+.arc-block-name {
+    font-weight: 600;
+}
+
+/* Count badge (top-right) */
+.arc-block-count-badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    min-width: 14px;
+    height: 14px;
+    padding: 0 3px;
+    font-size: 9.5px;
+    line-height: 14px;
+    text-align: center;
+    color: #1a0a00;
+    background: var(--block-glow, #ccc);
+    border-radius: 8px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    z-index: 2;
+}
+.arc-block-segment.empty .arc-block-count-badge {
+    color: #6a5878;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* d8 face badge (top-left) */
+.arc-block-d8-badge {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 12px;
+    height: 12px;
+    font-size: 8.5px;
+    line-height: 12px;
+    text-align: center;
+    color: #8e779c;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 2px;
+    font-variant-numeric: tabular-nums;
+    z-index: 2;
+}
+
+/* ----------------------------------------------------------------------------
+   Formulation chips
+   ------------------------------------------------------------------------- */
+.arc-formulation-chips {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 3px;
+    padding: 2px 0;
+    max-height: 80px;
+    overflow-y: auto;
+    width: 100%;
+}
+
+.arc-form-chip-wrapper {
+    width: 100%;
+}
+
+.arc-form-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    padding: 2px 6px;
+    font-size: 9.5px;
+    color: #7a6488;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 3px;
+    cursor: not-allowed;
+    transition: all 140ms ease;
+    line-height: 1.2;
+    width: 100%;
+    text-align: center;
+}
+.arc-form-chip.ready {
+    color: #f5e9d4;
+    background: linear-gradient(180deg, rgba(140, 90, 180, 0.25), rgba(90, 60, 130, 0.35));
+    border-color: rgba(180, 130, 220, 0.6);
+    cursor: pointer;
+}
+.arc-form-chip.ready:hover {
+    background: linear-gradient(180deg, rgba(170, 110, 210, 0.4), rgba(110, 70, 160, 0.55));
+    border-color: rgba(200, 150, 240, 0.85);
+    box-shadow: 0 0 8px rgba(180, 130, 220, 0.35);
+}
+.arc-form-chip.is-wyrd.ready {
+    background: linear-gradient(180deg, rgba(220, 80, 200, 0.3), rgba(150, 50, 180, 0.4));
+    border-color: rgba(255, 120, 220, 0.7);
+    animation: arcWyrdShimmer 2.4s linear infinite;
+}
+@keyframes arcWyrdShimmer {
+    0%   { box-shadow: 0 0 6px rgba(255, 100, 200, 0.4); }
+    50%  { box-shadow: 0 0 12px rgba(180, 100, 255, 0.55); }
+    100% { box-shadow: 0 0 6px rgba(255, 100, 200, 0.4); }
+}
+.arc-form-chip-name {
+    font-weight: 600;
+}
+.arc-form-chip-cost {
+    font-size: 8.5px;
+    opacity: 0.75;
+}
+
+/* ----------------------------------------------------------------------------
+   Footer (clear-all, last-roll)
+   ------------------------------------------------------------------------- */
+.arc-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 2px;
+}
+.arc-footer-btn {
+    padding: 2px 8px;
+    font-size: 10px;
+    color: #c8a4b8;
+    background: rgba(180, 60, 90, 0.15);
+    border: 1px solid rgba(180, 60, 90, 0.3);
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 140ms ease;
+}
+.arc-footer-btn:hover:not(:disabled) {
+    background: rgba(180, 60, 90, 0.3);
+    border-color: rgba(220, 90, 120, 0.6);
+}
+.arc-footer-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.arc-last-roll {
+    font-size: 10px;
+    color: #b48ce6;
+    text-align: center;
+    padding: 2px 0;
+    opacity: 0.85;
+}
+.arc-last-roll-dice {
+    color: #ffd87a;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Floating roll indicator, hover tooltip, and edit menu are now styled by the
+   SHARED unified systems (`.unified-resourcebar-tooltip.pathfinder-tooltip` for
+   hover, `.unified-context-menu.compact` for the edit menu) â€” same as every
+   other class resource bar. No class-specific overrides needed here. */
+
+/* ----------------------------------------------------------------------------
+   Showcase mode â€” collapsible formulations (rules page)
+   ------------------------------------------------------------------------- */
+.arc-roll-indicator {
+    font-size: 14px;
+    font-weight: 700;
+    color: #ffd87a;
+    text-shadow:
+        0 0 8px rgba(255, 180, 80, 0.7),
+        0 0 16px rgba(255, 180, 80, 0.4);
+    animation: arcRollFloat 480ms ease-out;
+}
+@keyframes arcRollFloat {
+    0%   { opacity: 0; transform: translate(-50%, 8px) scale(0.8); }
+    100% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+}
+
+
+/* ----------------------------------------------------------------------------
+   Showcase mode â€” collapsible formulations (rules page)
+   ------------------------------------------------------------------------- */
+.arc-formulation-collapsible {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: center;
+    padding-top: 4px;
+}
+.arc-formulation-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 14px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #b48ce6;
+    background: rgba(180, 130, 220, 0.08);
+    border: 1px solid rgba(180, 130, 220, 0.3);
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 140ms ease;
+}
+.arc-formulation-toggle:hover {
+    background: rgba(180, 130, 220, 0.18);
+    border-color: rgba(180, 130, 220, 0.55);
+    color: #f5e9d4;
+}
+.arc-formulation-toggle-count {
+    font-size: 10px;
+    padding: 1px 6px;
+    color: #66ff9a;
+    background: rgba(70, 220, 130, 0.15);
+    border: 1px solid rgba(70, 220, 130, 0.45);
+    border-radius: 8px;
+    font-weight: 700;
+}
+
+/* ============================================================================
+   COMPACT MODE (party HUD)
+   ========================================================================== */
+.class-resource-bar.arcanoneer-blocks.party-context {
+    width: 100%;
+}
+.class-resource-bar.arcanoneer-blocks.small {
+    padding: 0;
+    background: transparent;
+    border: none;
+}
+
+.arc-compact-row {
+    display: flex;
+    align-items: stretch;
+    gap: 3px;
+    height: 14px;
+    padding: 0;
+    background: rgba(20, 12, 28, 0.5);
+    border-radius: 3px;
+    border: 1px solid rgba(180, 130, 220, 0.18);
+    overflow: visible;
+}
+
+.arc-compact-cells {
+    display: flex;
+    flex: 1;
+    gap: 1px;
+}
+.arc-compact-cell {
+    position: relative;
+    flex: 1;
+    background: rgba(255, 255, 255, 0.04);
+    border-right: 1px solid rgba(255, 255, 255, 0.04);
+    cursor: pointer;
+    overflow: hidden;
+    transition: background 120ms ease;
+    min-width: 0;
+}
+.arc-compact-cell:last-child { border-right: none; }
+.arc-compact-cell.empty { background: rgba(255, 255, 255, 0.03); }
+.arc-compact-cell.filled { background: color-mix(in srgb, var(--block-color, #888) 18%, transparent); }
+.arc-compact-cell:hover { background: color-mix(in srgb, var(--block-glow, #fff) 35%, transparent); }
+
+.arc-compact-fill {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    background: var(--block-color, #888);
+    box-shadow: 0 0 4px var(--block-glow, #fff);
+    transition: height 200ms ease;
+}
+.arc-compact-glyph {
+    position: absolute;
+    inset: 0;
+    font-size: 8px;
+    font-weight: 700;
+    line-height: 14px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.95);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.85);
+    pointer-events: none;
+}
+.arc-compact-cell.empty .arc-compact-glyph {
+    color: rgba(180, 150, 200, 0.4);
+    text-shadow: none;
+}
+
+.arc-compact-expand {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    width: 26px;
+    background: rgba(120, 80, 160, 0.25);
+    border: none;
+    border-left: 1px solid rgba(180, 130, 220, 0.25);
+    color: #b89ac9;
+    cursor: pointer;
+    transition: all 140ms ease;
+    font-size: 8px;
+    position: relative;
+}
+.arc-compact-expand:hover {
+    background: rgba(140, 100, 180, 0.4);
+    color: #f5e9d4;
+}
+.arc-compact-expand.has-ready {
+    background: rgba(70, 220, 130, 0.18);
+    color: #66ff9a;
+    animation: arcReadyPulse 1.6s ease-in-out infinite;
+}
+.arc-compact-banked {
+    font-size: 9px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+.arc-compact-ready {
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    min-width: 11px;
+    height: 11px;
+    padding: 0 2px;
+    font-size: 8px;
+    line-height: 11px;
+    text-align: center;
+    background: #66ff9a;
+    color: #08210f;
+    border-radius: 6px;
+    font-weight: 700;
+    box-shadow: 0 0 5px rgba(70, 220, 130, 0.7);
+}
+
+/* ----------------------------------------------------------------------------
+   Compact popover panel — inherits beige Pathfinder theme from .unified-context-menu.
+   Only block-specific accent colors are added here; all base styling (background,
+   text color, fonts, borders) comes from the shared unified menu system.
+   ------------------------------------------------------------------------- */
+.arc-panel-menu {
+    max-height: 90vh;
+    overflow-y: auto;
+}
+.arc-panel-menu .arc-header {
+    padding: 6px 8px 4px;
+}
+.arc-panel-section {
+    padding: 6px 8px;
+    border-top: 1px solid rgba(160, 140, 112, 0.25);
+}
+.arc-panel-section-label {
+    font-size: 9.5px;
+    font-weight: 700;
+    color: #5a1e12;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 4px;
+}
+.arc-panel-blocks {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+.arc-panel-block-row {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 6px;
+    background: rgba(255, 255, 255, 0.35);
+    border-left: 3px solid var(--block-color, #888);
+    border-radius: 3px;
+}
+.arc-panel-block-icon {
+    color: var(--block-color, #888);
+    font-size: 11px;
+    width: 14px;
+    text-align: center;
+}
+.arc-panel-block-name {
+    flex-shrink: 0;
+    width: 50px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #3a2a1a;
+}
+.arc-panel-block-pips {
+    display: flex;
+    gap: 2px;
+    flex: 1;
+}
+.arc-panel-pip {
+    width: 9px;
+    height: 9px;
+    border-radius: 2px;
+    background: rgba(160, 140, 112, 0.2);
+    border: 1px solid rgba(160, 140, 112, 0.15);
+}
+.arc-panel-pip.on {
+    background: var(--block-color, #ccc);
+    border-color: var(--block-glow, #fff);
+}
+.arc-panel-block-controls {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+}
+.arc-panel-mini-btn {
+    width: 18px;
+    height: 18px;
+    font-size: 12px;
+    line-height: 1;
+    color: #3a2a1a;
+    background: rgba(240, 230, 210, 0.6);
+    border: 1px solid rgba(160, 140, 112, 0.4);
+    border-radius: 3px;
+    cursor: pointer;
+    padding: 0;
+    transition: all 120ms ease;
+}
+.arc-panel-mini-btn:hover:not(:disabled) {
+    background: rgba(213, 203, 176, 0.8);
+    border-color: #8b7355;
+}
+.arc-panel-mini-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+.arc-panel-block-count {
+    min-width: 14px;
+    text-align: center;
+    font-size: 11px;
+    color: #3a2a1a;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+.arc-panel-menu .arc-formulation-chips {
+    max-height: 100px;
+}
+.arc-panel-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 4px;
+    padding: 6px 8px;
+    border-top: 1px solid rgba(160, 140, 112, 0.25);
+}
+
+   SIZE VARIANTS
+   ========================================================================== */
+
+/* Large (lore / class page showcase) */
+.class-resource-bar.arcanoneer-blocks.large {
+    padding: 4px;
+}
+.class-resource-bar.arcanoneer-blocks.large .arc-container {
+    padding: 10px 12px;
+    gap: 8px;
+}
+.class-resource-bar.arcanoneer-blocks.large .arc-title-label {
+    font-size: 14px;
+}
+.class-resource-bar.arcanoneer-blocks.large .arc-block-grid {
+    gap: 6px;
+}
+.class-resource-bar.arcanoneer-blocks.large .arc-block-segment {
+    height: 86px;
+    padding: 6px 4px 4px;
+}
+.class-resource-bar.arcanoneer-blocks.large .arc-block-pips {
+    margin-bottom: 18px;
+}
+.class-resource-bar.arcanoneer-blocks.large .arc-block-pip {
+    width: 26px;
+    height: 6px;
+}
+.class-resource-bar.arcanoneer-blocks.large .arc-block-label {
+    font-size: 11px;
+}
+.class-resource-bar.arcanoneer-blocks.large .arc-block-icon {
+    font-size: 10px;
+}
+.class-resource-bar.arcanoneer-blocks.large .arc-block-count-badge {
+    min-width: 18px;
+    height: 18px;
+    line-height: 18px;
+    font-size: 11px;
+}
+.class-resource-bar.arcanoneer-blocks.large .arc-block-d8-badge {
+    width: 16px;
+    height: 16px;
+    font-size: 10px;
+    line-height: 16px;
+}
+.class-resource-bar.arcanoneer-blocks.large .arc-formulation-chips {
+    max-height: 110px;
+}
+.class-resource-bar.arcanoneer-blocks.large .arc-form-chip {
+    font-size: 11px;
+    padding: 3px 8px;
+}
+
+/* ----- Showcase mode (rules page): 4Ã—2 grid so the bar fits a constrained
+   container without overflow. Segments are slightly shorter than the pure
+   large variant but still have full room for pips + label. Placed AFTER the
+   .large rules so equal-specificity rules resolve correctly. ----- */
+.class-resource-bar.arcanoneer-blocks.large.showcase-mode {
+    padding: 4px;
+}
+.class-resource-bar.arcanoneer-blocks.large.showcase-mode .arc-container {
+    padding: 8px 10px;
+    gap: 5px;
+}
+.class-resource-bar.arcanoneer-blocks.large.showcase-mode .arc-header {
+    flex-wrap: wrap;
+    gap: 4px 8px;
+}
+.class-resource-bar.arcanoneer-blocks.large.showcase-mode .arc-title-label {
+    font-size: 13px;
+}
+.class-resource-bar.arcanoneer-blocks.large.showcase-mode .arc-roll-label {
+    display: none; /* icon-only Roll button to save horizontal space */
+}
+.class-resource-bar.arcanoneer-blocks.large.showcase-mode .arc-block-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+}
+.class-resource-bar.arcanoneer-blocks.large.showcase-mode .arc-block-segment {
+    height: 92px;
+    padding: 5px 4px 4px;
+}
+.class-resource-bar.arcanoneer-blocks.large.showcase-mode .arc-block-pips {
+    margin-bottom: 18px;
+    position: relative;
+    z-index: 1;
+}
+/* In showcase mode, hide individual pip strips — the fill overlay shows the charge */
+.class-resource-bar.arcanoneer-blocks.large.showcase-mode .arc-block-segment.filled .arc-block-pip {
+    opacity: 0;
+}
+.class-resource-bar.arcanoneer-blocks.large.showcase-mode .arc-block-pip {
+    width: 24px;
+    height: 6px;
+}
+.class-resource-bar.arcanoneer-blocks.large.showcase-mode .arc-block-label {
+    font-size: 11px;
+}
+.class-resource-bar.arcanoneer-blocks.large.showcase-mode .arc-block-name {
+    font-size: 11px;
+}
+.class-resource-bar.arcanoneer-blocks.large.showcase-mode .arc-block-icon {
+    font-size: 10px;
+}
+.class-resource-bar.arcanoneer-blocks.large.showcase-mode .arc-block-count-badge {
+    min-width: 17px;
+    height: 17px;
+    line-height: 17px;
+    font-size: 10.5px;
+}
+.class-resource-bar.arcanoneer-blocks.large.showcase-mode .arc-block-d8-badge {
+    width: 14px;
+    height: 14px;
+    font-size: 9.5px;
+    line-height: 14px;
+}
+
+/* Showcase-mode formulation chips: equal-width grid of available formulations only.
+   No scroll — only ready ones are shown. */
+.class-resource-bar.arcanoneer-blocks.large.showcase-mode .arc-formulation-collapsible {
+    width: 100%;
+}
+.class-resource-bar.arcanoneer-blocks.large.showcase-mode .arc-formulation-chips {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 4px;
+    max-height: none !important;
+    overflow: visible !important;
+    padding: 4px 0;
+    width: 100%;
+}
+.class-resource-bar.arcanoneer-blocks.large.showcase-mode .arc-form-chip-wrapper {
+    width: 100%;
+}
+.class-resource-bar.arcanoneer-blocks.large.showcase-mode .arc-form-chip {
+    font-size: 10.5px;
+    padding: 4px 8px;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+}
+.arc-formulation-empty {
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px !important;
+    font-size: 11px;
+    color: #8e779c;
+    font-style: italic;
+}
+
+/* Normal (character sheet / account) */
+.class-resource-bar.arcanoneer-blocks.normal .arc-block-segment {
+    height: 58px;
+}
+
+/* Constrain inside party-member frame */
+.party-member-frame .class-resource-bar.arcanoneer-blocks,
+.party-member-frame .arcanoneer-blocks {
+    max-width: 230px;
+}

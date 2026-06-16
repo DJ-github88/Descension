@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import useQuestStore from '../../store/questStore';
 import { ZONE_DATA } from '../../data/zoneData';
 import { PIN_TYPE_OPTIONS } from './mapPinIcons';
+import { notify, confirmDialog } from './MapNotify';
 import './WorldMapImmerse.css';
 
 const AnnotationPopup = ({
@@ -44,7 +45,7 @@ const AnnotationPopup = ({
 
   const handleSave = () => {
     if (!title.trim()) {
-      alert('Please enter a title.');
+      notify('Please enter a title.', 'warning');
       return;
     }
 
@@ -256,10 +257,10 @@ const AnnotationPopup = ({
           <button
             className="popup-btn delete-btn"
             onClick={() => {
-              if (window.confirm('Are you absolutely sure you want to delete this custom map marker?')) {
+              confirmDialog('Are you absolutely sure you want to delete this custom map marker?', () => {
                 onDelete(annotation.id);
                 onClose();
-              }
+              });
             }}
           >
             <i className="fas fa-trash"></i> Delete

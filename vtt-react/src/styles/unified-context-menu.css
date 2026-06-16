@@ -160,6 +160,25 @@
   padding: 0;
 }
 
+/* Party-context: shrink icons + gaps so amount labels (+1, -3, ...) fit
+   beside them in the narrow 200px menu. Fixes the "icon eats the button" bug. */
+.unified-context-menu.compact.chronarch-party .context-menu-button {
+  gap: 3px;
+  padding: 3px 4px;
+  min-width: 0;
+}
+.unified-context-menu.compact.chronarch-party .context-menu-button i {
+  width: 11px;
+  font-size: 11px;
+}
+.unified-context-menu.compact.chronarch-party .context-menu-button > span {
+  min-width: 0;
+  flex: 1 1 auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .unified-context-menu.small {
   width: 220px;
   min-width: 200px;
@@ -921,6 +940,34 @@
   border-color: #8b7355;
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Gambit/Gambler Ledger quick-action footer (Reset FP / Clear Debt / Close).
+   Overrides base .context-menu-button { width: 100% } which squishes the
+   inline-flex buttons together. Mirrors the .warden-quick-actions pattern. */
+.gambler-quick-actions {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  padding-top: 4px;
+  border-top: 1px solid rgba(160, 140, 112, 0.3);
+  margin-top: 4px;
+}
+
+.gambler-quick-actions .context-menu-button {
+  width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 5px;
+  font-size: 9px;
+}
+
+/* The two action buttons share the row evenly; the close (danger) button
+   sizes to its icon so it doesn't eat half the row. */
+.gambler-quick-actions .context-menu-button:not(.danger) {
+  flex: 1;
 }
 
 /* Compact Martyr Menu Styles */

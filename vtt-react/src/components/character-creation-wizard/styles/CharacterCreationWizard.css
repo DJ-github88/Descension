@@ -4846,6 +4846,18 @@ button.gender-option.selected {
     box-shadow: 0 2px 4px rgba(255, 215, 0, 0.3);
 }
 
+.damage-type-divine {
+    background: rgba(218, 165, 32, 0.15);
+    color: #b8860b;
+    border-color: rgba(218, 165, 32, 0.4);
+}
+
+.damage-type-divine:hover {
+    background: rgba(218, 165, 32, 0.25);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(218, 165, 32, 0.3);
+}
+
 .damage-type-acid {
     background: rgba(139, 195, 74, 0.15);
     color: #689f38;
@@ -6358,6 +6370,16 @@ button.gender-option.selected {
         scrollbar-color: #d4af37 rgba(212, 175, 55, 0.2) !important;
     }
 
+    /* Add vertical breathing room so the active circle's box-shadow isn't clipped */
+    .character-wizard-container .progress-steps-horizontal {
+        padding: 6px 4px !important;
+    }
+
+    /* Don't scale the circle on mobile — prevents clipping inside the scroll strip */
+    .character-wizard-container .progress-step-horizontal.active .step-circle-horizontal {
+        transform: none !important;
+    }
+
     .header-right {
         flex: 0 0 auto !important;
         width: auto !important;
@@ -6419,6 +6441,31 @@ button.gender-option.selected {
     }
 }
 
+/* Phone-sized screens: compact buttons to prevent overlap */
+@media (max-width: 768px) {
+    /* Compact wizard buttons */
+    .character-wizard-container .wizard-btn {
+        padding: 0.5rem 0.75rem !important;
+        min-width: auto !important;
+        font-size: 0.8rem !important;
+        gap: 0.35rem !important;
+    }
+
+    .character-wizard-container .wizard-btn-cancel {
+        padding: 0.5rem !important;
+        min-width: 38px !important;
+    }
+
+    /* Keep step names hidden on phones */
+    .step-name-horizontal {
+        display: none !important;
+    }
+
+    .step-connector {
+        display: none !important;
+    }
+}
+
 /* For very small screens - further reduce sizes */
 @media (max-width: 600px) {
     .wizard-title {
@@ -6440,17 +6487,29 @@ button.gender-option.selected {
     }
 
     .progress-step-horizontal {
-        min-width: 45px;
-        max-width: 50px;
+        min-width: 34px;
+        max-width: 40px;
     }
 
+    /* Step names and connectors stay hidden */
     .step-name-horizontal {
-        font-size: 0.5rem;
+        display: none !important;
     }
 
     .step-connector {
-        width: 8px;
-        margin-top: -13px;
+        display: none !important;
+        width: 0 !important;
+        margin: 0 !important;
+    }
+
+    /* Even more compact buttons */
+    .character-wizard-container .wizard-btn {
+        padding: 0.4rem 0.6rem !important;
+        font-size: 0.75rem !important;
+    }
+
+    .character-wizard-container .wizard-btn i {
+        font-size: 0.85rem;
     }
 
     .user-info {
@@ -13545,5 +13604,84 @@ button.gender-option.selected {
     .core-draft-panels-container {
         gap: 0.75rem;
         padding: 0.25rem;
+    }
+}
+
+/* ============================================
+   MOBILE SECTION TABS - CHARACTER CREATION
+   Tab-based section switching for small screens
+   ============================================ */
+
+.mobile-section-tabs-bar {
+    display: none;
+}
+
+/* Phone-sized screens: show tabs, stack panels, show only active */
+@media (max-width: 768px) {
+    .mobile-section-tabs-bar {
+        display: flex;
+        gap: 0;
+        padding: 0.5rem 0.5rem 0;
+        background: rgba(60, 40, 20, 0.08);
+        border-bottom: 2px solid #997e55;
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        box-sizing: border-box;
+    }
+
+    .mobile-section-tab {
+        flex: 1;
+        padding: 0.65rem 0.25rem;
+        border: none;
+        background: transparent;
+        color: #6b5a42;
+        font-family: 'Crimson Text', serif;
+        font-size: 0.78rem;
+        font-weight: 600;
+        cursor: pointer;
+        border-bottom: 3px solid transparent;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.2rem;
+        transition: color 0.15s, border-color 0.15s;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .mobile-section-tab i {
+        font-size: 1rem;
+    }
+
+    .mobile-section-tab.active {
+        color: #2e1e0f;
+        border-bottom-color: #c8a45c;
+    }
+
+    .mobile-section-tab:disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
+    }
+
+    /* Hide all panels by default on mobile, show only the active one */
+    .core-draft-panels-container[data-mobile-panel="selections"]
+        > .core-draft-column[data-mobile-panel="character"],
+    .core-draft-panels-container[data-mobile-panel="selections"]
+        > .core-draft-column[data-mobile-panel="codex"],
+    .core-draft-panels-container[data-mobile-panel="character"]
+        > .core-draft-column[data-mobile-panel="selections"],
+    .core-draft-panels-container[data-mobile-panel="character"]
+        > .core-draft-column[data-mobile-panel="codex"],
+    .core-draft-panels-container[data-mobile-panel="codex"]
+        > .core-draft-column[data-mobile-panel="selections"],
+    .core-draft-panels-container[data-mobile-panel="codex"]
+        > .core-draft-column[data-mobile-panel="character"] {
+        display: none !important;
+    }
+
+    /* The active column should take full available height and scroll internally */
+    .core-draft-panels-container[data-mobile-panel] > .core-draft-column {
+        flex: 1;
+        min-height: 0;
     }
 }

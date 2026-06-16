@@ -314,34 +314,32 @@ const Step3Effects = memo(({ onNext, onPrevious, stepNumber, totalSteps, isActiv
     switch (effectType) {
       case 'damage':
         return !!state.damageConfig &&
-               !!state.damageConfig.formula &&
-               !!state.damageConfig.primaryElement;
+               !!state.damageConfig.formula;
       case 'healing':
         return !!state.healingConfig &&
                !!state.healingConfig.formula;
       case 'buff':
         return !!state.buffConfig &&
-               !!state.buffConfig.buffType &&
-               ((state.buffConfig.effects && state.buffConfig.effects.length > 0) ||
-                !!state.buffConfig.customDescription);
+               ((state.buffConfig.statModifiers && state.buffConfig.statModifiers.length > 0) ||
+                (state.buffConfig.statusEffects && state.buffConfig.statusEffects.length > 0));
       case 'debuff':
         return !!state.debuffConfig &&
-               !!state.debuffConfig.debuffType &&
-               ((state.debuffConfig.effects && state.debuffConfig.effects.length > 0) ||
-                !!state.debuffConfig.customDescription);
+               ((state.debuffConfig.statPenalties && state.debuffConfig.statPenalties.length > 0) ||
+                (state.debuffConfig.statusEffects && state.debuffConfig.statusEffects.length > 0));
       case 'utility':
         return !!state.utilityConfig &&
-               !!state.utilityConfig.utilityType &&
-               !!state.utilityConfig.subtype;
+               !!state.utilityConfig.utilityType;
       case 'control':
         return !!state.controlConfig &&
                !!state.controlConfig.controlType;
       case 'summoning':
         return !!state.summoningConfig &&
-               !!state.summoningConfig.creatureType;
+               ((state.summoningConfig.creatures && state.summoningConfig.creatures.length > 0) ||
+                !!state.summoningConfig.creatureType);
       case 'transformation':
         return !!state.transformationConfig &&
-               !!state.transformationConfig.transformationType;
+               (!!state.transformationConfig.transformationType ||
+                !!state.transformationConfig.transformType);
       case 'purification':
         return !!state.purificationConfig &&
                !!state.purificationConfig.purificationType;

@@ -353,27 +353,28 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
   // Resource System
   resourceSystem: {
     title: "The Forearm Graft & Shard Chambers",
-    subtitle: "Sphere Generation & Elemental Combination (Dynamic Spell Crafting)",
+    subtitle: "Building Block Generation & Formulation (Dynamic Spell Crafting)",
     description: `The Arcanoneer uses a specialized resource system centered around a massive iron sleeve grafted directly to the arm, loaded with crystallized shards of the caster's own blood.
 
 **Visual Representation**:
-- **Arcane Spheres**: Purple orbs of pure, humming force
-- **Radiant Spheres**: Golden orbs of searing, white-hot light
-- **blight+blight Spheres**: Pitch-black orbs of writhing, blight darkness
-- **Fire Spheres**: Red-orange orbs of sputtering, explosive heat
-- **Frost Spheres**: Pale blue orbs of jagged rime and frost crystals
-- **Nature Spheres**: Green orbs crackling with thunderous ozone static
-- **Chaos Spheres**: Iridescent, shifting orbs of unstable, morphing energy
+- **Force Blocks**: Purple orbs of pure, humming force
+- **Light Blocks**: Golden orbs of searing, white-hot radiance
+- **Shadow Blocks**: Dark violet orbs of writhing, absolute darkness
+- **Heat Blocks**: Red-orange orbs of sputtering, explosive heat
+- **Cold Blocks**: Pale blue orbs of jagged frost and ice crystals
+- **Spark Blocks**: Green orbs crackling with thunderous ozone static
+- **Flesh Blocks**: Crimson orbs of pulsing, compressed biological tissue
+- **Wyrd Blocks**: Iridescent, shifting orbs of unstable, morphing energy
 
 **How It Changes Each Turn**:
-- **Turn Start**: 4 new spheres appear (from your 4d8 roll)
-- **When Casting**: Spent spheres disappear from the cylinder
-- **When Banking**: Unused spheres remain visible, accumulating over turns (max **12 banked**)
-- **Overflow**: If rolling would exceed 12, you choose which new spheres to keep. Excess are lost.
-- **Combat End**: All spheres vanish — the graft vents and cools down
+- **Turn Start**: 4 new blocks appear (from your 4d8 roll)
+- **When Casting**: Spent blocks disappear from the cylinder
+- **When Banking**: Unused blocks remain visible, accumulating over turns (max **12 banked**)
+- **Overflow**: If rolling would exceed 12, you choose which new blocks to keep. Excess are lost.
+- **Combat End**: All blocks vanish — the graft vents and cools down
 - **The Recoil Anchor**: Discharging the heavy cannon is so violent that your movement speed is reduced to 0 for the turn whenever you cast a spell.
 
-**Reading the Bar at a Glance**: The cylinder bar represents your active ammunition. A cylinder full of Fire spheres indicates pure explosive potential. A diverse mix suggests high utility. You must constantly analyze what matrix combos and Recipes your current bank can feed. With 36 combinations and learned Recipes, managing your bank becomes a deadly calculus.`,
+**Reading the Bar at a Glance**: The cylinder bar represents your active ammunition. A cylinder full of Heat blocks indicates pure explosive potential. A diverse mix suggests high utility. You must constantly analyze what formulations and Recipes your current bank can feed. With 36 formulations and learned Recipes, managing your bank becomes a deadly calculus.`,
 
     mechanics: {
       title: "How It Works",
@@ -381,23 +382,23 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
         {
           type: "step",
           stepNumber: 1,
-          title: "Roll Spheres",
+          title: "Roll Blocks",
           subtitle: "Start of Turn",
-          content: `Roll **4d8** (5d8 for Entropy Weavers). Each die produces one elemental crystallized blood-shard.`,
+          content: `Roll **4d8** (5d8 for Entropy Weavers). Each die produces one primordial Building Block — a crystallized blood-shard.`,
         },
         {
           type: "step",
           stepNumber: 2,
           title: "Bank or Spend",
           subtitle: "Your Choice",
-          content: `Spheres persist until spent or combat ends (max **12 banked**). Bank for later or spend now.`,
+          content: `Blocks persist until spent or combat ends (max **12 banked**). Bank for later or spend now.`,
         },
         {
           type: "step",
           stepNumber: 3,
-          title: "Pick Action + Elements",
+          title: "Pick Action + Blocks",
           subtitle: "Combine & Cast",
-          content: `Choose an **action** (what shape) and your **spheres** (what elements). Cast and pay both mana and mandatory HP recoil. Firing anchors you, reducing movement speed to 0.`,
+          content: `Choose an **action** (what shape) and your **blocks** (what elements). Combine two blocks into a formulation and pay both mana and mandatory HP recoil. Firing anchors you, reducing movement speed to 0.`,
         },
       ],
       actionTable: {
@@ -617,7 +618,7 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
         "Spheres + Mana. You need **both**. A full bank is useless without mana.",
       manaRegeneration: {
         title: "Mana Regeneration",
-        content: `You have a **Mana Pool** equal to 10 + (Intelligence × 2). At the start of each turn, you regenerate mana equal to 2 + (Intelligence / 4, rounded down). Mana does NOT regenerate outside combat. Between fights, you must rest (short rest = 50% mana restored, long rest = full mana). The Siphon fallback (destroy 1 sphere → recover 2 mana) exists specifically for mana-starved turns.`,
+        content: `You have a **Mana Pool** equal to 10 + (Intelligence Ã— 2). At the start of each turn, you regenerate mana equal to 2 + (Intelligence / 4, rounded down). Mana does NOT regenerate outside combat. Between fights, you must rest (short rest = 50% mana restored, long rest = full mana). The Siphon fallback (destroy 1 sphere → recover 2 mana) exists specifically for mana-starved turns.`,
       },
       actionPointsRule: {
         title: "Action Points",
@@ -685,7 +686,7 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
         ],
         [
           "7",
-          "Flesh",
+          "storm",
           "Compressed Flesh",
           "Suture flesh, create gristle barriers, cauterize, and manipulate biological tissue. Grimdark, visceral, and dark fantasy.",
         ],
@@ -766,7 +767,7 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
 - **4d8 dice** (for sphere generation)
 - **Colored tokens or glass beads** (8 colors, at least 4 of each)
 - **A reference card** with the d8-to-element chart (see below)
-- **A printed Combination Matrix** (see the 8×8 table below)
+- **A printed Combination Matrix** (see the 8Ã—8 table below)
 
 **Recommended Token Colors**:
 - Arcane (1): Purple
@@ -795,14 +796,14 @@ All 36 two-sphere base combos. Cost varies by Firing Profile type (4-7 mana; see
 | **Arcane** | Arcane Pulse | Divine Bolt | Void Bolt | Arcane Flame | Crystal Shard | Thunderstrike | Visceral Cocoon | Wild Magic ★ |
 | **Radiant** | → | Radiance | Twilight | Solar Flare | Aurora | Verdant Light | Crucible of Sinew | Chaos Light ★ |
 | **blight+blight** | → | → | Dark Bolt | Hellfire | Frostbite | Blight | Grisly Veil | Entropy ★ |
-| **Fire** | → | → | → | Flame Burst | Steam † | Wildfire | Cauterizing Slag | Chaos Flame ★ |
+| **Fire** | → | → | → | Flame Burst | Steam â€  | Wildfire | Cauterizing Slag | Chaos Flame ★ |
 | **Frost** | → | → | → | → | Frost Spike | Hailstorm | Rime-Frozen Graft | Glitch Frost ★ |
 | **Nature** | → | → | → | → | → | Storm Surge | Sinew-Spark Leap | Primal Chaos ★ |
 | **Flesh** | → | → | → | → | → | → | Gristle Blockade | Amorphous Gristle Ward ★ |
 | **Chaos** | → | → | → | → | → | → | → | Chaos Bolt ★ |
 
 ★ = Chaos combo — each has its own specific random effect table. If no specific table applies, roll on the general Chaos Effects d20 table instead.
-† = Steam is a 20ft cone (only non-single-target base combo)
+â€  = Steam is a 20ft cone (only non-single-target base combo)
 
 **Matrix Reading Guide** (use the upper-right triangle):
 - Same row + column = pure pair (e.g., Fire row + Fire column = Flame Burst)
@@ -1050,7 +1051,7 @@ MAX BANKED SPHERES: 12
 
     entries: [
       // ========================================
-      // PURE PAIRS (Same Element ×2) — 8 combos
+      // PURE PAIRS (Same Element Ã—2) — 8 combos
       // Focused, reliable, elementally pure
       // ========================================
       {
@@ -1069,7 +1070,7 @@ MAX BANKED SPHERES: 12
       {
         id: "holy_holy",
         name: "Radiance",
-        elements: ["ember", "ember"],
+        elements: ["divine", "divine"],
         damageTypes: ["ember"],
         targetType: "single",
         range: 60,
@@ -1136,7 +1137,7 @@ MAX BANKED SPHERES: 12
       {
         id: "healing_healing",
         name: "Gristle Blockade",
-        elements: ["healing", "healing"],
+        elements: ["storm", "storm"],
         damageTypes: ["storm"],
         targetType: "area",
         range: 30,
@@ -1181,7 +1182,7 @@ MAX BANKED SPHERES: 12
           {
             name: "Entropy Drain",
             description:
-              "The bolt siphons vitality from the target, dealing chaos damage and granting you temporary HP equal to the damage dealt. ⚠️ NOT healing — you gain a TEMP HP buffer that decays at the end of combat. The Arcanoneer CANNOT heal. This is absorption, not restoration.",
+              "The bolt siphons vitality from the target, dealing chaos damage and granting you temporary HP equal to the damage dealt. âš ï¸ NOT healing — you gain a TEMP HP buffer that decays at the end of combat. The Arcanoneer CANNOT heal. This is absorption, not restoration.",
             damageTypes: ["wyrd"],
             targetType: "single",
             selfHeal: false,
@@ -1206,7 +1207,7 @@ MAX BANKED SPHERES: 12
       {
         id: "arcane_holy",
         name: "Divine Bolt",
-        elements: ["arcane", "ember"],
+        elements: ["arcane", "divine"],
         damageTypes: ["storm", "ember"],
         targetType: "single",
         range: 60,
@@ -1271,7 +1272,7 @@ MAX BANKED SPHERES: 12
       {
         id: "arcane_healing",
         name: "Visceral Cocoon",
-        elements: ["arcane", "healing"],
+        elements: ["arcane", "storm"],
         damageTypes: ["storm"],
         targetType: "single_ally",
         range: 30,
@@ -1337,7 +1338,7 @@ MAX BANKED SPHERES: 12
       {
         id: "holy_shadow",
         name: "Twilight",
-        elements: ["ember", "blight"],
+        elements: ["divine", "blight"],
         damageTypes: ["ember", "blight"],
         targetType: "single",
         range: 60,
@@ -1350,7 +1351,7 @@ MAX BANKED SPHERES: 12
       {
         id: "holy_fire",
         name: "Solar Flare",
-        elements: ["ember", "ember"],
+        elements: ["divine", "ember"],
         damageTypes: ["ember", "ember"],
         targetType: "single",
         range: 60,
@@ -1363,7 +1364,7 @@ MAX BANKED SPHERES: 12
       {
         id: "holy_ice",
         name: "Aurora",
-        elements: ["ember", "rime"],
+        elements: ["divine", "rime"],
         damageTypes: ["ember", "rime"],
         targetType: "single",
         range: 60,
@@ -1377,7 +1378,7 @@ MAX BANKED SPHERES: 12
       {
         id: "holy_nature",
         name: "Verdant Light",
-        elements: ["ember", "primal"],
+        elements: ["divine", "primal"],
         damageTypes: ["ember", "primal"],
         targetType: "single",
         range: 60,
@@ -1390,7 +1391,7 @@ MAX BANKED SPHERES: 12
       {
         id: "holy_healing",
         name: "Crucible of Sinew",
-        elements: ["ember", "healing"],
+        elements: ["divine", "storm"],
         damageTypes: ["ember"],
         targetType: "single_ally",
         range: 60,
@@ -1404,7 +1405,7 @@ MAX BANKED SPHERES: 12
       {
         id: "holy_chaos",
         name: "Chaos Light",
-        elements: ["ember", "wyrd"],
+        elements: ["divine", "wyrd"],
         damageTypes: ["wyrd"],
         targetType: "random",
         range: 60,
@@ -1498,7 +1499,7 @@ MAX BANKED SPHERES: 12
       {
         id: "shadow_healing",
         name: "Grisly Veil",
-        elements: ["blight", "healing"],
+        elements: ["blight", "storm"],
         damageTypes: ["blight"],
         targetType: "self",
         range: 0,
@@ -1595,7 +1596,7 @@ MAX BANKED SPHERES: 12
       {
         id: "fire_healing",
         name: "Cauterizing Slag",
-        elements: ["ember", "healing"],
+        elements: ["ember", "storm"],
         damageTypes: ["ember"],
         targetType: "single_ally",
         range: 30,
@@ -1677,7 +1678,7 @@ MAX BANKED SPHERES: 12
       {
         id: "ice_healing",
         name: "Rime-Frozen Graft",
-        elements: ["rime", "healing"],
+        elements: ["rime", "storm"],
         damageTypes: ["rime"],
         targetType: "single_ally",
         range: 30,
@@ -1744,7 +1745,7 @@ MAX BANKED SPHERES: 12
       {
         id: "nature_healing",
         name: "Sinew-Spark Leap",
-        elements: ["primal", "healing"],
+        elements: ["primal", "storm"],
         damageTypes: ["primal"],
         targetType: "self",
         range: 0,
@@ -1812,7 +1813,7 @@ MAX BANKED SPHERES: 12
       {
         id: "healing_chaos",
         name: "Amorphous Gristle Ward",
-        elements: ["healing", "wyrd"],
+        elements: ["storm", "wyrd"],
         damageTypes: ["wyrd"],
         targetType: "self",
         range: 0,

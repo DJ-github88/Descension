@@ -58,6 +58,7 @@ const CustomSelect = ({ value, onChange, options, placeholder = 'Select...', wid
                 }}
               >
                 {option.name || option.title || option.label}
+                {option.badge && <span className="select-option-badge">{option.badge}</span>}
               </button>
             ))
           )}
@@ -166,28 +167,68 @@ const DevEditor = ({
   const [exportModalOpen, setExportModalOpen] = useState(false);
   const [exportData, setExportData] = useState({ regions: '', locations: '' });
   const [copiedType, setCopiedType] = useState(null);
+  const [exportFormat, setExportFormat] = useState('code');
 
   if (!devMode) return null;
 
-  const regionZones = currentRegion ? ZONE_DATA.filter(z => z.regionId === currentRegion) : ZONE_DATA;
+  const regionZones = (currentRegion ? ZONE_DATA.filter(z => z.regionId === currentRegion) : ZONE_DATA).map(z => {
+    const regionName = REGION_POLYGONS[z.regionId]?.name || z.regionId;
+    const isPlaced = !!LOCATION_COORDINATES[z.id];
+    return {
+      ...z,
+      name: `${z.name} — ${regionName}`,
+      badge: isPlaced ? null : 'not placed'
+    };
+  });
   const campaignLocations = currentCampaign?.campaignData?.locations || [];
   const campaignLoreArticles = currentCampaign?.campaignData?.homebrew?.lore || [];
 
-  const handleExport = () => {
-    const regionsOutput = {};
+  const getDrawnRegions = () => {
+    const out = {};
     Object.values(REGION_POLYGONS).forEach(r => {
-      if (r.points && r.points.length >= 3) {
-        regionsOutput[r.id] = { ...r };
+      if (r.points && r.points.length >= 3) out[r.id] = { ...r };
+    });
+    return out;
+  };
+
+  const formatRegionEntry = (r) => {
+    const pts = r.points.map(p => `[${p[0]}, ${p[1]}]`).join(', ');
+    return `'${r.id}': {\n  points: [${pts}],\n  labelPosition: [${r.labelPosition[0]}, ${r.labelPosition[1]}]\n}`;
+  };
+
+  const handleExport = () => {
+    const drawnRegions = getDrawnRegions();
+    const hasRegions = Object.keys(drawnRegions).length > 0;
+    const hasLocations = Object.keys(LOCATION_COORDINATES).length > 0;
+
+    let regionsStr = '';
+    let locationsStr = '';
+
+    if (exportFormat === 'agent') {
+      // Agent instruction format
+      if (hasRegions) {
+        const entries = Object.values(drawnRegions).map(r => formatRegionEntry(r)).join('\n\n');
+        regionsStr = `Update the file src/data/regionPolygons.js — replace each region entry's "points" and "labelPosition" with these values (drawn in the map editor):\n\n${entries}`;
+      } else {
+        regionsStr = 'No region boundaries have been drawn yet.';
       }
-    });
 
-    const regionsStr = `export const REGION_POLYGONS = ${JSON.stringify(regionsOutput, null, 2)};\n\nexport default REGION_POLYGONS;`;
-    const locationsStr = `export const LOCATION_COORDINATES = ${JSON.stringify(LOCATION_COORDINATES, null, 2)};\n\nexport default LOCATION_COORDINATES;`;
+      if (hasLocations) {
+        const entries = Object.entries(LOCATION_COORDINATES).map(([key, data]) =>
+          `'${key}': ${JSON.stringify(data, null, 2)}`
+        ).join('\n\n');
+        locationsStr = `Add these entries to the file src/data/locationCoordinates.js:\n\n${entries}`;
+      } else {
+        locationsStr = 'No location pins have been placed yet.';
+      }
+    } else {
+      // Full JS code format (original behavior)
+      const regionsOutput = drawnRegions;
+      regionsStr = `export const REGION_POLYGONS = ${JSON.stringify(regionsOutput, null, 2)};\n\nexport default REGION_POLYGONS;`;
+      locationsStr = `export const LOCATION_COORDINATES = ${JSON.stringify(LOCATION_COORDINATES, null, 2)};\n\nexport default LOCATION_COORDINATES;`;
+    }
 
-    setExportData({
-      regions: regionsStr,
-      locations: locationsStr
-    });
+    setExportData({ regions: regionsStr, locations: locationsStr });
     setExportModalOpen(true);
   };
 
@@ -449,14 +490,30 @@ const DevEditor = ({
               </button>
             </div>
             <div className="dev-modal-body">
+              {/* Format toggle */}
+              <div className="export-format-toggle">
+                <button
+                  className={`export-format-btn ${exportFormat === 'code' ? 'active' : ''}`}
+                  onClick={() => { setExportFormat('code'); setTimeout(handleExport, 0); }}
+                >
+                  <i className="fas fa-code"></i> JS Code
+                </button>
+                <button
+                  className={`export-format-btn ${exportFormat === 'agent' ? 'active' : ''}`}
+                  onClick={() => { setExportFormat('agent'); setTimeout(handleExport, 0); }}
+                >
+                  <i className="fas fa-robot"></i> Agent Instruction
+                </button>
+              </div>
+
               <div className="export-section">
                 <div className="export-section-header">
-                  <h4>regionPolygons.js</h4>
+                  <h4>{exportFormat === 'agent' ? 'Region Boundaries (Agent)' : 'regionPolygons.js'}</h4>
                   <button 
                     className="dev-tool-btn secondary mini-btn"
                     onClick={() => handleCopy(exportData.regions, 'regions')}
                   >
-                    {copiedType === 'regions' ? <><i className="fas fa-check"></i> Copied!</> : <><i className="fas fa-copy"></i> Copy Code</>}
+                    {copiedType === 'regions' ? <><i className="fas fa-check"></i> Copied!</> : <><i className="fas fa-copy"></i> Copy</>}
                   </button>
                 </div>
                 <textarea 
@@ -469,12 +526,12 @@ const DevEditor = ({
 
               <div className="export-section">
                 <div className="export-section-header">
-                  <h4>locationCoordinates.js</h4>
+                  <h4>{exportFormat === 'agent' ? 'Location Pins (Agent)' : 'locationCoordinates.js'}</h4>
                   <button 
                     className="dev-tool-btn secondary mini-btn"
                     onClick={() => handleCopy(exportData.locations, 'locations')}
                   >
-                    {copiedType === 'locations' ? <><i className="fas fa-check"></i> Copied!</> : <><i className="fas fa-copy"></i> Copy Code</>}
+                    {copiedType === 'locations' ? <><i className="fas fa-check"></i> Copied!</> : <><i className="fas fa-copy"></i> Copy</>}
                   </button>
                 </div>
                 <textarea 

@@ -114,9 +114,9 @@ If Nesta ceases to exist retroactively, the temporal friction she generated will
 **Battlefield Control**: Freeze enemies in temporal stasis, forcing them to watch helplessly as your allies reposition.
 **Damage Mitigation**: Rewind damage taken by allies — but each wound you erase grafts localized kinetic recoil into your own body.
 **Tactical Repositioning**: Displace allies and enemies through coordinates swapping, rewriting positioning that took entire turns to establish.
-**Why Your Body Pays**: Every Flux ability accelerates metabolic fatigue. Your cells undergo micro-strain. Your max HP erodes. You take increased Arcane and Void damage because your tether to the present is frayed — those damage types resonate with the temporal fractures already embedded in your biology.
+**Why Your Body Pays**: Every Flux ability accelerates metabolic fatigue. Your cells undergo micro-strain. Your max HP erodes. You take increased Arcane and Blight damage because your tether to the present is frayed — those damage types resonate with the temporal fractures already embedded in your biology.
 
-**The Fatal Flaw**: You are incredibly fragile. Not because of armor, but because chronomancy is eating your physical stamina. Arcane and Void damage hit you with severe resonance. Your movement slows as local chronal drag increases. And the more you rewrite reality for others, the less reality wants to hold onto you.`
+**The Fatal Flaw**: You are incredibly fragile. Not because of armor, but because chronomancy is eating your physical stamina. Arcane and Blight damage hit you with severe resonance. Your movement slows as local chronal drag increases. And the more you rewrite reality for others, the less reality wants to hold onto you.`
     },
 
     playstyle: {
@@ -143,7 +143,7 @@ If Nesta ceases to exist retroactively, the temporal friction she generated will
 
     immersiveCombatExample: {
       title: "Immersive Combat Example: The Chronal Recall",
-      content: `**Round 1 — Establishing the Engine**: The battle begins as a massive ironclad vanguard charges your fragile marksman ally. You cast Chrono Bolt (5 mana) at a nearby archer, dealing 1d8 + INT force damage and slowing it. Because you are at 0 Temporal Strain, the spell kickstarts your focus and generates 2 Time Shards (2/10). Strain: 0.
+      content: `**Round 1 — Establishing the Engine**: The battle begins as a massive ironclad vanguard charges your fragile marksman ally. You cast Chrono Bolt (5 mana) at a nearby archer, dealing 1d8 + INT storm damage and slowing it. Because you are at 0 Temporal Strain, the spell kickstarts your focus and generates 2 Time Shards (2/10). Strain: 0.
 
 **Round 2 — Reaction Recovery**: The vanguard's heavy warhammer connects with your marksman. You cast Temporal Rewind as a Reaction (6 mana), rewinding the immediate trauma to heal 2d6 + Spirit. The ally's wounds knit, but you take 2 blight damage as you absorb the shock into your own nervous system as localized recoil. You gain 1 Shard (3/10). Strain: 0.
 
@@ -201,8 +201,8 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
 2. **Entropic Echo**: An entropic, hostile clone of yourself manifests in an adjacent space for 1 round, attacking your closest ally using basic Chrono Bolt profiles.
 3. **Causality Loop**: Pinned to the timeline. For 1 round, you cannot move and must repeat the exact action you took last turn.
 4. **Timeline Desynchronization**: You desynchronize completely, lengthening your Phased Out status to 2 rounds.
-5. **Chronal Singularity**: A localized gravity implosion pulls all creatures within 15ft 10ft toward you, dealing 4d6 Force damage to all caught in the collapse (including yourself).
-6. **Paradoxical Cascade**: Suffer 4d8 Force damage and your speed is halved for 2 rounds, but your Time Shards are instantly capped at 10.`
+5. **Chronal Singularity**: A localized gravity implosion pulls all creatures within 15ft 10ft toward you, dealing 4d6 Storm damage to all caught in the collapse (including yourself).
+6. **Paradoxical Cascade**: Suffer 4d8 Storm damage and your speed is halved for 2 rounds, but your Time Shards are instantly capped at 10.`
     },
 
     timeShardTable: {
@@ -386,7 +386,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
     // ========================================
     { id: "chrono_bolt",
       name: "Chrono Bolt",
-      description: "Hurl a bolt of calcified chronal energy dealing 1d8 + INT force damage. If at 0 Temporal Strain, generate 2 Time Shards instead of 1, kickstarting your engine on Turn 1.",
+      description: "Hurl a bolt of calcified chronal energy dealing 1d8 + INT storm damage. If at 0 Temporal Strain, generate 2 Time Shards instead of 1, kickstarting your engine on Turn 1.",
       level: 1,
       spellType: "ACTION",
       icon: "Arcane/Missile",
@@ -538,7 +538,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
       level: 1,
       spellType: "PASSIVE",
       icon: "Arcane/Rewind Time",
-      effectTypes: ["passive"],
+      effectTypes: ["passive", "debuff"],
       typeConfig: {
         school: "arcane",
         icon: "Arcane/Rewind Time",
@@ -642,12 +642,12 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
           {
             range: { min: 5, max: 5 },
             customName: "Chronal Singularity",
-            effect: "An implosive distortion forms. All creatures within 15 feet (including yourself) must make an Agility save or be pulled 10 feet toward you and take 4d6 Force damage."
+            effect: "An implosive distortion forms. All creatures within 15 feet (including yourself) must make an Agility save or be pulled 10 feet toward you and take 4d6 Storm damage."
           },
           {
             range: { min: 6, max: 6 },
             customName: "Paradoxical Cascade",
-            effect: "A cascade of chronal energy erupts. You take 4d8 Force damage and speed is halved for 2 rounds, but Time Shards are instantly capped at 10."
+            effect: "A cascade of chronal energy erupts. You take 4d8 Storm damage and speed is halved for 2 rounds, but Time Shards are instantly capped at 10."
           }
         ]
       },
@@ -1028,7 +1028,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
     // ========================================
     { id: "temporal_vortex",
       name: "Temporal Vortex",
-      description: "Create a swirling vortex dealing 3d6 + INT force damage to enemies in a 20ft radius and pulling them 10ft closer (DC 14 Agility save halves/negates).",
+      description: "Create a swirling vortex dealing 3d6 + INT storm damage to enemies in a 20ft radius and pulling them 10ft closer (DC 14 Agility save halves/negates).",
       level: 4,
       spellType: "ACTION",
       icon: "Force/Force Wave",
@@ -1436,7 +1436,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
     // ========================================
     { id: "temporal_fracture",
       name: "Temporal Fracture",
-      description: "Tear a micro-fracture in the target's timeline, dealing 4d8 + INT force damage and blocking them from taking Reactions for 2 rounds.",
+      description: "Tear a micro-fracture in the target's timeline, dealing 4d8 + INT storm damage and blocking them from taking Reactions for 2 rounds.",
       level: 6,
       spellType: "ACTION",
       icon: "Force/Energy Blast 1",
@@ -1618,7 +1618,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
     // ========================================
     { id: "chronal_disruption",
       name: "Chronal Disruption",
-      description: "Heavy Flux shockwave. Deal 6d6 + INT force damage in a 30ft cone and freeze enemies in stasis for 1 round (DC 16 Agility save). erodes 2 max HP.",
+      description: "Heavy Flux shockwave. Deal 6d6 + INT storm damage in a 30ft cone and freeze enemies in stasis for 1 round (DC 16 Agility save). erodes 2 max HP.",
       level: 7,
       spellType: "ACTION",
       icon: "Force/Force Wave",
@@ -1869,7 +1869,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
 
     { id: "temporal_flux_resurrection",
       name: "Temporal Flux: Resurrection",
-      description: "Extreme Flux. Wrench a deceased ally's timeline back, reviving them at 50% HP. Caster takes 4d6 necrotic and erodes 3 max HP.",
+      description: "Extreme Flux. Wrench a deceased ally's timeline back, reviving them at 50% HP. Caster takes 4d6 blight and erodes 3 max HP.",
       level: 8,
       spellType: "ACTION",
       icon: "Arcane/Open Portal",
@@ -1990,7 +1990,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
     // ========================================
     { id: "temporal_shockwave",
       name: "Temporal Shockwave",
-      description: "Cataclysmic Flux. Deal 8d10 + INT force damage in a 30ft radius and freeze survivors in stasis for 2 rounds (DC 18 Agility save). erodes 5 max HP.",
+      description: "Cataclysmic Flux. Deal 8d10 + INT storm damage in a 30ft radius and freeze survivors in stasis for 2 rounds (DC 18 Agility save). erodes 5 max HP.",
       level: 9,
       spellType: "ACTION",
       icon: "Force/Force Wave",
@@ -2066,7 +2066,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
 
     { id: "reality_fracture",
       name: "Reality Fracture",
-      description: "Cataclysmic Flux. Rip open a tear in space dealing 6d12 force damage in a 20ft radius. Somatic drag deals 1d6 necrotic to caster. erodes 3 max HP.",
+      description: "Cataclysmic Flux. Rip open a tear in space dealing 6d12 storm damage in a 20ft radius. Somatic drag deals 1d6 necrotic to caster. erodes 3 max HP.",
       level: 9,
       spellType: "ACTION",
       icon: "Arcane/Spiral Vortex",
@@ -2120,7 +2120,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
 
     { id: "chronal_paradox",
       name: "Chronal Paradox",
-      description: "Cataclysmic Flux. Split enemy timeline: Spirit save each round or take 8d6 psychic and stunned; success halves damage and slows. erodes 3 max HP.",
+      description: "Cataclysmic Flux. Split enemy timeline: Spirit save each round or take 8d6 arcane and stunned; success halves damage and slows. erodes 3 max HP.",
       level: 9,
       spellType: "ACTION",
       icon: "Arcane/Sands of Time",
@@ -2223,7 +2223,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
 
     { id: "chronal_restoration",
       name: "Chronal Restoration",
-      description: "Absolute Flux. Fully restore all allies within 30ft to their start-of-combat HP/AP/status. Caster takes 5d6 necrotic and erodes 10 max HP.",
+      description: "Absolute Flux. Fully restore all allies within 30ft to their start-of-combat HP/AP/status. Caster takes 5d6 blight and erodes 10 max HP.",
       level: 10,
       spellType: "ACTION",
       icon: "Arcane/Rewind Time",
@@ -2282,7 +2282,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
 
     { id: "chronal_vortex",
       name: "Chronal Vortex",
-      description: "Absolute Flux. Deal 10d10 + INT force damage in a 50ft radius, drag all caught to the center, and freeze them in stasis for 2 rounds. erodes 5 max HP.",
+      description: "Absolute Flux. Deal 10d10 + INT storm damage in a 50ft radius, drag all caught to the center, and freeze them in stasis for 2 rounds. erodes 5 max HP.",
       level: 10,
       spellType: "ACTION",
       icon: "Force/Force Wave",

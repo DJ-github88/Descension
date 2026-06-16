@@ -189,3 +189,39 @@
     gap: 6px;
     margin-top: 4px;
 }
+
+/* ===== SIZE VARIANTS =====
+   Previously the Augur bar rendered identically at every size, making it
+   oversized in cramped party-member frames. These rules scale it down.
+*/
+.augur-resource-wrapper.small .augur-track,
+.small .augur-track {
+    height: 12px;
+    border-width: 1.5px;
+    gap: 1px;
+}
+
+.augur-resource-wrapper.small .augur-bar-value,
+.small .augur-bar-value {
+    font-size: 8px;
+}
+
+/* Party-member frame: very constrained width — keep the dual-track readable */
+.party-member-frame .augur-track {
+    height: 12px;
+    border-width: 1.5px;
+}
+.party-member-frame .augur-bar-value {
+    font-size: 8px;
+}
+
+/* Character-card compact (account dashboard) */
+.character-card .augur-track,
+.character-card-compact .augur-track {
+    height: 12px;
+    border-width: 1.5px;
+}
+.character-card .augur-bar-value,
+.character-card-compact .augur-bar-value {
+    font-size: 8px;
+}

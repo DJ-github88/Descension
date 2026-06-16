@@ -10,32 +10,24 @@
   font-family: 'Cinzel', serif;
 }
 
+/* ── Dive Transition ──
+   The container is transparent during 'entering' so the landing page's
+   CSS-background dive is visible underneath. It crossfades to opaque
+   when phase reaches 'immersed', timed to sync with the dive completion. */
+
 .world-map-immersive.phase-entering {
   opacity: 0;
-  animation: wmFadeIn 0.4s ease-out forwards;
-}
-
-.world-map-immersive.phase-zoomingOut {
-  opacity: 1;
+  pointer-events: none;
 }
 
 .world-map-immersive.phase-immersed {
   opacity: 1;
+  transition: opacity 0.6s ease-out;
 }
 
 .world-map-immersive.phase-zoomingIn {
-  opacity: 1;
-  animation: wmFadeOut 1s ease-in forwards;
-}
-
-@keyframes wmFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes wmFadeOut {
-  from { opacity: 1; }
-  to { opacity: 0; }
+  opacity: 0;
+  transition: opacity 0.8s ease-in;
 }
 
 .map-canvas-wrapper {
@@ -1298,5 +1290,280 @@
 .player-pin.hovered .pin-icon-group path {
   fill: #ffe082 !important;
   stroke: #2c1810 !important;
+}
+
+/* ==========================================================================
+   Dev Quick-Copy Toast
+   ========================================================================== */
+.dev-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 10001;
+  background: linear-gradient(135deg, rgba(32, 19, 11, 0.97) 0%, rgba(21, 11, 6, 0.98) 100%);
+  border: 1px solid rgba(196, 164, 74, 0.4);
+  border-radius: 10px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7), inset 0 0 15px rgba(212, 175, 55, 0.05);
+  padding: 14px 18px;
+  min-width: 300px;
+  max-width: 420px;
+  font-family: 'Cinzel', serif;
+  backdrop-filter: blur(12px);
+  animation: devToastSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes devToastSlideIn {
+  from { opacity: 0; transform: translateX(-20px) translateY(10px); }
+  to { opacity: 1; transform: translateX(0) translateY(0); }
+}
+
+.dev-toast-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.dev-toast-icon {
+  color: #6abf69;
+  font-size: 16px;
+}
+
+.dev-toast-title {
+  font-size: 13px;
+  color: #f5ebd5;
+  font-weight: 600;
+  flex: 1;
+}
+
+.dev-toast-close {
+  background: transparent;
+  border: none;
+  color: rgba(240, 230, 210, 0.4);
+  cursor: pointer;
+  font-size: 14px;
+  padding: 2px;
+  transition: color 0.15s ease;
+}
+
+.dev-toast-close:hover {
+  color: #ebd5a3;
+}
+
+.dev-toast-meta {
+  font-size: 11px;
+  color: rgba(240, 230, 210, 0.5);
+  font-family: 'Courier New', monospace;
+  margin-bottom: 10px;
+}
+
+.dev-toast-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.dev-toast-btn {
+  flex: 1;
+  padding: 7px 12px;
+  border-radius: 5px;
+  border: 1px solid rgba(196, 164, 74, 0.3);
+  background: rgba(196, 164, 74, 0.08);
+  color: #ebd5a3;
+  font-size: 11px;
+  font-family: 'Cinzel', serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.dev-toast-btn:hover {
+  background: rgba(196, 164, 74, 0.15);
+  border-color: rgba(212, 175, 55, 0.5);
+  color: #ffe082;
+}
+
+.dev-toast-btn.agent {
+  background: rgba(59, 122, 140, 0.1);
+  border-color: rgba(59, 122, 140, 0.3);
+  color: #81d4fa;
+}
+
+.dev-toast-btn.agent:hover {
+  background: rgba(59, 122, 140, 0.2);
+  border-color: rgba(59, 122, 140, 0.5);
+}
+
+/* ==========================================================================
+   Map Notification System — Toasts & Confirm Dialogs
+   ========================================================================== */
+
+/* ── Toast stack (top-center) ── */
+.map-toast-stack {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10002;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+  max-width: 480px;
+  width: calc(100% - 32px);
+}
+
+.map-toast {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(32, 19, 11, 0.97) 0%, rgba(21, 11, 6, 0.98) 100%);
+  border: 1px solid rgba(196, 164, 74, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7), inset 0 0 12px rgba(212, 175, 55, 0.04);
+  backdrop-filter: blur(14px);
+  font-family: 'Cinzel', serif;
+  pointer-events: auto;
+  animation: mapToastIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.map-toast.warning { border-color: rgba(255, 183, 77, 0.35); }
+.map-toast.error   { border-color: rgba(239, 83, 80, 0.35); }
+.map-toast.success { border-color: rgba(102, 187, 106, 0.35); }
+
+@keyframes mapToastIn {
+  from { opacity: 0; transform: translateY(-16px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.map-toast-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.map-toast-message {
+  flex: 1;
+  font-size: 12.5px;
+  color: #f0e6d2;
+  line-height: 1.4;
+}
+
+.map-toast-close {
+  background: transparent;
+  border: none;
+  color: rgba(240, 230, 210, 0.35);
+  cursor: pointer;
+  font-size: 12px;
+  padding: 2px 4px;
+  flex-shrink: 0;
+  transition: color 0.15s ease;
+}
+
+.map-toast-close:hover {
+  color: #ebd5a3;
+}
+
+/* ── Confirm dialog (centered modal) ── */
+.map-confirm-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 10003;
+  background: rgba(8, 4, 2, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(3px);
+  animation: mapToastIn 0.25s ease-out;
+}
+
+.map-confirm-card {
+  width: 400px;
+  max-width: calc(100% - 32px);
+  background: linear-gradient(135deg, #20130b 0%, #150b06 100%);
+  border: 1.5px solid rgba(196, 164, 74, 0.45);
+  border-radius: 12px;
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(212, 175, 55, 0.06);
+  padding: 24px;
+  font-family: 'Cinzel', serif;
+  animation: mapConfirmIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes mapConfirmIn {
+  from { opacity: 0; transform: scale(0.92) translateY(8px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.map-confirm-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.map-confirm-header i {
+  font-size: 22px;
+}
+
+.map-confirm-header h3 {
+  margin: 0;
+  font-size: 16px;
+  color: #f5ebd5;
+  letter-spacing: 1px;
+}
+
+.map-confirm-body {
+  margin-bottom: 20px;
+}
+
+.map-confirm-body p {
+  margin: 0;
+  font-size: 13px;
+  color: rgba(240, 230, 210, 0.8);
+  line-height: 1.5;
+}
+
+.map-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.map-confirm-btn {
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.map-confirm-btn.cancel {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(240, 230, 210, 0.6);
+}
+
+.map-confirm-btn.cancel:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+}
+
+.map-confirm-btn.confirm {
+  background: rgba(196, 164, 74, 0.15);
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  color: #ffe082;
+  font-weight: 600;
+}
+
+.map-confirm-btn.confirm:hover {
+  background: rgba(196, 164, 74, 0.25);
+  border-color: #ffe082;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.25);
 }
 

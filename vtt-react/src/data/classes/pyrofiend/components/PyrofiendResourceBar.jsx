@@ -5,6 +5,7 @@ import useGameStore from '../../../../store/gameStore';
 import useCharacterStore from '../../../../store/characterStore';
 import '../styles/PyrofiendResourceBar.css';
 import '../../../../styles/unified-context-menu.css';
+import { useResourceBarTooltip } from '../../../../components/hud/useResourceBarTooltip';
 
 const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud', isOwner = true, onClassResourceUpdate = null }) => {
     // Read inferno level from classResource prop, default to 0 if not available
@@ -18,7 +19,7 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
     const [showSpecSelector, setShowSpecSelector] = useState(false);
     
     const barRef = useRef(null);
-    const tooltipRef = useRef(null);
+    const tooltipRef = useResourceBarTooltip(barRef, showTooltip, [infernoLevel]);
     const controlsMenuRef = useRef(null);
 
     const specConfigs = {
@@ -40,98 +41,19 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
             passive: 'Wildfire Spread',
             passiveDesc: 'When an enemy with your burn dies, burn spreads to all enemies within 10 ft (2d6 fire + 1d6/turn for 3 turns).'
         },
-        hellfire: { 
-            name: 'Hellfire', 
-            baseColor: '#4B0000',
-            activeColor: '#8B0000',
-            glowColor: '#B22222',
-            icon: 'fa-skull-crossbones',
-            passive: 'Demonic Vitality',
-            passiveDesc: 'Heal for 25% of fire damage dealt. When descending Inferno Levels, gain 3 temp HP per level descended.'
+        apostate: {
+            name: "The Apostate's Path",
+            baseColor: '#6B2020',
+            activeColor: '#8B3A3A',
+            glowColor: '#C06060',
+            icon: 'fa-fire-flame-curved',
+            passive: 'Tempered Pact',
+            passiveDesc: "All fire spells cost double mana but ascend the Inferno Veil at half the rate. Descending via Cooling Ember grants +1 next fire damage per level descended. Advantage on Demonic Whisper Spirit saves. No self-healing."
         }
     };
 
-    const currentSpec = specConfigs[selectedSpec];
+    const currentSpec = specConfigs[selectedSpec] || specConfigs.inferno;
 
-    // Auto-adjust tooltip position
-    useEffect(() => {
-        if (!showTooltip || !tooltipRef.current || !barRef.current) return;
-
-        const updatePosition = () => {
-            const tooltip = tooltipRef.current;
-            const bar = barRef.current;
-            if (!tooltip || !bar) return;
-
-            tooltip.style.opacity = '0';
-            tooltip.style.position = 'fixed';
-
-            const barRect = bar.getBoundingClientRect();
-            const tooltipRect = tooltip.getBoundingClientRect();
-
-            if (barRect.width === 0 && barRect.height === 0 && barRect.left === 0 && barRect.top === 0) {
-                requestAnimationFrame(updatePosition);
-                return;
-            }
-
-            const viewportWidth = window.innerWidth;
-            const viewportHeight = window.innerHeight;
-            const margin = 8;
-
-            let hudContainer = bar.closest('.party-hud, .party-member-frame, .character-portrait-hud');
-            let hudBottom = barRect.bottom;
-
-            if (hudContainer) {
-                const hudRect = hudContainer.getBoundingClientRect();
-                hudBottom = hudRect.bottom;
-            }
-
-            const tooltipWidth = tooltipRect.width > 0 ? tooltipRect.width : 300;
-            const tooltipHeight = tooltipRect.height > 0 ? tooltipRect.height : 200;
-
-            let left = barRect.left + (barRect.width / 2) - (tooltipWidth / 2);
-            let top = hudBottom + margin;
-
-            if (tooltipRect.width === 0 || tooltipRect.height === 0) {
-                // Apply fallback positioning so it doesn't default to the top-left of the viewport,
-                // but keep it hidden (opacity 0) while waiting for layout dimensions to resolve.
-                tooltip.style.left = `${left}px`;
-                tooltip.style.top = `${top}px`;
-                tooltip.style.opacity = '0';
-                requestAnimationFrame(updatePosition);
-                return;
-            }
-
-            if (left < margin) left = margin;
-            if (left + tooltipWidth > viewportWidth - margin) {
-                left = viewportWidth - tooltipWidth - margin;
-            }
-
-            if (top + tooltipHeight > viewportHeight - margin) {
-                if (hudContainer) {
-                    const hudRect = hudContainer.getBoundingClientRect();
-                    top = hudRect.top - tooltipHeight - margin;
-                } else {
-                    top = barRect.top - tooltipHeight - margin;
-                }
-                if (top < margin) top = margin;
-            }
-
-            tooltip.style.left = `${left}px`;
-            tooltip.style.top = `${top}px`;
-            tooltip.style.transform = 'none';
-            tooltip.style.zIndex = '2147483647';
-            tooltip.style.opacity = '1';
-        };
-
-        updatePosition();
-        requestAnimationFrame(() => requestAnimationFrame(updatePosition));
-        const timeoutId = setTimeout(updatePosition, 50);
-
-        return () => {
-            clearTimeout(timeoutId);
-            if (tooltipRef.current) tooltipRef.current.style.opacity = '0';
-        };
-    }, [showTooltip, infernoLevel, selectedSpec]);
 
     // Close controls menu when clicking outside
     useEffect(() => {
@@ -337,6 +259,11 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
                     {renderInfernoSegments()}
                 </div>
 
+                {/* Numeric overlay â€” the level must be visible for the game's most dangerous resource */}
+                <div className={`inferno-level-overlay ${infernoLevel >= 9 ? 'critical' : infernoLevel >= 7 ? 'danger' : ''}`}>
+                    {infernoLevel}/{maxInfernoLevel}
+                </div>
+
 
                 {/* Heat distortion effect at high levels */}
                 {infernoLevel >= 7 && (
@@ -393,21 +320,6 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
                             </div>
                         </>
                     )}
-
-                    {((selectedSpec === 'inferno' && infernoLevel >= 7) ||
-                      (selectedSpec === 'wildfire') ||
-                      (selectedSpec === 'hellfire')) && (
-                        <>
-                            <div className="tooltip-divider"></div>
-
-                            <div className="tooltip-section">
-                                <div className="tooltip-label">{currentSpec.passive} ({currentSpec.name})</div>
-                                <div className="passive-desc">
-                                    {currentSpec.passiveDesc}
-                                </div>
-                            </div>
-                        </>
-                    )}
                 </div>,
                 document.body
             )}
@@ -431,34 +343,53 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
                         <div className="context-menu-section">
                             <div className="context-menu-section-header">Inferno Veil Controls</div>
 
-                            <div className="context-menu-section-header" style={{fontSize: '12px', marginTop: '12px', marginBottom: '8px'}}>
-                                Inferno Level: {infernoLevel}
+                            {/* Current state summary â€” descriptive, not just a number */}
+                            <div style={{ fontSize: '0.8rem', marginBottom: '6px', lineHeight: 1.35 }}>
+                                <div><strong>Stage:</strong> {getStageName(infernoLevel)} <span style={{ color: '#8b5a2b' }}>(Level {infernoLevel}/{maxInfernoLevel})</span></div>
+                                <div><strong>Fire bonus:</strong> +{infernoLevel} damage per die</div>
+                                <div style={{ color: infernoLevel >= 5 ? '#B22222' : '#5a4628' }}>
+                                    <strong>Drawback:</strong> {getDrawbackText(infernoLevel)}
+                                </div>
+                                {infernoLevel >= 5 && (
+                                    <div style={{ color: '#8B0000', fontStyle: 'italic', marginTop: '2px' }}>
+                                        Infernal Surge active â€” Demonic Whisper Spirit saves begin at Level 5.
+                                    </div>
+                                )}
+                                {infernoLevel === 0 && (
+                                    <div style={{ color: '#5a4628', fontStyle: 'italic', marginTop: '2px' }}>
+                                        Cast fire spells to ascend. Use <strong>Cooling Ember</strong> to descend.
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className="context-menu-section-header" style={{fontSize: '12px', marginTop: '8px', marginBottom: '8px'}}>
+                                Set Inferno Level
                             </div>
 
                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '4px', marginBottom: '8px' }}>
-                                <button className="context-menu-button" onClick={() => handleInfernoSet(0)}>
+                                <button className="context-menu-button" onClick={() => handleInfernoSet(0)} title="Mortal â€” reset">
                                     0
                                 </button>
-                                <button className="context-menu-button" onClick={() => handleInfernoSet(3)}>
+                                <button className="context-menu-button" onClick={() => handleInfernoSet(3)} title="Scorch">
                                     3
                                 </button>
-                                <button className="context-menu-button" onClick={() => handleInfernoSet(5)}>
+                                <button className="context-menu-button" onClick={() => handleInfernoSet(5)} title="Inferno â€” Surge begins">
                                     5
                                 </button>
-                                <button className="context-menu-button" onClick={() => handleInfernoSet(7)}>
+                                <button className="context-menu-button" onClick={() => handleInfernoSet(7)} title="Cataclysm">
                                     7
                                 </button>
-                                <button className="context-menu-button" onClick={() => handleInfernoSet(9)}>
+                                <button className="context-menu-button" onClick={() => handleInfernoSet(9)} title="Oblivion â€” death clock">
                                     9
                                 </button>
                             </div>
 
                             <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
-                                <button className="context-menu-button" onClick={() => handleInfernoChange(-1)}>
+                                <button className="context-menu-button" onClick={() => handleInfernoChange(-1)} title="Descend (Cooling Ember)">
                                     <i className="fas fa-minus-circle"></i>
                                     -1
                                 </button>
-                                <button className="context-menu-button" onClick={() => handleInfernoChange(1)}>
+                                <button className="context-menu-button" onClick={() => handleInfernoChange(1)} title="Ascend">
                                     <i className="fas fa-plus-circle"></i>
                                     +1
                                 </button>

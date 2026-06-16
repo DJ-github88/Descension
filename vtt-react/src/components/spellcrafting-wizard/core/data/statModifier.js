@@ -12,7 +12,7 @@ export const PRIMARY_STAT_MODIFIERS = [
     description: 'Influences physical damage, carrying capacity, and physical checks',
     defaultValue: 10,
     category: 'primary',
-    icon: '/assets/icons/abilities/General/Sword.png',
+    icon: 'General/Sword',
     affects: ['piercingDamage', 'slashingDamage', 'bludgeoningDamage', 'carryingCapacity']
   },
   {
@@ -21,7 +21,7 @@ export const PRIMARY_STAT_MODIFIERS = [
     description: 'Influences dodge chance, movement speed, and agility checks',
     defaultValue: 10,
     category: 'primary',
-    icon: '/assets/icons/abilities/Utility/Rest.png',
+    icon: 'Utility/Rest',
     affects: ['evasion', 'initiative', 'critChance']
   },
   {
@@ -30,7 +30,7 @@ export const PRIMARY_STAT_MODIFIERS = [
     description: 'Influences health points, stamina, and resistance to physical effects',
     defaultValue: 10,
     category: 'primary',
-    icon: '/assets/icons/abilities/Light Path.png',
+    icon: 'Radiant/Bright Explosion',
     affects: ['maxHealth', 'healthRegen']
   },
   {
@@ -39,7 +39,7 @@ export const PRIMARY_STAT_MODIFIERS = [
     description: 'Influences spell power, knowledge checks, and magic resistance',
     defaultValue: 10,
     category: 'primary',
-    icon: '/assets/icons/abilities/Light Path.png',
+    icon: 'Radiant/Bright Explosion',
     affects: ['spellPower', 'manaRegen', 'spellCritChance']
   },
   {
@@ -48,7 +48,7 @@ export const PRIMARY_STAT_MODIFIERS = [
     description: 'Influences mana pool, healing power, and willpower checks',
     defaultValue: 10,
     category: 'primary',
-    icon: '/assets/icons/abilities/Light Path.png',
+    icon: 'Radiant/Bright Explosion',
     affects: ['maxMana', 'healingPower']
   },
   {
@@ -57,7 +57,7 @@ export const PRIMARY_STAT_MODIFIERS = [
     description: 'Influences social interactions, persuasion, and some spell effects',
     defaultValue: 10,
     category: 'primary',
-    icon: '/assets/icons/abilities/Light Path.png',
+    icon: 'Radiant/Bright Explosion',
     affects: ['persuasion', 'intimidation', 'leadership']
   }
 ];
@@ -70,7 +70,7 @@ export const SECONDARY_STAT_MODIFIERS = [
     description: 'Amount of health regenerated per round',
     defaultValue: 0,
     category: 'secondary',
-    icon: '/assets/icons/abilities/Nature/Natural.png',
+    icon: 'Nature/Amplified Senses',
     regenerates: true,
     derivedFrom: ['constitution']
   },
@@ -80,7 +80,7 @@ export const SECONDARY_STAT_MODIFIERS = [
     description: 'Amount of mana regenerated per round',
     defaultValue: 0,
     category: 'secondary',
-    icon: '/assets/icons/abilities/Arcane/Conjure Elements.png',
+    icon: 'Arcane/Conjure Elements',
     regenerates: true,
     derivedFrom: ['spirit', 'intelligence']
   },
@@ -90,7 +90,7 @@ export const SECONDARY_STAT_MODIFIERS = [
     description: 'Increases the effectiveness of healing spells',
     defaultValue: 0,
     category: 'secondary',
-    icon: '/assets/icons/abilities/Healing/Golden Heart.png',
+    icon: 'Healing/Golden Heart',
     derivedFrom: ['spirit']
   },
 
@@ -104,7 +104,7 @@ export const COMBAT_STAT_MODIFIERS = [
     description: 'Determines action order in combat',
     defaultValue: 0,
     category: 'combat',
-    icon: '/assets/icons/abilities/Utility/Rest.png',
+    icon: 'Utility/Rest',
     derivedFrom: ['agility', 'intelligence']
   },
   {
@@ -113,7 +113,7 @@ export const COMBAT_STAT_MODIFIERS = [
     description: 'Percentage of damage dealt converted to healing',
     defaultValue: 0,
     category: 'combat',
-    icon: '/assets/icons/abilities/Necrotic/Drain Life.png',
+    icon: 'Necrotic/Blood Skull',
     derivedFrom: ['spirit']
   },
   {
@@ -122,7 +122,7 @@ export const COMBAT_STAT_MODIFIERS = [
     description: 'Percentage of damage taken reflected back to attacker',
     defaultValue: 0,
     category: 'combat',
-    icon: '/assets/icons/abilities/Fire/Fire Orb.png',
+    icon: 'Fire/Fire Orb',
     derivedFrom: ['intelligence', 'spirit']
   }
 ];
@@ -130,30 +130,30 @@ export const COMBAT_STAT_MODIFIERS = [
 // Element damage types (Spell Power)
 export const DAMAGE_TYPE_MODIFIERS = [
   {
-    id: 'fire_spell_power',
-    name: 'Fire Spell Power',
-    description: 'Increases damage of fire spells',
+    id: 'ember_spell_power',
+    name: 'Ember Spell Power',
+    description: 'Increases damage of ember spells',
     defaultValue: 0,
     category: 'spell_damage',
-    icon: '/assets/icons/abilities/Fire/Fire Orb.png',
+    icon: 'Fire/Fire Orb',
     derivedFrom: ['intelligence']
   },
   {
-    id: 'frost_spell_power',
-    name: 'Frost Spell Power',
-    description: 'Increases damage of frost spells',
+    id: 'rime_spell_power',
+    name: 'Rime Spell Power',
+    description: 'Increases damage of rime spells',
     defaultValue: 0,
     category: 'spell_damage',
-    icon: '/assets/icons/abilities/Frost/Frost Touch.png',
+    icon: 'Frost/Frost Touch',
     derivedFrom: ['intelligence']
   },
   {
-    id: 'lightning_spell_power',
-    name: 'Lightning Spell Power',
-    description: 'Increases damage of lightning spells',
+    id: 'storm_spell_power',
+    name: 'Storm Spell Power',
+    description: 'Increases damage of storm spells',
     defaultValue: 0,
     category: 'spell_damage',
-    icon: '/assets/icons/abilities/Lightning/Lightning Bolt.png',
+    icon: 'Lightning/Lightning Bolt',
     derivedFrom: ['intelligence']
   },
   {
@@ -162,79 +162,34 @@ export const DAMAGE_TYPE_MODIFIERS = [
     description: 'Increases damage of arcane spells',
     defaultValue: 0,
     category: 'spell_damage',
-    icon: '/assets/icons/abilities/Arcane/Conjure Elements.png',
+    icon: 'Arcane/Conjure Elements',
     derivedFrom: ['intelligence']
   },
   {
-    id: 'nature_spell_power',
-    name: 'Nature Spell Power',
-    description: 'Increases damage of nature spells',
+    id: 'primal_spell_power',
+    name: 'Primal Spell Power',
+    description: 'Increases damage of primal spells',
     defaultValue: 0,
     category: 'spell_damage',
-    icon: '/assets/icons/abilities/Nature/Natural.png',
+    icon: 'Nature/Amplified Senses',
     derivedFrom: ['intelligence']
   },
   {
-    id: 'force_spell_power',
-    name: 'Force Spell Power',
-    description: 'Increases damage of force spells',
+    id: 'blight_spell_power',
+    name: 'Blight Spell Power',
+    description: 'Increases damage of blight spells',
     defaultValue: 0,
     category: 'spell_damage',
-    icon: '/assets/icons/abilities/Arcane/Conjure Elements.png',
-    derivedFrom: ['intelligence']
-  },
-  {
-    id: 'necrotic_spell_power',
-    name: 'Necrotic Spell Power',
-    description: 'Increases damage of necrotic spells',
-    defaultValue: 0,
-    category: 'spell_damage',
-    icon: '/assets/icons/abilities/Shadow.png',
+    icon: 'Necrotic/Bloody Eyes',
     derivedFrom: ['intelligence', 'spirit']
   },
   {
-    id: 'radiant_spell_power',
-    name: 'Radiant Spell Power',
-    description: 'Increases damage of radiant spells',
+    id: 'wyrd_spell_power',
+    name: 'Wyrd Spell Power',
+    description: 'Increases damage of wyrd spells',
     defaultValue: 0,
     category: 'spell_damage',
-    icon: '/assets/icons/abilities/Light Path.png',
-    derivedFrom: ['intelligence', 'spirit']
-  },
-  {
-    id: 'poison_spell_power',
-    name: 'Poison Spell Power',
-    description: 'Increases damage of poison spells',
-    defaultValue: 0,
-    category: 'spell_damage',
-    icon: '/assets/icons/abilities/Utility/Rest.png',
-    derivedFrom: ['intelligence']
-  },
-  {
-    id: 'psychic_spell_power',
-    name: 'Psychic Spell Power',
-    description: 'Increases damage of psychic spells',
-    defaultValue: 0,
-    category: 'spell_damage',
-    icon: '/assets/icons/abilities/Purple Star.png',
-    derivedFrom: ['intelligence', 'spirit']
-  },
-  {
-    id: 'chaos_spell_power',
-    name: 'Chaos Spell Power',
-    description: 'Increases damage of chaos spells',
-    defaultValue: 0,
-    category: 'spell_damage',
-    icon: '/assets/icons/abilities/Shadow.png',
-    derivedFrom: ['intelligence', 'spirit']
-  },
-  {
-    id: 'void_spell_power',
-    name: 'Void Spell Power',
-    description: 'Increases damage of void spells',
-    defaultValue: 0,
-    category: 'spell_damage',
-    icon: '/assets/icons/abilities/Shadow.png',
+    icon: 'Psychic/Brain Psionics',
     derivedFrom: ['intelligence', 'spirit']
   }
 ];
@@ -247,7 +202,7 @@ export const RESISTANCE_MODIFIERS = [
     description: 'Grants immunity to all damage types',
     defaultValue: 0,
     category: 'resistance',
-    icon: '/assets/icons/abilities/Light Path.png',
+    icon: 'Radiant/Bright Explosion',
     derivedFrom: ['constitution', 'spirit']
   },
   {
@@ -256,7 +211,7 @@ export const RESISTANCE_MODIFIERS = [
     description: 'Reduces all incoming damage by a percentage',
     defaultValue: 0,
     category: 'resistance',
-    icon: '/assets/icons/abilities/Light Path.png',
+    icon: 'Radiant/Bright Explosion',
     derivedFrom: ['constitution']
   },
   {
@@ -265,107 +220,71 @@ export const RESISTANCE_MODIFIERS = [
     description: 'Reduces damage taken from physical attacks',
     defaultValue: 0,
     category: 'resistance',
-    icon: '/assets/icons/abilities/Light Path.png',
+    icon: 'Radiant/Bright Explosion',
     derivedFrom: ['constitution', 'spirit']
   },
   {
-    id: 'damage_reduction',
-    name: 'Damage Reduction',
-    description: 'Reduces all incoming damage by a percentage',
+    id: 'ember_resistance',
+    name: 'Ember Resistance',
+    description: 'Reduces damage taken from ember damage',
     defaultValue: 0,
     category: 'resistance',
-    icon: '/assets/icons/abilities/Light Path.png',
+    icon: 'Fire/Fire Orb',
     derivedFrom: ['constitution']
   },
   {
-    id: 'fire_resistance',
-    name: 'Fire Resistance',
-    description: 'Reduces damage taken from fire',
+    id: 'rime_resistance',
+    name: 'Rime Resistance',
+    description: 'Reduces damage taken from rime damage',
     defaultValue: 0,
     category: 'resistance',
-    icon: '/assets/icons/abilities/Fire/Fire Orb.png',
+    icon: 'Frost/Frost Touch',
     derivedFrom: ['constitution']
   },
   {
-    id: 'cold_resistance',
-    name: 'Cold Resistance',
-    description: 'Reduces damage taken from cold',
+    id: 'storm_resistance',
+    name: 'Storm Resistance',
+    description: 'Reduces damage taken from storm damage',
     defaultValue: 0,
     category: 'resistance',
-    icon: '/assets/icons/abilities/Frost/Frost Touch.png',
+    icon: 'Lightning/Lightning Bolt',
     derivedFrom: ['constitution']
   },
   {
-    id: 'lightning_resistance',
-    name: 'Lightning Resistance',
-    description: 'Reduces damage taken from lightning',
+    id: 'arcane_resistance',
+    name: 'Arcane Resistance',
+    description: 'Reduces damage taken from arcane damage',
     defaultValue: 0,
     category: 'resistance',
-    icon: '/assets/icons/abilities/Lightning/Lightning Bolt.png',
-    derivedFrom: ['constitution']
-  },
-  {
-    id: 'acid_resistance',
-    name: 'Acid Resistance',
-    description: 'Reduces damage taken from acid',
-    defaultValue: 0,
-    category: 'resistance',
-    icon: '/assets/icons/abilities/Projectile Acid.png',
-    derivedFrom: ['constitution']
-  },
-  {
-    id: 'force_resistance',
-    name: 'Force Resistance',
-    description: 'Reduces damage taken from force',
-    defaultValue: 0,
-    category: 'resistance',
-    icon: '/assets/icons/abilities/Arcane/Conjure Elements.png',
+    icon: 'Arcane/Conjure Elements',
     derivedFrom: ['constitution', 'intelligence']
   },
   {
-    id: 'necrotic_resistance',
-    name: 'Necrotic Resistance',
-    description: 'Reduces damage taken from necrotic magic',
+    id: 'primal_resistance',
+    name: 'Primal Resistance',
+    description: 'Reduces damage taken from primal damage',
     defaultValue: 0,
     category: 'resistance',
-    icon: '/assets/icons/abilities/Shadow.png',
-    derivedFrom: ['constitution', 'spirit']
-  },
-  {
-    id: 'radiant_resistance',
-    name: 'Radiant Resistance',
-    description: 'Reduces damage taken from radiant magic',
-    defaultValue: 0,
-    category: 'resistance',
-    icon: '/assets/icons/abilities/Light Path.png',
-    derivedFrom: ['constitution', 'spirit']
-  },
-  {
-    id: 'poison_resistance',
-    name: 'Poison Resistance',
-    description: 'Reduces damage taken from poison',
-    defaultValue: 0,
-    category: 'resistance',
-    icon: '/assets/icons/abilities/Utility/Rest.png',
+    icon: 'Nature/Amplified Senses',
     derivedFrom: ['constitution']
   },
   {
-    id: 'psychic_resistance',
-    name: 'Psychic Resistance',
-    description: 'Reduces damage taken from psychic attacks',
+    id: 'blight_resistance',
+    name: 'Blight Resistance',
+    description: 'Reduces damage taken from blight damage',
     defaultValue: 0,
     category: 'resistance',
-    icon: '/assets/icons/abilities/Purple Star.png',
-    derivedFrom: ['constitution', 'spirit']
+    icon: 'Poison/Acid Splash',
+    derivedFrom: ['constitution']
   },
   {
-    id: 'thunder_resistance',
-    name: 'Thunder Resistance',
-    description: 'Reduces damage taken from thunder',
+    id: 'wyrd_resistance',
+    name: 'Wyrd Resistance',
+    description: 'Reduces damage taken from wyrd damage attacks',
     defaultValue: 0,
     category: 'resistance',
-    icon: '/assets/icons/abilities/Nature/Natural.png',
-    derivedFrom: ['constitution']
+    icon: 'Psychic/Brain Psionics',
+    derivedFrom: ['constitution', 'spirit']
   }
 ];
 
@@ -377,7 +296,7 @@ export const UTILITY_STAT_MODIFIERS = [
     description: 'Base movement speed in feet per round',
     defaultValue: 30,
     category: 'utility',
-    icon: '/assets/icons/abilities/Utility/Rest.png',
+    icon: 'Utility/Rest',
     derivedFrom: ['agility']
   },
   {
@@ -386,7 +305,7 @@ export const UTILITY_STAT_MODIFIERS = [
     description: 'Speed when swimming in feet per round',
     defaultValue: 15,
     category: 'utility',
-    icon: '/assets/icons/abilities/Utility/Rest.png',
+    icon: 'Utility/Rest',
     derivedFrom: ['strength', 'constitution']
   },
   {
@@ -395,7 +314,7 @@ export const UTILITY_STAT_MODIFIERS = [
     description: 'Distance at which you can see clearly',
     defaultValue: 60,
     category: 'utility',
-    icon: '/assets/icons/abilities/Light Path.png',
+    icon: 'Radiant/Bright Explosion',
     derivedFrom: ['intelligence', 'spirit']
   },
   {
@@ -404,7 +323,7 @@ export const UTILITY_STAT_MODIFIERS = [
     description: 'Maximum weight you can carry',
     defaultValue: 10,
     category: 'utility',
-    icon: '/assets/icons/abilities/General/Sword.png',
+    icon: 'General/Sword',
     derivedFrom: ['strength']
   },
   {
@@ -413,7 +332,7 @@ export const UTILITY_STAT_MODIFIERS = [
     description: 'Reduces the mana cost of spells by a percentage',
     defaultValue: 0,
     category: 'utility',
-    icon: '/assets/icons/abilities/Arcane/Conjure Elements.png',
+    icon: 'Arcane/Conjure Elements',
     derivedFrom: ['intelligence', 'spirit']
   },
   {
@@ -422,7 +341,7 @@ export const UTILITY_STAT_MODIFIERS = [
     description: 'Additional inventory slots available',
     defaultValue: 0,
     category: 'utility',
-    icon: '/assets/icons/abilities/General/Sword.png',
+    icon: 'General/Sword',
     derivedFrom: ['strength']
   }
 ];
@@ -435,7 +354,7 @@ export const WEAPON_DAMAGE_MODIFIERS = [
     description: 'Damage bonus with piercing weapons',
     defaultValue: 0,
     category: 'weapon_damage',
-    icon: '/assets/icons/abilities/General/Sword.png',
+    icon: 'General/Sword',
     derivedFrom: ['strength']
   },
   {
@@ -444,7 +363,7 @@ export const WEAPON_DAMAGE_MODIFIERS = [
     description: 'Damage bonus with slashing weapons',
     defaultValue: 0,
     category: 'weapon_damage',
-    icon: '/assets/icons/abilities/General/Sword.png',
+    icon: 'General/Sword',
     derivedFrom: ['strength']
   },
   {
@@ -453,7 +372,7 @@ export const WEAPON_DAMAGE_MODIFIERS = [
     description: 'Damage bonus with bludgeoning weapons',
     defaultValue: 0,
     category: 'weapon_damage',
-    icon: '/assets/icons/abilities/Bludgeoning/Mace.png',
+    icon: 'Bludgeoning/Ceremonial Hammer',
     derivedFrom: ['strength']
   }
 ];

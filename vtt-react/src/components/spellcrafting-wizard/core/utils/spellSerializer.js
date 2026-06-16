@@ -557,6 +557,8 @@ import {
               return 'spell_arcane_blast';
             case 'wyrd':
               return 'spell_shadow_mindflay';
+            case 'divine':
+              return 'spell_holy_searinglight';
             case 'physical':
               return 'spell_fire_flamebolt';
             default:

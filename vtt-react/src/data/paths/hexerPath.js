@@ -1,4 +1,4 @@
-export const HEXER_PATH = {
+﻿export const HEXER_PATH = {
     id: 'hexer',
     name: 'Hexer',
     description: 'Wielders of curses, hexes, and dark magic',
@@ -41,7 +41,7 @@ export const HEXER_PATH = {
             damageTypes: [],
 
             typeConfig: {
-                school: 'necrotic',
+                school: 'blight',
                 icon: 'Necrotic/Horned Demon',
                 tags: ['passive', 'dark', 'resistance', 'detection']
             },
@@ -99,7 +99,7 @@ export const HEXER_PATH = {
             damageTypes: [],
 
             typeConfig: {
-                school: 'necrotic',
+                school: 'blight',
                 icon: 'Void/Maw Gripping Fear',
                 tags: ['reaction', 'defensive', 'curse', 'reflect']
             },
@@ -187,7 +187,7 @@ export const HEXER_PATH = {
             damageTypes: [],
 
             typeConfig: {
-                school: 'necrotic',
+                school: 'blight',
                 icon: 'Necrotic/Cursed Entities',
                 tags: ['action', 'debuff', 'curse', 'hex', 'damage amplification']
             },
@@ -330,7 +330,7 @@ export const HEXER_PATH = {
 
             damageConfig: {
                 damageType: 'direct',
-                elementType: 'necrotic',
+                elementType: 'blight',
                 formula: '3d6 + INT',
                 resolution: 'DICE',
                 hasDotEffect: false,
@@ -405,7 +405,7 @@ export const HEXER_PATH = {
                     damageTypes: [],
 
                     typeConfig: {
-                        school: 'necrotic',
+                        school: 'blight',
                         icon: 'Necrotic/Cursed Entities',
                         tags: ['action', 'debuff', 'curse', 'hex', 'damage amplification']
                     },

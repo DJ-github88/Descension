@@ -110,13 +110,13 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
     };
 
     // If there's state from the parent, merge it with our defaults
-    if (state.summonConfig) {
+    if (state.summoningConfig) {
       // Make sure to preserve the creatures array even if it doesn't exist in parent state
       return {
         ...defaultConfig,
-        ...state.summonConfig,
+        ...state.summoningConfig,
         // Initialize creatures array if it doesn't exist in parent state
-        creatures: state.summonConfig.creatures || []
+        creatures: state.summoningConfig.creatures || []
       };
     }
 

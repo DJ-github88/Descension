@@ -406,6 +406,13 @@ export function getSuggestedMaterialComponent(spellConfig) {
           cost: 0,
           consumed: true
         };
+      case 'divine':
+        return {
+          name: 'Powdered Silver and Holy Water',
+          description: 'A pinch of powdered silver and a vial of blessed water',
+          cost: 0,
+          consumed: true
+        };
       case 'physical':
         return {
           name: 'Iron Filings',

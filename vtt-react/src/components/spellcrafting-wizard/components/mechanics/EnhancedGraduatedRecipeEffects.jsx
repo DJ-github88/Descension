@@ -87,7 +87,7 @@ const EnhancedGraduatedRecipeEffects = ({
             buff: spellWizardState.buffConfig ? true : false,
             debuff: spellWizardState.debuffConfig ? true : false,
             control: spellWizardState.controlConfig ? true : false,
-            summoning: spellWizardState.summonConfig ? true : false
+            summoning: spellWizardState.summoningConfig ? true : false
           },
           // For buff effects, make sure statModifiers is set
           ...(effect.effectType === 'buff' && !effect.statModifiers && spellWizardState.buffConfig ? {
@@ -130,7 +130,7 @@ const EnhancedGraduatedRecipeEffects = ({
           buff: spellWizardState.buffConfig ? true : false,
           debuff: spellWizardState.debuffConfig ? true : false,
           control: spellWizardState.controlConfig ? true : false,
-          summoning: spellWizardState.summonConfig ? true : false
+          summoning: spellWizardState.summoningConfig ? true : false
         },
         // Include the full effect configuration
         effectConfig: defaultConfig,
@@ -193,18 +193,18 @@ const EnhancedGraduatedRecipeEffects = ({
           concentration: spellWizardState.controlConfig.concentration
         } : {}),
         // For summoning effects, include summoning-specific properties
-        ...(effectType === 'summoning' && spellWizardState.summonConfig ? {
-          summonType: spellWizardState.summonConfig.summonType,
-          creatures: [...(spellWizardState.summonConfig.creatures || [])],
-          duration: spellWizardState.summonConfig.duration,
-          durationUnit: spellWizardState.summonConfig.durationUnit,
-          hasDuration: spellWizardState.summonConfig.hasDuration,
-          concentration: spellWizardState.summonConfig.concentration,
-          quantity: spellWizardState.summonConfig.quantity,
-          maxQuantity: spellWizardState.summonConfig.maxQuantity,
-          controlRange: spellWizardState.summonConfig.controlRange,
-          controlType: spellWizardState.summonConfig.controlType,
-          difficultyLevel: spellWizardState.summonConfig.difficultyLevel
+        ...(effectType === 'summoning' && spellWizardState.summoningConfig ? {
+          summonType: spellWizardState.summoningConfig.summonType,
+          creatures: [...(spellWizardState.summoningConfig.creatures || [])],
+          duration: spellWizardState.summoningConfig.duration,
+          durationUnit: spellWizardState.summoningConfig.durationUnit,
+          hasDuration: spellWizardState.summoningConfig.hasDuration,
+          concentration: spellWizardState.summoningConfig.concentration,
+          quantity: spellWizardState.summoningConfig.quantity,
+          maxQuantity: spellWizardState.summoningConfig.maxQuantity,
+          controlRange: spellWizardState.summoningConfig.controlRange,
+          controlType: spellWizardState.summoningConfig.controlType,
+          difficultyLevel: spellWizardState.summoningConfig.difficultyLevel
         } : {})
       };
     }
@@ -471,18 +471,18 @@ const EnhancedGraduatedRecipeEffects = ({
     }
 
     // Only add summoning if it's configured in the spell wizard state
-    if (spellWizardState.summonConfig && effectsMap.summoning) {
+    if (spellWizardState.summoningConfig && effectsMap.summoning) {
       // For summoning effects, check if there are creatures configured
-      const summoningDescription = spellWizardState.summonConfig.creatures &&
-                                  spellWizardState.summonConfig.creatures.length > 0 ?
-                                  `(${spellWizardState.summonConfig.creatures.length} creatures)` : '';
+      const summoningDescription = spellWizardState.summoningConfig.creatures &&
+                                  spellWizardState.summoningConfig.creatures.length > 0 ?
+                                  `(${spellWizardState.summoningConfig.creatures.length} creatures)` : '';
 
       availableEffects.push({
         id: 'summoning',
         name: 'Summoning',
         icon: FaDragon,
         formula: summoningDescription || 'Summoning Effects',
-        creatures: spellWizardState.summonConfig.creatures || []
+        creatures: spellWizardState.summoningConfig.creatures || []
       });
     } else if (effectType === 'summoning' && !hasCurrentEffectType) {
       availableEffects.push({
@@ -556,7 +556,7 @@ const EnhancedGraduatedRecipeEffects = ({
             buff: spellWizardState.buffConfig ? true : false,
             debuff: spellWizardState.debuffConfig ? true : false,
             control: spellWizardState.controlConfig ? true : false,
-            summoning: spellWizardState.summonConfig ? true : false,
+            summoning: spellWizardState.summoningConfig ? true : false,
             utility: spellWizardState.utilityConfig ? true : false
           },
           // Include the full effect configuration
@@ -688,18 +688,18 @@ const EnhancedGraduatedRecipeEffects = ({
             concentration: spellWizardState.controlConfig.concentration
           } : {}),
           // For summoning effects, include summoning-specific properties
-          ...(effectType === 'summoning' && spellWizardState.summonConfig ? {
-            summonType: spellWizardState.summonConfig.summonType,
-            creatures: [...(spellWizardState.summonConfig.creatures || [])],
-            duration: spellWizardState.summonConfig.duration,
-            durationUnit: spellWizardState.summonConfig.durationUnit,
-            hasDuration: spellWizardState.summonConfig.hasDuration,
-            concentration: spellWizardState.summonConfig.concentration,
-            quantity: spellWizardState.summonConfig.quantity,
-            maxQuantity: spellWizardState.summonConfig.maxQuantity,
-            controlRange: spellWizardState.summonConfig.controlRange,
-            controlType: spellWizardState.summonConfig.controlType,
-            difficultyLevel: spellWizardState.summonConfig.difficultyLevel
+          ...(effectType === 'summoning' && spellWizardState.summoningConfig ? {
+            summonType: spellWizardState.summoningConfig.summonType,
+            creatures: [...(spellWizardState.summoningConfig.creatures || [])],
+            duration: spellWizardState.summoningConfig.duration,
+            durationUnit: spellWizardState.summoningConfig.durationUnit,
+            hasDuration: spellWizardState.summoningConfig.hasDuration,
+            concentration: spellWizardState.summoningConfig.concentration,
+            quantity: spellWizardState.summoningConfig.quantity,
+            maxQuantity: spellWizardState.summoningConfig.maxQuantity,
+            controlRange: spellWizardState.summoningConfig.controlRange,
+            controlType: spellWizardState.summoningConfig.controlType,
+            difficultyLevel: spellWizardState.summoningConfig.difficultyLevel
           } : {}),
           // For utility effects, include utility-specific properties
           ...(effectType === 'utility' && spellWizardState.utilityConfig ? {
@@ -928,7 +928,7 @@ const EnhancedGraduatedRecipeEffects = ({
           buff: spellWizardState.buffConfig ? true : false,
           debuff: spellWizardState.debuffConfig ? true : false,
           control: spellWizardState.controlConfig ? true : false,
-          summoning: spellWizardState.summonConfig ? true : false,
+          summoning: spellWizardState.summoningConfig ? true : false,
           utility: spellWizardState.utilityConfig ? true : false
         },
         // Include the full effect configuration
@@ -996,18 +996,18 @@ const EnhancedGraduatedRecipeEffects = ({
           concentration: spellWizardState.controlConfig.concentration
         } : {}),
         // For summoning effects, include summoning-specific properties
-        ...(effectType === 'summoning' && spellWizardState.summonConfig ? {
-          summonType: spellWizardState.summonConfig.summonType,
-          creatures: [...(spellWizardState.summonConfig.creatures || [])],
-          duration: spellWizardState.summonConfig.duration,
-          durationUnit: spellWizardState.summonConfig.durationUnit,
-          hasDuration: spellWizardState.summonConfig.hasDuration,
-          concentration: spellWizardState.summonConfig.concentration,
-          quantity: spellWizardState.summonConfig.quantity,
-          maxQuantity: spellWizardState.summonConfig.maxQuantity,
-          controlRange: spellWizardState.summonConfig.controlRange,
-          controlType: spellWizardState.summonConfig.controlType,
-          difficultyLevel: spellWizardState.summonConfig.difficultyLevel
+        ...(effectType === 'summoning' && spellWizardState.summoningConfig ? {
+          summonType: spellWizardState.summoningConfig.summonType,
+          creatures: [...(spellWizardState.summoningConfig.creatures || [])],
+          duration: spellWizardState.summoningConfig.duration,
+          durationUnit: spellWizardState.summoningConfig.durationUnit,
+          hasDuration: spellWizardState.summoningConfig.hasDuration,
+          concentration: spellWizardState.summoningConfig.concentration,
+          quantity: spellWizardState.summoningConfig.quantity,
+          maxQuantity: spellWizardState.summoningConfig.maxQuantity,
+          controlRange: spellWizardState.summoningConfig.controlRange,
+          controlType: spellWizardState.summoningConfig.controlType,
+          difficultyLevel: spellWizardState.summoningConfig.difficultyLevel
         } : {}),
         // For utility effects, include utility-specific properties
         ...(effectType === 'utility' && spellWizardState.utilityConfig ? {
@@ -1224,18 +1224,18 @@ const EnhancedGraduatedRecipeEffects = ({
         newEffect.savingThrowType = spellWizardState.controlConfig.savingThrowType;
         newEffect.difficultyClass = spellWizardState.controlConfig.difficultyClass;
         newEffect.concentration = spellWizardState.controlConfig.concentration;
-      } else if (newEffectType === 'summoning' && spellWizardState.summonConfig) {
-        newEffect.summonType = spellWizardState.summonConfig.summonType;
-        newEffect.creatures = [...(spellWizardState.summonConfig.creatures || [])];
-        newEffect.duration = spellWizardState.summonConfig.duration;
-        newEffect.durationUnit = spellWizardState.summonConfig.durationUnit;
-        newEffect.hasDuration = spellWizardState.summonConfig.hasDuration;
-        newEffect.concentration = spellWizardState.summonConfig.concentration;
-        newEffect.quantity = spellWizardState.summonConfig.quantity;
-        newEffect.maxQuantity = spellWizardState.summonConfig.maxQuantity;
-        newEffect.controlRange = spellWizardState.summonConfig.controlRange;
-        newEffect.controlType = spellWizardState.summonConfig.controlType;
-        newEffect.difficultyLevel = spellWizardState.summonConfig.difficultyLevel;
+      } else if (newEffectType === 'summoning' && spellWizardState.summoningConfig) {
+        newEffect.summonType = spellWizardState.summoningConfig.summonType;
+        newEffect.creatures = [...(spellWizardState.summoningConfig.creatures || [])];
+        newEffect.duration = spellWizardState.summoningConfig.duration;
+        newEffect.durationUnit = spellWizardState.summoningConfig.durationUnit;
+        newEffect.hasDuration = spellWizardState.summoningConfig.hasDuration;
+        newEffect.concentration = spellWizardState.summoningConfig.concentration;
+        newEffect.quantity = spellWizardState.summoningConfig.quantity;
+        newEffect.maxQuantity = spellWizardState.summoningConfig.maxQuantity;
+        newEffect.controlRange = spellWizardState.summoningConfig.controlRange;
+        newEffect.controlType = spellWizardState.summoningConfig.controlType;
+        newEffect.difficultyLevel = spellWizardState.summoningConfig.difficultyLevel;
       }
 
       const updatedEffects = {

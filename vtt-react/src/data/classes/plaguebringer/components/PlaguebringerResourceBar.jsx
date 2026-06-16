@@ -4,16 +4,30 @@ import useChatStore from '../../../../store/chatStore';
 import useGameStore from '../../../../store/gameStore';
 import useCharacterStore from '../../../../store/characterStore';
 import '../styles/PlaguebringerResourceBar.css';
+import { useResourceBarTooltip } from '../../../../components/hud/useResourceBarTooltip';
 
 const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud', isOwner = true, onClassResourceUpdate = null }) => {
-    const [localVirulence, setLocalVirulence] = useState(65);
-    const [localAfflictions, setLocalAfflictions] = useState(4);
-    const [selectedSpec, setSelectedSpec] = useState('virulentSpreader');
+    // Read resource values from the classResource prop (fall back to 0 / defaults).
+    // Previously these were hardcoded useState(65)/useState(4) which never reflected real data.
+    const propVirulence = classResource?.virulence ?? classResource?.current ?? 0;
+    const propAfflictions = classResource?.afflictions ?? 0;
+    const propSpec = classResource?.specialization ?? classResource?.spec;
+
+    const [localVirulence, setLocalVirulence] = useState(propVirulence);
+    const [localAfflictions, setLocalAfflictions] = useState(propAfflictions);
+    // Normalize spec id (data uses kebab-case; component uses camelCase) — accept either.
+    const kebabToCamel = (id) => !id ? '' : id.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
+    const [selectedSpec, setSelectedSpec] = useState(propSpec ? kebabToCamel(propSpec) : 'virulentSpreader');
     const [showTooltip, setShowTooltip] = useState(false);
     const [showControls, setShowControls] = useState(false);
+
+    // Keep local state in sync when the prop changes externally (e.g. multiplayer updates)
+    useEffect(() => { if (propVirulence != null) setLocalVirulence(propVirulence); }, [propVirulence]);
+    useEffect(() => { if (propAfflictions != null) setLocalAfflictions(propAfflictions); }, [propAfflictions]);
+    useEffect(() => { if (propSpec) setSelectedSpec(kebabToCamel(propSpec)); }, [propSpec]);
     
     const barRef = useRef(null);
-    const tooltipRef = useRef(null);
+    const tooltipRef = useResourceBarTooltip(barRef, showTooltip);
     
     const { addCombatNotification } = useChatStore();
     const isGMMode = useGameStore(state => state.isGMMode);
@@ -86,7 +100,7 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
         }
     };
 
-    const currentSpec = specConfigs[selectedSpec];
+    const currentSpec = specConfigs[selectedSpec] || specConfigs.virulentSpreader;
     const maxVirulence = 100;
     const maxAfflictions = 10;
 
@@ -257,9 +271,9 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
                     <div className="tooltip-divider" />
 
                     <div className="tooltip-section">
-                        <div className="tooltip-label" style={{ color: currentSpec.glow }}>{currentSpec.name}</div>
+                        <div className="tooltip-label" style={{ color: '#5a4628' }}>Cultivation</div>
                         <div className="passive-desc" style={{ fontSize: '0.8rem', lineHeight: '1.3' }}>
-                            {currentSpec.passiveDesc}
+                            Apply Seed afflictions and cultivate them through Weaken, Torment, Fester, Decay, and Amplify (stages 1–3). Every spell costs self-inflicted tolls. A single ember attack purges all Seeds and resets Virulence to 0.
                         </div>
                     </div>
                 </div>,
@@ -428,27 +442,6 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
                             >
                                 Max
                             </button>
-                        </div>
-
-                        <div className="menu-title" style={{ marginTop: '8px', paddingTop: '8px', borderTop: '1px solid rgba(160, 140, 112, 0.3)' }}>
-                            Specialization
-                        </div>
-                        <div className="plaguebringer-specs">
-                            {Object.entries(specConfigs).map(([key, spec]) => {
-                                const isSelected = selectedSpec === key;
-                                return (
-                                    <button
-                                        key={key}
-                                        className={`plaguebringer-spec-btn ${isSelected ? 'active' : ''}`}
-                                        onClick={() => {
-                                            setSelectedSpec(key);
-                                        }}
-                                        title={`${spec.name}: ${spec.passive}`}
-                                    >
-                                        <i className={`fas ${spec.icon}`}></i>
-                                    </button>
-                                );
-                            })}
                         </div>
 
                         <div className="plaguebringer-quick-actions" style={{ marginTop: '8px', paddingTop: '8px', borderTop: '1px solid rgba(160, 140, 112, 0.3)' }}>

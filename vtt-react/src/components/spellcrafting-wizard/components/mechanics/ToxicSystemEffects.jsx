@@ -67,7 +67,7 @@ const ToxicSystemEffects = ({
       buff: spellWizardState?.buffConfig ? true : false,
       debuff: spellWizardState?.debuffConfig ? true : false,
       control: spellWizardState?.controlConfig ? true : false,
-      summoning: spellWizardState?.summonConfig ? true : false
+      summoning: spellWizardState?.summoningConfig ? true : false
     };
 
     // If we have existing effects, use them
@@ -198,7 +198,7 @@ const ToxicSystemEffects = ({
       });
     }
 
-    if (spellWizardState.summonConfig) {
+    if (spellWizardState.summoningConfig) {
       availableEffects.push({
         id: 'summoning',
         name: 'Summoning',
@@ -246,7 +246,7 @@ const ToxicSystemEffects = ({
           buff: spellWizardState?.buffConfig ? true : false,
           debuff: spellWizardState?.debuffConfig ? true : false,
           control: spellWizardState?.controlConfig ? true : false,
-          summoning: spellWizardState?.summonConfig ? true : false
+          summoning: spellWizardState?.summoningConfig ? true : false
         }
       };
 
@@ -274,7 +274,7 @@ const ToxicSystemEffects = ({
           buff: spellWizardState?.buffConfig ? true : false,
           debuff: spellWizardState?.debuffConfig ? true : false,
           control: spellWizardState?.controlConfig ? true : false,
-          summoning: spellWizardState?.summonConfig ? true : false
+          summoning: spellWizardState?.summoningConfig ? true : false
         }
       };
 
@@ -304,7 +304,7 @@ const ToxicSystemEffects = ({
         buff: spellWizardState?.buffConfig ? true : false,
         debuff: spellWizardState?.debuffConfig ? true : false,
         control: spellWizardState?.controlConfig ? true : false,
-        summoning: spellWizardState?.summonConfig ? true : false,
+        summoning: spellWizardState?.summoningConfig ? true : false,
         [newEffectType]: true // Always include the new effect type
       };
 

@@ -470,8 +470,8 @@ const ExternalLivePreview = () => {
       controlConfig: spellState.controlConfig || null,
 
       // Summoning configuration
-      summonConfig: spellState.summonConfig || null,
-      summoningConfig: spellState.summonConfig || null, // Also provide as summoningConfig for compatibility
+      summonConfig: spellState.summoningConfig || null,
+      summoningConfig: spellState.summoningConfig || null, // Also provide as summoningConfig for compatibility
 
       // Resolution type - include PROPHECY when prophecyOptions are configured
       resolution: spellState.prophecyOptions ? 'PROPHECY' : (spellState.damageConfig?.resolution || spellState.healingConfig?.resolution || 'DICE'),
@@ -631,12 +631,12 @@ const ExternalLivePreview = () => {
       controlConfig: spellState.controlConfig || null,
 
       // Summoning configuration
-      summonConfig: spellState.summonConfig || null,
-      summoningConfig: spellState.summonConfig || null,
+      summonConfig: spellState.summoningConfig || null,
+      summoningConfig: spellState.summoningConfig || null,
 
       // Transformation configuration
-      transformConfig: spellState.transformConfig || null,
-      transformationConfig: spellState.transformConfig || null,
+      transformConfig: spellState.transformationConfig || null,
+      transformationConfig: spellState.transformationConfig || null,
 
       // Purification configuration
       purificationConfig: spellState.purificationConfig || null,
@@ -662,6 +662,11 @@ const ExternalLivePreview = () => {
 
       // Cooldown configuration
       cooldownConfig: spellState.cooldownConfig || null,
+
+      // Duration configuration (synced from buff/debuff effects)
+      durationConfig: spellState.durationConfig || null,
+      durationType: spellState.durationConfig?.durationType || spellState.buffConfig?.durationType || spellState.debuffConfig?.durationType,
+      durationValue: spellState.durationConfig?.durationValue || spellState.buffConfig?.durationValue || spellState.debuffConfig?.durationValue,
 
       // Rollable table configuration
       rollableTable: spellState.rollableTable || null,

@@ -2920,17 +2920,16 @@
 /* ===== PATHFINDER TOOLTIPS ===== */
 
 .pathfinder-tooltip {
-  background: var(--pf-gradient-parchment);
-  border: 2px solid var(--pf-brown-dark);
-  border-radius: var(--pf-border-radius-lg);
-  box-shadow: var(--pf-shadow-lg);
+  background: linear-gradient(135deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%);
+  border: 2px solid #5a1e12;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.2);
   max-width: 350px;
   min-width: 250px;
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-sm);
+  font-family: 'Crimson Text', 'Georgia', serif;
+  font-size: 13px;
   z-index: 10000;
   opacity: 0.98;
-  backdrop-filter: blur(2px);
   animation: tooltipFadeIn 0.15s ease-out;
 }
 
@@ -2946,118 +2945,119 @@
 }
 
 .pathfinder-tooltip-header {
-  background: var(--pf-gradient-gold);
-  border-bottom: 1px solid var(--pf-brown-dark);
-  padding: var(--pf-space-3);
+  background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
+  border-bottom: 2px solid #5a1e12;
+  padding: 10px 14px;
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
-  border-radius: var(--pf-border-radius-lg) var(--pf-border-radius-lg) 0 0;
+  gap: 10px;
+  border-radius: 8px 8px 0 0;
 }
 
 .pathfinder-tooltip-icon {
   width: 32px;
   height: 32px;
-  border-radius: var(--pf-border-radius);
-  border: 1px solid var(--pf-brown-medium);
-  box-shadow: var(--pf-shadow-sm);
+  border-radius: 6px;
+  border: 1px solid #5a1e12;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  object-fit: cover;
 }
 
 .pathfinder-tooltip-title {
-  font-family: var(--pf-font-display);
-  font-size: var(--pf-text-base);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-brown-darkest);
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+  font-family: 'Cinzel', 'Georgia', serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #2d1810;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
   text-transform: capitalize;
 }
 
 .pathfinder-tooltip-body {
-  padding: var(--pf-space-4);
-  color: var(--pf-text-primary);
-  line-height: var(--pf-leading-relaxed);
+  padding: 12px 14px;
+  color: #2d1810;
+  line-height: 1.5;
 }
 
 .pathfinder-tooltip-description {
-  color: var(--pf-text-primary);
-  margin-bottom: var(--pf-space-3);
-  line-height: var(--pf-leading-relaxed);
-  font-weight: var(--pf-font-medium);
+  color: #2d1810;
+  margin-bottom: 10px;
+  line-height: 1.5;
+  font-weight: 600;
 }
 
 .pathfinder-tooltip-effect {
-  color: var(--pf-text-secondary);
+  color: #5a1e12;
   font-style: italic;
-  margin-bottom: var(--pf-space-3);
-  line-height: var(--pf-leading-relaxed);
+  margin-bottom: 10px;
+  line-height: 1.5;
 }
 
 .pathfinder-tooltip-section {
-  margin-top: var(--pf-space-3);
-  padding-top: var(--pf-space-3);
-  border-top: 1px solid var(--pf-brown-light);
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #c4a373;
 }
 
 .pathfinder-tooltip-section-header {
-  font-family: var(--pf-font-display);
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-brown-dark);
-  font-size: var(--pf-text-sm);
-  margin-bottom: var(--pf-space-2);
+  font-family: 'Cinzel', 'Georgia', serif;
+  font-weight: 600;
+  color: #5a1e12;
+  font-size: 12px;
+  margin-bottom: 8px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .pathfinder-tooltip-option {
-  margin-bottom: var(--pf-space-2);
-  font-size: var(--pf-text-sm);
-  line-height: var(--pf-leading-relaxed);
-  color: var(--pf-text-primary);
+  margin-bottom: 6px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #2d1810;
 }
 
 .pathfinder-tooltip-label {
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-gold);
-  margin-right: var(--pf-space-1);
+  font-weight: 700;
+  color: #b8860b;
+  margin-right: 4px;
 }
 
 .pathfinder-tooltip-meta {
-  font-size: var(--pf-text-xs);
-  color: var(--pf-text-secondary);
-  margin-bottom: var(--pf-space-1);
+  font-size: 11px;
+  color: #8B4513;
+  margin-bottom: 4px;
 }
 
 .pathfinder-tooltip-more {
   font-style: italic;
-  color: var(--pf-text-muted);
-  font-size: var(--pf-text-xs);
-  margin-top: var(--pf-space-2);
+  color: #8B4513;
+  font-size: 11px;
+  margin-top: 8px;
   text-align: center;
 }
 
 .tooltip-stat-line {
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-secondary);
-  margin-bottom: var(--pf-space-2);
+  font-size: 13px;
+  color: #5a1e12;
+  margin-bottom: 6px;
 }
 
 .tooltip-effect {
   display: flex;
-  gap: var(--pf-space-2);
+  gap: 8px;
   align-items: flex-start;
-  margin-bottom: var(--pf-space-1);
+  margin-bottom: 4px;
 }
 
 .tooltip-gold {
-  color: var(--pf-gold-dark);
-  font-weight: var(--pf-font-semibold);
-  font-family: var(--pf-font-ui);
+  color: #b8860b;
+  font-weight: 600;
+  font-family: 'Cinzel', 'Georgia', serif;
 }
 
 .tooltip-divider {
   height: 1px;
-  background: var(--pf-brown-light);
-  margin: var(--pf-space-2) 0;
+  background: #a08c70;
+  margin: 6px 0;
   opacity: 0.6;
 }
 
@@ -3204,16 +3204,16 @@
   }
 }
 
-/* Pathfinder tooltip styles */
+/* Pathfinder tooltip responsive overrides */
 .pathfinder-tooltip {
   max-width: 250px;
-  font-size: var(--pf-text-xs);
+  font-size: 11px;
 }
 
 .pathfinder-tooltip-header {
-  padding: var(--pf-space-2);
+  padding: 8px 10px;
 }
 
 .pathfinder-tooltip-body {
-  padding: var(--pf-space-3);
+  padding: 10px 12px;
 }

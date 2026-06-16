@@ -4,53 +4,64 @@ import useChatStore from '../../../../store/chatStore';
 import useGameStore from '../../../../store/gameStore';
 import useCharacterStore from '../../../../store/characterStore';
 import '../styles/SpellguardResourceBar.css';
+import { useResourceBarTooltip } from '../../../../components/hud/useResourceBarTooltip';
 import '../../../../styles/unified-context-menu.css';
 
 const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud', isOwner = true, onClassResourceUpdate = null }) => {
-    const [localAEP, setLocalAEP] = useState(45);
-    const [selectedSpec, setSelectedSpec] = useState('arcaneWarden');
+    // Read AEP from the classResource prop (previously hardcoded useState(45) which never synced).
+    const propAEP = classResource?.current ?? classResource?.aep ?? classResource?.resonance ?? 0;
+    const propSpec = classResource?.specialization ?? classResource?.spec;
+
+    const [localAEP, setLocalAEP] = useState(propAEP);
+    // Normalize spec id: data uses snake_case (arcane_warden), component uses camelCase (arcaneWarden)
+    const toCamelId = (id) => !id ? '' : id.replace(/[-_]([a-z])/g, (_, c) => c.toUpperCase());
+    const [selectedSpec, setSelectedSpec] = useState(propSpec ? toCamelId(propSpec) : 'arcaneWarden');
     const [showTooltip, setShowTooltip] = useState(false);
     const [showControls, setShowControls] = useState(false);
     const [isAbsorbing, setIsAbsorbing] = useState(false);
     const [isSpending, setIsSpending] = useState(false);
-    
+
     const barRef = useRef(null);
-    const tooltipRef = useRef(null);
+    const tooltipRef = useResourceBarTooltip(barRef, showTooltip);
 
     const maxAEP = 100;
 
-    // Specialization configurations
+    // Keep local state in sync when the prop changes externally
+    useEffect(() => { if (propAEP != null) setLocalAEP(propAEP); }, [propAEP]);
+    useEffect(() => { if (propSpec) setSelectedSpec(toCamelId(propSpec)); }, [propSpec]);
+
+    // Specialization configurations — names/passives aligned to spellguardData.js
     const specConfigs = {
         arcaneWarden: {
-            name: 'Arcane Warden',
+            name: 'Void-Scarred Bastion',
             baseColor: '#1E3A8A',
             activeColor: '#4169E1',
             glowColor: '#6495ED',
             icon: 'fa-shield',
-            passive: 'Arcane Fortitude',
-            passiveDesc: 'Gain 1.5x AEP from magical damage (3 per damage). While shielded: +2 Armor, +10% all resistances.'
+            passive: 'Lead-Lined Ribcage',
+            passiveDesc: 'Generate 1.5x Resonance from absorbed magical damage. Necrotic damage from Arcane Radiation is halved (max HP reduction remains full).'
         },
         spellBreaker: {
-            name: 'Spell Breaker',
+            name: 'Entropic Eraser',
             baseColor: '#4C1D95',
             activeColor: '#9370DB',
             glowColor: '#BA55D3',
             icon: 'fa-bolt',
-            passive: 'Spell Reflection Mastery',
+            passive: 'Shattered Mirror Plating',
             passiveDesc: 'Successful reflections grant +5 AEP. Reflected spells deal +25% damage. Reflection cooldowns reduced by 1 turn.'
         },
         manaReaver: {
-            name: 'Mana Reaver',
+            name: 'Leyline Devourer',
             baseColor: '#581C87',
             activeColor: '#8B008B',
             glowColor: '#9932CC',
             icon: 'fa-skull',
-            passive: 'Mana Vampirism',
+            passive: 'Starving Void',
             passiveDesc: 'Melee attacks drain 2x mana. Per 10 mana drained: +1d6 arcane damage (stacks 5x). Offensive abilities cost -5 AEP.'
         }
     };
 
-    const currentSpec = specConfigs[selectedSpec];
+    const currentSpec = specConfigs[selectedSpec] || specConfigs.arcaneWarden;
 
     // Calculate visual intensity based on AEP level
     const getVisualIntensity = () => {
@@ -289,11 +300,11 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
             {/* Tooltip */}
             {showTooltip && ReactDOM.createPortal(
                 <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
-                    <div className="tooltip-header">Arcane Energy Points</div>
+                    <div className="tooltip-header">Void Resonance (AEP)</div>
 
                     <div className="tooltip-section">
                         <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                            <strong>Current:</strong> {localAEP}/{maxAEP} AEP
+                            <strong>Current:</strong> {localAEP}/{maxAEP} Resonance
                         </div>
                         <div style={{ fontSize: '0.9rem' }}>
                             <strong>Status:</strong> {
@@ -308,21 +319,42 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
                     <div className="tooltip-divider"></div>
 
                     <div className="tooltip-section">
-                        <div className="tooltip-label">AEP Management</div>
+                        <div className="tooltip-label" style={{ color: '#B22222' }}>Arcane Radiation</div>
+                        <div className="passive-desc" style={{ color: '#8B0000' }}>
+                            Ending your round with unspent Resonance deals necrotic damage = (Resonance / 10) and reduces your max HP by the same amount until a long rest. +50% vulnerability to Bludgeoning & Slashing damage.
+                        </div>
+                    </div>
+
+                    {localAEP >= 90 && (
+                        <>
+                            <div className="tooltip-divider"></div>
+                            <div className="tooltip-section">
+                                <div className="tooltip-label" style={{ color: '#B22222' }}>Critical Meltdown Imminent</div>
+                                <div className="passive-desc" style={{ color: '#8B0000' }}>
+                                    Hitting 100 Resonance triggers a Critical Meltdown: 10d6 to everything within 30 ft (allies included), you drop to 1 HP, and your armor shatters. Purge now.
+                                </div>
+                            </div>
+                        </>
+                    )}
+
+                    <div className="tooltip-divider"></div>
+
+                    <div className="tooltip-section">
+                        <div className="tooltip-label">Resonance Management</div>
                         <div className="level-management">
                             <strong>Generate:</strong>
-                            <span>Magical +1/dmg, Physical +1/3, Mana Drain +1</span>
+                            <span>Intercept magical dmg (+1/dmg), Physical (+1/3), Mana Drain (+1)</span>
                             <strong>Spend:</strong>
-                            <span>Arcane shields, spell reflections, magical strikes</span>
+                            <span>Arcane shields, spell reflections, magical strikes — purge to avoid radiation</span>
                         </div>
                     </div>
 
                     <div className="tooltip-divider"></div>
 
                     <div className="tooltip-section">
-                        <div className="tooltip-label">{currentSpec.passive} ({currentSpec.name})</div>
-                        <div className="passive-desc">
-                            {currentSpec.passiveDesc}
+                        <div className="tooltip-label">Arcane Radiation</div>
+                        <div className="passive-desc" style={{ color: '#8B0000' }}>
+                            Holding unspent Resonance is lethal. End each round purged, or suffer the consequences.
                         </div>
                     </div>
                 </div>,
@@ -358,22 +390,7 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
                     }}
                 >
                     <div className="context-menu-main">
-                        <div className="menu-title">AEP: {localAEP}/{maxAEP}</div>
-
-                        {/* Specialization Selection */}
-                        <div className="spellguard-spec-section">
-                            <button
-                                className="context-menu-button"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    cycleSpec();
-                                }}
-                                title={`${currentSpec.name}\n${currentSpec.passiveDesc}`}
-                            >
-                                <i className={`fas ${currentSpec.icon}`}></i>
-                                <span>{currentSpec.name}</span>
-                            </button>
-                        </div>
+                        <div className="menu-title">Void Resonance: {localAEP}/{maxAEP}</div>
 
                         <div className="spellguard-info-text">
                             {context === 'party' ? (

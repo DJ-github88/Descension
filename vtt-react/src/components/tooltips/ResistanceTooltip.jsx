@@ -150,6 +150,87 @@ const RESISTANCE_INFO = {
             'Advantage vs. cutting effects',
             'Better resistance to lacerating wounds'
         ]
+    },
+    // ===== Mythrill canonical damage types =====
+    physical: {
+        name: 'Physical Resistance',
+        description: 'Reduces damage from weapons, claws, and brute force.',
+        color: '#6B4226',
+        effects: [
+            'Take half damage from physical sources',
+            'Advantage vs. weapon-based effects',
+            'Better resistance to bludgeoning, piercing, and slashing'
+        ]
+    },
+    ember: {
+        name: 'Ember Resistance',
+        description: 'Reduces damage from scorching heat, flame, and divine light.',
+        color: '#D4380D',
+        effects: [
+            'Take half damage from ember sources',
+            'Advantage vs. heat-based effects',
+            'Better survival against fire and burning'
+        ]
+    },
+    rime: {
+        name: 'Rime Resistance',
+        description: 'Reduces damage from freezing cold, frost, and glaciation.',
+        color: '#2C5F7C',
+        effects: [
+            'Take half damage from rime sources',
+            'Advantage vs. cold-based effects',
+            'Better survival in freezing environments'
+        ]
+    },
+    storm: {
+        name: 'Storm Resistance',
+        description: 'Reduces damage from lightning, thunder, and concussive force.',
+        color: '#8B7328',
+        effects: [
+            'Take half damage from storm sources',
+            'Advantage vs. electrical and concussive effects',
+            'Better resistance to stunning and shattering'
+        ]
+    },
+    primal: {
+        name: 'Primal Resistance',
+        description: 'Reduces damage from natural energy, life force, and living growth.',
+        color: '#2D5A1E',
+        effects: [
+            'Take half damage from primal sources',
+            'Advantage vs. nature-based effects',
+            'Better harmony with natural forces'
+        ]
+    },
+    blight: {
+        name: 'Blight Resistance',
+        description: 'Reduces damage from necrotic decay, void consumption, poison, and acid.',
+        color: '#3D1F4E',
+        effects: [
+            'Take half damage from blight sources',
+            'Advantage vs. death and decay effects',
+            'Better resistance to poison, acid, and corruption'
+        ]
+    },
+    wyrd: {
+        name: 'Wyrd Resistance',
+        description: 'Reduces damage from chaotic and psychic energy that warps minds and reality.',
+        color: '#7A2040',
+        effects: [
+            'Take half damage from wyrd sources',
+            'Advantage vs. mind-affecting effects',
+            'Better mental fortitude against chaos'
+        ]
+    },
+    divine: {
+        name: 'Divine Resistance',
+        description: 'Reduces damage from sacred radiance, celestial power, and holy smiting.',
+        color: '#DAA520',
+        effects: [
+            'Take half damage from divine sources',
+            'Advantage vs. holy and radiant effects',
+            'Better resistance to sacred and blessed attacks'
+        ]
     }
 };
 

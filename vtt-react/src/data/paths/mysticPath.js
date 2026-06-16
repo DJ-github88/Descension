@@ -1,4 +1,4 @@
-export const MYSTIC_PATH = {
+﻿export const MYSTIC_PATH = {
     id: 'mystic',
     name: 'Mystic',
     description: 'Seekers of inner enlightenment and spiritual harmony',
@@ -39,7 +39,7 @@ export const MYSTIC_PATH = {
             damageTypes: [],
 
             typeConfig: {
-                school: 'spiritual',
+                school: 'wyrd',
                 icon: 'Psychic/Focused Mind',
                 tags: ['passive', 'spiritual', 'perception', 'resistance']
             },
@@ -96,7 +96,7 @@ export const MYSTIC_PATH = {
             damageTypes: [],
 
             typeConfig: {
-                school: 'spiritual',
+                school: 'wyrd',
                 icon: 'Radiant/Radiant Golden Shield',
                 tags: ['reaction', 'defensive', 'protection', 'spiritual']
             },
@@ -181,14 +181,14 @@ export const MYSTIC_PATH = {
             damageTypes: ['blight'],
 
             typeConfig: {
-                school: 'necrotic',
+                school: 'blight',
                 icon: 'Necrotic/Drain Soul',
                 tags: ['action', 'damage', 'healing', 'drain', 'soul']
             },
 
             damageConfig: {
                 damageType: 'direct',
-                elementType: 'necrotic',
+                elementType: 'blight',
                 formula: '2d8 + spirit',
                 resolution: 'DICE',
                 hasDotEffect: false,

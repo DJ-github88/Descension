@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { notify } from './MapNotify';
 import './WorldMapImmerse.css';
 
 const ShareDialog = ({
@@ -15,7 +16,7 @@ const ShareDialog = ({
 
   const handleShare = async () => {
     if (!selectedFriendId) {
-      alert('Please select a friend.');
+      notify('Please select a friend.', 'warning');
       return;
     }
 
@@ -25,12 +26,12 @@ const ShareDialog = ({
     setSharing(true);
     try {
       await onShare(friend, message);
-      alert(`Map view successfully shared with ${friend.name || friend.displayName || 'your friend'}!`);
+      notify(`Map view successfully shared with ${friend.name || friend.displayName || 'your friend'}!`, 'success');
       setSelectedFriendId('');
       setMessage('');
       onClose();
     } catch (e) {
-      alert('Failed to share map view: ' + e.message);
+      notify('Failed to share map view: ' + e.message, 'error');
     } finally {
       setSharing(false);
     }

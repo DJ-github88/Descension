@@ -84,7 +84,7 @@ export const ENHANCED_BACKGROUNDS = {
                         effects: {
                             damage: {
                                 formula: '2d8',
-                                type: 'radiant',
+                                type: 'divine',
                                 scaling: 'Increases to 3d8 against undead or fiends'
                             }
                         },
@@ -160,7 +160,7 @@ export const ENHANCED_BACKGROUNDS = {
                         effects: {
                             damage: {
                                 formula: '4d6',
-                                type: 'radiant',
+                                type: 'divine',
                                 scaling: 'Double damage against undead, fiends, or evil-aligned creatures'
                             },
                             debuff: {
@@ -455,7 +455,7 @@ export const ENHANCED_BACKGROUNDS = {
                         effects: {
                             damage: {
                                 formula: '3d6',
-                                type: 'radiant',
+                                type: 'divine',
                                 scaling: 'Double damage to cursed or corrupted creatures'
                             },
                             utility: {
@@ -560,7 +560,7 @@ export const ENHANCED_BACKGROUNDS = {
                         effects: {
                             damage: {
                                 formula: '5d8',
-                                type: 'radiant',
+                                type: 'divine',
                                 scaling: 'Damage scales with target\'s evil deeds (GM discretion)'
                             },
                             debuff: {

@@ -133,7 +133,7 @@ export const POSITIVE_STATUS_EFFECTS = [
       category: 'protection',
       actionPointCost: 2,
       options: [
-        { id: 'elemental', name: 'Elemental Resistance', description: 'Resistance to fire, cold, lightning, etc.' },
+        { id: 'elemental', name: 'Elemental Resistance', description: 'Resistance to ember, rime, storm, arcane, and primal damage' },
         { id: 'physical', name: 'Physical Resistance', description: 'Resistance to bludgeoning, piercing, slashing' },
         { id: 'magical', name: 'Magical Resistance', description: 'Resistance to magical damage types' }
       ],
@@ -437,165 +437,237 @@ export const NEGATIVE_STATUS_EFFECTS = [
     {
       id: 'blinded',
       name: 'Blinded',
-      description: 'Cannot see, automatically fails sight-based checks, disadvantage on attacks',
-      icon: '/assets/icons/abilities/Shadow/Shadow Darkness.png',
-      category: 'sensory',
-      actionPointCost: 3,
+      description: 'Cannot see — fails sight-based checks, disadvantage on attacks',
+      icon: 'Void/Consumed by Void',
+      category: 'control',
       options: [
-        { id: 'partial', name: 'Partially Blinded', description: 'Vision severely obscured, disadvantage on perception' },
-        { id: 'complete', name: 'Completely Blinded', description: 'Cannot see at all, automatically fail sight-based checks' },
-        { id: 'flash', name: 'Flash Blinded', description: 'Temporary blindness that fades over time' }
+        { id: 'full', name: 'Full Blindness', description: 'Cannot see at all' },
+        { id: 'partial', name: 'Partial Vision', description: 'Reduced vision, disadvantage on perception' },
+        { id: 'darkness', name: 'Magical Darkness', description: 'Magical darkness blocks all vision' }
       ],
-      defaultParameters: {
-        visionReduction: 50, // Percent
-        canHearDirection: true,
-        completeDuration: 1,
-        partialDuration: 3
-      },
-      counters: ['perception', 'ranged attacks', 'spell targeting'],
       saveType: 'constitution'
     },
     {
       id: 'charmed',
       name: 'Charmed',
-      description: 'Regards the charmer as a friendly acquaintance, cannot attack them',
-      icon: '/assets/icons/abilities/Purple Star.png',
-      category: 'mental',
-      actionPointCost: 4,
+      description: 'Regards the charmer as a friend, cannot attack them',
+      icon: 'Psychic/Mind Control',
+      category: 'disruption',
       options: [
-        { id: 'friendly', name: 'Friendly Charm', description: 'Regards target as friend, still has free will' },
-        { id: 'dominated', name: 'Domination', description: 'Must obey charmer\'s commands' },
-        { id: 'infatuated', name: 'Infatuation', description: 'Will protect charmer at all costs' }
+        { id: 'friendly', name: 'Friendly Charm', description: 'Regards caster as a friend, keeps free will' },
+        { id: 'dominated', name: 'Domination', description: 'Must obey the caster\'s commands' },
+        { id: 'infatuated', name: 'Infatuation', description: 'Devoted — will protect the caster at any cost' }
       ],
-      defaultParameters: {
-        charmDuration: 3, // rounds
-        charmStrength: 'medium',
-        charmEffect: 'suggestion'
-      },
-      counters: ['free will', 'decision making'],
-      saveType: 'charisma'
+      saveType: 'spirit'
     },
     {
       id: 'frightened',
       name: 'Frightened',
-      description: 'Disadvantage on ability checks and attacks while source of fear is in sight',
-      icon: '/assets/icons/abilities/Dark Abyss.png',
-      category: 'mental',
-      actionPointCost: 2,
+      description: 'Disadvantage on checks while the source of fear is visible',
+      icon: 'Necrotic/Bloody Eyes',
+      category: 'disruption',
       options: [
-        { id: 'shaken', name: 'Shaken', description: 'Disadvantage on ability checks while fear source is visible' },
+        { id: 'shaken', name: 'Shaken', description: 'Disadvantage on checks while fear source is visible' },
         { id: 'terrified', name: 'Terrified', description: 'Cannot willingly move closer to the source of fear' },
-        { id: 'panicked', name: 'Panicked', description: 'Must use actions to flee from source of fear' }
+        { id: 'panicked', name: 'Panicked', description: 'Must use actions to flee from the source of fear' }
       ],
-      defaultParameters: {
-        fearDuration: 3, // rounds
-        fearRadius: 30, // feet
-        fearStrength: 'medium'
-      },
-      counters: ['morale', 'courage'],
       saveType: 'spirit'
     },
     {
       id: 'paralyzed',
       name: 'Paralyzed',
-      description: 'Incapacitated, cannot move or speak, auto-fails STR and AGI saves',
-      icon: '/assets/icons/abilities/Rock Throw.png',
-      category: 'physical',
-      actionPointCost: 4,
+      description: 'Cannot move, act, or speak — attacks against them have advantage',
+      icon: 'Frost/Confused',
+      category: 'control',
       options: [
-        { id: 'partial', name: 'Partially Paralyzed', description: 'Speed reduced to 0, disadvantage on AGI saves' },
-        { id: 'complete', name: 'Completely Paralyzed', description: 'Cannot move or take actions at all' },
-        { id: 'magical', name: 'Magical Paralysis', description: 'Cannot move but can still cast non-somatic spells' }
+        { id: 'partial', name: 'Partially Paralyzed', description: 'Speed reduced, limited movement' },
+        { id: 'complete', name: 'Completely Paralyzed', description: 'Cannot move or take actions' },
+        { id: 'magical', name: 'Magical Paralysis', description: 'Held in stasis, can cast non-somatic spells' }
       ],
-      defaultParameters: {
-        paralysisDuration: 2, // rounds
-        paralysisType: 'magical',
-        allowMental: false
-      },
-      counters: ['movement', 'physical actions'],
       saveType: 'constitution'
     },
     {
       id: 'poisoned',
       name: 'Poisoned',
       description: 'Disadvantage on attack rolls and ability checks',
-      icon: '/assets/icons/abilities/Projectile Acid.png',
-      category: 'physical',
-      actionPointCost: 2,
+      icon: 'Poison/Acid Splash',
+      category: 'damage',
       options: [
-        { id: 'weakening', name: 'Weakening Poison', description: 'Disadvantage on STR and CON checks and saves' },
+        { id: 'weakening', name: 'Weakening Poison', description: 'Disadvantage on STR and CON checks' },
         { id: 'debilitating', name: 'Debilitating Poison', description: 'Takes damage over time' },
         { id: 'paralyzing', name: 'Paralyzing Poison', description: 'May cause paralysis on failed save' }
       ],
-      defaultParameters: {
-        poisonDuration: 4, // rounds
-        poisonDamage: '1d6',
-        poisonEffects: ['disadvantage', 'dot'],
-        poisonType: 'natural'
-      },
-      counters: ['physical prowess', 'stamina'],
       saveType: 'constitution'
     },
-
     {
       id: 'restrained',
       name: 'Restrained',
-      description: 'Speed becomes 0, disadvantage on attacks, advantage on attacks against them',
-      icon: '/assets/icons/abilities/General/Sword.png',
-      category: 'physical',
-      actionPointCost: 3,
+      description: 'Speed becomes 0, disadvantage on attacks and Agility saves',
+      icon: 'Nature/Vines of Peril',
+      category: 'control',
       options: [
-        { id: 'ensnared', name: 'Ensnared', description: 'Caught in vines, webs, or similar restraints' },
-        { id: 'grappled', name: 'Grappled', description: 'Held by a creature, can attempt to break free' },
-        { id: 'bound', name: 'Bound', description: 'Tied up with rope or chains, very difficult to escape' }
+        { id: 'ensnared', name: 'Ensnared', description: 'Caught in vines, webs, or similar' },
+        { id: 'grappled', name: 'Grappled', description: 'Held by a creature, can try to break free' },
+        { id: 'bound', name: 'Bound', description: 'Tied up — very difficult to escape' }
       ],
-      defaultParameters: {
-        restraintDuration: 3, // rounds
-        restraintStrength: 'medium', // DC modifier
-        restraintType: 'magical',
-        restraintDamage: 0
-      },
-      counters: ['movement', 'evasion'],
       saveType: 'strength'
     },
     {
       id: 'silenced',
       name: 'Silenced',
       description: 'Cannot speak or cast spells with verbal components',
-      icon: '/assets/icons/abilities/Light Path.png',
-      category: 'magical',
-      actionPointCost: 2,
+      icon: 'Void/Black Hole',
+      category: 'control',
       options: [
-        { id: 'magical', name: 'Magical Silence', description: 'No sound can be created within an area' },
-        { id: 'muted', name: 'Muted', description: 'Individual cannot speak but other sounds function normally' },
-        { id: 'temporal', name: 'Temporal Stutter', description: 'Speech and verbal casting unreliable, may fail' }
+        { id: 'magical', name: 'Magical Silence', description: 'No sound can be created in an area' },
+        { id: 'muted', name: 'Muted', description: 'Cannot speak at all' },
+        { id: 'temporal', name: 'Temporal Stutter', description: 'Speech unreliable, verbal casting may fail' }
       ],
-      defaultParameters: {
-        silenceDuration: 3, // rounds
-        silenceRadius: 0, // 0 for targeted, >0 for area
-        affectsVerbalSpells: true,
-        affectsSoundEffects: true
-      },
-      counters: ['spellcasting', 'verbal communication'],
       saveType: 'charisma'
     },
     {
-      id: 'petrified',
-      name: 'Petrified',
-      description: 'Target is turned to stone — immune to all damage but unable to move, speak, or act.',
-      category: 'physical',
-      duration: '1 round',
-      effects: {
-        attackModifier: -100,
-        defenseModifier: 100,
-        speedModifier: -100
-      },
-      counterable: true,
-      dispellable: false
+      id: 'slowed',
+      name: 'Slowed',
+      description: 'Movement speed and action points reduced',
+      icon: 'Nature/Webbed Slow',
+      category: 'control',
+      options: [
+        { id: 'hindered', name: 'Hindered Movement', description: 'Movement speed reduced' },
+        { id: 'lethargic', name: 'Lethargy', description: 'Reduced action points per turn' },
+        { id: 'temporal', name: 'Temporal Slowness', description: 'Caught in time distortion' }
+      ],
+      saveType: 'constitution'
     },
-
-
-
+    {
+      id: 'burning',
+      name: 'Burning',
+      description: 'Takes ember damage every round',
+      icon: 'Fire/Burning Status',
+      category: 'damage',
+      options: [
+        { id: 'mild', name: 'Mild Burn', description: 'Light ongoing ember damage' },
+        { id: 'intense', name: 'Intense Burn', description: 'Heavy ongoing damage, can spread' },
+        { id: 'magical', name: 'Magical Fire', description: 'Ember damage that ignores resistance' }
+      ],
+      saveType: 'agility'
+    },
+    {
+      id: 'frozen',
+      name: 'Frozen',
+      description: 'Encased in ice — reduced speed and takes rime damage',
+      icon: 'Frost/Chromium Scales',
+      category: 'control',
+      options: [
+        { id: 'chilled', name: 'Chilled', description: 'Slight speed reduction' },
+        { id: 'frostbitten', name: 'Frostbitten', description: 'Significant speed reduction, disadvantage on Agility' },
+        { id: 'frozen', name: 'Frozen Solid', description: 'Completely encased in ice — paralyzed' }
+      ],
+      saveType: 'constitution'
+    },
+    {
+      id: 'weakened',
+      name: 'Weakened',
+      description: 'Reduced damage output and physical effectiveness',
+      icon: 'Utility/Chained',
+      category: 'debilitation',
+      options: [
+        { id: 'fatigued', name: 'Fatigued', description: 'Reduced damage dealt' },
+        { id: 'exhausted', name: 'Exhausted', description: 'Severe penalty to physical checks' },
+        { id: 'drained', name: 'Drained', description: 'Maximum hit points reduced' }
+      ],
+      saveType: 'constitution'
+    },
+    {
+      id: 'confused',
+      name: 'Confused',
+      description: 'Acts unpredictably — may attack allies or wander',
+      icon: 'Psychic/Dark Psychic',
+      category: 'disruption',
+      options: [
+        { id: 'disoriented', name: 'Disoriented', description: 'Disadvantage on Intelligence checks' },
+        { id: 'befuddled', name: 'Befuddled', description: 'Chance to attack random targets' },
+        { id: 'insane', name: 'Insane', description: 'Acts randomly each turn' }
+      ],
+      saveType: 'spirit'
+    },
+    {
+      id: 'diseased',
+      name: 'Diseased',
+      description: 'Suffers ongoing effects from illness',
+      icon: 'Necrotic/Blood Skull',
+      category: 'ailment',
+      options: [
+        { id: 'infected', name: 'Infected', description: 'Cannot regain hit points naturally' },
+        { id: 'contagious', name: 'Contagious', description: 'Spreads to nearby creatures' },
+        { id: 'terminal', name: 'Terminal', description: 'Daily saves or gain exhaustion' }
+      ],
+      saveType: 'constitution'
+    },
+    {
+      id: 'bleeding',
+      name: 'Bleeding',
+      description: 'Loses hit points at the start of each turn',
+      icon: 'Utility/Blood Trail',
+      category: 'damage',
+      options: [
+        { id: 'minor', name: 'Minor Wound', description: 'Small damage each turn' },
+        { id: 'severe', name: 'Severe Wound', description: 'Significant damage each turn' },
+        { id: 'hemorrhaging', name: 'Hemorrhaging', description: 'Massive damage — risk of incapacitation' }
+      ],
+      saveType: 'constitution'
+    },
+    {
+      id: 'slept',
+      name: 'Asleep',
+      description: 'Unconscious — wakes on damage or loud noise',
+      icon: 'Nature/Sleeping Enchanted Fox',
+      category: 'control',
+      options: [
+        { id: 'drowsy', name: 'Drowsy', description: 'Disadvantage on Perception and initiative' },
+        { id: 'asleep', name: 'Asleep', description: 'Unconscious, wakes on damage' },
+        { id: 'comatose', name: 'Comatose', description: 'Deep magical sleep, only woken by magic' }
+      ],
+      saveType: 'constitution'
+    },
+    {
+      id: 'cursed',
+      name: 'Cursed',
+      description: 'Suffers bad luck and penalties to rolls',
+      icon: 'Psychic/Creepy Doll',
+      category: 'curse',
+      options: [
+        { id: 'jinxed', name: 'Jinxed', description: 'Small failure chance, minor penalty' },
+        { id: 'hexed', name: 'Hexed', description: 'Moderate failure chance on rolls' },
+        { id: 'doomed', name: 'Doomed', description: 'High failure chance, significant penalties' }
+      ],
+      saveType: 'spirit'
+    },
+    {
+      id: 'dazed',
+      name: 'Dazed',
+      description: 'Struggling to focus and act effectively',
+      icon: 'Lightning/Shock',
+      category: 'disruption',
+      options: [
+        { id: 'lightheaded', name: 'Lightheaded', description: 'Minor penalty to attack rolls' },
+        { id: 'disoriented', name: 'Disoriented', description: 'Disadvantage on initiative' },
+        { id: 'concussed', name: 'Concussed', description: 'Cannot take reactions' }
+      ],
+      saveType: 'constitution'
+    },
+    {
+      id: 'vulnerability',
+      name: 'Vulnerability',
+      description: 'Takes increased damage from specific sources',
+      icon: 'Fire/Burning Man',
+      category: 'debilitation',
+      options: [
+        { id: 'physical', name: 'Physical Vulnerability', description: 'Increased physical damage taken' },
+        { id: 'elemental', name: 'Elemental Vulnerability', description: 'Increased elemental damage taken' },
+        { id: 'magical', name: 'Magical Vulnerability', description: 'Increased magical damage taken' }
+      ],
+      saveType: 'constitution'
+    }
   ];
 
 /**

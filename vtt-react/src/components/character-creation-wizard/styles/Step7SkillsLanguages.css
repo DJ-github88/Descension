@@ -1129,3 +1129,22 @@
         max-height: none;
     }
 }
+
+/* Mobile Section Tabs - Skills & Languages */
+@media (max-width: 768px) {
+    .skills-languages-layout[data-mobile-panel] > .selection-pane-left,
+    .skills-languages-layout[data-mobile-panel] > .inspector-pane-right {
+        min-height: 0;
+    }
+
+    .skills-languages-layout[data-mobile-panel="selections"] > .inspector-pane-right {
+        display: none;
+    }
+    .skills-languages-layout[data-mobile-panel="details"] > .selection-pane-left {
+        display: none;
+    }
+
+    .inspector-pane-right {
+        max-height: none;
+    }
+}

@@ -88,6 +88,7 @@ const Step7SkillsLanguages = () => {
     const [skillFilter, setSkillFilter] = useState('standard'); // 'standard' or 'advanced'
     const [expandedCategory, setExpandedCategory] = useState('Combat Mastery');
     const [inspectedSkillId, setInspectedSkillId] = useState(null);
+    const [mobilePanel, setMobilePanel] = useState('selections');
 
     const [selectedSkills, setSelectedSkills] = useState(characterData.selectedSkills || []);
     const [selectedLanguages, setSelectedLanguages] = useState(characterData.selectedLanguages || []);
@@ -348,10 +349,29 @@ const Step7SkillsLanguages = () => {
 
     return (
         <div className="wizard-step-content">
-            <div className="skills-languages-layout">
-                
+            <div className="skills-languages-layout" data-mobile-panel={mobilePanel}>
+
+                {/* Mobile Section Tabs */}
+                <div className="mobile-section-tabs-bar">
+                    <button
+                        type="button"
+                        className={`mobile-section-tab ${mobilePanel === 'selections' ? 'active' : ''}`}
+                        onClick={() => setMobilePanel('selections')}
+                    >
+                        <i className="fas fa-cogs"></i> {activeTab === 'skills' ? 'Skills' : 'Languages'}
+                    </button>
+                    <button
+                        type="button"
+                        className={`mobile-section-tab ${mobilePanel === 'details' ? 'active' : ''}`}
+                        onClick={() => setMobilePanel('details')}
+                        disabled={!activeSkill && activeTab === 'skills'}
+                    >
+                        <i className="fas fa-book-open"></i> Details
+                    </button>
+                </div>
+
                 {/* Left Selection Column */}
-                <div className="selection-pane-left">
+                <div className="selection-pane-left" data-mobile-panel="selections">
                     <div className="pane-tabs-navigation">
                         <button
                             type="button"
@@ -537,7 +557,7 @@ const Step7SkillsLanguages = () => {
                 </div>
 
                 {/* Right Interactive Inspector Panel */}
-                <div className="inspector-pane-right">
+                <div className="inspector-pane-right" data-mobile-panel="details">
                     {activeSkill ? (
                         <div className="skill-grimoire-inspector">
                             {/* Grimoire Header */}

@@ -807,6 +807,20 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         },
       },
 
+      utilityConfig: {
+        utilityType: "stance_change",
+        selectedEffects: [
+          { id: "phase_tear_shift",
+            name: "Forced Phase Shift",
+            description: "Tear yourself into an adjacent phase, triggering a stellar shockwave and the chosen phase's effects on nearby enemies."
+          },
+        ],
+        duration: 0,
+        durationUnit: "instant",
+        concentration: false,
+        power: "minor",
+      },
+
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
 
       specialMechanics: {
@@ -1033,7 +1047,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       level: 1,
       spellType: "PASSIVE",
       icon: "Force/Explosion Burst",
-      effectTypes: ["passive"],
+      effectTypes: ["passive", "debuff"],
       typeConfig: {
         school: "arcane",
         icon: "Force/Explosion Burst",
@@ -1070,7 +1084,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
     { id : "lunarch_phase_lock",
       name: "Phase Lock",
       description:
-        "PASSIVE: Taking damage during a manual phase shift interrupts it. Mana and necrotic cost are still paid but the shift fails.",
+        "PASSIVE: Taking damage during a manual phase shift interrupts it. Mana and blight cost are still paid but the shift fails.",
       level: 1,
       spellType: "PASSIVE",
       icon: "Arcane/Spiral Vortex",
@@ -1089,7 +1103,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
     { id : "lunarch_transition_shock",
       name: "Transition Shock",
       description:
-        "PASSIVE: Every phase shift forces a 1d6 Transition Shock roll. 1=Tissue Rupture (2d6 necrotic), 2=Synaptic Flash (blinded 1 rnd), 3=Mana Hemorrhage (lose 2d4 mana), 4=Temporal Dissonance (lose 1 AP next turn), 5=Psychic Whiplash (1d6 psychic + disadv next save), 6=Parasitic Mercy (1 necrotic only).",
+        "PASSIVE: Every phase shift forces a 1d6 Transition Shock roll. 1=Tissue Rupture (2d6 blight), 2=Synaptic Flash (blinded 1 rnd), 3=Mana Hemorrhage (lose 2d4 mana), 4=Temporal Dissonance (lose 1 AP next turn), 5=Wyrd Whiplash (1d6 wyrd + disadv next save), 6=Parasitic Mercy (1 blight only).",
       level: 1,
       spellType: "PASSIVE",
       icon: "Force/Explosion Burst",
@@ -1521,6 +1535,48 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       resolution: "AUTOMATIC",
 
+      buffConfig: {
+        buffType: "statEnhancement",
+        effects: [
+          { id: "fractured_timeline_new_moon",
+            name: "New Moon Fragment",
+            description: "Restore 1d4 mana and reduce the next incoming attack against you by 1d4.",
+            statModifier: { stat: "damage_reduction_next", magnitude: 1, magnitudeType: "dice" }
+          },
+          { id: "fractured_timeline_waxing",
+            name: "Waxing Fragment",
+            description: "Next spell deals +1d4 damage, or next heal is +1d6."
+          },
+          { id: "fractured_timeline_full_moon",
+            name: "Full Moon Fragment",
+            description: "Next attack deals +1d6 damage with +2 crit range."
+          },
+          { id: "fractured_timeline_waning",
+            name: "Waning Fragment",
+            description: "Next spell costs 2 less mana."
+          },
+        ],
+        durationType: "rounds",
+        durationValue: 10,
+        durationUnit: "rounds",
+        concentrationRequired: false,
+        canBeDispelled: false,
+      },
+
+      utilityConfig: {
+        utilityType: "special",
+        selectedEffects: [
+          { id: "rapid_cycle_phase_advance",
+            name: "Rapid Phase Cycle",
+            description: "Violently cycle through all four phases in succession, gaining one benefit from each phase and rolling Transition Shock once."
+          },
+        ],
+        duration: 0,
+        durationUnit: "instant",
+        concentration: false,
+        power: "major",
+      },
+
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
 
       specialMechanics: {
@@ -1662,6 +1718,14 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         durationUnit: "rounds",
         concentrationRequired: false,
         canBeDispelled: true,
+      },
+
+      damageConfig: {
+        formula: "1d6",
+        damageTypes: ["ember"],
+        resolution: "AUTOMATIC",
+        dotConfig: { enabled: true, damagePerTick: "1d6", damageType: "ember", tickFrequency: "round", duration: 2, canStack: false, maxStacks: 1 },
+        description: "Contagion Aura deals 1d6 radiant damage to enemies within 10 ft each turn for 2 rounds.",
       },
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },

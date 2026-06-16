@@ -695,6 +695,9 @@ import {
               case 'wyrd':
                 visualization = 'Dark energies swirl around your hands, draining the life force from your target.';
                 break;
+              case 'divine':
+                visualization = 'Brilliant golden radiance descends from above, searing your target with sacred light.';
+                break;
               case 'physical':
                 visualization = 'A brilliant light bursts forth, searing your target with holy energy.';
                 break;
@@ -1348,6 +1351,7 @@ import {
           else if (damageType === 'rime' || damageType === 'rime') iconClass = 'spell-icon-frost';
           else if (damageType === 'nature') iconClass = 'spell-icon-nature';
           else if (damageType === 'blight' || damageType === 'blight') iconClass = 'spell-icon-shadow';
+          else if (damageType === 'divine') iconClass = 'spell-icon-holy';
           else if (damageType === 'ember' || damageType === 'ember') iconClass = 'spell-icon-holy';
         }
         break;

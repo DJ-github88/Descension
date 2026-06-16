@@ -1,4 +1,4 @@
-export const HARROW_PATH = {
+﻿export const HARROW_PATH = {
     id: 'harrow',
     name: 'Harrow',
     description: 'Survivors hardened by darkness and tragedy',
@@ -41,7 +41,7 @@ export const HARROW_PATH = {
             damageTypes: [],
 
             typeConfig: {
-                school: 'necrotic',
+                school: 'blight',
                 icon: 'Utility/Steadfast Bulwark',
                 tags: ['passive', 'survival', 'resistance', 'endurance']
             },
@@ -99,7 +99,7 @@ export const HARROW_PATH = {
             damageTypes: [],
 
             typeConfig: {
-                school: 'necrotic',
+                school: 'blight',
                 icon: 'Utility/Bound Warrior',
                 tags: ['reaction', 'defensive', 'survival', 'buff']
             },
@@ -182,7 +182,7 @@ export const HARROW_PATH = {
             damageTypes: ['wyrd'],
 
             typeConfig: {
-                school: 'necrotic',
+                school: 'blight',
                 icon: 'Psychic/Hypnotic Eye',
                 tags: ['action', 'debuff', 'fear', 'aura', 'mental']
             },
@@ -249,7 +249,7 @@ export const HARROW_PATH = {
 
             damageConfig: {
                 damageType: 'dot',
-                elementType: 'necrotic',
+                elementType: 'blight',
                 formula: '2d6',
                 resolution: 'DICE',
                 hasDotEffect: true,
@@ -547,7 +547,7 @@ export const HARROW_PATH = {
 
                     damageConfig: {
                         damageType: 'direct',
-                        elementType: 'necrotic',
+                        elementType: 'blight',
                         formula: '4d8 + CON',
                         resolution: 'DICE',
                         hasDotEffect: false,
@@ -623,7 +623,7 @@ export const HARROW_PATH = {
 
                     damageConfig: {
                         damageType: 'dot',
-                        elementType: 'poison',
+                        elementType: 'blight',
                         formula: '1d6',
                         resolution: 'DICE',
                         hasDotEffect: true,
@@ -710,7 +710,7 @@ export const HARROW_PATH = {
 
                     damageConfig: {
                         damageType: 'dot',
-                        elementType: 'poison',
+                        elementType: 'blight',
                         formula: '2d4',
                         resolution: 'DICE',
                         hasDotEffect: true,

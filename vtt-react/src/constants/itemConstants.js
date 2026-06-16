@@ -50,10 +50,11 @@ export const ELEMENT_COLORS = {
     acid: '#00ff00',
     force: '#ff66ff',
     necrotic: '#660066',
-    radiant: '#ffff99',
+    radiant: '#DAA520',
     poison: '#00ff00',
     psychic: '#ff00ff',
-    thunder: '#0066ff'
+    thunder: '#0066ff',
+    divine: '#DAA520'
 };
 
 export const TOOLTIP_COLORS = {

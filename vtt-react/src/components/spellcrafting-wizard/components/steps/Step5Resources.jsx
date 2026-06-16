@@ -421,12 +421,17 @@ const Step5Resources = () => {
 
   // Save resource configuration when it changes
   useEffect(() => {
+    // Ensure actionPoints is ALWAYS set (spec Rule 4)
+    const actionPoints = selectedResources.includes('actionPoints') 
+      ? (resourceValues.actionPoints || 1)
+      : (state.resourceCost?.actionPoints || 1);
+    
     dispatch(actionCreators.updateResourceCost({
       resourceTypes: selectedResources,
       resourceValues: resourceValues,
       resourceFormulas: resourceFormulas,
       useFormulas: useFormulas,
-      actionPoints: selectedResources.includes('actionPoints') ? (resourceValues.actionPoints || 1) : 0
+      actionPoints: actionPoints
     }));
   }, [selectedResources, resourceValues, resourceFormulas, useFormulas]);
 

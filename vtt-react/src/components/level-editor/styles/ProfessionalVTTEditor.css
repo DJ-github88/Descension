@@ -284,13 +284,10 @@
     text-align: center;
 }
 
-/* Layer Panel - Right Side */
+/* Layer Panel - Right Side (flex sibling, no longer absolute overlay) */
 .vtt-layer-panel {
-    position: absolute;
-    top: 0;
-    right: 0;
     width: 250px;
-    height: 100%;
+    flex-shrink: 0;
     background: rgba(240, 230, 210, 0.95);
     padding: 16px;
     overflow-y: auto;
@@ -299,13 +296,12 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    transition: transform 0.3s ease;
     z-index: 100;
+    display: flex;
+    flex-direction: column;
 }
 
-.vtt-layer-panel.collapsed {
-    display: none;
-}
+/* (collapsed state handled by conditional render, not CSS class) */
 
 .layer-panel-header {
     display: flex;
@@ -357,6 +353,7 @@
     flex-direction: column;
     gap: 6px;
     margin-bottom: 20px;
+    flex: 1;
 }
 
 .layer-item {
@@ -424,7 +421,7 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
-    margin-top: 16px;
+    margin-top: auto;
     padding-top: 16px;
     border-top: 1px solid #a08c70;
 }
@@ -540,15 +537,76 @@
 
 /* Shortcuts Help */
 .vtt-shortcuts-help {
-    padding: 8px 16px;
-    background: rgba(122, 59, 46, 0.1);
+    padding: 4px 16px;
+    background: rgba(122, 59, 46, 0.15);
     border-top: 1px solid #a08c70;
     text-align: center;
+    flex-shrink: 0;
 }
 
 .vtt-shortcuts-help small {
     color: #5a3a2a;
-    font-size: 10px;
+    font-size: 9px;
+    line-height: 1.4;
+}
+
+/* Status Bar */
+.vtt-status-bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 4px 16px;
+    background: rgba(42, 36, 25, 0.85);
+    border-top: 1px solid #a08c70;
+    flex-shrink: 0;
+}
+
+.vtt-status-item {
+    color: #c8b89a;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.vtt-status-item strong {
+    color: #d4af37;
+    font-weight: bold;
+}
+
+.vtt-status-item.vtt-status-unsaved {
+    color: #ffc107;
+    margin-left: auto;
+    animation: pulse 2s infinite;
+}
+
+.vtt-status-actions {
+    display: flex;
+    gap: 4px;
+    margin-left: auto;
+}
+
+.vtt-status-actions + .vtt-status-item.vtt-status-unsaved {
+    margin-left: 8px;
+}
+
+.vtt-status-btn {
+    background: rgba(212, 175, 55, 0.15);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    color: #d4af37;
+    cursor: pointer;
+    border-radius: 3px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    transition: all 0.15s ease;
+    padding: 0;
+}
+
+.vtt-status-btn:hover {
+    background: rgba(212, 175, 55, 0.3);
+    border-color: #d4af37;
 }
 
 /* Drawing Overlay */
@@ -566,11 +624,7 @@
     }
 
     .vtt-layer-panel {
-        width: 220px;
-    }
-
-    .vtt-layer-panel.collapsed {
-        transform: translateX(calc(100% - 30px));
+        width: 200px;
     }
 
     .tool-grid {

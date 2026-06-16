@@ -8,56 +8,55 @@
 
 .spec-button {
     position: absolute;
-    left: -40px; /* Position to the left of the bar */
+    left: 50%; /* Center on the bar's divider instead of dangling off the left edge */
     top: 50%;
-    transform: translateY(-50%);
-    background: linear-gradient(135deg, rgba(139, 69, 19, 0.3), rgba(101, 67, 33, 0.4));
-    border: 1px solid rgba(139, 69, 19, 0.6);
-    border-radius: 4px;
-    width: 32px;
-    height: 36px;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, rgba(139, 69, 19, 0.85), rgba(101, 67, 33, 0.92));
+    border: 1px solid rgba(222, 184, 135, 0.6);
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: all 0.2s ease;
     z-index: 10;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
 }
 
 .spec-button i {
-    font-size: 14px;
-    color: rgba(222, 184, 135, 0.95);
+    font-size: 12px;
+    color: rgba(245, 230, 200, 0.98);
 }
 
 .spec-button:hover {
-    background: linear-gradient(135deg, rgba(139, 69, 19, 0.4), rgba(101, 67, 33, 0.5));
-    border-color: rgba(139, 69, 19, 0.8);
-    transform: translateY(-50%) scale(1.05);
-    box-shadow: 0 0 8px rgba(139, 69, 19, 0.4);
+    background: linear-gradient(135deg, rgba(160, 90, 30, 0.95), rgba(120, 80, 40, 1));
+    border-color: rgba(222, 184, 135, 0.9);
+    transform: translate(-50%, -50%) scale(1.1);
+    box-shadow: 0 0 10px rgba(222, 184, 135, 0.5);
 }
 
 .spec-button:active {
-    transform: translateY(-50%) scale(0.98);
+    transform: translate(-50%, -50%) scale(0.95);
 }
 
 /* Smaller spec button in HUD mode */
 .toxicologist-resource-container:has(.split-bar-container.compact) .spec-button,
 .toxicologist-resource-container:has(.split-bar-container.small) .spec-button {
-    width: 28px;
-    height: 28px;
-    background: transparent;
-    border: none;
+    width: 20px;
+    height: 20px;
 }
 
 .toxicologist-resource-container:has(.split-bar-container.compact) .spec-button i,
 .toxicologist-resource-container:has(.split-bar-container.small) .spec-button i {
-    font-size: 14px;
+    font-size: 10px;
 }
 
 .toxicologist-resource-container:has(.split-bar-container.compact) .spec-button:hover,
 .toxicologist-resource-container:has(.split-bar-container.small) .spec-button:hover {
-    background: rgba(139, 69, 19, 0.2);
-    box-shadow: none;
+    transform: translate(-50%, -50%) scale(1.12);
+    box-shadow: 0 0 8px rgba(222, 184, 135, 0.5);
 }
 
 /* ===== SPLIT BAR CONTAINER ===== */

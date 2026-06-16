@@ -964,7 +964,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
             name: "Stitch of Suffering (Ally)",
             description:
               "Linked ally redirects 30% of incoming damage to the bonded enemy as wyrd damage for 3 rounds.",
-            mechanicsText: "Linked ally redirects 30% of incoming damage to bonded enemy as psychic for 3 rounds.",
+            mechanicsText: "Linked ally redirects 30% of incoming damage to bonded enemy as wyrd for 3 rounds.",
           },
         ],
         durationValue: 3,
@@ -1378,7 +1378,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
     { id: "fp_befoul",
       name: "Befoul",
       description:
-        "Unleash a wave of necrotic energy that corrupts a 20-foot area for 4 rounds. The ground becomes difficult terrain and creatures starting their turn there take 1d6 blight damage as the soil itself turns hostile. The corrupted ground pulses with residual psychic decay. Generates 1d4 Madness Points.",
+        "Unleash a wave of blight energy that corrupts a 20-foot area for 4 rounds. The ground becomes difficult terrain and creatures starting their turn there take 1d6 blight damage as the soil itself turns hostile. The corrupted ground pulses with residual wyrd decay. Generates 1d4 Madness Points.",
       level: 3,
       spellType: "ACTION",
       icon: "Poison/Poison Plague",
@@ -1705,7 +1705,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
     { id: "fp_visions_of_heresy",
       name: "Visions of Heresy",
       description:
-        "Condemn a target to witness their own heresy -- memories of every betrayal, broken oath, and lie they ever told. Deals 2d6 wyrd damage and 2d6 psychic per turn for 4 turns as guilt eats them from within. At 10+ Madness, DoT increases to 3d6 per turn. Generates 1d4 Madness Points.",
+        "Condemn a target to witness their own heresy -- memories of every betrayal, broken oath, and lie they ever told. Deals 2d6 + Intelligence wyrd damage and 2d6 wyrd per turn for 4 turns as guilt eats them from within. At 10+ Madness, DoT increases to 3d6 per turn. Generates 1d4 Madness Points.",
       level: 4,
       spellType: "ACTION",
       icon: "Psychic/Mind Strike",
@@ -1955,7 +1955,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
     { id: "fp_corrupt_the_faithful",
       name: "Corrupt the Faithful",
       description:
-        "Preach corruption into a target's soul, turning their devotion against their allies for 3 rounds. DC 15 Spirit save. At 10+ Madness, target also deals 1d6 psychic to allies it attacks. Generates 1d8 Madness Points.",
+        "Preach corruption into a target's soul, turning their devotion against their allies for 3 rounds. DC 15 Spirit save. At 10+ Madness, target also deals 1d6 wyrd to allies it attacks. Generates 1d8 Madness Points.",
       level: 5,
       spellType: "ACTION",
       icon: "Psychic/Mind Control",
@@ -3046,7 +3046,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
     { id: "fp_apocalyptic_revelation",
       name: "Apocalyptic Revelation",
       description:
-        "Unleash 12d6 + Intelligence psychic energy in a 30-foot radius. DC 18 Spirit save for half damage. Requires 12 Madness. Adds 2d6 Madness (high Convulsion risk). Temptation ability. WARNING: If this spell triggers an Insanity Convulsion by pushing Madness to 20+, the backlash scales catastrophically — the Convulsion is no longer random. It becomes an Apocalyptic Convulsion: the Prophet suffers permanent Spirit drain (-2 Spirit until long rest), all allies within 30ft take 4d6 wyrd damage from the wyrd Shockwave, and the Prophet is Confused for 3 rounds instead of the standard Convulsion duration. The consumed minds do not simply scream — they detonate.",
+        "Unleash 12d6 + Intelligence wyrd energy in a 30-foot radius. DC 18 Spirit save for half damage. Requires 12 Madness. Adds 2d6 Madness (high Convulsion risk). Temptation ability. WARNING: If this spell triggers an Insanity Convulsion by pushing Madness to 20+, the backlash scales catastrophically — the Convulsion is no longer random. It becomes an Apocalyptic Convulsion: the Prophet suffers permanent Spirit drain (-2 Spirit until long rest), all allies within 30ft take 4d6 wyrd damage from the wyrd Shockwave, and the Prophet is Confused for 3 rounds instead of the standard Convulsion duration. The consumed minds do not simply scream — they detonate.",
       level: 8,
       spellType: "ACTION",
       icon: "Psychic/Mind Strike",
@@ -3447,7 +3447,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       level: 1,
       spellType: "PASSIVE",
       icon: "Psychic/Agonizing Scream",
-      effectTypes: ["passive"],
+      effectTypes: ["passive", "debuff"],
       resolution: "AUTOMATIC",
 
       typeConfig: {
@@ -3495,7 +3495,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       level: 3,
       spellType: "PASSIVE",
       icon: "Psychic/Mental Dissaray",
-      effectTypes: ["passive"],
+      effectTypes: ["passive", "debuff"],
       resolution: "SAVE",
 
       typeConfig: {
@@ -3550,7 +3550,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
         "spellType": "ACTION",
         "icon": "Holy/Angelic Halo",
         "typeConfig": {
-          "school": "holy",
+          "school": "ember",
           "icon": "Holy/Angelic Halo",
           "tags": [
             "utility",

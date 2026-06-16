@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Gathering & Botany Materials
  * 
  * Common Plants, Medicinal/Potent Plants, and Rare/Dangerous Plants
@@ -24,7 +24,7 @@ export const GATHERING_ITEMS = [
     professions: ['Alchemy'],
     gatheringMethod: 'herbalism',
     reagentType: 'Herb',
-    magicType: 'nature',
+    magicType: 'primal',
     reagentState: 'Raw'
   },
   {
@@ -45,7 +45,7 @@ export const GATHERING_ITEMS = [
     professions: ['Alchemy', 'First Aid'],
     gatheringMethod: 'herbalism',
     reagentType: 'Root',
-    magicType: 'nature',
+    magicType: 'primal',
     reagentState: 'Raw'
   },
   {
@@ -66,7 +66,7 @@ export const GATHERING_ITEMS = [
     professions: ['Alchemy'],
     gatheringMethod: 'herbalism',
     reagentType: 'Flower',
-    magicType: 'holy',
+    magicType: 'divine',
     reagentState: 'Raw'
   },
   {
@@ -131,7 +131,7 @@ export const GATHERING_ITEMS = [
     professions: ['Alchemy', 'First Aid'],
     gatheringMethod: 'herbalism',
     reagentType: 'Flower',
-    magicType: 'fire',
+    magicType: 'ember',
     reagentState: 'Raw',
     requiredFor: 'Healing potions and fire resistance elixirs'
   },
@@ -153,7 +153,7 @@ export const GATHERING_ITEMS = [
     professions: ['Alchemy'],
     gatheringMethod: 'herbalism',
     reagentType: 'Mushroom',
-    magicType: 'frost',
+    magicType: 'rime',
     reagentState: 'Raw',
     requiredFor: 'Cold resistance and frost magic'
   },
@@ -175,7 +175,7 @@ export const GATHERING_ITEMS = [
     professions: ['Alchemy'],
     gatheringMethod: 'herbalism',
     reagentType: 'Herb',
-    magicType: 'necrotic',
+    magicType: 'blight',
     reagentState: 'Raw',
     requiredFor: 'Necromancy and shadow magic'
   },
@@ -197,7 +197,7 @@ export const GATHERING_ITEMS = [
     professions: ['Alchemy', 'Enchanting'],
     gatheringMethod: 'herbalism',
     reagentType: 'Flower',
-    magicType: 'necrotic',
+    magicType: 'blight',
     reagentState: 'Raw',
     requiredFor: 'Shadow magic and illusion spells'
   },
@@ -219,7 +219,7 @@ export const GATHERING_ITEMS = [
     professions: ['Alchemy', 'Enchanting'],
     gatheringMethod: 'herbalism',
     reagentType: 'Plant',
-    magicType: 'holy',
+    magicType: 'divine',
     reagentState: 'Raw',
     requiredFor: 'Light magic and holy enchantments'
   },
@@ -243,7 +243,7 @@ export const GATHERING_ITEMS = [
     professions: ['Alchemy'],
     gatheringMethod: 'herbalism',
     reagentType: 'Spore',
-    magicType: 'force',
+    magicType: 'storm',
     reagentState: 'Raw',
     requiredFor: 'Mind-altering potions and illusion magic',
     preservationMethod: 'Sealed container'
@@ -266,7 +266,7 @@ export const GATHERING_ITEMS = [
     professions: ['Alchemy'],
     gatheringMethod: 'herbalism',
     reagentType: 'Vine',
-    magicType: 'nature',
+    magicType: 'primal',
     reagentState: 'Raw',
     requiredFor: 'Life force potions and blood magic',
     preservationMethod: 'Living container'

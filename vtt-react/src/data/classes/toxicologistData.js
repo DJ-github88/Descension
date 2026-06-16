@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Toxicologist Class Data
  *
  * Complete class information for the Toxicologist - a master of poisons, concoctions,
@@ -26,7 +26,7 @@ Brew the end. The vial is filled with your own decay, and the vapor is your shro
 
     quickOverview: {
       title: "Quick Overview",
-      content: `**What You Need to Know**: You are the only preparation-based alchemist. You set traps before initiative, craft poisons mid-combat, and stack debilitating debuffs no other class can apply. Your enemies are weakened, slowed, bleeding, and armor-shredded before the real fight begins. But your own blood rejects medicine -- all healing you receive is halved, and fire or radiant damage causes your active poisons to detonate inside you. Without preparation time, you are a basic combatant with a body full of toxins and nowhere to spend them.
+      content: `**What You Need to Know**: You are the only preparation-based alchemist. You set traps before initiative, craft poisons mid-combat, and stack debilitating debuffs no other class can apply. Your enemies are weakened, slowed, bleeding, and armor-shredded before the real fight begins. But your own blood rejects medicine -- all healing you receive is halved, and fire or ember damage causes your active poisons to detonate inside you. Without preparation time, you are a basic combatant with a body full of toxins and nowhere to spend them.
 
 **Core Mechanic**: Bleed Toxin Vials from your own flesh -> Craft Poisons & Concoctions Mid-Combat -> Deploy Contraption Parts -> Stack Debuffs and Watch Them Crumble
 
@@ -87,7 +87,7 @@ Toxicologists have traced the cause to a change in the fog\'s composition. Somet
       title: "Combat Role",
       content: `**Why Bring Me?** Because no other class can prepare the battlefield before initiative is rolled. You are the ONLY preparation-based alchemist. You set traps at choke points, craft poisons mid-combat, and stack debilitating debuffs -- weakened, slowed, bleeding, armor-shredded -- that no other class can apply. By the time the real fight starts, your enemies are already dying and don't know it yet.
 
-**Fatal Flaw**: You CANNOT heal yourself. All healing you receive from any source is reduced by 50% -- your blood rejects medicine like it rejects purity. Fire and radiant damage causes your active poisons to detonate INSIDE you. You are your own worst hazard zone. Without preparation time, you are a basic combatant carrying a body full of toxins with nowhere to spend them.
+**Fatal Flaw**: You CANNOT heal yourself. All healing you receive from any source is reduced by 50% -- your blood rejects medicine like it rejects purity. Fire and ember damage causes your active poisons to detonate INSIDE you. You are your own worst hazard zone. Without preparation time, you are a basic combatant carrying a body full of toxins with nowhere to spend them.
 
 **Poison Application**: Apply various poisons to weapons for DoT, debuffs, and burst damage
 **Battlefield Control**: Deploy contraptions to control enemy movement and create tactical advantages
@@ -108,7 +108,7 @@ Toxicologists have traced the cause to a change in the fog\'s composition. Somet
 - Contraption deployment costs action economy
 - Less effective against poison-immune enemies
 - 50% healing reduction makes you dangerously fragile
-- Fire/radiant damage triggers internal poison detonation
+- Fire/ember damage triggers internal poison detonation
 - Vulnerable when caught without prepared resources
 
 The Toxicologist shines in tactical combats where they can prepare the battlefield with contraptions, apply poisons strategically, and adapt their concoctions to counter enemy tactics. But every battle is a gamble -- the wrong flame spell turns your own blood into a weapon against you.`,
@@ -127,28 +127,28 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 - **Strategy**: Balance poison crafting with contraption deployment
 
 **Weapon Poisons** (1 vial each, applied to weapon, lasts 3 attacks):
-- **Neurotoxin**: +1d8 poison damage, -2 to attack rolls for 2 rounds
-- **Hemotoxin**: +1d6 poison damage/round for 3 rounds (bleeding DoT)
-- **Cytotoxin**: +2d6 necrotic damage, -1d4 max HP (temporary)
-- **Myotoxin**: +1d6 poison damage, -10ft movement, disadvantage on STR checks
-- **Cardiotoxin**: +2d8 poison damage, stunned 1 round on failed CON save (DC 16)
+- **Neurotoxin**: +1d8 blight damage, -2 to attack rolls for 2 rounds
+- **Hemotoxin**: +1d6 blight damage/round for 3 rounds (bleeding DoT)
+- **Cytotoxin**: +2d6 blight damage, -1d4 max HP (temporary)
+- **Myotoxin**: +1d6 blight damage, -10ft movement, disadvantage on STR checks
+- **Cardiotoxin**: +2d8 blight damage, stunned 1 round on failed CON save (DC 16)
 
 **Contraption Deployment** (Uses Contraption Parts, deployed as an action):
-- **Poison Gas Trap** (1 part): 2d6 poison damage, -10ft movement, triggered when enemy enters 5ft radius
-- **Spike Trap** (1 part): 3d6 piercing damage, immobilized 1 round (DC 14 DEX save)
+- **Poison Gas Trap** (1 part): 2d6 blight damage, -10ft movement, triggered when enemy enters 5ft radius
+- **Spike Trap** (1 part): 3d6 physical damage, immobilized 1 round (DC 14 DEX save)
 - **Healing Mist Dispenser** (2 parts): Heal 1d8 HP, remove 1 poison/disease when ally enters
 - **Smoke Grenade Launcher** (1 part): 15ft smoke cloud, obscures vision for 3 rounds
-- **Acid Sprayer** (2 parts): 2d8 poison damage, -3 armor for 3 rounds
+- **Acid Sprayer** (2 parts): 2d8 blight damage, -3 armor for 3 rounds
 - **Alarm Bell** (1 part): Alert allies, +2 initiative for allies within 30ft
 
 **Concoction Crafting** (Mid-Combat, 1 AP each):
 - **Antidote** (1 vial): Cure poison/disease, +2 CON saves vs poison for 1 hour
-- **Explosive Concoction** (3 vials): 3d8 fire damage in 10ft radius (DEX save DC 15)
+- **Explosive Concoction** (3 vials): 3d8 ember damage in 10ft radius (DEX save DC 15)
 - **Smoke Bomb** (1 vial): 15ft smoke cloud, obscures vision for 3 rounds
 - **Healing Mist** (2 vials): Heal 2d6 HP to all allies in 10ft radius
 
 **Specialization Synergies**:
-- **Venomancer**: +1d6 poison damage on all effects, poison duration +2 rounds
+- **Venomancer**: +1d6 blight damage on all effects, poison duration +2 rounds
 - **Gadgeteer**: Deploy contraptions for 1 AP instead of an action, +1 contraption part max, contraptions deal +1d6 damage
 - **Saboteur**: Debuffs last +2 rounds, enemies affected by your poisons/contraptions have -2 to all saves
 
@@ -180,14 +180,14 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 *Five bandits and their leader approach. You smile. They're walking into YOUR laboratory.*
 
 **Action**: Deploy "Spike Trap" at the choke point (1 contraption part)
-**Effect**: 3d6 piercing damage when triggered, target immobilized 1 round (DC 14 DEX save)
+**Effect**: 3d6 physical damage when triggered, target immobilized 1 round (DC 14 DEX save)
 
 *You place a concealed spike trap at the choke point where enemies must pass through.*
 
 **Contraption Parts**: 5 - 1 = **4/5**
 
 **Action**: Deploy "Poison Gas Trap" behind the spikes (2 contraption parts)
-**Effect**: When triggered, releases poison cloud (5ft radius, 2d6 poison damage, -10ft movement for 2 rounds)
+**Effect**: When triggered, releases poison cloud (5ft radius, 2d6 blight damage, -10ft movement for 2 rounds)
 
 *You place a small device on the ground. When an enemy steps on it, it will release a devastating poison cloud.*
 
@@ -203,20 +203,20 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 *Roll initiative. The bandits charge. Two of them trigger the spike trap. One stumbles into the poison gas trap.*
 
 **Bandits #1, #2**: Trigger Spike Trap
-**Damage**: 3d6 Ã¢â€ â€™ [4, 5, 3] = 12 piercing damage each
+**Damage**: 3d6 Ã¢â€ â€™ [4, 5, 3] = 12 physical damage each
 **Save**: DC 14 DEX Ã¢â€ â€™ Bandit #1 fails (immobilized 1 round), Bandit #2 succeeds (half damage = 6)
 
 **Bandit #3**: Triggers Poison Gas Trap
 **Effect**: Poison cloud erupts (5ft radius)
-**Damage**: 2d6 Ã¢â€ â€™ [5, 4] = 9 poison damage
+**Damage**: 2d6 Ã¢â€ â€™ [5, 4] = 9 blight damage
 **Effect**: -10ft movement for 2 rounds
 
-**Bandits #3, #4** (adjacent): Caught in poison cloud, take 9 poison damage each
+**Bandits #3, #4** (adjacent): Caught in poison cloud, take 9 blight damage each
 
 *The poison cloud ERUPTS. The bandits caught inside CHOKE and GASP.*
 
 **Action (1 AP)**: Apply "Neurotoxin" to weapon (1 toxin vial)
-**Effect**: Weapon attacks deal +1d8 poison damage, target has -2 to attack rolls for 2 rounds
+**Effect**: Weapon attacks deal +1d8 blight damage, target has -2 to attack rolls for 2 rounds
 
 *You coat your blade with a viscous green poison. It GLISTENS with toxicity.*
 
@@ -224,15 +224,15 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 
 **Action**: Melee attack Bandit #1 (immobilized, has Neurotoxin on weapon)
 **Attack Roll**: d20+5 Ã¢â€ â€™ [16] = Hit!
-**Base Damage**: 2d6+3 Ã¢â€ â€™ [5, 4] + 3 = 12 slashing damage
-**Neurotoxin**: +1d8 poison Ã¢â€ â€™ [6] = +6 poison damage
+**Base Damage**: 2d6+3 Ã¢â€ â€™ [5, 4] + 3 = 12 physical damage
+**Neurotoxin**: +1d8 poison Ã¢â€ â€™ [6] = +6 blight damage
 **Total Damage**: 12 + 6 = **18 damage**
 **Effect**: Bandit #1 has -2 to attack rolls for 2 rounds
 
 **Bandit #1**: Takes 18 damage Ã¢â€ â€™ HEAVILY DAMAGED
 
 **Action (1 AP)**: Craft "Explosive Concoction" (3 toxin vials)
-**Effect**: Throwable explosive, 3d8 fire damage in 10ft radius (DEX save DC 15 for half)
+**Effect**: Throwable explosive, 3d8 ember damage in 10ft radius (DEX save DC 15 for half)
 
 *You quickly mix chemicals from your vials. The concoction BUBBLES and SMOKES.*
 
@@ -245,27 +245,27 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 
 **Turn 2 - The Explosion (Vials: 3 Ã¢â€ â€™ 2)**
 
-*The poison cloud continues. Bandits #3 and #4 take another 9 poison damage.*
+*The poison cloud continues. Bandits #3 and #4 take another 9 blight damage.*
 
-**Poison Cloud** (Turn 2 of 2): Bandits #3, #4 take 9 poison damage each
+**Poison Cloud** (Turn 2 of 2): Bandits #3, #4 take 9 blight damage each
 **Poison Cloud**: Expires after this turn
 
 **Action**: Throw "Explosive Concoction" at grouped bandits (no additional cost, already crafted)
 **Targets**: Bandits #2, #3, #4 (grouped together)
-**Damage**: 3d8 fire Ã¢â€ â€™ [7, 5, 6] = **18 fire damage each**
+**Damage**: 3d8 fire Ã¢â€ â€™ [7, 5, 6] = **18 ember damage each**
 **Save**: Bandit #2 succeeds (9 damage), Bandit #3 fails (18 damage), Bandit #4 fails (18 damage)
 
 *You hurl the concoction. It EXPLODES in a massive fireball.*
 
-**Bandit #2**: Takes 9 fire damage (saved) + 6 from spike trap earlier = DAMAGED
-**Bandit #3**: Takes 18 fire damage + 18 from poison cloud (2 turns) = **DEAD**
-**Bandit #4**: Takes 18 fire damage + 18 from poison cloud (2 turns) = **DEAD**
+**Bandit #2**: Takes 9 ember damage (saved) + 6 from spike trap earlier = DAMAGED
+**Bandit #3**: Takes 18 ember damage + 18 from poison cloud (2 turns) = **DEAD**
+**Bandit #4**: Takes 18 ember damage + 18 from poison cloud (2 turns) = **DEAD**
 
 **Your Party's Rogue**: "Two bandits down with ONE explosive and the gas trap!"
 **You**: "Explosive Concoction plus Poison Gas Trap synergy. They were grouped perfectly."
 
 **Action (1 AP)**: Apply "Cytotoxin" to weapon (1 toxin vial)
-**Effect**: Weapon attacks deal +2d6 necrotic damage, -1d4 max HP (temporary)
+**Effect**: Weapon attacks deal +2d6 blight damage, -1d4 max HP (temporary)
 
 *You coat your blade with a BLACK poison that seems to absorb light.*
 
@@ -279,8 +279,8 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 
 **Action**: Melee attack Bandit #1 (has Cytotoxin on weapon)
 **Attack Roll**: d20+5 Ã¢â€ â€™ [17] = Hit!
-**Base Damage**: 2d6+3 Ã¢â€ â€™ [6, 5] + 3 = 14 slashing damage
-**Cytotoxin**: +2d6 necrotic Ã¢â€ â€™ [5, 4] = +9 necrotic damage
+**Base Damage**: 2d6+3 Ã¢â€ â€™ [6, 5] + 3 = 14 physical damage
+**Cytotoxin**: +2d6 necrotic Ã¢â€ â€™ [5, 4] = +9 blight damage
 **Total Damage**: 14 + 9 = **23 damage**
 **Effect**: Bandit #1's max HP reduced by 4 (1d4 Ã¢â€ â€™ [4])
 
@@ -308,8 +308,8 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 
 **Action**: Melee attack Leader (still has Cytotoxin on weapon)
 **Attack Roll**: d20+5 Ã¢â€ â€™ [14] = Hit!
-**Base Damage**: 2d6+3 Ã¢â€ â€™ [4, 3] + 3 = 10 slashing damage
-**Cytotoxin**: +2d6 necrotic Ã¢â€ â€™ [6, 2] = +8 necrotic damage
+**Base Damage**: 2d6+3 Ã¢â€ â€™ [4, 3] + 3 = 10 physical damage
+**Cytotoxin**: +2d6 necrotic Ã¢â€ â€™ [6, 2] = +8 blight damage
 **Total Damage**: 10 + 8 = **18 damage**
 
 **Leader**: Takes 18 damage Ã¢â€ â€™ **DEAD**
@@ -326,11 +326,11 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 **Final State**: Vials: 1/7 (will regain 1d4 on short rest) | Parts: 5/5 (recovered) | Mana: 40/50 | HP: 50/50
 
 **Damage Breakdown**:
-- Neurotoxin (weapon): 6 poison damage to Bandit #1
-- Cytotoxin (weapon): 9 + 8 = 17 necrotic damage
-- Explosive Concoction: ~15 average fire damage Ãƒâ€” 3 bandits = ~45 total fire damage
-- Poison Gas Trap: 9 poison damage/turn Ãƒâ€” 2 turns Ãƒâ€” 2 bandits = 36 total poison damage
-- Spike Trap: ~9 average piercing damage Ãƒâ€” 2 bandits = ~18 total piercing damage
+- Neurotoxin (weapon): 6 blight damage to Bandit #1
+- Cytotoxin (weapon): 9 + 8 = 17 blight damage
+- Explosive Concoction: ~15 average ember damage Ãƒâ€” 3 bandits = ~45 total ember damage
+- Poison Gas Trap: 9 blight damage/turn Ãƒâ€” 2 turns Ãƒâ€” 2 bandits = 36 total blight damage
+- Spike Trap: ~9 average physical damage Ãƒâ€” 2 bandits = ~18 total physical damage
 - **Grand Total**: ~122 damage from poisons, contraptions, and concoctions
 
 **The Lesson**: Toxicologist gameplay is about:
@@ -429,14 +429,14 @@ Both resources compete for your limited rest economy. Spending 3 vials on an Exp
         [
           "Corrosive Acid",
           "2 vials",
-          "2d6 poison damage, -2 armor for 2 rounds",
+          "2d6 blight damage, -2 armor for 2 rounds",
           "3 attacks",
           "Eats through armor",
         ],
         [
           "Bleeding Venom",
           "2 vials",
-          "1d6 poison damage per round for 4 rounds",
+          "1d6 blight damage per round for 4 rounds",
           "3 attacks",
           "DoT effect, stacks",
         ],
@@ -450,7 +450,7 @@ Both resources compete for your limited rest economy. Spending 3 vials on an Exp
         [
           "Explosive Concoction",
           "3 vials",
-          "3d8 fire damage in 10ft radius",
+          "3d8 ember damage in 10ft radius",
           "Instant",
           "Thrown as action, DEX save DC 15",
         ],
@@ -482,14 +482,14 @@ Both resources compete for your limited rest economy. Spending 3 vials on an Exp
           "Poison Gas Trap",
           "1 part",
           "Enemy enters 5ft radius",
-          "2d6 poison damage, -10ft movement for 2 rounds",
+          "2d6 blight damage, -10ft movement for 2 rounds",
           "Until triggered or 10 minutes",
         ],
         [
           "Spike Trap",
           "1 part",
           "Enemy enters 5ft square",
-          "3d6 piercing damage, immobilized for 1 round (DC 14 DEX save)",
+          "3d6 physical damage, immobilized for 1 round (DC 14 DEX save)",
           "Until triggered or 10 minutes",
         ],
         [
@@ -510,7 +510,7 @@ Both resources compete for your limited rest economy. Spending 3 vials on an Exp
           "Acid Sprayer",
           "2 parts",
           "Enemy enters 5ft cone",
-          "2d8 poison damage, -3 armor for 3 rounds",
+          "2d8 blight damage, -3 armor for 3 rounds",
           "Until triggered or 10 minutes",
         ],
         [
@@ -538,35 +538,35 @@ Both resources compete for your limited rest economy. Spending 3 vials on an Exp
       rows: [
         [
           "Neurotoxin",
-          "1d8 poison damage",
+          "1d8 blight damage",
           "Target -2 to attack rolls for 2 rounds",
           "DC 14 CON",
           "Venomancer: +1d6 damage",
         ],
         [
           "Hemotoxin",
-          "1d6 poison damage/round for 3 rounds",
+          "1d6 blight damage/round for 3 rounds",
           "Bleeding effect, stacks",
           "DC 13 CON",
           "Venomancer: Duration +2 rounds",
         ],
         [
           "Cytotoxin",
-          "2d6 necrotic damage",
+          "2d6 blight damage",
           "-1d4 max HP (temporary)",
           "DC 15 CON",
           "Gadgeteer: Also -1 DR",
         ],
         [
           "Myotoxin",
-          "1d6 poison damage",
+          "1d6 blight damage",
           "-10ft movement, disadvantage on STR checks",
           "DC 14 CON",
           "Saboteur: Also -2 to saves",
         ],
         [
           "Cardiotoxin",
-          "2d8 poison damage",
+          "2d8 blight damage",
           "Nauseated for 1 round on failed save (disadvantage on attacks, can still move)",
           "DC 16 CON",
           "Venomancer: Nauseated duration +1 round"
@@ -660,7 +660,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     passiveAbility: {
       name: "Alchemical Expertise",
       description:
-        "All Toxicologists can craft poisons and concoctions for 1 AP, and deploy contraptions as an action. Gain immunity to your own poisons and resistance to all poison damage.",
+        "All Toxicologists can craft poisons and concoctions for 1 AP, and deploy contraptions as an action. Gain immunity to your own poisons and resistance to all blight damage.",
     },
 
     specs: [
@@ -672,7 +672,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         passiveAbility: {
           name: "Potent Toxins",
           description:
-            "All poison damage you deal is increased by +1d6. Poison effects you apply last 2 additional rounds. You have advantage on rolls to craft poisons.",
+            "All blight damage you deal is increased by +1d6. Poison effects you apply last 2 additional rounds. You have advantage on rolls to craft poisons.",
         },
 
         keyAbilities: [
@@ -680,19 +680,19 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
             name: "Concentrated Venom",
             cost: "2 Toxin Vials",
             effect:
-              "Apply a super-concentrated poison to your weapon. Next attack deals 4d8 poison damage and target is poisoned for 1 minute (DC 17 CON save to halve damage and negate poisoned condition).",
+              "Apply a super-concentrated poison to your weapon. Next attack deals 4d8 blight damage and target is poisoned for 1 minute (DC 17 CON save to halve damage and negate poisoned condition).",
           },
           {
             name: "Toxic Cloud",
             cost: "3 Toxin Vials",
             effect:
-              "Create a 20ft radius poison cloud. All enemies in area take 3d6 poison damage per round and have -2 to all rolls. Lasts 4 rounds. DC 16 CON save for half damage.",
+              "Create a 20ft radius poison cloud. All enemies in area take 3d6 blight damage per round and have -2 to all rolls. Lasts 4 rounds. DC 16 CON save for half damage.",
           },
           {
             name: "Lethal Injection",
             cost: "4 Toxin Vials",
             effect:
-              "Inject target with lethal toxin. Target takes 6d10 poison damage immediately and 2d10 poison damage per round for 5 rounds. DC 18 CON save to halve initial damage and reduce DoT to 1d10.",
+              "Inject target with lethal toxin. Target takes 6d10 blight damage immediately and 2d10 blight damage per round for 5 rounds. DC 18 CON save to halve initial damage and reduce DoT to 1d10.",
           },
         ],
       },
@@ -750,7 +750,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
             name: "Chaos Grenade",
             cost: "3 Toxin Vials + 1 Contraption Part",
             effect:
-              "Throw a grenade that combines poison and mechanical chaos. 20ft radius: 2d8 poison + 2d8 fire damage, enemies are confused (attack random target) for 2 rounds. DC 17 INT save to negate confusion.",
+              "Throw a grenade that combines poison and mechanical chaos. 20ft radius: 2d8 poison + 2d8 ember damage, enemies are confused (attack random target) for 2 rounds. DC 17 INT save to negate confusion.",
           },
           {
             name: "Total Shutdown",
@@ -769,14 +769,14 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_venom_strike",
       name: "Venom Strike",
       description:
-        "Strike with a poisoned weapon, injecting deadly toxin that deals immediate and ongoing damage.",
+        "Drive a poisoned blade into the target, injecting a toxin that deals 2d6 blight damage and leaves 1d6 blight seeping through their veins each round for 4 rounds.",
       spellType: "ACTION",
       icon: "Poison/Poison Concoction",
-      school: "Physical",
       level: 2,
       specialization: "venomancer",
 
       typeConfig: {
+        school: "blight",
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -801,6 +801,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       },
 
       resolution: "ATTACK_ROLL",
+      effectTypes: ["damage", "debuff"],
 
       damageConfig: {
         formula: "2d6 + agility",
@@ -809,7 +810,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         bonusDamage: {
           condition: "venomancer_passive",
           amount: "+1d6",
-          description: "Venomancer passive adds +1d6 poison damage",
+          description: "Venomancer passive adds +1d6 blight damage",
         },
         hasDotEffect: true,
         dotConfig: {
@@ -852,7 +853,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         venomancerBonus: {
           enabled: true,
           effect:
-            "Venomancers add +1d6 to all poison damage and extend DoT duration by 2 rounds",
+            "Venomancers add +1d6 to all blight damage and extend DoT duration by 2 rounds",
         },
         weaponPoison: {
           description:
@@ -867,14 +868,14 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_toxic_cloud",
       name: "Toxic Cloud",
       description:
-        "Hurl a vial that shatters into a poisonous cloud, damaging and debuffing all enemies in the area.",
+        "Hurl a vial that bursts into a 20-foot cloud of choking blight, dealing 5d6 blight damage and leaving 2d6 blight searing their lungs each round for 4 rounds (Constitution DC 16 for half).",
       spellType: "ACTION",
       icon: "Poison/Acid Spray",
-      school: "Alchemy",
       level: 4,
       specialization: "venomancer",
 
       typeConfig: {
+        school: "blight",
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -911,6 +912,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       },
 
       resolution: "SAVING_THROW",
+      effectTypes: ["damage", "debuff"],
 
       damageConfig: {
         formula: "5d6 + intelligence",
@@ -980,14 +982,14 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_poison_trap",
       name: "Poison Gas Trap",
       description:
-        "Deploy a contraption that releases poison gas when enemies approach, damaging and slowing them.",
+        "Rig a contraption of salvaged glass and blight that bursts when a foe steps within 5 feet, dealing 2d6 blight damage and slowing them by 10 feet for 2 rounds.",
       spellType: "ACTION",
       icon: "Utility/Utility Tool",
-      school: "Engineering",
       level: 2,
       specialization: "gadgeteer",
 
       typeConfig: {
+        school: "blight",
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1014,6 +1016,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       },
 
       resolution: "AUTOMATIC",
+      effectTypes: ["damage", "debuff"],
 
       damageConfig: {
         formula: "2d6 + intelligence",
@@ -1062,11 +1065,11 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         "Link all your active contraptions. When one triggers, all activate simultaneously for devastating combos.",
       spellType: "ACTION",
       icon: "Utility/Utility Tool",
-      school: "Engineering",
       level: 5,
       specialization: "gadgeteer",
 
       typeConfig: {
+        school: "physical",
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1094,6 +1097,17 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
 
       resolution: "AUTOMATIC",
       effectTypes: ["utility"],
+
+      utilityConfig: {
+        utilityType: "trap",
+        selectedEffects: [
+          { id: "contraption_network", name: "Contraption Network", description: "Link all active contraptions. When one triggers, all activate simultaneously. Enemies caught in multiple effects take full damage from each and have disadvantage on all saves." },
+        ],
+        duration: 5,
+        durationUnit: "minutes",
+        concentration: false,
+        power: "major",
+      },
 
       effects: {
         network: {
@@ -1127,14 +1141,14 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_overcharged_trap",
       name: "Overcharged Trap",
       description:
-        "Deploy a supercharged contraption that explodes in a 15ft radius, dealing fire damage, reducing armor, and leaving a burning DoT.",
+        "Deploy a supercharged contraption that erupts in a 15-foot blast of ember, dealing 8d6 ember damage, corroding 3 armor, and leaving 1d6 ember burning per round for 3 rounds (Agility DC 17 for half).",
       spellType: "ACTION",
       icon: "Utility/Utility Tool",
-      school: "Engineering",
       level: 6,
       specialization: "gadgeteer",
 
       typeConfig: {
+        school: "ember",
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1171,6 +1185,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       },
 
       resolution: "SAVING_THROW",
+      effectTypes: ["damage", "debuff"],
 
       damageConfig: {
         formula: "8d6 + intelligence",
@@ -1201,9 +1216,9 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
           { id : "burned",
             name: "Burned",
             description:
-              "DR reduced by 3 and takes 1d6 fire damage per round for 3 rounds.",
+              "DR reduced by 3 and takes 1d6 ember damage per round for 3 rounds.",
             mechanicsText:
-              "-3 DR and 1d6 fire damage per round for 3 rounds",
+              "-3 DR and 1d6 ember damage per round for 3 rounds",
             statModifier: {
               stat: "armor",
               magnitude: -3,
@@ -1235,14 +1250,14 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_crippling_toxin",
       name: "Crippling Toxin",
       description:
-        "Apply a debilitating poison that severely weakens the target, reducing their combat effectiveness.",
+        "Apply a debilitating poison that deals 3d6 blight damage and withers the target for 5 rounds: -4 to attack, -2 armor, -10 feet of movement, and disadvantage on saves (Constitution DC 16 for reduced penalties).",
       spellType: "ACTION",
       icon: "Utility/Hide",
-      school: "Alchemy",
       level: 3,
       specialization: "saboteur",
 
       typeConfig: {
+        school: "blight",
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1275,6 +1290,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       },
 
       resolution: "ATTACK_ROLL",
+      effectTypes: ["damage", "debuff"],
 
       damageConfig: {
         formula: "3d6 + agility",
@@ -1326,14 +1342,14 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_chaos_grenade",
       name: "Chaos Grenade",
       description:
-        "Throw a grenade combining poison and explosives, dealing damage and causing confusion.",
+        "Throw a grenade of mingled blight and ember that deals 5d6 blight plus 3d8 ember damage in a 20-foot burst, leaving survivors confused and attacking at random for 2 rounds (Intelligence DC 17 negates confusion).",
       spellType: "ACTION",
       icon: "Utility/Orange Bomb",
-      school: "Alchemy",
       level: 5,
       specialization: "saboteur",
 
       typeConfig: {
+        school: "blight",
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1371,6 +1387,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       },
 
       resolution: "SAVING_THROW",
+      effectTypes: ["damage", "control"],
 
       damageConfig: {
         formula: "5d6 + intelligence",
@@ -1434,14 +1451,14 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_total_shutdown",
       name: "Total Shutdown",
       description:
-        "Completely debilitate a target, rendering them helpless for a short duration.",
+        "Flood the target with a rare neurotoxin that shuts down their body for 1 round - they can only react, lose 3 armor, and suffer disadvantage on all saves (Constitution DC 19 for a reduced effect).",
       spellType: "ACTION",
       icon: "Psychic/Mind Control",
-      school: "Alchemy",
       level: 7,
       specialization: "saboteur",
 
       typeConfig: {
+        school: "blight",
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1478,6 +1495,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       },
 
       resolution: "SAVING_THROW",
+      effectTypes: ["control"],
 
       controlConfig: {
         controlType: "incapacitation",
@@ -1507,7 +1525,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         saboteurBonus: {
           enabled: true,
           effect:
-            "Saboteurs increase save DC by +2 (total DC 21) and target takes 2d8 poison damage per round while incapacitated",
+            "Saboteurs increase save DC by +2 (total DC 21) and target takes 2d8 blight damage per round while incapacitated",
         },
         ultimateDebuff: {
           description:
@@ -1526,11 +1544,11 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         "Apply a poison to your weapon for 1 AP. The poison lasts for 3 attacks or until end of combat.",
       spellType: "ACTION",
       icon: "Utility/Strange Brew",
-      school: "Alchemy",
       level: 1,
       specialization: "universal",
 
       typeConfig: {
+        school: "blight",
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1591,11 +1609,11 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         "Quickly craft and administer an antidote to cure poison or disease.",
       spellType: "ACTION",
       icon: "Poison/Poison Flask",
-      school: "Alchemy",
       level: 1,
       specialization: "universal",
 
       typeConfig: {
+        school: "primal",
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1619,6 +1637,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       },
 
       resolution: "AUTOMATIC",
+      effectTypes: ["buff", "utility"],
 
       utilityConfig: {
         utilityType: "cure",
@@ -1666,14 +1685,14 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_explosive_concoction",
       name: "Explosive Concoction",
       description:
-        "Throw an explosive concoction that deals fire damage in an area.",
+        "Mix and hurl a volatile concoction that detonates in a 10-foot blast for 3d6 ember damage (Agility DC 15 for half).",
       spellType: "ACTION",
       icon: "Utility/Bomb",
-      school: "Alchemy",
       level: 3,
       specialization: "universal",
 
       typeConfig: {
+        school: "ember",
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1707,6 +1726,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       },
 
       resolution: "SAVING_THROW",
+      effectTypes: ["damage"],
 
       damageConfig: {
         formula: "3d6 + intelligence",
@@ -1743,11 +1763,11 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         "Deploy a smoke bomb that obscures vision and provides cover.",
       spellType: "ACTION",
       icon: "Utility/Hide",
-      school: "Alchemy",
       level: 2,
       specialization: "universal",
 
       typeConfig: {
+        school: "physical",
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1826,14 +1846,14 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_pandemic",
       name: "Pandemic",
       description:
-        "Release a devastating plague that spreads between enemies, dealing damage and applying debilitating effects.",
+        "Uncork a plague that deals 12d6 blight damage, then spreads to any enemy within 10 feet at the start of their turn, dealing 3d6 blight per round and draining 4 Constitution for 5 rounds (Constitution DC 18 for half).",
       level: 8,
       spellType: "ACTION",
       icon: "Poison/Poison Plague",
       specialization: "venomancer",
 
       typeConfig: {
-        school: "necromancy",
+        school: "blight",
         icon: "Poison/Poison Plague",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -1882,9 +1902,9 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
           { id : "pandemic_plague",
             name: "Pandemic Plague",
             description:
-              "Takes poison damage at start of turn. Spreads to nearby enemies. -4 to Constitution.",
+              "Takes blight damage at start of turn. Spreads to nearby enemies. -4 to Constitution.",
             mechanicsText:
-              "3d6 poison damage per turn, spreads to enemies within 10ft, -4 Constitution for 5 rounds",
+              "3d6 blight damage per turn, spreads to enemies within 10ft, -4 Constitution for 5 rounds",
             damageFormula: "3d6",
             dotFormula: "3d6",
             dotDamageType: "blight",
@@ -1915,14 +1935,14 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_mechanical_monstrosity",
       name: "Mechanical Monstrosity",
       description:
-        "Deploy a massive mechanical construct that fights alongside you.",
+        "Salvage and animate a Large mechanical monstrosity (80 HP, 18 armor) that fights at your command for 5 rounds, smashing foes for 4d10 or loosing missiles for 3d8 in a 15-foot spread.",
       level: 8,
       spellType: "ACTION",
       icon: "Utility/Utility Tool",
       specialization: "gadgeteer",
 
       typeConfig: {
-        school: "conjuration",
+        school: "arcane",
         icon: "Utility/Utility Tool",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -1951,7 +1971,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       resolution: "NONE",
       effectTypes: ["summoning"],
 
-      summonConfig: {
+      summoningConfig: {
         creatures: [
           { id : "mechanical_monstrosity",
             name: "Mechanical Monstrosity",
@@ -1987,14 +2007,14 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_sabotage_supreme",
       name: "Sabotage Supreme",
       description:
-        "Apply devastating sabotage to multiple enemies, reducing their effectiveness dramatically.",
+        "Trigger synchronized sabotage across a 25-foot radius: every enemy deals half damage, suffers -5 to hit, and feels their own gear turn against them for 3 rounds (Agility DC 18 halves the duration).",
       level: 8,
       spellType: "ACTION",
       icon: "Piercing/Dagger Whirl",
       specialization: "saboteur",
 
       typeConfig: {
-        school: "enchantment",
+        school: "wyrd",
         icon: "Piercing/Dagger Whirl",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -2059,14 +2079,14 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_extinction_toxin",
       name: "Extinction Toxin",
       description:
-        "Deploy the ultimate poison that can kill even the most resilient creatures.",
+        "Inject the ultimate blight - a toxin so concentrated it ignores poison immunity entirely, dealing 18d6 blight damage (Constitution DC 20 for half).",
       level: 9,
       spellType: "ACTION",
       icon: "Necrotic/Death Mark",
       specialization: "venomancer",
 
       typeConfig: {
-        school: "necromancy",
+        school: "blight",
         icon: "Necrotic/Death Mark",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -2121,14 +2141,14 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_war_machine",
       name: "War Machine",
       description:
-        "Deploy a devastating war machine that dominates the battlefield.",
+        "Deploy a Huge war machine (150 HP, 22 armor) bristling with weapons for 5 rounds - it crushes for 6d10, lobs artillery for 8d8 in a 30-foot radius, or projects shields granting allies +5 DR.",
       level: 9,
       spellType: "ACTION",
       icon: "Utility/Utility Tool",
       specialization: "gadgeteer",
 
       typeConfig: {
-        school: "conjuration",
+        school: "arcane",
         icon: "Utility/Utility Tool",
         castTime: 2,
         castTimeType: "IMMEDIATE",
@@ -2157,7 +2177,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       resolution: "NONE",
       effectTypes: ["summoning"],
 
-      summonConfig: {
+      summoningConfig: {
         creatures: [
           { id : "war_machine",
             name: "War Machine",
@@ -2193,14 +2213,14 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_total_system_failure",
       name: "Total System Failure",
       description:
-        "Cause catastrophic failure in all enemy defenses and abilities.",
+        "Trigger total system failure across a 40-foot radius - magic items fall inert, buffs unravel, foes cannot cast for 1 round, and all suffer -10 DR for 3 rounds (Spirit DC 19 halves the duration).",
       level: 9,
       spellType: "ACTION",
       icon: "Social/Careful Blunder",
       specialization: "saboteur",
 
       typeConfig: {
-        school: "enchantment",
+        school: "wyrd",
         icon: "Social/Careful Blunder",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -2266,14 +2286,14 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_apocalypse_plague",
       name: "Apocalypse Plague",
       description:
-        "Unleash a plague of biblical proportions that devastates everything it touches.",
+        "Unleash a plague of apocalyptic virulence across a 100-foot radius, dealing 22d6 blight damage and leaving 4d10 blight seeping from every vein each round as it spreads without end (Constitution DC 22 for half).",
       level: 10,
       spellType: "ACTION",
       icon: "Poison/Poison Plague",
       specialization: "universal",
 
       typeConfig: {
-        school: "necromancy",
+        school: "blight",
         icon: "Poison/Poison Plague",
         castTime: 2,
         castTimeType: "IMMEDIATE",
@@ -2349,14 +2369,14 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_mechanical_army",
       name: "Mechanical Army",
       description:
-        "Deploy an entire army of mechanical constructs to overwhelm the battlefield.",
+        "Raise an army of eight mechanical soldiers (40 HP, 16 armor each) across a 30-foot radius, each striking for 2d10 damage over 5 rounds of relentless advance.",
       level: 10,
       spellType: "ACTION",
       icon: "Utility/Strange Brew",
       specialization: "gadgeteer",
 
       typeConfig: {
-        school: "conjuration",
+        school: "arcane",
         icon: "Utility/Strange Brew",
         castTime: 2,
         castTimeType: "IMMEDIATE",
@@ -2387,7 +2407,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       resolution: "NONE",
       effectTypes: ["summoning"],
 
-      summonConfig: {
+      summoningConfig: {
         creatures: [
           { id : "mechanical_soldier",
             name: "Mechanical Soldier",
@@ -2429,14 +2449,14 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_reality_bomb",
       name: "Reality Bomb",
       description:
-        "Deploy the ultimate sabotage device - a bomb that disrupts the fabric of reality itself.",
+        "Detonate the ultimate sabotage device - a 50-foot blast dealing 22d6 storm damage that tears reality apart, leaving survivors disoriented for 1 round and suppressing all magic in the area for 1 minute (Constitution DC 22 for half).",
       level: 10,
       spellType: "ACTION",
       icon: "Poison/Poison Contagion",
       specialization: "saboteur",
 
       typeConfig: {
-        school: "transmutation",
+        school: "arcane",
         icon: "Poison/Poison Contagion",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -2478,6 +2498,20 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         resolution: "DICE",
       },
 
+      controlConfig: {
+        controlType: "disoriented",
+        duration: 1,
+        durationUnit: "rounds",
+        effects: [
+          { id: "reality_disorientation", name: "Reality Disorientation", description: "Disadvantage on all rolls for 1 round. All magic in the area is suppressed for 1 minute and terrain becomes unstable." },
+        ],
+        savingThrow: {
+          ability: "constitution",
+          difficultyClass: 22,
+          saveOutcome: "negates",
+        },
+      },
+
       specialMechanics: {
         realityBomb: {
           description:
@@ -2503,15 +2537,15 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_poison_dart",
       name: "Poison Dart",
       description:
-        "Fire a poison dart that deals 1d6 poison damage and applies a weakening effect.",
+        "Fire a poison dart that deals 1d6 blight damage plus your Intelligence modifier and weakens the target (-1 to attack for 1 round).",
       level: 1,
       spellType: "ACTION",
       icon: "Piercing/Thrown Dagger",
-      effectTypes: ["damage"],
+      effectTypes: ["damage", "debuff"],
       specialization: "universal",
 
       typeConfig: {
-        school: "conjuration",
+        school: "arcane",
         icon: "Piercing/Thrown Dagger",
         tags: ["damage", "blight", "dart", "universal"],
         castTime: 1,
@@ -2575,7 +2609,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_noxious_fumes",
       name: "Noxious Fumes",
       description:
-        "Create a small toxic cloud that deals 1d6 poison damage to enemies in a 10-foot radius and leaves a lingering hazard for 2 rounds.",
+        "Create a small toxic cloud that deals 1d6 blight damage to enemies in a 10-foot radius, then lingers for 2 rounds dealing 1d4 blight each round.",
       level: 1,
       spellType: "ACTION",
       icon: "Poison/Poison Plague",
@@ -2583,7 +2617,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       specialization: "universal",
 
       typeConfig: {
-        school: "conjuration",
+        school: "arcane",
         icon: "Poison/Poison Plague",
         tags: ["damage", "blight", "zone", "universal"],
         castTime: 1,
@@ -2645,7 +2679,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       specialization: "universal",
 
       typeConfig: {
-        school: "restoration",
+        school: "primal",
         icon: "Healing/Cure Within",
         tags: ["purification", "healing", "antidote", "universal"],
         castTime: 1,
@@ -2690,15 +2724,15 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_venom_blast",
       name: "Venom Blast",
       description:
-        "Strike with concentrated venom that deals poison damage and reduces the target's armor.",
+        "Strike with concentrated venom for 4d6 blight damage that eats through the target's armor, corroding it by 2 for 2 rounds.",
       level: 3,
       spellType: "ACTION",
       icon: "Poison/Deadly Poison",
-      effectTypes: ["damage"],
+      effectTypes: ["damage", "debuff"],
       specialization: "universal",
 
       typeConfig: {
-        school: "necromancy",
+        school: "blight",
         icon: "Poison/Deadly Poison",
         tags: ["damage", "blight", "venom", "universal"],
         castTime: 1,
@@ -2763,7 +2797,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_toxic_shock",
       name: "Toxic Shock",
       description:
-        "Shock an enemy with concentrated toxins, stunning them and dealing poison damage.",
+        "Shock an enemy with concentrated toxins for 3d6 blight damage, leaving them nauseated - disadvantage on attacks and checks, halved movement - for 1 round (Constitution DC 16 to resist).",
       level: 3,
       spellType: "ACTION",
       icon: "Necrotic/Screaming Skull",
@@ -2771,7 +2805,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       specialization: "universal",
 
       typeConfig: {
-        school: "necromancy",
+        school: "blight",
         icon: "Necrotic/Screaming Skull",
         tags: ["damage", "blight", "control", "stun", "universal"],
         castTime: 1,
@@ -2841,15 +2875,15 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_poison_bomb",
       name: "Poison Bomb",
       description:
-        "Throw a poison bomb that explodes, dealing poison damage and reducing armor for all enemies in a radius.",
+        "Throw a poison bomb that bursts in a 20-foot radius for 5d6 blight damage and corrodes 1 armor from every enemy caught in the cloud for 2 rounds (Constitution DC 16 for half).",
       level: 4,
       spellType: "ACTION",
       icon: "Arcane/Orb Manipulation",
-      effectTypes: ["damage"],
+      effectTypes: ["damage", "debuff"],
       specialization: "universal",
 
       typeConfig: {
-        school: "conjuration",
+        school: "arcane",
         icon: "Arcane/Orb Manipulation",
         tags: ["damage", "blight", "aoe", "bomb", "universal"],
         castTime: 1,
@@ -2923,7 +2957,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     // ADDITIONAL LEVEL 5 SPELL
     { id : "tox_deadly_toxin",
       name: "Deadly Toxin",
-      description: "Apply a deadly toxin that deals poison damage over time.",
+      description: "Apply a deadly toxin that deals 6d8 blight damage, then 1d8 blight each round for 5 rounds as the victim's blood thins to water.",
       level: 5,
       spellType: "ACTION",
       icon: "Poison/Poison Venom",
@@ -2931,7 +2965,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       specialization: "universal",
 
       typeConfig: {
-        school: "necromancy",
+        school: "blight",
         icon: "Poison/Poison Venom",
         tags: ["damage", "blight", "dot", "deadly", "universal"],
         castTime: 1,
@@ -2986,15 +3020,15 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_toxic_wave",
       name: "Toxic Wave",
       description:
-        "Send a wave of toxic energy that deals poison damage and slows all enemies in a line.",
+        "Send a 60-foot wave of toxic blight dealing 7d6 damage and slowing every enemy caught in its path by 10 feet for 2 rounds.",
       level: 6,
       spellType: "ACTION",
       icon: "Poison/Acid Splash",
-      effectTypes: ["damage"],
+      effectTypes: ["damage", "debuff"],
       specialization: "universal",
 
       typeConfig: {
-        school: "evocation",
+        school: "blight",
         icon: "Poison/Acid Splash",
         tags: ["damage", "blight", "line", "wave", "universal"],
         castTime: 1,
@@ -3064,7 +3098,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_virulent_plague",
       name: "Virulent Plague",
       description:
-        "Release a virulent plague that spreads between enemies, dealing poison damage.",
+        "Release a virulent plague that leaps between up to six enemies within 20 feet of each other, dealing 10d6 blight damage as it jumps.",
       level: 7,
       spellType: "ACTION",
       icon: "Poison/Poison Contagion",
@@ -3072,7 +3106,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       specialization: "universal",
 
       typeConfig: {
-        school: "necromancy",
+        school: "blight",
         icon: "Poison/Poison Contagion",
         tags: ["damage", "blight", "spreading", "plague", "universal"],
         castTime: 1,
@@ -3147,7 +3181,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_concoction_instability",
       name: "Concoction Instability",
       description:
-        "When you take fire or radiant damage, one random poison effect you have active on an enemy prematurely detonates -- dealing its remaining damage to YOU instead of the target. Your concoctions are volatile and react poorly to heat and light.",
+        "When you take fire or ember damage, one random poison effect you have active on an enemy prematurely detonates -- dealing its remaining damage to YOU instead of the target. Your concoctions are volatile and react poorly to heat and light.",
       level: 3,
       spellType: "PASSIVE",
       icon: "Fire/Burning Status",

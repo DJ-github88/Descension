@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
 import usePresenceStore from '../../store/presenceStore';
+import { useIsPhone } from '../../hooks/useIsPhone';
 import GlobalChatWindowWrapper from '../social/GlobalChatWindowWrapper';
 import RulesPage from '../rules/RulesPage';
 import './styles/LandingPage.css';
@@ -14,6 +15,8 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [showCommunity, setShowCommunity] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const isPhone = useIsPhone();
+  const [showPhoneNotice, setShowPhoneNotice] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
   const { enableDevelopmentBypass, isDevelopmentBypass, signOut, isAuthenticated: authStoreIsAuthenticated, user: authStoreUser, isDevelopmentBypass: authStoreIsDevelopmentBypass } = useAuthStore();
@@ -104,6 +107,71 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
     setShowCommunity(prev => !prev);
   };
 
+  // ── Dive Transition ──
+  // When Immerse is activated: freeze the mapPan animation at its current frame,
+  // then animate background-size/position from the zoomed-in state to "cover"
+  // so it feels like pulling back to reveal the entire map.
+  // WorldMapImmerse (transparent at this point) crossfades in once the dive completes.
+  useEffect(() => {
+    if (!isWorldMapActive) return;
+
+    const el = document.querySelector('.landing-page.map-background');
+    if (!el) return;
+
+    // 1. Read the current animated frame BEFORE killing the animation
+    const cs = window.getComputedStyle(el);
+    const frozenSize = cs.backgroundSize;
+    const frozenPos = cs.backgroundPosition;
+
+    // 2. Kill the animation entirely so our inline styles can take over
+    //    (animation values outrank normal inline styles in the cascade)
+    el.style.setProperty('animation', 'none', 'important');
+
+    // 3. Lock the frozen frame as inline styles (visual stays the same)
+    el.style.backgroundSize = frozenSize;
+    el.style.backgroundPosition = frozenPos;
+
+    // 4. Enable the transition
+    el.style.transition =
+      'background-size 2.5s cubic-bezier(0.25, 1, 0.5, 1) 0.2s, ' +
+      'background-position 2.5s cubic-bezier(0.25, 1, 0.5, 1) 0.2s';
+
+    // 5. After two RAFs (ensures the browser has painted the locked state),
+    //    set the target "cover" dimensions to trigger the transition
+    let raf2;
+    const raf1 = requestAnimationFrame(() => {
+      raf2 = requestAnimationFrame(() => {
+        const W = window.innerWidth;
+        const H = window.innerHeight;
+        const mapAspect = 4096 / 3072;
+        const s = Math.max(W / 4096, H / 3072);
+
+        const targetSizeX = ((4096 * s) / W) * 100;
+        const targetSizeY = ((3072 * s) / H) * 100;
+
+        el.style.backgroundSize = `${targetSizeX}% ${targetSizeY}%, 100% 100%, 100% 100%`;
+        el.style.backgroundPosition = 'center center, center, center';
+      });
+    });
+
+    // Cleanup — restore the landing page when exiting Immerse mode
+    return () => {
+      cancelAnimationFrame(raf1);
+      if (raf2) cancelAnimationFrame(raf2);
+
+      const cleanupEl = document.querySelector('.landing-page.map-background');
+      if (cleanupEl) {
+        cleanupEl.style.transition = 'none';
+        cleanupEl.style.backgroundSize = '';
+        cleanupEl.style.backgroundPosition = '';
+        cleanupEl.style.removeProperty('animation');
+        // Force reflow so the browser registers the change before the
+        // animation resumes from its CSS declaration
+        void cleanupEl.offsetWidth;
+      }
+    };
+  }, [isWorldMapActive]);
+
   const renderHomeSection = () => (
     <div className="landing-section">
       <div className="hero-section">
@@ -126,8 +194,13 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
 
           <div className="action-buttons">
             <button
-              className="primary-action-btn"
-              onClick={onEnterMultiplayer}
+              className={`primary-action-btn ${isPhone ? 'phone-disabled' : ''}`}
+              onClick={() => {
+                if (isPhone) { setShowPhoneNotice('Play Online'); return; }
+                onEnterMultiplayer();
+              }}
+              disabled={isPhone}
+              title={isPhone ? 'The VTT grid is not optimised for phones. Play on a tablet or desktop.' : ''}
             >
               <i className="fas fa-dragon"></i>
               <span className="btn-text">
@@ -146,8 +219,13 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
               </span>
             </button>
             <button
-              className="secondary-action-btn"
-              onClick={onEnterSinglePlayer}
+              className={`secondary-action-btn ${isPhone ? 'phone-disabled' : ''}`}
+              onClick={() => {
+                if (isPhone) { setShowPhoneNotice('Sandbox Mode'); return; }
+                onEnterSinglePlayer();
+              }}
+              disabled={isPhone}
+              title={isPhone ? 'The VTT grid is not optimised for phones. Play on a tablet or desktop.' : ''}
             >
               <i className="fas fa-flask"></i>
               <span className="btn-text">
@@ -156,6 +234,14 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
               </span>
             </button>
           </div>
+
+          {isPhone && (
+            <p className="phone-notice-banner">
+              <i className="fas fa-info-circle"></i>
+              You're on a phone — the tactical grid is designed for larger screens.
+              Character Creation, Lore and the world map are fully available.
+            </p>
+          )}
         </div>
       </div>
     </div>

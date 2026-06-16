@@ -44,7 +44,7 @@
   --pf-info: #2f4f4f;
   --pf-info-light: #708090;
   
-  /* Damage Type Colors (8-type schema) */
+  /* Damage Type Colors (9-type schema) */
   --pf-ember: #a62626;
   --pf-rime: #24587a;
   --pf-storm: #a3811f;
@@ -52,6 +52,7 @@
   --pf-primal: #2b5c20;
   --pf-blight: #53236e;
   --pf-wyrd: #87206f;
+  --pf-divine: #DAA520;
   --pf-physical: #51626b;
   
   /* Legacy aliases */

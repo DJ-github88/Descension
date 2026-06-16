@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lore Cutoff Test</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Uncial+Antiqua&display=swap" rel="stylesheet" />
+  <style>
+    body { margin: 0; background: #120703; }
+    .rules-page {
+      display: flex;
+      height: calc(100vh - 80px);
+      background: #120703;
+      font-family: 'Crimson Text', 'Georgia', serif;
+      color: #2b1c11;
+      overflow: hidden;
+    }
+    .rules-content-area {
+      flex: 1;
+      overflow-y: auto;
+      min-height: 0;
+      margin: 30px 40px 30px 30px;
+      background: radial-gradient(circle at 30% 30%, #fffbf2 0%, #f7edd8 70%, #ede0c4 100%);
+      border: 1px solid rgba(139, 69, 19, 0.3);
+      border-radius: 4px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.55), inset 0 0 80px rgba(139,69,19,0.15);
+      padding: 50px 70px 120px 70px;
+      position: relative;
+      overflow-x: hidden;
+    }
+    .rules-section-card {
+      margin: 0 25px 24px 25px;
+      padding: 10px 10px;
+      background: transparent;
+      border: none;
+      position: relative;
+    }
+    .rules-section-card-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.35rem;
+      text-transform: uppercase;
+      color: #6d4021;
+      margin: 0 0 16px 0;
+      border-bottom: 2px solid rgba(196, 160, 96, 0.3);
+      padding-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      letter-spacing: 1px;
+      font-weight: 700;
+    }
+    .rules-section-card-content {
+      font-family: 'Crimson Text', serif;
+      font-size: 1.12rem;
+      line-height: 1.7;
+      color: #2b1c11;
+      text-align: justify;
+      overflow: visible;
+      padding-bottom: 4px;
+    }
+    @media (min-width: 769px) {
+      .rules-section-card-content {
+        column-count: 2;
+        column-gap: 36px;
+        column-rule: 1px dashed rgba(196, 160, 96, 0.25);
+        column-fill: balance;
+      }
+    }
+    .rules-section-card-content p {
+      margin: 0 0 16px 0;
+      break-inside: avoid;
+      orphans: 3;
+      widows: 3;
+    }
+    .rules-section-card-content p strong {
+      color: #6d4021;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <div class="rules-page">
+    <div class="rules-content-area">
+      <div class="rules-section-card">
+        <div class="rules-section-card-title">Sundale & Emberspire</div>
+        <div class="rules-section-card-content">
+          <p><strong>The Regional Landscape &amp; Current Vibe</strong></p>
+          <p>Sundale is a volcanic desert of ashfall, obsidian rivers, and smoldering badlands surrounding Emberspire, the world-heart volcano, the tomb and cradle of Sol itself. The air is thick with particulate, the sky a permanent rust-orange smear. Lava-flows cut through the landscape like slow, deliberate arteries. The <strong>Shyr</strong>, a ninety-mile scar of cooling basalt, serves as the Emberth's primary thoroughfare, a road of stone that walks itself as the lava cools and contracts into predictable fracture-patterns. Rising from the southern badlands, <strong>Sol's Anvil Mesa</strong> is a flat-topped mountain of volcanic basalt where Sun-Priests still hold solstice ceremonies, its summit polished mirror-smooth by centuries of prostrated worshippers. The continent's natural border is marked by <strong>The Ashen Escarpment</strong>, a sheer cliff-face of compacted volcanic ash layered like the pages of a compressed book, striated in shades of rust and bone. South of the Shyr, the landscape is punctuated by <strong>Cinderhoodoo</strong>, a cluster of fire-scorched rock spires that local herders swear moan when the wind shifts.</p>
+          <p><strong>The Dark Bargain:</strong> Sundale's bargain is the ur-bargain, the original sin from which all others descend. Sol was bound beneath this continent. Emberspire is the wound through which Keth-Amar breached the seal. The predator now feeds on Sol's embers from inside the binding, and the region's noble family, House Solvan, watches their ancestral lands slowly die beneath ashfall.</p>
+          <p><strong>The Seat of Power: The Harath-Vault</strong></p>
+          <p>Carved radially into the volcanic throat of a dormant secondary caldera three miles from Emberspire sits <strong>The Harath-Vault</strong>, the massive subterranean capital of the Emberth forge-clans. Carved out by the Sun-Speakers centuries before the sun's death, the Vault is a titanic, sprawling underground city of craftsman, miners, and priests. Grated catwalks are suspended above hot, molten metal rivers that rush through the center of the pathways, acting as both the source of the city's immense heat and its primary defensive barrier. The sounds of hammers falling rings out through the hustle and bustle of the stone avenues.</p>
+          <p>At the Vault's absolute center is <strong>The Great Forge</strong>, where oversized obsidian anvils are worked diligently by craftsmen who barely break a sweat under the unbearable heat. In the inner ring sits <strong>The Harath-Chamber</strong>, a massive monastic sanctuary of pure basalt where the <strong>Korr Sun-Speakers</strong> kneel in six-hour shifts, practicing the Vault-Breath in absolute silence around the <strong>Solbrand</strong>: the stone bowl containing the last eternal ember of Sol. The outer rings contain the residential sectors and the alchemical laboratories of the <strong>Fexric</strong>, who trade alchemical reagents and gear-work for Emberth obsidian.</p>
+          <p><strong>The Subrace Friction</strong></p>
+          <p>The <strong>Solvarn Humans</strong> of House Solvan share the ashlands with the Emberth in an uneasy coexistence, staying in the dying surface capital because leaving would mean admitting their ancestors' sacrifice to Keth-Amar was meaningless.</p>
+          <p><strong>The Dawn Vigil — Solvarn Active Agenda:</strong> A militant faction has emerged among the Solvarn in the past two decades. The <strong>Dawn Vigil</strong> argues that the seven Sundered Monoliths are not monuments but keys: if all seven can be gathered and reforged at Emberspire's caldera, the binding seal can be restored and Sol can rise again. Dawn Vigil expeditionary companies — small bands of Martyrs, Pyrofiends, and Augurs — now range into every region seeking Monolith fragments. Their sigil, a rising sun pierced by obsidian, is increasingly visible across the ashlands, painted on banners and tattooed on the forearms of young Solvarn who have decided eight centuries of waiting is enough.</p>
+          <p>The <strong>Emberth</strong> themselves are split by a deep geological and philosophical chasm. The <strong>Korr</strong> of the Deep-Vault are the priestly elite. Evolving pitch-charcoal skin, elongated lungs to sip thin air, and bulbous eyes sensitive to heat, they have tended the Solbrand for eight centuries. They believe Sol's silence is a sacred language, and they advocate for absolute patience, conservative faith, and silent devotion. The <strong>Thrask</strong> of the surface badlands are the rangers, hunters, and miners. Evolving bronze, wind-scarred skin and thick muscle, they live in the volcanic frontier calderas. They are pragmatic, swift, and highly skeptical of the Korr's wait-and-see policy. Having noticed that the volcanic vents are cooling and the ash-growth is changing, the Thrask view the Korr's holy vigil as a stagnant, self-destructive lie that will freeze them all. The <strong>Unwoven</strong>, heretical Emberth who have ritually defaced their forge-marks, scour the wastes for Sundered Monoliths, believing that only by sealing the breach can Sol be reborn.</p>
+          <p><strong>Localized Threats &amp; Daily Realities</strong></p>
+          <p>Sundale's Wyrd draws from Mesopotamian and Egyptian folklore, producing beings of fire and judgment: <strong>the Cinder</strong>, a lost Sun-Speaker child who walked into Emberspire's caldera and emerged as something that burns truth into the flesh of liars; the <strong>Ash-Woven Oracle</strong>, a creature of compacted ash and prophecy that speaks in the voices of every person it has consumed; and the <strong>Husque</strong>, a sympathy-wound of Keth-Amar's breach, a mobile fissure in reality that leaks the predator's hunger into the surrounding landscape.</p>
+          <p>The region's Sundered Monolith is embedded deep within the primary throat of Emberspire itself, visible only during the annual vent-calm when the volcanic smoke clears for a single hour.</p>
+          <p><strong>Daily Life, Trade &amp; Food</strong></p>
+          <p>Staples in Sundale include ash-baked lizard tail, roasted volcanic beetles, and sulfur-cleansed fern-bulbs. Patrons wash this down with cinder-brew, a hot, fiery liquor distilled from soot-tolerant tubers. The economy is driven by exporting raw obsidian tools, high-temperature alloys, volcanic sulfur, and Solbrand-cured steel, while importing ice-melt water, woolly herd-hides, and timber. All overseas trade passes through <strong>Ember Lagoon</strong>, Sundale's only warm-water port, where geothermal vents beneath the harbor keep the water just above freezing — a mercy for the ice-broken hulls that limp in from the Iceheart Sea.</p>
+          <p>Taverns in the Harath-Vault are steel-grate cages suspended directly over active magma channels. The atmosphere is dry, blisteringly hot, and filled with the deafening clank of anvils and bellows. Currency takes the form of heavy brass coins minted by the forge-clans, or raw pieces of copper and blood-ore.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

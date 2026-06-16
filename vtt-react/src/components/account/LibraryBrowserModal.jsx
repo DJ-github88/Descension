@@ -131,7 +131,7 @@ const LibraryBrowserModal = ({
                         name: spell.name,
                         description: spell.description || '',
                         type: spell.spellType || spell.type || 'spell',
-                        school: spell.school || 'evocation',
+                        school: spell.school || 'arcane',
                         level: spell.level || 0,
                         icon: spell.typeConfig?.icon || spell.icon || 'spell_holy_holybolt',
                         category: catId,
@@ -145,14 +145,15 @@ const LibraryBrowserModal = ({
               setLibraryData(allSpells);
               setCategories([
                 { id: 'all', name: 'All Spells' },
-                { id: 'evocation', name: 'Evocation' },
-                { id: 'abjuration', name: 'Abjuration' },
-                { id: 'conjuration', name: 'Conjuration' },
-                { id: 'divination', name: 'Divination' },
-                { id: 'enchantment', name: 'Enchantment' },
-                { id: 'illusion', name: 'Illusion' },
-                { id: 'necromancy', name: 'Necromancy' },
-                { id: 'transmutation', name: 'Transmutation' }
+                { id: 'physical', name: 'Physical' },
+                { id: 'ember', name: 'Ember' },
+                { id: 'rime', name: 'Rime' },
+                { id: 'storm', name: 'Storm' },
+                { id: 'arcane', name: 'Arcane' },
+                { id: 'primal', name: 'Primal' },
+                { id: 'blight', name: 'Blight' },
+                { id: 'wyrd', name: 'Wyrd' },
+                { id: 'divine', name: 'Divine' }
               ]);
             } catch (error) {
               console.error('Failed to load spell data:', error);

@@ -190,6 +190,7 @@ const formatDescriptionText = (text) => {
     const [tooltip, setTooltip] = useState({ show: false, item: null, x: 0, y: 0 });
     const [spellTooltip, setSpellTooltip] = useState({ show: false, spell: null, x: 0, y: 0 });
     const [isBagOpen, setIsBagOpen] = useState(false);
+    const [mobilePanel, setMobilePanel] = useState('hero');
     const tooltipRef = useRef(null);
 
     // Helper function to format values (replace underscores with spaces, capitalize)
@@ -525,10 +526,35 @@ const formatDescriptionText = (text) => {
             </div>
 
             {/* Main 3-Column Dashboard Grid */}
-            <div className="character-summary-dashboard">
-                
+            <div className="character-summary-dashboard" data-mobile-panel={mobilePanel}>
+
+                {/* Mobile Section Tabs */}
+                <div className="mobile-section-tabs-bar">
+                    <button
+                        type="button"
+                        className={`mobile-section-tab ${mobilePanel === 'hero' ? 'active' : ''}`}
+                        onClick={() => setMobilePanel('hero')}
+                    >
+                        <i className="fas fa-id-card"></i> Hero
+                    </button>
+                    <button
+                        type="button"
+                        className={`mobile-section-tab ${mobilePanel === 'stats' ? 'active' : ''}`}
+                        onClick={() => setMobilePanel('stats')}
+                    >
+                        <i className="fas fa-chart-bar"></i> Stats
+                    </button>
+                    <button
+                        type="button"
+                        className={`mobile-section-tab ${mobilePanel === 'gear' ? 'active' : ''}`}
+                        onClick={() => setMobilePanel('gear')}
+                    >
+                        <i className="fas fa-suitcase"></i> Gear
+                    </button>
+                </div>
+
                 {/* Column 1: Character Visual Presentation Card */}
-                <div className="dashboard-column scroll-themed">
+                <div className="dashboard-column scroll-themed" data-mobile-panel="hero">
                     <div className="summary-visual-card">
                         
                         {/* Immersive card header with character background scene */}
@@ -657,7 +683,7 @@ const formatDescriptionText = (text) => {
                 </div>
 
                 {/* Column 2: Stats Sheet, Attributes, and Resistances */}
-                <div className="dashboard-column scroll-themed">
+                <div className="dashboard-column scroll-themed" data-mobile-panel="stats">
                     
                     {/* Basic Information Section */}
                     <div className="summary-dashboard-section">
@@ -772,7 +798,7 @@ const formatDescriptionText = (text) => {
                 </div>
 
                 {/* Column 3: Grimoire, Safeguards, Languages, Background benefits & Clickable Backpack */}
-                <div className="dashboard-column scroll-themed">
+                <div className="dashboard-column scroll-themed" data-mobile-panel="gear">
 
                     {/* Immunities, Resistances, and Vulnerabilities */}
                     <div className="summary-dashboard-section">

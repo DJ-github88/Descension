@@ -1,4 +1,4 @@
-export const neth = {
+﻿export const neth = {
     id: 'neth',
     name: 'Neth',
     essence: 'The Silver-Touched',
@@ -65,7 +65,7 @@ The Neth operate from their grave-city Atropolis, a cathedral-grove woven into t
             icon: 'spell_holy_innerfire',
             spellType: 'PASSIVE',
             effectTypes: ['buff', 'debuff'],
-            typeConfig: { school: 'spirit', icon: 'spell_holy_innerfire', tags: ['stillness', 'pact', 'preservation', 'passive', 'shared'] },
+            typeConfig: { school: 'ember', icon: 'spell_holy_innerfire', tags: ['stillness', 'pact', 'preservation', 'passive', 'shared'] },
             buffConfig: {
                 buffType: 'custom',
                 effects: [
@@ -109,7 +109,7 @@ The Neth operate from their grave-city Atropolis, a cathedral-grove woven into t
             icon: 'spell_shadow_deathanddecay',
             spellType: 'PASSIVE',
             effectTypes: ['buff', 'debuff'],
-            typeConfig: { school: 'necrotic', icon: 'spell_shadow_deathanddecay', tags: ['death', 'return', 'memory', 'passive', 'shared'] },
+            typeConfig: { school: 'blight', icon: 'spell_shadow_deathanddecay', tags: ['death', 'return', 'memory', 'passive', 'shared'] },
             buffConfig: {
                 buffType: 'custom',
                 effects: [
@@ -361,7 +361,7 @@ They view the Kessen with a mixture of admiration and unease — the Kessen see 
                     icon: 'spell_holy_innerfire',
                     spellType: 'PASSIVE',
                     effectTypes: ['buff', 'debuff'],
-                    typeConfig: { school: 'spirit', icon: 'spell_holy_innerfire', tags: ['binding', 'authority', 'truth', 'passive'] },
+                    typeConfig: { school: 'ember', icon: 'spell_holy_innerfire', tags: ['binding', 'authority', 'truth', 'passive'] },
                     buffConfig: {
                         buffType: 'custom',
                         effects: [
@@ -380,7 +380,7 @@ They view the Kessen with a mixture of admiration and unease — the Kessen see 
                             {
                                 id: 'cannot_lie_velun',
                                 name: 'The Sealed Tongue',
-                                description: 'You cannot lie. Disadvantage on Deception checks. A false statement spoken aloud causes 1d4 psychic damage as the pact registers the breach. Additionally, a spoken promise — even casual, even hypothetical — may be treated by the Keeper as a binding contract; the GM decides if and when the pact enforces a given statement.',
+                                description: 'You cannot lie. Disadvantage on Deception checks. A false statement spoken aloud causes 1d4 wyrd damage as the pact registers the breach. Additionally, a spoken promise — even casual, even hypothetical — may be treated by the Keeper as a binding contract; the GM decides if and when the pact enforces a given statement.',
                                 statusEffect: { level: 'severe', description: 'Cannot lie. Disadvantage on Deception. Spoken falsehoods deal 1d4 psychic. Casual promises may bind.' }
                             }
                         ],
@@ -398,14 +398,14 @@ They view the Kessen with a mixture of admiration and unease — the Kessen see 
                     icon: 'spell_holy_sealofrighteousness',
                     spellType: 'ACTION',
                     effectTypes: ['buff', 'debuff'],
-                    typeConfig: { school: 'spirit', icon: 'spell_holy_sealofrighteousness', tags: ['binding', 'contract', 'active'] },
+                    typeConfig: { school: 'ember', icon: 'spell_holy_sealofrighteousness', tags: ['binding', 'contract', 'active'] },
                     buffConfig: {
                         buffType: 'custom',
                         effects: [
                             {
                                 id: 'sealed_promise',
                                 name: 'Sealed by the Keeper',
-                                description: 'Speak a single, clear promise to a willing creature within 30 feet. For 24 hours, if they knowingly break the promise, they suffer 2d6 psychic damage and disadvantage on their next d20 roll — the Keeper enforces. The promise must be specific and achievable ("you will not harm my allies in this battle," not "you will be a good person").',
+                                description: 'Speak a single, clear promise to a willing creature within 30 feet. For 24 hours, if they knowingly break the promise, they suffer 2d6 wyrd damage and disadvantage on their next d20 roll — the Keeper enforces. The promise must be specific and achievable ("you will not harm my allies in this battle," not "you will be a good person").',
                                 duration: 24, durationUnit: 'hours',
                                 conditions: { range: 30, rangeUnit: 'feet', targetMustBeWilling: true, maxDuration: '24_hours' }
                             }
@@ -418,7 +418,7 @@ They view the Kessen with a mixture of admiration and unease — the Kessen see 
                             {
                                 id: 'binding_recoil',
                                 name: 'The Binder Bound',
-                                description: 'If you yourself break the sealed promise, you suffer the same penalty — 2d6 psychic damage and disadvantage on your next d20 roll. The Keeper does not distinguish between signatories. A contract binds all parties equally.',
+                                description: 'If you yourself break the sealed promise, you suffer the same penalty — 2d6 wyrd damage and disadvantage on your next d20 roll. The Keeper does not distinguish between signatories. A contract binds all parties equally.',
                                 statusEffect: { level: 'moderate', description: 'Breaking your own sealed promise deals 2d6 psychic and imposes disadvantage on next d20 roll.' }
                             }
                         ],
@@ -501,7 +501,7 @@ They view the Velun with a mixture of respect and pity — the Velun have power,
                     icon: 'spell_holy_mindvision',
                     spellType: 'PASSIVE',
                     effectTypes: ['buff', 'debuff'],
-                    typeConfig: { school: 'psychic', secondaryElement: 'arcane', icon: 'spell_holy_mindvision', tags: ['sight', 'obligation', 'web', 'passive'] },
+                    typeConfig: { school: 'wyrd', secondaryElement: 'arcane', icon: 'spell_holy_mindvision', tags: ['sight', 'obligation', 'web', 'passive'] },
                     buffConfig: {
                         buffType: 'custom',
                         effects: [
@@ -545,7 +545,7 @@ They view the Velun with a mixture of respect and pity — the Velun have power,
                     icon: 'spell_arcane_portal',
                     spellType: 'ACTION',
                     effectTypes: ['buff', 'debuff'],
-                    typeConfig: { school: 'arcane', secondaryElement: 'psychic', icon: 'spell_arcane_portal', tags: ['probability', 'fate', 'manipulation', 'active'] },
+                    typeConfig: { school: 'arcane', secondaryElement: 'wyrd', icon: 'spell_arcane_portal', tags: ['probability', 'fate', 'manipulation', 'active'] },
                     buffConfig: {
                         buffType: 'custom',
                         effects: [
@@ -649,7 +649,7 @@ They view the Velun with something between pity and contempt — the Velun are p
                     icon: 'spell_fire_fireball',
                     spellType: 'PASSIVE',
                     effectTypes: ['buff', 'debuff'],
-                    typeConfig: { school: 'fire', icon: 'spell_fire_fireball', tags: ['severance', 'freedom', 'null', 'passive'] },
+                    typeConfig: { school: 'ember', icon: 'spell_fire_fireball', tags: ['severance', 'freedom', 'null', 'passive'] },
                     buffConfig: {
                         buffType: 'custom',
                         effects: [
@@ -692,7 +692,7 @@ They view the Velun with something between pity and contempt — the Velun are p
                     icon: 'ability_rogue_shadowstep',
                     spellType: 'PASSIVE',
                     effectTypes: ['buff', 'debuff'],
-                    typeConfig: { school: 'necrotic', icon: 'ability_rogue_shadowstep', tags: ['stealth', 'silence', 'movement', 'passive'] },
+                    typeConfig: { school: 'blight', icon: 'ability_rogue_shadowstep', tags: ['stealth', 'silence', 'movement', 'passive'] },
                     buffConfig: {
                         buffType: 'custom',
                         effects: [
@@ -729,14 +729,14 @@ They view the Velun with something between pity and contempt — the Velun are p
                     icon: 'spell_nature_resistnature',
                     spellType: 'PASSIVE',
                     effectTypes: ['buff', 'debuff'],
-                    typeConfig: { school: 'nature', icon: 'spell_nature_resistnature', tags: ['survival', 'bog', 'toxin', 'passive'] },
+                    typeConfig: { school: 'primal', icon: 'spell_nature_resistnature', tags: ['survival', 'bog', 'toxin', 'passive'] },
                     buffConfig: {
                         buffType: 'resistance',
                         effects: [
                             {
                                 id: 'bog_resistance',
                                 name: 'Deep Bog Endurance',
-                                description: 'Resistance to poison damage. Advantage on Survival checks made in swamps, bogs, or the Gloom Forest. You have survived the Severing and the bog that followed — the deep wild is not your home, but it has stopped trying to kill you.',
+                                description: 'Resistance to blight damage. Advantage on Survival checks made in swamps, bogs, or the Gloom Forest. You have survived the Severing and the bog that followed — the deep wild is not your home, but it has stopped trying to kill you.',
                                 statModifier: { stat: 'survival', magnitude: 1, magnitudeType: 'advantage', conditions: { swampEnvironment: true } }
                             }
                         ],
@@ -762,7 +762,7 @@ They view the Velun with something between pity and contempt — the Velun are p
             languages: ['Common', 'Gloom-Tongue'],
             speed: 35,
             baseStats: { armor: 0, hp: 20, mana: 10, ap: 4, passivePerception: 14, swimSpeed: 10, climbSpeed: 20, visionRange: 50, darkvision: 60, initiative: 3 },
-            savingThrowModifiers: { advantage: ['poison', 'magic'], disadvantage: ['charm'] }
+            savingThrowModifiers: { advantage: ['blight', 'magic'], disadvantage: ['charm'] }
         }
     }
 };

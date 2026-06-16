@@ -40,12 +40,7 @@ export const validateSpell = (spell) => {
       issues.push(`Missing damage type - spell deals damage but has no damageTypes, elementType, or damageConfig.elementType`);
     }
 
-    // Check if damage type is a magic school instead of actual damage type
-    const magicSchools = ['arcane', 'divine', 'primal', 'occult', 'evocation', 'necromancy', 'enchantment', 'illusion', 'transmutation', 'conjuration', 'abjuration', 'divination'];
-    const damageType = spell.damageTypes?.[0] || spell.elementType || spell.damageConfig?.elementType;
-    if (damageType && magicSchools.includes(damageType.toLowerCase())) {
-      warnings.push(`Damage type "${damageType}" is a magic school, not a damage type. Use: fire, cold, lightning, radiant, necrotic, poison, acid, force, psychic, physical, etc.`);
-    }
+    // (Magic-school vs damage-type check removed — Mythrill uses only the 9 damage types)
   }
 
   // 2. Check buff config for incomplete stat modifiers

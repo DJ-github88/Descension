@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import { notify } from './MapNotify';
 import './WorldMapImmerse.css';
 
 const AnnotationToolbar = ({
@@ -63,7 +64,7 @@ const AnnotationToolbar = ({
             className={`toolbar-btn ${activeTool === 'drawArea' ? 'active' : ''} ${!canDrawArea ? 'locked' : ''}`}
             onClick={() => {
               if (!canDrawArea) {
-                alert('Dungeon Master tier or higher is required to draw custom territories.');
+                notify('Dungeon Master tier or higher is required to draw custom territories.', 'warning');
                 return;
               }
               setActiveTool(activeTool === 'drawArea' ? 'none' : 'drawArea');
@@ -105,7 +106,7 @@ const AnnotationToolbar = ({
             className={`toolbar-btn ${!canShare ? 'locked' : ''}`}
             onClick={() => {
               if (!canShare) {
-                alert('Dungeon Master tier or higher is required to share views with friends.');
+                notify('Dungeon Master tier or higher is required to share views with friends.', 'warning');
                 return;
               }
               onOpenShareDialog();

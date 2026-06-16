@@ -18,7 +18,7 @@ export const INQUISITOR_DATA = {
           "Pouch of Coarse Rock Salt and Bone Ash",
           "Iron Stakes (4, for ward circles and binding anchors)"
         ],
-        description: "Maximum anti-magic frontline assault combining the Covenbane cold iron tradition with Exorcist binding tools. The iron brand deals devastating radiant damage and burns through supernatural defenses."
+        description: "Maximum anti-magic frontline assault combining the Covenbane cold iron tradition with Exorcist binding tools. The iron brand deals devastating ember damage and burns through supernatural defenses."
       },
       {
         name: "Sin-Eater's Binding Kit",
@@ -135,12 +135,12 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
 - Systematically strips casters of their safety while binding their summoned creatures against them
 - Every spell cast at you fuels your Authority -- their arrogance builds your negation
 - Protective dead-magic fields shield allies from ruinous spells
-- Devastating radiant damage that burns away magical wards
+- Devastating ember damage that burns away magical wards
 - Bound demons provide raw physical force and supernatural damage
 
 **The Agonizing Toll (Your Fatal Flaws)**:
-- **Rejection of All Magic**: Your body is a sterile void. You cannot receive beneficial magical buffs or healing without suffering 1d10 psychic damage from the agonizing friction
-- **Brittle Skeleton**: Silver deposits in your marrow make you fragile. You suffer a permanent 50% vulnerability to physical bludgeoning and slashing damage
+- **Rejection of All Magic**: Your body is a sterile void. You cannot receive beneficial magical buffs or healing without suffering 1d10 wyrd damage from the agonizing friction
+- **Brittle Skeleton**: Silver deposits in your marrow make you fragile. You suffer a permanent 50% vulnerability to physical bludgeoning and physical damage
 - **The Hollow**: Authority decays by -1 per round when no supernatural contact occurs. At 0 Authority, bound entities make rebellion checks
 - **Mundane Famine**: Against non-supernatural enemies, you have no resource generation, no demon benefit, and no magic to devour. You are a slow, fragile mortal carrying heavy iron
 - **The Screaming Blood**: The entities in your veins never sleep, extracting a steady psychic toll on your sanity`,
@@ -199,7 +199,7 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
 *Authority: 0 -> 1 (spell cast near you)*
 
 **Bonus Action**: Command Shadow Hound to attack the wraith (0 Authority cost with Authority 1+)
-**Effect**: 3d6 + 4 radiant damage to wraith
+**Effect**: 3d6 + 4 ember damage to wraith
 
 *Authority: 1 -> 2 (striking supernatural + hound hits supernatural)*
 
@@ -233,7 +233,7 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
 *The witch lies bleeding, magic broken. The wraith is ash.*
 
 **Your Action**: Unleash Inquisitor's Judgment (costs 3 Authority, 2 AP)
-**Effect**: 6d10 radiant damage. Silver erupts from her veins. She is ash.
+**Effect**: 6d10 ember damage. Silver erupts from her veins. She is ash.
 
 *Authority: 2 -> 0 -> 2 (cost 3, then +2 for defeating supernatural enemy)*
 
@@ -251,12 +251,12 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
 *Three bandits rush from the brush, swords raised.*
 
 **Your Action**: Activate Null-Salts Strike (1 AP) -> Strike the closest bandit
-**Effect**: +1d6 necrotic damage (reduced -- they carry no active magic)
+**Effect**: +1d6 blight damage (reduced -- they carry no active magic)
 
 *Authority: 2 -> 1 (decay, no supernatural contact)*
 
 **Quick Action**: Command hound to attack bandit chief (0 Authority cost)
-**Effect**: 3d6 + 4 radiant damage. The chief staggers.
+**Effect**: 3d6 + 4 ember damage. The chief staggers.
 
 *Authority: 1 -> 0 (hound hits mundane, but hound itself is supernatural, so +1)*
 
@@ -292,7 +292,7 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
         playstyle: "Stealth assassin with demon swarm support -- mark targets from shadow, loose demons to shred, execute from invisibility",
         strengths: [
           "Can bind up to 4 demons simultaneously (Demonologist legacy)",
-          "Stealth attacks gain +2d6 necrotic damage and automatically crit at 3+ Authority",
+          "Stealth attacks gain +2d6 blight damage and automatically crit at 3+ Authority",
           "Shadow ambush causes fear in supernatural targets",
           "Swarm bonus damage when multiple demons attack the same target",
         ],
@@ -304,7 +304,7 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
         ],
         specPassive: {
           name: "Shadow Legion",
-          description: "You can bind up to 4 demons simultaneously. While you have 3+ Authority and are invisible or hidden, stealth attacks automatically crit. When 3+ bound demons attack the same target, each deals +1d4 radiant damage. Authority decays 50% slower while at least one demon is bound."
+          description: "You can bind up to 4 demons simultaneously. While you have 3+ Authority and are invisible or hidden, stealth attacks automatically crit. When 3+ bound demons attack the same target, each deals +1d4 ember damage. Authority decays 50% slower while at least one demon is bound."
         }
       },
       { id : "iron_verdict",
@@ -328,7 +328,7 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
         ],
         specPassive: {
           name: "Covenant of Iron",
-          description: "Your single bound demon's DD only degrades every 2 actions instead of every action. Your demon gains +2 to all stats. When your demon is at d6 DD or lower, it enters a Frenzied state dealing +2d8 radiant damage on all attacks. Anti-magic zones you create also deal 2d6 force damage per round to spellcasters inside."
+          description: "Your single bound demon's DD only degrades every 2 actions instead of every action. Your demon gains +2 to all stats. When your demon is at d6 DD or lower, it enters a Frenzied state dealing +2d8 ember damage on all attacks. Anti-magic zones you create also deal 2d6 storm damage per round to spellcasters inside."
         }
       },
       { id : "hollow_saint",
@@ -340,19 +340,19 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
         playstyle: "Relentless pursuer with self-buffs and internal demon -- track, chase, channel demon power, risk losing control for devastation",
         strengths: [
           "Gain +2 Strength, +2 Constitution, +10 speed from internal channeling",
-          "Melee attacks deal additional 1d8 necrotic damage",
+          "Melee attacks deal additional 1d8 blight damage",
           "Cannot be slowed or rooted while 3+ Authority",
           "Movement speed increases by +5ft per Authority",
         ],
         weaknesses: [
           "Cannot summon external demons at all",
           "Internal DD failure = demon takes control for 1 turn",
-          "Self-harm risk: 3d6 psychic damage when Internal DD hits 0",
+          "Self-harm risk: 3d6 wyrd damage when Internal DD hits 0",
           "The demon's turn may damage allies if not controlled",
         ],
         specPassive: {
           name: "The Hollow Pursuit",
-          description: "Gain +2 Strength, +2 Constitution, and +10 movement speed permanently. All melee attacks deal +1d8 necrotic damage. While you have 3+ Authority, you cannot be slowed or rooted and gain +5ft movement per Authority. Track supernatural targets by scent within 60ft. You track an Internal Dominance Die (starts at d10) that degrades when you channel abilities or take damage."
+          description: "Gain +2 Strength, +2 Constitution, and +10 movement speed permanently. All melee attacks deal +1d8 blight damage. While you have 3+ Authority, you cannot be slowed or rooted and gain +5ft movement per Authority. Track supernatural targets by scent within 60ft. You track an Internal Dominance Die (starts at d10) that degrades when you channel abilities or take damage."
         }
       },
     ],
@@ -375,7 +375,7 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
         title: "Arbiter's Precision",
         stats: "Level 2 Passive",
         details:
-          "Every 3rd weapon attack against a supernatural target deals 1d6 Radiant damage that bypasses all resistance and immunity.",
+          "Every 3rd weapon attack against a supernatural target deals 1d6 Ember damage that bypasses all resistance and immunity.",
       },
       {
         title: "Bound Entity Rebellions",
@@ -482,7 +482,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     { id : "arbiters_precision",
       name: "Arbiter's Precision",
       description:
-        "Every 3rd weapon attack against a supernatural target deals 1d6 radiant damage that bypasses resistance and immunity. This damage cannot be reduced by any means.",
+        "Every 3rd weapon attack against a supernatural target deals 1d6 ember damage that bypasses resistance and immunity. This damage cannot be reduced by any means.",
       level: 2,
     },
   ],
@@ -519,7 +519,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     { id : "inq_scent_of_ash",
       name: "Scent of Ash",
       description:
-        "Mark a creature within 60 feet with a spectral brand of ash. Attacks against the marked target gain advantage and deal +1d4 radiant damage for 10 minutes.",
+        "Mark a creature within 60 feet with a spectral brand of ash. Attacks against the marked target gain advantage and deal +1d4 ember damage for 10 minutes.",
       level: 1,
       spellType: "ACTION",
       effectTypes: ["buff"],
@@ -568,7 +568,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
           { id : "mark_radiant_bonus",
             name: "Mark Weakness",
             description:
-              "+1d4 radiant damage on weapon attacks against the marked target",
+              "+1d4 ember damage on weapon attacks against the marked target",
           },
         ],
         durationType: "minutes",
@@ -584,7 +584,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     { id : "inq_null_salts_strike",
       name: "Null-Salts Strike",
       description:
-        "Imbue your weapon with flesh-burning null-salts. Your next melee attack deals +1d6 necrotic damage and generates 1 Authority on hit. Against supernatural targets, the damage increases to +1d8.",
+        "Imbue your weapon with flesh-burning null-salts. Your next melee attack deals +1d6 blight damage and generates 1 Authority on hit. Against supernatural targets, the damage increases to +1d8.",
       level: 1,
       spellType: "ACTION",
       effectTypes: ["buff"],
@@ -618,7 +618,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
           {
             name: "Hex-Imbued Weapon",
             description:
-              "Next melee attack deals +1d6 necrotic damage (+1d8 vs supernatural). Generates 1 Authority on hit.",
+              "Next melee attack deals +1d6 blight damage (+1d8 vs supernatural). Generates 1 Authority on hit.",
           },
         ],
         durationType: "rounds",
@@ -646,7 +646,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     { id : "inq_purge_the_defiled",
       name: "Purge the Defiled",
       description:
-        "Press raw rock salt into your ally's flesh to violently rip foreign magic from their nervous system. Removes all curses, possessions, and mental crowd control. Deals 1d8 bludgeoning damage to the ally. Gains 1 Authority if the affliction was supernatural.",
+        "Press raw rock salt into your ally's flesh to violently rip foreign magic from their nervous system. Removes all curses, possessions, and mental crowd control. Deals 1d8 physical damage to the ally. Gains 1 Authority if the affliction was supernatural.",
       level: 1,
       spellType: "ACTION",
       effectTypes: ["damage", "utility"],
@@ -694,7 +694,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     { id : "inq_silver_blade",
       name: "Agonizing Silver Binding",
       description:
-        "Coat your blade in liquid silver for 1 minute. Each attack deals +1d4 radiant damage. Against supernatural creatures, attacks also bypass magical resistance.",
+        "Coat your blade in liquid silver for 1 minute. Each attack deals +1d4 ember damage. Against supernatural creatures, attacks also bypass magical resistance.",
       level: 1,
       spellType: "ACTION",
       effectTypes: ["buff"],
@@ -728,7 +728,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
           {
             name: "Blessed Silver Coating",
             description:
-              "Weapon attacks deal +1d4 radiant damage. Against supernatural creatures, attacks bypass magical resistance and immunity.",
+              "Weapon attacks deal +1d4 ember damage. Against supernatural creatures, attacks bypass magical resistance and immunity.",
           },
         ],
         durationType: "minutes",
@@ -991,7 +991,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     { id : "inq_shadow_ambush",
       name: "Shadow Ambush",
       description:
-        "Dissolve into living shadow, becoming invisible for up to 1 minute. Your first melee attack from this state deals +2d6 necrotic damage with advantage and frightens supernatural targets.",
+        "Dissolve into living shadow, becoming invisible for up to 1 minute. Your first melee attack from this state deals +2d6 blight damage with advantage and frightens supernatural targets.",
       level: 3,
       spellType: "ACTION",
       effectTypes: ["buff"],
@@ -1119,7 +1119,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     { id : "inq_silver_hex",
       name: "Silver Hex",
       description:
-        "Brand a creature with a silver sigil that makes them vulnerable to radiant damage. All radiant damage from all sources is doubled. Supernatural targets also suffer disadvantage on concentration checks when taking damage.",
+        "Brand a creature with a silver sigil that makes them vulnerable to ember damage. All ember damage from all sources is doubled. Supernatural targets also suffer disadvantage on concentration checks when taking damage.",
       level: 4,
       spellType: "ACTION",
       effectTypes: ["debuff"],
@@ -1159,7 +1159,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
           {
             id : "radiant_vulnerability",
             name: "Radiant Vulnerability",
-            description: "Vulnerable to radiant damage from all sources -- radiant damage taken is doubled",
+            description: "Vulnerable to ember damage from all sources -- ember damage taken is doubled",
             statPenalty: {
               stat: "radiant_vulnerability",
               value: 100,
@@ -1301,7 +1301,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     { id : "inq_inquisitors_judgment",
       name: "Inquisitor's Judgment",
       description:
-        "Channel Authority into a devastating melee strike. Deals 6d10 radiant damage to any target. Against supernatural targets at 25 HP or lower, the target is instantly killed (Con save DC 16 negates). On kill, gain 2 Authority.",
+        "Channel Authority into a devastating melee strike. Deals 6d10 ember damage to any target. Against supernatural targets at 25 HP or lower, the target is instantly killed (Con save DC 16 negates). On kill, gain 2 Authority.",
       level: 5,
       spellType: "ACTION",
       effectTypes: ["damage", "control"],
@@ -1436,7 +1436,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     { id : "inq_inquisitors_storm",
       name: "Inquisitor's Storm",
       description:
-        "Unleash a devastating shockwave of shadow and light in a 25-foot radius. Deals 8d6 necrotic damage (Con save DC 17 halves) and stuns targets for 1 round. Supernatural targets also have all enchantments dispelled.",
+        "Unleash a devastating shockwave of shadow and light in a 25-foot radius. Deals 8d6 blight damage (Con save DC 17 halves) and stuns targets for 1 round. Supernatural targets also have all enchantments dispelled.",
       level: 6,
       spellType: "ACTION",
       effectTypes: ["damage", "control"],
@@ -1511,7 +1511,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     { id : "inq_righteous_storm",
       name: "Righteous Storm",
       description:
-        "Summon a persistent anti-magic storm in a 30-foot radius for 1 minute. Deals 3d8 radiant damage per round, imposes disadvantage on spellcasting, and prevents mana recovery. Bound demons inside gain +1d6 radiant damage on attacks.",
+        "Summon a persistent anti-magic storm in a 30-foot radius for 1 minute. Deals 3d8 ember damage per round, imposes disadvantage on spellcasting, and prevents mana recovery. Bound demons inside gain +1d6 ember damage on attacks.",
       level: 7,
       spellType: "ACTION",
       effectTypes: ["damage", "debuff"],
@@ -1569,7 +1569,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
           {
             id : "anti_magic_weakening",
             name: "Anti-Magic Weakening",
-            description: "Spellcasting at disadvantage. Cannot regain mana. 3d8 radiant damage per round.",
+            description: "Spellcasting at disadvantage. Cannot regain mana. 3d8 ember damage per round.",
             statPenalty: {
               stat: "spell_attack",
               value: -99,
@@ -1591,7 +1591,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     { id : "inq_judgment_day",
       name: "Judgment Day",
       description:
-        "Call down pillars of divine fire in a 40-foot radius. Deals 10d10 radiant damage (Charisma save DC 19 halves) against supernatural creatures.",
+        "Call down pillars of divine fire in a 40-foot radius. Deals 10d10 ember damage (Charisma save DC 19 halves) against supernatural creatures.",
       level: 8,
       spellType: "ACTION",
       effectTypes: ["damage"],
@@ -1659,7 +1659,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     { id : "inq_hexbreaker_armageddon",
       name: "Armageddon Edict",
       description:
-        "Erase all magic in a 100ft radius permanently. Deals 18d6 necrotic damage (Cha save DC 20 negates), all spells and enchantments destroyed, and supernatural casters who fail lose spellcasting permanently. All bound entities are simultaneously set to maximum Dominance Die for 3 rounds.",
+        "Erase all magic in a 100ft radius permanently. Deals 18d6 blight damage (Cha save DC 20 negates), all spells and enchantments destroyed, and supernatural casters who fail lose spellcasting permanently. All bound entities are simultaneously set to maximum Dominance Die for 3 rounds.",
       level: 10,
       spellType: "ACTION",
       effectTypes: ["damage", "utility"],

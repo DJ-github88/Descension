@@ -70,6 +70,7 @@
 @import '../../data/effects/DebuffEffects.css';
 @import '../../data/effects/lifelink-styles.css';
 @import '../../data/effects/progressive-buff.css';
+@import '../../styles/ProgressiveStages.css';
 @import '../../data/effects/CleanStatusEffectConfigPopup.css';
 
 /* Ensure all .spellbook-layout rules have high specificity */

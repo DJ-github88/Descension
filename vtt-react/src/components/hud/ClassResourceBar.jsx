@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback, useLayoutEffect } from 'react';
+﻿import React, { useState, useRef, useEffect, useCallback, useLayoutEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { getClassResourceConfig } from '../../data/classResources';
 import TooltipPortal from '../tooltips/TooltipPortal';
@@ -12,6 +12,11 @@ import SpellguardResourceBar from '../../data/classes/spellguard/components/Spel
 import ToxicologistResourceBar from '../../data/classes/toxicologist/components/ToxicologistResourceBar';
 import WardenResourceBar from '../../data/classes/warden/components/WardenResourceBar';
 import AugurResourceBar from '../../data/classes/augur/components/AugurResourceBar';
+import ArcanoneerResourceBar from '../../data/classes/arcanoneer/components/ArcanoneerResourceBar';
+// Arcanoneer combination matrix â€” passed through to ArcanoneerResourceBar so it can
+// render live "ready formulation" chips without a separate import in the component.
+import { ARCANONEER_DATA } from '../../data/classes/arcanoneerData';
+const ARCANONEER_COMBINATION_MATRIX = ARCANONEER_DATA?.combinationMatrix || null;
 import '../../styles/unified-context-menu.css';
 
 const ClassResourceBar = ({
@@ -23,7 +28,8 @@ const ClassResourceBar = ({
     onResourceClick = null,
     onClassResourceUpdate = null, // Callback to update class resource in store
     size = 'normal', // 'small', 'normal', 'large'
-    context = 'hud' // 'hud' or 'account' - controls whether to show interactive elements
+    context = 'hud', // 'hud' or 'account' - controls whether to show interactive elements
+    showcase = false // Rules-page showcase mode: collapses verbose sections (formulations, etc.)
 }) => {
     // Consolidated state for better performance
     const [uiState, setUiState] = useState({
@@ -926,7 +932,7 @@ const ClassResourceBar = ({
             count: 13,
             arrangement: 'horizontal',
             segmentBorder: '#2d1b4e',
-            cardSuits: ['â™ ', 'â™¥', 'â™¦', 'â™£'],
+            cardSuits: ['Ã¢â„¢Â ', 'Ã¢â„¢Â¥', 'Ã¢â„¢Â¦', 'Ã¢â„¢Â£'],
             icon: 'fas fa-scroll',
             effects: ['mystical', 'fate', 'tarot'],
             maxThreads: 13, // Base maximum
@@ -942,7 +948,7 @@ const ClassResourceBar = ({
                     shimmerColor: '#BA55D3', // Medium orchid
                     accentColor: '#8A2BE2', // Blue violet
                     glowColor: '#DA70D6', // Orchid
-                    crystalSymbols: ['â™ ', 'â™¥', 'â™¦', 'â™£'],
+                    crystalSymbols: ['Ã¢â„¢Â ', 'Ã¢â„¢Â¥', 'Ã¢â„¢Â¦', 'Ã¢â„¢Â£'],
                     icon: 'fas fa-eye',
                     effects: ['mystical', 'crystal', 'divination'],
                     maxThreads: 13, // Standard
@@ -957,7 +963,7 @@ const ClassResourceBar = ({
                     shimmerColor: '#F0E68C', // Pale goldenrod
                     accentColor: '#DAA520', // Goldenrod
                     glowColor: '#FFA500', // Orange
-                    cardSymbols: ['â™ ', 'â™¥', 'â™¦', 'â™£'],
+                    cardSymbols: ['Ã¢â„¢Â ', 'Ã¢â„¢Â¥', 'Ã¢â„¢Â¦', 'Ã¢â„¢Â£'],
                     icon: 'fas fa-cards',
                     effects: ['golden', 'deck', 'cards'],
                     maxThreads: 13, // Standard Threads
@@ -971,7 +977,7 @@ const ClassResourceBar = ({
                     shimmerColor: '#FF69B4', // Hot pink
                     accentColor: '#DC143C', // Crimson
                     glowColor: '#FF6347', // Tomato
-                    webSymbols: ['â™ ', 'â™¥', 'â™¦', 'â™£'],
+                    webSymbols: ['Ã¢â„¢Â ', 'Ã¢â„¢Â¥', 'Ã¢â„¢Â¦', 'Ã¢â„¢Â£'],
                     icon: 'fas fa-spider',
                     effects: ['thread', 'web', 'weaver'],
                     maxThreads: 13, // Standard maximum
@@ -1247,7 +1253,19 @@ const ClassResourceBar = ({
             case 'scythe':
                 return renderScythe();
             case 'elemental-spheres':
-                return renderElementalSpheres();
+                // Arcanoneer "Building Blocks" — handled by external component.
+                // combinationMatrix is plumbed through config so the bar can render
+                // live formulation chips without a separate import. `showcase` collapses
+                // the formulation chips behind a toggle on the rules page.
+                return <ArcanoneerResourceBar
+                    classResource={finalClassResource}
+                    size={size}
+                    config={{ ...finalConfig, combinationMatrix: ARCANONEER_COMBINATION_MATRIX }}
+                    context={context}
+                    isOwner={isOwner}
+                    onClassResourceUpdate={onClassResourceUpdate}
+                    showcase={showcase}
+                />;
             case 'dual-dice':
                 return renderRageBar();
             case 'stance-flow':
@@ -2317,7 +2335,7 @@ const ClassResourceBar = ({
             <div className={`class-resource-bar ascension-blood ${size} ${context === 'party' ? 'party-context' : ''}`}>
                 <div className="revenant-single-bar" style={{ display: 'flex', alignItems: 'center', width: '100%', gap: '4px' }}>
 
-                    {/* Ascension Paths (Left) — segmented skull cells */}
+                    {/* Ascension Paths (Left) â€” segmented skull cells */}
                     <div
                         ref={pathsBarRef}
                         className="ascension-paths-bar"
@@ -2377,7 +2395,7 @@ const ClassResourceBar = ({
                                         transition: 'all 0.2s ease',
                                     }}
                                 >
-                                    {isActive && <span style={{ fontSize: '7px', lineHeight: 1 }}>💀</span>}
+                                    {isActive && <span style={{ fontSize: '7px', lineHeight: 1 }}>ðŸ’€</span>}
                                 </div>
                             );
                         })}
@@ -2387,12 +2405,12 @@ const ClassResourceBar = ({
                         </div>
                     </div>
 
-                    {/* Center Separator — skull */}
+                    {/* Center Separator â€” skull */}
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                        <span style={{ fontSize: '11px', color: '#8B0000', textShadow: '0 0 4px rgba(220,20,60,0.5)', margin: '0 1px' }}>💀</span>
+                        <span style={{ fontSize: '11px', color: '#8B0000', textShadow: '0 0 4px rgba(220,20,60,0.5)', margin: '0 1px' }}>ðŸ’€</span>
                     </div>
 
-                    {/* Blood Tokens Bar (Right) — fill bar */}
+                    {/* Blood Tokens Bar (Right) â€” fill bar */}
                     <div
                         ref={tokensBarRef}
                         className="blood-tokens-bar"
@@ -3366,7 +3384,7 @@ const ClassResourceBar = ({
 
     // Card deck display (Fate Weaver)
     const renderCardDeck = () => {
-        const suits = ['â™ ', 'â™¥', 'â™¦', 'â™£'];
+        const suits = ['Ã¢â„¢Â ', 'Ã¢â„¢Â¥', 'Ã¢â„¢Â¦', 'Ã¢â„¢Â£'];
         const currentResource = finalClassResource.current ?? 0;
         const maxResource = finalClassResource.max ?? 13;
         const deckCount = Math.max(0, maxResource - currentResource);
@@ -3384,7 +3402,7 @@ const ClassResourceBar = ({
                     <div className="hand-display">
                         {Array.from({ length: currentResource }, (_, i) => {
                             const suit = suits[i % 4];
-                            const isRed = suit === 'â™¥' || suit === 'â™¦';
+                            const isRed = suit === 'Ã¢â„¢Â¥' || suit === 'Ã¢â„¢Â¦';
                             return (
                                 <div 
                                     key={i} 
@@ -3427,7 +3445,7 @@ const ClassResourceBar = ({
                 <div className="pain-charges">
                     {Array.from({ length: classResource.current }, (_, i) => (
                         <div key={i} className="pain-charge" style={{ color: config.visual.activeColor }}>
-                            âœš
+                            Ã¢Å“Å¡
                         </div>
                     ))}
                 </div>
@@ -3458,7 +3476,7 @@ const ClassResourceBar = ({
         <div className={`class-resource-bar medallion-display ${size}`}>
             <div className="medallion-container">
                 <div className="holy-medallion" style={{ color: finalConfig.visual.activeColor }}>
-                    {renderIcon(finalConfig.visual.icon) || '⛤'}
+                    {renderIcon(finalConfig.visual.icon) || 'â›¤'}
                 </div>
                 <div className="spirit-gems">
                     {Array.from({ length: finalClassResource.max }, (_, i) => (
@@ -3512,7 +3530,7 @@ const ClassResourceBar = ({
 
         // Get DD label and demon name
         const getDemonDisplay = () => {
-            if (!currentDemon) return { name: 'No demon bound to this slot', ddLabel: 'â€”' };
+            if (!currentDemon) return { name: 'No demon bound to this slot', ddLabel: 'Ã¢â‚¬â€' };
             if (currentDD === 0) return { name: 'No demon bound to this slot', ddLabel: 'ESCAPED' };
             return { name: currentDemon.name, ddLabel: `d${currentDD}` };
         };
@@ -4059,16 +4077,16 @@ const ClassResourceBar = ({
         const getCardSuit = (index) => {
             const spec = selectedFateWeaverSpec;
             if (spec === 'fortune-teller') {
-                const crystalSymbols = modifiedConfig.visual.crystalSymbols || ['ðŸ’Ž', 'ðŸ”®', 'âœ¨', 'ðŸŒŸ'];
+                const crystalSymbols = modifiedConfig.visual.crystalSymbols || ['Ã°Å¸â€™Å½', 'Ã°Å¸â€Â®', 'Ã¢Å“Â¨', 'Ã°Å¸Å’Å¸'];
                 return crystalSymbols[index % crystalSymbols.length];
             } else if (spec === 'card-master') {
-                const cardSymbols = modifiedConfig.visual.cardSymbols || ['ðŸƒ', 'â™ ', 'â™¥', 'â™¦', 'â™£'];
+                const cardSymbols = modifiedConfig.visual.cardSymbols || ['Ã°Å¸Æ’Â', 'Ã¢â„¢Â ', 'Ã¢â„¢Â¥', 'Ã¢â„¢Â¦', 'Ã¢â„¢Â£'];
                 return cardSymbols[index % cardSymbols.length];
             } else if (spec === 'thread-weaver') {
-                const webSymbols = modifiedConfig.visual.webSymbols || ['ðŸ•¸ï¸', 'ðŸ•·ï¸', 'âœ¨', 'ðŸŒ'];
+                const webSymbols = modifiedConfig.visual.webSymbols || ['Ã°Å¸â€¢Â¸Ã¯Â¸Â', 'Ã°Å¸â€¢Â·Ã¯Â¸Â', 'Ã¢Å“Â¨', 'Ã°Å¸Å’Â'];
                 return webSymbols[index % webSymbols.length];
             } else {
-                const suits = modifiedConfig.visual.cardSuits || ['â™ ', 'â™¥', 'â™¦', 'â™£'];
+                const suits = modifiedConfig.visual.cardSuits || ['Ã¢â„¢Â ', 'Ã¢â„¢Â¥', 'Ã¢â„¢Â¦', 'Ã¢â„¢Â£'];
                 return suits[index % suits.length];
             }
         };
@@ -4559,7 +4577,7 @@ const ClassResourceBar = ({
 
                     {/* Center Divider: Gold card/dice symbol */}
                     <div className="gambler-center" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <span style={{ fontSize: '12px', color: '#8B6508', textShadow: '0 0 4px rgba(255, 215, 0, 0.4)', margin: '0 2px' }}>♦</span>
+                        <span style={{ fontSize: '12px', color: '#8B6508', textShadow: '0 0 4px rgba(255, 215, 0, 0.4)', margin: '0 2px' }}>â™¦</span>
                     </div>
 
                     {/* Karmic Debt Bar (Right) */}
@@ -6620,436 +6638,6 @@ const ClassResourceBar = ({
         </div>
     );
 
-    // Elemental Spheres display (Arcanoneer)
-    const renderElementalSpheres = () => {
-        // Use local state for interactive demo (all sizes use localSpheres for now)
-        const activeSpheres = localSpheres;
-        const { isRolling, diceButtonMode, showRollTooltip } = arcanoneerState;
-        const setShowRollTooltip = (value) => setArcanoneerState(prev => ({ ...prev, showRollTooltip: value }));
-
-        // Count spheres by element type
-        const sphereCounts = {};
-        (activeSpheres || []).forEach(elementId => {
-            sphereCounts[elementId] = (sphereCounts[elementId] || 0) + 1;
-        });
-
-        // Get element configuration by ID
-        const getElementConfig = (elementId) => {
-            return finalConfig.elements?.find(el => el.id === elementId);
-        };
-
-        // Roll spheres based on specialization
-        const rollSpheres = () => {
-            setArcanoneerState(prev => ({ ...prev, isRolling: true }));
-            setRerollsUsed(0); // Reset rerolls for new turn
-            const newSpheres = [];
-
-            // Determine number of dice based on specialization
-            const diceCount = activeSpecialization === 'entropy-weaver' ? 5 : 4;
-
-            // Determine bank cap based on specialization
-            const maxBank = activeSpecialization === 'sphere-architect' ? 15 : 12;
-
-            // Roll dice
-            for (let i = 0; i < diceCount; i++) {
-                const roll = Math.floor(Math.random() * 8) + 1; // 1-8
-                const element = finalConfig.elements?.find(el => el.d8Value === roll);
-                if (element) {
-                    newSpheres.push(element.id);
-                }
-            }
-
-            // Add to existing spheres (banking), respecting cap
-            setTimeout(() => {
-                setArcanoneerState(prev => {
-                    const combined = [...prev.localSpheres, ...newSpheres];
-                    const capped = combined.slice(0, maxBank);
-                    return { ...prev, localSpheres: capped, isRolling: false };
-                });
-            }, 500); // Animation delay
-        };
-
-        // Cycle dice button mode
-        const cycleDiceButtonMode = () => {
-            const modes = ['roll'];
-            // Add spec-specific modes
-            if (activeSpecialization === 'prism-mage') {
-                modes.splice(1, 0, 'prism-reroll');
-            } else if (activeSpecialization === 'sphere-architect') {
-                modes.splice(1, 0, 'architect-swap');
-            }
-            // For entropy weaver, no additional button needed as chaos effects are automatic
-
-            const currentIndex = modes.indexOf(diceButtonMode);
-            const nextIndex = (currentIndex + 1) % modes.length;
-            setArcanoneerState(prev => ({ ...prev, diceButtonMode: modes[nextIndex] }));
-        };
-
-        // Handle dice button click based on mode
-        const handleDiceButtonClick = (e) => {
-            e.stopPropagation();
-            if (diceButtonMode === 'roll') {
-                rollSpheres();
-            } else if (diceButtonMode === 'spec') {
-                // Cycle specialization
-                const specs = ['prism-mage', 'entropy-weaver', 'sphere-architect'];
-                const currentIndex = specs.indexOf(activeSpecialization);
-                const nextIndex = (currentIndex + 1) % specs.length;
-                setActiveSpecialization(specs[nextIndex]);
-                setRerollsUsed(0);
-                setSelectedForSwap([]);
-                setSwapMode(false);
-            } else if (diceButtonMode === 'prism-reroll') {
-                // Reroll sphere (Prism Mage)
-                if (activeSpheres.length > 0) {
-                    const randomIndex = Math.floor(Math.random() * activeSpheres.length);
-                    rerollSphere(randomIndex);
-                }
-            } else if (diceButtonMode === 'architect-swap') {
-                // Toggle swap mode (Sphere Architect)
-                setSwapMode(!swapMode);
-                setSelectedForSwap([]);
-            }
-        };
-
-        // Clear all spheres
-        const clearSpheres = () => {
-            setArcanoneerState(prev => ({ ...prev, localSpheres: [] }));
-        };
-
-        // Remove a sphere (simulate spending)
-        const removeElement = (elementId) => {
-            const index = activeSpheres.indexOf(elementId);
-            if (index > -1) {
-                const newSpheres = [...activeSpheres];
-                newSpheres.splice(index, 1);
-                setArcanoneerState(prev => ({ ...prev, localSpheres: newSpheres }));
-            }
-        };
-
-        // Reroll spheres (Prism Mage)
-        const rerollSphere = (index) => {
-            if (activeSpecialization !== 'prism-mage') return;
-
-            const newSpheres = [...activeSpheres];
-            const roll = Math.floor(Math.random() * 8) + 1;
-            const element = finalConfig.elements?.find(el => el.d8Value === roll);
-            if (element) {
-                newSpheres[index] = element.id;
-                setArcanoneerState(prev => ({ ...prev, localSpheres: newSpheres }));
-                setRerollsUsed(rerollsUsed + 1);
-            }
-        };
-
-        // Swap spheres (Sphere Architect)
-        const handleSphereSwap = (elementId) => {
-            if (activeSpecialization !== 'sphere-architect') return;
-
-            if (selectedForSwap.length === 0) {
-                // First sphere selected
-                setSelectedForSwap([elementId]);
-            } else if (selectedForSwap.length === 1) {
-                // Second sphere selected - perform swap
-                const firstIndex = activeSpheres.indexOf(selectedForSwap[0]);
-                const secondIndex = activeSpheres.indexOf(elementId);
-
-                if (firstIndex > -1 && secondIndex > -1 && firstIndex !== secondIndex) {
-                    const newSpheres = [...activeSpheres];
-                    // Swap the elements
-                    [newSpheres[firstIndex], newSpheres[secondIndex]] = [newSpheres[secondIndex], newSpheres[firstIndex]];
-                    setArcanoneerState(prev => ({ ...prev, localSpheres: newSpheres }));
-                }
-                setSelectedForSwap([]);
-                setSwapMode(false);
-            }
-        };
-
-
-        return (
-            <div
-                className={`elemental-spheres-container ${size}`}
-                onContextMenu={(e) => {
-                    if (!isOwner) return; // Only owner can interact
-                    e.preventDefault();
-                    e.stopPropagation();
-                    // Right-click on the bar removes one sphere (if any exist)
-                    if (activeSpheres.length > 0) {
-                        removeElement(activeSpheres[activeSpheres.length - 1]);
-                    }
-                }}
-            >
-                {/* Creative specialization selector for large size - disabled */}
-                {size === 'large' && (
-                    <div className="sphere-top-controls">
-                        <div className="sphere-count-header">
-                            {activeSpheres.length} SPHERE{activeSpheres.length !== 1 ? 'S' : ''}
-                        </div>
-                    </div>
-                )}
-
-                <div className="sphere-bar-wrapper">
-                    <div
-                        className={`class-resource-bar elemental-spheres-display ${size}`}
-                        style={{ overflow: 'visible' }}
-                    >
-                        <ResourceCanvasBar
-                            rendererType="elemental-spheres"
-                            size={size}
-                            spheres={activeSpheres || []}
-                            elements={finalConfig.elements || []}
-                            current={activeSpheres?.length || 0}
-                            max={activeSpecialization === 'sphere-architect' ? 15 : 12}
-                            config={finalConfig}
-                            isOwner={isOwner}
-                            onElementClick={(hit) => {
-                                if (!isOwner || !hit.element) return;
-                                const maxBank = activeSpecialization === 'sphere-architect' ? 15 : 12;
-                                setArcanoneerState(prev => {
-                                    if (prev.localSpheres.length >= maxBank) return prev;
-                                    return { ...prev, localSpheres: [...prev.localSpheres, hit.element.id] };
-                                });
-                            }}
-                            onElementRightClick={(hit) => {
-                                if (!isOwner || !hit.element) return;
-                                const isActive = hit.count > 0;
-                                if (isActive) {
-                                    if (swapMode && activeSpecialization === 'sphere-architect') {
-                                        handleSphereSwap(hit.element.id);
-                                    } else {
-                                        removeElement(hit.element.id);
-                                    }
-                                }
-                            }}
-                            onElementHover={(hit) => {
-                                setArcanoneerState(prev => ({ ...prev, hoveredElement: hit ? hit.element : null }));
-                            }}
-                        />
-                    </div>
-
-                    {/* Side controls for small/normal sizes (right side of spheres) */}
-                    {size !== 'large' && (
-                        <div className="sphere-side-controls">
-                            <button
-                                className="sphere-icon-btn"
-                                onClick={isOwner ? handleDiceButtonClick : undefined}
-                                onContextMenu={(e) => {
-                                    if (!isOwner) return;
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                    cycleDiceButtonMode();
-                                }}
-                                onMouseEnter={() => setShowRollTooltip(true)}
-                                onMouseLeave={() => setShowRollTooltip(false)}
-                                disabled={
-                                    !isOwner ||
-                                    (isRolling && diceButtonMode === 'roll') ||
-                                    (diceButtonMode === 'prism-reroll' && activeSpheres.length === 0) ||
-                                    (diceButtonMode === 'architect-swap' && activeSpheres.length < 2)
-                                }
-                            >
-                                <i className={`fas ${diceButtonMode === 'roll' ? 'fa-dice' :
-                                        diceButtonMode === 'spec' ? 'fa-exchange-alt' :
-                                            diceButtonMode === 'prism-reroll' ? 'fa-sync-alt' :
-                                                'fa-arrows-alt' // architect-swap
-                                    }`}></i>
-                            </button>
-
-                            <button
-                                className="sphere-icon-btn"
-                                onClick={isOwner ? (e) => {
-                                    e.stopPropagation();
-                                    clearSpheres();
-                                } : undefined}
-                                disabled={!isOwner || activeSpheres.length === 0}
-                                title="Clear all spheres"
-                            >
-                                <i className="fas fa-times"></i>
-                            </button>
-                        </div>
-                    )}
-
-                    {/* Side controls for large size */}
-                    {size === 'large' && (
-                        <div className="sphere-side-controls">
-                            <button
-                                className="sphere-icon-btn"
-                                onClick={isOwner ? handleDiceButtonClick : undefined}
-                                onContextMenu={(e) => {
-                                    if (!isOwner) return;
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                    cycleDiceButtonMode();
-                                }}
-                                onMouseEnter={() => setShowRollTooltip(true)}
-                                onMouseLeave={() => setShowRollTooltip(false)}
-                                disabled={
-                                    !isOwner ||
-                                    (isRolling && diceButtonMode === 'roll') ||
-                                    (diceButtonMode === 'prism-reroll' && activeSpheres.length === 0) ||
-                                    (diceButtonMode === 'architect-swap' && activeSpheres.length < 2)
-                                }
-                            >
-                                <i className={`fas ${diceButtonMode === 'roll' ? 'fa-dice' :
-                                        diceButtonMode === 'spec' ? 'fa-exchange-alt' :
-                                            diceButtonMode === 'prism-reroll' ? 'fa-sync-alt' :
-                                                'fa-arrows-alt' // architect-swap
-                                    }`}></i>
-                            </button>
-
-                            <button
-                                className="sphere-icon-btn"
-                                onClick={isOwner ? (e) => {
-                                    e.stopPropagation();
-                                    clearSpheres();
-                                } : undefined}
-                                disabled={!isOwner || activeSpheres.length === 0}
-                                title="Clear all spheres"
-                            >
-                                <i className="fas fa-times"></i>
-                            </button>
-                        </div>
-                    )}
-
-                </div>
-            </div>
-        );
-    };
-
-    const renderArcanoneerHoverTooltip = () => {
-        const hovered = arcanoneerState.hoveredElement;
-        if (!hovered || finalConfig.visual?.type !== 'elemental-spheres') return null;
-        const count = (arcanoneerState.localSpheres || []).filter(s => s === hovered.id).length;
-        return (
-            <TooltipPortal>
-                <div
-                    className="unified-resourcebar-tooltip pathfinder-tooltip"
-                    style={{ position: 'fixed', pointerEvents: 'none', zIndex: 99999 }}
-                    ref={(el) => {
-                        if (!el) return;
-                        const canvas = document.querySelector('.resource-canvas');
-                        if (!canvas) return;
-                        const rect = canvas.getBoundingClientRect();
-                        const positions = finalConfig.elements || [];
-                        const idx = positions.findIndex(e => e.id === hovered.id);
-                        if (idx < 0) return;
-                        const isLarge = size === 'large';
-                        const orbDiameter = isLarge ? 42 : (size === 'small' ? 24 : 32);
-                        const gap = isLarge ? 7 : (size === 'small' ? 5 : 7);
-                        const cols = isLarge ? 8 : 4;
-                        const col = idx % cols;
-                        const row = Math.floor(idx / cols);
-                        const orbX = col * (orbDiameter + gap) + orbDiameter / 2 + 4;
-                        const orbY = row * (orbDiameter + gap) + orbDiameter / 2 + 4;
-                        el.style.left = (rect.left + orbX) + 'px';
-                        el.style.top = (rect.top + orbY - 30) + 'px';
-                        el.style.transform = 'translate(-50%, -100%)';
-                    }}
-                >
-                    <div className="tooltip-header" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                        <span style={{
-                            display: 'inline-block',
-                            width: '10px',
-                            height: '10px',
-                            borderRadius: '50%',
-                            backgroundColor: hovered.isGradient ? '#FF00FF' : hovered.color,
-                            border: '1px solid rgba(255,255,255,0.4)',
-                        }}></span>
-                        {hovered.name}
-                    </div>
-                    <div className="tooltip-section">
-                        <div style={{ fontSize: '0.85rem', color: '#1a0a00' }}>
-                            {hovered.description}
-                        </div>
-                        {count > 0 && (
-                            <div style={{ fontSize: '0.85rem', marginTop: '4px', color: '#5a1e12' }}>
-                                Count: {count}
-                            </div>
-                        )}
-                    </div>
-                    {isOwner && (
-                        <>
-                            <div className="tooltip-divider"></div>
-                            <div className="tooltip-section" style={{ fontSize: '0.75rem', color: '#3a2a1a' }}>
-                                Left-click to add | Right-click to remove
-                            </div>
-                        </>
-                    )}
-                </div>
-            </TooltipPortal>
-        );
-    };
-
-    // Arcanoneer Roll Button Tooltip
-    const renderArcanoneerRollTooltip = () => {
-        if (!arcanoneerState.showRollTooltip || finalConfig.visual?.type !== 'elemental-spheres') return null;
-
-        const { isRolling, diceButtonMode } = arcanoneerState;
-        const diceCount = activeSpecialization === 'entropy-weaver' ? 5 : 4;
-
-        return (
-            <TooltipPortal>
-                <div
-                    ref={tooltipRef}
-                    className="unified-resourcebar-tooltip pathfinder-tooltip"
-                    style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}
-                >
-                    {diceButtonMode === 'roll' && (
-                        <>
-                            <div className="tooltip-header">Roll Elemental Spheres</div>
-                            <div className="tooltip-section">
-                                <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                                    <strong>Dice:</strong> {diceCount}d8
-                                </div>
-                                <div style={{ fontSize: '0.9rem' }}>
-                                    <strong>Result:</strong> {isRolling ? 'Rolling...' : 'Gain spheres based on roll'}
-                                </div>
-                            </div>
-                            <div className="tooltip-divider"></div>
-                            <div className="tooltip-section">
-                                <div className="tooltip-label">Roll Management</div>
-                                <div className="level-management">
-                                    <strong>Roll:</strong>
-                                    <span>Click to roll {diceCount}d8</span>
-                                    <strong>Cycle:</strong>
-                                    <span>Right-click to change mode</span>
-                                </div>
-                            </div>
-                        </>
-                    )}
-                    {diceButtonMode === 'spec' && (
-                        <>
-                            <div className="tooltip-header">Switch Specialization</div>
-                            <div className="tooltip-section">
-                                <div style={{ fontSize: '0.9rem' }}>
-                                    Right-click to cycle between specializations
-                                </div>
-                            </div>
-                        </>
-                    )}
-                    {diceButtonMode === 'prism-reroll' && (
-                        <>
-                            <div className="tooltip-header">Reroll Sphere</div>
-                            <div className="tooltip-section">
-                                <div style={{ fontSize: '0.9rem' }}>
-                                    Click to reroll a selected sphere
-                                </div>
-                            </div>
-                        </>
-                    )}
-                    {diceButtonMode === 'architect-swap' && (
-                        <>
-                            <div className="tooltip-header">Swap Spheres</div>
-                            <div className="tooltip-section">
-                                <div style={{ fontSize: '0.9rem' }}>
-                                    Click two spheres to swap them
-                                </div>
-                            </div>
-                        </>
-                    )}
-                </div>
-            </TooltipPortal>
-        );
-    };
 
     // Rage Bar display (Berserker)
     const renderRageBar = () => {
@@ -7425,7 +7013,7 @@ const ClassResourceBar = ({
         return (
             <div className={`class-resource-bar stance-flow ${size}`}>
                 <div className="stance-flow-compact">
-                    {/* Flux Zone (left) — clickable overlay */}
+                    {/* Flux Zone (left) â€” clickable overlay */}
                     <div
                         ref={momentumBarRef}
                         className="shaper-zone-overlay shaper-zone-left"
@@ -7446,7 +7034,7 @@ const ClassResourceBar = ({
                         onMouseLeave={() => { setShaperHoverSection(null); setShowTooltip(false); }}
                     />
 
-                    {/* Canvas — visual rendering only */}
+                    {/* Canvas â€” visual rendering only */}
                     <ResourceCanvasBar
                         rendererType="stance-flow"
                         size={size}
@@ -7505,7 +7093,7 @@ const ClassResourceBar = ({
                         <i className={currentStanceData.icon} style={{ color: currentStanceData.color }}></i>
                     </div>
 
-                    {/* Body Toll Zone (right) — clickable overlay */}
+                    {/* Body Toll Zone (right) â€” clickable overlay */}
                     <div
                         ref={flourishBarRef}
                         className="shaper-zone-overlay shaper-zone-right"
@@ -8060,7 +7648,7 @@ const ClassResourceBar = ({
                                                     background: 'rgba(160, 82, 45, 0.1)',
                                                     borderRadius: '3px'
                                                 }}>
-                                                    â­  {specBonus}
+                                                    Ã¢Â­  {specBonus}
                                                 </div>
                                             )}
                                         </div>
@@ -8541,7 +8129,7 @@ const ClassResourceBar = ({
                                         <div className="tooltip-section">
                                             <div className="tooltip-label">DD Progression</div>
                                             <div style={{ fontSize: '0.85rem' }}>
-                                                <strong>Progression:</strong> d12 â†’ d10 â†’ d8 â†’ d6 â†’ 0
+                                                <strong>Progression:</strong> d12 Ã¢â€ â€™ d10 Ã¢â€ â€™ d8 Ã¢â€ â€™ d6 Ã¢â€ â€™ 0
                                             </div>
                                             <div style={{ fontSize: '0.85rem', marginTop: '4px' }}>
                                                 Decreases per action/hit
@@ -8976,7 +8564,7 @@ const ClassResourceBar = ({
                                             <strong>Duration:</strong>
                                             <span>3 rounds per phase</span>
                                             <strong>Cycle Order:</strong>
-                                            <span>New â†’ Waxing â†’ Full â†’ Waning</span>
+                                            <span>New Ã¢â€ â€™ Waxing Ã¢â€ â€™ Full Ã¢â€ â€™ Waning</span>
                                             <strong>Auto-Advance:</strong>
                                             <span>After round 3 completes</span>
                                         </div>
@@ -9077,7 +8665,7 @@ const ClassResourceBar = ({
                                             <div className="passive-desc">
                                                 {oracleSpec === 'seer' && 'Gain +1 Vision per correct prediction. Predictions cost no action points. Advantage on initiative.'}
                                                 {oracleSpec === 'truthseeker' && 'Detect lies and illusions. Uncover hidden knowledge for +1 Vision each.'}
-                                                {oracleSpec === 'fateseer' && 'Premonition: When a prediction resolves correctly, spend 1 Vision to immediately apply a fate effect (reroll, Â±1d6, or advantage/disadvantage) related to that prediction.'}
+                                                {oracleSpec === 'fateseer' && 'Premonition: When a prediction resolves correctly, spend 1 Vision to immediately apply a fate effect (reroll, Ã‚Â±1d6, or advantage/disadvantage) related to that prediction.'}
                                             </div>
                                         </div>
                                     </>
@@ -9154,7 +8742,7 @@ const ClassResourceBar = ({
                                     <strong>Current:</strong> {finalClassResource.current || 0}/{finalClassResource.max || 100} Mayhem
                                 </div>
                                 <div style={{ fontSize: '0.85rem', color: '#4E342E' }}>
-                                    Passive chaos pressure gauge — CANNOT be spent. Passively amplifies all spells as it rises. Only release is Wild Surge at 100.
+                                    Passive chaos pressure gauge â€” CANNOT be spent. Passively amplifies all spells as it rises. Only release is Wild Surge at 100.
                                 </div>
                             </div>
                         </div>
@@ -9243,9 +8831,7 @@ const ClassResourceBar = ({
                 style={{ cursor: isGMMode ? 'pointer' : 'default' }}
             >
                 {renderResourceDisplay()}
-                {!isMartyr && !isAugur && !(isArcanoneer && arcanoneerState.hoveredElement) && renderTooltip()}
-                {isArcanoneer && renderArcanoneerRollTooltip()}
-                {isArcanoneer && renderArcanoneerHoverTooltip()}
+                {!isMartyr && !isAugur && !isArcanoneer && renderTooltip()}
             </div>
 
         </>
@@ -9253,7 +8839,6 @@ const ClassResourceBar = ({
 };
 
 export default ClassResourceBar;
-
 
 
 

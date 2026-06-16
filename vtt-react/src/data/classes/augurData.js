@@ -1846,7 +1846,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
             name: "Entropic Carrion Sign",
             description:
               "If the target rolls an odd number on any d20 (attack, save, or check), they are instantly reduced to 0 HP (Constitution save DC 18 reduces this to 10d10 blight damage).",
-            mechanicsText: "Odd d20 rolls trigger instant 0 HP or 10d10 necrotic.",
+            mechanicsText: "Odd d20 rolls trigger instant 0 HP or 10d10 blight.",
           },
         ],
         durationType: "rounds",

@@ -1,6 +1,6 @@
 /**
  * Mythrill Damage Types
- * 8 core types + Healing (separate restorative category)
+ * 9 core types + Healing (separate restorative category)
  */
 
 const DAMAGE_TYPES = {
@@ -52,6 +52,12 @@ const DAMAGE_TYPES = {
       color: '#7A2040',
       icon: 'Psychic/Psychic Telepathy'
     },
+    divine: {
+      name: 'Divine',
+      description: 'Sacred radiance drawn from the upper spheres. Smite the unholy, bless the faithful, and burn corruption with pure celestial light.',
+      color: '#DAA520',
+      icon: 'Radiant/Radiant Divinity'
+    },
     healing: {
       name: 'Healing',
       description: 'Restorative energy that repairs damage and restores vitality. Separate from damage types.',
@@ -65,8 +71,8 @@ const DAMAGE_TYPES = {
     ice: 'rime',
     frost: 'rime',
     fire: 'ember',
-    radiant: 'ember',
-    holy: 'ember',
+    radiant: 'divine',
+    holy: 'divine',
     electric: 'storm',
     lightning: 'storm',
     force: 'storm',

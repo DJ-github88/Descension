@@ -26,7 +26,7 @@ export const PYROFIEND_DATA = {
     utility:
       "Unmatched, escalating, exponential area-of-effect devastation. As the Inferno Veil ascends, damage multiplies to world-ending levels — capable of melting boss-tier encounters in a single turn. No other class can match the Pyrofiend's ceiling when the Veil climbs.",
     fatalFlaw:
-      "The Death Clock and the Mana Tax. Power literally kills the Pyrofiend. At Inferno Level 9, exactly 3 of their own turns remain before permanent death. Furthermore, staying cool requires Cooling Ember, which drains mana the Pyrofiend cannot afford to lose. Their body runs at an agonizing internal temperature, suffering catastrophic vulnerability to Cold damage — rapid internal crystallization causes massive physical trauma, and cold sources force the Veil to ascend as the body burns hotter to compensate.",
+      "The Death Clock and the Mana Tax. Power literally kills the Pyrofiend. At Inferno Level 9, exactly 3 of their own turns remain before permanent death. Furthermore, staying cool requires Cooling Ember, which drains mana the Pyrofiend cannot afford to lose. Their body runs at an agonizing internal temperature, suffering catastrophic vulnerability to Rime damage — rapid internal crystallization causes massive physical trauma, and cold sources force the Veil to ascend as the body burns hotter to compensate.",
   },
 
   // Overview section
@@ -47,7 +47,7 @@ Your marrow is the candle. Your blood is the wax. The Ashen Sovereign has writte
       title: "Quick Overview",
       content: `**What You Need to Know**: You did not study magic. You surrendered your flesh to Scathrach, the Ashen Sovereign — a parasitic intelligence from the infernal deep. Your power is a debt paid in blood. The Inferno Veil ascends through 10 levels (0-9), each one rewriting your body into something less human. Climb too high and the corruption kills you. Stay too low and you insult the demon that owns you.
 
-**Core Mechanic**: Cast fire spells → Ascend Inferno Levels → Gain fire damage bonus (+1 to +8, then +10 at Level 9 "Scathrach's Bargain") → Suffer escalating drawbacks (self-damage, movement loss, suffocation, demonic possession) → Use Cooling Ember to descend (imposes Mana Tax) → At Level 5+, make Spirit saves or be forced to attack the nearest living thing (friend or foe)
+**Core Mechanic**: Cast fire spells → Ascend Inferno Levels → Gain ember damage bonus (+1 to +8, then +10 at Level 9 "Scathrach's Bargain") → Suffer escalating drawbacks (self-damage, movement loss, suffocation, demonic possession) → Use Cooling Ember to descend (imposes Mana Tax) → At Level 5+, make Spirit saves or be forced to attack the nearest living thing (friend or foe)
 
 **Resource**: Inferno Veil (0-9 scale, tracked with a single d10 die)
 
@@ -108,12 +108,12 @@ The Pyrofiends of Sundale are in chaos. Some believe Scathrach is preparing for 
       title: "Combat Role",
       content: `The Pyrofiend is the highest area-of-effect damage ceiling in Mythrill — capable of melting boss-tier encounters in a single turn when the Inferno Veil climbs. They excel at:
 
-**Exponential Burst Damage**: Ascending to high Inferno Levels multiplies fire damage beyond any other class's capability
+**Exponential Burst Damage**: Ascending to high Inferno Levels multiplies ember damage beyond any other class's capability
 **Area Devastation**: No other class can match a Level 8+ Pyrofiend's AoE destruction
 **Risk-Reward Tension**: Managing Inferno Levels creates agonizing tactical decisions every single turn
 **The Demonic Whisper Threat**: At Level 5+, the Pyrofiend may be forced to attack allies — the party must position carefully around them
 
-The cost is everything. The Pyrofiend's drawbacks at high Inferno Levels are catastrophic: self-damage, movement loss, suffocation, demonic possession, and eventually the death clock. Their vulnerability to Cold damage is devastating — frost attacks deal +50% damage and force the Veil to ascend. A Pyrofiend who ascends too quickly dies by their own fire. A Pyrofiend who ascends too slowly insults the demon. There is no safe middle ground — only calculated sacrifice.`,
+The cost is everything. The Pyrofiend's drawbacks at high Inferno Levels are catastrophic: self-damage, movement loss, suffocation, demonic possession, and eventually the death clock. Their vulnerability to Rime damage is devastating — frost attacks deal +50% damage and force the Veil to ascend. A Pyrofiend who ascends too quickly dies by their own fire. A Pyrofiend who ascends too slowly insults the demon. There is no safe middle ground — only calculated sacrifice.`,
     },
 
     playstyle: {
@@ -146,9 +146,9 @@ The cost is everything. The Pyrofiend's drawbacks at high Inferno Levels are cat
 
     immersiveCombatExample: {
       title: "Combat Example: The Infernal Ascension",
-      content: `**The Setup**: You're a Pyrofiend (Inferno specialization) facing a powerful ice elemental and its minions (1 ice elemental + 4 frost wraiths). Your party is with you. Starting Inferno Level: 0. Starting Mana: 60/60. Your goal: Ascend through Inferno Levels to maximize fire damage, but manage the increasingly severe drawbacks. Remember — cold damage forces your Veil to ascend (+1 Inferno per cold attack received) as Scathrach's furnace burns hotter to compensate.
+      content: `**The Setup**: You're a Pyrofiend (Inferno specialization) facing a powerful ice elemental and its minions (1 ice elemental + 4 frost wraiths). Your party is with you. Starting Inferno Level: 0. Starting Mana: 60/60. Your goal: Ascend through Inferno Levels to maximize ember damage, but manage the increasingly severe drawbacks. Remember — rime damage forces your Veil to ascend (+1 Inferno per cold attack received) as Scathrach's furnace burns hotter to compensate.
 
-**Starting State**: Inferno Level: 0/9 | Fire Damage Bonus: +0 | Mana: 60/60 | HP: 45/45
+**Starting State**: Inferno Level: 0/9 | Ember Damage Bonus: +0 | Mana: 60/60 | HP: 45/45
 
 **Turn 1 - First Flames (Inferno: 0 → 1)**
 
@@ -156,15 +156,15 @@ The cost is everything. The Pyrofiend's drawbacks at high Inferno Levels are cat
 
 **Your Action**: Cast "Ember Spark" at Ice Elemental (3 mana, ascends +1 Inferno)
 **Attack Roll**: d20+7 → [16] = Hit!
-**Base Damage**: 1d6 fire → [5] = 5 fire damage
+**Base Damage**: 1d6 fire → [5] = 5 ember damage
 **Inferno Bonus**: +0 (currently at Level 0)
-**DoT Applied**: 1d4 fire damage per round for 2 rounds
-**Total Damage**: **5 fire damage** (plus ongoing burn)
+**DoT Applied**: 1d4 ember damage per round for 2 rounds
+**Total Damage**: **5 ember damage** (plus ongoing burn)
 
 *The spark burrows into the elemental's icy hide. Ice cracks and steam hisses.*
 
 **Inferno Ascension**: 0 → **1** (Ember Spark ascends +1)
-**Fire Damage Bonus**: +0 → **+1**
+**Ember Damage Bonus**: +0 → **+1**
 **Drawback (Level 1 - Limbo)**: Minor visual distortions reduce hit chance by 2
 
 **Mana**: 60 - 3 = 57/60
@@ -172,7 +172,7 @@ The cost is everything. The Pyrofiend's drawbacks at high Inferno Levels are cat
 *You feel the inferno stirring. Your eyes begin to glow faintly with inner fire.*
 
 **Your Party's Tank**: "Your eyes... they're glowing!"
-**You**: "The fire is waking up. Inferno Level 1. Just a flicker. +1 fire damage now."
+**You**: "The fire is waking up. Inferno Level 1. Just a flicker. +1 ember damage now."
 
 **Current State**: Inferno: 1/9 | Fire Bonus: +1 | Mana: 57/60 | HP: 45/45
 
@@ -181,16 +181,16 @@ The cost is everything. The Pyrofiend's drawbacks at high Inferno Levels are cat
 *The frost wraiths swarm. Your tank intercepts most, but you need AREA control.*
 
 **Your Action**: Cast "Cinder Bolt" at Frost Wraith group (8 mana, ascends +2 Inferno, AoE 5ft radius)
-**Damage Roll**: 2d6 + INT fire → [5, 6] + 3 = 14 fire damage
+**Damage Roll**: 2d6 + INT fire → [5, 6] + 3 = 14 ember damage
 **Inferno Bonus**: +1 (currently at Level 1)
-**Total Damage**: 14 + 1 = **15 fire damage to wraiths in blast**
+**Total Damage**: 14 + 1 = **15 ember damage to wraiths in blast**
 
 *The cinder bolt EXPLODES on impact. Two wraiths screech as embers tear through them.*
 
 **Frost Wraiths**: 2 wraiths heavily damaged, 2 wraiths moderately damaged
 
 **Inferno Ascension**: 1 → **3** (Cinder Bolt ascends +2)
-**Fire Damage Bonus**: +1 → **+3**
+**Ember Damage Bonus**: +1 → **+3**
 **Drawback (Level 3 - Gluttony)**: -10 ft movement, constant fatigue
 
 **Mana**: 57 - 8 = 49/60
@@ -198,7 +198,7 @@ The cost is everything. The Pyrofiend's drawbacks at high Inferno Levels are cat
 *Heat radiates from your skin. The air around you SHIMMERS. You feel heavier, slower — but POWERFUL.*
 
 **Your Party's Healer**: "You're... changing. You're moving slower!"
-**You**: "Inferno Level 3. The demon stirs. -10 ft movement but +3 fire damage to EVERYTHING now. Worth it."
+**You**: "Inferno Level 3. The demon stirs. -10 ft movement but +3 ember damage to EVERYTHING now. Worth it."
 
 *Frost wraith strikes you for 3 damage*
 
@@ -211,26 +211,26 @@ The cost is everything. The Pyrofiend's drawbacks at high Inferno Levels are cat
 *The fatigue is real, but so is the power. You need MORE. The tank is holding the line — time to go big.*
 
 **Your Action**: Cast "Fireball" at Ice Elemental (12 mana, ascends +2 Inferno, AoE 10ft sphere)
-**Damage Roll**: 3d6 + INT fire → [6, 5, 4] + 3 = 18 fire damage
+**Damage Roll**: 3d6 + INT fire → [6, 5, 4] + 3 = 18 ember damage
 **Inferno Bonus**: +3 (currently at Level 3)
-**Total Damage**: 18 + 3 = **21 fire damage to elemental and nearby wraiths**
+**Total Damage**: 18 + 3 = **21 ember damage to elemental and nearby wraiths**
 
 *The fireball DETONATES against the elemental. Ice shatters. The remaining wraiths BURN.*
 
 **Frost Wraiths**: 2 wraiths DEAD, 2 wraiths destroyed by blast
-**Ice Elemental**: 21 fire damage — HEAVILY DAMAGED
+**Ice Elemental**: 21 ember damage — HEAVILY DAMAGED
 
 **Inferno Ascension**: 3 → **5** (Fireball ascends +2)
-**Fire Damage Bonus**: +3 → **+5**
+**Ember Damage Bonus**: +3 → **+5**
 **Drawback (Level 5 - Wrath)**: Body cracks, 1d6 bleeding per turn, weakened defenses
-**Infernal Surge Triggered**: Next fire spell deals +2d6 fire damage (Path Passive at Level 5+)
+**Infernal Surge Triggered**: Next fire spell deals +2d6 ember damage (Path Passive at Level 5+)
 
 **Bleeding Damage**: 1d6 → [4] = 4 damage
 **HP**: 42 - 4 = 38/45
 
 *The transformation accelerates. Your skin begins to crack, revealing MOLTEN VEINS beneath. Small horns sprout from your forehead.*
 
-**You (voice echoing)**: "INFERNO LEVEL FIVE. THE DEMON EMERGES. +5 FIRE DAMAGE. AND MY NEXT SPELL GETS +2d6 FROM INFERNAL SURGE."
+**You (voice echoing)**: "INFERNO LEVEL FIVE. THE DEMON EMERGES. +5 Ember DAMAGE. AND MY NEXT SPELL GETS +2d6 FROM INFERNAL SURGE."
 
 **Your Party's Mage**: "But you're BLEEDING!"
 **You**: "The demon demands blood. Mine will do."
@@ -242,10 +242,10 @@ The cost is everything. The Pyrofiend's drawbacks at high Inferno Levels are cat
 *Only the ice elemental remains, wounded and desperate. You need MAXIMUM POWER to finish it.*
 
 **Your Action**: Cast "Hellfire Wave" at Ice Elemental (20 mana, ascends +2 Inferno, 30ft cone)
-**Damage Roll**: 8d6 + INT fire → [7, 6, 8, 5, 6, 7, 4, 8] + 3 = 54 fire damage
+**Damage Roll**: 8d6 + INT fire → [7, 6, 8, 5, 6, 7, 4, 8] + 3 = 54 ember damage
 **Inferno Bonus**: +5 (currently at Level 5)
-**Infernal Surge**: +2d6 → [6, 7] = +13 fire damage
-**Total Damage**: 54 + 5 + 13 = **72 fire damage!**
+**Infernal Surge**: +2d6 → [6, 7] = +13 ember damage
+**Total Damage**: 54 + 5 + 13 = **72 ember damage!**
 
 *You sweep your arms forward. A WAVE OF HELLFIRE engulfs the elemental. It MELTS, screaming — ice becoming steam in an instant.*
 
@@ -256,14 +256,14 @@ The cost is everything. The Pyrofiend's drawbacks at high Inferno Levels are cat
 *But you're not done. The elemental is dead, but the demon HUNGERs. You cast one more —*
 
 **Second Action**: Cast "Infernal Blast" at surviving Frost Wraith (20 mana, ascends +2)
-**Damage Roll**: 5d6 + INT fire → [6, 5, 4, 6, 5] + 3 = 29 fire damage
+**Damage Roll**: 5d6 + INT fire → [6, 5, 4, 6, 5] + 3 = 29 ember damage
 **Inferno Bonus**: +7 (currently at Level 7)
-**Total Damage**: 29 + 7 = **36 fire damage!**
+**Total Damage**: 29 + 7 = **36 ember damage!**
 
 *The wraith doesn't just die — it CEASES TO EXIST. Nothing but ash.*
 
 **Inferno Ascension**: 7 → **9** (MAXIMUM INFERNO — Infernal Blast ascends +2 more)
-**Fire Damage Bonus**: +7 → **+10** (The Demon's Bargain — Level 9 grants +10, not +9)
+**Ember Damage Bonus**: +7 → **+10** (The Demon's Bargain — Level 9 grants +10, not +9)
 **Drawback (Level 9 - Treachery)**: 4d8 self-damage per turn, death in 3 turns if not extinguished, disadvantage on all saves
 
 **Mana**: 37 - 20 - 20 = -3... wait, you only had 37 mana. The second cast fails!
@@ -282,29 +282,29 @@ The cost is everything. The Pyrofiend's drawbacks at high Inferno Levels are cat
 
 *Your horns GROW LARGER. Your eyes are PITS OF FLAME. Sulfurous smoke pours from your mouth. The demon is almost fully in control.*
 
-**You (demonic voice)**: "INFERNO LEVEL SEVEN. +7 FIRE DAMAGE. THE ICE IS GONE. ONLY FIRE REMAINS."
+**You (demonic voice)**: "INFERNO LEVEL SEVEN. +7 Ember DAMAGE. THE ICE IS GONE. ONLY FIRE REMAINS."
 
 **Your Party's Healer**: "You're suffocating! Let me—"
 **You**: "No. Not yet. I can hold."
 
 **Turn 5 - The Price of Power**
 
-*You are at Inferno Level 7. +7 fire damage. But you're taking 1d6 suffocation per turn and -15 ft speed. You have 33 HP and 17 mana. The last frost wraith attacks.*
+*You are at Inferno Level 7. +7 ember damage. But you're taking 1d6 suffocation per turn and -15 ft speed. You have 33 HP and 17 mana. The last frost wraith attacks.*
 
-**Frost Wraith's Turn**: Strikes you for 8 frost damage
+**Frost Wraith's Turn**: Strikes you for 8 rime damage
 **HP**: 33 - 8 = 25/45
 
 **Your Action**: Cast "Ember Spark" at Frost Wraith (3 mana, ascends +1)
-**Damage Roll**: 1d6 fire → [5] = 5 fire damage + 1d4 DoT → ongoing
+**Damage Roll**: 1d6 fire → [5] = 5 ember damage + 1d4 DoT → ongoing
 **Inferno Bonus**: +7
-**Total Damage**: 5 + 7 = **12 fire damage**
+**Total Damage**: 5 + 7 = **12 ember damage**
 
 *The wraith SHATTERS into frozen shards that melt instantly in your aura of heat.*
 
 **Frost Wraith**: DEAD
 
 **Inferno Ascension**: 7 → **8** (Ember Spark ascends +1)
-**Fire Damage Bonus**: +7 → **+8**
+**Ember Damage Bonus**: +7 → **+8**
 **Drawback (Level 8 - Fraud)**: 2d4 self-damage per turn, disadvantage on Dex checks
 
 **Mana**: 17 - 3 = 14/60
@@ -315,7 +315,7 @@ The cost is everything. The Pyrofiend's drawbacks at high Inferno Levels are cat
 
 **Your Action (After Combat)**: Cast "Cooling Ember" (4 mana, descends -2 Inferno)
 **Inferno Descent**: 8 → **6**
-**Fire Damage Bonus**: +8 → **+6**
+**Ember Damage Bonus**: +8 → **+6**
 **Healing**: 1d6 + spirit/3 → [5] + 2 = 7 HP
 **Drawbacks Removed**: Level 8 Fraud (no more 2d4 self-damage, Dex checks restored)
 
@@ -328,7 +328,7 @@ The cost is everything. The Pyrofiend's drawbacks at high Inferno Levels are cat
 
 **Second Cooling Ember** (4 mana, descends -2 Inferno):
 **Inferno Descent**: 6 → **4**
-**Fire Damage Bonus**: +6 → **+4**
+**Ember Damage Bonus**: +6 → **+4**
 **Healing**: 1d6 + spirit/3 → [3] + 2 = 5 HP
 
 **Mana**: 10 - 4 = 6/60
@@ -356,7 +356,7 @@ The cost is everything. The Pyrofiend's drawbacks at high Inferno Levels are cat
 7. **Cooling Ember**: Descended from 8 → 6 → 4 with two casts, removing the worst drawbacks and getting below Level 6 (which blocks outside healing) so the healer could top us off
 8. **Resource Tension**: Nearly ran out of mana (6/60 remaining). Ascension costs spells, and spells cost mana.
 
-You are the HIGHEST AoE DAMAGE CEILING in the game. You ascend through Inferno Levels, each one adding +1 fire damage (+10 at the deadly Level 9) but imposing escalating drawbacks as Scathrach rewrites your body. The key is knowing when to ASCEND for burst damage (Hellfire Wave at Level 5 with Infernal Surge = 72 damage) and when to use Cooling Ember to DESCEND and survive. At Level 5, the Demonic Whisper begins — fail a Spirit save and you may be forced to burn your own allies. You're not a safe class. You are a LIVING WEAPON that is slowly killing its wielder — a DEMONIC GLASS CANNON who trades their own blood, mana, and eventually their soul for DEVASTATING POWER.`,
+You are the HIGHEST AoE DAMAGE CEILING in the game. You ascend through Inferno Levels, each one adding +1 ember damage (+10 at the deadly Level 9) but imposing escalating drawbacks as Scathrach rewrites your body. The key is knowing when to ASCEND for burst damage (Hellfire Wave at Level 5 with Infernal Surge = 72 damage) and when to use Cooling Ember to DESCEND and survive. At Level 5, the Demonic Whisper begins — fail a Spirit save and you may be forced to burn your own allies. You're not a safe class. You are a LIVING WEAPON that is slowly killing its wielder — a DEMONIC GLASS CANNON who trades their own blood, mana, and eventually their soul for DEVASTATING POWER.`,
     },
   },
 
@@ -365,14 +365,14 @@ You are the HIGHEST AoE DAMAGE CEILING in the game. You ascend through Inferno L
     title: "Inferno Veil",
     subtitle: "Scathrach's Corruption Ascendant",
 
-    description: `Your power is a debt to Scathrach, the Ashen Sovereign. As you cast fire magic, you ascend through nine stages of demonic corruption — each one rewriting your body into something less human and more furnace. Every level adds to your fire damage. Every level takes something from your flesh. Climb too high and the death clock begins. Stay too low and Scathrach grows impatient. The Veil is not a resource. It is a disease, and you chose to be infected.`,
+    description: `Your power is a debt to Scathrach, the Ashen Sovereign. As you cast fire magic, you ascend through nine stages of demonic corruption — each one rewriting your body into something less human and more furnace. Every level adds to your ember damage. Every level takes something from your flesh. Climb too high and the death clock begins. Stay too low and Scathrach grows impatient. The Veil is not a resource. It is a disease, and you chose to be infected.`,
 
     cards: [
       {
         title: "Inferno Levels (0-9)",
         stats: "10 Stages",
         details:
-          "Each level adds +1 to all fire damage. Level 9 grants a massive +10 bonus but starts a terminal death clock.",
+          "Each level adds +1 to all ember damage. Level 9 grants a massive +10 bonus but starts a terminal death clock.",
       },
       {
         title: "Drawbacks",
@@ -415,7 +415,7 @@ You are the HIGHEST AoE DAMAGE CEILING in the game. You ascend through Inferno L
 
     usage: {
       momentum:
-        "Ascend by casting offensive fire spells. Each level adds flat fire damage to every hit, making multi-hit or AoE spells exponentially more powerful.",
+        "Ascend by casting offensive fire spells. Each level adds flat ember damage to every hit, making multi-hit or AoE spells exponentially more powerful.",
       flourish:
         'Use Cooling Ember to descend and heal. Managing the "Safe Zone" (0-3), "Power Zone" (4-6), and "Danger Zone" (7-9) is the core of the class.',
     },
@@ -425,7 +425,7 @@ You are the HIGHEST AoE DAMAGE CEILING in the game. You ascend through Inferno L
       content: `Reaching Inferno Level 9 represents total surrender to Scathrach, the Ashen Sovereign. You are no longer in control. The demon is.
 
 **You have THREE OF YOUR TURNS** to descend below Level 9. At the start of each of your turns while at Inferno Level 9, the death clock ticks down. If you have not descended below Level 9 after 3 of your turns:
-- You are **consumed by fire** (Immediate Death — your body detonates in a 30-foot radius of 10d6 fire damage)
+- You are **consumed by fire** (Immediate Death — your body detonates in a 30-foot radius of 10d6 ember damage)
 - Your soul is **claimed by Scathrach** (Standard resurrection fails — you belong to the furnace now)
 
 **Survival Guide**:
@@ -490,7 +490,7 @@ You are the HIGHEST AoE DAMAGE CEILING in the game. You ascend through Inferno L
           level: 4,
           title: "The Cracking",
           appearance:
-            "Skin begins to split. Not wounds — eruptions. Thin fissures form along joints and ribs, revealing not tissue but a dim orange-red ember glow beneath, as though the body is a ceramic vessel filled with coals. Fingertips are permanently charred. Touching the Pyrofiend deals 1 fire damage. The smell of burning hair and rendered fat is constant and nauseating.",
+            "Skin begins to split. Not wounds — eruptions. Thin fissures form along joints and ribs, revealing not tissue but a dim orange-red ember glow beneath, as though the body is a ceramic vessel filled with coals. Fingertips are permanently charred. Touching the Pyrofiend deals 1 ember damage. The smell of burning hair and rendered fat is constant and nauseating.",
         },
         {
           level: 5,
@@ -520,7 +520,7 @@ You are the HIGHEST AoE DAMAGE CEILING in the game. You ascend through Inferno L
           level: 9,
           title: "The Death Threshold — Scathrach Made Manifest",
           appearance:
-            "BARELY HUMAN. The Pyrofiend is a charring, screaming vessel of living fire held together by will and demonic spite. Flesh sloughs off in burning sheets, revealing bone that glows white-hot. Scathrach's voice IS the only voice now — the original personality is a passenger, a spectator in their own execution. The death clock begins: 3 of your turns before Scathrach claims you entirely. Your soul becomes fuel. You become the fire. There is no coming back from this except through desperate, immediate descent. If you fail — if the clock runs out — your body detonates in a 30-foot radius of 10d6 fire damage and your soul is dragged into Scathrach's furnace forever. Standard resurrection fails. You are ash. You are kindling. You are finished.",
+            "BARELY HUMAN. The Pyrofiend is a charring, screaming vessel of living fire held together by will and demonic spite. Flesh sloughs off in burning sheets, revealing bone that glows white-hot. Scathrach's voice IS the only voice now — the original personality is a passenger, a spectator in their own execution. The death clock begins: 3 of your turns before Scathrach claims you entirely. Your soul becomes fuel. You become the fire. There is no coming back from this except through desperate, immediate descent. If you fail — if the clock runs out — your body detonates in a 30-foot radius of 10d6 ember damage and your soul is dragged into Scathrach's furnace forever. Standard resurrection fails. You are ash. You are kindling. You are finished.",
         },
       ],
     },
@@ -541,7 +541,7 @@ You are the HIGHEST AoE DAMAGE CEILING in the game. You ascend through Inferno L
 
     strategicConsiderations: {
       title: "Managing the Flame",
-      content: `**Important — Drawbacks Do Not Stack**: You only suffer the drawback of your current Inferno Level. Lower-level drawbacks are superseded, not cumulative. For example, at Level 5 you suffer 1d6 bleeding per turn — you do NOT also suffer the Level 1 hit penalty, Level 2 psychic damage, Level 3 movement penalty, or Level 4 damage vulnerability.
+      content: `**Important — Drawbacks Do Not Stack**: You only suffer the drawback of your current Inferno Level. Lower-level drawbacks are superseded, not cumulative. For example, at Level 5 you suffer 1d6 bleeding per turn — you do NOT also suffer the Level 1 hit penalty, Level 2 wyrd damage, Level 3 movement penalty, or Level 4 damage vulnerability.
 
 **Important — Drawback Timing**: Drawbacks take effect immediately upon ascending to a new Inferno Level. If you ascend from Level 4 to Level 6 in a single turn, you suffer only the Level 6 drawback (not Level 5's bleeding or Level 6's penalty separately — just Level 6). The self-damage drawbacks (Levels 2, 5, 7, 8, 9) apply at the start of each of your turns while at that level.
 
@@ -549,7 +549,7 @@ You are the HIGHEST AoE DAMAGE CEILING in the game. You ascend through Inferno L
 
 **Important — Inferno Required (Spell Gating)**: Many spells list an "Inferno Required" cost in addition to mana. You must be at or above that Inferno Level to cast the spell. Plan your ascension so you reach the required level before you need your strongest spells.
 
-**Important — Cold Vulnerability**: The Pyrofiend suffers +50% damage from all Cold/Frost sources (rounded up). Additionally, any Cold damage received forces the Inferno Veil to ascend by +1 as Scathrach's furnace burns hotter to compensate for the internal crystallization. A frost attack does not cool the Pyrofiend down — it makes them burn hotter and die faster.
+**Important — Cold Vulnerability**: The Pyrofiend suffers +50% damage from all Cold/Frost sources (rounded up). Additionally, any Rime damage received forces the Inferno Veil to ascend by +1 as Scathrach's furnace burns hotter to compensate for the internal crystallization. A frost attack does not cool the Pyrofiend down — it makes them burn hotter and die faster.
 
 **Important — The Demonic Whisper (Level 5+)**: At the start of each turn while at Inferno Level 5+, make a Spirit save (DC 12 + Inferno Level) or be forced to target the nearest entity (friend or foe) with your next offensive action. See the Demonic Whisper section for full rules.
 
@@ -593,7 +593,7 @@ You are the HIGHEST AoE DAMAGE CEILING in the game. You ascend through Inferno L
       name: "Infernal Surge",
       tier: "Path Passive",
       description:
-        "When you ascend to Inferno Level 5 or higher, your next fire spell deals an additional 2d6 fire damage. This effect can only trigger once per ascension event.",
+        "When you ascend to Inferno Level 5 or higher, your next fire spell deals an additional 2d6 ember damage. This effect can only trigger once per ascension event.",
     },
 
     specs: [
@@ -627,7 +627,7 @@ You are the HIGHEST AoE DAMAGE CEILING in the game. You ascend through Inferno L
             name: "Burning Ambition",
             tier: "Specialization Passive",
             description:
-              "While at Inferno Level 3 or higher, your fire spells deal +1 damage per die rolled. Additionally, while at Inferno Level 7 or higher, your fire spells crit on the 2 highest die numbers instead of just the highest, and critical hits deal an additional 1d10 fire damage.",
+              "While at Inferno Level 3 or higher, your fire spells deal +1 damage per die rolled. Additionally, while at Inferno Level 7 or higher, your fire spells crit on the 2 highest die numbers instead of just the highest, and critical hits deal an additional 1d10 ember damage.",
             uniqueTo: "Inferno",
           },
         ],
@@ -665,7 +665,7 @@ You are the HIGHEST AoE DAMAGE CEILING in the game. You ascend through Inferno L
             name: "Wildfire Spread",
             tier: "Specialization Passive",
             description:
-              "When an enemy affected by your burn effect dies, the burn spreads to all enemies within 10 feet, dealing 2d6 fire damage and applying a new burn effect (1d6 fire damage per turn for 3 turns). This effect can only trigger once per round and cannot chain from spread burns.",
+              "When an enemy affected by your burn effect dies, the burn spreads to all enemies within 10 feet, dealing 2d6 ember damage and applying a new burn effect (1d6 ember damage per turn for 3 turns). This effect can only trigger once per round and cannot chain from spread burns.",
             uniqueTo: "Wildfire",
           },
         ],
@@ -794,7 +794,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     { id: "pyro_ember_spark",
       name: "Ember Spark",
       description:
-        "Scathrach gifts you a malevolent spark — a fragment of its own hatred, compressed into a projectile. It burrows into flesh, igniting a smolder that no mortal can extinguish. Deals initial fire damage and leaves a persistent burn that consumes the target over 2 rounds. The ember is the demon's way of saying: burn everything.",
+        "Scathrach gifts you a malevolent spark — a fragment of its own hatred, compressed into a projectile. It burrows into flesh, igniting a smolder that no mortal can extinguish. Deals initial ember damage and leaves a persistent burn that consumes the target over 2 rounds. The ember is the demon's way of saying: burn everything.",
       level: 1,
       spellType: "ACTION",
       icon: "Fire/Flame Burst",
@@ -859,7 +859,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     { id: "pyro_smoldering_touch",
       name: "Smoldering Touch",
       description:
-        "Your hand glows with the heat of Scathrach's contempt. You press it into an enemy's flesh — not gently — searing through armor and leaving a smolder that burns for 1d4 fire damage per round for 2 rounds. The touch is not a spell. It is an imposition. You are sharing what lives inside you.",
+        "Your hand glows with the heat of Scathrach's contempt. You press it into an enemy's flesh — not gently — searing through armor and leaving a smolder that burns for 1d4 ember damage per round for 2 rounds. The touch is not a spell. It is an imposition. You are sharing what lives inside you.",
       level: 1,
       spellType: "ACTION",
       icon: "Fire/Fire Bolt",
@@ -1083,7 +1083,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     { id: "pyro_scorching_grasp",
       name: "Scorching Grasp",
       description:
-        "Flames engulf your hand — not the warm orange of a hearth, but the sickly black-red of Scathrach's ire. You seize the enemy and the fire clings, searing through armor and flesh for 2d8 + INT/2 fire damage, then burning for 1d4 fire damage per round for 2 rounds. Your touch is a branding iron. The mark says: property of the Ashen Sovereign.",
+        "Flames engulf your hand — not the warm orange of a hearth, but the sickly black-red of Scathrach's ire. You seize the enemy and the fire clings, searing through armor and flesh for 2d8 + INT/2 ember damage, then burning for 1d4 ember damage per round for 2 rounds. Your touch is a branding iron. The mark says: property of the Ashen Sovereign.",
       level: 2,
       spellType: "ACTION",
       icon: "Fire/Scorching Rune",
@@ -1477,7 +1477,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     { id: "pyro_infernal_blast",
       name: "Infernal Blast",
       description:
-        "A concentrated blast of Scathrach's purest hatred erupts from your hands, searing through defenses and leaving nothing but ash. 5d6 + INT fire damage. At Inferno Level 4+, the corruption surges — dealing an additional 2d6 fire damage. The blast is not fire. It is annihilation wearing fire as a mask.",
+        "A concentrated blast of Scathrach's purest hatred erupts from your hands, searing through defenses and leaving nothing but ash. 5d6 + INT ember damage. At Inferno Level 4+, the corruption surges — dealing an additional 2d6 ember damage. The blast is not fire. It is annihilation wearing fire as a mask.",
       level: 4,
       spellType: "ACTION",
       icon: "Fire/Infernal Fire",
@@ -1558,7 +1558,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     { id: "pyro_searing_chains",
       name: "Searing Chains",
       description:
-        "Conjure burning chains of Scathrach's binding — links of condensed hatred that lash between enemies, dealing 3d6 + INT fire damage and tethering them together. Each chain jump deals 75% damage but ignites all targets struck for 1d6 fire damage per round for 2 rounds. Chains leap to up to 3 additional targets within 15 feet. The chains do not merely burn — they bind. Scathrach was a warden before it was a flame.",
+        "Conjure burning chains of Scathrach's binding — links of condensed hatred that lash between enemies, dealing 3d6 + INT ember damage and tethering them together. Each chain jump deals 75% damage but ignites all targets struck for 1d6 ember damage per round for 2 rounds. Chains leap to up to 3 additional targets within 15 feet. The chains do not merely burn — they bind. Scathrach was a warden before it was a flame.",
       level: 4,
       spellType: "ACTION",
       icon: "Fire/Scorching Rune",
@@ -1631,7 +1631,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     { id: "pyro_fiery_aura",
       name: "Fiery Aura",
       description:
-        "You open the furnace door. An aura of Scathrach's contempt radiates outward, dealing 2d6 fire damage to any enemy foolish enough to stand within 5 feet. The aura persists for up to 3 rounds while you concentrate — a constant, pulsing reminder that you are not safe to be near.",
+        "You open the furnace door. An aura of Scathrach's contempt radiates outward, dealing 2d6 ember damage to any enemy foolish enough to stand within 5 feet. The aura persists for up to 3 rounds while you concentrate — a constant, pulsing reminder that you are not safe to be near.",
       level: 4,
       spellType: "CHANNELED",
       icon: "Fire/Fire Orb",
@@ -1672,7 +1672,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
         resolution: "DICE",
         triggerCondition: "area_entry",
         triggerDescription:
-          "Enemies within 5 feet take 2d6 fire damage at the start of each of their turns",
+          "Enemies within 5 feet take 2d6 ember damage at the start of each of their turns",
         areaShape: "circle",
         areaParameters: { radius: 5 },
       },
@@ -1703,7 +1703,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     { id: "pyro_hellfire_wave",
       name: "Hellfire Wave",
       description:
-        "Scathrach opens its mouth through yours. A wave of hellish fire sweeps over everything in a 30-foot cone — 8d6 + INT fire damage. The wave is not a spell. It is the demon vomiting its rage through your body. Anything caught in the cone does not burn. It ceases.",
+        "Scathrach opens its mouth through yours. A wave of hellish fire sweeps over everything in a 30-foot cone — 8d6 + INT ember damage. The wave is not a spell. It is the demon vomiting its rage through your body. Anything caught in the cone does not burn. It ceases.",
       level: 5,
       spellType: "ACTION",
       icon: "Fire/Fiery Symbol",
@@ -1753,7 +1753,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     { id: "pyro_immolation",
       name: "Immolation",
       description:
-        "You designate a target for Scathrach's obsession. Flames engulf them — 6d8 + INT/2 fire damage immediately — and then the real cruelty begins. The fire does not stop. 1d6 + INT/4 fire damage per round for 3 rounds. The target screams. Scathrach hums contentedly. You try not to think about what that says about you.",
+        "You designate a target for Scathrach's obsession. Flames engulf them — 6d8 + INT/2 ember damage immediately — and then the real cruelty begins. The fire does not stop. 1d6 + INT/4 ember damage per round for 3 rounds. The target screams. Scathrach hums contentedly. You try not to think about what that says about you.",
       level: 5,
       spellType: "ACTION",
       icon: "Fire/Enveloping Fire",
@@ -1817,7 +1817,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     { id: "pyro_fire_whip",
       name: "Fire Whip",
       description:
-        "A whip of condensed infernal fury — not fire, but the idea of fire made violent. It lashes out, dealing 7d6 + INT fire damage and potentially stunning the target as Scathrach's malice briefly overwhelms their nervous system. The whip is the demon's tongue. It tastes what it strikes.",
+        "A whip of condensed infernal fury — not fire, but the idea of fire made violent. It lashes out, dealing 7d6 + INT ember damage and potentially stunning the target as Scathrach's malice briefly overwhelms their nervous system. The whip is the demon's tongue. It tastes what it strikes.",
       level: 5,
       spellType: "ACTION",
       icon: "Fire/Sun Symbol",
@@ -1887,7 +1887,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     { id: "pyro_lava_burst",
       name: "Lava Burst",
       description:
-        "You slam your fists down and Scathrach boils the earth itself. A 15-foot radius of molten lava erupts, dealing 9d6 + INT fire damage. The ground does not simply burn — it becomes a grave. At Inferno Level 7+, the corruption deepens the eruption to 16d6 + INT×2.",
+        "You slam your fists down and Scathrach boils the earth itself. A 15-foot radius of molten lava erupts, dealing 9d6 + INT ember damage. The ground does not simply burn — it becomes a grave. At Inferno Level 7+, the corruption deepens the eruption to 16d6 + INT×2.",
       level: 6,
       spellType: "ACTION",
       icon: "Fire/Dripping Lava",
@@ -1953,7 +1953,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     { id: "pyro_flame_storm",
       name: "Flame Storm",
       description:
-        "You raise your arms and Scathrach screams into the sky. A swirling storm of fire descends on a 20-foot radius, dealing 8d6 + INT fire damage immediately and 2d6 + INT/2 fire damage per round for 3 rounds. The storm is not natural. It is the demon's rage made manifest — a localized apocalypse that turns earth to ash and air to agony.",
+        "You raise your arms and Scathrach screams into the sky. A swirling storm of fire descends on a 20-foot radius, dealing 8d6 + INT ember damage immediately and 2d6 + INT/2 ember damage per round for 3 rounds. The storm is not natural. It is the demon's rage made manifest — a localized apocalypse that turns earth to ash and air to agony.",
       level: 6,
       spellType: "ACTION",
       icon: "Fire/Swirling Fireball",
@@ -2019,7 +2019,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     { id: "pyro_infernal_brand_advanced",
       name: "Infernal Brand (Advanced)",
       description:
-        "You carve Scathrach's sigil into an enemy's flesh with a gesture. The brand sears into them — 4d6 + INT/3 fire damage immediately, then 2d6 + INT/2 fire per round for 4 rounds. The sigil does more than burn: it weakens, sapping the target's strength as Scathrach feeds on their vitality through the mark. They are branded. They are marked for the furnace.",
+        "You carve Scathrach's sigil into an enemy's flesh with a gesture. The brand sears into them — 4d6 + INT/3 ember damage immediately, then 2d6 + INT/2 ember per round for 4 rounds. The sigil does more than burn: it weakens, sapping the target's strength as Scathrach feeds on their vitality through the mark. They are branded. They are marked for the furnace.",
       level: 6,
       spellType: "ACTION",
       icon: "Fire/Fiery Symbol",
@@ -2107,7 +2107,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     { id: "pyro_volcanic_eruption",
       name: "Volcanic Eruption",
       description:
-        "You command the earth to open and Scathrach obliges with volcanic fury. A 25-foot radius eruption of magma and ash deals 12d6 + INT×2 fire damage (DC 16 Agility save for half). At Inferno Level 7+, the corruption deepens the caldera — 16d6 + INT×2. The ground becomes a crematorium. Bodies are not found. Only shapes in the slag.",
+        "You command the earth to open and Scathrach obliges with volcanic fury. A 25-foot radius eruption of magma and ash deals 12d6 + INT×2 ember damage (DC 16 Agility save for half). At Inferno Level 7+, the corruption deepens the caldera — 16d6 + INT×2. The ground becomes a crematorium. Bodies are not found. Only shapes in the slag.",
       level: 7,
       spellType: "ACTION",
       icon: "Fire/Flowing Lava",
@@ -2213,7 +2213,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     { id: "pyro_hellfire_breath",
       name: "Hellfire Breath",
       description:
-        "You inhale and Scathrach exhales through you. A 40-foot cone of hellfire pours from your throat — 10d6 + INT×2 fire damage. This is not a spell. This is regurgitation. The demon has been living in your chest and now it breathes. Anything caught in the cone does not catch fire. It was always on fire. It simply didn't know it until now.",
+        "You inhale and Scathrach exhales through you. A 40-foot cone of hellfire pours from your throat — 10d6 + INT×2 ember damage. This is not a spell. This is regurgitation. The demon has been living in your chest and now it breathes. Anything caught in the cone does not catch fire. It was always on fire. It simply didn't know it until now.",
       level: 7,
       spellType: "ACTION",
       icon: "Fire/Flame Burst",
@@ -2278,7 +2278,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     { id: "pyro_demonic_empowerment",
       name: "Demonic Empowerment",
       description:
-        "You open yourself fully to Scathrach's influence, allowing the demon to amplify your fire for 5 rounds. +5 fire damage on all fire-based attacks. As the channel deepens: enemies within 5 feet begin taking 1d6 fire (round 3), and your fire resistance doubles (round 5). This is borrowing power from the thing that is killing you. The interest rate is your soul.",
+        "You open yourself fully to Scathrach's influence, allowing the demon to amplify your ember for 5 rounds. +5 ember damage on all ember-based attacks. As the channel deepens: enemies within 5 feet begin taking 1d6 ember (round 3), and your ember resistance doubles (round 5). This is borrowing power from the thing that is killing you. The interest rate is your soul.",
       level: 7,
       spellType: "CHANNELED",
       icon: "Utility/Powerful Warrior",
@@ -2312,9 +2312,9 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
         buffType: "statEnhancement",
         effects: [
           { id : "fireDamageBoost",
-            name: "Fire Damage Boost",
+            name: "Ember Damage Boost",
             description:
-              "Fire damage increased by +5 for 5 rounds. All fire-based attacks deal additional damage as demonic power flows through your spells and abilities.",
+              "Ember damage increased by +5 for 5 rounds. All fire-based attacks deal additional damage as demonic power flows through your spells and abilities.",
             mechanicsText: "",
             statModifier: {
               stat: "fire_spell_power",
@@ -2339,20 +2339,20 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
         stages: [
           {
             threshold: 1,
-            effect: "+5 Fire Damage",
+            effect: "+5 Ember Damage",
             description: "Demonic empowerment active",
           },
           {
             threshold: 3,
-            effect: "+5 Fire Damage + Burning Aura",
+            effect: "+5 Ember Damage + Burning Aura",
             description:
               "Demonic power intensifies — enemies within 5 ft take 1d6 fire",
           },
           {
             threshold: 5,
-            effect: "+5 Fire Damage + Burning Aura + Inferno Resistance",
+            effect: "+5 Ember Damage + Burning Aura + Inferno Resistance",
             description:
-              "Full demonic empowerment — fire damage taken reduced by 50%",
+              "Full demonic empowerment — ember damage taken reduced by 50%",
           },
         ],
       },
@@ -2371,7 +2371,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     { id: "pyro_meteor_shower",
       name: "Meteor Shower",
       description:
-        "You reach into Scathrach's furnace and pull down the sky. A shower of flaming meteors descends on a 30-foot radius, dealing 14d6 + INT×2 fire damage with explosive force. The ground craters. The air ignites. This is not a spell — it is a natural disaster with your body as the epicenter.",
+        "You reach into Scathrach's furnace and pull down the sky. A shower of flaming meteors descends on a 30-foot radius, dealing 14d6 + INT×2 ember damage with explosive force. The ground craters. The air ignites. This is not a spell — it is a natural disaster with your body as the epicenter.",
       level: 8,
       spellType: "ACTION",
       icon: "Fire/Fiery Comet",
@@ -2440,7 +2440,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     { id: "pyro_infernal_nova",
       name: "Infernal Nova",
       description:
-        "You detonate. Not metaphorically — you become the explosion. A massive sphere of infernal fire expands outward in all directions, dealing 14d6 + INT×2 fire damage to everything within 35 feet. Scathrach laughs. You scream. The distinction between the two sounds becomes academic. This is the nuclear option. Everything burns, including you.",
+        "You detonate. Not metaphorically — you become the explosion. A massive sphere of infernal fire expands outward in all directions, dealing 14d6 + INT×2 ember damage to everything within 35 feet. Scathrach laughs. You scream. The distinction between the two sounds becomes academic. This is the nuclear option. Everything burns, including you.",
       level: 8,
       spellType: "ACTION",
       icon: "Fire/Swirling Fireball",
@@ -2490,7 +2490,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     { id: "pyro_phoenix_flame",
       name: "Phoenix Flame",
       description:
-        "You summon the ghost of a phoenix — or perhaps Scathrach merely allows you to believe that. A 25-foot radius detonation deals 12d6 + INT×2 fire damage, then the ground itself catches fire: 3d6 + INT/2 fire damage per round for 4 rounds. The flames do not die. They persist, feeding on the corruption you've seeded into the earth. This is a funeral pyre. The question is whose.",
+        "You summon the ghost of a phoenix — or perhaps Scathrach merely allows you to believe that. A 25-foot radius detonation deals 12d6 + INT×2 ember damage, then the ground itself catches fire: 3d6 + INT/2 ember damage per round for 4 rounds. The flames do not die. They persist, feeding on the corruption you've seeded into the earth. This is a funeral pyre. The question is whose.",
       level: 8,
       spellType: "ACTION",
       icon: "Fire/Rising Inferno",
@@ -2559,7 +2559,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     { id: "pyro_infernal_avatar",
       name: "Infernal Avatar",
       description:
-        "You stop being human and start being a furnace. For 10 rounds, you become an Infernal Avatar — a being of pure demonic fire, wreathed in Scathrach's essence. +5 fire spell power, +3 DR, fire immunity, and a burning aura (2d6 fire to enemies within 10 feet). Your skin is gone. Your voice is gone. Only the fire remains. When it ends, you will feel every second of what you've become.",
+        "You stop being human and start being a furnace. For 10 rounds, you become an Infernal Avatar — a being of pure demonic fire, wreathed in Scathrach's essence. +5 ember spell power, +3 DR, ember immunity, and a burning aura (2d6 ember to enemies within 10 feet). Your skin is gone. Your voice is gone. Only the fire remains. When it ends, you will feel every second of what you've become.",
       level: 9,
       spellType: "CHANNELED",
       icon: "Fire/Fire Demon",
@@ -2607,7 +2607,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
           {
             name: "Burning Aura",
             description:
-              "Enemies within 10 feet take 2d6 fire damage at the start of their turn",
+              "Enemies within 10 feet take 2d6 ember damage at the start of their turn",
           },
         ],
       },
@@ -2634,7 +2634,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     { id: "pyro_apocalypse",
       name: "Apocalypse",
       description:
-        "Scathrach's grandest gift and cruelest joke. A cataclysmic explosion deals 16d10 + INT×2 fire damage in a 40-foot radius. At maximum Inferno Level, damage dice explode on max rolls — the demon's fury is infinite, and it chooses to share. This is the end of something. Possibly the enemy. Possibly you. The blast radius is a grave. The silence afterward is Scathrach's applause.",
+        "Scathrach's grandest gift and cruelest joke. A cataclysmic explosion deals 16d10 + INT×2 ember damage in a 40-foot radius. At maximum Inferno Level, damage dice explode on max rolls — the demon's fury is infinite, and it chooses to share. This is the end of something. Possibly the enemy. Possibly you. The blast radius is a grave. The silence afterward is Scathrach's applause.",
       level: 9,
       spellType: "ACTION",
       icon: "Utility/Explosive Detonation",
@@ -2693,7 +2693,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     { id: "pyro_hellfire_ritual",
       name: "Hellfire Ritual",
       description:
-        "You perform a ritual of invocation — not to summon Scathrach, but to open the floodgates wider. For 3 rounds, your fire damage surges by +10. The demon does not grant this power freely; it uses the ritual to deepen its hold. By round 3, your Inferno Level bonuses are doubled. This is borrowing against your own annihilation.",
+        "You perform a ritual of invocation — not to summon Scathrach, but to open the floodgates wider. For 3 rounds, your ember damage surges by +10. The demon does not grant this power freely; it uses the ritual to deepen its hold. By round 3, your Inferno Level bonuses are doubled. This is borrowing against your own annihilation.",
       level: 9,
       spellType: "CHANNELED",
       icon: "Radiant/Radiant Divinity",
@@ -2788,7 +2788,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     { id: "pyro_brimstone_teleport",
       name: "Brimstone Teleport",
       description:
-        "You tear a wound in reality and step through Scathrach's furnace, reappearing up to 60 feet away in a burst of hellfire that deals 6d6 + INT×2 fire damage to everything within 10 feet of your arrival. The teleport is not travel — it is passing through the demon's maw. You are digested and reborn in fire. The destination does not thank you.",
+        "You tear a wound in reality and step through Scathrach's furnace, reappearing up to 60 feet away in a burst of hellfire that deals 6d6 + INT×2 ember damage to everything within 10 feet of your arrival. The teleport is not travel — it is passing through the demon's maw. You are digested and reborn in fire. The destination does not thank you.",
       level: 10,
       spellType: "ACTION",
       icon: "Fire/Burning Ember",
@@ -2856,7 +2856,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     { id: "pyro_demonic_ascension",
       name: "Demonic Ascension",
       description:
-        "You surrender completely. Demonic Ascension is the final act of the Damned Conduit — transforming into a true demon of fire with overwhelming power. +15 fire damage to all spells, +5 DR, fire immunity, flight (30 ft), and enemies within 15 feet take 3d6 fire at the start of their turn. **WARNING:** This spell requires Inferno Level 9. The death clock does NOT pause while transformed — you must still descend below Level 9 within 3 of your turns or Scathrach claims you. Permanently. This is not a power-up. It is a eulogy you perform while still alive.",
+        "You surrender completely. Demonic Ascension is the final act of the Damned Conduit — transforming into a true demon of fire with overwhelming power. +15 ember damage to all spells, +5 DR, ember immunity, flight (30 ft), and enemies within 15 feet take 3d6 ember at the start of their turn. **WARNING:** This spell requires Inferno Level 9. The death clock does NOT pause while transformed — you must still descend below Level 9 within 3 of your turns or Scathrach claims you. Permanently. This is not a power-up. It is a eulogy you perform while still alive.",
       level: 10,
       spellType: "ACTION",
       icon: "Fire/Fire Demon",
@@ -2892,7 +2892,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
           { id : "demonicAscension_power",
             name: "Demonic Ascension",
             description:
-              "+15 fire damage to all spells, +5 DR, fire damage immunity, flight (30 ft), and enemies within 15 feet take 3d6 fire damage at start of their turn. Requires Inferno Level 9. Death clock still ticks.",
+              "+15 ember damage to all spells, +5 DR, ember damage immunity, flight (30 ft), and enemies within 15 feet take 3d6 ember damage at start of their turn. Requires Inferno Level 9. Death clock still ticks.",
             mechanicsText: "",
           },
           { id : "demonicAscension_armor",
@@ -2946,7 +2946,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     { id: "pyro_inferno_mastery",
       name: "Inferno Mastery",
       description:
-        "The ultimate expression of Scathrach's hunger made manifest through your ruined body. A cataclysmic inferno consumes a 50-foot radius, dealing 20d10 + INT×2 fire damage. At Inferno Level 7+, it deepens to 22d10. At Level 9, 25d10 + INT×3. This is not a spell. This is what happens when the demon stops pretending you're in control. The world burns. You burn. The distinction is meaningless.",
+        "The ultimate expression of Scathrach's hunger made manifest through your ruined body. A cataclysmic inferno consumes a 50-foot radius, dealing 20d10 + INT×2 ember damage. At Inferno Level 7+, it deepens to 22d10. At Level 9, 25d10 + INT×3. This is not a spell. This is what happens when the demon stops pretending you're in control. The world burns. You burn. The distinction is meaningless.",
       level: 10,
       spellType: "ACTION",
       icon: "Fire/Fire Orb",
@@ -3057,7 +3057,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     { id: "pyrofiend_fire_dependency",
       name: "Fire Dependency",
       description:
-        "Your body runs at a temperature that makes cold damage catastrophically lethal. You take +50% damage from all cold and frost attacks (rounded up). Additionally, any cold damage received forces your Inferno Veil to ascend by +1 — Scathrach's furnace burns hotter to compensate for internal crystallization, turning frost into fuel for your corruption. If submerged in water or affected by a cold environment, your Inferno Level decreases by 2 per round instead of the normal descent rate. Water is not uncomfortable. It is antithetical to your existence. Frost does not soothe the furnace — it enrages the demon.",
+        "Your body runs at a temperature that makes rime damage catastrophically lethal. You take +50% damage from all cold and frost attacks (rounded up). Additionally, any rime damage received forces your Inferno Veil to ascend by +1 — Scathrach's furnace burns hotter to compensate for internal crystallization, turning frost into fuel for your corruption. If submerged in water or affected by a cold environment, your Inferno Level decreases by 2 per round instead of the normal descent rate. Water is not uncomfortable. It is antithetical to your existence. Frost does not soothe the furnace — it enrages the demon.",
       level: 1,
       spellType: "PASSIVE",
       icon: "Frost/Icy Shield",

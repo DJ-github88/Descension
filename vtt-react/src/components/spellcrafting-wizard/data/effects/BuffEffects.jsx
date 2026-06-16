@@ -185,19 +185,19 @@ const STATUS_EFFECTS = [
       {
         id: 'ember',
         name: 'Fire Infusion',
-        description: 'Attacks deal additional fire damage',
+        description: 'Attacks deal additional ember damage',
         icon: 'Fire/Flame Burst'
       },
       {
         id: 'rime',
         name: 'Frost Infusion',
-        description: 'Attacks deal additional cold damage and slow targets',
+        description: 'Attacks deal additional rime damage and slow targets',
         icon: 'Frost/Frozen in Ice'
       },
       {
         id: 'storm',
         name: 'Lightning Infusion',
-        description: 'Attacks deal additional lightning damage and may jump to nearby targets',
+        description: 'Attacks deal additional storm damage and may jump to nearby targets',
         icon: 'Lightning/Lightning Bolt'
       }
     ]
@@ -439,13 +439,37 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
       ...buffConfig,
       [key]: value
     };
+
+    // Keep durationType and durationUnit in sync
+    if (key === 'durationType') {
+      if (value === 'turns' || value === 'rounds') {
+        newConfig.durationUnit = value;
+      } else if (value === 'time') {
+        newConfig.durationUnit = newConfig.durationUnit || 'minutes';
+      } else if (value === 'permanent') {
+        newConfig.durationUnit = 'permanent';
+      }
+    }
+    if (key === 'durationUnit') {
+      newConfig.durationType = newConfig.durationType || value;
+    }
+    if (key === 'durationValue') {
+      newConfig.duration = value; // Legacy field
+    }
+
     setBuffConfig(newConfig);
 
     // Immediately dispatch to global state for preview updates
     dispatch(actionCreators.updateBuffConfig(newConfig));
 
-    // If updating the global magnitude or magnitudeType, don't apply to existing modifiers
-    // Each stat now has its own magnitude and type
+    // Also sync duration fields to top-level durationConfig so the card updates immediately
+    if (['durationType', 'durationUnit', 'durationValue', 'duration'].includes(key)) {
+      dispatch(actionCreators.updateDurationConfig({
+        durationType: newConfig.durationType || newConfig.durationUnit || 'rounds',
+        durationUnit: newConfig.durationUnit || newConfig.durationType || 'rounds',
+        durationValue: newConfig.durationValue || newConfig.duration || 1
+      }));
+    }
   };
 
   // Show tooltip on hover
@@ -471,11 +495,6 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
             {effect.description}
           </div>
 
-          {/* Show simple buff description */}
-          <div className="pathfinder-tooltip-effect">
-            +2 {effect.name.charAt(0).toUpperCase() + effect.name.slice(1)}
-          </div>
-
           {/* Show configured options if this effect is selected */}
           {isSelected && (
             <div className="pathfinder-tooltip-section">
@@ -486,14 +505,28 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
                   <span className="pathfinder-tooltip-label">Option:</span> {
                     effect.options.find(o => o.id === selectedEffect.option)?.name || 'None'
                   }
+                  {effect.options.find(o => o.id === selectedEffect.option)?.description && (
+                    <div className="pathfinder-tooltip-meta" style={{ marginTop: 2, opacity: 0.85 }}>
+                      {effect.options.find(o => o.id === selectedEffect.option).description}
+                    </div>
+                  )}
                 </div>
               )}
 
               {selectedEffect.level && (
                 <div className="pathfinder-tooltip-option">
-                  <span className="pathfinder-tooltip-label">Level:</span> {selectedEffect.level}
+                  <span className="pathfinder-tooltip-label">Level:</span> {selectedEffect.level.charAt(0).toUpperCase() + selectedEffect.level.slice(1)}
                 </div>
               )}
+
+              {selectedEffect.option && selectedEffect.level && (() => {
+                const desc = getEffectDescription(effect.id, selectedEffect.option, selectedEffect.level);
+                return desc && desc !== effect.description ? (
+                  <div className="pathfinder-tooltip-meta" style={{ marginTop: 4, fontStyle: 'italic', opacity: 0.9 }}>
+                    {desc}
+                  </div>
+                ) : null;
+              })()}
 
               {/* Show lifelink specific configuration */}
               {effect.id === 'lifelink' && (
@@ -584,8 +617,18 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
 
   // Helper function to get icon URL
   const getIconUrl = (iconName) => {
-    if (!iconName) return '';
-    return getAbilityIconUrl(iconName);
+    if (!iconName || typeof iconName !== 'string') return '';
+    try {
+      return getAbilityIconUrl(iconName);
+    } catch (e) {
+      return '';
+    }
+  };
+
+  // Fallback icon for broken image loads
+  const handleIconError = (e) => {
+    e.target.onerror = null;
+    e.target.src = getIconUrl('Utility/Utility');
   };
 
   // Get resistance scaling options
@@ -672,36 +715,24 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
     const RESISTANCE_MODIFIERS = [
       { id: 'all_resistances', name: 'All Resistances', icon: 'Radiant/Radiant Golden Shield', description: 'Modifies resistance to all damage types', category: 'resistance', resistanceType: 'general' },
       { id: 'physical_resistance', name: 'Physical Resistance', icon: 'Utility/Shield', description: 'Modifies resistance to physical damage', category: 'resistance', resistanceType: 'standard' },
-      { id: 'fire_resistance', name: 'Fire Resistance', icon: 'Fire/Flame Shield', description: 'Modifies resistance to fire damage', category: 'resistance', resistanceType: 'standard' },
-      { id: 'cold_resistance', name: 'Cold Resistance', icon: 'Frost/Frozen in Ice', description: 'Modifies resistance to cold damage', category: 'resistance', resistanceType: 'standard' },
-      { id: 'lightning_resistance', name: 'Lightning Resistance', icon: 'Lightning/Lightning Shield', description: 'Modifies resistance to lightning damage', category: 'resistance', resistanceType: 'standard' },
-      { id: 'acid_resistance', name: 'Acid Resistance', icon: 'Poison/Acid Splash', description: 'Modifies resistance to acid damage', category: 'resistance', resistanceType: 'standard' },
-      { id: 'necrotic_resistance', name: 'Necrotic Resistance', icon: 'Radiant/Radiant Divinity', description: 'Modifies resistance to necrotic damage', category: 'resistance', resistanceType: 'standard' },
-      { id: 'radiant_resistance', name: 'Radiant Resistance', icon: 'Radiant/Divine Blessing', description: 'Modifies resistance to radiant damage', category: 'resistance', resistanceType: 'standard' },
-      { id: 'poison_resistance', name: 'Poison Resistance', icon: 'Poison/Poison Venom', description: 'Modifies resistance to poison damage', category: 'resistance', resistanceType: 'standard' },
-      { id: 'psychic_resistance', name: 'Psychic Resistance', icon: 'Psychic/Mind Roar', description: 'Modifies resistance to psychic damage', category: 'resistance', resistanceType: 'standard' },
-      { id: 'thunder_resistance', name: 'Thunder Resistance', icon: 'Lightning/Thunder', description: 'Modifies resistance to thunder damage', category: 'resistance', resistanceType: 'standard' },
-      { id: 'force_resistance', name: 'Force Resistance', icon: 'Arcane/Magical Sword', description: 'Modifies resistance to force damage', category: 'resistance', resistanceType: 'standard' },
-      { id: 'slashing_resistance', name: 'Slashing Resistance', icon: 'Slashing/Sword Pierce', description: 'Modifies resistance to slashing damage', category: 'resistance', resistanceType: 'standard' },
-      { id: 'piercing_resistance', name: 'Piercing Resistance', icon: 'Piercing/Thrown Dagger', description: 'Modifies resistance to piercing damage', category: 'resistance', resistanceType: 'standard' },
-      { id: 'bludgeoning_resistance', name: 'Bludgeoning Resistance', icon: 'Bludgeoning/Mortal Strike', description: 'Modifies resistance to bludgeoning damage', category: 'resistance', resistanceType: 'standard' },
+      { id: 'ember_resistance', name: 'Ember Resistance', icon: 'Fire/Flame Shield', description: 'Modifies resistance to ember damage', category: 'resistance', resistanceType: 'standard' },
+      { id: 'rime_resistance', name: 'Rime Resistance', icon: 'Frost/Frozen in Ice', description: 'Modifies resistance to rime damage', category: 'resistance', resistanceType: 'standard' },
+      { id: 'storm_resistance', name: 'Storm Resistance', icon: 'Lightning/Lightning Shield', description: 'Modifies resistance to storm damage', category: 'resistance', resistanceType: 'standard' },
+      { id: 'arcane_resistance', name: 'Arcane Resistance', icon: 'Arcane/Conjure Elements', description: 'Modifies resistance to arcane damage', category: 'resistance', resistanceType: 'standard' },
+      { id: 'primal_resistance', name: 'Primal Resistance', icon: 'Nature/Amplified Senses', description: 'Modifies resistance to primal damage', category: 'resistance', resistanceType: 'standard' },
+      { id: 'blight_resistance', name: 'Blight Resistance', icon: 'Necrotic/Bloody Eyes', description: 'Modifies resistance to blight damage', category: 'resistance', resistanceType: 'standard' },
+      { id: 'wyrd_resistance', name: 'Wyrd Resistance', icon: 'Psychic/Brain Psionics', description: 'Modifies resistance to wyrd damage', category: 'resistance', resistanceType: 'standard' },
 
       // Absorption types - use flat numbers for all damage types
       { id: 'damage_absorption', name: 'All Damage Absorption', icon: 'Arcane/Empowering Growth', description: 'Absorbs a fixed amount of all damage', category: 'resistance', resistanceType: 'absorption' },
       { id: 'physical_absorption', name: 'Physical Absorption', icon: 'Utility/Shield', description: 'Absorbs a fixed amount of physical damage', category: 'resistance', resistanceType: 'absorption' },
-      { id: 'fire_absorption', name: 'Fire Absorption', icon: 'Fire/Flame Shield', description: 'Absorbs a fixed amount of fire damage', category: 'resistance', resistanceType: 'absorption' },
-      { id: 'cold_absorption', name: 'Cold Absorption', icon: 'Frost/Frozen in Ice', description: 'Absorbs a fixed amount of cold damage', category: 'resistance', resistanceType: 'absorption' },
-      { id: 'lightning_absorption', name: 'Lightning Absorption', icon: 'Lightning/Lightning Shield', description: 'Absorbs a fixed amount of lightning damage', category: 'resistance', resistanceType: 'absorption' },
-      { id: 'acid_absorption', name: 'Acid Absorption', icon: 'Poison/Acid Splash', description: 'Absorbs a fixed amount of acid damage', category: 'resistance', resistanceType: 'absorption' },
-      { id: 'necrotic_absorption', name: 'Necrotic Absorption', icon: 'Radiant/Radiant Divinity', description: 'Absorbs a fixed amount of necrotic damage', category: 'resistance', resistanceType: 'absorption' },
-      { id: 'radiant_absorption', name: 'Radiant Absorption', icon: 'Radiant/Divine Blessing', description: 'Absorbs a fixed amount of radiant damage', category: 'resistance', resistanceType: 'absorption' },
-      { id: 'poison_absorption', name: 'Poison Absorption', icon: 'Poison/Poison Venom', description: 'Absorbs a fixed amount of poison damage', category: 'resistance', resistanceType: 'absorption' },
-      { id: 'psychic_absorption', name: 'Psychic Absorption', icon: 'Psychic/Mind Roar', description: 'Absorbs a fixed amount of psychic damage', category: 'resistance', resistanceType: 'absorption' },
-      { id: 'thunder_absorption', name: 'Thunder Absorption', icon: 'Lightning/Thunder', description: 'Absorbs a fixed amount of thunder damage', category: 'resistance', resistanceType: 'absorption' },
-      { id: 'force_absorption', name: 'Force Absorption', icon: 'Arcane/Magical Sword', description: 'Absorbs a fixed amount of force damage', category: 'resistance', resistanceType: 'absorption' },
-      { id: 'slashing_absorption', name: 'Slashing Absorption', icon: 'Slashing/Sword Pierce', description: 'Absorbs a fixed amount of slashing damage', category: 'resistance', resistanceType: 'absorption' },
-      { id: 'piercing_absorption', name: 'Piercing Absorption', icon: 'Piercing/Thrown Dagger', description: 'Absorbs a fixed amount of piercing damage', category: 'resistance', resistanceType: 'absorption' },
-      { id: 'bludgeoning_absorption', name: 'Bludgeoning Absorption', icon: 'Bludgeoning/Mortal Strike', description: 'Absorbs a fixed amount of bludgeoning damage', category: 'resistance', resistanceType: 'absorption' },
+      { id: 'ember_absorption', name: 'Ember Absorption', icon: 'Fire/Flame Shield', description: 'Absorbs a fixed amount of ember damage', category: 'resistance', resistanceType: 'absorption' },
+      { id: 'rime_absorption', name: 'Rime Absorption', icon: 'Frost/Frozen in Ice', description: 'Absorbs a fixed amount of rime damage', category: 'resistance', resistanceType: 'absorption' },
+      { id: 'storm_absorption', name: 'Storm Absorption', icon: 'Lightning/Lightning Shield', description: 'Absorbs a fixed amount of storm damage', category: 'resistance', resistanceType: 'absorption' },
+      { id: 'arcane_absorption', name: 'Arcane Absorption', icon: 'Arcane/Conjure Elements', description: 'Absorbs a fixed amount of arcane damage', category: 'resistance', resistanceType: 'absorption' },
+      { id: 'primal_absorption', name: 'Primal Absorption', icon: 'Nature/Amplified Senses', description: 'Absorbs a fixed amount of primal damage', category: 'resistance', resistanceType: 'absorption' },
+      { id: 'blight_absorption', name: 'Blight Absorption', icon: 'Necrotic/Bloody Eyes', description: 'Absorbs a fixed amount of blight damage', category: 'resistance', resistanceType: 'absorption' },
+      { id: 'wyrd_absorption', name: 'Wyrd Absorption', icon: 'Psychic/Brain Psionics', description: 'Absorbs a fixed amount of wyrd damage', category: 'resistance', resistanceType: 'absorption' },
       { id: 'magical_absorption', name: 'Magical Absorption', icon: 'Arcane/Ebon Blaze', description: 'Absorbs a fixed amount of magical damage', category: 'resistance', resistanceType: 'absorption' }
     ];
 
@@ -1073,9 +1104,9 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
           reaction: "Gain an additional reaction once during the duration"
         },
         elemental_infusion: {
-          fire: "Weapon attacks deal +1d4 fire damage",
-          frost: "Weapon attacks deal +1d4 cold damage",
-          lightning: "Weapon attacks deal +1d4 lightning damage"
+          ember: "Weapon attacks deal +1d4 ember damage",
+          rime: "Weapon attacks deal +1d4 rime damage",
+          storm: "Weapon attacks deal +1d4 storm damage"
         },
         invisibility: {
           partial: "You gain +5 to Stealth checks",
@@ -1124,9 +1155,9 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
           reaction: "Gain an additional reaction each turn"
         },
         elemental_infusion: {
-          fire: "Weapon attacks deal +2d4 fire damage, set targets on fire, and create a 10-foot fire aura",
-          frost: "Weapon attacks deal +2d4 cold damage, reduce target's speed to 0, and create a 10-foot cold aura",
-          lightning: "Weapon attacks deal +2d4 lightning damage, chain to up to 3 targets, and create a 10-foot lightning aura"
+          ember: "Weapon attacks deal +2d4 ember damage, set targets on fire, and create a 10-foot ember aura",
+          rime: "Weapon attacks deal +2d4 rime damage, reduce target's speed to 0, and create a 10-foot rime aura",
+          storm: "Weapon attacks deal +2d4 storm damage, chain to up to 3 targets, and create a 10-foot storm aura"
         },
         invisibility: {
           partial: "Attacks against you have disadvantage",
@@ -1175,9 +1206,9 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
           reaction: "You can take any number of reactions per round"
         },
         elemental_infusion: {
-          fire: "Weapon attacks deal +3d6 fire damage, set targets on fire, and create a 10-foot fire aura",
-          frost: "Weapon attacks deal +3d6 cold damage, reduce target's speed to 0, and create a 10-foot cold aura",
-          lightning: "Weapon attacks deal +3d6 lightning damage, chain to up to 3 targets, and create a 10-foot lightning aura"
+          ember: "Weapon attacks deal +3d6 ember damage, set targets on fire, and create a 10-foot ember aura",
+          rime: "Weapon attacks deal +3d6 rime damage, reduce target's speed to 0, and create a 10-foot rime aura",
+          storm: "Weapon attacks deal +3d6 storm damage, chain to up to 3 targets, and create a 10-foot storm aura"
         },
         invisibility: {
           partial: "You can Hide for 1 AP and gain +10 to Stealth checks",
@@ -1454,6 +1485,7 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
                                   updateBuffConfig('progressiveStages', updatedStages);
                                 }}
                                 label="Select a spell to trigger at this stage"
+                                compact={true}
                               />
                             </div>
                           </div>
@@ -1499,7 +1531,7 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
                                           />
                                         </div>
                                         <div className="stage-stat-icon">
-                                          <img src={getIconUrl(stat.icon)} alt={stat.name} />
+                                          <img src={getIconUrl(stat.icon)} alt={stat.name} onError={handleIconError} />
                                         </div>
                                         <div className="stage-stat-name">{stat.name}</div>
 
@@ -1631,7 +1663,7 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
             {buffConfig.statModifiers.map(stat => (
               <div className="pf-selected-stat" key={stat.id}>
                 <div className="pf-stat-icon">
-                  <img src={getIconUrl(stat.icon)} alt={stat.name} />
+                  <img src={getIconUrl(stat.icon)} alt={stat.name} onError={handleIconError} />
                 </div>
                 <div className="pf-stat-info">
                   <div className="pf-stat-name">{stat.name}</div>
@@ -1969,7 +2001,7 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
                 onMouseMove={handleMouseMove}
               >
                 <div className="pf-status-icon">
-                  <img src={getIconUrl(effect.icon)} alt={effect.name} />
+                  <img src={getIconUrl(effect.icon)} alt={effect.name} onError={handleIconError} />
                 </div>
                 <div className="pf-status-name">{effect.name}</div>
                 <div className="pf-status-description">{effect.description}</div>

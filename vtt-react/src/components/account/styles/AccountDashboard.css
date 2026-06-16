@@ -3412,8 +3412,29 @@
   max-width: 100% !important;
 }
 
+.character-card-compact .class-resource-full .minstrel-header {
+  min-height: 12px !important;
+}
+.character-card-compact .class-resource-full .minstrel-spec-pill {
+  padding: 0 4px !important;
+  font-size: 0 !important;
+}
+.character-card-compact .class-resource-full .minstrel-spec-pill .spec-dot {
+  width: 5px !important;
+  height: 5px !important;
+}
+.character-card-compact .class-resource-full .minstrel-totals {
+  font-size: 0.55rem !important;
+}
+.character-card-compact .class-resource-full .minstrel-total-count,
+.character-card-compact .class-resource-full .minstrel-ready-badge {
+  font-size: 0.55rem !important;
+  padding: 0 3px !important;
+}
+
 .character-card-compact .class-resource-full .musical-notes-bar-wrapper {
   flex: 1 !important;
+  height: 18px !important;
 }
 
 .character-card-compact .class-resource-full .musical-notes-segments {
@@ -3422,10 +3443,17 @@
 }
 
 .character-card-compact .class-resource-full .musical-note-segment {
-  min-width: 20px !important;
-  max-width: 35px !important;
+  min-width: 14px !important;
+  max-width: 28px !important;
   border-radius: 3px !important;
   border-width: 1px !important;
+  padding: 1px !important;
+}
+
+.character-card-compact .class-resource-full .note-pip {
+  height: 2px !important;
+  max-width: 8px !important;
+  border-radius: 1px !important;
 }
 
 .character-card-compact .class-resource-full .note-label {
@@ -3437,10 +3465,25 @@
   line-height: 1 !important;
 }
 
-.character-card-compact .class-resource-full .note-count {
-  font-size: 0.65rem !important;
-  font-weight: 700 !important;
-  line-height: 1 !important;
+.character-card-compact .class-resource-full .note-count-badge {
+  font-size: 0.5rem !important;
+  top: 0 !important;
+  right: 1px !important;
+}
+
+/* Condensed cadence chips on compact cards: icon only */
+.character-card-compact .class-resource-full .minstrel-cadence-chips {
+  gap: 2px !important;
+}
+.character-card-compact .class-resource-full .cadence-chip {
+  padding: 1px 3px !important;
+  font-size: 0 !important;
+}
+.character-card-compact .class-resource-full .cadence-chip i {
+  font-size: 0.5rem !important;
+}
+.character-card-compact .class-resource-full .cadence-chip .cadence-chip-name {
+  display: none !important;
 }
 
 .character-card-compact .class-resource-full .resource-label {

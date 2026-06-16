@@ -447,15 +447,8 @@
 }
 
 @media (max-width: 768px) {
-    .equipment-shop-grid {
-        --cell-size: 44px;
-        --grid-cols: 8;
-    }
-
-    .equipment-cart-grid {
-        --cell-size: 44px;
-        --grid-cols: 8;
-    }
+    /* Cell size and column count are now controlled by JS (cellSize state)
+       to keep grid cells and item-icon-wrapper dimensions in sync. */
 
     .equipment-category-filter {
         flex-wrap: wrap;
@@ -475,19 +468,17 @@
     .equipment-cart-panel {
         padding: 0.5rem;
     }
+
+    /* Mobile section tabs - show only active panel */
+    .equipment-selection-main[data-mobile-panel="shop"] > .equipment-cart-panel {
+        display: none !important;
+    }
+    .equipment-selection-main[data-mobile-panel="cart"] > .equipment-shop-panel {
+        display: none !important;
+    }
 }
 
 @media (max-width: 480px) {
-    .equipment-shop-grid {
-        --cell-size: 40px;
-        --grid-cols: 7;
-    }
-
-    .equipment-cart-grid {
-        --cell-size: 40px;
-        --grid-cols: 7;
-    }
-
     .equipment-shop-panel,
     .equipment-cart-panel {
         padding: 0.4rem;

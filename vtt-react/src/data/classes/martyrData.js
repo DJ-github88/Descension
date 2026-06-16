@@ -189,7 +189,7 @@ The Martyr shines in prolonged encounters where they can build Devotion Levels a
 **Start of Turn â€” Level 2 Passive**: Regain 1d6 HP â†’ [4] = 4 â†’ HP: 75 + 4 = **79**
 
 **Demon Lord attacks you**:
-**Attack**: 3d10+6 fire â†’ [8, 9, 7]+6 = **30 fire damage**
+**Attack**: 3d10+6 fire â†’ [8, 9, 7]+6 = **30 ember damage**
 **Level 1 Passive (first instance this round)**: Resistance â†’ 30 Ã· 2 = **15 damage**
 **Your HP**: 79 âˆ’ 15 = **64/100**
 **Total Damage Taken**: 25 + 15 = 40
@@ -220,7 +220,7 @@ Mage: 34/70 + 5 temp HP | Tank: 46/90 + 0 temp HP
 **Start of Turn â€” Level 2 Passive**: Regain 1d6 HP â†’ [3] = 3 â†’ HP: 64 + 3 = **67**
 
 **Demon Lord attacks you**:
-**Attack**: 2d10+6 fire â†’ [7, 8]+6 = **21 fire damage**
+**Attack**: 2d10+6 fire â†’ [7, 8]+6 = **21 ember damage**
 **Level 1 Passive (first instance this round)**: Resistance â†’ 21 Ã· 2 = **10 damage** (rounded down)
 **Your HP**: 67 âˆ’ 10 = **57/100**
 **Total Damage Taken**: 40 + 10 = 50
@@ -238,7 +238,7 @@ Mage: 34/70 + 5 temp HP | Tank: 46/90 + 0 temp HP
 **Suffering's Gift**: Allies gain 4 temp HP â†’ Mage has 5 (4 < 5, no change) | Tank has 3 (4 > 3) â†’ Tank: **4 temp HP**
 
 **Lesser Demon #2 attacks Mage**:
-**Attack**: 1d10+3 â†’ [5]+3 = 8 slashing damage
+**Attack**: 1d10+3 â†’ [5]+3 = 8 physical damage
 **Level 4 Passive**: Allies resist first damage type â†’ 8 Ã· 2 = **4 damage** to Mage
 **Mage's 5 temp HP** absorbs 4 â†’ Mage takes 0 â†’ Mage: **34/70** (1 temp HP remaining)
 
@@ -272,7 +272,7 @@ Mage: 66/70 + 1 temp HP | Tank: 46/90 + 4 temp HP
 **Start of Turn â€” Level 2 Passive**: Regain 1d6 HP â†’ [5] = 5 â†’ HP: 40 + 5 = **45**
 
 **Demon Lord attacks you**:
-**Attack**: 2d10+6 fire â†’ [9, 7]+6 = **22 fire damage**
+**Attack**: 2d10+6 fire â†’ [9, 7]+6 = **22 ember damage**
 **Level 1 Passive (first instance this round)**: Resistance â†’ 22 Ã· 2 = **11 damage**
 **Your HP**: 45 âˆ’ 11 = **34/100**
 **Total Damage Taken**: 62 + 11 = 73
@@ -291,7 +291,7 @@ Mage: 66/70 + 1 temp HP | Tank: 46/90 + 4 temp HP
 
 **Your Action â€” Devoted Strike** at Lesser Demon #2 (6 mana, melee):
 **Attack Roll**: d20+5 â†’ [18] = Hit!
-**Damage**: 1d8 + Strength(3) â†’ [7]+3 = **10 radiant damage**
+**Damage**: 1d8 + Strength(3) â†’ [7]+3 = **10 ember damage**
 **Self-Heal**: Strength(3) Ã· 2 = 1 HP â†’ HP: 23 + 1 = **24/100**
 **Result**: Lesser Demon #2 is wounded
 
@@ -521,12 +521,12 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
         description: `Zealot Martyrs channel their suffering into devastating radiant attacks fueled by the Wrath Tithe — a covenant where every point of bonus damage extracted from their Devotion demands an equal toll of flesh. They believe that pain purifies and empowers, but the price is literal: half of their offensive bonus tears through their own body on its way to the enemy. The more they suffer, the more destructive their righteous fury becomes — and the faster they kill themselves doing it.`,
 
         playstyle:
-          "Aggressive support, radiant damage through self-harm, offensive buffs with a visceral tax",
+          "Aggressive support, ember damage through self-harm, offensive buffs with a visceral tax",
 
         strengths: [
           "Highest damage output of all Martyr specs via Wrath Tithe scaling",
-          "Wrath Tithe: +(Devotion Level x 3) bonus radiant damage — devastating at high Devotion",
-          "Strong radiant damage scaling with Devotion — suffering is ammunition",
+          "Wrath Tithe: +(Devotion Level x 3) bonus ember damage — devastating at high Devotion",
+          "Strong ember damage scaling with Devotion — suffering is ammunition",
           "Excellent at eliminating priority targets when health is low",
         ],
 
@@ -549,7 +549,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
             name: "Zealous Wrath",
             tier: "Specialization Passive",
             description:
-              "Wrath Tithe: Your radiant damage spells deal additional damage equal to your current Devotion Level x 3. However, you suffer half of this bonus damage as radiant self-harm. The conviction that burns through your enemies must first cauterize your own flesh. At Devotion 6, a single radiant spell deals +18 bonus damage — and you take 9 damage to yourself. There is no borrowed power here. Only borrowed pain.",
+              "Wrath Tithe: Your ember damage spells deal additional damage equal to your current Devotion Level x 3. However, you suffer half of this bonus damage as radiant self-harm. The conviction that burns through your enemies must first cauterize your own flesh. At Devotion 6, a single radiant spell deals +18 bonus damage — and you take 9 damage to yourself. There is no borrowed power here. Only borrowed pain.",
             uniqueTo: "Zealot",
           },
         ],
@@ -625,7 +625,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
 
         weaknesses: [
           "Movement speed reduced by 10 feet — the slowest Martyr spec",
-          "Vulnerability to Lightning damage (conductive armor) and Cold effects (lock pistons)",
+          "Vulnerability to Storm damage (conductive armor) and Cold effects (lock pistons)",
           "Cannot stealth, swim, or squeeze through narrow spaces",
           "Lower healing output than Redemption — you are a wall, not a transfusion",
         ],
@@ -642,7 +642,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
             name: "Ironclad Vow",
             tier: "Specialization Passive",
             description:
-              "Your furnace-plate armor scales with Devotion: at Devotion Level 3+, gain +2 DR. At Devotion Level 5+, enemies within 5 feet take 1d6 fire damage at the start of your turn from radiant furnace heat, and you are immune to physical crowd control (roots, grapples, slows) as your pistons crush all restraints. However, your movement speed is reduced by 10 feet, you have vulnerability to Lightning damage, and Cold effects that would slow instead root you for 1 round as your pistons freeze.",
+              "Your furnace-plate armor scales with Devotion: at Devotion Level 3+, gain +2 DR. At Devotion Level 5+, enemies within 5 feet take 1d6 ember damage at the start of your turn from radiant furnace heat, and you are immune to physical crowd control (roots, grapples, slows) as your pistons crush all restraints. However, your movement speed is reduced by 10 feet, you have vulnerability to Storm damage, and Cold effects that would slow instead root you for 1 round as your pistons freeze.",
             uniqueTo: "Ironclad",
           },
         ],
@@ -921,7 +921,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     { id: "martyr_radiant_burst",
       name: "Radiant Burst",
       description:
-        "Release a burst of radiant energy that damages undead and heals the living.",
+        "Release a burst of ember energy that damages undead and heals the living.",
       level: 1,
       spellType: "ACTION",
       icon: "Radiant/Radiant Bolt",
@@ -1005,7 +1005,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     { id: "martyr_devoted_strike",
       name: "Devoted Strike",
       description:
-        "Strike an enemy with radiant power, dealing damage and healing yourself through devotion.",
+        "Strike an enemy with ember power, dealing damage and healing yourself through devotion.",
       level: 1,
       spellType: "ACTION",
       icon: "Healing/Reaching Hand",
@@ -1170,7 +1170,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     { id: "martyr_purifying_pain",
       name: "Purifying Pain",
       description:
-        "Inflict radiant damage upon yourself to heal an ally. The self-damage builds Devotion.",
+        "Inflict ember damage upon yourself to heal an ally. The self-damage builds Devotion.",
       spellType: "ACTION",
       icon: "Healing/Golden Heart",
       level: 2,
@@ -1501,7 +1501,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     { id: "martyr_burning_sacrifice",
       name: "Burning Sacrifice",
       description:
-        "Sacrifice your own life force to deal radiant damage to enemies around you.",
+        "Sacrifice your own life force to deal ember damage to enemies around you.",
       level: 3,
       spellType: "ACTION",
       icon: "Fire/Sun Symbol",
@@ -1912,7 +1912,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     { id: "martyr_divine_retribution",
       name: "Divine Retribution",
       description:
-        "When you take damage, store it as holy energy. Release it all as a burst of radiant damage.",
+        "When you take damage, store it as hallowed energy. Release it all as a burst of ember damage.",
       level: 5,
       spellType: "ACTION",
       icon: "Radiant/Radiant Golden Shield",
@@ -1978,7 +1978,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     { id: "martyr_sanctified_ground",
       name: "Sanctified Ground",
       description:
-        "Create a zone of holy ground that heals allies and burns undead and demons standing upon it. Persists for 5 rounds.",
+        "Create a zone of hallowed ground that heals allies and burns undead and demons standing upon it. Persists for 5 rounds.",
       level: 6,
       spellType: "ACTION",
       icon: "Radiant/Bright Explosion",
@@ -2018,7 +2018,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
           aoeParameters: { radius: 20 },
           targetRestrictions: ["undead", "demon"],
           description:
-            "Undead and demons in the zone take radiant damage each round",
+            "Undead and demons in the zone take ember damage each round",
         },
       },
 
@@ -2054,6 +2054,20 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
         resolution: "DICE",
       },
 
+      utilityConfig: {
+        utilityType: "environment",
+        selectedEffects: [
+          { id: "sanctified_ground_zone",
+            name: "Sanctified Ground",
+            description: "A 20-foot circle of holy ground persists for 5 rounds, healing allies and burning undead and demons standing upon it."
+          },
+        ],
+        duration: 5,
+        durationUnit: "rounds",
+        concentration: false,
+        power: "major",
+      },
+
       zoneConfig: {
         duration: 5,
         durationUnit: "rounds",
@@ -2073,7 +2087,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     { id: "martyr_willing_vessel",
       name: "Willing Vessel",
       description:
-        "Become a vessel for divine energy. Redirect all ally damage to yourself and gain massive damage reduction.",
+        "Become a vessel for divine energy. Redirect all ally damage to yourself and gain 50% damage reduction for 3 rounds.",
       level: 6,
       spellType: "ACTION",
       icon: "Force/Force Field",
@@ -2136,7 +2150,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     { id: "martyr_redemption_strike",
       name: "Redemption Strike",
       description:
-        "Strike an enemy with holy might. The lower your health, the more damage this deals.",
+        "Strike an enemy with sacred might. The lower your health, the more damage this deals.",
       level: 6,
       spellType: "ACTION",
       icon: "Radiant/Divine Downward Sword",
@@ -2308,7 +2322,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     { id: "martyr_holy_wrath",
       name: "Holy Wrath",
       description:
-        "Unleash all accumulated Devotion as radiant damage to all enemies within range. The more Devotion spent, the more devastating the burst.",
+        "Unleash all accumulated Devotion as ember damage to all enemies within range. The more Devotion spent, the more devastating the burst.",
       level: 7,
       spellType: "ACTION",
       icon: "Radiant/Radiant Sunburst",
@@ -2446,7 +2460,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     { id: "martyr_shared_agony",
       name: "Mirror of Martyrdom",
       description:
-        "Link an enemy to yourself through divine retribution. When you take damage, they take the same amount as radiant damage.",
+        "Link an enemy to yourself through divine retribution. When you take damage, they take the same amount as ember damage.",
       level: 8,
       spellType: "ACTION",
       icon: "Radiant/Radiant Beam",
@@ -2483,9 +2497,9 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
         effects: [
           { id : "mirror_of_martyrdom",
             name: "Mirror of Martyrdom",
-            description: "Enemy takes radiant damage equal to damage you take",
+            description: "Enemy takes ember damage equal to damage you take",
             mechanicsText:
-              "Enemy takes radiant damage equal to damage you take",
+              "Enemy takes ember damage equal to damage you take",
           },
         ],
         durationValue: 5,
@@ -2580,7 +2594,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     { id: "martyr_judgment_day",
       name: "Judgment Day",
       description:
-        "Call down divine judgment. Heal all allies to full and deal massive damage to all enemies.",
+        "Call down divine judgment. Heal all allies to full and deal 12d10 + twice your Spirit ember damage to all enemies within 40 feet (DC 20 Spirit save for half).",
       level: 9,
       spellType: "ACTION",
       icon: "Radiant/Radiant Warrior",
@@ -2762,7 +2776,19 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
       },
 
       resolution: "NONE",
-      effectTypes: ["restoration", "buff"],
+      effectTypes: ["restoration", "buff", "healing"],
+
+      restorationConfig: {
+        resourceType: "health",
+        resolution: "AUTOMATIC",
+        formula: "max_hp",
+        duration: "instant",
+        application: "immediate",
+        scalingType: "flat",
+        isOverTime: false,
+        resurrection: true,
+        description: "Resurrects all fallen allies at full HP, or fully heals all living allies within range.",
+      },
 
       healingConfig: {
         formula: "max_hp",

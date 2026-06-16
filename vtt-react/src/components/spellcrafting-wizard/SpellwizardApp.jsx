@@ -274,16 +274,13 @@ const AppContent = ({ hideHeader = false }) => {
         targetingConfig: fullTargetingConfig,
         // Ensure resource configuration is included
         resourceCost: wizardState.resourceCost || {
-          mana: 0,
-          rage: 0,
-          energy: 0,
-          focus: 0,
-          runic: 0
+          actionPoints: 1,
+          components: []
         },
         // Ensure cooldown configuration is included
         cooldownConfig: wizardState.cooldownConfig || {
-          cooldown: 0,
-          charges: 1
+          cooldownType: 'turn_based',
+          cooldownValue: 0
         },
         // CRITICAL: Ensure ALL effect configurations are saved with full properties
         damageConfig: wizardState.damageConfig || null,
@@ -490,7 +487,7 @@ const AppContent = ({ hideHeader = false }) => {
 
         // Type configuration
         spellType: spellCopy.spellType || 'ACTION', // ACTION, CHANNELED, PASSIVE, REACTION, TRAP, STATE
-        typeConfig: {
+        typeConfig: spellCopy.typeConfig || {
           school: spellCopy.school || spellCopy.damageTypes?.[0] || '',
           icon: spellCopy.icon || '',
           tags: spellCopy.tags || []
@@ -505,8 +502,8 @@ const AppContent = ({ hideHeader = false }) => {
         debuffConfig: spellCopy.debuffConfig || null,
         utilityConfig: spellCopy.utilityConfig || null,
         controlConfig: spellCopy.controlConfig || null,
-        summonConfig: spellCopy.summonConfig || null,
-        transformConfig: spellCopy.transformConfig || null,
+        summoningConfig: spellCopy.summoningConfig || spellCopy.summonConfig || null,
+        transformationConfig: spellCopy.transformationConfig || spellCopy.transformConfig || null,
         purificationConfig: spellCopy.purificationConfig || null,
         restorationConfig: spellCopy.restorationConfig || null,
         rollableTable: spellCopy.rollableTable || null, // Rollable table configuration
@@ -666,7 +663,7 @@ const AppContent = ({ hideHeader = false }) => {
       {!hideHeader && <header className="app-header">
         <div className="app-title">
           <img
-            src="getIconUrl('book-banner-v-symbol-wooden-rods', 'items')"
+            src={getIconUrl('book-banner-v-symbol-wooden-rods', 'items')}
             alt="Spell Book"
             className="app-logo"
           />
@@ -679,7 +676,7 @@ const AppContent = ({ hideHeader = false }) => {
             onClick={() => handleViewSwitch('wizard')}
           >
             <img
-              src="getIconUrl('holy-cross', 'spells')"
+              src={getIconUrl('holy-cross', 'spells')}
               alt="Spell Wizard"
               className="tab-icon-img"
             />
@@ -690,7 +687,7 @@ const AppContent = ({ hideHeader = false }) => {
             onClick={() => handleViewSwitch('library')}
           >
             <img
-              src="getIconUrl('book-banner-v-symbol-wooden-rods', 'items')"
+              src={getIconUrl('book-banner-v-symbol-wooden-rods', 'items')}
               alt="Spell Library"
               className="tab-icon-img"
             />
@@ -1118,19 +1115,18 @@ const QuickSpellModal = ({ onClose, onGenerateSpell }) => {
   ];
 
   const damageTypes = [
-    { id: 'ember', name: 'ember' },
-    { id: 'rime', name: 'rime' },
-    { id: 'storm', name: 'storm' },
-    { id: 'blight', name: 'blight' },
-    { id: 'blight', name: 'blight' },
-    { id: 'ember', name: 'ember' },
-    { id: 'arcane', name: 'arcane' },
-    { id: 'wyrd', name: 'wyrd' },
-    { id: 'blight', name: 'blight' },
-    { id: 'storm', name: 'storm' },
-    { id: 'physical', name: 'physical' },
-    { id: 'physical', name: 'physical' },
-    { id: 'physical', name: 'physical' }
+    { id: 'fire', name: 'Fire' },
+    { id: 'frost', name: 'Frost' },
+    { id: 'lightning', name: 'Lightning' },
+    { id: 'arcane', name: 'Arcane' },
+    { id: 'necrotic', name: 'Necrotic' },
+    { id: 'radiant', name: 'Radiant' },
+    { id: 'poison', name: 'Poison' },
+    { id: 'psychic', name: 'Psychic' },
+    { id: 'force', name: 'Force' },
+    { id: 'physical', name: 'Physical' },
+    { id: 'holy', name: 'Holy' },
+    { id: 'shadow', name: 'Shadow' }
   ];
 
   const generateSpell = () => {
@@ -1155,10 +1151,9 @@ const QuickSpellModal = ({ onClose, onGenerateSpell }) => {
         validTargets: template.category === 'healing' || template.category === 'buff' ? ['ally'] : ['enemy']
       },
       resourceCost: {
+        actionPoints: 1,
         mana: 15,
-        health: 0,
-        stamina: 0,
-        focus: 0
+        components: ['verbal', 'somatic']
       },
       resolution: 'DICE',
       dateCreated: new Date().toISOString(),
@@ -1173,15 +1168,16 @@ const QuickSpellModal = ({ onClose, onGenerateSpell }) => {
     // Add specific configurations based on template
     if (template.category === 'damage') {
       spellData.damageConfig = {
-        damageType: 'direct',
-        elementType: damageType,
+        damageTypes: [damageType],
         formula: '2d6 + 3',
+        resolution: 'DICE',
         hasDotEffect: false
       };
     } else if (template.category === 'healing') {
       spellData.healingConfig = {
         healingType: 'direct',
         formula: '2d8 + 4',
+        resolution: 'DICE',
         hasHotEffect: false
       };
     }

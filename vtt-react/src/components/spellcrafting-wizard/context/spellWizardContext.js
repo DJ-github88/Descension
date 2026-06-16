@@ -121,8 +121,8 @@ const initialState = {
   debuffConfig: null,
   utilityConfig: null,
   controlConfig: null,
-  summonConfig: null,
-  transformConfig: null,
+  summoningConfig: null,
+  transformationConfig: null,
   purificationConfig: null,
   restorationConfig: null,
   rollableTable: null, // Rollable table configuration
@@ -349,10 +349,12 @@ function validateEffectConfigurations(state) {
         if (!state.controlConfig) return false;
         break;
       case 'summon':
-        if (!state.summonConfig) return false;
+      case 'summoning':
+        if (!state.summoningConfig) return false;
         break;
       case 'transform':
-        if (!state.transformConfig) return false;
+      case 'transformation':
+        if (!state.transformationConfig) return false;
         break;
       case 'purification':
         if (!state.purificationConfig) return false;
@@ -455,6 +457,7 @@ function getStepRequirements(step) {
     case 2: // Spell Type
       return [1];
 
+    case 'triggers':
     case 'trigger': // Triggers
       return [1, 2];
 
@@ -528,12 +531,12 @@ function validateState(state) {
     errors.controlConfig = 'Control configuration is required';
   }
 
-  if (state.effectTypes.includes('summon') && !state.summonConfig) {
-    errors.summonConfig = 'Summon configuration is required';
+  if ((state.effectTypes.includes('summon') || state.effectTypes.includes('summoning')) && !state.summoningConfig) {
+    errors.summoningConfig = 'Summon configuration is required';
   }
 
-  if (state.effectTypes.includes('transform') && !state.transformConfig) {
-    errors.transformConfig = 'Transform configuration is required';
+  if ((state.effectTypes.includes('transform') || state.effectTypes.includes('transformation')) && !state.transformationConfig) {
+    errors.transformationConfig = 'Transform configuration is required';
   }
 
   if (state.effectTypes.includes('purification') && !state.purificationConfig) {
@@ -709,10 +712,12 @@ function spellWizardReducer(state, action) {
           newState.controlConfig = null;
           break;
         case 'summoning':
-          newState.summonConfig = null;
+        case 'summon':
+          newState.summoningConfig = null;
           break;
         case 'transformation':
-          newState.transformConfig = null;
+        case 'transform':
+          newState.transformationConfig = null;
           break;
         case 'purification':
           newState.purificationConfig = null;
@@ -800,21 +805,23 @@ function spellWizardReducer(state, action) {
         lastModified: new Date()
       };
 
+    case ACTION_TYPES.UPDATE_SUMMONING_CONFIG:
     case ACTION_TYPES.UPDATE_SUMMON_CONFIG:
       return {
         ...state,
-        summonConfig: {
-          ...state.summonConfig,
+        summoningConfig: {
+          ...state.summoningConfig,
           ...action.payload
         },
         lastModified: new Date()
       };
 
+    case ACTION_TYPES.UPDATE_TRANSFORMATION_CONFIG:
     case ACTION_TYPES.UPDATE_TRANSFORM_CONFIG:
       return {
         ...state,
-        transformConfig: {
-          ...state.transformConfig,
+        transformationConfig: {
+          ...state.transformationConfig,
           ...action.payload
         },
         lastModified: new Date()
@@ -1288,8 +1295,8 @@ function SpellWizardProvider({ children }) {
     debuffConfig: state.debuffConfig,
     utilityConfig: state.utilityConfig,
     controlConfig: state.controlConfig,
-    summonConfig: state.summonConfig,
-    transformConfig: state.transformConfig,
+    summoningConfig: state.summoningConfig,
+    transformationConfig: state.transformationConfig,
     purificationConfig: state.purificationConfig,
     restorationConfig: state.restorationConfig,
     channelingConfig: state.channelingConfig
@@ -1310,8 +1317,8 @@ function SpellWizardProvider({ children }) {
     state.debuffConfig,
     state.utilityConfig,
     state.controlConfig,
-    state.summonConfig,
-    state.transformConfig,
+    state.summoningConfig,
+    state.transformationConfig,
     state.purificationConfig,
     state.restorationConfig,
     state.channelingConfig
@@ -1388,10 +1395,10 @@ const actionCreators = {
   updateDebuffConfig: (config) => ({ type: ACTION_TYPES.UPDATE_DEBUFF_CONFIG, payload: config }),
   updateUtilityConfig: (config) => ({ type: ACTION_TYPES.UPDATE_UTILITY_CONFIG, payload: config }),
   updateControlConfig: (config) => ({ type: ACTION_TYPES.UPDATE_CONTROL_CONFIG, payload: config }),
-  updateSummonConfig: (config) => ({ type: ACTION_TYPES.UPDATE_SUMMON_CONFIG, payload: config }),
-  updateSummoningConfig: (config) => ({ type: ACTION_TYPES.UPDATE_SUMMON_CONFIG, payload: config }),
-  updateTransformConfig: (config) => ({ type: ACTION_TYPES.UPDATE_TRANSFORM_CONFIG, payload: config }),
-  updateTransformationConfig: (config) => ({ type: ACTION_TYPES.UPDATE_TRANSFORM_CONFIG, payload: config }),
+  updateSummonConfig: (config) => ({ type: ACTION_TYPES.UPDATE_SUMMONING_CONFIG, payload: config }),
+  updateSummoningConfig: (config) => ({ type: ACTION_TYPES.UPDATE_SUMMONING_CONFIG, payload: config }),
+  updateTransformConfig: (config) => ({ type: ACTION_TYPES.UPDATE_TRANSFORMATION_CONFIG, payload: config }),
+  updateTransformationConfig: (config) => ({ type: ACTION_TYPES.UPDATE_TRANSFORMATION_CONFIG, payload: config }),
   updatePurificationConfig: (config) => ({ type: ACTION_TYPES.UPDATE_PURIFICATION_CONFIG, payload: config }),
   updateRestorationConfig: (config) => ({ type: ACTION_TYPES.UPDATE_RESTORATION_CONFIG, payload: config }),
   updateRollableTable: (config) => ({ type: ACTION_TYPES.UPDATE_ROLLABLE_TABLE, payload: config }),

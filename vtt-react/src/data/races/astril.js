@@ -1,4 +1,4 @@
-export const astril = {
+﻿export const astril = {
     id: 'astril',
     name: 'Astril',
     essence: 'The Star-Carried',
@@ -80,7 +80,7 @@ And Keth-Amar — the predator, the hunger beneath Emberspire — knows the Astr
             icon: 'spell_holy_innerfire',
             spellType: 'PASSIVE',
             effectTypes: ['buff', 'debuff'],
-            typeConfig: { school: 'radiant', icon: 'spell_holy_innerfire', tags: ['star-sign', 'luminous', 'low-light-vision', 'light-sensitivity', 'keth-amar-detection', 'passive', 'shared'] },
+            typeConfig: { school: 'ember', icon: 'spell_holy_innerfire', tags: ['star-sign', 'luminous', 'low-light-vision', 'light-sensitivity', 'keth-amar-detection', 'passive', 'shared'] },
             buffConfig: {
                 buffType: 'custom',
                 effects: [
@@ -125,12 +125,12 @@ And Keth-Amar — the predator, the hunger beneath Emberspire — knows the Astr
         {
             id: 'the_whisper_astril',
             name: 'The Whisper',
-            description: 'The constellation-spirit within you does not sleep. It speaks — a constant low murmur beneath your conscious thought, the voice of a celestial minister who has been living in mortal flesh for centuries and has opinions about everything. This dual consciousness grants you an alien perspective on manipulation: the spirit sees through charm and deception as easily as you see through glass, because to a being who once governed a season, mortal lies are transparent as water. But the spirit is not a shield — it is a passenger, and when psychic damage tears through your mind, the whisper becomes a scream. Your two consciousnesses do not reinforce each other under assault. They collapse into each other, drowning reason in celestial static.',
+            description: 'The constellation-spirit within you does not sleep. It speaks — a constant low murmur beneath your conscious thought, the voice of a celestial minister who has been living in mortal flesh for centuries and has opinions about everything. This dual consciousness grants you an alien perspective on manipulation: the spirit sees through charm and deception as easily as you see through glass, because to a being who once governed a season, mortal lies are transparent as water. But the spirit is not a shield — it is a passenger, and when wyrd damage tears through your mind, the whisper becomes a scream. Your two consciousnesses do not reinforce each other under assault. They collapse into each other, drowning reason in celestial static.',
             level: 1,
             icon: 'spell_shadow_psychichorrors',
             spellType: 'PASSIVE',
             effectTypes: ['buff', 'debuff'],
-            typeConfig: { school: 'psychic', icon: 'spell_shadow_psychichorrors', tags: ['spirit-whisper', 'dual-consciousness', 'charm-resistance', 'psychic-vulnerability', 'passive', 'shared'] },
+            typeConfig: { school: 'wyrd', icon: 'spell_shadow_psychichorrors', tags: ['spirit-whisper', 'dual-consciousness', 'charm-resistance', 'psychic-vulnerability', 'passive', 'shared'] },
             buffConfig: {
                 buffType: 'statusEffectBuff',
                 effects: [
@@ -149,7 +149,7 @@ And Keth-Amar — the predator, the hunger beneath Emberspire — knows the Astr
                     {
                         id: 'psychic_collapse_astril',
                         name: 'Psychic Collapse',
-                        description: 'When you take psychic damage, succeed on a DC 12 Spirit saving throw or the whisper becomes a scream — your two consciousnesses collapse into each other. Disadvantage on your next attack roll, saving throw, or ability check as you wrestle the spirit back into silence.',
+                        description: 'When you take wyrd damage, succeed on a DC 12 Spirit saving throw or the whisper becomes a scream — your two consciousnesses collapse into each other. Disadvantage on your next attack roll, saving throw, or ability check as you wrestle the spirit back into silence.',
                         statusEffect: {
                             level: 'moderate',
                             description: 'Psychic wounds strike twice in a mind that houses two',
@@ -233,7 +233,7 @@ Now, centuries later, the Astril endure. The Luminarchy still rules. The Synod s
             culturalBackground: 'Sylen culture is built on openness — to the spirit, to the community, to the constant performance of belief that the Luminarchy demands. A Sylen does not hide their doubts because they cannot hide them — the patterns dim with uncertainty, writhe with heresy, go dark with despair. This creates an almost unbearable social transparency: every Sylen knows the state of every other Sylen\'s faith at a glance. Friendships are built on mutual spiritual accountability. Betrayals are visible before they happen. A Sylen who is losing their faith is visited by the community within hours — the patterns told on them before they said a word.\n\nThe Over-Sung are the Sylen\'s wound. When a Sylen opens too completely — in battle, in ritual, in passion — and cannot close again, the spirit floods the vessel. The mortal consciousness is submerged, not destroyed. The Over-Sung still walks, still speaks, still recognizes faces, but the person they were is gone — replaced by a constellation that has forgotten it was ever a passenger. The Over-Sung are not killed. They are tended in the spirit-dormitories, sung to, fed, loved. Some recover. Most do not. Every Sylen has visited the dormitory where their predecessor\'s predecessor still rocks in place, humming a star-frequency that no living Astril can reproduce.\n\nSylen dominate the Luminarchy\'s upper ranks. The Synod is overwhelmingly Sylen — the Muren cannot display their faith visibly enough to attract the spirits of the dying powerful, and the Unlit have no faith to display at all. The Sylen nobility carry the oldest, strongest constellations: Dragon, Tiger, Wolf. Their patterns are layered — some bloodlines carry five, six, seven spirits simultaneously, the skin rippling like a nebula. The assassination economy targets Sylen almost exclusively. The Muren are rarely worth killing for their spirits because Muren spirits are suppressed — dim, hard to read, hard to attract. An assassin who kills a Muren risks the spirit choosing a Sylen bystander whose faith blazes louder than the killer\'s own.',
             statModifiers: { spirit: 2, charisma: 1, constitution: -1 },
             baseStats: { hp: 6, mana: 7, ap: 3, initiative: 0 },
-            savingThrowModifiers: { advantage: ['charm'], disadvantage: ['psychic'] },
+            savingThrowModifiers: { advantage: ['charm'], disadvantage: ['wyrd'] },
             traits: [
                 {
                     id: 'open_the_vessel_sylen',
@@ -245,7 +245,7 @@ Now, centuries later, the Astril endure. The Luminarchy still rules. The Synod s
                     actionPoints: 1,
                     components: ['verbal', 'somatic'],
                     effectTypes: ['buff', 'debuff'],
-                    typeConfig: { category: 'racial', school: 'radiant' },
+                    typeConfig: { category: 'racial', school: 'ember' },
                     buffConfig: {
                         buffType: 'combatAdvantage',
                         effects: [
@@ -288,7 +288,7 @@ Now, centuries later, the Astril endure. The Luminarchy still rules. The Synod s
                     actionPoints: 0,
                     components: [],
                     effectTypes: ['buff', 'debuff'],
-                    typeConfig: { category: 'racial' },
+                    typeConfig: { category: 'racial', school: 'ember' },
                     buffConfig: {
                         buffType: 'socialBonus',
                         effects: [
@@ -333,14 +333,14 @@ Now, centuries later, the Astril endure. The Luminarchy still rules. The Synod s
                     actionPoints: 2,
                     components: ['verbal', 'somatic'],
                     effectTypes: ['buff', 'debuff'],
-                    typeConfig: { category: 'racial', school: 'radiant' },
+                    typeConfig: { category: 'racial', school: 'ember' },
                     buffConfig: {
                         buffType: 'combatAdvantage',
                         effects: [
                             {
                                 id: 'celestial_fury_sylen',
                                 name: 'Celestial Fury',
-                                description: '+2 Strength, +10ft speed, melee attacks deal +1d4 radiant damage for 3 rounds',
+                                description: '+2 Strength, +10ft speed, melee attacks deal +1d4 ember damage for 3 rounds',
                                 statusEffect: { level: 'major', description: 'The constellation\'s ancient rage floods mortal limbs' }
                             }
                         ],
@@ -379,7 +379,7 @@ Now, centuries later, the Astril endure. The Luminarchy still rules. The Synod s
             culturalBackground: "The Muren bind through scarification, fasting, and binding-chants learned before speech. Their faith is private, unverifiable, and distrusted by the Sylen-dominated Luminarchy. Suppression creates pressure — when the walls fail, years of pent celestial energy erupt. A Muren who flares in public is exiled. They pass unnoticed among non-Astril.",
             statModifiers: { spirit: 2, constitution: 1, charisma: -1 },
             baseStats: { hp: 8, mana: 5, ap: 3, initiative: 0 },
-            savingThrowModifiers: { advantage: ['charm'], disadvantage: ['radiant'] },
+            savingThrowModifiers: { advantage: ['charm'], disadvantage: ['divine'] },
             traits: [
                 {
                     id: 'rite_of_binding_muren',
@@ -391,7 +391,7 @@ Now, centuries later, the Astril endure. The Luminarchy still rules. The Synod s
                     actionPoints: 1,
                     components: ['verbal', 'somatic'],
                     effectTypes: ['buff', 'debuff'],
-                    typeConfig: { category: 'racial' },
+                    typeConfig: { category: 'racial', school: 'wyrd' },
                     buffConfig: {
                         buffType: 'statusEffectBuff',
                         effects: [
@@ -435,14 +435,14 @@ Now, centuries later, the Astril endure. The Luminarchy still rules. The Synod s
                     actionPoints: 0,
                     components: [],
                     effectTypes: ['buff', 'debuff'],
-                    typeConfig: { category: 'racial', school: 'radiant' },
+                    typeConfig: { category: 'racial', school: 'ember' },
                     buffConfig: {
                         buffType: 'triggeredEffect',
                         effects: [
                             {
                                 id: 'spirit_rupture_muren',
                                 name: 'Spirit Rupture',
-                                description: 'When you take damage from a critical hit or fall below 50% HP, the spirit erupts: all creatures within 10 feet (including allies) take 1d6 radiant damage as suppressed celestial energy floods outward.',
+                                description: 'When you take damage from a critical hit or fall below 50% HP, the spirit erupts: all creatures within 10 feet (including allies) take 1d6 ember damage as suppressed celestial energy floods outward.',
                                 statusEffect: { level: 'moderate', description: 'The walls break; starlight floods through the cracks', trigger: ['critical_hit_taken', 'hp_below_50_percent'] }
                             }
                         ],
@@ -478,7 +478,7 @@ Now, centuries later, the Astril endure. The Luminarchy still rules. The Synod s
                     actionPoints: 0,
                     components: [],
                     effectTypes: ['buff', 'debuff'],
-                    typeConfig: { category: 'racial' },
+                    typeConfig: { category: 'racial', school: 'ember' },
                     buffConfig: {
                         buffType: 'damageMitigation',
                         effects: [

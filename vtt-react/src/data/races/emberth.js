@@ -1,4 +1,4 @@
-export const emberth = {
+﻿export const emberth = {
     id: 'emberth',
     name: 'Emberth',
     essence: 'The cold-ash remnants of a dead cosmic fire',
@@ -149,7 +149,6 @@ Forge-trials settle disputes between clans. No Emberth may strike another Embert
             effectTypes: ['buff', 'debuff'],
             typeConfig: {
                 school: 'physical',
-                secondaryElement: 'willpower',
                 icon: 'spell_arcane_teleportundercity',
                 tags: ['stillness', 'discipline', 'shared', 'passive']
             },
@@ -197,7 +196,7 @@ Forge-trials settle disputes between clans. No Emberth may strike another Embert
             effectTypes: ['buff', 'debuff'],
             typeConfig: {
                 school: 'physical',
-                secondaryElement: 'poison',
+                secondaryElement: 'blight',
                 icon: 'spell_shadow_mindflay',
                 tags: ['respiration', 'ash-filter', 'shared', 'passive']
             },
@@ -266,8 +265,7 @@ The current crisis is a Korr crisis. The tending-clan has concealed the Solbrand
                     spellType: 'PASSIVE',
                     effectTypes: ['buff', 'debuff'],
                     typeConfig: {
-                        school: 'shadow',
-                        secondaryElement: 'perception',
+                        school: 'blight',
                         icon: 'ability_rogue_shadowstrikes',
                         tags: ['darkvision', 'heat-sight', 'daylight-penalty', 'passive']
                     },
@@ -315,8 +313,8 @@ The current crisis is a Korr crisis. The tending-clan has concealed the Solbrand
                     spellType: 'PASSIVE',
                     effectTypes: ['buff', 'debuff'],
                     typeConfig: {
-                        school: 'holy',
-                        secondaryElement: 'fire',
+                        school: 'ember',
+                        secondaryElement: 'ember',
                         icon: 'spell_fire_flameblades',
                         tags: ['solbrand', 'spirit', 'proximity', 'passive']
                     },
@@ -365,8 +363,7 @@ The current crisis is a Korr crisis. The tending-clan has concealed the Solbrand
                     spellType: 'PASSIVE',
                     effectTypes: ['debuff'],
                     typeConfig: {
-                        school: 'frost',
-                        secondaryElement: 'curse',
+                        school: 'rime',
                         icon: 'spell_frost_chillingbolt',
                         tags: ['drawback', 'cold-weakness', 'slow', 'cursed', 'passive']
                     },
@@ -448,8 +445,8 @@ The Thrask were the first to notice the evidence of the Solbrand's dimming. They
                     spellType: 'PASSIVE',
                     effectTypes: ['buff', 'debuff'],
                     typeConfig: {
-                        school: 'frost',
-                        secondaryElement: 'fire',
+                        school: 'rime',
+                        secondaryElement: 'ember',
                         icon: 'spell_frost_frostward',
                         tags: ['cold-resistance', 'heat-vulnerability', 'border', 'passive']
                     },
@@ -497,7 +494,6 @@ The Thrask were the first to notice the evidence of the Solbrand's dimming. They
                     effectTypes: ['buff'],
                     typeConfig: {
                         school: 'physical',
-                        secondaryElement: 'movement',
                         icon: 'ability_rogue_sprint',
                         tags: ['skirmish', 'terrain-bypass', 'leap', 'passive']
                     },
@@ -523,14 +519,13 @@ The Thrask were the first to notice the evidence of the Solbrand's dimming. They
                 {
                     id: 'obsidian_graft_thrask',
                     name: 'Obsidian Striker',
-                    description: 'Your clan-marks on your forearms are reinforced with volcanic obsidian flakes. When you strike with an unarmed attack, you deal 1d4 slashing damage instead of bludgeoning, and once per short rest, when you score a critical hit with a melee attack, you can cause the obsidian to splinter inside the wound: the target takes an additional 1d6 piercing damage and is afflicted with deep bleeding, taking 1d4 damage at the start of its turn for 3 turns or until it spends 1 AP to tend the wound. Splintering the obsidian causes you 1d2 piercing damage as the flakes break from your own flesh.',
+                    description: 'Your clan-marks on your forearms are reinforced with volcanic obsidian flakes. When you strike with an unarmed attack, you deal 1d4 physical damage instead of bludgeoning, and once per short rest, when you score a critical hit with a melee attack, you can cause the obsidian to splinter inside the wound: the target takes an additional 1d6 physical damage and is afflicted with deep bleeding, taking 1d4 damage at the start of its turn for 3 turns or until it spends 1 AP to tend the wound. Splintering the obsidian causes you 1d2 physical damage as the flakes break from your own flesh.',
                     level: 1,
                     icon: 'inv_stone_02',
                     spellType: 'PASSIVE',
                     effectTypes: ['buff', 'debuff'],
                     typeConfig: {
                         school: 'physical',
-                        secondaryElement: 'earth',
                         icon: 'inv_stone_02',
                         tags: ['combat', 'obsidian', 'bleed', 'recoil', 'passive']
                     },
@@ -540,7 +535,7 @@ The Thrask were the first to notice the evidence of the Solbrand's dimming. They
                             {
                                 id: 'obsidian_strikes',
                                 name: 'Obsidian Blade',
-                                description: 'Unarmed strikes deal 1d4 slashing damage.',
+                                description: 'Unarmed strikes deal 1d4 physical damage.',
                                 statusEffect: { level: 'permanent', description: 'Unarmed strikes deal 1d4 slashing' }
                             }
                         ],
@@ -555,7 +550,7 @@ The Thrask were the first to notice the evidence of the Solbrand's dimming. They
                             {
                                 id: 'obsidian_splinter_bleed',
                                 name: 'Obsidian Bleeding',
-                                description: 'Target takes 1d6 piercing damage and 1d4 bleeding damage at start of its turn for 3 turns. You take 1d2 piercing damage.',
+                                description: 'Target takes 1d6 physical damage and 1d4 bleeding damage at start of its turn for 3 turns. You take 1d2 physical damage.',
                                 statusEffect: { penaltyType: 'bleed_damage', bleedingFormula: '1d4', duration: 3, recoilFormula: '1d2' }
                             }
                         ],

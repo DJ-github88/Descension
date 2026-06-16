@@ -302,7 +302,7 @@ export const transformSpellForCard = (spell) => {
   // Ensure resource configuration exists
   if (!transformedSpell.resourceCost) {
     transformedSpell.resourceCost = {
-      actionPoints: 0,
+      actionPoints: 1,
       primaryResourceType: 'Mana',
       classResourceCost: 0,
       components: [],
@@ -316,10 +316,8 @@ export const transformSpellForCard = (spell) => {
   // Ensure cooldown configuration exists
   if (!transformedSpell.cooldownConfig) {
     transformedSpell.cooldownConfig = {
-      type: 'turn_based',
-      value: 1,
-      charges: 1,
-      recovery: 1,
+      cooldownType: 'turn_based',
+      cooldownValue: 0,
       sharesCooldown: false,
       cooldownGroup: ''
     };

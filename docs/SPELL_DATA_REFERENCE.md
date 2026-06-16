@@ -42,9 +42,9 @@ Copy this. Fill it in. Done.
 
   // ━━━ TYPE CONFIG (required) ━━━
   typeConfig: {
-    school: 'fire',                   // MUST be a damage type ID, NOT a D&D school name
+    school: 'ember',                  // MUST be a damage type ID, NOT a D&D school name
     icon: 'Fire/Fire Bolt',           // same as top-level icon
-    tags: ['fire', 'damage'],
+    tags: ['ember', 'damage'],
     castTime: 1,
     castTimeType: 'IMMEDIATE'
   },
@@ -82,14 +82,14 @@ Copy this. Fill it in. Done.
   // ━━━ EFFECT CONFIGS (add ONLY what effectTypes lists) ━━━
   damageConfig: {
     formula: '2d6 + intelligence/3',  // dice formula string
-    damageTypes: ['fire'],            // ALWAYS an array, NEVER a string
+    damageTypes: ['ember'],           // ALWAYS an array, NEVER a string
     resolution: 'DICE',               // DICE | CARDS | COINS | PROPHECY
     // dotConfig: { ... },            // only for damage-over-time
     // savingThrow: { ... },          // only if there's a save
     // criticalConfig: { ... },       // only if crits are special
   },
 
-  tags: ['fire', 'damage']
+  tags: ['ember', 'damage']
 }
 ```
 
@@ -115,30 +115,29 @@ If you have an effectType but no config, the card shows empty/broken.
 
 ```javascript
 // CORRECT:
-damageTypes: ['fire']
-damageTypes: ['fire', 'necrotic']
+damageTypes: ['ember']
+damageTypes: ['ember', 'blight']
 
 // WRONG — will not render damage type badge:
-damageType: 'fire'           // singular, deprecated
-damageTypes: 'fire'          // string, not array
+damageType: 'ember'          // singular, deprecated
+damageTypes: 'ember'         // string, not array
 ```
 
 ## Rule 3: `school` goes in `typeConfig` using damage type IDs
 
 ```javascript
 // CORRECT:
-typeConfig: { school: 'fire' }
-typeConfig: { school: 'necrotic' }
+typeConfig: { school: 'ember' }
+typeConfig: { school: 'blight' }
 
 // WRONG:
 school: 'Evocation'          // D&D school name
-school: 'fire'               // top-level (should be in typeConfig)
-typeConfig: { school: 'Fire' }  // capitalized
+school: 'ember'              // top-level (should be in typeConfig)
+typeConfig: { school: 'Ember' }  // capitalized
 ```
 
-Valid school IDs: `fire`, `frost`, `lightning`, `arcane`, `nature`, `force`,
-`necrotic`, `radiant`, `poison`, `psychic`, `chaos`, `void`, `bludgeoning`,
-`piercing`, `slashing`, `physical`, `holy`, `shadow`, `cold`, `ice`, `thunder`, `acid`
+Valid school IDs: `physical`, `ember`, `rime`, `storm`, `arcane`, `primal`,
+`blight`, `wyrd`
 
 ## Rule 4: `actionPoints` is ALWAYS set
 
@@ -153,12 +152,12 @@ resourceCost: {
 
 ```javascript
 // CORRECT:
-damageConfig: { formula: '2d6', damageTypes: ['fire'], resolution: 'DICE' }
-damageConfig: { formula: '2d6', damageTypes: ['fire'], resolution: 'PROPHECY' }
+damageConfig: { formula: '2d6', damageTypes: ['ember'], resolution: 'DICE' }
+damageConfig: { formula: '2d6', damageTypes: ['ember'], resolution: 'PROPHECY' }
 
 // ALSO ACCEPTABLE (top-level is read by some paths):
 resolution: 'DICE',
-damageConfig: { formula: '2d6', damageTypes: ['fire'] }
+damageConfig: { formula: '2d6', damageTypes: ['ember'] }
 
 // WRONG (will confuse the card):
 resolution: 'dice'           // must be UPPERCASE
@@ -210,14 +209,14 @@ Each effect type has its own config. Only include configs for types in `effectTy
 ```javascript
 damageConfig: {
   formula: '3d6 + intelligence/3',     // required: dice formula
-  damageTypes: ['fire'],                // required: always array
+  damageTypes: ['ember'],               // required: always array
   resolution: 'DICE',                   // required: DICE | CARDS | COINS | PROPHECY
 
   // Optional: Damage over time
   dotConfig: {
     enabled: true,
     damagePerTick: '1d4',
-    damageType: 'fire',
+    damageType: 'ember',
     tickFrequency: 'round',
     duration: 3,
     canStack: false,
@@ -245,7 +244,7 @@ damageConfig: {
     enabled: true,
     procChance: 15,                     // percentage
     effectType: 'buff',
-    effectDetails: 'Burning: 1d6 fire for 2 rounds'
+      effectDetails: 'Burning: 1d6 ember for 2 rounds'
   },
 
   // Optional: Chain/lightning
@@ -356,7 +355,7 @@ buffConfig: {
       id: 'stitch_link_source',
       name: 'Stitch of Suffering (Ally)',
       description: '30% of incoming damage redirected to linked enemy.',
-      mechanicsText: 'Linked ally redirects 30% of incoming damage to bonded enemy as psychic for 3 rounds.',
+      mechanicsText: 'Linked ally redirects 30% of incoming damage to bonded enemy as wyrd for 3 rounds.',
     },
   ],
   durationValue: 3,
@@ -377,9 +376,9 @@ buffConfig: {
     {
       id: 'steam_backlash',
       name: 'Thermal Backlash',
-      description: 'Release steam dealing fire damage equal to half damage taken back at attacker.',
-      retaliationDamage: { formula: 'damage_taken / 2', damageType: 'fire' },
-      mechanicsText: 'Reflect 50% of damage taken as fire damage to attacker.',
+      description: 'Release steam dealing ember damage equal to half damage taken back at attacker.',
+      retaliationDamage: { formula: 'damage_taken / 2', damageType: 'ember' },
+      mechanicsText: 'Reflect 50% of damage taken as ember damage to attacker.',
     },
   ],
   durationValue: 2,
@@ -715,7 +714,7 @@ summoningConfig: {
       quantity: 2,
       hp: 15,
       damagePerTurn: '1d6',
-      damageType: 'necrotic',
+      damageType: 'blight',
       specialRules: ['Each wraith drains 1d4 HP from the caster at start of turn.'],
     },
   ],
@@ -956,7 +955,7 @@ This shows EXACTLY which wizard step creates which field, and whether the spell 
 
 ## DICE (default)
 ```javascript
-damageConfig: { formula: '2d6 + intelligence/3', damageTypes: ['fire'], resolution: 'DICE' }
+damageConfig: { formula: '2d6 + intelligence/3', damageTypes: ['ember'], resolution: 'DICE' }
 ```
 
 ## CARDS (Fate Weaver)
@@ -974,7 +973,7 @@ Card formula variables: `CARD_VALUE`, `FACE_CARD_COUNT`, `ACES`, `HIGHEST_CARD`,
 ```javascript
 damageConfig: {
   formula: 'HEADS_COUNT * 8 + (ALL_HEADS ? 15 : 0)',
-  damageTypes: ['psychic'],
+  damageTypes: ['wyrd'],
   resolution: 'COINS',
   coinConfig: { flipCount: 5, formula: 'HEADS_COUNT * 8 + (ALL_HEADS ? 15 : 0)' }
 }
@@ -995,22 +994,22 @@ mechanicsConfig: [
         damage: '4d8',
         effect: { name: 'Weakened', duration: 2, statModifiers: [{ stat: 'ALL ROLLS', value: -2 }] },
         havocGain: 3,
-        description: 'Deals 4d8 necrotic damage and imposes -2 to all rolls for 2 rounds.'
+        description: 'Deals 4d8 blight damage and imposes -2 to all rolls for 2 rounds.'
       },
       base: {                              // medium roll = base
         damage: '2d8',
         havocGain: 1,
-        description: 'Deals 2d8 necrotic damage.'
+        description: 'Deals 2d8 blight damage.'
       },
       outside: {                           // low roll = outside
-        backlash: '1d8 necrotic to self',
+        backlash: '1d8 blight to self',
         havocGain: 0,
-        description: 'The prophecy backfires, dealing 1d8 to you.'
+        description: 'The prophecy backfires, dealing 1d8 blight to you.'
       }
     }
   }
 ],
-damageConfig: { formula: '2d8', damageTypes: ['necrotic'], resolution: 'PROPHECY' }
+damageConfig: { formula: '2d8', damageTypes: ['blight'], resolution: 'PROPHECY' }
 ```
 
 ---
@@ -1054,7 +1053,7 @@ Run this against EVERY spell. Fix any violation.
 
 - [ ] **`effectTypes` array exists** and lists ONLY types with matching `*Config`
 - [ ] **Each effect type has its config** (damage→damageConfig, healing→healingConfig, etc.)
-- [ ] **`damageTypes` is an array** (`['fire']` not `'fire'`)
+- [ ] **`damageTypes` is an array** (`['ember']` not `'ember'`)
 - [ ] **`typeConfig.school` is set** to a damage type ID (not D&D school name)
 - [ ] **`resourceCost.actionPoints` is a number** (not missing, not undefined)
 - [ ] **`spellType` is UPPERCASE** (`'ACTION'` not `'action'`)
@@ -1077,7 +1076,7 @@ Run this against EVERY spell. Fix any violation.
 - [ ] **`savingThrow.ability`** uses valid ability name (strength/agility/constitution/intelligence/spirit/charisma)
 - [ ] **`savingThrow.saveOutcome`** uses valid outcome (negates/half_damage/no_effect/damage_on_fail/reduced_duration)
 - [ ] **Trap spells** have `spellType: 'TRAP'` and `trapConfig` with required fields
-- [ ] **`typeConfig.school` matches actual damage types** — NOT `'force'` unless the spell actually deals force damage (normalizer stops at school, ignores damageConfig.damageTypes)
+- [ ] **`typeConfig.school` matches actual damage types** — NOT a legacy alias like `'force'` unless the spell actually deals that legacy type (normalizer stops at school, ignores damageConfig.damageTypes)
 - [ ] **Dual-damage-type spells have `typeConfig.secondaryElement`** — without it, the second type is invisible to the card
 - [ ] **No `formula: 'SPECIAL'`** — must be readable dice notation (e.g., `'2d8 × stacks'`)
 - [ ] **Prophecy DoT effects use `damagePerRound`** — ProphecySummary reads `prophesied.effect.damagePerRound`, NOT `dotFormula`
@@ -1087,55 +1086,64 @@ Run this against EVERY spell. Fix any violation.
 
 # Section 8: Class-Specific Resource Reference
 
-In Mythrill VTT, each of the 30 classes utilizes its own unique thematic resource system. When creating or validating a spell, the class-specific resource must be configured in the spell data exactly as required by the card renderer and engine.
+> **Updated June 2026.** The engine ships **20 classes**, not 30. Five consolidations happened
+> (see `classes/index.js`): Shaper (Bladedancer+Formbender), Inquisitor (Covenbane+Exorcist),
+> Revenant (Deathcaller+Lichborne), Gambit (Gambler+Fate Weaver), Harbinger (Chaos Weaver+Doomsayer),
+> Apex (Huntress), Augur (Oracle), Animist (Primalist+Witch Doctor+Inscriptor), with Titan folded
+> into Warden (Monolith spec) and Dreadnaught into Martyr (Ironclad spec).
+>
+> **The engine key in the table below is the source of truth** — it is what `ClassResourceBar.jsx`
+> and `classResources.js` read. The "Display name" is the lore label. Some classes' lore uses a
+> fancier name than the canonical key (e.g. Berserker lore says "Blood-Heat" but the canonical key
+> is `rage`); the key wins.
 
-## Master Class Resource Table
+## Master Class Resource Table (20 classes)
 
-The following table documents all 30 classes, their resource names, where to store them in the spell data, and the exact keys required:
+| # | Class | File | Consolidated from | Resource (display) | **Engine key** | Encoding in spells |
+|---|---|---|---|---|---|---|
+| 1 | **Animist** | animistData.js | Primalist+Witch Doctor+Inscriptor | Ancestral Resonance | _none yet_ | **`implemented: false` — class has no spells; gated out of selection. See report §3.1.** |
+| 2 | **Apex** | apexData.js | Huntress | Quarry Marks | `quarry_marks` | `classResource:{type:'quarry_marks', cost\|gain}` |
+| 3 | **Arcanoneer** | arcanoneerData.js | (kept) | Elemental Spheres | `arcane_sphere`/`fire_sphere`/`ice_sphere`/… | `resourceCost.resourceValues:{<sphere>:N}` + `resourceCost.spheres:[…]` |
+| 4 | **Augur** | augurData.js | Oracle | Benediction / Malediction | `benediction` / `malediction` | `classResource:{type:'benediction'\|'malediction', cost}` |
+| 5 | **Berserker** | berserkerData.js | (kept; lore calls it "Blood-Heat") | Rage States | `rage` | `classResource:{type:'rage', cost}` (negative = generate). **Note:** lore name "Blood-Heat" is flavor; the engine key `rage` is canonical (`classResources.js:1403`). |
+| 6 | **Chronarch** | chronarchData.js | (kept) | Time Shards + Temporal Strain | `time_shards` | `classResource:{type:'time_shards', cost}`. **⚠ Temporal Strain is declared in lore but NOT modeled in any spell** (known gap). |
+| 7 | **False Prophet** | falseProphetData.js | (Doomsayer echo) | Madness | `madness` | `resourceGainConfig.resources:[{type:'madness'}]` + `specialMechanics.madnessGeneration` |
+| 8 | **Gambit** | gambitData.js | Gambler+Fate Weaver | Fortune Points + Karmic Debt | `fortune_points` | `classResource:{type:'fortune_points', cost}` (spenders) + `specialMechanics.fortunePoints.generates` (generators). **⚠ Karmic Debt is declared but NOT modeled in any spell** (known gap). |
+| 9 | **Harbinger** | harbingerData.js | Chaos Weaver+Doomsayer | Mayhem | `mayhem` | `classResource:{type:'mayhem', cost}` (negative = generate) |
+| 10 | **Inquisitor** | inquisitorData.js | Covenbane+Exorcist | Righteous Authority | `righteousAuthority` (camelCase) | `classResource:{type:'righteousAuthority', cost\|gain\|gainOnKill\|gainOnSupernatural}` |
+| 11 | **Lunarch** | lunarchData.js | (original) | Lunar Phase cycle | _none (environmental)_ | No per-spell resource cost; phase interactions live in `specialMechanics.phaseInteraction`. **⚠ Design gap: no resource-management loop** (report §3.4). |
+| 12 | **Martyr** | martyrData.js | Martyr+Dreadnaught (Ironclad spec) | Devotion Gauge | `devotion` | top-level `devotionCost`/`devotionGain`/`devotionRequired` (non-standard; one spell uses `resourceValues:{devotion:N}`) |
+| 13 | **Minstrel** | minstrelData.js | (kept) | Musical Notes I-VII | (notes, not a single key) | `musicalCombo:{type:'builder'\|'resolver', generates:[{note,count}]}` |
+| 14 | **Plaguebringer** | plaguebringerData.js | (kept) | Virulence | `virulence` | `classResource:{type:'virulence', gain}` (every spell generates; spend is implicit via category progression) |
+| 15 | **Pyrofiend** | pyrofiendData.js | (kept) | Inferno Veil | `inferno_ascend` / `inferno_required` | `resourceCost.resourceValues:{inferno_ascend:N, inferno_required:N}` |
+| 16 | **Revenant** | revenantData.js | Deathcaller+Lichborne | Death Toll + Phylactery | `deathToll` | `resourceValues:{deathToll:N}` + HP cost via `resourceFormulas:{health:'XdY'}` |
+| 17 | **Shaper** | shaperData.js | Bladedancer+Formbender | Kinetic Flux + Body Toll | `kinetic_flux` | `classResource:{type:'kinetic_flux', cost\|'ALL'}` + top-level `bodyTollCost`/`bodyTollGenerated` + `formRequirement` |
+| 18 | **Spellguard** | spellguardData.js | (kept; lore calls it "Void Resonance/AEP") | Arcane Energy Points | `arcane_energy_points` | `classResource:{type:'arcane_energy_points', cost}` (negative = generate). **Note:** lore name "Void Resonance" is flavor; engine key `arcane_energy_points` is canonical. |
+| 19 | **Toxicologist** | toxicologistData.js | (kept) | Toxin Vials + Contraption Parts | `toxinVials` | `resourceCost.toxinVials:N` (flat) OR `resourceValues:{toxinVials:N}`. **⚠ Contraption Parts is declared but NOT modeled as a spell cost** (known gap). |
+| 20 | **Warden** | wardenData.js | Warden+Titan (Monolith spec) | Tether Tension | `tether_tension` | `classResource:{type:'tether_tension', cost}` (negative = generate) |
 
-````carousel
-##### Page 1: Classes 1–10
-| # | Class | Resource System | Where in Spell Data | Required Fields & Schema |
-|---|---|---|---|---|
-| 1 | **Arcanoneer** | Elemental Spheres | `resourceCost.resourceValues` or flat `sphereCost` | `arcane_energy_points` (number) or sphere cost fields (e.g. `arcane_sphere`, `fire_sphere`, `ice_sphere`, `holy_sphere`, `nature_sphere`, `shadow_sphere`, `healing_sphere`, `chaos_sphere`) |
-| 2 | **Augur** | Benediction / Malediction | `resourceCost.resourceValues` or flat fields | `benedictionCost`, `benedictionGain`, `maledictionCost`, `maledictionGain` |
-| 3 | **Berserker** | Rage | `resourceCost.resourceValues` or flat fields | `rageCost`, `rageGain`, `rageRequired` |
-| 4 | **Bladedancer** | Momentum / Flourish | `resourceCost.resourceValues` or flat fields | `momentumCost`, `momentumGain`, `flourishRequired` |
-| 5 | **Chaos Weaver** | Mayhem | `resourceCost.classResource` | Shorthand object: `{ type: 'mayhem', cost: N }` (Negative = generate, Positive = cost) |
-| 6 | **Chronarch** | Time Shards / Temporal Strain | `resourceCost.resourceValues` or `specialMechanics.temporalFlux` | `timeShardGenerate` / `time_shard_generate`, `timeShardCost` / `time_shard_cost`, `temporalStrainGain` / `temporal_strain_gain`, `temporalStrainReduce` / `temporal_strain_reduce` |
-| 7 | **Covenbane** | Hexbreaker Charges | `resourceCost.resourceValues` or flat fields | `hexbreakerCharges` (number), `hexChargeCost`, `hexChargeGain` |
-| 8 | **Deathcaller** | Blood Tokens / HP Cost | `resourceCost.resourceValues` or flat fields | `bloodTokens` (number), `hp` (number - for direct HP cost) |
-| 9 | **Doomsayer** | Havoc | `resourceCost.classResource` | Shorthand object: `{ type: 'havoc', cost: N }` |
-| 10 | **Dreadnaught** | Furnace Pressure | `resourceCost.classResource` or `resourceCost.resourceValues` | `classResource: { type: 'furnace_pressure', cost: N }` (Positive = spend, Negative = generate). Also via `resourceValues: { furnace_pressure: N }` |
-<!-- slide -->
-##### Page 2: Classes 11–20
-| # | Class | Resource System | Where in Spell Data | Required Fields & Schema |
-|---|---|---|---|---|
-| 11 | **Exorcist** | Dominance Dice | `resourceCost.resourceValues` or flat fields | `dominanceDiceCost`, `dominanceDiceGain` |
-| 12 | **False Prophet** | Madness Points | `resourceCost.resourceValues` or flat fields | `madnessCost`, `madnessGain` |
-| 13 | **Fate Weaver** | Threads of Destiny | `specialMechanics.threadsOfDestiny` or flat fields | `threads_spend` (number), `threads_generate` (number) |
-| 14 | **Formbender** | Wild Instinct | `resourceCost.resourceValues` or flat fields | `wildInstinctCost`, `wildInstinctGain`, `wildInstinctRequired` |
-| 15 | **Gambler** | Fortune Points | `specialMechanics.fortunePoints` or `resourceCost` | `fortunePointsCost`, `fortunePointsGain`, `fortune_points_cost` |
-| 16 | **Huntress** | Quarry Marks | `resourceCost.resourceValues` or flat fields | `quarryMarkCost`, `quarryMarkGain`, `quarryRequired` |
-| 17 | **Inscriptor** | Runic Resonance / Runes | `resourceCost.resourceValues` or flat fields | ` resonanceCost`, `resonanceGain`, `runesRequired` (array) |
-| 18 | **Lichborne** | HP (Aura Mode) / Phylactery | `resourceCost.resourceValues` | `hp` (number - for active Aura drains), `phylacteryCharges` |
-| 19 | **Lunarch** | Moon Phase | Flat fields or `resourceCost` | `phaseRequired` ('new_moon' \| 'waxing' \| 'full_moon' \| 'waning'), `manaToShift` |
-| 20 | **Martyr** | Devotion Gauge | Flat top-level props or `resourceValues` | `devotionRequired` (number), `devotionGain` (number), `devotionCost` (number) |
-<!-- slide -->
-##### Page 3: Classes 21–30
-| # | Class | Resource System | Where in Spell Data | Required Fields & Schema |
-|---|---|---|---|---|
-| 21 | **Minstrel** | Musical Notes / Combos | `musicalCombo` or `specialMechanics.musicalCombo` | `notes` (array of notes, e.g. `['C', 'E', 'G']`), `cadenceName`, `cadenceNotes` |
-| 22 | **Oracle** | Prophetic Visions | `resourceCost.resourceValues` or flat fields | `visionCost`, `visionGain`, `visionRequired` |
-| 23 | **Plaguebringer** | Virulence / Afflictions | `effectMechanicsConfigs` or flat fields | `virulenceCost`, `virulenceGain`, `afflictionType` |
-| 24 | **Primalist** | Totemic Synergy | `resourceCost.resourceValues` or flat fields | `synergyCost`, `synergyGain`, `totemsRequired` |
-| 25 | **Pyrofiend** | Inferno Veil | `resourceCost.resourceValues` or flat fields | `inferno_ascend` / `infernoAscend`, `inferno_descend` / `infernoDescend`, `inferno_required` / `infernoRequired` |
-| 26 | **Spellguard** | Arcane Energy Points | `resourceCost.resourceValues` or flat fields | `aepCost`, `aepGain`, `aepRequired` |
-| 27 | **Titan** | Celestial Devotion | Flat top-level field | `devotionRequired` (string: `'Solara'` \| `'Lunara'` \| `'Astraeus'` \| `'Terranox'` \| `'Zephyra'`) |
-| 28 | **Toxicologist** | Toxin Vials / Contraptions | `resourceCost.resourceValues` or `effectMechanicsConfigs` | `toxinVialsCost`, `toxinVialsGain`, `contraptionParts` (number) |
-| 29 | **Warden** | Vengeance Points | `resourceCost.resourceValues` or flat fields | `vengeanceCost`, `vengeanceGain`, `vengeanceRequired` |
-| 30 | **Witch Doctor** | Voodoo Essence | `resourceCost.resourceValues` or flat fields | `voodooEssenceCost`, `voodooEssenceGain` |
-````
+### ⚠ Declared-but-unmodeled resources (known design gaps)
+
+These resources are described in their class's `resourceSystem` lore but never appear as a
+cost/gain key in any spell. They need either implementation or removal from the design doc:
+
+| Class | Unmodeled resource | Status |
+|---|---|---|
+| Chronarch | Temporal Strain | declared; no spell references it |
+| Gambit | Karmic Debt | declared dual-ledger; no spell references it |
+| Revenant | Phylactery HP pool | declared; tracked externally, no spell cost |
+| Toxicologist | Contraption Parts | declared (max 5); no spell costs it |
+
+### Encoding patterns (read this before assuming `classResource`)
+
+Only **9 of 20 classes** use the canonical `classResource:{type,cost}` field this reference
+documents. The other 11 use `resourceValues`, top-level flats, or `specialMechanics`. Any engine
+code consuming `classResource` uniformly will silently ignore those 11:
+
+- **`classResource` field (9):** Apex, Augur, Berserker, Chronarch, Harbinger, Inquisitor, Plaguebringer, Shaper, Spellguard, Warden
+- **`resourceValues` map:** Arcanoneer, Pyrofiend, Revenant, (Martyr partial)
+- **Top-level flats:** Martyr (`devotionCost`), Toxicologist (`toxinVials`), Shaper (`bodyTollCost`)
+- **`specialMechanics` / custom:** False Prophet (`resourceGainConfig`), Gambit (`specialMechanics.fortunePoints`), Lunarch (`specialMechanics.phaseInteraction`), Minstrel (`musicalCombo`)
 
 ---
 
@@ -1267,8 +1275,8 @@ Some classes store resource interactions inside a nested `specialMechanics` or s
 
 | Mistake | What Breaks on Card | Fix |
 |---|---|---|
-| `damageType: 'fire'` (string) | No damage type badge | Use `damageTypes: ['fire']` (array) |
-| `school: 'Evocation'` | No border color | Use `typeConfig: { school: 'fire' }` |
+| `damageType: 'ember'` (string) | No damage type badge | Use `damageTypes: ['ember']` (array) |
+| `school: 'Evocation'` | No border color | Use `typeConfig: { school: 'ember' }` |
 | Missing `effectTypes` | No effects render at all | Add `effectTypes: ['damage']` |
 | `effectTypes: ['damage']` but no `damageConfig` | Empty damage section | Add matching config |
 | `resourceCost: { mana: 10 }` missing `actionPoints` | Shows "No Cost" | Add `actionPoints: 1` |
@@ -1300,9 +1308,9 @@ Some classes store resource interactions inside a nested `specialMechanics` or s
   spellType: 'ACTION',
   icon: 'Fire/Flame Burst',
   typeConfig: {
-    school: 'fire',
+    school: 'ember',
     icon: 'Fire/Flame Burst',
-    tags: ['fire', 'damage', 'dot'],
+    tags: ['ember', 'damage', 'dot'],
     castTime: 1,
     castTimeType: 'IMMEDIATE'
   },
@@ -1322,12 +1330,12 @@ Some classes store resource interactions inside a nested `specialMechanics` or s
   effectTypes: ['damage'],
   damageConfig: {
     formula: '1d6',
-    damageTypes: ['fire'],
+    damageTypes: ['ember'],
     resolution: 'DICE',
     dotConfig: {
       enabled: true,
       damagePerTick: '1d4',
-      damageType: 'fire',
+      damageType: 'ember',
       tickFrequency: 'round',
       duration: 2,
       canStack: false,
@@ -1336,7 +1344,7 @@ Some classes store resource interactions inside a nested `specialMechanics` or s
   },
   durationConfig: { durationType: 'rounds', durationValue: 2, durationUnit: 'rounds' },
   cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
-  tags: ['fire', 'damage', 'dot']
+  tags: ['ember', 'damage', 'dot']
 }
 ```
 
@@ -1350,9 +1358,9 @@ Some classes store resource interactions inside a nested `specialMechanics` or s
   spellType: 'ACTION',
   icon: 'Radiant/Radiant Divinity',
   typeConfig: {
-    school: 'radiant',
+    school: 'ember',
     icon: 'Radiant/Radiant Divinity',
-    tags: ['healing', 'buff', 'radiant'],
+    tags: ['healing', 'buff', 'ember'],
     castTime: 1,
     castTimeType: 'IMMEDIATE'
   },
@@ -1380,8 +1388,8 @@ Some classes store resource interactions inside a nested `specialMechanics` or s
     buffType: 'damageMitigation',
     effects: [
       {
-        id: 'radiant_shield',
-        name: 'Radiant Shield',
+        id: 'ember_shield',
+        name: 'Ember Shield',
         description: 'Reduces incoming damage by 25% for 2 rounds',
         mechanicsText: '',
         statModifier: { stat: 'damage_reduction', magnitude: 25, magnitudeType: 'percentage' }
@@ -1394,7 +1402,7 @@ Some classes store resource interactions inside a nested `specialMechanics` or s
   devotionRequired: 1,
   devotionGain: 1,
   cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 },
-  tags: ['healing', 'buff', 'radiant', 'devotion amplifiable']
+  tags: ['healing', 'buff', 'ember', 'devotion amplifiable']
 }
 ```
 
@@ -1406,10 +1414,10 @@ Some classes store resource interactions inside a nested `specialMechanics` or s
   description: 'Place a prophecy of ruin on a target.',
   spellType: 'ACTION',
   icon: 'Necrotic/Skull Burst',
-  school: 'necrotic',
+  school: 'blight',
   level: 1,
   effectTypes: ['damage'],
-  typeConfig: { school: 'necrotic', castTime: '1 action', castTimeType: 'action' },
+  typeConfig: { school: 'blight', castTime: '1 action', castTimeType: 'action' },
   targetingConfig: { targetingType: 'single', rangeDistance: 60, targetRestrictions: ['enemies'] },
   resourceCost: { actionPoints: 1, mana: 6, classResource: { type: 'havoc', cost: 3 } },
   resolution: 'PROPHECY',
@@ -1423,14 +1431,14 @@ Some classes store resource interactions inside a nested `specialMechanics` or s
         damage: '4d8',
         effect: { name: 'Weakened', duration: 2, unit: 'rounds', statModifiers: [{ stat: 'ALL ROLLS', value: -2 }] },
         havocGain: 3,
-        description: '4d8 necrotic damage, -2 to all rolls for 2 rounds.'
+        description: '4d8 blight damage, -2 to all rolls for 2 rounds.'
       },
-      base: { damage: '2d8', havocGain: 1, description: '2d8 necrotic damage.' },
-      outside: { backlash: '1d8 necrotic to self', havocGain: 0, description: 'Backfires: 1d8 necrotic to you.' }
+      base: { damage: '2d8', havocGain: 1, description: '2d8 blight damage.' },
+      outside: { backlash: '1d8 blight to self', havocGain: 0, description: 'Backfires: 1d8 blight to you.' }
     }
   }],
-  damageConfig: { formula: '2d8', damageTypes: ['necrotic'], resolution: 'PROPHECY' },
-  tags: ['damage', 'necrotic', 'prophecy']
+  damageConfig: { formula: '2d8', damageTypes: ['blight'], resolution: 'PROPHECY' },
+  tags: ['damage', 'blight', 'prophecy']
 }
 ```
 
@@ -2562,4 +2570,625 @@ Use this complete, compliant Doomsayer spell definition as a template when creat
 
 ---
 
-*End of SPELL_DATA_REFERENCE.md — Updated May 2026 for Mythrill VTT spell system v2.1*
+# Section 24: Wizard-Generated Options Reference (Complete Field Map)
+
+> This section documents **EVERY field and option** that the Spellcrafting Wizard components
+> actually write to state. It serves as the bridge between the wizard UI and the spell data schema.
+> Fields marked **[WIZARD-ONLY]** are produced by the wizard but not yet in the spec schema above.
+> Fields marked **[NEEDS NORMALIZATION]** are written in a format the card renderer must transform.
+
+---
+
+## 24A. Step 1: Basic Info (`Step1BasicInfo.jsx`)
+
+### Element/Damage Type IDs (canonical 8 + physical)
+
+The wizard uses the **canonical Mythrill damage type set**. Legacy names are normalized
+automatically, but new spells should use these IDs everywhere:
+
+| ID | Category | Encompasses (legacy names) |
+|---|---|---|
+| `physical` | Physical | bludgeoning, piercing, slashing |
+| `ember` | Elemental | fire, radiant, holy |
+| `rime` | Elemental | cold, ice, frost |
+| `storm` | Elemental | lightning, thunder, force |
+| `arcane` | Arcane | arcane |
+| `primal` | Elemental | nature, viscera |
+| `blight` | Otherworldly | necrotic, poison, acid, shadow, void |
+| `wyrd` | Otherworldly | psychic, chaos |
+
+**`typeConfig.secondaryElement`** [PARTIAL] — Second element for dual-damage spells. Set via Step 1.
+The card reads this for dual-type badges but Section 7 audit checklist is the only spec mention.
+
+---
+
+## 24B. Step 2: Spell Type (`Step2SpellType.jsx`)
+
+### CHANNELED-specific `typeConfig` fields [WIZARD-ONLY]
+
+```javascript
+typeConfig: {
+  maxChannelDuration: 3,           // number (mirrors channelingConfig.maxDuration)
+  durationUnit: 'TURNS',           // UPPERCASE in typeConfig (wizard), lowercase in channelingConfig
+  tickFrequency: 'END_OF_TURN',    // 'START_OF_TURN' | 'END_OF_TURN' | 'CONTINUOUS'
+  concentrationDC: 10,             // DC to maintain concentration when damaged
+  dcType: 'SPIRIT',                // UPPERCASE ability name (spec uses lowercase)
+  breakEffect: 'none'              // what happens when channeling is broken
+}
+```
+
+### PASSIVE-specific [WIZARD-ONLY]
+```javascript
+typeConfig: { toggleable: false }  // boolean — can the passive be toggled on/off?
+```
+
+### REACTION-specific [WIZARD-ONLY]
+```javascript
+typeConfig: {
+  availabilityType: 'ALWAYS',      // 'ALWAYS' | 'PREPARED' | 'CONDITIONAL'
+  limitUsesPerTurn: false,         // boolean
+  usesPerTurn: 1,                  // number (when limitUsesPerTurn is true)
+  reactionWindow: 'immediate'      // timing window
+}
+```
+
+### TRAP/STATE-specific [WIZARD-ONLY]
+```javascript
+typeConfig: {
+  placementTime: 1,                // action economy cost to place
+  cooldownAfterTrigger: 0,         // cooldown after the trap/state fires
+  cooldownUnit: 'seconds',         // unit for cooldownAfterTrigger
+  maxTriggers: 1,                  // TRAP default=1, STATE default=-1 (unlimited)
+  stateVisibility: 'visible'       // STATE ONLY: 'visible' | 'self_only' | 'hidden'
+}
+```
+
+**`spellType: 'ZONE'`** [WIZARD-ONLY] — The wizard allows selecting ZONE but spec Section 1
+does not list it. Should be added to spec or removed from wizard.
+
+---
+
+## 24C. Step 3: Effects Configuration
+
+### damageConfig [NEEDS NORMALIZATION]
+
+The wizard writes fields that differ from the spec's damageConfig schema:
+
+| Wizard Field | Spec Equivalent | Notes |
+|---|---|---|
+| `damageType: 'direct' \| 'dot'` | _(no equivalent)_ | Controls wizard UI flow only |
+| `elementType: 'ember'` | `damageTypes: ['ember']` | Spec uses array; wizard uses singular |
+| `secondaryElementType` | _(in typeConfig.secondaryElement)_ | Wizard duplicates it here |
+| `hasDotEffect: false` | _(no equivalent)_ | Wizard combo flag for Immediate+DoT |
+| `canCrit: false` | `criticalConfig.enabled` | Wizard shorthand |
+| `critMultiplier: 2` (top-level) | `criticalConfig.critMultiplier` | Wizard duplicates at top level |
+| `dotConfig.dotFormula` | `dotConfig.damagePerTick` | **Field name mismatch** |
+| `dotConfig.scalingType` | _(no equivalent)_ | `'flat' \| 'progressive'` |
+| `dotConfig.isProgressiveDot` | _(no equivalent)_ | Boolean |
+| `dotConfig.progressiveStages` | _(no equivalent)_ | Array: `[{turn, formula, spellEffect}]` |
+| `dotConfig.cardConfig` | _(no equivalent)_ | Per-DoT CARDS resolution config |
+| `dotConfig.coinConfig` | _(no equivalent)_ | Per-DoT COINS resolution config |
+| `criticalConfig.extraDice` | `criticalConfig.critBonusDamage` | **Field name mismatch** |
+| `criticalConfig.critSuit` | _(no equivalent)_ | Suit for card-specific crits |
+| `savingThrowConfig` (object) | `savingThrow` (object) | **Wrapper object vs inline** |
+| `savingThrowConfig.savingThrowType` | `savingThrow.ability` | Different nesting |
+| `savingThrowConfig.damageFormula` | `directDamageFormula` | **Field name mismatch** |
+| `savingThrowConfig.dotFormula` | `dotDamageFormula` | **Field name mismatch** |
+
+### healingConfig [NEEDS NORMALIZATION]
+
+| Wizard Field | Spec Equivalent | Notes |
+|---|---|---|
+| `healingType: 'shield'` | _(not in spec)_ | Wizard-only healing type |
+| `hasHotEffect` / `hasShieldEffect` | _(no equivalent)_ | Combo flags |
+| `hotFormula` | `hotConfig.healingPerTick` | **Flat vs nested** |
+| `hotDuration` | `hotConfig.duration` | Flat vs nested |
+| `hotTickType` | `hotConfig.tickFrequency` | Flat vs nested |
+| `hotScalingType` | _(no equivalent)_ | `'flat'|'increasing'|'decreasing'|'frontloaded'|'backloaded'|'progressive'` |
+| `hotApplication` | _(no equivalent)_ | `'start' \| 'end'` |
+| `hotTriggerType` | _(no equivalent)_ | `'periodic' \| 'trigger' \| 'channeled'` |
+| `isProgressiveHot` / `hotProgressiveStages` | _(no equivalent)_ | Progressive HoT system |
+| `shieldFormula` | `shieldConfig.shieldAmount` | **Flat vs nested** |
+| `shieldDuration` | `shieldConfig.shieldDuration` | Flat vs nested |
+| `shieldDamageTypes` | _(no equivalent)_ | Damage types the shield blocks |
+| `shieldOverflow` | _(no equivalent)_ | `'dissipate' \| 'convert_to_healing'` |
+| `shieldBreakBehavior` | _(no equivalent)_ | `'fade' \| 'shatter'` |
+| `shieldBreakEffect` / `shieldExpireEffect` | _(no equivalent)_ | Triggered effects |
+| `criticalConfig.extraDice` | `criticalConfig.critBonusHealing` | **Field name mismatch** |
+| Per-resolution configs: `hotCardConfig`, `hotCoinConfig`, `shieldCardConfig`, `shieldCoinConfig` | _(no equivalent)_ | Wizard writes 6 separate resolution configs |
+
+### buffConfig [NEEDS NORMALIZATION]
+
+| Wizard Field | Spec Equivalent | Notes |
+|---|---|---|
+| _(never writes)_ | `buffType` | **CRITICAL: wizard never sets this required field** |
+| `statModifiers[]` | `effects[].statModifier` | **Different array structure** |
+| `statusEffects[]` | `effects[]` | **Wizard uses separate arrays** |
+| `stackingRule` | _(mentioned once in spec)_ | `'replace'|'exclusive'|'highestValue'|'additive'|'multiplicative'|'selfStacking'` |
+| `maxStacks` | _(no equivalent)_ | Number |
+| `magnitude` / `magnitudeType` (top-level) | _(inside effects only)_ | Wizard defaults for new modifiers |
+| `isProgressive` / `progressiveStages` | _(no equivalent)_ | `[{triggerAt, spellEffect, spellData, statModifiers[]}]` |
+| `restType` | _(no equivalent)_ | `'short' \| 'long'` |
+| `statModifiers[].id` | `statModifier.stat` | **Wizard uses `id` for stat name; spec uses `stat`** |
+| `statModifiers[].resistanceType` | _(no equivalent)_ | `'general'|'standard'|'absorption'` |
+| `statModifiers[].resistanceLevel` | _(no equivalent)_ | `'immune'|'resistant'|'vulnerable'|etc.` |
+| `statModifiers[].customFormula` | _(no equivalent)_ | For absorption-type resistances |
+| `statusEffects[].level` | _(no equivalent)_ | `'minor'|'moderate'|'major'` severity |
+| `statusEffects[].hasAdvancedConfig` | _(no equivalent)_ | Boolean |
+| `statusEffects[].options` | _(no equivalent)_ | Embedded options metadata |
+| Per-effect defaults: `inspired.inspirationDie`, `inspired.usesPerDuration`, `inspired.appliesTo`, `blessed.bonusType`, `blessed.bonusDie`, `blessed.affectsAttacks`, `blessed.affectsSaves`, `blessed.affectsSkills`, `resistance.absorptionAmount`, `haste.castingReduction`, `damage_resistance.resistancePercent`, `lifesteal.lifestealPercent` | _(most not in spec)_ | Per-status-effect type-specific defaults |
+
+### debuffConfig [NEEDS NORMALIZATION]
+
+Same structure issues as buffConfig, plus:
+
+| Wizard Field | Spec Equivalent | Notes |
+|---|---|---|
+| _(never writes)_ | `debuffType` | **CRITICAL: wizard never sets this required field** |
+| `statPenalties[]` | `effects[].statPenalty` | **Different array structure** |
+| `concentrationRequired` | _(no equivalent)_ | Wizard-only on debuff |
+| `saveOutcome: 'halves_effects'` | `saveOutcome: 'half'` | **Invalid spec value** |
+| Per-effect `statusEffects[].saveDC`, `.saveType`, `.saveOutcome` | _(top-level only in spec)_ | Wizard adds per-effect save overrides |
+| `progressiveStages[]` with `difficultyClass`, `savingThrow` per stage | _(no equivalent)_ | Per-stage save scaling |
+
+---
+
+## 24D. Step 4: Targeting (`Step4Targeting.jsx`)
+
+### Additional targetingConfig fields [WIZARD-ONLY]
+
+| Field | Type | Values | Notes |
+|---|---|---|---|
+| `maxTargets` | number | default 3 | Maximum number of targets |
+| `selectionMethod` | string | `'manual'|'nearest'|'farthest'|'random'|'lowest_health'|'highest_health'` | How targets are auto-selected |
+| `targetSelectionMethod` | string | same as above | Duplicate of `selectionMethod` |
+| `movementBehavior` | string | `'static'|'follows_caster'|'movable'` | AoE movement behavior |
+| `aoeType` | string | fallback from `aoeShape` | Redundant alias |
+
+### Extended value sets
+
+| Field | Spec Values | Wizard Additional Values |
+|---|---|---|
+| `targetingType` | single, area, self, chain, cone, line | **multi, self_centered, ground** |
+| `rangeType` | melee, ranged, self, touch, self_centered | **sight, unlimited** (NO `melee` in wizard) |
+| `targetRestrictions` | enemies, ally, self, any | **enemy (singular), creature, object, undead, construct, location, friendly_player, friendly_npc, hostile_player, hostile_npc, elemental, demon, beast** |
+
+### Propagation structure [NEEDS NORMALIZATION]
+
+Wizard nests parameters; spec inlines them:
+
+```javascript
+// WIZARD WRITES:
+propagation: { method, behavior, parameters: { count, range, decay, secondaryRadius, spreadRate, forkCount } }
+
+// SPEC EXPECTS:
+propagation: { method, behavior, count, range, decay, secondaryRadius }
+```
+
+| Field | Wizard | Spec | Notes |
+|---|---|---|---|
+| `method: 'forking'` | ✓ | `'fork'` | **Naming mismatch** |
+| `method: 'bounce'`, `'spreading'` | ✓ | _(not in spec)_ | Wizard-only methods |
+| `behavior` IDs | 30+ wizard-specific IDs | `'bounce'|'aoe'|'split'|'homing'` | **Complete mismatch** |
+| `decay` | integer 0-50 (percent) | fraction 0-1 | **Unit mismatch** |
+| `parameters.spreadRate` | ✓ | _(not in spec)_ | For spreading method |
+
+---
+
+## 24E. Step 5: Resources (`Step5Resources.jsx`)
+
+### Additional resourceCost fields [WIZARD-ONLY]
+
+| Field | Type | Notes |
+|---|---|---|
+| `resourceFormulas` | object | Formula strings per resource type (separate from `useFormulas`) |
+| `materialComponents` | string | Text description of material components |
+| `verbalText` | string | Custom verbal component text |
+| `somaticText` | string | Custom somatic component text |
+| `primaryResourceType` | string | The "main" resource for display |
+| `actionPointsSelected` | boolean | Whether the user explicitly selected AP (if false, AP may not be saved) |
+
+### Wizard basic resource types not in spec
+
+`action`, `bonus_action`, `reaction`, `spell_slot` (with `spell_slot_level`),
+`energy`, `focus`, `soul_shards`, `holy_power`, `astral_power`
+
+### Class resource naming mismatches
+
+| Wizard ID | Spec Equivalent | Notes |
+|---|---|---|
+| `rage_state` (6 sub-states) | _(spec only has rageCost/rageGain)_ | Berserker state selector |
+| `drp` (Dark Resilience Points) | `furnace_pressure` | **Dreadnaught: completely different name** |
+| `note_i`–`note_vii` | `musicalCombo.notes: ['C','E','G']` | **Minstrel: different schema entirely** |
+| `quarry_marks` (snake_case) | `quarryMarkCost` (camelCase) | **Huntress: naming convention mismatch** |
+| `vengeance_points` (snake_case) | `vengeanceCost` (camelCase) | **Warden: naming convention mismatch** |
+| `mayhem_generate`/`mayhem_spend` | `classResource: {type:'mayhem', cost:N}` | **Chaos Weaver: different schema** |
+| `ascension_required` | _(not in spec)_ | Deathcaller extra resource |
+
+### Spec classes MISSING from wizard resource types
+
+Augur (Benediction/Malediction), Bladedancer (Momentum/Flourish), Covenbane (Hexbreaker),
+Exorcist (Dominance Dice), False Prophet (Madness), Inscriptor (Runic Resonance),
+Lichborne (Phylactery), Lunarch (Moon Phase), Oracle (Prophetic Visions),
+Plaguebringer (Virulence), Primalist (Totemic Synergy), Spellguard (AEP),
+Titan (Celestial Devotion), Toxicologist (Toxin Vials), Witch Doctor (Voodoo Essence)
+
+---
+
+## 24F. Step 6: Cooldown (`Step6Cooldown.jsx`)
+
+### Full wizard cooldownConfig shape [NEEDS NORMALIZATION]
+
+```javascript
+cooldownConfig: {
+  type: 'turn_based',    // SPEC WANTS: cooldownType
+  value: 1,              // SPEC WANTS: cooldownValue
+  charges: 1,            // [WIZARD-ONLY]
+  recovery: 1            // [WIZARD-ONLY]
+}
+```
+
+| Wizard | Spec | Notes |
+|---|---|---|
+| `type` | `cooldownType` | **Key name mismatch (Rule 6 violation)** |
+| `value` | `cooldownValue` | **Key name mismatch (Rule 6 violation)** |
+| `charges` | _(not documented)_ | Charge count for charge_based |
+| `recovery` | _(not documented)_ | Recovery rate |
+| `type: 'dice_based'` | _(not in spec)_ | Wizard-only cooldown type |
+| _(no UI)_ | `cooldownType: 'encounter'` | Spec value not reachable from wizard |
+
+---
+
+## 24G. Step 8: Channeling (`Step8Channeling.jsx`)
+
+### Extended channeling types [WIZARD-ONLY]
+
+| Type | In Spec? | Notes |
+|---|---|---|
+| `power_up` | YES | |
+| `persistent` | YES | |
+| `staged` | YES | |
+| `area_expand` | **NO** | Area expansion channeling |
+| `defensive` | **NO** | Defensive channeling |
+| `mana_burn` | **NO** | Resource conversion channeling |
+
+### Area Expand fields [WIZARD-ONLY]
+```javascript
+channelingConfig: {
+  initialRadius,         // starting radius (from targeting)
+  maxRadius,             // maximum expansion
+  expansionRate,         // feet per tick
+  expansionType,         // 'linear' | 'pulsing' | 'erratic'
+  targetingDescription   // human-readable area description
+}
+```
+
+### Defensive fields [WIZARD-ONLY]
+```javascript
+channelingConfig: {
+  damageReduction,       // starting damage reduction %
+  maxDamageReduction,    // maximum damage reduction %
+  resistanceType         // 'physical' | 'magical' | 'elemental' | 'all'
+}
+```
+
+### Mana Burn fields [WIZARD-ONLY]
+```javascript
+channelingConfig: {
+  resourceConversionRate,    // conversion efficiency
+  resourceConversionEffect   // 'damage' | 'healing' | 'buff' | 'shield'
+}
+```
+
+### Per-round formula entry [WIZARD-ONLY]
+```javascript
+perRoundFormulas[effectId] = [
+  { round, formula, description, areaInfo: { radius, isExpanded } }
+]
+```
+
+### Cross-step side effects [WIZARD-ONLY]
+Step 8 also writes to:
+- `typeConfig.maxChannelDuration`, `.durationUnit`, `.interruptible`, `.movementAllowed`, `.costValue`, `.costType`, `.costTrigger`
+- `resourceCost.channelingCostTrigger`, `.channelingFrequency`
+- `resourceCost.resourceTypes`, `.resourceValues`, `.useFormulas` (overwrites Step 5 data)
+- `healingConfig.hotFormula`, `damageConfig.dotFormula` (round 1 sync)
+
+---
+
+## 24H. Utility Effects (`UtilityEffects.jsx`)
+
+### `utilityType` values [MISMATCH]
+
+| Wizard Values (5) | Spec Values (22) | Overlap |
+|---|---|---|
+| enhancement, detection, movement, illumination, protection | movement, protection, enhancement, environment, ... | 3 overlap |
+
+Wizard-only: `detection`, `illumination` (spec has `perception`, `environment`)
+Spec-only: 19 values including `fate_manipulation`, `teleportation`, `trap`, `card_draw`, etc.
+
+### `selectedEffects[i]` extended fields [WIZARD-ONLY]
+```javascript
+{
+  id, name, description,           // spec documented
+  customName, customDescription,    // wizard-only
+  potency: 'minor'|'moderate'|'major'|'extreme'|'legendary',  // spec calls this 'power' with only 'minor'|'major'
+  statModifiers: [{ id, name, magnitude, magnitudeType }],    // wizard-only for utility
+  icon,                            // wizard-only
+  flightType, flightSpeed, maxAltitude,  // wizard-only (flight effect)
+  distance, needsLineOfSight, takesOthers  // wizard-only (teleport effect)
+}
+```
+
+---
+
+## 24I. Control Effects (`ControlEffects.jsx`)
+
+### `controlType` values [MISMATCH]
+
+| Wizard Values (6) | Spec Values (25) | Notes |
+|---|---|---|
+| `forced_movement` | `forcedMovement` | **snake_case vs camelCase** |
+| `restriction` | _(not in spec)_ | Wizard-only type |
+| `knockdown`, `restraint`, `incapacitation`, `mind_control` | same | Match |
+
+Spec-only (19): `zone`, `fear`, `charm`, `restrained`, `incapacitated`, `stunned`,
+`silenced`, `lockdown`, `mental`, `frightened`, `paralyze`, `disoriented`, etc.
+
+### Per-effect config fields [WIZARD-ONLY]
+
+```javascript
+effects[i].config: {
+  // Common:
+  duration, durationUnit, savingThrow, savingThrowType, difficultyClass,
+  concentration, strength, customName, customDescription, statModifiers,
+  // Forced movement:
+  distance, movementType: 'push'|'pull'|'slide'|'teleport',
+  movementFlavor: 'force'|'wind'|'gravity'|'telekinetic'|'spectral'|'arcane',
+  // Restraint:
+  restraintType: 'physical'|'magical'|'environmental'|'paralysis',
+  // Mind control:
+  controlLevel: 'suggestion'|'compulsion'|'domination'|'possession',
+  mentalApproach: 'subtle'|'overwhelming'|'seductive'|'terrifying',
+  // Incapacitation:
+  durationType: 'instant'|'temporary'|'concentration'|'permanent',
+  recoveryMethod: 'automatic'|'save_each_turn'|'damage_breaks'|'action_required'
+}
+```
+
+### Top-level shortcut fields [WIZARD-ONLY]
+The wizard also mirrors control-type-specific fields to the top level:
+`mindControlType`, `movementType`, `restraintType`, `knockdownType`,
+`incapacitationType`, `primaryRestrictionType`, `actionRestrictionType`,
+`damageRestrictionType`, `damageSubtypeRestriction`
+
+---
+
+## 24J. Summoning Effects (`SummoningEffects.jsx`)
+
+### Extended fields [WIZARD-ONLY]
+```javascript
+summoningConfig: {
+  // Spec-documented fields...
+  waitForTrigger: false,           // Wait for trigger before summoning
+  creatureId: null,                // Backward-compat: first creature's ID
+  formula: '1d6',                  // Backward-compat derived formula
+  controlType: 'empathic',         // Wizard adds 'empathic' (spec has 'bound' instead)
+  difficultyLevel: 'very_hard',    // Wizard adds 'very_hard' (spec has easy/moderate/hard)
+}
+```
+
+### Creature stats shape [MISMATCH]
+```javascript
+// WIZARD WRITES:
+stats: { maxHp, maxMana, maxAp }
+
+// SPEC EXPECTS:
+stats: { maxHp, armor, maxMana }
+```
+
+### `attachedEffects` aura system [WIZARD-ONLY]
+
+Each creature can have aura-style effects attached. **Not in spec at all.**
+
+```javascript
+creatures[i].config.attachedEffects = {
+  damage: { effectType, formula, elementType, damageType, areaShape, areaRadius, targetType, tickRate, tickUnit },
+  healing: { effectType, formula, healingType, areaShape, areaRadius, targetType, tickRate, tickUnit },
+  buff: { effectType, buffType, stat, magnitude, magnitudeType, durationValue, durationType, durationUnit, targetType, areaShape, areaRadius },
+  debuff: { effectType, debuffType, magnitude, saveDC, saveType, saveOutcome, ... },
+  control: { effectType, controlType, strength, distance, durationValue, targetType, areaShape, areaRadius, saveDC, saveType, saveOutcome }
+}
+```
+
+---
+
+## 24K. Transformation Effects (`TransformationEffects.jsx`)
+
+### Custom transformation types [MISMATCH]
+
+| Wizard Values (10) | Spec Values (10) | Overlap |
+|---|---|---|
+| physical, elemental, mental, spectral, ascended, demonic, divine, primal, blight, arcane | physical, elemental, divine, shadow, spectral, phaseshift, primal, nature, parasitic, celestial | 5 overlap |
+
+### Extended fields [WIZARD-ONLY]
+```javascript
+transformationConfig: {
+  formId: null,                     // Internal creature library ID
+  difficultyClass: 15,              // DC for unwilling targets
+  difficultyCr: 'moderate',         // Challenge rating
+  saveType: 'spirit',               // Save type
+  formula: '1d6',                   // Derived formula
+  isCustom: false,                  // Mode flag
+  selectedCreature: null,           // Full creature object (library mode)
+  power: 'minor'|'moderate'|'major' // Spec has 'major'|'ultimate'
+}
+```
+
+### Granted abilities structure [WIZARD-ONLY]
+Wizard's `grantedAbilities[]` entries can be full mini-spell objects:
+```javascript
+{ id, name, description, spellType, effectTypes[], resourceCost{actionPoints},
+  damageConfig{formula, elementType}, healingConfig{formula},
+  buffConfig{effects[]}, debuffConfig{effects[]}, controlConfig{controlType} }
+```
+Spec expects only `{ id, name, description }`.
+
+---
+
+## 24L. Purification Effects (`PurificationEffects.jsx`)
+
+### Type mismatch
+| Wizard | Spec | Notes |
+|---|---|---|
+| `'dispel' \| 'resurrection'` | `'dispel' \| 'cleanse' \| 'resurrection'` | **Wizard missing `cleanse`** |
+
+### Field mismatches
+| Wizard | Spec | Notes |
+|---|---|---|
+| `selectedEffects[]` | `effects[]` | **Array name mismatch** |
+| `abilitySave: 'spi'` | `abilitySave: 'spirit'` | **Abbreviation vs full name** |
+| `difficulty: 'moderate'` | _(not in spec)_ | Wizard-only difficulty rating |
+| `resolution: 'DICE'` | _(not in spec)_ | Wizard-only resolution for resurrection |
+| `resurrectionFormula` | _(not in spec)_ | Wizard-only formula |
+
+### selectedEffects entry [WIZARD-ONLY]
+```javascript
+{
+  id, name, icon, description,
+  customDuration: 60,          // Duration in seconds
+  customEffects: 1,            // Number of effects to remove (0 = all)
+  purificationType,            // Inherited
+  specificEffectTypes: [],     // Specific damage/effect type IDs to target
+  customRange,                 // Range 5-100 (no UI but function exists)
+  resolution,                  // Resurrection-specific
+  resurrectionFormula          // Resurrection-specific
+}
+```
+
+---
+
+## 24M. Triggers (`Step7Triggers.jsx`)
+
+### Extended trigger sub-objects [WIZARD-ONLY]
+```javascript
+triggerConfig: {
+  global: { enabled: true, ... },           // 'enabled' not in spec
+  effectTriggers: {
+    [type]: { targetingOverride: null, ... } // Not in spec
+  },
+  conditionalEffects: {
+    [type]: { baseFormula, baseSettings, conditionalSettings, ... } // Not in spec
+  }
+}
+```
+
+### Effect trigger subtype mismatch
+| Wizard | Spec | Notes |
+|---|---|---|
+| `damage_combined` | `damage_area` | Different subtype name |
+| `healing_shield`, `healing_combined` | _(not in spec)_ | Wizard-only subtypes |
+| `buff_stat`, `buff_protection`, `buff_utility` | _(not in spec)_ | Wizard-only subtypes |
+| `debuff_stat`, `debuff_control`, `debuff_utility` | _(not in spec)_ | Wizard-only subtypes |
+
+### Additional trigger [WIZARD-ONLY]
+- `trap_damage` trigger (params: `damage_threshold`) — not in spec's Trap trigger table
+
+### Parameter value enums [UNDOCUMENTED]
+The wizard UI provides dropdown values for many trigger parameters that the spec only
+lists the parameter NAME for:
+
+| Parameter | Wizard UI Values |
+|---|---|
+| `creature_type` | any, enemy, ally, player, npc |
+| `area_type` | combat, safe, hazard, marked, custom |
+| `weather_type` | rain, snow, fog, storm, clear |
+| `terrain_type` | forest, mountain, desert, water, urban, underground |
+| `interaction_type` | touch, examine, manipulate, attack |
+| `whose_turn` | self, ally, enemy, any |
+| `magic_type` | arcane, divine, nature, any |
+| `effect_type` | buff, debuff, dot, hot, shield |
+| `entity_type`/`target_type` | self, ally, enemy, any |
+
+---
+
+## 24N. Rollable Tables (`RollableTableStep.jsx`)
+
+### Field name mismatch
+| Wizard | Spec | Notes |
+|---|---|---|
+| `rollableTable.name` | `rollableTable.tableName` | **Key name mismatch** |
+
+### Entry field inconsistency
+- Sample entries use `customName` + `effect`
+- Placeholder/generated entries use `name` + `description`
+- **Internal inconsistency** — should be unified
+
+### Extended entry fields [WIZARD-ONLY]
+```javascript
+entry: {
+  id,                           // Not in spec
+  modifiesBaseSpell: false,     // Whether entry modifies the base spell
+  effectModifications: {},      // Modifications to apply
+  formulaOverrides: {},         // Formula overrides
+  effectType: 'damage'          // Effect type tag
+}
+```
+
+### Missing from wizard
+| Spec Field | Notes |
+|---|---|
+| `diceFormula` | Wizard never writes this (uses `resolutionConfig.diceType`) |
+| `resolutionConfig.deckType` | Wizard never writes `'standard' \| 'tarot'` |
+| `effectConfig.randomTarget` | Wizard doesn't produce |
+| `effectConfig.range` | Wizard doesn't produce |
+
+---
+
+## 24O. Mechanics (`SimplifiedMechanicsConfig.jsx`)
+
+### Toxic system mismatches
+| Issue | Details |
+|---|---|
+| `toxicEffects` vs `graduatedEffects` | Wizard uses `toxicOptions.toxicEffects`; spec uses `toxicOptions.graduatedEffects` |
+| Duplicate `blight` entry | Defined 3× in wizard toxic types (overwrites) |
+| Missing toxic types | `poison` and `acid` not in wizard (spec lists them) |
+| `originalFormula` | Wizard-only field in stateOptions |
+| `specificToxicTypes` | Wizard-only field |
+
+### FORM system mismatch
+| Wizard `bonusType` | Spec `bonusType` |
+|---|---|
+| `'damage'|'healing'|'speed'|'damage_reduction'` | `'damage'|'healing'|'armor'|'defense'` |
+
+### Fields with no UI to change
+The wizard produces these fields but has no UI control to modify them:
+`comboOptions.generationMethod`, `comboOptions.visualStyle`,
+`procOptions.spellId`, `stateOptions.valueType`, `formOptions.requiresForm`,
+`chordOptions.isWildcard`, `chordOptions.partialMatchType`
+
+---
+
+## 24P. Trap Placement (`TrapPlacementStep.jsx`)
+
+### Auto-generated targeting on save [WIZARD-ONLY]
+When the user completes the trap step, the wizard OVERWRITES `targetingConfig` with:
+```javascript
+{
+  targetingType: 'location',           // NOT in spec targetingType list
+  targetRestriction: 'any',            // SINGULAR (spec uses plural array)
+  aoeShape: 'circle',
+  aoeParameters: { radius: placementRadius },
+  rangeType: 'self',
+  rangeDistance: 0,
+  maxTargets: 0,
+  selectionMethod: 'auto'              // NOT in spec selectionMethod list
+}
+```
+
+### Additional trap field
+`trapConfig.placementPosition: { x, y }` [WIZARD-ONLY] — canvas position for the trap.
+
+---
+
+*End of SPELL_DATA_REFERENCE.md — Updated June 2026 for Mythrill VTT spell system v2.2*

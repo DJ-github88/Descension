@@ -853,6 +853,11 @@ const initialState = {
     ],
     activeLayer: 'drawings',
 
+    // Undo/Redo history
+    _undoStack: [],
+    _redoStack: [],
+    _maxHistorySize: 50,
+
     // Current drawing state for real-time preview
     currentDrawingPath: [],
     isCurrentlyDrawing: false,
@@ -3870,6 +3875,88 @@ const useLevelEditorStore = create((set, get) => ({
 
         console.log('🧹 [levelEditorStore] Cleared all fog and memories');
     },
+
+    // ─── Undo / Redo System ───────────────────────────────────────────
+    // Snapshot the editable data so it can be restored on undo.
+    pushHistorySnapshot: () => {
+        const s = get();
+        const snapshot = {
+            terrainData: JSON.parse(JSON.stringify(s.terrainData || {})),
+            wallData: JSON.parse(JSON.stringify(s.wallData || {})),
+            windowOverlays: JSON.parse(JSON.stringify(s.windowOverlays || {})),
+            environmentalObjects: JSON.parse(JSON.stringify(s.environmentalObjects || [])),
+            drawingPaths: JSON.parse(JSON.stringify(s.drawingPaths || [])),
+            dndElements: JSON.parse(JSON.stringify(s.dndElements || [])),
+            fogOfWarPaths: JSON.parse(JSON.stringify(s.fogOfWarPaths || [])),
+            fogErasePaths: JSON.parse(JSON.stringify(s.fogErasePaths || [])),
+            fogOfWarData: JSON.parse(JSON.stringify(s.fogOfWarData || {})),
+            lightSources: JSON.parse(JSON.stringify(s.lightSources || {}))
+        };
+
+        const newUndoStack = [...s._undoStack, snapshot];
+        if (newUndoStack.length > s._maxHistorySize) {
+            newUndoStack.shift();
+        }
+
+        set({ _undoStack: newUndoStack, _redoStack: [] });
+    },
+
+    undo: () => {
+        const s = get();
+        if (s._undoStack.length === 0) return false;
+
+        const previous = s._undoStack[s._undoStack.length - 1];
+
+        // Snapshot current state for redo
+        const currentSnapshot = {
+            terrainData: JSON.parse(JSON.stringify(s.terrainData || {})),
+            wallData: JSON.parse(JSON.stringify(s.wallData || {})),
+            windowOverlays: JSON.parse(JSON.stringify(s.windowOverlays || {})),
+            environmentalObjects: JSON.parse(JSON.stringify(s.environmentalObjects || [])),
+            drawingPaths: JSON.parse(JSON.stringify(s.drawingPaths || [])),
+            dndElements: JSON.parse(JSON.stringify(s.dndElements || [])),
+            fogOfWarPaths: JSON.parse(JSON.stringify(s.fogOfWarPaths || [])),
+            fogErasePaths: JSON.parse(JSON.stringify(s.fogErasePaths || [])),
+            fogOfWarData: JSON.parse(JSON.stringify(s.fogOfWarData || {})),
+            lightSources: JSON.parse(JSON.stringify(s.lightSources || {}))
+        };
+
+        set({
+            ...previous,
+            _undoStack: s._undoStack.slice(0, -1),
+            _redoStack: [...s._redoStack, currentSnapshot]
+        });
+        return true;
+    },
+
+    redo: () => {
+        const s = get();
+        if (s._redoStack.length === 0) return false;
+
+        const next = s._redoStack[s._redoStack.length - 1];
+
+        // Snapshot current state for undo
+        const currentSnapshot = {
+            terrainData: JSON.parse(JSON.stringify(s.terrainData || {})),
+            wallData: JSON.parse(JSON.stringify(s.wallData || {})),
+            windowOverlays: JSON.parse(JSON.stringify(s.windowOverlays || {})),
+            environmentalObjects: JSON.parse(JSON.stringify(s.environmentalObjects || [])),
+            drawingPaths: JSON.parse(JSON.stringify(s.drawingPaths || [])),
+            dndElements: JSON.parse(JSON.stringify(s.dndElements || [])),
+            fogOfWarPaths: JSON.parse(JSON.stringify(s.fogOfWarPaths || [])),
+            fogErasePaths: JSON.parse(JSON.stringify(s.fogErasePaths || [])),
+            fogOfWarData: JSON.parse(JSON.stringify(s.fogOfWarData || {})),
+            lightSources: JSON.parse(JSON.stringify(s.lightSources || {}))
+        };
+
+        set({
+            ...next,
+            _undoStack: [...s._undoStack, currentSnapshot],
+            _redoStack: s._redoStack.slice(0, -1)
+        });
+        return true;
+    },
+    // ─── End Undo / Redo ──────────────────────────────────────────────
 
     // Reset store to initial state
     // CRITICAL FIX: Preserve playerMemories and currentPlayerId to maintain exploration progress

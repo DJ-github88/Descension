@@ -1,4 +1,4 @@
-export const groven = {
+﻿export const groven = {
   id: 'groven',
   name: 'Groven',
   essence: 'Humanoid bridge-trolls of the Cragjaw Peaks',
@@ -192,7 +192,7 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
         {
           id: 'morgh_stone_scales',
           name: 'Stone-Scale Plating',
-          description: 'The old Thrumm hide never fully smoothed — dense, interlocking mineral plates still encase the shoulders, spine, and outer limbs of every Morgh, a stoic and unyielding carapace grown from the same primordial stone that shaped their ancestors. This natural armor turns blades and sheds frost with the indifference of the mountain itself. But the stone that shields also remembers the alchemists\' forge: fire damage is doubled against you, and each searing hit cracks one of your plates, reducing your Armor by 1 (stacking to -3). Regrow the cracked plates by spending 1 hour in direct contact with natural stone or living rock — the earth gave you armor, and the earth alone can restore what the forge has peeled away.',
+          description: 'The old Thrumm hide never fully smoothed — dense, interlocking mineral plates still encase the shoulders, spine, and outer limbs of every Morgh, a stoic and unyielding carapace grown from the same primordial stone that shaped their ancestors. This natural armor turns blades and sheds frost with the indifference of the mountain itself. But the stone that shields also remembers the alchemists\' forge: ember damage is doubled against you, and each searing hit cracks one of your plates, reducing your Armor by 1 (stacking to -3). Regrow the cracked plates by spending 1 hour in direct contact with natural stone or living rock — the earth gave you armor, and the earth alone can restore what the forge has peeled away.',
           level: 1,
           icon: 'ability_warrior_shieldmastery',
           spellType: 'PASSIVE',
@@ -226,7 +226,7 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
               name: 'Fire-Cracked Plates',
               description: '100% fire vulnerability. Each fire hit: -1 Armor (max -3). Recover plates after 1 hour resting on natural stone.',
               statusEffect: {
-                vulnerabilityType: 'fire',
+                vulnerabilityType: 'ember',
                 vulnerabilityPercent: 100,
                 armorLossOnFire: 1,
                 maxArmorLoss: 3,
@@ -405,14 +405,14 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
         {
           id: 'ithran_span_reach',
           name: 'Span-Reach Agility',
-          description: 'The Fexric serums stretched Ithran limbs for spanning the impossible chasms of the Cragjaw Peaks — and they never stopped stretching, never stopped pulling at the joints, never let the blood forget what it was designed to do. Your movement speed increases by +10ft permanently, and on bridges and natural stone surfaces, you ignore all difficult terrain — the span recognizes its own children and smooths the way beneath their feet. But the serums bred motion into your very blood. For every full round you remain stationary in combat, you take 1 psychic damage: the stillness is the vat, the vat is the stillness, and every moment spent motionless is a moment the body remembers what it felt like to float in glass while alchemists watched from the other side.',
+          description: 'The Fexric serums stretched Ithran limbs for spanning the impossible chasms of the Cragjaw Peaks — and they never stopped stretching, never stopped pulling at the joints, never let the blood forget what it was designed to do. Your movement speed increases by +10ft permanently, and on bridges and natural stone surfaces, you ignore all difficult terrain — the span recognizes its own children and smooths the way beneath their feet. But the serums bred motion into your very blood. For every full round you remain stationary in combat, you take 1 wyrd damage: the stillness is the vat, the vat is the stillness, and every moment spent motionless is a moment the body remembers what it felt like to float in glass while alchemists watched from the other side.',
           level: 1,
           icon: 'ability_druid_dash',
           spellType: 'PASSIVE',
           effectTypes: ['buff', 'utility', 'debuff'],
           typeConfig: {
             category: 'racial',
-            school: 'nature',
+            school: 'primal',
             tags: ['movement', 'speed', 'restlessness', 'passive']
           },
           buffConfig: {
@@ -445,7 +445,7 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
             effects: [{
               id: 'restless_vat_echo',
               name: 'Vat-Restlessness',
-              description: 'For every full round stationary in combat, take 1 psychic damage. The serums bred motion into your blood.',
+              description: 'For every full round stationary in combat, take 1 wyrd damage. The serums bred motion into your blood.',
               statusEffect: {
                 type: 'vat_restlessness',
                 triggerCondition: 'stationary_in_combat',
@@ -483,7 +483,7 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
           effectTypes: ['buff', 'debuff'],
           typeConfig: {
             category: 'racial',
-            school: 'nature',
+            school: 'primal',
             tags: ['insight', 'detection', 'truth', 'passive']
           },
           buffConfig: {
@@ -542,7 +542,7 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
           effectTypes: ['utility', 'debuff'],
           typeConfig: {
             category: 'racial',
-            school: 'nature',
+            school: 'primal',
             tags: ['divination', 'spirit', 'blood', 'ancestor']
           },
           utilityConfig: {

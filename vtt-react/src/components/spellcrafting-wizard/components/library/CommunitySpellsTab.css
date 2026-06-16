@@ -418,6 +418,36 @@
   box-shadow: 0 12px 25px rgba(81, 207, 102, 0.2);
 }
 
+/* Mythrill canonical damage type glows */
+.community-spell-card-wrapper:hover:has(.spell-ember) {
+  border-color: #ff6b6b;
+  box-shadow: 0 12px 25px rgba(255, 107, 107, 0.2);
+}
+.community-spell-card-wrapper:hover:has(.spell-rime) {
+  border-color: #4dadf7;
+  box-shadow: 0 12px 25px rgba(77, 173, 247, 0.2);
+}
+.community-spell-card-wrapper:hover:has(.spell-storm) {
+  border-color: #fcc419;
+  box-shadow: 0 12px 25px rgba(252, 196, 25, 0.2);
+}
+.community-spell-card-wrapper:hover:has(.spell-primal) {
+  border-color: #51cf66;
+  box-shadow: 0 12px 25px rgba(81, 207, 102, 0.2);
+}
+.community-spell-card-wrapper:hover:has(.spell-blight) {
+  border-color: #b197fc;
+  box-shadow: 0 12px 25px rgba(177, 151, 252, 0.25);
+}
+.community-spell-card-wrapper:hover:has(.spell-wyrd) {
+  border-color: #e64980;
+  box-shadow: 0 12px 25px rgba(230, 73, 128, 0.2);
+}
+.community-spell-card-wrapper:hover:has(.spell-divine) {
+  border-color: #ffd43b;
+  box-shadow: 0 12px 25px rgba(255, 212, 59, 0.2);
+}
+
 /* Card Actions Panel */
 .community-spell-actions {
   padding: 12px 16px;

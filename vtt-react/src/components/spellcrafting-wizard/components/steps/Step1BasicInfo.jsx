@@ -29,12 +29,13 @@ const Step1BasicInfo = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
     { id: 'arcane', name: 'Arcane', description: 'Pure magical energy that bypasses normal defenses', iconPath: 'Arcane/Orb Manipulation', iconCategory: 'abilities', color: '#6c3dbf' },
     { id: 'blight', name: 'Blight', description: 'Death magic, toxic poison, and void corruption', iconPath: 'Necrotic/Necrotic Skull', iconCategory: 'abilities', color: '#53236e' },
     { id: 'wyrd', name: 'Wyrd', description: 'Mind-based magic that confuses and terrifies', iconPath: 'Psychic/Brain Psionics', iconCategory: 'abilities', color: '#87206f' },
+    { id: 'divine', name: 'Divine', description: 'Sacred radiance that smites the unholy and blesses the faithful', iconPath: 'Radiant/Radiant Divinity', iconCategory: 'abilities', color: '#DAA520' },
   ];
 
   const elementCategories = {
     all: allElements,
     elemental: allElements.filter(e => ['ember', 'rime', 'storm', 'primal'].includes(e.id)),
-    magical: allElements.filter(e => ['arcane', 'wyrd', 'blight'].includes(e.id)),
+    magical: allElements.filter(e => ['arcane', 'wyrd', 'blight', 'divine'].includes(e.id)),
     physical: allElements.filter(e => e.id === 'physical'),
   };
 

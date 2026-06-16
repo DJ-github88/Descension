@@ -2191,7 +2191,7 @@ Under this rule, a player who rolled a 3-6 can immediately choose to push their 
 - **Animist**: Spirit channeler. Channels ancestral spirits to build resonance and empower allies.
 
 **The Shadow (Hybrid/Utility)**: You do not fit one box. You adapt.
-- **Arcanoneer**: Elemental sphere crafter. Combines elements for dynamic spell effects.
+- **Arcanoneer**: Elemental Building Block crafter. Combines elements for dynamic spell effects.
 - **Inquisitor**: Anti-magic hunter and demon binder. Disrupts spellcasting, nullifies corruption, and commands bound fiends through sacred ritual.
 - **Revenant**: Death caster. Combines volatile blood sacrifice with frost-stasis phylactery. Death Shroud toggle and Death Toll volatility.
 - **Shaper**: Kinetic biology shapeshifter. Six forms blending momentum dance with physical adaptation.
@@ -2207,7 +2207,7 @@ Under this rule, a player who rolled a 3-6 can immediately choose to push their 
               headers: ['Class', 'Role', 'Resource', 'Playstyle'],
               clickableColumn: 0, // Make the first column (Class) clickable
               rows: [
-                ['Arcanoneer', 'Damage/Utility', 'Sphere Generation & Combination', 'Master of elemental sphere combination with dynamic spell crafting'],
+                ['Arcanoneer', 'Damage/Utility', 'Building Blocks & Combinations', 'Master of elemental Building Block combination with dynamic spell crafting'],
                 ['Berserker', 'Damage', 'Rage Points', 'Fury warrior with momentum-based combat'],
                 ['Shaper', 'Hybrid (Damage/Mobility/Adaptation)', 'Kinetic Flux', 'Kinetic biology shapeshifter blending momentum dance with physical adaptation'],
                 ['Harbinger', 'Damage', 'Mayhem Modifiers', 'Master of unpredictability with highest damage potential'],
@@ -3626,7 +3626,7 @@ Both dice use the weapon type to pick the correct outcome text.`
               layout: 'armor-grid',
               headers: ['Resource', 'Used By', 'How It Works'],
               rows: [
-                ['Sphere Generation & Combination', 'Arcanoneer', 'Generate elemental spheres; combine for powerful effects'],
+                ['Building Blocks & Combinations', 'Arcanoneer', 'Generate Building Blocks; combine for powerful effects'],
                 ['Rage Points', 'Berserker', 'Builds on hits/being hit; decays out of combat'],
                 ['Kinetic Flux & Body Toll', 'Shaper', 'Flux builds from combat actions; Body Toll escalates with each form shift (risk of identity collapse)'],
                 ['Mayhem Modifiers', 'Harbinger', 'Generate chaos spheres; spend to twist spells unpredictably'],

@@ -13,6 +13,7 @@ import { getQualityColor } from '../../../../constants/itemConstants';
 import { getAbilityIconUrl, getCustomIconUrl, getIconUrl } from '../../../../utils/assetManager';
 import { SKILL_DEFINITIONS, SKILL_CATEGORIES, SKILL_RANKS } from '../../../../constants/skillDefinitions';
 import { ROLLABLE_TABLES } from '../../../../constants/rollableTables';
+import { BESTIARY_DATA } from '../../../../data/creatureData';
 import { calculateStatModifier } from '../../../../utils/characterUtils';
 import useCreatureStore from '../../../../store/creatureStore';
 import useGridItemStore from '../../../../store/gridItemStore';
@@ -32,6 +33,30 @@ import './EnhancedCreatureInspectView.css';
 // Helper function to calculate ability modifier
 const calculateModifier = (value) => {
   return Math.floor((value - 10) / 2);
+};
+
+// Look up a creature's illustration from BESTIARY_DATA by id / creatureId / name.
+// Bestiary-sourced creatures carry rich lore (origin, nature, habitat, depth) but
+// the library/token copies don't include the illustration, so we resolve it here.
+const findBestiaryIllustration = (creature) => {
+  if (!creature) return null;
+  const id = creature.id || creature.creatureId;
+  const name = creature.name ? String(creature.name).toLowerCase() : null;
+  for (const region of BESTIARY_DATA.regions) {
+    for (const c of region.creatures) {
+      if ((id && c.id === id) || (name && c.name.toLowerCase() === name)) {
+        return {
+          illustration: c.illustration,
+          illustrationCaption: c.illustrationCaption,
+          name: c.name,
+          region: region.name,
+          role: c.role,
+          dangerLevel: c.dangerLevel
+        };
+      }
+    }
+  }
+  return null;
 };
 
 // Helper function to format modifier with + or - sign
@@ -2144,71 +2169,106 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
 
   // Render the Description section
   const renderDescriptionSection = () => {
+    // Resolve bestiary artwork + meta: prefer fields carried on the token/creature,
+    // otherwise look them up in BESTIARY_DATA by id/name (bestiary-sourced creatures).
+    const bestiaryMatch = findBestiaryIllustration(creature);
+    const illustration = creature?.illustration || bestiaryMatch?.illustration || null;
+    const illustrationCaption = creature?.illustrationCaption || bestiaryMatch?.illustrationCaption || null;
+    const region = bestiaryMatch?.region || null;
+    const role = creature?.role || bestiaryMatch?.role || null;
+    const dangerLevel = bestiaryMatch?.dangerLevel || null;
+    const hasMeta = region || role || dangerLevel;
+
+    const loreEntries = [
+      creature?.origin && { icon: 'fa-feather-pointed', title: 'Folklore Origin', text: creature.origin },
+      creature?.nature && { icon: 'fa-dragon', title: 'Nature & Behavior', text: creature.nature },
+      creature?.habitat && { icon: 'fa-map-location-dot', title: 'Habitat', text: creature.habitat },
+      creature?.depth && { icon: 'fa-mask-cat', title: 'The Truth Beneath', text: creature.depth, depth: true },
+    ].filter(Boolean);
+
     return (
-      <>
-        <div className="creature-inspect-section">
-          {/* Main Description */}
-          <div className="creature-description">
-            {creature.description || "No description available."}
+      <div className="creature-inspect-section creature-lore-page">
+        {/* ===== Masthead: portrait + meta + lead paragraph ===== */}
+        <div className={`creature-lore-masthead ${illustration ? 'has-portrait' : 'no-portrait'}`}>
+          {illustration && (
+            <div className="creature-lore-portrait">
+              <div className="creature-lore-portrait-frame">
+                <img
+                  src={illustration}
+                  alt={illustrationCaption || creature?.name || 'Creature'}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.style.display = 'none';
+                  }}
+                />
+              </div>
+              {illustrationCaption && (
+                <div className="creature-lore-caption">
+                  <i className="fas fa-camera-retro"></i> {illustrationCaption}
+                </div>
+              )}
+            </div>
+          )}
+          <div className="creature-lore-lead">
+            {hasMeta && (
+              <div className="creature-lore-meta">
+                {region && (
+                  <span className="lore-meta-chip"><i className="fas fa-book-open"></i> {region}</span>
+                )}
+                {role && (
+                  <span className="lore-meta-chip"><i className="fas fa-shield-halved"></i> {role}</span>
+                )}
+                {dangerLevel && (
+                  <span className={`lore-meta-chip danger ${dangerLevel.toLowerCase().replace(/\s+/g, '-')}`}>
+                    <i className="fas fa-skull"></i> {dangerLevel} Danger
+                  </span>
+                )}
+              </div>
+            )}
+            <p className="creature-lore-lead-text">
+              {creature?.description || "No description available."}
+            </p>
           </div>
-
-          {/* Lore & Legends - Rich world-building content */}
-          {creature.origin && (
-            <div className="creature-lore-section">
-              <h4 className="creature-lore-title">
-                <i className="fas fa-feather-pointed"></i> Folklore Origin
-              </h4>
-              <div className="creature-lore-content">
-                {creature.origin}
-              </div>
-            </div>
-          )}
-
-          {creature.nature && (
-            <div className="creature-lore-section">
-              <h4 className="creature-lore-title">
-                <i className="fas fa-dragon"></i> Nature & Behavior
-              </h4>
-              <div className="creature-lore-content">
-                {creature.nature}
-              </div>
-            </div>
-          )}
-
-          {creature.habitat && (
-            <div className="creature-lore-section">
-              <h4 className="creature-lore-title">
-                <i className="fas fa-map-location-dot"></i> Habitat
-              </h4>
-              <div className="creature-lore-content">
-                {creature.habitat}
-              </div>
-            </div>
-          )}
-
-          {creature.depth && (
-            <div className="creature-lore-section creature-lore-depth">
-              <h4 className="creature-lore-title">
-                <i className="fas fa-mask-cat"></i> The Truth Beneath
-              </h4>
-              <div className="creature-lore-content">
-                {creature.depth}
-              </div>
-            </div>
-          )}
-
-          {creature.tags && creature.tags.length > 0 && (
-            <div className="creature-tags-section">
-              <h3 className="section-title">Tags</h3>
-              <div className="creature-tags">
-                {creature.tags.map((tag, index) => (
-                  <span key={index} className="creature-tag">{tag}</span>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
-      </>
+
+        {/* ===== Ornamental divider ===== */}
+        {loreEntries.length > 0 && (
+          <div className="creature-lore-divider" aria-hidden="true">
+            <span></span>
+            <i className="fas fa-feather"></i>
+            <span></span>
+          </div>
+        )}
+
+        {/* ===== Lore body: two-column codex grid ===== */}
+        {loreEntries.length > 0 && (
+          <div className="creature-lore-grid">
+            {loreEntries.map((entry, i) => (
+              <div
+                key={i}
+                className={`creature-lore-section ${entry.depth ? 'creature-lore-depth' : ''}`}
+              >
+                <h4 className="creature-lore-title">
+                  <i className={`fas ${entry.icon}`}></i> {entry.title}
+                </h4>
+                <div className="creature-lore-content">{entry.text}</div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* ===== Tags ===== */}
+        {creature?.tags && creature.tags.length > 0 && (
+          <div className="creature-tags-section">
+            <h3 className="section-title">Tags</h3>
+            <div className="creature-tags">
+              {creature.tags.map((tag, index) => (
+                <span key={index} className="creature-tag">{tag}</span>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
     );
   };
 

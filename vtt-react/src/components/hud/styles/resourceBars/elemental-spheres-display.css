@@ -406,6 +406,29 @@
     cursor: not-allowed;
 }
 
+/* Dice button with a mode label — switch to a compact icon-over-label pill so
+   the current mode (Roll/Spec/Reroll/Swap) is always visible, not just on hover. */
+.sphere-icon-btn:has(.sphere-mode-label) {
+    flex-direction: column;
+    width: auto;
+    min-width: 30px;
+    height: auto;
+    min-height: 28px;
+    gap: 0;
+    padding: 2px 4px;
+    line-height: 1;
+}
+.sphere-mode-label {
+    font-size: 7px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    color: #f8f4e6;
+    opacity: 0.92;
+}
+.elemental-spheres-container.small .sphere-mode-label { font-size: 6px; }
+.elemental-spheres-container.large .sphere-mode-label { font-size: 8px; }
+
 /* Sphere control buttons (for small/normal sizes) */
 .sphere-roll-btn,
 .sphere-clear-btn {

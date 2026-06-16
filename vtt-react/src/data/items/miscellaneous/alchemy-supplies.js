@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Alchemy & Ritual Supplies
  * 
  * Liquids & Powders, Essences, and Containers
@@ -87,7 +87,7 @@ export const ALCHEMY_SUPPLIES = [
     professions: ['Alchemy'],
     gatheringMethod: 'mining',
     reagentType: 'Powder',
-    magicType: 'fire',
+    magicType: 'ember',
     reagentState: 'Processed'
   },
   {
@@ -131,7 +131,7 @@ export const ALCHEMY_SUPPLIES = [
     professions: ['Alchemy', 'Enchanting'],
     gatheringMethod: 'crafting',
     reagentType: 'Essence',
-    magicType: 'fire',
+    magicType: 'ember',
     reagentState: 'Concentrated'
   },
   {
@@ -152,7 +152,7 @@ export const ALCHEMY_SUPPLIES = [
     professions: ['Alchemy', 'Enchanting'],
     gatheringMethod: 'crafting',
     reagentType: 'Essence',
-    magicType: 'frost',
+    magicType: 'rime',
     reagentState: 'Concentrated'
   },
   {
@@ -173,7 +173,7 @@ export const ALCHEMY_SUPPLIES = [
     professions: ['Alchemy', 'Enchanting'],
     gatheringMethod: 'crafting',
     reagentType: 'Essence',
-    magicType: 'nature',
+    magicType: 'primal',
     reagentState: 'Concentrated'
   },
   {
@@ -194,7 +194,7 @@ export const ALCHEMY_SUPPLIES = [
     professions: ['Alchemy', 'Enchanting'],
     gatheringMethod: 'crafting',
     reagentType: 'Essence',
-    magicType: 'necrotic',
+    magicType: 'blight',
     reagentState: 'Concentrated'
   },
   {

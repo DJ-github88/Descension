@@ -19,9 +19,11 @@
  * @returns {Object} - Fully normalized spell object
  */
 
+// Map ONLY truly deprecated/obsolete damage type names to spec-valid equivalents.
+// Do NOT rewrite IDs that are already valid per SPELL_DATA_REFERENCE.md Section 3.
 const LEGACY_DAMAGE_TYPE_MAP = {
-  cold: 'rime', ice: 'rime', shadow: 'blight', holy: 'ember',
-  acid: 'blight', thunder: 'storm', viscera: 'primal', electric: 'storm',
+  electric: 'lightning',   // deprecated alias
+  viscera: 'necrotic',     // deprecated alias
 };
 
 function _normalizeLegacyDamageType(type) {
@@ -126,7 +128,8 @@ export const normalizeSpell = (spell) => {
   }
 
   // 8. Normalize cooldown and duration
-  normalized.cooldownConfig = normalized.cooldownConfig || { cooldown: 0, charges: 1 };
+  normalized.cooldownConfig = normalized.cooldownConfig || { cooldownType: 'turn_based', cooldownValue: 0 };
+  // Migrate legacy {type, value} keys to {cooldownType, cooldownValue}
   if (normalized.cooldownConfig.type !== undefined && normalized.cooldownConfig.cooldownType === undefined) {
     normalized.cooldownConfig.cooldownType = normalized.cooldownConfig.type;
     delete normalized.cooldownConfig.type;
@@ -134,6 +137,12 @@ export const normalizeSpell = (spell) => {
   if (normalized.cooldownConfig.value !== undefined && normalized.cooldownConfig.cooldownValue === undefined) {
     normalized.cooldownConfig.cooldownValue = normalized.cooldownConfig.value;
     delete normalized.cooldownConfig.value;
+  }
+  // Migrate legacy {cooldown, charges} pattern
+  if (normalized.cooldownConfig.cooldown !== undefined && normalized.cooldownConfig.cooldownType === undefined) {
+    normalized.cooldownConfig.cooldownType = 'turn_based';
+    normalized.cooldownConfig.cooldownValue = normalized.cooldownConfig.cooldown;
+    delete normalized.cooldownConfig.cooldown;
   }
   normalized.durationConfig = normalized.durationConfig || { durationType: 'instant', durationValue: 0 };
   if (normalized.durationConfig.durationType && !normalized.durationConfig.durationUnit) {
@@ -273,9 +282,8 @@ function normalizeEffectTypes(spell) {
 function normalizeDamageTypes(spell) {
   const damageTypes = [];
 
-  // From typeConfig (Step 1 of wizard) - but only if it's actually a damage type, not a magic school
-  const magicSchools = ['arcane', 'divine', 'primal', 'occult', 'evocation', 'necromancy', 'enchantment', 'illusion', 'transmutation', 'conjuration', 'abjuration', 'divination'];
-  if (spell.typeConfig?.school && !magicSchools.includes(spell.typeConfig.school.toLowerCase())) {
+  // From typeConfig (Step 1 of wizard) - school is always a damage type in Mythrill's 9-type system
+  if (spell.typeConfig?.school) {
     damageTypes.push(spell.typeConfig.school);
   }
   if (spell.typeConfig?.secondaryElement) {
@@ -683,7 +691,7 @@ function normalizeSummoningConfig(spell) {
 }
 
 function normalizeTransformationConfig(spell) {
-  return spell.transformationConfig || null;
+  return spell.transformationConfig || spell.transformConfig || null;
 }
 
 function normalizePurificationConfig(spell) {

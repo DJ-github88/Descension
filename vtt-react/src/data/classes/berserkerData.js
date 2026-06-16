@@ -134,7 +134,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
 *Your health is down to 25%. You are at Death's Door. Your vision is a tunnel of red. The Golem's high physical resistance has ignored your allies' strikes, but you swing with desperate, apocalyptic force.*
 - **Action**: Cast **Frenzied Slash** → Hit!
 - **Why Bring Me?**: Because you are under 30% HP, your strike completely bypasses the Golem's stone resistance!
-- **Damage**: Deal 45 unmitigated slashing damage.
+- **Damage**: Deal 45 unmitigated physical damage.
 - **Blood-Heat**: Spend 8 Rage (drops to 27) but gain +15 Rage on hit (ends at 42 - Primal State).
 - **Recoil**: Take 1d4 physical damage.
 *The Golem cracks, granite sundering under a strike that should have been physically impossible for a mortal frame. You stand blind with fury, your heart hammering a tragic dirge.*`,
@@ -187,7 +187,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
     {
       step: 3,
       title: "Bind Your Stance",
-      description: "Toggle Calloused Hide (+2 Armor, build Blood-Heat on pain) or Boiling Veins (+1d4 ember/slashing damage, constant HP drain).",
+      description: "Toggle Calloused Hide (+2 Armor, build Blood-Heat on pain) or Boiling Veins (+1d4 ember/physical damage, constant HP drain).",
     },
     {
       step: 4,
@@ -386,7 +386,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
         formula: "1d12 + strength",
         damageTypes: ["physical"],
         resolution: "DICE",
-        description: "A brutal, agonizing swing. Deals massive slashing damage, but the recoil snaps your own muscle fibers.",
+        description: "A brutal, agonizing swing. Deals massive physical damage, but the recoil snaps your own muscle fibers.",
       },
 
       debuffConfig: {
@@ -536,7 +536,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
       id: "berserk_boiling_veins",
       name: "Boiling Veins",
       description:
-        "Toggle a terrifying offensive stance. You allow your Blood-Heat to boil within your vessels. Your melee attacks deal bonus ember/slashing damage and boil your adrenaline rapidly—but your vessels rupture, burning your own life away each turn.",
+        "Toggle a terrifying offensive stance. You allow your Blood-Heat to boil within your vessels. Your melee attacks deal bonus ember/physical damage and boil your adrenaline rapidly—but your vessels rupture, burning your own life away each turn.",
       level: 1,
       spellType: "PASSIVE",
       icon: "Slashing/Bloody Slash",
@@ -572,8 +572,8 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
           {
             id: "boiling_blood_strike",
             name: "Boiling Blood Strike",
-            description: "Your melee attacks deal +1d4 bonus ember/slashing damage and generate +2 additional Blood-Heat on hit.",
-            mechanicsText: "+1d4 bonus ember/slashing damage, +2 Blood-Heat on hit",
+            description: "Your melee attacks deal +1d4 bonus ember/physical damage and generate +2 additional Blood-Heat on hit.",
+            mechanicsText: "+1d4 bonus ember/physical damage, +2 Blood-Heat on hit",
             statModifier: {
               stat: "damage",
               magnitude: "1d4",
@@ -611,7 +611,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
             id: "boiling_veins_hit",
             name: "Boiling Blood Strike",
             triggerType: "on_hit",
-            action: "Add +1d4 bonus ember/slashing damage and generate +2 Blood-Heat."
+            action: "Add +1d4 bonus ember/physical damage and generate +2 Blood-Heat."
           }
         ]
       },
@@ -1652,8 +1652,8 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
           {
             id: "boiling_blood_spray",
             name: "Boiling Blood Spray",
-            description: "All melee attacks deal +2d6 bonus ember/slashing damage. Bypasses 50% of enemy Armor.",
-            mechanicsText: "Melee attacks deal +2d6 bonus ember/slashing damage and bypass 50% Armor",
+            description: "All melee attacks deal +2d6 bonus ember/physical damage. Bypasses 50% of enemy Armor.",
+            mechanicsText: "Melee attacks deal +2d6 bonus ember/physical damage and bypass 50% Armor",
             statModifier: {
               stat: "damage",
               magnitude: "2d6",
@@ -1691,7 +1691,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
             id: "blood_frenzy_spray",
             name: "Arterial Stance",
             triggerType: "passive",
-            action: "melee attacks deal +2d6 bonus ember/slashing damage and bypass 50% of enemy Armor while active."
+            action: "melee attacks deal +2d6 bonus ember/physical damage and bypass 50% of enemy Armor while active."
           },
           {
             id: "blood_frenzy_leak",
@@ -1930,7 +1930,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
       id: "berserk_primal_cataclysm",
       name: "Primal Cataclysm",
       description:
-        "Erupt in an explosion of desperate, earth-shaking violence. You strike the ground, tearing your own muscle tissue completely to deal massive crushing damage to all nearby foes.",
+        "Erupt in an explosion of desperate, earth-shaking violence. You strike the ground, tearing your own muscle tissue completely to unleash a 25-foot shockwave that deals 6d10 + Strength physical damage to all nearby foes (DC 19 Constitution save for half). The exertion ravages your body: you suffer 4d6 physical damage and your Armor is reduced by 4 for 2 rounds.",
       level: 9,
       spellType: "ACTION",
       icon: "Arcane/Missile",

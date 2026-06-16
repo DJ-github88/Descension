@@ -4,10 +4,9 @@ import { getSpellRollableTable } from '../spellcrafting-wizard/core/utils/spellC
 import ClassResourceBar from '../hud/ClassResourceBar';
 import { getIconUrl, getCustomIconUrl } from '../../utils/assetManager';
 import { getClassResourceConfig } from '../../data/classResources';
-import SphereComboFinder from './SphereComboFinder';
-import './ClassDetailDisplay.css';
+import SphereComboFinder from '../../data/classes/arcanoneer/components/SphereComboFinder';
 import ClassIcon from '../common/ClassIcon';
-import './SphereComboFinder.css';
+import './ClassDetailDisplay.css';
 import LoreLink from '../common/LoreLink';
 import { autoLinkTerminology } from '../../utils/loreAutoLinker';
 import { RULES_CATEGORIES } from '../../data/rulesData';
@@ -95,12 +94,12 @@ const buildDemoClassResource = (className) => {
     };
   }
 
-  // Arcanoneer: elemental spheres (uses max = 4 to avoid 0 block)
+  // Arcanoneer: Building Blocks demo (max = 12 bank cap; start with 4 random blocks)
   if (cfg.visual?.type === 'elemental-spheres') {
     return {
       current: 4,
-      max: 4,
-      spheres: ['fire', 'frost', 'arcane', 'nature']
+      max: 12,
+      spheres: ['force', 'heat', 'cold', 'wyrd']
     };
   }
 
@@ -1884,6 +1883,7 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
                   context="hud"
                   isGMMode={false}
                   isOwner={true}
+                  showcase={true}
                 />
             </div>
             <div className="resource-bar-hint">

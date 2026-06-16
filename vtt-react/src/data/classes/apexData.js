@@ -611,7 +611,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       damageConfig: {
         formula: "1d8",
         elementType: "physical",
-        damageTypes: ["direct"],
+        damageTypes: ["physical"],
         scalingType: "chain_reduction",
       },
 
@@ -695,7 +695,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       damageConfig: {
         formula: "2d8",
         elementType: "physical",
-        damageTypes: ["area"],
+        damageTypes: ["physical"],
         scalingType: "none",
       },
 
@@ -762,7 +762,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       damageConfig: {
         formula: "3d8",
         elementType: "physical",
-        damageTypes: ["direct"],
+        damageTypes: ["physical"],
         scalingType: "none",
       },
 
@@ -838,7 +838,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       damageConfig: {
         elementType: "physical",
         formula: "1d8",
-        damageTypes: ["direct"],
+        damageTypes: ["physical"],
         scalingType: "proficiency",
       },
 
@@ -914,7 +914,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       damageConfig: {
         elementType: "physical",
         formula: "2d8",
-        damageTypes: ["direct"],
+        damageTypes: ["physical"],
         scalingType: "none",
       },
 
@@ -1084,6 +1084,37 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
       resolution: "AUTOMATIC",
 
+      utilityConfig: {
+        utilityType: "teleportation",
+        selectedEffects: [
+          {
+            id: "shadowstep_teleport",
+            name: "Shadowstep Teleport",
+            description: "Teleport through shadows to a nearby location up to 30 feet.",
+          },
+        ],
+        duration: 0,
+        durationUnit: "instant",
+        concentration: false,
+        power: "minor",
+      },
+
+      buffConfig: {
+        buffType: "combatAdvantage",
+        effects: [
+          {
+            id: "shadowstep_advantage",
+            name: "Shadowstep Advantage",
+            description: "Advantage on your next attack after Shadowstep.",
+          },
+        ],
+        durationType: "rounds",
+        durationValue: 1,
+        durationUnit: "rounds",
+        concentrationRequired: false,
+        canBeDispelled: true,
+      },
+
       effects: {
         utility: {
           teleport: {
@@ -1118,7 +1149,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       id : "apex_shadow_strike",
       name: "Shadow Strike",
       description:
-        "Strike from the shadows with devastating force, dealing massive damage to an unsuspecting target.",
+        "Strike from the shadows with devastating force, dealing 3d8 physical damage to an unsuspecting target. When delivered from stealth or immediately after Shadowstep, the blade drinks an additional 1d6 blight damage.",
       spellType: "ACTION",
       icon: "Poison/Poison Concoction",
       level: 3,
@@ -1156,7 +1187,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       damageConfig: {
         formula: "3d8",
         elementType: "physical",
-        damageTypes: ["direct"],
+        damageTypes: ["physical"],
         scalingType: "none",
       },
 
@@ -1239,7 +1270,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       damageConfig: {
         elementType: "blight",
         formula: "3d8",
-        damageTypes: ["direct"],
+        damageTypes: ["blight"],
         scalingType: "none",
       },
 
@@ -1317,7 +1348,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       damageConfig: {
         elementType: "ember",
         formula: "2d6",
-        damageTypes: ["direct"],
+        damageTypes: ["ember"],
         scalingType: "none",
       },
 
@@ -1500,6 +1531,21 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
       resolution: "AUTOMATIC",
 
+      utilityConfig: {
+        utilityType: "special",
+        selectedEffects: [
+          {
+            id: "mark_quarry",
+            name: "Mark Quarry",
+            description: "Mark a target as your quarry. You sense its direction within 1 mile for 10 minutes. Generates 1 Quarry Mark.",
+          },
+        ],
+        duration: 10,
+        durationUnit: "minutes",
+        concentration: false,
+        power: "minor",
+      },
+
       effects: {
         utility: {
           mark: {
@@ -1569,7 +1615,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       damageConfig: {
         formula: "1d8",
         elementType: "physical",
-        damageTypes: ["direct"],
+        damageTypes: ["physical"],
         scalingType: "none",
       },
 
@@ -1646,6 +1692,22 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
       resolution: "DICE",
 
+      buffConfig: {
+        buffType: "combatAdvantage",
+        effects: [
+          {
+            id: "hunters_mark_damage",
+            name: "Hunter's Mark Damage",
+            description: "+1d6 damage to you and your companion against the marked target for 3 rounds.",
+          },
+        ],
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds",
+        concentrationRequired: true,
+        canBeDispelled: true,
+      },
+
       effects: {
         buff: {
           description: "Bonus damage on attacks against marked target",
@@ -1720,7 +1782,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       damageConfig: {
         elementType: "physical",
         formula: "3d8 + agility",
-        damageTypes: ["direct"],
+        damageTypes: ["physical"],
       },
 
       effects: {
@@ -1783,6 +1845,27 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       },
 
       resolution: "DICE",
+
+      buffConfig: {
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "feral_bond_self",
+            name: "Feral Bond (Self)",
+            description: "+2 to attack rolls and damage for 4 rounds.",
+          },
+          {
+            id: "feral_bond_companion",
+            name: "Feral Bond (Companion)",
+            description: "Companion gains +2 to attack rolls and +1d6 damage for 4 rounds.",
+          },
+        ],
+        durationType: "rounds",
+        durationValue: 4,
+        durationUnit: "rounds",
+        concentrationRequired: false,
+        canBeDispelled: true,
+      },
 
       effects: {
         buff: {
@@ -1857,7 +1940,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       damageConfig: {
         elementType: "physical",
         formula: "3d10 + agility",
-        damageTypes: ["direct"],
+        damageTypes: ["physical"],
       },
 
       effects: {
@@ -1921,6 +2004,22 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       },
 
       resolution: "DICE",
+
+      buffConfig: {
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "apex_predator_bonus",
+            name: "Apex Predator",
+            description: "+3 to all attack rolls, +10 movement speed, advantage on Agility saves, and +3d6 bonus damage on all attacks for 5 rounds.",
+          },
+        ],
+        durationType: "rounds",
+        durationValue: 5,
+        durationUnit: "rounds",
+        concentrationRequired: false,
+        canBeDispelled: true,
+      },
 
       effects: {
         buff: {
@@ -1987,7 +2086,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       damageConfig: {
         formula: "6d10 + agility * 1.5",
         elementType: "physical",
-        damageTypes: ["area"],
+        damageTypes: ["physical"],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: "agility",
@@ -2054,7 +2153,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       damageConfig: {
         elementType: "physical",
         formula: "5d6 + agility",
-        damageTypes: ["direct"],
+        damageTypes: ["physical"],
       },
 
       effects: {
@@ -2129,6 +2228,27 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
       resolution: "DICE",
 
+      buffConfig: {
+        buffType: "damageIncrease",
+        effects: [
+          {
+            id: "glaive_mastery_chains",
+            name: "Extended Chains",
+            description: "All glaive attacks chain to +2 additional targets with no chain damage reduction for 5 rounds.",
+          },
+          {
+            id: "glaive_mastery_damage",
+            name: "Glaive Mastery Damage",
+            description: "All glaive attacks deal +50% damage for 5 rounds.",
+          },
+        ],
+        durationType: "rounds",
+        durationValue: 5,
+        durationUnit: "rounds",
+        concentrationRequired: false,
+        canBeDispelled: true,
+      },
+
       effects: {
         buff: {
           description:
@@ -2192,6 +2312,27 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       },
 
       resolution: "DICE",
+
+      controlConfig: {
+        controlType: "fear",
+        duration: 3,
+        durationUnit: "rounds",
+        effects: [
+          {
+            id: "savage_roar_fear",
+            name: "Frightened",
+            description: "Enemies within 30 feet of the companion must make a DC 17 Spirit save or be frightened for 3 rounds.",
+            config: { saveType: "spirit", saveDC: 17, duration: 3, durationUnit: "rounds" },
+          },
+        ],
+        savingThrow: { ability: "spirit", difficultyClass: 17, saveOutcome: "negates" },
+      },
+
+      damageConfig: {
+        formula: "3d8",
+        damageTypes: ["wyrd"],
+        resolution: "DICE",
+      },
 
       effects: {
         control: {
@@ -2264,7 +2405,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       damageConfig: {
         formula: "12d8 + agility * 2",
         elementType: "physical",
-        damageTypes: ["direct"],
+        damageTypes: ["physical"],
         criticalConfig: {
           critType: "effect",
           critEffects: ["rapid_strikes_crit"],
@@ -2330,7 +2471,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       damageConfig: {
         elementType: "blight",
         formula: "10d10 + agility",
-        damageTypes: ["direct"],
+        damageTypes: ["blight"],
         dot: {
           formula: "3d10",
           duration: 4,
@@ -2404,6 +2545,47 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       },
 
       resolution: "DICE",
+
+      buffConfig: {
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "primal_fusion_stats",
+            name: "Primal Fusion",
+            description: "+5 to all stats, +30 maximum HP, regenerate 5d10 HP per round, and attack twice per turn for 5 rounds.",
+          },
+        ],
+        durationType: "rounds",
+        durationValue: 5,
+        durationUnit: "rounds",
+        concentrationRequired: false,
+        canBeDispelled: true,
+      },
+
+      transformationConfig: {
+        transformationType: "primal",
+        targetType: "self",
+        newForm: "Primal Fusion",
+        description: "Merge your essence with your companion, becoming one unstoppable force.",
+        duration: 5,
+        durationUnit: "rounds",
+        power: "ultimate",
+        concentration: true,
+        maintainEquipment: true,
+        statModifiers: [
+          { stat: "strength", magnitude: 5, magnitudeType: "flat" },
+          { stat: "agility", magnitude: 5, magnitudeType: "flat" },
+          { stat: "constitution", magnitude: 5, magnitudeType: "flat" },
+          { stat: "intelligence", magnitude: 5, magnitudeType: "flat" },
+          { stat: "spirit", magnitude: 5, magnitudeType: "flat" },
+          { stat: "charisma", magnitude: 5, magnitudeType: "flat" },
+          { stat: "maxHp", magnitude: 30, magnitudeType: "flat" },
+        ],
+        grantedAbilities: [
+          { id: "primal_fusion_regenerate", name: "Primal Regeneration", description: "Regenerate 5d10 HP per round." },
+          { id: "primal_fusion_double_attack", name: "Twin Strikes", description: "Can attack twice per turn." },
+        ],
+      },
 
       effects: {
         transformation: {
@@ -2484,10 +2666,17 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
       resolution: "DICE",
 
+      channelingConfig: {
+        type: "power_up",
+        maxDuration: 5,
+        durationUnit: "rounds",
+        interruptible: true,
+      },
+
       damageConfig: {
         formula: "8d8 + agility",
         elementType: "physical",
-        damageTypes: ["area"],
+        damageTypes: ["physical"],
         hasDotEffect: true,
         dotConfig: {
           dotFormula: "8d8 + agility",
@@ -2554,6 +2743,40 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       },
 
       resolution: "DICE",
+
+      buffConfig: {
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "ultimate_hunter_bonus",
+            name: "Ultimate Hunter",
+            description: "+3 to attack and damage rolls, double Quarry Mark generation, and companion shares all bonuses for 10 rounds.",
+          },
+        ],
+        durationType: "rounds",
+        durationValue: 10,
+        durationUnit: "rounds",
+        concentrationRequired: false,
+        canBeDispelled: true,
+      },
+
+      transformationConfig: {
+        transformationType: "primal",
+        targetType: "self",
+        newForm: "Ultimate Hunter",
+        description: "Become the ultimate hunter, transcending mortal limitations.",
+        duration: 10,
+        durationUnit: "rounds",
+        power: "ultimate",
+        concentration: true,
+        maintainEquipment: true,
+        grantedAbilities: [
+          { id: "ultimate_hunter_attack", name: "Hunter Precision", description: "+3 to attack and damage rolls." },
+          { id: "ultimate_hunter_qm", name: "Double Quarry Marks", description: "Generate double Quarry Marks from all sources." },
+          { id: "ultimate_hunter_companion", name: "Shared Bond", description: "Companion shares all bonuses and cannot be killed while active." },
+          { id: "ultimate_hunter_chains", name: "Extended Glaive", description: "Glaive chains to +2 additional targets." },
+        ],
+      },
 
       effects: {
         transformation: {
@@ -2629,7 +2852,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       damageConfig: {
         elementType: "blight",
         formula: "10d6 + agility",
-        damageTypes: ["direct"],
+        damageTypes: ["blight"],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: "constitution",
@@ -2702,6 +2925,32 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       },
 
       resolution: "DICE",
+
+      buffConfig: {
+        buffType: "triggeredEffect",
+        effects: [
+          {
+            id: "eternal_hunt_auto_qm",
+            name: "Eternal Hunt Marks",
+            description: "Automatically generate 1 Quarry Mark per round (subject to per-turn cap).",
+          },
+          {
+            id: "eternal_hunt_revive",
+            name: "Companion Auto-Revive",
+            description: "Companion auto-revives after 1 round if killed.",
+          },
+          {
+            id: "eternal_hunt_chains",
+            name: "Extended Glaive Chains",
+            description: "Glaive chains to +2 additional targets.",
+          },
+        ],
+        durationType: "permanent",
+        durationValue: 0,
+        durationUnit: "permanent",
+        concentrationRequired: false,
+        canBeDispelled: false,
+      },
 
       effects: {
         passive: {
@@ -2778,7 +3027,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       damageConfig: {
         elementType: "storm",
         formula: "12d6 + agility * 1.5",
-        damageTypes: ["direct"],
+        damageTypes: ["storm"],
       },
 
       effects: {
@@ -2822,7 +3071,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
     },
 
     {
-      effectTypes: ["damage", "summon"],
+      effectTypes: ["damage", "summoning"],
       id : "apex_primal_apocalypse",
       name: "Primal Apocalypse",
       description:
@@ -2861,10 +3110,36 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
       resolution: "DICE",
 
+      summoningConfig: {
+        creatures: [
+          {
+            id: "primal_beast_spirit",
+            name: "Primal Beast Spirit",
+            description: "A primal beast spirit summoned to ravage your enemies.",
+            size: "Large",
+            type: "beast",
+            stats: {
+              maxHp: 50,
+              armor: 15,
+              maxMana: 0,
+            },
+            config: {
+              quantity: 3,
+              duration: 3,
+              durationUnit: "rounds",
+              hasDuration: true,
+              concentration: false,
+              controlType: "autonomous",
+              controlRange: 100,
+            },
+          },
+        ],
+      },
+
       damageConfig: {
         elementType: "physical",
         formula: "12d6 + agility",
-        damageTypes: ["area"],
+        damageTypes: ["physical"],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: "constitution",
@@ -2955,6 +3230,37 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       },
 
       resolution: "DICE",
+
+      buffConfig: {
+        buffType: "damageIncrease",
+        effects: [
+          {
+            id: "perfect_hunt_cost",
+            name: "Perfect Efficiency",
+            description: "All Quarry Mark abilities cost 1 less QM (minimum 0).",
+          },
+          {
+            id: "perfect_hunt_damage",
+            name: "Perfect Strikes",
+            description: "Attacks deal +1d8 damage.",
+          },
+          {
+            id: "perfect_hunt_revive",
+            name: "Eternal Companion",
+            description: "Companion auto-revives after 1 round if killed.",
+          },
+          {
+            id: "perfect_hunt_chains",
+            name: "Master Glaive Chains",
+            description: "Glaive chains to +3 additional targets.",
+          },
+        ],
+        durationType: "permanent",
+        durationValue: 0,
+        durationUnit: "permanent",
+        concentrationRequired: false,
+        canBeDispelled: false,
+      },
 
       effects: {
         passive: {

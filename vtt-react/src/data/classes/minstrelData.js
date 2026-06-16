@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Minstrel Class Data
  *
  * Complete class information for the Minstrel — a conductor of reality's death rattle
@@ -246,7 +246,7 @@ Different instruments provide different bonuses and affect your playstyle:
 
 **Your Action**: Cast "Opening Chord" at Bandit #5 (4 mana, builder spell)
 **Attack Roll**: d20+5 → [17] = Hit!
-**Damage**: 1d6 lightning → [5] = **5 lightning damage**
+**Damage**: 1d6 lightning → [5] = **5 storm damage**
 **Musical Notes Generated**: I(2) + V(1)
 
 **Notes**: I(0), III(2), V(2), VI(2), VII(1) + I(2), V(1) = **I(2), III(2), V(3), VI(2), VII(1)**
@@ -943,7 +943,7 @@ Before combat, decide which cadences you want to prioritize:
       icon: "Radiant/Divine Halo",
 
       typeConfig: {
-        school: "evocation",
+        school: "ember",
         icon: "Radiant/Divine Halo",
         tags: ["builder", "basic", "sonic", "tonic generator", "level 1"],
         castTime: 1,
@@ -973,7 +973,7 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: "1d6",
         elementType: "storm",
-        damageTypes: ["direct"],
+        damageTypes: ["storm"],
         resolution: "DICE",
       },
 
@@ -999,7 +999,7 @@ Before combat, decide which cadences you want to prioritize:
       icon: "Bludgeoning/Mortal Strike",
 
       typeConfig: {
-        school: "evocation",
+        school: "ember",
         icon: "Bludgeoning/Mortal Strike",
         tags: ["builder", "melee", "basic", "mediant generator", "level 1"],
         castTime: 1,
@@ -1028,7 +1028,7 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: "1d8",
         elementType: "physical",
-        damageTypes: ["direct"],
+        damageTypes: ["physical"],
         resolution: "DICE",
       },
 
@@ -1054,7 +1054,7 @@ Before combat, decide which cadences you want to prioritize:
       icon: "Radiant/Golden Ring",
 
       typeConfig: {
-        school: "evocation",
+        school: "ember",
         icon: "Radiant/Golden Ring",
         tags: ["builder", "support", "dominant generator", "level 1"],
         castTime: 1,
@@ -1125,7 +1125,7 @@ Before combat, decide which cadences you want to prioritize:
       icon: "Radiant/Radiant Bolt",
 
       typeConfig: {
-        school: "evocation",
+        school: "ember",
         icon: "Radiant/Radiant Bolt",
         tags: ["resolver", "healing", "subdominant generator", "level 1"],
         castTime: 1,
@@ -1181,7 +1181,7 @@ Before combat, decide which cadences you want to prioritize:
       icon: "Radiant/Radiant Divinity",
 
       typeConfig: {
-        school: "evocation",
+        school: "ember",
         icon: "Radiant/Radiant Divinity",
         tags: ["resolver", "utility", "leading generator", "level 3"],
         castTime: 1,
@@ -1363,7 +1363,7 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: "1d8 + spirit",
         elementType: "storm",
-        damageTypes: ["direct"],
+        damageTypes: ["storm"],
         resolution: "DICE",
       },
 
@@ -1435,7 +1435,7 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: "1d8 + spirit",
         elementType: "ember",
-        damageTypes: ["direct"],
+        damageTypes: ["ember"],
         conditionalDamage: {
           enabled: true,
           conditions: [
@@ -1444,7 +1444,7 @@ Before combat, decide which cadences you want to prioritize:
               creatureTypes: ["undead", "fiend"],
               bonusFormula: "healing_rolled",
               description:
-                "Deals radiant damage equal to healing rolled to undead and fiends",
+                "Deals ember damage equal to healing rolled to undead and fiends",
             },
           ],
         },
@@ -1523,7 +1523,7 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: "2d6 + spirit",
         elementType: "ember",
-        damageTypes: ["direct"],
+        damageTypes: ["ember"],
         conditionalDamage: {
           enabled: true,
           conditions: [
@@ -1532,7 +1532,7 @@ Before combat, decide which cadences you want to prioritize:
               creatureTypes: ["undead", "fiend"],
               bonusFormula: "healing_rolled",
               description:
-                "Deals radiant damage equal to healing rolled to undead and fiends",
+                "Deals ember damage equal to healing rolled to undead and fiends",
             },
           ],
         },
@@ -1616,7 +1616,7 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: "2d6 + spirit",
         elementType: "storm",
-        damageTypes: ["direct"],
+        damageTypes: ["storm"],
         resolution: "DICE",
       },
 
@@ -1698,7 +1698,7 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: "3d6 + spirit",
         elementType: "wyrd",
-        damageTypes: ["direct"],
+        damageTypes: ["wyrd"],
         resolution: "DICE",
       },
 
@@ -1878,7 +1878,7 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: "3d6 + spirit",
         elementType: "storm",
-        damageTypes: ["direct"],
+        damageTypes: ["storm"],
         resolution: "DICE",
       },
 
@@ -1956,7 +1956,7 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: "4d6 + spirit",
         elementType: "ember",
-        damageTypes: ["direct"],
+        damageTypes: ["ember"],
         conditionalDamage: {
           enabled: true,
           conditions: [
@@ -1965,7 +1965,7 @@ Before combat, decide which cadences you want to prioritize:
               creatureTypes: ["undead", "fiend"],
               bonusFormula: "healing_rolled",
               description:
-                "Deals radiant damage equal to healing rolled to undead and fiends",
+                "Deals ember damage equal to healing rolled to undead and fiends",
             },
           ],
         },
@@ -2165,7 +2165,7 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: "6d6 + spirit",
         elementType: "ember",
-        damageTypes: ["direct"],
+        damageTypes: ["ember"],
         conditionalDamage: {
           enabled: true,
           conditions: [
@@ -2174,7 +2174,7 @@ Before combat, decide which cadences you want to prioritize:
               creatureTypes: ["undead", "fiend"],
               bonusFormula: "healing_rolled",
               description:
-                "Deals radiant damage equal to healing rolled to undead and fiends",
+                "Deals ember damage equal to healing rolled to undead and fiends",
             },
           ],
         },
@@ -2276,7 +2276,7 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: "2d8",
         elementType: "ember",
-        damageTypes: ["direct"],
+        damageTypes: ["ember"],
         conditionalDamage: {
           enabled: true,
           conditions: [
@@ -2285,7 +2285,7 @@ Before combat, decide which cadences you want to prioritize:
               creatureTypes: ["undead", "fiend"],
               bonusFormula: "healing_rolled",
               description:
-                "Deals radiant damage equal to healing rolled to undead and fiends",
+                "Deals ember damage equal to healing rolled to undead and fiends",
             },
           ],
         },
@@ -2317,7 +2317,7 @@ Before combat, decide which cadences you want to prioritize:
       icon: "Psychic/Mind Control",
 
       typeConfig: {
-        school: "enchantment",
+        school: "wyrd",
         icon: "Psychic/Mind Control",
         tags: [
           "builder",
@@ -2350,12 +2350,12 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       resolution: "DICE",
-      effectTypes: ["debuff"],
+      effectTypes: ["damage", "debuff"],
 
       damageConfig: {
         formula: "1d6 + spirit/4",
         elementType: "wyrd",
-        damageTypes: ["direct"],
+        damageTypes: ["wyrd"],
         resolution: "DICE",
       },
 
@@ -2403,7 +2403,7 @@ Before combat, decide which cadences you want to prioritize:
       icon: "Fire/Rising Inferno",
 
       typeConfig: {
-        school: "evocation",
+        school: "ember",
         icon: "Fire/Rising Inferno",
         tags: [
           "builder",
@@ -2489,7 +2489,7 @@ Before combat, decide which cadences you want to prioritize:
       icon: "Psychic/Mind Strike",
 
       typeConfig: {
-        school: "enchantment",
+        school: "wyrd",
         icon: "Psychic/Mind Strike",
         tags: [
           "resolver",
@@ -2575,7 +2575,7 @@ Before combat, decide which cadences you want to prioritize:
       icon: "Radiant/Radiant Warrior",
 
       typeConfig: {
-        school: "abjuration",
+        school: "arcane",
         icon: "Radiant/Radiant Warrior",
         tags: ["resolver", "cadence", "buff", "speed", "soulsinger", "level 4"],
         castTime: 1,
@@ -2690,7 +2690,7 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       resolution: "DICE",
-      effectTypes: ["shield"],
+      effectTypes: ["buff", "damage"],
 
       damageConfig: {
         formula: "2d6 + spirit",
@@ -2703,6 +2703,24 @@ Before combat, decide which cadences you want to prioritize:
           durationUnit: "rounds",
         },
         resolution: "DICE",
+      },
+
+      buffConfig: {
+        buffType: "shield",
+        effects: [
+          { id: "harmonic_barrier",
+            name: "Harmonic Barrier",
+            description: "Allies within 15 ft gain a protective shield absorbing 2d6 + spirit damage for 2 rounds.",
+            shieldAmount: "2d6 + spirit",
+            shieldDuration: 2,
+            shieldDurationType: "rounds",
+          },
+        ],
+        durationType: "rounds",
+        durationValue: 2,
+        durationUnit: "rounds",
+        concentrationRequired: false,
+        canBeDispelled: true,
       },
 
       musicalCombo: {
@@ -2737,7 +2755,7 @@ Before combat, decide which cadences you want to prioritize:
       icon: "Radiant/Divine Halo",
 
       typeConfig: {
-        school: "enchantment",
+        school: "wyrd",
         icon: "Radiant/Divine Halo",
         tags: [
           "resolver",
@@ -2829,7 +2847,7 @@ Before combat, decide which cadences you want to prioritize:
       icon: "Radiant/Radiant Bolt",
 
       typeConfig: {
-        school: "divination",
+        school: "arcane",
         icon: "Radiant/Radiant Bolt",
         tags: [
           "resolver",
@@ -2917,13 +2935,13 @@ Before combat, decide which cadences you want to prioritize:
     { id: "minstrel_symphony_of_destruction",
       name: "Symphony of Destruction",
       description:
-        "Conduct a devastating symphony that unleashes waves of sonic energy, dealing massive lightning damage to all enemies in a large area.",
+        "Conduct a devastating symphony that unleashes waves of sonic energy, dealing massive storm damage to all enemies in a large area.",
       level: 7,
       spellType: "ACTION",
       icon: "Nature/Earth Shatter",
 
       typeConfig: {
-        school: "evocation",
+        school: "ember",
         icon: "Nature/Earth Shatter",
         tags: ["damage", "aoe", "storm", "resolver", "level 7"],
         castTime: 1,
@@ -2954,7 +2972,7 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: "10d6 + spirit",
         elementType: "storm",
-        damageTypes: ["direct"],
+        damageTypes: ["storm"],
         criticalConfig: {
           enabled: true,
           critType: "dice",
@@ -3006,7 +3024,7 @@ Before combat, decide which cadences you want to prioritize:
       icon: "Radiant/Divine Radiance",
 
       typeConfig: {
-        school: "enchantment",
+        school: "wyrd",
         icon: "Radiant/Divine Radiance",
         tags: ["buff", "aoe", "support", "builder", "level 7"],
         castTime: 1,
@@ -3071,13 +3089,13 @@ Before combat, decide which cadences you want to prioritize:
     { id: "minstrel_cacophonous_blast",
       name: "Cacophonous Blast",
       description:
-        "Unleash a devastating blast of pure discordance that disrupts enemy spellcasting and causes psychic damage to all who hear it.",
+        "Unleash a devastating blast of pure discordance that disrupts enemy spellcasting and causes wyrd damage to all who hear it.",
       level: 7,
       spellType: "ACTION",
       icon: "Psychic/Agonizing Scream",
 
       typeConfig: {
-        school: "enchantment",
+        school: "wyrd",
         icon: "Psychic/Agonizing Scream",
         tags: ["damage", "control", "wyrd", "dissonance", "level 7"],
         castTime: 1,
@@ -3106,7 +3124,7 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: "10d6 + spirit",
         elementType: "wyrd",
-        damageTypes: ["direct"],
+        damageTypes: ["wyrd"],
         resolution: "DICE",
       },
 
@@ -3155,13 +3173,13 @@ Before combat, decide which cadences you want to prioritize:
     { id: "minstrel_magnum_opus",
       name: "Magnum Opus",
       description:
-        "Perform your greatest masterpiece, dealing devastating damage while simultaneously healing all allies.",
+        "Perform your greatest masterpiece. Enemies within 40 feet suffer 12d6 + Spirit ember damage (DC 18 Spirit save for half), while all allies in the same radius are healed for 6d6 + Spirit.",
       level: 8,
       spellType: "ACTION",
       icon: "Radiant/Divine Blessing",
 
       typeConfig: {
-        school: "evocation",
+        school: "ember",
         icon: "Radiant/Divine Blessing",
         tags: ["damage", "healing", "aoe", "resolver", "level 8"],
         castTime: 2,
@@ -3209,7 +3227,7 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: "12d6 + spirit",
         elementType: "ember",
-        damageTypes: ["direct"],
+        damageTypes: ["ember"],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: "spirit",
@@ -3249,7 +3267,7 @@ Before combat, decide which cadences you want to prioritize:
       icon: "Psychic/Mind Control",
 
       typeConfig: {
-        school: "enchantment",
+        school: "wyrd",
         icon: "Psychic/Mind Control",
         tags: ["debuff", "control", "aoe", "dissonance", "level 8"],
         castTime: 1,
@@ -3349,7 +3367,7 @@ Before combat, decide which cadences you want to prioritize:
       icon: "Healing/Renewal",
 
       typeConfig: {
-        school: "evocation",
+        school: "ember",
         icon: "Healing/Renewal",
         tags: ["healing", "purification", "aoe", "level 8"],
         castTime: 1,
@@ -3417,7 +3435,7 @@ Before combat, decide which cadences you want to prioritize:
       icon: "Radiant/Radiant Glow",
 
       typeConfig: {
-        school: "enchantment",
+        school: "wyrd",
         icon: "Radiant/Radiant Glow",
         tags: ["buff", "self", "empowerment", "level 9"],
         castTime: 1,
@@ -3485,7 +3503,7 @@ Before combat, decide which cadences you want to prioritize:
       icon: "Necrotic/Drain Soul",
 
       typeConfig: {
-        school: "necromancy",
+        school: "blight",
         icon: "Necrotic/Drain Soul",
         tags: ["damage", "buff", "aoe", "resolver", "level 9"],
         castTime: 2,
@@ -3515,7 +3533,7 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: "15d6 + spirit",
         elementType: "blight",
-        damageTypes: ["direct"],
+        damageTypes: ["blight"],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: "spirit",
@@ -3570,7 +3588,7 @@ Before combat, decide which cadences you want to prioritize:
       icon: "Force/Force Field",
 
       typeConfig: {
-        school: "enchantment",
+        school: "wyrd",
         icon: "Force/Force Field",
         tags: ["buff", "debuff", "control", "level 9"],
         castTime: 1,
@@ -3660,13 +3678,13 @@ Before combat, decide which cadences you want to prioritize:
     { id: "minstrel_legendary_performance",
       name: "Legendary Performance",
       description:
-        "The pinnacle of musical mastery - a performance so profound it reshapes reality itself, dealing massive damage to enemies and granting allies legendary power.",
+        "The pinnacle of musical mastery - a performance so profound it reshapes reality itself. Enemies within 60 feet suffer 20d6 + Spirit ember damage (DC 20 Spirit save for half), allies in the same radius are healed for 10d6 + Spirit, and those allies gain +3 to attack rolls, +2 DR, and immunity to fear and charm for 5 rounds.",
       level: 10,
       spellType: "ACTION",
       icon: "Radiant/Divine Illumination",
 
       typeConfig: {
-        school: "evocation",
+        school: "ember",
         icon: "Radiant/Divine Illumination",
         tags: ["damage", "buff", "aoe", "ultimate", "level 10"],
         castTime: 3,
@@ -3721,7 +3739,7 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: "20d6 + spirit",
         elementType: "ember",
-        damageTypes: ["direct"],
+        damageTypes: ["ember"],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: "spirit",
@@ -3782,7 +3800,7 @@ Before combat, decide which cadences you want to prioritize:
       icon: "Arcane/Magical Sword",
 
       typeConfig: {
-        school: "conjuration",
+        school: "arcane",
         icon: "Arcane/Magical Sword",
         tags: ["summoning", "buff", "ultimate", "level 10"],
         castTime: 2,
@@ -3808,7 +3826,7 @@ Before combat, decide which cadences you want to prioritize:
       resolution: "NONE",
       effectTypes: ["summoning", "buff"],
 
-      summonConfig: {
+      summoningConfig: {
         creatures: [
           { id : "musical_avatar",
             name: "Avatar of Music",
@@ -3886,7 +3904,7 @@ Before combat, decide which cadences you want to prioritize:
       icon: "Fire/Rising Inferno",
 
       typeConfig: {
-        school: "evocation",
+        school: "ember",
         icon: "Fire/Rising Inferno",
         tags: ["damage", "single target", "ultimate", "resolver", "level 10"],
         castTime: 1,
@@ -3915,7 +3933,7 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: "25d6 + spirit",
         elementType: "storm",
-        damageTypes: ["direct"],
+        damageTypes: ["storm"],
         criticalConfig: {
           enabled: true,
           critMultiplier: 3,
@@ -3944,13 +3962,14 @@ Before combat, decide which cadences you want to prioritize:
     { id: "minstrel_harmony_strike",
       name: "Harmony Strike",
       description:
-        "Strike with harmonic resonance, dealing force damage and generating musical notes.",
+        "Strike with harmonic resonance, dealing storm damage and generating musical notes.",
       level: 4,
       spellType: "ACTION",
+      icon: "Bard/Bard Song",
       effectTypes: ["damage"],
 
       typeConfig: {
-        school: "evocation",
+        school: "ember",
         icon: "Psychic/Mind Control",
         tags: ["damage", "storm", "note generation", "universal"],
         castTime: 1,
@@ -3969,7 +3988,7 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: "5d6 + spirit",
         elementType: "storm",
-        damageTypes: ["direct"],
+        damageTypes: ["storm"],
         resolution: "DICE",
       },
 
@@ -4005,7 +4024,7 @@ Before combat, decide which cadences you want to prioritize:
       icon: "Social/Golden Harp",
       effectTypes: ["passive"],
       typeConfig: {
-        school: "enchantment",
+        school: "wyrd",
         icon: "Social/Golden Harp",
         tags: ["passive", "minstrel", "restriction"],
       },
@@ -4023,7 +4042,7 @@ Before combat, decide which cadences you want to prioritize:
       icon: "General/Broken Armor",
       effectTypes: ["passive"],
       typeConfig: {
-        school: "enchantment",
+        school: "wyrd",
         icon: "General/Broken Armor",
         tags: ["passive", "minstrel", "weakness"],
       },
@@ -4035,13 +4054,13 @@ Before combat, decide which cadences you want to prioritize:
     { id: "minstrel_dissonant_feedback",
       name: "Dissonant Feedback",
       description:
-        "When a musical combo fails (wrong notes played, interrupted, or target resists your cadence), the discordant energy feeds back through your instrument. You take 1d4 psychic damage per note level of the failed combo. This damage cannot be reduced or prevented.",
+        "When a musical combo fails (wrong notes played, interrupted, or target resists your cadence), the discordant energy feeds back through your instrument. You take 1d4 wyrd damage per note level of the failed combo. This damage cannot be reduced or prevented.",
       level: 3,
       spellType: "PASSIVE",
       icon: "Psychic/Agonizing Scream",
       effectTypes: ["passive"],
       typeConfig: {
-        school: "enchantment",
+        school: "wyrd",
         icon: "Psychic/Agonizing Scream",
         tags: ["passive", "minstrel", "weakness"],
       },

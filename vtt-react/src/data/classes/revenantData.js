@@ -582,6 +582,11 @@ The Revenant can switch between two casting modes:
         resourceFormulas: { health: "1d6" },
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+      damageConfig: {
+        formula: "1d8 + intelligence/2",
+        damageTypes: ["blight"],
+        resolution: "DICE",
+      },
       triggerConfig: {
         triggers: [
           { id: "rv_blood_sacrifice_bolt",
@@ -856,6 +861,7 @@ The Revenant can switch between two casting modes:
       effectTypes: ["damage"],
       typeConfig: {
         school: "blight",
+        secondaryElement: "wyrd",
         icon: "Necrotic/Ebon Death",
         tags: ["damage", "melee", "execute", "revenant"],
         castTime: 1,
@@ -1103,7 +1109,7 @@ The Revenant can switch between two casting modes:
       spellType: "ACTION",
       icon: "Necrotic/Spirit",
       typeConfig: {
-        school: "shadow",
+        school: "blight",
         icon: "Necrotic/Spirit",
         tags: ["utility", "roleplay", "revenant"],
         castTime: 1,

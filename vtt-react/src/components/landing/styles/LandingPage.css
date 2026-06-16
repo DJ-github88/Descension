@@ -22,6 +22,7 @@ body.landing-mode *::after {
   transform: translateY(-100%);
   opacity: 0;
   pointer-events: none;
+  transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 1.2s ease;
 }
 
 .landing-page.immersing .hero-content,
@@ -29,7 +30,7 @@ body.landing-mode *::after {
 .landing-page.immersing .mobile-hamburger {
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.6s ease;
+  transition: opacity 0.8s ease;
 }
 
 .landing-page.immersing.map-background {
@@ -1189,7 +1190,8 @@ body svg[data-icon] {
   padding: 0 !important;
   margin: 0 !important;
   max-width: 100% !important;
-  height: calc(100vh - 70px); /* Account for header height (70px) */
+  /* height: calc(100vh - 80px); */
+  /* max-height: calc(100vh - 80px); */
   overflow: hidden;
   display: flex;
   flex-direction: column;

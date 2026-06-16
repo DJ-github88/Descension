@@ -859,3 +859,90 @@
     background: radial-gradient(circle, #e59866 0%, #ba4a00 100%);
     border: 1px solid #873600;
 }
+
+/* Mobile Section Tabs - Summary Step */
+@media (max-width: 768px) {
+    /* Single-column grid — tabs handle which column is visible */
+    .character-summary-dashboard {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+
+    .character-summary-dashboard[data-mobile-panel="hero"]
+        > .dashboard-column[data-mobile-panel="stats"],
+    .character-summary-dashboard[data-mobile-panel="hero"]
+        > .dashboard-column[data-mobile-panel="gear"],
+    .character-summary-dashboard[data-mobile-panel="stats"]
+        > .dashboard-column[data-mobile-panel="hero"],
+    .character-summary-dashboard[data-mobile-panel="stats"]
+        > .dashboard-column[data-mobile-panel="gear"],
+    .character-summary-dashboard[data-mobile-panel="gear"]
+        > .dashboard-column[data-mobile-panel="hero"],
+    .character-summary-dashboard[data-mobile-panel="gear"]
+        > .dashboard-column[data-mobile-panel="stats"] {
+        display: none !important;
+    }
+
+    .character-summary-content-inner {
+        padding: 0.5rem !important;
+    }
+
+    /* Compact visual card */
+    .summary-visual-card {
+        max-width: 100% !important;
+    }
+
+    /* Stat and ability grids wrap nicely */
+    .base-stats-compact-grid,
+    .abilities-compact-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.5rem !important;
+    }
+
+    /* Detail grids go single-column */
+    .detail-grid {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 0.4rem !important;
+        font-size: 0.8rem !important;
+    }
+
+    /* Spell grid wraps */
+    .summary-spell-grid {
+        grid-template-columns: repeat(auto-fill, 42px) !important;
+        justify-content: center !important;
+    }
+
+    /* Resistances already flex-wrap, just center them */
+    .resistances-grid {
+        justify-content: center !important;
+    }
+
+    /* Section spacing tighter */
+    .summary-dashboard-section {
+        padding: 0.6rem !important;
+    }
+
+    .summary-dashboard-section .section-title {
+        font-size: 0.95rem !important;
+    }
+
+    /* Badge panel - make it inline, not floating */
+    .completion-badge-container {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        display: flex;
+        justify-content: center;
+        padding: 0.5rem 0;
+    }
+
+    .checklist-hover-panel {
+        width: 100% !important;
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        display: block !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}

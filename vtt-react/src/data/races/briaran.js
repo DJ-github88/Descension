@@ -1,4 +1,4 @@
-export const briaran = {
+﻿export const briaran = {
     id: 'briaran',
     name: 'Briaran',
     essence: 'The Forgotten House',
@@ -60,7 +60,7 @@ Children are raised communally. The concept of a nuclear family withered during 
             icon: 'spell_nature_thorns',
             spellType: 'PASSIVE',
             effectTypes: ['buff', 'debuff'],
-            typeConfig: { school: 'nature', icon: 'spell_nature_thorns', tags: ['thorns', 'insight', 'passive', 'shared'] },
+            typeConfig: { school: 'primal', icon: 'spell_nature_thorns', tags: ['thorns', 'insight', 'passive', 'shared'] },
             buffConfig: {
                 buffType: 'custom',
                 effects: [
@@ -276,7 +276,7 @@ The Unshorn rarely leave the groves. When they do, they travel cloaked and hoode
                     icon: 'spell_holy_divinefavor',
                     spellType: 'PASSIVE',
                     effectTypes: ['buff', 'debuff'],
-                    typeConfig: { school: 'spirit', icon: 'spell_holy_divinefavor', tags: ['lineage', 'social', 'thorns', 'passive'] },
+                    typeConfig: { school: 'wyrd', icon: 'spell_holy_divinefavor', tags: ['lineage', 'social', 'thorns', 'passive'] },
                     buffConfig: {
                         buffType: 'custom',
                         effects: [
@@ -314,7 +314,7 @@ The Unshorn rarely leave the groves. When they do, they travel cloaked and hoode
                     icon: 'spell_arcane_blink',
                     spellType: 'ACTION',
                     effectTypes: ['utility'],
-                    typeConfig: { school: 'arcane', secondaryElement: 'nature', icon: 'spell_arcane_blink', tags: ['teleport', 'fae', 'grove', 'active'] },
+                    typeConfig: { school: 'arcane', secondaryElement: 'primal', icon: 'spell_arcane_blink', tags: ['teleport', 'fae', 'grove', 'active'] },
                     utilityConfig: {
                         utilityType: 'movement',
                         selectedEffects: [
@@ -335,7 +335,7 @@ The Unshorn rarely leave the groves. When they do, they travel cloaked and hoode
                     icon: 'spell_holy_mindvision',
                     spellType: 'PASSIVE',
                     effectTypes: ['buff', 'debuff'],
-                    typeConfig: { school: 'spirit', icon: 'spell_holy_mindvision', tags: ['vigil', 'memory', 'oral', 'passive'] },
+                    typeConfig: { school: 'wyrd', icon: 'spell_holy_mindvision', tags: ['vigil', 'memory', 'oral', 'passive'] },
                     buffConfig: {
                         buffType: 'immunity',
                         effects: [
@@ -403,7 +403,7 @@ They view the Mimir with silent recognition — another race that hides its true
                     icon: 'ability_rogue_disguise',
                     spellType: 'PASSIVE',
                     effectTypes: ['buff', 'debuff'],
-                    typeConfig: { school: 'psychic', icon: 'ability_rogue_disguise', tags: ['social', 'disguise', 'identity', 'passive'] },
+                    typeConfig: { school: 'wyrd', icon: 'ability_rogue_disguise', tags: ['social', 'disguise', 'identity', 'passive'] },
                     buffConfig: {
                         buffType: 'custom',
                         effects: [
@@ -440,7 +440,7 @@ They view the Mimir with silent recognition — another race that hides its true
                     icon: 'spell_frost_frozenorb',
                     spellType: 'PASSIVE',
                     effectTypes: ['buff', 'debuff'],
-                    typeConfig: { school: 'frost', secondaryElement: 'arcane', icon: 'spell_frost_frozenorb', tags: ['token', 'identity', 'cold', 'passive'] },
+                    typeConfig: { school: 'rime', secondaryElement: 'arcane', icon: 'spell_frost_frozenorb', tags: ['token', 'identity', 'cold', 'passive'] },
                     buffConfig: {
                         buffType: 'custom',
                         effects: [
@@ -483,7 +483,7 @@ They view the Mimir with silent recognition — another race that hides its true
                     icon: 'spell_holy_divinefavor',
                     spellType: 'ACTION',
                     effectTypes: ['buff', 'utility'],
-                    typeConfig: { school: 'spirit', icon: 'spell_holy_divinefavor', tags: ['identity', 'naming', 'binding', 'active'] },
+                    typeConfig: { school: 'wyrd', icon: 'spell_holy_divinefavor', tags: ['identity', 'naming', 'binding', 'active'] },
                     buffConfig: {
                         buffType: 'custom',
                         effects: [

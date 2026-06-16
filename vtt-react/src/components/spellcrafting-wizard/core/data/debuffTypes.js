@@ -1023,7 +1023,11 @@ function getRelevantCasterStat(category, caster) {
  * Calculate diminished value for stacking debuffs
  */
 function calculateDiminishedValue(currentValue, newValue, stackCount) {
-  // Common diminishing returns formula: effect * (1 - 0.5^(stacks-1))
+  // Diminishing returns: each additional stack contributes half as much as the previous
+  // First stack (stackCount=1) applies at full value
+  if (stackCount <= 1) {
+    return currentValue + newValue;
+  }
   const diminishingFactor = 1 - Math.pow(0.5, stackCount - 1);
-  return (currentValue + newValue) * diminishingFactor;
+  return (currentValue + newValue) * Math.max(diminishingFactor, 0.5);
 }

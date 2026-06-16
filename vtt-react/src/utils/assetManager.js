@@ -870,12 +870,12 @@ const convertWowIconToAbilityIcon = (wowIconId) => {
  * @returns {string} - URL to ability icon
  */
 export const getAbilityIconUrl = (iconId) => {
-  if (!iconId) {
+  if (!iconId || typeof iconId !== 'string') {
     return getCustomIconUrl('Utility/Utility', 'abilities');
   }
 
   // Handle items/ prefix by switching category to items
-  if (typeof iconId === 'string' && iconId.startsWith('items/')) {
+  if (iconId.startsWith('items/')) {
     return getIconUrl(iconId.replace('items/', ''), 'items');
   }
 
@@ -899,7 +899,7 @@ export const getAbilityIconUrl = (iconId) => {
     const rest = pathParts.slice(1).join('/');
 
     // If folder is capitalized (e.g., "Utility"), use path as-is
-    if (folder[0] === folder[0].toUpperCase()) {
+    if (folder && folder[0] && folder[0] === folder[0].toUpperCase()) {
       return directPath;
     }
 

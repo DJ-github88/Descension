@@ -4,6 +4,8 @@ export const ANIMIST_DATA = {
   icon: "fas fa-seedling",
   role: "Support / Control / Terrain",
   damageTypes: ["primal", "blight", "storm", "physical", "ember"],
+  implemented: false,
+  implementationNote: "Spell definitions not yet migrated. spellPools reference legacy IDs (primalist_*, witch_doctor_*, inscriptor_*) from the three fused classes that no longer exist in the codebase. Class lore, resource system, and specializations are designed but no playable spells are defined. See docs/SPELL_AUDIT_REPORT_2026-06.md §3.1.",
 
   classIdentity: {
     title: "The Ancestral Conduit",

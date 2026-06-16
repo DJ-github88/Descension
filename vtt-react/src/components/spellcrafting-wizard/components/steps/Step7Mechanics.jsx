@@ -101,24 +101,24 @@ const Step7Mechanics = ({ stepNumber, totalSteps, onNext, onPrevious, isActive }
     }
 
     // Add summoning effect if configured
-    if (state.summonConfig) {
+    if (state.summoningConfig) {
       effects.push({
         id: 'effect_summoning',
         type: 'summoning',
         name: 'Summoning',
         icon: <FaDragon />,
-        config: state.summonConfig
+        config: state.summoningConfig
       });
     }
 
     // Add transformation effect if configured
-    if (state.transformConfig) {
+    if (state.transformationConfig) {
       effects.push({
         id: 'effect_transformation',
         type: 'transformation',
         name: 'Transformation',
         icon: <FaClone />,
-        config: state.transformConfig
+        config: state.transformationConfig
       });
     }
 
@@ -152,8 +152,8 @@ const Step7Mechanics = ({ stepNumber, totalSteps, onNext, onPrevious, isActive }
     state.debuffConfig,
     state.utilityConfig,
     state.controlConfig,
-    state.summonConfig,
-    state.transformConfig,
+    state.summoningConfig,
+    state.transformationConfig,
     state.purificationConfig,
     state.restorationConfig
   ]);

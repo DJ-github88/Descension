@@ -21,6 +21,11 @@ import TerrainHoverPreview from './TerrainHoverPreview';
 import { PROFESSIONAL_OBJECTS } from './objects/ObjectSystem';
 import AreaRemoveModal from './AreaRemoveModal';
 import AdvancedLightingPanel from './AdvancedLightingPanel';
+import { EraserCursorPreview, TextInputOverlay, AreaRemoveSelection, WallSelectionIndicator } from './EditorOverlays';
+import { EDITOR_TABS as vttTools, getToolCursor, getFirstTool } from './editorTools';
+import LayersPanel from './LayersPanel';
+import EditorStatusBar from './EditorStatusBar';
+import { useEditorKeyboard } from './useEditorKeyboard';
 
 import './styles/ProfessionalVTTEditor.css';
 
@@ -142,7 +147,10 @@ const ProfessionalVTTEditor = () => {
         isCurrentlyDrawing,
         setIsCurrentlyDrawing,
         setCurrentDrawingTool,
-        clearCurrentDrawing
+        clearCurrentDrawing,
+        pushHistorySnapshot,
+        undo,
+        redo
     } = useLevelEditorStore();
 
     const {
@@ -184,81 +192,7 @@ const ProfessionalVTTEditor = () => {
         hasUnsavedChanges
     } = useLevelEditorPersistence();
 
-    // Professional VTT tool categories inspired by Roll20/Owlbear Rodeo
-    const vttTools = {
-        terrain: {
-            name: 'Terrain',
-            icon: 'Nature/World Map',
-            tools: [
-                { id: 'terrain_brush', name: 'Terrain Brush', icon: 'Utility/Utility Tool', cursor: 'crosshair' },
-                { id: 'tile_stamp', name: 'Tile Stamp', icon: 'Utility/Utility', cursor: 'crosshair' },
-                { id: 'elevation', name: 'Elevation', icon: 'Nature/World Map', cursor: 'crosshair' },
-                { id: 'texture_paint', name: 'Texture Paint', icon: 'Utility/Utility Tool', cursor: 'crosshair' }
-            ]
-        },
-        drawing: {
-            name: 'Drawing',
-            icon: 'Utility/Utility',
-            tools: [
-                { id: 'select', name: 'Select', icon: 'Utility/Target Crosshair', cursor: 'default' },
-                { id: 'area_remove', name: 'Area Remove', icon: 'Utility/Broken', cursor: 'crosshair' },
-                { id: 'freehand', name: 'Freehand', icon: 'Utility/Utility Tool', cursor: 'crosshair' },
-                { id: 'line', name: 'Line', icon: 'Piercing/Piercing Shot', cursor: 'crosshair' },
-                { id: 'rectangle', name: 'Rectangle', icon: 'Utility/Utility', cursor: 'crosshair' },
-                { id: 'circle', name: 'Circle', icon: 'Arcane/Orb Manipulation', cursor: 'crosshair' },
-                { id: 'text', name: 'Text', icon: 'Utility/Utility', cursor: 'text' },
-                { id: 'eraser', name: 'Eraser', icon: 'Utility/Broken', cursor: 'crosshair' }
-            ]
-        },
-        walls: {
-            name: 'Walls',
-            icon: 'Utility/Barred Shield',
-            tools: [
-                { id: 'wall_draw', name: 'Draw Wall', icon: 'Utility/Barred Shield', cursor: 'crosshair' },
-                { id: 'door_place', name: 'Place Door', icon: 'Utility/Lockpick', cursor: 'crosshair' },
-                { id: 'window_place', name: 'Place Window', icon: 'Utility/All Seeing Eye', cursor: 'crosshair' },
-                { id: 'barrier_magic', name: 'Magic Barrier', icon: 'Arcane/Orb Manipulation', cursor: 'crosshair' },
-                { id: 'wall_select', name: 'Select', icon: 'Utility/Target Crosshair', cursor: 'pointer' },
-                { id: 'wall_erase', name: 'Erase Walls', icon: 'Utility/Broken', cursor: 'crosshair' }
-            ]
-        },
-        fog: {
-            name: 'Fog',
-            icon: 'Shadow/Shadow Darkness',
-            tools: [
-                { id: 'fog_draw', name: 'Draw Fog', icon: 'Shadow/Shadow Invisibility', cursor: 'crosshair' },
-                { id: 'fog_erase', name: 'Erase Fog', icon: 'Utility/Broken', cursor: 'crosshair' },
-                { id: 'fog_clear_all', name: 'Clear All Fog', icon: 'Radiant/Radiant Sunburst', cursor: 'crosshair' }
-            ]
-        },
-        objects: {
-            name: 'Objects',
-            icon: 'Utility/Utility Gear',
-            tools: [
-                { id: 'object_place', name: 'Place Object', icon: 'Utility/Utility', cursor: 'crosshair' },
-                { id: 'token_place', name: 'Place Token', icon: 'Social/Golden Crown', cursor: 'crosshair' },
-                { id: 'portal_create', name: 'Create Connection', icon: 'Arcane/Orb Manipulation', cursor: 'crosshair' },
-                { id: 'marker_place', name: 'Place Marker', icon: 'Utility/Utility', cursor: 'crosshair' },
-                { id: 'object_rotate', name: 'Rotate', icon: 'Utility/Swirling Vortex', cursor: 'move' },
-                { id: 'object_scale', name: 'Scale', icon: 'Utility/Resize', cursor: 'nw-resize' }
-            ]
-        },
-        grid: {
-            name: 'Grid',
-            icon: 'Utility/Utility Gear',
-            tools: [
-                { id: 'grid_settings', name: 'Grid Settings', icon: 'Utility/Utility Gear', cursor: 'default' },
-                { id: 'grid_toggle', name: 'Toggle Grid', icon: 'Utility/Utility Gear', cursor: 'default' }
-            ]
-        },
-        lighting: {
-            name: 'Lighting',
-            icon: 'Arcane/Arcane Brilliance',
-            tools: [
-                { id: 'lighting_settings', name: 'Lighting Settings', icon: 'Arcane/Arcane Brilliance', cursor: 'default' }
-            ]
-        }
-    };
+    // Professional VTT tool categories - imported from editorTools.js (single source of truth)
 
     // Toggle editor window
     const toggleEditor = () => {
@@ -270,9 +204,8 @@ const ProfessionalVTTEditor = () => {
 
     // Handle tab change
     const handleTabChange = (tabId) => {
-        console.log('🔄 Tab change to:', tabId);
         setActiveTab(tabId);
-        const firstTool = vttTools[tabId]?.tools[0];
+        const firstTool = getFirstTool(tabId);
         if (firstTool) {
             setSelectedTool(firstTool.id);
             setActiveTool(firstTool.id);
@@ -298,9 +231,8 @@ const ProfessionalVTTEditor = () => {
         if (tabId !== 'terrain') {
             setTimeout(() => {
                 const newSettings = { ...toolSettings };
-                delete newSettings.selectedTerrainType;
-                setToolSettings(newSettings);
-                console.log('🧹 Cleared selectedTerrainType from tool settings');
+                    delete newSettings.selectedTerrainType;
+                    setToolSettings(newSettings);
             }, 0);
         }
     };
@@ -885,7 +817,6 @@ const ProfessionalVTTEditor = () => {
                     removeType,
                     selectedObjects: selectedAreaObjects
                 });
-                console.log('📤 Emitted area remove to server:', removeType);
             }
 
             // Reset state
@@ -943,6 +874,12 @@ const ProfessionalVTTEditor = () => {
             return;
         }
 
+        // Push undo snapshot before any editing operation (non-select tools only)
+        const nonEditingTools = ['select', 'wall_select', 'grid_settings', 'grid_toggle', 'lighting_settings'];
+        if (!nonEditingTools.includes(selectedTool)) {
+            pushHistorySnapshot();
+        }
+
         // Check if the click is on a background image - ignore it here UNLESS we're in background manipulation mode
         // In background manipulation mode, we want to allow clicks on backgrounds for resizing/moving
         const gameStore = useGameStore.getState();
@@ -996,7 +933,6 @@ const ProfessionalVTTEditor = () => {
             });
 
             if (isBackgroundImage) {
-                console.log('ProfessionalVTTEditor: ignoring click on background image (not in manipulation mode)');
                 return; // Let the background image's own event handler deal with it
             }
         }
@@ -1054,10 +990,6 @@ const ProfessionalVTTEditor = () => {
                         };
 
                         addDndElement(connectionData, activeMapIdRef.current);
-                        console.log('◉ Connection placed at:', {
-                            grid: { x: portalCoords.gridX, y: portalCoords.gridY },
-                            world: { x: portalCoords.worldX, y: portalCoords.worldY }
-                        });
                     }
                     return;
                 }
@@ -1075,20 +1007,12 @@ const ProfessionalVTTEditor = () => {
                             ...toolSettings,
                             selectedObjectType: selectedObjectType
                         });
-                        console.log('🎯 Auto-selected object type as fallback:', selectedObjectType);
                     }
                 }
 
                 if (objCoords && selectedObjectType) {
                     const objectType = selectedObjectType;
                     const objectDef = PROFESSIONAL_OBJECTS[objectType];
-
-                    console.log('🎯 Placing object:', {
-                        objectType,
-                        objectDef,
-                        objCoords,
-                        toolSettings
-                    });
 
                     const objectData = {
                         gridX: objCoords.gridX,
@@ -1105,10 +1029,6 @@ const ProfessionalVTTEditor = () => {
                         objectData.worldX = objCoords.worldX;
                         objectData.worldY = objCoords.worldY;
                         objectData.freePosition = true;
-                        console.log('🎯 Free positioning enabled for:', objectType, {
-                            worldX: objCoords.worldX,
-                            worldY: objCoords.worldY
-                        });
                     }
 
                     if (objectType === 'gmNotes') {
@@ -1128,14 +1048,6 @@ const ProfessionalVTTEditor = () => {
                             creatures: [],
                             npcs: []
                         };
-                        console.log('🎯 GM Notes placement data:', {
-                            gridX: objCoords.gridX,
-                            gridY: objCoords.gridY,
-                            worldX: objCoords.worldX,
-                            worldY: objCoords.worldY,
-                            freePosition: objectData.freePosition,
-                            objectData
-                        });
                     }
 
                     addEnvironmentalObject(objectData, activeMapIdRef.current);
@@ -1736,7 +1648,7 @@ const ProfessionalVTTEditor = () => {
             default:
                 break;
         }
-    }, [isEditorMode, selectedTool, screenToGrid, toolSettings, paintTerrainBrush, removeTerrainAtPosition, paintTerrainLine, removeTerrainLine, removeFogAtPosition, gridSize, getObjectAtPosition, selectEnvironmentalObject, removeEnvironmentalObject, addEnvironmentalObject, clearAllFog, coverEntireMapWithFog, setIsDrawing, setIsCurrentlyDrawing, setCurrentDrawingTool, setCurrentPath, setCurrentDrawingPath]);
+    }, [isEditorMode, selectedTool, screenToGrid, toolSettings, paintTerrainBrush, removeTerrainAtPosition, paintTerrainLine, removeTerrainLine, removeFogAtPosition, gridSize, getObjectAtPosition, selectEnvironmentalObject, removeEnvironmentalObject, addEnvironmentalObject, clearAllFog, coverEntireMapWithFog, setIsDrawing, setIsCurrentlyDrawing, setCurrentDrawingTool, setCurrentPath, setCurrentDrawingPath, pushHistorySnapshot]);
 
     const handleMouseMove = useCallback((e) => {
         // For select tools, let ObjectSystem handle the events
@@ -2508,19 +2420,8 @@ const ProfessionalVTTEditor = () => {
             const wallType = toolSettings.selectedWallType || 'stone_wall';
             const wallMode = toolSettings.wallMode || 'continuous';
 
-            console.log('🧱 WALL PLACEMENT DEBUG:', {
-                selectedTool,
-                currentPathLength: currentPath.length,
-                startPoint,
-                endPoint,
-                wallType,
-                wallMode,
-                toolSettings
-            });
-
             if (wallMode === 'continuous') {
                 // Continuous mode: place single wall
-                console.log('🧱 Placing continuous wall');
                 setWall(
                     startPoint.gridX,
                     startPoint.gridY,
@@ -2530,8 +2431,7 @@ const ProfessionalVTTEditor = () => {
                     activeMapIdRef.current
                 );
             } else if (wallMode === 'rectangle') {
-                // Rectangle mode: place walls around a rectangle
-                console.log('🧱 Placing rectangle walls');
+                // Rectangle mode: place four walls
                 const gridSystem = getGridSystem();
                 const { gridType } = gridSystem.getGridState();
 
@@ -2584,7 +2484,6 @@ const ProfessionalVTTEditor = () => {
             // For freehand, require at least 2 points to create a visible line
             if (selectedTool === 'freehand' && currentPath.length < 2) {
                 // Don't save single-point freehand drawings (they won't render anyway)
-                console.log('Skipping freehand drawing with less than 2 points');
             } else {
                 const pathData = {
                     tool: selectedTool,
@@ -2646,89 +2545,35 @@ const ProfessionalVTTEditor = () => {
         }
     }, [selectedTool, isDrawing, currentPath, toolSettings, addDrawingPath, clearCurrentDrawing, setIsCurrentlyDrawing, setCurrentDrawingTool]);
 
-    // Keyboard shortcuts
-    useEffect(() => {
-        const handleKeyDown = (e) => {
-            if (!isOpen || e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-
-            switch (e.key.toLowerCase()) {
-                case 'escape':
-                    e.preventDefault();
-                    // If we have a wall/window selected, deselect it first
-                    if (isObjectLocked || selectedWallKey || selectedWindow) {
-                        setSelectedWallKey(null);
-                        setSelectedWindowKey(null);
-                        setSelectedWindow(null);
-                        setIsObjectLocked(false);
-                        dragWindowRef.current = null;
-                        dragWallRef.current = null;
-                        lastDragPosRef.current = null;
-                    } else {
-                        // Only close editor if nothing is selected
-                        setIsOpen(false);
-                        setEditorMode(false);
-                    }
-                    break;
-                case '1':
-                    e.preventDefault();
-                    handleTabChange('terrain');
-                    break;
-                case '2':
-                    e.preventDefault();
-                    handleTabChange('drawing');
-                    break;
-                case '3':
-                    e.preventDefault();
-                    handleTabChange('walls');
-                    break;
-                case '4':
-                    e.preventDefault();
-                    handleTabChange('fog');
-                    break;
-                case '5':
-                    e.preventDefault();
-                    handleTabChange('fog');
-                    break;
-                case '6':
-                    e.preventDefault();
-                    handleTabChange('objects');
-                    break;
-                case 'v':
-                    e.preventDefault();
-                    handleToolSelect('select');
-                    break;
-                case 'delete':
-                case 'backspace':
-                    e.preventDefault();
-                    // Delete selected wall/window if in wall_select mode
-                    if (selectedTool === 'wall_select' && isObjectLocked) {
-                        if (selectedWindow) {
-                            removeWindowOverlay(selectedWindow.gridX, selectedWindow.gridY, getExplicitCurrentMapId());
-                            setSelectedWindow(null);
-                            setSelectedWindowKey(null);
-                        } else if (selectedWallKey) {
-                            const [x1, y1, x2, y2] = selectedWallKey.split(',').map(Number);
-                            removeWall(x1, y1, x2, y2, getExplicitCurrentMapId());
-                            setSelectedWallKey(null);
-                        }
-                        setIsObjectLocked(false);
-                        dragWindowRef.current = null;
-                        dragWallRef.current = null;
-                        lastDragPosRef.current = null;
-                    } else if (selectedDrawings.length > 0) {
-                        // Delete selected drawings
-                        selectedDrawings.forEach(id => {
-                            // Remove drawing logic here
-                        });
-                        clearDrawingSelection();
-                    }
-                    break;
-            }
-        };
-
-        window.addEventListener('keydown', handleKeyDown);
-        return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [isOpen, selectedDrawings, clearDrawingSelection, handleTabChange, handleToolSelect, isObjectLocked, selectedWallKey, selectedWindow, setSelectedWallKey, setSelectedWindowKey, selectedTool, removeWindowOverlay, removeWall]);
+    // Keyboard shortcuts (extracted to useEditorKeyboard hook)
+    useEditorKeyboard({
+        isOpen,
+        handleTabChange,
+        handleToolSelect,
+        selectedDrawings,
+        clearDrawingSelection,
+        isObjectLocked,
+        selectedWallKey,
+        selectedWindow,
+        setSelectedWallKey,
+        setSelectedWindowKey,
+        setSelectedWindow,
+        setIsObjectLocked,
+        onClearDragRefs: () => {
+            dragWindowRef.current = null;
+            dragWallRef.current = null;
+            lastDragPosRef.current = null;
+        },
+        selectedTool,
+        removeWindowOverlay,
+        removeWall,
+        removeDrawingPath,
+        getExplicitCurrentMapId,
+        setIsOpen,
+        setEditorMode,
+        undo,
+        redo
+    });
 
     // Cleanup RAF on unmount or when editor closes
     useEffect(() => {
@@ -2951,88 +2796,34 @@ const ProfessionalVTTEditor = () => {
                         )}
                     </div>
 
-
-
+                    {/* Layer Management Panel (extracted component) */}
+                    <LayersPanel
+                        isCollapsed={isLayersPanelCollapsed}
+                        onToggleCollapse={() => setIsLayersPanelCollapsed(!isLayersPanelCollapsed)}
+                        drawingLayers={drawingLayers}
+                        activeLayer={activeLayer}
+                        onSetActiveLayer={setActiveLayer}
+                        showGrid={showGrid}
+                        onToggleLayerVisibility={toggleLayerVisibility}
+                        onToggleLayerLock={toggleLayerLock}
+                        onLegacyToggleLayer={toggleLayer}
+                        onToggleGrid={() => {
+                            const { setShowGrid, showGrid } = useGameStore.getState();
+                            setShowGrid(!showGrid);
+                        }}
+                        onClearAll={clearAllProfessionalData}
+                    />
                 </div>
 
-                {/* Layer Management - Right Side */}
-                {!isLayersPanelCollapsed && (
-                    <div className="vtt-layer-panel">
-                        <div className="layer-panel-header">
-                            <h4>Layers</h4>
-                            <button
-                                className="layer-panel-toggle"
-                                onClick={() => setIsLayersPanelCollapsed(!isLayersPanelCollapsed)}
-                                title="Collapse Layers Panel"
-                            >
-                                ▶
-                            </button>
-                        </div>
-                        <>
-                            <button
-                                className="action-btn danger"
-                                onClick={clearAllProfessionalData}
-                                style={{ width: '100%', marginBottom: '12px' }}
-                            >
-                                Clear All
-                            </button>
-                            <div className="layer-list">
-                                {drawingLayers.map(layer => {
-                                    // For grid layer, use actual grid visibility state
-                                    const isVisible = layer.id === 'grid' ? showGrid : layer.visible;
-
-                                    return (
-                                        <div
-                                            key={layer.id}
-                                            className={`layer-item ${activeLayer === layer.id ? 'active' : ''}`}
-                                            onClick={() => setActiveLayer(layer.id)}
-                                        >
-                                            <span className="layer-name">{layer.name}</span>
-                                            <div className="layer-controls">
-                                                <button
-                                                    className={`layer-visibility ${isVisible ? 'visible' : 'hidden'}`}
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        // Toggle both the drawing layer and the legacy layer system
-                                                        toggleLayerVisibility(layer.id);
-
-                                                        // Also toggle the legacy layer system for compatibility
-                                                        if (layer.id === 'terrain') {
-                                                            toggleLayer('terrain');
-                                                        } else if (layer.id === 'walls') {
-                                                            toggleLayer('walls');
-                                                        } else if (layer.id === 'objects') {
-                                                            toggleLayer('objects');
-                                                        } else if (layer.id === 'background') {
-                                                            toggleLayer('dnd');
-                                                        } else if (layer.id === 'grid') {
-                                                            // Toggle grid visibility in gameStore
-                                                            const { setShowGrid, showGrid } = useGameStore.getState();
-                                                            setShowGrid(!showGrid);
-                                                        }
-                                                    }}
-                                                    title={isVisible ? 'Hide Layer' : 'Show Layer'}
-                                                >
-                                                    <i className={`fas ${isVisible ? 'fa-eye' : 'fa-eye-slash'}`}></i>
-                                                </button>
-                                                <button
-                                                    className={`layer-lock ${layer.locked ? 'locked' : 'unlocked'}`}
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        toggleLayerLock(layer.id);
-                                                    }}
-                                                    title={layer.locked ? 'Unlock Layer' : 'Lock Layer'}
-                                                >
-                                                    <i className={`fas ${layer.locked ? 'fa-lock' : 'fa-unlock'}`}></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        </>
-                    </div>
-                )}
+                {/* Status Bar + Shortcuts Bar (extracted component) */}
+                <EditorStatusBar
+                    activeTab={activeTab}
+                    selectedTool={selectedTool}
+                    drawingLayers={drawingLayers}
+                    hasUnsavedChanges={hasUnsavedChanges}
+                    onUndo={undo}
+                    onRedo={redo}
+                />
 
             </WowWindow>
 
@@ -3056,7 +2847,7 @@ const ProfessionalVTTEditor = () => {
                         width: '100%',
                         height: '100%',
                         zIndex: 100,
-                        cursor: vttTools[activeTab]?.tools.find(t => t.id === selectedTool)?.cursor || 'default',
+                        cursor: getToolCursor(activeTab, selectedTool),
                         pointerEvents: (selectedTool === 'select') ? 'none' : 'auto'
                     }}
                 />
@@ -3076,119 +2867,25 @@ const ProfessionalVTTEditor = () => {
             )}
 
             {/* Eraser Cursor Preview */}
-            {isEditorMode && hoverPreview.show && hoverPreview.isEraser && (
-                <div
-                    style={{
-                        position: 'absolute',
-                        left: hoverPreview.screenX - hoverPreview.eraserRadius,
-                        top: hoverPreview.screenY - hoverPreview.eraserRadius,
-                        width: hoverPreview.eraserRadius * 2,
-                        height: hoverPreview.eraserRadius * 2,
-                        border: '2px solid #ff4444',
-                        borderRadius: '50%',
-                        backgroundColor: 'rgba(255, 68, 68, 0.2)',
-                        pointerEvents: 'none',
-                        zIndex: 99
-                    }}
-                />
+            {isEditorMode && (
+                <EraserCursorPreview hoverPreview={hoverPreview} />
             )}
 
 
 
             {/* Text Input Overlay with Live Preview */}
-            {textInput.show && (
-                <div
-                    style={{
-                        position: 'absolute',
-                        left: textInput.x,
-                        top: textInput.y,
-                        zIndex: 1000,
-                        backgroundColor: 'rgba(0, 0, 0, 0.9)',
-                        border: '2px solid #4a8eff',
-                        borderRadius: '8px',
-                        padding: '12px',
-                        minWidth: '300px'
-                    }}
-                >
-                    {/* Input Field */}
-                    <input
-                        ref={textInputRef}
-                        type="text"
-                        value={textInput.text}
-                        onChange={(e) => setTextInput(prev => ({ ...prev, text: e.target.value }))}
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                                e.preventDefault();
-                                handleTextSubmit();
-                            } else if (e.key === 'Escape') {
-                                e.preventDefault();
-                                handleTextCancel();
-                            }
-                        }}
-                        placeholder="Enter text..."
-                        autoFocus
-                        style={{
-                            background: 'rgba(255, 255, 255, 0.1)',
-                            border: '1px solid #666',
-                            color: '#ffffff',
-                            fontSize: '14px',
-                            outline: 'none',
-                            width: '100%',
-                            padding: '8px',
-                            borderRadius: '4px',
-                            marginBottom: '12px'
-                        }}
-                    />
-
-                    {/* Live Preview */}
-                    {textInput.text && (
-                        <div style={{ marginBottom: '12px' }}>
-                            <div style={{
-                                fontSize: '12px',
-                                color: '#cccccc',
-                                marginBottom: '6px'
-                            }}>
-                                Preview:
-                            </div>
-                            <div
-                                style={{
-                                    display: 'inline-block',
-                                    padding: '6px 12px',
-                                    borderRadius: '4px',
-                                    ...getTextPreviewStyle()
-                                }}
-                            >
-                                {textInput.text}
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Instructions */}
-                    <div style={{
-                        fontSize: '11px',
-                        color: '#cccccc',
-                        textAlign: 'center'
-                    }}>
-                        Press Enter to place • Esc to cancel
-                    </div>
-                </div>
-            )}
+            <TextInputOverlay
+                ref={textInputRef}
+                textInput={textInput}
+                onChangeText={(text) => setTextInput(prev => ({ ...prev, text }))}
+                onSubmit={handleTextSubmit}
+                onCancel={handleTextCancel}
+                getPreviewStyle={getTextPreviewStyle}
+            />
 
             {/* Selection Rectangle for Area Remove Tool */}
-            {isEditorMode && selectedTool === 'area_remove' && selectionRect && overlayRef.current && (
-                <div
-                    style={{
-                        position: 'absolute',
-                        left: overlayRef.current.offsetLeft + Math.min(selectionRect.startX, selectionRect.endX),
-                        top: overlayRef.current.offsetTop + Math.min(selectionRect.startY, selectionRect.endY),
-                        width: Math.abs(selectionRect.endX - selectionRect.startX),
-                        height: Math.abs(selectionRect.endY - selectionRect.startY),
-                        border: '2px dashed #4a8eff',
-                        backgroundColor: 'rgba(74, 142, 255, 0.1)',
-                        pointerEvents: 'none',
-                        zIndex: 101
-                    }}
-                />
+            {isEditorMode && selectedTool === 'area_remove' && (
+                <AreaRemoveSelection selectionRect={selectionRect} overlayRef={overlayRef} />
             )}
 
             {/* Area Remove Modal */}
@@ -3203,53 +2900,18 @@ const ProfessionalVTTEditor = () => {
             />
 
             {/* Selection Indicator - shows when an object is selected and locked */}
-            {selectedTool === 'wall_select' && isObjectLocked && (selectedWallKey || selectedWindow) && (
-                <div
-                    style={{
-                        position: 'fixed',
-                        bottom: '20px',
-                        left: '50%',
-                        transform: 'translateX(-50%)',
-                        background: 'rgba(42, 36, 25, 0.95)',
-                        border: '1px solid #d4af37',
-                        borderRadius: '20px',
-                        padding: '8px 20px',
-                        zIndex: 9999,
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '12px',
-                        boxShadow: '0 4px 12px rgba(0,0,0,0.3)'
+            {selectedTool === 'wall_select' && isObjectLocked && (
+                <WallSelectionIndicator
+                    selectedWindow={selectedWindow}
+                    selectedWallKey={selectedWallKey}
+                    wallData={wallData}
+                    onUnlock={() => {
+                        setSelectedWallKey(null);
+                        setSelectedWindowKey(null);
+                        setSelectedWindow(null);
+                        setIsObjectLocked(false);
                     }}
-                >
-                    <span style={{ color: '#f0e6d2', fontSize: '13px' }}>
-                        Selected: <strong style={{ color: '#d4af37' }}>
-                            {selectedWindow ? 'Window' :
-                                (wallData[selectedWallKey]?.type?.includes('door') ? 'Door' : 'Wall')}
-                        </strong>
-                    </span>
-                    <span style={{ color: '#a08c70', fontSize: '11px' }}>
-                        Drag to move
-                    </span>
-                    <button
-                        onClick={() => {
-                            setSelectedWallKey(null);
-                            setSelectedWindowKey(null);
-                            setSelectedWindow(null);
-                            setIsObjectLocked(false);
-                        }}
-                        style={{
-                            background: '#4a3a25',
-                            border: '1px solid #5a4a3a',
-                            borderRadius: '12px',
-                            padding: '4px 12px',
-                            color: '#d4af37',
-                            cursor: 'pointer',
-                            fontSize: '11px'
-                        }}
-                    >
-                        Unlock
-                    </button>
-                </div>
+                />
             )}
 
         </>

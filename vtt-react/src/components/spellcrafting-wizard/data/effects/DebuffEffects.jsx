@@ -502,32 +502,6 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
             {effect.description}
           </div>
 
-          {effect.category === 'primary' && (
-            <div className="pathfinder-tooltip-effect">
-              Reduces your target's {effect.name.toLowerCase()} attribute.
-            </div>
-          )}
-          {effect.category === 'secondary' && (
-            <div className="pathfinder-tooltip-effect">
-              Weakens your target's {effect.name.toLowerCase()} stat.
-            </div>
-          )}
-          {effect.category === 'resistance' && (
-            <div className="pathfinder-tooltip-effect">
-              Decreases protection against {effect.name.toLowerCase()} damage.
-            </div>
-          )}
-          {effect.category === 'spell_damage' && (
-            <div className="pathfinder-tooltip-effect">
-              Reduces the damage dealt with {effect.name.toLowerCase()} spells.
-            </div>
-          )}
-          {effect.category === 'utility' && (
-            <div className="pathfinder-tooltip-effect">
-              Hinders abilities related to {effect.name.toLowerCase()}.
-            </div>
-          )}
-
           {/* Show configured options if this effect is selected */}
           {isSelected && (
             <div className="pathfinder-tooltip-section">
@@ -538,14 +512,28 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
                   <span className="pathfinder-tooltip-label">Option:</span> {
                     effect.options.find(o => o.id === selectedEffect.option)?.name || 'None'
                   }
+                  {effect.options.find(o => o.id === selectedEffect.option)?.description && (
+                    <div className="pathfinder-tooltip-meta" style={{ marginTop: 2, opacity: 0.85 }}>
+                      {effect.options.find(o => o.id === selectedEffect.option).description}
+                    </div>
+                  )}
                 </div>
               )}
 
               {selectedEffect.level && (
                 <div className="pathfinder-tooltip-option">
-                  <span className="pathfinder-tooltip-label">Level:</span> {selectedEffect.level}
+                  <span className="pathfinder-tooltip-label">Level:</span> {selectedEffect.level.charAt(0).toUpperCase() + selectedEffect.level.slice(1)}
                 </div>
               )}
+
+              {selectedEffect.option && selectedEffect.level && (() => {
+                const desc = getEffectDescription(effect.id, selectedEffect.option, selectedEffect.level);
+                return desc && desc !== effect.description ? (
+                  <div className="pathfinder-tooltip-meta" style={{ marginTop: 4, fontStyle: 'italic', opacity: 0.9 }}>
+                    {desc}
+                  </div>
+                ) : null;
+              })()}
 
               {/* Show lifelink specific configuration */}
               {effect.id === 'lifelink' && (
@@ -725,30 +713,24 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
       const RESISTANCE_MODIFIERS = [
         { id: 'all_resistances', name: 'All Resistances', icon: 'Psychic/Mind Strike', description: 'Reduces resistance to all damage types', category: 'resistance', resistanceType: 'general' },
         { id: 'physical_resistance', name: 'Physical Resistance', icon: 'Utility/Shield', description: 'Reduces resistance to physical damage', category: 'resistance', resistanceType: 'standard' },
-        { id: 'fire_resistance', name: 'Fire Resistance', icon: 'Fire/Flame Shield', description: 'Reduces resistance to fire damage', category: 'resistance', resistanceType: 'standard' },
-        { id: 'cold_resistance', name: 'Cold Resistance', icon: 'Frost/Frozen in Ice', description: 'Reduces resistance to cold damage', category: 'resistance', resistanceType: 'standard' },
-        { id: 'lightning_resistance', name: 'Lightning Resistance', icon: 'Lightning/Lightning Shield', description: 'Reduces resistance to lightning damage', category: 'resistance', resistanceType: 'standard' },
-        { id: 'necrotic_resistance', name: 'Necrotic Resistance', icon: 'Radiant/Radiant Divinity', description: 'Reduces resistance to necrotic damage', category: 'resistance', resistanceType: 'standard' },
-        { id: 'radiant_resistance', name: 'Radiant Resistance', icon: 'Radiant/Divine Blessing', description: 'Reduces resistance to radiant damage', category: 'resistance', resistanceType: 'standard' },
-        { id: 'poison_resistance', name: 'Poison Resistance', icon: 'Poison/Poison Venom', description: 'Reduces resistance to poison damage', category: 'resistance', resistanceType: 'standard' },
-        { id: 'psychic_resistance', name: 'Psychic Resistance', icon: 'Psychic/Mind Control', description: 'Reduces resistance to psychic damage', category: 'resistance', resistanceType: 'standard' },
-        { id: 'force_resistance', name: 'Force Resistance', icon: 'Arcane/Magical Sword', description: 'Reduces resistance to force damage', category: 'resistance', resistanceType: 'standard' },
-        { id: 'acid_resistance', name: 'Acid Resistance', icon: 'Poison/Acid Splash', description: 'Reduces resistance to acid damage', category: 'resistance', resistanceType: 'standard' },
-        { id: 'sonic_resistance', name: 'Sonic Resistance', icon: 'Psychic/Mind Control', description: 'Reduces resistance to sonic damage', category: 'resistance', resistanceType: 'standard' },
+        { id: 'ember_resistance', name: 'Ember Resistance', icon: 'Fire/Flame Shield', description: 'Reduces resistance to ember damage', category: 'resistance', resistanceType: 'standard' },
+        { id: 'rime_resistance', name: 'Rime Resistance', icon: 'Frost/Frozen in Ice', description: 'Reduces resistance to rime damage', category: 'resistance', resistanceType: 'standard' },
+        { id: 'storm_resistance', name: 'Storm Resistance', icon: 'Lightning/Lightning Shield', description: 'Reduces resistance to storm damage', category: 'resistance', resistanceType: 'standard' },
+        { id: 'arcane_resistance', name: 'Arcane Resistance', icon: 'Arcane/Conjure Elements', description: 'Reduces resistance to arcane damage', category: 'resistance', resistanceType: 'standard' },
+        { id: 'primal_resistance', name: 'Primal Resistance', icon: 'Nature/Amplified Senses', description: 'Reduces resistance to primal damage', category: 'resistance', resistanceType: 'standard' },
+        { id: 'blight_resistance', name: 'Blight Resistance', icon: 'Necrotic/Bloody Eyes', description: 'Reduces resistance to blight damage', category: 'resistance', resistanceType: 'standard' },
+        { id: 'wyrd_resistance', name: 'Wyrd Resistance', icon: 'Psychic/Mind Control', description: 'Reduces resistance to wyrd damage', category: 'resistance', resistanceType: 'standard' },
 
         // Absorption reduction types - use flat numbers for all damage types
         { id: 'damage_absorption', name: 'All Damage Absorption', icon: 'Necrotic/Protective Aura', description: 'Reduces absorption of all damage', category: 'resistance', resistanceType: 'absorption' },
         { id: 'physical_absorption', name: 'Physical Absorption', icon: 'Utility/Shield', description: 'Reduces absorption of physical damage', category: 'resistance', resistanceType: 'absorption' },
-        { id: 'fire_absorption', name: 'Fire Absorption', icon: 'Fire/Flame Shield', description: 'Reduces absorption of fire damage', category: 'resistance', resistanceType: 'absorption' },
-        { id: 'cold_absorption', name: 'Cold Absorption', icon: 'Frost/Frozen in Ice', description: 'Reduces absorption of cold damage', category: 'resistance', resistanceType: 'absorption' },
-        { id: 'lightning_absorption', name: 'Lightning Absorption', icon: 'Lightning/Lightning Shield', description: 'Reduces absorption of lightning damage', category: 'resistance', resistanceType: 'absorption' },
-        { id: 'necrotic_absorption', name: 'Necrotic Absorption', icon: 'Radiant/Radiant Divinity', description: 'Reduces absorption of necrotic damage', category: 'resistance', resistanceType: 'absorption' },
-        { id: 'radiant_absorption', name: 'Radiant Absorption', icon: 'Radiant/Divine Blessing', description: 'Reduces absorption of radiant damage', category: 'resistance', resistanceType: 'absorption' },
-        { id: 'poison_absorption', name: 'Poison Absorption', icon: 'Poison/Poison Venom', description: 'Reduces absorption of poison damage', category: 'resistance', resistanceType: 'absorption' },
-        { id: 'psychic_absorption', name: 'Psychic Absorption', icon: 'Psychic/Mind Control', description: 'Reduces absorption of psychic damage', category: 'resistance', resistanceType: 'absorption' },
-        { id: 'force_absorption', name: 'Force Absorption', icon: 'Arcane/Magical Sword', description: 'Reduces absorption of force damage', category: 'resistance', resistanceType: 'absorption' },
-        { id: 'acid_absorption', name: 'Acid Absorption', icon: 'Poison/Acid Splash', description: 'Reduces absorption of acid damage', category: 'resistance', resistanceType: 'absorption' },
-        { id: 'sonic_absorption', name: 'Sonic Absorption', icon: 'Psychic/Mind Control', description: 'Reduces absorption of sonic damage', category: 'resistance', resistanceType: 'absorption' }
+        { id: 'ember_absorption', name: 'Ember Absorption', icon: 'Fire/Flame Shield', description: 'Reduces absorption of ember damage', category: 'resistance', resistanceType: 'absorption' },
+        { id: 'rime_absorption', name: 'Rime Absorption', icon: 'Frost/Frozen in Ice', description: 'Reduces absorption of rime damage', category: 'resistance', resistanceType: 'absorption' },
+        { id: 'storm_absorption', name: 'Storm Absorption', icon: 'Lightning/Lightning Shield', description: 'Reduces absorption of storm damage', category: 'resistance', resistanceType: 'absorption' },
+        { id: 'arcane_absorption', name: 'Arcane Absorption', icon: 'Arcane/Conjure Elements', description: 'Reduces absorption of arcane damage', category: 'resistance', resistanceType: 'absorption' },
+        { id: 'primal_absorption', name: 'Primal Absorption', icon: 'Nature/Amplified Senses', description: 'Reduces absorption of primal damage', category: 'resistance', resistanceType: 'absorption' },
+        { id: 'blight_absorption', name: 'Blight Absorption', icon: 'Necrotic/Bloody Eyes', description: 'Reduces absorption of blight damage', category: 'resistance', resistanceType: 'absorption' },
+        { id: 'wyrd_absorption', name: 'Wyrd Absorption', icon: 'Psychic/Mind Control', description: 'Reduces absorption of wyrd damage', category: 'resistance', resistanceType: 'absorption' }
       ];
 
       return RESISTANCE_MODIFIERS;
@@ -777,16 +759,13 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
       // Add damage type modifiers for debuffs (reducing damage output)
       additionalStats.push(
         { id: 'all_spell_damage', name: 'All Spell Damage', icon: 'Necrotic/Necrotic Skull', description: 'Reduces damage dealt with all spells', category: 'damage' },
-        { id: 'fire_spell_power', name: 'Fire Spell Power', icon: 'Fire/Flame Burst', description: 'Reduces damage dealt with fire spells', category: 'damage' },
-        { id: 'cold_spell_power', name: 'Cold Spell Power', icon: 'Frost/Frozen in Ice', description: 'Reduces damage dealt with cold spells', category: 'damage' },
-        { id: 'lightning_spell_power', name: 'Lightning Spell Power', icon: 'Lightning/Lightning Bolt', description: 'Reduces damage dealt with lightning spells', category: 'damage' },
-        { id: 'necrotic_spell_power', name: 'Necrotic Spell Power', icon: 'Void/Black Hole', description: 'Reduces damage dealt with necrotic spells', category: 'damage' },
-        { id: 'radiant_spell_power', name: 'Radiant Spell Power', icon: 'Radiant/Divine Blessing', description: 'Reduces damage dealt with radiant spells', category: 'damage' },
-        { id: 'poison_spell_power', name: 'Poison Spell Power', icon: 'Poison/Poison Contagion', description: 'Reduces damage dealt with poison spells', category: 'damage' },
-        { id: 'psychic_spell_power', name: 'Psychic Spell Power', icon: 'Psychic/Mind Control', description: 'Reduces damage dealt with psychic spells', category: 'damage' },
-        { id: 'force_spell_power', name: 'Force Spell Power', icon: 'Arcane/Magical Sword', description: 'Reduces damage dealt with force spells', category: 'damage' },
-        { id: 'acid_spell_power', name: 'Acid Spell Power', icon: 'Poison/Acid Splash', description: 'Reduces damage dealt with acid spells', category: 'damage' },
-        { id: 'sonic_spell_power', name: 'Sonic Spell Power', icon: 'Psychic/Mind Control', description: 'Reduces damage dealt with sonic spells', category: 'damage' },
+        { id: 'ember_spell_power', name: 'Ember Spell Power', icon: 'Fire/Flame Burst', description: 'Reduces damage dealt with ember spells', category: 'damage' },
+        { id: 'rime_spell_power', name: 'Rime Spell Power', icon: 'Frost/Frozen in Ice', description: 'Reduces damage dealt with rime spells', category: 'damage' },
+        { id: 'storm_spell_power', name: 'Storm Spell Power', icon: 'Lightning/Lightning Bolt', description: 'Reduces damage dealt with storm spells', category: 'damage' },
+        { id: 'arcane_spell_power', name: 'Arcane Spell Power', icon: 'Arcane/Magical Sword', description: 'Reduces damage dealt with arcane spells', category: 'damage' },
+        { id: 'primal_spell_power', name: 'Primal Spell Power', icon: 'Nature/Amplified Senses', description: 'Reduces damage dealt with primal spells', category: 'damage' },
+        { id: 'blight_spell_power', name: 'Blight Spell Power', icon: 'Necrotic/Bloody Eyes', description: 'Reduces damage dealt with blight spells', category: 'damage' },
+        { id: 'wyrd_spell_power', name: 'Wyrd Spell Power', icon: 'Psychic/Mind Control', description: 'Reduces damage dealt with wyrd spells', category: 'damage' },
         { id: 'weapon_damage', name: 'Weapon Damage', icon: 'Slashing/Sword Pierce', description: 'Reduces damage dealt with weapons', category: 'damage' },
         { id: 'ranged_damage', name: 'Ranged Damage', icon: 'Piercing/Focused Arrow Shot', description: 'Reduces damage dealt with ranged weapons', category: 'damage' }
       );
@@ -807,8 +786,18 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
 
   // Helper function to get icon URL
   const getIconUrl = (iconName) => {
-    if (!iconName) return '';
-    return getAbilityIconUrl(iconName);
+    if (!iconName || typeof iconName !== 'string') return '';
+    try {
+      return getAbilityIconUrl(iconName);
+    } catch (e) {
+      return '';
+    }
+  };
+
+  // Fallback icon for broken image loads
+  const handleIconError = (e) => {
+    e.target.onerror = null;
+    e.target.src = getIconUrl('Utility/Utility');
   };
 
   // Add a function to generate detailed effect descriptions based on the selected effect type and intensity level
@@ -844,7 +833,7 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
         },
         poisoned: {
           weakening: "Target has disadvantage on their next Strength check",
-          debilitating: "Target takes 1d4 poison damage",
+          debilitating: "Target takes 1d4 blight damage",
           paralyzing: "Target feels numbness in extremities, -2 to Agility checks"
         },
         stunned: {
@@ -868,9 +857,9 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
           temporal: "Target's reaction time slightly increases"
         },
         burning: {
-          mild: "Target takes 1d4 fire damage",
-          intense: "Target takes 1d6 fire damage",
-          magical: "Target takes 1d4 fire damage that ignores resistance"
+          mild: "Target takes 1d4 ember damage",
+          intense: "Target takes 1d6 ember damage",
+          magical: "Target takes 1d4 ember damage that ignores resistance"
         },
         frozen: {
           chilled: "Target's movement speed is reduced by 5 feet",
@@ -931,7 +920,7 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
         },
         poisoned: {
           weakening: "Target has disadvantage on all Strength checks and saving throws",
-          debilitating: "Target takes 2d4 poison damage per round",
+          debilitating: "Target takes 2d4 blight damage per round",
           paralyzing: "Target has a 25% chance of being paralyzed for 1 round"
         },
         stunned: {
@@ -955,13 +944,13 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
           temporal: "Target acts as if under the Slow spell"
         },
         burning: {
-          mild: "Target takes 2d4 fire damage per round",
-          intense: "Target takes 2d6 fire damage and may ignite flammable objects",
-          magical: "Target takes 2d4 fire damage that ignores resistance"
+          mild: "Target takes 2d4 ember damage per round",
+          intense: "Target takes 2d6 ember damage and may ignite flammable objects",
+          magical: "Target takes 2d4 ember damage that ignores resistance"
         },
         frozen: {
           chilled: "Target's movement speed is halved and has disadvantage on Agility saves",
-          frostbitten: "Target takes 1d6 cold damage and has disadvantage on attack rolls",
+          frostbitten: "Target takes 1d6 rime damage and has disadvantage on attack rolls",
           frozen: "Target is partially encased in ice, speed reduced to 0"
         },
         weakened: {
@@ -1018,8 +1007,8 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
         },
         poisoned: {
           weakening: "Target's Strength and Constitution scores are reduced by 4",
-          debilitating: "Target takes 4d4 poison damage per round and is incapacitated",
-          paralyzing: "Target is paralyzed and takes 2d4 poison damage per round"
+          debilitating: "Target takes 4d4 blight damage per round and is incapacitated",
+          paralyzing: "Target is paralyzed and takes 2d4 blight damage per round"
         },
         stunned: {
           dazed: "Target is stunned (can't take actions/reactions, drops everything, can't speak, auto-fails STR/AGI saves)",
@@ -1042,13 +1031,13 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
           temporal: "Target is caught in a time distortion (can only take an action every other turn)"
         },
         burning: {
-          mild: "Target takes 3d6 fire damage per round and ignites flammable objects",
-          intense: "Target takes 4d6 fire damage and spreads to nearby creatures (5-ft radius)",
-          magical: "Target takes 3d6 fire damage that ignores resistance and immunity"
+          mild: "Target takes 3d6 ember damage per round and ignites flammable objects",
+          intense: "Target takes 4d6 ember damage and spreads to nearby creatures (5-ft radius)",
+          magical: "Target takes 3d6 ember damage that ignores resistance and immunity"
         },
         frozen: {
           chilled: "Target's speed is 0 and they have disadvantage on all physical checks",
-          frostbitten: "Target takes 2d6 cold damage and parts of their body become brittle",
+          frostbitten: "Target takes 2d6 rime damage and parts of their body become brittle",
           frozen: "Target is completely encased in ice (paralyzed condition)"
         },
         weakened: {
@@ -1472,7 +1461,7 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
                                           />
                                         </div>
                                         <div className="stage-stat-icon">
-                                          <img src={getIconUrl(stat.icon)} alt={stat.name} />
+                                          <img src={getIconUrl(stat.icon)} alt={stat.name} onError={handleIconError} />
                                         </div>
                                         <div className="stage-stat-name">{stat.name}</div>
 
@@ -1598,7 +1587,7 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
             {debuffConfig.statPenalties.map(stat => (
               <div className="pf-selected-stat" key={stat.id}>
                 <div className="pf-stat-icon">
-                  <img src={getIconUrl(stat.icon)} alt={stat.name} />
+                  <img src={getIconUrl(stat.icon)} alt={stat.name} onError={handleIconError} />
                 </div>
                 <div className="pf-stat-info">
                   <div className="pf-stat-name">{stat.name}</div>
@@ -1889,7 +1878,7 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
                 onMouseMove={handleMouseMove}
               >
                 <div className="pf-status-icon">
-                  <img src={getIconUrl(effect.icon)} alt={effect.name} />
+                  <img src={getIconUrl(effect.icon)} alt={effect.name} onError={handleIconError} />
                 </div>
                 <div className="pf-status-name">{effect.name}</div>
                 <div className="pf-status-description">{effect.description}</div>

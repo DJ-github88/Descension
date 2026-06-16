@@ -74,8 +74,7 @@ const MapCanvas = ({
       // Calculate posX/posY so that [centerX, centerY] is in the middle of the screen
       const posX = W / 2 - centerX * targetScale;
       const posY = H / 2 - centerY * targetScale;
-      
-      console.log(`[MapCanvas] Smoothly panning to shared coordinates: [${centerX}, ${centerY}] at zoom ${targetScale}`);
+
       ref.setTransform(posX, posY, targetScale, 1500, 'easeOut');
     }
   }, [activeShare]);
@@ -183,7 +182,8 @@ const MapCanvas = ({
     handleUserInteraction();
   }, [onTransformChange, handleUserInteraction]);
 
-  // Set initial transform programmatically on mount to align exactly with the landing page background
+  // Set initial transform programmatically on mount — starts at the
+  // cover/fit position to match the end state of the landing page dive.
   useEffect(() => {
     const ref = transformRef.current;
     if (ref && initialTransform && phase === 'entering') {
@@ -194,49 +194,26 @@ const MapCanvas = ({
         0,
         'linear'
       );
-      console.log(`[MapCanvas] Instantly aligned canvas to landing page position:`, initialTransform);
+      // Seed the drift ref so auto-drift starts from the correct position
+      driftRef.current.x = initialTransform.posX;
+      driftRef.current.y = initialTransform.posY;
     }
   }, [phase, initialTransform]);
 
-  // Handle Phase Transitions (Zoom Out on Enter, Zoom In on Exit)
+  // Handle Phase Transitions
   useEffect(() => {
     const ref = transformRef.current;
     if (!ref) return;
 
-    if (phase === 'zoomingOut') {
-      const W = window.innerWidth;
-      const H = window.innerHeight;
-      
-      // Use cover scale (Math.max) so the map fills the entire viewport, rather than Math.min (which leaves margins)
-      const fitScale = Math.max(W / 4096, H / 3072);
-      const fitX = (W - 4096 * fitScale) / 2;
-      const fitY = (H - 3072 * fitScale) / 2;
-
-      // Animate zoom out to fit screen over 3500ms (slower, more immersive transition)
-      ref.setTransform(fitX, fitY, fitScale, 3500, 'easeOut');
-      
-      // Initialize drift position at the fit location so it starts drifting from a clean place
-      driftRef.current.x = fitX;
-      driftRef.current.y = fitY;
-      
-      // Set timeout to enable drift once zoom out completes
-      const t = setTimeout(() => {
-        setDriftEnabled(true);
-      }, 3500);
+    if (phase === 'immersed') {
+      // Enable auto-drift after a brief delay to let the crossfade settle
+      const t = setTimeout(() => setDriftEnabled(true), 1000);
       return () => clearTimeout(t);
-    } else if (phase === 'zoomingIn' && initialTransform) {
-      // Disable drift immediately during exit zoom
+    } else if (phase === 'zoomingIn') {
+      // Exit — just stop drifting; WorldMapImmerse fades out as a whole
       setDriftEnabled(false);
-      // Zoom back in over 2000ms
-      ref.setTransform(
-        initialTransform.posX,
-        initialTransform.posY,
-        initialTransform.scale,
-        2000,
-        'easeOut'
-      );
     }
-  }, [phase, initialTransform]);
+  }, [phase]);
 
   // Handle shift-dragging pin updates on mouse move
   const handleMouseMoveInternal = useCallback((e) => {
@@ -325,6 +302,20 @@ const MapCanvas = ({
 
   const isDrawingOrPlacing = devMode || activeTool === 'placePin' || activeTool === 'drawArea';
 
+  // Custom SVG cursors for drawing/placing modes
+  const PEN_CURSOR = `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 26 26'><path d='M4 22l3-3L20 6l-3-3L4 16v6z' fill='%23C4A44A' stroke='%231a0f08' stroke-width='1.5' stroke-linejoin='round'/><path d='M17 6l3 3M5 21l1-1' stroke='%231a0f08' stroke-width='1.5' stroke-linecap='round'/></svg>") 3 22, crosshair`;
+
+  const FLAG_CURSOR = `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 26 26'><path d='M8 2v22' stroke='%23C4A44A' stroke-width='2.5' stroke-linecap='round'/><path d='M8 3h13l-3 3.5 3 3.5H8z' fill='%23C4A44A' stroke='%231a0f08' stroke-width='1.2' stroke-linejoin='round'/></svg>") 8 2, crosshair`;
+
+  const toolCursor = (() => {
+    if (devMode && devTool === 'drawRegion') return PEN_CURSOR;
+    if (devMode && devTool === 'placePin') return FLAG_CURSOR;
+    if (devMode && devTool === 'erasePin') return 'pointer';
+    if (activeTool === 'drawArea') return PEN_CURSOR;
+    if (activeTool === 'placePin') return FLAG_CURSOR;
+    return null; // fall back to grab/grabbing from CSS
+  })();
+
   const startPoint = drawingPoints && drawingPoints[0];
   const isNearStart = startPoint && cursorPos && drawingPoints.length >= 3 &&
     Math.hypot(cursorPos[0] - startPoint[0], cursorPos[1] - startPoint[1]) < 30;
@@ -340,7 +331,8 @@ const MapCanvas = ({
         maxScale={3}
         limitToBounds={false}
         centerOnInit={false}
-        wheel={{ step: 0.005, smoothStep: 0.001, zoomAnimation: { disabled: false, animationTime: 250 } }}
+        smooth={false}
+        wheel={{ step: 0.15, zoomAnimation: { disabled: false, animationTime: 100 } }}
         doubleClick={{ disabled: false }}
         panning={{ disabled: (devMode && devTool === 'drawRegion') || (activeTool === 'drawArea') || draggedPinId || draggedPlayerPinId ? true : false }}
         onTransformed={handleTransformed}
@@ -353,10 +345,10 @@ const MapCanvas = ({
               wrapperStyle={{ width: '100vw', height: '100vh' }}
               contentStyle={{ width: MAP_WIDTH, height: MAP_HEIGHT }}
             >
-              <div
-                className="map-content"
-                style={{ width: MAP_WIDTH, height: MAP_HEIGHT, position: 'relative' }}
-              >
+                <div
+                  className="map-content"
+                  style={{ width: MAP_WIDTH, height: MAP_HEIGHT, position: 'relative', cursor: toolCursor || undefined }}
+                >
                 <img
                   src={MAP_IMAGE_PATH}
                   alt="Mythrill World Map"
@@ -380,7 +372,8 @@ const MapCanvas = ({
                     left: 0,
                     width: MAP_WIDTH,
                     height: MAP_HEIGHT,
-                    pointerEvents: isDrawingOrPlacing ? 'all' : 'none'
+                    pointerEvents: isDrawingOrPlacing ? 'all' : 'none',
+                    cursor: toolCursor || 'inherit'
                   }}
                   onClick={(e) => onMapClick(e, transformRef)}
                   onMouseMove={handleMouseMoveInternal}
@@ -390,7 +383,6 @@ const MapCanvas = ({
                       if (drawingPoints && drawingPoints.length > 0) {
                         setDrawingPoints([]);
                         setCursorPos(null);
-                        console.log('[MapCanvas] Cancelled region drawing draft via right-click.');
                       }
                     }
                   }}

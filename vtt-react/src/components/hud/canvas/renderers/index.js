@@ -1,12 +1,10 @@
-﻿import ArcanoneerSphereRenderer from './arcanoneerSphereRenderer';
-import BerserkerRageRenderer from './berserkerRageRenderer';
+﻿import BerserkerRageRenderer from './berserkerRageRenderer';
 import ShaperStanceRenderer from './shaperStanceRenderer';
 import HarbingerMayhemRenderer from './chaosWeaverMayhemRenderer';
 import PyrofiendInfernoRenderer from './pyrofiendInfernoRenderer';
 import MinstrelMusicalRenderer from './minstrelMusicalRenderer';
 
 const RENDERER_REGISTRY = {
-  'elemental-spheres': () => new ArcanoneerSphereRenderer(),
   'rage-bar': () => new BerserkerRageRenderer(),
   'shaper-stance': () => new ShaperStanceRenderer(),
   'stance-flow': () => new ShaperStanceRenderer(),

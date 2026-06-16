@@ -245,11 +245,26 @@ const Step10EquipmentSelection = () => {
     const cartPanelRef = useRef(null);
     const [shopCols, setShopCols] = useState(12);
     const [cartCols, setCartCols] = useState(11);
-    const CELL_SIZE = 52;
+    const [mobilePanel, setMobilePanel] = useState('shop');
+    const [cellSize, setCellSize] = useState(52);
+    const CELL_SIZE = cellSize;
     const GAP = 1;
     const GRID_PADDING = 8;
     const GRID_BORDER = 2;
     const PANEL_PADDING = 12; // 0.75rem
+
+    // Responsive cell size based on viewport
+    useEffect(() => {
+        const updateCellSize = () => {
+            const w = window.innerWidth;
+            if (w <= 480) setCellSize(36);
+            else if (w <= 768) setCellSize(42);
+            else setCellSize(52);
+        };
+        updateCellSize();
+        window.addEventListener('resize', updateCellSize);
+        return () => window.removeEventListener('resize', updateCellSize);
+    }, []);
 
     // Calculate columns based on panel width using ResizeObserver
     useEffect(() => {
@@ -294,7 +309,7 @@ const Step10EquipmentSelection = () => {
             shopObserver.disconnect();
             cartObserver.disconnect();
         };
-    }, []); // Empty deps - only run once on mount
+    }, [CELL_SIZE, mobilePanel]); // Re-run when cell size or mobile tab changes
 
     // Handle starting currency and equipment generation based on choices
     useEffect(() => {
@@ -808,9 +823,28 @@ const Step10EquipmentSelection = () => {
 
     return (
         <div className="equipment-selection-container">
-            <div className="equipment-selection-main">
+            <div className="equipment-selection-main" data-mobile-panel={mobilePanel}>
+
+                {/* Mobile Section Tabs */}
+                <div className="mobile-section-tabs-bar">
+                    <button
+                        type="button"
+                        className={`mobile-section-tab ${mobilePanel === 'shop' ? 'active' : ''}`}
+                        onClick={() => setMobilePanel('shop')}
+                    >
+                        <i className="fas fa-store"></i> Shop
+                    </button>
+                    <button
+                        type="button"
+                        className={`mobile-section-tab ${mobilePanel === 'cart' ? 'active' : ''}`}
+                        onClick={() => setMobilePanel('cart')}
+                    >
+                        <i className="fas fa-shopping-bag"></i> Cart ({selectedEquipment.length})
+                    </button>
+                </div>
+
                 {/* Left Panel - Available Items (Shop) */}
-                <div className="equipment-shop-panel" ref={shopPanelRef}>
+                <div className="equipment-shop-panel" ref={shopPanelRef} data-mobile-panel="shop">
                     <div className="shop-panel-header">
                         <h3>Available Equipment</h3>
 
@@ -865,13 +899,13 @@ const Step10EquipmentSelection = () => {
                     </div>
 
                     {/* Item Grid - Inventory Style */}
-                    <div className="equipment-shop-grid" style={{ '--grid-cols': shopCols }}>
+                    <div className="equipment-shop-grid" style={{ '--grid-cols': shopCols, '--cell-size': `${CELL_SIZE}px` }}>
                         {shopGridCells}
                     </div>
                 </div>
 
                 {/* Right Panel - Selected Items (Cart) */}
-                <div className="equipment-cart-panel" ref={cartPanelRef}>
+                <div className="equipment-cart-panel" ref={cartPanelRef} data-mobile-panel="cart">
                     <div className="cart-panel-header">
                         <h3>Selected Equipment</h3>
                         <div className="cart-currency-display">
@@ -882,7 +916,7 @@ const Step10EquipmentSelection = () => {
 
 
                     {/* Cart Grid - Inventory Style */}
-                    <div className={`equipment-cart-grid ${selectedEquipment.length === 0 ? 'empty' : ''}`} style={{ '--grid-cols': cartCols }}>
+                    <div className={`equipment-cart-grid ${selectedEquipment.length === 0 ? 'empty' : ''}`} style={{ '--grid-cols': cartCols, '--cell-size': `${CELL_SIZE}px` }}>
                         {selectedEquipment.length === 0 ? (
                             <div className="cart-empty-message">
                                 <div style={{ fontSize: '2rem', marginBottom: '1rem', opacity: 0.7 }}>📦</div>

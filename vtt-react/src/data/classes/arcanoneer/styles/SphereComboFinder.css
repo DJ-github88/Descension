@@ -1,0 +1,382 @@
+/* ============================================================================
+   SphereComboFinder.css
+   ----------------------------------------------------------------------------
+   Styles for the Building Blocks → Formulations reference tool.
+   Used inside the Arcanoneer class-detail (lore) page.
+   ========================================================================== */
+
+.scf-root {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    color: #f5e9d4;
+    background: linear-gradient(180deg, rgba(28, 16, 36, 0.85) 0%, rgba(18, 10, 24, 0.92) 100%);
+    border: 1px solid rgba(180, 130, 220, 0.25);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-top: 12px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+.scf-header {
+    margin-bottom: 10px;
+}
+.scf-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #d9c5e8;
+    letter-spacing: 0.3px;
+    margin-bottom: 4px;
+}
+.scf-subtitle {
+    font-size: 12px;
+    color: #8e779c;
+    line-height: 1.4;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+}
+.scf-reset-btn {
+    margin-left: auto;
+    padding: 2px 10px;
+    font-size: 11px;
+    color: #c8a4b8;
+    background: rgba(180, 60, 90, 0.15);
+    border: 1px solid rgba(180, 60, 90, 0.35);
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 120ms ease;
+}
+.scf-reset-btn:hover {
+    background: rgba(180, 60, 90, 0.3);
+    border-color: rgba(220, 90, 120, 0.6);
+}
+
+/* ----------------------------------------------------------------------------
+   Block selector row
+   ------------------------------------------------------------------------- */
+.scf-blocks-row {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 4px;
+    margin-bottom: 12px;
+}
+@media (max-width: 700px) {
+    .scf-blocks-row { grid-template-columns: repeat(4, 1fr); }
+}
+
+.scf-block-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 8px 4px 6px;
+    background: linear-gradient(180deg, rgba(45, 32, 56, 0.85), rgba(28, 18, 38, 0.92));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 5px;
+    cursor: pointer;
+    color: #d9c5e8;
+    transition: all 140ms ease;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+}
+.scf-block-btn::before {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; top: 0;
+    height: 3px;
+    background: var(--block-color, transparent);
+    opacity: 0.4;
+    transition: opacity 140ms ease, height 140ms ease;
+}
+.scf-block-btn:hover {
+    border-color: var(--block-glow, rgba(255, 255, 255, 0.4));
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px color-mix(in srgb, var(--block-color, #888) 25%, transparent);
+}
+.scf-block-btn:hover::before { opacity: 1; height: 4px; }
+
+.scf-block-btn.sel1,
+.scf-block-btn.sel2 {
+    border-color: var(--block-glow, #fff);
+    box-shadow:
+        inset 0 0 14px color-mix(in srgb, var(--block-glow, #fff) 25%, transparent),
+        0 0 8px color-mix(in srgb, var(--block-color, #888) 35%, transparent);
+}
+.scf-block-btn.sel1::before,
+.scf-block-btn.sel2::before { opacity: 1; height: 5px; }
+.scf-block-btn.sel2 { outline: 1px solid var(--block-color); outline-offset: 1px; }
+
+.scf-block-btn.has-banked {
+    box-shadow: inset 0 -3px 0 var(--block-color);
+}
+
+.scf-block-icon {
+    font-size: 14px;
+    color: var(--block-glow, #fff);
+}
+.scf-block-name {
+    font-size: 11px;
+    font-weight: 600;
+}
+.scf-block-d8 {
+    font-size: 9px;
+    color: #8e779c;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 1px 4px;
+    border-radius: 2px;
+    font-variant-numeric: tabular-nums;
+}
+.scf-block-banked {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    min-width: 13px;
+    height: 13px;
+    padding: 0 3px;
+    font-size: 9.5px;
+    line-height: 13px;
+    text-align: center;
+    color: #1a0a00;
+    background: var(--block-glow, #fff);
+    border-radius: 7px;
+    font-weight: 700;
+}
+
+/* ----------------------------------------------------------------------------
+   Focused combo view (5 action cards)
+   ------------------------------------------------------------------------- */
+.scf-focus {
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(180, 130, 220, 0.25);
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+}
+.scf-focus-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+}
+.scf-focus-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #ffd87a;
+}
+.scf-focus-costs {
+    font-size: 12px;
+    color: #b89ac9;
+    font-style: italic;
+}
+.scf-focus-tag {
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+}
+.scf-focus-tag.is-wyrd {
+    color: #ff79de;
+    background: rgba(255, 100, 200, 0.15);
+    border: 1px solid rgba(255, 100, 200, 0.45);
+}
+.scf-focus-tag.ready {
+    color: #66ff9a;
+    background: rgba(70, 220, 130, 0.15);
+    border: 1px solid rgba(70, 220, 130, 0.55);
+}
+.scf-focus-desc {
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: #d9c5e8;
+    margin-bottom: 8px;
+}
+.scf-wyrd-note {
+    font-size: 11px;
+    color: #ff79de;
+    background: rgba(255, 100, 200, 0.08);
+    border-left: 3px solid rgba(255, 100, 200, 0.5);
+    padding: 5px 9px;
+    border-radius: 2px;
+    margin-bottom: 8px;
+    line-height: 1.45;
+}
+
+.scf-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 6px;
+    margin-top: 8px;
+}
+.scf-action-card {
+    background: rgba(45, 32, 56, 0.7);
+    border: 1px solid rgba(180, 130, 220, 0.18);
+    border-radius: 4px;
+    padding: 7px 9px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+.scf-action-header {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.scf-action-header i {
+    color: #b48ce6;
+    font-size: 11px;
+}
+.scf-action-name {
+    font-size: 12px;
+    font-weight: 700;
+    color: #f5e9d4;
+    flex: 1;
+}
+.scf-action-cost {
+    font-size: 10px;
+    color: #7aa0d9;
+    background: rgba(122, 160, 217, 0.12);
+    padding: 1px 5px;
+    border-radius: 2px;
+    font-variant-numeric: tabular-nums;
+}
+.scf-action-meta {
+    display: flex;
+    gap: 8px;
+    font-size: 10px;
+    color: #8e779c;
+}
+.scf-action-meta i { margin-right: 2px; opacity: 0.75; }
+.scf-action-damage {
+    font-size: 11.5px;
+    color: #ffd87a;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    padding: 2px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.scf-action-text {
+    font-size: 11px;
+    color: #d9c5e8;
+    line-height: 1.4;
+}
+
+.scf-wyrd-effects {
+    margin-top: 10px;
+    padding: 8px 10px;
+    background: rgba(255, 100, 200, 0.06);
+    border: 1px solid rgba(255, 100, 200, 0.25);
+    border-radius: 4px;
+}
+.scf-wyrd-effects-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #ff79de;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 5px;
+}
+.scf-wyrd-effects ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+.scf-wyrd-effects li {
+    font-size: 11px;
+    color: #d9c5e8;
+    line-height: 1.4;
+}
+.scf-wyrd-effects li strong { color: #ff79de; }
+
+/* ----------------------------------------------------------------------------
+   Formulation browse grid
+   ------------------------------------------------------------------------- */
+.scf-formulations-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: #b89ac9;
+    margin-bottom: 6px;
+    padding: 0 2px;
+}
+.scf-formulations-hint { color: #66ff9a; font-style: italic; }
+.scf-formulations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
+    gap: 4px;
+}
+.scf-form-card-wrapper {
+    position: relative;
+}
+.scf-form-card {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: 5px 6px;
+    background: rgba(45, 32, 56, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: left;
+    color: #d9c5e8;
+    transition: all 120ms ease;
+    width: 100%;
+}
+.scf-form-card:hover {
+    border-color: rgba(180, 130, 220, 0.55);
+    background: rgba(60, 40, 75, 0.85);
+    transform: translateY(-1px);
+}
+.scf-form-card.ready {
+    border-color: rgba(70, 220, 130, 0.55);
+    background: rgba(70, 220, 130, 0.06);
+}
+.scf-form-card.is-wyrd {
+    border-color: rgba(255, 100, 200, 0.4);
+}
+.scf-form-card.is-wyrd.ready {
+    background: linear-gradient(180deg, rgba(70, 220, 130, 0.06), rgba(255, 100, 200, 0.08));
+}
+.scf-form-card-name {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #f5e9d4;
+    line-height: 1.25;
+}
+.scf-form-card-cost {
+    display: flex;
+    gap: 2px;
+}
+.scf-form-card-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    font-size: 10px;
+    font-weight: 700;
+    color: #1a0a00;
+    background: var(--block-color, #888);
+    border-radius: 3px;
+}
+.scf-form-card-effect {
+    font-size: 9px;
+    color: #8e779c;
+    text-transform: capitalize;
+    font-style: italic;
+}
+.scf-form-card-dmg {
+    font-size: 8.5px;
+    color: #ffd87a;
+    text-transform: capitalize;
+    font-weight: 600;
+    opacity: 0.8;
+}

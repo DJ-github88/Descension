@@ -76,7 +76,7 @@ const ZEALOT_PATH = {
                 damageTypes: [],
 
                 typeConfig: {
-                    school: 'radiant',
+                    school: 'divine',
                     icon: 'Radiant/Divine Blessing',
                     tags: ['passive', 'divine', 'resistance', 'detection']
                 },
@@ -144,7 +144,7 @@ const ZEALOT_PATH = {
                 damageTypes: [],
 
                 typeConfig: {
-                    school: 'radiant',
+                    school: 'divine',
                     icon: 'Healing/Heart Shield',
                     tags: ['reaction', 'healing', 'divine', 'sacrifice']
                 },
@@ -219,7 +219,7 @@ const ZEALOT_PATH = {
                 damageTypes: [],
 
                 typeConfig: {
-                    school: 'radiant',
+                    school: 'divine',
                     icon: 'Radiant/Radiant Divinity',
                     tags: ['action', 'buff', 'inspiration', 'divine', 'aura']
                 },
@@ -470,7 +470,7 @@ const ZEALOT_PATH = {
                         spellType: 'ACTION',
                         tags: ['buff', 'aura', 'divine', 'inspiration'],
                         effectTypes: ['buff'],
-                        damageTypes: ['ember'],
+                        damageTypes: ['divine'],
 
                         buffConfig: {
                             duration: 5,
@@ -548,13 +548,13 @@ const ZEALOT_PATH = {
                         icon: 'Radiant/Divine Blessing',
                         level: 2,
                         spellType: 'ACTION',
-                        tags: ['damage', 'radiant', 'divine', 'control'],
+                        tags: ['damage', 'divine', 'control'],
                         effectTypes: ['damage', 'debuff'],
-                        damageTypes: ['ember'],
+                        damageTypes: ['divine'],
 
                         damageConfig: {
                             damageType: 'direct',
-                            elementType: 'radiant',
+                            elementType: 'divine',
                             formula: '3d8 + 6',
                             hasDotEffect: false,
                             savingThrowConfig: {
@@ -733,13 +733,13 @@ const ZEALOT_PATH = {
                         icon: 'Radiant/Divine Beam',
                         level: 2,
                         spellType: 'ACTION',
-                        tags: ['damage', 'radiant', 'divine', 'aoe', 'cone'],
+                        tags: ['damage', 'divine', 'aoe', 'cone'],
                         effectTypes: ['damage', 'debuff'],
-                        damageTypes: ['ember'],
+                        damageTypes: ['divine'],
 
                         damageConfig: {
                             damageType: 'direct',
-                            elementType: 'radiant',
+                            elementType: 'divine',
                             formula: '4d6 + 8',
                             hasDotEffect: false,
                             savingThrowConfig: {
@@ -827,7 +827,7 @@ const ZEALOT_PATH = {
                         spellType: 'ACTION',
                         tags: ['buff', 'divine', 'blessing', 'combat'],
                         effectTypes: ['buff'],
-                        damageTypes: ['ember'],
+                        damageTypes: ['divine'],
 
                         buffConfig: {
                             duration: 10,
@@ -1131,13 +1131,13 @@ const ZEALOT_PATH = {
                         icon: 'Radiant/Divine Blessing',
                         level: 1,
                         spellType: 'ACTION',
-                        tags: ['damage', 'radiant', 'divine', 'smite', 'judgment'],
+                        tags: ['damage', 'divine', 'smite', 'judgment'],
                         effectTypes: ['damage'],
-                        damageTypes: ['ember'],
+                        damageTypes: ['divine'],
 
                         damageConfig: {
                             damageType: 'direct',
-                            elementType: 'radiant',
+                            elementType: 'divine',
                             formula: '4d6 + SPI',
                             resolution: 'DICE',
                             hasDotEffect: false,
@@ -1276,13 +1276,13 @@ const ZEALOT_PATH = {
                         icon: 'Radiant/Radiant Beam',
                         level: 2,
                         spellType: 'REACTION',
-                        tags: ['damage', 'radiant', 'divine', 'reaction', 'aoe', 'retribution'],
+                        tags: ['damage', 'divine', 'reaction', 'aoe', 'retribution'],
                         effectTypes: ['damage'],
-                        damageTypes: ['ember'],
+                        damageTypes: ['divine'],
 
                         damageConfig: {
                             damageType: 'direct',
-                            elementType: 'radiant',
+                            elementType: 'divine',
                             formula: '2d8 + SPI',
                             resolution: 'DICE',
                             hasDotEffect: false,
@@ -1416,7 +1416,7 @@ const ZEALOT_PATH = {
 
                         damageConfig: {
                             damageType: 'direct',
-                            elementType: 'force',
+                            elementType: 'storm',
                             formula: '3d8 + SPI',
                             resolution: 'DICE',
                             hasDotEffect: false,

@@ -86,7 +86,7 @@ Wardens are stoic, grim, and utterly hollowed out by their duty. They speak in h
 
 **Combat Weaknesses**:
 - **Shared Torment**: Because they are physically chained to the monster, they absorb 50% of all AoE or environmental damage that strikes their prisoner.
-- **Agonizing Recoil**: If they tether a beast of vastly superior strength or speed, they are helplessly dragged across the battlefield, suffering massive bludgeoning damage (1d10 per 10 feet dragged).
+- **Agonizing Recoil**: If they tether a beast of vastly superior strength or speed, they are helplessly dragged across the battlefield, suffering massive physical damage (1d10 per 10 feet dragged).
 - **Hard-coded Wyrd Vulnerability**: Constant proximity to eldritch horrors fractures their mind, causing them to take +50% wyrd damage.
 - **Zero Ranged Attacks**: Completely helpless at distance; they must reel targets in or walk them down in heavy iron.
 - **Agonizing Cast Costs**: Establishing tethers or reelings requires sacrificing their own HP (1d6 blight/piercing to self) as the grafted hooks tear through flesh.`,
@@ -131,10 +131,10 @@ With a permanent +50% Wyrd vulnerability, you must rely on your party's casters 
 
 **Golem's Turn**: Attacks you twice.
 **Attack Roll 1**: d20+6 → Hit!
-**Damage**: 18 bludgeoning damage. You endure.
+**Damage**: 18 physical damage. You endure.
 **Tension Generated**: +1 (Tether strike) = **3/10** (Tension Threshold: Taut Links active! Your movement is restricted but your chain strikes deal +1d6 tearing damage).
 **Attack Roll 2**: d20+6 → Hit!
-**Damage**: 15 bludgeoning damage.
+**Damage**: 15 physical damage.
 **Tension Generated**: +1 (Tether strike) = **4/10**
 **Your Reaction**: "Iron Brace" (+2 DR against the second hit, reducing the damage by 5). You manually pull the chain links, grinding them against your wrist bone to generate more tension.
 **Tension Generated**: +1 (Iron Brace manual reel) = **5/10**
@@ -146,7 +146,7 @@ With a permanent +50% Wyrd vulnerability, you must rely on your party's casters 
 *The golem attempts to dash away to crush your allies. Because it is vastly larger, it drags you with it.*
 
 **Golem's Action**: Attempts to break the boundary by dashing.
-**Shared Torment Recoil**: You are dragged 20 feet across the gravel, taking 2d10 bludgeoning damage → [5, 4] = 9 damage.
+**Shared Torment Recoil**: You are dragged 20 feet across the gravel, taking 2d10 physical damage → [5, 4] = 9 damage.
 **Your Action**: "Penitent Resolve" (4 Tether Tension spent).
 **Tension**: 5 - 4 = **1/10**
 **Effect**: Gain 50% damage resistance and +4 DR for 2 rounds. Your physical mass doubles, stopping the golem's movement instantly.
@@ -156,12 +156,12 @@ With a permanent +50% Wyrd vulnerability, you must rely on your party's casters 
 **Turn 4 - Rebuilding the Trap (Tension: 1 → 6)**
 
 **Your Action**: Agonizing Reel (1 AP). You pull the rusted chain tighter, grinding the metal hooks deeper into your flesh.
-**Self-Harm**: Take 1d4 piercing damage → [2] = 47 HP remaining.
+**Self-Harm**: Take 1d4 physical damage → [2] = 47 HP remaining.
 **Tension Generated**: +2 = **3/10**
 **Your Action**: "Barbed Lash" (2 Tension spent) combined with a melee chain strike.
 **Tension**: 3 - 2 = **1/10**
 **Attack Roll**: d20+8 → Hit!
-**Base Damage**: 2d6+4 → [5, 6] + 4 = 15 slashing damage.
+**Base Damage**: 2d6+4 → [5, 6] + 4 = 15 physical damage.
 **Barbed Lash Bonus**: +2d6 → [6, 4] = 10 bleeding damage.
 **Total Damage**: 25 damage!
 **Tension Generated**: +2 (striking tethered prey twice with multi-strike) = **3/10**
@@ -223,13 +223,13 @@ With a permanent +50% Wyrd vulnerability, you must rely on your party's casters 
 Your chains are slack. You have normal movement speed, but your chain-based strikes deal standard damage.
 
 **3-5 Tension (Taut Links)**:
-The chains pull tight. Your movement speed is restricted to the tethered target's vicinity (+5ft toward them, cannot move away). Your melee strikes deal +1d6 tearing damage as the chain vibrates, but you take 1d4 bludgeoning damage at the start of your turn if the target moved on its previous turn.
+The chains pull tight. Your movement speed is restricted to the tethered target's vicinity (+5ft toward them, cannot move away). Your melee strikes deal +1d6 tearing damage as the chain vibrates, but you take 1d4 physical damage at the start of your turn if the target moved on its previous turn.
 
 **6-8 Tension (Gravely Strained)**:
-You are bound in agony. You gain +2 to attack rolls, but your movement speed is reduced by 10 ft. At the start of your turn, you take 1d6 piercing damage as the hooks in your flesh tear. You absorb 75% of the target's AoE damage instead of 50%.
+You are bound in agony. You gain +2 to attack rolls, but your movement speed is reduced by 10 ft. At the start of your turn, you take 1d6 physical damage as the hooks in your flesh tear. You absorb 75% of the target's AoE damage instead of 50%.
 
 **9-10 Tension (Lacerating Snap)**:
-Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, you are vulnerable to all physical damage, and if the target moves more than 15 feet from you, they drag you, dealing 2d10 bludgeoning damage to you. Any further Tension generated deals 1d10 piercing damage directly to your HP.`
+Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, you are vulnerable to all physical damage, and if the target moves more than 15 feet from you, they drag you, dealing 2d10 physical damage to you. Any further Tension generated deals 1d10 physical damage directly to your HP.`
     },
 
     resourceTables: [
@@ -447,7 +447,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         color: "#8B0000",
         theme: "Inescapable Drag & Crush",
         description: "The Relentless Tormentor uses their massive weight and absolute physical stubbornness to drag enemies across the gravel, crushing their bones against stone.",
-        playstyle: "Displacement tank and relentless pursuer, dragging enemies helplessly and dealing massive bludgeoning damage.",
+        playstyle: "Displacement tank and relentless pursuer, dragging enemies helplessly and dealing massive physical damage.",
         strengths: [
           "Marked targets cannot escape or teleport out of line of sight",
           "Free dashes (reels) to tethered prey",
@@ -1047,6 +1047,19 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         classResource: { type: "tether_tension", cost: 6 }
       },
       resolution: "SAVE",
+      controlConfig: {
+        controlType: "restraint",
+        duration: 3,
+        durationUnit: "rounds",
+        effects: [
+          { id: "iron_gaol_restraint",
+            name: "Iron Gaol",
+            description: "Spectral iron bars erupt around the target. Speed becomes 0, teleportation is blocked, and the caged target takes +1d6 damage from all sources.",
+            config: { restraintType: "physical", breakOnDamage: false, condition: "restrained", blocksMovement: true, blocksTeleport: true }
+          },
+        ],
+        savingThrow: { ability: "constitution", difficultyClass: 15, saveOutcome: "reduced_duration" },
+      },
       debuffConfig: {
         debuffType: "statusEffect",
         durationValue: 3,
@@ -1076,7 +1089,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
     },
     { id : "warden_hunters_fury",
       name: "Spined Torment",
-      description: "A brutal, agonizing downward smash with your chains. If the target is tethered to you, the strike rips their joints, dealing devastating bludgeoning damage and tearing their muscles.",
+      description: "A brutal, agonizing downward smash with your chains. If the target is tethered to you, the strike rips their joints, dealing devastating physical damage and tearing their muscles.",
       spellType: "ACTION",
       icon: "Slashing/Cross Slash",
       level: 3,
@@ -1114,7 +1127,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
       },
       specialMechanics: {
         tetherBonus: {
-          description: "Deals +2d6 bludgeoning damage if the target is tethered via Flesh Tether."
+          description: "Deals +2d6 physical damage if the target is tethered via Flesh Tether."
         }
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
@@ -1431,7 +1444,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
     },
     { id : "warden_avatar_of_vengeance",
       name: "Flayed Ascendancy",
-      description: "Unleash all tension to fuse your flesh with your rusted iron grafts. Your chains burst outward, forming a cage of spikes around your bones. For 6 rounds, gain DR, massive damage, and reel in all tethered targets helplessly.",
+      description: "Unleash all tension to fuse your flesh with your rusted iron grafts. Your chains burst outward, forming a cage of spikes around your bones. For 6 rounds, gain +4 DR, add +2d6 physical damage to every strike, and reel in all tethered targets helplessly.",
       spellType: "ACTION",
       icon: "General/Fiery Rage",
       level: 5,
@@ -1469,7 +1482,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
         effects: [
           { id : "flayed_transformation",
             name: "Ascendant Flesh",
-            description: "Gain +4 DR, +2d6 bludgeoning damage, and generate +1 Tension on hit.",
+            description: "Gain +4 DR, +2d6 physical damage, and generate +1 Tension on hit.",
             statModifier: {
               stat: "armor",
               magnitude: 4,
@@ -1528,7 +1541,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
     },
     { id : "warden_cage_slam",
       name: "Gaol Shatter",
-      description: "Slam a caged target with your heavy steel chain-spool, dealing immense bludgeoning damage and shattering their resolve, which extends the cage's duration by 1 round.",
+      description: "Slam a caged target with your heavy steel chain-spool, dealing immense physical damage and shattering their resolve, which extends the cage's duration by 1 round.",
       spellType: "ACTION",
       icon: "Psychic/Mind Control",
       level: 6,
@@ -2022,7 +2035,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/slashing damage. However, yo
     // ==========================================
     { id : "warden_ultimate_vengeance",
       name: "Cataclysm of Iron",
-      description: "Release all Tether Tension in one final, cataclysmic flail. Shatter your chains to shreds, dealing colossal bludgeoning damage to all tethered and nearby enemies.",
+      description: "Release all Tether Tension in one final, cataclysmic flail. Shatter your chains to shreds, dealing colossal physical damage to all tethered and nearby enemies.",
       spellType: "ACTION",
       icon: "General/Fiery Rage",
       level: 10,

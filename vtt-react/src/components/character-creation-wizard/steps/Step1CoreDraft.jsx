@@ -395,11 +395,15 @@ const getLevel1SpellIds = (classData) => {
     if (!classData) return [];
 
     if (classData.spellPools && classData.spellPools[1]) return classData.spellPools[1];
+    const spellSource = classData.spells || classData.exampleSpells;
 
-    if (classData.spells && Array.isArray(classData.spells)) {
 
-        return classData.spells.filter(spell => spell.level === 1).map(spell => spell.id);
 
+    if (spellSource && Array.isArray(spellSource)) {
+
+
+
+        return spellSource.filter(spell => spell.level === 1).map(spell => spell.id);
     }
 
     return [];
@@ -803,6 +807,8 @@ const Step1CoreDraft = () => {
     const [activeRaceSelection, setActiveRaceSelection] = useState(race || null);
 
     const [activeGrimoireTab, setActiveGrimoireTab] = useState('heritage');
+
+    const [mobilePanel, setMobilePanel] = useState('selections');
 
 
 
@@ -1240,15 +1246,67 @@ const Step1CoreDraft = () => {
 
         <div className="core-draft-step-layout">
 
+            {/* Mobile Section Tabs - only visible on phone screens */}
+
+            <div className="mobile-section-tabs-bar">
+
+                <button
+
+                    type="button"
+
+                    className={`mobile-section-tab ${mobilePanel === 'selections' ? 'active' : ''}`}
+
+                    onClick={() => setMobilePanel('selections')}
+
+                >
+
+                    <i className="fas fa-list"></i> Selections
+
+                </button>
+
+                <button
+
+                    type="button"
+
+                    className={`mobile-section-tab ${mobilePanel === 'character' ? 'active' : ''}`}
+
+                    onClick={() => setMobilePanel('character')}
+
+                >
+
+                    <i className="fas fa-id-card"></i> Character
+
+                </button>
+
+                <button
+
+                    type="button"
+
+                    className={`mobile-section-tab ${mobilePanel === 'codex' ? 'active' : ''}`}
+
+                    onClick={() => setMobilePanel('codex')}
+
+                    disabled={!race && !characterData.class}
+
+                >
+
+                    <i className="fas fa-book"></i> Lore
+
+                </button>
+
+            </div>
+
+
+
             {/* Main Selection Area - Flanked by Canvas and Codex */}
 
-            <div className="core-draft-panels-container">
+            <div className="core-draft-panels-container" data-mobile-panel={mobilePanel}>
 
                 
 
                 {/* 1. SELECTORS COLUMN (LEFT PAGE) */}
 
-                <div className="core-draft-column selection-panel-left scroll-themed">
+                <div className="core-draft-column selection-panel-left scroll-themed" data-mobile-panel="selections">
 
                     
 
@@ -1655,6 +1713,7 @@ const Step1CoreDraft = () => {
                 <div 
 
                     className="core-draft-column canvas-panel-center"
+                    data-mobile-panel="character"
 
                     style={{
 
@@ -1862,7 +1921,7 @@ const Step1CoreDraft = () => {
 
                 {/* 3. CONTEXTUAL CODEX COLUMN (RIGHT PAGE) */}
 
-                <div className="core-draft-column codex-panel-right">
+                <div className="core-draft-column codex-panel-right" data-mobile-panel="codex">
 
                     <div className="grimoire-book-container">
 

@@ -219,7 +219,7 @@ Your Fortune hits 0.
 
     overheatRules: {
       title: "Dual Collapse Conditions",
-      content: "The Gambit faces two catastrophic failure states. Cosmic Bankruptcy triggers when Fortune Points drop to 0: 2d10 blight damage, 100 percent vulnerability to Spirit and shadow damage for 2 rounds, inability to generate Fortune Points. Tapestry Collapse triggers when Karmic Debt reaches 13: 6d10 irreducible wyrd damage, 1-round incapacitation, Fortune pool emptied, maximum HP reduced by 5 until long rest. A Gambit who collapses from both systems simultaneously is effectively removed from combat.",
+      content: "The Gambit faces two catastrophic failure states. Cosmic Bankruptcy triggers when Fortune Points drop to 0: 2d10 blight damage, 100 percent vulnerability to Spirit and blight damage for 2 rounds, inability to generate Fortune Points. Tapestry Collapse triggers when Karmic Debt reaches 13: 6d10 irreducible wyrd damage, 1-round incapacitation, Fortune pool emptied, maximum HP reduced by 5 until long rest. A Gambit who collapses from both systems simultaneously is effectively removed from combat.",
     },
 
     rageStatesTable: {
@@ -422,7 +422,7 @@ Your Fortune hits 0.
 
     { id: "gambler_lucky_toss",
       name: "Lucky Toss",
-      description: "Flick a weighted steel coin. Heads: target takes 1d10 + Charisma force damage. Tails: the coin floats, granting the target a shimmering barrier absorbing 10 damage for 1 round. Generates 1 Fortune Point, inflicting 1 immediate HP damage as your body channels the debt.",
+      description: "Flick a weighted steel coin. Heads: target takes 1d10 + Charisma storm damage. Tails: the coin floats, granting the target a shimmering barrier absorbing 10 damage for 1 round. Generates 1 Fortune Point, inflicting 1 immediate HP damage as your body channels the debt.",
       level: 1,
       spellType: "ACTION",
       icon: "Utility/Utility",
@@ -469,7 +469,7 @@ Your Fortune hits 0.
       },
       specialMechanics: {
         coinFlip: {
-          heads: { effect: "deal_damage", description: "Deals 1d10 + Charisma force damage." },
+          heads: { effect: "deal_damage", description: "Deals 1d10 + Charisma storm damage." },
           tails: { effect: "apply_shield", description: "Applies a shield absorbing 10 damage." },
         },
         fortunePoints: {
@@ -1038,7 +1038,7 @@ Your Fortune hits 0.
     // ========================================
     { id: "gambler_hot_streak",
       name: "Hot Streak",
-      description: "Let the probability fever take hold. Spend 4 Fortune Points (taking 4d4 wyrd damage) to accelerate your stolen probability. For 1 round, each successful attack or spell cast grants a stacking +1d6 force damage to your next strike, up to a maximum of 4 stacks. Each stack siphoned generates 1 FP (and deals 1 HP damage).",
+      description: "Let the probability fever take hold. Spend 4 Fortune Points (taking 4d4 wyrd damage) to accelerate your stolen probability. For 1 round, each successful attack or spell cast grants a stacking +1d6 storm damage to your next strike, up to a maximum of 4 stacks. Each stack siphoned generates 1 FP (and deals 1 HP damage).",
       level: 5,
       spellType: "ACTION",
       icon: "Fire/Enveloping Fire",
@@ -1067,8 +1067,8 @@ Your Fortune hits 0.
           {
             id : "hot_streak_buff",
             name: "Hot Streak Acceleration",
-            description: "Each successful attack adds +1d6 force damage, stacking up to 4 times.",
-            mechanicsText: "For 1 round, each successful attack/spell adds +1d6 force damage to next strike (max 4 stacks). Each stack generates 1 FP (1 HP cost).",
+            description: "Each successful attack adds +1d6 storm damage, stacking up to 4 times.",
+            mechanicsText: "For 1 round, each successful attack/spell adds +1d6 storm damage to next strike (max 4 stacks). Each stack generates 1 FP (1 HP cost).",
           },
         ],
         durationValue: 1,
@@ -1299,7 +1299,7 @@ Your Fortune hits 0.
 
     { id: "gambler_card_shark",
       name: "Card Shark",
-      description: "Draw a card from a deck of alchemically treated cards. Resolve based on the suit: Spades (deal 6d8 force damage), Hearts (heal 5d8 HP), Diamonds (gain 30 damage shield for 1 minute), Clubs (target stunned for 2 rounds, Spirit DC 15 negates). Generates 1 Fortune Point, dealing 1 HP damage to you.",
+      description: "Draw a card from a deck of alchemically treated cards. Resolve based on the suit: Spades (deal 6d8 storm damage), Hearts (heal 5d8 HP), Diamonds (gain 30 damage shield for 1 minute), Clubs (target stunned for 2 rounds, Spirit DC 15 negates). Generates 1 Fortune Point, dealing 1 HP damage to you.",
       level: 6,
       spellType: "ACTION",
       icon: "Psychic/Mental Chaos",
@@ -1344,7 +1344,7 @@ Your Fortune hits 0.
         resolutionType: "CARDS",
         resolutionConfig: { cardCount: 1, deckType: "standard" },
         entries: [
-          { cardPattern: "Spades", effect: "Deal 6d8 force damage to target", result: "Deal 6d8 force damage to target", weight: 1 },
+          { cardPattern: "Spades", effect: "Deal 6d8 storm damage to target", result: "Deal 6d8 storm damage to target", weight: 1 },
           { cardPattern: "Hearts", effect: "Heal target for 5d8 HP", result: "Heal target for 5d8 HP", weight: 1 },
           { cardPattern: "Diamonds", effect: "Target gains a shield absorbing 30 damage for 1 minute", result: "Target gains a shield absorbing 30 damage for 1 minute", weight: 1 },
           { cardPattern: "Clubs", effect: "Target is stunned for 2 rounds (Spirit DC 15 save negates)", result: "Target is stunned for 2 rounds (Spirit DC 15 save negates)", weight: 1 },
@@ -1499,7 +1499,7 @@ Your Fortune hits 0.
 
     { id: "gambler_all_or_nothing",
       name: "All or Nothing",
-      description: "Flip a high-stakes coin wreathed in searing cosmic force. Heads: deal 12d6 force damage to all enemies in a 30ft radius, and stun them for 1 round (Spirit DC 16 save negates). Tails: the spell backfires, dealing 6d6 force damage to you. You may spend 1 Fortune Point (1d4 wyrd damage) to flip the result. Generates 3 FP on heads (inflicting 3 HP damage).",
+      description: "Flip a high-stakes coin wreathed in searing cosmic force. Heads: deal 12d6 storm damage to all enemies in a 30ft radius, and stun them for 1 round (Spirit DC 16 save negates). Tails: the spell backfires, dealing 6d6 storm damage to you. You may spend 1 Fortune Point (1d4 wyrd damage) to flip the result. Generates 3 FP on heads (inflicting 3 HP damage).",
       level: 7,
       spellType: "ACTION",
       icon: "Utility/Utility",
@@ -1551,8 +1551,8 @@ Your Fortune hits 0.
       },
       specialMechanics: {
         coinFlip: {
-          heads: { effect: "deal_damage", description: "Deal 12d6 force damage to enemies in 30ft radius, stunning those who fail a Spirit DC 16 save for 1 round." },
-          tails: { effect: "self_damage", description: "Take 6d6 force damage yourself." },
+          heads: { effect: "deal_damage", description: "Deal 12d6 storm damage to enemies in 30ft radius, stunning those who fail a Spirit DC 16 save for 1 round." },
+          tails: { effect: "self_damage", description: "Take 6d6 storm damage yourself." },
         },
         fortunePoints: {
           cost: 6,
@@ -1580,7 +1580,7 @@ Your Fortune hits 0.
     // ========================================
     { id: "gambler_jackpot",
       name: "Jackpot",
-      description: "Roll 3d20 bone dice. The sum of the roll determines your tier of fortune: 3 (Catastrophic: take 5d10 blight damage, go Bust), 4-12 (Bad Luck: take 2d6 force damage, gain 1 FP), 13-25 (Small Win: deal 2d10 force damage, gain 1 FP), 26-38 (Moderate Win: deal 4d10 force damage and stun for 1 round, gain 1 FP), 39-48 (Big Win: deal 6d10 force damage and stun for 2 rounds, gain 2 FP), 49-55 (Massive Win: deal 8d10 ember damage AoE, gain 2 FP), 56-59 (Near Jackpot: deal 10d10 ember damage AoE, heal 30 HP, gain 3 FP), 60 (Perfect Jackpot: deal 10d10 ember damage AoE, max damage on all attacks for 1 hour, gain 5 FP). Suffer 1 HP damage per FP gained. Spend FP to adjust individual dice by Ã‚Â±1 per point (1d4 wyrd damage per FP spent).",
+      description: "Roll 3d20 bone dice. The sum of the roll determines your tier of fortune: 3 (Catastrophic: take 5d10 blight damage, go Bust), 4-12 (Bad Luck: take 2d6 storm damage, gain 1 FP), 13-25 (Small Win: deal 2d10 storm damage, gain 1 FP), 26-38 (Moderate Win: deal 4d10 storm damage and stun for 1 round, gain 1 FP), 39-48 (Big Win: deal 6d10 storm damage and stun for 2 rounds, gain 2 FP), 49-55 (Massive Win: deal 8d10 ember damage AoE, gain 2 FP), 56-59 (Near Jackpot: deal 10d10 ember damage AoE, heal 30 HP, gain 3 FP), 60 (Perfect Jackpot: deal 10d10 ember damage AoE, max damage on all attacks for 1 hour, gain 5 FP). Suffer 1 HP damage per FP gained. Spend FP to adjust individual dice by Ã‚Â±1 per point (1d4 wyrd damage per FP spent).",
       level: 8,
       spellType: "ACTION",
       icon: "Utility/Utility",
@@ -1647,7 +1647,7 @@ Your Fortune hits 0.
 
     { id: "gambler_weighted_dice",
       name: "Weighted Dice",
-      description: "Cheat the cosmos entirely. Deal 14d6 force damage to a target. For each Fortune Point spent (up to 7), you may treat one d6 as an automatic 6. Spend 7 FP and half your dice are guaranteed maximum. This is pure, unmitigated theft of chanceÃ¢â‚¬â€because the best gamblers know when to cheat. Spend triggers Calculated Risk (1d4 wyrd damage per point spent).",
+      description: "Cheat the cosmos entirely. Deal 14d6 storm damage to a target. For each Fortune Point spent (up to 7), you may treat one d6 as an automatic 6. Spend 7 FP and half your dice are guaranteed maximum. This is pure, unmitigated theft of chanceÃ¢â‚¬â€because the best gamblers know when to cheat. Spend triggers Calculated Risk (1d4 wyrd damage per point spent).",
       level: 8,
       spellType: "ACTION",
       icon: "Social/Dice Roll",
@@ -1694,7 +1694,7 @@ Your Fortune hits 0.
     // ========================================
     { id: "gambler_high_roller",
       name: "High Roller",
-      description: "Wager everything on a single throw. Roll a d20. On a 15+, deal 18d6 + Charisma force damage to a single enemy. On a 6-14, deal half damage. On a 1-5, the probability violently backfires, dealing the full 18d6 + Charisma force damage to yourself. Spend Fortune Points to adjust the roll (1d4 wyrd damage per point spent).",
+      description: "Wager everything on a single throw. Roll a d20. On a 15+, deal 18d6 + Charisma storm damage to a single enemy. On a 6-14, deal half damage. On a 1-5, the probability violently backfires, dealing the full 18d6 + Charisma storm damage to yourself. Spend Fortune Points to adjust the roll (1d4 wyrd damage per point spent).",
       level: 9,
       spellType: "ACTION",
       icon: "Social/Dice Roll",
@@ -1754,7 +1754,7 @@ Your Fortune hits 0.
 
     { id: "gambler_jackpot_surge",
       name: "Jackpot Surge",
-      description: "Pull the lever of probability. Roll 3d6. Deal 16d6 + Charisma force damage to all enemies in a 25ft radius (Agility DC 19 save for half). If you roll a pair of matching numbers, the damage is doubled. If you roll three-of-a-kind, it is quadrupled. Generates 5 FP on a triple, 3 FP on a pair, and 1 FP on no match (suffering 1 HP damage per FP generated).",
+      description: "Pull the lever of probability. Roll 3d6. Deal 16d6 + Charisma storm damage to all enemies in a 25ft radius (Agility DC 19 save for half). If you roll a pair of matching numbers, the damage is doubled. If you roll three-of-a-kind, it is quadrupled. Generates 5 FP on a triple, 3 FP on a pair, and 1 FP on no match (suffering 1 HP damage per FP generated).",
       level: 9,
       spellType: "ACTION",
       icon: "Radiant/Radiant Glow",
@@ -1930,7 +1930,7 @@ Your Fortune hits 0.
 
     { id: "gambler_divine_jackpot",
       name: "Divine Jackpot",
-      description: "Flip a coin wreathed in searing cosmic energy. Heads: deal 20d6 force damage to all enemies in a 60ft radius. Enemies below 50% HP must succeed on a Spirit DC 20 save or be stunned for 2 rounds. Tails: your systems overload and you take 20d6 force damage, but you survive at 1 HP with advantage on all rolls for 1 round. You may spend 1 Fortune Point (1d4 wyrd damage) to flip the coin result.",
+      description: "Flip a coin wreathed in searing cosmic energy. Heads: deal 20d6 storm damage to all enemies in a 60ft radius. Enemies below 50% HP must succeed on a Spirit DC 20 save or be stunned for 2 rounds. Tails: your systems overload and you take 20d6 storm damage, but you survive at 1 HP with advantage on all rolls for 1 round. You may spend 1 Fortune Point (1d4 wyrd damage) to flip the coin result.",
       level: 10,
       spellType: "ACTION",
       icon: "Utility/Utility",
@@ -1981,8 +1981,8 @@ Your Fortune hits 0.
       },
       specialMechanics: {
         coinFlip: {
-          heads: { effect: "deal_damage", description: "Deal 20d6 force damage to all enemies in a 60ft radius." },
-          tails: { effect: "fortune_mercy", description: "Take 20d6 force damage, surviving at 1 HP with advantage on all rolls for 1 round." },
+          heads: { effect: "deal_damage", description: "Deal 20d6 storm damage to all enemies in a 60ft radius." },
+          tails: { effect: "fortune_mercy", description: "Take 20d6 storm damage, surviving at 1 HP with advantage on all rolls for 1 round." },
         },
         fortunePoints: {
           cost: 10,
@@ -2130,7 +2130,7 @@ Your Fortune hits 0.
 
     { id: "war-of-wills",
       name: "Duel of Wills",
-      description: "Draw 1 card and force your target to draw 1 as well. If your card's value is higher, you inflict psychic overload on their nervous system. If your card's value is lower, you absorb the psychic feedback, taking damage and gaining 1 Karmic Debt.",
+      description: "Draw 1 card and force your target to draw 1 as well. If your card's value is higher, you inflict wyrd overload on their nervous system. If your card's value is lower, you absorb the wyrd feedback, taking damage and gaining 1 Karmic Debt.",
       level: 1,
       spellType: "ACTION",
       icon: "Psychic/Brain Psionics",
@@ -2278,7 +2278,7 @@ Your Fortune hits 0.
 
     { id: "fate_lucky_strike",
       name: "Scythe of Destiny",
-      description: "Draw 1 card. Face/Ace: deal 2d8 wyrd damage and gain critical threat on next attack. Numbered: deal 1d8 psychic and gain 1 Karmic Debt.",
+      description: "Draw 1 card. Face/Ace: deal 2d8 wyrd damage and gain critical threat on next attack. Numbered: deal 1d8 wyrd and gain 1 Karmic Debt.",
       level: 1,
       spellType: "ACTION",
       icon: "Slashing/Curved Scythe",
@@ -2432,7 +2432,7 @@ Your Fortune hits 0.
     // ========================================
     { id: "hearts-gamble",
       name: "Aether Wager",
-      description: "Draw 1 card to heal an ally. Red card (Hearts/Diamonds): heal 3d8 + Spirit. Black card (Spades/Clubs): healing halved, you take 2d8 psychic, and gain 1 Karmic Debt.",
+      description: "Draw 1 card to heal an ally. Red card (Hearts/Diamonds): heal 3d8 + Spirit. Black card (Spades/Clubs): healing halved, you take 2d8 wyrd, and gain 1 Karmic Debt.",
       level: 2,
       spellType: "ACTION",
       icon: "Healing/Stitched",
@@ -2615,7 +2615,7 @@ Your Fortune hits 0.
             id : "sympathetic_stitch",
             name: "Sympathetic Stitch",
             description: "Takes 50% of the damage dealt to the linked primary target.",
-            mechanicsText: "Link 2 creatures within 30 ft. Primary's damage is shared 50% as necrotic to secondary. Lasts 3 rounds. Inflicts 2 Karmic Debt."
+            mechanicsText: "Link 2 creatures within 30 ft. Primary's damage is shared 50% as blight to secondary. Lasts 3 rounds. Inflicts 2 Karmic Debt."
           }
         ],
         durationValue: 3,
@@ -2771,7 +2771,7 @@ Your Fortune hits 0.
             id : "fate_binding_bond",
             name: "Fate Binding Bond",
             description: "Absorbs 50% of the Fate Weaver's damage. Spirit save or pulled 10 ft on damage.",
-            mechanicsText: "50% of your incoming damage redirects to bound enemy as necrotic. Spirit save or pulled 10 ft. Lasts 3 rounds. Inflicts 2 Karmic Debt."
+            mechanicsText: "50% of your incoming damage redirects to bound enemy as blight. Spirit save or pulled 10 ft. Lasts 3 rounds. Inflicts 2 Karmic Debt."
           }
         ],
         durationValue: 3,
@@ -2898,7 +2898,7 @@ Your Fortune hits 0.
     // ========================================
     { id: "fate_weaver_dealers_choice",
       name: "Cartomancer's Harvest",
-      description: "Consume 1 Fate Reserve card. Hearts: heal 6d8+Spirit. Diamonds: ally +4 saves, 30 temp HP (3 rds). Spades: 5d10 psychic. Clubs: enemy discards next action. +2 Debt.",
+      description: "Consume 1 Fate Reserve card. Hearts: heal 6d8+Spirit. Diamonds: ally +4 saves, 30 temp HP (3 rds). Spades: 5d10 wyrd. Clubs: enemy discards next action. +2 Debt.",
       level: 6,
       spellType: "ACTION",
       icon: "Necrotic/Devour",
@@ -2932,6 +2932,21 @@ Your Fortune hits 0.
         healingType: "direct",
         resolution: "CARDS"
       },
+      buffConfig: {
+        buffType: "statEnhancement",
+        effects: [
+          { id: "dealers_choice_diamonds",
+            name: "Diamond Fortune",
+            description: "Ally gains +4 to all saving throws and 30 temporary HP for 3 rounds.",
+            statModifier: { stat: "all_saves", magnitude: 4, magnitudeType: "flat" }
+          },
+        ],
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds",
+        concentrationRequired: false,
+        canBeDispelled: true,
+      },
       specialMechanics: {
         threadsOfDestiny: {
           generation: "Consuming a banked card to harvest fate generates 2 Karmic Debt.",
@@ -2947,7 +2962,7 @@ Your Fortune hits 0.
 
     { id: "fate_weaver_twenty_one_curses",
       name: "High Stakes Blackjack",
-      description: "Multi-target Blackjack for up to 3 enemies. Each card deals 2d6 necrotic. Hit up to 3x/enemy. Exact 21: +6d6 necrotic. Bust: you take 3d6 necrotic, +2 debt. Baseline +2 Debt.",
+      description: "Multi-target Blackjack for up to 3 enemies. Each card deals 2d6 blight. Hit up to 3x/enemy. Exact 21: +6d6 blight. Bust: you take 3d6 blight, +2 debt. Baseline +2 Debt.",
       level: 6,
       spellType: "ACTION",
       icon: "Necrotic/Blood Skull",
@@ -3001,7 +3016,7 @@ Your Fortune hits 0.
 
     { id: "fate_weaver_fold_reality",
       name: "Fold Reality",
-      description: "Reaction to physical damage: teleport 30 ft, leaving an afterimage that detonates for 3d8 necrotic to adjacent creatures. Generates 2 Karmic Debt.",
+      description: "Reaction to physical damage: teleport 30 ft, leaving an afterimage that detonates for 3d8 blight to adjacent creatures. Generates 2 Karmic Debt.",
       level: 6,
       spellType: "REACTION",
       icon: "Utility/Phantom Dash",
@@ -3115,7 +3130,7 @@ Your Fortune hits 0.
 
     { id: "fate_weaver_all_in",
       name: "Arcane All-In",
-      description: "Expend all banked Fate Reserve cards (min 2). Deals 3d10 necrotic per card to one target. 4+ cards: target Spirit save or incapacitated 1 round. +3 Karmic Debt.",
+      description: "Expend all banked Fate Reserve cards (min 2). Deals 3d10 blight per card to one target. 4+ cards: target Spirit save or incapacitated 1 round. +3 Karmic Debt.",
       level: 7,
       spellType: "ACTION",
       icon: "Necrotic/Corrosive Beam",
@@ -3217,7 +3232,7 @@ Your Fortune hits 0.
     // ========================================
     { id: "fate_weaver_the_jokers_hand",
       name: "The Wild Joker",
-      description: "Draw 3 cards. Red Joker: heal allies 8d8+Spirit, clear debuffs. Black Joker: you take 5d10 psychic, enemies take 8d10 necrotic (30 ft). Standard: 2d8 psychic. +3 Debt.",
+      description: "Draw 3 cards. Red Joker: heal allies 8d8+Spirit, clear debuffs. Black Joker: you take 5d10 blight, enemies take 8d10 blight (30 ft). Standard: 2d8 blight. +3 Debt.",
       level: 8,
       spellType: "ACTION",
       icon: "Chaos/Chaotic Shuffle",
@@ -3797,11 +3812,11 @@ Your Fortune hits 0.
 
     { id: "fate_weaver_fates_wrath",
       name: "Karmic Strain",
-      description: "Every time you override a natural roll, force a destiny, or use the 'Call Card' ability, you accumulate 1 stack of Karmic Debt (max 13). Each stack of debt imposes +5% vulnerability to all damage types and deals 1d4 psychic strain at the end of each round (untreatable by normal magic). Reaching 13 debt triggers immediate Tapestry Collapse, dealing 6d10 wyrd damage and incapacitating you for 1 round.",
+      description: "Every time you override a natural roll, force a destiny, or use the 'Call Card' ability, you accumulate 1 stack of Karmic Debt (max 13). Each stack of debt imposes +5% vulnerability to all damage types and deals 1d4 wyrd strain at the end of each round (untreatable by normal magic). Reaching 13 debt triggers immediate Tapestry Collapse, dealing 6d10 wyrd damage and incapacitating you for 1 round.",
       level: 1,
       spellType: "PASSIVE",
       icon: "Force/Explosion Burst",
-      effectTypes: ["passive"],
+      effectTypes: ["passive", "debuff"],
       typeConfig: {
         school: "blight",
         icon: "Force/Explosion Burst",
@@ -3819,7 +3834,7 @@ Your Fortune hits 0.
             id : "karmic_debt_vulnerability",
             name: "Karmic Debt Vulnerability",
             description: "Suffer compounding +5% vulnerability and 1d4 psychic strain per stack of debt.",
-            mechanicsText: "+5% all-damage vulnerability per Karmic Debt stack. 1d4 psychic strain per stack at end of each round. At 13 stacks: Tapestry Collapse (6d10 psychic + 1 round incapacitation).",
+            mechanicsText: "+5% all-damage vulnerability per Karmic Debt stack. 1d4 wyrd strain per stack at end of each round. At 13 stacks: Tapestry Collapse (6d10 wyrd + 1 round incapacitation).",
             statusEffect: {
               type: "vulnerability",
               value: 5,

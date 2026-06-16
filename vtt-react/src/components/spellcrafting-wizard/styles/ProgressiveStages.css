@@ -1,199 +1,302 @@
-/* Progressive stages styling - Enhanced for Pathfinder theme */
+/* Progressive stages styling - Pathfinder parchment theme with hardcoded values */
+
+.progressive-buff-config {
+  margin-top: 12px;
+}
+
+.toggle-options {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.toggle-option {
+  flex: 1;
+}
+
+.toggle-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 12px;
+  background: linear-gradient(135deg, #e8dcc6 0%, #d4c4a8 100%);
+  border: 1px solid #8B4513;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: 'Cinzel', 'Georgia', serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #2d1810;
+  transition: all 0.2s ease;
+}
+
+.toggle-button:hover {
+  background: linear-gradient(135deg, #f0e6d3 0%, #ddd0b8 100%);
+  border-color: #5a1e12;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.toggle-button.active {
+  background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
+  border-color: #5a1e12;
+  color: #2d1810;
+  box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+}
+
+.toggle-icon {
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  background: rgba(45, 24, 16, 0.15);
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.toggle-button.active .toggle-icon {
+  background: rgba(45, 24, 16, 0.25);
+}
+
 .progressive-stages {
-  margin-top: 15px;
-  padding: 10px;
-  background: var(--pf-gradient-parchment, rgba(0, 0, 0, 0.1));
-  border-radius: var(--pf-border-radius, 4px);
-  border: var(--pf-border-width, 1px) solid var(--pf-brown-medium, rgba(255, 255, 255, 0.05));
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
+  padding: 12px;
+  background: linear-gradient(135deg, #f8f4e6 0%, #ede4d3 100%);
+  border-radius: 8px;
+  border: 1px solid #a08c70;
+  box-shadow: inset 0 1px 4px rgba(139, 69, 19, 0.08);
+}
+
+.progressive-stages h4 {
+  font-family: 'Cinzel', 'Georgia', serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #5a1e12;
+  margin: 0 0 4px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .stage-description {
-  font-size: var(--pf-text-sm, 12px);
-  color: var(--pf-text-secondary, #aaa);
-  margin-bottom: var(--pf-space-2, 10px);
-  font-family: var(--pf-font-body);
+  font-size: 12px;
+  color: #8B4513;
+  margin-bottom: 10px;
+  font-style: italic;
+  font-family: 'Crimson Text', 'Georgia', serif;
 }
 
 .stages-list {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-3, 10px);
+  gap: 8px;
 }
 
 .stage-item {
-  background: var(--pf-gradient-button, rgba(0, 0, 0, 0.2));
-  border-radius: var(--pf-border-radius, 4px);
-  padding: var(--pf-space-3, 10px);
-  border: var(--pf-border-width, 1px) solid var(--pf-brown-medium, rgba(255, 255, 255, 0.05));
-  transition: all var(--pf-transition-normal);
-  box-shadow: var(--pf-shadow-sm);
+  background: #f8f4e6;
+  border-radius: 6px;
+  padding: 10px;
+  border: 1px solid #c4a373;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(139, 69, 19, 0.06);
 }
 
 .stage-item:hover {
-  background: var(--pf-gradient-button-hover);
-  border-color: var(--pf-gold);
-  box-shadow: var(--pf-shadow-md);
+  background: #fcf9f0;
+  border-color: #d4af37;
+  box-shadow: 0 2px 6px rgba(139, 69, 19, 0.12);
 }
 
 .stage-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--pf-space-2, 10px);
-  padding-bottom: var(--pf-space-2);
-  border-bottom: 1px solid var(--pf-brown-light);
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #d4c4a8;
 }
 
 .stage-title {
-  font-weight: var(--pf-font-bold, bold);
-  color: var(--pf-text-primary, #ddd);
-  font-family: var(--pf-font-display);
+  font-weight: 700;
+  color: #5a1e12;
+  font-family: 'Cinzel', 'Georgia', serif;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  font-size: 12px;
   margin: 0;
 }
 
 .stage-action {
-  background: var(--pf-gradient-button, none);
-  border: var(--pf-border-width, none) solid var(--pf-brown-medium, transparent);
-  border-radius: var(--pf-border-radius-sm);
-  color: var(--pf-text-primary, #aaa);
+  background: #e8dcc6;
+  border: 1px solid #a08c70;
+  border-radius: 4px;
+  color: #5a1e12;
   cursor: pointer;
-  font-size: var(--pf-text-sm, 16px);
-  padding: var(--pf-space-1, 0) var(--pf-space-2, 5px);
-  transition: all var(--pf-transition-normal);
-  font-family: var(--pf-font-ui);
+  font-size: 14px;
+  padding: 2px 8px;
+  transition: all 0.2s ease;
+  font-family: 'Cinzel', 'Georgia', serif;
+  line-height: 1.4;
 }
 
 .stage-action:hover {
-  background: var(--pf-gradient-button-hover);
-  border-color: var(--pf-gold);
-  color: var(--pf-text-primary, #fff);
-  transform: translateY(-1px);
-  box-shadow: var(--pf-shadow-sm);
+  background: #5a1e12;
+  border-color: #2d1810;
+  color: #f8f4e6;
 }
 
 .stage-action.delete:hover {
-  background: #e8dcc6;
-  border-color: #8b7355;
-  color: #5e2e23;
+  background: #8b0000;
+  border-color: #5a0000;
+  color: #fff;
 }
 
 .stage-content {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-2, 10px);
+  gap: 8px;
+}
+
+.stage-top-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .stage-timing, .stage-effect, .stage-type, .stage-stats {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-1, 5px);
+  gap: 4px;
+}
+
+.stage-timing label, .stage-spell-effect label, .stage-stats label {
+  font-size: 11px;
+  color: #8B4513;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
 }
 
 .stage-timing-inputs {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2, 5px);
+  gap: 6px;
   flex-wrap: wrap;
 }
 
+.stage-timing-inputs input {
+  width: 50px;
+  padding: 4px 6px;
+  background: #fff;
+  border: 1px solid #c4a373;
+  border-radius: 4px;
+  color: #2d1810;
+  font-size: 13px;
+  font-family: 'Crimson Text', 'Georgia', serif;
+  text-align: center;
+}
+
+.stage-timing-inputs input:focus {
+  outline: none;
+  border-color: #d4af37;
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+}
+
 .unit-label {
-  color: var(--pf-text-secondary, #aaa);
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-sm);
+  color: #8B4513;
+  font-family: 'Crimson Text', 'Georgia', serif;
+  font-size: 12px;
   font-style: italic;
 }
 
 .no-stages {
-  color: var(--pf-text-muted, #aaa);
+  color: #8B4513;
   font-style: italic;
   text-align: center;
-  padding: var(--pf-space-4, 10px);
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-base);
+  padding: 12px;
+  font-family: 'Crimson Text', 'Georgia', serif;
+  font-size: 13px;
 }
 
 .add-stage-button {
-  margin-top: var(--pf-space-3, 10px);
-  background: var(--pf-gradient-gold, rgba(59, 130, 246, 0.2));
-  color: var(--pf-brown-darkest, #60a5fa);
-  border: var(--pf-border-width, 1px) solid var(--pf-gold-dark, rgba(59, 130, 246, 0.3));
-  border-radius: var(--pf-border-radius, 4px);
-  padding: var(--pf-space-3, 8px) var(--pf-space-4, 12px);
+  margin-top: 8px;
+  background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
+  color: #2d1810;
+  border: 1px solid #5a1e12;
+  border-radius: 6px;
+  padding: 8px 12px;
   cursor: pointer;
   width: 100%;
-  transition: all var(--pf-transition-normal, 0.2s ease);
-  font-family: var(--pf-font-display);
-  font-weight: var(--pf-font-semibold);
+  transition: all 0.2s ease;
+  font-family: 'Cinzel', 'Georgia', serif;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  box-shadow: var(--pf-shadow-sm);
+  font-size: 12px;
+  box-shadow: 0 1px 4px rgba(139, 69, 19, 0.15);
 }
 
 .add-stage-button:hover {
-  background: var(--pf-gold-light, rgba(59, 130, 246, 0.3));
-  border-color: var(--pf-gold, rgba(59, 130, 246, 0.4));
+  background: linear-gradient(135deg, #f4d03f 0%, #d4af37 100%);
+  border-color: #2d1810;
   transform: translateY(-1px);
-  box-shadow: var(--pf-shadow-glow);
+  box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
 }
 
-/* Stage stats styling - Enhanced for Pathfinder theme */
+/* Stage stats styling */
 .stage-stats-selector {
-  max-height: 180px;
+  max-height: 160px;
   overflow-y: auto;
-  background: var(--pf-gradient-input, rgba(0, 0, 0, 0.2));
-  border-radius: var(--pf-border-radius, 4px);
-  border: var(--pf-border-width, 1px) solid var(--pf-brown-medium, rgba(255, 255, 255, 0.05));
-  margin-top: var(--pf-space-2);
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  background: #f8f4e6;
+  border-radius: 4px;
+  border: 1px solid #c4a373;
+  margin-top: 4px;
+  box-shadow: inset 0 1px 3px rgba(139, 69, 19, 0.06);
 }
 
 .stage-stats-list {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-1, 5px);
-  padding: var(--pf-space-2, 5px);
+  gap: 4px;
+  padding: 6px;
 }
 
 .stage-stat-item {
   display: flex;
   align-items: center;
-  padding: var(--pf-space-2, 5px);
-  border-radius: var(--pf-border-radius-sm, 4px);
-  background: var(--pf-gradient-button, rgba(0, 0, 0, 0.2));
-  border: var(--pf-border-width, 1px) solid var(--pf-brown-light, transparent);
-  transition: all var(--pf-transition-normal, 0.2s ease);
-  gap: var(--pf-space-2);
+  padding: 5px 8px;
+  border-radius: 4px;
+  background: #ede4d3;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+  gap: 6px;
 }
 
 .stage-stat-item:hover {
-  background: var(--pf-gradient-button-hover);
-  border-color: var(--pf-gold);
-  box-shadow: var(--pf-shadow-sm);
+  background: #e8dcc6;
+  border-color: #c4a373;
 }
 
 .stage-stat-item.included {
-  background: var(--pf-gradient-gold, rgba(59, 130, 246, 0.1));
-  border-color: var(--pf-gold-dark, rgba(59, 130, 246, 0.2));
-  color: var(--pf-brown-darkest);
-  box-shadow: var(--pf-shadow-glow);
+  background: linear-gradient(135deg, #f4d03f20 0%, #d4af3720 100%);
+  border-color: #d4af37;
+  box-shadow: 0 1px 3px rgba(212, 175, 55, 0.15);
 }
 
 .stage-stat-checkbox {
   margin: 0;
-  transform: scale(1.2);
-  accent-color: var(--pf-gold);
+  transform: scale(1.1);
+  accent-color: #b8860b;
 }
 
 .stage-stat-icon {
   width: 20px;
   height: 20px;
-  border-radius: var(--pf-border-radius-sm, 4px);
+  border-radius: 3px;
   overflow: hidden;
   flex-shrink: 0;
-  border: 1px solid var(--pf-brown-light);
+  border: 1px solid #c4a373;
 }
 
 .stage-stat-icon img {
@@ -204,56 +307,49 @@
 
 .stage-stat-name {
   flex: 1;
-  font-size: var(--pf-text-sm, 12px);
-  color: var(--pf-text-primary, #ddd);
-  font-family: var(--pf-font-ui);
-  font-weight: var(--pf-font-medium);
+  font-size: 12px;
+  color: #2d1810;
+  font-family: 'Crimson Text', 'Georgia', serif;
+  font-weight: 500;
 }
 
 .stage-stat-item.included .stage-stat-name {
-  color: var(--pf-brown-darkest);
-  font-weight: var(--pf-font-semibold);
+  color: #5a1e12;
+  font-weight: 600;
 }
 
 .stage-stat-value {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-1, 5px);
+  gap: 4px;
   flex-shrink: 0;
 }
 
 .stage-stat-value input,
 .stage-stat-value select {
-  width: 60px;
-  background: var(--pf-gradient-input, rgba(0, 0, 0, 0.3));
-  border: var(--pf-border-width, 1px) solid var(--pf-brown-light, rgba(255, 255, 255, 0.1));
-  border-radius: var(--pf-border-radius-sm, 3px);
-  color: var(--pf-text-primary, #ddd);
-  padding: var(--pf-space-1, 3px) var(--pf-space-2, 5px);
-  font-size: var(--pf-text-sm, 12px);
-  font-family: var(--pf-font-ui);
-  transition: all var(--pf-transition-normal);
+  width: 55px;
+  background: #fff;
+  border: 1px solid #c4a373;
+  border-radius: 3px;
+  color: #2d1810;
+  padding: 3px 5px;
+  font-size: 12px;
+  font-family: 'Crimson Text', 'Georgia', serif;
+  transition: all 0.15s ease;
 }
 
 .stage-stat-value input:focus,
 .stage-stat-value select:focus {
   outline: none;
-  border-color: var(--pf-gold);
+  border-color: #d4af37;
   box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
 }
 
-.stage-stat-item.included .stage-stat-value input,
-.stage-stat-item.included .stage-stat-value select {
-  background: var(--pf-parchment);
-  border-color: var(--pf-brown-medium);
-  color: var(--pf-brown-darkest);
-}
-
 .no-stats-message {
-  padding: var(--pf-space-4, 10px);
-  color: var(--pf-text-muted, #aaa);
+  padding: 10px;
+  color: #8B4513;
   font-style: italic;
   text-align: center;
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-base);
+  font-family: 'Crimson Text', 'Georgia', serif;
+  font-size: 12px;
 }

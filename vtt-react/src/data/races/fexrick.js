@@ -119,7 +119,7 @@ Now the oldest machines are failing faster. The oral traditions are degrading. T
             icon: 'spell_nature_wind',
             spellType: 'PASSIVE',
             effectTypes: ['buff', 'debuff'],
-            typeConfig: { category: 'racial', tags: ['air-sense', 'underground', 'ventilation', 'passive'] },
+            typeConfig: { category: 'racial', school: 'storm', tags: ['air-sense', 'underground', 'ventilation', 'passive'] },
             buffConfig: {
                 buffType: 'sensoryEnhancement',
                 effects: [{
@@ -151,16 +151,16 @@ Now the oldest machines are failing faster. The oral traditions are degrading. T
             level: 1,
             icon: 'spell_nature_lightning',
             spellType: 'PASSIVE',
-            effectTypes: ['vulnerability', 'debuff'],
-            typeConfig: { category: 'racial', isWeakness: true, tags: ['lightning-vulnerability', 'metal-body', 'passive'] },
+                    effectTypes: ['debuff'],
+                    typeConfig: { category: 'racial', isWeakness: true, school: 'storm', tags: ['lightning-vulnerability', 'metal-body', 'passive'] },
             debuffConfig: {
                 debuffType: 'vulnerability',
                 effects: [
                     {
                         id: 'lightning_vulnerability',
                         name: 'Lightning Vulnerability',
-                        description: 'Lightning damage is doubled. Your mechanical body parts and woven metal conduct electrical current with catastrophic efficiency.',
-                        statusEffect: { vulnerabilityType: 'lightning', vulnerabilityPercent: 100 }
+                        description: 'Storm damage is doubled. Your mechanical body parts and woven metal conduct electrical current with catastrophic efficiency.',
+                        statusEffect: { vulnerabilityType: 'storm', vulnerabilityPercent: 100 }
                     },
                     {
                         id: 'magnetic_attraction',
@@ -234,7 +234,7 @@ Now the oldest machines are failing faster. The oral traditions are degrading. T
                     icon: 'ability_rogue_findweakness',
                     spellType: 'PASSIVE',
                     effectTypes: ['buff', 'debuff'],
-                    typeConfig: { category: 'racial' },
+                    typeConfig: { category: 'racial', school: 'arcane' },
                     buffConfig: {
                         buffType: 'skillEnhancement',
                         effects: [{
@@ -267,7 +267,7 @@ Now the oldest machines are failing faster. The oral traditions are degrading. T
                     icon: 'spell_arcane_mindmastery',
                     spellType: 'PASSIVE',
                     effectTypes: ['buff', 'debuff'],
-                    typeConfig: { category: 'racial' },
+                    typeConfig: { category: 'racial', school: 'arcane' },
                     buffConfig: {
                         buffType: 'triggeredEffect',
                         effects: [{
@@ -309,20 +309,20 @@ Now the oldest machines are failing faster. The oral traditions are degrading. T
                 {
                     id: 'jury_rig_drall',
                     name: 'Jury-Rig',
-                    description: 'You can bypass guild-protocols and make a broken machine run on spit and spite. Once per short rest, you can restore 1d10 HP to a damaged mechanical device, construct, or trap within 5 feet. If the device was inactive, it boots up instantly. But this is a jury-rig, not a guild repair: after 10 minutes, the machine shorts out, taking 2d10 fire damage as the improvised connections melt. You cannot jury-rig the same machine again until it is fully repaired by normal means.',
+                    description: 'You can bypass guild-protocols and make a broken machine run on spit and spite. Once per short rest, you can restore 1d10 HP to a damaged mechanical device, construct, or trap within 5 feet. If the device was inactive, it boots up instantly. But this is a jury-rig, not a guild repair: after 10 minutes, the machine shorts out, taking 2d10 ember damage as the improvised connections melt. You cannot jury-rig the same machine again until it is fully repaired by normal means.',
                     level: 1,
                     icon: 'spell_nature_strength',
                     spellType: 'ACTION',
                     actionPoints: 1,
                     components: ['somatic'],
-                    effectTypes: ['heal', 'buff'],
+                    effectTypes: ['buff'],
                     typeConfig: { category: 'racial', school: 'physical' },
                     buffConfig: {
                         buffType: 'heal',
                         effects: [{
                             id: 'temporary_function',
                             name: 'Jury-Rigged',
-                            description: 'Restore 1d10 HP to construct/device. Device works for 10 minutes, then takes 2d10 fire damage and breaks.',
+                            description: 'Restore 1d10 HP to construct/device. Device works for 10 minutes, then takes 2d10 ember damage and breaks.',
                             statusEffect: { level: 'moderate', description: 'Improvised power courses through the joints' }
                         }],
                         durationValue: 10, durationType: 'minutes', durationUnit: 'minutes', canBeDispelled: false
@@ -334,18 +334,18 @@ Now the oldest machines are failing faster. The oral traditions are degrading. T
                 {
                     id: 'sump_acclimation_drall',
                     name: 'Sump-Acclimation',
-                    description: 'You spent your life in the sump-tunnels, breathing heavy-metal exhaust and alchemical runoff. Your nervous system has adapted to toxins. Immune to poison damage and the poisoned condition. Advantage on saving throws against disease. But your lungs are permanently scarred: you suffer a -5ft penalty to speed when running in clean surface air. Your body expects the exhaust.',
+                    description: 'You spent your life in the sump-tunnels, breathing heavy-metal exhaust and alchemical runoff. Your nervous system has adapted to toxins. Immune to blight damage and the poisoned condition. Advantage on saving throws against disease. But your lungs are permanently scarred: you suffer a -5ft penalty to speed when running in clean surface air. Your body expects the exhaust.',
                     level: 1,
                     icon: 'spell_nature_corrosivebreath',
                     spellType: 'PASSIVE',
                     effectTypes: ['buff', 'debuff'],
-                    typeConfig: { category: 'racial' },
+                    typeConfig: { category: 'racial', school: 'blight' },
                     buffConfig: {
                         buffType: 'statEnhancement',
                         effects: [{
                             id: 'sump_immunity',
                             name: 'Exhaust-Immune',
-                            description: 'Immune to poison damage and the poisoned condition. Advantage on disease saves.',
+                            description: 'Immune to blight damage and the poisoned condition. Advantage on disease saves.',
                             statusEffect: { level: 'major', description: 'Your quicksilver blood neutralizes heavy metals' }
                         }],
                         durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
@@ -372,7 +372,7 @@ Now the oldest machines are failing faster. The oral traditions are degrading. T
                     icon: 'ability_creature_disease_05',
                     spellType: 'PASSIVE',
                     effectTypes: ['buff'],
-                    typeConfig: { category: 'racial' },
+                    typeConfig: { category: 'racial', school: 'physical' },
                     buffConfig: {
                         buffType: 'triggeredEffect',
                         effects: [{

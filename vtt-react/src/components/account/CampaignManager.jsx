@@ -726,7 +726,7 @@ const CampaignManager = ({ user }) => {
         id: Date.now(),
         name: spellName,
         level: 1,
-        school: 'evocation',
+        school: 'arcane',
         castingTime: '1 action',
         range: '60 feet',
         description: '',
@@ -2075,14 +2075,15 @@ const CampaignManager = ({ user }) => {
                                 {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(l => <option key={l} value={l}>{l === 0 ? 'Cantrip' : `Level ${l}`}</option>)}
                               </select>
                               <select value={spell.school} onChange={(e) => updateHomebrewSpell(spell.id, { school: e.target.value })} className="small-select">
-                                <option value="abjuration">Abjuration</option>
-                                <option value="conjuration">Conjuration</option>
-                                <option value="divination">Divination</option>
-                                <option value="enchantment">Enchantment</option>
-                                <option value="evocation">Evocation</option>
-                                <option value="illusion">Illusion</option>
-                                <option value="necromancy">Necromancy</option>
-                                <option value="transmutation">Transmutation</option>
+                                <option value="physical">Physical</option>
+                                <option value="ember">Ember</option>
+                                <option value="rime">Rime</option>
+                                <option value="storm">Storm</option>
+                                <option value="arcane">Arcane</option>
+                                <option value="primal">Primal</option>
+                                <option value="blight">Blight</option>
+                                <option value="wyrd">Wyrd</option>
+                                <option value="divine">Divine</option>
                               </select>
                             </div>
                             <div className="field-row">

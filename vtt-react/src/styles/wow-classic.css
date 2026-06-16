@@ -268,3 +268,32 @@
 .wow-spell-card.spell-physical {
   border-color: #5A6A72;
 }
+
+/* Mythrill canonical damage type classes */
+.wow-spell-card.spell-ember {
+  border-color: #D4380D;
+}
+
+.wow-spell-card.spell-rime {
+  border-color: #2C5F7C;
+}
+
+.wow-spell-card.spell-storm {
+  border-color: #8B7328;
+}
+
+.wow-spell-card.spell-primal {
+  border-color: #2D5A1E;
+}
+
+.wow-spell-card.spell-blight {
+  border-color: #3D1F4E;
+}
+
+.wow-spell-card.spell-wyrd {
+  border-color: #7A2040;
+}
+
+.wow-spell-card.spell-divine {
+  border-color: #DAA520;
+}

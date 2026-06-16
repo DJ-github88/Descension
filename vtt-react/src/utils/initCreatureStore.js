@@ -1,4 +1,5 @@
 import { LIBRARY_CREATURES, CREATURE_LIBRARY_VERSION } from '../data/creatureLibraryData';
+import { ADVANCED_ABILITIES } from '../data/creatureAbilitiesAdvanced';
 import useCreatureStore from '../store/creatureStore';
 
 const STORAGE_VERSION_KEY = 'creature-library-version';
@@ -42,8 +43,12 @@ const initCreatureStore = () => {
     const newCreatures = [];
     
     LIBRARY_CREATURES.forEach(creature => {
+      // If an advanced spell-card abilities set exists for this creature, use it
+      // (overrides the legacy single-ability format so UnifiedSpellCard renders richly).
+      const advancedAbilities = ADVANCED_ABILITIES[creature.id];
       newCreatures.push({
         ...creature,
+        ...(advancedAbilities ? { abilities: advancedAbilities } : {}),
         id: creature.id || `creature_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         dateCreated: new Date().toISOString(),
         lastModified: new Date().toISOString()

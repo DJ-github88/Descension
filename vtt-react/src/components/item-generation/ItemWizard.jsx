@@ -772,6 +772,11 @@ const DAMAGE_TYPES = {
         name: 'Wyrd',
         icon: 'Psychic/Psychic Telepathy',
         color: '#7A2040'
+    },
+    divine: {
+        name: 'Divine',
+        icon: 'Radiant/Radiant Divinity',
+        color: '#DAA520'
     }
 };
 

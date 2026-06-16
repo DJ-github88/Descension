@@ -127,6 +127,41 @@
     padding: 2px;
 }
 
+/* Numeric level overlay — always-visible level readout for the game's most dangerous resource.
+   Anchored top-right so it never blocks the segment-flicker effect. */
+.inferno-level-overlay {
+    position: absolute;
+    top: 50%;
+    right: 4px;
+    transform: translateY(-50%);
+    z-index: 5;
+    font-size: 11px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    color: #ffd9b0;
+    text-shadow:
+        -0.5px -0.5px 0 rgba(0, 0, 0, 0.9),
+        0.5px -0.5px 0 rgba(0, 0, 0, 0.9),
+        -0.5px 0.5px 0 rgba(0, 0, 0, 0.9),
+        0.5px 0.5px 0 rgba(0, 0, 0, 0.9),
+        0 0 4px rgba(0, 0, 0, 0.8);
+    pointer-events: none;
+    line-height: 1;
+}
+.inferno-level-overlay.danger {
+    color: #ffb088;
+    animation: infernoOverlayPulse 1.4s ease-in-out infinite;
+}
+.inferno-level-overlay.critical {
+    color: #ff6b6b;
+    animation: infernoOverlayPulse 0.7s ease-in-out infinite;
+}
+@keyframes infernoOverlayPulse {
+    0%, 100% { transform: translateY(-50%) scale(1); }
+    50% { transform: translateY(-50%) scale(1.18); }
+}
+.pyrofiend-resource-bar.small .inferno-level-overlay { font-size: 9px; right: 3px; }
+
 .pyrofiend-resource-bar.clickable {
     cursor: pointer;
 }
@@ -639,17 +674,22 @@
 .pyrofiend-resource-wrapper.catastrophic-warning::before {
     content: '⚠ DEATH CLOCK';
     position: absolute;
-    top: -18px;
+    top: 50%;              /* centered INSIDE the bar so it can't overlap the AP bar above */
     left: 50%;
-    transform: translateX(-50%);
-    font-size: 0.6rem;
-    font-weight: 700;
-    color: #FF4444;
+    transform: translate(-50%, -50%);
+    font-size: 0.55rem;
+    font-weight: 800;
+    color: #FFD0D0;
     text-transform: uppercase;
     letter-spacing: 1px;
     animation: deathClockWarning 0.8s ease-in-out infinite;
     white-space: nowrap;
-    text-shadow: 0 0 4px rgba(255, 0, 0, 0.8);
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.95), 0 0 6px rgba(255, 0, 0, 0.9);
+    background: rgba(80, 0, 0, 0.55);
+    padding: 1px 6px;
+    border-radius: 8px;
+    z-index: 6;
+    pointer-events: none;
 }
 
 @keyframes deathClockWarning {

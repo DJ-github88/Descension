@@ -37,6 +37,24 @@
     margin-bottom: 2px; /* Add spacing between resource bars */
 }
 
+/* Exorcist dominance-die: keep arbitrary-length demon names from overflowing the compact bar */
+.class-resource-bar .bar-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+.class-resource-bar .demon-name {
+    max-width: 60%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.party-member-frame .class-resource-bar .demon-name,
+.class-resource-bar.small .demon-name {
+    max-width: 50%;
+}
+
 .class-resource-bar.small {
     height: 12px;
 }

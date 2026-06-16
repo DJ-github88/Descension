@@ -26,6 +26,8 @@
 @import './resourceBars/lunar-phases.css';
 @import './resourceBars/devotion-gauge.css';
 @import './resourceBars/musical-notes-combo.css';
+/* Arcanoneer "Building Blocks" — external component, self-contained CSS */
+@import '../../../data/classes/arcanoneer/styles/ArcanoneerResourceBar.css';
 
 .class-resource-wrapper {
     position: relative;
@@ -67,11 +69,20 @@
 .class-resource-bar.musical-notes-combo,
 .class-resource-bar.devotion-gauge,
 .class-resource-bar.stance-flow,
+.class-resource-bar.arcanoneer-blocks,
 .class-resource-bar.elemental-spheres-display,
 .class-resource-bar.totemic-synergy {
     background: transparent;
     border: none;
     box-shadow: none;
+}
+
+/* Custom multi-row bars (Minstrel notes, Arcanoneer blocks) need auto height —
+   the base .class-resource-bar { height: 16px } / .large { height: 20px } would
+   clip their multi-segment layout. */
+.class-resource-bar.musical-notes-combo,
+.class-resource-bar.arcanoneer-blocks {
+    height: auto !important;
 }
 
 .class-resource-bar.small {

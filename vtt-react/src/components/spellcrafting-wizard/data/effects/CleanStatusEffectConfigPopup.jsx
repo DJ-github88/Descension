@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
-import { getAbilityIconUrl } from '../../../../utils/assetManager';
+import { getAbilityIconUrl, getCustomIconUrl } from '../../../../utils/assetManager';
 // Pathfinder styles imported via main.css
 
 const CleanStatusEffectConfigPopup = ({
@@ -16,13 +16,29 @@ const CleanStatusEffectConfigPopup = ({
   const updateEffectConfig = (field, value) => {
     if (!isOpen) return;
 
-    const updatedEffects = selectedEffect.statusEffects.map(se =>
-      se.id === effect.id ? {...se, [field]: value} : se
-    );
+    const statusEffects = selectedEffect.statusEffects || [];
+    const existing = statusEffects.find(se => se.id === effect.id);
 
-
-
-    updateConfig('statusEffects', updatedEffects);
+    if (existing) {
+      // Update existing entry
+      const updatedEffects = statusEffects.map(se =>
+        se.id === effect.id ? {...se, [field]: value} : se
+      );
+      updateConfig('statusEffects', updatedEffects);
+    } else {
+      // Effect not yet in array (e.g. just added) — insert it with the new field
+      const newEntry = {
+        id: effect.id,
+        name: effect.name,
+        icon: effect.icon,
+        description: effect.description,
+        category: effect.category,
+        hasAdvancedConfig: effect.hasAdvancedConfig || false,
+        options: effect.options || [],
+        [field]: value
+      };
+      updateConfig('statusEffects', [...statusEffects, newEntry]);
+    }
   };
 
   // Handle backdrop click to close the popup
@@ -32,10 +48,24 @@ const CleanStatusEffectConfigPopup = ({
     }
   };
 
+  // Confirm simply closes the popup; all changes are applied live
+  const handleConfirm = () => {
+    onClose();
+  };
+
+  // Image error fallback: swap to a safe default ability icon
+  const handleIconError = (e) => {
+    e.target.onerror = null;
+    e.target.src = getCustomIconUrl('Utility/Utility', 'abilities');
+  };
+
   if (!isOpen) return null;
 
-  // Find the specific status effect in the statusEffects array
-  const statusEffectData = selectedEffect.statusEffects?.find(se => se.id === effect.id) || {};
+  // Find the specific status effect in the statusEffects array, falling back to the effect prop
+  const statusEffectData = {
+    ...(effect || {}),
+    ...(selectedEffect.statusEffects?.find(se => se.id === effect.id) || {})
+  };
 
   // Get icon URL
   const getIconUrl = (iconName) => {
@@ -118,6 +148,179 @@ const CleanStatusEffectConfigPopup = ({
     }
   };
 
+  const OPTION_DESCRIPTIONS = {
+    combat_advantage: {
+      attack: 'Roll twice and take the higher result on attack rolls',
+      damage: 'Roll twice and take the higher result on damage rolls',
+      healing: 'Roll twice and take the higher result on healing rolls',
+      critical: 'Expand your critical hit threat range',
+      melee: 'Applies to melee weapon attacks only',
+      ranged: 'Applies to ranged weapon attacks only'
+    },
+    attackers_advantage: {
+      all: 'Attackers gain advantage on all attacks against you',
+      melee: 'Attackers gain advantage on melee attacks against you',
+      ranged: 'Attackers gain advantage on ranged attacks against you',
+      spell: 'Attackers gain advantage on spell attacks against you'
+    },
+    skill_mastery: {
+      physical: 'Advantage on Strength and Agility skill checks',
+      mental: 'Advantage on Intelligence and Spirit skill checks',
+      social: 'Advantage on Charisma and Persuasion checks'
+    },
+    empower_next: {
+      spell: 'Your next spell deals increased damage or has enhanced effect',
+      heal: 'Your next healing spell restores additional hit points',
+      weapon: 'Your next weapon attack deals increased damage'
+    },
+    damage_shield: {
+      physical: 'Absorbs damage from physical (weapon) attacks only',
+      magical: 'Absorbs damage from magical (spell) attacks only',
+      complete: 'Absorbs damage from all attack types'
+    },
+    haste: {
+      movement: 'Increases movement speed by a percentage bonus',
+      action: 'Grants extra action points per turn',
+      casting: 'Reduces casting time for spells by a percentage'
+    },
+    elemental_infusion: {
+      ember: 'Adds bonus ember damage to attacks',
+      rime: 'Adds bonus rime damage to attacks and may slow targets',
+      storm: 'Adds bonus storm damage to attacks and may chain to nearby targets'
+    },
+    invisibility: {
+      partial: 'Advantage on Stealth; enemies have disadvantage to detect you',
+      complete: 'Invisible until you attack or cast a spell',
+      greater: 'Stay invisible even when attacking or casting spells'
+    },
+    inspiration: {
+      focus: 'Bonus to concentration checks to maintain spells',
+      insight: 'Bonus to Intelligence-based checks and investigation',
+      creativity: 'Bonus to Charisma-based performance and creation checks'
+    },
+    luck: {
+      minor: 'Reroll one failed roll, must keep the new result',
+      major: 'Reroll multiple failed rolls during the duration',
+      fate: 'Choose the outcome of a roll instead of rolling'
+    },
+    lifelink: {
+      hp_to_hp: 'Transfer hit points between two linked creatures',
+      mana_to_mana: 'Transfer mana between two linked creatures',
+      hp_to_mana: 'Convert your hit points into mana',
+      mana_to_hp: 'Convert mana into hit points to heal',
+      damage_to_healing: 'A portion of damage you deal heals you',
+      healing_to_damage: 'A portion of healing you do adds bonus damage'
+    },
+    inspired: {
+      bardic: 'Add a bonus die to any roll once per duration',
+      guidance: 'Add a small bonus to one specific type of roll',
+      heroism: 'Grants immunity to fear and a flat bonus to saves'
+    },
+    blessed: {
+      protection: 'Bonus to Armor Class and saving throws',
+      fortune: 'Bonus to attack rolls and ability checks',
+      life: 'Bonus to saving throws and temporary HP each turn'
+    },
+    strengthened: {
+      physical: 'Bonus to physical damage and Strength checks',
+      magical: 'Bonus to spell damage and magical effects',
+      overall: 'Bonus to all damage types and general effectiveness'
+    },
+    resistance: {
+      elemental: 'Resistance to elemental damage types (ember, rime, storm, etc.)',
+      physical: 'Resistance to physical damage (slashing, piercing, bludgeoning)',
+      magical: 'Resistance to all magical damage types'
+    },
+    vulnerability: {
+      default: 'Increases damage taken from specific damage types'
+    },
+    blinded: {
+      full: 'Cannot see at all; auto-fail sight-based checks',
+      partial: 'Reduced vision range; disadvantage on ranged attacks',
+      darkness: 'Magical darkness blocks all vision including darkvision'
+    },
+    charmed: {
+      friendly: 'Target treats you as a friend; will not harm you',
+      dominated: 'Target obeys your direct commands',
+      infatuated: 'Target is enamored and will defend you willingly'
+    },
+    frightened: {
+      shaken: 'Disadvantage on ability checks while source is visible',
+      terrified: 'Cannot willingly move closer to the fear source',
+      panicked: 'Must use movement to flee from the source of fear'
+    },
+    paralyzed: {
+      partial: 'Movement speed reduced; can still act',
+      complete: 'Incapacitated; cannot move, speak, or take actions',
+      magical: 'Locked in magical stasis; cannot be moved or affected'
+    },
+    poisoned: {
+      weakening: 'Disadvantage on Strength-based attacks and checks',
+      debilitating: 'Ongoing damage each round; weakening effect',
+      paralyzing: 'Chance to paralyze on failed saves; ongoing damage'
+    },
+    restrained: {
+      ensnared: 'Speed reduced by half; disadvantage on Agility saves',
+      grappled: 'Cannot move; escape requires action or check',
+      bound: 'Completely immobilized; cannot use hands or cast somatic spells'
+    },
+    silenced: {
+      magical: 'Cannot cast spells with verbal components',
+      muted: 'Cannot produce any sound; cannot use verbal components',
+      temporal: 'Random chance to fail verbal spell components each cast'
+    },
+    slowed: {
+      hindered: 'Movement speed reduced by a percentage',
+      lethargic: 'Reduced action points available per turn',
+      temporal: 'Caught in temporal distortion; acts less frequently'
+    },
+    burning: {
+      mild: 'Light ongoing ember damage; low spread risk',
+      intense: 'Heavy ongoing ember damage; can ignite objects and spread',
+      magical: 'Ember damage that ignores resistance and immunity'
+    },
+    frozen: {
+      chilled: 'Slight speed reduction; minor rime damage',
+      frostbitten: 'Significant speed reduction; disadvantage on Agility checks',
+      frozen: 'Completely encased in ice; paralyzed condition'
+    },
+    weakened: {
+      fatigued: 'Reduced damage output; disadvantage on physical checks',
+      exhausted: 'Severe penalty to all physical ability checks',
+      drained: 'Maximum hit points reduced temporarily'
+    },
+    confused: {
+      disoriented: 'Disadvantage on Intelligence checks; minor action penalty',
+      befuddled: 'Chance to attack random targets; moderate penalty',
+      insane: 'Acts unpredictably; high chance of random or harmful actions'
+    },
+    diseased: {
+      infected: 'Cannot regain hit points naturally',
+      contagious: 'Spreads to nearby allies; ongoing HP loss',
+      terminal: 'Daily saves or gain exhaustion; severe HP loss'
+    },
+    bleeding: {
+      minor: 'Small amount of damage each turn',
+      severe: 'Significant damage each turn; leaves blood trail',
+      hemorrhaging: 'Massive damage; risk of incapacitation'
+    },
+    slept: {
+      drowsy: 'Disadvantage on Perception and initiative checks',
+      asleep: 'Unconscious; wakes on damage or loud noise',
+      comatose: 'Deep magical sleep; only awakened by magic or high DC'
+    },
+    cursed: {
+      jinxed: 'Small failure chance on rolls; minor penalty',
+      hexed: 'Moderate failure chance; penalty to specific roll types',
+      doomed: 'High failure chance; significant penalties; hard to remove'
+    },
+    dazed: {
+      lightheaded: 'Minor penalty to attack rolls',
+      disoriented: 'Disadvantage on initiative; may move randomly',
+      concussed: 'Cannot take reactions; disadvantage on concentration'
+    }
+  };
+
   // Combat Advantage Configuration
   const renderCombatAdvantageConfig = () => (
     <div className="effect-config-section">
@@ -128,24 +331,28 @@ const CleanStatusEffectConfigPopup = ({
           onClick={() => updateEffectConfig('advantageType', 'attack')}
         >
           Attack Rolls
+          <div className="option-description">{OPTION_DESCRIPTIONS.combat_advantage.attack}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.advantageType === 'damage' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('advantageType', 'damage')}
         >
           Damage Rolls
+          <div className="option-description">{OPTION_DESCRIPTIONS.combat_advantage.damage}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.advantageType === 'healing' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('advantageType', 'healing')}
         >
           Healing Rolls
+          <div className="option-description">{OPTION_DESCRIPTIONS.combat_advantage.healing}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.advantageType === 'critical' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('advantageType', 'critical')}
         >
           Critical Hits
+          <div className="option-description">{OPTION_DESCRIPTIONS.combat_advantage.critical}</div>
         </button>
       </div>
 
@@ -162,6 +369,7 @@ const CleanStatusEffectConfigPopup = ({
                   {statusEffectData?.affectsMelee ? '✓' : ''}
                 </div>
                 <span>Melee Attacks</span>
+                <div className="option-description">{OPTION_DESCRIPTIONS.combat_advantage.melee}</div>
               </button>
             </div>
             <div className="toggle-option">
@@ -173,6 +381,7 @@ const CleanStatusEffectConfigPopup = ({
                   {statusEffectData?.affectsRanged ? '✓' : ''}
                 </div>
                 <span>Ranged Attacks</span>
+                <div className="option-description">{OPTION_DESCRIPTIONS.combat_advantage.ranged}</div>
               </button>
             </div>
           </div>
@@ -188,7 +397,7 @@ const CleanStatusEffectConfigPopup = ({
               type="text"
               value={statusEffectData?.damageTypes?.join(', ') || ''}
               onChange={(e) => updateEffectConfig('damageTypes', e.target.value.split(', ').filter(t => t.trim()))}
-              placeholder="fire, cold, lightning"
+              placeholder="ember, rime, storm"
             />
           </div>
         </div>
@@ -220,7 +429,6 @@ const CleanStatusEffectConfigPopup = ({
     </div>
   );
 
-  // Attackers Advantage Configuration
   const renderAttackersAdvantageConfig = () => (
     <div className="effect-config-section">
       <h4>Disadvantage Type</h4>
@@ -230,24 +438,28 @@ const CleanStatusEffectConfigPopup = ({
           onClick={() => updateEffectConfig('option', 'all')}
         >
           All Attacks
+          <div className="option-description">{OPTION_DESCRIPTIONS.attackers_advantage.all}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'melee' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'melee')}
         >
           Melee Attacks
+          <div className="option-description">{OPTION_DESCRIPTIONS.attackers_advantage.melee}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'ranged' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'ranged')}
         >
           Ranged Attacks
+          <div className="option-description">{OPTION_DESCRIPTIONS.attackers_advantage.ranged}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'spell' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'spell')}
         >
           Spell Attacks
+          <div className="option-description">{OPTION_DESCRIPTIONS.attackers_advantage.spell}</div>
         </button>
       </div>
 
@@ -358,18 +570,21 @@ const CleanStatusEffectConfigPopup = ({
             onClick={() => updateEffectConfig('option', 'elemental')}
           >
             Elemental
+            <div className="option-description">{OPTION_DESCRIPTIONS.resistance.elemental}</div>
           </button>
           <button
             className={`effect-option-button ${statusEffectData?.option === 'physical' ? 'active' : ''}`}
             onClick={() => updateEffectConfig('option', 'physical')}
           >
             Physical
+            <div className="option-description">{OPTION_DESCRIPTIONS.resistance.physical}</div>
           </button>
           <button
             className={`effect-option-button ${statusEffectData?.option === 'magical' ? 'active' : ''}`}
             onClick={() => updateEffectConfig('option', 'magical')}
           >
             Magical
+            <div className="option-description">{OPTION_DESCRIPTIONS.resistance.magical}</div>
           </button>
         </div>
       </div>
@@ -382,7 +597,7 @@ const CleanStatusEffectConfigPopup = ({
             type="text"
             value={statusEffectData?.damageTypes?.join(', ') || ''}
             onChange={(e) => updateEffectConfig('damageTypes', e.target.value.split(', ').filter(t => t.trim()))}
-            placeholder="fire, cold, lightning, acid, poison"
+            placeholder="ember, rime, storm, blight, wyrd"
           />
         </div>
         <div className="effect-config-option">
@@ -460,7 +675,7 @@ const CleanStatusEffectConfigPopup = ({
           type="text"
           value={statusEffectData?.damageTypes?.join(', ') || ''}
           onChange={(e) => updateEffectConfig('damageTypes', e.target.value.split(', ').filter(t => t.trim()))}
-          placeholder="fire, cold, lightning"
+          placeholder="ember, rime, storm"
         />
       </div>
       <div className="effect-config-option">
@@ -542,18 +757,21 @@ const CleanStatusEffectConfigPopup = ({
           onClick={() => updateEffectConfig('option', 'physical')}
         >
           Physical Prowess
+          <div className="option-description">{OPTION_DESCRIPTIONS.skill_mastery.physical}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'mental' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'mental')}
         >
           Mental Acuity
+          <div className="option-description">{OPTION_DESCRIPTIONS.skill_mastery.mental}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'social' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'social')}
         >
           Social Grace
+          <div className="option-description">{OPTION_DESCRIPTIONS.skill_mastery.social}</div>
         </button>
       </div>
       <div className="effect-config-section">
@@ -582,18 +800,21 @@ const CleanStatusEffectConfigPopup = ({
           onClick={() => updateEffectConfig('option', 'spell')}
         >
           Spell Surge
+          <div className="option-description">{OPTION_DESCRIPTIONS.empower_next.spell}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'heal' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'heal')}
         >
           Healing Surge
+          <div className="option-description">{OPTION_DESCRIPTIONS.empower_next.heal}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'weapon' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'weapon')}
         >
           Weapon Surge
+          <div className="option-description">{OPTION_DESCRIPTIONS.empower_next.weapon}</div>
         </button>
       </div>
       <div className="effect-config-section">
@@ -614,7 +835,6 @@ const CleanStatusEffectConfigPopup = ({
     </div>
   );
 
-  // Damage Shield Configuration
   const renderDamageShieldConfig = () => (
     <div className="effect-config-section">
       <h4>Shield Type</h4>
@@ -624,18 +844,21 @@ const CleanStatusEffectConfigPopup = ({
           onClick={() => updateEffectConfig('option', 'physical')}
         >
           Physical Shield
+          <div className="option-description">{OPTION_DESCRIPTIONS.damage_shield.physical}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'magical' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'magical')}
         >
           Spell Shield
+          <div className="option-description">{OPTION_DESCRIPTIONS.damage_shield.magical}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'complete' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'complete')}
         >
           Complete Shield
+          <div className="option-description">{OPTION_DESCRIPTIONS.damage_shield.complete}</div>
         </button>
       </div>
       <div className="effect-config-section">
@@ -677,18 +900,21 @@ const CleanStatusEffectConfigPopup = ({
             onClick={() => updateEffectConfig('option', 'movement')}
           >
             Enhanced Movement
+            <div className="option-description">{OPTION_DESCRIPTIONS.haste.movement}</div>
           </button>
           <button
             className={`effect-option-button ${statusEffectData?.option === 'action' ? 'active' : ''}`}
             onClick={() => updateEffectConfig('option', 'action')}
           >
             Extra Action
+            <div className="option-description">{OPTION_DESCRIPTIONS.haste.action}</div>
           </button>
           <button
             className={`effect-option-button ${statusEffectData?.option === 'casting' ? 'active' : ''}`}
             onClick={() => updateEffectConfig('option', 'casting')}
           >
             Quick Casting
+            <div className="option-description">{OPTION_DESCRIPTIONS.haste.casting}</div>
           </button>
         </div>
       </div>
@@ -767,7 +993,6 @@ const CleanStatusEffectConfigPopup = ({
     </>
   );
 
-  // Elemental Infusion Configuration
   const renderElementalInfusionConfig = () => (
     <div className="effect-config-section">
       <h4>Element Type</h4>
@@ -777,18 +1002,21 @@ const CleanStatusEffectConfigPopup = ({
           onClick={() => updateEffectConfig('option', 'ember')}
         >
           Fire Infusion
+          <div className="option-description">{OPTION_DESCRIPTIONS.elemental_infusion.ember}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'rime' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'rime')}
         >
           Frost Infusion
+          <div className="option-description">{OPTION_DESCRIPTIONS.elemental_infusion.rime}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'storm' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'storm')}
         >
           Lightning Infusion
+          <div className="option-description">{OPTION_DESCRIPTIONS.elemental_infusion.storm}</div>
         </button>
       </div>
       <div className="effect-config-section">
@@ -818,7 +1046,6 @@ const CleanStatusEffectConfigPopup = ({
     </div>
   );
 
-  // Invisibility Configuration
   const renderInvisibilityConfig = () => (
     <div className="effect-config-section">
       <h4>Invisibility Type</h4>
@@ -828,18 +1055,21 @@ const CleanStatusEffectConfigPopup = ({
           onClick={() => updateEffectConfig('option', 'partial')}
         >
           Camouflage
+          <div className="option-description">{OPTION_DESCRIPTIONS.invisibility.partial}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'complete' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'complete')}
         >
           Complete Invisibility
+          <div className="option-description">{OPTION_DESCRIPTIONS.invisibility.complete}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'greater' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'greater')}
         >
           Greater Invisibility
+          <div className="option-description">{OPTION_DESCRIPTIONS.invisibility.greater}</div>
         </button>
       </div>
       <div className="effect-config-section">
@@ -858,7 +1088,6 @@ const CleanStatusEffectConfigPopup = ({
     </div>
   );
 
-  // Inspiration Configuration
   const renderInspirationConfig = () => (
     <div className="effect-config-section">
       <h4>Inspiration Type</h4>
@@ -868,18 +1097,21 @@ const CleanStatusEffectConfigPopup = ({
           onClick={() => updateEffectConfig('option', 'focus')}
         >
           Mental Focus
+          <div className="option-description">{OPTION_DESCRIPTIONS.inspiration.focus}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'insight' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'insight')}
         >
           Tactical Insight
+          <div className="option-description">{OPTION_DESCRIPTIONS.inspiration.insight}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'creativity' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'creativity')}
         >
           Creative Surge
+          <div className="option-description">{OPTION_DESCRIPTIONS.inspiration.creativity}</div>
         </button>
       </div>
       <div className="effect-config-section">
@@ -898,7 +1130,6 @@ const CleanStatusEffectConfigPopup = ({
     </div>
   );
 
-  // Luck Configuration
   const renderLuckConfig = () => (
     <div className="effect-config-section">
       <h4>Luck Type</h4>
@@ -908,18 +1139,21 @@ const CleanStatusEffectConfigPopup = ({
           onClick={() => updateEffectConfig('option', 'minor')}
         >
           Lucky Break
+          <div className="option-description">{OPTION_DESCRIPTIONS.luck.minor}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'major' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'major')}
         >
           Fortune's Favor
+          <div className="option-description">{OPTION_DESCRIPTIONS.luck.major}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'fate' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'fate')}
         >
           Fate's Hand
+          <div className="option-description">{OPTION_DESCRIPTIONS.luck.fate}</div>
         </button>
       </div>
       <div className="effect-config-section">
@@ -948,36 +1182,42 @@ const CleanStatusEffectConfigPopup = ({
           onClick={() => updateEffectConfig('option', 'hp_to_hp')}
         >
           Health Link
+          <div className="option-description">{OPTION_DESCRIPTIONS.lifelink.hp_to_hp}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'mana_to_mana' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'mana_to_mana')}
         >
           Mana Link
+          <div className="option-description">{OPTION_DESCRIPTIONS.lifelink.mana_to_mana}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'hp_to_mana' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'hp_to_mana')}
         >
           Life to Mana
+          <div className="option-description">{OPTION_DESCRIPTIONS.lifelink.hp_to_mana}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'mana_to_hp' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'mana_to_hp')}
         >
           Mana to Life
+          <div className="option-description">{OPTION_DESCRIPTIONS.lifelink.mana_to_hp}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'damage_to_healing' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'damage_to_healing')}
         >
           Damage to Healing
+          <div className="option-description">{OPTION_DESCRIPTIONS.lifelink.damage_to_healing}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'healing_to_damage' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'healing_to_damage')}
         >
           Healing to Damage
+          <div className="option-description">{OPTION_DESCRIPTIONS.lifelink.healing_to_damage}</div>
         </button>
       </div>
       <div className="effect-config-section">
@@ -1019,18 +1259,21 @@ const CleanStatusEffectConfigPopup = ({
             onClick={() => updateEffectConfig('option', 'bardic')}
           >
             Bardic Inspiration
+            <div className="option-description">{OPTION_DESCRIPTIONS.inspired.bardic}</div>
           </button>
           <button
             className={`effect-option-button ${statusEffectData?.option === 'guidance' ? 'active' : ''}`}
             onClick={() => updateEffectConfig('option', 'guidance')}
           >
             Guidance
+            <div className="option-description">{OPTION_DESCRIPTIONS.inspired.guidance}</div>
           </button>
           <button
             className={`effect-option-button ${statusEffectData?.option === 'heroism' ? 'active' : ''}`}
             onClick={() => updateEffectConfig('option', 'heroism')}
           >
             Heroism
+            <div className="option-description">{OPTION_DESCRIPTIONS.inspired.heroism}</div>
           </button>
         </div>
       </div>
@@ -1128,18 +1371,21 @@ const CleanStatusEffectConfigPopup = ({
             onClick={() => updateEffectConfig('option', 'protection')}
           >
             Divine Protection
+            <div className="option-description">{OPTION_DESCRIPTIONS.blessed.protection}</div>
           </button>
           <button
             className={`effect-option-button ${statusEffectData?.option === 'fortune' ? 'active' : ''}`}
             onClick={() => updateEffectConfig('option', 'fortune')}
           >
             Divine Fortune
+            <div className="option-description">{OPTION_DESCRIPTIONS.blessed.fortune}</div>
           </button>
           <button
             className={`effect-option-button ${statusEffectData?.option === 'life' ? 'active' : ''}`}
             onClick={() => updateEffectConfig('option', 'life')}
           >
             Divine Life
+            <div className="option-description">{OPTION_DESCRIPTIONS.blessed.life}</div>
           </button>
         </div>
       </div>
@@ -1273,18 +1519,21 @@ const CleanStatusEffectConfigPopup = ({
           onClick={() => updateEffectConfig('option', 'physical')}
         >
           Physical Strength
+          <div className="option-description">{OPTION_DESCRIPTIONS.strengthened.physical}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'magical' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'magical')}
         >
           Magical Power
+          <div className="option-description">{OPTION_DESCRIPTIONS.strengthened.magical}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'overall' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'overall')}
         >
           Overall Enhancement
+          <div className="option-description">{OPTION_DESCRIPTIONS.strengthened.overall}</div>
         </button>
       </div>
       <div className="effect-config-section">
@@ -1322,18 +1571,21 @@ const CleanStatusEffectConfigPopup = ({
           onClick={() => updateEffectConfig('option', 'friendly')}
         >
           Friendly Charm
+          <div className="option-description">{OPTION_DESCRIPTIONS.charmed.friendly}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'dominated' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'dominated')}
         >
           Domination
+          <div className="option-description">{OPTION_DESCRIPTIONS.charmed.dominated}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'infatuated' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'infatuated')}
         >
           Infatuation
+          <div className="option-description">{OPTION_DESCRIPTIONS.charmed.infatuated}</div>
         </button>
       </div>
       <div className="effect-config-section">
@@ -1406,18 +1658,21 @@ const CleanStatusEffectConfigPopup = ({
           onClick={() => updateEffectConfig('option', 'shaken')}
         >
           Shaken
+          <div className="option-description">{OPTION_DESCRIPTIONS.frightened.shaken}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'terrified' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'terrified')}
         >
           Terrified
+          <div className="option-description">{OPTION_DESCRIPTIONS.frightened.terrified}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'panicked' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'panicked')}
         >
           Panicked
+          <div className="option-description">{OPTION_DESCRIPTIONS.frightened.panicked}</div>
         </button>
       </div>
       <div className="effect-config-section">
@@ -1482,18 +1737,21 @@ const CleanStatusEffectConfigPopup = ({
           onClick={() => updateEffectConfig('option', 'partial')}
         >
           Partially Paralyzed
+          <div className="option-description">{OPTION_DESCRIPTIONS.paralyzed.partial}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'complete' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'complete')}
         >
           Completely Paralyzed
+          <div className="option-description">{OPTION_DESCRIPTIONS.paralyzed.complete}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'magical' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'magical')}
         >
           Magical Paralysis
+          <div className="option-description">{OPTION_DESCRIPTIONS.paralyzed.magical}</div>
         </button>
       </div>
       <div className="effect-config-section">
@@ -1536,18 +1794,21 @@ const CleanStatusEffectConfigPopup = ({
           onClick={() => updateEffectConfig('option', 'weakening')}
         >
           Weakening Poison
+          <div className="option-description">{OPTION_DESCRIPTIONS.poisoned.weakening}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'debilitating' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'debilitating')}
         >
           Debilitating Poison
+          <div className="option-description">{OPTION_DESCRIPTIONS.poisoned.debilitating}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'paralyzing' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'paralyzing')}
         >
           Paralyzing Poison
+          <div className="option-description">{OPTION_DESCRIPTIONS.poisoned.paralyzing}</div>
         </button>
       </div>
       <div className="effect-config-section">
@@ -1585,18 +1846,21 @@ const CleanStatusEffectConfigPopup = ({
           onClick={() => updateEffectConfig('option', 'ensnared')}
         >
           Ensnared
+          <div className="option-description">{OPTION_DESCRIPTIONS.restrained.ensnared}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'grappled' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'grappled')}
         >
           Grappled
+          <div className="option-description">{OPTION_DESCRIPTIONS.restrained.grappled}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'bound' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'bound')}
         >
           Bound
+          <div className="option-description">{OPTION_DESCRIPTIONS.restrained.bound}</div>
         </button>
       </div>
       <div className="effect-config-section">
@@ -1634,18 +1898,21 @@ const CleanStatusEffectConfigPopup = ({
           onClick={() => updateEffectConfig('option', 'magical')}
         >
           Magical Silence
+          <div className="option-description">{OPTION_DESCRIPTIONS.silenced.magical}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'muted' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'muted')}
         >
           Muted
+          <div className="option-description">{OPTION_DESCRIPTIONS.silenced.muted}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'temporal' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'temporal')}
         >
           Temporal Stutter
+          <div className="option-description">{OPTION_DESCRIPTIONS.silenced.temporal}</div>
         </button>
       </div>
       <div className="effect-config-section">
@@ -1688,18 +1955,21 @@ const CleanStatusEffectConfigPopup = ({
           onClick={() => updateEffectConfig('option', 'hindered')}
         >
           Hindered Movement
+          <div className="option-description">{OPTION_DESCRIPTIONS.slowed.hindered}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'lethargic' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'lethargic')}
         >
           Lethargy
+          <div className="option-description">{OPTION_DESCRIPTIONS.slowed.lethargic}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'temporal' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'temporal')}
         >
           Temporal Slowness
+          <div className="option-description">{OPTION_DESCRIPTIONS.slowed.temporal}</div>
         </button>
       </div>
       <div className="effect-config-section">
@@ -1740,18 +2010,21 @@ const CleanStatusEffectConfigPopup = ({
           onClick={() => updateEffectConfig('option', 'mild')}
         >
           Mild Burn
+          <div className="option-description">{OPTION_DESCRIPTIONS.burning.mild}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'intense' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'intense')}
         >
           Intense Burn
+          <div className="option-description">{OPTION_DESCRIPTIONS.burning.intense}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'magical' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'magical')}
         >
           Magical Fire
+          <div className="option-description">{OPTION_DESCRIPTIONS.burning.magical}</div>
         </button>
       </div>
       <div className="effect-config-section">
@@ -1791,18 +2064,21 @@ const CleanStatusEffectConfigPopup = ({
           onClick={() => updateEffectConfig('option', 'chilled')}
         >
           Chilled
+          <div className="option-description">{OPTION_DESCRIPTIONS.frozen.chilled}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'frostbitten' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'frostbitten')}
         >
           Frostbitten
+          <div className="option-description">{OPTION_DESCRIPTIONS.frozen.frostbitten}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'frozen' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'frozen')}
         >
           Frozen Solid
+          <div className="option-description">{OPTION_DESCRIPTIONS.frozen.frozen}</div>
         </button>
       </div>
       <div className="effect-config-section">
@@ -1842,18 +2118,21 @@ const CleanStatusEffectConfigPopup = ({
           onClick={() => updateEffectConfig('option', 'fatigued')}
         >
           Fatigued
+          <div className="option-description">{OPTION_DESCRIPTIONS.weakened.fatigued}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'exhausted' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'exhausted')}
         >
           Exhausted
+          <div className="option-description">{OPTION_DESCRIPTIONS.weakened.exhausted}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'drained' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'drained')}
         >
           Drained
+          <div className="option-description">{OPTION_DESCRIPTIONS.weakened.drained}</div>
         </button>
       </div>
       <div className="effect-config-section">
@@ -1894,18 +2173,21 @@ const CleanStatusEffectConfigPopup = ({
           onClick={() => updateEffectConfig('option', 'disoriented')}
         >
           Disoriented
+          <div className="option-description">{OPTION_DESCRIPTIONS.confused.disoriented}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'befuddled' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'befuddled')}
         >
           Befuddled
+          <div className="option-description">{OPTION_DESCRIPTIONS.confused.befuddled}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'insane' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'insane')}
         >
           Insane
+          <div className="option-description">{OPTION_DESCRIPTIONS.confused.insane}</div>
         </button>
       </div>
       <div className="effect-config-section">
@@ -1946,18 +2228,21 @@ const CleanStatusEffectConfigPopup = ({
           onClick={() => updateEffectConfig('option', 'infected')}
         >
           Infected
+          <div className="option-description">{OPTION_DESCRIPTIONS.diseased.infected}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'contagious' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'contagious')}
         >
           Contagious
+          <div className="option-description">{OPTION_DESCRIPTIONS.diseased.contagious}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'terminal' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'terminal')}
         >
           Terminal
+          <div className="option-description">{OPTION_DESCRIPTIONS.diseased.terminal}</div>
         </button>
       </div>
       <div className="effect-config-section">
@@ -1996,18 +2281,21 @@ const CleanStatusEffectConfigPopup = ({
           onClick={() => updateEffectConfig('option', 'minor')}
         >
           Minor Wound
+          <div className="option-description">{OPTION_DESCRIPTIONS.bleeding.minor}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'severe' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'severe')}
         >
           Severe Wound
+          <div className="option-description">{OPTION_DESCRIPTIONS.bleeding.severe}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'hemorrhaging' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'hemorrhaging')}
         >
           Hemorrhaging
+          <div className="option-description">{OPTION_DESCRIPTIONS.bleeding.hemorrhaging}</div>
         </button>
       </div>
       <div className="effect-config-section">
@@ -2045,18 +2333,21 @@ const CleanStatusEffectConfigPopup = ({
           onClick={() => updateEffectConfig('option', 'drowsy')}
         >
           Drowsy
+          <div className="option-description">{OPTION_DESCRIPTIONS.slept.drowsy}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'asleep' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'asleep')}
         >
           Asleep
+          <div className="option-description">{OPTION_DESCRIPTIONS.slept.asleep}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'comatose' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'comatose')}
         >
           Comatose
+          <div className="option-description">{OPTION_DESCRIPTIONS.slept.comatose}</div>
         </button>
       </div>
       <div className="effect-config-section">
@@ -2098,18 +2389,21 @@ const CleanStatusEffectConfigPopup = ({
           onClick={() => updateEffectConfig('option', 'jinxed')}
         >
           Jinxed
+          <div className="option-description">{OPTION_DESCRIPTIONS.cursed.jinxed}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'hexed' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'hexed')}
         >
           Hexed
+          <div className="option-description">{OPTION_DESCRIPTIONS.cursed.hexed}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'doomed' ? 'active' : ''}`}
           onClick={() => updateEffectConfig('option', 'doomed')}
         >
           Doomed
+          <div className="option-description">{OPTION_DESCRIPTIONS.cursed.doomed}</div>
         </button>
       </div>
       <div className="effect-config-section">
@@ -2146,10 +2440,11 @@ const CleanStatusEffectConfigPopup = ({
       <h4>Daze Type</h4>
       <div className="effect-options">
         <button
-          className={`effect-option-button ${statusEffectData?.option === 'lightheaded' ? 'active' : ''}`}
-          onClick={() => updateEffectConfig('option', 'lightheaded')}
+          className={`effect-option-button ${statusEffectData?.option === 'disoriented' ? 'active' : ''}`}
+          onClick={() => updateEffectConfig('option', 'disoriented')}
         >
-          Lightheaded
+          Disoriented
+          <div className="option-description">{OPTION_DESCRIPTIONS.dazed.disoriented}</div>
         </button>
         <button
           className={`effect-option-button ${statusEffectData?.option === 'disoriented' ? 'active' : ''}`}
@@ -2162,6 +2457,7 @@ const CleanStatusEffectConfigPopup = ({
           onClick={() => updateEffectConfig('option', 'concussed')}
         >
           Concussed
+          <div className="option-description">{OPTION_DESCRIPTIONS.dazed.concussed}</div>
         </button>
       </div>
       <div className="effect-config-section">
@@ -2195,7 +2491,12 @@ const CleanStatusEffectConfigPopup = ({
       <div className="status-effect-config-popup pathfinder-window">
         <div className="pathfinder-header">
           <div className="header-content">
-            <img src={getIconUrl(effect.icon)} alt={effect.name} className="effect-icon" />
+            <img
+              src={getIconUrl(effect.icon)}
+              alt={effect.name}
+              className="effect-icon"
+              onError={handleIconError}
+            />
             <h3>{effect.name} Configuration</h3>
           </div>
           <button className="close-button" onClick={onClose}>×</button>
@@ -2203,6 +2504,15 @@ const CleanStatusEffectConfigPopup = ({
 
         <div className="popup-content">
           {renderBasicConfig()}
+        </div>
+
+        <div className="popup-footer">
+          <button className="popup-button popup-button-secondary" onClick={onClose}>
+            Cancel
+          </button>
+          <button className="popup-button popup-button-primary" onClick={handleConfirm}>
+            Confirm
+          </button>
         </div>
       </div>
     </div>,

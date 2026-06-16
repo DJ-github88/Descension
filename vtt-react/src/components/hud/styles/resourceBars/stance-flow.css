@@ -95,3 +95,29 @@
 .class-resource-bar.stance-flow.large .stance-icon-overlay i {
     font-size: 22px;
 }
+
+/* Numeric readouts inside the Flux (left) and Body Toll (right) zones.
+   Anchored to the outer edges so they never collide with the center stance icon. */
+.shaper-zone-readout {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 9px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    color: #f5e6c8;
+    text-shadow:
+        -0.5px -0.5px 0 rgba(0, 0, 0, 0.9),
+        0.5px -0.5px 0 rgba(0, 0, 0, 0.9),
+        -0.5px 0.5px 0 rgba(0, 0, 0, 0.9),
+        0.5px 0.5px 0 rgba(0, 0, 0, 0.9),
+        0 0 3px rgba(0, 0, 0, 0.8);
+    pointer-events: none;
+    line-height: 1;
+    z-index: 4;
+}
+.shaper-zone-readout.left { left: 4px; }
+.shaper-zone-readout.right { right: 4px; }
+
+.class-resource-bar.stance-flow.small .shaper-zone-readout { font-size: 8px; }
+.class-resource-bar.stance-flow.large .shaper-zone-readout { font-size: 11px; }

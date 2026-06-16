@@ -9,6 +9,7 @@ import AnnotationToolbar from './AnnotationToolbar';
 import AnnotationPopup from './AnnotationPopup';
 import ShareDialog from './ShareDialog';
 import AnnotationCollisionMenu from './AnnotationCollisionMenu';
+import MapNotificationContainer, { notify, confirmDialog } from './MapNotify';
 
 // Stores & Services
 import useMapAnnotationStore from '../../store/mapAnnotationStore';
@@ -71,17 +72,6 @@ const MAP_WIDTH = 4096;
 const MAP_HEIGHT = 3072;
 
 const WorldMapImmerse = ({ onClose, onClosing }) => {
-  console.log('DEBUG WorldMapImmerse imports:', {
-    MapCanvas,
-    LoreSidebar,
-    DevEditor,
-    BurnedParchmentBorder,
-    AnnotationToolbar,
-    AnnotationPopup,
-    ShareDialog,
-    AnnotationCollisionMenu
-  });
-
   const [phase, setPhase] = useState('entering');
   const [showBorder, setShowBorder] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -115,6 +105,9 @@ const WorldMapImmerse = ({ onClose, onClosing }) => {
     onConfirm: null,
     onCancel: null
   });
+
+  // Dev toast state — shows a quick-copy notification after drawing/placing
+  const [devToast, setDevToast] = useState(null);
 
   const showConfirm = (message, onConfirm) => {
     setCustomConfirm({
@@ -191,66 +184,40 @@ const WorldMapImmerse = ({ onClose, onClosing }) => {
     return () => cleanupSubscriptions();
   }, [user, syncAnnotations, cleanupSubscriptions]);
 
-  // Calculate the landing page's current panning position synchronously on mount
+  // Calculate the "cover" transform — the map fills the entire viewport.
+  // This matches the end state of the landing page dive transition, so the
+  // crossfade from the CSS background to this canvas is seamless.
   const [initialTransform] = useState(() => {
     if (typeof window === 'undefined') return { scale: 0.4, posX: 0, posY: 0 };
-    const landingPage = document.querySelector('.landing-page.map-background');
     const W = window.innerWidth;
     const H = window.innerHeight;
-
-    let scale = (4.2 * W) / 4096;
-    let posX = 0;
-    let posY = 0;
-
-    if (landingPage) {
-      const computedStyle = window.getComputedStyle(landingPage);
-      const bgPos = computedStyle.backgroundPosition || '0% 0%';
-      const firstLayer = bgPos.split(',')[0] || '0% 0%';
-      const parts = firstLayer.trim().split(/\s+/);
-      const posXStr = parts[0] || '0%';
-      const posYStr = parts[1] || '50%';
-
-      const parsePos = (val, containerSize) => {
-        const cleaned = val.trim().toLowerCase();
-        if (cleaned === 'center') return - (4.2 * containerSize - containerSize) * 0.5;
-        if (cleaned === 'left' || cleaned === 'top') return 0;
-        if (cleaned === 'right' || cleaned === 'bottom') return - (4.2 * containerSize - containerSize);
-
-        if (cleaned.includes('px')) {
-          return parseFloat(cleaned);
-        }
-        if (cleaned.includes('%')) {
-          const pct = parseFloat(cleaned) / 100;
-          return - (4.2 * containerSize - containerSize) * pct;
-        }
-        return parseFloat(cleaned) || 0;
-      };
-
-      posX = parsePos(posXStr, W);
-      posY = parsePos(posYStr, H);
-    }
-    return { scale, posX, posY };
+    const fitScale = Math.max(W / 4096, H / 3072);
+    const fitX = (W - 4096 * fitScale) / 2;
+    const fitY = (H - 3072 * fitScale) / 2;
+    return { scale: fitScale, posX: fitX, posY: fitY };
   });
 
+  // The dive (zoom-out) happens on the landing page's own CSS background.
+  // WorldMapImmerse starts transparent and crossfades in once the dive
+  // is nearly complete, so the handoff is seamless.
   useEffect(() => {
-    const t1 = setTimeout(() => setPhase('zoomingOut'), 50);
-    const t2 = setTimeout(() => {
+    const t = setTimeout(() => {
       setPhase('immersed');
       setShowBorder(true);
-    }, 3550);
-    return () => { clearTimeout(t1); clearTimeout(t2); };
+    }, 2200);
+    return () => clearTimeout(t);
   }, []);
 
   const handleClose = useCallback(() => {
     if (onClosing) onClosing();
     setShowBorder(false);
-    setPhase('zoomingIn');
     setSidebarOpen(false);
-    
+    setPhase('zoomingIn');
+
     setTimeout(() => {
       setPhase('complete');
       setTimeout(() => onClose(), 400);
-    }, 2000);
+    }, 1000);
   }, [onClose, onClosing]);
 
   const getImageCoords = (e, transformRef) => {
@@ -270,6 +237,46 @@ const WorldMapImmerse = ({ onClose, onClosing }) => {
     }
   };
 
+  // ── Dev Toast: per-item quick-copy ──
+  const showDevToast = useCallback((type, item) => {
+    setDevToast({ type, item, id: Date.now(), copied: null });
+  }, []);
+
+  const dismissDevToast = useCallback(() => setDevToast(null), []);
+
+  const copyDevItem = useCallback((format) => {
+    if (!devToast) return;
+    let text = '';
+
+    if (devToast.type === 'region') {
+      const r = devToast.item;
+      if (format === 'js') {
+        text = `'${r.id}': {
+  id: '${r.id}',
+  name: '${r.name}',
+  points: [${r.points.map(p => `[${p[0]}, ${p[1]}]`).join(', ')}],
+  color: '${r.color}',
+  glowColor: '${r.glowColor}',
+  labelPosition: [${r.labelPosition[0]}, ${r.labelPosition[1]}]
+}`;
+      } else {
+        text = `Update the file src/data/regionPolygons.js — replace the '${r.id}' entry with these values (I just drew the boundary in the map editor):\n\n'${r.id}': {\n  points: [${r.points.map(p => `[${p[0]}, ${p[1]}]`).join(', ')}],\n  labelPosition: [${r.labelPosition[0]}, ${r.labelPosition[1]}]\n}`;
+      }
+    } else if (devToast.type === 'pin') {
+      const { key, data } = devToast.item;
+      const dataStr = JSON.stringify(data, null, 2);
+      if (format === 'js') {
+        text = `'${key}': ${dataStr}`;
+      } else {
+        text = `Add this entry to the file src/data/locationCoordinates.js:\n\n'${key}': ${dataStr}`;
+      }
+    }
+
+    navigator.clipboard.writeText(text);
+    setDevToast(prev => prev ? { ...prev, copied: format } : null);
+    setTimeout(() => setDevToast(prev => prev ? { ...prev, copied: null } : null), 2000);
+  }, [devToast]);
+
   // Click handler on the map canvas
   const handleMapClick = useCallback((e, transformRef) => {
     const coords = getImageCoords(e, transformRef);
@@ -279,7 +286,7 @@ const WorldMapImmerse = ({ onClose, onClosing }) => {
     if (devMode) {
       if (devTool === 'drawRegion') {
         if (!currentRegion) {
-          alert('Please select a Region in the dropdown toolbar first to start drawing boundaries.');
+          notify('Please select a Region in the dropdown toolbar first to start drawing boundaries.', 'warning');
           return;
         }
         if (drawingPoints.length === 0) {
@@ -299,6 +306,14 @@ const WorldMapImmerse = ({ onClose, onClosing }) => {
                 setDrawingPoints([]);
                 saveRegionsToCache();
                 setUpdateTrigger(prev => prev + 1);
+                showDevToast('region', {
+                  id: existing.id,
+                  name: existing.name,
+                  points: [...existing.points],
+                  color: existing.color,
+                  glowColor: existing.glowColor,
+                  labelPosition: [...existing.labelPosition]
+                });
               }
             );
           } else {
@@ -318,14 +333,14 @@ const WorldMapImmerse = ({ onClose, onClosing }) => {
 
         if (pinSourceType === 'world') {
           if (!selectedZoneId) {
-            alert('Please select a Zone in the toolbar first to associate the pin with.');
+            notify('Please select a Zone in the toolbar first to associate the pin with.', 'warning');
             return;
           }
           pinKey = selectedZoneId;
           pinData.source = 'world';
         } else if (pinSourceType === 'campaignLocation') {
           if (!selectedCampaignLocId) {
-            alert('Please select a Campaign Location in the toolbar first.');
+            notify('Please select a Campaign Location in the toolbar first.', 'warning');
             return;
           }
           pinKey = `campaign-loc-${selectedCampaignLocId}`;
@@ -333,7 +348,7 @@ const WorldMapImmerse = ({ onClose, onClosing }) => {
           pinData.sourceId = selectedCampaignLocId;
         } else if (pinSourceType === 'campaignLore') {
           if (!selectedCampaignLoreId) {
-            alert('Please select a Campaign Lore article in the toolbar first.');
+            notify('Please select a Campaign Lore article in the toolbar first.', 'warning');
             return;
           }
           pinKey = `campaign-lore-${selectedCampaignLoreId}`;
@@ -341,7 +356,7 @@ const WorldMapImmerse = ({ onClose, onClosing }) => {
           pinData.sourceId = selectedCampaignLoreId;
         } else if (pinSourceType === 'custom') {
           if (!customPinName.trim()) {
-            alert('Please enter a Name for your custom pin.');
+            notify('Please enter a Name for your custom pin.', 'warning');
             return;
           }
           pinKey = `custom-${Date.now()}`;
@@ -353,6 +368,7 @@ const WorldMapImmerse = ({ onClose, onClosing }) => {
         LOCATION_COORDINATES[pinKey] = pinData;
         saveCoordsToCache();
         setUpdateTrigger(prev => prev + 1);
+        showDevToast('pin', { key: pinKey, data: { ...pinData } });
       }
       return;
     }
@@ -363,7 +379,7 @@ const WorldMapImmerse = ({ onClose, onClosing }) => {
       
       const pinLimit = tierInfo?.tier?.characterLimit === -1 ? 9999 : 10;
       if (pins.length >= pinLimit) {
-        alert(`Marker limit reached. Your Free Adventurer tier allows a maximum of ${pinLimit} custom markers.`);
+        notify(`Marker limit reached. Your Free Adventurer tier allows a maximum of ${pinLimit} custom markers.`, 'error');
         setActiveTool('none');
         return;
       }
@@ -804,6 +820,42 @@ const WorldMapImmerse = ({ onClose, onClosing }) => {
         <i className="fas fa-gem"></i>
         <span>Mythrill</span>
       </div>
+
+      {/* Dev Quick-Copy Toast — appears after drawing a region or placing a pin */}
+      {devToast && (
+        <div className="dev-toast">
+          <div className="dev-toast-header">
+            <i className="fas fa-check-circle dev-toast-icon"></i>
+            <span className="dev-toast-title">
+              {devToast.type === 'region'
+                ? `${devToast.item.name} boundary saved`
+                : `Pin "${devToast.item.key}" placed`}
+            </span>
+            <button className="dev-toast-close" onClick={dismissDevToast}>
+              <i className="fas fa-times"></i>
+            </button>
+          </div>
+          <div className="dev-toast-meta">
+            {devToast.type === 'region'
+              ? `${devToast.item.points.length} points · ${devToast.item.id}`
+              : `(${devToast.item.data.x}, ${devToast.item.data.y}) · ${devToast.item.data.pinType}`}
+          </div>
+          <div className="dev-toast-actions">
+            <button className="dev-toast-btn" onClick={() => copyDevItem('js')}>
+              {devToast.copied === 'js'
+                ? <><i className="fas fa-check"></i> Copied!</>
+                : <><i className="fas fa-code"></i> Copy JS</>}
+            </button>
+            <button className="dev-toast-btn agent" onClick={() => copyDevItem('agent')}>
+              {devToast.copied === 'agent'
+                ? <><i className="fas fa-check"></i> Copied!</>
+                : <><i className="fas fa-robot"></i> Copy for Agent</>}
+            </button>
+          </div>
+        </div>
+      )}
+
+      <MapNotificationContainer />
     </div>
   );
 };

@@ -1,0 +1,250 @@
+
+> vtt-react@0.1.3 start
+> cross-env NODE_OPTIONS=--max-old-space-size=8192 BROWSER=default craco start
+
+Attempting to bind to HOST environment variable: 0.0.0.0
+If this was unintentional, check that you haven't mistakenly set it in your shell.
+Learn more here: https://cra.link/advanced-config
+
+Starting the development server...
+
+Compiled with warnings.
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\components\keep-scale\keep-scale.tsx' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\components\keep-scale\keep-scale.tsx'
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\components\mini-map\mini-map.tsx' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\components\mini-map\mini-map.tsx'
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\components\mini-map\use-resize.hook.ts' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\components\mini-map\use-resize.hook.ts'
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\components\transform-component\transform-component.tsx' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\components\transform-component\transform-component.tsx'
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\components\transform-wrapper\transform-wrapper.tsx' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\components\transform-wrapper\transform-wrapper.tsx'
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\components\virtualize\virtualize.tsx' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\components\virtualize\virtualize.tsx'
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\components\virtualize\virtualize.utils.ts' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\components\virtualize\virtualize.utils.ts'
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\constants\state.constants.ts' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\constants\state.constants.ts'
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\core\animations\animations.constants.ts' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\core\animations\animations.constants.ts'
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\core\animations\animations.utils.ts' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\core\animations\animations.utils.ts'
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\core\bounds\bounds.utils.ts' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\core\bounds\bounds.utils.ts'
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\core\double-click\double-click.logic.ts' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\core\double-click\double-click.logic.ts'
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\core\handlers\handlers.logic.ts' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\core\handlers\handlers.logic.ts'
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\core\handlers\handlers.utils.ts' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\core\handlers\handlers.utils.ts'
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\core\instance.core.ts' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\core\instance.core.ts'
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\core\pan\panning.logic.ts' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\core\pan\panning.logic.ts'
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\core\pan\panning.utils.ts' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\core\pan\panning.utils.ts'
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\core\pan\velocity.logic.ts' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\core\pan\velocity.logic.ts'
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\core\pan\velocity.utils.ts' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\core\pan\velocity.utils.ts'
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\core\pinch\pinch.logic.ts' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\core\pinch\pinch.logic.ts'
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\core\pinch\pinch.utils.ts' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\core\pinch\pinch.utils.ts'
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\core\wheel\wheel.logic.ts' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\core\wheel\wheel.logic.ts'
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\core\wheel\wheel.utils.ts' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\core\wheel\wheel.utils.ts'
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\core\zoom\zoom.logic.ts' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\core\zoom\zoom.logic.ts'
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\core\zoom\zoom.utils.ts' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\core\zoom\zoom.utils.ts'
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\hooks\use-controls.tsx' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\hooks\use-controls.tsx'
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\hooks\use-transform-component.tsx' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\hooks\use-transform-component.tsx'
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\hooks\use-transform-context.tsx' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\hooks\use-transform-context.tsx'
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\hooks\use-transform-effect.tsx' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\hooks\use-transform-effect.tsx'
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\hooks\use-transform-init.tsx' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\hooks\use-transform-init.tsx'
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\models\calculations.model.ts' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\models\calculations.model.ts'
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\utils\calculations.utils.ts' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\utils\calculations.utils.ts'
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\utils\callback.utils.ts' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\utils\callback.utils.ts'
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\utils\context.utils.ts' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\utils\context.utils.ts'
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\utils\event.utils.ts' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\utils\event.utils.ts'
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\utils\helpers.utils.ts' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\utils\helpers.utils.ts'
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\utils\ref.utils.ts' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\utils\ref.utils.ts'
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\utils\state.utils.ts' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\utils\state.utils.ts'
+
+Failed to parse source map from 'D:\VTT\vtt-react\node_modules\src\utils\styles.utils.ts' file: Error: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\utils\styles.utils.ts'
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\components\keep-scale\keep-scale.tsx' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\components\keep-scale\keep-scale.tsx'[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\components\mini-map\mini-map.tsx' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\components\mini-map\mini-map.tsx'[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\components\mini-map\use-resize.hook.ts' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\components\mini-map\use-resize.hook.ts'[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\components\transform-component\transform-component.tsx' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\components\transform-component\transform-component.tsx'[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\components\transform-wrapper\transform-wrapper.tsx' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\components\transform-wrapper\transform-wrapper.tsx'[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\components\virtualize\virtualize.tsx' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\components\virtualize\virtualize.tsx'[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\components\virtualize\virtualize.utils.ts' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\components\virtualize\virtualize.utils.ts'[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\constants\state.constants.ts' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\constants\state.constants.ts'[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\core\animations\animations.constants.ts' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\core\animations\animations.constants.ts'[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\core\animations\animations.utils.ts' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\core\animations\animations.utils.ts'[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\core\bounds\bounds.utils.ts' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\core\bounds\bounds.utils.ts'[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\core\double-click\double-click.logic.ts' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\core\double-click\double-click.logic.ts'[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\core\handlers\handlers.logic.ts' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\core\handlers\handlers.logic.ts'[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\core\handlers\handlers.utils.ts' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\core\handlers\handlers.utils.ts'[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\core\instance.core.ts' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\core\instance.core.ts'[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\core\pan\panning.logic.ts' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\core\pan\panning.logic.ts'[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\core\pan\panning.utils.ts' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\core\pan\panning.utils.ts'[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\core\pan\velocity.logic.ts' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\core\pan\velocity.logic.ts'[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\core\pan\velocity.utils.ts' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\core\pan\velocity.utils.ts'[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\core\pinch\pinch.logic.ts' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\core\pinch\pinch.logic.ts'[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\core\pinch\pinch.utils.ts' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\core\pinch\pinch.utils.ts'[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\core\wheel\wheel.logic.ts' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\core\wheel\wheel.logic.ts'[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\core\wheel\wheel.utils.ts' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\core\wheel\wheel.utils.ts'[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\core\zoom\zoom.logic.ts' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\core\zoom\zoom.logic.ts'[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\core\zoom\zoom.utils.ts' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\core\zoom\zoom.utils.ts'[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\hooks\use-controls.tsx' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\hooks\use-controls.tsx'[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\hooks\use-transform-component.tsx' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\hooks\use-transform-component.tsx'[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\hooks\use-transform-context.tsx' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\hooks\use-transform-context.tsx'[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\hooks\use-transform-effect.tsx' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\hooks\use-transform-effect.tsx'[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\hooks\use-transform-init.tsx' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\hooks\use-transform-init.tsx'[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\models\calculations.model.ts' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\models\calculations.model.ts'[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\utils\calculations.utils.ts' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\utils\calculations.utils.ts'[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\utils\callback.utils.ts' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\utils\callback.utils.ts'[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\utils\context.utils.ts' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\utils\context.utils.ts'[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\utils\event.utils.ts' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\utils\event.utils.ts'[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\utils\helpers.utils.ts' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\utils\helpers.utils.ts'[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\utils\ref.utils.ts' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\utils\ref.utils.ts'[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\utils\state.utils.ts' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\utils\state.utils.ts'[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/react-zoom-pan-pinch/dist/index.esm.js[39m[22m
+[1mModule Warning (from ./node_modules/source-map-loader/dist/cjs.js):
+[1m[31mFailed[39m[22m[1m to parse source map from 'D:\VTT\vtt-react\node_modules\src\utils\styles.utils.ts' file: [1m[31mError[39m[22m[1m: ENOENT: no such file or directory, open 'D:\VTT\vtt-react\node_modules\src\utils\styles.utils.ts'[39m[22m
+
+webpack compiled with [1m[33m39 warnings[39m[22m

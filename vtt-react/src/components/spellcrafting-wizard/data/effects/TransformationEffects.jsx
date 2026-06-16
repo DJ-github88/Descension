@@ -133,12 +133,12 @@ const ABILITY_OPTIONS = [
 const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) => {
   // Mode: 'creature' for creature library, 'custom' for custom transformations
   const [transformMode, setTransformMode] = useState(
-    state.transformConfig?.isCustom ? 'custom' : 'creature'
+    state.transformationConfig?.isCustom ? 'custom' : 'creature'
   );
 
   // Initialize with default transform type from state or 'beast_form'
   const [activeTransformType, setActiveTransformType] = useState(
-    state.transformConfig?.transformType || 'beast_form'
+    state.transformationConfig?.transformType || 'beast_form'
   );
 
   // Initialize with selected form from state or null
@@ -148,11 +148,11 @@ const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultForm
   const [selectedAbilities, setSelectedAbilities] = useState([]);
 
   // Custom transformation state
-  const [customFormName, setCustomFormName] = useState(state.transformConfig?.newForm || '');
-  const [customDescription, setCustomDescription] = useState(state.transformConfig?.description || '');
-  const [customTransformationType, setCustomTransformationType] = useState(state.transformConfig?.transformationType || 'physical');
-  const [customPower, setCustomPower] = useState(state.transformConfig?.power || 'moderate');
-  const [customAbilities, setCustomAbilities] = useState(state.transformConfig?.grantedAbilities || []);
+  const [customFormName, setCustomFormName] = useState(state.transformationConfig?.newForm || '');
+  const [customDescription, setCustomDescription] = useState(state.transformationConfig?.description || '');
+  const [customTransformationType, setCustomTransformationType] = useState(state.transformationConfig?.transformationType || 'physical');
+  const [customPower, setCustomPower] = useState(state.transformationConfig?.power || 'moderate');
+  const [customAbilities, setCustomAbilities] = useState(state.transformationConfig?.grantedAbilities || []);
   const [newAbilityName, setNewAbilityName] = useState('');
   const [newAbilityDescription, setNewAbilityDescription] = useState('');
 
@@ -168,7 +168,7 @@ const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultForm
   const [showCreatureSelection, setShowCreatureSelection] = useState(false);
 
   // Transform configuration state - initialized from existing state or defaults
-  const transformConfig = state.transformConfig || {
+  const transformConfig = state.transformationConfig || {
     transformType: 'beast_form',
     formId: null,
     targetType: 'self',
@@ -210,7 +210,7 @@ const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultForm
   // Handle transform configuration changes
   const handleTransformConfigChange = (field, value) => {
     const newConfig = {
-      ...transformConfig,
+      ...transformationConfig,
       [field]: value
     };
 
@@ -379,7 +379,7 @@ const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultForm
     
     // Update the config with the mode
     const newConfig = {
-      ...transformConfig,
+      ...transformationConfig,
       isCustom: mode === 'custom'
     };
     
@@ -424,7 +424,7 @@ const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultForm
     
     // Update the config
     const newConfig = {
-      ...transformConfig,
+      ...transformationConfig,
       isCustom: true,
       [field]: value
     };
@@ -440,7 +440,7 @@ const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultForm
     setCustomAbilities(updatedAbilities);
 
     const newConfig = {
-      ...transformConfig,
+      ...transformationConfig,
       isCustom: true,
       grantedAbilities: updatedAbilities
     };
@@ -455,7 +455,7 @@ const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultForm
     
     // Update config
     const newConfig = {
-      ...transformConfig,
+      ...transformationConfig,
       isCustom: true,
       grantedAbilities: updatedAbilities
     };

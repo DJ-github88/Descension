@@ -1,5 +1,6 @@
 import React from 'react';
 import PIN_ICONS from './mapPinIcons';
+import { confirmDialog } from './MapNotify';
 
 const AnnotationPin = ({
   pin,
@@ -35,8 +36,10 @@ const AnnotationPin = ({
       onContextMenu={(e) => {
         e.preventDefault();
         e.stopPropagation();
-        if (onDelete && window.confirm(`Delete personal marker "${pin.title}"?`)) {
-          onDelete(pin.id);
+        if (onDelete) {
+          confirmDialog(`Delete personal marker "${pin.title}"?`, () => {
+            onDelete(pin.id);
+          });
         }
       }}
       onMouseEnter={() => onHover(pin.id)}

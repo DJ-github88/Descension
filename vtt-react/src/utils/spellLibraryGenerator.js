@@ -150,7 +150,7 @@ function getDamageTypesForTheme(theme) {
   const themeDamageTypes = {
     ELEMENTAL: ['ember', 'rime', 'storm', 'blight'],
     ARCANE: ['storm', 'wyrd', 'ember'],
-    DIVINE: ['ember', 'blight', 'storm'],
+    DIVINE: ['divine', 'ember', 'blight', 'storm'],
     NATURE: ['blight', 'primal', 'physical'],
     MIND: ['wyrd', 'blight'],
     TEMPORAL: ['storm', 'blight', 'ember']

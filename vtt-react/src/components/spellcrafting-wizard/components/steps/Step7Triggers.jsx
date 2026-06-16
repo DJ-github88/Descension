@@ -120,8 +120,8 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
   // Get recommendations based on spell type
   const recommendationText = getTriggerRecommendations();
 
-  const isCompleted = validateStepCompletion(6, state);
-  const isActive = state.currentStep === 6;
+  const isCompleted = state.completedSteps?.includes('triggers') || false;
+  const isActive = state.currentStep === 'triggers';
 
   // Check if this step is required based on spell type
   const requiresTriggers = state.spellType === 'REACTION' || state.spellType === 'PASSIVE' || state.spellType === 'TRAP' || state.spellType === 'STATE';
@@ -255,20 +255,20 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
         case 'summon':
           baseFormula = '';
           baseSettings = {
-            duration: state.summonConfig?.duration || 10,
-            durationUnit: state.summonConfig?.durationUnit || 'minutes',
-            quantity: state.summonConfig?.quantity || state.summonConfig?.count || 1,
-            controlType: state.summonConfig?.controlType || 'verbal',
-            controlRange: state.summonConfig?.controlRange || 60,
-            creatures: state.summonConfig?.creatures || [],
-            waitForTrigger: state.summonConfig?.waitForTrigger || false
+            duration: state.summoningConfig?.duration || 10,
+            durationUnit: state.summoningConfig?.durationUnit || 'minutes',
+            quantity: state.summoningConfig?.quantity || state.summoningConfig?.count || 1,
+            controlType: state.summoningConfig?.controlType || 'verbal',
+            controlRange: state.summoningConfig?.controlRange || 60,
+            creatures: state.summoningConfig?.creatures || [],
+            waitForTrigger: state.summoningConfig?.waitForTrigger || false
           };
           break;
         case 'transform':
           baseFormula = '';
           baseSettings = {
-            duration: state.transformConfig?.duration || 10,
-            difficultyClass: state.transformConfig?.difficultyClass || 15
+            duration: state.transformationConfig?.duration || 10,
+            difficultyClass: state.transformationConfig?.difficultyClass || 15
           };
           break;
         default:
@@ -673,21 +673,21 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
         // For summoning effects, initialize with creature and control settings
         else if (selectedEffect === 'summon') {
           // Initialize summoning settings
-          if (state.summonConfig?.creatures && state.summonConfig.creatures.length > 0) {
+          if (state.summoningConfig?.creatures && state.summoningConfig.creatures.length > 0) {
             updateConditionalSettings(selectedEffect, trigger.id, 'creatures',
-              [...state.summonConfig.creatures]);
+              [...state.summoningConfig.creatures]);
           }
 
           updateConditionalSettings(selectedEffect, trigger.id, 'duration',
-            state.summonConfig?.duration || 10);
+            state.summoningConfig?.duration || 10);
           updateConditionalSettings(selectedEffect, trigger.id, 'durationUnit',
-            state.summonConfig?.durationUnit || 'minutes');
+            state.summoningConfig?.durationUnit || 'minutes');
           updateConditionalSettings(selectedEffect, trigger.id, 'quantity',
-            state.summonConfig?.quantity || state.summonConfig?.count || 1);
+            state.summoningConfig?.quantity || state.summoningConfig?.count || 1);
           updateConditionalSettings(selectedEffect, trigger.id, 'controlType',
-            state.summonConfig?.controlType || 'verbal');
+            state.summoningConfig?.controlType || 'verbal');
           updateConditionalSettings(selectedEffect, trigger.id, 'controlRange',
-            state.summonConfig?.controlRange || 60);
+            state.summoningConfig?.controlRange || 60);
         }
         // For control effects, initialize with control settings
         else if (selectedEffect === 'control') {
@@ -1023,15 +1023,15 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
       case 'summon':
         baseFormula = '';
         baseSettings = {
-          duration: state.summonConfig?.duration || 10,
-          quantity: state.summonConfig?.quantity || 1
+          duration: state.summoningConfig?.duration || 10,
+          quantity: state.summoningConfig?.quantity || 1
         };
         break;
       case 'transform':
         baseFormula = '';
         baseSettings = {
-          duration: state.transformConfig?.duration || 10,
-          difficultyClass: state.transformConfig?.difficultyClass || 15
+          duration: state.transformationConfig?.duration || 10,
+          difficultyClass: state.transformationConfig?.difficultyClass || 15
         };
         break;
       case 'restoration':
@@ -1953,14 +1953,14 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                   )}
 
                   {/* Summoning effects */}
-                  {selectedEffect === 'summon' && state.summonConfig && (
+                  {selectedEffect === 'summon' && state.summoningConfig && (
                     <>
-                      {state.summonConfig.creatures && state.summonConfig.creatures.length > 0 ? (
+                      {state.summoningConfig.creatures && state.summoningConfig.creatures.length > 0 ? (
                         <>
                           <div className="wow-effect-detail">
                             <span className="wow-effect-detail-label">Creatures:</span>
                             <div className="wow-effect-detail-value wow-creature-list">
-                              {state.summonConfig.creatures.map((creature, index) => (
+                              {state.summoningConfig.creatures.map((creature, index) => (
                                 <div key={index} className="wow-creature-item">
                                   <img
                                     src={getCreatureTokenIconUrl(creature.tokenIcon, creature.type)}
@@ -1980,26 +1980,26 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                       ) : (
                         <div className="wow-effect-detail">
                           <span className="wow-effect-detail-label">Creature:</span>
-                          <span className="wow-effect-detail-value">{state.summonConfig.creatureType || 'Elemental'}</span>
+                          <span className="wow-effect-detail-value">{state.summoningConfig.creatureType || 'Elemental'}</span>
                         </div>
                       )}
                       <div className="wow-effect-detail">
                         <span className="wow-effect-detail-label">Duration:</span>
-                        <span className="wow-effect-detail-value">{state.summonConfig.duration || '10'} {state.summonConfig.durationUnit || 'minutes'}</span>
+                        <span className="wow-effect-detail-value">{state.summoningConfig.duration || '10'} {state.summoningConfig.durationUnit || 'minutes'}</span>
                       </div>
                       <div className="wow-effect-detail">
                         <span className="wow-effect-detail-label">Count:</span>
-                        <span className="wow-effect-detail-value">{state.summonConfig.quantity || state.summonConfig.count || '1'}</span>
+                        <span className="wow-effect-detail-value">{state.summoningConfig.quantity || state.summoningConfig.count || '1'}</span>
                       </div>
                       <div className="wow-effect-detail">
                         <span className="wow-effect-detail-label">Control:</span>
                         <span className="wow-effect-detail-value">
-                          {state.summonConfig.controlType ?
-                            state.summonConfig.controlType.charAt(0).toUpperCase() + state.summonConfig.controlType.slice(1) :
+                          {state.summoningConfig.controlType ?
+                            state.summoningConfig.controlType.charAt(0).toUpperCase() + state.summoningConfig.controlType.slice(1) :
                             'Verbal'} Commands
                         </span>
                       </div>
-                      {state.summonConfig.waitForTrigger && (
+                      {state.summoningConfig.waitForTrigger && (
                         <div className="wow-effect-detail wow-trigger-detail">
                           <span className="wow-effect-detail-label">
                             <img

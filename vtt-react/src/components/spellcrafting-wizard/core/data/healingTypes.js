@@ -522,7 +522,7 @@ export const ENHANCED_HEALING_TYPES = [
       const { healingModifier = 0, abilityScores = {} } = caster;
       
       // Add spirit modifier
-      const spiritMod = Math.floor((abilityScores.spirit || 10) - 10) / 2;
+      const spiritMod = Math.floor(((abilityScores.spirit || 10) - 10) / 2);
       const castingMod = spiritMod;
       
       healingAmount += castingMod;

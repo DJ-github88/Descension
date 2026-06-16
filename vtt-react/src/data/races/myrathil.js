@@ -1,4 +1,4 @@
-export const myrathil = {
+﻿export const myrathil = {
         id: 'myrathil',
         name: 'Myrathil',
         essence: 'Free-born children of the sea',
@@ -210,7 +210,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
                         spellType: 'PASSIVE',
                         effectTypes: ['buff', 'debuff'],
                         typeConfig: {
-                            school: 'water',
+                            school: 'primal',
                             icon: 'spell_nature_water',
                             tags: ['amphibious', 'water-breathing', 'rest', 'passive']
                         },
@@ -284,7 +284,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
                         spellType: 'PASSIVE',
                         effectTypes: ['buff'],
                         typeConfig: {
-                            school: 'nature',
+                            school: 'primal',
                             icon: 'ability_rogue_findweakness',
                             tags: ['animals', 'coastal', 'passive', 'flavor']
                         },
@@ -329,8 +329,8 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
                         spellType: 'PASSIVE',
                         effectTypes: ['buff', 'utility'],
                         typeConfig: {
-                            school: 'water',
-                            secondaryElement: 'air',
+                            school: 'primal',
+                            secondaryElement: 'storm',
                             icon: 'spell_nature_storm',
                             tags: ['weather', 'storm', 'sense', 'passive']
                         },
@@ -389,7 +389,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
                         spellType: 'PASSIVE',
                         effectTypes: ['buff', 'debuff'],
                         typeConfig: {
-                            school: 'water',
+                            school: 'primal',
                             icon: 'spell_holy_divinefavor',
                             tags: ['social', 'insight', 'transparency', 'passive']
                         },
@@ -446,14 +446,14 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
                     {
                         id: 'spindrift_diplomacy',
                         name: 'Spindrift Diplomacy',
-                        description: 'Breakers-Born mediate between sea and land — between ship-captains and shore-towns, between tide-dwellers and port-masters. This is your inheritance: reading a room the way you read a tide chart, feeling emotional currents beneath every negotiation. You have advantage on Persuasion checks during trade negotiations or diplomatic mediations. But the middle is a lonely place — when you fail to mediate a conflict between two parties sharing your loyalty, you suffer 1 psychic damage.',
+                        description: 'Breakers-Born mediate between sea and land — between ship-captains and shore-towns, between tide-dwellers and port-masters. This is your inheritance: reading a room the way you read a tide chart, feeling emotional currents beneath every negotiation. You have advantage on Persuasion checks during trade negotiations or diplomatic mediations. But the middle is a lonely place — when you fail to mediate a conflict between two parties sharing your loyalty, you suffer 1 wyrd damage.',
                         level: 1,
                         icon: 'spell_holy_divinefavor',
                         spellType: 'PASSIVE',
                         effectTypes: ['buff', 'debuff'],
-                        typeConfig: { school: 'psychic', icon: 'spell_holy_divinefavor', tags: ['diplomacy', 'social', 'passive'] },
+                        typeConfig: { school: 'wyrd', icon: 'spell_holy_divinefavor', tags: ['diplomacy', 'social', 'passive'] },
                         buffConfig: { buffType: 'statEnhancement', effects: [{ id: 'trade_mediator', name: 'Trade Mediator', description: 'Advantage on Persuasion during trade or mediation.', statModifier: { stat: 'persuasion', magnitude: 1, magnitudeType: 'advantage', conditions: { mediation: true } } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
-                        debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'bridge_break_cost', name: 'The Bridge That Could Not Hold', description: '1 psychic damage when you fail to mediate a conflict between parties who share your loyalty.', statusEffect: { level: 'minor', description: '1 psychic damage on failed mediation.' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+                        debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'bridge_break_cost', name: 'The Bridge That Could Not Hold', description: '1 wyrd damage when you fail to mediate a conflict between parties who share your loyalty.', statusEffect: { level: 'minor', description: '1 wyrd damage on failed mediation.' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
                         targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
                         resourceCost: { actionPoints: 0, mana: 0, components: [] },
                         cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
@@ -474,8 +474,8 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
                     initiative: 1
                 },
                 savingThrowModifiers: {
-                    advantage: ['cold'],
-                    disadvantage: ['fire']
+                    advantage: ['rime'],
+                    disadvantage: ['ember']
                 }
             },
             deep: {
@@ -502,7 +502,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
                         spellType: 'PASSIVE',
                         effectTypes: ['buff', 'debuff'],
                         typeConfig: {
-                            school: 'water',
+                            school: 'primal',
                             icon: 'spell_nature_water',
                             tags: ['amphibious', 'water-breathing', 'rest', 'passive']
                         },
@@ -576,7 +576,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
                         spellType: 'PASSIVE',
                         effectTypes: ['buff'],
                         typeConfig: {
-                            school: 'nature',
+                            school: 'primal',
                             icon: 'ability_rogue_findweakness',
                             tags: ['animals', 'coastal', 'passive', 'flavor']
                         },
@@ -621,7 +621,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
                         spellType: 'PASSIVE',
                         effectTypes: ['buff', 'debuff'],
                         typeConfig: {
-                            school: 'water',
+                            school: 'primal',
                             icon: 'spell_nature_water',
                             tags: ['deep', 'pressure', 'vision', 'cold', 'passive']
                         },
@@ -703,7 +703,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
                         spellType: 'ACTION',
                         effectTypes: ['utility', 'buff'],
                         typeConfig: {
-                            school: 'water',
+                            school: 'primal',
                             icon: 'spell_arcane_mindcontrol',
                             tags: ['communication', 'telepathy', 'underwater', 'support']
                         },
@@ -760,7 +760,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
                         icon: 'spell_nature_water',
                         spellType: 'PASSIVE',
                         effectTypes: ['buff', 'utility', 'debuff'],
-                        typeConfig: { school: 'water', icon: 'spell_nature_water', tags: ['hum', 'trance', 'sensing', 'passive'] },
+                        typeConfig: { school: 'primal', icon: 'spell_nature_water', tags: ['hum', 'trance', 'sensing', 'passive'] },
                         buffConfig: { buffType: 'custom', effects: [{ id: 'deep_hum', name: 'The Hum', description: 'Once per long rest, sense creatures within 100ft in the same body of water via 1-minute trance.' }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
                         utilityConfig: { utilityType: 'sensing', selectedEffects: [{ id: 'water_sense', name: 'Water Sense', description: 'Sense emotional state + approximate location of creatures within 100ft touching the same body of water. 1-minute trance.' }], duration: 1, durationUnit: 'minutes' },
                         debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'surface_restlessness', name: 'Surface Restlessness', description: 'DC 10 Spirit save or no long rest benefit without 1hr salt-water submersion.', statusEffect: { level: 'moderate', description: 'Spirit save DC 10 to benefit from long rest without salt water.' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
@@ -784,8 +784,8 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
                     initiative: -2
                 },
                 savingThrowModifiers: {
-                    advantage: ['cold', 'psychic'],
-                    disadvantage: ['fire', 'charmed']
+                    advantage: ['rime', 'wyrd'],
+                    disadvantage: ['ember', 'charmed']
                 }
             },
             river: {
@@ -811,7 +811,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
                         spellType: 'PASSIVE',
                         effectTypes: ['buff', 'debuff'],
                         typeConfig: {
-                            school: 'water',
+                            school: 'primal',
                             icon: 'spell_nature_water',
                             tags: ['amphibious', 'water-breathing', 'freshwater', 'rest', 'passive']
                         },
@@ -894,7 +894,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
                         spellType: 'PASSIVE',
                         effectTypes: ['buff'],
                         typeConfig: {
-                            school: 'nature',
+                            school: 'primal',
                             icon: 'ability_rogue_findweakness',
                             tags: ['animals', 'coastal', 'passive', 'flavor']
                         },
@@ -939,7 +939,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
                         spellType: 'PASSIVE',
                         effectTypes: ['buff', 'debuff'],
                         typeConfig: {
-                            school: 'water',
+                            school: 'primal',
                             icon: 'spell_nature_water',
                             tags: ['freshwater', 'river', 'adaptation', 'passive']
                         },
@@ -1013,7 +1013,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
                         spellType: 'ACTION',
                         effectTypes: ['buff', 'debuff'],
                         typeConfig: {
-                            school: 'water',
+                            school: 'primal',
                             icon: 'ability_rogue_disguise',
                             tags: ['disguise', 'stealth', 'social', 'suppression']
                         },
@@ -1075,7 +1075,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
                         icon: 'spell_nature_water',
                         spellType: 'PASSIVE',
                         effectTypes: ['buff', 'utility', 'debuff'],
-                        typeConfig: { school: 'water', icon: 'spell_nature_water', tags: ['river', 'memory', 'navigation', 'passive'] },
+                        typeConfig: { school: 'primal', icon: 'spell_nature_water', tags: ['river', 'memory', 'navigation', 'passive'] },
                         buffConfig: { buffType: 'custom', effects: [{ id: 'river_memory', name: 'River-Memory', description: 'Advantage on History/Survival for freshwater geography you have personally traveled. 1/long rest: perfectly retrace any river route swum within the last week.', statModifier: { stat: 'survival', magnitude: 1, magnitudeType: 'advantage', conditions: { freshwaterGeography: true, personallyTraveled: true } } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
                         utilityConfig: { utilityType: 'navigation', selectedEffects: [{ id: 'current_retrace', name: 'Current Retrace', description: '1/long rest: perfectly retrace any river route swum within the last week, even blinded or disoriented.' }] },
                         debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'land_map_blindness', name: 'Land-Map Blindness', description: 'Disadvantage on Knowledge checks relating to land-based geography — maps make no sense to someone who navigates by flow.', statModifier: { stat: 'knowledge', magnitude: -99, magnitudeType: 'disadvantage', conditions: { landGeography: true } } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
@@ -1099,7 +1099,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
                     initiative: 2
                 },
                 savingThrowModifiers: {
-                    advantage: ['poison'],
+                    advantage: ['blight'],
                     disadvantage: ['frightened']
                 }
             }

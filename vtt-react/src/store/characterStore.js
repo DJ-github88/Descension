@@ -1282,7 +1282,7 @@ const useCharacterStore = create((set, get) => ({
 
                 // Clear old passives and resistances when race changes
                 // Reset all resistances to normal
-                const damageTypes = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd'];
+                const damageTypes = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'divine'];
                 const resetResistances = {};
                 damageTypes.forEach(type => {
                     resetResistances[type] = { level: 100, multiplier: 1.0 };
@@ -1319,7 +1319,7 @@ const useCharacterStore = create((set, get) => ({
                     let updatedImmunities = [...(state.immunities || [])];
 
                     // Initialize all damage type resistances if they don't exist
-                    const damageTypes = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd'];
+                    const damageTypes = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'divine'];
                     damageTypes.forEach(type => {
                         if (!updatedResistances[type]) {
                             updatedResistances[type] = { level: 100, multiplier: 1.0 };
@@ -1570,7 +1570,7 @@ const useCharacterStore = create((set, get) => ({
                 let updatedImmunities = [...(state.immunities || [])];
 
                 // Initialize all damage type resistances if they don't exist
-                const damageTypes = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd'];
+                const damageTypes = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'divine'];
                 damageTypes.forEach(type => {
                     if (!updatedResistances[type]) {
                         updatedResistances[type] = { level: 100, multiplier: 1.0 };
@@ -2189,7 +2189,7 @@ const useCharacterStore = create((set, get) => ({
         }
 
         // Initialize spell power types if they don't exist (needed for buff effects)
-        const spellDamageTypes = ['ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd'];
+        const spellDamageTypes = ['ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'divine'];
         spellDamageTypes.forEach(type => {
             const spellPowerKey = `${type}SpellPower`;
             if (!totalStats.hasOwnProperty(spellPowerKey)) {
@@ -2908,7 +2908,7 @@ const useCharacterStore = create((set, get) => ({
                     let updatedImmunities = [...(get().immunities || [])];
 
                     // Initialize all damage type resistances if they don't exist
-                    const damageTypes = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd'];
+                    const damageTypes = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'divine'];
                     damageTypes.forEach(type => {
                         if (!updatedResistances[type]) {
                             updatedResistances[type] = { level: 100, multiplier: 1.0 };
@@ -3786,7 +3786,7 @@ const useCharacterStore = create((set, get) => ({
         let updatedImmunities = [...(state.immunities || [])];
 
         // Initialize all damage type resistances if they don't exist
-        const damageTypes = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd'];
+        const damageTypes = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'divine'];
         damageTypes.forEach(type => {
             if (!updatedResistances[type]) {
                 updatedResistances[type] = { level: 100, multiplier: 1.0 };

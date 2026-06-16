@@ -1996,3 +1996,222 @@
 .creature-lore-content p:last-child {
   margin-bottom: 0;
 }
+
+/* ==========================================================================
+   LORE PAGE — Bestiary codex layout (masthead + divider + 2-col grid)
+   ========================================================================== */
+.creature-lore-page {
+  padding: 20px 22px 24px;
+}
+
+/* ---------- Masthead ---------- */
+.creature-lore-masthead {
+  display: flex;
+  gap: 24px;
+  align-items: stretch;
+}
+
+.creature-lore-portrait {
+  flex: 0 0 240px;
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.creature-lore-portrait-frame {
+  position: relative;
+  border: 6px double #8b7355;
+  background: #eae2cb;
+  padding: 6px;
+  border-radius: 10px;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* inner vignette for a painted-portrait feel */
+.creature-lore-portrait-frame::after {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border-radius: 4px;
+  box-shadow: inset 0 0 28px rgba(0, 0, 0, 0.55);
+  pointer-events: none;
+}
+
+.creature-lore-portrait-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.creature-lore-caption {
+  font-family: 'Garamond', 'Georgia', 'Times New Roman', serif;
+  font-size: 0.78rem;
+  color: #7d6a50;
+  font-style: italic;
+  text-align: center;
+  margin-top: 0.6rem;
+  line-height: 1.4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.creature-lore-caption i {
+  color: #8b7355;
+  font-style: normal;
+}
+
+/* ---------- Lead block (meta chips + intro paragraph) ---------- */
+.creature-lore-lead {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.creature-lore-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.lore-meta-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Cinzel', 'Trajan Pro', serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  padding: 4px 11px;
+  border-radius: 20px;
+  background: rgba(139, 115, 85, 0.14);
+  color: #5a1e12;
+  border: 1px solid rgba(139, 115, 85, 0.45);
+  white-space: nowrap;
+}
+
+.lore-meta-chip i {
+  font-size: 0.82em;
+  opacity: 0.85;
+}
+
+.lore-meta-chip.danger.trivial {
+  background: rgba(108, 117, 125, 0.16);
+  border-color: #6c757d;
+  color: #495057;
+}
+
+.lore-meta-chip.danger.low {
+  background: rgba(45, 106, 79, 0.16);
+  border-color: #2d6a4f;
+  color: #1f4a37;
+}
+
+.lore-meta-chip.danger.medium {
+  background: rgba(188, 108, 37, 0.16);
+  border-color: #bc6c25;
+  color: #8a4f16;
+}
+
+.lore-meta-chip.danger.high {
+  background: rgba(155, 34, 38, 0.16);
+  border-color: #9b2226;
+  color: #7a1a1d;
+}
+
+.lore-meta-chip.danger.very-high {
+  background: rgba(217, 4, 41, 0.16);
+  border-color: #d90429;
+  color: #b3001e;
+}
+
+.lore-meta-chip.danger.extreme {
+  background: rgba(123, 44, 183, 0.16);
+  border-color: #7b2cb7;
+  color: #5a189a;
+}
+
+.creature-lore-lead-text {
+  font-family: 'Garamond', 'Georgia', 'Times New Roman', serif;
+  font-size: 15px;
+  line-height: 1.8;
+  color: #2a1c10;
+  text-align: justify;
+  margin: 0;
+}
+
+/* drop cap on the intro paragraph */
+.creature-lore-lead-text::first-letter {
+  font-family: 'Cinzel', 'Trajan Pro', serif;
+  font-size: 3.3em;
+  line-height: 0.78;
+  float: left;
+  padding: 5px 9px 0 0;
+  color: #7a3b2e;
+  font-weight: 700;
+}
+
+/* ---------- Ornamental divider ---------- */
+.creature-lore-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: 24px 0 20px;
+  color: #8b7355;
+}
+
+.creature-lore-divider span {
+  height: 1px;
+  flex: 1;
+  max-width: 140px;
+  background: linear-gradient(90deg, transparent, #8b7355, transparent);
+}
+
+.creature-lore-divider i {
+  font-size: 1rem;
+  opacity: 0.7;
+}
+
+/* ---------- Two-column lore body ---------- */
+.creature-lore-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* reset the standalone margins since the grid handles spacing */
+.creature-lore-grid .creature-lore-section {
+  margin: 0;
+}
+
+/* ---------- Responsive: collapse to single column on narrow windows ---------- */
+@media (max-width: 640px) {
+  .creature-lore-masthead {
+    flex-direction: column;
+    align-items: center;
+  }
+  .creature-lore-masthead.has-portrait .creature-lore-portrait {
+    flex: none;
+    width: 70%;
+    max-width: 260px;
+  }
+  .creature-lore-lead {
+    width: 100%;
+  }
+  .creature-lore-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -10,7 +10,7 @@
 
 import { getIconUrl } from './assetManager';
 
-const SPELL_DAMAGE_TYPES = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd'];
+const SPELL_DAMAGE_TYPES = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'divine'];
 
 /**
  * Calculate resource adjustment and detect overheal

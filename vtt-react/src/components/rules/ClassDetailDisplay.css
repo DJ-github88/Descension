@@ -4717,4 +4717,399 @@ div.class-detail-content::-webkit-scrollbar-thumb,
 }
 
 
+/* ============================================================================
+   ARCANONEER "BUILDING BLOCKS" — PARCHMENT THEME + SHOWCASE LAYOUT FIXES
+   ----------------------------------------------------------------------------
+   The ArcanoneerResourceBar and SphereComboFinder ship with a dark HUD theme.
+   When rendered inside the parchment-themed rules page (any descendant of
+   `.parchment-content` or `.resource-bar-showcase`), re-skin them to match
+   the page's serif/parchment aesthetic. Also constrains the large showcase
+   layout so the 8-block bar fits inside the 600px container without overflow.
+   ========================================================================== */
+
+/* ----- Layout: constrain the showcase bar to fit the rules container ----- */
+.resource-bar-showcase .arcanoneer-blocks.large {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden;
+}
+.resource-bar-showcase .arcanoneer-blocks.large .arc-container {
+    padding: 8px 10px !important;
+    gap: 5px !important;
+    overflow: hidden;
+}
+/* Header: allow wrapping so title + roll button don't overflow */
+.resource-bar-showcase .arcanoneer-blocks.large .arc-header {
+    flex-wrap: wrap;
+    gap: 4px 8px;
+}
+.resource-bar-showcase .arcanoneer-blocks.large .arc-title-label {
+    font-size: 13px !important;
+}
+.resource-bar-showcase .arcanoneer-blocks.large .arc-roll-label {
+    display: none; /* icon-only on the rules page to save width */
+}
+
+/* Block grid: use 4x2 on the rules page instead of 1x8 so segments fit comfortably */
+.resource-bar-showcase .arcanoneer-blocks.large .arc-block-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 5px !important;
+}
+.resource-bar-showcase .arcanoneer-blocks.large .arc-block-segment {
+    height: 95px !important;
+    padding: 6px 4px 4px !important;
+}
+.resource-bar-showcase .arcanoneer-blocks.large .arc-block-pips {
+    margin-bottom: 18px !important;
+}
+.resource-bar-showcase .arcanoneer-blocks.large .arc-block-pip {
+    width: 24px !important;
+    height: 6px !important;
+}
+.resource-bar-showcase .arcanoneer-blocks.large .arc-block-label {
+    font-size: 11px !important;
+}
+.resource-bar-showcase .arcanoneer-blocks.large .arc-block-name {
+    font-size: 11px !important;
+}
+.resource-bar-showcase .arcanoneer-blocks.large .arc-block-icon {
+    font-size: 10px !important;
+}
+.resource-bar-showcase .arcanoneer-blocks.large .arc-block-count-badge {
+    min-width: 17px !important;
+    height: 17px !important;
+    line-height: 17px !important;
+    font-size: 10.5px !important;
+}
+.resource-bar-showcase .arcanoneer-blocks.large .arc-block-d8-badge {
+    width: 14px !important;
+    height: 14px !important;
+    font-size: 9.5px !important;
+    line-height: 14px !important;
+}
+
+/* ----- ArcanoneerResourceBar: outer container ----- */
+.parchment-content .arcanoneer-blocks,
+.resource-bar-showcase .arcanoneer-blocks,
+.class-detail-display .arcanoneer-blocks {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    color: #433422;
+    font-family: 'Crimson Text', serif;
+}
+
+.parchment-content .arc-container,
+.resource-bar-showcase .arc-container {
+    background: linear-gradient(180deg, rgba(253, 246, 227, 0.95) 0%, rgba(238, 232, 213, 0.95) 100%) !important;
+    border: 1px solid rgba(139, 69, 19, 0.3) !important;
+    border-radius: 6px !important;
+    box-shadow: inset 0 1px 4px rgba(90, 30, 18, 0.06);
+    color: #433422;
+}
+
+/* Header */
+.parchment-content .arc-header,
+.resource-bar-showcase .arc-header {
+    border-bottom: 1px solid rgba(139, 69, 19, 0.15);
+    padding-bottom: 6px;
+}
+.parchment-content .arc-title-label,
+.resource-bar-showcase .arc-title-label {
+    color: #5a1e12 !important;
+    font-family: 'Cinzel', serif !important;
+    font-size: 14px !important;
+}
+.parchment-content .arc-title-label i,
+.resource-bar-showcase .arc-title-label i {
+    color: #8b6914 !important;
+}
+.parchment-content .arc-total-count,
+.resource-bar-showcase .arc-total-count {
+    background: rgba(139, 69, 19, 0.08) !important;
+    color: #5a1e12 !important;
+    border: 1px solid rgba(139, 69, 19, 0.2);
+}
+.parchment-content .arc-ready-badge,
+.resource-bar-showcase .arc-ready-badge {
+    background: rgba(70, 220, 130, 0.12);
+    color: #2d6e3f;
+    border-color: rgba(70, 220, 130, 0.4);
+}
+.parchment-content .arc-roll-btn,
+.resource-bar-showcase .arc-roll-btn {
+    color: #8b4513 !important;
+    background: linear-gradient(180deg, rgba(212, 175, 55, 0.25), rgba(139, 69, 19, 0.15)) !important;
+    border-color: rgba(139, 69, 19, 0.4) !important;
+    text-shadow: none !important;
+    font-family: 'Cinzel', serif !important;
+}
+.parchment-content .arc-roll-btn:hover:not(:disabled),
+.resource-bar-showcase .arc-roll-btn:hover:not(:disabled) {
+    background: linear-gradient(180deg, rgba(212, 175, 55, 0.4), rgba(139, 69, 19, 0.25)) !important;
+    border-color: rgba(139, 69, 19, 0.7) !important;
+    box-shadow: 0 0 8px rgba(212, 175, 55, 0.4) !important;
+}
+
+/* Block segments */
+.parchment-content .arc-block-segment,
+.resource-bar-showcase .arc-block-segment {
+    background: linear-gradient(180deg, rgba(255, 250, 235, 0.9) 0%, rgba(238, 228, 205, 0.9) 100%) !important;
+    border-color: rgba(139, 69, 19, 0.18) !important;
+}
+
+/* Showcase-mode fill overlay — solid block fill instead of tiny pip strips */
+.parchment-content .arc-block-fill-overlay,
+.resource-bar-showcase .arc-block-fill-overlay {
+    background: linear-gradient(180deg,
+        color-mix(in srgb, var(--block-color, #888) 75%, transparent) 0%,
+        color-mix(in srgb, var(--block-color, #888) 50%, transparent) 100%) !important;
+    border-radius: 0 0 4px 4px;
+}
+
+/* Hide pip strips in showcase-mode filled segments — the fill overlay is the visual */
+.resource-bar-showcase .arc-block-segment.filled .arc-block-pip {
+    opacity: 0 !important;
+}
+.parchment-content .arc-block-segment.empty,
+.resource-bar-showcase .arc-block-segment.empty {
+    opacity: 0.7;
+}
+.parchment-content .arc-block-label,
+.resource-bar-showcase .arc-block-label {
+    color: #5a1e12 !important;
+    font-family: 'Inter', sans-serif;
+}
+.parchment-content .arc-block-name,
+.resource-bar-showcase .arc-block-name {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+}
+.parchment-content .arc-block-d8-badge,
+.resource-bar-showcase .arc-block-d8-badge {
+    color: #8b6914 !important;
+    background: rgba(139, 69, 19, 0.08) !important;
+}
+.parchment-content .arc-block-segment.empty .arc-block-count-badge,
+.resource-bar-showcase .arc-block-segment.empty .arc-block-count-badge {
+    color: #8b6914 !important;
+    background: rgba(139, 69, 19, 0.06) !important;
+}
+
+/* Showcase-mode formulation toggle */
+.parchment-content .arc-formulation-toggle,
+.resource-bar-showcase .arc-formulation-toggle {
+    color: #5a1e12 !important;
+    background: rgba(139, 69, 19, 0.06) !important;
+    border-color: rgba(139, 69, 19, 0.3) !important;
+    font-family: 'Cinzel', serif !important;
+}
+.parchment-content .arc-formulation-toggle:hover,
+.resource-bar-showcase .arc-formulation-toggle:hover {
+    background: rgba(212, 175, 55, 0.18) !important;
+    border-color: rgba(139, 69, 19, 0.5) !important;
+    color: #433422 !important;
+}
+.parchment-content .arc-formulation-toggle-count,
+.resource-bar-showcase .arc-formulation-toggle-count {
+    color: #2d6e3f !important;
+    background: rgba(70, 220, 130, 0.15) !important;
+    border-color: rgba(70, 220, 130, 0.45) !important;
+}
+
+/* Formulation chips (parchment variant) */
+.parchment-content .arc-formulation-chips,
+.resource-bar-showcase .arc-formulation-chips {
+    max-height: none !important;
+    overflow: visible !important;
+}
+.parchment-content .arc-formulation-empty,
+.resource-bar-showcase .arc-formulation-empty {
+    color: #8b6914 !important;
+}
+.parchment-content .arc-form-chip,
+.resource-bar-showcase .arc-form-chip {
+    font-family: 'Inter', sans-serif !important;
+}
+.parchment-content .arc-form-chip.ready,
+.resource-bar-showcase .arc-form-chip.ready {
+    color: #433422 !important;
+    background: linear-gradient(180deg, rgba(212, 175, 55, 0.2), rgba(139, 69, 19, 0.1)) !important;
+    border-color: rgba(139, 69, 19, 0.45) !important;
+}
+.parchment-content .arc-form-chip.ready:hover,
+.resource-bar-showcase .arc-form-chip.ready:hover {
+    background: linear-gradient(180deg, rgba(212, 175, 55, 0.35), rgba(139, 69, 19, 0.2)) !important;
+    border-color: rgba(139, 69, 19, 0.7) !important;
+    box-shadow: 0 0 6px rgba(212, 175, 55, 0.3) !important;
+}
+
+/* Hover tooltip stays dark (it floats above, dark is fine for readability) */
+.parchment-content .arcanoneer-tooltip,
+.resource-bar-showcase .arcanoneer-tooltip {
+    /* keep dark — tooltips should be high-contrast regardless of page theme */
+}
+
+/* ----- Edit menu (stays dark — portal-rendered, OK) ----- */
+
+
+/* ============================================================================
+   SPHERE COMBO FINDER — PARCHMENT THEME OVERRIDES
+   ========================================================================== */
+.parchment-content .scf-root,
+.resource-bar-showcase .scf-root,
+.class-detail-display .scf-root,
+.mechanics-box .scf-root {
+    background: linear-gradient(180deg, rgba(253, 246, 227, 0.95) 0%, rgba(238, 232, 213, 0.95) 100%) !important;
+    border: 1px solid rgba(139, 69, 19, 0.3) !important;
+    border-radius: 6px !important;
+    box-shadow: inset 0 1px 4px rgba(90, 30, 18, 0.06);
+    color: #433422 !important;
+    font-family: 'Crimson Text', serif !important;
+}
+
+.parchment-content .scf-title,
+.resource-bar-showcase .scf-title,
+.mechanics-box .scf-title {
+    color: #5a1e12 !important;
+    font-family: 'Cinzel', serif !important;
+    font-size: 1.15rem !important;
+    letter-spacing: 0.3px;
+}
+.parchment-content .scf-subtitle,
+.resource-bar-showcase .scf-subtitle,
+.mechanics-box .scf-subtitle {
+    color: #8b6914 !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.82rem !important;
+}
+.parchment-content .scf-reset-btn,
+.resource-bar-showcase .scf-reset-btn,
+.mechanics-box .scf-reset-btn {
+    color: #5a1e12 !important;
+    background: rgba(139, 69, 19, 0.08) !important;
+    border-color: rgba(139, 69, 19, 0.3) !important;
+    font-family: 'Inter', sans-serif !important;
+}
+
+/* Block buttons — parchment cards */
+.parchment-content .scf-block-btn,
+.resource-bar-showcase .scf-block-btn,
+.mechanics-box .scf-block-btn {
+    background: linear-gradient(180deg, rgba(255, 250, 235, 0.95), rgba(238, 228, 205, 0.95)) !important;
+    border-color: rgba(139, 69, 19, 0.2) !important;
+    color: #433422 !important;
+    font-family: 'Inter', sans-serif !important;
+}
+.parchment-content .scf-block-btn:hover,
+.resource-bar-showcase .scf-block-btn:hover,
+.mechanics-box .scf-block-btn:hover {
+    border-color: rgba(139, 69, 19, 0.5) !important;
+    box-shadow: 0 3px 8px rgba(90, 30, 18, 0.12) !important;
+}
+.parchment-content .scf-block-name,
+.resource-bar-showcase .scf-block-name,
+.mechanics-box .scf-block-name {
+    color: #5a1e12 !important;
+}
+.parchment-content .scf-block-d8,
+.resource-bar-showcase .scf-block-d8,
+.mechanics-box .scf-block-d8 {
+    color: #8b6914 !important;
+    background: rgba(139, 69, 19, 0.08) !important;
+}
+
+/* Focused combo panel */
+.parchment-content .scf-focus,
+.resource-bar-showcase .scf-focus,
+.mechanics-box .scf-focus {
+    background: rgba(255, 250, 235, 0.7) !important;
+    border-color: rgba(139, 69, 19, 0.25) !important;
+}
+.parchment-content .scf-focus-name,
+.resource-bar-showcase .scf-focus-name,
+.mechanics-box .scf-focus-name {
+    color: #5a1e12 !important;
+    font-family: 'Cinzel', serif !important;
+}
+.parchment-content .scf-focus-costs,
+.resource-bar-showcase .scf-focus-costs,
+.mechanics-box .scf-focus-costs {
+    color: #8b6914 !important;
+    font-family: 'Inter', sans-serif !important;
+}
+.parchment-content .scf-focus-desc,
+.resource-bar-showcase .scf-focus-desc,
+.mechanics-box .scf-focus-desc {
+    color: #433422 !important;
+    font-family: 'Crimson Text', serif !important;
+}
+
+/* Action cards */
+.parchment-content .scf-action-card,
+.resource-bar-showcase .scf-action-card,
+.mechanics-box .scf-action-card {
+    background: rgba(255, 250, 235, 0.85) !important;
+    border-color: rgba(139, 69, 19, 0.18) !important;
+    font-family: 'Inter', sans-serif !important;
+}
+.parchment-content .scf-action-name,
+.resource-bar-showcase .scf-action-name,
+.mechanics-box .scf-action-name {
+    color: #5a1e12 !important;
+}
+.parchment-content .scf-action-damage,
+.resource-bar-showcase .scf-action-damage,
+.mechanics-box .scf-action-damage {
+    color: #8b4513 !important;
+    border-color: rgba(139, 69, 19, 0.15) !important;
+}
+.parchment-content .scf-action-text,
+.resource-bar-showcase .scf-action-text,
+.mechanics-box .scf-action-text {
+    color: #433422 !important;
+    font-family: 'Crimson Text', serif !important;
+}
+
+/* Formulation browse grid */
+.parchment-content .scf-form-card,
+.resource-bar-showcase .scf-form-card,
+.mechanics-box .scf-form-card {
+    background: rgba(255, 250, 235, 0.85) !important;
+    border-color: rgba(139, 69, 19, 0.18) !important;
+    color: #433422 !important;
+    font-family: 'Inter', sans-serif !important;
+}
+.parchment-content .scf-form-card:hover,
+.resource-bar-showcase .scf-form-card:hover,
+.mechanics-box .scf-form-card:hover {
+    border-color: rgba(139, 69, 19, 0.45) !important;
+    background: rgba(212, 175, 55, 0.1) !important;
+}
+.parchment-content .scf-form-card.ready,
+.resource-bar-showcase .scf-form-card.ready,
+.mechanics-box .scf-form-card.ready {
+    border-color: rgba(70, 180, 100, 0.5) !important;
+    background: rgba(70, 180, 100, 0.06) !important;
+}
+.parchment-content .scf-form-card-name,
+.resource-bar-showcase .scf-form-card-name,
+.mechanics-box .scf-form-card-name {
+    color: #5a1e12 !important;
+}
+
+.parchment-content .scf-form-card-dmg,
+.resource-bar-showcase .scf-form-card-dmg,
+.mechanics-box .scf-form-card-dmg {
+    color: #8b6914 !important;
+}
+
+.parchment-content .scf-form-card-effect,
+.resource-bar-showcase .scf-form-card-effect,
+.mechanics-box .scf-form-card-effect {
+    color: #8b6914 !important;
+}
+
+
 

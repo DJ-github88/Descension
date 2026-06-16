@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Class Spell Generator - COMPLETELY REWRITTEN
  *
  * Generates properly formatted showcase spells for all classes
@@ -311,30 +311,30 @@ const SPELL_ARCHETYPES = {
 const getElementTypeForSpecialization = (specializationId) => {
   const elementMap = {
     // Fire-based
-    'inferno': 'fire',
-    'wildfire': 'fire',
-    'hellfire': 'fire',
-    'blaze': 'fire',
+    'inferno': 'ember',
+    'wildfire': 'ember',
+    'hellfire': 'ember',
+    'blaze': 'ember',
 
     // Arcane-based
     'prism_mage': 'arcane',
     'sphere_architect': 'arcane',
-    'entropy_weaver': 'chaos',
+    'entropy_weaver': 'wyrd',
 
     // Healing/Restoration
-    'soulsinger': 'radiant',
-    'redeemer': 'radiant',
-    'rewinding': 'radiant',
+    'soulsinger': 'divine',
+    'redeemer': 'divine',
+    'rewinding': 'divine',
 
     // Control/Debuff
-    'dissonance': 'psychic',
-    'stasis': 'force',
-    'protector': 'radiant',
+    'dissonance': 'wyrd',
+    'stasis': 'storm',
+    'protector': 'divine',
 
     // Damage/Offense
-    'battlechoir': 'thunder',
-    'avenger': 'radiant',
-    'displacement': 'force'
+    'battlechoir': 'storm',
+    'avenger': 'divine',
+    'displacement': 'storm'
   };
 
   return elementMap[specializationId] || 'arcane';

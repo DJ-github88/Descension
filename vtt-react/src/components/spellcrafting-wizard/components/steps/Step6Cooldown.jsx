@@ -8,23 +8,30 @@ const Step6Cooldown = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
   const dispatch = useSpellWizardDispatch();
   const [errors, setErrors] = useState([]);
   
-  const isCompleted = validateStepCompletion(5, state);
-  const isActive = state.currentStep === 5;
+  const isCompleted = validateStepCompletion(stepNumber || 6, state);
+  const isActive = state.currentStep === (stepNumber || 6);
   
-  // Local cooldown configuration
+  // Local cooldown configuration (supports both old and new key names)
   const [cooldownConfig, setCooldownConfig] = useState(state.cooldownConfig || {
-    type: '',
-    value: 1,
+    cooldownType: '',
+    cooldownValue: 1,
     charges: 1,
     recovery: 1
   });
   
   // Effect to update context when configuration changes
   useEffect(() => {
-    if (cooldownConfig.type) {
+    // Support both old (type/value) and new (cooldownType/cooldownValue) key names
+    const cdType = cooldownConfig.cooldownType || cooldownConfig.type;
+    if (cdType) {
+      // Dispatch with spec-compliant key names
       dispatch({
         type: ACTION_TYPES.UPDATE_COOLDOWN_CONFIG,
-        payload: cooldownConfig
+        payload: {
+          ...cooldownConfig,
+          cooldownType: cdType,
+          cooldownValue: cooldownConfig.cooldownValue || cooldownConfig.value || 1
+        }
       });
     }
   }, [cooldownConfig, dispatch]);
@@ -41,25 +48,27 @@ const Step6Cooldown = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
   // Validate the cooldown configuration
   const validateCooldownConfig = (config) => {
     const errors = [];
+    const cdType = config.cooldownType || config.type;
+    const cdValue = config.cooldownValue || config.value;
     
-    if (!config.type) {
+    if (!cdType) {
       errors.push('Please select a cooldown type');
     }
     
-    if (config.type === 'turn_based' && (!config.value || config.value <= 0)) {
+    if (cdType === 'turn_based' && (!cdValue || cdValue <= 0)) {
       errors.push('Turn-based cooldown requires a positive number of turns');
     }
     
-    if ((config.type === 'short_rest' || config.type === 'long_rest') && 
-        (!config.value || config.value <= 0)) {
-      errors.push(`${config.type === 'short_rest' ? 'Short rest' : 'Long rest'} cooldown requires a positive number of uses`);
+    if ((cdType === 'short_rest' || cdType === 'long_rest') && 
+        (!cdValue || cdValue <= 0)) {
+      errors.push(`${cdType === 'short_rest' ? 'Short rest' : 'Long rest'} cooldown requires a positive number of uses`);
     }
     
-    if (config.type === 'charge_based' && (!config.charges || config.charges <= 0)) {
+    if (cdType === 'charge_based' && (!config.charges || config.charges <= 0)) {
       errors.push('Charge-based cooldown requires at least one charge');
     }
     
-    if (config.type === 'dice_based' && !config.value) {
+    if (cdType === 'dice_based' && !cdValue) {
       errors.push('Dice-based cooldown requires a valid dice notation');
     }
     
