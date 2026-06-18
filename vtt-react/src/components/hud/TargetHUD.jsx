@@ -9,15 +9,13 @@ import useCharacterStore from '../../store/characterStore';
 import useCreatureStore from '../../store/creatureStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
 import { CONDITIONS } from '../../data/conditionsData';
-import useBuffStore from '../../store/buffStore';
-import useDebuffStore from '../../store/debuffStore';
+import useConditionStore from '../../store/conditionStore';
 import useChatStore from '../../store/chatStore';
 import ClassResourceBar from './ClassResourceBar';
 import ConditionDurationModal from '../modals/ConditionDurationModal';
 import EnhancedCreatureInspectView from '../creature-wizard/components/common/EnhancedCreatureInspectView';
 import { getBackgroundData } from '../../data/backgroundData';
-import { getCustomBackgroundData } from '../../data/customBackgroundData';
-import { getEnhancedPathData } from '../../data/enhancedPathData';
+import { getCustomBackgroundData, getEnhancedPathData } from '../../data/legacyDisciplineData';
 import { getIconUrl, getCreatureTokenIconUrl } from '../../utils/assetManager';
 import Button from '../common/Button';
 import { getTokenResources, getStateKeyForResource, getTempFieldName } from '../../utils/tokenStateUtils';
@@ -153,16 +151,23 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
 
     // Get current player data for comparison
     const currentPlayerData = activeCharacter;
-    const { getBuffsForTarget, getRemainingTime, updateBuffTimers, getActiveEffects, activeBuffs } = useBuffStore();
-    const { getDebuffsForTarget, getRemainingTime: getDebuffRemainingTime, updateDebuffTimers, getActiveDebuffEffects, activeDebuffs } = useDebuffStore();
+    const {
+        getConditionsForTarget,
+        getRemainingTime,
+        updateConditionTimers,
+        getActiveEffects,
+        activeBuffs,
+        activeDebuffs,
+        removeCondition
+    } = useConditionStore();
 
     // Real-time updates for condition timers - also cleans up expired conditions
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentTime(Date.now());
             // Clean up expired buffs and debuffs (this also syncs with token.state.conditions)
-            updateBuffTimers();
-            updateDebuffTimers();
+            updateConditionTimers('buff');
+            updateConditionTimers('debuff');
             // Clean up expired conditions from character tokens
             const useCharacterTokenStore = require('../../store/characterTokenStore').default;
             const { cleanupExpiredConditions } = useCharacterTokenStore.getState();
@@ -174,7 +179,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
         }, 1000); // 1s cadence for visible countdowns and cleanup
 
         return () => clearInterval(interval);
-    }, [updateBuffTimers, updateDebuffTimers]);
+    }, [updateConditionTimers]);
 
     // Close context menu when clicking outside
     useEffect(() => {
@@ -219,8 +224,8 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
         if (!token) return baseStats;
 
         const targetId = token.id;
-        const buffEffects = getActiveEffects(targetId);
-        const debuffEffects = getActiveDebuffEffects(targetId);
+        const buffEffects = getActiveEffects('buff', targetId);
+        const debuffEffects = getActiveEffects('debuff', targetId);
 
         // Start with base stats
         const modifiedStats = { ...baseStats };
@@ -231,14 +236,14 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
             modifiedStats[statKey] = (modifiedStats[statKey] || 0) + totalBonus;
         });
 
-        // Apply debuff effects (negative modifiers - already negated by getActiveDebuffEffects)
+        // Apply debuff effects (negative modifiers - already negated by getActiveEffects('debuff', ...))
         Object.entries(debuffEffects).forEach(([statKey, effects]) => {
             const totalPenalty = effects.reduce((sum, e) => sum + e.value, 0);
             modifiedStats[statKey] = (modifiedStats[statKey] || 0) + totalPenalty;
         });
 
         return modifiedStats;
-    }, [getActiveEffects, getActiveDebuffEffects]);
+    }, [getActiveEffects]);
 
     // Get target data based on type - memoized to ensure reactivity
     const targetData = useMemo(() => {
@@ -534,22 +539,22 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
     let rawDebuffs = [];
 
     if (targetId) {
-        rawBuffs = [...getBuffsForTarget(targetId)];
-        rawDebuffs = [...getDebuffsForTarget(targetId)];
+        rawBuffs = [...getConditionsForTarget('buff', targetId)];
+        rawDebuffs = [...getConditionsForTarget('debuff', targetId)];
 
         // If it's the current player, also check the aliases
         if (targetId === 'current-player' || (currentPlayerId && targetId === currentPlayerId)) {
             if (targetId !== 'player') {
-                rawBuffs = [...rawBuffs, ...getBuffsForTarget('player')];
-                rawDebuffs = [...rawDebuffs, ...getDebuffsForTarget('player')];
+                rawBuffs = [...rawBuffs, ...getConditionsForTarget('buff', 'player')];
+                rawDebuffs = [...rawDebuffs, ...getConditionsForTarget('debuff', 'player')];
             }
             if (targetId !== 'current-player') {
-                rawBuffs = [...rawBuffs, ...getBuffsForTarget('current-player')];
-                rawDebuffs = [...rawDebuffs, ...getDebuffsForTarget('current-player')];
+                rawBuffs = [...rawBuffs, ...getConditionsForTarget('buff', 'current-player')];
+                rawDebuffs = [...rawDebuffs, ...getConditionsForTarget('debuff', 'current-player')];
             }
             if (currentPlayerId && targetId !== currentPlayerId) {
-                rawBuffs = [...rawBuffs, ...getBuffsForTarget(currentPlayerId)];
-                rawDebuffs = [...rawDebuffs, ...getDebuffsForTarget(currentPlayerId)];
+                rawBuffs = [...rawBuffs, ...getConditionsForTarget('buff', currentPlayerId)];
+                rawDebuffs = [...rawDebuffs, ...getConditionsForTarget('debuff', currentPlayerId)];
             }
         }
         
@@ -563,8 +568,8 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
             ].filter(Boolean);
             
             for (const altId of altIds) {
-                const altBuffs = getBuffsForTarget(altId);
-                const altDebuffs = getDebuffsForTarget(altId);
+                const altBuffs = getConditionsForTarget('buff', altId);
+                const altDebuffs = getConditionsForTarget('debuff', altId);
                 if (altBuffs.length > 0 || altDebuffs.length > 0) {
                     rawBuffs = [...rawBuffs, ...altBuffs];
                     rawDebuffs = [...rawDebuffs, ...altDebuffs];
@@ -1139,7 +1144,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                     }
 
                     // MULTIPLAYER SYNC: Emit calculated values directly
-                    const socket = window.multiplayerSocket;
+                    const socket = useGameStore.getState().multiplayerSocket;
                     if (socket && socket.connected && adjustment !== 0) {
                         const gameStore = useGameStore.getState();
                         const roomId = gameStore.multiplayerRoom?.id;
@@ -1799,11 +1804,9 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
 
         // 1. Remove from appropriate store if it exists there
         if (type === 'buff') {
-            const buffStore = useBuffStore.getState();
-            buffStore.removeBuff(condition.id);
+            removeCondition('buff', condition.id);
         } else if (type === 'debuff') {
-            const debuffStore = useDebuffStore.getState();
-            debuffStore.removeDebuff(condition.id);
+            removeCondition('debuff', condition.id);
         }
 
         // 2. If it's token-derived (or type was override to 'condition'), also handle token state directly
@@ -1852,8 +1855,8 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
         const condition = conditionContextMenu.condition;
         const type = condition.type;
         const currentDuration = type === 'buff' ?
-            getRemainingTime(condition.id) :
-            getDebuffRemainingTime(condition.id);
+            getRemainingTime('buff', condition.id) :
+            getRemainingTime('debuff', condition.id);
 
         // Calculate current values for the modal
         const isRoundBased = condition.durationType === 'rounds';
@@ -1905,11 +1908,9 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
         }
 
         if (type === 'buff') {
-            const buffStore = useBuffStore.getState();
-            buffStore.updateBuffDuration(condition.id, duration, durationType);
+            useConditionStore.getState().updateConditionDuration('buff', condition.id, duration, durationType);
         } else if (type === 'debuff') {
-            const debuffStore = useDebuffStore.getState();
-            debuffStore.updateDebuffDuration(condition.id, duration, durationType);
+            useConditionStore.getState().updateConditionDuration('debuff', condition.id, duration, durationType);
         } else {
             // For plain conditions, update the token's condition directly
             let targetToken = null;
@@ -2350,7 +2351,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                                     {targetBuffs.length > 0 && (
                                         <div className="target-buffs" style={{ display: 'flex', gap: '4px' }}>
                                             {targetBuffs.map((buff) => {
-                                                const remainingTime = buff.__isTokenDerived ? getFallbackConditionRemainingSeconds(buff, currentTime) : getRemainingTime(buff.id);
+                                                const remainingTime = buff.__isTokenDerived ? getFallbackConditionRemainingSeconds(buff, currentTime) : getRemainingTime('buff', buff.id);
                                                 
                                                 // Dynamic effect summary from effects object
                                                 const formattedEffects = formatBuffEffects(buff.effects);
@@ -2418,7 +2419,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                                     {targetDebuffs.length > 0 && (
                                         <div className="target-debuffs" style={{ display: 'flex', gap: '4px' }}>
                                             {targetDebuffs.map((debuff) => {
-                                                const remainingTime = debuff.__isTokenDerived ? getFallbackConditionRemainingSeconds(debuff, currentTime) : getDebuffRemainingTime(debuff.id);
+                                                const remainingTime = debuff.__isTokenDerived ? getFallbackConditionRemainingSeconds(debuff, currentTime) : getRemainingTime('debuff', debuff.id);
                                                 
                                                 const formattedEffects = formatDebuffEffects(debuff.effects);
                                                 const effectSummary = formattedEffects || debuff.effectSummary;

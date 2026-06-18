@@ -78,7 +78,7 @@
   font-size: 16px;
 }
 
-.btn-text {
+.dialogue-controls .btn-text {
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -636,15 +636,15 @@
 }
 
 /* Action Buttons */
-.action-buttons,
-.action-buttons-grid {
+.dialogue-controls .action-buttons,
+.dialogue-controls .action-buttons-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
   margin-bottom: 16px;
 }
 
-.action-buttons-grid button {
+.dialogue-controls .action-buttons-grid button {
   width: 100%;
 }
 

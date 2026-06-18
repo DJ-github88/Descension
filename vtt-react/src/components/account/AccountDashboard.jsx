@@ -522,6 +522,17 @@ const AccountDashboard = ({ user }) => {
               )}
             </div>
 
+            {!isGuest && subscriptionStatus?.canUpgrade && (
+              <button
+                className="action-btn upgrade-plan-btn"
+                onClick={() => setActiveTab('membership')}
+                title="Upgrade your membership"
+              >
+                <i className="fas fa-crown"></i>
+                <span>Upgrade</span>
+              </button>
+            )}
+
             <button
               onClick={() => navigate('/')}
               className="action-btn home-btn"
@@ -616,6 +627,15 @@ const AccountDashboard = ({ user }) => {
                 <span className="account-mobile-badge">{receivedRequests.length}</span>
               </button>
             )}
+            {!isGuest && subscriptionStatus?.canUpgrade && (
+              <button
+                className="account-mobile-action-item upgrade"
+                onClick={() => { setActiveTab('membership'); setMobileMenuOpen(false); }}
+              >
+                <i className="fas fa-crown"></i>
+                Upgrade Plan
+              </button>
+            )}
             <button
               className="account-mobile-action-item danger"
               onClick={() => { handleSignOut(); setMobileMenuOpen(false); }}
@@ -642,17 +662,11 @@ const AccountDashboard = ({ user }) => {
           </div>
         )}
 
-        {/* Storage Overview Bar */}
+        {/* Storage Overview Bar - collapses via CSS when empty */}
         <div className="account-overview-bar">
           <div className="account-storage-info">
             <StorageUsageWidget compact={true} />
           </div>
-          {!isGuest && subscriptionStatus?.canUpgrade && (
-            <button className="upgrade-cta-btn" onClick={() => setActiveTab('membership')}>
-              <i className="fas fa-arrow-up"></i>
-              Upgrade Plan
-            </button>
-          )}
         </div>
 
         {/* Main Content */}

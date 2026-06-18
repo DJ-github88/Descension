@@ -1339,7 +1339,7 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
     // Fallback watercolor image assets map based on class ID for an authentic guidebook feel
     const classFallbacks = {
       arcanoneer: { url: '/assets/images/classes/arcanoneer_illustration.png', caption: 'A Neth Vault Keeper Arcanoneer.' },
-      berserker: { url: '/assets/images/classes/berserker_illustration.png', caption: 'A Mimir Face Thief Berserker.' },
+      berserker: { url: '/assets/images/classes/berserker_illustration.png', caption: 'A Mimir mask-merged Berserker.' },
       false_prophet: { url: '/assets/images/classes/false_prophet_illustration.png', caption: 'A Vreken Starved False Prophet.' },
       shaper: { url: '/assets/images/classes/shaper_illustration.png', caption: 'A Shaper wielding dual curved swords, bone-frame erupting with kinetic and nature energy.' },
       // 'dreadnaught' illustration removed (absorbed into Martyr as Ironclad specialization)

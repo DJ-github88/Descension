@@ -5,6 +5,7 @@ import { getUserRooms, deleteRoom, getRoomLimits, updateRoom } from '../../servi
 import localRoomService from '../../services/localRoomService';
 import subscriptionService from '../../services/subscriptionService';
 import { getRandomRoomName } from '../../utils/nameGenerator';
+import { setLocalRoom } from '../../utils/localRoom';
 import useAuthStore from '../../store/authStore';
 import useCharacterStore from '../../store/characterStore';
 import useSocialStore from '../../store/socialStore';
@@ -312,8 +313,7 @@ const RoomManager = () => {
   const handleJoinLocalRoom = (room) => {
     try {
       // Store local room info for the game to load
-      localStorage.setItem('selectedLocalRoomId', room.id);
-      localStorage.setItem('isLocalRoom', 'true');
+      setLocalRoom(room.id);
       localStorage.removeItem('selectedRoomId');
       localStorage.removeItem('isTestRoom');
       // Clear world builder mode flag - local rooms are not world builder mode

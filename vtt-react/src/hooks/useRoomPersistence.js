@@ -41,8 +41,7 @@ export const useRoomPersistence = (roomId) => {
         levelEditorStoreModule,
         combatStoreModule,
         chatStoreModule,
-        buffStoreModule,
-        debuffStoreModule
+        conditionStoreModule
       ] = await Promise.all([
         import('../store/characterTokenStore'),
         import('../store/gridItemStore'),
@@ -50,8 +49,7 @@ export const useRoomPersistence = (roomId) => {
         import('../store/levelEditorStore'),
         import('../store/combatStore'),
         import('../store/chatStore'),
-        import('../store/buffStore'),
-        import('../store/debuffStore')
+        import('../store/conditionStore')
       ]);
 
       const characterTokenState = characterTokenStoreModule.default.getState();
@@ -60,8 +58,7 @@ export const useRoomPersistence = (roomId) => {
       const levelEditorState = levelEditorStoreModule.default.getState();
       const combatState = combatStoreModule.default.getState();
       const chatState = chatStoreModule.default.getState();
-      const buffState = buffStoreModule.default.getState();
-      const debuffState = debuffStoreModule.default.getState();
+      const conditionState = conditionStoreModule.default.getState();
 
       return {
         // Token placements
@@ -92,8 +89,8 @@ export const useRoomPersistence = (roomId) => {
 
         // Active buffs and debuffs
         buffsAndDebuffs: {
-          buffs: buffState.activeBuffs || [],
-          debuffs: debuffState.activeDebuffs || []
+          buffs: conditionState.activeBuffs || [],
+          debuffs: conditionState.activeDebuffs || []
         },
 
         version: 1
@@ -153,8 +150,7 @@ export const useRoomPersistence = (roomId) => {
           levelEditorStoreModule,
           combatStoreModule,
           chatStoreModule,
-          buffStoreModule,
-          debuffStoreModule
+          conditionStoreModule
         ] = await Promise.all([
           import('../store/characterTokenStore'),
           import('../store/gridItemStore'),
@@ -162,8 +158,7 @@ export const useRoomPersistence = (roomId) => {
           import('../store/levelEditorStore'),
           import('../store/combatStore'),
           import('../store/chatStore'),
-          import('../store/buffStore'),
-          import('../store/debuffStore')
+          import('../store/conditionStore')
         ]);
 
         // Update character tokens
@@ -218,10 +213,8 @@ export const useRoomPersistence = (roomId) => {
 
         // Update buffs and debuffs
         if (result.buffsAndDebuffs) {
-          buffStoreModule.default.setState({
-            activeBuffs: result.buffsAndDebuffs.buffs || []
-          });
-          debuffStoreModule.default.setState({
+          conditionStoreModule.default.setState({
+            activeBuffs: result.buffsAndDebuffs.buffs || [],
             activeDebuffs: result.buffsAndDebuffs.debuffs || []
           });
         }
@@ -356,16 +349,14 @@ export const useRoomPersistence = (roomId) => {
           levelEditorStoreModule,
           combatStoreModule,
           chatStoreModule,
-          buffStoreModule,
-          debuffStoreModule
+          conditionStoreModule
         ] = await Promise.all([
           import('../store/gridItemStore'),
           import('../store/creatureStore'),
           import('../store/levelEditorStore'),
           import('../store/combatStore'),
           import('../store/chatStore'),
-          import('../store/buffStore'),
-          import('../store/debuffStore')
+          import('../store/conditionStore')
         ]);
 
         // Update grid items
@@ -413,10 +404,8 @@ export const useRoomPersistence = (roomId) => {
 
         // Update buffs and debuffs
         if (remoteData.buffsAndDebuffs) {
-          buffStoreModule.default.setState({
-            activeBuffs: remoteData.buffsAndDebuffs.buffs || []
-          });
-          debuffStoreModule.default.setState({
+          conditionStoreModule.default.setState({
+            activeBuffs: remoteData.buffsAndDebuffs.buffs || [],
             activeDebuffs: remoteData.buffsAndDebuffs.debuffs || []
           });
         }

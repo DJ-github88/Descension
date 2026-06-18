@@ -1,1 +1,0 @@
-const x = { weaknesses: ['Less immediate impact than specs that don't depend on predictions'] };

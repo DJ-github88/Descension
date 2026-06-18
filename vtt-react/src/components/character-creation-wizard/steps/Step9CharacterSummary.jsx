@@ -191,6 +191,7 @@ const formatDescriptionText = (text) => {
     const [spellTooltip, setSpellTooltip] = useState({ show: false, spell: null, x: 0, y: 0 });
     const [isBagOpen, setIsBagOpen] = useState(false);
     const [mobilePanel, setMobilePanel] = useState('hero');
+    const [checklistOpen, setChecklistOpen] = useState(false);
     const tooltipRef = useRef(null);
 
     // Helper function to format values (replace underscores with spaces, capitalize)
@@ -497,11 +498,17 @@ const formatDescriptionText = (text) => {
         <div className="wizard-step-content summary-step-wrapper scroll-themed" style={summaryBgStyle}>
             <div className="character-summary-content-inner">
             
-            {/* Floating Checklist Status Badge */}
-            <div className="completion-badge-container">
-                <div className={`completion-status-badge ${allComplete ? 'all-complete' : 'has-missing'}`}>
+            {/* Floating Checklist Status Badge (tap/click to toggle dropdown) */}
+            <div className={`completion-badge-container ${checklistOpen ? 'open' : ''}`}>
+                <button
+                    type="button"
+                    className={`completion-status-badge ${allComplete ? 'all-complete' : 'has-missing'}`}
+                    onClick={() => setChecklistOpen(open => !open)}
+                    aria-expanded={checklistOpen}
+                    aria-label="Toggle completion status"
+                >
                     <i className={`fas ${allComplete ? 'fa-check' : 'fa-exclamation'}`}></i>
-                </div>
+                </button>
                 <div className="checklist-hover-panel">
                     <div className="hover-panel-title">
                         <i className="fas fa-clipboard-list"></i> Completion Status
@@ -521,6 +528,64 @@ const formatDescriptionText = (text) => {
                         {allComplete
                             ? 'Your hero is ready! Click "Create Character" to begin.'
                             : `${missingCount} item${missingCount > 1 ? 's' : ''} still needed.`}
+                    </div>
+                </div>
+            </div>
+
+            {/* Click-away backdrop for the completion dropdown */}
+            {checklistOpen && (
+                <div className="checklist-backdrop" onClick={() => setChecklistOpen(false)} />
+            )}
+
+            {/* Mobile-only persistent identity header: avatar + name + race/class always on top.
+                Desktop keeps the immersive version inside the Hero column. */}
+            <div className="summary-identity-bar">
+                <div
+                    className="identity-bar-token"
+                    style={{
+                        backgroundColor: characterData.iconBackgroundColor,
+                        borderColor: characterData.iconBorderColor || '#d4af37'
+                    }}
+                >
+                    {characterData.characterImage ? (
+                        <img
+                            src={characterData.characterImage}
+                            alt="Avatar"
+                            style={getImageStyle()}
+                        />
+                    ) : characterData.characterIcon ? (
+                        <img
+                            src={getCustomIconUrl(characterData.characterIcon, 'creatures')}
+                            alt="Icon"
+                            style={{
+                                transform: `scale(${characterData.iconScale || 1}) translate(${characterData.iconOffsetX || 0}px, ${characterData.iconOffsetY || 0}px)`,
+                                borderRadius: '50%'
+                            }}
+                            onError={(e) => { e.target.onerror = null; e.target.src = getCustomIconUrl('Human/Icon1', 'creatures'); }}
+                        />
+                    ) : (
+                        <i className="fas fa-user"></i>
+                    )}
+
+                    {characterData.class && (
+                        <div className="identity-bar-class-badge" title={`Calling: ${characterData.class}`}>
+                            <ClassIcon
+                                src={CLASS_DATA_MAP[characterData.class]?.imageIcon || `/assets/icons/classes/${characterData.class.toLowerCase().replace(' ', '_')}.png`}
+                                alt={characterData.class}
+                                size="small"
+                                className="identity-class-badge-icon"
+                                dataClass={characterData.class}
+                            />
+                        </div>
+                    )}
+                </div>
+
+                <div className="identity-bar-info">
+                    <h2 className="identity-bar-name">{characterData.name || 'Unnamed Hero'}</h2>
+                    <div className="identity-bar-tags">
+                        <span className="meta-tag gender-tag">{formatValue(characterData.gender)}</span>
+                        <span className="meta-tag race-tag">{selectedSubrace?.name || characterData.race || 'No Race'}</span>
+                        <span className="meta-tag class-tag">{characterData.class || 'No Class'}</span>
                     </div>
                 </div>
             </div>

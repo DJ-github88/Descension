@@ -14,7 +14,7 @@ export const CLASS_RESOURCE_TYPES = {
             baseColor: '#8B0000',
             activeColor: '#FF4500',
             glowColor: '#FF6347',
-            icon: 'fa-fire',
+            icon: 'fas fa-fire',
             effects: ['ember', 'infernal', 'corruption']
         },
         mechanics: {
@@ -184,7 +184,7 @@ export const CLASS_RESOURCE_TYPES = {
                 baseColor: '#1a4d6d',
                 activeColor: '#4FC3F7',
                 glowColor: '#81D4FA',
-                icon: '⏳',
+                icon: 'fas fa-hourglass-half',
                 effects: ['temporal', 'power']
             },
             temporalStrain: {
@@ -200,7 +200,7 @@ export const CLASS_RESOURCE_TYPES = {
                     backlash: '#B71C1C'   // 10: Crimson
                 },
                 glowColor: '#FF5252',
-                icon: '⚠️',
+                icon: 'fas fa-triangle-exclamation',
                 effects: ['risk', 'instability']
             }
         },
@@ -499,7 +499,7 @@ export const CLASS_RESOURCE_TYPES = {
                 baseColor: '#1a0d1a',
                 activeColor: '#8B0000',
                 glowColor: '#DC143C',
-                icon: '💀'
+                icon: 'fas fa-skull'
             },
             bloodTokens: {
                 max: 20,
@@ -508,7 +508,7 @@ export const CLASS_RESOURCE_TYPES = {
                 glowColor: '#FF4444',
                 warningColor: '#FF6B6B',
                 dangerColor: '#FF0000',
-                icon: '🩸',
+                icon: 'fas fa-droplet',
                 volatilityTiers: {
                     stable: { max: 5, label: 'Stable', color: '#B22222' },
                     unstable: { min: 6, max: 10, label: 'Unstable', color: '#FF4444', selfDamage: '1/turn' },
@@ -628,7 +628,7 @@ export const CLASS_RESOURCE_TYPES = {
                 glowColor: '#D1D5DB',
                 name: 'Ascetic'
             },
-            icon: 'fa-cross',
+            icon: 'fas fa-cross',
             effects: ['radiant', 'sacrifice', 'devotion', 'active-bleed']
         },
         mechanics: {
@@ -1160,7 +1160,7 @@ CLASS_RESOURCE_TYPES['Arcanoneer'] = {
         layout: '1x8',
         baseColor: 'rgba(255, 255, 255, 0.1)',
         emptyColor: 'rgba(255, 255, 255, 0.05)',
-        icon: '🔮',
+        icon: 'fas fa-wand-sparkles',
         effects: ['elemental', 'combination', 'magicka']
     },
     mechanics: {
@@ -1447,7 +1447,7 @@ CLASS_RESOURCE_TYPES['Berserker'] = {
         baseColor: '#4A0000',
         activeColor: '#8B0000',
         glowColor: '#FF4500',
-        icon: '⚔️',
+        icon: 'fas fa-axe-battle',
         effects: ['rage', 'fury', 'escalation']
     },
     mechanics: {
@@ -1840,7 +1840,7 @@ CLASS_RESOURCE_TYPES['Warden'] = {
         baseColor: '#2E0854',
         activeColor: '#7B2CBF',
         glowColor: '#9D4EDD',
-        icon: '⚔️',
+        icon: 'fas fa-khanda',
         effects: ['vengeance', 'fury']
     },
     mechanics: {

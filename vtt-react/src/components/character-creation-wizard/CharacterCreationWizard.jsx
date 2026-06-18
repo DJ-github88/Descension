@@ -160,6 +160,19 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
                     >
                         <i className="fas fa-times"></i> Cancel
                     </button>
+
+                    {!isFirstStep && (
+                        <button
+                            type="button"
+                            className="wizard-btn wizard-btn-icon wizard-btn-prev"
+                            onClick={handlePrevious}
+                            disabled={isLoading}
+                            title="Previous step"
+                            aria-label="Previous step"
+                        >
+                            <i className="fas fa-chevron-left"></i>
+                        </button>
+                    )}
                 </div>
 
                 <div className="header-center">
@@ -192,21 +205,10 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
                 </div>
 
                 <div className="header-right">
-                    {!isFirstStep && (
-                        <button
-                            type="button"
-                            className="wizard-btn wizard-btn-secondary"
-                            onClick={handlePrevious}
-                            disabled={isLoading}
-                        >
-                            <i className="fas fa-arrow-left"></i> Previous
-                        </button>
-                    )}
-
                     {isLastStep ? (
                         <button
                             type="button"
-                            className="wizard-btn wizard-btn-primary"
+                            className="wizard-btn wizard-btn-primary wizard-btn-create"
                             onClick={handleComplete}
                             disabled={!state.isValid || isLoading}
                         >
@@ -223,11 +225,13 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
                     ) : (
                         <button
                             type="button"
-                            className="wizard-btn wizard-btn-primary"
+                            className="wizard-btn wizard-btn-icon wizard-btn-next"
                             onClick={handleNext}
                             disabled={isLoading}
+                            title="Next step"
+                            aria-label="Next step"
                         >
-                            Next <i className="fas fa-arrow-right"></i>
+                            <i className="fas fa-chevron-right"></i>
                         </button>
                     )}
                 </div>

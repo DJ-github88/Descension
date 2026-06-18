@@ -1,3 +1,4 @@
+import { getStore } from './storeRegistry';
 import { create } from 'zustand';
 import audioEngine from '../services/audioEngine';
 import {
@@ -15,7 +16,7 @@ import storageLimitService from '../services/firebase/storageLimitService';
 
 const getSocket = () => {
   try {
-    const presenceStore = require('./presenceStore').default;
+    const presenceStore = getStore('presenceStore');
     return presenceStore?.getState()?.socket;
   } catch (e) {
     return null;

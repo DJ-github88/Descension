@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import useEffectPresetStore from '../../store/effectPresetStore';
-import useBuffStore from '../../store/buffStore';
-import useDebuffStore from '../../store/debuffStore';
+import useConditionStore from '../../store/conditionStore';
 import useCreatureStore from '../../store/creatureStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
 import {
@@ -126,8 +125,7 @@ const BuffDebuffCreatorModal = ({
     initialType = null // 'buff' or 'debuff' to start with that tab
 }) => {
     const modalRef = useRef(null);
-    const { addBuff } = useBuffStore();
-    const { addDebuff } = useDebuffStore();
+    const { addCondition } = useConditionStore();
     const { tokens } = useCreatureStore();
     const { characterTokens } = useCharacterTokenStore();
     const { presets, addPreset, removePreset, initializeBuiltInPresets } = useEffectPresetStore();
@@ -408,9 +406,9 @@ const BuffDebuffCreatorModal = ({
         }
 
         if (effectConfig.effectType === 'buff') {
-            addBuff(storeData);
+            addCondition('buff', storeData);
         } else {
-            addDebuff(storeData);
+            addCondition('debuff', storeData);
         }
 
         onClose();

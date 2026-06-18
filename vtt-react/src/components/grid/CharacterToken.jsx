@@ -6,8 +6,7 @@ import usePartyStore from '../../store/partyStore';
 import useTargetingStore from '../../store/targetingStore';
 import useGameStore from '../../store/gameStore';
 import useCombatStore from '../../store/combatStore';
-import useBuffStore from '../../store/buffStore';
-import useDebuffStore from '../../store/debuffStore';
+import useConditionStore from '../../store/conditionStore';
 import useLevelEditorStore from '../../store/levelEditorStore';
 // Removed useEnhancedMultiplayer import - hook was removed
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
@@ -1843,9 +1842,9 @@ const CharacterToken = ({
         setShowContextMenu(false);
     }, [tokenId]);
 
-    // Active condition effects mapped to visual overlays (token state + buff/debuff stores)
-    const activeBuffs = useBuffStore(state => state.activeBuffs);
-    const activeDebuffs = useDebuffStore(state => state.activeDebuffs);
+    // Active condition effects mapped to visual overlays (token state + condition store)
+    const activeBuffs = useConditionStore(state => state.activeBuffs);
+    const activeDebuffs = useConditionStore(state => state.activeDebuffs);
 
     const conditionEffects = useMemo(() => {
         const supported = new Set([

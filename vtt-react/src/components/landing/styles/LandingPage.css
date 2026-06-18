@@ -189,6 +189,12 @@ body svg[data-icon] {
   will-change: background-position; /* Optimize animation performance */
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .landing-page.map-background {
+    animation: none;
+  }
+}
+
 /* Overlay to maintain readability - much lighter so map is clearly visible */
 .landing-page.map-background::before {
   content: '';
@@ -605,7 +611,7 @@ body svg[data-icon] {
   font-weight: 500;
 }
 
-.action-buttons {
+.hero-content .action-buttons {
   display: flex;
   gap: 20px;
   justify-content: center;
@@ -1568,7 +1574,7 @@ body svg[data-icon] {
     font-size: 3rem;
   }
   
-  .action-buttons {
+  .hero-content .action-buttons {
     justify-content: center;
     flex-direction: column;
     align-items: center;

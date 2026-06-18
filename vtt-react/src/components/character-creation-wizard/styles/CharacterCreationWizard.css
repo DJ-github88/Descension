@@ -1121,6 +1121,38 @@ button.gender-option.selected {
     border-color: #8b4513;
 }
 
+/* Small icon-only Previous/Next arrow buttons that flank the step indicator */
+.character-wizard-container .wizard-btn-icon {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    font-size: 1rem !important;
+    background: linear-gradient(135deg, #e8e2d2 0%, #d8cdb5 100%) !important;
+    color: #2c2416 !important;
+    border: 2px solid #8b4513 !important;
+    box-shadow: 0 2px 6px rgba(139, 69, 19, 0.18) !important;
+}
+
+.character-wizard-container .wizard-btn-icon:hover:not(:disabled) {
+    background: linear-gradient(135deg, #e6c757 0%, #d4af37 100%) !important;
+    border-color: #b8941f !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 10px rgba(212, 175, 55, 0.4) !important;
+}
+
+.character-wizard-container .wizard-btn-icon:active:not(:disabled) {
+    transform: translateY(0) !important;
+}
+
+.character-wizard-container .header-left {
+    gap: 0.5rem !important;
+}
+
 /* Error messages */
 .wizard-errors {
     margin: 2rem 3rem 1rem 3rem;
@@ -13683,5 +13715,127 @@ button.gender-option.selected {
     .core-draft-panels-container[data-mobile-panel] > .core-draft-column {
         flex: 1;
         min-height: 0;
+    }
+}
+
+/* ============================================================
+   MOBILE HEADER - single row with compact arrow nav buttons
+   [Cancel][<]  [1 2 3 4 5]  [>] / [Create]
+   ============================================================ */
+
+@media (max-width: 768px) {
+    .character-wizard-container .wizard-top-header {
+        gap: 0.4rem !important;
+        padding: 0.4rem 0.5rem !important;
+        min-height: auto !important;
+        flex-wrap: nowrap !important;
+        justify-content: space-between !important;
+    }
+
+    .character-wizard-container .header-left {
+        flex: 0 0 auto !important;
+        gap: 0.35rem !important;
+        min-width: 0 !important;
+    }
+
+    .character-wizard-container .header-center {
+        flex: 1 1 auto !important;
+        order: 2;
+        padding: 0 !important;
+        justify-content: center !important;
+        min-width: 0 !important;
+    }
+
+    .character-wizard-container .header-right {
+        flex: 0 0 auto !important;
+    }
+
+    /* Compact Cancel so the whole row fits */
+    .character-wizard-container .header-left .wizard-btn-cancel {
+        padding: 0.4rem 0.6rem !important;
+        min-width: 0 !important;
+        font-size: 0.8rem !important;
+    }
+
+    /* Slightly smaller arrow buttons on phones */
+    .character-wizard-container .wizard-btn-icon {
+        width: 34px !important;
+        height: 34px !important;
+        min-width: 34px !important;
+        font-size: 0.9rem !important;
+    }
+
+    /* Compact Create button on the final step */
+    .character-wizard-container .header-right .wizard-btn-create {
+        padding: 0.4rem 0.7rem !important;
+        min-width: 0 !important;
+        font-size: 0.8rem !important;
+    }
+
+    /* Compress step indicators to small dots, hide labels/connectors */
+    .character-wizard-container .progress-steps-horizontal {
+        gap: 0.2rem !important;
+        justify-content: center !important;
+        flex-wrap: nowrap !important;
+    }
+
+    .character-wizard-container .progress-step-horizontal {
+        min-width: 0 !important;
+        max-width: none !important;
+        gap: 0 !important;
+    }
+
+    .character-wizard-container .step-name-horizontal,
+    .character-wizard-container .step-connector {
+        display: none !important;
+    }
+
+    .character-wizard-container .step-circle-horizontal {
+        width: 26px !important;
+        height: 26px !important;
+        min-width: 26px !important;
+        min-height: 26px !important;
+        max-width: 26px !important;
+        max-height: 26px !important;
+        font-size: 0.78rem !important;
+        border-width: 2px !important;
+    }
+
+    .character-wizard-container .progress-step-horizontal.active .step-circle-horizontal {
+        transform: scale(1.08) !important;
+    }
+}
+
+/* Very small phones: shrink dots + buttons so everything fits one row */
+@media (max-width: 360px) {
+    .character-wizard-container .step-circle-horizontal {
+        width: 22px !important;
+        height: 22px !important;
+        min-width: 22px !important;
+        min-height: 22px !important;
+        max-width: 22px !important;
+        max-height: 22px !important;
+        font-size: 0.68rem !important;
+    }
+
+    .character-wizard-container .progress-steps-horizontal {
+        gap: 0.15rem !important;
+    }
+
+    .character-wizard-container .header-left .wizard-btn-cancel {
+        padding: 0.35rem 0.45rem !important;
+        font-size: 0.74rem !important;
+    }
+
+    .character-wizard-container .wizard-btn-icon {
+        width: 30px !important;
+        height: 30px !important;
+        min-width: 30px !important;
+        font-size: 0.82rem !important;
+    }
+
+    .character-wizard-container .header-right .wizard-btn-create {
+        padding: 0.35rem 0.5rem !important;
+        font-size: 0.74rem !important;
     }
 }

@@ -1,3 +1,4 @@
+import { getStore } from './storeRegistry';
 /**
  * Presence Store
  * 
@@ -132,7 +133,7 @@ const usePresenceStore = create((set, get) => ({
     const now = Date.now();
 
     if (lastProcessed && (now - lastProcessed) < 2000) {
-      console.log(`🔄 [Dedup] Skipping duplicate event: ${key}`);
+      console.log(`ðŸ”„ [Dedup] Skipping duplicate event: ${key}`);
       return true;
     }
 
@@ -234,8 +235,8 @@ const usePresenceStore = create((set, get) => ({
    * Subscribe to all online users
    *
    * PERF: The Firestore onSnapshot fires on every field write including heartbeats.
-   * Each write comes in two phases (pending local → committed server), which causes
-   * the online-user count to flicker 0→1→0→1 while server timestamps settle.
+   * Each write comes in two phases (pending local â†’ committed server), which causes
+   * the online-user count to flicker 0â†’1â†’0â†’1 while server timestamps settle.
    * We fix this with two guards:
    *   1. Debounce: batch rapid Firestore events into a single update (500 ms window).
    *   2. Change-detection: skip set() if the serialized user list is identical.
@@ -363,12 +364,12 @@ const usePresenceStore = create((set, get) => ({
 
     // Sync to partyStore
     try {
-      const gameStore = require('./gameStore').default;
+      const gameStore = getStore('gameStore');
       const isInMultiplayerRoom = gameStore.getState().isInMultiplayer;
       const isEnteringMultiplayer = sessionStorage.getItem('enteringMultiplayer') === 'true';
 
       if (!isInMultiplayerRoom && !isEnteringMultiplayer) {
-        const partyStore = require('./partyStore').default;
+        const partyStore = getStore('partyStore');
         partyStore.setState({
           currentParty: partyData,
           isInParty: true,
@@ -377,7 +378,7 @@ const usePresenceStore = create((set, get) => ({
         });
       }
     } catch (e) {
-      console.warn('⚠️ Failed to sync party update to partyStore:', e);
+      console.warn('âš ï¸ Failed to sync party update to partyStore:', e);
     }
   },
 
@@ -385,7 +386,7 @@ const usePresenceStore = create((set, get) => ({
     const { currentUserPresence, onlineUsers } = get();
 
     if (!currentUserPresence) {
-      console.error('❌ No currentUserPresence found!');
+      console.error('âŒ No currentUserPresence found!');
       return false;
     }
 
@@ -415,7 +416,7 @@ const usePresenceStore = create((set, get) => ({
     if (userExists) {
       newOnlineUsers.set(currentUserPresence.userId, updates);
     } else {
-      console.warn('⚠️ User not found in onlineUsers map, adding them now');
+      console.warn('âš ï¸ User not found in onlineUsers map, adding them now');
       newOnlineUsers.set(currentUserPresence.userId, updates);
     }
 
@@ -518,7 +519,7 @@ const usePresenceStore = create((set, get) => ({
     // Allow guest users to send global chat messages (essential for trial interaction)
     if (!currentUserPresence) {
       console.warn('Authentication required to send global chat messages');
-      chatDebug('🌐 [sendGlobalMessage] blocked - no presence');
+      chatDebug('ðŸŒ [sendGlobalMessage] blocked - no presence');
       return false;
     }
 
@@ -528,7 +529,7 @@ const usePresenceStore = create((set, get) => ({
     // Resolve a stable sender id for multiplayer + local fallback modes
     let fallbackPlayerId = null;
     try {
-      const gameState = require('./gameStore').default.getState();
+      const gameState = getStore('gameStore').getState();
       fallbackPlayerId = gameState?.currentPlayer?.id || null;
     } catch (e) {
       // gameStore not available, continue with other fallbacks
@@ -568,7 +569,7 @@ const usePresenceStore = create((set, get) => ({
     // Resolve best available multiplayer socket (presence socket first, then game socket fallback)
     let fallbackGameSocket = null;
     try {
-      const gameState = require('./gameStore').default.getState();
+      const gameState = getStore('gameStore').getState();
       fallbackGameSocket = gameState?.multiplayerSocket || null;
     } catch (e) {
       // gameStore unavailable in this context
@@ -580,7 +581,7 @@ const usePresenceStore = create((set, get) => ({
 
     // Emit to server for party members when connected; keep local optimistic append either way
     if (activeSocket) {
-      chatDebug('🌐 [sendGlobalMessage] emit', {
+      chatDebug('ðŸŒ [sendGlobalMessage] emit', {
         socketId: activeSocket.id,
         senderId,
         messageId,
@@ -588,8 +589,8 @@ const usePresenceStore = create((set, get) => ({
       });
       activeSocket.emit('global_chat_message', message);
     } else {
-      console.warn('⚠️ Global chat sent locally only (no active multiplayer socket)');
-      chatDebug('🌐 [sendGlobalMessage] no-active-socket', {
+      console.warn('âš ï¸ Global chat sent locally only (no active multiplayer socket)');
+      chatDebug('ðŸŒ [sendGlobalMessage] no-active-socket', {
         senderId,
         messageId
       });
@@ -618,7 +619,7 @@ const usePresenceStore = create((set, get) => ({
     let currentPlayer = null;
     let multiplayerSocket = null;
     try {
-      gameStoreState = require('./gameStore').default.getState();
+      gameStoreState = getStore('gameStore').getState();
       currentPlayer = gameStoreState?.currentPlayer || null;
       multiplayerSocket = gameStoreState?.multiplayerSocket || null;
     } catch (e) {
@@ -629,7 +630,7 @@ const usePresenceStore = create((set, get) => ({
     let partyState = null;
     let partyMembers = [];
     try {
-      const partyStore = require('./partyStore').default;
+      const partyStore = getStore('partyStore');
       partyState = partyStore.getState();
       partyMembers = partyState.partyMembers || [];
     } catch (e) {
@@ -710,7 +711,7 @@ const usePresenceStore = create((set, get) => ({
       type: 'whisper_sent'
     };
 
-    console.log('📤 Sending whisper:', {
+    console.log('ðŸ“¤ Sending whisper:', {
       recipientId: normalizedRecipientId,
       recipientName: recipientName,
       targetUserFound: !!targetUser,
@@ -831,7 +832,7 @@ const usePresenceStore = create((set, get) => ({
 
     const socketUrlCandidates = getSocketUrlCandidates();
     if (socketUrlCandidates.length === 0) {
-      console.error('❌ No socket URL candidates configured for social socket');
+      console.error('âŒ No socket URL candidates configured for social socket');
       return null;
     }
 
@@ -841,7 +842,7 @@ const usePresenceStore = create((set, get) => ({
     // Get auth token
     let authToken = null;
     try {
-      const authStore = require('./authStore').default;
+      const authStore = getStore('authStore');
       const authState = authStore.getState();
       if (authState.user && !authState.isDevelopmentBypass && !authState.user.isGuest && authState.user.getIdToken) {
         authToken = await authState.user.getIdToken();
@@ -863,13 +864,13 @@ const usePresenceStore = create((set, get) => ({
     const wireConnectionHandlers = (activeSocket, socketUrl) => {
       // Handle (re)connection - re-register presence
       activeSocket.on('connect', () => {
-        console.log('🔌 Socket connected:', activeSocket.id, 'url:', socketUrl);
+        console.log('ðŸ”Œ Socket connected:', activeSocket.id, 'url:', socketUrl);
         get().setConnected(true);
 
         // Re-register presence on (re)connection
         const { currentUserPresence } = get();
         if (currentUserPresence) {
-          console.log('📝 Re-registering presence on connect for:', currentUserPresence.userId);
+          console.log('ðŸ“ Re-registering presence on connect for:', currentUserPresence.userId);
           activeSocket.emit('register_presence', {
             userId: currentUserPresence.userId,
             name: currentUserPresence.name || currentUserPresence.characterName,
@@ -894,7 +895,7 @@ const usePresenceStore = create((set, get) => ({
       });
 
       activeSocket.on('connect_error', (error) => {
-        console.error('❌ Socket connection error:', error);
+        console.error('âŒ Socket connection error:', error);
         get().setConnected(false);
 
         // Development fallback: if localhost is unreachable, retry once against production social server
@@ -902,7 +903,7 @@ const usePresenceStore = create((set, get) => ({
           const fallbackUrl = fallbackSocketUrls.shift();
           fallbackAttempted = true;
 
-          console.warn(`⚠️ Primary social socket unavailable (${socketUrl}). Retrying with fallback: ${fallbackUrl}`);
+          console.warn(`âš ï¸ Primary social socket unavailable (${socketUrl}). Retrying with fallback: ${fallbackUrl}`);
 
           try {
             activeSocket.removeAllListeners();
@@ -917,17 +918,17 @@ const usePresenceStore = create((set, get) => ({
       });
 
       activeSocket.on('connect_timeout', () => {
-        console.error('❌ Socket connection timeout');
+        console.error('âŒ Socket connection timeout');
         get().setConnected(false);
       });
 
       activeSocket.on('error', (error) => {
-        console.error('❌ Socket error:', error);
+        console.error('âŒ Socket error:', error);
       });
     };
 
     const createSocket = (socketUrl) => {
-      console.log('🔌 Initializing global socket at:', socketUrl);
+      console.log('ðŸ”Œ Initializing global socket at:', socketUrl);
       const nextSocket = io(socketUrl, socketOptions);
       get().setSocket(nextSocket);
       wireConnectionHandlers(nextSocket, socketUrl);
@@ -977,15 +978,15 @@ const usePresenceStore = create((set, get) => ({
   sendPartyInvite: (targetUserId, targetPlayerName) => {
     const { currentUserPresence, socket } = get();
 
-    console.log(`📢 [presenceStore] sendPartyInvite called for target: ${targetUserId} (${targetPlayerName})`);
+    console.log(`ðŸ“¢ [presenceStore] sendPartyInvite called for target: ${targetUserId} (${targetPlayerName})`);
 
     let activeSocket = socket;
     if (!activeSocket || !activeSocket.connected) {
       try {
-        const gameSocket = require('./gameStore').default.getState()?.multiplayerSocket;
+        const gameSocket = getStore('gameStore').getState()?.multiplayerSocket;
         if (gameSocket && gameSocket.connected) {
           activeSocket = gameSocket;
-          console.log('📢 [presenceStore] Using game multiplayer socket as fallback');
+          console.log('ðŸ“¢ [presenceStore] Using game multiplayer socket as fallback');
         }
       } catch (e) {
         // gameStore might not be available
@@ -993,7 +994,7 @@ const usePresenceStore = create((set, get) => ({
     }
 
     if (!currentUserPresence || !activeSocket || !activeSocket.connected) {
-      console.warn('⚠️ Cannot send party invite: social socket is not connected', { currentUserPresence: !!currentUserPresence, socket: !!activeSocket, connected: activeSocket?.connected });
+      console.warn('âš ï¸ Cannot send party invite: social socket is not connected', { currentUserPresence: !!currentUserPresence, socket: !!activeSocket, connected: activeSocket?.connected });
       return false;
     }
 
@@ -1007,7 +1008,7 @@ const usePresenceStore = create((set, get) => ({
       outcome: null // 'accepted' | 'declined' | null
     };
 
-    console.log('📢 [presenceStore] Adding sentInviteEntry to state:', sentInviteEntry);
+    console.log('ðŸ“¢ [presenceStore] Adding sentInviteEntry to state:', sentInviteEntry);
     set(state => ({
       sentPartyInvites: [...state.sentPartyInvites, sentInviteEntry]
     }));
@@ -1015,15 +1016,15 @@ const usePresenceStore = create((set, get) => ({
     // Try to explicitly get current partyId if we are in one
     let explicitPartyId = null;
     try {
-      const partyStore = require('./partyStore').default;
+      const partyStore = getStore('partyStore');
       explicitPartyId = partyStore.getState().currentParty?.id || null;
-      console.log('📢 [presenceStore] Fetched explicitPartyId:', explicitPartyId);
+      console.log('ðŸ“¢ [presenceStore] Fetched explicitPartyId:', explicitPartyId);
     } catch (e) {
       // partyStore not available
     }
 
     // Server will look up the party from userToParty using fromUserId if explicitPartyId is null
-    console.log('📢 [presenceStore] Emitting invite_to_party to server...', { partyId: explicitPartyId, toUserId: targetUserId });
+    console.log('ðŸ“¢ [presenceStore] Emitting invite_to_party to server...', { partyId: explicitPartyId, toUserId: targetUserId });
     activeSocket.emit('invite_to_party', {
       partyId: explicitPartyId,
       fromUserId: currentUserPresence.userId,
@@ -1042,7 +1043,7 @@ const usePresenceStore = create((set, get) => ({
 
     if (!activeSocket || !activeSocket.connected) {
       try {
-        const gameSocket = require('./gameStore').default.getState()?.multiplayerSocket;
+        const gameSocket = getStore('gameStore').getState()?.multiplayerSocket;
         if (gameSocket && gameSocket.connected) {
           activeSocket = gameSocket;
         }
@@ -1119,7 +1120,7 @@ const usePresenceStore = create((set, get) => ({
     // If same socket is passed again, don't re-bind listeners
     const boundSocketId = get()._boundSocketId;
     if (socket && socket.id && boundSocketId === socket.id) {
-      console.log('⏭️ [setSocket] Socket already bound, skipping listener setup');
+      console.log('â­ï¸ [setSocket] Socket already bound, skipping listener setup');
       // Still re-register presence in case server restarted or lost the entry
       const { currentUserPresence } = get();
       if (currentUserPresence && socket.connected) {
@@ -1140,7 +1141,7 @@ const usePresenceStore = create((set, get) => ({
       // Check if we're in multiplayer mode before disconnecting
       let isInMultiplayer = false;
       try {
-        const gameStore = require('./gameStore').default;
+        const gameStore = getStore('gameStore');
         isInMultiplayer = gameStore.getState().isInMultiplayer;
       } catch (e) {
         // gameStore might not be available
@@ -1150,7 +1151,7 @@ const usePresenceStore = create((set, get) => ({
         sessionStorage.getItem('enteringMultiplayer') === 'true';
 
       if (isInMultiplayer || isEnteringMultiplayer) {
-        console.log('⏭️ [setSocket] Skipping socket disconnect - in multiplayer mode');
+        console.log('â­ï¸ [setSocket] Skipping socket disconnect - in multiplayer mode');
         // Still remove listeners from old socket to prevent duplicates
         try {
           existingSocket.removeAllListeners();
@@ -1158,7 +1159,7 @@ const usePresenceStore = create((set, get) => ({
           // Ignore cleanup errors
         }
       } else if (existingSocket.connected) {
-        console.log('🧹 [setSocket] Cleaning up previous socket before setting new one');
+        console.log('ðŸ§¹ [setSocket] Cleaning up previous socket before setting new one');
         try {
           existingSocket.removeAllListeners();
           existingSocket.disconnect();
@@ -1196,11 +1197,11 @@ const usePresenceStore = create((set, get) => ({
       // Party was created successfully
       socket.on('party_created', (payload) => {
         const partyData = payload.party || payload;
-        console.log('🎉 Party created:', partyData.name);
+        console.log('ðŸŽ‰ Party created:', partyData.name);
 
         // Add system message if not in multiplayer
         try {
-          const chatStore = require('./chatStore').default;
+          const chatStore = getStore('chatStore');
           chatStore.getState().addSocialNotification({
             type: 'party_created',
             sender: { name: 'Party System' },
@@ -1210,12 +1211,12 @@ const usePresenceStore = create((set, get) => ({
 
         // Don't overwrite room party if we're in a multiplayer room
         try {
-          const gameStore = require('./gameStore').default;
+          const gameStore = getStore('gameStore');
           const isInMultiplayerRoom = gameStore.getState().isInMultiplayer;
           const isEnteringMultiplayer = sessionStorage.getItem('enteringMultiplayer') === 'true';
 
           if (isInMultiplayerRoom || isEnteringMultiplayer) {
-            console.log('⏭️ Skipping party_created sync - in multiplayer room');
+            console.log('â­ï¸ Skipping party_created sync - in multiplayer room');
             return;
           }
         } catch (e) {
@@ -1236,7 +1237,7 @@ const usePresenceStore = create((set, get) => ({
         const partyData = payload.party || payload;
         if (!partyData) return;
 
-        console.log('🔄 Party sync received:', partyData.name || partyData.id);
+        console.log('ðŸ”„ Party sync received:', partyData.name || partyData.id);
 
         const members = partyData.members ? (
           Array.isArray(partyData.members) ? partyData.members : Object.values(partyData.members)
@@ -1249,12 +1250,12 @@ const usePresenceStore = create((set, get) => ({
         }));
 
         try {
-          const gameStore = require('./gameStore').default;
+          const gameStore = getStore('gameStore');
           const isInMultiplayerRoom = gameStore.getState().isInMultiplayer;
           const isEnteringMultiplayer = sessionStorage.getItem('enteringMultiplayer') === 'true';
 
           if (!isInMultiplayerRoom && !isEnteringMultiplayer) {
-            const partyStore = require('./partyStore').default;
+            const partyStore = getStore('partyStore');
             partyStore.setState({
               currentParty: partyData,
               isInParty: true,
@@ -1263,14 +1264,14 @@ const usePresenceStore = create((set, get) => ({
             });
           }
         } catch (e) {
-          console.warn('⚠️ Failed to sync party update to partyStore:', e);
+          console.warn('âš ï¸ Failed to sync party update to partyStore:', e);
         }
       };
 
       socket.on('party_joined', (payload) => {
         const partyData = payload.party || payload;
         if (!partyData) return;
-        console.log('🔄 Party joined:', partyData.name || partyData.id);
+        console.log('ðŸ”„ Party joined:', partyData.name || partyData.id);
 
         // Update party state - notification will be shown by party_join_confirmed
         // This prevents duplicate notifications since both events fire on join
@@ -1287,7 +1288,7 @@ const usePresenceStore = create((set, get) => ({
         const memberData = payload.memberData || payload.member;
 
         if (!memberData) {
-          console.warn('⚠️ Received party_member_joined with missing memberData:', payload);
+          console.warn('âš ï¸ Received party_member_joined with missing memberData:', payload);
           return;
         }
 
@@ -1296,7 +1297,7 @@ const usePresenceStore = create((set, get) => ({
           return;
         }
 
-        console.log(`👤 Party member joined: ${memberData.name} (Member ID: ${memberId || memberData.id}) to party: ${partyId}`);
+        console.log(`ðŸ‘¤ Party member joined: ${memberData.name} (Member ID: ${memberId || memberData.id}) to party: ${partyId}`);
 
         // Ensure memberData has character object with default resources if not provided
         const enrichedMemberData = {
@@ -1318,7 +1319,7 @@ const usePresenceStore = create((set, get) => ({
 
         if (!alreadyExists) {
           const updatedMembers = [...existingMembers, enrichedMemberData];
-          console.log(`📊 Updating presenceStore members count: ${existingMembers.length} -> ${updatedMembers.length}`);
+          console.log(`ðŸ“Š Updating presenceStore members count: ${existingMembers.length} -> ${updatedMembers.length}`);
           set(state => ({ partyMembers: updatedMembers }));
 
           // Add visual feedback notification only when member is NEW (prevents duplicate notifications)
@@ -1331,22 +1332,22 @@ const usePresenceStore = create((set, get) => ({
               message: `${memberData.name} joined the party`
             });
           } else {
-            console.log(`👤 [Dedup] Skipping "joined" toast for ${memberData.name} - already shown "accepted" toast.`);
+            console.log(`ðŸ‘¤ [Dedup] Skipping "joined" toast for ${memberData.name} - already shown "accepted" toast.`);
           }
         } else {
-          console.log('ℹ️ Member already exists in presenceStore');
+          console.log('â„¹ï¸ Member already exists in presenceStore');
         }
 
         // Sync to partyStore REGARDLESS of whether they were in presenceStore already,
         // but ONLY if not in multiplayer mode AND not entering multiplayer.
         // This ensures they show up in the specific "Your Party" UI.
         try {
-          const gameStore = require('./gameStore').default;
+          const gameStore = getStore('gameStore');
           const isInMultiplayerRoom = gameStore.getState().isInMultiplayer;
           const isEnteringMultiplayer = sessionStorage.getItem('enteringMultiplayer') === 'true';
 
           if (!isInMultiplayerRoom && !isEnteringMultiplayer) {
-            const partyStore = require('./partyStore').default;
+            const partyStore = getStore('partyStore');
             const partyState = partyStore.getState();
 
             // Deduplicate within partyStore specifically
@@ -1355,21 +1356,21 @@ const usePresenceStore = create((set, get) => ({
             );
 
             if (!inPartyStore) {
-              console.log(`📊 Syncing ${memberData.name} to partyStore.`);
+              console.log(`ðŸ“Š Syncing ${memberData.name} to partyStore.`);
               partyStore.getState().addPartyMember(enrichedMemberData);
             } else {
-              console.log(`ℹ️ ${memberData.name} already exists in partyStore`);
+              console.log(`â„¹ï¸ ${memberData.name} already exists in partyStore`);
             }
           } else {
-            console.log('ℹ️ Skipping partyStore sync - in multiplayer room or entering multiplayer');
+            console.log('â„¹ï¸ Skipping partyStore sync - in multiplayer room or entering multiplayer');
           }
         } catch (e) {
-          console.warn('⚠️ Failed to sync join to partyStore:', e);
+          console.warn('âš ï¸ Failed to sync join to partyStore:', e);
         }
 
         // Add system message to party chat
         try {
-          const chatStore = require('./chatStore').default;
+          const chatStore = getStore('chatStore');
           chatStore.getState().addSocialNotification({
             type: 'party_member_joined',
             sender: { name: memberData.name },
@@ -1387,7 +1388,7 @@ const usePresenceStore = create((set, get) => ({
           return;
         }
 
-        console.log(`✅ Your party invite was accepted by: ${memberName}`);
+        console.log(`âœ… Your party invite was accepted by: ${memberName}`);
 
         // Show "accepted your invite" toast to the inviter
         get().addPartyEventNotification('accepted', {
@@ -1397,7 +1398,7 @@ const usePresenceStore = create((set, get) => ({
 
         // Add to chat notifications
         try {
-          const chatStore = require('./chatStore').default;
+          const chatStore = getStore('chatStore');
           chatStore.getState().addSocialNotification({
             type: 'party_invite_accepted',
             sender: { name: memberName },
@@ -1415,7 +1416,7 @@ const usePresenceStore = create((set, get) => ({
           return;
         }
 
-        console.log(`✅ You joined party: ${partyName || partyId}`);
+        console.log(`âœ… You joined party: ${partyName || partyId}`);
 
         // Show toast notification to the receiver
         get().addPartyEventNotification('you_joined', {
@@ -1427,7 +1428,7 @@ const usePresenceStore = create((set, get) => ({
 
         // Add to chat notifications
         try {
-          const chatStore = require('./chatStore').default;
+          const chatStore = getStore('chatStore');
           chatStore.getState().addSocialNotification({
             type: 'party_joined',
             sender: { name: 'Party System' },
@@ -1443,7 +1444,7 @@ const usePresenceStore = create((set, get) => ({
       // A member left the party
       socket.on('party_member_left', ({ partyId, memberId, userName, memberName }) => {
         const displayName = userName || memberName || 'Unknown';
-        console.log('👤 Party member left:', displayName);
+        console.log('ðŸ‘¤ Party member left:', displayName);
 
         set(state => ({
           partyMembers: (state.partyMembers || []).filter(m => m.id !== memberId)
@@ -1451,7 +1452,7 @@ const usePresenceStore = create((set, get) => ({
 
         // Sync to partyStore
         try {
-          const partyStore = require('./partyStore').default;
+          const partyStore = getStore('partyStore');
           partyStore.setState(state => ({
             partyMembers: (state.partyMembers || []).filter(m => m.id !== memberId)
           }));
@@ -1461,7 +1462,7 @@ const usePresenceStore = create((set, get) => ({
 
         // Add system message to party chat
         try {
-          const chatStore = require('./chatStore').default;
+          const chatStore = getStore('chatStore');
           chatStore.getState().addSocialNotification({
             type: 'party_member_left',
             sender: { name: displayName },
@@ -1474,7 +1475,7 @@ const usePresenceStore = create((set, get) => ({
 
       // Party leadership changed (when leader leaves)
       socket.on('party_leader_changed', ({ partyId, newLeaderId, newLeaderName }) => {
-        console.log('👑 Party leadership changed:', newLeaderName);
+        console.log('ðŸ‘‘ Party leadership changed:', newLeaderName);
 
         const updater = state => ({
           partyMembers: (state.partyMembers || []).map(m => {
@@ -1490,7 +1491,7 @@ const usePresenceStore = create((set, get) => ({
 
         // Sync to partyStore
         try {
-          const partyStore = require('./partyStore').default;
+          const partyStore = getStore('partyStore');
           partyStore.setState(state => ({
             ...updater(state),
             leaderId: newLeaderId
@@ -1502,11 +1503,11 @@ const usePresenceStore = create((set, get) => ({
 
       // Party now has only one member (offer to disband) - LEGACY: Now auto-disbanded
       socket.on('party_single_member', ({ partyId, partyName, message }) => {
-        console.log('👤 You are now the only party member');
+        console.log('ðŸ‘¤ You are now the only party member');
 
         // Show notification
         try {
-          const chatStore = require('./chatStore').default;
+          const chatStore = getStore('chatStore');
           chatStore.getState().addSocialNotification({
             type: 'party_update',
             sender: { name: 'Party System' },
@@ -1519,11 +1520,11 @@ const usePresenceStore = create((set, get) => ({
 
       // Party auto-disbanded (only 1 member remaining)
       socket.on('party_auto_disbanded', ({ partyId, partyName, message }) => {
-        console.log('💥 Party auto-disbanded:', partyName);
+        console.log('ðŸ’¥ Party auto-disbanded:', partyName);
 
         // Show notification
         try {
-          const chatStore = require('./chatStore').default;
+          const chatStore = getStore('chatStore');
           chatStore.getState().addSocialNotification({
             type: 'party_disbanded',
             sender: { name: 'Party System' },
@@ -1553,7 +1554,7 @@ const usePresenceStore = create((set, get) => ({
 
         // Sync to partyStore
         try {
-          const partyStore = require('./partyStore').default;
+          const partyStore = getStore('partyStore');
           partyStore.setState({ ...resetState, leaderId: null, leaderMode: false });
         } catch (e) {
           // partyStore not available
@@ -1562,11 +1563,11 @@ const usePresenceStore = create((set, get) => ({
 
       // Party was disbanded
       socket.on('party_disbanded', ({ partyId, partyName, disbandedBy }) => {
-        console.log('💥 Party disbanded:', partyName);
+        console.log('ðŸ’¥ Party disbanded:', partyName);
 
         // Add system message if not in multiplayer
         try {
-          const chatStore = require('./chatStore').default;
+          const chatStore = getStore('chatStore');
           chatStore.getState().addSocialNotification({
             type: 'party_disbanded',
             sender: { name: 'Party System' },
@@ -1594,7 +1595,7 @@ const usePresenceStore = create((set, get) => ({
 
         // Sync to partyStore
         try {
-          const partyStore = require('./partyStore').default;
+          const partyStore = getStore('partyStore');
           partyStore.setState({ ...resetState, leaderId: null, leaderMode: false });
         } catch (e) {
           // partyStore not available
@@ -1603,11 +1604,11 @@ const usePresenceStore = create((set, get) => ({
 
       // Party was left (user perspective)
       socket.on('party_left', ({ partyId }) => {
-        console.log('👤 Left party:', partyId);
+        console.log('ðŸ‘¤ Left party:', partyId);
 
         // Add system message if not in multiplayer
         try {
-          const chatStore = require('./chatStore').default;
+          const chatStore = getStore('chatStore');
           chatStore.getState().addSocialNotification({
             type: 'party_left',
             sender: { name: 'Party System' },
@@ -1635,7 +1636,7 @@ const usePresenceStore = create((set, get) => ({
 
         // Sync to partyStore
         try {
-          const partyStore = require('./partyStore').default;
+          const partyStore = getStore('partyStore');
           partyStore.setState({ ...resetState, leaderId: null, leaderMode: false });
         } catch (e) {
           // partyStore not available
@@ -1646,13 +1647,13 @@ const usePresenceStore = create((set, get) => ({
       socket.on('party_updated', (payload) => {
         if (!payload) return;
         const partyData = payload.party || payload;
-        console.log('🔄 Party updated:', partyData.name);
+        console.log('ðŸ”„ Party updated:', partyData.name);
         get().handlePartyUpdate(partyData);
       });
 
       // Member removed from party (kick or self-leave via server)
       socket.on('member_removed', ({ partyId, targetUserId, userName }) => {
-        console.log('👤 Member removed from party:', userName);
+        console.log('ðŸ‘¤ Member removed from party:', userName);
 
         const isSelf = get().currentUserPresence?.userId === targetUserId;
 
@@ -1666,7 +1667,7 @@ const usePresenceStore = create((set, get) => ({
           set(resetState);
 
           try {
-            const chatStore = require('./chatStore').default;
+            const chatStore = getStore('chatStore');
             chatStore.getState().addSocialNotification({
               type: 'party_member_removed',
               sender: { name: 'Party System' },
@@ -1675,7 +1676,7 @@ const usePresenceStore = create((set, get) => ({
           } catch (e) { }
 
           try {
-            const partyStore = require('./partyStore').default;
+            const partyStore = getStore('partyStore');
             partyStore.setState({
               ...resetState,
               leaderId: null,
@@ -1696,7 +1697,7 @@ const usePresenceStore = create((set, get) => ({
           });
 
           try {
-            const partyStore = require('./partyStore').default;
+            const partyStore = getStore('partyStore');
             partyStore.setState(state => {
               const updatedMembers = (state.partyMembers || []).filter(m => m.id !== targetUserId);
               return { partyMembers: updatedMembers };
@@ -1707,14 +1708,14 @@ const usePresenceStore = create((set, get) => ({
 
       // Party invitation received
       socket.on('party_invitation_received', (invitation) => {
-        console.log('📩 Party invitation received:', invitation.partyName || 'New Party');
+        console.log('ðŸ“© Party invitation received:', invitation.partyName || 'New Party');
 
         set(state => ({
           pendingPartyInvites: [...state.pendingPartyInvites, invitation]
         }));
 
         // Show notification
-        const chatStore = require('./chatStore').default;
+        const chatStore = getStore('chatStore');
         chatStore.getState().addSocialNotification({
           type: 'party_invitation_received',
           sender: { name: invitation.fromUserName },
@@ -1724,7 +1725,7 @@ const usePresenceStore = create((set, get) => ({
 
       // Server confirms invitation was sent (with real invitationId for matching)
       socket.on('invitation_sent', ({ invitationId, toUserId }) => {
-        console.log('📤 [invitation_sent] Server confirmed invite sent:', { invitationId, toUserId });
+        console.log('ðŸ“¤ [invitation_sent] Server confirmed invite sent:', { invitationId, toUserId });
 
         // Update the matching sent invite entry with the real invitationId
         set(state => {
@@ -1732,7 +1733,7 @@ const usePresenceStore = create((set, get) => ({
             // Match by targetUserId (most reliable) or by recent timestamp (fallback)
             const isRecent = Date.now() - inv.sentAt < 5000; // Within last 5 seconds
             if (inv.targetUserId === toUserId || (inv.invitationId === null && isRecent)) {
-              console.log(`📤 [invitation_sent] Updating invite for ${inv.targetName} with invitationId: ${invitationId}`);
+              console.log(`ðŸ“¤ [invitation_sent] Updating invite for ${inv.targetName} with invitationId: ${invitationId}`);
               return { ...inv, invitationId };
             }
             return inv;
@@ -1750,7 +1751,7 @@ const usePresenceStore = create((set, get) => ({
       // NOTE: This event ONLY updates the sentPartyInvites list.
       // Notifications are handled by party_invite_accepted handler to prevent duplicates.
       socket.on('party_invitation_accepted', ({ invitationId, userId, userName }) => {
-        console.log('✅ Party invitation accepted (list update):', userName, 'userId:', userId, 'invitationId:', invitationId);
+        console.log('âœ… Party invitation accepted (list update):', userName, 'userId:', userId, 'invitationId:', invitationId);
 
         set(state => ({
           pendingPartyInvites: state.pendingPartyInvites.filter(inv => inv.id !== invitationId),
@@ -1767,7 +1768,7 @@ const usePresenceStore = create((set, get) => ({
 
       // Party invitation was declined
       socket.on('party_invitation_declined', ({ invitationId, userId, userName }) => {
-        console.log('❌ Party invitation declined:', userName, 'invitationId:', invitationId);
+        console.log('âŒ Party invitation declined:', userName, 'invitationId:', invitationId);
 
         set(state => {
           const updatedInvites = state.sentPartyInvites.map(inv => {
@@ -1790,7 +1791,7 @@ const usePresenceStore = create((set, get) => ({
         });
 
         // Show notification in chat
-        const chatStore = require('./chatStore').default;
+        const chatStore = getStore('chatStore');
         chatStore.getState().addSocialNotification({
           type: 'party_invitation_declined',
           sender: { name: userName },
@@ -1800,7 +1801,7 @@ const usePresenceStore = create((set, get) => ({
 
       // Receiver confirmation - you declined an invite
       socket.on('invitation_declined_confirmed', ({ invitationId }) => {
-        console.log('✅ Party invite declined');
+        console.log('âœ… Party invite declined');
 
         // Show toast notification to the decliner
         get().addPartyEventNotification('you_declined', {
@@ -1810,7 +1811,7 @@ const usePresenceStore = create((set, get) => ({
 
       // Party chat message received from server
       socket.on('global_chat_message', (message) => {
-        chatDebug('🌐 [global_chat_message] received', {
+        chatDebug('ðŸŒ [global_chat_message] received', {
           senderId: message.senderId,
           messageId: message.id,
           contentLength: message.content?.length
@@ -1821,7 +1822,7 @@ const usePresenceStore = create((set, get) => ({
       socket.on('party_chat_message', (message) => {
         const { partyId, fromId, message: content, timestamp, senderName, fromSocketId } = message;
         
-        chatDebug('💬 [party_chat_message] received', {
+        chatDebug('ðŸ’¬ [party_chat_message] received', {
           partyId,
           fromId,
           fromSocketId,
@@ -1829,13 +1830,13 @@ const usePresenceStore = create((set, get) => ({
           contentLength: content?.length
         });
 
-        // Skip messages from self — already optimistically appended by TabbedChat
+        // Skip messages from self â€” already optimistically appended by TabbedChat
         // CRITICAL: Use fromSocketId if available to allow cross-tab syncing for the same user
         const { currentUserPresence, socket: activeSocket } = get();
 
         let currentPlayerId = null;
         try {
-          const gameStore = require('./gameStore').default;
+          const gameStore = getStore('gameStore');
           currentPlayerId = gameStore.getState().currentPlayer?.id;
         } catch (e) {}
 
@@ -1848,7 +1849,7 @@ const usePresenceStore = create((set, get) => ({
         );
 
         if (isFromOurSocket || isFromOurIdNoSocket) {
-          chatDebug('💬 Skipping self-echo for party message');
+          chatDebug('ðŸ’¬ Skipping self-echo for party message');
           return;
         }
 
@@ -1868,10 +1869,10 @@ const usePresenceStore = create((set, get) => ({
 
       // Party error received
       socket.on('party_error', ({ error, partyId, ...rest }) => {
-        console.error('❌ Party error:', error);
+        console.error('âŒ Party error:', error);
 
         // Show notification
-        const chatStore = require('./chatStore').default;
+        const chatStore = getStore('chatStore');
         chatStore.getState().addSocialNotification({
           type: 'party_error',
           content: error || 'An error occurred'
@@ -1882,7 +1883,7 @@ const usePresenceStore = create((set, get) => ({
       socket.on('gm_session_invitation', (invitation) => {
         if (!invitation) return;
 
-        console.log('🎭 GM session invitation received:', {
+        console.log('ðŸŽ­ GM session invitation received:', {
           partyName: invitation.partyName,
           gmName: invitation.gmName,
           roomId: invitation.roomId,
@@ -1896,17 +1897,17 @@ const usePresenceStore = create((set, get) => ({
         // CRITICAL FIX: Clear social party members from partyStore to prevent duplicate HUDs
         // When joining the GM's room, we'll get fresh party member data from the room
         try {
-          const partyStore = require('./partyStore').default;
+          const partyStore = getStore('partyStore');
           const currentMembers = partyStore.getState().partyMembers || [];
           if (currentMembers.length > 0) {
-            console.log('🧹 Clearing social party members on GM session invitation', {
+            console.log('ðŸ§¹ Clearing social party members on GM session invitation', {
               count: currentMembers.length,
               names: currentMembers.map(m => m.name)
             });
             partyStore.getState().clearPartyMembers();
           }
         } catch (e) {
-          console.warn('⚠️ Failed to clear party members on GM session invitation:', e);
+          console.warn('âš ï¸ Failed to clear party members on GM session invitation:', e);
         }
 
         // Set flag to trigger invitation UI
@@ -1918,7 +1919,7 @@ const usePresenceStore = create((set, get) => ({
       socket.on('session_join_request', (request) => {
         if (!request) return;
 
-        console.log('📨 Session join request received:', {
+        console.log('ðŸ“¨ Session join request received:', {
           requesterName: request.requesterName,
           requesterId: request.requesterId,
           roomId: request.roomId,
@@ -1949,21 +1950,21 @@ const usePresenceStore = create((set, get) => ({
       });
 
       socket.on('join_request_accepted', (data) => {
-        console.log('✅ Join request accepted:', data);
+        console.log('âœ… Join request accepted:', data);
 
         const { invitation, roomId } = data;
 
         sessionStorage.setItem('enteringMultiplayer', 'true');
 
         try {
-          const partyStore = require('./partyStore').default;
+          const partyStore = getStore('partyStore');
           const currentMembers = partyStore.getState().partyMembers || [];
           if (currentMembers.length > 0) {
-            console.log('🧹 Clearing party members on join request acceptance');
+            console.log('ðŸ§¹ Clearing party members on join request acceptance');
             partyStore.getState().clearPartyMembers();
           }
         } catch (e) {
-          console.warn('⚠️ Failed to clear party members:', e);
+          console.warn('âš ï¸ Failed to clear party members:', e);
         }
 
         set({
@@ -1977,7 +1978,7 @@ const usePresenceStore = create((set, get) => ({
       });
 
       socket.on('join_request_declined', (data) => {
-        console.log('❌ Join request declined:', data);
+        console.log('âŒ Join request declined:', data);
 
         set(state => ({
           sentJoinRequests: state.sentJoinRequests.filter(r => r.id !== data.requestId)
@@ -1989,7 +1990,7 @@ const usePresenceStore = create((set, get) => ({
       });
 
       socket.on('party_invite_failed', (data) => {
-        console.error('❌ Party invite failed:', data);
+        console.error('âŒ Party invite failed:', data);
 
         // Update the sent invite entry as failed
         set(state => ({
@@ -2008,7 +2009,7 @@ const usePresenceStore = create((set, get) => ({
           message: data.error || 'Failed to invite user'
         });
 
-        const chatStore = require('./chatStore').default;
+        const chatStore = getStore('chatStore');
         chatStore.getState().addSocialNotification({
           type: 'party_invite_failed',
           content: data.error || 'Failed to invite user'
@@ -2016,7 +2017,7 @@ const usePresenceStore = create((set, get) => ({
       });
 
       socket.on('session_invitation_sent', (data) => {
-        console.log('✅ Session invitation sent:', data);
+        console.log('âœ… Session invitation sent:', data);
 
         get().addPartyEventNotification('session_invitation_sent', {
           message: 'Session invitation sent'
@@ -2024,7 +2025,7 @@ const usePresenceStore = create((set, get) => ({
       });
 
       socket.on('invite_error', (data) => {
-        console.error('❌ Invite error:', data);
+        console.error('âŒ Invite error:', data);
 
         get().addPartyEventNotification('invite_error', {
           message: data.message || 'Failed to send invitation'
@@ -2033,7 +2034,7 @@ const usePresenceStore = create((set, get) => ({
 
       // Whisper message received (for global/presence socket, outside game rooms)
       socket.on('whisper_received', (message) => {
-        console.log('💬 Whisper received:', {
+        console.log('ðŸ’¬ Whisper received:', {
           senderId: message.senderId,
           senderName: message.senderName,
           recipientId: message.recipientId,
@@ -2050,7 +2051,7 @@ const usePresenceStore = create((set, get) => ({
 
       // Whisper sent confirmation (for global/presence socket)
       socket.on('whisper_sent', (message) => {
-        console.log('✅ Whisper sent confirmation:', {
+        console.log('âœ… Whisper sent confirmation:', {
           recipientId: message.recipientId,
           recipientName: message.recipientName,
           content: message.content?.substring(0, 30)
@@ -2065,7 +2066,7 @@ const usePresenceStore = create((set, get) => ({
 
       // Another user's status changed (for real-time updates in Online Users list)
       socket.on('user_status_changed', ({ userId, status, statusComment }) => {
-        console.log('🔄 User status changed:', { userId, status });
+        console.log('ðŸ”„ User status changed:', { userId, status });
 
         const { onlineUsers, currentUserPresence } = get();
 
@@ -2121,16 +2122,16 @@ const usePresenceStore = create((set, get) => ({
     const { gmSessionInvitation, socket } = get();
 
     if (!gmSessionInvitation) {
-      console.error('❌ No GM session invitation to accept');
+      console.error('âŒ No GM session invitation to accept');
       return;
     }
 
     if (!socket || !socket.connected) {
-      console.error('❌ No socket connection for GM session invitation');
+      console.error('âŒ No socket connection for GM session invitation');
       return;
     }
 
-    console.log('✅ Accepting GM session invitation:', gmSessionInvitation.partyName);
+    console.log('âœ… Accepting GM session invitation:', gmSessionInvitation.partyName);
 
     // Set flag to prevent social party from syncing to partyStore during transition
     sessionStorage.setItem('enteringMultiplayer', 'true');
@@ -2143,7 +2144,7 @@ const usePresenceStore = create((set, get) => ({
       partyName: gmSessionInvitation.partyName
     }));
 
-    console.log('💾 [presenceStore] Saved pendingGMSessionInvitation to sessionStorage');
+    console.log('ðŸ’¾ [presenceStore] Saved pendingGMSessionInvitation to sessionStorage');
 
     // Set flag to trigger navigation to /multiplayer so MultiplayerApp mounts
     set({
@@ -2170,11 +2171,11 @@ const usePresenceStore = create((set, get) => ({
     const { socket } = get();
 
     if (!socket || !socket.connected) {
-      console.error('❌ No socket connection for join request');
+      console.error('âŒ No socket connection for join request');
       return false;
     }
 
-    console.log('📨 Sending join request to leader:', { leaderId, roomId, requesterId, requesterName });
+    console.log('ðŸ“¨ Sending join request to leader:', { leaderId, roomId, requesterId, requesterName });
 
     const requestId = uuidv4();
     const request = {
@@ -2207,11 +2208,11 @@ const usePresenceStore = create((set, get) => ({
     const { socket } = get();
 
     if (!socket || !socket.connected) {
-      console.error('❌ No socket connection for join request response');
+      console.error('âŒ No socket connection for join request response');
       return false;
     }
 
-    console.log(`${accepted ? '✅' : '❌'} Responding to join request:`, { requestId, accepted });
+    console.log(`${accepted ? 'âœ…' : 'âŒ'} Responding to join request:`, { requestId, accepted });
 
     socket.emit('respond_to_join_request', {
       requestId,
@@ -2232,11 +2233,11 @@ const usePresenceStore = create((set, get) => ({
     const { socket } = get();
 
     if (!socket || !socket.connected) {
-      console.error('❌ No socket connection for session invitation');
+      console.error('âŒ No socket connection for session invitation');
       return false;
     }
 
-    console.log('📨 Sending session invitation:', { memberId, roomId });
+    console.log('ðŸ“¨ Sending session invitation:', { memberId, roomId });
 
     socket.emit('invite_member_to_session', {
       memberId,
@@ -2262,16 +2263,16 @@ const usePresenceStore = create((set, get) => ({
     const { gmSessionInvitation, socket } = get();
 
     if (!gmSessionInvitation) {
-      console.error('❌ No GM session invitation to decline');
+      console.error('âŒ No GM session invitation to decline');
       return;
     }
 
     if (!socket || !socket.connected) {
-      console.error('❌ No socket connection for GM session invitation');
+      console.error('âŒ No socket connection for GM session invitation');
       return;
     }
 
-    console.log('❌ Declining GM session invitation:', gmSessionInvitation.partyName);
+    console.log('âŒ Declining GM session invitation:', gmSessionInvitation.partyName);
     socket.emit('respond_to_room_invitation', {
       invitationId: gmSessionInvitation.id,
       roomId: gmSessionInvitation.roomId,
@@ -2397,7 +2398,7 @@ const usePresenceStore = create((set, get) => ({
       if (!user) {
         // Try to get from party store synchronously (if already imported)
         try {
-          const partyStore = require('./partyStore').default;
+          const partyStore = getStore('partyStore');
           const partyState = partyStore.getState();
           const partyMember = partyState.partyMembers.find(m => m.id === resolvedUserId || m.id === userId);
           if (partyMember) {

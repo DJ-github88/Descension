@@ -1,3 +1,4 @@
+import { getStore } from './storeRegistry';
 import { create } from 'zustand';
 import { getBiome, getBiomeWeather, getBiomeEncounter, getAtmosphere } from '../data/biomeData';
 
@@ -58,7 +59,7 @@ const useTravelStore = create((set, get) => ({
   })),
 
   setAllPlayerGear: (gearState) => set(s => {
-    const members = require('./partyStore').default.getState().partyMembers;
+    const members = getStore('partyStore').getState().partyMembers;
     const players = members.filter(m => !m.isGM && m.isConnected);
     const next = { ...s.playerGearStates };
     players.forEach(m => { next[m.id || m.userId] = gearState; });
@@ -337,19 +338,19 @@ const useTravelStore = create((set, get) => ({
 
   initPlayerTravelListener: (socket) => {
     if (!socket) return;
-    console.log('🗺️ [TravelStore] Registering player travel listeners on socket');
+    console.log('ðŸ—ºï¸ [TravelStore] Registering player travel listeners on socket');
     socket.on('travel_sync', (data) => {
-      console.log('🗺️ [TravelStore] Received travel_sync:', Object.keys(data));
+      console.log('ðŸ—ºï¸ [TravelStore] Received travel_sync:', Object.keys(data));
       set({ playerTravelState: data });
     });
     socket.on('travel_update', (data) => {
-      console.log('🗺️ [TravelStore] Received travel_update:', Object.keys(data));
+      console.log('ðŸ—ºï¸ [TravelStore] Received travel_update:', Object.keys(data));
       set(s => ({
         playerTravelState: { ...s.playerTravelState, ...data }
       }));
     });
     socket.on('travel_broadcast', (data) => {
-      console.log('🗺️ [TravelStore] Received travel_broadcast:', data.text?.substring(0, 50));
+      console.log('ðŸ—ºï¸ [TravelStore] Received travel_broadcast:', data.text?.substring(0, 50));
       set(s => ({
         playerTravelState: {
           ...s.playerTravelState,
@@ -360,7 +361,7 @@ const useTravelStore = create((set, get) => ({
           ].slice(-50)
         }
       }));
-      const { showRestOverlay } = require('./gameStore').default.getState();
+      const { showRestOverlay } = getStore('gameStore').getState();
       if (showRestOverlay && data?.text) {
         showRestOverlay('travel', data.text);
       }
@@ -369,18 +370,18 @@ const useTravelStore = create((set, get) => ({
   },
 
   _broadcastToPlayers: (event, data) => {
-    const { multiplayerRoom, multiplayerSocket } = require('./gameStore').default.getState();
+    const { multiplayerRoom, multiplayerSocket } = getStore('gameStore').getState();
     const socket = multiplayerSocket || get().travelSocket;
     if (!socket) {
-      console.warn('🗺️ [TravelStore] Cannot broadcast - no socket available');
+      console.warn('ðŸ—ºï¸ [TravelStore] Cannot broadcast - no socket available');
       return;
     }
     const roomId = multiplayerRoom?.id;
     if (!roomId) {
-      console.warn('🗺️ [TravelStore] Cannot broadcast - no room ID');
+      console.warn('ðŸ—ºï¸ [TravelStore] Cannot broadcast - no room ID');
       return;
     }
-    console.log('🗺️ [TravelStore] Broadcasting', event, 'to room', roomId);
+    console.log('ðŸ—ºï¸ [TravelStore] Broadcasting', event, 'to room', roomId);
     socket.emit(event, { ...data, roomId });
   },
 

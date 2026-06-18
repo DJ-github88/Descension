@@ -1,3 +1,4 @@
+import { getStore } from './storeRegistry';
 import { create } from 'zustand';
 import { v4 as uuidv4 } from 'uuid';
 import useItemStore from './itemStore';
@@ -10,6 +11,8 @@ import '../styles/item-notification.css';
 
 // Helper to generate a unique ID
 const generateId = () => `grid-item-${uuidv4()}`;
+
+const _lootInFlight = new Set();
 
 // Simple queue so currency notifications never overlap
 const currencyNotificationQueue = [];
@@ -123,9 +126,9 @@ const useGridItemStore = create((set, get) => ({
       resolvedMapId = item.mapId;
     } else {
       try {
-        const mapStore = require('./mapStore').default;
+        const mapStore = getStore('mapStore');
         resolvedMapId = mapStore.getState().currentMapId || 'default';
-        console.log('🗺️ [addItemToGrid] Setting mapId for item:', {
+        console.log('ðŸ—ºï¸ [addItemToGrid] Setting mapId for item:', {
           itemName: item.name,
           itemId: item.id,
           mapId: resolvedMapId,
@@ -352,6 +355,10 @@ const useGridItemStore = create((set, get) => ({
 
   // Loot an item from the grid and add it to inventory
   lootItem: (gridItemId, characterId = 'default', looterName = 'Player', sendToServer = true) => {
+    if (_lootInFlight.has(gridItemId)) {
+      return false;
+    }
+    _lootInFlight.add(gridItemId);
     try {
       const { gridItems } = get();
       const { removeItemFromGrid } = get();
@@ -361,9 +368,9 @@ const useGridItemStore = create((set, get) => ({
 
       // Find the grid item
       const gridItem = currentItems.find(item => item?.id === gridItemId);
-      console.log('🎁 lootItem called for:', gridItemId, 'Found gridItem:', !!gridItem);
+      console.log('ðŸŽ lootItem called for:', gridItemId, 'Found gridItem:', !!gridItem);
       if (!gridItem) {
-        console.warn('🎁 lootItem: Item not found in store:', gridItemId);
+        console.warn('ðŸŽ lootItem: Item not found in store:', gridItemId);
         return false;
       }
 
@@ -382,7 +389,7 @@ const useGridItemStore = create((set, get) => ({
       // If the original item doesn't exist, we can still use the grid item's properties
       // This handles items created directly in inventory (like test items or currency)
       // Use ALL properties from the grid item to ensure nothing is lost
-      // Priority: main item store → temporary items → originalItemStoreId → grid item fallback
+      // Priority: main item store â†’ temporary items â†’ originalItemStoreId â†’ grid item fallback
       // But preserve customName from grid item if it exists (for renamed items)
       const itemToUse = originalItem ? {
         ...originalItem,
@@ -655,7 +662,7 @@ const useGridItemStore = create((set, get) => ({
             preserveId: preserveId,
             preserveProperties: true // Add a flag to ensure all properties are preserved
           });
-          console.log('🎁 inventoryStore.addItemFromLibrary result:', newInventoryItemId);
+          console.log('ðŸŽ inventoryStore.addItemFromLibrary result:', newInventoryItemId);
 
           // Only remove the loot orb if the item was successfully added to inventory
           if (newInventoryItemId) {
@@ -668,7 +675,7 @@ const useGridItemStore = create((set, get) => ({
             if (sendToServer && gameStore.isInMultiplayer) {
               if (gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
                 // Dynamic import to avoid circular dependency
-                const mapStore = require('./mapStore').default;
+                const mapStore = getStore('mapStore');
                 const currentMapId = mapStore.getState().currentMapId || 'default';
 
                 gameStore.multiplayerSocket.emit('item_looted', {
@@ -789,6 +796,8 @@ const useGridItemStore = create((set, get) => ({
     } catch (error) {
       console.error('Loot item failed:', error);
       return false;
+    } finally {
+      _lootInFlight.delete(gridItemId);
     }
   },
 
@@ -838,7 +847,7 @@ const useGridItemStore = create((set, get) => ({
       : null;
 
     if (!normalizedGridId) {
-      console.warn('⚠️ Grid item missing ID, skipping:', item);
+      console.warn('âš ï¸ Grid item missing ID, skipping:', item);
       return state;
     }
 
@@ -963,10 +972,9 @@ const useGridItemStore = create((set, get) => ({
       let currentMapId = targetMapId;
       if (!currentMapId) {
         try {
-          // Dynamic import to avoid circular dependency
-          const mapStoreModule = require('./mapStore');
-          if (mapStoreModule && mapStoreModule.default) {
-            const mapStore = mapStoreModule.default.getState();
+          const mapStoreInstance = getStore('mapStore');
+          if (mapStoreInstance) {
+            const mapStore = mapStoreInstance.getState();
             currentMapId = mapStore.currentMapId || 'default';
           }
         } catch (error) {

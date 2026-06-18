@@ -1,3 +1,4 @@
+import { getStore } from './storeRegistry';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { ALL_RECIPES } from '../data/recipes/index.js';
@@ -536,12 +537,12 @@ const useCraftingStore = create(
           const recipe = state.availableRecipes.find(r => r.id === queueItem.recipeId);
           if (recipe && recipe.resultItemId) {
             try {
-              const itemStore = require('./itemStore').default;
+              const itemStore = getStore('itemStore');
               const itemState = itemStore.getState();
               const libraryItem = itemState.items.find(item => item.id === recipe.resultItemId);
 
               if (libraryItem) {
-                const inventoryStore = require('./inventoryStore').default;
+                const inventoryStore = getStore('inventoryStore');
                 const quantity = recipe.resultQuantity || 1;
                 for (let i = 0; i < quantity; i++) {
                   inventoryStore.addItemFromLibrary({ ...libraryItem });

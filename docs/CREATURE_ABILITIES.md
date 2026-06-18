@@ -47,31 +47,31 @@
 **Combat:** 30 HP. Cork-Tooth Bite (melee, +3 to hit, 1d4 bludgeoning). Forget-Mead (special: offers a cup; drinker loses memory of the last hour per sip, or a full day per cup; DC 12 SPI to resist). Cask-Tending (passive: any alcohol it tends never spoils or freezes). Vulnerable to iron.
 **Stats:** STR 6, AGI 14, CON 10, INT 8, SPI 12, CHA 14 | HP 30, Mana 5, AP 3, Speed 25 | Resist: cold 50
 
-### 10. Sluagh-Ride — A | High
+### 10. Wildejagd — A | High
 **Combat:** 140 HP. Archive-Storm (AoE 40 ft, DC 15 SPI or 3d6 psychic + lose one lineage-level memory). Page-Rain (ranged, 2d6 slashing + DC 14 AGI or restrained by paper 1 round). Name-Whisper (passive: whispers forgotten ancestor names; DC 14 SPI or charmed, walking toward the entity). Absorb-Identity (special: when a target loses their last memory to fog within 30 ft, the Sluagh absorbs them, gaining +20 HP). Vulnerable to radiant.
 **Stats:** STR 8, AGI 16, CON 14, INT 12, SPI 18, CHA 14 | HP 140, Mana 50, AP 4, Speed 30 (fly 40) | Resist: cold 50, psychic 50
 
-### 11. Fuathlure — C | Medium
+### 11. Fuath — C | Medium
 **Combat:** 60 HP. Pool-Song (AoE 30 ft, DC 13 SPI or compelled to walk toward the pool). Memory-Restore (special: temporarily restores one precious memory to lure the target; this is the bait). Dissolve (bonus action: becomes indistinguishable from pool-water, gaining full concealment). Kelp-Grasp (melee, +4 to hit, DC 13 AGI or grappled and pulled underwater). Vulnerable to lightning.
 **Stats:** STR 10, AGI 14, CON 12, INT 10, SPI 14, CHA 16 | HP 60, Mana 30, AP 3, Speed 20 (swim 35) | Resist: cold 50
 
-### 12. Grogoch-Burrow — B | Low
+### 12. Grogoch — B | Low
 **Combat:** 40 HP. Spade-Strike (melee, +4 to hit, 1d6+2 slashing). Tunnel-Network (passive: knows and can navigate all underground tunnels within 1 mile). Secret-Toll (special: demands one personal secret for passage through a tunnel; refuses to repeat or use the secret). Root-Tender (passive: nearby edible root-plants grow at double rate). Vulnerable to fire.
 **Stats:** STR 10, AGI 12, CON 14, INT 8, SPI 10, CHA 8 | HP 40, Mana 0, AP 3, Speed 25 (burrow 20) | Resist: physical 25
 
-### 13. Perchtaweave — A | High
+### 13. Cailleach — A | High
 **Combat:** 140 HP. Fog-Spinning (passive: generates memory-fog in a 60-ft radius; creatures inside must DC 14 SPI each round or lose one minor memory). Judgment-Gaze (special: perceives each creature's diligence; the hardworking see a radiant queen, the slothful see a skeletal horror). Distaff-Strike (melee, reach 15 ft, +6 to hit, 2d8+4 bludgeoning). Straw-Judgment (special: if she deems a household negligent, she fills their bellies with straw — DC 15 CON save or incapacitated for 24 hours with a stomach full of straw; not lethal but deeply disturbing). Vulnerable to fire.
 **Stats:** STR 16, AGI 14, CON 16, INT 14, SPI 20, CHA 18 | HP 140, Mana 60, AP 5, Speed 35 | Resist: cold 100, psychic 50
 
-### 14. Dullahaze — A | High
+### 14. Dullahan — A | High
 **Combat:** 130 HP. Fear-Mirror (passive: its ironwood mask-face reflects the viewer's deepest fear; DC 14 SPI or frightened for 3 rounds). Name-Call (special: speaks one name into the fog; that person's defining memory begins dissolving within 24 hours). Spine-Whip (melee, reach 15 ft, +6 to hit, 2d6+4 slashing + DC 14 AGI or pulled 10 ft toward the rider). Fog-Mount (passive: its horse is made of fog; immune to physical damage, takes double radiant). Vulnerable to radiant.
 **Stats:** STR 14, AGI 16, CON 14, INT 10, SPI 18, CHA 12 | HP 130, Mana 40, AP 4, Speed 45 | Resist: cold 100, physical 50
 
-### 15. Cu-Sithbane — A | Medium
+### 15. Cusith — A | Medium
 **Combat:** 95 HP. Three-Bark-Hunt (3 rounds of escalating barks: Round 1, DC 13 SPI or frozen 1 round; Round 2, DC 14 SPI or forget current location; Round 3, target walks willingly into deepest fog — no save, DC 15 SPI to resist at the threshold). Fear-Drain (passive: feeds on the memory of fear; targets within 30 ft who have been frightened lose the emotional memory of fear permanently, becoming eerily calm). Moss-Touch (melee, +5 to hit, 2d6+3 cold damage). Green-Phosphor (passive: emits green bioluminescence, illuminating 20 ft). Vulnerable to fire.
 **Stats:** STR 14, AGI 18, CON 14, INT 8, SPI 16, CHA 8 | HP 95, Mana 20, AP 4, Speed 45 | Resist: cold 50, psychic 50
 
-### 16. Pixieglow — B | Low
+### 16. Pixie — B | Low
 **Combat:** 25 HP. Spore-Trail (passive: leaves a colored trail — gold = guides to safety, blue = leads in circles, red = leads to danger; player rolls DC 12 INT to determine color before following). Spore-Burst (AoE 5 ft, DC 12 CON or blinded 1 round). Glow-Pulse (bonus action: doubles light output, illuminating 40 ft). Vulnerable to cold.
 **Stats:** STR 4, AGI 18, CON 8, INT 10, SPI 14, CHA 12 | HP 25, Mana 15, AP 3, Speed 30 (fly 25) | Resist: psychic 50
 
@@ -84,7 +84,7 @@
 **Combat:** 110 HP. Memory-Keen (AoE 60 ft, DC 14 SPI or 3d6 psychic + one party member loses a significant memory). Tear-Glass (ranged 30 ft, 2d6 psychic + target is slowed for 2 rounds). Comb-Bargain (special: trades her bone-comb for a genuine childhood memory; the comb parts fog in a 30-ft corridor for 1 hour). Shroud-Weave (passive: ghost-pages swirl around her; ranged attacks have 50% miss chance). Vulnerable to radiant.
 **Stats:** STR 8, AGI 14, CON 12, INT 12, SPI 18, CHA 16 | HP 110, Mana 40, AP 4, Speed 30 | Resist: cold 50, psychic 50
 
-### 19. Waldwisp — C | Low
+### 19. Waldschrat — C | Low
 **Combat:** 30 HP. Red-Cap-Spark (ranged, +4 to hit, 1d4 fire). Root-Rattle (AoE 10 ft, DC 12 CON or deafened 1 round). Impossible-Flexibility (immune to grapple and restrain). Fear-Feed (passive: gains +2 to all rolls for each frightened creature within 30 ft). Vulnerable to cold.
 **Stats:** STR 6, AGI 18, CON 10, INT 8, SPI 12, CHA 10 | HP 30, Mana 10, AP 3, Speed 35 | Resist: physical 25
 
@@ -126,15 +126,15 @@
 **Combat:** 55 HP. Weight-Bearing (special: latches onto a traveler's back; starts at 20 lbs and increases by 20 lbs each round; if the carrier's STR check fails, they are crushed into the snow). Rune-Glow (passive: scratched name-runes glow, revealing the Myling's identity). Hearth-Release (special: if carried to a hearth-fire, the ice melts and the spirit is freed — resolving the encounter peacefully). Vulnerable to fire.
 **Stats:** STR 4, AGI 10, CON 10, INT 6, SPI 14, CHA 8 | HP 55, Mana 20, AP 2, Speed 0 (attaches to carrier) | Resist: cold 100
 
-### 28. Trollstone — B | Medium
+### 28. Jutul — B | Medium
 **Combat:** 120 HP. Boulder-Sleep (passive: indistinguishable from a natural boulder when inert; +10 to stealth). Toll-Demand (special: blocks mountain passes, demanding raw iron ore; if paid, absorbs the ore and moves aside; if refused, animates and attacks). Stone-Regeneration (heals 10 HP per round; can only be truly damaged by concentrated runic light). Roll-Attack (melee, +6 to hit, 2d10+4 bludgeoning, DC 15 AGI or pinned). Vulnerable to radiant (runic light temporarily re-petrifies it for 1d4 rounds).
 **Stats:** STR 20, AGI 8, CON 20, INT 6, SPI 8, CHA 6 | HP 120, Mana 0, AP 3, Speed 20 | Resist: physical 75, cold 50
 
-### 29. Lindwyrm-Burrow — A | High
+### 29. Lindwyrm — A | High
 **Combat:** 140 HP. Ice-Bore (passive: tunnels through permafrost, leaving glassy tunnels that refreeze instantly; cannot be tracked normally). Cat-Claw-Strike (melee, +6 to hit, 2d6+4 slashing + 1d6 cold). Rune-Devour (special: eats carved rune-stones; each rune consumed heals the Lindwyrm 15 HP and permanently destroys the runic inscription). Frost-Breath (AoE cone 20 ft, 3d6 cold, DC 15 CON or frozen 1 round). Tomb-Guard (passive: coiled around buried dead, consuming the preserving cold; a Lindwyrm-infested tomb actually begins to thaw). Vulnerable to fire.
 **Stats:** STR 18, AGI 16, CON 16, INT 8, SPI 10, CHA 8 | HP 140, Mana 20, AP 4, Speed 35 (burrow 30) | Resist: cold 100, physical 25
 
-### 30. Nidhoggr-Root — A | High
+### 30. Nidhoggr — A | High
 **Combat:** 130 HP. Foundation-Gnaw (special: gnaws at bedrock beneath structures; a keep with Nidhoggr infestation develops cracks within months, collapses within years — this is a campaign-level siege weapon). Oath-Corrupt (passive: consumes runic energy of blood-oaths; Bloodhammer warriors whose ancestral runes are eaten permanently lose their supernatural rage). Lamprey-Maw (melee, reach 10 ft, +6 to hit, 2d8+4 piercing + DC 14 CON or bleeding 1d8/round). Ash-Trail (passive: tunnels filled with fine black ash smelling of decayed runic energy — reveals its presence). Vulnerable to radiant.
 **Stats:** STR 18, AGI 12, CON 18, INT 6, SPI 8, CHA 6 | HP 130, Mana 0, AP 4, Speed 25 (burrow 25) | Resist: physical 50, cold 50
 
@@ -142,11 +142,11 @@
 **Combat:** 80 HP. Shore-Call (AoE 60 ft, mimics lost crewmates' voices; DC 13 SPI or compelled toward the ice-edge). Salt-Armor (passive: salt-crystals across torso provide +3 to AC). Rope-Grasp (melee, +5 to hit, 2d6+3 bludgeoning + DC 13 AGI or pulled toward the water). Burial-Debt (special: can only be laid to rest through a burning ship sent into the fjord; otherwise wails for centuries). Vulnerable to fire.
 **Stats:** STR 14, AGI 12, CON 16, INT 6, SPI 14, CHA 8 | HP 80, Mana 20, AP 3, Speed 20 | Resist: cold 100, poison 100
 
-### 32. Landvaettir-Peak — A | High
+### 32. Landvaettir — A | High
 **Combat:** 160 HP. Mountain-Meld (passive: invisible against its home mountain; +12 to stealth in terrain). Wyrd-Ward (passive: 200-ft radius; no Wyrd-creature has ever breached a slope protected by a Landvættir). Boulder-Hurl (ranged 60 ft, +6 to hit, 3d6+5 bludgeoning). Dragon-Prohibition (special: any dragon-image, dragon-prow, or draconic rune within 100 ft triggers instant burial in a snowslide — DC 16 AGI or buried alive). Vulnerable to acid.
 **Stats:** STR 20, AGI 10, CON 20, INT 10, SPI 14, CHA 8 | HP 160, Mana 40, AP 4, Speed 30 | Resist: physical 75, cold 100
 
-### 33. Vettir-Blizzard — B | Medium
+### 33. Vettir — B | Medium
 **Combat:** 60 HP. Invisible (passive: has no physical body; perceived only through effects — swirling snow, whispered words, temperature shifts). Storm-Herd (special: directs snowfall and Föhn-wind; can create a clear corridor 30 ft wide for 1 mile, or intensify a blizzard to whiteout conditions). Whisper-Carry (passive: carries voices across impossible distances; 50% chance of adding cryptic commentary to any message). Spiral-Rune (passive: snow forms complex spiral runic patterns lasting seconds — a communication method Rune Keepers can read). Vulnerable to none (cannot be attacked physically; only dispelled by prolonged calm wind).
 **Stats:** STR 4, AGI 20, CON 10, INT 12, SPI 18, CHA 10 | HP 60, Mana 50, AP 4, Speed fly 50 | Resist: physical 100, cold 100
 
@@ -154,20 +154,20 @@
 **Combat:** 55 HP. Crystal-Cut (passive: working in absolute darkness, cuts glacier-crystals that Rune Keepers use for light-scroll storage; without Bergthrall-cut crystals, the Archive's system would collapse). Gem-Throw (ranged 30 ft, +5 to hit, 1d8+2 bludgeoning — uses raw gemstones as ammunition). Stone-Absorb (special: cheaters are absorbed into the mountain, becoming new mineral veins — no save, instant, permanent). Chisel-Hands (melee, +4 to hit, 1d6+2 piercing). Vulnerable to fire.
 **Stats:** STR 12, AGI 10, CON 16, INT 14, SPI 10, CHA 8 | HP 55, Mana 0, AP 3, Speed 20 | Resist: physical 50, cold 50
 
-### 35. Fenrispup — A | Medium
+### 35. Fenris — A | Medium
 **Combat:** 100 HP. Bound-Hunter (passive: hunts oath-breakers; can track any creature who has broken a sworn vow within 100 miles). Gleipnir-Collar (passive: collar of braided silk prevents growth to full size; if removed (requires god-level strength), the pup immediately grows to full Fenrir — a continent-ending catastrophe). Puppy-Bite (melee, +6 to hit, 2d6+4 piercing). Eye-Shift (passive: eyes shift from puppy-brown to molten gold near oath-breakers, marking targets). Snowshoe-Paws (can run across deep snow without sinking). Vulnerable to fire.
 **Stats:** STR 16, AGI 18, CON 14, INT 8, SPI 14, CHA 12 | HP 100, Mana 20, AP 4, Speed 50 | Resist: cold 50, physical 25
 **Signature:** *The Collar* — The Gleipnir-Collar is the most dangerous object in Nordhalla. Removing it ends the world. This is a plot device, not just a creature ability.
 
-### 36. Disablot-Wraith — B | Medium
+### 36. Disir — B | Medium
 **Combat:** 90 HP. Ancestral-Judge (special: visits longhouses during winter dísablót; families honoring female dead receive blessings of warmth and fertility — +4 to CON for 1 month). Spindle-Curse (special: negligent families find spindles filled with frozen blood; every woman in the household becomes barren until offerings resume — DC 15 SPI to resist). Blue-Candle (passive: each carries a tallow candle burning blue; the candles never melt or shorten). Hair-Grasp (melee, reach 10 ft, +5 to hit, 2d6+3 cold). Vulnerable to fire.
 **Stats:** STR 10, AGI 14, CON 12, INT 10, SPI 18, CHA 16 | HP 90, Mana 40, AP 4, Speed 30 (hover) | Resist: cold 100, psychic 50
 
-### 37. Skogsrå-Pine — C | Medium *(RECOMMEND CUT — Huldra exists)*
+### 37. Skogsra — C | Medium *(RECOMMEND CUT — Huldra exists)*
 **Combat:** 85 HP. Hollow-Back (passive: from the front, stunningly beautiful; from behind, a hollow tree-cavity — if seen, DC 14 SPI or shaken for 1 round). Hunter's-Gift (special: grants impossible accuracy to lone hunters; price: never turn your back, never reveal her — break either rule and walk in circles until you freeze). Fox-Tail (passive: a fox tail peeks from beneath her gown; visible only when she moves quickly). Ice-Axe-Curse (special: turns axes to ice that shatters on first stroke). Vulnerable to cold iron.
 **Stats:** STR 12, AGI 16, CON 12, INT 10, SPI 14, CHA 18 | HP 85, Mana 30, AP 4, Speed 35 | Resist: physical 25
 
-### 38. Kraken-Ice — A | High
+### 38. Kraken — A | High
 **Combat:** 160 HP. Tentacle-Slam (melee, reach 30 ft, +7 to hit, 2d10+5 bludgeoning + DC 15 AGI or grappled). Ice-Breaker (special: shatters ice beneath a vessel, plunging it into freezing water; the ship sinks in 2 rounds). Island-Trick (passive: when dormant, its back pushes against fjord-ice, creating a dome resembling an island; test by driving iron spikes through the surface — if dark water bleeds, it's the Kraken). Bioluminescent-Pulse (passive: organs pulse along tentacles in slow rhythms, visible through ice). Beak-Crush (melee, only against grappled targets, 3d8+5 piercing). Vulnerable to lightning.
 **Stats:** STR 22, AGI 10, CON 20, INT 8, SPI 10, CHA 6 | HP 160, Mana 0, AP 4, Speed 10 (swim 40) | Resist: cold 100, physical 50, piercing 50
 
@@ -675,7 +675,7 @@
 | 6 | Nuckelmist | Frostwood | Mist-form + mimicry |
 | 7 | Trollsweird | Frostwood | Branch-swap with trees |
 | 10 | Leshy-Prime | Frostwood | Woodland authority |
-| 11 | Fuathlure | Frostwood | Skin-disguise + drowning |
+| 11 | Fuath | Frostwood | Skin-disguise + drowning |
 | 13 | Kinnara-Tide | Ashlands | Neck-twist + song |
 | 14 | Bakemono-Eater | Ashlands | Disguise-as-ash |
 | 15 | Cangue-Sorcerer | Ashlands | Rotting wood + chains |
@@ -742,7 +742,7 @@
 | 94 | Jiangshi-Bamboo | Emberspire | Hop-dead + talisman |
 | 95 | Hungry-Child | Emberspire | Child-lure + drain |
 | 97 | Selkie-Weave | Emberspire | Song + water |
-| 98 | Fuathlure-Spring | Emberspire | Skin-disguise + drown |
+| 98 | Fuath-Spring | Emberspire | Skin-disguise + drown |
 | 99 | Nukakaviu-Blood | Emberspire | Blood-drink + charm |
 | 100 | Bunyip-Snout | Emberspire | Bone-club + drown |
 | 102 | Tulpar | Sundry Vale | Sky-memory + stardust |

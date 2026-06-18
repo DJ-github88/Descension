@@ -510,7 +510,7 @@ export const getBackgroundStatModifiers = (backgroundId) => {
     }
 
     // Fall back to custom backgrounds for backward compatibility
-    const customBackgrounds = require('./customBackgroundData').CUSTOM_BACKGROUNDS;
+    const customBackgrounds = require('./legacyDisciplineData').CUSTOM_BACKGROUNDS;
     const customBackground = customBackgrounds[backgroundId];
     if (customBackground && customBackground.statModifiers) {
         return customBackground.statModifiers;

@@ -2,7 +2,7 @@
 ## Game Master's World Guide
 
 > **CANONICAL SOURCE NOTICE**
-> This document is derived from `vtt-react/src/data/rulesData.js`, which is the canonical source for all in-app rules and lore. If this guide and rulesData.js conflict, rulesData.js is authoritative. This guide should be regenerated from rulesData.js rather than maintained independently to prevent drift.
+> This document is a convenience summary for GMs, not a source of truth. The canonical sources are: `vtt-react/src/data/rulesData.js` for world/cosmology/regional lore (Parts I, II, III, V, VI); `vtt-react/src/data/loreDictionary.js` for dictionary terms; and `vtt-react/src/data/classes/*.js` (each class's `overview` block) for class lore (Part IV). If this guide and the data files conflict, **the data files are authoritative**. Regenerate the affected part from its data source rather than editing this guide by hand — that is how the obsolete-class drift of P0-6 happened.
 
 > **THE ELEVATOR PITCH**
 > **The sun is trapped underground. The world is freezing. Every civilization made a deal with a cosmic predator to survive. You are an adventurer. Go.**
@@ -604,169 +604,389 @@ The Thrumm fought a centuries-long territorial war with the **Fexrick** for cont
 
 # PART IV: THE GENESIS OF THE CALLINGS — CLASSES IN THE WORLD
 
-In Mythrill, a character's class is not merely a set of combat mechanics — it is an institution, a tradition, a way of engaging with a dying world that is taught, feared, revered, or condemned depending on where you stand. Every one of the thirty classes has a native home: a region, a culture, or a race that shaped its philosophy and continues to produce its practitioners. What follows is not a mechanical breakdown (for that, consult the comprehensive rules data in `rulesData.js`) but an overview of how these traditions exist within the world's political and cultural landscape.
+> **On the names of callings.** The twenty callings below are the living traditions of Mythrill. Six older names — Exorcist, Covenbane, Dreadnaught, Chaos Weaver, Doomsayer, and Lichborne — survive only in archives and tavern talk; each was folded into a surviving order when its separate war proved to be the same war. The lineage is noted where it matters: the **Inquisitor** carries the merged vows of the Exorcist and Covenbane; the **Martyr**'s Ironclad specialization is the old Dreadnaught discipline; the **Harbinger** speaks for both the Chaos Weaver and the Doomsayer; and the **Revenant** walks the combined path of the Deathcaller and the Lichborne. Two further names — Bladedancer and Formbender — were fused into the **Shaper**, and the Titan was absorbed into the **Warden** as the Monolith specialization.
+
+The callings are presented roughly in the order a traveler meets them, moving from the Frostwood Reach through the frozen and burning continents, out across the sea, and finally to the syncretic traditions that span the whole of the sunless world.
 
 ---
 
-## 1. Exorcist
+## 1. Apex — Shadow Glaive Wielder & Beast Companion
+*Resource: Quarry Marks — pack-coordination currency, not personal prowess.*
 
 ### The Calling
-For those who stand on the bleeding edge between divine authority and absolute heresy, the Exorcist is a grim, blue-collar tradesman of the occult. They do not cast clean, glowing divine magic; their tools are burning salt, rusted iron nails, and agonizing brands. They bind demons through grueling, blood-soaked rituals and command them in battle with a barbed leash called **Divine Dominance**, tracking their grip with a shifting Dominance Die (d12 down to d6). Every command or strike of pain degrades this leash. Let the die hit zero, and the demon breaks free, its red eyes turning upon you with murderous revenge. The Exorcist's life is a constant, high-tension balance between devastating demonic violence and the agonizing self-inflicted wounds required to whip their servants back into submission.
+The Apex is a silent hunter who wields the legendary Shadow Glaive and fights as half of a pack. Her power is not individual — it is the synchronized rhythm of hunter and beast, built through the Quarry Marks system that fills only when glaive and fang strike as one.
 
 ### History
-The calling of the Exorcist was written in the immediate, blood-slicked aftermath of Keth-Amar's breach of the binding seal. When the six noble families marched their firstborn heirs north to be consumed, the seal shattered, Emberspire erupted, and the **Wyrd** — a formless, ancient spiritual rot — bled through the cracks of the deep earth into the Frostwood Reach. Finding a population paralyzed by the unimaginable trauma of sacrificing their own children, the Wyrd occupied their collective grief, turning caution into flesh and manifesting as the first face-stealing Gref. 
+The ranger **Sylas** tracked the invisible spoor of Wyrd-creatures through the Frostwood Reach by tuning his senses to the sub-vocal vibrations of pine needles and damp earth. In a fog-shrouded valley he stalked a conceptual entity for seven days, breathing only when the wind blew, training his eyes to trace faint disturbances in the fog-memory. To achieve this absolute sensory focus, he paid with his own hearing — becoming completely deaf to the voices of his kin.
 
-Traditional steel blades passed through the formless horrors without harm. The first Exorcist, a Thalren scholar named **Elias the Salt-Scarred**, realized the unholy was a conceptual infection born of fear. Armed only with the tools of his scribal trade and the salt-cured timbers of his hearth, Elias hammered four cold iron stakes into the mud around a weeping shadow-horror, pressed raw rock-salt into his own palm, and reached into the entity's throat. By binding the fiend directly to his own open veins, he proved that the dark could not be destroyed — only chained, mutilated, and forced to claw at its own kin.
+### Cities & Civil Reception
+The Apex is a creature of the wild perimeter, not the plaza. She is tolerated at the frontier holds where the fog presses closest and respected wherever a Wyrd-creature must be found before it finds its quarry. In the civilized chambers of Atropolis she is a curiosity; at the edge of the ironwood, she is the difference between a safe night and a vanished patrol.
 
-### Cities
-Within the civilized outposts of humanity, Exorcists are deeply feared, shunned, and treated as dangerous tragedies. Within the stone walls of **Greymark Keep**, they are completely outlawed; their dark practices and copper-smelling ritual chains are viewed as a direct invitation to the Wyrd. Their places of teaching are strictly outside the city walls, operating in ruined watchtowers along the misty borders of the Reach. The settled human keeps of Nordhalla also treat them with profound suspicion, equating demon-binding with Wyrd-collusion. Only the subterranean holdfasts of the **Fexrick** and the sunken peat-cathedrals of the **Vreken** fully accept Exorcists, respecting their utility in purging local infestations and granting them the space to maintain their chained arsenals in the deep shadows.
+### Races & Cultural Affiliation
+Practiced most by the **Briaran** wood-wardens and the human **Thalren** rangers whose fog-chewed memories make them value the silent, scent-based craft. Mimir trackers sometimes take the path, their mask-merger heritage lending an unsettling patience to the hunt.
 
-### Races
-Because the calling requires an iron will and a desperate willingness to trade flesh for power, it is natively practiced by the **Thalren Humans** of the Frostwood Reach, who seek external strength to stave off their own fog-induced mental decay. The **Unwoven Mimir** of the forest floor also produce exceptional Exorcists; having lost their ancestral masks, they use their shape-shifting fetch-bonds as living anchors to contain the bound fiends' spiritual backlash, though the strain often splits their salvaged heartwood masks.
+> *"The Wyrd-creature does not leave tracks in the snow. It leaves tracks in the memory of the snow. I do not hunt with my eyes. I hunt with my patience."*
 
 ---
 
-## 2. Covenbane
+## 2. Lunarch — Vessel of the Lunar Parasite
+*Resource: Lunar Cycle — a feeding schedule imposed on the host, not a tool wielded by them.*
 
 ### The Calling
-The Covenbane is the silent, shadow-cloaked stalker of the deep marshes — an anti-magic executioner wreathed in cold iron, silent seals, and a heavy, tragic purpose. They do not seek glory, nor do they offer comfort. Armed with specialized anti-magic seals and rusted executioner's irons, they track their prey through the dark and purge magical corruption with absolute, mechanical precision. Their signature resource — **Anti-Magic Seals** — allows them to disrupt spellcasting, nullify wards, and dismantle supernatural entities from within. Yet, the price of this power is absolute social isolation: to carry the cold iron is to be cast out from the very community you bleed to protect.
+The Lunarch is not a priest — they are a host. A cold, alien celestial parasite has burrowed into their nervous system and refused to leave. The moon is not a symbol of hope; it is a predator that has fed on dying starlight since before flesh existed. Every three rounds it rewrites the host's physiology to extract a different nutrient: memory, sensation, sanity, vitality.
 
 ### History
-The Covenbane arose from the fifth-century tragedy of the Vreken in the Bryngloom Forest. Evolving a deep symbiosis with the phosphorescent Ghost-Mycelium fungal strain, the Marked Vreken developed near-apocalyptic *trail-sight*, but the volatile fungus carried the highly addictive, euphoric "hush." In the year 412, a beloved Marked Veil-Speaker named **Aedris** over-lit during a prolonged crypt-vigil, her eyes burning so brightly they bleached the ancient peat-stone. Blinded by her own light and driven mad by the spore-addiction, she began draining the lifeforce of her acolytes to feed her glow.
+**Selene**, a sister of the forgotten **House Viridane**, bargained with the wildwood fae in the moonlit groves of the Frostwood, seeking the light of the dead moon to guide her family's escape from the northern vigil keeps. She bound a lunar parasite to her bones, letting its starlight veins wrap around her marrow. The fae granted the light, but they took the warmth from her blood.
 
-Her brother, **Orven the Still-Handed**, refused to let the crypt-council debate. He forged a blade of cold bog-iron, wrapped his hands in salted leather, and tracked his sister into the deepest caverns. He ended her suffering in the dark, receiving her final heartbeat as a silent, terrible echo. Returning to the surface, Orven gathered a circle of Marked Vreken and founded the Covenbane order — swearing the Barbed Vow to hunt down and execute their own spore-addicted kinsmen before they could become vectors of the rot.
+### Cities & Civil Reception
+Lunarchs are feared in equal measure wherever they go — their pale glow marks them as something other. They find grudging tolerance only where no other light reaches, and they are shunned by the Luminarchy's orthodox sun-priests as living heresy. Their immune rejection of standard healing means no infirmary welcomes them willingly.
 
-### Cities
-Covenbanes are treated as grim, necessary executioners within **Atropolis** and **The Sunken Spire**. While the Clean Vreken crypt-councils rely on them to maintain the safety of the fungal trade, they are legally segregated: Covenbanes are forbidden from entering the high archives of the Hollow-Scriptorium and are kept at arm's length in the public plazas. They operate from isolated frontier garrisons — the Coven-Holds — built deep in the sinking peat-bogs of the Bryngloom, returning to the Sunken Spire only to deliver the glowing, alchemical death-scrolls of the kin they have executed.
+### Races & Cultural Affiliation
+The Lunarch's origin in House Viridane ties it to the **Briaran** lineage, but the parasite does not discriminate — any who venture into the Frostwood's moonlit groves may be chosen. **Astril**, the constellation-spirits of Sol's slaughtered court, sometimes host the parasite as a grim echo of the celestial feeding they already endure.
 
-### Races
-The calling is exclusively pursued by the **Marked Vreken**, whose biological sensitivity to the Ghost-Mycelium provides the trail-sight needed to track the glowing footfalls of the Over-Lit in absolute darkness. A small, desperate faction of **Drun Neth** — who burned their names from the First Contract and exist as magic-immune outcasts — also walk this path, using their leaden-grey skin to shrug off the spells of the entities they are paid to put down.
+> *"The parasite does not hate me. It loves me. That is the horror of it. It loves me so completely that it has rewritten every cell of my body to match its idea of perfection."*
 
 ---
 
-## 3. Pyrofiend
+## 3. Shaper — The Body Is the Weapon
+*Resource: Form — kinetic and biological states swapped in real time.* **(Absorbs the Bladedancer and Formbender traditions.)**
 
 ### The Calling
-The Pyrofiend is a chaotic, fire-wielders who has invited a parasitic demon-intelligence — **Scathrach, the Ashen Sovereign** — to nest directly within their marrow. They do not command fire through careful study or divine grace; they bleed it. The Pyrofiend's power is governed by the **Inferno Veil**, an escalating state of corruption that grows hotter, brighter, and more chaotic as battle progresses. The Pyrofiend deals devastating, explosive damage, but the demon within constantly claw at their sanity, demanding more heat, more ash, and more fuel.
+A master of kinetic biology, the Shaper treats their body as a malleable weapon — reshaping posture, bone density, and musculature in real time. They flow between combat forms that blend a kinetic momentum-dance with biological adaptation. The price is absolute: grinding joints, cracking bone, and a nervous system firing at velocities no mortal frame was designed to sustain.
 
 ### History
-The first Pyrofiends were born in the freezing badlands of Sundale during the dark century that followed Sol's entombment. A caravan of human refugees of House Solvan, starving and freezing in the shadow of a cooling lava-flow, were trapped by a three-week ash-blizzard. As their children froze in their arms, their prayers to Sol were met only with silence. 
+The first shapers were not warriors or alchemists but desperate survivors who refused the body they were born with. In the **Frostwood Reach**, the wood-warden **Sylvanus** learned to synchronize his strikes with the wind-swept ironwood branches, flowing through mist like a falling leaf. In the **Cragjaw Peaks**, the troll-kin **Torin** drank raw alchemical sulfur-clay and forced his skeleton to calcify and expand, mimicking basalt pillars to hold a collapsing mine. A wandering **Mimir** chronicler named **Veyra** encountered both traditions and realized they were the same art — Sylvanus reshaped posture and momentum, Torin reshaped bone and flesh. She merged the kinetic dance with the biological rupture, creating the Shaper.
 
-In the absolute darkness of the blizzard, they were answered instead by **Scathrach**, a parasitic demon-lord of the deep mantle. He offered them the Inferno Veils — demonic coals that, when swallowed, would nest inside the host's chest and generate boiling volcanic heat. The desperate humans accepted, swallowing the embers to save their lineages. They survived the blizzard, but they emerged onto the ashlands with blackened, cracked veins and a burning hunger that could only be satisfied by watching the world burn.
+### Cities & Civil Reception
+Shapers are quietly sought wherever something must be held together that should not stand — collapsing mine-works, failing keeps, slaughtered caravans needing a body willing to break itself to buy an escape. In the polished halls of Atropolis their scarred, self-mutilated forms are viewed with polite revulsion; in the Cragjaw holds and Frostwood outposts they are paid well and asked no questions.
 
-### Cities
-Pyrofiends are completely outlawed within **The Harath-Vault**. The Korr Sun-Speakers regard them as absolute heretics who have desecrated the sacred element of fire by blending it with demonic marrow. Any Pyrofiend who enters the Vault is immediately hunted by the Titans and dragged to the volcanic sumps to be extinguished. Consequently, Pyrofiends gather in renegade calderas along the **Shyr**, building volcanic camps and clashing constantly with both settled humans and forge-clans over thermal rights.
+### Races & Cultural Affiliation
+The art's dual origin ties it to the **Briaran/Frostwood** wood-wardens, the **Fexrick/Cragjaw** troll-kin, and the **Mimir** chroniclers who carried the synthesis between them. **Groven** bridge-keepers, whose bodies are already grown from the willing dead, sometimes take up the Shaper's path as a natural extension of their mutable flesh.
 
-### Races
-The path is natively pursued by the desperate **Solvarn Humans** of Sundale, who carry the ancestral trauma of the freeze, and the heretical **Thrask Emberth** of the frontier, who believe Sol's silence is permanent and have defaced their forge-marks to join the Sunderer faction.
+> *"The blade does not move me. The beast does not frighten me. I am the blade. I am the beast. And when I am done, there will be nothing left of either."*
 
 ---
 
-## 4. Dreadnaught
+## 4. Toxicologist — The Self-Poisoned Surgeon
+*Resource: Reagents — preparation-based; nothing forces action, nothing helps the unprepared.*
 
 ### The Calling
-The Dreadnaught is a colossal, steam-belching juggernaut of the frontlines — a warrior permanently sealed inside hundreds of pounds of superheated, thick iron plating. They do not dodge; they endure. Powered by a combustion engine mounted to their spine that runs on coal, blood, or trapped souls, the Dreadnaught converts incoming trauma into steam pressure. Their resource — **Dark Resilience Points** — accumulates with every blow absorbed, allowing them to vent superheated steam to incinerate nearby foes or overload their pistons for bone-shattering melee strikes.
+There is no cure for what the Toxicologist has become. They began as healers — someone who understood the boundary between medicine and venom, who could save a life with one drop and end it with two. What remains is a self-poisoned surgeon whose veins run thick with weaponized toxin, whose body is a walking crucible that rejects restoration. Every poison costs blood; every antidote is brewed for someone else.
 
 ### History
-The Dreadnaught was invented by the Bloodhammer during the War of Thousand Screams, four centuries ago. Trapped in the high passes of Nordhalla by the blue-fleshed Skreika drowned-warriors, the Bloodhammer were pushed back into the ruins of the **Frozen Archive**. Surrounded by flash-frozen machinery they did not understand, a desperate blacksmith named **Vaelen Bloodhammer** discovered an ancient, still-functioning combustion forge.
+**Varis** the alchemist extracted raw venom from the fog-predators of the Frostwood, seeking a chemical defense against the face-stealing horrors that cornered his scout patrols. He spent years in the ironwood canopies, distilling toxic moss and acidic secretions. The constant exposure burned away his sense of taste, left chronic tremors in his hands, and stained his fingers permanently with acid runoff. He succeeded — and in succeeding became his own weakest patient, his flesh saturated past any cure.
 
-Realizing his warriors were freezing to death before they could even reach the enemy, Vaelen took the heavy brass plates of the Archive's heating pipes and welded them directly onto the skin of his frontliners, mounting alchemical steam-pistons to their limbs and feeding the engines with high-grade mountain coal. The iron-clad warriors marched back into the blizzard, belching black soot and superheated steam, shrugging off the Skreika's icy claws to hold the pass alone.
+### Cities & Civil Reception
+Toxicologists keep to workshop and wilderness, appearing in the apothecary-quarters of Greymark Keep and the alchemist-bazaars of the Harath-Vault where their reagents fetch the highest prices. They are paid handsomely and touched rarely; no healer will work on their corrupted flesh, and no contract-house will insure their workshops.
 
-### Cities
-Dreadnaughts are celebrated as legendary front-line protectors in the Skald fjord-keeps of Nordhalla, though their soot-belching rigs and industrial noise mean they are legally confined to the lower dock-districts. Within the **Frozen Archive**, they occupy the lower sumps, working alongside the Fexric alchemists who maintain their boilers.
+### Races & Cultural Affiliation
+The **Thalren** humans of the Frostwood, with their ledger-keeping precision, form the largest single cohort. **Neth** Velun arcanists sometimes adopt the discipline as a grim branch of contract-pharmacology, and **Fexrick** miners — already accustomed to toxic fumes — prove unnaturally resilient hosts.
 
-### Races
-The path is natively practiced by the massive **Bloodhammer**, whose stone-like skin can withstand the extreme heat of the internal engines, and the **Guild-Bound Fexric** engineers of the Peaks, who treat their steam-armor as the ultimate expression of their craft.
+> *"The Gref wanted my face. I gave it my venom instead. It could not steal a face that was melting. Problem solved."*
 
 ---
 
-## 5. Arcanoneer
+## 5. Berserker — The Hemorrhagic Butcher
+*Resource: Blood-Heat (0–100) — a physiological meltdown that cooks the caster to fuel the strike.*
 
 ### The Calling
-The Arcanoneer is a clinical, hyper-precise pact-mage whose spells are written as strict contractual clauses. They do not draw magic from emotion or raw instinct; they negotiate it. By converting mana into elemental spheres, they generate and combine different magical terms (Sphere Generation & Combination) to produce highly specialized, legally binding spellcraft. The Arcanoneer operates with absolute strategic clarity: because their magic is a contract submit to the Keeper of the Last Threshold, they cannot lie — and this limitation makes their spellcraft the most rigorously honest and devastatingly precise magic in the world.
+The Berserker does not wield magic; they mutilate their own anatomy through pure adrenaline and boiling fury. As their Blood-Heat rises, their muscles literally tear themselves from the bone to swing harder. They possess Pain Immunity — completely immune to pain, but this horrific state blocks all incoming healing while the fury burns. They are a ticking engine of self-destruction.
 
 ### History
-The Arcanoneer was founded by the Velun Neth in Atropolis, two centuries after the sun's death. Evolving stilled breath and silver skin from their First Contract with the Keeper of the Last Threshold, the Velun realized that the Keeper's preservation was not a spiritual miracle but a legal document. 
+In the freezing wastes of Nordhalla, when the glaciers halted at the price of summer's return, the **Skald** were left in a land of absolute ice. In the darkest winter of the cataclysm, when starvation stalked the keeps of the Frozen Archive, the ancestors consumed their own fallen kin so the bloodline could persist — and that terrible act entered their very blood. The Bloodhammer clans tell of the first Berserker, **Grum the Iron-Smith**, trapped in a collapsing shaft by a glacier-wyrm, who threw down his hammer and allowed the furnace's heat to occupy his marrow. His veins boiled so violently his tendons snapped, yet he shattered the wyrm's frozen hide with his bare hands.
 
-A high archivist named **Valerius Velun** discovered that the magic of the Gloom Forest responded to the same legal syntax as the First Contract itself. By structuring incantations as strict, balanced legal briefs — defining the exact targets, elemental spheres, and terms of adjudication — Valerius could bypass the traditional, volatile decay of arcane magic, generating a clinical and flawless school of magic that could never be dispelled, backfire, or fail.
+### Cities & Civil Reception
+Berserkers are banned outright in the silver law-chambers of Atropolis, where their volatile fury is treated as a public-order threat. They are celebrated as sacred survivors in the geothermal arenas of the Harath-Vault and the frontier keeps of the Skald, where high-stamina endurance is revered.
 
-### Cities
-Arcanoneers are the most politically powerful and highly respected citizens within **Atropolis**. They occupy the highest seats of the Canopy-Ledger, serving as the judges, administrators, and high diplomats of the Neth empire. They are also welcomed within **Ironjaw Port**, where their contract-based spellcraft ensures the safety of the dock-complex.
+### Races & Cultural Affiliation
+Heavily practiced by the massive **Skald** and the hot-headed **Emberth** (Thrask clans) who defaced their imperial marks to embrace the caldera's wild fury. The occasional **Groven** takes the path, their already-mutable flesh responding to Blood-Heat in unsettling ways.
 
-### Races
-The path is almost exclusively practiced by the **Velun Neth**, whose biology (being unable to lie) provides the absolute honesty required to submit contracts to the Keeper without triggering a catastrophic, soul-fading breach of terms.
+> *"The world tried to freeze me. I chose to burn instead. Ask my enemies which temperature hurts more."*
 
 ---
 
-## 6. Chaos Weaver
+## 6. Augur — Visceral Haruspex of the Ripped Flesh
+*Resource: Stargate feedback — visions paid for in memories and carved flesh.*
 
 ### The Calling
-The Chaos Weaver is a volatile, high-stakes spellcaster who has abandoned the rigid structure of traditional wizardry in favor of drawing raw, unrefined magic from the Great Breach itself. Rather than casting balanced spells or negotiating clinical contracts, the Chaos Weaver channels unstable energy to generate **Mayhem Modifiers** and **Chaos Spheres**. They are the masters of unpredictable feedback—every spell they cast is a calculated risk that can either trigger a devastating critical blast or collapse into a localized cosmic rift. They do not seek to control magic; they ride its explosion.
+While scholars squabble over ancient astronomical charts, the Augur plunges their hands into fresh wounds and reads the heat of spilling intestines. They do not predict broad cosmic destinies — they divine the exact trajectory of a blade, the snapping point of a bone, the moment a throat will open. Every vision demands a toll of sanity or flesh; magic is not a formula here but a visceral mutilation.
 
 ### History
-The first Chaos Weavers were a renegade faction of Neth arcanists who fled Atropolis in the third century of the sunless era. Led by a brilliant but unstable mage named **Elas Velun**, they became disillusioned with the absolute restrictions of the Keeper's First Contract, which rendered their magic safe but static. 
+It is said that **Cassia**, chief star-watcher of the Nordhalla Keeps, sat in the Frozen Archive when Sol first darkened. With the astrolabes frozen solid, she took a bronze scaling knife and opened the abdomen of a sacrificial glacier-elk, reading the exact hour of the Deepening in its steaming entrails. As the future flooded her mind, the temporal feedback loop burned away her past — the face of her husband, the warmth of the hearth, the names of her children — incinerated to clear space for the mathematically precise coordinate-chains of cosmic doom. To maintain the sight she must carve deep runes into her own forearms, using her own warm blood to re-establish the connection to the stars.
 
-During an expedition to the **Sundale** badlands, Elas and his followers camped near the Emberspire caldera. They realized that the raw spiritual rot of the Wyrd leaking through Keth-Amar's breach was highly conductive to arcane intent. By dismantling their memory-glass lenses and abandoning their legal syntax, they cast the first "Unwoven spell" — a torrent of chaotic, purple-black flame that incinerated a besieging pack of Ash-Scribes but permanently scarred Elas's silver skin with burning, static-like runes. The school spread among outcasts who preferred immediate, dangerous power to slow, freezing extinction.
+### Cities & Civil Reception
+Augurs are sought out in every forward operating camp and siege-line where the next hour's survival is unknown, and they are avoided absolutely everywhere else. The Frozen Archive tolerates them as colleagues of last resort; the Synod-Hold regards them as blasphemers dressed in scholarly robes.
 
-### Cities
-Chaos Weavers are strictly outlawed in **Atropolis** and **Greymark Keep**, where their presence is treated as a severe public safety threat. They are frequently found in the lower berths of **Merrowport**, where pirate captains pay handsome sums for their raw firepower, and in the volcanic frontier calderas of **Sundale** along the Shyr.
+### Races & Cultural Affiliation
+A distinctly **Skald** calling at its origin, the Augur's visceral craft has spread to the **Thalren** archivists of Greymark (who disguise it as scholarship) and the **Ordan** nomads of the Sundrift Vale (who practice it openly on herd-beasts beneath the starless sky).
 
-### Races
-The path is natively practiced by the **Drun Neth** (who have already severed their names from the First Contract and have nothing left to lose) and **Solvarn Humans**, whose desperate struggle for survival makes them highly receptive to the breach's volatile power.
+> *"I opened the elk and saw our chieftain dead, our granary empty, and the sun still dark. The entrails do not lie. They also do not offer comfort."*
 
 ---
 
-## 7. Doomsayer
+## 7. Pyrofiend — Demonic Fire Wielder
+*Resource: Inferno Veil — escalating demonic corruption that grows hotter and more chaotic as battle progresses.*
 
 ### The Calling
-The Doomsayer is a grim prophet of catastrophe who has looked into the maw of Keth-Amar and accepted the world's ultimate demise as a mathematical certainty. Their spellcraft focuses on placing **Prophecies of Havoc** and **Living Bomb Prophecies** onto their targets. Unlike Augurs who merely observe the future, the Doomsayer forces the universe to align with their dark visions, earning **Havoc Points** as their prophecies of destruction are fulfilled. They are feared on the battlefield because they do not fight to win; they fight to accelerate the end of all things.
+The Pyrofiend has invited a parasitic demon-intelligence — **Scathrach, the Ashen Sovereign** — to nest directly within their marrow. They do not command fire through study or grace; they bleed it. The demon within constantly claws at their sanity, demanding more heat, more ash, more fuel. At the height of ascension the host's skin cracks open to reveal molten rock, and they have only minutes before their marrow turns to ash.
 
 ### History
-The order of the Doomsayers was founded in the high towers of Sundale by a Solvarn sun-priestess named **Sariel the Blind**. In the fourth century, after decades of recording the slow dimming of the Solbrand, Sariel realized that the prayers of the Sun-Speakers were being ignored because Keth-Amar's feeding tube was directly connected to the dying star.
+In the lightless badlands of Sundale, when Sol was entombed, a cabal of **Solvarn** occultists gathered in an obsidian cavern beneath the Emberspire caldera. They drew a summoning circle in their own blood, carving the seven sigils of Scathrach with volcanic glass knives, offering their marrow as kindling to the Ninth Flame of the Burning Throne. They swallowed demonic coals of pure burning sulfur; the embers did not destroy their flesh but bound their capillaries in a permanent, glowing lattice. They survived the freeze — emerging as the first Pyrofiends, living vessels for a parasitic demon-lord.
 
-Driven mad by the star's slow, agonizing screams, Sariel gouged her own eyes out with volcanic obsidian and turned her back on the Sun-Speakers. She claimed that the only way to save Sol was to shatter the remaining Sundered Monoliths and let the predator consume the star entirely, so that the universe could reset. She recorded the first **Havoc Prophecies** onto tablets of pressed ash, establishing a dark order of street-prophets and doomsday cultists who wander the continents, orchestrating localized catastrophes to weaken the seal.
+### Cities & Civil Reception
+Hunted with silver chains by the Sun-Speakers of the Harath-Vault, who view them not merely as heretics but as walking portals to the infernal deep. They have no open presence in any mortal city; they operate from the hidden obsidian conventicles beneath the Emberspire caldera.
 
-### Cities
-Doomsayers are prosecuted as dangerous heretics in **The Harath-Vault** and are banned from the upper rings. They operate primarily in the chaotic sprawl of **The Mound-Camps** in the Sundrift Vale, where their bleak prophecies find fertile ground among nomads who have watched their sky go dark, and in the damp canals of **Greymark Keep**, whispered from the shadows of the Shallows.
+### Races & Cultural Affiliation
+Exclusively **Solvarn** at origin — the sun-martyrs of Sundale who refused to leave the ashlands. A few **Emberth** forge-pilgrims, already half-fire, have been accepted by Scathrach as kindling of a different grade.
 
-### Races
-The calling is dominated by **Solvarn Humans** (haunted by their ancestors' sacrifice) and **Unlit Astril**, who carry the celestial light of the stars Keth-Amar ate and feel the starless void as a physical ache in their blood.
+> *"Scathrach whispers to me in the language of burning things. It says the world was made from fire, and to fire it will return. It says I am the kindling. It says I should be grateful."*
 
 ---
 
-## 8. Lichborne
+## 8. Martyr — Bleeding Faith Healer
+*Resource: Devotion — filled by chosen suffering; if it stops flowing, the connection asphyxiates.* **(The Ironclad specialization is the old Dreadnaught discipline, absorbed when the two traditions recognized they bled for the same faith.)**
 
 ### The Calling
-The Lichborne is a terrifying master of death-magic and eternal frost who has bypassed the natural boundaries of mortality and the Keeper's legalistic contracts. By performing the forbidden Rite of the Cold Hearth, they bind their soul to a physical **Basalt Phylactery**, achieving a rotting, cold immortality. On the battlefield, they project an **Eternal Frost Aura** that siphons the warmth and life-force of their enemies, commanding legions of skeletal thralls and frozen dead while possessing unique self-resurrection mechanics that make them nearly impossible to permanently destroy.
+The Martyr is not a protector — a protector uses a shield. The Martyr uses the soft meat of their own body to catch weapons swung at companions. Through the Devotion Gauge they transform willing suffering into grotesque emergency healing. Each wound they volunteer becomes a wound closed on someone else. But the connection is fragile: stop bleeding, and Devotion Collapse follows — a spiral into the Faithless state where healing rots to half strength.
 
 ### History
-The first Lichborne was **Karr Bloodhammer**, a legendary Skald Rune Keeper who lived in the fifth century. Terrified by the creeping spread of the Milk-Grief and the slow death of his clan's warriors, Karr entered the deepest, sealed chambers of the **Frozen Archive** beneath the Valley of Ymir.
+The **Solvarn** mother **Sera** refused to let her sacrificed child's name be erased by the noble houses' history-purge. She carved the name directly into her forearm with volcanic obsidian, swearing to bear the pain of the entire badlands to keep the memory alive. Her devotion opened a channel of sympathetic pain: her tissue burns with heat whenever an ally is struck, and she finds power only in her own suffering — converting blood to light, her skin cracking to reveal the solar embers of her vow.
 
-Deep inside the prehistoric vaults, Karr discovered a flash-frozen sarcophagus containing the petrified remains of a cosmic entity that predated the noble families. Using runic calculations that traded away his own beating heart, Karr forged the first basalt phylactery and cast his soul inside. He emerged from the archive as a creature of ice and rot, his breath no longer showing in the cold, his touch freezing the blood of the living. Though he saved his fjord-keep from a Skreika siege, his people recoiled from his undead state, driving him into the glaciers where he founded the first Scriptoriums of the Cold Hearth.
+### Cities & Civil Reception
+Martyrs are venerated in the sun-temples of Sundale and the field-hospitals of every war-front, and quietly feared in both. No community that has seen a Martyr work forgets the sight; none invite one to stay. The later absorption of the Dreadnaught's furnace-plate discipline gave the order its armored Ironclad wing — the passive absorbers to the active bleeders.
 
-### Cities
-The Lichborne are hunted with extreme prejudice by **Exorcists** and **Covenbanes** across all seven continents. They have no open presence in any mortal city, operating instead from the forgotten ruins of the **Frozen Archive**'s lowest vaults and the bottomless bog-caves of the **Bryngloom Forest**, where they weave their death-webs in absolute secrecy.
+### Races & Cultural Affiliation
+Almost entirely **Solvarn** at the founding. The calling has since drawn the **Thalren** (whose ledger-keeping transposes neatly onto wound-accounting) and the occasional **Astril**, who read the Martyr's sympathetic pain as a recognizable echo of their own celestial court's slaughter.
 
-### Races
-The path is practiced almost exclusively by **Skald Rune Keepers** (obsessed with preserving their memories through artificial means) and **Velun Neth** heretics who seek to escape both the Fading and the Keeper's First Contract by freezing their silver flesh permanently.
+> *"My child's name was carved from history. I carved it back into my arm. Every beat of my heart pushes their name through my veins. They are not forgotten. They are my pulse."*
 
 ---
 
-## 9. False Prophet
+## 9. Minstrel — Conductor of Reality's Death Rattle
+*Resource: Notes and Cadences — splinters stolen from a dying reality, resolved as cosmic mutilation.*
 
 ### The Calling
-The False Prophet is a charismatic manipulator of faith and spiritual energy who has forged a secret bargain with the voids of Keth-Amar to weave warm, blinding illusions of solar redemption. They utilize **Madness Points** and **Propaganda Resource** to manipulate the minds of the desperate, presenting their dark, void-fueled sorcery as holy miracles from Sol itself. They are the ultimate puppeteers, turning their allies into fanatical zealots who will gladly throw themselves onto the enemy's blades, and driving their foes into whimpering madness through the sheer cognitive dissonance of their "holy" light.
+There is nothing beautiful about what the Minstrel does. They play instruments crafted from bone and grief, each chord progression a fresh wound torn in the fabric of existence. Their magic is not art — it is a fundamental violation of physics that demands biological payment. The music should not exist; it exists because the Minstrel forces it, and the world pays the price.
 
 ### History
-The calling of the False Prophet arose in the starless steppes of the **Sundrift Vale** during the sixth century, when a charismatic nomadic orator named **Li Wei** discovered a buried monolith fragment. Instead of sealing it, Li Wei realized that the psychic agony screaming from the shard could be filtered through Astril crystal-sap to produce a blinding, warm, and highly addictive light.
+The **Merryn** sailor **Lyris** sang a sacred sea-symphony to the churning gales of the Iceheart Sea, calming the waves so her ice-locked vessel could dock at Merrowport. The song was beautiful, but it was a transaction with the deep tides, drawing the freezing currents into her lungs. The ocean mother accepted the song and stole Lyris's spoken voice — the Minstrel can communicate only through melodic whispers or the strings of her lute; to scream or speak normally causes her throat to bleed and her lungs to fill with salt-water.
 
-Li Wei established the **Church of the Golden Horizon**, presenting himself as the chosen vessel of Sol's resurrection. He healed the sick by burning away their nerve endings with "holy" light and led thousands of fanatical nomads in a crusade against the Synod. Though Li Wei was eventually assassinated by Muren Astril agents, his doctrines survived. False Prophets still wander the frozen world, establishing localized sun-cults that fleece the starving and feed the cosmic predator with the souls of the faithful.
+### Cities & Civil Reception
+Minstrels are welcomed in every port-town and mead-hall where grief needs voicing and paid to leave before the resonance warps the rafters. They are most at home in the floating alleys of Merrowport and the ice-locked harbors of the Iceheart, where a song that calms a storm is worth a ship's weight in salt.
 
-### Cities
-False Prophets are strictly banned from **The Synod-Hold** and the **Harath-Vault**, where the legitimate priests of Sol recognize their light as a toxic forgery. They are highly active in the moving **Mound-Camps** of the Sundrift Vale and the crowded, impoverished **Over-Shanties** of the Vreken Sunken Spire, where they build fanatical congregations of the desperate.
+### Races & Cultural Affiliation
+Predominantly **Merryn** pirate-gamblers at origin, whose tattooed legal-skin translates naturally into the binding cadences. **Skald** saga-keepers and **Corvani** raven-marked chanters have adopted the discipline, treating it as an extension of their existing oral traditions.
 
-### Races
-The calling is natively practiced by the **Sylen Astril** (who seek immediate light-symbiosis at any cost) and **Thalren Humans**, who are easily swayed by warm promises in a world wreathed in permanent fog.
+> *"You think music is beauty. You are wrong. Music is resonance — the frequency at which things break. I have found the note that shatters ice. I am looking for the one that shatters gods."*
+
+---
+
+## 10. Warden — The Penitent Jailer & Nightmare Bound
+*Resource: Chains and Tethers — rusted iron grafted into the forearms and spine.* **(The Monolith specialization is the old Titan discipline, absorbed when the unmovable proved stronger chained than standing alone.)**
+
+### The Calling
+The Warden is a grim figure of absolute lockdown — a Penitent Jailer who binds their own flesh to the horrors they pursue. Stripped of all druidic or forest magic, they wield massive rusted iron chains grafted directly into their forearms and spine. They pin abominations in place by physically chaining themselves to the beast, surviving the standoff through bone, meat, and iron under crushing tension.
+
+### History
+The first Warden was **Alaric the Law-Keeper**, a **Groven** mine-guard stationed in the lower tunnels beneath Frostmaw Holdfast. When the Deep Alchemists' vat-laboratories collapsed during the Vat-Breakers' revolt, the containment wards shattered and the experiments — things with too many limbs and not enough skin — poured into the tunnels. Alaric's squad was slaughtered in seconds. He survived by driving an ore-hauling chain through his own forearm and into the ribcage of the largest specimen, anchoring it to the tunnel wall with his own body. He held it for three days. When the Fexric Drall smiths cut him free, the chain had rusted into his bone. They asked if he wanted it removed. He said no.
+
+### Cities & Civil Reception
+Wardens operate from the **Forge of Alaric** in Frostmaw Holdfast, where new Wardens drive their first hook under the supervision of Fexric Drall chain-smiths. They are paid retainers in every settlement that borders a containment site, a vat-laboratory, or a deep bog — and they are otherwise left alone, their scarred grafts making small talk impossible.
+
+### Races & Cultural Affiliation
+Founded by the **Groven** bridge-keepers, the order now spans **Neth** archivists (who tether themselves to forbidden texts), **Skald** berserkers (who chain themselves to glacier-wyrms), and **Vreken** penitents (who anchor themselves to the horrors that crawl from the deep bogs). Every Warden's first chain, regardless of race, is still forged at Alaric's anvil.
+
+> *"I drove the chain through my own shoulder so I could anchor the beast. The pain kept me conscious. The beast was surprised. We stood there for three hours, neither of us able to move, both of us bleeding. It was the most intimate moment of my life."*
+
+---
+
+## 11. Chronarch — The Accidental Anchor
+*Resource: Temporal Loops — each second bent costs skeletal decay; the past is fuel.*
+
+### The Calling
+The Chronarch did not choose this path — chronomancy chose them. They are Prisoners of Relativity, flesh-bound anchors tethered to a timeline that never wanted them. Every wound they rewind from an ally etches kinetic recoil onto their own body instead. Every frozen moment demands intense cellular focus. They are the only living soul capable of reversing the combat state — undoing tactical errors, resetting cooldowns, trapping enemies in temporal loops — while managing the high physical strain of altered reality.
+
+### History
+During the War of Thousand Screams, when a collapsing glacier threatened to crush Frostmaw Holdfast, the **Fexric** engineer **Nesta** realized that physical struts could not hold back the grinding weight of the ice. She built a prototype time-dilation engine of volcanic glass and alchemical gears, and in desperation hooked its temporal loop directly into her own chest. Nesta held the span — but the feedback loop incinerated her past. She carries no memories of childhood or family; she lives in a perpetual, agonizing present, and every second she bends calcifies her bones like ancient fossilized stone.
+
+### Cities & Civil Reception
+Chronarchs are rare, feared, and indispensable. The Synod-Hold courts retain them as legal-arcana arbiters (a timeline that can be rewound is a contract that can be contested). They are otherwise sequestered in clocktower-workshops above the Frostmaw holds, their ticking hourglasses audible before they enter a room.
+
+### Races & Cultural Affiliation
+A **Fexrick** invention at root, the Chronarch's craft has been adopted by **Neth** Velun chronometricians (who treat it as a branch of contract-law applied to causality) and by the rare **Astril** whose constellation-heritage already skirts the edge of linear time.
+
+> *"I have already lived this conversation. I know exactly what you are going to say next. Please, say it anyway — the version where you chose differently gives me headaches."*
+
+---
+
+## 12. Spellguard — The Void-Scarred Aegis
+*Resource: Void Resonance — absorbed hostile magic stored internally, then returned as raw force.*
+
+### The Calling
+A tragic, heavily-armored sponge for magical catastrophe. The Spellguard absorbs spells meant for their allies, converts the hostile magic into a highly unstable internal resource called Void Resonance, and vomits it back as raw force. A single cracked barrier can detonate their own marrow.
+
+### History
+**Damon** the blacksmith blocked a solar flare with an alchemical tower shield during Sol's entombment, protecting the caravan at the cost of his own hands. The solar energy permanently scarred his flesh, leaving his veins humming with volatile, trapped mana that threatens to detonate his marrow. His hands froze in a rigid, shielding posture; he welds heavy brass plates to his arms to channel the backdraft, standing as the ultimate shield against the arcane.
+
+### Cities & Civil Reception
+Spellguards are retained by every noble caravan, trade-embassy, and arcane court wealthy enough to pay for a living ward. They bunk alone — the trapped mana in their veins makes proximity unwise — and they are paid in silence, salt, and brass.
+
+### Races & Cultural Affiliation
+No single race claims the Spellguard; the calling founds itself wherever a body is willing to stand between an arcane catastrophe and the people behind it. **Thalren** guards and **Spellguard-bound Skald** shock-troops form the largest cohorts, with a growing **Mimir** detachment whose mask-merger heritage absorbs the void-scarring in unsettling ways.
+
+> *"The solar flare hit my shield, not my face. The radiation entered my veins, not my lord's. That is the job. You stand between the apocalypse and the people you are paid to protect, and you do not flinch."*
+
+---
+
+## 13. False Prophet — The Lie That Devours the Living
+*Resource: Madness Points — accumulated wyrd pressure of every consciousness touched, compressed into weaponized willpower.*
+
+### The Calling
+The False Prophet does not worship — they channel. They preach the void as divine revelation, accumulating Madness Points through sermons and psychic rituals that strip away the barriers between minds. This madness is not inspiration; it is the wyrd pressure of every consciousness they have touched. They walk a razor edge between transcendence and collapse, and every step is powered by the wyrd exhaustion of those who believed them.
+
+### History
+In the starless grasslands of the Sundrift Vale, a nomadic **Ordan** herd-watcher named **Li Wei** followed a falling meteor into a deep, crystalline crater. He did not find a metal shard but an ancient, sundered monolith humming with a black, empty vacuum. When he looked directly into the void where Sol once shone, he saw not light but the gospel of the cosmic void — the silent architecture of the stars' demise. He returned with blank, white eyes and a mind permanently shattered by the competing voices of dead stars.
+
+### Cities & Civil Reception
+False Prophets are heretics in every orthodox sun-temple and prophets in every hidden void-conventicle. They are most numerous in the empty reaches of the Sundrift Vale, where the starless sky makes the void's voice easiest to hear, and they are hunted wherever the Luminarchy's reach extends.
+
+### Races & Cultural Affiliation
+Founded by an **Ordan** nomad, the calling draws the desperate and the half-mad of every bloodline. **Astril** — already host to constellation-spirits — are overrepresented, reading the void's gospel as the next chapter of their own celestial dispossession.
+
+> *"They call it madness. I call it freedom. The Void does not lie to me — it simply shows me things that would drive you mad, and I have the courage to look."*
+
+---
+
+## 14. Arcanoneer — The Magi-ballistic Mutilator
+*Resource: Contractual Spheres — elemental terms generated and combined as legally binding spellcraft.*
+
+### The Calling
+The Arcanoneer is a clinical, hyper-precise pact-mage whose spells are written as strict contractual clauses. They do not draw magic from emotion or instinct; they negotiate it. By converting mana into elemental spheres they produce specialized, legally binding spellcraft. Because their magic is a contract submitted to the Keeper of the Last Threshold, they cannot lie — and this limitation makes their spellcraft the most rigorously honest and devastatingly precise magic in the world.
+
+### History
+In the first drafting of the First Contract with the Keeper of the Last Threshold, the high **Neth** archivist **Valerius** sought to capture the raw, volatile magic of the Bryngloom Forest without succumbing to its decay. By structuring incantations as strict legal syntax and balanced clauses, he bypassed the chaotic feedback of traditional spellcasting. The Keeper demanded a physical toll: his blood crystallized into volatile, multicolored shards that must be physically siphoned through a massive pig-iron cylinder grafted to his forearm. Firing these shards anchors his limbs to the earth in a freezing lock, fractures his ribs from the recoil, and seals his voice against any falsehood.
+
+### Cities & Civil Reception
+Arcanoneers are the sworn adjudicators of Atropolis and the Sunken Spire, their contract-syntax treated as binding law. They are rare outside the Neth contract-houses — their forearm cylinders mark them unmistakably, and the recoil-scars make deception impossible even if they wished it.
+
+### Races & Cultural Affiliation
+Overwhelmingly **Neth** Velun at origin, the discipline has spread slowly to **Thalren** archivists (whose ledger-culture adapts readily to contractual spellcraft) and to a small **Mimir** enclave whose mask-merger memory allows them to hold multiple contract-branches at once.
+
+> *"The Contract does not ask if you are willing. It asks if you are honest. And then it pulls the trigger."*
+
+---
+
+## 15. Plaguebringer — Dark Cultivator of Rot & Decay
+*Resource: Blight — sickness sown in enemies and nurtured through stages of agony, at constant cost to the caster's own vitality.*
+
+### The Calling
+A grim, tragic practitioner of corruption who treats the battlefield as a garden of rot. By sowing seeds of sickness in enemies and nurturing them through stages of agony, the Plaguebringer cultivates a creeping pandemic. This dark garden demands constant sacrifice — casting drains the Plaguebringer's own vitality and leaves them vulnerable to purging fire.
+
+### History
+**Vespera** the **Vreken** alchemist bonded with the bog-rot of the Bryngloom to synthesize a cure for the spore-hush that ravaged her family's cave-keeps. She gathered the decaying moss of the Sunken Spire and injected its alchemical bile directly into her veins as a counter-toxin. She cured the hush — but her body became a permanent host for active decay. Her skin is waxy, pale, and cold; she must constantly cultivate new diseases within her own tissue to prevent the rot from consuming her organs.
+
+### Cities & Civil Reception
+Plaguebringers are kept at arm's length even by those who depend on them. They find grudging employ in the quarantine-quarters of the Sunken Spire and the bog-research outposts along Vel-Keth Bayou, and they are turned away at the gates of every settlement that has survived a plague.
+
+### Races & Cultural Affiliation
+A **Vreken** discipline at root, drawn from the same fungal-alchemical tradition as the hush itself. **Morren** humans of the bog (already saturated with Neth contract-toxins) and a growing **Fexrick** cohort (whose toxin-resistant biology makes them ideal hosts) round out the order.
+
+> *"They call me a monster. They are right. But I did not make myself this way — I was born into a world that was already rotting, and I learned to breathe the decay."*
+
+---
+
+## 16. Inquisitor — Cold Iron, Burning Salt, and the Barbed Leash of the Damned
+*Resource: Righteous Authority — fueled by the friction of magical confrontation and the command of bound entities.* **(Carries the merged vows of the cold-iron Covenbane and the demon-binding Exorcist; the two orders recognized their separate wars were the same war.)**
+
+### The Calling
+The ultimate arbiter of the occult, the Inquisitor wields both anti-magic negation and demonic binding as a single devastating doctrine. They shatter spells, bind demons, and purge corruption. The price is absolute: silver-poisoned bones, whispered demons in the blood, self-inflicted wounds to maintain control, and total isolation from the very communities they protect.
+
+### History
+Two traditions of occult warfare, born in parallel from the same wound in the world. In the deep bogs of the Bryngloom, the **Vreken** hunter **Orven the Still-Handed** forged the first cold-iron blade and swore the Barbed Vow to hunt his own corrupted kinsmen — the Covenbane. In the fog-shrouded groves of the Frostwood Reach, the healer **Elias the Salt-Scarred** opened his own veins to draw the Wyrd's face-stealing horrors into living flesh — the Exorcist. When the Sundered Monoliths began cracking wider and the incursion rate tripled, the two orders recognized their separate wars were the same war, and the Inquisition was forged in that recognition. Cold iron meets bound demon; anti-magic negation meets purifying ritual.
+
+### Cities & Civil Reception
+Inquisitors operate from isolated frontier garrisons — the Coven-Holds — and return to the civilized plazas only to deliver the glowing death-scrolls of the kin they have executed. They are legally segregated from the high archives of the Hollow-Scriptorium and kept at arm's length in every public square that must nevertheless rely on them.
+
+### Races & Cultural Affiliation
+The dual origin ties the order to the **Vreken** of the Bryngloom (the Covenbane lineage) and the **Thalren** humans of the Frostwood (the Exorcist lineage). The merged doctrine now draws **Skald** oath-keepers and a small, terrifying **Mimir** detachment whose stolen faces make them peerless infiltrators of cults.
+
+> *"She was my sister before she was their priestess. I loved her before I killed her. That is the Barbed Vow. Now I carry her ghost in my blood and her chains in my hands. Love first. Execution second. Always in that order."*
+
+---
+
+## 17. Revenant — Death Is Fuel, the Grave Is a Door
+*Resource: Death Toll + Phylactery — boiling blight energy orbiting the body, plus harvested souls that drag the caster back from the threshold.* **(Walks the combined path of the Deathcaller and the Lichborne; Kora's blood-covenant and Vesper's frost-phylactery are one economy now.)**
+
+### The Calling
+The Revenant walks between two necrotic traditions — the blood-fueled sacrifice of Kora's covenant and the frost-stasis harvest of Vesper's phylactery. Every spell costs life; every kill feeds the grave. They are the only class that converts their own death into a tactical weapon — the Death Trigger freeze that erupts from their resurrection is one of the strongest control effects in existence.
+
+### History
+Two traditions of death magic, born in the same peat-bogs of the Bryngloom. The **Vreken** Veil-Speaker **Kora** bargained with the Root-Veil, offering her own blood as blight thread; every spell she wove drained her life, generating volatile Blood Tokens. The human scribe **Vesper**, dying of the sumps' lung-rot, performed the forbidden Rite of the Cold Hearth — binding his soul to a basalt phylactery and inviting the bog's freezing decay to halt his mortal heart. When the bog-graves began waking on their own — the dead marching toward the Sundered Monoliths without permission — Kora's descendants and Vesper's acolytes recognized their separate wars were the same war.
+
+### Cities & Civil Reception
+The Revenant has no open presence in any mortal city. They operate from the forgotten ruins of the Frozen Archive's lowest vaults and the bottomless bog-caves of the Bryngloom, where they weave their death-webs in absolute secrecy. The Inquisition hunts them with extreme prejudice across all seven continents.
+
+### Races & Cultural Affiliation
+The **Vreken** blood-covenant (Kora) and the human **Morren**/Thalren phylactery-path (Vesper) are the twin roots. The merged tradition has since drawn **Skald** glacier-tomb keepers (whose cold-aligned dead adapt readily to Vesper's rite) and a growing **Neth** contingent who treat the Death Toll as just another renegotiated clause in the contract of mortality.
+
+> *"I hear thirty generations of the dead screaming in my veins. Death came for me in the peat-bogs and I told it to wait. It has been waiting eight hundred years. We have an understanding now — I go first, and it follows close behind."*
+
+---
+
+## 18. Animist — Ancestral Conduit and the Triple Toll of Communion
+*Resource: Triple Toll — blood, bone, and spirit; every word of ancestral power costs a piece of the self.* **(A syncretic tradition fusing the Sundrift totemic, Bryngloom spiritual, and Nordhalla runic traditions — three separate communions revealed to be one ancestral language.)**
+
+### The Calling
+A walking archive of three dead traditions, written in scars, bone spurs, and spiritual static. The Animist does not cast magic; they undergo grotesque physical transformation. Bone erupts from flesh as totems. Blood carves glowing sigils into stone. The voices of ancestral spirits whisper through hallucinations that cannot be silenced.
+
+### History
+Three independent discoveries of ancestral communion, fused into a single art. In the Sundrift Vale, the **Ordan** herd-ranger **Kael** sat motionless for three seasons, letting bone and root erupt from his flesh until the wind-spirits claimed him as kin. In the Bryngloom, the **Vreken** botanist **Nyssa** inhaled the bioluminescent spore-dust of the bog and bargained with the ancient loa for healing power. In the Frozen Archive of Nordhalla, the **Skald** scholar **Theron** carved the mathematical formulas of the ancient clockwork songs into his own skin. The three traditions merged when Nyssa's caravan passed through the Sundrift Vale during a thaw and Kael's totems resonated with her loa — both recognizing Theron's runic patterns as the same ancestral language in a different script.
+
+### Cities & Civil Reception
+Animists are too strange for the cities and too needed by the perimeters. They are found at the crossroads where a caravan needs a spirit-pacified, at a holdfast where a bone-totem must be raised, and at any bog-edge where an ancestor will not stop speaking. They are paid in solitude and offerings and asked to leave before the transformations escalate.
+
+### Races & Cultural Affiliation
+By definition tri-cultural: **Ordan** humans (totemic), **Vreken** (spiritual), and **Skald** (runic). The merged order now accepts any whose ancestors will speak — and the ancestors, it turns out, will speak through anyone desperate enough to listen.
+
+> *"The bone remembers what the mind forgets. The spirit remembers what the bone forgets. The rune remembers what the spirit forgets. I am the one who reads all three, and pays for every word."*
+
+---
+
+## 19. Gambit — The Wagering Architect
+*Resource: Fortune Points + Karmic Debt — probability siphoned as a wager and navigated as a tapestry.* **(Fuses the Merryn Gambler and the Kessen-Neth Fate Weaver; Jax and Lyra discovered they were manipulating the same force.)**
+
+### The Calling
+A tragic ledger written in stolen luck and severed fate-threads. The Gambit does not play for gold or glory; they play for the next calculated breath. They wield both the Gambler's raw fortune-siphoning and the Fate Weaver's precise cartomantic surgery. Their nerves hum with the kinetic charge of stolen probability, and their mind splits across fractured timeline threads.
+
+### History
+In the floating alleys of Merrowport, the **Merryn** pirate captain **Jax** wagered his own lifeline in a game of dice against a freezing storm-spirit of the Iceheart Sea — and won, but the spirit claimed the warmth of his blood. His heartbeat was permanently synchronized with the ocean's tides, denying him sleep unless his head was submerged in freezing saltwater. In the vertical canyons of the Cragjaw Peaks, the **Kessen Neth** probability-watcher **Lyra** used her rune-etched cards to pluck the threads of alternate timelines to save her cornered caravan — the psychic recoil of experiencing every alternate death in a single second permanently fracturing her consciousness. When Jax's ship docked at Cragjaw during a rare thaw and their abilities resonated across the dock, they discovered they were manipulating the same fundamental force: probability itself.
+
+### Cities & Civil Reception
+Gambits are at home in the floating gambling-halls of Merrowport and the rune-trading posts of the Cragjaw canyons, where a wager and a card-reading are equally binding. They are watched carefully in Atropolis (the Neth contract-houses view unsanctioned fate-manipulation as unlicensed legal practice) and welcomed anywhere a bad outcome needs undoing.
+
+### Races & Cultural Affiliation
+The **Merryn** pirate-gamblers and the **Kessen Neth** fate-weavers are the twin roots. The fused tradition draws **Corvani** raven-marked diviners and the occasional desperate **Solvarn** willing to bet against a world that already took everything from them.
+
+> *"I do not gamble against the house. I am the house. The stakes are your luck, and I am very, very good at collecting."*
+
+---
+
+## 20. Harbinger — The End Was Always Coming
+*Resource: Mayhem — unified pressure + prophecy currency; every prophecy fulfilled fills the caster with stolen entropy.* **(Speaks for both the Chaos Weaver and the Doomsayer; Xyris's living tear and Malakor's calculated doom proved to be the same mathematics.)**
+
+### The Calling
+To look upon a Harbinger is to watch reality struggle to maintain its grip while a prophet counts down to its end. Shadows around them rip free and tear in the wind. Their skin occasionally flickers out of phase, weeping the echoes of dead and deleted timelines. They do not cast spells — they speak endings into flesh and invite local molecular collapse.
+
+### History
+The nomad **Xyris** did not see beauty in reality's woven threads; she saw a cage. Splicing a thread of raw temporal friction directly into her own veins, she sought to tear open the veil and draw power from the gravity anomalies left behind by the Breach — the Chaos Weaver. During the first solar eclipse of Sol's Deepening, the **Skald** archivist **Malakor** locked himself in the Scribe's Tower with thirty scrolls of star-arithmetic and calculated that the freeze was not temporary but mathematically absolute — the realization freezing his mind rather than breaking it — the Doomsayer. When Xyris and Malakor's paths converged, the Harbinger was born: both a living tear in spacetime and a prophet of mathematical catastrophe. They saw how the world ends (Malakor) and found a way to wear that ending (Xyris).
+
+### Cities & Civil Reception
+Harbingers are outlawed in Atropolis and Greymark Keep, where their presence is treated as a standing emergency. They gather in the margin-camps between the regions — the places where maps stop and the Sundered Monoliths begin — where prophecy of the end is indistinguishable from weather forecasting.
+
+### Races & Cultural Affiliation
+Xyris's nomad origin (variously claimed by the **Ordan** and the wandering **Myrathil**) and Malakor's **Skald** lineage are the twin roots. The fused tradition draws the catastrophe-obsessed of every bloodline, with a notable overrepresentation of **Astril** who read the Harbinger's mathematics as the obituary of the celestial court they already mourn.
+
+> *"I did not tear a hole in reality. I simply found one that was already there, and I am small enough to crawl through. The chaos was here before me. And when I crawled through, I saw the end. It was not a vision. It was an equation. The math checks out. We are all already dead. I am simply the one who carries the proof."*
 
 ---
 

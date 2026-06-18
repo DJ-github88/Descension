@@ -1,25 +1,38 @@
+import { getStore } from './storeRegistry';
 // Authentication store using Zustand
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import authService from '../services/authService';
-
-// Lazy imports to avoid circular dependencies
-let socialStoreModule = null;
-let presenceStoreModule = null;
+import { isProduction } from '../config/env';
 
 const getSocialStore = () => {
-  if (!socialStoreModule) {
-    socialStoreModule = require('./socialStore');
-  }
-  return socialStoreModule.default || socialStoreModule;
+  return getStore('socialStore');
 };
 
 const getPresenceStore = () => {
-  if (!presenceStoreModule) {
-    presenceStoreModule = require('./presenceStore');
-  }
-  return presenceStoreModule.default || presenceStoreModule;
+  return getStore('presenceStore');
 };
+
+/**
+ * Admin dev login master switch.
+ * Flip to `false` to disable admin/admin login at any time without a redeploy.
+ * Also auto-disabled in production builds (see isAdminLoginEnabled below).
+ */
+const ADMIN_DEV_LOGIN_ENABLED = true;
+
+/**
+ * Returns true only when admin dev login is both enabled in code AND
+ * we are not in a production build.
+ */
+export const isAdminLoginEnabled = () => ADMIN_DEV_LOGIN_ENABLED && !isProduction();
+
+const ADMIN_EMAIL = 'admin';
+const ADMIN_PASSWORD = 'admin';
+const ADMIN_LOCALSTORAGE_KEY = 'mythrill-admin-user';
+const ADMIN_LOCALSTORAGE_DATA_KEY = 'mythrill-admin-user-data';
+const ADMIN_LOCALSTORAGE_FLAG = 'mythrill-admin-active';
+
+export const isAdminBypassUser = (user) => !!user?.isAdmin;
 
 const useAuthStore = create(
   persist(
@@ -32,6 +45,7 @@ const useAuthStore = create(
       isAuthInitialized: false, // Track if auth state has been initialized
       error: null,
       isDevelopmentBypass: false, // Development bypass flag
+      isAdminBypass: false, // Admin dev-login bypass flag (gates all subscription features)
       rememberMe: false, // Remember me setting
 
       // Actions
@@ -55,13 +69,13 @@ const useAuthStore = create(
 
           // Clean up presence when user logs out or session expires
           try {
-            const presenceStore = require('./presenceStore').default;
+            const presenceStore = getStore('presenceStore');
             if (presenceStore.getState().currentUserPresence) {
-              console.log('🧹 AuthStore clearing presence data for logged-out user');
+              console.log('ðŸ§¹ AuthStore clearing presence data for logged-out user');
               presenceStore.getState().cleanup();
             }
           } catch (error) {
-            console.warn('⚠️ Could not clean up presence data on logout:', error);
+            console.warn('âš ï¸ Could not clean up presence data on logout:', error);
           }
         }
       },
@@ -286,7 +300,13 @@ const useAuthStore = create(
         set({ isLoading: true, error: null });
 
         try {
-          const { user, isDevelopmentBypass } = get();
+          const { user, isDevelopmentBypass, isAdminBypass } = get();
+
+          // Admin dev-login: just clear admin session
+          if (isAdminBypass) {
+            get().disableAdminBypass();
+            return { success: true };
+          }
 
           // If development bypass user, just disable development bypass
           if (isDevelopmentBypass) {
@@ -341,7 +361,7 @@ const useAuthStore = create(
             const socialStore = getSocialStore();
             const { cleanup: socialCleanup } = socialStore.getState();
             if (socialCleanup) {
-              console.log('🧹 Cleaning up social subscriptions before signOut...');
+              console.log('ðŸ§¹ Cleaning up social subscriptions before signOut...');
               socialCleanup();
             }
           } catch (e) {
@@ -352,7 +372,7 @@ const useAuthStore = create(
             const presenceStore = getPresenceStore();
             const { cleanup: presenceCleanup } = presenceStore.getState();
             if (presenceCleanup) {
-              console.log('🧹 Cleaning up presence subscriptions before signOut...');
+              console.log('ðŸ§¹ Cleaning up presence subscriptions before signOut...');
               presenceCleanup();
             }
           } catch (e) {
@@ -468,11 +488,11 @@ const useAuthStore = create(
               error: null
             });
 
-            console.log('✅ Development bypass enabled with Firebase Anonymous Auth:', firebaseUser.uid);
+            console.log('âœ… Development bypass enabled with Firebase Anonymous Auth:', firebaseUser.uid);
             return { success: true };
           } else {
             // Fallback to mock user if anonymous auth fails
-            console.warn('⚠️ Anonymous auth failed, using mock user (Firebase operations will fail)');
+            console.warn('âš ï¸ Anonymous auth failed, using mock user (Firebase operations will fail)');
             const mockUser = {
               uid: 'dev-user-123',
               email: 'dev@mythrill.com',
@@ -513,7 +533,7 @@ const useAuthStore = create(
             return { success: true, warning: 'Using mock user - Firebase operations may fail' };
           }
         } catch (error) {
-          console.error('❌ Development bypass error:', error);
+          console.error('âŒ Development bypass error:', error);
           set({ error: error.message });
           return { success: false, error: error.message };
         }
@@ -529,11 +549,148 @@ const useAuthStore = create(
         });
       },
 
+      /**
+       * Returns true if the supplied credentials should trigger admin dev login.
+       * Respects both the code toggle and the production guard.
+       */
+      isAdminLoginCredentials: (email, password) => {
+        if (!isAdminLoginEnabled()) return false;
+        return (
+          String(email ?? '').trim().toLowerCase() === ADMIN_EMAIL &&
+          String(password ?? '') === ADMIN_PASSWORD
+        );
+      },
+
+      /**
+       * Sign in as Admin. Bypasses Firebase entirely and grants ULTIMATE tier
+       * (all subscription-gated features unlocked). Only available in non-prod
+       * builds while ADMIN_DEV_LOGIN_ENABLED is true.
+       */
+      signInAsAdmin: async () => {
+        if (!isAdminLoginEnabled()) {
+          set({ error: 'Admin login is disabled.' });
+          return { success: false, error: 'Admin login is disabled.' };
+        }
+
+        set({ isLoading: true, error: null });
+
+        try {
+          const adminUser = {
+            uid: 'admin-dev-user',
+            email: 'admin',
+            displayName: 'Admin',
+            photoURL: null,
+            emailVerified: true,
+            isAdmin: true,
+            isAnonymous: false,
+            friendId: 'ADMIN'
+          };
+
+          const adminUserData = {
+            displayName: 'Admin',
+            email: 'admin',
+            photoURL: null,
+            friendId: 'ADMIN',
+            friendId_lowercase: 'admin',
+            subscriptionTier: 'ultimate',
+            createdAt: new Date(),
+            lastLoginAt: new Date(),
+            characters: [],
+            preferences: {
+              theme: 'pathfinder',
+              notifications: true,
+              autoSave: true
+            },
+            gameData: {
+              unlockedSkills: [],
+              achievements: [],
+              totalPlayTime: 0
+            },
+            isAdmin: true
+          };
+
+          // Persist to localStorage so the admin session survives refresh
+          localStorage.setItem(ADMIN_LOCALSTORAGE_KEY, JSON.stringify(adminUser));
+          localStorage.setItem(ADMIN_LOCALSTORAGE_DATA_KEY, JSON.stringify(adminUserData));
+          localStorage.setItem(ADMIN_LOCALSTORAGE_FLAG, 'true');
+
+          set({
+            user: adminUser,
+            userData: adminUserData,
+            isAuthenticated: true,
+            isAdminBypass: true,
+            isDevelopmentBypass: false,
+            error: null
+          });
+
+          console.log('\u2705 Admin dev-login enabled \u2014 ULTIMATE tier active');
+          return { success: true };
+        } catch (error) {
+          console.error('\u274C Admin dev-login error:', error);
+          set({ error: error.message });
+          return { success: false, error: error.message };
+        } finally {
+          set({ isLoading: false });
+        }
+      },
+
+      /**
+       * Disable admin bypass and clear all admin session data.
+       * Used by signOut and by anyone wanting to revoke admin access at runtime.
+       */
+      disableAdminBypass: () => {
+        localStorage.removeItem(ADMIN_LOCALSTORAGE_KEY);
+        localStorage.removeItem(ADMIN_LOCALSTORAGE_DATA_KEY);
+        localStorage.removeItem(ADMIN_LOCALSTORAGE_FLAG);
+
+        set({
+          user: null,
+          userData: null,
+          isAuthenticated: false,
+          isAdminBypass: false,
+          error: null
+        });
+      },
+
       // Initialize auth state listener
       initializeAuth: () => {
         // CRITICAL FIX: Don't auto-restore guest users on page load
         // Only restore authenticated users from Firebase
         // Guest users should only be restored when explicitly clicking "Continue as Guest"
+
+        // Restore admin dev-login session first if active and still enabled
+        const adminActive = localStorage.getItem(ADMIN_LOCALSTORAGE_FLAG) === 'true';
+        if (adminActive && isAdminLoginEnabled()) {
+          try {
+            const adminUserRaw = localStorage.getItem(ADMIN_LOCALSTORAGE_KEY);
+            const adminDataRaw = localStorage.getItem(ADMIN_LOCALSTORAGE_DATA_KEY);
+            if (adminUserRaw && adminDataRaw) {
+              const adminUser = JSON.parse(adminUserRaw);
+              const adminUserData = JSON.parse(adminDataRaw);
+              set({
+                user: adminUser,
+                userData: adminUserData,
+                isAuthenticated: true,
+                isAdminBypass: true,
+                isAuthInitialized: true,
+                error: null
+              });
+              console.log('\u2705 Restored admin dev-login session');
+              // Still register Firebase listener for safety, but admin user is already restored
+            }
+          } catch (error) {
+            console.error('Error restoring admin session:', error);
+            // Corrupt admin state \u2014 clear it
+            localStorage.removeItem(ADMIN_LOCALSTORAGE_KEY);
+            localStorage.removeItem(ADMIN_LOCALSTORAGE_DATA_KEY);
+            localStorage.removeItem(ADMIN_LOCALSTORAGE_FLAG);
+          }
+        } else if (adminActive && !isAdminLoginEnabled()) {
+          // Admin login was active but is now disabled (e.g. production build) \u2014 purge it
+          localStorage.removeItem(ADMIN_LOCALSTORAGE_KEY);
+          localStorage.removeItem(ADMIN_LOCALSTORAGE_DATA_KEY);
+          localStorage.removeItem(ADMIN_LOCALSTORAGE_FLAG);
+        }
 
         // Check if there's a guest user with explicit login flag
         const guestUser = localStorage.getItem('mythrill-guest-user');
@@ -582,7 +739,7 @@ const useAuthStore = create(
         // CRITICAL FIX: Always mark auth as initialized, even if Firebase fails
         // This prevents the app from getting stuck on "Initializing authentication..."
         setTimeout(() => {
-          console.log('🔄 Auth initialization timeout - marking as initialized');
+          console.log('ðŸ”„ Auth initialization timeout - marking as initialized');
           set({ isAuthInitialized: true });
         }, 2000); // Give more time for Firebase to initialize if configured
 
@@ -595,6 +752,9 @@ const useAuthStore = create(
               if (user && !user.isGuest) {
                 get().setUser(user);
               } else if (!user) {
+                // Don't clobber an active admin dev-login session when
+                // Firebase reports no current user.
+                if (get().isAdminBypass) return;
                 // No authenticated user - clear state
                 get().setUser(null);
               }
@@ -609,13 +769,13 @@ const useAuthStore = create(
           // This allows users to access the app immediately without getting stuck
           setTimeout(async () => {
             try {
-              console.log('🔄 Firebase not configured - automatically signing in as guest...');
+              console.log('ðŸ”„ Firebase not configured - automatically signing in as guest...');
               await get().signInAsGuest();
-              console.log('✅ Guest sign-in completed successfully');
+              console.log('âœ… Guest sign-in completed successfully');
               // Mark auth as initialized after successful guest sign-in
               set({ isAuthInitialized: true });
             } catch (error) {
-              console.error('❌ Guest sign-in failed:', error);
+              console.error('âŒ Guest sign-in failed:', error);
               // Even if guest sign-in fails, mark auth as initialized
               set({ isAuthInitialized: true });
             }

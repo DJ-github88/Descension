@@ -14,7 +14,6 @@
 
 import { ALL_CLASS_EQUIPMENT } from './equipment/classEquipment';
 import { ALL_RACE_EQUIPMENT } from './equipment/raceEquipment';
-import { ALL_PATH_EQUIPMENT } from './equipment/pathEquipment';
 import { ALL_BACKGROUND_EQUIPMENT } from './equipment/backgroundEquipment';
 
 // ===== UNIVERSAL ITEMS - Available to All Characters =====
@@ -23,11 +22,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
     // Basic Weapons
     {
         id: 'starter-dagger',
-        name: 'Simple Dagger',
+        name: 'Bog-Iron Shank',
         type: 'weapon',
         subtype: 'DAGGER',
         quality: 'common',
-        description: 'A basic iron dagger suitable for any adventurer. Simple but reliable.',
+        description: 'A crude shank of bog-iron. The fog clings to it, and the cold with it.',
         iconId: 'inv_weapon_shortblade_05',
         value: { platinum: 0, gold: 1, silver: 75, copper: 50 },
         weight: 1,
@@ -50,11 +49,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
 
     {
         id: 'starter-shortsword',
-        name: 'Iron Shortsword',
+        name: 'Wayfarer Gladius',
         type: 'weapon',
         subtype: 'SWORD',
         quality: 'common',
-        description: 'A standard iron shortsword. Well-balanced and easy to wield.',
+        description: 'An ironwood-hilted gladius, worn smooth by long roads across the Reach.',
         iconId: 'inv_sword_04',
         value: { platinum: 0, gold: 4, silver: 50, copper: 0 },
         weight: 2,
@@ -77,11 +76,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
 
     {
         id: 'starter-quarterstaff',
-        name: 'Wooden Quarterstaff',
+        name: 'Ironwood Cane',
         type: 'weapon',
         subtype: 'STAFF',
         quality: 'common',
-        description: 'A simple wooden staff. Favored by travelers and spellcasters alike.',
+        description: 'A length of dense ironwood. Favored by scribes and pact-mages who walk the fog-lines.',
         iconId: 'inv_staff_13',
         value: { platinum: 0, gold: 0, silver: 80, copper: 25 },
         weight: 4,
@@ -105,11 +104,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
     // Basic Armor
     {
         id: 'starter-leather-armor',
-        name: 'Leather Armor',
+        name: 'Bog-Tanned Jerkin',
         type: 'armor',
         subtype: 'LEATHER',
         quality: 'common',
-        description: 'Basic leather armor offering light protection without hindering movement.',
+        description: 'Boiled in peat-acid, this jerkin protects without slowing the wearer. Smokes faintly in the damp.',
         iconId: 'inv_chest_leather_01',
         value: { platinum: 0, gold: 7, silver: 25, copper: 75 },
         weight: 10,
@@ -126,11 +125,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
 
     {
         id: 'starter-padded-armor',
-        name: 'Padded Armor',
+        name: 'Fog-Weave Wraps',
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'common',
-        description: 'Quilted layers of cloth and batting. The cheapest armor available.',
+        description: 'Quilted rough wool treated against the damp. The cheapest defense against a cold that bites through plain cloth.',
         iconId: 'inv_chest_cloth_01',
         value: { platinum: 0, gold: 4, silver: 60, copper: 0 },
         weight: 8,
@@ -148,11 +147,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
     // Containers
     {
         id: 'starter-backpack',
-        name: 'Leather Backpack',
+        name: 'Ironwood Frame-Pack',
         type: 'container',
         subtype: 'BACKPACK',
         quality: 'common',
-        description: 'A sturdy leather backpack for carrying your adventuring gear.',
+        description: 'A bog-preserved ironwood frame-pack, built to carry a ledger and a life across the Reach.',
         iconId: 'inv_misc_bag_08',
         value: { platinum: 0, gold: 1, silver: 85, copper: 50 },
         weight: 5,
@@ -170,11 +169,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
 
     {
         id: 'starter-belt-pouch',
-        name: 'Belt Pouch',
+        name: 'Scribe Belt-Pouch',
         type: 'container',
         subtype: 'POUCH',
         quality: 'common',
-        description: 'A small leather pouch that attaches to your belt.',
+        description: 'A small peat-tanned pouch that hooks to the belt. Most carry their name-ledger in it.',
         iconId: 'inv_misc_bag_10',
         value: { platinum: 0, gold: 0, silver: 45, copper: 75 },
         weight: 1,
@@ -193,11 +192,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
     // Consumables
     {
         id: 'starter-health-potion',
-        name: 'Minor Healing Potion',
+        name: 'Peat-Tincture',
         type: 'consumable',
         subtype: 'POTION',
         quality: 'common',
-        description: 'A small vial of ruby-red liquid that restores a modest amount of health when consumed.',
+        description: 'A vial of dark, peat-filtered tincture. Numbs pain and knits flesh, modestly. Tastes of bog and iron.',
         iconId: 'inv_potion_51',
         value: { platinum: 0, gold: 4, silver: 75, copper: 25 },
         weight: 0.5,
@@ -215,11 +214,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
 
     {
         id: 'starter-rations',
-        name: 'Trail Rations',
+        name: 'Ironwood Waybread',
         type: 'consumable',
         subtype: 'FOOD',
         quality: 'common',
-        description: 'Dried meat, hardtack, and preserved fruits. Enough for one day of travel.',
+        description: 'Dense, resinous waybread of pine-nut and tallow. A thumb-sized piece lasts a day on the trail.',
         iconId: 'inv_misc_food_wheat_01',
         value: { platinum: 0, gold: 0, silver: 5, copper: 0 },
         weight: 0.5,
@@ -237,11 +236,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
     
     {
         id: 'starter-waterskin',
-        name: 'Waterskin',
+        name: 'Bog-Skin Flask',
         type: 'miscellaneous',
         subtype: 'TRADE_GOODS',
         quality: 'common',
-        description: 'A leather waterskin that holds enough water for a day.',
+        description: 'A waxed leather flask. Holds a day of water, or something stronger to keep the cold out.',
         iconId: 'inv_drink_05',
         value: { platinum: 0, gold: 0, silver: 18, copper: 50 },
         weight: 5,
@@ -259,11 +258,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
 
     {
         id: 'starter-torch',
-        name: 'Torch',
+        name: 'Pitch-Pine Torch',
         type: 'miscellaneous',
         subtype: 'TRADE_GOODS',
         quality: 'common',
-        description: 'A wooden torch. Burns for 1 hour and provides bright light.',
+        description: 'A pitch-soaked torch. Burns an hour in the fog, the only warm light for a mile.',
         iconId: 'inv_misc_torch_01',
         value: { platinum: 0, gold: 0, silver: 8, copper: 75 },
         weight: 1,
@@ -283,11 +282,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
 
     {
         id: 'starter-rope',
-        name: 'Hempen Rope',
+        name: 'Ironwood-Bast Cord',
         type: 'miscellaneous',
         subtype: 'TRADE_GOODS',
         quality: 'common',
-        description: 'Sturdy hempen rope, sold by the foot.',
+        description: 'Braided cord of ironwood-bast fiber. Sturdy enough to haul a body from a bog-shaft.',
         iconId: 'inv_misc_rope_01',
         value: { platinum: 0, gold: 0, silver: 1, copper: 90 },
         weight: 0.2,
@@ -307,11 +306,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
 
     {
         id: 'starter-bedroll',
-        name: 'Bedroll',
+        name: 'Frost-Wool Roll',
         type: 'miscellaneous',
         subtype: 'TRADE_GOODS',
         quality: 'common',
-        description: 'A simple bedroll for sleeping outdoors.',
+        description: 'A roll of frost-wool felted against the cold. Sleep in the open is dangerous; this makes it less so.',
         iconId: 'inv_misc_pelt_14',
         value: { platinum: 0, gold: 0, silver: 90, copper: 0 },
         weight: 7,
@@ -330,11 +329,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
     // Accessories
     {
         id: 'starter-simple-ring',
-        name: 'Simple Ring',
+        name: 'Ledger-Band',
         type: 'accessory',
         subtype: 'RING',
         quality: 'common',
-        description: 'A plain iron ring with a minor enchantment.',
+        description: 'A plain iron band etched with a lineage-mark. Some swear it steadies the constitution.',
         iconId: 'inv_jewelry_ring_01',
         value: { platinum: 0, gold: 0, silver: 75, copper: 50 },
         weight: 0.1,
@@ -352,11 +351,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
     // Additional Weapons
     {
         id: 'starter-handaxe',
-        name: 'Hand Axe',
+        name: 'Wood-Ward Hatchet',
         type: 'weapon',
         subtype: 'AXE',
         quality: 'common',
-        description: 'A simple one-handed axe. Can be thrown or used in melee.',
+        description: 'A one-handed ironwood hatchet, balanced to throw. Splits skulls as readily as firewood.',
         iconId: 'inv_axe_02',
         value: { platinum: 0, gold: 2, silver: 80, copper: 25 },
         weight: 2,
@@ -379,11 +378,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
 
     {
         id: 'starter-mace',
-        name: 'Simple Mace',
+        name: 'Cold-Iron Mace',
         type: 'weapon',
         subtype: 'MACE',
         quality: 'common',
-        description: 'A basic mace. Effective against armored foes.',
+        description: 'A blunt mace of cold-iron. The Wyrd flinches from its touch; armor does not.',
         iconId: 'inv_mace_01',
         value: { platinum: 0, gold: 3, silver: 65, copper: 0 },
         weight: 4,
@@ -406,11 +405,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
 
     {
         id: 'starter-spear',
-        name: 'Simple Spear',
+        name: 'Ironwood Spear',
         type: 'weapon',
         subtype: 'POLEARM',
         quality: 'common',
-        description: 'A basic spear with good reach. Can be thrown.',
+        description: 'A seven-foot ironwood haft tipped with bog-iron. Reach is life in the fog.',
         iconId: 'inv_spear_01',
         value: { platinum: 0, gold: 2, silver: 90, copper: 50 },
         weight: 3,
@@ -433,11 +432,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
 
     {
         id: 'starter-crossbow',
-        name: 'Light Crossbow',
+        name: 'Fog-Lock Bow',
         type: 'weapon',
         subtype: 'CROSSBOW',
         quality: 'common',
-        description: 'A light crossbow. Easier to use than a bow but slower to reload.',
+        description: 'A crank-drawn crossbow. Slower than a bow, but reliable when the fog hides your target.',
         iconId: 'inv_weapon_crossbow_01',
         value: { platinum: 0, gold: 5, silver: 50, copper: 75 },
         weight: 5,
@@ -461,11 +460,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
     // Additional Armor
     {
         id: 'starter-hide-armor',
-        name: 'Hide Armor',
+        name: 'Frost-Bear Mantle',
         type: 'armor',
         subtype: 'MEDIUM',
         quality: 'common',
-        description: 'Crude armor made from thick furs and pelts.',
+        description: 'A crude mantle of thick frost-bear pelt. Reeks of the kill, but turns a claw.',
         iconId: 'inv_chest_leather_04',
         value: { platinum: 0, gold: 5, silver: 40, copper: 50 },
         weight: 12,
@@ -482,11 +481,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
 
     {
         id: 'starter-chain-shirt',
-        name: 'Chain Shirt',
+        name: 'Bog-Forged Hauberk',
         type: 'armor',
         subtype: 'MEDIUM',
         quality: 'common',
-        description: 'A shirt made of interlocking metal rings.',
+        description: 'Interlocking ironwood-rings over peat-tanned backing. Heavy, but the bog-forged links do not rust.',
         iconId: 'inv_chest_chain_01',
         value: { platinum: 0, gold: 9, silver: 25, copper: 0 },
         weight: 20,
@@ -503,11 +502,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
 
     {
         id: 'starter-shield',
-        name: 'Wooden Shield',
+        name: 'Ironwood Targe',
         type: 'armor',
         subtype: 'SHIELD',
         quality: 'common',
-        description: 'A simple wooden shield. Provides basic protection.',
+        description: 'A banded ironwood shield. The wood of the Reach does not splinter easily.',
         iconId: 'inv_shield_01',
         value: { platinum: 0, gold: 4, silver: 80, copper: 0 },
         weight: 6,
@@ -526,11 +525,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
     // Additional Consumables
     {
         id: 'starter-antitoxin',
-        name: 'Antitoxin Vial',
+        name: 'Hush-Antidote Phial',
         type: 'consumable',
         subtype: 'POTION',
         quality: 'common',
-        description: 'A vial that grants advantage against poison for 1 hour.',
+        description: 'A phial of bitter moss-ash distillate. Holds hush-spores and bog-venoms at bay for an hour.',
         iconId: 'inv_potion_20',
         value: { platinum: 0, gold: 4, silver: 60, copper: 50 },
         weight: 0.5,
@@ -545,11 +544,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
 
     {
         id: 'starter-oil-flask',
-        name: 'Oil Flask',
+        name: 'Bog-Oil Flask',
         type: 'consumable',
         subtype: 'UTILITY',
         quality: 'common',
-        description: 'A flask of oil. Can be used as fuel or thrown as a weapon.',
+        description: 'A flask of thick bog-oil. Fuels a lantern, or greases a terrible death when lit and thrown.',
         iconId: 'inv_potion_04',
         value: { platinum: 0, gold: 0, silver: 8, copper: 25 },
         weight: 1,
@@ -565,11 +564,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
     // Additional Miscellaneous
     {
         id: 'starter-tinderbox',
-        name: 'Tinderbox',
+        name: 'Pyre-Tin',
         type: 'miscellaneous',
         subtype: 'TRADE_GOODS',
         quality: 'common',
-        description: 'A small container with flint, fire steel, and tinder for starting fires.',
+        description: 'Flint, bog-steel, and dried moss-tinder in a tin. Fire is life in a world that wants you cold.',
         iconId: 'inv_misc_box_01',
         value: { platinum: 0, gold: 0, silver: 45, copper: 80 },
         weight: 1,
@@ -588,11 +587,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
 
     {
         id: 'starter-grappling-hook',
-        name: 'Grappling Hook',
+        name: 'Bog-Iron Grapple',
         type: 'miscellaneous',
         subtype: 'TRADE_GOODS',
         quality: 'common',
-        description: 'A three-pronged hook attached to a rope. Useful for climbing.',
+        description: 'A three-pronged bog-iron hook. Climbing out of a peat-shaft is a skill, not a hope.',
         iconId: 'inv_misc_hook_01',
         value: { platinum: 0, gold: 1, silver: 85, copper: 0 },
         weight: 4,
@@ -611,11 +610,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
 
     {
         id: 'starter-healers-kit',
-        name: 'Healer\'s Kit',
+        name: 'Field-Suture Kit',
         type: 'miscellaneous',
         subtype: 'TRADE_GOODS',
         quality: 'common',
-        description: 'A leather pouch containing bandages, salves, and splints. Has 10 uses.',
+        description: 'A peat-tanned roll of moss-lint, bone-splints, and cold-water salves. Ten uses before the moss dries out.',
         iconId: 'inv_misc_bag_14',
         value: { platinum: 0, gold: 4, silver: 70, copper: 25 },
         weight: 3,
@@ -634,11 +633,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
 
     {
         id: 'starter-manacles',
-        name: 'Manacles',
+        name: 'Cold-Iron Shackles',
         type: 'miscellaneous',
         subtype: 'TRADE_GOODS',
         quality: 'common',
-        description: 'Iron manacles for restraining prisoners. Comes with a key.',
+        description: 'Cold-iron shackles for prisoners, or the Wyrd-touched. Comes with a key.',
         iconId: 'inv_misc_key_05',
         value: { platinum: 0, gold: 1, silver: 90, copper: 50 },
         weight: 6,
@@ -657,11 +656,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
 
     {
         id: 'starter-spellbook-blank',
-        name: 'Blank Spellbook',
+        name: 'Blank Ledger-Grimoire',
         type: 'miscellaneous',
         subtype: 'TRADE_GOODS',
         quality: 'common',
-        description: 'A leather-bound book with blank pages for recording spells.',
+        description: 'A bog-preserved book of blank vellum. For recording spells, oaths, or the names of the dead.',
         iconId: 'inv_misc_book_01',
         value: { platinum: 0, gold: 9, silver: 50, copper: 0 },
         weight: 3,
@@ -681,11 +680,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
     // Camping & Survival Gear
     {
         id: 'starter-tent',
-        name: 'Two-Person Tent',
+        name: 'Frost-Wool Pavilion',
         type: 'miscellaneous',
         subtype: 'TRADE_GOODS',
         quality: 'common',
-        description: 'A simple canvas tent that provides shelter for two people.',
+        description: 'A two-soul tent of waxed frost-wool. Shelter enough to outlast a bog-storm.',
         iconId: 'inv_misc_pelt_13',
         value: { platinum: 0, gold: 1, silver: 85, copper: 75 },
         weight: 20,
@@ -704,11 +703,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
 
     {
         id: 'starter-blanket',
-        name: 'Wool Blanket',
+        name: 'Frost-Wool Blanket',
         type: 'miscellaneous',
         subtype: 'TRADE_GOODS',
         quality: 'common',
-        description: 'A thick wool blanket for warmth during cold nights.',
+        description: 'A thick frost-wool blanket. The difference between waking and freezing in the small hours.',
         iconId: 'inv_misc_pelt_11',
         value: { platinum: 0, gold: 0, silver: 45, copper: 50 },
         weight: 3,
@@ -728,11 +727,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
 
     {
         id: 'starter-mess-kit',
-        name: 'Mess Kit',
+        name: 'Trail-Mess Tin',
         type: 'miscellaneous',
         subtype: 'TRADE_GOODS',
         quality: 'common',
-        description: 'A tin box containing a cup, plate, and simple utensils.',
+        description: 'A tin box with cup, plate, and ironwood spoon. Hot food is morale on the peat.',
         iconId: 'inv_misc_food_99',
         value: { platinum: 0, gold: 0, silver: 18, copper: 25 },
         weight: 1,
@@ -751,11 +750,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
 
     {
         id: 'starter-cooking-pot',
-        name: 'Iron Pot',
+        name: 'Bog-Iron Pot',
         type: 'miscellaneous',
         subtype: 'TRADE_GOODS',
         quality: 'common',
-        description: 'A sturdy iron pot for cooking meals over a campfire.',
+        description: 'A sturdy bog-iron pot for boiling waybread or rendering tallow over camp-coals.',
         iconId: 'inv_misc_cauldron_01',
         value: { platinum: 0, gold: 1, silver: 75, copper: 50 },
         weight: 10,
@@ -774,11 +773,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
 
     {
         id: 'starter-fishing-tackle',
-        name: 'Fishing Tackle',
+        name: 'Iceheart Tackle',
         type: 'miscellaneous',
         subtype: 'TRADE_GOODS',
         quality: 'common',
-        description: 'A wooden rod, line, hooks, and lures for catching fish.',
+        description: 'An ironwood rod, braided sinew-line, and bone hooks. The Iceheart keeps giving, if you wait.',
         iconId: 'inv_fishingpole_01',
         value: { platinum: 0, gold: 0, silver: 95, copper: 0 },
         weight: 4,
@@ -798,11 +797,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
     // Tools & Equipment
     {
         id: 'starter-hammer',
-        name: 'Hammer',
+        name: 'Ironwood Mallet',
         type: 'miscellaneous',
         subtype: 'TRADE_GOODS',
         quality: 'common',
-        description: 'A simple hammer for driving pitons and tent stakes.',
+        description: 'A one-handed mallet for pitons and tent-stakes. Doubles as a bludgeon in a pinch.',
         iconId: 'inv_hammer_01',
         value: { platinum: 0, gold: 0, silver: 95, copper: 25 },
         weight: 3,
@@ -821,11 +820,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
 
     {
         id: 'starter-piton',
-        name: 'Iron Piton',
+        name: 'Bog-Iron Piton',
         type: 'miscellaneous',
         subtype: 'TRADE_GOODS',
         quality: 'common',
-        description: 'An iron spike for securing ropes when climbing.',
+        description: 'A bog-iron spike. The only thing between you and the bottom of a crevasse.',
         iconId: 'inv_misc_nail_01',
         value: { platinum: 0, gold: 0, silver: 4, copper: 50 },
         weight: 0.25,
@@ -845,11 +844,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
 
     {
         id: 'starter-crowbar',
-        name: 'Crowbar',
+        name: 'Bog-Iron Prise',
         type: 'miscellaneous',
         subtype: 'TRADE_GOODS',
         quality: 'common',
-        description: 'An iron bar for prying open doors and crates.',
+        description: 'A bog-iron crowbar. Pries doors, crates, and the occasional sealed barrow.',
         iconId: 'inv_misc_wrench_01',
         value: { platinum: 0, gold: 1, silver: 85, copper: 0 },
         weight: 5,
@@ -868,11 +867,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
 
     {
         id: 'starter-lantern',
-        name: 'Hooded Lantern',
+        name: 'Hooded Bog-Lantern',
         type: 'miscellaneous',
         subtype: 'TRADE_GOODS',
         quality: 'common',
-        description: 'A metal lantern with shutters. Burns oil for 6 hours per pint.',
+        description: 'A hooded iron lantern. Burns six hours on a pint of bog-oil; the shutters save the wick in wind.',
         iconId: 'inv_misc_lantern_01',
         value: { platinum: 0, gold: 4, silver: 75, copper: 50 },
         weight: 2,
@@ -891,11 +890,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
 
     {
         id: 'starter-oil-flask',
-        name: 'Oil Flask',
+        name: 'Lantern Bog-Oil',
         type: 'consumable',
         subtype: 'POTION',
         quality: 'common',
-        description: 'A pint of oil for lanterns. Can also be thrown as a weapon.',
+        description: 'A pint of bog-oil for lanterns. Can also be lit and thrown in a pinch.',
         iconId: 'inv_potion_03',
         value: { platinum: 0, gold: 0, silver: 9, copper: 50 },
         weight: 1,
@@ -916,11 +915,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
     // Writing & Scholarly Supplies
     {
         id: 'starter-ink-pen',
-        name: 'Ink Pen',
+        name: 'Quill-Stylus',
         type: 'miscellaneous',
         subtype: 'TRADE_GOODS',
         quality: 'common',
-        description: 'A quill pen for writing.',
+        description: 'A quill-stylus for ledger-work. Scribe-sentinels carry three; the fog takes the first two.',
         iconId: 'inv_feather_12',
         value: { platinum: 0, gold: 0, silver: 1, copper: 75 },
         weight: 0.1,
@@ -940,11 +939,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
 
     {
         id: 'starter-ink-bottle',
-        name: 'Ink Bottle',
+        name: 'Peat-Ink Bottle',
         type: 'miscellaneous',
         subtype: 'TRADE_GOODS',
         quality: 'common',
-        description: 'A small bottle of black ink.',
+        description: 'A small bottle of black peat-ink. Resists damp where common ink would run.',
         iconId: 'inv_potion_01',
         value: { platinum: 0, gold: 0, silver: 9, copper: 25 },
         weight: 0.5,
@@ -964,11 +963,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
 
     {
         id: 'starter-parchment',
-        name: 'Parchment',
+        name: 'Ledger-Vellum',
         type: 'miscellaneous',
         subtype: 'TRADE_GOODS',
         quality: 'common',
-        description: 'A sheet of quality parchment for writing.',
+        description: 'A sheet of bog-cured vellum. Holds ink through fog and frost alike.',
         iconId: 'inv_scroll_03',
         value: { platinum: 0, gold: 0, silver: 1, copper: 85 },
         weight: 0.05,
@@ -988,11 +987,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
 
     {
         id: 'starter-journal',
-        name: 'Leather Journal',
+        name: 'Chain-Bound Journal',
         type: 'miscellaneous',
         subtype: 'TRADE_GOODS',
         quality: 'common',
-        description: 'A blank journal for recording your adventures.',
+        description: 'A blank journal, chain-bound so it cannot be lost. In the Reach, your journal is your legal identity.',
         iconId: 'inv_misc_book_05',
         value: { platinum: 0, gold: 2, silver: 40, copper: 75 },
         weight: 1,
@@ -1012,11 +1011,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
     // Adventuring Gear
     {
         id: 'starter-mirror',
-        name: 'Steel Mirror',
+        name: 'Polished Talsite',
         type: 'miscellaneous',
         subtype: 'TRADE_GOODS',
         quality: 'common',
-        description: 'A polished steel mirror. Useful for looking around corners.',
+        description: 'A hand-sized polished talsite plate. Reflects poorly, survives drops, and sees around fog-corners.',
         iconId: 'inv_misc_gem_pearl_05',
         value: { platinum: 0, gold: 4, silver: 85, copper: 0 },
         weight: 0.5,
@@ -1035,11 +1034,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
 
     {
         id: 'starter-chain',
-        name: 'Iron Chain',
+        name: 'Cold-Iron Chain',
         type: 'miscellaneous',
         subtype: 'TRADE_GOODS',
         quality: 'common',
-        description: 'Sturdy iron chain, sold by the foot.',
+        description: 'Cold-iron links, sold by the foot. Holds prisoners, anchors traps, and turns the Wyrd.',
         iconId: 'inv_misc_chain_01',
         value: { platinum: 0, gold: 0, silver: 47, copper: 50 },
         weight: 1,
@@ -1059,11 +1058,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
 
     {
         id: 'starter-spyglass',
-        name: 'Spyglass',
+        name: 'Fog-Glass',
         type: 'miscellaneous',
         subtype: 'TRADE_GOODS',
         quality: 'uncommon',
-        description: 'A brass telescope for viewing distant objects.',
+        description: 'A brass fog-glass. Cuts a mile of fog down to a hundred yards, on a clear hour.',
         iconId: 'inv_misc_spyglass_01',
         value: { platinum: 0, gold: 95, silver: 50, copper: 0 },
         weight: 1,
@@ -1082,11 +1081,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
 
     {
         id: 'starter-compass',
-        name: 'Compass',
+        name: 'Ledger-Compass',
         type: 'miscellaneous',
         subtype: 'TRADE_GOODS',
         quality: 'common',
-        description: 'A simple compass for navigation.',
+        description: 'A simple magnetic compass. In the Reach, some trust these more than their own fog-eaten memory.',
         iconId: 'inv_misc_pocketwatch_01',
         value: { platinum: 0, gold: 24, silver: 75, copper: 50 },
         weight: 0.5,
@@ -1106,11 +1105,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
     // Clothing & Accessories
     {
         id: 'starter-cloak',
-        name: 'Traveler\'s Cloak',
+        name: 'Wayfarer Fog-Cloak',
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'common',
-        description: 'A sturdy cloak that provides protection from the elements.',
+        description: 'A heavy waxed cloak of fog-grey wool. Turns rain, dulls the wind, and hides the wearer at a distance.',
         iconId: 'inv_misc_cape_01',
         value: { platinum: 0, gold: 0, silver: 95, copper: 50 },
         weight: 4,
@@ -1127,11 +1126,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
 
     {
         id: 'starter-boots',
-        name: 'Leather Boots',
+        name: 'Bog-Walker Boots',
         type: 'armor',
         subtype: 'LEATHER',
         quality: 'common',
-        description: 'Sturdy leather boots for long journeys.',
+        description: 'High peat-tanned boots with ironwood soles. The mud of the Reach has swallowed lesser footwear.',
         iconId: 'inv_boots_cloth_01',
         value: { platinum: 0, gold: 1, silver: 40, copper: 75 },
         weight: 2,
@@ -1148,11 +1147,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
 
     {
         id: 'starter-gloves',
-        name: 'Leather Gloves',
+        name: 'Scribe Work-Gloves',
         type: 'armor',
         subtype: 'LEATHER',
         quality: 'common',
-        description: 'Simple leather gloves for protection and grip.',
+        description: 'Simple peat-tanned gloves. Protect the hands that hold the quill and the blade alike.',
         iconId: 'inv_gauntlets_04',
         value: { platinum: 0, gold: 0, silver: 75, copper: 25 },
         weight: 1,
@@ -1167,11 +1166,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
     // Musical Instruments
     {
         id: 'starter-flute',
-        name: 'Wooden Flute',
+        name: 'Bone Flute',
         type: 'miscellaneous',
         subtype: 'TRADE_GOODS',
         quality: 'common',
-        description: 'A simple wooden flute for playing music.',
+        description: 'A simple flute carved from frost-elk bone. Minstrel-work, or just a tune against the silence.',
         iconId: 'inv_misc_flute_01',
         value: { platinum: 0, gold: 1, silver: 85, copper: 50 },
         weight: 1,
@@ -1190,11 +1189,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
 
     {
         id: 'starter-drum',
-        name: 'Hand Drum',
+        name: 'Hide Frame-Drum',
         type: 'miscellaneous',
         subtype: 'TRADE_GOODS',
         quality: 'common',
-        description: 'A small drum that can be played with one hand.',
+        description: 'A small one-handed frame-drum of frost-bear hide. March-cadence and war-signal, in one.',
         iconId: 'inv_misc_drum_01',
         value: { platinum: 0, gold: 5, silver: 75, copper: 0 },
         weight: 3,
@@ -1214,11 +1213,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
     // Miscellaneous Useful Items
     {
         id: 'starter-bell',
-        name: 'Bell',
+        name: 'Cold-Iron Bell',
         type: 'miscellaneous',
         subtype: 'TRADE_GOODS',
         quality: 'common',
-        description: 'A small brass bell. Can be used as an alarm.',
+        description: 'A small cold-iron bell. An alarm, or a ward; the Wyrd dislikes its tone.',
         iconId: 'inv_misc_bell_01',
         value: { platinum: 0, gold: 0, silver: 95, copper: 0 },
         weight: 0.5,
@@ -1238,11 +1237,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
 
     {
         id: 'starter-candle',
-        name: 'Candle',
+        name: 'Tallow Candle',
         type: 'miscellaneous',
         subtype: 'TRADE_GOODS',
         quality: 'common',
-        description: 'A wax candle. Burns for 1 hour.',
+        description: 'A tallow candle. Burns an hour. Cheaper than a torch, dimmer, and useless in wind.',
         iconId: 'inv_misc_candle_01',
         value: { platinum: 0, gold: 0, silver: 0, copper: 95 },
         weight: 0.05,
@@ -1262,11 +1261,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
 
     {
         id: 'starter-chalk',
-        name: 'Chalk',
+        name: 'Bog-Chalk',
         type: 'miscellaneous',
         subtype: 'TRADE_GOODS',
         quality: 'common',
-        description: 'A piece of chalk for marking surfaces.',
+        description: 'A stick of pale bog-chalk for marking stone. Scribe-sentinels mark every turning; the fog unmarks the rest.',
         iconId: 'inv_stone_15',
         value: { platinum: 0, gold: 0, silver: 0, copper: 10 },
         weight: 0.05,
@@ -1286,11 +1285,11 @@ export const UNIVERSAL_STARTING_ITEMS = [
 
     {
         id: 'starter-sack',
-        name: 'Burlap Sack',
+        name: 'Peat-Sack',
         type: 'container',
         subtype: 'BAG',
         quality: 'common',
-        description: 'A large burlap sack for carrying loose items.',
+        description: 'A large rough-woven sack of bog-hemp. Carries loose salvage, or a body, if it comes to that.',
         iconId: 'inv_misc_bag_15',
         value: { platinum: 0, gold: 0, silver: 1, copper: 50 },
         weight: 0.5,
@@ -1312,7 +1311,6 @@ export const STARTING_EQUIPMENT_LIBRARY = [
     ...UNIVERSAL_STARTING_ITEMS,
     ...ALL_CLASS_EQUIPMENT,
     ...ALL_RACE_EQUIPMENT,
-    ...ALL_PATH_EQUIPMENT,
     ...ALL_BACKGROUND_EQUIPMENT
 ];
 
@@ -1396,7 +1394,6 @@ export const getEquipmentPreview = (selectionType, selectionValue) => {
         ...UNIVERSAL_STARTING_ITEMS,
         ...ALL_CLASS_EQUIPMENT,
         ...ALL_RACE_EQUIPMENT,
-        ...ALL_PATH_EQUIPMENT,
         ...ALL_BACKGROUND_EQUIPMENT
     ];
 

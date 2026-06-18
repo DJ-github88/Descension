@@ -15,8 +15,7 @@ export const useCharacterPersistence = () => {
   const useAuthStore = require('../store/authStore').default;
   const useCharacterStore = require('../store/characterStore').default;
   const useInventoryStore = require('../store/inventoryStore').default;
-  const useBuffStore = require('../store/buffStore').default;
-  const useDebuffStore = require('../store/debuffStore').default;
+  const useConditionStore = require('../store/conditionStore').default;
   const useQuestStore = require('../store/questStore').default;
 
   const { user } = useAuthStore();
@@ -42,11 +41,10 @@ export const useCharacterPersistence = () => {
     // Get current state from all stores
     const characterState = useCharacterStore?.getState();
     const inventoryState = useInventoryStore?.getState();
-    const buffState = useBuffStore?.getState();
-    const debuffState = useDebuffStore?.getState();
+    const conditionState = useConditionStore?.getState();
     const questState = useQuestStore?.getState();
 
-    if (!characterState || !inventoryState || !buffState || !debuffState || !questState) {
+    if (!characterState || !inventoryState || !conditionState || !questState) {
       return null;
     }
 
@@ -73,8 +71,8 @@ export const useCharacterPersistence = () => {
       actionBars: {},
 
       // Buffs and debuffs
-      buffs: buffState.activeBuffs || [],
-      debuffs: debuffState.activeDebuffs || [],
+      buffs: conditionState.activeBuffs || [],
+      debuffs: conditionState.activeDebuffs || [],
 
       // Quest state
       quests: questState,
@@ -342,10 +340,10 @@ export const useCharacterPersistence = () => {
 
       // Update buff/debuff stores
       if (remoteData.buffs) {
-        useBuffStore?.setState({ activeBuffs: remoteData.buffs });
+        useConditionStore?.setState({ activeBuffs: remoteData.buffs });
       }
       if (remoteData.debuffs) {
-        useDebuffStore?.setState({ activeDebuffs: remoteData.debuffs });
+        useConditionStore?.setState({ activeDebuffs: remoteData.debuffs });
       }
 
       // Update quest store

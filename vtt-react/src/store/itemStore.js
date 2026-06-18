@@ -1,3 +1,4 @@
+import { getStore } from './storeRegistry';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import useGameStore from './gameStore';
@@ -1072,7 +1073,7 @@ const useItemStore = create(
 
                 if (isBroken) {
                     try {
-                        const characterStore = require('./characterStore').default;
+                        const characterStore = getStore('characterStore');
                         const charState = characterStore.getState();
                         if (charState.unequipItemByItemId) {
                             charState.unequipItemByItemId(itemId);
@@ -1082,17 +1083,11 @@ const useItemStore = create(
                     }
 
                     if (typeof window !== 'undefined') {
-                        const notification = document.createElement('div');
-                        notification.textContent = `${item.name || 'Item'} has broken!`;
-                        notification.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(139,0,0,0.95);color:white;padding:12px 20px;border-radius:8px;border:2px solid #8b0000;font-family:Cinzel,serif;font-size:16px;font-weight:600;z-index:10000;box-shadow:0 4px 12px rgba(0,0,0,0.5);animation:fadeInOut 3s ease-in-out forwards;';
-                        if (!document.querySelector('#durability-notification-styles')) {
-                            const style = document.createElement('style');
-                            style.id = 'durability-notification-styles';
-                            style.textContent = '@keyframes fadeInOut{0%{opacity:0;transform:translate(-50%,-50%) scale(0.8)}20%{opacity:1;transform:translate(-50%,-50%) scale(1)}80%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-50%) scale(0.8)}}';
-                            document.head.appendChild(style);
-                        }
-                        document.body.appendChild(notification);
-                        setTimeout(() => { if (document.body.contains(notification)) document.body.removeChild(notification); }, 3000);
+                        const useNotificationStore = getStore('notificationStore');
+                        useNotificationStore.getState().showError(
+                            `${item.name || 'Item'} has broken!`,
+                            { title: 'Item Broken', duration: 3000 }
+                        );
                     }
                 }
 

@@ -1,5 +1,6 @@
-import React, { useEffect, useState, Suspense } from 'react';
+import React, { useCallback, useEffect, useState, Suspense } from 'react';
 import lazy from './utils/lazyWithRetry';
+import { shouldReduceMotion } from './utils/accessibility';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import GameProvider from "./components/GameProvider";
 import { SpellLibraryProvider } from "./components/spellcrafting-wizard/context/SpellLibraryContext";
@@ -11,8 +12,7 @@ import SocialNotificationLayer from "./components/social/SocialNotificationLayer
 import GlobalSocketManager from "./components/social/GlobalSocketManager";
 import usePartyStore from "./store/partyStore";
 import useGameStore from "./store/gameStore";
-import useBuffStore from "./store/buffStore";
-import useDebuffStore from "./store/debuffStore";
+import useConditionStore from "./store/conditionStore";
 import useTargetingStore from "./store/targetingStore";
 import useIdleDetection from "./hooks/useIdleDetection";
 import useSessionManagement from "./hooks/useSessionManagement";
@@ -21,6 +21,7 @@ import { initializePerformanceMonitoring } from "./services/performanceService";
 import { initializeAnalytics } from "./services/analyticsService";
 import characterBackupService from "./services/firebase/characterBackupService";
 import PerformanceDashboard from "./components/common/PerformanceDashboard";
+import AccessibilityController from "./components/common/AccessibilityController";
 
 // Core components that are always needed
 import LandingPage from "./components/landing/LandingPage";
@@ -31,6 +32,8 @@ import DialogueControls from "./components/dialogue/DialogueControls";
 import LevelUpChoiceModal from "./components/modals/LevelUpChoiceModal";
 import { FloatingCombatTextManager } from "./components/combat/FloatingCombatText";
 import ErrorBoundary from "./components/common/ErrorBoundary";
+import NotificationContainer from "./components/common/NotificationContainer";
+import { clearLocalRoom } from "./utils/localRoom";
 import WorldMapImmerse from "./components/world-map/WorldMapImmerse";
 import useLocalRoomAutoSave from "./hooks/useLocalRoomAutoSave";
 import initChatStore from './utils/initChatStore';
@@ -122,7 +125,6 @@ const CharacterCreationPage = lazy(() => import("./components/account/CharacterC
 const CharacterViewPage = lazy(() => import("./components/account/CharacterViewPage"));
 
 // Test components
-const TestTriggerDisplay = lazy(() => import("./components/spellcrafting-wizard/test/TestTriggerDisplay"));
 
 
 // Track dynamically loaded stylesheets for cleanup
@@ -768,25 +770,6 @@ export default function App() {
         // Initialize performance monitoring
         initializePerformanceMonitoring();
 
-        // Global safety check for undefined variables that might cause ReferenceError
-        if (typeof window !== 'undefined') {
-            // Add global error handler for ReferenceError
-            window.addEventListener('error', (event) => {
-                if (event.error && event.error.message && event.error.message.includes('title is not defined')) {
-                    console.error('🚨 CAUGHT TITLE REFERENCE ERROR:', {
-                        message: event.error.message,
-                        filename: event.filename,
-                        lineno: event.lineno,
-                        colno: event.colno,
-                        stack: event.error.stack
-                    });
-                    // Prevent the error from crashing the app
-                    event.preventDefault();
-                    return false;
-                }
-            });
-        }
-
         initChatStore();
         initCreatureStore();
 
@@ -891,13 +874,6 @@ export default function App() {
 
         window.addEventListener('keydown', handleKeyDown);
 
-        // Prevent default browser context menu globally
-        // Custom context menus will still work as they use React's synthetic event system
-        const handleContextMenu = (event) => {
-            event.preventDefault();
-        };
-        document.addEventListener('contextmenu', handleContextMenu);
-
         // Cleanup on unmount
         return () => {
             if (unsubscribe && typeof unsubscribe === 'function') {
@@ -905,23 +881,21 @@ export default function App() {
             }
             clearInterval(backupInterval);
             window.removeEventListener('keydown', handleKeyDown);
-            document.removeEventListener('contextmenu', handleContextMenu);
         };
     }, []);
 
     // Global condition cleanup - runs every second to remove expired buffs/debuffs
     // This ensures conditions are cleaned up even when TargetHUD/PartyHUD aren't mounted
     useEffect(() => { // eslint-disable-line react-hooks/exhaustive-deps
-        const { updateBuffTimers } = useBuffStore.getState();
-        const { updateDebuffTimers } = useDebuffStore.getState();
+        const { updateConditionTimers } = useConditionStore.getState();
         const useCreatureStore = require('./store/creatureStore').default;
         const { cleanupExpiredConditions: cleanupCreatureConditions } = useCreatureStore.getState();
         const useCharacterTokenStore = require('./store/characterTokenStore').default;
         const { cleanupExpiredConditions: cleanupCharacterConditions } = useCharacterTokenStore.getState();
 
         const cleanupInterval = setInterval(() => {
-            updateBuffTimers();
-            updateDebuffTimers();
+            updateConditionTimers('buff');
+            updateConditionTimers('debuff');
             cleanupCreatureConditions();
             cleanupCharacterConditions();
         }, 1000);
@@ -1025,6 +999,7 @@ export default function App() {
                                 handleCloseUserProfile={handleCloseUserProfile}
                                 handleReturnToLanding={handleReturnToLanding}
                             />
+                            <NotificationContainer />
                         </Router>
                     </SpellLibraryProvider>
                 </RoomProvider>
@@ -1038,14 +1013,24 @@ function LoginTransitionOverlay({ onComplete }) {
     const navigate = useNavigate();
 
     useEffect(() => {
+        if (shouldReduceMotion()) {
+            navigate('/account');
+            const t = setTimeout(onComplete, 0);
+            return () => clearTimeout(t);
+        }
+        // Navigate EARLY so the account page (lazy-loaded via Suspense) mounts
+        // and finishes loading BEHIND the opaque overlay. The overlay then fades
+        // out to reveal the already-rendered account page, eliminating the
+        // landing-page flash that happened when onComplete unmounted the
+        // overlay before the route had changed.
         const t1 = setTimeout(() => setPhase('showing'), 50);
-        const t2 = setTimeout(() => setPhase('exiting'), 1400);
-        const t3 = setTimeout(() => {
+        const t2 = setTimeout(() => navigate('/account'), 850);
+        const t3 = setTimeout(() => setPhase('exiting'), 1500);
+        const t4 = setTimeout(() => {
             setPhase('complete');
             onComplete();
-            navigate('/account');
-        }, 2000);
-        return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+        }, 2200);
+        return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); };
     }, [navigate, onComplete]);
 
     return (
@@ -1057,11 +1042,15 @@ function LoginTransitionOverlay({ onComplete }) {
                 ))}
             </div>
             <div className="login-transition-content">
-                <div className="login-transition-icon">
-                    <i className="fas fa-compass" />
+                <div className="login-transition-medallion">
+                    <div className="login-transition-medallion-ring" />
+                    <i className="fas fa-dragon login-transition-emblem" />
                 </div>
                 <h1 className="login-transition-title">MYTHRILL</h1>
-                <div className="login-transition-line" />
+                <div className="login-transition-line">
+                    <span className="login-transition-ornament left" />
+                    <span className="login-transition-ornament right" />
+                </div>
                 <p className="login-transition-subtitle">Your adventure awaits</p>
             </div>
         </div>
@@ -1089,6 +1078,14 @@ const AppContent = ({
 }) => {
     const navigate = useNavigate();
 
+    // Stable completion handler for the login transition overlay.
+    // If this is an inline arrow, every AppContent re-render (which fire
+    // constantly during login: auth, presence, social store init) creates a
+    // new function, re-running the overlay's effect and resetting its timers —
+    // leaving the overlay stuck on screen ("stays loading"). useCallback keeps
+    // the identity stable so the effect runs exactly once.
+    const handleTransitionComplete = useCallback(() => setLoginTransition(null), [setLoginTransition]);
+
     // Initialize idle detection for automatic status updates
     useIdleDetection();
 
@@ -1107,8 +1104,7 @@ const AppContent = ({
 
     const handleEnterSinglePlayer = async () => {
         // Clear any existing room flags - this is world builder mode (sandbox/testing)
-        localStorage.removeItem('isLocalRoom');
-        localStorage.removeItem('selectedLocalRoomId');
+        clearLocalRoom();
         localStorage.removeItem('selectedRoomId');
         localStorage.removeItem('isTestRoom');
 
@@ -1146,6 +1142,7 @@ const AppContent = ({
 
     return (
         <>
+            <AccessibilityController />
             <Routes>
                 {/* Landing page route - accessible to both authenticated and unauthenticated users */}
                 <Route path="/" element={
@@ -1155,6 +1152,7 @@ const AppContent = ({
                         onShowLogin={handleShowLogin}
                         onShowRegister={handleShowRegister}
                         onShowUserProfile={handleShowUserProfile}
+                        onLoginTransition={handleLoginTransition}
                         onImmerse={() => setWorldMapState('active')}
                         isWorldMapActive={worldMapState === 'active'}
                         isAuthenticated={isAuthenticated}
@@ -1251,14 +1249,6 @@ const AppContent = ({
                     </Suspense>
                 } />
 
-                {/* Test routes */}
-                <Route path="/test/triggers" element={
-                    <Suspense fallback={<LoadingFallback message="Loading test..." />}>
-                        <TestTriggerDisplay />
-                    </Suspense>
-                } />
-
-
                 {/* Redirect unknown routes to home */}
                 <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
@@ -1301,7 +1291,7 @@ const AppContent = ({
 
             {/* Login Transition Overlay */}
             {loginTransition && (
-                <LoginTransitionOverlay onComplete={() => setLoginTransition(null)} />
+                <LoginTransitionOverlay onComplete={handleTransitionComplete} />
             )}
         </>
     );

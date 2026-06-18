@@ -460,7 +460,7 @@ export const ZONE_DATA = [
     regionId: 'sundale',
     name: 'Basalt Shyr',
     type: 'settlement',
-    description: 'A trade outpost built atop a series of cooling basalt columns on the border between Sundale and the Gloom Forest. It serves as the primary trade gateway, exchanging refined metal and volcanic coal for Bryngloom fungal-lights and timber.',
+    description: 'A trade outpost built atop a series of cooling basalt columns on the border between Sundale and the Bryngloom Forest. It serves as the primary trade gateway, exchanging refined metal and volcanic coal for Bryngloom fungal-lights and timber.',
     dangerLevel: 'medium',
     factions: ['house-solvan', 'Kessen Merchants'],
     connections: ['great-forge', 'cinder-badlands'],

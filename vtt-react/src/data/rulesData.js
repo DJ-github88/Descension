@@ -3695,7 +3695,7 @@ Both dice use the weapon type to pick the correct outcome text.`
           sections: [
             {
               title: 'Talent Trees',
-              content: `Every scar, every victory, every hard lesson shapes what a warrior becomes. **Talent Trees** are the mechanical expression of this growth, a branching web of unlockable techniques, refinements, and power that deepens your character with each passing level.\n\nTrees are divided into **7 tiers**. Entry-level talents are accessible early; pinnacle abilities at Tier 7 demand significant investment and character experience. Dependency chains are shown visually with connecting lines, you must walk the path before reaching its summit.`
+              content: `**⚠️ Forging Your Path** — The Talent Tree system is currently in development. An early alpha build exists and is fully wired, but talents are not yet available in active play. The information below describes the intended design.\n\n---\n\nEvery scar, every victory, every hard lesson shapes what a warrior becomes. **Talent Trees** are the mechanical expression of this growth, a branching web of unlockable techniques, refinements, and power that deepens your character with each passing level.\n\nTrees are divided into **7 tiers**. Entry-level talents are accessible early; pinnacle abilities at Tier 7 demand significant investment and character experience. Dependency chains are shown visually with connecting lines, you must walk the path before reaching its summit.`
             },
             {
               title: 'Talent Points',

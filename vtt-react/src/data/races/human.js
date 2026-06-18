@@ -607,7 +607,7 @@ The wind-swept steppe of the Sundrift Vale shapes the Ordan into endurance runne
             id: 'morren_human',
             name: 'Morren',
             illustration: '/assets/images/races/morren_illustration.png',
-            illustrationCaption: 'A Morren Human peat-cutter from the Gloom Forest holding a Neth contract.',
+            illustrationCaption: 'A Morren Human peat-cutter from the Bryngloom Forest holding a Neth contract.',
             tooltipSummary: 'Bog-treaders who signed their names into the mire itself, reading contract-sight in the swamp\'s living ink and surviving on debtors\' patience.',
             description: `*Sallow-skinned peat-cutters legally bound to Neth contract-houses to pay off ancient ancestral debts.*
 

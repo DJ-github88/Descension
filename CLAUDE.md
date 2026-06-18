@@ -193,12 +193,12 @@ server/
 - Fixing visual bugs
 - Implementing new user interactions
 
-## Server Architecture (Refactored)
+## Server Architecture
 
 The server has been modularized for better maintainability:
 
 ### Key Modules
-- `handlers/socketHandlers.js` - All 64 socket event handlers
+- `handlers/socketHandlers.js` - All 89 socket event handlers
 - `handlers/roomHandlers.js` - Room CRUD operations
 - `services/syncService.js` - State synchronization services
 
@@ -206,7 +206,7 @@ The server has been modularized for better maintainability:
 - **FirebaseBatchWriter** - Batches writes to reduce quota usage (flushes every 500ms)
 - **MovementDebouncer** - Debounces token movements (flushes every 50ms)
 
-### Socket Events (64 total)
+### Socket Events (89 total)
 - **Room**: create_room, join_room, leave_room, disconnect
 - **Tokens**: token_created, token_moved, token_updated, token_removed
 - **Characters**: character_updated, character_resource_updated, character_moved
@@ -222,16 +222,8 @@ The server has been modularized for better maintainability:
 npm test tests/socketHandlers.test.js
 npm test tests/roomHandlers.test.js
 
-# Integration test
+# Integration test (manual — requires running server)
 node tests/integration-test.js
-```
-
-### Migration to Refactored Server
-```bash
-cd server
-cp server.js server.backup.js
-cp server.refactored.js server.js
-npm start
 ```
 
 ## Known Bug Fixes (Feb 2026)

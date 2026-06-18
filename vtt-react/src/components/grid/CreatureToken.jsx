@@ -5,8 +5,7 @@ import useCreatureStore, { getCreatureSizeMapping } from '../../store/creatureSt
 import useGameStore from '../../store/gameStore';
 import useTargetingStore, { TARGET_TYPES } from '../../store/targetingStore';
 import useCombatStore from '../../store/combatStore';
-import useBuffStore from '../../store/buffStore';
-import useDebuffStore from '../../store/debuffStore';
+import useConditionStore from '../../store/conditionStore';
 import useChatStore from '../../store/chatStore';
 import useLevelEditorStore from '../../store/levelEditorStore';
 import useCharacterStore from '../../store/characterStore';
@@ -257,8 +256,8 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   });
 
   // Active condition effects mapped to visual overlays (MUST be above any early returns)
-  const activeBuffs = useBuffStore(state => state.activeBuffs);
-  const activeDebuffs = useDebuffStore(state => state.activeDebuffs);
+  const activeBuffs = useConditionStore(state => state.activeBuffs);
+  const activeDebuffs = useConditionStore(state => state.activeDebuffs);
 
   const conditionEffects = useMemo(() => {
     const pushCondition = (key, label) => {
@@ -2713,12 +2712,12 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
                     updateTokenState(tokenId, { conditions: updatedConditions });
 
                     // Remove from buff store
-                    const { activeBuffs, removeBuff } = useBuffStore.getState();
+                    const { activeBuffs, removeCondition } = useConditionStore.getState();
                     const buffToRemove = activeBuffs.find(b =>
                       b.name === 'Defending' && b.targetId === tokenId
                     );
                     if (buffToRemove) {
-                      removeBuff(buffToRemove.id);
+                      removeCondition('buff', buffToRemove.id);
                     }
                   } else {
                     // Add defending condition
@@ -2738,11 +2737,11 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
                     updateTokenState(tokenId, { conditions: updatedConditions });
 
                     // Add to buff store
-                    const { addBuff } = useBuffStore.getState();
+                    const { addCondition } = useConditionStore.getState();
                     const isCharacter = token?.isPlayerToken || token?.type === 'character';
                     const targetTypeSetting = isCharacter ? 'character' : 'creature';
 
-                    addBuff({
+                    addCondition('buff', {
                       id: `defending-${tokenId}`,
                       name: 'Defending',
                       description: 'Increased armor and damage resistance',

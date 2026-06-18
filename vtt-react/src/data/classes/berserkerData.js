@@ -17,10 +17,10 @@ export const BERSERKER_DATA = {
     title: "The Berserker",
     subtitle: "The Hemorrhagic Butcher",
     illustration: "/assets/images/classes/berserker_illustration.png",
-    illustrationCaption: "A Mimir Face Thief Berserker dual-wielding battleaxes with subtle crystal skin lines.",
-    originStory: `The world of Mythrill does not forgive weakness, and in the freezing wastes of Nordhalla, the line between survival and savagery was erased eight centuries ago. When the glaciers halted at the price of summer's return, the Skald were left in a land of absolute ice. In the darkest winter of the cataclysm, when starvation stalked the keeps of the Frozen Archive, the Skald did not pray for warmth — they prayed for endurance. The ancestors consumed their own fallen kin so the bloodline could persist, and that terrible act did not merely scar their history. It entered their very blood.
+    illustrationCaption: "A Mimir mask-merged Berserker dual-wielding battleaxes with subtle crystal skin lines.",
+    originStory: `The world of Mythrill does not forgive weakness, and in the freezing wastes of Nordhalla, the line between survival and savagery was erased eight centuries ago. When the Glacier Bargain halted the ice at the price of summer, the Skald were left in a land of absolute cold. In the darkest winter of the cataclysm, when starvation stalked the keeps of the Frozen Archive, the Skald did not pray for warmth — they prayed for endurance. The ancestors consumed their own fallen kin so the bloodline could persist, and that terrible act did not merely scar their history. It entered their very blood.
 
-The Bloodhammer clans tell of the first Berserker, Grum the Iron-Smith, who did not choose the fury — the fury chose him. Trapped in a collapsing shaft beneath the badlands by a glacier-wyrm, Grum threw down his hammer and allowed the furnace's heat to occupy his marrow. His veins boiled with an adrenaline rush so violent his tendons snapped, yet he shattered the wyrm's frozen hide with his bare hands. The Skald recount the tale differently: they swear Grum was trapped by his own lords, sacrificed to the deep mantles to see if a man could burn and still stand.
+The Bloodhammer clans refused to wait for the cold to finish them. Led by the chieftain Torra Bloodhammer, they marched south out of the glaciers and down into the volcanic caldera tunnels of <LoreLink termId="sundale">Sundale</LoreLink>, trading the frozen keeps their ancestors had died in for the geothermal dark beneath Emberspire. There, in the lower miners' chambers, the first Berserker was born. Grum the Iron-Smith did not choose the fury — the fury chose him. When a colossal ice-wyrm burst from the cooling vents into the forge-halls, Grum threw down his hammer and allowed the furnace's heat to occupy his marrow. His veins boiled with an adrenaline rush so violent his tendons snapped, yet he shattered the wyrm's glacial hide with his bare hands. The Skald who stayed behind in Nordhalla recount the tale differently: they swear Grum was trapped by his own lords, sacrificed to the deep mantles to see if a man could burn and still stand.
 
 Today, this physiological meltdown is known as the Blood-Heat. A Berserker’s muscles literally tear themselves from the bone to swing harder. Their heart is a ticking engine of self-destruction. In the civilized plazas of <LoreLink termId="atropolis">Atropolis</LoreLink>, they are banned as rabid beasts. But in the arenas of the <LoreLink termId="harath_vault">Harath-Vault</LoreLink>, they are celebrated as the ultimate survivors of a world that tried to freeze them.
 
@@ -2202,7 +2202,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
       },
 
       cooldownConfig: {
-        cooldownType: "combat",
+        cooldownType: "encounter",
         cooldownValue: 1,
       },
 
@@ -2322,7 +2322,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
       },
 
       cooldownConfig: {
-        cooldownType: "combat",
+        cooldownType: "encounter",
         cooldownValue: 1,
       },
 
@@ -2420,7 +2420,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
       },
 
       cooldownConfig: {
-        cooldownType: "combat",
+        cooldownType: "encounter",
         cooldownValue: 1,
       },
 

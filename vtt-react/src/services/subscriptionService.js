@@ -292,6 +292,10 @@ class SubscriptionService {
       if (authState.isDevelopmentBypass || checkUserId === 'dev-user-123' || checkUserId?.startsWith('dev-user-')) {
         return SUBSCRIPTION_TIERS.DEV_PREVIEW;
       }
+      // Admin dev-login bypass: full ULTIMATE access to all gated features
+      if (authState.isAdminBypass || checkUserId === 'admin-dev-user') {
+        return SUBSCRIPTION_TIERS.ULTIMATE;
+      }
     } catch (error) {
       console.warn('Could not check dev bypass:', error);
     }

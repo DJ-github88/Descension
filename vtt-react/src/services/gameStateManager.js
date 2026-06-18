@@ -34,8 +34,7 @@ class GameStateManager {
     const useCombatStore = require('../store/combatStore').default;
     const useGridItemStore = require('../store/gridItemStore').default;
     const useTravelStore = require('../store/travelStore').default;
-    const useBuffStore = require('../store/buffStore').default;
-    const useDebuffStore = require('../store/debuffStore').default;
+    const useConditionStore = require('../store/conditionStore').default;
     const useContainerStore = require('../store/containerStore').default;
     const useCharacterTokenStore = require('../store/characterTokenStore').default;
 
@@ -112,13 +111,10 @@ class GameStateManager {
       }
     });
 
-    this.unsubscribeBuffs = useBuffStore.subscribe((state, prevState) => {
+    this.unsubscribeConditions = useConditionStore.subscribe((state, prevState) => {
       if (state.activeBuffs !== prevState.activeBuffs) {
         this.markChanged('buffs');
       }
-    });
-
-    this.unsubscribeDebuffs = useDebuffStore.subscribe((state, prevState) => {
       if (state.activeDebuffs !== prevState.activeDebuffs) {
         this.markChanged('debuffs');
       }
@@ -257,13 +253,13 @@ class GameStateManager {
       }
 
       if (gameState.buffs && Array.isArray(gameState.buffs) && gameState.buffs.length > 0) {
-        const useBuffStore = require('../store/buffStore').default;
-        useBuffStore.setState({ activeBuffs: gameState.buffs });
+        const useConditionStore = require('../store/conditionStore').default;
+        useConditionStore.setState({ activeBuffs: gameState.buffs });
       }
 
       if (gameState.debuffs && Array.isArray(gameState.debuffs) && gameState.debuffs.length > 0) {
-        const useDebuffStore = require('../store/debuffStore').default;
-        useDebuffStore.setState({ activeDebuffs: gameState.debuffs });
+        const useConditionStore = require('../store/conditionStore').default;
+        useConditionStore.setState({ activeDebuffs: gameState.debuffs });
       }
 
       if (gameState.containers && Array.isArray(gameState.containers) && gameState.containers.length > 0) {
@@ -323,8 +319,7 @@ class GameStateManager {
       const useCombatStore = require('../store/combatStore').default;
       const useGridItemStore = require('../store/gridItemStore').default;
       const useTravelStore = require('../store/travelStore').default;
-      const useBuffStore = require('../store/buffStore').default;
-      const useDebuffStore = require('../store/debuffStore').default;
+      const useConditionStore = require('../store/conditionStore').default;
       const useContainerStore = require('../store/containerStore').default;
       const useCharacterTokenStore = require('../store/characterTokenStore').default;
 
@@ -334,8 +329,7 @@ class GameStateManager {
       const combatStore = useCombatStore.getState();
       const gridItemStore = useGridItemStore.getState();
       const travelStore = useTravelStore.getState();
-      const buffStore = useBuffStore.getState();
-      const debuffStore = useDebuffStore.getState();
+      const conditionStore = useConditionStore.getState();
       const containerStore = useContainerStore.getState();
       const characterTokenStore = useCharacterTokenStore.getState();
 
@@ -404,12 +398,12 @@ class GameStateManager {
           return acc;
         }, {}),
 
-        buffs: (buffStore.activeBuffs || []).map(b => ({
+        buffs: (conditionStore.activeBuffs || []).map(b => ({
           ...b,
           duration: Math.max(0, Math.ceil((b.endTime - Date.now()) / 1000))
         })),
 
-        debuffs: (debuffStore.activeDebuffs || []).map(d => ({
+        debuffs: (conditionStore.activeDebuffs || []).map(d => ({
           ...d,
           duration: Math.max(0, Math.ceil((d.endTime - Date.now()) / 1000))
         })),
@@ -506,7 +500,7 @@ class GameStateManager {
     const unsubscribes = [
       'unsubscribeCreatures', 'unsubscribeLevelEditor', 'unsubscribeGame',
       'unsubscribeCombat', 'unsubscribeGridItems', 'unsubscribeTravel',
-      'unsubscribeBuffs', 'unsubscribeDebuffs', 'unsubscribeContainers',
+      'unsubscribeConditions', 'unsubscribeContainers',
       'unsubscribeCharacterTokens'
     ];
     unsubscribes.forEach(key => {

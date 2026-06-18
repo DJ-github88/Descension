@@ -5,7 +5,7 @@
  * with customizable point pools based on background selection.
  */
 
-import { getCustomBackgroundStartingPoints } from '../data/customBackgroundData';
+import { getCustomBackgroundStartingPoints } from '../data/legacyDisciplineData';
 // import { getPathStartingPoints } from '../data/pathData'; // Disciplines removed
 
 // Base point-buy configuration

@@ -48,9 +48,9 @@ DEEP_LOCATIONS['greymark-keep'] = {
     foundingStory:
       'Built where three ancient ironwood roots converged above a geothermal vent. The first Thalreth settlers chose this spot because the roots formed a natural shelter, and the vent provided the only unfrozen ground within fifty miles. The original keep was a single hall carved into the largest root — that hall is now the High Hearth.',
     significantEvents: [
-      { date: 'Year 5, Deepening', event: 'The Fog Compact was sealed; Greymark established as seat of House Thalreth' },
+      { date: 'Year 5, Dimming', event: 'The Fog Compact was sealed; Greymark established as seat of House Thalreth' },
       { date: 'Year 13, Dimming', event: 'The Church of the Holy Light was founded in the High Hearth' },
-      { date: 'Year 89, Dimming', event: 'High Confessor Aldren Thalreth sealed himself in meditative stasis' },
+      { date: 'Year 89, Dimming', event: 'High Confessor Aldren Thalreth the Elder, ancestor of the present line, departed for Nordhalla\'s Frozen Archive to seal himself in meditative stasis' },
       { date: 'Year 350, Dimming', event: 'Briaran raiders breached the outer palisade; repelled after three days of house-to-house fighting' }
     ]
   },
@@ -153,8 +153,8 @@ DEEP_LOCATIONS['frozen-archive'] = {
     foundingStory:
       'Carved into the glacier as both a fortress and a tomb. The first chamber was a burial vault for the Skalvyr dead — the family believed that freezing their ancestors in ice would preserve not just their bodies, but their wisdom. Over centuries, the vaults expanded as more knowledge was added: genealogies, star-charts, treaties, and prophecies.',
     significantEvents: [
-      { date: 'Year 7, Deepening', event: 'The Glacier Bargain was struck; construction of the Archive began' },
-      { date: 'Year 89, Dimming', event: 'Aldren Thalreth\'s self-entombment — his frozen chamber remains in the deepest vault' },
+      { date: 'Year 7, Dimming', event: 'The Glacier Bargain was struck; construction of the Archive began' },
+      { date: 'Year 89, Dimming', event: 'Aldren Thalreth the Elder\'s self-entombment — his frozen chamber remains in the deepest vault' },
       { date: 'Year 720, Dimming', event: 'Clandestine Void-heat engine construction began beneath the Archive' }
     ]
   },
@@ -176,7 +176,7 @@ DEEP_LOCATIONS['frozen-archive'] = {
       name: 'The Still Chamber',
       type: 'tomb',
       description:
-        'Where Aldren Thalreth sits frozen in meditative stasis, his body preserved in a block of translucent ice. Pilgrims visit to touch the ice and receive "counsel" — though Aldren does not speak, visitors report receiving impressions, fragments of thought, and an overwhelming sense of sorrow.',
+        'Where Aldren Thalreth the Elder sits frozen in meditative stasis, his body preserved in a block of translucent ice. Pilgrims visit to touch the ice and receive "counsel" — though the Elder does not speak, visitors report receiving impressions, fragments of thought, and an overwhelming sense of sorrow.',
       proprietor: 'Church of the Holy Light',
       notableFeatures: [
         'The ice block radiates a faint warmth despite being frozen — pilgrims press their palms against it and claim it eases chronic pain',
@@ -188,7 +188,7 @@ DEEP_LOCATIONS['frozen-archive'] = {
   factionPresence: [
     { factionId: 'house-skalvyr', influence: 'dominant', description: 'Absolute rulers of the Archive' },
     { factionId: 'skald-keepers', influence: 'strong', description: 'Maintain the genealogies and guard the vaults' },
-    { factionId: 'church-of-the-holy-light', influence: 'moderate', description: 'Pilgrimage site; Aldren Thalreth\'s frozen chamber is a holy destination' },
+    { factionId: 'church-of-the-holy-light', influence: 'moderate', description: 'Pilgrimage site; Aldren Thalreth the Elder\'s frozen chamber is a holy destination' },
     { factionId: 'cult-of-forgotten-shadow', influence: 'secret', description: 'Clandestine Void-heat research in sealed lower levels' }
   ],
   travelConnections: [

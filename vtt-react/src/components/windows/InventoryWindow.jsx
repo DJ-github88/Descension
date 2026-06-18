@@ -3,14 +3,12 @@ import ReactDOM from 'react-dom';
 import useInventoryStore from '../../store/inventoryStore';
 import useItemStore from '../../store/itemStore';
 import useCharacterStore from '../../store/characterStore';
-import useBuffStore from '../../store/buffStore';
-import useDebuffStore from '../../store/debuffStore';
+import useConditionStore from '../../store/conditionStore';
 import useCraftingStore from '../../store/craftingStore';
 import usePartyStore from '../../store/partyStore';
 import useGameStore from '../../store/gameStore';
 import ItemTooltip from '../item-generation/ItemTooltip';
 import TooltipPortal from '../tooltips/TooltipPortal';
-import { getItemById } from '../../data/itemLibraryData';
 import ContainerWindow from '../item-generation/ContainerWindow';
 import UnlockContainerModal from '../item-generation/UnlockContainerModal';
 import UnifiedCurrencyWithdrawModal from './UnifiedCurrencyWithdrawModal';
@@ -165,14 +163,9 @@ const InventoryWindow = memo(() => {
         learnRecipe: state.learnRecipe
     }));
 
-    // Buff store for consumable effects
-    const { addBuff } = useBuffStore(state => ({
-        addBuff: state.addBuff
-    }));
-
-    // Debuff store for negative consumable effects
-    const { addDebuff } = useDebuffStore(state => ({
-        addDebuff: state.addDebuff
+    // Condition store for consumable effects
+    const { addCondition } = useConditionStore(state => ({
+        addCondition: state.addCondition
     }));
 
     // Use local state for open containers instead of the item store
@@ -489,7 +482,7 @@ const InventoryWindow = memo(() => {
 
         if (hasBuffs) {
             console.log('[Consumable] Adding buff to store...');
-            addBuff({
+            addCondition('buff', {
                 name: item.name,
                 icon: getIconUrl(item.iconId, 'items'),
                 description: item.description || `Temporary enhancement from ${item.name}`,
@@ -505,7 +498,7 @@ const InventoryWindow = memo(() => {
 
         if (hasDebuffs) {
             console.log('[Consumable] Adding debuff to store...');
-            addDebuff({
+            addCondition('debuff', {
                 name: item.name,
                 icon: getIconUrl(item.iconId, 'items'),
                 description: item.description || `Temporary negative effect from ${item.name}`,
@@ -551,7 +544,7 @@ const InventoryWindow = memo(() => {
         } catch (e) {
             console.warn('Failed to sync consumable usage to multiplayer:', e);
         }
-    }, [addBuff, addDebuff]);
+    }, [addCondition]);
 
     // Apply resource adjustment with temporary resource support
     const applyResourceWithTemporary = useCallback((asTemporary) => {

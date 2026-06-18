@@ -1142,7 +1142,7 @@
     flex: 0 0 auto;
 }
 
-.action-buttons {
+.item-library-container .action-buttons {
     display: flex;
     gap: 6px;
     flex: 0 0 auto;

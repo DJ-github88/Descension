@@ -164,7 +164,7 @@
 
 ---
 
-### 10. The Sluagh-Ride
+### 10. The Wildejagd
 
 #### 1. Folklore & Setting Roots
 - **Sluagh (Celtic/Irish folklore):** The host of the unfairy dead — restless spirits who fly through the night sky in flocks, trying to steal the souls of the dying before they can reach the afterlife.
@@ -176,12 +176,12 @@
 - **The Face:** No single face — instead, dozens of pale, screaming mouths open and close across its surface, each emitting a different whispered name. The names are those of forgotten Thalren ancestors whose records were consumed by the fog.
 
 #### 3. Ecology: Why It Resides in Frostwood Reach
-- **The Archive-Storm:** The Sluagh-Ride descends on Greymark's archive-towers during the thickest fog-nights, attempting to physically tear pages from the great lineage-tapestries. Each page they consume erases an entire bloodline's recorded history.
-- **The Dying-Vigil:** They gather around those on the verge of total memory-collapse, circling like vultures. When the last memory dissolves, the Sluagh-Ride absorbs the empty husk of identity, adding another silent rider to its host.
+- **The Archive-Storm:** The Wildejagd descends on Greymark's archive-towers during the thickest fog-nights, attempting to physically tear pages from the great lineage-tapestries. Each page they consume erases an entire bloodline's recorded history.
+- **The Dying-Vigil:** They gather around those on the verge of total memory-collapse, circling like vultures. When the last memory dissolves, the Wildejagd absorbs the empty husk of identity, adding another silent rider to its host.
 
 ---
 
-### 11. The Fuathlure
+### 11. The Fuath
 
 #### 1. Folklore & Setting Roots
 - **Fuath (Celtic/Scottish folklore):** A generic term for water-spirits and lake-monsters — dangerous, ambivalent entities that drag swimmers beneath dark Highland lochs.
@@ -193,12 +193,12 @@
 - **The Face:** Heartbreakingly beautiful from a distance — but up close, its features are fluid, constantly shifting as the water that comprises them moves. Its eyes are twin pools of absolute darkness — peat-bottomless.
 
 #### 3. Ecology: Why It Resides in Frostwood Reach
-- **The Pool-Singer:** Fuathlures stand at the edge of deep peat-pools and sing a low, resonant hum that carries through the fog. The song does not charm — instead, it temporarily restores a memory of something precious, drawing the listener toward the pool to reclaim it.
-- **The Memory-Sinker:** When a victim wades in, the Fuathlure dissolves, becoming indistinguishable from the pool-water. The victim sinks, and the pool absorbs their memories as sediment — layers of stolen identities compacting into peat over centuries.
+- **The Pool-Singer:** Fuaths stand at the edge of deep peat-pools and sing a low, resonant hum that carries through the fog. The song does not charm — instead, it temporarily restores a memory of something precious, drawing the listener toward the pool to reclaim it.
+- **The Memory-Sinker:** When a victim wades in, the Fuath dissolves, becoming indistinguishable from the pool-water. The victim sinks, and the pool absorbs their memories as sediment — layers of stolen identities compacting into peat over centuries.
 
 ---
 
-### 12. The Grogoch-Burrow
+### 12. The Grogoch
 
 #### 1. Folklore & Setting Roots
 - **Grogoch/Grogochan (Celtic/Irish & Manx folklore):** A hairy, half-human hedge-spirit covered in matted hair, that lives in burrows and helps farmers with harvesting in exchange for milk and solitude.
@@ -210,12 +210,12 @@
 - **The Face:** Almost entirely hidden by hair — only a broad, flat nose and two bright, beady black eyes are visible. Its grin is wide, displaying flat, stone-like grinding teeth.
 
 #### 3. Ecology: Why It Resides in Frostwood Reach
-- **The Root-Tender:** Grogoch-Burrows cultivate vast underground gardens of edible ironwood-roots and frost-tubers, pruning the root-networks of the forest to maximize harvest. Their gardens are the primary food source for many Fog-Peat villages.
+- **The Root-Tender:** Grogochs cultivate vast underground gardens of edible ironwood-roots and frost-tubers, pruning the root-networks of the forest to maximize harvest. Their gardens are the primary food source for many Fog-Peat villages.
 - **The Fog-Herder:** They dig elaborate tunnel-networks beneath the fog-layer, creating safe underground passages between settlements. Thalren who know the Grogoch-tunnels can travel the Reach without risking memory-loss — but the Grogoch demand a secret in payment for each passage used.
 
 ---
 
-### 13. The Perchtaweave
+### 13. The Cailleach
 
 #### 1. Folklore & Setting Roots
 - **Perchta/Frau Holda (Germanic winter folklore):** A dual-natured winter goddess — radiant and generous to the hardworking, but appearing as a hideous crone who punishes the lazy by slitting their bellies and stuffing them with straw.
@@ -227,12 +227,12 @@
 - **The Face:** One eye is a bright, piercing blue like a winter sky; the other is a hollow socket filled with swirling grey fog. Her mouth is thin-lipped and severe, capable of a smile that freezes the air into frost-patterns.
 
 #### 3. Ecology: Why It Resides in Frostwood Reach
-- **The Fog-Spinner:** Perchtaweaves are the origin of the memory-fog itself — they spin raw Wyrd-energy into the protective mist at the request of ancient House Thalreth. Each thread of fog they spin contains a dissolved memory, woven into the fabric of the forest's defense.
+- **The Fog-Spinner:** Cailleachs are the origin of the memory-fog itself — they spin raw Wyrd-energy into the protective mist at the request of ancient House Thalreth. Each thread of fog they spin contains a dissolved memory, woven into the fabric of the forest's defense.
 - **The Judgment-Hag:** During the deep winter, they descend into Greymark's villages and inspect every home. Those who have maintained their journals faithfully receive a spool of memory-yarn that can re-weave one lost memory. Those who have neglected their records wake to find their bellies filled with straw — a warning, not a death.
 
 ---
 
-### 14. The Dullahaze
+### 14. The Dullahan
 
 #### 1. Folklore & Setting Roots
 - **Dullahan (Celtic/Irish folklore):** A headless horseman who carries his own glowing head, using a human spine as a whip. He rides a black horse and stops to call the name of the person about to die.
@@ -244,12 +244,12 @@
 - **The Face:** The severed head has no features of its own — instead, the ironwood mask reflects the face of whoever looks at it, twisted into an expression of their deepest fear. The horse has no face at all; its head is a knot of fog shaped like a horse's skull.
 
 #### 3. Ecology: Why It Resides in Frostwood Reach
-- **The Name-Caller:** At the fog-drowned crossroads of the Frostwood, the Dullahaze stops its ride and speaks a single name into the mist. That individual's most important memory — the one that defines their identity — begins to dissolve within 24 hours.
+- **The Name-Caller:** At the fog-drowned crossroads of the Frostwood, the Dullahan stops its ride and speaks a single name into the mist. That individual's most important memory — the one that defines their identity — begins to dissolve within 24 hours.
 - **The Oath-Hunter:** It tracks those who have broken written vows recorded in Greymark's ledgers, drawn to the resonance of broken contractual memory. Mimir who have lost their masks are its primary prey — it collects abandoned identities the way a magpie collects shinies.
 
 ---
 
-### 15. The Cu-Sithbane
+### 15. The Cusith
 
 #### 1. Folklore & Setting Roots
 - **Cu Sith (Celtic fairy-hound):** A spectral green hound of the fairy realm whose three barks warn of death — the third bark is never heard by the victim.
@@ -261,12 +261,12 @@
 - **The Face:** A narrow, intelligent muzzle with a mouth that opens far too wide, revealing rows of backward-curving teeth made of green-stained bone. Its eyes are solid green — no pupils, no whites — just deep, glowing emerald wells.
 
 #### 3. Ecology: Why It Resides in Frostwood Reach
-- **The Three-Bark Hunt:** Cu-Sithbane hunt in the fog at dusk. The first bark causes a traveler to freeze with instinctive terror; the second causes them to forget where they are; the third — which the victim never consciously hears — causes them to walk willingly into the fog's deepest heart.
-- **The Memory-Hound:** They do not eat flesh. They feed on the memory of fear itself, draining the emotional imprint of terror from their prey and leaving behind an eerily calm, hollowed victim who cannot remember feeling afraid. Briaran rangers track Cu-Sithbane packs by finding eerily fearless, lost travelers.
+- **The Three-Bark Hunt:** Cusith hunt in the fog at dusk. The first bark causes a traveler to freeze with instinctive terror; the second causes them to forget where they are; the third — which the victim never consciously hears — causes them to walk willingly into the fog's deepest heart.
+- **The Memory-Hound:** They do not eat flesh. They feed on the memory of fear itself, draining the emotional imprint of terror from their prey and leaving behind an eerily calm, hollowed victim who cannot remember feeling afraid. Briaran rangers track Cusith packs by finding eerily fearless, lost travelers.
 
 ---
 
-### 16. The Pixieglow
+### 16. The Pixie
 
 #### 1. Folklore & Setting Roots
 - **Piskie/Pixie (Celtic Cornish folklore):** Mischievous little people who lead travelers astray with dancing lights, but can be benevolent to those who leave them offerings.
@@ -274,12 +274,12 @@
 
 #### 2. Physical Design
 - **Appearance:** A hand-sized sprite of condensed fog-light, shaped vaguely like a tiny person with moth-wings. Its body is semi-transparent, pulsing with a warm, honey-colored glow.
-- **Aesthetic Details:** It leaves a trail of phosphorescent spores that hang in the air like a glowing breadcrumb path. The spores change color — gold when the Pixieglow is helpful, blue when it is mischievous, red when it is malicious.
+- **Aesthetic Details:** It leaves a trail of phosphorescent spores that hang in the air like a glowing breadcrumb path. The spores change color — gold when the Pixie is helpful, blue when it is mischievous, red when it is malicious.
 - **The Face:** A tiny, childlike face with enormous eyes that are solid pools of warm light. It has no mouth — it communicates entirely through the color and pulse-pattern of its glow.
 
 #### 3. Ecology: Why It Resides in Frostwood Reach
-- **The Path-Lighter:** Pixieglows are drawn to lost travelers and will hover ahead, leading the way through the fog. When helpful (gold trail), they guide toward safety. When mischievous (blue trail), they lead travelers in circles. When malicious (red trail), they guide directly into mires or off cliffs.
-- **The Fog-Bloom:** They reproduce by seeding their spores into the memory-fog itself, where the spores germinate into new Pixieglows after absorbing enough dissolved emotional memory. A fog-bank dense with Pixieglows is called a "lantern-fog" and is considered navigable — if the traveler can tell gold from blue.
+- **The Path-Lighter:** Pixies are drawn to lost travelers and will hover ahead, leading the way through the fog. When helpful (gold trail), they guide toward safety. When mischievous (blue trail), they lead travelers in circles. When malicious (red trail), they guide directly into mires or off cliffs.
+- **The Fog-Bloom:** They reproduce by seeding their spores into the memory-fog itself, where the spores germinate into new Pixies after absorbing enough dissolved emotional memory. A fog-bank dense with Pixies is called a "lantern-fog" and is considered navigable — if the traveler can tell gold from blue.
 
 ---
 
@@ -317,7 +317,7 @@
 
 ---
 
-### 19. The Waldwisp
+### 19. The Waldschrat
 
 #### 1. Folklore & Setting Roots
 - **Waldschrat (Germanic forest-spirit):** A wild, hairy wood-spirit that challenges travelers to riddle-contests and devours those who answer incorrectly.
@@ -329,7 +329,7 @@
 - **The Face:** A leathery, deeply wrinkled face with a wide, lipless mouth stretched in a permanent grin. Its eyes are mismatched — one red, one green — and constantly scan in different directions.
 
 #### 3. Ecology: Why It Resides in Frostwood Reach
-- **The Riddle-Keeper:** Waldwisps block fog-paths and refuse passage until the traveler answers a riddle constructed from the region's lost history. The riddles are impossible to answer through knowledge — they can only be solved by intuition, because the answers are memories that no longer exist.
+- **The Riddle-Keeper:** Waldschrats block fog-paths and refuse passage until the traveler answers a riddle constructed from the region's lost history. The riddles are impossible to answer through knowledge — they can only be solved by intuition, because the answers are memories that no longer exist.
 - **The Fear-Prankster:** When not riddling, they delight in terror: appearing behind travelers and shouting nonsense-words, mimicking the voices of journal-scribes calling for help, or rattling their staffs to simulate approaching predators. They feed on the adrenaline of fear, which they metabolize into the red phosphorescence that powers their caps.
 
 ---
@@ -477,7 +477,7 @@
 
 ---
 
-### 28. The Trollstone
+### 28. The Jutul
 
 #### 1. Folklore & Setting Roots
 - **Troll (Norse mythology):** Ancient beings of stone and ice that dwell in mountains, turning to stone when exposed to sunlight. Certain landmark rocks are petrified trolls caught by the dawn.
@@ -489,12 +489,12 @@
 - **The Face:** Barely distinguishable features — a brow-ridge, broken nose, grim mouth — visible only in the right light. In motion, only those burning amber eyes distinguish it from any other boulder.
 
 #### 3. Ecology: Why It Resides in Nordhalla
-- **The Path-Blocker:** Trollstones sit motionless on mountain passes for decades. When a sufficiently valuable convoy approaches, they animate — rolling across the path and demanding a toll of raw iron ore, which they absorb into their stone bodies.
-- **The Sun-Petrifier:** In the sunless world, Trollstones have lost their weakness — they are now perpetually active. Rune Keepers have found that concentrated runic light can temporarily re-petrify one, buying passage.
+- **The Path-Blocker:** Jutuls sit motionless on mountain passes for decades. When a sufficiently valuable convoy approaches, they animate — rolling across the path and demanding a toll of raw iron ore, which they absorb into their stone bodies.
+- **The Sun-Petrifier:** In the sunless world, Jutuls have lost their weakness — they are now perpetually active. Rune Keepers have found that concentrated runic light can temporarily re-petrify one, buying passage.
 
 ---
 
-### 29. The Lindwyrm-Burrow
+### 29. The Lindwyrm
 
 #### 1. Folklore & Setting Roots
 - **Lindworm/Linnorm (Norse mythology):** A serpentine dragon with two front legs and no wings, said to inhabit deep burial mounds. On Norse runestones, lindworms guard the dead.
@@ -506,12 +506,12 @@
 - **The Face:** A feline skull fused with serpentine features — cat-eyes behind horizontal-slit pupils, a jaw that dislocates to swallow prey larger than its head. Two horns of frost-silk sweep backward.
 
 #### 3. Ecology: Why It Resides in Nordhalla
-- **The Tomb-Guardian:** Lindwyrm-Burrows coil around buried dead in glacier-tombs, consuming the preserving cold. They eat cold itself, making them paradoxical: a Lindwyrm-infested tomb actually begins to thaw.
+- **The Tomb-Guardian:** Lindwyrms coil around buried dead in glacier-tombs, consuming the preserving cold. They eat cold itself, making them paradoxical: a Lindwyrm-infested tomb actually begins to thaw.
 - **The Rune-Devourer:** Drawn to runic inscriptions, they eat carved rune-stones to absorb bound mana. Rune Keepers consider them the greatest threat to the Frozen Archive — a Lindwyrm that breaches the walls could consume centuries of knowledge in a single feeding.
 
 ---
 
-### 30. The Nidhoggr-Root
+### 30. The Nidhoggr
 
 #### 1. Folklore & Setting Roots
 - **Níðhöggr (Norse mythology):** The great dragon that gnaws at the roots of Yggdrasil, the World Tree, feasting on the corpses of oath-breakers.
@@ -523,7 +523,7 @@
 - **The Face:** No eyes — only the circular maw. Rows of translucent amber teeth, each a fragment of a consumed runic inscription, rotate independently like a boring machine.
 
 #### 3. Ecology: Why It Resides in Nordhalla
-- **The Foundation-Eater:** They gnaw at frozen bedrock beneath keeps and the Archive, undermining foundations. A keep with Nidhoggr-Root infestation develops cracks within months; collapses within years.
+- **The Foundation-Eater:** They gnaw at frozen bedrock beneath keeps and the Archive, undermining foundations. A keep with Nidhoggr infestation develops cracks within months; collapses within years.
 - **The Oath-Corrupter:** Drawn to buried blood-oaths, they consume the runic energy of sworn vows. A Bloodhammer warrior whose ancestral oath-runes have been eaten loses the supernatural rage that defines their bloodline permanently.
 
 ---
@@ -545,7 +545,7 @@
 
 ---
 
-### 32. The Landvaettir-Peak
+### 32. The Landvaettir
 
 #### 1. Folklore & Setting Roots
 - **Landvættir (Norse folklore):** Land-spirits bound to specific landscape features. Norse law forbade dragon-prows near Iceland, lest the landvættir be offended.
@@ -562,7 +562,7 @@
 
 ---
 
-### 33. The Vettir-Blizzard
+### 33. The Vettir
 
 #### 1. Folklore & Setting Roots
 - **Vettir (Norse folklore):** Invisible wind-spirits driving storms, whispering through cracks, and stirring hearth-fires. Some helpful; most ambivalent.
@@ -574,7 +574,7 @@
 - **The Face:** Occasionally, snow coalesces into a face spanning the entire storm-front — different each time: screaming giant, serene elder, or a mirror of the observer.
 
 #### 3. Ecology: Why It Resides in Nordhalla
-- **The Wind-Herder:** Vettir-Blizzards herd storms across the tundra, directing snowfall and Föhn-wind. They can be bargained with — Rune Keepers leave mead and dried cod at wind-shrines to request clear travel corridors.
+- **The Wind-Herder:** Vettirs herd storms across the tundra, directing snowfall and Föhn-wind. They can be bargained with — Rune Keepers leave mead and dried cod at wind-shrines to request clear travel corridors.
 - **The Whisper-Carrier:** They carry voices across impossible distances. Skald commanders use this for long-range communication, but the Vettir sometimes alter the message, adding cryptic commentary.
 
 ---
@@ -596,7 +596,7 @@
 
 ---
 
-### 35. The Fenrispup
+### 35. The Fenris
 
 #### 1. Folklore & Setting Roots
 - **Fenrir/Fenrisúlfr (Norse mythology):** The monstrous wolf-son of Loki, bound by the gods until Ragnarök. His breaking of the fetter Gleipnir signals the end.
@@ -613,7 +613,7 @@
 
 ---
 
-### 36. The Disablot-Wraith
+### 36. The Disir
 
 #### 1. Folklore & Setting Roots
 - **Dísir (Norse mythology):** Female guardian-spirits honored during the Dísablót festival. They watched over families and foretold the future, but cursed those who neglected offerings.
@@ -630,7 +630,7 @@
 
 ---
 
-### 37. The Skogsrå-Pine
+### 37. The Skogsra
 
 #### 1. Folklore & Setting Roots
 - **Skogsrå (Norse/Scandinavian folklore):** A seductive forest-spirit appearing as a beautiful woman from the front, but hollow-backed like a rotten tree. She grants good fortune — but curses those who spurn her to become lost forever.
@@ -647,7 +647,7 @@
 
 ---
 
-### 38. The Kraken-Ice
+### 38. The Kraken
 
 #### 1. Folklore & Setting Roots
 - **Kraken (Norse folklore):** The colossal sea-monster of Norwegian waters — so vast that sailors mistook its body for an island. It dragged entire fleets beneath the waves.

@@ -1,5 +1,8 @@
 import './polyfills';
 
+import { initStoreRegistry } from './store/initStoreRegistry';
+initStoreRegistry();
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
@@ -28,7 +31,7 @@ if (!isDevelopment()) {
   };
 }
 
-// Note: Global title polyfills and other environment setups are handled in ./polyfills
+// Note: Browser polyfills (process shim, global, DnD/Touch events) are handled in ./polyfills
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

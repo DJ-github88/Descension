@@ -37,11 +37,13 @@ jobs:
       
       - name: 🔍 Lint Code
         working-directory: ./vtt-react
-        run: npm run lint --if-present || echo "No lint script found"
-      
+        run: npm run lint --if-present
+
       - name: 🧪 Run Tests
         working-directory: ./vtt-react
-        run: npm test -- --coverage --watchAll=false || echo "No tests found"
+        env:
+          CI: true
+        run: npm test -- --coverage --watchAll=false
       
       - name: 🏗️ Build Application
         working-directory: ./vtt-react
@@ -71,10 +73,34 @@ jobs:
           path: vtt-react/build/
           retention-days: 7
 
-  # Job 2: Deploy to Netlify
+  # Job 2: Server Tests
+  server-tests:
+    name: 🧪 Server Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: 'server/package-lock.json'
+
+      - name: 🧹 Clean Install Server Dependencies
+        working-directory: ./server
+        run: npm ci
+
+      - name: 🧪 Run Server Tests
+        working-directory: ./server
+        run: npm test
+
+  # Job 3: Deploy to Netlify
   deploy-to-netlify:
     name: 🚀 Deploy to Netlify
-    needs: build-and-test
+    needs: [build-and-test, server-tests]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
 
@@ -110,7 +136,7 @@ jobs:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         timeout-minutes: 10
 
-  # Job 3: Post-Deploy Verification
+  # Job 4: Post-Deploy Verification
   verify-deployment:
     name: ✅ Verify Deployment
     needs: deploy-to-netlify

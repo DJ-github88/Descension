@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import localRoomService from '../../services/localRoomService';
+import { clearLocalRoom } from '../../utils/localRoom';
 import './LocalRoomIndicator.css';
 
 const LocalRoomIndicator = ({ currentLocalRoomId, onReturnToMenu, inSettings = false }) => {
@@ -83,8 +84,7 @@ const LocalRoomIndicator = ({ currentLocalRoomId, onReturnToMenu, inSettings = f
     }
 
     // Clear local room flags
-    localStorage.removeItem('isLocalRoom');
-    localStorage.removeItem('selectedLocalRoomId');
+    clearLocalRoom();
     
     // Return to menu
     if (onReturnToMenu) {

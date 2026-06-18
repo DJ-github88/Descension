@@ -11,11 +11,11 @@
 export const HUMAN_BASE_ITEMS = [
     {
         id: 'human-longsword',
-        name: 'Human Longsword',
+        name: 'Thalren Reach-Blade',
         type: 'weapon',
         subtype: 'SWORD',
         quality: 'common',
-        description: 'A well-balanced longsword representing human martial tradition.',
+        description: 'A well-balanced longsword of Fog-Compact ironwood and bog-iron, standard issue for the lineage-keeps of House Thalren.',
         iconId: 'inv_sword_04',
         value: { platinum: 0, gold: 7, silver: 25, copper: 50 },
         weight: 3,
@@ -38,11 +38,11 @@ export const HUMAN_BASE_ITEMS = [
 
     {
         id: 'human-travelers-pack',
-        name: 'Traveler\'s Pack',
+        name: 'Wayfarer Chain-Pack',
         type: 'miscellaneous',
         subtype: 'TRADE_GOODS',
         quality: 'common',
-        description: 'A practical pack containing rope, rations, and basic supplies.',
+        description: 'A practical ironwood-frame pack, chain-bound so it cannot be lost in the fog. Holds rope, waybread, and a soul\'s worth of ledgers.',
         iconId: 'inv_misc_bag_10',
         value: { platinum: 0, gold: 2, silver: 85, copper: 75 },
         weight: 8,
@@ -111,11 +111,11 @@ export const MYRATHIL_BASE_ITEMS = [
 export const MIMIR_BASE_ITEMS = [
     {
         id: 'mimir-knowledge-ring',
-        name: 'Ring of Ancient Knowledge',
+        name: 'Memory-Shard Signet',
         type: 'accessory',
         subtype: 'RING',
         quality: 'uncommon',
-        description: 'A ring that enhances memory and grants occasional flashes of forgotten lore.',
+        description: 'A Mimir signet set with a fragment of memory-crystal. Worn faces flicker with borrowed recollections of forgotten lore.',
         iconId: 'inv_jewelry_ring_05',
         value: { platinum: 0, gold: 9, silver: 75, copper: 50 },
         weight: 0.1,
@@ -133,11 +133,11 @@ export const MIMIR_BASE_ITEMS = [
 
     {
         id: 'mimir-scholar-belt',
-        name: 'Scholar\'s Component Belt',
+        name: 'Mask-Melder Component Sash',
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'common',
-        description: 'A belt with pouches containing various arcane components and writing materials.',
+        description: 'A sash of face-stealers silk, its pouches lined with memory-crystal pigments and sculpting compounds for the Mimir mask-craft.',
         iconId: 'inv_belt_03',
         value: { platinum: 0, gold: 4, silver: 50, copper: 75 },
         weight: 2,

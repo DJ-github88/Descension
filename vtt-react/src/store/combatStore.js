@@ -1,3 +1,4 @@
+import { getStore } from './storeRegistry';
 import { create } from "zustand";
 import { calculateEffectiveMovementSpeed } from "../utils/conditionUtils";
 
@@ -74,7 +75,7 @@ const useCombatStore = create((set, get) => ({
             // Multiplayer player tokens have playerId
             if (!creature && (token.playerId || token.isPlayerToken)) {
                 isCharacterToken = true;
-                const useCharacterStore = require('./characterStore').default;
+                const useCharacterStore = getStore('characterStore');
                 const char = useCharacterStore.getState();
                 // CRITICAL FIX: Use moveSpeed (not movementSpeed) - matches characterUtils.js
                 const characterSpeed = char.derivedStats?.moveSpeed || 30;
@@ -117,7 +118,7 @@ const useCombatStore = create((set, get) => ({
 
             if (isCharacterToken) {
                 // For character tokens, use their actual AP from character store
-                const useCharacterStore = require('./characterStore').default;
+                const useCharacterStore = getStore('characterStore');
                 const char = useCharacterStore.getState();
                 maxActionPoints = char.actionPoints?.max || char.derivedStats?.maxActionPoints || 3;
                 // Calculate current AP based on initiative roll
@@ -199,7 +200,7 @@ const useCombatStore = create((set, get) => ({
             if (combatant.isCharacterToken) {
                 try {
                     // Sync to character store (for local player)
-                    const useCharacterStore = require('./characterStore').default;
+                    const useCharacterStore = getStore('characterStore');
                     useCharacterStore.getState().updateResource(
                         'actionPoints',
                         combatant.currentActionPoints,
@@ -207,7 +208,7 @@ const useCombatStore = create((set, get) => ({
                     );
 
                     // Sync to party store (for Party HUD display)
-                    const usePartyStore = require('./partyStore').default;
+                    const usePartyStore = getStore('partyStore');
                     usePartyStore.getState().updatePartyMember('current-player', {
                         character: {
                             ...usePartyStore.getState().partyMembers.find(m => m.id === 'current-player')?.character,
@@ -219,14 +220,14 @@ const useCombatStore = create((set, get) => ({
                     });
 
                 } catch (error) {
-                    console.error('❌ Failed to sync initial character AP:', error);
+                    console.error('âŒ Failed to sync initial character AP:', error);
                 }
             }
         });
 
         // MULTIPLAYER SYNC: Broadcast combat start to other players
         try {
-            const useGameStore = require('./gameStore').default;
+            const useGameStore = getStore('gameStore');
             const gameState = useGameStore.getState();
 
             if (gameState.isInMultiplayer && gameState.multiplayerSocket?.connected) {
@@ -236,7 +237,7 @@ const useCombatStore = create((set, get) => ({
                     currentTurnIndex: 0,
                     timestamp: Date.now()
                 });
-                console.log('⚔️ Emitted combat_started to server');
+                console.log('âš”ï¸ Emitted combat_started to server');
             }
         } catch (error) {
             console.warn('Failed to emit combat_started:', error);
@@ -390,10 +391,10 @@ const useCombatStore = create((set, get) => ({
 
             try {
                 if (currentCombatant) {
-                    const { decrementRoundBasedBuffs } = require('./buffStore').default.getState();
-                    const { decrementRoundBasedDebuffs } = require('./debuffStore').default.getState();
-                    decrementRoundBasedBuffs(currentCombatant.tokenId);
-                    decrementRoundBasedDebuffs(currentCombatant.tokenId);
+                    const useConditionStore = getStore('conditionStore');
+                    const conditionState = useConditionStore.getState();
+                    conditionState.decrementRoundBasedConditions('buff', currentCombatant.tokenId);
+                    conditionState.decrementRoundBasedConditions('debuff', currentCombatant.tokenId);
                 }
             } catch (error) {
                 failedMutations.push({ mutation: 'decrement-round-conditions', target: currentCombatant?.tokenId, error });
@@ -412,7 +413,7 @@ const useCombatStore = create((set, get) => ({
 
             try {
                 if (nextCombatantData?.isCharacterToken) {
-                    const useCharacterStore = require('./characterStore').default;
+                    const useCharacterStore = getStore('characterStore');
                     useCharacterStore.getState().updateResource(
                         'actionPoints',
                         nextCombatantData.currentActionPoints,
@@ -426,7 +427,7 @@ const useCombatStore = create((set, get) => ({
 
             try {
                 if (nextCombatantData?.isCharacterToken) {
-                    const usePartyStore = require('./partyStore').default;
+                    const usePartyStore = getStore('partyStore');
                     const currentMember = usePartyStore.getState().partyMembers.find(m => m.id === 'current-player');
                     if (currentMember) {
                         usePartyStore.getState().updatePartyMember('current-player', {
@@ -447,12 +448,12 @@ const useCombatStore = create((set, get) => ({
 
             try {
                 if (nextCombatant && (config.healthRegenEnabled || config.manaRegenEnabled)) {
-                    const useCreatureStore = require('./creatureStore').default;
+                    const useCreatureStore = getStore('creatureStore');
                     const creatures = useCreatureStore.getState().creatures;
                     const creature = creatures.find(c => c.id === nextCombatant.creatureId);
 
                     if (nextCombatant.isCharacterToken) {
-                        const useCharacterStore = require('./characterStore').default;
+                        const useCharacterStore = getStore('characterStore');
                         const charState = useCharacterStore.getState();
                         const totalStats = charState.getTotalStatsWithEffects?.() || {};
 
@@ -529,7 +530,7 @@ const useCombatStore = create((set, get) => ({
             }
 
             try {
-                const useGameStore = require('./gameStore').default;
+                const useGameStore = getStore('gameStore');
                 const gameState = useGameStore.getState();
                 if (gameState.isInMultiplayer && gameState.multiplayerSocket?.connected) {
                     gameState.multiplayerSocket.emit('combat_turn_changed', {
@@ -555,11 +556,11 @@ const useCombatStore = create((set, get) => ({
                         const failedStore = apMutations[0].mutation === 'ap-sync-to-characterStore' ? 'partyStore' : 'characterStore';
                         try {
                             if (failedStore === 'characterStore') {
-                                require('./characterStore').default.getState().updateResource(
+                                getStore('characterStore').getState().updateResource(
                                     'actionPoints', nextCombatantData.currentActionPoints, nextCombatantData.maxActionPoints
                                 );
                             } else {
-                                const usePartyStore = require('./partyStore').default;
+                                const usePartyStore = getStore('partyStore');
                                 const member = usePartyStore.getState().partyMembers.find(m => m.id === 'current-player');
                                 if (member) {
                                     usePartyStore.getState().updatePartyMember('current-player', {
@@ -603,14 +604,14 @@ const useCombatStore = create((set, get) => ({
 
         // MULTIPLAYER SYNC: Broadcast combat end to other players
         try {
-            const useGameStore = require('./gameStore').default;
+            const useGameStore = getStore('gameStore');
             const gameState = useGameStore.getState();
 
             if (gameState.isInMultiplayer && gameState.multiplayerSocket?.connected) {
                 gameState.multiplayerSocket.emit('combat_ended', {
                     timestamp: Date.now()
                 });
-                console.log('🏳️ Emitted combat_ended to server');
+                console.log('ðŸ³ï¸ Emitted combat_ended to server');
             }
         } catch (error) {
             console.warn('Failed to emit combat_ended:', error);
@@ -651,7 +652,7 @@ const useCombatStore = create((set, get) => ({
 
         // MULTIPLAYER SYNC: Emit GM action for reset combat
         try {
-            const useGameStore = require('./gameStore').default;
+            const useGameStore = getStore('gameStore');
             const gameState = useGameStore.getState();
             if (gameState.isInMultiplayer && gameState.multiplayerSocket?.connected) {
                 gameState.multiplayerSocket.emit('gm_action', {
@@ -813,7 +814,7 @@ const useCombatStore = create((set, get) => ({
         let creature = creatures.find(c => c.id === combatant.creatureId);
 
         if (!creature && combatant.isCharacterToken) {
-            const useCharacterStore = require('./characterStore').default;
+            const useCharacterStore = getStore('characterStore');
             const char = useCharacterStore.getState();
             // CRITICAL FIX: Use moveSpeed (not movementSpeed) - matches characterUtils.js
             const characterSpeed = char.derivedStats?.moveSpeed || 30;
@@ -871,10 +872,10 @@ const useCombatStore = create((set, get) => ({
 
         // Get token conditions for speed calculation
         // Check both creature tokens and character tokens
-        const useCreatureStore = require('./creatureStore').default;
+        const useCreatureStore = getStore('creatureStore');
         let token = useCreatureStore.getState().tokens.find(t => t.id === tokenId);
         if (!token && combatant.isCharacterToken) {
-            const useCharacterTokenStore = require('./characterTokenStore').default;
+            const useCharacterTokenStore = getStore('characterTokenStore');
             token = useCharacterTokenStore.getState().characterTokens.find(t => t.id === tokenId);
         }
         const conditions = token?.state?.conditions || [];
@@ -1014,7 +1015,7 @@ const useCombatStore = create((set, get) => ({
         let creature = creatures.find(c => c.id === combatant.creatureId);
 
         if (!creature && combatant.isCharacterToken) {
-            const useCharacterStore = require('./characterStore').default;
+            const useCharacterStore = getStore('characterStore');
             const char = useCharacterStore.getState();
             // CRITICAL FIX: Use moveSpeed (not movementSpeed) - matches characterUtils.js
             creature = {
@@ -1056,7 +1057,7 @@ const useCombatStore = create((set, get) => ({
         let creature = creatures.find(c => c.id === combatant.creatureId);
 
         if (!creature && combatant.isCharacterToken) {
-            const useCharacterStore = require('./characterStore').default;
+            const useCharacterStore = getStore('characterStore');
             const char = useCharacterStore.getState();
             // CRITICAL FIX: Use moveSpeed (not movementSpeed) - matches characterUtils.js
             creature = {
@@ -1070,10 +1071,10 @@ const useCombatStore = create((set, get) => ({
 
         // Get token conditions for speed calculation
         // Check both creature tokens and character tokens
-        const useCreatureStore = require('./creatureStore').default;
+        const useCreatureStore = getStore('creatureStore');
         let token = useCreatureStore.getState().tokens.find(t => t.id === tokenId);
         if (!token && combatant.isCharacterToken) {
-            const useCharacterTokenStore = require('./characterTokenStore').default;
+            const useCharacterTokenStore = getStore('characterTokenStore');
             token = useCharacterTokenStore.getState().characterTokens.find(t => t.id === tokenId);
         }
         const conditions = token?.state?.conditions || [];
@@ -1104,10 +1105,10 @@ const useCombatStore = create((set, get) => ({
 
         // Get token conditions for speed calculation
         // Check both creature tokens and character tokens
-        const useCreatureStore = require('./creatureStore').default;
+        const useCreatureStore = getStore('creatureStore');
         let token = useCreatureStore.getState().tokens.find(t => t.id === tokenId);
         if (!token && combatant.isCharacterToken) {
-            const useCharacterTokenStore = require('./characterTokenStore').default;
+            const useCharacterTokenStore = getStore('characterTokenStore');
             token = useCharacterTokenStore.getState().characterTokens.find(t => t.id === tokenId);
         }
         const conditions = token?.state?.conditions || [];
@@ -1241,7 +1242,7 @@ const useCombatStore = create((set, get) => ({
         // Find the combatant to determine if it's a character or creature token
         const combatant = get().turnOrder.find(c => c.tokenId === tokenId);
         if (!combatant) {
-            console.warn('⚠️ Cannot spend AP: combatant not found for tokenId:', tokenId);
+            console.warn('âš ï¸ Cannot spend AP: combatant not found for tokenId:', tokenId);
             return;
         }
 
@@ -1267,14 +1268,14 @@ const useCombatStore = create((set, get) => ({
         if (combatant.isCharacterToken) {
             // Update character store AND party store for character tokens
             try {
-                const useCharacterStore = require('./characterStore').default;
+                const useCharacterStore = getStore('characterStore');
                 const beforeAP = useCharacterStore.getState().actionPoints;
 
                 // Sync to character store
                 useCharacterStore.getState().updateResource('actionPoints', newAP, beforeAP.max);
 
                 // Sync to party store
-                const usePartyStore = require('./partyStore').default;
+                const usePartyStore = getStore('partyStore');
                 const currentMember = usePartyStore.getState().partyMembers.find(m => m.id === 'current-player');
                 if (currentMember) {
                     usePartyStore.getState().updatePartyMember('current-player', {
@@ -1289,17 +1290,17 @@ const useCombatStore = create((set, get) => ({
                 }
 
             } catch (error) {
-                console.error('❌ Failed to sync AP to character/party store:', error);
+                console.error('âŒ Failed to sync AP to character/party store:', error);
             }
         } else {
             // Update creature token state for creature tokens
             try {
-                const useCreatureStore = require('./creatureStore').default;
+                const useCreatureStore = getStore('creatureStore');
                 useCreatureStore.getState().updateTokenState(tokenId, {
                     currentActionPoints: newAP
                 });
             } catch (error) {
-                console.error('❌ Failed to sync AP to creature token state:', error);
+                console.error('âŒ Failed to sync AP to creature token state:', error);
             }
         }
     },

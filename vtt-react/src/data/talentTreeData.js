@@ -91,6 +91,7 @@ import {
 
 
 import {
+  PLAGUEBRINGER_VIRULENT_SPREADER,
   PLAGUEBRINGER_TORMENT_WEAVER,
   PLAGUEBRINGER_DECAY_HARBINGER
 } from './talentTrees/plaguebringer.js';

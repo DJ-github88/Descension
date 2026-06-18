@@ -16,11 +16,11 @@ const NPC_DATA = {
     personality:
       'Aldren is thoughtful, melancholic, and burdened by knowledge he can no longer verify. The fog has eaten so many of his memories that he cannot recall his own mother\'s face. He speaks rarely, chooses words with surgical precision, and carries his journal everywhere, re-reading entries about his own life that he no longer remembers writing.',
     backstory:
-      'Aldren Thalreth is the current Lord of Greymark Keep, the ancestral seat of House Thalreth. He inherited a house already crumbling under the weight of the Fog Compact — the insulating fog that protects the Frostwood Reach has slowly consumed his family\'s memories for generations. Aldren\'s tragedy is that he has forgotten the location of a critical ledger — the one recording the exact terms of the Compact. Without it, no one knows when the fog\'s price will be paid in full.',
+      'Aldren Thalreth is the current Lord of Greymark Keep, the ancestral seat of House Thalreth — named for his celebrated ancestor, High Confessor Aldren Thalreth the Elder, who chose frozen stasis over memory-loss in Nordhalla\'s Frozen Archive in Year 89 of the Dimming. The younger Aldren inherited a house already crumbling under the weight of the Fog Compact — the insulating fog that protects the Frostwood Reach has slowly consumed his family\'s memories for generations. His tragedy is that he has forgotten the location of a critical ledger — the one recording the exact terms of the Compact. Without it, no one knows when the fog\'s price will be paid in full.',
     hooks: [
-      'If awakened, Aldren would possess knowledge that could shatter the Church of the Holy Light',
-      'The sealed texts he discovered are still hidden somewhere in the Frozen Archive — no one has found them since',
-      'Some pilgrims report that Aldren\'s lips have moved. The Scribe-Sentinels dismiss this as frost-crack.'
+      'His frozen namesake, High Confessor Aldren Thalreth the Elder, still lies entombed in the Frozen Archive; if the Elder were ever awakened, the knowledge he carries could shatter the Church of the Holy Light',
+      'The sealed texts the Elder discovered before his self-entombment are still hidden somewhere in the Frozen Archive — no one has found them since',
+      'Some pilgrims report that the Elder\'s frozen lips have moved. The Scribe-Sentinels dismiss this as frost-crack.'
     ]
   },
 

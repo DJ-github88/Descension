@@ -7,8 +7,7 @@ import useTargetingStore from '../../store/targetingStore';
 import useCharacterStore from '../../store/characterStore';
 import useGameStore from '../../store/gameStore';
 import useSettingsStore from '../../store/settingsStore';
-import useBuffStore from '../../store/buffStore';
-import useDebuffStore from '../../store/debuffStore';
+import useConditionStore from '../../store/conditionStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
 import { CONDITIONS } from '../../data/conditionsData';
 import useChatStore from '../../store/chatStore';
@@ -21,8 +20,7 @@ import ConditionDurationModal from '../modals/ConditionDurationModal';
 import { showPlayerLeaveNotification } from '../../utils/playerNotifications';
 import { getBackgroundData } from '../../data/backgroundData';
 import Button from '../common/Button';
-import { getCustomBackgroundData } from '../../data/customBackgroundData';
-import { getEnhancedPathData } from '../../data/enhancedPathData';
+import { getCustomBackgroundData, getEnhancedPathData } from '../../data/legacyDisciplineData';
 import { getIconUrl, getCustomIconUrl } from '../../utils/assetManager';
 // REMOVED: import 'react-resizable/css/styles.css'; // CAUSES CSS POLLUTION - loaded centrally
 // REMOVED: import '../../styles/party-hud.css'; // CAUSES CSS POLLUTION - loaded centrally
@@ -85,11 +83,16 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
     const currentPlayerData = isCurrentPlayer ? currentPlayerStoreData : null;
     
     // Subscribe to activeBuffs to trigger re-renders when buffs change
-    const activeBuffs = useBuffStore(state => state.activeBuffs);
-    const activeDebuffs = useDebuffStore(state => state.activeDebuffs);
+    const activeBuffs = useConditionStore(state => state.activeBuffs);
+    const activeDebuffs = useConditionStore(state => state.activeDebuffs);
     
-    const { getBuffsForTarget, getRemainingTime, updateBuffTimers, removeBuff, updateBuffDuration } = useBuffStore();
-    const { getDebuffsForTarget, getRemainingTime: getDebuffRemainingTime, updateDebuffTimers, updateDebuffDuration } = useDebuffStore();
+    const {
+        getConditionsForTarget,
+        getRemainingTime,
+        updateConditionTimers,
+        removeCondition,
+        updateConditionDuration
+    } = useConditionStore();
     const { characterTokens, updateCharacterTokenState } = useCharacterTokenStore();
     const [showTooltip, setShowTooltip] = useState(false);
     const [tooltipData, setTooltipData] = useState(null);
@@ -140,8 +143,8 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
 
         // Always return a cleanup function to ensure consistent hook count
         const interval = setInterval(() => {
-            updateBuffTimers();
-            updateDebuffTimers();
+            updateConditionTimers('buff');
+            updateConditionTimers('debuff');
             // Clean up expired conditions from character tokens
             const { cleanupExpiredConditions } = useCharacterTokenStore.getState();
             cleanupExpiredConditions();
@@ -153,7 +156,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
         }, 1000);
 
         return () => clearInterval(interval);
-    }, [isCurrentPlayer, member.id, getBuffsForTarget, getDebuffsForTarget, updateBuffTimers, updateDebuffTimers, characterTokens]);
+    }, [isCurrentPlayer, member.id, getConditionsForTarget, updateConditionTimers, characterTokens]);
 
     const handleRightClick = (e) => {
         e.preventDefault();
@@ -420,7 +423,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
             tooltipTimeoutRef.current = null;
         }
 
-        const remainingTime = getDebuffRemainingTime(debuff.id);
+        const remainingTime = getRemainingTime('debuff', debuff.id);
 
         // Format time to match TargetHUD
         const formatTime = (seconds, durationType = 'minutes') => {
@@ -584,11 +587,9 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
         const type = condition.type;
 
         if (type === 'buff') {
-            const buffStore = useBuffStore.getState();
-            buffStore.removeBuff(condition.id);
+            removeCondition('buff', condition.id);
         } else if (type === 'debuff') {
-            const debuffStore = useDebuffStore.getState();
-            debuffStore.removeDebuff(condition.id);
+            removeCondition('debuff', condition.id);
         } else {
             // Handle actual conditions from token.state.conditions
             const memberToken = characterTokens.find(t => 
@@ -617,9 +618,9 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
 
         let currentDuration = 0;
         if (type === 'buff') {
-            currentDuration = getRemainingTime(condition.id);
+            currentDuration = getRemainingTime('buff', condition.id);
         } else if (type === 'debuff') {
-            currentDuration = getDebuffRemainingTime(condition.id);
+            currentDuration = getRemainingTime('debuff', condition.id);
         } else {
             // For conditions, calculate from appliedAt and duration
             if (condition.appliedAt && condition.duration) {
@@ -677,11 +678,9 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
         }
 
         if (type === 'buff') {
-            const buffStore = useBuffStore.getState();
-            buffStore.updateBuffDuration(condition.id, duration, durationType);
+            updateConditionDuration('buff', condition.id, duration, durationType);
         } else if (type === 'debuff') {
-            const debuffStore = useDebuffStore.getState();
-            debuffStore.updateDebuffDuration(condition.id, duration, durationType);
+            updateConditionDuration('debuff', condition.id, duration, durationType);
         } else {
             // For conditions, update the token's condition
             const memberToken = characterTokens.find(t => 
@@ -1065,34 +1064,34 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                 const memberUserId = member.userId;
                 const memberSocketId = member.socketId;
 
-                let rawBuffs = [...getBuffsForTarget(memberId)];
-                let rawDebuffs = [...getDebuffsForTarget(memberId)];
+                let rawBuffs = [...getConditionsForTarget('buff', memberId)];
+                let rawDebuffs = [...getConditionsForTarget('debuff', memberId)];
 
                 if (memberUserId) {
-                    rawBuffs = [...rawBuffs, ...getBuffsForTarget(memberUserId)];
-                    rawDebuffs = [...rawDebuffs, ...getDebuffsForTarget(memberUserId)];
+                    rawBuffs = [...rawBuffs, ...getConditionsForTarget('buff', memberUserId)];
+                    rawDebuffs = [...rawDebuffs, ...getConditionsForTarget('debuff', memberUserId)];
                 }
 
                 if (memberSocketId) {
-                    rawBuffs = [...rawBuffs, ...getBuffsForTarget(memberSocketId)];
-                    rawDebuffs = [...rawDebuffs, ...getDebuffsForTarget(memberSocketId)];
+                    rawBuffs = [...rawBuffs, ...getConditionsForTarget('buff', memberSocketId)];
+                    rawDebuffs = [...rawDebuffs, ...getConditionsForTarget('debuff', memberSocketId)];
                 }
 
                 if (isCurrentPlayer) {
                     rawBuffs = [
                         ...rawBuffs,
-                        ...getBuffsForTarget('player'),
-                        ...getBuffsForTarget('current-player')
+                        ...getConditionsForTarget('buff', 'player'),
+                        ...getConditionsForTarget('buff', 'current-player')
                     ];
                     rawDebuffs = [
                         ...rawDebuffs,
-                        ...getDebuffsForTarget('player'),
-                        ...getDebuffsForTarget('current-player')
+                        ...getConditionsForTarget('debuff', 'player'),
+                        ...getConditionsForTarget('debuff', 'current-player')
                     ];
 
                     if (currentPlayerId && memberId !== currentPlayerId) {
-                         rawBuffs = [...rawBuffs, ...getBuffsForTarget(currentPlayerId)];
-                         rawDebuffs = [...rawDebuffs, ...getDebuffsForTarget(currentPlayerId)];
+                         rawBuffs = [...rawBuffs, ...getConditionsForTarget('buff', currentPlayerId)];
+                         rawDebuffs = [...rawDebuffs, ...getConditionsForTarget('debuff', currentPlayerId)];
                     }
                 }
 
@@ -1180,7 +1179,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                         {playerBuffs.length > 0 && (
                             <div className="character-buffs" style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
                                 {playerBuffs.map((buff) => {
-                                    const remainingTime = getRemainingTime(buff.id);
+        const remainingTime = getRemainingTime('buff', buff.id);
 
                                     // Format time to match TargetHUD
                                     const formatTime = (seconds, durationType = 'minutes') => {
@@ -1290,7 +1289,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                         {playerDebuffs.length > 0 && (
                             <div className="character-debuffs" style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
                                 {playerDebuffs.map((debuff) => {
-                                    const remainingTime = getDebuffRemainingTime(debuff.id);
+                                    const remainingTime = getRemainingTime('debuff', debuff.id);
 
                                     // Format time to match TargetHUD
                                     const formatTime = (seconds, durationType = 'minutes') => {
@@ -1652,8 +1651,13 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
     } = usePartyStore();
     const { setTarget, currentTarget, clearTarget } = useTargetingStore();
     const { updateResource, updateClassResource } = useCharacterStore();
-    const { removeBuff, updateBuffDuration, getRemainingTime, activeBuffs, getBuffsForTarget: getBuffsForTargetFromStore } = useBuffStore();
-    const { getRemainingTime: getDebuffRemainingTime, updateDebuffDuration, getDebuffsForTarget } = useDebuffStore();
+    const {
+        removeCondition,
+        updateConditionDuration,
+        getRemainingTime,
+        getConditionsForTarget,
+        activeBuffs
+    } = useConditionStore();
     const { addNotification, addCombatNotification } = useChatStore();
     const { setGMMode, isGMMode, toggleGMMode, isInMultiplayer, multiplayerRoom } = useGameStore();
     const currentUserPresence = usePresenceStore((state) => state.currentUserPresence);
@@ -1700,7 +1704,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
     // Buff context menu handlers
     const handleBuffContextMenu = (e, buff) => {
         // Check if it's a debuff
-        const playerDebuffs = getDebuffsForTarget('player');
+        const playerDebuffs = getConditionsForTarget('debuff', 'player');
         const isDebuff = playerDebuffs.some(d => d.id === buff.id);
 
         setBuffContextMenuPosition({ x: e.clientX, y: e.clientY });
@@ -1711,10 +1715,9 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
     const handleDismissBuff = () => {
         if (contextMenuBuff) {
             if (contextMenuBuff.type === 'debuff') {
-                const debuffStore = useDebuffStore.getState();
-                debuffStore.removeDebuff(contextMenuBuff.id);
+                removeCondition('debuff', contextMenuBuff.id);
             } else {
-                removeBuff(contextMenuBuff.id);
+                removeCondition('buff', contextMenuBuff.id);
             }
         }
         setShowBuffContextMenu(false);
@@ -1726,7 +1729,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
 
         const buff = contextMenuBuff;
         const isDebuff = buff.type === 'debuff';
-        const currentDuration = isDebuff ? getDebuffRemainingTime(buff.id) : getRemainingTime(buff.id);
+        const currentDuration = getRemainingTime(isDebuff ? 'debuff' : 'buff', buff.id);
 
         const isRoundBased = buff.durationType === 'rounds';
         let initialDurationType, initialDurationValue;
@@ -1775,9 +1778,9 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         }
 
         if (type === 'buff') {
-            updateBuffDuration(condition.id, duration, durationType);
+            updateConditionDuration('buff', condition.id, duration, durationType);
         } else if (type === 'debuff') {
-            updateDebuffDuration(condition.id, duration, durationType);
+            updateConditionDuration('debuff', condition.id, duration, durationType);
         } else {
             // For conditions, update the token's condition
             const { characterTokens, updateCharacterTokenState } = useCharacterTokenStore.getState();
@@ -2257,7 +2260,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         const tempField = tempFieldMap[resourceType];
 
         // Get socket for multiplayer synchronization
-        const socket = window.multiplayerSocket;
+        const socket = useGameStore.getState().multiplayerSocket;
 
         console.log('💊 PartyHUD applyResourceAdjustment called:', {
             memberId,
@@ -2529,7 +2532,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
             console.log(`💰 ${xpAmount > 0 ? 'Awarded' : 'Removed'} ${absAmount} XP ${xpAmount > 0 ? 'to' : 'from'} current player`);
         } else {
             // MULTIPLAYER SYNC: Send XP award through socket
-            const socket = window.multiplayerSocket;
+            const socket = useGameStore.getState().multiplayerSocket;
             if (socket && socket.connected) {
                 const member = findMemberById(memberId, partyMembers);
                 const roomId = useGameStore.getState().multiplayerRoom?.id;
@@ -2584,7 +2587,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
             console.log(`📊 ${levelChange > 0 ? 'Added' : 'Removed'} ${absChange} level(s) ${levelChange > 0 ? 'to' : 'from'} current player`);
         } else {
             // MULTIPLAYER SYNC: Send level adjustment through socket
-            const socket = window.multiplayerSocket;
+            const socket = useGameStore.getState().multiplayerSocket;
             if (socket && socket.connected) {
                 const member = findMemberById(memberId, partyMembers);
                 const roomId = useGameStore.getState().multiplayerRoom?.id;

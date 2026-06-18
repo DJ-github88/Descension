@@ -404,34 +404,33 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
     const item = getItemById(shopItem.itemId);
     if (!item) return;
 
-    const totalCost = calculateTotalCopper(shopItem.customPrice) * quantity;
-
     if (!canAfford(shopItem.customPrice, quantity)) {
       showNotification('Not enough gold!', 'error');
       return;
     }
 
-    // Add items to inventory FIRST, then deduct currency — prevents currency loss if inventory is full
-    let allItemsAdded = true;
+    const unitCostCopper = calculateTotalCopper(shopItem.customPrice);
+
+    let itemsAdded = 0;
     for (let i = 0; i < quantity; i++) {
       const newItemId = addItemFromLibrary(item, {
         preserveProperties: true,
         quantity: 1
       });
       if (!newItemId) {
-        allItemsAdded = false;
-        showNotification('Inventory full! Could not add all items.', 'error');
         break;
       }
+      itemsAdded++;
     }
 
-    // Only deduct currency if at least one item was added
-    if (!allItemsAdded) {
+    if (itemsAdded === 0) {
+      showNotification('Inventory full! Could not add any items.', 'error');
       return;
     }
 
-    // Deduct currency
-    let remainingCost = totalCost;
+    const actualCost = unitCostCopper * itemsAdded;
+
+    let remainingCost = actualCost;
     let newCurrency = { ...currency };
 
     let totalPlayerCopper = calculateTotalCopper(newCurrency);
@@ -452,10 +451,10 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
 
     if (shopItemIndex !== -1) {
       const currentShopItem = updatedShopItems[shopItemIndex];
-      if (currentShopItem.quantity > quantity) {
+      if (currentShopItem.quantity > itemsAdded) {
         updatedShopItems[shopItemIndex] = {
           ...currentShopItem,
-          quantity: currentShopItem.quantity - quantity
+          quantity: currentShopItem.quantity - itemsAdded
         };
       } else {
         updatedShopItems.splice(shopItemIndex, 1);
@@ -469,7 +468,11 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
     }
 
     const itemName = String(item.name || 'Unknown Item');
-    showNotification(`Purchased ${quantity}x ${itemName} for ${formatCurrencyToString(copperToPrice(totalCost))}!`, 'success');
+    if (itemsAdded < quantity) {
+      showNotification(`Inventory full! Purchased ${itemsAdded}x ${itemName} for ${formatCurrencyToString(copperToPrice(actualCost))}.`, 'warning');
+    } else {
+      showNotification(`Purchased ${itemsAdded}x ${itemName} for ${formatCurrencyToString(copperToPrice(actualCost))}!`, 'success');
+    }
     setPurchaseQuantity(1);
   };
 

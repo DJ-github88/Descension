@@ -1,3 +1,4 @@
+import { getStore } from './storeRegistry';
 import { create } from 'zustand';
 import { PROFESSIONAL_TERRAIN_TYPES } from '../components/level-editor/terrain/TerrainSystem';
 import { getGridSystem } from '../utils/InfiniteGridSystem';
@@ -7,7 +8,7 @@ import useMapStore from './mapStore';
 // This prevents map-specific data bleeding between maps
 const getCurrentMapDrawings = () => {
     try {
-        const mapStore = require('./mapStore').default;
+        const mapStore = getStore('mapStore');
         const currentMap = mapStore.getState().getCurrentMap();
         return currentMap?.drawingPaths || [];
     } catch (error) {
@@ -18,7 +19,7 @@ const getCurrentMapDrawings = () => {
 
 const getCurrentMapFogPaths = () => {
     try {
-        const mapStore = require('./mapStore').default;
+        const mapStore = getStore('mapStore');
         const currentMap = mapStore.getState().getCurrentMap();
         return currentMap?.fogOfWarPaths || [];
     } catch (error) {
@@ -29,7 +30,7 @@ const getCurrentMapFogPaths = () => {
 
 const getCurrentMapFogErasePaths = () => {
     try {
-        const mapStore = require('./mapStore').default;
+        const mapStore = getStore('mapStore');
         const currentMap = mapStore.getState().getCurrentMap();
         return currentMap?.fogErasePaths || [];
     } catch (error) {
@@ -81,7 +82,7 @@ const mapUpdateBatcher = {
         // CRITICAL FIX: Reject updates during map switch to prevent data bleeding
         // When switching maps, we must not queue updates that will be sent to wrong map
         if (window._isMapSwitching) {
-            console.warn('⚠️ [Batcher] Ignoring update during map switch - would cause data bleeding');
+            console.warn('âš ï¸ [Batcher] Ignoring update during map switch - would cause data bleeding');
             return;
         }
 
@@ -93,13 +94,13 @@ const mapUpdateBatcher = {
         // CRITICAL FIX: If map is switching, COMPLETELY BLOCK any new updates from being queued
         // This prevents "trailing" mouse events from Map A being sent with Map B's ID
         if (typeof window !== 'undefined' && window._isMapSwitching) {
-            // console.log('[Batcher] 🚫 Blocked update during map switch');
+            // console.log('[Batcher] ðŸš« Blocked update during map switch');
             return;
         }
 
         if (!incomingMapId) {
             try {
-                const mapStoreState = require('./mapStore').default.getState();
+                const mapStoreState = getStore('mapStore').getState();
                 incomingMapId = mapStoreState.currentMapId || 'default';
             } catch (e) {
                 incomingMapId = window.currentMapId || 'default';
@@ -231,7 +232,7 @@ const mapUpdateBatcher = {
             const finalTargetMapId = targetMapId || mapStoreMapId;
 
             if (!finalTargetMapId) {
-                console.error('❌ [Batcher] CRITICAL ERROR: Could not resolve targetMapId! Dropping update.');
+                console.error('âŒ [Batcher] CRITICAL ERROR: Could not resolve targetMapId! Dropping update.');
                 return;
             }
 
@@ -248,14 +249,14 @@ const mapUpdateBatcher = {
 
                     // CRITICAL FIX: Ensure targetMapId is never a string 'undefined' or empty
                     if (finalTargetMapId === 'undefined' || !finalTargetMapId) {
-                        console.error('❌ [Batcher] CRITICAL ERROR: finalTargetMapId is invalid!', finalTargetMapId);
+                        console.error('âŒ [Batcher] CRITICAL ERROR: finalTargetMapId is invalid!', finalTargetMapId);
                         return; // Drop rather than leak
                     }
 
                     if (updates.terrainData || updates.wallData || updates.fogOfWarPaths) {
-                        console.log(`🌐 [Batcher] Emitting ${Object.keys(updates).join(', ')} to map: ${emitData.targetMapId} (Captured: ${targetMapId}, Store: ${mapStoreMapId})`);
+                        console.log(`ðŸŒ [Batcher] Emitting ${Object.keys(updates).join(', ')} to map: ${emitData.targetMapId} (Captured: ${targetMapId}, Store: ${mapStoreMapId})`);
                         // Explicitly log the packet structure to verify presence of targetMapId
-                        console.log('📤 [Batcher] Packet Structure:', {
+                        console.log('ðŸ“¤ [Batcher] Packet Structure:', {
                             roomId: emitData.roomId,
                             hasUpdates: !!emitData.mapUpdates,
                             targetMapId: emitData.targetMapId,
@@ -268,10 +269,10 @@ const mapUpdateBatcher = {
                     // CRITICAL FIX: Track the last emitted map ID to use as a fallback for the next batch
                     mapUpdateBatcher.lastEmittedMapId = finalTargetMapId;
                 } else {
-                    console.log(`[Batcher] ⏸️ Skipped emit - receiving update`);
+                    console.log(`[Batcher] â¸ï¸ Skipped emit - receiving update`);
                 }
             } else {
-                console.log(`[Batcher] ⏸️ Skipped emit - not multiplayer/connected/GM`, {
+                console.log(`[Batcher] â¸ï¸ Skipped emit - not multiplayer/connected/GM`, {
                     isInMultiplayer: gameStore.isInMultiplayer,
                     connected: gameStore.multiplayerSocket?.connected,
                     isGMMode: gameStore.isGMMode
@@ -564,7 +565,7 @@ export const WALL_TYPES = {
         blocksMovement: true,
         blocksLineOfSight: true,
         imageUrl: '/assets/walls/stone_wall.png',
-        icon: '🧱',
+        icon: 'ðŸ§±',
         description: 'A solid stone wall that blocks movement and sight'
     },
     wooden_wall: {
@@ -575,7 +576,7 @@ export const WALL_TYPES = {
         blocksMovement: true,
         blocksLineOfSight: true,
         imageUrl: '/assets/walls/wooden_wall.png',
-        icon: '🪵',
+        icon: 'ðŸªµ',
         description: 'A wooden wall that blocks movement and sight'
     },
     brick_wall: {
@@ -586,7 +587,7 @@ export const WALL_TYPES = {
         blocksMovement: true,
         blocksLineOfSight: true,
         imageUrl: '/assets/walls/brick_wall.png',
-        icon: '🧱',
+        icon: 'ðŸ§±',
         description: 'A brick wall that blocks movement and sight'
     },
     metal_wall: {
@@ -597,7 +598,7 @@ export const WALL_TYPES = {
         blocksMovement: true,
         blocksLineOfSight: true,
         imageUrl: '/assets/walls/metal_wall.png',
-        icon: '⚙️',
+        icon: 'âš™ï¸',
         description: 'A reinforced metal wall'
     },
     magical_barrier: {
@@ -608,7 +609,7 @@ export const WALL_TYPES = {
         blocksMovement: true,
         blocksLineOfSight: false,
         imageUrl: '/assets/walls/magical_barrier.png',
-        icon: '✨',
+        icon: 'âœ¨',
         description: 'A magical barrier that blocks movement but not sight'
     },
     force_wall: {
@@ -619,7 +620,7 @@ export const WALL_TYPES = {
         blocksMovement: true,
         blocksLineOfSight: false,
         imageUrl: '/assets/walls/force_wall.png',
-        icon: '🔮',
+        icon: 'ðŸ”®',
         description: 'A translucent force wall'
     },
     wooden_door: {
@@ -630,7 +631,7 @@ export const WALL_TYPES = {
         blocksMovement: true,
         blocksLineOfSight: true,
         imageUrl: '/assets/walls/wooden_door.png',
-        icon: '🚪',
+        icon: 'ðŸšª',
         description: 'A wooden door that can be opened, closed, or locked',
         states: ['closed', 'open', 'locked'],
         interactive: true
@@ -643,7 +644,7 @@ export const WALL_TYPES = {
         blocksMovement: true,
         blocksLineOfSight: true,
         imageUrl: '/assets/walls/stone_door.png',
-        icon: '🚪',
+        icon: 'ðŸšª',
         description: 'A heavy stone door that can be opened, closed, or locked',
         states: ['closed', 'open', 'locked'],
         interactive: true
@@ -657,7 +658,7 @@ export const WALL_TYPES = {
         blocksMovement: true,
         blocksLineOfSight: false,
         imageUrl: '/assets/walls/glass_window.png',
-        icon: '🪟',
+        icon: 'ðŸªŸ',
         description: 'A glass window - blocks movement but allows vision through',
         isWindow: true
     },
@@ -669,7 +670,7 @@ export const WALL_TYPES = {
         blocksMovement: true,
         blocksLineOfSight: false,
         imageUrl: '/assets/walls/barred_window.png',
-        icon: '🪟',
+        icon: 'ðŸªŸ',
         description: 'A barred window - blocks movement but allows vision through',
         isWindow: true
     },
@@ -681,7 +682,7 @@ export const WALL_TYPES = {
         blocksMovement: true,
         blocksLineOfSight: false,
         imageUrl: '/assets/walls/arrow_slit.png',
-        icon: '🎯',
+        icon: 'ðŸŽ¯',
         description: 'A narrow arrow slit - blocks movement but allows limited vision',
         isWindow: true
     },
@@ -693,7 +694,7 @@ export const WALL_TYPES = {
         blocksMovement: false,
         blocksLineOfSight: false,
         imageUrl: '/assets/walls/open_window.png',
-        icon: '🪟',
+        icon: 'ðŸªŸ',
         description: 'An open window frame - allows movement and vision',
         isWindow: true
     }
@@ -1099,7 +1100,7 @@ const useLevelEditorStore = create((set, get) => ({
     // These replace the entire data object (used for initial sync from GM to players)
 
     setTerrainData: (terrainData) => {
-        // console.log('🗺️ Setting terrain data bulk:', Object.keys(terrainData || {}).length, 'tiles');
+        // console.log('ðŸ—ºï¸ Setting terrain data bulk:', Object.keys(terrainData || {}).length, 'tiles');
         set(state => ({
             terrainData: terrainData || {},
             // Increment version to trigger TerrainSystem buffer refresh
@@ -1108,12 +1109,12 @@ const useLevelEditorStore = create((set, get) => ({
     },
 
     setWallData: (wallData) => {
-        // console.log('🧱 Setting wall data bulk:', Object.keys(wallData || {}).length, 'walls');
+        // console.log('ðŸ§± Setting wall data bulk:', Object.keys(wallData || {}).length, 'walls');
         set({ wallData: wallData || {} });
     },
 
     setEnvironmentalObjects: (environmentalObjects) => {
-        // console.log('🌳 Setting environmental objects:', (environmentalObjects || []).length, 'objects');
+        // console.log('ðŸŒ³ Setting environmental objects:', (environmentalObjects || []).length, 'objects');
         set({ environmentalObjects: environmentalObjects || [] });
     },
 
@@ -1123,7 +1124,7 @@ const useLevelEditorStore = create((set, get) => ({
         // CRITICAL: IMMEDIATELY update current map's drawings in mapStore
         // This ensures drawings are persisted even if map switches before save
         try {
-            const mapStore = require('./mapStore').default;
+            const mapStore = getStore('mapStore');
             const state = mapStore.getState();
             const currentMap = state.getCurrentMap();
             if (currentMap) {
@@ -1173,7 +1174,7 @@ const useLevelEditorStore = create((set, get) => ({
         const resolvedPaths = paths ?? [];
         const currentPaths = get().fogOfWarPaths;
         if (currentPaths && currentPaths.length > 0 && resolvedPaths.length === 0) {
-            console.warn('🚨 [FOG DEBUG] setFogOfWarPaths clearing non-empty paths!', {
+            console.warn('ðŸš¨ [FOG DEBUG] setFogOfWarPaths clearing non-empty paths!', {
                 previousCount: currentPaths.length,
                 newCount: resolvedPaths.length,
                 stack: new Error().stack
@@ -1182,7 +1183,7 @@ const useLevelEditorStore = create((set, get) => ({
         set({ fogOfWarPaths: resolvedPaths });
 
         try {
-            const mapStore = require('./mapStore').default;
+            const mapStore = getStore('mapStore');
             const state = mapStore.getState();
             const currentMap = state.getCurrentMap();
             if (currentMap) {
@@ -1199,7 +1200,7 @@ const useLevelEditorStore = create((set, get) => ({
 
         // CRITICAL: IMMEDIATELY update current map's fog erase paths in mapStore
         try {
-            const mapStore = require('./mapStore').default;
+            const mapStore = getStore('mapStore');
             const state = mapStore.getState();
             const currentMap = state.getCurrentMap();
             if (currentMap) {
@@ -1485,7 +1486,7 @@ const useLevelEditorStore = create((set, get) => ({
         }
 
         // Get GM mode from game store
-        const gameStore = require('./gameStore').default.getState();
+        const gameStore = getStore('gameStore').getState();
         const isGMMode = gameStore.isGMMode;
 
         // When viewing from a token, show both current vision AND explored areas
@@ -2185,7 +2186,7 @@ const useLevelEditorStore = create((set, get) => ({
         set({ fogOfWarData: {} });
 
         // Emit GM action for multiplayer synchronization
-        const useGameStore = require('./gameStore').default;
+        const useGameStore = getStore('gameStore');
         const gameStore = useGameStore.getState();
         if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
             gameStore.multiplayerSocket.emit('gm_action', {
@@ -2268,7 +2269,7 @@ const useLevelEditorStore = create((set, get) => ({
         set({ weatherEffects: weatherState });
 
         try {
-            const gameStore = require('./gameStore').default;
+            const gameStore = getStore('gameStore');
             if (gameStore.isInMultiplayer && gameStore.isGMMode && gameStore.multiplayerSocket?.connected) {
                 gameStore.multiplayerSocket.emit('weather_update', weatherState);
             }
@@ -2284,7 +2285,7 @@ const useLevelEditorStore = create((set, get) => ({
         set({ weatherEffects: weatherState });
 
         try {
-            const gameStore = require('./gameStore').default;
+            const gameStore = getStore('gameStore');
             if (gameStore.isInMultiplayer && gameStore.isGMMode && gameStore.multiplayerSocket?.connected) {
                 gameStore.multiplayerSocket.emit('weather_update', weatherState);
             }
@@ -2570,7 +2571,7 @@ const useLevelEditorStore = create((set, get) => ({
         const currentState = get();
         const currentFogPaths = currentState.fogOfWarPaths || [];
         if (currentFogPaths.length > 0 && (!mapData.fogOfWarPaths || mapData.fogOfWarPaths.length === 0) && !preserveFogPaths) {
-            console.warn('🚨 [FOG DEBUG] loadMapState clearing existing fog paths!', {
+            console.warn('ðŸš¨ [FOG DEBUG] loadMapState clearing existing fog paths!', {
                 currentCount: currentFogPaths.length,
                 incomingPaths: mapData.fogOfWarPaths,
                 preserveFogPaths,
@@ -2629,12 +2630,12 @@ const useLevelEditorStore = create((set, get) => ({
         set(updates);
 
         if (data.drawingPaths) {
-            const mapStore = require('./mapStore').default;
+            const mapStore = getStore('mapStore');
             const currentMapId = mapStore.getState().currentMapId || 'default';
             mapStore.getState().updateMap(currentMapId, { drawingPaths: data.drawingPaths });
         }
         if (data.dndElements) {
-            const mapStore = require('./mapStore').default;
+            const mapStore = getStore('mapStore');
             const currentMapId = mapStore.getState().currentMapId || 'default';
             const batcher = get().mapUpdateBatcher;
             if (batcher && batcher.addUpdate) {
@@ -2647,7 +2648,7 @@ const useLevelEditorStore = create((set, get) => ({
     clearAllProfessionalData: () => {
         const state = get();
         if ((state.fogOfWarPaths || []).length > 0) {
-            console.warn('🚨 [FOG DEBUG] clearAllProfessionalData clearing fog paths!', {
+            console.warn('ðŸš¨ [FOG DEBUG] clearAllProfessionalData clearing fog paths!', {
                 fogPathCount: state.fogOfWarPaths.length,
                 stack: new Error().stack
             });
@@ -2907,7 +2908,7 @@ const useLevelEditorStore = create((set, get) => ({
 
             // Also emit GM action for multiplayer synchronization
             try {
-                const useGameStore = require('./gameStore').default;
+                const useGameStore = getStore('gameStore');
                 const gameStore = useGameStore.getState();
                 if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
                     gameStore.multiplayerSocket.emit('gm_action', {
@@ -3074,7 +3075,7 @@ const useLevelEditorStore = create((set, get) => ({
             }
 
         } catch (error) {
-            console.error('🌫️ Error in coverEntireMapWithFog:', error);
+            console.error('ðŸŒ«ï¸ Error in coverEntireMapWithFog:', error);
             // Fallback - create minimal marker path
             const fogPaths = [{
                 id: `fog_cover_entire_map_${Date.now()}`,
@@ -3787,7 +3788,7 @@ const useLevelEditorStore = create((set, get) => ({
         // Get grid settings from gameStore for coordinate conversion
         let gridSize = 50, gridOffsetX = 0, gridOffsetY = 0;
         try {
-            const gameStore = require('./gameStore').default.getState();
+            const gameStore = getStore('gameStore').getState();
             gridSize = gameStore.gridSize || 50;
             gridOffsetX = gameStore.gridOffsetX || 0;
             gridOffsetY = gameStore.gridOffsetY || 0;
@@ -3873,10 +3874,10 @@ const useLevelEditorStore = create((set, get) => ({
             playerMemories: newPlayerMemories
         });
 
-        console.log('🧹 [levelEditorStore] Cleared all fog and memories');
+        console.log('ðŸ§¹ [levelEditorStore] Cleared all fog and memories');
     },
 
-    // ─── Undo / Redo System ───────────────────────────────────────────
+    // â”€â”€â”€ Undo / Redo System â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // Snapshot the editable data so it can be restored on undo.
     pushHistorySnapshot: () => {
         const s = get();
@@ -3956,7 +3957,7 @@ const useLevelEditorStore = create((set, get) => ({
         });
         return true;
     },
-    // ─── End Undo / Redo ──────────────────────────────────────────────
+    // â”€â”€â”€ End Undo / Redo â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     // Reset store to initial state
     // CRITICAL FIX: Preserve playerMemories and currentPlayerId to maintain exploration progress

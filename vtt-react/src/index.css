@@ -27,7 +27,7 @@
   --pf-text-primary: #5a1e12;
   --pf-text-secondary: #5a1e12;
   --pf-text-muted: #8B4513;
-  --pf-text-light: #a08c70;
+  --pf-text-light: #6b5a42;
   --pf-text-on-dark: #f8f4e6;
 
   /* Accent Colors */
@@ -105,11 +105,6 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  /* Disable text selection globally - prevents accidental drag-to-highlight */
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
 }
 
 /* Re-enable text selection in editable areas */
@@ -989,4 +984,55 @@ body.window-dragging #grid-overlay {
 /* Fix custom resource bar tooltip animation stutter */
 .unified-resourcebar-tooltip {
     animation: none !important;
+}
+
+
+/* ============================================================
+   ACCESSIBILITY OVERRIDES
+   Toggled by AccessibilityController.jsx, which adds these
+   classes to <html> based on the settingsStore flags.
+   ============================================================ */
+
+/* --- Reduced Motion ---
+   Disables animations/transitions app-wide. Converges with the
+   prefers-reduced-motion media queries already used elsewhere. */
+html.a11y-reduced-motion *,
+html.a11y-reduced-motion *::before,
+html.a11y-reduced-motion *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+}
+
+/* --- High Contrast ---
+   Darkens the low-contrast text token (--pf-text-light fails AA
+   at 2.6:1 on parchment) and strengthens focus indicators. */
+html.a11y-high-contrast {
+    --pf-text-light: #3a2410;
+}
+html.a11y-high-contrast *:focus-visible {
+    outline: 3px solid #ffdd00 !important;
+    outline-offset: 2px !important;
+}
+html.a11y-high-contrast button,
+html.a11y-high-contrast a,
+html.a11y-high-contrast [role="button"] {
+    outline: 1px solid rgba(40, 20, 8, 0.35);
+}
+
+/* --- Large Text ---
+   Bumps the root font size. Affects rem-based sizing. */
+html.a11y-large-text {
+    font-size: 118.75%;
+}
+
+/* --- Screen Reader / Keyboard Aid ---
+   Persistent focus outlines (not only :focus-visible) to help
+   keyboard and assistive-technology users track their position. */
+html.a11y-screen-reader *:focus {
+    outline: 2px solid #ffdd00 !important;
+    outline-offset: 2px !important;
 }

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import io from 'socket.io-client';
 import { auth } from '../../config/firebase';
 import { getUserRooms, createPersistentRoom } from '../../services/roomService';
 import useCharacterStore from '../../store/characterStore';

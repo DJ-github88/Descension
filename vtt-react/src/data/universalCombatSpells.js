@@ -43,8 +43,8 @@ export const UNIVERSAL_COMBAT_SPELLS = [
       components: []
     },
     cooldownConfig: {
-      type: 'turn_based',
-      value: 0
+      cooldownType: 'turn_based',
+      cooldownValue: 0
     },
     resolution: 'DICE',
     tags: ['attack', 'combat', 'universal', 'weapon']
@@ -88,8 +88,8 @@ export const UNIVERSAL_COMBAT_SPELLS = [
       components: []
     },
     cooldownConfig: {
-      type: 'turn_based',
-      value: 0
+      cooldownType: 'turn_based',
+      cooldownValue: 0
     },
     resolution: 'DICE',
     tags: ['reaction', 'defensive', 'universal']
@@ -137,8 +137,8 @@ export const UNIVERSAL_COMBAT_SPELLS = [
       components: []
     },
     cooldownConfig: {
-      type: 'turn_based',
-      value: 0
+      cooldownType: 'turn_based',
+      cooldownValue: 0
     },
     resolution: 'DICE',
     tags: ['reaction', 'defensive', 'universal']
@@ -186,8 +186,8 @@ export const UNIVERSAL_COMBAT_SPELLS = [
       components: []
     },
     cooldownConfig: {
-      type: 'turn_based',
-      value: 0
+      cooldownType: 'turn_based',
+      cooldownValue: 0
     },
     resolution: 'DICE',
     tags: ['reaction', 'defensive', 'universal', 'shield']
@@ -238,8 +238,8 @@ export const UNIVERSAL_COMBAT_SPELLS = [
       components: []
     },
     cooldownConfig: {
-      type: 'turn_based',
-      value: 0
+      cooldownType: 'turn_based',
+      cooldownValue: 0
     },
     resolution: 'DICE',
     tags: ['reaction', 'support', 'universal']
@@ -282,8 +282,8 @@ export const UNIVERSAL_COMBAT_SPELLS = [
       components: []
     },
     cooldownConfig: {
-      type: 'turn_based',
-      value: 0
+      cooldownType: 'turn_based',
+      cooldownValue: 0
     },
     resolution: 'DICE',
     tags: ['reaction', 'defensive', 'universal']
@@ -326,8 +326,8 @@ export const UNIVERSAL_COMBAT_SPELLS = [
       components: []
     },
     cooldownConfig: {
-      type: 'turn_based',
-      value: 0
+      cooldownType: 'turn_based',
+      cooldownValue: 0
     },
     resolution: 'DICE',
     tags: ['reaction', 'offensive', 'universal']
@@ -374,8 +374,8 @@ export const UNIVERSAL_COMBAT_SPELLS = [
       components: []
     },
     cooldownConfig: {
-      type: 'turn_based',
-      value: 0
+      cooldownType: 'turn_based',
+      cooldownValue: 0
     },
     resolution: 'DICE',
     tags: ['reaction', 'defensive', 'universal', 'support']
@@ -419,8 +419,8 @@ export const UNIVERSAL_COMBAT_SPELLS = [
       components: []
     },
     cooldownConfig: {
-      type: 'turn_based',
-      value: 0
+      cooldownType: 'turn_based',
+      cooldownValue: 0
     },
     resolution: 'DICE',
     tags: ['reaction', 'offensive', 'universal']
@@ -471,8 +471,8 @@ export const UNIVERSAL_COMBAT_SPELLS = [
       components: []
     },
     cooldownConfig: {
-      type: 'turn_based',
-      value: 0
+      cooldownType: 'turn_based',
+      cooldownValue: 0
     },
     resolution: 'DICE',
     tags: ['reaction', 'offensive', 'universal', 'shield']
@@ -519,8 +519,8 @@ export const UNIVERSAL_COMBAT_SPELLS = [
       components: ['verbal', 'somatic']
     },
     cooldownConfig: {
-      type: 'turn_based',
-      value: 0
+      cooldownType: 'turn_based',
+      cooldownValue: 0
     },
     resolution: 'DICE',
     tags: ['reaction', 'spell', 'universal']
@@ -566,8 +566,8 @@ export const UNIVERSAL_COMBAT_SPELLS = [
       components: []
     },
     cooldownConfig: {
-      type: 'turn_based',
-      value: 0
+      cooldownType: 'turn_based',
+      cooldownValue: 0
     },
     resolution: 'DICE',
     tags: ['movement', 'combat', 'universal']
@@ -611,8 +611,8 @@ export const UNIVERSAL_COMBAT_SPELLS = [
       components: []
     },
     cooldownConfig: {
-      type: 'turn_based',
-      value: 0
+      cooldownType: 'turn_based',
+      cooldownValue: 0
     },
     resolution: 'DICE',
     tags: ['movement', 'combat', 'universal']
@@ -656,8 +656,8 @@ export const UNIVERSAL_COMBAT_SPELLS = [
       components: []
     },
     cooldownConfig: {
-      type: 'turn_based',
-      value: 0
+      cooldownType: 'turn_based',
+      cooldownValue: 0
     },
     resolution: 'DICE',
     tags: ['movement', 'combat', 'universal', 'defensive']
@@ -699,8 +699,8 @@ export const UNIVERSAL_COMBAT_SPELLS = [
       components: []
     },
     cooldownConfig: {
-      type: 'turn_based',
-      value: 0
+      cooldownType: 'turn_based',
+      cooldownValue: 0
     },
     resolution: 'DICE',
     tags: ['item', 'combat', 'universal']
@@ -742,8 +742,8 @@ export const UNIVERSAL_COMBAT_SPELLS = [
       components: []
     },
     cooldownConfig: {
-      type: 'turn_based',
-      value: 0
+      cooldownType: 'turn_based',
+      cooldownValue: 0
     },
     resolution: 'DICE',
     tags: ['stealth', 'combat', 'universal']
@@ -794,8 +794,8 @@ export const UNIVERSAL_COMBAT_SPELLS = [
       components: []
     },
     cooldownConfig: {
-      type: 'turn_based',
-      value: 0
+      cooldownType: 'turn_based',
+      cooldownValue: 0
     },
     resolution: 'DICE',
     tags: ['support', 'combat', 'universal']
@@ -837,8 +837,8 @@ export const UNIVERSAL_COMBAT_SPELLS = [
       components: []
     },
     cooldownConfig: {
-      type: 'turn_based',
-      value: 0
+      cooldownType: 'turn_based',
+      cooldownValue: 0
     },
     resolution: 'DICE',
     tags: ['preparation', 'combat', 'universal']

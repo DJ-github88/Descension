@@ -298,11 +298,3 @@ export const getPathStartingPoints = (pathId) => {
     const path = getPathData(pathId);
     return path ? path.startingPoints : 0;
 };
-
-export const getCustomBackgroundData = getPathData;
-export const getAllCustomBackgrounds = getAllPaths;
-export const getCustomBackgroundNames = getPathNames;
-export const getCustomBackgroundStatModifiers = getPathStatModifiers;
-export const getCustomBackgroundSkills = getPathSkills;
-export const getCustomBackgroundFeature = getPathFeature;
-export const getCustomBackgroundStartingPoints = getPathStartingPoints;

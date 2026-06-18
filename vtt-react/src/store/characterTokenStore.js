@@ -1,3 +1,4 @@
+import { getStore } from './storeRegistry';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
@@ -64,11 +65,11 @@ const useCharacterTokenStore = create(
           resolvedMapId = targetMapId;
         } else {
           try {
-            const mapStore = require('./mapStore').default;
+            const mapStore = getStore('mapStore');
             const mapStoreState = mapStore.getState();
             // CRITICAL FIX: If map is switching, delay token placement to prevent cross-map contamination
             if (mapStoreState && window._isMapSwitching) {
-              console.warn('🔒 [characterTokenStore] Map switch in progress, delaying token placement');
+              console.warn('ðŸ”’ [characterTokenStore] Map switch in progress, delaying token placement');
               // Return null to indicate placement should be retried after switch completes
               return {
                 characterTokens: get().characterTokens,
@@ -146,7 +147,7 @@ const useCharacterTokenStore = create(
           });
         }
 
-        // 🎯 CONDITIONALLY SWITCH TO PLAYER VIEW WHEN CHARACTER TOKEN IS PLACED
+        // ðŸŽ¯ CONDITIONALLY SWITCH TO PLAYER VIEW WHEN CHARACTER TOKEN IS PLACED
         Promise.all([
           import('../store/gameStore'),
           import('../store/levelEditorStore'),
@@ -161,10 +162,10 @@ const useCharacterTokenStore = create(
           const isLeader = partyStore.isPartyLeader();
 
           if (!isLeader) {
-            console.log('👤 Player placed token, switching to player mode');
+            console.log('ðŸ‘¤ Player placed token, switching to player mode');
             gameStore.setGMMode(false);
           } else {
-            console.log('👑 Leader placed token, maintaining GM mode');
+            console.log('ðŸ‘‘ Leader placed token, maintaining GM mode');
           }
 
           // Only auto-enable view from token if GM has configured it
@@ -179,7 +180,7 @@ const useCharacterTokenStore = create(
           } else if (levelEditorStore.dynamicFogEnabled && !gameStore.isGMMode) {
             // CRITICAL FIX: Enable viewingFromToken for players when dynamic fog is enabled
             // This ensures the afterimage/memory system works for players
-            console.log('👁️ [Afterimage] Auto-enabling viewingFromToken for player (dynamic fog enabled)');
+            console.log('ðŸ‘ï¸ [Afterimage] Auto-enabling viewingFromToken for player (dynamic fog enabled)');
             levelEditorStore.setViewingFromToken({
               id: tokenId,
               type: 'character',
@@ -217,7 +218,7 @@ const useCharacterTokenStore = create(
                 mapId: mapId,
                 targetMapId: mapId
               });
-              console.log('📤 Character token placement synced to server:', tokenId, 'on map:', token?.mapId);
+              console.log('ðŸ“¤ Character token placement synced to server:', tokenId, 'on map:', token?.mapId);
             }
           }).catch(error => {
             console.error('Failed to import gameStore for character token sync:', error);
@@ -315,7 +316,7 @@ const useCharacterTokenStore = create(
           import('./gameStore').then(({ default: useGameStore }) => {
             const gameStore = useGameStore.getState();
             if (gameStore.isInMultiplayer && gameStore.multiplayerSocket?.connected) {
-              console.log('📤 Emitting character_token_removed:', { tokenId });
+              console.log('ðŸ“¤ Emitting character_token_removed:', { tokenId });
               gameStore.multiplayerSocket.emit('character_token_removed', { tokenId });
             }
           }).catch(error => {
@@ -384,7 +385,7 @@ const useCharacterTokenStore = create(
         const recentMove = recentTokenMovements.get(recentMoveKey);
 
         if (recentMove && recentMove.isLocal && (now - recentMove.timestamp) < 500) {
-          console.log(`🚫 Ignoring stale character token position update for ${tokenId} (${now - recentMove.timestamp}ms old - local is authoritative)`);
+          console.log(`ðŸš« Ignoring stale character token position update for ${tokenId} (${now - recentMove.timestamp}ms old - local is authoritative)`);
           return state;
         }
 
@@ -448,7 +449,7 @@ const useCharacterTokenStore = create(
       cleanupExpiredConditions: () => set(state => {
         // CRITICAL FIX: Guard against undefined state
         if (!state || !state.characterTokens) {
-          console.warn('⚠️ characterTokenStore state is undefined in cleanupExpiredConditions');
+          console.warn('âš ï¸ characterTokenStore state is undefined in cleanupExpiredConditions');
           return state || { characterTokens: [] };
         }
 

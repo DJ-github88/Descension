@@ -1,3 +1,4 @@
+import { getStore } from './storeRegistry';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
@@ -145,7 +146,7 @@ const useChatStore = create(
 
         if (_multiplayerSocket && _multiplayerSocket.connected && _roomId) {
           try {
-            const presenceStore = require('./presenceStore').default;
+            const presenceStore = getStore('presenceStore');
             const presenceState = presenceStore.getState();
             const playerName = presenceState.currentUser?.name || presenceState.displayName || 'Player';
             _multiplayerSocket.emit('combat_log', {
@@ -200,7 +201,7 @@ const useChatStore = create(
         if (tab === 'social') {
           // Check if we should route to global chat via presenceStore
           try {
-            const presenceStore = require('./presenceStore').default;
+            const presenceStore = getStore('presenceStore');
             const presenceState = presenceStore.getState();
             if (presenceState.socket && presenceState.socket.connected) {
               presenceState.sendGlobalMessage(content);

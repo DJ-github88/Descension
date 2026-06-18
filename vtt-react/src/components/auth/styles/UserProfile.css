@@ -333,7 +333,7 @@
   box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
 }
 
-.action-buttons {
+.user-profile-modal .action-buttons {
   display: flex;
   gap: 12px;
 }

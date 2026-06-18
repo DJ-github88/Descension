@@ -6,7 +6,7 @@
     illustrationCaption: 'A tall, silver-skinned Neth in ghost-silk robes, dark pool-like eyes reflecting the canopy-light, utterly still between breaths.',
     description: `**[The Silver-Skinned Pact-Lords]** — *Inside the quiet canopy-libraries of Atropolis, a tall, silver-skinned scribe traces contract terms on memory-glass, his chest perfectly still and unbreathing as he bargains with the forest's root-veil.*
 
-There is a city in the Gloom Forest built from living ironwood coaxed into cathedral-shapes over a thousand years. It is not a ruin. It is not a monument. It is an archive — the oldest archive in the known world — and the people who live there have been writing in it since before the sun was stolen. The Neth are what happens when a dying clan of scribes looks at an ancient forest-boundary entity and presents a legal argument for their own survival. The argument was accepted. The terms were binding. The silver in their skin, the stillness in their lungs, the pact written in the blood of every descendant — all of it is a contract. And the Neth have been honoring it for eight centuries, because the alternative is the silence that waits for anyone who breaks the terms.`,
+There is a city in the Bryngloom Forest built from living ironwood coaxed into cathedral-shapes over a thousand years. It is not a ruin. It is not a monument. It is an archive — the oldest archive in the known world — and the people who live there have been writing in it since before the sun was stolen. The Neth are what happens when a dying clan of scribes looks at an ancient forest-boundary entity and presents a legal argument for their own survival. The argument was accepted. The terms were binding. The silver in their skin, the stillness in their lungs, the pact written in the blood of every descendant — all of it is a contract. And the Neth have been honoring it for eight centuries, because the alternative is the silence that waits for anyone who breaks the terms.`,
     icon: 'fas fa-scroll',
     overview: `The Neth were dying. The first freeze had crept into the Gloom — not the sudden ice of Nordhalla, but a slow, insidious cold that seeped through the ancient woods and found the children first. Their ancestors were scribes, archivists, merchant-brokers — the Gloom's legal class, the ones who recorded who owed whom, who married whom, who betrayed whom, who inherited what. They were not warriors or priests. They were the people who remembered, and memory does not stop frostbite.
 
@@ -245,7 +245,7 @@ Her original draft of the First Contract is preserved in the deepest chamber of 
         {
             name: 'Atropolis',
             description: `
-The heart of Neth civilization and the largest living structure in the Gloom Forest. Atropolis is not a city of stone. It is a cultivated cathedral-grove — the oldest ironwood trees in the Gloom, each one shaped over a thousand years into cathedral-spaces where the Neth live, work, and archive. The trees are still growing. The oldest chambers, deep in the heartwood, date to the first generation after the Keeper's bargain. The newest, in the outer canopy, are still being coaxed into shape by Velun wood-speakers who have been guiding the same branch for eighty years.
+The heart of Neth civilization and the largest living structure in the Bryngloom Forest. Atropolis is not a city of stone. It is a cultivated cathedral-grove — the oldest ironwood trees in the Gloom, each one shaped over a thousand years into cathedral-spaces where the Neth live, work, and archive. The trees are still growing. The oldest chambers, deep in the heartwood, date to the first generation after the Keeper's bargain. The newest, in the outer canopy, are still being coaxed into shape by Velun wood-speakers who have been guiding the same branch for eighty years.
 
 Walkways of living branch and bioluminescent moss connect the tree-structures at every level. At night the city glows faintly with the same cold light that runs through Neth veins — not bright, not warm, but steady, eternal, the color of moonlight on still water. The streets are named after signatories of the First Contract. The buildings are named after the contracts they house.
 
@@ -255,7 +255,7 @@ The deepest chamber of the oldest tree — the Heart-Vault — contains the Firs
         {
             name: 'Ironjaw Port',
             description: `
-The Neth's largest external outpost, built into the frozen cliffs of the Iceheart Sea where the Gloom Forest meets the churning, freezing waves. The port is a wonder of Neth engineering: a series of living ironwood platforms coaxed from a cliff-face over three centuries, connected by branch-bridges and suspended trade galleries that sway gently in the perpetual sea-winds. Below the platforms, the Neth have cultivated buoyant fungal-rafts that serve as docks — the only structures in the known world that can withstand the Iceheart's storm-cycle without shattering.
+The Neth's largest external outpost, built into the frozen cliffs of the Iceheart Sea where the Bryngloom Forest meets the churning, freezing waves. The port is a wonder of Neth engineering: a series of living ironwood platforms coaxed from a cliff-face over three centuries, connected by branch-bridges and suspended trade galleries that sway gently in the perpetual sea-winds. Below the platforms, the Neth have cultivated buoyant fungal-rafts that serve as docks — the only structures in the known world that can withstand the Iceheart's storm-cycle without shattering.
 
 Ironjaw is the Neth's economic lung. Every trade route between the Gloom and the outside world passes through it — Emberth thermal salts, Myrathil foam-glass, human lumber, Mimir mask-repair materials, Vreken fungal-light exports. The port houses a copy of the First Contract, which means Neth stationed here do not Fade. The copy is weaker than the Atropolis original — the Archive-Tether reaches about half as far from Ironjaw — which limits how far Neth trade-ships can sail before they must turn back.
 
@@ -265,7 +265,7 @@ The port is run by a mixed Velun-Kessen council that has been quietly feuding fo
         {
             name: 'The Severing Bog',
             description: `
-The deepest part of the Gloom Forest, where the canopy thins and the preserving bog takes over. The mycelial network is sparse here — the fungal threads that sustain Neth life cannot penetrate the bog's chemical depths — and the pact's authority is correspondingly weak. This is where Saren-Vel walked to burn her name from the First Contract, and it is where every Severing has been performed since.
+The deepest part of the Bryngloom Forest, where the canopy thins and the preserving bog takes over. The mycelial network is sparse here — the fungal threads that sustain Neth life cannot penetrate the bog's chemical depths — and the pact's authority is correspondingly weak. This is where Saren-Vel walked to burn her name from the First Contract, and it is where every Severing has been performed since.
 
 The bog is a sacred and terrifying place to the Neth. The Velun refuse to enter it — not out of prohibition, but because the thinning pact-authority makes them feel physically ill, like a limb going numb, like forgetting a word they have used their whole life. The Kessen visit occasionally, to read the probability-web at its sparsest point and see what patterns emerge in the silence. The Drun live here, or near here — small camps of the severed, sustained by foraging and hunting rather than the pact, trading with each other in a gift-economy that would appall any Velun who witnessed it.
 
@@ -443,7 +443,7 @@ They view the Kessen with a mixture of admiration and unease — the Kessen see 
                             {
                                 id: 'archive_knowledge',
                                 name: 'Ledger-Trained',
-                                description: '+2 to History and Arcana checks related to the Gloom Forest, contract law, the Keeper, Neth genealogy, or the Wyrd. You have spent decades reading memory-glass in the canopy — the archive is not a place you visit. It is where you live.',
+                                description: '+2 to History and Arcana checks related to the Bryngloom Forest, contract law, the Keeper, Neth genealogy, or the Wyrd. You have spent decades reading memory-glass in the canopy — the archive is not a place you visit. It is where you live.',
                                 statModifier: { stat: 'history', magnitude: 2, magnitudeType: 'flat', conditions: { relevantLore: true } },
                                 additionalStatModifier: { stat: 'arcana', magnitude: 2, magnitudeType: 'flat', conditions: { relevantLore: true } }
                             }
@@ -736,7 +736,7 @@ They view the Velun with something between pity and contempt — the Velun are p
                             {
                                 id: 'bog_resistance',
                                 name: 'Deep Bog Endurance',
-                                description: 'Resistance to blight damage. Advantage on Survival checks made in swamps, bogs, or the Gloom Forest. You have survived the Severing and the bog that followed — the deep wild is not your home, but it has stopped trying to kill you.',
+                                description: 'Resistance to blight damage. Advantage on Survival checks made in swamps, bogs, or the Bryngloom Forest. You have survived the Severing and the bog that followed — the deep wild is not your home, but it has stopped trying to kill you.',
                                 statModifier: { stat: 'survival', magnitude: 1, magnitudeType: 'advantage', conditions: { swampEnvironment: true } }
                             }
                         ],

@@ -133,64 +133,64 @@ export default function Lore() {
             ],
             rightFields: [
                 { key: 'background', label: 'Social Background', type: 'backgroundSelect' },
-                { key: 'backstory', label: 'Detailed Backstory', placeholder: 'Write your character\'s detailed backstory and history...', type: 'textarea', fullPage: true }
+                { key: 'backstory', label: 'Origin Story', placeholder: 'Where were you when the fog found you? Trace your life from the cold hearth of your upbringing to the moment you took the frozen road...', type: 'textarea', fullPage: true }
             ]
         },
         personality: {
-            title: 'Personality & Traits',
-            label: 'Personality',
+            title: 'Demeanor & Conviction',
+            label: 'Demeanor',
             icon: getIconUrl('Utility/Meditative Figure', 'abilities'),
             leftFields: [
-                { key: 'personalityTraits', label: 'Personality Traits', placeholder: 'Describe your character\'s personality traits and quirks...', type: 'textarea' },
-                { key: 'ideals', label: 'Ideals', placeholder: 'What principles and beliefs drive your character?...', type: 'textarea' }
+                { key: 'personalityTraits', label: 'Demeanor & Nature', placeholder: 'How do you carry yourself beneath the endless dark? Mannerisms, habits, and the face you show strangers in the lamplight...', type: 'textarea' },
+                { key: 'ideals', label: 'Convictions', placeholder: 'What principle do you cling to when the lamps go out? The Solbrand\'s fading warmth, the Keeper\'s ledger, a personal oath — what will you not betray?', type: 'textarea' }
             ],
             rightFields: [
-                { key: 'bonds', label: 'Bonds', placeholder: 'What connects your character to the world? Family, friends, organizations?...', type: 'textarea' },
-                { key: 'flaws', label: 'Flaws', placeholder: 'What weaknesses or vices does your character have?...', type: 'textarea' }
+                { key: 'bonds', label: 'Oaths & Tethers', placeholder: 'To what — or whom — are you bound? A name carved in glacier-ice, an entry in the Canopy-Ledger, a debt to something that does not forget...', type: 'textarea' },
+                { key: 'flaws', label: 'Fractures & Weakness', placeholder: 'Where are you cracked? The Wyrd finds the broken places first — a vice, a buried dread, a secret the cold has kept for you...', type: 'textarea' }
             ]
         },
         appearance: {
-            title: 'Appearance & Description',
-            label: 'Appearance',
+            title: 'Bearing & Aspect',
+            label: 'Aspect',
             icon: getIconUrl('Utility/Robed Figure', 'abilities'),
             leftFields: [
                 { key: 'characterImage', label: 'Character Portrait', placeholder: 'Upload or paste image URL...', type: 'image' },
                 ...(tokenSettings ? [{ key: 'tokenBorder', label: 'Token Border Color', type: 'borderColor' }] : [])
             ],
             rightFields: [
-                { key: 'appearance', label: 'Physical Appearance', placeholder: 'Describe your character\'s physical appearance, clothing, and distinguishing features...', type: 'textarea', fullPage: true }
+                { key: 'appearance', label: 'Bearing & Aspect', placeholder: 'Wind-leather and ash-cloth, bog-iron and bone. Describe how your character looks and dresses, and the marks the dark world has left on them...', type: 'textarea', fullPage: true }
             ]
         },
         relationships: {
-            title: 'Relationships & Connections',
-            label: 'Relationships',
+            title: 'Bonds & Adversaries',
+            label: 'Bonds',
             icon: getIconUrl('Social/Party Gathering', 'abilities'),
             leftFields: [
-                { key: 'allies', label: 'Allies & Friends', placeholder: 'List and describe your character\'s allies, friends, and positive relationships...', type: 'textarea', fullPage: true }
+                { key: 'allies', label: 'Allies & Kin', placeholder: 'Who walks the dark beside you? A mentor of your tradition, a bond-kin of your people, a contractor who has not yet betrayed you...', type: 'textarea', fullPage: true }
             ],
             rightFields: [
-                { key: 'enemies', label: 'Enemies & Rivals', placeholder: 'List and describe your character\'s enemies, rivals, and negative relationships...', type: 'textarea' },
-                { key: 'organizations', label: 'Organizations & Factions', placeholder: 'What organizations, guilds, or factions is your character affiliated with?...', type: 'textarea' }
+                { key: 'enemies', label: 'Adversaries & Blood-Debts', placeholder: 'Who hunts you across the regions? A Marked Vreken, a broken contract\'s enforcer, a rival of your house — and what stands between you?', type: 'textarea' },
+                { key: 'organizations', label: 'Factions & Guilds', placeholder: 'The Luminarchy, the Solbrand tending-clans, a Neth house, a Bloodhammer band — what banner do you answer to, openly or in the dark?', type: 'textarea' }
             ]
         },
         goals: {
-            title: 'Goals & Motivations',
-            label: 'Goals',
+            title: 'Purpose & Dread',
+            label: 'Purpose',
             icon: getIconUrl('Utility/Comet Trail', 'abilities'),
             leftFields: [
-                { key: 'goals', label: 'Goals & Ambitions', placeholder: 'What does your character hope to achieve? What are their short and long-term goals?...', type: 'textarea', fullPage: true }
+                { key: 'goals', label: 'Purpose & Ambition', placeholder: 'What keeps you walking the frozen roads? A name to restore, a ledger to settle, a light to rekindle — or simply to see one more Dimming...', type: 'textarea', fullPage: true }
             ],
             rightFields: [
-                { key: 'fears', label: 'Fears & Concerns', placeholder: 'What does your character fear most? What keeps them awake at night?...', type: 'textarea', fullPage: true }
+                { key: 'fears', label: 'Dreads', placeholder: 'Fear spawns things in Mythrill. What hunts you in the quiet? The dark beneath the caldera, the day the Solbrand dies, the name you almost forgot...', type: 'textarea', fullPage: true }
             ]
         },
         notes: {
-            title: 'Notes & Miscellaneous',
-            label: 'Notes',
+            title: 'Marginalia',
+            label: 'Marginalia',
             icon: getIconUrl('Utility/Utility', 'abilities'),
             leftFields: [],
             rightFields: [
-                { key: 'notes', label: 'General Notes', placeholder: 'Any additional notes, reminders, or information about your character...', type: 'textarea', fullPage: true }
+                { key: 'notes', label: 'Marginalia', placeholder: 'Scratchings for the long dark — rumors overheard at the waystation, ledger-balances, a verse half-remembered...', type: 'textarea', fullPage: true }
             ]
         },
         heritage: {

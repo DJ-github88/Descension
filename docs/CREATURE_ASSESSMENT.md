@@ -19,9 +19,9 @@ D&D's iconic creatures succeed because each has a **visually unique silhouette**
 
 | Overrepresented Body Plan | Count | Example Creatures |
 |---|---|---|
-| "Gaunt/beautiful woman spirit" | ~18 | Drudehaunt, Mossmaiden, Banshrond, Perchtaweave, Rusalka, Mavka-Willow, Sirin-Song, Alkonost |
-| "Small humanoid sprite/imp" | ~22 | Schratling, Koboldknock, Knockbrew, Grogoch-Burrow, Pixieglow, Waldwisp, Knockbrew, Bes-Brick, Akaname |
-| "Serpentine dragon/worm" | ~12 | Tatzelvine, Lindwyrm-Burrow, Nidhoggr-Root, Tiamat-Scale, Azi, Zmey-Bog, Naga-Root, Qoraigarash |
+| "Gaunt/beautiful woman spirit" | ~18 | Drudehaunt, Mossmaiden, Banshrond, Cailleach, Rusalka, Mavka-Willow, Sirin-Song, Alkonost |
+| "Small humanoid sprite/imp" | ~22 | Schratling, Koboldknock, Knockbrew, Grogoch, Pixie, Waldschrat, Knockbrew, Bes-Brick, Akaname |
+| "Serpentine dragon/worm" | ~12 | Tatzelvine, Lindwyrm, Nidhoggr, Tiamat-Scale, Azi, Zmey-Bog, Naga-Root, Qoraigarash |
 | "Horse/equine spectral" | ~6 | Erlking's Hound, Helhest, Nokk Stallion (existing), Tulpar, Hippocampus-Tide |
 
 **Recommendation:** Consolidate or redesign redundant body plans. Kill or radically rework 8–10 of the weakest "woman at water's edge" and "small sprite" entries to free space for missing archetypes.
@@ -36,7 +36,7 @@ The compendium lacks several creature TYPES that make a TTRPG bestiary feel comp
 - **Mountable beasts** (almost nothing a party can tame and ride — critical for a VTT)
 - **Environmental hazards** (only Kur-Pit and Graia-Swirl approach this)
 - **Shapeshifting infiltrators** (beyond Kitsune — creatures that pretend to be NPCs)
-- **Colossal/Kaiju-tier** (only Ketos and Kraken-Ice qualify — need 2–3 more region-scale threats)
+- **Colossal/Kaiju-tier** (only Ketos and Kraken qualify — need 2–3 more region-scale threats)
 
 ### 1.3 The "Lure + Drain" Monoculture
 
@@ -97,28 +97,28 @@ These 10 creatures are visually distinctive, mechanically unique, and thematical
 
 | # | Creature | Tier | Danger | Critical Assessment |
 |---|---|---|---|---|
-| 1 | Schratling | B | Low | Cute sprite but redundant with Grogoch-Burrow. Both are "small fuzzy forest helper." Merge or differentiate. |
+| 1 | Schratling | B | Low | Cute sprite but redundant with Grogoch. Both are "small fuzzy forest helper." Merge or differentiate. |
 | 2 | Alraune | A | High | Terrifying construct/undead doll weeping ink and crying like an infant. Fits the dark, Wyrd-corrupted Frostwood theme perfectly. |
 | 3 | Drudehaunt | A | High | Nightmare-weaver + death-omen washer. The sewn-shut mouth is iconic. But overlaps with Banshrond. |
 | 4 | Koboldknock | A | Low | Perfect portmanteau fusion. The rhythmic tapping mechanic is unique. Love the copper-rivet toll. |
-| 5 | Erlking's Hound | B | Medium | Solid spectral hound but Cu-Sithbane (#15) does the same thing better. Consider merging. |
+| 5 | Erlking's Hound | B | Medium | Solid spectral hound but Cusith (#15) does the same thing better. Consider merging. |
 | 6 | **Nuckelmist** | **S** | **High** | **The skinless centaur that erases roads. Mascot candidate. Nothing like this exists in any TTRPG.** |
 | 7 | Mossmaiden | B | Medium | Goat-legs + moss-skin is nice but she's the 3rd "beautiful forest woman" in 7 entries. |
 | 8 | Fachanwatch | A | High | Two-legged giant with a single central arm demanding truths. Visually striking and unique body plan. |
 | 9 | Knockbrew | C | Low | Just a drunk cellar sprite. Clurichaun done again. The forget-mead is the only interesting bit — extract that into a standalone item. |
-| 10 | Sluagh-Ride | A | High | Flock of screaming ancestor-ghosts fused into one entity. The Archive-Storm concept is cinematic. |
-| 11 | Fuathlure | C | Medium | 4th "lure you to water" creature in this region. Folds into Drudehaunt or Banshrond. |
-| 12 | Grogoch-Burrow | B | Low | Adorable but redundant with Schratling. The tunnel-network mechanic is the saving grace. |
-| 13 | Perchtaweave | A | High | Dual-natured crone who IS the fog's origin. The judgment mechanic (straw in bellies) is brutal and memorable. |
-| 14 | Dullahaze | A | High | Headless rider whose mask shows your deepest fear. The ironwood-mask-face is instantly recognizable. |
-| 15 | Cu-Sithbane | A | Medium | Better version of Erlking's Hound. The three-bark memory mechanic is brilliant game design. |
-| 16 | Pixieglow | B | Low | Functional will-o-wisp variant. The color-coded trail (gold/blue/red) is elegant game design. |
+| 10 | Wildejagd | A | High | Flock of screaming ancestor-ghosts fused into one entity. The Archive-Storm concept is cinematic. |
+| 11 | Fuath | C | Medium | 4th "lure you to water" creature in this region. Folds into Drudehaunt or Banshrond. |
+| 12 | Grogoch | B | Low | Adorable but redundant with Schratling. The tunnel-network mechanic is the saving grace. |
+| 13 | Cailleach | A | High | Dual-natured crone who IS the fog's origin. The judgment mechanic (straw in bellies) is brutal and memorable. |
+| 14 | Dullahan | A | High | Headless rider whose mask shows your deepest fear. The ironwood-mask-face is instantly recognizable. |
+| 15 | Cusith | A | Medium | Better version of Erlking's Hound. The three-bark memory mechanic is brilliant game design. |
+| 16 | Pixie | B | Low | Functional will-o-wisp variant. The color-coded trail (gold/blue/red) is elegant game design. |
 | 17 | Sluagh | A | High | Swirling vortex of spectral crows born from crossroads executions. Excellent use of the Gallow-Wyrd lore. |
 | 18 | Banshrond | B | High | Strong thematically but she's the 5th "woman at fog's edge" creature. The comb-bargain is the unique mechanic — lean into that. |
-| 19 | Waldwisp | C | Low | Redundant with Pixieglow. Both are small forest tricksters with riddle/prank mechanics. |
+| 19 | Waldschrat | C | Low | Redundant with Pixie. Both are small forest tricksters with riddle/prank mechanics. |
 | 20 | Moorboggle | C | Medium | Generic shapeless blob. No visual identity. Needs a radical redesign — consider making it a parasitic house-spirit that mimics furniture. |
 
-**Region 1 Issues:** 5 "woman at fog's edge" creatures (Drudehaunt, Mossmaiden, Fuathlure, Banshrond, Perchtaweave). 3 "small sprite" creatures (Schratling, Grogoch-Burrow, Pixieglow). Kill 3–4 of the weakest and replace with a construct, a swarm, and a mount.
+**Region 1 Issues:** 5 "woman at fog's edge" creatures (Drudehaunt, Mossmaiden, Fuath, Banshrond, Cailleach). 3 "small sprite" creatures (Schratling, Grogoch, Pixie). Kill 3–4 of the weakest and replace with a construct, a swarm, and a mount.
 
 ---
 
@@ -133,21 +133,21 @@ These 10 creatures are visually distinctive, mechanically unique, and thematical
 | 25 | **Perchtar** | **S** | **High** | **A walking procession-entity. Masked ice-demons that clear Wyrd. This is a set-piece encounter, not a monster — brilliant design.** |
 | 26 | Helhest | A | High | Three-legged horse that anchors glaciers. The "killing it unleashes the glacier" dilemma is superb game design. |
 | 27 | Myling | C | Medium | Heavy baby ghost. One-trick mechanic (carry me or get crushed). Too narrow for repeated use. |
-| 28 | Trollstone | B | Medium | Boulder-troll in a sunless world = always active. Nice setting tie-in. But the toll-demand is generic. |
-| 29 | Lindwyrm-Burrow | A | High | Ice-serpent that eats cold and runic inscriptions. The "eats the Archive's knowledge" threat is existential. |
-| 30 | Nidhoggr-Root | A | High | Lamprey-mouthed root-borer that eats blood-oaths. The "warrior loses their rage" mechanic is devastating. |
+| 28 | Jutul | B | Medium | Boulder-troll in a sunless world = always active. Nice setting tie-in. But the toll-demand is generic. |
+| 29 | Lindwyrm | A | High | Ice-serpent that eats cold and runic inscriptions. The "eats the Archive's knowledge" threat is existential. |
+| 30 | Nidhoggr | A | High | Lamprey-mouthed root-borer that eats blood-oaths. The "warrior loses their rage" mechanic is devastating. |
 | 31 | Strandvasker | B | Medium | Drowned corpse caller. Functional but standard undead. The burial-debt mechanic adds flavor. |
-| 32 | Landvaettir-Peak | A | High | Mountain-protecting giant invisible against cliffs. The dragon-prohibition (no dragon heraldry) is worldbuilding gold. |
-| 33 | Vettir-Blizzard | B | Medium | Invisible wind-spirit. Hard to visualize for a VTT. The whisper-message-altering mechanic is fun though. |
+| 32 | Landvaettir | A | High | Mountain-protecting giant invisible against cliffs. The dragon-prohibition (no dragon heraldry) is worldbuilding gold. |
+| 33 | Vettir | B | Medium | Invisible wind-spirit. Hard to visualize for a VTT. The whisper-message-altering mechanic is fun though. |
 | 34 | Bergthrall | B | Low | Crystal-smithing dwarf. Solid utility NPC but low encounter potential. |
-| 35 | Fenrispup | A | Medium | Wolf-cub with a Gleipnir collar. The "removing the collar = apocalypse" mechanic is a perfect plot device. |
-| 36 | Disablot-Wraith | B | Medium | Procession of judgment-women. Overlaps with Perchtar thematically. |
-| 37 | Skogsrå-Pine | B | Medium | Hollow-backed seductress — but Huldra already exists in the bestiary. Too similar. Redesign or cut. |
-| 38 | Kraken-Ice | A | High | Tentacles from frozen fjords. The island-trick (spike-test) is a great player-facing mechanic. |
+| 35 | Fenris | A | Medium | Wolf-cub with a Gleipnir collar. The "removing the collar = apocalypse" mechanic is a perfect plot device. |
+| 36 | Disir | B | Medium | Procession of judgment-women. Overlaps with Perchtar thematically. |
+| 37 | Skogsra | B | Medium | Hollow-backed seductress — but Huldra already exists in the bestiary. Too similar. Redesign or cut. |
+| 38 | Kraken | A | High | Tentacles from frozen fjords. The island-trick (spike-test) is a great player-facing mechanic. |
 | 39 | Marmennill | A | Low | Prophetic merman caught for 3 riddle-answers. Excellent social-encounter design. |
 | 40 | Havgammel | C | Medium | Dual-form mermaid/serpent is confusing. The Tatzelwurm-Ice source is weak (Tatzelwurm already used in #2). Needs full rework. |
 
-**Region 2 Issues:** Skogsrå-Pine overlaps heavily with existing Huldra. Marepress overlaps with Drudehaunt. Need to differentiate or replace. Missing: a true ice-construct (clockwork Archive guardian), a mountable frost beast.
+**Region 2 Issues:** Skogsra overlaps heavily with existing Huldra. Marepress overlaps with Drudehaunt. Need to differentiate or replace. Missing: a true ice-construct (clockwork Archive guardian), a mountable frost beast.
 
 ---
 
@@ -260,7 +260,7 @@ These 10 creatures are visually distinctive, mechanically unique, and thematical
 | 116 | Qoraigarash | A | High | Gemstone-scaled lake-serpent. The copper-mirror-fascination is a great bargaining hook. Visually stunning. |
 | 117 | Ajina | A | High | Shadow-woman with independent mouths on her breasts. Horrifying. The Astril-Immunity exception is great worldbuilding. |
 | 118 | **Lu-Wu Mountain** | **S** | **High** | **Mammoth-tiger with nine human heads, each controlling a micro-season. Absurd, majestic, unforgettable. The game's most "paint this on the book cover" creature.** |
-| 119 | Bura-Stormkin | B | Medium | Living tornado that dismantles shelters. The oath-enforcer mechanic is strong but overlaps with Cu-Sithbane's purpose. |
+| 119 | Bura-Stormkin | B | Medium | Living tornado that dismantles shelters. The oath-enforcer mechanic is strong but overlaps with Cusith's purpose. |
 | 120 | **Tengri-Spark** | **S** | **Low** | **Six-inch humanoid of pure starlight in a starless world. The last fragment of the traded sky. Emotionally devastating. The fate-thread divination is unique. This is the creature players will remember forever.** |
 
 **Region 6 Issues:** Three wind-spirits (#104, #114, #119). Two mud-burrowers (#115, existing Olgoi-Khorkhoi). Shedim (#110) and Khor-Buzzard (#113) need full redesigns. But the S-tiers here (Taotie, Lu-Wu, Tengri-Spark) are among the best in the entire compendium.
@@ -302,10 +302,10 @@ These creature pairs/groups are too similar and should be consolidated or differ
 
 | Group | Creatures | Issue |
 |---|---|---|
-| "Woman at water's edge" | Drudehaunt(3), Mossmaiden(7), Fuathlure(11), Banshrond(18), Mamiri(61), Lamia-Shoal(68), Rusalka(122), Mavka-Willow(136), Dziwozona(138) | **9 creatures** with the same core loop. Cut to 4 max. |
+| "Woman at water's edge" | Drudehaunt(3), Mossmaiden(7), Fuath(11), Banshrond(18), Mamiri(61), Lamia-Shoal(68), Rusalka(122), Mavka-Willow(136), Dziwozona(138) | **9 creatures** with the same core loop. Cut to 4 max. |
 | "Three-headed serpent" | Tiamat-Scale(42), Azi(54), Zmey-Bog(126) | All are multi-headed lava/ bog-serpents. Differentiate or cut one. |
 | "Wind/spirit horse" | Nokk Stallion(existing), Helhest(26), Tulpar(102), Tengri-Wind(114) | 4 spectral horses. Keep the 2 most distinctive. |
-| "Small household sprite" | Schratling(1), Knockbrew(9), Grogoch-Burrow(12), Pixieglow(16), Waldwisp(19) | 5 small forest sprites in one region. Cut to 3. |
+| "Small household sprite" | Schratling(1), Knockbrew(9), Grogoch(12), Pixie(16), Waldschrat(19) | 5 small forest sprites in one region. Cut to 3. |
 | "Nightmare/terror spirit" | Drudehaunt(3), Marepress(22), Popobawa-Night(76), Nue-Cloud(89) | All cause nightmares/paralysis. Differentiate the mechanics. |
 | "Bird-woman prophet" | Gamayun(130), Alkonost(137), Sirin(140) | All are Slavic bird-women with song-based powers. Sharpen each one's niche. |
 | "Mine/mineral guardian" | Koboldknock(4), Gaki(existing), Tsuchigumo(97), Bergthrall(34) | Too many underground mineral-keepers across regions. Ensure regional flavor differs enough. |
@@ -318,11 +318,11 @@ These creature pairs/groups are too similar and should be consolidated or differ
 These C-tier creatures should be either removed or completely redesigned:
 
 1. **#9 Knockbrew** → Replace with a clockwork Archive-sprite (missing construct archetype)
-2. **#11 Fuathlure** → Merge into Drudehaunt. Free the slot for a fog-swarm creature
-3. **#19 Waldwisp** → Merge into Pixieglow. Free the slot for a mobile terrain-hazard
+2. **#11 Fuath** → Merge into Drudehaunt. Free the slot for a fog-swarm creature
+3. **#19 Waldschrat** → Merge into Pixie. Free the slot for a mobile terrain-hazard
 4. **#20 Moorboggle** → Redesign as a parasitic mimic-furniture creature
 5. **#27 Myling** → Replace with a frost-ooze or ice-jelly creature
-6. **#37 Skogsrå-Pine** → Cut (Huldra already exists). Replace with a mountable frost-beast
+6. **#37 Skogsra** → Cut (Huldra already exists). Replace with a mountable frost-beast
 7. **#40 Havgammel** → Full rework needed. Replace with a Brass-Archive-Automaton
 8. **#67 Tokoloshe-Tide** → Redesign to remove tonal inconsistency. Make it a coral-construct
 9. **#110 Shedim-Spawn** → Full rework. Make it a shape-shifting infiltrator that impersonates NPCs

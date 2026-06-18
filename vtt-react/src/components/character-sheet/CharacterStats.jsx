@@ -2,8 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import useCharacterStore from '../../store/characterStore';
 import useInventoryStore from '../../store/inventoryStore';
 import { useInspectionCharacter } from '../../contexts/InspectionContext';
-import useBuffStore from '../../store/buffStore';
-import useDebuffStore from '../../store/debuffStore';
+import useConditionStore from '../../store/conditionStore';
 import useGameStore from '../../store/gameStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
 import { calculateEquipmentBonuses, calculateDerivedStats } from '../../utils/characterUtils';
@@ -249,11 +248,10 @@ export default function CharacterStats() {
     } = dataSource || {};
 
     // Subscribe to activeBuffs to trigger re-renders when buffs change
-    const activeBuffs = useBuffStore(state => state.activeBuffs);
-    const activeDebuffs = useDebuffStore(state => state.activeDebuffs);
+    const activeBuffs = useConditionStore(state => state.activeBuffs);
+    const activeDebuffs = useConditionStore(state => state.activeDebuffs);
     
-    const { getActiveEffects } = useBuffStore();
-    const { getActiveDebuffEffects } = useDebuffStore();
+    const { getActiveEffects } = useConditionStore();
     const { isGMMode } = useGameStore();
     const { encumbranceState } = useInventoryStore();
     const { characterTokens } = useCharacterTokenStore();
@@ -284,8 +282,8 @@ export default function CharacterStats() {
     // Calculate total stats including equipment and buff/debuff effects
     const getTotalStats = () => {
         const equipmentBonuses = calculateEquipmentBonuses(equipment);
-        const buffEffects = getActiveEffects();
-        const debuffEffects = getActiveDebuffEffects();
+        const buffEffects = getActiveEffects('buff');
+        const debuffEffects = getActiveEffects('debuff');
 
         // Use encumbrance state from inventory store hook
         const currentEncumbranceState = encumbranceState || 'normal';
@@ -446,8 +444,8 @@ export default function CharacterStats() {
     // Calculate individual stat components for tooltips
     const getStatComponents = (statName) => {
         const equipmentBonuses = calculateEquipmentBonuses(equipment);
-        const buffEffects = getActiveEffects();
-        const debuffEffects = getActiveDebuffEffects();
+        const buffEffects = getActiveEffects('buff');
+        const debuffEffects = getActiveEffects('debuff');
         const currentEncumbranceState = encumbranceState || 'normal';
 
         const statMapping = {
@@ -655,8 +653,8 @@ export default function CharacterStats() {
 
     // Get buff and debuff effects for derived stats
     const getBuffDebuffEffectsForStat = (statLabel) => {
-        const buffEffects = getActiveEffects();
-        const debuffEffects = getActiveDebuffEffects();
+        const buffEffects = getActiveEffects('buff');
+        const debuffEffects = getActiveEffects('debuff');
 
         // Convert stat label to potential effect keys
         // For spell power types like "Arcane Power", we need to match "arcaneSpellPower"

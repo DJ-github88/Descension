@@ -2,33 +2,35 @@
 
 ## Overview
 
-The Mythrill VTT server has been refactored into a modular architecture for better maintainability and testability.
+The Mythrill VTT server uses a modular architecture for better maintainability and testability.
 
 ## Directory Structure
 
 ```
 server/
-├── server.js                 # Main entry point (original - 6996 lines)
-├── server.refactored.js      # Refactored entry point (~240 lines)
+├── server.js                 # Main entry point (~258 lines)
 │
 ├── handlers/
-│   ├── socketHandlers.js     # All socket.on event handlers (~2271 lines)
-│   └── roomHandlers.js       # Room CRUD operations (~431 lines)
+│   ├── socketHandlers.js     # All socket.on event handlers (~3864 lines)
+│   └── roomHandlers.js       # Room CRUD operations (~400 lines)
 │
 ├── services/
-│   ├── syncService.js        # FirebaseBatchWriter, MovementDebouncer (~262 lines)
-│   ├── firebaseService.js    # Firebase operations (existing)
-│   ├── deltaSync.js          # Delta sync engine (existing)
-│   ├── eventBatcher.js       # Event batching (existing)
-│   ├── realtimeSync.js       # Real-time sync (existing)
-│   ├── memoryManager.js      # Memory cleanup (existing)
-│   ├── lagCompensation.js    # Lag compensation (existing)
-│   ├── validationService.js  # Input validation (existing)
-│   ├── rateLimitService.js   # Rate limiting (existing)
-│   ├── sanitizationService.js# Input sanitization (existing)
-│   ├── logger.js             # Logging service (existing)
-│   ├── requestTracer.js      # Request tracing (existing)
-│   └── errorHandler.js       # Error handling (existing)
+│   ├── syncService.js        # FirebaseBatchWriter, MovementDebouncer (~270 lines)
+│   ├── firebaseService.js    # Firebase operations (~736 lines)
+│   ├── optimizedFirebase.js  # Optimized Firebase queries (~417 lines)
+│   ├── deltaSync.js          # Delta sync engine (~501 lines)
+│   ├── eventBatcher.js       # Event batching (~548 lines)
+│   ├── realtimeSync.js       # Real-time sync (~583 lines)
+│   ├── syncRecoveryService.js# Sync recovery (~74 lines)
+│   ├── memoryManager.js      # Memory cleanup (~394 lines)
+│   ├── lagCompensation.js    # Lag compensation (~516 lines)
+│   ├── validationService.js  # Input validation (~303 lines)
+│   ├── rateLimitService.js   # Rate limiting (~270 lines)
+│   ├── sanitizationService.js# Input sanitization (~157 lines)
+│   ├── tierService.js        # Subscription tier checks (~84 lines)
+│   ├── errorHandler.js       # Error handling (~284 lines)
+│   ├── requestTracer.js      # Request tracing (~83 lines)
+│   └── logger.js             # Logging service (~177 lines)
 │
 ├── utils/
 │   ├── validators.js         # Validation helpers (~366 lines)
@@ -48,7 +50,7 @@ server/
 
 ## Module Responsibilities
 
-### Entry Point (server.refactored.js)
+### Entry Point (server.js)
 - Express and Socket.io setup
 - CORS configuration
 - Middleware registration
@@ -58,7 +60,7 @@ server/
 ### Handlers
 
 #### socketHandlers.js
-Contains all 64 socket event handlers organized by category:
+Contains all 89 socket event handlers organized by category:
 - **Utility**: ping, health_check, cursor_move
 - **Room Management**: create_room, join_room, leave_room, disconnect
 - **Token Management**: token_created, token_moved, token_updated, token_removed
@@ -161,30 +163,6 @@ npm test tests/roomHandlers.test.js
 # Run integration tests (requires running server)
 node tests/integration-test.js
 ```
-
-## Migration Guide
-
-### From Original to Refactored
-
-1. **Backup original:**
-   ```bash
-   cp server.js server.backup.js
-   ```
-
-2. **Replace with refactored:**
-   ```bash
-   cp server.refactored.js server.js
-   ```
-
-3. **Restart server:**
-   ```bash
-   npm start
-   ```
-
-4. **Verify with tests:**
-   ```bash
-   node tests/integration-test.js
-   ```
 
 ## Performance Considerations
 

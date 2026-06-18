@@ -358,7 +358,7 @@ Your Fortune hits 0.
 
 
     // ========================================
-    // LEVEL 1 SPELLS Ã¢â‚¬â€ The Fortune Engine
+    // LEVEL 1 SPELLS — The Fortune Engine
     // ========================================
     { id: "gambler_lucky_strike",
       name: "Lucky Strike",
@@ -402,7 +402,7 @@ Your Fortune hits 0.
         },
         gamblingGame: {
           gameType: "yahtzee",
-          description: "Roll 4d12 Ã¢â‚¬â€ pairs, triples, and quads multiply your damage and siphon Fortune Points.",
+          description: "Roll 4d12 — pairs, triples, and quads multiply your damage and siphon Fortune Points.",
           resolution: "DICE",
           rules: { diceCount: 4, dieType: 12 },
           outcomeTiers: [
@@ -478,7 +478,7 @@ Your Fortune hits 0.
         },
         gamblingGame: {
           gameType: "coin_flip",
-          description: "Flip 1 coin Ã¢â‚¬â€ heads hurts enemies, tails shields allies.",
+          description: "Flip 1 coin — heads hurts enemies, tails shields allies.",
           resolution: "COINS",
           rules: { flipCount: 1 },
           outcomeTiers: [
@@ -535,7 +535,7 @@ Your Fortune hits 0.
         },
         gamblingGame: {
           gameType: "dice_throw",
-          description: "Throw a bone die Ã¢â‚¬â€ siphon minor luck or spend FP to load the throw.",
+          description: "Throw a bone die — siphon minor luck or spend FP to load the throw.",
           resolution: "DICE",
           rules: { diceCount: 1, dieType: 6 },
           outcomeTiers: [
@@ -598,7 +598,7 @@ Your Fortune hits 0.
         },
         gamblingGame: {
           gameType: "begging",
-          description: "Plead for luck Ã¢â‚¬â€ gain instant combat advantage at a physical cost.",
+          description: "Plead for luck — gain instant combat advantage at a physical cost.",
           resolution: "AUTOMATIC",
           rules: { duration: 1 },
           outcomeTiers: [
@@ -688,7 +688,7 @@ Your Fortune hits 0.
     },
 
     // ========================================
-    // LEVEL 2 SPELLS Ã¢â‚¬â€ Risk & Illusion
+    // LEVEL 2 SPELLS — Risk & Illusion
     // ========================================
     { id: "gambler_coin_toss",
       name: "Coin Toss",
@@ -721,7 +721,7 @@ Your Fortune hits 0.
         effects: [
           {
             id : "coin_toss_heads",
-            name: "Heads Ã¢â‚¬â€ Lady Luck's Smile",
+            name: "Heads — Lady Luck's Smile",
             description: "+2 to all attack rolls and saving throws.",
             mechanicsText: "+2 to all attack rolls and saving throws for 1 hour.",
             statModifier: { stat: "attack_and_saves", magnitude: 2, magnitudeType: "flat" },
@@ -736,7 +736,7 @@ Your Fortune hits 0.
         effects: [
           {
             id : "coin_toss_tails",
-            name: "Tails Ã¢â‚¬â€ Collector's Frown",
+            name: "Tails — Collector's Frown",
             description: "-2 to all attack rolls and saving throws.",
             mechanicsText: "-2 to all attack rolls and saving throws for 1 hour.",
           },
@@ -760,7 +760,7 @@ Your Fortune hits 0.
         },
         gamblingGame: {
           gameType: "coin_flip",
-          description: "High-stakes coin toss Ã¢â‚¬â€ tilt your entire stats ledger.",
+          description: "High-stakes coin toss — tilt your entire stats ledger.",
           resolution: "COINS",
           rules: { flipCount: 1, durationHours: 1 },
           outcomeTiers: [
@@ -880,7 +880,7 @@ Your Fortune hits 0.
     },
 
     // ========================================
-    // LEVEL 3 SPELLS Ã¢â‚¬â€ Prediction & Withdrawal
+    // LEVEL 3 SPELLS — Prediction & Withdrawal
     // ========================================
     { id: "gambler_taunt_the_odds",
       name: "Taunt the Odds",
@@ -923,7 +923,7 @@ Your Fortune hits 0.
         },
         gamblingGame: {
           gameType: "number_guess",
-          description: "Guess a number, roll a d20 Ã¢â‚¬â€ close matches deal damage, misses hurt you.",
+          description: "Guess a number, roll a d20 — close matches deal damage, misses hurt you.",
           resolution: "DICE",
           rules: { diceCount: 1, dieType: 20, successRange: 3 },
           outcomeTiers: [
@@ -977,7 +977,7 @@ Your Fortune hits 0.
     },
 
     // ========================================
-    // LEVEL 4 SPELLS Ã¢â‚¬â€ The Exerting Double Down
+    // LEVEL 4 SPELLS — The Exerting Double Down
     // ========================================
     { id: "gambler_double_or_nothing",
       name: "Double or Nothing",
@@ -1020,7 +1020,7 @@ Your Fortune hits 0.
         },
         gamblingGame: {
           gameType: "double_down",
-          description: "Make a high-stakes hit roll Ã¢â‚¬â€ critical damage on hit, suffer the damage yourself on miss.",
+          description: "Make a high-stakes hit roll — critical damage on hit, suffer the damage yourself on miss.",
           resolution: "DICE",
           rules: { diceCount: 1, dieType: 20 },
           outcomeTiers: [
@@ -1034,7 +1034,7 @@ Your Fortune hits 0.
     },
 
     // ========================================
-    // LEVEL 5 SPELLS Ã¢â‚¬â€ Probability Acceleration
+    // LEVEL 5 SPELLS — Probability Acceleration
     // ========================================
     { id: "gambler_hot_streak",
       name: "Hot Streak",
@@ -1118,7 +1118,7 @@ Your Fortune hits 0.
         effects: [
           {
             id : "mirage_flip_double",
-            name: "Mirage Flip Ã¢â‚¬â€ Double Damage",
+            name: "Mirage Flip — Double Damage",
             description: "Doubles the damage of the triggering attack.",
             mechanicsText: "Double the damage of the triggering attack against the target.",
           },
@@ -1132,7 +1132,7 @@ Your Fortune hits 0.
         effects: [
           {
             id : "mirage_flip_nullify",
-            name: "Mirage Flip Ã¢â‚¬â€ Nullified Damage",
+            name: "Mirage Flip — Nullified Damage",
             description: "Triggering attack's damage is reduced to 0, but you suffer 2d6 wyrd damage.",
             mechanicsText: "Nullify triggering attack's damage, but suffer 2d6 wyrd damage as probability feedback.",
           },
@@ -1219,7 +1219,7 @@ Your Fortune hits 0.
     },
 
     // ========================================
-    // LEVEL 6 SPELLS Ã¢â‚¬â€ Luck Siphoning
+    // LEVEL 6 SPELLS — Luck Siphoning
     // ========================================
     { id: "gambler_house_advantage",
       name: "House Advantage",
@@ -1357,7 +1357,7 @@ Your Fortune hits 0.
         },
         gamblingGame: {
           gameType: "poker",
-          description: "Draw a card from a magical deck Ã¢â‚¬â€ suit determines the effect.",
+          description: "Draw a card from a magical deck — suit determines the effect.",
           resolution: "CARDS",
           rules: { drawCount: 1, deckType: "standard_suits", suits: 4 },
           outcomeTiers: [
@@ -1423,7 +1423,7 @@ Your Fortune hits 0.
     },
 
     // ========================================
-    // LEVEL 7 SPELLS Ã¢â‚¬â€ Competitive Execution
+    // LEVEL 7 SPELLS — Competitive Execution
     // ========================================
     { id: "gambler_death_roll",
       name: "Death Roll",
@@ -1562,7 +1562,7 @@ Your Fortune hits 0.
         },
         gamblingGame: {
           gameType: "coin_flip",
-          description: "High-stakes coin toss Ã¢â‚¬â€ heads devastates enemies, tails wrecks you.",
+          description: "High-stakes coin toss — heads devastates enemies, tails wrecks you.",
           resolution: "COINS",
           rules: { flipCount: 1 },
           outcomeTiers: [
@@ -1576,11 +1576,11 @@ Your Fortune hits 0.
     },
 
     // ========================================
-    // LEVEL 8 SPELLS Ã¢â‚¬â€ The Divine Slot Machine
+    // LEVEL 8 SPELLS — The Divine Slot Machine
     // ========================================
     { id: "gambler_jackpot",
       name: "Jackpot",
-      description: "Roll 3d20 bone dice. The sum of the roll determines your tier of fortune: 3 (Catastrophic: take 5d10 blight damage, go Bust), 4-12 (Bad Luck: take 2d6 storm damage, gain 1 FP), 13-25 (Small Win: deal 2d10 storm damage, gain 1 FP), 26-38 (Moderate Win: deal 4d10 storm damage and stun for 1 round, gain 1 FP), 39-48 (Big Win: deal 6d10 storm damage and stun for 2 rounds, gain 2 FP), 49-55 (Massive Win: deal 8d10 ember damage AoE, gain 2 FP), 56-59 (Near Jackpot: deal 10d10 ember damage AoE, heal 30 HP, gain 3 FP), 60 (Perfect Jackpot: deal 10d10 ember damage AoE, max damage on all attacks for 1 hour, gain 5 FP). Suffer 1 HP damage per FP gained. Spend FP to adjust individual dice by Ã‚Â±1 per point (1d4 wyrd damage per FP spent).",
+      description: "Roll 3d20 bone dice. The sum of the roll determines your tier of fortune: 3 (Catastrophic: take 5d10 blight damage, go Bust), 4-12 (Bad Luck: take 2d6 storm damage, gain 1 FP), 13-25 (Small Win: deal 2d10 storm damage, gain 1 FP), 26-38 (Moderate Win: deal 4d10 storm damage and stun for 1 round, gain 1 FP), 39-48 (Big Win: deal 6d10 storm damage and stun for 2 rounds, gain 2 FP), 49-55 (Massive Win: deal 8d10 ember damage AoE, gain 2 FP), 56-59 (Near Jackpot: deal 10d10 ember damage AoE, heal 30 HP, gain 3 FP), 60 (Perfect Jackpot: deal 10d10 ember damage AoE, max damage on all attacks for 1 hour, gain 5 FP). Suffer 1 HP damage per FP gained. Spend FP to adjust individual dice by ±1 per point (1d4 wyrd damage per FP spent).",
       level: 8,
       spellType: "ACTION",
       icon: "Utility/Utility",
@@ -1626,7 +1626,7 @@ Your Fortune hits 0.
         },
         gamblingGame: {
           gameType: "slot_machine",
-          description: "Roll 3d20 Ã¢â‚¬â€ sum determines your payload tier.",
+          description: "Roll 3d20 — sum determines your payload tier.",
           resolution: "DICE",
           rules: { diceCount: 3, dieType: 20 },
           outcomeTiers: [
@@ -1647,7 +1647,7 @@ Your Fortune hits 0.
 
     { id: "gambler_weighted_dice",
       name: "Weighted Dice",
-      description: "Cheat the cosmos entirely. Deal 14d6 storm damage to a target. For each Fortune Point spent (up to 7), you may treat one d6 as an automatic 6. Spend 7 FP and half your dice are guaranteed maximum. This is pure, unmitigated theft of chanceÃ¢â‚¬â€because the best gamblers know when to cheat. Spend triggers Calculated Risk (1d4 wyrd damage per point spent).",
+      description: "Cheat the cosmos entirely. Deal 14d6 storm damage to a target. For each Fortune Point spent (up to 7), you may treat one d6 as an automatic 6. Spend 7 FP and half your dice are guaranteed maximum. This is pure, unmitigated theft of chance—because the best gamblers know when to cheat. Spend triggers Calculated Risk (1d4 wyrd damage per point spent).",
       level: 8,
       spellType: "ACTION",
       icon: "Social/Dice Roll",
@@ -1690,7 +1690,7 @@ Your Fortune hits 0.
     },
 
     // ========================================
-    // LEVEL 9 SPELLS Ã¢â‚¬â€ High Wagers
+    // LEVEL 9 SPELLS — High Wagers
     // ========================================
     { id: "gambler_high_roller",
       name: "High Roller",
@@ -1738,7 +1738,7 @@ Your Fortune hits 0.
         },
         gamblingGame: {
           gameType: "high_card",
-          description: "Roll a d20 Ã¢â‚¬â€ high rolls devastate targets, low rolls send the force rebounding onto you.",
+          description: "Roll a d20 — high rolls devastate targets, low rolls send the force rebounding onto you.",
           resolution: "DICE",
           rules: { diceType: "d20", successThreshold: 15, neutralRange: "6-14", failureThreshold: 5 },
           outcomeTiers: [
@@ -1799,7 +1799,7 @@ Your Fortune hits 0.
         },
         gamblingGame: {
           gameType: "slot_machine",
-          description: "Roll 3d6 Ã¢â‚¬â€ matching dice multiply damage exponentially.",
+          description: "Roll 3d6 — matching dice multiply damage exponentially.",
           resolution: "DICE",
           rules: { diceCount: 3, dieType: 6 },
           outcomeTiers: [
@@ -1868,7 +1868,7 @@ Your Fortune hits 0.
     },
 
     // ========================================
-    // LEVEL 10 SPELLS Ã¢â‚¬â€ Apocalyptic Endgames
+    // LEVEL 10 SPELLS — Apocalyptic Endgames
     // ========================================
     { id: "gambler_all_in",
       name: "All-In",
@@ -1919,7 +1919,7 @@ Your Fortune hits 0.
         },
         gamblingGame: {
           gameType: "d100_wager",
-          description: "Roll a d100 Ã¢â‚¬â€ double your health, heal to full, or suffer instant collapse and Bankruptcy.",
+          description: "Roll a d100 — double your health, heal to full, or suffer instant collapse and Bankruptcy.",
           resolution: "DICE",
           rules: { diceType: "d100" },
         },
@@ -2157,12 +2157,12 @@ Your Fortune hits 0.
       resolution: "CARDS",
       effectTypes: ["damage"],
       damageConfig: {
-        formula: "Card Value Ãƒâ€” 2 + Intelligence",
+        formula: "Card Value × 2 + Intelligence",
         damageTypes: ["wyrd"],
         resolution: "CARDS",
         cardConfig: {
           drawCount: 1,
-          formula: "Card Value Ãƒâ€” 2 + Intelligence"
+          formula: "Card Value × 2 + Intelligence"
         }
       },
       specialMechanics: {
@@ -2923,12 +2923,12 @@ Your Fortune hits 0.
       resolution: "CARDS",
       effectTypes: ["damage", "healing", "buff"],
       damageConfig: {
-        formula: "Card Value Ãƒâ€” 2 + Intelligence (Spades)",
+        formula: "Card Value × 2 + Intelligence (Spades)",
         damageTypes: ["wyrd"],
         resolution: "CARDS"
       },
       healingConfig: {
-        formula: "Card Value Ãƒâ€” 2 + Spirit (Hearts)",
+        formula: "Card Value × 2 + Spirit (Hearts)",
         healingType: "direct",
         resolution: "CARDS"
       },
@@ -3158,12 +3158,12 @@ Your Fortune hits 0.
       resolution: "CARDS",
       effectTypes: ["damage"],
       damageConfig: {
-        formula: "Card Value Ãƒâ€” 3 per expended card",
+        formula: "Card Value × 3 per expended card",
         damageTypes: ["blight"],
         resolution: "CARDS",
         cardConfig: {
           drawCount: 1,
-          formula: "Card Value Ãƒâ€” 3 per expended card"
+          formula: "Card Value × 3 per expended card"
         }
       },
       specialMechanics: {
@@ -3258,12 +3258,12 @@ Your Fortune hits 0.
       resolution: "CARDS",
       effectTypes: ["damage", "healing"],
       damageConfig: {
-        formula: "Card Value Ãƒâ€” 5 (Black Joker) / Card Value (Standard)",
+        formula: "Card Value × 5 (Black Joker) / Card Value (Standard)",
         damageTypes: ["blight"],
         resolution: "CARDS"
       },
       healingConfig: {
-        formula: "Card Value Ãƒâ€” 4 + Spirit (Red Joker)",
+        formula: "Card Value × 4 + Spirit (Red Joker)",
         healingType: "direct",
         resolution: "CARDS"
       },
@@ -3534,12 +3534,12 @@ Your Fortune hits 0.
       resolution: "CARDS",
       effectTypes: ["damage"],
       damageConfig: {
-        formula: "Card Sum Ãƒâ€” Multiplier (Pair: Ãƒâ€”3, Triple: Ãƒâ€”7)",
+        formula: "Card Sum × Multiplier (Pair: ×3, Triple: ×7)",
         damageTypes: ["blight"],
         resolution: "CARDS",
         cardConfig: {
           drawCount: 3,
-          formula: "Card Sum Ãƒâ€” Multiplier"
+          formula: "Card Sum × Multiplier"
         },
         savingThrow: {
           ability: "agility",
@@ -3555,8 +3555,8 @@ Your Fortune hits 0.
       specialMechanics: {
         jackpot: {
           noMatch: { multiplier: 1, description: "10d10 base damage + 3 debt" },
-          twoMatch: { multiplier: 3, description: "10d10 Ãƒâ€” 3 blight damage" },
-          threeMatch: { multiplier: 7, description: "10d10 Ãƒâ€” 7 damage + Temporal Overload incapacitation for 1 round" }
+          twoMatch: { multiplier: 3, description: "10d10 × 3 blight damage" },
+          threeMatch: { multiplier: 7, description: "10d10 × 7 damage + Temporal Overload incapacitation for 1 round" }
         },
         threadsOfDestiny: {
           generation: "Drawing no matching cards in the Rupture generates 3 Karmic Debt.",
@@ -3680,7 +3680,7 @@ Your Fortune hits 0.
       },
       rollableTable: {
         enabled: true,
-        name: "Grim Deck of Fates Ã¢â‚¬â€ Results",
+        name: "Grim Deck of Fates — Results",
         description: "Draw 1-3 cards. Each has a major effect.",
         resolutionType: "CARDS",
         resolutionConfig: { cardType: "deck_of_many_things", cardCount: 3 },

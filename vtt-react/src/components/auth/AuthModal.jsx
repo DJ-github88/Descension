@@ -23,6 +23,8 @@ const AuthModal = ({ isOpen, onClose, onLoginTransition, initialMode = 'login' }
     signUp,
     signInWithGoogle,
     signInAsGuest,
+    signInAsAdmin,
+    isAdminLoginCredentials,
     resetPassword,
     isLoading,
     error,
@@ -69,6 +71,31 @@ const AuthModal = ({ isOpen, onClose, onLoginTransition, initialMode = 'login' }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Admin dev-login interception happens first -- bypasses email format
+    // validation so "admin" (no @) is accepted as the admin email.
+    if (mode === 'login' && isAdminLoginCredentials(formData.email, formData.password)) {
+      const result = await signInAsAdmin();
+      if (result.success) {
+        Analytics.login('admin');
+        if (onLoginTransition) {
+          onLoginTransition();
+        } else {
+          onClose();
+          navigate('/account');
+        }
+      }
+      return;
+    }
+
+    // Manual email validation (form uses noValidate so admin/admin can submit)
+    const email = String(formData.email ?? '').trim();
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      clearError();
+      setFriendIdError('');
+      useAuthStore.getState().setError('Please enter a valid email address.');
+      return;
+    }
 
     if (mode === 'register') {
       if (formData.password !== formData.confirmPassword) {
@@ -233,7 +260,7 @@ const AuthModal = ({ isOpen, onClose, onLoginTransition, initialMode = 'login' }
           {mode !== 'forgot' && <div className="auth-divider">or</div>}
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="auth-form">
+          <form onSubmit={handleSubmit} className="auth-form" noValidate>
             {mode === 'register' && (
               <>
                 <div className="form-group">

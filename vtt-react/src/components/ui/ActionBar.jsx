@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 import useInventoryStore from '../../store/inventoryStore';
-import useBuffStore from '../../store/buffStore';
-import useDebuffStore from '../../store/debuffStore';
+import useConditionStore from '../../store/conditionStore';
 import useCharacterStore from '../../store/characterStore';
 import useCombatStore from '../../store/combatStore';
 import useGameStore from '../../store/gameStore';
@@ -79,8 +78,8 @@ const ActionBar = () => {
     const inventoryItems = useInventoryStore(state => state.items);
     const removeItem = useInventoryStore(state => state.removeItem);
 
-    // Get buff store functions
-    const addBuff = useBuffStore(state => state.addBuff);
+    // Get condition store functions
+    const addCondition = useConditionStore(state => state.addCondition);
 
     // Get character store functions for applying effects
     const updateResource = useCharacterStore(state => state.updateResource);
@@ -467,7 +466,7 @@ const ActionBar = () => {
         // Apply buff effects if any exist
         if (hasBuffEffects) {
             const gameStore = require('../../store/gameStore').default.getState();
-            addBuff({
+            addCondition('buff', {
                 name: inventoryItem.name,
                 icon: getIconUrl(inventoryItem.iconId, 'items'),
                 description: inventoryItem.description || `Temporary enhancement from ${inventoryItem.name}`,
@@ -483,8 +482,7 @@ const ActionBar = () => {
         // Apply debuff effects if any exist
         if (hasDebuffEffects) {
             const gameStore = require('../../store/gameStore').default.getState();
-            const { addDebuff } = useDebuffStore.getState();
-            addDebuff({
+            addCondition('debuff', {
                 name: inventoryItem.name,
                 icon: getIconUrl(inventoryItem.iconId, 'items'),
                 description: inventoryItem.description || `Temporary negative effect from ${inventoryItem.name}`,
@@ -496,7 +494,7 @@ const ActionBar = () => {
                 targetType: 'player'
             });
         }
-    }, [addBuff]);
+    }, [addCondition]);
 
     // Apply resource adjustment with temporary resource support
     // Now handles both single overheal and array of overheals
@@ -863,7 +861,7 @@ const ActionBar = () => {
         // Apply buff effects if any exist
         if (hasBuffEffects) {
             const gameStore = require('../../store/gameStore').default.getState();
-            addBuff({
+            addCondition('buff', {
                 name: inventoryItem.name,
                 icon: getIconUrl(inventoryItem.iconId, 'items'),
                 description: inventoryItem.description || `Temporary enhancement from ${inventoryItem.name}`,
@@ -879,8 +877,7 @@ const ActionBar = () => {
         // Apply debuff effects if any exist
         if (hasDebuffEffects) {
             const gameStore = require('../../store/gameStore').default.getState();
-            const { addDebuff } = useDebuffStore.getState();
-            addDebuff({
+            addCondition('debuff', {
                 name: inventoryItem.name,
                 icon: getIconUrl(inventoryItem.iconId, 'items'),
                 description: inventoryItem.description || `Temporary negative effect from ${inventoryItem.name}`,
@@ -894,7 +891,7 @@ const ActionBar = () => {
         }
 
         return { hasInstantEffects, hasBuffEffects, pendingOverheal: false };
-    }, [inventoryItems, applyResourceAdjustmentWithOverheal, addBuff]);
+    }, [inventoryItems, applyResourceAdjustmentWithOverheal, addCondition]);
 
     const handleSlotClick = useCallback((slotIndex, e) => {
         const item = actionSlots[slotIndex];

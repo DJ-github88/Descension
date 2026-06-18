@@ -1,3 +1,4 @@
+import { getStore } from './storeRegistry';
 /**
  * Party Store
  * 
@@ -11,6 +12,7 @@
  */
 
 import { create } from 'zustand';
+import { subscribeWithSelector } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
 import usePresenceStore from './presenceStore';
 
@@ -32,7 +34,7 @@ const getSelfIdentifiers = () => {
 
   // Get from gameStore if available
   try {
-    const gameStore = require('./gameStore').default.getState();
+    const gameStore = getStore('gameStore').getState();
     if (gameStore?.currentPlayer?.id) ids.add(gameStore.currentPlayer.id);
     if (gameStore?.multiplayerSocket?.id) ids.add(gameStore.multiplayerSocket.id);
   } catch (e) {
@@ -41,7 +43,7 @@ const getSelfIdentifiers = () => {
 
   // Get from presenceStore if available
   try {
-    const presenceStore = require('./presenceStore').default.getState();
+    const presenceStore = getStore('presenceStore').getState();
     if (presenceStore?.currentUserPresence?.userId) ids.add(presenceStore.currentUserPresence.userId);
   } catch (e) {
     // presenceStore might not be initialized
@@ -49,7 +51,7 @@ const getSelfIdentifiers = () => {
 
   // Get from authStore if available
   try {
-    const authStore = require('./authStore').default.getState();
+    const authStore = getStore('authStore').getState();
     if (authStore?.user?.uid) ids.add(authStore.user.uid);
   } catch (e) {
     // authStore might not be initialized
@@ -93,7 +95,7 @@ const ensureSelfMember = (members) => {
 
   // Try authStore first for most stable identity
   try {
-    const authStore = require('./authStore').default.getState();
+    const authStore = getStore('authStore').getState();
     if (authStore?.user?.uid) {
       selfId = authStore.user.uid;
     }
@@ -101,7 +103,7 @@ const ensureSelfMember = (members) => {
 
   // Try presenceStore
   try {
-    const presenceStore = require('./presenceStore').default.getState();
+    const presenceStore = getStore('presenceStore').getState();
     const presence = presenceStore.currentUserPresence;
     if (presence?.userId) {
       selfId = selfId || presence.userId;
@@ -114,7 +116,7 @@ const ensureSelfMember = (members) => {
   // Fallback to gameStore
   if (!selfId || selfName === 'Current Player') {
     try {
-      const gameStore = require('./gameStore').default.getState();
+      const gameStore = getStore('gameStore').getState();
       selfId = selfId || gameStore?.currentPlayer?.id || gameStore?.multiplayerSocket?.id;
       if (selfId && selfName === 'Current Player') {
         selfName = gameStore?.currentPlayer?.name || selfName;
@@ -123,7 +125,7 @@ const ensureSelfMember = (members) => {
     } catch (e) { }
   }
 
-  // Still no identity — don't add phantom member
+  // Still no identity â€” don't add phantom member
   if (!selfId) return membersArray;
 
   // Try to get actual character data from characterStore instead of using defaults
@@ -132,7 +134,7 @@ const ensureSelfMember = (members) => {
   let apData = { current: 0, max: 0 };
 
   try {
-    const characterStore = require('./characterStore').default.getState();
+    const characterStore = getStore('characterStore').getState();
     if (characterStore?.health?.max > 0) {
       healthData = { current: characterStore.health.current || 0, max: characterStore.health.max };
     }
@@ -211,7 +213,7 @@ const initialState = {
 };
 
 // Create the store
-const usePartyStore = create((set, get) => ({
+const usePartyStore = create(subscribeWithSelector((set, get) => ({
   ...initialState,
 
   // ==================== PARTY MANAGEMENT ====================
@@ -232,7 +234,7 @@ const usePartyStore = create((set, get) => ({
 
     // Return existing promise if already creating
     if (isCreatingParty && partyCreationPromise) {
-      console.log('⚠️ Party creation already in progress, returning existing promise');
+      console.log('âš ï¸ Party creation already in progress, returning existing promise');
       return partyCreationPromise;
     }
 
@@ -260,7 +262,7 @@ const usePartyStore = create((set, get) => ({
         // ALLOW LOCAL PARTY CREATION WITHOUT SOCKET
         // This is critical for single-player/local-room modes or when server is unavailable
         // Also allow when user explicitly wants a local party or socket is unreachable
-        console.log('📱 Creating local party (no socket connection available)');
+        console.log('ðŸ“± Creating local party (no socket connection available)');
 
         const localParty = {
           id: 'local-party-' + Date.now(),
@@ -280,12 +282,12 @@ const usePartyStore = create((set, get) => ({
           partyCreationPromise: null
         });
 
-        console.log('✅ Local party created successfully:', partyName);
+        console.log('âœ… Local party created successfully:', partyName);
         resolve(localParty);
         return;
       }
 
-      console.log('🎉 Creating party:', { partyName, leaderData: actualLeaderData });
+      console.log('ðŸŽ‰ Creating party:', { partyName, leaderData: actualLeaderData });
 
       // Set up one-time listener for party_created response
       const onPartyCreated = (payload) => {
@@ -422,11 +424,11 @@ const usePartyStore = create((set, get) => ({
     const socket = getSocket();
 
     if (!socket) {
-      console.error('❌ Cannot join party: No socket connection');
+      console.error('âŒ Cannot join party: No socket connection');
       return;
     }
 
-    console.log('📩 Joining party:', partyId);
+    console.log('ðŸ“© Joining party:', partyId);
     socket.emit('join_party', { partyId });
   },
 
@@ -438,16 +440,16 @@ const usePartyStore = create((set, get) => ({
     const { currentParty } = get();
 
     if (!socket) {
-      console.error('❌ Cannot leave party: No socket connection');
+      console.error('âŒ Cannot leave party: No socket connection');
       return;
     }
 
     if (!currentParty) {
-      console.error('❌ Cannot leave party: Not in a party');
+      console.error('âŒ Cannot leave party: Not in a party');
       return;
     }
 
-    console.log('👤 Leaving party:', currentParty.id);
+    console.log('ðŸ‘¤ Leaving party:', currentParty.id);
     
     // OPTIMISTIC UPDATE: Clear local state immediately to prevent "stuck" UI
     // The server will still receive the event and update its own state
@@ -480,13 +482,13 @@ const usePartyStore = create((set, get) => ({
         });
       }
     } catch (e) {
-      console.warn('⚠️ Failed to sync leave to presenceStore:', e);
+      console.warn('âš ï¸ Failed to sync leave to presenceStore:', e);
     }
 
     if (socket && socket.connected) {
       socket.emit('leave_party');
     } else {
-      console.warn('⚠️ Socket not connected while leaving party, local state cleared anyway.');
+      console.warn('âš ï¸ Socket not connected while leaving party, local state cleared anyway.');
     }
   },
 
@@ -498,16 +500,16 @@ const usePartyStore = create((set, get) => ({
     const { currentParty } = get();
 
     if (!socket) {
-      console.error('❌ Cannot invite to party: No socket connection');
+      console.error('âŒ Cannot invite to party: No socket connection');
       return;
     }
 
     if (!currentParty) {
-      console.error('❌ Cannot invite to party: Not in a party');
+      console.error('âŒ Cannot invite to party: Not in a party');
       return;
     }
 
-    console.log('📩 Sending party invitation to:', targetUserId);
+    console.log('ðŸ“© Sending party invitation to:', targetUserId);
     const fromUserId = usePresenceStore.getState().currentUserPresence?.userId;
     socket.emit('invite_to_party', {
       partyId: currentParty.id,
@@ -525,11 +527,11 @@ const usePartyStore = create((set, get) => ({
     const socket = getSocket();
 
     if (!socket) {
-      console.error('❌ Cannot accept party invitation: No socket connection');
+      console.error('âŒ Cannot accept party invitation: No socket connection');
       return;
     }
 
-    console.log('✅ Accepting party invitation:', invitationId);
+    console.log('âœ… Accepting party invitation:', invitationId);
     socket.emit('accept_party_invite', { invitationId });
 
     // Remove from pending
@@ -545,11 +547,11 @@ const usePartyStore = create((set, get) => ({
     const socket = getSocket();
 
     if (!socket) {
-      console.error('❌ Cannot decline party invitation: No socket connection');
+      console.error('âŒ Cannot decline party invitation: No socket connection');
       return;
     }
 
-    console.log('❌ Declining party invitation:', invitationId);
+    console.log('âŒ Declining party invitation:', invitationId);
     socket.emit('decline_party_invite', { invitationId });
 
     // Remove from pending
@@ -568,16 +570,16 @@ const usePartyStore = create((set, get) => ({
     const { currentParty } = get();
 
     if (!socket) {
-      console.error('❌ Cannot send party message: No socket connection');
+      console.error('âŒ Cannot send party message: No socket connection');
       return;
     }
 
     if (!currentParty) {
-      console.error('❌ Cannot send party message: Not in a party');
+      console.error('âŒ Cannot send party message: Not in a party');
       return;
     }
 
-    console.log('💬 Sending party message:', message.substring(0, 50) + '...');
+    console.log('ðŸ’¬ Sending party message:', message.substring(0, 50) + '...');
     socket.emit('party_message', {
       partyId: currentParty.id,
       message
@@ -593,11 +595,11 @@ const usePartyStore = create((set, get) => ({
     const socket = getSocket();
 
     if (!socket) {
-      console.error('❌ Cannot accept GM session: No socket connection');
+      console.error('âŒ Cannot accept GM session: No socket connection');
       return;
     }
 
-    console.log('✅ Accepting GM session invitation:', { invitationId, roomId });
+    console.log('âœ… Accepting GM session invitation:', { invitationId, roomId });
     socket.emit('respond_to_room_invitation', {
       invitationId,
       roomId,
@@ -612,11 +614,11 @@ const usePartyStore = create((set, get) => ({
     const socket = getSocket();
 
     if (!socket) {
-      console.error('❌ Cannot decline GM session: No socket connection');
+      console.error('âŒ Cannot decline GM session: No socket connection');
       return;
     }
 
-    console.log('❌ Declining GM session invitation:', { invitationId, roomId });
+    console.log('âŒ Declining GM session invitation:', { invitationId, roomId });
     socket.emit('respond_to_room_invitation', {
       invitationId,
       roomId,
@@ -651,7 +653,7 @@ const usePartyStore = create((set, get) => ({
             (existingGM.socketId && selfIds.has(existingGM.socketId));
 
           if (isExistingGMSelf) {
-            console.log(`🚫 Skipping GM member add - current player is already GM: ${memberData.name || memberData.id}`);
+            console.log(`ðŸš« Skipping GM member add - current player is already GM: ${memberData.name || memberData.id}`);
             return state;
           }
         }
@@ -692,11 +694,11 @@ const usePartyStore = create((set, get) => ({
         const updated = [...state.partyMembers];
         // Merge data, preferring new data but preserving any missing fields
         updated[existingIndex] = { ...updated[existingIndex], ...memberData };
-        console.log(`🔄 Updated existing party member: ${memberData.name || memberData.id}`);
+        console.log(`ðŸ”„ Updated existing party member: ${memberData.name || memberData.id}`);
         return { partyMembers: updated };
       }
 
-      console.log(`➕ Adding new party member: ${memberData.name || memberData.id}`);
+      console.log(`âž• Adding new party member: ${memberData.name || memberData.id}`);
       const newMembersList = [...state.partyMembers, memberData];
       return { partyMembers: newMembersList };
     });
@@ -720,7 +722,7 @@ const usePartyStore = create((set, get) => ({
 
     if (!socket || !currentParty) return;
 
-    console.log('👑 Promoting member to leader:', memberId);
+    console.log('ðŸ‘‘ Promoting member to leader:', memberId);
     socket.emit('promote_to_leader', {
       partyId: currentParty.id,
       newLeaderId: memberId
@@ -736,7 +738,7 @@ const usePartyStore = create((set, get) => ({
 
     if (!socket || !currentParty) return;
 
-    console.log('🗑️ Kicking member from party:', memberId);
+    console.log('ðŸ—‘ï¸ Kicking member from party:', memberId);
     socket.emit('remove_party_member', {
       partyId: currentParty.id,
       targetUserId: memberId
@@ -751,11 +753,11 @@ const usePartyStore = create((set, get) => ({
     const { currentParty } = get();
 
     if (!socket || !currentParty) {
-      console.warn('⚠️ Cannot disband: No socket or no party');
+      console.warn('âš ï¸ Cannot disband: No socket or no party');
       return;
     }
 
-    console.log('💥 Disbanding party:', currentParty.id);
+    console.log('ðŸ’¥ Disbanding party:', currentParty.id);
     socket.emit('disband_party', {
       partyId: currentParty.id
     });
@@ -914,6 +916,6 @@ const usePartyStore = create((set, get) => ({
       isInParty: membersList.length > 0
     });
   }
-}));
+})));
 
 export default usePartyStore;

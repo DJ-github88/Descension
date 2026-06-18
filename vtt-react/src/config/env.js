@@ -28,10 +28,6 @@ const env = {
 
   // Public URL for assets
   PUBLIC_URL: getProcessEnv('PUBLIC_URL', ''),
-
-  // API keys and other sensitive information
-  // Use empty strings as defaults to prevent undefined errors
-  REACT_APP_OPENAI_API_KEY: getProcessEnv('REACT_APP_OPENAI_API_KEY', ''),
 };
 
 /**

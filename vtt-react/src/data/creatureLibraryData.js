@@ -5260,17 +5260,17 @@ export const LIBRARY_CREATURES = [
       "depth": "Driven by an instinct to punish, the Krampuskin hunts those who have broken blood-oaths or deserted the shield-walls of Nordhalla, tracking its prey by the guilt in their hearts. Those caught are stuffed into its frozen sack and sealed alive inside deep glacier crevasses, preserved forever by ice that refuses to melt; Skald rangers occasionally discover the screaming, perfectly preserved faces of ancient traitors locked deep within mountain walls. The sound of its chains dragging through the snow serves as a grim warning to all who harbor secrets."
     },
     {
-      "id": "sluagh_ride",
-      "name": "Sluagh-Ride",
+      "id": "wildejagd",
+      "name": "Wildejagd",
       "description": "A spectral cloud of fused, wraith-like riders that raids archive towers to devour recorded histories and absorb fading minds.",
       "type": CREATURE_TYPES.UNDEAD,
       "size": CREATURE_SIZES.MEDIUM,
       "tags": [
         "frostwood",
-        "sluagh_ride",
+        "wildejagd",
         "undead"
       ],
-      "tokenIcon": "Bestiary/sluagh_ride",
+      "tokenIcon": "Bestiary/wildejagd",
       "tokenBorder": "#9b2226",
       "stats": {
         "strength": 8,
@@ -5352,20 +5352,20 @@ export const LIBRARY_CREATURES = [
       "origin": "Descending from the Celtic Sluagh, the host of the restless dead, and the Germanic Wild Hunt or Wütende Heer, this phantom ridership is a collective manifestation of the forgotten. It represents the ultimate terror of historical erasure, riding through the sky to claim the names of the living.",
       "nature": "This entity is a massive, undulating cloud composed of dozens of twisted, wraith-like riders fused together, moving in sudden, coordinated formations like a flock of starlings. It trails shreds of paper and ink droplets that fall like black snow, accompanied by the spectral sound of horse hooves echoing like slamming doors. Dozens of pale, screaming mouths open and close across its surface, each whispering the names of forgotten ancestors whose records were eaten by the fog.",
       "habitat": "It rides through the night skies during dense fog-storms, circling high above archive towers and fading settlements.",
-      "depth": "The Sluagh-Ride raids Greymark's archive towers, tearing down lineage-tapestries to consume the recorded history of entire bloodlines. They also circle those on the verge of total memory-collapse, waiting for their last thoughts to fade so they can absorb the empty shell of identity and add a new rider to their host. Scribes organize desperate hunts to protect their archives, hiring brave parties to retrieve the lost pages and components left in the ride's wake."
+      "depth": "The Wildejagd raids Greymark's archive towers, tearing down lineage-tapestries to consume the recorded history of entire bloodlines. They also circle those on the verge of total memory-collapse, waiting for their last thoughts to fade so they can absorb the empty shell of identity and add a new rider to their host. Scribes organize desperate hunts to protect their archives, hiring brave parties to retrieve the lost pages and components left in the ride's wake."
     },
     {
-      "id": "fuathlure",
-      "name": "Fuathlure",
+      "id": "fuath",
+      "name": "Fuath",
       "description": "A translucent water spirit that lures travelers into peat pools by singing songs that recall their most precious memories.",
       "type": CREATURE_TYPES.ELEMENTAL,
       "size": CREATURE_SIZES.MEDIUM,
       "tags": [
         "frostwood",
-        "fuathlure",
+        "fuath",
         "elemental"
       ],
-      "tokenIcon": "Bestiary/fuathlure",
+      "tokenIcon": "Bestiary/fuath",
       "tokenBorder": "#7209b7",
       "stats": {
         "strength": 10,
@@ -5442,20 +5442,20 @@ export const LIBRARY_CREATURES = [
       "origin": "Tracing its lineage to the Scottish Celtic Fuath and the Germanic Nixie, this water spirit is a personification of the deceptive depths. It feeds on the desperation of the forgetful, using their own lost identities as bait to lure them into the dark waters.",
       "nature": "This pale, slender figure appears to stand waist-deep in dark peat-pools, its body entirely translucent so that murky water and floating algae are visible through its skin. It is wrapped in a shimmering film of surface tension that reflects fog-light like oil on water, with long, kelp-like hair extending in all directions. While it seems beautiful from a distance, its features are fluid and constantly shifting, and its eyes are bottomless pools of dark water.",
       "habitat": "It waits in the stagnant peat-pools and boggy lakes that dot the lowlands of Frostwood Reach.",
-      "depth": "The Fuathlure sings a resonant hum that echoes through the fog, bringing to mind the listener's most cherished, forgotten memories to draw them into the water. Once a victim wades in, the spirit dissolves into the pool, drowning the traveler and sinking their memories into the sediment where they compact into peat over centuries. Communities hire adventurers to search for these spirits to recover lost relatives or harvest their memory-infused water."
+      "depth": "The Fuath sings a resonant hum that echoes through the fog, bringing to mind the listener's most cherished, forgotten memories to draw them into the water. Once a victim wades in, the spirit dissolves into the pool, drowning the traveler and sinking their memories into the sediment where they compact into peat over centuries. Communities hire adventurers to search for these spirits to recover lost relatives or harvest their memory-infused water."
     },
     {
-      "id": "grogoch_burrow",
-      "name": "Grogoch-Burrow",
+      "id": "grogoch",
+      "name": "Grogoch",
       "description": "A hairy, haystack-like earth sprite that tends root gardens and guides travelers through safe tunnels in exchange for secrets.",
       "type": CREATURE_TYPES.FEY,
       "size": CREATURE_SIZES.TINY,
       "tags": [
         "frostwood",
-        "grogoch_burrow",
+        "grogoch",
         "fey"
       ],
-      "tokenIcon": "Bestiary/grogoch_burrow",
+      "tokenIcon": "Bestiary/grogoch",
       "tokenBorder": "#2d6a4f",
       "stats": {
         "strength": 10,
@@ -5526,20 +5526,20 @@ export const LIBRARY_CREATURES = [
       "origin": "Derived from the Celtic Grogoch, a helpful yet reclusive hedge-spirit, and the Germanic Erdmännlein, the industrious little men of the earth, this creature is a master of the soil. It works in the dark beneath the forest floor, maintaining a hidden agricultural network that sustains the region's inhabitants.",
       "nature": "This three-foot-tall biped resembles a walking haystack, covered in dreadlocks of ironwood-moss and matted animal fur. Two short, muscular arms extend from its bulk, holding a small spade made from a sharpened elk shoulder-blade. Its face is almost entirely obscured by hair, showing only a broad nose and beady, black eyes, and its wide mouth is filled with flat, stone teeth.",
       "habitat": "It lives in clean, root-lined burrow systems dug beneath the ironwood forests, ventilated by small, hidden air vents.",
-      "depth": "Grogoch-Burrows cultivate vast gardens of edible ironwood-roots and frost-tubers, which serve as a crucial food supply for local villages. They also maintain a network of subterranean tunnels that allow travelers to bypass the memory-fog entirely, demanding a secret as payment for using these safe passages. Villages often hire adventurers to trade with them or protect their burrows from surface predators."
+      "depth": "Grogochs cultivate vast gardens of edible ironwood-roots and frost-tubers, which serve as a crucial food supply for local villages. They also maintain a network of subterranean tunnels that allow travelers to bypass the memory-fog entirely, demanding a secret as payment for using these safe passages. Villages often hire adventurers to trade with them or protect their burrows from surface predators."
     },
     {
-      "id": "perchtaweave",
-      "name": "Perchtaweave",
+      "id": "cailleach",
+      "name": "Cailleach",
       "description": "A towering winter crone who spins the memory-fog and judges the diligence of mortal record-keepers.",
       "type": CREATURE_TYPES.MONSTROSITY,
       "size": CREATURE_SIZES.MEDIUM,
       "tags": [
         "frostwood",
-        "perchtaweave",
+        "cailleach",
         "monstrosity"
       ],
-      "tokenIcon": "Bestiary/perchtaweave",
+      "tokenIcon": "Bestiary/cailleach",
       "tokenBorder": "#7209b7",
       "stats": {
         "strength": 16,
@@ -5611,20 +5611,20 @@ export const LIBRARY_CREATURES = [
       "origin": "A manifestation of winter's severity and judgment, this entity is born from the Germanic winter goddess Perchta and the Gaelic winter hag Cailleach. In the Frostwood, she is the architect of the protective mist, enforcing the strict social contracts of House Thalreth.",
       "nature": "This twelve-foot-tall crone presents a shifting appearance: she seems a regal woman in a gown of frost-crystals and ironwood-silk to the diligent, but appears as a skeletal horror in peat-moss rags to the lazy. She carries an ironwood distaff to spin emotion-colored memory yarn, and her face features one piercing blue eye and one hollow, fog-filled socket, with a mouth that freezes the air when she smiles.",
       "habitat": "She wanders the highest, coldest ridges of the Frostwood during winter, descending into the valleys when the fog is thickest.",
-      "depth": "Perchtaweaves spin the memory-fog from raw Wyrd-energy to defend the forest, encoding each strand of mist with a dissolved memory. During the deep winter, they visit Greymark homes to inspect family journals, rewarding diligent scribes with spools of memory-yarn that can restore lost thoughts, while stuffing the bellies of the negligent with straw as a stern warning. Scribes often send adventurers to locate her to seek her favor or harvest her shimmering memory-yarn."
+      "depth": "Cailleachs spin the memory-fog from raw Wyrd-energy to defend the forest, encoding each strand of mist with a dissolved memory. During the deep winter, they visit Greymark homes to inspect family journals, rewarding diligent scribes with spools of memory-yarn that can restore lost thoughts, while stuffing the bellies of the negligent with straw as a stern warning. Scribes often send adventurers to locate her to seek her favor or harvest her shimmering memory-yarn."
     },
     {
-      "id": "dullahaze",
-      "name": "Dullahaze",
+      "id": "dullahan",
+      "name": "Dullahan",
       "description": "A headless armored rider on a fog-steed that dissolves the identities of named targets and hunts oath-breakers.",
       "type": CREATURE_TYPES.UNDEAD,
       "size": CREATURE_SIZES.MEDIUM,
       "tags": [
         "frostwood",
-        "dullahaze",
+        "dullahan",
         "undead"
       ],
-      "tokenIcon": "Bestiary/dullahaze",
+      "tokenIcon": "Bestiary/dullahan",
       "tokenBorder": "#9b2226",
       "stats": {
         "strength": 14,
@@ -5703,23 +5703,23 @@ export const LIBRARY_CREATURES = [
       },
       "dateCreated": "2026-06-13T18:00:00Z",
       "lastModified": "2026-06-13T18:00:00Z",
-      "origin": "Rooted in the Celtic myth of the Dullahan, the headless harbinger of death, and the Germanic legend of the kopflose Reiter who punishes broken oaths, the Dullahaze is a relentless executioner. In the setting of Frostwood Reach, it enforces the sanctity of written vows and the preservation of identity.",
+      "origin": "Rooted in the Celtic myth of the Dullahan, the headless harbinger of death, and the Germanic legend of the kopflose Reiter who punishes broken oaths, the Dullahan is a relentless executioner. In the setting of Frostwood Reach, it enforces the sanctity of written vows and the preservation of identity.",
       "nature": "This tall, armored figure clad in blackened ironwood-plate rides a horse composed of compressed fog with a skull-like head. The rider is headless, with memory-mist escaping from its raw neck stump, and it carries its severed head—featuring a featureless, polished ironwood mask that reflects the observer's deepest fears—under one arm. A whip crafted from braided journal-cords hangs at its belt.",
       "habitat": "It haunts the ancient, fog-drowned crossroads and trade routes of the Frostwood at midnight.",
-      "depth": "The Dullahaze rides to crossroads to whisper a traveler's name, causing their defining memory to dissolve within a day, and actively hunts those who break written oaths recorded in Greymark's ledgers. It is particularly drawn to maskless Mimir, collecting their abandoned identities to fuel its own hollow existence. Local authorities post massive rewards for adventurers who can destroy the rider or retrieve its mirror-like ironwood mask."
+      "depth": "The Dullahan rides to crossroads to whisper a traveler's name, causing their defining memory to dissolve within a day, and actively hunts those who break written oaths recorded in Greymark's ledgers. It is particularly drawn to maskless Mimir, collecting their abandoned identities to fuel its own hollow existence. Local authorities post massive rewards for adventurers who can destroy the rider or retrieve its mirror-like ironwood mask."
     },
     {
-      "id": "cu_sithbane",
-      "name": "Cu-Sithbane",
+      "id": "cusith",
+      "name": "Cusith",
       "description": "A massive green-furred hound that hunts in the fog, using its barks to paralyze prey and feed on their fear.",
       "type": CREATURE_TYPES.BEAST,
       "size": CREATURE_SIZES.MEDIUM,
       "tags": [
         "frostwood",
-        "cu_sithbane",
+        "cusith",
         "beast"
       ],
-      "tokenIcon": "Bestiary/cu_sithbane",
+      "tokenIcon": "Bestiary/cusith",
       "tokenBorder": "#bc6c25",
       "stats": {
         "strength": 14,
@@ -5788,23 +5788,23 @@ export const LIBRARY_CREATURES = [
       },
       "dateCreated": "2026-06-13T18:00:00Z",
       "lastModified": "2026-06-13T18:00:00Z",
-      "origin": "Combining the spectral Celtic Cu Sith, whose barks signal doom, and the Germanic Schrättel, a clever forest predator, the Cu-Sithbane is a terror of the twilight hours. It tracks its prey through the mist, feeding not on physical flesh but on the raw emotions of its victims.",
+      "origin": "Combining the spectral Celtic Cu Sith, whose barks signal doom, and the Germanic Schrättel, a clever forest predator, the Cusith is a terror of the twilight hours. It tracks its prey through the mist, feeding not on physical flesh but on the raw emotions of its victims.",
       "nature": "This massive hound stands shoulder-high to a mounted rider, its impossibly thin frame covered in dark green fur composed of living ironwood moss, with its rib-cage clearly visible. Its paws leave no trace on the forest floor, and a green glow leaks from its claws and teeth, while its long tail ends in a bioluminescent moss tuft. Its narrow muzzle unhinges to reveal backward-curving green bones for teeth, and its eyes are solid, pupilless emerald wells.",
       "habitat": "It hunts in packs throughout the deep, fog-veiled valleys and dark woods of the Frostwood.",
-      "depth": "The Cu-Sithbane hunts at dusk, using three distinct barks: the first paralyzes a traveler, the second erases their location memory, and the third compels them to walk into the fog's heart. Rather than killing, the hound feeds on the memory of fear, leaving its prey dazed but completely devoid of terror, which allows Briaran rangers to track the packs by locating these unnaturally fearless survivors. Adventurers are often sent to hunt these beasts to harvest their glowing moss or save lost travelers."
+      "depth": "The Cusith hunts at dusk, using three distinct barks: the first paralyzes a traveler, the second erases their location memory, and the third compels them to walk into the fog's heart. Rather than killing, the hound feeds on the memory of fear, leaving its prey dazed but completely devoid of terror, which allows Briaran rangers to track the packs by locating these unnaturally fearless survivors. Adventurers are often sent to hunt these beasts to harvest their glowing moss or save lost travelers."
     },
     {
-      "id": "pixieglow",
-      "name": "Pixieglow",
+      "id": "pixie",
+      "name": "Pixie",
       "description": "A hand-sized light sprite with moth wings, leading travelers through the fog with shifting colored paths.",
       "type": CREATURE_TYPES.UNDEAD,
       "size": CREATURE_SIZES.MEDIUM,
       "tags": [
         "frostwood",
-        "pixieglow",
+        "pixie",
         "undead"
       ],
-      "tokenIcon": "Bestiary/pixieglow",
+      "tokenIcon": "Bestiary/pixie",
       "tokenBorder": "#9b2226",
       "stats": {
         "strength": 4,
@@ -5859,20 +5859,20 @@ export const LIBRARY_CREATURES = [
       "origin": "A blend of the Celtic Pixie, which leads travelers astray or assists them for small offerings, and the Germanic Irrlicht, the deceptive Will-o'-the-Wisp of the peat-bogs, this glowing sprite is a constant companion of the fog. It represents both hope and deception, shifting its behavior on a whim.",
       "nature": "This hand-sized sprite is made of semi-transparent condensed fog-light and shaped like a tiny humanoid with delicate moth-wings. It pulses with a warm honey-colored glow and leaves a trail of phosphorescent spores that hang in the air, changing color from gold to blue or red depending on its mood. Its tiny, mouthless face is dominated by large, solid eyes of warm light through which it communicates.",
       "habitat": "It hovers over the damp marshes, peat-bogs, and low-lying paths of the Frostwood where the mist is thickest.",
-      "depth": "Pixieglows guide lost travelers through the fog, leaving gold trails that lead to safety, blue trails that run in circles, or red trails that plunge into bogs or over cliffs. They reproduce by seeding spores into the memory-fog, where they grow by absorbing dissolved emotional memories, occasionally creating dense lantern-fogs that travelers can navigate if they understand the colors. Adventurers often seek them to collect their glow-spores for light-sources or mapping reagents."
+      "depth": "Pixies guide lost travelers through the fog, leaving gold trails that lead to safety, blue trails that run in circles, or red trails that plunge into bogs or over cliffs. They reproduce by seeding spores into the memory-fog, where they grow by absorbing dissolved emotional memories, occasionally creating dense lantern-fogs that travelers can navigate if they understand the colors. Adventurers often seek them to collect their glow-spores for light-sources or mapping reagents."
     },
     {
-      "id": "waldwisp",
-      "name": "Waldwisp",
+      "id": "waldschrat",
+      "name": "Waldschrat",
       "description": "A wiry wood sprite with a crimson moss cap that blocks forest paths with historical riddles and feeds on fear.",
       "type": CREATURE_TYPES.ELEMENTAL,
       "size": CREATURE_SIZES.MEDIUM,
       "tags": [
         "frostwood",
-        "waldwisp",
+        "waldschrat",
         "elemental"
       ],
-      "tokenIcon": "Bestiary/waldwisp",
+      "tokenIcon": "Bestiary/waldschrat",
       "tokenBorder": "#7209b7",
       "stats": {
         "strength": 6,
@@ -5940,10 +5940,10 @@ export const LIBRARY_CREATURES = [
       },
       "dateCreated": "2026-06-13T18:00:00Z",
       "lastModified": "2026-06-13T18:00:00Z",
-      "origin": "The Waldwisp represents a merger of the Germanic Waldschrat, a hairy riddle-loving forest spirit, and the Celtic Far Darrig, the red-capped prankster. In the Frostwood, it is a playful yet dangerous manifestation of the forest's tangled history, testing the wit and courage of travelers.",
+      "origin": "The Waldschrat represents a merger of the Germanic Waldschrat, a hairy riddle-loving forest spirit, and the Celtic Far Darrig, the red-capped prankster. In the Frostwood, it is a playful yet dangerous manifestation of the forest's tangled history, testing the wit and courage of travelers.",
       "nature": "This three-foot-tall, wiry creature is formed of twisted ironwood-roots and bark, its body dominated by a bright crimson peaked cap of peat-moss. Its highly flexible limbs bend in impossible directions, and it carries a gnarled root-staff that rattles, releasing tiny red sparks when it is pleased. Its leathery, wrinkled face features a wide, lipless grin and mismatched red and green eyes that look in separate directions.",
       "habitat": "It makes its home along the narrow, overgrown paths and dense thickets of the ironwood forests.",
-      "depth": "Waldwisps block pathways and demand that travelers solve riddles based on forgotten history, which require pure intuition to answer since the memories themselves have vanished. They also entertain themselves by playing frightening pranks, mimicking the voices of lost scribes, and feeding on the adrenaline of terrified travelers to power their glowing caps. Scribes and rangers frequently seek them out to solve historical mysteries or hire adventurers to drive them away from trade routes."
+      "depth": "Waldschrats block pathways and demand that travelers solve riddles based on forgotten history, which require pure intuition to answer since the memories themselves have vanished. They also entertain themselves by playing frightening pranks, mimicking the voices of lost scribes, and feeding on the adrenaline of terrified travelers to power their glowing caps. Scribes and rangers frequently seek them out to solve historical mysteries or hire adventurers to drive them away from trade routes."
     },
     {
       "id": "klabatskerry",
@@ -6263,17 +6263,17 @@ export const LIBRARY_CREATURES = [
       "depth": "A child ghost that jumps onto a traveler's back and begs to be carried to a graveyard. As the traveler walks, the Myling becomes heavier and heavier (doubling in weight every 100 feet) until it crushes them, unless they can name the child or speak a holy prayer."
     },
     {
-      "id": "trollstone",
-      "name": "Trollstone",
+      "id": "jutul",
+      "name": "Jutul",
       "description": "A sentient boulder of warm granite that blocks mountain passes, demanding tolls of raw iron to fuel its stony mass.",
       "type": CREATURE_TYPES.CONSTRUCT,
       "size": CREATURE_SIZES.LARGE,
       "tags": [
         "nordhalla",
-        "trollstone",
+        "jutul",
         "construct"
       ],
-      "tokenIcon": "Bestiary/trollstone",
+      "tokenIcon": "Bestiary/jutul",
       "tokenBorder": "#7209b7",
       "stats": {
         "strength": 20,
@@ -6352,23 +6352,23 @@ export const LIBRARY_CREATURES = [
       },
       "dateCreated": "2026-06-13T18:00:00Z",
       "lastModified": "2026-06-13T18:00:00Z",
-      "origin": "The Trollstone is rooted in the Norse legends of trolls, who turn to stone when exposed to sunlight, and the Alpine Berggeist, the mountain-spirit who guides or misleads travelers in the heights. In the sunless, dimmed skies of Nordhalla, these creatures are no longer petrified by daylight, remaining active and alert.",
+      "origin": "The Jutul is rooted in the Norse legends of trolls, who turn to stone when exposed to sunlight, and the Alpine Berggeist, the mountain-spirit who guides or misleads travelers in the heights. In the sunless, dimmed skies of Nordhalla, these creatures are no longer petrified by daylight, remaining active and alert.",
       "nature": "This creature resembles a massive boulder of grey granite shaped like a seated humanoid, completely indistinguishable from a normal glacial erratic when inert except for a faint warmth radiating from its core. When it stirs, joint-like cracks open across its rocky surface, and moss and lichen align in runic patterns. Its face has barely discernible features—a heavy brow-ridge, a broken nose, and a grim mouth—with its eyes appearing as deep depressions that burn with the warm glow of deep-earth amber.",
       "habitat": "They are found along high mountain passes, rocky valleys, and boulder-strewn slopes of Nordhalla.",
-      "depth": "Trollstones sit motionless on trade routes for decades, only to animate and roll across paths when valuable caravans approach, demanding a toll of raw iron ore to absorb into their granite bodies. Because the dimmed sun no longer petrifies them, they pose a constant hazard to travelers, forcing Rune Keepers to utilize concentrated runic light to temporarily freeze the creatures back into inert stone and buy passage for convoys."
+      "depth": "Jutuls sit motionless on trade routes for decades, only to animate and roll across paths when valuable caravans approach, demanding a toll of raw iron ore to absorb into their granite bodies. Because the dimmed sun no longer petrifies them, they pose a constant hazard to travelers, forcing Rune Keepers to utilize concentrated runic light to temporarily freeze the creatures back into inert stone and buy passage for convoys."
     },
     {
-      "id": "lindwyrm_burrow",
-      "name": "Lindwyrm-Burrow",
+      "id": "lindwyrm",
+      "name": "Lindwyrm",
       "description": "A serpentine predator with cat-like forelegs that tunnels through glaciers, devouring runic magic and thawing the ancient tombs it guards.",
       "type": CREATURE_TYPES.CONSTRUCT,
       "size": CREATURE_SIZES.MEDIUM,
       "tags": [
         "nordhalla",
-        "lindwyrm_burrow",
+        "lindwyrm",
         "construct"
       ],
-      "tokenIcon": "Bestiary/lindwyrm_burrow",
+      "tokenIcon": "Bestiary/lindwyrm",
       "tokenBorder": "#7209b7",
       "stats": {
         "strength": 18,
@@ -6437,23 +6437,23 @@ export const LIBRARY_CREATURES = [
       },
       "dateCreated": "2026-06-13T18:00:00Z",
       "lastModified": "2026-06-13T18:00:00Z",
-      "origin": "The Lindwyrm-Burrow descends from the Norse Lindworm, the wingless, two-legged serpentine dragon that guards burial mounds, and the Alpine Tatzelwurm, a half-feline, half-serpentine cryptid of the high forests. In Nordhalla, it is a creature that tunnels through the ice, drawn to the ancient power of the dead.",
+      "origin": "The Lindwyrm descends from the Norse Lindworm, the wingless, two-legged serpentine dragon that guards burial mounds, and the Alpine Tatzelwurm, a half-feline, half-serpentine cryptid of the high forests. In Nordhalla, it is a creature that tunnels through the ice, drawn to the ancient power of the dead.",
       "nature": "It possesses a fifteen-foot serpentine body covered in overlapping, translucent ice-scales that refract light into shifting rainbows along its flanks. It moves on two muscular, cat-like forelegs tipped with pickaxe-claws of dense black ice, leaving glassy, trackless tunnels that refreeze instantly in its wake. Its face is a fusion of a feline skull and serpentine features, complete with horizontal-slit pupils, a dislocating jaw, and two backward-sweeping horns of spun frost-silk.",
       "habitat": "It makes its home in the permafrost, sub-glacial tunnels, and ancient burial mounds of Nordhalla.",
-      "depth": "These beasts coil around the dead in glacier-tombs, paradoxically thawing the graves because they feed on the surrounding cold itself. They are also drawn to runic inscriptions, devouring carved rune-stones to absorb the bound mana within them; this makes them a critical threat to the Frozen Archive, where a single breaching Lindwyrm-Burrow could consume centuries of recorded knowledge in a single feeding."
+      "depth": "These beasts coil around the dead in glacier-tombs, paradoxically thawing the graves because they feed on the surrounding cold itself. They are also drawn to runic inscriptions, devouring carved rune-stones to absorb the bound mana within them; this makes them a critical threat to the Frozen Archive, where a single breaching Lindwyrm could consume centuries of recorded knowledge in a single feeding."
     },
     {
-      "id": "nidhoggr_root",
-      "name": "Nidhoggr-Root",
+      "id": "nidhoggr",
+      "name": "Nidhoggr",
       "description": "A warm, root-like serpentine worm that burrows under fortifications, gnawing away both stone foundations and the sacred runic vows of the clans.",
       "type": CREATURE_TYPES.UNDEAD,
       "size": CREATURE_SIZES.MEDIUM,
       "tags": [
         "nordhalla",
-        "nidhoggr_root",
+        "nidhoggr",
         "undead"
       ],
-      "tokenIcon": "Bestiary/nidhoggr_root",
+      "tokenIcon": "Bestiary/nidhoggr",
       "tokenBorder": "#9b2226",
       "stats": {
         "strength": 18,
@@ -6532,10 +6532,10 @@ export const LIBRARY_CREATURES = [
       },
       "dateCreated": "2026-06-13T18:00:00Z",
       "lastModified": "2026-06-13T18:00:00Z",
-      "origin": "The Nidhoggr-Root is inspired by the Norse Níðhöggr, the dragon that gnaws the roots of the World Tree, and the Alpine Schrat-Root, a subterranean spirit that undermines buildings. In Nordhalla, it is a blind, burrowing menace that feasts on foundations and magical pacts alike.",
+      "origin": "The Nidhoggr is inspired by the Norse Níðhöggr, the dragon that gnaws the roots of the World Tree, and the Alpine Schrat-Root, a subterranean spirit that undermines buildings. In Nordhalla, it is a blind, burrowing menace that feasts on foundations and magical pacts alike.",
       "nature": "This creature appears as a tangle of black, rope-thick coils that resemble petrified roots, covered in matte black scales that are warm to the touch. It has no distinct head, instead terminating in a circular, lamprey-like maw lined with rotating rings of translucent amber teeth that act as a boring machine. Each tooth is a fragment of a consumed rune, and the tunnels it leaves behind are filled with fine black ash that smells of burnt magical energy.",
       "habitat": "It tunnels deep beneath the frozen bedrock, keep foundations, and glacial vaults of Nordhalla.",
-      "depth": "The Nidhoggr-Root gnaws at the bedrock beneath keeps and the Frozen Archive, causing heavy stone walls to crack and eventually collapse. It is drawn to the magical energy of buried blood-oaths, devouring the runes of sworn vows and permanently stripping Bloodhammer warriors of the ancestral rage that defines their lineage."
+      "depth": "The Nidhoggr gnaws at the bedrock beneath keeps and the Frozen Archive, causing heavy stone walls to crack and eventually collapse. It is drawn to the magical energy of buried blood-oaths, devouring the runes of sworn vows and permanently stripping Bloodhammer warriors of the ancestral rage that defines their lineage."
     },
     {
       "id": "strandvasker",
@@ -6633,17 +6633,17 @@ export const LIBRARY_CREATURES = [
       "depth": "At dawn and dusk, the Strandvasker stands at the ice-edge, emitting a deep, foghorn-like call that mimics the voices of lost crewmates to lure the living to their doom. The only way to silence the wail is to grant the creature a proper sea-burial on a burning ship, a ritual so costly that many of these spirits are left to haunt the shores for centuries."
     },
     {
-      "id": "landvaettir_peak",
-      "name": "Landvaettir-Peak",
+      "id": "landvaettir",
+      "name": "Landvaettir",
       "description": "A colossal mountain guardian composed of living granite and snow, protecting its peaks from corruption but triggering avalanches at the sight of any dragon imagery.",
       "type": CREATURE_TYPES.DRAGON,
       "size": CREATURE_SIZES.MEDIUM,
       "tags": [
         "nordhalla",
-        "landvaettir_peak",
+        "landvaettir",
         "dragon"
       ],
-      "tokenIcon": "Bestiary/landvaettir_peak",
+      "tokenIcon": "Bestiary/landvaettir",
       "tokenBorder": "#7209b7",
       "stats": {
         "strength": 20,
@@ -6702,17 +6702,17 @@ export const LIBRARY_CREATURES = [
       "depth": "The Landvættir-Peak acts as a regional barrier against Wyrd-corruption, keeping its mountain slopes completely free of anomalies and allowing Rune Keepers to map safe paths. However, they harbor a deep hatred for draconic symbols, triggering instant avalanches at the sight of dragon-prows or runes, an ancient prohibition that has banned dragon motifs from all Skald heraldry."
     },
     {
-      "id": "vettir_blizzard",
-      "name": "Vettir-Blizzard",
+      "id": "vettir",
+      "name": "Vettir",
       "description": "An invisible storm-spirit that shapes the howling winter winds, capable of carrying messages across the tundra or burying travelers in sudden blizzards.",
       "type": CREATURE_TYPES.ELEMENTAL,
       "size": CREATURE_SIZES.MEDIUM,
       "tags": [
         "nordhalla",
-        "vettir_blizzard",
+        "vettir",
         "elemental"
       ],
-      "tokenIcon": "Bestiary/vettir_blizzard",
+      "tokenIcon": "Bestiary/vettir",
       "tokenBorder": "#7209b7",
       "stats": {
         "strength": 4,
@@ -6763,10 +6763,10 @@ export const LIBRARY_CREATURES = [
       },
       "dateCreated": "2026-06-13T18:00:00Z",
       "lastModified": "2026-06-13T18:00:00Z",
-      "origin": "Derived from the Norse Vettir, wind-spirits that whisper through the cracks of longhouses, and the Alpine Windgeister or Föhn spirits that ride warm mountain winds, the Vettir-Blizzard is the living soul of the storm. It represents the fickle nature of the northern winds, shifting from quiet whispers to freezing gales.",
+      "origin": "Derived from the Norse Vettir, wind-spirits that whisper through the cracks of longhouses, and the Alpine Windgeister or Föhn spirits that ride warm mountain winds, the Vettir is the living soul of the storm. It represents the fickle nature of the northern winds, shifting from quiet whispers to freezing gales.",
       "nature": "Completely invisible, this creature is felt only through its physical effects: sudden drops in temperature, swirling snow forming fleeting humanoid shapes, and whispered words carried on the wind. Its arrival is heralded by an eerie, total silence, and it leaves behind intricate runic spirals in the snow that vanish in seconds. On rare occasions, the storm-front itself coalesces into a massive face of snow, shifting from a screaming giant to a serene elder, or mirroring the face of the watcher.",
       "habitat": "It hunts the open tundra, high peaks, and windswept valleys of Nordhalla.",
-      "depth": "The Vettir-Blizzard herds storms across the landscape, controlling the paths of blizzards and Föhn winds. Rune Keepers leave offerings of mead and dried cod at high wind-shrines to secure safe passage through their territory; while Skald commanders sometimes use the wind to whisper messages across great distances, the spirits are prone to mischief, altering the words or adding cryptic riddles."
+      "depth": "The Vettir herds storms across the landscape, controlling the paths of blizzards and Föhn winds. Rune Keepers leave offerings of mead and dried cod at high wind-shrines to secure safe passage through their territory; while Skald commanders sometimes use the wind to whisper messages across great distances, the spirits are prone to mischief, altering the words or adding cryptic riddles."
     },
     {
       "id": "bergthrall",
@@ -6854,17 +6854,17 @@ export const LIBRARY_CREATURES = [
       "depth": "The Bergthralls carve the unique glacier-crystals used by Rune Keepers to store fragile light-scrolls in the Frozen Archive, a technique that cannot be replicated. They refuse gold, trading these crystals only for refined iron and whale-blubber; their bargains are absolute, and any who attempt to cheat them are absorbed directly into the stone, transformed into new mineral veins."
     },
     {
-      "id": "fenrispup",
-      "name": "Fenrispup",
+      "id": "fenris",
+      "name": "Fenris",
       "description": "A pony-sized wolf cub bound by a magical collar that hunts down oath-breakers, representing a fragment of the apocalyptic Fenrir.",
       "type": CREATURE_TYPES.BEAST,
       "size": CREATURE_SIZES.SMALL,
       "tags": [
         "nordhalla",
-        "fenrispup",
+        "fenris",
         "beast"
       ],
-      "tokenIcon": "Bestiary/fenrispup",
+      "tokenIcon": "Bestiary/fenris",
       "tokenBorder": "#bc6c25",
       "stats": {
         "strength": 16,
@@ -6933,23 +6933,23 @@ export const LIBRARY_CREATURES = [
       },
       "dateCreated": "2026-06-13T18:00:00Z",
       "lastModified": "2026-06-13T18:00:00Z",
-      "origin": "The Fenrispup is a juvenile manifestation of the Norse Fenrir, the apocalyptic wolf bound by the gods until Ragnarök, mixed with the Alpine Barbegazi who navigate deep snow with ease. It embodies the restless, bound fury of the end times, hunting the frozen wastes of Nordhalla.",
+      "origin": "The Fenris is a juvenile manifestation of the Norse Fenrir, the apocalyptic wolf bound by the gods until Ragnarök, mixed with the Alpine Barbegazi who navigate deep snow with ease. It embodies the restless, bound fury of the end times, hunting the frozen wastes of Nordhalla.",
       "nature": "Though only a pup, this creature is the size of a pony, with fur that shifts between frost-white and shadow-black and giant, shield-wide paws that glide over snow drifts. It wears a collar of braided silk ribbon that glows with the golden magic of Gleipnir, and its thick tail leaves a distinct drag-mark behind it. Its face displays a puppy's oversized ears and lolling tongue, but its eyes can suddenly flash with an ancient, predatory intelligence, turning from warm brown to molten gold when it senses an oath-breaker.",
       "habitat": "It hunts across the windswept tundra and frozen plains of Nordhalla.",
-      "depth": "Driven by Fenrir's bound energy, the Fenrispup relentlessly tracks down those who break blood-oaths across the tundra; they cannot be slain, only temporarily appeased or distracted with fresh meat. The golden collar around its neck is a fragment of the legendary fetter Gleipnir, keeping it from growing to its full, world-ending size. Rune Keepers watch these creatures closely, for the removal of a collar would trigger a catastrophic growth that could tear Nordhalla apart."
+      "depth": "Driven by Fenrir's bound energy, the Fenris relentlessly tracks down those who break blood-oaths across the tundra; they cannot be slain, only temporarily appeased or distracted with fresh meat. The golden collar around its neck is a fragment of the legendary fetter Gleipnir, keeping it from growing to its full, world-ending size. Rune Keepers watch these creatures closely, for the removal of a collar would trigger a catastrophic growth that could tear Nordhalla apart."
     },
     {
-      "id": "disablot_wraith",
-      "name": "Disablot-Wraith",
+      "id": "disir",
+      "name": "Disir",
       "description": "A procession of silent, pale spectral matriarchs who judge households during winter, rewarding ancestral devotion and cursing the negligent with barrenness.",
       "type": CREATURE_TYPES.FEY,
       "size": CREATURE_SIZES.MEDIUM,
       "tags": [
         "nordhalla",
-        "disablot_wraith",
+        "disir",
         "fey"
       ],
-      "tokenIcon": "Bestiary/disablot_wraith",
+      "tokenIcon": "Bestiary/disir",
       "tokenBorder": "#2d6a4f",
       "stats": {
         "strength": 10,
@@ -7018,14 +7018,14 @@ export const LIBRARY_CREATURES = [
       },
       "dateCreated": "2026-06-13T18:00:00Z",
       "lastModified": "2026-06-13T18:00:00Z",
-      "origin": "The Disablot-Wraith represents the Norse Dísir, female ancestral guardians honored during the Dísablót who bless or curse their descendants, and the Alpine Perchta's Retinue, who punish sloth and household neglect. They manifest during the deep winter to ensure ancestral traditions are upheld.",
+      "origin": "The Disir represents the Norse Dísir, female ancestral guardians honored during the Dísablót who bless or curse their descendants, and the Alpine Perchta's Retinue, who punish sloth and household neglect. They manifest during the deep winter to ensure ancestral traditions are upheld.",
       "nature": "This entity appears as a procession of tall, pale women in flowing white gowns who glide over the snow without leaving footprints. Each figure carries a ritual object—a distaff, a bloody spindle, a sheaf of wheat, or an iron knife—and holds a tallow candle that burns with a constant, unmeltable blue flame. They share identical, sorrowful faces with solid white, unblinking eyes, their mouths slightly parted to emit a continuous, low hum.",
       "habitat": "They travel between the longhouses and settlements of Nordhalla during the winter solstice.",
       "depth": "Visiting every longhouse during the winter celebrations, the wraiths bless families who honor their female ancestors with warmth and fertility. However, households that neglect their duties are struck by the Spindle-Curse, finding their yarn replaced with human hair and their spindles soaked in frozen blood, rendering the women of the house barren. Bloodhammer matriarchs view this curse as a threat far greater than any raiding army, going to extreme lengths to ensure their offerings are immaculate."
     },
     {
-      "id": "skogsra_pine",
-      "name": "Skogsrå-Pine",
+      "id": "skogsra",
+      "name": "Skogsra",
       "description": "A seductive forest guardian who appears as a beautiful woman from the front but is a hollow, rotting tree from behind, rewarding respectful hunters while cursing loggers.",
       "type": CREATURE_TYPES.PLANT,
       "size": CREATURE_SIZES.MEDIUM,
@@ -7034,7 +7034,7 @@ export const LIBRARY_CREATURES = [
         "skogsrã_pine",
         "plant"
       ],
-      "tokenIcon": "Bestiary/skogsra_pine",
+      "tokenIcon": "Bestiary/skogsra",
       "tokenBorder": "#7209b7",
       "stats": {
         "strength": 12,
@@ -7086,23 +7086,23 @@ export const LIBRARY_CREATURES = [
       },
       "dateCreated": "2026-06-13T18:00:00Z",
       "lastModified": "2026-06-13T18:00:00Z",
-      "origin": "The Skogsrå-Pine is born of the Norse Skogsrå, a seductive, hollow-backed forest-spirit who grants fortune but punishes betrayal, and the Alpine Waldmännlein, who defend old-growth forests from the woodsman's axe. She is the wild soul of the ancient pines, guarding the deep woods of Nordhalla.",
+      "origin": "The Skogsra is born of the Norse Skogsrå, a seductive, hollow-backed forest-spirit who grants fortune but punishes betrayal, and the Alpine Waldmännlein, who defend old-growth forests from the woodsman's axe. She is the wild soul of the ancient pines, guarding the deep woods of Nordhalla.",
       "nature": "From the front, she appears as a stunning woman with skin of textured birch bark, hair of silver moss, and a gown of living pine needles that shifts from green in the warmth to grey-blue in the biting cold. From behind, however, she is a hollowed-out pine trunk filled with nesting forest birds and decaying wood, with a fox tail peeking out from the hem of her gown. Her face is heart-shaped and beautiful, dominated by large, dark eyes full of forest-knowing and a smile that is both warm and unsettling.",
       "habitat": "She dwells within the ancient pine forests and old-growth timberlands of Nordhalla, particularly the Valley of Ymir.",
-      "depth": "The Skogsrå-Pine frequently offers her favor to lone Skald hunters, granting them supernatural accuracy on the condition that they never look at her back and never speak of her; those who break this covenant are cursed to wander in circles until they freeze. She also acts as a fierce warden of the trees, turning the axes of woodcutters into brittle ice that shatters on impact. The oldest pines in the Valley of Ymir are so heavily guarded by her presence that even the Rune Keepers refuse to harvest them."
+      "depth": "The Skogsra frequently offers her favor to lone Skald hunters, granting them supernatural accuracy on the condition that they never look at her back and never speak of her; those who break this covenant are cursed to wander in circles until they freeze. She also acts as a fierce warden of the trees, turning the axes of woodcutters into brittle ice that shatters on impact. The oldest pines in the Valley of Ymir are so heavily guarded by her presence that even the Rune Keepers refuse to harvest them."
     },
     {
-      "id": "kraken_ice",
-      "name": "Kraken-Ice",
+      "id": "kraken",
+      "name": "Kraken",
       "description": "A colossal sub-glacial leviathan whose massive tentacles shatter ice sheets to drag entire fleets into the freezing depths.",
       "type": CREATURE_TYPES.ELEMENTAL,
       "size": CREATURE_SIZES.LARGE,
       "tags": [
         "nordhalla",
-        "kraken_ice",
+        "kraken",
         "elemental"
       ],
-      "tokenIcon": "Bestiary/kraken_ice",
+      "tokenIcon": "Bestiary/kraken",
       "tokenBorder": "#7209b7",
       "stats": {
         "strength": 22,
@@ -7197,10 +7197,10 @@ export const LIBRARY_CREATURES = [
       },
       "dateCreated": "2026-06-13T18:00:00Z",
       "lastModified": "2026-06-13T18:00:00Z",
-      "origin": "The Kraken-Ice arises from the Norse Kraken, the legendary leviathan of the deep seas whose size rivaled islands, and the Alpine Seeschlange, the giant serpents reported to dwell in deep mountain lakes. It embodies the hidden horrors of the frozen northern waters, waiting beneath the thick sheets of ice.",
+      "origin": "The Kraken arises from the Norse Kraken, the legendary leviathan of the deep seas whose size rivaled islands, and the Alpine Seeschlange, the giant serpents reported to dwell in deep mountain lakes. It embodies the hidden horrors of the frozen northern waters, waiting beneath the thick sheets of ice.",
       "nature": "This creature manifests as enormous, semi-transparent tentacles as thick as longship masts, covered in barbed ice-suckers capable of crushing stone. Its skin reveals dark sub-glacial water pulsing through visible veins, highlighted by bioluminescent organs that glow in slow, rhythmic pulses. Its actual face is rarely seen, resting in deep fjord trenches, but when it surfaces, it reveals a massive parrot-like beak of black ice flanked by glowing indigo eyes the size of shields.",
       "habitat": "It lives in the deep fjord trenches, ice-covered seas, and coastal waters of Nordhalla.",
-      "depth": "The Kraken-Ice is a dread destroyer of ships, attacking by shattering the thick surface ice from below and dragging vessels into the freezing waters before the crew can escape. When dormant, its massive back presses against the ice to form a dome that resembles a natural island; experienced Skald captains test these ice-islands by driving iron spikes deep into the frost, fleeing immediately if the wound bleeds dark water."
+      "depth": "The Kraken is a dread destroyer of ships, attacking by shattering the thick surface ice from below and dragging vessels into the freezing waters before the crew can escape. When dormant, its massive back presses against the ice to form a dome that resembles a natural island; experienced Skald captains test these ice-islands by driving iron spikes deep into the frost, fleeing immediately if the wound bleeds dark water."
     },
     {
       "id": "marmennill",

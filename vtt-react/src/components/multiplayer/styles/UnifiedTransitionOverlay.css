@@ -135,19 +135,22 @@
     font-size: 3.5rem;
     color: var(--transition-gold);
     filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.5));
-    animation: unifiedSpiritSpin 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    transform-origin: center center;
+    /* Sailing helm: continuous course corrections, turning to each side like a helmsman
+       steering through open water. Never a single endless spin in one direction. */
+    animation: unifiedHelmSteer 8s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
 }
 
-@keyframes unifiedSpiritSpin {
-    0% {
-        transform: rotate(0deg) scale(1);
-    }
-    50% {
-        transform: rotate(180deg) scale(1.05);
-    }
-    100% {
-        transform: rotate(360deg) scale(1);
-    }
+@keyframes unifiedHelmSteer {
+    0%   { transform: rotate(0deg); }
+    10%  { transform: rotate(34deg); }
+    20%  { transform: rotate(38deg); }
+    34%  { transform: rotate(-6deg); }
+    46%  { transform: rotate(-30deg); }
+    56%  { transform: rotate(-28deg); }
+    72%  { transform: rotate(14deg); }
+    86%  { transform: rotate(3deg); }
+    100% { transform: rotate(0deg); }
 }
 
 .unified-title {
@@ -190,53 +193,7 @@
 .unified-progress-bar {
     display: flex;
     align-items: center;
-    gap: 8px;
     margin-bottom: 12px;
-}
-
-.unified-progress-rune {
-    width: 12px;
-    height: 20px;
-    flex-shrink: 0;
-    background: linear-gradient(
-        180deg,
-        transparent 0%,
-        var(--transition-gold) 15%,
-        var(--transition-gold-light) 50%,
-        var(--transition-gold) 85%,
-        transparent 100%
-    );
-    border-radius: 2px;
-    opacity: 0.9;
-    position: relative;
-    
-    box-shadow: 
-        0 0 8px rgba(212, 175, 55, 0.5),
-        inset 0 0 3px rgba(255, 255, 255, 0.3);
-    
-    /* Improve sharpness */
-    image-rendering: crisp-edges;
-    -webkit-font-smoothing: antialiased;
-}
-
-.unified-progress-rune::before,
-.unified-progress-rune::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 6px;
-    height: 2px;
-    background: var(--transition-gold-light);
-    border-radius: 1px;
-}
-
-.unified-progress-rune::before {
-    top: 3px;
-}
-
-.unified-progress-rune::after {
-    bottom: 3px;
 }
 
 .unified-progress-track {
@@ -306,34 +263,6 @@
     100% {
         left: 100%;
     }
-}
-
-.unified-progress-stages {
-    position: relative;
-    height: 20px;
-    margin: 0 24px;
-}
-
-.unified-progress-node {
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    background: rgba(212, 175, 55, 0.2);
-    border: 1px solid rgba(212, 175, 55, 0.4);
-    border-radius: 50%;
-    transform: translateX(-50%);
-    transition: all 0.3s ease;
-}
-
-.unified-progress-node.active {
-    background: var(--transition-gold);
-    box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
-}
-
-.unified-progress-node.complete {
-    background: var(--transition-gold-light);
-    box-shadow: 0 0 15px rgba(212, 175, 55, 0.7);
-    transform: translateX(-50%) scale(1.2);
 }
 
 .unified-progress-text {

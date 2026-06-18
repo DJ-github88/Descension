@@ -8,11 +8,11 @@
 export const EMBERSPIRE_PILGRIM_ITEMS = [
     {
         id: 'acolyte-prayer-book',
-        name: 'Acolyte\'s Prayer Book',
+        name: 'Solbrand Prayer-Leaf',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'A well-worn prayer book from your time in the temple.',
+        description: 'A palm-leaf of fire-resistant parchment inscribed with Solbrand vigils, worn smooth by a thousand dawn-prayers.',
         iconId: 'Misc/Books/book-brown-red-emblem-clasp',
         value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
         weight: 2,
@@ -27,11 +27,11 @@ export const EMBERSPIRE_PILGRIM_ITEMS = [
     
     {
         id: 'acolyte-incense',
-        name: 'Incense Sticks (10)',
+        name: 'Caldera Resin-Cones (10)',
         type: 'consumable',
         subtype: 'UTILITY',
         quality: 'common',
-        description: 'Sacred incense used in religious ceremonies. Creates a calming aura when burned.',
+        description: 'Cones of dried caldera-pine resin. Burned at dawn to catch the Solbrand last warmth; the smoke carries prayers into the deep.',
         iconId: 'Misc/Profession Resources/Alchemy/Red/red-potion-bottle-classic-squat-bulbous-rounded-body-narrower-neck-diagonal-bright-deep-red-liquid-two-thirds-light-beige-cream-glass-dark-brown-cylindrical-cork',
         value: { platinum: 0, gold: 1, silver: 0, copper: 0 },
         weight: 0.5,
@@ -52,11 +52,11 @@ export const EMBERSPIRE_PILGRIM_ITEMS = [
     
     {
         id: 'acolyte-vestments',
-        name: 'Acolyte Vestments',
+        name: 'Pilgrim Ash-Robe',
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'common',
-        description: 'Simple religious robes marking you as an acolyte.',
+        description: 'A robe of Sundale ash-grey wool worn by Solbrand pilgrims on the Emberspire circuit.',
         iconId: 'Armor/Chest/chest-simple-tan-tunic',
         value: { platinum: 0, gold: 4, silver: 0, copper: 0 },
         weight: 3,
@@ -79,11 +79,11 @@ export const EMBERSPIRE_PILGRIM_ITEMS = [
 export const SHYR_RUNNER_ITEMS = [
     {
         id: 'criminal-crowbar',
-        name: 'Crowbar',
+        name: 'Shyr Obsidian-Pry',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'A sturdy crowbar. Useful for breaking and entering.',
+        description: 'A bog-iron pry-bar wrapped in caldera-cloth. Standard issue for a Shyr runner working the obsidian-trade crevices.',
         iconId: 'Misc/Books/book-brown-teal-question-mark',
         value: { platinum: 0, gold: 2, silver: 0, copper: 0 },
         weight: 5,
@@ -98,11 +98,11 @@ export const SHYR_RUNNER_ITEMS = [
     
     {
         id: 'criminal-dark-cloak',
-        name: 'Dark Common Clothes',
+        name: 'Basalt-Dust Wraps',
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'common',
-        description: 'Dark, nondescript clothing perfect for blending into shadows.',
+        description: 'Dark, nondescript wraps stained grey with Shyr basalt-dust. Blends into the caldera-shadow at a distance.',
         iconId: 'Armor/Chest/chest-simple-tan-tunic',
         value: { platinum: 0, gold: 3, silver: 0, copper: 0 },
         weight: 2,
@@ -122,11 +122,11 @@ export const SHYR_RUNNER_ITEMS = [
     
     {
         id: 'criminal-thieves-tools',
-        name: 'Thieves\' Tools',
+        name: 'Crevice-Tools',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'uncommon',
-        description: 'A complete set of tools for picking locks and disabling traps.',
+        description: 'A rolled kit of obsidian-edged picks and bog-iron probes for working the Shyr trade-crevices and the locks that guard them.',
         iconId: 'Misc/Books/book-brown-teal-question-mark',
         value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
         weight: 1,
@@ -141,11 +141,11 @@ export const SHYR_RUNNER_ITEMS = [
 
     {
         id: 'criminal-lockpicks',
-        name: 'Lockpicks (5)',
+        name: 'Obsidian Splint-Locks (5)',
         type: 'consumable',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'A set of five delicate lockpicks for opening locks. Each use has a chance to break.',
+        description: 'Five splinters of Shyr obsidian, each honed to a different ward. Brittle, but silent.',
         iconId: 'Misc/Books/book-brown-teal-question-mark',
         value: { platinum: 0, gold: 2, silver: 5, copper: 0 },
         weight: 0.5,
@@ -164,11 +164,11 @@ export const SHYR_RUNNER_ITEMS = [
 export const LEDGER_KEEPER_ITEMS = [
     {
         id: 'folk-hero-artisan-tools',
-        name: 'Artisan\'s Tools',
+        name: 'Scribe-Sentinel Kit',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'Tools from your trade before you became a hero.',
+        description: 'A chained kit of quill, peat-ink, and binding-wax. The tools of a Thalren ledger-keeper whose journal is their legal identity.',
         iconId: 'Misc/Books/book-brown-teal-question-mark',
         value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
         weight: 5,
@@ -183,11 +183,11 @@ export const LEDGER_KEEPER_ITEMS = [
 
     {
         id: 'folk-hero-shovel',
-        name: 'Shovel',
+        name: 'Barrow-Spade',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'A simple shovel. Reminds you of your humble origins.',
+        description: 'A short ironwood spade for the mist-barrows. Mistbarrow archivists petition for these every thaw.',
         iconId: 'Misc/Profession Resources/Tools/shovel',
         value: { platinum: 0, gold: 1, silver: 0, copper: 0 },
         weight: 5,
@@ -202,11 +202,11 @@ export const LEDGER_KEEPER_ITEMS = [
     
     {
         id: 'folk-hero-common-clothes',
-        name: 'Common Clothes',
+        name: 'Fog-Weave Habit',
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'common',
-        description: 'Simple, practical clothing of the common folk.',
+        description: 'A simple habit of fog-grey wool, standard for the Frostwood ledger-wards.',
         iconId: 'Armor/Chest/chest-simple-tan-tunic',
         value: { platinum: 0, gold: 2, silver: 0, copper: 0 },
         weight: 2,
@@ -223,11 +223,11 @@ export const LEDGER_KEEPER_ITEMS = [
 
     {
         id: 'folk-hero-travel-rations',
-        name: 'Travel Rations (3 days)',
+        name: 'Ironwood Waybread (3 days)',
         type: 'consumable',
         subtype: 'FOOD',
         quality: 'common',
-        description: 'Simple preserved food suitable for travel and hard work. Restores vitality when consumed.',
+        description: 'Resinous waybread of pine-nut and tallow. Dense enough to survive the fog, plain enough to eat cold.',
         iconId: 'Misc/Books/book-brown-teal-question-mark',
         value: { platinum: 0, gold: 1, silver: 5, copper: 0 },
         weight: 6,
@@ -249,11 +249,11 @@ export const LEDGER_KEEPER_ITEMS = [
 export const BLOODLINE_HEIR_ITEMS = [
     {
         id: 'noble-signet-ring',
-        name: 'Signet Ring',
+        name: 'House Signet-Band',
         type: 'accessory',
         subtype: 'RING',
         quality: 'uncommon',
-        description: 'A ring bearing your family crest. Proof of your noble lineage.',
+        description: 'A signet-band bearing your house crest, stamped in bog-iron. Proof of lineage, sealed in wax and memory.',
         iconId: 'Armor/Finger/finger-simple-teal-diamond-ring',
         value: { platinum: 0, gold: 15, silver: 0, copper: 0 },
         weight: 0.1,
@@ -270,11 +270,11 @@ export const BLOODLINE_HEIR_ITEMS = [
     
     {
         id: 'noble-fine-clothes',
-        name: 'Fine Clothes',
+        name: 'House-Mantle',
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'uncommon',
-        description: 'Expensive, well-tailored clothing befitting nobility.',
+        description: 'A well-tailored mantle in your house colors, cut for the High Hearth and the petitioners line.',
         iconId: 'Armor/Chest/chest-simple-tan-tunic',
         value: { platinum: 0, gold: 12, silver: 0, copper: 0 },
         weight: 3,
@@ -294,11 +294,11 @@ export const BLOODLINE_HEIR_ITEMS = [
     
     {
         id: 'noble-scroll-of-pedigree',
-        name: 'Scroll of Pedigree',
+        name: 'Lineage Tapestry-Strip',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'A scroll documenting your noble lineage.',
+        description: 'A strip cut from your house great-tapestry, naming your line three generations back. Required at the Greymark gate.',
         iconId: 'Misc/Books/book-scroll-rolled-red-wax-seal',
         value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
         weight: 0.1,
@@ -313,11 +313,11 @@ export const BLOODLINE_HEIR_ITEMS = [
 
     {
         id: 'noble-perfume',
-        name: 'Perfume (vial)',
+        name: 'Memory-Blossom Oil (vial)',
         type: 'consumable',
         subtype: 'COSMETIC',
         quality: 'uncommon',
-        description: 'A vial of expensive, elegant perfume worn by nobility. Enhances social presence when applied.',
+        description: 'A vial of oil distilled from the memory-blossoms of the Reach. Lingers, and steadies the presence.',
         iconId: 'Misc/Profession Resources/Alchemy/Red/red-potion-bottle-classic-squat-bulbous-rounded-body-narrower-neck-diagonal-bright-deep-red-liquid-two-thirds-light-beige-cream-glass-dark-brown-cylindrical-cork',
         value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
         weight: 0.1,
@@ -339,11 +339,11 @@ export const BLOODLINE_HEIR_ITEMS = [
 export const SYNOD_ACADEMIC_ITEMS = [
     {
         id: 'sage-research-journal',
-        name: 'Research Journal',
+        name: 'Synod Research Codex',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'A journal filled with your research notes and observations.',
+        description: 'A codex of Synod-Hold issue, its pages ruled for cross-referencing across seven archives.',
         iconId: 'Misc/Books/book-open-quill-pen-cream-pages',
         value: { platinum: 0, gold: 6, silver: 0, copper: 0 },
         weight: 2,
@@ -358,11 +358,11 @@ export const SYNOD_ACADEMIC_ITEMS = [
 
     {
         id: 'sage-ink-and-quill',
-        name: 'Ink and Quill',
+        name: 'Archive Quill and Peat-Ink',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'A bottle of ink and a quill for writing.',
+        description: 'A bone-quill and a bottle of peat-ink that resists the damp of the deeper stacks.',
         iconId: 'Misc/Books/book-scroll-pinned-text-thumbtack',
         value: { platinum: 0, gold: 2, silver: 0, copper: 0 },
         weight: 0.5,
@@ -377,11 +377,11 @@ export const SYNOD_ACADEMIC_ITEMS = [
     
     {
         id: 'sage-scholars-robes',
-        name: 'Scholar\'s Robes',
+        name: 'Synod Scholar-Robe',
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'common',
-        description: 'Comfortable robes worn by scholars and researchers.',
+        description: 'The dark scholar-robe of Synod-Hold, pockets weighted for carrying rolled charts.',
         iconId: 'Armor/Chest/chest-simple-tan-tunic',
         value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
         weight: 3,
@@ -401,11 +401,11 @@ export const SYNOD_ACADEMIC_ITEMS = [
 
     {
         id: 'sage-extra-parchment',
-        name: 'Extra Parchment (5 sheets)',
+        name: 'Ledger-Vellum Sheets (5)',
         type: 'consumable',
         subtype: 'WRITING',
         quality: 'common',
-        description: 'Additional parchment sheets for research and note-taking. Can be used to create scrolls.',
+        description: 'Five sheets of bog-cured vellum that hold ink through fog and frost.',
         iconId: 'Misc/Books/book-scroll-unrolled-textured-markings',
         value: { platinum: 0, gold: 1, silver: 0, copper: 0 },
         weight: 0.5,
@@ -424,11 +424,11 @@ export const SYNOD_ACADEMIC_ITEMS = [
 export const SUMPS_VETERAN_ITEMS = [
     {
         id: 'soldier-military-insignia',
-        name: 'Military Insignia',
+        name: 'Sumps Campaign-Token',
         type: 'accessory',
         subtype: 'TRINKET',
         quality: 'common',
-        description: 'An insignia from your military unit.',
+        description: 'A punched bog-iron token from your Sumps campaign. Some veterans still salute it.',
         iconId: 'Armor/Neck/spiky-teal-gem-pendant',
         value: { platinum: 0, gold: 3, silver: 0, copper: 0 },
         weight: 0.2,
@@ -445,11 +445,11 @@ export const SUMPS_VETERAN_ITEMS = [
     
     {
         id: 'soldier-playing-cards',
-        name: 'Playing Card Set',
+        name: 'Bone Campaign-Cards',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'A deck of cards for passing time in camp.',
+        description: 'A worn deck of bone cards, used to settle debts and read fortunes in the ranks.',
         iconId: 'Misc/Books/book-brown-teal-question-mark',
         value: { platinum: 0, gold: 0, silver: 50, copper: 0 },
         weight: 0.1,
@@ -464,11 +464,11 @@ export const SUMPS_VETERAN_ITEMS = [
     
     {
         id: 'soldier-uniform',
-        name: 'Military Uniform',
+        name: 'Sumps Issue-Wraps',
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'common',
-        description: 'Your old military uniform. Still fits.',
+        description: 'A patched set of Sumps-issue wraps, scarred by vat-glass and Wyrd-storm. Still fits.',
         iconId: 'Armor/Chest/chest-simple-tan-tunic',
         value: { platinum: 0, gold: 4, silver: 0, copper: 0 },
         weight: 3,
@@ -488,11 +488,11 @@ export const SUMPS_VETERAN_ITEMS = [
 
     {
         id: 'soldier-military-rations',
-        name: 'Military Rations (5 days)',
+        name: 'Campaign Waybread (5 days)',
         type: 'consumable',
         subtype: 'FOOD',
         quality: 'common',
-        description: 'Preserved military rations designed to last in harsh conditions. Sustains warriors when consumed.',
+        description: 'Ironwood waybread pressed for the Sumps campaigns. Survives anything, tastes like nothing.',
         iconId: 'Misc/Books/book-brown-teal-question-mark',
         value: { platinum: 0, gold: 2, silver: 0, copper: 0 },
         weight: 10,
@@ -517,11 +517,11 @@ export const SUMPS_VETERAN_ITEMS = [
 export const GLOOMWAY_TRADER_ITEMS = [
     {
         id: 'merchant-scale',
-        name: 'Merchant\'s Scale',
+        name: 'Neth Contract-Scale',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'A precise balance scale used for weighing goods and measuring value.',
+        description: 'A precise bog-iron balance used to weigh memory-glass and verify contract-coin against forgery.',
         iconId: 'Misc/Books/book-brown-teal-question-mark',
         value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
         weight: 3,
@@ -536,11 +536,11 @@ export const GLOOMWAY_TRADER_ITEMS = [
 
     {
         id: 'merchant-sample-goods',
-        name: 'Sample Goods',
+        name: 'Memory-Glass Samples',
         type: 'miscellaneous',
         subtype: 'TRADE_GOODS',
         quality: 'common',
-        description: 'A collection of small, valuable samples used to demonstrate merchandise to potential buyers.',
+        description: 'A velvet-lined case of small memory-glass chips, the standard Gloomway trader demonstration set.',
         iconId: 'Container/Pouch/brown-tied-pouch',
         value: { platinum: 0, gold: 2, silver: 0, copper: 0 },
         weight: 2,
@@ -555,11 +555,11 @@ export const GLOOMWAY_TRADER_ITEMS = [
 
     {
         id: 'merchant-ledger',
-        name: 'Ledger',
+        name: 'Trade-Ledger',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'A leather-bound book for recording transactions, debts, and business dealings.',
+        description: 'A chain-bound ledger for recording contracts, debts, and the slow erosion of trust along the Gloomway.',
         iconId: 'Misc/Books/book-bundle-papers-tied-string',
         value: { platinum: 0, gold: 1, silver: 0, copper: 0 },
         weight: 1,
@@ -577,11 +577,11 @@ export const GLOOMWAY_TRADER_ITEMS = [
 export const SHANTY_RAT_ITEMS = [
     {
         id: 'urchin-small-knife',
-        name: 'Small Knife',
+        name: 'Shanty Shiv',
         type: 'weapon',
         subtype: 'DAGGER',
         quality: 'common',
-        description: 'A small, sharp knife useful for cutting and self-defense on the streets.',
+        description: 'A sharpened ironwood sliver, wrapped in rag. The first tool of anyone raised in the Over-Shanty hanging-slums.',
         iconId: 'Misc/Books/book-brown-teal-question-mark',
         value: { platinum: 0, gold: 2, silver: 0, copper: 0 },
         weight: 1,
@@ -604,11 +604,11 @@ export const SHANTY_RAT_ITEMS = [
 
     {
         id: 'urchin-city-map',
-        name: 'Map of Home City',
+        name: 'Over-Shanty Sewer-Map',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'A detailed map of your home city, showing hidden alleys, shortcuts, and safe hiding spots.',
+        description: 'A charcoal map of the Atropolis underside: which ropes hold, which drops kill, which gates can be bribed.',
         iconId: 'Misc/Books/book-treasure-map-island',
         value: { platinum: 0, gold: 1, silver: 0, copper: 0 },
         weight: 0.1,
@@ -623,11 +623,11 @@ export const SHANTY_RAT_ITEMS = [
 
     {
         id: 'urchin-pet-mouse',
-        name: 'Pet Mouse',
+        name: 'Bog-Sparrow',
         type: 'miscellaneous',
         subtype: 'PET',
         quality: 'common',
-        description: 'A small mouse that has become your loyal companion from your street days.',
+        description: 'A half-tame bog-sparrow that roosts in your collar. Eats the spiders, warns of the damp-rot.',
         iconId: 'Misc/Books/book-brown-teal-question-mark',
         value: { platinum: 0, gold: 0, silver: 0, copper: 0 },
         weight: 0.1,
@@ -642,11 +642,11 @@ export const SHANTY_RAT_ITEMS = [
 
     {
         id: 'urchin-parents-token',
-        name: 'Token of Parents',
+        name: 'Faded Name-Slip',
         type: 'miscellaneous',
         subtype: 'SENTIMENTAL',
         quality: 'common',
-        description: 'A small token or keepsake that reminds you of your lost parents.',
+        description: 'A scrap of vellum with a parent name on it, the ink half-eaten by the fog. You cannot read it anymore, but you keep it.',
         iconId: 'Armor/Finger/finger-simple-teal-diamond-ring',
         value: { platinum: 0, gold: 0, silver: 0, copper: 0 },
         weight: 0.1,
@@ -664,11 +664,11 @@ export const SHANTY_RAT_ITEMS = [
 export const MERROW_SAILOR_ITEMS = [
     {
         id: 'sailor-belaying-pin',
-        name: 'Belaying Pin',
+        name: 'Merrow Belaying-Peg',
         type: 'weapon',
         subtype: 'CLUB',
         quality: 'common',
-        description: 'A stout wooden pin used to secure ropes on sailing ships. Can be used as an improvised weapon.',
+        description: 'A stout ironwood peg for securing dock-line. Heavy enough to settle a tavern dispute.',
         iconId: 'Misc/Books/book-brown-teal-question-mark',
         value: { platinum: 0, gold: 1, silver: 0, copper: 0 },
         weight: 2,
@@ -691,11 +691,11 @@ export const MERROW_SAILOR_ITEMS = [
 
     {
         id: 'sailor-silk-rope',
-        name: 'Silk Rope (50 feet)',
+        name: 'Salt-Sinew Line (50 ft)',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'A coil of fine silk rope, strong yet lightweight, perfect for climbing and sailing maneuvers.',
+        description: 'Fifty feet of braided salt-sinew line. Holds in freezing spray where hempen rope would snap.',
         iconId: 'Misc/Books/book-brown-teal-question-mark',
         value: { platinum: 0, gold: 1, silver: 0, copper: 0 },
         weight: 5,
@@ -710,11 +710,11 @@ export const MERROW_SAILOR_ITEMS = [
 
     {
         id: 'sailor-lucky-charm',
-        name: 'Lucky Charm',
+        name: 'Salt-Luck Charm',
         type: 'accessory',
         subtype: 'TRINKET',
         quality: 'common',
-        description: 'A small charm or trinket believed to bring good fortune at sea.',
+        description: 'A Merryn salt-luck charm: a glass float, a knot, and a coin from a ship that came back. Kept close.',
         iconId: 'Armor/Neck/spiky-teal-gem-pendant',
         value: { platinum: 0, gold: 0, silver: 5, copper: 0 },
         weight: 0.1,
@@ -734,11 +734,11 @@ export const MERROW_SAILOR_ITEMS = [
 export const PEAK_TRACKER_ITEMS = [
     {
         id: 'outlander-hunting-trap',
-        name: 'Hunting Trap',
+        name: 'Cragjaw Snare-Trap',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'A steel trap for catching game.',
+        description: 'A steel-cable snare for the peak-goats and worse that browse the Cragjaw ledges.',
         iconId: 'Misc/Books/book-brown-teal-question-mark',
         value: { platinum: 0, gold: 3, silver: 0, copper: 0 },
         weight: 25,
@@ -753,11 +753,11 @@ export const PEAK_TRACKER_ITEMS = [
 
     {
         id: 'outlander-animal-trophy',
-        name: 'Animal Trophy',
+        name: 'Peak Beast-Trophy',
         type: 'miscellaneous',
         subtype: 'TRADE_GOODS',
         quality: 'common',
-        description: 'A trophy from an animal you hunted in the wilds.',
+        description: 'A horn or pelt taken from a Cragjaw beast. Marks you as someone who feeds a hold, not drains it.',
         iconId: 'Misc/Books/book-brown-teal-question-mark',
         value: { platinum: 0, gold: 2, silver: 0, copper: 0 },
         weight: 2,
@@ -777,11 +777,11 @@ export const PEAK_TRACKER_ITEMS = [
     
     {
         id: 'outlander-travelers-clothes',
-        name: 'Traveler\'s Clothes',
+        name: 'Cragshaw Climb-Wraps',
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'common',
-        description: 'Rugged clothing designed for wilderness travel.',
+        description: 'Reinforced wraps of wind-leather and ironwood-bast, cut for vertical travel.',
         iconId: 'Armor/Chest/chest-simple-tan-tunic',
         value: { platinum: 0, gold: 3, silver: 0, copper: 0 },
         weight: 3,
@@ -801,11 +801,11 @@ export const PEAK_TRACKER_ITEMS = [
 
     {
         id: 'outlander-waterskin',
-        name: 'Waterskin',
+        name: 'Bog-Skin Flask',
         type: 'consumable',
         subtype: 'LIQUID',
         quality: 'common',
-        description: 'A leather waterskin for carrying water in the wilderness. Refreshes travelers when drunk.',
+        description: 'A waxed flask that holds a day of meltwater from the glacier-runs.',
         iconId: 'Misc/Books/book-brown-teal-question-mark',
         value: { platinum: 0, gold: 0, silver: 2, copper: 0 },
         weight: 1,
@@ -827,11 +827,11 @@ export const PEAK_TRACKER_ITEMS = [
 export const DEBT_NEGOTIATOR_ITEMS = [
     {
         id: 'charlatan-weighted-dice',
-        name: 'Weighted Dice',
+        name: 'Loaded Bone-Dice',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'uncommon',
-        description: 'Dice that are subtly weighted to favor certain outcomes.',
+        description: 'Bone dice weighted with bog-iron filings. The Neth contract-houses check for these; the Drun carry three sets.',
         iconId: 'Misc/Books/book-brown-teal-question-mark',
         value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
         weight: 0.1,
@@ -846,11 +846,11 @@ export const DEBT_NEGOTIATOR_ITEMS = [
 
     {
         id: 'charlatan-forgery-kit',
-        name: 'Forgery Kit',
+        name: 'Contract Forgery-Kit',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'uncommon',
-        description: 'Tools for creating convincing forgeries of documents and seals.',
+        description: 'A roll of bog-iron styluses, wax-mix, and bleached vellum for replicating a contract-seal. Highly illegal in Atropolis.',
         iconId: 'Container/Bag/brown-satchel-buckle-strap',
         value: { platinum: 0, gold: 10, silver: 0, copper: 0 },
         weight: 2,
@@ -865,11 +865,11 @@ export const DEBT_NEGOTIATOR_ITEMS = [
     
     {
         id: 'charlatan-fine-clothes',
-        name: 'Charlatan\'s Fine Clothes',
+        name: 'Velun Pact-Robe',
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'common',
-        description: 'Flashy clothes designed to impress and deceive.',
+        description: 'A Velun Neth pact-robe of silvered silk, cut to impress and to obscure exactly which clause you are about to invoke.',
         iconId: 'Armor/Chest/chest-simple-tan-tunic',
         value: { platinum: 0, gold: 6, silver: 0, copper: 0 },
         weight: 3,
@@ -889,11 +889,11 @@ export const DEBT_NEGOTIATOR_ITEMS = [
 
     {
         id: 'charlatan-costume-accessories',
-        name: 'Disguise Accessories',
+        name: 'Face-Shift Compounds',
         type: 'consumable',
         subtype: 'COSMETIC',
         quality: 'common',
-        description: 'Various small items for creating convincing disguises and false identities. Enhances deception when used.',
+        description: 'Small pots of Mimir face-shift pigment and Drun veil-powder, for becoming someone the contract does not name.',
         iconId: 'Container/Bag/brown-satchel-messenger',
         value: { platinum: 0, gold: 2, silver: 0, copper: 0 },
         weight: 1,
@@ -915,11 +915,11 @@ export const DEBT_NEGOTIATOR_ITEMS = [
 export const FROST_CHANTER_ITEMS = [
     {
         id: 'entertainer-musical-instrument',
-        name: 'Musical Instrument',
+        name: 'Skald Throat-Harp',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'A musical instrument of your choice, used to entertain audiences and perform.',
+        description: 'A bone-frame throat-harp of Skald make, played against the sternum to carry over the glacier-wind.',
         iconId: 'Instruments/Drum/drum-brown-band',
         value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
         weight: 3,
@@ -934,11 +934,11 @@ export const FROST_CHANTER_ITEMS = [
 
     {
         id: 'entertainer-favor-admirer',
-        name: 'Favor of Admirer',
+        name: 'Skald Favor-Token',
         type: 'miscellaneous',
         subtype: 'DOCUMENT',
         quality: 'common',
-        description: 'A letter or token from an admirer that can be traded for favors in settlements.',
+        description: 'A carved favor-token from a saga-listener. Redeemable for a meal, a night, or a name-mention in an ongoing saga.',
         iconId: 'Misc/Books/book-folded-letter-envelope',
         value: { platinum: 0, gold: 0, silver: 0, copper: 0 },
         weight: 0.1,
@@ -953,11 +953,11 @@ export const FROST_CHANTER_ITEMS = [
 
     {
         id: 'entertainer-costume',
-        name: 'Entertainer\'s Costume',
+        name: 'Saga-Vestments',
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'common',
-        description: 'Colorful, flamboyant clothing designed for performances.',
+        description: 'The heavy fur-and-ironwood vestments of a Skald saga-keeper, marked with the knots of three bloodlines.',
         iconId: 'Armor/Chest/chest-simple-tan-tunic',
         value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
         weight: 4,
@@ -972,11 +972,11 @@ export const FROST_CHANTER_ITEMS = [
 
     {
         id: 'entertainer-theatrical-makeup',
-        name: 'Theatrical Makeup',
+        name: 'Rime-Paint',
         type: 'consumable',
         subtype: 'COSMETIC',
         quality: 'common',
-        description: 'Colorful makeup and face paint for theatrical performances. Enhances presence when applied.',
+        description: 'A pot of Skald rime-paint, used to mark the saga-characters across the chanter face and hands.',
         iconId: 'Misc/Books/book-brown-teal-question-mark',
         value: { platinum: 0, gold: 1, silver: 0, copper: 0 },
         weight: 0.5,
@@ -998,11 +998,11 @@ export const FROST_CHANTER_ITEMS = [
 export const HUSH_SURVIVOR_ITEMS = [
     {
         id: 'hermit-herbalism-kit',
-        name: 'Herbalism Kit',
+        name: 'Bog-Herbal Kit',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'Tools for identifying and harvesting herbs, plants, and natural remedies.',
+        description: 'A kit of bog-moss, ghost-mycelium tongs, and cold-water stills for working the fungal-deeps without breathing the hush.',
         iconId: 'Misc/Profession Resources/Alchemy/Red/red-potion-bottle-classic-squat-bulbous-rounded-body-narrower-neck-diagonal-bright-deep-red-liquid-two-thirds-light-beige-cream-glass-dark-brown-cylindrical-cork',
         value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
         weight: 3,
@@ -1017,11 +1017,11 @@ export const HUSH_SURVIVOR_ITEMS = [
 
     {
         id: 'hermit-scroll-case',
-        name: 'Scroll Case with Spiritual Writings',
+        name: 'Veil-Speaker Scroll-Case',
         type: 'miscellaneous',
         subtype: 'DOCUMENT',
         quality: 'common',
-        description: 'A case containing scrolls of spiritual writings and meditations from your time in seclusion.',
+        description: 'A wax-sealed case of Vreken Veil-Speaker writings, carried by one who survived the hush and kept their name.',
         iconId: 'Misc/Books/book-brown-teal-question-mark',
         value: { platinum: 0, gold: 3, silver: 0, copper: 0 },
         weight: 1,
@@ -1036,11 +1036,11 @@ export const HUSH_SURVIVOR_ITEMS = [
 
     {
         id: 'hermit-winter-blanket',
-        name: 'Winter Blanket',
+        name: 'Frost-Wool Wrap',
         type: 'miscellaneous',
         subtype: 'CLOTHING',
         quality: 'common',
-        description: 'A thick, warm blanket suitable for cold weather and outdoor survival.',
+        description: 'A felted frost-wool wrap, the kind that sees a body through a bog-night when the trail goes dark.',
         iconId: 'Armor/Cloak/cloak-simple-brown-cape',
         value: { platinum: 0, gold: 0, silver: 5, copper: 0 },
         weight: 3,
@@ -1055,11 +1055,11 @@ export const HUSH_SURVIVOR_ITEMS = [
 
     {
         id: 'hermit-trail-rations',
-        name: 'Trail Rations (5 days)',
+        name: 'Bog-Waybread (5 days)',
         type: 'consumable',
         subtype: 'FOOD',
         quality: 'common',
-        description: 'Dried and preserved food suitable for long periods without fresh supplies. Sustains the solitary when consumed.',
+        description: 'Dense bog-moss and tallow waybread. The hush takes appetite; this keeps the body fed when the mind forgets to eat.',
         iconId: 'Misc/Books/book-brown-teal-question-mark',
         value: { platinum: 0, gold: 2, silver: 5, copper: 0 },
         weight: 10,
@@ -1084,11 +1084,11 @@ export const HUSH_SURVIVOR_ITEMS = [
 export const MONOLITH_HUNTER_ITEMS = [
     {
         id: 'scholar-bottle-ink',
-        name: 'Bottle of Ink',
+        name: 'Archive Ink-Bottle',
         type: 'consumable',
         subtype: 'WRITING',
         quality: 'common',
-        description: 'A bottle of high-quality ink for writing and research.',
+        description: 'A bottle of archival peat-ink, the kind that does not run when a Monolith vault weeps condensation.',
         iconId: 'Misc/Profession Resources/Alchemy/Blue/blue-potion-bottle',
         value: { platinum: 0, gold: 1, silver: 0, copper: 0 },
         weight: 0.1,
@@ -1104,11 +1104,11 @@ export const MONOLITH_HUNTER_ITEMS = [
 
     {
         id: 'scholar-quill',
-        name: 'Quill',
+        name: 'Canopy-Quill',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'A fine writing quill for precise scholarly work.',
+        description: 'A quill of ironwood-canopy fiber, standard-issue for Frozen Archive fieldwork.',
         iconId: 'Misc/Books/book-brown-teal-question-mark',
         value: { platinum: 0, gold: 0, silver: 2, copper: 0 },
         weight: 0.1,
@@ -1123,11 +1123,11 @@ export const MONOLITH_HUNTER_ITEMS = [
 
     {
         id: 'scholar-parchment',
-        name: 'Parchment (10 sheets)',
+        name: 'Archive Vellum (10)',
         type: 'consumable',
         subtype: 'WRITING',
         quality: 'common',
-        description: 'Ten sheets of high-quality parchment for writing and research.',
+        description: 'Ten sheets of bog-cured vellum ruled for Monolith-glyph transcription.',
         iconId: 'Misc/Books/book-scroll-unrolled-textured-markings',
         value: { platinum: 0, gold: 1, silver: 0, copper: 0 },
         weight: 0.5,
@@ -1143,11 +1143,11 @@ export const MONOLITH_HUNTER_ITEMS = [
 
     {
         id: 'scholar-academic-robes',
-        name: 'Academic Robes',
+        name: 'Monolith-Researcher Robe',
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'common',
-        description: 'Formal robes worn by scholars and academics, with pockets for writing materials.',
+        description: 'A preservative-waxed research robe, pockets fitted for lens, vellum, and a cold-iron ward.',
         iconId: 'Armor/Chest/chest-simple-tan-tunic',
         value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
         weight: 6,
@@ -1162,11 +1162,11 @@ export const MONOLITH_HUNTER_ITEMS = [
 
     {
         id: 'scholar-research-notes',
-        name: 'Research Notes',
+        name: 'Monolith Field-Notes',
         type: 'miscellaneous',
         subtype: 'DOCUMENT',
         quality: 'common',
-        description: 'A collection of your research notes and scholarly findings.',
+        description: 'A sheaf of field-notes: rubbing-copies of seven Monolith faces, and a list of the ones that screamed when read aloud.',
         iconId: 'Misc/Books/book-open-quill-pen-cream-pages',
         value: { platinum: 0, gold: 2, silver: 0, copper: 0 },
         weight: 1,

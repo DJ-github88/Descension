@@ -54,17 +54,18 @@ const StorageUsageWidget = ({ compact = false }) => {
   }
 
   if (!isOnline || !detailedUsage) {
+    // In compact mode (account overview bar), hide entirely while unavailable
+    // so we don't park a permanent "Loading..." cloud below the header.
+    if (compact) return null;
     return (
-      <div className={`storage-usage-widget ${compact ? 'compact' : ''} offline`}>
+      <div className={`storage-usage-widget offline`}>
         <div className="storage-header">
           <i className="fas fa-cloud"></i>
           <span>Loading...</span>
         </div>
-        {!compact && (
-          <div className="storage-content">
-            <p>Unable to check storage usage. Please check your connection.</p>
-          </div>
-        )}
+        <div className="storage-content">
+          <p>Unable to check storage usage. Please check your connection.</p>
+        </div>
       </div>
     );
   }

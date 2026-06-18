@@ -7,8 +7,7 @@
  * - Stat modifications
  */
 
-import useBuffStore from '../store/buffStore';
-import useDebuffStore from '../store/debuffStore';
+import useConditionStore from '../store/conditionStore';
 import useCreatureStore from '../store/creatureStore';
 import useCharacterStore from '../store/characterStore';
 import useChatStore from '../store/chatStore';
@@ -290,13 +289,12 @@ const processEffectTick = (effect, targetId, targetType) => {
  * Called when it's that target's turn or on tick intervals
  */
 export const processOverTimeEffectsForTarget = (targetId, tickTiming = 'turn') => {
-    const buffStore = useBuffStore.getState();
-    const debuffStore = useDebuffStore.getState();
+    const conditionStore = useConditionStore.getState();
     
     const results = [];
     
     // Process buffs
-    buffStore.activeBuffs
+    conditionStore.activeBuffs
         .filter(buff => buff.targetId === targetId && buff.hasOverTimeEffect)
         .filter(buff => buff.tickFrequency === tickTiming || buff.tickFrequency === 'realtime')
         .forEach(buff => {
@@ -305,7 +303,7 @@ export const processOverTimeEffectsForTarget = (targetId, tickTiming = 'turn') =
         });
     
     // Process debuffs
-    debuffStore.activeDebuffs
+    conditionStore.activeDebuffs
         .filter(debuff => debuff.targetId === targetId && debuff.hasOverTimeEffect)
         .filter(debuff => debuff.tickFrequency === tickTiming || debuff.tickFrequency === 'realtime')
         .forEach(debuff => {
@@ -320,19 +318,18 @@ export const processOverTimeEffectsForTarget = (targetId, tickTiming = 'turn') =
  * Process all real-time effects (called on interval timer)
  */
 export const processRealtimeEffects = () => {
-    const buffStore = useBuffStore.getState();
-    const debuffStore = useDebuffStore.getState();
+    const conditionStore = useConditionStore.getState();
     
     const results = [];
     
     // Get all unique target IDs with realtime effects
     const targets = new Set();
     
-    buffStore.activeBuffs
+    conditionStore.activeBuffs
         .filter(buff => buff.hasOverTimeEffect && buff.tickFrequency === 'realtime')
         .forEach(buff => targets.add(buff.targetId));
     
-    debuffStore.activeDebuffs
+    conditionStore.activeDebuffs
         .filter(debuff => debuff.hasOverTimeEffect && debuff.tickFrequency === 'realtime')
         .forEach(debuff => targets.add(debuff.targetId));
     
@@ -349,13 +346,12 @@ export const processRealtimeEffects = () => {
  * Get total stat modifiers for a target from all active buffs/debuffs
  */
 export const getStatModifiersForTarget = (targetId) => {
-    const buffStore = useBuffStore.getState();
-    const debuffStore = useDebuffStore.getState();
+    const conditionStore = useConditionStore.getState();
     
     const modifiers = {};
     
     // Collect buff effects
-    buffStore.activeBuffs
+    conditionStore.activeBuffs
         .filter(buff => buff.targetId === targetId)
         .forEach(buff => {
             if (buff.effects) {
@@ -366,8 +362,8 @@ export const getStatModifiersForTarget = (targetId) => {
         });
     
     // Collect debuff effects — use raw values; debuffs should already be stored as negative values
-    // (getActiveDebuffEffects in debuffStore handles negation separately)
-    debuffStore.activeDebuffs
+    // (getActiveEffects('debuff', ...) handles negation separately)
+    conditionStore.activeDebuffs
         .filter(debuff => debuff.targetId === targetId)
         .forEach(debuff => {
             if (debuff.effects) {
@@ -442,13 +438,12 @@ const shouldEffectTick = (effect) => {
  * Process real-time effects with proper interval checking
  */
 const processRealtimeEffectsWithInterval = () => {
-    const buffStore = useBuffStore.getState();
-    const debuffStore = useDebuffStore.getState();
+    const conditionStore = useConditionStore.getState();
     
     const results = [];
     
     // Process buffs with realtime tick frequency
-    buffStore.activeBuffs
+    conditionStore.activeBuffs
         .filter(buff => buff.hasOverTimeEffect && buff.tickFrequency === 'realtime')
         .filter(buff => shouldEffectTick(buff))
         .forEach(buff => {
@@ -457,7 +452,7 @@ const processRealtimeEffectsWithInterval = () => {
         });
     
     // Process debuffs with realtime tick frequency
-    debuffStore.activeDebuffs
+    conditionStore.activeDebuffs
         .filter(debuff => debuff.hasOverTimeEffect && debuff.tickFrequency === 'realtime')
         .filter(debuff => shouldEffectTick(debuff))
         .forEach(debuff => {

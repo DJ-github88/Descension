@@ -345,7 +345,7 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
         // Add crafted item to inventory
         const resultItem = itemLibrary.find(item => item.id === recipe.resultItemId);
         if (resultItem) {
-            addItemFromLibrary(resultItem, recipe.resultQuantity || 1);
+            addItemFromLibrary(resultItem, { quantity: recipe.resultQuantity || 1 });
         }
 
         // Add experience and potentially level up

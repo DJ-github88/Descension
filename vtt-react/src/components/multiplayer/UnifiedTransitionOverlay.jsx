@@ -154,7 +154,6 @@ const UnifiedTransitionOverlay = ({
                         {showProgress && (
                             <div className="unified-progress-container">
                                 <div className="unified-progress-bar">
-                                    <div className="unified-progress-rune left"></div>
                                     <div className="unified-progress-track">
                                         <div
                                             className="unified-progress-fill"
@@ -163,18 +162,6 @@ const UnifiedTransitionOverlay = ({
                                             <div className="unified-progress-shimmer"></div>
                                         </div>
                                     </div>
-                                    <div className="unified-progress-rune right"></div>
-                                </div>
-
-                                <div className="unified-progress-stages">
-                                    {[0, 25, 50, 75, 100].map((stage) => (
-                                        <div
-                                            key={stage}
-                                            className={`unified-progress-node ${displayProgress >= stage ? 'active' : ''
-                                                } ${displayProgress >= stage + 20 ? 'complete' : ''}`}
-                                            style={{ left: `${stage}%` }}
-                                        />
-                                    ))}
                                 </div>
 
                                 <p className="unified-progress-text">{currentStageText}</p>
@@ -202,13 +189,11 @@ const UnifiedTransitionOverlay = ({
                             <div className="unified-fading-content">
                                 <div className="unified-progress-container">
                                     <div className="unified-progress-bar complete">
-                                        <div className="unified-progress-rune left"></div>
                                         <div className="unified-progress-track">
                                             <div className="unified-progress-fill" style={{ width: '100%' }}>
                                                 <div className="unified-progress-shimmer"></div>
                                             </div>
                                         </div>
-                                        <div className="unified-progress-rune right"></div>
                                     </div>
                                 </div>
                                 <p className="unified-fading-message">
@@ -242,13 +227,11 @@ const UnifiedTransitionOverlay = ({
 
                         <div className="unified-progress-container map-mode">
                             <div className="unified-progress-bar">
-                                <div className="unified-progress-rune left"></div>
                                 <div className="unified-progress-track">
                                     <div className="unified-progress-fill cinematic">
                                         <div className="unified-progress-shimmer"></div>
                                     </div>
                                 </div>
-                                <div className="unified-progress-rune right"></div>
                             </div>
                         </div>
                     </>

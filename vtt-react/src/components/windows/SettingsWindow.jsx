@@ -72,6 +72,70 @@ const ResourceBarToggles = memo(function ResourceBarToggles() {
     );
 });
 
+const AccessibilityToggles = memo(function AccessibilityToggles() {
+    const reducedMotion = useSettingsStore(state => state.reducedMotion);
+    const highContrast = useSettingsStore(state => state.highContrast);
+    const largeText = useSettingsStore(state => state.largeText);
+    const screenReader = useSettingsStore(state => state.screenReader);
+    const setReducedMotion = useSettingsStore(state => state.setReducedMotion);
+    const setHighContrast = useSettingsStore(state => state.setHighContrast);
+    const setLargeText = useSettingsStore(state => state.setLargeText);
+    const setScreenReader = useSettingsStore(state => state.setScreenReader);
+
+    const toggleStyle = {
+        display: 'flex', alignItems: 'center', gap: '10px',
+        padding: '10px 14px', borderRadius: '6px', cursor: 'pointer',
+        background: 'rgba(255,255,255,0.4)',
+        border: '1px solid rgba(160,140,112,0.2)',
+        transition: 'all 0.15s ease'
+    };
+    const titleStyle = { fontWeight: '600', color: '#2c5f5f', fontSize: '14px', fontFamily: 'Cinzel, serif' };
+    const descStyle = { fontSize: '12px', color: '#8b6f47', marginTop: '2px', fontStyle: 'italic' };
+    const inputStyle = { marginRight: '8px', accentColor: '#2c7a7b' };
+
+    return (
+        <div style={{ marginBottom: '24px', padding: '20px', background: 'linear-gradient(135deg, rgba(44,122,123,0.06), rgba(44,122,123,0.03))', border: '1px solid rgba(44,122,123,0.15)', borderRadius: '8px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', gap: '12px' }}>
+                <i className="fas fa-universal-access" style={{ fontSize: '20px', color: '#2c7a7b' }}></i>
+                <div>
+                    <h3 style={{ margin: '0 0 4px 0', color: '#2c5f5f', fontSize: '20px', fontFamily: 'Cinzel, serif', fontWeight: '600' }}>Accessibility</h3>
+                    <p style={{ margin: '0', color: '#8b6f47', fontSize: '14px', fontStyle: 'italic' }}>Adjust display and motion for easier reading and navigation</p>
+                </div>
+            </div>
+            <div className="settings-group" style={{ display: 'flex', gap: '8px', flexDirection: 'column' }}>
+                <label style={toggleStyle}>
+                    <input type="checkbox" checked={reducedMotion} onChange={(e) => setReducedMotion(e.target.checked)} style={inputStyle} />
+                    <div>
+                        <div style={titleStyle}>Reduced motion</div>
+                        <div style={descStyle}>Disable animations, transitions, and sliding effects app-wide</div>
+                    </div>
+                </label>
+                <label style={toggleStyle}>
+                    <input type="checkbox" checked={highContrast} onChange={(e) => setHighContrast(e.target.checked)} style={inputStyle} />
+                    <div>
+                        <div style={titleStyle}>High contrast</div>
+                        <div style={descStyle}>Darken low-contrast text and strengthen focus indicators</div>
+                    </div>
+                </label>
+                <label style={toggleStyle}>
+                    <input type="checkbox" checked={largeText} onChange={(e) => setLargeText(e.target.checked)} style={inputStyle} />
+                    <div>
+                        <div style={titleStyle}>Large text</div>
+                        <div style={descStyle}>Increase the base text size (affects rem-based sizing)</div>
+                    </div>
+                </label>
+                <label style={toggleStyle}>
+                    <input type="checkbox" checked={screenReader} onChange={(e) => setScreenReader(e.target.checked)} style={inputStyle} />
+                    <div>
+                        <div style={titleStyle}>Screen reader / keyboard aid</div>
+                        <div style={descStyle}>Always show visible focus outlines for keyboard navigation</div>
+                    </div>
+                </label>
+            </div>
+        </div>
+    );
+});
+
 const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }) {
     const navigate = useNavigate();
 
@@ -688,6 +752,9 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
 
                 {/* Resource Bar Visibility */}
                 <ResourceBarToggles />
+
+                {/* Accessibility */}
+                <AccessibilityToggles />
             </div>
         </div>
     );

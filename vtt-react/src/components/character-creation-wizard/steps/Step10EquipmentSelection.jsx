@@ -239,6 +239,9 @@ const Step10EquipmentSelection = () => {
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [searchTerm, setSearchTerm] = useState('');
     const [tooltip, setTooltip] = useState({ show: false, item: null, x: 0, y: 0 });
+    // Tap-to-confirm popup. mode: 'buy' (shop) | 'sell' (cart). Replaces instant
+    // purchase/sell so tooltips don't freeze and taps can't misbuy/missell.
+    const [confirmModal, setConfirmModal] = useState({ open: false, item: null, mode: null, cartIndex: null });
 
     // Refs for measuring panel containers (parent of grids)
     const shopPanelRef = useRef(null);
@@ -573,6 +576,24 @@ const Step10EquipmentSelection = () => {
         setTooltip({ show: false, item: null, x: 0, y: 0 });
     };
 
+    // Open the tap-to-confirm popup. Clears any floating tooltip so it can't freeze.
+    const openConfirm = (item, mode, cartIndex = null) => {
+        setTooltip({ show: false, item: null, x: 0, y: 0 });
+        setConfirmModal({ open: true, item, mode, cartIndex });
+    };
+
+    const closeConfirm = () => setConfirmModal({ open: false, item: null, mode: null, cartIndex: null });
+
+    const handleConfirmAccept = () => {
+        const { item, mode, cartIndex } = confirmModal;
+        if (mode === 'buy' && item) {
+            handlePurchaseItem(item);
+        } else if (mode === 'sell' && cartIndex !== null) {
+            handleRefundItem(cartIndex);
+        }
+        closeConfirm();
+    };
+
     // Save to character data
     useEffect(() => {
         if (currentCurrency) {
@@ -661,10 +682,10 @@ const Step10EquipmentSelection = () => {
                                     width: `${itemWidth * CELL_SIZE_LOCAL + (itemWidth - 1) * GAP_LOCAL}px`,
                                     height: `${itemHeight * CELL_SIZE_LOCAL + (itemHeight - 1) * GAP_LOCAL}px`,
                                     zIndex: 2,
-                                    cursor: canAfford(item) ? 'pointer' : 'not-allowed',
+                                    cursor: 'pointer',
                                     opacity: canAfford(item) ? 1 : 0.5
                                 }}
-                                onClick={() => canAfford(item) && handlePurchaseItem(item)}
+                                onClick={() => openConfirm(item, 'buy')}
                                 onMouseEnter={(e) => handleItemMouseEnter(e, item)}
                                 onMouseMove={handleItemMouseMove}
                                 onMouseLeave={handleItemMouseLeave}
@@ -770,7 +791,7 @@ const Step10EquipmentSelection = () => {
                                     zIndex: 2,
                                     cursor: 'pointer'
                                 }}
-                                onClick={() => handleRefundItem(originalIndex)}
+                                onClick={() => openConfirm(item, 'sell', originalIndex)}
                                 onMouseEnter={(e) => handleItemMouseEnter(e, item)}
                                 onMouseMove={handleItemMouseMove}
                                 onMouseLeave={handleItemMouseLeave}
@@ -955,6 +976,76 @@ const Step10EquipmentSelection = () => {
                     }}
                 >
                     <ItemTooltip item={tooltip.item} />
+                </div>
+            )}
+
+            {/* Tap-to-confirm popup (purchase / sell) */}
+            {confirmModal.open && confirmModal.item && (
+                <div className="equip-confirm-overlay" onClick={closeConfirm}>
+                    <div className="equip-confirm-modal" onClick={(e) => e.stopPropagation()}>
+                        <div className="equip-confirm-header">
+                            <span className="equip-confirm-title">{confirmModal.item.name}</span>
+                            <button
+                                type="button"
+                                className="equip-confirm-close"
+                                onClick={closeConfirm}
+                                aria-label="Close"
+                            >
+                                <i className="fas fa-times"></i>
+                            </button>
+                        </div>
+
+                        <div className="equip-confirm-tooltip-wrap">
+                            <ItemTooltip item={confirmModal.item} />
+                        </div>
+
+                        <div className="equip-confirm-price">
+                            {confirmModal.mode === 'buy' ? (
+                                <>
+                                    <i className="fas fa-coins"></i>
+                                    <span>Cost:</span>
+                                    {formatItemPrice(confirmModal.item.value || { platinum: 0, gold: 0, silver: 0, copper: 0 })}
+                                </>
+                            ) : (
+                                <>
+                                    <i className="fas fa-undo"></i>
+                                    <span>{confirmModal.item.value && !confirmModal.item.isBackgroundItem ? 'Refund:' : 'Remove:'}</span>
+                                    {confirmModal.item.value && !confirmModal.item.isBackgroundItem
+                                        ? formatItemPrice(confirmModal.item.value)
+                                        : <span className="currency-part"><span className="currency-number">Free</span></span>}
+                                </>
+                            )}
+                        </div>
+
+                        <div className="equip-confirm-actions">
+                            <button
+                                type="button"
+                                className="equip-confirm-btn equip-confirm-cancel"
+                                onClick={closeConfirm}
+                            >
+                                <i className="fas fa-ban"></i> Cancel
+                            </button>
+                            {confirmModal.mode === 'buy' ? (
+                                <button
+                                    type="button"
+                                    className="equip-confirm-btn equip-confirm-accept"
+                                    disabled={!canAfford(confirmModal.item)}
+                                    onClick={handleConfirmAccept}
+                                >
+                                    <i className="fas fa-shopping-cart"></i> Purchase
+                                </button>
+                            ) : (
+                                <button
+                                    type="button"
+                                    className="equip-confirm-btn equip-confirm-accept equip-confirm-sell"
+                                    onClick={handleConfirmAccept}
+                                >
+                                    <i className="fas fa-hand-holding-usd"></i>
+                                    {confirmModal.item.value && !confirmModal.item.isBackgroundItem ? 'Sell' : 'Remove'}
+                                </button>
+                            )}
+                        </div>
+                    </div>
                 </div>
             )}
         </div>

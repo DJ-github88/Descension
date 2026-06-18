@@ -5,9 +5,10 @@ import usePresenceStore from '../../store/presenceStore';
 import { useIsPhone } from '../../hooks/useIsPhone';
 import GlobalChatWindowWrapper from '../social/GlobalChatWindowWrapper';
 import RulesPage from '../rules/RulesPage';
+import { shouldReduceMotion } from '../../utils/accessibility';
 import './styles/LandingPage.css';
 
-const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onShowRegister, isAuthenticated, user, onImmerse, isWorldMapActive }) => {
+const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onShowRegister, onLoginTransition, isAuthenticated, user, onImmerse, isWorldMapActive }) => {
 
   const [activeSection, setActiveSection] = useState(() => {
     return localStorage.getItem('landingActiveSection') || 'home';
@@ -19,7 +20,7 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
   const [showPhoneNotice, setShowPhoneNotice] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
-  const { enableDevelopmentBypass, isDevelopmentBypass, signOut, isAuthenticated: authStoreIsAuthenticated, user: authStoreUser, isDevelopmentBypass: authStoreIsDevelopmentBypass } = useAuthStore();
+  const { isDevelopmentBypass, signOut, isAuthenticated: authStoreIsAuthenticated, user: authStoreUser, isDevelopmentBypass: authStoreIsDevelopmentBypass } = useAuthStore();
 
   // Party state for indicator
   const isInParty = usePresenceStore((state) => state.isInParty);
@@ -58,16 +59,6 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
   useEffect(() => {
     localStorage.setItem('landingActiveSection', activeSection);
   }, [activeSection]);
-
-  // Development bypass handler
-  const handleDevelopmentBypass = async () => {
-    const result = await enableDevelopmentBypass();
-    if (result?.success) {
-      navigate('/account');
-    } else {
-      console.error('Development bypass failed:', result?.error);
-    }
-  };
 
   // Logout handler
   const handleLogout = async () => {
@@ -131,10 +122,11 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
     el.style.backgroundSize = frozenSize;
     el.style.backgroundPosition = frozenPos;
 
-    // 4. Enable the transition
-    el.style.transition =
-      'background-size 2.5s cubic-bezier(0.25, 1, 0.5, 1) 0.2s, ' +
-      'background-position 2.5s cubic-bezier(0.25, 1, 0.5, 1) 0.2s';
+    // 4. Enable the transition (skip the cinematic when reduced motion is requested)
+    el.style.transition = shouldReduceMotion()
+      ? 'none'
+      : ('background-size 2.5s cubic-bezier(0.25, 1, 0.5, 1) 0.2s, ' +
+        'background-position 2.5s cubic-bezier(0.25, 1, 0.5, 1) 0.2s');
 
     // 5. After two RAFs (ensures the browser has painted the locked state),
     //    set the target "cover" dimensions to trigger the transition
@@ -495,10 +487,6 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
                 </button>
               ) : (
                 <>
-                  <button className="dev-bypass-btn" onClick={handleDevelopmentBypass}>
-                    <i className="fas fa-cog"></i>
-                    Dev Preview
-                  </button>
                   <button className="login-btn" onClick={onShowLogin}>
                     <i className="fas fa-user"></i>
                     Login
@@ -568,13 +556,6 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
                 </button>
               ) : (
                 <>
-                  <button
-                    className="mobile-menu-item"
-                    onClick={() => { handleDevelopmentBypass(); setMobileMenuOpen(false); }}
-                  >
-                    <i className="fas fa-cog"></i>
-                    Dev Preview
-                  </button>
                   <button
                     className="mobile-menu-item highlight"
                     onClick={() => { onShowLogin(); setMobileMenuOpen(false); }}

@@ -1,3 +1,4 @@
+import { getStore } from './storeRegistry';
 import { create } from 'zustand';
 import { v4 as uuidv4 } from 'uuid';
 import useGameStore from './gameStore';
@@ -71,7 +72,7 @@ const useCreatureStore = create((set, get) => ({
 
   addCreature: (creature) => {
     if (!creature) {
-      console.warn('⚠️ addCreature called with null or undefined creature data');
+      console.warn('âš ï¸ addCreature called with null or undefined creature data');
       return;
     }
 
@@ -105,7 +106,7 @@ const useCreatureStore = create((set, get) => ({
 
     // Safety check: if we have no creature data or ID, we cannot add a token
     if (!creature && !creatureId) {
-      console.error('❌ addCreatureToken: No creature data or ID provided');
+      console.error('âŒ addCreatureToken: No creature data or ID provided');
       return;
     }
 
@@ -115,7 +116,7 @@ const useCreatureStore = create((set, get) => ({
     // CRITICAL FIX: If creature data still not found, create a minimalist placeholder
     // This allows the token to at least be added to the grid with its ID
     if (!creatureData) {
-      console.warn(`⚠️ addCreatureToken: Creature ${creatureId} not found in library, creating placeholder`);
+      console.warn(`âš ï¸ addCreatureToken: Creature ${creatureId} not found in library, creating placeholder`);
       creatureData = {
         id: creatureId,
         name: `Creature ${creatureId.substring(0, 8)}...`,
@@ -131,7 +132,7 @@ const useCreatureStore = create((set, get) => ({
       capturedMapId = targetMapId;
     } else {
       try {
-        const { default: mapStore } = require('./mapStore');
+        const mapStore = getStore('mapStore');
         capturedMapId = mapStore.getState().currentMapId || 'default';
       } catch (e) {
         console.warn('Could not capture current map ID:', e);
@@ -151,7 +152,7 @@ const useCreatureStore = create((set, get) => ({
       const tokenExists = existingTokens.some(t => t.id === tokenId);
 
       if (tokenExists) {
-        console.log('🔄 Token already exists, updating position/state instead of adding:', tokenId);
+        console.log('ðŸ”„ Token already exists, updating position/state instead of adding:', tokenId);
         const updatedTokens = state.creatureTokens.map(t =>
           t.id === tokenId
             ? { ...t, position: finalPosition, state: forcedState || t.state, mapId: currentMapId }
@@ -315,9 +316,9 @@ const useCreatureStore = create((set, get) => ({
     // Sync with Multiplayer server if enabled
     if (sendToServer) {
       try {
-        const gameStore = require('./gameStore').default.getState();
+        const gameStore = getStore('gameStore').getState();
         if (gameStore.isInMultiplayer && gameStore.multiplayerSocket?.connected) {
-          console.log('📤 Emitting token_removed:', { tokenId });
+          console.log('ðŸ“¤ Emitting token_removed:', { tokenId });
           gameStore.multiplayerSocket.emit('token_removed', { tokenId });
         }
       } catch (error) {
@@ -379,17 +380,17 @@ const useCreatureStore = create((set, get) => ({
 
     // CRITICAL: Log if this update changes ownership
     if (stateUpdates && (stateUpdates.ownerId || stateUpdates.playerId)) {
-      console.log(`🎁 [creatureStore] updateCreatureState: Token ${tokenId} owner updated to:`, stateUpdates.ownerId || stateUpdates.playerId);
+      console.log(`ðŸŽ [creatureStore] updateCreatureState: Token ${tokenId} owner updated to:`, stateUpdates.ownerId || stateUpdates.playerId);
     }
 
     // Import game store dynamically to broadcast to other players
     if (sendToServer) {
       try {
-        const gameStore = require('./gameStore').default.getState();
+        const gameStore = getStore('gameStore').getState();
         if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
           // CRITICAL FIX: Include current mapId for proper map isolation
-          const mapStore = require('./mapStore');
-          const currentMapId = mapStore.default.getState().currentMapId || 'default';
+          const mapStore = getStore('mapStore');
+          const currentMapId = mapStore.getState().currentMapId || 'default';
 
           // CRITICAL FIX: Emit BOTH for compatibility, but prefer token_updated for server-side persistence
           gameStore.multiplayerSocket.emit('token_updated', {
@@ -433,14 +434,14 @@ const useCreatureStore = create((set, get) => ({
         : token
     );
 
-    console.log(`🔄 [creatureStore] updateCreature: Updated library + ${updatedTokens.filter(t => t.creatureId === creatureId || t.id === creatureId).length} grid token(s) for creature ${creatureId}`);
+    console.log(`ðŸ”„ [creatureStore] updateCreature: Updated library + ${updatedTokens.filter(t => t.creatureId === creatureId || t.id === creatureId).length} grid token(s) for creature ${creatureId}`);
 
     // Broadcast update if in multiplayer
     try {
       const gameStore = useGameStore.getState();
       if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
-        const mapStore = require('./mapStore');
-        const currentMapId = mapStore.default.getState().currentMapId || 'default';
+        const mapStore = getStore('mapStore');
+        const currentMapId = mapStore.getState().currentMapId || 'default';
 
         gameStore.multiplayerSocket.emit('token_updated', {
           tokenId: creatureId,
@@ -470,7 +471,7 @@ const useCreatureStore = create((set, get) => ({
   // Delete a creature from the library (does NOT remove placed grid tokens)
   deleteCreature: (creatureId) => set(state => {
     const updatedLibrary = (state.creatures || []).filter(c => c.id !== creatureId);
-    console.log(`🗑️ [creatureStore] deleteCreature: Removed ${creatureId} from library`);
+    console.log(`ðŸ—‘ï¸ [creatureStore] deleteCreature: Removed ${creatureId} from library`);
     return { creatures: updatedLibrary };
   }),
 
@@ -560,9 +561,9 @@ const useCreatureStore = create((set, get) => ({
       // CRITICAL FIX: Get current map ID to prevent cross-map contamination
       let currentMapId = 'default';
       try {
-        const mapStoreModule = require('./mapStore');
-        if (mapStoreModule && mapStoreModule.default) {
-          currentMapId = mapStoreModule.default.getState().currentMapId || 'default';
+        const mapStore = getStore('mapStore');
+        if (mapStore) {
+          currentMapId = mapStore.getState().currentMapId || 'default';
         }
       } catch (error) {
         console.warn('Could not get current map ID for token loading:', error);
@@ -570,7 +571,7 @@ const useCreatureStore = create((set, get) => ({
 
       // CRITICAL FIX: Only load token if it belongs to current map
       if (tokenMapId !== currentMapId) {
-        console.log(`🎭 Skipping token ${tokenId} - belongs to map ${tokenMapId}, but current map is ${currentMapId}`);
+        console.log(`ðŸŽ­ Skipping token ${tokenId} - belongs to map ${tokenMapId}, but current map is ${currentMapId}`);
         return state;
       }
 

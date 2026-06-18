@@ -243,8 +243,8 @@ const QuestLogWindow = ({ isOpen = true, onClose = () => { }, activeTab: propAct
     const quest = quests.find(q => q.id === questId);
     if (!quest) return;
 
-    // Get socket from window global (set by MultiplayerApp)
-    const socket = window.multiplayerSocket;
+    // Get socket from game store (canonical source — MultiplayerApp sets it via setState)
+    const socket = useGameStore.getState().multiplayerSocket;
     const gameStore = useGameStore.getState();
 
     if (gameStore.isInMultiplayer && socket && socket.connected) {

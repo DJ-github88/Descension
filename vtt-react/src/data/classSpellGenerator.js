@@ -216,7 +216,7 @@ const SPELL_ARCHETYPES = {
       materialComponents: '',
       actionPoints: 1
     },
-    cooldownConfig: { type: 'turn_based', value: 4, charges: 1 },
+    cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4, charges: 1 },
     durationConfig: {
       type: 'instant',
       value: 0,
@@ -266,7 +266,7 @@ const SPELL_ARCHETYPES = {
       components: ['verbal'],
       actionPoints: 0
     },
-    cooldownConfig: { type: 'turn_based', value: 3, charges: 1 },
+    cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3, charges: 1 },
     durationConfig: {
       type: 'instant',
       value: 0,
@@ -298,7 +298,7 @@ const SPELL_ARCHETYPES = {
       components: ['verbal', 'somatic'],
       actionPoints: 1
     },
-    cooldownConfig: { type: 'turn_based', value: 5, charges: 1 },
+    cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5, charges: 1 },
     durationConfig: {
       type: 'duration',
       value: 15,

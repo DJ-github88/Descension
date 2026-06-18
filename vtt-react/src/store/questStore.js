@@ -1,3 +1,4 @@
+import { getStore } from './storeRegistry';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
@@ -74,6 +75,38 @@ const SAMPLE_QUESTS = [
     lastModified: new Date().toISOString()
   }
 ];
+
+const deliverQuestRewards = (rewards) => {
+    const result = { experience: false, currency: false, items: 0 };
+    if (!rewards) return result;
+    try {
+        if (rewards.experience) {
+            getStore('characterStore').getState().awardExperience(rewards.experience);
+            result.experience = true;
+        }
+        if (rewards.currency) {
+            const inventoryStore = getStore('inventoryStore');
+            const currentCurrency = inventoryStore.getState().currency || {};
+            inventoryStore.getState().updateCurrency({
+                platinum: (currentCurrency.platinum || 0) + (rewards.currency.platinum || 0),
+                gold: (currentCurrency.gold || 0) + (rewards.currency.gold || 0),
+                silver: (currentCurrency.silver || 0) + (rewards.currency.silver || 0),
+                copper: (currentCurrency.copper || 0) + (rewards.currency.copper || 0)
+            });
+            result.currency = true;
+        }
+        if (Array.isArray(rewards.items) && rewards.items.length > 0) {
+            const inventoryStore = getStore('inventoryStore');
+            rewards.items.forEach(item => {
+                inventoryStore.getState().addItemFromLibrary(item);
+                result.items += 1;
+            });
+        }
+    } catch (error) {
+        console.error('Failed to deliver quest rewards:', error);
+    }
+    return result;
+};
 
 const useQuestStore = create(
   persist(
@@ -231,17 +264,25 @@ const useQuestStore = create(
         )
       })),
 
-      completeQuest: (id) => set(state => ({
-        quests: (state.quests || []).map(quest =>
-          quest.id === id
-            ? {
-              ...quest,
-              status: 'completed',
-              lastModified: new Date().toISOString()
-            }
-            : quest
-        )
-      })),
+      completeQuest: (id) => {
+        const state = get();
+        const quest = (state.quests || []).find(q => q.id === id);
+        if (quest && quest.rewards) {
+          deliverQuestRewards(quest.rewards);
+        }
+        set(state => ({
+          quests: (state.quests || []).map(q =>
+            q.id === id
+              ? {
+                ...q,
+                status: 'completed',
+                completedAt: new Date().toISOString(),
+                lastModified: new Date().toISOString()
+              }
+              : q
+          )
+        }));
+      },
 
       failQuest: (id) => set(state => ({
         quests: (state.quests || []).map(quest =>
@@ -394,35 +435,7 @@ const useQuestStore = create(
         );
 
         if (delivery && delivery.quest.rewards) {
-          const rewards = delivery.quest.rewards;
-
-          try {
-            if (rewards.experience) {
-              const characterStore = require('./characterStore').default;
-              characterStore.getState().awardExperience(rewards.experience);
-            }
-
-            if (rewards.currency) {
-              const inventoryStore = require('./inventoryStore').default;
-              const currentCurrency = inventoryStore.getState().currency || {};
-              const updatedCurrency = {
-                platinum: (currentCurrency.platinum || 0) + (rewards.currency.platinum || 0),
-                gold: (currentCurrency.gold || 0) + (rewards.currency.gold || 0),
-                silver: (currentCurrency.silver || 0) + (rewards.currency.silver || 0),
-                copper: (currentCurrency.copper || 0) + (rewards.currency.copper || 0)
-              };
-              inventoryStore.getState().updateCurrency(updatedCurrency);
-            }
-
-            if (rewards.items && rewards.items.length > 0) {
-              const inventoryStore = require('./inventoryStore').default;
-              rewards.items.forEach(item => {
-                inventoryStore.getState().addItemFromLibrary(item);
-              });
-            }
-          } catch (error) {
-            console.error('Failed to deliver quest rewards:', error);
-          }
+          deliverQuestRewards(delivery.quest.rewards);
         }
 
         const remainingDeliveries = state.pendingRewardDeliveries.filter(

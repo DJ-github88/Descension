@@ -68,7 +68,7 @@ export const LORE_DICTIONARY = {
     type: 'region',
     region: 'bryngloom-forest',
     summary: 'A semi-frozen sinking bog and bioluminescent forest governed by the contracts of the silver-skinned Neth.',
-    fullEntry: 'The Bryngloom Forest is a damp, twilight canopy where ironwood trees grow above bottomless, peat-sinking bogs. Here, the ancestors of the Neth struck a legalistic contract with the Root-Veil, trading death\'s finality for silver skin and stilled breath. It is a land of litigation, memory-preservation, and bioluminescent fungal groves, shared in cold silence with the lantern-eyed Vreken who sing to their glowing ancestors in inverted cathedrals.',
+    fullEntry: 'The Bryngloom Forest is a damp, twilight canopy where ironwood trees grow above bottomless, peat-sinking bogs. Here, the ancestors of the Neth struck a legalistic contract with the Root-Veil, trading death\'s finality for silver skin and stilled breath. It is a land of litigation, memory-preservation, and bioluminescent fungal groves, shared in cold silence with the lantern-eyed Vreken who sing to their glowing ancestors in inverted cathedrals. The oldest pre-bargain records name this land simply the Gloom — an older name that still survives in archaic speech, in the ancestral Gloom-Tongue, and in the Vreken epithet \'the Gloom-Lit\'; the compound Bryngloom is the modern form.',
     relatedTerms: ['atropolis', 'sunken_spire', 'neth', 'vreken', 'cycle_eater', 'debt_revenant', 'vel_keth_bayou', 'aran_glen', 'black_fen', 'widows_quagmire', 'morrens_bogpost']
   },
 
@@ -126,7 +126,7 @@ export const LORE_DICTIONARY = {
     type: 'historical_figure',
     region: 'bryngloom-forest',
     summary: 'The Velun Neth archivist who formulated the rigid, contract-based spellcasting of the Arcanoneer.',
-    fullEntry: 'Valerius was a high archivist of the Velun Neth in Atropolis. Evolving stilled breath and silver skin from the Neth\'s First Contract with the Keeper of the Last Threshold, Valerius realized that the magic of the Gloom Forest responded to the same legal syntax. By structuring incantations as strict, balanced legal documents, Valerius discovered he could crystallize his blood into volatile shards siphoned through iron, anchoring his limbs to the earth in a freezing lock and generating the first Arcanoneer spells.',
+    fullEntry: 'Valerius was a high archivist of the Velun Neth in Atropolis. Evolving stilled breath and silver skin from the Neth\'s First Contract with the Keeper of the Last Threshold, Valerius realized that the magic of the Bryngloom Forest responded to the same legal syntax. By structuring incantations as strict, balanced legal documents, Valerius discovered he could crystallize his blood into volatile shards siphoned through iron, anchoring his limbs to the earth in a freezing lock and generating the first Arcanoneer spells.',
     relatedTerms: ['arcanoneer', 'neth', 'bryngloom-forest']
   },
   'scathrach': {
@@ -318,7 +318,7 @@ export const LORE_DICTIONARY = {
     type: 'class',
     region: 'bryngloom-forest',
     summary: 'A contract-mage who crystallizes their silver Neth blood into volatile shards, anchoring spells in legal precision rather than instinct.',
-    fullEntry: 'The Arcanoneer tradition was formalized by Valerius, the great Velun archivist who realized that the Gloom Forest\'s ambient magic responded to the same syntax as Neth contract law. By structuring incantations as strict, legally-binding documents — with offer, consideration, and consequence — a caster can crystallize their blood into volatile Mnemonic Shards that anchor spells with extraordinary precision. The cost is rigidity: an Arcanoneer cannot improvise. Every spell must be prepared, structured, and filed. In combat this translates to absolute devastation within their prepared repertoire and near-helplessness outside it.',
+    fullEntry: 'The Arcanoneer tradition was formalized by Valerius, the great Velun archivist who realized that the Bryngloom Forest\'s ambient magic responded to the same syntax as Neth contract law. By structuring incantations as strict, legally-binding documents — with offer, consideration, and consequence — a caster can crystallize their blood into volatile Mnemonic Shards that anchor spells with extraordinary precision. The cost is rigidity: an Arcanoneer cannot improvise. Every spell must be prepared, structured, and filed. In combat this translates to absolute devastation within their prepared repertoire and near-helplessness outside it.',
     relatedTerms: ['neth', 'bryngloom-forest', 'valerius']
   },
   'augur': {
@@ -695,7 +695,7 @@ export const LORE_DICTIONARY = {
     type: 'location',
     region: 'iceheart-sea',
     summary: 'The Neth\'s largest external outpost, built into the frozen cliffs where the Bryngloom Forest meets the Iceheart Sea.',
-    fullEntry: 'Ironjaw Port is the Neth\'s economic lung — their largest external outpost, built into frozen cliffs where the Gloom Forest meets the churning Iceheart Sea. Every trade route between the Bryngloom and the outside world passes through it. The port houses a copy of the First Contract, allowing Neth stationed here to operate without the Fading. The mixed Velun-Kessen council that governs the port has been quietly feuding for two centuries over tariff policy.',
+    fullEntry: 'Ironjaw Port is the Neth\'s economic lung — their largest external outpost, built into frozen cliffs where the Bryngloom Forest meets the churning Iceheart Sea. Every trade route between the Bryngloom and the outside world passes through it. The port houses a copy of the First Contract, allowing Neth stationed here to operate without the Fading. The mixed Velun-Kessen council that governs the port has been quietly feuding for two centuries over tariff policy.',
     relatedTerms: ['iceheart-sea', 'neth', 'bryngloom-forest']
   },
   'skald': {
@@ -973,6 +973,33 @@ export const LORE_DICTIONARY = {
     summary: 'A fortified copse of ironwood jointly maintained by Thalren timber-wardens and Briaran thorn-tenders on the eastern trade route.',
     fullEntry: 'Greythorn Copse is a living fortress — a copse of deliberately tangled ironwood trees grown into a defensive wall by generations of Briaran horticulture and maintained by Thalren timber-wardens. The "Grey" in its name connects it to Greymark; the "Thorn" is pure Briaran influence. It serves as the primary waystation between Greymark Keep and the eastern fens, and its single watched gate funnels all trade through a customs post where both races collect tolls.',
     relatedTerms: ['frostwood-reach', 'briaran', 'house_thalreth']
+  },
+  'drunhold': {
+    id: 'drunhold',
+    term: 'Drunhold',
+    type: 'location',
+    region: 'frostwood-reach',
+    summary: 'A small woodcutter village of the Frostwood Reach, sitting on the ancient trade routes that stitch the Reach together.',
+    fullEntry: 'Drunhold is one of the small ironwood-cutting villages that straggle along the old trade routes of the Frostwood Reach. Its woodcutters work the sacred ironwood groves under strict Thalren quota — a tension that has seeded generations of logger folklore about the forest vengeance (the Grimmstalk myth among them). Crossroad spirits like the Gref are drawn to Drunhold thresholds, where strong partings and forgotten oaths leave the heaviest trails.',
+    relatedTerms: ['frostwood-reach', 'grimmwood', 'gallows_wood']
+  },
+  'grimmwood': {
+    id: 'grimmwood',
+    term: 'Grimmwood',
+    type: 'location',
+    region: 'frostwood-reach',
+    summary: 'The oldest heart of the Frostwood Reach — a stand of ironwood and pine that has stood for ten thousand years, dense enough to swallow loggers whole.',
+    fullEntry: 'Grimmwood Proper is the ancient core of the Frostwood Reach, where the ironwood and pine have stood for ten thousand years and the canopy admits no light at all. It is treated by the woodcutters of Drunhold with terror rather than ambition: the Grimmstalks — feather-skulled canopy-guardians born of logger guilt — dwell exclusively in its highest branches, and travelers who lose the trail in the silent Grimmwood are rarely recovered. The Briaran claim the Grimmwood as untouchable rootland; the Thalren ledger-wards mark its edge and go no further.',
+    relatedTerms: ['frostwood-reach', 'drunhold', 'briaran', 'gallows_wood']
+  },
+  'siltmire_flats': {
+    id: 'siltmire_flats',
+    term: 'Siltmire Flats',
+    type: 'location',
+    region: 'frostwood-reach',
+    summary: 'A stretch of the Frostwood Reach where ancient peat has turned the standing water to thick black soup — hunting ground of the Oillipheist.',
+    fullEntry: 'The Siltmire Flats are a low, boggy reach of the Frostwood where ten thousand years of peat have turned the standing water into a thick, black, deceptive soup — deep enough to swallow a man, warm enough in rare summer to slow the cold-blooded things that live in it. It is the named hunting ground of the Oillipheist, the blind silt-leech serpent, and Frostwood parents use the Flats as the backdrop for every warning-tale about drowning in dark water. Trade routes skirt the Flats by a wide margin; only peat-cutters and the desperate go near.',
+    relatedTerms: ['frostwood-reach', 'drunhold', 'gallows_wood']
   },
   'bramble_heath': {
     id: 'bramble_heath',

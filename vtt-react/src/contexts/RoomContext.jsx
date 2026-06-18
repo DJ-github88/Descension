@@ -4,6 +4,7 @@
  */
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { LOCAL_ROOM_CHANGE_EVENT } from '../utils/localRoom';
 
 const RoomContext = createContext(null);
 
@@ -58,22 +59,22 @@ export const RoomProvider = ({ children }) => {
     // Check immediately
     checkLocalRoom();
 
-    // Listen for storage changes
+    // Listen for cross-tab storage changes
     const handleStorageChange = (e) => {
       if (e.key === 'isLocalRoom' || e.key === 'selectedLocalRoomId') {
         checkLocalRoom();
       }
     };
 
-    window.addEventListener('storage', handleStorageChange);
+    // Listen for same-tab changes dispatched by utils/localRoom helpers
+    const handleLocalRoomChange = () => checkLocalRoom();
 
-    // CRITICAL FIX: Reduce interval frequency from 1000ms to 5000ms to prevent excessive re-renders
-    // This prevents performance issues during scrolling/dragging
-    const interval = setInterval(checkLocalRoom, 5000);
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener(LOCAL_ROOM_CHANGE_EVENT, handleLocalRoomChange);
 
     return () => {
       window.removeEventListener('storage', handleStorageChange);
-      clearInterval(interval);
+      window.removeEventListener(LOCAL_ROOM_CHANGE_EVENT, handleLocalRoomChange);
     };
   }, [currentRoomId, roomType, isInRoom]);
 

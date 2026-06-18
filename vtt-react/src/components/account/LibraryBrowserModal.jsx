@@ -75,17 +75,15 @@ const LibraryBrowserModal = ({
           
           case LIBRARY_TYPES.ITEMS: {
             // Load items from equipment files
-            const [classEquip, bgEquip, pathEquip, raceEquip] = await Promise.all([
+            const [classEquip, bgEquip, raceEquip] = await Promise.all([
               import('../../data/equipment/classEquipment'),
               import('../../data/equipment/backgroundEquipment'),
-              import('../../data/equipment/pathEquipment'),
               import('../../data/equipment/raceEquipment')
             ]);
             
             const allItems = [
               ...(classEquip.ALL_CLASS_EQUIPMENT || []),
               ...(bgEquip.ALL_BACKGROUND_EQUIPMENT || []),
-              ...(pathEquip.ALL_PATH_EQUIPMENT || []),
               ...(raceEquip.ALL_RACE_EQUIPMENT || [])
             ];
             

@@ -584,10 +584,10 @@ export const BESTIARY_DATA = {
           "heritage": "Rooted in the fear of dying alone and forgotten, the Sluagh originally rationalized the howling winter winds as a host of restless spirits seeking companionship. The Wyrd anomaly materialized this collective dread of lonely deaths, shaping the rumors of the restless dead into a tangible, flying host that sweeps through the forest canopy to claim fading souls."
         },
         {
-          "id": "sluagh_ride",
+          "id": "wildejagd",
           "name": "Sluagh",
           "dangerLevel": "Very High",
-          "illustration": "/assets/images/creatures/sluagh_ride.png",
+          "illustration": "/assets/images/creatures/wildejagd.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Sluagh",
           "role": "Sluagh",
           "origin": "Descending from the Celtic Sluagh, the host of the restless dead, and the Germanic Wild Hunt or Wütende Heer, this phantom ridership is a collective manifestation of the forgotten. It represents the ultimate terror of historical erasure, riding through the sky to claim the names of the living.",
@@ -619,11 +619,11 @@ export const BESTIARY_DATA = {
           "heritage": "Rooted in Germanic/Grimm + Celtic folklore, the myth of Sluagh originally served as a way for the community to rationalize the forces described in local tales: \"Descending from the Celtic Sluagh, the host of the restless dead, and the Germanic Wild Hunt or Wütende Heer, this phantom ridership is a collective manifestation of the forgotten.\". When the Wyrd anomaly seeped into Frostwood Reach amidst the relentless logging of sacred ironwood forests by Drunhold woodcutters, it reacted directly to the inhabitants of Frostwood Reach. By twisting these underlying folklore patterns, the Wyrd synthesized these collective fears and tales into a tangible, living presence: It represents the ultimate terror of historical erasure, riding through the sky to claim the names of the living."
         },
         {
-          "id": "fuathlure",
-          "name": "Fuathlure",
+          "id": "fuath",
+          "name": "Fuath",
           "dangerLevel": "Low",
-          "illustration": "/assets/images/creatures/fuathlure.png",
-          "illustrationCaption": "A hand-drawn field sketch of the legendary Fuathlure",
+          "illustration": "/assets/images/creatures/fuath.png",
+          "illustrationCaption": "A hand-drawn field sketch of the legendary Fuath",
           "role": "Fuath",
           "origin": "Tracing its lineage to the Scottish Celtic Fuath and the Germanic Nixie, this water spirit is a personification of the deceptive depths. It feeds on the desperation of the forgetful, using their own lost identities as bait to lure them into the dark waters.",
           "nature": "This pale, slender figure appears to stand waist-deep in dark peat-pools, its body entirely translucent so that murky water and floating algae are visible through its skin. It is wrapped in a shimmering film of surface tension that reflects fog-light like oil on water, with long, kelp-like hair extending in all directions. While it seems beautiful from a distance, its features are fluid and constantly shifting, and its eyes are bottomless pools of dark water.",
@@ -644,19 +644,19 @@ export const BESTIARY_DATA = {
               "cold": 50
             }
           },
-          "depth": "The Fuathlure sings a resonant hum that echoes through the fog, bringing to mind the listener's most cherished, forgotten memories to draw them into the water. Once a victim wades in, the spirit dissolves into the pool, drowning the traveler and sinking their memories into the sediment where they compact into peat over centuries. Communities hire adventurers to search for these spirits to recover lost relatives or harvest their memory-infused water.",
+          "depth": "The Fuath sings a resonant hum that echoes through the fog, bringing to mind the listener's most cherished, forgotten memories to draw them into the water. Once a victim wades in, the spirit dissolves into the pool, drowning the traveler and sinking their memories into the sediment where they compact into peat over centuries. Communities hire adventurers to search for these spirits to recover lost relatives or harvest their memory-infused water.",
           "hooks": [
-            "A rumor spreads of a Fuathlure spotted near the area.",
-            "Adventurers need a component from a Fuathlure to complete their quest."
+            "A rumor spreads of a Fuath spotted near the area.",
+            "Adventurers need a component from a Fuath to complete their quest."
           ],
           "description": "A translucent water spirit that lures travelers into peat pools by singing songs that recall their most precious memories.",
-          "heritage": "Rooted in Germanic/Grimm + Celtic folklore, the myth of Fuathlure originally served as a way for the community to rationalize the forces described in local tales: \"Tracing its lineage to the Scottish Celtic Fuath and the Germanic Nixie, this water spirit is a personification of the deceptive depths.\". When the Wyrd anomaly seeped into Frostwood Reach amidst the relentless logging of sacred ironwood forests by Drunhold woodcutters, it reacted directly to the inhabitants of Frostwood Reach. By twisting these underlying folklore patterns, the Wyrd synthesized these collective fears and tales into a tangible, living presence: It feeds on the desperation of the forgetful, using their own lost identities as bait to lure them into the dark waters."
+          "heritage": "Rooted in Germanic/Grimm + Celtic folklore, the myth of Fuath originally served as a way for the community to rationalize the forces described in local tales: \"Tracing its lineage to the Scottish Celtic Fuath and the Germanic Nixie, this water spirit is a personification of the deceptive depths.\". When the Wyrd anomaly seeped into Frostwood Reach amidst the relentless logging of sacred ironwood forests by Drunhold woodcutters, it reacted directly to the inhabitants of Frostwood Reach. By twisting these underlying folklore patterns, the Wyrd synthesized these collective fears and tales into a tangible, living presence: It feeds on the desperation of the forgetful, using their own lost identities as bait to lure them into the dark waters."
         },
         {
-          "id": "grogoch_burrow",
+          "id": "grogoch",
           "name": "Grogoch",
           "dangerLevel": "Low",
-          "illustration": "/assets/images/creatures/grogoch_burrow.png",
+          "illustration": "/assets/images/creatures/grogoch.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Grogoch",
           "role": "Grogoch/Grogochan",
           "origin": "Derived from the Celtic Grogoch, a helpful yet reclusive hedge-spirit, and the Germanic Erdmännlein, the industrious little men of the earth, this creature is a master of the soil. It works in the dark beneath the forest floor, maintaining a hidden agricultural network that sustains the region's inhabitants.",
@@ -687,11 +687,11 @@ export const BESTIARY_DATA = {
           "heritage": "Rooted in Germanic/Grimm + Celtic folklore, the myth of Grogoch originally served as a way for the community to rationalize the forces described in local tales: \"Derived from the Celtic Grogoch, a helpful yet reclusive hedge-spirit, and the Germanic Erdmännlein, the industrious little men of the earth, this creature is a master of the soil.\". When the Wyrd anomaly seeped into Frostwood Reach amidst the relentless logging of sacred ironwood forests by Drunhold woodcutters, it reacted directly to the inhabitants of Frostwood Reach. By twisting these underlying folklore patterns, the Wyrd synthesized these collective fears and tales into a tangible, living presence: It works in the dark beneath the forest floor, maintaining a hidden agricultural network that sustains the region's inhabitants."
         },
         {
-          "id": "perchtaweave",
-          "name": "Perchtaweave",
+          "id": "cailleach",
+          "name": "Cailleach",
           "dangerLevel": "Very High",
-          "illustration": "/assets/images/creatures/perchtaweave.png",
-          "illustrationCaption": "A hand-drawn field sketch of the legendary Perchtaweave",
+          "illustration": "/assets/images/creatures/cailleach.png",
+          "illustrationCaption": "A hand-drawn field sketch of the legendary Cailleach",
           "role": "Perchta/Frau Holda",
           "origin": "A manifestation of winter's severity and judgment, this entity is born from the Germanic winter goddess Perchta and the Gaelic winter hag Cailleach. In the Frostwood, she is the architect of the protective mist, enforcing the strict social contracts of House Thalreth.",
           "nature": "This twelve-foot-tall crone presents a shifting appearance: she seems a regal woman in a gown of frost-crystals and ironwood-silk to the diligent, but appears as a skeletal horror in peat-moss rags to the lazy. She carries an ironwood distaff to spin emotion-colored memory yarn, and her face features one piercing blue eye and one hollow, fog-filled socket, with a mouth that freezes the air when she smiles.",
@@ -713,22 +713,22 @@ export const BESTIARY_DATA = {
               "psychic": 50
             }
           },
-          "depth": "Perchtaweaves spin the memory-fog from raw Wyrd-energy to defend the forest, encoding each strand of mist with a dissolved memory. During the deep winter, they visit Greymark homes to inspect family journals, rewarding diligent scribes with spools of memory-yarn that can restore lost thoughts, while stuffing the bellies of the negligent with straw as a stern warning. Scribes often send adventurers to locate her to seek her favor or harvest her shimmering memory-yarn.",
+          "depth": "Cailleachs spin the memory-fog from raw Wyrd-energy to defend the forest, encoding each strand of mist with a dissolved memory. During the deep winter, they visit Greymark homes to inspect family journals, rewarding diligent scribes with spools of memory-yarn that can restore lost thoughts, while stuffing the bellies of the negligent with straw as a stern warning. Scribes often send adventurers to locate her to seek her favor or harvest her shimmering memory-yarn.",
           "hooks": [
-            "A rumor spreads of a Perchtaweave spotted near the area.",
-            "Adventurers need a component from a Perchtaweave to complete their quest."
+            "A rumor spreads of a Cailleach spotted near the area.",
+            "Adventurers need a component from a Cailleach to complete their quest."
           ],
           "description": "A towering winter crone who spins the memory-fog and judges the diligence of mortal record-keepers.",
-          "heritage": "Rooted in Germanic/Grimm + Celtic folklore, the myth of Perchtaweave originally served as a way for the community to rationalize the forces described in local tales: \"A manifestation of winter's severity and judgment, this entity is born from the Germanic winter goddess Perchta and the Gaelic winter hag Cailleach.\". When the Wyrd anomaly seeped into Frostwood Reach amidst the relentless logging of sacred ironwood forests by Drunhold woodcutters, it reacted directly to the inhabitants of Frostwood Reach. By twisting these underlying folklore patterns, the Wyrd synthesized these collective fears and tales into a tangible, living presence: In the Frostwood, she is the architect of the protective mist, enforcing the strict social contracts of House Thalreth."
+          "heritage": "Rooted in Germanic/Grimm + Celtic folklore, the myth of Cailleach originally served as a way for the community to rationalize the forces described in local tales: \"A manifestation of winter's severity and judgment, this entity is born from the Germanic winter goddess Perchta and the Gaelic winter hag Cailleach.\". When the Wyrd anomaly seeped into Frostwood Reach amidst the relentless logging of sacred ironwood forests by Drunhold woodcutters, it reacted directly to the inhabitants of Frostwood Reach. By twisting these underlying folklore patterns, the Wyrd synthesized these collective fears and tales into a tangible, living presence: In the Frostwood, she is the architect of the protective mist, enforcing the strict social contracts of House Thalreth."
         },
         {
-          "id": "dullahaze",
-          "name": "Dullahaze",
+          "id": "dullahan",
+          "name": "Dullahan",
           "dangerLevel": "Very High",
-          "illustration": "/assets/images/creatures/dullahaze.png",
-          "illustrationCaption": "A hand-drawn field sketch of the legendary Dullahaze",
+          "illustration": "/assets/images/creatures/dullahan.png",
+          "illustrationCaption": "A hand-drawn field sketch of the legendary Dullahan",
           "role": "Dullahan",
-          "origin": "Rooted in the Celtic myth of the Dullahan, the headless harbinger of death, and the Germanic legend of the kopflose Reiter who punishes broken oaths, the Dullahaze is a relentless executioner. In the setting of Frostwood Reach, it enforces the sanctity of written vows and the preservation of identity.",
+          "origin": "Rooted in the Celtic myth of the Dullahan, the headless harbinger of death, and the Germanic legend of the kopflose Reiter who punishes broken oaths, the Dullahan is a relentless executioner. In the setting of Frostwood Reach, it enforces the sanctity of written vows and the preservation of identity.",
           "nature": "This tall, armored figure clad in blackened ironwood-plate rides a horse composed of compressed fog with a skull-like head. The rider is headless, with memory-mist escaping from its raw neck stump, and it carries its severed head—featuring a featureless, polished ironwood mask that reflects the observer's deepest fears—under one arm. A whip crafted from braided journal-cords hangs at its belt.",
           "habitat": "It haunts the ancient, fog-drowned crossroads and trade routes of the Frostwood at midnight.",
           "combat": "380 HP. Fear-Mirror (passive: its ironwood mask-face reflects the viewer's deepest fear; DC 14 SPI or frightened for 3 rounds). Name-Call (special: speaks one name into the fog; that person's defining memory begins dissolving within 24 hours). Spine-Whip (melee, reach 15 ft, +6 to hit, 2d6+4 slashing + DC 14 AGI or pulled 10 ft toward the rider). Fog-Mount (passive: its horse is made of fog; immune to physical damage, takes double radiant). Vulnerable to radiant.",
@@ -748,19 +748,19 @@ export const BESTIARY_DATA = {
               "physical": 50
             }
           },
-          "depth": "The Dullahaze rides to crossroads to whisper a traveler's name, causing their defining memory to dissolve within a day, and actively hunts those who break written oaths recorded in Greymark's ledgers. It is particularly drawn to maskless Mimir, collecting their abandoned identities to fuel its own hollow existence. Local authorities post massive rewards for adventurers who can destroy the rider or retrieve its mirror-like ironwood mask.",
+          "depth": "The Dullahan rides to crossroads to whisper a traveler's name, causing their defining memory to dissolve within a day, and actively hunts those who break written oaths recorded in Greymark's ledgers. It is particularly drawn to maskless Mimir, collecting their abandoned identities to fuel its own hollow existence. Local authorities post massive rewards for adventurers who can destroy the rider or retrieve its mirror-like ironwood mask.",
           "hooks": [
-            "A rumor spreads of a Dullahaze spotted near the area.",
-            "Adventurers need a component from a Dullahaze to complete their quest."
+            "A rumor spreads of a Dullahan spotted near the area.",
+            "Adventurers need a component from a Dullahan to complete their quest."
           ],
           "description": "A headless armored rider on a fog-steed that dissolves the identities of named targets and hunts oath-breakers.",
-          "heritage": "Rooted in Germanic/Grimm + Celtic folklore, the myth of Dullahaze originally served as a way for the community to rationalize the forces described in local tales: \"Rooted in the Celtic myth of the Dullahan, the headless harbinger of death, and the Germanic legend of the kopflose Reiter who punishes broken oaths, the Dullahaze is a relentless executioner.\". When the Wyrd anomaly seeped into Frostwood Reach amidst the relentless logging of sacred ironwood forests by Drunhold woodcutters, it reacted directly to the inhabitants of Frostwood Reach. By twisting these underlying folklore patterns, the Wyrd synthesized these collective fears and tales into a tangible, living presence: In the setting of Frostwood Reach, it enforces the sanctity of written vows and the preservation of identity."
+          "heritage": "Rooted in Germanic/Grimm + Celtic folklore, the myth of Dullahan originally served as a way for the community to rationalize the forces described in local tales: \"Rooted in the Celtic myth of the Dullahan, the headless harbinger of death, and the Germanic legend of the kopflose Reiter who punishes broken oaths, the Dullahan is a relentless executioner.\". When the Wyrd anomaly seeped into Frostwood Reach amidst the relentless logging of sacred ironwood forests by Drunhold woodcutters, it reacted directly to the inhabitants of Frostwood Reach. By twisting these underlying folklore patterns, the Wyrd synthesized these collective fears and tales into a tangible, living presence: In the setting of Frostwood Reach, it enforces the sanctity of written vows and the preservation of identity."
         },
         {
-          "id": "cu_sithbane",
+          "id": "cusith",
           "name": "Cu-Sith",
           "dangerLevel": "High",
-          "illustration": "/assets/images/creatures/cu_sithbane.png",
+          "illustration": "/assets/images/creatures/cusith.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Cu-Sith",
           "role": "Cu Sith",
           "origin": "Combining the spectral Celtic Cu Sith, whose barks signal doom, and the Germanic Schrättel, a clever forest predator, the Cu-Sith is a terror of the twilight hours. It tracks its prey through the mist, feeding not on physical flesh but on the raw emotions of its victims.",
@@ -792,11 +792,11 @@ export const BESTIARY_DATA = {
           "heritage": "Rooted in Germanic/Grimm + Celtic folklore, the myth of Cu-Sith originally served as a way for the community to rationalize the forces described in local tales: \"Combining the spectral Celtic Cu Sith, whose barks signal doom, and the Germanic Schrättel, a clever forest predator, the Cu-Sith is a terror of the twilight hours.\". When the Wyrd anomaly seeped into Frostwood Reach amidst the relentless logging of sacred ironwood forests by Drunhold woodcutters, it reacted directly to the inhabitants of Frostwood Reach. By twisting these underlying folklore patterns, the Wyrd synthesized these collective fears and tales into a tangible, living presence: It tracks its prey through the mist, feeding not on physical flesh but on the raw emotions of its victims."
         },
         {
-          "id": "pixieglow",
-          "name": "Pixieglow",
+          "id": "pixie",
+          "name": "Pixie",
           "dangerLevel": "Low",
-          "illustration": "/assets/images/creatures/pixieglow.png",
-          "illustrationCaption": "A hand-drawn field sketch of the legendary Pixieglow",
+          "illustration": "/assets/images/creatures/pixie.png",
+          "illustrationCaption": "A hand-drawn field sketch of the legendary Pixie",
           "role": "Piskie/Pixie",
           "origin": "A blend of the Celtic Pixie, which leads travelers astray or assists them for small offerings, and the Germanic Irrlicht, the deceptive Will-o'-the-Wisp of the peat-bogs, this glowing sprite is a constant companion of the fog. It represents both hope and deception, shifting its behavior on a whim.",
           "nature": "This hand-sized sprite is made of semi-transparent condensed fog-light and shaped like a tiny humanoid with delicate moth-wings. It pulses with a warm honey-colored glow and leaves a trail of phosphorescent spores that hang in the air, changing color from gold to blue or red depending on its mood. Its tiny, mouthless face is dominated by large, solid eyes of warm light through which it communicates.",
@@ -817,22 +817,22 @@ export const BESTIARY_DATA = {
               "psychic": 50
             }
           },
-          "depth": "Pixieglows guide lost travelers through the fog, leaving gold trails that lead to safety, blue trails that run in circles, or red trails that plunge into bogs or over cliffs. They reproduce by seeding spores into the memory-fog, where they grow by absorbing dissolved emotional memories, occasionally creating dense lantern-fogs that travelers can navigate if they understand the colors. Adventurers often seek them to collect their glow-spores for light-sources or mapping reagents.",
+          "depth": "Pixies guide lost travelers through the fog, leaving gold trails that lead to safety, blue trails that run in circles, or red trails that plunge into bogs or over cliffs. They reproduce by seeding spores into the memory-fog, where they grow by absorbing dissolved emotional memories, occasionally creating dense lantern-fogs that travelers can navigate if they understand the colors. Adventurers often seek them to collect their glow-spores for light-sources or mapping reagents.",
           "hooks": [
-            "A rumor spreads of a Pixieglow spotted near the area.",
-            "Adventurers need a component from a Pixieglow to complete their quest."
+            "A rumor spreads of a Pixie spotted near the area.",
+            "Adventurers need a component from a Pixie to complete their quest."
           ],
           "description": "A hand-sized light sprite with moth wings, leading travelers through the fog with shifting colored paths.",
-          "heritage": "Spun from the mystery of marsh gas and will-o'-the-wisps, the Pixieglow was a folklore explanation for why travelers lost their way in the deep fog. The Wyrd anomaly reacted to the spatial disorientation and fear of the misty Siltmire bogs, materializing these glowing sprites to actively lead travelers astray."
+          "heritage": "Spun from the mystery of marsh gas and will-o'-the-wisps, the Pixie was a folklore explanation for why travelers lost their way in the deep fog. The Wyrd anomaly reacted to the spatial disorientation and fear of the misty Siltmire bogs, materializing these glowing sprites to actively lead travelers astray."
         },
         {
-          "id": "waldwisp",
-          "name": "Waldwisp",
+          "id": "waldschrat",
+          "name": "Waldschrat",
           "dangerLevel": "Trivial",
-          "illustration": "/assets/images/creatures/waldwisp.png",
-          "illustrationCaption": "A hand-drawn field sketch of the legendary Waldwisp",
+          "illustration": "/assets/images/creatures/waldschrat.png",
+          "illustrationCaption": "A hand-drawn field sketch of the legendary Waldschrat",
           "role": "Waldschrat",
-          "origin": "The Waldwisp represents a merger of the Germanic Waldschrat, a hairy riddle-loving forest spirit, and the Celtic Far Darrig, the red-capped prankster. In the Frostwood, it is a playful yet dangerous manifestation of the forest's tangled history, testing the wit and courage of travelers.",
+          "origin": "The Waldschrat represents a merger of the Germanic Waldschrat, a hairy riddle-loving forest spirit, and the Celtic Far Darrig, the red-capped prankster. In the Frostwood, it is a playful yet dangerous manifestation of the forest's tangled history, testing the wit and courage of travelers.",
           "nature": "This three-foot-tall, wiry creature is formed of twisted ironwood-roots and bark, its body dominated by a bright crimson peaked cap of peat-moss. Its highly flexible limbs bend in impossible directions, and it carries a gnarled root-staff that rattles, releasing tiny red sparks when it is pleased. Its leathery, wrinkled face features a wide, lipless grin and mismatched red and green eyes that look in separate directions.",
           "habitat": "It makes its home along the narrow, overgrown paths and dense thickets of the ironwood forests.",
           "combat": "45 HP. Red-Cap-Spark (ranged, +4 to hit, 1d4 fire). Root-Rattle (AoE 10 ft, DC 12 CON or deafened 1 round). Impossible-Flexibility (immune to grapple and restrain). Fear-Feed (passive: gains +2 to all rolls for each frightened creature within 30 ft). Vulnerable to cold.",
@@ -851,13 +851,13 @@ export const BESTIARY_DATA = {
               "physical": 25
             }
           },
-          "depth": "Waldwisps block pathways and demand that travelers solve riddles based on forgotten history, which require pure intuition to answer since the memories themselves have vanished. They also entertain themselves by playing frightening pranks, mimicking the voices of lost scribes, and feeding on the adrenaline of terrified travelers to power their glowing caps. Scribes and rangers frequently seek them out to solve historical mysteries or hire adventurers to drive them away from trade routes.",
+          "depth": "Waldschrats block pathways and demand that travelers solve riddles based on forgotten history, which require pure intuition to answer since the memories themselves have vanished. They also entertain themselves by playing frightening pranks, mimicking the voices of lost scribes, and feeding on the adrenaline of terrified travelers to power their glowing caps. Scribes and rangers frequently seek them out to solve historical mysteries or hire adventurers to drive them away from trade routes.",
           "hooks": [
-            "A rumor spreads of a Waldwisp spotted near the area.",
-            "Adventurers need a component from a Waldwisp to complete their quest."
+            "A rumor spreads of a Waldschrat spotted near the area.",
+            "Adventurers need a component from a Waldschrat to complete their quest."
           ],
           "description": "A wiry wood sprite with a crimson moss cap that blocks forest paths with historical riddles and feeds on fear.",
-          "heritage": "Rooted in Germanic/Grimm + Celtic folklore, the myth of Waldwisp originally served as a way for the community to rationalize the forces described in local tales: \"The Waldwisp represents a merger of the Germanic Waldschrat, a hairy riddle-loving forest spirit, and the Celtic Far Darrig, the red-capped prankster.\". When the Wyrd anomaly seeped into Frostwood Reach amidst the relentless logging of sacred ironwood forests by Drunhold woodcutters, it reacted directly to the shared anxieties of the region's travelers. By twisting these underlying folklore patterns, the Wyrd synthesized these collective fears and tales into a tangible, living presence: In the Frostwood, it is a playful yet dangerous manifestation of the forest's tangled history, testing the wit and courage of travelers."
+          "heritage": "Rooted in Germanic/Grimm + Celtic folklore, the myth of Waldschrat originally served as a way for the community to rationalize the forces described in local tales: \"The Waldschrat represents a merger of the Germanic Waldschrat, a hairy riddle-loving forest spirit, and the Celtic Far Darrig, the red-capped prankster.\". When the Wyrd anomaly seeped into Frostwood Reach amidst the relentless logging of sacred ironwood forests by Drunhold woodcutters, it reacted directly to the shared anxieties of the region's travelers. By twisting these underlying folklore patterns, the Wyrd synthesized these collective fears and tales into a tangible, living presence: In the Frostwood, it is a playful yet dangerous manifestation of the forest's tangled history, testing the wit and courage of travelers."
         }
       ]
     },
@@ -1276,13 +1276,13 @@ export const BESTIARY_DATA = {
           "heritage": "A heartbreaking folklore coping strategy, the Myling arose to explain infant mortality, child abandonment, and the agonizing guilt of families unable to support children in harsh winters. The Wyrd anomaly materialized this collective grief and generational trauma, creating a heavy, weeping child-spirit that clings to travelers' backs until they collapse."
         },
         {
-          "id": "trollstone",
-          "name": "Trollstone",
+          "id": "jutul",
+          "name": "Jutul",
           "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/trollstone.png",
-          "illustrationCaption": "A hand-drawn field sketch of the legendary Trollstone",
+          "illustration": "/assets/images/creatures/jutul.png",
+          "illustrationCaption": "A hand-drawn field sketch of the legendary Jutul",
           "role": "Troll",
-          "origin": "The Trollstone is rooted in the Norse legends of trolls, who turn to stone when exposed to sunlight, and the Alpine Berggeist, the mountain-spirit who guides or misleads travelers in the heights. In the sunless, dimmed skies of Nordhalla, these creatures are no longer petrified by daylight, remaining active and alert.",
+          "origin": "The Jutul is rooted in the Norse legends of trolls, who turn to stone when exposed to sunlight, and the Alpine Berggeist, the mountain-spirit who guides or misleads travelers in the heights. In the sunless, dimmed skies of Nordhalla, these creatures are no longer petrified by daylight, remaining active and alert.",
           "nature": "This creature resembles a massive boulder of grey granite shaped like a seated humanoid, completely indistinguishable from a normal glacial erratic when inert except for a faint warmth radiating from its core. When it stirs, joint-like cracks open across its rocky surface, and moss and lichen align in runic patterns. Its face has barely discernible features—a heavy brow-ridge, a broken nose, and a grim mouth—with its eyes appearing as deep depressions that burn with the warm glow of deep-earth amber.",
           "habitat": "They are found along high mountain passes, rocky valleys, and boulder-strewn slopes of Nordhalla.",
           "combat": "215 HP. Boulder-Sleep (passive: indistinguishable from a natural boulder when inert; +10 to stealth). Toll-Demand (special: blocks mountain passes, demanding raw iron ore; if paid, absorbs the ore and moves aside; if refused, animates and attacks). Stone-Regeneration (heals 10 HP per round; can only be truly damaged by concentrated runic light). Roll-Attack (melee, +6 to hit, 2d10+4 bludgeoning, DC 15 AGI or pinned). Vulnerable to radiant (runic light temporarily re-petrifies it for 1d4 rounds).",
@@ -1302,19 +1302,19 @@ export const BESTIARY_DATA = {
               "cold": 50
             }
           },
-          "depth": "Trollstones sit motionless on trade routes for decades, only to animate and roll across paths when valuable caravans approach, demanding a toll of raw iron ore to absorb into their granite bodies. Because the dimmed sun no longer petrifies them, they pose a constant hazard to travelers, forcing Rune Keepers to utilize concentrated runic light to temporarily freeze the creatures back into inert stone and buy passage for convoys.",
+          "depth": "Jutuls sit motionless on trade routes for decades, only to animate and roll across paths when valuable caravans approach, demanding a toll of raw iron ore to absorb into their granite bodies. Because the dimmed sun no longer petrifies them, they pose a constant hazard to travelers, forcing Rune Keepers to utilize concentrated runic light to temporarily freeze the creatures back into inert stone and buy passage for convoys.",
           "hooks": [
-            "A rumor spreads of a Trollstone spotted near the area.",
-            "Adventurers need a component from a Trollstone to complete their quest."
+            "A rumor spreads of a Jutul spotted near the area.",
+            "Adventurers need a component from a Jutul to complete their quest."
           ],
           "description": "A sentient boulder of warm granite that blocks mountain passes, demanding tolls of raw iron to fuel its stony mass.",
-          "heritage": "Rooted in Norse legends of trolls that turn to stone in sunlight, the Trollstone was a myth to explain massive, humanoid-shaped boulder formations in the mountains. The Wyrd anomaly crystallized the travelers' fear of rockslides and the unknown terrors of high peaks, shaping these stone anxieties into massive, slow-moving trolls."
+          "heritage": "Rooted in Norse legends of trolls that turn to stone in sunlight, the Jutul was a myth to explain massive, humanoid-shaped boulder formations in the mountains. The Wyrd anomaly crystallized the travelers' fear of rockslides and the unknown terrors of high peaks, shaping these stone anxieties into massive, slow-moving trolls."
         },
         {
-          "id": "lindwyrm_burrow",
+          "id": "lindwyrm",
           "name": "Lindwyrm",
           "dangerLevel": "Very High",
-          "illustration": "/assets/images/creatures/lindwyrm_burrow.png",
+          "illustration": "/assets/images/creatures/lindwyrm.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Lindwyrm",
           "role": "Lindworm/Linnorm",
           "origin": "The Lindwyrm descends from the Norse Lindworm, the wingless, two-legged serpentine dragon that guards burial mounds, and the Alpine Tatzelwurm, a half-feline, half-serpentine cryptid of the high forests. In Nordhalla, it is a creature that tunnels through the ice, drawn to the ancient power of the dead.",
@@ -1346,10 +1346,10 @@ export const BESTIARY_DATA = {
           "heritage": "Spun from legends of wingless dragons guarding burial mounds, the Lindwyrm was a cautionary myth to deter grave robbers and trespassers from sacred ruins. The Wyrd anomaly consolidated the fear of ancestral curses and subterranean collapses, manifesting this serpentine beast to guard the deep, frozen chambers of Nordhalla."
         },
         {
-          "id": "nidhoggr_root",
+          "id": "nidhoggr",
           "name": "Níðhöggr",
           "dangerLevel": "Very High",
-          "illustration": "/assets/images/creatures/nidhoggr_root.png",
+          "illustration": "/assets/images/creatures/nidhoggr.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Níðhöggr",
           "role": "NÃ­Ã°höggr",
           "origin": "The Níðhöggr is inspired by the Norse Níðhöggr, the dragon that gnaws the roots of the World Tree, and the Alpine Schrat-Root, a subterranean spirit that undermines buildings. In Nordhalla, it is a blind, burrowing menace that feasts on foundations and magical pacts alike.",
@@ -1416,10 +1416,10 @@ export const BESTIARY_DATA = {
           "heritage": "Born from the fear of unburied corpses cursed to wander, the Strandvasker was a maritime myth emphasizing the importance of proper burials for drowned sailors. The Wyrd anomaly consolidated the sailors' dread of cold, watery graves, manifesting these bloated, ice-encrusted corpses to crawl ashore seeking a physical resting place."
         },
         {
-          "id": "landvaettir_peak",
+          "id": "landvaettir",
           "name": "Landvættir",
           "dangerLevel": "Very High",
-          "illustration": "/assets/images/creatures/landvaettir_peak.png",
+          "illustration": "/assets/images/creatures/landvaettir.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Landvættir",
           "role": "LandvÃ¦ttir",
           "origin": "The Landvættir-Peak stems from the Norse Landvættir, protective spirits of the land who could be offended by hostiles, and the Alpine Salvanel, the wild guardians of mountain passes. In the high ridges of Nordhalla, these giants are the living embodiment of the mountains themselves.",
@@ -1451,10 +1451,10 @@ export const BESTIARY_DATA = {
           "heritage": "Rooted in Norse beliefs in protective land spirits, the Landvættir myth was a social tool to enforce respect for local hunting and logging boundaries. The Wyrd anomaly materialized the settlers' fear of offending nature, shaping these anxieties into physical mountain guardians that lash out when local boundaries are violated."
         },
         {
-          "id": "vettir_blizzard",
+          "id": "vettir",
           "name": "Frostvettir",
           "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/vettir_blizzard.png",
+          "illustration": "/assets/images/creatures/vettir.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Frostvettir",
           "role": "Vettir",
           "origin": "Derived from the Norse Vettir, wind-spirits that whisper through the cracks of longhouses, and the Alpine Windgeister or Föhn spirits that ride warm mountain winds, the Frostvettir is the living soul of the storm. It represents the fickle nature of the northern winds, shifting from quiet whispers to freezing gales.",
@@ -1521,13 +1521,13 @@ export const BESTIARY_DATA = {
           "heritage": "Spun from Norse myths of subterranean dwarf-smiths, the Bergthrall was a legend to explain how miraculous, rune-etched iron tools and weapons were forged. The Wyrd anomaly reacted to the smiths' desire for crafting perfection and their isolation in deep caverns, manifesting these stony humanoids to forge weapons and guard ancient holds."
         },
         {
-          "id": "fenrispup",
-          "name": "Fenrispup",
+          "id": "fenris",
+          "name": "Fenris",
           "dangerLevel": "High",
-          "illustration": "/assets/images/creatures/fenrispup.png",
-          "illustrationCaption": "A hand-drawn field sketch of the legendary Fenrispup",
+          "illustration": "/assets/images/creatures/fenris.png",
+          "illustrationCaption": "A hand-drawn field sketch of the legendary Fenris",
           "role": "Fenrir/FenrisÃºlfr",
-          "origin": "The Fenrispup is a juvenile manifestation of the Norse Fenrir, the apocalyptic wolf bound by the gods until Ragnarök, mixed with the Alpine Barbegazi who navigate deep snow with ease. It embodies the restless, bound fury of the end times, hunting the frozen wastes of Nordhalla.",
+          "origin": "The Fenris is a juvenile manifestation of the Norse Fenrir, the apocalyptic wolf bound by the gods until Ragnarök, mixed with the Alpine Barbegazi who navigate deep snow with ease. It embodies the restless, bound fury of the end times, hunting the frozen wastes of Nordhalla.",
           "nature": "Though only a pup, this creature is the size of a pony, with fur that shifts between frost-white and shadow-black and giant, shield-wide paws that glide over snow drifts. It wears a collar of braided silk ribbon that glows with the golden magic of Gleipnir, and its thick tail leaves a distinct drag-mark behind it. Its face displays a puppy's oversized ears and lolling tongue, but its eyes can suddenly flash with an ancient, predatory intelligence, turning from warm brown to molten gold when it senses an oath-breaker.",
           "habitat": "It hunts across the windswept tundra and frozen plains of Nordhalla.",
           "combat": "220 HP. Bound-Hunter (passive: hunts oath-breakers; can track any creature who has broken a sworn vow within 100 miles). Gleipnir-Collar (passive: collar of braided silk prevents growth to full size; if removed (requires god-level strength), the pup immediately grows to full Fenrir — a continent-ending catastrophe). Puppy-Bite (melee, +6 to hit, 2d6+4 piercing). Eye-Shift (passive: eyes shift from puppy-brown to molten gold near oath-breakers, marking targets). Snowshoe-Paws (can run across deep snow without sinking). Vulnerable to fire.",
@@ -1547,19 +1547,19 @@ export const BESTIARY_DATA = {
               "physical": 25
             }
           },
-          "depth": "Driven by Fenrir's bound energy, the Fenrispup relentlessly tracks down those who break blood-oaths across the tundra; they cannot be slain, only temporarily appeased or distracted with fresh meat. The golden collar around its neck is a fragment of the legendary fetter Gleipnir, keeping it from growing to its full, world-ending size. Rune Keepers watch these creatures closely, for the removal of a collar would trigger a catastrophic growth that could tear Nordhalla apart.",
+          "depth": "Driven by Fenrir's bound energy, the Fenris relentlessly tracks down those who break blood-oaths across the tundra; they cannot be slain, only temporarily appeased or distracted with fresh meat. The golden collar around its neck is a fragment of the legendary fetter Gleipnir, keeping it from growing to its full, world-ending size. Rune Keepers watch these creatures closely, for the removal of a collar would trigger a catastrophic growth that could tear Nordhalla apart.",
           "hooks": [
-            "A rumor spreads of a Fenrispup spotted near the area.",
-            "Adventurers need a component from a Fenrispup to complete their quest."
+            "A rumor spreads of a Fenris spotted near the area.",
+            "Adventurers need a component from a Fenris to complete their quest."
           ],
           "description": "A pony-sized wolf cub bound by a magical collar that hunts down oath-breakers, representing a fragment of the apocalyptic Fenrir.",
-          "heritage": "A manifestation of apocalyptic wolf myths, the Fenrispup was a folklore representation of the wild, untamable hunger of winter predators. The Wyrd anomaly consolidated the shepherds' terror of winter wolf packs and the fear of the end times, shaping these anxieties into massive, fast-growing wolf pups that hunt the snowy crags."
+          "heritage": "A manifestation of apocalyptic wolf myths, the Fenris was a folklore representation of the wild, untamable hunger of winter predators. The Wyrd anomaly consolidated the shepherds' terror of winter wolf packs and the fear of the end times, shaping these anxieties into massive, fast-growing wolf pups that hunt the snowy crags."
         },
         {
-          "id": "disablot_wraith",
+          "id": "disir",
           "name": "Disir Wraith",
           "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/disablot_wraith.png",
+          "illustration": "/assets/images/creatures/disir.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Disir Wraith",
           "role": "DÃ­sir",
           "origin": "The Disir Wraith represents the Norse Dísir, female ancestral guardians honored during the Dísablót who bless or curse their descendants, and the Alpine Perchta's Retinue, who punish sloth and household neglect. They manifest during the deep winter to ensure ancestral traditions are upheld.",
@@ -1591,10 +1591,10 @@ export const BESTIARY_DATA = {
           "heritage": "Rooted in ancestral guardian worship, the Disir Wraith was a folklore mechanism to honor family bloodlines and explain why some families were blessed while others were cursed. The Wyrd anomaly reacted to the descendants' fear of family extinction and genetic blight, manifesting these spectral female guardians to watch over or purge their lineage."
         },
         {
-          "id": "skogsra_pine",
+          "id": "skogsra",
           "name": "Skogsrå",
           "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/skogsra_pine.png",
+          "illustration": "/assets/images/creatures/skogsra.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Skogsrå",
           "role": "Skogsrå",
           "origin": "The Skogsrå is born of the Norse Skogsrå, a seductive, hollow-backed forest-spirit who grants fortune but punishes betrayal, and the Alpine Waldmännlein, who defend old-growth forests from the woodsman's axe. She is the wild soul of the ancient pines, guarding the deep woods of Nordhalla.",
@@ -1625,10 +1625,10 @@ export const BESTIARY_DATA = {
           "heritage": "Born from forest-guardian myths, the Skogsrå was a warning story to enforce strict moral codes among woodcutters, warning that greed would lead to starvation. The Wyrd anomaly materialized this forest guilt and the fear of losing resources, manifesting this seductive forest keeper who grants luck to the respectful and death to the greedy."
         },
         {
-          "id": "kraken_ice",
+          "id": "kraken",
           "name": "Kraken",
           "dangerLevel": "Very High",
-          "illustration": "/assets/images/creatures/kraken_ice.png",
+          "illustration": "/assets/images/creatures/kraken.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Kraken",
           "role": "Kraken",
           "origin": "The Kraken arises from the Norse Kraken, the legendary leviathan of the deep seas whose size rivaled islands, and the Alpine Seeschlange, the giant serpents reported to dwell in deep mountain lakes. It embodies the hidden horrors of the frozen northern waters, waiting beneath the thick sheets of ice.",

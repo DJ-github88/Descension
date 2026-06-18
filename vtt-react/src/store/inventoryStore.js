@@ -1,3 +1,4 @@
+import { getStore } from './storeRegistry';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
@@ -16,12 +17,12 @@ import {
 const syncInventoryToMultiplayer = (changeType, changeData, currentInventoryState) => {
     try {
         // Check if we're in multiplayer mode
-        const gameStore = require('./gameStore').default;
+        const gameStore = getStore('gameStore');
         const gameState = gameStore.getState();
 
         if (gameState.isInMultiplayer && gameState.multiplayerSocket && gameState.multiplayerSocket.connected) {
             // Get current character ID for player identification
-            const characterStore = require('./characterStore').default;
+            const characterStore = getStore('characterStore');
             const characterState = characterStore.getState();
             const playerId = characterState.currentCharacterId;
 
@@ -120,7 +121,7 @@ const syncInventoryToMultiplayer = (changeType, changeData, currentInventoryStat
 const recordCharacterChange = (changeType, changeData, currentInventoryState) => {
     try {
         // Import character store dynamically to avoid circular dependencies
-        const characterStore = require('./characterStore').default;
+        const characterStore = getStore('characterStore');
         const state = characterStore.getState();
 
         if (state.currentCharacterId) {
@@ -257,7 +258,7 @@ const getCurrentGridSize = () => {
     // Try to get character store data
     try {
         // Import character store dynamically to avoid circular dependencies
-        const characterStore = require('./characterStore').default;
+        const characterStore = getStore('characterStore');
         const state = characterStore.getState();
 
         if (state && state.derivedStats && state.derivedStats.carryingCapacity) {
@@ -417,7 +418,7 @@ const useInventoryStore = create(persist((set, get) => ({
             // Use setTimeout to avoid circular dependency issues
             setTimeout(() => {
                 try {
-                    const characterStore = require('./characterStore').default;
+                    const characterStore = getStore('characterStore');
                     const recalculateStats = characterStore.getState().recalculateStatsWithEncumbrance;
                     if (recalculateStats) {
                         recalculateStats();
@@ -545,55 +546,15 @@ const useInventoryStore = create(persist((set, get) => ({
 
             if (!emptyPosition) {
                 // No empty position found - inventory is full for this item size
-                console.warn(`🚫 INVENTORY FULL: No room in inventory for item: ${newItem.name} (${newItem.width}x${newItem.height})`);
-                console.warn(`🚫 Grid size: ${currentGridSize.width}x${currentGridSize.height}, Total cells: ${currentGridSize.width * currentGridSize.height}`);
+                console.warn(`ðŸš« INVENTORY FULL: No room in inventory for item: ${newItem.name} (${newItem.width}x${newItem.height})`);
+                console.warn(`ðŸš« Grid size: ${currentGridSize.width}x${currentGridSize.height}, Total cells: ${currentGridSize.width * currentGridSize.height}`);
 
-                // Show "no room" notification
                 if (typeof window !== 'undefined') {
-                    const notification = document.createElement('div');
-                    notification.className = 'inventory-full-notification';
-                    notification.textContent = `No room in inventory for ${newItem.name}`;
-                    notification.style.cssText = `
-                        position: fixed;
-                        top: 50%;
-                        left: 50%;
-                        transform: translate(-50%, -50%);
-                        background: rgba(139, 69, 19, 0.95);
-                        color: white;
-                        padding: 12px 20px;
-                        border-radius: 8px;
-                        border: 2px solid #8b4513;
-                        font-family: 'Cinzel', serif;
-                        font-size: 16px;
-                        font-weight: 600;
-                        z-index: 10000;
-                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-                        animation: fadeInOut 3s ease-in-out forwards;
-                    `;
-
-                    // Add CSS animation if not already present
-                    if (!document.querySelector('#inventory-notification-styles')) {
-                        const style = document.createElement('style');
-                        style.id = 'inventory-notification-styles';
-                        style.textContent = `
-                            @keyframes fadeInOut {
-                                0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
-                                20% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-                                80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-                                100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
-                            }
-                        `;
-                        document.head.appendChild(style);
-                    }
-
-                    document.body.appendChild(notification);
-
-                    // Remove notification after animation
-                    setTimeout(() => {
-                        if (document.body.contains(notification)) {
-                            document.body.removeChild(notification);
-                        }
-                    }, 3000);
+                    const useNotificationStore = getStore('notificationStore');
+                    useNotificationStore.getState().showWarning(
+                        `No room in inventory for ${newItem.name}`,
+                        { title: 'Inventory Full', duration: 3000 }
+                    );
                 }
 
                 // Return state unchanged - item was not added
@@ -625,40 +586,15 @@ const useInventoryStore = create(persist((set, get) => ({
 
                 if (!emptyPosition) {
                     // No valid position found - inventory is full for this item size
-                    console.warn(`🚫 INVENTORY FULL: No room in inventory for item: ${newItem.name} (${newItem.width}x${newItem.height})`);
-                    console.warn(`🚫 Current inventory has ${state.items.length} items`);
+                    console.warn(`ðŸš« INVENTORY FULL: No room in inventory for item: ${newItem.name} (${newItem.width}x${newItem.height})`);
+                    console.warn(`ðŸš« Current inventory has ${state.items.length} items`);
 
-                    // Show "no room" notification
                     if (typeof window !== 'undefined') {
-                        const notification = document.createElement('div');
-                        notification.className = 'inventory-full-notification';
-                        notification.textContent = `No room in inventory for ${newItem.name}`;
-                        notification.style.cssText = `
-                            position: fixed;
-                            top: 50%;
-                            left: 50%;
-                            transform: translate(-50%, -50%);
-                            background: rgba(139, 69, 19, 0.95);
-                            color: white;
-                            padding: 12px 20px;
-                            border-radius: 8px;
-                            border: 2px solid #8b4513;
-                            font-family: 'Cinzel', serif;
-                            font-size: 16px;
-                            font-weight: 600;
-                            z-index: 10000;
-                            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-                            animation: fadeInOut 3s ease-in-out forwards;
-                        `;
-
-                        document.body.appendChild(notification);
-
-                        // Remove notification after animation
-                        setTimeout(() => {
-                            if (document.body.contains(notification)) {
-                                document.body.removeChild(notification);
-                            }
-                        }, 3000);
+                        const useNotificationStore = getStore('notificationStore');
+                        useNotificationStore.getState().showWarning(
+                            `No room in inventory for ${newItem.name}`,
+                            { title: 'Inventory Full', duration: 3000 }
+                        );
                     }
 
                     // Return state unchanged - item was not added
@@ -1157,7 +1093,7 @@ const useInventoryStore = create(persist((set, get) => ({
         }
 
         // If no valid position found anywhere, don't rotate
-        console.warn(`⚠️ Cannot rotate item - no valid position found in inventory`);
+        console.warn(`âš ï¸ Cannot rotate item - no valid position found in inventory`);
         return { items: state.items };
     }),
 

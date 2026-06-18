@@ -128,7 +128,23 @@ function validateTrait(traitId, block) {
         }
     }
 
-    if (block.match(/damageType:\s*'[^[]/)) {
+    let braceDepth = 0;
+    let hasTopLevelStringDamageType = false;
+    for (let i = 0; i < block.length; i++) {
+        const ch = block[i];
+        if (ch === '{') braceDepth++;
+        else if (ch === '}') braceDepth--;
+        else if (braceDepth === 1 && block.substring(i, i + 11) === 'damageType:') {
+            const prev = block[i - 1];
+            if (!prev || !/[a-zA-Z0-9_]/.test(prev)) {
+                if (block.slice(i + 11).match(/^\s*'[^[]/)) {
+                    hasTopLevelStringDamageType = true;
+                    break;
+                }
+            }
+        }
+    }
+    if (hasTopLevelStringDamageType) {
         errors.push("damageType is a string, must be damageTypes: ['type'] array");
     }
 

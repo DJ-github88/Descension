@@ -21,14 +21,12 @@ const firebaseService = require('./services/firebaseService');
 const deltaSync = require('./services/deltaSync');
 const EventBatcher = require('./services/eventBatcher');
 const optimizedFirebase = require('./services/optimizedFirebase');
-const memoryManager = require('./services/memoryManager');
 const lagCompensation = require('./services/lagCompensation');
 const RealtimeSyncEngine = require('./services/realtimeSync');
 const { createValidationMiddleware } = require('./services/validationService');
 const rateLimitService = require('./services/rateLimitService');
 const { sanitizeChatMessage, sanitizeRoomName, sanitizePlayerName, createSanitizationMiddleware } = require('./services/sanitizationService');
 const logger = require('./services/logger');
-const requestTracer = require('./services/requestTracer');
 const ErrorHandler = require('./services/errorHandler');
 
 // Import handlers
@@ -278,6 +276,12 @@ const apiLimiter = rateLimit({
 });
 
 app.use('/api/', apiLimiter);
+
+app.use((err, req, res, next) => {
+  errorHandler.handleError(err, { url: req.url, method: req.method });
+  if (res.headersSent) return next(err);
+  res.status(500).json({ error: 'Internal server error' });
+});
 
 // ==================== PERIODIC CLEANUP ====================
 

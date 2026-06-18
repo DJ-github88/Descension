@@ -14,7 +14,7 @@ import { getWowIconUrl } from '../utils/assetManager';
 import useCombatStore from '../store/combatStore';
 import useCreatureStore from '../store/creatureStore';
 import useInventoryStore from '../store/inventoryStore';
-import ErrorBoundary from './ErrorBoundary';
+import ErrorBoundary from './common/ErrorBoundary';
 
 const SettingsWindow = lazy(() => import('./windows/SettingsWindow'));
 const ExitGameConfirmDialog = lazy(() => import('./dialogs/ExitGameConfirmDialog'));

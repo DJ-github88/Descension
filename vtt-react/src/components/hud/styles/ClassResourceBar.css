@@ -28,6 +28,8 @@
 @import './resourceBars/musical-notes-combo.css';
 /* Arcanoneer "Building Blocks" — external component, self-contained CSS */
 @import '../../../data/classes/arcanoneer/styles/ArcanoneerResourceBar.css';
+/* Minstrel "Musical Notes & Cadences" — external component, self-contained CSS */
+@import '../../../data/classes/minstrel/styles/MinstrelResourceBar.css';
 
 .class-resource-wrapper {
     position: relative;

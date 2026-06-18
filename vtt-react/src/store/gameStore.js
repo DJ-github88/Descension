@@ -1,3 +1,4 @@
+import { getStore } from './storeRegistry';
 import { create } from 'zustand';
 import { Creature, Ability, creatureTypes, abilityTypes } from "../game/creatures";
 
@@ -563,11 +564,11 @@ const useGameStore = create((set, get) => ({
         set({ restOverlayOpen: true, restOverlayType: 'short' });
 
         // Import stores dynamically to avoid circular dependencies
-        const usePartyStore = require('./partyStore').default;
-        const useCharacterStore = require('./characterStore').default;
+        const usePartyStore = getStore('partyStore');
+        const useCharacterStore = getStore('characterStore');
         const { calculateDerivedStats, applyRacialModifiers } = require('../utils/characterUtils');
         const { calculateEquipmentBonuses } = require('../utils/characterUtils');
-        const { getEncumbranceState } = require('../store/inventoryStore').default;
+        const { getEncumbranceState } = getStore('inventoryStore');
 
         // Get party members
         const partyStore = usePartyStore.getState();
@@ -674,24 +675,40 @@ const useGameStore = create((set, get) => ({
         }
 
         try {
-            const saved = localStorage.getItem('gameStore-activeCooldowns');
-            if (saved) {
-                const parsed = JSON.parse(saved);
-                const filtered = {};
-                Object.entries(parsed).forEach(([k, v]) => {
-                    if (v.cooldownType === 'turn_based') filtered[k] = v;
-                });
-                localStorage.setItem('gameStore-activeCooldowns', JSON.stringify(filtered));
-                set({ activeCooldowns: filtered });
-            }
-        } catch (e) {}
+            const current = get().activeCooldowns || {};
+            const filtered = {};
+            Object.entries(current).forEach(([k, v]) => {
+                if (v.cooldownType === 'turn_based') filtered[k] = v;
+            });
+            try { localStorage.setItem('gameStore-activeCooldowns', JSON.stringify(filtered)); } catch (e) {}
+            set({ activeCooldowns: filtered });
+        } catch (e) {
+            console.warn('Could not reset short rest cooldowns:', e);
+        }
 
         // Clear debuffs on short rest
         try {
-            const useDebuffStore = require('./debuffStore').default;
-            useDebuffStore.getState().clearAllDebuffs();
+            const useConditionStore = getStore('conditionStore');
+            useConditionStore.getState().clearAllConditions('debuff');
         } catch (e) {
             console.warn('Could not clear debuffs on short rest:', e);
+        }
+
+        try {
+            const useCharacterStore = getStore('characterStore');
+            const charStore = useCharacterStore.getState();
+            const cr = charStore.classResource;
+            if (cr && typeof cr.current === 'number' && typeof cr.max === 'number' && cr.max > 0) {
+                const stats = charStore.stats || {};
+                const spirit = stats.spirit || 10;
+                const spiritModifier = Math.max(0, Math.floor((spirit - 10) / 2));
+                const recoveryPercent = Math.min(0.75, 0.25 + (spiritModifier * 0.05));
+                const recovered = Math.min(cr.max, cr.current + Math.floor(cr.max * recoveryPercent));
+                charStore.updateClassResource('current', recovered, true, true);
+                charStore.syncResourcesWithMultiplayer({ classResource: 0 });
+            }
+        } catch (e) {
+            console.warn('Could not recover class resources on short rest:', e);
         }
     },
 
@@ -701,8 +718,8 @@ const useGameStore = create((set, get) => ({
         set({ restOverlayOpen: true, restOverlayType: 'long' });
 
         // Import stores dynamically to avoid circular dependencies
-        const usePartyStore = require('./partyStore').default;
-        const useCharacterStore = require('./characterStore').default;
+        const usePartyStore = getStore('partyStore');
+        const useCharacterStore = getStore('characterStore');
 
         // Get party members
         const partyStore = usePartyStore.getState();
@@ -778,28 +795,24 @@ const useGameStore = create((set, get) => ({
 
         // Clear all buffs on long rest
         try {
-            const useBuffStore = require('./buffStore').default;
-            useBuffStore.getState().clearAllBuffs();
+            const useConditionStore = getStore('conditionStore');
+            useConditionStore.getState().clearAllConditions('buff');
         } catch (e) {
             console.warn('Could not clear buffs on long rest:', e);
         }
 
         // Clear all debuffs on long rest
         try {
-            const useDebuffStore = require('./debuffStore').default;
-            useDebuffStore.getState().clearAllDebuffs();
+            const useConditionStore = getStore('conditionStore');
+            useConditionStore.getState().clearAllConditions('debuff');
         } catch (e) {
             console.warn('Could not clear debuffs on long rest:', e);
         }
 
         // Reset class resources on long rest
         try {
-            const useCharacterStore = require('./characterStore').default;
-            const charStore = useCharacterStore.getState();
-            if (charStore.classResource) {
-                useCharacterStore.getState().updateClassResource('current', charStore.classResource.max, true, true);
-                useCharacterStore.getState().syncResourcesWithMultiplayer({ classResource: 0 });
-            }
+            const useCharacterStore = getStore('characterStore');
+            useCharacterStore.getState().resetClassResource();
         } catch (e) {
             console.warn('Could not reset class resources on long rest:', e);
         }
