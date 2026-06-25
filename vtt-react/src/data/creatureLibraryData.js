@@ -7024,43 +7024,43 @@ export const LIBRARY_CREATURES = [
       "depth": "Visiting every longhouse during the winter celebrations, the wraiths bless families who honor their female ancestors with warmth and fertility. However, households that neglect their duties are struck by the Spindle-Curse, finding their yarn replaced with human hair and their spindles soaked in frozen blood, rendering the women of the house barren. Bloodhammer matriarchs view this curse as a threat far greater than any raiding army, going to extreme lengths to ensure their offerings are immaculate."
     },
     {
-      "id": "skogsra",
-      "name": "Skogsra",
-      "description": "A seductive forest guardian who appears as a beautiful woman from the front but is a hollow, rotting tree from behind, rewarding respectful hunters while cursing loggers.",
-      "type": CREATURE_TYPES.PLANT,
+      "id": "valravn",
+      "name": "Valravn",
+      "description": "A menacing half-wolf, half-raven chimera that devours the hearts of the fallen, gaining dark intelligence and hunting wounded prey.",
+      "type": CREATURE_TYPES.BEAST,
       "size": CREATURE_SIZES.MEDIUM,
       "tags": [
         "nordhalla",
-        "skogsrã_pine",
-        "plant"
+        "valravn",
+        "beast"
       ],
-      "tokenIcon": "Bestiary/skogsra",
-      "tokenBorder": "#7209b7",
+      "tokenIcon": "Bestiary/valravn",
+      "tokenBorder": "#bc6c25",
       "stats": {
-        "strength": 12,
+        "strength": 16,
         "agility": 16,
-        "constitution": 12,
+        "constitution": 14,
         "intelligence": 10,
-        "spirit": 14,
-        "charisma": 18,
+        "spirit": 12,
+        "charisma": 8,
         "maxHp": 155,
         "currentHp": 155,
-        "maxMana": 30,
-        "currentMana": 30,
+        "maxMana": 20,
+        "currentMana": 20,
         "maxActionPoints": 4,
         "currentActionPoints": 4,
         "initiative": 4,
-        "speed": 35,
-        "flying": 30,
+        "speed": 40,
+        "flying": 50,
         "swimming": 0,
-        "sightRange": 60,
-        "darkvision": 60
+        "sightRange": 120,
+        "darkvision": 120
       },
       "resistances": {
         "physical": 25
       },
       "vulnerabilities": {
-        "cold": 25
+        "fire": 25
       },
       "abilities": [],
       "lootTable": {
@@ -7086,10 +7086,10 @@ export const LIBRARY_CREATURES = [
       },
       "dateCreated": "2026-06-13T18:00:00Z",
       "lastModified": "2026-06-13T18:00:00Z",
-      "origin": "The Skogsra is born of the Norse Skogsrå, a seductive, hollow-backed forest-spirit who grants fortune but punishes betrayal, and the Alpine Waldmännlein, who defend old-growth forests from the woodsman's axe. She is the wild soul of the ancient pines, guarding the deep woods of Nordhalla.",
-      "nature": "From the front, she appears as a stunning woman with skin of textured birch bark, hair of silver moss, and a gown of living pine needles that shifts from green in the warmth to grey-blue in the biting cold. From behind, however, she is a hollowed-out pine trunk filled with nesting forest birds and decaying wood, with a fox tail peeking out from the hem of her gown. Her face is heart-shaped and beautiful, dominated by large, dark eyes full of forest-knowing and a smile that is both warm and unsettling.",
-      "habitat": "She dwells within the ancient pine forests and old-growth timberlands of Nordhalla, particularly the Valley of Ymir.",
-      "depth": "The Skogsra frequently offers her favor to lone Skald hunters, granting them supernatural accuracy on the condition that they never look at her back and never speak of her; those who break this covenant are cursed to wander in circles until they freeze. She also acts as a fierce warden of the trees, turning the axes of woodcutters into brittle ice that shatters on impact. The oldest pines in the Valley of Ymir are so heavily guarded by her presence that even the Rune Keepers refuse to harvest them."
+      "origin": "The Valravn is born of the Danish/Norse folklore of the valravn—a raven that gains dark knowledge and powers after eating the flesh and heart of a fallen warrior on an unburied battlefield. In Nordhalla, it manifests as a half-wolf, half-raven beast feeding on the remains of battlefields.",
+      "nature": "A wolf-sized hybrid with the powerful hindquarters, tail, and legs of a black wolf, transitioning into the feather-covered chest, wings, and head of a giant raven. It has a sharp obsidian beak and cold, glowing violet eyes that burn with dark magic.",
+      "habitat": "It hunts the frozen crags, pine forests, and battlefields of Nordhalla, searching for the hearts of the fallen.",
+      "depth": "The Valravn stalks the periphery of clan skirmishes in Nordhalla, waiting for the slaughter to end. It is said that by devouring the hearts of unburied kings, a Valravn can take the form of a knight or gain supreme wisdom. Skalds sing of warriors who made pacts with the birds, trading their firstborn children for victory in battle. The presence of a Valravn circling overhead is considered a grim omen of an impending massacre."
     },
     {
       "id": "kraken",
@@ -7465,17 +7465,17 @@ export const LIBRARY_CREATURES = [
       "depth": "This four-winged gale-spirit refuses to fight anyone who speaks its true name backwards. It is obsessed with collecting coins from dead empires; it will exchange ancient secrets or redirect a sandstorm if paid in gold from a dynasty that no longer exists."
     },
     {
-      "id": "tiamat_scale",
-      "name": "Tiamat-Scale",
+      "id": "tiamat",
+      "name": "Tiamat",
       "description": "A multi-headed serpent of black glass and molten orange, swimming through the lava rivers of Emberspire. It seeks out heat and precious minerals, draining the warmth of the sun and leaving fields of razor-sharp obsidian in its wake.",
       "type": CREATURE_TYPES.DRAGON,
       "size": CREATURE_SIZES.MEDIUM,
       "tags": [
         "sundale",
-        "tiamat_scale",
+        "tiamat",
         "dragon"
       ],
-      "tokenIcon": "Bestiary/tiamat_scale",
+      "tokenIcon": "Bestiary/tiamat",
       "tokenBorder": "#7209b7",
       "stats": {
         "strength": 22,
@@ -7528,10 +7528,10 @@ export const LIBRARY_CREATURES = [
       },
       "dateCreated": "2026-06-13T18:00:00Z",
       "lastModified": "2026-06-13T18:00:00Z",
-      "origin": "In the blistering depths of the Sundale caldera, the Tiamat-Scale embodies the ancient mythic forces of primordial creation and destruction. Its lineage is tied to Tiamat, the Babylonian dragon-goddess of the salt sea and mother of monsters, and Apep, the Egyptian chaos-serpent that sought to devour the sun each night. Twisted by the reality-warping influence of the Wyrd, this beast serves as an eternal enemy of cosmic order, seeking to consume light and heat wherever it can find them.",
-      "nature": "The Tiamat-Scale is a massive, multi-headed serpent whose obsidian scales are shot through with veins of glowing, molten orange, creating a shifting crust of cooling magma. Each of its serpentine heads branches from a central, muscular trunk, terminating in a unique jaw shape—some needle-toothed and narrow, others broad and crushing—all flanking a perpetually dripping, lamprey-like mouth. The creature's belly glows with the fierce heat of a forge, and as it slithers, it sheds scales that cool into fields of razor-sharp glass. Its heads are crowned with single, iris-less eyes like burning white coals, which spin and track independently to grant the beast a complete three-hundred-and-sixty-degree view of its surroundings.",
+      "origin": "In the blistering depths of the Sundale caldera, the Tiamat embodies the ancient mythic forces of primordial creation and destruction. Its lineage is tied to Tiamat, the Babylonian dragon-goddess of the salt sea and mother of monsters, and Apep, the Egyptian chaos-serpent that sought to devour the sun each night. Twisted by the reality-warping influence of the Wyrd, this beast serves as an eternal enemy of cosmic order, seeking to consume light and heat wherever it can find them.",
+      "nature": "The Tiamat is a massive, multi-headed serpent whose obsidian scales are shot through with veins of glowing, molten orange, creating a shifting crust of cooling magma. Each of its serpentine heads branches from a central, muscular trunk, terminating in a unique jaw shape—some needle-toothed and narrow, others broad and crushing—all flanking a perpetually dripping, lamprey-like mouth. The creature's belly glows with the fierce heat of a forge, and as it slithers, it sheds scales that cool into fields of razor-sharp glass. Its heads are crowned with single, iris-less eyes like burning white coals, which spin and track independently to grant the beast a complete three-hundred-and-sixty-degree view of its surroundings.",
       "habitat": "These massive glass serpents make their home in the slow-flowing lava rivers and molten channels that radiate from Emberspire. They swim effortlessly through the superheated rock, completely at home in the deepest, most volcanic crevices of the region.",
-      "depth": "Swimming through the subterranean magma currents, the Tiamat-Scale feeds on rare minerals and gold-trace veins, putting them in direct competition with the smiths of the Emberth clans. The Wyrd has amplified their mythic hunger, drawing them to the warmth of the Solbrand, which they will coil around and drain if left unchecked. Because of this, the Korr Emberth maintain a sleepless, heavily armed vigil at the Harath-Chamber to repel Tiamat-Scale incursions, though bold adventurers are often lured by rumors of these beasts to harvest their glass scales or the precious metals concentrated within their gullets."
+      "depth": "Swimming through the subterranean magma currents, the Tiamat feeds on rare minerals and gold-trace veins, putting them in direct competition with the smiths of the Emberth clans. The Wyrd has amplified their mythic hunger, drawing them to the warmth of the Solbrand, which they will coil around and drain if left unchecked. Because of this, the Korr Emberth maintain a sleepless, heavily armed vigil at the Harath-Chamber to repel Tiamat incursions, though bold adventurers are often lured by rumors of these beasts to harvest their glass scales or the precious metals concentrated within their gullets."
     },
     {
       "id": "anzu",
@@ -7829,17 +7829,17 @@ export const LIBRARY_CREATURES = [
       "depth": "Acting as a living barrier to the inner sanctums of Emberspire, the Ammit senses the moral weight of anyone who approaches, ignoring the pure of heart while savagely devouring those burdened by broken oaths or Wyrd-corruption. Those who fall to the beast suffer a fate worse than death; their souls are erased from existence, and their names vanish from the volcanic stone-records of the Emberth, undoing even the most permanent burn-mark inscriptions. This terrifying power makes them a symbol of ultimate dishonor among the Solvarn, and adventurers are warned to maintain impeccable honor when rumors speak of an Ammit blocking their path."
     },
     {
-      "id": "lamashtu_wail",
-      "name": "Lamashtu-Wail",
+      "id": "lamashtu",
+      "name": "Lamashtu",
       "description": "A horrific hippopotamus-demoness that prowls the edges of settlements to steal children, trapping them in her swollen belly. She is feared for her agonizing cries, yet she flees from the image of the Pazuzu.",
       "type": CREATURE_TYPES.ELEMENTAL,
       "size": CREATURE_SIZES.MEDIUM,
       "tags": [
         "sundale",
-        "lamashtu_wail",
+        "lamashtu",
         "elemental"
       ],
-      "tokenIcon": "Bestiary/lamashtu_wail",
+      "tokenIcon": "Bestiary/lamashtu",
       "tokenBorder": "#7209b7",
       "stats": {
         "strength": 16,
@@ -7908,23 +7908,23 @@ export const LIBRARY_CREATURES = [
       },
       "dateCreated": "2026-06-13T18:00:00Z",
       "lastModified": "2026-06-13T18:00:00Z",
-      "origin": "The Lamashtu-Wail is a malevolent manifestation born from the dark, distorted myths of Mesopotamian and Egyptian folklore. It combines Lamashtu, the baby-snatching demoness who caused miscarriages and infant deaths, with Taweret, the fierce hippopotamus-goddess of childbirth who served as a protective but terrifying maternal force. The resulting aberration is a tragic, twisted predator that hunts the young of Sundale.",
+      "origin": "The Lamashtu is a malevolent manifestation born from the dark, distorted myths of Mesopotamian and Egyptian folklore. It combines Lamashtu, the baby-snatching demoness who caused miscarriages and infant deaths, with Taweret, the fierce hippopotamus-goddess of childbirth who served as a protective but terrifying maternal force. The resulting aberration is a tragic, twisted predator that hunts the young of Sundale.",
       "nature": "Towering nine feet tall, this creature has the swollen, pregnant torso of a hippopotamus-woman, the powerful paws of a lioness, and the skull-like head of a donkey, with a ridge of crocodile-hide running down its spine. Its heavy, pendulous breasts leak molten copper that burns and pocks the basalt floor as it walks, and it clutches a rusted bronze comb and a clay whistle in its claws. Its distended belly is in constant, disturbing motion, and from within, the muffled screams of its victims can be heard. Its face is a bare donkey-skull with glowing, lamp-like eyes that weep liquid fire, containing a secondary human mouth inside its jaw that constantly speaks in a weeping, apologetic woman's voice.",
-      "habitat": "The Lamashtu-Wail haunts the fringes of Solvarn settlements, volcanic ruins, and the ash-choked borderlands of the Sundale region. It moves under the cover of night, drawn by the sounds of domestic life.",
-      "depth": "Driven by a twisted maternal instinct, the Lamashtu-Wail steals infants from their cradles and absorbs them into its hollow, swollen belly, where the children are kept alive in eternal, screaming torment. The only protection against this terror is the image of Pazuzu, which the demoness fears above all else; consequently, the Pazuzu is her natural enemy. Thrask parents carefully camp in the neutral zones between the territories of these two beasts, using the presence of the Pazuzu as a shield while hiring brave adventurers to hunt down local Lamashtu-Wails and free the trapped children before they are lost forever."
+      "habitat": "The Lamashtu haunts the fringes of Solvarn settlements, volcanic ruins, and the ash-choked borderlands of the Sundale region. It moves under the cover of night, drawn by the sounds of domestic life.",
+      "depth": "Driven by a twisted maternal instinct, the Lamashtu steals infants from their cradles and absorbs them into its hollow, swollen belly, where the children are kept alive in eternal, screaming torment. The only protection against this terror is the image of Pazuzu, which the demoness fears above all else; consequently, the Pazuzu is her natural enemy. Thrask parents carefully camp in the neutral zones between the territories of these two beasts, using the presence of the Pazuzu as a shield while hiring brave adventurers to hunt down local Lamashtus and free the trapped children before they are lost forever."
     },
     {
-      "id": "bes_brick",
-      "name": "Bes-Brick",
+      "id": "bes",
+      "name": "Bes",
       "description": "A stout, clay-and-basalt homunculus with a roaring lion's face, created by Emberth smiths to guard nurseries. It wards off evil through mock grimaces, loud tambourines, and protective lapis-lazuli sigils.",
       "type": CREATURE_TYPES.HUMANOID,
       "size": CREATURE_SIZES.MEDIUM,
       "tags": [
         "sundale",
-        "bes_brick",
+        "bes",
         "humanoid"
       ],
-      "tokenIcon": "Bestiary/bes_brick",
+      "tokenIcon": "Bestiary/bes",
       "tokenBorder": "#7209b7",
       "stats": {
         "strength": 12,
@@ -7993,10 +7993,10 @@ export const LIBRARY_CREATURES = [
       },
       "dateCreated": "2026-06-13T18:00:00Z",
       "lastModified": "2026-06-13T18:00:00Z",
-      "origin": "Crafted by the skilled hands of Emberth artisans, the Bes-Brick is a protective homunculus inspired by ancient protective spirits. Its form draws from Bes, the Egyptian dwarf-god of households who warded off evil with knives and music, and Ugallu, the Mesopotamian lion-headed 'Big Weather-Beast' who championed cosmic order. Together, these legends are fused into a loyal clay defender of the home.",
-      "nature": "Standing only four feet tall, the Bes-Brick is a squat, muscular construct made of fired terracotta clay reinforced with basalt fibers. It wears a stylized crown of tall ostrich feathers and brandishes a curved khopesh-sword in one hand and a small bronze tambourine in the other. Its clay skin is painted with intricate sigils of blue lapis-lazuli that glow with a brilliant light when danger is near. Its face is a wide, comical lion's head with crossed eyes and a protruding tongue, designed to startle and amuse in equal measure.",
+      "origin": "Crafted by the skilled hands of Emberth artisans, the Bes is a protective homunculus inspired by ancient protective spirits. Its form draws from Bes, the Egyptian dwarf-god of households who warded off evil with knives and music, and Ugallu, the Mesopotamian lion-headed 'Big Weather-Beast' who championed cosmic order. Together, these legends are fused into a loyal clay defender of the home.",
+      "nature": "Standing only four feet tall, the Bes is a squat, muscular construct made of fired terracotta clay reinforced with basalt fibers. It wears a stylized crown of tall ostrich feathers and brandishes a curved khopesh-sword in one hand and a small bronze tambourine in the other. Its clay skin is painted with intricate sigils of blue lapis-lazuli that glow with a brilliant light when danger is near. Its face is a wide, comical lion's head with crossed eyes and a protruding tongue, designed to startle and amuse in equal measure.",
       "habitat": "These homunculi are stationed inside the stone hearths, door-lintels, and residential nurseries of Emberth strongholds and fortified outposts within Sundale. They remain motionless until activated.",
-      "depth": "Bes-Bricks serve as the ultimate line of defense for Emberth families, springing to life at the first sign of Wyrd-corruption or malevolent spirits. When activated, they create a chaotic din, beating their tambourines and swinging their khopesh swords, using their bizarre grimaces and laughter-inducing appearance to break hostile enchantments. If a nursery is breached, a Bes-Brick will fight until it is completely shattered, scattering protective, sigil-carved clay shards that ward the room against corruption. The Thrask and Korr Emberth hold these shattered fragments in high honor, often hiring adventurers to retrieve rare lapis-lazuli or basalt fibers to construct new guardians for their growing settlements."
+      "depth": "Bess serve as the ultimate line of defense for Emberth families, springing to life at the first sign of Wyrd-corruption or malevolent spirits. When activated, they create a chaotic din, beating their tambourines and swinging their khopesh swords, using their bizarre grimaces and laughter-inducing appearance to break hostile enchantments. If a nursery is breached, a Bes will fight until it is completely shattered, scattering protective, sigil-carved clay shards that ward the room against corruption. The Thrask and Korr Emberth hold these shattered fragments in high honor, often hiring adventurers to retrieve rare lapis-lazuli or basalt fibers to construct new guardians for their growing settlements."
     },
     {
       "id": "ifrit",
@@ -8068,17 +8068,17 @@ export const LIBRARY_CREATURES = [
       "depth": "The Ifrits are powerful allies to the Korr Emberth, using their bare hands to shape molten rock into forge-components that no mortal tools could hope to replicate. They guard their smithies with absolute ferocity, using a deadly gaze that can instantly ignite any flammable object within fifty paces. Thrask rangers learn to identify their territories by the wide rings of scorched, vitrified earth that surround their volcanic nests, and they often advise adventurers to tread carefully when seeking these elementals, whether to petition them for forge-work or to harvest their white-hot coal cores for legendary weapons."
     },
     {
-      "id": "ghul_cinder",
-      "name": "Ghul-Cinder",
+      "id": "ghul",
+      "name": "Ghul",
       "description": "A mysterious, conical figure of compacted ash and bone, sporting two glowing green eyes. It haunts volcanic ruins, draining the heat-memory from the stone and smiting intruders with invisible fire.",
       "type": CREATURE_TYPES.UNDEAD,
       "size": CREATURE_SIZES.MEDIUM,
       "tags": [
         "sundale",
-        "ghul_cinder",
+        "ghul",
         "undead"
       ],
-      "tokenIcon": "Bestiary/ghul_cinder",
+      "tokenIcon": "Bestiary/ghul",
       "tokenBorder": "#9b2226",
       "stats": {
         "strength": 8,
@@ -8131,10 +8131,10 @@ export const LIBRARY_CREATURES = [
       },
       "dateCreated": "2026-06-13T18:00:00Z",
       "lastModified": "2026-06-13T18:00:00Z",
-      "origin": "The Ghul-Cinder is a sinister spirit of the volcanic wastes, drawing its mythic origins from the ghuls of Mesopotamian folklore—undead shape-shifters that consumed the dead in ruined places—and Medjed, the mysterious, sheeted deity of the Egyptian Book of the Dead who smote enemies with unseen fire. Fused together by the static of the Wyrd, the Ghul-Cinder acts as a silent, invisible sentinel of the dead.",
+      "origin": "The Ghul is a sinister spirit of the volcanic wastes, drawing its mythic origins from the ghuls of Mesopotamian folklore—undead shape-shifters that consumed the dead in ruined places—and Medjed, the mysterious, sheeted deity of the Egyptian Book of the Dead who smote enemies with unseen fire. Fused together by the static of the Wyrd, the Ghul acts as a silent, invisible sentinel of the dead.",
       "nature": "This creature appears as a four-foot-tall, conical cylinder of grey ash-dust fabric that resembles a shroud, with only two glowing, round green eyes visible beneath the hem. The fabric of the shroud is composed of compacted ash and pulverized bone held together by static electricity, and it leaves scorched footprints wherever its stubby feet step. It has no discernible face, but when it attacks, the ash-fabric splits vertically from top to bottom, revealing a roaring, white-hot furnace of fire within its hollow body.",
-      "habitat": "Ghul-Cinders make their homes in the ash-choked tombs, ancient graveyards, and crumbling volcanic ruins that litter the outskirts of Emberspire and Sundale.",
-      "depth": "Rather than feeding on flesh, Ghul-Cinders consume the residual warmth trapped within ancient structures, draining the thermal memory of long-lost civilizations until the stones are ice-cold to the touch. They possess the ability to turn completely invisible, leaving only the faint scent of burnt bone as a warning, and they launch devastating bolts of fire at intruders while hidden. To defeat them, adventurers must look for the single feature they cannot hide—their glowing, pale green eyes—making them a dangerous threat to those exploring the ruins, though their ash-dust shrouds are highly prized by alchemists for their fire-binding properties."
+      "habitat": "Ghuls make their homes in the ash-choked tombs, ancient graveyards, and crumbling volcanic ruins that litter the outskirts of Emberspire and Sundale.",
+      "depth": "Rather than feeding on flesh, Ghuls consume the residual warmth trapped within ancient structures, draining the thermal memory of long-lost civilizations until the stones are ice-cold to the touch. They possess the ability to turn completely invisible, leaving only the faint scent of burnt bone as a warning, and they launch devastating bolts of fire at intruders while hidden. To defeat them, adventurers must look for the single feature they cannot hide—their glowing, pale green eyes—making them a dangerous threat to those exploring the ruins, though their ash-dust shrouds are highly prized by alchemists for their fire-binding properties."
     },
     {
       "id": "gugalanna",
@@ -8206,17 +8206,17 @@ export const LIBRARY_CREATURES = [
       "depth": "The Gugalanna charges across the volcanic wasteland, its heavy hooves fracturing the cooling lava-roads and mapping out the safest paths through the shifting terrain. Thrask rangers track these herds to find stable passage through the lava-fields, utilizing the bull's instincts to survive. The obsidian scarab beneath the Gugalanna's tongue is highly sought after by alchemists and the Unwoven because it can instantly purify an entire cistern of Wyrd-tainted water, though the Korr Emberth view the slaughter of these bulls as a terrible sacrilege. Adventurers are often caught in the middle of these conflicting factions, hired either to protect the bulls or to harvest a scarab-mark to save a poisoned settlement."
     },
     {
-      "id": "peri_moth",
-      "name": "Peri-Moth",
+      "id": "peri",
+      "name": "Peri",
       "description": "A beautiful, hand-sized moth with opalescent wings and a golden, sun-like body. It rolls its wings into balls to compress thermal energy, creating eternal embers used by the Emberth.",
       "type": CREATURE_TYPES.FEY,
       "size": CREATURE_SIZES.MEDIUM,
       "tags": [
         "sundale",
-        "peri_moth",
+        "peri",
         "fey"
       ],
-      "tokenIcon": "Bestiary/peri_moth",
+      "tokenIcon": "Bestiary/peri",
       "tokenBorder": "#2d6a4f",
       "stats": {
         "strength": 2,
@@ -8285,23 +8285,23 @@ export const LIBRARY_CREATURES = [
       },
       "dateCreated": "2026-06-13T18:00:00Z",
       "lastModified": "2026-06-13T18:00:00Z",
-      "origin": "The Peri-Moth is a delicate spirit of light and renewal, drawing its essence from Persian and Egyptian mythologies. It is inspired by the Peri, the beautiful, winged fallen angels of Zoroastrian lore who seek repentance, and Khepri, the scarab-god of the rising sun who rolls the sun across the sky. In the volcanic gloom of Sundale, these moths are viewed as fragments of the sun-god Sol's own consciousness, striving to bring warmth back to the world.",
-      "nature": "No larger than a human hand, the Peri-Moth is a creature of striking beauty, its opalescent wings shimmering with shifting, oil-like colors. Its body glows with the warm, golden light of a miniature sun, and its antennae are curved like the horns of a scarab beetle. The edges of its wings are inscribed with tiny Zoroastrian prayers written in glittering gold-dust, and when it rests, it curls its wings into a tight, glowing sphere. Its delicate face features two large, faceted eyes that reflect the observer's face as a youthful, idealized vision, and its mouth is a glass-like proboscis.",
+      "origin": "The Peri is a delicate spirit of light and renewal, drawing its essence from Persian and Egyptian mythologies. It is inspired by the Peri, the beautiful, winged fallen angels of Zoroastrian lore who seek repentance, and Khepri, the scarab-god of the rising sun who rolls the sun across the sky. In the volcanic gloom of Sundale, these moths are viewed as fragments of the sun-god Sol's own consciousness, striving to bring warmth back to the world.",
+      "nature": "No larger than a human hand, the Peri is a creature of striking beauty, its opalescent wings shimmering with shifting, oil-like colors. Its body glows with the warm, golden light of a miniature sun, and its antennae are curved like the horns of a scarab beetle. The edges of its wings are inscribed with tiny Zoroastrian prayers written in glittering gold-dust, and when it rests, it curls its wings into a tight, glowing sphere. Its delicate face features two large, faceted eyes that reflect the observer's face as a youthful, idealized vision, and its mouth is a glass-like proboscis.",
       "habitat": "These radiant moths congregate in glowing clouds around the Solbrand and within the warm, protected chambers of Emberspire's temples.",
-      "depth": "Peri-Moths are drawn to sources of intense heat, particularly the sacred bowl of the Solbrand, where they are carefully tended by the Sun-Speakers of the Korr. Imitating the scarab Khepri, the moths roll their wing-balls along the ground at sunrise, absorbing the ambient heat and compressing it into small, golden pearls known as sun-seeds. These pearls are highly valued by the Emberth, who plant them in cold hearthstones to generate a steady, smokeless flame that burns for an entire year. Adventurers are often hired to protect these delicate creatures from predators or to collect wild sun-seeds from the volcanic valleys."
+      "depth": "Peris are drawn to sources of intense heat, particularly the sacred bowl of the Solbrand, where they are carefully tended by the Sun-Speakers of the Korr. Imitating the scarab Khepri, the moths roll their wing-balls along the ground at sunrise, absorbing the ambient heat and compressing it into small, golden pearls known as sun-seeds. These pearls are highly valued by the Emberth, who plant them in cold hearthstones to generate a steady, smokeless flame that burns for an entire year. Adventurers are often hired to protect these delicate creatures from predators or to collect wild sun-seeds from the volcanic valleys."
     },
     {
-      "id": "daeva_shade",
-      "name": "Daeva-Shade",
+      "id": "daeva",
+      "name": "Daeva",
       "description": "A shadow-born jackal with a curved snout and inverted eyes, representing the dark lies of Angra Mainyu. It feeds on spoken truth and accelerates the corruption of the Wyrd wherever it nests.",
       "type": CREATURE_TYPES.ELEMENTAL,
       "size": CREATURE_SIZES.MEDIUM,
       "tags": [
         "sundale",
-        "daeva_shade",
+        "daeva",
         "elemental"
       ],
-      "tokenIcon": "Bestiary/daeva_shade",
+      "tokenIcon": "Bestiary/daeva",
       "tokenBorder": "#7209b7",
       "stats": {
         "strength": 14,
@@ -8371,23 +8371,23 @@ export const LIBRARY_CREATURES = [
       },
       "dateCreated": "2026-06-13T18:00:00Z",
       "lastModified": "2026-06-13T18:00:00Z",
-      "origin": "The Daeva-Shade is a malevolent entity born from the absolute negation of light and truth. Its lineage is tied to the Daevas of Zoroastrian mythology, the false gods of chaos and destruction who serve Angra Mainyu, and the Set Animal of Egypt, the mysterious beast representing chaos, discord, and the foreign desert. It exists as a living lie, manifesting in Sundale to corrupt the land.",
-      "nature": "The Daeva-Shade has the lean, jackal-like body of a hunting canine, but its form is constructed of three-dimensional shadow that absorbs all light. Where light hits its body, it simply vanishes, leaving a silhouette with physical mass. Its tail is forked into two wispy tendrils of darkness, and its long, curved snout resembles a scimitar. Its face is dominated by inverted eyes—solid black whites and pupil-less, blinding white pupils—and a permanent, malicious grin that reveals rows of teeth shaped like tiny skulls.",
+      "origin": "The Daeva is a malevolent entity born from the absolute negation of light and truth. Its lineage is tied to the Daevas of Zoroastrian mythology, the false gods of chaos and destruction who serve Angra Mainyu, and the Set Animal of Egypt, the mysterious beast representing chaos, discord, and the foreign desert. It exists as a living lie, manifesting in Sundale to corrupt the land.",
+      "nature": "The Daeva has the lean, jackal-like body of a hunting canine, but its form is constructed of three-dimensional shadow that absorbs all light. Where light hits its body, it simply vanishes, leaving a silhouette with physical mass. Its tail is forked into two wispy tendrils of darkness, and its long, curved snout resembles a scimitar. Its face is dominated by inverted eyes—solid black whites and pupil-less, blinding white pupils—and a permanent, malicious grin that reveals rows of teeth shaped like tiny skulls.",
       "habitat": "These shadow beasts lurk in the dark volcanic caves, ruined temples, and ash-choked canyons of Sundale and the Emberspire region.",
-      "depth": "The Daeva-Shade feeds upon spoken truth; every honest word spoken in its vicinity drains the speaker's vitality while strengthening the shade's physical form. Because the Korr Emberth practice the Vault-Breath—a discipline of sacred silence—the Daeva-Shades are starved near the temples but grow bloated and aggressive around the busy marketplaces. Their presence acts as a beacon for the Wyrd, tearing open reality-breaches and accelerating corruption, which prompts the Thrask rangers to hunt them down relentlessly. Adventurers are frequently employed to locate and destroy these beasts before their nests can trigger a catastrophic breach."
+      "depth": "The Daeva feeds upon spoken truth; every honest word spoken in its vicinity drains the speaker's vitality while strengthening the shade's physical form. Because the Korr Emberth practice the Vault-Breath—a discipline of sacred silence—the Daevas are starved near the temples but grow bloated and aggressive around the busy marketplaces. Their presence acts as a beacon for the Wyrd, tearing open reality-breaches and accelerating corruption, which prompts the Thrask rangers to hunt them down relentlessly. Adventurers are frequently employed to locate and destroy these beasts before their nests can trigger a catastrophic breach."
     },
     {
-      "id": "simurgh_ash",
-      "name": "Simurgh-Ash",
+      "id": "simurgh",
+      "name": "Simurgh",
       "description": "A colossal, wise hybrid of eagle and lion with ash-grey feathers and copper-wire mane. It nests on the rim of Emberspire, using its healing feathers to close wounds and its presence to calm the volcano.",
       "type": CREATURE_TYPES.ELEMENTAL,
       "size": CREATURE_SIZES.MEDIUM,
       "tags": [
         "sundale",
-        "simurgh_ash",
+        "simurgh",
         "elemental"
       ],
-      "tokenIcon": "Bestiary/simurgh_ash",
+      "tokenIcon": "Bestiary/simurgh",
       "tokenBorder": "#7209b7",
       "stats": {
         "strength": 18,
@@ -8457,10 +8457,10 @@ export const LIBRARY_CREATURES = [
       },
       "dateCreated": "2026-06-13T18:00:00Z",
       "lastModified": "2026-06-13T18:00:00Z",
-      "origin": "The Simurgh-Ash is an ancient and benevolent protector, drawing its heritage from Persian and Egyptian mythic guardians. It represents the Simurgh, the legendary bird of wisdom that witnessed the destruction of three worlds and possessed infinite healing knowledge, and the Akhekhu, the Egyptian underworld griffon that guarded hidden thresholds. It stands as a sapient witness to the world before the Dimming, carrying the memory of lost ages.",
-      "nature": "With a massive fifty-foot wingspan, the Simurgh-Ash combines the powerful body and hind-legs of a lion with the head, wings, and fore-talons of an eagle. Its plumage is a soft, volcanic ash-grey, with each feather bordered by a faint, glowing blue line. Its mane is made of fine copper-colored feathers that chime like bells in the wind, and the underside of its wings is inscribed with golden Zoroastrian fire-prayers that glow when it performs acts of healing. Its face is that of a noble eagle, with warm, bronze-colored beak and eyes containing concentric rings of gold, orange, and amber.",
+      "origin": "The Simurgh is an ancient and benevolent protector, drawing its heritage from Persian and Egyptian mythic guardians. It represents the Simurgh, the legendary bird of wisdom that witnessed the destruction of three worlds and possessed infinite healing knowledge, and the Akhekhu, the Egyptian underworld griffon that guarded hidden thresholds. It stands as a sapient witness to the world before the Dimming, carrying the memory of lost ages.",
+      "nature": "With a massive fifty-foot wingspan, the Simurgh combines the powerful body and hind-legs of a lion with the head, wings, and fore-talons of an eagle. Its plumage is a soft, volcanic ash-grey, with each feather bordered by a faint, glowing blue line. Its mane is made of fine copper-colored feathers that chime like bells in the wind, and the underside of its wings is inscribed with golden Zoroastrian fire-prayers that glow when it performs acts of healing. Its face is that of a noble eagle, with warm, bronze-colored beak and eyes containing concentric rings of gold, orange, and amber.",
       "habitat": "These giant griffons nest exclusively on the high, smoking rim of the Emberspire caldera, building massive structures out of woven ash and volcanic glass.",
-      "depth": "The Simurgh-Ash is a sapient creature of immense wisdom, occasionally sharing ancient secrets of the pre-sundered world with those it deems worthy. Its feathers possess unparalleled healing properties, capable of sealing deep wounds and mending bones within hours of contact. Furthermore, the presence of these birds helps stabilize geothermal activity, reducing eruptions near their nesting sites. Because of this, Emberth law decrees that harming a Simurgh-Ash is a capital offense punishable by live immolation, and adventurers are often sent to the caldera rim to seek their counsel or plead for a single feather to save a dying leader."
+      "depth": "The Simurgh is a sapient creature of immense wisdom, occasionally sharing ancient secrets of the pre-sundered world with those it deems worthy. Its feathers possess unparalleled healing properties, capable of sealing deep wounds and mending bones within hours of contact. Furthermore, the presence of these birds helps stabilize geothermal activity, reducing eruptions near their nesting sites. Because of this, Emberth law decrees that harming a Simurgh is a capital offense punishable by live immolation, and adventurers are often sent to the caldera rim to seek their counsel or plead for a single feather to save a dying leader."
     },
     {
       "id": "azi",
@@ -8560,17 +8560,17 @@ export const LIBRARY_CREATURES = [
       "depth": "The Azi is the undisputed king of the lava rivers, hunting by submerging in the molten stone and launching surprise attacks with all three heads. Each head produces a different lethal substance—the left head spews fire that melts armor, the middle spits acid that dissolves flesh, and the right secretes a paralytic poison that freezes the nervous system. The scales of the beast are impervious to normal weapons, making them nearly impossible to kill, though alchemists will pay small fortunes to adventurers who manage to harvest the rare venoms from a specimen."
     },
     {
-      "id": "edimmu_whisper",
-      "name": "Edimmu-Whisper",
+      "id": "edimmu",
+      "name": "Edimmu",
       "description": "A wavering, translucent afterimage of a deceased soul that bonds to travelers, draining their energy. It causes nightmares and eventual combustion unless pacified with funerary offerings.",
       "type": CREATURE_TYPES.UNDEAD,
       "size": CREATURE_SIZES.MEDIUM,
       "tags": [
         "sundale",
-        "edimmu_whisper",
+        "edimmu",
         "undead"
       ],
-      "tokenIcon": "Bestiary/edimmu_whisper",
+      "tokenIcon": "Bestiary/edimmu",
       "tokenBorder": "#9b2226",
       "stats": {
         "strength": 6,
@@ -8623,10 +8623,10 @@ export const LIBRARY_CREATURES = [
       },
       "dateCreated": "2026-06-13T18:00:00Z",
       "lastModified": "2026-06-13T18:00:00Z",
-      "origin": "The Edimmu-Whisper is a tragic and vengeful phantom born from improper burials and sudden deaths. It is inspired by the Edimmu of Mesopotamian myth, the wind-borne ghosts of those who died violently and haunted the living with illness, and the Ka of Egyptian belief, the spiritual double of a person that required food and drink to remain at peace. It remains anchored to the mortal realm, seeking the offerings it was denied.",
-      "nature": "Appearing as a translucent, featureless humanoid shape, the Edimmu-Whisper resembles a heat-mirage that flickers in and out of the corner of the eye. It smells faintly of sulfur and dust, and the air around it shimmers with heat. In the volcanic glare of Sundale, it casts a shadow that does not match its visible form, and its featureless face occasionally flashes the screaming, burning visage of its former living self.",
+      "origin": "The Edimmu is a tragic and vengeful phantom born from improper burials and sudden deaths. It is inspired by the Edimmu of Mesopotamian myth, the wind-borne ghosts of those who died violently and haunted the living with illness, and the Ka of Egyptian belief, the spiritual double of a person that required food and drink to remain at peace. It remains anchored to the mortal realm, seeking the offerings it was denied.",
+      "nature": "Appearing as a translucent, featureless humanoid shape, the Edimmu resembles a heat-mirage that flickers in and out of the corner of the eye. It smells faintly of sulfur and dust, and the air around it shimmers with heat. In the volcanic glare of Sundale, it casts a shadow that does not match its visible form, and its featureless face occasionally flashes the screaming, burning visage of its former living self.",
       "habitat": "These phantoms haunt the ancient volcanic forges, abandoned mines, and ash-strewn ruins where people have met violent ends in Sundale and Emberspire.",
-      "depth": "The Edimmu-Whisper attaches itself to unsuspecting travelers who cross its death-site, slowly draining their life force to sustain its own presence. The victim suffers from terrible nightmares of fire and progressive fatigue, eventually culminating in spontaneous combustion. To prevent this, Emberth law dictates that any worker who dies in the forges must be buried with a burned piece of forge-equipment as an offering, which pacifies the spirit. Adventurers are often hired to lay these spirits to rest by delivering the proper items to their final resting places."
+      "depth": "The Edimmu attaches itself to unsuspecting travelers who cross its death-site, slowly draining their life force to sustain its own presence. The victim suffers from terrible nightmares of fire and progressive fatigue, eventually culminating in spontaneous combustion. To prevent this, Emberth law dictates that any worker who dies in the forges must be buried with a burned piece of forge-equipment as an offering, which pacifies the spirit. Adventurers are often hired to lay these spirits to rest by delivering the proper items to their final resting places."
     },
     {
       "id": "asag",
@@ -8715,17 +8715,17 @@ export const LIBRARY_CREATURES = [
       "depth": "The Asag radiates such extreme heat that any water source within thirty feet of it begins to boil, turning peaceful streams into scalding geysers. When threatened or agitated, the creature vibrates its massive body to generate localized earthquakes, communicating through these ground-shaking tremors. Emberth geologists have decoded parts of this seismic language, finding that rhythmic tremors indicate peace while sharp quakes signal aggression, and they often hire adventurers to redirect or soothe these giants when they wander too close to vital settlements."
     },
     {
-      "id": "nisroch_falcon",
-      "name": "Nisroch-Falcon",
+      "id": "nisroch",
+      "name": "Nisroch",
       "description": "A noble, golden-bronze falcon with one human-like eye and one glowing Wedjat eye. It patrols the skies above Emberspire, using beams of light to destroy Wyrd-essence.",
       "type": CREATURE_TYPES.ELEMENTAL,
       "size": CREATURE_SIZES.MEDIUM,
       "tags": [
         "sundale",
-        "nisroch_falcon",
+        "nisroch",
         "elemental"
       ],
-      "tokenIcon": "Bestiary/nisroch_falcon",
+      "tokenIcon": "Bestiary/nisroch",
       "tokenBorder": "#7209b7",
       "stats": {
         "strength": 10,
@@ -8778,10 +8778,10 @@ export const LIBRARY_CREATURES = [
       },
       "dateCreated": "2026-06-13T18:00:00Z",
       "lastModified": "2026-06-13T18:00:00Z",
-      "origin": "The Nisroch-Falcon is a divine protector of the sky, combining agricultural abundance with protective kingship. Its heritage traces to Nisroch, the Mesopotamian eagle-headed deity associated with the sacred tree of life, and Horus, the Egyptian falcon-god whose all-seeing eye represented cosmic order and healing. It serves as the primary aerial defense against the encroaching darkness.",
-      "nature": "The Nisroch-Falcon is a large bird of prey with feathers of golden-bronze that resemble polished sun-metal, and a sharply hooked beak of bronze. Its right eye is that of a normal, sharp-sighted falcon, while its left eye is the glowing, blue-lit Wedjat—the Eye of Horus. It wears a small crown of lapis-lazuli beads on its head, and its gaze carries an unmistakable air of human-like intelligence and authority.",
+      "origin": "The Nisroch is a divine protector of the sky, combining agricultural abundance with protective kingship. Its heritage traces to Nisroch, the Mesopotamian eagle-headed deity associated with the sacred tree of life, and Horus, the Egyptian falcon-god whose all-seeing eye represented cosmic order and healing. It serves as the primary aerial defense against the encroaching darkness.",
+      "nature": "The Nisroch is a large bird of prey with feathers of golden-bronze that resemble polished sun-metal, and a sharply hooked beak of bronze. Its right eye is that of a normal, sharp-sighted falcon, while its left eye is the glowing, blue-lit Wedjat—the Eye of Horus. It wears a small crown of lapis-lazuli beads on its head, and its gaze carries an unmistakable air of human-like intelligence and authority.",
       "habitat": "These sacred falcons patrol the high atmosphere and volcanic crags above the Emberspire caldera and the surrounding reaches of Sundale.",
-      "depth": "Nisroch-Falcons scan the volcanic wastes for signs of Wyrd-corruption, using their Wedjat eyes to fire concentrated beams of light that burn away raw Wyrd-essence. They also serve as vital messengers between the Korr Sun-Speakers and the Thrask rangers, carrying gold-foil messages that only their divine eyes can read. Because of their sacred status, killing a Nisroch-Falcon is a capital offense under Emberth law, and adventurers are often tasked with protecting their nests or rescuing injured falcons from the wild."
+      "depth": "Nisrochs scan the volcanic wastes for signs of Wyrd-corruption, using their Wedjat eyes to fire concentrated beams of light that burn away raw Wyrd-essence. They also serve as vital messengers between the Korr Sun-Speakers and the Thrask rangers, carrying gold-foil messages that only their divine eyes can read. Because of their sacred status, killing a Nisroch is a capital offense under Emberth law, and adventurers are often tasked with protecting their nests or rescuing injured falcons from the wild."
     },
     {
       "id": "abzu",
@@ -8920,17 +8920,17 @@ export const LIBRARY_CREATURES = [
       "depth": "Kur-Pits open spontaneously near areas of great tragedy, trapping the souls of those who fall within the labyrinth of the underworld. During the annual vent-calm of Emberspire, the light of the Solbrand shines down the pit, momentarily revealing the path to the buried sun-god Sol. Scholars believe that navigating this dangerous path may be the only way to free Sol, but since no one has ever returned from a Kur-Pit, the theory remains untested, and adventurers are warned to avoid these areas unless they possess the courage to brave the land of no return."
     },
     {
-      "id": "mushuss_child",
-      "name": "Mushuss-Child",
+      "id": "mushussu",
+      "name": "Mushussu",
       "description": "A dog-sized, pale serpent-dragon with lion paws and eagle talons. It imprints on friendly creatures, using its fertility-blessed breath to double crop yields in ash-choked soil.",
       "type": CREATURE_TYPES.DRAGON,
       "size": CREATURE_SIZES.TINY,
       "tags": [
         "sundale",
-        "mushuss_child",
+        "mushussu",
         "dragon"
       ],
-      "tokenIcon": "Bestiary/mushuss_child",
+      "tokenIcon": "Bestiary/mushussu",
       "tokenBorder": "#7209b7",
       "stats": {
         "strength": 6,
@@ -8998,10 +8998,10 @@ export const LIBRARY_CREATURES = [
       },
       "dateCreated": "2026-06-13T18:00:00Z",
       "lastModified": "2026-06-13T18:00:00Z",
-      "origin": "The Mushuss-Child is a rare and gentle juvenile beast representing new life and creation. Its mythic origins combine the Mushhushshu, the Babylonian dragon-serpent of the Ishtar Gate, and Heket, the Egyptian frog-goddess of fertility and childbirth who breathed life into newborns. In the harsh, barren landscape of Sundale, it is welcomed as a harbinger of hope and fertility.",
-      "nature": "The size of a large dog, the Mushuss-Child has the long, scaled body of a serpent-dragon, with pale, translucent white scales that reveal its veins beneath. It walks on stubby lion paws in the front and small, underdeveloped eagle talons in the back, and its tail ends in a soft, wobbly stinger. Its face is a cute, rounded version of the adult Sirrush, with a small nub for a horn and large, curious gold eyes, and it communicates through soft, frog-like croaks.",
+      "origin": "The Mushussu is a rare and gentle juvenile beast representing new life and creation. Its mythic origins combine the Mushhushshu, the Babylonian dragon-serpent of the Ishtar Gate, and Heket, the Egyptian frog-goddess of fertility and childbirth who breathed life into newborns. In the harsh, barren landscape of Sundale, it is welcomed as a harbinger of hope and fertility.",
+      "nature": "The size of a large dog, the Mushussu has the long, scaled body of a serpent-dragon, with pale, translucent white scales that reveal its veins beneath. It walks on stubby lion paws in the front and small, underdeveloped eagle talons in the back, and its tail ends in a soft, wobbly stinger. Its face is a cute, rounded version of the adult Sirrush, with a small nub for a horn and large, curious gold eyes, and it communicates through soft, frog-like croaks.",
       "habitat": "These young dragons are found in the warm nesting grounds, rocky crevices, and agricultural borders of Sundale and Emberspire.",
-      "depth": "Unlike their territorial parents, Mushuss-Children are highly affectionate and will imprint on the first friendly creature they meet, following them like a pet. They possess a magical breath that doubles the agricultural yield of any soil they visit, making them incredibly valuable to Thrask farmers who leave bowls of milk to attract them. The Korr tolerate their presence near settlements because the bond helps ensure that adult Sirrush will guard the villages, and adventurers are often hired to protect these juveniles or locate lost ones in the wild."
+      "depth": "Unlike their territorial parents, Mushussuren are highly affectionate and will imprint on the first friendly creature they meet, following them like a pet. They possess a magical breath that doubles the agricultural yield of any soil they visit, making them incredibly valuable to Thrask farmers who leave bowls of milk to attract them. The Korr tolerate their presence near settlements because the bond helps ensure that adult Sirrush will guard the villages, and adventurers are often hired to protect these juveniles or locate lost ones in the wild."
     },
     {
       "id": "mamiri",
@@ -9280,17 +9280,17 @@ export const LIBRARY_CREATURES = [
       "depth": "So massive that its back gathers ice and soil, looking like a small harbor island. It only submerges if it hears a whale's song; bards can play a whale-song on a shell flute to soothe it back to sleep, allowing ships to escape its wake."
     },
     {
-      "id": "harpy_squall",
-      "name": "Harpy-Squall",
+      "id": "harpy",
+      "name": "Harpy",
       "description": "A storm-riding terror with iron hook-feet and vulture wings, this avian hag snatches sailors from the rigging.",
       "type": CREATURE_TYPES.ELEMENTAL,
       "size": CREATURE_SIZES.MEDIUM,
       "tags": [
         "iceheart",
-        "harpy_squall",
+        "harpy",
         "elemental"
       ],
-      "tokenIcon": "Bestiary/harpy_squall",
+      "tokenIcon": "Bestiary/harpy",
       "tokenBorder": "#7209b7",
       "stats": {
         "strength": 10,
@@ -9358,23 +9358,23 @@ export const LIBRARY_CREATURES = [
       },
       "dateCreated": "2026-06-13T18:00:00Z",
       "lastModified": "2026-06-13T18:00:00Z",
-      "origin": "The Harpy-Squall traces its folklore roots to the Greek Harpy, the wind-spirit of divine punishment that stole souls and food, and the Ashanti Asanbosam, a forest-canopy vampire with iron teeth and hooked feet. In the Iceheart Sea, these creatures act as agents of localized tempests and scavengers of the masts.",
+      "origin": "The Harpy traces its folklore roots to the Greek Harpy, the wind-spirit of divine punishment that stole souls and food, and the Ashanti Asanbosam, a forest-canopy vampire with iron teeth and hooked feet. In the Iceheart Sea, these creatures act as agents of localized tempests and scavengers of the masts.",
       "nature": "Having the wings, talons, and feathered torso of an oil-dark vulture, this creature possesses the gaunt, gray-skinned chest and face of a hag. Its feet are not talons but curved iron hooks that resemble grappling irons, dripping with freezing sea-water. The creature smells strongly of rotting fish, and its waterlogged feathers make its flight noisy and labored. Its hollow-cheeked face is dominated by furious, lightning-colored eyes and a wide mouth filled with filed iron teeth.",
       "habitat": "These creatures nest in the eyes of perpetual cyclones and perch in the sails, rigging, and masts of ships sailing the Iceheart Sea.",
-      "depth": "Harpy-Squalls attack ships by perching in the rigging, dangling upside-down to snatch crew members from the decks with their iron hook-feet. Once they grip a mast, they cannot be dislodged without breaking the wood or killing the creature outright. Sailors fear them as death-omens, yet also use them as navigation aids since they always fly toward the calmest exit-corridors of cyclones. A recent squall has left a merchant fleet stranded, and the crew is hiring mercenaries to clear the harpies from their masts."
+      "depth": "Harpys attack ships by perching in the rigging, dangling upside-down to snatch crew members from the decks with their iron hook-feet. Once they grip a mast, they cannot be dislodged without breaking the wood or killing the creature outright. Sailors fear them as death-omens, yet also use them as navigation aids since they always fly toward the calmest exit-corridors of cyclones. A recent squall has left a merchant fleet stranded, and the crew is hiring mercenaries to clear the harpies from their masts."
     },
     {
-      "id": "hippocampus_tide",
-      "name": "Hippocampus-Tide",
+      "id": "hippocampus",
+      "name": "Hippocampus",
       "description": "A noble creature combining horse and serpent, this gentle elemental purifies waters and serves as a swift steed.",
       "type": CREATURE_TYPES.ELEMENTAL,
       "size": CREATURE_SIZES.MEDIUM,
       "tags": [
         "iceheart",
-        "hippocampus_tide",
+        "hippocampus",
         "elemental"
       ],
-      "tokenIcon": "Bestiary/hippocampus_tide",
+      "tokenIcon": "Bestiary/hippocampus",
       "tokenBorder": "#7209b7",
       "stats": {
         "strength": 12,
@@ -9442,23 +9442,23 @@ export const LIBRARY_CREATURES = [
       },
       "dateCreated": "2026-06-13T18:00:00Z",
       "lastModified": "2026-06-13T18:00:00Z",
-      "origin": "The Hippocampus-Tide is inspired by the Greek sea-horse that drew Poseidon's chariot, combined with the West African Sawa tradition of the Jengu, a water-spirit associated with healing, prophecy, and coastal boundaries. In this setting, they serve as the loyal mounts of the Myrathil.",
+      "origin": "The Hippocampus is inspired by the Greek sea-horse that drew Poseidon's chariot, combined with the West African Sawa tradition of the Jengu, a water-spirit associated with healing, prophecy, and coastal boundaries. In this setting, they serve as the loyal mounts of the Myrathil.",
       "nature": "Appearing from the chest up as a powerful horse with an arched neck, intelligent eyes, and a flowing mane of kelp, the creature's lower body transitions into a serpentine, fish-scaled tail that coils through the water. Its coat matches the blue-green of coastal waters, countershaded pale underneath. The kelp mane is bioluminescent, glowing green in the deep, while its hooves are modified into steering fins. Its noble face features liquid eyes that change from calm blue to storm green or moonlit silver.",
       "habitat": "These creatures reside in the brackish estuaries, coastal harbors, and shallow shoreline waters of the Iceheart Sea.",
-      "depth": "Capable of outpacing storm-currents, Hippocampus-Tides are tamed by Myrathil divers to patrol the harbors of Merrowport. Their presence naturally purifies Wyrd-taint from coastal waters, protecting nearby settlements from water-borne diseases and plagues. They are drawn to the boundaries where fresh rivers meet the sea. A local keeper has reported that a wild Hippocampus-Tide has been spotted nearby, and the local temple is looking for adventurers to help guide it safely to a contaminated estuary."
+      "depth": "Capable of outpacing storm-currents, Hippocampuss are tamed by Myrathil divers to patrol the harbors of Merrowport. Their presence naturally purifies Wyrd-taint from coastal waters, protecting nearby settlements from water-borne diseases and plagues. They are drawn to the boundaries where fresh rivers meet the sea. A local keeper has reported that a wild Hippocampus has been spotted nearby, and the local temple is looking for adventurers to help guide it safely to a contaminated estuary."
     },
     {
-      "id": "gorgon_depth",
-      "name": "Gorgon-Depth",
+      "id": "gorgon",
+      "name": "Gorgon",
       "description": "An abyssal humanoid whose gaze crystallizes blood into stone, this creature shifts into a bioluminescent eel to hunt.",
       "type": CREATURE_TYPES.CONSTRUCT,
       "size": CREATURE_SIZES.MEDIUM,
       "tags": [
         "iceheart",
-        "gorgon_depth",
+        "gorgon",
         "construct"
       ],
-      "tokenIcon": "Bestiary/gorgon_depth",
+      "tokenIcon": "Bestiary/gorgon",
       "tokenBorder": "#7209b7",
       "stats": {
         "strength": 10,
@@ -9514,20 +9514,20 @@ export const LIBRARY_CREATURES = [
       "origin": "This creature combines the Greek Gorgon, whose hair of snakes and terrible face turned onlookers to stone, with the West African Ewe myth of the Adze, a vampiric firefly-spirit that drinks blood and shifts between insect and humanoid forms. In the deep sea, she is a dread entity of the trenches.",
       "nature": "She appears as a serpentine humanoid woman with skin the deep violet of the abyss and a lower body composed of coiling sea-serpents. Her hair is a writhing mass of tiny, glowing, bioluminescent eels that pulse in hypnotic, rhythmic patterns. Translucent scales cover her torso, revealing dark veins. Her face is frozen in an expression of eternal rage, dominated by solid, glowing green eyes that cause the blood of onlookers to crystallize with calcium. She carries a mirror of polished abalone.",
       "habitat": "This creature makes its home in the dark, freezing waters of the abyssal trenches within the Iceheart Sea.",
-      "depth": "The petrifying gaze of the Gorgon-Depth leaves living statues of terror on the sea-floor, which are often animated by the Wyrd to plague shipping lanes. She can compress her body into a single, tiny bioluminescent eel to slip through fishing-nets and drain the blood of captured catches. To prevent this, sailors must inspect their catch with silver mirrors, which expose her disguise. Adventurers are being recruited to venture into the abyss to recover a petrified crew and destroy the Gorgon nesting near the trench."
+      "depth": "The petrifying gaze of the Gorgon leaves living statues of terror on the sea-floor, which are often animated by the Wyrd to plague shipping lanes. She can compress her body into a single, tiny bioluminescent eel to slip through fishing-nets and drain the blood of captured catches. To prevent this, sailors must inspect their catch with silver mirrors, which expose her disguise. Adventurers are being recruited to venture into the abyss to recover a petrified crew and destroy the Gorgon nesting near the trench."
     },
     {
-      "id": "tokoloshe_tide",
-      "name": "Tokoloshe-Tide",
+      "id": "tokoloshe",
+      "name": "Tokoloshe",
       "description": "A small, mischievous water-sprite with the lower body of an octopus, this bilge-pest turns invisible by holding a pebble.",
       "type": CREATURE_TYPES.ELEMENTAL,
       "size": CREATURE_SIZES.SMALL,
       "tags": [
         "iceheart",
-        "tokoloshe_tide",
+        "tokoloshe",
         "elemental"
       ],
-      "tokenIcon": "Bestiary/tokoloshe_tide",
+      "tokenIcon": "Bestiary/tokoloshe",
       "tokenBorder": "#7209b7",
       "stats": {
         "strength": 6,
@@ -9595,23 +9595,23 @@ export const LIBRARY_CREATURES = [
       },
       "dateCreated": "2026-06-13T18:00:00Z",
       "lastModified": "2026-06-13T18:00:00Z",
-      "origin": "The Tokoloshe-Tide is born of the Zulu legend of the Tokoloshe, a hairy, mischievous sprite that becomes invisible by swallowing a pebble and attacks sleeping children, merged with the Greek Nereids, though this creature is far more troublesome than its nymph cousins. In the Iceheart, it is a persistent shipboard nuisance.",
+      "origin": "The Tokoloshe is born of the Zulu legend of the Tokoloshe, a hairy, mischievous sprite that becomes invisible by swallowing a pebble and attacks sleeping children, merged with the Greek Nereids, though this creature is far more troublesome than its nymph cousins. In the Iceheart, it is a persistent shipboard nuisance.",
       "nature": "Standing only two feet tall, this gremlin-like creature possesses a hairy, wizened humanoid upper body and the lower half of an octopus. Its mottled green-and-brown skin blends perfectly with kelp and wet rock. Its face is a grotesque goblin mask with an elongated snout, large ears, and an enormous mouth stretching from ear to ear. Bright, beady eyes gleam with malicious glee as it carries a smooth, black pebble in its cheek to remain completely invisible.",
       "habitat": "These pests infest the dark cargo holds, wet bilges, and coastal kelp forests of the Iceheart Sea.",
-      "depth": "Infesting ship bilges, Tokoloshe-Tides tangle rigging and sabotage compasses, causing navigation checks to fail unless banished by a Myrathil shaman using salt-water barriers and copper bells. At night, they creep into cabins to sit on sleeping children's chests and whisper nightmares, slowly draining their spirit. Raising beds with bricks keeps them out of reach. Recently, a merchant captain has reported a severe bilge infestation, and is looking for adventurers to perform the banishment ritual."
+      "depth": "Infesting ship bilges, Tokoloshes tangle rigging and sabotage compasses, causing navigation checks to fail unless banished by a Myrathil shaman using salt-water barriers and copper bells. At night, they creep into cabins to sit on sleeping children's chests and whisper nightmares, slowly draining their spirit. Raising beds with bricks keeps them out of reach. Recently, a merchant captain has reported a severe bilge infestation, and is looking for adventurers to perform the banishment ritual."
     },
     {
-      "id": "lamia_shoal",
-      "name": "Lamia-Shoal",
+      "id": "lamia",
+      "name": "Lamia",
       "description": "A mourning reef-dweller with impossibly long arms, this creature sings to lure sailors into her coral-plated coils.",
       "type": CREATURE_TYPES.BEAST,
       "size": CREATURE_SIZES.MEDIUM,
       "tags": [
         "iceheart",
-        "lamia_shoal",
+        "lamia",
         "beast"
       ],
-      "tokenIcon": "Bestiary/lamia_shoal",
+      "tokenIcon": "Bestiary/lamia",
       "tokenBorder": "#bc6c25",
       "stats": {
         "strength": 16,
@@ -9689,23 +9689,23 @@ export const LIBRARY_CREATURES = [
       },
       "dateCreated": "2026-06-13T18:00:00Z",
       "lastModified": "2026-06-13T18:00:00Z",
-      "origin": "The Lamia-Shoal is derived from the Greek myth of Lamia, a grieving queen turned serpent-woman who devoured children, and the Ashanti Sasabonsam, a canopy-dwelling monster with long arms and iron claws. In the Iceheart Sea, she is a tragic creature warped by the Wyrd.",
+      "origin": "The Lamia is derived from the Greek myth of Lamia, a grieving queen turned serpent-woman who devoured children, and the Ashanti Sasabonsam, a canopy-dwelling monster with long arms and iron claws. In the Iceheart Sea, she is a tragic creature warped by the Wyrd.",
       "nature": "She has the upper body of a beautiful, pale, and mourning woman, emerging from a massive serpentine tail covered in razor-sharp coral. Her arms are abnormally long, stretching twelve feet and ending in iron-hard, six-fingered claws. Her skin is covered in sucker-scars, and she weeps constant tears of pearl that dissolve into the ocean. Her grieving face features full lips that hide three rows of needle-like predator teeth.",
       "habitat": "These creatures stalk the shallow reef-channels, rocky sandbars, and narrow harbors of the Iceheart Sea.",
-      "depth": "Positioning herself in narrow channels, the Lamia-Shoal uses her long arms to pluck sailors—especially the young—from low decks. She sings a mournful lullaby that mimics a grieving mother, drawing those who have lost children to lean over the rails. The Myrathil pity her as a victim of the Wyrd's cruelty, leaving offerings of coral to buy safe passage. A rumor of a Lamia-Shoal blocking a vital trade route has prompted local authorities to seek adventurers to either appease or slay her."
+      "depth": "Positioning herself in narrow channels, the Lamia uses her long arms to pluck sailors—especially the young—from low decks. She sings a mournful lullaby that mimics a grieving mother, drawing those who have lost children to lean over the rails. The Myrathil pity her as a victim of the Wyrd's cruelty, leaving offerings of coral to buy safe passage. A rumor of a Lamia blocking a vital trade route has prompted local authorities to seek adventurers to either appease or slay her."
     },
     {
-      "id": "empusa_ice",
-      "name": "Empusa-Ice",
+      "id": "empusa",
+      "name": "Empusa",
       "description": "A shape-shifting elemental with a brass prosthetic leg, this creature drains the life of watch-keepers during storms.",
       "type": CREATURE_TYPES.ELEMENTAL,
       "size": CREATURE_SIZES.MEDIUM,
       "tags": [
         "iceheart",
-        "empusa_ice",
+        "empusa",
         "elemental"
       ],
-      "tokenIcon": "Bestiary/empusa_ice",
+      "tokenIcon": "Bestiary/empusa",
       "tokenBorder": "#7209b7",
       "stats": {
         "strength": 12,
@@ -9777,20 +9777,20 @@ export const LIBRARY_CREATURES = [
       "origin": "This creature derives from the Greek Empusa, a shape-shifting daughter of Hecate with one brass leg who seduced and drained sleeping men, and the Xhosa Impundulu, a vampiric lightning bird associated with storms. In the setting, she represents a storm-born curse.",
       "nature": "She appears as a beautiful woman in storm-grey robes, walking with an asymmetric click-thud due to her right leg of polished brass and her left leg of donkey-fur ending in a split hoof. She carries a staff topped with the skull of a hammer-headed heron, and lightning crackles from her fingers. While her left profile is stunningly beautiful, her right profile is a bare bird-skull wreathed in static discharge, shifting instantly depending on her mood.",
       "habitat": "These entities wander the storm-swept decks, rocky coasts, and frozen floes of the Iceheart Sea.",
-      "depth": "The Empusa-Ice targets lone watch-keepers on night shift, using static-laced seduction to drain their vitality until they are desiccated husks. She is immortal; when slain, her essence transfers to a new host—always a grieving mother who lost a child to the sea. The only way to stop her is to strike a bargain rather than kill her. A local outpost has reported the mysterious deaths of several watch-keepers, and is seeking adventurers to investigate the clicks and thuds heard in the wind."
+      "depth": "The Empusa targets lone watch-keepers on night shift, using static-laced seduction to drain their vitality until they are desiccated husks. She is immortal; when slain, her essence transfers to a new host—always a grieving mother who lost a child to the sea. The only way to stop her is to strike a bargain rather than kill her. A local outpost has reported the mysterious deaths of several watch-keepers, and is seeking adventurers to investigate the clicks and thuds heard in the wind."
     },
     {
-      "id": "telkhine_frost",
-      "name": "Telkhine-Frost",
+      "id": "telkhine",
+      "name": "Telkhine",
       "description": "A seal-headed blacksmith of walrus-like bulk, this elemental forges weapons from deep-sea ice that never melt.",
       "type": CREATURE_TYPES.ELEMENTAL,
       "size": CREATURE_SIZES.LARGE,
       "tags": [
         "iceheart",
-        "telkhine_frost",
+        "telkhine",
         "elemental"
       ],
-      "tokenIcon": "Bestiary/telkhine_frost",
+      "tokenIcon": "Bestiary/telkhine",
       "tokenBorder": "#7209b7",
       "stats": {
         "strength": 16,
@@ -9869,23 +9869,23 @@ export const LIBRARY_CREATURES = [
       },
       "dateCreated": "2026-06-13T18:00:00Z",
       "lastModified": "2026-06-13T18:00:00Z",
-      "origin": "The Telkhine-Frost is inspired by the Greek Telkhines, dog-headed, flipper-handed metalworkers cast into the sea for destructive magic, and the Congo River cryptid Mokèlé-mbèmbé. In the Iceheart Sea, they are covetous artisans of the cold.",
+      "origin": "The Telkhine is inspired by the Greek Telkhines, dog-headed, flipper-handed metalworkers cast into the sea for destructive magic, and the Congo River cryptid Mokèlé-mbèmbé. In the Iceheart Sea, they are covetous artisans of the cold.",
       "nature": "Weighing as much as a walrus, this squat four-foot humanoid has the dense slate-grey fur and head of a seal, but the webbed, calloused hands of a blacksmith. It carries a forge-hammer of whale-bone and ice that emits sparks of frost when struck. Its face features a coarse beard of steel-wool wire, and its red, forge-lit eyes are always calculating the value of nearby metals. It speaks in deep, guttural barks.",
       "habitat": "These elemental smiths reside in submerged caverns, volcanic vents, and icy shores of the Iceheart Sea.",
-      "depth": "The Telkhine-Frost is the only creature capable of crafting weapons from deep-sea ice that never melt, demanding copper and whale-bone rather than gold as payment. They are obsessed with collecting rare alloys, often overturning small boats not to eat the crew, but to strip the nails, rivets, and hinges from the wood. A merchant guild is currently recruiting adventurers to negotiate with a Telkhine-Frost for a shipment of ice-blades, warning them to secure all metal fittings on their vessel."
+      "depth": "The Telkhine is the only creature capable of crafting weapons from deep-sea ice that never melt, demanding copper and whale-bone rather than gold as payment. They are obsessed with collecting rare alloys, often overturning small boats not to eat the crew, but to strip the nails, rivets, and hinges from the wood. A merchant guild is currently recruiting adventurers to negotiate with a Telkhine for a shipment of ice-blades, warning them to secure all metal fittings on their vessel."
     },
     {
-      "id": "stymphalian_flock",
-      "name": "Stymphalian-Flock",
+      "id": "stymphalian",
+      "name": "Stymphalian",
       "description": "A swarm of metallic-feathered birds that rain razor-sharp bronze plumage like daggers upon vessels.",
       "type": CREATURE_TYPES.BEAST,
       "size": CREATURE_SIZES.LARGE,
       "tags": [
         "iceheart",
-        "stymphalian_flock",
+        "stymphalian",
         "beast"
       ],
-      "tokenIcon": "Bestiary/stymphalian_flock",
+      "tokenIcon": "Bestiary/stymphalian",
       "tokenBorder": "#bc6c25",
       "stats": {
         "strength": 8,
@@ -9937,23 +9937,23 @@ export const LIBRARY_CREATURES = [
       },
       "dateCreated": "2026-06-13T18:00:00Z",
       "lastModified": "2026-06-13T18:00:00Z",
-      "origin": "The Stymphalian-Flock is based on the Greek Stymphalian birds with bronze feathers, driven away by Heracles with rattles, and the Central African Kongamato, a pterosaur-like boat-overturner. In the Iceheart, they are aerial pests of the shipping lanes.",
+      "origin": "The Stymphalian is based on the Greek Stymphalian birds with bronze feathers, driven away by Heracles with rattles, and the Central African Kongamato, a pterosaur-like boat-overturner. In the Iceheart, they are aerial pests of the shipping lanes.",
       "nature": "This flock consists of eagle-sized predatory birds with bodies covered in metallic, razor-edged feathers of bronze and copper. Their underbellies are reddish-leathery, and their long, sharp beaks are made of actual bronze. Their pterosaur-like heads feature compound eyes that reflect light like hammered copper, maintaining a completely expressionless, hungry gaze.",
       "habitat": "These birds nest on the high rocky crags, frozen cliffs, and open skies above the Iceheart Sea.",
       "depth": "The flock attacks by flying in tight formations and shedding their metallic, barbed feathers like a rain of daggers capable of piercing armor. They overturn small boats to drive crew members into the water, allowing them to easily scoop up the fish that rise to the surface. Neth ships carry bronze rattles to simulate Heracles' ancient method of driving them off. A flock has recently nested near a vital strait, and local sailors are seeking adventurers equipped with loud instruments to clear the passage."
     },
     {
-      "id": "nereid_deep",
-      "name": "Nereid-Deep",
+      "id": "nereid",
+      "name": "Nereid",
       "description": "A benevolent spirit of compressed water and light, this fey rescues drowning sailors in the dark depths.",
       "type": CREATURE_TYPES.FEY,
       "size": CREATURE_SIZES.MEDIUM,
       "tags": [
         "iceheart",
-        "nereid_deep",
+        "nereid",
         "fey"
       ],
-      "tokenIcon": "Bestiary/nereid_deep",
+      "tokenIcon": "Bestiary/nereid",
       "tokenBorder": "#2d6a4f",
       "stats": {
         "strength": 8,
@@ -10006,23 +10006,23 @@ export const LIBRARY_CREATURES = [
       },
       "dateCreated": "2026-06-13T18:00:00Z",
       "lastModified": "2026-06-13T18:00:00Z",
-      "origin": "The Nereid-Deep is drawn from the Greek Nereids, benevolent sea-nymphs who aided sailors in distress, and Olokun’s Attendants in Yoruba mythology, who guard the treasures of the deep ocean. In the Iceheart, they are the rare saviors of the freezing waters.",
+      "origin": "The Nereid is drawn from the Greek Nereids, benevolent sea-nymphs who aided sailors in distress, and Olokun’s Attendants in Yoruba mythology, who guard the treasures of the deep ocean. In the Iceheart, they are the rare saviors of the freezing waters.",
       "nature": "She appears as a luminous, translucent woman of serene, ageless beauty, composed of compressed water and light that glows blue-green. She rides a massive dolphin of the same luminous material, and a crown of phosphorescent pearls floats above her head. Her skin ripples with tidal patterns, and her large, glowing eyes contain the entire spectrum of ocean colors.",
       "habitat": "These spirits dwell in the deepest, darkest waters, abyssal rifts, and shipwrecks of the Iceheart Sea.",
-      "depth": "The Nereid-Deep rescues drowning sailors, carrying them to the surface at the cost of her own energy, which forces her to rest for years afterward. She guards the abyssal debris-fields of sunken ships, and while the Deep-Born Myrathil treat her as sacred, she will withdraw the breath of the sea from any who disrespect her boundaries. Recently, a famous explorer's ship sank in her territory, and the family is seeking adventurers to politely request her aid in salvaging the ship's logbook."
+      "depth": "The Nereid rescues drowning sailors, carrying them to the surface at the cost of her own energy, which forces her to rest for years afterward. She guards the abyssal debris-fields of sunken ships, and while the Deep-Born Myrathil treat her as sacred, she will withdraw the breath of the sea from any who disrespect her boundaries. Recently, a famous explorer's ship sank in her territory, and the family is seeking adventurers to politely request her aid in salvaging the ship's logbook."
     },
     {
-      "id": "graeae_oracle",
-      "name": "Graeae-Oracle",
+      "id": "graeae",
+      "name": "Graeae",
       "description": "Three ancient crones sharing a single obsidian eye, these sisters offer true prophecies in exchange for a tooth.",
       "type": CREATURE_TYPES.BEAST,
       "size": CREATURE_SIZES.TINY,
       "tags": [
         "iceheart",
-        "graeae_oracle",
+        "graeae",
         "beast"
       ],
-      "tokenIcon": "Bestiary/graeae_oracle",
+      "tokenIcon": "Bestiary/graeae",
       "tokenBorder": "#bc6c25",
       "stats": {
         "strength": 6,
@@ -10075,23 +10075,23 @@ export const LIBRARY_CREATURES = [
       },
       "dateCreated": "2026-06-13T18:00:00Z",
       "lastModified": "2026-06-13T18:00:00Z",
-      "origin": "The Graeae-Oracle originates from the Greek Graeae or Grey Sisters, who shared a single eye and tooth, and the Yoruba Ifá divination system read by Babalawos. In the Iceheart Sea, they are keepers of fate and cosmological patterns.",
+      "origin": "The Graeae originates from the Greek Graeae or Grey Sisters, who shared a single eye and tooth, and the Yoruba Ifá divination system read by Babalawos. In the Iceheart Sea, they are keepers of fate and cosmological patterns.",
       "nature": "These three frost-covered, ancient crones huddle together in tattered, ink-stained robes, passing a polished obsidian sphere between them. The crone holding the eye has a living, youth-shifting face, while the other two have empty, frozen sockets that weep frost. They carry divining chains made of copper and bone, and their forms shift to reflect the timelines they view.",
       "habitat": "These ancient sisters sit on the most remote and desolate icebergs in the far reaches of the Iceheart Sea.",
       "depth": "The sisters offer to answer questions about the future by casting seal-bones on the ice to read Ifá patterns. However, they demand a tooth from the questioner as payment; those who refuse are given a false prophecy that leads to their destruction. Neth merchants often seek them out to predict market trends, paying in valuable whale-teeth. A lost captain has reported seeing their iceberg, and scholars are looking for adventurers to consult the oracle about a looming storm."
     },
     {
-      "id": "triton_conch",
-      "name": "Triton-Conch",
+      "id": "triton",
+      "name": "Triton",
       "description": "A sovereign merman with a prehensile tentacle mane, this elemental controls the waves with a vibrating conch.",
       "type": CREATURE_TYPES.ELEMENTAL,
       "size": CREATURE_SIZES.LARGE,
       "tags": [
         "iceheart",
-        "triton_conch",
+        "triton",
         "elemental"
       ],
-      "tokenIcon": "Bestiary/triton_conch",
+      "tokenIcon": "Bestiary/triton",
       "tokenBorder": "#7209b7",
       "stats": {
         "strength": 18,
@@ -10160,23 +10160,23 @@ export const LIBRARY_CREATURES = [
       },
       "dateCreated": "2026-06-13T18:00:00Z",
       "lastModified": "2026-06-13T18:00:00Z",
-      "origin": "The Triton-Conch draws from the Greek Triton, son of Poseidon who blew a conch to calm or raise the waves, and Olokun, the Yoruba deity of the deepest ocean. In this setting, he acts as a cosmic peacekeeper and ruler of the tides.",
+      "origin": "The Triton draws from the Greek Triton, son of Poseidon who blew a conch to calm or raise the waves, and Olokun, the Yoruba deity of the deepest ocean. In this setting, he acts as a cosmic peacekeeper and ruler of the tides.",
       "nature": "A powerful merman with a muscular upper body and a coiled, deep-blue scaled tail, he carries a massive conch shell carved with geometric patterns that pulse with light. His skin is oceanic blue, and his hair consists of prehensile, bioluminescent tentacles. His angular face features horizontal, goat-like pupils that glow with deep indigo, carrying an expression of absolute sovereign authority.",
       "habitat": "These sovereigns patrol the open waters, tidal reefs, and deep trenches of the Iceheart Sea.",
-      "depth": "The Triton-Conch's horn-call can alter the waves for a mile, which he uses to clear storm-swept shipping lanes in exchange for amber and copper offerings. He serves as a mediator between surface-dwellers and abyssal leviathans, using his horn to dampen the Sundered Monolith's resonance and prevent stampedes. The Deep-Born Myrathil revere him as the voice of Olokun. A trade guild is looking for adventurers to deliver a tribute of rare copper to his reef to secure safe passage for their fleet."
+      "depth": "The Triton's horn-call can alter the waves for a mile, which he uses to clear storm-swept shipping lanes in exchange for amber and copper offerings. He serves as a mediator between surface-dwellers and abyssal leviathans, using his horn to dampen the Sundered Monolith's resonance and prevent stampedes. The Deep-Born Myrathil revere him as the voice of Olokun. A trade guild is looking for adventurers to deliver a tribute of rare copper to his reef to secure safe passage for their fleet."
     },
     {
-      "id": "nandi_swell",
-      "name": "Nandi-Swell",
+      "id": "nandi",
+      "name": "Nandi",
       "description": "A ferocious, hyena-like sea-beast that hunts on ice-floes and crushes the skulls of its prey.",
       "type": CREATURE_TYPES.BEAST,
       "size": CREATURE_SIZES.LARGE,
       "tags": [
         "iceheart",
-        "nandi_swell",
+        "nandi",
         "beast"
       ],
-      "tokenIcon": "Bestiary/nandi_swell",
+      "tokenIcon": "Bestiary/nandi",
       "tokenBorder": "#bc6c25",
       "stats": {
         "strength": 20,
@@ -10255,23 +10255,23 @@ export const LIBRARY_CREATURES = [
       },
       "dateCreated": "2026-06-13T18:00:00Z",
       "lastModified": "2026-06-13T18:00:00Z",
-      "origin": "The Nandi-Swell is based on the East African Nandi Bear, a shaggy, brain-eating cryptid, and the Greek Ketos or sea-beast category of unnamed coast-terrorizing monsters. In the Iceheart Sea, it is a brutal predator of the ice.",
+      "origin": "The Nandi is based on the East African Nandi Bear, a shaggy, brain-eating cryptid, and the Greek Ketos or sea-beast category of unnamed coast-terrorizing monsters. In the Iceheart Sea, it is a brutal predator of the ice.",
       "nature": "A massive, hyena-like beast adapted for the ocean, its sloping body is covered in a dense, oily, water-repellent hide. Its front flippers retain massive, raking claws, and a ruff of stiff, greasy bristles surrounds its neck to trap air. Its face features a broad muzzle with an immense bite-force, small eyes burning with predatory intelligence, and flattened, seal-like ears.",
       "habitat": "These beasts hunt along the drifting ice-floes, frozen coastlines, and open channels of the Iceheart Sea.",
-      "depth": "Nandi-Swells hunt on ice-floes, stalking ice-fishing camps and using their claws to tear open shelters. They target the heads of their prey to consume the fat-rich brains, and they frequently follow whale migrations to scavenge carcasses. Whalers view them as a sign of nearby whales but must defend their catches from them. A local village has reported a pack of Nandi-Swells nesting nearby, and is hiring hunters to clear them before the winter freeze."
+      "depth": "Nandis hunt on ice-floes, stalking ice-fishing camps and using their claws to tear open shelters. They target the heads of their prey to consume the fat-rich brains, and they frequently follow whale migrations to scavenge carcasses. Whalers view them as a sign of nearby whales but must defend their catches from them. A local village has reported a pack of Nandis nesting nearby, and is hiring hunters to clear them before the winter freeze."
     },
     {
-      "id": "popobawa_night",
-      "name": "Popobawa-Night",
+      "id": "popobawa",
+      "name": "Popobawa",
       "description": "A shape-shifting shadow with a single bruised eye, this spirit inflicts night-terrors on sleeping crews.",
       "type": CREATURE_TYPES.HUMANOID,
       "size": CREATURE_SIZES.MEDIUM,
       "tags": [
         "iceheart",
-        "popobawa_night",
+        "popobawa",
         "humanoid"
       ],
-      "tokenIcon": "Bestiary/popobawa_night",
+      "tokenIcon": "Bestiary/popobawa",
       "tokenBorder": "#7209b7",
       "stats": {
         "strength": 12,
@@ -10324,10 +10324,10 @@ export const LIBRARY_CREATURES = [
       },
       "dateCreated": "2026-06-13T18:00:00Z",
       "lastModified": "2026-06-13T18:00:00Z",
-      "origin": "The Popobawa-Night is inspired by the Zanzibar Popobawa, a bat-winged, one-eyed spirit that attacks victims in their homes, and the Greek Empusa's shape-shifting, fear-exploiting nature. In the setting, it is a plague of ship cabins.",
+      "origin": "The Popobawa is inspired by the Zanzibar Popobawa, a bat-winged, one-eyed spirit that attacks victims in their homes, and the Greek Empusa's shape-shifting, fear-exploiting nature. In the setting, it is a plague of ship cabins.",
       "nature": "Its form shifts constantly between a hunched dwarf, a bat-winged specter, and a formless shadow, leaving a trail of sulfur-smelling phosphorescent slime. Its only stable feature is a single bruised eye in the center of its mass. This eye gazes with a mocking intelligence, while the rest of its shifting body dissolves into black smoke before congealing into new shapes.",
       "habitat": "These spirits infiltrate the dark, cramped cabins and crew quarters of ships sailing the Iceheart Sea.",
-      "depth": "The Popobawa-Night slips into cabins to inflict severe night-terrors that exhaust sailors and cause them to collapse on watch. The creature psychically silences its victims, and it will return nightly until the victim publicly names it to another person. Captains enforce policies where crew members must describe their dreams at breakfast to break this silence. A vessel has recently arrived in port with a completely exhausted crew, and investigators are looking for adventurers to root out the spirit."
+      "depth": "The Popobawa slips into cabins to inflict severe night-terrors that exhaust sailors and cause them to collapse on watch. The creature psychically silences its victims, and it will return nightly until the victim publicly names it to another person. Captains enforce policies where crew members must describe their dreams at breakfast to break this silence. A vessel has recently arrived in port with a completely exhausted crew, and investigators are looking for adventurers to root out the spirit."
     },
     {
       "id": "abada",
@@ -10415,17 +10415,17 @@ export const LIBRARY_CREATURES = [
       "depth": "The Abada's horn purifies any water or toxin it touches, making it a vital cure in Wyrd-taint-infested seas. They tend coral gardens, using their horns to carve channels that direct nutrients and keep reefs immune to decay. Although harvesting the horn is an act of ultimate sacrilege, it can purify a ship's water for a year. A group of poachers is rumored to be tracking an Abada, and local druids are seeking protectors to stop them."
     },
     {
-      "id": "graia_swirl",
-      "name": "Graia-Swirl",
+      "id": "graia",
+      "name": "Graia",
       "description": "A colorless, mathematical whirlpool that serves as a portal to the spirit-realm and distorts time.",
       "type": CREATURE_TYPES.ELEMENTAL,
       "size": CREATURE_SIZES.MEDIUM,
       "tags": [
         "iceheart",
-        "graia_swirl",
+        "graia",
         "elemental"
       ],
-      "tokenIcon": "Bestiary/graia_swirl",
+      "tokenIcon": "Bestiary/graia",
       "tokenBorder": "#7209b7",
       "stats": {
         "strength": 0,
@@ -10475,23 +10475,23 @@ export const LIBRARY_CREATURES = [
       },
       "dateCreated": "2026-06-13T18:00:00Z",
       "lastModified": "2026-06-13T18:00:00Z",
-      "origin": "The Graia-Swirl is inspired by the Greek Graia or Grey Sea, a featureless mythical expanse sailed by the Argonauts, and Mami Wata's Whirlpool, a portal to the spirit world. In the setting, it is a localized temporal anomaly.",
+      "origin": "The Graia is inspired by the Greek Graia or Grey Sea, a featureless mythical expanse sailed by the Argonauts, and Mami Wata's Whirlpool, a portal to the spirit world. In the setting, it is a localized temporal anomaly.",
       "nature": "This thirty-foot circular eddy rotates with mathematical precision, ringed by a halo of displaced foam. The water within the swirl is perfectly colorless and transparent, keeping fallen objects suspended without sinking. The air above remains unnaturally still. Staring into its depths reveals a face forming in the water—the observer's own face, aged and mouthing a silent question.",
       "habitat": "These stable eddies form in the open, desolate stretches of the Iceheart Sea.",
       "depth": "The swirl acts as a stable portal to the spirit-realm where binding bargains are struck with deep-spirits, making them highly prized by Neth contract-mages. Ships sailing through its center are transported through time rather than space, emerging aged by weeks or younger, as the swirl takes what it wants. A Neth mage is currently hiring a crew to navigate close to a known swirl to conduct a ritual, offering high rewards for the risk."
     },
     {
-      "id": "ichthya_centaur",
-      "name": "Ichthya-Centaur",
+      "id": "ichthya",
+      "name": "Ichthya",
       "description": "A scaled sea-centaur with a glowing trident, this volcanic blacksmith warns of Monolith instability.",
       "type": CREATURE_TYPES.ELEMENTAL,
       "size": CREATURE_SIZES.MEDIUM,
       "tags": [
         "iceheart",
-        "ichthya_centaur",
+        "ichthya",
         "elemental"
       ],
-      "tokenIcon": "Bestiary/ichthya_centaur",
+      "tokenIcon": "Bestiary/ichthya",
       "tokenBorder": "#7209b7",
       "stats": {
         "strength": 18,
@@ -10575,23 +10575,23 @@ export const LIBRARY_CREATURES = [
       },
       "dateCreated": "2026-06-13T18:00:00Z",
       "lastModified": "2026-06-13T18:00:00Z",
-      "origin": "The Ichthya-Centaur is based on the Greek Ichthyocentaur, a wise sea-centaur, and Ogun's Forge-Beneath-Waves from Yoruba tradition. In the setting, they are volcanic artisans who keep the rhythm of the ocean.",
+      "origin": "The Ichthya is based on the Greek Ichthyocentaur, a wise sea-centaur, and Ogun's Forge-Beneath-Waves from Yoruba tradition. In the setting, they are volcanic artisans who keep the rhythm of the ocean.",
       "nature": "This creature has a muscular human torso, the scaled chest and forelegs of a draft-horse, and a powerful fish tail. It carries a massive iron trident marked by forge hammers and glowing red-hot at the tips. Its horse-section is bay-brown, and spark-scales line its flanks. Its weather-lined face has a salt-bleached beard and eyes that glow like wind-fanned coals.",
       "habitat": "These creatures make their homes around submarine volcanic vents, hot springs, and reef-slopes of the Iceheart Sea.",
-      "depth": "Using volcanic vents as hearths, the Ichthya-Centaur forge tridents and harpoons that never rust or break, gifting them only to worthy captains. By listening to wave-patterns, they can predict Sundered Monolith instability an hour before it happens, warning the Myrathil. Their agitation is a sure sign of danger. A Myrathil settlement has noticed their local forge-keeper growing restless, and is seeking adventurers to investigate the volcanic vents."
+      "depth": "Using volcanic vents as hearths, the Ichthya forge tridents and harpoons that never rust or break, gifting them only to worthy captains. By listening to wave-patterns, they can predict Sundered Monolith instability an hour before it happens, warning the Myrathil. Their agitation is a sure sign of danger. A Myrathil settlement has noticed their local forge-keeper growing restless, and is seeking adventurers to investigate the volcanic vents."
     },
     {
-      "id": "brine_lantern",
-      "name": "Brine-Lantern",
+      "id": "brine",
+      "name": "Brine",
       "description": "A floating orb of warm gold light containing smiling faces, this spirit guides ships to safety during storms.",
       "type": CREATURE_TYPES.UNDEAD,
       "size": CREATURE_SIZES.MEDIUM,
       "tags": [
         "iceheart",
-        "brine_lantern",
+        "brine",
         "undead"
       ],
-      "tokenIcon": "Bestiary/brine_lantern",
+      "tokenIcon": "Bestiary/brine",
       "tokenBorder": "#9b2226",
       "stats": {
         "strength": 4,
@@ -10644,10 +10644,10 @@ export const LIBRARY_CREATURES = [
       },
       "dateCreated": "2026-06-13T18:00:00Z",
       "lastModified": "2026-06-13T18:00:00Z",
-      "origin": "The Brine-Lantern is inspired by the Greek Lampeia, mysterious ocean-lights guiding or misleading sailors, and the Yoruba Osu, ancestor-lights representing the souls of the dead. In the setting, they are guiding spirits.",
+      "origin": "The Brine is inspired by the Greek Lampeia, mysterious ocean-lights guiding or misleading sailors, and the Yoruba Osu, ancestor-lights representing the souls of the dead. In the setting, they are guiding spirits.",
       "nature": "A floating golden orb about the size of a human head, it hovers six inches above the water and rotates slowly, dropping glowing gold motes. The sphere is composed of compressed liquid gold, and viewing it closely reveals dozens of tiny, smiling, translucent faces pressed against the inner surface. Its warmth provides comfort in the freezing night.",
       "habitat": "These spirits hover near the coastal cliffs, harbor mouths, and open waters of the Iceheart Sea.",
-      "depth": "True Brine-Lanterns are the souls of sailors who died heroically, appearing during storms to guide lost ships to safe coves. However, Wyrd-corrupted false lanterns exist, leading ships onto rocks; these can be identified by the screaming, terrified faces within, visible through silver mirrors. A local captain is planning a voyage through a storm-swept passage and is seeking adventurers to guide his ship using a true lantern."
+      "depth": "True Brines are the souls of sailors who died heroically, appearing during storms to guide lost ships to safe coves. However, Wyrd-corrupted false lanterns exist, leading ships onto rocks; these can be identified by the screaming, terrified faces within, visible through silver mirrors. A local captain is planning a voyage through a storm-swept passage and is seeking adventurers to guide his ship using a true lantern."
     },
     {
       "id": "kappa_crag",

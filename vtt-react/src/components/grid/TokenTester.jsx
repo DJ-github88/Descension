@@ -17,7 +17,7 @@ const TokenTester = () => {
         size: CREATURE_SIZES.SMALL,
         tags: ['goblin', 'test'],
         tokenIcon: 'inv_misc_head_orc_01',
-        tokenBorder: '#4CAF50',
+        tokenBorder: '#506e30',
         stats: {
           strength: 8,
           agility: 14,
@@ -97,7 +97,7 @@ const TokenTester = () => {
           onClick={handleAddTestToken}
           style={{
             padding: '8px 16px',
-            backgroundColor: '#FF5722',
+            backgroundColor: '#8b3a2a',
             color: 'white',
             border: 'none',
             borderRadius: '4px',
@@ -112,7 +112,7 @@ const TokenTester = () => {
           onClick={handleAddRandomToken}
           style={{
             padding: '8px 16px',
-            backgroundColor: '#4CAF50',
+            backgroundColor: '#506e30',
             color: 'white',
             border: 'none',
             borderRadius: '4px',

@@ -381,7 +381,7 @@ const ResourceBar = ({ current, max, temp = 0, className, label, resourceType, o
                 <span className="resource-bar-values">
                     {current} / {max}
                     {temp > 0 && (
-                        <span style={{ color: '#FF9800', marginLeft: '4px' }}>
+                        <span style={{ color: 'var(--pf-health-low)', marginLeft: '4px' }}>
                             +{temp} Temporary {resourceType === 'health' ? 'HP' : resourceType === 'mana' ? 'Mana' : 'AP'}
                         </span>
                     )}

@@ -71,15 +71,15 @@ const DamageResistanceDisplay = ({ resistances = {}, vulnerabilities = {} }) => 
   const getResistanceIndicator = (level) => {
     switch (level) {
       case 'immune':
-        return { symbol: '🛡️', color: '#4CAF50', bgColor: '#E8F5E8' };
+        return { symbol: '🛡️', color: '#506e30', bgColor: '#e8f0e0' };
       case 'resistant':
-        return { symbol: '🔰', color: '#2196F3', bgColor: '#E3F2FD' };
+        return { symbol: '🔰', color: '#4a6a8a', bgColor: '#e0e8f0' };
       case 'exposed':
-        return { symbol: '⚠️', color: '#FF9800', bgColor: '#FFF3E0' };
+        return { symbol: '⚠️', color: '#9a5e15', bgColor: '#f0e8e0' };
       case 'vulnerable':
-        return { symbol: '💥', color: '#F44336', bgColor: '#FFEBEE' };
+        return { symbol: '💥', color: '#8b3a2a', bgColor: '#f0e0e0' };
       default:
-        return { symbol: '⚪', color: '#9E9E9E', bgColor: '#F5F5F5' };
+        return { symbol: '⚪', color: '#8b7d6b', bgColor: '#f0ede8' };
     }
   };
 

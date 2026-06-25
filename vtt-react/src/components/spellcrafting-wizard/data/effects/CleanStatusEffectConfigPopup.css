@@ -1,20 +1,5 @@
 /* CleanStatusEffectConfigPopup - Pathfinder Styling */
 
-/* Main Popup Overlay */
-.status-effect-config-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.75);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 15000; /* Increased to ensure it appears above spellbook window */
-  backdrop-filter: blur(2px);
-}
-
 /* Popup Window */
 .status-effect-config-popup {
   background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
@@ -245,16 +230,16 @@
 }
 
 .effect-option-button.active {
-  background: #1a1a1a !important;
-  border-color: #ffffff !important;
-  color: #ffffff !important;
+  background: linear-gradient(145deg, #5a1e12 0%, #3a140e 100%) !important;
+  border-color: #d4af37 !important;
+  color: #f0e6d2 !important;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
   font-weight: var(--pf-font-semibold, 600) !important;
   text-shadow: none !important;
 }
 
 .effect-option-button.active > span {
-  color: #ffffff !important;
+  color: #f0e6d2 !important;
 }
 
 .effect-option-button.active > small {

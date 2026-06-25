@@ -83,7 +83,7 @@ export const createInfoSlice = (set, get) => ({
 
     // Token appearance settings
     tokenSettings: {
-        borderColor: '#4CAF50', // Default green border
+        borderColor: '#506e30',
         customIcon: null // Custom icon URL if different from character image
     },
 

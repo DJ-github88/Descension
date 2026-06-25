@@ -554,21 +554,6 @@
 
 /* ===== STATUS EFFECT CONFIG POPUP IMPROVEMENTS ===== */
 
-/* Overlay for the popup */
-.status-effect-config-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(45, 24, 16, 0.85);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10000;
-  backdrop-filter: blur(6px);
-}
-
 /* Main popup container */
 .status-effect-config-popup {
   background: linear-gradient(135deg, #f8f5f0 0%, #f0e6d2 100%);

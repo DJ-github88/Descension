@@ -2099,7 +2099,7 @@ button.campaign-input:hover {
 
 .shareable-actions .action-btn.show {
     background: rgba(33, 150, 243, 0.15);
-    color: #1976D2;
+    color: var(--pf-mana-dark);
 }
 
 .shareable-actions .action-btn.show:hover {

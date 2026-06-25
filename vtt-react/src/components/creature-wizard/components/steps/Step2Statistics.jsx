@@ -6,12 +6,14 @@ import { calculateStatModifier } from '../../../../utils/characterUtils';
 import { getIconUrl } from '../../../../utils/assetManager';
 import '../../styles/WizardSteps.css';
 import './Step2Statistics.css';
-import { Tooltip as ReactTooltip } from 'react-tooltip';
+import UnifiedTooltip from '../../../common/UnifiedTooltip';
+import { useUnifiedTooltip } from '../../../common/useUnifiedTooltip';
 
 const Step2Statistics = () => {
   const wizardState = useCreatureWizard();
   const dispatch = useCreatureWizardDispatch();
   const [activeTab, setActiveTab] = useState('core');
+  const xpTooltip = useUnifiedTooltip();
 
   // Calculate ability modifier (D&D style)
   const calculateModifier = (abilityScore) => {
@@ -671,10 +673,11 @@ const Step2Statistics = () => {
                 value={wizardState.stats.experiencePoints || 0}
                 onChange={(e) => handleStatChange('experiencePoints', e.target.value)}
                 className="combat-input"
-                data-tooltip-id="xp-tooltip"
-                data-tooltip-content="XP awarded when this creature is defeated"
+                onMouseEnter={xpTooltip.handleMouseEnter('XP awarded when this creature is defeated', { title: 'Experience Points' })}
+                onMouseLeave={xpTooltip.handleMouseLeave}
+                onMouseMove={xpTooltip.handleMouseMove}
               />
-              <ReactTooltip id="xp-tooltip" className="tooltip-style" />
+              <UnifiedTooltip {...xpTooltip.tooltipState} />
             </div>
           </div>
         </div>

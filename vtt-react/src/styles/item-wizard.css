@@ -48,10 +48,10 @@
 /* Replace all dark backgrounds with Pathfinder parchment theme */
 .item-wizard-modal *[style*="background: rgba(0, 0, 0"],
 .item-wizard-modal *[style*="background-color: rgba(0, 0, 0"],
-.item-wizard-modal *[style*="background: #1a1a1a"],
-.item-wizard-modal *[style*="background: #2a2a2a"],
-.item-wizard-modal *[style*="background-color: #1a1a1a"],
-.item-wizard-modal *[style*="background-color: #2a2a2a"] {
+.item-wizard-modal *[style*="background: #2d1810"],
+.item-wizard-modal *[style*="background: #3a2418"],
+.item-wizard-modal *[style*="background-color: #2d1810"],
+.item-wizard-modal *[style*="background-color: #3a2418"] {
     background: var(--pf-gradient-button) !important;
     border: 2px solid var(--pf-brown-medium) !important;
     color: var(--pf-text-primary) !important;
@@ -919,12 +919,12 @@
 }
 
 /* Override ALL remaining dark backgrounds */
-.item-wizard-modal *[style*="background: #1a1a1a"],
-.item-wizard-modal *[style*="background: #2a2a2a"],
-.item-wizard-modal *[style*="background: #333"],
-.item-wizard-modal *[style*="background-color: #1a1a1a"],
-.item-wizard-modal *[style*="background-color: #2a2a2a"],
-.item-wizard-modal *[style*="background-color: #333"],
+.item-wizard-modal *[style*="background: #2d1810"],
+.item-wizard-modal *[style*="background: #3a2418"],
+.item-wizard-modal *[style*="background: #4a3020"],
+.item-wizard-modal *[style*="background-color: #2d1810"],
+.item-wizard-modal *[style*="background-color: #3a2418"],
+.item-wizard-modal *[style*="background-color: #4a3020"],
 .item-wizard-modal .type-button,
 .item-wizard-modal .category-button,
 .item-wizard-modal .slot-option,
@@ -3282,13 +3282,13 @@ textarea.item-description:focus,
 }
 
 .complete-button {
-    background: #4CAF50;
+    background: var(--pf-hp);
     color: white;
     margin-left: 8px;
 }
 
 .complete-button:hover {
-    background: #45a049;
+    background: var(--pf-hp-dark);
 }
 
 button:disabled {
@@ -4822,8 +4822,8 @@ button:disabled {
 .grid-input {
     width: 50px;
     text-align: center;
-    background: #2c2c2c;
-    border: 1px solid #404040;
+    background: rgba(139, 69, 19, 0.06);
+    border: 1px solid #8b4513;
     color: #fff;
     padding: 2px 4px;
     font-size: 14px;
@@ -4834,7 +4834,7 @@ button:disabled {
     color: #ccc;
     font-size: 14px;
     padding: 4px;
-    background: #2c2c2c;
+    background: rgba(139, 69, 19, 0.06);
     border-radius: 2px;
 }
 
@@ -4856,8 +4856,8 @@ button:disabled {
 
 /* Stat Items */
 .item-wizard-modal .stat-item {
-    background: #2c2c2c;
-    border: 1px solid #404040;
+    background: rgba(139, 69, 19, 0.06);
+    border: 1px solid #8b4513;
     padding: 8px;
     border-radius: 4px;
 }
@@ -5655,7 +5655,7 @@ button:disabled {
 }
 
 .create-item-button {
-    background: #4CAF50 !important;
+    background: var(--pf-hp) !important;
     color: white !important;
     font-weight: bold !important;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
@@ -5671,7 +5671,7 @@ button:disabled {
 }
 
 .create-item-button:hover {
-    background: #45a049 !important;
+    background: var(--pf-hp-dark) !important;
     transform: translateY(-2px) !important;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !important;
 }

@@ -1026,13 +1026,13 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
 
           const getResistanceColor = (levelStr) => {
             switch (levelStr.toLowerCase()) {
-              case 'immune': return '#4CAF50';
-              case 'resistant': return '#2196F3';
-              case 'guarded': return '#00BCD4';
-              case 'exposed': return '#FF9800';
-              case 'susceptible': return '#FF5722';
-              case 'vulnerable': return '#F44336';
-              default: return '#9E9E9E';
+              case 'immune': return '#506e30';
+              case 'resistant': return '#4a6a8a';
+              case 'guarded': return '#3a8a8a';
+              case 'exposed': return '#9a5e15';
+              case 'susceptible': return '#8b3a2a';
+              case 'vulnerable': return '#8b3a2a';
+              default: return '#8b7d6b';
             }
           };
 

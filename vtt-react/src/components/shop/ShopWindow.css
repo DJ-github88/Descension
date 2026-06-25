@@ -1053,7 +1053,7 @@
 }
 
 .shop-notification.success {
-  background: linear-gradient(135deg, #4caf50 0%, #45a049 50%, #4caf50 100%);
+  background: linear-gradient(135deg, var(--pf-hp) 0%, var(--pf-hp-dark) 50%, var(--pf-hp) 100%);
   color: #fff;
   border-color: #2e7d32;
   box-shadow:
@@ -1247,14 +1247,14 @@
 
 .external-shopping-cart .buy-all-button,
 .external-sell-cart .sell-all-button {
-  background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+  background: linear-gradient(135deg, var(--pf-hp) 0%, var(--pf-hp-dark) 100%);
   color: white;
   box-shadow: 0 3px 6px rgba(76, 175, 80, 0.4);
 }
 
 .external-shopping-cart .buy-all-button:hover,
 .external-sell-cart .sell-all-button:hover {
-  background: linear-gradient(135deg, #45a049 0%, #4caf50 100%);
+  background: linear-gradient(135deg, var(--pf-hp-dark) 0%, var(--pf-hp) 100%);
   transform: translateY(-1px);
   box-shadow: 0 4px 8px rgba(76, 175, 80, 0.5);
 }

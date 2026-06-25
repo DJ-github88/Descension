@@ -88,7 +88,7 @@ const useCombatStore = create((set, get) => ({
                         speed: characterSpeed
                     },
                     tokenIcon: char.tokenSettings?.customIcon || char.lore?.characterImage || 'inv_misc_questionmark',
-                    tokenBorder: char.tokenSettings?.borderColor || '#4CAF50'
+                    tokenBorder: char.tokenSettings?.borderColor || '#506e30'
                 };
             }
 

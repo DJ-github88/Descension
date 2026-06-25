@@ -765,7 +765,7 @@ export default function Lore() {
                                     width: '48px',
                                     height: '48px',
                                     borderRadius: '50%',
-                                    border: `3px solid ${tokenSettings?.borderColor || '#4CAF50'}`,
+                                    border: `3px solid ${tokenSettings?.borderColor || '#506e30'}`,
                                     backgroundImage: lore.characterImage ? `url(${lore.characterImage})` : 'none',
                                     backgroundColor: lore.characterImage ? 'transparent' : '#333',
                                     backgroundSize: 'cover',

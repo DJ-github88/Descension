@@ -674,7 +674,7 @@ export const BIOMES = [
       '--travel-gold': '#b8a060',
       '--travel-gold-bright': '#d4b870',
       '--travel-gold-dim': 'rgba(184,160,96,0.10)',
-      '--travel-green': '#5a7a3a',
+      '--travel-green': '#506e30',
       '--travel-green-bright': '#6a9a4a',
       '--travel-green-dim': 'rgba(90,122,58,0.09)',
       '--travel-warn': '#8a6a00',

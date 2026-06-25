@@ -20,7 +20,6 @@ import '../../styles/creature-token.css';
 import '../../styles/unified-context-menu.css';
 import WowWindow from '../windows/WowWindow';
 import CreatureWindow from '../windows/CreatureWindow';
-import { Tooltip as ReactTooltip } from 'react-tooltip';
 import EnhancedCreatureInspectView from '../creature-wizard/components/common/EnhancedCreatureInspectView';
 import ConditionsWindow from '../conditions/ConditionsWindow';
 import BuffDebuffCreatorModal from '../modals/BuffDebuffCreatorModal';
@@ -1898,9 +1897,9 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
   // Determine health bar color based on percentage
   const getHealthBarColor = (percentage) => {
-    if (percentage > 60) return '#4CAF50'; // Green
-    if (percentage > 30) return '#FFC107'; // Yellow
-    return '#F44336'; // Red
+    if (percentage > 60) return '#506e30';
+    if (percentage > 30) return '#7a6812';
+    return '#8b3a2a';
   };
 
   // Handle mouse down for dragging or combat selection
@@ -2077,7 +2076,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           borderStyle: isSummonedToken ? 'dashed' : 'solid',
           borderColor: isSummonedToken
             ? (isOwnToken ? '#a78bfa' : '#7c3aed')
-            : creature.isShopkeeper ? '#FFD700' : isViewingFrom ? '#00BFFF' : (isMyTurn ? '#FFD700' : isSelectedForCombat ? '#00FF00' : isTargeted ? '#FF9800' : creature.tokenBorder),
+            : creature.isShopkeeper ? '#FFD700' : isViewingFrom ? '#4a6a8a' : (isMyTurn ? '#FFD700' : isSelectedForCombat ? '#506e30' : isTargeted ? '#9a5e15' : creature.tokenBorder),
           overflow: 'visible',
           opacity: isGreyedOut ? 0.4 : 1, // Greyed out when in explored but not visible
           filter: isGreyedOut ? 'grayscale(0.8) brightness(0.6)' : 'none', // Grey filter for explored areas

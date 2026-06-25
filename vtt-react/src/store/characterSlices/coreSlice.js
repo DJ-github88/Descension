@@ -879,7 +879,7 @@ export const createCoreSlice = (set, get) => ({
             try {
                 const userId = getCurrentUserId();
                 if (userId && shouldUseFirebase()) {
-                    const presenceService = (await import('../services/firebase/presenceService')).default;
+                    const presenceService = (await import('../../services/firebase/presenceService')).default;
                     await presenceService.updateCharacterData(userId, {
                         id: character.id,
                         name: character.name,

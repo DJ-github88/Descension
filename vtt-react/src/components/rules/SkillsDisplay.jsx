@@ -1088,7 +1088,7 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
                                                     <span style={{ marginLeft: '8px', fontSize: '12px', color: '#5a1e12' }}>Attempt fails</span>
                                                 </div>
                                                 <div className="table-preview-entry normal" style={{ margin: 0, padding: '8px 12px', pointerEvents: 'none' }}>
-                                                    <span style={{ fontWeight: '600', color: '#F57C00' }}>➡ Partial Success</span>
+                                                    <span style={{ fontWeight: '600', color: '#8b3a2a' }}>➡ Partial Success</span>
                                                     <span style={{ marginLeft: '8px', fontSize: '12px', color: '#5a1e12' }}>Mixed results</span>
                                                 </div>
                                                 <div className="table-preview-entry success" style={{ margin: 0, padding: '8px 12px', pointerEvents: 'none' }}>
@@ -1096,7 +1096,7 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
                                                     <span style={{ marginLeft: '8px', fontSize: '12px', color: '#5a1e12' }}>Succeeds as intended</span>
                                                 </div>
                                                 <div className="table-preview-entry critical" style={{ margin: 0, padding: '8px 12px', pointerEvents: 'none' }}>
-                                                    <span style={{ fontWeight: '600', color: '#1976D2' }}>★ Critical Success</span>
+                                                    <span style={{ fontWeight: '600', color: '#3a5a7a' }}>★ Critical Success</span>
                                                     <span style={{ marginLeft: '8px', fontSize: '12px', color: '#5a1e12' }}>Exceptional with bonuses</span>
                                                 </div>
                                             </div>

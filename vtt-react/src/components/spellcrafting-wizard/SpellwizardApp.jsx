@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import ReactDOM from 'react-dom';
+import WowWindow from '../windows/WowWindow';
 import {
   SpellWizardProvider,
   useSpellWizardState,
@@ -1047,39 +1047,38 @@ const LibraryView = ({ onLoadSpell }) => {
 // Settings Modal component
 const SettingsModal = ({ onClose }) => {
   return (
-    <div className="modal-overlay">
-      <div className="modal-container">
-        <div className="modal-header">
-          <h2>Settings</h2>
-          <button className="modal-close-btn" onClick={onClose}>×</button>
-        </div>
-        <div className="modal-content">
-          <div className="settings-group">
-            <h3>Appearance</h3>
-            <div className="setting-item">
-              <label htmlFor="theme">Theme</label>
-              <select id="theme">
-                <option value="dark">Dark</option>
-                <option value="light">Light</option>
-              </select>
-            </div>
+    <WowWindow
+      title="Settings"
+      isOpen
+      onClose={onClose}
+      modal
+      centered
+      defaultSize={{ width: 480, height: 420 }}
+      minConstraints={[360, 300]}
+    >
+      <div className="modal-content">
+        <div className="settings-group">
+          <h3>Appearance</h3>
+          <div className="setting-item">
+            <label htmlFor="theme">Theme</label>
+            <select id="theme">
+              <option value="dark">Dark</option>
+              <option value="light">Light</option>
+            </select>
           </div>
+        </div>
 
-          <div className="settings-group">
-            <h3>Autosave</h3>
-            <div className="setting-item">
-              <label htmlFor="autosave">
-                <input type="checkbox" id="autosave" />
-                Enable autosave
-              </label>
-            </div>
+        <div className="settings-group">
+          <h3>Autosave</h3>
+          <div className="setting-item">
+            <label htmlFor="autosave">
+              <input type="checkbox" id="autosave" />
+              Enable autosave
+            </label>
           </div>
-        </div>
-        <div className="modal-footer">
-          <button className="modal-btn" onClick={onClose}>Close</button>
         </div>
       </div>
-    </div>
+    </WowWindow>
   );
 };
 
@@ -1187,150 +1186,150 @@ const QuickSpellModal = ({ onClose, onGenerateSpell }) => {
   };
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-container" onClick={e => e.stopPropagation()}>
-        <div className="modal-header">
-          <h2>Quick Spell Generator</h2>
-          <button className="modal-close" onClick={onClose}>×</button>
+    <WowWindow
+      title="Quick Spell Generator"
+      isOpen
+      onClose={onClose}
+      modal
+      centered
+      defaultSize={{ width: 560, height: 560 }}
+      minConstraints={[420, 400]}
+    >
+      <div className="modal-content">
+        <div className="form-group">
+          <label>Spell Name:</label>
+          <input
+            type="text"
+            value={spellName}
+            onChange={(e) => setSpellName(e.target.value)}
+            placeholder="Enter spell name..."
+          />
         </div>
-        <div className="modal-content">
-          <div className="form-group">
-            <label>Spell Name:</label>
-            <input
-              type="text"
-              value={spellName}
-              onChange={(e) => setSpellName(e.target.value)}
-              placeholder="Enter spell name..."
-            />
-          </div>
 
-          <div className="form-group">
-            <label>Element Type:</label>
-            <select value={damageType} onChange={(e) => setDamageType(e.target.value)}>
-              {damageTypes.map(type => (
-                <option key={type.id} value={type.id}>{type.name}</option>
-              ))}
-            </select>
+        <div className="form-group">
+          <label>Element Type:</label>
+          <select value={damageType} onChange={(e) => setDamageType(e.target.value)}>
+            {damageTypes.map(type => (
+              <option key={type.id} value={type.id}>{type.name}</option>
+            ))}
+          </select>
+        </div>
+        <div className="form-group">
+          <label>Spell Template:</label>
+          <div className="template-options">
+            {quickTemplates.map(template => (
+              <div
+                key={template.id}
+                className={`template-option ${selectedTemplate === template.id ? 'selected' : ''}`}
+                onClick={() => setSelectedTemplate(template.id)}
+              >
+                <strong>{template.name}</strong>
+                <p>{template.description}</p>
+              </div>
+            ))}
           </div>
-          <div className="form-group">
-            <label>Spell Template:</label>
-            <div className="template-options">
-              {quickTemplates.map(template => (
-                <div
-                  key={template.id}
-                  className={`template-option ${selectedTemplate === template.id ? 'selected' : ''}`}
-                  onClick={() => setSelectedTemplate(template.id)}
-                >
-                  <strong>{template.name}</strong>
-                  <p>{template.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="modal-actions">
-            <button onClick={onClose}>Cancel</button>
-            <button onClick={generateSpell} disabled={!selectedTemplate || !spellName}>
-              Generate Spell
-            </button>
-          </div>
+        </div>
+        <div className="modal-actions">
+          <button onClick={onClose}>Cancel</button>
+          <button onClick={generateSpell} disabled={!selectedTemplate || !spellName}>
+            Generate Spell
+          </button>
         </div>
       </div>
-    </div>
+    </WowWindow>
   );
 };
 
 // Help Modal component
 const HelpModal = ({ onClose }) => {
   return (
-    <div className="modal-overlay">
-      <div className="modal-container">
-        <div className="modal-header">
-          <h2>Help</h2>
-          <button className="modal-close-btn" onClick={onClose}>×</button>
-        </div>
-        <div className="modal-content">
-          <div className="help-section">
-            <h3>Getting Started</h3>
-            <p>This wizard helps you design and create custom spells for your character.</p>
+    <WowWindow
+      title="Help"
+      isOpen
+      onClose={onClose}
+      modal
+      centered
+      defaultSize={{ width: 520, height: 600 }}
+      minConstraints={[380, 400]}
+    >
+      <div className="modal-content">
+        <div className="help-section">
+          <h3>Getting Started</h3>
+          <p>This wizard helps you design and create custom spells for your character.</p>
 
-            <h3>Wizard Steps</h3>
-            <ol>
-              <li><strong>Basic Info</strong> - Set the name, description, and level of your spell.</li>
-              <li><strong>Spell Type</strong> - Choose what kind of spell you're creating.</li>
-              <li><strong>Effects</strong> - Select and configure the effects your spell produces.</li>
-              <li><strong>Targeting</strong> - Define how your spell targets creatures or areas.</li>
-              <li><strong>Resources</strong> - Configure the resources required for your spell.</li>
-              <li><strong>Cooldown</strong> - Set how frequently your spell can be used.</li>
-              <li><strong>Rollable Table</strong> - Create a table of random effects triggered by dice, cards, or coins.</li>
-              <li><strong>Triggers</strong> - Define the triggers for your spell.</li>
-              <li><strong>Channeling</strong> - Configure the channeling for your spell.</li>
-              <li><strong>Balance</strong> - Finalize and balance your spell.</li>
-              <li><strong>Review</strong> - Finalize and export your completed spell.</li>
-            </ol>
+          <h3>Wizard Steps</h3>
+          <ol>
+            <li><strong>Basic Info</strong> - Set the name, description, and level of your spell.</li>
+            <li><strong>Spell Type</strong> - Choose what kind of spell you're creating.</li>
+            <li><strong>Effects</strong> - Select and configure the effects your spell produces.</li>
+            <li><strong>Targeting</strong> - Define how your spell targets creatures or areas.</li>
+            <li><strong>Resources</strong> - Configure the resources required for your spell.</li>
+            <li><strong>Cooldown</strong> - Set how frequently your spell can be used.</li>
+            <li><strong>Rollable Table</strong> - Create a table of random effects triggered by dice, cards, or coins.</li>
+            <li><strong>Triggers</strong> - Define the triggers for your spell.</li>
+            <li><strong>Channeling</strong> - Configure the channeling for your spell.</li>
+            <li><strong>Balance</strong> - Finalize and balance your spell.</li>
+            <li><strong>Review</strong> - Finalize and export your completed spell.</li>
+          </ol>
 
-            <h3>Tips</h3>
-            <ul>
-              <li>Use the preview panel to see your spell take shape as you build it.</li>
-              <li>Green indicators show completed steps you can return to at any time.</li>
-              <li>Save your spells to the library to build a collection.</li>
-              <li>Balance your spell's power with appropriate costs and cooldowns.</li>
-            </ul>
-          </div>
-        </div>
-        <div className="modal-footer">
-          <button className="modal-btn" onClick={onClose}>Close</button>
+          <h3>Tips</h3>
+          <ul>
+            <li>Use the preview panel to see your spell take shape as you build it.</li>
+            <li>Green indicators show completed steps you can return to at any time.</li>
+            <li>Save your spells to the library to build a collection.</li>
+            <li>Balance your spell's power with appropriate costs and cooldowns.</li>
+          </ul>
         </div>
       </div>
-    </div>
+    </WowWindow>
   );
 };
 
 // Load Spell Modal component
 const LoadSpellModal = ({ onClose, onLoadSpell, spells = [] }) => {
   return (
-    <div className="modal-overlay">
-      <div className="modal-container">
-        <div className="modal-header">
-          <h2>Load Spell</h2>
-          <button className="modal-close-btn" onClick={onClose}>×</button>
-        </div>
-        <div className="modal-content">
-          {spells.length > 0 ? (
-            <div className="spell-list">
-              {spells.map((spell) => (
-                <div key={spell.id} className="spell-list-item">
-                  <div className="spell-list-info">
-                    <div className="spell-list-name">{spell.name || 'Unnamed Spell'}</div>
-                    <div className="spell-list-meta">
-                      Level {spell.level} {spell.spellType}
-                    </div>
-                    {spell.lastSaved && (
-                      <div className="spell-list-date">
-                        Last modified: {new Date(spell.lastSaved).toLocaleString()}
-                      </div>
-                    )}
+    <WowWindow
+      title="Load Spell"
+      isOpen
+      onClose={onClose}
+      modal
+      centered
+      defaultSize={{ width: 520, height: 500 }}
+      minConstraints={[380, 360]}
+    >
+      <div className="modal-content">
+        {spells.length > 0 ? (
+          <div className="spell-list">
+            {spells.map((spell) => (
+              <div key={spell.id} className="spell-list-item">
+                <div className="spell-list-info">
+                  <div className="spell-list-name">{spell.name || 'Unnamed Spell'}</div>
+                  <div className="spell-list-meta">
+                    Level {spell.level} {spell.spellType}
                   </div>
-                  <button
-                    className="spell-list-load-btn"
-                    onClick={() => onLoadSpell(spell)}
-                  >
-                    Load
-                  </button>
+                  {spell.lastSaved && (
+                    <div className="spell-list-date">
+                      Last modified: {new Date(spell.lastSaved).toLocaleString()}
+                    </div>
+                  )}
                 </div>
-              ))}
-            </div>
-          ) : (
-            <div className="no-spells-message">
-              <p>No saved spells found in the library.</p>
-              <p>Create a spell and save it to see it here.</p>
-            </div>
-          )}
-        </div>
-        <div className="modal-footer">
-          <button className="modal-btn" onClick={onClose}>Close</button>
-        </div>
+                <button
+                  className="spell-list-load-btn"
+                  onClick={() => onLoadSpell(spell)}
+                >
+                  Load
+                </button>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="no-spells-message">
+            <p>No saved spells found in the library.</p>
+            <p>Create a spell and save it to see it here.</p>
+          </div>
+        )}
       </div>
-    </div>
+    </WowWindow>
   );
 };
 

@@ -3031,7 +3031,7 @@
 }
 
 .success-icon {
-    color: #4caf50;
+    color: var(--pf-hp);
     font-size: 18px;
 }
 
@@ -4729,18 +4729,18 @@
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background: #4CAF50;
+    background: var(--pf-hp);
     border: 1.5px solid rgba(255,255,255,0.6);
     box-shadow: 0 0 4px rgba(76, 175, 80, 0.4);
     flex-shrink: 0;
 }
 
-.header-exhaustion.severity-0 .header-exhaustion-dot { background: #4CAF50; box-shadow: 0 0 4px rgba(76, 175, 80, 0.4); }
-.header-exhaustion.severity-1 .header-exhaustion-dot { background: #8BC34A; box-shadow: 0 0 4px rgba(139, 195, 74, 0.4); }
-.header-exhaustion.severity-2 .header-exhaustion-dot { background: #FFC107; box-shadow: 0 0 4px rgba(255, 193, 7, 0.4); }
-.header-exhaustion.severity-3 .header-exhaustion-dot { background: #FF9800; box-shadow: 0 0 4px rgba(255, 152, 0, 0.4); }
-.header-exhaustion.severity-4 .header-exhaustion-dot { background: #f44336; box-shadow: 0 0 4px rgba(244, 67, 54, 0.4); }
-.header-exhaustion.severity-5 .header-exhaustion-dot { background: #b71c1c; box-shadow: 0 0 4px rgba(183, 28, 28, 0.4); }
+.header-exhaustion.severity-0 .header-exhaustion-dot { background: var(--pf-hp); box-shadow: 0 0 4px rgba(76, 175, 80, 0.4); }
+.header-exhaustion.severity-1 .header-exhaustion-dot { background: var(--pf-hp); box-shadow: 0 0 4px rgba(139, 195, 74, 0.4); }
+.header-exhaustion.severity-2 .header-exhaustion-dot { background: var(--pf-warning); box-shadow: 0 0 4px rgba(255, 193, 7, 0.4); }
+.header-exhaustion.severity-3 .header-exhaustion-dot { background: var(--pf-health-low); box-shadow: 0 0 4px rgba(255, 152, 0, 0.4); }
+.header-exhaustion.severity-4 .header-exhaustion-dot { background: var(--pf-health-danger); box-shadow: 0 0 4px rgba(244, 67, 54, 0.4); }
+.header-exhaustion.severity-5 .header-exhaustion-dot { background: var(--pf-health-danger); box-shadow: 0 0 4px rgba(183, 28, 28, 0.4); }
 .header-exhaustion.severity-6 .header-exhaustion-dot { background: #000000; box-shadow: 0 0 4px rgba(0, 0, 0, 0.4); }
 
 .header-exhaustion-select {
@@ -5836,13 +5836,13 @@
 .exhaustion-effect-panel.severity-4,
 .exhaustion-effect-panel.severity-5 {
     background: rgba(244, 67, 54, 0.08);
-    border: 1px solid #f44336;
+    border: 1px solid var(--pf-health-danger);
     color: #5f1e1a;
 }
 .exhaustion-effect-panel.severity-3 .panel-header,
 .exhaustion-effect-panel.severity-4 .panel-header,
 .exhaustion-effect-panel.severity-5 .panel-header {
-    color: #d32f2f;
+    color: var(--pf-health-danger);
 }
 
 .exhaustion-effect-panel.severity-6 {

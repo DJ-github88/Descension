@@ -28,6 +28,8 @@ const SpellDetailPopup = ({ isOpen, onClose, spellId, onSelectSpell }) => {
       isOpen={isOpen}
       onClose={onClose}
       title={`Spell Details: ${spell.name}`}
+      modal={true}
+      centered={true}
       defaultSize={{ width: 500, height: 700 }}
       defaultPosition={{ x: 200, y: 100 }}
     >

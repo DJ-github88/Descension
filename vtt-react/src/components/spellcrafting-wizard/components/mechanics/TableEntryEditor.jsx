@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ReactDOM from 'react-dom';
+import WowWindow from '../../../windows/WowWindow';
 import { v4 as uuidv4 } from 'uuid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -231,28 +231,17 @@ const TableEntryEditor = ({
   const renderEntryEditor = () => {
     if (!editingEntry) return null;
 
-    const modalContent = (
-      <div className="entry-editor-modal" onClick={(e) => {
-        // Close modal if clicking on backdrop
-        if (e.target.classList.contains('entry-editor-modal')) {
-          handleCancel();
-        }
-      }}>
+    return (
+      <WowWindow
+        title={editingIndex === null ? 'Add Table Entry' : 'Edit Table Entry'}
+        isOpen={true}
+        onClose={handleCancel}
+        modal={true}
+        backdrop="static"
+        centered={true}
+        defaultSize={{ width: 1040, height: 720 }}
+      >
         <div className="entry-editor-content">
-          {/* Modal Header */}
-          <div className="entry-editor-header">
-            <h3 className="entry-editor-title">
-              {editingIndex === null ? 'Add Table Entry' : 'Edit Table Entry'}
-            </h3>
-            <button 
-              className="entry-editor-close-btn"
-              onClick={handleCancel}
-              title="Close"
-            >
-              <FontAwesomeIcon icon={faTimes} />
-            </button>
-          </div>
-
           <div className="entry-editor-body">
             {/* Two-column layout */}
             <div className="editor-columns">
@@ -767,11 +756,8 @@ const TableEntryEditor = ({
             </button>
           </div>
         </div>
-      </div>
+      </WowWindow>
     );
-
-    // Use portal to render modal at document root level
-    return ReactDOM.createPortal(modalContent, document.body);
   };
 
   return (

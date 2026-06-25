@@ -139,12 +139,12 @@
 }
 
 .accept-session-button {
-  background: linear-gradient(90deg, #4caf50 0%, #45a049 100%);
+  background: linear-gradient(90deg, var(--pf-hp) 0%, var(--pf-hp-dark) 100%);
   color: white;
 }
 
 .accept-session-button:hover {
-  background: linear-gradient(90deg, #45a049 0%, #3d8b40 100%);
+  background: linear-gradient(90deg, var(--pf-hp-dark) 0%, var(--pf-hp-dark) 100%);
   transform: translateY(-1px);
 }
 

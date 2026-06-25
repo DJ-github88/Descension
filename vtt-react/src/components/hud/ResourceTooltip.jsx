@@ -334,7 +334,7 @@ const ResourceTooltip = ({
                             {chronarchHoverSection === 'strain' && (() => {
                                 const strainValue = chronarchTemporalStrain;
                                 const getStrainState = (strain) => {
-                                    if (strain >= 10) return { name: 'BACKLASH!', color: '#B71C1C' };
+                                    if (strain >= 10) return { name: 'BACKLASH!', color: '#8b3a2a' };
                                     if (strain >= 9) return { name: 'Critical', color: '#C62828' };
                                     if (strain >= 7) return { name: 'Danger', color: '#E53935' };
                                     if (strain >= 5) return { name: 'Warning', color: '#FB8C00' };
@@ -531,7 +531,7 @@ const ResourceTooltip = ({
                                                 <div className="tooltip-section">
                                                     <div className="tooltip-label">Active Curses</div>
                                                     {activePathsList.map((path, i) => (
-                                                        <div key={i} style={{ fontSize: '0.85rem', marginTop: '4px', color: '#B71C1C' }}>
+                                                        <div key={i} style={{ fontSize: '0.85rem', marginTop: '4px', color: '#8b3a2a' }}>
                                                             <strong>{path.shortName}:</strong> {path.curse}
                                                         </div>
                                                     ))}
@@ -579,7 +579,7 @@ const ResourceTooltip = ({
                                             <>
                                                 <div className="tooltip-divider"></div>
                                                 <div className="tooltip-section">
-                                                    <div className="tooltip-label" style={{ color: '#B71C1C' }}>
+                                                    <div className="tooltip-label" style={{ color: '#8b3a2a' }}>
                                                         EXTREME DANGER!
                                                     </div>
                                                     <div style={{ fontSize: '0.85rem', marginTop: '4px' }}>
@@ -596,7 +596,7 @@ const ResourceTooltip = ({
                                                 fontStyle: 'italic',
                                                 fontSize: '9px',
                                                 textAlign: 'center',
-                                                color: '#B71C1C',
+                                                color: '#8b3a2a',
                                                 marginTop: '6px',
                                                 padding: '4px',
                                                 background: 'rgba(255, 107, 107, 0.15)',
@@ -753,7 +753,7 @@ const ResourceTooltip = ({
                                             <div style={{ fontSize: '0.85rem' }}>
                                                 <strong>Save DC:</strong> {currentDemon.saveDC}
                                             </div>
-                                            <div style={{ fontSize: '0.85rem', marginTop: '4px', color: '#B71C1C' }}>
+                                            <div style={{ fontSize: '0.85rem', marginTop: '4px', color: '#8b3a2a' }}>
                                                 Fail: Demon escapes
                                             </div>
                                         </div>
@@ -762,7 +762,7 @@ const ResourceTooltip = ({
                                             <>
                                                 <div className="tooltip-divider"></div>
                                                 <div className="tooltip-section">
-                                                    <div className="tooltip-label" style={{ color: currentDD === 6 ? '#B71C1C' : '#8B6508' }}>
+                                                    <div className="tooltip-label" style={{ color: currentDD === 6 ? '#8b3a2a' : '#8B6508' }}>
                                                         {currentDD === 6 ? 'CRITICAL - Demon Near Escape!' : 'WARNING - Low Dominance'}
                                                     </div>
                                                     <div className="level-management" style={{ marginTop: '4px' }}>
@@ -779,7 +779,7 @@ const ResourceTooltip = ({
                                             <>
                                                 <div className="tooltip-divider"></div>
                                                 <div className="tooltip-section">
-                                                    <div className="tooltip-label" style={{ color: '#B71C1C' }}>
+                                                    <div className="tooltip-label" style={{ color: '#8b3a2a' }}>
                                                         DEMON ESCAPED!
                                                     </div>
                                                     <div style={{ fontSize: '0.85rem', marginTop: '4px' }}>
@@ -840,10 +840,10 @@ const ResourceTooltip = ({
                                 <div style={{ fontSize: '0.85rem' }}>
                                     <strong>12:</strong> Apocalyptic Revelation
                                 </div>
-                                <div style={{ fontSize: '0.85rem', color: '#B71C1C', marginTop: '4px' }}>
+                                <div style={{ fontSize: '0.85rem', color: '#8b3a2a', marginTop: '4px' }}>
                                     <strong>15:</strong> DANGER ZONE
                                 </div>
-                                <div style={{ fontSize: '0.85rem', color: '#B71C1C' }}>
+                                <div style={{ fontSize: '0.85rem', color: '#8b3a2a' }}>
                                     <strong>20:</strong> INSANITY CONVULSION
                                 </div>
                             </div>
@@ -851,7 +851,7 @@ const ResourceTooltip = ({
                                 <>
                                     <div className="tooltip-divider"></div>
                                     <div className="tooltip-section">
-                                        <div className="tooltip-label" style={{ color: localMadness === 20 ? '#B71C1C' : '#8B6508' }}>
+                                        <div className="tooltip-label" style={{ color: localMadness === 20 ? '#8b3a2a' : '#8B6508' }}>
                                             {localMadness === 20 ? 'INSANITY CONVULSION!' : 'HIGH CONVULSION RISK'}
                                         </div>
                                         {localMadness === 20 ? (
@@ -954,7 +954,7 @@ const ResourceTooltip = ({
                                 <div className="tooltip-divider"></div>
 
                                 <div className="tooltip-section">
-                                    <div style={{ fontSize: '0.9rem', marginBottom: '4px', color: '#B71C1C' }}>
+                                    <div style={{ fontSize: '0.9rem', marginBottom: '4px', color: '#8b3a2a' }}>
                                         <strong>Karmic Debt:</strong> {riskValue}/{maxRisk} Debt
                                     </div>
                                     <div style={{ fontSize: '0.85rem', color: '#4E342E' }}>

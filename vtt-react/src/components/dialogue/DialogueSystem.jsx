@@ -104,7 +104,7 @@ const DialogueSystem = () => {
 
   // Send dialogue to chat when new dialogue appears (but not for multiplayer received messages)
   useEffect(() => {
-    if (activeDialogue && !activeDialogue.isFromMultiplayer) {
+    if (activeDialogue && !activeDialogue.isFromMultiplayer && activeDialogue.sendToChat !== false) {
       sendDialogueToChat(activeDialogue);
     }
   }, [activeDialogue]); // Only trigger when activeDialogue changes

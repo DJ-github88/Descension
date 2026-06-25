@@ -2038,7 +2038,7 @@ const ClassResourceBar = ({
             '#FFD700': '#8B6508', // Gold -> DarkGoldenrod
             '#DC143C': '#8B0000', // Crimson -> DarkRed
             '#34D399': '#1B5E20', // Green -> DarkGreen
-            '#FF6B6B': '#B71C1C', // Soft Red -> DarkRed
+            '#FF6B6B': '#8b3a2a', // Soft Red -> DarkRed
             '#9CA3AF': '#4B5563'  // Gray -> DarkGray
         };
         return colorMap[color] || color;

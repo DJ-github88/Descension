@@ -122,9 +122,9 @@ const ResourceAdjustmentModal = ({
         }
 
         switch (resourceType) {
-            case 'health': return '#4CAF50';
-            case 'mana': return '#2196F3';
-            case 'actionPoints': return '#FF9800';
+            case 'health': return '#506e30';
+            case 'mana': return '#4a6a8a';
+            case 'actionPoints': return '#9a5e15';
             default: return '#666';
         }
     };
@@ -139,9 +139,9 @@ const ResourceAdjustmentModal = ({
         }
 
         switch (resourceType) {
-            case 'health': return <i className="fas fa-heart" style={{ color: '#4CAF50' }}></i>;
-            case 'mana': return <i className="fas fa-tint" style={{ color: '#2196F3' }}></i>;
-            case 'actionPoints': return <i className="fas fa-bolt" style={{ color: '#FF9800' }}></i>;
+            case 'health': return <i className="fas fa-heart" style={{ color: '#506e30' }}></i>;
+            case 'mana': return <i className="fas fa-tint" style={{ color: '#4a6a8a' }}></i>;
+            case 'actionPoints': return <i className="fas fa-bolt" style={{ color: '#9a5e15' }}></i>;
             default: return <i className="fas fa-chart-bar"></i>;
         }
     };

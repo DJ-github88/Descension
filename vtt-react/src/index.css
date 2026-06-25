@@ -39,6 +39,16 @@
   --pf-danger: #dc3545;
   --pf-danger-dark: #c82333;
 
+  /* Resource / Status Bar Colors (softened earthy tones — RGB convention kept) */
+  --pf-hp: #506e30;
+  --pf-hp-dark: #4a6a2e;
+  --pf-mana: #4a6a8a;
+  --pf-mana-dark: #3a5a7a;
+  --pf-warning: #7a6812;
+  --pf-warning-dark: #6a5a10;
+  --pf-health-low: #9a5e15;
+  --pf-health-danger: #8b3a2a;
+
   /* Gradients */
   --pf-gradient-parchment:
     linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%),

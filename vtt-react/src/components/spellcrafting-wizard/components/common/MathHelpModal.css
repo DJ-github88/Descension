@@ -1,106 +1,6 @@
-/* Math Help Modal Styles */
-.math-help-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 15000 !important; /* Standardized to ensure it appears above spellbook window */
-  backdrop-filter: blur(3px);
-}
-
-.math-help-modal-container {
-  background: linear-gradient(135deg, #f4f1e8 0%, #e8dcc0 100%);
-  border: 3px solid #8b4513;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-  max-width: 900px;
-  max-height: 90vh;
-  width: 90%;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.math-help-modal-header {
-  background: linear-gradient(135deg, #8b4513 0%, #654321 100%);
-  color: #f4f1e8;
-  border-bottom: 2px solid #5a1e12;
-  padding: 20px 25px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.math-help-modal-title {
-  font-family: 'Cinzel', serif;
-  font-size: 24px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin: 0;
-}
-
-.math-help-modal-close {
-  background: none;
-  border: none;
-  color: #f4f1e8;
-  font-size: 28px;
-  cursor: pointer;
-  padding: 0;
-  width: 30px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  transition: all 0.2s ease;
-}
-
-.math-help-modal-close:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: scale(1.1);
-}
-
-.math-help-modal-body {
-  padding: 25px;
-  max-height: 70vh;
-  overflow-y: auto;
-  flex: 1;
-}
-
-.math-help-modal-footer {
-  background: rgba(139, 69, 19, 0.1);
-  border-top: 2px solid rgba(139, 69, 19, 0.3);
-  padding: 15px 25px;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.math-help-modal-button {
-  background: linear-gradient(135deg, #8b4513 0%, #654321 100%);
-  color: #f4f1e8;
-  border: 2px solid #5a1e12;
-  border-radius: 6px;
-  padding: 10px 20px;
-  font-family: 'Cinzel', serif;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.math-help-modal-button:hover {
-  background: linear-gradient(135deg, #a0522d 0%, #8b4513 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
+/* Math Help Modal - body content styling.
+   The modal chrome (overlay/header/footer) is now provided by the canonical
+   WowWindow modal primitive. Only the formula/operator content classes remain. */
 .math-help-content {
   display: flex;
   flex-direction: column;
@@ -259,44 +159,20 @@
   line-height: 1.4;
 }
 
-/* Scrollbar styling for modal body */
-.math-help-modal .modal-body::-webkit-scrollbar {
-  width: 8px;
-}
-
-.math-help-modal .modal-body::-webkit-scrollbar-track {
-  background: rgba(139, 69, 19, 0.1);
-  border-radius: 4px;
-}
-
-.math-help-modal .modal-body::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #8b4513 0%, #654321 100%);
-  border-radius: 4px;
-}
-
-.math-help-modal .modal-body::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #a0522d 0%, #8b4513 100%);
-}
-
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .operator-grid {
     grid-template-columns: 1fr;
   }
-  
-  .math-help-modal .modal-dialog {
-    max-width: 95%;
-    margin: 10px auto;
-  }
-  
+
   .operator-symbol {
     font-size: 20px;
   }
-  
+
   .operator-name {
     font-size: 14px;
   }
-  
+
   .operator-description {
     font-size: 13px;
   }

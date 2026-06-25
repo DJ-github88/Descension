@@ -128,7 +128,7 @@
 }
 
 .image-drop-option.background-option i {
-  color: #4CAF50;
+  color: var(--pf-hp);
 }
 
 .image-drop-option.show-option:hover {
@@ -136,7 +136,7 @@
 }
 
 .image-drop-option.show-option i {
-  color: #2196F3;
+  color: var(--pf-mana);
 }
 
 .image-drop-option.cancel-option {

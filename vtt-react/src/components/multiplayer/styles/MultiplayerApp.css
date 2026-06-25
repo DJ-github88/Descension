@@ -437,7 +437,7 @@
   height: auto;
   min-height: 100vh;
   min-height: 100dvh;
-  background: radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 100%);
+  background: radial-gradient(circle at center, #2d1810 0%, #1a1208 100%);
   display: flex;
   justify-content: center;
   align-items: center;

@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import useItemStore from '../../store/itemStore';
 import ItemTooltip from '../item-generation/ItemTooltip';
 import TooltipPortal from '../tooltips/TooltipPortal';
+import { useTooltipPosition } from '../common/useTooltipPosition';
 import { getIconUrl } from '../item-generation/wowIcons';
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import '../creature-wizard/styles/ShopConfiguration.css';
@@ -14,7 +15,8 @@ const ItemSelectionModal = ({ isOpen, onClose, onSelectItem }) => {
   const [qualityFilter, setQualityFilter] = useState('all');
   const [sortBy, setSortBy] = useState('name');
   const [hoveredItem, setHoveredItem] = useState(null);
-  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const { adjustedPosition, tooltipRef } = useTooltipPosition(mousePosition, !!hoveredItem);
   const modalRef = useRef(null);
 
   // Get unique item types and qualities for filters
@@ -69,18 +71,12 @@ const ItemSelectionModal = ({ isOpen, onClose, onSelectItem }) => {
   // Handle item hover for tooltips
   const handleMouseEnter = (e, item) => {
     setHoveredItem(item);
-    setTooltipPosition({
-      x: e.clientX,
-      y: e.clientY
-    });
+    setMousePosition({ x: e.clientX, y: e.clientY });
   };
 
   const handleMouseMove = (e, item) => {
     if (hoveredItem && hoveredItem.id === item.id) {
-      setTooltipPosition({
-        x: e.clientX,
-        y: e.clientY
-      });
+      setMousePosition({ x: e.clientX, y: e.clientY });
     }
   };
 
@@ -211,10 +207,11 @@ const ItemSelectionModal = ({ isOpen, onClose, onSelectItem }) => {
       {hoveredItem && (
         <TooltipPortal>
           <div
+            ref={tooltipRef}
             style={{
               position: 'fixed',
-              left: `${tooltipPosition.x + 15}px`,
-              top: `${tooltipPosition.y - 10}px`,
+              left: adjustedPosition.x,
+              top: adjustedPosition.y,
               pointerEvents: 'none'
             }}
           >

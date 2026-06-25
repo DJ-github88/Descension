@@ -7,7 +7,6 @@ import { LIBRARY_SPELLS } from '../../data/spellLibraryData';
 import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators, SpellLibraryProvider } from '../spellcrafting-wizard/context/SpellLibraryContext';
 import { SpellWizardProvider } from '../spellcrafting-wizard/context/spellWizardContext';
 import CollectionContextMenu from '../spellcrafting-wizard/components/library/CollectionContextMenu';
-import CollectionViewWindow from '../spellcrafting-wizard/components/library/CollectionViewWindow';
 import SpellLibrary from '../spellcrafting-wizard/components/library/SpellLibrary';
 import CommunitySpellsTab from '../spellcrafting-wizard/components/library/CommunitySpellsTab';
 import UnifiedSpellCard from '../spellcrafting-wizard/components/common/UnifiedSpellCard';

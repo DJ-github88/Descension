@@ -181,7 +181,7 @@
 }
 
 .guest-notice i {
-  color: #ff9800;
+  color: var(--pf-health-low);
   font-size: 0.7rem;
 }
 
@@ -387,7 +387,7 @@
   position: absolute;
   top: -2px;
   right: -2px;
-  background: #d32f2f;
+  background: var(--pf-health-danger);
   color: white;
   font-size: 0.65rem;
   font-weight: bold;
@@ -508,8 +508,8 @@
 
 .decline-btn {
   background: transparent;
-  border: 1px solid #d32f2f;
-  color: #d32f2f;
+  border: 1px solid var(--pf-health-danger);
+  color: var(--pf-health-danger);
 }
 
 .decline-btn:hover {
@@ -612,7 +612,7 @@
 
 .home-btn {
   background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(56, 142, 60, 0.1) 100%);
-  border-color: #4caf50;
+  border-color: var(--pf-hp);
   color: #1b5e20;
 }
 
@@ -624,7 +624,7 @@
 
 .logout-btn {
   background: linear-gradient(135deg, rgba(244, 67, 54, 0.1) 0%, rgba(211, 47, 47, 0.1) 100%);
-  border-color: #f44336;
+  border-color: var(--pf-health-danger);
   color: #5d1a1a;
   font-size: 0.8rem;
 }
@@ -637,8 +637,8 @@
 /* High specificity to override game styles */
 .account-header .header-actions-new .exit-preview-btn,
 .exit-preview-btn {
-  background: linear-gradient(135deg, #d32f2f 0%, #f44336 50%, #ff5722 100%) !important;
-  border: 2px solid #d32f2f !important;
+  background: linear-gradient(135deg, var(--pf-health-danger) 0%, var(--pf-health-danger) 50%, var(--pf-health-danger) 100%) !important;
+  border: 2px solid var(--pf-health-danger) !important;
   color: #ffffff !important;
   position: relative !important;
   overflow: hidden !important;
@@ -651,9 +651,9 @@
 
 .account-header .header-actions-new .exit-preview-btn:hover,
 .exit-preview-btn:hover {
-  background: linear-gradient(135deg, #b71c1c 0%, #d32f2f 50%, #f44336 100%) !important;
+  background: linear-gradient(135deg, var(--pf-health-danger) 0%, var(--pf-health-danger) 50%, var(--pf-health-danger) 100%) !important;
   color: #ffffff !important;
-  border-color: #b71c1c !important;
+  border-color: var(--pf-health-danger) !important;
   transform: translateY(-2px) !important;
   box-shadow:
     0 6px 20px rgba(211, 47, 47, 0.4),
@@ -1085,15 +1085,15 @@
 }
 
 .stat-card.characters .stat-icon {
-  background: linear-gradient(135deg, #4CAF50, #45a049);
+  background: linear-gradient(135deg, var(--pf-hp), var(--pf-hp-dark));
 }
 
 .stat-card.campaigns .stat-icon {
-  background: linear-gradient(135deg, #2196F3, #1976D2);
+  background: linear-gradient(135deg, var(--pf-mana), var(--pf-mana-dark));
 }
 
 .stat-card.achievements .stat-icon {
-  background: linear-gradient(135deg, #FF9800, #F57C00);
+  background: linear-gradient(135deg, var(--pf-health-low), var(--pf-health-danger));
 }
 
 .stat-card.playtime .stat-icon {
@@ -1344,11 +1344,11 @@
 }
 
 .feature-item.unlocked {
-  border-left: 4px solid #4CAF50;
+  border-left: 4px solid var(--pf-hp);
 }
 
 .feature-item.unlocked i {
-  color: #4CAF50;
+  color: var(--pf-hp);
   font-size: 1.1rem;
 }
 
@@ -2935,7 +2935,7 @@
 .character-card-compact .race-tag {
   background: linear-gradient(135deg, rgba(76, 175, 80, 0.2) 0%, rgba(139, 195, 74, 0.2) 100%);
   color: #2c5530;
-  border-color: #4CAF50;
+  border-color: var(--pf-hp);
 }
 
 .character-card-compact .class-tag {
@@ -3088,7 +3088,7 @@
 
 /* Action Points Bar Styling - Orange */
 .character-card-compact .ap-fill {
-  background: #FF9800 !important;
+  background: var(--pf-health-low) !important;
 }
 
 /* Class Resource Bar Styling - Dynamic Colors */
@@ -3600,7 +3600,7 @@
 }
 
 .character-card-compact .ap-dot.filled {
-  background: linear-gradient(135deg, #ffc107 0%, #ffeb3b 50%, #fff176 100%);
+  background: linear-gradient(135deg, var(--pf-warning) 0%, #ffeb3b 50%, #fff176 100%);
   box-shadow:
     0 0 6px rgba(255, 193, 7, 0.6),
     inset 0 1px 0 rgba(255, 255, 255, 0.4);
@@ -4482,7 +4482,7 @@
 }
 
 .membership-plan-card.current {
-  border-color: #4CAF50;
+  border-color: var(--pf-hp);
   box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.3);
 }
 
@@ -4516,7 +4516,7 @@
 }
 
 .plan-current-tag {
-  background: #4CAF50;
+  background: var(--pf-hp);
   color: white;
 }
 
@@ -4614,7 +4614,7 @@
 }
 
 .plan-features li i {
-  color: #4CAF50;
+  color: var(--pf-hp);
   font-size: 0.65rem;
   margin-top: 3px;
   flex-shrink: 0;
@@ -4645,7 +4645,7 @@
 }
 
 .plan-btn.current-btn {
-  background: #4CAF50;
+  background: var(--pf-hp);
   color: white;
   opacity: 0.7;
   cursor: default;

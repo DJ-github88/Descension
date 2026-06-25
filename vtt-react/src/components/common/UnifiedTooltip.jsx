@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, memo } from 'react';
-import ReactDOM from 'react-dom';
 import LazyImage from './LazyImage';
+import TooltipPortal from '../tooltips/TooltipPortal';
 import './UnifiedTooltip.css';
 
 /**
@@ -94,32 +94,20 @@ const UnifiedTooltip = ({
     return null;
   }
 
-  // Get or create tooltip root element
-  let tooltipRoot = document.getElementById('tooltip-root');
-  if (!tooltipRoot) {
-    tooltipRoot = document.createElement('div');
-    tooltipRoot.id = 'tooltip-root';
-    tooltipRoot.style.position = 'fixed';
-    tooltipRoot.style.top = '0';
-    tooltipRoot.style.left = '0';
-    tooltipRoot.style.pointerEvents = 'none';
-    tooltipRoot.style.zIndex = '99999';
-    document.body.appendChild(tooltipRoot);
-  }
-
-  // Render tooltip via portal to avoid clipping issues
-  return ReactDOM.createPortal(
-    <div
-      ref={tooltipRef}
-      className={`unified-tooltip ${variant}`}
-      style={{
-        position: 'fixed',
-        left: adjustedPosition.x,
-        top: adjustedPosition.y,
-        zIndex: 99999,
-        pointerEvents: 'none'
-      }}
-    >
+  // Render tooltip via shared portal (same root/z-index as all other tooltips)
+  return (
+    <TooltipPortal>
+      <div
+        ref={tooltipRef}
+        className={`unified-tooltip ${variant}`}
+        style={{
+          position: 'fixed',
+          left: adjustedPosition.x,
+          top: adjustedPosition.y,
+          zIndex: 2147483647,
+          pointerEvents: 'none'
+        }}
+      >
       <div className="tooltip-content">
         {icon && (
           <div className="tooltip-icon">
@@ -144,8 +132,8 @@ const UnifiedTooltip = ({
 
       {/* Tooltip arrow */}
       <div className="tooltip-arrow"></div>
-    </div>,
-    tooltipRoot
+      </div>
+    </TooltipPortal>
   );
 };
 

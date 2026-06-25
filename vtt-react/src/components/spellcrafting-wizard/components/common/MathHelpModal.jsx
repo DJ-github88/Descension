@@ -1,6 +1,5 @@
 import React from 'react';
-import { createPortal } from 'react-dom';
-// Pathfinder styles imported via main.css
+import WowWindow from '../../../windows/WowWindow';
 
 const MathHelpModal = ({ show, onHide }) => {
   const mathOperators = [
@@ -13,7 +12,7 @@ const MathHelpModal = ({ show, onHide }) => {
     },
     {
       operator: '-',
-      name: 'Subtraction', 
+      name: 'Subtraction',
       description: 'Subtracts the second value from the first',
       example: 'maxHealth - currentHealth',
       result: 'If maxHealth is 100 and currentHealth is 75, result is 25'
@@ -157,109 +156,100 @@ const MathHelpModal = ({ show, onHide }) => {
     }
   ];
 
-  if (!show) return null;
+  return (
+    <WowWindow
+      title="Formula Math Guide"
+      isOpen={show}
+      onClose={onHide}
+      modal={true}
+      centered={true}
+      defaultSize={{ width: 680, height: 720 }}
+    >
+      <div className="math-help-content" style={{ padding: '15px', overflowY: 'auto', flex: '1 1 auto', boxSizing: 'border-box' }}>
 
-  return createPortal(
-    <div className="math-help-modal-overlay" onClick={onHide}>
-      <div className="math-help-modal-container" onClick={(e) => e.stopPropagation()}>
-        <div className="math-help-modal-header">
-          <h2 className="math-help-modal-title">Formula Math Guide</h2>
-          <button className="math-help-modal-close" onClick={onHide}>×</button>
-        </div>
-        <div className="math-help-modal-body">
-          <div className="math-help-content">
-          
-          <div className="math-section">
-            <h4>Basic Math Operators</h4>
-            <div className="operator-grid">
-              {mathOperators.map((op, index) => (
-                <div key={index} className="operator-card">
-                  <div className="operator-symbol">{op.operator}</div>
-                  <div className="operator-name">{op.name}</div>
-                  <div className="operator-description">{op.description}</div>
-                  <div className="operator-example">
-                    <strong>Example:</strong> <code>{op.example}</code>
-                  </div>
-                  <div className="operator-result">{op.result}</div>
+        <div className="math-section">
+          <h4>Basic Math Operators</h4>
+          <div className="operator-grid">
+            {mathOperators.map((op, index) => (
+              <div key={index} className="operator-card">
+                <div className="operator-symbol">{op.operator}</div>
+                <div className="operator-name">{op.name}</div>
+                <div className="operator-description">{op.description}</div>
+                <div className="operator-example">
+                  <strong>Example:</strong> <code>{op.example}</code>
                 </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="math-section">
-            <h4>Comparison Operators</h4>
-            <div className="operator-grid">
-              {comparisonOperators.map((op, index) => (
-                <div key={index} className="operator-card">
-                  <div className="operator-symbol">{op.operator}</div>
-                  <div className="operator-name">{op.name}</div>
-                  <div className="operator-description">{op.description}</div>
-                  <div className="operator-example">
-                    <strong>Example:</strong> <code>{op.example}</code>
-                  </div>
-                  <div className="operator-result">{op.result}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="math-section">
-            <h4>Conditional Logic</h4>
-            <div className="operator-grid">
-              {conditionalOperators.map((op, index) => (
-                <div key={index} className="operator-card">
-                  <div className="operator-symbol">{op.operator}</div>
-                  <div className="operator-name">{op.name}</div>
-                  <div className="operator-description">{op.description}</div>
-                  <div className="operator-example">
-                    <strong>Example:</strong> <code>{op.example}</code>
-                  </div>
-                  <div className="operator-result">{op.result}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="math-section">
-            <h4>Math Functions</h4>
-            <div className="operator-grid">
-              {mathFunctions.map((func, index) => (
-                <div key={index} className="operator-card">
-                  <div className="operator-symbol">{func.function}</div>
-                  <div className="operator-name">{func.name}</div>
-                  <div className="operator-description">{func.description}</div>
-                  <div className="operator-example">
-                    <strong>Example:</strong> <code>{func.example}</code>
-                  </div>
-                  <div className="operator-result">{func.result}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="math-section">
-            <h4>Complex Examples</h4>
-            <div className="complex-examples">
-              {complexExamples.map((example, index) => (
-                <div key={index} className="complex-example-card">
-                  <div className="example-name">{example.name}</div>
-                  <div className="example-formula"><code>{example.formula}</code></div>
-                  <div className="example-explanation">{example.explanation}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-
+                <div className="operator-result">{op.result}</div>
+              </div>
+            ))}
           </div>
         </div>
-        <div className="math-help-modal-footer">
-          <button className="math-help-modal-button" onClick={onHide}>
-            Close
-          </button>
+
+        <div className="math-section">
+          <h4>Comparison Operators</h4>
+          <div className="operator-grid">
+            {comparisonOperators.map((op, index) => (
+              <div key={index} className="operator-card">
+                <div className="operator-symbol">{op.operator}</div>
+                <div className="operator-name">{op.name}</div>
+                <div className="operator-description">{op.description}</div>
+                <div className="operator-example">
+                  <strong>Example:</strong> <code>{op.example}</code>
+                </div>
+                <div className="operator-result">{op.result}</div>
+              </div>
+            ))}
+          </div>
         </div>
+
+        <div className="math-section">
+          <h4>Conditional Logic</h4>
+          <div className="operator-grid">
+            {conditionalOperators.map((op, index) => (
+              <div key={index} className="operator-card">
+                <div className="operator-symbol">{op.operator}</div>
+                <div className="operator-name">{op.name}</div>
+                <div className="operator-description">{op.description}</div>
+                <div className="operator-example">
+                  <strong>Example:</strong> <code>{op.example}</code>
+                </div>
+                <div className="operator-result">{op.result}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="math-section">
+          <h4>Math Functions</h4>
+          <div className="operator-grid">
+            {mathFunctions.map((func, index) => (
+              <div key={index} className="operator-card">
+                <div className="operator-symbol">{func.function}</div>
+                <div className="operator-name">{func.name}</div>
+                <div className="operator-description">{func.description}</div>
+                <div className="operator-example">
+                  <strong>Example:</strong> <code>{func.example}</code>
+                </div>
+                <div className="operator-result">{func.result}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="math-section">
+          <h4>Complex Examples</h4>
+          <div className="complex-examples">
+            {complexExamples.map((example, index) => (
+              <div key={index} className="complex-example-card">
+                <div className="example-name">{example.name}</div>
+                <div className="example-formula"><code>{example.formula}</code></div>
+                <div className="example-explanation">{example.explanation}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
       </div>
-    </div>,
-    document.body
+    </WowWindow>
   );
 };
 

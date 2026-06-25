@@ -15,6 +15,7 @@ import useCombatStore from '../store/combatStore';
 import useCreatureStore from '../store/creatureStore';
 import useInventoryStore from '../store/inventoryStore';
 import ErrorBoundary from './common/ErrorBoundary';
+import { useWindowIntros } from '../hooks/useWindowIntros';
 
 const SettingsWindow = lazy(() => import('./windows/SettingsWindow'));
 const ExitGameConfirmDialog = lazy(() => import('./dialogs/ExitGameConfirmDialog'));
@@ -631,6 +632,9 @@ export default function Navigation({ onReturnToLanding }) {
     const whisperTabs = usePresenceStore(state => state.whisperTabs);
     const partyChatUnreadCount = usePresenceStore(state => state.partyChatUnreadCount);
 
+    // Per-window first-open introductions (typewriter) via the dialogue system
+    const { triggerIfFirstOpen: triggerWindowIntro } = useWindowIntros();
+
     // Calculate total unread count for community badge
     const totalCommunityUnread = React.useMemo(() => {
         let total = partyChatUnreadCount || 0;
@@ -739,6 +743,7 @@ export default function Navigation({ onReturnToLanding }) {
     const buttons = useMemo(() => getVisibleButtons(), [isGMMode]);
 
     const handleButtonClick = useCallback((windowId) => {
+        if (isGMMode) triggerWindowIntro(windowId);
 
         // Special handling for level editor
         if (windowId === 'leveleditor') {
@@ -774,7 +779,7 @@ export default function Navigation({ onReturnToLanding }) {
             newOpenWindows.add(windowId);
         }
         setOpenWindows(newOpenWindows);
-    }, [openWindows, isEditorMode, setEditorMode, isGMMode, isSelectionMode, isInCombat, startSelectionMode, cancelSelectionMode, isCommunityWindowOpen, setCommunityWindowOpen]);
+    }, [openWindows, isEditorMode, setEditorMode, isGMMode, isSelectionMode, isInCombat, startSelectionMode, cancelSelectionMode, isCommunityWindowOpen, setCommunityWindowOpen, triggerWindowIntro]);
 
     const handleKeyPress = useCallback((e) => {
         if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) return;

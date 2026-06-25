@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { getCreatureTokenIconUrl, getIconUrl } from '../../utils/assetManager';
 import { isTokenUnlocked } from '../../data/summonableTokens';
 import TooltipPortal from '../tooltips/TooltipPortal';
+import { useElementTooltipPosition } from '../common/useElementTooltipPosition';
 import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
 import '../../styles/unified-context-menu.css';
 
@@ -19,11 +20,11 @@ const formatSizeName = (s) => s ? s.charAt(0).toUpperCase() + s.slice(1).toLower
 
 const SummonTokenCard = ({ template, character, onDragStart, onDragEnd, onClick, onCustomize }) => {
   const [showTooltip, setShowTooltip] = useState(false);
-  const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
   const [contextMenu, setContextMenu] = useState(null);
   const cardRef = useRef(null);
 
   const unlocked = isTokenUnlocked(template, character);
+  const { adjustedPosition, tooltipRef } = useElementTooltipPosition(cardRef, showTooltip && unlocked, { gap: 5 });
   const isPermanent = template.duration.unit === 'permanent';
   const qty = typeof template.quantity === 'number' ? template.quantity : 1;
   const typeColor = getTypeColor(template.creature.type);
@@ -34,10 +35,8 @@ const SummonTokenCard = ({ template, character, onDragStart, onDragEnd, onClick,
     ? getCreatureTokenIconUrl(template.creature.tokenIcon, template.creature.type)
     : null;
 
-  const handleMouseEnter = (e) => {
+  const handleMouseEnter = () => {
     if (!unlocked) return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    setTooltipPos({ x: rect.left + rect.width / 2, y: rect.top - 5 });
     setShowTooltip(true);
   };
 
@@ -254,10 +253,9 @@ const SummonTokenCard = ({ template, character, onDragStart, onDragEnd, onClick,
 
       {showTooltip && unlocked && (
         <TooltipPortal>
-          <div style={{
+          <div ref={tooltipRef} style={{
             position: 'fixed',
-            left: `${tooltipPos.x}px`, top: `${tooltipPos.y}px`,
-            transform: 'translate(-50%, -100%)',
+            left: `${adjustedPosition.x}px`, top: `${adjustedPosition.y}px`,
             background: 'linear-gradient(135deg, rgba(240, 230, 210, 0.98), rgba(213, 203, 176, 0.98))',
             border: '2px solid #a08c70',
             borderRadius: '6px',

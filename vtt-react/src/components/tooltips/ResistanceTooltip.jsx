@@ -290,42 +290,42 @@ export default function ResistanceTooltip({ type, level, value, damageType, resi
                     name: 'Immune',
                     description: 'Takes no damage from this type',
                     multiplier: '0%',
-                    color: '#4CAF50'
+                    color: '#506e30'
                 };
             } else if (level === 50 || (multiplierValue > 0 && multiplierValue < 1.0 && multiplierValue <= 0.5)) {
                 return {
                     name: 'Resistant',
                     description: 'Takes half damage from this type',
                     multiplier: `${Math.round(multiplierValue * 100)}%`,
-                    color: '#2196F3'
+                    color: '#4a6a8a'
                 };
             } else if (level === 75 || (multiplierValue > 0.5 && multiplierValue < 1.0)) {
                 return {
                     name: 'Guarded',
                     description: 'Takes reduced damage from this type',
                     multiplier: `${Math.round(multiplierValue * 100)}%`,
-                    color: '#8BC34A'
+                    color: '#4a6a2e'
                 };
             } else if (level === 150 || (multiplierValue > 1.0 && multiplierValue < 2.0)) {
                 return {
                     name: 'Exposed',
                     description: `Takes ${Math.round((multiplierValue - 1) * 100)}% more damage (${Math.round(multiplierValue * 100)}% total)`,
                     multiplier: `${Math.round(multiplierValue * 100)}%`,
-                    color: '#FF9800'
+                    color: '#9a5e15'
                 };
             } else if (level === 200 || multiplierValue >= 2.0) {
                 return {
                     name: 'Vulnerable',
                     description: `Takes double damage (${Math.round(multiplierValue * 100)}% total)`,
                     multiplier: `${Math.round(multiplierValue * 100)}%`,
-                    color: '#F44336'
+                    color: '#8b3a2a'
                 };
             } else {
                 return {
                     name: 'Normal',
                     description: 'Takes normal damage from this type',
                     multiplier: `${Math.round(multiplierValue * 100)}%`,
-                    color: '#9E9E9E'
+                    color: '#8b7d6b'
                 };
             }
         }
@@ -338,35 +338,35 @@ export default function ResistanceTooltip({ type, level, value, damageType, resi
                     name: 'Immune',
                     description: 'Takes no damage from this type',
                     multiplier: '0%',
-                    color: '#4CAF50'
+                    color: '#506e30'
                 };
             case 'resistant':
                 return {
                     name: 'Resistant',
                     description: 'Takes half damage from this type',
                     multiplier: '50%',
-                    color: '#2196F3'
+                    color: '#4a6a8a'
                 };
             case 'exposed':
                 return {
                     name: 'Exposed',
                     description: 'Takes 50% more damage (150% total)',
                     multiplier: '150%',
-                    color: '#FF9800'
+                    color: '#9a5e15'
                 };
             case 'vulnerable':
                 return {
                     name: 'Vulnerable',
                     description: 'Takes double damage (200% total)',
                     multiplier: '200%',
-                    color: '#F44336'
+                    color: '#8b3a2a'
                 };
             default:
                 return {
                     name: 'Normal',
                     description: 'Takes normal damage from this type',
                     multiplier: '100%',
-                    color: '#9E9E9E'
+                    color: '#8b7d6b'
                 };
         }
     };

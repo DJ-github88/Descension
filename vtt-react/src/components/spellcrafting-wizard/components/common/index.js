@@ -15,7 +15,6 @@ export { default as RollableTableSummary } from './RollableTableSummary';
 export { default as SelectionCard } from './SelectionCard';
 export { default as IconSelectionCard } from './IconSelectionCard';
 export { default as EnhancedEffectPreview } from './EnhancedEffectPreview';
-export { default as FormulaHelpPopup } from './FormulaHelpPopup';
 export { default as SimpleFormulaHelp } from './SimpleFormulaHelp';
 export { default as MathHelpModal } from './MathHelpModal';
 export { default as MechanicsPopup } from './MechanicsPopup';

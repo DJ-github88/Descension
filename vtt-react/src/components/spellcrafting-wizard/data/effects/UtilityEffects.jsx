@@ -10,6 +10,7 @@ import { FaCog } from 'react-icons/fa';
 import { BUFF_DEBUFF_STAT_MODIFIERS } from '../../core/data/statModifier';
 import CleanStatusEffectConfigPopup from './CleanStatusEffectConfigPopup';
 import { getAbilityIconUrl } from '../../../../utils/assetManager';
+import WowWindow from '../../../windows/WowWindow';
 
 
 // Utility type definitions
@@ -314,12 +315,6 @@ const UtilityEffectConfigPopup = ({
   // Find the specific effect in the selectedEffects array
   const effectData = selectedEffect.selectedEffects?.find(e => e.id === effect.id) || {};
 
-  // Get icon URL
-  const getIconUrl = (iconName) => {
-    if (!iconName) return '';
-    return getAbilityIconUrl(iconName);
-  };
-
   // Update effect configuration function
   const updateEffectConfigLocal = (field, value) => {
     if (!isOpen) return;
@@ -528,29 +523,36 @@ const UtilityEffectConfigPopup = ({
     );
   };
 
-  return ReactDOM.createPortal(
-    <div className="status-effect-config-overlay" onClick={onClose}>
-      <div className="status-effect-config-popup pathfinder-window" onClick={(e) => e.stopPropagation()}>
-        <div className="pathfinder-header">
-          <div className="header-content">
-            <img src={getIconUrl(effect.icon)} alt={effect.name} className="effect-icon" />
-            <h3>{effect.name} Configuration</h3>
-          </div>
-          <button className="close-button" onClick={onClose}>×</button>
-        </div>
-
+  return (
+    <WowWindow
+      title={`${effect.name} Configuration`}
+      isOpen={isOpen}
+      onClose={onClose}
+      modal={true}
+      centered={true}
+      defaultSize={{ width: 540, height: 620 }}
+    >
+      <div
+        className="status-effect-config-popup"
+        style={{
+          background: 'none',
+          border: 'none',
+          boxShadow: 'none',
+          maxWidth: 'none',
+          maxHeight: 'none',
+          width: 'auto',
+          animation: 'none',
+          overflow: 'visible',
+          flex: '1 1 auto',
+          minHeight: 0,
+          boxSizing: 'border-box'
+        }}
+      >
         <div className="popup-content">
           {renderEffectConfig()}
         </div>
-
-        <div className="popup-footer">
-          <button className="pathfinder-button secondary" onClick={onClose}>
-            Close
-          </button>
-        </div>
       </div>
-    </div>,
-    document.body
+    </WowWindow>
   );
 };
 

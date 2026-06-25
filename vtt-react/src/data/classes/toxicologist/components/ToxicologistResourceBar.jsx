@@ -77,7 +77,7 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
         venomancer: {
             name: 'Venomancer',
             color: '#2D5016',
-            activeColor: '#4CAF50',
+            activeColor: '#506e30',
             glowColor: '#76FF03',
             icon: 'fa-skull-crossbones',
             passive: 'Potent Toxins',
@@ -230,7 +230,7 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
                         className="vial-liquid"
                         style={{
                             height: isFilled ? '100%' : '0%',
-                            backgroundColor: selectedSpec === 'venomancer' ? currentSpec.activeColor : '#4CAF50',
+                            backgroundColor: selectedSpec === 'venomancer' ? currentSpec.activeColor : '#506e30',
                             boxShadow: isFilled ? `0 0 6px ${selectedSpec === 'venomancer' ? currentSpec.glowColor : '#76FF03'}` : 'none'
                         }}
                     />

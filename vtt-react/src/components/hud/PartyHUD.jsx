@@ -183,10 +183,10 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
     const apPercent = (member.character?.actionPoints?.current || 0) / (member.character?.actionPoints?.max || 1) * 100;
 
     const getHealthColor = (percent) => {
-        if (percent > 75) return '#4CAF50';
-        if (percent > 50) return '#FFC107';
-        if (percent > 25) return '#FF9800';
-        return '#F44336';
+        if (percent > 75) return '#506e30';
+        if (percent > 50) return '#7a6812';
+        if (percent > 25) return '#9a5e15';
+        return '#8b3a2a';
     };
 
 
@@ -989,7 +989,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                                     className="resource-fill"
                                     style={{
                                         width: `${manaPercent}%`,
-                                        backgroundColor: '#2196F3'
+                                        backgroundColor: 'var(--pf-mana)'
                                     }}
                                 />
                                 <div className="resource-text">
@@ -1015,7 +1015,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                                     className="resource-fill"
                                     style={{
                                         width: `${apPercent}%`,
-                                        backgroundColor: '#FF9800'
+                                        backgroundColor: 'var(--pf-health-low)'
                                     }}
                                 />
                                 <div className="resource-text">

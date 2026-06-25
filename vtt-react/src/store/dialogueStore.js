@@ -62,13 +62,14 @@ const useDialogueStore = create(
         backdropEffect: options.backdropEffect || 'none',
         autoHide: options.autoHide,
         closeable: options.closeable !== false,
+        sendToChat: options.sendToChat !== false,
         timestamp: new Date().toISOString(),
         playerId: options.playerId || state.currentPlayerId,
         isGM: options.isGM || false
       };
 
-      // If in multiplayer mode, broadcast to other players
-      if (state.isInMultiplayer && state.multiplayerSocket && state.multiplayerSocket.connected) {
+      // If in multiplayer mode, broadcast to other players (unless this is a local-only dialogue, e.g. UI intros)
+      if (!options.local && state.isInMultiplayer && state.multiplayerSocket && state.multiplayerSocket.connected) {
         console.log('💬 [DialogueStore] Emitting dialogue_message:', {
           playerId: dialogueData.playerId,
           isGM: dialogueData.isGM,

@@ -630,20 +630,21 @@
 
 ---
 
-### 37. The Skogsra
+### 37. The Valravn
 
 #### 1. Folklore & Setting Roots
-- **Skogsrå (Norse/Scandinavian folklore):** A seductive forest-spirit appearing as a beautiful woman from the front, but hollow-backed like a rotten tree. She grants good fortune — but curses those who spurn her to become lost forever.
-- **Waldmännlein (Alpine folklore):** Little forest-men who punish those who cut old-growth timber by turning their axes to rubber.
+- **Valravn (Danish/Norse folklore):** A half-wolf, half-raven hybrid born from unburied battlefields. Ravens that eat the hearts of fallen kings gain supreme human intelligence, shape-shifting abilities, and dark magical powers.
+- **Warg-ravens (Norse/Germanic sagas):** Birds of war that fly over battlefields feeding on corpses, closely associated with Odin's wolf and raven companions.
 
 #### 2. Physical Design
-- **Appearance:** From the front: a stunning woman in a gown of living pine-needles, silver-moss hair, birch-bark skin. From behind: a hollowed-out pine-trunk cavity filled with nesting birds and rotting wood.
-- **Aesthetic Details:** A fox-tail peeks from beneath her gown. Her gown shifts color with temperature — green in warmth, grey-blue in cold. She carries a carved wooden hunting-horn.
-- **The Face:** Heart-shaped and beautiful, with large dark eyes that shine with forest-knowing. A smile simultaneously warm and deeply unsettling.
+- **Appearance:** A wolf-sized chimera. The hindquarters, back legs, and tail are that of a jet-black wolf, transitioning smoothly into the feather-covered chest, wings, and head of a giant black raven.
+- **Aesthetic Details:** Feathers shimmer with dark iridescent greens and purples. Its beak is a sharp, jagged piece of black obsidian. Powerful front talons are capable of tearing flesh.
+- **The Face:** Dominated by a heavy black obsidian beak and cold, glowing violet eyes that shine with malevolent intelligence.
 
 #### 3. Ecology: Why It Resides in Nordhalla
-- **The Hunter's-Friend:** She befriends lone Skald hunters, granting impossible accuracy. The price: never turn your back on her, never reveal her existence. Those who break either rule walk the forest in circles until they freeze.
-- **The Tree-Warden:** She punishes those who cut ancient pines. Her curse turns axes to ice that shatters on the first stroke. The oldest pines in the Valley of Ymir are so heavily warded that even Rune Keepers will not approach them.
+- **Battlefield Stalker:** The Valravn hunts the snowy mountain passes, crags, and blood-soaked snowfields of Nordhalla where clan wars rage.
+- **Heart-Eater:** It feeds specifically on the hearts of dead or dying warriors. A Valravn that devours enough hearts is said to gain the ability to speak in a human tongue, mock dead warriors' voices, and lure travelers to their doom.
+- **The Pact-Maker:** Desperate warlords sometimes strike blood-pacts with a Valravn, trading their firstborn children's souls for victory in battle. The beast circles over the battlefield as an omen of absolute slaughter.
 
 ---
 
@@ -722,7 +723,7 @@
 
 ---
 
-### 42. The Tiamat-Scale
+### 42. The Tiamat
 
 #### 1. Folklore & Setting Roots
 - **Tiamat (Mesopotamian mythology):** The primordial dragon-goddess of the salt sea — the embodiment of chaotic creation and destruction. Mother of all monsters, slain by Marduk.
@@ -734,8 +735,8 @@
 - **The Face:** Each head has a single, enormous eye — a burning white coal with no iris — set above a perpetually dripping, lamprey-like mouth. The eyes track independently, scanning 360 degrees.
 
 #### 3. Ecology: Why It Resides in Sundale
-- **The Lava-River Dweller:** Tiamat-Scales live in the slow-moving lava channels that radiate from Emberspire, swimming through molten rock as fish swim through water. They consume rare minerals dissolved in the magma — particularly the gold-trace veins that Emberth smiths also covet.
-- **The Sun-Devourer:** The Wyrd has twisted Apep's mythic purpose: these creatures are drawn to the Solbrand's warmth and will attempt to coil around any source of concentrated sun-heat, draining it. The Korr Emberth maintain constant vigil against Tiamat-Scale incursions into the Harath-Chamber.
+- **The Lava-River Dweller:** Tiamats live in the slow-moving lava channels that radiate from Emberspire, swimming through molten rock as fish swim through water. They consume rare minerals dissolved in the magma — particularly the gold-trace veins that Emberth smiths also covet.
+- **The Sun-Devourer:** The Wyrd has twisted Apep's mythic purpose: these creatures are drawn to the Solbrand's warmth and will attempt to coil around any source of concentrated sun-heat, draining it. The Korr Emberth maintain constant vigil against Tiamat incursions into the Harath-Chamber.
 
 ---
 
@@ -790,7 +791,7 @@
 
 ---
 
-### 46. The Lamashtu-Wail
+### 46. The Lamashtu
 
 #### 1. Folklore & Setting Roots
 - **Lamashtu (Mesopotamian mythology):** A malevolent demoness who preyed on pregnant women and infants, causing miscarriage and infant death. She was so feared that amulets of Pazuzu were worn specifically to ward her off.
@@ -802,12 +803,12 @@
 - **The Face:** A donkey-skull head with enormous, lamp-like eyes that weep liquid fire. Her mouth is filled with donkey-teeth and a second, human mouth behind them that speaks in a woman's voice — always weeping, always apologizing.
 
 #### 3. Ecology: Why It Resides in Sundale
-- **The Child-Stealer:** Lamashtu-Wails prowl the outskirts of Solvarn settlements, drawn to the crying of infants. They do not kill — they steal children from their cradles and absorb them into their distended bellies, adding to the screaming chorus within. The stolen children are not digested but preserved in eternal torment.
-- **The Protection-Paradox:** The only ward against Lamashtu-Wails is the image of Pazuzu — carved on a door or worn as an amulet. Ironically, the Pazuzu (creature 41) is her natural enemy; where one hunts, the other refuses to nest. Thrask parents position their camps between Pazuzu territory and Lamashtu territory for mutual protection.
+- **The Child-Stealer:** Lamashtus prowl the outskirts of Solvarn settlements, drawn to the crying of infants. They do not kill — they steal children from their cradles and absorb them into their distended bellies, adding to the screaming chorus within. The stolen children are not digested but preserved in eternal torment.
+- **The Protection-Paradox:** The only ward against Lamashtus is the image of Pazuzu — carved on a door or worn as an amulet. Ironically, the Pazuzu (creature 41) is her natural enemy; where one hunts, the other refuses to nest. Thrask parents position their camps between Pazuzu territory and Lamashtu territory for mutual protection.
 
 ---
 
-### 47. The Bes-Brick
+### 47. The Bes
 
 #### 1. Folklore & Setting Roots
 - **Bes (Egyptian mythology):** The dwarf-god of households, music, and childbirth — a protector spirit whose ugly-but-jovial face was carved on bedposts and door-lintels to ward off evil. He brandished a knife and played a tambourine.
@@ -816,11 +817,11 @@
 #### 2. Physical Design
 - **Appearance:** A four-foot-tall, powerfully muscled figure with a disproportionately large lion-head, protruding tongue, and flat, wide nose. Its body is composed of fired terracotta clay reinforced with basalt-fiber — an Emberth-crafted homunculus.
 - **Aesthetic Details:** It wears a crown of tall ostrich-feathers (from the Nile tradition) and brandishes a curved khopesh-sword in one hand and a tiny tambourine in the other. Its clay-surface is painted with blue lapis-lazuli protective sigils that glow when danger approaches.
-- **The Face:** The lion-face is simultaneously terrifying and comical — eyes crossed, tongue stuck out in a defiant grimace. The effect is deliberate: Bes-Bricks are designed to make evil spirits laugh, because laughter breaks magical enchantments.
+- **The Face:** The lion-face is simultaneously terrifying and comical — eyes crossed, tongue stuck out in a defiant grimace. The effect is deliberate: Bess are designed to make evil spirits laugh, because laughter breaks magical enchantments.
 
 #### 3. Ecology: Why It Resides in Sundale
-- **The Threshold-Guardian:** Bes-Bricks are stationed at the entrances to Emberth residential quarters. They are activated by the approach of Wyrd-energy — when the sigils glow, the Bes-Brick animates, banging its tambourine and brandishing its sword, creating a wall of noise and protective magic.
-- **The Child-Protector:** Their primary function is guarding Emberth nurseries. A Bes-Brick stationed at a nursery door will fight to its complete destruction — shattering into a shower of protective clay-shards that embed Wyrd-warding sigils into nearby walls. Thrask parents consider a shattered Bes-Brick the highest sacrifice — the clay gave its existence for the children.
+- **The Threshold-Guardian:** Bess are stationed at the entrances to Emberth residential quarters. They are activated by the approach of Wyrd-energy — when the sigils glow, the Bes animates, banging its tambourine and brandishing its sword, creating a wall of noise and protective magic.
+- **The Child-Protector:** Their primary function is guarding Emberth nurseries. A Bes stationed at a nursery door will fight to its complete destruction — shattering into a shower of protective clay-shards that embed Wyrd-warding sigils into nearby walls. Thrask parents consider a shattered Bes the highest sacrifice — the clay gave its existence for the children.
 
 ---
 
@@ -841,7 +842,7 @@
 
 ---
 
-### 49. The Ghul-Cinder
+### 49. The Ghul
 
 #### 1. Folklore & Setting Roots
 - **Ghul (Mesopotamian/Arabic folklore):** Undead spirits of the desert that dwelt in ruins and graveyards, consuming the flesh of the dead. They could shape-shift into animals — particularly hyenas — and lured travelers to their deaths.
@@ -853,7 +854,7 @@
 - **The Face:** No face — only the two floating eyes within the shroud, unblinking, tracking everything with Medjed's omniscient gaze. When it opens its "mouth," the fabric splits vertically from hem to crown, revealing a furnace of white-hot fire.
 
 #### 3. Ecology: Why It Resides in Sundale
-- **The Ruin-Dweller:** Ghul-Cinders inhabit the volcanic ruins and ash-covered tomb-fields surrounding Emberspire. They consume not flesh but the residual warmth in ancient stone — the heat-memory of buildings that once held life. A Ghul-Cinder-infested ruin is cold to the touch, all thermal energy drained.
+- **The Ruin-Dweller:** Ghuls inhabit the volcanic ruins and ash-covered tomb-fields surrounding Emberspire. They consume not flesh but the residual warmth in ancient stone — the heat-memory of buildings that once held life. A Ghul-infested ruin is cold to the touch, all thermal energy drained.
 - **The Invisible-Smiter:** They can render themselves invisible at will — becoming completely undetectable except by the faint smell of charred bone. When invisible, they can project fire-bolts from their hidden position, "smiting" intruders who disturb their ruins. The only defense is to locate the pair of floating green eyes — the one feature they cannot hide.
 
 ---
@@ -875,7 +876,7 @@
 
 ---
 
-### 51. The Peri-Moth
+### 51. The Peri
 
 #### 1. Folklore & Setting Roots
 - **Peri (Zoroastrian/Persian folklore):** Beautiful, winged fairy-like spirits — fallen angels who have been denied paradise until they have repented. They are creatures of light and beauty, often persecuted by the malevolent Daevas.
@@ -887,12 +888,12 @@
 - **The Face:** An impossibly delicate face with two enormous, faceted eyes that reflect the observer's own face back as a golden vision of their younger self. Its proboscis is a tiny tube of spun glass.
 
 #### 3. Ecology: Why It Resides in Sundale
-- **The Ember-Gatherer:** Peri-Moths are drawn to the Solbrand's warmth, gathering in shimmering clouds around the sacred bowl. Korr Sun-Speakers believe each Peri-Moth is a repentant fragment of Sol's consciousness — a piece of the sun-god seeking forgiveness. Tending the Peri-Moths is considered the highest spiritual duty.
-- **The Rebirth-Cycle:** Like Khepri rolling the sun, Peri-Moths roll their wing-balls along the ground at dawn, collecting ambient thermal energy. They compress this energy into tiny golden pearls — "sun-seeds" — that the Emberth can plant in cold hearthstones to produce fire that burns for a year.
+- **The Ember-Gatherer:** Peris are drawn to the Solbrand's warmth, gathering in shimmering clouds around the sacred bowl. Korr Sun-Speakers believe each Peri is a repentant fragment of Sol's consciousness — a piece of the sun-god seeking forgiveness. Tending the Peris is considered the highest spiritual duty.
+- **The Rebirth-Cycle:** Like Khepri rolling the sun, Peris roll their wing-balls along the ground at dawn, collecting ambient thermal energy. They compress this energy into tiny golden pearls — "sun-seeds" — that the Emberth can plant in cold hearthstones to produce fire that burns for a year.
 
 ---
 
-### 52. The Daeva-Shade
+### 52. The Daeva
 
 #### 1. Folklore & Setting Roots
 - **Daeva (Zoroastrian mythology):** The "wrong gods" — false deities of chaos and destruction who serve Angra Mainyu, the spirit of destruction. They are the lies that oppose truth, the darkness that opposes light.
@@ -904,12 +905,12 @@
 - **The Face:** The long snout curves downward like a scimitar. Its eyes are inverted — bright where eyes should be dark (the whites are black, the pupils are blinding white). It grins constantly, showing teeth that are shaped like tiny set-animal skulls.
 
 #### 3. Ecology: Why It Resides in Sundale
-- **The Truth-Eater:** Daeva-Shades feed on spoken truth — every honest word within their range weakens the speaker and strengthens the shade. In a region where the Korr Emberth practice the Vault-Breath (sacred silence), Daeva-Shades are starved near the temples but glutted in the markets, where merchants haggle and lie.
-- **The Chaos-Beacon:** Their presence attracts Wyrd-manifestations. A Daeva-Shade nesting in a ruin will, within months, draw Husque-fissures (reality-breaches) to the site. Thrask rangers hunt Daeva-Shades relentlessly — they are the only creature in Sundale whose presence actively accelerates the Wyrd-corruption.
+- **The Truth-Eater:** Daevas feed on spoken truth — every honest word within their range weakens the speaker and strengthens the shade. In a region where the Korr Emberth practice the Vault-Breath (sacred silence), Daevas are starved near the temples but glutted in the markets, where merchants haggle and lie.
+- **The Chaos-Beacon:** Their presence attracts Wyrd-manifestations. A Daeva nesting in a ruin will, within months, draw Husque-fissures (reality-breaches) to the site. Thrask rangers hunt Daevas relentlessly — they are the only creature in Sundale whose presence actively accelerates the Wyrd-corruption.
 
 ---
 
-### 53. The Simurgh-Ash
+### 53. The Simurgh
 
 #### 1. Folklore & Setting Roots
 - **Simurgh (Persian/Zoroastrian mythology):** A magnificent, benevolent bird of enormous size — so old it had seen the world destroyed and reborn three times. It possessed knowledge of every age and the healing power to cure any wound.
@@ -921,8 +922,8 @@
 - **The Face:** An eagle's head with eyes that contain unfathomable age — concentric rings of gold, orange, and deep amber, like looking into the cross-section of a ancient tree. Its beak is the color of burnished bronze, permanently warm.
 
 #### 3. Ecology: Why It Resides in Sundale
-- **The Ancient-Healer:** Simurgh-Ash feathers possess extraordinary healing properties. A single feather laid on a wound can heal broken bones and close gashes within hours. The Simurgh-Ash are sapient and ancient — they remember the world before the Dimming and will sometimes share fragments of pre-sundering knowledge with those they deem worthy.
-- **The Ash-Nester:** They nest exclusively on the rim of Emberspire's caldera, building enormous structures of woven ash and volcanic glass. Their presence stabilizes the volcanic activity — areas near Simurgh nests have measurably fewer eruptions. The Emberth consider harming a Simurgh-Ash a crime punishable by live immolation.
+- **The Ancient-Healer:** Simurgh feathers possess extraordinary healing properties. A single feather laid on a wound can heal broken bones and close gashes within hours. The Simurgh are sapient and ancient — they remember the world before the Dimming and will sometimes share fragments of pre-sundering knowledge with those they deem worthy.
+- **The Ash-Nester:** They nest exclusively on the rim of Emberspire's caldera, building enormous structures of woven ash and volcanic glass. Their presence stabilizes the volcanic activity — areas near Simurgh nests have measurably fewer eruptions. The Emberth consider harming a Simurgh a crime punishable by live immolation.
 
 ---
 
@@ -943,7 +944,7 @@
 
 ---
 
-### 55. The Edimmu-Whisper
+### 55. The Edimmu
 
 #### 1. Folklore & Setting Roots
 - **Edimmu/Ekimmu (Mesopotamian mythology):** The ghost of a person who died a violent death or was improperly buried. These spirits became invisible, wind-borne demons that attached themselves to the living, causing illness and misfortune.
@@ -955,7 +956,7 @@
 - **The Face:** No face — only a smooth, blank oval of shimmering air where features should be. Occasionally, for a split-second, the face of the Edimmu's original living self flashes into view — always screaming, always burning.
 
 #### 3. Ecology: Why It Resides in Sundale
-- **The Attachment-Spirit:** Edimmu-Whispers bond to individuals who pass near their death-site, draining their vitality to sustain their own existence. The victim suffers increasing fatigue, nightmares of fire, and eventually, spontaneous combustion — at which point the Edimmu detaches and seeks a new host.
+- **The Attachment-Spirit:** Edimmus bond to individuals who pass near their death-site, draining their vitality to sustain their own existence. The victim suffers increasing fatigue, nightmares of fire, and eventually, spontaneous combustion — at which point the Edimmu detaches and seeks a new host.
 - **The Offering-Bound:** They can be pacified with funerary offerings — specifically, the same foods and tools the person used in life. Emberth tradition requires burning a piece of forge-equipment with any worker who dies in the volcanic forges; without this offering, the deceased becomes an Edimmu within three days.
 
 ---
@@ -977,7 +978,7 @@
 
 ---
 
-### 57. The Nisroch-Falcon
+### 57. The Nisroch
 
 #### 1. Folklore & Setting Roots
 - **Nisroch (Mesopotamian mythology):** An Assyrian deity depicted as an eagle-headed figure — a powerful spirit of agriculture and abundance, associated with the sacred tree of life.
@@ -989,7 +990,7 @@
 - **The Face:** A noble falcon's face with a sharply hooked beak of polished bronze. The asymmetry of its eyes — one natural, one divine — gives it an appearance of cosmic authority that commands instant respect.
 
 #### 3. Ecology: Why It Resides in Sundale
-- **The Sky-Watcher:** Nisroch-Falcons patrol the skies above Emberspire, scanning for Wyrd-manifestations. When they spot one, the Wedjat-eye fires a beam of concentrated light that burns Wyrd-essence like sunlight through a magnifying glass. They are Sundale's aerial defense-system.
+- **The Sky-Watcher:** Nisrochs patrol the skies above Emberspire, scanning for Wyrd-manifestations. When they spot one, the Wedjat-eye fires a beam of concentrated light that burns Wyrd-essence like sunlight through a magnifying glass. They are Sundale's aerial defense-system.
 - **The Solbrand-Messenger:** They carry messages between the Korr Sun-Speakers in the Harath-Chamber and the Thrask rangers on the surface — messages inscribed on strips of golden foil that only the Wedjat-eye can read. They are trained from hatching and are considered sacred — killing one carries the death penalty in Emberth law.
 
 ---
@@ -1028,7 +1029,7 @@
 
 ---
 
-### 60. The Mushuss-Child
+### 60. The Mushussu
 
 #### 1. Folklore & Setting Roots
 - **Mushhushshu (Mesopotamian mythology):** The "Furious Snake" of Babylon — the dragon on the Ishtar Gate, with a serpent's body, lion's forelegs, eagle's hind-legs, and a scorpion's stinger. (Note: the bestiary's "Sirrush" is the adult form; this is a juvenile variant.)
@@ -1040,8 +1041,8 @@
 - **The Face:** A rounded, puppy-like version of the adult Sirrush's horned head — the single crown-horn is a soft nub. Its eyes are enormous, golden, and permanently wide with curiosity. It croaks and tilts its head at everything.
 
 #### 3. Ecology: Why It Resides in Sundale
-- **The Sacred-Juvenile:** Mushuss-Children are the juvenile form of the Sirrush — and they are far more approachable than the fierce adults. They imprint on the first kind creature they encounter, following them like ducklings. Solvarn children sometimes raise orphaned Mushuss-Children as pets — a practice the Korr tolerate because the bond encourages the adult Sirrush to guard the child's village.
-- **The Life-Breath:** Drawing from Heket's fertility-domain, the breath of a Mushuss-Child can accelerate plant growth. A garden visited by a Mushuss-Child produces double yields. In Sundale's ash-choked soil, this ability is priceless — Thrask farmers leave offering-bowls of milk near Sirrush nesting-grounds to encourage juvenile visits.
+- **The Sacred-Juvenile:** Mushussuren are the juvenile form of the Sirrush — and they are far more approachable than the fierce adults. They imprint on the first kind creature they encounter, following them like ducklings. Solvarn children sometimes raise orphaned Mushussuren as pets — a practice the Korr tolerate because the bond encourages the adult Sirrush to guard the child's village.
+- **The Life-Breath:** Drawing from Heket's fertility-domain, the breath of a Mushussu can accelerate plant growth. A garden visited by a Mushussu produces double yields. In Sundale's ash-choked soil, this ability is priceless — Thrask farmers leave offering-bowls of milk near Sirrush nesting-grounds to encourage juvenile visits.
 
 
 ---
@@ -1103,7 +1104,7 @@
 
 ---
 
-### 64. The Harpy-Squall
+### 64. The Harpy
 
 #### 1. Folklore & Setting Roots
 - **Harpy (Greek mythology):** The "snatchers" — bird-women spirits of sudden storm-winds who stole food from their victims and carried off the souls of the dead. They were agents of divine punishment.
@@ -1115,12 +1116,12 @@
 - **The Face:** A hag's face — hollow-cheeked, sharp-nosed, with eyes the color of lightning-flashes. Its mouth is wide, filled with teeth of rusted iron — each one filed to a hook. Its expression is permanently enraged.
 
 #### 3. Ecology: Why It Resides in the Iceheart Sea
-- **The Mast-Snatcher:** Harpy-Squalls perch in the rigging of Iceheart ships, snatching crew members directly from the decks. They use their hook-feet to grip masts and yardarms, dangling upside-down to reach into hatches and cabins. A ship under Harpy-Squall attack must be abandoned or reach port within hours.
-- **The Storm-Rider:** They nest in the eyes of perpetual storms, riding the updrafts. They are the only creatures that can navigate an Iceheart cyclone without disorientation. Merryn sailors consider seeing a Harpy-Squall a death-omen — but also a navigation aid, since the creatures always fly toward the storm's calmest exit-corridor.
+- **The Mast-Snatcher:** Harpys perch in the rigging of Iceheart ships, snatching crew members directly from the decks. They use their hook-feet to grip masts and yardarms, dangling upside-down to reach into hatches and cabins. A ship under Harpy attack must be abandoned or reach port within hours.
+- **The Storm-Rider:** They nest in the eyes of perpetual storms, riding the updrafts. They are the only creatures that can navigate an Iceheart cyclone without disorientation. Merryn sailors consider seeing a Harpy a death-omen — but also a navigation aid, since the creatures always fly toward the storm's calmest exit-corridor.
 
 ---
 
-### 65. The Hippocampus-Tide
+### 65. The Hippocampus
 
 #### 1. Folklore & Setting Roots
 - **Hippocampus (Greek mythology):** The sea-horse of the gods — a creature with the upper body and forelegs of a horse and the lower body of a fish or serpent. They drew Poseidon's chariot across the waves.
@@ -1132,12 +1133,12 @@
 - **The Face:** A noble, intelligent horse-face with enormous, liquid eyes that change color — blue in calm water, green in storm-surge, silver in moonlight. A crest of iridescent scales runs from its forelock to its withers.
 
 #### 3. Ecology: Why It Resides in the Iceheart Sea
-- **The Wave-Steed:** Hippocampus-Tides can be tamed and ridden by Myrathil divers. They are the fastest mode of underwater transport in the Iceheart — capable of outpacing storm-currents. Breakers-Born Myrathil use them to patrol the harbor-approaches of Merrowport.
-- **The Estuary-Guardian:** They are drawn to the brackish boundary where fresh-water rivers meet the salt sea — the River-Fed Myrathil's territory. Their presence purifies water contaminated by Wyrd-taint, making them essential to the health of coastal settlements. A village with a resident Hippocampus-Tide never suffers from water-borne plague.
+- **The Wave-Steed:** Hippocampuss can be tamed and ridden by Myrathil divers. They are the fastest mode of underwater transport in the Iceheart — capable of outpacing storm-currents. Breakers-Born Myrathil use them to patrol the harbor-approaches of Merrowport.
+- **The Estuary-Guardian:** They are drawn to the brackish boundary where fresh-water rivers meet the salt sea — the River-Fed Myrathil's territory. Their presence purifies water contaminated by Wyrd-taint, making them essential to the health of coastal settlements. A village with a resident Hippocampus never suffers from water-borne plague.
 
 ---
 
-### 66. The Gorgon-Depth
+### 66. The Gorgon
 
 #### 1. Folklore & Setting Roots
 - **Gorgon (Greek mythology):** The three sisters — Medusa, Stheno, and Euryale — whose gaze turned living things to stone. Their hair was a nest of venomous serpents, and their faces were so terrible that looking upon them caused petrification.
@@ -1154,7 +1155,7 @@
 
 ---
 
-### 67. The Tokoloshe-Tide
+### 67. The Tokoloshe
 
 #### 1. Folklore & Setting Roots
 - **Tokoloshe/Tikoloshe (South African/Zulu folklore):** A small, hairy, mischievous water-sprite that becomes invisible by swallowing a pebble. It terrorizes households, steals food, and attacks sleepers — particularly children. Only a sangoma (shaman) can banish it.
@@ -1162,16 +1163,16 @@
 
 #### 2. Physical Design
 - **Appearance:** A two-foot-tall, gremlin-like creature with the upper body of a hairy, wizened humanoid and the lower body of an octopus. Its skin is mottled green-and-brown, blending perfectly with kelp and rock.
-- **Aesthetic Details:** It carries a smooth, black pebble in its cheek — when the pebble is in place, the Tokoloshe-Tide is completely invisible. Without the pebble, it is a comical, ugly thing with an enormous grin and disproportionately long arms.
+- **Aesthetic Details:** It carries a smooth, black pebble in its cheek — when the pebble is in place, the Tokoloshe is completely invisible. Without the pebble, it is a comical, ugly thing with an enormous grin and disproportionately long arms.
 - **The Face:** A grotesque, goblin face with an elongated, penis-like nose (true to the Zulu folklore), enormous ears, and a mouth that stretches from ear to ear. Its eyes are bright, beady, and filled with malicious glee.
 
 #### 3. Ecology: Why It Resides in the Iceheart Sea
-- **The Ship-Pest:** Tokoloshe-Tides infest the bilges and cargo-holds of Iceheart ships, stealing food, tangling rigging, and sabotaging navigation tools while invisible. A ship with a Tokoloshe infestation will have every compass spinning wrong within a week. Only a Myrathil shaman can locate and banish one — using salt-water barriers and copper-bell rituals.
-- **The Child-Snatcher:** Like their land-bound cousins, they are drawn to children's fear. They visit Iceheart vessels at night, sitting on sleeping children's chests and whispering nightmares. The traditional ward — a brick beneath the bed-legs to raise the sleeping height — actually works against Tokoloshe-Tides, which cannot reach elevated sleepers.
+- **The Ship-Pest:** Tokoloshes infest the bilges and cargo-holds of Iceheart ships, stealing food, tangling rigging, and sabotaging navigation tools while invisible. A ship with a Tokoloshe infestation will have every compass spinning wrong within a week. Only a Myrathil shaman can locate and banish one — using salt-water barriers and copper-bell rituals.
+- **The Child-Snatcher:** Like their land-bound cousins, they are drawn to children's fear. They visit Iceheart vessels at night, sitting on sleeping children's chests and whispering nightmares. The traditional ward — a brick beneath the bed-legs to raise the sleeping height — actually works against Tokoloshes, which cannot reach elevated sleepers.
 
 ---
 
-### 68. The Lamia-Shoal
+### 68. The Lamia
 
 #### 1. Folklore & Setting Roots
 - **Lamia (Greek mythology):** A child-devouring monster — once a beautiful queen, transformed by Hera's jealousy into a serpent-woman who stalked the night, stealing and consuming children to fill the void of her own lost offspring.
@@ -1184,11 +1185,11 @@
 
 #### 3. Ecology: Why It Resides in the Iceheart Sea
 - **The Reef-Stalker:** She positions herself in shallow reef-channels where Iceheart ships must navigate slowly. Her impossibly long arms reach up from the reef to pluck crew members from low decks — particularly young sailors, whose youth feeds her eternal hunger.
-- **The Grief-Lure:** She sings a lullaby that sounds like a grieving mother. Sailors who have lost children are especially vulnerable — they hear their own child's voice in the song and lean over the rail to look. The Myrathil consider the Lamia-Shoal a tragic creature — she is a victim of the Wyrd's cruelty, not a natural predator. They leave offerings of coral at her reef — a gesture of compassion that sometimes buys safe passage.
+- **The Grief-Lure:** She sings a lullaby that sounds like a grieving mother. Sailors who have lost children are especially vulnerable — they hear their own child's voice in the song and lean over the rail to look. The Myrathil consider the Lamia a tragic creature — she is a victim of the Wyrd's cruelty, not a natural predator. They leave offerings of coral at her reef — a gesture of compassion that sometimes buys safe passage.
 
 ---
 
-### 69. The Empusa-Ice
+### 69. The Empusa
 
 #### 1. Folklore & Setting Roots
 - **Empusa (Greek mythology):** A shape-shifting, flesh-eating daughter of Hecate — a creature with a brass leg and a donkey-leg, who seduced young men and drained their life-force as they slept.
@@ -1200,12 +1201,12 @@
 - **The Face:** Stunningly beautiful from the left — flawless skin, dark eyes, full lips. From the right, the face is a bird-skull — a heron's beak and empty eye-socket, wreathed in static discharge. The shift between faces is instantaneous, triggered by her mood.
 
 #### 3. Ecology: Why It Resides in the Iceheart Sea
-- **The Storm-Seductress:** She approaches lone watch-keepers on night-shift, offering warmth and companionship. As she speaks, she drains their vitality — by dawn, the watch-keeper is a desiccated husk and the Empusa-Ice has moved on. The brass leg is always cold to the touch — a warning sign that experienced sailors recognize.
-- **The Lightning-Inheritance:** Like the Impundulu, the Empusa-Ice is immortal — when one is destroyed, her essence transfers to a new host within a hundred miles. The host is always a woman who has lost a child to the sea. Merryn sailors say the Empusa-Ice cannot be permanently killed — only bargained with, and only by a woman.
+- **The Storm-Seductress:** She approaches lone watch-keepers on night-shift, offering warmth and companionship. As she speaks, she drains their vitality — by dawn, the watch-keeper is a desiccated husk and the Empusa has moved on. The brass leg is always cold to the touch — a warning sign that experienced sailors recognize.
+- **The Lightning-Inheritance:** Like the Impundulu, the Empusa is immortal — when one is destroyed, her essence transfers to a new host within a hundred miles. The host is always a woman who has lost a child to the sea. Merryn sailors say the Empusa cannot be permanently killed — only bargained with, and only by a woman.
 
 ---
 
-### 70. The Telkhine-Frost
+### 70. The Telkhine
 
 #### 1. Folklore & Setting Roots
 - **Telkhines (Greek mythology):** The original sea-demons of Rhodes — dog-headed, flipper-handed metalworkers who forged the gods' weapons. They were cast into the sea for using their magic for destructive purposes.
@@ -1217,12 +1218,12 @@
 - **The Face:** A seal's face with an unsettling addition: a beard of steel-wool-like wire. Its eyes are intelligent, covetous, and permanently calculating the value of everything they see. It speaks in a series of deep, guttural barks.
 
 #### 3. Ecology: Why It Resides in the Iceheart Sea
-- **The Ice-Smith:** Telkhine-Frost are the only creatures capable of forging weapons from deep-sea ice — weapons that never melt, regardless of temperature. Neth merchants pay exorbitant prices for Telkhine-forged blades. The creatures demand raw whale-bone and copper as payment — they have no interest in gold.
+- **The Ice-Smith:** Telkhine are the only creatures capable of forging weapons from deep-sea ice — weapons that never melt, regardless of temperature. Neth merchants pay exorbitant prices for Telkhine-forged blades. The creatures demand raw whale-bone and copper as payment — they have no interest in gold.
 - **The Boat-Breaker:** Their massive bulk (despite their height, they weigh as much as a walrus) allows them to overturn small boats. They do this not to hunt the crew, but to salvage the metal fittings — they are obsessed with collecting rare alloys. A boat that has been Telkhine-rolled will have every nail, rivet, and hinge stripped from its hull, leaving only wood.
 
 ---
 
-### 71. The Stymphalian-Flock
+### 71. The Stymphalian
 
 #### 1. Folklore & Setting Roots
 - **Stymphalian Birds (Greek mythology):** Man-eating birds with bronze feathers that they could launch like arrows. They inhabited a stagnant lake and were driven away by Heracles using bronze rattles as part of his sixth labor.
@@ -1239,7 +1240,7 @@
 
 ---
 
-### 72. The Nereid-Deep
+### 72. The Nereid
 
 #### 1. Folklore & Setting Roots
 - **Nereid (Greek mythology):** Benevolent sea-nymphs — the daughters of Nereus and Doris. They were beautiful, immortal maidens who rode dolphins and aided sailors in distress. Each had a specific domain within the sea.
@@ -1251,12 +1252,12 @@
 - **The Face:** A serene, ageless face of impossible beauty — large, luminous eyes that contain the entire spectrum of ocean colors. She smiles perpetually — a warm, maternal expression that radiates comfort to drowning sailors.
 
 #### 3. Ecology: Why It Resides in the Iceheart Sea
-- **The Drowning-Savior:** Nereid-Deeps are the only genuinely benevolent creatures in the Iceheart Sea. They seek out drowning sailors and carry them to the surface — a rescue that costs the Nereid a portion of her own luminous energy, meaning she must rest for years after each save.
-- **The Treasure-Guardian:** They guard the abyssal treasure-currents — the debris-fields of sunken ships. The Deep-Born Myrathil treat them as sacred guardians and never salvage from their territories. Those who disrespect this boundary find their air-supply mysteriously failing at depth — the Nereid-Deep can withdraw the "breath of the sea" from trespassers, a gentle but lethal defense.
+- **The Drowning-Savior:** Nereids are the only genuinely benevolent creatures in the Iceheart Sea. They seek out drowning sailors and carry them to the surface — a rescue that costs the Nereid a portion of her own luminous energy, meaning she must rest for years after each save.
+- **The Treasure-Guardian:** They guard the abyssal treasure-currents — the debris-fields of sunken ships. The Deep-Born Myrathil treat them as sacred guardians and never salvage from their territories. Those who disrespect this boundary find their air-supply mysteriously failing at depth — the Nereid can withdraw the "breath of the sea" from trespassers, a gentle but lethal defense.
 
 ---
 
-### 73. The Graeae-Oracle
+### 73. The Graeae
 
 #### 1. Folklore & Setting Roots
 - **Graeae / Grey Sisters (Greek mythology):** Three ancient hags who shared a single eye and a single tooth among them. They were the sisters of the Gorgons and the only ones who knew the location of the weapons needed to slay Medusa.
@@ -1269,11 +1270,11 @@
 
 #### 3. Ecology: Why It Resides in the Iceheart Sea
 - **The Prophecy-Sisters:** They sit on the most remote icebergs in the Iceheart, visible only to captains who are already lost. They offer to answer one question about the future — but the price is a tooth from the questioner. Without the tooth, the prophecy is accurate. Those who refuse to give a tooth receive a false prophecy that leads them to destruction.
-- **The Ifá-Readers:** Their divination uses patterns cast in seal-bones on the ice — patterns that correspond to the Yoruba Ifá corpus. Each pattern reveals not just a future event but the cosmological weight behind it — the spiritual reason why something will happen. Neth merchants have been known to seek out the Graeae-Oracle for trade-predictions, paying in whale-teeth.
+- **The Ifá-Readers:** Their divination uses patterns cast in seal-bones on the ice — patterns that correspond to the Yoruba Ifá corpus. Each pattern reveals not just a future event but the cosmological weight behind it — the spiritual reason why something will happen. Neth merchants have been known to seek out the Graeae for trade-predictions, paying in whale-teeth.
 
 ---
 
-### 74. The Triton-Conch
+### 74. The Triton
 
 #### 1. Folklore & Setting Roots
 - **Triton (Greek mythology):** The son of Poseidon — a merman who blew a conch-shell trumpet to calm or raise the waves. He controlled the sea's mood through his horn, and was depicted with a human upper body and a coiled, fish-like lower half.
@@ -1285,12 +1286,12 @@
 - **The Face:** A strong, angular face with a square jaw and deep-set, commanding eyes. His pupils are horizontal, goat-like, and glow with the deep indigo of the abyssal trench. He carries an expression of absolute authority — the sea's sovereign.
 
 #### 3. Ecology: Why It Resides in the Iceheart Sea
-- **The Wave-Controller:** The Triton-Conch's horn-call can calm or raise the Iceheart's waves within a mile radius. He uses this ability to clear shipping lanes during storms — for a price. Merryn captains leave offerings of amber and copper at designated "Triton-rocks" and blow response-signals on their own conches.
-- **The Depth-Sovereign:** He serves as a mediator between surface-dwellers and the abyssal entities — particularly the Ketos and the forces drawn by the Sundered Monolith. When the Monolith's resonance grows too intense, the Triton-Conch's horn dampens the frequency, preventing deep-sea stampedes. Deep-Born Myrathil consider him their sovereign — the voice of Olokun's will made flesh.
+- **The Wave-Controller:** The Triton's horn-call can calm or raise the Iceheart's waves within a mile radius. He uses this ability to clear shipping lanes during storms — for a price. Merryn captains leave offerings of amber and copper at designated "Triton-rocks" and blow response-signals on their own conches.
+- **The Depth-Sovereign:** He serves as a mediator between surface-dwellers and the abyssal entities — particularly the Ketos and the forces drawn by the Sundered Monolith. When the Monolith's resonance grows too intense, the Triton's horn dampens the frequency, preventing deep-sea stampedes. Deep-Born Myrathil consider him their sovereign — the voice of Olokun's will made flesh.
 
 ---
 
-### 75. The Nandi-Swell
+### 75. The Nandi
 
 #### 1. Folklore & Setting Roots
 - **Nandi Bear (East African/Kenyan cryptid):** A massive, ferocious bear-like creature reported from Kenya's Nandi region. Described as a shaggy, hyena-like beast with a sloping back, enormous claws, and a taste for human brains.
@@ -1302,12 +1303,12 @@
 - **The Face:** A hyena's face adapted for aquatic predation — a broad, blunt muzzle with a bite-force that can crush whale-bone. Its eyes are small, deeply set, and burn with a dull, predatory intelligence. Its ears are flattened, seal-like flaps.
 
 #### 3. Ecology: Why It Resides in the Iceheart Sea
-- **The Ice-Floe Hunter:** Nandi-Swells hunt on ice-floes rather than in open water, using their massive claws to drag themselves onto ice and their powerful jaws to crush the shelters of ice-fishing camps. They specifically target the head — cracking skulls to consume the brain, which provides the high-fat content they need for warmth.
-- **The Migration-Parasite:** They follow the great whale-migrations, scavenging carcasses and attacking sick or isolated individuals. A pod of Nandi-Swells can strip a whale carcass to the skeleton in hours. Merryn whaling-ships consider them a mixed blessing — their presence means whales are near, but they will attack the whalers' catch.
+- **The Ice-Floe Hunter:** Nandis hunt on ice-floes rather than in open water, using their massive claws to drag themselves onto ice and their powerful jaws to crush the shelters of ice-fishing camps. They specifically target the head — cracking skulls to consume the brain, which provides the high-fat content they need for warmth.
+- **The Migration-Parasite:** They follow the great whale-migrations, scavenging carcasses and attacking sick or isolated individuals. A pod of Nandis can strip a whale carcass to the skeleton in hours. Merryn whaling-ships consider them a mixed blessing — their presence means whales are near, but they will attack the whalers' catch.
 
 ---
 
-### 76. The Popobawa-Night
+### 76. The Popobawa
 
 #### 1. Folklore & Setting Roots
 - **Popobawa (East African/Zanzibar folklore):** A shape-shifting evil spirit — described as a one-eyed, dwarf-like creature or a bat-winged entity. It attacks people in their homes at night, causing terror and physical harm. Its victims are shamed into silence.
@@ -1319,7 +1320,7 @@
 - **The Face:** No stable face — except the single eye, which is always present regardless of form. The eye is the color of a bruise — deep purple and yellow — and it gazes with a knowing, mocking intelligence that makes victims feel their privacy has been violated.
 
 #### 3. Ecology: Why It Resides in the Iceheart Sea
-- **The Cabin-Terror:** Popobawa-Nights infiltrate the sleeping-quarters of Iceheart ships at night, attacking crew members in their hammocks. The attacks leave no visible wounds — the damage is psychological, leaving victims with night-terrors so severe they refuse to sleep, eventually collapsing from exhaustion during watch-duty.
+- **The Cabin-Terror:** Popobawas infiltrate the sleeping-quarters of Iceheart ships at night, attacking crew members in their hammocks. The attacks leave no visible wounds — the damage is psychological, leaving victims with night-terrors so severe they refuse to sleep, eventually collapsing from exhaustion during watch-duty.
 - **The Shame-Silence:** Victims are compelled by the creature's psychic influence to never speak of the attack — they suffer in silence, and the Popobawa returns night after night. The only known countermeasure is public disclosure — a victim who names the Popobawa to another person breaks its hold. Merryn captains maintain an "open-lantern" policy: all crew must describe their dreams at breakfast, making it impossible for the Popobawa to maintain its shame-silence.
 
 ---
@@ -1341,7 +1342,7 @@
 
 ---
 
-### 78. The Graia-Swirl
+### 78. The Graia
 
 #### 1. Folklore & Setting Roots
 - **Graia/Grey Sea (Greek folklore):** The ancient, grey, featureless expanse of water between the known world and the edge of myth — the sea through which Jason and the Argonauts sailed, full of nameless perils.
@@ -1350,15 +1351,15 @@
 #### 2. Physical Design
 - **Appearance:** A stationary, perfectly circular eddy in the ocean surface — thirty feet across, ringed by a halo of displaced foam. The water within the eddy is not grey or blue but colorless — perfectly transparent, like looking through glass into infinity.
 - **Aesthetic Details:** The eddy rotates with mathematical precision — no turbulence, no variation. Objects that fall into it do not sink — they remain suspended at a specific depth, rotating with the water. The air above the eddy is unnaturally still, even during storms.
-- **The Face:** When someone stares into the depths of the Graia-Swirl for too long, they see a face forming in the colorless water — their own face, but older, transformed by experiences they have not yet had. The face mouths words silently — always the same phrase: "What will you pay?"
+- **The Face:** When someone stares into the depths of the Graia for too long, they see a face forming in the colorless water — their own face, but older, transformed by experiences they have not yet had. The face mouths words silently — always the same phrase: "What will you pay?"
 
 #### 3. Ecology: Why It Resides in the Iceheart Sea
-- **The Spirit-Portal:** The Graia-Swirl is a stable breach-point between the physical Iceheart Sea and the spirit-realm beneath it. Offerings dropped into the swirl are received by the deep-spirits — and bargains struck through the swirl are binding. Neth contract-mages pay fortunes to access known Graia-Swirls for inter-realm negotiations.
-- **The Grey-Passage:** Ships that sail through the center of a Graia-Swirl are transported — not to another location, but to another time. They emerge minutes later, having aged weeks. Some crews emerge younger — the swirl takes what it takes, and what it gives is unpredictable. Only the most desperate captains risk the Grey-Passage.
+- **The Spirit-Portal:** The Graia is a stable breach-point between the physical Iceheart Sea and the spirit-realm beneath it. Offerings dropped into the swirl are received by the deep-spirits — and bargains struck through the swirl are binding. Neth contract-mages pay fortunes to access known Graias for inter-realm negotiations.
+- **The Grey-Passage:** Ships that sail through the center of a Graia are transported — not to another location, but to another time. They emerge minutes later, having aged weeks. Some crews emerge younger — the swirl takes what it takes, and what it gives is unpredictable. Only the most desperate captains risk the Grey-Passage.
 
 ---
 
-### 79. The Ichthya-Centaur
+### 79. The Ichthya
 
 #### 1. Folklore & Setting Roots
 - **Ichthyocentaur (Greek mythology):** A sea-centaur — a creature with the upper body of a human, the forelegs of a horse, and the lower body of a fish. They were benevolent beings of the deep ocean, associated with wisdom and the surf-zone.
@@ -1370,12 +1371,12 @@
 - **The Face:** A strong, weather-lined face with deep-set eyes that flash from blue to orange — like forge-coals fanned by wind. A thick, salt-bleached beard covers its jaw. Its expression is perpetually focused, as if listening to the rhythm of waves for a specific pattern.
 
 #### 3. Ecology: Why It Resides in the Iceheart Sea
-- **The Wave-Forger:** The Ichthya-Centaur forges weapons beneath the waves, using submarine volcanic vents as its forge-hearth. Its tridents, harpoons, and hooks are the finest in the Iceheart — they never rust, never break, and always strike true. They are given as gifts to worthy captains — never sold.
-- **The Rhythm-Keeper:** It listens to the ocean's wave-patterns as a blacksmith listens to the ring of an anvil — judging the health of the sea by its rhythm. When the Monolith's resonance disturbs the pattern, the Ichthya-Centaur becomes agitated, and its forge-work takes on a desperate quality. Deep-Born Myrathil watch for signs of the Ichthya-Centaur's distress as an early warning of Monolith instability.
+- **The Wave-Forger:** The Ichthya forges weapons beneath the waves, using submarine volcanic vents as its forge-hearth. Its tridents, harpoons, and hooks are the finest in the Iceheart — they never rust, never break, and always strike true. They are given as gifts to worthy captains — never sold.
+- **The Rhythm-Keeper:** It listens to the ocean's wave-patterns as a blacksmith listens to the ring of an anvil — judging the health of the sea by its rhythm. When the Monolith's resonance disturbs the pattern, the Ichthya becomes agitated, and its forge-work takes on a desperate quality. Deep-Born Myrathil watch for signs of the Ichthya's distress as an early warning of Monolith instability.
 
 ---
 
-### 80. The Brine-Lantern
+### 80. The Brine
 
 #### 1. Folklore & Setting Roots
 - **Lampeia / Sacred Fire of the Sea (Greek folklore):** The mysterious lights seen by ancient Greek sailors hovering over the water — interpreted as the sacred fires of sea-nymphs, or the ghostly lanterns of the dead, guiding or misleading the living.
@@ -1387,8 +1388,8 @@
 - **The Face:** When viewed closely, the sphere contains faces — dozens of tiny, translucent faces pressed against the inner surface, like souls looking out through a window. The faces are always calm, always smiling, and always watching the observer.
 
 #### 3. Ecology: Why It Resides in the Iceheart Sea
-- **The Safe-Harbor Light:** Brine-Lanterns appear over safe anchorages during the worst storms, guiding lost ships to sheltered coves. Following a Brine-Lantern always leads to safety — they are the souls of sailors who died heroically, given one final act of guidance.
-- **The False-Lantern Trap:** The Wyrd has corrupted some Brine-Lanterns — they look identical but lead ships onto rocks. The only way to tell true from false is to watch the faces inside: true lanterns show smiling, peaceful faces; false lanterns show screaming, terrified faces. Experienced Merryn helmsmen carry polished silver plates to magnify the interior view, scrutinizing each face before following.
+- **The Safe-Harbor Light:** Brines appear over safe anchorages during the worst storms, guiding lost ships to sheltered coves. Following a Brine always leads to safety — they are the souls of sailors who died heroically, given one final act of guidance.
+- **The False-Lantern Trap:** The Wyrd has corrupted some Brines — they look identical but lead ships onto rocks. The only way to tell true from false is to watch the faces inside: true lanterns show smiling, peaceful faces; false lanterns show screaming, terrified faces. Experienced Merryn helmsmen carry polished silver plates to magnify the interior view, scrutinizing each face before following.
 
 
 ---

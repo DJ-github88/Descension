@@ -6,6 +6,7 @@ import useLevelEditorStore from '../../store/levelEditorStore';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import ItemTooltip from '../item-generation/ItemTooltip';
 import TooltipPortal from '../tooltips/TooltipPortal';
+import { useTooltipPosition } from '../common/useTooltipPosition';
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import { getIconUrl } from '../../utils/assetManager';
 import { isPointInPolygon, getPolygonBBox } from '../../utils/VisibilityCalculations';
@@ -13,7 +14,8 @@ import '../../styles/grid-container.css'; // Re-use grid-container styles for no
 
 const GridItem = ({ gridItem }) => {
   const [showTooltip, setShowTooltip] = useState(false);
-  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const { adjustedPosition, tooltipRef } = useTooltipPosition(mousePosition, showTooltip);
   const isDraggingRef = useRef(false);
   const dragStartTimeRef = useRef(0);
   const dragStartPositionRef = useRef({ x: 0, y: 0 });
@@ -188,12 +190,12 @@ const GridItem = ({ gridItem }) => {
   // Handle interactions
   const handleMouseEnter = (e) => {
     setShowTooltip(true);
-    setTooltipPosition({ x: e.clientX + 15, y: e.clientY - 10 });
+    setMousePosition({ x: e.clientX, y: e.clientY });
   };
 
   const handleMouseMove = (e) => {
     if (showTooltip) {
-      setTooltipPosition({ x: e.clientX + 15, y: e.clientY - 10 });
+      setMousePosition({ x: e.clientX, y: e.clientY });
     }
   };
 
@@ -391,10 +393,10 @@ const GridItem = ({ gridItem }) => {
 
       {showTooltip && (
         <TooltipPortal>
-          <div style={{
+          <div ref={tooltipRef} style={{
             position: 'fixed',
-            left: tooltipPosition.x,
-            top: tooltipPosition.y,
+            left: adjustedPosition.x,
+            top: adjustedPosition.y,
             zIndex: 9999,
             pointerEvents: 'none'
           }}>

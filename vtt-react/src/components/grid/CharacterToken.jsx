@@ -1971,10 +1971,10 @@ const CharacterToken = ({
 
     // Get health bar color based on percentage
     const getHealthBarColor = (percentage) => {
-        if (percentage > 75) return '#4CAF50'; // Green
-        if (percentage > 50) return '#FFC107'; // Yellow
-        if (percentage > 25) return '#FF9800'; // Orange
-        return '#F44336'; // Red
+        if (percentage > 75) return '#506e30';
+        if (percentage > 50) return '#7a6812';
+        if (percentage > 25) return '#9a5e15';
+        return '#8b3a2a';
     };
 
     // Don't render if not visible (unless in GM mode or not viewing from a token)
@@ -1993,13 +1993,13 @@ const CharacterToken = ({
                     top: 0,
                     width: `${tokenSize}px`,
                     height: `${tokenSize}px`,
-                    borderColor: isViewingFrom ? '#00BFFF' : (isMyTurn ? '#FFD700' : isTargeted ? '#FF9800' : characterData.tokenSettings.borderColor),
+                    borderColor: isViewingFrom ? '#4a6a8a' : (isMyTurn ? '#FFD700' : isTargeted ? '#9a5e15' : characterData.tokenSettings.borderColor),
                     zIndex: isDragging ? 1000 : 150, // Higher z-index to be above ObjectSystem canvas (20) and grid tiles (10)
                     position: 'absolute',
                     transform: `translate3d(${screenPosition.x}px, ${screenPosition.y}px, 0) translate(-50%, -50%)`,
                     willChange: 'transform',
                     borderRadius: '50%',
-                    border: `3px solid ${isViewingFrom ? '#00BFFF' : (isMyTurn ? '#FFD700' : isSelectedForCombat ? '#00FF00' : isTargeted ? '#FF9800' : characterData.tokenSettings.borderColor)}`,
+                    border: `3px solid ${isViewingFrom ? '#4a6a8a' : (isMyTurn ? '#FFD700' : isSelectedForCombat ? '#506e30' : isTargeted ? '#9a5e15' : characterData.tokenSettings.borderColor)}`,
                     overflow: 'visible',
                     boxShadow: isViewingFrom
                         ? '0 0 25px rgba(0, 191, 255,1), 0 0 15px rgba(0, 191, 255, 0.8), 0 2px 8px rgba(0, 0, 0, 0.3)'

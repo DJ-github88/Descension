@@ -1012,26 +1012,6 @@ select.wow-settings-input option {
   font-family: var(--pf-font-mono);
 }
 
-/* Entry Editor Modal - Break free from spell wizard constraints */
-.entry-editor-modal {
-  position: fixed !important;
-  inset: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  background: rgba(0, 0, 0, 0.75) !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  z-index: 999999 !important;
-  padding: 20px !important;
-  box-sizing: border-box !important;
-  padding: var(--pf-space-6);
-  margin: 0 !important;
-  transform: none !important;
-  backdrop-filter: blur(2px);
-  animation: fadeIn 0.2s ease-out;
-}
-
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -1042,18 +1022,11 @@ select.wow-settings-input option {
 }
 
 .entry-editor-content {
-  background: var(--pf-gradient-parchment) !important;
-  border: 3px solid var(--pf-brown-dark) !important;
-  border-radius: 12px !important;
-  width: 1000px !important;
-  max-width: calc(100vw - 40px) !important;
-  max-height: calc(100vh - 40px) !important;
   display: flex !important;
   flex-direction: column !important;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(139, 69, 19, 0.3) !important;
-  animation: slideIn 0.3s ease-out;
-  overflow: hidden !important;
-  /* Reset any inherited styles */
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  box-sizing: border-box !important;
   margin: 0 !important;
   padding: 0 !important;
   gap: 0 !important;
@@ -1081,36 +1054,6 @@ select.wow-settings-input option {
   width: 100% !important;
   box-sizing: border-box !important;
   margin: 0 !important;
-}
-
-.entry-editor-title {
-  margin: 0 !important;
-  font-family: 'Cinzel', serif !important;
-  font-size: 20px !important;
-  font-weight: 700 !important;
-  color: #f4e4c1 !important;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3) !important;
-}
-
-.entry-editor-close-btn {
-  background: rgba(255, 255, 255, 0.1) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  color: #f4e4c1 !important;
-  font-size: 18px !important;
-  cursor: pointer !important;
-  padding: 8px !important;
-  border-radius: 6px !important;
-  transition: all 0.2s ease !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  width: 36px !important;
-  height: 36px !important;
-}
-
-.entry-editor-close-btn:hover {
-  background: rgba(255, 255, 255, 0.2) !important;
-  color: #fff !important;
 }
 
 @keyframes slideIn {
@@ -1158,7 +1101,7 @@ select.wow-settings-input option {
 }
 
 /* Two-column layout for editor */
-.entry-editor-modal .editor-columns {
+.entry-editor-content .editor-columns {
   display: grid !important;
   grid-template-columns: 1fr 1fr !important;
   gap: 24px !important;
@@ -1168,8 +1111,8 @@ select.wow-settings-input option {
   box-sizing: border-box !important;
 }
 
-.entry-editor-modal .editor-column-left,
-.entry-editor-modal .editor-column-right {
+.entry-editor-content .editor-column-left,
+.entry-editor-content .editor-column-right {
   display: flex !important;
   flex-direction: column !important;
   gap: 20px !important;
@@ -1179,12 +1122,12 @@ select.wow-settings-input option {
 }
 
 /* Last form section should have no bottom margin */
-.entry-editor-modal .editor-column-left .form-section:last-child,
-.entry-editor-modal .editor-column-right .form-section:last-child {
+.entry-editor-content .editor-column-left .form-section:last-child,
+.entry-editor-content .editor-column-right .form-section:last-child {
   margin-bottom: 0 !important;
 }
 
-.entry-editor-modal .form-section {
+.entry-editor-content .form-section {
   background: rgba(139, 69, 19, 0.04) !important;
   border: 1px solid var(--pf-brown-light) !important;
   border-radius: 8px !important;
@@ -1192,12 +1135,12 @@ select.wow-settings-input option {
   transition: all 0.2s ease !important;
 }
 
-.entry-editor-modal .form-section:hover {
+.entry-editor-content .form-section:hover {
   background: rgba(139, 69, 19, 0.06) !important;
   border-color: var(--pf-brown-medium) !important;
 }
 
-.entry-editor-modal .form-section h4 {
+.entry-editor-content .form-section h4 {
   margin: 0 0 16px 0 !important;
   font-family: 'Cinzel', serif !important;
   font-size: 16px !important;
@@ -1210,25 +1153,25 @@ select.wow-settings-input option {
   border-bottom: 1px solid var(--pf-brown-light) !important;
 }
 
-.entry-editor-modal .form-section h4 svg {
+.entry-editor-content .form-section h4 svg {
   color: #8b4513 !important;
 }
 
-.entry-editor-modal .form-row {
+.entry-editor-content .form-row {
   display: grid !important;
   grid-template-columns: 1fr 1fr !important;
   gap: 16px !important;
 }
 
-.entry-editor-modal .form-group {
+.entry-editor-content .form-group {
   margin-bottom: 12px !important;
 }
 
-.entry-editor-modal .form-group:last-child {
+.entry-editor-content .form-group:last-child {
   margin-bottom: 0 !important;
 }
 
-.entry-editor-modal .form-group label {
+.entry-editor-content .form-group label {
   display: block !important;
   font-family: 'Cinzel', serif !important;
   font-size: 12px !important;
@@ -1239,9 +1182,9 @@ select.wow-settings-input option {
   letter-spacing: 0.5px !important;
 }
 
-.entry-editor-modal .form-group input,
-.entry-editor-modal .form-group select,
-.entry-editor-modal .form-group textarea {
+.entry-editor-content .form-group input,
+.entry-editor-content .form-group select,
+.entry-editor-content .form-group textarea {
   width: 100% !important;
   box-sizing: border-box !important;
 }
@@ -1310,7 +1253,7 @@ select.wow-settings-input option {
 
 
 /* Effect Configuration Panel */
-.entry-editor-modal .effect-config-panel {
+.entry-editor-content .effect-config-panel {
   background: rgba(255, 255, 255, 0.4) !important;
   border: 1px solid var(--pf-brown-light) !important;
   border-radius: 6px !important;

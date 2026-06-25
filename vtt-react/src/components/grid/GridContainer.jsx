@@ -11,6 +11,7 @@ import ContainerWindow from '../item-generation/ContainerWindow';
 import UnlockContainerModal from '../item-generation/UnlockContainerModal';
 import LockSettingsModal from '../item-generation/LockSettingsModal';
 import TooltipPortal from '../tooltips/TooltipPortal';
+import { useTooltipPosition } from '../common/useTooltipPosition';
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
 import '../../styles/grid-container.css';
@@ -19,7 +20,8 @@ import { getIconUrl } from '../../utils/assetManager';
 
 const GridContainer = ({ gridItem }) => {
   const [showTooltip, setShowTooltip] = useState(false);
-  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const { adjustedPosition, tooltipRef } = useTooltipPosition(mousePosition, showTooltip);
   const [showContextMenu, setShowContextMenu] = useState(false);
   const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
   const [isContainerOpen, setIsContainerOpen] = useState(false);
@@ -125,18 +127,12 @@ const GridContainer = ({ gridItem }) => {
   // Simple tooltip handlers (matching character sheet pattern)
   const handleMouseEnter = (e) => {
     setShowTooltip(true);
-    setTooltipPosition({
-      x: e.clientX + 15,
-      y: e.clientY - 10
-    });
+    setMousePosition({ x: e.clientX, y: e.clientY });
   };
 
   const handleMouseMove = (e) => {
     if (showTooltip) {
-      setTooltipPosition({
-        x: e.clientX + 15,
-        y: e.clientY - 10
-      });
+      setMousePosition({ x: e.clientX, y: e.clientY });
     }
   };
 
@@ -587,11 +583,11 @@ const GridContainer = ({ gridItem }) => {
       {showTooltip && (
         <TooltipPortal>
           <div
+            ref={tooltipRef}
             style={{
               position: 'fixed',
-              left: tooltipPosition.x,
-              top: tooltipPosition.y,
-              transform: 'translate(10px, -50%)',
+              left: adjustedPosition.x,
+              top: adjustedPosition.y,
               pointerEvents: 'none',
               zIndex: 999999999
             }}

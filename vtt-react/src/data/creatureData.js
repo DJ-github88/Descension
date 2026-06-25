@@ -1591,38 +1591,38 @@ export const BESTIARY_DATA = {
           "heritage": "Rooted in ancestral guardian worship, the Disir Wraith was a folklore mechanism to honor family bloodlines and explain why some families were blessed while others were cursed. The Wyrd anomaly reacted to the descendants' fear of family extinction and genetic blight, manifesting these spectral female guardians to watch over or purge their lineage."
         },
         {
-          "id": "skogsra",
-          "name": "Skogsrå",
+          "id": "valravn",
+          "name": "Valravn",
           "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/skogsra.png",
-          "illustrationCaption": "A hand-drawn field sketch of the legendary Skogsrå",
-          "role": "Skogsrå",
-          "origin": "The Skogsrå is born of the Norse Skogsrå, a seductive, hollow-backed forest-spirit who grants fortune but punishes betrayal, and the Alpine Waldmännlein, who defend old-growth forests from the woodsman's axe. She is the wild soul of the ancient pines, guarding the deep woods of Nordhalla.",
-          "nature": "From the front, she appears as a stunning woman with skin of textured birch bark, hair of silver moss, and a gown of living pine needles that shifts from green in the warmth to grey-blue in the biting cold. From behind, however, she is a hollowed-out pine trunk filled with nesting forest birds and decaying wood, with a fox tail peeking out from the hem of her gown. Her face is heart-shaped and beautiful, dominated by large, dark eyes full of forest-knowing and a smile that is both warm and unsettling.",
-          "habitat": "She dwells within the ancient pine forests and old-growth timberlands of Nordhalla, particularly the Valley of Ymir.",
-          "combat": "155 HP. Hollow-Back (passive: from the front, stunningly beautiful; from behind, a hollow tree-cavity — if seen, DC 14 SPI or shaken for 1 round). Hunter's-Gift (special: grants impossible accuracy to lone hunters; price: never turn your back, never reveal her — break either rule and walk in circles until you freeze). Fox-Tail (passive: a fox tail peeks from beneath her gown; visible only when she moves quickly). Ice-Axe-Curse (special: turns axes to ice that shatters on first stroke). Vulnerable to cold iron.",
+          "illustration": "/assets/images/creatures/valravn.png",
+          "illustrationCaption": "A hand-drawn field sketch of the Valravn",
+          "role": "Valravn",
+          "origin": "The Valravn is a half-wolf, half-raven chimera of Danish and Norse folklore. It is born when a raven devours the heart of a fallen warrior on an unburied battlefield, gaining dark magical powers and wolf-like beast traits.",
+          "nature": "A wolf-sized chimera with the powerful hindquarters, tail, and legs of a black wolf, transitioning into the feather-covered chest, wings, and head of a giant raven. It has a sharp obsidian beak and cold, glowing violet eyes that burn with dark magic.",
+          "habitat": "It hunts the frozen crags, pine forests, and battlefields of Nordhalla, searching for the hearts of the fallen.",
+          "combat": "155 HP. Shadow-Wing (ranged 30 ft, +6 to hit, 1d8+4 physical + target is blinded for 1 round by swirling black feathers). Battlefield-Scent (passive: +2 to hit and +1d6 damage against any creature below half maximum health). Heart-Devour (melee, only against a bleeding, stunned, or dying target, +6 to hit, 2d10+4 physical, and Valravn regains HP equal to damage dealt). Obsidian-Beak (melee, +6 to hit, 1d8+4 piercing). Vulnerable to fire.",
           "stats": {
-            "strength": 12,
+            "strength": 16,
             "agility": 16,
-            "constitution": 12,
+            "constitution": 14,
             "intelligence": 10,
-            "spirit": 14,
-            "charisma": 18,
+            "spirit": 12,
+            "charisma": 8,
             "maxHp": 155,
-            "maxMana": 30,
+            "maxMana": 20,
             "maxActionPoints": 4,
-            "speed": 35,
+            "speed": 40,
             "resistances": {
               "physical": 25
             }
           },
-          "depth": "The Skogsrå frequently offers her favor to lone Skald hunters, granting them supernatural accuracy on the condition that they never look at her back and never speak of her; those who break this covenant are cursed to wander in circles until they freeze. She also acts as a fierce warden of the trees, turning the axes of woodcutters into brittle ice that shatters on impact. The oldest pines in the Valley of Ymir are so heavily guarded by her presence that even the Rune Keepers refuse to harvest them.",
+          "depth": "The Valravn stalks the periphery of clan skirmishes in Nordhalla, waiting for the slaughter to end. It is said that by devouring the hearts of unburied kings, a Valravn can take the form of a knight or gain supreme wisdom. Skalds sing of warriors who made pacts with the birds, trading their firstborn children for victory in battle. The presence of a Valravn circling overhead is considered a grim omen of an impending massacre.",
           "hooks": [
-            "A rumor spreads of a Skogsrå spotted near the area.",
-            "Adventurers need a component from a Skogsrå to complete their quest."
+            "A rumor spreads of a Valravn spotted near the area.",
+            "Adventurers need a heart of a Valravn to cure a cursed warlord."
           ],
-          "description": "A seductive forest guardian who appears as a beautiful woman from the front but is a hollow, rotting tree from behind, rewarding respectful hunters while cursing loggers.",
-          "heritage": "Born from forest-guardian myths, the Skogsrå was a warning story to enforce strict moral codes among woodcutters, warning that greed would lead to starvation. The Wyrd anomaly materialized this forest guilt and the fear of losing resources, manifesting this seductive forest keeper who grants luck to the respectful and death to the greedy."
+          "description": "A menacing half-wolf, half-raven chimera that devours the hearts of the fallen, gaining dark intelligence and hunting wounded prey.",
+          "heritage": "Rooted in Danish/Norse folklore of battlefield scavengers, the Valravn represented the horror of dying far from home without proper rites, leaving one's body to the beasts. The Wyrd anomaly materialized the collective dread of battlefields and unremembered deaths, weaving the raven and wolf into a lethal chimera that physically hunts the living."
         },
         {
           "id": "kraken",
@@ -1938,10 +1938,10 @@ export const BESTIARY_DATA = {
           "heritage": "Spun from Mesopotamian wind-demon myths, the Pazuzu was feared as a bringer of locusts and dry, blistering windstorms that ruined crops. The Wyrd anomaly consolidated the farmers' and miners' fear of famine and toxic sulfur fumes, physically manifesting this winged fiend to control the hot volcanic drafts of Sundale."
         },
         {
-          "id": "tiamat_scale",
+          "id": "tiamat",
           "name": "Scale of Tiamat",
           "dangerLevel": "Very High",
-          "illustration": "/assets/images/creatures/tiamat_scale.png",
+          "illustration": "/assets/images/creatures/tiamat.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Scale of Tiamat",
           "role": "Tiamat",
           "origin": "In the blistering depths of the Sundale caldera, the Scale of Tiamat embodies the ancient mythic forces of primordial creation and destruction. Its lineage is tied to Tiamat, the Babylonian dragon-goddess of the salt sea and mother of monsters, and Apep, the Egyptian chaos-serpent that sought to devour the sun each night. Twisted by the reality-warping influence of the Wyrd, this beast serves as an eternal enemy of cosmic order, seeking to consume light and heat wherever it can find them.",
@@ -2078,10 +2078,10 @@ export const BESTIARY_DATA = {
           "heritage": "Derived from Egyptian judgment mythology, the Ammit was a composite monster created to enforce moral laws, warning that the hearts of the wicked would be devoured. The Wyrd anomaly reacted to the collective guilt of wrongdoers in Sundale, materializing this crocodile-lion-hippopotamus hybrid to physically execute those judged unworthy."
         },
         {
-          "id": "lamashtu_wail",
+          "id": "lamashtu",
           "name": "Lamashtu",
           "dangerLevel": "Very High",
-          "illustration": "/assets/images/creatures/lamashtu_wail.png",
+          "illustration": "/assets/images/creatures/lamashtu.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Lamashtu",
           "role": "Lamashtu",
           "origin": "The Lamashtu is a malevolent manifestation born from the dark, distorted myths of Mesopotamian and Egyptian folklore. It combines Lamashtu, the baby-snatching demoness who caused miscarriages and infant deaths, with Taweret, the fierce hippopotamus-goddess of childbirth who served as a protective but terrifying maternal force. The resulting aberration is a tragic, twisted predator that hunts the young of Sundale.",
@@ -2113,10 +2113,10 @@ export const BESTIARY_DATA = {
           "heritage": "A tragic folklore mechanism to process infant mortality and miscarriage, the Lamashtu myth rationalized sudden crib deaths as the work of a baby-stealing demon. The Wyrd anomaly consolidated this deep parental grief and terror of losing children, materializing this bird-taloned demon to haunt the nursery chambers of volcanic worker blocks."
         },
         {
-          "id": "bes_brick",
+          "id": "bes",
           "name": "Bes",
           "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/bes_brick.png",
+          "illustration": "/assets/images/creatures/bes.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Bes",
           "role": "Bes",
           "origin": "Crafted by the skilled hands of Emberth artisans, the Bes is a protective homunculus inspired by ancient protective spirits. Its form draws from Bes, the Egyptian dwarf-god of households who warded off evil with knives and music, and Ugallu, the Mesopotamian lion-headed 'Big Weather-Beast' who championed cosmic order. Together, these legends are fused into a loyal clay defender of the home.",
@@ -2183,10 +2183,10 @@ export const BESTIARY_DATA = {
           "heritage": "Spun from Mesopotamian and Arabic elemental fire lore, the Ifrit was a personification of the lethal heat and blazing wildfires that destroyed arid settlements. The Wyrd anomaly captured the fear of thermal destruction in the foundries, materializing these giant, horned fire-spirits that command lava streams."
         },
         {
-          "id": "ghul_cinder",
+          "id": "ghul",
           "name": "Cinder Ghul",
           "dangerLevel": "Very High",
-          "illustration": "/assets/images/creatures/ghul_cinder.png",
+          "illustration": "/assets/images/creatures/ghul.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Cinder Ghul",
           "role": "Ghul",
           "origin": "The Cinder Ghul is a sinister spirit of the volcanic wastes, drawing its mythic origins from the ghuls of Mesopotamian folklore—undead shape-shifters that consumed the dead in ruined places—and Medjed, the mysterious, sheeted deity of the Egyptian Book of the Dead who smote enemies with unseen fire. Fused together by the static of the Wyrd, the Cinder Ghul acts as a silent, invisible sentinel of the dead.",
@@ -2253,10 +2253,10 @@ export const BESTIARY_DATA = {
           "heritage": "Inspired by the Sumerian Bull of Heaven, the Gugalanna was a myth representing the destructive earthquakes and droughts sent by gods to punish mortal hubris. The Wyrd anomaly reacted to the miners' dread of tectonic collapse and crop failures, materializing this colossal bull to shake the foundations of the mountains."
         },
         {
-          "id": "peri_moth",
+          "id": "peri",
           "name": "Peri",
           "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/peri_moth.png",
+          "illustration": "/assets/images/creatures/peri.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Peri",
           "role": "Peri",
           "origin": "The Peri is a delicate spirit of light and renewal, drawing its essence from Persian and Egyptian mythologies. It is inspired by the Peri, the beautiful, winged fallen angels of Zoroastrian lore who seek repentance, and Khepri, the scarab-god of the rising sun who rolls the sun across the sky. In the volcanic gloom of Sundale, these moths are viewed as fragments of the sun-god Sol's own consciousness, striving to bring warmth back to the world.",
@@ -2288,10 +2288,10 @@ export const BESTIARY_DATA = {
           "heritage": "Spun from Persian legends of winged spirits seeking purification, the Peri was a myth of hope representing the return of rain and fresh spring water. The Wyrd anomaly reacted to the miners' and farmers' desperation for water in the ash deserts, materializing these delicate winged moths to bring purification to polluted streams."
         },
         {
-          "id": "daeva_shade",
+          "id": "daeva",
           "name": "Daeva",
           "dangerLevel": "Very High",
-          "illustration": "/assets/images/creatures/daeva_shade.png",
+          "illustration": "/assets/images/creatures/daeva.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Daeva",
           "role": "Daeva",
           "origin": "The Daeva is a malevolent entity born from the absolute negation of light and truth. Its lineage is tied to the Daevas of Zoroastrian mythology, the false gods of chaos and destruction who serve Angra Mainyu, and the Set Animal of Egypt, the mysterious beast representing chaos, discord, and the foreign desert. It exists as a living lie, manifesting in Sundale to corrupt the land.",
@@ -2324,10 +2324,10 @@ export const BESTIARY_DATA = {
           "heritage": "Rooted in Zoroastrian mythology of chaos-demons, the Daeva represented the absolute negation of light, truth, and cosmic order. The Wyrd anomaly consolidated the settlers' fear of moral corruption and betrayals in the dark, materializing these multi-eyed, horned shadows to spread discord and deceit."
         },
         {
-          "id": "simurgh_ash",
+          "id": "simurgh",
           "name": "Simurgh",
           "dangerLevel": "Very High",
-          "illustration": "/assets/images/creatures/simurgh_ash.png",
+          "illustration": "/assets/images/creatures/simurgh.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Simurgh",
           "role": "Simurgh",
           "origin": "The Simurgh is an ancient and benevolent protector, drawing its heritage from Persian and Egyptian mythic guardians. It represents the Simurgh, the legendary bird of wisdom that witnessed the destruction of three worlds and possessed infinite healing knowledge, and the Akhekhu, the Egyptian underworld griffon that guarded hidden thresholds. It stands as a sapient witness to the world before the Dimming, carrying the memory of lost ages.",
@@ -2397,10 +2397,10 @@ export const BESTIARY_DATA = {
           "heritage": "Rooted in storm-serpent myths of Azi Dahaka, the Azi represented the terror of flash floods and lava overflows that swept away communities in narrow ravines. The Wyrd anomaly materialized this fear of uncontrollable fluid destruction, shaping these three-headed serpents to hunt near lava cascades."
         },
         {
-          "id": "edimmu_whisper",
+          "id": "edimmu",
           "name": "Edimmu",
           "dangerLevel": "Very High",
-          "illustration": "/assets/images/creatures/edimmu_whisper.png",
+          "illustration": "/assets/images/creatures/edimmu.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Edimmu",
           "role": "Edimmu/Ekimmu",
           "origin": "The Edimmu is a tragic and vengeful phantom born from improper burials and sudden deaths. It is inspired by the Edimmu of Mesopotamian myth, the wind-borne ghosts of those who died violently and haunted the living with illness, and the Ka of Egyptian belief, the spiritual double of a person that required food and drink to remain at peace. It remains anchored to the mortal realm, seeking the offerings it was denied.",
@@ -2468,10 +2468,10 @@ export const BESTIARY_DATA = {
           "heritage": "Rooted in Sumerian demon legends, the Asag was a myth representing the boiling heat and tectonic instability of the volcanic regions. The Wyrd anomaly reacted to the miners' constant fear of geysers and lava ruptures, materializing this massive rock-hided elemental to guard volcanic vents."
         },
         {
-          "id": "nisroch_falcon",
+          "id": "nisroch",
           "name": "Nisroch",
           "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/nisroch_falcon.png",
+          "illustration": "/assets/images/creatures/nisroch.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Nisroch",
           "role": "Nisroch",
           "origin": "The Nisroch is a divine protector of the sky, combining agricultural abundance with protective kingship. Its heritage traces to Nisroch, the Mesopotamian eagle-headed deity associated with the sacred tree of life, and Horus, the Egyptian falcon-god whose all-seeing eye represented cosmic order and healing. It serves as the primary aerial defense against the encroaching darkness.",
@@ -2573,10 +2573,10 @@ export const BESTIARY_DATA = {
           "heritage": "Rooted in Sumerian underworld legends, the Kur represented the spatial dread of the abyss where the dead wander and the earth swallows the living. The Wyrd anomaly materialized the miners' fear of being buried alive, shaping these spatial anomalies as dark fissures where tectonic structures warp."
         },
         {
-          "id": "mushuss_child",
+          "id": "mushussu",
           "name": "Mušḫuššu",
           "dangerLevel": "Very High",
-          "illustration": "/assets/images/creatures/mushuss_child.png",
+          "illustration": "/assets/images/creatures/mushussu.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Mušḫuššu",
           "role": "Mushhushshu",
           "origin": "The Mušḫuššu is a rare and gentle juvenile beast representing new life and creation. Its mythic origins combine the Mushhushshu, the Babylonian dragon-serpent of the Ishtar Gate, and Heket, the Egyptian frog-goddess of fertility and childbirth who breathed life into newborns. In the harsh, barren landscape of Sundale, it is welcomed as a harbinger of hope and fertility.",
@@ -2889,10 +2889,10 @@ export const BESTIARY_DATA = {
           "heritage": "Derived from the Greek Cetus, the colossal sea-monster sent by gods, the Ketos represented the fear of coastal devastation and massive tsunamis. The Wyrd anomaly reacted to the coastal villagers' dread of deep-sea dredging and harbor expansions, materializing this leviathan to crush docks and swallow fleets."
         },
         {
-          "id": "harpy_squall",
+          "id": "harpy",
           "name": "Harpy",
           "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/harpy_squall.png",
+          "illustration": "/assets/images/creatures/harpy.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Harpy",
           "role": "Harpy",
           "origin": "The Harpy traces its folklore roots to the Greek Harpy, the wind-spirit of divine punishment that stole souls and food, and the Ashanti Asanbosam, a forest-canopy vampire with iron teeth and hooked feet. In the Iceheart Sea, these creatures act as agents of localized tempests and scavengers of the masts.",
@@ -2923,10 +2923,10 @@ export const BESTIARY_DATA = {
           "heritage": "Spun from Greek Harpy legends of divine thieves, this wind-spirit originally rationalized sudden, violent squalls that swept away crops, sails, and drying fish. The Wyrd anomaly consolidated the coastal merchants' fear of lost cargo during sudden ocean storms, materializing these taloned bird-women to steal food and rip sails."
         },
         {
-          "id": "hippocampus_tide",
+          "id": "hippocampus",
           "name": "Hippocampus",
           "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/hippocampus_tide.png",
+          "illustration": "/assets/images/creatures/hippocampus.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Hippocampus",
           "role": "Hippocampus",
           "origin": "The Hippocampus is inspired by the Greek sea-horse that drew Poseidon's chariot, combined with the West African Sawa tradition of the Jengu, a water-spirit associated with healing, prophecy, and coastal boundaries. In this setting, they serve as the loyal mounts of the Myrathil.",
@@ -2957,10 +2957,10 @@ export const BESTIARY_DATA = {
           "heritage": "Derived from Greek sea-horse myths and West African water-spirit beliefs, the Hippocampus represented the hope of finding safe passage and calm winds on open water. The Wyrd anomaly reacted to the sailors' desperate prayers for fair tides, materializing these half-horse, half-fish creatures to guide ships or drown greedy captains."
         },
         {
-          "id": "gorgon_depth",
+          "id": "gorgon",
           "name": "Gorgon",
           "dangerLevel": "Very High",
-          "illustration": "/assets/images/creatures/gorgon_depth.png",
+          "illustration": "/assets/images/creatures/gorgon.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Gorgon",
           "role": "Gorgon",
           "origin": "This creature combines the Greek Gorgon, whose hair of snakes and terrible face turned onlookers to stone, with the West African Ewe myth of the Adze, a vampiric firefly-spirit that drinks blood and shifts between insect and humanoid forms. In the deep sea, she is a dread entity of the trenches.",
@@ -2992,10 +2992,10 @@ export const BESTIARY_DATA = {
           "heritage": "Born from Greek Gorgon myths, this creature originally rationalized the sudden paralysis and absolute terror that froze travelers when cornered by unseen forest predators. The Wyrd anomaly consolidated this fight-or-flight shock and the fear of the dark undergrowth, materializing this snake-haired hybrid whose gaze induces fossilizing paralysis."
         },
         {
-          "id": "tokoloshe_tide",
+          "id": "tokoloshe",
           "name": "Tokoloshe",
           "dangerLevel": "Trivial",
-          "illustration": "/assets/images/creatures/tokoloshe_tide.png",
+          "illustration": "/assets/images/creatures/tokoloshe.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Tokoloshe",
           "role": "Tokoloshe/Tikoloshe",
           "origin": "The Tokoloshe is born of the Zulu legend of the Tokoloshe, a hairy, mischievous sprite that becomes invisible by swallowing a pebble and attacks sleeping children, merged with the Greek Nereids, though this creature is far more troublesome than its nymph cousins. In the Iceheart, it is a persistent shipboard nuisance.",
@@ -3026,10 +3026,10 @@ export const BESTIARY_DATA = {
           "heritage": "Spun from Zulu legends of hairy, mischievous sprites, the Tokoloshe was a warning myth to enforce domestic respect and explain sudden night accidents in sleeping quarters. The Wyrd anomaly reacted to the cramped, tense cabins of Merrowport's harbor workers, materializing this invisible sprite to attack sleeping sailors."
         },
         {
-          "id": "lamia_shoal",
+          "id": "lamia",
           "name": "Lamia",
           "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/lamia_shoal.png",
+          "illustration": "/assets/images/creatures/lamia.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Lamia",
           "role": "Lamia",
           "origin": "The Lamia is derived from the Greek myth of Lamia, a grieving queen turned serpent-woman who devoured children, and the Ashanti Sasabonsam, a canopy-dwelling monster with long arms and iron claws. In the Iceheart Sea, she is a tragic creature warped by the Wyrd.",
@@ -3060,10 +3060,10 @@ export const BESTIARY_DATA = {
           "heritage": "Derived from Greek myths of Lamia, the grieving queen turned monster, this serpent-woman originally served to explain the sudden, tragic disappearance of young children from coastal villages. The Wyrd anomaly consolidated this deep maternal grief and the fear of predatory strangers, materializing this half-serpent horror to hunt the shoals."
         },
         {
-          "id": "empusa_ice",
+          "id": "empusa",
           "name": "Empusa",
           "dangerLevel": "High",
-          "illustration": "/assets/images/creatures/empusa_ice.png",
+          "illustration": "/assets/images/creatures/empusa.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Empusa",
           "role": "Empusa",
           "origin": "This creature derives from the Greek Empusa, a shape-shifting daughter of Hecate with one brass leg who seduced and drained sleeping men, and the Xhosa Impundulu, a vampiric lightning bird associated with storms. In the setting, she represents a storm-born curse.",
@@ -3095,10 +3095,10 @@ export const BESTIARY_DATA = {
           "heritage": "Rooted in Greek myths of Empusa, the shape-shifting daughter of Hecate, this creature originally served to warn young men against the temptations of predatory strangers along lonely roads. The Wyrd anomaly consolidated the fear of succumbing to moral weakness and freezing winter nights, materializing this brass-legged predator to drain sleeping victims."
         },
         {
-          "id": "telkhine_frost",
+          "id": "telkhine",
           "name": "Telkhine",
           "dangerLevel": "High",
-          "illustration": "/assets/images/creatures/telkhine_frost.png",
+          "illustration": "/assets/images/creatures/telkhine.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Telkhine",
           "role": "Telkhines",
           "origin": "The Telkhine is inspired by the Greek Telkhines, dog-headed, flipper-handed metalworkers cast into the sea for destructive magic, and the Congo River cryptid Mokèlé-mbèmbé. In the Iceheart Sea, they are covetous artisans of the cold.",
@@ -3130,10 +3130,10 @@ export const BESTIARY_DATA = {
           "heritage": "Spun from Greek legends of dog-headed metalworkers cast into the sea for practicing dark magic, the Telkhine originally rationalized sudden, unexplained failures of ship machinery and anchor chains. The Wyrd anomaly reacted to the sailors' fear of deep-sea magic, materializing these flipper-handed smiths to corrode hulls and trigger freezing storms."
         },
         {
-          "id": "stymphalian_flock",
+          "id": "stymphalian",
           "name": "Stymphalian Bird",
           "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/stymphalian_flock.png",
+          "illustration": "/assets/images/creatures/stymphalian.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Stymphalian Bird",
           "role": "Stymphalian Birds",
           "origin": "The Stymphalian Bird is based on the Greek Stymphalian birds with bronze feathers, driven away by Heracles with rattles, and the Central African Kongamato, a pterosaur-like boat-overturner. In the Iceheart, they are aerial pests of the shipping lanes.",
@@ -3164,10 +3164,10 @@ export const BESTIARY_DATA = {
           "heritage": "Based on Greek myths of birds with bronze feathers, this flock originally represented the fear of flying swarms that devoured grain fields and mutilated livestock. The Wyrd anomaly reacted to the local farmers' anxiety over crop loss and toxic ash falls, materializing these metal-feathered birds to slash travelers with razor plumage."
         },
         {
-          "id": "nereid_deep",
+          "id": "nereid",
           "name": "Nereid",
           "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/nereid_deep.png",
+          "illustration": "/assets/images/creatures/nereid.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Nereid",
           "role": "Nereid",
           "origin": "The Nereid is drawn from the Greek Nereids, benevolent sea-nymphs who aided sailors in distress, and Olokun’s Attendants in Yoruba mythology, who guard the treasures of the deep ocean. In the Iceheart, they are the rare saviors of the freezing waters.",
@@ -3199,10 +3199,10 @@ export const BESTIARY_DATA = {
           "heritage": "Spun from Greek sea-nymph legends, the Nereid originally served as a comforting myth of divine salvation, explaining how some shipwrecked sailors miraculously survived drowning. The Wyrd anomaly reacted to the sailors' hope for survival on the treacherous seas, materializing these glowing water spirits to rescue drowning crews."
         },
         {
-          "id": "graeae_oracle",
+          "id": "graeae",
           "name": "Graeae",
           "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/graeae_oracle.png",
+          "illustration": "/assets/images/creatures/graeae.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Graeae",
           "role": "Graeae / Grey Sisters",
           "origin": "The Graeae originates from the Greek Graeae or Grey Sisters, who shared a single eye and tooth, and the Yoruba Ifá divination system read by Babalawos. In the Iceheart Sea, they are keepers of fate and cosmological patterns.",
@@ -3234,10 +3234,10 @@ export const BESTIARY_DATA = {
           "heritage": "Rooted in Greek legends of the Grey Sisters who shared a single eye, this oracle originally served to warn travelers against seeking forbidden secrets of the future. The Wyrd anomaly consolidated the scholars' fear of losing knowledge during the Dimming, materializing these three sisters to trade cryptic prophecies for memories."
         },
         {
-          "id": "triton_conch",
+          "id": "triton",
           "name": "Triton",
           "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/triton_conch.png",
+          "illustration": "/assets/images/creatures/triton.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Triton",
           "role": "Triton",
           "origin": "The Triton draws from the Greek Triton, son of Poseidon who blew a conch to calm or raise the waves, and Olokun, the Yoruba deity of the deepest ocean. In this setting, he acts as a cosmic peacekeeper and ruler of the tides.",
@@ -3269,10 +3269,10 @@ export const BESTIARY_DATA = {
           "heritage": "Derived from Greek Triton myths, this creature originally represented the personification of the roaring waves and the hope of calming storms with sacred horn blasts. The Wyrd anomaly reacted to the sailors' dread of open-ocean tempests, materializing this conch-blowing water deity to calm the waters or drown arrogant captains."
         },
         {
-          "id": "nandi_swell",
+          "id": "nandi",
           "name": "Nandi",
           "dangerLevel": "High",
-          "illustration": "/assets/images/creatures/nandi_swell.png",
+          "illustration": "/assets/images/creatures/nandi.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Nandi",
           "role": "Nandi Bear",
           "origin": "The Nandi is based on the East African Nandi Bear, a shaggy, brain-eating cryptid, and the Greek Ketos or sea-beast category of unnamed coast-terrorizing monsters. In the Iceheart Sea, it is a brutal predator of the ice.",
@@ -3304,10 +3304,10 @@ export const BESTIARY_DATA = {
           "heritage": "Spun from East African cryptid legends and Greek sea-monster tales, the Nandi originally served to warn hunters and herders against venturing into remote, shaggy coastal caves alone. The Wyrd anomaly materialized the survival panic of settlers facing massive land predators, shaping their fears into a shaggy, brain-eating beast."
         },
         {
-          "id": "popobawa_night",
+          "id": "popobawa",
           "name": "Popobawa",
           "dangerLevel": "Very High",
-          "illustration": "/assets/images/creatures/popobawa_night.png",
+          "illustration": "/assets/images/creatures/popobawa.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Popobawa",
           "role": "Popobawa",
           "origin": "The Popobawa is inspired by the Zanzibar Popobawa, a bat-winged, one-eyed spirit that attacks victims in their homes, and the Greek Empusa's shape-shifting, fear-exploiting nature. In the setting, it is a plague of ship cabins.",
@@ -3374,10 +3374,10 @@ export const BESTIARY_DATA = {
           "heritage": "Derived from Central African unicorn-antelope myths, the Abada originally served as a symbol of purification, explaining how poison was neutralized in remote watering holes. The Wyrd anomaly reacted to the alchemists' and trackers' hope for survival in toxic marshes, materializing this horned antelope to purify waters with its horn."
         },
         {
-          "id": "graia_swirl",
+          "id": "graia",
           "name": "Graia",
           "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/graia_swirl.png",
+          "illustration": "/assets/images/creatures/graia.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Graia",
           "role": "Graia/Grey Sea",
           "origin": "The Graia is inspired by the Greek Graia or Grey Sea, a featureless mythical expanse sailed by the Argonauts, and Mami Wata's Whirlpool, a portal to the spirit world. In the setting, it is a localized temporal anomaly.",
@@ -3408,10 +3408,10 @@ export const BESTIARY_DATA = {
           "heritage": "Spun from Greek myths of the featureless Grey Sea, the Graia originally represented the psychological dread of getting lost in a vast, endless ocean whiteout without wind or land. The Wyrd anomaly materialized this deep spatial panic of sailors, shaping their fears into a shifting grey whirlpool that drags vessels into abyssal rifts."
         },
         {
-          "id": "ichthya_centaur",
+          "id": "ichthya",
           "name": "Ichthyocentaur",
           "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/ichthya_centaur.png",
+          "illustration": "/assets/images/creatures/ichthya.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Ichthyocentaur",
           "role": "Ichthyocentaur",
           "origin": "The Ichthyocentaur is based on the Greek Ichthyocentaur, a wise sea-centaur, and Ogun's Forge-Beneath-Waves from Yoruba tradition. In the setting, they are volcanic artisans who keep the rhythm of the ocean.",
@@ -3443,16 +3443,16 @@ export const BESTIARY_DATA = {
           "heritage": "Rooted in Greek sea-centaur myths, the Ichthyocentaur originally represented the hope of finding hidden undersea foundries and forging mystical alloys. The Wyrd anomaly reacted to the shipwrights' and metalworkers' desire to forge storm-resistant hulls, materializing these wise aquatic smiths to teach metallurgical secrets."
         },
         {
-          "id": "brine_lantern",
-          "name": "Brine Lantern",
+          "id": "brine",
+          "name": "Brine",
           "dangerLevel": "Trivial",
-          "illustration": "/assets/images/creatures/brine_lantern.png",
-          "illustrationCaption": "A hand-drawn field sketch of the legendary Brine Lantern",
+          "illustration": "/assets/images/creatures/brine.png",
+          "illustrationCaption": "A hand-drawn field sketch of the legendary Brine",
           "role": "Lampeia / Sacred Fire of the Sea",
-          "origin": "The Brine Lantern is inspired by the Greek Lampeia, mysterious ocean-lights guiding or misleading sailors, and the Yoruba Osu, ancestor-lights representing the souls of the dead. In the setting, they are guiding spirits.",
+          "origin": "The Brine is inspired by the Greek Lampeia, mysterious ocean-lights guiding or misleading sailors, and the Yoruba Osu, ancestor-lights representing the souls of the dead. In the setting, they are guiding spirits.",
           "nature": "A floating golden orb about the size of a human head, it hovers six inches above the water and rotates slowly, dropping glowing gold motes. The sphere is composed of compressed liquid gold, and viewing it closely reveals dozens of tiny, smiling, translucent faces pressed against the inner surface. Its warmth provides comfort in the freezing night.",
           "habitat": "These spirits hover near the coastal cliffs, harbor mouths, and open waters of the Iceheart Sea.",
-          "combat": "45 HP. Safe-Harbor-Glow (special: appears over safe anchorages during worst storms; following it always leads to safety — the faces inside are calm and smiling). False-Lantern (special: Wyrd-corrupted Brine Lanterns look identical but lead ships onto rocks; the faces inside are screaming and terrified — DC 13 INT to distinguish with a silver mirror). Golden-Trail (passive: leaves a luminous trail across the water that persists for 1 hour, marking a safe route). Soul-Light (passive: light is warm and comforting; creatures within 20 ft gain +2 to SPI saves). Vulnerable to cold.",
+          "combat": "45 HP. Safe-Harbor-Glow (special: appears over safe anchorages during worst storms; following it always leads to safety — the faces inside are calm and smiling). False-Lantern (special: Wyrd-corrupted Brines look identical but lead ships onto rocks; the faces inside are screaming and terrified — DC 13 INT to distinguish with a silver mirror). Golden-Trail (passive: leaves a luminous trail across the water that persists for 1 hour, marking a safe route). Soul-Light (passive: light is warm and comforting; creatures within 20 ft gain +2 to SPI saves). Vulnerable to cold.",
           "stats": {
             "strength": 4,
             "agility": 16,
@@ -3469,13 +3469,13 @@ export const BESTIARY_DATA = {
               "psychic": 50
             }
           },
-          "depth": "True Brine Lanterns are the souls of sailors who died heroically, appearing during storms to guide lost ships to safe coves. However, Wyrd-corrupted false lanterns exist, leading ships onto rocks; these can be identified by the screaming, terrified faces within, visible through silver mirrors. A local captain is planning a voyage through a storm-swept passage and is seeking adventurers to guide his ship using a true lantern.",
+          "depth": "True Brines are the souls of sailors who died heroically, appearing during storms to guide lost ships to safe coves. However, Wyrd-corrupted false lanterns exist, leading ships onto rocks; these can be identified by the screaming, terrified faces within, visible through silver mirrors. A local captain is planning a voyage through a storm-swept passage and is seeking adventurers to guide his ship using a true lantern.",
           "hooks": [
-            "A rumor spreads of a Brine Lantern spotted near the area.",
-            "Adventurers need a component from a Brine Lantern to complete their quest."
+            "A rumor spreads of a Brine spotted near the area.",
+            "Adventurers need a component from a Brine to complete their quest."
           ],
           "description": "A floating orb of warm gold light containing smiling faces, this spirit guides ships to safety during storms.",
-          "heritage": "Spun from Greek tales of mysterious ocean-lights, the Brine Lantern originally served to explain the bioluminescent glow of the sea and warn against following false lights. The Wyrd anomaly reacted to the sailors' dread of losing direction during dark nights, materializing these glowing lanterns to guide ships or lead them onto jagged reefs."
+          "heritage": "Spun from Greek tales of mysterious ocean-lights, the Brine originally served to explain the bioluminescent glow of the sea and warn against following false lights. The Wyrd anomaly reacted to the sailors' dread of losing direction during dark nights, materializing these glowing lanterns to guide ships or lead them onto jagged reefs."
         }
       ]
     },

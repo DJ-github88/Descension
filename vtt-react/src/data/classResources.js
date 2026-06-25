@@ -197,7 +197,7 @@ export const CLASS_RESOURCE_TYPES = {
                     warning: '#FB8C00',   // 5-6: Orange
                     danger: '#E53935',    // 7-8: Red
                     critical: '#C62828',  // 9: Dark red
-                    backlash: '#B71C1C'   // 10: Crimson
+                    backlash: '#8b3a2a'   // 10: Crimson
                 },
                 glowColor: '#FF5252',
                 icon: 'fas fa-triangle-exclamation',
@@ -1561,7 +1561,7 @@ CLASS_RESOURCE_TYPES['Toxicologist'] = {
             count: 'calculated', // INT mod + 3
             arrangement: 'grid',
             baseColor: '#2D5016',
-            activeColor: '#4CAF50',
+            activeColor: '#506e30',
             glowColor: '#76FF03',
             icon: 'fa-flask',
             effects: ['alchemy', 'poison']

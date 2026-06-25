@@ -1417,6 +1417,6 @@ function getColorGradientForScaling(scalingType) {
       
     case 'consistent':
     default:
-      return ['#4CAF50', '#4CAF50', '#4CAF50', '#4CAF50']; // Consistent green
+      return ['#506e30', '#506e30', '#506e30', '#506e30']; // Consistent green
   }
 }

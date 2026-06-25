@@ -66,10 +66,10 @@ const CharacterPortraitHUD = ({
 
     // Get health bar color based on percentage
     const getHealthBarColor = (percentage) => {
-        if (percentage > 75) return '#4CAF50'; // Green
-        if (percentage > 50) return '#FFC107'; // Yellow
-        if (percentage > 25) return '#FF9800'; // Orange
-        return '#F44336'; // Red
+        if (percentage > 75) return '#506e30';
+        if (percentage > 50) return '#7a6812';
+        if (percentage > 25) return '#9a5e15';
+        return '#8b3a2a';
     };
 
     // Handle right-click context menu
@@ -248,7 +248,7 @@ const CharacterPortraitHUD = ({
                                 className="bar-fill mana-fill"
                                 style={{
                                     width: `${manaPercentage}%`,
-                                    backgroundColor: '#2196F3' // Blue for mana
+                                    backgroundColor: 'var(--pf-mana)'
                                 }}
                             ></div>
                             <div className="bar-text">
@@ -266,7 +266,7 @@ const CharacterPortraitHUD = ({
                                 className="bar-fill ap-fill"
                                 style={{
                                     width: `${apPercentage}%`,
-                                    backgroundColor: '#FF9800' // Orange for action points
+                                    backgroundColor: 'var(--pf-health-low)'
                                 }}
                             ></div>
                             <div className="bar-text">

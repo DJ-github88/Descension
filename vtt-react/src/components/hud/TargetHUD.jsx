@@ -708,10 +708,10 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
     const apPercent = safeActionPoints.max > 0 ? Math.min(100, Math.max(0, (Number(safeActionPoints.current) / Number(safeActionPoints.max)) * 100)) : 0;
 
     const getHealthColor = (percent) => {
-        if (percent > 75) return '#4CAF50';
-        if (percent > 50) return '#FFC107';
-        if (percent > 25) return '#FF9800';
-        return '#F44336';
+        if (percent > 75) return '#506e30';
+        if (percent > 50) return '#7a6812';
+        if (percent > 25) return '#9a5e15';
+        return '#8b3a2a';
     };
 
     const handleRightClick = (e) => {
@@ -2207,7 +2207,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                                                 className="resource-fill"
                                                 style={{
                                                     width: `${manaPercent}%`,
-                                                    backgroundColor: '#2196F3'
+                                                    backgroundColor: 'var(--pf-mana)'
                                                 }}
                                             />
                                             {targetData.tempMana > 0 && safeMana.max > 0 && (
@@ -2246,7 +2246,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                                                 className="resource-fill"
                                                 style={{
                                                     width: `${apPercent}%`,
-                                                    backgroundColor: '#FF9800'
+                                                    backgroundColor: 'var(--pf-health-low)'
                                                 }}
                                             />
                                             {targetData.tempActionPoints > 0 && safeActionPoints.max > 0 && (

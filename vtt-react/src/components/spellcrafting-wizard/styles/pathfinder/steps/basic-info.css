@@ -227,35 +227,6 @@
   font-weight: var(--pf-font-semibold);
 }
 
-/* ===== ICON GRID ===== */
-
-.icon-selector-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
-  gap: var(--pf-space-2);
-  max-height: 300px;
-  overflow-y: auto;
-  padding: var(--pf-space-3);
-  background: var(--pf-gradient-parchment-dark);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  box-shadow: var(--pf-shadow-inset);
-}
-
-.icon-selector-grid::-webkit-scrollbar {
-  width: 8px;
-}
-
-.icon-selector-grid::-webkit-scrollbar-track {
-  background: var(--pf-parchment-dark);
-  border-radius: var(--pf-border-radius);
-}
-
-.icon-selector-grid::-webkit-scrollbar-thumb {
-  background: var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-}
-
 .icon-option {
   width: 56px;
   height: 56px;
@@ -357,11 +328,6 @@
     gap: var(--pf-space-4);
   }
   
-  .icon-selector-grid {
-    grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
-    max-height: 250px;
-  }
-  
   .icon-option {
     width: 48px;
     height: 48px;
@@ -386,11 +352,6 @@
   .spell-wizard-input,
   .spell-wizard-textarea {
     font-size: var(--pf-text-sm);
-  }
-
-  .icon-selector-grid {
-    grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
-    max-height: 200px;
   }
 
   .icon-option {

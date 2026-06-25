@@ -486,7 +486,7 @@ function RecipeWizard({ isOpen, onClose, onSave, onWindowPositionChange, onRecip
     };
 
     return (
-        <WowWindow title="Recipe Wizard" isOpen={isOpen} onClose={onClose} defaultSize={windowSize} defaultPosition={windowPosition} onDrag={handleWindowDrag} modal={true} className="recipe-wizard">
+        <WowWindow title="Recipe Wizard" isOpen={isOpen} onClose={onClose} defaultSize={windowSize} defaultPosition={windowPosition} onDrag={handleWindowDrag} modal={true} backdrop="static" className="recipe-wizard">
             <div className="recipe-wizard-content">
                 <div className="wizard-main-content">
                     <div className="spell-wizard-step">

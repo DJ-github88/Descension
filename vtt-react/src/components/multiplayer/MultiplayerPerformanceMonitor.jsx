@@ -28,18 +28,18 @@ const MultiplayerPerformanceMonitor = ({
 
   const getQualityColor = (quality) => {
     switch (quality) {
-      case 'excellent': return '#4CAF50';
-      case 'good': return '#8BC34A';
-      case 'fair': return '#FF9800';
-      case 'poor': return '#F44336';
-      default: return '#9E9E9E';
+      case 'excellent': return '#506e30';
+      case 'good': return '#4a6a2e';
+      case 'fair': return '#9a5e15';
+      case 'poor': return '#8b3a2a';
+      default: return '#8b7d6b';
     }
   };
 
   const getLatencyColor = (latency) => {
-    if (latency < 50) return '#4CAF50';
-    if (latency < 100) return '#FF9800';
-    return '#F44336';
+    if (latency < 50) return '#506e30';
+    if (latency < 100) return '#9a5e15';
+    return '#8b3a2a';
   };
 
   return (

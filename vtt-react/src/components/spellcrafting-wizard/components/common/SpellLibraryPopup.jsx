@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import ReactDOM from 'react-dom';
+import React, { useState, useMemo } from 'react';
+import WowWindow from '../../../windows/WowWindow';
 import { useSpellLibrary } from '../../context/SpellLibraryContext';
 import { transformSpellForCard, getSpellRollableTable } from '../../core/utils/spellCardTransformer';
 import UnifiedSpellCard from './UnifiedSpellCard';
@@ -28,27 +28,6 @@ const SpellLibraryPopup = ({
 
   // State for search
   const [searchQuery, setSearchQuery] = useState('');
-
-  // Handle escape key to close the modal
-  useEffect(() => {
-    const handleEscKey = (event) => {
-      if (event.key === 'Escape') {
-        onClose();
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener('keydown', handleEscKey);
-      // Prevent scrolling on the body when modal is open
-      document.body.style.overflow = 'hidden';
-    }
-
-    return () => {
-      document.removeEventListener('keydown', handleEscKey);
-      // Restore scrolling when component unmounts or modal closes
-      document.body.style.overflow = 'auto';
-    };
-  }, [isOpen, onClose]);
 
   // Apply filters to the spells
   const filteredSpells = useMemo(() => {
@@ -93,79 +72,71 @@ const SpellLibraryPopup = ({
 
   if (!isOpen) return null;
 
-  // Use ReactDOM.createPortal to render the modal directly to the document body
-  return ReactDOM.createPortal(
-    <div className="spell-library-modal-backdrop" onClick={onClose}>
-      <div
-        className="spell-library-modal"
-        onClick={(e) => e.stopPropagation()} // Prevent clicks inside from closing
-      >
-        {/* Modal header */}
-        <div className="spell-library-modal-header">
-          <h2>{title}</h2>
-          <button className="close-modal-btn" onClick={onClose}>×</button>
+  return (
+    <WowWindow
+      title={title}
+      isOpen={isOpen}
+      onClose={onClose}
+      modal={true}
+      centered={true}
+      defaultSize={{ width: 880, height: 720 }}
+    >
+      <div className="spell-library-popup-content" style={{ flex: '1 1 auto', minHeight: 0, boxSizing: 'border-box' }}>
+        {/* Search input */}
+        <div className="spell-library-popup-header">
+          <div className="search-container">
+            <input
+              type="text"
+              placeholder="Search spells..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="spell-search-input"
+            />
+            <span className="search-icon">🔍</span>
+          </div>
         </div>
 
-        {/* Modal content */}
-        <div className="spell-library-popup-content">
-          {/* Search input */}
-          <div className="spell-library-popup-header">
-            <div className="search-container">
-              <input
-                type="text"
-                placeholder="Search spells..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="spell-search-input"
-              />
-              <span className="search-icon">🔍</span>
+        {/* Spell cards */}
+        <div className="spell-library-popup-spells grid-view">
+          {filteredSpells.length === 0 ? (
+            <div className="no-spells-found">
+              <p>No spells match your search criteria.</p>
+              <button
+                onClick={() => setSearchQuery('')}
+                className="clear-search-btn"
+              >
+                Clear Search
+              </button>
             </div>
-          </div>
+          ) : (
+            <div className="spell-cards-container">
+              {filteredSpells.map(spell => {
+                const transformedSpell = transformSpellForCard(spell);
+                const rollableTableData = getSpellRollableTable(spell);
 
-          {/* Spell cards */}
-          <div className="spell-library-popup-spells grid-view">
-            {filteredSpells.length === 0 ? (
-              <div className="no-spells-found">
-                <p>No spells match your search criteria.</p>
-                <button
-                  onClick={() => setSearchQuery('')}
-                  className="clear-search-btn"
-                >
-                  Clear Search
-                </button>
-              </div>
-            ) : (
-              <div className="spell-cards-container">
-                {filteredSpells.map(spell => {
-                  // Transform the spell data for the card
-                  const transformedSpell = transformSpellForCard(spell);
-                  const rollableTableData = getSpellRollableTable(spell);
-
-                  return (
-                    <div
-                      key={spell.id}
-                      className="spell-item library-style"
-                      onClick={() => handleSelectSpell(spell.id)}
-                    >
-                      <UnifiedSpellCard
-                        spell={transformedSpell}
-                        variant="wizard"
-                        rollableTableData={rollableTableData}
-                        showActions={false}
-                        showDescription={true}
-                        showStats={true}
-                        showTags={true}
-                      />
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </div>
+                return (
+                  <div
+                    key={spell.id}
+                    className="spell-item library-style"
+                    onClick={() => handleSelectSpell(spell.id)}
+                  >
+                    <UnifiedSpellCard
+                      spell={transformedSpell}
+                      variant="wizard"
+                      rollableTableData={rollableTableData}
+                      showActions={false}
+                      showDescription={true}
+                      showStats={true}
+                      showTags={true}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
-    </div>,
-    document.body
+    </WowWindow>
   );
 };
 

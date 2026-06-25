@@ -15,6 +15,7 @@ import { GENERAL_CATEGORIES } from '../../../../data/generalSpellsData';
 import { getRacialSpells, getDisciplineSpells, isPassiveStatModifier } from '../../../../utils/raceDisciplineSpellUtils';
 import SpellCardWithProcs from '../common/SpellCardWithProcs';
 import UnifiedSpellCard from '../common/UnifiedSpellCard';
+import WowWindow from '../../../windows/WowWindow';
 // Pathfinder styles imported via main.css
 
 import SpellContextMenu from './SpellContextMenu';
@@ -2597,44 +2598,19 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
       )}
 
       {/* Spell Popup Modal - Shows full spell card on click */}
-      {selectedSpell && ReactDOM.createPortal(
-        <div
-          className="spellbook-popup-overlay"
-          onClick={() => {
+      {selectedSpell && (
+        <WowWindow
+          title={selectedSpell?.name || 'Spell Details'}
+          isOpen={true}
+          onClose={() => {
             isShowingPopupRef.current = false;
             setSelectedSpell(null);
           }}
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            width: '100vw',
-            height: '100vh',
-            background: 'radial-gradient(circle at center, rgba(100, 100, 150, 0.4) 0%, rgba(0, 0, 0, 0.8) 100%)',
-            backdropFilter: 'blur(10px)',
-            WebkitBackdropFilter: 'blur(10px)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 99999,
-            cursor: 'pointer',
-            margin: 0,
-            padding: 0
-          }}
+          modal={true}
+          centered={true}
+          defaultSize={{ width: 640, height: 720 }}
         >
-          <div
-            className="spellbook-popup-content"
-            onClick={(e) => e.stopPropagation()}
-            style={{
-              padding: '20px',
-              maxWidth: '600px',
-              maxHeight: '90vh',
-              overflow: 'auto',
-              cursor: 'default'
-            }}
-          >
+          <div className="spellbook-popup-content" style={{ padding: '20px', overflowY: 'auto', flex: '1 1 auto', minHeight: 0, boxSizing: 'border-box' }}>
             <UnifiedSpellCard
               spell={mapSpellToUnifiedFormat(selectedSpell)}
               variant="wizard"
@@ -2645,8 +2621,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
               rollableTableData={getSpellRollableTable(selectedSpell)}
             />
           </div>
-        </div>,
-        document.body
+        </WowWindow>
       )}
 
 

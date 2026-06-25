@@ -38,7 +38,7 @@ const TimeShardsStrainResourceBar = ({
         // Get strain color based on level
         const getStrainColor = (strain) => {
             const colors = finalConfig.visual?.temporalStrain?.strainColors || {};
-            if (strain >= 10) return colors.backlash || '#B71C1C';
+            if (strain >= 10) return colors.backlash || '#8b3a2a';
             if (strain >= 9) return colors.critical || '#C62828';
             if (strain >= 7) return colors.danger || '#E53935';
             if (strain >= 5) return colors.warning || '#FB8C00';

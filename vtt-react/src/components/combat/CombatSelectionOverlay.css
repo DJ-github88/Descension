@@ -170,7 +170,7 @@
     right: -2px;
     width: 24px;
     height: 24px;
-    background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+    background: linear-gradient(135deg, var(--pf-hp) 0%, var(--pf-hp-dark) 100%);
     border: 2px solid #ffffff;
     border-radius: 50%;
     display: flex;

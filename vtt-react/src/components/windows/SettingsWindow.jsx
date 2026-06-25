@@ -10,6 +10,7 @@ import ContentModerationDashboard from '../common/ContentModerationDashboard';
 import PlayerSelector from '../common/PlayerSelector';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/settings-window.css';
+import { useWindowIntros } from '../../hooks/useWindowIntros';
 
 const ResourceBarToggles = memo(function ResourceBarToggles() {
     const showPartyAPBar = useSettingsStore(state => state.showPartyAPBar ?? true);
@@ -40,28 +41,28 @@ const ResourceBarToggles = memo(function ResourceBarToggles() {
             </div>
             <div className="settings-group" style={{ display: 'flex', gap: '8px', flexDirection: 'column' }}>
                 <label style={toggleStyle}>
-                    <input type="checkbox" checked={showPartyAPBar} onChange={(e) => setShowPartyAPBar(e.target.checked)} style={{ marginRight: '8px', accentColor: '#FF9800' }} />
+                    <input type="checkbox" checked={showPartyAPBar} onChange={(e) => setShowPartyAPBar(e.target.checked)} style={{ marginRight: '8px', accentColor: '#9a5e15' }} />
                     <div>
                         <div style={{ fontWeight: '600', color: '#7a3b2e', fontSize: '14px', fontFamily: 'Cinzel, serif' }}>AP bars on party frames</div>
                         <div style={{ fontSize: '12px', color: '#8b6f47', marginTop: '2px', fontStyle: 'italic' }}>Show Action Points bars on party member HUD frames</div>
                     </div>
                 </label>
                 <label style={toggleStyle}>
-                    <input type="checkbox" checked={showPartyManaBar} onChange={(e) => setShowPartyManaBar(e.target.checked)} style={{ marginRight: '8px', accentColor: '#2196F3' }} />
+                    <input type="checkbox" checked={showPartyManaBar} onChange={(e) => setShowPartyManaBar(e.target.checked)} style={{ marginRight: '8px', accentColor: '#4a6a8a' }} />
                     <div>
                         <div style={{ fontWeight: '600', color: '#7a3b2e', fontSize: '14px', fontFamily: 'Cinzel, serif' }}>Mana bars on party frames</div>
                         <div style={{ fontSize: '12px', color: '#8b6f47', marginTop: '2px', fontStyle: 'italic' }}>Show Mana bars on party member HUD frames</div>
                     </div>
                 </label>
                 <label style={toggleStyle}>
-                    <input type="checkbox" checked={showCreatureAPBar} onChange={(e) => setShowCreatureAPBar(e.target.checked)} style={{ marginRight: '8px', accentColor: '#FF9800' }} />
+                    <input type="checkbox" checked={showCreatureAPBar} onChange={(e) => setShowCreatureAPBar(e.target.checked)} style={{ marginRight: '8px', accentColor: '#9a5e15' }} />
                     <div>
                         <div style={{ fontWeight: '600', color: '#7a3b2e', fontSize: '14px', fontFamily: 'Cinzel, serif' }}>AP bars on creature tooltips</div>
                         <div style={{ fontSize: '12px', color: '#8b6f47', marginTop: '2px', fontStyle: 'italic' }}>Show Action Points bars on creature target HUD</div>
                     </div>
                 </label>
                 <label style={toggleStyle}>
-                    <input type="checkbox" checked={showCreatureManaBar} onChange={(e) => setShowCreatureManaBar(e.target.checked)} style={{ marginRight: '8px', accentColor: '#2196F3' }} />
+                    <input type="checkbox" checked={showCreatureManaBar} onChange={(e) => setShowCreatureManaBar(e.target.checked)} style={{ marginRight: '8px', accentColor: '#4a6a8a' }} />
                     <div>
                         <div style={{ fontWeight: '600', color: '#7a3b2e', fontSize: '14px', fontFamily: 'Cinzel, serif' }}>Mana bars on creature tooltips</div>
                         <div style={{ fontSize: '12px', color: '#8b6f47', marginTop: '2px', fontStyle: 'italic' }}>Show Mana bars on creature target HUD</div>
@@ -211,6 +212,8 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
     const [selectedPlayersForXP, setSelectedPlayersForXP] = useState([]);
     const [selectedPlayersForRest, setSelectedPlayersForRest] = useState([]);
 
+    const { enabled: introsEnabled, seenCount: introsSeenCount, total: introsTotal, resetSeen: resetIntros, setEnabled: setIntrosEnabled } = useWindowIntros();
+
     // Update activeTab when prop changes (memoized to prevent unnecessary re-renders)
     useEffect(() => {
         if (propActiveTab && propActiveTab !== activeTab) {
@@ -356,6 +359,27 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
     const renderInterfaceTab = () => (
         <div className="settings-content-clean">
             <div style={{ padding: '24px', maxWidth: '800px', margin: '0 auto' }}>
+                <div style={{ marginBottom: '20px', padding: '16px', background: 'rgba(212, 175, 55, 0.08)', border: '1px solid #d4af37', borderRadius: '8px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
+                        <i className="fas fa-compass" style={{ fontSize: '20px', color: '#d4af37' }}></i>
+                        <div>
+                            <h3 style={{ margin: '0 0 4px 0', color: '#7a3b2e', fontSize: '18px', fontFamily: 'Cinzel, serif' }}>Window Introductions</h3>
+                            <p style={{ margin: '0', color: '#8b6f47', fontSize: '14px', fontStyle: 'italic' }}>The Lamplighter explains each window the first time you open it.</p>
+                        </div>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
+                        <label style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#5a3a1a', fontSize: '14px', cursor: 'pointer' }}>
+                            <input type="checkbox" checked={introsEnabled} onChange={(e) => setIntrosEnabled(e.target.checked)} />
+                            Show introductions ({introsSeenCount}/{introsTotal} seen)
+                        </label>
+                        <button
+                            onClick={resetIntros}
+                            style={{ padding: '6px 14px', background: 'rgba(139, 69, 19, 0.08)', border: '1px solid #8B4513', color: '#5a3a1a', borderRadius: '4px', fontFamily: 'Cinzel, serif', fontWeight: '600', fontSize: '12px', cursor: 'pointer' }}
+                        >
+                            Replay all
+                        </button>
+                    </div>
+                </div>
                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', gap: '12px' }}>
                     <i className="fas fa-expand-arrows-alt" style={{ fontSize: '20px', color: '#7a3b2e' }}></i>
                     <div>

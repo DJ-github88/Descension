@@ -4,36 +4,36 @@
 // === HEALTH STATE ===
 // Returns qualitative health state based on HP percentage
 export const getHealthState = (currentHp, maxHp) => {
-  if (maxHp <= 0) return { label: 'Unknown', color: '#9E9E9E', pct: 0, barFill: 0 };
+  if (maxHp <= 0) return { label: 'Unknown', color: '#8b7d6b', pct: 0, barFill: 0 };
   
   const pct = (currentHp / maxHp) * 100;
   const barFill = Math.max(0, Math.min(100, pct));
   
-  if (currentHp <= 0) return { label: 'Defeated', color: '#9E9E9E', pct: 0, barFill: 0 };
-  if (pct === 100) return { label: 'Pristine', color: '#4CAF50', pct, barFill };
-  if (pct >= 75) return { label: 'Healthy', color: '#8BC34A', pct, barFill };
-  if (pct >= 50) return { label: 'Wounded', color: '#FF9800', pct, barFill };
-  if (pct >= 25) return { label: 'Bloodied', color: '#FF5722', pct, barFill };
-  if (pct >= 10) return { label: 'Critical', color: '#F44336', pct, barFill };
-  return { label: "Death's Door", color: '#B71C1C', pct, barFill };
+  if (currentHp <= 0) return { label: 'Defeated', color: '#8b7d6b', pct: 0, barFill: 0 };
+  if (pct === 100) return { label: 'Pristine', color: '#506e30', pct, barFill };
+  if (pct >= 75) return { label: 'Healthy', color: '#4a6a2e', pct, barFill };
+  if (pct >= 50) return { label: 'Wounded', color: '#7a6812', pct, barFill };
+  if (pct >= 25) return { label: 'Bloodied', color: '#9a5e15', pct, barFill };
+  if (pct >= 10) return { label: 'Critical', color: '#8b3a2a', pct, barFill };
+  return { label: "Death's Door", color: '#6b2a1a', pct, barFill };
 };
 
 // === SPEED RATING ===
 // Returns qualitative speed description
 export const getSpeedRating = (speed) => {
-  if (speed === 0) return { label: 'Immobile', color: '#9E9E9E', icon: '🚫' };
-  if (speed <= 15) return { label: 'Crippled', color: '#F44336', icon: '🩹' };
-  if (speed <= 25) return { label: 'Slow', color: '#FF9800', icon: '🐢' };
-  if (speed <= 35) return { label: 'Normal', color: '#E0E0E0', icon: '🚶' };
-  if (speed <= 50) return { label: 'Fast', color: '#64B5F6', icon: '🏃' };
-  if (speed <= 70) return { label: 'Swift', color: '#2196F3', icon: '💨' };
-  return { label: 'Blazing', color: '#00BCD4', icon: '⚡' };
+  if (speed === 0) return { label: 'Immobile', color: '#8b7d6b', icon: '🚫' };
+  if (speed <= 15) return { label: 'Crippled', color: '#8b3a2a', icon: '🩹' };
+  if (speed <= 25) return { label: 'Slow', color: '#9a5e15', icon: '🐢' };
+  if (speed <= 35) return { label: 'Normal', color: '#5a4a3a', icon: '🚶' };
+  if (speed <= 50) return { label: 'Fast', color: '#4a6a8a', icon: '🏃' };
+  if (speed <= 70) return { label: 'Swift', color: '#3a5a7a', icon: '💨' };
+  return { label: 'Blazing', color: '#2a8a8a', icon: '⚡' };
 };
 
 // === ARMOR RATING ===
 // Returns qualitative armor description for creatures (resistances only)
 export const getArmorRating = (armor) => {
-  return { label: 'Resistances Only', color: '#9e9e9e', passiveDR: 0, soakDie: '—', armorValue: 0 };
+  return { label: 'Resistances Only', color: '#8b7d6b', passiveDR: 0, soakDie: '—', armorValue: 0 };
 };
 
 // === SOAK DIE ===
@@ -100,11 +100,11 @@ export const getResistancesSummary = (creature) => {
     const typeLabel = type.charAt(0).toUpperCase() + type.slice(1);
     
     if (value === 'immune' || value === 100) {
-      result.push({ type, level: 'immune', label: `${typeLabel} Immune`, color: '#9C27B0' });
+      result.push({ type, level: 'immune', label: `${typeLabel} Immune`, color: '#6b3a8a' });
     } else if (value >= 50) {
-      result.push({ type, level: 'resistant', label: `${typeLabel} Resistant`, color: '#2196F3' });
+      result.push({ type, level: 'resistant', label: `${typeLabel} Resistant`, color: '#4a6a8a' });
     } else if (value > 0) {
-      result.push({ type, level: 'guarded', label: `${typeLabel} Guarded`, color: '#4CAF50' });
+      result.push({ type, level: 'guarded', label: `${typeLabel} Guarded`, color: '#506e30' });
     }
   });
   
@@ -113,7 +113,7 @@ export const getResistancesSummary = (creature) => {
 
 // === VULNERABILITIES SUMMARY ===
 // Format vulnerabilities for display
-export const getVulnerabilitiesSummary = (creature) => {
+export const getVulabilitiesSummary = (creature) => {
   const result = [];
   const vulnerabilities = creature?.vulnerabilities || {};
   
@@ -121,11 +121,11 @@ export const getVulnerabilitiesSummary = (creature) => {
     const typeLabel = type.charAt(0).toUpperCase() + type.slice(1);
     
     if (value >= 100) {
-      result.push({ type, level: 'vulnerable', label: `${typeLabel} Vulnerable`, color: '#F44336' });
+      result.push({ type, level: 'vulnerable', label: `${typeLabel} Vulnerable`, color: '#8b3a2a' });
     } else if (value >= 50) {
-      result.push({ type, level: 'exposed', label: `${typeLabel} Exposed`, color: '#FF9800' });
+      result.push({ type, level: 'exposed', label: `${typeLabel} Exposed`, color: '#9a5e15' });
     } else if (value > 0) {
-      result.push({ type, level: 'susceptible', label: `${typeLabel} Susceptible`, color: '#FFC107' });
+      result.push({ type, level: 'susceptible', label: `${typeLabel} Susceptible`, color: '#7a6812' });
     }
   });
   
@@ -139,34 +139,34 @@ export const formatDamageType = (damageType) => {
   
   const typeColors = {
     physical: '#795548',
-    ember: '#FF5722',
-    rime: '#03A9F4',
-    storm: '#FFEB3B',
-    arcane: '#9C27B0',
-    primal: '#4CAF50',
+    ember: '#a8503a',
+    rime: '#3a7a9a',
+    storm: '#b8a01f',
+    arcane: '#6b3a8a',
+    primal: '#506e30',
     blight: '#4A148C',
-    wyrd: '#E91E63',
+    wyrd: '#8b2a5a',
     healing: '#2E8B57',
-    slashing: '#B71C1C',
-    piercing: '#D32F2F',
-    bludgeoning: '#E64A19',
-    fire: '#FF5722',
-    frost: '#03A9F4',
-    lightning: '#FFEB3B',
-    thunder: '#9C27B0',
-    acid: '#8BC34A',
-    poison: '#4CAF50',
-    force: '#673AB7',
-    psychic: '#E91E63',
-    radiant: '#FFD700',
+    slashing: '#8b2a2a',
+    piercing: '#a52a2a',
+    bludgeoning: '#a8531a',
+    fire: '#a8503a',
+    frost: '#3a7a9a',
+    lightning: '#b8a01f',
+    thunder: '#6b3a8a',
+    acid: '#4a6a2e',
+    poison: '#506e30',
+    force: '#5a3a8a',
+    psychic: '#8b2a5a',
+    radiant: '#7a6812',
     necrotic: '#4A148C',
-    holy: '#FFD700',
-    shadow: '#263238'
+    holy: '#7a6812',
+    shadow: '#3a3a3a'
   };
   
   return {
     label: damageType.charAt(0).toUpperCase() + damageType.slice(1),
-    color: typeColors[damageType.toLowerCase()] || '#9E9E9E'
+    color: typeColors[damageType.toLowerCase()] || '#8b7d6b'
   };
 };
 

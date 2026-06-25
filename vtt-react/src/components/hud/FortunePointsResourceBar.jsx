@@ -144,7 +144,7 @@ const FortunePointsResourceBar = ({
                                 transition: 'width 0.2s ease-out'
                             }}
                         />
-                        <div style={{ position: 'relative', zIndex: 1, display: 'flex', justifyContent: 'center', width: '100%', fontSize: '9px', fontWeight: 'bold', color: '#B71C1C', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
+                        <div style={{ position: 'relative', zIndex: 1, display: 'flex', justifyContent: 'center', width: '100%', fontSize: '9px', fontWeight: 'bold', color: '#8b3a2a', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
                             <span>{size === 'small' || context === 'party' ? `${riskValue}/${maxRisk} Debt` : `Debt: ${riskValue}/${maxRisk}`}</span>
                         </div>
                     </div>
@@ -249,7 +249,7 @@ const FortunePointsResourceBar = ({
 
                             {/* Karmic Debt Section */}
                             <div className="context-menu-section" style={{ marginTop: '8px' }}>
-                                <div className="context-menu-section-header" style={{ color: '#B71C1C', fontSize: '11px', fontWeight: 'bold' }}>
+                                <div className="context-menu-section-header" style={{ color: '#8b3a2a', fontSize: '11px', fontWeight: 'bold' }}>
                                     Karmic Debt: {riskValue}/{maxRisk}
                                 </div>
                                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '4px', marginBottom: '8px' }}>

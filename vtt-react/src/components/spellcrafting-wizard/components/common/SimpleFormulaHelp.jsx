@@ -8,14 +8,12 @@ import {
   faMoon,
   faSun,
   faSkull,
-  faInfoCircle,
-  faTimes
+  faInfoCircle
 } from '@fortawesome/free-solid-svg-icons';
+import WowWindow from '../../../windows/WowWindow';
 
 
 const SimpleFormulaHelp = ({ show, onClose, resourceType }) => {
-  if (!show) return null;
-
   // Common variables available for all resource types
   const commonVariables = [
     { name: 'level', description: 'Character level' },
@@ -122,78 +120,73 @@ const SimpleFormulaHelp = ({ show, onClose, resourceType }) => {
   const currentExamples = resourceType ? thematicExamples[resourceType] || [] : [];
 
   return (
-    <div className="simple-formula-help">
-      <div className="simple-formula-help-overlay" onClick={onClose}></div>
-      <div className="simple-formula-help-content">
-        <div className="simple-formula-help-header">
-          <div className="resource-title">
-            <FontAwesomeIcon icon={getResourceIcon(resourceType)} className={`resource-icon ${resourceType}`} />
-            <span>{formatResourceName(resourceType)} Formula Variables</span>
-          </div>
-          <button className="simple-formula-help-close" onClick={onClose}>
-            <FontAwesomeIcon icon={faTimes} />
-          </button>
-        </div>
-        
-        <div className="simple-formula-help-body">
-          <div className="formula-section">
-            <h4>Resource-Specific Variables</h4>
-            <div className="variable-list">
-              {currentVariables.map((variable, index) => (
-                <div key={index} className="variable-item">
-                  <div className="variable-name"><code>{variable.name}</code></div>
-                  <div className="variable-desc">{variable.description}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="formula-section">
-            <h4>Common Variables</h4>
-            <div className="variable-list">
-              {commonVariables.map((variable, index) => (
-                <div key={index} className="variable-item">
-                  <div className="variable-name"><code>{variable.name}</code></div>
-                  <div className="variable-desc">{variable.description}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="formula-section">
-            <h4>Example Formulas</h4>
-            <div className="example-list">
-              {currentExamples.map((example, index) => (
-                <div key={index} className="example-item">
-                  <div className="example-name">{example.name}</div>
-                  <div className="example-formula"><code>{example.formula}</code></div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="formula-section">
-            <h4>Formula Syntax</h4>
-            <div className="syntax-list">
-              <div className="syntax-item">
-                <div className="syntax-name"><code>+, -, *, /</code></div>
-                <div className="syntax-desc">Basic arithmetic operations</div>
+    <WowWindow
+      title={`${formatResourceName(resourceType)} Formula Variables`}
+      isOpen={show}
+      onClose={onClose}
+      modal={true}
+      centered={true}
+      defaultSize={{ width: 520, height: 580 }}
+      minConstraints={[360, 300]}
+      customHeader={
+        <span className="resource-title" style={{ color: '#f0e6d2' }}>
+          <FontAwesomeIcon icon={getResourceIcon(resourceType)} className={`resource-icon ${resourceType}`} />
+          <span>{formatResourceName(resourceType)} Formula Variables</span>
+        </span>
+      }
+    >
+      <div style={{ padding: '15px', overflowY: 'auto', flex: '1 1 auto', boxSizing: 'border-box' }}>
+        <div className="formula-section">
+          <h4>Resource-Specific Variables</h4>
+          <div className="variable-list">
+            {currentVariables.map((variable, index) => (
+              <div key={index} className="variable-item">
+                <div className="variable-name"><code>{variable.name}</code></div>
+                <div className="variable-desc">{variable.description}</div>
               </div>
-              <div className="syntax-item">
-                <div className="syntax-name"><code>min(a, b), max(a, b)</code></div>
-                <div className="syntax-desc">Minimum or maximum of two values</div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
-        
-        <div className="simple-formula-help-footer">
-          <button className="simple-formula-help-button" onClick={onClose}>
-            Close
-          </button>
+
+        <div className="formula-section">
+          <h4>Common Variables</h4>
+          <div className="variable-list">
+            {commonVariables.map((variable, index) => (
+              <div key={index} className="variable-item">
+                <div className="variable-name"><code>{variable.name}</code></div>
+                <div className="variable-desc">{variable.description}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="formula-section">
+          <h4>Example Formulas</h4>
+          <div className="example-list">
+            {currentExamples.map((example, index) => (
+              <div key={index} className="example-item">
+                <div className="example-name">{example.name}</div>
+                <div className="example-formula"><code>{example.formula}</code></div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="formula-section">
+          <h4>Formula Syntax</h4>
+          <div className="syntax-list">
+            <div className="syntax-item">
+              <div className="syntax-name"><code>+, -, *, /</code></div>
+              <div className="syntax-desc">Basic arithmetic operations</div>
+            </div>
+            <div className="syntax-item">
+              <div className="syntax-name"><code>min(a, b), max(a, b)</code></div>
+              <div className="syntax-desc">Minimum or maximum of two values</div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </WowWindow>
   );
 };
 

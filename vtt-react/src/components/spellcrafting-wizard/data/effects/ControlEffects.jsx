@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
+import WowWindow from '../../../windows/WowWindow';
 import {
   FaPersonWalkingArrowRight,
   FaGrip,
@@ -1608,25 +1608,17 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
       </div>
 
       {/* Enhanced Effect Configuration Popup - Rendered outside spellbook window */}
-      {configPopupOpen && selectedEffectForPopupConfig && ReactDOM.createPortal(
-        <div className="effect-config-popup-overlay" onClick={() => setConfigPopupOpen(false)}>
-          <div className="effect-config-popup enhanced-control-popup" onClick={(e) => e.stopPropagation()}>
-            <div className="effect-config-header">
-              <img
-                src={getIconUrl(selectedEffectForPopupConfig.icon)}
-                alt={selectedEffectForPopupConfig.name}
-                className="effect-config-icon"
-              />
-              <h3>Configure Control Effect</h3>
-              <button
-                className="effect-config-close"
-                onClick={() => setConfigPopupOpen(false)}
-              >
-                ×
-              </button>
-            </div>
-
-            <div className="effect-config-content">
+      {configPopupOpen && selectedEffectForPopupConfig && (
+        <WowWindow
+          title="Configure Control Effect"
+          isOpen={true}
+          onClose={() => setConfigPopupOpen(false)}
+          modal={true}
+          backdrop="static"
+          centered={true}
+          defaultSize={{ width: 800, height: 700 }}
+        >
+          <div className="effect-config-content" style={{ flex: '1 1 auto', overflowY: 'auto', minHeight: 0, boxSizing: 'border-box' }}>
               {/* Basic Configuration Section */}
               <div className="config-section">
                 <h4>Basic Configuration</h4>
@@ -1810,7 +1802,7 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
               </div>
             </div>
 
-            <div className="effect-config-footer">
+            <div className="effect-config-footer" style={{ flexShrink: 0 }}>
               <button
                 className="effect-config-cancel"
                 onClick={() => setConfigPopupOpen(false)}
@@ -1824,9 +1816,7 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
                 Save Changes
               </button>
             </div>
-          </div>
-        </div>,
-        document.body
+        </WowWindow>
       )}
 
 

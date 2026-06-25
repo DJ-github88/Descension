@@ -840,7 +840,6 @@
 /* Force all spell card footers to use Pathfinder styling */
 .spellbook-layout .wow-spell-card-footer,
 .spell-library-tab .wow-spell-card-footer,
-.pf-collection-view-window .wow-spell-card-footer,
 .wow-spell-card-footer {
   background: var(--pf-gradient-parchment-dark) !important;
   border-top: var(--pf-border-width) solid var(--pf-brown-medium) !important;
@@ -852,9 +851,7 @@
 .spellbook-layout .wow-spell-card-cooldown,
 .spellbook-layout .wow-spell-card-duration,
 .spell-library-tab .wow-spell-card-cooldown,
-.spell-library-tab .wow-spell-card-duration,
-.pf-collection-view-window .wow-spell-card-cooldown,
-.pf-collection-view-window .wow-spell-card-duration {
+.spell-library-tab .wow-spell-card-duration {
   color: var(--pf-text-primary) !important;
 }
 
@@ -862,14 +859,12 @@
 
 /* Fix rollable table entries - remove dark backgrounds and yellow highlighting */
 .spellbook-layout .wow-spell-card-rollable-table,
-.spell-library-tab .wow-spell-card-rollable-table,
-.pf-collection-view-window .wow-spell-card-rollable-table {
+.spell-library-tab .wow-spell-card-rollable-table {
   background: transparent !important;
 }
 
 .spellbook-layout .wow-spell-card-rollable-table-header,
-.spell-library-tab .wow-spell-card-rollable-table-header,
-.pf-collection-view-window .wow-spell-card-rollable-table-header {
+.spell-library-tab .wow-spell-card-rollable-table-header {
   background: var(--pf-gradient-parchment-light) !important;
   border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
   border-radius: var(--pf-border-radius) !important;
@@ -878,15 +873,13 @@
 }
 
 .spellbook-layout .wow-spell-card-rollable-table-entries,
-.spell-library-tab .wow-spell-card-rollable-table-entries,
-.pf-collection-view-window .wow-spell-card-rollable-table-entries {
+.spell-library-tab .wow-spell-card-rollable-table-entries {
   background: transparent !important;
   padding: var(--pf-space-2) 0 !important;
 }
 
 .spellbook-layout .wow-spell-card-rollable-table-entry,
-.spell-library-tab .wow-spell-card-rollable-table-entry,
-.pf-collection-view-window .wow-spell-card-rollable-table-entry {
+.spell-library-tab .wow-spell-card-rollable-table-entry {
   background: var(--pf-gradient-parchment-light) !important;
   border: var(--pf-border-width) solid var(--pf-brown-light) !important;
   border-radius: var(--pf-border-radius) !important;
@@ -896,21 +889,18 @@
 }
 
 .spellbook-layout .wow-spell-card-rollable-table-entry-roll,
-.spell-library-tab .wow-spell-card-rollable-table-entry-roll,
-.pf-collection-view-window .wow-spell-card-rollable-table-entry-roll {
+.spell-library-tab .wow-spell-card-rollable-table-entry-roll {
   color: var(--pf-brown-dark) !important;
   font-weight: var(--pf-font-semibold) !important;
 }
 
 .spellbook-layout .wow-spell-card-rollable-table-entry-effect,
-.spell-library-tab .wow-spell-card-rollable-table-entry-effect,
-.pf-collection-view-window .wow-spell-card-rollable-table-entry-effect {
+.spell-library-tab .wow-spell-card-rollable-table-entry-effect {
   color: var(--pf-text-primary) !important;
 }
 
 .spellbook-layout .wow-spell-card-rollable-table-more,
-.spell-library-tab .wow-spell-card-rollable-table-more,
-.pf-collection-view-window .wow-spell-card-rollable-table-more {
+.spell-library-tab .wow-spell-card-rollable-table-more {
   background: var(--pf-gradient-parchment) !important;
   border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
   border-radius: var(--pf-border-radius) !important;
@@ -928,10 +918,7 @@
 .spellbook-layout .wow-spell-card-footer[style*="#0f172a"],
 .spell-library-tab .wow-spell-card-footer[style*="rgba(15, 23, 42"],
 .spell-library-tab .wow-spell-card-footer[style*="#1e3a8a"],
-.spell-library-tab .wow-spell-card-footer[style*="#0f172a"],
-.pf-collection-view-window .wow-spell-card-footer[style*="rgba(15, 23, 42"],
-.pf-collection-view-window .wow-spell-card-footer[style*="#1e3a8a"],
-.pf-collection-view-window .wow-spell-card-footer[style*="#0f172a"] {
+.spell-library-tab .wow-spell-card-footer[style*="#0f172a"] {
   background: var(--pf-gradient-parchment-dark) !important;
   border-top: var(--pf-border-width) solid var(--pf-brown-medium) !important;
   color: var(--pf-text-primary) !important;
@@ -943,10 +930,7 @@
 .spellbook-layout .wow-spell-card *[style*="rgba(0, 0, 0, 0.4)"],
 .spell-library-tab .wow-spell-card *[style*="rgba(0, 0, 0, 0.5)"],
 .spell-library-tab .wow-spell-card *[style*="rgba(0, 0, 0, 0.3)"],
-.spell-library-tab .wow-spell-card *[style*="rgba(0, 0, 0, 0.4)"],
-.pf-collection-view-window .wow-spell-card *[style*="rgba(0, 0, 0, 0.5)"],
-.pf-collection-view-window .wow-spell-card *[style*="rgba(0, 0, 0, 0.3)"],
-.pf-collection-view-window .wow-spell-card *[style*="rgba(0, 0, 0, 0.4)"] {
+.spell-library-tab .wow-spell-card *[style*="rgba(0, 0, 0, 0.4)"] {
   background: var(--pf-gradient-parchment-light) !important;
   border-color: var(--pf-brown-medium) !important;
   color: var(--pf-text-primary) !important;
@@ -958,28 +942,10 @@
 .spellbook-layout .wow-spell-card *[style*="rgba(255, 215, 0"],
 .spell-library-tab .wow-spell-card *[style*="#FFD700"],
 .spell-library-tab .wow-spell-card *[style*="yellow"],
-.spell-library-tab .wow-spell-card *[style*="rgba(255, 215, 0"],
-.pf-collection-view-window .wow-spell-card *[style*="#FFD700"],
-.pf-collection-view-window .wow-spell-card *[style*="yellow"],
-.pf-collection-view-window .wow-spell-card *[style*="rgba(255, 215, 0"] {
+.spell-library-tab .wow-spell-card *[style*="rgba(255, 215, 0"] {
   background: var(--pf-gradient-parchment-light) !important;
   border-color: var(--pf-brown-medium) !important;
   color: var(--pf-text-primary) !important;
-}
-
-/* ===== FORCE OVERRIDE ALL COLLECTION SPELL CARD INLINE STYLES ===== */
-
-/* Override all inline background colors in collection spell cards */
-.pf-collection-view-window .wow-spell-card *[style*="background"],
-.pf-collection-view-window .wow-spell-card *[style*="backgroundColor"] {
-  background: var(--pf-gradient-parchment-light) !important;
-}
-
-/* Override all inline border colors in collection spell cards */
-.pf-collection-view-window .wow-spell-card *[style*="border"],
-.pf-collection-view-window .wow-spell-card *[style*="borderTop"],
-.pf-collection-view-window .wow-spell-card *[style*="borderBottom"] {
-  border-color: var(--pf-brown-medium) !important;
 }
 
 /* ===== ADDITIONAL DARK/MIDNIGHT COLOR OVERRIDES ===== */
@@ -1568,11 +1534,6 @@
   border-color: var(--pf-brown-medium) !important;
 }
 
-/* Override all inline text colors in collection spell cards */
-.pf-collection-view-window .wow-spell-card *[style*="color"] {
-  color: var(--pf-text-primary) !important;
-}
-
 /* ===== ADDITIONAL BLUE COLOR CLEANUP ===== */
 
 /* Remove remaining blue colors from variables.css and other files */
@@ -1611,14 +1572,6 @@
 .spellbook-layout .pf-spell-card *[style*="color: #60a5fa"],
 .spellbook-layout .pf-spell-card *[style*="color: #93c5fd"],
 .spellbook-layout .pf-spell-card *[style*="color: #dbeafe"] {
-  color: var(--pf-text-primary) !important;
-}
-
-/* Override blue colors in collection view */
-.pf-collection-view-window .wow-spell-card div[style*="color: #3b82f6"],
-.pf-collection-view-window .wow-spell-card div[style*="color: #60a5fa"],
-.pf-collection-view-window .wow-spell-card div[style*="color: #93c5fd"],
-.pf-collection-view-window .wow-spell-card div[style*="color: #dbeafe"] {
   color: var(--pf-text-primary) !important;
 }
 
@@ -1715,22 +1668,6 @@
 .spellbook-layout .effect-numeric-button:hover {
   background: var(--pf-gradient-parchment-dark) !important;
   border-color: var(--pf-brown-dark) !important;
-}
-
-/* Specific overrides for collection spell card structure */
-.pf-collection-view-window .wow-spell-card {
-  background: var(--pf-gradient-parchment) !important;
-  border: 2px solid var(--pf-brown-medium) !important;
-  border-radius: var(--pf-border-radius-lg) !important;
-  color: var(--pf-text-primary) !important;
-  display: flex !important;
-  flex-direction: column !important;
-  height: 100% !important;
-  cursor: pointer !important;
-  position: relative !important;
-  overflow: hidden !important;
-  transition: all var(--pf-transition-normal) !important;
-  box-shadow: var(--pf-shadow-parchment) !important;
 }
 
 /* ===== RESPONSIVE CLEANUP ===== */

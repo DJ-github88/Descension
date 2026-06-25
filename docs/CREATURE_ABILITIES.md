@@ -163,9 +163,9 @@
 **Combat:** 90 HP. Ancestral-Judge (special: visits longhouses during winter dísablót; families honoring female dead receive blessings of warmth and fertility — +4 to CON for 1 month). Spindle-Curse (special: negligent families find spindles filled with frozen blood; every woman in the household becomes barren until offerings resume — DC 15 SPI to resist). Blue-Candle (passive: each carries a tallow candle burning blue; the candles never melt or shorten). Hair-Grasp (melee, reach 10 ft, +5 to hit, 2d6+3 cold). Vulnerable to fire.
 **Stats:** STR 10, AGI 14, CON 12, INT 10, SPI 18, CHA 16 | HP 90, Mana 40, AP 4, Speed 30 (hover) | Resist: cold 100, psychic 50
 
-### 37. Skogsra — C | Medium *(RECOMMEND CUT — Huldra exists)*
-**Combat:** 85 HP. Hollow-Back (passive: from the front, stunningly beautiful; from behind, a hollow tree-cavity — if seen, DC 14 SPI or shaken for 1 round). Hunter's-Gift (special: grants impossible accuracy to lone hunters; price: never turn your back, never reveal her — break either rule and walk in circles until you freeze). Fox-Tail (passive: a fox tail peeks from beneath her gown; visible only when she moves quickly). Ice-Axe-Curse (special: turns axes to ice that shatters on first stroke). Vulnerable to cold iron.
-**Stats:** STR 12, AGI 16, CON 12, INT 10, SPI 14, CHA 18 | HP 85, Mana 30, AP 4, Speed 35 | Resist: physical 25
+### 37. Valravn — A | Medium
+**Combat:** 115 HP. Shadow-Wing (ranged 30 ft, +6 to hit, 1d8+4 physical + target is blinded for 1 round by swirling black feathers). Battlefield-Scent (passive: +2 to hit and +1d6 damage against any creature below half maximum health). Heart-Devour (melee, only against a bleeding, stunned, or dying target, +6 to hit, 2d10+4 physical, and Valravn regains HP equal to damage dealt). Obsidian-Beak (melee, +6 to hit, 1d8+4 piercing). Vulnerable to fire.
+**Stats:** STR 16, AGI 16, CON 14, INT 10, SPI 12, CHA 8 | HP 115, Mana 20, AP 4, Speed 40 (fly 50) | Resist: physical 25, shadow 50
 
 ### 38. Kraken — A | High
 **Combat:** 160 HP. Tentacle-Slam (melee, reach 30 ft, +7 to hit, 2d10+5 bludgeoning + DC 15 AGI or grappled). Ice-Breaker (special: shatters ice beneath a vessel, plunging it into freezing water; the ship sinks in 2 rounds). Island-Trick (passive: when dormant, its back pushes against fjord-ice, creating a dome resembling an island; test by driving iron spikes through the surface — if dark water bleeds, it's the Kraken). Bioluminescent-Pulse (passive: organs pulse along tentacles in slow rhythms, visible through ice). Beak-Crush (melee, only against grappled targets, 3d8+5 piercing). Vulnerable to lightning.
@@ -187,7 +187,7 @@
 **Combat:** 130 HP. Ash-Storm (AoE 40 ft, 3d6 slashing from ash + DC 15 CON or blinded 2 rounds). Lion-Claw (melee, +7 to hit, 2d8+5 slashing). Plague-Ward (passive: presence drives away disease-carrying Wyrd-creatures within 200 ft; Thrask deliberately build outposts near nesting-cliffs). Thermal-Rider (can fly indefinitely on volcanic updrafts). Scorpion-Sting (melee, reach 10 ft, DC 15 CON or poisoned: 2d6 poison/round for 3 rounds). Vulnerable to cold.
 **Stats:** STR 18, AGI 16, CON 16, INT 10, SPI 14, CHA 12 | HP 130, Mana 30, AP 5, Speed 30 (fly 50) | Resist: fire 100, physical 25
 
-### 42. Tiamat-Scale — S | High
+### 42. Tiamat — S | High
 **Combat:** 200 HP. Multi-Head-Strike (attacks with all heads each round; each head targets independently). Lava-Swim (can move through molten rock at full speed; immune to fire). Obsidian-Shed (passive: sheds scales that create fields of razor-sharp obsidian; difficult terrain that deals 1d6 slashing per square entered). Sun-Devour-Coil (special: coils around sources of concentrated sun-heat, draining them; if it reaches the Solbrand, it could extinguish the sun-god's last ember). Magma-Breath (AoE cone 30 ft, 4d6 fire, DC 16 CON or continue burning for 2d6/round). Vulnerable to cold (cold damage slows it, reducing AP by 1 per cold attack landed).
 **Stats:** STR 22, AGI 14, CON 20, INT 10, SPI 12, CHA 8 | HP 200, Mana 40, AP 5, Speed 30 (lava-swim 35) | Resist: fire 100, physical 75
 **Signature:** *The Sun-Devourer* — Its ecological imperative is to coil around and drain the Solbrand. This makes it not just a monster but an existential threat to the entire region's survival.
@@ -204,20 +204,20 @@
 **Combat:** 155 HP. Heart-Weigh (passive: can sense the moral "weight" of any creature within 100 ft; those burdened by Wyrd-corruption or broken oaths are detected and prioritized). Crocodile-Bite (melee, +7 to hit, 2d10+5 piercing). Smolder-Hide (passive: body literally smolders; melee attackers take 1d6 fire damage on contact). Erasure-Devour (special: consumed creatures have their NAMES erased from volcanic stone-records — this is the only force that can undo Emberth burn-mark inscriptions; the victim's identity is permanently destroyed). Lion-Charge (melee, +6 to hit, 2d6+4 bludgeoning + DC 15 AGI or knocked prone and pinned). Vulnerable to cold.
 **Stats:** STR 20, AGI 12, CON 20, INT 8, SPI 14, CHA 8 | HP 155, Mana 20, AP 4, Speed 30 | Resist: fire 100, physical 50
 
-### 46. Lamashtu-Wail — A | High
+### 46. Lamashtu — A | High
 **Combat:** 140 HP. Child-Steal (special: absorbs children into her distended belly; the stolen are preserved in eternal torment, not digested — rescue is theoretically possible but requires breaching the belly). Copper-Weep (passive: breasts leak molten copper that pocks basalt; creates hazardous terrain dealing 1d6 fire per square). Donkey-Shriek (AoE 30 ft, DC 15 SPI or stunned 1 round). Pazuzu-Ward (passive: will not approach within 100 ft of a Pazuzu image carved on a door or worn as an amulet — this is a hard counter, not a save). Claw-Rake (melee, +6 to hit, 2d6+4 slashing). Vulnerable to cold.
 **Stats:** STR 16, AGI 14, CON 18, INT 10, SPI 16, CHA 12 | HP 140, Mana 40, AP 5, Speed 30 | Resist: fire 100, physical 25
 
-### 47. Bes-Brick — A | Low
+### 47. Bes — A | Low
 **Combat:** 50 HP. Tambourine-Bang (AoE 20 ft, DC 13 SPI or Wyrd-creatures are frightened and must flee; laughing breaks enchantments — the sound itself is the weapon). Khopesh-Slash (melee, +5 to hit, 1d8+3 slashing). Sigil-Glow (passive: lapis-lazuli sigils glow when Wyrd-energy approaches within 50 ft, functioning as an alarm). Shatter-Sacrifice (special: when destroyed, explodes into protective clay-shards that embed Wyrd-warding sigils into nearby walls, creating a permanent 20-ft safe zone). Vulnerable to cold (clay becomes brittle).
 **Stats:** STR 12, AGI 14, CON 14, INT 6, SPI 14, CHA 10 | HP 50, Mana 20, AP 3, Speed 25 | Resist: fire 100, physical 50
-**Signature:** *The Sacrifice* — A Bes-Brick that shatters to protect children is considered the highest sacrifice in Emberth culture. The permanent warding it creates makes it strategically valuable.
+**Signature:** *The Sacrifice* — A Bes that shatters to protect children is considered the highest sacrifice in Emberth culture. The permanent warding it creates makes it strategically valuable.
 
 ### 48. Ifrit — A | High
 **Combat:** 150 HP. Cobra-Glare (special: gaze ignites flammable material within 50 ft; any creature meeting its gaze DC 15 AGI or takes 3d6 fire and is set ablaze). Magma-Shape (bonus action: shapes molten rock with bare hands, creating barriers, weapons, or tools no mortal smith can replicate). Flame-Body (passive: melee attackers take 2d6 fire damage on contact). Coal-Hurl (ranged 40 ft, +6 to hit, 2d8 fire). Uraeus-Flare (the cobra-hood of flame flares wide when aggressive, illuminating 60 ft and blinding creatures in front — DC 14 CON or blinded 1 round). Vulnerable to cold (cold damage reduces its body temperature, lowering damage output by 25% per cold hit until it reheats).
 **Stats:** STR 18, AGI 14, CON 18, INT 12, SPI 16, CHA 10 | HP 150, Mana 50, AP 5, Speed 35 | Resist: fire 100, physical 50
 
-### 49. Ghul-Cinder — B | Medium
+### 49. Ghul — B | Medium
 **Combat:** 75 HP. Invisible-Shift (bonus action: becomes completely invisible; only detectable by the faint smell of charred bone and the two floating green eyes — DC 14 INT (Perception) to spot the eyes). Fire-Bolt (ranged 30 ft, +5 to hit, 2d6 fire). Heat-Drain (passive: consumes residual warmth from ancient stone; infested ruins are cold to the touch, all thermal energy drained). Bone-Cloak-Split (special: when it opens its "mouth," the fabric splits vertically, revealing a furnace — cone 15 ft, 3d6 fire, DC 14 CON or continue burning). Vulnerable to cold.
 **Stats:** STR 8, AGI 16, CON 12, INT 10, SPI 14, CHA 8 | HP 75, Mana 30, AP 4, Speed 30 | Resist: fire 100, physical 50
 
@@ -225,15 +225,15 @@
 **Combat:** 120 HP. Ground-Breaker (passive: its hooves crack cooling lava into fracture-patterns that are actually navigation-maps — following Gugalanna tracks leads to stable ground). Magma-Charge (melee charge, +6 to hit, 2d8+5 bludgeoning + 1d6 fire, DC 15 AGI or trampled). Steam-Breath (AoE cone 15 ft, 2d6 fire/steam, DC 14 CON or blinded 1 round). Scarab-Purify (special: the scarab-shaped obsidian growth beneath its tongue can purify contaminated water — a single scarab cleanses an entire cistern of Wyrd-taint; killing the Gugalanna for it is considered sacrilege). Vulnerable to cold.
 **Stats:** STR 20, AGI 12, CON 18, INT 6, SPI 10, CHA 8 | HP 120, Mana 0, AP 4, Speed 40 | Resist: fire 100, physical 50
 
-### 51. Peri-Moth — A | Low
+### 51. Peri — A | Low
 **Combat:** 30 HP. Wing-Roll (passive: at dawn, rolls its wings into a ball, collecting thermal energy; compresses it into golden "sun-seeds" — plantable in cold hearthstones to produce fire for a year). Golden-Glow (passive: emits warm golden light; creatures within 10 ft feel comforted, +2 to SPI saves). Runic-Prayer-Wings (passive: wings edged with Zoroastrian prayers in gold-dust; reading them grants temporary +4 to SPI for 1 hour). Proboscis-Touch (melee, +3 to hit, 1d4 radiant — heals 1d4 instead if target is allied). Vulnerable to cold.
 **Stats:** STR 2, AGI 16, CON 8, INT 10, SPI 16, CHA 14 | HP 30, Mana 20, AP 3, Speed 10 (fly 30) | Resist: fire 50, radiant 100
 
-### 52. Daeva-Shade — A | High
+### 52. Daeva — A | High
 **Combat:** 115 HP. Truth-Eater (passive: feeds on spoken truth — every honest word within 50 ft weakens the speaker (-1 to all rolls per truthful statement) and strengthens the shade (+5 HP per truth consumed). In markets, where merchants lie, it starves). Light-Absorb (passive: its body is a three-dimensional hole in the world; all light that hits it simply ceases — it is visible only as a moving silhouette). Chaos-Beacon (passive: its presence attracts Wyrd-manifestations; within months of nesting, reality-breaches open nearby). Inverted-Gaze (passive: its eyes are inverted — bright pupils, dark whites; meeting its gaze DC 14 SPI or the creature learns your deepest secret). Chaos-Bite (melee, +6 to hit, 2d6+4 necrotic). Vulnerable to radiant (radiant damage is the only type that affects it normally; all other damage is reduced 75%).
 **Stats:** STR 14, AGI 18, CON 14, INT 14, SPI 10, CHA 8 | HP 115, Mana 30, AP 4, Speed 40 | Resist: physical 75, cold 50, fire 50
 
-### 53. Simurgh-Ash — A | High
+### 53. Simurgh — A | High
 **Combat:** 145 HP. Feather-Heal (special: a single feather laid on a wound heals broken bones and closes gashes within hours — 3d8+5 healing per use; the Simurgh is sapient and chooses who receives feathers). Ash-Nest-Stabilize (passive: areas near Simurgh nests have measurably fewer eruptions; its presence is a volcanic stabilizer). Ancient-Knowledge (passive: remembers the world before the Dimming; can share pre-sundering knowledge fragments with those it deems worthy — GM fiat). Wing-Buffet (AoE 30 ft, DC 15 AGI or knocked back 20 ft and prone). Talon-Strike (melee, +7 to hit, 2d8+5 slashing). Copper-Chime (passive: mane of copper-wire feathers chimes in wind; the sound is identifiable for miles, marking territory). Vulnerable to cold.
 **Stats:** STR 18, AGI 16, CON 18, INT 16, SPI 18, CHA 14 | HP 145, Mana 60, AP 5, Speed 30 (fly 60) | Resist: fire 100, physical 50, psychic 50
 
@@ -241,7 +241,7 @@
 **Combat:** 170 HP. Triple-Strike (each head attacks independently: left head +6 fire-breath, center +6 lightning-bite, right +6 acid-spit — all three can target different creatures). Lava-Submerge (bonus action: dives into molten rock, gaining full cover; surfaces next round with a surprise attack). Obsidian-Hide (passive: dinner-plate-sized obsidian scales; non-magical weapons cannot pierce). Three-Venom-System (left = fire that burns through metal, center = lightning that paralyzes, right = acid that dissolves flesh; each venom persists for 3 rounds). Tail-Whip (melee, reach 15 ft, 2d6+4 bludgeoning + DC 15 AGI or knocked prone). Vulnerable to cold (cold damage hardens one head's scales, reducing that head's AP by 1).
 **Stats:** STR 20, AGI 14, CON 20, INT 8, SPI 10, CHA 6 | HP 170, Mana 30, AP 5, Speed 30 (lava-swim 35) | Resist: fire 100, physical 75, lightning 50, acid 50
 
-### 55. Edimmu-Whisper — B | Medium
+### 55. Edimmu — B | Medium
 **Combat:** 70 HP. Attachment-Bond (special: bonds to a creature who passes near its death-site; bonded target suffers increasing fatigue (-1 to all rolls per day), nightmares of fire, and eventually spontaneous combustion on day 7 — at which point the Edimmu detaches and seeks a new host). Heat-Mirage (passive: visible only in peripheral vision; DC 14 INT (Perception) to track its position). Shadow-Shift (passive: its shadow is always a different shape than its visible form). Sulfur-Aura (passive: smells of sulfur and ancient dust; reveals its presence within 30 ft). Offering-Pacify (special: can be pacified with funerary offerings of the tools the person used in life — burns the bond if the offering is genuine). Vulnerable to cold.
 **Stats:** STR 6, AGI 14, CON 10, INT 6, SPI 14, CHA 8 | HP 70, Mana 30, AP 3, Speed 30 (hover) | Resist: physical 50, fire 50
 
@@ -249,7 +249,7 @@
 **Combat:** 140 HP. Boiling-Presence (passive: water within 30 ft literally boils; creates a zone of scalding terrain that deals 2d6 fire to any creature entering). Earth-Laugh (special: when agitated, its body vibrates, causing localized earthquakes; communicates through tremors — low rhythmic tremors = contentment, sharp irregular quakes = aggression; a magnitude-5 quake deals 3d6 bludgeoning to all creatures within 50 ft, DC 15 AGI to stay standing). Obsidian-Fist (melee, +6 to hit, 2d8+5 bludgeoning + 1d6 fire). Living-Rock (passive: extremophile lichens and heat-resistant mosses grow on its hide, camouflaging it as a natural volcanic formation; +8 to stealth in volcanic terrain). Vulnerable to cold.
 **Stats:** STR 20, AGI 8, CON 22, INT 6, SPI 8, CHA 6 | HP 140, Mana 0, AP 3, Speed 20 | Resist: fire 100, physical 75, piercing 50
 
-### 57. Nisroch-Falcon — B | Medium
+### 57. Nisroch — B | Medium
 **Combat:** 80 HP. Wedjat-Beam (ranged 40 ft, the left eye fires a beam of concentrated light that burns Wyrd-essence — 2d6 radiant + Wyrd-creatures take double damage and must DC 14 CON or flee). Sky-Patrol (passive: patrols the skies above Emberspire scanning for Wyrd-manifestations; acts as an early-warning system). Foil-Message-Delivery (special: carries messages inscribed on golden foil between Korr Sun-Speakers and Thrask rangers; messages are only readable via the Wedjat-eye). Bronze-Talon (melee from dive, +6 to hit, 2d6+3 slashing). Vulnerable to cold.
 **Stats:** STR 10, AGI 20, CON 12, INT 14, SPI 16, CHA 10 | HP 80, Mana 20, AP 4, Speed 10 (fly 60) | Resist: fire 50, radiant 100
 
@@ -262,8 +262,8 @@
 **Stats:** STR 0, AGI 0, CON 0, INT 16, SPI 20, CHA 10 | HP 200 (structural), Mana 100, AP 0, Speed 0 | Resist: all 100 (cannot be damaged conventionally)
 **Signature:** *The Mouth to the Underworld* — Kur-Pits are breach-points between the surface and the labyrinth beneath. They are the only known path to Sol's prison. This makes them campaign-critical geography.
 
-### 60. Mushuss-Child — A | Low
-**Combat:** 35 HP. Imprint-Follow (special: imprints on the first kind creature it encounters, following them like a duckling; the bond encourages the adult Sirrush to guard the child's village). Life-Breath (passive: breath accelerates plant growth; a garden visited by a Mushuss-Child produces double yields — invaluable in ash-choked soil). Croak-Communicate (communicates via frog-like croaks; endearing but limited). Nub-Horn-Bonk (melee, +3 to hit, 1d4 bludgeoning — it is a baby). Scamper (can move through difficult terrain without penalty). Vulnerable to cold.
+### 60. Mushussu — A | Low
+**Combat:** 35 HP. Imprint-Follow (special: imprints on the first kind creature it encounters, following them like a duckling; the bond encourages the adult Sirrush to guard the child's village). Life-Breath (passive: breath accelerates plant growth; a garden visited by a Mushussu produces double yields — invaluable in ash-choked soil). Croak-Communicate (communicates via frog-like croaks; endearing but limited). Nub-Horn-Bonk (melee, +3 to hit, 1d4 bludgeoning — it is a baby). Scamper (can move through difficult terrain without penalty). Vulnerable to cold.
 **Stats:** STR 6, AGI 16, CON 10, INT 8, SPI 12, CHA 14 | HP 35, Mana 10, AP 3, Speed 35 | Resist: fire 50
 
 
@@ -284,56 +284,56 @@
 **Stats:** STR 24, AGI 8, CON 22, INT 18, SPI 16, CHA 10 | HP 250, Mana 80, AP 5, Speed 30 (swim 35) | Resist: cold 100, physical 75, psychic 25
 **Signature:** *The Monolith's Coil*  The Ketos may be trying to communicate with the Sundered Monolith. Defeating it might silence the Monolith's song  or make it much louder.
 
-### 64. Harpy-Squall  B | Medium
+### 64. Harpy  B | Medium
 **Combat:** 75 HP. Mast-Snatcher (special: perched in rigging, snatches crew from decks; +6 to hit, 2d6+3 slashing + DC 14 AGI or grappled and lifted 20 ft). Iron-Hook-Feet (passive: feet are curved iron hooks; cannot be dislodged from masts without dealing 20 damage to the Harpy or breaking the mast). Storm-Rider (passive: nests in the eye of perpetual storms; navigates cyclones perfectly; seeing one means a storm exit-corridor exists nearby  Navigation check DC 13 to follow it safely). Feather-Slash (melee, +5 to hit, 1d8+3 slashing). Vulnerable to fire.
 **Stats:** STR 10, AGI 18, CON 12, INT 8, SPI 14, CHA 6 | HP 75, Mana 10, AP 4, Speed 15 (fly 50) | Resist: cold 50
 
-### 65. Hippocampus-Tide  A | Low
+### 65. Hippocampus  A | Low
 **Combat:** 60 HP. Rideable (special: can be tamed and ridden by Myrathil divers; land speed 30, swim speed 60; saddle naturally forms from kelp). Wave-Crest (passive: can calm or raise waves in a 30-ft radius, granting allies +10 swim speed and making water difficult for enemies). Estuary-Purify (passive: presence purifies Wyrd-tainted water; creatures drinking from Hippocampus-tended water are immune to water-borne disease for 24 hours). Kelp-Mane-Glow (passive: bioluminescent mane provides light in 20-ft radius). Hoof-Fin-Steer (melee, +4 to hit, 1d6+2 bludgeoning). Vulnerable to poison.
 **Stats:** STR 12, AGI 16, CON 12, INT 10, SPI 14, CHA 14 | HP 60, Mana 20, AP 3, Speed 30 (swim 60) | Resist: cold 100
 **Signature:** *The Wave-Steed*  The first genuinely rideable creature in the new compendium. Mount potential is critical for a VTT.
 
-### 66. Gorgon-Depth  A | High
+### 66. Gorgon  A | High
 **Combat:** 130 HP. Stone-Gaze (ranged 30 ft, DC 15 SPI or progressive petrification begins  round 1: -10 speed; round 2: restrained; round 3: petrified; gaze must be maintained). Eel-Hair-Hypnosis (passive: bioluminescent eel-hair pulses hypnotically; DC 13 SPI or entranced, can be pulled toward her without resistance). Firefly-Shift (bonus action: compresses into a single tiny bioluminescent eel, becoming nearly invisible  DC 16 INT (Perception) to spot; in this form she drinks blood from fish). Abyssal-Mirror (special: polished abalone mirror reflects gaze attacks back at attackers; once per round as a reaction). Vulnerable to radiant.
 **Stats:** STR 10, AGI 14, CON 14, INT 12, SPI 16, CHA 18 | HP 130, Mana 40, AP 4, Speed 25 (swim 40) | Resist: cold 50, psychic 50
 
-### 67. Tokoloshe-Tide  C | Low
+### 67. Tokoloshe  C | Low
 **Combat:** 35 HP. Pebble-Swallow-Invisibility (special: swallows a black pebble to become invisible; DC 14 INT (Perception) to locate by the sound of its breathing). Bilge-Pest (passive: infests ship bilges; tangles rigging, sabotages navigation tools  all Navigation checks DC +5 while it remains). Child-Sit (special: sits on sleeping children's chests, whispering nightmares; child loses 1 SPI per night until a Myrathil shaman performs a copper-bell banishment). Long-Arm-Grab (melee, +4 to hit, 1d4 bludgeoning + item theft). Vulnerable to radiant.
 **Stats:** STR 6, AGI 18, CON 10, INT 8, SPI 10, CHA 8 | HP 35, Mana 15, AP 3, Speed 25 (swim 30) | Resist: cold 25
 
-### 68. Lamia-Shoal  B | Medium
+### 68. Lamia  B | Medium
 **Combat:** 95 HP. Impossible-Reach (passive: arms are 12 ft long; can attack and grapple at reach 15 ft). Reef-Grasp (melee, +6 to hit, 2d6+4 slashing + DC 14 AGI or grappled and pulled from deck). Grief-Lure (special: sings a lullaby that sounds like a grieving mother; listeners who have lost children DC 15 SPI or lean over the rail into her reach). Pearl-Tear (passive: tears dissolve into the sea, leaving pearl-trails that attract predators). Vulnerable to fire.
 **Stats:** STR 16, AGI 14, CON 12, INT 10, SPI 14, CHA 16 | HP 95, Mana 30, AP 4, Speed 20 (swim 40) | Resist: cold 50
 
-### 69. Empusa-Ice  B | High
+### 69. Empusa  B | High
 **Combat:** 110 HP. Storm-Seduction (special: approaches lone watch-keepers; DC 14 SPI or charmed and drawn to her; she drains 2d6+3 vitality per round while speaking). Asymmetric-Walk (passive: brass leg clicks, donkey-hoof thuds; the sound causes DC 12 SPI or disorientation, -2 to attacks against her). Brass-Leg-Chill (passive: brass leg is always cold; touching it deals 1d6 cold per round). Lightning-Inheritance (passive: when destroyed, essence transfers to a new host within 100 miles  the host is always a woman who has lost a child to the sea; permanent destruction requires bargaining with, not killing, her). Hammer-Skull-Staff (melee, +6 to hit, 2d6+3 bludgeoning + 1d6 lightning). Vulnerable to fire.
 **Stats:** STR 12, AGI 16, CON 12, INT 12, SPI 16, CHA 18 | HP 110, Mana 40, AP 4, Speed 35 | Resist: cold 50, lightning 50
 
-### 70. Telkhine-Frost  A | Medium
+### 70. Telkhine  A | Medium
 **Combat:** 90 HP. Ice-Smith (special: can forge weapons from deep-sea ice that never melt; creates Telkhine-Ice weapons  +1d6 cold damage, permanent until shattered). Whale-Bone-Hammer (melee, +6 to hit, 2d6+4 bludgeoning + DC 13 STR or stunned 1 round). Boat-Roll (special: overturns small boats, stripping all metal fittings  nails, rivets, hinges  leaving only wood; no attack roll, DC 14 STR to hold onto the boat). Metal-Obsession (passive: attacks the creature carrying the most metal). Seal-Bark (AoE 20 ft, DC 12 SPI or confused 1 round). Vulnerable to fire.
 **Stats:** STR 16, AGI 14, CON 16, INT 14, SPI 10, CHA 8 | HP 90, Mana 20, AP 4, Speed 20 (swim 40) | Resist: cold 100, physical 25
 
-### 71. Stymphalian-Flock  B | Medium
+### 71. Stymphalian  B | Medium
 **Combat:** 80 HP (per flock; treat as swarm). Feather-Arrow (ranged 40 ft, +5 to hit, 2d6+3 piercing  feathers regrow within hours). Bronze-Rattle-Vulnerability (special: loud bronze rattles cause the flock to DC 13 SPI or flee; this is the classic Heracles counter). Boat-Overturner (special: attacks from above, driving crew into water to scoop fish; incidental damage to sailors is 1d6/round while flock is overhead). Metallic-Clatter (passive: wings beat with a distinctive metallic sound, giving away position within 200 ft but also causing DC 12 SPI or distracted, -2 to concentration). Vulnerable to thunder.
 **Stats:** STR 8, AGI 18, CON 10, INT 6, SPI 10, CHA 6 | HP 80, Mana 0, AP 4, Speed 10 (fly 55) | Resist: physical 50
 
-### 72. Nereid-Deep  B | Low
+### 72. Nereid  B | Low
 **Combat:** 70 HP. Drowning-Savior (special: seeks out drowning sailors and carries them to the surface; heals target for 2d8+4 and restores water-breathing for 1 minute; costs the Nereid 10 HP). Breath-Withdraw (special: as a defensive measure, withdraws the breath of the sea from trespassers in her territory  DC 14 CON or begin drowning). Treasure-Guard (passive: guards abyssal debris-fields of sunken ships; Deep-Born treat her as sacred). Luminous-Form (passive: emits soft blue-green light in 30-ft radius; +6 to Persuasion). Vulnerable to necrotic.
 **Stats:** STR 8, AGI 16, CON 12, INT 14, SPI 16, CHA 18 | HP 70, Mana 40, AP 3, Speed 20 (swim 50) | Resist: cold 100, psychic 50
 
-### 73. Graeae-Oracle  A | Medium
+### 73. Graeae  A | Medium
 **Combat:** 80 HP. Shared-Obsidian-Eye (special: three crones share one obsidian eye that shows possible futures; pass the eye to grant one prophetic answer per round; those who refuse to pay a tooth receive a false prophecy that leads to destruction). Tooth-Price (special: answer costs one tooth; extraction deals 1d4 damage but ensures the prophecy is true). If-Bone-Pattern (special: casts seal-bones on ice, revealing cosmological patterns  DC 15 INT to interpret; each pattern corresponds to a specific future event). Frost-Robe (passive: robes are frost-covered; melee attackers take 1d6 cold). Vulnerable to radiant.
 **Stats:** STR 6, AGI 10, CON 12, INT 18, SPI 18, CHA 14 | HP 80, Mana 50, AP 3, Speed 25 | Resist: cold 100, psychic 50
 
-### 74. Triton-Conch  A | High
+### 74. Triton  A | High
 **Combat:** 150 HP. Wave-Control (special: horn-call calms or raises waves within 1 mile; in combat, creates a 40-ft wall of water dealing 3d6 bludgeoning, DC 16 STR or AGI or pushed back 30 ft). Monolith-Dampen (passive: when the Sundered Monolith's resonance grows too intense, his horn dampens the frequency, preventing deep-sea stampedes  this makes him a cosmic peacekeeper). Trident-Strike (melee, +7 to hit, 2d8+5 piercing). Depth-Sovereign (passive: serves as mediator between surface-dwellers and abyssal entities; his presence prevents lesser sea-monsters from attacking within 100 ft). Vulnerable to poison.
 **Stats:** STR 18, AGI 14, CON 18, INT 16, SPI 18, CHA 14 | HP 150, Mana 60, AP 5, Speed 30 (swim 50) | Resist: cold 100, lightning 50
 
-### 75. Nandi-Swell  B | High
-**Combat:** 125 HP. Skull-Crush (melee, +6 to hit, 2d8+5 bludgeoning + target DC 15 CON or stunned 1 round; specifically targets the head). Ice-Floe-Ambush (passive: hides on ice-floes, +8 to stealth on ice; first attack has advantage). Migration-Parasite (passive: follows whale migrations; a pod of Nandi-Swells can strip a whale carcass to the skeleton in hours). Bristle-Float (passive: ruff of greasy bristles traps air for buoyancy; cannot be drowned). Vulnerable to fire.
+### 75. Nandi  B | High
+**Combat:** 125 HP. Skull-Crush (melee, +6 to hit, 2d8+5 bludgeoning + target DC 15 CON or stunned 1 round; specifically targets the head). Ice-Floe-Ambush (passive: hides on ice-floes, +8 to stealth on ice; first attack has advantage). Migration-Parasite (passive: follows whale migrations; a pod of Nandis can strip a whale carcass to the skeleton in hours). Bristle-Float (passive: ruff of greasy bristles traps air for buoyancy; cannot be drowned). Vulnerable to fire.
 **Stats:** STR 20, AGI 12, CON 18, INT 6, SPI 8, CHA 6 | HP 125, Mana 0, AP 4, Speed 30 (swim 25) | Resist: cold 100, physical 25
 
-### 76. Popobawa-Night  A | High
+### 76. Popobawa  A | High
 **Combat:** 100 HP. Form-Cycle (passive: each round, shifts between hunched dwarf, bat-winged specter, and formless shadow  attacks of opportunity cannot target it). Single-Eye (passive: the one stable feature; DC 14 INT (Perception) to track; if stared at for 3 rounds, DC 15 SPI or frightened for 1 minute). Cabin-Terror (special: infiltrates sleeping-quarters; target wakes with night-terrors, gaining 1 level of exhaustion per night). Shame-Silence (passive: victims are psychically compelled not to speak of the attack; the Popobawa returns each night until a victim names it publicly to another person, breaking the hold). Sulfurous-Slime (passive: leaves phosphorescent slime; can be tracked, but touching it causes DC 13 CON or nauseated 1 round). Vulnerable to radiant.
 **Stats:** STR 12, AGI 18, CON 14, INT 10, SPI 16, CHA 8 | HP 100, Mana 30, AP 4, Speed 35 (fly 40) | Resist: physical 50, psychic 50
 **Signature:** *Break the Silence*  The countermeasure is social, not combat-based. This is brilliant social-combat design rarely seen in TTRPG bestiaries.
@@ -343,17 +343,17 @@
 **Stats:** STR 8, AGI 16, CON 10, INT 10, SPI 14, CHA 16 | HP 45, Mana 20, AP 3, Speed 40 (swim 45) | Resist: poison 100, radiant 50
 **Signature:** *The Living Cure*  The Abada is a non-combat creature that solves a survival problem. More of these utility creatures are needed.
 
-### 78. Graia-Swirl  S | High
+### 78. Graia  S | High
 **Combat:** 120 HP (structural). Future-Face (special: anyone staring into the swirl for 3 rounds sees their own older face; DC 16 SPI or compelled to answer the whispered question: What will you pay?). Spirit-Portal (special: offerings dropped into the swirl are received by deep-spirits; bargains struck through the swirl are binding  a Neth contract-mage's dream). Grey-Passage (special: ships sailing through the center are transported in time, not space; emerge minutes later having aged weeks, or vice versa; the swirl takes what it takes  GM determines the cost). Still-Surface (passive: air above the eddy is unnaturally still even during storms; creates a zone of calm in 60-ft radius). Suspension (passive: objects that fall in remain suspended at a specific depth, rotating with the water). Vulnerable to none (only major sea-magic can disrupt it).
 **Stats:** STR 0, AGI 0, CON 0, INT 18, SPI 22, CHA 18 | HP 120, Mana 100, AP 0, Speed 0 (eddy 30) | Resist: all 100
-**Signature:** *What Will You Pay?*  The Graia-Swirl is a living negotiation. It is not fought; it is bargained with. This is encounter design at its best.
+**Signature:** *What Will You Pay?*  The Graia is a living negotiation. It is not fought; it is bargained with. This is encounter design at its best.
 
-### 79. Ichthya-Centaur  B | Medium
+### 79. Ichthya  B | Medium
 **Combat:** 110 HP. Wave-Forge (special: forges weapons beneath the waves using submarine volcanic vents; creates tridents/harpoons/hooks that never rust, never break, and always strike true  gifts only, never sold). Trident-Strike (melee, +6 to hit, 2d8+4 piercing + 1d6 fire from the red-hot tips). Rhythm-Keep (passive: listens to ocean wave-patterns; can predict Monolith instability 1 hour before it happens, warning nearby Myrathil). Horse-Uppercut (melee, +5 to hit, 2d6+3 bludgeoning). Vulnerable to poison.
 **Stats:** STR 18, AGI 14, CON 16, INT 14, SPI 14, CHA 12 | HP 110, Mana 20, AP 4, Speed 30 (swim 45) | Resist: cold 100, fire 50
 
-### 80. Brine-Lantern  A | Low
-**Combat:** 35 HP. Safe-Harbor-Glow (special: appears over safe anchorages during worst storms; following it always leads to safety  the faces inside are calm and smiling). False-Lantern (special: Wyrd-corrupted Brine-Lanterns look identical but lead ships onto rocks; the faces inside are screaming and terrified  DC 13 INT to distinguish with a silver mirror). Golden-Trail (passive: leaves a luminous trail across the water that persists for 1 hour, marking a safe route). Soul-Light (passive: light is warm and comforting; creatures within 20 ft gain +2 to SPI saves). Vulnerable to cold.
+### 80. Brine  A | Low
+**Combat:** 35 HP. Safe-Harbor-Glow (special: appears over safe anchorages during worst storms; following it always leads to safety  the faces inside are calm and smiling). False-Lantern (special: Wyrd-corrupted Brines look identical but lead ships onto rocks; the faces inside are screaming and terrified  DC 13 INT to distinguish with a silver mirror). Golden-Trail (passive: leaves a luminous trail across the water that persists for 1 hour, marking a safe route). Soul-Light (passive: light is warm and comforting; creatures within 20 ft gain +2 to SPI saves). Vulnerable to cold.
 **Stats:** STR 4, AGI 16, CON 10, INT 12, SPI 16, CHA 14 | HP 35, Mana 20, AP 3, Speed 0 (fly 25) | Resist: cold 50, psychic 50
 **Signature:** *Face-Check*  The player-skill mechanic of scrutinizing faces inside the lantern is excellent. This creature rewards attention.
 
@@ -642,7 +642,7 @@
 | 45 | Asanbosam | Duskmere | Ceiling-hang ambush |
 | 48 | Penangalan-Tide | Duskmere | Body-split |
 | 60 | Zmey-Young | Glitterdeep | Fire-breath |
-| 67 | Tokoloshe-Tide | Glitterdeep | Invisible |
+| 67 | Tokoloshe | Glitterdeep | Invisible |
 | 72 | Hulder-Fiddle | Glitterdeep | Music-lure |
 | 77 | Graiai-Forest | Graiawood | Web-cocoon |
 | 80 | Jinko-Mist | Graiawood | Fear-pulse |

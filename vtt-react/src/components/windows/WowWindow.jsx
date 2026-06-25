@@ -32,6 +32,7 @@ const WowWindow = forwardRef((props, ref) => {
         minConstraints = [300, 400],
         maxConstraints = [2560, 1600],
         modal = false,
+        backdrop = true,
         centerTitle = false
     } = props;
 
@@ -280,6 +281,49 @@ const WowWindow = forwardRef((props, ref) => {
         e.stopPropagation();
     }, []);
 
+    const onCloseRef = useRef(onClose);
+    useEffect(() => { onCloseRef.current = onClose; }, [onClose]);
+
+    useEffect(() => {
+        if (!modal || !isOpen) return;
+        const dialog = windowElementRef.current;
+        if (!dialog) return;
+
+        const previouslyFocused = document.activeElement;
+        dialog.focus();
+
+        const handleKeydown = (e) => {
+            if (e.key === 'Escape') {
+                e.stopPropagation();
+                if (onCloseRef.current) onCloseRef.current();
+                return;
+            }
+            if (e.key === 'Tab') {
+                const items = dialog.querySelectorAll(
+                    'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+                );
+                if (items.length === 0) return;
+                const first = items[0];
+                const last = items[items.length - 1];
+                if (e.shiftKey && document.activeElement === first) {
+                    e.preventDefault();
+                    last.focus();
+                } else if (!e.shiftKey && document.activeElement === last) {
+                    e.preventDefault();
+                    first.focus();
+                }
+            }
+        };
+        dialog.addEventListener('keydown', handleKeydown);
+
+        return () => {
+            dialog.removeEventListener('keydown', handleKeydown);
+            if (previouslyFocused && typeof previouslyFocused.focus === 'function') {
+                try { previouslyFocused.focus(); } catch (_) {}
+            }
+        };
+    }, [modal, isOpen]);
+
     // Don't render if not open (early return after all hooks)
     if (!isOpen) return null;
 
@@ -294,6 +338,15 @@ const WowWindow = forwardRef((props, ref) => {
     }
 
     return createPortal(
+        <React.Fragment>
+            {modal && backdrop !== false && (
+                <div
+                    className="wow-window-modal-backdrop"
+                    style={{ zIndex: zIndex - 1 }}
+                    onClick={backdrop === 'static' ? undefined : () => { if (onClose) onClose(); }}
+                    aria-hidden="true"
+                />
+            )}
         <DraggableWindow
             ref={draggableRef}
             isOpen={isOpen}
@@ -325,6 +378,10 @@ const WowWindow = forwardRef((props, ref) => {
                         height: windowSize.height
                     }}
                     ref={windowElementRef}
+                    role="dialog"
+                    aria-modal={modal ? true : undefined}
+                    aria-label={safeTitle}
+                    tabIndex={modal ? -1 : undefined}
                     onClick={handleWindowClick}
                     onMouseDown={handleWindowMouseDown}
                 >
@@ -336,6 +393,7 @@ const WowWindow = forwardRef((props, ref) => {
                                         {customHeader}
                                         <button
                                             className="window-close"
+                                            aria-label="Close"
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 if (onClose) onClose();
@@ -358,6 +416,7 @@ const WowWindow = forwardRef((props, ref) => {
                                         <>
                                             <button
                                                 className="window-close"
+                                                aria-label="Close"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
                                                     if (onClose) onClose();
@@ -403,6 +462,7 @@ const WowWindow = forwardRef((props, ref) => {
                                             )}
                                             <button
                                                 className="window-close"
+                                                aria-label="Close"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
                                                     if (onClose) onClose();
@@ -421,7 +481,8 @@ const WowWindow = forwardRef((props, ref) => {
                     </div>
                 </div>
             </Resizable>
-        </DraggableWindow>,
+        </DraggableWindow>
+        </React.Fragment>,
         portalTarget
     );
 });

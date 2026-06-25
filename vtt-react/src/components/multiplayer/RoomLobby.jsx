@@ -1599,7 +1599,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
                   };
 
                   const getRoleColor = (role) => {
-                    return role === 'gm' ? '#FFD700' : '#4CAF50';
+                    return role === 'gm' ? '#FFD700' : '#506e30';
                   };
 
                   return (
@@ -1617,7 +1617,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
 
                       <div className="room-status">
                         <div className="status-indicator">
-                          <i className="fas fa-circle" style={{ color: room.isActive ? '#4CAF50' : '#757575' }}></i>
+                          <i className="fas fa-circle" style={{ color: room.isActive ? '#506e30' : '#757575' }}></i>
                           <span>{room.isActive ? 'Active' : 'Offline'}</span>
                         </div>
                         <div className="member-count">

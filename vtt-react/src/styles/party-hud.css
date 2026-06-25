@@ -112,12 +112,12 @@
 }
 
 .character-portrait-hud.current-player {
-    border-color: #4CAF50;
+    border-color: var(--pf-hp);
     background: rgba(76, 175, 80, 0.1);
 }
 
 .character-portrait-hud.targeted {
-    border-color: #FF9800;
+    border-color: var(--pf-health-low);
     background: rgba(255, 152, 0, 0.2);
     box-shadow: 0 0 8px rgba(255, 152, 0, 0.4);
 }
@@ -174,7 +174,7 @@
     right: -5px;
     width: 16px;
     height: 16px;
-    background: #FF9800;
+    background: var(--pf-health-low);
     border: 2px solid #fff;
     border-radius: 50%;
     display: flex;
@@ -200,7 +200,7 @@
 .player-indicator {
     width: 12px;
     height: 12px;
-    background: #4CAF50;
+    background: var(--pf-hp);
     border: 1px solid #fff;
     border-radius: 50%;
 }
@@ -400,7 +400,7 @@
 .current-target {
     margin-top: 2px;
     font-style: italic;
-    color: #FF9800;
+    color: var(--pf-health-low);
 }
 
 /* Context Menu */
@@ -471,8 +471,8 @@
 
 .context-menu-button.active {
     background: rgba(255, 152, 0, 0.3);
-    border-color: #FF9800;
-    color: #FF9800;
+    border-color: var(--pf-health-low);
+    color: var(--pf-health-low);
     font-weight: 600;
 }
 
@@ -1235,7 +1235,7 @@
 }
 
 .party-action-button.create {
-    background: linear-gradient(to bottom, #4CAF50, #45a049);
+    background: linear-gradient(to bottom, var(--pf-hp), var(--pf-hp-dark));
 }
 
 .party-action-button.invite {
@@ -1243,11 +1243,11 @@
 }
 
 .party-action-button.leave {
-    background: linear-gradient(to bottom, #F44336, #D32F2F);
+    background: linear-gradient(to bottom, var(--pf-health-danger), var(--pf-health-danger));
 }
 
 .party-action-button.test {
-    background: linear-gradient(to bottom, #FF9800, #F57C00);
+    background: linear-gradient(to bottom, var(--pf-health-low), var(--pf-health-danger));
 }
 
 .party-section {
@@ -1278,7 +1278,7 @@
 }
 
 .leader-badge {
-    background: #4CAF50;
+    background: var(--pf-hp);
     color: white;
     padding: 2px 8px;
     border-radius: 12px;
@@ -1327,7 +1327,7 @@
 }
 
 .role-badge.leader {
-    background: #4CAF50;
+    background: var(--pf-hp);
     color: white;
 }
 
@@ -1347,23 +1347,23 @@
 }
 
 .status.online {
-    color: #4CAF50;
+    color: var(--pf-hp);
 }
 
 .status.away {
-    color: #FF9800;
+    color: var(--pf-health-low);
 }
 
 .status.busy {
-    color: #F44336;
+    color: var(--pf-health-danger);
 }
 
 .status.offline {
-    color: #9E9E9E;
+    color: var(--pf-text-light);
 }
 
 .remove-member-button {
-    background: #F44336;
+    background: var(--pf-health-danger);
     border: none;
     border-radius: 50%;
     color: white;
@@ -1378,7 +1378,7 @@
 }
 
 .remove-member-button:hover {
-    background: #D32F2F;
+    background: var(--pf-health-danger);
     transform: scale(1.1);
 }
 
@@ -1794,7 +1794,7 @@
 }
 
 .exhaustion {
-    color: #d32f2f;
+    color: var(--pf-health-danger);
     font-weight: 700;
     background: rgba(211, 47, 47, 0.1);
     padding: 1px 3px;
@@ -1880,23 +1880,23 @@
 }
 
 .status-dot.online {
-    background: #4CAF50;
+    background: var(--pf-hp);
     box-shadow: none;
 }
 
 .status-dot.away {
-    background: #FFC107;
+    background: var(--pf-warning);
     box-shadow: none;
 }
 
 .status-dot.busy {
-    background: #F44336;
+    background: var(--pf-health-danger);
     box-shadow: none;
 }
 
 .status-dot.offline {
     background: #FFFFFF;
-    border: 2px solid #9E9E9E;
+    border: 2px solid var(--pf-text-light);
     box-shadow: none;
 }
 

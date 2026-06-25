@@ -560,15 +560,15 @@ export const AURA_TARGETS = {
     
     // Add color based on effect type
     const colorMap = {
-      [AURA_EFFECT_TYPES.BUFF]: '#4CAF50',     // Green
-      [AURA_EFFECT_TYPES.DEBUFF]: '#F44336',   // Red
-      [AURA_EFFECT_TYPES.DAMAGE]: '#FF9800',   // Orange
-      [AURA_EFFECT_TYPES.HEALING]: '#2196F3',  // Blue
-      [AURA_EFFECT_TYPES.CONTROL]: '#9C27B0',  // Purple
-      [AURA_EFFECT_TYPES.VISUAL]: '#FFEB3B'    // Yellow
+      [AURA_EFFECT_TYPES.BUFF]: '#506e30',
+      [AURA_EFFECT_TYPES.DEBUFF]: '#8b3a2a',
+      [AURA_EFFECT_TYPES.DAMAGE]: '#9a5e15',
+      [AURA_EFFECT_TYPES.HEALING]: '#4a6a8a',
+      [AURA_EFFECT_TYPES.CONTROL]: '#6b3a8a',
+      [AURA_EFFECT_TYPES.VISUAL]: '#b8a01f'
     };
     
-    visualization.color = colorMap[aura.effectType] || '#9E9E9E'; // Grey default
+    visualization.color = colorMap[aura.effectType] || '#8b7d6b';
     
     // Add opacity
     visualization.opacity = 0.3;

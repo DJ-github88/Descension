@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, memo, Suspense, lazy } from 'react';
 import { createPortal } from 'react-dom';
 import TooltipPortal from '../tooltips/TooltipPortal';
+import { useTooltipPosition } from '../common/useTooltipPosition';
 import QuantitySelector from '../common/QuantitySelector';
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import { getIconUrl } from '../../utils/assetManager';
@@ -30,7 +31,8 @@ const getDiceValue = (die) => {
 
 const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop, isDraggingGlobal = false, onDragStartGlobal, onDragEndGlobal }) => {
     const [showTooltip, setShowTooltip] = useState(false);
-    const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    const { adjustedPosition, tooltipRef } = useTooltipPosition(mousePosition, showTooltip);
     const cardRef = useRef(null);
 
     // State to track if we're currently dragging
@@ -57,10 +59,7 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
             // Add delay before showing tooltip to prevent rapid showing/hiding
             tooltipDelayRef.current = setTimeout(() => {
                 setShowTooltip(true);
-                setTooltipPosition({
-                    x: e.clientX + 15,
-                    y: e.clientY - 10
-                });
+                setMousePosition({ x: e.clientX, y: e.clientY });
             }, 300); // 300ms delay
         }
     };
@@ -72,10 +71,7 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
                 cancelAnimationFrame(mouseMoveAnimationRef.current);
             }
             mouseMoveAnimationRef.current = requestAnimationFrame(() => {
-                setTooltipPosition({
-                    x: e.clientX + 15,
-                    y: e.clientY - 10
-                });
+                setMousePosition({ x: e.clientX, y: e.clientY });
             });
         }
     };
@@ -380,11 +376,11 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
             {showTooltip && (
                 <TooltipPortal>
                     <div
+                        ref={tooltipRef}
                         style={{
                             position: 'fixed',
-                            left: tooltipPosition.x,
-                            top: tooltipPosition.y,
-                            transform: 'translate(10px, -50%)',
+                            left: adjustedPosition.x,
+                            top: adjustedPosition.y,
                             pointerEvents: 'none',
                             zIndex: 999999999
                         }}

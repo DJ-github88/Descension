@@ -309,19 +309,19 @@ const EFFECT_CATEGORIES = {
     
     // Base colors by category
     const categoryColors = {
-      [EFFECT_CATEGORIES.BUFF]: '#4CAF50',       // Green
-      [EFFECT_CATEGORIES.DEBUFF]: '#F44336',     // Red
-      [EFFECT_CATEGORIES.CROWD_CONTROL]: '#9C27B0', // Purple
-      [EFFECT_CATEGORIES.DAMAGE_OVER_TIME]: '#FF9800', // Orange
-      [EFFECT_CATEGORIES.HEALING_OVER_TIME]: '#2196F3', // Blue
-      [EFFECT_CATEGORIES.UTILITY]: '#FFEB3B'     // Yellow
+      [EFFECT_CATEGORIES.BUFF]: '#506e30',
+      [EFFECT_CATEGORIES.DEBUFF]: '#8b3a2a',
+      [EFFECT_CATEGORIES.CROWD_CONTROL]: '#6b3a8a',
+      [EFFECT_CATEGORIES.DAMAGE_OVER_TIME]: '#9a5e15',
+      [EFFECT_CATEGORIES.HEALING_OVER_TIME]: '#4a6a8a',
+      [EFFECT_CATEGORIES.UTILITY]: '#b8a01f'
     };
     
     // Specific colors for certain effects
     const specificColors = {
-      'burning': '#FF5722',  // Deep orange
-      'poison': '#8BC34A',   // Light green
-      'bleed': '#B71C1C',    // Dark red
+      'burning': '#a8503a',
+      'poison': '#4a6a2e',
+      'bleed': '#8b3a2a',
       'stun': '#7B1FA2',     // Purple
       'fear': '#6A1B9A',     // Deep purple
       'haste': '#00BCD4',    // Cyan

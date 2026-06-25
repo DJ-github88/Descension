@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Advanced Spell-Card Abilities for Combat Creatures
  *
  * Each combat creature gets a signature + 2 core abilities (3 total), authored
@@ -234,10 +234,10 @@ const NORDHALLA = {
     buff({ id: 'disablot_ancestral_judge', name: 'Ancestral-Judge', icon: 'spell_holy_devotionaura', school: 'divine', desc: 'Blesses families that honor the dead with warmth and fertility.', ap: 2, mana: 15, cd: 5, range: 5, target: 'ally', targetRestrictions: ['ally'], duration: 3, buffType: 'statEnhancement', effects: [{ id: 'con_boost', name: 'Warmth Blessing', description: '+4 Constitution for the blessed.' }], statModifier: { stat: 'constitution', magnitude: 4, magnitudeType: 'flat' } }),
     debuff({ id: 'disablot_spindle_curse', name: 'Spindle-Curse', icon: 'spell_shadow_curse', school: 'blight', desc: 'Curses negligent households with frozen-blood spindles.', ap: 2, mana: 15, cd: 4, range: 30, save: ['spirit', 15], duration: 3, debuffType: 'curse', effects: [{ id: 'barren', name: 'Barren Curse', description: 'Women in the household become barren until offerings resume.' }] }),
   ],
-  skogsra: [
-    debuff({ id: 'skogsra_hollow_back', name: 'Hollow-Back', icon: 'spell_shadow_phantasm', school: 'wyrd', desc: 'Seeing her hollow back shakes the viewer.', ap: 1, mana: 5, cd: 2, range: 15, save: ['spirit', 14], duration: 1, debuffType: 'statusEffect', effects: [{ id: 'shaken', name: 'Shaken', description: 'Shaken for 1 round.' }] }),
-    util({ id: 'skogsra_hunters_gift', name: 'Hunter\'s-Gift', icon: 'ability_hunter_aspectofthehawk', school: 'primal', desc: 'Grants impossible accuracy\u2014at a steep price.', ap: 2, mana: 10, cd: 5, range: 5, target: 'any', targetRestrictions: ['any'], utilityType: 'enhancement', duration: 3, effects: [{ id: 'gift', name: 'Impossible Accuracy', description: 'Grants impossible accuracy; break the rules and walk in circles until you freeze.' }] }),
-    debuff({ id: 'skogsra_ice_axe_curse', name: 'Ice-Axe-Curse', icon: 'spell_shadow_hex', school: 'rime', desc: 'Turns axes to ice that shatter on first stroke.', ap: 1, mana: 10, cd: 3, range: 15, save: ['spirit', 14], duration: 2, debuffType: 'abilityDisable', effects: [{ id: 'axe_ice', name: 'Ice-Axe', description: 'Wielded axe shatters on first stroke.' }] }),
+  valravn: [
+    dmg({ id: 'valravn_shadow_wing', name: 'Shadow-Wing', icon: 'spell_shadow_mindsteal', school: 'wyrd', desc: 'A wing strike that blinds the target with black feathers.', ap: 1, mana: 5, cd: 2, range: 30, formula: '1d8 + 4', types: ['physical', 'shadow'], save: ['agility', 14], saveOutcome: 'half_damage', controlType: 'blindness', duration: 1, effects: [{ id: 'blinded', name: 'Blinded', description: 'Blinded for 1 round by swirling feathers.' }] }),
+    passive({ id: 'valravn_battlefield_scent', name: 'Battlefield-Scent', icon: 'ability_hunter_snipershot', school: 'primal', desc: 'Gains tracking and extra damage against wounded prey.', effects: [{ id: 'scent', name: 'Battlefield-Scent', description: '+2 to hit and +1d6 physical damage against creatures below half health.' }] }),
+    dmg({ id: 'valravn_heart_devour', name: 'Heart-Devour', icon: 'ability_creature_poisonous_06', school: 'blight', desc: 'Bites a bleeding, stunned, or dying target, devouring its heart and regaining health.', ap: 2, mana: 10, cd: 3, range: 5, rangeType: 'melee', formula: '2d10 + 4', types: ['physical'], effects: [{ id: 'devour', name: 'Heart-Devour', description: 'Valravn heals for the amount of damage dealt.' }] }),
   ],
   kraken: [
     ctrl({ id: 'kraken_tentacle_slam', name: 'Tentacle-Slam', icon: 'spell_nature_entanglement', school: 'physical', desc: 'A massive tentacle slams and grapples.', ap: 2, mana: 0, cd: 1, range: 30, rangeType: 'melee', formula: '2d10 + 5', types: ['physical'], save: ['agility', 15], saveOutcome: 'no_effect', controlType: 'restraint', duration: 2, effects: [{ id: 'grappled', name: 'Grappled', description: 'Grappled by the tentacle.' }] }),
@@ -265,7 +265,7 @@ const EMBERSPIRE = {
     dmg({ id: 'pazuzu_lion_claw', name: 'Lion-Claw', icon: 'ability_druid_gore', school: 'physical', desc: 'Raking lion-talons.', ap: 1, mana: 0, cd: 0, range: 5, rangeType: 'melee', formula: '2d8 + 5', types: ['physical'] }),
     dmg({ id: 'pazuzu_scorpion_sting', name: 'Scorpion-Sting', icon: 'spell_nature_nullifypoison', school: 'blight', desc: 'A venomous stinger-strike.', ap: 2, mana: 10, cd: 1, range: 10, rangeType: 'melee', formula: '1d6', types: ['physical'], dot: { formula: '2d6', type: 'blight', duration: 3 }, save: ['constitution', 15], saveOutcome: 'no_effect' }),
   ],
-  tiamat_scale: [
+  tiamat: [
     dmg({ id: 'tiamat_magma_breath', name: 'Magma-Breath', icon: 'spell_fire_volcano', school: 'ember', desc: 'A roaring cone of magma.', ap: 3, mana: 25, cd: 2, range: 30, targetingType: 'cone', rangeType: 'self_centered', areaShape: 'cone', areaSize: 30, formula: '4d6', types: ['ember'], dot: { formula: '2d6', type: 'ember', duration: 2 }, save: ['constitution', 16] }),
     dmg({ id: 'tiamat_multi_head_strike', name: 'Multi-Head-Strike', icon: 'ability_druid_gore', school: 'physical', desc: 'Every head strikes a different target.', ap: 2, mana: 0, cd: 1, range: 10, rangeType: 'melee', formula: '2d8 + 5', types: ['physical'] }),
     passive({ id: 'tiamat_lava_swim', name: 'Lava-Swim', icon: 'spell_fire_moltenarmor', school: 'ember', desc: 'Swims through molten rock; fully fire-immune.', effects: [{ id: 'lava_immune', name: 'Lava-Swim', description: 'Moves through molten rock at full speed; immune to fire.' }] }),
@@ -285,12 +285,12 @@ const EMBERSPIRE = {
     dmg({ id: 'ammit_lion_charge', name: 'Lion-Charge', icon: 'ability_druid_thrash', school: 'physical', desc: 'A charging pounce that pins the victim.', ap: 2, mana: 0, cd: 1, range: 10, formula: '2d6 + 4', types: ['physical'], save: ['agility', 15], saveOutcome: 'no_effect', controlType: 'restraint', duration: 1, effects: [{ id: 'pinned', name: 'Knocked Prone & Pinned', description: 'Knocked prone and pinned.' }] }),
     passive({ id: 'ammit_smolder_hide', name: 'Smolder-Hide', icon: 'spell_fire_moltenarmor', school: 'ember', desc: 'Its body smolders; melee attackers burn on contact.', effects: [{ id: 'smolder', name: 'Smolder-Hide', description: 'Melee attackers take 1d6 fire on contact.' }] }),
   ],
-  lamashtu_wail: [
+  lamashtu: [
     ctrl({ id: 'lamashtu_donkey_shriek', name: 'Donkey-Shriek', icon: 'spell_shadow_deathscream', school: 'wyrd', desc: 'A devastating donkey-shriek.', ap: 2, mana: 15, cd: 2, range: 0, targetingType: 'area', rangeType: 'self_centered', areaShape: 'circle', areaSize: 30, save: ['spirit', 15], duration: 1, controlType: 'stunned', effects: [{ id: 'stunned', name: 'Stunned', description: 'Stunned for 1 round.' }] }),
     dmg({ id: 'lamashtu_claw_rake', name: 'Claw-Rake', icon: 'ability_druid_gore', school: 'physical', desc: 'Raking demon-claws.', ap: 1, mana: 0, cd: 0, range: 5, rangeType: 'melee', formula: '2d6 + 4', types: ['physical'] }),
     passive({ id: 'lamashtu_copper_weep', name: 'Copper-Weep', icon: 'spell_fire_volcano', school: 'ember', desc: 'Molten copper weeps from her, pocking basalt.', effects: [{ id: 'copper_terrain', name: 'Copper-Terrain', description: 'Creates hazardous terrain dealing 1d6 fire per square.' }] }),
   ],
-  bes_brick: [
+  bes: [
     ctrl({ id: 'bes_tambourine_bang', name: 'Tambourine-Bang', icon: 'spell_shadow_soulburn', school: 'wyrd', desc: 'A tambourine whose laughter breaks enchantments and frightens Wyrd-creatures.', ap: 2, mana: 10, cd: 2, range: 0, targetingType: 'area', rangeType: 'self_centered', areaShape: 'circle', areaSize: 20, save: ['spirit', 13], duration: 1, controlType: 'fear', effects: [{ id: 'flee', name: 'Frightened Flee', description: 'Wyrd-creatures are frightened and must flee.' }] }),
     dmg({ id: 'bes_khopesh_slash', name: 'Khopesh-Slash', icon: 'ability_rogue_findweakness', school: 'physical', desc: 'A curving khopesh-stroke.', ap: 1, mana: 0, cd: 0, range: 5, rangeType: 'melee', formula: '1d8 + 3', types: ['physical'] }),
     util({ id: 'bes_shatter_sacrifice', name: 'Shatter-Sacrifice', icon: 'spell_holy_aurabrilliance', school: 'divine', desc: 'Explodes into protective clay-shards, warding the area.', ap: 3, mana: 20, cd: 10, range: 0, targetingType: 'area', rangeType: 'self_centered', areaShape: 'circle', areaSize: 20, utilityType: 'protection', effects: [{ id: 'ward', name: 'Permanent Ward', description: 'Creates a permanent 20-ft Wyrd-warding safe zone.' }] }),
@@ -300,7 +300,7 @@ const EMBERSPIRE = {
     ctrl({ id: 'ifrit_cobra_glare', name: 'Cobra-Glare', icon: 'spell_fire_incinerate', school: 'ember', desc: 'A gaze that ignites the flammable and sets foes ablaze.', ap: 2, mana: 15, cd: 2, range: 50, save: ['agility', 15], saveOutcome: 'no_effect', controlType: 'incapacitation', duration: 0, effects: [{ id: 'ablaze', name: 'Ablaze', description: '3d6 fire damage; set ablaze.' }] }),
     passive({ id: 'ifrit_flame_body', name: 'Flame-Body', icon: 'spell_fire_moltenarmor', school: 'ember', desc: 'A body of living flame.', effects: [{ id: 'flame_body', name: 'Flame-Body', description: 'Melee attackers take 2d6 fire on contact.' }] }),
   ],
-  ghul_cinder: [
+  ghul: [
     dmg({ id: 'ghul_fire_bolt', name: 'Fire-Bolt', icon: 'spell_fire_firebolt', school: 'ember', desc: 'A streak of cinder-flame.', ap: 1, mana: 5, cd: 0, range: 30, formula: '2d6', types: ['ember'] }),
     dmg({ id: 'ghul_bone_cloak_split', name: 'Bone-Cloak-Split', icon: 'spell_fire_volcano', school: 'ember', desc: 'Its cloak splits open, revealing a furnace within.', ap: 2, mana: 15, cd: 2, range: 15, targetingType: 'cone', rangeType: 'self_centered', areaShape: 'cone', areaSize: 15, formula: '3d6', types: ['ember'], dot: { formula: '1d6', type: 'ember', duration: 2 }, save: ['constitution', 14] }),
     util({ id: 'ghul_invisible_shift', name: 'Invisible-Shift', icon: 'spell_shadow_fade', school: 'arcane', desc: 'Becomes completely invisible (save for floating green eyes).', ap: 1, mana: 10, cd: 2, range: 0, rangeType: 'self', target: 'self', targetRestrictions: ['self'], utilityType: 'movement', duration: 1, effects: [{ id: 'invisible', name: 'Invisible', description: 'Invisible for 1 round; DC 14 INT to spot the eyes.' }] }),
@@ -310,17 +310,17 @@ const EMBERSPIRE = {
     dmg({ id: 'gugalanna_steam_breath', name: 'Steam-Breath', icon: 'spell_fire_volcano', school: 'ember', desc: 'A cone of scalding steam.', ap: 1, mana: 10, cd: 1, range: 15, targetingType: 'cone', rangeType: 'self_centered', areaShape: 'cone', areaSize: 15, formula: '2d6', types: ['ember'], save: ['constitution', 14], saveOutcome: 'no_effect', controlType: 'incapacitated', duration: 1, effects: [{ id: 'blinded', name: 'Blinded', description: 'Blinded for 1 round.' }] }),
     passive({ id: 'gugalanna_ground_breaker', name: 'Ground-Breaker', icon: 'spell_nature_earthquake', school: 'physical', desc: 'Its hooves crack cooling lava into navigation-maps.', effects: [{ id: 'tracks', name: 'Navigation Tracks', description: 'Following its tracks leads to stable ground.' }] }),
   ],
-  peri_moth: [
+  peri: [
     dmg({ id: 'peri_proboscis_touch', name: 'Proboscis-Touch', icon: 'spell_holy_heal', school: 'divine', desc: 'A delicate touch that harms foes or mends allies.', ap: 1, mana: 5, cd: 0, range: 5, rangeType: 'melee', formula: '1d4', types: ['divine'] }),
     buff({ id: 'peri_runic_prayer_wings', name: 'Runic-Prayer-Wings', icon: 'spell_holy_aurabrilliance', school: 'divine', desc: 'Wings edged with prayers grant a surge of spirit.', ap: 1, mana: 10, cd: 3, range: 5, target: 'any', targetRestrictions: ['any'], duration: 3, buffType: 'statEnhancement', effects: [{ id: 'spi_boost', name: 'Prayer-Wings', description: '+4 Spirit for 1 hour.' }], statModifier: { stat: 'spirit', magnitude: 4, magnitudeType: 'flat' } }),
     util({ id: 'peri_wing_roll', name: 'Wing-Roll', icon: 'spell_fire_firebolt', school: 'ember', desc: 'Rolls dawn-thermal into a plantable sun-seed.', ap: 2, mana: 10, cd: 5, range: 0, rangeType: 'self', target: 'self', targetRestrictions: ['self'], utilityType: 'creation', effects: [{ id: 'sun_seed', name: 'Sun-Seed', description: 'Creates a sun-seed that produces fire for a year when planted.' }] }),
   ],
-  daeva_shade: [
+  daeva: [
     dmg({ id: 'daeva_chaos_bite', name: 'Chaos-Bite', icon: 'spell_shadow_unleasheddread', school: 'blight', desc: 'A bite of pure chaos.', ap: 1, mana: 5, cd: 0, range: 5, rangeType: 'melee', formula: '2d6 + 4', types: ['blight'] }),
     debuff({ id: 'daeva_truth_eater', name: 'Truth-Eater', icon: 'spell_shadow_twistedfaith', school: 'wyrd', desc: 'Feeds on spoken truth, weakening the honest.', ap: 1, mana: 5, cd: 2, range: 50, duration: 3, debuffType: 'statPenalty', effects: [{ id: 'honest_weak', name: 'Honesty-Weakened', description: 'Honest speakers take -1 to all rolls per truth; shade gains +5 HP per truth.' }] }),
     passive({ id: 'daeva_light_absorb', name: 'Light-Absorb', icon: 'spell_shadow_voidshift', school: 'blight', desc: 'A three-dimensional hole in the world; visible only as a silhouette.', effects: [{ id: 'hole', name: 'Light-Absorb', description: 'All non-radiant damage reduced 75%.' }] }),
   ],
-  simurgh_ash: [
+  simurgh: [
     dmg({ id: 'simurgh_talon_strike', name: 'Talon-Strike', icon: 'ability_hunter_aspectofthehawk', school: 'physical', desc: 'A raking talon-strike.', ap: 1, mana: 0, cd: 0, range: 5, rangeType: 'melee', formula: '2d8 + 5', types: ['physical'] }),
     heal({ id: 'simurgh_feather_heal', name: 'Feather-Heal', icon: 'spell_holy_heal', school: 'divine', desc: 'Lays a healing feather that knits broken bones.', ap: 2, mana: 25, cd: 4, range: 5, target: 'ally', targetRestrictions: ['ally'], formula: '3d8 + 5' }),
     ctrl({ id: 'simurgh_wing_buffet', name: 'Wing-Buffet', icon: 'spell_shaman_thunderstorm', school: 'physical', desc: 'A hurricane wingbeat.', ap: 2, mana: 10, cd: 2, range: 0, targetingType: 'area', rangeType: 'self_centered', areaShape: 'circle', areaSize: 30, save: ['agility', 15], saveOutcome: 'no_effect', controlType: 'forcedMovement', duration: 0, effects: [{ id: 'knocked_back', name: 'Knocked Back', description: 'Knocked back 20 ft and prone.', config: { distance: 20, movementType: 'push' } }] }),
@@ -330,7 +330,7 @@ const EMBERSPIRE = {
     dmg({ id: 'azi_tail_whip', name: 'Tail-Whip', icon: 'ability_druid_thrash', school: 'physical', desc: 'A sweeping tail-strike.', ap: 1, mana: 0, cd: 0, range: 15, rangeType: 'melee', formula: '2d6 + 4', types: ['physical'], save: ['agility', 15], saveOutcome: 'no_effect', controlType: 'knockdown', duration: 1, effects: [{ id: 'prone', name: 'Knocked Prone', description: 'Knocked prone.' }] }),
     passive({ id: 'azi_obsidian_hide', name: 'Obsidian-Hide', icon: 'spell_fire_moltenarmor', school: 'physical', desc: 'Dinner-plate obsidian scales repel mortal weapons.', effects: [{ id: 'obsidian_hide', name: 'Obsidian-Hide', description: 'Non-magical weapons cannot pierce.' }] }),
   ],
-  edimmu_whisper: [
+  edimmu: [
     debuff({ id: 'edimmu_attachment_bond', name: 'Attachment-Bond', icon: 'spell_shadow_twistedfaith', school: 'blight', desc: 'Bonds to a passing creature, sapping strength over days.', ap: 1, mana: 10, cd: 5, range: 5, save: ['spirit', 14], duration: 3, debuffType: 'damageOverTime', effects: [{ id: 'fatigue', name: 'Bonded Fatigue', description: '-1 to all rolls per day; spontaneous combustion on day 7.' }] }),
     passive({ id: 'edimmu_heat_mirage', name: 'Heat-Mirage', icon: 'spell_shadow_fade', school: 'ember', desc: 'Visible only in peripheral vision.', effects: [{ id: 'mirage', name: 'Heat-Mirage', description: 'DC 14 INT to track its position.' }] }),
     passive({ id: 'edimmu_sulfur_aura', name: 'Sulfur-Aura', icon: 'spell_fire_selfdestruct', school: 'ember', desc: 'Smells of sulfur and ancient dust.', effects: [{ id: 'sulfur', name: 'Sulfur-Aura', description: 'Reveals its presence within 30 ft.' }] }),
@@ -340,7 +340,7 @@ const EMBERSPIRE = {
     dmg({ id: 'asag_earth_laugh', name: 'Earth-Laugh', icon: 'spell_nature_earthquake', school: 'physical', desc: 'A localized magnitude-5 quake.', ap: 3, mana: 25, cd: 3, range: 0, targetingType: 'area', rangeType: 'self_centered', areaShape: 'circle', areaSize: 50, formula: '3d6', types: ['physical'], save: ['agility', 15] }),
     passive({ id: 'asag_boiling_presence', name: 'Boiling-Presence', icon: 'spell_fire_volcano', school: 'ember', desc: 'Water within 30 ft literally boils.', effects: [{ id: 'boil', name: 'Boiling Zone', description: '30-ft radius: scalding terrain deals 2d6 fire to anyone entering.' }], range: 30, areaShape: 'circle', areaSize: 30 }),
   ],
-  nisroch_falcon: [
+  nisroch: [
     dmg({ id: 'nisroch_wedjat_beam', name: 'Wedjat-Beam', icon: 'spell_holy_radiance', school: 'divine', desc: 'A beam of concentrated light from the left eye; double damage to Wyrd.', ap: 2, mana: 10, cd: 1, range: 40, formula: '2d6', types: ['divine'] }),
     dmg({ id: 'nisroch_bronze_talon', name: 'Bronze-Talon', icon: 'ability_hunter_aspectofthehawk', school: 'physical', desc: 'A diving bronze-talon rake.', ap: 1, mana: 0, cd: 0, range: 5, rangeType: 'melee', formula: '2d6 + 3', types: ['physical'] }),
     passive({ id: 'nisroch_sky_patrol', name: 'Sky-Patrol', icon: 'ability_hunter_aspectofthehawk', school: 'divine', desc: 'Patrols the skies scanning for Wyrd-manifestations.', effects: [{ id: 'patrol', name: 'Sky-Patrol', description: 'Acts as an early-warning system for Wyrd-creatures.' }] }),
@@ -355,7 +355,7 @@ const EMBERSPIRE = {
     ctrl({ id: 'kur_abyssal_grip', name: 'Abyssal-Grip', icon: 'spell_shadow_graspofmalorne', school: 'blight', desc: 'A gravitational pull toward the pit\'s edge.', ap: 1, mana: 10, cd: 1, range: 10, targetingType: 'area', areaShape: 'circle', areaSize: 10, save: ['agility', 13], duration: 1, controlType: 'forcedMovement', effects: [{ id: 'slide', name: 'Sliding', description: 'Slides 5 ft closer to the pit each round.', config: { distance: 5, movementType: 'pull' } }] }),
     debuff({ id: 'kur_murmur_of_dead', name: 'Murmur-of-Dead', icon: 'spell_shadow_twistedfaith', school: 'wyrd', desc: 'Countless voices in dead languages shake the will.', ap: 1, mana: 10, cd: 2, range: 50, targetingType: 'area', rangeType: 'self_centered', areaShape: 'circle', areaSize: 50, save: ['spirit', 14], duration: 3, debuffType: 'statusEffect', effects: [{ id: 'shaken', name: 'Shaken', description: '-2 to all checks.' }] }),
   ],
-  mushuss_child: [
+  mushussu: [
     dmg({ id: 'mushuss_nub_horn_bonk', name: 'Nub-Horn-Bonk', icon: 'ability_druid_thrash', school: 'physical', desc: 'A clumsy baby-horn bonk.', ap: 1, mana: 0, cd: 0, range: 5, rangeType: 'melee', formula: '1d4', types: ['physical'] }),
     buff({ id: 'mushuss_life_breath', name: 'Life-Breath', icon: 'spell_nature_regeneration', school: 'primal', desc: 'Its breath accelerates plant growth.', ap: 1, mana: 5, cd: 3, range: 5, target: 'ally', targetRestrictions: ['ally'], duration: 3, buffType: 'statEnhancement', effects: [{ id: 'growth', name: 'Double Yields', description: 'A visited garden produces double yields.' }] }),
     passive({ id: 'mushuss_imprint_follow', name: 'Imprint-Follow', icon: 'ability_hunter_beastmastery', school: 'primal', desc: 'Imprints on the first kind creature it meets.', effects: [{ id: 'imprint', name: 'Imprint', description: 'Encourages the adult Sirrush to guard the imprinted creature\'s village.' }] }),
@@ -401,67 +401,67 @@ const ICEHEART = {
     ctrl({ id: 'ketos_swallow_whole', name: 'Swallow-Whole', icon: 'spell_shadow_unsummon', school: 'blight', desc: 'A maw large enough to swallow a small ship.', ap: 3, mana: 30, cd: 3, range: 10, formula: '5d6', types: ['blight'], save: ['strength', 18], saveOutcome: 'no_effect', controlType: 'restraint', duration: 3, effects: [{ id: 'swallowed', name: 'Swallowed', description: 'Vessel and crew swallowed; 5d6 acid per round.' }] }),
     passive({ id: 'ketos_gods_mistake_intellect', name: 'God\'s-Mistake-Intellect', icon: 'spell_arcane_tormentoftheweak', school: 'wyrd', desc: 'An enormous, intelligent brain.', effects: [{ id: 'intellect', name: 'God\'s-Mistake', description: 'Psychic damage ignores 50% of its resistances.' }] }),
   ],
-  harpy_squall: [
+  harpy: [
     dmg({ id: 'harpy_mast_snatcher', name: 'Mast-Snatcher', icon: 'ability_hunter_aspectofthehawk', school: 'physical', desc: 'Snatches crew from decks and lifts them away.', ap: 2, mana: 0, cd: 1, range: 10, formula: '2d6 + 3', types: ['physical'], save: ['agility', 14], saveOutcome: 'no_effect', controlType: 'restraint', duration: 1, effects: [{ id: 'grappled', name: 'Grappled', description: 'Grappled and lifted 20 ft.' }] }),
     dmg({ id: 'harpy_feather_slash', name: 'Feather-Slash', icon: 'ability_rogue_findweakness', school: 'physical', desc: 'A raking wing-claw.', ap: 1, mana: 0, cd: 0, range: 5, rangeType: 'melee', formula: '1d8 + 3', types: ['physical'] }),
     passive({ id: 'harpy_iron_hook_feet', name: 'Iron-Hook-Feet', icon: 'ability_hunter_aspectofthehawk', school: 'physical', desc: 'Curved iron-hooks lock it to the rigging.', effects: [{ id: 'locked', name: 'Iron-Hook-Feet', description: 'Cannot be dislodged without dealing 20 damage or breaking the mast.' }] }),
   ],
-  hippocampus_tide: [
+  hippocampus: [
     buff({ id: 'hippocampus_wave_crest', name: 'Wave-Crest', icon: 'spell_frost_frostbolt', school: 'rime', desc: 'Raises waves to speed allies and bog enemies.', ap: 1, mana: 5, cd: 2, range: 0, targetingType: 'area', rangeType: 'self_centered', areaShape: 'circle', areaSize: 30, duration: 3, buffType: 'movementBuff', effects: [{ id: 'speed', name: 'Wave-Speed', description: 'Allies +10 swim speed; enemies find water difficult.' }] }),
     dmg({ id: 'hippocampus_hoof_fin_steer', name: 'Hoof-Fin-Steer', icon: 'ability_druid_thrash', school: 'physical', desc: 'A lashing hoof-fin.', ap: 1, mana: 0, cd: 0, range: 5, rangeType: 'melee', formula: '1d6 + 2', types: ['physical'] }),
     passive({ id: 'hippocampus_estuary_purify', name: 'Estuary-Purify', icon: 'spell_holy_heal', school: 'divine', desc: 'Its presence purifies Wyrd-tainted water.', effects: [{ id: 'pure_water', name: 'Pure Water', description: 'Drinking its water grants 24-hour immunity to water-borne disease.' }] }),
   ],
-  gorgon_depth: [
+  gorgon: [
     ctrl({ id: 'gorgon_stone_gaze', name: 'Stone-Gaze', icon: 'spell_shadow_deathfocus', school: 'blight', desc: 'A gaze that progressively petrifies.', ap: 2, mana: 20, cd: 2, range: 30, save: ['spirit', 15], duration: 3, controlType: 'incapacitation', effects: [{ id: 'petrifying', name: 'Petrifying', description: 'Rd1: -10 speed; Rd2: restrained; Rd3: petrified.' }] }),
     ctrl({ id: 'gorgon_eel_hair_hypnosis', name: 'Eel-Hair-Hypnosis', icon: 'spell_shadow_soulburn', school: 'wyrd', desc: 'Bioluminescent eel-hair pulses hypnotically.', ap: 1, mana: 10, cd: 2, range: 15, save: ['spirit', 13], duration: 2, controlType: 'charm', effects: [{ id: 'entranced', name: 'Entranced', description: 'Entranced; can be pulled toward her without resistance.' }] }),
     util({ id: 'gorgon_firefly_shift', name: 'Firefly-Shift', icon: 'spell_shadow_fade', school: 'arcane', desc: 'Compresses into a tiny eel, becoming nearly invisible.', ap: 1, mana: 10, cd: 3, range: 0, rangeType: 'self', target: 'self', targetRestrictions: ['self'], utilityType: 'movement', duration: 1, effects: [{ id: 'tiny', name: 'Firefly-Form', description: 'DC 16 INT to spot; drinks fish-blood in this form.' }] }),
   ],
-  tokoloshe_tide: [
+  tokoloshe: [
     util({ id: 'tokoloshe_pebble_invisibility', name: 'Pebbble-Invisibility', icon: 'spell_shadow_fade', school: 'arcane', desc: 'Swallows a black pebble to vanish.', ap: 1, mana: 10, cd: 3, range: 0, rangeType: 'self', target: 'self', targetRestrictions: ['self'], utilityType: 'movement', duration: 2, effects: [{ id: 'invisible', name: 'Invisible', description: 'Invisible; DC 14 INT to hear its breathing.' }] }),
     dmg({ id: 'tokoloshe_long_arm_grab', name: 'Long-Arm-Grab', icon: 'spell_nature_entanglement', school: 'physical', desc: 'A snatch-and-steal.', ap: 1, mana: 0, cd: 0, range: 5, rangeType: 'melee', formula: '1d4', types: ['physical'] }),
     debuff({ id: 'tokoloshe_bilge_pest', name: 'Bilge-Pest', icon: 'spell_shadow_twistedfaith', school: 'physical', desc: 'Infests bilges, tangling rigging and sabotaging tools.', ap: 1, mana: 5, cd: 3, range: 0, rangeType: 'self', target: 'self', targetRestrictions: ['self'], duration: 3, debuffType: 'abilityDisable', effects: [{ id: 'sabotage', name: 'Navigation Sabotage', description: 'All Navigation checks DC +5 while it remains.' }] }),
   ],
-  lamia_shoal: [
+  lamia: [
     ctrl({ id: 'lamia_reef_grasp', name: 'Reef-Grasp', icon: 'spell_nature_entanglement', school: 'physical', desc: 'Inordinately long arms grapple and drag.', ap: 2, mana: 0, cd: 1, range: 15, rangeType: 'melee', formula: '2d6 + 4', types: ['physical'], save: ['agility', 14], saveOutcome: 'no_effect', controlType: 'restraint', duration: 2, effects: [{ id: 'grappled', name: 'Grappled', description: 'Grappled and pulled from deck.' }] }),
     ctrl({ id: 'lamia_grief_lure', name: 'Grief-Lure', icon: 'spell_shadow_soulburn', school: 'wyrd', desc: 'A lullaby mimicking a grieving mother.', ap: 1, mana: 10, cd: 2, range: 30, save: ['spirit', 15], duration: 2, controlType: 'charm', effects: [{ id: 'lean', name: 'Leaning', description: 'Those who lost children lean into her reach.' }] }),
     passive({ id: 'lamia_pearl_tear', name: 'Pearl-Tear', icon: 'spell_holy_heal', school: 'divine', desc: 'Tears dissolve into pearl-trails that attract predators.', effects: [{ id: 'pearl_trail', name: 'Pearl-Trail', description: 'Tears leave trails attracting predators.' }] }),
   ],
-  empusa_ice: [
+  empusa: [
     heal({ id: 'empusa_storm_seduction', name: 'Storm-Seduction', icon: 'spell_shadow_soulburn', school: 'blight', desc: 'Charms a lone victim and drains vitality.', ap: 2, mana: 15, cd: 2, range: 5, save: ['spirit', 14], formula: '2d6 + 3', vampiric: { formula: '2d6 + 3', type: 'blight' } }),
     dmg({ id: 'empusa_hammer_skull_staff', name: 'Hammer-Skull-Staff', icon: 'ability_bossman_smash', school: 'storm', desc: 'A crackling staff-blow of brass and lightning.', ap: 1, mana: 0, cd: 0, range: 5, rangeType: 'melee', formula: '2d6 + 3', types: ['physical', 'storm'] }),
     debuff({ id: 'empusa_asymmetric_walk', name: 'Asymmetric-Walk', icon: 'spell_shadow_phantasm', school: 'wyrd', desc: 'The clicking brass-leg and donkey-hoof disorient foes.', ap: 1, mana: 5, cd: 2, range: 15, save: ['spirit', 12], duration: 2, debuffType: 'statPenalty', effects: [{ id: 'disoriented', name: 'Disoriented', description: '-2 to attacks against her.' }] }),
   ],
-  telkhine_frost: [
+  telkhine: [
     dmg({ id: 'telkhine_whale_bone_hammer', name: 'Whale-Bone-Hammer', icon: 'ability_bossman_smash', school: 'physical', desc: 'A stunning whale-bone blow.', ap: 2, mana: 0, cd: 1, range: 5, rangeType: 'melee', formula: '2d6 + 4', types: ['physical'], save: ['strength', 13], saveOutcome: 'no_effect', controlType: 'stunned', duration: 1, effects: [{ id: 'stunned', name: 'Stunned', description: 'Stunned for 1 round.' }] }),
     ctrl({ id: 'telkhine_boat_roll', name: 'Boat-Roll', icon: 'spell_frost_frostblast', school: 'rime', desc: 'Overturns small boats, stripping their metal fittings.', ap: 2, mana: 15, cd: 3, range: 15, save: ['strength', 14], duration: 1, controlType: 'forcedMovement', effects: [{ id: 'overturned', name: 'Overturned', description: 'Boat overturned; only wood remains.' }] }),
     passive({ id: 'telkhine_ice_smith', name: 'Ice-Smith', icon: 'spell_frost_frostarmor', school: 'rime', desc: 'Forges weapons from deep-sea ice that never melt.', effects: [{ id: 'ice_weapon', name: 'Telkhine-Ice Weapon', description: 'Forged weapons deal +1d6 frost damage.' }] }),
   ],
-  stymphalian_flock: [
+  stymphalian: [
     dmg({ id: 'stymphalian_feather_arrow', name: 'Feather-Arrow', icon: 'ability_hunter_aspectofthehawk', school: 'physical', desc: 'Launches razor-feathers like arrows.', ap: 1, mana: 0, cd: 0, range: 40, formula: '2d6 + 3', types: ['physical'] }),
     debuff({ id: 'stymphalian_metallic_clatter', name: 'Metallic-Clatter', icon: 'spell_shadow_twistedfaith', school: 'wyrd', desc: 'The metallic wing-beat disrupts concentration.', ap: 1, mana: 5, cd: 1, range: 0, targetingType: 'area', rangeType: 'self_centered', areaShape: 'circle', areaSize: 200, save: ['spirit', 12], duration: 1, debuffType: 'statPenalty', effects: [{ id: 'distracted', name: 'Distracted', description: '-2 to concentration.' }] }),
     ctrl({ id: 'stymphalian_bronze_rattle', name: 'Bronze-Rattle-Vulnerability', icon: 'spell_shadow_fright', school: 'wyrd', desc: 'Loud bronze rattles can drive the flock to flee.', ap: 1, mana: 0, cd: 4, range: 30, save: ['spirit', 13], duration: 1, controlType: 'fear', effects: [{ id: 'flee', name: 'Flee', description: 'Flock must flee.' }] }),
   ],
-  nereid_deep: [
+  nereid: [
     heal({ id: 'nereid_drowning_savior', name: 'Drowning-Savior', icon: 'spell_holy_heal', school: 'divine', desc: 'Carries drowning sailors to the surface.', ap: 2, mana: 20, cd: 3, range: 5, target: 'ally', targetRestrictions: ['ally'], formula: '2d8 + 4', hot: { formula: '1d6', duration: 3 } }),
     ctrl({ id: 'nereid_breath_withdraw', name: 'Breath-Withdraw', icon: 'spell_frost_frozencore', school: 'rime', desc: 'Withdraws the breath of the sea from trespassers.', ap: 2, mana: 15, cd: 3, range: 0, targetingType: 'area', rangeType: 'self_centered', areaShape: 'circle', areaSize: 30, save: ['constitution', 14], duration: 2, controlType: 'incapacitation', effects: [{ id: 'drowning', name: 'Drowning', description: 'Begins drowning.' }] }),
     passive({ id: 'nereid_luminous_form', name: 'Luminous-Form', icon: 'spell_holy_aurabrilliance', school: 'divine', desc: 'Emits soft blue-green light.', effects: [{ id: 'glow', name: 'Luminous', description: '+6 to Persuasion; illuminates 30 ft.' }] }),
   ],
-  graeae_oracle: [
+  graeae: [
     util({ id: 'graeae_shared_obsidian_eye', name: 'Shared-Obsidian-Eye', icon: 'spell_arcane_tormentoftheweak', school: 'arcane', desc: 'The crones pass the eye to grant a prophetic answer.', ap: 2, mana: 15, cd: 3, range: 5, target: 'any', targetRestrictions: ['any'], utilityType: 'divination', effects: [{ id: 'prophecy', name: 'Prophecy', description: 'One prophetic answer; refuse the tooth-price and receive a false prophecy.' }] }),
     debuff({ id: 'graeae_frost_robe', name: 'Frost-Robe', icon: 'spell_frost_frostarmor', school: 'rime', desc: 'Robes crackling with frost burn melee attackers.', ap: 1, mana: 5, cd: 1, range: 5, save: ['constitution', 13], duration: 1, debuffType: 'statusEffect', effects: [{ id: 'frost_burn', name: 'Frost-Burn', description: 'Melee attackers take 1d6 frost.' }] }),
     util({ id: 'graeae_tooth_price', name: 'Tooth-Price', icon: 'spell_shadow_mindsteal', school: 'physical', desc: 'Answers cost a tooth\u2014extraction ensures truth.', ap: 1, mana: 0, cd: 5, range: 5, target: 'any', targetRestrictions: ['any'], utilityType: 'special', effects: [{ id: 'tooth', name: 'Tooth-Extraction', description: 'Deals 1d4 damage; ensures the prophecy is true.' }] }),
   ],
-  triton_conch: [
+  triton: [
     dmg({ id: 'triton_wave_control', name: 'Wave-Control', icon: 'spell_frost_frostbolt', school: 'physical', desc: 'A horn-call raises a wall of water.', ap: 3, mana: 25, cd: 2, range: 0, targetingType: 'area', rangeType: 'self_centered', areaShape: 'line', areaSize: 40, formula: '3d6', types: ['physical'], save: ['agility', 16], saveOutcome: 'no_effect', controlType: 'forcedMovement', duration: 0, effects: [{ id: 'pushed', name: 'Pushed Back', description: 'Pushed back 30 ft.', config: { distance: 30, movementType: 'push' } }] }),
     dmg({ id: 'triton_trident_strike', name: 'Trident-Strike', icon: 'ability_druid_gore', school: 'physical', desc: 'A precise trident-thrust.', ap: 1, mana: 0, cd: 0, range: 5, rangeType: 'melee', formula: '2d8 + 5', types: ['physical'] }),
     passive({ id: 'triton_depth_sovereign', name: 'Depth-Sovereign', icon: 'spell_frost_frostarmor', school: 'rime', desc: 'His presence prevents lesser sea-monsters from attacking.', effects: [{ id: 'sovereign', name: 'Depth-Sovereign', description: 'Lesser sea-monsters will not attack within 100 ft.' }] }),
   ],
-  nandi_swell: [
+  nandi: [
     dmg({ id: 'nandi_skull_crush', name: 'Skull-Crush', icon: 'ability_bossman_smash', school: 'physical', desc: 'A bone-crushing bite to the head.', ap: 2, mana: 0, cd: 1, range: 5, rangeType: 'melee', formula: '2d8 + 5', types: ['physical'], save: ['constitution', 15], saveOutcome: 'no_effect', controlType: 'stunned', duration: 1, effects: [{ id: 'stunned', name: 'Stunned', description: 'Stunned for 1 round.' }] }),
     buff({ id: 'nandi_ice_floe_ambush', name: 'Ice-Floe-Ambush', icon: 'spell_druid_camouflage', school: 'rime', desc: 'Hides on ice-floes for an ambush.', ap: 1, mana: 0, cd: 3, range: 0, rangeType: 'self', target: 'self', targetRestrictions: ['self'], duration: 1, buffType: 'combatAdvantage', effects: [{ id: 'ambush', name: 'Ambush', description: '+8 to stealth on ice; first attack has advantage.' }] }),
     passive({ id: 'nandi_bristle_float', name: 'Bristle-Float', icon: 'spell_frost_frostarmor', school: 'rime', desc: 'Greasy bristles trap air for buoyancy.', effects: [{ id: 'float', name: 'Unsinkable', description: 'Cannot be drowned.' }] }),
   ],
-  popobawa_night: [
+  popobawa: [
     ctrl({ id: 'popobawa_single_eye', name: 'Single-Eye', icon: 'spell_shadow_fright', school: 'wyrd', desc: 'Staring at its one eye for too long terrifies.', ap: 1, mana: 10, cd: 2, range: 20, save: ['spirit', 15], duration: 3, controlType: 'fear', effects: [{ id: 'frightened', name: 'Frightened', description: 'Frightened for 1 minute.' }] }),
     debuff({ id: 'popobawa_shame_silence', name: 'Shame-Silence', icon: 'spell_shadow_twistedfaith', school: 'wyrd', desc: 'Victims are psychically silenced about the attack.', ap: 1, mana: 5, cd: 3, range: 30, save: ['spirit', 14], duration: 3, debuffType: 'abilityDisable', effects: [{ id: 'silenced', name: 'Shame-Silenced', description: 'Cannot speak of the attack until naming it publicly.' }] }),
     passive({ id: 'popobawa_form_cycle', name: 'Form-Cycle', icon: 'spell_druid_shapeshift', school: 'arcane', desc: 'Shifts between dwarf, specter, and shadow each round.', effects: [{ id: 'form_cycle', name: 'Form-Cycle', description: 'Attacks of opportunity cannot target it.' }] }),
@@ -471,17 +471,17 @@ const ICEHEART = {
     dmg({ id: 'abada_narwhal_bonk', name: 'Narwhal-Bonk', icon: 'ability_druid_thrash', school: 'physical', desc: 'A playful horn-jab.', ap: 1, mana: 0, cd: 0, range: 5, rangeType: 'melee', formula: '1d6 + 2', types: ['physical'] }),
     passive({ id: 'abada_garden', name: 'Reef-Garden', icon: 'spell_nature_regeneration', school: 'primal', desc: 'Tended reefs grow twice as fast and resist decay.', effects: [{ id: 'garden', name: 'Reef-Garden', description: 'Tended reefs are immune to Wyrd-decay.' }] }),
   ],
-  graia_swirl: [
+  graia: [
     ctrl({ id: 'graia_future_face', name: 'Future-Face', icon: 'spell_arcane_tormentoftheweak', school: 'wyrd', desc: 'Staring reveals your own older face\u2014then the question comes.', ap: 2, mana: 20, cd: 3, range: 5, save: ['spirit', 16], duration: 2, controlType: 'charm', effects: [{ id: 'compelled', name: 'Compelled', description: 'Compelled to answer: What will you pay?' }] }),
     util({ id: 'graia_grey_passage', name: 'Grey-Passage', icon: 'spell_arcane_teleportundercity', school: 'arcane', desc: 'Ships passing through the center travel in time, not space.', ap: 3, mana: 40, cd: 5, range: 5, target: 'any', targetRestrictions: ['any'], utilityType: 'special', effects: [{ id: 'time_travel', name: 'Grey-Passage', description: 'Emerge having aged weeks, or vice versa; the swirl takes its cut.' }] }),
     passive({ id: 'graia_still_surface', name: 'Still-Surface', icon: 'spell_frost_frostarmor', school: 'arcane', desc: 'The air above the eddy is unnaturally still.', effects: [{ id: 'calm', name: 'Calm Zone', description: '60-ft radius of calm even during storms.' }] }),
   ],
-  ichthya_centaur: [
+  ichthya: [
     dmg({ id: 'ichthya_trident_strike', name: 'Trident-Strike', icon: 'ability_druid_gore', school: 'physical', desc: 'A red-hot trident-thrust.', ap: 1, mana: 0, cd: 0, range: 5, rangeType: 'melee', formula: '2d8 + 4', types: ['physical', 'ember'] }),
     dmg({ id: 'ichthya_horse_uppercut', name: 'Horse-Uppercut', icon: 'ability_druid_thrash', school: 'physical', desc: 'A rearing uppercut.', ap: 1, mana: 0, cd: 0, range: 5, rangeType: 'melee', formula: '2d6 + 3', types: ['physical'] }),
     util({ id: 'ichthya_wave_forge', name: 'Wave-Forge', icon: 'spell_fire_moltenarmor', school: 'ember', desc: 'Forges unbreakable weapons beneath the waves.', ap: 2, mana: 15, cd: 5, range: 0, rangeType: 'self', target: 'self', targetRestrictions: ['self'], utilityType: 'creation', effects: [{ id: 'forge', name: 'Wave-Forged Gift', description: 'Creates a trident/harpoon that never rusts, breaks, or misses.' }] }),
   ],
-  brine_lantern: [
+  brine: [
     util({ id: 'brine_safe_harbor_glow', name: 'Safe-Harbor-Glow', icon: 'spell_holy_aurabrilliance', school: 'divine', desc: 'Appears over safe anchorages during the worst storms.', ap: 1, mana: 5, cd: 3, range: 0, rangeType: 'self', target: 'self', targetRestrictions: ['self'], utilityType: 'perception', duration: 6, effects: [{ id: 'guide', name: 'Safe Harbor', description: 'Following it always leads to safety.' }] }),
     debuff({ id: 'brine_false_lantern', name: 'False-Lantern', icon: 'spell_shadow_phantasm', school: 'arcane', desc: 'A corrupted lantern leads ships onto rocks.', ap: 2, mana: 10, cd: 4, range: 0, targetingType: 'area', rangeType: 'self_centered', areaShape: 'circle', areaSize: 30, save: ['intelligence', 13], duration: 1, debuffType: 'statusEffect', effects: [{ id: 'decoy', name: 'Misled', description: 'Screaming faces inside; leads onto rocks.' }] }),
     buff({ id: 'brine_soul_light', name: 'Soul-Light', icon: 'spell_holy_aurabrilliance', school: 'divine', desc: 'Warm light comforts nearby creatures.', ap: 1, mana: 5, cd: 2, range: 0, targetingType: 'area', rangeType: 'self_centered', areaShape: 'circle', areaSize: 20, duration: 3, buffType: 'statEnhancement', effects: [{ id: 'comfort', name: 'Comfort', description: '+2 to Spirit saves within 20 ft.' }] }),

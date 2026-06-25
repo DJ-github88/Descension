@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import ReactDOM from 'react-dom';
-import { getAbilityIconUrl, getCustomIconUrl } from '../../../../utils/assetManager';
+import React from 'react';
+import WowWindow from '../../../windows/WowWindow';
 // Pathfinder styles imported via main.css
 
 const CleanStatusEffectConfigPopup = ({
@@ -41,22 +40,9 @@ const CleanStatusEffectConfigPopup = ({
     }
   };
 
-  // Handle backdrop click to close the popup
-  const handleBackdropClick = (e) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
-  };
-
   // Confirm simply closes the popup; all changes are applied live
   const handleConfirm = () => {
     onClose();
-  };
-
-  // Image error fallback: swap to a safe default ability icon
-  const handleIconError = (e) => {
-    e.target.onerror = null;
-    e.target.src = getCustomIconUrl('Utility/Utility', 'abilities');
   };
 
   if (!isOpen) return null;
@@ -65,12 +51,6 @@ const CleanStatusEffectConfigPopup = ({
   const statusEffectData = {
     ...(effect || {}),
     ...(selectedEffect.statusEffects?.find(se => se.id === effect.id) || {})
-  };
-
-  // Get icon URL
-  const getIconUrl = (iconName) => {
-    if (!iconName) return '';
-    return getAbilityIconUrl(iconName);
   };
 
   // Render basic configuration based on effect type
@@ -2486,27 +2466,36 @@ const CleanStatusEffectConfigPopup = ({
     </div>
   );
 
-  return ReactDOM.createPortal(
-    <div className="status-effect-config-overlay" onClick={handleBackdropClick}>
-      <div className="status-effect-config-popup pathfinder-window">
-        <div className="pathfinder-header">
-          <div className="header-content">
-            <img
-              src={getIconUrl(effect.icon)}
-              alt={effect.name}
-              className="effect-icon"
-              onError={handleIconError}
-            />
-            <h3>{effect.name} Configuration</h3>
-          </div>
-          <button className="close-button" onClick={onClose}>×</button>
-        </div>
-
-        <div className="popup-content">
+  return (
+    <WowWindow
+      title={`${effect.name} Configuration`}
+      isOpen={isOpen}
+      onClose={onClose}
+      modal={true}
+      centered={true}
+      defaultSize={{ width: 540, height: 640 }}
+    >
+      <div
+        className="status-effect-config-popup"
+        style={{
+          background: 'none',
+          border: 'none',
+          boxShadow: 'none',
+          maxWidth: 'none',
+          maxHeight: 'none',
+          width: 'auto',
+          animation: 'none',
+          overflow: 'visible',
+          flex: '1 1 auto',
+          minHeight: 0,
+          boxSizing: 'border-box'
+        }}
+      >
+        <div className="popup-content" style={{ flex: '1 1 auto', overflowY: 'auto', minHeight: 0, boxSizing: 'border-box' }}>
           {renderBasicConfig()}
         </div>
 
-        <div className="popup-footer">
+        <div className="popup-footer" style={{ flexShrink: 0 }}>
           <button className="popup-button popup-button-secondary" onClick={onClose}>
             Cancel
           </button>
@@ -2515,8 +2504,7 @@ const CleanStatusEffectConfigPopup = ({
           </button>
         </div>
       </div>
-    </div>,
-    document.body
+    </WowWindow>
   );
 };
 

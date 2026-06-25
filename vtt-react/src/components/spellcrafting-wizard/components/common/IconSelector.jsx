@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
-import ReactDOM from 'react-dom';
+import React, { useState, useEffect, useMemo } from 'react';
 import { getCustomIconUrl } from '../../../../utils/assetManager';
-// Pathfinder styles imported via main.css
+import WowWindow from '../../../windows/WowWindow';
 // Pathfinder styles imported via main.css
 
 /**
@@ -12,7 +11,6 @@ const IconSelector = ({ onSelect, onClose, currentIcon }) => {
   const [icons, setIcons] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const modalRef = useRef(null);
 
   // Icon categories - aligned with damageTypes.js structure
   const categories = [
@@ -499,82 +497,68 @@ const IconSelector = ({ onSelect, onClose, currentIcon }) => {
     });
   }, [icons, searchTerm, selectedCategory]);
 
-  // Handle click outside to close
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
-        onClose();
-      }
-    };
+  // Render the modal via WowWindow (handles portal, backdrop, focus trap, Esc, aria)
+  return (
+    <WowWindow
+      title="Select a Spell Icon"
+      isOpen={true}
+      onClose={onClose}
+      modal={true}
+      centered={true}
+      defaultSize={{ width: 900, height: 650 }}
+      minConstraints={[600, 400]}
+    >
+      <div className="icon-selector-filters">
+        <input
+          type="text"
+          className="icon-selector-search"
+          placeholder="Search icons..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [onClose]);
-
-  // Render the modal as a portal to document.body to avoid container constraints
-  return ReactDOM.createPortal(
-    <div className="icon-selector-overlay">
-      <div className="icon-selector-modal" ref={modalRef}>
-        <div className="icon-selector-header">
-          <h3>Select a Spell Icon</h3>
-          <button className="icon-selector-close-btn" onClick={onClose}>×</button>
-        </div>
-
-        <div className="icon-selector-filters">
-          <input
-            type="text"
-            className="icon-selector-search"
-            placeholder="Search icons..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-
-          <div className="icon-selector-categories">
-            {categories.map(category => (
-              <button
-                key={category.id}
-                className={`icon-selector-category ${selectedCategory === category.id ? 'active' : ''}`}
-                onClick={() => setSelectedCategory(category.id)}
-              >
-                {category.name}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="icon-selector-grid">
-          {filteredIcons.map(icon => (
-            <div
-              key={icon.id}
-              className={`icon-selector-item ${currentIcon === icon.id ? 'selected' : ''}`}
-              onClick={() => onSelect(icon.id)}
-              title={icon.id}
+        <div className="icon-selector-categories">
+          {categories.map(category => (
+            <button
+              key={category.id}
+              className={`icon-selector-category ${selectedCategory === category.id ? 'active' : ''}`}
+              onClick={() => setSelectedCategory(category.id)}
             >
-              <div className="icon-selector-image-container">
-                <img
-                  src={getCustomIconUrl(icon.iconPath, 'abilities')}
-                  alt={icon.id}
-                  className="icon-selector-image"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = getCustomIconUrl('Utility/Utility', 'abilities');
-                  }}
-                />
-              </div>
-            </div>
+              {category.name}
+            </button>
           ))}
-
-          {filteredIcons.length === 0 && (
-            <div className="icon-selector-no-results">
-              No icons found matching your criteria
-            </div>
-          )}
         </div>
       </div>
-    </div>,
-    document.body
+
+      <div className="icon-selector-grid">
+        {filteredIcons.map(icon => (
+          <div
+            key={icon.id}
+            className={`icon-selector-item ${currentIcon === icon.id ? 'selected' : ''}`}
+            onClick={() => onSelect(icon.id)}
+            title={icon.id}
+          >
+            <div className="icon-selector-image-container">
+              <img
+                src={getCustomIconUrl(icon.iconPath, 'abilities')}
+                alt={icon.id}
+                className="icon-selector-image"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = getCustomIconUrl('Utility/Utility', 'abilities');
+                }}
+              />
+            </div>
+          </div>
+        ))}
+
+        {filteredIcons.length === 0 && (
+          <div className="icon-selector-no-results">
+            No icons found matching your criteria
+          </div>
+        )}
+      </div>
+    </WowWindow>
   );
 };
 

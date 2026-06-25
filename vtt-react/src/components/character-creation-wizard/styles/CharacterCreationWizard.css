@@ -6063,7 +6063,7 @@ button.gender-option.selected {
 
 .table-preview-entry.normal,
 .table-preview-entry.partial {
-    border-left: 5px solid #F57C00;
+    border-left: 5px solid var(--pf-health-danger);
     background: linear-gradient(135deg, #fff8e1 0%, #fff3c4 100%);
     position: relative;
     padding-left: 20px;
@@ -6077,7 +6077,7 @@ button.gender-option.selected {
     top: 50%;
     transform: translateY(-50%);
     font-size: 16px;
-    color: #F57C00;
+    color: var(--pf-health-danger);
     opacity: 0.9;
     background: white;
     width: 20px;
@@ -6086,7 +6086,7 @@ button.gender-option.selected {
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    border: 2px solid #F57C00;
+    border: 2px solid var(--pf-health-danger);
     font-weight: bold;
 }
 
@@ -6118,7 +6118,7 @@ button.gender-option.selected {
 }
 
 .table-preview-entry.critical {
-    border-left: 6px solid #1976D2;
+    border-left: 6px solid var(--pf-mana-dark);
     background: linear-gradient(135deg, #e3f2fd 0%, #d1e7ff 100%);
     box-shadow: 0 2px 8px rgba(25, 118, 210, 0.25);
     border-left-style: double;
@@ -6133,7 +6133,7 @@ button.gender-option.selected {
     top: 50%;
     transform: translateY(-50%);
     font-size: 16px;
-    color: #1976D2;
+    color: var(--pf-mana-dark);
     opacity: 0.9;
     background: white;
     width: 20px;
@@ -6142,7 +6142,7 @@ button.gender-option.selected {
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    border: 2px solid #1976D2;
+    border: 2px solid var(--pf-mana-dark);
     font-weight: bold;
 }
 

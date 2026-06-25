@@ -86,11 +86,11 @@
 }
 
 .companion-hp-fill.high {
-    background: linear-gradient(90deg, #2E7D32, #4CAF50);
+    background: linear-gradient(90deg, var(--pf-hp-dark), var(--pf-hp));
 }
 
 .companion-hp-fill.medium {
-    background: linear-gradient(90deg, #F57C00, #FFA726);
+    background: linear-gradient(90deg, var(--pf-health-danger), var(--pf-health-low));
 }
 
 .companion-hp-fill.low {

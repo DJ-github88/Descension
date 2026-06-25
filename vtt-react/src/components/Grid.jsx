@@ -3269,7 +3269,7 @@ function GridComponent({
                                 <div style={{ marginTop: '10px' }}>
                                     <button
                                         style={{
-                                            backgroundColor: '#4CAF50',
+                                            backgroundColor: '#506e30',
                                             color: 'white',
                                             border: 'none',
                                             padding: '5px 10px',

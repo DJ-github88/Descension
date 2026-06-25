@@ -705,7 +705,7 @@ const RoomManager = () => {
       case 'live':
         return {
           icon: 'fas fa-circle',
-          color: '#4CAF50',
+          color: '#506e30',
           text: 'Live',
           title: 'Room is currently active'
         };
@@ -719,7 +719,7 @@ const RoomManager = () => {
       case 'test':
         return {
           icon: 'fas fa-flask',
-          color: '#FF9800',
+          color: '#9a5e15',
           text: 'Test',
           title: 'Local test room'
         };

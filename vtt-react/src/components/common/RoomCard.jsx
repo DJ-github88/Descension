@@ -271,7 +271,7 @@ const RoomCard = ({
             </div>
           )}
           <div className="room-card-role">
-            <i className="fas fa-flask" style={{ color: '#FF9800' }}></i>
+            <i className="fas fa-flask" style={{ color: '#9a5e15' }}></i>
             <span>Test</span>
           </div>
         </div>
@@ -332,7 +332,7 @@ const RoomCard = ({
           {/* Status and Members - Stretched to sides */}
           <div className="room-card-stats">
             <div className="room-stat">
-              <i className="fas fa-circle" style={{ color: '#FF9800' }}></i>
+              <i className="fas fa-circle" style={{ color: '#9a5e15' }}></i>
               <span>Development</span>
             </div>
             <div className="room-stat">

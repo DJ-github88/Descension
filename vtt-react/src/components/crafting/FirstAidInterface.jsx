@@ -5,14 +5,16 @@ import useItemStore from '../../store/itemStore';
 import useChatStore from '../../store/chatStore';
 import ItemTooltip from '../item-generation/ItemTooltip';
 import TooltipPortal from '../tooltips/TooltipPortal';
+import { useTooltipPosition } from '../common/useTooltipPosition';
 import { getIconUrl } from '../../utils/assetManager';
 
 function FirstAidInterface({ onBack, activeTab, onTabChange }) {
     const [hoveredRecipe, setHoveredRecipe] = useState(null);
     const [hoveredItem, setHoveredItem] = useState(null);
     const [hoveredMaterial, setHoveredMaterial] = useState(null);
-    const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
     const [selectedRecipe, setSelectedRecipe] = useState(null);
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    const { adjustedPosition, tooltipRef } = useTooltipPosition(mousePosition, !!(hoveredItem || hoveredMaterial || (hoveredRecipe && !selectedRecipe)));
 
 
     // Simple crafting system
@@ -415,19 +417,13 @@ function FirstAidInterface({ onBack, activeTab, onTabChange }) {
     };
 
     const handleRecipeMouseEnter = (recipe, event) => {
-        setTooltipPosition({
-            x: event.clientX + 15,
-            y: event.clientY - 10
-        });
+        setMousePosition({ x: event.clientX, y: event.clientY });
         setHoveredRecipe(recipe);
     };
 
     const handleRecipeMouseMove = (event) => {
         if (hoveredRecipe) {
-            setTooltipPosition({
-                x: event.clientX + 15,
-                y: event.clientY - 10
-            });
+            setMousePosition({ x: event.clientX, y: event.clientY });
         }
     };
 
@@ -436,19 +432,13 @@ function FirstAidInterface({ onBack, activeTab, onTabChange }) {
     };
 
     const handleItemMouseEnter = (item, event) => {
-        setTooltipPosition({
-            x: event.clientX + 15,
-            y: event.clientY - 10
-        });
+        setMousePosition({ x: event.clientX, y: event.clientY });
         setHoveredItem(item);
     };
 
     const handleItemMouseMove = (event) => {
         if (hoveredItem) {
-            setTooltipPosition({
-                x: event.clientX + 15,
-                y: event.clientY - 10
-            });
+            setMousePosition({ x: event.clientX, y: event.clientY });
         }
     };
 
@@ -457,19 +447,13 @@ function FirstAidInterface({ onBack, activeTab, onTabChange }) {
     };
 
     const handleMaterialMouseEnter = (material, event) => {
-        setTooltipPosition({
-            x: event.clientX + 15,
-            y: event.clientY - 10
-        });
+        setMousePosition({ x: event.clientX, y: event.clientY });
         setHoveredMaterial(material);
     };
 
     const handleMaterialMouseMove = (event) => {
         if (hoveredMaterial) {
-            setTooltipPosition({
-                x: event.clientX + 15,
-                y: event.clientY - 10
-            });
+            setMousePosition({ x: event.clientX, y: event.clientY });
         }
     };
 
@@ -898,10 +882,11 @@ function FirstAidInterface({ onBack, activeTab, onTabChange }) {
             {(hoveredItem || hoveredMaterial) && (
                 <TooltipPortal>
                     <div
+                        ref={tooltipRef}
                         style={{
                             position: 'fixed',
-                            left: tooltipPosition.x,
-                            top: tooltipPosition.y,
+                            left: adjustedPosition.x,
+                            top: adjustedPosition.y,
                             pointerEvents: 'none',
                             zIndex: 999999999
                         }}
@@ -916,10 +901,11 @@ function FirstAidInterface({ onBack, activeTab, onTabChange }) {
             {hoveredRecipe && !selectedRecipe && (
                 <TooltipPortal>
                     <div
+                        ref={tooltipRef}
                         style={{
                             position: 'fixed',
-                            left: tooltipPosition.x,
-                            top: tooltipPosition.y,
+                            left: adjustedPosition.x,
+                            top: adjustedPosition.y,
                             pointerEvents: 'none',
                             zIndex: 999999999
                         }}

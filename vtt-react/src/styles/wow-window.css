@@ -21,6 +21,27 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+/* Modal backdrop — rendered by WowWindow when modal={true} and backdrop !== false.
+   Sits at zIndex-1 (above regular windows, below the modal window itself). */
+.wow-window-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 1;
+    animation: wow-window-backdrop-fade-in 0.15s ease-out;
+}
+
+@keyframes wow-window-backdrop-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .wow-window-modal-backdrop {
+        animation: none;
+    }
+}
+
 .window-header {
     display: flex;
     align-items: center;

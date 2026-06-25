@@ -211,7 +211,7 @@
 }
 
 .required-asterisk {
-  color: #d32f2f;
+  color: var(--pf-health-danger);
   margin-left: 4px;
   font-weight: 700;
 }
@@ -382,8 +382,8 @@
 }
 
 .remove-tag:hover {
-  background: #d32f2f;
-  border-color: #d32f2f;
+  background: var(--pf-health-danger);
+  border-color: var(--pf-health-danger);
   color: white;
   transform: scale(1.1);
 }
@@ -962,11 +962,11 @@
 }
 
 .ability-type-badge[data-type="melee"] {
-  background-color: #f44336;
+  background-color: var(--pf-health-danger);
 }
 
 .ability-type-badge[data-type="ranged"] {
-  background-color: #2196F3;
+  background-color: var(--pf-mana);
 }
 
 .ability-type-badge[data-type="spell"] {
@@ -974,7 +974,7 @@
 }
 
 .ability-type-badge[data-type="special"] {
-  background-color: #FF9800;
+  background-color: var(--pf-health-low);
 }
 
 .ability-details {
@@ -1037,12 +1037,12 @@
 }
 
 .edit-ability-button:hover {
-  background-color: #2196F3;
+  background-color: var(--pf-mana);
   color: #ffffff;
 }
 
 .remove-ability-button:hover {
-  background-color: #f44336;
+  background-color: var(--pf-health-danger);
   color: #ffffff;
 }
 
@@ -1057,7 +1057,7 @@
   font-size: 18px;
   font-weight: 600;
   margin: 0 0 20px 0;
-  color: #4CAF50;
+  color: var(--pf-hp);
   border-bottom: 1px solid #444;
   padding-bottom: 10px;
 }
@@ -1106,12 +1106,12 @@
 }
 
 .save-button {
-  background-color: #4CAF50;
+  background-color: var(--pf-hp);
   color: #ffffff;
 }
 
 .save-button:hover {
-  background-color: #45a049;
+  background-color: var(--pf-hp-dark);
 }
 
 .save-button:disabled {
@@ -1305,7 +1305,7 @@
   font-size: 18px;
   font-weight: 600;
   margin: 0 0 20px 0;
-  color: #4CAF50;
+  color: var(--pf-hp);
   text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding-bottom: 10px;
@@ -1369,12 +1369,12 @@
 }
 
 .add-item-button {
-  background: linear-gradient(to bottom, #4CAF50, #43A047);
+  background: linear-gradient(to bottom, var(--pf-hp), var(--pf-hp-dark));
   border: 1px solid #2E7D32;
 }
 
 .add-item-button:hover {
-  background: linear-gradient(to bottom, #43A047, #388E3C);
+  background: linear-gradient(to bottom, var(--pf-hp-dark), #388E3C);
 }
 
 .item-library-button {
@@ -1391,7 +1391,7 @@
 }
 
 .sample-items-button {
-  background: linear-gradient(to bottom, #FF9800, #F57C00);
+  background: linear-gradient(to bottom, var(--pf-health-low), var(--pf-health-danger));
   border: 1px solid #E65100;
 }
 
@@ -1403,10 +1403,10 @@
 .sample-items-list {
   margin-bottom: 20px;
   padding: 15px;
-  background: linear-gradient(to bottom, #2c2c2c, #1a1a1a);
+  background: linear-gradient(to bottom, #f0ead6, #e0d4be);
   border-radius: 8px;
-  border: 1px solid #444;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(139, 69, 19, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .item-library-list h4,
@@ -1414,7 +1414,7 @@
   font-size: 18px;
   font-weight: 600;
   margin: 0 0 10px 0;
-  color: #4CAF50;
+  color: var(--pf-hp);
   text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding-bottom: 10px;
@@ -1444,7 +1444,7 @@
 
 .item-search input:focus {
   outline: none;
-  border-color: #2196F3;
+  border-color: var(--pf-mana);
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 0 2px rgba(33, 150, 243, 0.2);
 }
 
@@ -1471,7 +1471,7 @@
 
 .library-items-grid::-webkit-scrollbar-thumb,
 .sample-items-grid::-webkit-scrollbar-thumb {
-  background: #4CAF50;
+  background: var(--pf-hp);
   border-radius: 4px;
 }
 
@@ -1490,7 +1490,7 @@
 .sample-item:hover {
   transform: translateY(-3px);
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
-  border-color: #4CAF50;
+  border-color: var(--pf-hp);
 }
 
 .library-item-name,
@@ -1516,11 +1516,11 @@
 .no-items-message {
   text-align: center;
   padding: 30px;
-  background: linear-gradient(to bottom, #2c2c2c, #1a1a1a);
+  background: linear-gradient(to bottom, #f0ead6, #e0d4be);
   border-radius: 8px;
-  color: #cccccc;
-  border: 1px solid #444;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  color: #5a1e12;
+  border: 1px solid rgba(139, 69, 19, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .loot-items-table {
@@ -1571,28 +1571,28 @@
 }
 
 .edit-item-button:hover {
-  background-color: #2196F3;
+  background-color: var(--pf-mana);
   color: #ffffff;
 }
 
 .remove-item-button:hover {
-  background-color: #f44336;
+  background-color: var(--pf-health-danger);
   color: #ffffff;
 }
 
 .item-form {
-  background: linear-gradient(to bottom, #2c2c2c, #1a1a1a);
+  background: linear-gradient(to bottom, #f0ead6, #e0d4be);
   border-radius: 8px;
-  border: 1px solid #444;
+  border: 1px solid rgba(139, 69, 19, 0.2);
   padding: 25px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .item-form h3 {
   font-size: 20px;
   font-weight: 600;
   margin: 0 0 20px 0;
-  color: #4CAF50;
+  color: var(--pf-hp);
   text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding-bottom: 10px;

@@ -7,7 +7,7 @@ import {
   getBaseAttackDie,
   getSpecialMovement,
   getResistancesSummary,
-  getVulnerabilitiesSummary,
+  getVulabilitiesSummary,
   formatDamageType
 } from '../../utils/creatureTooltipUtils';
 import { getCreatureTokenIconUrl } from '../../utils/assetManager';
@@ -48,7 +48,7 @@ const CreatureTooltip = ({
   const attackInfo = getBaseAttackDie(creature);
   const specialMove = getSpecialMovement(creature);
   const resistances = getResistancesSummary(creature);
-  const vulnerabilities = getVulnerabilitiesSummary(creature);
+  const vulnerabilities = getVulabilitiesSummary(creature);
   const damageType = formatDamageType(attackInfo.damageType);
 
   const currentAp = tokenState?.currentActionPoints ?? stats.currentActionPoints ?? stats.maxActionPoints ?? 5;
@@ -122,9 +122,9 @@ const CreatureTooltip = ({
               <div className="tt-stat-cell">
                 <span className="tt-stat-cell-label">AP</span>
                 <span className="tt-stat-cell-value">
-                  <span style={{ color: '#7dd3fc' }}>{currentAp}</span>
+                  <span style={{ color: '#2a5a8a' }}>{currentAp}</span>
                   <span className="slash">/</span>
-                  <span style={{ color: 'rgba(240,230,210,0.4)', fontSize: 10 }}>{maxAp}</span>
+                  <span style={{ color: 'rgba(90,30,18,0.5)', fontSize: 10 }}>{maxAp}</span>
                 </span>
               </div>
             </div>
