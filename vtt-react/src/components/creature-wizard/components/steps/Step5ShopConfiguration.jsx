@@ -4,6 +4,7 @@ import { useCreatureWizard, useCreatureWizardDispatch, wizardActionCreators } fr
 import useItemStore from '../../../../store/itemStore';
 import ItemTooltip from '../../../item-generation/ItemTooltip';
 import TooltipPortal from '../../../tooltips/TooltipPortal';
+import { useTooltipPosition } from '../../../common/useTooltipPosition';
 import { getIconUrl } from '../../../../utils/assetManager';
 import '../../styles/WizardSteps.css';
 import '../../styles/ShopConfiguration.css';
@@ -33,7 +34,9 @@ const Step5ShopConfiguration = () => {
   const [selectedQuality, setSelectedQuality] = useState('all');
   const [sortBy, setSortBy] = useState('name');
   const [sortOrder, setSortOrder] = useState('asc');
-  const [tooltip, setTooltip] = useState({ show: false, item: null, x: 0, y: 0 });
+  const [tooltip, setTooltip] = useState({ show: false, item: null });
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const { adjustedPosition, tooltipRef } = useTooltipPosition(mousePosition, tooltip.show);
   const [editingItemIndex, setEditingItemIndex] = useState(null);
   const [selectedItems, setSelectedItems] = useState([]); // For multi-select in item selector
   
@@ -221,27 +224,19 @@ const Step5ShopConfiguration = () => {
   
   // Handle tooltip (immediate display like other working tooltips)
   const handleMouseEnter = (e, item) => {
-    setTooltip({
-      show: true,
-      item,
-      x: e.clientX + 15,
-      y: e.clientY - 10
-    });
+    setTooltip({ show: true, item });
+    setMousePosition({ x: e.clientX, y: e.clientY });
   };
 
   const handleMouseMove = (e, item) => {
     if (tooltip.show && tooltip.item && tooltip.item.id === item.id) {
-      setTooltip({
-        show: true,
-        item,
-        x: e.clientX + 15,
-        y: e.clientY - 10
-      });
+      setTooltip({ show: true, item });
+      setMousePosition({ x: e.clientX, y: e.clientY });
     }
   };
 
   const handleMouseLeave = () => {
-    setTooltip({ show: false, item: null, x: 0, y: 0 });
+    setTooltip({ show: false, item: null });
   };
   
   // Format currency display
@@ -709,11 +704,11 @@ const Step5ShopConfiguration = () => {
       {tooltip.show && tooltip.item && (
         <TooltipPortal>
           <div
+            ref={tooltipRef}
             style={{
               position: 'fixed',
-              left: tooltip.x,
-              top: tooltip.y,
-              transform: 'translate(10px, -50%)',
+              left: adjustedPosition.x,
+              top: adjustedPosition.y,
               pointerEvents: 'none',
               zIndex: 9999999999
             }}

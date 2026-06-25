@@ -3,6 +3,7 @@ import WowWindow from '../windows/WowWindow';
 import useItemStore from '../../store/itemStore';
 import useCraftingStore, { PROFESSIONS, SKILL_LEVELS } from '../../store/craftingStore';
 import TooltipPortal from '../tooltips/TooltipPortal';
+import { useTooltipPosition } from '../common/useTooltipPosition';
 import ExternalRecipePreview from './ExternalRecipePreview';
 import { getIconUrl } from '../../utils/assetManager';
 
@@ -147,9 +148,9 @@ function RecipeWizard({ isOpen, onClose, onSave, onWindowPositionChange, onRecip
     const [currentStep, setCurrentStep] = useState(0);
     const [searchTerm, setSearchTerm] = useState('');
 
-    const tooltipRef = useRef({ visible: false, x: 0, y: 0, item: null });
-    const tooltipNodeRef = useRef(null);
-    const [tooltipState, setTooltipState] = useState({ visible: false, item: null, x: 0, y: 0 });
+    const [tooltipState, setTooltipState] = useState({ visible: false, item: null });
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    const { adjustedPosition, tooltipRef } = useTooltipPosition(mousePosition, tooltipState.visible);
     const tooltipDelayRef = useRef(null);
 
     const isEditing = !!initialData;
@@ -216,32 +217,22 @@ function RecipeWizard({ isOpen, onClose, onSave, onWindowPositionChange, onRecip
     const handleItemMouseEnter = useCallback((e, item) => {
         if (tooltipDelayRef.current) clearTimeout(tooltipDelayRef.current);
         tooltipDelayRef.current = setTimeout(() => {
-            tooltipRef.current = { visible: true, x: e.clientX + 15, y: e.clientY - 10, item };
-            setTooltipState({ visible: true, item, x: e.clientX + 15, y: e.clientY - 10 });
+            setTooltipState({ visible: true, item });
+            setMousePosition({ x: e.clientX, y: e.clientY });
         }, 200);
     }, []);
 
     const handleItemMouseMove = useCallback((e) => {
-        const tt = tooltipRef.current;
-        if (!tt.visible) return;
-        const x = e.clientX + 15;
-        const y = e.clientY - 10;
-        tooltipRef.current.x = x;
-        tooltipRef.current.y = y;
-        const node = tooltipNodeRef.current;
-        if (node) {
-            node.style.left = `${x}px`;
-            node.style.top = `${y}px`;
-        }
-    }, []);
+        if (!tooltipState.visible) return;
+        setMousePosition({ x: e.clientX, y: e.clientY });
+    }, [tooltipState.visible]);
 
     const handleItemMouseLeave = useCallback(() => {
         if (tooltipDelayRef.current) {
             clearTimeout(tooltipDelayRef.current);
             tooltipDelayRef.current = null;
         }
-        tooltipRef.current.visible = false;
-        setTooltipState({ visible: false, item: null, x: 0, y: 0 });
+        setTooltipState({ visible: false, item: null });
     }, []);
 
     const addMaterial = useCallback((itemId) => {
@@ -526,7 +517,7 @@ function RecipeWizard({ isOpen, onClose, onSave, onWindowPositionChange, onRecip
 
             {tooltipState.visible && tooltipState.item && (
                 <TooltipPortal>
-                    <div ref={tooltipNodeRef} style={{ position: 'fixed', left: tooltipState.x, top: tooltipState.y, transform: 'translate(10px, -50%)', pointerEvents: 'none', zIndex: 999999999 }}>
+                    <div ref={tooltipRef} style={{ position: 'fixed', left: adjustedPosition.x, top: adjustedPosition.y, pointerEvents: 'none', zIndex: 999999999 }}>
                         <React.Suspense fallback={null}>
                             <LazyItemTooltip item={tooltipState.item} />
                         </React.Suspense>

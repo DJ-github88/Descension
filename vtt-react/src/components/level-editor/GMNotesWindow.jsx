@@ -9,6 +9,7 @@ import useShareableStore from '../../store/shareableStore';
 import ItemTooltip from '../item-generation/ItemTooltip';
 import SimpleCreatureTooltip from '../creature-wizard/components/common/SimpleCreatureTooltip';
 import TooltipPortal from '../tooltips/TooltipPortal';
+import { useTooltipPosition } from '../common/useTooltipPosition';
 import { getIconUrl, getCreatureTokenIconUrl } from '../../utils/assetManager';
 import '../../styles/gm-notes-window.css';
 
@@ -135,9 +136,10 @@ const GMNotesWindow = ({
     const [sensoryExpanded, setSensoryExpanded] = useState(false);
     const [hoveredItem, setHoveredItem] = useState(null);
     const [hoveredCreature, setHoveredCreature] = useState(null);
-    const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const [showTooltip, setShowTooltip] = useState(false);
     const [showCreatureTooltip, setShowCreatureTooltip] = useState(false);
+    const { adjustedPosition, tooltipRef } = useTooltipPosition(mousePosition, showTooltip || showCreatureTooltip);
     const [npcs, setNpcs] = useState(gmNotesData?.npcs || []);
 
     const [windowSize, setWindowSize] = useState({ width: 700, height: 600 });
@@ -347,11 +349,11 @@ const GMNotesWindow = ({
         } catch (error) { console.error('Error handling creature drop:', error); }
     };
 
-    const handleItemMouseEnter = (item, e) => { setHoveredItem(item); setTooltipPosition({ x: e.clientX + 15, y: e.clientY - 10 }); setShowTooltip(true); };
-    const handleItemMouseMove = (e) => { if (showTooltip && hoveredItem) setTooltipPosition({ x: e.clientX + 15, y: e.clientY - 10 }); };
+    const handleItemMouseEnter = (item, e) => { setHoveredItem(item); setMousePosition({ x: e.clientX, y: e.clientY }); setShowTooltip(true); };
+    const handleItemMouseMove = (e) => { if (showTooltip && hoveredItem) setMousePosition({ x: e.clientX, y: e.clientY }); };
     const handleItemMouseLeave = () => { setHoveredItem(null); setShowTooltip(false); };
-    const handleCreatureMouseEnter = (creature, e) => { setHoveredCreature(creature); setTooltipPosition({ x: e.clientX + 15, y: e.clientY - 10 }); setShowCreatureTooltip(true); };
-    const handleCreatureMouseMove = (e) => { if (showCreatureTooltip && hoveredCreature) setTooltipPosition({ x: e.clientX + 15, y: e.clientY - 10 }); };
+    const handleCreatureMouseEnter = (creature, e) => { setHoveredCreature(creature); setMousePosition({ x: e.clientX, y: e.clientY }); setShowCreatureTooltip(true); };
+    const handleCreatureMouseMove = (e) => { if (showCreatureTooltip && hoveredCreature) setMousePosition({ x: e.clientX, y: e.clientY }); };
     const handleCreatureMouseLeave = () => { setHoveredCreature(null); setShowCreatureTooltip(false); };
 
     const handleItemDragStart = (item, e) => {
@@ -914,7 +916,7 @@ const GMNotesWindow = ({
             {/* Item Tooltip */}
             {showTooltip && hoveredItem && (
                 <TooltipPortal>
-                    <div style={{ position: 'fixed', left: tooltipPosition.x, top: tooltipPosition.y, pointerEvents: 'none', zIndex: 999999999 }}>
+                    <div ref={tooltipRef} style={{ position: 'fixed', left: adjustedPosition.x, top: adjustedPosition.y, pointerEvents: 'none', zIndex: 999999999 }}>
                         <ItemTooltip item={hoveredItem} />
                     </div>
                 </TooltipPortal>
@@ -922,7 +924,7 @@ const GMNotesWindow = ({
 
             {/* Creature Tooltip */}
             {showCreatureTooltip && hoveredCreature && createPortal(
-                <div className="creature-card-hover-preview-portal" style={{ position: 'fixed', left: tooltipPosition.x, top: tooltipPosition.y, zIndex: 999999999 }}>
+                <div ref={tooltipRef} className="creature-card-hover-preview-portal" style={{ position: 'fixed', left: adjustedPosition.x, top: adjustedPosition.y, zIndex: 999999999 }}>
                     <div className="creature-card-hover-preview-interactive"
                         onWheel={(e) => e.stopPropagation()}
                         onMouseEnter={() => setShowCreatureTooltip(true)}

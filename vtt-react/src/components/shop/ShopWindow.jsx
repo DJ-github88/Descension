@@ -7,6 +7,7 @@ import useGameStore from '../../store/gameStore';
 import useSettingsStore from '../../store/settingsStore';
 import ItemTooltip from '../item-generation/ItemTooltip';
 import TooltipPortal from '../tooltips/TooltipPortal';
+import { useTooltipPosition } from '../common/useTooltipPosition';
 import QuantitySelector from '../common/QuantitySelector';
 import { getSafePortalTarget } from '../../utils/portalUtils';
 import { getIconUrl } from '../../utils/assetManager';
@@ -25,7 +26,9 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
   const [sellQuantity, setSellQuantity] = useState(1);
   const [merchantQuantities, setMerchantQuantities] = useState({}); // Track quantities for merchant items
   const [playerQuantities, setPlayerQuantities] = useState({}); // Track quantities for player items
-  const [tooltip, setTooltip] = useState({ show: false, item: null, x: 0, y: 0 });
+  const [tooltip, setTooltip] = useState({ show: false, item: null });
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const { adjustedPosition, tooltipRef } = useTooltipPosition(mousePosition, tooltip.show);
   const [notification, setNotification] = useState({ show: false, message: '', type: 'success' });
 
   // Unified filter state for both inventories
@@ -732,12 +735,8 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
       isShopItem: true
     } : item;
 
-    setTooltip({
-      show: true,
-      item: enhancedItem,
-      x: e.clientX + 15,
-      y: e.clientY - 10
-    });
+    setTooltip({ show: true, item: enhancedItem });
+    setMousePosition({ x: e.clientX, y: e.clientY });
   };
 
   const handleItemMouseMove = (e, item, shopItem = null) => {
@@ -748,17 +747,13 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
         isShopItem: true
       } : item;
 
-      setTooltip({
-        ...tooltip,
-        item: enhancedItem,
-        x: e.clientX + 15,
-        y: e.clientY - 10
-      });
+      setTooltip({ ...tooltip, item: enhancedItem });
+      setMousePosition({ x: e.clientX, y: e.clientY });
     }
   };
 
   const handleItemMouseLeave = () => {
-    setTooltip({ show: false, item: null, x: 0, y: 0 });
+    setTooltip({ show: false, item: null });
   };
 
   // Format currency display with coin images
@@ -1207,11 +1202,11 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
         {tooltip.show && tooltip.item && (
           <TooltipPortal>
             <div
+              ref={tooltipRef}
               style={{
                 position: 'fixed',
-                left: tooltip.x,
-                top: tooltip.y,
-                transform: 'translate(10px, -50%)',
+                left: adjustedPosition.x,
+                top: adjustedPosition.y,
                 pointerEvents: 'none',
                 zIndex: 999999999
               }}

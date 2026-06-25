@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import WowWindow from '../../../windows/WowWindow';
 import ItemTooltip from '../../../item-generation/ItemTooltip';
 import TooltipPortal from '../../../tooltips/TooltipPortal';
+import { useTooltipPosition } from '../../../common/useTooltipPosition';
 import StatTooltip from '../../../tooltips/StatTooltip';
 import GeneralStatTooltip from '../../../tooltips/GeneralStatTooltip';
 import ResistanceTooltip from '../../../tooltips/ResistanceTooltip';
@@ -258,7 +259,8 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
   const [mounted, setMounted] = useState(false);
   const windowRef = useRef(null);
   const [hoveredItem, setHoveredItem] = useState(null);
-  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const { adjustedPosition, tooltipRef } = useTooltipPosition(mousePosition, !!hoveredItem);
   const [hoveredStat, setHoveredStat] = useState(null);
   const [statTooltipPosition, setStatTooltipPosition] = useState({ x: 0, y: 0 });
   const [selectedStatGroup, setSelectedStatGroup] = useState('summary');
@@ -393,50 +395,6 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
       }
     }
   }, [activeSection, getCreatureSkills, selectedSkill]);
-
-  // Helper function to calculate tooltip position with improved logic
-  const calculateTooltipPosition = (e) => {
-    // Get window dimensions
-    const windowWidth = window.innerWidth;
-    const windowHeight = window.innerHeight;
-
-    // Tooltip dimensions
-    const tooltipWidth = 300;
-    const tooltipHeight = 400;
-    const padding = 20;
-    const cursorOffset = 15;
-
-    // Try positioning to the right first (preferred for creature window)
-    let x = e.clientX + cursorOffset;
-    let y = e.clientY - 10;
-
-    // If tooltip would go off right edge, try left side
-    if (x + tooltipWidth > windowWidth - padding) {
-      x = e.clientX - tooltipWidth - cursorOffset;
-
-      // If left side also doesn't fit, center it and position above/below
-      if (x < padding) {
-        // Center horizontally and position above or below
-        x = Math.max(padding, Math.min(
-          windowWidth - tooltipWidth - padding,
-          e.clientX - tooltipWidth / 2
-        ));
-
-        // Position above if in bottom half of screen, below if in top half
-        if (e.clientY > windowHeight / 2) {
-          y = e.clientY - tooltipHeight - cursorOffset; // Above
-        } else {
-          y = e.clientY + cursorOffset; // Below
-        }
-      }
-    }
-
-    // Final bounds check to ensure tooltip stays on screen
-    x = Math.max(padding, Math.min(x, windowWidth - tooltipWidth - padding));
-    y = Math.max(padding, Math.min(y, windowHeight - tooltipHeight - padding));
-
-    return { x, y };
-  };
 
   // Component lifecycle management
   useEffect(() => {
@@ -2121,11 +2079,11 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
                   className="loot-item-card"
                   onMouseEnter={(e) => {
                     setHoveredItem(item);
-                    setTooltipPosition(calculateTooltipPosition(e));
+                    setMousePosition({ x: e.clientX, y: e.clientY });
                   }}
                   onMouseMove={(e) => {
                     if (hoveredItem && hoveredItem.id === item.id) {
-                      setTooltipPosition(calculateTooltipPosition(e));
+                      setMousePosition({ x: e.clientX, y: e.clientY });
                     }
                   }}
                   onMouseLeave={() => setHoveredItem(null)}
@@ -2331,11 +2289,12 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
         {hoveredItem && (
           <TooltipPortal>
             <div
+              ref={tooltipRef}
               className="loot-item-tooltip-wrapper"
               style={{
                 position: 'fixed',
-                left: tooltipPosition.x,
-                top: tooltipPosition.y,
+                left: adjustedPosition.x,
+                top: adjustedPosition.y,
                 pointerEvents: 'none'
               }}
             >

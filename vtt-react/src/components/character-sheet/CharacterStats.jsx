@@ -15,6 +15,7 @@ import GeneralStatTooltip from '../tooltips/GeneralStatTooltip';
 import ResistanceTooltip from '../tooltips/ResistanceTooltip';
 import ConditionTooltip from '../tooltips/ConditionTooltip';
 import TooltipPortal from '../tooltips/TooltipPortal';
+import { useTooltipPosition } from '../common/useTooltipPosition';
 import { getCustomIconUrl } from '../../utils/assetManager';
 import '../../styles/character-sheet.css';
 
@@ -262,7 +263,8 @@ export default function CharacterStats() {
     const [selectedStatGroup, setSelectedStatGroup] = useState('summary');
     const [showLabels, setShowLabels] = useState(false); // Start with icons only
     const [hoveredStat, setHoveredStat] = useState(null);
-    const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    const { adjustedPosition, tooltipRef } = useTooltipPosition(mousePosition, !!hoveredStat);
     const [statEditModal, setStatEditModal] = useState({ visible: false, stat: null, value: 0, position: { x: 0, y: 0 } });
     // Track exhaustion level for movement speed updates
 
@@ -1251,7 +1253,7 @@ export default function CharacterStats() {
     };
 
     const updateTooltipPosition = (e) => {
-        setTooltipPosition({ x: e.clientX, y: e.clientY });
+        setMousePosition({ x: e.clientX, y: e.clientY });
     };
 
     // Get sources of resistance modifications (passives, equipment, etc.)
@@ -1688,12 +1690,12 @@ export default function CharacterStats() {
                         return (
                             <TooltipPortal>
                                 <div
-                                    className="tooltip"
+                                    ref={tooltipRef} className="tooltip"
                                     style={{
                                         position: 'fixed',
-                                        left: tooltipPosition.x,
-                                        top: tooltipPosition.y,
-                                        transform: 'translate(0, -50%)',
+                                        left: adjustedPosition.x,
+                                        top: adjustedPosition.y,
+
                                         pointerEvents: 'none',
                                         zIndex: 99999999
                                     }}
@@ -2153,12 +2155,12 @@ export default function CharacterStats() {
                                     return (
                                         <TooltipPortal>
                                             <div
-                                                className="equipment-slot-tooltip"
+                                                ref={tooltipRef} className="equipment-slot-tooltip"
                                                 style={{
                                                     position: 'fixed',
-                                                    left: tooltipPosition.x,
-                                                    top: tooltipPosition.y,
-                                                    transform: 'translate(10px, -50%)',
+                                                    left: adjustedPosition.x,
+                                                    top: adjustedPosition.y,
+                                                    
                                                     pointerEvents: 'none',
                                                     zIndex: 99999999
                                                 }}
@@ -2248,12 +2250,12 @@ export default function CharacterStats() {
                                 {hoveredStat === `${ability.charAt(0).toUpperCase() + ability.slice(1)} Save` && (
                                     <TooltipPortal>
                                         <div
-                                            className="equipment-slot-tooltip"
+                                            ref={tooltipRef} className="equipment-slot-tooltip"
                                             style={{
                                                 position: 'fixed',
-                                                left: tooltipPosition.x,
-                                                top: tooltipPosition.y,
-                                                transform: 'translate(10px, -50%)',
+                                                left: adjustedPosition.x,
+                                                top: adjustedPosition.y,
+                                                
                                                 pointerEvents: 'none',
                                                 zIndex: 99999999
                                             }}
@@ -2331,12 +2333,12 @@ export default function CharacterStats() {
                         {hoveredStat === stat.label && (
                             <TooltipPortal>
                                 <div
-                                    className="equipment-slot-tooltip"
+                                    ref={tooltipRef} className="equipment-slot-tooltip"
                                     style={{
                                         position: 'fixed',
-                                        left: tooltipPosition.x,
-                                        top: tooltipPosition.y,
-                                        transform: 'translate(10px, -50%)',
+                                        left: adjustedPosition.x,
+                                        top: adjustedPosition.y,
+                                        
                                         pointerEvents: 'none',
                                         zIndex: 99999999
                                     }}

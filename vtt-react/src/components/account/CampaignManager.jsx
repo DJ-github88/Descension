@@ -8,6 +8,7 @@ import ItemTooltip from '../item-generation/ItemTooltip';
 import SimpleCreatureTooltip from '../creature-wizard/components/common/SimpleCreatureTooltip';
 import SpellTooltip from '../spellcrafting-wizard/components/common/SpellTooltip';
 import TooltipPortal from '../tooltips/TooltipPortal';
+import { useTooltipPosition } from '../../components/common/useTooltipPosition';
 import useCreatureStore from '../../store/creatureStore';
 import campaignService from '../../services/campaignService';
 import { useCampaignPersistence } from '../../hooks/useCampaignPersistence';
@@ -107,7 +108,8 @@ const CampaignManager = ({ user }) => {
   const [hoveredItem, setHoveredItem] = useState(null);
   const [hoveredCreature, setHoveredCreature] = useState(null);
   const [hoveredSpell, setHoveredSpell] = useState(null);
-  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const { adjustedPosition, tooltipRef: positionTooltipRef } = useTooltipPosition(mousePosition, !!(hoveredItem || hoveredCreature || hoveredSpell));
   const tooltipDelayRef = useRef(null);
   const tooltipRef = useRef(null);
 
@@ -123,7 +125,7 @@ const CampaignManager = ({ user }) => {
       clearTimeout(tooltipDelayRef.current);
     }
     tooltipDelayRef.current = setTimeout(() => {
-      setTooltipPosition({ x: e.clientX + 15, y: e.clientY - 10 });
+      setMousePosition({ x: e.clientX, y: e.clientY });
       if (item) setHoveredItem(item);
       if (creature) {
         // If creature is missing stats, try to fetch full data from store
@@ -149,7 +151,7 @@ const CampaignManager = ({ user }) => {
 
   const handleMouseMove = (e) => {
     if (hoveredItem || hoveredCreature || hoveredSpell) {
-      setTooltipPosition({ x: e.clientX + 15, y: e.clientY - 10 });
+      setMousePosition({ x: e.clientX, y: e.clientY });
     }
   };
 
@@ -2160,10 +2162,11 @@ const CampaignManager = ({ user }) => {
       {hoveredItem && (
         <TooltipPortal>
           <div
+            ref={positionTooltipRef}
             style={{
               position: 'fixed',
-              left: tooltipPosition.x,
-              top: tooltipPosition.y,
+              left: adjustedPosition.x,
+              top: adjustedPosition.y,
               pointerEvents: 'none',
               zIndex: 999999999
             }}
@@ -2175,11 +2178,12 @@ const CampaignManager = ({ user }) => {
       {hoveredCreature && (
         <TooltipPortal>
           <div
+            ref={positionTooltipRef}
             className="campaign-creature-tooltip-portal"
             style={{
               position: 'fixed',
-              left: tooltipPosition.x,
-              top: tooltipPosition.y,
+              left: adjustedPosition.x,
+              top: adjustedPosition.y,
               zIndex: 999999999,
               width: '280px'
             }}
@@ -2208,7 +2212,7 @@ const CampaignManager = ({ user }) => {
       {hoveredSpell && (
         <SpellTooltip
           spell={hoveredSpell}
-          position={tooltipPosition}
+          position={adjustedPosition}
         />
       )}
     </div>

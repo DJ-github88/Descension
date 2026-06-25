@@ -10,6 +10,7 @@ import LockSettingsModal from './LockSettingsModal';
 import UnlockContainerModal from './UnlockContainerModal';
 import ItemTooltip from './ItemTooltip';
 import TooltipPortal from '../tooltips/TooltipPortal';
+import { useTooltipPosition } from '../common/useTooltipPosition';
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import DraggableWindow from '../windows/DraggableWindow';
 import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
@@ -35,7 +36,9 @@ const ContainerWindow = ({ container, onClose }) => {
     const [showLockSettings, setShowLockSettings] = useState(false);
     const [showUnlockModal, setShowUnlockModal] = useState(false);
     const [isInitialized, setIsInitialized] = useState(false);
-    const [showItemTooltip, setShowItemTooltip] = useState({ visible: false, x: 0, y: 0, itemId: null });
+    const [showItemTooltip, setShowItemTooltip] = useState({ visible: false, itemId: null });
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    const { adjustedPosition, tooltipRef } = useTooltipPosition(mousePosition, showItemTooltip.visible);
     const [draggedItem, setDraggedItem] = useState(null);
     const [itemContextMenu, setItemContextMenu] = useState({ visible: false, x: 0, y: 0, itemId: null });
     const [unlockItemId, setUnlockItemId] = useState(null);
@@ -219,22 +222,14 @@ const ContainerWindow = ({ container, onClose }) => {
 
     // Simple tooltip handlers (matching character sheet pattern)
     const handleItemMouseEnter = (e, itemId) => {
-        setShowItemTooltip({
-            visible: true,
-            x: e.clientX + 15,
-            y: e.clientY - 10,
-            itemId
-        });
+        setShowItemTooltip({ visible: true, itemId });
+        setMousePosition({ x: e.clientX, y: e.clientY });
     };
 
     // Handle mouse move on item to update tooltip position
     const handleItemMouseMove = (e, itemId) => {
         if (showItemTooltip.visible && showItemTooltip.itemId === itemId) {
-            setShowItemTooltip({
-                ...showItemTooltip,
-                x: e.clientX + 15,
-                y: e.clientY - 10
-            });
+            setMousePosition({ x: e.clientX, y: e.clientY });
         }
     };
 
@@ -1307,11 +1302,11 @@ const ContainerWindow = ({ container, onClose }) => {
             {showItemTooltip.visible && (
                 <TooltipPortal>
                     <div
+                        ref={tooltipRef}
                         style={{
                             position: 'fixed',
-                            left: showItemTooltip.x,
-                            top: showItemTooltip.y,
-                            transform: 'translate(10px, -50%)',
+                            left: adjustedPosition.x,
+                            top: adjustedPosition.y,
                             pointerEvents: 'none',
                             zIndex: 2147483647 // Maximum z-index value to ensure tooltips always appear above windows
                         }}
