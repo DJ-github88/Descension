@@ -5,39 +5,39 @@
 
 .effect-selection-section,
 .select-effect-section {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius-lg);
-  padding: var(--pf-space-5);
-  margin-bottom: var(--pf-space-4);
-  box-shadow: var(--pf-shadow-sm);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius-lg);
+  padding: var(--my-space-5);
+  margin-bottom: var(--my-space-4);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .effect-selection-section h3,
 .select-effect-section h3 {
-  font-family: var(--pf-font-display);
-  font-size: var(--pf-text-xl);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-brown-dark);
+  font-family: var(--my-font-display);
+  font-size: var(--my-text-xl);
+  font-weight: var(--my-font-bold);
+  color: var(--my-brown-dark);
   text-transform: uppercase;
   letter-spacing: 1px;
   text-align: center;
-  margin: 0 0 var(--pf-space-3) 0;
+  margin: 0 0 var(--my-space-3) 0;
   text-shadow: 
     0 1px 2px rgba(255, 255, 255, 0.8),
     0 -1px 1px rgba(139, 69, 19, 0.3);
-  border-bottom: 2px solid var(--pf-brown-light);
-  padding-bottom: var(--pf-space-2);
+  border-bottom: 2px solid var(--my-brown-light);
+  padding-bottom: var(--my-space-2);
 }
 
 .effect-selection-description,
 .select-effect-description {
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-secondary);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-sm);
+  color: var(--my-text-secondary);
   text-align: center;
-  margin-bottom: var(--pf-space-4);
-  line-height: var(--pf-leading-relaxed);
+  margin-bottom: var(--my-space-4);
+  line-height: var(--my-leading-relaxed);
   font-style: italic;
 }
 
@@ -46,7 +46,7 @@
 .effect-type-buttons,
 .effect-selection-buttons {
   display: flex;
-  gap: var(--pf-space-3);
+  gap: var(--my-space-3);
   justify-content: center;
   flex-wrap: wrap;
 }
@@ -55,19 +55,19 @@
 .effect-selection-button {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
-  padding: var(--pf-space-3) var(--pf-space-4);
-  background: var(--pf-gradient-button);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-base);
-  font-weight: var(--pf-font-semibold);
+  gap: var(--my-space-2);
+  padding: var(--my-space-3) var(--my-space-4);
+  background: var(--my-gradient-button);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-ui);
+  font-size: var(--my-text-base);
+  font-weight: var(--my-font-semibold);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
   min-width: 140px;
   justify-content: center;
   text-decoration: none;
@@ -75,35 +75,35 @@
 
 .effect-type-button:hover,
 .effect-selection-button:hover {
-  background: var(--pf-gradient-button-hover);
-  border-color: var(--pf-brown-dark);
+  background: var(--my-gradient-button-hover);
+  border-color: var(--my-brown-dark);
   transform: translateY(-2px);
-  box-shadow: var(--pf-shadow-md);
-  color: var(--pf-brown-dark);
+  box-shadow: var(--my-shadow-md);
+  color: var(--my-brown-dark);
 }
 
 .effect-type-button.active,
 .effect-selection-button.active,
 .effect-type-button.selected,
 .effect-selection-button.selected {
-  background: var(--pf-gradient-gold);
-  border-color: var(--pf-gold-dark);
-  color: var(--pf-brown-darkest);
+  background: var(--my-gradient-gold);
+  border-color: var(--my-gold-dark);
+  color: var(--my-brown-darkest);
   box-shadow: 
-    var(--pf-shadow-md),
+    var(--my-shadow-md),
     0 0 12px rgba(212, 175, 55, 0.4);
   transform: translateY(1px);
-  font-weight: var(--pf-font-bold);
+  font-weight: var(--my-font-bold);
 }
 
 .effect-type-button.active:hover,
 .effect-selection-button.active:hover,
 .effect-type-button.selected:hover,
 .effect-selection-button.selected:hover {
-  background: var(--pf-gradient-gold);
+  background: var(--my-gradient-gold);
   transform: translateY(1px);
   box-shadow: 
-    var(--pf-shadow-md),
+    var(--my-shadow-md),
     0 0 16px rgba(212, 175, 55, 0.6);
 }
 
@@ -113,8 +113,8 @@
 .effect-selection-icon {
   width: 20px;
   height: 20px;
-  border-radius: var(--pf-border-radius);
-  border: 1px solid var(--pf-brown-medium);
+  border-radius: var(--my-border-radius);
+  border: 1px solid var(--my-brown-medium);
   flex-shrink: 0;
 }
 
@@ -123,29 +123,29 @@
 .base-effect-information,
 .effect-info-section,
 .effect-configuration-section {
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius-lg);
-  padding: var(--pf-space-5);
-  margin-bottom: var(--pf-space-4);
-  box-shadow: var(--pf-shadow-inset);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius-lg);
+  padding: var(--my-space-5);
+  margin-bottom: var(--my-space-4);
+  box-shadow: var(--my-shadow-inset);
 }
 
 .base-effect-information h3,
 .effect-info-section h3,
 .effect-configuration-section h3 {
-  font-family: var(--pf-font-display);
-  font-size: var(--pf-text-lg);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-brown-dark);
+  font-family: var(--my-font-display);
+  font-size: var(--my-text-lg);
+  font-weight: var(--my-font-bold);
+  color: var(--my-brown-dark);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin: 0 0 var(--pf-space-4) 0;
+  margin: 0 0 var(--my-space-4) 0;
   text-shadow: 
     0 1px 2px rgba(255, 255, 255, 0.8),
     0 -1px 1px rgba(139, 69, 19, 0.3);
-  border-bottom: 1px solid var(--pf-brown-light);
-  padding-bottom: var(--pf-space-2);
+  border-bottom: 1px solid var(--my-brown-light);
+  padding-bottom: var(--my-space-2);
 }
 
 /* ===== EFFECT INFORMATION GRID ===== */
@@ -153,27 +153,27 @@
 .effect-info-grid {
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: var(--pf-space-3) var(--pf-space-4);
+  gap: var(--my-space-3) var(--my-space-4);
   align-items: center;
-  margin-bottom: var(--pf-space-4);
+  margin-bottom: var(--my-space-4);
 }
 
 .effect-info-label {
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-sm);
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-brown-dark);
+  font-family: var(--my-font-ui);
+  font-size: var(--my-text-sm);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-brown-dark);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .effect-info-value {
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-base);
-  color: var(--pf-text-primary);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-base);
+  color: var(--my-text-primary);
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
 }
 
 /* ===== EFFECT TYPE DISPLAY ===== */
@@ -181,90 +181,90 @@
 .effect-type-display {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
-  padding: var(--pf-space-2) var(--pf-space-3);
-  background: var(--pf-gradient-button);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-sm);
-  font-weight: var(--pf-font-medium);
-  color: var(--pf-text-primary);
-  box-shadow: var(--pf-shadow-sm);
+  gap: var(--my-space-2);
+  padding: var(--my-space-2) var(--my-space-3);
+  background: var(--my-gradient-button);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  font-family: var(--my-font-ui);
+  font-size: var(--my-text-sm);
+  font-weight: var(--my-font-medium);
+  color: var(--my-text-primary);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .effect-type-display .effect-icon {
   width: 16px;
   height: 16px;
-  border-radius: var(--pf-border-radius);
-  border: 1px solid var(--pf-brown-medium);
+  border-radius: var(--my-border-radius);
+  border: 1px solid var(--my-brown-medium);
 }
 
 /* ===== FORMULA DISPLAY ===== */
 
 .formula-display {
   font-family: 'Courier New', monospace;
-  font-size: var(--pf-text-base);
-  font-weight: var(--pf-font-medium);
-  color: var(--pf-brown-dark);
-  background: var(--pf-gradient-input);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-2) var(--pf-space-3);
-  box-shadow: var(--pf-shadow-inset);
+  font-size: var(--my-text-base);
+  font-weight: var(--my-font-medium);
+  color: var(--my-brown-dark);
+  background: var(--my-gradient-input);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-2) var(--my-space-3);
+  box-shadow: var(--my-shadow-inset);
 }
 
 /* ===== CONDITIONAL ACTIVATION TOGGLE ===== */
 
 .conditional-activation-section {
-  margin-top: var(--pf-space-4);
-  padding-top: var(--pf-space-4);
-  border-top: 1px solid var(--pf-brown-light);
+  margin-top: var(--my-space-4);
+  padding-top: var(--my-space-4);
+  border-top: 1px solid var(--my-brown-light);
 }
 
 .conditional-activation-label {
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-sm);
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-brown-dark);
+  font-family: var(--my-font-ui);
+  font-size: var(--my-text-sm);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-brown-dark);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: var(--pf-space-2);
+  margin-bottom: var(--my-space-2);
 }
 
 .conditional-toggle {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-3);
+  gap: var(--my-space-3);
 }
 
 /* ===== SPECIFIC WOW EFFECT CLASSES ===== */
 
 .wow-effect-detail-label {
-  font-family: var(--pf-font-ui) !important;
-  font-size: var(--pf-text-sm) !important;
-  font-weight: var(--pf-font-semibold) !important;
-  color: var(--pf-brown-dark) !important;
+  font-family: var(--my-font-ui) !important;
+  font-size: var(--my-text-sm) !important;
+  font-weight: var(--my-font-semibold) !important;
+  color: var(--my-brown-dark) !important;
   text-transform: uppercase !important;
   letter-spacing: 0.5px !important;
-  margin-right: var(--pf-space-3) !important;
+  margin-right: var(--my-space-3) !important;
   text-shadow:
     0 1px 2px rgba(255, 255, 255, 0.8),
     0 -1px 1px rgba(139, 69, 19, 0.3) !important;
 }
 
 .wow-effect-detail-value {
-  font-family: var(--pf-font-body) !important;
-  font-size: var(--pf-text-base) !important;
-  color: var(--pf-text-primary) !important;
+  font-family: var(--my-font-body) !important;
+  font-size: var(--my-text-base) !important;
+  color: var(--my-text-primary) !important;
   display: flex !important;
   align-items: center !important;
-  gap: var(--pf-space-2) !important;
-  background: var(--pf-gradient-input) !important;
-  border: var(--pf-border-width) solid var(--pf-brown-light) !important;
-  border-radius: var(--pf-border-radius) !important;
-  padding: var(--pf-space-2) var(--pf-space-3) !important;
-  box-shadow: var(--pf-shadow-inset) !important;
+  gap: var(--my-space-2) !important;
+  background: var(--my-gradient-input) !important;
+  border: var(--my-border-width) solid var(--my-brown-light) !important;
+  border-radius: var(--my-border-radius) !important;
+  padding: var(--my-space-2) var(--my-space-3) !important;
+  box-shadow: var(--my-shadow-inset) !important;
   min-height: 32px !important;
 }
 
@@ -272,83 +272,83 @@ button.wow-effect-config-tab,
 .wow-effect-config-tab {
   display: flex !important;
   align-items: center !important;
-  gap: var(--pf-space-2) !important;
-  padding: var(--pf-space-3) var(--pf-space-4) !important;
-  background: var(--pf-gradient-button) !important;
-  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
-  border-radius: var(--pf-border-radius) !important;
-  color: var(--pf-text-primary) !important;
-  font-family: var(--pf-font-ui) !important;
-  font-size: var(--pf-text-base) !important;
-  font-weight: var(--pf-font-semibold) !important;
+  gap: var(--my-space-2) !important;
+  padding: var(--my-space-3) var(--my-space-4) !important;
+  background: var(--my-gradient-button) !important;
+  border: var(--my-border-width) solid var(--my-brown-medium) !important;
+  border-radius: var(--my-border-radius) !important;
+  color: var(--my-text-primary) !important;
+  font-family: var(--my-font-ui) !important;
+  font-size: var(--my-text-base) !important;
+  font-weight: var(--my-font-semibold) !important;
   cursor: pointer !important;
-  transition: all var(--pf-transition-normal) !important;
+  transition: all var(--my-transition-normal) !important;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5) !important;
-  box-shadow: var(--pf-shadow-sm) !important;
-  margin: var(--pf-space-1) !important;
+  box-shadow: var(--my-shadow-sm) !important;
+  margin: var(--my-space-1) !important;
   text-decoration: none !important;
 }
 
 button.wow-effect-config-tab:hover,
 .wow-effect-config-tab:hover {
-  background: var(--pf-gradient-button-hover) !important;
-  border-color: var(--pf-brown-dark) !important;
+  background: var(--my-gradient-button-hover) !important;
+  border-color: var(--my-brown-dark) !important;
   transform: translateY(-2px) !important;
-  box-shadow: var(--pf-shadow-md) !important;
-  color: var(--pf-brown-dark) !important;
+  box-shadow: var(--my-shadow-md) !important;
+  color: var(--my-brown-dark) !important;
 }
 
 button.wow-effect-config-tab.active,
 .wow-effect-config-tab.active {
-  background: var(--pf-gradient-gold) !important;
-  border-color: var(--pf-gold-dark) !important;
-  color: var(--pf-brown-darkest) !important;
+  background: var(--my-gradient-gold) !important;
+  border-color: var(--my-gold-dark) !important;
+  color: var(--my-brown-darkest) !important;
   box-shadow:
-    var(--pf-shadow-md),
+    var(--my-shadow-md),
     0 0 12px rgba(212, 175, 55, 0.4) !important;
   transform: translateY(1px) !important;
-  font-weight: var(--pf-font-bold) !important;
+  font-weight: var(--my-font-bold) !important;
 }
 
 button.wow-effect-config-tab.active:hover,
 .wow-effect-config-tab.active:hover {
-  background: var(--pf-gradient-gold) !important;
+  background: var(--my-gradient-gold) !important;
   transform: translateY(1px) !important;
   box-shadow:
-    var(--pf-shadow-md),
+    var(--my-shadow-md),
     0 0 16px rgba(212, 175, 55, 0.6) !important;
 }
 
 /* ===== EFFECT-SPECIFIC TRIGGERS SECTION ===== */
 
 .effect-triggers-section {
-  margin-top: var(--pf-space-5);
-  padding: var(--pf-space-4);
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  box-shadow: var(--pf-shadow-sm);
+  margin-top: var(--my-space-5);
+  padding: var(--my-space-4);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .effect-triggers-section h4 {
-  font-family: var(--pf-font-display);
-  font-size: var(--pf-text-base);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-brown-dark);
+  font-family: var(--my-font-display);
+  font-size: var(--my-text-base);
+  font-weight: var(--my-font-bold);
+  color: var(--my-brown-dark);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin: 0 0 var(--pf-space-3) 0;
+  margin: 0 0 var(--my-space-3) 0;
   text-shadow: 
     0 1px 2px rgba(255, 255, 255, 0.8),
     0 -1px 1px rgba(139, 69, 19, 0.3);
 }
 
 .effect-triggers-description {
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-secondary);
-  margin-bottom: var(--pf-space-3);
-  line-height: var(--pf-leading-relaxed);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-sm);
+  color: var(--my-text-secondary);
+  margin-bottom: var(--my-space-3);
+  line-height: var(--my-leading-relaxed);
   font-style: italic;
 }
 
@@ -361,20 +361,20 @@ button.wow-effect-config-tab.active:hover,
 .utility-configuration-button {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
-  padding: var(--pf-space-3) var(--pf-space-5);
-  background: var(--pf-gradient-button);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius-lg);
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-base);
-  font-weight: var(--pf-font-semibold);
+  gap: var(--my-space-2);
+  padding: var(--my-space-3) var(--my-space-5);
+  background: var(--my-gradient-button);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius-lg);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-ui);
+  font-size: var(--my-text-base);
+  font-weight: var(--my-font-semibold);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
-  box-shadow: var(--pf-shadow-md);
-  margin-bottom: var(--pf-space-4);
+  box-shadow: var(--my-shadow-md);
+  margin-bottom: var(--my-space-4);
   text-decoration: none;
   justify-content: center;
   min-height: 48px;
@@ -385,11 +385,11 @@ button.wow-effect-config-tab.active:hover,
 .buff-configuration-button:hover,
 .debuff-configuration-button:hover,
 .utility-configuration-button:hover {
-  background: var(--pf-gradient-button-hover);
-  border-color: var(--pf-brown-dark);
+  background: var(--my-gradient-button-hover);
+  border-color: var(--my-brown-dark);
   transform: translateY(-2px);
-  box-shadow: var(--pf-shadow-lg);
-  color: var(--pf-brown-dark);
+  box-shadow: var(--my-shadow-lg);
+  color: var(--my-brown-dark);
 }
 
 .damage-configuration-button.active,
@@ -397,14 +397,14 @@ button.wow-effect-config-tab.active:hover,
 .buff-configuration-button.active,
 .debuff-configuration-button.active,
 .utility-configuration-button.active {
-  background: var(--pf-gradient-gold);
-  border-color: var(--pf-gold-dark);
-  color: var(--pf-brown-darkest);
+  background: var(--my-gradient-gold);
+  border-color: var(--my-gold-dark);
+  color: var(--my-brown-darkest);
   box-shadow:
-    var(--pf-shadow-lg),
+    var(--my-shadow-lg),
     0 0 16px rgba(212, 175, 55, 0.5);
   transform: translateY(1px);
-  font-weight: var(--pf-font-bold);
+  font-weight: var(--my-font-bold);
 }
 
 /* ===== EFFECT CONFIGURATION HEADER ===== */
@@ -413,16 +413,16 @@ button.wow-effect-config-tab.active:hover,
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: var(--pf-space-4);
-  padding-bottom: var(--pf-space-3);
-  border-bottom: 2px solid var(--pf-brown-light);
+  margin-bottom: var(--my-space-4);
+  padding-bottom: var(--my-space-3);
+  border-bottom: 2px solid var(--my-brown-light);
 }
 
 .effect-config-title {
-  font-family: var(--pf-font-display);
-  font-size: var(--pf-text-xl);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-brown-dark);
+  font-family: var(--my-font-display);
+  font-size: var(--my-text-xl);
+  font-weight: var(--my-font-bold);
+  color: var(--my-brown-dark);
   text-transform: uppercase;
   letter-spacing: 1px;
   text-shadow:
@@ -433,16 +433,16 @@ button.wow-effect-config-tab.active:hover,
 .effect-config-badge {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
-  padding: var(--pf-space-2) var(--pf-space-3);
-  background: var(--pf-gradient-gold);
-  border: var(--pf-border-width) solid var(--pf-gold-dark);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-brown-darkest);
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-sm);
-  font-weight: var(--pf-font-semibold);
-  box-shadow: var(--pf-shadow-sm);
+  gap: var(--my-space-2);
+  padding: var(--my-space-2) var(--my-space-3);
+  background: var(--my-gradient-gold);
+  border: var(--my-border-width) solid var(--my-gold-dark);
+  border-radius: var(--my-border-radius);
+  color: var(--my-brown-darkest);
+  font-family: var(--my-font-ui);
+  font-size: var(--my-text-sm);
+  font-weight: var(--my-font-semibold);
+  box-shadow: var(--my-shadow-sm);
 }
 
 /* ===== RESPONSIVE DESIGN ===== */
@@ -467,21 +467,21 @@ button.wow-effect-config-tab.active:hover,
   .utility-configuration-button {
     width: 100%;
     max-width: 400px;
-    margin: 0 auto var(--pf-space-4) auto;
+    margin: 0 auto var(--my-space-4) auto;
   }
 
   .effect-info-grid {
     grid-template-columns: 1fr;
-    gap: var(--pf-space-2);
+    gap: var(--my-space-2);
   }
 
   .effect-info-label {
-    margin-bottom: var(--pf-space-1);
+    margin-bottom: var(--my-space-1);
   }
 
   .effect-config-header {
     flex-direction: column;
-    gap: var(--pf-space-3);
+    gap: var(--my-space-3);
     text-align: center;
   }
 }

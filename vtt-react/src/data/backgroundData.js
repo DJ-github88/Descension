@@ -46,7 +46,7 @@ export const BACKGROUND_DATA = {
     emberspirePilgrim: {
         id: 'emberspirePilgrim',
         name: 'Emberspire Pilgrim',
-        description: 'You made the pilgrimage to Emberspire, standing at the wound through which Keth-Amar breached the seal. You have witnessed the Solbrand\'s fading light — the last eternal ember of the dying sun — and the experience left you with either unshakeable purpose or gnawing doubt. The Ashen Escarpment is the first landmark pilgrims see as they approach Sundale from the lowlands — a steep ridge of compacted ash crowned with Solvarn watchtowers — and at Ember Lagoon, pilgrims depart by ship to carry word of the Solbrand\'s fading light to the wider world.',
+        description: 'You made the pilgrimage to Emberspire, witnessing the Solbrand\'s fading light under the watchful gaze of Hierophant Aethelgard\'s Dawn Vigil. You have passed through the Obsidian Citadels of the Ashen Escarpment where Ash-Dwellers are held in bondage, and either joined the Vigil\'s crusade for the Reforging or left with gnawing doubt. At Ember Lagoon, pilgrims ship out under the Dawn Vigil’s banner to spread the call of the sun\'s rebirth.',
         skillProficiencies: ['Insight', 'Religion'],
         languages: 2,
         equipment: [
@@ -74,7 +74,7 @@ export const BACKGROUND_DATA = {
     shyrRunner: {
         id: 'shyrRunner',
         name: 'Shyr Runner',
-        description: 'You navigated the ninety-mile Basalt Shyr — the cooling lava trade route that never freezes — running caravans between Sundale\'s fortress-outposts. You learned when the basalt pillars shift, where Husque-rifts tear open, and exactly what the Thrask rangers demand in toll. Slag Gulch serves as a critical resupply point along the Shyr where runners restock before the longest stretches, and at Ember Lagoon, the route\'s southern terminus, Shyr cargo is loaded onto Merryn ships for distribution across the Iceheart Sea.',
+        description: 'You navigated the ninety-mile Basalt Shyr, running caravans of volcanic sulfur and geothermal coal under the shadow of the Sulfur Cartel\'s monopoly. You learned when the basalt pillars shift, where magma-fracturing sumps tear open reality, and how to evade the Dawn Vigil patrols at the escarpment checkpoints. Slag Gulch serves as a resupply point where runners dodge the labor-levies, and at Ember Lagoon, Cartel cargo is smuggled onto Merryn ships.',
         skillProficiencies: ['Deception', 'Stealth'],
         toolProficiencies: ['Thieves\' tools', 'Gaming set'],
         languages: 1,
@@ -103,7 +103,7 @@ export const BACKGROUND_DATA = {
     ledgerKeeper: {
         id: 'ledgerKeeper',
         name: 'Ledger Keeper',
-        description: 'You maintained identity-ledgers at Greymark Keep in the Frostwood Reach. The protective fog — House Thalreth\'s ancient bargain — endlessly erases memory, and your exhaustive journals are the only proof that anyone existed. Your own personal ledger IS your legal identity; without it, the fog would claim you, too. At Greythorn Copse on the eastern border, ledger-keepers verify travelers\' identities before they are permitted deeper into the Reach, and at Mistbarrow, archivists have spent centuries trying to decode the unknown carvings buried beneath the fog.',
+        description: 'You maintained identity-ledgers at Greymark Keep in the Frostwood Reach under the Sovereign Ledger enforced by Jarl-Archivist Kaelen Thalreth. In a land where the protective fog erases memory and the Scribe-Cartel holds a monopoly on Soot-Resin Ink and Peat-Parchment, your chained journals are the only proof of legal citizenship. You have checked papers at the Ironwood Palisade checkpoints, catalogued lineages at Greythorn Copse, and researched the prehistoric carvings of Mistbarrow.',
         skillProficiencies: ['Animal Handling', 'Survival'],
         toolProficiencies: ['Artisan\'s tools', 'Vehicles (land)'],
         languages: 1,
@@ -121,7 +121,7 @@ export const BACKGROUND_DATA = {
         },
         feature: {
             name: 'Ledger-Bound Identity',
-            description: 'Your personal journal serves as incontestable legal proof of your existence. When fog threatens to erase a memory, referencing your ledger allows you to recall it with perfect clarity. Common folk in the Frostwood Reach will provide simple accommodations to a recognized Ledger Keeper.'
+            description: 'Your personal journal serves as incontestable legal proof of your existence under Kaelen Thalreth\'s Sovereign Ledger. When fog threatens to erase a memory, referencing your ledger allows you to recall it. Common folk and Palisade guards will provide simple accommodations to a documented Ledger Keeper.'
         },
         statModifiers: {
             constitution: 3,
@@ -161,13 +161,13 @@ export const BACKGROUND_DATA = {
     synodAcademic: {
         id: 'synodAcademic',
         name: 'Synod Academic',
-        description: 'You studied at the Synod-Hold in Sundrift Vale — the shimmering crystal-lattice Astril cathedral where constellation-spirit lineages are preserved in memory-glass. You learned to read the throat-sung ancestor-maps of the Ordan nomads and catalogued spirit-genealogies that predate the sky\'s erasure. Starfall Vale, where Sol\'s shattered celestial court impacted the earth, remains a pilgrimage site for Astril scholars seeking resonance with the trapped starlight, while The Unlit Knoll is a restricted site controlled entirely by the Unlit Veil — a place no constellation-spirit can approach.',
+        description: 'You studied at the Synod-Hold in Sundrift Vale — the shimmering crystal-lattice Astril cathedral where constellation-spirit lineages are preserved. You learned to decipher the forbidden, throat-sung Sky-Songs that map stars that went dark under the Ordavan bargain, and catalogued star-lineages carved on bone Steppe-Staves. You know how to bypass the basalt Cairn-Checkpoints, how to navigate Starfall Vale, and how to identify the Unlit spies of the Synod.',
         skillProficiencies: ['Arcana', 'History'],
         languages: 2,
         equipment: [
             'Memory-glass shard',
             'Crystal-lens',
-            'Star-chart scroll',
+            'Bone Steppe-Stave replica',
             'Ritual chalk',
             'Synod robes'
         ],
@@ -178,7 +178,7 @@ export const BACKGROUND_DATA = {
         },
         feature: {
             name: 'Constellation-Archive',
-            description: 'You memorized portions of the Synod\'s crystal-lattice archives that store spirit-lineages. You can recall obscure celestial history, identify constellation-spirit traces, and recognize the resonance-signatures of the seven Sundered Monoliths. Academic and religious institutions grant you research access.'
+            description: 'You memorized portions of the Synod\'s crystal-lattice archives and can decode bone Steppe-Staves. You can recall obscure celestial history, identify constellation-spirit traces, and recognize the resonance-signatures of the seven Sundered Monoliths. Academic and religious institutions grant you research access.'
         },
         statModifiers: {
             intelligence: 4,
@@ -219,7 +219,7 @@ export const BACKGROUND_DATA = {
     debtNegotiator: {
         id: 'debtNegotiator',
         name: 'Debt Negotiator',
-        description: 'You learned the art of contractual negotiation studying the Neth\'s First Contract traditions in Ironjaw Port or the Atropolis canopy. Every agreement is binding, every clause a weapon, every handshake a potential trap. You understand that in Bryngloom, debt is a living thing that outlives the debtor.',
+        description: 'You studied the First Contract and Neth legal traditions in Atropolis, helping clients navigate Regent Morrath\'s Great Registry and the Scribe-Cartel’s peonage. You understand that in Bryngloom, debt is a living thing: every agreement is a binding clause, every handshake a potential trap, and the Postmortem Corvée can conscript your corpse if you default. You help negotiate Memory-Glass Covenants to purchase extra years of life.',
         skillProficiencies: ['Deception', 'Sleight of Hand'],
         toolProficiencies: ['Forgery kit', 'Disguise kit'],
         languages: 1,
@@ -237,7 +237,7 @@ export const BACKGROUND_DATA = {
         },
         feature: {
             name: 'Contractual Eye',
-            description: 'You can spot loopholes, hidden clauses, and binding terms in any written agreement. You recognize a Neth contract by its silver-leaf binding and know the three fatal errors that void a First Contract clause. Merchants and officials treat your drafted agreements as legally sound.'
+            description: 'You can spot loopholes, hidden clauses, and binding terms in any written agreement. You recognize a Neth contract by its silver-leaf binding and know the three fatal errors that void a First Contract clause. Merchants and Great Registry officials treat your drafted agreements as legally sound.'
         },
         statModifiers: {
             charisma: 3,
@@ -248,12 +248,12 @@ export const BACKGROUND_DATA = {
     frostChanter: {
         id: 'frostChanter',
         name: 'Frost Chanter',
-        description: 'You trained in Nordhalla\'s oral-history traditions, where song preserves what the eternal cold would destroy. Your performances are literally history-keeping rituals — each verse an archive, each chorus a shield against the Milk-Grief\'s despair. In a land where the sky has not seen sunlight in eight centuries, the Frost Chanter\'s voice is a hearth.',
+        description: 'You trained in Nordhalla\'s oral-history traditions, where song preserves what Járn-Tand\'s runic inquisitors seek to burn. Your performances are literally history-keeping rituals — each verse a hidden archive of the old animist ways, each chorus a shield against both the Milk-Grief\'s despair and the Runic Academies\' erasure. In a land where the old drums are outlawed, the Frost Chanter\'s voice is a covert hearth for the Fredløse.',
         skillProficiencies: ['Acrobatics', 'Performance'],
         toolProficiencies: ['Disguise kit', 'Musical instrument'],
         languages: 1,
         equipment: [
-            'Story-drum',
+            'Concealed story-drum',
             'Admirer\'s rune-token',
             'Performance cloak',
             'Voice-salve'
@@ -334,7 +334,7 @@ export const BACKGROUND_DATA = {
     peakTracker: {
         id: 'peakTracker',
         name: 'Peak Tracker',
-        description: 'You navigated the Cragjaw Peaks\' vertical labyrinth — a world of perpetual blizzard where no one has seen the sky in eight generations. You learned to read the Ancestor-Spans (bridges grown from Groven calcified dead), interpret the blizzard\'s shifting moods, and survive where landmarks are buried within hours. Deepchasm Keep serves as a key navigation landmark for any tracker crossing between the upper peaks and lower galleries, and The Great Gorge — bridged by seven calcified bone-spans — is the primary span-crossing without which all north-south travel through the Peaks would be impossible.',
+        description: 'You navigated the Cragjaw Peaks\' vertical labyrinth, carrying knotted khipu route-markers to map pathways that the blizzard buries within hours. You learned to read the calcified bone-bridges, evade the Rope-Garrison toll-posts, and predict the hunting grounds of Yuki-Onna and Tengu-Crows. Deepchasm Keep is your home, and you know how to bypass the steam pipe junctions where heat-stealing Sump-Kappas nest.',
         skillProficiencies: ['Athletics', 'Survival'],
         toolProficiencies: ['Musical instrument'],
         languages: 1,
@@ -342,7 +342,7 @@ export const BACKGROUND_DATA = {
             'Climbing rope (silk, 50ft)',
             'Pitons (10)',
             'Storm-cloak',
-            'Ancestor-Span chalk',
+            'Knotted khipu route-markers',
             'Travel rations (5 days)'
         ],
         startingCurrency: {
@@ -364,14 +364,14 @@ export const BACKGROUND_DATA = {
     merrowSailor: {
         id: 'merrowSailor',
         name: 'Merrow Sailor',
-        description: 'You sailed the Iceheart Sea from Merrowport — the lawless floating city of lashed ships anchored to a volcanic seamount. Your trade-tattoos are legal contracts inked on your skin because paper rots at sea. You have survived at least one wager with the Iceheart Sea, and you know the Brine\'s price, though you have refused to pay it — so far. Spindrift Lagoon\'s warm-water port is a frequent destination for Merryn captains seeking respite from the Iceheart\'s storms, while Skald\'s Longport on the northern coast operates as a rival harbor where Nordhalla longships compete for the same trade routes.',
+        description: 'You sailed the Iceheart Sea from Merrowport, navigating under the shadow of the Brine-Bond Syndicate and Admiral Varis\'s Sea-Charter. Your trade-tattoos are legal contracts inked on your skin to verify your debt-shares and prevent you from being pressed into lifetime service under the Board of Trade\'s Press-Warrants. You know how to slip past the Unfreezing Booms, how to dodge the Luck-Ledger inquisitors, and how to trade in Kelpie\'s Cove.',
         skillProficiencies: ['Athletics', 'Perception'],
         toolProficiencies: ['Navigator\'s tools', 'Vehicles (water)'],
         languages: 1,
         equipment: [
             'Belaying pin',
             'Silk rope (50 feet)',
-            'Lucky charm',
+            'Lucky charm (Luck-Ledger coin)',
             'Oilskin coat',
             'Common clothes'
         ],
@@ -382,7 +382,7 @@ export const BACKGROUND_DATA = {
         },
         feature: {
             name: 'Tattoo-Contract',
-            description: 'Your skin bears legal trade-tattoos recognized in every port on the Iceheart Sea. You can secure passage on any ship for yourself and companions in exchange for a tattoo of the debt, to be paid in labor. Port officials and Merryn captains honor tattoo-contracts as binding agreements.'
+            description: 'Your skin bears legal trade-tattoos recognized by the Mereval Board of Trade. You can secure passage on merchant ships in exchange for a contract of debt-labor, and you are skilled at identifying loop-holes in Syndicate cargo ledgers.'
         },
         statModifiers: {
             agility: 3,
@@ -393,14 +393,14 @@ export const BACKGROUND_DATA = {
     gloomwayTrader: {
         id: 'gloomwayTrader',
         name: 'Gloomway Trader',
-        description: 'You traded goods across the Bryngloom Forest — dealing in memory-glass tablets, peat-bog preservations, fog-charms, and wyrd-warded curios. You learned the unspoken trade laws of the Over-Shanty\'s rope-bridges, the Drun\'s lawless mercy, and the Mist-Gate Market where memories are currency. Morren\'s Bogpost at the forest-steppe border is the primary trading post where Bryngloom goods exchange hands with Ordan wool, and Thalren\'s Ledger-Post serves as a neutral archive-outpost where trade agreements are recorded and preserved against the fog.',
+        description: 'You traded goods across the Bryngloom Forest, dealing in memory-glass covenants, peat-oil, and wyrd-warded curios under Regent Morrath\'s Great Registry. You learned to bypass the living-ironwood Toll-Dikes, negotiate with Drun smugglers, and trade at the Mist-Gate Market where lifelines are currency. Morren\'s Bogpost at the forest-steppe border is your frequent trade stop, and you carry a ledger warded against the Inquisition\'s audit.',
         skillProficiencies: ['Insight', 'Persuasion'],
         toolProficiencies: ['Navigator\'s tools'],
         languages: 2,
         equipment: [
             'Merchant\'s scale',
             'Sample goods (3)',
-            'Trade-ledger',
+            'Trade-ledger (Registry-certified)',
             'Fog-charms (3)',
             'Traveler\'s clothes'
         ],
@@ -411,7 +411,7 @@ export const BACKGROUND_DATA = {
         },
         feature: {
             name: 'Gloom-Market Pass',
-            description: 'You know the unspoken trade laws of the Over-Shanty, the Drun\'s peat-harvesting routes, and the Mist-Gate Market\'s fog-charm economy. You can find a buyer or seller for almost anything in the Bryngloom, and your trade-ledger is recognized by Neth contract-houses and Merryn tattoo-merchants alike.'
+            description: 'You know the trade laws of the Great Registry, the Drun\'s peat-harvesting routes, and the Toll-Dikes\' bypass channels. You can find buyers for illicit peat-oil or memory-glass, and your ledgers are recognized by Neth contract-houses.'
         },
         statModifiers: {
             charisma: 2,
@@ -423,7 +423,7 @@ export const BACKGROUND_DATA = {
     shantyRat: {
         id: 'shantyRat',
         name: 'Shanty Rat',
-        description: 'You grew up in the Over-Shanty — the hanging slum beneath Atropolis\'s canopy city of living ironwood and memory-glass. You survived among salvage, stolen identities, and the Cult of Forgotten Shadow\'s memory-trade. You learned which rope-bridges hold, which Drun toll-collectors can be avoided, and the precise value of a bottled childhood.',
+        description: 'You grew up in the Over-Shanty — the hanging slum beneath Atropolis\'s high canopy city. Having no record in Regent Morrath\'s Great Registry, you survived as one of the undocumented "Forgotten" among salvage, smugglers, and memory-brokers. You learned which rope-bridges hold, how to slip past the Toll-Dike patrols, and how to bargain with Drun outcasts for black-market peat-oil.',
         skillProficiencies: ['Sleight of Hand', 'Stealth'],
         toolProficiencies: ['Disguise kit', 'Thieves\' tools'],
         languages: 1,
@@ -441,7 +441,7 @@ export const BACKGROUND_DATA = {
         },
         feature: {
             name: 'Shanty-Passage',
-            description: 'You know the secret patterns of the Over-Shanty\'s hanging slums — which rope-bridges hold weight, which Drun toll-collectors can be bribed, and where the Cult of Forgotten Shadow conducts its memory-extraction rituals. You can navigate any hanging or vertical settlement at twice the normal speed, and you can find safe passage through the Over-Shanty for yourself and companions.'
+            description: 'You know the secret pathways of the Over-Shanty\'s hanging slums — which rope-bridges hold weight, how to slip past the Toll-Dike checkpoints, and where Drun outcasts hide from the Registry-guard. You can navigate any hanging or vertical settlement at twice the normal speed.'
         },
         statModifiers: {
             agility: 3,

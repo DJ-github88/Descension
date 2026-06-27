@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import WowWindow from '../../../windows/WowWindow';
+import MythrillWindow from '../../../windows/MythrillWindow';
 import { useSpellLibrary } from '../../context/SpellLibraryContext';
 import { transformSpellForCard, getSpellRollableTable } from '../../core/utils/spellCardTransformer';
 import UnifiedSpellCard from './UnifiedSpellCard';
@@ -73,7 +73,7 @@ const SpellLibraryPopup = ({
   if (!isOpen) return null;
 
   return (
-    <WowWindow
+    <MythrillWindow
       title={title}
       isOpen={isOpen}
       onClose={onClose}
@@ -136,7 +136,7 @@ const SpellLibraryPopup = ({
           )}
         </div>
       </div>
-    </WowWindow>
+    </MythrillWindow>
   );
 };
 

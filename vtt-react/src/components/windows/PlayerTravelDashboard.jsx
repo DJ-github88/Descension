@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import WowWindow from './WowWindow';
+import MythrillWindow from './MythrillWindow';
 import useTravelStore from '../../store/travelStore';
 import useGameStore from '../../store/gameStore';
 import { BIOMES, getBiome } from '../../data/biomeData';
@@ -67,7 +67,7 @@ function PlayerTravelDashboard({ isOpen, onClose }) {
 
   if (!isInMultiplayer) {
     return (
-      <WowWindow
+      <MythrillWindow
         title="Travel"
         isOpen={isOpen}
         onClose={onClose}
@@ -84,7 +84,7 @@ function PlayerTravelDashboard({ isOpen, onClose }) {
             </div>
           </div>
         </div>
-      </WowWindow>
+      </MythrillWindow>
     );
   }
 
@@ -95,7 +95,7 @@ function PlayerTravelDashboard({ isOpen, onClose }) {
   const state = playerTravelState;
   if (!state) {
     return (
-      <WowWindow
+      <MythrillWindow
         title="Travel"
         isOpen={isOpen}
         onClose={onClose}
@@ -106,7 +106,7 @@ function PlayerTravelDashboard({ isOpen, onClose }) {
         <div className="tt-window">
           <WaitingCard />
         </div>
-      </WowWindow>
+      </MythrillWindow>
     );
   }
 
@@ -126,7 +126,7 @@ function PlayerTravelContent({ state, isOpen, onClose }) {
   const lastBroadcast = state.lastBroadcast;
 
   return (
-    <WowWindow
+    <MythrillWindow
       title="Travel"
       isOpen={isOpen}
       onClose={onClose}
@@ -303,7 +303,7 @@ function PlayerTravelContent({ state, isOpen, onClose }) {
           )}
         </div>
       </div>
-    </WowWindow>
+    </MythrillWindow>
   );
 }
 

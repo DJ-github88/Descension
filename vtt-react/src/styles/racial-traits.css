@@ -2,41 +2,41 @@
 
 /* Import Pathfinder variables if not already available */
 :root {
-  --pf-brown-darkest: #2d1810;
-  --pf-brown-dark: #4a2c1a;
-  --pf-brown-medium: #6b3e2a;
-  --pf-brown-light: #8b5a3c;
-  --pf-cream: #f4f1e8;
-  --pf-cream-dark: #e8e0d0;
-  --pf-gold: #d4af37;
-  --pf-gold-dark: #b8941f;
-  --pf-text-primary: #5a1e12;
-  --pf-text-secondary: #5a1e12;
-  --pf-border-radius: 8px;
-  --pf-border-radius-lg: 12px;
-  --pf-space-2: 8px;
-  --pf-space-3: 12px;
-  --pf-space-4: 16px;
-  --pf-space-6: 24px;
-  --pf-shadow-sm: 0 2px 4px rgba(45, 24, 16, 0.1);
-  --pf-shadow-md: 0 4px 8px rgba(45, 24, 16, 0.15);
-  --pf-shadow-lg: 0 8px 16px rgba(45, 24, 16, 0.2);
-  --pf-transition-normal: 0.2s ease;
+  --my-brown-darkest: #2d1810;
+  --my-brown-dark: #4a2c1a;
+  --my-brown-medium: #6b3e2a;
+  --my-brown-light: #8b5a3c;
+  --my-cream: #f4f1e8;
+  --my-cream-dark: #e8e0d0;
+  --my-gold: #d4af37;
+  --my-gold-dark: #b8941f;
+  --my-text-primary: #5a1e12;
+  --my-text-secondary: #5a1e12;
+  --my-border-radius: 8px;
+  --my-border-radius-lg: 12px;
+  --my-space-2: 8px;
+  --my-space-3: 12px;
+  --my-space-4: 16px;
+  --my-space-6: 24px;
+  --my-shadow-sm: 0 2px 4px rgba(45, 24, 16, 0.1);
+  --my-shadow-md: 0 4px 8px rgba(45, 24, 16, 0.15);
+  --my-shadow-lg: 0 8px 16px rgba(45, 24, 16, 0.2);
+  --my-transition-normal: 0.2s ease;
 }
 
 /* ===== RACIAL TRAITS SECTION ===== */
 
 .racial-traits-section {
-  margin-top: var(--pf-space-6);
-  padding: var(--pf-space-4);
+  margin-top: var(--my-space-6);
+  padding: var(--my-space-4);
   background: linear-gradient(135deg,
-    var(--pf-cream) 0%,
+    var(--my-cream) 0%,
     #f8f5f0 50%,
-    var(--pf-cream-dark) 100%);
-  border: 2px solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius-lg);
+    var(--my-cream-dark) 100%);
+  border: 2px solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius-lg);
   box-shadow:
-    var(--pf-shadow-md),
+    var(--my-shadow-md),
     inset 0 1px 0 rgba(255, 255, 255, 0.6),
     inset 0 -1px 0 rgba(107, 62, 42, 0.1);
   position: relative;
@@ -51,9 +51,9 @@
   right: 0;
   height: 3px;
   background: linear-gradient(90deg,
-    var(--pf-gold) 0%,
-    var(--pf-gold-dark) 50%,
-    var(--pf-gold) 100%);
+    var(--my-gold) 0%,
+    var(--my-gold-dark) 50%,
+    var(--my-gold) 100%);
   z-index: 1;
 }
 
@@ -61,8 +61,8 @@
   font-family: 'Cinzel', 'Times New Roman', serif;
   font-size: 1.5rem;
   font-weight: 600;
-  color: var(--pf-brown-darkest);
-  margin: 0 0 var(--pf-space-4) 0;
+  color: var(--my-brown-darkest);
+  margin: 0 0 var(--my-space-4) 0;
   text-align: center;
   text-shadow: 0 1px 2px rgba(212, 175, 55, 0.3);
   position: relative;
@@ -74,8 +74,8 @@
   display: block;
   width: 60px;
   height: 2px;
-  background: var(--pf-gold);
-  margin: var(--pf-space-2) auto 0;
+  background: var(--my-gold);
+  margin: var(--my-space-2) auto 0;
   border-radius: 1px;
 }
 
@@ -84,8 +84,8 @@
 .racial-traits-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: var(--pf-space-4);
-  margin-bottom: var(--pf-space-4);
+  gap: var(--my-space-4);
+  margin-bottom: var(--my-space-4);
 }
 
 /* ===== INDIVIDUAL TRAIT CARDS ===== */
@@ -93,15 +93,15 @@
 .racial-trait-card {
   background: linear-gradient(135deg,
     #fefcf8 0%,
-    var(--pf-cream) 50%,
+    var(--my-cream) 50%,
     #f0ede6 100%);
-  border: 1px solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-3);
+  border: 1px solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-3);
   box-shadow:
-    var(--pf-shadow-sm),
+    var(--my-shadow-sm),
     inset 0 1px 0 rgba(255, 255, 255, 0.8);
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   position: relative;
   overflow: hidden;
 }
@@ -115,19 +115,19 @@
   height: 2px;
   background: linear-gradient(90deg,
     transparent 0%,
-    var(--pf-gold) 50%,
+    var(--my-gold) 50%,
     transparent 100%);
   opacity: 0;
-  transition: opacity var(--pf-transition-normal);
+  transition: opacity var(--my-transition-normal);
 }
 
 .racial-trait-card:hover {
   transform: translateY(-2px);
   box-shadow:
-    var(--pf-shadow-md),
+    var(--my-shadow-md),
     inset 0 1px 0 rgba(255, 255, 255, 0.8),
     0 0 0 1px rgba(212, 175, 55, 0.2);
-  border-color: var(--pf-brown-medium);
+  border-color: var(--my-brown-medium);
 }
 
 .racial-trait-card:hover::before {
@@ -140,15 +140,15 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: var(--pf-space-2);
-  gap: var(--pf-space-2);
+  margin-bottom: var(--my-space-2);
+  gap: var(--my-space-2);
 }
 
 .racial-trait-name {
   font-family: 'Cinzel', 'Times New Roman', serif;
   font-size: 1.1rem;
   font-weight: 600;
-  color: var(--pf-brown-darkest);
+  color: var(--my-brown-darkest);
   margin: 0;
   line-height: 1.3;
   flex: 1;
@@ -174,7 +174,7 @@
   font-family: 'Libre Baskerville', 'Georgia', serif;
   font-size: 0.9rem;
   line-height: 1.5;
-  color: var(--pf-text-secondary);
+  color: var(--my-text-secondary);
   margin: 0;
   text-align: justify;
 }
@@ -184,32 +184,32 @@
 .racial-info-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: var(--pf-space-3);
-  padding-top: var(--pf-space-3);
-  border-top: 1px solid var(--pf-brown-light);
+  gap: var(--my-space-3);
+  padding-top: var(--my-space-3);
+  border-top: 1px solid var(--my-brown-light);
 }
 
 .racial-info-item {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
-  padding: var(--pf-space-2);
+  gap: var(--my-space-2);
+  padding: var(--my-space-2);
   background: rgba(255, 255, 255, 0.4);
-  border-radius: var(--pf-border-radius);
+  border-radius: var(--my-border-radius);
   border: 1px solid rgba(107, 62, 42, 0.1);
 }
 
 .racial-info-label {
   font-family: 'Cinzel', 'Times New Roman', serif;
   font-weight: 600;
-  color: var(--pf-brown-darkest);
+  color: var(--my-brown-darkest);
   font-size: 0.9rem;
   white-space: nowrap;
 }
 
 .racial-info-value {
   font-family: 'Libre Baskerville', 'Georgia', serif;
-  color: var(--pf-text-secondary);
+  color: var(--my-text-secondary);
   font-size: 0.9rem;
   flex: 1;
 }
@@ -361,14 +361,14 @@
 /* ===== CULTURAL BACKGROUND SECTION ===== */
 
 .racial-cultural-background {
-  margin-top: var(--pf-space-4);
-  padding: var(--pf-space-4);
+  margin-top: var(--my-space-4);
+  padding: var(--my-space-4);
   background: linear-gradient(135deg,
     rgba(212, 175, 55, 0.05) 0%,
     rgba(212, 175, 55, 0.1) 50%,
     rgba(212, 175, 55, 0.05) 100%);
-  border: 1px solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
+  border: 1px solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
   box-shadow: inset 0 1px 3px rgba(139, 69, 19, 0.08);
 }
 
@@ -376,15 +376,15 @@
   font-family: 'Cinzel', 'Times New Roman', serif;
   font-size: 1.1rem;
   font-weight: 600;
-  color: var(--pf-brown-darkest);
-  margin: 0 0 var(--pf-space-3) 0;
+  color: var(--my-brown-darkest);
+  margin: 0 0 var(--my-space-3) 0;
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
 }
 
 .cultural-background-title i {
-  color: var(--pf-gold);
+  color: var(--my-gold);
   font-size: 1rem;
 }
 
@@ -392,7 +392,7 @@
   font-family: 'Libre Baskerville', 'Georgia', serif;
   font-size: 0.9rem;
   line-height: 1.6;
-  color: var(--pf-text-secondary);
+  color: var(--my-text-secondary);
   margin: 0;
   text-align: justify;
 }
@@ -404,7 +404,7 @@
   gap: 10px;
   padding: 10px;
   margin: 8px 0 16px;
-  border: 2px solid var(--pf-gold);
+  border: 2px solid var(--my-gold);
   border-radius: 8px;
   background: linear-gradient(135deg, rgba(254,252,248,0.6) 0%, rgba(244,241,232,0.6) 100%);
   overflow-x: auto;
@@ -416,7 +416,7 @@
   border-radius: 8px;
   padding: 2px;
   background: rgba(255,255,255,0.8);
-  border: 2px solid var(--pf-gold);
+  border: 2px solid var(--my-gold);
   cursor: pointer;
   transition: all 0.2s ease;
   flex: 0 0 auto;
@@ -424,12 +424,12 @@
 
 .racial-trait-icon-btn:hover {
   transform: translateY(-1px);
-  border-color: var(--pf-gold-dark);
+  border-color: var(--my-gold-dark);
 }
 
 .racial-trait-icon-btn.selected {
   background: rgba(212,175,55,0.2);
-  border-color: var(--pf-gold-dark);
+  border-color: var(--my-gold-dark);
   box-shadow: 0 0 0 2px rgba(212,175,55,0.2);
 }
 

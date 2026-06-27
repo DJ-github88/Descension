@@ -10,7 +10,7 @@ import {
   faSkull,
   faInfoCircle
 } from '@fortawesome/free-solid-svg-icons';
-import WowWindow from '../../../windows/WowWindow';
+import MythrillWindow from '../../../windows/MythrillWindow';
 
 
 const SimpleFormulaHelp = ({ show, onClose, resourceType }) => {
@@ -120,7 +120,7 @@ const SimpleFormulaHelp = ({ show, onClose, resourceType }) => {
   const currentExamples = resourceType ? thematicExamples[resourceType] || [] : [];
 
   return (
-    <WowWindow
+    <MythrillWindow
       title={`${formatResourceName(resourceType)} Formula Variables`}
       isOpen={show}
       onClose={onClose}
@@ -186,7 +186,7 @@ const SimpleFormulaHelp = ({ show, onClose, resourceType }) => {
           </div>
         </div>
       </div>
-    </WowWindow>
+    </MythrillWindow>
   );
 };
 

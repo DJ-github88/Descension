@@ -3,38 +3,38 @@
 /* State Requirements Styling */
 .effect-input {
   width: 100%;
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-2) var(--pf-space-3);
-  color: var(--pf-text-primary);
-  font-size: var(--pf-text-sm);
-  margin-bottom: var(--pf-space-2);
-  font-family: var(--pf-font-ui);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-2) var(--my-space-3);
+  color: var(--my-text-primary);
+  font-size: var(--my-text-sm);
+  margin-bottom: var(--my-space-2);
+  font-family: var(--my-font-ui);
 }
 
 .effect-input:focus {
   outline: none;
-  border-color: var(--pf-gold);
+  border-color: var(--my-gold);
   box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.25);
 }
 
 .effect-config-group {
-  margin-bottom: var(--pf-space-4);
-  padding: var(--pf-space-3);
-  background: var(--pf-gradient-parchment-light);
-  border-radius: var(--pf-border-radius);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  box-shadow: var(--pf-shadow-sm);
+  margin-bottom: var(--my-space-4);
+  padding: var(--my-space-3);
+  background: var(--my-gradient-parchment-light);
+  border-radius: var(--my-border-radius);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .effect-config-group label {
   display: block;
-  margin-bottom: var(--pf-space-2);
-  color: var(--pf-text-primary);
-  font-size: var(--pf-text-sm);
-  font-weight: var(--pf-font-semibold);
-  font-family: var(--pf-font-ui);
+  margin-bottom: var(--my-space-2);
+  color: var(--my-text-primary);
+  font-size: var(--my-text-sm);
+  font-weight: var(--my-font-semibold);
+  font-family: var(--my-font-ui);
 }
 
 /* Dice threshold display */

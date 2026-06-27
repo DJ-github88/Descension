@@ -10,6 +10,7 @@ import characterSessionService from '../../services/firebase/characterSessionSer
 import characterMigrationService from '../../services/firebase/characterMigrationService';
 import localStorageManager from '../../utils/localStorageManager';
 import { getCharacterData, updateCharacterData, storeCharacterOffline } from '../../services/offlineService';
+import { getCustomBackgroundData } from '../../data/legacyDisciplineData';
 import { getEncumbranceState, getCurrentUserId, isGuestUser, getCharactersStorageKey, shouldUseFirebase, characterAutoSaveTimer, CHARACTER_AUTO_SAVE_DELAY, setCharacterAutoSaveTimer } from '../characterHelpers';
 
 export const createCoreSlice = (set, get) => ({
@@ -144,7 +145,6 @@ export const createCoreSlice = (set, get) => ({
 
                         // Compute backgroundDisplayName if missing
                         if (char.background && !char.backgroundDisplayName) {
-                            const { getCustomBackgroundData } = require('../../data/legacyDisciplineData');
                             const customBgData = getCustomBackgroundData(char.background.toLowerCase());
                             if (customBgData) {
                                 enriched.backgroundDisplayName = customBgData.name;
@@ -220,7 +220,6 @@ export const createCoreSlice = (set, get) => ({
 
                 // Compute backgroundDisplayName if missing
                 if (char.background && !char.backgroundDisplayName) {
-                    const { getCustomBackgroundData } = require('../../data/legacyDisciplineData');
                     const customBgData = getCustomBackgroundData(char.background.toLowerCase());
                     if (customBgData) {
                         enriched.backgroundDisplayName = customBgData.name;
@@ -845,7 +844,6 @@ export const createCoreSlice = (set, get) => ({
                         let backgroundDisplayName = '';
                         if (character.background) {
                             // Only check custom backgrounds (Mystic, Zealot, Trickster, Harrow, Arcanist, Hexer, Reaver, Mercenary, Sentinel)
-                            const { getCustomBackgroundData } = require('../../data/legacyDisciplineData');
                             const customBgData = getCustomBackgroundData(character.background.toLowerCase());
                             if (customBgData) {
                                 backgroundDisplayName = customBgData.name;

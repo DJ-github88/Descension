@@ -75,15 +75,15 @@
 }
 
 .toggle-button {
-  background: var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
-  border: var(--pf-border-width, 2px) solid var(--pf-brown-medium, #8B4513);
-  color: var(--pf-text-primary, #2d1810);
+  background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+  border: var(--my-border-width, 2px) solid var(--my-brown-medium, #8B4513);
+  color: var(--my-text-primary, #2d1810);
   padding: 6px 12px;
-  border-radius: var(--pf-border-radius, 8px);
+  border-radius: var(--my-border-radius, 8px);
   cursor: pointer;
   font-size: 14px;
-  font-family: var(--pf-font-ui, 'Crimson Text', serif);
-  transition: all var(--pf-transition-normal, 0.25s ease);
+  font-family: var(--my-font-ui, 'Crimson Text', serif);
+  transition: all var(--my-transition-normal, 0.25s ease);
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
 }
 
@@ -99,8 +99,8 @@
 }
 
 .toggle-button:hover {
-  background: var(--pf-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
-  border-color: var(--pf-gold, #d4af37);
+  background: var(--my-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
+  border-color: var(--my-gold, #d4af37);
   transform: translateY(-1px);
 }
 

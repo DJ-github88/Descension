@@ -1,6 +1,7 @@
 import { getStore } from './storeRegistry';
 import { create } from "zustand";
 import { calculateEffectiveMovementSpeed } from "../utils/conditionUtils";
+import { processTurnBasedCooldowns } from "../components/spellcrafting-wizard/core/mechanics/cooldownSystem";
 
 const useCombatStore = create((set, get) => ({
     // Combat state
@@ -403,7 +404,6 @@ const useCombatStore = create((set, get) => ({
 
             try {
                 if (currentCombatant) {
-                    const { processTurnBasedCooldowns } = require('../components/spellcrafting-wizard/core/mechanics/cooldownSystem');
                     processTurnBasedCooldowns();
                 }
             } catch (error) {

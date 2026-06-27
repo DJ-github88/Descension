@@ -11,7 +11,7 @@ import '../../styles/wow-window.css';
 import '../../styles/draggable-window.css';
 import 'react-resizable/css/styles.css';
 
-const WowWindow = forwardRef((props, ref) => {
+const MythrillWindow = forwardRef((props, ref) => {
     const {
         title,
         children,
@@ -53,6 +53,15 @@ const WowWindow = forwardRef((props, ref) => {
     const registerWindow = useWindowManagerStore(state => state.registerWindow);
     const bringToFront = useWindowManagerStore(state => state.bringToFront);
     const unregisterWindow = useWindowManagerStore(state => state.unregisterWindow);
+    const layoutVersion = useWindowManagerStore(state => state.layoutVersion);
+
+    // Compute a cascade offset once on mount so successive windows don't pile
+    // at the same (x, y). Centered windows skip this (they self-position).
+    const cascadedPosition = useState(() => {
+        if (centered) return defaultPosition;
+        const offset = useWindowManagerStore.getState().getCascadeOffset();
+        return { x: defaultPosition.x + offset.x, y: defaultPosition.y + offset.y };
+    })[0];
 
     // State for window size
     const [windowSize, setWindowSize] = useState({
@@ -333,7 +342,7 @@ const WowWindow = forwardRef((props, ref) => {
 
     // Safety check - don't render if no portal target available
     if (!portalTarget) {
-        console.error('WowWindow: No portal target available, cannot render');
+        console.error('MythrillWindow: No portal target available, cannot render');
         return null;
     }
 
@@ -350,7 +359,7 @@ const WowWindow = forwardRef((props, ref) => {
         <DraggableWindow
             ref={draggableRef}
             isOpen={isOpen}
-            defaultPosition={defaultPosition}
+            defaultPosition={cascadedPosition}
             defaultSize={windowSize}
             centered={centered}
             bounds={bounds}
@@ -359,6 +368,7 @@ const WowWindow = forwardRef((props, ref) => {
             onDragStart={handleDragStart}
             onDragStop={handleDragStop}
             className={isResizing ? 'resizing' : ''}
+            resetSignal={layoutVersion}
         >
             <Resizable
                 width={windowSize.width}
@@ -488,6 +498,6 @@ const WowWindow = forwardRef((props, ref) => {
 });
 
 // Add display name to fix React warning about missing static flag
-WowWindow.displayName = 'WowWindow';
+MythrillWindow.displayName = 'MythrillWindow';
 
-export default WowWindow;
+export default MythrillWindow;

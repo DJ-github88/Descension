@@ -3,43 +3,43 @@
 
 /* Core Pathfinder variables for recipe wizard */
 :root {
-  --pf-parchment-light: #f8f4e6;
-  --pf-parchment: #ede4d3;
-  --pf-parchment-dark: #e8dcc6;
-  --pf-brown-darkest: #2d1810;
-  --pf-brown-dark: #5a1e12;
-  --pf-brown-medium: #8B4513;
-  --pf-brown-light: #a08c70;
-  --pf-brown-lighter: #c4a373;
-  --pf-gold: #d4af37;
-  --pf-gold-light: #f4d03f;
-  --pf-gold-dark: #b8860b;
-  --pf-text-primary: #5a1e12;
-  --pf-text-secondary: #5a1e12;
-  --pf-text-muted: #8B4513;
-  --pf-text-on-dark: #f8f4e6;
-  --pf-gradient-parchment: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%);
-  --pf-gradient-header: linear-gradient(135deg, #c4a373 0%, #a08c70 50%, #8b7355 100%);
-  --pf-gradient-button: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%);
-  --pf-gradient-button-hover: linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%);
-  --pf-gradient-gold: linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%);
-  --pf-border-radius: 8px;
-  --pf-border-radius-lg: 12px;
-  --pf-space-1: 4px;
-  --pf-space-2: 8px;
-  --pf-space-3: 12px;
-  --pf-space-4: 16px;
-  --pf-space-5: 20px;
-  --pf-space-6: 24px;
-  --pf-space-8: 32px;
-  --pf-transition-normal: 0.25s ease;
+  --my-parchment-light: #f8f4e6;
+  --my-parchment: #ede4d3;
+  --my-parchment-dark: #e8dcc6;
+  --my-brown-darkest: #2d1810;
+  --my-brown-dark: #5a1e12;
+  --my-brown-medium: #8B4513;
+  --my-brown-light: #a08c70;
+  --my-brown-lighter: #c4a373;
+  --my-gold: #d4af37;
+  --my-gold-light: #f4d03f;
+  --my-gold-dark: #b8860b;
+  --my-text-primary: #5a1e12;
+  --my-text-secondary: #5a1e12;
+  --my-text-muted: #8B4513;
+  --my-text-on-dark: #f8f4e6;
+  --my-gradient-parchment: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%);
+  --my-gradient-header: linear-gradient(135deg, #c4a373 0%, #a08c70 50%, #8b7355 100%);
+  --my-gradient-button: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%);
+  --my-gradient-button-hover: linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%);
+  --my-gradient-gold: linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%);
+  --my-border-radius: 8px;
+  --my-border-radius-lg: 12px;
+  --my-space-1: 4px;
+  --my-space-2: 8px;
+  --my-space-3: 12px;
+  --my-space-4: 16px;
+  --my-space-5: 20px;
+  --my-space-6: 24px;
+  --my-space-8: 32px;
+  --my-transition-normal: 0.25s ease;
 }
 
 /* ===== RECIPE WIZARD CONTAINER ===== */
 
 .recipe-wizard.spellbook-wizard-layout {
-  background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
-  border: 3px solid var(--pf-brown-light, #a08c70) !important;
+  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
+  border: 3px solid var(--my-brown-light, #a08c70) !important;
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.4),
     inset 0 2px 0 rgba(255, 255, 255, 0.7),
@@ -47,7 +47,7 @@
     0 0 0 1px rgba(139, 69, 19, 0.3),
     0 0 20px rgba(139, 69, 19, 0.15) !important;
   font-family: 'Cinzel', 'Times New Roman', serif !important;
-  color: var(--pf-text-primary, #2d1810) !important;
+  color: var(--my-text-primary, #2d1810) !important;
   overflow: hidden !important;
 }
 
@@ -77,7 +77,7 @@
   flex: 1 !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
-  padding: var(--pf-space-5, 20px) !important;
+  padding: var(--my-space-5, 20px) !important;
   background: transparent !important;
   min-height: 0 !important; /* Important for flex scrolling */
 }
@@ -88,18 +88,18 @@
 }
 
 .recipe-wizard .wizard-main-content::-webkit-scrollbar-track {
-  background: var(--pf-parchment-dark, #e8dcc6) !important;
+  background: var(--my-parchment-dark, #e8dcc6) !important;
   border-radius: 4px !important;
 }
 
 .recipe-wizard .wizard-main-content::-webkit-scrollbar-thumb {
-  background: var(--pf-brown-light, #a08c70) !important;
+  background: var(--my-brown-light, #a08c70) !important;
   border-radius: 4px !important;
   transition: background 0.3s ease !important;
 }
 
 .recipe-wizard .wizard-main-content::-webkit-scrollbar-thumb:hover {
-  background: var(--pf-brown-medium, #8B4513) !important;
+  background: var(--my-brown-medium, #8B4513) !important;
 }
 
 /* Step content container - SIMPLIFIED */
@@ -154,9 +154,9 @@
 
 /* ENHANCED FOOTER STYLING */
 .recipe-wizard .recipe-wizard-footer {
-  background: linear-gradient(135deg, var(--pf-parchment-dark, #e8dcc6) 0%, var(--pf-parchment-light, #f8f4e6) 100%) !important;
-  border-top: 3px solid var(--pf-brown-light, #a08c70) !important;
-  padding: var(--pf-space-4, 16px) var(--pf-space-5, 20px) !important;
+  background: linear-gradient(135deg, var(--my-parchment-dark, #e8dcc6) 0%, var(--my-parchment-light, #f8f4e6) 100%) !important;
+  border-top: 3px solid var(--my-brown-light, #a08c70) !important;
+  padding: var(--my-space-4, 16px) var(--my-space-5, 20px) !important;
   box-shadow:
     0 -4px 12px rgba(0, 0, 0, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
@@ -167,19 +167,19 @@
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
-  gap: var(--pf-space-4, 16px) !important;
+  gap: var(--my-space-4, 16px) !important;
   max-width: 100% !important;
 }
 
 .recipe-wizard .wizard-nav-btn {
   display: flex !important;
   align-items: center !important;
-  gap: var(--pf-space-2, 8px) !important;
-  padding: var(--pf-space-3, 12px) var(--pf-space-4, 16px) !important;
-  background: linear-gradient(135deg, var(--pf-gradient-gold, #d4af37) 0%, var(--pf-gold-dark, #b8860b) 100%) !important;
-  color: var(--pf-brown-darkest, #2d1810) !important;
-  border: 2px solid var(--pf-gold-dark, #b8860b) !important;
-  border-radius: var(--pf-border-radius, 8px) !important;
+  gap: var(--my-space-2, 8px) !important;
+  padding: var(--my-space-3, 12px) var(--my-space-4, 16px) !important;
+  background: linear-gradient(135deg, var(--my-gradient-gold, #d4af37) 0%, var(--my-gold-dark, #b8860b) 100%) !important;
+  color: var(--my-brown-darkest, #2d1810) !important;
+  border: 2px solid var(--my-gold-dark, #b8860b) !important;
+  border-radius: var(--my-border-radius, 8px) !important;
   font-family: 'Cinzel', serif !important;
   font-weight: 700 !important;
   font-size: 14px !important;
@@ -196,8 +196,8 @@
 }
 
 .recipe-wizard .wizard-nav-btn:hover:not(:disabled) {
-  background: linear-gradient(135deg, var(--pf-gold-light, #f4d03f) 0%, var(--pf-gradient-gold, #d4af37) 100%) !important;
-  border-color: var(--pf-gradient-gold, #d4af37) !important;
+  background: linear-gradient(135deg, var(--my-gold-light, #f4d03f) 0%, var(--my-gradient-gold, #d4af37) 100%) !important;
+  border-color: var(--my-gradient-gold, #d4af37) !important;
   transform: translateY(-2px) !important;
   box-shadow:
     0 6px 12px rgba(0, 0, 0, 0.2),
@@ -212,9 +212,9 @@
 }
 
 .recipe-wizard .wizard-nav-btn:disabled {
-  background: var(--pf-brown-light, #a08c70) !important;
-  color: var(--pf-text-muted, #6c5a47) !important;
-  border-color: var(--pf-brown-medium, #8B4513) !important;
+  background: var(--my-brown-light, #a08c70) !important;
+  color: var(--my-text-muted, #6c5a47) !important;
+  border-color: var(--my-brown-medium, #8B4513) !important;
   cursor: not-allowed !important;
   opacity: 0.6 !important;
   transform: none !important;
@@ -247,14 +247,14 @@
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
-  gap: var(--pf-space-2, 8px) !important;
+  gap: var(--my-space-2, 8px) !important;
   flex: 1 !important;
   max-width: 400px !important;
 }
 
 .recipe-wizard .step-indicator-dots {
   display: flex !important;
-  gap: var(--pf-space-2, 8px) !important;
+  gap: var(--my-space-2, 8px) !important;
   align-items: center !important;
 }
 
@@ -262,15 +262,15 @@
   width: 12px !important;
   height: 12px !important;
   border-radius: 50% !important;
-  background: var(--pf-brown-light, #a08c70) !important;
-  border: 2px solid var(--pf-brown-medium, #8B4513) !important;
+  background: var(--my-brown-light, #a08c70) !important;
+  border: 2px solid var(--my-brown-medium, #8B4513) !important;
   cursor: pointer !important;
   transition: all 0.3s ease !important;
 }
 
 .recipe-wizard .step-dot.active {
-  background: var(--pf-gradient-gold, #d4af37) !important;
-  border-color: var(--pf-gold-dark, #b8860b) !important;
+  background: var(--my-gradient-gold, #d4af37) !important;
+  border-color: var(--my-gold-dark, #b8860b) !important;
   transform: scale(1.3) !important;
   box-shadow: 0 0 8px rgba(212, 175, 55, 0.5) !important;
 }
@@ -289,7 +289,7 @@
   font-family: 'Cinzel', serif !important;
   font-weight: 700 !important;
   font-size: 14px !important;
-  color: var(--pf-text-primary, #2d1810) !important;
+  color: var(--my-text-primary, #2d1810) !important;
   text-transform: uppercase !important;
   letter-spacing: 0.5px !important;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5) !important;
@@ -299,9 +299,9 @@
   display: block !important;
   font-family: 'Crimson Text', serif !important;
   font-size: 12px !important;
-  color: var(--pf-text-secondary, #6c5a47) !important;
+  color: var(--my-text-secondary, #6c5a47) !important;
   font-style: italic !important;
-  margin-top: var(--pf-space-1, 4px) !important;
+  margin-top: var(--my-space-1, 4px) !important;
 }
 
 /* Enhanced form elements for recipe wizard - COMPACT VERSION */
@@ -312,7 +312,7 @@
   width: 100% !important;
   display: flex !important;
   flex-direction: column !important;
-  gap: var(--pf-space-4, 16px) !important;
+  gap: var(--my-space-4, 16px) !important;
 }
 
 .recipe-wizard .spell-wizard-form-group {
@@ -324,7 +324,7 @@
 .recipe-wizard .form-row {
   display: grid !important;
   grid-template-columns: 1fr 1fr !important;
-  gap: var(--pf-space-4, 16px) !important;
+  gap: var(--my-space-4, 16px) !important;
   width: 100% !important;
 }
 
@@ -337,8 +337,8 @@
   font-family: 'Cinzel', serif !important;
   font-size: 13px !important;
   font-weight: 600 !important;
-  color: var(--pf-text-primary, #2d1810) !important;
-  margin-bottom: var(--pf-space-1, 4px) !important;
+  color: var(--my-text-primary, #2d1810) !important;
+  margin-bottom: var(--my-space-1, 4px) !important;
   text-transform: uppercase !important;
   letter-spacing: 0.5px !important;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5) !important;
@@ -349,13 +349,13 @@
 .recipe-wizard .wow-input,
 .recipe-wizard .wow-select {
   width: 100% !important;
-  padding: var(--pf-space-2, 8px) var(--pf-space-3, 12px) !important;
-  border: 2px solid var(--pf-brown-light, #a08c70) !important;
-  border-radius: var(--pf-border-radius, 8px) !important;
+  padding: var(--my-space-2, 8px) var(--my-space-3, 12px) !important;
+  border: 2px solid var(--my-brown-light, #a08c70) !important;
+  border-radius: var(--my-border-radius, 8px) !important;
   font-family: 'Crimson Text', serif !important;
   font-size: 13px !important;
-  color: var(--pf-text-primary, #2d1810) !important;
-  background: var(--pf-parchment-light, #f8f4e6) !important;
+  color: var(--my-text-primary, #2d1810) !important;
+  background: var(--my-parchment-light, #f8f4e6) !important;
   transition: all 0.25s ease !important;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1) !important;
 }
@@ -365,7 +365,7 @@
 .recipe-wizard .wow-input:focus,
 .recipe-wizard .wow-select:focus {
   outline: none !important;
-  border-color: var(--pf-gold, #d4af37) !important;
+  border-color: var(--my-gold, #d4af37) !important;
   box-shadow:
     inset 0 1px 3px rgba(0, 0, 0, 0.1),
     0 0 0 3px rgba(212, 175, 55, 0.2) !important;
@@ -392,18 +392,18 @@
 .recipe-wizard .items-grid {
   display: grid !important;
   grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)) !important;
-  gap: var(--pf-space-3, 12px) var(--pf-space-2, 8px) !important;
+  gap: var(--my-space-3, 12px) var(--my-space-2, 8px) !important;
   max-height: 400px !important;
   overflow-y: auto !important;
-  padding: var(--pf-space-4, 16px) !important;
-  border: 2px solid var(--pf-brown-light, #a08c70) !important;
-  border-radius: var(--pf-border-radius, 8px) !important;
-  background: var(--pf-gradient-parchment, #ede4d3) !important;
+  padding: var(--my-space-4, 16px) !important;
+  border: 2px solid var(--my-brown-light, #a08c70) !important;
+  border-radius: var(--my-border-radius, 8px) !important;
+  background: var(--my-gradient-parchment, #ede4d3) !important;
   box-shadow:
     inset 0 2px 4px rgba(0, 0, 0, 0.1),
     0 2px 8px rgba(0, 0, 0, 0.05) !important;
-  margin-top: var(--pf-space-5, 20px) !important;
-  margin-bottom: var(--pf-space-4, 16px) !important;
+  margin-top: var(--my-space-5, 20px) !important;
+  margin-bottom: var(--my-space-4, 16px) !important;
 }
 
 .recipe-wizard .item-card {
@@ -411,13 +411,13 @@
   flex-direction: column !important;
   align-items: center !important;
   justify-content: flex-start !important;
-  padding: var(--pf-space-3, 12px) var(--pf-space-2, 8px) !important;
-  background: var(--pf-parchment-light, #f8f4e6) !important;
-  border: 2px solid var(--pf-brown-light, #a08c70) !important;
-  border-radius: var(--pf-border-radius, 8px) !important;
+  padding: var(--my-space-3, 12px) var(--my-space-2, 8px) !important;
+  background: var(--my-parchment-light, #f8f4e6) !important;
+  border: 2px solid var(--my-brown-light, #a08c70) !important;
+  border-radius: var(--my-border-radius, 8px) !important;
   cursor: pointer !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  color: var(--pf-text-primary, #5a1e12) !important;
+  color: var(--my-text-primary, #5a1e12) !important;
   position: relative !important;
   overflow: hidden !important;
   height: auto !important;
@@ -444,8 +444,8 @@
   transform: translateY(-4px) !important;
   box-shadow:
     0 8px 24px rgba(0, 0, 0, 0.15),
-    0 0 0 1px var(--pf-gold, #d4af37) !important;
-  border-color: var(--pf-gold, #d4af37) !important;
+    0 0 0 1px var(--my-gold, #d4af37) !important;
+  border-color: var(--my-gold, #d4af37) !important;
 }
 
 .recipe-wizard .item-card:hover::before {
@@ -453,9 +453,9 @@
 }
 
 .recipe-wizard .item-card.selected {
-  border-color: var(--pf-gold, #d4af37) !important;
-  background: var(--pf-gold-light, #f4d03f) !important;
-  color: var(--pf-brown-darkest, #2d1810) !important;
+  border-color: var(--my-gold, #d4af37) !important;
+  background: var(--my-gold-light, #f4d03f) !important;
+  color: var(--my-brown-darkest, #2d1810) !important;
   box-shadow:
     0 0 20px rgba(212, 175, 55, 0.6),
     0 8px 24px rgba(0, 0, 0, 0.2) !important;
@@ -465,17 +465,17 @@
 .recipe-wizard .item-icon {
   width: 56px !important;
   height: 56px !important;
-  border: 2px solid var(--pf-brown-light, #a08c70) !important;
-  border-radius: var(--pf-border-radius, 8px) !important;
+  border: 2px solid var(--my-brown-light, #a08c70) !important;
+  border-radius: var(--my-border-radius, 8px) !important;
   overflow: hidden !important;
-  margin-bottom: var(--pf-space-2, 8px) !important;
+  margin-bottom: var(--my-space-2, 8px) !important;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
   transition: all 0.3s ease !important;
   flex-shrink: 0 !important;
 }
 
 .recipe-wizard .item-card:hover .item-icon {
-  border-color: var(--pf-gold, #d4af37) !important;
+  border-color: var(--my-gold, #d4af37) !important;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
 }
 
@@ -511,38 +511,38 @@
 /* ===== ENHANCED SELECTED MATERIALS ===== */
 
 .recipe-wizard .selected-materials {
-  margin-bottom: var(--pf-space-4, 16px) !important;
-  padding: var(--pf-space-3, 12px) !important;
-  background: var(--pf-gradient-parchment, #ede4d3) !important;
-  border: 2px solid var(--pf-brown-light, #a08c70) !important;
-  border-radius: var(--pf-border-radius, 8px) !important;
+  margin-bottom: var(--my-space-4, 16px) !important;
+  padding: var(--my-space-3, 12px) !important;
+  background: var(--my-gradient-parchment, #ede4d3) !important;
+  border: 2px solid var(--my-brown-light, #a08c70) !important;
+  border-radius: var(--my-border-radius, 8px) !important;
   box-shadow:
     0 4px 12px rgba(0, 0, 0, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
 }
 
 .recipe-wizard .selected-materials h4 {
-  color: var(--pf-text-primary, #2d1810) !important;
-  margin: 0 0 var(--pf-space-2, 8px) 0 !important;
+  color: var(--my-text-primary, #2d1810) !important;
+  margin: 0 0 var(--my-space-2, 8px) 0 !important;
   font-family: 'Cinzel', serif !important;
   font-size: 14px !important;
   font-weight: 700 !important;
   text-transform: uppercase !important;
   letter-spacing: 1px !important;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5) !important;
-  border-bottom: 2px solid var(--pf-brown-light, #a08c70) !important;
-  padding-bottom: var(--pf-space-1, 4px) !important;
+  border-bottom: 2px solid var(--my-brown-light, #a08c70) !important;
+  padding-bottom: var(--my-space-1, 4px) !important;
 }
 
 .recipe-wizard .selected-material {
   display: flex !important;
   align-items: center !important;
-  gap: var(--pf-space-2, 8px) !important;
-  padding: var(--pf-space-2, 8px) !important;
-  background: var(--pf-parchment-light, #f8f4e6) !important;
-  border: 1px solid var(--pf-brown-light, #a08c70) !important;
-  border-radius: var(--pf-border-radius, 8px) !important;
-  margin-bottom: var(--pf-space-2, 8px) !important;
+  gap: var(--my-space-2, 8px) !important;
+  padding: var(--my-space-2, 8px) !important;
+  background: var(--my-parchment-light, #f8f4e6) !important;
+  border: 1px solid var(--my-brown-light, #a08c70) !important;
+  border-radius: var(--my-border-radius, 8px) !important;
+  margin-bottom: var(--my-space-2, 8px) !important;
   transition: all 0.3s ease !important;
   position: relative !important;
   overflow: hidden !important;
@@ -562,8 +562,8 @@
 }
 
 .recipe-wizard .selected-material:hover {
-  background: var(--pf-parchment, #ede4d3) !important;
-  border-color: var(--pf-brown-medium, #8B4513) !important;
+  background: var(--my-parchment, #ede4d3) !important;
+  border-color: var(--my-brown-medium, #8B4513) !important;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
 }
 
@@ -574,8 +574,8 @@
 .recipe-wizard .material-icon {
   width: 32px !important;
   height: 32px !important;
-  border: 2px solid var(--pf-brown-light, #a08c70) !important;
-  border-radius: var(--pf-border-radius, 8px) !important;
+  border: 2px solid var(--my-brown-light, #a08c70) !important;
+  border-radius: var(--my-border-radius, 8px) !important;
   overflow: hidden !important;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
   flex-shrink: 0 !important;
@@ -589,7 +589,7 @@
 
 .recipe-wizard .material-name {
   flex: 1 !important;
-  color: var(--pf-text-primary, #2d1810) !important;
+  color: var(--my-text-primary, #2d1810) !important;
   font-weight: 600 !important;
   font-family: 'Cinzel', serif !important;
   font-size: 12px !important;
@@ -598,12 +598,12 @@
 
 .recipe-wizard .quantity-input {
   width: 100px !important; /* Increased from 60px for better visibility */
-  padding: var(--pf-space-2, 8px) !important; /* Increased padding for better usability */
-  border: 1px solid var(--pf-brown-light, #a08c70) !important;
+  padding: var(--my-space-2, 8px) !important; /* Increased padding for better usability */
+  border: 1px solid var(--my-brown-light, #a08c70) !important;
   border-radius: 4px !important;
   text-align: center !important;
-  background: var(--pf-parchment-light, #f8f4e6) !important;
-  color: var(--pf-text-primary, #2d1810) !important;
+  background: var(--my-parchment-light, #f8f4e6) !important;
+  color: var(--my-text-primary, #2d1810) !important;
   font-family: 'Crimson Text', serif !important;
   font-weight: 600 !important;
   font-size: 14px !important; /* Increased from 12px for better readability */
@@ -612,7 +612,7 @@
 
 .recipe-wizard .quantity-input:focus {
   outline: none !important;
-  border-color: var(--pf-gold, #d4af37) !important;
+  border-color: var(--my-gold, #d4af37) !important;
   box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2) !important;
 }
 
@@ -645,14 +645,14 @@
 .recipe-wizard .recipe-review {
   display: flex !important;
   flex-direction: column !important;
-  gap: var(--pf-space-6, 24px) !important;
+  gap: var(--my-space-6, 24px) !important;
 }
 
 .recipe-wizard .review-section {
-  padding: var(--pf-space-5, 20px) !important;
-  background: var(--pf-gradient-parchment, #ede4d3) !important;
-  border: 2px solid var(--pf-brown-light, #a08c70) !important;
-  border-radius: var(--pf-border-radius, 8px) !important;
+  padding: var(--my-space-5, 20px) !important;
+  background: var(--my-gradient-parchment, #ede4d3) !important;
+  border: 2px solid var(--my-brown-light, #a08c70) !important;
+  border-radius: var(--my-border-radius, 8px) !important;
   box-shadow:
     0 4px 12px rgba(0, 0, 0, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
@@ -672,23 +672,23 @@
 }
 
 .recipe-wizard .review-section h4 {
-  color: var(--pf-text-primary, #2d1810) !important;
-  margin: 0 0 var(--pf-space-4, 16px) 0 !important;
+  color: var(--my-text-primary, #2d1810) !important;
+  margin: 0 0 var(--my-space-4, 16px) 0 !important;
   font-family: 'Cinzel', serif !important;
   font-size: 18px !important;
   font-weight: 700 !important;
   text-transform: uppercase !important;
   letter-spacing: 1px !important;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5) !important;
-  border-bottom: 2px solid var(--pf-gold, #d4af37) !important;
-  padding-bottom: var(--pf-space-2, 8px) !important;
+  border-bottom: 2px solid var(--my-gold, #d4af37) !important;
+  padding-bottom: var(--my-space-2, 8px) !important;
   position: relative !important;
   z-index: 1 !important;
 }
 
 .recipe-wizard .review-section p {
-  margin: var(--pf-space-2, 8px) 0 !important;
-  color: var(--pf-text-secondary, #5a1e12) !important;
+  margin: var(--my-space-2, 8px) 0 !important;
+  color: var(--my-text-secondary, #5a1e12) !important;
   font-family: 'Crimson Text', serif !important;
   font-size: 14px !important;
   line-height: 1.5 !important;
@@ -700,12 +700,12 @@
 .recipe-wizard .material-review {
   display: flex !important;
   align-items: center !important;
-  gap: var(--pf-space-3, 12px) !important;
-  padding: var(--pf-space-3, 12px) !important;
-  background: var(--pf-parchment-light, #f8f4e6) !important;
-  border: 1px solid var(--pf-brown-light, #a08c70) !important;
-  border-radius: var(--pf-border-radius, 8px) !important;
-  margin-bottom: var(--pf-space-3, 12px) !important;
+  gap: var(--my-space-3, 12px) !important;
+  padding: var(--my-space-3, 12px) !important;
+  background: var(--my-parchment-light, #f8f4e6) !important;
+  border: 1px solid var(--my-brown-light, #a08c70) !important;
+  border-radius: var(--my-border-radius, 8px) !important;
+  margin-bottom: var(--my-space-3, 12px) !important;
   transition: all 0.3s ease !important;
   position: relative !important;
   z-index: 1 !important;
@@ -713,8 +713,8 @@
 
 .recipe-wizard .result-item:hover,
 .recipe-wizard .material-review:hover {
-  background: var(--pf-parchment, #ede4d3) !important;
-  border-color: var(--pf-brown-medium, #8B4513) !important;
+  background: var(--my-parchment, #ede4d3) !important;
+  border-color: var(--my-brown-medium, #8B4513) !important;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
 }
 
@@ -722,14 +722,14 @@
 .recipe-wizard .material-review img {
   width: 48px !important;
   height: 48px !important;
-  border: 2px solid var(--pf-brown-light, #a08c70) !important;
-  border-radius: var(--pf-border-radius, 8px) !important;
+  border: 2px solid var(--my-brown-light, #a08c70) !important;
+  border-radius: var(--my-border-radius, 8px) !important;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
 }
 
 .recipe-wizard .result-item span,
 .recipe-wizard .material-review span {
-  color: var(--pf-text-primary, #2d1810) !important;
+  color: var(--my-text-primary, #2d1810) !important;
   font-weight: 600 !important;
   font-family: 'Cinzel', serif !important;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5) !important;
@@ -739,14 +739,14 @@
 
 .recipe-wizard .search-input {
   width: 100% !important;
-  padding: var(--pf-space-3, 12px) var(--pf-space-4, 16px) !important;
-  border: 2px solid var(--pf-brown-light, #a08c70) !important;
-  border-radius: var(--pf-border-radius, 8px) !important;
-  background: var(--pf-parchment-light, #f8f4e6) !important;
-  color: var(--pf-text-primary, #2d1810) !important;
+  padding: var(--my-space-3, 12px) var(--my-space-4, 16px) !important;
+  border: 2px solid var(--my-brown-light, #a08c70) !important;
+  border-radius: var(--my-border-radius, 8px) !important;
+  background: var(--my-parchment-light, #f8f4e6) !important;
+  color: var(--my-text-primary, #2d1810) !important;
   font-size: 14px !important;
   font-family: 'Crimson Text', serif !important;
-  margin-bottom: var(--pf-space-4, 16px) !important;
+  margin-bottom: var(--my-space-4, 16px) !important;
   transition: all 0.3s ease !important;
   box-shadow:
     inset 0 2px 4px rgba(0, 0, 0, 0.1),
@@ -755,7 +755,7 @@
 
 .recipe-wizard .search-input:focus {
   outline: none !important;
-  border-color: var(--pf-gold, #d4af37) !important;
+  border-color: var(--my-gold, #d4af37) !important;
   box-shadow:
     inset 0 2px 4px rgba(0, 0, 0, 0.1),
     0 0 0 3px rgba(212, 175, 55, 0.2),
@@ -763,7 +763,7 @@
 }
 
 .recipe-wizard .search-input::placeholder {
-  color: var(--pf-text-muted, #8B4513) !important;
+  color: var(--my-text-muted, #8B4513) !important;
   opacity: 0.7 !important;
   font-style: italic !important;
 }
@@ -775,9 +775,9 @@
   display: inline-block !important;
   width: 24px !important;
   height: 24px !important;
-  border: 3px solid var(--pf-brown-light, #a08c70) !important;
+  border: 3px solid var(--my-brown-light, #a08c70) !important;
   border-radius: 50% !important;
-  border-top-color: var(--pf-gold, #d4af37) !important;
+  border-top-color: var(--my-gold, #d4af37) !important;
   animation: spin 1s ease-in-out infinite !important;
 }
 
@@ -788,8 +788,8 @@
 /* Empty states */
 .recipe-wizard .empty-state {
   text-align: center !important;
-  padding: var(--pf-space-8, 32px) !important;
-  color: var(--pf-text-muted, #8B4513) !important;
+  padding: var(--my-space-8, 32px) !important;
+  color: var(--my-text-muted, #8B4513) !important;
   font-family: 'Crimson Text', serif !important;
   font-style: italic !important;
   font-size: 16px !important;
@@ -799,7 +799,7 @@
 .recipe-wizard .validation-message {
   color: #dc3545 !important;
   font-size: 12px !important;
-  margin-top: var(--pf-space-1, 4px) !important;
+  margin-top: var(--my-space-1, 4px) !important;
   font-family: 'Crimson Text', serif !important;
   font-style: italic !important;
 }
@@ -820,7 +820,7 @@
 
 /* Focus ring for accessibility */
 .recipe-wizard *:focus {
-  outline: 2px solid var(--pf-gold, #d4af37) !important;
+  outline: 2px solid var(--my-gold, #d4af37) !important;
   outline-offset: 2px !important;
 }
 
@@ -835,12 +835,12 @@
 
   .recipe-wizard .items-grid {
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)) !important;
-    gap: var(--pf-space-3, 12px) !important;
-    padding: var(--pf-space-3, 12px) !important;
+    gap: var(--my-space-3, 12px) !important;
+    padding: var(--my-space-3, 12px) !important;
   }
 
   .recipe-wizard .item-card {
-    padding: var(--pf-space-3, 12px) !important;
+    padding: var(--my-space-3, 12px) !important;
   }
 
   .recipe-wizard .item-icon {
@@ -852,7 +852,7 @@
 @media (max-width: 480px) {
   .recipe-wizard .items-grid {
     grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)) !important;
-    gap: var(--pf-space-2, 8px) !important;
+    gap: var(--my-space-2, 8px) !important;
   }
 
   .recipe-wizard .item-icon {
@@ -869,9 +869,9 @@
 
 /* Ensure recipe wizard uses spellbook wizard styling */
 .recipe-wizard.spellbook-wizard-layout .wizard-footer {
-  background: var(--pf-gradient-header, linear-gradient(135deg, #c4a373 0%, #a08c70 50%, #8b7355 100%)) !important;
-  border-top: 3px solid var(--pf-brown-medium, #8B4513) !important;
-  padding: var(--pf-space-5, 20px) !important;
+  background: var(--my-gradient-header, linear-gradient(135deg, #c4a373 0%, #a08c70 50%, #8b7355 100%)) !important;
+  border-top: 3px solid var(--my-brown-medium, #8B4513) !important;
+  padding: var(--my-space-5, 20px) !important;
   box-shadow: 0 -4px 8px rgba(45, 24, 16, 0.2) !important;
 }
 
@@ -885,7 +885,7 @@
 
 /* Form group enhancements */
 .recipe-wizard .form-group {
-  margin-bottom: var(--pf-space-6, 24px) !important;
+  margin-bottom: var(--my-space-6, 24px) !important;
 }
 
 /* Removed duplicate .recipe-wizard .form-group label - using consolidated styles */
@@ -894,20 +894,20 @@
 .recipe-review {
     display: flex;
     flex-direction: column;
-    gap: var(--pf-space-5);
+    gap: var(--my-space-5);
 }
 
 .review-section {
-    padding: var(--pf-space-4);
-    background: var(--pf-gradient-parchment);
-    border: 2px solid var(--pf-brown-light);
-    border-radius: var(--pf-border-radius);
+    padding: var(--my-space-4);
+    background: var(--my-gradient-parchment);
+    border: 2px solid var(--my-brown-light);
+    border-radius: var(--my-border-radius);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .review-section h4 {
-    color: var(--pf-text-primary);
-    margin: 0 0 var(--pf-space-3) 0;
+    color: var(--my-text-primary);
+    margin: 0 0 var(--my-space-3) 0;
     font-family: 'Cinzel', serif;
     font-weight: 600;
     text-transform: uppercase;
@@ -915,8 +915,8 @@
 }
 
 .review-section p {
-    margin: var(--pf-space-2) 0;
-    color: var(--pf-text-secondary);
+    margin: var(--my-space-2) 0;
+    color: var(--my-text-secondary);
     font-family: 'Crimson Text', serif;
 }
 
@@ -924,41 +924,41 @@
 .material-review {
     display: flex;
     align-items: center;
-    gap: var(--pf-space-3);
-    padding: var(--pf-space-2);
-    background: var(--pf-parchment-light);
-    border: 1px solid var(--pf-brown-light);
-    border-radius: var(--pf-border-radius);
-    margin-bottom: var(--pf-space-2);
-    transition: all var(--pf-transition-normal);
+    gap: var(--my-space-3);
+    padding: var(--my-space-2);
+    background: var(--my-parchment-light);
+    border: 1px solid var(--my-brown-light);
+    border-radius: var(--my-border-radius);
+    margin-bottom: var(--my-space-2);
+    transition: all var(--my-transition-normal);
 }
 
 .result-item:hover,
 .material-review:hover {
-    background: var(--pf-parchment);
-    border-color: var(--pf-brown-medium);
+    background: var(--my-parchment);
+    border-color: var(--my-brown-medium);
 }
 
 .result-item img,
 .material-review img {
     width: 32px;
     height: 32px;
-    border: 1px solid var(--pf-brown-light);
+    border: 1px solid var(--my-brown-light);
     border-radius: 4px;
 }
 
 .result-item span,
 .material-review span {
-    color: var(--pf-text-primary);
+    color: var(--my-text-primary);
     font-weight: bold;
     font-family: 'Crimson Text', serif;
 }
 
 /* Wizard Footer */
 .wizard-footer {
-    padding: var(--pf-space-5);
-    background: var(--pf-gradient-header);
-    border-top: 3px solid var(--pf-brown-medium);
+    padding: var(--my-space-5);
+    background: var(--my-gradient-header);
+    border-top: 3px solid var(--my-brown-medium);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -966,15 +966,15 @@
 }
 
 .wow-button {
-    background: var(--pf-gradient-button);
-    color: var(--pf-text-primary);
-    border: 2px solid var(--pf-brown-light);
-    padding: var(--pf-space-3) var(--pf-space-6);
-    border-radius: var(--pf-border-radius);
+    background: var(--my-gradient-button);
+    color: var(--my-text-primary);
+    border: 2px solid var(--my-brown-light);
+    padding: var(--my-space-3) var(--my-space-6);
+    border-radius: var(--my-border-radius);
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
-    transition: all var(--pf-transition-normal);
+    transition: all var(--my-transition-normal);
     font-family: 'Cinzel', serif;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -984,19 +984,19 @@
 }
 
 .wow-button:hover:not(:disabled) {
-    background: var(--pf-gradient-button-hover);
+    background: var(--my-gradient-button-hover);
     transform: translateY(-1px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .wow-button.primary {
-    background: var(--pf-gradient-gold);
-    color: var(--pf-brown-darkest);
-    border-color: var(--pf-gold-dark);
+    background: var(--my-gradient-gold);
+    color: var(--my-brown-darkest);
+    border-color: var(--my-gold-dark);
 }
 
 .wow-button.primary:hover:not(:disabled) {
-    background: var(--pf-gold-light);
+    background: var(--my-gold-light);
     box-shadow: 0 0 12px rgba(212, 175, 55, 0.3), 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
@@ -1010,18 +1010,18 @@
   font-family: 'Cinzel', serif !important;
   font-size: 20px !important;
   font-weight: bold !important;
-  color: var(--pf-text-primary, #2d1810) !important;
+  color: var(--my-text-primary, #2d1810) !important;
   text-align: center !important;
-  margin-bottom: var(--pf-space-3, 12px) !important;
-  padding-bottom: var(--pf-space-2, 8px) !important;
-  border-bottom: 1px solid var(--pf-brown-light, #a08c70) !important;
+  margin-bottom: var(--my-space-3, 12px) !important;
+  padding-bottom: var(--my-space-2, 8px) !important;
+  border-bottom: 1px solid var(--my-brown-light, #a08c70) !important;
 }
 
 .recipe-profession {
   font-size: 14px !important;
-  color: var(--pf-text-secondary, #5a1e12) !important;
+  color: var(--my-text-secondary, #5a1e12) !important;
   text-align: center !important;
-  margin-bottom: var(--pf-space-3, 12px) !important;
+  margin-bottom: var(--my-space-3, 12px) !important;
   font-style: italic !important;
 }
 
@@ -1029,32 +1029,32 @@
   font-family: 'Cinzel', serif !important;
   font-size: 14px !important;
   font-weight: bold !important;
-  color: var(--pf-text-primary, #2d1810) !important;
-  margin-bottom: var(--pf-space-2, 8px) !important;
-  margin-top: var(--pf-space-3, 12px) !important;
+  color: var(--my-text-primary, #2d1810) !important;
+  margin-bottom: var(--my-space-2, 8px) !important;
+  margin-top: var(--my-space-3, 12px) !important;
 }
 
 .recipe-result,
 .recipe-materials {
-  margin-bottom: var(--pf-space-3, 12px) !important;
+  margin-bottom: var(--my-space-3, 12px) !important;
 }
 
 .recipe-result-item,
 .recipe-material-item {
   display: flex !important;
   align-items: center !important;
-  gap: var(--pf-space-2, 8px) !important;
-  padding: var(--pf-space-2, 8px) !important;
+  gap: var(--my-space-2, 8px) !important;
+  padding: var(--my-space-2, 8px) !important;
   background: rgba(255, 255, 255, 0.3) !important;
-  border: 1px solid var(--pf-brown-light, #a08c70) !important;
-  border-radius: var(--pf-border-radius, 8px) !important;
-  margin-bottom: var(--pf-space-1, 4px) !important;
+  border: 1px solid var(--my-brown-light, #a08c70) !important;
+  border-radius: var(--my-border-radius, 8px) !important;
+  margin-bottom: var(--my-space-1, 4px) !important;
 }
 
 .recipe-item-icon {
   width: 32px !important;
   height: 32px !important;
-  border: 1px solid var(--pf-brown-light, #a08c70) !important;
+  border: 1px solid var(--my-brown-light, #a08c70) !important;
   border-radius: 4px !important;
   overflow: hidden !important;
   flex-shrink: 0 !important;
@@ -1074,7 +1074,7 @@
 .recipe-item-name {
   font-size: 13px !important;
   font-weight: 600 !important;
-  color: var(--pf-text-primary, #2d1810) !important;
+  color: var(--my-text-primary, #2d1810) !important;
   margin-bottom: 2px !important;
   white-space: nowrap !important;
   overflow: hidden !important;
@@ -1083,59 +1083,59 @@
 
 .recipe-item-quantity {
   font-size: 11px !important;
-  color: var(--pf-text-secondary, #5a1e12) !important;
+  color: var(--my-text-secondary, #5a1e12) !important;
   font-weight: bold !important;
 }
 
 .recipe-materials-list {
   display: flex !important;
   flex-direction: column !important;
-  gap: var(--pf-space-1, 4px) !important;
+  gap: var(--my-space-1, 4px) !important;
 }
 
 .recipe-description {
-  margin-top: var(--pf-space-3, 12px) !important;
-  padding-top: var(--pf-space-3, 12px) !important;
-  border-top: 1px solid var(--pf-brown-light, #a08c70) !important;
+  margin-top: var(--my-space-3, 12px) !important;
+  padding-top: var(--my-space-3, 12px) !important;
+  border-top: 1px solid var(--my-brown-light, #a08c70) !important;
 }
 
 .recipe-description-text {
   font-size: 12px !important;
   line-height: 1.4 !important;
-  color: var(--pf-text-secondary, #5a1e12) !important;
+  color: var(--my-text-secondary, #5a1e12) !important;
   font-style: italic !important;
 }
 
 .recipe-additional-info {
-  margin-top: var(--pf-space-3, 12px) !important;
-  padding-top: var(--pf-space-3, 12px) !important;
-  border-top: 1px solid var(--pf-brown-light, #a08c70) !important;
+  margin-top: var(--my-space-3, 12px) !important;
+  padding-top: var(--my-space-3, 12px) !important;
+  border-top: 1px solid var(--my-brown-light, #a08c70) !important;
 }
 
 .recipe-info-item {
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
-  margin-bottom: var(--pf-space-1, 4px) !important;
+  margin-bottom: var(--my-space-1, 4px) !important;
 }
 
 .recipe-info-label {
   font-size: 11px !important;
-  color: var(--pf-text-muted, #8B4513) !important;
+  color: var(--my-text-muted, #8B4513) !important;
 }
 
 .recipe-info-value {
   font-size: 11px !important;
   font-weight: bold !important;
-  color: var(--pf-text-primary, #2d1810) !important;
+  color: var(--my-text-primary, #2d1810) !important;
 }
 
 .wow-button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
     transform: none;
-    background: var(--pf-gradient-button);
-    color: var(--pf-text-muted);
+    background: var(--my-gradient-button);
+    color: var(--my-text-muted);
 }
 
 .wow-button.primary {

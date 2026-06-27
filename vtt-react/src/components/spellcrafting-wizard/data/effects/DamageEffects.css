@@ -254,28 +254,28 @@
 .card-examples-card,
 .coin-patterns-card,
 .coin-stats-card {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-1);
-  box-shadow: var(--pf-shadow-sm);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-1);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .category-title {
-  color: var(--pf-text-primary);
-  margin: 0 0 var(--pf-space-1) 0;
-  font-size: var(--pf-text-base);
+  color: var(--my-text-primary);
+  margin: 0 0 var(--my-space-1) 0;
+  font-size: var(--my-text-base);
   text-align: center;
-  text-shadow: var(--pf-text-shadow);
-  border-bottom: var(--pf-border-width) solid var(--pf-brown-light);
-  padding-bottom: var(--pf-space-1);
+  text-shadow: var(--my-text-shadow);
+  border-bottom: var(--my-border-width) solid var(--my-brown-light);
+  padding-bottom: var(--my-space-1);
 }
 
 /* Button Grids - Unified Spacing */
 .stat-buttons-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: var(--pf-space-1);
+  gap: var(--my-space-1);
 }
 
 .examples-grid,

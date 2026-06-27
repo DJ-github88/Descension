@@ -989,7 +989,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                                     className="resource-fill"
                                     style={{
                                         width: `${manaPercent}%`,
-                                        backgroundColor: 'var(--pf-mana)'
+                                        backgroundColor: 'var(--my-mana)'
                                     }}
                                 />
                                 <div className="resource-text">
@@ -1015,7 +1015,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                                     className="resource-fill"
                                     style={{
                                         width: `${apPercent}%`,
-                                        backgroundColor: 'var(--pf-health-low)'
+                                        backgroundColor: 'var(--my-health-low)'
                                     }}
                                 />
                                 <div className="resource-text">

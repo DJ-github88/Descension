@@ -8,9 +8,9 @@
   flex-direction: column !important;
   height: 100% !important;
   width: 100% !important;
-  background: var(--pf-gradient-parchment) !important;
-  font-family: var(--pf-font-body) !important;
-  color: var(--pf-text-primary) !important;
+  background: var(--my-gradient-parchment) !important;
+  font-family: var(--my-font-body) !important;
+  color: var(--my-text-primary) !important;
   overflow: hidden !important;
   padding: 0 !important;
   margin: 0 !important;
@@ -19,7 +19,7 @@
 .spellbook-wizard-layout .wizard-main-content {
   flex: 1 !important;
   overflow-y: auto !important;
-  background: var(--pf-gradient-parchment) !important;
+  background: var(--my-gradient-parchment) !important;
   display: flex !important;
   flex-direction: column !important;
   position: relative !important;
@@ -33,13 +33,13 @@
   left: 0 !important;
   right: 0 !important;
   z-index: 1000 !important;
-  background: var(--pf-gradient-parchment-dark) !important;
-  border-top: 2px solid var(--pf-brown-medium) !important;
+  background: var(--my-gradient-parchment-dark) !important;
+  border-top: 2px solid var(--my-brown-medium) !important;
   flex-shrink: 0 !important;
   box-shadow: 0 -2px 8px rgba(45, 24, 16, 0.1) !important;
   min-height: 120px !important;
   max-height: 140px !important;
-  padding: var(--pf-space-6) 0 var(--pf-space-3) 0 !important;
+  padding: var(--my-space-6) 0 var(--my-space-3) 0 !important;
   display: flex !important;
   flex-direction: column !important;
   justify-content: space-between !important;
@@ -56,7 +56,7 @@
     rgba(45, 24, 16, 0.95) 0%,
     rgba(30, 16, 10, 0.98) 50%,
     rgba(20, 10, 5, 1) 100%);
-  border: 1px solid var(--pf-brown-medium);
+  border: 1px solid var(--my-brown-medium);
   border-radius: 6px;
   margin: 0;
   overflow: visible;
@@ -101,8 +101,8 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: var(--pf-gradient-parchment-dark);
-  border-top: 1px solid var(--pf-brown-medium);
+  background: var(--my-gradient-parchment-dark);
+  border-top: 1px solid var(--my-brown-medium);
   box-shadow: 0 -2px 4px rgba(45, 24, 16, 0.1);
   z-index: 1000;
 }
@@ -147,12 +147,12 @@
     rgba(213, 203, 176, 0.9) 50%,
     rgba(160, 140, 112, 0.85) 100%
   ) !important;
-  color: var(--pf-brown-darkest) !important;
+  color: var(--my-brown-darkest) !important;
   border-radius: 50% !important;
-  font-family: var(--pf-font-display) !important;
-  font-size: var(--pf-text-sm) !important;
-  font-weight: var(--pf-font-bold) !important;
-  border: 2px solid var(--pf-brown-medium) !important;
+  font-family: var(--my-font-display) !important;
+  font-size: var(--my-text-sm) !important;
+  font-weight: var(--my-font-bold) !important;
+  border: 2px solid var(--my-brown-medium) !important;
   box-shadow:
     0 2px 4px rgba(0, 0, 0, 0.3),
     inset 0 1px 2px rgba(255, 255, 255, 0.4) !important;
@@ -171,14 +171,14 @@
     rgba(255, 215, 0, 0.95) 50%,
     rgba(212, 175, 55, 1) 100%
   ) !important;
-  color: var(--pf-brown-darkest) !important;
+  color: var(--my-brown-darkest) !important;
   border-color: rgba(212, 175, 55, 0.8) !important;
   box-shadow:
     0 4px 12px rgba(0, 0, 0, 0.4),
     0 0 20px rgba(212, 175, 55, 0.8),
     inset 0 2px 4px rgba(255, 255, 255, 0.6) !important;
   transform: translateX(-50%) scale(1.2) !important;
-  font-weight: var(--pf-font-bold) !important;
+  font-weight: var(--my-font-bold) !important;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
 }
 
@@ -186,68 +186,68 @@
 
 .spellbook-wizard-layout .wizard-nav-controls {
   display: flex !important;
-  gap: var(--pf-space-3) !important;
+  gap: var(--my-space-3) !important;
   align-items: center !important;
 }
 
 .spellbook-wizard-layout .wizard-nav-btn {
-  padding: var(--pf-space-3) var(--pf-space-6) !important;
-  border: 2px solid var(--pf-brown-medium) !important;
-  border-radius: var(--pf-border-radius) !important;
-  font-family: var(--pf-font-display) !important;
-  font-size: var(--pf-text-base) !important;
-  font-weight: var(--pf-font-semibold) !important;
+  padding: var(--my-space-3) var(--my-space-6) !important;
+  border: 2px solid var(--my-brown-medium) !important;
+  border-radius: var(--my-border-radius) !important;
+  font-family: var(--my-font-display) !important;
+  font-size: var(--my-text-base) !important;
+  font-weight: var(--my-font-semibold) !important;
   cursor: pointer !important;
-  transition: all var(--pf-transition-normal) !important;
+  transition: all var(--my-transition-normal) !important;
   text-transform: uppercase !important;
   letter-spacing: 0.5px !important;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5) !important;
-  box-shadow: var(--pf-shadow-sm) !important;
+  box-shadow: var(--my-shadow-sm) !important;
   min-width: 100px !important;
 }
 
 .spellbook-wizard-layout .wizard-nav-cancel {
-  background: var(--pf-gradient-button) !important;
-  color: var(--pf-text-secondary) !important;
+  background: var(--my-gradient-button) !important;
+  color: var(--my-text-secondary) !important;
 }
 
 .spellbook-wizard-layout .wizard-nav-cancel:hover {
-  background: var(--pf-gradient-button-hover) !important;
-  color: var(--pf-brown-dark) !important;
+  background: var(--my-gradient-button-hover) !important;
+  color: var(--my-brown-dark) !important;
   transform: translateY(-1px) !important;
-  box-shadow: var(--pf-shadow-md) !important;
+  box-shadow: var(--my-shadow-md) !important;
 }
 
 .spellbook-wizard-layout .wizard-nav-previous {
-  background: var(--pf-gradient-button) !important;
-  color: var(--pf-text-secondary) !important;
+  background: var(--my-gradient-button) !important;
+  color: var(--my-text-secondary) !important;
 }
 
 .spellbook-wizard-layout .wizard-nav-previous:hover:not(:disabled) {
-  background: var(--pf-gradient-button-hover) !important;
-  color: var(--pf-brown-dark) !important;
+  background: var(--my-gradient-button-hover) !important;
+  color: var(--my-brown-dark) !important;
   transform: translateY(-1px) !important;
-  box-shadow: var(--pf-shadow-md) !important;
+  box-shadow: var(--my-shadow-md) !important;
 }
 
 .spellbook-wizard-layout .wizard-nav-next {
-  background: var(--pf-gradient-gold) !important;
-  color: var(--pf-brown-darkest) !important;
-  border-color: var(--pf-gold-dark) !important;
+  background: var(--my-gradient-gold) !important;
+  color: var(--my-brown-darkest) !important;
+  border-color: var(--my-gold-dark) !important;
 }
 
 .spellbook-wizard-layout .wizard-nav-next:hover:not(:disabled) {
-  background: var(--pf-gold-light) !important;
+  background: var(--my-gold-light) !important;
   transform: translateY(-1px) !important;
-  box-shadow: var(--pf-shadow-glow) !important;
+  box-shadow: var(--my-shadow-glow) !important;
 }
 
 .spellbook-wizard-layout .wizard-nav-btn:disabled {
   opacity: 0.5 !important;
   cursor: not-allowed !important;
   transform: none !important;
-  background: var(--pf-gradient-parchment-dark) !important;
-  color: var(--pf-text-muted) !important;
+  background: var(--my-gradient-parchment-dark) !important;
+  color: var(--my-text-muted) !important;
 }
 
 /* ===== STEP INFO ===== */
@@ -268,11 +268,11 @@
   flex-direction: column !important;
   align-items: center !important;
   justify-content: center !important;
-  padding: var(--pf-space-8) !important;
-  color: var(--pf-text-muted) !important;
-  font-family: var(--pf-font-display) !important;
-  font-size: var(--pf-text-lg) !important;
-  background: var(--pf-gradient-parchment) !important;
+  padding: var(--my-space-8) !important;
+  color: var(--my-text-muted) !important;
+  font-family: var(--my-font-display) !important;
+  font-size: var(--my-text-lg) !important;
+  background: var(--my-gradient-parchment) !important;
 }
 
 /* ===== STEP LAYOUTS ===== */
@@ -292,9 +292,9 @@
 }
 
 .spellbook-wizard-layout .spell-wizard-step-header {
-  background: var(--pf-gradient-header) !important;
-  padding: var(--pf-space-5) var(--pf-space-6) !important;
-  border-bottom: 3px solid var(--pf-brown-medium) !important;
+  background: var(--my-gradient-header) !important;
+  padding: var(--my-space-5) var(--my-space-6) !important;
+  border-bottom: 3px solid var(--my-brown-medium) !important;
   margin: 0 !important;
   border-radius: 0 !important;
   box-shadow: 0 4px 8px rgba(45, 24, 16, 0.2) !important;
@@ -312,49 +312,49 @@
   background: linear-gradient(
     to right,
     transparent,
-    var(--pf-gold) 20%,
-    var(--pf-gold) 80%,
+    var(--my-gold) 20%,
+    var(--my-gold) 80%,
     transparent
   ) !important;
 }
 
 .spellbook-wizard-layout .spell-wizard-step-title h2 {
-  font-family: var(--pf-font-display) !important;
-  font-size: var(--pf-text-2xl) !important;
-  font-weight: var(--pf-font-bold) !important;
-  color: var(--pf-text-on-dark) !important;
+  font-family: var(--my-font-display) !important;
+  font-size: var(--my-text-2xl) !important;
+  font-weight: var(--my-font-bold) !important;
+  color: var(--my-text-on-dark) !important;
   margin: 0 !important;
   display: flex !important;
   align-items: center !important;
-  gap: var(--pf-space-3) !important;
+  gap: var(--my-space-3) !important;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5) !important;
 }
 
 .spellbook-wizard-layout .spell-wizard-step-number {
-  background: var(--pf-gold) !important;
-  color: var(--pf-brown-darkest) !important;
+  background: var(--my-gold) !important;
+  color: var(--my-brown-darkest) !important;
   width: 36px !important;
   height: 36px !important;
   border-radius: 50% !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  font-family: var(--pf-font-display) !important;
-  font-weight: var(--pf-font-bold) !important;
-  font-size: var(--pf-text-lg) !important;
-  border: 3px solid var(--pf-gold-dark) !important;
-  box-shadow: var(--pf-shadow-glow) !important;
+  font-family: var(--my-font-display) !important;
+  font-weight: var(--my-font-bold) !important;
+  font-size: var(--my-text-lg) !important;
+  border: 3px solid var(--my-gold-dark) !important;
+  box-shadow: var(--my-shadow-glow) !important;
 }
 
 .spellbook-wizard-layout .spell-wizard-step-content {
-  background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
+  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
   width: 100% !important;
   max-width: none !important;
   flex: 1 !important;
   overflow-y: auto !important;
   position: relative !important;
-  padding: var(--pf-space-6, 24px) !important;
-  padding-bottom: var(--pf-space-8, 32px) !important;
+  padding: var(--my-space-6, 24px) !important;
+  padding-bottom: var(--my-space-8, 32px) !important;
 }
 
 /* ===== FORM ELEMENTS ===== */
@@ -372,18 +372,18 @@
   overflow: visible !important;
   display: flex !important;
   flex-direction: column !important;
-  gap: var(--pf-space-4) !important;
+  gap: var(--my-space-4) !important;
   flex: 1 !important;
 }
 
 .spellbook-wizard-layout .spell-wizard-form-group {
-  margin-bottom: var(--pf-space-6) !important;
+  margin-bottom: var(--my-space-6) !important;
 }
 
 .spellbook-wizard-layout .spell-wizard-form-row {
   display: flex !important;
-  gap: var(--pf-space-6) !important;
-  margin-bottom: var(--pf-space-6) !important;
+  gap: var(--my-space-6) !important;
+  margin-bottom: var(--my-space-6) !important;
 }
 
 .spellbook-wizard-layout .spell-wizard-form-group-half {
@@ -392,11 +392,11 @@
 
 .spellbook-wizard-layout .spell-wizard-label {
   display: block !important;
-  font-family: var(--pf-font-display) !important;
-  font-size: var(--pf-text-base) !important;
-  font-weight: var(--pf-font-semibold) !important;
-  color: var(--pf-text-primary) !important;
-  margin-bottom: var(--pf-space-2) !important;
+  font-family: var(--my-font-display) !important;
+  font-size: var(--my-text-base) !important;
+  font-weight: var(--my-font-semibold) !important;
+  color: var(--my-text-primary) !important;
+  margin-bottom: var(--my-space-2) !important;
   text-transform: uppercase !important;
   letter-spacing: 0.5px !important;
 }
@@ -404,21 +404,21 @@
 .spellbook-wizard-layout .spell-wizard-input,
 .spellbook-wizard-layout .spell-wizard-textarea {
   width: 100% !important;
-  padding: var(--pf-space-3) !important;
-  border: 2px solid var(--pf-brown-light) !important;
-  border-radius: var(--pf-border-radius) !important;
-  font-family: var(--pf-font-body) !important;
-  font-size: var(--pf-text-base) !important;
-  color: var(--pf-text-primary) !important;
-  background: var(--pf-gradient-parchment) !important;
-  transition: all var(--pf-transition-normal) !important;
+  padding: var(--my-space-3) !important;
+  border: 2px solid var(--my-brown-light) !important;
+  border-radius: var(--my-border-radius) !important;
+  font-family: var(--my-font-body) !important;
+  font-size: var(--my-text-base) !important;
+  color: var(--my-text-primary) !important;
+  background: var(--my-gradient-parchment) !important;
+  transition: all var(--my-transition-normal) !important;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1) !important;
 }
 
 .spellbook-wizard-layout .spell-wizard-input:focus,
 .spellbook-wizard-layout .spell-wizard-textarea:focus {
   outline: none !important;
-  border-color: var(--pf-gold) !important;
+  border-color: var(--my-gold) !important;
   box-shadow:
     inset 0 1px 3px rgba(0, 0, 0, 0.1),
     0 0 0 3px rgba(218, 165, 32, 0.2) !important;
@@ -426,10 +426,10 @@
 
 .spellbook-wizard-layout .spell-wizard-help-text {
   display: block !important;
-  font-family: var(--pf-font-body) !important;
-  font-size: var(--pf-text-sm) !important;
-  color: var(--pf-text-muted) !important;
-  margin-top: var(--pf-space-2) !important;
+  font-family: var(--my-font-body) !important;
+  font-size: var(--my-text-sm) !important;
+  color: var(--my-text-muted) !important;
+  margin-top: var(--my-space-2) !important;
   font-style: italic !important;
 }
 
@@ -437,11 +437,11 @@
 /* Control effects in unified spell card stats section */
 
 .control-effects {
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-3);
-  margin-bottom: var(--pf-space-3);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-3);
+  margin-bottom: var(--my-space-3);
 }
 
 /* ===== PURIFICATION EFFECTS STYLING ===== */
@@ -450,40 +450,40 @@
 .purification-type-selection .card-selection-grid {
   display: grid !important;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
-  gap: var(--pf-space-4) !important;
-  margin-top: var(--pf-space-4) !important;
+  gap: var(--my-space-4) !important;
+  margin-top: var(--my-space-4) !important;
 }
 
 .purification-type-selection .icon-selection-card {
-  background: var(--pf-gradient-button) !important;
-  border: 2px solid var(--pf-brown-medium) !important;
-  border-radius: var(--pf-border-radius-lg) !important;
-  padding: var(--pf-space-4) !important;
+  background: var(--my-gradient-button) !important;
+  border: 2px solid var(--my-brown-medium) !important;
+  border-radius: var(--my-border-radius-lg) !important;
+  padding: var(--my-space-4) !important;
   cursor: pointer !important;
-  transition: all var(--pf-transition-normal) !important;
+  transition: all var(--my-transition-normal) !important;
   text-align: center !important;
   position: relative !important;
-  box-shadow: var(--pf-shadow-sm) !important;
+  box-shadow: var(--my-shadow-sm) !important;
   min-height: 120px !important;
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
   justify-content: center !important;
-  gap: var(--pf-space-2) !important;
+  gap: var(--my-space-2) !important;
 }
 
 .purification-type-selection .icon-selection-card:hover {
-  background: var(--pf-gradient-button-hover) !important;
-  border-color: var(--pf-gold) !important;
+  background: var(--my-gradient-button-hover) !important;
+  border-color: var(--my-gold) !important;
   transform: translateY(-2px) !important;
-  box-shadow: var(--pf-shadow-md) !important;
+  box-shadow: var(--my-shadow-md) !important;
 }
 
 .purification-type-selection .icon-selection-card.selected {
-  background: var(--pf-gradient-gold) !important;
-  border-color: var(--pf-gold-dark) !important;
-  color: var(--pf-brown-darkest) !important;
-  box-shadow: var(--pf-shadow-glow) !important;
+  background: var(--my-gradient-gold) !important;
+  border-color: var(--my-gold-dark) !important;
+  color: var(--my-brown-darkest) !important;
+  box-shadow: var(--my-shadow-glow) !important;
 }
 
 .purification-type-selection .icon-selection-card .icon {
@@ -494,83 +494,83 @@
 }
 
 .purification-type-selection .icon-selection-card h4 {
-  font-family: var(--pf-font-display) !important;
-  font-size: var(--pf-text-lg) !important;
-  font-weight: var(--pf-font-bold) !important;
-  color: var(--pf-text-primary) !important;
+  font-family: var(--my-font-display) !important;
+  font-size: var(--my-text-lg) !important;
+  font-weight: var(--my-font-bold) !important;
+  color: var(--my-text-primary) !important;
   margin: 0 !important;
   text-transform: uppercase !important;
   letter-spacing: 0.5px !important;
 }
 
 .purification-type-selection .icon-selection-card p {
-  font-family: var(--pf-font-body) !important;
-  font-size: var(--pf-text-sm) !important;
-  color: var(--pf-text-secondary) !important;
+  font-family: var(--my-font-body) !important;
+  font-size: var(--my-text-sm) !important;
+  color: var(--my-text-secondary) !important;
   margin: 0 !important;
   text-align: center !important;
   line-height: 1.4 !important;
 }
 
 .purification-type-selection .icon-selection-card.selected h4 {
-  color: var(--pf-brown-darkest) !important;
+  color: var(--my-brown-darkest) !important;
   text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5) !important;
 }
 
 .purification-type-selection .icon-selection-card.selected p {
-  color: var(--pf-brown-dark) !important;
+  color: var(--my-brown-dark) !important;
 }
 
 .control-effects-section {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
 }
 
 .control-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: var(--pf-space-2);
-  border-bottom: 1px solid var(--pf-brown-light);
+  padding-bottom: var(--my-space-2);
+  border-bottom: 1px solid var(--my-brown-light);
 }
 
 .control-label {
-  font-weight: var(--pf-font-weight-bold);
-  color: var(--pf-text-primary);
-  font-size: var(--pf-font-size-sm);
+  font-weight: var(--my-font-weight-bold);
+  color: var(--my-text-primary);
+  font-size: var(--my-font-size-sm);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .control-duration {
-  font-size: var(--pf-font-size-xs);
-  color: var(--pf-text-secondary);
+  font-size: var(--my-font-size-xs);
+  color: var(--my-text-secondary);
   font-style: italic;
 }
 
 .control-formula-container {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-1);
+  gap: var(--my-space-1);
 }
 
 .control-formula-line {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--pf-space-1);
+  gap: var(--my-space-1);
 }
 
 .control-effects-list {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--pf-space-1);
+  gap: var(--my-space-1);
 }
 
 .control-effects-list {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-1);
+  gap: var(--my-space-1);
   width: 100%;
 }
 
@@ -578,72 +578,72 @@
   display: flex;
   align-items: center;
   background: rgba(139, 69, 19, 0.1);
-  border: 1px solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius-sm);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  font-size: var(--pf-font-size-xs);
+  border: 1px solid var(--my-brown-light);
+  border-radius: var(--my-border-radius-sm);
+  padding: var(--my-space-1) var(--my-space-2);
+  font-size: var(--my-font-size-xs);
   width: 100%;
 }
 
 .control-effect-name {
   font-weight: bold;
-  color: var(--pf-brown-dark);
+  color: var(--my-brown-dark);
   text-shadow: 0 0 1px rgba(255, 255, 255, 0.6);
 }
 
 .control-effect-description {
-  color: var(--pf-brown-dark);
+  color: var(--my-brown-dark);
   font-style: italic;
   text-shadow: 0 0 1px rgba(255, 255, 255, 0.6);
 }
 
 .control-formula-value {
-  color: var(--pf-text-secondary);
+  color: var(--my-text-secondary);
   font-style: italic;
-  font-size: var(--pf-font-size-xs);
+  font-size: var(--my-font-size-xs);
 }
 
 .control-properties {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--pf-space-1);
-  padding-top: var(--pf-space-2);
-  border-top: 1px solid var(--pf-brown-light);
+  gap: var(--my-space-1);
+  padding-top: var(--my-space-2);
+  border-top: 1px solid var(--my-brown-light);
 }
 
 .control-property {
   display: inline-flex;
   align-items: center;
-  gap: var(--pf-space-1);
+  gap: var(--my-space-1);
   background: rgba(139, 69, 19, 0.05);
-  border: 1px solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius-sm);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  font-size: var(--pf-font-size-xs);
+  border: 1px solid var(--my-brown-light);
+  border-radius: var(--my-border-radius-sm);
+  padding: var(--my-space-1) var(--my-space-2);
+  font-size: var(--my-font-size-xs);
 }
 
 .control-property-text {
-  color: var(--pf-text-primary);
-  font-weight: var(--pf-font-weight-medium);
+  color: var(--my-text-primary);
+  font-weight: var(--my-font-weight-medium);
 }
 
 /* ===== RESURRECTION RESOLUTION STYLING ===== */
 /* Resolution method buttons for resurrection effects */
 
 .resurrection-resolution {
-  background: var(--pf-gradient-parchment-light) !important;
-  border: var(--pf-border-width) solid var(--pf-brown-light) !important;
-  border-radius: var(--pf-border-radius) !important;
-  padding: var(--pf-space-4) !important;
-  margin: var(--pf-space-3) 0 !important;
+  background: var(--my-gradient-parchment-light) !important;
+  border: var(--my-border-width) solid var(--my-brown-light) !important;
+  border-radius: var(--my-border-radius) !important;
+  padding: var(--my-space-4) !important;
+  margin: var(--my-space-3) 0 !important;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1) !important;
 }
 
 .resurrection-resolution .custom-config-row {
   display: flex !important;
   flex-direction: column !important;
-  gap: var(--pf-space-2) !important;
-  margin-bottom: var(--pf-space-3) !important;
+  gap: var(--my-space-2) !important;
+  margin-bottom: var(--my-space-3) !important;
 }
 
 .resurrection-resolution .custom-config-row:last-child {
@@ -651,18 +651,18 @@
 }
 
 .resurrection-resolution .custom-config-label {
-  font-family: var(--pf-font-display) !important;
-  font-size: var(--pf-text-sm) !important;
-  font-weight: var(--pf-font-semibold) !important;
-  color: var(--pf-text-primary) !important;
+  font-family: var(--my-font-display) !important;
+  font-size: var(--my-text-sm) !important;
+  font-weight: var(--my-font-semibold) !important;
+  color: var(--my-text-primary) !important;
   text-transform: uppercase !important;
   letter-spacing: 0.5px !important;
-  margin-bottom: var(--pf-space-1) !important;
+  margin-bottom: var(--my-space-1) !important;
 }
 
 .resurrection-resolution .resolution-options {
   display: flex !important;
-  gap: var(--pf-space-3) !important;
+  gap: var(--my-space-3) !important;
   flex-wrap: wrap !important;
 }
 
@@ -670,35 +670,35 @@
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  gap: var(--pf-space-2) !important;
-  padding: var(--pf-space-2) var(--pf-space-4) !important;
-  background: var(--pf-gradient-button) !important;
-  border: 2px solid var(--pf-brown-medium) !important;
-  border-radius: var(--pf-border-radius) !important;
-  color: var(--pf-text-primary) !important;
+  gap: var(--my-space-2) !important;
+  padding: var(--my-space-2) var(--my-space-4) !important;
+  background: var(--my-gradient-button) !important;
+  border: 2px solid var(--my-brown-medium) !important;
+  border-radius: var(--my-border-radius) !important;
+  color: var(--my-text-primary) !important;
   cursor: pointer !important;
-  transition: all var(--pf-transition-normal) !important;
-  font-family: var(--pf-font-display) !important;
-  font-size: var(--pf-text-sm) !important;
-  font-weight: var(--pf-font-semibold) !important;
+  transition: all var(--my-transition-normal) !important;
+  font-family: var(--my-font-display) !important;
+  font-size: var(--my-text-sm) !important;
+  font-weight: var(--my-font-semibold) !important;
   text-transform: uppercase !important;
   letter-spacing: 0.5px !important;
   min-width: 80px !important;
-  box-shadow: var(--pf-shadow-sm) !important;
+  box-shadow: var(--my-shadow-sm) !important;
 }
 
 .resurrection-resolution .resolution-option:hover {
-  background: var(--pf-gradient-button-hover) !important;
-  border-color: var(--pf-gold) !important;
+  background: var(--my-gradient-button-hover) !important;
+  border-color: var(--my-gold) !important;
   transform: translateY(-1px) !important;
-  box-shadow: var(--pf-shadow-md) !important;
+  box-shadow: var(--my-shadow-md) !important;
 }
 
 .resurrection-resolution .resolution-option.active {
-  background: var(--pf-gradient-gold) !important;
-  border-color: var(--pf-gold-dark) !important;
-  color: var(--pf-brown-darkest) !important;
-  box-shadow: var(--pf-shadow-glow) !important;
+  background: var(--my-gradient-gold) !important;
+  border-color: var(--my-gold-dark) !important;
+  color: var(--my-brown-darkest) !important;
+  box-shadow: var(--my-shadow-glow) !important;
   text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5) !important;
 }
 
@@ -709,99 +709,99 @@
 
 .resurrection-resolution .formula-input {
   width: 100% !important;
-  padding: var(--pf-space-3) !important;
-  border: 2px solid var(--pf-brown-light) !important;
-  border-radius: var(--pf-border-radius) !important;
-  font-family: var(--pf-font-body) !important;
-  font-size: var(--pf-text-base) !important;
-  color: var(--pf-text-primary) !important;
-  background: var(--pf-gradient-parchment) !important;
-  transition: all var(--pf-transition-normal) !important;
+  padding: var(--my-space-3) !important;
+  border: 2px solid var(--my-brown-light) !important;
+  border-radius: var(--my-border-radius) !important;
+  font-family: var(--my-font-body) !important;
+  font-size: var(--my-text-base) !important;
+  color: var(--my-text-primary) !important;
+  background: var(--my-gradient-parchment) !important;
+  transition: all var(--my-transition-normal) !important;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1) !important;
 }
 
 .resurrection-resolution .formula-input:focus {
   outline: none !important;
-  border-color: var(--pf-gold) !important;
+  border-color: var(--my-gold) !important;
   box-shadow:
     inset 0 1px 3px rgba(0, 0, 0, 0.1),
     0 0 0 3px rgba(218, 165, 32, 0.2) !important;
 }
 
 .resurrection-resolution .formula-input::placeholder {
-  color: var(--pf-text-muted) !important;
+  color: var(--my-text-muted) !important;
   font-style: italic !important;
 }
 
 /* Formula examples styling */
 .resurrection-resolution .formula-examples {
-  margin-top: var(--pf-space-4) !important;
+  margin-top: var(--my-space-4) !important;
 }
 
 .resurrection-resolution .formula-examples h4 {
-  font-family: var(--pf-font-display) !important;
-  font-size: var(--pf-text-base) !important;
-  font-weight: var(--pf-font-semibold) !important;
-  color: var(--pf-text-primary) !important;
+  font-family: var(--my-font-display) !important;
+  font-size: var(--my-text-base) !important;
+  font-weight: var(--my-font-semibold) !important;
+  color: var(--my-text-primary) !important;
   text-transform: uppercase !important;
   letter-spacing: 0.5px !important;
-  margin: 0 0 var(--pf-space-3) 0 !important;
-  border-bottom: 1px solid var(--pf-brown-light) !important;
-  padding-bottom: var(--pf-space-2) !important;
+  margin: 0 0 var(--my-space-3) 0 !important;
+  border-bottom: 1px solid var(--my-brown-light) !important;
+  padding-bottom: var(--my-space-2) !important;
 }
 
 .resurrection-resolution .formula-examples-grid {
   display: grid !important;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
-  gap: var(--pf-space-3) !important;
+  gap: var(--my-space-3) !important;
 }
 
 .resurrection-resolution .formula-example {
-  background: var(--pf-gradient-button) !important;
-  border: 2px solid var(--pf-brown-medium) !important;
-  border-radius: var(--pf-border-radius) !important;
-  padding: var(--pf-space-3) !important;
+  background: var(--my-gradient-button) !important;
+  border: 2px solid var(--my-brown-medium) !important;
+  border-radius: var(--my-border-radius) !important;
+  padding: var(--my-space-3) !important;
   cursor: pointer !important;
-  transition: all var(--pf-transition-normal) !important;
-  box-shadow: var(--pf-shadow-sm) !important;
+  transition: all var(--my-transition-normal) !important;
+  box-shadow: var(--my-shadow-sm) !important;
   position: relative !important;
 }
 
 .resurrection-resolution .formula-example:hover {
-  background: var(--pf-gradient-button-hover) !important;
-  border-color: var(--pf-gold) !important;
+  background: var(--my-gradient-button-hover) !important;
+  border-color: var(--my-gold) !important;
   transform: translateY(-2px) !important;
-  box-shadow: var(--pf-shadow-md) !important;
+  box-shadow: var(--my-shadow-md) !important;
 }
 
 .resurrection-resolution .formula-example-name {
-  font-family: var(--pf-font-display) !important;
-  font-size: var(--pf-text-sm) !important;
-  font-weight: var(--pf-font-bold) !important;
-  color: var(--pf-text-primary) !important;
+  font-family: var(--my-font-display) !important;
+  font-size: var(--my-text-sm) !important;
+  font-weight: var(--my-font-bold) !important;
+  color: var(--my-text-primary) !important;
   text-transform: uppercase !important;
   letter-spacing: 0.5px !important;
-  margin-bottom: var(--pf-space-1) !important;
+  margin-bottom: var(--my-space-1) !important;
 }
 
 .resurrection-resolution .formula-example-formula {
-  font-family: var(--pf-font-mono) !important;
-  font-size: var(--pf-text-base) !important;
-  font-weight: var(--pf-font-semibold) !important;
-  color: var(--pf-gold-dark) !important;
+  font-family: var(--my-font-mono) !important;
+  font-size: var(--my-text-base) !important;
+  font-weight: var(--my-font-semibold) !important;
+  color: var(--my-gold-dark) !important;
   background: rgba(139, 69, 19, 0.1) !important;
-  border: 1px solid var(--pf-brown-light) !important;
-  border-radius: var(--pf-border-radius-sm) !important;
-  padding: var(--pf-space-1) var(--pf-space-2) !important;
-  margin-bottom: var(--pf-space-2) !important;
+  border: 1px solid var(--my-brown-light) !important;
+  border-radius: var(--my-border-radius-sm) !important;
+  padding: var(--my-space-1) var(--my-space-2) !important;
+  margin-bottom: var(--my-space-2) !important;
   text-align: center !important;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1) !important;
 }
 
 .resurrection-resolution .formula-example-description {
-  font-family: var(--pf-font-body) !important;
-  font-size: var(--pf-text-xs) !important;
-  color: var(--pf-text-secondary) !important;
+  font-family: var(--my-font-body) !important;
+  font-size: var(--my-text-xs) !important;
+  color: var(--my-text-secondary) !important;
   line-height: 1.4 !important;
   font-style: italic !important;
 }
@@ -818,11 +818,11 @@
 }
 
 .purification-effects {
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-3);
-  margin-bottom: var(--pf-space-3);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-3);
+  margin-bottom: var(--my-space-3);
   width: 100%;
   display: block;
 }
@@ -830,28 +830,28 @@
 .purification-effects-section {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
 }
 
 .purification-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: var(--pf-space-2);
-  border-bottom: 1px solid var(--pf-brown-light);
+  padding-bottom: var(--my-space-2);
+  border-bottom: 1px solid var(--my-brown-light);
 }
 
 .purification-label {
-  font-weight: var(--pf-font-weight-bold);
-  color: var(--pf-text-primary);
-  font-size: var(--pf-font-size-sm);
+  font-weight: var(--my-font-weight-bold);
+  color: var(--my-text-primary);
+  font-size: var(--my-font-size-sm);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .purification-type {
-  font-size: var(--pf-font-size-xs);
-  color: var(--pf-text-secondary);
+  font-size: var(--my-font-size-xs);
+  color: var(--my-text-secondary);
   font-style: italic;
   text-transform: capitalize;
 }
@@ -859,19 +859,19 @@
 .purification-formula-container {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-1);
+  gap: var(--my-space-1);
 }
 
 .purification-formula-line {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--pf-space-1);
+  gap: var(--my-space-1);
 }
 
 .purification-effects-list {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-1);
+  gap: var(--my-space-1);
   width: 100%;
 }
 
@@ -885,48 +885,48 @@
   display: flex;
   align-items: center;
   background: rgba(139, 69, 19, 0.1);
-  border: 1px solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius-sm);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  font-size: var(--pf-font-size-xs);
+  border: 1px solid var(--my-brown-light);
+  border-radius: var(--my-border-radius-sm);
+  padding: var(--my-space-1) var(--my-space-2);
+  font-size: var(--my-font-size-xs);
   width: 100%;
 }
 
 .purification-effect-name {
   font-weight: bold;
-  color: var(--pf-brown-dark);
+  color: var(--my-brown-dark);
   text-shadow: 0 0 1px rgba(255, 255, 255, 0.6);
 }
 
 .purification-effect-description {
-  color: var(--pf-brown-dark);
+  color: var(--my-brown-dark);
   font-style: italic;
   text-shadow: 0 0 1px rgba(255, 255, 255, 0.6);
   line-height: 1.4;
 }
 
 .purification-effect-details {
-  margin-top: var(--pf-space-1);
-  padding-left: var(--pf-space-2);
+  margin-top: var(--my-space-1);
+  padding-left: var(--my-space-2);
 }
 
 .purification-effect-flavor {
-  color: var(--pf-text-secondary);
+  color: var(--my-text-secondary);
   font-style: italic;
-  font-size: var(--pf-font-size-xs);
+  font-size: var(--my-font-size-xs);
   line-height: 1.3;
 }
 
 .purification-effect-mechanics {
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-font-size-xs);
+  color: var(--my-text-secondary);
+  font-size: var(--my-font-size-xs);
   line-height: 1.3;
 }
 
 .purification-formula-value {
-  color: var(--pf-text-secondary);
+  color: var(--my-text-secondary);
   font-style: italic;
-  font-size: var(--pf-font-size-xs);
+  font-size: var(--my-font-size-xs);
 }
 
 /* ===== PROGRESSIVE STAGES & TOGGLE IMPROVEMENTS ===== */
@@ -934,24 +934,24 @@
 
 /* Progressive Formula Section */
 .progressive-formula {
-  background: var(--pf-gradient-parchment-light) !important;
-  border: var(--pf-border-width) solid var(--pf-brown-light) !important;
-  border-radius: var(--pf-border-radius) !important;
-  padding: var(--pf-space-4) !important;
-  margin: var(--pf-space-3) 0 !important;
+  background: var(--my-gradient-parchment-light) !important;
+  border: var(--my-border-width) solid var(--my-brown-light) !important;
+  border-radius: var(--my-border-radius) !important;
+  padding: var(--my-space-4) !important;
+  margin: var(--my-space-3) 0 !important;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1) !important;
 }
 
 .progressive-formula h4 {
-  font-family: var(--pf-font-display) !important;
-  font-size: var(--pf-text-lg) !important;
-  font-weight: var(--pf-font-bold) !important;
-  color: var(--pf-text-primary) !important;
+  font-family: var(--my-font-display) !important;
+  font-size: var(--my-text-lg) !important;
+  font-weight: var(--my-font-bold) !important;
+  color: var(--my-text-primary) !important;
   text-transform: uppercase !important;
   letter-spacing: 0.5px !important;
-  margin: 0 0 var(--pf-space-3) 0 !important;
-  border-bottom: 1px solid var(--pf-brown-light) !important;
-  padding-bottom: var(--pf-space-2) !important;
+  margin: 0 0 var(--my-space-3) 0 !important;
+  border-bottom: 1px solid var(--my-brown-light) !important;
+  padding-bottom: var(--my-space-2) !important;
 }
 
 /* Toggle Container */
@@ -1077,9 +1077,9 @@
 }
 
 .stage-title {
-  font-family: var(--pf-font-display) !important;
-  font-size: var(--pf-text-base) !important;
-  font-weight: var(--pf-font-bold) !important;
+  font-family: var(--my-font-display) !important;
+  font-size: var(--my-text-base) !important;
+  font-weight: var(--my-font-bold) !important;
   color: #5e2e23 !important;
   text-transform: uppercase !important;
   letter-spacing: 0.5px !important;
@@ -1095,7 +1095,7 @@
   font-size: 12px !important;
   padding: 4px 8px !important;
   transition: all 0.3s ease !important;
-  font-family: var(--pf-font-ui) !important;
+  font-family: var(--my-font-ui) !important;
 }
 
 .stage-action:hover {
@@ -1114,117 +1114,117 @@
 .stage-content {
   display: flex !important;
   flex-direction: column !important;
-  gap: var(--pf-space-2) !important;
+  gap: var(--my-space-2) !important;
 }
 
 .stage-timing, .stage-effect, .stage-type, .stage-stats {
   display: flex !important;
   flex-direction: column !important;
-  gap: var(--pf-space-1) !important;
+  gap: var(--my-space-1) !important;
 }
 
 .stage-timing-inputs {
   display: flex !important;
   align-items: center !important;
-  gap: var(--pf-space-2) !important;
+  gap: var(--my-space-2) !important;
   flex-wrap: wrap !important;
 }
 
 .unit-label {
-  font-family: var(--pf-font-ui) !important;
-  font-size: var(--pf-text-sm) !important;
-  color: var(--pf-text-secondary) !important;
+  font-family: var(--my-font-ui) !important;
+  font-size: var(--my-text-sm) !important;
+  color: var(--my-text-secondary) !important;
   font-style: italic !important;
 }
 
 .no-stages {
-  color: var(--pf-text-muted) !important;
+  color: var(--my-text-muted) !important;
   font-style: italic !important;
   text-align: center !important;
-  padding: var(--pf-space-4) !important;
-  font-family: var(--pf-font-body) !important;
-  font-size: var(--pf-text-base) !important;
+  padding: var(--my-space-4) !important;
+  font-family: var(--my-font-body) !important;
+  font-size: var(--my-text-base) !important;
 }
 
 .add-stage-button {
-  background: var(--pf-gradient-gold) !important;
-  border: var(--pf-border-width) solid var(--pf-gold-dark) !important;
-  border-radius: var(--pf-border-radius) !important;
-  color: var(--pf-brown-darkest) !important;
+  background: var(--my-gradient-gold) !important;
+  border: var(--my-border-width) solid var(--my-gold-dark) !important;
+  border-radius: var(--my-border-radius) !important;
+  color: var(--my-brown-darkest) !important;
   cursor: pointer !important;
-  font-family: var(--pf-font-display) !important;
-  font-size: var(--pf-text-base) !important;
-  font-weight: var(--pf-font-semibold) !important;
-  margin-top: var(--pf-space-3) !important;
-  padding: var(--pf-space-3) var(--pf-space-4) !important;
+  font-family: var(--my-font-display) !important;
+  font-size: var(--my-text-base) !important;
+  font-weight: var(--my-font-semibold) !important;
+  margin-top: var(--my-space-3) !important;
+  padding: var(--my-space-3) var(--my-space-4) !important;
   text-transform: uppercase !important;
   letter-spacing: 0.5px !important;
-  transition: all var(--pf-transition-normal) !important;
+  transition: all var(--my-transition-normal) !important;
   width: 100% !important;
-  box-shadow: var(--pf-shadow-sm) !important;
+  box-shadow: var(--my-shadow-sm) !important;
 }
 
 .add-stage-button:hover {
-  background: var(--pf-gold-light) !important;
+  background: var(--my-gold-light) !important;
   transform: translateY(-1px) !important;
-  box-shadow: var(--pf-shadow-glow) !important;
+  box-shadow: var(--my-shadow-glow) !important;
 }
 
 /* Stage Stats Styling */
 .stage-stats-selector {
   max-height: 180px !important;
   overflow-y: auto !important;
-  background: var(--pf-gradient-input) !important;
-  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
-  border-radius: var(--pf-border-radius) !important;
-  margin-top: var(--pf-space-2) !important;
+  background: var(--my-gradient-input) !important;
+  border: var(--my-border-width) solid var(--my-brown-medium) !important;
+  border-radius: var(--my-border-radius) !important;
+  margin-top: var(--my-space-2) !important;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1) !important;
 }
 
 .stage-stats-list {
   display: flex !important;
   flex-direction: column !important;
-  gap: var(--pf-space-1) !important;
-  padding: var(--pf-space-2) !important;
+  gap: var(--my-space-1) !important;
+  padding: var(--my-space-2) !important;
 }
 
 .stage-stat-item {
   display: flex !important;
   align-items: center !important;
-  padding: var(--pf-space-2) !important;
-  border-radius: var(--pf-border-radius-sm) !important;
-  background: var(--pf-gradient-button) !important;
-  border: var(--pf-border-width) solid var(--pf-brown-light) !important;
-  transition: all var(--pf-transition-normal) !important;
-  gap: var(--pf-space-2) !important;
+  padding: var(--my-space-2) !important;
+  border-radius: var(--my-border-radius-sm) !important;
+  background: var(--my-gradient-button) !important;
+  border: var(--my-border-width) solid var(--my-brown-light) !important;
+  transition: all var(--my-transition-normal) !important;
+  gap: var(--my-space-2) !important;
 }
 
 .stage-stat-item:hover {
-  background: var(--pf-gradient-button-hover) !important;
-  border-color: var(--pf-gold) !important;
-  box-shadow: var(--pf-shadow-sm) !important;
+  background: var(--my-gradient-button-hover) !important;
+  border-color: var(--my-gold) !important;
+  box-shadow: var(--my-shadow-sm) !important;
 }
 
 .stage-stat-item.included {
-  background: var(--pf-gradient-gold) !important;
-  border-color: var(--pf-gold-dark) !important;
-  color: var(--pf-brown-darkest) !important;
-  box-shadow: var(--pf-shadow-glow) !important;
+  background: var(--my-gradient-gold) !important;
+  border-color: var(--my-gold-dark) !important;
+  color: var(--my-brown-darkest) !important;
+  box-shadow: var(--my-shadow-glow) !important;
 }
 
 .stage-stat-checkbox {
   margin: 0 !important;
   transform: scale(1.2) !important;
-  accent-color: var(--pf-gold) !important;
+  accent-color: var(--my-gold) !important;
 }
 
 .stage-stat-icon {
   width: 20px !important;
   height: 20px !important;
-  border-radius: var(--pf-border-radius-sm) !important;
+  border-radius: var(--my-border-radius-sm) !important;
   overflow: hidden !important;
   flex-shrink: 0 !important;
-  border: 1px solid var(--pf-brown-light) !important;
+  border: 1px solid var(--my-brown-light) !important;
 }
 
 .stage-stat-icon img {
@@ -1235,58 +1235,58 @@
 
 .stage-stat-name {
   flex: 1 !important;
-  font-family: var(--pf-font-ui) !important;
-  font-size: var(--pf-text-sm) !important;
-  color: var(--pf-text-primary) !important;
-  font-weight: var(--pf-font-medium) !important;
+  font-family: var(--my-font-ui) !important;
+  font-size: var(--my-text-sm) !important;
+  color: var(--my-text-primary) !important;
+  font-weight: var(--my-font-medium) !important;
 }
 
 .stage-stat-item.included .stage-stat-name {
-  color: var(--pf-brown-darkest) !important;
-  font-weight: var(--pf-font-semibold) !important;
+  color: var(--my-brown-darkest) !important;
+  font-weight: var(--my-font-semibold) !important;
 }
 
 .stage-stat-value {
   display: flex !important;
   align-items: center !important;
-  gap: var(--pf-space-1) !important;
+  gap: var(--my-space-1) !important;
   flex-shrink: 0 !important;
 }
 
 .stage-stat-value input,
 .stage-stat-value select {
   width: 60px !important;
-  background: var(--pf-gradient-input) !important;
-  border: var(--pf-border-width) solid var(--pf-brown-light) !important;
-  border-radius: var(--pf-border-radius-sm) !important;
-  color: var(--pf-text-primary) !important;
-  padding: var(--pf-space-1) var(--pf-space-2) !important;
-  font-size: var(--pf-text-sm) !important;
-  font-family: var(--pf-font-ui) !important;
-  transition: all var(--pf-transition-normal) !important;
+  background: var(--my-gradient-input) !important;
+  border: var(--my-border-width) solid var(--my-brown-light) !important;
+  border-radius: var(--my-border-radius-sm) !important;
+  color: var(--my-text-primary) !important;
+  padding: var(--my-space-1) var(--my-space-2) !important;
+  font-size: var(--my-text-sm) !important;
+  font-family: var(--my-font-ui) !important;
+  transition: all var(--my-transition-normal) !important;
 }
 
 .stage-stat-value input:focus,
 .stage-stat-value select:focus {
   outline: none !important;
-  border-color: var(--pf-gold) !important;
+  border-color: var(--my-gold) !important;
   box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2) !important;
 }
 
 .stage-stat-item.included .stage-stat-value input,
 .stage-stat-item.included .stage-stat-value select {
-  background: var(--pf-parchment) !important;
-  border-color: var(--pf-brown-medium) !important;
-  color: var(--pf-brown-darkest) !important;
+  background: var(--my-parchment) !important;
+  border-color: var(--my-brown-medium) !important;
+  color: var(--my-brown-darkest) !important;
 }
 
 .no-stats-message {
-  padding: var(--pf-space-4) !important;
-  color: var(--pf-text-muted) !important;
+  padding: var(--my-space-4) !important;
+  color: var(--my-text-muted) !important;
   font-style: italic !important;
   text-align: center !important;
-  font-family: var(--pf-font-body) !important;
-  font-size: var(--pf-text-base) !important;
+  font-family: var(--my-font-body) !important;
+  font-size: var(--my-text-base) !important;
 }
 
 /* ===== EFFECT-SPECIFIC TRIGGER SECTION CLEANUP ===== */
@@ -1294,44 +1294,44 @@
 
 /* Base Effect Information Section */
 .spellbook-layout .wow-effect-config-tabs {
-  background: var(--pf-gradient-parchment-light) !important;
-  border: var(--pf-border-width) solid var(--pf-brown-light) !important;
-  border-radius: var(--pf-border-radius) !important;
-  padding: var(--pf-space-3) !important;
-  margin-bottom: var(--pf-space-4) !important;
-  box-shadow: var(--pf-shadow-sm) !important;
+  background: var(--my-gradient-parchment-light) !important;
+  border: var(--my-border-width) solid var(--my-brown-light) !important;
+  border-radius: var(--my-border-radius) !important;
+  padding: var(--my-space-3) !important;
+  margin-bottom: var(--my-space-4) !important;
+  box-shadow: var(--my-shadow-sm) !important;
 }
 
 .spellbook-layout .wow-effect-config-tab {
-  background: var(--pf-gradient-button) !important;
-  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
-  border-radius: var(--pf-border-radius) !important;
-  color: var(--pf-text-primary) !important;
-  font-family: var(--pf-font-display) !important;
-  font-weight: var(--pf-font-semibold) !important;
-  padding: var(--pf-space-3) var(--pf-space-4) !important;
+  background: var(--my-gradient-button) !important;
+  border: var(--my-border-width) solid var(--my-brown-medium) !important;
+  border-radius: var(--my-border-radius) !important;
+  color: var(--my-text-primary) !important;
+  font-family: var(--my-font-display) !important;
+  font-weight: var(--my-font-semibold) !important;
+  padding: var(--my-space-3) var(--my-space-4) !important;
   cursor: pointer !important;
-  transition: all var(--pf-transition-normal) !important;
+  transition: all var(--my-transition-normal) !important;
   text-transform: uppercase !important;
   letter-spacing: 0.5px !important;
 }
 
 .spellbook-layout .wow-effect-config-tab.active {
-  background: var(--pf-gradient-gold) !important;
-  border-color: var(--pf-gold-dark) !important;
-  color: var(--pf-brown-darkest) !important;
-  box-shadow: var(--pf-shadow-glow) !important;
+  background: var(--my-gradient-gold) !important;
+  border-color: var(--my-gold-dark) !important;
+  color: var(--my-brown-darkest) !important;
+  box-shadow: var(--my-shadow-glow) !important;
 }
 
 /* ===== EFFECT CONFIGURATION FRAME ===== */
 /* Create a framed container for the entire effect configuration section */
 .spellbook-layout .pf-config-group {
-  background: var(--pf-gradient-parchment-light) !important;
-  border: var(--pf-border-width) solid var(--pf-brown-light) !important;
-  border-radius: var(--pf-border-radius) !important;
-  padding: var(--pf-space-4) !important;
-  margin-bottom: var(--pf-space-4) !important;
-  box-shadow: var(--pf-shadow-sm) !important;
+  background: var(--my-gradient-parchment-light) !important;
+  border: var(--my-border-width) solid var(--my-brown-light) !important;
+  border-radius: var(--my-border-radius) !important;
+  padding: var(--my-space-4) !important;
+  margin-bottom: var(--my-space-4) !important;
+  box-shadow: var(--my-shadow-sm) !important;
 }
 
 .spellbook-layout .wow-effect-config-content {
@@ -1344,51 +1344,51 @@
 
 /* Base Effect Information Styling */
 .spellbook-layout .wow-effect-base-info {
-  background: var(--pf-gradient-parchment) !important;
-  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
-  border-radius: var(--pf-border-radius) !important;
-  padding: var(--pf-space-3) !important;
-  margin-bottom: var(--pf-space-4) !important;
+  background: var(--my-gradient-parchment) !important;
+  border: var(--my-border-width) solid var(--my-brown-medium) !important;
+  border-radius: var(--my-border-radius) !important;
+  padding: var(--my-space-3) !important;
+  margin-bottom: var(--my-space-4) !important;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1) !important;
 }
 
 .spellbook-layout .wow-effect-subtitle {
-  color: var(--pf-brown-darkest) !important;
-  font-family: var(--pf-font-display) !important;
-  font-weight: var(--pf-font-semibold) !important;
+  color: var(--my-brown-darkest) !important;
+  font-family: var(--my-font-display) !important;
+  font-weight: var(--my-font-semibold) !important;
   font-size: 14px !important;
   text-transform: uppercase !important;
   letter-spacing: 0.5px !important;
-  margin-bottom: var(--pf-space-3) !important;
-  border-bottom: 1px solid var(--pf-brown-light) !important;
-  padding-bottom: var(--pf-space-2) !important;
+  margin-bottom: var(--my-space-3) !important;
+  border-bottom: 1px solid var(--my-brown-light) !important;
+  padding-bottom: var(--my-space-2) !important;
 }
 
 .spellbook-layout .wow-effect-base-details {
   display: flex !important;
   flex-direction: column !important;
-  gap: var(--pf-space-2) !important;
+  gap: var(--my-space-2) !important;
 }
 
 .spellbook-layout .wow-effect-detail-row {
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
-  padding: var(--pf-space-2) var(--pf-space-3) !important;
+  padding: var(--my-space-2) var(--my-space-3) !important;
   background: rgba(255, 255, 255, 0.3) !important;
   border-radius: 4px !important;
-  border: 1px solid var(--pf-brown-light) !important;
+  border: 1px solid var(--my-brown-light) !important;
 }
 
 .spellbook-layout .wow-effect-detail-label {
-  font-weight: var(--pf-font-medium) !important;
-  color: var(--pf-brown-dark) !important;
+  font-weight: var(--my-font-medium) !important;
+  color: var(--my-brown-dark) !important;
   font-size: 13px !important;
 }
 
 .spellbook-layout .wow-effect-detail-value {
-  font-weight: var(--pf-font-semibold) !important;
-  color: var(--pf-brown-darkest) !important;
+  font-weight: var(--my-font-semibold) !important;
+  color: var(--my-brown-darkest) !important;
   font-size: 13px !important;
   text-transform: uppercase !important;
   letter-spacing: 0.5px !important;
@@ -1396,43 +1396,43 @@
 
 /* Conditional Activation Toggle Styling */
 .spellbook-layout .wow-conditional-toggle {
-  background: var(--pf-gradient-parchment) !important;
-  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
-  border-radius: var(--pf-border-radius) !important;
-  padding: var(--pf-space-3) !important;
-  margin-bottom: var(--pf-space-4) !important;
+  background: var(--my-gradient-parchment) !important;
+  border: var(--my-border-width) solid var(--my-brown-medium) !important;
+  border-radius: var(--my-border-radius) !important;
+  padding: var(--my-space-3) !important;
+  margin-bottom: var(--my-space-4) !important;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1) !important;
 }
 
 .spellbook-layout .wow-conditional-label {
   display: block !important;
-  font-weight: var(--pf-font-medium) !important;
-  color: var(--pf-brown-dark) !important;
+  font-weight: var(--my-font-medium) !important;
+  color: var(--my-brown-dark) !important;
   font-size: 13px !important;
-  margin-bottom: var(--pf-space-2) !important;
+  margin-bottom: var(--my-space-2) !important;
 }
 
 .spellbook-layout .wow-toggle-wrapper {
   display: flex !important;
   align-items: center !important;
-  gap: var(--pf-space-3) !important;
+  gap: var(--my-space-3) !important;
 }
 
 .spellbook-layout .wow-toggle-button {
   position: relative !important;
   width: 44px !important;
   height: 24px !important;
-  background: var(--pf-brown-light) !important;
+  background: var(--my-brown-light) !important;
   border-radius: 12px !important;
-  border: 2px solid var(--pf-brown-medium) !important;
+  border: 2px solid var(--my-brown-medium) !important;
   cursor: pointer !important;
-  transition: all var(--pf-transition-normal) !important;
+  transition: all var(--my-transition-normal) !important;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2) !important;
 }
 
 .spellbook-layout .wow-toggle-button.active {
-  background: var(--pf-gold) !important;
-  border-color: var(--pf-gold-dark) !important;
+  background: var(--my-gold) !important;
+  border-color: var(--my-gold-dark) !important;
   box-shadow: 0 0 8px rgba(212, 175, 55, 0.3) !important;
 }
 
@@ -1444,7 +1444,7 @@
   height: 16px !important;
   background: white !important;
   border-radius: 50% !important;
-  transition: all var(--pf-transition-normal) !important;
+  transition: all var(--my-transition-normal) !important;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
 }
 
@@ -1453,46 +1453,46 @@
 }
 
 .spellbook-layout .wow-toggle-value {
-  font-weight: var(--pf-font-semibold) !important;
+  font-weight: var(--my-font-semibold) !important;
   font-size: 13px !important;
   text-transform: uppercase !important;
   letter-spacing: 0.5px !important;
-  color: var(--pf-brown-darkest) !important;
+  color: var(--my-brown-darkest) !important;
 }
 
 /* Effect Selector Cleanup */
 .spellbook-layout .wow-effect-selector {
-  background: var(--pf-gradient-parchment-light) !important;
-  border: var(--pf-border-width) solid var(--pf-brown-light) !important;
-  border-radius: var(--pf-border-radius) !important;
-  padding: var(--pf-space-4) !important;
-  margin-bottom: var(--pf-space-4) !important;
+  background: var(--my-gradient-parchment-light) !important;
+  border: var(--my-border-width) solid var(--my-brown-light) !important;
+  border-radius: var(--my-border-radius) !important;
+  padding: var(--my-space-4) !important;
+  margin-bottom: var(--my-space-4) !important;
 }
 
 .spellbook-layout .wow-effect-group {
-  margin-bottom: var(--pf-space-3) !important;
+  margin-bottom: var(--my-space-3) !important;
 }
 
 .spellbook-layout .wow-effect-main {
   display: flex !important;
   align-items: center !important;
-  gap: var(--pf-space-3) !important;
-  margin-bottom: var(--pf-space-2) !important;
+  gap: var(--my-space-3) !important;
+  margin-bottom: var(--my-space-2) !important;
 }
 
 /* Universal Pathfinder styling for effect card buttons */
 .wow-effect-card-button {
   display: flex !important;
   flex-direction: column !important;
-  background: var(--pf-gradient-parchment) !important;
-  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
-  border-radius: var(--pf-border-radius) !important;
-  padding: var(--pf-space-3) !important;
+  background: var(--my-gradient-parchment) !important;
+  border: var(--my-border-width) solid var(--my-brown-medium) !important;
+  border-radius: var(--my-border-radius) !important;
+  padding: var(--my-space-3) !important;
   cursor: pointer !important;
-  transition: all var(--pf-transition-normal) !important;
+  transition: all var(--my-transition-normal) !important;
   width: 100% !important;
-  font-family: var(--pf-font-body) !important;
-  box-shadow: var(--pf-shadow-sm) !important;
+  font-family: var(--my-font-body) !important;
+  box-shadow: var(--my-shadow-sm) !important;
   position: relative !important;
   overflow: hidden !important;
   height: 100% !important;
@@ -1505,16 +1505,16 @@
   left: 0 !important;
   right: 0 !important;
   height: 3px !important;
-  background: var(--pf-gradient-gold) !important;
+  background: var(--my-gradient-gold) !important;
   transform: scaleX(0) !important;
-  transition: transform var(--pf-transition-normal) !important;
+  transition: transform var(--my-transition-normal) !important;
 }
 
 .wow-effect-card-button:hover {
-  background: var(--pf-gradient-parchment) !important;
-  border-color: var(--pf-brown-dark) !important;
+  background: var(--my-gradient-parchment) !important;
+  border-color: var(--my-brown-dark) !important;
   transform: translateY(-2px) !important;
-  box-shadow: var(--pf-shadow-md) !important;
+  box-shadow: var(--my-shadow-md) !important;
 }
 
 .wow-effect-card-button:hover::before {
@@ -1522,10 +1522,10 @@
 }
 
 .wow-effect-card-button.active {
-  background: var(--pf-gradient-parchment) !important;
-  border-color: var(--pf-gold-dark) !important;
+  background: var(--my-gradient-parchment) !important;
+  border-color: var(--my-gold-dark) !important;
   border-width: 2px !important;
-  box-shadow: var(--pf-shadow-glow) !important;
+  box-shadow: var(--my-shadow-glow) !important;
 }
 
 .wow-effect-card-button.active::before {
@@ -1542,75 +1542,75 @@
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
-  background: var(--pf-gradient-button) !important;
-  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
-  border-radius: var(--pf-border-radius) !important;
-  color: var(--pf-text-primary) !important;
-  font-family: var(--pf-font-ui) !important;
-  padding: var(--pf-space-2) var(--pf-space-3) !important;
+  background: var(--my-gradient-button) !important;
+  border: var(--my-border-width) solid var(--my-brown-medium) !important;
+  border-radius: var(--my-border-radius) !important;
+  color: var(--my-text-primary) !important;
+  font-family: var(--my-font-ui) !important;
+  padding: var(--my-space-2) var(--my-space-3) !important;
   cursor: pointer !important;
-  transition: all var(--pf-transition-normal) !important;
-  margin: var(--pf-space-1) !important;
-  font-size: var(--pf-text-sm) !important;
+  transition: all var(--my-transition-normal) !important;
+  margin: var(--my-space-1) !important;
+  font-size: var(--my-text-sm) !important;
   min-width: 100px !important;
   text-align: center !important;
-  box-shadow: var(--pf-shadow-sm) !important;
+  box-shadow: var(--my-shadow-sm) !important;
   gap: 4px !important;
 }
 
 .wow-effect-suboption-button:hover {
-  background: var(--pf-gradient-button-hover) !important;
-  border-color: var(--pf-brown-dark) !important;
+  background: var(--my-gradient-button-hover) !important;
+  border-color: var(--my-brown-dark) !important;
   transform: translateY(-1px) !important;
-  box-shadow: var(--pf-shadow-md) !important;
+  box-shadow: var(--my-shadow-md) !important;
 }
 
 .wow-effect-suboption-button.active {
-  background: var(--pf-gradient-gold) !important;
-  border-color: var(--pf-gold-dark) !important;
-  color: var(--pf-brown-darkest) !important;
-  box-shadow: var(--pf-shadow-glow) !important;
+  background: var(--my-gradient-gold) !important;
+  border-color: var(--my-gold-dark) !important;
+  color: var(--my-brown-darkest) !important;
+  box-shadow: var(--my-shadow-glow) !important;
   transform: translateY(1px) !important;
 }
 
 /* Spellbook-specific overrides for additional specificity */
 .spellbook-layout .wow-effect-suboption-button {
-  background: var(--pf-gradient-button) !important;
-  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
-  border-radius: var(--pf-border-radius) !important;
-  color: var(--pf-text-primary) !important;
-  font-family: var(--pf-font-ui) !important;
-  padding: var(--pf-space-2) var(--pf-space-3) !important;
+  background: var(--my-gradient-button) !important;
+  border: var(--my-border-width) solid var(--my-brown-medium) !important;
+  border-radius: var(--my-border-radius) !important;
+  color: var(--my-text-primary) !important;
+  font-family: var(--my-font-ui) !important;
+  padding: var(--my-space-2) var(--my-space-3) !important;
   cursor: pointer !important;
-  transition: all var(--pf-transition-normal) !important;
-  margin: var(--pf-space-1) !important;
-  font-size: var(--pf-text-sm) !important;
+  transition: all var(--my-transition-normal) !important;
+  margin: var(--my-space-1) !important;
+  font-size: var(--my-text-sm) !important;
 }
 
 .spellbook-layout .wow-effect-suboption-button:hover {
-  background: var(--pf-gradient-button-hover) !important;
-  border-color: var(--pf-brown-dark) !important;
+  background: var(--my-gradient-button-hover) !important;
+  border-color: var(--my-brown-dark) !important;
   transform: translateY(-1px) !important;
-  box-shadow: var(--pf-shadow-sm) !important;
+  box-shadow: var(--my-shadow-sm) !important;
 }
 
 .spellbook-layout .wow-effect-suboption-button.active {
-  background: var(--pf-gradient-gold) !important;
-  border-color: var(--pf-gold-dark) !important;
-  color: var(--pf-brown-darkest) !important;
-  box-shadow: var(--pf-shadow-glow) !important;
+  background: var(--my-gradient-gold) !important;
+  border-color: var(--my-gold-dark) !important;
+  color: var(--my-brown-darkest) !important;
+  box-shadow: var(--my-shadow-glow) !important;
 }
 
 /* Conditional Activation Toggle Cleanup */
 .spellbook-layout .wow-toggle-wrapper {
   display: flex !important;
   align-items: center !important;
-  gap: var(--pf-space-3) !important;
-  background: var(--pf-gradient-parchment-light) !important;
-  border: var(--pf-border-width) solid var(--pf-brown-light) !important;
-  border-radius: var(--pf-border-radius) !important;
-  padding: var(--pf-space-3) !important;
-  margin-bottom: var(--pf-space-3) !important;
+  gap: var(--my-space-3) !important;
+  background: var(--my-gradient-parchment-light) !important;
+  border: var(--my-border-width) solid var(--my-brown-light) !important;
+  border-radius: var(--my-border-radius) !important;
+  padding: var(--my-space-3) !important;
+  margin-bottom: var(--my-space-3) !important;
 }
 
 .spellbook-layout .wow-toggle-button {
@@ -1618,11 +1618,11 @@
   display: inline-block !important;
   width: 50px !important;
   height: 24px !important;
-  background: var(--pf-brown-light) !important;
-  border: 1px solid var(--pf-brown-medium) !important;
+  background: var(--my-brown-light) !important;
+  border: 1px solid var(--my-brown-medium) !important;
   border-radius: 12px !important;
   cursor: pointer !important;
-  transition: all var(--pf-transition-normal) !important;
+  transition: all var(--my-transition-normal) !important;
   flex-shrink: 0 !important;
 }
 
@@ -1633,27 +1633,27 @@
   left: 2px !important;
   width: 18px !important;
   height: 18px !important;
-  background: var(--pf-parchment-light) !important;
+  background: var(--my-parchment-light) !important;
   border-radius: 50% !important;
-  transition: all var(--pf-transition-normal) !important;
+  transition: all var(--my-transition-normal) !important;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
 }
 
 .spellbook-layout .wow-toggle-button.active {
-  background: var(--pf-gold) !important;
-  border-color: var(--pf-gold-dark) !important;
+  background: var(--my-gold) !important;
+  border-color: var(--my-gold-dark) !important;
 }
 
 .spellbook-layout .wow-toggle-button.active::after {
   transform: translateX(26px) !important;
-  background: var(--pf-brown-darkest) !important;
+  background: var(--my-brown-darkest) !important;
 }
 
 .spellbook-layout .wow-toggle-value {
-  color: var(--pf-text-primary) !important;
-  font-family: var(--pf-font-ui) !important;
-  font-size: var(--pf-text-base) !important;
-  font-weight: var(--pf-font-medium) !important;
+  color: var(--my-text-primary) !important;
+  font-family: var(--my-font-ui) !important;
+  font-size: var(--my-text-base) !important;
+  font-weight: var(--my-font-medium) !important;
   flex: 1 !important;
 }
 
@@ -1661,13 +1661,13 @@
 /* Better spacing and layout for wizard sections */
 
 .spellbook-wizard-layout .spell-wizard-form-group {
-  margin-bottom: var(--pf-space-4) !important;
+  margin-bottom: var(--my-space-4) !important;
 }
 
 .spellbook-wizard-layout .spell-wizard-form-row {
   display: flex !important;
-  gap: var(--pf-space-4) !important;
-  margin-bottom: var(--pf-space-4) !important;
+  gap: var(--my-space-4) !important;
+  margin-bottom: var(--my-space-4) !important;
   align-items: flex-start !important;
 }
 
@@ -1678,30 +1678,30 @@
 
 /* Compact form sections for better fitting */
 .compact-section {
-  background: var(--pf-gradient-parchment-light) !important;
-  border: var(--pf-border-width) solid var(--pf-brown-light) !important;
-  border-radius: var(--pf-border-radius) !important;
-  padding: var(--pf-space-3) !important;
-  margin-bottom: var(--pf-space-3) !important;
+  background: var(--my-gradient-parchment-light) !important;
+  border: var(--my-border-width) solid var(--my-brown-light) !important;
+  border-radius: var(--my-border-radius) !important;
+  padding: var(--my-space-3) !important;
+  margin-bottom: var(--my-space-3) !important;
 }
 
 .compact-section h3,
 .compact-section h4 {
-  font-family: var(--pf-font-display) !important;
-  font-size: var(--pf-text-base) !important;
-  font-weight: var(--pf-font-bold) !important;
-  color: var(--pf-text-primary) !important;
+  font-family: var(--my-font-display) !important;
+  font-size: var(--my-text-base) !important;
+  font-weight: var(--my-font-bold) !important;
+  color: var(--my-text-primary) !important;
   text-transform: uppercase !important;
   letter-spacing: 0.5px !important;
-  margin: 0 0 var(--pf-space-2) 0 !important;
-  border-bottom: 1px solid var(--pf-brown-light) !important;
-  padding-bottom: var(--pf-space-1) !important;
+  margin: 0 0 var(--my-space-2) 0 !important;
+  border-bottom: 1px solid var(--my-brown-light) !important;
+  padding-bottom: var(--my-space-1) !important;
 }
 
 .compact-section .form-row {
   display: flex !important;
-  gap: var(--pf-space-3) !important;
-  margin-bottom: var(--pf-space-2) !important;
+  gap: var(--my-space-3) !important;
+  margin-bottom: var(--my-space-2) !important;
   align-items: center !important;
 }
 
@@ -1710,11 +1710,11 @@
 }
 
 .compact-section label {
-  font-family: var(--pf-font-ui) !important;
-  font-size: var(--pf-text-sm) !important;
-  font-weight: var(--pf-font-medium) !important;
-  color: var(--pf-text-primary) !important;
-  margin-bottom: var(--pf-space-1) !important;
+  font-family: var(--my-font-ui) !important;
+  font-size: var(--my-text-sm) !important;
+  font-weight: var(--my-font-medium) !important;
+  color: var(--my-text-primary) !important;
+  margin-bottom: var(--my-space-1) !important;
   flex-shrink: 0 !important;
   min-width: 80px !important;
 }
@@ -1723,21 +1723,21 @@
 .compact-section select,
 .compact-section textarea {
   flex: 1 !important;
-  padding: var(--pf-space-2) !important;
-  border: var(--pf-border-width) solid var(--pf-brown-light) !important;
-  border-radius: var(--pf-border-radius-sm) !important;
-  font-family: var(--pf-font-ui) !important;
-  font-size: var(--pf-text-sm) !important;
-  color: var(--pf-text-primary) !important;
-  background: var(--pf-gradient-input) !important;
-  transition: all var(--pf-transition-normal) !important;
+  padding: var(--my-space-2) !important;
+  border: var(--my-border-width) solid var(--my-brown-light) !important;
+  border-radius: var(--my-border-radius-sm) !important;
+  font-family: var(--my-font-ui) !important;
+  font-size: var(--my-text-sm) !important;
+  color: var(--my-text-primary) !important;
+  background: var(--my-gradient-input) !important;
+  transition: all var(--my-transition-normal) !important;
 }
 
 .compact-section input:focus,
 .compact-section select:focus,
 .compact-section textarea:focus {
   outline: none !important;
-  border-color: var(--pf-gold) !important;
+  border-color: var(--my-gold) !important;
   box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2) !important;
 }
 
@@ -1749,7 +1749,7 @@
     rgba(248, 244, 230, 0.95) 0%,
     rgba(237, 228, 211, 0.92) 50%,
     rgba(232, 220, 198, 0.95) 100%) !important;
-  border: 2px solid var(--pf-brown-medium) !important;
+  border: 2px solid var(--my-brown-medium) !important;
   border-radius: 6px !important;
   box-shadow:
     0 4px 12px rgba(45, 24, 16, 0.2),
@@ -1768,7 +1768,181 @@
   padding: 4px 6px !important;
   cursor: move !important;
   gap: 2px !important;
-  overflow: hidden !important;
+  overflow: visible !important;
+}
+
+.wow-nav-divider {
+  width: 1px;
+  height: 28px;
+  align-self: center;
+  margin: 0 4px;
+  background: linear-gradient(180deg, transparent 0%, rgba(139, 69, 19, 0.35) 50%, transparent 100%);
+  flex-shrink: 0;
+}
+
+.wow-nav-button.wow-nav-minimize {
+  background: transparent !important;
+  border: 1px dashed rgba(139, 69, 19, 0.4) !important;
+  color: var(--my-text-muted, #8B4513) !important;
+  opacity: 0.78;
+}
+
+.wow-nav-button.wow-nav-minimize:hover {
+  background: rgba(196, 160, 96, 0.16) !important;
+  border-style: solid !important;
+  border-color: var(--my-gold-dark, #b8860b) !important;
+  color: var(--my-brown-dark, #5a1e12) !important;
+  opacity: 1;
+}
+
+.wow-nav-category {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.wow-nav-category-header {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.85) 0%, rgba(240, 230, 210, 0.92) 50%, rgba(213, 203, 176, 0.85) 100%) !important;
+  border: 1px solid var(--my-brown-medium, #8B4513) !important;
+  color: var(--my-brown-dark, #5a1e12) !important;
+  height: 40px !important;
+  margin: 0 !important;
+  padding: 0 10px !important;
+  border-radius: 3px !important;
+  position: relative !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  display: inline-flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px;
+  box-shadow: 0 1px 3px rgba(45, 24, 16, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.5) !important;
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.wow-nav-category-icon {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+
+.wow-nav-category-label {
+  line-height: 1;
+}
+
+.wow-nav-category-header:hover {
+  border-color: var(--my-brown-dark, #5a1e12) !important;
+  color: var(--my-brown-darkest, #2d1810) !important;
+  transform: translateY(-1px) !important;
+}
+
+.wow-nav-category-header.open {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 244, 230, 0.98) 100%) !important;
+  border-color: var(--my-gold, #d4af37) !important;
+  color: var(--my-brown-darkest, #2d1810) !important;
+  box-shadow: 0 0 0 1px var(--my-gold, #d4af37), 0 2px 8px rgba(196, 160, 96, 0.3) !important;
+}
+
+.wow-nav-category-chevron {
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid currentColor;
+  opacity: 0.85;
+  transition: transform 0.2s ease;
+}
+
+.wow-nav-category-header.open .wow-nav-category-chevron {
+  transform: rotate(180deg);
+}
+
+.wow-nav-flyout {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 1100;
+  min-width: 200px;
+  padding: 6px;
+  background: linear-gradient(145deg, rgba(248, 244, 230, 0.98) 0%, rgba(237, 228, 211, 0.98) 100%) !important;
+  border: 1px solid var(--my-gold-dark, #b8860b) !important;
+  border-radius: 6px !important;
+  box-shadow: 0 8px 24px rgba(45, 24, 16, 0.35), 0 0 0 1px rgba(196, 160, 96, 0.2) !important;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.wow-nav-flyout-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--my-gold-dark, #8f6f35);
+  padding: 4px 8px 6px;
+  border-bottom: 1px solid rgba(196, 160, 96, 0.3);
+  margin-bottom: 2px;
+}
+
+.wow-nav-flyout-item {
+  display: flex !important;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px !important;
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  border-radius: 4px !important;
+  color: var(--my-text-primary, #5a1e12) !important;
+  font-family: 'Crimson Text', serif !important;
+  font-size: 0.95rem;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.wow-nav-flyout-item:hover {
+  background: rgba(196, 160, 96, 0.18) !important;
+  border-color: rgba(196, 160, 96, 0.4) !important;
+}
+
+.wow-nav-flyout-item.active {
+  background: rgba(196, 160, 96, 0.25) !important;
+  font-weight: 700;
+}
+
+.wow-nav-flyout-item.premium {
+  color: var(--my-gold-dark, #8f6f35);
+}
+
+.wow-nav-flyout-item-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  opacity: 0.9;
+}
+
+.wow-nav-flyout-item-label {
+  flex: 1;
+}
+
+.wow-nav-flyout-item-shortcut {
+  font-style: normal;
+  font-family: 'Courier New', monospace;
+  font-size: 0.72rem;
+  color: var(--my-text-muted, #8B4513);
+  background: rgba(139, 69, 19, 0.1);
+  padding: 1px 5px;
+  border-radius: 3px;
+  opacity: 0.85;
 }
 
 .wow-nav-button {
@@ -1776,8 +1950,8 @@
     rgba(255, 255, 255, 0.8) 0%,
     rgba(240, 230, 210, 0.9) 50%,
     rgba(213, 203, 176, 0.8) 100%) !important;
-  border: 1px solid var(--pf-brown-medium) !important;
-  color: var(--pf-brown-dark) !important;
+  border: 1px solid var(--my-brown-medium) !important;
+  color: var(--my-brown-dark) !important;
   width: 40px !important;
   height: 40px !important;
   margin: 0 !important;
@@ -1800,8 +1974,8 @@
     rgba(248, 244, 230, 0.95) 0%,
     rgba(237, 228, 211, 0.9) 50%,
     rgba(213, 203, 176, 0.95) 100%) !important;
-  border-color: var(--pf-brown-dark) !important;
-  color: var(--pf-brown-darkest) !important;
+  border-color: var(--my-brown-dark) !important;
+  color: var(--my-brown-darkest) !important;
   transform: translateY(-1px) !important;
   box-shadow:
     0 2px 6px rgba(45, 24, 16, 0.3),
@@ -1810,11 +1984,11 @@
 
 .wow-nav-button.active {
   background: linear-gradient(145deg,
-    var(--pf-gold-light) 0%,
-    var(--pf-gold) 50%,
+    var(--my-gold-light) 0%,
+    var(--my-gold) 50%,
     rgba(212, 175, 55, 0.9) 100%) !important;
-  border-color: var(--pf-gold-dark) !important;
-  color: var(--pf-brown-darkest) !important;
+  border-color: var(--my-gold-dark) !important;
+  color: var(--my-brown-darkest) !important;
   box-shadow:
     0 2px 8px rgba(212, 175, 55, 0.4),
     inset 0 1px 2px rgba(255, 255, 255, 0.7) !important;
@@ -1843,7 +2017,7 @@
   color: currentColor !important;
   padding: 0 !important;
   font-size: 8px !important;
-  font-family: var(--pf-font-ui) !important;
+  font-family: var(--my-font-ui) !important;
   font-weight: 600 !important;
   letter-spacing: 0.5px !important;
   border: none !important;
@@ -1859,79 +2033,55 @@
 /* Resizable navigation handle - subtle and square */
 .custom-resize-handle {
   position: absolute !important;
-  width: 8px !important;
-  height: 8px !important;
-  bottom: -4px !important;
-  right: -4px !important;
-  cursor: se-resize !important;
+  top: 50% !important;
+  right: -5px !important;
+  transform: translateY(-50%) !important;
+  width: 9px !important;
+  height: 24px !important;
+  cursor: ew-resize !important;
   z-index: 1001 !important;
-  background: var(--pf-brown-medium) !important;
-  border-radius: 1px !important;
-  border: 1px solid var(--pf-brown-dark) !important;
-  opacity: 0.6 !important;
+  background: linear-gradient(180deg, rgba(213, 203, 176, 0.95), rgba(160, 140, 112, 0.95)) !important;
+  border: 1px solid var(--my-brown-medium, #8B4513) !important;
+  border-radius: 4px !important;
+  opacity: 0.75 !important;
   transition: all 0.2s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 1px 3px rgba(45, 24, 16, 0.25) !important;
+}
+
+.custom-resize-handle::after {
+  content: '';
+  width: 2px;
+  height: 12px;
+  border-radius: 1px;
+  background: repeating-linear-gradient(180deg, var(--my-brown-dark, #5a1e12) 0 2px, transparent 2px 4px);
 }
 
 .custom-resize-handle:hover {
   opacity: 1 !important;
-  background: var(--pf-gold) !important;
-  border-color: var(--pf-gold-dark) !important;
+  background: linear-gradient(180deg, var(--my-gold-light, #f4d03f), var(--my-gold-dark, #b8860b)) !important;
+  border-color: var(--my-gold-dark, #b8860b) !important;
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.5) !important;
 }
 
 /* ===== NAV COLLAPSE/REVEAL ===== */
-.nav-wrapper {
-}
-
 .nav-wrapper--collapsed {
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  transform: scale(0.2) translateY(-200px) !important;
-  opacity: 0 !important;
   pointer-events: none !important;
 }
 
-.nav-collapse-toggle {
-  position: absolute;
-  bottom: -14px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 32px;
-  height: 16px;
-  background: linear-gradient(180deg,
-    #d5cbb0 0%,
-    #c4b59a 100%);
-  border: 1px solid var(--pf-brown-medium);
-  border-top: none;
-  border-radius: 0 0 6px 6px;
-  color: var(--pf-brown-dark);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  opacity: 0;
-  transition: opacity 0.25s ease, background 0.2s ease, color 0.2s ease;
-  z-index: 1001;
-  pointer-events: auto;
-  box-shadow: 0 2px 4px rgba(45, 24, 16, 0.2);
+.wow-nav-container {
+  transform-origin: center bottom;
+  transition: transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1),
+              opacity 0.35s ease;
 }
 
-.nav-collapse-toggle svg {
-  width: 12px;
-  height: 12px;
-}
-
-.nav-collapse-toggle--visible {
-  opacity: 1;
-}
-
-.nav-collapse-toggle:hover {
-  opacity: 1 !important;
-  background: linear-gradient(180deg,
-    var(--pf-gold-light) 0%,
-    var(--pf-gold) 100%);
-  border-color: var(--pf-gold-dark);
-  color: var(--pf-brown-darkest);
+.nav-wrapper--collapsed .wow-nav-container {
+  transform: scale(0.06) translateY(26px) !important;
+  opacity: 0 !important;
+  transition: transform 0.4s cubic-bezier(0.5, 0, 0.75, 0),
+              opacity 0.26s ease 0.04s;
 }
 
 /* Navigation Orb - parchment-themed */
@@ -1954,7 +2104,7 @@
     #ede4d3 35%,
     #d5cbb0 60%,
     #a08c70 100%);
-  border: 2px solid var(--pf-brown-medium);
+  border: 2px solid var(--my-brown-medium);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1964,12 +2114,19 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   position: relative;
   z-index: 2;
+  animation: nav-orb-pop-in 0.42s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes nav-orb-pop-in {
+  0% { transform: scale(0); opacity: 0; }
+  60% { opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
 }
 
 .nav-orb-inner svg {
   width: 16px;
   height: 16px;
-  stroke: var(--pf-brown-dark);
+  stroke: var(--my-brown-dark);
   stroke-width: 2;
   fill: none;
 }
@@ -1980,11 +2137,11 @@
     0 0 10px rgba(212, 175, 55, 0.3),
     0 3px 10px rgba(45, 24, 16, 0.3),
     inset 0 1px 2px rgba(255, 255, 255, 0.5);
-  border-color: var(--pf-gold-dark);
+  border-color: var(--my-gold-dark);
 }
 
 .nav-orb:hover .nav-orb-inner svg {
-  stroke: var(--pf-brown-darkest);
+  stroke: var(--my-brown-darkest);
 }
 
 .nav-orb-pulse {
@@ -1994,7 +2151,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 1px solid var(--pf-brown-light);
+  border: 1px solid var(--my-brown-light);
   animation: nav-orb-pulse-anim 3s ease-out infinite;
   z-index: 1;
   pointer-events: none;
@@ -2086,10 +2243,10 @@
     bottom: calc(90px + env(safe-area-inset-bottom, 0px)) !important;
     right: 20px !important;
     width: 280px !important;
-    background: var(--pf-gradient-parchment) !important;
-    border: 2px solid var(--pf-gold) !important;
+    background: var(--my-gradient-parchment) !important;
+    border: 2px solid var(--my-gold) !important;
     border-radius: 12px !important;
-    box-shadow: var(--pf-shadow-parchment) !important;
+    box-shadow: var(--my-shadow-parchment) !important;
     backdrop-filter: blur(10px) !important;
     z-index: 10001 !important;
     animation: slideUp 0.3s ease-out !important;
@@ -2113,7 +2270,7 @@
     align-items: center !important;
     padding: 12px 16px !important;
     background: linear-gradient(to bottom, #7a3b2e, #5e2e23) !important;
-    border-bottom: 1px solid var(--pf-brown-medium) !important;
+    border-bottom: 1px solid var(--my-brown-medium) !important;
     color: #f0e6d2 !important;
     font-family: 'Cinzel', serif !important;
     font-weight: 600 !important;
@@ -2154,9 +2311,9 @@
     min-width: 40px !important;
     min-height: 40px !important;
     border-radius: 50% !important;
-    background: var(--pf-parchment) !important;
-    border: 2px solid var(--pf-brown-medium) !important;
-    color: var(--pf-text-primary) !important;
+    background: var(--my-parchment) !important;
+    border: 2px solid var(--my-brown-medium) !important;
+    color: var(--my-text-primary) !important;
     font-size: 18px !important;
     cursor: pointer !important;
     display: flex !important;
@@ -2168,8 +2325,8 @@
   }
 
   .mobile-nav-arrow:hover:not(:disabled) {
-    background: var(--pf-parchment-light) !important;
-    border-color: var(--pf-gold) !important;
+    background: var(--my-parchment-light) !important;
+    border-color: var(--my-gold) !important;
     transform: scale(1.1) !important;
   }
 
@@ -2191,10 +2348,10 @@
     align-items: center !important;
     gap: 12px !important;
     padding: 12px 16px !important;
-    background: var(--pf-parchment) !important;
-    border: 2px solid var(--pf-brown-medium) !important;
+    background: var(--my-parchment) !important;
+    border: 2px solid var(--my-brown-medium) !important;
     border-radius: 8px !important;
-    color: var(--pf-text-primary) !important;
+    color: var(--my-text-primary) !important;
     cursor: pointer !important;
     transition: all 0.2s ease !important;
     font-family: 'Cinzel', serif !important;
@@ -2209,8 +2366,8 @@
 
   .mobile-nav-item:hover,
   .mobile-nav-item:active {
-    background: var(--pf-parchment-light) !important;
-    border-color: var(--pf-gold) !important;
+    background: var(--my-parchment-light) !important;
+    border-color: var(--my-gold) !important;
     transform: translateY(-1px) !important;
     box-shadow: 
       0 2px 6px rgba(0, 0, 0, 0.3),
@@ -2218,9 +2375,9 @@
   }
 
   .mobile-nav-item.active {
-    background: linear-gradient(145deg, var(--pf-gold-light) 0%, var(--pf-gold) 50%, rgba(212, 175, 55, 0.9) 100%) !important;
-    border-color: var(--pf-gold-dark) !important;
-    color: var(--pf-brown-darkest) !important;
+    background: linear-gradient(145deg, var(--my-gold-light) 0%, var(--my-gold) 50%, rgba(212, 175, 55, 0.9) 100%) !important;
+    border-color: var(--my-gold-dark) !important;
+    color: var(--my-brown-darkest) !important;
     box-shadow: 
       0 2px 8px rgba(212, 175, 55, 0.4),
       inset 0 1px 2px rgba(255, 255, 255, 0.7) !important;
@@ -2228,7 +2385,7 @@
 
   .mobile-nav-item.premium {
     position: relative !important;
-    border-color: var(--pf-gold) !important;
+    border-color: var(--my-gold) !important;
   }
 
   .mobile-nav-item.premium::after {
@@ -2236,7 +2393,7 @@
     position: absolute !important;
     top: 4px !important;
     right: 8px !important;
-    color: var(--pf-gold) !important;
+    color: var(--my-gold) !important;
     font-size: 12px !important;
   }
 
@@ -2259,9 +2416,9 @@
     text-align: center !important;
     padding: 8px !important;
     font-size: 12px !important;
-    color: var(--pf-text-muted) !important;
+    color: var(--my-text-muted) !important;
     font-family: 'Cinzel', serif !important;
-    border-top: 1px solid var(--pf-brown-medium) !important;
+    border-top: 1px solid var(--my-brown-medium) !important;
     background: rgba(255, 255, 255, 0.1) !important;
   }
 
@@ -2274,7 +2431,7 @@
     padding: 12px 16px !important;
     background: linear-gradient(180deg, #8b4513, #654321) !important;
     border: none !important;
-    border-top: 1px solid var(--pf-brown-medium) !important;
+    border-top: 1px solid var(--my-brown-medium) !important;
     color: #f0e6d2 !important;
     font-family: 'Cinzel', serif !important;
     font-size: 14px !important;
@@ -2303,62 +2460,62 @@
 .spellbook-layout .wow-buff-config-container,
 .spellbook-layout .wow-debuff-config-container,
 .spellbook-layout .wow-control-config-container {
-  background: var(--pf-gradient-parchment-light) !important;
-  border: var(--pf-border-width) solid var(--pf-brown-light) !important;
-  border-radius: var(--pf-border-radius) !important;
-  padding: var(--pf-space-4) !important;
-  margin: var(--pf-space-3) 0 !important;
-  box-shadow: var(--pf-shadow-sm) !important;
+  background: var(--my-gradient-parchment-light) !important;
+  border: var(--my-border-width) solid var(--my-brown-light) !important;
+  border-radius: var(--my-border-radius) !important;
+  padding: var(--my-space-4) !important;
+  margin: var(--my-space-3) 0 !important;
+  box-shadow: var(--my-shadow-sm) !important;
 }
 
 .spellbook-layout .wow-buff-section-title,
 .spellbook-layout .wow-debuff-section-title,
 .spellbook-layout .wow-control-section-title,
 .spellbook-layout .wow-restoration-section-title {
-  color: var(--pf-text-primary) !important;
-  font-family: var(--pf-font-display) !important;
-  font-size: var(--pf-text-lg) !important;
-  font-weight: var(--pf-font-bold) !important;
+  color: var(--my-text-primary) !important;
+  font-family: var(--my-font-display) !important;
+  font-size: var(--my-text-lg) !important;
+  font-weight: var(--my-font-bold) !important;
   text-transform: uppercase !important;
   letter-spacing: 0.5px !important;
-  margin-bottom: var(--pf-space-3) !important;
-  border-bottom: 1px solid var(--pf-brown-light) !important;
-  padding-bottom: var(--pf-space-2) !important;
+  margin-bottom: var(--my-space-3) !important;
+  border-bottom: 1px solid var(--my-brown-light) !important;
+  padding-bottom: var(--my-space-2) !important;
 }
 
 .spellbook-layout .wow-formula-suggestions {
-  background: var(--pf-gradient-parchment) !important;
-  border: var(--pf-border-width) solid var(--pf-brown-light) !important;
-  border-radius: var(--pf-border-radius) !important;
-  padding: var(--pf-space-3) !important;
-  margin: var(--pf-space-2) 0 !important;
+  background: var(--my-gradient-parchment) !important;
+  border: var(--my-border-width) solid var(--my-brown-light) !important;
+  border-radius: var(--my-border-radius) !important;
+  padding: var(--my-space-3) !important;
+  margin: var(--my-space-2) 0 !important;
 }
 
 .spellbook-layout .wow-formula-suggestion-buttons {
   display: flex !important;
   flex-wrap: wrap !important;
-  gap: var(--pf-space-2) !important;
-  margin-top: var(--pf-space-2) !important;
+  gap: var(--my-space-2) !important;
+  margin-top: var(--my-space-2) !important;
 }
 
 .spellbook-layout .wow-formula-suggestion {
-  background: var(--pf-gradient-button) !important;
-  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
-  border-radius: var(--pf-border-radius) !important;
-  color: var(--pf-text-primary) !important;
-  font-family: var(--pf-font-ui) !important;
-  font-size: var(--pf-text-sm) !important;
-  padding: var(--pf-space-2) var(--pf-space-3) !important;
+  background: var(--my-gradient-button) !important;
+  border: var(--my-border-width) solid var(--my-brown-medium) !important;
+  border-radius: var(--my-border-radius) !important;
+  color: var(--my-text-primary) !important;
+  font-family: var(--my-font-ui) !important;
+  font-size: var(--my-text-sm) !important;
+  padding: var(--my-space-2) var(--my-space-3) !important;
   cursor: pointer !important;
-  transition: all var(--pf-transition-normal) !important;
+  transition: all var(--my-transition-normal) !important;
   white-space: nowrap !important;
 }
 
 .spellbook-layout .wow-formula-suggestion:hover {
-  background: var(--pf-gradient-button-hover) !important;
-  border-color: var(--pf-brown-dark) !important;
+  background: var(--my-gradient-button-hover) !important;
+  border-color: var(--my-brown-dark) !important;
   transform: translateY(-1px) !important;
-  box-shadow: var(--pf-shadow-sm) !important;
+  box-shadow: var(--my-shadow-sm) !important;
 }
 
 /* ===== REMOVE WEIRD ROUNDED CORNERS ===== */
@@ -2367,18 +2524,18 @@
 .spellbook-layout .wow-effect-config-tabs,
 .spellbook-layout .wow-conditional-settings,
 .spellbook-layout .wow-effect-details-container {
-  border-radius: var(--pf-border-radius) !important;
+  border-radius: var(--my-border-radius) !important;
 }
 
 /* Remove excessive border radius from any elements */
 .spellbook-layout * {
-  border-radius: var(--pf-border-radius) !important;
+  border-radius: var(--my-border-radius) !important;
 }
 
 .spellbook-layout .pf-logic-button,
 .spellbook-layout .pf-trigger-category,
 .spellbook-layout .pf-trigger-option {
-  border-radius: var(--pf-border-radius) !important;
+  border-radius: var(--my-border-radius) !important;
 }
 
 /* ===== STAGE BUTTONS CLEANUP ===== */
@@ -2386,33 +2543,33 @@
 
 .spellbook-layout .wow-add-stage-button,
 .spellbook-layout .wow-remove-stage-button {
-  background: var(--pf-gradient-button) !important;
-  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
-  border-radius: var(--pf-border-radius) !important;
-  color: var(--pf-text-primary) !important;
-  font-family: var(--pf-font-ui) !important;
-  font-size: var(--pf-text-sm) !important;
-  padding: var(--pf-space-2) var(--pf-space-3) !important;
+  background: var(--my-gradient-button) !important;
+  border: var(--my-border-width) solid var(--my-brown-medium) !important;
+  border-radius: var(--my-border-radius) !important;
+  color: var(--my-text-primary) !important;
+  font-family: var(--my-font-ui) !important;
+  font-size: var(--my-text-sm) !important;
+  padding: var(--my-space-2) var(--my-space-3) !important;
   cursor: pointer !important;
-  transition: all var(--pf-transition-normal) !important;
-  margin: var(--pf-space-1) !important;
+  transition: all var(--my-transition-normal) !important;
+  margin: var(--my-space-1) !important;
 }
 
 .spellbook-layout .wow-add-stage-button:hover,
 .spellbook-layout .wow-remove-stage-button:hover {
-  background: var(--pf-gradient-button-hover) !important;
-  border-color: var(--pf-brown-dark) !important;
+  background: var(--my-gradient-button-hover) !important;
+  border-color: var(--my-brown-dark) !important;
   transform: translateY(-1px) !important;
-  box-shadow: var(--pf-shadow-sm) !important;
+  box-shadow: var(--my-shadow-sm) !important;
 }
 
 .spellbook-layout .wow-add-stage-button {
-  background: var(--pf-gradient-gold) !important;
-  border-color: var(--pf-gold-dark) !important;
-  color: var(--pf-brown-darkest) !important;
+  background: var(--my-gradient-gold) !important;
+  border-color: var(--my-gold-dark) !important;
+  color: var(--my-brown-darkest) !important;
 }
 
 .spellbook-layout .wow-add-stage-button:hover {
-  background: var(--pf-gold-light) !important;
-  box-shadow: var(--pf-shadow-glow) !important;
+  background: var(--my-gold-light) !important;
+  box-shadow: var(--my-shadow-glow) !important;
 }

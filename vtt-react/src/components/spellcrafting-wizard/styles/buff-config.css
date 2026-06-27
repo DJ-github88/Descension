@@ -1,39 +1,39 @@
 /* Buff Configuration Styles for Trigger Step */
 .wow-buff-config-container {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-3);
-  margin-top: var(--pf-space-3);
-  box-shadow: var(--pf-shadow-sm);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-3);
+  margin-top: var(--my-space-3);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .wow-buff-config-section {
-  margin-bottom: var(--pf-space-4);
+  margin-bottom: var(--my-space-4);
 }
 
 .wow-buff-section-title {
-  color: var(--pf-gold);
-  font-size: var(--pf-text-sm);
-  margin-bottom: var(--pf-space-2);
-  font-weight: var(--pf-font-bold);
-  font-family: var(--pf-font-display);
+  color: var(--my-gold);
+  font-size: var(--my-text-sm);
+  margin-bottom: var(--my-space-2);
+  font-weight: var(--my-font-bold);
+  font-family: var(--my-font-display);
 }
 
 .wow-buff-stat-modifiers {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
 }
 
 .wow-buff-stat-modifier {
   display: flex;
   align-items: center;
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-2);
-  box-shadow: var(--pf-shadow-sm);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-2);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .wow-buff-stat-info {
@@ -45,48 +45,48 @@
 .wow-buff-stat-icon {
   width: 24px;
   height: 24px;
-  margin-right: var(--pf-space-2);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
+  margin-right: var(--my-space-2);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
 }
 
 .wow-buff-stat-icon img {
   width: 100%;
   height: 100%;
-  border-radius: var(--pf-border-radius);
+  border-radius: var(--my-border-radius);
 }
 
 .wow-buff-stat-name {
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-ui);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-ui);
 }
 
 .wow-buff-stat-value-container {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-1);
+  gap: var(--my-space-1);
 }
 
 .wow-buff-stat-value-input {
   width: 60px;
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  font-size: var(--pf-text-sm);
-  font-family: var(--pf-font-ui);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
+  padding: var(--my-space-1) var(--my-space-2);
+  font-size: var(--my-text-sm);
+  font-family: var(--my-font-ui);
 }
 
 .wow-buff-stat-type-select {
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  font-size: var(--pf-text-sm);
-  font-family: var(--pf-font-ui);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
+  padding: var(--my-space-1) var(--my-space-2);
+  font-size: var(--my-text-sm);
+  font-family: var(--my-font-ui);
 }
 
 .wow-buff-duration-container {
@@ -97,77 +97,77 @@
 .wow-buff-duration-input {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-1);
+  gap: var(--my-space-1);
 }
 
 .wow-buff-duration-value {
   width: 100px; /* Increased from 60px for better visibility */
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
-  padding: var(--pf-space-2) var(--pf-space-3); /* Increased padding for better usability */
-  font-size: var(--pf-text-base); /* Increased from text-sm for better readability */
-  font-family: var(--pf-font-ui);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
+  padding: var(--my-space-2) var(--my-space-3); /* Increased padding for better usability */
+  font-size: var(--my-text-base); /* Increased from text-sm for better readability */
+  font-family: var(--my-font-ui);
   text-align: center;
 }
 
 .wow-buff-duration-unit {
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  font-size: var(--pf-text-sm);
-  font-family: var(--pf-font-ui);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
+  padding: var(--my-space-1) var(--my-space-2);
+  font-size: var(--my-text-sm);
+  font-family: var(--my-font-ui);
 }
 
 .wow-buff-no-stats {
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-3);
-  color: var(--pf-text-muted);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-3);
+  color: var(--my-text-muted);
   font-style: italic;
-  font-family: var(--pf-font-body);
+  font-family: var(--my-font-body);
 }
 
 /* Debuff Configuration Styles for Trigger Step */
 .wow-debuff-config-container {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-3);
-  margin-top: var(--pf-space-3);
-  box-shadow: var(--pf-shadow-sm);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-3);
+  margin-top: var(--my-space-3);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .wow-debuff-config-section {
-  margin-bottom: var(--pf-space-4);
+  margin-bottom: var(--my-space-4);
 }
 
 .wow-debuff-section-title {
-  color: var(--pf-fire);
-  font-size: var(--pf-text-sm);
-  margin-bottom: var(--pf-space-2);
-  font-weight: var(--pf-font-bold);
-  font-family: var(--pf-font-display);
+  color: var(--my-fire);
+  font-size: var(--my-text-sm);
+  margin-bottom: var(--my-space-2);
+  font-weight: var(--my-font-bold);
+  font-family: var(--my-font-display);
 }
 
 .wow-debuff-stat-penalties {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
 }
 
 .wow-debuff-stat-penalty {
   display: flex;
   align-items: center;
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-2);
-  box-shadow: var(--pf-shadow-sm);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-2);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .wow-debuff-stat-info {
@@ -179,90 +179,90 @@
 .wow-debuff-stat-icon {
   width: 24px;
   height: 24px;
-  margin-right: var(--pf-space-2);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
+  margin-right: var(--my-space-2);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
 }
 
 .wow-debuff-stat-icon img {
   width: 100%;
   height: 100%;
-  border-radius: var(--pf-border-radius);
+  border-radius: var(--my-border-radius);
 }
 
 .wow-debuff-stat-name {
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-ui);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-ui);
 }
 
 .wow-debuff-stat-value-container {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-1);
+  gap: var(--my-space-1);
 }
 
 .wow-debuff-stat-value-input {
   width: 60px;
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  font-size: var(--pf-text-sm);
-  font-family: var(--pf-font-ui);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
+  padding: var(--my-space-1) var(--my-space-2);
+  font-size: var(--my-text-sm);
+  font-family: var(--my-font-ui);
 }
 
 .wow-debuff-stat-type-select {
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  font-size: var(--pf-text-sm);
-  font-family: var(--pf-font-ui);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
+  padding: var(--my-space-1) var(--my-space-2);
+  font-size: var(--my-text-sm);
+  font-family: var(--my-font-ui);
 }
 
 .wow-debuff-duration-container {
   display: flex;
   align-items: center;
-  margin-bottom: var(--pf-space-3);
+  margin-bottom: var(--my-space-3);
 }
 
 .wow-debuff-duration-input {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-1);
+  gap: var(--my-space-1);
 }
 
 .wow-debuff-duration-input label {
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-sm);
-  margin-right: var(--pf-space-1);
-  font-family: var(--pf-font-ui);
-  font-weight: var(--pf-font-semibold);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-sm);
+  margin-right: var(--my-space-1);
+  font-family: var(--my-font-ui);
+  font-weight: var(--my-font-semibold);
 }
 
 .wow-debuff-duration-value {
   width: 100px; /* Increased from 60px for better visibility */
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
-  padding: var(--pf-space-2) var(--pf-space-3); /* Increased padding for better usability */
-  font-size: var(--pf-text-base); /* Increased from text-sm for better readability */
-  font-family: var(--pf-font-ui);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
+  padding: var(--my-space-2) var(--my-space-3); /* Increased padding for better usability */
+  font-size: var(--my-text-base); /* Increased from text-sm for better readability */
+  font-family: var(--my-font-ui);
   text-align: center;
 }
 
 .wow-debuff-duration-unit {
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  font-size: var(--pf-text-sm);
-  font-family: var(--pf-font-ui);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
+  padding: var(--my-space-1) var(--my-space-2);
+  font-size: var(--my-text-sm);
+  font-family: var(--my-font-ui);
 }
 
 .wow-debuff-save-container {
@@ -273,41 +273,41 @@
 .wow-debuff-save-input {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-1);
+  gap: var(--my-space-1);
 }
 
 .wow-debuff-save-input label {
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-sm);
-  margin-right: var(--pf-space-1);
-  font-family: var(--pf-font-ui);
-  font-weight: var(--pf-font-semibold);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-sm);
+  margin-right: var(--my-space-1);
+  font-family: var(--my-font-ui);
+  font-weight: var(--my-font-semibold);
 }
 
 .wow-debuff-save-label {
-  margin-left: var(--pf-space-3);
+  margin-left: var(--my-space-3);
 }
 
 .wow-debuff-dc-value {
   width: 50px;
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  font-size: var(--pf-text-sm);
-  font-family: var(--pf-font-ui);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
+  padding: var(--my-space-1) var(--my-space-2);
+  font-size: var(--my-text-sm);
+  font-family: var(--my-font-ui);
 }
 
 .wow-debuff-save-type {
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  font-size: var(--pf-text-sm);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
+  padding: var(--my-space-1) var(--my-space-2);
+  font-size: var(--my-text-sm);
   width: 120px;
-  font-family: var(--pf-font-ui);
+  font-family: var(--my-font-ui);
 }
 
 .wow-debuff-control-container {
@@ -316,45 +316,45 @@
 }
 
 .wow-debuff-control-type {
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  font-size: var(--pf-text-sm);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
+  padding: var(--my-space-1) var(--my-space-2);
+  font-size: var(--my-text-sm);
   width: 100%;
-  font-family: var(--pf-font-ui);
+  font-family: var(--my-font-ui);
 }
 
 .wow-debuff-no-stats {
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-3);
-  color: var(--pf-text-muted);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-3);
+  color: var(--my-text-muted);
   font-style: italic;
-  font-family: var(--pf-font-body);
+  font-family: var(--my-font-body);
 }
 
 /* Formula Suggestions */
 .wow-formula-suggestion-buttons {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--pf-space-2);
-  margin-top: var(--pf-space-2);
+  gap: var(--my-space-2);
+  margin-top: var(--my-space-2);
 }
 
 /* Custom Effect Input Fields */
 .effect-name-input,
 .effect-description-input,
 .effect-text-input {
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
-  padding: var(--pf-space-2);
-  font-size: var(--pf-text-sm);
-  font-family: var(--pf-font-ui);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
+  padding: var(--my-space-2);
+  font-size: var(--my-text-sm);
+  font-family: var(--my-font-ui);
   width: 100%;
   transition: border-color 0.2s ease;
 }
@@ -363,7 +363,7 @@
 .effect-description-input:focus,
 .effect-text-input:focus {
   outline: none;
-  border-color: var(--pf-brown-dark);
+  border-color: var(--my-brown-dark);
   box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.2);
 }
 
@@ -374,18 +374,18 @@
 
 .stat-name-input,
 .stat-description-input {
-  margin-bottom: var(--pf-space-2);
+  margin-bottom: var(--my-space-2);
 }
 
 .stat-name-input input,
 .stat-description-input textarea {
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
-  padding: var(--pf-space-2);
-  font-size: var(--pf-text-sm);
-  font-family: var(--pf-font-ui);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
+  padding: var(--my-space-2);
+  font-size: var(--my-text-sm);
+  font-family: var(--my-font-ui);
   width: 100%;
   transition: border-color 0.2s ease;
 }
@@ -393,7 +393,7 @@
 .stat-name-input input:focus,
 .stat-description-input textarea:focus {
   outline: none;
-  border-color: var(--pf-brown-dark);
+  border-color: var(--my-brown-dark);
   box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.2);
 }
 
@@ -406,42 +406,42 @@
 .selected-effects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: var(--pf-space-3);
-  margin-top: var(--pf-space-3);
+  gap: var(--my-space-3);
+  margin-top: var(--my-space-3);
 }
 
 .selected-effect-card {
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-3);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-3);
   transition: all 0.2s ease;
 }
 
 .selected-effect-card:hover {
-  border-color: var(--pf-brown-dark);
-  box-shadow: var(--pf-shadow-md);
+  border-color: var(--my-brown-dark);
+  box-shadow: var(--my-shadow-md);
 }
 
 .effect-card-header {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
-  margin-bottom: var(--pf-space-2);
+  gap: var(--my-space-2);
+  margin-bottom: var(--my-space-2);
 }
 
 .effect-card-icon {
   width: 32px;
   height: 32px;
-  border-radius: var(--pf-border-radius);
-  border: 1px solid var(--pf-brown-light);
+  border-radius: var(--my-border-radius);
+  border: 1px solid var(--my-brown-light);
 }
 
 .effect-card-title {
   flex: 1;
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-primary);
-  font-size: var(--pf-text-base);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-primary);
+  font-size: var(--my-text-base);
 }
 
 .effect-configure-btn,
@@ -449,43 +449,43 @@
   width: 24px;
   height: 24px;
   border: none;
-  border-radius: var(--pf-border-radius);
+  border-radius: var(--my-border-radius);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--pf-text-xs);
+  font-size: var(--my-text-xs);
   transition: all 0.2s ease;
 }
 
 .effect-configure-btn {
-  background: var(--pf-brown-medium);
-  color: var(--pf-text-on-dark);
+  background: var(--my-brown-medium);
+  color: var(--my-text-on-dark);
 }
 
 .effect-configure-btn:hover {
-  background: var(--pf-brown-dark);
+  background: var(--my-brown-dark);
 }
 
 .effect-remove-btn {
-  background: var(--pf-danger);
-  color: var(--pf-text-on-dark);
+  background: var(--my-danger);
+  color: var(--my-text-on-dark);
 }
 
 .effect-remove-btn:hover {
-  background: var(--pf-danger-dark);
+  background: var(--my-danger-dark);
 }
 
 .effect-card-description {
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-sm);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-sm);
   line-height: 1.4;
-  margin-bottom: var(--pf-space-2);
+  margin-bottom: var(--my-space-2);
 }
 
 .effect-card-potency {
-  color: var(--pf-text-muted);
-  font-size: var(--pf-text-xs);
+  color: var(--my-text-muted);
+  font-size: var(--my-text-xs);
   font-style: italic;
 }
 
@@ -504,10 +504,10 @@
 }
 
 .effect-config-popup {
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-dark);
-  border-radius: var(--pf-border-radius-lg);
-  box-shadow: var(--pf-shadow-xl);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-dark);
+  border-radius: var(--my-border-radius-lg);
+  box-shadow: var(--my-shadow-xl);
   width: 90%;
   max-width: 500px;
   max-height: 80vh;
@@ -519,25 +519,25 @@
 .effect-config-header {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-3);
-  padding: var(--pf-space-4);
-  border-bottom: var(--pf-border-width) solid var(--pf-brown-medium);
-  background: var(--pf-gradient-parchment-dark);
+  gap: var(--my-space-3);
+  padding: var(--my-space-4);
+  border-bottom: var(--my-border-width) solid var(--my-brown-medium);
+  background: var(--my-gradient-parchment-dark);
 }
 
 .effect-config-icon {
   width: 40px;
   height: 40px;
-  border-radius: var(--pf-border-radius);
-  border: 1px solid var(--pf-brown-light);
+  border-radius: var(--my-border-radius);
+  border: 1px solid var(--my-brown-light);
 }
 
 .effect-config-header h3 {
   flex: 1;
   margin: 0;
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-heading);
-  font-size: var(--pf-text-lg);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-heading);
+  font-size: var(--my-text-lg);
 }
 
 .effect-config-close {
@@ -545,26 +545,26 @@
   height: 32px;
   border: none;
   background: transparent;
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-xl);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-xl);
   cursor: pointer;
-  border-radius: var(--pf-border-radius);
+  border-radius: var(--my-border-radius);
   transition: all 0.2s ease;
 }
 
 .effect-config-close:hover {
-  background: var(--pf-brown-light);
-  color: var(--pf-text-primary);
+  background: var(--my-brown-light);
+  color: var(--my-text-primary);
 }
 
 .effect-config-content {
-  padding: var(--pf-space-4);
+  padding: var(--my-space-4);
   overflow-y: auto;
   flex: 1;
 }
 
 .effect-config-field {
-  margin-bottom: var(--pf-space-4);
+  margin-bottom: var(--my-space-4);
 }
 
 .effect-config-field:last-child {
@@ -573,29 +573,29 @@
 
 .effect-config-field label {
   display: block;
-  margin-bottom: var(--pf-space-2);
-  color: var(--pf-text-primary);
-  font-weight: var(--pf-font-semibold);
-  font-size: var(--pf-text-sm);
+  margin-bottom: var(--my-space-2);
+  color: var(--my-text-primary);
+  font-weight: var(--my-font-semibold);
+  font-size: var(--my-text-sm);
 }
 
 .effect-config-field input,
 .effect-config-field textarea {
   width: 100%;
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
-  padding: var(--pf-space-3);
-  font-size: var(--pf-text-sm);
-  font-family: var(--pf-font-ui);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
+  padding: var(--my-space-3);
+  font-size: var(--my-text-sm);
+  font-family: var(--my-font-ui);
   transition: border-color 0.2s ease;
 }
 
 .effect-config-field input:focus,
 .effect-config-field textarea:focus {
   outline: none;
-  border-color: var(--pf-brown-dark);
+  border-color: var(--my-brown-dark);
   box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.2);
 }
 
@@ -605,64 +605,64 @@
 }
 
 .effect-config-footer {
-  padding: var(--pf-space-4);
-  border-top: var(--pf-border-width) solid var(--pf-brown-medium);
-  background: var(--pf-gradient-parchment-dark);
+  padding: var(--my-space-4);
+  border-top: var(--my-border-width) solid var(--my-brown-medium);
+  background: var(--my-gradient-parchment-dark);
   display: flex;
   justify-content: flex-end;
 }
 
 .effect-config-save {
-  background: var(--pf-brown-medium);
-  color: var(--pf-text-on-dark);
-  border: var(--pf-border-width) solid var(--pf-brown-dark);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-2) var(--pf-space-4);
-  font-size: var(--pf-text-sm);
-  font-weight: var(--pf-font-semibold);
+  background: var(--my-brown-medium);
+  color: var(--my-text-on-dark);
+  border: var(--my-border-width) solid var(--my-brown-dark);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-2) var(--my-space-4);
+  font-size: var(--my-text-sm);
+  font-weight: var(--my-font-semibold);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .effect-config-save:hover {
-  background: var(--pf-brown-dark);
+  background: var(--my-brown-dark);
   transform: translateY(-1px);
-  box-shadow: var(--pf-shadow-md);
+  box-shadow: var(--my-shadow-md);
 }
 
 /* Stat Modifier Configuration */
 .effect-config-section {
-  margin-top: var(--pf-space-4);
-  padding-top: var(--pf-space-4);
-  border-top: var(--pf-border-width) solid var(--pf-brown-light);
+  margin-top: var(--my-space-4);
+  padding-top: var(--my-space-4);
+  border-top: var(--my-border-width) solid var(--my-brown-light);
 }
 
 .effect-config-section h4 {
-  margin: 0 0 var(--pf-space-3) 0;
-  color: var(--pf-text-primary);
-  font-size: var(--pf-text-base);
-  font-weight: var(--pf-font-semibold);
+  margin: 0 0 var(--my-space-3) 0;
+  color: var(--my-text-primary);
+  font-size: var(--my-text-base);
+  font-weight: var(--my-font-semibold);
 }
 
 .selected-stat-modifiers {
-  margin-bottom: var(--pf-space-3);
+  margin-bottom: var(--my-space-3);
 }
 
 .stat-modifier-item {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
-  padding: var(--pf-space-2);
-  background: var(--pf-gradient-parchment-dark);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  margin-bottom: var(--pf-space-2);
+  gap: var(--my-space-2);
+  padding: var(--my-space-2);
+  background: var(--my-gradient-parchment-dark);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  margin-bottom: var(--my-space-2);
 }
 
 .stat-modifier-icon {
   width: 24px;
   height: 24px;
-  border-radius: var(--pf-border-radius);
+  border-radius: var(--my-border-radius);
 }
 
 .stat-modifier-info {
@@ -670,25 +670,25 @@
 }
 
 .stat-modifier-name {
-  font-size: var(--pf-text-sm);
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-primary);
-  margin-bottom: var(--pf-space-1);
+  font-size: var(--my-text-sm);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-primary);
+  margin-bottom: var(--my-space-1);
 }
 
 .stat-modifier-controls {
   display: flex;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
 }
 
 .stat-modifier-value,
 .stat-modifier-type {
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  font-size: var(--pf-text-xs);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
+  padding: var(--my-space-1) var(--my-space-2);
+  font-size: var(--my-text-xs);
 }
 
 .stat-modifier-value {
@@ -703,231 +703,231 @@
   width: 24px;
   height: 24px;
   border: none;
-  background: var(--pf-danger);
-  color: var(--pf-text-on-dark);
-  border-radius: var(--pf-border-radius);
+  background: var(--my-danger);
+  color: var(--my-text-on-dark);
+  border-radius: var(--my-border-radius);
   cursor: pointer;
-  font-size: var(--pf-text-xs);
+  font-size: var(--my-text-xs);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .stat-modifier-remove:hover {
-  background: var(--pf-danger-dark);
+  background: var(--my-danger-dark);
 }
 
 .add-stat-modifiers {
-  margin-top: var(--pf-space-3);
+  margin-top: var(--my-space-3);
 }
 
 .stat-category-tabs {
   display: flex;
-  gap: var(--pf-space-2);
-  margin: var(--pf-space-2) 0;
+  gap: var(--my-space-2);
+  margin: var(--my-space-2) 0;
 }
 
 .stat-category-btn {
-  background: var(--pf-brown-light);
-  color: var(--pf-text-primary);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-1) var(--pf-space-3);
-  font-size: var(--pf-text-xs);
+  background: var(--my-brown-light);
+  color: var(--my-text-primary);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-1) var(--my-space-3);
+  font-size: var(--my-text-xs);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .stat-category-btn:hover {
-  background: var(--pf-brown-medium);
+  background: var(--my-brown-medium);
 }
 
 .stat-category-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-  gap: var(--pf-space-2);
-  margin-top: var(--pf-space-2);
-  padding: var(--pf-space-2);
-  background: var(--pf-gradient-parchment-dark);
-  border-radius: var(--pf-border-radius);
+  gap: var(--my-space-2);
+  margin-top: var(--my-space-2);
+  padding: var(--my-space-2);
+  background: var(--my-gradient-parchment-dark);
+  border-radius: var(--my-border-radius);
 }
 
 .stat-modifier-card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: var(--pf-space-2);
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
+  padding: var(--my-space-2);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .stat-modifier-card:hover {
-  border-color: var(--pf-brown-medium);
+  border-color: var(--my-brown-medium);
   transform: translateY(-1px);
 }
 
 .stat-modifier-card.selected {
-  border-color: var(--pf-brown-dark);
-  background: var(--pf-brown-light);
+  border-color: var(--my-brown-dark);
+  background: var(--my-brown-light);
 }
 
 .stat-card-icon {
   width: 20px;
   height: 20px;
-  border-radius: var(--pf-border-radius);
-  margin-bottom: var(--pf-space-1);
+  border-radius: var(--my-border-radius);
+  margin-bottom: var(--my-space-1);
 }
 
 .stat-card-name {
-  font-size: var(--pf-text-xs);
+  font-size: var(--my-text-xs);
   text-align: center;
-  color: var(--pf-text-primary);
+  color: var(--my-text-primary);
   line-height: 1.2;
 }
 
 .wow-formula-suggestion {
-  background: var(--pf-gradient-button);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
-  padding: var(--pf-space-2) var(--pf-space-3);
-  font-size: var(--pf-text-xs);
+  background: var(--my-gradient-button);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
+  padding: var(--my-space-2) var(--my-space-3);
+  font-size: var(--my-text-xs);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
-  font-family: var(--pf-font-ui);
-  box-shadow: var(--pf-shadow-sm);
+  transition: all var(--my-transition-normal);
+  font-family: var(--my-font-ui);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .wow-formula-suggestion:hover {
-  background: var(--pf-gradient-button-hover);
-  border-color: var(--pf-gold);
+  background: var(--my-gradient-button-hover);
+  border-color: var(--my-gold);
   transform: translateY(-1px);
-  box-shadow: var(--pf-shadow-md);
+  box-shadow: var(--my-shadow-md);
 }
 
 /* Conditional Formula Example */
 .wow-conditional-formula-example {
-  margin-top: var(--pf-space-3);
-  padding: var(--pf-space-3);
-  background: var(--pf-gradient-parchment-light);
-  border-radius: var(--pf-border-radius);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  box-shadow: var(--pf-shadow-sm);
+  margin-top: var(--my-space-3);
+  padding: var(--my-space-3);
+  background: var(--my-gradient-parchment-light);
+  border-radius: var(--my-border-radius);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .wow-conditional-formula-tip {
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-sm);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-sm);
   margin: 0;
-  font-family: var(--pf-font-body);
+  font-family: var(--my-font-body);
   line-height: 1.4;
 }
 
 .wow-conditional-formula-tip strong {
-  color: var(--pf-gold);
-  font-family: var(--pf-font-ui);
-  font-weight: var(--pf-font-bold);
+  color: var(--my-gold);
+  font-family: var(--my-font-ui);
+  font-weight: var(--my-font-bold);
 }
 
 /* Formula Suggestions */
 .wow-formula-suggestions {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--pf-space-2);
-  margin: var(--pf-space-3) 0;
-  padding: var(--pf-space-2);
+  gap: var(--my-space-2);
+  margin: var(--my-space-3) 0;
+  padding: var(--my-space-2);
   background: rgba(218, 165, 32, 0.05);
-  border-radius: var(--pf-border-radius);
-  border: 1px dashed var(--pf-brown-light);
+  border-radius: var(--my-border-radius);
+  border: 1px dashed var(--my-brown-light);
 }
 
 .wow-formula-suggestion {
-  background: var(--pf-gradient-button);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-sm);
-  font-weight: var(--pf-font-semibold);
-  padding: var(--pf-space-2) var(--pf-space-3);
+  background: var(--my-gradient-button);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-ui);
+  font-size: var(--my-text-sm);
+  font-weight: var(--my-font-semibold);
+  padding: var(--my-space-2) var(--my-space-3);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   white-space: nowrap;
 }
 
 .wow-formula-suggestion:hover {
-  background: var(--pf-gradient-button-hover);
-  border-color: var(--pf-gold);
+  background: var(--my-gradient-button-hover);
+  border-color: var(--my-gold);
   transform: translateY(-1px);
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
 }
 
 /* Conditional Buff Preview Styles */
 .conditional-buff-preview {
-  margin-bottom: var(--pf-space-3);
-  padding: var(--pf-space-2);
-  background: var(--pf-gradient-parchment-light);
-  border-radius: var(--pf-border-radius);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+  margin-bottom: var(--my-space-3);
+  padding: var(--my-space-2);
+  background: var(--my-gradient-parchment-light);
+  border-radius: var(--my-border-radius);
+  border: var(--my-border-width) solid var(--my-brown-light);
 }
 
 .conditional-buff-detail {
-  margin-top: var(--pf-space-2);
-  margin-left: var(--pf-space-3);
+  margin-top: var(--my-space-2);
+  margin-left: var(--my-space-3);
   display: flex;
   flex-direction: column;
 }
 
 .conditional-buff-label {
-  color: var(--pf-gold);
-  font-size: var(--pf-text-xs);
-  font-weight: var(--pf-font-semibold);
-  margin-bottom: var(--pf-space-1);
-  font-family: var(--pf-font-ui);
+  color: var(--my-gold);
+  font-size: var(--my-text-xs);
+  font-weight: var(--my-font-semibold);
+  margin-bottom: var(--my-space-1);
+  font-family: var(--my-font-ui);
 }
 
 .conditional-buff-value {
-  color: var(--pf-text-primary);
-  font-size: var(--pf-text-xs);
-  font-family: var(--pf-font-body);
+  color: var(--my-text-primary);
+  font-size: var(--my-text-xs);
+  font-family: var(--my-font-body);
 }
 
 /* Buff Stat Modifier Styling */
 .wow-buff-stat-modifiers {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-3);
-  margin-top: var(--pf-space-3);
+  gap: var(--my-space-3);
+  margin-top: var(--my-space-3);
 }
 
 .wow-buff-stat-modifier {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-3);
-  padding: var(--pf-space-3);
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  transition: all var(--pf-transition-normal);
+  gap: var(--my-space-3);
+  padding: var(--my-space-3);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  transition: all var(--my-transition-normal);
 }
 
 .wow-buff-stat-modifier:hover {
-  border-color: var(--pf-brown-medium);
-  box-shadow: var(--pf-shadow-sm);
+  border-color: var(--my-brown-medium);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .wow-buff-stat-modifier.disabled {
   opacity: 0.5;
-  background: var(--pf-gradient-parchment-light);
+  background: var(--my-gradient-parchment-light);
 }
 
 .wow-buff-stat-info {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
   flex: 1;
 }
 
@@ -939,15 +939,15 @@
 .wow-buff-stat-checkbox input[type="checkbox"] {
   width: 18px;
   height: 18px;
-  accent-color: var(--pf-gold);
+  accent-color: var(--my-gold);
   cursor: pointer;
 }
 
 .wow-buff-stat-icon {
   width: 32px;
   height: 32px;
-  border-radius: var(--pf-border-radius);
-  border: 1px solid var(--pf-brown-light);
+  border-radius: var(--my-border-radius);
+  border: 1px solid var(--my-brown-light);
   overflow: hidden;
   flex-shrink: 0;
 }
@@ -959,71 +959,71 @@
 }
 
 .wow-buff-stat-name {
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-ui);
-  font-weight: var(--pf-font-semibold);
-  font-size: var(--pf-text-sm);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-ui);
+  font-weight: var(--my-font-semibold);
+  font-size: var(--my-text-sm);
 }
 
 /* Buff stat controls */
 .wow-buff-stat-controls {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
 }
 
 .wow-buff-stat-controls input,
 .wow-buff-stat-controls select {
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-sm);
-  padding: var(--pf-space-1) var(--pf-space-2);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-sm);
+  padding: var(--my-space-1) var(--my-space-2);
   min-width: 80px;
 }
 
 .wow-buff-stat-controls input:focus,
 .wow-buff-stat-controls select:focus {
   outline: none;
-  border-color: var(--pf-gold);
-  box-shadow: 0 0 0 1px var(--pf-gold);
+  border-color: var(--my-gold);
+  box-shadow: 0 0 0 1px var(--my-gold);
 }
 
 /* Debuff Stat Penalty Styling (mirror of buff styling) */
 .wow-debuff-stat-penalties {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-3);
-  margin-top: var(--pf-space-3);
+  gap: var(--my-space-3);
+  margin-top: var(--my-space-3);
 }
 
 .wow-debuff-stat-penalty {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-3);
-  padding: var(--pf-space-3);
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  transition: all var(--pf-transition-normal);
+  gap: var(--my-space-3);
+  padding: var(--my-space-3);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  transition: all var(--my-transition-normal);
 }
 
 .wow-debuff-stat-penalty:hover {
-  border-color: var(--pf-brown-medium);
-  box-shadow: var(--pf-shadow-sm);
+  border-color: var(--my-brown-medium);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .wow-debuff-stat-penalty.disabled {
   opacity: 0.5;
-  background: var(--pf-gradient-parchment-light);
+  background: var(--my-gradient-parchment-light);
 }
 
 .wow-debuff-stat-info {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
   flex: 1;
 }
 
@@ -1035,15 +1035,15 @@
 .wow-debuff-stat-checkbox input[type="checkbox"] {
   width: 18px;
   height: 18px;
-  accent-color: var(--pf-gold);
+  accent-color: var(--my-gold);
   cursor: pointer;
 }
 
 .wow-debuff-stat-icon {
   width: 32px;
   height: 32px;
-  border-radius: var(--pf-border-radius);
-  border: 1px solid var(--pf-brown-light);
+  border-radius: var(--my-border-radius);
+  border: 1px solid var(--my-brown-light);
   overflow: hidden;
   flex-shrink: 0;
 }
@@ -1055,146 +1055,146 @@
 }
 
 .wow-debuff-stat-name {
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-ui);
-  font-weight: var(--pf-font-semibold);
-  font-size: var(--pf-text-sm);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-ui);
+  font-weight: var(--my-font-semibold);
+  font-size: var(--my-text-sm);
 }
 
 /* Debuff stat controls */
 .wow-debuff-stat-controls {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
 }
 
 .wow-debuff-stat-controls input,
 .wow-debuff-stat-controls select {
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-sm);
-  padding: var(--pf-space-1) var(--pf-space-2);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-sm);
+  padding: var(--my-space-1) var(--my-space-2);
   min-width: 80px;
 }
 
 .wow-debuff-stat-controls input:focus,
 .wow-debuff-stat-controls select:focus {
   outline: none;
-  border-color: var(--pf-gold);
-  box-shadow: 0 0 0 1px var(--pf-gold);
+  border-color: var(--my-gold);
+  box-shadow: 0 0 0 1px var(--my-gold);
 }
 
 .conditional-buff-stats {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-1);
-  margin-top: var(--pf-space-1);
+  gap: var(--my-space-1);
+  margin-top: var(--my-space-1);
 }
 
 .conditional-buff-stat {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
-  background: var(--pf-gradient-parchment);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  border-radius: var(--pf-border-radius);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+  gap: var(--my-space-2);
+  background: var(--my-gradient-parchment);
+  padding: var(--my-space-1) var(--my-space-2);
+  border-radius: var(--my-border-radius);
+  border: var(--my-border-width) solid var(--my-brown-light);
 }
 
 .conditional-buff-stat-name {
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-xs);
-  font-family: var(--pf-font-ui);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-xs);
+  font-family: var(--my-font-ui);
 }
 
 .conditional-buff-stat-value {
-  font-weight: var(--pf-font-semibold);
-  font-size: var(--pf-text-xs);
-  font-family: var(--pf-font-ui);
+  font-weight: var(--my-font-semibold);
+  font-size: var(--my-text-xs);
+  font-family: var(--my-font-ui);
 }
 
 .conditional-buff-stat-value.positive {
-  color: var(--pf-nature);
+  color: var(--my-nature);
 }
 
 .conditional-buff-stat-value.negative {
-  color: var(--pf-fire);
+  color: var(--my-fire);
 }
 
 .conditional-buff-stat-value.formula {
-  color: var(--pf-gold);
+  color: var(--my-gold);
 }
 
 /* Conditional Debuff Preview Styles */
 .conditional-debuff-preview {
-  margin-bottom: var(--pf-space-3);
-  padding: var(--pf-space-2);
-  background: var(--pf-gradient-parchment-light);
-  border-radius: var(--pf-border-radius);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+  margin-bottom: var(--my-space-3);
+  padding: var(--my-space-2);
+  background: var(--my-gradient-parchment-light);
+  border-radius: var(--my-border-radius);
+  border: var(--my-border-width) solid var(--my-brown-light);
 }
 
 .conditional-debuff-detail {
-  margin-top: var(--pf-space-2);
-  margin-left: var(--pf-space-3);
+  margin-top: var(--my-space-2);
+  margin-left: var(--my-space-3);
   display: flex;
   flex-direction: column;
 }
 
 .conditional-debuff-label {
-  color: var(--pf-fire);
-  font-size: var(--pf-text-xs);
-  font-weight: var(--pf-font-semibold);
-  margin-bottom: var(--pf-space-1);
-  font-family: var(--pf-font-ui);
+  color: var(--my-fire);
+  font-size: var(--my-text-xs);
+  font-weight: var(--my-font-semibold);
+  margin-bottom: var(--my-space-1);
+  font-family: var(--my-font-ui);
 }
 
 .conditional-debuff-value {
-  color: var(--pf-text-primary);
-  font-size: var(--pf-text-xs);
-  font-family: var(--pf-font-body);
+  color: var(--my-text-primary);
+  font-size: var(--my-text-xs);
+  font-family: var(--my-font-body);
 }
 
 .conditional-debuff-stats {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-1);
-  margin-top: var(--pf-space-1);
+  gap: var(--my-space-1);
+  margin-top: var(--my-space-1);
 }
 
 .conditional-debuff-stat {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
-  background: var(--pf-gradient-parchment);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  border-radius: var(--pf-border-radius);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+  gap: var(--my-space-2);
+  background: var(--my-gradient-parchment);
+  padding: var(--my-space-1) var(--my-space-2);
+  border-radius: var(--my-border-radius);
+  border: var(--my-border-width) solid var(--my-brown-light);
 }
 
 .conditional-debuff-stat-name {
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-xs);
-  font-family: var(--pf-font-ui);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-xs);
+  font-family: var(--my-font-ui);
 }
 
 .conditional-debuff-stat-value {
-  font-weight: var(--pf-font-semibold);
-  font-size: var(--pf-text-xs);
-  font-family: var(--pf-font-ui);
+  font-weight: var(--my-font-semibold);
+  font-size: var(--my-text-xs);
+  font-family: var(--my-font-ui);
 }
 
 .conditional-debuff-stat-value.positive {
-  color: var(--pf-nature);
+  color: var(--my-nature);
 }
 
 .conditional-debuff-stat-value.negative {
-  color: var(--pf-fire);
+  color: var(--my-fire);
 }
 
 .conditional-debuff-stat-value.formula {
-  color: var(--pf-gold);
+  color: var(--my-gold);
 }

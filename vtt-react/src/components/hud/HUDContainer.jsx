@@ -4,7 +4,7 @@ import TargetHUD from './TargetHUD';
 import usePartyStore from '../../store/partyStore';
 import useTargetingStore from '../../store/targetingStore';
 import useCharacterStore from '../../store/characterStore';
-import WowWindow from '../windows/WowWindow';
+import MythrillWindow from '../windows/MythrillWindow';
 import { InspectionProvider } from '../../contexts/InspectionContext';
 import ChatBubbleManager from '../chat/ChatBubbleManager';
 import useGameStore from '../../store/gameStore';
@@ -39,7 +39,7 @@ function CharacterSheetWindow({ isOpen, onClose, title }) {
     };
 
     return (
-        <WowWindow
+        <MythrillWindow
             isOpen={isOpen}
             onClose={onClose}
             title={safeTitle}
@@ -80,7 +80,7 @@ function CharacterSheetWindow({ isOpen, onClose, title }) {
                     {renderContent()}
                 </div>
             </div>
-        </WowWindow>
+        </MythrillWindow>
     );
 }
 

@@ -249,11 +249,11 @@
   top: 20px;
   right: 20px;
   z-index: 1500;
-  background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
-  border: 2px solid var(--pf-brown-medium, #8B4513);
-  border-radius: var(--pf-border-radius-lg, 8px);
+  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
+  border: 2px solid var(--my-brown-medium, #8B4513);
+  border-radius: var(--my-border-radius-lg, 8px);
   padding: 8px 12px;
-  box-shadow: var(--pf-shadow-parchment, 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.7), inset 0 -2px 0 rgba(139, 69, 19, 0.2));
+  box-shadow: var(--my-shadow-parchment, 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.7), inset 0 -2px 0 rgba(139, 69, 19, 0.2));
   display: flex;
   align-items: center;
   gap: 12px;
@@ -267,8 +267,8 @@
   padding: 6px 10px;
   background: linear-gradient(135deg, rgba(220, 53, 69, 0.8), rgba(180, 40, 50, 0.9));
   border: 2px solid #dc3545;
-  border-radius: var(--pf-border-radius, 6px);
-  color: var(--pf-text-on-dark, #f0e6d2);
+  border-radius: var(--my-border-radius, 6px);
+  color: var(--my-text-on-dark, #f0e6d2);
   font-family: 'Cinzel', serif;
   font-size: 0.75rem;
   cursor: pointer;
@@ -289,10 +289,10 @@
   align-items: center;
   gap: 6px;
   padding: 6px 10px;
-  background: var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
-  border: 2px solid var(--pf-brown-medium, #8B4513);
-  border-radius: var(--pf-border-radius, 6px);
-  color: var(--pf-text-primary, #5a1e12);
+  background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+  border: 2px solid var(--my-brown-medium, #8B4513);
+  border-radius: var(--my-border-radius, 6px);
+  color: var(--my-text-primary, #5a1e12);
   font-family: 'Cinzel', serif;
   font-size: 0.75rem;
   cursor: pointer;
@@ -302,7 +302,7 @@
 
 .launch-session-btn:hover {
   background: linear-gradient(145deg, #f0ead6 0%, #e8dcc6 50%, #d5cbb0 100%);
-  border-color: var(--pf-gold, #d4af37);
+  border-color: var(--my-gold, #d4af37);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);
 }
@@ -375,9 +375,9 @@
   position: fixed;
   top: 10px;
   right: 10px;
-  background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
-  border: 2px solid var(--pf-brown-medium, #8B4513);
-  border-radius: var(--pf-border-radius, 6px);
+  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
+  border: 2px solid var(--my-brown-medium, #8B4513);
+  border-radius: var(--my-border-radius, 6px);
   padding: 8px 16px;
   display: flex;
   align-items: center;
@@ -385,9 +385,9 @@
   font-size: 0.9rem;
   font-weight: 500;
   font-family: 'Cinzel', serif;
-  color: var(--pf-text-primary, #5a1e12);
+  color: var(--my-text-primary, #5a1e12);
   z-index: 1000;
-  box-shadow: var(--pf-shadow-parchment, 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.7), inset 0 -2px 0 rgba(139, 69, 19, 0.2));
+  box-shadow: var(--my-shadow-parchment, 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.7), inset 0 -2px 0 rgba(139, 69, 19, 0.2));
   backdrop-filter: blur(4px);
   pointer-events: auto;
 }
@@ -408,11 +408,11 @@
   align-items: center;
   gap: 8px;
   transition: all 0.3s ease;
-  color: var(--pf-brown-dark, #5a1e12);
+  color: var(--my-brown-dark, #5a1e12);
 }
 
 .status-map:hover {
-  color: var(--pf-gold, #d4af37);
+  color: var(--my-gold, #d4af37);
   transform: translateY(-1px);
 }
 

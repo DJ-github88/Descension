@@ -780,9 +780,9 @@ const LevelUpChoiceModal = ({
 
                                         padding: '4px 8px',
 
-                                        background: 'var(--pf-parchment-light)',
+                                        background: 'var(--my-parchment-light)',
 
-                                        border: '1px solid var(--pf-brown-medium)',
+                                        border: '1px solid var(--my-brown-medium)',
 
                                         borderRadius: '14px',
 
@@ -818,7 +818,7 @@ const LevelUpChoiceModal = ({
 
                                             cursor: 'pointer',
 
-                                            color: 'var(--pf-brown-dark)'
+                                            color: 'var(--my-brown-dark)'
 
                                         }}
 
@@ -886,7 +886,7 @@ const LevelUpChoiceModal = ({
 
                                                         height: 0,
 
-                                                        borderTop: '18px solid var(--pf-green)',
+                                                        borderTop: '18px solid var(--my-green)',
 
                                                         borderLeft: '18px solid transparent'
 
@@ -1028,7 +1028,7 @@ const LevelUpChoiceModal = ({
 
                                                                 height: 0,
 
-                                                                borderTop: '18px solid var(--pf-green)',
+                                                                borderTop: '18px solid var(--my-green)',
 
                                                                 borderLeft: '18px solid transparent'
 

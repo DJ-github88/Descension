@@ -2560,7 +2560,7 @@ div.class-detail-content::-webkit-scrollbar-thumb,
   .parchment-content {
     max-height: none !important;
     overflow-y: visible !important;
-    padding: var(--pf-space-mobile-4, 0.75rem);
+    padding: var(--my-space-mobile-4, 0.75rem);
   }
 
   .pip-materials-grid {

@@ -12,6 +12,7 @@ import { getStore } from './storeRegistry';
  */
 
 import { create } from 'zustand';
+import presenceService from '../services/firebase/presenceService';
 import { subscribeWithSelector } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
 import usePresenceStore from './presenceStore';
@@ -475,7 +476,6 @@ const usePartyStore = create(subscribeWithSelector((set, get) => ({
       });
       
       if (presenceStore.currentUserPresence?.userId) {
-        const presenceService = require('../services/firebase/presenceService').default;
         presenceService.updateSession(presenceStore.currentUserPresence.userId, {
           partyId: null,
           partyName: null

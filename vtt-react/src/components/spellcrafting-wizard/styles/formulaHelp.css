@@ -1,6 +1,6 @@
 /* ========== formulaHelp.css ==========
  * Shared formula display classes. The help popup itself is now rendered
- * through the canonical WowWindow modal primitive; only the body content
+ * through the canonical MythrillWindow modal primitive; only the body content
  * classes below remain.
  */
 
@@ -17,19 +17,19 @@
 }
 
 .formula-section h4 {
-  color: var(--pf-text-primary);
-  font-size: var(--pf-text-base);
-  font-weight: var(--pf-font-semibold);
+  color: var(--my-text-primary);
+  font-size: var(--my-text-base);
+  font-weight: var(--my-font-semibold);
   margin-top: 0;
-  margin-bottom: var(--pf-space-3);
-  font-family: var(--pf-font-heading);
+  margin-bottom: var(--my-space-3);
+  font-family: var(--my-font-heading);
 }
 
 .formula-description {
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-sm);
-  margin-bottom: var(--pf-space-4);
-  font-family: var(--pf-font-body);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-sm);
+  margin-bottom: var(--my-space-4);
+  font-family: var(--my-font-body);
 }
 
 /* Variable List Styling */
@@ -42,24 +42,24 @@
 .variable-item {
   display: flex;
   flex-direction: column;
-  padding: var(--pf-space-2);
-  background: var(--pf-gradient-parchment-light);
-  border-radius: var(--pf-border-radius);
-  border-left: 3px solid var(--pf-gold);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+  padding: var(--my-space-2);
+  background: var(--my-gradient-parchment-light);
+  border-radius: var(--my-border-radius);
+  border-left: 3px solid var(--my-gold);
+  border: var(--my-border-width) solid var(--my-brown-light);
 }
 
 .variable-name {
-  font-weight: var(--pf-font-semibold);
-  margin-bottom: var(--pf-space-1);
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-ui);
+  font-weight: var(--my-font-semibold);
+  margin-bottom: var(--my-space-1);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-ui);
 }
 
 .variable-desc {
-  font-size: var(--pf-text-xs);
-  color: var(--pf-text-muted);
-  font-family: var(--pf-font-body);
+  font-size: var(--my-text-xs);
+  color: var(--my-text-muted);
+  font-family: var(--my-font-body);
 }
 
 /* Example List Styling */
@@ -84,13 +84,13 @@
 }
 
 .example-formula {
-  background: var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-brown-darkest);
-  font-family: var(--pf-font-mono);
-  font-size: var(--pf-text-xs);
-  padding: var(--pf-space-2);
-  border: 1px solid var(--pf-brown-medium);
+  background: var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  color: var(--my-brown-darkest);
+  font-family: var(--my-font-mono);
+  font-size: var(--my-text-xs);
+  padding: var(--my-space-2);
+  border: 1px solid var(--my-brown-medium);
   word-break: break-all;
 }
 

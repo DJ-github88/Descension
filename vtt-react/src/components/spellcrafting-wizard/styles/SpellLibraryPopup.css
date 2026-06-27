@@ -1,8 +1,8 @@
 .spell-library-popup-content {
   display: flex;
   flex-direction: column;
-  background: var(--pf-gradient-parchment-light, linear-gradient(135deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
-  color: var(--pf-text-primary, #2d1810);
+  background: var(--my-gradient-parchment-light, linear-gradient(135deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+  color: var(--my-text-primary, #2d1810);
   overflow: hidden;
 }
 
@@ -10,8 +10,8 @@
   display: flex;
   align-items: center;
   padding: 12px 16px;
-  border-bottom: 1px solid var(--pf-brown-light, #c9b896);
-  background: var(--pf-gradient-parchment, linear-gradient(135deg, #f8f4e6 0%, #ede4d3 100%));
+  border-bottom: 1px solid var(--my-brown-light, #c9b896);
+  background: var(--my-gradient-parchment, linear-gradient(135deg, #f8f4e6 0%, #ede4d3 100%));
   box-shadow: 0 2px 6px rgba(45, 24, 16, 0.15);
   flex-shrink: 0;
 }
@@ -27,16 +27,16 @@
   padding: 8px 12px;
   padding-right: 32px;
   background-color: rgba(255, 255, 255, 0.6);
-  border: 1px solid var(--pf-brown-medium, #8B4513);
+  border: 1px solid var(--my-brown-medium, #8B4513);
   border-radius: 4px;
-  color: var(--pf-text-primary, #2d1810);
+  color: var(--my-text-primary, #2d1810);
   font-size: 14px;
   box-shadow: inset 0 1px 2px rgba(45, 24, 16, 0.1);
 }
 
 .spell-search-input:focus {
   outline: none;
-  border-color: var(--pf-brown-dark, #654321);
+  border-color: var(--my-brown-dark, #654321);
   box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.2), inset 0 1px 2px rgba(45, 24, 16, 0.1);
 }
 
@@ -45,15 +45,15 @@
   right: 8px;
   top: 50%;
   transform: translateY(-50%);
-  color: var(--pf-text-secondary, #6b5a42);
+  color: var(--my-text-secondary, #6b5a42);
   font-size: 14px;
   pointer-events: none;
 }
 
 .clear-search-btn {
-  background: var(--pf-gradient-button, linear-gradient(to bottom, #d4af37, #b8860b));
-  border: 1px solid var(--pf-brown-medium, #8B4513);
-  color: var(--pf-text-primary, #2d1810);
+  background: var(--my-gradient-button, linear-gradient(to bottom, #d4af37, #b8860b));
+  border: 1px solid var(--my-brown-medium, #8B4513);
+  color: var(--my-text-primary, #2d1810);
   font-size: 14px;
   cursor: pointer;
   padding: 6px 14px;
@@ -63,7 +63,7 @@
 }
 
 .clear-search-btn:hover {
-  background: var(--pf-gradient-button-hover, linear-gradient(to bottom, #e0c050, #c9961a));
+  background: var(--my-gradient-button-hover, linear-gradient(to bottom, #e0c050, #c9961a));
 }
 
 .view-toggle-buttons {
@@ -112,7 +112,7 @@
   justify-content: center;
   gap: 12px;
   height: 100%;
-  color: var(--pf-text-secondary, #6b5a42);
+  color: var(--my-text-secondary, #6b5a42);
   font-size: 16px;
   text-align: center;
   padding: 24px;

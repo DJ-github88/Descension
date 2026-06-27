@@ -1283,7 +1283,7 @@ const AccountJournalManager = ({ user }) => {
                             onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(139, 69, 19, 0.1)'}
                             onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(139, 69, 19, 0.05)'}
                           >
-                            <div style={{ width: '40px', height: '40px', borderRadius: '4px', overflow: 'hidden', background: '#f0e6d2', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <div style={{ width: '40px', height: '40px', borderRadius: '4px', overflow: 'hidden', background: 'var(--my-parchment-text)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                               {item.type === 'image' ? (
                                 <img src={item.content} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                               ) : (

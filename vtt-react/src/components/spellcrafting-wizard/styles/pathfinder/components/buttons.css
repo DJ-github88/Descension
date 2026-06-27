@@ -7,21 +7,21 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--pf-space-2);
-  padding: var(--pf-button-padding);
-  height: var(--pf-button-height);
-  background: var(--pf-gradient-button);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-base);
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-secondary);
+  gap: var(--my-space-2);
+  padding: var(--my-button-padding);
+  height: var(--my-button-height);
+  background: var(--my-gradient-button);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  font-family: var(--my-font-ui);
+  font-size: var(--my-text-base);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-secondary);
   text-decoration: none;
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
   user-select: none;
   white-space: nowrap;
   position: relative;
@@ -41,55 +41,55 @@
     transparent
   );
   pointer-events: none;
-  border-radius: var(--pf-border-radius) var(--pf-border-radius) 0 0;
+  border-radius: var(--my-border-radius) var(--my-border-radius) 0 0;
 }
 
 .pf-button:hover {
-  background: var(--pf-gradient-button-hover);
-  color: var(--pf-brown-dark);
-  box-shadow: var(--pf-shadow-md);
-  border-color: var(--pf-brown-dark);
+  background: var(--my-gradient-button-hover);
+  color: var(--my-brown-dark);
+  box-shadow: var(--my-shadow-md);
+  border-color: var(--my-brown-dark);
 }
 
 .pf-button:active {
-  background: var(--pf-gradient-button-active);
+  background: var(--my-gradient-button-active);
   transform: translateY(0);
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .pf-button:focus {
   outline: none;
   box-shadow: 
-    var(--pf-shadow-sm),
+    var(--my-shadow-sm),
     0 0 0 2px rgba(139, 69, 19, 0.3);
 }
 
 .pf-button:disabled {
-  background: var(--pf-parchment-darker);
-  color: var(--pf-text-light);
+  background: var(--my-parchment-darker);
+  color: var(--my-text-light);
   cursor: not-allowed;
   opacity: 0.6;
   transform: none;
-  box-shadow: var(--pf-shadow-sm);
-  border-color: var(--pf-brown-light);
+  box-shadow: var(--my-shadow-sm);
+  border-color: var(--my-brown-light);
 }
 
 .pf-button.selected {
-  background: var(--pf-gradient-parchment-dark);
-  border-color: var(--pf-gold);
-  color: var(--pf-brown-dark);
+  background: var(--my-gradient-parchment-dark);
+  border-color: var(--my-gold);
+  color: var(--my-brown-dark);
   box-shadow:
-    var(--pf-shadow-md),
+    var(--my-shadow-md),
     0 0 10px rgba(212, 175, 55, 0.3);
   transform: translateY(-1px);
 }
 
 .pf-button.selected:hover {
-  background: var(--pf-gradient-parchment-dark);
-  border-color: var(--pf-gold);
-  color: var(--pf-brown-dark);
+  background: var(--my-gradient-parchment-dark);
+  border-color: var(--my-gold);
+  color: var(--my-brown-dark);
   box-shadow:
-    var(--pf-shadow-lg),
+    var(--my-shadow-lg),
     0 0 15px rgba(212, 175, 55, 0.4);
   transform: translateY(-2px);
 }
@@ -98,100 +98,100 @@
 
 /* Primary Button */
 .pf-button.primary {
-  background: var(--pf-brown-medium);
-  color: var(--pf-text-on-dark);
-  border-color: var(--pf-brown-dark);
+  background: var(--my-brown-medium);
+  color: var(--my-text-on-dark);
+  border-color: var(--my-brown-dark);
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .pf-button.primary:hover {
-  background: var(--pf-brown-dark);
-  border-color: var(--pf-brown-darkest);
-  color: var(--pf-text-on-dark);
+  background: var(--my-brown-dark);
+  border-color: var(--my-brown-darkest);
+  color: var(--my-text-on-dark);
 }
 
 .pf-button.primary:active {
-  background: var(--pf-brown-darkest);
+  background: var(--my-brown-darkest);
 }
 
 /* Secondary Button */
 .pf-button.secondary {
-  background: var(--pf-gradient-parchment-dark);
-  color: var(--pf-text-primary);
-  border-color: var(--pf-brown-light);
+  background: var(--my-gradient-parchment-dark);
+  color: var(--my-text-primary);
+  border-color: var(--my-brown-light);
 }
 
 .pf-button.secondary:hover {
-  background: var(--pf-gradient-button-hover);
-  color: var(--pf-brown-dark);
-  border-color: var(--pf-brown-medium);
+  background: var(--my-gradient-button-hover);
+  color: var(--my-brown-dark);
+  border-color: var(--my-brown-medium);
 }
 
 /* Success Button */
 .pf-button.success {
-  background: var(--pf-success);
-  color: var(--pf-text-on-dark);
-  border-color: var(--pf-success-light);
+  background: var(--my-success);
+  color: var(--my-text-on-dark);
+  border-color: var(--my-success-light);
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .pf-button.success:hover {
-  background: var(--pf-success-light);
-  border-color: var(--pf-success);
+  background: var(--my-success-light);
+  border-color: var(--my-success);
 }
 
 /* Warning Button */
 .pf-button.warning {
-  background: var(--pf-warning);
-  color: var(--pf-text-on-dark);
-  border-color: var(--pf-warning-light);
+  background: var(--my-warning);
+  color: var(--my-text-on-dark);
+  border-color: var(--my-warning-light);
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .pf-button.warning:hover {
-  background: var(--pf-warning-light);
-  border-color: var(--pf-warning);
+  background: var(--my-warning-light);
+  border-color: var(--my-warning);
 }
 
 /* Error/Danger Button */
 .pf-button.error,
 .pf-button.danger {
-  background: var(--pf-error);
-  color: var(--pf-text-on-dark);
-  border-color: var(--pf-error-light);
+  background: var(--my-error);
+  color: var(--my-text-on-dark);
+  border-color: var(--my-error-light);
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .pf-button.error:hover,
 .pf-button.danger:hover {
-  background: var(--pf-error-light);
-  border-color: var(--pf-error);
+  background: var(--my-error-light);
+  border-color: var(--my-error);
 }
 
 /* Gold/Special Button */
 .pf-button.gold {
-  background: var(--pf-gold);
-  color: var(--pf-brown-darkest);
-  border-color: var(--pf-gold-dark);
+  background: var(--my-gold);
+  color: var(--my-brown-darkest);
+  border-color: var(--my-gold-dark);
   text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
   box-shadow: 
-    var(--pf-shadow-sm),
+    var(--my-shadow-sm),
     0 0 10px rgba(212, 175, 55, 0.3);
 }
 
 .pf-button.gold:hover {
-  background: var(--pf-gold-light);
-  border-color: var(--pf-gold);
+  background: var(--my-gold-light);
+  border-color: var(--my-gold);
   box-shadow: 
-    var(--pf-shadow-md),
+    var(--my-shadow-md),
     0 0 15px rgba(212, 175, 55, 0.4);
 }
 
 /* Ghost/Outline Button */
 .pf-button.ghost {
   background: transparent;
-  color: var(--pf-text-secondary);
-  border-color: var(--pf-brown-medium);
+  color: var(--my-text-secondary);
+  border-color: var(--my-brown-medium);
 }
 
 .pf-button.ghost::before {
@@ -199,8 +199,8 @@
 }
 
 .pf-button.ghost:hover {
-  background: var(--pf-gradient-button);
-  color: var(--pf-brown-dark);
+  background: var(--my-gradient-button);
+  color: var(--my-brown-dark);
 }
 
 /* ===== BUTTON SIZES ===== */
@@ -208,29 +208,29 @@
 /* Small Button */
 .pf-button.small {
   height: 32px;
-  padding: var(--pf-space-2) var(--pf-space-4);
-  font-size: var(--pf-text-sm);
+  padding: var(--my-space-2) var(--my-space-4);
+  font-size: var(--my-text-sm);
 }
 
 /* Large Button */
 .pf-button.large {
   height: 48px;
-  padding: var(--pf-space-4) var(--pf-space-8);
-  font-size: var(--pf-text-lg);
+  padding: var(--my-space-4) var(--my-space-8);
+  font-size: var(--my-text-lg);
 }
 
 /* Extra Large Button */
 .pf-button.xl {
   height: 56px;
-  padding: var(--pf-space-5) var(--pf-space-10);
-  font-size: var(--pf-text-xl);
+  padding: var(--my-space-5) var(--my-space-10);
+  font-size: var(--my-text-xl);
 }
 
 /* ===== BUTTON GROUPS ===== */
 
 .pf-button-group {
   display: flex;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
   align-items: center;
 }
 
@@ -244,17 +244,17 @@
 }
 
 .pf-button-group.connected .pf-button:first-child {
-  border-radius: var(--pf-border-radius) 0 0 var(--pf-border-radius);
+  border-radius: var(--my-border-radius) 0 0 var(--my-border-radius);
 }
 
 .pf-button-group.connected .pf-button:last-child {
-  border-radius: 0 var(--pf-border-radius) var(--pf-border-radius) 0;
-  border-right-width: var(--pf-border-width);
+  border-radius: 0 var(--my-border-radius) var(--my-border-radius) 0;
+  border-right-width: var(--my-border-width);
 }
 
 .pf-button-group.connected .pf-button:only-child {
-  border-radius: var(--pf-border-radius);
-  border-right-width: var(--pf-border-width);
+  border-radius: var(--my-border-radius);
+  border-right-width: var(--my-border-width);
 }
 
 .pf-button-group.vertical {
@@ -264,22 +264,22 @@
 .pf-button-group.vertical.connected .pf-button {
   border-radius: 0;
   border-bottom-width: 0;
-  border-right-width: var(--pf-border-width);
+  border-right-width: var(--my-border-width);
 }
 
 .pf-button-group.vertical.connected .pf-button:first-child {
-  border-radius: var(--pf-border-radius) var(--pf-border-radius) 0 0;
+  border-radius: var(--my-border-radius) var(--my-border-radius) 0 0;
 }
 
 .pf-button-group.vertical.connected .pf-button:last-child {
-  border-radius: 0 0 var(--pf-border-radius) var(--pf-border-radius);
-  border-bottom-width: var(--pf-border-width);
+  border-radius: 0 0 var(--my-border-radius) var(--my-border-radius);
+  border-bottom-width: var(--my-border-width);
 }
 
 /* ===== ICON BUTTONS ===== */
 
 .pf-button.icon-only {
-  width: var(--pf-button-height);
+  width: var(--my-button-height);
   padding: 0;
   justify-content: center;
 }
@@ -297,20 +297,20 @@
 }
 
 .pf-button-icon {
-  font-size: var(--pf-text-lg);
+  font-size: var(--my-text-lg);
   line-height: 1;
 }
 
 .pf-button.small .pf-button-icon {
-  font-size: var(--pf-text-base);
+  font-size: var(--my-text-base);
 }
 
 .pf-button.large .pf-button-icon {
-  font-size: var(--pf-text-xl);
+  font-size: var(--my-text-xl);
 }
 
 .pf-button.xl .pf-button-icon {
-  font-size: var(--pf-text-2xl);
+  font-size: var(--my-text-2xl);
 }
 
 /* ===== TOGGLE BUTTONS ===== */
@@ -320,9 +320,9 @@
 }
 
 .pf-button.toggle.active {
-  background: var(--pf-brown-medium);
-  color: var(--pf-text-on-dark);
-  border-color: var(--pf-brown-dark);
+  background: var(--my-brown-medium);
+  color: var(--my-text-on-dark);
+  border-color: var(--my-brown-dark);
   box-shadow: 
     inset 0 2px 4px rgba(0, 0, 0, 0.2),
     0 0 0 2px rgba(139, 69, 19, 0.3);
@@ -351,8 +351,8 @@
   transform: translate(-50%, -50%);
   width: 16px;
   height: 16px;
-  border: 2px solid var(--pf-brown-light);
-  border-top: 2px solid var(--pf-brown-medium);
+  border: 2px solid var(--my-brown-light);
+  border-top: 2px solid var(--my-brown-medium);
   border-radius: 50%;
   animation: pf-button-spin 1s linear infinite;
 }
@@ -363,7 +363,7 @@
 .pf-button.error.loading::after,
 .pf-button.danger.loading::after {
   border-color: rgba(255, 255, 255, 0.3);
-  border-top-color: var(--pf-text-on-dark);
+  border-top-color: var(--my-text-on-dark);
 }
 
 @keyframes pf-button-spin {
@@ -375,31 +375,31 @@
 
 .pf-fab {
   position: fixed;
-  bottom: var(--pf-space-6);
-  right: var(--pf-space-6);
+  bottom: var(--my-space-6);
+  right: var(--my-space-6);
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: var(--pf-gold);
-  color: var(--pf-brown-darkest);
-  border: var(--pf-border-width) solid var(--pf-gold-dark);
+  background: var(--my-gold);
+  color: var(--my-brown-darkest);
+  border: var(--my-border-width) solid var(--my-gold-dark);
   box-shadow: 
-    var(--pf-shadow-lg),
+    var(--my-shadow-lg),
     0 0 20px rgba(212, 175, 55, 0.3);
-  z-index: var(--pf-z-fixed);
-  transition: all var(--pf-transition-normal);
+  z-index: var(--my-z-fixed);
+  transition: all var(--my-transition-normal);
 }
 
 .pf-fab:hover {
-  background: var(--pf-gold-light);
+  background: var(--my-gold-light);
   transform: translateY(-2px);
   box-shadow: 
-    var(--pf-shadow-xl),
+    var(--my-shadow-xl),
     0 0 25px rgba(212, 175, 55, 0.4);
 }
 
 .pf-fab .pf-button-icon {
-  font-size: var(--pf-text-2xl);
+  font-size: var(--my-text-2xl);
 }
 
 /* ===== RESPONSIVE DESIGN ===== */
@@ -407,61 +407,61 @@
 @media (max-width: 768px) {
   .pf-button {
     height: 36px;
-    padding: var(--pf-space-2) var(--pf-space-4);
-    font-size: var(--pf-text-sm);
+    padding: var(--my-space-2) var(--my-space-4);
+    font-size: var(--my-text-sm);
   }
   
   .pf-button.small {
     height: 28px;
-    padding: var(--pf-space-1) var(--pf-space-3);
-    font-size: var(--pf-text-xs);
+    padding: var(--my-space-1) var(--my-space-3);
+    font-size: var(--my-text-xs);
   }
   
   .pf-button.large {
     height: 40px;
-    padding: var(--pf-space-3) var(--pf-space-6);
-    font-size: var(--pf-text-base);
+    padding: var(--my-space-3) var(--my-space-6);
+    font-size: var(--my-text-base);
   }
   
   .pf-button.xl {
     height: 44px;
-    padding: var(--pf-space-3) var(--pf-space-8);
-    font-size: var(--pf-text-lg);
+    padding: var(--my-space-3) var(--my-space-8);
+    font-size: var(--my-text-lg);
   }
   
   .pf-button-group {
-    gap: var(--pf-space-1);
+    gap: var(--my-space-1);
   }
   
   .pf-fab {
     width: 48px;
     height: 48px;
-    bottom: var(--pf-space-4);
-    right: var(--pf-space-4);
+    bottom: var(--my-space-4);
+    right: var(--my-space-4);
   }
   
   .pf-fab .pf-button-icon {
-    font-size: var(--pf-text-xl);
+    font-size: var(--my-text-xl);
   }
 }
 
 @media (max-width: 480px) {
   .pf-button {
     height: 32px;
-    padding: var(--pf-space-2) var(--pf-space-3);
-    font-size: var(--pf-text-xs);
+    padding: var(--my-space-2) var(--my-space-3);
+    font-size: var(--my-text-xs);
   }
   
   .pf-button.large {
     height: 36px;
-    padding: var(--pf-space-2) var(--pf-space-4);
-    font-size: var(--pf-text-sm);
+    padding: var(--my-space-2) var(--my-space-4);
+    font-size: var(--my-text-sm);
   }
   
   .pf-button.xl {
     height: 40px;
-    padding: var(--pf-space-3) var(--pf-space-6);
-    font-size: var(--pf-text-base);
+    padding: var(--my-space-3) var(--my-space-6);
+    font-size: var(--my-text-base);
   }
   
   .pf-button-group.vertical {
@@ -479,21 +479,21 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--pf-space-2);
-  padding: var(--pf-button-padding);
-  height: var(--pf-button-height);
-  background: var(--pf-gradient-button);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-base);
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-secondary);
+  gap: var(--my-space-2);
+  padding: var(--my-button-padding);
+  height: var(--my-button-height);
+  background: var(--my-gradient-button);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  font-family: var(--my-font-ui);
+  font-size: var(--my-text-base);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-secondary);
   text-decoration: none;
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
   user-select: none;
   white-space: nowrap;
   position: relative;
@@ -513,79 +513,79 @@
     transparent
   );
   pointer-events: none;
-  border-radius: var(--pf-border-radius) var(--pf-border-radius) 0 0;
+  border-radius: var(--my-border-radius) var(--my-border-radius) 0 0;
 }
 
 .spell-wizard-btn:hover {
-  background: var(--pf-gradient-button-hover);
-  color: var(--pf-brown-dark);
-  box-shadow: var(--pf-shadow-md);
-  border-color: var(--pf-brown-dark);
+  background: var(--my-gradient-button-hover);
+  color: var(--my-brown-dark);
+  box-shadow: var(--my-shadow-md);
+  border-color: var(--my-brown-dark);
 }
 
 .spell-wizard-btn:active {
-  background: var(--pf-gradient-button-active);
+  background: var(--my-gradient-button-active);
   transform: translateY(0);
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .spell-wizard-btn:focus {
   outline: none;
   box-shadow:
-    var(--pf-shadow-sm),
+    var(--my-shadow-sm),
     0 0 0 2px rgba(139, 69, 19, 0.3);
 }
 
 .spell-wizard-btn:disabled {
-  background: var(--pf-parchment-darker);
-  color: var(--pf-text-light);
+  background: var(--my-parchment-darker);
+  color: var(--my-text-light);
   cursor: not-allowed;
   opacity: 0.6;
   transform: none;
-  box-shadow: var(--pf-shadow-sm);
-  border-color: var(--pf-brown-light);
+  box-shadow: var(--my-shadow-sm);
+  border-color: var(--my-brown-light);
 }
 
 /* Spell wizard button variants */
 .spell-wizard-btn-previous {
-  background: var(--pf-gradient-parchment-dark);
-  color: var(--pf-text-primary);
-  border-color: var(--pf-brown-light);
+  background: var(--my-gradient-parchment-dark);
+  color: var(--my-text-primary);
+  border-color: var(--my-brown-light);
 }
 
 .spell-wizard-btn-previous:hover:not(:disabled) {
-  background: var(--pf-gradient-button-hover);
-  color: var(--pf-brown-dark);
-  border-color: var(--pf-brown-medium);
+  background: var(--my-gradient-button-hover);
+  color: var(--my-brown-dark);
+  border-color: var(--my-brown-medium);
 }
 
 .spell-wizard-btn-next {
-  background: var(--pf-brown-medium);
-  color: var(--pf-text-on-dark);
-  border-color: var(--pf-brown-dark);
+  background: var(--my-brown-medium);
+  color: var(--my-text-on-dark);
+  border-color: var(--my-brown-dark);
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .spell-wizard-btn-next:hover:not(:disabled) {
-  background: var(--pf-brown-dark);
-  border-color: var(--pf-brown-darkest);
-  color: var(--pf-text-on-dark);
+  background: var(--my-brown-dark);
+  border-color: var(--my-brown-darkest);
+  color: var(--my-text-on-dark);
 }
 
 .spell-wizard-btn-next:active {
-  background: var(--pf-brown-darkest);
+  background: var(--my-brown-darkest);
 }
 
 /* Icon spacing in buttons */
 .spell-wizard-btn i {
-  font-size: var(--pf-text-sm);
+  font-size: var(--my-text-sm);
   line-height: 1;
 }
 
 .spell-wizard-btn i:first-child {
-  margin-right: var(--pf-space-1);
+  margin-right: var(--my-space-1);
 }
 
 .spell-wizard-btn i:last-child {
-  margin-left: var(--pf-space-1);
+  margin-left: var(--my-space-1);
 }

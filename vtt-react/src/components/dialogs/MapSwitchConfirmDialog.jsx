@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaMapMarkedAlt, FaExclamationTriangle } from 'react-icons/fa';
-import WowWindow from '../windows/WowWindow';
+import MythrillWindow from '../windows/MythrillWindow';
 import './MapSwitchConfirmDialog.css';
 
 const MapSwitchConfirmDialog = ({
@@ -25,7 +25,7 @@ const MapSwitchConfirmDialog = ({
     if (!isOpen) return null;
 
     return (
-        <WowWindow
+        <MythrillWindow
             title="Map Selection"
             isOpen={isOpen}
             onClose={onClose}
@@ -81,7 +81,7 @@ const MapSwitchConfirmDialog = ({
                     </button>
                 </div>
             </div>
-        </WowWindow>
+        </MythrillWindow>
     );
 };
 

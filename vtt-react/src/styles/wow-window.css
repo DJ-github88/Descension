@@ -21,7 +21,7 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* Modal backdrop — rendered by WowWindow when modal={true} and backdrop !== false.
+/* Modal backdrop — rendered by MythrillWindow when modal={true} and backdrop !== false.
    Sits at zIndex-1 (above regular windows, below the modal window itself). */
 .wow-window-modal-backdrop {
     position: fixed;

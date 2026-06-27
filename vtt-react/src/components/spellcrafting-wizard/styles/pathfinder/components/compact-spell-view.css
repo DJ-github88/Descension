@@ -7,11 +7,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: var(--pf-space-2);
+  padding: var(--my-space-2);
   background: transparent;
   border: none;
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   position: relative;
   min-height: 90px;
   width: 80px;
@@ -38,23 +38,23 @@
 /* ===== RARITY VARIANTS ===== */
 
 .compact-spell-item.rarity-common .compact-spell-icon {
-  border-color: var(--pf-common, #9d9d9d);
+  border-color: var(--my-common, #9d9d9d);
 }
 
 .compact-spell-item.rarity-uncommon .compact-spell-icon {
-  border-color: var(--pf-uncommon, #1eff00);
+  border-color: var(--my-uncommon, #1eff00);
 }
 
 .compact-spell-item.rarity-rare .compact-spell-icon {
-  border-color: var(--pf-rare, #0070dd);
+  border-color: var(--my-rare, #0070dd);
 }
 
 .compact-spell-item.rarity-epic .compact-spell-icon {
-  border-color: var(--pf-epic, #a335ee);
+  border-color: var(--my-epic, #a335ee);
 }
 
 .compact-spell-item.rarity-legendary .compact-spell-icon {
-  border-color: var(--pf-legendary, #ff8000);
+  border-color: var(--my-legendary, #ff8000);
 }
 
 /* ===== SPELL ICON ===== */
@@ -63,10 +63,10 @@
   position: relative;
   width: 48px;
   height: 48px;
-  margin-bottom: var(--pf-space-2);
+  margin-bottom: var(--my-space-2);
   border-radius: 6px;
   overflow: hidden;
-  border: 2px solid var(--pf-brown-medium);
+  border: 2px solid var(--my-brown-medium);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
@@ -74,7 +74,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
 }
 
 .compact-spell-item:hover .compact-spell-icon img {
@@ -84,10 +84,10 @@
 /* ===== SPELL NAME ===== */
 
 .compact-spell-name {
-  font-family: var(--pf-font-display);
+  font-family: var(--my-font-display);
   font-size: 11px;
-  font-weight: var(--pf-font-medium);
-  color: var(--pf-text-primary);
+  font-weight: var(--my-font-medium);
+  color: var(--my-text-primary);
   line-height: 1.2;
   text-align: center;
   max-width: 100%;
@@ -106,8 +106,8 @@
 .spell-library-spells.compact-view .spell-cards-container {
   display: grid !important;
   grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)) !important;
-  gap: var(--pf-space-2) !important;
-  padding: var(--pf-space-3) !important;
+  gap: var(--my-space-2) !important;
+  padding: var(--my-space-3) !important;
   justify-items: center !important;
   align-items: start !important;
 }
@@ -115,7 +115,7 @@
 /* Override any conflicting layout styles */
 .library-content .spell-library-spells.compact-view .spell-cards-container {
   grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)) !important;
-  gap: var(--pf-space-2) !important;
+  gap: var(--my-space-2) !important;
   justify-items: center !important;
 }
 
@@ -170,7 +170,7 @@
   .compact-spell-item {
     width: 100px;
     min-height: 120px;
-    padding: var(--pf-space-2);
+    padding: var(--my-space-2);
   }
   
   .compact-spell-icon {
@@ -199,7 +199,7 @@
   
   .spell-library-spells.compact-view .spell-cards-container {
     grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    gap: var(--pf-space-2);
+    gap: var(--my-space-2);
   }
 }
 

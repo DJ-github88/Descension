@@ -13,7 +13,7 @@
 }
 
 .profile-edit-modal {
-    background: #f0e6d2;
+    background: var(--my-parchment-text);
     border: 3px solid #8b7355;
     border-radius: 12px;
     width: 90%;

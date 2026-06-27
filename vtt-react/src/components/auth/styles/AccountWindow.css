@@ -1,7 +1,7 @@
 /* Account Window Styles */
 .account-window-content {
   padding: 20px;
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
   font-family: 'Cinzel', serif;
 }
 
@@ -19,7 +19,7 @@
 
 .auth-header p {
   margin: 0 0 24px 0;
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
   opacity: 0.9;
   font-size: 1rem;
 }
@@ -50,7 +50,7 @@
   align-items: center;
   gap: 8px;
   margin: 8px 0;
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
   font-size: 0.95rem;
 }
 
@@ -111,7 +111,7 @@
 
 .guest-mode p {
   margin: 0;
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
   opacity: 0.7;
   font-size: 0.9rem;
   display: flex;
@@ -172,7 +172,7 @@
 
 .user-info p {
   margin: 0;
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
   opacity: 0.8;
   font-size: 0.9rem;
 }
@@ -191,7 +191,7 @@
   background: rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(212, 175, 55, 0.3);
   border-radius: 8px;
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
   cursor: pointer;
   transition: all 0.3s ease;
   text-align: left;
@@ -235,7 +235,7 @@
 
 .feature-info p {
   margin: 0;
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
   opacity: 0.8;
   font-size: 0.9rem;
 }

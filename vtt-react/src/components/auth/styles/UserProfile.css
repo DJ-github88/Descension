@@ -27,7 +27,7 @@
     0 20px 60px rgba(0, 0, 0, 0.8),
     0 0 40px rgba(212, 175, 55, 0.3);
   font-family: 'Cinzel', serif;
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
 }
 
 .user-profile-close {
@@ -36,7 +36,7 @@
   right: 16px;
   background: none;
   border: none;
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
   font-size: 1.5rem;
   cursor: pointer;
   padding: 8px;
@@ -91,7 +91,7 @@
 
 .user-info p {
   margin: 4px 0;
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
   opacity: 0.9;
 }
 
@@ -189,7 +189,7 @@
   background: rgba(0, 0, 0, 0.3);
   border: 2px solid rgba(212, 175, 55, 0.3);
   border-radius: 6px;
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
   font-family: 'Cinzel', serif;
   font-size: 1rem;
   transition: all 0.3s ease;
@@ -233,7 +233,7 @@
 .cancel-btn {
   background: transparent;
   border-color: rgba(212, 175, 55, 0.5);
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
 }
 
 .cancel-btn:hover {
@@ -259,7 +259,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
   cursor: pointer;
 }
 
@@ -307,7 +307,7 @@
 }
 
 .character-count span {
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
   font-weight: 500;
 }
 

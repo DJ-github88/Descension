@@ -1,6 +1,8 @@
 import { getStore } from './storeRegistry';
 import { create } from 'zustand';
 import { Creature, Ability, creatureTypes, abilityTypes } from "../game/creatures";
+import { calculateDerivedStats, applyRacialModifiers, calculateEquipmentBonuses } from "../utils/characterUtils";
+import { handleRest } from "../components/spellcrafting-wizard/core/mechanics/cooldownSystem";
 
 const initialState = {
     creatures: [],
@@ -566,8 +568,6 @@ const useGameStore = create((set, get) => ({
         // Import stores dynamically to avoid circular dependencies
         const usePartyStore = getStore('partyStore');
         const useCharacterStore = getStore('characterStore');
-        const { calculateDerivedStats, applyRacialModifiers } = require('../utils/characterUtils');
-        const { calculateEquipmentBonuses } = require('../utils/characterUtils');
         const { getEncumbranceState } = getStore('inventoryStore');
 
         // Get party members
@@ -668,7 +668,6 @@ const useGameStore = create((set, get) => ({
 
         // Reset short-rest cooldowns
         try {
-            const { handleRest } = require('../components/spellcrafting-wizard/core/mechanics/cooldownSystem');
             handleRest('short');
         } catch (e) {
             console.warn('Could not reset short rest cooldowns:', e);
@@ -784,7 +783,6 @@ const useGameStore = create((set, get) => ({
 
         // Reset all cooldowns on long rest
         try {
-            const { handleRest } = require('../components/spellcrafting-wizard/core/mechanics/cooldownSystem');
             handleRest('long');
         } catch (e) {
             console.warn('Could not reset long rest cooldowns:', e);

@@ -51,9 +51,9 @@
   isolation: isolate;
   position: relative;
   z-index: 1;
-  font-family: var(--pf-font-body) !important;
-  color: var(--pf-text-primary) !important;
-  background: var(--pf-gradient-parchment) !important;
+  font-family: var(--my-font-body) !important;
+  color: var(--my-text-primary) !important;
+  background: var(--my-gradient-parchment) !important;
 }
 
 /* Apply Pathfinder theming ONLY within spellbook containers */
@@ -63,33 +63,33 @@
 .spellbook-layout .wizard-view,
 .spellbook-layout .library-view,
 .spellbook-layout .collection-view {
-  font-family: var(--pf-font-body, 'Crimson Text', serif) !important;
-  color: var(--pf-text-primary, #2d1810) !important;
-  background: var(--pf-gradient-parchment, #ede4d3) !important;
+  font-family: var(--my-font-body, 'Crimson Text', serif) !important;
+  color: var(--my-text-primary, #2d1810) !important;
+  background: var(--my-gradient-parchment, #ede4d3) !important;
 }
 
-/* ===== WOWWINDOW OVERRIDE STYLES ===== */
+/* ===== MythrillWindow OVERRIDE STYLES ===== */
 
-/* Override WowWindow styles for spellbook */
+/* Override MythrillWindow styles for spellbook */
 .wow-window .spellbook-layout.pf-spellbook,
 .window-content .spellbook-layout.pf-spellbook {
-  background: var(--pf-gradient-parchment) !important;
-  font-family: var(--pf-font-body) !important;
-  color: var(--pf-text-primary) !important;
+  background: var(--my-gradient-parchment) !important;
+  font-family: var(--my-font-body) !important;
+  color: var(--my-text-primary) !important;
 }
 
-/* Override WowWindow content styles for spellbook */
+/* Override MythrillWindow content styles for spellbook */
 .wow-window .window-content .spellbook-layout.pf-spellbook {
-  background: var(--pf-gradient-parchment) !important;
+  background: var(--my-gradient-parchment) !important;
   padding: 0 !important;
 }
 
 /* Force spellbook main content styling */
 .wow-window .spellbook-main-content,
 .window-content .spellbook-main-content {
-  background: var(--pf-gradient-parchment) !important;
-  color: var(--pf-text-primary) !important;
-  font-family: var(--pf-font-body) !important;
+  background: var(--my-gradient-parchment) !important;
+  color: var(--my-text-primary) !important;
+  font-family: var(--my-font-body) !important;
   display: flex !important;
   flex-direction: column !important;
   height: 100% !important;
@@ -113,11 +113,11 @@
 /* Force the tab content to be visible - scoped to spellbook only */
 .spellbook-layout .app-container.pf-spellbook .tab-content,
 .spellbook-layout .app-container.pf-spellbook .app-content {
-  background: var(--pf-gradient-parchment) !important;
-  border: 3px solid var(--pf-brown-medium) !important;
-  border-radius: var(--pf-border-radius-lg) !important;
+  background: var(--my-gradient-parchment) !important;
+  border: 3px solid var(--my-brown-medium) !important;
+  border-radius: var(--my-border-radius-lg) !important;
   box-shadow:
-    var(--pf-shadow-parchment),
+    var(--my-shadow-parchment),
     inset 0 2px 4px rgba(0, 0, 0, 0.1) !important;
   flex: 1 !important;
   display: flex !important;
@@ -145,7 +145,7 @@
     ) !important;
   pointer-events: none !important;
   z-index: 1 !important;
-  border-radius: var(--pf-border-radius-lg) !important;
+  border-radius: var(--my-border-radius-lg) !important;
 }
 
 .spellbook-layout .app-container.pf-spellbook .tab-content > *,
@@ -170,18 +170,18 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  background: var(--pf-gradient-parchment);
+  background: var(--my-gradient-parchment);
   overflow: hidden;
-  font-family: var(--pf-font-body);
-  color: var(--pf-text-primary);
+  font-family: var(--my-font-body);
+  color: var(--my-text-primary);
 }
 
 /* ===== WIZARD HEADER WITH PROGRESS TABS ===== */
 
 /* Header section containing progress tabs */
 .wizard-header {
-  background: var(--pf-gradient-header);
-  border-bottom: 3px solid var(--pf-brown-medium);
+  background: var(--my-gradient-header);
+  border-bottom: 3px solid var(--my-brown-medium);
   box-shadow: 0 4px 12px rgba(45, 24, 16, 0.2);
   position: relative;
   z-index: 10;
@@ -198,8 +198,8 @@
   background: linear-gradient(
     to right,
     transparent,
-    var(--pf-gold) 20%,
-    var(--pf-gold) 80%,
+    var(--my-gold) 20%,
+    var(--my-gold) 80%,
     transparent
   );
 }
@@ -337,12 +337,12 @@
     rgba(213, 203, 176, 0.9) 50%,
     rgba(160, 140, 112, 0.85) 100%
   );
-  color: var(--pf-brown-darkest);
+  color: var(--my-brown-darkest);
   border-radius: 50%;
-  font-family: var(--pf-font-display);
-  font-size: var(--pf-text-sm); /* Increased font size */
-  font-weight: var(--pf-font-bold);
-  border: 1px solid var(--pf-brown-medium); /* Thinner border */
+  font-family: var(--my-font-display);
+  font-size: var(--my-text-sm); /* Increased font size */
+  font-weight: var(--my-font-bold);
+  border: 1px solid var(--my-brown-medium); /* Thinner border */
   box-shadow:
     0 2px 4px rgba(0, 0, 0, 0.3),
     inset 0 1px 2px rgba(255, 255, 255, 0.4);
@@ -361,23 +361,23 @@
     rgba(255, 215, 0, 0.95) 50%,
     rgba(212, 175, 55, 1) 100%
   );
-  color: var(--pf-brown-darkest);
+  color: var(--my-brown-darkest);
   border-color: rgba(212, 175, 55, 0.8);
   box-shadow:
     0 4px 12px rgba(0, 0, 0, 0.4),
     0 0 20px rgba(212, 175, 55, 0.8),
     inset 0 2px 4px rgba(255, 255, 255, 0.6);
   transform: translateX(-50%) scale(1.2);
-  font-weight: var(--pf-font-bold);
+  font-weight: var(--my-font-bold);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .spell-wizard-progress-segment.completed:not(.active) .spell-step-number {
-  background: var(--pf-gradient-success);
-  color: var(--pf-text-on-dark);
-  border-color: var(--pf-success);
+  background: var(--my-gradient-success);
+  color: var(--my-text-on-dark);
+  border-color: var(--my-success);
   box-shadow:
-    var(--pf-shadow-md),
+    var(--my-shadow-md),
     0 0 10px rgba(34, 139, 34, 0.4);
 }
 
@@ -396,20 +396,20 @@
   bottom: calc(100% + 12px);
   left: 50%;
   transform: translateX(-50%);
-  background: var(--pf-gradient-parchment);
-  border: 2px solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-3) var(--pf-space-4);
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-sm);
+  background: var(--my-gradient-parchment);
+  border: 2px solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-3) var(--my-space-4);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-sm);
   white-space: nowrap;
   pointer-events: none;
   opacity: 0;
   visibility: hidden;
   transition: all 0.3s ease;
   box-shadow:
-    var(--pf-shadow-parchment),
+    var(--my-shadow-parchment),
     0 0 15px rgba(0, 0, 0, 0.2);
   z-index: 1000;
   min-width: 180px;
@@ -424,7 +424,7 @@
   left: 50%;
   transform: translateX(-50%);
   border: 8px solid transparent;
-  border-top-color: var(--pf-brown-medium);
+  border-top-color: var(--my-brown-medium);
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
@@ -437,14 +437,14 @@
 
 /* Tooltip content */
 .spell-tooltip-header {
-  margin-bottom: var(--pf-space-2);
+  margin-bottom: var(--my-space-2);
 }
 
 .spell-tooltip-title {
-  font-family: var(--pf-font-display);
-  font-size: var(--pf-text-base);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-brown-dark);
+  font-family: var(--my-font-display);
+  font-size: var(--my-text-base);
+  font-weight: var(--my-font-bold);
+  color: var(--my-brown-dark);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -452,19 +452,19 @@
 .spell-tooltip-content {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-1);
+  gap: var(--my-space-1);
 }
 
 .spell-tooltip-name {
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-primary);
-  font-size: var(--pf-text-sm);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-primary);
+  font-size: var(--my-text-sm);
 }
 
 .spell-tooltip-description {
-  font-size: var(--pf-text-xs);
-  color: var(--pf-text-muted);
-  line-height: var(--pf-leading-normal);
+  font-size: var(--my-text-xs);
+  color: var(--my-text-muted);
+  line-height: var(--my-leading-normal);
   max-width: 200px;
   white-space: normal;
 }
@@ -475,7 +475,7 @@
 .wizard-main-content {
   flex: 1;
   overflow-y: auto;
-  background: var(--pf-gradient-parchment);
+  background: var(--my-gradient-parchment);
   display: flex;
   flex-direction: column;
   position: relative;
@@ -488,14 +488,14 @@
 /* Clean footer with navigation only */
 .spellbook-layout .wizard-footer,
 .spellbook-wizard-layout .wizard-footer {
-  background: var(--pf-gradient-parchment-dark);
-  border-top: 2px solid var(--pf-brown-medium);
+  background: var(--my-gradient-parchment-dark);
+  border-top: 2px solid var(--my-brown-medium);
   flex-shrink: 0;
   box-shadow: 0 -2px 8px rgba(45, 24, 16, 0.1);
   position: relative;
   min-height: 120px; /* Reduced height since progress bar is thinner */
   max-height: 140px; /* Reduced max height */
-  padding: var(--pf-space-6) 0 var(--pf-space-3) 0; /* More top padding for step numbers */
+  padding: var(--my-space-6) 0 var(--my-space-3) 0; /* More top padding for step numbers */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -512,8 +512,8 @@
   background: linear-gradient(
     to right,
     transparent,
-    var(--pf-gold) 20%,
-    var(--pf-gold) 80%,
+    var(--my-gold) 20%,
+    var(--my-gold) 80%,
     transparent
   );
 }
@@ -524,8 +524,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--pf-space-2) var(--pf-space-4) var(--pf-space-3) var(--pf-space-4); /* Better padding */
-  gap: var(--pf-space-4);
+  padding: var(--my-space-2) var(--my-space-4) var(--my-space-3) var(--my-space-4); /* Better padding */
+  gap: var(--my-space-4);
   flex-shrink: 0; /* Prevent navigation from shrinking */
   min-height: 60px; /* Ensure adequate height for buttons */
   background: transparent; /* Remove background to blend with footer */
@@ -543,10 +543,10 @@
 
 .spellbook-layout .wizard-progress-text,
 .spellbook-wizard-layout .wizard-progress-text {
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-secondary);
-  font-weight: var(--pf-font-semibold);
+  font-family: var(--my-font-ui);
+  font-size: var(--my-text-sm);
+  color: var(--my-text-secondary);
+  font-weight: var(--my-font-semibold);
   text-align: center;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -556,69 +556,69 @@
 
 .wizard-nav-controls {
   display: flex;
-  gap: var(--pf-space-3);
+  gap: var(--my-space-3);
   align-items: center;
 }
 
 /* Navigation buttons */
 .wizard-nav-btn {
-  padding: var(--pf-space-3) var(--pf-space-6);
-  border: 2px solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  font-family: var(--pf-font-display);
-  font-size: var(--pf-text-base);
-  font-weight: var(--pf-font-semibold);
+  padding: var(--my-space-3) var(--my-space-6);
+  border: 2px solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  font-family: var(--my-font-display);
+  font-size: var(--my-text-base);
+  font-weight: var(--my-font-semibold);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
   min-width: 100px;
 }
 
 .wizard-nav-cancel {
-  background: var(--pf-gradient-button);
-  color: var(--pf-text-secondary);
+  background: var(--my-gradient-button);
+  color: var(--my-text-secondary);
 }
 
 .wizard-nav-cancel:hover {
-  background: var(--pf-gradient-button-hover);
-  color: var(--pf-brown-dark);
+  background: var(--my-gradient-button-hover);
+  color: var(--my-brown-dark);
   transform: translateY(-1px);
-  box-shadow: var(--pf-shadow-md);
+  box-shadow: var(--my-shadow-md);
 }
 
 .wizard-nav-previous {
-  background: var(--pf-gradient-button);
-  color: var(--pf-text-secondary);
+  background: var(--my-gradient-button);
+  color: var(--my-text-secondary);
 }
 
 .wizard-nav-previous:hover:not(:disabled) {
-  background: var(--pf-gradient-button-hover);
-  color: var(--pf-brown-dark);
+  background: var(--my-gradient-button-hover);
+  color: var(--my-brown-dark);
   transform: translateY(-1px);
-  box-shadow: var(--pf-shadow-md);
+  box-shadow: var(--my-shadow-md);
 }
 
 .wizard-nav-next {
-  background: var(--pf-gradient-gold);
-  color: var(--pf-brown-darkest);
-  border-color: var(--pf-gold-dark);
+  background: var(--my-gradient-gold);
+  color: var(--my-brown-darkest);
+  border-color: var(--my-gold-dark);
 }
 
 .wizard-nav-next:hover:not(:disabled) {
-  background: var(--pf-gold-light);
+  background: var(--my-gold-light);
   transform: translateY(-1px);
-  box-shadow: var(--pf-shadow-glow);
+  box-shadow: var(--my-shadow-glow);
 }
 
 .wizard-nav-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
   transform: none;
-  background: var(--pf-gradient-parchment-dark);
-  color: var(--pf-text-muted);
+  background: var(--my-gradient-parchment-dark);
+  color: var(--my-text-muted);
 }
 
 /* ===== ENHANCED RESPONSIVE DESIGN ===== */
@@ -644,7 +644,7 @@
   .spell-step-number {
     width: 32px;
     height: 32px;
-    font-size: var(--pf-text-sm);
+    font-size: var(--my-text-sm);
     top: -16px;
   }
 }
@@ -671,13 +671,13 @@
   .spell-step-number {
     width: 30px;
     height: 30px;
-    font-size: var(--pf-text-sm);
+    font-size: var(--my-text-sm);
     top: -15px;
   }
 
   .spell-wizard-form-row {
     flex-direction: column;
-    gap: var(--pf-space-4);
+    gap: var(--my-space-4);
   }
 }
 
@@ -701,44 +701,44 @@
   .spell-step-number {
     width: 28px;
     height: 28px;
-    font-size: var(--pf-text-sm);
+    font-size: var(--my-text-sm);
     top: -14px;
   }
 
   .spell-step-tooltip {
     min-width: 140px;
-    font-size: var(--pf-text-xs);
-    padding: var(--pf-space-2) var(--pf-space-3);
+    font-size: var(--my-text-xs);
+    padding: var(--my-space-2) var(--my-space-3);
   }
 
   .spell-wizard-step-header {
-    padding: var(--pf-space-4);
+    padding: var(--my-space-4);
   }
 
   .spell-wizard-step-title h2 {
-    font-size: var(--pf-text-xl);
-    gap: var(--pf-space-2);
+    font-size: var(--my-text-xl);
+    gap: var(--my-space-2);
   }
 
   .spell-wizard-step-number {
     width: 28px;
     height: 28px;
-    font-size: var(--pf-text-base);
+    font-size: var(--my-text-base);
   }
 
   .spell-wizard-step-content {
-    padding: var(--pf-space-4);
+    padding: var(--my-space-4);
   }
 
   .spell-wizard-form {
-    padding: var(--pf-space-4);
+    padding: var(--my-space-4);
     margin: 0;
   }
 
   .wizard-navigation-footer {
     flex-direction: column;
-    gap: var(--pf-space-3);
-    padding: var(--pf-space-3);
+    gap: var(--my-space-3);
+    padding: var(--my-space-3);
   }
 
   .wizard-nav-controls {
@@ -748,8 +748,8 @@
 
   .wizard-nav-btn {
     min-width: 80px;
-    padding: var(--pf-space-2) var(--pf-space-4);
-    font-size: var(--pf-text-sm);
+    padding: var(--my-space-2) var(--my-space-4);
+    font-size: var(--my-text-sm);
   }
 
   .wizard-step-info {
@@ -821,21 +821,21 @@
 
 /* Content sections - clean and spacious */
 .wizard-content-section {
-  background: var(--pf-gradient-parchment);
-  padding: var(--pf-space-4);
+  background: var(--my-gradient-parchment);
+  padding: var(--my-space-4);
   width: 100%;
   height: 100%;
   flex: 1;
 }
 
 .wizard-content-section h3 {
-  font-family: var(--pf-font-display);
-  font-size: var(--pf-text-2xl);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-secondary);
-  margin-bottom: var(--pf-space-6);
-  padding-bottom: var(--pf-space-3);
-  border-bottom: 3px solid var(--pf-brown-medium);
+  font-family: var(--my-font-display);
+  font-size: var(--my-text-2xl);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-secondary);
+  margin-bottom: var(--my-space-6);
+  padding-bottom: var(--my-space-3);
+  border-bottom: 3px solid var(--my-brown-medium);
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -859,9 +859,9 @@
 
 /* Step headers - enhanced styling */
 .spell-wizard-step-header {
-  background: var(--pf-gradient-header);
-  padding: var(--pf-space-5) var(--pf-space-6);
-  border-bottom: 3px solid var(--pf-brown-medium);
+  background: var(--my-gradient-header);
+  padding: var(--my-space-5) var(--my-space-6);
+  border-bottom: 3px solid var(--my-brown-medium);
   margin: 0;
   border-radius: 0;
   box-shadow: 0 4px 8px rgba(45, 24, 16, 0.2);
@@ -879,45 +879,45 @@
   background: linear-gradient(
     to right,
     transparent,
-    var(--pf-gold) 20%,
-    var(--pf-gold) 80%,
+    var(--my-gold) 20%,
+    var(--my-gold) 80%,
     transparent
   );
 }
 
 .spell-wizard-step-title h2 {
-  font-family: var(--pf-font-display);
-  font-size: var(--pf-text-2xl);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-on-dark);
+  font-family: var(--my-font-display);
+  font-size: var(--my-text-2xl);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-on-dark);
   margin: 0;
   display: flex;
   align-items: center;
-  gap: var(--pf-space-3);
+  gap: var(--my-space-3);
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .spell-wizard-step-number {
-  background: var(--pf-gold);
-  color: var(--pf-brown-darkest);
+  background: var(--my-gold);
+  color: var(--my-brown-darkest);
   width: 36px;
   height: 36px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--pf-font-display);
-  font-weight: var(--pf-font-bold);
-  font-size: var(--pf-text-lg);
-  border: 3px solid var(--pf-gold-dark);
-  box-shadow: var(--pf-shadow-glow);
+  font-family: var(--my-font-display);
+  font-weight: var(--my-font-bold);
+  font-size: var(--my-text-lg);
+  border: 3px solid var(--my-gold-dark);
+  box-shadow: var(--my-shadow-glow);
 }
 
 /* ===== ENHANCED STEP CONTENT LAYOUT ===== */
 
 /* Step content - fills remaining space with proper padding */
 .spell-wizard-step-content {
-  padding: var(--pf-space-6);
+  padding: var(--my-space-6);
   background: transparent;
   width: 100%;
   max-width: none;
@@ -965,20 +965,20 @@
   overflow: visible;
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-4);
+  gap: var(--my-space-4);
   flex: 1;
 }
 
 /* Remove decorative background for cleaner layout */
 
 .spell-wizard-form-group {
-  margin-bottom: var(--pf-space-6);
+  margin-bottom: var(--my-space-6);
 }
 
 .spell-wizard-form-row {
   display: flex;
-  gap: var(--pf-space-6);
-  margin-bottom: var(--pf-space-6);
+  gap: var(--my-space-6);
+  margin-bottom: var(--my-space-6);
 }
 
 .spell-wizard-form-group-half {
@@ -988,11 +988,11 @@
 /* Labels and inputs */
 .spell-wizard-label {
   display: block;
-  font-family: var(--pf-font-display);
-  font-size: var(--pf-text-base);
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-primary);
-  margin-bottom: var(--pf-space-2);
+  font-family: var(--my-font-display);
+  font-size: var(--my-text-base);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-primary);
+  margin-bottom: var(--my-space-2);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -1000,21 +1000,21 @@
 .spell-wizard-input,
 .spell-wizard-textarea {
   width: 100%;
-  padding: var(--pf-space-3);
-  border: 2px solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-base);
-  color: var(--pf-text-primary);
-  background: var(--pf-gradient-parchment);
-  transition: all var(--pf-transition-normal);
+  padding: var(--my-space-3);
+  border: 2px solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-base);
+  color: var(--my-text-primary);
+  background: var(--my-gradient-parchment);
+  transition: all var(--my-transition-normal);
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .spell-wizard-input:focus,
 .spell-wizard-textarea:focus {
   outline: none;
-  border-color: var(--pf-gold);
+  border-color: var(--my-gold);
   box-shadow:
     inset 0 1px 3px rgba(0, 0, 0, 0.1),
     0 0 0 3px rgba(218, 165, 32, 0.2);
@@ -1022,86 +1022,86 @@
 
 .spell-wizard-help-text {
   display: block;
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-muted);
-  margin-top: var(--pf-space-2);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-sm);
+  color: var(--my-text-muted);
+  margin-top: var(--my-space-2);
   font-style: italic;
 }
 
 .spell-wizard-error {
-  color: var(--pf-error);
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-sm);
-  margin-top: var(--pf-space-1);
-  font-weight: var(--pf-font-semibold);
+  color: var(--my-error);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-sm);
+  margin-top: var(--my-space-1);
+  font-weight: var(--my-font-semibold);
 }
 
 .required {
-  color: var(--pf-error);
+  color: var(--my-error);
 }
 
 /* ===== SELECTION CARDS AND INTERACTIVE ELEMENTS ===== */
 
 /* Selection cards for effect types, etc. */
 .selection-card {
-  background: var(--pf-gradient-button);
-  border: 2px solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius-lg);
-  padding: var(--pf-space-4);
+  background: var(--my-gradient-button);
+  border: 2px solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius-lg);
+  padding: var(--my-space-4);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   text-align: center;
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .selection-card:hover {
-  background: var(--pf-gradient-button-hover);
+  background: var(--my-gradient-button-hover);
   transform: translateY(-2px);
-  box-shadow: var(--pf-shadow-md);
+  box-shadow: var(--my-shadow-md);
 }
 
 .selection-card.selected {
-  background: var(--pf-gradient-gold);
-  border-color: var(--pf-gold-dark);
-  color: var(--pf-brown-darkest);
-  box-shadow: var(--pf-shadow-glow);
+  background: var(--my-gradient-gold);
+  border-color: var(--my-gold-dark);
+  color: var(--my-brown-darkest);
+  box-shadow: var(--my-shadow-glow);
 }
 
 /* Tags and badges */
 .spell-wizard-tags-container {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--pf-space-2);
-  margin-top: var(--pf-space-3);
+  gap: var(--my-space-2);
+  margin-top: var(--my-space-3);
 }
 
 .spell-wizard-tag {
-  padding: var(--pf-space-2) var(--pf-space-3);
-  background: var(--pf-gradient-button);
-  border: 2px solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-sm);
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-secondary);
+  padding: var(--my-space-2) var(--my-space-3);
+  background: var(--my-gradient-button);
+  border: 2px solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  font-family: var(--my-font-ui);
+  font-size: var(--my-text-sm);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-secondary);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .spell-wizard-tag:hover {
-  background: var(--pf-gradient-button-hover);
-  color: var(--pf-brown-dark);
+  background: var(--my-gradient-button-hover);
+  color: var(--my-brown-dark);
   transform: translateY(-1px);
 }
 
 .spell-wizard-tag.selected {
-  background: var(--pf-gradient-gold);
-  border-color: var(--pf-gold-dark);
-  color: var(--pf-brown-darkest);
-  box-shadow: var(--pf-shadow-sm);
+  background: var(--my-gradient-gold);
+  border-color: var(--my-gold-dark);
+  color: var(--my-brown-darkest);
+  box-shadow: var(--my-shadow-sm);
 }
 
 /* ===== LOADING AND ERROR STATES ===== */
@@ -1111,65 +1111,65 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: var(--pf-space-8);
-  color: var(--pf-text-muted);
-  font-family: var(--pf-font-display);
-  font-size: var(--pf-text-lg);
-  background: var(--pf-gradient-parchment);
+  padding: var(--my-space-8);
+  color: var(--my-text-muted);
+  font-family: var(--my-font-display);
+  font-size: var(--my-text-lg);
+  background: var(--my-gradient-parchment);
 }
 
 .loading-steps {
   text-align: center;
-  padding: var(--pf-space-8);
-  color: var(--pf-text-muted);
-  font-family: var(--pf-font-display);
-  font-size: var(--pf-text-xl);
+  padding: var(--my-space-8);
+  color: var(--my-text-muted);
+  font-family: var(--my-font-display);
+  font-size: var(--my-text-xl);
 }
 
 .error-message {
   text-align: center;
-  padding: var(--pf-space-8);
-  color: var(--pf-error);
-  font-family: var(--pf-font-display);
-  font-size: var(--pf-text-lg);
-  background: var(--pf-gradient-parchment-light);
-  border: 2px solid var(--pf-error);
-  border-radius: var(--pf-border-radius-lg);
-  margin: var(--pf-space-4);
+  padding: var(--my-space-8);
+  color: var(--my-error);
+  font-family: var(--my-font-display);
+  font-size: var(--my-text-lg);
+  background: var(--my-gradient-parchment-light);
+  border: 2px solid var(--my-error);
+  border-radius: var(--my-border-radius-lg);
+  margin: var(--my-space-4);
 }
 
 /* ===== STEP 9 BALANCE LAYOUT IMPROVEMENTS ===== */
 
 .step9-balance-content {
-  padding: var(--pf-space-4);
-  background: var(--pf-gradient-parchment);
-  border-radius: var(--pf-border-radius-lg);
-  box-shadow: var(--pf-shadow-parchment);
+  padding: var(--my-space-4);
+  background: var(--my-gradient-parchment);
+  border-radius: var(--my-border-radius-lg);
+  box-shadow: var(--my-shadow-parchment);
 }
 
 .step9-header {
   text-align: center;
-  margin-bottom: var(--pf-space-6);
-  padding: var(--pf-space-4);
-  background: var(--pf-gradient-header);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius-lg);
-  box-shadow: var(--pf-shadow-sm);
+  margin-bottom: var(--my-space-6);
+  padding: var(--my-space-4);
+  background: var(--my-gradient-header);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius-lg);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .step9-header h3 {
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-display);
-  font-size: var(--pf-text-2xl);
-  font-weight: var(--pf-font-bold);
-  margin-bottom: var(--pf-space-2);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-display);
+  font-size: var(--my-text-2xl);
+  font-weight: var(--my-font-bold);
+  margin-bottom: var(--my-space-2);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .step9-header .step-description {
-  color: var(--pf-text-secondary);
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-base);
+  color: var(--my-text-secondary);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-base);
   margin: 0;
   font-style: italic;
 }
@@ -1178,42 +1178,42 @@
 .step9-balance-content .toggle-switch-label {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-3);
-  padding: var(--pf-space-3);
-  background: var(--pf-gradient-input);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
+  gap: var(--my-space-3);
+  padding: var(--my-space-3);
+  background: var(--my-gradient-input);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
 }
 
 .step9-balance-content .toggle-switch-label:hover {
-  background: var(--pf-gradient-button-hover);
-  border-color: var(--pf-gold);
-  box-shadow: var(--pf-shadow-sm);
+  background: var(--my-gradient-button-hover);
+  border-color: var(--my-gold);
+  box-shadow: var(--my-shadow-sm);
 }
 
 /* Better card styling for Step 9 */
 .step9-balance-content .card {
-  background: var(--pf-gradient-parchment-light) !important;
-  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
-  border-radius: var(--pf-border-radius-lg) !important;
-  box-shadow: var(--pf-shadow-parchment) !important;
-  margin-bottom: var(--pf-space-4) !important;
+  background: var(--my-gradient-parchment-light) !important;
+  border: var(--my-border-width) solid var(--my-brown-medium) !important;
+  border-radius: var(--my-border-radius-lg) !important;
+  box-shadow: var(--my-shadow-parchment) !important;
+  margin-bottom: var(--my-space-4) !important;
 }
 
 .step9-balance-content .card-header {
-  background: var(--pf-gradient-header) !important;
-  border-bottom: var(--pf-border-width) solid var(--pf-brown-medium) !important;
-  color: var(--pf-text-primary) !important;
-  font-family: var(--pf-font-ui) !important;
-  font-weight: var(--pf-font-semibold) !important;
+  background: var(--my-gradient-header) !important;
+  border-bottom: var(--my-border-width) solid var(--my-brown-medium) !important;
+  color: var(--my-text-primary) !important;
+  font-family: var(--my-font-ui) !important;
+  font-weight: var(--my-font-semibold) !important;
 }
 
 .step9-balance-content .card-body {
-  background: var(--pf-gradient-parchment) !important;
-  color: var(--pf-text-primary) !important;
-  font-family: var(--pf-font-body) !important;
+  background: var(--my-gradient-parchment) !important;
+  color: var(--my-text-primary) !important;
+  font-family: var(--my-font-body) !important;
 }
 
 /* ===== FINAL POLISH ===== */
@@ -1248,25 +1248,25 @@
 .wizard-main-content::-webkit-scrollbar,
 .step-body::-webkit-scrollbar {
   width: 8px;
-  background: var(--pf-brown-light);
+  background: var(--my-brown-light);
 }
 
 .wizard-main-content::-webkit-scrollbar-thumb,
 .step-body::-webkit-scrollbar-thumb {
-  background: var(--pf-brown-medium);
+  background: var(--my-brown-medium);
   border-radius: 4px;
-  border: 1px solid var(--pf-brown-light);
+  border: 1px solid var(--my-brown-light);
 }
 
 .wizard-main-content::-webkit-scrollbar-thumb:hover,
 .step-body::-webkit-scrollbar-thumb:hover {
-  background: var(--pf-brown-dark);
+  background: var(--my-brown-dark);
 }
 
 /* Focus styles for accessibility */
 .spell-wizard-progress-segment:focus,
 .wizard-nav-btn:focus {
-  outline: 3px solid var(--pf-gold);
+  outline: 3px solid var(--my-gold);
   outline-offset: 2px;
 }
 
@@ -1274,7 +1274,7 @@
   box-shadow:
     0 0 20px rgba(212, 175, 55, 0.8),
     0 2px 6px rgba(0, 0, 0, 0.4),
-    0 0 0 3px var(--pf-gold);
+    0 0 0 3px var(--my-gold);
 }
 
 /* Print styles */
@@ -1293,7 +1293,7 @@
 
 /* Override step-layout.css conflicts */
 .spellbook-wizard-layout .spell-wizard-step-content {
-  padding: var(--pf-space-6) !important;
+  padding: var(--my-space-6) !important;
   background: transparent !important;
   min-height: auto !important;
 }
@@ -1301,17 +1301,17 @@
 .spellbook-wizard-layout .wizard-footer {
   display: flex !important;
   flex-direction: column !important;
-  background: var(--pf-gradient-parchment-dark) !important;
-  border-top: 2px solid var(--pf-brown-medium) !important;
+  background: var(--my-gradient-parchment-dark) !important;
+  border-top: 2px solid var(--my-brown-medium) !important;
   box-shadow: 0 -2px 8px rgba(45, 24, 16, 0.1) !important;
   min-height: auto !important;
 }
 
 /* Ensure our new layout takes precedence */
 .spellbook-wizard-layout {
-  font-family: var(--pf-font-body) !important;
-  color: var(--pf-text-primary) !important;
-  background: var(--pf-gradient-parchment) !important;
+  font-family: var(--my-font-body) !important;
+  color: var(--my-text-primary) !important;
+  background: var(--my-gradient-parchment) !important;
 }
 
 /* Override any legacy wizard styles */
@@ -1334,7 +1334,7 @@
 .spell-wizard-step-content-full {
   width: 100% !important;
   height: 100% !important;
-  background: var(--pf-gradient-parchment) !important;
+  background: var(--my-gradient-parchment) !important;
   overflow-y: auto !important;
   padding: 0 !important;
   margin: 0 !important;
@@ -1351,35 +1351,35 @@
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  padding: var(--pf-space-8) !important;
-  font-family: var(--pf-font-body) !important;
-  font-size: var(--pf-text-lg) !important;
-  color: var(--pf-text-muted) !important;
-  background: var(--pf-gradient-parchment-light) !important;
-  border: var(--pf-border-width) solid var(--pf-brown-light) !important;
-  border-radius: var(--pf-border-radius-lg) !important;
-  margin: var(--pf-space-4) !important;
+  padding: var(--my-space-8) !important;
+  font-family: var(--my-font-body) !important;
+  font-size: var(--my-text-lg) !important;
+  color: var(--my-text-muted) !important;
+  background: var(--my-gradient-parchment-light) !important;
+  border: var(--my-border-width) solid var(--my-brown-light) !important;
+  border-radius: var(--my-border-radius-lg) !important;
+  margin: var(--my-space-4) !important;
 }
 
 .error-message {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  padding: var(--pf-space-6) !important;
-  font-family: var(--pf-font-body) !important;
-  font-size: var(--pf-text-lg) !important;
-  color: var(--pf-error) !important;
-  background: var(--pf-gradient-parchment-light) !important;
-  border: var(--pf-border-width-thick) solid var(--pf-error) !important;
-  border-radius: var(--pf-border-radius-lg) !important;
-  margin: var(--pf-space-4) !important;
+  padding: var(--my-space-6) !important;
+  font-family: var(--my-font-body) !important;
+  font-size: var(--my-text-lg) !important;
+  color: var(--my-error) !important;
+  background: var(--my-gradient-parchment-light) !important;
+  border: var(--my-border-width-thick) solid var(--my-error) !important;
+  border-radius: var(--my-border-radius-lg) !important;
+  margin: var(--my-space-4) !important;
 }
 
 /* Library view styling */
 .library-view {
   height: 100% !important;
   overflow: hidden !important;
-  background: var(--pf-gradient-parchment) !important;
+  background: var(--my-gradient-parchment) !important;
 }
 
 /* Modal styling improvements */
@@ -1393,14 +1393,14 @@
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  z-index: var(--pf-z-modal) !important;
+  z-index: var(--my-z-modal) !important;
 }
 
 .modal-container {
-  background: var(--pf-gradient-parchment) !important;
-  border: var(--pf-border-width-thick) solid var(--pf-brown-medium) !important;
-  border-radius: var(--pf-border-radius-lg) !important;
-  box-shadow: var(--pf-shadow-parchment) !important;
+  background: var(--my-gradient-parchment) !important;
+  border: var(--my-border-width-thick) solid var(--my-brown-medium) !important;
+  border-radius: var(--my-border-radius-lg) !important;
+  box-shadow: var(--my-shadow-parchment) !important;
   max-width: 600px !important;
   max-height: 80vh !important;
   overflow: hidden !important;
@@ -1409,27 +1409,27 @@
 }
 
 .modal-header {
-  background: var(--pf-gradient-header) !important;
-  padding: var(--pf-space-4) var(--pf-space-6) !important;
-  border-bottom: var(--pf-border-width) solid var(--pf-brown-medium) !important;
+  background: var(--my-gradient-header) !important;
+  padding: var(--my-space-4) var(--my-space-6) !important;
+  border-bottom: var(--my-border-width) solid var(--my-brown-medium) !important;
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
 }
 
 .modal-header h2 {
-  font-family: var(--pf-font-display) !important;
-  font-size: var(--pf-text-xl) !important;
-  font-weight: var(--pf-font-bold) !important;
-  color: var(--pf-text-on-dark) !important;
+  font-family: var(--my-font-display) !important;
+  font-size: var(--my-text-xl) !important;
+  font-weight: var(--my-font-bold) !important;
+  color: var(--my-text-on-dark) !important;
   margin: 0 !important;
 }
 
 .modal-close-btn {
   background: none !important;
   border: none !important;
-  color: var(--pf-text-on-dark) !important;
-  font-size: var(--pf-text-2xl) !important;
+  color: var(--my-text-on-dark) !important;
+  font-size: var(--my-text-2xl) !important;
   cursor: pointer !important;
   padding: 0 !important;
   width: 32px !important;
@@ -1437,8 +1437,8 @@
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  border-radius: var(--pf-border-radius) !important;
-  transition: all var(--pf-transition-normal) !important;
+  border-radius: var(--my-border-radius) !important;
+  transition: all var(--my-transition-normal) !important;
 }
 
 .modal-close-btn:hover {
@@ -1449,34 +1449,34 @@
   flex: 1 !important;
   overflow-y: auto !important;
   
-  background: var(--pf-gradient-parchment) !important;
+  background: var(--my-gradient-parchment) !important;
 }
 
 .modal-footer {
-  background: var(--pf-gradient-parchment-dark) !important;
-  padding: var(--pf-space-4) var(--pf-space-6) !important;
-  border-top: var(--pf-border-width) solid var(--pf-brown-medium) !important;
+  background: var(--my-gradient-parchment-dark) !important;
+  padding: var(--my-space-4) var(--my-space-6) !important;
+  border-top: var(--my-border-width) solid var(--my-brown-medium) !important;
   display: flex !important;
   justify-content: flex-end !important;
-  gap: var(--pf-space-3) !important;
+  gap: var(--my-space-3) !important;
 }
 
 .modal-btn {
-  padding: var(--pf-space-2) var(--pf-space-4) !important;
-  background: var(--pf-gradient-button) !important;
-  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
-  border-radius: var(--pf-border-radius) !important;
-  font-family: var(--pf-font-ui) !important;
-  font-size: var(--pf-text-sm) !important;
-  font-weight: var(--pf-font-semibold) !important;
-  color: var(--pf-text-secondary) !important;
+  padding: var(--my-space-2) var(--my-space-4) !important;
+  background: var(--my-gradient-button) !important;
+  border: var(--my-border-width) solid var(--my-brown-medium) !important;
+  border-radius: var(--my-border-radius) !important;
+  font-family: var(--my-font-ui) !important;
+  font-size: var(--my-text-sm) !important;
+  font-weight: var(--my-font-semibold) !important;
+  color: var(--my-text-secondary) !important;
   cursor: pointer !important;
-  transition: all var(--pf-transition-normal) !important;
+  transition: all var(--my-transition-normal) !important;
 }
 
 .modal-btn:hover {
-  background: var(--pf-gradient-button-hover) !important;
-  color: var(--pf-brown-dark) !important;
+  background: var(--my-gradient-button-hover) !important;
+  color: var(--my-brown-dark) !important;
   transform: translateY(-1px) !important;
 }
 
@@ -1489,7 +1489,7 @@
 
 /* Main form container - fills entire space */
 .spell-wizard-basic-info {
-  font-family: var(--pf-font-body) !important;
+  font-family: var(--my-font-body) !important;
   color: #5a1e12 !important; /* Dark rustic red text */
   background: transparent !important;
   padding: 0 !important;
@@ -1505,7 +1505,7 @@
 .spell-wizard-form {
   display: flex !important;
   flex-direction: column !important;
-  gap: var(--pf-space-4) !important;
+  gap: var(--my-space-4) !important;
   background: transparent !important;
   width: 100% !important;
   height: 100% !important;
@@ -1518,20 +1518,20 @@
 .spell-wizard-form-group {
   display: flex !important;
   flex-direction: column !important;
-  gap: var(--pf-space-3) !important;
-  margin-bottom: var(--pf-space-6) !important;
+  gap: var(--my-space-3) !important;
+  margin-bottom: var(--my-space-6) !important;
   background: transparent !important;
 }
 
 /* Labels - more prominent and readable */
 .spell-wizard-label {
-  font-family: var(--pf-font-display) !important;
-  font-size: var(--pf-text-base) !important;
-  font-weight: var(--pf-font-bold) !important;
-  color: var(--pf-text-secondary) !important;
+  font-family: var(--my-font-display) !important;
+  font-size: var(--my-text-base) !important;
+  font-weight: var(--my-font-bold) !important;
+  color: var(--my-text-secondary) !important;
   text-transform: uppercase !important;
   letter-spacing: 1px !important;
-  margin-bottom: var(--pf-space-2) !important;
+  margin-bottom: var(--my-space-2) !important;
   background: transparent !important;
 }
 
@@ -1540,22 +1540,22 @@
 .spell-wizard-textarea {
   width: 100% !important;
   height: 48px !important;
-  padding: var(--pf-space-4) !important;
-  background: var(--pf-gradient-parchment-light) !important;
-  border: var(--pf-border-width-thick) solid var(--pf-brown-medium) !important;
-  border-radius: var(--pf-border-radius-lg) !important;
-  font-family: var(--pf-font-body) !important;
-  font-size: var(--pf-text-lg) !important;
-  color: var(--pf-text-primary) !important;
-  transition: all var(--pf-transition-normal) !important;
-  box-shadow: var(--pf-shadow-inset) !important;
+  padding: var(--my-space-4) !important;
+  background: var(--my-gradient-parchment-light) !important;
+  border: var(--my-border-width-thick) solid var(--my-brown-medium) !important;
+  border-radius: var(--my-border-radius-lg) !important;
+  font-family: var(--my-font-body) !important;
+  font-size: var(--my-text-lg) !important;
+  color: var(--my-text-primary) !important;
+  transition: all var(--my-transition-normal) !important;
+  box-shadow: var(--my-shadow-inset) !important;
 }
 
 .spell-wizard-input:focus,
 .spell-wizard-textarea:focus {
   outline: none !important;
-  border-color: var(--pf-gold) !important;
-  box-shadow: var(--pf-shadow-inset), 0 0 0 2px rgba(218, 165, 32, 0.2) !important;
+  border-color: var(--my-gold) !important;
+  box-shadow: var(--my-shadow-inset), 0 0 0 2px rgba(218, 165, 32, 0.2) !important;
 }
 
 .spell-wizard-textarea {
@@ -1566,9 +1566,9 @@
 }
 
 .spell-wizard-input-error {
-  border-color: var(--pf-error);
+  border-color: var(--my-error);
   box-shadow:
-    var(--pf-shadow-inset),
+    var(--my-shadow-inset),
     0 0 0 2px rgba(139, 0, 0, 0.2);
 }
 
@@ -1579,112 +1579,112 @@
 /* ===== ELEMENT SELECTOR STYLING ===== */
 
 .element-selector-container {
-  background: var(--pf-gradient-parchment-light) !important;
-  border: var(--pf-border-width) solid var(--pf-brown-light) !important;
-  border-radius: var(--pf-border-radius) !important;
-  padding: var(--pf-space-4) !important;
-  margin: var(--pf-space-2) 0 !important;
+  background: var(--my-gradient-parchment-light) !important;
+  border: var(--my-border-width) solid var(--my-brown-light) !important;
+  border-radius: var(--my-border-radius) !important;
+  padding: var(--my-space-4) !important;
+  margin: var(--my-space-2) 0 !important;
 }
 
 .element-categories {
   display: flex !important;
-  gap: var(--pf-space-2) !important;
-  margin-bottom: var(--pf-space-4) !important;
+  gap: var(--my-space-2) !important;
+  margin-bottom: var(--my-space-4) !important;
   flex-wrap: wrap !important;
 }
 
 .category-button {
-  padding: var(--pf-space-2) var(--pf-space-4) !important;
-  background: var(--pf-gradient-button) !important;
-  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
-  border-radius: var(--pf-border-radius) !important;
-  font-family: var(--pf-font-ui) !important;
-  font-size: var(--pf-text-sm) !important;
-  font-weight: var(--pf-font-semibold) !important;
-  color: var(--pf-text-secondary) !important;
+  padding: var(--my-space-2) var(--my-space-4) !important;
+  background: var(--my-gradient-button) !important;
+  border: var(--my-border-width) solid var(--my-brown-medium) !important;
+  border-radius: var(--my-border-radius) !important;
+  font-family: var(--my-font-ui) !important;
+  font-size: var(--my-text-sm) !important;
+  font-weight: var(--my-font-semibold) !important;
+  color: var(--my-text-secondary) !important;
   cursor: pointer !important;
-  transition: all var(--pf-transition-normal) !important;
+  transition: all var(--my-transition-normal) !important;
   text-transform: capitalize !important;
 }
 
 .category-button:hover {
-  background: var(--pf-gradient-button-hover) !important;
-  color: var(--pf-brown-dark) !important;
+  background: var(--my-gradient-button-hover) !important;
+  color: var(--my-brown-dark) !important;
   transform: translateY(-1px) !important;
 }
 
 .category-button.active {
-  background: var(--pf-gold) !important;
-  color: var(--pf-brown-darkest) !important;
-  border-color: var(--pf-gold-dark) !important;
-  box-shadow: var(--pf-shadow-glow) !important;
+  background: var(--my-gold) !important;
+  color: var(--my-brown-darkest) !important;
+  border-color: var(--my-gold-dark) !important;
+  box-shadow: var(--my-shadow-glow) !important;
 }
 
 .element-buttons {
   display: grid !important;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)) !important;
-  gap: var(--pf-space-3) !important;
-  margin-bottom: var(--pf-space-4) !important;
+  gap: var(--my-space-3) !important;
+  margin-bottom: var(--my-space-4) !important;
 }
 
 
 
 .element-button.primary {
-  background: color-mix(in srgb, var(--element-color, #3366cc) 30%, var(--pf-gradient-button)) !important;
-  border-color: var(--element-color, var(--pf-gold-dark)) !important;
-  color: var(--pf-text-on-dark) !important;
-  box-shadow: var(--pf-shadow-md), 0 0 18px color-mix(in srgb, var(--element-color, #3366cc) 50%, transparent) !important;
+  background: color-mix(in srgb, var(--element-color, #3366cc) 30%, var(--my-gradient-button)) !important;
+  border-color: var(--element-color, var(--my-gold-dark)) !important;
+  color: var(--my-text-on-dark) !important;
+  box-shadow: var(--my-shadow-md), 0 0 18px color-mix(in srgb, var(--element-color, #3366cc) 50%, transparent) !important;
 }
 
 .element-button.secondary {
-  background: color-mix(in srgb, var(--element-color, #6c757d) 25%, var(--pf-gradient-button)) !important;
-  border-color: var(--element-color, var(--pf-brown-dark)) !important;
+  background: color-mix(in srgb, var(--element-color, #6c757d) 25%, var(--my-gradient-button)) !important;
+  border-color: var(--element-color, var(--my-brown-dark)) !important;
   border-style: dashed !important;
-  color: var(--pf-text-on-dark) !important;
-  box-shadow: var(--pf-shadow-md), 0 0 14px color-mix(in srgb, var(--element-color, #6c757d) 40%, transparent) !important;
+  color: var(--my-text-on-dark) !important;
+  box-shadow: var(--my-shadow-md), 0 0 14px color-mix(in srgb, var(--element-color, #6c757d) 40%, transparent) !important;
 }
 
 
 
 .element-name {
-  font-family: var(--pf-font-ui) !important;
-  font-size: var(--pf-text-xs) !important;
-  font-weight: var(--pf-font-semibold) !important;
+  font-family: var(--my-font-ui) !important;
+  font-size: var(--my-text-xs) !important;
+  font-weight: var(--my-font-semibold) !important;
   text-transform: uppercase !important;
   letter-spacing: 0.5px !important;
 }
 
 .selection-instruction {
-  background: var(--pf-gradient-parchment-dark) !important;
-  padding: var(--pf-space-3) !important;
-  border-radius: var(--pf-border-radius) !important;
-  border: 1px solid var(--pf-brown-light) !important;
+  background: var(--my-gradient-parchment-dark) !important;
+  padding: var(--my-space-3) !important;
+  border-radius: var(--my-border-radius) !important;
+  border: 1px solid var(--my-brown-light) !important;
 }
 
 .selection-instruction p {
-  margin: var(--pf-space-1) 0 !important;
-  font-family: var(--pf-font-body) !important;
-  font-size: var(--pf-text-sm) !important;
-  color: var(--pf-text-secondary) !important;
+  margin: var(--my-space-1) 0 !important;
+  font-family: var(--my-font-body) !important;
+  font-size: var(--my-text-sm) !important;
+  color: var(--my-text-secondary) !important;
   display: flex !important;
   align-items: center !important;
-  gap: var(--pf-space-2) !important;
+  gap: var(--my-space-2) !important;
 }
 
 /* ===== HELP TEXT AND FORM ELEMENTS ===== */
 
 .spell-wizard-help-text {
-  font-family: var(--pf-font-body) !important;
-  font-size: var(--pf-text-xs) !important;
-  color: var(--pf-text-muted) !important;
-  margin-top: var(--pf-space-1) !important;
-  line-height: var(--pf-leading-normal) !important;
+  font-family: var(--my-font-body) !important;
+  font-size: var(--my-text-xs) !important;
+  color: var(--my-text-muted) !important;
+  margin-top: var(--my-space-1) !important;
+  line-height: var(--my-leading-normal) !important;
   background: transparent !important;
 }
 
 .spell-wizard-form-row {
   display: flex !important;
-  gap: var(--pf-space-4) !important;
+  gap: var(--my-space-4) !important;
   align-items: flex-start !important;
   background: transparent !important;
 }
@@ -1697,26 +1697,26 @@
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
-  gap: var(--pf-space-2) !important;
+  gap: var(--my-space-2) !important;
 }
 
 .spell-icon-preview {
   width: 64px !important;
   height: 64px !important;
-  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
-  border-radius: var(--pf-border-radius) !important;
+  border: var(--my-border-width) solid var(--my-brown-medium) !important;
+  border-radius: var(--my-border-radius) !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   cursor: pointer !important;
-  background: var(--pf-gradient-button) !important;
-  transition: all var(--pf-transition-normal) !important;
+  background: var(--my-gradient-button) !important;
+  transition: all var(--my-transition-normal) !important;
 }
 
 .spell-icon-preview:hover {
-  background: var(--pf-gradient-button-hover) !important;
+  background: var(--my-gradient-button-hover) !important;
   transform: translateY(-1px) !important;
-  box-shadow: var(--pf-shadow-md) !important;
+  box-shadow: var(--my-shadow-md) !important;
 }
 
 /* Scope spell-icon to spellbook components only, not action bar */
@@ -1726,60 +1726,60 @@
 .wow-spell-card .spell-icon {
   width: 48px !important;
   height: 48px !important;
-  border-radius: var(--pf-border-radius) !important;
+  border-radius: var(--my-border-radius) !important;
 }
 
 .spell-icon-placeholder {
-  color: var(--pf-text-muted) !important;
-  font-size: var(--pf-text-2xl) !important;
+  color: var(--my-text-muted) !important;
+  font-size: var(--my-text-2xl) !important;
 }
 
 .spell-wizard-tags-container {
   display: flex !important;
   flex-wrap: wrap !important;
-  gap: var(--pf-space-2) !important;
-  margin-top: var(--pf-space-2) !important;
+  gap: var(--my-space-2) !important;
+  margin-top: var(--my-space-2) !important;
 }
 
 .spell-wizard-tag {
-  padding: var(--pf-space-1) var(--pf-space-3) !important;
-  background: var(--pf-gradient-button) !important;
-  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
-  border-radius: var(--pf-border-radius) !important;
-  font-family: var(--pf-font-ui) !important;
-  font-size: var(--pf-text-xs) !important;
-  font-weight: var(--pf-font-semibold) !important;
-  color: var(--pf-text-secondary) !important;
+  padding: var(--my-space-1) var(--my-space-3) !important;
+  background: var(--my-gradient-button) !important;
+  border: var(--my-border-width) solid var(--my-brown-medium) !important;
+  border-radius: var(--my-border-radius) !important;
+  font-family: var(--my-font-ui) !important;
+  font-size: var(--my-text-xs) !important;
+  font-weight: var(--my-font-semibold) !important;
+  color: var(--my-text-secondary) !important;
   cursor: pointer !important;
-  transition: all var(--pf-transition-normal) !important;
+  transition: all var(--my-transition-normal) !important;
   text-transform: uppercase !important;
   letter-spacing: 0.5px !important;
 }
 
 .spell-wizard-tag:hover {
-  background: var(--pf-gradient-button-hover) !important;
-  color: var(--pf-brown-dark) !important;
+  background: var(--my-gradient-button-hover) !important;
+  color: var(--my-brown-dark) !important;
   transform: translateY(-1px) !important;
 }
 
 .spell-wizard-tag.selected {
-  background: var(--pf-brown-medium) !important;
-  color: var(--pf-text-on-dark) !important;
-  border-color: var(--pf-brown-dark) !important;
-  box-shadow: var(--pf-shadow-md) !important;
+  background: var(--my-brown-medium) !important;
+  color: var(--my-text-on-dark) !important;
+  border-color: var(--my-brown-dark) !important;
+  box-shadow: var(--my-shadow-md) !important;
 }
 
 .required {
-  color: var(--pf-error) !important;
-  font-weight: var(--pf-font-bold) !important;
+  color: var(--my-error) !important;
+  font-weight: var(--my-font-bold) !important;
 }
 
 /* ===== WIZARD FOOTER STYLING ===== */
 
 .spellbook-layout .wizard-footer {
-  background: var(--pf-gradient-header) !important;
-  border-top: var(--pf-border-width) solid var(--pf-brown-medium) !important;
-  padding: var(--pf-space-3) var(--pf-space-4) !important;
+  background: var(--my-gradient-header) !important;
+  border-top: var(--my-border-width) solid var(--my-brown-medium) !important;
+  padding: var(--my-space-3) var(--my-space-4) !important;
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
@@ -1796,47 +1796,47 @@
 .spellbook-layout .wizard-footer-right {
   display: flex !important;
   align-items: center !important;
-  gap: var(--pf-space-3) !important;
+  gap: var(--my-space-3) !important;
 }
 
 .spellbook-layout .wizard-progress {
   flex: 1 !important;
-  margin: 0 var(--pf-space-4) !important;
-  background: var(--pf-gradient-parchment-dark) !important;
-  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
-  border-radius: var(--pf-border-radius) !important;
+  margin: 0 var(--my-space-4) !important;
+  background: var(--my-gradient-parchment-dark) !important;
+  border: var(--my-border-width) solid var(--my-brown-medium) !important;
+  border-radius: var(--my-border-radius) !important;
   height: 8px !important;
   overflow: hidden !important;
 }
 
 .spellbook-layout .wizard-progress-bar {
   height: 100% !important;
-  background: var(--pf-gradient-gold) !important;
-  transition: width var(--pf-transition-normal) !important;
-  border-radius: var(--pf-border-radius) !important;
+  background: var(--my-gradient-gold) !important;
+  transition: width var(--my-transition-normal) !important;
+  border-radius: var(--my-border-radius) !important;
 }
 
 .spellbook-layout .wizard-button {
-  padding: var(--pf-space-2) var(--pf-space-4) !important;
-  background: var(--pf-gradient-button) !important;
-  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
-  border-radius: var(--pf-border-radius) !important;
-  font-family: var(--pf-font-ui) !important;
-  font-size: var(--pf-text-sm) !important;
-  font-weight: var(--pf-font-semibold) !important;
-  color: var(--pf-text-secondary) !important;
+  padding: var(--my-space-2) var(--my-space-4) !important;
+  background: var(--my-gradient-button) !important;
+  border: var(--my-border-width) solid var(--my-brown-medium) !important;
+  border-radius: var(--my-border-radius) !important;
+  font-family: var(--my-font-ui) !important;
+  font-size: var(--my-text-sm) !important;
+  font-weight: var(--my-font-semibold) !important;
+  color: var(--my-text-secondary) !important;
   cursor: pointer !important;
-  transition: all var(--pf-transition-normal) !important;
+  transition: all var(--my-transition-normal) !important;
   text-transform: uppercase !important;
   letter-spacing: 0.5px !important;
   min-width: 80px !important;
 }
 
 .spellbook-layout .wizard-button:hover {
-  background: var(--pf-gradient-button-hover) !important;
-  color: var(--pf-brown-dark) !important;
+  background: var(--my-gradient-button-hover) !important;
+  color: var(--my-brown-dark) !important;
   transform: translateY(-1px) !important;
-  box-shadow: var(--pf-shadow-md) !important;
+  box-shadow: var(--my-shadow-md) !important;
 }
 
 .spellbook-layout .wizard-button:disabled {
@@ -1846,26 +1846,26 @@
 }
 
 .spellbook-layout .wizard-button.primary {
-  background: var(--pf-gradient-gold) !important;
-  border-color: var(--pf-gold-dark) !important;
-  color: var(--pf-brown-darkest) !important;
-  box-shadow: var(--pf-shadow-glow) !important;
+  background: var(--my-gradient-gold) !important;
+  border-color: var(--my-gold-dark) !important;
+  color: var(--my-brown-darkest) !important;
+  box-shadow: var(--my-shadow-glow) !important;
 }
 
 .spellbook-layout .wizard-button.cancel {
-  background: var(--pf-gradient-parchment-dark) !important;
-  border-color: var(--pf-brown-light) !important;
-  color: var(--pf-text-muted) !important;
+  background: var(--my-gradient-parchment-dark) !important;
+  border-color: var(--my-brown-light) !important;
+  color: var(--my-text-muted) !important;
 }
 
 /* ===== UTILITY CLASSES ===== */
 
 /* Quick utility classes for common Pathfinder styling */
-.pf-text-gold { color: var(--pf-gold) !important; }
-.pf-text-brown { color: var(--pf-brown-dark) !important; }
-.pf-bg-parchment { background: var(--pf-gradient-parchment) !important; }
-.pf-border-brown { border-color: var(--pf-brown-medium) !important; }
-.pf-shadow-parchment { box-shadow: var(--pf-shadow-parchment) !important; }
+.pf-text-gold { color: var(--my-gold) !important; }
+.pf-text-brown { color: var(--my-brown-dark) !important; }
+.pf-bg-parchment { background: var(--my-gradient-parchment) !important; }
+.pf-border-brown { border-color: var(--my-brown-medium) !important; }
+.pf-shadow-parchment { box-shadow: var(--my-shadow-parchment) !important; }
 
 /* ===== ANIMATION OVERRIDES ===== */
 
@@ -1885,7 +1885,7 @@
 .spellbook-layout .spell-icon-preview,
 .spellbook-layout .modal-btn,
 .spellbook-layout .modal-close-btn {
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
 }
 
 /* Disable transitions for immediate changes */
@@ -1921,12 +1921,12 @@
 /* High contrast mode support */
 @media (prefers-contrast: high) {
   :root {
-    --pf-text-primary: #000000;
-    --pf-text-secondary: #000000;
-    --pf-brown-medium: #000000;
-    --pf-brown-dark: #000000;
-    --pf-parchment: #ffffff;
-    --pf-parchment-light: #ffffff;
+    --my-text-primary: #000000;
+    --my-text-secondary: #000000;
+    --my-brown-medium: #000000;
+    --my-brown-dark: #000000;
+    --my-parchment: #ffffff;
+    --my-parchment-light: #ffffff;
   }
 }
 
@@ -1968,7 +1968,7 @@
 .spellbook-layout .spell-icon-preview:focus,
 .spellbook-layout .modal-btn:focus,
 .spellbook-layout .modal-close-btn:focus {
-  outline: 2px solid var(--pf-gold);
+  outline: 2px solid var(--my-gold);
   outline-offset: 2px;
 }
 
@@ -1976,7 +1976,7 @@
 .spellbook-layout input:focus,
 .spellbook-layout select:focus,
 .spellbook-layout textarea:focus {
-  outline: 2px solid var(--pf-gold);
+  outline: 2px solid var(--my-gold);
   outline-offset: 2px;
 }
 
@@ -1986,75 +1986,75 @@
 .spellbook-layout .effect-option,
 .spellbook-layout .effect-option-button,
 .spellbook-layout .effect-type-option {
-  background: var(--pf-gradient-button) !important;
-  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
-  border-radius: var(--pf-border-radius) !important;
-  color: var(--pf-text-primary) !important;
-  padding: var(--pf-space-3) !important;
+  background: var(--my-gradient-button) !important;
+  border: var(--my-border-width) solid var(--my-brown-medium) !important;
+  border-radius: var(--my-border-radius) !important;
+  color: var(--my-text-primary) !important;
+  padding: var(--my-space-3) !important;
   cursor: pointer !important;
-  transition: all var(--pf-transition-normal) !important;
-  font-family: var(--pf-font-ui) !important;
-  box-shadow: var(--pf-shadow-sm) !important;
+  transition: all var(--my-transition-normal) !important;
+  font-family: var(--my-font-ui) !important;
+  box-shadow: var(--my-shadow-sm) !important;
 }
 
 .spellbook-layout .effect-option:hover,
 .spellbook-layout .effect-option-button:hover,
 .spellbook-layout .effect-type-option:hover {
-  background: var(--pf-gradient-button-hover) !important;
-  border-color: var(--pf-gold) !important;
+  background: var(--my-gradient-button-hover) !important;
+  border-color: var(--my-gold) !important;
   transform: translateY(-2px) !important;
-  box-shadow: var(--pf-shadow-md) !important;
+  box-shadow: var(--my-shadow-md) !important;
 }
 
 .spellbook-layout .effect-option.selected,
 .spellbook-layout .effect-option-button.selected,
 .spellbook-layout .effect-option-button.active,
 .spellbook-layout .effect-type-option.selected {
-  background: var(--pf-brown-medium) !important;
-  border-color: var(--pf-gold) !important;
-  color: var(--pf-text-on-dark) !important;
-  box-shadow: var(--pf-shadow-md) !important;
+  background: var(--my-brown-medium) !important;
+  border-color: var(--my-gold) !important;
+  color: var(--my-text-on-dark) !important;
+  box-shadow: var(--my-shadow-md) !important;
 }
 
 .spellbook-layout .effect-config-group {
-  background: var(--pf-gradient-parchment-dark) !important;
-  border: var(--pf-border-width) solid var(--pf-brown-light) !important;
-  border-radius: var(--pf-border-radius) !important;
-  padding: var(--pf-space-4) !important;
-  margin-bottom: var(--pf-space-4) !important;
-  box-shadow: var(--pf-shadow-sm) !important;
+  background: var(--my-gradient-parchment-dark) !important;
+  border: var(--my-border-width) solid var(--my-brown-light) !important;
+  border-radius: var(--my-border-radius) !important;
+  padding: var(--my-space-4) !important;
+  margin-bottom: var(--my-space-4) !important;
+  box-shadow: var(--my-shadow-sm) !important;
 }
 
 /* ===== WIZARD NAVIGATION BUTTONS ===== */
 
 .spellbook-layout .wizard-nav-button,
 .spellbook-layout .effect-type-tab {
-  background: var(--pf-gradient-button) !important;
-  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
-  border-radius: var(--pf-border-radius) !important;
-  color: var(--pf-text-primary) !important;
-  padding: var(--pf-space-2) var(--pf-space-4) !important;
-  font-family: var(--pf-font-ui) !important;
-  font-weight: var(--pf-font-semibold) !important;
+  background: var(--my-gradient-button) !important;
+  border: var(--my-border-width) solid var(--my-brown-medium) !important;
+  border-radius: var(--my-border-radius) !important;
+  color: var(--my-text-primary) !important;
+  padding: var(--my-space-2) var(--my-space-4) !important;
+  font-family: var(--my-font-ui) !important;
+  font-weight: var(--my-font-semibold) !important;
   cursor: pointer !important;
-  transition: all var(--pf-transition-normal) !important;
+  transition: all var(--my-transition-normal) !important;
   text-shadow: none !important;
-  box-shadow: var(--pf-shadow-sm) !important;
+  box-shadow: var(--my-shadow-sm) !important;
 }
 
 .spellbook-layout .wizard-nav-button:hover,
 .spellbook-layout .effect-type-tab:hover {
-  background: var(--pf-gradient-button-hover) !important;
-  border-color: var(--pf-gold) !important;
+  background: var(--my-gradient-button-hover) !important;
+  border-color: var(--my-gold) !important;
   transform: translateY(-1px) !important;
-  box-shadow: var(--pf-shadow-md) !important;
+  box-shadow: var(--my-shadow-md) !important;
 }
 
 .spellbook-layout .wizard-nav-button.active,
 .spellbook-layout .effect-type-tab.active {
-  background: var(--pf-brown-medium) !important;
-  border-color: var(--pf-gold) !important;
-  color: var(--pf-text-on-dark) !important;
+  background: var(--my-brown-medium) !important;
+  border-color: var(--my-gold) !important;
+  color: var(--my-text-on-dark) !important;
 }
 
 /* ===== CHECKBOX STYLING ===== */
@@ -2064,8 +2064,8 @@
   display: flex !important;
   align-items: center !important;
   cursor: pointer !important;
-  font-family: var(--pf-font-ui) !important;
-  color: var(--pf-text-primary) !important;
+  font-family: var(--my-font-ui) !important;
+  color: var(--my-text-primary) !important;
 }
 
 .spellbook-layout .wow-checkbox input[type="checkbox"] {
@@ -2073,23 +2073,23 @@
   appearance: none !important;
   width: 18px !important;
   height: 18px !important;
-  background: var(--pf-gradient-parchment) !important;
-  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
-  border-radius: var(--pf-border-radius) !important;
-  margin-right: var(--pf-space-2) !important;
+  background: var(--my-gradient-parchment) !important;
+  border: var(--my-border-width) solid var(--my-brown-medium) !important;
+  border-radius: var(--my-border-radius) !important;
+  margin-right: var(--my-space-2) !important;
   position: relative !important;
   cursor: pointer !important;
 }
 
 .spellbook-layout .wow-checkbox input[type="checkbox"]:checked {
-  background: var(--pf-brown-medium) !important;
-  border-color: var(--pf-gold) !important;
+  background: var(--my-brown-medium) !important;
+  border-color: var(--my-gold) !important;
 }
 
 .spellbook-layout .wow-checkbox input[type="checkbox"]:checked::after {
   content: "✓" !important;
   position: absolute !important;
-  color: var(--pf-gold) !important;
+  color: var(--my-gold) !important;
   font-size: 14px !important;
   top: -1px !important;
   left: 3px !important;
@@ -2100,8 +2100,8 @@
 /* Ensure Pathfinder theme overrides any dark mode preferences */
 @media (prefers-color-scheme: dark) {
   .spellbook-layout {
-    background: var(--pf-gradient-parchment) !important;
-    color: var(--pf-text-primary) !important;
+    background: var(--my-gradient-parchment) !important;
+    color: var(--my-text-primary) !important;
   }
 }
 
@@ -2110,25 +2110,25 @@
 /* Ensure Pathfinder styling takes precedence - ONLY within spellbook containers */
 .spellbook-layout,
 .spellbook-layout .app-container.pf-spellbook {
-  font-family: var(--pf-font-body) !important;
-  background: var(--pf-gradient-parchment) !important;
-  color: var(--pf-text-primary) !important;
+  font-family: var(--my-font-body) !important;
+  background: var(--my-gradient-parchment) !important;
+  color: var(--my-text-primary) !important;
 }
 
 /* REMOVE ALL EXTERNAL INTERFERENCE - spellbook styles stay in spellbook only */
 
 /* Force app header styling - scoped to spellbook */
 .spellbook-layout .app-container.pf-spellbook .app-header {
-  background: var(--pf-gradient-header) !important;
-  border-bottom: var(--pf-border-width-thick) solid var(--pf-brown-medium) !important;
-  color: var(--pf-text-on-dark) !important;
+  background: var(--my-gradient-header) !important;
+  border-bottom: var(--my-border-width-thick) solid var(--my-brown-medium) !important;
+  color: var(--my-text-on-dark) !important;
 }
 
 /* Force app tabs styling - scoped to spellbook with WoW window override */
 .wow-window .app-container.pf-spellbook .app-tabs,
 .app-container.pf-spellbook .app-tabs {
   display: flex !important;
-  gap: var(--pf-space-3) !important;
+  gap: var(--my-space-3) !important;
   align-items: center !important;
 }
 
@@ -2136,18 +2136,18 @@
 .app-container.pf-spellbook .app-tab {
   display: flex !important;
   align-items: center !important;
-  padding: var(--pf-space-4) var(--pf-space-8) !important;
+  padding: var(--my-space-4) var(--my-space-8) !important;
   background: linear-gradient(135deg,
     rgba(240, 230, 210, 0.95) 0%,
     rgba(213, 203, 176, 0.9) 50%,
     rgba(160, 140, 112, 0.85) 100%
   ) !important;
-  border: 2px solid var(--pf-brown-medium) !important;
+  border: 2px solid var(--my-brown-medium) !important;
   border-radius: 12px 12px 0 0 !important;
-  font-family: var(--pf-font-display) !important;
-  font-size: var(--pf-text-lg) !important;
-  font-weight: var(--pf-font-bold) !important;
-  color: var(--pf-brown-darkest) !important;
+  font-family: var(--my-font-display) !important;
+  font-size: var(--my-text-lg) !important;
+  font-weight: var(--my-font-bold) !important;
+  color: var(--my-brown-darkest) !important;
   cursor: pointer !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
   text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8) !important;
@@ -2157,7 +2157,7 @@
     inset 0 -1px 0 rgba(139, 69, 19, 0.2) !important;
   text-decoration: none !important;
   position: relative !important;
-  margin-right: var(--pf-space-1) !important;
+  margin-right: var(--my-space-1) !important;
 }
 
 .wow-window .app-container.pf-spellbook .app-tab::before,
@@ -2185,13 +2185,13 @@
     rgba(255, 215, 0, 0.15) 50%,
     rgba(212, 175, 55, 0.2) 100%
   ) !important;
-  color: var(--pf-brown-darkest) !important;
+  color: var(--my-brown-darkest) !important;
   transform: translateY(-2px) !important;
   box-shadow:
     0 6px 12px rgba(0, 0, 0, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.5),
     inset 0 -1px 0 rgba(139, 69, 19, 0.3) !important;
-  border-color: var(--pf-gold) !important;
+  border-color: var(--my-gold) !important;
 }
 
 .wow-window .app-container.pf-spellbook .app-tab:hover::before,
@@ -2206,9 +2206,9 @@
     rgba(255, 215, 0, 0.8) 50%,
     rgba(212, 175, 55, 0.9) 100%
   ) !important;
-  color: var(--pf-brown-darkest) !important;
+  color: var(--my-brown-darkest) !important;
   border-bottom-color: transparent !important;
-  border-color: var(--pf-gold-dark) !important;
+  border-color: var(--my-gold-dark) !important;
   box-shadow:
     0 8px 16px rgba(0, 0, 0, 0.25),
     inset 0 2px 4px rgba(255, 255, 255, 0.6),
@@ -2230,7 +2230,7 @@
 
 /* Force app content styling - scoped to spellbook */
 .spellbook-layout .app-container.pf-spellbook .app-content {
-  background: var(--pf-gradient-parchment) !important;
+  background: var(--my-gradient-parchment) !important;
   flex: 1 !important;
   display: flex !important;
   overflow: hidden !important;
@@ -2238,12 +2238,12 @@
 
 /* Force tab content styling - scoped to spellbook */
 .spellbook-layout .app-container.pf-spellbook .tab-content {
-  background: var(--pf-gradient-parchment) !important;
+  background: var(--my-gradient-parchment) !important;
 
-  border: var(--pf-border-width-thick) solid var(--pf-brown-medium) !important;
-  border-radius: var(--pf-border-radius-lg) !important;
-  box-shadow: var(--pf-shadow-parchment) !important;
-  margin: var(--pf-space-4) !important;
+  border: var(--my-border-width-thick) solid var(--my-brown-medium) !important;
+  border-radius: var(--my-border-radius-lg) !important;
+  box-shadow: var(--my-shadow-parchment) !important;
+  margin: var(--my-space-4) !important;
   overflow: auto !important;
 }
 
@@ -2252,9 +2252,9 @@
 .app-container.pf-spellbook .tab-icon-img {
   width: 32px !important;
   height: 32px !important;
-  margin-right: var(--pf-space-3) !important;
+  margin-right: var(--my-space-3) !important;
   border-radius: 6px !important;
-  border: 2px solid var(--pf-brown-medium) !important;
+  border: 2px solid var(--my-brown-medium) !important;
   box-shadow:
     0 2px 4px rgba(0, 0, 0, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
@@ -2263,7 +2263,7 @@
 
 .wow-window .app-container.pf-spellbook .app-tab:hover .tab-icon-img,
 .app-container.pf-spellbook .app-tab:hover .tab-icon-img {
-  border-color: var(--pf-gold) !important;
+  border-color: var(--my-gold) !important;
   box-shadow:
     0 4px 8px rgba(0, 0, 0, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.4),
@@ -2272,7 +2272,7 @@
 
 .wow-window .app-container.pf-spellbook .app-tab.active .tab-icon-img,
 .app-container.pf-spellbook .app-tab.active .tab-icon-img {
-  border-color: var(--pf-gold-dark) !important;
+  border-color: var(--my-gold-dark) !important;
   box-shadow:
     0 4px 8px rgba(0, 0, 0, 0.3),
     inset 0 2px 4px rgba(255, 255, 255, 0.5),
@@ -2281,9 +2281,9 @@
 
 .wow-window .app-container.pf-spellbook .tab-text,
 .app-container.pf-spellbook .tab-text {
-  font-family: var(--pf-font-display) !important;
-  font-weight: var(--pf-font-bold) !important;
-  font-size: var(--pf-text-lg) !important;
+  font-family: var(--my-font-display) !important;
+  font-weight: var(--my-font-bold) !important;
+  font-size: var(--my-text-lg) !important;
   letter-spacing: 0.5px !important;
   text-transform: uppercase !important;
 }
@@ -2294,8 +2294,8 @@
 .spellbook-layout h4,
 .spellbook-layout h5,
 .spellbook-layout h6 {
-  font-family: var(--pf-font-display) !important;
-  color: var(--pf-text-secondary) !important;
+  font-family: var(--my-font-display) !important;
+  color: var(--my-text-secondary) !important;
 }
 
 /* Remove any conflicting styles - only within spellbook */
@@ -2323,24 +2323,24 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background: var(--pf-gradient-parchment);
-  font-family: var(--pf-font-display);
-  color: var(--pf-text-muted);
+  background: var(--my-gradient-parchment);
+  font-family: var(--my-font-display);
+  color: var(--my-text-muted);
 }
 
 .spellbook-loading-spinner {
   width: 60px;
   height: 60px;
-  border: 4px solid var(--pf-parchment-dark);
-  border-top: 4px solid var(--pf-brown-medium);
+  border: 4px solid var(--my-parchment-dark);
+  border-top: 4px solid var(--my-brown-medium);
   border-radius: 50%;
   animation: pf-spin 1s linear infinite;
-  margin-bottom: var(--pf-space-6);
+  margin-bottom: var(--my-space-6);
 }
 
 .spellbook-loading-text {
-  font-size: var(--pf-text-2xl);
-  font-weight: var(--pf-font-bold);
+  font-size: var(--my-text-2xl);
+  font-weight: var(--my-font-bold);
   text-align: center;
 }
 
@@ -2357,23 +2357,23 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background: var(--pf-gradient-parchment);
-  font-family: var(--pf-font-body);
-  color: var(--pf-error);
+  background: var(--my-gradient-parchment);
+  font-family: var(--my-font-body);
+  color: var(--my-error);
   text-align: center;
-  padding: var(--pf-space-8);
+  padding: var(--my-space-8);
 }
 
 .spell-wizard-error h2 {
-  font-family: var(--pf-font-display);
-  font-size: var(--pf-text-3xl);
-  margin-bottom: var(--pf-space-4);
-  color: var(--pf-error);
+  font-family: var(--my-font-display);
+  font-size: var(--my-text-3xl);
+  margin-bottom: var(--my-space-4);
+  color: var(--my-error);
 }
 
 .spell-wizard-error p {
-  font-size: var(--pf-text-lg);
-  margin-bottom: var(--pf-space-6);
+  font-size: var(--my-text-lg);
+  margin-bottom: var(--my-space-6);
   max-width: 600px;
 }
 
@@ -2381,20 +2381,20 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--pf-space-2);
-  padding: var(--pf-button-padding);
-  height: var(--pf-button-height);
-  background: var(--pf-brown-medium);
-  border: var(--pf-border-width) solid var(--pf-brown-dark);
-  border-radius: var(--pf-border-radius);
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-base);
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-on-dark);
+  gap: var(--my-space-2);
+  padding: var(--my-button-padding);
+  height: var(--my-button-height);
+  background: var(--my-brown-medium);
+  border: var(--my-border-width) solid var(--my-brown-dark);
+  border-radius: var(--my-border-radius);
+  font-family: var(--my-font-ui);
+  font-size: var(--my-text-base);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-on-dark);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
 }
 
 /* ===== EXTERNAL LIVE PREVIEW STYLES ===== */
@@ -2440,7 +2440,7 @@
   left: 0;
   right: 0;
   height: 65px; 
-  background: var(--pf-gradient-parchment-dark);
+  background: var(--my-gradient-parchment-dark);
   border-top: 1px solid rgba(139, 115, 85, 0.3);
   display: flex;
   justify-content: center;
@@ -2647,68 +2647,68 @@
 
 /* Prophecy System Wizard Styles */
 .outcome-config-group-pf {
-  margin-top: var(--pf-space-3) !important;
-  padding: var(--pf-space-3) !important;
-  border: var(--pf-border-width) solid var(--pf-brown-light) !important;
-  border-radius: var(--pf-border-radius) !important;
+  margin-top: var(--my-space-3) !important;
+  padding: var(--my-space-3) !important;
+  border: var(--my-border-width) solid var(--my-brown-light) !important;
+  border-radius: var(--my-border-radius) !important;
   background: rgba(139, 115, 85, 0.05) !important;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05) !important;
 }
 
 .outcome-title-pf {
-  font-family: var(--pf-font-display) !important;
-  font-size: var(--pf-text-sm) !important;
+  font-family: var(--my-font-display) !important;
+  font-size: var(--my-text-sm) !important;
   text-transform: uppercase !important;
-  margin-bottom: var(--pf-space-2) !important;
+  margin-bottom: var(--my-space-2) !important;
   letter-spacing: 0.5px !important;
-  font-weight: var(--pf-font-bold) !important;
+  font-weight: var(--my-font-bold) !important;
 }
 
-.outcome-title-pf.prophesied { color: var(--pf-gold-dark) !important; }
-.outcome-title-pf.base { color: var(--pf-brown-dark) !important; }
-.outcome-title-pf.outside { color: var(--pf-red-dark) !important; }
+.outcome-title-pf.prophesied { color: var(--my-gold-dark) !important; }
+.outcome-title-pf.base { color: var(--my-brown-dark) !important; }
+.outcome-title-pf.outside { color: var(--my-red-dark) !important; }
 
 .config-row-pf {
   display: flex !important;
   align-items: center !important;
-  gap: var(--pf-space-3) !important;
-  margin-bottom: var(--pf-space-2) !important;
+  gap: var(--my-space-3) !important;
+  margin-bottom: var(--my-space-2) !important;
 }
 
 .config-row-pf label {
-  font-family: var(--pf-font-ui) !important;
-  font-size: var(--pf-text-xs) !important;
-  font-weight: var(--pf-font-bold) !important;
-  color: var(--pf-text-secondary) !important;
+  font-family: var(--my-font-ui) !important;
+  font-size: var(--my-text-xs) !important;
+  font-weight: var(--my-font-bold) !important;
+  color: var(--my-text-secondary) !important;
   min-width: 120px !important;
 }
 
 .pf-config-input-small {
   width: 70px !important;
   padding: 6px 10px !important;
-  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
+  border: var(--my-border-width) solid var(--my-brown-medium) !important;
   border-radius: 4px !important;
   background: white !important;
-  font-family: var(--pf-font-body) !important;
-  font-size: var(--pf-text-sm) !important;
-  color: var(--pf-text-primary) !important;
+  font-family: var(--my-font-body) !important;
+  font-size: var(--my-text-sm) !important;
+  color: var(--my-text-primary) !important;
 }
 
 .pf-config-input-wide {
   flex: 1 !important;
   padding: 6px 10px !important;
-  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
+  border: var(--my-border-width) solid var(--my-brown-medium) !important;
   border-radius: 4px !important;
   background: white !important;
-  font-family: var(--pf-font-body) !important;
-  font-size: var(--pf-text-sm) !important;
-  color: var(--pf-text-primary) !important;
+  font-family: var(--my-font-body) !important;
+  font-size: var(--my-text-sm) !important;
+  color: var(--my-text-primary) !important;
 }
 
 .pf-config-input-small:focus,
 .pf-config-input-wide:focus {
   outline: none !important;
-  border-color: var(--pf-gold-dark) !important;
+  border-color: var(--my-gold-dark) !important;
   box-shadow: 0 0 0 2px rgba(184, 134, 11, 0.1) !important;
 }
 
@@ -2718,7 +2718,7 @@
   justify-content: space-between !important;
   align-items: center !important;
   cursor: pointer !important;
-  margin-bottom: var(--pf-space-2) !important;
+  margin-bottom: var(--my-space-2) !important;
   user-select: none !important;
 }
 
@@ -2728,7 +2728,7 @@
 
 .outcome-collapse-icon {
   font-size: 10px !important;
-  color: var(--pf-text-muted) !important;
+  color: var(--my-text-muted) !important;
   transition: transform 0.2s ease !important;
 }
 
@@ -2736,8 +2736,8 @@
 .outcome-primary-fields {
   display: flex !important;
   flex-direction: column !important;
-  gap: var(--pf-space-1) 0 !important;
-  margin-bottom: var(--pf-space-2) !important;
+  gap: var(--my-space-1) 0 !important;
+  margin-bottom: var(--my-space-2) !important;
 }
 
 /* Advanced toggle button */
@@ -2746,16 +2746,16 @@
   align-items: center !important;
   justify-content: space-between !important;
   padding: 4px 8px !important;
-  margin: var(--pf-space-1) 0 !important;
+  margin: var(--my-space-1) 0 !important;
   background: rgba(139, 115, 85, 0.06) !important;
   border-radius: 4px !important;
   cursor: pointer !important;
-  font-size: var(--pf-text-xs) !important;
-  color: var(--pf-text-muted) !important;
-  font-weight: var(--pf-font-bold) !important;
+  font-size: var(--my-text-xs) !important;
+  color: var(--my-text-muted) !important;
+  font-weight: var(--my-font-bold) !important;
   text-transform: uppercase !important;
   letter-spacing: 0.3px !important;
-  border: 1px dashed var(--pf-brown-light) !important;
+  border: 1px dashed var(--my-brown-light) !important;
   transition: background 0.15s ease !important;
   user-select: none !important;
 }
@@ -2766,48 +2766,48 @@
 
 .advanced-indicator {
   font-size: 9px !important;
-  color: var(--pf-gold-dark) !important;
+  color: var(--my-gold-dark) !important;
   background: rgba(184, 134, 11, 0.15) !important;
   padding: 1px 5px !important;
   border-radius: 3px !important;
   text-transform: lowercase !important;
-  font-weight: var(--pf-font-normal) !important;
+  font-weight: var(--my-font-normal) !important;
   letter-spacing: 0 !important;
 }
 
 /* Advanced fields container */
 .outcome-advanced-fields {
-  padding: var(--pf-space-2) 0 !important;
-  border-top: 1px dashed var(--pf-brown-light) !important;
-  margin-top: var(--pf-space-1) !important;
+  padding: var(--my-space-2) 0 !important;
+  border-top: 1px dashed var(--my-brown-light) !important;
+  margin-top: var(--my-space-1) !important;
   animation: pfFadeIn 0.2s ease-out !important;
 }
 
 /* Stat modifiers section */
 .prophecy-stat-mods-section {
-  margin: var(--pf-space-2) 0 !important;
-  padding: var(--pf-space-2) !important;
+  margin: var(--my-space-2) 0 !important;
+  padding: var(--my-space-2) !important;
   background: rgba(139, 115, 85, 0.04) !important;
   border-radius: 4px !important;
-  border: 1px solid var(--pf-brown-light) !important;
+  border: 1px solid var(--my-brown-light) !important;
 }
 
 .stat-mods-header {
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
-  margin-bottom: var(--pf-space-1) !important;
+  margin-bottom: var(--my-space-1) !important;
 }
 
 .stat-mod-row {
   padding-left: 8px !important;
-  border-left: 2px solid var(--pf-brown-light) !important;
+  border-left: 2px solid var(--my-brown-light) !important;
   margin-bottom: 4px !important;
 }
 
 /* Toggle section */
 .prophecy-toggles-section {
-  margin: var(--pf-space-2) 0 !important;
+  margin: var(--my-space-2) 0 !important;
 }
 
 .prophecy-toggle-row {
@@ -2818,15 +2818,15 @@
   display: flex !important;
   align-items: center !important;
   gap: 6px !important;
-  font-size: var(--pf-text-xs) !important;
-  font-weight: var(--pf-font-semibold) !important;
-  color: var(--pf-text-secondary) !important;
+  font-size: var(--my-text-xs) !important;
+  font-weight: var(--my-font-semibold) !important;
+  color: var(--my-text-secondary) !important;
   cursor: pointer !important;
-  font-family: var(--pf-font-ui) !important;
+  font-family: var(--my-font-ui) !important;
 }
 
 .prophecy-toggle-row input[type="checkbox"] {
-  accent-color: var(--pf-gold-dark) !important;
+  accent-color: var(--my-gold-dark) !important;
   width: 14px !important;
   height: 14px !important;
   cursor: pointer !important;
@@ -2834,7 +2834,7 @@
 
 .toggle-icon {
   font-size: 11px !important;
-  color: var(--pf-text-muted) !important;
+  color: var(--my-text-muted) !important;
   width: 14px !important;
   text-align: center !important;
 }
@@ -2843,18 +2843,18 @@
 .pf-config-input-tiny {
   width: 50px !important;
   padding: 4px 6px !important;
-  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
+  border: var(--my-border-width) solid var(--my-brown-medium) !important;
   border-radius: 4px !important;
   background: white !important;
-  font-family: var(--pf-font-body) !important;
-  font-size: var(--pf-text-sm) !important;
-  color: var(--pf-text-primary) !important;
+  font-family: var(--my-font-body) !important;
+  font-size: var(--my-text-sm) !important;
+  color: var(--my-text-primary) !important;
   text-align: center !important;
 }
 
 .pf-config-input-tiny:focus {
   outline: none !important;
-  border-color: var(--pf-gold-dark) !important;
+  border-color: var(--my-gold-dark) !important;
   box-shadow: 0 0 0 2px rgba(184, 134, 11, 0.1) !important;
 }
 
@@ -2862,36 +2862,36 @@
 .prophecy-unit-select {
   width: 100px !important;
   padding: 4px 6px !important;
-  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
+  border: var(--my-border-width) solid var(--my-brown-medium) !important;
   border-radius: 4px !important;
   background: white !important;
-  font-family: var(--pf-font-body) !important;
-  font-size: var(--pf-text-xs) !important;
-  color: var(--pf-text-primary) !important;
+  font-family: var(--my-font-body) !important;
+  font-size: var(--my-text-xs) !important;
+  color: var(--my-text-primary) !important;
 }
 
 .prophecy-stat-select {
   flex: 1 !important;
   min-width: 120px !important;
   padding: 4px 6px !important;
-  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
+  border: var(--my-border-width) solid var(--my-brown-medium) !important;
   border-radius: 4px !important;
   background: white !important;
-  font-family: var(--pf-font-body) !important;
-  font-size: var(--pf-text-xs) !important;
-  color: var(--pf-text-primary) !important;
+  font-family: var(--my-font-body) !important;
+  font-size: var(--my-text-xs) !important;
+  color: var(--my-text-primary) !important;
 }
 
 /* Textarea */
 .pf-config-textarea {
   width: 100% !important;
   padding: 6px 10px !important;
-  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
+  border: var(--my-border-width) solid var(--my-brown-medium) !important;
   border-radius: 4px !important;
   background: white !important;
-  font-family: var(--pf-font-body) !important;
-  font-size: var(--pf-text-sm) !important;
-  color: var(--pf-text-primary) !important;
+  font-family: var(--my-font-body) !important;
+  font-size: var(--my-text-sm) !important;
+  color: var(--my-text-primary) !important;
   resize: vertical !important;
   min-height: 40px !important;
   box-sizing: border-box !important;
@@ -2899,14 +2899,14 @@
 
 .pf-config-textarea:focus {
   outline: none !important;
-  border-color: var(--pf-gold-dark) !important;
+  border-color: var(--my-gold-dark) !important;
   box-shadow: 0 0 0 2px rgba(184, 134, 11, 0.1) !important;
 }
 
 /* Hint text */
 .pf-hint {
   font-size: 10px !important;
-  color: var(--pf-text-muted) !important;
+  color: var(--my-text-muted) !important;
   font-style: italic !important;
   white-space: nowrap !important;
 }
@@ -2918,17 +2918,17 @@
   gap: 4px !important;
   padding: 2px 8px !important;
   font-size: 10px !important;
-  font-family: var(--pf-font-ui) !important;
-  color: var(--pf-brown-dark) !important;
-  background: var(--pf-brown-light) !important;
-  border: 1px solid var(--pf-brown-medium) !important;
+  font-family: var(--my-font-ui) !important;
+  color: var(--my-brown-dark) !important;
+  background: var(--my-brown-light) !important;
+  border: 1px solid var(--my-brown-medium) !important;
   border-radius: 3px !important;
   cursor: pointer !important;
   transition: background 0.15s ease !important;
 }
 
 .pf-btn-tiny:hover {
-  background: var(--pf-brown-medium) !important;
+  background: var(--my-brown-medium) !important;
   color: white !important;
 }
 
@@ -2941,7 +2941,7 @@
   height: 22px !important;
   padding: 0 !important;
   font-size: 10px !important;
-  color: var(--pf-red-dark) !important;
+  color: var(--my-red-dark) !important;
   background: transparent !important;
   border: 1px solid transparent !important;
   border-radius: 3px !important;
@@ -2951,7 +2951,7 @@
 
 .pf-btn-icon-danger:hover {
   background: rgba(139, 0, 0, 0.1) !important;
-  border-color: var(--pf-red-dark) !important;
+  border-color: var(--my-red-dark) !important;
 }
 
 @keyframes pfFadeIn {

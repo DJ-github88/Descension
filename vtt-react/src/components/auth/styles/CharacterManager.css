@@ -28,7 +28,7 @@
     0 0 40px rgba(212, 175, 55, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
   font-family: 'Cinzel', serif;
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
 }
 
 .character-manager-close {
@@ -37,7 +37,7 @@
   right: 16px;
   background: none;
   border: none;
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
   font-size: 1.5rem;
   cursor: pointer;
   padding: 8px;
@@ -68,7 +68,7 @@
 
 .character-manager-header p {
   margin: 0;
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
   opacity: 0.9;
   font-size: 1.1rem;
 }
@@ -146,7 +146,7 @@
 
 .character-info p {
   margin: 2px 0;
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
   font-size: 0.9rem;
   opacity: 0.9;
 }
@@ -203,7 +203,7 @@
 
 .create-character-text p {
   margin: 0;
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
   opacity: 0.8;
 }
 
@@ -274,7 +274,7 @@
   background: rgba(0, 0, 0, 0.4);
   border: 2px solid rgba(212, 175, 55, 0.3);
   border-radius: 6px;
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
   font-family: 'Cinzel', serif;
   font-size: 1rem;
   transition: all 0.3s ease;
@@ -351,7 +351,7 @@
 .cancel-btn {
   background: transparent;
   border-color: rgba(212, 175, 55, 0.5);
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
 }
 
 .cancel-btn:hover {
@@ -823,7 +823,7 @@
   border-radius: 4px;
   font-size: 0.8rem;
   border: 1px solid rgba(212, 175, 55, 0.3);
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
 }
 
 .capability i {
@@ -846,7 +846,7 @@
   border-radius: 4px;
   font-size: 0.8rem;
   border: 1px solid rgba(212, 175, 55, 0.3);
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
 }
 
 .summary-item i {

@@ -1,4 +1,4 @@
-import WowWindow from '../windows/WowWindow';
+import MythrillWindow from '../windows/MythrillWindow';
 import './MapDeleteConfirmDialog.css';
 
 const MapDeleteConfirmDialog = ({
@@ -16,7 +16,7 @@ const MapDeleteConfirmDialog = ({
     if (!isOpen) return null;
 
     return (
-        <WowWindow
+        <MythrillWindow
             title="Delete Map?"
             isOpen={isOpen}
             onClose={onClose}
@@ -49,7 +49,7 @@ const MapDeleteConfirmDialog = ({
                     </button>
                 </div>
             </div>
-        </WowWindow>
+        </MythrillWindow>
     );
 };
 

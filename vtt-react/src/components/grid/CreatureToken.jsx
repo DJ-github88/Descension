@@ -18,7 +18,7 @@ import Button from '../common/Button';
 import optimisticUpdatesService from '../../services/optimisticUpdatesService';
 import '../../styles/creature-token.css';
 import '../../styles/unified-context-menu.css';
-import WowWindow from '../windows/WowWindow';
+import MythrillWindow from '../windows/MythrillWindow';
 import CreatureWindow from '../windows/CreatureWindow';
 import EnhancedCreatureInspectView from '../creature-wizard/components/common/EnhancedCreatureInspectView';
 import ConditionsWindow from '../conditions/ConditionsWindow';
@@ -1289,7 +1289,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     setIsWindowReady(false);
     setShowGiveControlModal(true);
     setShowContextMenu(false);
-    // Short delay to allow WowWindow to center before showing
+    // Short delay to allow MythrillWindow to center before showing
     setTimeout(() => setIsWindowReady(true), 150);
   };
 
@@ -2978,7 +2978,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
       {/* Creature Editor Window */}
       {showCreatureEditor && createPortal(
-        <WowWindow
+        <MythrillWindow
           title={`Edit Creature: ${creature.name}`}
           isOpen={true}
           onClose={handleCloseCreatureEditor}
@@ -2992,7 +2992,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
               onClose={handleCloseCreatureEditor}
             />
           </div>
-        </WowWindow>,
+        </MythrillWindow>,
         document.body
       )}
 
@@ -3771,7 +3771,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
       {/* Give Control Modal */}
       {showGiveControlModal && (
-        <WowWindow
+        <MythrillWindow
           title="Bestow Command"
           isOpen={showGiveControlModal}
           onClose={() => setShowGiveControlModal(false)}
@@ -3971,7 +3971,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
               </button>
             </div>
           </div>
-        </WowWindow>
+        </MythrillWindow>
       )}
 
       {/* Token Control Offer Modal — shown to receiving player */}

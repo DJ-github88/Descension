@@ -314,7 +314,7 @@
 .coin-config-compact {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-1);
+  gap: var(--my-space-1);
 }
 
 .formula-builder-compact,
@@ -322,7 +322,7 @@
 .coin-settings-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--pf-space-1);
+  gap: var(--my-space-1);
   align-items: start;
 }
 
@@ -1605,15 +1605,15 @@
 .card-config-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--pf-space-1);
-  margin: var(--pf-space-1) 0;
+  gap: var(--my-space-1);
+  margin: var(--my-space-1) 0;
 }
 
 .card-config-section {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-1);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-1);
   text-align: center;
 }
 
@@ -2366,22 +2366,22 @@
 }
 
 .mechanics-grid-item .section-title {
-  font-size: var(--pf-text-xs) !important;
-  margin-bottom: var(--pf-space-1) !important;
-  color: var(--pf-text-primary) !important;
-  font-weight: var(--pf-font-medium) !important;
+  font-size: var(--my-text-xs) !important;
+  margin-bottom: var(--my-space-1) !important;
+  color: var(--my-text-primary) !important;
+  font-weight: var(--my-font-medium) !important;
 }
 
 /* Fix any remaining yellow text issues */
 .mechanics-grid-item * {
-  color: var(--pf-text-primary) !important;
+  color: var(--my-text-primary) !important;
 }
 
 .mechanics-grid-item .wow-option-description,
 .mechanics-grid-item .config-description,
 .mechanics-grid-item .help-text,
 .mechanics-grid-item .description-text {
-  color: var(--pf-text-secondary) !important;
+  color: var(--my-text-secondary) !important;
   font-style: italic !important;
 }
 
@@ -2733,10 +2733,10 @@
 
 /* ===== MECHANICS SECTION STYLING ===== */
 .mechanics-section {
-  background: var(--pf-gradient-parchment-light);
-  padding: var(--pf-space-1);
-  border-radius: var(--pf-border-radius);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+  background: var(--my-gradient-parchment-light);
+  padding: var(--my-space-1);
+  border-radius: var(--my-border-radius);
+  border: var(--my-border-width) solid var(--my-brown-light);
 }
 
 /* ===== RESPONSIVE DESIGN ===== */
@@ -2958,69 +2958,69 @@
 
 /* ===== MECHANICS BUTTONS SECTION ===== */
 .mechanics-buttons-section {
-  margin-top: var(--pf-space-6);
+  margin-top: var(--my-space-6);
 }
 
 .mechanics-buttons-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--pf-space-4);
-  margin-top: var(--pf-space-4);
+  gap: var(--my-space-4);
+  margin-top: var(--my-space-4);
 }
 
 .mechanics-config-button {
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius-lg);
-  padding: var(--pf-space-4);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius-lg);
+  padding: var(--my-space-4);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   display: flex;
   align-items: center;
-  gap: var(--pf-space-3);
+  gap: var(--my-space-3);
   text-align: left;
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .mechanics-config-button:hover {
-  background: var(--pf-gradient-parchment-hover);
-  border-color: var(--pf-brown-medium);
+  background: var(--my-gradient-parchment-hover);
+  border-color: var(--my-brown-medium);
   transform: translateY(-2px);
-  box-shadow: var(--pf-shadow-md);
+  box-shadow: var(--my-shadow-md);
 }
 
 .mechanics-config-button.active {
-  background: var(--pf-gradient-button);
-  border-color: var(--pf-brown-medium);
-  color: var(--pf-text-light);
+  background: var(--my-gradient-button);
+  border-color: var(--my-brown-medium);
+  color: var(--my-text-light);
 }
 
 .mechanics-config-button.active:hover {
-  background: var(--pf-gradient-button-hover);
+  background: var(--my-gradient-button-hover);
 }
 
 .mechanics-button-icon {
   font-size: 24px;
-  color: var(--pf-brown-medium);
+  color: var(--my-brown-medium);
   flex-shrink: 0;
 }
 
 .mechanics-config-button.active .mechanics-button-icon {
-  color: var(--pf-text-light);
+  color: var(--my-text-light);
 }
 
 .mechanics-button-content h4 {
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-base);
-  font-weight: var(--pf-font-bold);
-  margin: 0 0 var(--pf-space-1) 0;
+  font-family: var(--my-font-ui);
+  font-size: var(--my-text-base);
+  font-weight: var(--my-font-bold);
+  margin: 0 0 var(--my-space-1) 0;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .mechanics-button-content p {
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-sm);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-sm);
   margin: 0;
   opacity: 0.8;
   line-height: 1.3;
@@ -3034,11 +3034,11 @@
 @media (max-width: 768px) {
   .mechanics-buttons-grid {
     grid-template-columns: 1fr;
-    gap: var(--pf-space-3);
+    gap: var(--my-space-3);
   }
 
   .mechanics-config-button {
-    padding: var(--pf-space-3);
+    padding: var(--my-space-3);
   }
 
   .mechanics-button-icon {
@@ -3046,10 +3046,10 @@
   }
 
   .mechanics-button-content h4 {
-    font-size: var(--pf-text-sm);
+    font-size: var(--my-text-sm);
   }
 
   .mechanics-button-content p {
-    font-size: var(--pf-text-xs);
+    font-size: var(--my-text-xs);
   }
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import WowWindow from '../windows/WowWindow';
+import MythrillWindow from '../windows/MythrillWindow';
 
 const ConnectionRenameDialog = ({ isOpen, onClose, connection, onSave }) => {
     const [name, setName] = useState('');
@@ -19,7 +19,7 @@ const ConnectionRenameDialog = ({ isOpen, onClose, connection, onSave }) => {
     if (!isOpen) return null;
 
     return (
-        <WowWindow
+        <MythrillWindow
             title="Rename Connection"
             isOpen={isOpen}
             onClose={onClose}
@@ -80,7 +80,7 @@ const ConnectionRenameDialog = ({ isOpen, onClose, connection, onSave }) => {
                     </button>
                 </div>
             </div>
-        </WowWindow>
+        </MythrillWindow>
     );
 };
 

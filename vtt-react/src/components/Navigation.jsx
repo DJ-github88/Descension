@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, lazy, Suspense, Fragment, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useCallback, lazy, Suspense, Fragment, useRef, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import Draggable from 'react-draggable';
 import { Resizable } from 'react-resizable';
@@ -7,9 +7,8 @@ import useGameStore from '../store/gameStore';
 import useLevelEditorStore from '../store/levelEditorStore';
 import usePartyStore from '../store/partyStore';
 import useWindowManagerStore from '../store/windowManagerStore';
-import useWindowStore from '../store/windowStore';
 import usePresenceStore from '../store/presenceStore';
-import WowWindow from './windows/WowWindow';
+import MythrillWindow from './windows/MythrillWindow';
 import { getWowIconUrl } from '../utils/assetManager';
 import useCombatStore from '../store/combatStore';
 import useCreatureStore from '../store/creatureStore';
@@ -105,7 +104,7 @@ const PlayerTravelDashboard = lazy(() =>
 
 // Quest Log Window Wrapper - simplified to prevent double window loading
 function QuestLogWindowWrapper({ isOpen, onClose }) {
-    // Use the QuestLogWindow directly without nesting it in another WowWindow
+    // Use the QuestLogWindow directly without nesting it in another MythrillWindow
     // This prevents the double window loading issue
     return (
         <QuestLogWindow
@@ -120,7 +119,7 @@ function QuestLogWindowWrapper({ isOpen, onClose }) {
 function SettingsWindowWrapper({ isOpen, onClose }) {
     const [activeTab, setActiveTab] = useState('interface');
     const isGMMode = useGameStore(state => state.isGMMode);
-    const { getWindowPosition, getWindowSize, setWindowPosition, setWindowSize } = useWindowStore();
+    const { getWindowPosition, getWindowSize, setWindowPosition, setWindowSize } = useWindowManagerStore();
 
     const SETTINGS_ID = 'settings';
     const savedPos = getWindowPosition(SETTINGS_ID, { x: 100, y: 100 });
@@ -169,7 +168,7 @@ function SettingsWindowWrapper({ isOpen, onClose }) {
     }, [isGMMode, activeTab]);
 
     return (
-        <WowWindow
+        <MythrillWindow
             isOpen={isOpen}
             onClose={onClose}
             title="Settings"
@@ -198,7 +197,7 @@ function SettingsWindowWrapper({ isOpen, onClose }) {
             }>
                 <SettingsWindow activeTab={activeTab} />
             </Suspense>
-        </WowWindow>
+        </MythrillWindow>
     );
 }
 
@@ -349,9 +348,22 @@ const NAVIGATION_BUTTONS = [
     },
 ];
 
+const BUTTON_CATEGORY = {
+    character: 'character', inventory: 'character', spellbook: 'character', talents: 'character', journal: 'character',
+    quests: 'adventure', combat: 'adventure', travel: 'adventure', campaign: 'adventure',
+    crafting: 'tools', library: 'tools', leveleditor: 'tools', toolkit: 'tools', community: 'tools',
+    settings: 'system',
+};
+
+const NAV_CATEGORIES = [
+    { id: 'character', label: 'Character', svg: <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /> },
+    { id: 'adventure', label: 'Adventure', svg: <path d="M12 2l3.09 6.26L22 9l-5 4.87L18.18 22 12 18.77 5.82 22 7 13.87 2 9l6.91-.74L12 2z" /> },
+    { id: 'tools', label: 'Tools', svg: <path d="M14.7 6.3a4 4 0 00-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 005.4-5.4l-2.5 2.5-2-2 2.5-2.5z" /> },
+];
+
 function CharacterSheetWindow({ isOpen, onClose, title }) {
     const [activeTab, setActiveTab] = useState('lore');
-    const { getWindowPosition, getWindowSize, setWindowPosition, setWindowSize } = useWindowStore();
+    const { getWindowPosition, getWindowSize, setWindowPosition, setWindowSize } = useWindowManagerStore();
 
     const WINDOW_ID = 'character-sheet';
     const savedPos = getWindowPosition(WINDOW_ID, { x: 100, y: 100 });
@@ -404,7 +416,7 @@ function CharacterSheetWindow({ isOpen, onClose, title }) {
     };
 
     return (
-        <WowWindow
+        <MythrillWindow
             isOpen={isOpen}
             onClose={onClose}
             title={safeTitle}
@@ -431,7 +443,7 @@ function CharacterSheetWindow({ isOpen, onClose, title }) {
                     {renderContent()}
                 </div>
             </div>
-        </WowWindow>
+        </MythrillWindow>
     );
 }
 
@@ -691,14 +703,25 @@ export default function Navigation({ onReturnToLanding }) {
 
     // Calculate initial size based on screen width and number of visible buttons
     const getInitialSize = () => {
-        const buttonCount = getVisibleButtons().length;
+        const vis = getVisibleButtons();
+        const visibleCats = NAV_CATEGORIES.filter(c => vis.some(b => b && b.id && (BUTTON_CATEGORY[b.id] || 'system') === c.id));
+        const standaloneCount = vis.filter(b => b && b.id && (BUTTON_CATEGORY[b.id] || 'system') === 'system').length;
+        const utilCount = standaloneCount + 2;
         const isCompact = window.innerWidth <= 1024 && window.innerWidth > 768;
 
-        const buttonWidth = isCompact ? 32 : 36;
-        const gap = isCompact ? 1 : 3;
-        const padding = isCompact ? 6 : 8;
+        const buttonWidth = isCompact ? 34 : 44;
+        const gap = isCompact ? 2 : 4;
+        const padding = isCompact ? 8 : 16;
+        const headerBase = isCompact ? 50 : 64;
+        const headerCharWidth = isCompact ? 6.5 : 7.6;
+        const dividerAllowance = 14;
 
-        const calculatedWidth = (buttonCount * buttonWidth) + ((buttonCount - 1) * gap) + padding;
+        const headersWidth = visibleCats.reduce((s, c) => s + headerBase + c.label.length * headerCharWidth, 0);
+        const utilWidth = utilCount * buttonWidth;
+        const totalElements = visibleCats.length + utilCount;
+        const gapsWidth = Math.max(0, totalElements - 1) * gap;
+
+        const calculatedWidth = headersWidth + utilWidth + gapsWidth + padding + dividerAllowance;
 
         return {
             width: Math.min(calculatedWidth, window.innerWidth - 40),
@@ -741,6 +764,82 @@ export default function Navigation({ onReturnToLanding }) {
 
     // Memoize buttons to prevent unnecessary re-renders
     const buttons = useMemo(() => getVisibleButtons(), [isGMMode]);
+
+    const gridRef = useRef(null);
+    useLayoutEffect(() => {
+        const grid = gridRef.current;
+        if (!grid || typeof ResizeObserver === 'undefined') return;
+        const fit = () => {
+            const children = [...grid.children];
+            if (!children.length) return;
+            const gcs = getComputedStyle(grid);
+            const gap = parseFloat(gcs.columnGap) || 0;
+            const gridPad = (parseFloat(gcs.paddingLeft) || 0) + (parseFloat(gcs.paddingRight) || 0);
+            let content = 0;
+            children.forEach(el => {
+                const ecs = getComputedStyle(el);
+                content += el.getBoundingClientRect().width
+                    + (parseFloat(ecs.marginLeft) || 0) + (parseFloat(ecs.marginRight) || 0);
+            });
+            content += (children.length - 1) * gap;
+            const needed = Math.ceil(content + gridPad) + 8;
+            setSize(prev => {
+                if (Math.abs(prev.width - needed) <= 6) return prev;
+                return { ...prev, width: Math.min(Math.max(needed, 200), window.innerWidth - 40) };
+            });
+        };
+        fit();
+        const ro = new ResizeObserver(fit);
+        ro.observe(grid);
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+        return () => ro.disconnect();
+    }, [buttons]);
+
+    const [openCategory, setOpenCategory] = useState(null);
+    const toggleCategoryMenu = useCallback((catId) => {
+        setOpenCategory(prev => (prev === catId ? null : catId));
+    }, []);
+    useEffect(() => {
+        if (openCategory === null) return;
+        const close = () => setOpenCategory(null);
+        window.addEventListener('click', close);
+        window.addEventListener('resize', close);
+        return () => {
+            window.removeEventListener('click', close);
+            window.removeEventListener('resize', close);
+        };
+    }, [openCategory]);
+
+    const renderWowNavButton = (button) => {
+        const isActive = button.id === 'leveleditor'
+            ? isEditorMode
+            : button.id === 'combat'
+                ? (isSelectionMode || isInCombat)
+                : openWindows.has(button.id);
+        return (
+            <button
+                key={button.id}
+                onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleButtonClick(button.id); }}
+                onTouchStart={(e) => { e.preventDefault(); e.stopPropagation(); }}
+                onTouchEnd={(e) => { e.preventDefault(); e.stopPropagation(); handleButtonClick(button.id); }}
+                className={`wow-nav-button ${isActive ? 'active' : ''} ${button.premium ? 'premium' : ''}`}
+                title={`${button.title || button.id || 'Button'} (${button.shortcut || ''})${button.premium ? ' - Premium Feature' : ''}`}
+                style={{ pointerEvents: 'auto', cursor: 'pointer', touchAction: 'manipulation' }}
+            >
+                <svg viewBox="0 0 24 24" className="wow-nav-icon" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    {button.svg}
+                </svg>
+                {button.id === 'community' && totalCommunityUnread > 0 && (
+                    <span className="nav-notification-badge">
+                        {totalCommunityUnread > 99 ? '99+' : totalCommunityUnread}
+                    </span>
+                )}
+                <div className="shortcut">
+                    {button.shortcut}
+                </div>
+            </button>
+        );
+    };
 
     const handleButtonClick = useCallback((windowId) => {
         if (isGMMode) triggerWindowIntro(windowId);
@@ -930,22 +1029,22 @@ export default function Navigation({ onReturnToLanding }) {
                 );
             case 'inventory':
                 return shouldRender && (() => {
-                    const ws = useWindowStore.getState();
+                    const ws = useWindowManagerStore.getState();
                     const invId = 'inventory';
                     const invPos = ws.getWindowPosition(invId, { x: 150, y: 150 });
                     const invSize = ws.getWindowSize(invId, { width: 900, height: 550 });
                     return (
                     <ErrorBoundary key={`${button.id}-error-boundary`}>
                         <Suspense fallback={null}>
-                            <WowWindow
+                            <MythrillWindow
                                 key={button.id}
                                 title={safeTitle}
                                 isOpen={true}
                                 onClose={() => handleButtonClick(button.id)}
                                 defaultSize={invSize}
                                 defaultPosition={invPos}
-                                onDrag={(pos) => useWindowStore.getState().setWindowPosition(invId, { x: pos.x, y: pos.y })}
-                                onResize={(size) => useWindowStore.getState().setWindowSize(invId, size)}
+                                onDrag={(pos) => useWindowManagerStore.getState().setWindowPosition(invId, { x: pos.x, y: pos.y })}
+                                onResize={(size) => useWindowManagerStore.getState().setWindowSize(invId, size)}
                                 customHeader={
                                     <div className="spellbook-tab-container" style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
                                         <button className="spellbook-tab-button active">
@@ -960,7 +1059,7 @@ export default function Navigation({ onReturnToLanding }) {
                                 }
                             >
                                 <InventoryWindow />
-                            </WowWindow>
+                            </MythrillWindow>
                         </Suspense>
                     </ErrorBoundary>
                 )})();
@@ -1108,7 +1207,7 @@ export default function Navigation({ onReturnToLanding }) {
                 if (button.window) {
                     const Window = button.window;
                     return shouldRender && (
-                        <WowWindow
+                        <MythrillWindow
                             key={button.id}
                             title={safeTitle}
                             isOpen={true}
@@ -1117,11 +1216,11 @@ export default function Navigation({ onReturnToLanding }) {
                             defaultPosition={{ x: 100, y: 100 }}
                         >
                             <Window />
-                        </WowWindow>
+                        </MythrillWindow>
                     );
                 }
                 return shouldRender && (
-                    <WowWindow
+                    <MythrillWindow
                         key={button.id}
                         title={safeTitle}
                         isOpen={true}
@@ -1133,7 +1232,7 @@ export default function Navigation({ onReturnToLanding }) {
                             <h2 style={{ color: '#89dceb', marginBottom: '16px' }}>{safeTitle}</h2>
                             <p>Content for {safeTitle} window coming soon...</p>
                         </div>
-                    </WowWindow>
+                    </MythrillWindow>
                 );
         }
     };
@@ -1387,7 +1486,7 @@ export default function Navigation({ onReturnToLanding }) {
                                 >
                                     <div className="nav-orb-inner">
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                            <path d="M6 9l6 6 6-6" />
+                                            <path d="M6 15l6-6 6 6" />
                                         </svg>
                                     </div>
                                     <div className="nav-orb-pulse" />
@@ -1420,57 +1519,61 @@ export default function Navigation({ onReturnToLanding }) {
                                     width: size.width,
                                     height: size.height,
                                 }}>
-                                    <div className="wow-nav-grid">
-                                        {buttons.filter(button => button && button.id).map(button => {
-                                            const isActive = button.id === 'leveleditor'
-                                                ? isEditorMode
-                                                : button.id === 'combat'
-                                                    ? isSelectionMode || isInCombat
-                                                    : openWindows.has(button.id);
-
+                                    <div className="wow-nav-grid" ref={gridRef}>
+                                        {NAV_CATEGORIES.map(cat => {
+                                            const members = buttons.filter(b => b && b.id && (BUTTON_CATEGORY[b.id] || 'system') === cat.id);
+                                            if (!members.length) return null;
+                                            const isOpen = openCategory === cat.id;
                                             return (
-                                                <button
-                                                    key={button.id}
-                                                    onClick={(e) => {
-                                                        e.preventDefault();
-                                                        e.stopPropagation();
-                                                        handleButtonClick(button.id);
-                                                    }}
-                                                    onTouchStart={(e) => {
-                                                        e.preventDefault();
-                                                        e.stopPropagation();
-                                                    }}
-                                                    onTouchEnd={(e) => {
-                                                        e.preventDefault();
-                                                        e.stopPropagation();
-                                                        handleButtonClick(button.id);
-                                                    }}
-                                                    className={`wow-nav-button ${isActive ? 'active' : ''} ${button.premium ? 'premium' : ''}`}
-                                                    title={`${button.title || button.id || 'Button'} (${button.shortcut || ''})${button.premium ? ' - Premium Feature' : ''}`}
-                                                    style={{ pointerEvents: 'auto', cursor: 'pointer', touchAction: 'manipulation' }}
-                                                >
-                                                    <svg
-                                                        viewBox="0 0 24 24"
-                                                        className="wow-nav-icon"
-                                                        fill="none"
-                                                        stroke="currentColor"
-                                                        strokeWidth="2"
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
+                                                <div className="wow-nav-category" key={cat.id}>
+                                                    <button
+                                                        className={`wow-nav-category-header ${isOpen ? 'open' : ''}`}
+                                                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleCategoryMenu(cat.id); }}
+                                                        onTouchEnd={(e) => { e.preventDefault(); e.stopPropagation(); toggleCategoryMenu(cat.id); }}
+                                                        title={`${cat.label} (${members.length})`}
+                                                        style={{ pointerEvents: 'auto', cursor: 'pointer' }}
                                                     >
-                                                        {button.svg}
-                                                    </svg>
-                                                    {button.id === 'community' && totalCommunityUnread > 0 && (
-                                                        <span className="nav-notification-badge">
-                                                            {totalCommunityUnread > 99 ? '99+' : totalCommunityUnread}
-                                                        </span>
+                                                        <svg viewBox="0 0 24 24" className="wow-nav-category-icon" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                            {cat.svg}
+                                                        </svg>
+                                                        <span className="wow-nav-category-label">{cat.label}</span>
+                                                        <span className="wow-nav-category-chevron" aria-hidden="true" />
+                                                    </button>
+                                                    {isOpen && (
+                                                        <div className="wow-nav-flyout" onClick={(e) => e.stopPropagation()}>
+                                                            <div className="wow-nav-flyout-title">{cat.label}</div>
+                                                            {members.map(b => {
+                                                                const bActive = b.id === 'leveleditor'
+                                                                    ? isEditorMode
+                                                                    : b.id === 'combat'
+                                                                        ? (isSelectionMode || isInCombat)
+                                                                        : openWindows.has(b.id);
+                                                                return (
+                                                                    <button
+                                                                        key={b.id}
+                                                                        className={`wow-nav-flyout-item ${bActive ? 'active' : ''} ${b.premium ? 'premium' : ''}`}
+                                                                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleButtonClick(b.id); setOpenCategory(null); }}
+                                                                        onTouchEnd={(e) => { e.preventDefault(); e.stopPropagation(); handleButtonClick(b.id); setOpenCategory(null); }}
+                                                                        title={`${b.title || b.id}${b.shortcut ? ' (' + b.shortcut + ')' : ''}${b.premium ? ' - Premium' : ''}`}
+                                                                    >
+                                                                        <svg viewBox="0 0 24 24" className="wow-nav-flyout-item-icon" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                                            {b.svg}
+                                                                        </svg>
+                                                                        <span className="wow-nav-flyout-item-label">{b.title || b.id}</span>
+                                                                        {b.shortcut && <em className="wow-nav-flyout-item-shortcut">{b.shortcut}</em>}
+                                                                        {b.id === 'community' && totalCommunityUnread > 0 && (
+                                                                            <span className="nav-notification-badge">{totalCommunityUnread > 99 ? '99+' : totalCommunityUnread}</span>
+                                                                        )}
+                                                                    </button>
+                                                                );
+                                                            })}
+                                                        </div>
                                                     )}
-                                                    <div className="shortcut">
-                                                        {button.shortcut}
-                                                    </div>
-                                                </button>
+                                                </div>
                                             );
                                         })}
+                                        <span className="wow-nav-divider" aria-hidden="true" />
+                                        {buttons.filter(b => b && b.id && (BUTTON_CATEGORY[b.id] || 'system') === 'system').map(renderWowNavButton)}
 
                                         {/* Back to Landing Page Button */}
                                         {onReturnToLanding && (
@@ -1506,32 +1609,20 @@ export default function Navigation({ onReturnToLanding }) {
                                             </button>
                                         )}
 
-                                    </div>
+                                        <button
+                                            onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleToggleCollapse(); }}
+                                            onTouchEnd={(e) => { e.preventDefault(); e.stopPropagation(); handleToggleCollapse(); }}
+                                            className="wow-nav-button wow-nav-minimize"
+                                            title="Minimize Navigation (~)"
+                                            style={{ pointerEvents: 'auto', cursor: 'pointer', touchAction: 'manipulation' }}
+                                        >
+                                            <svg viewBox="0 0 24 24" className="wow-nav-icon" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                <path d="M6 9l6 6 6-6" />
+                                            </svg>
+                                            <div className="shortcut">~</div>
+                                        </button>
 
-                                    {/* Collapse toggle below the nav bar */}
-                                    <button
-                                        className={`nav-collapse-toggle ${isNavHovered ? 'nav-collapse-toggle--visible' : ''}`}
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            e.stopPropagation();
-                                            const orbPos = {
-                                                x: position.x + size.width / 2 - 18,
-                                                y: position.y + size.height + 10
-                                            };
-                                            setOrbPosition(orbPos);
-                                            orbPositionRef.current = orbPos;
-                                            try {
-                                                localStorage.setItem('mythrill-nav-collapsed', 'true');
-                                                localStorage.setItem('mythrill-nav-orb', JSON.stringify(orbPos));
-                                            } catch {}
-                                            setIsNavCollapsed(true);
-                                        }}
-                                        title="Collapse to Orb (~)"
-                                    >
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                            <path d="M12 3v18M5 12l7 7 7-7" />
-                                        </svg>
-                                    </button>
+                                    </div>
                                 </div>
                             </Resizable>
                         </div>

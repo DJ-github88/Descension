@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { createPortal } from 'react-dom';
-import WowWindow from './WowWindow';
+import MythrillWindow from './MythrillWindow';
 import useShareableStore from '../../store/shareableStore';
 import useGameStore from '../../store/gameStore';
 import { getCustomIconUrl } from '../../utils/assetManager';
@@ -1197,7 +1197,7 @@ Drag notes to the Knowledge Board to create visual connections!"
   // Don't show to GM
   if (isGMMode) {
     return (
-      <WowWindow
+      <MythrillWindow
         isOpen={isOpen}
         onClose={onClose}
         title="Player Journal"
@@ -1209,13 +1209,13 @@ Drag notes to the Knowledge Board to create visual connections!"
           <p>This window is for players only</p>
           <span>As the GM, use the Campaign Manager to share content with players</span>
         </div>
-      </WowWindow>
+      </MythrillWindow>
     );
   }
 
   return (
     <>
-      <WowWindow
+      <MythrillWindow
         isOpen={isOpen}
         onClose={onClose}
         title="Player Journal"
@@ -1238,7 +1238,7 @@ Drag notes to the Knowledge Board to create visual connections!"
         <div className="player-journal-content">
           {renderTabContent()}
         </div>
-      </WowWindow>
+      </MythrillWindow>
       
       {/* Knowledge Popup */}
       {showKnowledgePopup && createPortal(

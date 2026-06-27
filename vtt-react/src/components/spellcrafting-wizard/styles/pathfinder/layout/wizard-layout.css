@@ -8,9 +8,9 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  font-family: var(--pf-font-body);
-  color: var(--pf-text-primary);
-  background: var(--pf-gradient-parchment);
+  font-family: var(--my-font-body);
+  color: var(--my-text-primary);
+  background: var(--my-gradient-parchment);
   overflow: hidden;
 }
 
@@ -21,16 +21,16 @@
   flex-direction: column;
   height: 100%;
   width: 100%;
-  background: var(--pf-gradient-parchment);
+  background: var(--my-gradient-parchment);
 }
 
 /* ===== TAB CONTAINER ===== */
 
 .tab-container {
   display: flex;
-  background: var(--pf-gradient-header);
-  border-bottom: var(--pf-border-width-thick) solid var(--pf-brown-medium);
-  padding: var(--pf-space-2) var(--pf-space-4);
+  background: var(--my-gradient-header);
+  border-bottom: var(--my-border-width-thick) solid var(--my-brown-medium);
+  padding: var(--my-space-2) var(--my-space-4);
   box-shadow: 0 2px 8px rgba(45, 24, 16, 0.2);
   position: relative;
 }
@@ -44,8 +44,8 @@
   height: 2px;
   background: linear-gradient(to right,
       transparent,
-      var(--pf-gold) 20%,
-      var(--pf-gold) 80%,
+      var(--my-gold) 20%,
+      var(--my-gold) 80%,
       transparent);
 }
 
@@ -54,35 +54,35 @@
 .tab-button {
   display: flex;
   align-items: center;
-  padding: var(--pf-space-3) var(--pf-space-6);
-  margin-right: var(--pf-space-2);
-  background: var(--pf-gradient-button);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius) var(--pf-border-radius) 0 0;
-  font-family: var(--pf-font-display);
-  font-size: var(--pf-text-base);
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-secondary);
+  padding: var(--my-space-3) var(--my-space-6);
+  margin-right: var(--my-space-2);
+  background: var(--my-gradient-button);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius) var(--my-border-radius) 0 0;
+  font-family: var(--my-font-display);
+  font-size: var(--my-text-base);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-secondary);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   position: relative;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .tab-button:hover {
-  background: var(--pf-gradient-button-hover);
-  color: var(--pf-brown-dark);
+  background: var(--my-gradient-button-hover);
+  color: var(--my-brown-dark);
   transform: translateY(-1px);
-  box-shadow: var(--pf-shadow-md);
+  box-shadow: var(--my-shadow-md);
 }
 
 .tab-button.active {
-  background: var(--pf-gradient-parchment);
-  color: var(--pf-brown-dark);
-  border-bottom-color: var(--pf-parchment);
+  background: var(--my-gradient-parchment);
+  color: var(--my-brown-dark);
+  border-bottom-color: var(--my-parchment);
   box-shadow:
-    var(--pf-shadow-md),
+    var(--my-shadow-md),
     inset 0 2px 4px rgba(255, 255, 255, 0.3);
   transform: translateY(-2px);
 }
@@ -94,12 +94,12 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: var(--pf-parchment);
+  background: var(--my-parchment);
 } */
 
 .tab-button .tab-icon {
-  margin-right: var(--pf-space-2);
-  font-size: var(--pf-text-lg);
+  margin-right: var(--my-space-2);
+  font-size: var(--my-text-lg);
 }
 
 /* ===== APP CONTAINER ===== */
@@ -110,12 +110,12 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: var(--pf-gradient-parchment);
+  background: var(--my-gradient-parchment);
 }
 
 .app-container.pf-spellbook {
-  font-family: var(--pf-font-body);
-  color: var(--pf-text-primary);
+  font-family: var(--my-font-body);
+  color: var(--my-text-primary);
 }
 
 /* ===== APP HEADER ===== */
@@ -124,12 +124,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--pf-space-4) var(--pf-space-6);
-  background: var(--pf-gradient-header);
-  border-bottom: var(--pf-border-width-thick) solid var(--pf-brown-medium);
+  padding: var(--my-space-4) var(--my-space-6);
+  background: var(--my-gradient-header);
+  border-bottom: var(--my-border-width-thick) solid var(--my-brown-medium);
   box-shadow: 0 4px 12px rgba(45, 24, 16, 0.2);
   position: relative;
-  z-index: var(--pf-z-sticky);
+  z-index: var(--my-z-sticky);
 }
 
 .app-header::after {
@@ -141,8 +141,8 @@
   height: 2px;
   background: linear-gradient(to right,
       transparent,
-      var(--pf-gold) 20%,
-      var(--pf-gold) 80%,
+      var(--my-gold) 20%,
+      var(--my-gold) 80%,
       transparent);
 }
 
@@ -151,24 +151,24 @@
 .app-title {
   display: flex;
   align-items: center;
-  color: var(--pf-text-on-dark);
+  color: var(--my-text-on-dark);
 }
 
 .app-title h1 {
-  font-family: var(--pf-font-display);
-  font-size: var(--pf-text-3xl);
-  font-weight: var(--pf-font-bold);
-  margin: 0 0 0 var(--pf-space-4);
+  font-family: var(--my-font-display);
+  font-size: var(--my-text-3xl);
+  font-weight: var(--my-font-bold);
+  margin: 0 0 0 var(--my-space-4);
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  color: var(--pf-gold);
+  color: var(--my-gold);
 }
 
 .app-logo {
   width: 48px;
   height: 48px;
-  border-radius: var(--pf-border-radius);
-  border: 2px solid var(--pf-gold);
-  box-shadow: var(--pf-shadow-md);
+  border-radius: var(--my-border-radius);
+  border: 2px solid var(--my-gold);
+  box-shadow: var(--my-shadow-md);
 }
 
 /* ===== APP TABS ===== */
@@ -176,39 +176,39 @@
 .app-tabs {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
 }
 
 .app-tab {
   display: flex;
   align-items: center;
-  padding: var(--pf-space-3) var(--pf-space-6);
-  background: var(--pf-gradient-button);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius) var(--pf-border-radius) 0 0;
-  font-family: var(--pf-font-display);
-  font-size: var(--pf-text-base);
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-secondary);
+  padding: var(--my-space-3) var(--my-space-6);
+  background: var(--my-gradient-button);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius) var(--my-border-radius) 0 0;
+  font-family: var(--my-font-display);
+  font-size: var(--my-text-base);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-secondary);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
   text-decoration: none;
 }
 
 .app-tab:hover {
-  background: var(--pf-gradient-button-hover);
-  color: var(--pf-brown-dark);
+  background: var(--my-gradient-button-hover);
+  color: var(--my-brown-dark);
   transform: translateY(-1px);
-  box-shadow: var(--pf-shadow-md);
+  box-shadow: var(--my-shadow-md);
 }
 
 .app-tab.active {
-  background: var(--pf-gradient-parchment);
-  color: var(--pf-brown-dark);
-  border-bottom-color: var(--pf-parchment);
-  box-shadow: var(--pf-shadow-md), inset 0 2px 4px rgba(255, 255, 255, 0.3);
+  background: var(--my-gradient-parchment);
+  color: var(--my-brown-dark);
+  border-bottom-color: var(--my-parchment);
+  box-shadow: var(--my-shadow-md), inset 0 2px 4px rgba(255, 255, 255, 0.3);
   transform: translateY(-2px);
 }
 
@@ -220,7 +220,7 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: var(--pf-parchment);
+  background: var(--my-parchment);
 } */
 
 /* ===== APP CONTROLS ===== */
@@ -228,71 +228,71 @@
 .app-controls {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-3);
+  gap: var(--my-space-3);
 }
 
 .app-control-btn {
   display: flex;
   align-items: center;
-  padding: var(--pf-space-2) var(--pf-space-4);
-  background: var(--pf-gradient-button);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-sm);
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-secondary);
+  padding: var(--my-space-2) var(--my-space-4);
+  background: var(--my-gradient-button);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  font-family: var(--my-font-ui);
+  font-size: var(--my-text-sm);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-secondary);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .app-control-btn:hover {
-  background: var(--pf-gradient-button-hover);
-  color: var(--pf-brown-dark);
+  background: var(--my-gradient-button-hover);
+  color: var(--my-brown-dark);
   transform: translateY(-1px);
-  box-shadow: var(--pf-shadow-md);
+  box-shadow: var(--my-shadow-md);
 }
 
 .app-control-btn:active {
-  background: var(--pf-gradient-button-active);
+  background: var(--my-gradient-button-active);
   transform: translateY(0);
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .app-control-btn.active {
-  background: var(--pf-brown-medium);
-  color: var(--pf-text-on-dark);
-  border-color: var(--pf-brown-dark);
+  background: var(--my-brown-medium);
+  color: var(--my-text-on-dark);
+  border-color: var(--my-brown-dark);
 }
 
 .control-icon {
-  margin-right: var(--pf-space-2);
-  font-size: var(--pf-text-base);
+  margin-right: var(--my-space-2);
+  font-size: var(--my-text-base);
 }
 
 .control-text {
-  font-size: var(--pf-text-sm);
+  font-size: var(--my-text-sm);
 }
 
 /* Special styling for the finalize button */
 .app-control-btn.finalize-btn {
-  background: var(--pf-gradient-gold);
-  border-color: var(--pf-gold-dark);
-  color: var(--pf-brown-darkest);
-  font-weight: var(--pf-font-bold);
+  background: var(--my-gradient-gold);
+  border-color: var(--my-gold-dark);
+  color: var(--my-brown-darkest);
+  font-weight: var(--my-font-bold);
   box-shadow:
-    var(--pf-shadow-md),
+    var(--my-shadow-md),
     0 0 10px rgba(212, 175, 55, 0.3);
 }
 
 .app-control-btn.finalize-btn:hover {
-  background: var(--pf-gradient-gold-bright);
-  color: var(--pf-brown-darkest);
+  background: var(--my-gradient-gold-bright);
+  color: var(--my-brown-darkest);
   transform: translateY(-2px);
   box-shadow:
-    var(--pf-shadow-lg),
+    var(--my-shadow-lg),
     0 0 15px rgba(212, 175, 55, 0.5);
 }
 
@@ -303,7 +303,7 @@
   display: flex;
   overflow: hidden;
   position: relative;
-  background: var(--pf-gradient-parchment);
+  background: var(--my-gradient-parchment);
 }
 
 .app-main-panel {
@@ -323,19 +323,19 @@
 
 .edit-mode-indicator {
   position: fixed;
-  top: var(--pf-wizard-header-height);
+  top: var(--my-wizard-header-height);
   left: 0;
   right: 0;
-  background: var(--pf-warning);
-  color: var(--pf-text-on-dark);
-  padding: var(--pf-space-2) var(--pf-space-4);
+  background: var(--my-warning);
+  color: var(--my-text-on-dark);
+  padding: var(--my-space-2) var(--my-space-4);
   text-align: center;
-  font-family: var(--pf-font-display);
-  font-weight: var(--pf-font-semibold);
-  font-size: var(--pf-text-sm);
-  z-index: var(--pf-z-sticky);
-  box-shadow: var(--pf-shadow-md);
-  border-bottom: 2px solid var(--pf-warning-light);
+  font-family: var(--my-font-display);
+  font-weight: var(--my-font-semibold);
+  font-size: var(--my-text-sm);
+  z-index: var(--my-z-sticky);
+  box-shadow: var(--my-shadow-md);
+  border-bottom: 2px solid var(--my-warning-light);
 }
 
 /* ===== LOADING WRAPPER ===== */
@@ -346,16 +346,16 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  padding: var(--pf-space-8);
-  background: var(--pf-gradient-parchment);
+  padding: var(--my-space-8);
+  background: var(--my-gradient-parchment);
 }
 
 .loading-text {
-  font-family: var(--pf-font-display);
-  font-size: var(--pf-text-xl);
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-muted);
-  margin-top: var(--pf-space-4);
+  font-family: var(--my-font-display);
+  font-size: var(--my-text-xl);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-muted);
+  margin-top: var(--my-space-4);
 }
 
 /* ===== RESPONSIVE DESIGN ===== */
@@ -363,13 +363,13 @@
 @media (max-width: 768px) {
   .app-header {
     flex-direction: column;
-    gap: var(--pf-space-3);
-    padding: var(--pf-space-3);
+    gap: var(--my-space-3);
+    padding: var(--my-space-3);
   }
 
   .app-title h1 {
-    font-size: var(--pf-text-2xl);
-    margin-left: var(--pf-space-2);
+    font-size: var(--my-text-2xl);
+    margin-left: var(--my-space-2);
   }
 
   .app-logo {
@@ -379,43 +379,43 @@
 
   .tab-container {
     flex-wrap: wrap;
-    gap: var(--pf-space-1);
+    gap: var(--my-space-1);
   }
 
   .tab-button {
-    padding: var(--pf-space-2) var(--pf-space-4);
-    margin-right: var(--pf-space-1);
-    font-size: var(--pf-text-sm);
+    padding: var(--my-space-2) var(--my-space-4);
+    margin-right: var(--my-space-1);
+    font-size: var(--my-text-sm);
   }
 
   .app-main-panel {
     max-width: 100%;
-    padding: var(--pf-space-2);
+    padding: var(--my-space-2);
   }
 }
 
 @media (max-width: 480px) {
   .app-title h1 {
-    font-size: var(--pf-text-xl);
+    font-size: var(--my-text-xl);
   }
 
   .tab-button {
-    padding: var(--pf-space-2) var(--pf-space-3);
-    font-size: var(--pf-text-xs);
+    padding: var(--my-space-2) var(--my-space-3);
+    font-size: var(--my-text-xs);
   }
 
   .tab-button .tab-icon {
-    margin-right: var(--pf-space-1);
-    font-size: var(--pf-text-base);
+    margin-right: var(--my-space-1);
+    font-size: var(--my-text-base);
   }
 
   .app-controls {
-    gap: var(--pf-space-2);
+    gap: var(--my-space-2);
   }
 
   .app-control-btn {
-    padding: var(--pf-space-1) var(--pf-space-3);
-    font-size: var(--pf-text-xs);
+    padding: var(--my-space-1) var(--my-space-3);
+    font-size: var(--my-text-xs);
   }
 }
 
@@ -426,7 +426,7 @@
   flex-direction: column;
   height: 100%;
   width: 100%;
-  background: var(--pf-gradient-parchment);
+  background: var(--my-gradient-parchment);
   overflow: hidden;
   /* Prevent layout overflow */
   position: relative;
@@ -447,8 +447,8 @@
   left: 0;
   right: 0;
   z-index: 1000;
-  background: var(--pf-gradient-parchment-dark);
-  border-top: 1px solid var(--pf-brown-medium);
+  background: var(--my-gradient-parchment-dark);
+  border-top: 1px solid var(--my-brown-medium);
   box-shadow: 0 -2px 4px rgba(45, 24, 16, 0.1);
   padding: 2px 8px;
   backdrop-filter: blur(2px);
@@ -463,13 +463,13 @@
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  background: var(--pf-gradient-parchment);
+  background: var(--my-gradient-parchment);
   position: relative;
   display: flex;
   flex-direction: column;
   /* Improved scroll responsiveness */
   scrollbar-width: thin;
-  scrollbar-color: var(--pf-brown-medium) var(--pf-brown-light);
+  scrollbar-color: var(--my-brown-medium) var(--my-brown-light);
   /* Enhanced scroll performance */
   scroll-behavior: auto;
   overscroll-behavior: contain;
@@ -482,25 +482,25 @@
 }
 
 .wizard-main-content::-webkit-scrollbar-track {
-  background: var(--pf-brown-light);
+  background: var(--my-brown-light);
   border-radius: 6px;
 }
 
 .wizard-main-content::-webkit-scrollbar-thumb {
-  background: var(--pf-brown-medium);
+  background: var(--my-brown-medium);
   border-radius: 6px;
-  border: 2px solid var(--pf-brown-light);
+  border: 2px solid var(--my-brown-light);
 }
 
 .wizard-main-content::-webkit-scrollbar-thumb:hover {
-  background: var(--pf-brown-dark);
+  background: var(--my-brown-dark);
 }
 
 /* ===== EXTERNAL SPELL PREVIEW LAYOUT ===== */
 
 .spell-wizard-with-preview {
   display: flex;
-  gap: var(--pf-space-4);
+  gap: var(--my-space-4);
   height: 100vh;
   width: 100vw;
   overflow: hidden;
@@ -520,78 +520,78 @@
   max-width: 420px;
   display: flex;
   flex-direction: column;
-  background: var(--pf-gradient-header);
-  border: var(--pf-border-width-thick) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius-lg);
-  box-shadow: var(--pf-shadow-parchment);
+  background: var(--my-gradient-header);
+  border: var(--my-border-width-thick) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius-lg);
+  box-shadow: var(--my-shadow-parchment);
   overflow: hidden;
-  margin: var(--pf-space-3);
+  margin: var(--my-space-3);
   margin-left: 0;
-  height: calc(100vh - var(--pf-space-6));
+  height: calc(100vh - var(--my-space-6));
 }
 
 /* ===== PATHFINDER LIVE PREVIEW STYLING ===== */
 
 .external-spell-preview-pathfinder {
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width-thick) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius-lg);
-  box-shadow: var(--pf-shadow-parchment);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width-thick) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius-lg);
+  box-shadow: var(--my-shadow-parchment);
   overflow: hidden;
-  font-family: var(--pf-font-body);
-  color: var(--pf-text-primary);
+  font-family: var(--my-font-body);
+  color: var(--my-text-primary);
   backdrop-filter: blur(2px);
 }
 
 .external-spell-preview-pathfinder .external-preview-header {
-  background: var(--pf-gradient-header);
-  border-bottom: var(--pf-border-width) solid var(--pf-brown-medium);
-  padding: var(--pf-space-2) var(--pf-space-3);
+  background: var(--my-gradient-header);
+  border-bottom: var(--my-border-width) solid var(--my-brown-medium);
+  padding: var(--my-space-2) var(--my-space-3);
   text-align: center;
 }
 
 .external-spell-preview-pathfinder .preview-title {
   margin: 0;
-  font-size: var(--pf-text-sm);
+  font-size: var(--my-text-sm);
   font-weight: 600;
-  color: var(--pf-text-primary);
+  color: var(--my-text-primary);
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .external-spell-preview-pathfinder .external-preview-content {
-  padding: var(--pf-space-2);
-  background: var(--pf-gradient-parchment);
+  padding: var(--my-space-2);
+  background: var(--my-gradient-parchment);
   overflow-y: auto;
   max-height: 580px;
 }
 
 .external-preview-header {
-  padding: var(--pf-space-3);
-  background: var(--pf-gradient-header);
-  border-bottom: var(--pf-border-width) solid var(--pf-brown-medium);
+  padding: var(--my-space-3);
+  background: var(--my-gradient-header);
+  border-bottom: var(--my-border-width) solid var(--my-brown-medium);
   text-align: center;
   flex-shrink: 0;
 }
 
 .external-preview-header h3 {
-  margin: 0 0 var(--pf-space-1) 0;
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-display);
-  font-size: var(--pf-text-lg);
-  font-weight: var(--pf-font-bold);
+  margin: 0 0 var(--my-space-1) 0;
+  color: var(--my-text-primary);
+  font-family: var(--my-font-display);
+  font-size: var(--my-text-lg);
+  font-weight: var(--my-font-bold);
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .external-preview-subtitle {
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-sm);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-sm);
   font-style: italic;
 }
 
 .external-preview-card {
   flex: 1;
-  padding: var(--pf-space-3);
-  background: var(--pf-parchment);
+  padding: var(--my-space-3);
+  background: var(--my-parchment);
   overflow-y: auto;
   display: flex;
   align-items: flex-start;
@@ -625,7 +625,7 @@
 @media (max-width: 1200px) {
   .spell-wizard-with-preview {
     flex-direction: column;
-    gap: var(--pf-space-2);
+    gap: var(--my-space-2);
   }
 
   .external-spell-preview {
@@ -633,7 +633,7 @@
     min-width: auto;
     max-width: none;
     height: 300px;
-    margin: var(--pf-space-2);
+    margin: var(--my-space-2);
     order: -1;
     /* Show preview at top on mobile */
   }
@@ -647,7 +647,7 @@
 @media (max-width: 768px) {
   .external-spell-preview {
     height: 250px;
-    margin: var(--pf-space-1);
+    margin: var(--my-space-1);
   }
 
   .external-preview-card .unified-spell-card {
@@ -663,13 +663,13 @@
 /* ===== WIZARD FOOTER ===== */
 
 .spellbook-layout .wizard-footer {
-  background: var(--pf-gradient-header);
-  border-top: var(--pf-border-width-thick) solid var(--pf-brown-medium);
-  padding: var(--pf-space-1) var(--pf-space-4) var(--pf-space-2) var(--pf-space-4);
+  background: var(--my-gradient-header);
+  border-top: var(--my-border-width-thick) solid var(--my-brown-medium);
+  padding: var(--my-space-1) var(--my-space-4) var(--my-space-2) var(--my-space-4);
   /* Reduced top padding */
   box-shadow: 0 -2px 8px rgba(45, 24, 16, 0.2);
   position: relative;
-  z-index: var(--pf-z-sticky);
+  z-index: var(--my-z-sticky);
   flex-shrink: 0;
   /* Optimized footer height for better content space and moved progress bar */
   min-height: 90px;
@@ -691,8 +691,8 @@
   height: 2px;
   background: linear-gradient(to right,
       transparent,
-      var(--pf-gold) 20%,
-      var(--pf-gold) 80%,
+      var(--my-gold) 20%,
+      var(--my-gold) 80%,
       transparent);
 }
 
@@ -700,13 +700,13 @@
 
 .wizard-progress-tabs {
   display: flex;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
   justify-content: space-evenly;
   flex-wrap: nowrap;
   width: 100%;
-  margin: 0 auto var(--pf-space-3) auto;
-  padding: var(--pf-space-3) var(--pf-space-4) var(--pf-space-4) var(--pf-space-4);
-  border-bottom: 1px solid var(--pf-brown-light);
+  margin: 0 auto var(--my-space-3) auto;
+  padding: var(--my-space-3) var(--my-space-4) var(--my-space-4) var(--my-space-4);
+  border-bottom: 1px solid var(--my-brown-light);
   /* Ensure tabs don't get cut off */
   overflow: visible;
   min-height: 70px;
@@ -717,18 +717,18 @@
   align-items: center;
   justify-content: center;
   gap: 0;
-  padding: var(--pf-space-2);
-  background: var(--pf-gradient-button);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  padding: var(--my-space-2);
+  background: var(--my-gradient-button);
+  border: var(--my-border-width) solid var(--my-brown-medium);
   border-radius: 50%;
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-sm);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-secondary);
+  font-family: var(--my-font-ui);
+  font-size: var(--my-text-sm);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-secondary);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
   position: relative;
   /* Circular design with proper sizing */
   height: 40px;
@@ -743,34 +743,34 @@
 }
 
 .wizard-step-tab:hover {
-  background: var(--pf-gradient-button-hover);
-  color: var(--pf-brown-dark);
+  background: var(--my-gradient-button-hover);
+  color: var(--my-brown-dark);
   transform: translateY(-3px) scale(1.05);
-  box-shadow: var(--pf-shadow-md);
-  border-color: var(--pf-gold);
+  box-shadow: var(--my-shadow-md);
+  border-color: var(--my-gold);
   z-index: 10;
 }
 
 .wizard-step-tab.active {
-  background: var(--pf-gold);
-  color: var(--pf-text-on-dark);
-  border-color: var(--pf-gold-dark);
+  background: var(--my-gold);
+  color: var(--my-text-on-dark);
+  border-color: var(--my-gold-dark);
   box-shadow:
-    var(--pf-shadow-md),
+    var(--my-shadow-md),
     inset 0 2px 4px rgba(255, 255, 255, 0.3);
   transform: translateY(-3px);
   z-index: 10;
 }
 
 .wizard-step-tab.completed {
-  background: var(--pf-success);
-  color: var(--pf-text-on-dark);
-  border-color: var(--pf-success-dark);
+  background: var(--my-success);
+  color: var(--my-text-on-dark);
+  border-color: var(--my-success-dark);
 }
 
 .wizard-step-tab.pending {
-  background: var(--pf-gradient-button);
-  color: var(--pf-text-muted);
+  background: var(--my-gradient-button);
+  color: var(--my-text-muted);
 }
 
 .step-tab-number {
@@ -779,8 +779,8 @@
   justify-content: center;
   width: 100%;
   height: 100%;
-  font-family: var(--pf-font-display);
-  font-weight: var(--pf-font-bold);
+  font-family: var(--my-font-display);
+  font-weight: var(--my-font-bold);
 }
 
 /* Ensure wizard step tooltips appear above everything */
@@ -791,16 +791,16 @@
 .wizard-step-tab[data-tooltip]:hover::after {
   content: attr(data-tooltip);
   position: fixed;
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width-thick) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius-lg);
-  padding: var(--pf-space-3) var(--pf-space-4);
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-sm);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width-thick) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius-lg);
+  padding: var(--my-space-3) var(--my-space-4);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-sm);
   font-weight: normal;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
-  box-shadow: var(--pf-shadow-parchment);
+  box-shadow: var(--my-shadow-parchment);
   z-index: 10000;
   pointer-events: none;
   white-space: nowrap;
@@ -833,8 +833,8 @@
   height: 100%;
   background: transparent;
   border-radius: 0;
-  font-size: var(--pf-text-sm);
-  font-weight: var(--pf-font-bold);
+  font-size: var(--my-text-sm);
+  font-weight: var(--my-font-bold);
 }
 
 .step-tab-name {
@@ -848,58 +848,58 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--pf-space-4);
+  gap: var(--my-space-4);
   max-width: 1200px;
   margin: 0 auto;
 }
 
 .wizard-nav-controls {
   display: flex;
-  gap: var(--pf-space-3);
+  gap: var(--my-space-3);
 }
 
 .wizard-nav-btn {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
-  padding: var(--pf-space-3) var(--pf-space-6);
-  background: var(--pf-gradient-button);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-base);
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-secondary);
+  gap: var(--my-space-2);
+  padding: var(--my-space-3) var(--my-space-6);
+  background: var(--my-gradient-button);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  font-family: var(--my-font-ui);
+  font-size: var(--my-text-base);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-secondary);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
   min-width: 100px;
 }
 
 .wizard-nav-btn:hover:not(:disabled) {
-  background: var(--pf-gradient-button-hover);
-  color: var(--pf-brown-dark);
+  background: var(--my-gradient-button-hover);
+  color: var(--my-brown-dark);
   transform: translateY(-1px);
-  box-shadow: var(--pf-shadow-md);
+  box-shadow: var(--my-shadow-md);
 }
 
 .wizard-nav-btn:disabled {
-  background: var(--pf-gradient-button-disabled);
-  color: var(--pf-text-muted);
+  background: var(--my-gradient-button-disabled);
+  color: var(--my-text-muted);
   cursor: not-allowed;
   opacity: 0.6;
 }
 
 .wizard-nav-cancel {
-  background: var(--pf-gradient-danger);
-  border-color: var(--pf-error);
-  color: var(--pf-text-on-dark);
+  background: var(--my-gradient-danger);
+  border-color: var(--my-error);
+  color: var(--my-text-on-dark);
 }
 
 .wizard-nav-cancel:hover {
-  background: var(--pf-gradient-danger-hover);
-  border-color: var(--pf-error-dark);
+  background: var(--my-gradient-danger-hover);
+  border-color: var(--my-error-dark);
 }
 
 /* ===== WIZARD PROGRESS BAR ===== */
@@ -908,11 +908,11 @@
   position: relative;
   width: 100%;
   height: 40px;
-  background: var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
+  background: var(--my-brown-light);
+  border-radius: var(--my-border-radius);
   overflow: hidden;
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border: var(--my-border-width) solid var(--my-brown-medium);
 }
 
 .spell-wizard-progress-fill {
@@ -921,10 +921,10 @@
   left: 0;
   height: 100%;
   background: linear-gradient(to right,
-      var(--pf-brown-medium),
-      var(--pf-brown-dark));
-  transition: width var(--pf-transition-normal);
-  border-radius: var(--pf-border-radius);
+      var(--my-brown-medium),
+      var(--my-brown-dark));
+  transition: width var(--my-transition-normal);
+  border-radius: var(--my-border-radius);
 }
 
 .spell-wizard-progress-segments {
@@ -942,7 +942,7 @@
 .spell-wizard-progress-segment {
   position: relative;
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
 }
 
 .spell-step-number {
@@ -952,25 +952,25 @@
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: var(--pf-gradient-button);
-  border: 2px solid var(--pf-brown-medium);
-  color: var(--pf-text-primary);
+  background: var(--my-gradient-button);
+  border: 2px solid var(--my-brown-medium);
+  color: var(--my-text-primary);
   font-weight: bold;
-  font-size: var(--pf-text-sm);
-  transition: all var(--pf-transition-normal);
+  font-size: var(--my-text-sm);
+  transition: all var(--my-transition-normal);
 }
 
 .spell-wizard-progress-segment.active .spell-step-number {
-  background: var(--pf-gradient-primary);
-  border-color: var(--pf-primary);
-  color: var(--pf-text-on-dark);
+  background: var(--my-gradient-primary);
+  border-color: var(--my-primary);
+  color: var(--my-text-on-dark);
   transform: scale(1.1);
 }
 
 .spell-wizard-progress-segment.completed .spell-step-number {
-  background: var(--pf-gradient-success);
-  border-color: var(--pf-success);
-  color: var(--pf-text-on-dark);
+  background: var(--my-gradient-success);
+  border-color: var(--my-success);
+  color: var(--my-text-on-dark);
 }
 
 .spell-wizard-progress-segment:hover .spell-step-number {
@@ -986,18 +986,18 @@
   left: 50%;
   transform: translateX(-50%);
   margin-bottom: 8px;
-  background: var(--pf-gradient-tooltip);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-2) var(--pf-space-3);
-  box-shadow: var(--pf-shadow-tooltip);
+  background: var(--my-gradient-tooltip);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-2) var(--my-space-3);
+  box-shadow: var(--my-shadow-tooltip);
   opacity: 0;
   visibility: hidden;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   z-index: 1001;
   min-width: 120px;
   text-align: center;
-  font-size: var(--pf-text-xs);
+  font-size: var(--my-text-xs);
 }
 
 .spell-wizard-progress-segment:hover .spell-step-tooltip {
@@ -1007,36 +1007,36 @@
 
 .spell-tooltip-header {
   font-weight: bold;
-  color: var(--pf-text-primary);
-  margin-bottom: var(--pf-space-1);
+  color: var(--my-text-primary);
+  margin-bottom: var(--my-space-1);
 }
 
 .spell-tooltip-name {
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-xs);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-xs);
 }
 
 .spell-tooltip-description {
-  color: var(--pf-text-muted);
-  font-size: var(--pf-text-xs);
-  margin-top: var(--pf-space-1);
+  color: var(--my-text-muted);
+  font-size: var(--my-text-xs);
+  margin-top: var(--my-space-1);
 }
 
 .wizard-progress-fill {
   height: 100%;
   background: linear-gradient(to right,
-      var(--pf-gold),
-      var(--pf-gold-light));
-  transition: width var(--pf-transition-normal);
+      var(--my-gold),
+      var(--my-gold-light));
+  transition: width var(--my-transition-normal);
   border-radius: 4px;
   box-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
 }
 
 .wizard-progress-text {
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-xs);
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-muted);
+  font-family: var(--my-font-ui);
+  font-size: var(--my-text-xs);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-muted);
   text-align: center;
   white-space: nowrap;
 }
@@ -1047,13 +1047,13 @@
   .wizard-footer {
     min-height: 120px;
     max-height: 160px;
-    padding: var(--pf-space-2) var(--pf-space-3);
+    padding: var(--my-space-2) var(--my-space-3);
   }
 
   .wizard-progress-tabs {
-    gap: var(--pf-space-1);
+    gap: var(--my-space-1);
     width: 100%;
-    padding: var(--pf-space-2) var(--pf-space-3) var(--pf-space-3) var(--pf-space-3);
+    padding: var(--my-space-2) var(--my-space-3) var(--my-space-3) var(--my-space-3);
     justify-content: space-between;
     min-height: 60px;
   }
@@ -1065,11 +1065,11 @@
     min-width: 36px;
     max-height: 36px;
     max-width: 36px;
-    padding: var(--pf-space-1);
+    padding: var(--my-space-1);
   }
 
   .step-tab-number {
-    font-size: var(--pf-text-xs);
+    font-size: var(--my-text-xs);
   }
 }
 
@@ -1081,7 +1081,7 @@
 
   .spellbook-layout .wizard-navigation-footer {
     flex-direction: column;
-    gap: var(--pf-space-2);
+    gap: var(--my-space-2);
   }
 
   .spellbook-layout .wizard-nav-controls {

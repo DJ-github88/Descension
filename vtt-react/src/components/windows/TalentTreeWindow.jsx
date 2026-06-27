@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import WowWindow from './WowWindow';
+import MythrillWindow from './MythrillWindow';
 import useCharacterStore from '../../store/characterStore';
 import { CLASS_SPECIALIZATIONS } from '../../data/classSpellCategories';
 import { getTalentsForSpec, getTreeBackdrop, getFallbackBackground } from '../../data/talentTreeData';
@@ -499,7 +499,7 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
 
     if (!trees || trees.length === 0) {
         return (
-            <WowWindow
+            <MythrillWindow
                 title="Talent Tree"
                 isOpen={isOpen}
                 onClose={onClose}
@@ -524,12 +524,12 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
                         <p>No talent trees available for class: {characterClass}</p>
                     )}
                 </div>
-            </WowWindow>
+            </MythrillWindow>
         );
     }
 
     return (
-        <WowWindow
+        <MythrillWindow
             title={`Talent Tree - ${characterClass}`}
             isOpen={isOpen}
             onClose={onClose}
@@ -770,7 +770,7 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
                     variant="spell"
                 />
             </div>
-        </WowWindow>
+        </MythrillWindow>
     );
 };
 

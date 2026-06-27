@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
-import WowWindow from './WowWindow';
+import MythrillWindow from './MythrillWindow';
 import { useSpellLibrary } from '../spellcrafting-wizard/context/SpellLibraryContext';
 import { getSpellRollableTable } from '../spellcrafting-wizard/core/utils/spellCardTransformer';
 import UnifiedSpellCard from '../spellcrafting-wizard/components/common/UnifiedSpellCard';
@@ -239,7 +239,7 @@ const SpellSelectionWindow = ({
   }, [isOpen]);
 
   return (
-    <WowWindow
+    <MythrillWindow
       ref={windowRef}
       isOpen={isOpen}
       onClose={onClose}
@@ -259,8 +259,8 @@ const SpellSelectionWindow = ({
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        background: 'var(--pf-gradient-parchment)',
-        padding: 'var(--pf-space-3)'
+        background: 'var(--my-gradient-parchment)',
+        padding: 'var(--my-space-3)'
       }}>
         {/* Search input */}
         <div style={{
@@ -276,21 +276,21 @@ const SpellSelectionWindow = ({
             className="pf-input"
             style={{
               width: '100%',
-              padding: 'var(--pf-space-2) var(--pf-space-3) var(--pf-space-2) 32px',
-              background: 'var(--pf-gradient-input)',
-              border: 'var(--pf-border-width) solid var(--pf-brown-medium)',
-              borderRadius: 'var(--pf-border-radius)',
-              color: 'var(--pf-text-primary)',
-              fontSize: 'var(--pf-text-sm)',
-              fontFamily: 'var(--pf-font-body)'
+              padding: 'var(--my-space-2) var(--my-space-3) var(--my-space-2) 32px',
+              background: 'var(--my-gradient-input)',
+              border: 'var(--my-border-width) solid var(--my-brown-medium)',
+              borderRadius: 'var(--my-border-radius)',
+              color: 'var(--my-text-primary)',
+              fontSize: 'var(--my-text-sm)',
+              fontFamily: 'var(--my-font-body)'
             }}
           />
           <span style={{
             position: 'absolute',
-            left: 'var(--pf-space-2)',
+            left: 'var(--my-space-2)',
             top: '50%',
             transform: 'translateY(-50%)',
-            color: 'var(--pf-text-muted)'
+            color: 'var(--my-text-muted)'
           }}>
             <SearchIcon />
           </span>
@@ -309,25 +309,25 @@ const SpellSelectionWindow = ({
               alignItems: 'center',
               justifyContent: 'center',
               height: '100%',
-              color: 'var(--pf-text-muted)',
+              color: 'var(--my-text-muted)',
               textAlign: 'center'
             }}>
               <p style={{
-                fontSize: 'var(--pf-text-lg)',
-                marginBottom: 'var(--pf-space-3)',
-                fontFamily: 'var(--pf-font-body)'
+                fontSize: 'var(--my-text-lg)',
+                marginBottom: 'var(--my-space-3)',
+                fontFamily: 'var(--my-font-body)'
               }}>No spells match your search criteria.</p>
               <button
                 onClick={() => setSearchQuery('')}
                 className="pf-button"
                 style={{
-                  background: 'var(--pf-gradient-button)',
-                  border: 'var(--pf-border-width) solid var(--pf-brown-medium)',
-                  borderRadius: 'var(--pf-border-radius)',
-                  color: 'var(--pf-text-primary)',
-                  padding: 'var(--pf-space-2) var(--pf-space-3)',
-                  fontSize: 'var(--pf-text-sm)',
-                  fontFamily: 'var(--pf-font-body)',
+                  background: 'var(--my-gradient-button)',
+                  border: 'var(--my-border-width) solid var(--my-brown-medium)',
+                  borderRadius: 'var(--my-border-radius)',
+                  color: 'var(--my-text-primary)',
+                  padding: 'var(--my-space-2) var(--my-space-3)',
+                  fontSize: 'var(--my-text-sm)',
+                  fontFamily: 'var(--my-font-body)',
                   cursor: 'pointer'
                 }}
               >
@@ -338,8 +338,8 @@ const SpellSelectionWindow = ({
             <div style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-              gap: 'var(--pf-space-4)',
-              padding: 'var(--pf-space-3)'
+              gap: 'var(--my-space-4)',
+              padding: 'var(--my-space-3)'
             }}>
               {filteredSpells.map(spell => {
                 // Use the unified mapping function for consistency
@@ -372,7 +372,7 @@ const SpellSelectionWindow = ({
           )}
         </div>
       </div>
-    </WowWindow>
+    </MythrillWindow>
   );
 };
 

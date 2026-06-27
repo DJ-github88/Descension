@@ -1,172 +1,172 @@
 /* Proc Effect Configuration - Pathfinder Theme */
 .proc-effect-config {
-  background: var(--pf-gradient-parchment-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-4);
-  margin-bottom: var(--pf-space-5);
-  color: var(--pf-text-primary);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  font-family: var(--pf-font-body);
+  background: var(--my-gradient-parchment-light);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-4);
+  margin-bottom: var(--my-space-5);
+  color: var(--my-text-primary);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  font-family: var(--my-font-body);
 }
 
 .proc-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--pf-space-4);
+  margin-bottom: var(--my-space-4);
 }
 
 .proc-enable {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
 }
 
 .proc-enable input[type="checkbox"] {
   width: 18px;
   height: 18px;
   cursor: pointer;
-  accent-color: var(--pf-gold);
+  accent-color: var(--my-gold);
 }
 
 .proc-enable label {
-  font-weight: var(--pf-font-bold);
-  font-size: var(--pf-text-base);
+  font-weight: var(--my-font-bold);
+  font-size: var(--my-text-base);
   cursor: pointer;
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-ui);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-ui);
 }
 
 .info-button {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-1);
-  padding: var(--pf-space-1) var(--pf-space-3);
-  background: var(--pf-gradient-button);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
+  gap: var(--my-space-1);
+  padding: var(--my-space-1) var(--my-space-3);
+  background: var(--my-gradient-button);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
-  font-family: var(--pf-font-ui);
+  transition: all var(--my-transition-normal);
+  font-family: var(--my-font-ui);
 }
 
 .info-button:hover {
-  background: var(--pf-gradient-button-hover);
+  background: var(--my-gradient-button-hover);
   transform: translateY(-1px);
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .proc-info-panel {
-  background: var(--pf-gradient-parchment-dark);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-4);
-  margin-bottom: var(--pf-space-4);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+  background: var(--my-gradient-parchment-dark);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-4);
+  margin-bottom: var(--my-space-4);
+  border: var(--my-border-width) solid var(--my-brown-light);
 }
 
 .proc-info-panel h4 {
   margin-top: 0;
-  margin-bottom: var(--pf-space-2);
-  color: var(--pf-gold);
-  font-family: var(--pf-font-heading);
+  margin-bottom: var(--my-space-2);
+  color: var(--my-gold);
+  font-family: var(--my-font-heading);
 }
 
 .proc-info-panel p {
-  margin-bottom: var(--pf-space-3);
-  color: var(--pf-text-primary);
+  margin-bottom: var(--my-space-3);
+  color: var(--my-text-primary);
 }
 
 .proc-info-panel ul {
   margin: 0;
-  padding-left: var(--pf-space-5);
+  padding-left: var(--my-space-5);
 }
 
 .proc-info-panel li {
-  margin-bottom: var(--pf-space-1);
-  color: var(--pf-text-primary);
+  margin-bottom: var(--my-space-1);
+  color: var(--my-text-primary);
 }
 
 .proc-content {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-5);
+  gap: var(--my-space-5);
 }
 
 .proc-section {
-  background: var(--pf-gradient-parchment-dark);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-4);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+  background: var(--my-gradient-parchment-dark);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-4);
+  border: var(--my-border-width) solid var(--my-brown-light);
 }
 
 .proc-section h4 {
   margin-top: 0;
-  margin-bottom: var(--pf-space-2);
-  color: var(--pf-gold);
-  font-family: var(--pf-font-heading);
+  margin-bottom: var(--my-space-2);
+  color: var(--my-gold);
+  font-family: var(--my-font-heading);
 }
 
 .section-description {
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-sm);
-  margin-bottom: var(--pf-space-4);
-  font-family: var(--pf-font-body);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-sm);
+  margin-bottom: var(--my-space-4);
+  font-family: var(--my-font-body);
 }
 
 .proc-trigger-selector,
 .proc-effect-selector {
   display: flex;
-  gap: var(--pf-space-3);
-  margin-bottom: var(--pf-space-4);
+  gap: var(--my-space-3);
+  margin-bottom: var(--my-space-4);
 }
 
 .proc-trigger-selector select,
 .proc-effect-selector select {
   flex: 1;
-  padding: var(--pf-space-2) var(--pf-space-3);
-  border-radius: var(--pf-border-radius);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  background: var(--pf-gradient-input);
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-body);
+  padding: var(--my-space-2) var(--my-space-3);
+  border-radius: var(--my-border-radius);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  background: var(--my-gradient-input);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-body);
 }
 
 .add-button {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-1);
-  padding: var(--pf-space-2) var(--pf-space-3);
-  background: var(--pf-gradient-button);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
+  gap: var(--my-space-1);
+  padding: var(--my-space-2) var(--my-space-3);
+  background: var(--my-gradient-button);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
-  font-family: var(--pf-font-ui);
+  transition: all var(--my-transition-normal);
+  font-family: var(--my-font-ui);
 }
 
 .add-button:hover {
-  background: var(--pf-gradient-button-hover);
+  background: var(--my-gradient-button-hover);
   transform: translateY(-1px);
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .add-button:disabled {
-  background: var(--pf-gradient-parchment-dark);
+  background: var(--my-gradient-parchment-dark);
   cursor: not-allowed;
   opacity: 0.6;
 }
 
 .empty-list {
-  color: var(--pf-text-muted);
+  color: var(--my-text-muted);
   font-style: italic;
   text-align: center;
-  padding: var(--pf-space-5);
-  background: var(--pf-gradient-input);
-  border-radius: var(--pf-border-radius);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  font-family: var(--pf-font-body);
+  padding: var(--my-space-5);
+  background: var(--my-gradient-input);
+  border-radius: var(--my-border-radius);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  font-family: var(--my-font-body);
 }
 
 .proc-trigger-list ul,
@@ -180,29 +180,29 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--pf-space-3);
-  background: var(--pf-gradient-input);
-  border-radius: var(--pf-border-radius);
-  margin-bottom: var(--pf-space-2);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+  padding: var(--my-space-3);
+  background: var(--my-gradient-input);
+  border-radius: var(--my-border-radius);
+  margin-bottom: var(--my-space-2);
+  border: var(--my-border-width) solid var(--my-brown-light);
 }
 
 .trigger-info {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-1);
+  gap: var(--my-space-1);
 }
 
 .trigger-name {
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-ui);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-ui);
 }
 
 .trigger-description {
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-secondary);
-  font-family: var(--pf-font-body);
+  font-size: var(--my-text-sm);
+  color: var(--my-text-secondary);
+  font-family: var(--my-font-body);
 }
 
 .remove-button {
@@ -211,128 +211,128 @@
   justify-content: center;
   width: 32px;
   height: 32px;
-  background: var(--pf-gradient-button);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
+  background: var(--my-gradient-button);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
 }
 
 .remove-button:hover {
-  background: var(--pf-gradient-button-hover);
+  background: var(--my-gradient-button-hover);
   transform: translateY(-1px);
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .proc-effect-item {
-  background: var(--pf-gradient-input);
-  border-radius: var(--pf-border-radius);
-  margin-bottom: var(--pf-space-3);
+  background: var(--my-gradient-input);
+  border-radius: var(--my-border-radius);
+  margin-bottom: var(--my-space-3);
   overflow: hidden;
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border: var(--my-border-width) solid var(--my-brown-light);
 }
 
 .effect-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--pf-space-3);
-  background: var(--pf-gradient-parchment-dark);
-  border-bottom: var(--pf-border-width) solid var(--pf-brown-light);
+  padding: var(--my-space-3);
+  background: var(--my-gradient-parchment-dark);
+  border-bottom: var(--my-border-width) solid var(--my-brown-light);
 }
 
 .effect-name {
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-ui);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-ui);
 }
 
 .effect-config {
-  padding: var(--pf-space-3);
+  padding: var(--my-space-3);
 }
 
 .config-row {
   display: flex;
-  margin-bottom: var(--pf-space-3);
+  margin-bottom: var(--my-space-3);
   align-items: center;
 }
 
 .config-row label {
   width: 120px;
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-secondary);
-  font-family: var(--pf-font-ui);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-secondary);
+  font-family: var(--my-font-ui);
 }
 
 .config-row input,
 .config-row select {
   flex: 1;
-  padding: var(--pf-space-2);
-  border-radius: var(--pf-border-radius);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  background: var(--pf-gradient-input);
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-body);
+  padding: var(--my-space-2);
+  border-radius: var(--my-border-radius);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  background: var(--my-gradient-input);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-body);
 }
 
 .proc-chance-config {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-3);
+  gap: var(--my-space-3);
 }
 
 .guaranteed-message {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
-  padding: var(--pf-space-3);
-  background: var(--pf-gradient-input);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-gold);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  font-family: var(--pf-font-body);
+  gap: var(--my-space-2);
+  padding: var(--my-space-3);
+  background: var(--my-gradient-input);
+  border-radius: var(--my-border-radius);
+  color: var(--my-gold);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  font-family: var(--my-font-body);
 }
 
 .proc-preview {
-  background: var(--pf-gradient-parchment-dark);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-4);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+  background: var(--my-gradient-parchment-dark);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-4);
+  border: var(--my-border-width) solid var(--my-brown-light);
 }
 
 .proc-preview h4 {
   margin-top: 0;
-  margin-bottom: var(--pf-space-4);
-  color: var(--pf-gold);
-  font-family: var(--pf-font-heading);
+  margin-bottom: var(--my-space-4);
+  color: var(--my-gold);
+  font-family: var(--my-font-heading);
 }
 
 .proc-preview-content {
-  background: var(--pf-gradient-input);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-4);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+  background: var(--my-gradient-input);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-4);
+  border: var(--my-border-width) solid var(--my-brown-light);
 }
 
 .proc-description {
   line-height: 1.5;
-  font-family: var(--pf-font-body);
+  font-family: var(--my-font-body);
 }
 
 .proc-description p {
-  margin: 0 0 var(--pf-space-2) 0;
-  color: var(--pf-text-primary);
+  margin: 0 0 var(--my-space-2) 0;
+  color: var(--my-text-primary);
 }
 
 .proc-description strong {
-  color: var(--pf-gold);
+  color: var(--my-gold);
 }
 
 .empty-preview {
-  color: var(--pf-text-muted);
+  color: var(--my-text-muted);
   font-style: italic;
   text-align: center;
-  padding: var(--pf-space-5);
-  font-family: var(--pf-font-body);
+  padding: var(--my-space-5);
+  font-family: var(--my-font-body);
 }

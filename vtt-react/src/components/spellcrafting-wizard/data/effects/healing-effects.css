@@ -1417,37 +1417,37 @@
 /* ===== HEALING OVER TIME CONFIGURATION ===== */
 
 .hot-config {
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-6);
-  margin-bottom: var(--pf-space-6);
-  box-shadow: var(--pf-shadow-md);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-6);
+  margin-bottom: var(--my-space-6);
+  box-shadow: var(--my-shadow-md);
 }
 
 .hot-config h3 {
-  font-family: var(--pf-font-display);
-  font-size: var(--pf-text-xl);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-brown-dark);
-  margin: 0 0 var(--pf-space-6) 0;
+  font-family: var(--my-font-display);
+  font-size: var(--my-text-xl);
+  font-weight: var(--my-font-bold);
+  color: var(--my-brown-dark);
+  margin: 0 0 var(--my-space-6) 0;
   text-transform: uppercase;
   letter-spacing: 1px;
   text-align: center;
-  border-bottom: 2px solid var(--pf-brown-light);
-  padding-bottom: var(--pf-space-3);
+  border-bottom: 2px solid var(--my-brown-light);
+  padding-bottom: var(--my-space-3);
 }
 
 .hot-formula-section {
-  margin-bottom: var(--pf-space-6);
+  margin-bottom: var(--my-space-6);
 }
 
 .hot-formula-section h4 {
-  font-family: var(--pf-font-display);
-  font-size: var(--pf-text-lg);
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-brown-dark);
-  margin: 0 0 var(--pf-space-3) 0;
+  font-family: var(--my-font-display);
+  font-size: var(--my-text-lg);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-brown-dark);
+  margin: 0 0 var(--my-space-3) 0;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -1456,9 +1456,9 @@
 .count-config-section {
   background: linear-gradient(135deg, rgba(248, 245, 240, 0.8) 0%, rgba(237, 228, 211, 0.6) 100%);
   border: 2px solid rgba(139, 69, 19, 0.4);
-  border-radius: var(--pf-border-radius);
+  border-radius: var(--my-border-radius);
   padding: 12px 16px;
-  margin-bottom: var(--pf-space-4);
+  margin-bottom: var(--my-space-4);
 }
 
 .count-config-section label {
@@ -1475,7 +1475,7 @@
 .count-input {
   background: linear-gradient(135deg, rgba(248, 245, 240, 0.8) 0%, rgba(237, 228, 211, 0.6) 100%);
   border: 2px solid rgba(139, 69, 19, 0.4);
-  border-radius: var(--pf-border-radius);
+  border-radius: var(--my-border-radius);
   padding: 8px 12px;
   width: 80px;
   font-family: 'Times New Roman', serif;
@@ -1490,7 +1490,7 @@
 .formula-input-section {
   background: linear-gradient(135deg, rgba(248, 245, 240, 0.8) 0%, rgba(237, 228, 211, 0.6) 100%);
   border: 2px solid rgba(139, 69, 19, 0.4);
-  border-radius: var(--pf-border-radius);
+  border-radius: var(--my-border-radius);
   padding: 16px;
   margin-bottom: 16px;
 }
@@ -1509,10 +1509,10 @@
   width: 100%;
   background: linear-gradient(135deg, rgba(248, 245, 240, 0.8) 0%, rgba(237, 228, 211, 0.6) 100%);
   border: 2px solid rgba(139, 69, 19, 0.4);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-3);
-  font-family: var(--pf-font-mono);
-  font-size: var(--pf-text-sm);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-3);
+  font-family: var(--my-font-mono);
+  font-size: var(--my-text-sm);
   color: #2c1810;
   resize: vertical;
   min-height: 60px;
@@ -1525,67 +1525,67 @@
 }
 
 .hot-info-section {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-4);
-  margin-bottom: var(--pf-space-4);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-4);
+  margin-bottom: var(--my-space-4);
 }
 
 .hot-info-section p {
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-secondary);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-sm);
+  color: var(--my-text-secondary);
   margin: 0;
   line-height: 1.5;
 }
 
 .hot-info-section code {
-  background: var(--pf-gradient-button);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius-sm);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  font-family: var(--pf-font-mono);
-  font-size: var(--pf-text-xs);
-  color: var(--pf-text-primary);
-  font-weight: var(--pf-font-semibold);
+  background: var(--my-gradient-button);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius-sm);
+  padding: var(--my-space-1) var(--my-space-2);
+  font-family: var(--my-font-mono);
+  font-size: var(--my-text-xs);
+  color: var(--my-text-primary);
+  font-weight: var(--my-font-semibold);
 }
 
 .hot-config-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--pf-space-4);
-  margin-bottom: var(--pf-space-6);
+  gap: var(--my-space-4);
+  margin-bottom: var(--my-space-6);
 }
 
 .hot-config-item {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-4);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-4);
 }
 
 .hot-config-item label {
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-sm);
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-secondary);
+  font-family: var(--my-font-ui);
+  font-size: var(--my-text-sm);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-secondary);
   display: block;
-  margin-bottom: var(--pf-space-2);
+  margin-bottom: var(--my-space-2);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .hot-duration-controls {
   display: flex;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
   align-items: center;
 }
 
 .hot-input {
   background: linear-gradient(135deg, rgba(248, 245, 240, 0.8) 0%, rgba(237, 228, 211, 0.6) 100%);
   border: 2px solid rgba(139, 69, 19, 0.4);
-  border-radius: var(--pf-border-radius);
+  border-radius: var(--my-border-radius);
   padding: 8px 12px;
   width: 80px;
   font-family: 'Times New Roman', serif;
@@ -1603,20 +1603,20 @@
 }
 
 .hot-select {
-  background: var(--pf-gradient-button);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-2) var(--pf-space-3);
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-sm);
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-primary);
+  background: var(--my-gradient-button);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-2) var(--my-space-3);
+  font-family: var(--my-font-ui);
+  font-size: var(--my-text-sm);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-primary);
   cursor: pointer;
 }
 
 .hot-select:focus {
   outline: none;
-  border-color: var(--pf-gold-medium);
+  border-color: var(--my-gold-medium);
   box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
 }
 
@@ -1624,7 +1624,7 @@
 .progressive-buff-config {
   background: linear-gradient(135deg, rgba(248, 245, 240, 0.8) 0%, rgba(237, 228, 211, 0.6) 100%) !important;
   border: 2px solid rgba(139, 69, 19, 0.4) !important;
-  border-radius: var(--pf-border-radius) !important;
+  border-radius: var(--my-border-radius) !important;
   padding: 16px !important;
   margin-top: 16px !important;
 }
@@ -1671,7 +1671,7 @@
 .stage-item {
   background: linear-gradient(135deg, rgba(248, 245, 240, 0.8) 0%, rgba(237, 228, 211, 0.6) 100%) !important;
   border: 2px solid rgba(139, 69, 19, 0.4) !important;
-  border-radius: var(--pf-border-radius) !important;
+  border-radius: var(--my-border-radius) !important;
   padding: 12px !important;
 }
 
@@ -1710,7 +1710,7 @@
 .stage-formula-input {
   background: linear-gradient(135deg, rgba(248, 245, 240, 0.8) 0%, rgba(237, 228, 211, 0.6) 100%) !important;
   border: 2px solid rgba(139, 69, 19, 0.4) !important;
-  border-radius: var(--pf-border-radius) !important;
+  border-radius: var(--my-border-radius) !important;
   padding: 8px 12px !important;
   font-family: 'Courier New', monospace !important;
   font-size: 14px !important;
@@ -1743,7 +1743,7 @@
 .progressive-buff-config .pf-button {
   background: linear-gradient(135deg, rgba(248, 245, 240, 0.8) 0%, rgba(237, 228, 211, 0.6) 100%) !important;
   border: 2px solid rgba(139, 69, 19, 0.4) !important;
-  border-radius: var(--pf-border-radius) !important;
+  border-radius: var(--my-border-radius) !important;
   padding: 12px 16px !important;
   font-family: 'Cinzel', serif !important;
   font-size: 14px !important;

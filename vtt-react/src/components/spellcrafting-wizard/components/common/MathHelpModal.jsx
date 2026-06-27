@@ -1,5 +1,5 @@
 import React from 'react';
-import WowWindow from '../../../windows/WowWindow';
+import MythrillWindow from '../../../windows/MythrillWindow';
 
 const MathHelpModal = ({ show, onHide }) => {
   const mathOperators = [
@@ -157,7 +157,7 @@ const MathHelpModal = ({ show, onHide }) => {
   ];
 
   return (
-    <WowWindow
+    <MythrillWindow
       title="Formula Math Guide"
       isOpen={show}
       onClose={onHide}
@@ -249,7 +249,7 @@ const MathHelpModal = ({ show, onHide }) => {
         </div>
 
       </div>
-    </WowWindow>
+    </MythrillWindow>
   );
 };
 

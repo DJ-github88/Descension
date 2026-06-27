@@ -16,7 +16,8 @@ const DraggableWindow = forwardRef(({
     zIndex = 1000,
     onDrag = null,
     onDragStart = null,
-    onDragStop = null
+    onDragStop = null,
+    resetSignal = 0
 }, ref) => {
     const windowScale = useSettingsStore(state => state.windowScale);
 
@@ -107,6 +108,24 @@ const DraggableWindow = forwardRef(({
         }
         initialCenteredValue.current = centered;
     }, [centered]);
+
+    // Respond to layout-reset signal from windowManagerStore
+    const lastResetSignal = useRef(resetSignal);
+    useEffect(() => {
+        if (resetSignal !== lastResetSignal.current) {
+            lastResetSignal.current = resetSignal;
+            if (centered && typeof window !== 'undefined') {
+                const windowWidth = defaultSize?.width || 400;
+                const windowHeight = defaultSize?.height || 600;
+                setPosition({
+                    x: Math.max(0, Math.floor((window.innerWidth - windowWidth) / 2)),
+                    y: Math.max(0, Math.floor((window.innerHeight - windowHeight) / 2))
+                });
+            } else {
+                setPosition(defaultPosition);
+            }
+        }
+    }, [resetSignal, centered, defaultPosition, defaultSize]);
 
     const scaleChangeTimeoutRef = useRef(null);
     useEffect(() => {

@@ -14,9 +14,9 @@
 
 
 
-/* Header is now handled by WowWindow - this is for tab styling only */
+/* Header is now handled by MythrillWindow - this is for tab styling only */
 .item-library-header {
-    display: none; /* Hide the old header since WowWindow provides it */
+    display: none; /* Hide the old header since MythrillWindow provides it */
 }
 
 .item-library-title {

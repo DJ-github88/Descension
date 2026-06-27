@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import WowWindow from './WowWindow';
+import MythrillWindow from './MythrillWindow';
 import useCraftingStore, { PROFESSIONS, SKILL_LEVELS } from '../../store/craftingStore';
 import ProfessionSelection from '../crafting/ProfessionSelection';
 import AlchemyInterface from '../crafting/AlchemyInterface';
@@ -209,7 +209,7 @@ function CraftingWindow({ isOpen, onClose }) {
     };
 
     return (
-        <WowWindow
+        <MythrillWindow
             title="Crafting"
             isOpen={isOpen}
             onClose={onClose}
@@ -268,7 +268,7 @@ function CraftingWindow({ isOpen, onClose }) {
             <div className="crafting-window-content">
                 {renderContent()}
             </div>
-        </WowWindow>
+        </MythrillWindow>
     );
 }
 

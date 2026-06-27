@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import WowWindow from '../windows/WowWindow';
+import MythrillWindow from '../windows/MythrillWindow';
 import usePartyStore, { PARTY_STATUS } from '../../store/partyStore';
 import useCharacterStore from '../../store/characterStore';
 import useSocialStore from '../../store/socialStore';
@@ -160,7 +160,7 @@ const PartyManagementWindow = ({ isOpen, onClose }) => {
 
 
     return (
-        <WowWindow
+        <MythrillWindow
             title="Party Management"
             isOpen={isOpen}
             onClose={onClose}
@@ -314,7 +314,7 @@ const PartyManagementWindow = ({ isOpen, onClose }) => {
                     </div>
                 )}
             </div>
-        </WowWindow>
+        </MythrillWindow>
     );
 };
 

@@ -8,7 +8,7 @@ import useGameStore from './gameStore';
  * Ensures proper stacking order and prevents z-index conflicts.
  * 
  * Z-Index Ranges:
- * - Regular windows (WowWindow, ContainerWindow): 1000-1999
+ * - Regular windows (MythrillWindow, ContainerWindow): 1000-1999
  * - Modals (ItemWizard, ContainerWizard, etc.): 2000-2999
  * - Tooltips/Context menus: 3000-3999
  * - TooltipPortal (reserved): 2147483647 (max z-index)
@@ -20,6 +20,26 @@ const Z_INDEX_RANGES = {
   TOOLTIP: 3000,
 };
 
+const CASCADE_STEP = 30;
+const CASCADE_MAX = 300;
+
+const POSITION_STORAGE_KEY = 'mythrill-window-positions';
+
+const loadSavedPositions = () => {
+  try {
+    const saved = localStorage.getItem(POSITION_STORAGE_KEY);
+    return saved ? JSON.parse(saved) : {};
+  } catch {
+    return {};
+  }
+};
+
+const savePositions = (positions) => {
+  try {
+    localStorage.setItem(POSITION_STORAGE_KEY, JSON.stringify(positions));
+  } catch {}
+};
+
 const useWindowManagerStore = create((set, get) => ({
   // State
   windows: new Map(), // windowId -> { zIndex, type }
@@ -29,6 +49,12 @@ const useWindowManagerStore = create((set, get) => ({
   // Tracking dragging/resizing state
   draggingWindowId: null,
   resizingWindowId: null,
+
+  // Layout management
+  layoutVersion: 0,
+
+  // Persisted per-window position/size (localStorage-backed)
+  positions: loadSavedPositions(),
   
   /**
    * Register a new window or modal
@@ -152,6 +178,74 @@ const useWindowManagerStore = create((set, get) => ({
    * Set the ID of the window being resized
    */
   setResizingWindowId: (id) => set({ resizingWindowId: id }),
+
+  getWindowPosition: (windowId, defaultPos = { x: 100, y: 100 }) => {
+    const saved = get().positions[windowId];
+    if (saved && typeof saved.x === 'number' && typeof saved.y === 'number') {
+      return { x: saved.x, y: saved.y };
+    }
+    return defaultPos;
+  },
+
+  getWindowSize: (windowId, defaultSize = { width: 800, height: 600 }) => {
+    const saved = get().positions[windowId];
+    if (saved && typeof saved.width === 'number' && typeof saved.height === 'number') {
+      return { width: saved.width, height: saved.height };
+    }
+    return defaultSize;
+  },
+
+  setWindowPosition: (windowId, position) => {
+    set(state => {
+      const existing = state.positions[windowId] || {};
+      const updated = {
+        ...state.positions,
+        [windowId]: { ...existing, x: position.x, y: position.y }
+      };
+      savePositions(updated);
+      return { positions: updated };
+    });
+  },
+
+  setWindowSize: (windowId, size) => {
+    set(state => {
+      const existing = state.positions[windowId] || {};
+      const updated = {
+        ...state.positions,
+        [windowId]: { ...existing, width: size.width, height: size.height }
+      };
+      savePositions(updated);
+      return { positions: updated };
+    });
+  },
+
+  clearWindowPosition: (windowId) => {
+    set(state => {
+      const { [windowId]: _, ...rest } = state.positions;
+      savePositions(rest);
+      return { positions: rest };
+    });
+  },
+
+  /**
+   * Get a cascade offset based on the number of currently-open windows.
+   * Used to prevent new windows from piling at the same (x, y).
+   * @returns {{ x: number, y: number }}
+   */
+  getCascadeOffset: () => {
+    const count = get().windows.size;
+    const offset = Math.min(count * CASCADE_STEP, CASCADE_MAX);
+    return { x: offset, y: offset };
+  },
+
+  /**
+   * Reset all open windows to their default positions.
+   * Bumps layoutVersion; windows watching it re-initialise.
+   */
+  resetLayout: () => {
+    set((state) => ({ layoutVersion: state.layoutVersion + 1 }));
+    get().syncWindowUpdate('layout_reset', {});
+  },
 }));
 
 export default useWindowManagerStore;

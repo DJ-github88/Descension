@@ -556,7 +556,7 @@ const GMNotesWindow = ({
                     </table>
                 </div>
             ) : (
-                <div style={{ padding: '12px', textAlign: 'center', color: 'var(--pf-text-muted)', fontStyle: 'italic', fontSize: '12px' }}>
+                <div style={{ padding: '12px', textAlign: 'center', color: 'var(--my-text-muted)', fontStyle: 'italic', fontSize: '12px' }}>
                     {isSession ? 'No NPCs listed.' : 'Click Add to create an NPC.'}
                 </div>
             )}
@@ -726,7 +726,7 @@ const GMNotesWindow = ({
                                             <div className="gm-sensory-section">
                                                 <button className="gm-sensory-toggle" onClick={() => setSensoryExpanded(!sensoryExpanded)}>
                                                     <i className={`fas fa-chevron-${sensoryExpanded ? 'down' : 'right'}`}></i>
-                                                    <i className="fas fa-eye" style={{ color: 'var(--pf-gold, #d4af37)' }}></i> Sensory Details
+                                                    <i className="fas fa-eye" style={{ color: 'var(--my-gold, #d4af37)' }}></i> Sensory Details
                                                     {!sensoryExpanded && hasSensoryDetails && <span className="gm-sensory-indicator"></span>}
                                                 </button>
                                                 {sensoryExpanded && (

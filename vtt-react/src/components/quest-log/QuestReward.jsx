@@ -4,18 +4,17 @@ import { FaTimes } from 'react-icons/fa';
 import ItemTooltip from '../item-generation/ItemTooltip';
 import { RARITY_COLORS, getQualityColor } from '../../constants/itemConstants';
 import { getIconUrl } from '../../utils/assetManager';
+import { useTooltipPosition } from '../common/useTooltipPosition';
 
 const QuestReward = ({ reward, type, onRemove }) => {
   const [showTooltip, setShowTooltip] = useState(false);
-  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const { adjustedPosition, tooltipRef } = useTooltipPosition(mousePosition, showTooltip);
 
   // Handle mouse enter for item tooltip
   const handleMouseEnter = (e) => {
     setShowTooltip(true);
-    setTooltipPosition({
-      x: e.clientX,
-      y: e.clientY
-    });
+    setMousePosition({ x: e.clientX, y: e.clientY });
   };
 
   // Handle mouse leave for item tooltip
@@ -25,10 +24,7 @@ const QuestReward = ({ reward, type, onRemove }) => {
 
   // Handle mouse move for item tooltip
   const handleMouseMove = (e) => {
-    setTooltipPosition({
-      x: e.clientX,
-      y: e.clientY
-    });
+    setMousePosition({ x: e.clientX, y: e.clientY });
   };
 
   // Render experience reward
@@ -158,11 +154,12 @@ const QuestReward = ({ reward, type, onRemove }) => {
 
           {showTooltip && createPortal(
           <div
+            ref={tooltipRef}
             className="item-tooltip-wrapper"
             style={{
               position: 'fixed',
-              top: tooltipPosition.y + 20,
-              left: tooltipPosition.x + 10,
+              top: adjustedPosition.y,
+              left: adjustedPosition.x,
               zIndex: 99999
             }}
           >

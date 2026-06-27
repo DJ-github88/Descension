@@ -1695,7 +1695,7 @@ const useLevelEditorStore = create((set, get) => ({
         }
 
         // Fallback to tile-based check for backward compatibility
-        const gridSystem = require('../utils/InfiniteGridSystem').getGridSystem();
+        const gridSystem = getGridSystem();
         const gridCoords = gridSystem.worldToGrid(worldX, worldY);
         const key = `${gridCoords.x},${gridCoords.y}`;
         return state.exploredAreas[key] || false;

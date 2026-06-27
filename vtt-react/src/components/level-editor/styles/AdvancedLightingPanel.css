@@ -4,11 +4,11 @@
     gap: 16px;
     height: 100%;
     overflow-y: auto;
-    font-family: var(--pf-font-body, 'Crimson Text', serif);
+    font-family: var(--my-font-body, 'Crimson Text', serif);
 }
 
 .settings-section {
-    background: var(--pf-parchment-light, #f8f4e6);
+    background: var(--my-parchment-light, #f8f4e6);
     border: 2px solid #8b6f47;
     border-radius: 8px;
     padding: 16px;
@@ -17,8 +17,8 @@
 
 .section-title {
     /* Inherits base styles from unified-section-titles.css */
-    color: var(--pf-brown-dark, #5a1e12);
-    font-family: var(--pf-font-display, 'Cinzel', serif);
+    color: var(--my-brown-dark, #5a1e12);
+    font-family: var(--my-font-display, 'Cinzel', serif);
     font-size: 16px;
     text-transform: uppercase;
 }
@@ -31,7 +31,7 @@
     margin-bottom: 12px;
     padding: 10px 12px;
     background: rgba(255, 255, 255, 0.4);
-    border: 1px solid var(--pf-brown-light, #a08c70);
+    border: 1px solid var(--my-brown-light, #a08c70);
     border-radius: 6px;
     transition: background 0.2s;
 }
@@ -45,8 +45,8 @@
 }
 
 .setting-label {
-    color: var(--pf-brown-dark, #5a1e12);
-    font-family: var(--pf-font-display, 'Cinzel', serif);
+    color: var(--my-brown-dark, #5a1e12);
+    font-family: var(--my-font-display, 'Cinzel', serif);
     font-size: 14px;
     font-weight: 600;
     display: flex;
@@ -57,14 +57,14 @@
 }
 
 .setting-label input[type="checkbox"] {
-    accent-color: var(--pf-gold, #d4af37);
+    accent-color: var(--my-gold, #d4af37);
     width: 16px;
     height: 16px;
     cursor: pointer;
 }
 
 .setting-description {
-    color: var(--pf-brown, #8b6f47);
+    color: var(--my-brown, #8b6f47);
     font-size: 12px;
     margin-top: 4px;
     font-style: italic;
@@ -79,13 +79,13 @@
 
 .quality-btn {
     flex: 1;
-    background: var(--pf-parchment, #ede4d3);
-    border: 2px solid var(--pf-brown-light, #a08c70);
+    background: var(--my-parchment, #ede4d3);
+    border: 2px solid var(--my-brown-light, #a08c70);
     border-radius: 6px;
     padding: 8px 12px;
     cursor: pointer;
-    color: var(--pf-brown-dark, #5a1e12);
-    font-family: var(--pf-font-display, 'Cinzel', serif);
+    color: var(--my-brown-dark, #5a1e12);
+    font-family: var(--my-font-display, 'Cinzel', serif);
     font-size: 13px;
     font-weight: 600;
     text-align: center;
@@ -93,14 +93,14 @@
 }
 
 .quality-btn:hover:not(:disabled) {
-    background: var(--pf-parchment-dark, #d4c4a8);
-    border-color: var(--pf-gold, #d4af37);
+    background: var(--my-parchment-dark, #d4c4a8);
+    border-color: var(--my-gold, #d4af37);
     transform: translateY(-1px);
 }
 
 .quality-btn.active {
-    background: var(--pf-gold, #d4af37);
-    border-color: var(--pf-gold-dark, #b8960c);
+    background: var(--my-gold, #d4af37);
+    border-color: var(--my-gold-dark, #b8960c);
     color: #fff;
     box-shadow: 0 2px 8px rgba(212, 175, 55, 0.4);
 }
@@ -120,14 +120,14 @@
 
 .slider-control input[type="range"] {
     flex: 1;
-    accent-color: var(--pf-gold, #d4af37);
+    accent-color: var(--my-gold, #d4af37);
     height: 6px;
     cursor: pointer;
 }
 
 .slider-value {
-    color: var(--pf-gold, #d4af37);
-    font-family: var(--pf-font-display, 'Cinzel', serif);
+    color: var(--my-gold, #d4af37);
+    font-family: var(--my-font-display, 'Cinzel', serif);
     font-size: 13px;
     font-weight: 700;
     min-width: 50px;
@@ -136,13 +136,13 @@
 
 .toggle-btn {
     width: 100%;
-    background: var(--pf-parchment, #ede4d3);
-    border: 2px solid var(--pf-brown-light, #a08c70);
+    background: var(--my-parchment, #ede4d3);
+    border: 2px solid var(--my-brown-light, #a08c70);
     border-radius: 6px;
     padding: 10px 14px;
     cursor: pointer;
-    color: var(--pf-brown-dark, #5a1e12);
-    font-family: var(--pf-font-display, 'Cinzel', serif);
+    color: var(--my-brown-dark, #5a1e12);
+    font-family: var(--my-font-display, 'Cinzel', serif);
     font-size: 14px;
     font-weight: 600;
     text-align: left;
@@ -150,13 +150,13 @@
 }
 
 .toggle-btn:hover {
-    background: var(--pf-parchment-dark, #d4c4a8);
-    border-color: var(--pf-gold, #d4af37);
+    background: var(--my-parchment-dark, #d4c4a8);
+    border-color: var(--my-gold, #d4af37);
 }
 
 .toggle-btn.active {
     background: rgba(212, 175, 55, 0.15);
-    border-color: var(--pf-gold, #d4af37);
+    border-color: var(--my-gold, #d4af37);
 }
 
 .weather-buttons {
@@ -167,27 +167,27 @@
 }
 
 .weather-btn {
-    background: var(--pf-parchment, #ede4d3);
-    border: 2px solid var(--pf-brown-light, #a08c70);
+    background: var(--my-parchment, #ede4d3);
+    border: 2px solid var(--my-brown-light, #a08c70);
     border-radius: 6px;
     padding: 8px 14px;
     cursor: pointer;
-    color: var(--pf-brown-dark, #5a1e12);
-    font-family: var(--pf-font-display, 'Cinzel', serif);
+    color: var(--my-brown-dark, #5a1e12);
+    font-family: var(--my-font-display, 'Cinzel', serif);
     font-size: 13px;
     font-weight: 600;
     transition: all 0.2s ease;
 }
 
 .weather-btn:hover:not(:disabled) {
-    background: var(--pf-parchment-dark, #d4c4a8);
-    border-color: var(--pf-gold, #d4af37);
+    background: var(--my-parchment-dark, #d4c4a8);
+    border-color: var(--my-gold, #d4af37);
     transform: translateY(-1px);
 }
 
 .weather-btn.active {
-    background: var(--pf-gold, #d4af37);
-    border-color: var(--pf-gold-dark, #b8960c);
+    background: var(--my-gold, #d4af37);
+    border-color: var(--my-gold-dark, #b8960c);
     color: #fff;
     box-shadow: 0 2px 8px rgba(212, 175, 55, 0.4);
 }
@@ -230,7 +230,7 @@
 
 .info-value {
     color: #1a237e; /* Midnight Blue */
-    font-family: var(--pf-font-display, 'Cinzel', serif);
+    font-family: var(--my-font-display, 'Cinzel', serif);
     font-size: 14px;
     font-weight: 900;
     text-transform: uppercase;
@@ -248,7 +248,7 @@
 .instructions-list {
     margin: 0;
     padding: 0 0 0 20px;
-    color: var(--pf-brown, #8b6f47);
+    color: var(--my-brown, #8b6f47);
     font-size: 13px;
     line-height: 1.8;
 }
@@ -258,7 +258,7 @@
 }
 
 .instructions-list strong {
-    color: var(--pf-brown-dark, #5a1e12);
+    color: var(--my-brown-dark, #5a1e12);
 }
 
 .advanced-lighting-panel::-webkit-scrollbar {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import WowWindow from '../../../windows/WowWindow';
+import MythrillWindow from '../../../windows/MythrillWindow';
 import { v4 as uuidv4 } from 'uuid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -232,7 +232,7 @@ const TableEntryEditor = ({
     if (!editingEntry) return null;
 
     return (
-      <WowWindow
+      <MythrillWindow
         title={editingIndex === null ? 'Add Table Entry' : 'Edit Table Entry'}
         isOpen={true}
         onClose={handleCancel}
@@ -756,7 +756,7 @@ const TableEntryEditor = ({
             </button>
           </div>
         </div>
-      </WowWindow>
+      </MythrillWindow>
     );
   };
 

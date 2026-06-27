@@ -74,7 +74,7 @@
 
 /* Ensure all .spellbook-layout rules have high specificity */
 .spellbook-layout {
-  --pf-gradient-header: linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%) !important;
+  --my-gradient-header: linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%) !important;
 }
 
 /* Fix for the unstyled buttons in Damage/Healing effects */
@@ -82,31 +82,31 @@
 .spellbook-layout .stat-button,
 .spellbook-layout .resolution-option,
 .spellbook-layout .resolution-method-btn {
-  background: var(--pf-gradient-gold) !important;
-  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
-  color: var(--pf-brown-darkest) !important;
-  font-family: var(--pf-font-ui) !important;
-  font-weight: var(--pf-font-bold) !important;
-  box-shadow: var(--pf-shadow-sm) !important;
-  transition: all var(--pf-transition-normal) !important;
+  background: var(--my-gradient-gold) !important;
+  border: var(--my-border-width) solid var(--my-brown-medium) !important;
+  color: var(--my-brown-darkest) !important;
+  font-family: var(--my-font-ui) !important;
+  font-weight: var(--my-font-bold) !important;
+  box-shadow: var(--my-shadow-sm) !important;
+  transition: all var(--my-transition-normal) !important;
 }
 
 .spellbook-layout .variable-button:hover,
 .spellbook-layout .stat-button:hover,
 .spellbook-layout .resolution-option:hover,
 .spellbook-layout .resolution-method-btn:hover {
-  background: var(--pf-gold-light) !important;
+  background: var(--my-gold-light) !important;
   transform: translateY(-2px) !important;
-  box-shadow: var(--pf-shadow-md) !important;
+  box-shadow: var(--my-shadow-md) !important;
 }
 
 .spellbook-layout .variable-button.active,
 .spellbook-layout .stat-button.active,
 .spellbook-layout .resolution-option.active,
 .spellbook-layout .resolution-method-btn.active {
-  background: var(--pf-brown-dark) !important;
-  color: var(--pf-text-on-dark) !important;
-  border-color: var(--pf-brown-darkest) !important;
-  box-shadow: var(--pf-shadow-inset) !important;
+  background: var(--my-brown-dark) !important;
+  color: var(--my-text-on-dark) !important;
+  border-color: var(--my-brown-darkest) !important;
+  box-shadow: var(--my-shadow-inset) !important;
   transform: translateY(1px) !important;
 }

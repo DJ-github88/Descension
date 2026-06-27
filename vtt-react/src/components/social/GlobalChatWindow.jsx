@@ -6,7 +6,7 @@
  */
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import WowWindow from '../windows/WowWindow';
+import MythrillWindow from '../windows/MythrillWindow';
 import OnlineUsersList from './OnlineUsersList';
 import ChatTabs from './ChatTabs';
 import TabbedChat from './TabbedChat';
@@ -259,7 +259,7 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
 
   return (
     <>
-      <WowWindow
+      <MythrillWindow
         isOpen={isOpen}
         onClose={onClose}
         defaultSize={{ width: 1200, height: 800 }}
@@ -316,7 +316,7 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
             <TabbedChat />
           </div>
         </div>
-      </WowWindow>
+      </MythrillWindow>
     </>
   );
 };

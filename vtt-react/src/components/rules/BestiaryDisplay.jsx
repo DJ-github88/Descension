@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BESTIARY_DATA } from '../../data/creatureData';
+import BESTIARY_DATA from '../../data/creatureData.json';
 import './BestiaryDisplay.css';
 
 const DANGER_COLORS = {

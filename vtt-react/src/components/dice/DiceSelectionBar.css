@@ -96,10 +96,10 @@
   left: 0;
   width: 320px;
   max-height: 70vh;
-  background: var(--pf-gradient-parchment);
-  border: 2px solid var(--pf-gold);
+  background: var(--my-gradient-parchment);
+  border: 2px solid var(--my-gold);
   border-radius: 12px;
-  box-shadow: var(--pf-shadow-parchment);
+  box-shadow: var(--my-shadow-parchment);
   backdrop-filter: blur(10px);
   padding: 16px;
   display: flex;
@@ -110,7 +110,7 @@
   pointer-events: auto; /* Ensure dropdown is clickable */
   z-index: 10002; /* Above button */
   font-family: 'Cinzel', 'Times New Roman', serif;
-  color: var(--pf-text-primary);
+  color: var(--my-text-primary);
 }
 
 /* Cards dropdown - adjust width to fit content */
@@ -137,21 +137,21 @@
   justify-content: space-between;
   align-items: center;
   padding-bottom: 12px;
-  border-bottom: 1px solid var(--pf-brown-medium);
+  border-bottom: 1px solid var(--my-brown-medium);
 }
 
 .dice-dropdown-title {
   font-size: 16px;
   font-weight: 600;
-  color: var(--pf-text-primary);
+  color: var(--my-text-primary);
   font-family: 'Cinzel', 'Times New Roman', serif;
 }
 
 .clear-all-button {
-  background: var(--pf-parchment);
-  border: 1px solid var(--pf-brown-medium);
+  background: var(--my-parchment);
+  border: 1px solid var(--my-brown-medium);
   border-radius: 6px;
-  color: var(--pf-text-primary);
+  color: var(--my-text-primary);
   width: 24px;
   height: 24px;
   display: flex;
@@ -168,8 +168,8 @@
 }
 
 .clear-all-button:hover {
-  background: var(--pf-parchment-dark);
-  border-color: var(--pf-brown-dark);
+  background: var(--my-parchment-dark);
+  border-color: var(--my-brown-dark);
   box-shadow: 
     0 2px 6px rgba(0, 0, 0, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.6);
@@ -184,7 +184,7 @@
 
 .quick-roll-label {
   font-size: 12px;
-  color: var(--pf-text-muted);
+  color: var(--my-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   font-weight: 500;
@@ -198,11 +198,11 @@
 }
 
 .quick-roll-button {
-  background: var(--pf-parchment);
-  border: 1px solid var(--pf-brown-medium);
+  background: var(--my-parchment);
+  border: 1px solid var(--my-brown-medium);
   border-radius: 6px;
   padding: 8px 12px;
-  color: var(--pf-text-primary);
+  color: var(--my-text-primary);
   cursor: pointer;
   font-size: 12px;
   font-weight: 500;
@@ -214,9 +214,9 @@
 }
 
 .quick-roll-button:hover:not(:disabled) {
-  background: var(--pf-parchment-light);
-  border-color: var(--pf-gold);
-  color: var(--pf-text-primary);
+  background: var(--my-parchment-light);
+  border-color: var(--my-gold);
+  color: var(--my-text-primary);
   box-shadow: 
     0 2px 6px rgba(0, 0, 0, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.6);
@@ -236,7 +236,7 @@
 
 .dice-selection-label {
   font-size: 12px;
-  color: var(--pf-text-muted);
+  color: var(--my-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   font-weight: 500;
@@ -256,11 +256,11 @@
 }
 
 .dice-select-button {
-  background: var(--pf-parchment);
-  border: 1px solid var(--pf-brown-medium);
+  background: var(--my-parchment);
+  border: 1px solid var(--my-brown-medium);
   border-radius: 6px;
   padding: 10px;
-  color: var(--pf-text-primary);
+  color: var(--my-text-primary);
   cursor: pointer;
   font-size: 13px;
   font-weight: 500;
@@ -273,17 +273,17 @@
 }
 
 .dice-select-button:hover {
-  background: var(--pf-parchment-light);
-  border-color: var(--pf-gold);
+  background: var(--my-parchment-light);
+  border-color: var(--my-gold);
   box-shadow: 
     0 2px 6px rgba(0, 0, 0, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 .dice-select-button.selected {
-  background: var(--pf-parchment-light);
-  border-color: var(--pf-gold);
-  color: var(--pf-text-primary);
+  background: var(--my-parchment-light);
+  border-color: var(--my-gold);
+  color: var(--my-text-primary);
   box-shadow: 
     0 0 8px rgba(212, 175, 55, 0.4),
     0 2px 6px rgba(0, 0, 0, 0.3),
@@ -295,8 +295,8 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  background: var(--pf-parchment-dark);
-  border: 1px solid var(--pf-brown-medium);
+  background: var(--my-parchment-dark);
+  border: 1px solid var(--my-brown-medium);
   border-radius: 6px;
   padding: 2px;
   box-shadow: 
@@ -306,12 +306,12 @@
 
 .quantity-decrement,
 .quantity-increment {
-  background: var(--pf-parchment);
-  border: 1px solid var(--pf-brown-medium);
+  background: var(--my-parchment);
+  border: 1px solid var(--my-brown-medium);
   border-radius: 4px;
   width: 24px;
   height: 24px;
-  color: var(--pf-text-primary);
+  color: var(--my-text-primary);
   cursor: pointer;
   font-size: 14px;
   font-weight: bold;
@@ -327,9 +327,9 @@
 
 .quantity-decrement:hover,
 .quantity-increment:hover {
-  background: var(--pf-parchment-light);
-  border-color: var(--pf-gold);
-  color: var(--pf-text-primary);
+  background: var(--my-parchment-light);
+  border-color: var(--my-gold);
+  color: var(--my-text-primary);
   box-shadow: 
     0 2px 4px rgba(0, 0, 0, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.6);
@@ -340,7 +340,7 @@
   background: transparent;
   border: none;
   padding: 4px;
-  color: var(--pf-text-primary);
+  color: var(--my-text-primary);
   text-align: center;
   font-size: 14px;
   font-weight: 700;
@@ -361,7 +361,7 @@
 /* Roll Summary Section */
 .roll-summary-section {
   padding-top: 12px;
-  border-top: 1px solid var(--pf-brown-medium);
+  border-top: 1px solid var(--my-brown-medium);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -371,26 +371,26 @@
 .roll-summary-text {
   flex: 1;
   font-size: 13px;
-  color: var(--pf-text-primary);
+  color: var(--my-text-primary);
   font-family: 'Cinzel', 'Times New Roman', serif;
 }
 
 .roll-summary-text strong {
-  color: var(--pf-text-primary);
+  color: var(--my-text-primary);
   font-weight: 600;
 }
 
 .roll-total-label {
-  color: var(--pf-text-muted);
+  color: var(--my-text-muted);
   margin-left: 4px;
 }
 
 .roll-button {
-  background: linear-gradient(145deg, var(--pf-parchment-light) 0%, var(--pf-parchment) 50%, var(--pf-parchment-dark) 100%);
-  border: 2px solid var(--pf-gold);
+  background: linear-gradient(145deg, var(--my-parchment-light) 0%, var(--my-parchment) 50%, var(--my-parchment-dark) 100%);
+  border: 2px solid var(--my-gold);
   border-radius: 8px;
   padding: 10px 20px;
-  color: var(--pf-text-primary);
+  color: var(--my-text-primary);
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -405,8 +405,8 @@
 
 .roll-button:hover:not(:disabled) {
   transform: translateY(-1px);
-  background: linear-gradient(145deg, var(--pf-parchment) 0%, var(--pf-parchment-dark) 50%, var(--pf-parchment-darker) 100%);
-  border-color: var(--pf-gold-light);
+  background: linear-gradient(145deg, var(--my-parchment) 0%, var(--my-parchment-dark) 50%, var(--my-parchment-darker) 100%);
+  border-color: var(--my-gold-light);
   box-shadow: 
     0 4px 12px rgba(0, 0, 0, 0.4),
     0 0 20px rgba(212, 175, 55, 0.3),
@@ -416,8 +416,8 @@
 .roll-button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-  background: var(--pf-parchment-dark);
-  border-color: var(--pf-brown-medium);
+  background: var(--my-parchment-dark);
+  border-color: var(--my-brown-medium);
 }
 
 /* Orb Container */
@@ -543,7 +543,7 @@
 .card-draw-placeholder {
   padding: 20px;
   text-align: center;
-  color: var(--pf-text-muted);
+  color: var(--my-text-muted);
   font-size: 14px;
   font-family: 'Cinzel', 'Times New Roman', serif;
 }
@@ -554,17 +554,17 @@
 }
 
 .dice-dropdown::-webkit-scrollbar-track {
-  background: var(--pf-parchment-dark);
+  background: var(--my-parchment-dark);
   border-radius: 3px;
 }
 
 .dice-dropdown::-webkit-scrollbar-thumb {
-  background: var(--pf-brown-medium);
+  background: var(--my-brown-medium);
   border-radius: 3px;
 }
 
 .dice-dropdown::-webkit-scrollbar-thumb:hover {
-  background: var(--pf-brown-dark);
+  background: var(--my-brown-dark);
 }
 
 /* Preset Section */
@@ -576,7 +576,7 @@
 
 .preset-label {
   font-size: 12px;
-  color: var(--pf-text-muted);
+  color: var(--my-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   font-weight: 500;
@@ -595,8 +595,8 @@
   align-items: center;
   gap: 4px;
   padding: 8px 4px;
-  background: var(--pf-parchment);
-  border: 2px solid var(--pf-brown-medium);
+  background: var(--my-parchment);
+  border: 2px solid var(--my-brown-medium);
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -614,7 +614,7 @@
 }
 
 .preset-button.active {
-  border-color: var(--pf-gold);
+  border-color: var(--my-gold);
   box-shadow:
     0 0 10px rgba(212, 175, 55, 0.4),
     0 2px 8px rgba(0, 0, 0, 0.3),
@@ -631,7 +631,7 @@
 
 .preset-name {
   font-size: 9px;
-  color: var(--pf-text-primary);
+  color: var(--my-text-primary);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.3px;

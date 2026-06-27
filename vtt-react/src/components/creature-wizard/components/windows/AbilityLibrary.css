@@ -88,8 +88,8 @@
 .ability-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-  gap: var(--pf-space-2, 8px);
-  padding: var(--pf-space-3, 12px);
+  gap: var(--my-space-2, 8px);
+  padding: var(--my-space-3, 12px);
   max-height: 500px;
   overflow-y: auto;
   justify-items: center;
@@ -99,7 +99,7 @@
 /* Compact view specific styling */
 .ability-grid.compact-view {
   grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)) !important;
-  gap: var(--pf-space-2, 8px) !important;
+  gap: var(--my-space-2, 8px) !important;
   justify-items: center !important;
 }
 

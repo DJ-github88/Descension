@@ -2,15 +2,15 @@
 
 /* Popup Window */
 .status-effect-config-popup {
-  background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
-  border: 3px solid var(--pf-brown-medium, #8B4513);
+  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
+  border: 3px solid var(--my-brown-medium, #8B4513);
   border-radius: 12px;
   max-width: 500px;
   max-height: 80vh;
   width: 90vw;
   overflow: hidden;
-  font-family: var(--pf-font-body, 'Crimson Text', serif);
-  color: var(--pf-text-primary, #2d1810);
+  font-family: var(--my-font-body, 'Crimson Text', serif);
+  color: var(--my-text-primary, #2d1810);
   box-shadow:
     0 20px 60px rgba(45, 24, 16, 0.4),
     0 0 0 1px rgba(139, 69, 19, 0.2);
@@ -35,7 +35,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid var(--pf-brown-dark, #654321);
+  border-bottom: 2px solid var(--my-brown-dark, #654321);
   position: relative;
 }
 
@@ -71,7 +71,7 @@
 }
 
 .pathfinder-header h3 {
-  font-family: var(--pf-font-display, 'Cinzel', serif);
+  font-family: var(--my-font-display, 'Cinzel', serif);
   font-size: 18px;
   font-weight: 700;
   color: #F5F5DC;
@@ -111,7 +111,7 @@
   padding: 20px;
   max-height: calc(80vh - 152px);
   overflow-y: auto;
-  background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
+  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
 }
 
 /* Custom scrollbar for popup content */
@@ -125,18 +125,18 @@
 }
 
 .popup-content::-webkit-scrollbar-thumb {
-  background: var(--pf-brown-medium, #8B4513);
+  background: var(--my-brown-medium, #8B4513);
   border-radius: 4px;
 }
 
 .popup-content::-webkit-scrollbar-thumb:hover {
-  background: var(--pf-brown-dark, #654321);
+  background: var(--my-brown-dark, #654321);
 }
 
 /* Configuration Sections */
 .effect-config-section {
   background: rgba(248, 244, 230, 0.6);
-  border: 2px solid var(--pf-brown-light, #a08c70);
+  border: 2px solid var(--my-brown-light, #a08c70);
   border-radius: 8px;
   padding: 20px 24px;
   margin-bottom: 20px;
@@ -154,10 +154,10 @@
 
 .effect-config-option label {
   display: block;
-  font-family: var(--pf-font-display, 'Cinzel', serif);
-  font-size: var(--pf-text-sm, 14px);
-  font-weight: var(--pf-font-semibold, 600);
-  color: var(--pf-text-primary, #2d1810);
+  font-family: var(--my-font-display, 'Cinzel', serif);
+  font-size: var(--my-text-sm, 14px);
+  font-weight: var(--my-font-semibold, 600);
+  color: var(--my-text-primary, #2d1810);
   margin-bottom: 10px;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
 }
@@ -168,15 +168,15 @@
 .effect-config-option textarea,
 .effect-config-option select {
   width: 100%;
-  padding: var(--pf-space-2, 8px) var(--pf-space-3, 12px);
-  background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
-  border: var(--pf-border-width, 2px) solid var(--pf-brown-light, #a08c70);
-  border-radius: var(--pf-border-radius, 8px);
-  font-family: var(--pf-font-ui, 'Crimson Text', serif);
-  font-size: var(--pf-text-sm, 14px);
-  color: var(--pf-text-primary, #2d1810);
+  padding: var(--my-space-2, 8px) var(--my-space-3, 12px);
+  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
+  border: var(--my-border-width, 2px) solid var(--my-brown-light, #a08c70);
+  border-radius: var(--my-border-radius, 8px);
+  font-family: var(--my-font-ui, 'Crimson Text', serif);
+  font-size: var(--my-text-sm, 14px);
+  color: var(--my-text-primary, #2d1810);
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-  transition: all var(--pf-transition-normal, 0.25s ease);
+  transition: all var(--my-transition-normal, 0.25s ease);
 }
 
 .effect-config-option textarea {
@@ -189,7 +189,7 @@
 .effect-config-option textarea:focus,
 .effect-config-option select:focus {
   outline: none;
-  border-color: var(--pf-primary, #1976d2);
+  border-color: var(--my-primary, #1976d2);
   box-shadow: 
     inset 0 1px 3px rgba(0, 0, 0, 0.1),
     0 0 0 2px rgba(25, 118, 210, 0.2);
@@ -204,18 +204,18 @@
 }
 
 .effect-option-button {
-  background: var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
-  border: var(--pf-border-width, 2px) solid var(--pf-brown-medium, #8B4513);
-  border-radius: var(--pf-border-radius, 8px);
-  padding: var(--pf-space-2, 8px) var(--pf-space-3, 12px);
-  font-family: var(--pf-font-ui, 'Crimson Text', serif);
-  font-size: var(--pf-text-sm, 14px);
-  font-weight: var(--pf-font-medium, 500);
-  color: var(--pf-text-primary, #2d1810);
+  background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+  border: var(--my-border-width, 2px) solid var(--my-brown-medium, #8B4513);
+  border-radius: var(--my-border-radius, 8px);
+  padding: var(--my-space-2, 8px) var(--my-space-3, 12px);
+  font-family: var(--my-font-ui, 'Crimson Text', serif);
+  font-size: var(--my-text-sm, 14px);
+  font-weight: var(--my-font-medium, 500);
+  color: var(--my-text-primary, #2d1810);
   cursor: pointer;
-  transition: all var(--pf-transition-normal, 0.25s ease);
+  transition: all var(--my-transition-normal, 0.25s ease);
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
-  box-shadow: var(--pf-shadow-sm, 0 2px 4px rgba(45, 24, 16, 0.1));
+  box-shadow: var(--my-shadow-sm, 0 2px 4px rgba(45, 24, 16, 0.1));
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -224,9 +224,9 @@
 }
 
 .effect-option-button:hover {
-  background: var(--pf-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
+  background: var(--my-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
   transform: translateY(-1px);
-  box-shadow: var(--pf-shadow-md, 0 4px 8px rgba(45, 24, 16, 0.15));
+  box-shadow: var(--my-shadow-md, 0 4px 8px rgba(45, 24, 16, 0.15));
 }
 
 .effect-option-button.active {
@@ -234,7 +234,7 @@
   border-color: #d4af37 !important;
   color: #f0e6d2 !important;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
-  font-weight: var(--pf-font-semibold, 600) !important;
+  font-weight: var(--my-font-semibold, 600) !important;
   text-shadow: none !important;
 }
 
@@ -247,13 +247,13 @@
 }
 
 .effect-config-section h4 {
-  font-family: var(--pf-font-display, 'Cinzel', serif);
-  font-size: var(--pf-text-lg, 18px);
-  font-weight: var(--pf-font-semibold, 600);
-  color: var(--pf-text-primary, #2d1810);
+  font-family: var(--my-font-display, 'Cinzel', serif);
+  font-size: var(--my-text-lg, 18px);
+  font-weight: var(--my-font-semibold, 600);
+  color: var(--my-text-primary, #2d1810);
   margin: 0 0 16px 0;
   padding-bottom: 10px;
-  border-bottom: 1px solid var(--pf-brown-light, #a08c70);
+  border-bottom: 1px solid var(--my-brown-light, #a08c70);
   text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
 }
 
@@ -261,7 +261,7 @@
 .toggle-options {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-2, 8px);
+  gap: var(--my-space-2, 8px);
 }
 
 .toggle-option {
@@ -272,81 +272,81 @@
 .toggle-button {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2, 8px);
-  background: var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
-  border: var(--pf-border-width, 2px) solid var(--pf-brown-medium, #8B4513);
-  border-radius: var(--pf-border-radius, 8px);
-  padding: var(--pf-space-2, 8px) var(--pf-space-3, 12px);
-  font-family: var(--pf-font-ui, 'Crimson Text', serif);
-  font-size: var(--pf-text-sm, 14px);
-  color: var(--pf-text-primary, #2d1810);
+  gap: var(--my-space-2, 8px);
+  background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+  border: var(--my-border-width, 2px) solid var(--my-brown-medium, #8B4513);
+  border-radius: var(--my-border-radius, 8px);
+  padding: var(--my-space-2, 8px) var(--my-space-3, 12px);
+  font-family: var(--my-font-ui, 'Crimson Text', serif);
+  font-size: var(--my-text-sm, 14px);
+  color: var(--my-text-primary, #2d1810);
   cursor: pointer;
-  transition: all var(--pf-transition-normal, 0.25s ease);
+  transition: all var(--my-transition-normal, 0.25s ease);
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
   width: 100%;
 }
 
 .toggle-button:hover {
-  background: var(--pf-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
+  background: var(--my-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
   transform: translateY(-1px);
 }
 
 .toggle-button.active {
-  background: var(--pf-gradient-button-active, linear-gradient(135deg, #8B4513 0%, #654321 100%)) !important;
-  border-color: var(--pf-brown-dark, #654321) !important;
-  color: var(--pf-text-light, #f8f4e6) !important;
+  background: var(--my-gradient-button-active, linear-gradient(135deg, #8B4513 0%, #654321 100%)) !important;
+  border-color: var(--my-brown-dark, #654321) !important;
+  color: var(--my-text-light, #f8f4e6) !important;
   box-shadow:
-    var(--pf-shadow-inset, inset 0 2px 4px rgba(0, 0, 0, 0.2)),
+    var(--my-shadow-inset, inset 0 2px 4px rgba(0, 0, 0, 0.2)),
     0 0 0 1px rgba(139, 69, 19, 0.3) !important;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important;
   transform: translateY(1px);
-  font-weight: var(--pf-font-semibold, 600) !important;
+  font-weight: var(--my-font-semibold, 600) !important;
 }
 
 .toggle-icon {
   width: 16px;
   height: 16px;
-  border: 1px solid var(--pf-brown-medium, #8B4513);
+  border: 1px solid var(--my-brown-medium, #8B4513);
   border-radius: 3px;
-  background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
+  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 10px;
-  color: var(--pf-success, #2e7d32);
+  color: var(--my-success, #2e7d32);
   font-weight: bold;
 }
 
 .toggle-button.active .toggle-icon {
-  background: var(--pf-text-light, #f8f4e6);
-  color: var(--pf-brown-dark, #654321);
-  border-color: var(--pf-text-light, #f8f4e6);
+  background: var(--my-text-light, #f8f4e6);
+  color: var(--my-brown-dark, #654321);
+  border-color: var(--my-text-light, #f8f4e6);
 }
 
 /* Save Type Tabs */
 .save-type-tabs {
   display: flex;
   gap: 0;
-  border-radius: var(--pf-border-radius, 8px);
+  border-radius: var(--my-border-radius, 8px);
   overflow: hidden;
-  border: var(--pf-border-width, 2px) solid var(--pf-brown-medium, #8B4513);
-  margin-bottom: var(--pf-space-3, 12px);
+  border: var(--my-border-width, 2px) solid var(--my-brown-medium, #8B4513);
+  margin-bottom: var(--my-space-3, 12px);
 }
 
 .save-type-tab {
-  background: var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+  background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
   border: none;
-  border-right: 1px solid var(--pf-brown-medium, #8B4513);
-  padding: var(--pf-space-2, 8px) var(--pf-space-3, 12px);
-  font-family: var(--pf-font-ui, 'Crimson Text', serif);
-  font-size: var(--pf-text-xs, 12px);
-  color: var(--pf-text-primary, #2d1810);
+  border-right: 1px solid var(--my-brown-medium, #8B4513);
+  padding: var(--my-space-2, 8px) var(--my-space-3, 12px);
+  font-family: var(--my-font-ui, 'Crimson Text', serif);
+  font-size: var(--my-text-xs, 12px);
+  color: var(--my-text-primary, #2d1810);
   cursor: pointer;
-  transition: all var(--pf-transition-normal, 0.25s ease);
+  transition: all var(--my-transition-normal, 0.25s ease);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--pf-space-1, 4px);
+  gap: var(--my-space-1, 4px);
   flex: 1;
   text-align: center;
 }
@@ -356,13 +356,13 @@
 }
 
 .save-type-tab:hover {
-  background: var(--pf-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
+  background: var(--my-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
 }
 
 .save-type-tab.selected {
-  background: var(--pf-gradient-button-active, linear-gradient(135deg, #1976d2 0%, #1565c0 100%));
+  background: var(--my-gradient-button-active, linear-gradient(135deg, #1976d2 0%, #1565c0 100%));
   color: white;
-  font-weight: var(--pf-font-semibold, 600);
+  font-weight: var(--my-font-semibold, 600);
 }
 
 .save-type-tab-icon {
@@ -386,18 +386,18 @@
   gap: 12px;
   padding: 16px 20px;
   background: linear-gradient(145deg, #e8dcc6 0%, #f0ead6 100%);
-  border-top: 2px solid var(--pf-brown-medium, #8B4513);
+  border-top: 2px solid var(--my-brown-medium, #8B4513);
 }
 
 .popup-button {
   padding: 10px 20px;
   border-radius: 8px;
-  font-family: var(--pf-font-ui, 'Crimson Text', serif);
+  font-family: var(--my-font-ui, 'Crimson Text', serif);
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
-  border: 2px solid var(--pf-brown-medium, #8B4513);
+  border: 2px solid var(--my-brown-medium, #8B4513);
 }
 
 .popup-button-primary {
@@ -413,11 +413,11 @@
 }
 
 .popup-button-secondary {
-  background: var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
-  color: var(--pf-text-primary, #2d1810);
+  background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+  color: var(--my-text-primary, #2d1810);
 }
 
 .popup-button-secondary:hover {
-  background: var(--pf-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
+  background: var(--my-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
   transform: translateY(-1px);
 }

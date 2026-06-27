@@ -145,59 +145,7 @@ You CANNOT be healed by standard magical means. A cleric casting healing spells 
 Your unique utility. Key abilities let you add or remove rounds from effects, extend debuffs on enemies, compress buff durations on allies, and force enemies to "sync" with your current phase. This makes you the only class that can accelerate or decelerate the entire battlefield's tempo.`,
     },
 
-    combatRole: {
-      title: "Combat Role",
-      content: `**Primary Role**: Ranged Support/Control with adaptive damage potential
 
-**Combat Strengths**:
-- Exceptional versatility through phase shifting
-- Strong ranged damage during Full Moon phase
-- Excellent healing and support during Waxing Moon phase
-- Superior mana efficiency and control during Waning Moon phase
-- Enhanced survivability during New Moon phase
-
-**Combat Weaknesses**:
-- Requires careful phase management and timing
-- Less effective when caught in wrong phase for situation
-- Cannot self-heal (all healing is ally-targeted only)
-- No teleport abilities (Moon Glide provides speed, not instant repositioning)
-- Phase Lock: taking damage while shifting phases cancels the shift and costs the mana
-- Eclipse Vulnerability: During the round you shift phases, the celestial transition leaves you exposed. Roll 1d4 on the Transition Shock table each time you shift:
-| d4 | Effect |
-|---|---|
-| 1 | Celestial Burn - Take 1d8 ember damage as the phase tears through you. |
-| 2 | Lunar Dizziness - You have disadvantage on your next attack roll this turn. |
-| 3 | Mana Drain - Lose 1d4 mana as the shift consumes energy. |
-| 4 | Exposed - You take double damage from the next attack that hits you this round. |
-- Mana-dependent for both spells and phase shifting
-- Vulnerable in melee range
-
-**Optimal Positioning**:
-Lunarchs excel at medium to long range (30-60 feet), where they can safely cast spells and loose arrows while maintaining awareness of the battlefield. They should position to maximize phase benefits—staying near allies during support phases, maintaining distance during offensive phases.`,
-    },
-
-    playstyle: {
-      title: "Playstyle & Strategy",
-      content: `**Phase Management**:
-The key to mastering the Lunarch is understanding when to shift phases and when to let them cycle naturally. Each phase offers distinct advantages:
-
-- **New Moon**: Use for recovery, mana regeneration, and defensive positioning. Ideal when you need to reset or prepare for the next engagement.
-- **Waxing Moon**: Perfect for supporting allies with enhanced healing and buffs. Shift here when your team needs sustain.
-- **Full Moon**: Your damage phase. Unleash devastating attacks and maximize offensive spell power.
-- **Waning Moon**: Control and efficiency phase. Extend debuffs, reduce mana costs, and maintain battlefield control.
-
-**Resource Economy**:
-Manual phase shifting costs 8 mana, so balance between natural cycling (every 3 rounds) and tactical shifts. Don't waste mana shifting unnecessarily—plan ahead and anticipate combat flow.
-
-**Spell Selection**:
-Choose spells that synergize with your preferred phases. Moonlight Sentinels focus on damage spells enhanced by Full Moon, Starfall Invokers leverage AoE during all phases, and Moonwell Guardians maximize Waxing Moon healing.
-
-**Team Dynamics**:
-- Coordinate with tanks to know when you'll need defensive phases
-- Communicate with healers about when you'll shift to Waxing Moon for support
-- Time Full Moon phases with your team's burst damage windows
-- Use Waning Moon to extend crowd control effects from allies`,
-    },
 
     immersiveCombatExample: {
       title: "Combat Example: The Parasite Feeds",

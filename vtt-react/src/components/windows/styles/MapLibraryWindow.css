@@ -4,8 +4,8 @@
     flex-direction: column;
     min-height: 100%;
     /* Fill at least the window height */
-    background: var(--pf-gradient-parchment) !important;
-    color: var(--pf-text-primary) !important;
+    background: var(--my-gradient-parchment) !important;
+    color: var(--my-text-primary) !important;
     font-family: 'Cinzel', serif !important;
     position: relative;
     pointer-events: auto;
@@ -17,13 +17,13 @@
     justify-content: space-between;
     align-items: center;
     padding: 20px 32px;
-    background: var(--pf-gradient-button) !important;
-    border-bottom: 3px solid var(--pf-brown-medium) !important;
+    background: var(--my-gradient-button) !important;
+    border-bottom: 3px solid var(--my-brown-medium) !important;
     box-shadow: 0 2px 8px rgba(139, 69, 19, 0.2);
 }
 
 .map-library-header h2 {
-    color: var(--pf-text-primary) !important;
+    color: var(--my-text-primary) !important;
     font-size: 1.8rem;
     margin: 0;
     text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8) !important;
@@ -105,7 +105,7 @@
 .create-map-icon {
     font-size: 48px;
     font-weight: bold;
-    color: var(--pf-gold) !important;
+    color: var(--my-gold) !important;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     line-height: 1;
 }
@@ -113,7 +113,7 @@
 .create-map-text {
     font-size: 18px;
     font-weight: 600;
-    color: var(--pf-text-primary) !important;
+    color: var(--my-text-primary) !important;
     text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
     text-align: center;
     font-family: 'Cinzel', serif;
@@ -128,7 +128,7 @@
     grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
     gap: 32px;
     padding: 32px;
-    background: var(--pf-gradient-parchment) !important;
+    background: var(--my-gradient-parchment) !important;
     position: relative;
     z-index: 1;
     pointer-events: auto !important;
@@ -150,8 +150,8 @@
 
 /* Pathfinder Map Cards */
 .map-card {
-    background: var(--pf-gradient-button) !important;
-    border: 3px solid var(--pf-brown-medium) !important;
+    background: var(--my-gradient-button) !important;
+    border: 3px solid var(--my-brown-medium) !important;
     border-radius: 20px;
     padding: 0;
     cursor: pointer;
@@ -174,29 +174,29 @@
         0 12px 24px rgba(139, 69, 19, 0.3),
         inset 0 2px 0 rgba(255, 255, 255, 0.6),
         0 0 20px rgba(212, 175, 55, 0.4),
-        0 0 0 2px var(--pf-gold) !important;
-    border-color: var(--pf-gold) !important;
+        0 0 0 2px var(--my-gold) !important;
+    border-color: var(--my-gold) !important;
     background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%) !important;
 }
 
 .map-card.selected {
-    border-color: var(--pf-gold-dark) !important;
+    border-color: var(--my-gold-dark) !important;
     background: linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%) !important;
     box-shadow:
         0 6px 12px rgba(139, 69, 19, 0.3),
         inset 0 2px 0 rgba(255, 255, 255, 0.5),
         0 0 12px rgba(212, 175, 55, 0.6),
-        0 0 0 1px var(--pf-gold-dark) !important;
+        0 0 0 1px var(--my-gold-dark) !important;
 }
 
 .map-card.current {
-    border-color: var(--pf-gold) !important;
+    border-color: var(--my-gold) !important;
     background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%) !important;
     box-shadow:
         0 8px 16px rgba(139, 69, 19, 0.25),
         inset 0 2px 0 rgba(255, 255, 255, 0.6),
         0 0 16px rgba(212, 175, 55, 0.5),
-        0 0 0 1px var(--pf-gold-light) !important;
+        0 0 0 1px var(--my-gold-light) !important;
     transform: translateY(-2px);
 }
 
@@ -208,11 +208,11 @@
     right: 0;
     height: 8px;
     background: linear-gradient(90deg,
-            var(--pf-gold-dark),
-            var(--pf-gold),
-            var(--pf-gold-light),
-            var(--pf-gold),
-            var(--pf-gold-dark));
+            var(--my-gold-dark),
+            var(--my-gold),
+            var(--my-gold-light),
+            var(--my-gold),
+            var(--my-gold-dark));
     z-index: 1;
     border-radius: 17px 17px 0 0;
     z-index: 1;
@@ -229,9 +229,9 @@
     width: 100%;
     height: 220px;
     position: relative;
-    background: var(--pf-gradient-parchment) !important;
+    background: var(--my-gradient-parchment) !important;
     overflow: hidden;
-    border-bottom: 3px solid var(--pf-brown-medium) !important;
+    border-bottom: 3px solid var(--my-brown-medium) !important;
     border-radius: 17px 17px 0 0;
 }
 
@@ -257,19 +257,19 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: var(--pf-gradient-button) !important;
+    background: var(--my-gradient-button) !important;
     gap: 8px;
 }
 
 .map-icon {
     font-size: 3rem;
     opacity: 0.6;
-    color: var(--pf-brown-medium) !important;
+    color: var(--my-brown-medium) !important;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3) !important;
 }
 
 .map-placeholder-text {
-    color: var(--pf-text-primary) !important;
+    color: var(--my-text-primary) !important;
     font-size: 0.9rem;
     font-style: italic;
     opacity: 0.7;
@@ -288,13 +288,13 @@
 .map-name {
     font-size: 1.4rem;
     font-weight: bold;
-    color: var(--pf-text-primary) !important;
+    color: var(--my-text-primary) !important;
     margin: 0;
     text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8) !important;
     line-height: 1.3;
     text-align: center;
     padding-bottom: 8px;
-    border-bottom: 2px solid var(--pf-gold-dark);
+    border-bottom: 2px solid var(--my-gold-dark);
 }
 
 .map-details {
@@ -305,12 +305,12 @@
 
 .map-description {
     font-size: 0.95rem;
-    color: var(--pf-text-primary) !important;
+    color: var(--my-text-primary) !important;
     line-height: 1.5;
     padding: 12px 16px;
     background: rgba(139, 69, 19, 0.08);
     border-radius: 8px;
-    border-left: 3px solid var(--pf-gold-dark);
+    border-left: 3px solid var(--my-gold-dark);
     font-style: italic;
     text-align: left;
     min-height: 50px;
@@ -320,7 +320,7 @@
 
 .map-date {
     font-size: 0.9rem;
-    color: var(--pf-text-secondary) !important;
+    color: var(--my-text-secondary) !important;
     font-style: italic;
     text-align: center;
     padding: 8px 12px;
@@ -337,11 +337,11 @@
 }
 
 .map-stats span {
-    color: var(--pf-text-primary) !important;
+    color: var(--my-text-primary) !important;
     padding: 8px 12px;
-    background: linear-gradient(135deg, var(--pf-gold-light) 0%, var(--pf-gold) 100%) !important;
+    background: linear-gradient(135deg, var(--my-gold-light) 0%, var(--my-gold) 100%) !important;
     border-radius: 8px;
-    border: 2px solid var(--pf-gold-dark) !important;
+    border: 2px solid var(--my-gold-dark) !important;
     font-weight: 600;
     white-space: nowrap;
     text-align: center;
@@ -367,7 +367,7 @@
     gap: 10px;
     align-items: center;
     padding: 20px 24px;
-    border-top: 3px solid var(--pf-brown-medium) !important;
+    border-top: 3px solid var(--my-brown-medium) !important;
     background: linear-gradient(180deg, rgba(139, 69, 19, 0.05) 0%, rgba(139, 69, 19, 0.1) 100%);
     flex-shrink: 0;
     border-radius: 0 0 17px 17px;
@@ -503,7 +503,7 @@
 }
 
 .edit-label {
-    color: var(--pf-text-primary) !important;
+    color: var(--my-text-primary) !important;
     font-weight: bold;
     font-size: 1rem;
     text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5) !important;
@@ -512,9 +512,9 @@
 .wow-textarea {
     padding: 12px;
     background: rgba(240, 230, 210, 0.1);
-    border: 2px solid var(--pf-brown-medium) !important;
+    border: 2px solid var(--my-brown-medium) !important;
     border-radius: 8px;
-    color: var(--pf-text-primary) !important;
+    color: var(--my-text-primary) !important;
     font-size: 0.95rem;
     font-family: 'Cinzel', serif !important;
     resize: vertical;
@@ -523,7 +523,7 @@
 
 .wow-textarea:focus {
     outline: none;
-    border-color: var(--pf-gold) !important;
+    border-color: var(--my-gold) !important;
     box-shadow: 0 0 12px rgba(212, 175, 55, 0.3);
 }
 
@@ -532,7 +532,7 @@
     gap: 12px;
     justify-content: flex-end;
     padding-top: 16px;
-    border-top: 2px solid var(--pf-brown-medium) !important;
+    border-top: 2px solid var(--my-brown-medium) !important;
     margin-top: auto;
 }
 
@@ -540,25 +540,25 @@
 .map-grid::-webkit-scrollbar,
 .map-description::-webkit-scrollbar {
     width: 8px;
-    background: var(--pf-brown-light) !important;
+    background: var(--my-brown-light) !important;
 }
 
 .map-grid::-webkit-scrollbar-track,
 .map-description::-webkit-scrollbar-track {
-    background: var(--pf-brown-light) !important;
+    background: var(--my-brown-light) !important;
     border-radius: 4px;
 }
 
 .map-grid::-webkit-scrollbar-thumb,
 .map-description::-webkit-scrollbar-thumb {
-    background: var(--pf-brown-medium) !important;
+    background: var(--my-brown-medium) !important;
     border-radius: 4px;
-    border: 1px solid var(--pf-brown-light) !important;
+    border: 1px solid var(--my-brown-light) !important;
 }
 
 .map-grid::-webkit-scrollbar-thumb:hover,
 .map-description::-webkit-scrollbar-thumb:hover {
-    background: var(--pf-brown-dark) !important;
+    background: var(--my-brown-dark) !important;
 }
 
 /* ===== PLAYER INDICATORS ON MAPS ===== */
@@ -588,7 +588,7 @@
     position: absolute;
     top: 12px;
     right: 12px;
-    background: linear-gradient(135deg, var(--pf-gold-dark) 0%, var(--pf-gold) 100%);
+    background: linear-gradient(135deg, var(--my-gold-dark) 0%, var(--my-gold) 100%);
     color: #000;
     padding: 6px 12px;
     border-radius: 20px;
@@ -597,7 +597,7 @@
     display: flex;
     align-items: center;
     gap: 4px;
-    border: 2px solid var(--pf-gold-light);
+    border: 2px solid var(--my-gold-light);
     box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
     backdrop-filter: blur(4px);
     z-index: 10;
@@ -652,7 +652,7 @@
     background: linear-gradient(135deg, #5a6578 0%, #3d4758 100%);
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-    border-color: var(--pf-gold);
+    border-color: var(--my-gold);
 }
 
 .map-player-chip:active {

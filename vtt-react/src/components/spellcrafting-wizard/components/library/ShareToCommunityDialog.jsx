@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import WowWindow from '../../../windows/WowWindow';
+import MythrillWindow from '../../../windows/MythrillWindow';
 import '../../../../styles/confirmation-dialog.css';
 
 /**
@@ -27,7 +27,7 @@ const ShareToCommunityDialog = ({
   };
 
   return (
-    <WowWindow
+    <MythrillWindow
       title="Share Spell with Community"
       isOpen={isOpen && !!spell}
       onClose={onClose}
@@ -71,7 +71,7 @@ const ShareToCommunityDialog = ({
           </button>
         </div>
       </div>
-    </WowWindow>
+    </MythrillWindow>
   );
 };
 

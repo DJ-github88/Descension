@@ -1,14 +1,14 @@
 /* Enhanced Effect Preview Styles - Updated for Pathfinder Theme */
 
 .effect-preview {
-  background: var(--pf-gradient-parchment-light);
-  border-radius: var(--pf-border-radius);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  padding: var(--pf-space-4);
-  margin-bottom: var(--pf-space-4);
+  background: var(--my-gradient-parchment-light);
+  border-radius: var(--my-border-radius);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  padding: var(--my-space-4);
+  margin-bottom: var(--my-space-4);
   position: relative;
   overflow: hidden;
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .effect-preview::before {
@@ -57,9 +57,9 @@
 
 .effect-preview-title h4 {
   margin: 0;
-  color: var(--pf-text-primary);
-  font-size: var(--pf-text-lg);
-  font-weight: var(--pf-font-bold);
+  color: var(--my-text-primary);
+  font-size: var(--my-text-lg);
+  font-weight: var(--my-font-bold);
   text-shadow: 0 1px 2px rgba(139, 69, 19, 0.3);
 }
 
@@ -76,10 +76,10 @@
 }
 
 .effect-preview-subtitle {
-  font-size: var(--pf-text-base);
-  color: var(--pf-text-secondary);
-  margin: 0 0 var(--pf-space-3) 0;
-  font-weight: var(--pf-font-medium);
+  font-size: var(--my-text-base);
+  color: var(--my-text-secondary);
+  margin: 0 0 var(--my-space-3) 0;
+  font-weight: var(--my-font-medium);
   display: flex;
   align-items: center;
 }
@@ -178,20 +178,20 @@
 .effect-preview-stat {
   display: flex;
   align-items: center;
-  background: var(--pf-gradient-parchment);
-  border-radius: var(--pf-border-radius-sm);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  border-left: 2px solid var(--pf-gold);
-  font-family: var(--pf-font-body);
+  background: var(--my-gradient-parchment);
+  border-radius: var(--my-border-radius-sm);
+  padding: var(--my-space-1) var(--my-space-2);
+  border-left: 2px solid var(--my-gold);
+  font-family: var(--my-font-body);
 }
 
 .effect-preview-stat-icon {
   width: 20px;
   height: 20px;
-  border-radius: var(--pf-border-radius-sm);
+  border-radius: var(--my-border-radius-sm);
   overflow: hidden;
-  margin-right: var(--pf-space-1);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+  margin-right: var(--my-space-1);
+  border: var(--my-border-width) solid var(--my-brown-light);
 }
 
 .effect-preview-stat-icon img {
@@ -201,78 +201,78 @@
 }
 
 .effect-preview-stat-name {
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-secondary);
-  margin-right: var(--pf-space-1);
-  font-family: var(--pf-font-ui);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-secondary);
+  margin-right: var(--my-space-1);
+  font-family: var(--my-font-ui);
 }
 
 .effect-preview-stat-value {
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-body);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-body);
 }
 
 .effect-preview-stat-value.positive {
-  color: var(--pf-green);
+  color: var(--my-green);
 }
 
 .effect-preview-stat-value.negative {
-  color: var(--pf-red);
+  color: var(--my-red);
 }
 
 .effect-preview-stat-value.formula {
-  color: var(--pf-gold);
-  font-family: var(--pf-font-mono);
+  color: var(--my-gold);
+  font-family: var(--my-font-mono);
 }
 
 /* Property Display */
 .effect-preview-property {
   display: flex;
   align-items: center;
-  background: var(--pf-gradient-parchment);
-  border-radius: var(--pf-border-radius-sm);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  font-family: var(--pf-font-body);
+  background: var(--my-gradient-parchment);
+  border-radius: var(--my-border-radius-sm);
+  padding: var(--my-space-1) var(--my-space-2);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  font-family: var(--my-font-body);
 }
 
 .effect-preview-property-icon {
   width: 20px;
   height: 20px;
-  margin-right: var(--pf-space-1);
+  margin-right: var(--my-space-1);
   opacity: 0.8;
 }
 
 .effect-preview-property-label {
-  color: var(--pf-text-secondary);
-  margin-right: var(--pf-space-1);
-  font-weight: var(--pf-font-semibold);
-  font-family: var(--pf-font-ui);
+  color: var(--my-text-secondary);
+  margin-right: var(--my-space-1);
+  font-weight: var(--my-font-semibold);
+  font-family: var(--my-font-ui);
 }
 
 .effect-preview-property-value {
-  color: var(--pf-text-primary);
-  font-weight: var(--pf-font-bold);
-  font-family: var(--pf-font-body);
+  color: var(--my-text-primary);
+  font-weight: var(--my-font-bold);
+  font-family: var(--my-font-body);
 }
 
 /* Trigger List */
 .effect-preview-trigger-list {
   list-style-type: none;
   padding: 0;
-  margin: var(--pf-space-2) 0 0 0;
+  margin: var(--my-space-2) 0 0 0;
 }
 
 .effect-preview-trigger-item {
   display: flex;
   align-items: center;
-  margin-bottom: var(--pf-space-1);
-  background: var(--pf-gradient-parchment);
-  border-radius: var(--pf-border-radius-sm);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  border-left: 2px solid var(--pf-gold);
-  font-family: var(--pf-font-body);
+  margin-bottom: var(--my-space-1);
+  background: var(--my-gradient-parchment);
+  border-radius: var(--my-border-radius-sm);
+  padding: var(--my-space-1) var(--my-space-2);
+  border-left: 2px solid var(--my-gold);
+  font-family: var(--my-font-body);
 }
 
 .effect-preview-trigger-item:last-child {
@@ -284,7 +284,7 @@
   display: inline-block;
   width: 16px;
   height: 16px;
-  margin-right: var(--pf-space-2);
+  margin-right: var(--my-space-2);
   background-image: url('https://wow.zamimg.com/images/wow/icons/large/spell_holy_sealofwrath.jpg');
   background-size: contain;
   background-repeat: no-repeat;
@@ -293,45 +293,45 @@
 }
 
 .effect-preview-trigger-name {
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-primary);
-  margin-right: var(--pf-space-1);
-  font-family: var(--pf-font-ui);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-primary);
+  margin-right: var(--my-space-1);
+  font-family: var(--my-font-ui);
 }
 
 .effect-preview-trigger-params {
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-sm);
-  font-family: var(--pf-font-body);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-sm);
+  font-family: var(--my-font-body);
 }
 
 /* Trigger perspective parameter styling */
 .trigger-perspective {
   display: inline-block;
-  background: var(--pf-gradient-parchment);
-  border-radius: var(--pf-border-radius-sm);
-  padding: 2px var(--pf-space-1);
-  margin-left: var(--pf-space-1);
-  font-size: var(--pf-text-xs);
-  color: var(--pf-text-secondary);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  font-family: var(--pf-font-ui);
+  background: var(--my-gradient-parchment);
+  border-radius: var(--my-border-radius-sm);
+  padding: 2px var(--my-space-1);
+  margin-left: var(--my-space-1);
+  font-size: var(--my-text-xs);
+  color: var(--my-text-secondary);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  font-family: var(--my-font-ui);
 }
 
 /* Conditional Effect Cards */
 .effect-preview-conditional-list {
   list-style-type: none;
   padding: 0;
-  margin: var(--pf-space-2) 0 0 0;
+  margin: var(--my-space-2) 0 0 0;
 }
 
 .effect-preview-conditional-item {
-  background: var(--pf-gradient-parchment);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-2);
-  margin-bottom: var(--pf-space-2);
-  border-left: 3px solid var(--pf-gold);
-  font-family: var(--pf-font-body);
+  background: var(--my-gradient-parchment);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-2);
+  margin-bottom: var(--my-space-2);
+  border-left: 3px solid var(--my-gold);
+  font-family: var(--my-font-body);
 }
 
 .effect-preview-conditional-item:last-child {
@@ -341,15 +341,15 @@
 .effect-preview-conditional-header {
   display: flex;
   align-items: center;
-  margin-bottom: var(--pf-space-2);
-  padding-bottom: var(--pf-space-1);
-  border-bottom: var(--pf-border-width) solid var(--pf-brown-light);
+  margin-bottom: var(--my-space-2);
+  padding-bottom: var(--my-space-1);
+  border-bottom: var(--my-border-width) solid var(--my-brown-light);
 }
 
 .effect-preview-conditional-icon {
   width: 24px;
   height: 24px;
-  margin-right: var(--pf-space-2);
+  margin-right: var(--my-space-2);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -357,39 +357,39 @@
 }
 
 .effect-preview-conditional-title {
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-ui);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-ui);
 }
 
 .effect-preview-conditional-content {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--pf-space-1);
+  gap: var(--my-space-1);
 }
 
 /* Formula Display */
 .effect-preview-formula {
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-mono);
-  font-weight: var(--pf-font-normal);
-  background: var(--pf-gradient-parchment);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  border-radius: var(--pf-border-radius-sm);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-mono);
+  font-weight: var(--my-font-normal);
+  background: var(--my-gradient-parchment);
+  padding: var(--my-space-1) var(--my-space-2);
+  border-radius: var(--my-border-radius-sm);
+  border: var(--my-border-width) solid var(--my-brown-light);
   display: inline-block;
 }
 
 /* Empty State */
 .effect-preview-empty {
-  color: var(--pf-text-secondary);
+  color: var(--my-text-secondary);
   font-style: italic;
-  padding: var(--pf-space-2);
-  background: var(--pf-gradient-parchment);
-  border-radius: var(--pf-border-radius-sm);
+  padding: var(--my-space-2);
+  background: var(--my-gradient-parchment);
+  border-radius: var(--my-border-radius-sm);
   text-align: center;
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  font-family: var(--pf-font-body);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  font-family: var(--my-font-body);
 }
 
 /* Icons for different effect types */

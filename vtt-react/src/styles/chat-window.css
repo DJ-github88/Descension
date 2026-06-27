@@ -335,17 +335,17 @@
   height: 8px;
   border-radius: 50%;
   margin-right: 8px;
-  background-color: var(--pf-hp);
+  background-color: var(--my-hp);
   /* Online - green */
 }
 
 .user-item.away .user-status-indicator {
-  background-color: var(--pf-warning);
+  background-color: var(--my-warning);
   /* Away - yellow */
 }
 
 .user-item.offline .user-status-indicator {
-  background-color: var(--pf-text-light);
+  background-color: var(--my-text-light);
   /* Offline - gray */
 }
 

@@ -248,7 +248,7 @@ const CharacterPortraitHUD = ({
                                 className="bar-fill mana-fill"
                                 style={{
                                     width: `${manaPercentage}%`,
-                                    backgroundColor: 'var(--pf-mana)'
+                                    backgroundColor: 'var(--my-mana)'
                                 }}
                             ></div>
                             <div className="bar-text">
@@ -266,7 +266,7 @@ const CharacterPortraitHUD = ({
                                 className="bar-fill ap-fill"
                                 style={{
                                     width: `${apPercentage}%`,
-                                    backgroundColor: 'var(--pf-health-low)'
+                                    backgroundColor: 'var(--my-health-low)'
                                 }}
                             ></div>
                             <div className="bar-text">

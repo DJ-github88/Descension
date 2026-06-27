@@ -5,8 +5,8 @@ import PreviewSpellCard from './PreviewSpellCard';
 import './AbilitySelectionWindow.css';
 import './PreviewSpellCard.css';
 
-// Import the WowWindow component
-const WowWindow = React.lazy(() => import('../../../../components/windows/WowWindow'));
+// Import the MythrillWindow component
+const MythrillWindow = React.lazy(() => import('../../../../components/windows/MythrillWindow'));
 
 // Spell types for filtering
 const SPELL_TYPES = [
@@ -126,7 +126,7 @@ const AbilitySelectionWindow = ({ isOpen, onClose, onSelectAbility, recentlyAdde
 
   return (
     <Suspense fallback={<div className="loading-window">Loading...</div>}>
-      <WowWindow
+      <MythrillWindow
         isOpen={true}
         onClose={onClose}
         title="Select Ability"
@@ -198,7 +198,7 @@ const AbilitySelectionWindow = ({ isOpen, onClose, onSelectAbility, recentlyAdde
             {/* We've removed the ability preview panel to prevent window jumping */}
             {/* Instead, we'll show spell details in a tooltip when hovering */}
           </div>
-        </WowWindow>
+        </MythrillWindow>
       </Suspense>
   );
 };

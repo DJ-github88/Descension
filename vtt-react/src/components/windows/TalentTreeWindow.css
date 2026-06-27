@@ -4,9 +4,9 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+    background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
     font-family: 'Cinzel', 'Trajan Pro', serif;
-    color: var(--pf-text-primary, #2d1810);
+    color: var(--my-text-primary, #2d1810);
     overflow: hidden;
 }
 
@@ -16,7 +16,7 @@
     justify-content: center;
     height: 100%;
     font-size: 1.2rem;
-    color: var(--pf-brown-medium, #8B4513);
+    color: var(--my-brown-medium, #8B4513);
 }
 
 /* Fantasy No Class Selected Message */
@@ -37,7 +37,7 @@
     font-family: 'Cinzel', 'Trajan Pro', serif;
     font-size: 2.2rem;
     font-weight: 700;
-    color: var(--pf-brown-dark, #5C4033);
+    color: var(--my-brown-dark, #5C4033);
     margin-bottom: 20px;
     text-shadow:
         0 2px 4px rgba(0, 0, 0, 0.3),
@@ -49,14 +49,14 @@
     font-family: 'Crimson Text', 'Times New Roman', serif;
     font-size: 1.3rem;
     line-height: 1.6;
-    color: var(--pf-brown-medium, #8B4513);
+    color: var(--my-brown-medium, #8B4513);
     margin-bottom: 20px;
     font-style: italic;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .fantasy-text .highlight {
-    color: var(--pf-brown-dark, #5C4033);
+    color: var(--my-brown-dark, #5C4033);
     font-weight: 600;
     text-decoration: underline;
     text-underline-offset: 3px;
@@ -66,7 +66,7 @@
 .subtle-text {
     font-family: 'Crimson Text', 'Times New Roman', serif;
     font-size: 1rem;
-    color: var(--pf-brown-light, #A0522D);
+    color: var(--my-brown-light, #A0522D);
     opacity: 0.8;
     font-style: italic;
     text-align: center;
@@ -104,7 +104,7 @@
 }
 
 .points-label {
-    color: var(--pf-text-secondary, #5d4e37);
+    color: var(--my-text-secondary, #5d4e37);
     font-size: 0.85rem;
 }
 
@@ -122,9 +122,9 @@
 .reset-talents-btn {
     padding: 6px 14px;
     background: linear-gradient(145deg, rgba(248, 244, 230, 0.95) 0%, rgba(237, 228, 211, 0.95) 100%);
-    border: 2px solid var(--pf-brown-medium, #8B4513);
+    border: 2px solid var(--my-brown-medium, #8B4513);
     border-radius: 6px;
-    color: var(--pf-text-primary, #2d1810);
+    color: var(--my-text-primary, #2d1810);
     font-family: 'Cinzel', serif;
     font-size: 0.85rem;
     font-weight: 600;
@@ -139,7 +139,7 @@
 
 .reset-talents-btn:hover {
     background: linear-gradient(145deg, rgba(237, 228, 211, 0.95) 0%, rgba(232, 220, 198, 0.95) 100%);
-    border-color: var(--pf-gold, #D4AF37);
+    border-color: var(--my-gold, #D4AF37);
     transform: translateY(-1px);
     box-shadow:
         0 4px 12px rgba(0, 0, 0, 0.4),
@@ -165,7 +165,7 @@
     justify-content: center;
     /* Backdrop overlay for better talent visibility */
     background-blend-mode: overlay;
-    border: 4px solid var(--pf-brown-medium, #8B4513);
+    border: 4px solid var(--my-brown-medium, #8B4513);
     border-radius: 12px;
     box-shadow:
         inset 0 4px 8px rgba(0, 0, 0, 0.3),
@@ -225,7 +225,7 @@
     position: relative;
     border-radius: 12px;
     overflow: hidden;
-    border: 3px solid var(--pf-brown-medium, #8B4513);
+    border: 3px solid var(--my-brown-medium, #8B4513);
     box-shadow:
         0 8px 16px rgba(0, 0, 0, 0.6),
         inset 0 2px 0 rgba(255, 255, 255, 0.15),
@@ -257,7 +257,7 @@
 }
 
 .talent-node.learnable .talent-icon-wrapper {
-    border-color: var(--pf-gold, #D4AF37);
+    border-color: var(--my-gold, #D4AF37);
     box-shadow:
         0 8px 16px rgba(0, 0, 0, 0.6),
         inset 0 2px 0 rgba(255, 255, 255, 0.25),
@@ -385,7 +385,7 @@
 /* Talent Tooltip */
 .talent-tooltip {
     background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 100%);
-    border: 3px solid var(--pf-brown-medium, #8B4513);
+    border: 3px solid var(--my-brown-medium, #8B4513);
     border-radius: 8px;
     padding: 16px;
     max-width: 320px;
@@ -399,27 +399,27 @@
 .talent-tooltip-header {
     margin-bottom: 12px;
     padding-bottom: 8px;
-    border-bottom: 2px solid var(--pf-brown-medium, #8B4513);
+    border-bottom: 2px solid var(--my-brown-medium, #8B4513);
 }
 
 .talent-tooltip-name {
     font-size: 1.2rem;
     font-weight: 700;
-    color: var(--pf-text-primary, #2d1810);
+    color: var(--my-text-primary, #2d1810);
     text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
     margin-bottom: 4px;
 }
 
 .talent-tooltip-ranks {
     font-size: 0.9rem;
-    color: var(--pf-gold, #D4AF37);
+    color: var(--my-gold, #D4AF37);
     font-weight: 600;
 }
 
 .talent-tooltip-description {
     font-size: 1rem;
     line-height: 1.5;
-    color: var(--pf-text-secondary, #5d4e37);
+    color: var(--my-text-secondary, #5d4e37);
     margin-bottom: 12px;
 }
 
@@ -432,7 +432,7 @@
 
 .talent-tooltip-hint {
     font-size: 0.8rem;
-    color: var(--pf-brown-medium, #8B4513);
+    color: var(--my-brown-medium, #8B4513);
     font-style: italic;
     margin-top: 12px;
     padding-top: 8px;
@@ -471,14 +471,14 @@
 }
 
 .talent-grid-container::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, var(--pf-brown-medium, #8B4513) 0%, #654321 100%);
+    background: linear-gradient(180deg, var(--my-brown-medium, #8B4513) 0%, #654321 100%);
     border-radius: 8px;
     border: 2px solid rgba(248, 244, 230, 0.4);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .talent-grid-container::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, #A0522D 0%, var(--pf-brown-medium, #8B4513) 100%);
+    background: linear-gradient(180deg, #A0522D 0%, var(--my-brown-medium, #8B4513) 100%);
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.3),
         0 0 8px rgba(212, 175, 55, 0.4);
@@ -623,7 +623,7 @@
 }
 
 .talent-coming-soon-content {
-    border: 3px solid var(--pf-brown-medium, #8B4513);
+    border: 3px solid var(--my-brown-medium, #8B4513);
     border-radius: 16px;
     padding: 48px 56px;
     background: linear-gradient(160deg, #f8f4e6 0%, #ede4d3 40%, #e8dcc6 70%, #f0e8d8 100%);
@@ -651,7 +651,7 @@
 .talent-coming-soon-icon {
     font-size: 44px;
     margin-bottom: 20px;
-    color: var(--pf-gold, #D4AF37);
+    color: var(--my-gold, #D4AF37);
     opacity: 0.8;
     filter: drop-shadow(0 2px 8px rgba(212, 175, 55, 0.4));
 }
@@ -660,7 +660,7 @@
     font-family: 'Cinzel', 'Trajan Pro', serif;
     font-size: 1.6rem;
     font-weight: 700;
-    color: var(--pf-brown-dark, #5C4033);
+    color: var(--my-brown-dark, #5C4033);
     text-transform: uppercase;
     letter-spacing: 3px;
     margin: 0 0 16px 0;
@@ -671,7 +671,7 @@
     font-family: 'Crimson Text', 'Bookman Old Style', 'Garamond', serif;
     font-size: 1.05rem;
     line-height: 1.75;
-    color: var(--pf-brown-medium, #8B4513);
+    color: var(--my-brown-medium, #8B4513);
     margin: 0 0 20px 0;
     font-style: italic;
 }
@@ -679,7 +679,7 @@
 .talent-coming-soon-divider {
     width: 80px;
     height: 2px;
-    background: linear-gradient(90deg, transparent, var(--pf-gold, #D4AF37), transparent);
+    background: linear-gradient(90deg, transparent, var(--my-gold, #D4AF37), transparent);
     margin: 0 auto 20px auto;
     opacity: 0.5;
 }
@@ -688,7 +688,7 @@
     font-family: 'Crimson Text', 'Times New Roman', serif;
     font-size: 0.9rem;
     line-height: 1.6;
-    color: var(--pf-brown-light, #A0522D);
+    color: var(--my-brown-light, #A0522D);
     margin: 0;
     opacity: 0.85;
 }
@@ -710,7 +710,7 @@
     padding: 24px;
     overflow-y: auto;
     height: 100%;
-    background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+    background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
 }
 
 .talent-summary-header {
@@ -719,13 +719,13 @@
     align-items: center;
     margin-bottom: 24px;
     padding-bottom: 16px;
-    border-bottom: 3px solid var(--pf-brown-medium, #8B4513);
+    border-bottom: 3px solid var(--my-brown-medium, #8B4513);
 }
 
 .talent-summary-header h2 {
     font-size: 1.8rem;
     font-weight: 700;
-    color: var(--pf-text-primary, #2d1810);
+    color: var(--my-text-primary, #2d1810);
     margin: 0;
     text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
 }
@@ -733,7 +733,7 @@
 .talent-summary-tree {
     margin-bottom: 32px;
     background: linear-gradient(145deg, rgba(255, 255, 255, 0.4) 0%, rgba(248, 244, 230, 0.6) 100%);
-    border: 2px solid var(--pf-brown-medium, #8B4513);
+    border: 2px solid var(--my-brown-medium, #8B4513);
     border-radius: 8px;
     padding: 16px;
     box-shadow:
@@ -753,14 +753,14 @@
 .talent-summary-tree-header h3 {
     font-size: 1.4rem;
     font-weight: 600;
-    color: var(--pf-text-primary, #2d1810);
+    color: var(--my-text-primary, #2d1810);
     margin: 0;
 }
 
 .talent-summary-points {
     font-size: 1.1rem;
     font-weight: 600;
-    color: var(--pf-gold, #D4AF37);
+    color: var(--my-gold, #D4AF37);
     padding: 4px 12px;
     background: rgba(139, 69, 19, 0.15);
     border-radius: 4px;
@@ -785,7 +785,7 @@
 
 .talent-summary-item:hover {
     background: linear-gradient(145deg, rgba(255, 250, 240, 0.9) 0%, rgba(248, 244, 230, 1) 100%);
-    border-color: var(--pf-brown-medium, #8B4513);
+    border-color: var(--my-brown-medium, #8B4513);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
@@ -798,7 +798,7 @@
     width: 56px;
     height: 56px;
     border-radius: 6px;
-    border: 2px solid var(--pf-brown-medium, #8B4513);
+    border: 2px solid var(--my-brown-medium, #8B4513);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
@@ -807,12 +807,12 @@
     bottom: -4px;
     right: -4px;
     background: linear-gradient(145deg, #2d1810 0%, #1a0f08 100%);
-    color: var(--pf-gold, #D4AF37);
+    color: var(--my-gold, #D4AF37);
     font-size: 0.75rem;
     font-weight: 700;
     padding: 2px 6px;
     border-radius: 4px;
-    border: 1px solid var(--pf-gold, #D4AF37);
+    border: 1px solid var(--my-gold, #D4AF37);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
@@ -826,7 +826,7 @@
 .talent-summary-name {
     font-size: 1.1rem;
     font-weight: 600;
-    color: var(--pf-text-primary, #2d1810);
+    color: var(--my-text-primary, #2d1810);
     text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.6);
 }
 
@@ -855,6 +855,6 @@
 .talent-summary-empty p:first-child {
     font-size: 1.5rem;
     font-weight: 600;
-    color: var(--pf-brown-medium, #8B4513);
+    color: var(--my-brown-medium, #8B4513);
 }
 

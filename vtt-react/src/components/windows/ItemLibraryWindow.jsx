@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import WowWindow from './WowWindow';
+import MythrillWindow from './MythrillWindow';
 import ItemLibrary from '../item-generation/ItemLibrary';
 
 const ItemLibraryWindow = ({ isOpen, onClose }) => {

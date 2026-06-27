@@ -13,14 +13,14 @@
 }
 
 .performance-dashboard {
-  background: var(--pf-panel-bg, #2c1810);
-  border: 2px solid var(--pf-accent, #8b4513);
+  background: var(--my-panel-bg, #2c1810);
+  border: 2px solid var(--my-accent, #8b4513);
   border-radius: 8px;
   width: 90%;
   max-width: 1200px;
   max-height: 90vh;
   overflow-y: auto;
-  color: var(--pf-text-primary, #e8d5b7);
+  color: var(--my-text-primary, #e8d5b7);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
@@ -29,19 +29,19 @@
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem;
-  border-bottom: 1px solid var(--pf-accent, #8b4513);
+  border-bottom: 1px solid var(--my-accent, #8b4513);
 }
 
 .performance-header h2 {
   margin: 0;
-  color: var(--pf-accent, #8b4513);
+  color: var(--my-accent, #8b4513);
   font-size: 1.5rem;
 }
 
 .close-btn {
   background: none;
   border: none;
-  color: var(--pf-text-primary, #e8d5b7);
+  color: var(--my-text-primary, #e8d5b7);
   font-size: 2rem;
   cursor: pointer;
   padding: 0;
@@ -75,20 +75,20 @@
 
 .time-range-selector label {
   font-weight: bold;
-  color: var(--pf-text-secondary, #b8a085);
+  color: var(--my-text-secondary, #b8a085);
 }
 
 .time-range-selector select {
   background: rgba(0, 0, 0, 0.2);
-  border: 1px solid var(--pf-accent, #8b4513);
-  color: var(--pf-text-primary, #e8d5b7);
+  border: 1px solid var(--my-accent, #8b4513);
+  color: var(--my-text-primary, #e8d5b7);
   padding: 0.5rem;
   border-radius: 4px;
   font-family: 'Cinzel', serif;
 }
 
 .export-btn {
-  background: var(--pf-accent, #8b4513);
+  background: var(--my-accent, #8b4513);
   color: white;
   border: none;
   padding: 0.75rem 1.5rem;
@@ -125,7 +125,7 @@
 
 .stat-card h3 {
   margin: 0 0 0.5rem 0;
-  color: var(--pf-accent, #8b4513);
+  color: var(--my-accent, #8b4513);
   font-size: 0.9rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -134,7 +134,7 @@
 .stat-value {
   font-size: 2rem;
   font-weight: bold;
-  color: var(--pf-text-primary, #e8d5b7);
+  color: var(--my-text-primary, #e8d5b7);
   margin-bottom: 0.25rem;
 }
 
@@ -144,7 +144,7 @@
 
 .stat-subtext {
   font-size: 0.8rem;
-  color: var(--pf-text-secondary, #b8a085);
+  color: var(--my-text-secondary, #b8a085);
 }
 
 .metrics-breakdown {
@@ -155,7 +155,7 @@
 }
 
 .breakdown-section h3 {
-  color: var(--pf-accent, #8b4513);
+  color: var(--my-accent, #8b4513);
   margin-bottom: 1rem;
   font-size: 1.1rem;
 }
@@ -187,7 +187,7 @@
 
 .metric-count {
   font-weight: bold;
-  color: var(--pf-accent, #8b4513);
+  color: var(--my-accent, #8b4513);
 }
 
 .metric-item.error .metric-count {
@@ -201,7 +201,7 @@
 }
 
 .performance-info h3 {
-  color: var(--pf-accent, #8b4513);
+  color: var(--my-accent, #8b4513);
   margin-bottom: 1rem;
   font-size: 1.1rem;
 }
@@ -219,19 +219,19 @@
 }
 
 .info-item strong {
-  color: var(--pf-text-primary, #e8d5b7);
+  color: var(--my-text-primary, #e8d5b7);
   font-size: 0.9rem;
 }
 
 .info-item span {
-  color: var(--pf-text-secondary, #b8a085);
+  color: var(--my-text-secondary, #b8a085);
   font-size: 0.8rem;
 }
 
 .loading, .no-data {
   text-align: center;
   padding: 3rem;
-  color: var(--pf-text-secondary, #b8a085);
+  color: var(--my-text-secondary, #b8a085);
   font-style: italic;
 }
 

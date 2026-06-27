@@ -129,9 +129,9 @@ const ChanceOnBeingHitConfig = ({ config, onConfigChange }) => {
             type="checkbox"
             checked={procConfig.enabled}
             onChange={toggleEnabled}
-            style={{ width: '20px', height: '20px', cursor: 'pointer', accentColor: 'var(--pf-brown-darkest)' }}
+            style={{ width: '20px', height: '20px', cursor: 'pointer', accentColor: 'var(--my-brown-darkest)' }}
           />
-          <span style={{ color: 'var(--pf-brown-darkest)', fontFamily: "'Cinzel', serif", fontWeight: '700', fontSize: '15px', letterSpacing: '1px', textTransform: 'uppercase' }}>
+          <span style={{ color: 'var(--my-brown-darkest)', fontFamily: "'Cinzel', serif", fontWeight: '700', fontSize: '15px', letterSpacing: '1px', textTransform: 'uppercase' }}>
             Enable Chance-On-Being-Hit Effect
           </span>
         </label>
@@ -144,7 +144,7 @@ const ChanceOnBeingHitConfig = ({ config, onConfigChange }) => {
         <>
           {/* Proc Resolution Method */}
           <div style={{ marginBottom: '24px' }}>
-            <h4 style={{ color: 'var(--pf-brown-darkest)', fontFamily: "'Cinzel', serif", fontWeight: '700', fontSize: '15px', letterSpacing: '1px', marginBottom: '16px', textTransform: 'uppercase' }}>Chance Resolution Method</h4>
+            <h4 style={{ color: 'var(--my-brown-darkest)', fontFamily: "'Cinzel', serif", fontWeight: '700', fontSize: '15px', letterSpacing: '1px', marginBottom: '16px', textTransform: 'uppercase' }}>Chance Resolution Method</h4>
             <div style={{ display: 'flex', gap: '16px' }}>
               <div
                 style={{
@@ -153,9 +153,9 @@ const ChanceOnBeingHitConfig = ({ config, onConfigChange }) => {
                   flexDirection: 'column',
                   alignItems: 'center',
                   padding: '20px 10px',
-                  background: procConfig.procType === 'dice' ? 'var(--pf-gradient-gold, linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%))' : 'var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%))',
-                  border: `2px solid ${procConfig.procType === 'dice' ? 'var(--pf-gold-dark, #b8860b)' : 'var(--pf-brown-medium, #8B4513)'}`,
-                  color: procConfig.procType === 'dice' ? 'var(--pf-brown-darkest, #2d1810)' : 'var(--pf-text-primary, #2d1810)',
+                  background: procConfig.procType === 'dice' ? 'var(--my-gradient-gold, linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%))' : 'var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%))',
+                  border: `2px solid ${procConfig.procType === 'dice' ? 'var(--my-gold-dark, #b8860b)' : 'var(--my-brown-medium, #8B4513)'}`,
+                  color: procConfig.procType === 'dice' ? 'var(--my-brown-darkest, #2d1810)' : 'var(--my-text-primary, #2d1810)',
                   borderRadius: '8px',
                   cursor: 'pointer',
                   boxShadow: procConfig.procType === 'dice' ? '0 4px 8px rgba(0,0,0,0.2)' : 'inset 0 2px 4px rgba(139, 69, 19, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1)',
@@ -188,9 +188,9 @@ const ChanceOnBeingHitConfig = ({ config, onConfigChange }) => {
                   flexDirection: 'column',
                   alignItems: 'center',
                   padding: '20px 10px',
-                  background: procConfig.procType === 'cards' ? 'var(--pf-gradient-gold, linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%))' : 'var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%))',
-                  border: `2px solid ${procConfig.procType === 'cards' ? 'var(--pf-gold-dark, #b8860b)' : 'var(--pf-brown-medium, #8B4513)'}`,
-                  color: procConfig.procType === 'cards' ? 'var(--pf-brown-darkest, #2d1810)' : 'var(--pf-text-primary, #2d1810)',
+                  background: procConfig.procType === 'cards' ? 'var(--my-gradient-gold, linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%))' : 'var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%))',
+                  border: `2px solid ${procConfig.procType === 'cards' ? 'var(--my-gold-dark, #b8860b)' : 'var(--my-brown-medium, #8B4513)'}`,
+                  color: procConfig.procType === 'cards' ? 'var(--my-brown-darkest, #2d1810)' : 'var(--my-text-primary, #2d1810)',
                   borderRadius: '8px',
                   cursor: 'pointer',
                   boxShadow: procConfig.procType === 'cards' ? '0 4px 8px rgba(0,0,0,0.2)' : 'inset 0 2px 4px rgba(139, 69, 19, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1)',
@@ -223,9 +223,9 @@ const ChanceOnBeingHitConfig = ({ config, onConfigChange }) => {
                   flexDirection: 'column',
                   alignItems: 'center',
                   padding: '20px 10px',
-                  background: procConfig.procType === 'coins' ? 'var(--pf-gradient-gold, linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%))' : 'var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%))',
-                  border: `2px solid ${procConfig.procType === 'coins' ? 'var(--pf-gold-dark, #b8860b)' : 'var(--pf-brown-medium, #8B4513)'}`,
-                  color: procConfig.procType === 'coins' ? 'var(--pf-brown-darkest, #2d1810)' : 'var(--pf-text-primary, #2d1810)',
+                  background: procConfig.procType === 'coins' ? 'var(--my-gradient-gold, linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%))' : 'var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%))',
+                  border: `2px solid ${procConfig.procType === 'coins' ? 'var(--my-gold-dark, #b8860b)' : 'var(--my-brown-medium, #8B4513)'}`,
+                  color: procConfig.procType === 'coins' ? 'var(--my-brown-darkest, #2d1810)' : 'var(--my-text-primary, #2d1810)',
                   borderRadius: '8px',
                   cursor: 'pointer',
                   boxShadow: procConfig.procType === 'coins' ? '0 4px 8px rgba(0,0,0,0.2)' : 'inset 0 2px 4px rgba(139, 69, 19, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1)',

@@ -128,7 +128,7 @@
 }
 
 .image-drop-option.background-option i {
-  color: var(--pf-hp);
+  color: var(--my-hp);
 }
 
 .image-drop-option.show-option:hover {
@@ -136,7 +136,7 @@
 }
 
 .image-drop-option.show-option i {
-  color: var(--pf-mana);
+  color: var(--my-mana);
 }
 
 .image-drop-option.cancel-option {

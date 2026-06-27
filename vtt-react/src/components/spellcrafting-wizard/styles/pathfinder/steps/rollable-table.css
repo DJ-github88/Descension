@@ -4,22 +4,22 @@
 .rollable-table-container {
   width: 100%;
   height: 100%;
-  background: var(--pf-gradient-parchment);
-  padding: var(--pf-space-6);
+  background: var(--my-gradient-parchment);
+  padding: var(--my-space-6);
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-6);
-  font-family: var(--pf-font-body);
-  color: var(--pf-text-primary);
+  gap: var(--my-space-6);
+  font-family: var(--my-font-body);
+  color: var(--my-text-primary);
 }
 
 /* Table Configuration */
 .rollable-table-config {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius-lg);
-  padding: var(--pf-space-6);
-  box-shadow: var(--pf-shadow-sm);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius-lg);
+  padding: var(--my-space-6);
+  box-shadow: var(--my-shadow-sm);
   position: relative;
   overflow: hidden;
 }
@@ -40,21 +40,21 @@
 }
 
 .rollable-table-config-header {
-  margin-bottom: var(--pf-space-4);
+  margin-bottom: var(--my-space-4);
   position: relative;
   z-index: 1;
 }
 
 .rollable-table-config-title {
-  font-size: var(--pf-text-xl);
+  font-size: var(--my-text-xl);
   font-weight: bold;
-  color: var(--pf-text-primary);
-  margin: 0 0 var(--pf-space-2) 0;
+  color: var(--my-text-primary);
+  margin: 0 0 var(--my-space-2) 0;
 }
 
 .rollable-table-config-description {
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-sm);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-sm);
   line-height: 1.5;
 }
 
@@ -62,203 +62,203 @@
 .rollable-table-settings {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: var(--pf-space-4);
-  margin-bottom: var(--pf-space-6);
+  gap: var(--my-space-4);
+  margin-bottom: var(--my-space-6);
   position: relative;
   z-index: 1;
 }
 
 .rollable-table-setting {
-  background: var(--pf-gradient-parchment-dark);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-4);
+  background: var(--my-gradient-parchment-dark);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-4);
 }
 
 .rollable-table-setting-label {
   display: block;
   font-weight: bold;
-  color: var(--pf-text-primary);
-  margin-bottom: var(--pf-space-2);
-  font-size: var(--pf-text-sm);
+  color: var(--my-text-primary);
+  margin-bottom: var(--my-space-2);
+  font-size: var(--my-text-sm);
 }
 
 .rollable-table-setting-input {
   width: 100%;
-  padding: var(--pf-space-2);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  background: var(--pf-gradient-parchment);
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-sm);
-  transition: all var(--pf-transition-normal);
+  padding: var(--my-space-2);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  background: var(--my-gradient-parchment);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-sm);
+  transition: all var(--my-transition-normal);
 }
 
 .rollable-table-setting-input:focus {
   outline: none;
-  border-color: var(--pf-gold);
-  box-shadow: 0 0 0 1px var(--pf-gold);
+  border-color: var(--my-gold);
+  box-shadow: 0 0 0 1px var(--my-gold);
 }
 
 .rollable-table-setting-select {
   width: 100%;
-  padding: var(--pf-space-2);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  background: var(--pf-gradient-parchment);
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-sm);
+  padding: var(--my-space-2);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  background: var(--my-gradient-parchment);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-sm);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
 }
 
 .rollable-table-setting-select:focus {
   outline: none;
-  border-color: var(--pf-gold);
-  box-shadow: 0 0 0 1px var(--pf-gold);
+  border-color: var(--my-gold);
+  box-shadow: 0 0 0 1px var(--my-gold);
 }
 
 /* Table Entries */
 .rollable-table-entries {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius-lg);
-  padding: var(--pf-space-6);
-  box-shadow: var(--pf-shadow-sm);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius-lg);
+  padding: var(--my-space-6);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .rollable-table-entries-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--pf-space-4);
+  margin-bottom: var(--my-space-4);
 }
 
 .rollable-table-entries-title {
-  font-size: var(--pf-text-xl);
+  font-size: var(--my-text-xl);
   font-weight: bold;
-  color: var(--pf-text-primary);
+  color: var(--my-text-primary);
   margin: 0;
 }
 
 .rollable-table-add-btn {
-  padding: var(--pf-space-2) var(--pf-space-4);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  background: var(--pf-gradient-button);
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-sm);
+  padding: var(--my-space-2) var(--my-space-4);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  background: var(--my-gradient-button);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-sm);
   font-weight: bold;
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
 }
 
 .rollable-table-add-btn:hover {
-  background: var(--pf-gradient-button-hover);
-  border-color: var(--pf-gold);
+  background: var(--my-gradient-button-hover);
+  border-color: var(--my-gold);
   transform: translateY(-1px);
-  box-shadow: var(--pf-shadow-md);
+  box-shadow: var(--my-shadow-md);
 }
 
 /* Table Entry List */
 .rollable-table-entry-list {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-3);
+  gap: var(--my-space-3);
 }
 
 .rollable-table-entry {
-  background: var(--pf-gradient-parchment-dark);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-4);
+  background: var(--my-gradient-parchment-dark);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-4);
   display: grid;
   grid-template-columns: auto 1fr auto;
-  gap: var(--pf-space-3);
+  gap: var(--my-space-3);
   align-items: center;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
 }
 
 .rollable-table-entry:hover {
-  border-color: var(--pf-gold);
-  box-shadow: var(--pf-shadow-sm);
+  border-color: var(--my-gold);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .rollable-table-entry-range {
   font-weight: bold;
-  color: var(--pf-text-primary);
-  font-size: var(--pf-text-sm);
+  color: var(--my-text-primary);
+  font-size: var(--my-text-sm);
   min-width: 60px;
   text-align: center;
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-1) var(--pf-space-2);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-1) var(--my-space-2);
 }
 
 .rollable-table-entry-content {
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-sm);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-sm);
   line-height: 1.4;
 }
 
 .rollable-table-entry-actions {
   display: flex;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
 }
 
 .rollable-table-entry-action {
-  padding: var(--pf-space-1) var(--pf-space-2);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  background: var(--pf-gradient-button);
-  color: var(--pf-text-primary);
-  font-size: var(--pf-text-xs);
+  padding: var(--my-space-1) var(--my-space-2);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  background: var(--my-gradient-button);
+  color: var(--my-text-primary);
+  font-size: var(--my-text-xs);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
 }
 
 .rollable-table-entry-action:hover {
-  background: var(--pf-gradient-button-hover);
-  border-color: var(--pf-gold);
+  background: var(--my-gradient-button-hover);
+  border-color: var(--my-gold);
 }
 
 .rollable-table-entry-action.danger {
-  background: var(--pf-gradient-danger);
-  border-color: var(--pf-error);
-  color: var(--pf-text-on-dark);
+  background: var(--my-gradient-danger);
+  border-color: var(--my-error);
+  color: var(--my-text-on-dark);
 }
 
 .rollable-table-entry-action.danger:hover {
-  background: var(--pf-gradient-danger-hover);
-  border-color: var(--pf-error-dark);
+  background: var(--my-gradient-danger-hover);
+  border-color: var(--my-error-dark);
 }
 
 /* Table Preview */
 .rollable-table-preview {
-  background: var(--pf-gradient-parchment-dark);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-4);
-  margin-top: var(--pf-space-4);
+  background: var(--my-gradient-parchment-dark);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-4);
+  margin-top: var(--my-space-4);
 }
 
 .rollable-table-preview-title {
   font-weight: bold;
-  color: var(--pf-text-primary);
-  margin-bottom: var(--pf-space-2);
-  font-size: var(--pf-text-base);
+  color: var(--my-text-primary);
+  margin-bottom: var(--my-space-2);
+  font-size: var(--my-text-base);
 }
 
 .rollable-table-preview-text {
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-sm);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-sm);
   line-height: 1.5;
 }
 
@@ -270,17 +270,17 @@
   
   .rollable-table-entry {
     grid-template-columns: 1fr;
-    gap: var(--pf-space-2);
+    gap: var(--my-space-2);
   }
   
   .rollable-table-entries-header {
     flex-direction: column;
-    gap: var(--pf-space-2);
+    gap: var(--my-space-2);
     align-items: stretch;
   }
   
   .rollable-table-container {
-    padding: var(--pf-space-4);
-    gap: var(--pf-space-4);
+    padding: var(--my-space-4);
+    gap: var(--my-space-4);
   }
 }

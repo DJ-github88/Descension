@@ -207,8 +207,8 @@ const LoadingFallback = ({ message = "Loading..." }) => (
         justifyContent: 'center',
         alignItems: 'center',
         height: '100vh',
-        background: 'var(--pf-gradient-parchment)',
-        color: 'var(--pf-text-primary)',
+        background: 'var(--my-gradient-parchment)',
+        color: 'var(--my-text-primary)',
         fontFamily: 'Cinzel, serif',
         fontSize: '1.2rem'
     }}>
@@ -965,8 +965,8 @@ export default function App() {
                 justifyContent: 'center',
                 alignItems: 'center',
                 height: '100vh',
-                background: 'var(--pf-gradient-parchment)',
-                color: 'var(--pf-text-primary)',
+                background: 'var(--my-gradient-parchment)',
+                color: 'var(--my-text-primary)',
                 fontFamily: 'Cinzel, serif',
                 fontSize: '1.2rem'
             }}>

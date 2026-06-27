@@ -1,47 +1,47 @@
 /* ResolutionSelector.css - Pathfinder Theme */
 
 .resolution-selector {
-  margin-bottom: var(--pf-space-5);
+  margin-bottom: var(--my-space-5);
 }
 
 .resolution-options {
   display: flex;
-  gap: var(--pf-space-3);
+  gap: var(--my-space-3);
   flex-wrap: wrap;
 }
 
 .resolution-option {
   display: flex;
   align-items: center;
-  background: var(--pf-gradient-button);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-3);
+  background: var(--my-gradient-button);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-3);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   flex: 1;
   min-width: 180px;
-  font-family: var(--pf-font-body);
+  font-family: var(--my-font-body);
 }
 
 .resolution-option:hover {
-  background: var(--pf-gradient-button-hover);
-  border-color: var(--pf-brown-dark);
+  background: var(--my-gradient-button-hover);
+  border-color: var(--my-brown-dark);
   transform: translateY(-1px);
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .resolution-option.selected {
-  background: var(--pf-gradient-gold);
-  border-color: var(--pf-gold-dark);
-  box-shadow: var(--pf-shadow-glow);
-  color: var(--pf-brown-darkest);
+  background: var(--my-gradient-gold);
+  border-color: var(--my-gold-dark);
+  box-shadow: var(--my-shadow-glow);
+  color: var(--my-brown-darkest);
 }
 
 .resolution-icon {
-  font-size: var(--pf-text-xl);
-  color: var(--pf-gold);
-  margin-right: var(--pf-space-3);
+  font-size: var(--my-text-xl);
+  color: var(--my-gold);
+  margin-right: var(--my-space-3);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -52,14 +52,14 @@
 }
 
 .resolution-name {
-  color: var(--pf-text-primary);
-  font-weight: var(--pf-font-bold);
-  margin-bottom: var(--pf-space-1);
-  font-family: var(--pf-font-ui);
+  color: var(--my-text-primary);
+  font-weight: var(--my-font-bold);
+  margin-bottom: var(--my-space-1);
+  font-family: var(--my-font-ui);
 }
 
 .resolution-description {
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-sm);
-  font-family: var(--pf-font-body);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-sm);
+  font-family: var(--my-font-body);
 }

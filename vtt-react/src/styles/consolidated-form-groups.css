@@ -60,7 +60,7 @@ label.upload-btn,
 
 /* Item Wizard specific styling */
 .item-wizard-modal .form-group label {
-  color: var(--pf-text-primary, #5a1e12);
+  color: var(--my-text-primary, #5a1e12);
   font-size: 16px;
   font-weight: 600;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
@@ -71,9 +71,9 @@ label.upload-btn,
 
 /* Recipe Wizard specific styling */
 .recipe-wizard .form-group label {
-  color: var(--pf-text-primary, #2d1810) !important;
+  color: var(--my-text-primary, #2d1810) !important;
   font-weight: 600 !important;
-  margin-bottom: var(--pf-space-2, 8px) !important;
+  margin-bottom: var(--my-space-2, 8px) !important;
   font-family: 'Cinzel', serif !important;
   text-transform: uppercase !important;
   letter-spacing: 0.5px !important;
@@ -136,12 +136,12 @@ label.upload-btn,
 /* Mechanics popup specific styling */
 .mechanics-popup-body .form-group label,
 .mechanics-grid-item .form-group label {
-  font-size: var(--pf-text-sm);
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-ui);
-  margin-bottom: var(--pf-space-2);
-  text-shadow: var(--pf-text-shadow);
+  font-size: var(--my-text-sm);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-ui);
+  margin-bottom: var(--my-space-2);
+  text-shadow: var(--my-text-shadow);
 }
 
 /* Lock/Unlock Modal specific styling */

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import WowWindow from '../windows/WowWindow';
+import MythrillWindow from '../windows/MythrillWindow';
 import useItemStore from '../../store/itemStore';
 import useCraftingStore, { PROFESSIONS, SKILL_LEVELS } from '../../store/craftingStore';
 import TooltipPortal from '../tooltips/TooltipPortal';
@@ -477,7 +477,7 @@ function RecipeWizard({ isOpen, onClose, onSave, onWindowPositionChange, onRecip
     };
 
     return (
-        <WowWindow title="Recipe Wizard" isOpen={isOpen} onClose={onClose} defaultSize={windowSize} defaultPosition={windowPosition} onDrag={handleWindowDrag} modal={true} backdrop="static" className="recipe-wizard">
+        <MythrillWindow title="Recipe Wizard" isOpen={isOpen} onClose={onClose} defaultSize={windowSize} defaultPosition={windowPosition} onDrag={handleWindowDrag} modal={true} backdrop="static" className="recipe-wizard">
             <div className="recipe-wizard-content">
                 <div className="wizard-main-content">
                     <div className="spell-wizard-step">
@@ -524,7 +524,7 @@ function RecipeWizard({ isOpen, onClose, onSave, onWindowPositionChange, onRecip
                     </div>
                 </TooltipPortal>
             )}
-        </WowWindow>
+        </MythrillWindow>
     );
 }
 

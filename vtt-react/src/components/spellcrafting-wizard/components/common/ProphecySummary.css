@@ -1,50 +1,50 @@
 .prophecy-summary {
-  margin: var(--pf-space-3) 0;
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  background: var(--pf-gradient-parchment-light);
-  box-shadow: var(--pf-shadow-sm);
+  margin: var(--my-space-3) 0;
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  background: var(--my-gradient-parchment-light);
+  box-shadow: var(--my-shadow-sm);
   overflow: hidden;
-  font-family: var(--pf-font-body);
-  color: var(--pf-text-primary);
+  font-family: var(--my-font-body);
+  color: var(--my-text-primary);
 }
 
 .prophecy-header {
-  padding: var(--pf-space-2) var(--pf-space-3);
-  background: var(--pf-gradient-button);
+  padding: var(--my-space-2) var(--my-space-3);
+  background: var(--my-gradient-button);
   display: flex;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  border-bottom: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-bottom: var(--my-border-width) solid var(--my-brown-medium);
 }
 
 .prophecy-title {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
-  font-weight: var(--pf-font-bold);
-  font-size: var(--pf-text-sm);
+  gap: var(--my-space-2);
+  font-weight: var(--my-font-bold);
+  font-size: var(--my-text-sm);
   letter-spacing: 0.5px;
   text-transform: uppercase;
-  color: var(--pf-brown-dark);
+  color: var(--my-brown-dark);
 }
 
 .prophecy-icon {
-  color: var(--pf-red-dark, #8b0000);
+  color: var(--my-red-dark, #8b0000);
   filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.2));
 }
 
 .prophecy-die-info {
-  font-size: var(--pf-text-xs);
-  color: var(--pf-text-secondary);
-  font-weight: var(--pf-font-normal, 400);
+  font-size: var(--my-text-xs);
+  color: var(--my-text-secondary);
+  font-weight: var(--my-font-normal, 400);
   margin-left: 4px;
 }
 
 .prophecy-toggle {
-  font-size: var(--pf-text-xs);
-  color: var(--pf-brown-medium);
+  font-size: var(--my-text-xs);
+  color: var(--my-brown-medium);
 }
 
 .prophecy-body {
@@ -57,11 +57,11 @@
 }
 
 .prophecy-outcome {
-  padding: var(--pf-space-2) var(--pf-space-3);
-  border-bottom: var(--pf-border-width) solid var(--pf-brown-light);
+  padding: var(--my-space-2) var(--my-space-3);
+  border-bottom: var(--my-border-width) solid var(--my-brown-light);
   display: grid;
   grid-template-columns: 120px 1fr;
-  gap: var(--pf-space-3);
+  gap: var(--my-space-3);
   justify-items: start;
   align-items: flex-start;
   transition: background 0.2s ease;
@@ -83,26 +83,26 @@
 }
 
 .outcome-label {
-  font-weight: var(--pf-font-bold);
-  font-size: var(--pf-text-sm);
+  font-weight: var(--my-font-bold);
+  font-size: var(--my-text-sm);
   text-transform: uppercase;
 }
 
 .outcome-range {
-  font-size: var(--pf-text-xs);
-  color: var(--pf-text-muted);
+  font-size: var(--my-text-xs);
+  color: var(--my-text-muted);
 }
 
 .prophesied .outcome-label {
-  color: var(--pf-gold-dark, #b8860b);
+  color: var(--my-gold-dark, #b8860b);
 }
 
 .base .outcome-label {
-  color: var(--pf-brown-dark);
+  color: var(--my-brown-dark);
 }
 
 .outside .outcome-label {
-  color: var(--pf-red-dark, #8b0000);
+  color: var(--my-red-dark, #8b0000);
 }
 
 .outcome-content {
@@ -119,9 +119,9 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: var(--pf-space-2);
-  font-size: var(--pf-text-sm);
-  font-weight: var(--pf-font-semibold);
+  gap: var(--my-space-2);
+  font-size: var(--my-text-sm);
+  font-weight: var(--my-font-semibold);
   text-align: left;
 }
 
@@ -133,25 +133,25 @@
 }
 
 .outcome-mechanic.damage {
-  color: var(--pf-red-dark);
+  color: var(--my-red-dark);
 }
 
 .outcome-mechanic.havoc {
-  color: var(--pf-purple-dark, #4b0082);
+  color: var(--my-purple-dark, #4b0082);
 }
 
 .outcome-mechanic.backlash {
-  color: var(--pf-orange-dark, #d2691e);
+  color: var(--my-orange-dark, #d2691e);
 }
 
 .outcome-mechanic.effect {
-  color: var(--pf-red-dark);
+  color: var(--my-red-dark);
   align-items: flex-start;
   margin-top: 4px;
   background: rgba(139, 0, 0, 0.04);
   padding: 4px 8px;
   border-radius: 4px;
-  border-left: 2px solid var(--pf-red-dark);
+  border-left: 2px solid var(--my-red-dark);
 }
 
 .outcome-mechanic.effect svg {
@@ -167,17 +167,17 @@
 }
 
 .effect-name {
-  font-weight: var(--pf-font-bold);
-  font-size: var(--pf-text-base);
-  color: var(--pf-red-dark);
+  font-weight: var(--my-font-bold);
+  font-size: var(--my-text-base);
+  color: var(--my-red-dark);
   line-height: 1.2;
   margin-bottom: 2px;
 }
 
 .effect-duration {
   font-size: 11px;
-  color: var(--pf-text-secondary);
-  font-weight: var(--pf-font-normal);
+  color: var(--my-text-secondary);
+  font-weight: var(--my-font-normal);
   font-style: italic;
   display: flex;
   align-items: center;
@@ -192,12 +192,12 @@
 }
 
 .stat-mod-badge {
-  background: var(--pf-brown-dark, #3e2723);
-  color: var(--pf-gold-light, #fff8e1);
+  background: var(--my-brown-dark, #3e2723);
+  color: var(--my-gold-light, #fff8e1);
   padding: 1px 6px;
   border-radius: 4px;
   font-size: 10px;
-  font-weight: var(--pf-font-bold);
+  font-weight: var(--my-font-bold);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   box-shadow: 0 1px 2px rgba(0,0,0,0.2);
@@ -206,8 +206,8 @@
 
 .effect-dot {
   font-size: 11px;
-  color: var(--pf-red-medium);
-  font-weight: var(--pf-font-medium);
+  color: var(--my-red-medium);
+  font-weight: var(--my-font-medium);
   font-style: italic;
   display: flex;
   align-items: center;
@@ -216,7 +216,7 @@
 
 .effect-tag {
   font-size: 10px;
-  font-weight: var(--pf-font-semibold);
+  font-weight: var(--my-font-semibold);
   display: flex;
   align-items: center;
   gap: 5px;
@@ -227,40 +227,40 @@
 }
 
 .effect-tag.healing-block {
-  color: var(--pf-red-dark, #8b0000);
+  color: var(--my-red-dark, #8b0000);
   background: rgba(139, 0, 0, 0.1);
   border: 1px solid rgba(139, 0, 0, 0.2);
 }
 
 .effect-tag.bonus-damage {
-  color: var(--pf-orange-dark, #d2691e);
+  color: var(--my-orange-dark, #d2691e);
   background: rgba(210, 105, 30, 0.1);
   border: 1px solid rgba(210, 105, 30, 0.2);
 }
 
 .effect-tag.save-check {
-  color: var(--pf-blue-dark, #1a237e);
+  color: var(--my-blue-dark, #1a237e);
   background: rgba(26, 35, 126, 0.08);
   border: 1px solid rgba(26, 35, 126, 0.15);
 }
 
 .effect-tag.instant-kill {
-  color: var(--pf-red-dark, #8b0000);
+  color: var(--my-red-dark, #8b0000);
   background: rgba(139, 0, 0, 0.15);
   border: 1px solid rgba(139, 0, 0, 0.3);
-  font-weight: var(--pf-font-bold);
+  font-weight: var(--my-font-bold);
   text-transform: uppercase;
 }
 
 .effect-tag.cascade {
-  color: var(--pf-purple-dark, #4b0082);
+  color: var(--my-purple-dark, #4b0082);
   background: rgba(75, 0, 130, 0.08);
   border: 1px solid rgba(75, 0, 130, 0.15);
 }
 
 .effect-detail-text {
   font-size: 10px;
-  color: var(--pf-text-muted);
+  color: var(--my-text-muted);
   font-style: italic;
   line-height: 1.3;
   margin-top: 2px;
@@ -273,9 +273,9 @@
 }
 
 .outcome-description {
-  font-size: var(--pf-text-xs);
+  font-size: var(--my-text-xs);
   line-height: 1.4;
-  color: var(--pf-text-secondary);
+  color: var(--my-text-secondary);
   font-style: italic;
   margin-top: 2px;
   text-align: left;
@@ -283,22 +283,22 @@
 }
 
 .prophecy-tables-section {
-  padding: var(--pf-space-3);
+  padding: var(--my-space-3);
   background: rgba(139, 105, 60, 0.02);
   border-top: 1px solid rgba(139, 105, 60, 0.15);
-  margin-bottom: var(--pf-space-2);
+  margin-bottom: var(--my-space-2);
 }
 
 .prophecy-footer {
-  padding: var(--pf-space-2) var(--pf-space-3);
-  background: var(--pf-gradient-parchment-dark);
-  border-top: var(--pf-border-width) solid var(--pf-brown-medium);
+  padding: var(--my-space-2) var(--my-space-3);
+  background: var(--my-gradient-parchment-dark);
+  border-top: var(--my-border-width) solid var(--my-brown-medium);
 }
 
 .prophecy-footer p {
   margin: 0;
-  font-size: var(--pf-text-xs);
-  color: var(--pf-text-muted);
+  font-size: var(--my-text-xs);
+  color: var(--my-text-muted);
   text-align: center;
   line-height: 1.4;
 }
@@ -319,10 +319,10 @@
 }
 
 .prophecy-track::-webkit-scrollbar-track {
-  background: var(--pf-gradient-parchment-dark);
+  background: var(--my-gradient-parchment-dark);
 }
 
 .prophecy-track::-webkit-scrollbar-thumb {
-  background: var(--pf-brown-medium);
+  background: var(--my-brown-medium);
   border-radius: 3px;
 }

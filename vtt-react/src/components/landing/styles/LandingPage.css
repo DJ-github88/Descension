@@ -163,7 +163,7 @@ body svg[data-icon] {
     radial-gradient(circle at 25% 25%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
     radial-gradient(circle at 75% 75%, rgba(139, 69, 19, 0.1) 0%, transparent 50%);
   font-family: 'Cinzel', serif;
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
   overflow-x: hidden;
   overflow-y: auto;
   scroll-behavior: smooth;
@@ -329,7 +329,7 @@ body svg[data-icon] {
 }
 
 .nav-item:hover {
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
   background: rgba(212, 175, 55, 0.08);
 }
 
@@ -397,7 +397,7 @@ body svg[data-icon] {
 .dev-bypass-btn:hover {
   border-color: #8b4513;
   background: rgba(139, 69, 19, 0.2);
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
   transform: translateY(-1px);
 }
 
@@ -555,7 +555,7 @@ body svg[data-icon] {
 
 .game-subtitle {
   font-size: 1.5rem;
-  color: #f0e6d2; /* Light color for readability */
+  color: var(--my-parchment-text); /* Light color for readability */
   margin-bottom: 24px;
   opacity: 1;
   text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.95), 0 0 20px rgba(0, 0, 0, 0.8), 1px 1px 2px rgba(0, 0, 0, 1); /* Strong dark shadow for readability */
@@ -565,7 +565,7 @@ body svg[data-icon] {
 .game-description {
   font-size: 1.1rem;
   line-height: 1.6;
-  color: #f0e6d2; /* Light color for readability */
+  color: var(--my-parchment-text); /* Light color for readability */
   margin-bottom: 32px;
   max-width: 500px;
   text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.95), 0 0 20px rgba(0, 0, 0, 0.8), 1px 1px 2px rgba(0, 0, 0, 1); /* Strong dark shadow for readability */
@@ -675,7 +675,7 @@ body svg[data-icon] {
 .secondary-action-btn {
   background: linear-gradient(135deg, rgba(139, 69, 19, 0.9), rgba(101, 67, 33, 0.95));
   border-color: #8b4513;
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
 }
 
@@ -757,7 +757,7 @@ body svg[data-icon] {
 }
 
 .start-step p {
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
   opacity: 0.9;
   line-height: 1.6;
   font-size: 1rem;
@@ -786,7 +786,7 @@ body svg[data-icon] {
   padding: 30px;
   text-align: center;
   transition: all 0.3s ease;
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
 }
 
 .feature-card:hover {
@@ -804,7 +804,7 @@ body svg[data-icon] {
 .feature-card h3 {
   font-size: 1.3rem;
   margin-bottom: 16px;
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
 }
 
 .feature-card p {
@@ -839,7 +839,7 @@ body svg[data-icon] {
   border: 2px solid #8b4513;
   border-radius: 12px;
   padding: 30px;
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
 }
 
 .info-card h3,
@@ -896,7 +896,7 @@ body svg[data-icon] {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
   font-size: 0.95rem;
   flex: 1;
   justify-content: center;
@@ -962,7 +962,7 @@ body svg[data-icon] {
 .info-card li {
   padding: 8px 0;
   border-bottom: 1px solid rgba(139, 69, 19, 0.3);
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
   font-weight: 500;
 }
 
@@ -1010,7 +1010,7 @@ body svg[data-icon] {
   text-align: center;
   position: relative;
   transition: all 0.3s ease;
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
   display: flex;
   flex-direction: column;
 }
@@ -1075,7 +1075,7 @@ body svg[data-icon] {
 .price {
   font-size: 2rem;
   font-weight: 700;
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
   margin-bottom: 20px;
 }
 
@@ -1095,7 +1095,7 @@ body svg[data-icon] {
 .pricing-card li {
   padding: 6px 0;
   border-bottom: 1px solid rgba(139, 69, 19, 0.2);
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
   font-weight: 500;
   font-size: 0.85rem;
   line-height: 1.4;
@@ -1152,7 +1152,7 @@ body svg[data-icon] {
   border: 2px solid #8b4513;
   border-radius: 8px;
   background: rgba(0, 0, 0, 0.3);
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
   font-family: 'Cinzel', serif;
 }
 
@@ -1248,13 +1248,13 @@ body svg[data-icon] {
 
 .rules-card-header h3 {
   font-size: 1.6rem;
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
   margin: 0;
 }
 
 .rules-card-body {
   padding: 30px;
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
 }
 
 /* Getting Started Guide */
@@ -1298,7 +1298,7 @@ body svg[data-icon] {
 }
 
 .guide-step-content p {
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
   opacity: 0.9;
   line-height: 1.6;
   margin: 0;
@@ -1328,7 +1328,7 @@ body svg[data-icon] {
 }
 
 .rule-section p {
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
   opacity: 0.9;
   line-height: 1.6;
   margin-bottom: 10px;
@@ -1341,7 +1341,7 @@ body svg[data-icon] {
 }
 
 .rule-section ul li {
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
   opacity: 0.9;
   line-height: 1.8;
   padding-left: 25px;
@@ -1385,7 +1385,7 @@ body svg[data-icon] {
 
 .footer-section a {
   display: block;
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
   text-decoration: none;
   padding: 4px 0;
   opacity: 0.8;
@@ -1729,7 +1729,7 @@ body svg[data-icon] {
   background: none;
   border: none;
   border-left: 3px solid transparent;
-  color: #f0e6d2;
+  color: var(--my-parchment-text);
   font-family: 'Cinzel', serif;
   font-size: 15px;
   cursor: pointer;

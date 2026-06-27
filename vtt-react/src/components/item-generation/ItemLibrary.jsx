@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { Grid as VirtualGrid } from 'react-window';
 import useItemStore, { BASE_CATEGORY } from '../../store/itemStore';
 import useInventoryStore from '../../store/inventoryStore';
-import WowWindow from '../windows/WowWindow';
+import MythrillWindow from '../windows/MythrillWindow';
 import ItemWizard from './ItemWizard';
 import CategoryDialog from './CategoryDialog';
 import ItemTooltip from './ItemTooltip';
@@ -1376,7 +1376,7 @@ const ItemLibrary = ({ onClose, contentOnly = false, initialTab = null }) => {
     }
 
     return (
-        <WowWindow
+        <MythrillWindow
             isOpen={true}
             onClose={onClose}
             defaultPosition={position}
@@ -1397,7 +1397,7 @@ const ItemLibrary = ({ onClose, contentOnly = false, initialTab = null }) => {
         >
             {renderContent()}
             {modalsContent}
-        </WowWindow>
+        </MythrillWindow>
     );
 };
 

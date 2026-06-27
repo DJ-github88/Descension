@@ -32,9 +32,9 @@
   .targeting-option-icon {
     width: 32px;
     height: 32px;
-    border-radius: var(--pf-border-radius, 4px);
-    border: 1px solid var(--pf-brown-light, #c4a882);
-    box-shadow: var(--pf-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.1));
+    border-radius: var(--my-border-radius, 4px);
+    border: 1px solid var(--my-brown-light, #c4a882);
+    box-shadow: var(--my-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.1));
   }
   
   /* ========== TARGETING GRID AND VISUALIZATION ========== */
@@ -42,17 +42,17 @@
     display: block;
     max-width: 100%;
     height: auto;
-    border-radius: var(--pf-border-radius, 4px);
-    box-shadow: var(--pf-shadow-md, 0 2px 8px rgba(0, 0, 0, 0.15));
+    border-radius: var(--my-border-radius, 4px);
+    box-shadow: var(--my-shadow-md, 0 2px 8px rgba(0, 0, 0, 0.15));
     cursor: crosshair;
-    background-color: var(--pf-gradient-parchment-light, #f8f4e6);
+    background-color: var(--my-gradient-parchment-light, #f8f4e6);
     transition: all 0.2s ease;
-    border: var(--pf-border-width, 1px) solid var(--pf-brown-medium, #8B4513);
+    border: var(--my-border-width, 1px) solid var(--my-brown-medium, #8B4513);
   }
   
   .targeting-canvas:hover {
-    box-shadow: var(--pf-shadow-lg, 0 4px 12px rgba(0, 0, 0, 0.2));
-    border-color: var(--pf-gold, #D4AF37);
+    box-shadow: var(--my-shadow-lg, 0 4px 12px rgba(0, 0, 0, 0.2));
+    border-color: var(--my-gold, #D4AF37);
   }
   
   /* ========== ANIMATION KEYFRAMES ========== */
@@ -109,28 +109,28 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: var(--pf-space-5) var(--pf-space-3);
-    background: var(--pf-gradient-button);
-    border: var(--pf-border-width-thick) solid var(--pf-brown-medium);
-    border-radius: var(--pf-border-radius);
-    transition: all var(--pf-transition-normal);
+    padding: var(--my-space-5) var(--my-space-3);
+    background: var(--my-gradient-button);
+    border: var(--my-border-width-thick) solid var(--my-brown-medium);
+    border-radius: var(--my-border-radius);
+    transition: all var(--my-transition-normal);
     cursor: pointer;
     text-align: center;
-    font-family: var(--pf-font-body);
+    font-family: var(--my-font-body);
   }
   
   .spell-wizard-card:hover {
-    background: var(--pf-gradient-button-hover);
-    border-color: var(--pf-brown-dark);
+    background: var(--my-gradient-button-hover);
+    border-color: var(--my-brown-dark);
     transform: translateY(-3px);
-    box-shadow: var(--pf-shadow-md);
+    box-shadow: var(--my-shadow-md);
   }
 
   .spell-wizard-card.selected {
-    background: var(--pf-gradient-gold);
-    border-color: var(--pf-gold-dark);
-    box-shadow: var(--pf-shadow-glow);
-    color: var(--pf-brown-darkest);
+    background: var(--my-gradient-gold);
+    border-color: var(--my-gold-dark);
+    box-shadow: var(--my-shadow-glow);
+    color: var(--my-brown-darkest);
   }
   
   .spell-wizard-card-icon {
@@ -140,19 +140,19 @@
     margin-bottom: 0.75rem;
     border-radius: 6px;
     overflow: hidden;
-    border: 2px solid var(--pf-brown-medium);
-    box-shadow: var(--pf-shadow-sm);
+    border: 2px solid var(--my-brown-medium);
+    box-shadow: var(--my-shadow-sm);
     transition: all 0.2s ease;
   }
   
   .spell-wizard-card.selected .spell-wizard-card-icon {
-    border-color: var(--pf-gold);
-    box-shadow: var(--pf-shadow-glow);
+    border-color: var(--my-gold);
+    box-shadow: var(--my-shadow-glow);
   }
 
   .spell-wizard-card:hover .spell-wizard-card-icon {
     transform: scale(1.05);
-    border-color: var(--pf-brown-dark);
+    border-color: var(--my-brown-dark);
   }
   
   .spell-wizard-card-icon img {
@@ -162,37 +162,37 @@
   }
   
   .spell-wizard-card h4 {
-    font-family: var(--pf-font-display);
+    font-family: var(--my-font-display);
     font-size: 1.1rem;
     font-weight: 600;
-    color: var(--pf-text-primary);
+    color: var(--my-text-primary);
     margin: 0 0 0.5rem 0;
     transition: all 0.2s ease;
   }
   
   .spell-wizard-card.selected h4 {
-    color: var(--pf-brown-darkest);
+    color: var(--my-brown-darkest);
     text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
   }
   
   .spell-wizard-card p,
   .spell-wizard-card small {
-    font-size: var(--pf-text-xs);
-    color: var(--pf-text-secondary);
+    font-size: var(--my-text-xs);
+    color: var(--my-text-secondary);
     margin: 0;
     line-height: 1.4;
-    transition: all var(--pf-transition-normal);
-    font-family: var(--pf-font-body);
+    transition: all var(--my-transition-normal);
+    font-family: var(--my-font-body);
   }
 
   .spell-wizard-card.selected p,
   .spell-wizard-card.selected small {
-    color: var(--pf-brown-darkest);
+    color: var(--my-brown-darkest);
   }
 
   .spell-wizard-card:hover p,
   .spell-wizard-card:hover small {
-    color: var(--pf-text-primary);
+    color: var(--my-text-primary);
   }
   
   /* Spell Icon */

@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
-import WowWindow from './WowWindow';
+import MythrillWindow from './MythrillWindow';
 import { TravelTrackerContent } from './TravelTrackerWindow';
 import SocialEncounterGenerator from '../gm-tools/SocialEncounterGenerator';
 import JukeboxPanel from '../jukebox/JukeboxPanel';
@@ -38,7 +38,7 @@ export default function Toolkit({ isOpen, onClose }) {
   }, [activeTab]);
 
   return (
-    <WowWindow
+    <MythrillWindow
       title="Toolkit"
       isOpen={isOpen}
       onClose={onClose}
@@ -55,6 +55,6 @@ export default function Toolkit({ isOpen, onClose }) {
         {activeTab === 'encounters' && <SocialEncounterGenerator />}
         {activeTab === 'lutebox' && <JukeboxPanel isGM={true} />}
       </div>
-    </WowWindow>
+    </MythrillWindow>
   );
 }

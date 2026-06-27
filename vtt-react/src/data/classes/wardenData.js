@@ -34,16 +34,18 @@ export const WARDEN_DATA = {
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `Wardens are not forest protectors; they are the final, desperate cell of inquisitorial jailers. They bear the heavy scars of their calling, carrying the weight of nightmares that must never be allowed to reach the light. Driven by penance, they choose to drive rusted steel hooks through their own bones to become living anchors for the abominations of the deep.
+      content: `**HISTORY: THE GENESIS**
+The warden's calling was forged by Alaric the Law-Keeper, a Groven mine-guard who drove a mining chain through his own forearm to anchor a colossal abomination during the Vat-Breakers' revolt in the lower tunnels of <LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink>. Over ten years, he and the Fexrick chain-smiths refined the technique of grafting iron tethers directly into muscle and bone.
 
-**Common Warden Archetypes**:
-- **The Penitent Jailer**: Driven by some unspoken past failure, they graft chains into their forearms to ensure no monster ever escapes their grasp again.
-- **The Rusted Anchor**: A heavy-clad frontline sentinel who views their own body as a physical barricade, using iron and blood to halt colossal threats.
-- **The Flayed Inquisitor**: Driven by zealotry, they use self-inflicted pain to fuel kinetic chain lashings, finding holy absolution in physical agony.
-- **The Graveyard Sentinel**: Bound to ancient crypts or ruined keeps, guarding specific terrors that have been chained to their lineage for generations.
+**CITIES & CIVIL RECEPTION**
+Common folk in regional settlements find their rusted, skin-grafted chains and heavy iron bolts disturbing, often viewing them as zealots or walking cell blocks. They are tolerated only because they keep the absolute worst terrors of the deep from reaching the surface keeps.
 
-**Personality Traits**:
-Wardens are stoic, grim, and utterly hollowed out by their duty. They speak in hushed tones, their voices like dry leaves scraping over gravel. They carry the smell of old iron, dried blood, and tomb-dust. They do not seek glory or companionship; they seek only the cold, silent relief of a duty completed.`,
+**RACES & CULTURAL AFFILIATION**
+The tradition is heavily practiced by the subterranean Morgh <LoreLink termId="groven">Groven</LoreLink> and the <LoreLink termId="fexrick">Fexrick</LoreLink> Drall who forge their iron links. However, it has spread to desperate <LoreLink termId="neth">Neth</LoreLink> archivists, <LoreLink termId="skald">Skald</LoreLink> glacier-hunters, and penitent <LoreLink termId="vreken">Vreken</LoreLink> who seek absolution by chaining themselves to the bog-horrors.
+
+**NOTABLE FIGURES**
+* **Alaric the Law-Keeper**: The first Warden who held the line for three days with a rusted chain driven through his forearm.
+* **The Fexrick Drall Smiths**: The specialized chain-smiths of Frostmaw Holdfast who perform the flesh-grafting surgical rites.`
     },
 
     signatureQuote: {

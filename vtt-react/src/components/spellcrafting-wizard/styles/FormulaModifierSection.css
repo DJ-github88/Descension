@@ -1,160 +1,160 @@
 /* ===== PATHFINDER FORMULA MODIFIER SECTION ===== */
 
 .formula-modifier-section {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-4);
-  margin-bottom: var(--pf-space-4);
-  box-shadow: var(--pf-shadow-inset);
-  font-family: var(--pf-font-body);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-4);
+  margin-bottom: var(--my-space-4);
+  box-shadow: var(--my-shadow-inset);
+  font-family: var(--my-font-body);
 }
 
 .formula-modifier-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--pf-space-3);
-  border-bottom: var(--pf-border-width) solid var(--pf-brown-light);
-  padding-bottom: var(--pf-space-2);
+  margin-bottom: var(--my-space-3);
+  border-bottom: var(--my-border-width) solid var(--my-brown-light);
+  padding-bottom: var(--my-space-2);
 }
 
 .formula-type-label {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-gold);
-  font-size: var(--pf-text-sm);
-  text-shadow: var(--pf-text-shadow);
-  font-family: var(--pf-font-ui);
+  gap: var(--my-space-2);
+  font-weight: var(--my-font-bold);
+  color: var(--my-gold);
+  font-size: var(--my-text-sm);
+  text-shadow: var(--my-text-shadow);
+  font-family: var(--my-font-ui);
 }
 
 .formula-icon {
-  font-size: var(--pf-text-base);
+  font-size: var(--my-text-base);
 }
 
 .formula-icon.damage {
-  color: var(--pf-red);
+  color: var(--my-red);
 }
 
 .formula-icon.healing {
-  color: var(--pf-green);
+  color: var(--my-green);
 }
 
 .formula-icon.range {
-  color: var(--pf-blue);
+  color: var(--my-blue);
 }
 
 .formula-icon.duration {
-  color: var(--pf-gold);
+  color: var(--my-gold);
 }
 
 .formula-icon.targets {
-  color: var(--pf-purple);
+  color: var(--my-purple);
 }
 
 .formula-toggle-button {
-  background: var(--pf-gradient-button);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius-sm);
-  color: var(--pf-text-primary);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  font-size: var(--pf-text-xs);
+  background: var(--my-gradient-button);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius-sm);
+  color: var(--my-text-primary);
+  padding: var(--my-space-1) var(--my-space-2);
+  font-size: var(--my-text-xs);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
-  font-family: var(--pf-font-ui);
+  transition: all var(--my-transition-normal);
+  font-family: var(--my-font-ui);
 }
 
 .formula-toggle-button:hover {
-  background: var(--pf-gradient-button-hover);
-  border-color: var(--pf-gold);
-  box-shadow: var(--pf-shadow-md);
+  background: var(--my-gradient-button-hover);
+  border-color: var(--my-gold);
+  box-shadow: var(--my-shadow-md);
 }
 
 .original-formula {
-  background: var(--pf-gradient-parchment-dark);
-  border-radius: var(--pf-border-radius-sm);
-  padding: var(--pf-space-2) var(--pf-space-3);
-  margin-bottom: var(--pf-space-3);
+  background: var(--my-gradient-parchment-dark);
+  border-radius: var(--my-border-radius-sm);
+  padding: var(--my-space-2) var(--my-space-3);
+  margin-bottom: var(--my-space-3);
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+  gap: var(--my-space-2);
+  border: var(--my-border-width) solid var(--my-brown-light);
 }
 
 .original-formula-label {
-  font-size: var(--pf-text-xs);
-  color: var(--pf-text-secondary);
-  font-weight: var(--pf-font-semibold);
-  font-family: var(--pf-font-ui);
+  font-size: var(--my-text-xs);
+  color: var(--my-text-secondary);
+  font-weight: var(--my-font-semibold);
+  font-family: var(--my-font-ui);
 }
 
 .original-formula-value {
-  font-family: var(--pf-font-mono);
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-primary);
-  background-color: var(--pf-gradient-parchment);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  border-radius: var(--pf-border-radius-sm);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+  font-family: var(--my-font-mono);
+  font-size: var(--my-text-sm);
+  color: var(--my-text-primary);
+  background-color: var(--my-gradient-parchment);
+  padding: var(--my-space-1) var(--my-space-2);
+  border-radius: var(--my-border-radius-sm);
+  border: var(--my-border-width) solid var(--my-brown-light);
 }
 
 .damage-color {
-  color: var(--pf-red);
+  color: var(--my-red);
 }
 
 .healing-color {
-  color: var(--pf-green);
+  color: var(--my-green);
 }
 
 .range-color {
-  color: var(--pf-blue);
+  color: var(--my-blue);
 }
 
 .duration-color {
-  color: var(--pf-gold);
+  color: var(--my-gold);
 }
 
 .targets-color {
-  color: var(--pf-purple);
+  color: var(--my-purple);
 }
 
 .modifier-type-selector {
   display: flex;
-  gap: var(--pf-space-2);
-  margin-bottom: var(--pf-space-3);
+  gap: var(--my-space-2);
+  margin-bottom: var(--my-space-3);
 }
 
 .modifier-type-button {
   flex: 1;
-  background: var(--pf-gradient-button);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius-sm);
-  color: var(--pf-text-primary);
-  padding: var(--pf-space-2) var(--pf-space-3);
+  background: var(--my-gradient-button);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius-sm);
+  color: var(--my-text-primary);
+  padding: var(--my-space-2) var(--my-space-3);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
-  font-size: var(--pf-text-xs);
-  font-weight: var(--pf-font-semibold);
-  font-family: var(--pf-font-ui);
+  transition: all var(--my-transition-normal);
+  font-size: var(--my-text-xs);
+  font-weight: var(--my-font-semibold);
+  font-family: var(--my-font-ui);
 }
 
 .modifier-type-button:hover {
-  background: var(--pf-gradient-button-hover);
-  border-color: var(--pf-gold);
-  box-shadow: var(--pf-shadow-md);
+  background: var(--my-gradient-button-hover);
+  border-color: var(--my-gold);
+  box-shadow: var(--my-shadow-md);
 }
 
 .modifier-type-button.active {
-  background: var(--pf-gradient-gold);
-  border-color: var(--pf-gold-dark);
-  box-shadow: var(--pf-shadow-glow);
-  color: var(--pf-brown-darkest);
+  background: var(--my-gradient-gold);
+  border-color: var(--my-gold-dark);
+  box-shadow: var(--my-shadow-glow);
+  color: var(--my-brown-darkest);
 }
 
 .formula-input-container {
-  margin-bottom: var(--pf-space-3);
+  margin-bottom: var(--my-space-3);
 }
 
 .direct-formula-input,
@@ -162,40 +162,40 @@
 .addition-input {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
 }
 
 .multiplier-label,
 .base-formula-label {
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-sm);
-  font-weight: var(--pf-font-semibold);
-  font-family: var(--pf-font-ui);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-sm);
+  font-weight: var(--my-font-semibold);
+  font-family: var(--my-font-ui);
 }
 
 .formula-preview {
-  background: var(--pf-gradient-parchment-dark);
-  border-radius: var(--pf-border-radius-sm);
-  padding: var(--pf-space-2) var(--pf-space-3);
+  background: var(--my-gradient-parchment-dark);
+  border-radius: var(--my-border-radius-sm);
+  padding: var(--my-space-2) var(--my-space-3);
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+  gap: var(--my-space-2);
+  border: var(--my-border-width) solid var(--my-brown-light);
 }
 
 .preview-label {
-  font-size: var(--pf-text-xs);
-  color: var(--pf-text-secondary);
-  font-weight: var(--pf-font-semibold);
-  font-family: var(--pf-font-ui);
+  font-size: var(--my-text-xs);
+  color: var(--my-text-secondary);
+  font-weight: var(--my-font-semibold);
+  font-family: var(--my-font-ui);
 }
 
 .preview-value {
-  font-family: var(--pf-font-mono);
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-primary);
-  background-color: var(--pf-gradient-parchment);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  border-radius: var(--pf-border-radius-sm);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+  font-family: var(--my-font-mono);
+  font-size: var(--my-text-sm);
+  color: var(--my-text-primary);
+  background-color: var(--my-gradient-parchment);
+  padding: var(--my-space-1) var(--my-space-2);
+  border-radius: var(--my-border-radius-sm);
+  border: var(--my-border-width) solid var(--my-brown-light);
 }

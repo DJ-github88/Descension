@@ -5,14 +5,14 @@
 
 .pf-spell-card,
 .wow-spell-card {
-  background: var(--pf-gradient-parchment);
+  background: var(--my-gradient-parchment);
   border: none;
-  border-radius: var(--pf-border-radius-lg);
+  border-radius: var(--my-border-radius-lg);
   box-shadow:
-    var(--pf-shadow-parchment),
+    var(--my-shadow-parchment),
     0 2px 8px rgba(45, 24, 16, 0.15);
   overflow: visible; /* Changed to visible to allow priority tag to show above */
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   cursor: pointer;
   position: relative;
   width: 100% !important;
@@ -21,7 +21,7 @@
   min-height: 320px;
   display: flex;
   flex-direction: column;
-  font-family: var(--pf-font-body);
+  font-family: var(--my-font-body);
   margin: 0 auto;
 }
 
@@ -44,7 +44,7 @@
     inset 0 1px 2px rgba(255, 255, 255, 0.4);
   white-space: nowrap;
   transform: rotate(4deg); /* Tilted in the other direction (clockwise) */
-  transition: all var(--pf-transition-fast);
+  transition: all var(--my-transition-fast);
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6);
   pointer-events: none; /* Don't interfere with card interactions */
   line-height: 1.2;
@@ -84,7 +84,7 @@
     inset 0 1px 2px rgba(255, 255, 255, 0.4);
   white-space: nowrap;
   transform: rotate(-4deg); /* Tilted in opposite direction (counter-clockwise) */
-  transition: all var(--pf-transition-fast);
+  transition: all var(--my-transition-fast);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
   pointer-events: none; /* Don't interfere with card interactions */
   line-height: 1.2;
@@ -121,7 +121,7 @@
 .wow-spell-card:hover .pf-damage-type-badge,
 .wow-spell-card:hover .pf-resource-cost {
   transform: translateY(-1px);
-  box-shadow: var(--pf-shadow-md);
+  box-shadow: var(--my-shadow-md);
 }
 
 /* Responsive design for smaller screens */
@@ -141,7 +141,7 @@
 
   .pf-spell-header-details,
   .wow-spell-card-details {
-    gap: var(--pf-space-1);
+    gap: var(--my-space-1);
   }
 
   .pf-action-type-badge,
@@ -164,7 +164,7 @@
   right: 0;
   bottom: 0;
   pointer-events: none;
-  border-radius: var(--pf-border-radius-lg);
+  border-radius: var(--my-border-radius-lg);
   z-index: 1;
 }
 
@@ -183,8 +183,8 @@
   background: linear-gradient(to bottom, rgba(255,255,255,0.15), rgba(255,255,255,0));
   pointer-events: none;
   z-index: 1;
-  border-top-left-radius: var(--pf-border-radius-lg);
-  border-top-right-radius: var(--pf-border-radius-lg);
+  border-top-left-radius: var(--my-border-radius-lg);
+  border-top-right-radius: var(--my-border-radius-lg);
 }
 
 .spell-card-content {
@@ -199,17 +199,17 @@
 .wow-spell-card:hover {
   transform: translateY(-4px);
   box-shadow:
-    var(--pf-shadow-xl),
+    var(--my-shadow-xl),
     0 8px 24px rgba(45, 24, 16, 0.2),
     0 0 0 1px rgba(212, 175, 55, 0.1);
-  border-color: var(--pf-brown-dark);
+  border-color: var(--my-brown-dark);
 }
 
 .pf-spell-card.selected,
 .wow-spell-card.selected {
-  border-color: var(--pf-gold);
+  border-color: var(--my-gold);
   box-shadow:
-    var(--pf-shadow-xl),
+    var(--my-shadow-xl),
     0 8px 24px rgba(45, 24, 16, 0.2),
     0 0 20px rgba(212, 175, 55, 0.4),
     0 0 0 2px rgba(212, 175, 55, 0.2);
@@ -219,32 +219,32 @@
 /* ===== RARITY VARIANTS ===== */
 
 .pf-spell-card.common {
-  border-color: var(--pf-common);
+  border-color: var(--my-common);
 }
 
 .pf-spell-card.uncommon {
-  border-color: var(--pf-uncommon);
+  border-color: var(--my-uncommon);
 }
 
 .pf-spell-card.rare {
-  border-color: var(--pf-rare);
+  border-color: var(--my-rare);
 }
 
 .pf-spell-card.epic {
-  border-color: var(--pf-epic);
+  border-color: var(--my-epic);
 }
 
 .pf-spell-card.legendary {
-  border-color: var(--pf-legendary);
+  border-color: var(--my-legendary);
   box-shadow: 
-    var(--pf-shadow-parchment),
+    var(--my-shadow-parchment),
     0 0 15px rgba(212, 175, 55, 0.2);
 }
 
 .pf-spell-card.artifact {
-  border-color: var(--pf-artifact);
+  border-color: var(--my-artifact);
   box-shadow: 
-    var(--pf-shadow-parchment),
+    var(--my-shadow-parchment),
     0 0 20px rgba(212, 175, 55, 0.3);
 }
 
@@ -262,18 +262,18 @@
 .wow-spell-card .spell-card-header {
   display: flex !important;
   flex-direction: column !important;
-  padding: var(--pf-space-3, 12px) var(--pf-space-4, 16px) !important;
-  background: var(--pf-gradient-header, linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%)) !important;
-  border-bottom: var(--pf-border-width-thick, 3px) solid var(--pf-brown-medium, #8B4513) !important;
+  padding: var(--my-space-3, 12px) var(--my-space-4, 16px) !important;
+  background: var(--my-gradient-header, linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%)) !important;
+  border-bottom: var(--my-border-width-thick, 3px) solid var(--my-brown-medium, #8B4513) !important;
   position: relative !important;
-  gap: var(--pf-space-2, 8px) !important;
+  gap: var(--my-space-2, 8px) !important;
   width: 100% !important;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.2),
     0 1px 3px rgba(45, 24, 16, 0.2) !important;
   overflow: visible !important; /* Allow priority tag to overflow above header */
-  border-top-left-radius: var(--pf-border-radius-lg) !important;
-  border-top-right-radius: var(--pf-border-radius-lg) !important;
+  border-top-left-radius: var(--my-border-radius-lg) !important;
+  border-top-right-radius: var(--my-border-radius-lg) !important;
 }
 
 /* Header Top Row - Icon, Name, and Resource Cost */
@@ -281,7 +281,7 @@
 .wow-spell-card-title {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-3);
+  gap: var(--my-space-3);
   width: 100%;
 }
 
@@ -290,16 +290,16 @@
 .wow-spell-card-details {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
   flex-wrap: wrap;
   width: 100%;
-  margin-top: var(--pf-space-1);
+  margin-top: var(--my-space-1);
 }
 
 .pf-spell-header-top {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-3);
+  gap: var(--my-space-3);
   margin-bottom: 0;
   flex: 1;
   width: 100%;
@@ -339,7 +339,7 @@
   display: flex;
   align-items: center;
   width: 100%;
-  gap: var(--pf-space-4);
+  gap: var(--my-space-4);
 }
 
 /* ===== ENHANCED SPELL ICON ===== */
@@ -359,23 +359,23 @@
 .spellbook-layout .spell-icon {
   width: 42px;
   height: 42px;
-  border: 2px solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius-lg);
+  border: 2px solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius-lg);
   overflow: hidden;
   box-shadow:
-    var(--pf-shadow-md),
+    var(--my-shadow-md),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
   object-fit: cover;
-  background: var(--pf-gradient-parchment);
-  transition: all var(--pf-transition-normal);
+  background: var(--my-gradient-parchment);
+  transition: all var(--my-transition-normal);
 }
 
 .pf-spell-card:hover .pf-spell-icon,
 .wow-spell-card:hover .wow-spell-card-icon img,
 .spell-card-wrapper:hover .spell-icon {
-  border-color: var(--pf-gold);
+  border-color: var(--my-gold);
   box-shadow:
-    var(--pf-shadow-lg),
+    var(--my-shadow-lg),
     0 0 12px rgba(212, 175, 55, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
@@ -388,21 +388,21 @@
   border-radius: 3px;
   font-size: 8px;
   font-weight: bold;
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
   border: 1px solid;
   z-index: 10;
 }
 
 .pf-spell-type-badge.trap {
-  background-color: var(--pf-red-dark);
-  border-color: var(--pf-red);
-  color: var(--pf-red-light);
+  background-color: var(--my-red-dark);
+  border-color: var(--my-red);
+  color: var(--my-red-light);
 }
 
 .pf-spell-type-badge.action {
-  background-color: var(--pf-brown-dark);
-  border-color: var(--pf-brown-medium);
-  color: var(--pf-parchment-light);
+  background-color: var(--my-brown-dark);
+  border-color: var(--my-brown-medium);
+  color: var(--my-parchment-light);
 }
 
 /* ===== ENHANCED SPELL INFO ===== */
@@ -420,10 +420,10 @@
 .pf-spell-name,
 .wow-spell-card-name h3,
 .spell-name {
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-display);
-  font-size: var(--pf-text-base);
-  font-weight: var(--pf-font-bold);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-display);
+  font-size: var(--my-text-base);
+  font-weight: var(--my-font-bold);
   margin: 0;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
   line-height: 1.1;
@@ -437,58 +437,58 @@
 .spell-meta {
   display: flex;
   flex-direction: row;
-  gap: var(--pf-space-2);
-  font-size: var(--pf-text-xs);
-  font-weight: var(--pf-font-medium);
-  margin-top: var(--pf-space-1);
+  gap: var(--my-space-2);
+  font-size: var(--my-text-xs);
+  font-weight: var(--my-font-medium);
+  margin-top: var(--my-space-1);
   align-items: center;
   flex-wrap: wrap;
 }
 
 .pf-spell-meta-basic {
   display: flex;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
   flex-wrap: wrap;
   align-items: center;
   justify-content: flex-start;
 }
 
 .pf-spell-meta-tag {
-  color: var(--pf-text-primary);
-  background: var(--pf-gradient-button);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  border-radius: var(--pf-border-radius);
-  border: 1px solid var(--pf-brown-medium);
+  color: var(--my-text-primary);
+  background: var(--my-gradient-button);
+  padding: var(--my-space-1) var(--my-space-2);
+  border-radius: var(--my-border-radius);
+  border: 1px solid var(--my-brown-medium);
   text-transform: uppercase;
   letter-spacing: 0.3px;
-  font-size: var(--pf-text-xs);
+  font-size: var(--my-text-xs);
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
   white-space: nowrap;
-  font-weight: var(--pf-font-semibold);
-  box-shadow: var(--pf-shadow-sm);
-  transition: all var(--pf-transition-normal);
+  font-weight: var(--my-font-semibold);
+  box-shadow: var(--my-shadow-sm);
+  transition: all var(--my-transition-normal);
 }
 
 .pf-spell-meta-tag:hover {
-  background: var(--pf-gradient-button-hover);
+  background: var(--my-gradient-button-hover);
   transform: translateY(-1px);
-  box-shadow: var(--pf-shadow-md);
+  box-shadow: var(--my-shadow-md);
 }
 
 .pf-spell-meta-targeting {
   display: flex;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
   flex-wrap: wrap;
   align-items: center;
-  color: var(--pf-text-primary);
-  font-size: var(--pf-text-sm);
-  font-weight: var(--pf-font-medium);
+  color: var(--my-text-primary);
+  font-size: var(--my-text-sm);
+  font-weight: var(--my-font-medium);
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .pf-spell-meta-targeting .pf-spell-meta-tag {
   background: rgba(139, 69, 19, 0.4);
-  border-color: var(--pf-brown-medium);
+  border-color: var(--my-brown-medium);
 }
 
 /* ===== ACTION TYPE BADGES ===== */
@@ -498,9 +498,9 @@
   align-items: center;
   gap: 2px;
   padding: 1px 4px;
-  border-radius: var(--pf-border-radius-sm);
+  border-radius: var(--my-border-radius-sm);
   font-size: 11px;
-  font-weight: var(--pf-font-bold);
+  font-weight: var(--my-font-bold);
   text-transform: uppercase;
   letter-spacing: 0.2px;
   border: none;
@@ -529,7 +529,7 @@
 
 .pf-type-detail {
   font-size: 9px;
-  font-weight: var(--pf-font-normal);
+  font-weight: var(--my-font-normal);
   color: rgba(255, 255, 255, 0.6);
   text-transform: none;
   letter-spacing: 0;
@@ -600,9 +600,9 @@
   align-items: center;
   gap: 2px;
   padding: 1px 4px;
-  border-radius: var(--pf-border-radius-sm);
+  border-radius: var(--my-border-radius-sm);
   font-size: 11px;
-  font-weight: var(--pf-font-semibold);
+  font-weight: var(--my-font-semibold);
   border: none;
   background: transparent;
   color: #d1d5db;
@@ -651,16 +651,16 @@
   align-items: center;
   gap: 4px;
   padding: 2px 6px;
-  border-radius: var(--pf-border-radius-sm);
-  font-size: var(--pf-text-xs);
-  font-weight: var(--pf-font-semibold);
+  border-radius: var(--my-border-radius-sm);
+  font-size: var(--my-text-xs);
+  font-weight: var(--my-font-semibold);
   border: 1px solid rgba(212, 175, 55, 0.6);
   background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(212, 175, 55, 0.1));
   color: #f4d03f;
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
   white-space: nowrap;
   flex-shrink: 1;
-  transition: all var(--pf-transition-fast);
+  transition: all var(--my-transition-fast);
   max-width: 250px;
 }
 
@@ -673,7 +673,7 @@
   background: linear-gradient(135deg, rgba(212, 175, 55, 0.3), rgba(212, 175, 55, 0.2));
   border-color: rgba(212, 175, 55, 0.8);
   transform: translateY(-1px);
-  box-shadow: var(--pf-shadow-md);
+  box-shadow: var(--my-shadow-md);
 }
 
 .pf-propagation-icon {
@@ -695,16 +695,16 @@
   align-items: center;
   gap: 4px;
   padding: 2px 6px;
-  border-radius: var(--pf-border-radius-sm);
-  font-size: var(--pf-text-xs);
-  font-weight: var(--pf-font-semibold);
+  border-radius: var(--my-border-radius-sm);
+  font-size: var(--my-text-xs);
+  font-weight: var(--my-font-semibold);
   border: 1px solid rgba(139, 69, 19, 0.6);
   background: linear-gradient(135deg, rgba(139, 69, 19, 0.25), rgba(139, 69, 19, 0.15));
   color: #d4af37;
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
   white-space: nowrap;
   flex-shrink: 1;
-  transition: all var(--pf-transition-fast);
+  transition: all var(--my-transition-fast);
   max-width: 250px;
   transform: rotate(-2deg); /* Tilted style */
 }
@@ -718,7 +718,7 @@
   background: linear-gradient(135deg, rgba(139, 69, 19, 0.35), rgba(139, 69, 19, 0.25));
   border-color: rgba(139, 69, 19, 0.8);
   transform: translateY(-1px) rotate(-2deg);
-  box-shadow: var(--pf-shadow-md);
+  box-shadow: var(--my-shadow-md);
 }
 
 /* ===== RANGE BADGES ===== */
@@ -728,9 +728,9 @@
   align-items: center;
   gap: 2px;
   padding: 1px 4px;
-  border-radius: var(--pf-border-radius-sm);
+  border-radius: var(--my-border-radius-sm);
   font-size: 11px;
-  font-weight: var(--pf-font-semibold);
+  font-weight: var(--my-font-semibold);
   border: none;
   background: transparent;
   color: #d1d5db;
@@ -757,12 +757,12 @@
 .wow-spell-card-meta span,
 .spell-meta span {
   white-space: nowrap;
-  font-weight: var(--pf-font-semibold);
-  padding: var(--pf-space-1) var(--pf-space-2);
+  font-weight: var(--my-font-semibold);
+  padding: var(--my-space-1) var(--my-space-2);
   background: rgba(139, 69, 19, 0.8);
-  border-radius: var(--pf-border-radius);
+  border-radius: var(--my-border-radius);
   border: 1px solid rgba(139, 69, 19, 0.6);
-  font-size: var(--pf-text-xs);
+  font-size: var(--my-text-xs);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   color: #f5f5dc;
@@ -771,8 +771,8 @@
 
 .spell-cast-time,
 .spell-header-range {
-  color: var(--pf-parchment);
-  font-weight: var(--pf-font-medium);
+  color: var(--my-parchment);
+  font-weight: var(--my-font-medium);
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
 }
 
@@ -780,7 +780,7 @@
 
 .pf-damage-types {
   display: flex;
-  gap: var(--pf-space-1);
+  gap: var(--my-space-1);
   flex-wrap: wrap; /* Allow damage types to wrap */
   align-items: center;
   flex-shrink: 1; /* Allow shrinking if needed */
@@ -790,11 +790,11 @@
 .pf-damage-type-badge {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-1);
+  gap: var(--my-space-1);
   padding: 2px 8px;
-  border-radius: var(--pf-border-radius-sm);
-  font-size: var(--pf-text-xs);
-  font-weight: var(--pf-font-semibold);
+  border-radius: var(--my-border-radius-sm);
+  font-size: var(--my-text-xs);
+  font-weight: var(--my-font-semibold);
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   background: rgba(255, 255, 255, 0.08);
@@ -819,7 +819,7 @@
 .pf-damage-type-text {
   display: flex;
   align-items: center;
-  font-weight: var(--pf-font-bold);
+  font-weight: var(--my-font-bold);
   text-shadow: 0px 0px 1px rgba(255, 255, 255, 0.5), 1px 1px 2px rgba(0, 0, 0, 0.3); /* Multi-layer shadow for contrast */
 }
 
@@ -834,14 +834,14 @@
 
 /* Fire */
 .pf-damage-type-badge.fire {
-  color: var(--pf-fire);
+  color: var(--my-fire);
 }
 
 /* Ice/Cold/Frost */
 .pf-damage-type-badge.ice,
 .pf-damage-type-badge.cold,
 .pf-damage-type-badge.frost {
-  color: var(--pf-frost);
+  color: var(--my-frost);
 }
 
 /* Lightning/Thunder/Electric */
@@ -854,25 +854,25 @@
 /* Poison */
 .pf-damage-type-badge.poison,
 .pf-damage-type-badge.acid {
-  color: var(--pf-poison);
+  color: var(--my-poison);
 }
 
 /* Necrotic/Shadow */
 .pf-damage-type-badge.necrotic,
 .pf-damage-type-badge.shadow {
-  color: var(--pf-necrotic);
+  color: var(--my-necrotic);
 }
 
 /* Radiant/Holy */
 .pf-damage-type-badge.radiant,
 .pf-damage-type-badge.holy {
-  color: var(--pf-holy);
+  color: var(--my-holy);
 }
 
 /* Arcane/Force */
 .pf-damage-type-badge.arcane,
 .pf-damage-type-badge.force {
-  color: var(--pf-force);
+  color: var(--my-force);
 }
 
 /* Bludgeoning */
@@ -892,65 +892,65 @@
 
 /* Nature */
 .pf-damage-type-badge.nature {
-  color: var(--pf-nature);
+  color: var(--my-nature);
 }
 
 /* 8-type schema text colors */
 .pf-damage-type-badge.ember {
-  color: var(--pf-ember);
+  color: var(--my-ember);
 }
 
 .pf-damage-type-badge.rime {
-  color: var(--pf-rime);
+  color: var(--my-rime);
 }
 
 .pf-damage-type-badge.storm {
-  color: var(--pf-storm);
+  color: var(--my-storm);
 }
 
 .pf-damage-type-badge.primal {
-  color: var(--pf-primal);
+  color: var(--my-primal);
 }
 
 .pf-damage-type-badge.blight {
-  color: var(--pf-blight);
+  color: var(--my-blight);
 }
 
 .pf-damage-type-badge.wyrd {
-  color: var(--pf-wyrd);
+  color: var(--my-wyrd);
 }
 
 /* Divine */
 .pf-damage-type-badge.divine {
-  color: var(--pf-divine);
+  color: var(--my-divine);
 }
 
 /* Void */
 .pf-damage-type-badge.void {
-  color: var(--pf-void);
+  color: var(--my-void);
 }
 
 /* Psychic */
 .pf-damage-type-badge.psychic {
-  color: var(--pf-psychic);
+  color: var(--my-psychic);
 }
 
 /* Chaos */
 .pf-damage-type-badge.chaos {
-  color: var(--pf-chaos);
+  color: var(--my-chaos);
 }
 
 /* More types indicator */
 .pf-damage-type-badge.more-types {
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  color: var(--pf-text-secondary);
+  color: var(--my-text-secondary);
   font-style: italic;
 }
 
 .pf-damage-type-badge.more-types:hover {
   background: rgba(255, 255, 255, 0.2);
-  color: var(--pf-text-primary);
+  color: var(--my-text-primary);
 }
 
 /* ===== TRIGGER BADGES ===== */
@@ -958,39 +958,39 @@
 .pf-trigger-badge {
   display: flex;
   align-items: center;
-  background: var(--pf-gradient-button);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  gap: var(--pf-space-1);
-  font-family: var(--pf-font-ui);
-  transition: all var(--pf-transition-normal);
-  margin-left: var(--pf-space-2);
+  background: var(--my-gradient-button);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-1) var(--my-space-2);
+  gap: var(--my-space-1);
+  font-family: var(--my-font-ui);
+  transition: all var(--my-transition-normal);
+  margin-left: var(--my-space-2);
 }
 
 .pf-trigger-badge:hover {
-  background: var(--pf-gradient-button-hover);
-  border-color: var(--pf-brown-dark);
+  background: var(--my-gradient-button-hover);
+  border-color: var(--my-brown-dark);
   transform: translateY(-1px);
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .pf-trigger-icon {
   width: 12px;
   height: 12px;
-  background: radial-gradient(circle, var(--pf-gold-light) 0%, var(--pf-gold-medium) 100%);
+  background: radial-gradient(circle, var(--my-gold-light) 0%, var(--my-gold-medium) 100%);
   border-radius: 50%;
-  border: 1px solid var(--pf-gold-dark);
+  border: 1px solid var(--my-gold-dark);
   flex-shrink: 0;
 }
 
 .pf-trigger-text {
-  font-size: var(--pf-text-xs);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-primary);
+  font-size: var(--my-text-xs);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-primary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  font-family: var(--pf-font-ui);
+  font-family: var(--my-font-ui);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1002,10 +1002,10 @@
 /* This section is now handled by the enhanced styling below - keeping for compatibility */
 
 .trigger-logic {
-  color: var(--pf-text-primary);
-  font-weight: var(--pf-font-medium);
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-sm);
+  color: var(--my-text-primary);
+  font-weight: var(--my-font-medium);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-sm);
   margin: 0;
 }
 
@@ -1013,8 +1013,8 @@
 
 .pf-spell-resources {
   display: flex;
-  gap: var(--pf-space-2);
-  margin-top: var(--pf-space-2);
+  gap: var(--my-space-2);
+  margin-top: var(--my-space-2);
   justify-content: flex-start;
   flex-wrap: wrap;
   align-items: center;
@@ -1023,14 +1023,14 @@
 .pf-resource-cost {
   display: flex;
   align-items: baseline;
-  gap: var(--pf-space-1);
-  padding: 2px var(--pf-space-2);
-  border-radius: var(--pf-border-radius);
-  font-size: var(--pf-text-xs);
-  font-weight: var(--pf-font-bold);
+  gap: var(--my-space-1);
+  padding: 2px var(--my-space-2);
+  border-radius: var(--my-border-radius);
+  font-size: var(--my-text-xs);
+  font-weight: var(--my-font-bold);
   border: none;
   box-shadow: none;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   background: transparent;
   white-space: nowrap;
   flex-direction: row;
@@ -1055,8 +1055,8 @@
 /* Resource amount styling - make white */
 .pf-resource-cost .pf-resource-amount {
   color: #ffffff !important;
-  font-size: var(--pf-text-xs);
-  font-weight: var(--pf-font-bold);
+  font-size: var(--my-text-xs);
+  font-weight: var(--my-font-bold);
   line-height: 1;
   align-self: center;
   vertical-align: baseline;
@@ -1067,8 +1067,8 @@
 /* Resource name styling - make white */
 .pf-resource-cost .pf-resource-name {
   color: #ffffff !important;
-  font-size: var(--pf-text-xs);
-  font-weight: var(--pf-font-medium);
+  font-size: var(--my-text-xs);
+  font-weight: var(--my-font-medium);
   opacity: 0.9;
   line-height: 1;
   align-self: center;
@@ -1089,7 +1089,7 @@
 }
 
 .pf-resource-amount {
-  font-weight: var(--pf-font-bold);
+  font-weight: var(--my-font-bold);
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 }
 
@@ -1121,7 +1121,7 @@
 .pf-resource-cost.action-points {
   background: transparent;
   border-color: transparent;
-  color: var(--pf-gold);
+  color: var(--my-gold);
 }
 
 .pf-resource-cost.action-points .pf-resource-icon::before {
@@ -1132,7 +1132,7 @@
 .pf-resource-cost.mana {
   background: transparent;
   border-color: transparent;
-  color: var(--pf-arcane);
+  color: var(--my-arcane);
 }
 
 .pf-resource-cost.mana .pf-resource-icon::before {
@@ -1143,7 +1143,7 @@
 .pf-resource-cost.rage {
   background: transparent;
   border-color: transparent;
-  color: var(--pf-fire);
+  color: var(--my-fire);
 }
 
 .pf-resource-cost.rage .pf-resource-icon::before {
@@ -1154,7 +1154,7 @@
 .pf-resource-cost.energy {
   background: transparent;
   border-color: transparent;
-  color: var(--pf-gold);
+  color: var(--my-gold);
 }
 
 .pf-resource-cost.energy .pf-resource-icon::before {
@@ -1374,8 +1374,8 @@
 .pf-action-type-badge,
 .pf-targeting-badge,
 .pf-range-badge {
-  background: var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
-  border: 1px solid var(--pf-brown-medium, #8B4513);
+  background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+  border: 1px solid var(--my-brown-medium, #8B4513);
   padding: 3px 8px;
   border-radius: 4px;
   box-shadow: 0 1px 3px rgba(139, 69, 19, 0.2);
@@ -1389,8 +1389,8 @@
 }
 
 .pf-propagation-badge {
-  background: var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
-  border: 1px solid var(--pf-brown-medium, #8B4513);
+  background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+  border: 1px solid var(--my-brown-medium, #8B4513);
   padding: 3px 8px;
   border-radius: 4px;
   box-shadow: 0 1px 3px rgba(139, 69, 19, 0.2);
@@ -1534,14 +1534,14 @@
 }
 
 .pf-spell-type {
-  padding: var(--pf-space-1) var(--pf-space-2);
-  background: var(--pf-gradient-button);
-  border: 1px solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-xs);
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-secondary);
+  padding: var(--my-space-1) var(--my-space-2);
+  background: var(--my-gradient-button);
+  border: 1px solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  font-family: var(--my-font-ui);
+  font-size: var(--my-text-xs);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -1551,7 +1551,7 @@
 .pf-spell-cost {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
   margin-left: auto;
   flex-shrink: 0;
 }
@@ -1568,34 +1568,34 @@
 .pf-spell-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--pf-space-1);
-  padding: var(--pf-space-3) var(--pf-space-4);
+  gap: var(--my-space-1);
+  padding: var(--my-space-3) var(--my-space-4);
   background: rgba(139, 69, 19, 0.05);
-  border-bottom: 1px solid var(--pf-brown-light);
+  border-bottom: 1px solid var(--my-brown-light);
 }
 
 .pf-spell-tag {
-  padding: var(--pf-space-1) var(--pf-space-2);
-  background: var(--pf-gradient-button);
-  border: 1px solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-xs);
-  color: var(--pf-text-secondary);
-  font-weight: var(--pf-font-semibold);
+  padding: var(--my-space-1) var(--my-space-2);
+  background: var(--my-gradient-button);
+  border: 1px solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  font-family: var(--my-font-ui);
+  font-size: var(--my-text-xs);
+  color: var(--my-text-secondary);
+  font-weight: var(--my-font-semibold);
 }
 
 /* Element-specific tag colors */
-.pf-spell-tag.fire { border-color: var(--pf-fire); color: var(--pf-fire); }
-.pf-spell-tag.frost { border-color: var(--pf-frost); color: var(--pf-frost); }
-.pf-spell-tag.nature { border-color: var(--pf-nature); color: var(--pf-nature); }
-.pf-spell-tag.arcane { border-color: var(--pf-arcane); color: var(--pf-arcane); }
-.pf-spell-tag.force { border-color: var(--pf-force); color: var(--pf-force); }
-.pf-spell-tag.holy { border-color: var(--pf-holy); color: var(--pf-holy); }
-.pf-spell-tag.shadow { border-color: var(--pf-shadow); color: var(--pf-shadow); }
-.pf-spell-tag.necrotic { border-color: var(--pf-necrotic); color: var(--pf-necrotic); }
-.pf-spell-tag.psychic { border-color: var(--pf-psychic); color: var(--pf-psychic); }
-.pf-spell-tag.void { border-color: var(--pf-void); color: var(--pf-void); }
+.pf-spell-tag.fire { border-color: var(--my-fire); color: var(--my-fire); }
+.pf-spell-tag.frost { border-color: var(--my-frost); color: var(--my-frost); }
+.pf-spell-tag.nature { border-color: var(--my-nature); color: var(--my-nature); }
+.pf-spell-tag.arcane { border-color: var(--my-arcane); color: var(--my-arcane); }
+.pf-spell-tag.force { border-color: var(--my-force); color: var(--my-force); }
+.pf-spell-tag.holy { border-color: var(--my-holy); color: var(--my-holy); }
+.pf-spell-tag.shadow { border-color: var(--my-shadow); color: var(--my-shadow); }
+.pf-spell-tag.necrotic { border-color: var(--my-necrotic); color: var(--my-necrotic); }
+.pf-spell-tag.psychic { border-color: var(--my-psychic); color: var(--my-psychic); }
+.pf-spell-tag.void { border-color: var(--my-void); color: var(--my-void); }
 
 /* ===== ENHANCED CARD BODY ===== */
 
@@ -1603,11 +1603,11 @@
 .wow-spell-card-body,
 .spell-body {
   flex: 1;
-  padding: var(--pf-space-2); /* Reduced from space-3 to space-2 (8px) */
+  padding: var(--my-space-2); /* Reduced from space-3 to space-2 (8px) */
   display: flex;
   flex-direction: column;
-  background: var(--pf-gradient-parchment);
-  gap: var(--pf-space-1); /* Reduced gap for tighter spacing */
+  background: var(--my-gradient-parchment);
+  gap: var(--my-space-1); /* Reduced gap for tighter spacing */
   overflow-y: auto;
   max-height: 350px;
   position: relative;
@@ -1625,21 +1625,21 @@
 .wow-spell-card-body::-webkit-scrollbar-track,
 .spell-body::-webkit-scrollbar-track {
   background: rgba(139, 69, 19, 0.1);
-  border-radius: var(--pf-border-radius);
+  border-radius: var(--my-border-radius);
 }
 
 .pf-spell-card-body::-webkit-scrollbar-thumb,
 .wow-spell-card-body::-webkit-scrollbar-thumb,
 .spell-body::-webkit-scrollbar-thumb {
-  background: var(--pf-gradient-button);
-  border-radius: var(--pf-border-radius);
-  border: 1px solid var(--pf-brown-medium);
+  background: var(--my-gradient-button);
+  border-radius: var(--my-border-radius);
+  border: 1px solid var(--my-brown-medium);
 }
 
 .pf-spell-card-body::-webkit-scrollbar-thumb:hover,
 .wow-spell-card-body::-webkit-scrollbar-thumb:hover,
 .spell-body::-webkit-scrollbar-thumb:hover {
-  background: var(--pf-gradient-button-hover);
+  background: var(--my-gradient-button-hover);
 }
 
 .pf-spell-description,
@@ -1660,30 +1660,30 @@
 .spell-effects-section {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-3);
+  gap: var(--my-space-3);
 }
 
 .spell-effects-section h4 {
-  font-family: var(--pf-font-display);
-  font-size: var(--pf-text-sm);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-brown-dark);
+  font-family: var(--my-font-display);
+  font-size: var(--my-text-sm);
+  font-weight: var(--my-font-bold);
+  color: var(--my-brown-dark);
   margin: 0;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  border-bottom: 2px solid var(--pf-brown-light);
-  padding-bottom: var(--pf-space-1);
+  border-bottom: 2px solid var(--my-brown-light);
+  padding-bottom: var(--my-space-1);
 }
 
 .spell-effect-item {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
-  padding: var(--pf-space-2) var(--pf-space-3);
-  background: var(--pf-gradient-parchment-light);
-  border: 1px solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  font-size: var(--pf-text-sm);
+  gap: var(--my-space-2);
+  padding: var(--my-space-2) var(--my-space-3);
+  background: var(--my-gradient-parchment-light);
+  border: 1px solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  font-size: var(--my-text-sm);
 }
 
 .spell-effect-icon {
@@ -1694,8 +1694,8 @@
 
 .spell-effect-text {
   flex: 1;
-  font-weight: var(--pf-font-medium);
-  color: var(--pf-text-primary);
+  font-weight: var(--my-font-medium);
+  color: var(--my-text-primary);
 }
 
 /* ===== SPELL STATS ===== */
@@ -1703,9 +1703,9 @@
 .pf-spell-stats {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
   padding-top: 0;
-  background: var(--pf-gradient-parchment);
+  background: var(--my-gradient-parchment);
   position: relative;
   z-index: 2;
 }
@@ -1714,35 +1714,35 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-sm);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-sm);
 }
 
 .pf-spell-stat-label {
-  color: var(--pf-text-muted);
-  font-weight: var(--pf-font-semibold);
+  color: var(--my-text-muted);
+  font-weight: var(--my-font-semibold);
 }
 
 .pf-spell-stat-value {
-  color: var(--pf-text-primary);
-  font-weight: var(--pf-font-semibold);
+  color: var(--my-text-primary);
+  font-weight: var(--my-font-semibold);
 }
 
 /* Damage/Healing specific styling */
 .pf-spell-stat-value.damage {
-  color: var(--pf-fire);
+  color: var(--my-fire);
 }
 
 .pf-spell-stat-value.healing {
-  color: var(--pf-nature);
+  color: var(--my-nature);
 }
 
 .pf-spell-stat-value.buff {
-  color: var(--pf-holy);
+  color: var(--my-holy);
 }
 
 .pf-spell-stat-value.debuff {
-  color: var(--pf-shadow);
+  color: var(--my-shadow);
 }
 
 /* ===== CARD FOOTER ===== */
@@ -1751,22 +1751,22 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--pf-space-3) var(--pf-space-4);
-  background: var(--pf-gradient-parchment-dark);
-  border-top: var(--pf-border-width) solid var(--pf-brown-medium);
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-xs);
-  color: var(--pf-text-muted);
-  border-bottom-left-radius: var(--pf-border-radius-lg);
-  border-bottom-right-radius: var(--pf-border-radius-lg);
+  padding: var(--my-space-3) var(--my-space-4);
+  background: var(--my-gradient-parchment-dark);
+  border-top: var(--my-border-width) solid var(--my-brown-medium);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-xs);
+  color: var(--my-text-muted);
+  border-bottom-left-radius: var(--my-border-radius-lg);
+  border-bottom-right-radius: var(--my-border-radius-lg);
 }
 
 .pf-spell-range {
-  font-weight: var(--pf-font-semibold);
+  font-weight: var(--my-font-semibold);
 }
 
 .pf-spell-duration {
-  font-weight: var(--pf-font-semibold);
+  font-weight: var(--my-font-semibold);
 }
 
 /* ===== COMPACT CARD VARIANT ===== */
@@ -1777,7 +1777,7 @@
 }
 
 .pf-spell-card.compact .pf-spell-card-header {
-  padding: var(--pf-space-3);
+  padding: var(--my-space-3);
 }
 
 .pf-spell-card.compact .pf-spell-icon {
@@ -1786,11 +1786,11 @@
 }
 
 .pf-spell-card.compact .pf-spell-name {
-  font-size: var(--pf-text-base);
+  font-size: var(--my-text-base);
 }
 
 .pf-spell-card.compact .pf-spell-card-body {
-  padding: var(--pf-space-3);
+  padding: var(--my-space-3);
 }
 
 /* ===== LARGE CARD VARIANT ===== */
@@ -1801,7 +1801,7 @@
 }
 
 .pf-spell-card.large .pf-spell-card-header {
-  padding: var(--pf-space-5);
+  padding: var(--my-space-5);
 }
 
 .pf-spell-card.large .pf-spell-icon {
@@ -1810,21 +1810,21 @@
 }
 
 .pf-spell-card.large .pf-spell-name {
-  font-size: var(--pf-text-xl);
+  font-size: var(--my-text-xl);
 }
 
 .pf-spell-card.large .pf-spell-card-body {
-  padding: var(--pf-space-5);
+  padding: var(--my-space-5);
 }
 
 /* ===== LIBRARY STYLE CARD ===== */
 
 .pf-library-spell-card {
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-4);
-  transition: all var(--pf-transition-normal);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-4);
+  transition: all var(--my-transition-normal);
   cursor: pointer;
   position: relative;
 }
@@ -1845,7 +1845,7 @@
       rgba(139, 69, 19, 0.01) 8px
     );
   pointer-events: none;
-  border-radius: var(--pf-border-radius);
+  border-radius: var(--my-border-radius);
   z-index: 1;
 }
 
@@ -1855,8 +1855,8 @@
 }
 
 .pf-library-spell-card:hover {
-  border-color: var(--pf-brown-dark);
-  box-shadow: var(--pf-shadow-md);
+  border-color: var(--my-brown-dark);
+  box-shadow: var(--my-shadow-md);
   transform: translateY(-1px);
 }
 
@@ -1874,7 +1874,7 @@
   }
   
   .pf-spell-card-header {
-    padding: var(--pf-space-3);
+    padding: var(--my-space-3);
   }
   
   .pf-spell-icon {
@@ -1883,11 +1883,11 @@
   }
   
   .pf-spell-name {
-    font-size: var(--pf-text-base);
+    font-size: var(--my-text-base);
   }
   
   .pf-spell-card-body {
-    padding: var(--pf-space-3);
+    padding: var(--my-space-3);
   }
 }
 
@@ -1895,12 +1895,12 @@
   .pf-spell-card-header {
     flex-direction: column;
     text-align: center;
-    gap: var(--pf-space-2);
+    gap: var(--my-space-2);
   }
   
   .pf-spell-icon {
     margin-right: 0;
-    margin-bottom: var(--pf-space-2);
+    margin-bottom: var(--my-space-2);
   }
   
   .pf-spell-meta {
@@ -1911,20 +1911,20 @@
 /* ===== UNIFIED SPELL CARD STYLING ===== */
 
 .unified-spell-card {
-  background: var(--pf-gradient-parchment);
+  background: var(--my-gradient-parchment);
   border: none;
-  border-radius: var(--pf-border-radius-lg);
+  border-radius: var(--my-border-radius-lg);
   box-shadow:
-    var(--pf-shadow-parchment),
+    var(--my-shadow-parchment),
     0 2px 8px rgba(45, 24, 16, 0.15);
   overflow: hidden;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   cursor: pointer;
   position: relative;
   width: 100%;
   display: flex;
   flex-direction: column;
-  font-family: var(--pf-font-body);
+  font-family: var(--my-font-body);
   margin: 0 auto;
   isolation: isolate; /* Create new stacking context to prevent parent textures from bleeding through */
 }
@@ -1932,48 +1932,48 @@
 /* ===== ROLLABLE TABLE INTEGRATION ===== */
 
 .unified-spell-rollable-table {
-  margin: var(--pf-space-2) 0; /* Reduced vertical margin, no horizontal margin (handled inline) */
-  background: var(--pf-gradient-parchment); /* Ensure beige background covers rollable table area */
+  margin: var(--my-space-2) 0; /* Reduced vertical margin, no horizontal margin (handled inline) */
+  background: var(--my-gradient-parchment); /* Ensure beige background covers rollable table area */
   position: relative;
   z-index: 2;
 }
 
 .unified-spell-rollable-table .spell-card-rollable-table {
   margin: 0;
-  background: var(--pf-gradient-parchment); /* Ensure nested table has background */
+  background: var(--my-gradient-parchment); /* Ensure nested table has background */
 }
 
 /* Adjust rollable table styling for spell cards */
 .unified-spell-rollable-table .rollable-table-summary.compact {
-  background: var(--pf-gradient-parchment);
-  border-color: var(--pf-brown-light);
-  font-size: var(--pf-text-xs);
+  background: var(--my-gradient-parchment);
+  border-color: var(--my-brown-light);
+  font-size: var(--my-text-xs);
 }
 
 .unified-spell-rollable-table .rollable-table-summary.detailed {
-  background: var(--pf-gradient-parchment);
-  border-color: var(--pf-brown-medium);
+  background: var(--my-gradient-parchment);
+  border-color: var(--my-brown-medium);
 }
 
 /* Inline rollable table display for compact cards */
 .rollable-table-inline-display {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
-  padding: var(--pf-space-2);
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  font-size: var(--pf-text-xs);
+  gap: var(--my-space-2);
+  padding: var(--my-space-2);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  font-size: var(--my-text-xs);
   line-height: 1.3;
   position: relative;
   z-index: 2;
 }
 
 .rollable-table-inline-label {
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-ui);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-ui);
   white-space: nowrap;
 }
 
@@ -1989,8 +1989,8 @@
 }
 
 .rollable-table-inline-text {
-  color: var(--pf-text-secondary);
-  font-family: var(--pf-font-body);
+  color: var(--my-text-secondary);
+  font-family: var(--my-font-body);
   flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -2018,7 +2018,7 @@
   max-width: 200px;
   min-width: 150px;
   min-height: 80px;
-  padding: var(--pf-space-2);
+  padding: var(--my-space-2);
 }
 
 .unified-spell-card.preview {
@@ -2026,27 +2026,27 @@
   max-width: 480px;
   min-width: 450px;
   min-height: 320px;
-  background: var(--pf-gradient-parchment);
-  border: 2px solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius-lg);
-  box-shadow: var(--pf-shadow-parchment);
+  background: var(--my-gradient-parchment);
+  border: 2px solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius-lg);
+  box-shadow: var(--my-shadow-parchment);
 }
 
 /* Card Header - Unified dark Pathfinder red */
 .unified-spell-card .unified-spell-card-header {
   display: flex !important;
   flex-direction: column !important;
-  padding: var(--pf-space-3, 12px) var(--pf-space-4, 16px) !important;
-  background: var(--pf-gradient-header, linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%)) !important;
-  border-bottom: var(--pf-border-width-thick, 3px) solid var(--pf-brown-medium, #8B4513) !important;
+  padding: var(--my-space-3, 12px) var(--my-space-4, 16px) !important;
+  background: var(--my-gradient-header, linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%)) !important;
+  border-bottom: var(--my-border-width-thick, 3px) solid var(--my-brown-medium, #8B4513) !important;
   position: relative !important;
-  gap: var(--pf-space-2, 8px) !important;
+  gap: var(--my-space-2, 8px) !important;
   width: 100% !important;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.2),
     0 1px 3px rgba(45, 24, 16, 0.2) !important;
-  border-top-left-radius: var(--pf-border-radius-lg) !important;
-  border-top-right-radius: var(--pf-border-radius-lg) !important;
+  border-top-left-radius: var(--my-border-radius-lg) !important;
+  border-top-right-radius: var(--my-border-radius-lg) !important;
 }
 
 /* Override any global interference from creature windows or other components */
@@ -2055,47 +2055,47 @@
 .spellbook-tab-headers ~ * .unified-spell-card .unified-spell-card-header {
   display: flex !important;
   flex-direction: column !important;
-  padding: var(--pf-space-3, 12px) var(--pf-space-4, 16px) !important;
-  background: var(--pf-gradient-header, linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%)) !important;
-  border-bottom: var(--pf-border-width-thick, 3px) solid var(--pf-brown-medium, #8B4513) !important;
+  padding: var(--my-space-3, 12px) var(--my-space-4, 16px) !important;
+  background: var(--my-gradient-header, linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%)) !important;
+  border-bottom: var(--my-border-width-thick, 3px) solid var(--my-brown-medium, #8B4513) !important;
   position: relative !important;
-  gap: var(--pf-space-2, 8px) !important;
+  gap: var(--my-space-2, 8px) !important;
   width: 100% !important;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.2),
     0 1px 3px rgba(45, 24, 16, 0.2) !important;
-  color: var(--pf-text-primary, #2d1810) !important;
+  color: var(--my-text-primary, #2d1810) !important;
 }
 
 /* Protect spell card headers from spellbook tab styling interference */
 .spellbook-tab-headers + * .unified-spell-card-header,
 .spellbook-tab + * .unified-spell-card-header,
 .creature-window-header + * .unified-spell-card-header {
-  background: var(--pf-gradient-header, linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%)) !important;
-  color: var(--pf-text-primary, #2d1810) !important;
+  background: var(--my-gradient-header, linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%)) !important;
+  color: var(--my-text-primary, #2d1810) !important;
 }
 
 /* Ensure spell card headers maintain their styling regardless of parent context */
 [class*="spellbook"] .unified-spell-card-header,
 [class*="creature"] .unified-spell-card-header,
 [class*="tab"] .unified-spell-card-header {
-  background: var(--pf-gradient-header, linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%)) !important;
-  color: var(--pf-text-primary, #2d1810) !important;
-  border-bottom: var(--pf-border-width-thick, 3px) solid var(--pf-brown-medium, #8B4513) !important;
+  background: var(--my-gradient-header, linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%)) !important;
+  color: var(--my-text-primary, #2d1810) !important;
+  border-bottom: var(--my-border-width-thick, 3px) solid var(--my-brown-medium, #8B4513) !important;
 }
 
 /* Compact header for smaller variants */
 .unified-spell-card.compact .unified-spell-card-header,
 .unified-spell-card.preview .unified-spell-card-header {
-  padding: var(--pf-space-2);
-  gap: var(--pf-space-1);
+  padding: var(--my-space-2);
+  gap: var(--my-space-1);
 }
 
 /* Header Main Row */
 .unified-spell-header-main {
   display: flex;
   align-items: flex-start;
-  gap: var(--pf-space-3);
+  gap: var(--my-space-3);
   width: 100%;
   position: relative;
 }
@@ -2105,7 +2105,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: var(--pf-space-1);
+  gap: var(--my-space-1);
   margin-left: auto;
   flex-shrink: 0;
   max-width: 220px;
@@ -2116,7 +2116,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--pf-space-1);
+  gap: var(--my-space-1);
   max-width: 220px;
 }
 
@@ -2124,7 +2124,7 @@
 .pf-damage-types-header {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--pf-space-3); /* Increased gap to spread them out more */
+  gap: var(--my-space-3); /* Increased gap to spread them out more */
   justify-content: flex-start; /* Start from left side of the box */
   align-items: center;
   width: 100%; /* Take full width of the box */
@@ -2169,7 +2169,7 @@
   font-size: 0; /* Hide any text content like V, S, M */
   box-shadow: none;
   cursor: help;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   padding: 0;
   margin: 0;
   flex-shrink: 0; /* Don't shrink the icon */
@@ -2227,10 +2227,10 @@
 .unified-spell-icon {
   width: 100%;
   height: 100%;
-  border-radius: var(--pf-border-radius);
-  border: 2px solid var(--pf-brown-medium);
+  border-radius: var(--my-border-radius);
+  border: 2px solid var(--my-brown-medium);
   object-fit: cover;
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
 }
 
 /* Spell Type Badge (for spellbook variant) */
@@ -2238,16 +2238,16 @@
   position: absolute;
   bottom: -5px;
   right: -5px;
-  background: var(--pf-gradient-button);
-  color: var(--pf-text-secondary);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  font-size: var(--pf-text-xs);
-  font-weight: var(--pf-font-bold);
+  background: var(--my-gradient-button);
+  color: var(--my-text-secondary);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-1) var(--my-space-2);
+  font-size: var(--my-text-xs);
+  font-weight: var(--my-font-bold);
   text-transform: uppercase;
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  box-shadow: var(--pf-shadow-sm);
-  font-family: var(--pf-font-ui);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  box-shadow: var(--my-shadow-sm);
+  font-family: var(--my-font-ui);
   letter-spacing: 0.5px;
   z-index: 10;
 }
@@ -2262,11 +2262,11 @@
 }
 
 .unified-spell-name {
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-display);
-  font-size: var(--pf-text-base);
-  font-weight: var(--pf-font-bold);
-  margin: 0 0 var(--pf-space-1) 0;
+  color: var(--my-text-primary);
+  font-family: var(--my-font-display);
+  font-size: var(--my-text-base);
+  font-weight: var(--my-font-bold);
+  margin: 0 0 var(--my-space-1) 0;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
   line-height: 1.1;
   letter-spacing: 0.3px;
@@ -2279,21 +2279,21 @@
 
 .unified-spell-card.compact .unified-spell-name,
 .unified-spell-card.preview .unified-spell-name {
-  font-size: var(--pf-text-sm);
+  font-size: var(--my-text-sm);
 }
 
 .unified-spell-meta {
   display: flex;
   flex-direction: row;
-  gap: var(--pf-space-2);
-  font-size: var(--pf-text-xs);
-  font-weight: var(--pf-font-medium);
+  gap: var(--my-space-2);
+  font-size: var(--my-text-xs);
+  font-weight: var(--my-font-medium);
   align-items: center;
   flex-wrap: wrap;
 }
 
 .unified-spell-card.compact .unified-spell-meta {
-  gap: var(--pf-space-1);
+  gap: var(--my-space-1);
   font-size: 10px;
 }
 
@@ -2301,11 +2301,11 @@
 .unified-spell-wizard-meta {
   display: flex;
   flex-direction: row;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
   align-items: flex-start;
   justify-content: flex-start;
   margin-top: 6px; /* Added spacing from header */
-  margin-bottom: var(--pf-space-1);
+  margin-bottom: var(--my-space-1);
   flex-wrap: wrap;
   min-height: 20px;
   width: 100%;
@@ -2338,7 +2338,7 @@
   border: none;
   padding: 2px 4px;
   font-size: 11px;
-  font-weight: var(--pf-font-bold);
+  font-weight: var(--my-font-bold);
   color: #ffffff;
   min-width: auto;
   justify-content: flex-start;
@@ -2352,7 +2352,7 @@
 }
 
 .unified-spell-resource-costs .pf-resource-amount {
-  font-weight: var(--pf-font-bold);
+  font-weight: var(--my-font-bold);
   color: #ffffff;
   font-size: 11px;
   line-height: 1;
@@ -2361,32 +2361,32 @@
 /* Formula resources styling */
 .unified-spell-resource-costs .pf-resource-cost.formula .pf-resource-amount {
   font-style: italic;
-  color: var(--pf-text-secondary);
+  color: var(--my-text-secondary);
   font-family: 'Courier New', monospace;
   font-size: 9px;
 }
 
 /* Material Components Text */
 .unified-spell-material-text {
-  margin-top: var(--pf-space-1);
+  margin-top: var(--my-space-1);
   width: 100%;
   max-width: 85%;
 }
 
 .unified-spell-material-text .pf-spell-material-components {
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-primary);
+  font-size: var(--my-text-sm);
+  color: var(--my-text-primary);
   font-style: normal;
   font-weight: 500;
 }
 
 .unified-spell-material-text .material-label {
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-secondary);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-secondary);
 }
 
 .unified-spell-material-text .material-list {
-  color: var(--pf-text-muted);
+  color: var(--my-text-muted);
 }
 
 /* Resource type specific colors - override to white */
@@ -2434,7 +2434,7 @@
 .unified-spell-resource-costs .pf-resource-name {
   color: #ffffff !important;
   font-size: 9px;
-  font-weight: var(--pf-font-bold);
+  font-weight: var(--my-font-bold);
 }
 
 /* ===== INFERNO COSTS (STYLED LIKE RESOURCE COSTS) ===== */
@@ -2454,12 +2454,12 @@
   border: none;
   padding: 2px 4px;
   font-size: 11px;
-  font-weight: var(--pf-font-bold);
+  font-weight: var(--my-font-bold);
   color: #ffffff;
   min-width: auto;
   justify-content: flex-start;
   line-height: 1;
-  margin-right: var(--pf-space-2);
+  margin-right: var(--my-space-2);
 }
 
 .pf-inferno-icon {
@@ -2469,7 +2469,7 @@
 }
 
 .pf-inferno-amount {
-  font-weight: var(--pf-font-bold);
+  font-weight: var(--my-font-bold);
   color: #ffffff;
   font-size: 11px;
   line-height: 1;
@@ -2479,7 +2479,7 @@
 .pf-inferno-name {
   color: #ffffff !important;
   font-size: 11px;
-  font-weight: var(--pf-font-bold);
+  font-weight: var(--my-font-bold);
 }
 
 /* ===== MUSICAL COMBO (STYLED LIKE RESOURCE COSTS) ===== */
@@ -2501,12 +2501,12 @@
   border: none;
   padding: 2px 4px;
   font-size: 11px;
-  font-weight: var(--pf-font-bold);
+  font-weight: var(--my-font-bold);
   color: #ffffff;
   min-width: auto;
   justify-content: flex-start;
   line-height: 1;
-  margin-right: var(--pf-space-2);
+  margin-right: var(--my-space-2);
 }
 
 .pf-musical-icon {
@@ -2516,7 +2516,7 @@
 }
 
 .pf-musical-amount {
-  font-weight: var(--pf-font-bold);
+  font-weight: var(--my-font-bold);
   color: #ffffff;
   font-size: 11px;
   line-height: 1;
@@ -2526,7 +2526,7 @@
 .pf-musical-name {
   color: #ffffff !important;
   font-size: 11px;
-  font-weight: var(--pf-font-bold);
+  font-weight: var(--my-font-bold);
 }
 
 /* ===== IMPROVED SPELL CARD LAYOUT ===== */
@@ -2573,13 +2573,13 @@
 .unified-spell-card .item-description::first-letter {
   font-size: 1.2em;
   font-weight: 600;
-  color: var(--pf-brown-dark);
+  color: var(--my-brown-dark);
 }
 
 /* Triggers section - position at top with minimal spacing */
 .triggers-section {
   order: -1; /* Move to top */
-  margin: 0 0 var(--pf-space-1) 0; /* Reduced bottom margin */
+  margin: 0 0 var(--my-space-1) 0; /* Reduced bottom margin */
   padding: 0;
 }
 
@@ -2589,13 +2589,13 @@
   border: none;
   padding: 0;
   margin: 0;
-  font-size: var(--pf-text-xs);
-  color: var(--pf-text-secondary);
+  font-size: var(--my-text-xs);
+  color: var(--my-text-secondary);
 }
 
 /* Reduce spacing between spell card sections for tighter layout */
 .unified-spell-card .pf-spell-card-body > * {
-  margin-bottom: var(--pf-space-1);
+  margin-bottom: var(--my-space-1);
 }
 
 .unified-spell-card .pf-spell-card-body > *:last-child {
@@ -2609,12 +2609,12 @@
 
 /* Add top padding only when stats section has direct stat children (not just status/prophecy containers) */
 .pf-spell-stats:has(> .healing-effects:not(.status-effects-container):not(.prophecy-effects-container)) {
-  padding-top: var(--pf-space-3);
+  padding-top: var(--my-space-3);
 }
 
 /* Status Effects Styling */
 .status-effects-container {
-  padding-top: var(--pf-space-2);
+  padding-top: var(--my-space-2);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -2622,16 +2622,16 @@
 }
 
 .pf-spell-stats > .status-effects-container {
-  margin-top: var(--pf-space-2);
+  margin-top: var(--my-space-2);
   border-top: 1px solid rgba(139, 105, 60, 0.2);
 }
 
 .status-effect-item {
-  margin-bottom: var(--pf-space-3);
+  margin-bottom: var(--my-space-3);
   background: rgba(139, 105, 60, 0.05);
-  padding: var(--pf-space-2);
+  padding: var(--my-space-2);
   border-radius: 4px;
-  border-left: 3px solid var(--pf-red-dark);
+  border-left: 3px solid var(--my-red-dark);
 }
 
 .status-effect-item:last-child {
@@ -2640,8 +2640,8 @@
 
 .effect-main-description {
   margin: 4px 0;
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-secondary);
+  font-size: var(--my-text-sm);
+  color: var(--my-text-secondary);
   line-height: 1.4;
 }
 
@@ -2653,17 +2653,17 @@
 }
 
 .pf-stat-mod-badge {
-  background: var(--pf-brown-dark, #3e2723);
-  color: var(--pf-gold-light, #fff8e1);
+  background: var(--my-brown-dark, #3e2723);
+  color: var(--my-gold-light, #fff8e1);
   padding: 2px 8px;
   border-radius: 4px;
   font-size: 11px;
-  font-weight: var(--pf-font-bold);
+  font-weight: var(--my-font-bold);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   box-shadow: 0 1px 2px rgba(0,0,0,0.2);
   display: inline-block;
-  font-family: var(--pf-font-ui);
+  font-family: var(--my-font-ui);
   border: 1px solid rgba(255, 248, 225, 0.2);
 }
 
@@ -2679,11 +2679,11 @@
 /* ===== CLEAN COMPACT TRIGGERS STYLING ===== */
 .global-triggers-compact {
   order: -1; /* Move to top */
-  margin: 0 0 var(--pf-space-3) 0 !important;
-  padding: var(--pf-space-3);
-  background: var(--pf-gradient-parchment-light);
-  border: 1px solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
+  margin: 0 0 var(--my-space-3) 0 !important;
+  padding: var(--my-space-3);
+  background: var(--my-gradient-parchment-light);
+  border: 1px solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
   box-shadow:
     0 1px 3px rgba(139, 69, 19, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
@@ -2695,23 +2695,23 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: var(--pf-space-2);
-  padding-bottom: var(--pf-space-2);
-  border-bottom: 1px solid var(--pf-brown-light);
+  margin-bottom: var(--my-space-2);
+  padding-bottom: var(--my-space-2);
+  border-bottom: 1px solid var(--my-brown-light);
 }
 
 .trigger-section-title {
-  font-size: var(--pf-text-xs);
-  font-weight: var(--pf-font-bold);
+  font-size: var(--my-text-xs);
+  font-weight: var(--my-font-bold);
   color: #000000;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  font-family: var(--pf-font-ui);
+  font-family: var(--my-font-ui);
 }
 
 .trigger-header-badges {
   display: flex;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
   align-items: center;
 }
 
@@ -2720,50 +2720,50 @@
   background: transparent;
   color: #000000;
   padding: 2px 8px;
-  border-radius: var(--pf-border-radius-sm);
-  border: 1px solid var(--pf-brown-medium);
-  font-size: var(--pf-text-xs);
-  font-weight: var(--pf-font-semibold);
+  border-radius: var(--my-border-radius-sm);
+  border: 1px solid var(--my-brown-medium);
+  font-size: var(--my-text-xs);
+  font-weight: var(--my-font-semibold);
   text-transform: uppercase;
   white-space: nowrap;
-  font-family: var(--pf-font-ui);
+  font-family: var(--my-font-ui);
   letter-spacing: 0.3px;
 }
 
 .trigger-conditions-list {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
 }
 
 .trigger-condition-item {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-1);
+  gap: var(--my-space-1);
 }
 
 .trigger-condition-text {
-  font-size: var(--pf-text-sm);
+  font-size: var(--my-text-sm);
   line-height: 1.4;
   color: #000000;
-  font-family: var(--pf-font-body);
+  font-family: var(--my-font-body);
   font-weight: normal;
 }
 
 .trigger-logic-connector {
-  font-size: var(--pf-text-xs);
+  font-size: var(--my-text-xs);
   color: #000000;
-  font-weight: var(--pf-font-semibold);
+  font-weight: var(--my-font-semibold);
   font-style: italic;
   text-align: center;
-  padding: var(--pf-space-1) 0;
-  font-family: var(--pf-font-ui);
+  padding: var(--my-space-1) 0;
+  font-family: var(--my-font-ui);
 }
 
 .trigger-no-conditions {
-  font-size: var(--pf-text-sm);
+  font-size: var(--my-text-sm);
   color: #000000;
-  font-family: var(--pf-font-body);
+  font-family: var(--my-font-body);
   font-style: italic;
 }
 
@@ -2771,7 +2771,7 @@
 .unified-spell-title-separator {
   width: 100%;
   height: 1px;
-  background: linear-gradient(90deg, transparent 0%, var(--pf-brown-medium) 20%, var(--pf-brown-medium) 80%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, var(--my-brown-medium) 20%, var(--my-brown-medium) 80%, transparent 100%);
   margin: 2px 0 0 0;
   opacity: 0.6;
 }
@@ -2804,12 +2804,12 @@
   border: none;
   border-radius: 0;
   font-size: 12px;
-  font-weight: var(--pf-font-bold);
+  font-weight: var(--my-font-bold);
   color: #ffffff;
   text-shadow: none;
   box-shadow: none;
   cursor: help;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
 }
 
 .unified-spell-components .pf-component:hover {
@@ -2869,7 +2869,7 @@ body .pf-spell-card.wizard .pf-spell-card-header,
 body .pf-spell-card.wizard .wow-spell-card-header,
 .pf-spell-card.wizard .pf-spell-card-header,
 .pf-spell-card.wizard .wow-spell-card-header {
-  background: var(--pf-gradient-header, linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%)) !important;
+  background: var(--my-gradient-header, linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%)) !important;
   border-bottom: 3px solid #3a1e12 !important;
   color: #f0ead6 !important;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9) !important;
@@ -2905,7 +2905,7 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 
 /* Add a subtle separator between resource costs and components */
 .unified-spell-card.wizard .unified-spell-resource-costs + .unified-spell-components {
-  margin-left: var(--pf-space-2);
+  margin-left: var(--my-space-2);
   border: none;
   padding-left: 0;
 }
@@ -2914,7 +2914,7 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 .unified-spell-cost {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
   margin-left: auto;
   flex-shrink: 0;
 }
@@ -2923,10 +2923,10 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 .unified-spell-header-details {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-1);
+  gap: var(--my-space-1);
   width: 100%;
-  margin-top: var(--pf-space-1);
-  transition: all var(--pf-transition-normal);
+  margin-top: var(--my-space-1);
+  transition: all var(--my-transition-normal);
 }
 
 /* Main badges row - action type, range, targeting */
@@ -2942,7 +2942,7 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 /* Responsive badge wrapping */
 @media (max-width: 768px) {
   .unified-spell-badges-row {
-    gap: var(--pf-space-1);
+    gap: var(--my-space-1);
   }
 
   .unified-spell-header-right {
@@ -2960,12 +2960,12 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 
   .pf-damage-types-header {
     max-width: 180px; /* Maintain spread even on smaller screens */
-    gap: var(--pf-space-2); /* Reduce gap slightly on smaller screens */
+    gap: var(--my-space-2); /* Reduce gap slightly on smaller screens */
   }
 
   .unified-spell-cooldown {
     padding: 3px 8px;
-    font-size: var(--pf-text-xs);
+    font-size: var(--my-text-xs);
   }
 
   .cooldown-label {
@@ -2989,7 +2989,7 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 
   .unified-spell-cooldown {
     padding: 2px 6px;
-    font-size: var(--pf-text-xs);
+    font-size: var(--my-text-xs);
   }
 
   .cooldown-label {
@@ -2997,13 +2997,13 @@ body .pf-spell-card.wizard .wow-spell-card-header,
   }
 
   .cooldown-value {
-    font-size: var(--pf-text-xs);
+    font-size: var(--my-text-xs);
   }
 
   .unified-spell-header-main {
     flex-direction: column;
     align-items: flex-start;
-    gap: var(--pf-space-2);
+    gap: var(--my-space-2);
   }
 
   .unified-spell-header-right {
@@ -3022,7 +3022,7 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 
   .pf-damage-types-header {
     max-width: 150px; /* Maintain reasonable spread on very small screens */
-    gap: var(--pf-space-1); /* Minimal gap on very small screens */
+    gap: var(--my-space-1); /* Minimal gap on very small screens */
   }
 }
 
@@ -3030,32 +3030,32 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 .pf-action-type-badge {
   order: 1;
   flex-shrink: 0; /* Never shrink action type */
-  transition: all var(--pf-transition-fast);
+  transition: all var(--my-transition-fast);
 }
 
 .pf-range-badge {
   order: 2;
   flex-shrink: 0; /* Never shrink range */
-  transition: all var(--pf-transition-fast);
+  transition: all var(--my-transition-fast);
 }
 
 .pf-targeting-badge {
   order: 3;
   flex-shrink: 1; /* Allow shrinking to prevent overflow */
-  transition: all var(--pf-transition-fast);
+  transition: all var(--my-transition-fast);
   min-width: fit-content;
 }
 
 .pf-propagation-badge {
   order: 4;
   flex-shrink: 1; /* Can shrink if needed */
-  transition: all var(--pf-transition-fast);
+  transition: all var(--my-transition-fast);
 }
 
 .pf-priority-range-badge {
   order: 5;
   flex-shrink: 1; /* Can shrink if needed */
-  transition: all var(--pf-transition-fast);
+  transition: all var(--my-transition-fast);
 }
 
 /* Dynamic font sizing for long badge text */
@@ -3070,7 +3070,7 @@ body .pf-spell-card.wizard .wow-spell-card-header,
   .pf-propagation-badge {
     font-size: 11px;
     padding: 2px 4px;
-    gap: var(--pf-space-1);
+    gap: var(--my-space-1);
   }
 }
 
@@ -3080,7 +3080,7 @@ body .pf-spell-card.wizard .wow-spell-card-header,
   .unified-spell-badges-row .pf-propagation-badge {
     font-size: 12px;
     padding: 2px 5px;
-    gap: var(--pf-space-1);
+    gap: var(--my-space-1);
     max-width: 180px;
   }
 }
@@ -3090,14 +3090,14 @@ body .pf-spell-card.wizard .wow-spell-card-header,
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-left: var(--pf-space-1);
+  margin-left: var(--my-space-1);
   margin-top: 6px;
   align-items: center;
 }
 
 .unified-spell-bullet {
   font-size: 11px;
-  font-weight: var(--pf-font-medium);
+  font-weight: var(--my-font-medium);
   color: rgba(255, 255, 255, 0.9);
   text-transform: none;
   letter-spacing: 0.2px;
@@ -3127,17 +3127,17 @@ body .pf-spell-card.wizard .wow-spell-card-header,
   background: none;
   border-radius: 0;
   border: none;
-  margin: var(--pf-space-2) 0;
+  margin: var(--my-space-2) 0;
   box-shadow: none;
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
   width: 100%;
 }
 
 /* Legacy container styling for backward compatibility */
 .buff-debuff-effects {
-  margin-top: var(--pf-space-2);
+  margin-top: var(--my-space-2);
   padding: 0;
   background: none;
   border: none;
@@ -3148,8 +3148,8 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 .debuff-effects-section {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-2);
-  margin-top: var(--pf-space-2);
+  gap: var(--my-space-2);
+  margin-top: var(--my-space-2);
 }
 
 /* ===== ENHANCED BUFF EFFECTS STYLING ===== */
@@ -3166,7 +3166,7 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 
 
 .buff-effects-section:not(:last-child) {
-  margin-bottom: var(--pf-space-2);
+  margin-bottom: var(--my-space-2);
 }
 
 /* Buff Formula Lines - Simplified, less boxy */
@@ -3174,8 +3174,8 @@ body .pf-spell-card.wizard .wow-spell-card-header,
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: var(--pf-space-2);
-  margin-bottom: var(--pf-space-1);
+  gap: var(--my-space-2);
+  margin-bottom: var(--my-space-1);
   position: relative;
   z-index: 1;
 }
@@ -3197,7 +3197,7 @@ body .pf-spell-card.wizard .wow-spell-card-header,
   font-weight: 600;
   color: #ffffff;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);  /* Stronger shadow for better contrast */
-  margin-right: var(--pf-space-2);
+  margin-right: var(--my-space-2);
 }
 
 .buff-stat-value {
@@ -3446,7 +3446,7 @@ body .pf-spell-card.wizard .wow-spell-card-header,
   font-family: 'Times New Roman', serif;
   font-size: 14px;
   font-weight: 600;
-  color: var(--pf-text-primary);
+  color: var(--my-text-primary);
 }
 
 /* Unified spell stat styling for buff and debuff effects */
@@ -3463,11 +3463,11 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 .utility-effects,
 .damage-effects,
 .healing-effects {
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-3);
-  margin-bottom: var(--pf-space-3);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-3);
+  margin-bottom: var(--my-space-3);
   width: 100%;
   display: block;
   position: relative;
@@ -3478,7 +3478,7 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 .debuff-effects-section {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
 }
 
 .buff-header,
@@ -3486,23 +3486,23 @@ body .pf-spell-card.wizard .wow-spell-card-header,
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: var(--pf-space-2);
-  border-bottom: 1px solid var(--pf-brown-light);
+  padding-bottom: var(--my-space-2);
+  border-bottom: 1px solid var(--my-brown-light);
 }
 
 .buff-label,
 .debuff-label {
-  font-weight: var(--pf-font-weight-bold);
-  color: var(--pf-text-primary);
-  font-size: var(--pf-font-size-sm);
+  font-weight: var(--my-font-weight-bold);
+  color: var(--my-text-primary);
+  font-size: var(--my-font-size-sm);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .buff-type,
 .debuff-type {
-  font-size: var(--pf-font-size-xs);
-  color: var(--pf-text-secondary);
+  font-size: var(--my-font-size-xs);
+  color: var(--my-text-secondary);
   font-style: italic;
 }
 
@@ -3510,41 +3510,41 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 .debuff-effect-item {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-1);
+  gap: var(--my-space-1);
 }
 
 .buff-effect,
 .debuff-effect {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-1);
+  gap: var(--my-space-1);
 }
 
 .buff-effect-name,
 .debuff-effect-name {
-  font-weight: var(--pf-font-weight-bold);
-  color: var(--pf-text-primary);
-  font-size: var(--pf-font-size-sm);
+  font-weight: var(--my-font-weight-bold);
+  color: var(--my-text-primary);
+  font-size: var(--my-font-size-sm);
 }
 
 .buff-effect-description,
 .debuff-effect-description,
 .healing-effect-description {
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-font-size-xs);
+  color: var(--my-text-secondary);
+  font-size: var(--my-font-size-xs);
   font-style: italic;
 }
 
 .buff-effect-details,
 .debuff-effect-details {
-  padding-left: var(--pf-space-2);
+  padding-left: var(--my-space-2);
 }
 
 .buff-effect-mechanics,
 .debuff-effect-mechanics {
   font-family: 'Times New Roman', serif;
-  font-size: var(--pf-font-size-sm);
-  color: var(--pf-text-primary);
+  font-size: var(--my-font-size-sm);
+  color: var(--my-text-primary);
   line-height: 1.4;
 }
 
@@ -3552,10 +3552,10 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 .conditional-trigger-label {
   background: linear-gradient(135deg, #8B4513 0%, #A0522D 50%, #8B4513 100%);
   color: #F5DEB3 !important;
-  padding: var(--pf-space-1) var(--pf-space-2);
-  border-radius: var(--pf-border-radius-sm);
-  font-size: var(--pf-font-size-xs);
-  font-weight: var(--pf-font-weight-bold);
+  padding: var(--my-space-1) var(--my-space-2);
+  border-radius: var(--my-border-radius-sm);
+  font-size: var(--my-font-size-xs);
+  font-weight: var(--my-font-weight-bold);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   border: 1px solid #654321;
@@ -3563,18 +3563,18 @@ body .pf-spell-card.wizard .wow-spell-card-header,
               0 1px 2px rgba(0, 0, 0, 0.2);
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
   display: inline-block;
-  margin-bottom: var(--pf-space-1);
+  margin-bottom: var(--my-space-1);
 }
 
 /* Trigger mechanics text styling */
 .conditional-trigger-text {
   background: linear-gradient(135deg, #F5DEB3 0%, #E6D3A3 100%);
   border: 1px solid #D2B48C;
-  border-radius: var(--pf-border-radius-sm);
-  padding: var(--pf-space-2);
-  margin-top: var(--pf-space-1);
+  border-radius: var(--my-border-radius-sm);
+  padding: var(--my-space-2);
+  margin-top: var(--my-space-1);
   font-family: 'Cinzel', serif;
-  font-size: var(--pf-font-size-sm);
+  font-size: var(--my-font-size-sm);
   font-style: italic;
   color: #5D4E37 !important;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
@@ -3589,9 +3589,9 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 .conditional-trigger-item {
   background: rgba(245, 222, 179, 0.1);
   border: 1px solid rgba(139, 69, 19, 0.2);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-2);
-  margin: var(--pf-space-1) 0;
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-2);
+  margin: var(--my-space-1) 0;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
@@ -3647,7 +3647,7 @@ body .pf-spell-card.wizard .wow-spell-card-header,
   font-size: 13px;
   color: #ffffff;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);  /* Reduced shadow for better readability */
-  margin-right: var(--pf-space-2);
+  margin-right: var(--my-space-2);
 }
 
 .buff-effect-name {
@@ -3690,10 +3690,10 @@ body .pf-spell-card.wizard .wow-spell-card-header,
   font-family: 'Cinzel', serif;
   font-size: 12px;
   font-weight: 600;
-  padding: 2px var(--pf-space-2);
+  padding: 2px var(--my-space-2);
   background: linear-gradient(135deg, rgba(25, 118, 210, 0.15) 0%, rgba(21, 101, 192, 0.08) 100%);
   border: 1px solid rgba(25, 118, 210, 0.3);
-  border-radius: var(--pf-border-radius-sm);
+  border-radius: var(--my-border-radius-sm);
   text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
@@ -3702,9 +3702,9 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 .buff-properties-line {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--pf-space-2);
-  margin-top: var(--pf-space-2);
-  padding-top: var(--pf-space-2);
+  gap: var(--my-space-2);
+  margin-top: var(--my-space-2);
+  padding-top: var(--my-space-2);
   border-top: 1px solid rgba(76, 175, 80, 0.3);
 }
 
@@ -3718,9 +3718,9 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 
 /* Legacy buff effect styling for backward compatibility */
 .buff-effect {
-  color: var(--pf-success);
-  font-weight: var(--pf-font-medium);
-  font-size: var(--pf-text-sm);
+  color: var(--my-success);
+  font-weight: var(--my-font-medium);
+  font-size: var(--my-text-sm);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
@@ -3729,9 +3729,9 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 .debuff-effects-section {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-2);
-  margin-top: var(--pf-space-3);    /* More space from previous elements */
-  margin-bottom: var(--pf-space-2);
+  gap: var(--my-space-2);
+  margin-top: var(--my-space-3);    /* More space from previous elements */
+  margin-bottom: var(--my-space-2);
   width: 100%;
   min-width: 300px;
 }
@@ -3741,8 +3741,8 @@ body .pf-spell-card.wizard .wow-spell-card-header,
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--pf-space-2);
-  padding: 0 var(--pf-space-2);
+  margin-bottom: var(--my-space-2);
+  padding: 0 var(--my-space-2);
 }
 
 .debuff-label {
@@ -3768,9 +3768,9 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 .debuff-properties {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--pf-space-1);
-  margin-top: var(--pf-space-2);
-  padding-top: var(--pf-space-2);
+  gap: var(--my-space-1);
+  margin-top: var(--my-space-2);
+  padding-top: var(--my-space-2);
   border-top: 1px solid rgba(139, 0, 0, 0.3);
 }
 
@@ -3789,17 +3789,17 @@ body .pf-spell-card.wizard .wow-spell-card-header,
     rgba(80, 0, 0, 0.18) 100%);      /* Darkest red - more transparent */
   border: 2px solid rgba(139, 0, 0, 0.3);  /* Even softer red border */
   border-radius: 8px;
-  padding: var(--pf-space-3);
+  padding: var(--my-space-3);
   box-shadow: none;                 /* Removed shadow completely */
   position: relative;
-  margin-bottom: var(--pf-space-2);
+  margin-bottom: var(--my-space-2);
 }
 
 .debuff-formula-line {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
-  margin-bottom: var(--pf-space-1);
+  gap: var(--my-space-2);
+  margin-bottom: var(--my-space-1);
   position: relative;
 }
 
@@ -3808,9 +3808,9 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 }
 
 .debuff-formula-prefix {
-  font-weight: var(--pf-font-bold);
+  font-weight: var(--my-font-bold);
   color: #ff6b6b;
-  font-size: var(--pf-text-sm);
+  font-size: var(--my-text-sm);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);  /* Improved shadow for better readability */
   min-width: 60px;
   flex-shrink: 0;
@@ -3835,14 +3835,14 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 .debuff-status-effects {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--pf-space-1);
+  gap: var(--my-space-1);
   align-items: center;
 }
 
 .debuff-status-effect {
   display: inline-flex;
   align-items: center;
-  gap: var(--pf-space-1);
+  gap: var(--my-space-1);
   background: linear-gradient(135deg, rgba(139, 0, 0, 0.2) 0%, rgba(139, 0, 0, 0.1) 100%);
   border: 1px solid rgba(139, 0, 0, 0.4);
   border-radius: 4px;
@@ -3887,9 +3887,9 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 }
 
 .debuff-effect {
-  color: var(--pf-danger);
-  font-weight: var(--pf-font-medium);
-  font-size: var(--pf-text-sm);
+  color: var(--my-danger);
+  font-weight: var(--my-font-medium);
+  font-size: var(--my-text-sm);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
@@ -3904,9 +3904,9 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 .utility-effects-section {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-2);
-  margin-top: var(--pf-space-3);
-  margin-bottom: var(--pf-space-2);
+  gap: var(--my-space-2);
+  margin-top: var(--my-space-3);
+  margin-bottom: var(--my-space-2);
   width: 100%;
   min-width: 300px;
 }
@@ -3916,14 +3916,14 @@ body .pf-spell-card.wizard .wow-spell-card-header,
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--pf-space-2);
-  padding: 0 var(--pf-space-2);
+  margin-bottom: var(--my-space-2);
+  padding: 0 var(--my-space-2);
 }
 
 .utility-title-group {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
 }
 
 .utility-label {
@@ -3948,7 +3948,7 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 .utility-save-info {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-1);
+  gap: var(--my-space-1);
   font-family: 'Cinzel', serif;
   font-weight: 600;
   font-size: 12px;
@@ -3959,7 +3959,7 @@ body .pf-spell-card.wizard .wow-spell-card-header,
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
   padding: 2px 6px;
   background: rgba(78, 124, 255, 0.2);
-  border-radius: var(--pf-border-radius-sm);
+  border-radius: var(--my-border-radius-sm);
   border: 1px solid rgba(78, 124, 255, 0.3);
 }
 
@@ -3968,7 +3968,7 @@ body .pf-spell-card.wizard .wow-spell-card-header,
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
   padding: 2px 6px;
   background: rgba(78, 124, 255, 0.15);
-  border-radius: var(--pf-border-radius-sm);
+  border-radius: var(--my-border-radius-sm);
   border: 1px solid rgba(78, 124, 255, 0.25);
 }
 
@@ -3980,21 +3980,21 @@ body .pf-spell-card.wizard .wow-spell-card-header,
     rgba(33, 150, 243, 0.12) 100%);
   border: 2px solid rgba(78, 124, 255, 0.25);
   border-radius: 8px;
-  padding: var(--pf-space-3);
+  padding: var(--my-space-3);
   position: relative;
-  margin-bottom: var(--pf-space-2);
+  margin-bottom: var(--my-space-2);
 }
 
 .utility-effects-list {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
 }
 
 .utility-effect-item {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-1);
+  gap: var(--my-space-1);
 }
 
 .utility-effect-name {
@@ -4036,7 +4036,7 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 /* Utility Placeholder */
 .utility-placeholder {
   text-align: center;
-  padding: var(--pf-space-3);
+  padding: var(--my-space-3);
   opacity: 0.7;
 }
 
@@ -4051,16 +4051,16 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 /* This styling is now handled by the unified-spell-tags-footer section */
 
 .unified-spell-tag.selected {
-  background: var(--pf-gradient-gold);
-  border-color: var(--pf-gold-dark);
-  color: var(--pf-brown-darkest);
-  box-shadow: var(--pf-shadow-sm);
+  background: var(--my-gradient-gold);
+  border-color: var(--my-gold-dark);
+  color: var(--my-brown-darkest);
+  box-shadow: var(--my-shadow-sm);
 }
 
 /* Card Body */
 .unified-spell-card-body {
-  padding: var(--pf-space-3);
-  background: var(--pf-parchment);
+  padding: var(--my-space-3);
+  background: var(--my-parchment);
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -4068,29 +4068,29 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 
 .unified-spell-card.compact .unified-spell-card-body,
 .unified-spell-card.preview .unified-spell-card-body {
-  padding: var(--pf-space-2);
+  padding: var(--my-space-2);
 }
 
 .unified-spell-description {
   color: #9d9d9d;
-  font-size: var(--pf-text-sm);
+  font-size: var(--my-text-sm);
   line-height: 1.4;
-  margin-bottom: var(--pf-space-2);
-  padding-bottom: var(--pf-space-2);
+  margin-bottom: var(--my-space-2);
+  padding-bottom: var(--my-space-2);
   font-style: italic;
 }
 
 .unified-spell-card.compact .unified-spell-description {
-  font-size: var(--pf-text-xs);
-  margin-bottom: var(--pf-space-1);
-  padding-bottom: var(--pf-space-1);
+  font-size: var(--my-text-xs);
+  margin-bottom: var(--my-space-1);
+  padding-bottom: var(--my-space-1);
 }
 
 /* Stats */
 .unified-spell-stats {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-1);
+  gap: var(--my-space-1);
   flex: 1;
 }
 
@@ -4098,22 +4098,22 @@ body .pf-spell-card.wizard .wow-spell-card-header,
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: var(--pf-text-sm);
-  padding: var(--pf-space-1) 0;
+  font-size: var(--my-text-sm);
+  padding: var(--my-space-1) 0;
 }
 
 .unified-stat-label {
-  color: var(--pf-text-secondary);
-  font-weight: var(--pf-font-medium);
+  color: var(--my-text-secondary);
+  font-weight: var(--my-font-medium);
 }
 
 .unified-stat-value {
-  color: var(--pf-text-primary);
-  font-weight: var(--pf-font-semibold);
+  color: var(--my-text-primary);
+  font-weight: var(--my-font-semibold);
 }
 
 .unified-stat-value.damage {
-  color: var(--pf-fire);
+  color: var(--my-fire);
 }
 
 .unified-stat-value.healing {
@@ -4121,7 +4121,7 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 }
 
 .unified-stat-value.type-config {
-  color: var(--pf-info);
+  color: var(--my-info);
   font-style: italic;
 }
 
@@ -4133,11 +4133,11 @@ body .pf-spell-card.wizard .wow-spell-card-header,
   background: none;
   border-radius: 0;
   border: none;
-  margin: var(--pf-space-2) 0;
+  margin: var(--my-space-2) 0;
   box-shadow: none;
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
 }
 
 /* Enhanced healing formula styling - removed outer box styling */
@@ -4148,51 +4148,51 @@ body .pf-spell-card.wizard .wow-spell-card-header,
   background: none;
   border-radius: 0;
   border: none;
-  margin: var(--pf-space-2) 0;
+  margin: var(--my-space-2) 0;
   box-shadow: none;
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
 }
 
 .unified-stat-value.damage.conversational {
-  color: var(--pf-brown-dark);
+  color: var(--my-brown-dark);
   font-family: 'Cinzel', serif;
   font-size: 13px;
-  font-weight: var(--pf-font-semibold);
+  font-weight: var(--my-font-semibold);
   font-style: italic;
   line-height: 1.4;
   text-align: center;
   letter-spacing: 0.3px;
   text-shadow: 0 1px 2px rgba(255, 255, 255, 0.4);
   opacity: 0.95;
-  padding: var(--pf-space-1) 0;
+  padding: var(--my-space-1) 0;
 }
 
 /* Card Actions */
 .unified-spell-card-actions {
   display: flex;
-  gap: var(--pf-space-1);
-  padding: var(--pf-space-2);
+  gap: var(--my-space-1);
+  padding: var(--my-space-2);
   background: rgba(139, 69, 19, 0.1);
-  border-top: 1px solid var(--pf-brown-light);
+  border-top: 1px solid var(--my-brown-light);
 }
 
 .spell-action-button {
-  background: var(--pf-gradient-button);
-  border: 1px solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-secondary);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  font-size: var(--pf-text-xs);
+  background: var(--my-gradient-button);
+  border: 1px solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-secondary);
+  padding: var(--my-space-1) var(--my-space-2);
+  font-size: var(--my-text-xs);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
 }
 
 .spell-action-button:hover {
-  background: var(--pf-gradient-button-hover);
+  background: var(--my-gradient-button-hover);
   transform: translateY(-1px);
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .spell-action-button.delete-button:hover {
@@ -4201,30 +4201,30 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 }
 
 .pf-spell-card.simplified .pf-spell-cost.small {
-  font-size: var(--pf-text-xs);
-  padding: var(--pf-space-1);
+  font-size: var(--my-text-xs);
+  padding: var(--my-space-1);
 }
 
 /* Library variant */
 .pf-spell-card.library {
-  border: 2px solid var(--pf-brown-medium);
-  box-shadow: var(--pf-shadow-lg);
+  border: 2px solid var(--my-brown-medium);
+  box-shadow: var(--my-shadow-lg);
 }
 
 .pf-spell-card.library .pf-spell-card-extras {
-  padding: var(--pf-space-3);
-  background: var(--pf-gradient-parchment-dark);
-  border-top: 1px solid var(--pf-brown-light);
-  font-size: var(--pf-text-xs);
-  color: var(--pf-text-muted);
+  padding: var(--my-space-3);
+  background: var(--my-gradient-parchment-dark);
+  border-top: 1px solid var(--my-brown-light);
+  font-size: var(--my-text-xs);
+  color: var(--my-text-muted);
 }
 
 /* Preview variant */
 .pf-spell-card.preview {
   min-height: auto;
-  padding: var(--pf-space-4);
-  background: var(--pf-gradient-parchment-light);
-  border: 1px solid var(--pf-brown-light);
+  padding: var(--my-space-4);
+  background: var(--my-gradient-parchment-light);
+  border: 1px solid var(--my-brown-light);
 }
 
 .pf-spell-card.preview .pf-spell-preview-content {
@@ -4232,16 +4232,16 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 }
 
 .pf-spell-card.preview .pf-spell-name {
-  color: var(--pf-text-primary);
+  color: var(--my-text-primary);
   text-shadow: none;
-  margin-bottom: var(--pf-space-2);
+  margin-bottom: var(--my-space-2);
 }
 
 .pf-spell-card.preview .pf-spell-summary {
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-secondary);
-  line-height: var(--pf-leading-normal);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-sm);
+  color: var(--my-text-secondary);
+  line-height: var(--my-leading-normal);
   margin: 0;
 }
 
@@ -4249,28 +4249,28 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 
 .pf-spell-card-actions {
   display: flex;
-  gap: var(--pf-space-2);
-  padding: var(--pf-space-3);
-  background: var(--pf-gradient-parchment-dark);
-  border-top: 1px solid var(--pf-brown-light);
+  gap: var(--my-space-2);
+  padding: var(--my-space-3);
+  background: var(--my-gradient-parchment-dark);
+  border-top: 1px solid var(--my-brown-light);
   justify-content: flex-end;
 }
 
 .pf-spell-card-actions .pf-button {
-  padding: var(--pf-space-2) var(--pf-space-3);
-  font-size: var(--pf-text-xs);
+  padding: var(--my-space-2) var(--my-space-3);
+  font-size: var(--my-text-xs);
 }
 
 .pf-spell-card-actions .pf-button.secondary {
-  background: var(--pf-gradient-button);
-  border-color: var(--pf-brown-medium);
-  color: var(--pf-text-primary);
+  background: var(--my-gradient-button);
+  border-color: var(--my-brown-medium);
+  color: var(--my-text-primary);
 }
 
 .pf-spell-card-actions .pf-button.danger {
   background: linear-gradient(135deg, #dc2626, #b91c1c);
   border-color: #dc2626;
-  color: var(--pf-parchment);
+  color: var(--my-parchment);
 }
 
 .pf-spell-card-actions .pf-button.danger:hover {
@@ -4283,25 +4283,25 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 .pf-spell-cost {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-1);
+  gap: var(--my-space-1);
 }
 
 .pf-mana-cost {
   background: rgba(139, 69, 19, 0.1);
-  color: var(--pf-arcane);
-  border: 1px solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-xs);
-  font-weight: var(--pf-font-bold);
+  color: var(--my-arcane);
+  border: 1px solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-1) var(--my-space-2);
+  font-family: var(--my-font-ui);
+  font-size: var(--my-text-xs);
+  font-weight: var(--my-font-bold);
 }
 
 /* ===== SPELL ICON CONTAINER ===== */
 
 .pf-spell-icon-container {
   position: relative;
-  margin-right: var(--pf-space-3);
+  margin-right: var(--my-space-3);
   flex-shrink: 0;
 }
 
@@ -4310,17 +4310,17 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 .pf-spell-resources {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--pf-space-2);
-  margin-top: var(--pf-space-2);
+  gap: var(--my-space-2);
+  margin-top: var(--my-space-2);
   align-items: center;
 }
 
 /* Duplicate resource cost styles removed - using the main styles above */
 
 .pf-spell-icon-container .pf-spell-icon {
-  border-radius: var(--pf-border-radius);
-  border: 2px solid var(--pf-brown-medium);
-  box-shadow: var(--pf-shadow-sm);
+  border-radius: var(--my-border-radius);
+  border: 2px solid var(--my-brown-medium);
+  box-shadow: var(--my-shadow-sm);
   object-fit: cover;
 }
 
@@ -4332,20 +4332,20 @@ body .pf-spell-card.wizard .wow-spell-card-header,
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--pf-space-3) var(--pf-space-5);
-  background: var(--pf-gradient-parchment-dark);
-  border-top: var(--pf-border-width) solid var(--pf-brown-medium);
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-secondary);
+  padding: var(--my-space-3) var(--my-space-5);
+  background: var(--my-gradient-parchment-dark);
+  border-top: var(--my-border-width) solid var(--my-brown-medium);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-sm);
+  color: var(--my-text-secondary);
   min-height: 50px;
-  border-bottom-left-radius: var(--pf-border-radius-lg);
-  border-bottom-right-radius: var(--pf-border-radius-lg);
+  border-bottom-left-radius: var(--my-border-radius-lg);
+  border-bottom-right-radius: var(--my-border-radius-lg);
 }
 
 .spell-range-duration {
   display: flex;
-  gap: var(--pf-space-4);
+  gap: var(--my-space-4);
   align-items: center;
 }
 
@@ -4355,39 +4355,39 @@ body .pf-spell-card.wizard .wow-spell-card-header,
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 4px var(--pf-space-3);
-  background: var(--pf-gradient-parchment-dark);
-  border-top: var(--pf-border-width) solid var(--pf-brown-medium);
-  font-family: var(--pf-font-body);
+  padding: 4px var(--my-space-3);
+  background: var(--my-gradient-parchment-dark);
+  border-top: var(--my-border-width) solid var(--my-brown-medium);
+  font-family: var(--my-font-body);
   min-height: 22px;
   margin-top: auto; /* Push to bottom of card */
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
   z-index: 10;
-  border-bottom-left-radius: var(--pf-border-radius-lg);
-  border-bottom-right-radius: var(--pf-border-radius-lg);
+  border-bottom-left-radius: var(--my-border-radius-lg);
+  border-bottom-right-radius: var(--my-border-radius-lg);
 }
 
 /* Inferno Requirements */
 .unified-spell-inferno-info {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
   align-items: center;
 }
 
 .inferno-required-badge,
 .inferno-ascend-badge,
 .inferno-descend-badge {
-  font-size: var(--pf-text-xs);
-  font-weight: var(--pf-font-bold);
-  font-family: var(--pf-font-ui);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  border-radius: var(--pf-border-radius);
+  font-size: var(--my-text-xs);
+  font-weight: var(--my-font-bold);
+  font-family: var(--my-font-ui);
+  padding: var(--my-space-1) var(--my-space-2);
+  border-radius: var(--my-border-radius);
   border: 2px solid;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   white-space: nowrap;
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .inferno-required-badge {
@@ -4411,29 +4411,29 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 .unified-spell-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
   align-items: center;
 }
 
 .unified-spell-tag {
   display: inline-block;
   padding: 2px 6px;
-  background: var(--pf-gradient-button);
-  border: 1px solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
+  background: var(--my-gradient-button);
+  border: 1px solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
   font-size: 9px;
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-secondary);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.3px;
-  font-family: var(--pf-font-ui);
+  font-family: var(--my-font-ui);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease;
 }
 
 .unified-spell-tag:hover {
-  background: var(--pf-gradient-button-hover);
-  border-color: var(--pf-brown-dark);
+  background: var(--my-gradient-button-hover);
+  border-color: var(--my-brown-dark);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
   transform: translateY(-1px);
 }
@@ -4444,26 +4444,26 @@ body .pf-spell-card.wizard .wow-spell-card-header,
   gap: 3px;
   font-size: 10px;
   white-space: nowrap;
-  background: var(--pf-gradient-parchment-light);
+  background: var(--my-gradient-parchment-light);
   padding: 2px 6px;
-  border-radius: var(--pf-border-radius);
-  border: 1px solid var(--pf-brown-light);
-  box-shadow: var(--pf-shadow-sm);
+  border-radius: var(--my-border-radius);
+  border: 1px solid var(--my-brown-light);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .cooldown-label {
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-secondary);
-  font-family: var(--pf-font-ui);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-secondary);
+  font-family: var(--my-font-ui);
   font-size: 9px;
   text-transform: uppercase;
   letter-spacing: 0.3px;
 }
 
 .cooldown-value {
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-brown-medium);
-  font-family: var(--pf-font-ui);
+  font-weight: var(--my-font-bold);
+  color: var(--my-brown-medium);
+  font-family: var(--my-font-ui);
   font-size: 9px;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6);
 }
@@ -4472,14 +4472,14 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 .spell-duration {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-1);
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-primary);
+  gap: var(--my-space-1);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-primary);
 }
 
 .spell-range i,
 .spell-duration i {
-  color: var(--pf-brown-medium);
+  color: var(--my-brown-medium);
   width: 14px;
 }
 
@@ -4488,52 +4488,52 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 .spell-stats-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--pf-space-3);
-  margin-top: var(--pf-space-3);
-  padding-top: var(--pf-space-3);
-  border-top: 1px solid var(--pf-brown-light);
+  gap: var(--my-space-3);
+  margin-top: var(--my-space-3);
+  padding-top: var(--my-space-3);
+  border-top: 1px solid var(--my-brown-light);
 }
 
 .spell-stat-item {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-1);
-  padding: var(--pf-space-2);
+  gap: var(--my-space-1);
+  padding: var(--my-space-2);
   background: rgba(139, 69, 19, 0.05);
-  border-radius: var(--pf-border-radius);
+  border-radius: var(--my-border-radius);
   border: 1px solid rgba(139, 69, 19, 0.1);
 }
 
 .spell-stat-label {
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-xs);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-muted);
+  font-family: var(--my-font-ui);
+  font-size: var(--my-text-xs);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .spell-stat-value {
-  font-family: var(--pf-font-display);
-  font-size: var(--pf-text-sm);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-primary);
+  font-family: var(--my-font-display);
+  font-size: var(--my-text-sm);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-primary);
 }
 
 .spell-stat-value.damage {
-  color: var(--pf-fire);
+  color: var(--my-fire);
 }
 
 .spell-stat-value.healing {
-  color: var(--pf-nature);
+  color: var(--my-nature);
 }
 
 .spell-stat-value.buff {
-  color: var(--pf-holy);
+  color: var(--my-holy);
 }
 
 .spell-stat-value.debuff {
-  color: var(--pf-shadow);
+  color: var(--my-shadow);
 }
 
 /* ===== RESOURCE COST ENHANCEMENTS ===== */
@@ -4541,7 +4541,7 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 .spell-resources-container {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
   justify-content: flex-end;
   align-items: center;
 }
@@ -4549,36 +4549,36 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 .resource-cost-item {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-1);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  background: var(--pf-gradient-parchment-light);
-  border: 1px solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  font-size: var(--pf-text-xs);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-primary);
+  gap: var(--my-space-1);
+  padding: var(--my-space-1) var(--my-space-2);
+  background: var(--my-gradient-parchment-light);
+  border: 1px solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  font-size: var(--my-text-xs);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-primary);
 }
 
 .resource-cost-item i {
   width: 12px;
   height: 12px;
-  color: var(--pf-brown-medium);
+  color: var(--my-brown-medium);
 }
 
 /* ===== SPELL TYPE BADGE ===== */
 
 .spell-type-badge {
   position: absolute;
-  top: var(--pf-space-2);
-  left: var(--pf-space-2);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  background: var(--pf-gradient-button);
-  border: 1px solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-xs);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-secondary);
+  top: var(--my-space-2);
+  left: var(--my-space-2);
+  padding: var(--my-space-1) var(--my-space-2);
+  background: var(--my-gradient-button);
+  border: 1px solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  font-family: var(--my-font-ui);
+  font-size: var(--my-text-xs);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   z-index: 10;
@@ -4586,12 +4586,12 @@ body .pf-spell-card.wizard .wow-spell-card-header,
 
 .spell-type-badge.action {
   background: linear-gradient(135deg, #8b4513, #a0522d);
-  color: var(--pf-parchment);
+  color: var(--my-parchment);
   border-color: #654321;
 }
 
 .spell-type-badge.trap {
   background: linear-gradient(135deg, #dc2626, #b91c1c);
-  color: var(--pf-parchment);
+  color: var(--my-parchment);
   border-color: #991b1b;
 }

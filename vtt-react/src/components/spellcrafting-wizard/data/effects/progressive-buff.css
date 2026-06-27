@@ -2,75 +2,75 @@
 
 /* Main progressive config container */
 .progressive-buff-config {
-  background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
-  border: var(--pf-border-width, 2px) solid var(--pf-brown-light, #a08c70);
-  border-radius: var(--pf-border-radius, 8px);
-  padding: var(--pf-space-4, 16px);
-  margin-bottom: var(--pf-space-4, 16px);
-  box-shadow: var(--pf-shadow-sm, 0 2px 4px rgba(45, 24, 16, 0.1));
+  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
+  border: var(--my-border-width, 2px) solid var(--my-brown-light, #a08c70);
+  border-radius: var(--my-border-radius, 8px);
+  padding: var(--my-space-4, 16px);
+  margin-bottom: var(--my-space-4, 16px);
+  box-shadow: var(--my-shadow-sm, 0 2px 4px rgba(45, 24, 16, 0.1));
 }
 
 .progressive-buff-config h4 {
-  margin: 0 0 var(--pf-space-2, 8px) 0;
-  color: var(--pf-text-primary, #2d1810);
-  font-size: var(--pf-text-base, 16px);
-  font-family: var(--pf-font-display, 'Cinzel', serif);
-  font-weight: var(--pf-font-semibold, 600);
+  margin: 0 0 var(--my-space-2, 8px) 0;
+  color: var(--my-text-primary, #2d1810);
+  font-size: var(--my-text-base, 16px);
+  font-family: var(--my-font-display, 'Cinzel', serif);
+  font-weight: var(--my-font-semibold, 600);
   text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
 }
 
 .stage-description {
-  font-size: var(--pf-text-sm, 14px);
-  color: var(--pf-text-secondary, #5a1e12);
-  margin-bottom: var(--pf-space-3, 12px);
-  font-family: var(--pf-font-body, 'Crimson Text', serif);
+  font-size: var(--my-text-sm, 14px);
+  color: var(--my-text-secondary, #5a1e12);
+  margin-bottom: var(--my-space-3, 12px);
+  font-family: var(--my-font-body, 'Crimson Text', serif);
   font-style: italic;
 }
 
 .progressive-stages {
-  margin-top: var(--pf-space-3, 12px);
+  margin-top: var(--my-space-3, 12px);
 }
 
 /* Stage list and items */
 .stages-list {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-4, 16px);
+  gap: var(--my-space-4, 16px);
 }
 
 .stage-item {
-  background: var(--pf-gradient-parchment-light, linear-gradient(145deg, #f8f4e6 0%, #f0ead6 50%, #ede4d3 100%));
-  border: var(--pf-border-width, 2px) solid var(--pf-brown-light, #a08c70);
-  border-radius: var(--pf-border-radius, 8px);
-  padding: var(--pf-space-3, 12px);
-  box-shadow: var(--pf-shadow-sm, 0 2px 4px rgba(45, 24, 16, 0.1));
+  background: var(--my-gradient-parchment-light, linear-gradient(145deg, #f8f4e6 0%, #f0ead6 50%, #ede4d3 100%));
+  border: var(--my-border-width, 2px) solid var(--my-brown-light, #a08c70);
+  border-radius: var(--my-border-radius, 8px);
+  padding: var(--my-space-3, 12px);
+  box-shadow: var(--my-shadow-sm, 0 2px 4px rgba(45, 24, 16, 0.1));
 }
 
 .stage-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--pf-space-3, 12px);
-  padding-bottom: var(--pf-space-2, 8px);
-  border-bottom: 1px solid var(--pf-brown-light, #a08c70);
+  margin-bottom: var(--my-space-3, 12px);
+  padding-bottom: var(--my-space-2, 8px);
+  border-bottom: 1px solid var(--my-brown-light, #a08c70);
 }
 
 .stage-title {
-  font-family: var(--pf-font-display, 'Cinzel', serif);
-  font-size: var(--pf-text-base, 16px);
-  font-weight: var(--pf-font-semibold, 600);
+  font-family: var(--my-font-display, 'Cinzel', serif);
+  font-size: var(--my-text-base, 16px);
+  font-weight: var(--my-font-semibold, 600);
   color: #5e2e23 !important;
 }
 
 .stage-actions {
   display: flex;
-  gap: var(--pf-space-2, 8px);
+  gap: var(--my-space-2, 8px);
 }
 
 .stage-action {
-  background: var(--pf-danger, #d32f2f);
+  background: var(--my-danger, #d32f2f);
   border: none;
-  border-radius: var(--pf-border-radius, 8px);
+  border-radius: var(--my-border-radius, 8px);
   width: 24px;
   height: 24px;
   color: white;
@@ -80,25 +80,25 @@
   justify-content: center;
   font-size: 14px;
   font-weight: bold;
-  transition: all var(--pf-transition-normal, 0.25s ease);
+  transition: all var(--my-transition-normal, 0.25s ease);
 }
 
 .stage-action:hover {
-  background: var(--pf-danger-dark, #b71c1c);
+  background: var(--my-danger-dark, #b71c1c);
   transform: scale(1.1);
 }
 
 .stage-content {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-3, 12px);
+  gap: var(--my-space-3, 12px);
 }
 
 /* Top row: timing + spell effect side-by-side */
 .stage-top-row {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--pf-space-4, 16px);
+  gap: var(--my-space-4, 16px);
   align-items: flex-start;
 }
 
@@ -126,39 +126,39 @@
 .stage-timing {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-2, 8px);
+  gap: var(--my-space-2, 8px);
   min-width: 120px;
 }
 
 .stage-timing label {
-  font-family: var(--pf-font-display, 'Cinzel', serif);
-  font-size: var(--pf-text-sm, 14px);
-  font-weight: var(--pf-font-semibold, 600);
-  color: var(--pf-text-primary, #2d1810);
+  font-family: var(--my-font-display, 'Cinzel', serif);
+  font-size: var(--my-text-sm, 14px);
+  font-weight: var(--my-font-semibold, 600);
+  color: var(--my-text-primary, #2d1810);
   white-space: nowrap;
 }
 
 .stage-timing-inputs {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2, 8px);
+  gap: var(--my-space-2, 8px);
 }
 
 .stage-timing-inputs input {
   width: 64px;
-  padding: var(--pf-space-1, 4px) var(--pf-space-2, 8px);
-  background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
-  border: var(--pf-border-width, 2px) solid var(--pf-brown-light, #a08c70);
-  border-radius: var(--pf-border-radius, 8px);
-  font-family: var(--pf-font-ui, 'Crimson Text', serif);
-  font-size: var(--pf-text-sm, 14px);
-  color: var(--pf-text-primary, #2d1810);
+  padding: var(--my-space-1, 4px) var(--my-space-2, 8px);
+  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
+  border: var(--my-border-width, 2px) solid var(--my-brown-light, #a08c70);
+  border-radius: var(--my-border-radius, 8px);
+  font-family: var(--my-font-ui, 'Crimson Text', serif);
+  font-size: var(--my-text-sm, 14px);
+  color: var(--my-text-primary, #2d1810);
   text-align: center;
 }
 
 .unit-label {
-  font-size: var(--pf-text-sm, 14px);
-  color: var(--pf-text-secondary, #5a1e12);
+  font-size: var(--my-text-sm, 14px);
+  color: var(--my-text-secondary, #5a1e12);
   font-style: italic;
 }
 
@@ -166,15 +166,15 @@
 .stage-spell-effect {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-2, 8px);
+  gap: var(--my-space-2, 8px);
   min-width: 0;
 }
 
 .stage-spell-effect label {
-  font-family: var(--pf-font-display, 'Cinzel', serif);
-  font-size: var(--pf-text-sm, 14px);
-  font-weight: var(--pf-font-semibold, 600);
-  color: var(--pf-text-primary, #2d1810);
+  font-family: var(--my-font-display, 'Cinzel', serif);
+  font-size: var(--my-text-sm, 14px);
+  font-weight: var(--my-font-semibold, 600);
+  color: var(--my-text-primary, #2d1810);
   white-space: nowrap;
 }
 
@@ -184,60 +184,60 @@
 }
 
 .stage-spell-effect .spell-selector-input-container {
-  padding: var(--pf-space-1, 4px) var(--pf-space-2, 8px);
+  padding: var(--my-space-1, 4px) var(--my-space-2, 8px);
   min-height: 36px;
 }
 
 .stage-spell-effect .spell-search-input {
-  font-size: var(--pf-text-sm, 14px);
+  font-size: var(--my-text-sm, 14px);
 }
 
 /* Stage stats configuration */
 .stage-stats {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-2, 8px);
+  gap: var(--my-space-2, 8px);
 }
 
 .stage-stats label {
-  font-family: var(--pf-font-display, 'Cinzel', serif);
-  font-size: var(--pf-text-sm, 14px);
-  font-weight: var(--pf-font-semibold, 600);
-  color: var(--pf-text-primary, #2d1810);
+  font-family: var(--my-font-display, 'Cinzel', serif);
+  font-size: var(--my-text-sm, 14px);
+  font-weight: var(--my-font-semibold, 600);
+  color: var(--my-text-primary, #2d1810);
 }
 
 .stage-stats-selector {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-2, 8px);
+  gap: var(--my-space-2, 8px);
 }
 
 .stage-stats-list {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-2, 8px);
+  gap: var(--my-space-2, 8px);
   max-height: 240px;
   overflow-y: auto;
-  padding: var(--pf-space-2, 8px);
-  background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
-  border: var(--pf-border-width, 2px) solid var(--pf-brown-light, #a08c70);
-  border-radius: var(--pf-border-radius, 8px);
+  padding: var(--my-space-2, 8px);
+  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
+  border: var(--my-border-width, 2px) solid var(--my-brown-light, #a08c70);
+  border-radius: var(--my-border-radius, 8px);
 }
 
 .stage-stat-item {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2, 8px);
-  padding: var(--pf-space-2, 8px);
-  background: var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
-  border: var(--pf-border-width, 2px) solid var(--pf-brown-light, #a08c70);
-  border-radius: var(--pf-border-radius, 8px);
-  transition: all var(--pf-transition-normal, 0.25s ease);
+  gap: var(--my-space-2, 8px);
+  padding: var(--my-space-2, 8px);
+  background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+  border: var(--my-border-width, 2px) solid var(--my-brown-light, #a08c70);
+  border-radius: var(--my-border-radius, 8px);
+  transition: all var(--my-transition-normal, 0.25s ease);
 }
 
 .stage-stat-item.included {
   background: linear-gradient(135deg, rgba(212, 175, 55, 0.22) 0%, rgba(212, 175, 55, 0.12) 100%);
-  border-color: var(--pf-gold-dark, #b8860b);
+  border-color: var(--my-gold-dark, #b8860b);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 0 8px rgba(212, 175, 55, 0.25);
 }
 
@@ -261,46 +261,46 @@
   width: 100%;
   height: 100%;
   border-radius: 3px;
-  border: 1px solid var(--pf-brown-light, #a08c70);
+  border: 1px solid var(--my-brown-light, #a08c70);
 }
 
 .stage-stat-name {
   flex: 1;
-  font-family: var(--pf-font-ui, 'Crimson Text', serif);
-  font-size: var(--pf-text-sm, 14px);
-  font-weight: var(--pf-font-medium, 500);
-  color: var(--pf-text-primary, #2d1810);
+  font-family: var(--my-font-ui, 'Crimson Text', serif);
+  font-size: var(--my-text-sm, 14px);
+  font-weight: var(--my-font-medium, 500);
+  color: var(--my-text-primary, #2d1810);
 }
 
 .stage-stat-value {
   flex-shrink: 0;
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2, 8px);
+  gap: var(--my-space-2, 8px);
 }
 
 .stage-stat-value input {
   width: 56px;
-  padding: var(--pf-space-1, 4px);
-  background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
-  border: var(--pf-border-width, 2px) solid var(--pf-brown-light, #a08c70);
-  border-radius: var(--pf-border-radius, 8px);
-  font-family: var(--pf-font-ui, 'Crimson Text', serif);
-  font-size: var(--pf-text-sm, 14px);
-  color: var(--pf-text-primary, #2d1810);
+  padding: var(--my-space-1, 4px);
+  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
+  border: var(--my-border-width, 2px) solid var(--my-brown-light, #a08c70);
+  border-radius: var(--my-border-radius, 8px);
+  font-family: var(--my-font-ui, 'Crimson Text', serif);
+  font-size: var(--my-text-sm, 14px);
+  color: var(--my-text-primary, #2d1810);
   text-align: center;
 }
 
 .stage-stat-value select {
   width: auto;
   min-width: 72px;
-  padding: var(--pf-space-1, 4px);
-  background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
-  border: var(--pf-border-width, 2px) solid var(--pf-brown-light, #a08c70);
-  border-radius: var(--pf-border-radius, 8px);
-  font-family: var(--pf-font-ui, 'Crimson Text', serif);
-  font-size: var(--pf-text-sm, 14px);
-  color: var(--pf-text-primary, #2d1810);
+  padding: var(--my-space-1, 4px);
+  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
+  border: var(--my-border-width, 2px) solid var(--my-brown-light, #a08c70);
+  border-radius: var(--my-border-radius, 8px);
+  font-family: var(--my-font-ui, 'Crimson Text', serif);
+  font-size: var(--my-text-sm, 14px);
+  color: var(--my-text-primary, #2d1810);
   text-align: center;
   cursor: pointer;
 }
@@ -309,46 +309,46 @@
 .no-stats-message,
 .no-stages {
   text-align: center;
-  padding: var(--pf-space-4, 16px);
-  color: var(--pf-text-secondary, #5a1e12);
+  padding: var(--my-space-4, 16px);
+  color: var(--my-text-secondary, #5a1e12);
   font-style: italic;
-  background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
-  border: var(--pf-border-width, 2px) solid var(--pf-brown-light, #a08c70);
-  border-radius: var(--pf-border-radius, 8px);
+  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
+  border: var(--my-border-width, 2px) solid var(--my-brown-light, #a08c70);
+  border-radius: var(--my-border-radius, 8px);
 }
 
 /* Add stage button */
 .add-stage-button {
-  background: var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
-  border: var(--pf-border-width, 2px) solid var(--pf-brown-medium, #8B4513);
-  border-radius: var(--pf-border-radius, 8px);
-  padding: var(--pf-space-3, 12px) var(--pf-space-4, 16px);
-  font-family: var(--pf-font-ui, 'Crimson Text', serif);
-  font-size: var(--pf-text-sm, 14px);
-  font-weight: var(--pf-font-semibold, 600);
-  color: var(--pf-text-primary, #2d1810);
+  background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+  border: var(--my-border-width, 2px) solid var(--my-brown-medium, #8B4513);
+  border-radius: var(--my-border-radius, 8px);
+  padding: var(--my-space-3, 12px) var(--my-space-4, 16px);
+  font-family: var(--my-font-ui, 'Crimson Text', serif);
+  font-size: var(--my-text-sm, 14px);
+  font-weight: var(--my-font-semibold, 600);
+  color: var(--my-text-primary, #2d1810);
   cursor: pointer;
-  transition: all var(--pf-transition-normal, 0.25s ease);
+  transition: all var(--my-transition-normal, 0.25s ease);
   width: 100%;
-  margin-top: var(--pf-space-3, 12px);
+  margin-top: var(--my-space-3, 12px);
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
 }
 
 .add-stage-button:hover {
-  background: var(--pf-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
+  background: var(--my-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
   transform: translateY(-1px);
-  box-shadow: var(--pf-shadow-md, 0 4px 8px rgba(45, 24, 16, 0.15));
+  box-shadow: var(--my-shadow-md, 0 4px 8px rgba(45, 24, 16, 0.15));
 }
 
 /* Toggle option wrapper */
 .config-option {
-  margin-bottom: var(--pf-space-4, 16px);
+  margin-bottom: var(--my-space-4, 16px);
 }
 
 .toggle-options {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-2, 8px);
+  gap: var(--my-space-2, 8px);
 }
 
 .toggle-option {
@@ -370,101 +370,101 @@
 .stage-list {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-4, 16px);
+  gap: var(--my-space-4, 16px);
 }
 
 /* Simple vertical form field (DamageEffects/RestorationEffects) */
 .stage-field {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-2, 8px);
+  gap: var(--my-space-2, 8px);
 }
 
 .field-label {
-  font-family: var(--pf-font-display, 'Cinzel', serif);
-  font-size: var(--pf-text-sm, 14px);
-  font-weight: var(--pf-font-semibold, 600);
-  color: var(--pf-text-primary, #2d1810);
+  font-family: var(--my-font-display, 'Cinzel', serif);
+  font-size: var(--my-text-sm, 14px);
+  font-weight: var(--my-font-semibold, 600);
+  color: var(--my-text-primary, #2d1810);
 }
 
 /* Generic Pathfinder input (used by DamageEffects progressive stages) */
 .pf-input {
   width: 100%;
-  padding: var(--pf-space-2, 8px) var(--pf-space-3, 12px);
-  background: var(--pf-gradient-input, linear-gradient(135deg, #f8f4e6 0%, #ede4d3 100%));
-  border: var(--pf-border-width, 2px) solid var(--pf-brown-light, #a08c70);
-  border-radius: var(--pf-border-radius, 8px);
-  color: var(--pf-text-primary, #2d1810);
-  font-family: var(--pf-font-body, 'Crimson Text', serif);
-  font-size: var(--pf-text-sm, 14px);
-  transition: all var(--pf-transition-normal, 0.25s ease);
+  padding: var(--my-space-2, 8px) var(--my-space-3, 12px);
+  background: var(--my-gradient-input, linear-gradient(135deg, #f8f4e6 0%, #ede4d3 100%));
+  border: var(--my-border-width, 2px) solid var(--my-brown-light, #a08c70);
+  border-radius: var(--my-border-radius, 8px);
+  color: var(--my-text-primary, #2d1810);
+  font-family: var(--my-font-body, 'Crimson Text', serif);
+  font-size: var(--my-text-sm, 14px);
+  transition: all var(--my-transition-normal, 0.25s ease);
 }
 
 .pf-input:focus {
   outline: none;
-  border-color: var(--pf-brown-medium, #8B4513);
+  border-color: var(--my-brown-medium, #8B4513);
   box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.2);
 }
 
 .pf-input::placeholder {
-  color: var(--pf-text-muted, #8B4513);
+  color: var(--my-text-muted, #8B4513);
   font-style: italic;
 }
 
 /* Alternate add-stage button class (DamageEffects) */
 .add-stage-btn {
-  background: var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
-  border: var(--pf-border-width, 2px) solid var(--pf-brown-medium, #8B4513);
-  border-radius: var(--pf-border-radius, 8px);
-  padding: var(--pf-space-3, 12px) var(--pf-space-4, 16px);
-  font-family: var(--pf-font-ui, 'Crimson Text', serif);
-  font-size: var(--pf-text-sm, 14px);
-  font-weight: var(--pf-font-semibold, 600);
-  color: var(--pf-text-primary, #2d1810);
+  background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+  border: var(--my-border-width, 2px) solid var(--my-brown-medium, #8B4513);
+  border-radius: var(--my-border-radius, 8px);
+  padding: var(--my-space-3, 12px) var(--my-space-4, 16px);
+  font-family: var(--my-font-ui, 'Crimson Text', serif);
+  font-size: var(--my-text-sm, 14px);
+  font-weight: var(--my-font-semibold, 600);
+  color: var(--my-text-primary, #2d1810);
   cursor: pointer;
-  transition: all var(--pf-transition-normal, 0.25s ease);
+  transition: all var(--my-transition-normal, 0.25s ease);
   width: 100%;
-  margin-top: var(--pf-space-3, 12px);
+  margin-top: var(--my-space-3, 12px);
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
 }
 
 .add-stage-btn:hover {
-  background: var(--pf-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
+  background: var(--my-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
   transform: translateY(-1px);
-  box-shadow: var(--pf-shadow-md, 0 4px 8px rgba(45, 24, 16, 0.15));
+  box-shadow: var(--my-shadow-md, 0 4px 8px rgba(45, 24, 16, 0.15));
 }
 
 /* Toggle option with pf-button (DamageEffects progressive toggle) */
 .toggle-option .pf-button {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2, 8px);
-  padding: var(--pf-space-3, 12px) var(--pf-space-4, 16px);
-  background: var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
-  border: var(--pf-border-width, 2px) solid var(--pf-brown-light, #a08c70);
-  border-radius: var(--pf-border-radius, 8px);
-  color: var(--pf-text-primary, #2d1810);
+  gap: var(--my-space-2, 8px);
+  padding: var(--my-space-3, 12px) var(--my-space-4, 16px);
+  background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+  border: var(--my-border-width, 2px) solid var(--my-brown-light, #a08c70);
+  border-radius: var(--my-border-radius, 8px);
+  color: var(--my-text-primary, #2d1810);
   cursor: pointer;
-  font-size: var(--pf-text-sm, 14px);
-  font-family: var(--pf-font-display, 'Cinzel', serif);
-  font-weight: var(--pf-font-semibold, 600);
-  transition: all var(--pf-transition-normal, 0.25s ease);
+  font-size: var(--my-text-sm, 14px);
+  font-family: var(--my-font-display, 'Cinzel', serif);
+  font-weight: var(--my-font-semibold, 600);
+  transition: all var(--my-transition-normal, 0.25s ease);
   min-width: 180px;
   justify-content: flex-start;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
 }
 
 .toggle-option .pf-button:hover {
-  background: var(--pf-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
+  background: var(--my-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
   transform: translateY(-1px);
-  box-shadow: var(--pf-shadow-md, 0 4px 8px rgba(45, 24, 16, 0.15));
+  box-shadow: var(--my-shadow-md, 0 4px 8px rgba(45, 24, 16, 0.15));
 }
 
 .toggle-option .pf-button.active {
-  background: var(--pf-gradient-gold, linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%));
-  color: var(--pf-brown-darkest, #2d1810);
-  border-color: var(--pf-gold-dark, #b8860b);
-  box-shadow: var(--pf-shadow-sm, 0 2px 4px rgba(45, 24, 16, 0.1));
+  background: var(--my-gradient-gold, linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%));
+  color: var(--my-brown-darkest, #2d1810);
+  border-color: var(--my-gold-dark, #b8860b);
+  box-shadow: var(--my-shadow-sm, 0 2px 4px rgba(45, 24, 16, 0.1));
 }
 
 /* ===== OVERRIDE GLOBAL/OTHER STYLESHEET RULES ===== */
@@ -476,12 +476,12 @@
 .spellbook-layout .progressive-buff-config .stage-spell-effect .spell-search-input:focus {
   width: auto !important;
   min-width: 0 !important;
-  padding: 0 var(--pf-space-2, 8px) 0 0 !important;
+  padding: 0 var(--my-space-2, 8px) 0 0 !important;
   background: transparent !important;
   border: none !important;
   border-radius: 0 !important;
-  color: var(--pf-text-primary, #2d1810) !important;
-  font-size: var(--pf-text-sm, 14px) !important;
+  color: var(--my-text-primary, #2d1810) !important;
+  font-size: var(--my-text-sm, 14px) !important;
   text-align: left !important;
   box-shadow: none !important;
 }
@@ -492,8 +492,8 @@
   display: flex !important;
   flex-direction: column !important;
   flex-wrap: nowrap !important;
-  gap: var(--pf-space-2, 8px) !important;
-  padding: var(--pf-space-2, 8px) !important;
+  gap: var(--my-space-2, 8px) !important;
+  padding: var(--my-space-2, 8px) !important;
   margin: 0 !important;
   max-height: 240px !important;
   overflow-y: auto !important;
@@ -505,22 +505,22 @@
 .spellbook-layout .progressive-buff-config .stage-stat-item {
   display: flex !important;
   align-items: center !important;
-  gap: var(--pf-space-2, 8px) !important;
-  padding: var(--pf-space-2, 8px) !important;
-  background: var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%)) !important;
-  border: var(--pf-border-width, 2px) solid var(--pf-brown-light, #a08c70) !important;
-  border-radius: var(--pf-border-radius, 8px) !important;
-  transition: all var(--pf-transition-normal, 0.25s ease) !important;
+  gap: var(--my-space-2, 8px) !important;
+  padding: var(--my-space-2, 8px) !important;
+  background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%)) !important;
+  border: var(--my-border-width, 2px) solid var(--my-brown-light, #a08c70) !important;
+  border-radius: var(--my-border-radius, 8px) !important;
+  transition: all var(--my-transition-normal, 0.25s ease) !important;
 }
 
 .spellbook-layout .progressive-buff-config .stage-stat-item:hover {
-  background: var(--pf-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%)) !important;
-  border-color: var(--pf-brown-medium, #8B4513) !important;
+  background: var(--my-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%)) !important;
+  border-color: var(--my-brown-medium, #8B4513) !important;
 }
 
 .spellbook-layout .progressive-buff-config .stage-stat-item.included {
   background: linear-gradient(135deg, rgba(212, 175, 55, 0.22) 0%, rgba(212, 175, 55, 0.12) 100%) !important;
-  border-color: var(--pf-gold-dark, #b8860b) !important;
+  border-color: var(--my-gold-dark, #b8860b) !important;
 }
 
 .spellbook-layout .progressive-buff-config .stage-stat-checkbox {
@@ -531,23 +531,23 @@
 .spellbook-layout .progressive-buff-config .stage-stat-icon {
   width: 20px !important;
   height: 20px !important;
-  border: 1px solid var(--pf-brown-light, #a08c70) !important;
+  border: 1px solid var(--my-brown-light, #a08c70) !important;
   border-radius: 3px !important;
 }
 
 .spellbook-layout .progressive-buff-config .stage-stat-name {
   flex: 1 !important;
-  font-family: var(--pf-font-ui, 'Crimson Text', serif) !important;
-  font-size: var(--pf-text-sm, 14px) !important;
-  font-weight: var(--pf-font-medium, 500) !important;
-  color: var(--pf-text-primary, #2d1810) !important;
+  font-family: var(--my-font-ui, 'Crimson Text', serif) !important;
+  font-size: var(--my-text-sm, 14px) !important;
+  font-weight: var(--my-font-medium, 500) !important;
+  color: var(--my-text-primary, #2d1810) !important;
   white-space: normal !important;
 }
 
 .spellbook-layout .progressive-buff-config .stage-stat-value {
   display: flex !important;
   align-items: center !important;
-  gap: var(--pf-space-2, 8px) !important;
+  gap: var(--my-space-2, 8px) !important;
   flex-shrink: 0 !important;
   margin-left: 0 !important;
 }
@@ -556,13 +556,13 @@
 .spellbook-layout .progressive-buff-config .stage-stat-value select {
   width: 56px !important;
   min-width: 0 !important;
-  padding: var(--pf-space-1, 4px) !important;
-  background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
-  border: var(--pf-border-width, 2px) solid var(--pf-brown-light, #a08c70) !important;
-  border-radius: var(--pf-border-radius, 8px) !important;
-  color: var(--pf-text-primary, #2d1810) !important;
-  font-family: var(--pf-font-ui, 'Crimson Text', serif) !important;
-  font-size: var(--pf-text-sm, 14px) !important;
+  padding: var(--my-space-1, 4px) !important;
+  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
+  border: var(--my-border-width, 2px) solid var(--my-brown-light, #a08c70) !important;
+  border-radius: var(--my-border-radius, 8px) !important;
+  color: var(--my-text-primary, #2d1810) !important;
+  font-family: var(--my-font-ui, 'Crimson Text', serif) !important;
+  font-size: var(--my-text-sm, 14px) !important;
   text-align: center !important;
   box-shadow: none !important;
 }

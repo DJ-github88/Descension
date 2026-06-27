@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import WowWindow from '../windows/WowWindow';
+import MythrillWindow from '../windows/MythrillWindow';
 import useMapStore from '../../store/mapStore';
 import './styles/PortalConfigDialog.css';
 
@@ -109,7 +109,7 @@ const PortalConfigDialog = ({
     }, [maps]);
 
     return (
-        <WowWindow
+        <MythrillWindow
             title={mode === 'create' ? "Create Connection" : "Configure Connection"}
             isOpen={isOpen}
             onClose={onClose}
@@ -276,7 +276,7 @@ const PortalConfigDialog = ({
                     </button>
                 </div>
             </div>
-        </WowWindow>
+        </MythrillWindow>
     );
 };
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { createPortal } from 'react-dom';
-import WowWindow from '../../../windows/WowWindow';
+import MythrillWindow from '../../../windows/MythrillWindow';
 import ItemTooltip from '../../../item-generation/ItemTooltip';
 import TooltipPortal from '../../../tooltips/TooltipPortal';
 import { useTooltipPosition } from '../../../common/useTooltipPosition';
@@ -14,7 +14,7 @@ import { getQualityColor } from '../../../../constants/itemConstants';
 import { getAbilityIconUrl, getCustomIconUrl, getIconUrl } from '../../../../utils/assetManager';
 import { SKILL_DEFINITIONS, SKILL_CATEGORIES, SKILL_RANKS } from '../../../../constants/skillDefinitions';
 import { ROLLABLE_TABLES } from '../../../../constants/rollableTables';
-import { BESTIARY_DATA } from '../../../../data/creatureData';
+import BESTIARY_DATA from '../../../../data/creatureData.json';
 import { calculateStatModifier } from '../../../../utils/characterUtils';
 import useCreatureStore from '../../../../store/creatureStore';
 import useGridItemStore from '../../../../store/gridItemStore';
@@ -2240,7 +2240,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
   // Use createPortal to render at document body level
   // This ensures the window is not constrained within parent containers
   return createPortal(
-    <WowWindow
+    <MythrillWindow
       isOpen={true} // Always true since we're already checking isOpen above
       onClose={handleClose}
       defaultSize={{ width: 900, height: 700 }}
@@ -2305,7 +2305,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
           </TooltipPortal>
         )}
       </div>
-    </WowWindow>,
+    </MythrillWindow>,
     document.body
   );
 };

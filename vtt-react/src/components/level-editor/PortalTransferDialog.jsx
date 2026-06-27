@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import WowWindow from '../windows/WowWindow';
+import MythrillWindow from '../windows/MythrillWindow';
 import useMapStore from '../../store/mapStore';
 import useSettingsStore from '../../store/settingsStore';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
@@ -212,7 +212,7 @@ const PortalTransferDialog = ({
     }
 
     return (
-        <WowWindow
+        <MythrillWindow
             title="Connection Transfer"
             isOpen={isOpen}
             onClose={onClose}
@@ -264,7 +264,7 @@ const PortalTransferDialog = ({
                     )}
                 </div>
             </div>
-        </WowWindow>
+        </MythrillWindow>
     );
 };
 

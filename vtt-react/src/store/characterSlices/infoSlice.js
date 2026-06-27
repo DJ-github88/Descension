@@ -10,6 +10,9 @@ import characterMigrationService from '../../services/firebase/characterMigratio
 import localStorageManager from '../../utils/localStorageManager';
 import { getCharacterData, updateCharacterData, storeCharacterOffline } from '../../services/offlineService';
 import { getEncumbranceState, getCurrentUserId, isGuestUser, getCharactersStorageKey, shouldUseFirebase, characterAutoSaveTimer, CHARACTER_AUTO_SAVE_DELAY, setCharacterAutoSaveTimer } from '../characterHelpers';
+import { ALL_CLASSES_DATA } from '../../data/classes';
+import { ALL_CLASS_SPELLS } from '../../data/classSpellGenerator';
+import { getXPForLevel } from '../../utils/experienceUtils';
 
 // Info Slice: Character identity, lore, talents, and skills.
 // State properties and action bodies are copied verbatim from characterStore.js.
@@ -170,7 +173,6 @@ export const createInfoSlice = (set, get) => ({
                     setTimeout(() => get().initializeCharacter(), 0);
 
                     // Update XP to match new level
-                    const { getXPForLevel } = require('../../utils/experienceUtils');
                     const newXP = getXPForLevel(newLevel);
                     newState.experience = newXP;
                 }
@@ -198,7 +200,6 @@ export const createInfoSlice = (set, get) => ({
                     }
 
                     // Update XP to match new level
-                    const { getXPForLevel } = require('../../utils/experienceUtils');
                     const newXP = getXPForLevel(newLevel);
                     newState.experience = newXP;
                 }
@@ -251,49 +252,7 @@ export const createInfoSlice = (set, get) => ({
                 const previousClass = state.class;
 
                 // Helper function to get class data by name
-                const getClassData = (className) => {
-            const classDataMap = {
-                'Arcanoneer': () => require('../../data/classes/arcanoneerData').ARCANONEER_DATA,
-                'Berserker': () => require('../../data/classes/berserkerData').BERSERKER_DATA,
-                'Shaper': () => require('../../data/classes/shaperData').SHAPER_DATA,
-                'Harbinger': () => require('../../data/classes/harbingerData').HARBINGER_DATA,
-                'Chronarch': () => require('../../data/classes/chronarchData').CHRONARCH_DATA,
-                        'Inquisitor': () => require('../../data/classes/inquisitorData').INQUISITOR_DATA,
-                        // 'Deathcaller' and 'Lichborne' merged into Revenant as Phase 1.10 consolidation
-                        'Revenant': () => require('../../data/classes/revenantData').REVENANT_DATA,
-                        // 'Dreadnaught' removed (absorbed into Martyr as Ironclad specialization)
-                        // 'Exorcist' removed (merged with Covenbane into Inquisitor)
-                        // 'Covenbane' removed (merged with Exorcist into Inquisitor)
-                'False Prophet': () => require('../../data/classes/falseProphetData').FALSE_PROPHET_DATA,
-                'Gambit': () => require('../../data/classes/gambitData').GAMBIT_DATA,
-                'Apex': () => require('../../data/classes/apexData').APEX_DATA,
-                'Animist': () => require('../../data/classes/animistData').ANIMIST_DATA,
-                // REMOVED: 'Lichborne' merged into Revenant as Phase 1.10 consolidation
-                'Lunarch': () => require('../../data/classes/lunarchData').LUNARCH_DATA,
-                'Martyr': () => require('../../data/classes/martyrData').MARTYR_DATA,
-                'Minstrel': () => require('../../data/classes/minstrelData').MINSTREL_DATA,
-                                'Plaguebringer': () => require('../../data/classes/plaguebringerData').PLAGUEBRINGER_DATA,
-                
-                'Pyrofiend': () => require('../../data/classes/pyrofiendData').PYROFIEND_DATA,
-                'Spellguard': () => require('../../data/classes/spellguardData').SPELLGUARD_DATA,
-                // 'Titan' removed (absorbed into Warden as Monolith specialization)
-                'Toxicologist': () => require('../../data/classes/toxicologistData').TOXICOLOGIST_DATA,
-                'Warden': () => require('../../data/classes/wardenData').WARDEN_DATA,
-                
-                'Augur': () => require('../../data/classes/augurData').AUGUR_DATA,
-
-                    };
-                    const loader = classDataMap[className];
-                    if (loader) {
-                        try {
-                            return loader();
-                        } catch (e) {
-                            console.warn(`Failed to load class data for ${className}:`, e);
-                            return null;
-                        }
-                    }
-                    return null;
-                };
+                const getClassData = (className) => (ALL_CLASSES_DATA[className] || null);
 
                 // Helper function to get level 1 spell IDs from class data
                 const getLevel1SpellIds = (classData) => {
@@ -332,7 +291,6 @@ export const createInfoSlice = (set, get) => ({
                         // Try to get spells from ALL_CLASS_SPELLS first (to ensure IDs match)
                         let selectedSpells = [];
                         try {
-                            const { ALL_CLASS_SPELLS } = require('../../data/classSpellGenerator');
                             const available = ALL_CLASS_SPELLS[value] || [];
 
 

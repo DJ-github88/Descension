@@ -5,43 +5,43 @@
 
 /* Core Pathfinder variables for item wizard */
 :root {
-  --pf-parchment-light: #f8f4e6;
-  --pf-parchment: #ede4d3;
-  --pf-parchment-dark: #e8dcc6;
-  --pf-brown-darkest: #2d1810;
-  --pf-brown-dark: #5a1e12;
-  --pf-brown-medium: #8B4513;
-  --pf-brown-light: #a08c70;
-  --pf-brown-lighter: #c4a373;
-  --pf-gold: #d4af37;
-  --pf-gold-light: #f4d03f;
-  --pf-gold-dark: #b8860b;
-  --pf-text-primary: #2d1810;
-  --pf-text-secondary: #5a1e12;
-  --pf-text-muted: #8B4513;
-  --pf-text-on-dark: #f8f4e6;
-  --pf-gradient-parchment: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%);
-  --pf-gradient-header: linear-gradient(135deg, #c4a373 0%, #a08c70 50%, #8b7355 100%);
-  --pf-gradient-button: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%);
-  --pf-space-1: 4px;
-  --pf-space-2: 8px;
-  --pf-space-3: 12px;
-  --pf-space-4: 16px;
-  --pf-space-5: 20px;
-  --pf-space-6: 24px;
-  --pf-border-radius: 8px;
-  --pf-border-radius-lg: 12px;
-  --pf-border-width: 2px;
-  --pf-border-width-thick: 3px;
-  --pf-shadow-parchment: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.7), inset 0 -2px 0 rgba(139, 69, 19, 0.2), 0 0 0 1px rgba(139, 69, 19, 0.3), 0 0 20px rgba(139, 69, 19, 0.15);
-  --pf-font-display: 'Cinzel', 'Times New Roman', serif;
-  --pf-font-body: 'Crimson Text', serif;
-  --pf-text-sm: 12px;
-  --pf-text-base: 14px;
-  --pf-text-lg: 16px;
-  --pf-text-xl: 18px;
-  --pf-font-bold: 600;
-  --pf-transition-normal: 0.25s ease;
+  --my-parchment-light: #f8f4e6;
+  --my-parchment: #ede4d3;
+  --my-parchment-dark: #e8dcc6;
+  --my-brown-darkest: #2d1810;
+  --my-brown-dark: #5a1e12;
+  --my-brown-medium: #8B4513;
+  --my-brown-light: #a08c70;
+  --my-brown-lighter: #c4a373;
+  --my-gold: #d4af37;
+  --my-gold-light: #f4d03f;
+  --my-gold-dark: #b8860b;
+  --my-text-primary: #2d1810;
+  --my-text-secondary: #5a1e12;
+  --my-text-muted: #8B4513;
+  --my-text-on-dark: #f8f4e6;
+  --my-gradient-parchment: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%);
+  --my-gradient-header: linear-gradient(135deg, #c4a373 0%, #a08c70 50%, #8b7355 100%);
+  --my-gradient-button: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%);
+  --my-space-1: 4px;
+  --my-space-2: 8px;
+  --my-space-3: 12px;
+  --my-space-4: 16px;
+  --my-space-5: 20px;
+  --my-space-6: 24px;
+  --my-border-radius: 8px;
+  --my-border-radius-lg: 12px;
+  --my-border-width: 2px;
+  --my-border-width-thick: 3px;
+  --my-shadow-parchment: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.7), inset 0 -2px 0 rgba(139, 69, 19, 0.2), 0 0 0 1px rgba(139, 69, 19, 0.3), 0 0 20px rgba(139, 69, 19, 0.15);
+  --my-font-display: 'Cinzel', 'Times New Roman', serif;
+  --my-font-body: 'Crimson Text', serif;
+  --my-text-sm: 12px;
+  --my-text-base: 14px;
+  --my-text-lg: 16px;
+  --my-text-xl: 18px;
+  --my-font-bold: 600;
+  --my-transition-normal: 0.25s ease;
 }
 
 /* ===== GLOBAL DARK THEME OVERRIDES ===== */
@@ -52,16 +52,16 @@
 .item-wizard-modal *[style*="background: #3a2418"],
 .item-wizard-modal *[style*="background-color: #2d1810"],
 .item-wizard-modal *[style*="background-color: #3a2418"] {
-    background: var(--pf-gradient-button) !important;
-    border: 2px solid var(--pf-brown-medium) !important;
-    color: var(--pf-text-primary) !important;
+    background: var(--my-gradient-button) !important;
+    border: 2px solid var(--my-brown-medium) !important;
+    color: var(--my-text-primary) !important;
 }
 
 /* Replace all white text with Pathfinder text colors */
 .item-wizard-modal *[style*="color: #fff"],
 .item-wizard-modal *[style*="color: white"],
 .item-wizard-modal *[style*="color: #ffffff"] {
-    color: var(--pf-text-primary) !important;
+    color: var(--my-text-primary) !important;
 }
 
 /* Force all stat buttons to have black text */
@@ -86,9 +86,9 @@
 .item-wizard-modal .size-button,
 .item-wizard-modal .quality-option,
 .item-wizard-modal .type-button {
-    background: var(--pf-gradient-button) !important;
+    background: var(--my-gradient-button) !important;
     border: none !important;
-    color: var(--pf-text-primary) !important;
+    color: var(--my-text-primary) !important;
     border-radius: 8px !important;
     box-shadow:
         inset 0 2px 4px rgba(139, 69, 19, 0.1),
@@ -106,9 +106,9 @@
 .item-wizard-modal .stat-button,
 .item-wizard-modal .threshold-button,
 .item-wizard-modal .coin-count-button {
-    background: var(--pf-gradient-button) !important;
-    border: 2px solid var(--pf-brown-medium) !important;
-    color: var(--pf-text-primary) !important;
+    background: var(--my-gradient-button) !important;
+    border: 2px solid var(--my-brown-medium) !important;
+    color: var(--my-text-primary) !important;
     border-radius: 8px !important;
     box-shadow:
         inset 0 2px 4px rgba(139, 69, 19, 0.1),
@@ -135,7 +135,7 @@
 .item-wizard-modal .threshold-button:hover,
 .item-wizard-modal .coin-count-button:hover {
     background: linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%) !important;
-    border-color: var(--pf-gold) !important;
+    border-color: var(--my-gold) !important;
     box-shadow:
         inset 0 2px 4px rgba(139, 69, 19, 0.1),
         0 2px 4px rgba(0, 0, 0, 0.1),
@@ -158,9 +158,9 @@
 .item-wizard-modal .level-button.selected,
 .item-wizard-modal .time-button.selected,
 .item-wizard-modal .stat-button.selected {
-    background: linear-gradient(145deg, var(--pf-gold-light) 0%, var(--pf-gold) 50%, var(--pf-gold-dark) 100%) !important;
-    border-color: var(--pf-gold-dark) !important;
-    color: var(--pf-brown-darkest) !important;
+    background: linear-gradient(145deg, var(--my-gold-light) 0%, var(--my-gold) 50%, var(--my-gold-dark) 100%) !important;
+    border-color: var(--my-gold-dark) !important;
+    color: var(--my-brown-darkest) !important;
     box-shadow:
         inset 0 2px 4px rgba(212, 175, 55, 0.2),
         0 2px 4px rgba(0, 0, 0, 0.2),
@@ -179,8 +179,8 @@
 .item-wizard-modal .preview-section,
 .item-wizard-modal .review-section,
 .item-wizard-modal .property-section {
-    background: var(--pf-gradient-parchment) !important;
-    border: 2px solid var(--pf-brown-light) !important;
+    background: var(--my-gradient-parchment) !important;
+    border: 2px solid var(--my-brown-light) !important;
     border-radius: 12px !important;
     box-shadow:
         0 4px 8px rgba(139, 69, 19, 0.15),
@@ -197,9 +197,9 @@
 .item-wizard-modal .damage-roll-input,
 .item-wizard-modal .damage-type-select,
 .item-wizard-modal .wow-select {
-    background: var(--pf-gradient-button) !important;
-    border: 2px solid var(--pf-brown-medium) !important;
-    color: var(--pf-text-primary) !important;
+    background: var(--my-gradient-button) !important;
+    border: 2px solid var(--my-brown-medium) !important;
+    color: var(--my-text-primary) !important;
     border-radius: 8px !important;
     font-family: 'Crimson Text', serif !important;
     box-shadow:
@@ -215,7 +215,7 @@
 .item-wizard-modal .damage-roll-input:focus,
 .item-wizard-modal .damage-type-select:focus,
 .item-wizard-modal .wow-select:focus {
-    border-color: var(--pf-gold) !important;
+    border-color: var(--my-gold) !important;
     box-shadow:
         inset 0 2px 4px rgba(139, 69, 19, 0.1),
         0 2px 4px rgba(0, 0, 0, 0.1),
@@ -233,7 +233,7 @@
 .item-wizard-modal label,
 .item-wizard-modal .wow-section-header,
 .item-wizard-modal .wizard-title {
-    color: var(--pf-text-primary) !important;
+    color: var(--my-text-primary) !important;
     font-family: 'Cinzel', serif !important;
 }
 
@@ -256,9 +256,9 @@
 .item-wizard-modal .size-button,
 .item-wizard-modal .quality-option,
 .item-wizard-modal .type-button {
-    background: var(--pf-gradient-button) !important;
+    background: var(--my-gradient-button) !important;
     border: none !important;
-    color: var(--pf-text-primary) !important;
+    color: var(--my-text-primary) !important;
     border-radius: 8px !important;
     box-shadow:
         inset 0 2px 4px rgba(139, 69, 19, 0.1),
@@ -298,9 +298,9 @@
 .item-wizard-modal .dimension-group,
 .item-wizard-modal .slots-input,
 .item-wizard-modal .quantity-button {
-    background: var(--pf-gradient-button) !important;
-    border: 2px solid var(--pf-brown-medium) !important;
-    color: var(--pf-text-primary) !important;
+    background: var(--my-gradient-button) !important;
+    border: 2px solid var(--my-brown-medium) !important;
+    color: var(--my-text-primary) !important;
     border-radius: 8px !important;
     box-shadow:
         inset 0 2px 4px rgba(139, 69, 19, 0.1),
@@ -329,7 +329,7 @@
 .item-wizard-modal .nav-button:hover,
 .item-wizard-modal .quantity-button:hover {
     background: linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%) !important;
-    border-color: var(--pf-gold) !important;
+    border-color: var(--my-gold) !important;
     box-shadow:
         inset 0 2px 4px rgba(139, 69, 19, 0.1),
         0 2px 4px rgba(0, 0, 0, 0.1),
@@ -340,8 +340,8 @@
 /* Ensure ALL wizard headers and footers use Pathfinder parchment theme like recipe wizard */
 .item-wizard-modal .wizard-header,
 .item-wizard-modal .wizard-footer {
-    background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
-    color: var(--pf-text-primary, #2d1810) !important;
+    background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
+    color: var(--my-text-primary, #2d1810) !important;
     font-family: 'Cinzel', 'Times New Roman', serif !important;
     box-shadow:
         0 4px 12px rgba(0, 0, 0, 0.1),
@@ -350,17 +350,17 @@
 }
 
 .item-wizard-modal .wizard-header {
-    border-bottom: 3px solid var(--pf-brown-light, #a08c70) !important;
+    border-bottom: 3px solid var(--my-brown-light, #a08c70) !important;
 }
 
 .item-wizard-modal .wizard-footer {
-    border-top: 3px solid var(--pf-brown-light, #a08c70) !important;
+    border-top: 3px solid var(--my-brown-light, #a08c70) !important;
 }
 
 .item-wizard-modal .wizard-header h2,
 .item-wizard-modal .wizard-header h3,
 .item-wizard-modal .wizard-header h4 {
-    color: var(--pf-text-primary, #2d1810) !important;
+    color: var(--my-text-primary, #2d1810) !important;
     text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5) !important;
     font-family: 'Cinzel', 'Times New Roman', serif !important;
 }
@@ -368,8 +368,8 @@
 /* ===== ITEM WIZARD CONTAINER ===== */
 
 .item-wizard-modal.spellbook-wizard-layout {
-  background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
-  border: 3px solid var(--pf-brown-light, #a08c70) !important;
+  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
+  border: 3px solid var(--my-brown-light, #a08c70) !important;
   border-radius: 16px !important;
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.4),
@@ -378,7 +378,7 @@
     0 0 0 1px rgba(139, 69, 19, 0.3),
     0 0 20px rgba(139, 69, 19, 0.15) !important;
   font-family: 'Cinzel', 'Times New Roman', serif !important;
-  color: var(--pf-text-primary, #2d1810) !important;
+  color: var(--my-text-primary, #2d1810) !important;
   overflow: visible !important; /* Allow tooltips to overflow */
   width: 800px !important;
   max-height: 90vh !important;
@@ -483,10 +483,10 @@
 /* ===== WIZARD HEADER ===== */
 
 .item-wizard-modal .wizard-header {
-  background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
-  border-bottom: 3px solid var(--pf-brown-light, #a08c70) !important;
+  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
+  border-bottom: 3px solid var(--my-brown-light, #a08c70) !important;
   border-radius: 13px 13px 0 0 !important;
-  padding: var(--pf-space-5, 20px) var(--pf-space-5, 20px) !important;
+  padding: var(--my-space-5, 20px) var(--my-space-5, 20px) !important;
   min-height: 84px !important;
   display: flex !important;
   justify-content: space-between !important;
@@ -510,10 +510,10 @@
 }
 
 .item-wizard-modal .wizard-header h2 {
-  font-family: var(--pf-font-display, 'Cinzel', serif) !important;
-  font-size: var(--pf-text-xl, 20px) !important;
-  font-weight: var(--pf-font-bold, 700) !important;
-  color: var(--pf-brown-darkest, #2d1810) !important;
+  font-family: var(--my-font-display, 'Cinzel', serif) !important;
+  font-size: var(--my-text-xl, 20px) !important;
+  font-weight: var(--my-font-bold, 700) !important;
+  color: var(--my-brown-darkest, #2d1810) !important;
   text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8) !important;
   margin: 0 !important;
   letter-spacing: 0.5px !important;
@@ -521,11 +521,11 @@
 }
 
 .item-wizard-modal .wizard-header .close-button {
-  background: var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%)) !important;
-  border: 2px solid var(--pf-brown-medium, #8B4513) !important;
-  border-radius: var(--pf-border-radius, 8px) !important;
-  color: var(--pf-text-primary, #2d1810) !important;
-  font-family: var(--pf-font-display, 'Cinzel', serif) !important;
+  background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%)) !important;
+  border: 2px solid var(--my-brown-medium, #8B4513) !important;
+  border-radius: var(--my-border-radius, 8px) !important;
+  color: var(--my-text-primary, #2d1810) !important;
+  font-family: var(--my-font-display, 'Cinzel', serif) !important;
   font-size: 18px !important;
   font-weight: bold !important;
   width: 32px !important;
@@ -534,14 +534,14 @@
   align-items: center !important;
   justify-content: center !important;
   cursor: pointer !important;
-  transition: all var(--pf-transition-normal, 0.25s ease) !important;
+  transition: all var(--my-transition-normal, 0.25s ease) !important;
   box-shadow:
     inset 0 2px 4px rgba(139, 69, 19, 0.1),
     0 2px 4px rgba(0, 0, 0, 0.1) !important;
 }
 
 .item-wizard-modal .wizard-header .close-button:hover {
-  background: var(--pf-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%)) !important;
+  background: var(--my-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%)) !important;
   transform: translateY(-1px) !important;
   box-shadow:
     inset 0 2px 4px rgba(139, 69, 19, 0.15),
@@ -551,9 +551,9 @@
 /* ===== WIZARD FOOTER - ENHANCED PATHFINDER STYLING ===== */
 
 .item-wizard-modal .wizard-footer {
-  background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
-  border-top: 3px solid var(--pf-brown-light, #a08c70) !important;
-  padding: 0 var(--pf-space-4, 16px) !important; /* No vertical padding */
+  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
+  border-top: 3px solid var(--my-brown-light, #a08c70) !important;
+  padding: 0 var(--my-space-4, 16px) !important; /* No vertical padding */
   box-shadow:
     0 -4px 12px rgba(0, 0, 0, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.5),
@@ -571,26 +571,26 @@
 
 .item-wizard-modal .wizard-nav-controls {
   display: flex !important;
-  gap: var(--pf-space-3, 12px) !important;
+  gap: var(--my-space-3, 12px) !important;
   width: 100% !important;
   justify-content: space-between !important;
   align-items: center !important;
-  padding: 0 var(--pf-space-4, 16px) !important; /* Restore left/right padding */
+  padding: 0 var(--my-space-4, 16px) !important; /* Restore left/right padding */
   min-height: auto !important;
   height: auto !important;
 }
 
 .item-wizard-modal .wizard-nav-btn {
-  background: var(--pf-gradient-gold, linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%)) !important;
-  border: 2px solid var(--pf-gold-dark, #b8860b) !important;
-  border-radius: var(--pf-border-radius, 8px) !important;
-  color: var(--pf-brown-darkest, #2d1810) !important;
-  font-family: var(--pf-font-display, 'Cinzel', serif) !important;
-  font-size: var(--pf-text-sm, 13px) !important;
-  font-weight: var(--pf-font-bold, 700) !important;
-  padding: 4px var(--pf-space-4, 16px) !important; /* Further reduced vertical padding */
+  background: var(--my-gradient-gold, linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%)) !important;
+  border: 2px solid var(--my-gold-dark, #b8860b) !important;
+  border-radius: var(--my-border-radius, 8px) !important;
+  color: var(--my-brown-darkest, #2d1810) !important;
+  font-family: var(--my-font-display, 'Cinzel', serif) !important;
+  font-size: var(--my-text-sm, 13px) !important;
+  font-weight: var(--my-font-bold, 700) !important;
+  padding: 4px var(--my-space-4, 16px) !important; /* Further reduced vertical padding */
   cursor: pointer !important;
-  transition: all var(--pf-transition-normal, 0.25s ease) !important;
+  transition: all var(--my-transition-normal, 0.25s ease) !important;
   box-shadow:
     inset 0 2px 4px rgba(255, 255, 255, 0.4),
     0 4px 8px rgba(0, 0, 0, 0.2) !important;
@@ -603,7 +603,7 @@
 }
 
 .item-wizard-modal .wizard-nav-btn:hover:not(:disabled) {
-  background: var(--pf-gold-light, #f4d03f) !important;
+  background: var(--my-gold-light, #f4d03f) !important;
   transform: translateY(-1px) !important;
   box-shadow:
     inset 0 2px 4px rgba(255, 255, 255, 0.6),
@@ -617,9 +617,9 @@
 }
 
 .item-wizard-modal .wizard-nav-create {
-  background: var(--pf-gradient-gold, linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%)) !important;
-  border-color: var(--pf-gold-dark, #b8860b) !important;
-  color: var(--pf-brown-darkest, #2d1810) !important;
+  background: var(--my-gradient-gold, linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%)) !important;
+  border-color: var(--my-gold-dark, #b8860b) !important;
+  color: var(--my-brown-darkest, #2d1810) !important;
   box-shadow:
     inset 0 2px 4px rgba(255, 255, 255, 0.5),
     0 4px 8px rgba(0, 0, 0, 0.2),
@@ -643,16 +643,16 @@
   width: 100% !important;
   display: flex !important;
   flex-direction: column !important;
-  gap: var(--pf-space-4, 16px) !important;
+  gap: var(--my-space-4, 16px) !important;
   border: none !important;
   box-sizing: border-box !important;
 }
 
 .item-wizard-modal .wizard-step {
-  background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
-  border: 2px solid var(--pf-brown-light) !important;
+  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
+  border: 2px solid var(--my-brown-light) !important;
   border-radius: 12px !important;
-  padding: var(--pf-space-3, 12px) !important;
+  padding: var(--my-space-3, 12px) !important;
   margin: 0 !important;
   margin-bottom: 16px !important;
   flex: 0 1 auto !important; /* Don't shrink, allow natural sizing */
@@ -684,16 +684,16 @@
 }
 
 .item-wizard-modal .wizard-step h3 {
-  font-family: var(--pf-font-display, 'Cinzel', serif) !important;
-  font-size: var(--pf-text-lg, 16px) !important;
-  font-weight: var(--pf-font-bold, 600) !important;
-  color: var(--pf-text-primary, #2d1810) !important;
-  margin: 0 0 var(--pf-space-4, 16px) 0 !important;
+  font-family: var(--my-font-display, 'Cinzel', serif) !important;
+  font-size: var(--my-text-lg, 16px) !important;
+  font-weight: var(--my-font-bold, 600) !important;
+  color: var(--my-text-primary, #2d1810) !important;
+  margin: 0 0 var(--my-space-4, 16px) 0 !important;
   text-align: center !important;
   text-transform: uppercase !important;
   letter-spacing: 1px !important;
-  border-bottom: 2px solid var(--pf-brown-medium, #8B4513) !important;
-  padding-bottom: var(--pf-space-2, 8px) !important;
+  border-bottom: 2px solid var(--my-brown-medium, #8B4513) !important;
+  padding-bottom: var(--my-space-2, 8px) !important;
 }
 
 /* Remove step titles since we have navigation */
@@ -703,16 +703,16 @@
 
 /* Enhanced form groups and inputs - Recipe wizard style */
 .item-wizard-modal .form-group {
-  margin-bottom: var(--pf-space-6, 24px) !important;
+  margin-bottom: var(--my-space-6, 24px) !important;
   width: 100% !important;
 }
 
 .item-wizard-modal .form-group:last-child {
-  margin-bottom: var(--pf-space-8, 32px) !important;
+  margin-bottom: var(--my-space-8, 32px) !important;
 }
 
 .item-wizard-modal .spell-wizard-form-group {
-  margin-bottom: var(--pf-space-3, 12px) !important;
+  margin-bottom: var(--my-space-3, 12px) !important;
   width: 100% !important;
 }
 
@@ -720,7 +720,7 @@
 .item-wizard-modal .form-row {
   display: grid !important;
   grid-template-columns: 1fr 1fr !important;
-  gap: var(--pf-space-4, 16px) !important;
+  gap: var(--my-space-4, 16px) !important;
   width: 100% !important;
 }
 
@@ -736,14 +736,14 @@
 .item-wizard-modal textarea,
 .item-wizard-modal select {
   width: 100% !important;
-  padding: var(--pf-space-3, 12px) !important;
-  background: var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%)) !important;
-  border: 2px solid var(--pf-brown-light, #a08c70) !important;
-  border-radius: var(--pf-border-radius, 8px) !important;
-  font-family: var(--pf-font-body, 'Crimson Text', serif) !important;
-  font-size: var(--pf-text-base, 14px) !important;
-  color: var(--pf-text-primary, #2d1810) !important;
-  transition: all var(--pf-transition-normal, 0.25s ease) !important;
+  padding: var(--my-space-3, 12px) !important;
+  background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%)) !important;
+  border: 2px solid var(--my-brown-light, #a08c70) !important;
+  border-radius: var(--my-border-radius, 8px) !important;
+  font-family: var(--my-font-body, 'Crimson Text', serif) !important;
+  font-size: var(--my-text-base, 14px) !important;
+  color: var(--my-text-primary, #2d1810) !important;
+  transition: all var(--my-transition-normal, 0.25s ease) !important;
   box-shadow:
     inset 0 2px 4px rgba(139, 69, 19, 0.1),
     0 1px 2px rgba(0, 0, 0, 0.05) !important;
@@ -754,7 +754,7 @@
 .item-wizard-modal textarea:focus,
 .item-wizard-modal select:focus {
   outline: none !important;
-  border-color: var(--pf-brown-medium, #8B4513) !important;
+  border-color: var(--my-brown-medium, #8B4513) !important;
   box-shadow:
     inset 0 2px 4px rgba(139, 69, 19, 0.15),
     0 0 0 3px rgba(139, 69, 19, 0.2),
@@ -767,7 +767,7 @@
   display: grid !important;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
   gap: 16px !important;
-  margin-top: var(--pf-space-3, 12px) !important;
+  margin-top: var(--my-space-3, 12px) !important;
 }
 
 .item-wizard-modal .type-button {
@@ -775,11 +775,11 @@
   flex-direction: column !important;
   align-items: center !important;
   padding: 24px !important;
-  background: var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%)) !important;
-  border: 2px solid var(--pf-brown-medium, #8B4513) !important;
-  border-radius: var(--pf-border-radius, 8px) !important;
+  background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%)) !important;
+  border: 2px solid var(--my-brown-medium, #8B4513) !important;
+  border-radius: var(--my-border-radius, 8px) !important;
   cursor: pointer !important;
-  transition: all var(--pf-transition-normal, 0.25s ease) !important;
+  transition: all var(--my-transition-normal, 0.25s ease) !important;
   box-shadow:
     inset 0 2px 4px rgba(139, 69, 19, 0.1),
     0 2px 4px rgba(0, 0, 0, 0.1) !important;
@@ -787,7 +787,7 @@
 }
 
 .item-wizard-modal .type-button:hover {
-  background: var(--pf-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%)) !important;
+  background: var(--my-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%)) !important;
   transform: translateY(-2px) !important;
   box-shadow:
     inset 0 2px 4px rgba(139, 69, 19, 0.15),
@@ -795,9 +795,9 @@
 }
 
 .item-wizard-modal .type-button.selected {
-  background: var(--pf-gradient-gold, linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%)) !important;
-  border: 2px solid var(--pf-gold-dark, #b8860b) !important;
-  color: var(--pf-brown-darkest, #2d1810) !important;
+  background: var(--my-gradient-gold, linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%)) !important;
+  border: 2px solid var(--my-gold-dark, #b8860b) !important;
+  color: var(--my-brown-darkest, #2d1810) !important;
   transform: translateY(-2px) !important;
   box-shadow:
     inset 0 2px 4px rgba(184, 134, 11, 0.2),
@@ -807,16 +807,16 @@
 .item-wizard-modal .type-button img {
   width: 48px !important;
   height: 48px !important;
-  margin-bottom: var(--pf-space-2, 8px) !important;
-  border-radius: var(--pf-border-radius, 8px) !important;
+  margin-bottom: var(--my-space-2, 8px) !important;
+  border-radius: var(--my-border-radius, 8px) !important;
   border: none !important;
 }
 
 .item-wizard-modal .type-button span {
-  font-family: var(--pf-font-display, 'Cinzel', serif) !important;
+  font-family: var(--my-font-display, 'Cinzel', serif) !important;
   font-size: 16px !important;
-  font-weight: var(--pf-font-bold, 600) !important;
-  color: var(--pf-text-primary, #2d1810) !important;
+  font-weight: var(--my-font-bold, 600) !important;
+  color: var(--my-text-primary, #2d1810) !important;
   text-align: center !important;
   text-transform: uppercase !important;
   letter-spacing: 0.5px !important;
@@ -825,15 +825,15 @@
 /* ===== RESISTANCE SECTION ===== */
 
 .item-wizard-modal .resistance-section {
-  margin-top: var(--pf-space-4, 16px) !important;
+  margin-top: var(--my-space-4, 16px) !important;
 }
 
 .item-wizard-modal .resistance-section h4 {
-  font-family: var(--pf-font-display, 'Cinzel', serif) !important;
-  font-size: var(--pf-text-lg, 16px) !important;
-  font-weight: var(--pf-font-bold, 600) !important;
-  color: var(--pf-text-primary, #2d1810) !important;
-  margin-bottom: var(--pf-space-3, 12px) !important;
+  font-family: var(--my-font-display, 'Cinzel', serif) !important;
+  font-size: var(--my-text-lg, 16px) !important;
+  font-weight: var(--my-font-bold, 600) !important;
+  color: var(--my-text-primary, #2d1810) !important;
+  margin-bottom: var(--my-space-3, 12px) !important;
   text-transform: uppercase !important;
   letter-spacing: 0.5px !important;
 }
@@ -841,14 +841,14 @@
 .item-wizard-modal .resistance-grid {
   display: grid !important;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
-  gap: var(--pf-space-3, 12px) !important;
+  gap: var(--my-space-3, 12px) !important;
 }
 
 .item-wizard-modal .resistance-item {
-  background: var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%)) !important;
-  border: 2px solid var(--pf-brown-medium, #8B4513) !important;
-  border-radius: var(--pf-border-radius, 8px) !important;
-  padding: var(--pf-space-3, 12px) !important;
+  background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%)) !important;
+  border: 2px solid var(--my-brown-medium, #8B4513) !important;
+  border-radius: var(--my-border-radius, 8px) !important;
+  padding: var(--my-space-3, 12px) !important;
   box-shadow:
     inset 0 2px 4px rgba(139, 69, 19, 0.1),
     0 2px 4px rgba(0, 0, 0, 0.1) !important;
@@ -857,53 +857,53 @@
 .item-wizard-modal .resistance-header {
   display: flex !important;
   align-items: center !important;
-  margin-bottom: var(--pf-space-2, 8px) !important;
+  margin-bottom: var(--my-space-2, 8px) !important;
 }
 
 .item-wizard-modal .resistance-icon {
   width: 24px !important;
   height: 24px !important;
-  margin-right: var(--pf-space-2, 8px) !important;
+  margin-right: var(--my-space-2, 8px) !important;
   border-radius: 4px !important;
-  border: 1px solid var(--pf-brown-light, #a08c70) !important;
+  border: 1px solid var(--my-brown-light, #a08c70) !important;
 }
 
 .item-wizard-modal .resistance-label {
-  font-family: var(--pf-font-display, 'Cinzel', serif) !important;
-  font-size: var(--pf-text-base, 14px) !important;
-  font-weight: var(--pf-font-bold, 600) !important;
-  color: var(--pf-text-primary, #2d1810) !important;
+  font-family: var(--my-font-display, 'Cinzel', serif) !important;
+  font-size: var(--my-text-base, 14px) !important;
+  font-weight: var(--my-font-bold, 600) !important;
+  color: var(--my-text-primary, #2d1810) !important;
   text-transform: uppercase !important;
   letter-spacing: 0.5px !important;
 }
 
 .item-wizard-modal .resistance-select {
   width: 100% !important;
-  padding: var(--pf-space-2, 8px) !important;
-  background: var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%)) !important;
-  border: 2px solid var(--pf-brown-medium, #8B4513) !important;
-  border-radius: var(--pf-border-radius, 8px) !important;
-  font-family: var(--pf-font-body, 'Crimson Text', serif) !important;
-  font-size: var(--pf-text-base, 14px) !important;
-  font-weight: var(--pf-font-bold, 600) !important;
+  padding: var(--my-space-2, 8px) !important;
+  background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%)) !important;
+  border: 2px solid var(--my-brown-medium, #8B4513) !important;
+  border-radius: var(--my-border-radius, 8px) !important;
+  font-family: var(--my-font-body, 'Crimson Text', serif) !important;
+  font-size: var(--my-text-base, 14px) !important;
+  font-weight: var(--my-font-bold, 600) !important;
   cursor: pointer !important;
-  transition: all var(--pf-transition-normal, 0.25s ease) !important;
+  transition: all var(--my-transition-normal, 0.25s ease) !important;
   box-shadow: inset 0 2px 4px rgba(139, 69, 19, 0.1) !important;
 }
 
 .item-wizard-modal .resistance-select:focus {
   outline: none !important;
-  border-color: var(--pf-gold, #d4af37) !important;
+  border-color: var(--my-gold, #d4af37) !important;
   box-shadow:
     inset 0 2px 4px rgba(139, 69, 19, 0.15),
     0 0 0 3px rgba(212, 175, 55, 0.2) !important;
 }
 
 .item-wizard-modal .resistance-description {
-  margin-top: var(--pf-space-2, 8px) !important;
-  font-family: var(--pf-font-body, 'Crimson Text', serif) !important;
-  font-size: var(--pf-text-sm, 12px) !important;
-  color: var(--pf-text-secondary, #5a1e12) !important;
+  margin-top: var(--my-space-2, 8px) !important;
+  font-family: var(--my-font-body, 'Crimson Text', serif) !important;
+  font-size: var(--my-text-sm, 12px) !important;
+  color: var(--my-text-secondary, #5a1e12) !important;
   font-style: italic !important;
   text-align: center !important;
 }
@@ -913,9 +913,9 @@
     overflow-y: auto !important;
     overflow-x: hidden !important;
     max-height: calc(90vh - 120px) !important;
-    padding-bottom: var(--pf-space-4, 16px) !important; /* Normal padding */
+    padding-bottom: var(--my-space-4, 16px) !important; /* Normal padding */
     scrollbar-width: thin !important;
-    scrollbar-color: var(--pf-brown-medium) var(--pf-brown-light) !important;
+    scrollbar-color: var(--my-brown-medium) var(--my-brown-light) !important;
 }
 
 /* Override ALL remaining dark backgrounds */
@@ -930,65 +930,65 @@
 .item-wizard-modal .slot-option,
 .item-wizard-modal .subtype-option,
 .item-wizard-modal .hand-option {
-    background: var(--pf-gradient-button) !important;
-    border: 2px solid var(--pf-brown-medium, #8B4513) !important;
-    color: var(--pf-text-primary) !important;
+    background: var(--my-gradient-button) !important;
+    border: 2px solid var(--my-brown-medium, #8B4513) !important;
+    color: var(--my-text-primary) !important;
 }
 
 .item-wizard-modal .quality-option {
-    background: var(--pf-gradient-button) !important;
-    border: 2px solid var(--pf-brown-medium, #8B4513) !important;
-    color: var(--pf-text-primary) !important;
+    background: var(--my-gradient-button) !important;
+    border: 2px solid var(--my-brown-medium, #8B4513) !important;
+    color: var(--my-text-primary) !important;
 }
 
 .item-wizard-modal .wow-input,
 .item-wizard-modal .form-group input,
 .item-wizard-modal .form-group select,
 .item-wizard-modal .form-group textarea {
-    background: var(--pf-gradient-button) !important;
-    border: 2px solid var(--pf-brown-medium) !important;
-    color: var(--pf-text-primary) !important;
+    background: var(--my-gradient-button) !important;
+    border: 2px solid var(--my-brown-medium) !important;
+    color: var(--my-text-primary) !important;
 }
 
 /* Ensure all scrollbars use Pathfinder theme */
 .item-wizard-modal *::-webkit-scrollbar {
     width: 8px !important;
-    background: var(--pf-brown-light) !important;
+    background: var(--my-brown-light) !important;
 }
 
 .item-wizard-modal *::-webkit-scrollbar-track {
-    background: var(--pf-brown-light) !important;
+    background: var(--my-brown-light) !important;
     border-radius: 4px !important;
 }
 
 .item-wizard-modal *::-webkit-scrollbar-thumb {
-    background: var(--pf-brown-medium) !important;
+    background: var(--my-brown-medium) !important;
     border-radius: 4px !important;
-    border: 1px solid var(--pf-brown-light) !important;
+    border: 1px solid var(--my-brown-light) !important;
 }
 
 .item-wizard-modal *::-webkit-scrollbar-thumb:hover {
-    background: var(--pf-brown-dark) !important;
+    background: var(--my-brown-dark) !important;
 }
 
 /* Pathfinder color variables for item wizard */
 :root {
-  --pf-parchment-light: #f8f4e6;
-  --pf-parchment: #ede4d3;
-  --pf-parchment-dark: #e8dcc6;
-  --pf-brown-darkest: #2d1810;
-  --pf-brown-dark: #5a1e12;
-  --pf-brown-medium: #8B4513;
-  --pf-brown-light: #a08c70;
-  --pf-gold: #d4af37;
-  --pf-gold-light: #f4d03f;
-  --pf-gold-dark: #b8860b;
-  --pf-text-primary: #2d1810;
-  --pf-text-secondary: #5a1e12;
-  --pf-gradient-parchment: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%);
-  --pf-gradient-button: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%);
-  --pf-gradient-header: linear-gradient(135deg, #c4a373 0%, #a08c70 50%, #8b7355 100%);
-  --pf-shadow-parchment: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.7), inset 0 -2px 0 rgba(139, 69, 19, 0.2);
+  --my-parchment-light: #f8f4e6;
+  --my-parchment: #ede4d3;
+  --my-parchment-dark: #e8dcc6;
+  --my-brown-darkest: #2d1810;
+  --my-brown-dark: #5a1e12;
+  --my-brown-medium: #8B4513;
+  --my-brown-light: #a08c70;
+  --my-gold: #d4af37;
+  --my-gold-light: #f4d03f;
+  --my-gold-dark: #b8860b;
+  --my-text-primary: #2d1810;
+  --my-text-secondary: #5a1e12;
+  --my-gradient-parchment: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%);
+  --my-gradient-button: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%);
+  --my-gradient-header: linear-gradient(135deg, #c4a373 0%, #a08c70 50%, #8b7355 100%);
+  --my-shadow-parchment: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.7), inset 0 -2px 0 rgba(139, 69, 19, 0.2);
 }
 
 /* ===== ITEM WIZARD CONTAINER ===== */
@@ -1004,8 +1004,8 @@
 }
 
 .item-wizard-modal.spellbook-wizard-layout {
-  background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
-  border: 3px solid var(--pf-brown-light, #a08c70) !important;
+  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
+  border: 3px solid var(--my-brown-light, #a08c70) !important;
   border-radius: 16px !important;
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.4),
@@ -1014,7 +1014,7 @@
     0 0 0 1px rgba(139, 69, 19, 0.3),
     0 0 20px rgba(139, 69, 19, 0.15) !important;
   font-family: 'Cinzel', 'Times New Roman', serif !important;
-  color: var(--pf-text-primary, #2d1810) !important;
+  color: var(--my-text-primary, #2d1810) !important;
   overflow: visible !important; /* Allow tooltips to overflow */
   width: 800px !important;
   max-height: 90vh !important;
@@ -1046,7 +1046,7 @@
   flex-direction: column !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
-  padding: var(--pf-space-4, 16px) !important;
+  padding: var(--my-space-4, 16px) !important;
   margin: 0 !important;
   min-height: 0 !important;
   min-width: 0 !important;
@@ -1061,7 +1061,7 @@
   line-height: initial !important;
   color: initial !important;
   /* Beige background */
-  background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
+  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
   border: 2px solid rgba(139, 69, 19, 0.3) !important;
   border-radius: 0 !important;
   box-shadow: 
@@ -1092,7 +1092,7 @@
   overflow-y: visible !important; /* Allow natural content flow */
   overflow-x: hidden !important;
   min-height: 0 !important;
-  padding-bottom: var(--pf-space-4, 16px) !important; /* Normal padding */
+  padding-bottom: var(--my-space-4, 16px) !important; /* Normal padding */
   max-height: none !important; /* Remove height restrictions to allow natural expansion */
   width: 100% !important;
   max-width: 100% !important;
@@ -1107,18 +1107,18 @@
 }
 
 .item-wizard-modal .spell-wizard-form::-webkit-scrollbar-track {
-  background: var(--pf-parchment-dark, #e8dcc6) !important;
+  background: var(--my-parchment-dark, #e8dcc6) !important;
   border-radius: 4px !important;
 }
 
 .item-wizard-modal .spell-wizard-form::-webkit-scrollbar-thumb {
-  background: var(--pf-brown-light, #a08c70) !important;
+  background: var(--my-brown-light, #a08c70) !important;
   border-radius: 4px !important;
   transition: background 0.3s ease !important;
 }
 
 .item-wizard-modal .spell-wizard-form::-webkit-scrollbar-thumb:hover {
-  background: var(--pf-brown-medium, #8B4513) !important;
+  background: var(--my-brown-medium, #8B4513) !important;
 }
 
 .item-wizard-modal::before {
@@ -1167,12 +1167,12 @@
 }
 
 .item-wizard-modal[data-quality="legendary"] {
-    border-color: var(--pf-gold-dark);
+    border-color: var(--my-gold-dark);
     box-shadow: 0 8px 32px rgba(212, 175, 55, 0.5), inset 0 2px 0 rgba(255, 255, 255, 0.7), 0 0 20px rgba(212, 175, 55, 0.3);
 }
 
 .item-wizard-modal[data-quality="artifact"] {
-    border: 3px solid var(--pf-gold) !important;
+    border: 3px solid var(--my-gold) !important;
     box-shadow: 0 8px 32px rgba(212, 175, 55, 0.6), inset 0 2px 0 rgba(255, 255, 255, 0.8), 0 0 30px rgba(212, 175, 55, 0.4);
 }
 
@@ -1180,8 +1180,8 @@
     display: flex;
     align-items: center;
     padding: 12px 16px;
-    background: var(--pf-gradient-header);
-    border-bottom: 3px solid var(--pf-brown-medium);
+    background: var(--my-gradient-header);
+    border-bottom: 3px solid var(--my-brown-medium);
     cursor: move;
     position: relative;
     z-index: 2;
@@ -1220,7 +1220,7 @@
 .wizard-title {
     font-size: 18px;
     font-weight: 700;
-    color: var(--pf-parchment-light);
+    color: var(--my-parchment-light);
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
     font-family: 'Cinzel', 'Times New Roman', serif;
     letter-spacing: 1px;
@@ -1230,9 +1230,9 @@
 .wizard-close {
     width: 28px;
     height: 28px;
-    background: var(--pf-gradient-button);
-    border: 2px solid var(--pf-brown-medium);
-    color: var(--pf-text-primary);
+    background: var(--my-gradient-button);
+    border: 2px solid var(--my-brown-medium);
+    color: var(--my-text-primary);
     font-size: 16px;
     cursor: pointer;
     display: flex;
@@ -1248,8 +1248,8 @@
 
 .wizard-close:hover {
     background: linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%);
-    border-color: var(--pf-gold);
-    color: var(--pf-brown-darkest);
+    border-color: var(--my-gold);
+    color: var(--my-brown-darkest);
     box-shadow:
         0 3px 6px rgba(0, 0, 0, 0.4),
         inset 0 1px 0 rgba(255, 255, 255, 0.7),
@@ -1261,7 +1261,7 @@
     padding-bottom: 120px; /* Extra space to scroll past footer */
     max-height: calc(100vh - 200px);
     overflow-y: auto;
-    background: var(--pf-gradient-parchment);
+    background: var(--my-gradient-parchment);
     position: relative;
     z-index: 2;
 }
@@ -1317,9 +1317,9 @@
 .weapon-stats-section {
     margin-top: 20px;
     padding: 20px;
-    background: var(--pf-gradient-parchment);
+    background: var(--my-gradient-parchment);
     border-radius: 12px;
-    border: 2px solid var(--pf-brown-light);
+    border: 2px solid var(--my-brown-light);
     box-shadow:
         0 4px 8px rgba(139, 69, 19, 0.15),
         inset 0 1px 0 rgba(255, 255, 255, 0.4);
@@ -1335,9 +1335,9 @@
 .damage-roll-input {
     width: 60px;
     text-align: center;
-    background: var(--pf-gradient-button);
-    border: 2px solid var(--pf-brown-medium);
-    color: var(--pf-text-primary);
+    background: var(--my-gradient-button);
+    border: 2px solid var(--my-brown-medium);
+    color: var(--my-text-primary);
     padding: 8px 12px;
     border-radius: 6px;
     font-family: 'Cinzel', serif;
@@ -1348,7 +1348,7 @@
 }
 
 .damage-roll-input:focus {
-    border-color: var(--pf-gold);
+    border-color: var(--my-gold);
     box-shadow:
         inset 0 2px 4px rgba(139, 69, 19, 0.1),
         0 2px 4px rgba(0, 0, 0, 0.1),
@@ -1358,9 +1358,9 @@
 
 .damage-type-select {
     flex: 1;
-    background: var(--pf-gradient-button);
-    border: 2px solid var(--pf-brown-medium);
-    color: var(--pf-text-primary);
+    background: var(--my-gradient-button);
+    border: 2px solid var(--my-brown-medium);
+    color: var(--my-text-primary);
     padding: 8px 12px;
     border-radius: 6px;
     font-family: 'Cinzel', serif;
@@ -1371,7 +1371,7 @@
 }
 
 .damage-type-select:focus {
-    border-color: var(--pf-gold);
+    border-color: var(--my-gold);
     box-shadow:
         inset 0 2px 4px rgba(139, 69, 19, 0.1),
         0 2px 4px rgba(0, 0, 0, 0.1),
@@ -1385,9 +1385,9 @@
 .chance-on-being-hit-section {
     margin-top: 20px;
     padding: 20px;
-    background: var(--pf-gradient-parchment);
+    background: var(--my-gradient-parchment);
     border-radius: 12px;
-    border: 2px solid var(--pf-brown-light);
+    border: 2px solid var(--my-brown-light);
     box-shadow:
         0 4px 8px rgba(139, 69, 19, 0.15),
         inset 0 1px 0 rgba(255, 255, 255, 0.4);
@@ -1396,9 +1396,9 @@
 /* Chance on Being Hit Config Styles */
 .chance-on-being-hit-config {
     padding: 20px;
-    background: var(--pf-gradient-parchment);
+    background: var(--my-gradient-parchment);
     border-radius: 12px;
-    border: 2px solid var(--pf-brown-light);
+    border: 2px solid var(--my-brown-light);
     box-shadow:
         0 4px 8px rgba(139, 69, 19, 0.15),
         inset 0 1px 0 rgba(255, 255, 255, 0.4);
@@ -1414,7 +1414,7 @@
     cursor: pointer;
     user-select: none;
     font-family: 'Cinzel', serif;
-    color: var(--pf-text-primary);
+    color: var(--my-text-primary);
 }
 
 .wow-checkbox {
@@ -1430,8 +1430,8 @@
     display: inline-block;
     width: 22px;
     height: 22px;
-    background: var(--pf-gradient-button);
-    border: 2px solid var(--pf-brown-medium);
+    background: var(--my-gradient-button);
+    border: 2px solid var(--my-brown-medium);
     border-radius: 6px;
     margin-right: 12px;
     transition: all 0.2s ease;
@@ -1441,8 +1441,8 @@
 }
 
 .wow-checkbox:checked ~ .wow-checkbox-custom {
-    background: linear-gradient(145deg, var(--pf-gold-light), var(--pf-gold));
-    border-color: var(--pf-gold-dark);
+    background: linear-gradient(145deg, var(--my-gold-light), var(--my-gold));
+    border-color: var(--my-gold-dark);
     box-shadow:
         inset 0 2px 4px rgba(212, 175, 55, 0.2),
         0 2px 4px rgba(0, 0, 0, 0.2),
@@ -1457,7 +1457,7 @@
     top: 50%;
     width: 5px;
     height: 10px;
-    border: solid var(--pf-brown-darkest);
+    border: solid var(--my-brown-darkest);
     border-width: 0 3px 3px 0;
     transform: translate(-50%, -50%) rotate(45deg);
 }
@@ -1468,13 +1468,13 @@
 
 .wow-option-text {
     font-weight: 600;
-    color: var(--pf-text-primary);
+    color: var(--my-text-primary);
     font-family: 'Cinzel', serif;
 }
 
 .wow-option-description {
     font-size: 0.9em;
-    color: var(--pf-text-secondary);
+    color: var(--my-text-secondary);
     margin-top: 4px;
     margin-left: 34px;
     font-family: 'Crimson Text', serif;
@@ -1484,9 +1484,9 @@
 .wow-setting-section {
     margin-top: 20px;
     padding: 20px;
-    background: var(--pf-gradient-parchment);
+    background: var(--my-gradient-parchment);
     border-radius: 12px;
-    border: 2px solid var(--pf-brown-light);
+    border: 2px solid var(--my-brown-light);
     box-shadow:
         0 4px 8px rgba(139, 69, 19, 0.15),
         inset 0 1px 0 rgba(255, 255, 255, 0.4);
@@ -1495,7 +1495,7 @@
 .wow-section-header {
     font-size: 18px;
     font-weight: 700;
-    color: var(--pf-gold-dark);
+    color: var(--my-gold-dark);
     margin-bottom: 16px;
     font-family: 'Cinzel', serif;
     text-transform: uppercase;
@@ -1532,10 +1532,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--pf-gradient-button);
-    border: 2px solid var(--pf-brown-medium);
+    background: var(--my-gradient-button);
+    border: 2px solid var(--my-brown-medium);
     border-radius: 8px;
-    color: var(--pf-text-primary);
+    color: var(--my-text-primary);
     font-size: 16px;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -1543,7 +1543,7 @@
 
 .threshold-button:hover, .coin-count-button:hover {
     background: linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%);
-    border-color: var(--pf-gold);
+    border-color: var(--my-gold);
     box-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
 }
 
@@ -1577,12 +1577,12 @@
 
 .suit-option {
     padding: 12px 16px;
-    background: var(--pf-gradient-button);
-    border: 2px solid var(--pf-brown-medium);
+    background: var(--my-gradient-button);
+    border: 2px solid var(--my-brown-medium);
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
-    color: var(--pf-text-primary);
+    color: var(--my-text-primary);
     font-family: 'Cinzel', serif;
     box-shadow:
         inset 0 2px 4px rgba(139, 69, 19, 0.1),
@@ -1591,7 +1591,7 @@
 
 .suit-option:hover {
     background: linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%);
-    border-color: var(--pf-gold);
+    border-color: var(--my-gold);
     box-shadow:
         inset 0 2px 4px rgba(139, 69, 19, 0.1),
         0 2px 4px rgba(0, 0, 0, 0.1),
@@ -1599,9 +1599,9 @@
 }
 
 .suit-option.selected {
-    background: linear-gradient(145deg, var(--pf-gold-light) 0%, var(--pf-gold) 50%, var(--pf-gold-dark) 100%);
-    border-color: var(--pf-gold-dark);
-    color: var(--pf-brown-darkest);
+    background: linear-gradient(145deg, var(--my-gold-light) 0%, var(--my-gold) 50%, var(--my-gold-dark) 100%);
+    border-color: var(--my-gold-dark);
+    color: var(--my-brown-darkest);
     box-shadow:
         inset 0 2px 4px rgba(212, 175, 55, 0.2),
         0 2px 4px rgba(0, 0, 0, 0.2),
@@ -1628,23 +1628,23 @@
 
 .item-wizard-modal .spell-wizard-card {
     padding: 12px;
-    background: var(--pf-gradient-button);
-    border: var(--pf-border-width) solid var(--pf-brown-medium);
-    border-radius: var(--pf-border-radius);
+    background: var(--my-gradient-button);
+    border: var(--my-border-width) solid var(--my-brown-medium);
+    border-radius: var(--my-border-radius);
     cursor: pointer;
-    transition: all var(--pf-transition-normal);
+    transition: all var(--my-transition-normal);
 }
 
 .item-wizard-modal .spell-wizard-card:hover {
-    background: var(--pf-gradient-button-hover);
-    border-color: var(--pf-brown-dark);
+    background: var(--my-gradient-button-hover);
+    border-color: var(--my-brown-dark);
     transform: translateY(-2px);
 }
 
 .item-wizard-modal .spell-wizard-card.selected {
-    background: var(--pf-gradient-gold);
-    border-color: var(--pf-gold-dark);
-    color: var(--pf-brown-darkest);
+    background: var(--my-gradient-gold);
+    border-color: var(--my-gold-dark);
+    color: var(--my-brown-darkest);
 }
 
 .item-wizard-modal .spell-wizard-card-icon {
@@ -1663,17 +1663,17 @@
 }
 
 .section-panel {
-    margin-top: var(--pf-space-1);
-    padding: var(--pf-space-1);
-    background: var(--pf-gradient-parchment-light);
-    border-radius: var(--pf-border-radius);
-    border: var(--pf-border-width) solid var(--pf-brown-light);
+    margin-top: var(--my-space-1);
+    padding: var(--my-space-1);
+    background: var(--my-gradient-parchment-light);
+    border-radius: var(--my-border-radius);
+    border: var(--my-border-width) solid var(--my-brown-light);
 }
 
 .section-panel-content {
     display: flex;
     flex-direction: column;
-    gap: var(--pf-space-1);
+    gap: var(--my-space-1);
 }
 
 .selected-spell-info-panel {
@@ -1686,67 +1686,67 @@
 
 /* ===== INLINE EFFECT BUILDER STYLES ===== */
 .inline-effect-builder {
-    background: var(--pf-gradient-parchment);
-    border: 2px solid var(--pf-brown-medium);
-    border-radius: var(--pf-border-radius-lg);
+    background: var(--my-gradient-parchment);
+    border: 2px solid var(--my-brown-medium);
+    border-radius: var(--my-border-radius-lg);
     overflow: hidden;
-    margin-bottom: var(--pf-space-3);
+    margin-bottom: var(--my-space-3);
 }
 
 .effect-builder-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: var(--pf-space-3) var(--pf-space-4);
-    background: var(--pf-parchment-dark);
-    border-bottom: 2px solid var(--pf-brown-medium);
+    padding: var(--my-space-3) var(--my-space-4);
+    background: var(--my-parchment-dark);
+    border-bottom: 2px solid var(--my-brown-medium);
     cursor: pointer;
     transition: background 0.2s ease;
 }
 
 .effect-builder-header:hover {
-    background: var(--pf-parchment);
+    background: var(--my-parchment);
 }
 
 .effect-header-left {
     display: flex;
     align-items: center;
-    gap: var(--pf-space-3);
+    gap: var(--my-space-3);
     flex-wrap: wrap;
 }
 
 .effect-type-label {
-    font-family: var(--pf-font-display);
+    font-family: var(--my-font-display);
     font-weight: 600;
-    font-size: var(--pf-text-lg);
+    font-size: var(--my-text-lg);
     text-transform: capitalize;
-    color: var(--pf-brown-darkest);
+    color: var(--my-brown-darkest);
 }
 
 .effect-summary {
-    color: var(--pf-brown-dark);
-    font-family: var(--pf-font-body);
-    font-size: var(--pf-text-sm);
+    color: var(--my-brown-dark);
+    font-family: var(--my-font-body);
+    font-size: var(--my-text-sm);
     font-style: italic;
 }
 
 .effect-header-actions {
     display: flex;
-    gap: var(--pf-space-2);
+    gap: var(--my-space-2);
 }
 
 .effect-action-btn {
-    background: var(--pf-gradient-button);
-    border: 2px solid var(--pf-brown-medium);
-    border-radius: var(--pf-border-radius);
-    padding: var(--pf-space-2);
+    background: var(--my-gradient-button);
+    border: 2px solid var(--my-brown-medium);
+    border-radius: var(--my-border-radius);
+    padding: var(--my-space-2);
     cursor: pointer;
-    color: var(--pf-text-primary);
+    color: var(--my-text-primary);
     transition: all 0.2s ease;
 }
 
 .effect-action-btn:hover {
-    border-color: var(--pf-gold);
+    border-color: var(--my-gold);
     box-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
 }
 
@@ -1756,97 +1756,97 @@
 }
 
 .effect-builder-content {
-    padding: var(--pf-space-4);
+    padding: var(--my-space-4);
 }
 
 /* Effect Type Selector */
 .effect-type-selector {
-    margin-bottom: var(--pf-space-4);
+    margin-bottom: var(--my-space-4);
 }
 
 .effect-type-options {
     display: flex;
-    gap: var(--pf-space-2);
+    gap: var(--my-space-2);
     flex-wrap: wrap;
 }
 
 .effect-type-btn {
     display: flex;
     align-items: center;
-    gap: var(--pf-space-2);
-    padding: var(--pf-space-2) var(--pf-space-3);
-    background: var(--pf-gradient-button);
-    border: 2px solid var(--pf-brown-medium);
-    border-radius: var(--pf-border-radius);
+    gap: var(--my-space-2);
+    padding: var(--my-space-2) var(--my-space-3);
+    background: var(--my-gradient-button);
+    border: 2px solid var(--my-brown-medium);
+    border-radius: var(--my-border-radius);
     cursor: pointer;
-    font-family: var(--pf-font-display);
-    font-size: var(--pf-text-sm);
-    color: var(--pf-text-primary);
+    font-family: var(--my-font-display);
+    font-size: var(--my-text-sm);
+    color: var(--my-text-primary);
     transition: all 0.2s ease;
 }
 
 .effect-type-btn:hover {
-    border-color: var(--effect-color, var(--pf-gold));
+    border-color: var(--effect-color, var(--my-gold));
     box-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
 }
 
 .effect-type-btn.selected {
-    background: linear-gradient(145deg, var(--pf-gold-light) 0%, var(--pf-gold) 50%, var(--pf-gold-dark) 100%);
-    border-color: var(--pf-gold-dark);
+    background: linear-gradient(145deg, var(--my-gold-light) 0%, var(--my-gold) 50%, var(--my-gold-dark) 100%);
+    border-color: var(--my-gold-dark);
     box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
 }
 
 /* Target Selector */
 .effect-target-selector {
-    margin-bottom: var(--pf-space-4);
+    margin-bottom: var(--my-space-4);
 }
 
 .target-options {
     display: flex;
-    gap: var(--pf-space-2);
-    margin-top: var(--pf-space-2);
+    gap: var(--my-space-2);
+    margin-top: var(--my-space-2);
 }
 
 .target-btn {
-    padding: var(--pf-space-2) var(--pf-space-4);
-    background: var(--pf-gradient-button);
-    border: 2px solid var(--pf-brown-medium);
-    border-radius: var(--pf-border-radius);
+    padding: var(--my-space-2) var(--my-space-4);
+    background: var(--my-gradient-button);
+    border: 2px solid var(--my-brown-medium);
+    border-radius: var(--my-border-radius);
     cursor: pointer;
-    font-family: var(--pf-font-display);
-    font-size: var(--pf-text-sm);
-    color: var(--pf-text-primary);
+    font-family: var(--my-font-display);
+    font-size: var(--my-text-sm);
+    color: var(--my-text-primary);
     transition: all 0.2s ease;
 }
 
 .target-btn:hover {
-    border-color: var(--pf-gold);
+    border-color: var(--my-gold);
 }
 
 .target-btn.selected {
-    background: linear-gradient(145deg, var(--pf-gold-light) 0%, var(--pf-gold) 50%, var(--pf-gold-dark) 100%);
-    border-color: var(--pf-gold-dark);
+    background: linear-gradient(145deg, var(--my-gold-light) 0%, var(--my-gold) 50%, var(--my-gold-dark) 100%);
+    border-color: var(--my-gold-dark);
 }
 
 .area-config {
-    margin-top: var(--pf-space-2);
-    padding: var(--pf-space-2);
+    margin-top: var(--my-space-2);
+    padding: var(--my-space-2);
     background: rgba(139, 69, 19, 0.05);
-    border-radius: var(--pf-border-radius);
+    border-radius: var(--my-border-radius);
 }
 
 /* Effect Config Section */
 .effect-config-section {
     background: rgba(139, 69, 19, 0.03);
-    border: 1px solid var(--pf-brown-light);
-    border-radius: var(--pf-border-radius);
-    padding: var(--pf-space-4);
+    border: 1px solid var(--my-brown-light);
+    border-radius: var(--my-border-radius);
+    padding: var(--my-space-4);
 }
 
 .config-row {
     display: flex;
-    gap: var(--pf-space-4);
-    margin-bottom: var(--pf-space-3);
+    gap: var(--my-space-4);
+    margin-bottom: var(--my-space-3);
 }
 
 .config-row:last-child {
@@ -1858,78 +1858,78 @@
 }
 
 .config-toggle {
-    margin: var(--pf-space-3) 0;
+    margin: var(--my-space-3) 0;
 }
 
 /* Pathfinder styled form elements */
 .pf-label {
     display: block;
-    font-family: var(--pf-font-display);
-    font-size: var(--pf-text-sm);
+    font-family: var(--my-font-display);
+    font-size: var(--my-text-sm);
     font-weight: 600;
-    color: var(--pf-text-secondary);
-    margin-bottom: var(--pf-space-1);
+    color: var(--my-text-secondary);
+    margin-bottom: var(--my-space-1);
     text-transform: none;
     letter-spacing: 0.3px;
 }
 
 .pf-label-small {
     display: block;
-    font-family: var(--pf-font-body);
-    font-size: var(--pf-text-sm);
-    color: var(--pf-text-muted);
-    margin-bottom: var(--pf-space-1);
+    font-family: var(--my-font-body);
+    font-size: var(--my-text-sm);
+    color: var(--my-text-muted);
+    margin-bottom: var(--my-space-1);
 }
 
 .pf-input,
 .pf-select {
     width: 100%;
-    padding: var(--pf-space-2) var(--pf-space-3);
-    background: var(--pf-gradient-button);
-    border: 2px solid var(--pf-brown-medium);
-    border-radius: var(--pf-border-radius);
-    font-family: var(--pf-font-body);
-    font-size: var(--pf-text-base);
-    color: var(--pf-text-primary);
+    padding: var(--my-space-2) var(--my-space-3);
+    background: var(--my-gradient-button);
+    border: 2px solid var(--my-brown-medium);
+    border-radius: var(--my-border-radius);
+    font-family: var(--my-font-body);
+    font-size: var(--my-text-base);
+    color: var(--my-text-primary);
     transition: all 0.2s ease;
 }
 
 .pf-input:focus,
 .pf-select:focus {
     outline: none;
-    border-color: var(--pf-gold);
+    border-color: var(--my-gold);
     box-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
 }
 
 .pf-input-small,
 .pf-select-small {
     width: 100%;
-    padding: var(--pf-space-1) var(--pf-space-2);
-    background: var(--pf-gradient-button);
-    border: 2px solid var(--pf-brown-medium);
-    border-radius: var(--pf-border-radius);
-    font-family: var(--pf-font-body);
-    font-size: var(--pf-text-sm);
-    color: var(--pf-text-primary);
+    padding: var(--my-space-1) var(--my-space-2);
+    background: var(--my-gradient-button);
+    border: 2px solid var(--my-brown-medium);
+    border-radius: var(--my-border-radius);
+    font-family: var(--my-font-body);
+    font-size: var(--my-text-sm);
+    color: var(--my-text-primary);
 }
 
 .pf-checkbox-label {
     display: flex;
     align-items: center;
-    gap: var(--pf-space-2);
+    gap: var(--my-space-2);
     cursor: pointer;
-    font-family: var(--pf-font-body);
-    color: var(--pf-text-primary);
+    font-family: var(--my-font-body);
+    color: var(--my-text-primary);
 }
 
 .pf-checkbox-label input[type="checkbox"] {
     width: 18px;
     height: 18px;
-    accent-color: var(--pf-gold);
+    accent-color: var(--my-gold);
 }
 
 .pf-checkbox-text {
-    font-size: var(--pf-text-base);
+    font-size: var(--my-text-base);
 }
 
 /* Add Effect Button */
@@ -1937,23 +1937,23 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: var(--pf-space-2);
+    gap: var(--my-space-2);
     width: 100%;
-    padding: var(--pf-space-4);
-    background: var(--pf-gradient-button);
-    border: 2px dashed var(--pf-brown-medium);
-    border-radius: var(--pf-border-radius-lg);
+    padding: var(--my-space-4);
+    background: var(--my-gradient-button);
+    border: 2px dashed var(--my-brown-medium);
+    border-radius: var(--my-border-radius-lg);
     cursor: pointer;
-    font-family: var(--pf-font-display);
-    font-size: var(--pf-text-lg);
-    color: var(--pf-text-secondary);
+    font-family: var(--my-font-display);
+    font-size: var(--my-text-lg);
+    color: var(--my-text-secondary);
     transition: all 0.2s ease;
 }
 
 .add-effect-btn:hover {
-    border-color: var(--pf-gold);
+    border-color: var(--my-gold);
     border-style: solid;
-    color: var(--pf-text-primary);
+    color: var(--my-text-primary);
     box-shadow: 0 0 12px rgba(212, 175, 55, 0.2);
 }
 
@@ -1963,52 +1963,52 @@
 
 /* Effect Builder Container */
 .effect-builder-container {
-    margin-top: var(--pf-space-3);
+    margin-top: var(--my-space-3);
 }
 
 /* Effect Config Wrapper */
 .effect-config-wrapper {
-    padding: var(--pf-space-4) !important;
+    padding: var(--my-space-4) !important;
 }
 
 .effect-section-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: var(--pf-space-4);
-    padding-bottom: var(--pf-space-3);
-    border-bottom: 2px solid var(--pf-brown-light);
+    margin-bottom: var(--my-space-4);
+    padding-bottom: var(--my-space-3);
+    border-bottom: 2px solid var(--my-brown-light);
 }
 
 .effect-section-title {
-    font-family: var(--pf-font-display);
-    font-size: var(--pf-text-lg);
+    font-family: var(--my-font-display);
+    font-size: var(--my-text-lg);
     font-weight: 600;
-    color: var(--pf-brown-darkest);
+    color: var(--my-brown-darkest);
     text-transform: none;
 }
 
 .effect-section-chance {
-    font-family: var(--pf-font-body);
-    font-size: var(--pf-text-sm);
-    color: var(--pf-text-on-dark);
-    background: var(--pf-brown-dark);
-    padding: var(--pf-space-1) var(--pf-space-3);
-    border-radius: var(--pf-border-radius);
+    font-family: var(--my-font-body);
+    font-size: var(--my-text-sm);
+    color: var(--my-text-on-dark);
+    background: var(--my-brown-dark);
+    padding: var(--my-space-1) var(--my-space-3);
+    border-radius: var(--my-border-radius);
 }
 
 .no-effect-configured {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--pf-space-3);
-    padding: var(--pf-space-4);
+    gap: var(--my-space-3);
+    padding: var(--my-space-4);
 }
 
 .no-effect-text {
-    font-family: var(--pf-font-body);
-    font-size: var(--pf-text-base);
-    color: var(--pf-text-muted);
+    font-family: var(--my-font-body);
+    font-size: var(--my-text-base);
+    color: var(--my-text-muted);
     font-style: italic;
     margin: 0;
 }
@@ -2058,9 +2058,9 @@
 }
 
 .wizard-content {
-    padding: var(--pf-space-6, 24px) !important;
-    padding-bottom: var(--pf-space-6, 24px) !important; /* Normal padding */
-    background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
+    padding: var(--my-space-6, 24px) !important;
+    padding-bottom: var(--my-space-6, 24px) !important; /* Normal padding */
+    background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
     flex: 1 !important;
     overflow-y: auto !important;
 }
@@ -2224,17 +2224,17 @@
     max-height: 90vh;
     min-height: 700px;
     height: 700px;
-    background: var(--pf-gradient-parchment) !important;
-    border: 3px solid var(--pf-brown-medium) !important;
+    background: var(--my-gradient-parchment) !important;
+    border: 3px solid var(--my-brown-medium) !important;
     border-radius: 16px !important;
-    box-shadow: var(--pf-shadow-parchment) !important;
+    box-shadow: var(--my-shadow-parchment) !important;
     display: flex;
     flex-direction: column;
     z-index: 9999;
     pointer-events: auto;
     will-change: transform;
     transform: translate3d(0, 0, 0);
-    color: var(--pf-text-primary) !important;
+    color: var(--my-text-primary) !important;
     font-family: 'Cinzel', serif !important;
     overflow: hidden !important;
     /* Smooth transitions for non-dragging state changes */
@@ -2314,80 +2314,80 @@
 
 /* Quality-based header gradients - Enhanced Pathfinder parchment style */
 .item-wizard-modal[data-quality="poor"] .wizard-header {
-    background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
+    background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
     border-bottom: 3px solid rgba(157, 157, 157, 0.6) !important;
 }
 
 .item-wizard-modal[data-quality="common"] .wizard-header {
-    background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
-    border-bottom: 3px solid var(--pf-gold) !important;
+    background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
+    border-bottom: 3px solid var(--my-gold) !important;
 }
 
 .item-wizard-modal[data-quality="uncommon"] .wizard-header {
-    background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
+    background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
     border-bottom: 3px solid rgba(30, 255, 0, 0.8) !important;
 }
 
 .item-wizard-modal[data-quality="rare"] .wizard-header {
-    background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
+    background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
     border-bottom: 3px solid rgba(0, 112, 221, 0.8) !important;
 }
 
 .item-wizard-modal[data-quality="epic"] .wizard-header {
-    background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
+    background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
     border-bottom: 3px solid rgba(163, 53, 238, 0.8) !important;
 }
 
 .item-wizard-modal[data-quality="legendary"] .wizard-header {
-    background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
+    background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
     border-bottom: 3px solid rgba(255, 128, 0, 0.8) !important;
 }
 
 .item-wizard-modal[data-quality="artifact"] .wizard-header {
-    background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
+    background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
     border-bottom: 3px solid rgba(230, 204, 128, 0.8) !important;
 }
 
 /* Quality-based text colors - Pathfinder style */
 .item-wizard-modal[data-quality="poor"] .wizard-header h2 {
-    color: var(--pf-text-primary) !important;
+    color: var(--my-text-primary) !important;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
 }
 
 .item-wizard-modal[data-quality="common"] .wizard-header h2 {
-    color: var(--pf-text-primary) !important;
+    color: var(--my-text-primary) !important;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
 }
 
 .item-wizard-modal[data-quality="uncommon"] .wizard-header h2 {
-    color: var(--pf-text-primary) !important;
+    color: var(--my-text-primary) !important;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
 }
 
 .item-wizard-modal[data-quality="rare"] .wizard-header h2 {
-    color: var(--pf-text-primary) !important;
+    color: var(--my-text-primary) !important;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
 }
 
 .item-wizard-modal[data-quality="epic"] .wizard-header h2 {
-    color: var(--pf-text-primary) !important;
+    color: var(--my-text-primary) !important;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
 }
 
 .item-wizard-modal[data-quality="legendary"] .wizard-header h2 {
-    color: var(--pf-text-primary) !important;
+    color: var(--my-text-primary) !important;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
 }
 
 .item-wizard-modal[data-quality="artifact"] .wizard-header h2 {
-    color: var(--pf-text-primary) !important;
+    color: var(--my-text-primary) !important;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
 }
 
 /* Quality-based footer styling - Enhanced Pathfinder parchment style */
 .item-wizard-modal[data-quality] .wizard-footer {
-    background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
-    border-top: 3px solid var(--pf-brown-light, #a08c70) !important;
+    background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
+    border-top: 3px solid var(--my-brown-light, #a08c70) !important;
     box-shadow:
         0 -4px 12px rgba(0, 0, 0, 0.1),
         inset 0 1px 0 rgba(255, 255, 255, 0.5),
@@ -2443,7 +2443,7 @@
     padding: 16px;
     padding-bottom: 120px; /* Extra space to scroll past footer */
     scrollbar-width: thin;
-    scrollbar-color: var(--pf-brown-medium) var(--pf-brown-light) !important;
+    scrollbar-color: var(--my-brown-medium) var(--my-brown-light) !important;
     transition: all 0.3s ease;
     max-width: 100% !important;
     width: 100% !important;
@@ -2454,26 +2454,26 @@
 }
 
 .wizard-content::-webkit-scrollbar-track {
-    background: var(--pf-brown-light) !important;
+    background: var(--my-brown-light) !important;
     border-radius: 4px !important;
 }
 
 .wizard-content::-webkit-scrollbar-thumb {
-    background: var(--pf-brown-medium) !important;
+    background: var(--my-brown-medium) !important;
     border-radius: 4px !important;
-    border: 1px solid var(--pf-brown-light) !important;
+    border: 1px solid var(--my-brown-light) !important;
 }
 
 .wizard-content::-webkit-scrollbar-thumb:hover {
-    background: var(--pf-brown-dark) !important;
+    background: var(--my-brown-dark) !important;
 }
 
 /* ===== ITEM WIZARD FOOTER STYLING ===== */
 
 .item-wizard-modal .item-wizard-footer {
-  background: linear-gradient(135deg, var(--pf-parchment-dark, #e8dcc6) 0%, var(--pf-parchment-light, #f8f4e6) 100%) !important;
-  border-top: 3px solid var(--pf-brown-light, #a08c70) !important;
-  padding: var(--pf-space-4, 16px) var(--pf-space-5, 20px) !important;
+  background: linear-gradient(135deg, var(--my-parchment-dark, #e8dcc6) 0%, var(--my-parchment-light, #f8f4e6) 100%) !important;
+  border-top: 3px solid var(--my-brown-light, #a08c70) !important;
+  padding: var(--my-space-4, 16px) var(--my-space-5, 20px) !important;
   box-shadow:
     0 -4px 12px rgba(0, 0, 0, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
@@ -2484,9 +2484,9 @@
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
-  gap: var(--pf-space-3, 12px) !important;
+  gap: var(--my-space-3, 12px) !important;
   max-width: 100% !important;
-  padding: 0 var(--pf-space-4, 16px) !important; /* Restore left/right padding */
+  padding: 0 var(--my-space-4, 16px) !important; /* Restore left/right padding */
   min-height: auto !important;
   height: auto !important;
 }
@@ -2537,11 +2537,11 @@
   pointer-events: none !important;
   opacity: 1 !important;
   visibility: visible !important;
-  background: var(--pf-gradient-parchment) !important;
-  border: 2px solid var(--pf-brown-medium) !important;
+  background: var(--my-gradient-parchment) !important;
+  border: 2px solid var(--my-brown-medium) !important;
   border-radius: 8px !important;
   padding: 12px 16px !important;
-  color: var(--pf-text-primary) !important;
+  color: var(--my-text-primary) !important;
   font-family: 'Cinzel', serif !important;
   font-weight: 600 !important;
   font-size: 12px !important;
@@ -2624,24 +2624,24 @@
   justify-content: space-between !important;
   align-items: center !important;
   width: 100% !important;
-  padding: var(--pf-space-4, 16px) 0 !important;
-  gap: var(--pf-space-3, 12px) !important;
+  padding: var(--my-space-4, 16px) 0 !important;
+  gap: var(--my-space-3, 12px) !important;
 }
 
 .item-wizard-modal .wizard-nav-btn {
   display: flex !important;
   align-items: center !important;
-  gap: var(--pf-space-2, 8px) !important;
-  padding: var(--pf-space-3, 12px) var(--pf-space-4, 16px) !important;
-  background: linear-gradient(135deg, var(--pf-gold, #d4af37) 0%, var(--pf-gold-dark, #b8860b) 100%) !important;
-  border: var(--pf-border-width, 2px) solid var(--pf-brown-medium, #8B4513) !important;
-  border-radius: var(--pf-border-radius, 8px) !important;
-  color: var(--pf-brown-darkest, #2d1810) !important;
-  font-family: var(--pf-font-display, 'Cinzel', serif) !important;
-  font-size: var(--pf-text-base, 14px) !important;
-  font-weight: var(--pf-font-bold, 600) !important;
+  gap: var(--my-space-2, 8px) !important;
+  padding: var(--my-space-3, 12px) var(--my-space-4, 16px) !important;
+  background: linear-gradient(135deg, var(--my-gold, #d4af37) 0%, var(--my-gold-dark, #b8860b) 100%) !important;
+  border: var(--my-border-width, 2px) solid var(--my-brown-medium, #8B4513) !important;
+  border-radius: var(--my-border-radius, 8px) !important;
+  color: var(--my-brown-darkest, #2d1810) !important;
+  font-family: var(--my-font-display, 'Cinzel', serif) !important;
+  font-size: var(--my-text-base, 14px) !important;
+  font-weight: var(--my-font-bold, 600) !important;
   cursor: pointer !important;
-  transition: all var(--pf-transition-normal, 0.25s ease) !important;
+  transition: all var(--my-transition-normal, 0.25s ease) !important;
   box-shadow:
     0 4px 8px rgba(0, 0, 0, 0.15),
     inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
@@ -2653,8 +2653,8 @@
 }
 
 .item-wizard-modal .wizard-nav-btn:hover:not(:disabled) {
-  background: linear-gradient(135deg, var(--pf-gold-light, #f4d03f) 0%, var(--pf-gold, #d4af37) 100%) !important;
-  border-color: var(--pf-gold, #d4af37) !important;
+  background: linear-gradient(135deg, var(--my-gold-light, #f4d03f) 0%, var(--my-gold, #d4af37) 100%) !important;
+  border-color: var(--my-gold, #d4af37) !important;
   transform: translateY(-2px) !important;
   box-shadow:
     0 6px 12px rgba(0, 0, 0, 0.2),
@@ -2669,9 +2669,9 @@
 }
 
 .item-wizard-modal .wizard-nav-btn:disabled {
-  background: var(--pf-brown-light, #a08c70) !important;
-  color: var(--pf-text-muted, #6c5a47) !important;
-  border-color: var(--pf-brown-medium, #8B4513) !important;
+  background: var(--my-brown-light, #a08c70) !important;
+  color: var(--my-text-muted, #6c5a47) !important;
+  border-color: var(--my-brown-medium, #8B4513) !important;
   cursor: not-allowed !important;
   opacity: 0.6 !important;
   transform: none !important;
@@ -2698,17 +2698,17 @@
     width: 100%;
     position: relative;
     z-index: 10;
-    background: linear-gradient(135deg, var(--pf-parchment-dark, #e8dcc6) 0%, var(--pf-parchment-light, #f8f4e6) 100%) !important;
-    border-top: 3px solid var(--pf-brown-light, #a08c70) !important;
+    background: linear-gradient(135deg, var(--my-parchment-dark, #e8dcc6) 0%, var(--my-parchment-light, #f8f4e6) 100%) !important;
+    border-top: 3px solid var(--my-brown-light, #a08c70) !important;
     box-shadow:
         0 -4px 12px rgba(0, 0, 0, 0.1),
         inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
 }
 
 .nav-button {
-    background: var(--pf-gradient-button);
-    border: 2px solid var(--pf-brown-medium);
-    color: var(--pf-text-primary);
+    background: var(--my-gradient-button);
+    border: 2px solid var(--my-brown-medium);
+    color: var(--my-text-primary);
     padding: 12px 24px;
     border-radius: 8px;
     cursor: pointer;
@@ -2725,8 +2725,8 @@
 
 .nav-button:hover:not(:disabled) {
     background: linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%);
-    border-color: var(--pf-gold);
-    color: var(--pf-brown-darkest);
+    border-color: var(--my-gold);
+    color: var(--my-brown-darkest);
     box-shadow:
         0 6px 12px rgba(0, 0, 0, 0.3),
         inset 0 1px 0 rgba(255, 255, 255, 0.7),
@@ -2738,14 +2738,14 @@
     opacity: 0.5;
     cursor: not-allowed;
     background: linear-gradient(145deg, #d5cbb0 0%, #c4b89c 50%, #b3a788 100%);
-    color: var(--pf-text-secondary);
+    color: var(--my-text-secondary);
 }
 
 /* Create Item button styling */
 .nav-button.next:last-child {
-    background: linear-gradient(145deg, var(--pf-gold-light) 0%, var(--pf-gold) 50%, var(--pf-gold-dark) 100%);
-    border-color: var(--pf-gold-dark);
-    color: var(--pf-brown-darkest);
+    background: linear-gradient(145deg, var(--my-gold-light) 0%, var(--my-gold) 50%, var(--my-gold-dark) 100%);
+    border-color: var(--my-gold-dark);
+    color: var(--my-brown-darkest);
     font-weight: 700;
     box-shadow:
         0 4px 8px rgba(0, 0, 0, 0.2),
@@ -2876,13 +2876,13 @@
 /* Removed duplicate .item-wizard-modal .form-group label - using consolidated styles */
 
 .wow-input, .item-name-input, .item-description {
-    background: var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%)) !important;
-    border: 2px solid var(--pf-brown-light, #a08c70) !important;
-    border-radius: var(--pf-border-radius, 8px) !important;
+    background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%)) !important;
+    border: 2px solid var(--my-brown-light, #a08c70) !important;
+    border-radius: var(--my-border-radius, 8px) !important;
     padding: 12px 16px;
     width: 100%;
-    color: var(--pf-text-primary, #2d1810) !important;
-    font-family: var(--pf-font-body, 'Crimson Text', serif) !important;
+    color: var(--my-text-primary, #2d1810) !important;
+    font-family: var(--my-font-body, 'Crimson Text', serif) !important;
     font-size: 14px;
     transition: all 0.2s ease;
     box-shadow:
@@ -2916,8 +2916,8 @@ select.stat-input {
     overflow: visible !important;
     text-overflow: clip !important;
     white-space: nowrap !important;
-    background-color: var(--pf-gradient-button) !important;
-    border: 2px solid var(--pf-brown-medium) !important;
+    background-color: var(--my-gradient-button) !important;
+    border: 2px solid var(--my-brown-medium) !important;
     border-radius: 4px !important;
     appearance: auto !important;
     -webkit-appearance: menulist !important;
@@ -2926,14 +2926,14 @@ select.stat-input {
 
 .stat-input-group select.stat-input.wow-input option {
     padding: 8px 12px !important;
-    background-color: var(--pf-gradient-button) !important;
+    background-color: var(--my-gradient-button) !important;
     color: #000000 !important;
     white-space: normal !important;
 }
 
 .wow-input:focus, .item-name-input:focus, .item-description:focus {
     outline: none;
-    border-color: var(--pf-brown-medium, #8B4513) !important;
+    border-color: var(--my-brown-medium, #8B4513) !important;
     box-shadow:
         inset 0 2px 4px rgba(139, 69, 19, 0.15),
         0 0 0 3px rgba(139, 69, 19, 0.2),
@@ -2946,21 +2946,21 @@ select.stat-input {
 .item-description:active,
 textarea.item-description,
 .wizard-step textarea.item-description {
-    color: var(--pf-text-primary, #2d1810) !important;
-    font-family: var(--pf-font-body, 'Crimson Text', serif) !important;
+    color: var(--my-text-primary, #2d1810) !important;
+    font-family: var(--my-font-body, 'Crimson Text', serif) !important;
     font-style: normal !important;
     text-shadow: none !important;
-    background: var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%)) !important;
-    border: 2px solid var(--pf-brown-light, #a08c70) !important;
-    border-radius: var(--pf-border-radius, 8px) !important;
-    padding: var(--pf-space-3, 12px) !important;
+    background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%)) !important;
+    border: 2px solid var(--my-brown-light, #a08c70) !important;
+    border-radius: var(--my-border-radius, 8px) !important;
+    padding: var(--my-space-3, 12px) !important;
     width: 100% !important;
     min-height: auto !important; /* Remove fixed min-height to eliminate gap */
     resize: vertical !important;
     line-height: 1.4 !important;
-    font-size: var(--pf-text-base, 14px) !important;
+    font-size: var(--my-text-base, 14px) !important;
     margin-bottom: 0 !important; /* Remove bottom margin to eliminate gap */
-    transition: all var(--pf-transition-normal, 0.25s ease) !important;
+    transition: all var(--my-transition-normal, 0.25s ease) !important;
     box-shadow:
         inset 0 2px 4px rgba(139, 69, 19, 0.1),
         0 1px 2px rgba(0, 0, 0, 0.05) !important;
@@ -2974,7 +2974,7 @@ textarea.item-description,
 textarea.item-description:focus,
 .wizard-step textarea.item-description:focus {
     outline: none !important;
-    border-color: var(--pf-brown-medium, #8B4513) !important;
+    border-color: var(--my-brown-medium, #8B4513) !important;
     box-shadow:
         inset 0 2px 4px rgba(139, 69, 19, 0.15),
         0 0 0 3px rgba(139, 69, 19, 0.2),
@@ -2982,7 +2982,7 @@ textarea.item-description:focus,
 }
 
 .item-description::placeholder {
-    color: var(--pf-text-muted, #6c5a47) !important;
+    color: var(--my-text-muted, #6c5a47) !important;
     font-style: italic !important;
     opacity: 0.8 !important;
 }
@@ -3004,7 +3004,7 @@ textarea.item-description:focus,
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
-    margin-bottom: var(--pf-space-8, 32px) !important;
+    margin-bottom: var(--my-space-8, 32px) !important;
     position: relative !important;
     z-index: 10 !important;
 }
@@ -3018,7 +3018,7 @@ textarea.item-description:focus,
 
 /* Ensure wizard step has normal bottom space */
 .item-wizard-modal .wizard-step {
-    padding-bottom: var(--pf-space-4, 16px) !important; /* Normal bottom padding */
+    padding-bottom: var(--my-space-4, 16px) !important; /* Normal bottom padding */
 }
 
 /* Stats and Properties */
@@ -3056,9 +3056,9 @@ textarea.item-description:focus,
 .combat-stats-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: var(--pf-space-4, 16px);
-    padding: var(--pf-space-4, 16px);
-    margin-bottom: var(--pf-space-6, 24px);
+    gap: var(--my-space-4, 16px);
+    padding: var(--my-space-4, 16px);
+    margin-bottom: var(--my-space-6, 24px);
     font-size: 14px;
     line-height: 1.5;
 }
@@ -3084,20 +3084,20 @@ textarea.item-description:focus,
 .utility-stats-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: var(--pf-space-4, 16px);
-    padding: var(--pf-space-4, 16px);
-    margin-bottom: var(--pf-space-6, 24px);
+    gap: var(--my-space-4, 16px);
+    padding: var(--my-space-4, 16px);
+    margin-bottom: var(--my-space-6, 24px);
 }
 
 /* Unified section styling for all stat sections */
 .spell-damage-section,
 .resistance-section {
     grid-column: 1 / -1;
-    background: var(--pf-gradient-parchment) !important;
-    border: 2px solid var(--pf-brown-light) !important;
+    background: var(--my-gradient-parchment) !important;
+    border: 2px solid var(--my-brown-light) !important;
     border-radius: 12px !important;
-    padding: var(--pf-space-5, 20px) !important;
-    margin-top: var(--pf-space-4, 16px) !important;
+    padding: var(--my-space-5, 20px) !important;
+    margin-top: var(--my-space-4, 16px) !important;
     box-shadow:
         0 4px 8px rgba(139, 69, 19, 0.15),
         inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
@@ -3216,8 +3216,8 @@ textarea.item-description:focus,
     justify-content: space-between;
     align-items: center;
     padding: 12px 16px !important;
-    background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
-    border-bottom: 3px solid var(--pf-brown-light, #a08c70) !important;
+    background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
+    border-bottom: 3px solid var(--my-brown-light, #a08c70) !important;
     box-shadow:
         0 8px 32px rgba(0, 0, 0, 0.4),
         inset 0 2px 0 rgba(255, 255, 255, 0.7),
@@ -3229,7 +3229,7 @@ textarea.item-description:focus,
 .wizard-header h2 {
     margin: 0;
     font-size: 20px;
-    color: var(--pf-text-primary) !important;
+    color: var(--my-text-primary) !important;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
     font-family: 'Cinzel', serif !important;
 }
@@ -3238,7 +3238,7 @@ textarea.item-description:focus,
     flex: 1;
     padding: 16px;
     padding-bottom: 16px; /* Normal padding */
-    background: var(--pf-gradient-parchment) !important;
+    background: var(--my-gradient-parchment) !important;
     border-radius: 8px;
     overflow-y: auto;
     min-height: 360px;
@@ -3282,13 +3282,13 @@ textarea.item-description:focus,
 }
 
 .complete-button {
-    background: var(--pf-hp);
+    background: var(--my-hp);
     color: white;
     margin-left: 8px;
 }
 
 .complete-button:hover {
-    background: var(--pf-hp-dark);
+    background: var(--my-hp-dark);
 }
 
 button:disabled {
@@ -3309,8 +3309,8 @@ button:disabled {
     align-items: center;
     gap: 12px;
     padding: 12px;
-    background: var(--pf-gradient-button) !important;
-    border: 2px solid var(--pf-brown-medium) !important;
+    background: var(--my-gradient-button) !important;
+    border: 2px solid var(--my-brown-medium) !important;
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -3328,7 +3328,7 @@ button:disabled {
 
 .type-button:hover {
     background: linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%) !important;
-    border-color: var(--pf-gold) !important;
+    border-color: var(--my-gold) !important;
 }
 
 .type-button:hover img {
@@ -3379,7 +3379,7 @@ button:disabled {
 
 .category-button:hover {
     background: linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%) !important;
-    border-color: var(--pf-gold) !important;
+    border-color: var(--my-gold) !important;
 }
 
 .category-button.selected {
@@ -3403,8 +3403,8 @@ button:disabled {
 .form-group input,
 .form-group select,
 .form-group textarea {
-    background: var(--pf-gradient-button) !important;
-    border: 2px solid var(--pf-brown-medium) !important;
+    background: var(--my-gradient-button) !important;
+    border: 2px solid var(--my-brown-medium) !important;
     border-radius: 4px;
     padding: 8px;
     width: 100%;
@@ -3433,23 +3433,23 @@ button:disabled {
 .item-wizard-modal .stat-item,
 .item-wizard-modal .combat-stat-item,
 .item-wizard-modal .resource-item {
-    background: var(--pf-gradient-parchment) !important;
-    border: 2px solid var(--pf-brown-light) !important;
+    background: var(--my-gradient-parchment) !important;
+    border: 2px solid var(--my-brown-light) !important;
     border-radius: 12px !important;
-    padding: var(--pf-space-4, 16px) !important;
+    padding: var(--my-space-4, 16px) !important;
     box-shadow:
         0 4px 8px rgba(139, 69, 19, 0.15),
         inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
     transition: all 0.2s ease;
     display: flex !important;
     flex-direction: column !important;
-    gap: var(--pf-space-3, 12px) !important;
+    gap: var(--my-space-3, 12px) !important;
 }
 
 .item-wizard-modal .stat-item:hover,
 .item-wizard-modal .combat-stat-item:hover,
 .item-wizard-modal .resource-item:hover {
-    border-color: var(--pf-brown-medium) !important;
+    border-color: var(--my-brown-medium) !important;
     box-shadow:
         0 6px 12px rgba(139, 69, 19, 0.2),
         inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
@@ -3462,8 +3462,8 @@ button:disabled {
 .resistance-header {
     display: flex !important;
     align-items: center !important;
-    gap: var(--pf-space-2, 8px) !important;
-    margin-bottom: var(--pf-space-2, 8px) !important;
+    gap: var(--my-space-2, 8px) !important;
+    margin-bottom: var(--my-space-2, 8px) !important;
 }
 
 .stat-icon,
@@ -3472,16 +3472,16 @@ button:disabled {
     width: 24px !important;
     height: 24px !important;
     border-radius: 4px !important;
-    border: 1px solid var(--pf-brown-light) !important;
+    border: 1px solid var(--my-brown-light) !important;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
 }
 
 .stat-label,
 .damage-type-label,
 .resistance-label {
-    font-family: var(--pf-font-display) !important;
-    font-size: var(--pf-text-sm) !important;
-    font-weight: var(--pf-font-semibold) !important;
+    font-family: var(--my-font-display) !important;
+    font-size: var(--my-text-sm) !important;
+    font-weight: var(--my-font-semibold) !important;
     color: #000000 !important;
     text-transform: uppercase !important;
     letter-spacing: 0.5px !important;
@@ -3493,22 +3493,22 @@ button:disabled {
 .stat-input-group {
     display: flex !important;
     align-items: center !important;
-    gap: var(--pf-space-1, 4px) !important;
-    background: var(--pf-gradient-button) !important;
-    border: 2px solid var(--pf-brown-medium) !important;
+    gap: var(--my-space-1, 4px) !important;
+    background: var(--my-gradient-button) !important;
+    border: 2px solid var(--my-brown-medium) !important;
     border-radius: 8px !important;
-    padding: var(--pf-space-1, 4px) !important;
+    padding: var(--my-space-1, 4px) !important;
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2) !important;
 }
 
 .stat-button {
-    background: var(--pf-gradient-button) !important;
-    border: 1px solid var(--pf-brown-medium) !important;
+    background: var(--my-gradient-button) !important;
+    border: 1px solid var(--my-brown-medium) !important;
     border-radius: 4px !important;
     color: #000000 !important;
-    font-family: var(--pf-font-display) !important;
-    font-weight: var(--pf-font-bold) !important;
-    font-size: var(--pf-text-sm) !important;
+    font-family: var(--my-font-display) !important;
+    font-weight: var(--my-font-bold) !important;
+    font-size: var(--my-text-sm) !important;
     width: 28px !important;
     height: 28px !important;
     display: flex !important;
@@ -3520,7 +3520,7 @@ button:disabled {
 }
 
 .stat-button:hover {
-    background: var(--pf-gradient-button-hover) !important;
+    background: var(--my-gradient-button-hover) !important;
     color: #000000 !important;
 }
 
@@ -3530,44 +3530,44 @@ button:disabled {
 }
 
 .stat-button:hover {
-    background: var(--pf-gradient-button-hover) !important;
-    border-color: var(--pf-brown-dark) !important;
+    background: var(--my-gradient-button-hover) !important;
+    border-color: var(--my-brown-dark) !important;
     transform: translateY(-1px) !important;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
 }
 
 .stat-input {
-    background: var(--pf-gradient-parchment) !important;
-    border: 1px solid var(--pf-brown-light) !important;
+    background: var(--my-gradient-parchment) !important;
+    border: 1px solid var(--my-brown-light) !important;
     border-radius: 4px !important;
     color: #000000 !important;
-    font-family: var(--pf-font-body) !important;
-    font-size: var(--pf-text-sm) !important;
-    font-weight: var(--pf-font-semibold) !important;
+    font-family: var(--my-font-body) !important;
+    font-size: var(--my-text-sm) !important;
+    font-weight: var(--my-font-semibold) !important;
     text-align: center !important;
     width: 60px !important;
     height: 28px !important;
-    padding: 0 var(--pf-space-1, 4px) !important;
+    padding: 0 var(--my-space-1, 4px) !important;
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1) !important;
     transition: all 0.2s ease !important;
 }
 
 .stat-input:focus {
     outline: none !important;
-    border-color: var(--pf-gold) !important;
+    border-color: var(--my-gold) !important;
     box-shadow:
         inset 0 1px 2px rgba(0, 0, 0, 0.1),
         0 0 0 2px rgba(218, 165, 32, 0.3) !important;
 }
 
 .type-toggle {
-    background: var(--pf-gradient-button) !important;
-    border: 1px solid var(--pf-brown-medium) !important;
+    background: var(--my-gradient-button) !important;
+    border: 1px solid var(--my-brown-medium) !important;
     border-radius: 4px !important;
     color: #000000 !important;
-    font-family: var(--pf-font-display) !important;
-    font-weight: var(--pf-font-bold) !important;
-    font-size: var(--pf-text-xs) !important;
+    font-family: var(--my-font-display) !important;
+    font-weight: var(--my-font-bold) !important;
+    font-size: var(--my-text-xs) !important;
     width: 32px !important;
     height: 28px !important;
     display: flex !important;
@@ -3579,15 +3579,15 @@ button:disabled {
 }
 
 .type-toggle.active {
-    background: var(--pf-gradient-gold) !important;
-    border-color: var(--pf-gold-dark) !important;
-    color: var(--pf-brown-darkest) !important;
+    background: var(--my-gradient-gold) !important;
+    border-color: var(--my-gold-dark) !important;
+    color: var(--my-brown-darkest) !important;
     box-shadow: 0 0 8px rgba(218, 165, 32, 0.4) !important;
 }
 
 .type-toggle:hover {
-    background: var(--pf-gradient-button-hover) !important;
-    border-color: var(--pf-brown-dark) !important;
+    background: var(--my-gradient-button-hover) !important;
+    border-color: var(--my-brown-dark) !important;
     transform: translateY(-1px) !important;
 }
 
@@ -3595,17 +3595,17 @@ button:disabled {
 
 .spell-damage-section h4,
 .resistance-section h4 {
-    font-family: var(--pf-font-display) !important;
-    font-size: var(--pf-text-lg) !important;
-    font-weight: var(--pf-font-bold) !important;
-    color: var(--pf-text-primary) !important;
+    font-family: var(--my-font-display) !important;
+    font-size: var(--my-text-lg) !important;
+    font-weight: var(--my-font-bold) !important;
+    color: var(--my-text-primary) !important;
     text-transform: uppercase !important;
     letter-spacing: 1px !important;
     text-align: center !important;
-    margin: 0 0 var(--pf-space-4, 16px) 0 !important;
+    margin: 0 0 var(--my-space-4, 16px) 0 !important;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
-    border-bottom: 2px solid var(--pf-brown-light) !important;
-    padding-bottom: var(--pf-space-2, 8px) !important;
+    border-bottom: 2px solid var(--my-brown-light) !important;
+    padding-bottom: var(--my-space-2, 8px) !important;
 }
 
 /* ===== GRID LAYOUTS ===== */
@@ -3614,28 +3614,28 @@ button:disabled {
 .resistance-grid {
     display: grid !important;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
-    gap: var(--pf-space-4, 16px) !important;
-    margin-top: var(--pf-space-4, 16px) !important;
+    gap: var(--my-space-4, 16px) !important;
+    margin-top: var(--my-space-4, 16px) !important;
 }
 
 .damage-type-item,
 .resistance-item {
-    background: var(--pf-gradient-parchment) !important;
-    border: 2px solid var(--pf-brown-light) !important;
+    background: var(--my-gradient-parchment) !important;
+    border: 2px solid var(--my-brown-light) !important;
     border-radius: 8px !important;
-    padding: var(--pf-space-3, 12px) !important;
+    padding: var(--my-space-3, 12px) !important;
     box-shadow:
         0 2px 4px rgba(139, 69, 19, 0.1),
         inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
     transition: all 0.2s ease;
     display: flex !important;
     flex-direction: column !important;
-    gap: var(--pf-space-2, 8px) !important;
+    gap: var(--my-space-2, 8px) !important;
 }
 
 .damage-type-item:hover,
 .resistance-item:hover {
-    border-color: var(--pf-brown-medium) !important;
+    border-color: var(--my-brown-medium) !important;
     box-shadow:
         0 4px 8px rgba(139, 69, 19, 0.15),
         inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
@@ -3646,18 +3646,18 @@ button:disabled {
 .resistance-controls {
     display: flex !important;
     flex-direction: column !important;
-    gap: var(--pf-space-2, 8px) !important;
+    gap: var(--my-space-2, 8px) !important;
 }
 
 .resistance-select {
-    background: var(--pf-gradient-button) !important;
-    border: 2px solid var(--pf-brown-medium) !important;
+    background: var(--my-gradient-button) !important;
+    border: 2px solid var(--my-brown-medium) !important;
     border-radius: 6px !important;
-    color: var(--pf-text-on-dark) !important;
-    font-family: var(--pf-font-body) !important;
-    font-size: var(--pf-text-sm) !important;
-    font-weight: var(--pf-font-semibold) !important;
-    padding: var(--pf-space-2, 8px) !important;
+    color: var(--my-text-on-dark) !important;
+    font-family: var(--my-font-body) !important;
+    font-size: var(--my-text-sm) !important;
+    font-weight: var(--my-font-semibold) !important;
+    padding: var(--my-space-2, 8px) !important;
     cursor: pointer !important;
     transition: all 0.2s ease !important;
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3) !important;
@@ -3666,19 +3666,19 @@ button:disabled {
 
 .resistance-select:focus {
     outline: none !important;
-    border-color: var(--pf-gold) !important;
+    border-color: var(--my-gold) !important;
     box-shadow:
         inset 0 1px 3px rgba(0, 0, 0, 0.2),
         0 0 0 2px rgba(218, 165, 32, 0.3) !important;
 }
 
 .resistance-description {
-    font-family: var(--pf-font-body) !important;
-    font-size: var(--pf-text-xs) !important;
-    color: var(--pf-text-muted) !important;
+    font-family: var(--my-font-body) !important;
+    font-size: var(--my-text-xs) !important;
+    color: var(--my-text-muted) !important;
     font-style: italic !important;
     text-align: center !important;
-    padding: var(--pf-space-1, 4px) !important;
+    padding: var(--my-space-1, 4px) !important;
     background: rgba(139, 69, 19, 0.1) !important;
     border-radius: 4px !important;
     border: 1px solid rgba(139, 69, 19, 0.2) !important;
@@ -3705,35 +3705,35 @@ button:disabled {
 /* ===== SECTION SPACING CONSISTENCY ===== */
 
 .spell-damage-section + .resistance-section {
-    margin-top: var(--pf-space-6, 24px) !important;
+    margin-top: var(--my-space-6, 24px) !important;
 }
 
 .combat-stats-grid + .spell-damage-section {
-    margin-top: var(--pf-space-6, 24px) !important;
+    margin-top: var(--my-space-6, 24px) !important;
 }
 
 /* Ensure all sections have consistent bottom margin */
 .spell-damage-section,
 .resistance-section {
-    margin-bottom: var(--pf-space-4, 16px) !important;
+    margin-bottom: var(--my-space-4, 16px) !important;
 }
 
 /* ===== COMPREHENSIVE PAGE OVERHAUL ===== */
 
 /* Main page heading improvements */
 .item-wizard-modal .wow-heading.quality-text {
-    font-family: var(--pf-font-display) !important;
-    font-size: var(--pf-text-2xl) !important;
-    font-weight: var(--pf-font-bold) !important;
-    color: var(--pf-text-primary) !important;
+    font-family: var(--my-font-display) !important;
+    font-size: var(--my-text-2xl) !important;
+    font-weight: var(--my-font-bold) !important;
+    color: var(--my-text-primary) !important;
     text-align: center !important;
     text-transform: uppercase !important;
     letter-spacing: 2px !important;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3) !important;
-    margin: 0 0 var(--pf-space-6, 24px) 0 !important;
-    padding: var(--pf-space-4, 16px) !important;
-    background: var(--pf-gradient-header) !important;
-    border: 2px solid var(--pf-brown-medium) !important;
+    margin: 0 0 var(--my-space-6, 24px) 0 !important;
+    padding: var(--my-space-4, 16px) !important;
+    background: var(--my-gradient-header) !important;
+    border: 2px solid var(--my-brown-medium) !important;
     border-radius: 12px !important;
     box-shadow:
         0 4px 8px rgba(139, 69, 19, 0.2),
@@ -3747,21 +3747,21 @@ button:disabled {
 .item-wizard-modal .resistance-label {
     color: #000000 !important;
     text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8) !important;
-    font-weight: var(--pf-font-semibold) !important;
+    font-weight: var(--my-font-semibold) !important;
 }
 
 /* Improved input field readability */
 .item-wizard-modal input,
 .item-wizard-modal select,
 .item-wizard-modal textarea {
-    background: var(--pf-gradient-parchment) !important;
-    border: 2px solid var(--pf-brown-medium) !important;
+    background: var(--my-gradient-parchment) !important;
+    border: 2px solid var(--my-brown-medium) !important;
     border-radius: 6px !important;
-    color: var(--pf-text-primary) !important;
-    font-family: var(--pf-font-body) !important;
-    font-size: var(--pf-text-base) !important;
-    font-weight: var(--pf-font-semibold) !important;
-    padding: var(--pf-space-2, 8px) var(--pf-space-3, 12px) !important;
+    color: var(--my-text-primary) !important;
+    font-family: var(--my-font-body) !important;
+    font-size: var(--my-text-base) !important;
+    font-weight: var(--my-font-semibold) !important;
+    padding: var(--my-space-2, 8px) var(--my-space-3, 12px) !important;
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1) !important;
     transition: all 0.2s ease !important;
 }
@@ -3770,7 +3770,7 @@ button:disabled {
 .item-wizard-modal select:focus,
 .item-wizard-modal textarea:focus {
     outline: none !important;
-    border-color: var(--pf-gold) !important;
+    border-color: var(--my-gold) !important;
     box-shadow:
         inset 0 2px 4px rgba(0, 0, 0, 0.1),
         0 0 0 3px rgba(218, 165, 32, 0.3) !important;
@@ -3780,30 +3780,30 @@ button:disabled {
 /* ===== DROPDOWN FIXES FOR READABILITY ===== */
 
 .item-wizard-modal select {
-    background: var(--pf-gradient-parchment) !important;
-    color: var(--pf-text-primary) !important;
+    background: var(--my-gradient-parchment) !important;
+    color: var(--my-text-primary) !important;
     text-shadow: none !important;
     cursor: pointer !important;
 }
 
 .item-wizard-modal select option {
-    background: var(--pf-gradient-parchment) !important;
-    color: var(--pf-text-primary) !important;
-    padding: var(--pf-space-2, 8px) !important;
-    font-weight: var(--pf-font-semibold) !important;
+    background: var(--my-gradient-parchment) !important;
+    color: var(--my-text-primary) !important;
+    padding: var(--my-space-2, 8px) !important;
+    font-weight: var(--my-font-semibold) !important;
 }
 
 /* Specific fixes for resistance dropdowns */
 .resistance-select {
-    background: var(--pf-gradient-parchment) !important;
-    color: var(--pf-text-primary) !important;
+    background: var(--my-gradient-parchment) !important;
+    color: var(--my-text-primary) !important;
     text-shadow: none !important;
-    border: 2px solid var(--pf-brown-medium) !important;
+    border: 2px solid var(--my-brown-medium) !important;
 }
 
 .resistance-select option {
-    background: var(--pf-gradient-parchment) !important;
-    color: var(--pf-text-primary) !important;
+    background: var(--my-gradient-parchment) !important;
+    color: var(--my-text-primary) !important;
     text-shadow: none !important;
 }
 
@@ -3813,14 +3813,14 @@ button:disabled {
 .item-wizard-modal .btn,
 .item-wizard-modal .stat-button,
 .item-wizard-modal .type-toggle {
-    background: var(--pf-gradient-button) !important;
-    border: 2px solid var(--pf-brown-medium) !important;
+    background: var(--my-gradient-button) !important;
+    border: 2px solid var(--my-brown-medium) !important;
     border-radius: 6px !important;
     color: #000000 !important;
-    font-family: var(--pf-font-display) !important;
-    font-weight: var(--pf-font-semibold) !important;
-    font-size: var(--pf-text-sm) !important;
-    padding: var(--pf-space-2, 8px) var(--pf-space-3, 12px) !important;
+    font-family: var(--my-font-display) !important;
+    font-weight: var(--my-font-semibold) !important;
+    font-size: var(--my-text-sm) !important;
+    padding: var(--my-space-2, 8px) var(--my-space-3, 12px) !important;
     cursor: pointer !important;
     transition: all 0.2s ease !important;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3) !important;
@@ -3835,8 +3835,8 @@ button:disabled {
 .item-wizard-modal .btn:hover,
 .item-wizard-modal .stat-button:hover,
 .item-wizard-modal .type-toggle:hover {
-    background: var(--pf-gradient-button-hover) !important;
-    border-color: var(--pf-brown-dark) !important;
+    background: var(--my-gradient-button-hover) !important;
+    border-color: var(--my-brown-dark) !important;
     transform: translateY(-1px) !important;
     box-shadow:
         0 4px 8px rgba(0, 0, 0, 0.3),
@@ -3848,39 +3848,39 @@ button:disabled {
 .item-wizard-modal .utility-stats-grid {
     display: grid !important;
     grid-template-columns: 1fr 1fr !important;
-    gap: var(--pf-space-6, 24px) !important;
-    margin-bottom: var(--pf-space-6, 24px) !important;
+    gap: var(--my-space-6, 24px) !important;
+    margin-bottom: var(--my-space-6, 24px) !important;
 }
 
 /* Movement Speed Section */
 .item-wizard-modal .movement-speed-section {
-    background: var(--pf-gradient-parchment) !important;
-    border: 2px solid var(--pf-brown-light) !important;
+    background: var(--my-gradient-parchment) !important;
+    border: 2px solid var(--my-brown-light) !important;
     border-radius: 12px !important;
-    padding: var(--pf-space-5, 20px) !important;
+    padding: var(--my-space-5, 20px) !important;
     box-shadow:
         0 4px 8px rgba(139, 69, 19, 0.15),
         inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
 }
 
 .item-wizard-modal .movement-speed-section h4 {
-    font-family: var(--pf-font-display) !important;
-    font-size: var(--pf-text-lg) !important;
-    font-weight: var(--pf-font-bold) !important;
-    color: var(--pf-text-primary) !important;
+    font-family: var(--my-font-display) !important;
+    font-size: var(--my-text-lg) !important;
+    font-weight: var(--my-font-bold) !important;
+    color: var(--my-text-primary) !important;
     text-transform: uppercase !important;
     letter-spacing: 1px !important;
     text-align: center !important;
-    margin: 0 0 var(--pf-space-4, 16px) 0 !important;
+    margin: 0 0 var(--my-space-4, 16px) 0 !important;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
-    border-bottom: 2px solid var(--pf-brown-light) !important;
-    padding-bottom: var(--pf-space-2, 8px) !important;
+    border-bottom: 2px solid var(--my-brown-light) !important;
+    padding-bottom: var(--my-space-2, 8px) !important;
 }
 
 /* Carrying Capacity Section */
 .item-wizard-modal .carrying-capacity-section {
-    background: var(--pf-gradient-button) !important;
-    border: 2px solid var(--pf-brown-medium) !important;
+    background: var(--my-gradient-button) !important;
+    border: 2px solid var(--my-brown-medium) !important;
     border-radius: 8px !important;
     padding: 12px !important;
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2) !important;
@@ -3893,67 +3893,67 @@ button:disabled {
 }
 
 .item-wizard-modal .carrying-capacity-section h4 {
-    font-family: var(--pf-font-display) !important;
-    font-size: var(--pf-text-lg) !important;
-    font-weight: var(--pf-font-bold) !important;
-    color: var(--pf-text-primary) !important;
+    font-family: var(--my-font-display) !important;
+    font-size: var(--my-text-lg) !important;
+    font-weight: var(--my-font-bold) !important;
+    color: var(--my-text-primary) !important;
     text-transform: uppercase !important;
     letter-spacing: 1px !important;
     text-align: center !important;
-    margin: 0 0 var(--pf-space-4, 16px) 0 !important;
+    margin: 0 0 var(--my-space-4, 16px) 0 !important;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
-    border-bottom: 2px solid var(--pf-brown-light) !important;
-    padding-bottom: var(--pf-space-2, 8px) !important;
+    border-bottom: 2px solid var(--my-brown-light) !important;
+    padding-bottom: var(--my-space-2, 8px) !important;
 }
 
 /* ===== DAMAGE PROPERTIES SECTION OVERHAUL ===== */
 
 .item-wizard-modal .damage-properties-section {
-    background: var(--pf-gradient-parchment) !important;
-    border: 2px solid var(--pf-brown-light) !important;
+    background: var(--my-gradient-parchment) !important;
+    border: 2px solid var(--my-brown-light) !important;
     border-radius: 12px !important;
-    padding: var(--pf-space-5, 20px) !important;
-    margin-bottom: var(--pf-space-6, 24px) !important;
+    padding: var(--my-space-5, 20px) !important;
+    margin-bottom: var(--my-space-6, 24px) !important;
     box-shadow:
         0 4px 8px rgba(139, 69, 19, 0.15),
         inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
 }
 
 .item-wizard-modal .damage-properties-section h4 {
-    font-family: var(--pf-font-display) !important;
-    font-size: var(--pf-text-xl) !important;
-    font-weight: var(--pf-font-bold) !important;
-    color: var(--pf-text-primary) !important;
+    font-family: var(--my-font-display) !important;
+    font-size: var(--my-text-xl) !important;
+    font-weight: var(--my-font-bold) !important;
+    color: var(--my-text-primary) !important;
     text-transform: uppercase !important;
     letter-spacing: 2px !important;
     text-align: center !important;
-    margin: 0 0 var(--pf-space-6, 24px) 0 !important;
+    margin: 0 0 var(--my-space-6, 24px) 0 !important;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
-    border-bottom: 3px solid var(--pf-brown-medium) !important;
-    padding-bottom: var(--pf-space-3, 12px) !important;
+    border-bottom: 3px solid var(--my-brown-medium) !important;
+    padding-bottom: var(--my-space-3, 12px) !important;
 }
 
 /* Damage grid improvements - FULL WIDTH LAYOUT */
 .item-wizard-modal .damage-grid {
     display: flex !important;
     flex-direction: column !important;
-    gap: var(--pf-space-6, 24px) !important;
+    gap: var(--my-space-6, 24px) !important;
     width: 100% !important;
 }
 
 .item-wizard-modal .damage-controls-row {
     display: grid !important;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
-    gap: var(--pf-space-4, 16px) !important;
+    gap: var(--my-space-4, 16px) !important;
     width: 100% !important;
 }
 
 /* Full width damage type selection section */
 .item-wizard-modal .damage-type-selection-section {
-    background: var(--pf-gradient-parchment) !important;
-    border: 2px solid var(--pf-brown-light) !important;
+    background: var(--my-gradient-parchment) !important;
+    border: 2px solid var(--my-brown-light) !important;
     border-radius: 12px !important;
-    padding: var(--pf-space-5, 20px) !important;
+    padding: var(--my-space-5, 20px) !important;
     width: 100% !important;
     box-shadow:
         0 4px 8px rgba(139, 69, 19, 0.15),
@@ -3961,10 +3961,10 @@ button:disabled {
 }
 
 .item-wizard-modal .damage-section {
-    background: var(--pf-gradient-parchment) !important;
-    border: 2px solid var(--pf-brown-light) !important;
+    background: var(--my-gradient-parchment) !important;
+    border: 2px solid var(--my-brown-light) !important;
     border-radius: 8px !important;
-    padding: var(--pf-space-4, 16px) !important;
+    padding: var(--my-space-4, 16px) !important;
     box-shadow:
         0 2px 4px rgba(139, 69, 19, 0.1),
         inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
@@ -3973,17 +3973,17 @@ button:disabled {
 }
 
 .item-wizard-modal .damage-section:hover {
-    border-color: var(--pf-brown-medium) !important;
+    border-color: var(--my-brown-medium) !important;
     box-shadow:
         0 4px 8px rgba(139, 69, 19, 0.15),
         inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
 }
 
 .item-wizard-modal .utility-section {
-    background: var(--pf-gradient-parchment) !important;
-    border: 2px solid var(--pf-brown-light) !important;
+    background: var(--my-gradient-parchment) !important;
+    border: 2px solid var(--my-brown-light) !important;
     border-radius: 8px !important;
-    padding: var(--pf-space-4, 16px) !important;
+    padding: var(--my-space-4, 16px) !important;
     box-shadow:
         0 2px 4px rgba(139, 69, 19, 0.1),
         inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
@@ -3992,17 +3992,17 @@ button:disabled {
 }
 
 .item-wizard-modal .utility-section:hover {
-    border-color: var(--pf-brown-medium) !important;
+    border-color: var(--my-brown-medium) !important;
     box-shadow:
         0 4px 8px rgba(139, 69, 19, 0.15),
         inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
 }
 
 .item-wizard-modal .chance-on-hit-step-content {
-    background: var(--pf-gradient-parchment) !important;
-    border: 2px solid var(--pf-brown-light) !important;
+    background: var(--my-gradient-parchment) !important;
+    border: 2px solid var(--my-brown-light) !important;
     border-radius: 8px !important;
-    padding: var(--pf-space-4, 16px) !important;
+    padding: var(--my-space-4, 16px) !important;
     box-shadow:
         0 2px 4px rgba(139, 69, 19, 0.1),
         inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
@@ -4012,7 +4012,7 @@ button:disabled {
 }
 
 .item-wizard-modal .chance-on-hit-step-content:hover {
-    border-color: var(--pf-brown-medium) !important;
+    border-color: var(--my-brown-medium) !important;
     box-shadow:
         0 4px 8px rgba(139, 69, 19, 0.15),
         inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
@@ -4023,22 +4023,22 @@ button:disabled {
 .item-wizard-modal .damage-type-grid {
     display: grid !important;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
-    gap: var(--pf-space-3, 12px) !important;
-    margin-top: var(--pf-space-4, 16px) !important;
+    gap: var(--my-space-3, 12px) !important;
+    margin-top: var(--my-space-4, 16px) !important;
     width: 100% !important;
 }
 
 .item-wizard-modal .damage-type-button {
-    background: var(--pf-gradient-parchment) !important;
-    border: 2px solid var(--pf-brown-medium) !important;
+    background: var(--my-gradient-parchment) !important;
+    border: 2px solid var(--my-brown-medium) !important;
     border-radius: 8px !important;
-    padding: var(--pf-space-3, 12px) !important;
+    padding: var(--my-space-3, 12px) !important;
     cursor: pointer !important;
     transition: all 0.2s ease !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: flex-start !important;
-    gap: var(--pf-space-2, 8px) !important;
+    gap: var(--my-space-2, 8px) !important;
     position: relative !important;
     overflow: hidden !important;
     min-height: 80px !important;
@@ -4048,7 +4048,7 @@ button:disabled {
 }
 
 .item-wizard-modal .damage-type-button:hover {
-    border-color: var(--pf-brown-dark) !important;
+    border-color: var(--my-brown-dark) !important;
     transform: translateY(-2px) !important;
     box-shadow:
         0 4px 8px rgba(139, 69, 19, 0.3),
@@ -4056,8 +4056,8 @@ button:disabled {
 }
 
 .item-wizard-modal .damage-type-button.selected {
-    background: var(--pf-gradient-gold) !important;
-    border-color: var(--pf-gold-dark) !important;
+    background: var(--my-gradient-gold) !important;
+    border-color: var(--my-gold-dark) !important;
     box-shadow:
         0 0 12px rgba(218, 165, 32, 0.6),
         inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
@@ -4065,10 +4065,10 @@ button:disabled {
 
 /* Enhanced text readability for damage type buttons */
 .item-wizard-modal .damage-type-name {
-    font-family: var(--pf-font-display) !important;
-    font-size: var(--pf-text-base) !important;
-    font-weight: var(--pf-font-bold) !important;
-    color: var(--pf-text-primary) !important;
+    font-family: var(--my-font-display) !important;
+    font-size: var(--my-text-base) !important;
+    font-weight: var(--my-font-bold) !important;
+    color: var(--my-text-primary) !important;
     text-shadow:
         1px 1px 2px rgba(255, 255, 255, 0.8),
         0 0 4px rgba(255, 255, 255, 0.6) !important;
@@ -4079,10 +4079,10 @@ button:disabled {
 }
 
 .item-wizard-modal .damage-type-description {
-    font-family: var(--pf-font-body) !important;
-    font-size: var(--pf-text-sm) !important;
-    font-weight: var(--pf-font-medium) !important;
-    color: var(--pf-text-secondary) !important;
+    font-family: var(--my-font-body) !important;
+    font-size: var(--my-text-sm) !important;
+    font-weight: var(--my-font-medium) !important;
+    color: var(--my-text-secondary) !important;
     text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.6) !important;
     line-height: 1.3 !important;
     margin: 0 !important;
@@ -4092,11 +4092,11 @@ button:disabled {
     width: 32px !important;
     height: 32px !important;
     border-radius: 6px !important;
-    border: 2px solid var(--pf-brown-light) !important;
+    border: 2px solid var(--my-brown-light) !important;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
     float: left !important;
-    margin-right: var(--pf-space-2, 8px) !important;
-    margin-bottom: var(--pf-space-1, 4px) !important;
+    margin-right: var(--my-space-2, 8px) !important;
+    margin-bottom: var(--my-space-1, 4px) !important;
 }
 
 /* ===== SECTION HEADER IMPROVEMENTS ===== */
@@ -4105,11 +4105,11 @@ button:disabled {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: var(--pf-space-2, 8px) !important;
-    margin-bottom: var(--pf-space-4, 16px) !important;
-    padding: var(--pf-space-3, 12px) !important;
-    background: var(--pf-gradient-header) !important;
-    border: 2px solid var(--pf-brown-medium) !important;
+    gap: var(--my-space-2, 8px) !important;
+    margin-bottom: var(--my-space-4, 16px) !important;
+    padding: var(--my-space-3, 12px) !important;
+    background: var(--my-gradient-header) !important;
+    border: 2px solid var(--my-brown-medium) !important;
     border-radius: 8px !important;
     box-shadow:
         0 2px 4px rgba(139, 69, 19, 0.2),
@@ -4120,15 +4120,15 @@ button:disabled {
     width: 24px !important;
     height: 24px !important;
     border-radius: 4px !important;
-    border: 1px solid var(--pf-brown-light) !important;
+    border: 1px solid var(--my-brown-light) !important;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
 }
 
 .item-wizard-modal .section-header h5 {
-    font-family: var(--pf-font-display) !important;
-    font-size: var(--pf-text-base) !important;
-    font-weight: var(--pf-font-bold) !important;
-    color: var(--pf-text-on-dark) !important;
+    font-family: var(--my-font-display) !important;
+    font-size: var(--my-text-base) !important;
+    font-weight: var(--my-font-bold) !important;
+    color: var(--my-text-on-dark) !important;
     text-transform: uppercase !important;
     letter-spacing: 1px !important;
     margin: 0 !important;
@@ -4141,13 +4141,13 @@ button:disabled {
 .item-wizard-modal .damage-dice-section {
     display: flex !important;
     flex-direction: column !important;
-    gap: var(--pf-space-2, 8px) !important;
+    gap: var(--my-space-2, 8px) !important;
 }
 
 .item-wizard-modal .dice-controls {
     display: flex !important;
     align-items: center !important;
-    gap: var(--pf-space-2, 8px) !important;
+    gap: var(--my-space-2, 8px) !important;
     justify-content: center !important;
 }
 
@@ -4155,15 +4155,15 @@ button:disabled {
 .item-wizard-modal input[type="checkbox"] {
     width: 20px !important;
     height: 20px !important;
-    accent-color: var(--pf-gold) !important;
+    accent-color: var(--my-gold) !important;
     cursor: pointer !important;
 }
 
 .item-wizard-modal label {
-    font-family: var(--pf-font-display) !important;
-    font-size: var(--pf-text-sm) !important;
-    font-weight: var(--pf-font-semibold) !important;
-    color: var(--pf-text-primary) !important;
+    font-family: var(--my-font-display) !important;
+    font-size: var(--my-text-sm) !important;
+    font-weight: var(--my-font-semibold) !important;
+    color: var(--my-text-primary) !important;
     text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8) !important;
     cursor: pointer !important;
 }
@@ -4171,9 +4171,9 @@ button:disabled {
 /* ===== ACTIVE STATES AND INTERACTIONS ===== */
 
 .item-wizard-modal .type-toggle.active {
-    background: var(--pf-gradient-gold) !important;
-    border-color: var(--pf-gold-dark) !important;
-    color: var(--pf-brown-darkest) !important;
+    background: var(--my-gradient-gold) !important;
+    border-color: var(--my-gold-dark) !important;
+    color: var(--my-brown-darkest) !important;
     box-shadow:
         0 0 12px rgba(218, 165, 32, 0.6),
         inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
@@ -4194,11 +4194,11 @@ button:disabled {
 /* Removed duplicate wizard-step rule - consolidated above */
 
 .item-wizard-modal .form-group {
-    margin-bottom: var(--pf-space-5, 20px) !important;
+    margin-bottom: var(--my-space-5, 20px) !important;
 }
 
 .item-wizard-modal .form-group:last-child {
-    margin-bottom: var(--pf-space-8, 32px) !important;
+    margin-bottom: var(--my-space-8, 32px) !important;
 }
 
 /* ===== ENHANCED MOBILE RESPONSIVENESS ===== */
@@ -4242,11 +4242,11 @@ button:disabled {
 
     .item-wizard-modal .currency-grid {
         grid-template-columns: repeat(2, 1fr) !important;
-        gap: var(--pf-space-3, 12px) !important;
+        gap: var(--my-space-3, 12px) !important;
     }
 
     .item-wizard-modal .currency-item {
-        padding: var(--pf-space-3, 12px) !important;
+        padding: var(--my-space-3, 12px) !important;
     }
 
     .item-wizard-modal .randomize-button {
@@ -4257,7 +4257,7 @@ button:disabled {
 
     .item-wizard-modal .randomize-all-button {
         font-size: 12px !important;
-        padding: var(--pf-space-1, 4px) var(--pf-space-3, 12px) !important;
+        padding: var(--my-space-1, 4px) var(--my-space-3, 12px) !important;
     }
 
     .item-wizard-modal .currency-icon {
@@ -4294,7 +4294,7 @@ button:disabled {
     }
 
     .item-wizard-modal .wow-preview-section {
-        padding: var(--pf-space-4, 16px) !important;
+        padding: var(--my-space-4, 16px) !important;
     }
 }
 
@@ -4320,14 +4320,14 @@ button:disabled {
     min-width: 45px;
     text-align: center;
     padding: 4px 8px;
-    background: var(--pf-gradient-button) !important;
+    background: var(--my-gradient-button) !important;
     border-radius: 4px;
-    border: 2px solid var(--pf-brown-medium) !important;
+    border: 2px solid var(--my-brown-medium) !important;
 }
 
 .item-wizard-modal .wow-input {
-    background: var(--pf-gradient-button) !important;
-    border: 2px solid var(--pf-brown-medium) !important;
+    background: var(--my-gradient-button) !important;
+    border: 2px solid var(--my-brown-medium) !important;
     border-radius: 4px;
     padding: 8px 12px;
     font-size: 14px;
@@ -4396,8 +4396,8 @@ button:disabled {
     flex-direction: column;
     align-items: center;
     padding: 8px;
-    background: var(--pf-gradient-button) !important;
-    border: 2px solid var(--pf-brown-medium) !important;
+    background: var(--my-gradient-button) !important;
+    border: 2px solid var(--my-brown-medium) !important;
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -4802,8 +4802,8 @@ button:disabled {
     flex-direction: column;
     gap: 8px;
     padding: 8px;
-    background: var(--pf-gradient-button) !important;
-    border: 2px solid var(--pf-brown-medium) !important;
+    background: var(--my-gradient-button) !important;
+    border: 2px solid var(--my-brown-medium) !important;
     border-radius: 4px;
 }
 
@@ -4959,44 +4959,44 @@ button:disabled {
 /* ===== ENHANCED CURRENCY SECTION STYLING ===== */
 
 .item-wizard-modal .value-section {
-    background: var(--pf-gradient-parchment) !important;
-    border: 2px solid var(--pf-brown-light) !important;
+    background: var(--my-gradient-parchment) !important;
+    border: 2px solid var(--my-brown-light) !important;
     border-radius: 12px !important;
-    padding: var(--pf-space-4, 16px) !important;
+    padding: var(--my-space-4, 16px) !important;
     box-shadow:
         0 4px 8px rgba(139, 69, 19, 0.15),
         inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
     display: flex !important;
     flex-direction: column !important;
-    gap: var(--pf-space-3, 12px) !important;
+    gap: var(--my-space-3, 12px) !important;
 }
 
 .item-wizard-modal .currency-grid {
     display: grid !important;
     grid-template-columns: repeat(4, 1fr) !important;
-    gap: var(--pf-space-2, 8px) !important;
+    gap: var(--my-space-2, 8px) !important;
     width: 100% !important;
     max-width: 100% !important;
 }
 
 .item-wizard-modal .currency-item {
-    background: var(--pf-gradient-parchment) !important;
-    border: 2px solid var(--pf-brown-medium) !important;
+    background: var(--my-gradient-parchment) !important;
+    border: 2px solid var(--my-brown-medium) !important;
     border-radius: 8px !important;
-    padding: var(--pf-space-2, 8px) !important;
+    padding: var(--my-space-2, 8px) !important;
     box-shadow:
         0 3px 6px rgba(139, 69, 19, 0.2),
         inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
     transition: all 0.2s ease !important;
     display: flex !important;
     flex-direction: column !important;
-    gap: var(--pf-space-2, 8px) !important;
+    gap: var(--my-space-2, 8px) !important;
     min-width: 0 !important;
     overflow: hidden !important;
 }
 
 .item-wizard-modal .currency-item:hover {
-    border-color: var(--pf-brown-dark) !important;
+    border-color: var(--my-brown-dark) !important;
     transform: translateY(-2px) !important;
     box-shadow:
         0 6px 12px rgba(139, 69, 19, 0.25),
@@ -5007,17 +5007,17 @@ button:disabled {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: var(--pf-space-2, 8px) !important;
-    padding-bottom: var(--pf-space-2, 8px) !important;
-    border-bottom: 2px solid var(--pf-brown-light) !important;
-    margin-bottom: var(--pf-space-2, 8px) !important;
+    gap: var(--my-space-2, 8px) !important;
+    padding-bottom: var(--my-space-2, 8px) !important;
+    border-bottom: 2px solid var(--my-brown-light) !important;
+    margin-bottom: var(--my-space-2, 8px) !important;
 }
 
 .item-wizard-modal .currency-icon {
     width: 32px !important;
     height: 32px !important;
     border-radius: 50% !important;
-    border: 2px solid var(--pf-brown-light) !important;
+    border: 2px solid var(--my-brown-light) !important;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
     transition: all 0.2s ease !important;
 }
@@ -5052,10 +5052,10 @@ button:disabled {
 }
 
 .item-wizard-modal .currency-label {
-    font-family: var(--pf-font-display) !important;
+    font-family: var(--my-font-display) !important;
     font-size: 11px !important;
-    font-weight: var(--pf-font-bold) !important;
-    color: var(--pf-text-primary) !important;
+    font-weight: var(--my-font-bold) !important;
+    color: var(--my-text-primary) !important;
     text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8) !important;
     text-transform: uppercase !important;
     letter-spacing: 0.3px !important;
@@ -5067,24 +5067,24 @@ button:disabled {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: var(--pf-space-2, 8px) !important;
-    background: var(--pf-gradient-parchment) !important;
-    border: 2px solid var(--pf-brown-light) !important;
+    gap: var(--my-space-2, 8px) !important;
+    background: var(--my-gradient-parchment) !important;
+    border: 2px solid var(--my-brown-light) !important;
     border-radius: 8px !important;
-    padding: var(--pf-space-2, 8px) !important;
+    padding: var(--my-space-2, 8px) !important;
     box-shadow: inset 0 2px 4px rgba(139, 69, 19, 0.1) !important;
 }
 
 .item-wizard-modal .currency-item .stat-input {
-    background: var(--pf-gradient-parchment) !important;
-    border: 1px solid var(--pf-brown-light) !important;
+    background: var(--my-gradient-parchment) !important;
+    border: 1px solid var(--my-brown-light) !important;
     border-radius: 4px !important;
-    color: var(--pf-text-primary) !important;
-    font-family: var(--pf-font-display) !important;
+    color: var(--my-text-primary) !important;
+    font-family: var(--my-font-display) !important;
     font-size: 12px !important;
-    font-weight: var(--pf-font-bold) !important;
+    font-weight: var(--my-font-bold) !important;
     text-align: center !important;
-    padding: var(--pf-space-1, 4px) !important;
+    padding: var(--my-space-1, 4px) !important;
     min-width: 40px !important;
     max-width: 50px !important;
     text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.6) !important;
@@ -5093,20 +5093,20 @@ button:disabled {
 
 .item-wizard-modal .currency-item .stat-input:focus {
     outline: none !important;
-    border-color: var(--pf-gold) !important;
+    border-color: var(--my-gold) !important;
     box-shadow:
         inset 0 1px 2px rgba(0, 0, 0, 0.1),
         0 0 0 2px rgba(218, 165, 32, 0.3) !important;
 }
 
 .item-wizard-modal .currency-item .stat-button {
-    background: var(--pf-gradient-button) !important;
-    border: 2px solid var(--pf-brown-medium) !important;
+    background: var(--my-gradient-button) !important;
+    border: 2px solid var(--my-brown-medium) !important;
     border-radius: 4px !important;
     color: #000000 !important;
-    font-family: var(--pf-font-display) !important;
+    font-family: var(--my-font-display) !important;
     font-size: 14px !important;
-    font-weight: var(--pf-font-bold) !important;
+    font-weight: var(--my-font-bold) !important;
     width: 24px !important;
     height: 24px !important;
     display: flex !important;
@@ -5121,7 +5121,7 @@ button:disabled {
 }
 
 .item-wizard-modal .currency-item .stat-button:hover {
-    background: var(--pf-gradient-button-hover) !important;
+    background: var(--my-gradient-button-hover) !important;
     color: #000000 !important;
 }
 
@@ -5131,8 +5131,8 @@ button:disabled {
 }
 
 .item-wizard-modal .currency-item .stat-button:hover {
-    background: var(--pf-gradient-button-hover) !important;
-    border-color: var(--pf-brown-dark) !important;
+    background: var(--my-gradient-button-hover) !important;
+    border-color: var(--my-brown-dark) !important;
     transform: translateY(-1px) !important;
     box-shadow:
         0 3px 6px rgba(0, 0, 0, 0.3),
@@ -5149,8 +5149,8 @@ button:disabled {
 /* ===== RANDOMIZER BUTTONS ===== */
 
 .item-wizard-modal .randomize-button {
-    background: var(--pf-gradient-button) !important;
-    border: 2px solid var(--pf-brown-medium) !important;
+    background: var(--my-gradient-button) !important;
+    border: 2px solid var(--my-brown-medium) !important;
     border-radius: 4px !important;
     color: #000000 !important;
     font-size: 12px !important;
@@ -5161,15 +5161,15 @@ button:disabled {
     justify-content: center !important;
     cursor: pointer !important;
     transition: all 0.2s ease !important;
-    margin-top: var(--pf-space-1, 4px) !important;
+    margin-top: var(--my-space-1, 4px) !important;
     box-shadow:
         0 2px 4px rgba(0, 0, 0, 0.2),
         inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
 }
 
 .item-wizard-modal .randomize-button:hover {
-    background: var(--pf-gradient-button-hover) !important;
-    border-color: var(--pf-brown-dark) !important;
+    background: var(--my-gradient-button-hover) !important;
+    border-color: var(--my-brown-dark) !important;
     transform: translateY(-1px) !important;
     box-shadow:
         0 3px 6px rgba(0, 0, 0, 0.3),
@@ -5186,18 +5186,18 @@ button:disabled {
 .item-wizard-modal .randomize-all-section {
     display: flex !important;
     justify-content: center !important;
-    margin: var(--pf-space-4, 16px) 0 !important;
+    margin: var(--my-space-4, 16px) 0 !important;
 }
 
 .item-wizard-modal .value-total .randomize-all-button {
-    background: var(--pf-gradient-button) !important;
-    border: 2px solid var(--pf-brown-medium) !important;
+    background: var(--my-gradient-button) !important;
+    border: 2px solid var(--my-brown-medium) !important;
     border-radius: 8px !important;
     color: #000000 !important;
-    font-family: var(--pf-font-display) !important;
+    font-family: var(--my-font-display) !important;
     font-size: 12px !important;
-    font-weight: var(--pf-font-bold) !important;
-    padding: var(--pf-space-1, 4px) var(--pf-space-3, 12px) !important;
+    font-weight: var(--my-font-bold) !important;
+    padding: var(--my-space-1, 4px) var(--my-space-3, 12px) !important;
     cursor: pointer !important;
     transition: all 0.2s ease !important;
     text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.6) !important;
@@ -5206,20 +5206,20 @@ button:disabled {
         inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
     display: flex !important;
     align-items: center !important;
-    gap: var(--pf-space-1, 4px) !important;
+    gap: var(--my-space-1, 4px) !important;
     white-space: nowrap !important;
     flex-shrink: 0 !important;
 }
 
 .item-wizard-modal .randomize-all-button {
-    background: var(--pf-gradient-button) !important;
-    border: 2px solid var(--pf-brown-medium) !important;
+    background: var(--my-gradient-button) !important;
+    border: 2px solid var(--my-brown-medium) !important;
     border-radius: 8px !important;
     color: #000000 !important;
-    font-family: var(--pf-font-display) !important;
+    font-family: var(--my-font-display) !important;
     font-size: 14px !important;
-    font-weight: var(--pf-font-bold) !important;
-    padding: var(--pf-space-2, 8px) var(--pf-space-4, 16px) !important;
+    font-weight: var(--my-font-bold) !important;
+    padding: var(--my-space-2, 8px) var(--my-space-4, 16px) !important;
     cursor: pointer !important;
     transition: all 0.2s ease !important;
     text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.6) !important;
@@ -5228,12 +5228,12 @@ button:disabled {
         inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
     display: flex !important;
     align-items: center !important;
-    gap: var(--pf-space-2, 8px) !important;
+    gap: var(--my-space-2, 8px) !important;
 }
 
 .item-wizard-modal .randomize-all-button:hover {
-    background: var(--pf-gradient-button-hover) !important;
-    border-color: var(--pf-brown-dark) !important;
+    background: var(--my-gradient-button-hover) !important;
+    border-color: var(--my-brown-dark) !important;
     transform: translateY(-2px) !important;
     box-shadow:
         0 4px 8px rgba(0, 0, 0, 0.3),
@@ -5249,40 +5249,40 @@ button:disabled {
 
 /* Enhanced value total display */
 .item-wizard-modal .value-total {
-    background: var(--pf-gradient-header) !important;
-    border: 2px solid var(--pf-brown-medium) !important;
+    background: var(--my-gradient-header) !important;
+    border: 2px solid var(--my-brown-medium) !important;
     border-radius: 10px !important;
-    padding: var(--pf-space-2, 8px) var(--pf-space-3, 12px) !important;
+    padding: var(--my-space-2, 8px) var(--my-space-3, 12px) !important;
     text-align: center !important;
-    font-family: var(--pf-font-display) !important;
-    font-size: var(--pf-text-lg) !important;
-    font-weight: var(--pf-font-bold) !important;
-    color: var(--pf-text-on-dark) !important;
+    font-family: var(--my-font-display) !important;
+    font-size: var(--my-text-lg) !important;
+    font-weight: var(--my-font-bold) !important;
+    color: var(--my-text-on-dark) !important;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3) !important;
     text-transform: uppercase !important;
     letter-spacing: 1px !important;
     box-shadow:
         0 3px 6px rgba(139, 69, 19, 0.2),
         inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
-    margin-top: var(--pf-space-5, 20px) !important;
+    margin-top: var(--my-space-5, 20px) !important;
     display: flex !important;
     flex-direction: row !important;
     align-items: center !important;
     justify-content: space-between !important;
-    gap: var(--pf-space-3, 12px) !important;
+    gap: var(--my-space-3, 12px) !important;
 }
 
 .item-wizard-modal .value-total .total-content {
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
-    gap: var(--pf-space-1, 4px) !important;
+    gap: var(--my-space-1, 4px) !important;
     flex: 1 !important;
 }
 
 .item-wizard-modal .value-total .total-label {
-    font-size: var(--pf-text-sm) !important;
-    color: var(--pf-text-on-dark) !important;
+    font-size: var(--my-text-sm) !important;
+    color: var(--my-text-on-dark) !important;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3) !important;
 }
 
@@ -5290,9 +5290,9 @@ button:disabled {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: var(--pf-space-2, 8px) !important;
-    font-size: var(--pf-text-lg) !important;
-    font-weight: var(--pf-font-bold) !important;
+    gap: var(--my-space-2, 8px) !important;
+    font-size: var(--my-text-lg) !important;
+    font-weight: var(--my-font-bold) !important;
 }
 
 /* Individual currency styling in total */
@@ -5305,8 +5305,8 @@ button:disabled {
 
 .item-wizard-modal .value-total .gold-symbol {
     color: #FFD700 !important;
-    font-size: var(--pf-text-base) !important;
-    margin-right: var(--pf-space-2, 8px) !important;
+    font-size: var(--my-text-base) !important;
+    margin-right: var(--my-space-2, 8px) !important;
 }
 
 .item-wizard-modal .value-total .silver-amount {
@@ -5318,8 +5318,8 @@ button:disabled {
 
 .item-wizard-modal .value-total .silver-symbol {
     color: #C0C0C0 !important;
-    font-size: var(--pf-text-base) !important;
-    margin-right: var(--pf-space-2, 8px) !important;
+    font-size: var(--my-text-base) !important;
+    margin-right: var(--my-space-2, 8px) !important;
 }
 
 .item-wizard-modal .value-total .copper-amount {
@@ -5331,7 +5331,7 @@ button:disabled {
 
 .item-wizard-modal .value-total .copper-symbol {
     color: #B87333 !important;
-    font-size: var(--pf-text-base) !important;
+    font-size: var(--my-text-base) !important;
 }
 
 /* Currency Amount Section */
@@ -5600,7 +5600,7 @@ button:disabled {
     overflow-y: auto;
     padding-right: 10px;
     scrollbar-width: thin;
-    scrollbar-color: var(--pf-brown-medium) var(--pf-brown-light) !important;
+    scrollbar-color: var(--my-brown-medium) var(--my-brown-light) !important;
 }
 
 .tooltip-container.centered {
@@ -5655,7 +5655,7 @@ button:disabled {
 }
 
 .create-item-button {
-    background: var(--pf-hp) !important;
+    background: var(--my-hp) !important;
     color: white !important;
     font-weight: bold !important;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
@@ -5671,7 +5671,7 @@ button:disabled {
 }
 
 .create-item-button:hover {
-    background: var(--pf-hp-dark) !important;
+    background: var(--my-hp-dark) !important;
     transform: translateY(-2px) !important;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !important;
 }
@@ -5681,18 +5681,18 @@ button:disabled {
 }
 
 .tooltip-container::-webkit-scrollbar-track {
-    background: var(--pf-brown-light) !important;
+    background: var(--my-brown-light) !important;
     border-radius: 4px !important;
 }
 
 .tooltip-container::-webkit-scrollbar-thumb {
-    background: var(--pf-brown-medium) !important;
+    background: var(--my-brown-medium) !important;
     border-radius: 4px !important;
-    border: 1px solid var(--pf-brown-light) !important;
+    border: 1px solid var(--my-brown-light) !important;
 }
 
 .tooltip-container::-webkit-scrollbar-thumb:hover {
-    background: var(--pf-brown-dark) !important;
+    background: var(--my-brown-dark) !important;
 }
 
 .review-info {
@@ -5799,8 +5799,8 @@ button:disabled {
 .slot-option,
 .subtype-option,
 .hand-option {
-    background: var(--pf-gradient-button) !important;
-    border: 2px solid var(--pf-brown-medium, #8B4513) !important;
+    background: var(--my-gradient-button) !important;
+    border: 2px solid var(--my-brown-medium, #8B4513) !important;
     border-radius: 4px;
     padding: 8px;
     cursor: pointer;
@@ -5812,8 +5812,8 @@ button:disabled {
 }
 
 .quality-option {
-    background: var(--pf-gradient-button) !important;
-    border: 2px solid var(--pf-brown-medium, #8B4513) !important;
+    background: var(--my-gradient-button) !important;
+    border: 2px solid var(--my-brown-medium, #8B4513) !important;
     border-radius: 4px;
     padding: 8px;
     cursor: pointer;
@@ -5828,25 +5828,25 @@ button:disabled {
 .subtype-option:hover,
 .hand-option:hover {
     background: linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%) !important;
-    border: 2px solid var(--pf-brown-medium, #8B4513) !important;
+    border: 2px solid var(--my-brown-medium, #8B4513) !important;
 }
 
 .quality-option:hover {
     background: linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%) !important;
-    border: 2px solid var(--pf-brown-medium, #8B4513) !important;
+    border: 2px solid var(--my-brown-medium, #8B4513) !important;
 }
 
 .slot-option.selected,
 .subtype-option.selected,
 .hand-option.selected {
-    background: linear-gradient(145deg, var(--pf-gold-light) 0%, var(--pf-gold) 50%, var(--pf-gold-dark) 100%) !important;
-    border: 2px solid var(--pf-gold-dark, #b8860b) !important;
+    background: linear-gradient(145deg, var(--my-gold-light) 0%, var(--my-gold) 50%, var(--my-gold-dark) 100%) !important;
+    border: 2px solid var(--my-gold-dark, #b8860b) !important;
     box-shadow: 0 0 10px rgba(255, 209, 0, 0.3);
 }
 
 .quality-option.selected {
-    background: linear-gradient(145deg, var(--pf-gold-light) 0%, var(--pf-gold) 50%, var(--pf-gold-dark) 100%) !important;
-    border: 2px solid var(--pf-gold-dark, #b8860b) !important;
+    background: linear-gradient(145deg, var(--my-gold-light) 0%, var(--my-gold) 50%, var(--my-gold-dark) 100%) !important;
+    border: 2px solid var(--my-gold-dark, #b8860b) !important;
     box-shadow: 0 0 10px rgba(255, 209, 0, 0.3);
 }
 
@@ -5872,11 +5872,11 @@ button:disabled {
 .subtype-option span,
 .hand-option span,
 .quality-option span {
-    color: var(--pf-text-primary, #2d1810) !important;
+    color: var(--my-text-primary, #2d1810) !important;
     font-size: 13px !important;
     font-weight: bold !important;
     text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5) !important;
-    font-family: var(--pf-font-display, 'Cinzel', serif) !important;
+    font-family: var(--my-font-display, 'Cinzel', serif) !important;
 }
 
 .slot-description,
@@ -6207,7 +6207,7 @@ h4 {
 
 /* Dropdown option styling */
 .dice-input-group .wow-select option {
-    background-color: var(--pf-gradient-button) !important;
+    background-color: var(--my-gradient-button) !important;
     color: #ffffff;
     padding: 8px;
     font-size: 14px;
@@ -6262,9 +6262,9 @@ h4 {
     flex-direction: column;
     gap: 12px;
     padding: 12px;
-    background: var(--pf-gradient-button);
+    background: var(--my-gradient-button);
     border-radius: 8px;
-    border: 2px solid var(--pf-brown-medium);
+    border: 2px solid var(--my-brown-medium);
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
@@ -6649,12 +6649,12 @@ h4 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%)) !important;
+    background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%)) !important;
     border: none !important;
-    border-radius: var(--pf-border-radius, 8px) !important;
+    border-radius: var(--my-border-radius, 8px) !important;
     padding: 12px 8px;
     cursor: pointer;
-    transition: all var(--pf-transition-normal, 0.25s ease) !important;
+    transition: all var(--my-transition-normal, 0.25s ease) !important;
     box-shadow:
         inset 0 2px 4px rgba(139, 69, 19, 0.1),
         0 2px 4px rgba(0, 0, 0, 0.1) !important;
@@ -6662,7 +6662,7 @@ h4 {
 }
 
 .quality-button:hover {
-    background: var(--pf-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%)) !important;
+    background: var(--my-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%)) !important;
     transform: translateY(-2px);
     box-shadow:
         inset 0 2px 4px rgba(139, 69, 19, 0.15),
@@ -6670,7 +6670,7 @@ h4 {
 }
 
 .quality-button.selected {
-    background: var(--pf-gradient-gold, linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%)) !important;
+    background: var(--my-gradient-gold, linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%)) !important;
     border: none !important;
     box-shadow:
         inset 0 2px 4px rgba(184, 134, 11, 0.2),
@@ -6687,8 +6687,8 @@ h4 {
 .quality-button span {
     font-size: 12px;
     text-align: center;
-    color: var(--pf-text-primary, #2d1810) !important;
-    font-family: var(--pf-font-display, 'Cinzel', serif) !important;
+    color: var(--my-text-primary, #2d1810) !important;
+    font-family: var(--my-font-display, 'Cinzel', serif) !important;
     font-weight: 600 !important;
     text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5) !important;
 }
@@ -6848,8 +6848,8 @@ h4 {
     position: relative;
     width: 100%;
     height: 42px;
-    background: var(--pf-gradient-parchment);
-    border: 3px solid var(--pf-brown-medium);
+    background: var(--my-gradient-parchment);
+    border: 3px solid var(--my-brown-medium);
     border-radius: 12px;
     overflow: visible !important;
     box-shadow:
@@ -6875,8 +6875,8 @@ h4 {
 
 .tooltip-container {
     border-radius: 12px;
-    background: var(--pf-gradient-parchment);
-    border: 2px solid var(--pf-brown-light);
+    background: var(--my-gradient-parchment);
+    border: 2px solid var(--my-brown-light);
     padding: 20px;
     margin-bottom: 24px;
     max-width: 500px;
@@ -6911,7 +6911,7 @@ h4 {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-right: 2px solid var(--pf-brown-medium);
+    border-right: 2px solid var(--my-brown-medium);
     transition: all 0.2s ease;
     overflow: visible !important; /* Allow tooltips to overflow */
     z-index: 4; /* Ensure segments are above fill and background */
@@ -6942,14 +6942,14 @@ h4 {
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background: var(--pf-gradient-button);
+    background: var(--my-gradient-button);
     border: none !important;
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: 'Cinzel', serif;
     font-weight: 700;
-    color: var(--pf-text-primary);
+    color: var(--my-text-primary);
     transition: all 0.2s ease;
     box-shadow:
         0 2px 4px rgba(0, 0, 0, 0.2),
@@ -6970,8 +6970,8 @@ h4 {
 
 .wow-progress-segment.completed .step-icon {
     border: none !important;
-    background: linear-gradient(145deg, var(--pf-gold-light) 0%, var(--pf-gold) 50%, var(--pf-gold-dark) 100%);
-    color: var(--pf-brown-darkest);
+    background: linear-gradient(145deg, var(--my-gold-light) 0%, var(--my-gold) 50%, var(--my-gold-dark) 100%);
+    color: var(--my-brown-darkest);
     box-shadow:
         0 2px 4px rgba(0, 0, 0, 0.2),
         inset 0 1px 0 rgba(255, 255, 255, 0.7),
@@ -6981,7 +6981,7 @@ h4 {
 .wow-progress-segment.active .step-icon {
     border: none !important;
     background: linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%);
-    color: var(--pf-brown-darkest);
+    color: var(--my-brown-darkest);
     box-shadow:
         0 4px 8px rgba(0, 0, 0, 0.3),
         inset 0 1px 0 rgba(255, 255, 255, 0.8),
@@ -6995,11 +6995,11 @@ h4 {
     bottom: calc(100% + 12px);
     left: 50%;
     transform: translateX(-50%);
-    background: var(--pf-gradient-parchment);
-    border: 2px solid var(--pf-brown-medium);
+    background: var(--my-gradient-parchment);
+    border: 2px solid var(--my-brown-medium);
     border-radius: 8px;
     padding: 12px 16px;
-    color: var(--pf-text-primary);
+    color: var(--my-text-primary);
     font-family: 'Cinzel', serif;
     font-weight: 600;
     max-width: 220px;
@@ -7133,10 +7133,10 @@ h4 {
 /* ===== ENHANCED ITEM APPEARANCE STYLES ===== */
 
 .item-wizard-modal .item-appearance-section {
-    background: var(--pf-gradient-parchment) !important;
-    border: 2px solid var(--pf-brown-light) !important;
+    background: var(--my-gradient-parchment) !important;
+    border: 2px solid var(--my-brown-light) !important;
     border-radius: 12px !important;
-    padding: var(--pf-space-6, 24px) !important;
+    padding: var(--my-space-6, 24px) !important;
     box-shadow:
         0 4px 8px rgba(139, 69, 19, 0.15),
         inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
@@ -7206,7 +7206,7 @@ h4 {
 }
 
 .item-wizard-modal .wow-category-title {
-    font-family: var(--pf-font-display, 'Cinzel', serif) !important;
+    font-family: var(--my-font-display, 'Cinzel', serif) !important;
     font-size: 16px !important;
     font-weight: 600 !important;
     color: #4a3420 !important;
@@ -7251,7 +7251,7 @@ h4 {
 }
 
 .item-wizard-modal .wow-sub-category-title {
-    font-family: var(--pf-font-display, 'Cinzel', serif) !important;
+    font-family: var(--my-font-display, 'Cinzel', serif) !important;
     font-size: 13px !important;
     font-weight: 600 !important;
     color: #5a4330 !important;
@@ -7390,7 +7390,7 @@ h4 {
 }
 
 .item-wizard-modal .wow-icon-name {
-    font-family: var(--pf-font-body, 'Crimson Text', serif) !important;
+    font-family: var(--my-font-body, 'Crimson Text', serif) !important;
     font-size: 11px !important;
     font-weight: 500 !important;
     color: #3a2917 !important;
@@ -7418,36 +7418,36 @@ h4 {
 
 /* Enhanced custom URL section */
 .item-wizard-modal .wow-custom-url-section {
-    background: var(--pf-gradient-parchment) !important;
-    border: 2px solid var(--pf-brown-medium) !important;
+    background: var(--my-gradient-parchment) !important;
+    border: 2px solid var(--my-brown-medium) !important;
     border-radius: 10px !important;
-    padding: var(--pf-space-4, 16px) !important;
+    padding: var(--my-space-4, 16px) !important;
     box-shadow:
         0 3px 6px rgba(139, 69, 19, 0.2),
         inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
 }
 
 .item-wizard-modal .wow-section-title {
-    font-family: var(--pf-font-display) !important;
-    font-size: var(--pf-text-base) !important;
-    font-weight: var(--pf-font-bold) !important;
-    color: var(--pf-text-primary) !important;
+    font-family: var(--my-font-display) !important;
+    font-size: var(--my-text-base) !important;
+    font-weight: var(--my-font-bold) !important;
+    color: var(--my-text-primary) !important;
     text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8) !important;
     text-transform: uppercase !important;
     letter-spacing: 0.5px !important;
-    margin: 0 0 var(--pf-space-3, 12px) 0 !important;
+    margin: 0 0 var(--my-space-3, 12px) 0 !important;
     text-align: center !important;
 }
 
 .item-wizard-modal .wow-custom-url-section .wow-input {
     width: 100% !important;
-    background: var(--pf-gradient-parchment) !important;
-    border: 2px solid var(--pf-brown-light) !important;
+    background: var(--my-gradient-parchment) !important;
+    border: 2px solid var(--my-brown-light) !important;
     border-radius: 6px !important;
-    color: var(--pf-text-primary) !important;
-    font-family: var(--pf-font-body) !important;
-    font-size: var(--pf-text-base) !important;
-    padding: var(--pf-space-3, 12px) !important;
+    color: var(--my-text-primary) !important;
+    font-family: var(--my-font-body) !important;
+    font-size: var(--my-text-base) !important;
+    padding: var(--my-space-3, 12px) !important;
     text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.6) !important;
     box-shadow: inset 0 2px 4px rgba(139, 69, 19, 0.1) !important;
     transition: all 0.2s ease !important;
@@ -7455,7 +7455,7 @@ h4 {
 
 .item-wizard-modal .wow-custom-url-section .wow-input:focus {
     outline: none !important;
-    border-color: var(--pf-gold) !important;
+    border-color: var(--my-gold) !important;
     box-shadow:
         inset 0 2px 4px rgba(139, 69, 19, 0.1),
         0 0 0 2px rgba(218, 165, 32, 0.3) !important;
@@ -7463,31 +7463,31 @@ h4 {
 
 /* Enhanced preview section */
 .item-wizard-modal .wow-preview-section {
-    background: var(--pf-gradient-header) !important;
-    border: 2px solid var(--pf-brown-medium) !important;
+    background: var(--my-gradient-header) !important;
+    border: 2px solid var(--my-brown-medium) !important;
     border-radius: 10px !important;
-    padding: var(--pf-space-5, 20px) !important;
+    padding: var(--my-space-5, 20px) !important;
     box-shadow:
         0 4px 8px rgba(139, 69, 19, 0.2),
         inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
-    gap: var(--pf-space-4, 16px) !important;
+    gap: var(--my-space-4, 16px) !important;
 }
 
 .item-wizard-modal .wow-preview-section .wow-section-title {
-    color: var(--pf-text-on-dark) !important;
+    color: var(--my-text-on-dark) !important;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3) !important;
 }
 
 .item-wizard-modal .wow-item-preview {
     width: 120px !important;
     height: 120px !important;
-    background: var(--pf-gradient-parchment) !important;
-    border: 3px solid var(--pf-brown-medium) !important;
+    background: var(--my-gradient-parchment) !important;
+    border: 3px solid var(--my-brown-medium) !important;
     border-radius: 12px !important;
-    padding: var(--pf-space-3, 12px) !important;
+    padding: var(--my-space-3, 12px) !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -7783,9 +7783,9 @@ h4 {
     display: flex;
     align-items: center;
     gap: 8px;
-    background: var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%)) !important;
-    border: 2px solid var(--pf-brown-light, #a08c70) !important;
-    border-radius: var(--pf-border-radius, 8px) !important;
+    background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%)) !important;
+    border: 2px solid var(--my-brown-light, #a08c70) !important;
+    border-radius: var(--my-border-radius, 8px) !important;
     padding: 8px 12px;
     box-shadow:
         inset 0 2px 4px rgba(139, 69, 19, 0.1),
@@ -7805,13 +7805,13 @@ h4 {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%)) !important;
-    border: 2px solid var(--pf-brown-medium, #8B4513) !important;
-    border-radius: var(--pf-border-radius, 8px) !important;
-    color: var(--pf-text-primary, #2d1810) !important;
-    font-family: var(--pf-font-display, 'Cinzel', serif) !important;
+    background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%)) !important;
+    border: 2px solid var(--my-brown-medium, #8B4513) !important;
+    border-radius: var(--my-border-radius, 8px) !important;
+    color: var(--my-text-primary, #2d1810) !important;
+    font-family: var(--my-font-display, 'Cinzel', serif) !important;
     font-size: 16px;
-    font-weight: var(--pf-font-semibold, 600) !important;
+    font-weight: var(--my-font-semibold, 600) !important;
     cursor: pointer;
     transition: all 0.2s ease;
     text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5) !important;
@@ -7821,7 +7821,7 @@ h4 {
 }
 
 .level-button:hover {
-    background: var(--pf-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%)) !important;
+    background: var(--my-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%)) !important;
     transform: translateY(-1px) !important;
     box-shadow:
         inset 0 2px 4px rgba(139, 69, 19, 0.15),
@@ -7830,9 +7830,9 @@ h4 {
 
 .level-label {
     margin-left: 8px;
-    color: var(--pf-text-primary, #2d1810) !important;
-    font-family: var(--pf-font-body, 'Crimson Text', serif) !important;
-    font-weight: var(--pf-font-semibold, 600) !important;
+    color: var(--my-text-primary, #2d1810) !important;
+    font-family: var(--my-font-body, 'Crimson Text', serif) !important;
+    font-weight: var(--my-font-semibold, 600) !important;
     text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5) !important;
     color: #ff4444;
     font-weight: 500;

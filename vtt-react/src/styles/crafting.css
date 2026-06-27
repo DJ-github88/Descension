@@ -1,15 +1,15 @@
 /* Crafting Window Styles - Pathfinder Theme */
 .crafting-window {
-    background: var(--pf-gradient-parchment, #ede4d3);
-    font-family: var(--pf-font-body, 'Crimson Text', serif);
-    color: var(--pf-text-primary, #2d1810);
+    background: var(--my-gradient-parchment, #ede4d3);
+    font-family: var(--my-font-body, 'Crimson Text', serif);
+    color: var(--my-text-primary, #2d1810);
 }
 
 .crafting-window-content {
     height: 100%;
     display: flex;
     flex-direction: column;
-    background: var(--pf-gradient-parchment, #ede4d3);
+    background: var(--my-gradient-parchment, #ede4d3);
     overflow: hidden;
     position: relative;
 }
@@ -383,9 +383,9 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    background: var(--pf-gradient-parchment, #ede4d3);
-    font-family: var(--pf-font-body, 'Crimson Text', serif);
-    color: var(--pf-text-primary, #2d1810);
+    background: var(--my-gradient-parchment, #ede4d3);
+    font-family: var(--my-font-body, 'Crimson Text', serif);
+    color: var(--my-text-primary, #2d1810);
     position: relative;
 }
 
@@ -415,9 +415,9 @@
     justify-content: space-between;
     align-items: center;
     padding: 20px;
-    background: var(--pf-gradient-header, linear-gradient(135deg, #8B4513 0%, #a08c70 50%, #8B4513 100%));
-    border-bottom: 3px solid var(--pf-brown-medium, #8B4513);
-    color: var(--pf-text-on-dark, #f8f4e6);
+    background: var(--my-gradient-header, linear-gradient(135deg, #8B4513 0%, #a08c70 50%, #8B4513 100%));
+    border-bottom: 3px solid var(--my-brown-medium, #8B4513);
+    color: var(--my-text-on-dark, #f8f4e6);
     box-shadow:
         0 2px 8px rgba(0, 0, 0, 0.3),
         inset 0 1px 0 rgba(255, 255, 255, 0.2);
@@ -438,9 +438,9 @@
 }
 
 .alchemy-title h2 {
-    color: var(--pf-gold, #d4af37);
+    color: var(--my-gold, #d4af37);
     margin: 0;
-    font-family: var(--pf-font-heading, 'Cinzel', serif);
+    font-family: var(--my-font-heading, 'Cinzel', serif);
     font-size: 24px;
     text-shadow:
         1px 1px 2px rgba(0, 0, 0, 0.8),
@@ -462,14 +462,14 @@
 }
 
 .alchemy-actions .wow-button {
-    background: var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
-    border: 2px solid var(--pf-brown-medium, #8B4513);
-    border-radius: var(--pf-border-radius, 8px);
+    background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+    border: 2px solid var(--my-brown-medium, #8B4513);
+    border-radius: var(--my-border-radius, 8px);
     padding: 10px 20px;
     font-family: 'Cinzel', serif;
     font-size: 14px;
     font-weight: 600;
-    color: var(--pf-text-primary, #2d1810);
+    color: var(--my-text-primary, #2d1810);
     cursor: pointer;
     transition: all 0.2s ease;
     text-transform: uppercase;
@@ -482,9 +482,9 @@
 }
 
 .alchemy-actions .wow-button:hover {
-    background: var(--pf-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
-    border-color: var(--pf-gold, #d4af37);
-    color: var(--pf-brown-darkest, #2d1810);
+    background: var(--my-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
+    border-color: var(--my-gold, #d4af37);
+    color: var(--my-brown-darkest, #2d1810);
     box-shadow:
         0 4px 8px rgba(0, 0, 0, 0.15),
         inset 0 1px 0 rgba(255, 255, 255, 0.7),
@@ -493,7 +493,7 @@
 }
 
 .alchemy-actions .wow-button:active {
-    background: var(--pf-gradient-button-active, linear-gradient(145deg, #d5cbb0 0%, #c4a373 50%, #a08c70 100%));
+    background: var(--my-gradient-button-active, linear-gradient(145deg, #d5cbb0 0%, #c4a373 50%, #a08c70 100%));
     transform: translateY(0);
     box-shadow:
         0 1px 2px rgba(0, 0, 0, 0.2),
@@ -503,13 +503,13 @@
 /* Alchemy Tabs */
 .alchemy-tabs {
     display: flex;
-    gap: var(--pf-space-2, 8px);
-    padding: var(--pf-space-3, 12px);
-    background: var(--pf-gradient-header, linear-gradient(145deg, #c4a373 0%, #a08c70 50%, #8b7355 100%));
-    border: 3px solid var(--pf-brown-medium, #8B4513);
+    gap: var(--my-space-2, 8px);
+    padding: var(--my-space-3, 12px);
+    background: var(--my-gradient-header, linear-gradient(145deg, #c4a373 0%, #a08c70 50%, #8b7355 100%));
+    border: 3px solid var(--my-brown-medium, #8B4513);
     border-bottom: none;
-    border-radius: var(--pf-border-radius-lg, 12px) var(--pf-border-radius-lg, 12px) 0 0;
-    box-shadow: var(--pf-shadow-sm, 0 2px 4px rgba(45, 24, 16, 0.1));
+    border-radius: var(--my-border-radius-lg, 12px) var(--my-border-radius-lg, 12px) 0 0;
+    box-shadow: var(--my-shadow-sm, 0 2px 4px rgba(45, 24, 16, 0.1));
     position: relative;
     z-index: 2;
 }
@@ -517,34 +517,34 @@
 .alchemy-tab {
     display: flex;
     align-items: center;
-    gap: var(--pf-space-2, 8px);
-    padding: var(--pf-space-3, 12px) var(--pf-space-5, 20px);
-    background: var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
-    border: 2px solid var(--pf-brown-medium, #8B4513);
-    border-radius: var(--pf-border-radius, 8px);
+    gap: var(--my-space-2, 8px);
+    padding: var(--my-space-3, 12px) var(--my-space-5, 20px);
+    background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+    border: 2px solid var(--my-brown-medium, #8B4513);
+    border-radius: var(--my-border-radius, 8px);
     font-family: 'Cinzel', serif;
     font-size: 14px;
     font-weight: 600;
-    color: var(--pf-text-primary, #2d1810);
+    color: var(--my-text-primary, #2d1810);
     cursor: pointer;
     transition: all 0.2s ease;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
-    box-shadow: var(--pf-shadow-sm, 0 2px 4px rgba(45, 24, 16, 0.1));
+    box-shadow: var(--my-shadow-sm, 0 2px 4px rgba(45, 24, 16, 0.1));
 }
 
 .alchemy-tab:hover {
-    background: var(--pf-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
-    border-color: var(--pf-gold, #d4af37);
+    background: var(--my-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
+    border-color: var(--my-gold, #d4af37);
     transform: translateY(-1px);
-    box-shadow: var(--pf-shadow-md, 0 4px 8px rgba(45, 24, 16, 0.15));
+    box-shadow: var(--my-shadow-md, 0 4px 8px rgba(45, 24, 16, 0.15));
 }
 
 .alchemy-tab.active {
-    background: var(--pf-gradient-gold, linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%));
-    color: var(--pf-brown-darkest, #2d1810);
-    border-color: var(--pf-gold-dark, #b8860b);
+    background: var(--my-gradient-gold, linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%));
+    color: var(--my-brown-darkest, #2d1810);
+    border-color: var(--my-gold-dark, #b8860b);
     box-shadow:
         inset 0 2px 4px rgba(45, 24, 16, 0.1),
         0 0 10px rgba(212, 175, 55, 0.3);
@@ -565,13 +565,13 @@
     flex: 1;
     overflow-y: auto;
     padding: 0;
-    background: var(--pf-gradient-parchment-light, #f8f4e6);
-    border: 3px solid var(--pf-brown-medium, #8B4513);
+    background: var(--my-gradient-parchment-light, #f8f4e6);
+    border: 3px solid var(--my-brown-medium, #8B4513);
     border-top: none;
-    border-radius: 0 0 var(--pf-border-radius-lg, 12px) var(--pf-border-radius-lg, 12px);
+    border-radius: 0 0 var(--my-border-radius-lg, 12px) var(--my-border-radius-lg, 12px);
     box-shadow:
         inset 0 2px 4px rgba(0, 0, 0, 0.1),
-        var(--pf-shadow-parchment, 0 4px 12px rgba(0, 0, 0, 0.3));
+        var(--my-shadow-parchment, 0 4px 12px rgba(0, 0, 0, 0.3));
     position: relative;
     z-index: 2;
 }
@@ -1000,7 +1000,7 @@
 .recipe-icon-name {
     font-size: 12px;
     font-weight: bold;
-    color: var(--pf-text-primary, #2d1810);
+    color: var(--my-text-primary, #2d1810);
     text-align: center;
     max-width: 100px;
     word-wrap: break-word;
@@ -1014,7 +1014,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    background: var(--pf-gradient-parchment, #ede4d3);
+    background: var(--my-gradient-parchment, #ede4d3);
     position: relative;
     overflow: hidden;
 }
@@ -1293,9 +1293,9 @@
 }
 
 .craft-button-large {
-    background: linear-gradient(135deg, var(--pf-gold, #d4af37) 0%, var(--pf-parchment-light, #f8f4e6) 50%, var(--pf-gold, #d4af37) 100%);
-    color: var(--pf-text-primary, #2d1810);
-    border: 2px solid var(--pf-brown-medium, #8b4513);
+    background: linear-gradient(135deg, var(--my-gold, #d4af37) 0%, var(--my-parchment-light, #f8f4e6) 50%, var(--my-gold, #d4af37) 100%);
+    color: var(--my-text-primary, #2d1810);
+    border: 2px solid var(--my-brown-medium, #8b4513);
     padding: 14px 24px;
     border-radius: 8px;
     font-size: 16px;
@@ -1308,7 +1308,7 @@
         0 4px 8px rgba(139, 69, 19, 0.3),
         inset 0 1px 0 rgba(255, 255, 255, 0.4);
     text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
-    font-family: var(--pf-font-heading, 'Cinzel', serif);
+    font-family: var(--my-font-heading, 'Cinzel', serif);
     min-width: 180px;
 }
 

@@ -4,168 +4,168 @@
 .channeling-container {
   width: 100%;
   height: 100%;
-  background: var(--pf-gradient-parchment);
-  padding: var(--pf-space-6);
+  background: var(--my-gradient-parchment);
+  padding: var(--my-space-6);
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-6);
-  font-family: var(--pf-font-body);
-  color: var(--pf-text-primary);
+  gap: var(--my-space-6);
+  font-family: var(--my-font-body);
+  color: var(--my-text-primary);
 }
 
 /* ===== SECTION STYLING ===== */
 
 .pf-section {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius-lg);
-  padding: var(--pf-space-6);
-  margin-bottom: var(--pf-space-6);
-  box-shadow: var(--pf-shadow-sm);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius-lg);
+  padding: var(--my-space-6);
+  margin-bottom: var(--my-space-6);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .pf-section-title {
-  font-family: var(--pf-font-display);
-  font-size: var(--pf-text-xl);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-primary);
+  font-family: var(--my-font-display);
+  font-size: var(--my-text-xl);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-primary);
   text-align: center;
-  margin-bottom: var(--pf-space-4);
+  margin-bottom: var(--my-space-4);
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
 .pf-section-description {
-  color: var(--pf-text-secondary);
+  color: var(--my-text-secondary);
   text-align: center;
-  font-size: var(--pf-text-sm);
-  margin-bottom: var(--pf-space-6);
+  font-size: var(--my-text-sm);
+  margin-bottom: var(--my-space-6);
   line-height: 1.5;
 }
 
 /* ===== ERROR STYLING ===== */
 
 .pf-error-card {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-error);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-4);
-  margin-bottom: var(--pf-space-4);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-error);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-4);
+  margin-bottom: var(--my-space-4);
 }
 
 .pf-error-header {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-3);
-  margin-bottom: var(--pf-space-3);
+  gap: var(--my-space-3);
+  margin-bottom: var(--my-space-3);
 }
 
 .pf-error-icon {
-  color: var(--pf-error);
-  font-size: var(--pf-text-lg);
+  color: var(--my-error);
+  font-size: var(--my-text-lg);
 }
 
 .pf-error-title {
-  color: var(--pf-error);
-  font-weight: var(--pf-font-bold);
-  font-size: var(--pf-text-base);
+  color: var(--my-error);
+  font-weight: var(--my-font-bold);
+  font-size: var(--my-text-base);
 }
 
 .pf-error-list {
   margin: 0;
-  padding-left: var(--pf-space-6);
+  padding-left: var(--my-space-6);
   list-style-type: disc;
 }
 
 .pf-error-item {
-  color: var(--pf-error);
-  margin-bottom: var(--pf-space-1);
+  color: var(--my-error);
+  margin-bottom: var(--my-space-1);
 }
 
 /* ===== INFO STYLING ===== */
 
 .pf-info-section {
-  margin-bottom: var(--pf-space-6);
+  margin-bottom: var(--my-space-6);
 }
 
 .pf-info-card {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-4);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-4);
   display: flex;
   align-items: center;
-  gap: var(--pf-space-3);
+  gap: var(--my-space-3);
 }
 
 .pf-info-icon {
-  color: var(--pf-brown-medium);
-  font-size: var(--pf-text-lg);
+  color: var(--my-brown-medium);
+  font-size: var(--my-text-lg);
 }
 
 .pf-info-text {
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-sm);
-  font-weight: var(--pf-font-semibold);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-sm);
+  font-weight: var(--my-font-semibold);
   margin: 0;
 }
 
 /* ===== CHANNELING SUMMARY CARD ===== */
 
 .channeling-summary-card {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius-lg);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius-lg);
   overflow: hidden;
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .channeling-summary-header {
-  background: var(--pf-gradient-parchment-dark);
-  padding: var(--pf-space-4);
-  border-bottom: var(--pf-border-width) solid var(--pf-brown-light);
+  background: var(--my-gradient-parchment-dark);
+  padding: var(--my-space-4);
+  border-bottom: var(--my-border-width) solid var(--my-brown-light);
   display: flex;
   align-items: center;
-  gap: var(--pf-space-3);
+  gap: var(--my-space-3);
 }
 
 .channeling-summary-icon {
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
   border-radius: 50%;
   width: 40px;
   height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--pf-brown-medium);
-  font-size: var(--pf-text-lg);
+  color: var(--my-brown-medium);
+  font-size: var(--my-text-lg);
 }
 
 .channeling-summary-title h4 {
-  margin: 0 0 var(--pf-space-1) 0;
-  color: var(--pf-text-primary);
-  font-size: var(--pf-text-lg);
-  font-weight: var(--pf-font-bold);
-  font-family: var(--pf-font-display);
+  margin: 0 0 var(--my-space-1) 0;
+  color: var(--my-text-primary);
+  font-size: var(--my-text-lg);
+  font-weight: var(--my-font-bold);
+  font-family: var(--my-font-display);
 }
 
 .channeling-summary-title p {
   margin: 0;
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-xs);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-xs);
 }
 
 .channeling-summary-content {
-  padding: var(--pf-space-4);
+  padding: var(--my-space-4);
 }
 
 .channeling-summary-section {
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-4);
-  margin-bottom: var(--pf-space-4);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-4);
+  margin-bottom: var(--my-space-4);
 }
 
 .channeling-summary-section:last-child {
@@ -173,78 +173,78 @@
 }
 
 .channeling-section-title {
-  margin: 0 0 var(--pf-space-3) 0;
-  color: var(--pf-text-primary);
-  font-size: var(--pf-text-base);
-  font-weight: var(--pf-font-bold);
+  margin: 0 0 var(--my-space-3) 0;
+  color: var(--my-text-primary);
+  font-size: var(--my-text-base);
+  font-weight: var(--my-font-bold);
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
 }
 
 .channeling-section-title.area {
-  color: var(--pf-brown-medium);
+  color: var(--my-brown-medium);
 }
 
 .channeling-section-description {
-  margin: 0 0 var(--pf-space-3) 0;
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-xs);
+  margin: 0 0 var(--my-space-3) 0;
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-xs);
   line-height: 1.4;
 }
 
 .channeling-effects-list {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-2);
-  background: var(--pf-gradient-parchment-dark);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-3);
+  gap: var(--my-space-2);
+  background: var(--my-gradient-parchment-dark);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-3);
 }
 
 .channeling-effect-item {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
-  padding: var(--pf-space-2);
-  border-radius: var(--pf-border-radius);
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+  gap: var(--my-space-2);
+  padding: var(--my-space-2);
+  border-radius: var(--my-border-radius);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-light);
 }
 
 .channeling-effect-item.damage {
-  border-color: var(--pf-error-light);
-  background: linear-gradient(135deg, var(--pf-gradient-parchment), rgba(231, 76, 60, 0.05));
+  border-color: var(--my-error-light);
+  background: linear-gradient(135deg, var(--my-gradient-parchment), rgba(231, 76, 60, 0.05));
 }
 
 .channeling-effect-item.healing {
-  border-color: var(--pf-success-light);
-  background: linear-gradient(135deg, var(--pf-gradient-parchment), rgba(46, 204, 113, 0.05));
+  border-color: var(--my-success-light);
+  background: linear-gradient(135deg, var(--my-gradient-parchment), rgba(46, 204, 113, 0.05));
 }
 
 .channeling-effect-item.buff {
-  border-color: var(--pf-brown-light);
-  background: linear-gradient(135deg, var(--pf-gradient-parchment), rgba(52, 152, 219, 0.05));
+  border-color: var(--my-brown-light);
+  background: linear-gradient(135deg, var(--my-gradient-parchment), rgba(52, 152, 219, 0.05));
 }
 
 .channeling-effect-item.area {
-  border-color: var(--pf-brown-light);
-  background: linear-gradient(135deg, var(--pf-gradient-parchment), rgba(52, 152, 219, 0.05));
+  border-color: var(--my-brown-light);
+  background: linear-gradient(135deg, var(--my-gradient-parchment), rgba(52, 152, 219, 0.05));
 }
 
 .channeling-effect-item.propagation {
-  border-color: var(--pf-error-light);
-  background: linear-gradient(135deg, var(--pf-gradient-parchment), rgba(231, 76, 60, 0.05));
+  border-color: var(--my-error-light);
+  background: linear-gradient(135deg, var(--my-gradient-parchment), rgba(231, 76, 60, 0.05));
 }
 
 .channeling-effect-item.range {
-  border-color: var(--pf-warning-light);
-  background: linear-gradient(135deg, var(--pf-gradient-parchment), rgba(243, 156, 18, 0.05));
+  border-color: var(--my-warning-light);
+  background: linear-gradient(135deg, var(--my-gradient-parchment), rgba(243, 156, 18, 0.05));
 }
 
 .channeling-effect-item span {
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-sm);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-sm);
   line-height: 1.4;
 }
 
@@ -252,30 +252,30 @@
 .channeling-types {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: var(--pf-space-4);
-  margin-bottom: var(--pf-space-6);
+  gap: var(--my-space-4);
+  margin-bottom: var(--my-space-6);
 }
 
 .channeling-type-card {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius-lg);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius-lg);
   overflow: hidden;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   cursor: pointer;
   position: relative;
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .channeling-type-card:hover {
   transform: translateY(-2px);
-  box-shadow: var(--pf-shadow-md);
-  border-color: var(--pf-gold);
+  box-shadow: var(--my-shadow-md);
+  border-color: var(--my-gold);
 }
 
 .channeling-type-card.selected {
-  border-color: var(--pf-gold);
-  box-shadow: 0 0 0 1px var(--pf-gold), var(--pf-shadow-md);
+  border-color: var(--my-gold);
+  box-shadow: 0 0 0 1px var(--my-gold), var(--my-shadow-md);
 }
 
 .channeling-type-card.selected::before {
@@ -294,61 +294,61 @@
 }
 
 .channeling-type-header {
-  background: var(--pf-gradient-parchment-dark);
-  padding: var(--pf-space-4);
-  border-bottom: var(--pf-border-width) solid var(--pf-brown-light);
+  background: var(--my-gradient-parchment-dark);
+  padding: var(--my-space-4);
+  border-bottom: var(--my-border-width) solid var(--my-brown-light);
   display: flex;
   align-items: center;
-  gap: var(--pf-space-3);
+  gap: var(--my-space-3);
 }
 
 .channeling-type-icon {
   width: 32px;
   height: 32px;
-  color: var(--pf-gold);
+  color: var(--my-gold);
 }
 
 .channeling-type-title {
-  font-size: var(--pf-text-lg);
+  font-size: var(--my-text-lg);
   font-weight: bold;
-  color: var(--pf-text-primary);
+  color: var(--my-text-primary);
   margin: 0;
 }
 
 .channeling-type-body {
-  padding: var(--pf-space-4);
+  padding: var(--my-space-4);
 }
 
 .channeling-type-description {
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-sm);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-sm);
   line-height: 1.5;
-  margin-bottom: var(--pf-space-3);
+  margin-bottom: var(--my-space-3);
 }
 
 /* Channeling Configuration */
 .channeling-config {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius-lg);
-  padding: var(--pf-space-6);
-  box-shadow: var(--pf-shadow-sm);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius-lg);
+  padding: var(--my-space-6);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .channeling-config-header {
-  margin-bottom: var(--pf-space-4);
+  margin-bottom: var(--my-space-4);
 }
 
 .channeling-config-title {
-  font-size: var(--pf-text-xl);
+  font-size: var(--my-text-xl);
   font-weight: bold;
-  color: var(--pf-text-primary);
-  margin: 0 0 var(--pf-space-2) 0;
+  color: var(--my-text-primary);
+  margin: 0 0 var(--my-space-2) 0;
 }
 
 .channeling-config-description {
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-sm);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-sm);
   line-height: 1.5;
 }
 
@@ -356,101 +356,101 @@
 .channeling-duration-controls {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: var(--pf-space-4);
-  margin-bottom: var(--pf-space-4);
+  gap: var(--my-space-4);
+  margin-bottom: var(--my-space-4);
 }
 
 .channeling-duration-group {
-  background: var(--pf-gradient-parchment-dark);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-4);
+  background: var(--my-gradient-parchment-dark);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-4);
 }
 
 .channeling-duration-label {
   display: block;
   font-weight: bold;
-  color: var(--pf-text-primary);
-  margin-bottom: var(--pf-space-2);
-  font-size: var(--pf-text-sm);
+  color: var(--my-text-primary);
+  margin-bottom: var(--my-space-2);
+  font-size: var(--my-text-sm);
 }
 
 .channeling-duration-input {
   width: 100%;
-  padding: var(--pf-space-2);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  background: var(--pf-gradient-parchment);
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-sm);
-  transition: all var(--pf-transition-normal);
+  padding: var(--my-space-2);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  background: var(--my-gradient-parchment);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-sm);
+  transition: all var(--my-transition-normal);
 }
 
 .channeling-duration-input:focus {
   outline: none;
-  border-color: var(--pf-gold);
-  box-shadow: 0 0 0 1px var(--pf-gold);
+  border-color: var(--my-gold);
+  box-shadow: 0 0 0 1px var(--my-gold);
 }
 
 /* Channeling Effects */
 .channeling-effects {
-  background: var(--pf-gradient-parchment-dark);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-4);
-  margin-top: var(--pf-space-4);
+  background: var(--my-gradient-parchment-dark);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-4);
+  margin-top: var(--my-space-4);
 }
 
 .channeling-effects-title {
   font-weight: bold;
-  color: var(--pf-text-primary);
-  margin-bottom: var(--pf-space-3);
-  font-size: var(--pf-text-base);
+  color: var(--my-text-primary);
+  margin-bottom: var(--my-space-3);
+  font-size: var(--my-text-base);
 }
 
 .channeling-effect-item {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
-  padding: var(--pf-space-2);
-  border-radius: var(--pf-border-radius);
-  margin-bottom: var(--pf-space-2);
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+  gap: var(--my-space-2);
+  padding: var(--my-space-2);
+  border-radius: var(--my-border-radius);
+  margin-bottom: var(--my-space-2);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-light);
 }
 
 .channeling-effect-icon {
   width: 20px;
   height: 20px;
-  color: var(--pf-gold);
+  color: var(--my-gold);
 }
 
 .channeling-effect-text {
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-sm);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-sm);
   line-height: 1.4;
 }
 
 /* Channeling Preview */
 .channeling-preview {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-4);
-  margin-top: var(--pf-space-4);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-4);
+  margin-top: var(--my-space-4);
 }
 
 .channeling-preview-title {
   font-weight: bold;
-  color: var(--pf-text-primary);
-  margin-bottom: var(--pf-space-2);
-  font-size: var(--pf-text-base);
+  color: var(--my-text-primary);
+  margin-bottom: var(--my-space-2);
+  font-size: var(--my-text-base);
 }
 
 .channeling-preview-text {
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-sm);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-sm);
   line-height: 1.5;
 }
 
@@ -465,7 +465,7 @@
   }
   
   .channeling-container {
-    padding: var(--pf-space-4);
-    gap: var(--pf-space-4);
+    padding: var(--my-space-4);
+    gap: var(--my-space-4);
   }
 }

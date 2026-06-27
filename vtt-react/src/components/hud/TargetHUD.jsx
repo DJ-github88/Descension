@@ -4,6 +4,7 @@ import { createPortal } from 'react-dom';
 import useTargetingStore from '../../store/targetingStore';
 import useGameStore from '../../store/gameStore';
 import useSettingsStore from '../../store/settingsStore';
+import { useTooltipPosition } from '../common/useTooltipPosition';
 import usePartyStore from '../../store/partyStore';
 import useCharacterStore from '../../store/characterStore';
 import useCreatureStore from '../../store/creatureStore';
@@ -128,7 +129,9 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
     const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
     const [hoveredMenuItem, setHoveredMenuItem] = useState(null);
     const contextMenuRef = useRef(null);
-    const [tooltip, setTooltip] = useState({ show: false, content: '', position: { x: 0, y: 0 } });
+    const [tooltip, setTooltip] = useState({ show: false, content: '' });
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    const { adjustedPosition, tooltipRef } = useTooltipPosition(mousePosition, tooltip.show);
     const [currentTime, setCurrentTime] = useState(Date.now());
     const [conditionContextMenu, setConditionContextMenu] = useState({ show: false, condition: null, position: { x: 0, y: 0 } });
     const [showDurationModal, setShowDurationModal] = useState(false);
@@ -1683,18 +1686,12 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
 
     // Tooltip handlers
     const handleTooltipShow = (e, content) => {
-        setTooltip({
-            show: true,
-            content,
-            position: {
-                x: e.clientX + 10,
-                y: e.clientY - 10
-            }
-        });
+        setTooltip({ show: true, content });
+        setMousePosition({ x: e.clientX, y: e.clientY });
     };
 
     const handleTooltipHide = () => {
-        setTooltip({ show: false, content: '', position: { x: 0, y: 0 } });
+        setTooltip({ show: false, content: '' });
     };
 
     // Format time for display
@@ -2207,7 +2204,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                                                 className="resource-fill"
                                                 style={{
                                                     width: `${manaPercent}%`,
-                                                    backgroundColor: 'var(--pf-mana)'
+                                                    backgroundColor: 'var(--my-mana)'
                                                 }}
                                             />
                                             {targetData.tempMana > 0 && safeMana.max > 0 && (
@@ -2246,7 +2243,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                                                 className="resource-fill"
                                                 style={{
                                                     width: `${apPercent}%`,
-                                                    backgroundColor: 'var(--pf-health-low)'
+                                                    backgroundColor: 'var(--my-health-low)'
                                                 }}
                                             />
                                             {targetData.tempActionPoints > 0 && safeActionPoints.max > 0 && (
@@ -2985,12 +2982,12 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
             {/* Condition Tooltip */}
             {tooltip.show && (
                 <div
+                    ref={tooltipRef}
                     className="equipment-slot-tooltip"
                     style={{
                         position: 'fixed',
-                        left: tooltip.position.x,
-                        top: tooltip.position.y,
-                        transform: 'translate(-50%, -100%)',
+                        left: adjustedPosition.x,
+                        top: adjustedPosition.y,
                         zIndex: 10000,
                         pointerEvents: 'none',
                         backgroundColor: '#2c1810',

@@ -4,6 +4,7 @@ import useCharacterStore from '../../store/characterStore';
 import useSettingsStore from '../../store/settingsStore';
 import usePartyStore from '../../store/partyStore';
 import useChatStore from '../../store/chatStore';
+import useWindowManagerStore from '../../store/windowManagerStore';
 import LocalRoomIndicator from '../local-room/LocalRoomIndicator';
 import OfflineIndicator from '../common/OfflineIndicator';
 import ContentModerationDashboard from '../common/ContentModerationDashboard';
@@ -168,6 +169,8 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
     // Settings from new settings store (with persistence)
     const windowScale = useSettingsStore(state => state.windowScale);
     const setWindowScale = useSettingsStore(state => state.setWindowScale);
+    const uiTheme = useSettingsStore(state => state.uiTheme || 'fantasy');
+    const setUITheme = useSettingsStore(state => state.setUITheme);
     const feetPerTile = useSettingsStore(state => state.feetPerTile);
     const setFeetPerTile = useSettingsStore(state => state.setFeetPerTile);
     const showMovementVisualization = useSettingsStore(state => state.showMovementVisualization);
@@ -425,6 +428,57 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
                         <button className={`control-button primary ${hasScaleChanges ? 'pulse' : ''}`} onClick={applyWindowScale} disabled={!hasScaleChanges} style={{ minWidth: '120px' }}>
                             <i className="fas fa-check" style={{ marginRight: '6px' }}></i>{hasScaleChanges ? 'Apply Changes' : 'No Changes'}
                         </button>
+                    </div>
+                </div>
+
+                <div style={{ marginBottom: '20px', padding: '16px', background: 'rgba(139, 69, 19, 0.05)', border: '1px solid #e8dcc0', borderRadius: '8px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', marginBottom: '12px', gap: '12px' }}>
+                        <i className="fas fa-layer-group" style={{ fontSize: '20px', color: '#7a3b2e' }}></i>
+                        <div>
+                            <h3 style={{ margin: '0 0 4px 0', color: '#7a3b2e', fontSize: '18px', fontFamily: 'Cinzel, serif' }}>Window Layout</h3>
+                            <p style={{ margin: '0', color: '#8b6f47', fontSize: '14px', fontStyle: 'italic' }}>Reset all open windows to their default positions</p>
+                        </div>
+                    </div>
+                    <button
+                        onClick={() => useWindowManagerStore.getState().resetLayout()}
+                        style={{ padding: '8px 16px', background: 'rgba(139, 69, 19, 0.08)', border: '1px solid #8B4513', color: '#5a3a1a', borderRadius: '4px', fontFamily: 'Cinzel, serif', fontWeight: '600', fontSize: '13px', cursor: 'pointer' }}
+                    >
+                        <i className="fas fa-undo" style={{ marginRight: '6px' }}></i>Reset Window Layout
+                    </button>
+                </div>
+
+                <div style={{ marginBottom: '20px', padding: '16px', background: 'rgba(139, 69, 19, 0.05)', border: '1px solid #e8dcc0', borderRadius: '8px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', marginBottom: '12px', gap: '12px' }}>
+                        <i className="fas fa-palette" style={{ fontSize: '20px', color: '#7a3b2e' }}></i>
+                        <div>
+                            <h3 style={{ margin: '0 0 4px 0', color: '#7a3b2e', fontSize: '18px', fontFamily: 'Cinzel, serif' }}>UI Theme</h3>
+                            <p style={{ margin: '0', color: '#8b6f47', fontSize: '14px', fontStyle: 'italic' }}>Choose the visual style for the interface</p>
+                        </div>
+                    </div>
+                    <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                        {[
+                            { value: 'fantasy', label: 'Fantasy (Default)' },
+                            { value: 'dark', label: 'Dark' },
+                            { value: 'modern', label: 'Modern' }
+                        ].map(theme => (
+                            <button
+                                key={theme.value}
+                                onClick={() => setUITheme(theme.value)}
+                                style={{
+                                    padding: '8px 16px',
+                                    background: uiTheme === theme.value ? 'rgba(139, 69, 19, 0.2)' : 'rgba(139, 69, 19, 0.05)',
+                                    border: uiTheme === theme.value ? '2px solid #8B4513' : '1px solid #e8dcc0',
+                                    color: '#5a3a1a',
+                                    borderRadius: '4px',
+                                    fontFamily: 'Cinzel, serif',
+                                    fontWeight: uiTheme === theme.value ? '700' : '500',
+                                    fontSize: '13px',
+                                    cursor: 'pointer'
+                                }}
+                            >
+                                {theme.label}
+                            </button>
+                        ))}
                     </div>
                 </div>
 

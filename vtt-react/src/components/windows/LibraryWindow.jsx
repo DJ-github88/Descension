@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
-import WowWindow from '../windows/WowWindow';
-import useWindowStore from '../../store/windowStore';
+import MythrillWindow from '../windows/MythrillWindow';
+import useWindowStore from '../../store/windowManagerStore';
 import useGameStore from '../../store/gameStore';
 import CreatureLibrary from '../creature-wizard/components/library/CreatureLibrary';
 import { CreatureLibraryProvider } from '../creature-wizard/context/CreatureLibraryContext';
@@ -162,7 +162,7 @@ const LibraryWindow = ({ isOpen, onClose }) => {
   };
 
   return (
-    <WowWindow
+    <MythrillWindow
       isOpen={isOpen}
       onClose={activeSection ? handleBack : onClose}
       title={title}
@@ -293,7 +293,7 @@ const LibraryWindow = ({ isOpen, onClose }) => {
           )}
         </div>
       )}
-    </WowWindow>
+    </MythrillWindow>
   );
 };
 

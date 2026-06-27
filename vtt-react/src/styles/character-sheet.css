@@ -10,10 +10,10 @@
     font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
     color: #5c4033 !important;
 
-    --pf-font-body: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
-    --pf-text-primary: #5c4033 !important;
-    --pf-font-ui: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
-    --pf-font-display: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
+    --my-font-body: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
+    --my-text-primary: #5c4033 !important;
+    --my-font-ui: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
+    --my-font-display: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
 }
 
 /* Character Sheet - COMPLETELY ISOLATED */
@@ -3031,7 +3031,7 @@
 }
 
 .success-icon {
-    color: var(--pf-hp);
+    color: var(--my-hp);
     font-size: 18px;
 }
 
@@ -3177,9 +3177,9 @@
 }
 
 .quick-subrace-card .mod-badge.pos {
-    background: rgba(76, 175, 80, 0.08);
+    background: rgba(74, 102, 43, 0.08);
     color: #81c784;
-    border-color: rgba(76, 175, 80, 0.2);
+    border-color: rgba(74, 102, 43, 0.2);
 }
 
 .quick-subrace-card .mod-badge.neg {
@@ -4316,11 +4316,11 @@
     isolation: isolate;
     contain: layout style;
 
-    --pf-font-body: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
-    --pf-text-primary: #5c4033 !important;
-    --pf-font-ui: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
-    --pf-font-display: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
-    --pf-gradient-parchment: linear-gradient(135deg,
+    --my-font-body: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
+    --my-text-primary: #5c4033 !important;
+    --my-font-ui: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
+    --my-font-display: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
+    --my-gradient-parchment: linear-gradient(135deg,
         #f0e6d2 0%,
         #e6dac8 50%,
         #d5cbb8 100%) !important;
@@ -4347,10 +4347,10 @@
     font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
     color: #5c4033 !important;
 
-    --pf-font-body: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
-    --pf-text-primary: #5c4033 !important;
-    --pf-font-ui: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
-    --pf-font-display: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
+    --my-font-body: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
+    --my-text-primary: #5c4033 !important;
+    --my-font-ui: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
+    --my-font-display: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
 }
 
 .character-navigation.icons-only {
@@ -4729,18 +4729,18 @@
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background: var(--pf-hp);
+    background: var(--my-hp);
     border: 1.5px solid rgba(255,255,255,0.6);
-    box-shadow: 0 0 4px rgba(76, 175, 80, 0.4);
+    box-shadow: 0 0 4px rgba(74, 102, 43, 0.4);
     flex-shrink: 0;
 }
 
-.header-exhaustion.severity-0 .header-exhaustion-dot { background: var(--pf-hp); box-shadow: 0 0 4px rgba(76, 175, 80, 0.4); }
-.header-exhaustion.severity-1 .header-exhaustion-dot { background: var(--pf-hp); box-shadow: 0 0 4px rgba(139, 195, 74, 0.4); }
-.header-exhaustion.severity-2 .header-exhaustion-dot { background: var(--pf-warning); box-shadow: 0 0 4px rgba(255, 193, 7, 0.4); }
-.header-exhaustion.severity-3 .header-exhaustion-dot { background: var(--pf-health-low); box-shadow: 0 0 4px rgba(255, 152, 0, 0.4); }
-.header-exhaustion.severity-4 .header-exhaustion-dot { background: var(--pf-health-danger); box-shadow: 0 0 4px rgba(244, 67, 54, 0.4); }
-.header-exhaustion.severity-5 .header-exhaustion-dot { background: var(--pf-health-danger); box-shadow: 0 0 4px rgba(183, 28, 28, 0.4); }
+.header-exhaustion.severity-0 .header-exhaustion-dot { background: var(--my-hp); box-shadow: 0 0 4px rgba(74, 102, 43, 0.4); }
+.header-exhaustion.severity-1 .header-exhaustion-dot { background: var(--my-hp); box-shadow: 0 0 4px rgba(139, 195, 74, 0.4); }
+.header-exhaustion.severity-2 .header-exhaustion-dot { background: var(--my-warning); box-shadow: 0 0 4px rgba(255, 193, 7, 0.4); }
+.header-exhaustion.severity-3 .header-exhaustion-dot { background: var(--my-health-low); box-shadow: 0 0 4px rgba(255, 152, 0, 0.4); }
+.header-exhaustion.severity-4 .header-exhaustion-dot { background: var(--my-health-danger); box-shadow: 0 0 4px rgba(244, 67, 54, 0.4); }
+.header-exhaustion.severity-5 .header-exhaustion-dot { background: var(--my-health-danger); box-shadow: 0 0 4px rgba(183, 28, 28, 0.4); }
 .header-exhaustion.severity-6 .header-exhaustion-dot { background: #000000; box-shadow: 0 0 4px rgba(0, 0, 0, 0.4); }
 
 .header-exhaustion-select {
@@ -5836,13 +5836,13 @@
 .exhaustion-effect-panel.severity-4,
 .exhaustion-effect-panel.severity-5 {
     background: rgba(244, 67, 54, 0.08);
-    border: 1px solid var(--pf-health-danger);
+    border: 1px solid var(--my-health-danger);
     color: #5f1e1a;
 }
 .exhaustion-effect-panel.severity-3 .panel-header,
 .exhaustion-effect-panel.severity-4 .panel-header,
 .exhaustion-effect-panel.severity-5 .panel-header {
-    color: var(--pf-health-danger);
+    color: var(--my-health-danger);
 }
 
 .exhaustion-effect-panel.severity-6 {

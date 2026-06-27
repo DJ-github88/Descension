@@ -4,7 +4,7 @@
     flex-direction: column;
     overflow: hidden;
     padding: 0 !important;
-    /* Remove WowWindow default padding if any */
+    /* Remove MythrillWindow default padding if any */
 }
 
 .combat-selection-window .combat-window {
@@ -14,8 +14,8 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-    background: var(--pf-gradient-parchment);
-    color: var(--pf-text-primary);
+    background: var(--my-gradient-parchment);
+    color: var(--my-text-primary);
     box-sizing: border-box;
     overflow: hidden;
     flex: 1;
@@ -170,7 +170,7 @@
     right: -2px;
     width: 24px;
     height: 24px;
-    background: linear-gradient(135deg, var(--pf-hp) 0%, var(--pf-hp-dark) 100%);
+    background: linear-gradient(135deg, var(--my-hp) 0%, var(--my-hp-dark) 100%);
     border: 2px solid #ffffff;
     border-radius: 50%;
     display: flex;
@@ -186,7 +186,7 @@
 
 .combatant-name {
     font-weight: 700;
-    color: var(--pf-text-primary);
+    color: var(--my-text-primary);
     font-family: 'Cinzel', serif;
     font-size: 13px;
     text-align: center;

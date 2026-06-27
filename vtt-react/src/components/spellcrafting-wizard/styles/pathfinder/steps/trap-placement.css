@@ -4,43 +4,43 @@
 .trap-placement-container {
   width: 100%;
   height: 100%;
-  background: var(--pf-gradient-parchment);
-  padding: var(--pf-space-6);
+  background: var(--my-gradient-parchment);
+  padding: var(--my-space-6);
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-6);
-  font-family: var(--pf-font-body);
-  color: var(--pf-text-primary);
+  gap: var(--my-space-6);
+  font-family: var(--my-font-body);
+  color: var(--my-text-primary);
 }
 
 /* Trap Type Selection */
 .trap-types {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: var(--pf-space-4);
-  margin-bottom: var(--pf-space-6);
+  gap: var(--my-space-4);
+  margin-bottom: var(--my-space-6);
 }
 
 .trap-type-card {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius-lg);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius-lg);
   overflow: hidden;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   cursor: pointer;
   position: relative;
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .trap-type-card:hover {
   transform: translateY(-2px);
-  box-shadow: var(--pf-shadow-md);
-  border-color: var(--pf-gold);
+  box-shadow: var(--my-shadow-md);
+  border-color: var(--my-gold);
 }
 
 .trap-type-card.selected {
-  border-color: var(--pf-gold);
-  box-shadow: 0 0 0 1px var(--pf-gold), var(--pf-shadow-md);
+  border-color: var(--my-gold);
+  box-shadow: 0 0 0 1px var(--my-gold), var(--my-shadow-md);
 }
 
 .trap-type-card.selected::before {
@@ -59,61 +59,61 @@
 }
 
 .trap-type-header {
-  background: var(--pf-gradient-parchment-dark);
-  padding: var(--pf-space-4);
-  border-bottom: var(--pf-border-width) solid var(--pf-brown-light);
+  background: var(--my-gradient-parchment-dark);
+  padding: var(--my-space-4);
+  border-bottom: var(--my-border-width) solid var(--my-brown-light);
   display: flex;
   align-items: center;
-  gap: var(--pf-space-3);
+  gap: var(--my-space-3);
 }
 
 .trap-type-icon {
   width: 32px;
   height: 32px;
-  color: var(--pf-gold);
+  color: var(--my-gold);
 }
 
 .trap-type-title {
-  font-size: var(--pf-text-lg);
+  font-size: var(--my-text-lg);
   font-weight: bold;
-  color: var(--pf-text-primary);
+  color: var(--my-text-primary);
   margin: 0;
 }
 
 .trap-type-body {
-  padding: var(--pf-space-4);
+  padding: var(--my-space-4);
 }
 
 .trap-type-description {
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-sm);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-sm);
   line-height: 1.5;
-  margin-bottom: var(--pf-space-3);
+  margin-bottom: var(--my-space-3);
 }
 
 /* Trap Configuration */
 .trap-config {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius-lg);
-  padding: var(--pf-space-6);
-  box-shadow: var(--pf-shadow-sm);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius-lg);
+  padding: var(--my-space-6);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .trap-config-header {
-  margin-bottom: var(--pf-space-4);
+  margin-bottom: var(--my-space-4);
 }
 
 .trap-config-title {
-  font-size: var(--pf-text-xl);
+  font-size: var(--my-text-xl);
   font-weight: bold;
-  color: var(--pf-text-primary);
-  margin: 0 0 var(--pf-space-2) 0;
+  color: var(--my-text-primary);
+  margin: 0 0 var(--my-space-2) 0;
 }
 
 .trap-config-description {
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-sm);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-sm);
   line-height: 1.5;
 }
 
@@ -121,121 +121,121 @@
 .trap-placement-settings {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: var(--pf-space-4);
-  margin-bottom: var(--pf-space-4);
+  gap: var(--my-space-4);
+  margin-bottom: var(--my-space-4);
 }
 
 .trap-placement-setting {
-  background: var(--pf-gradient-parchment-dark);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-4);
+  background: var(--my-gradient-parchment-dark);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-4);
 }
 
 .trap-placement-setting-label {
   display: block;
   font-weight: bold;
-  color: var(--pf-text-primary);
-  margin-bottom: var(--pf-space-2);
-  font-size: var(--pf-text-sm);
+  color: var(--my-text-primary);
+  margin-bottom: var(--my-space-2);
+  font-size: var(--my-text-sm);
 }
 
 .trap-placement-setting-input {
   width: 100%;
-  padding: var(--pf-space-2);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  background: var(--pf-gradient-parchment);
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-sm);
-  transition: all var(--pf-transition-normal);
+  padding: var(--my-space-2);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  background: var(--my-gradient-parchment);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-sm);
+  transition: all var(--my-transition-normal);
 }
 
 .trap-placement-setting-input:focus {
   outline: none;
-  border-color: var(--pf-gold);
-  box-shadow: 0 0 0 1px var(--pf-gold);
+  border-color: var(--my-gold);
+  box-shadow: 0 0 0 1px var(--my-gold);
 }
 
 .trap-placement-setting-select {
   width: 100%;
-  padding: var(--pf-space-2);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  background: var(--pf-gradient-parchment);
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-sm);
+  padding: var(--my-space-2);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  background: var(--my-gradient-parchment);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-sm);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
 }
 
 .trap-placement-setting-select:focus {
   outline: none;
-  border-color: var(--pf-gold);
-  box-shadow: 0 0 0 1px var(--pf-gold);
+  border-color: var(--my-gold);
+  box-shadow: 0 0 0 1px var(--my-gold);
 }
 
 /* Trap Trigger Conditions */
 .trap-trigger-conditions {
-  background: var(--pf-gradient-parchment-dark);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-4);
-  margin-top: var(--pf-space-4);
+  background: var(--my-gradient-parchment-dark);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-4);
+  margin-top: var(--my-space-4);
 }
 
 .trap-trigger-conditions-title {
   font-weight: bold;
-  color: var(--pf-text-primary);
-  margin-bottom: var(--pf-space-3);
-  font-size: var(--pf-text-base);
+  color: var(--my-text-primary);
+  margin-bottom: var(--my-space-3);
+  font-size: var(--my-text-base);
 }
 
 .trap-trigger-condition {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
-  padding: var(--pf-space-2);
-  border-radius: var(--pf-border-radius);
-  margin-bottom: var(--pf-space-2);
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+  gap: var(--my-space-2);
+  padding: var(--my-space-2);
+  border-radius: var(--my-border-radius);
+  margin-bottom: var(--my-space-2);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-light);
 }
 
 .trap-trigger-condition-icon {
   width: 20px;
   height: 20px;
-  color: var(--pf-gold);
+  color: var(--my-gold);
 }
 
 .trap-trigger-condition-text {
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-sm);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-sm);
   line-height: 1.4;
 }
 
 /* Trap Detection */
 .trap-detection {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-4);
-  margin-top: var(--pf-space-4);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-4);
+  margin-top: var(--my-space-4);
 }
 
 .trap-detection-title {
   font-weight: bold;
-  color: var(--pf-text-primary);
-  margin-bottom: var(--pf-space-2);
-  font-size: var(--pf-text-base);
+  color: var(--my-text-primary);
+  margin-bottom: var(--my-space-2);
+  font-size: var(--my-text-base);
 }
 
 .trap-detection-settings {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: var(--pf-space-3);
+  gap: var(--my-space-3);
 }
 
 .trap-detection-setting {
@@ -244,56 +244,56 @@
 
 .trap-detection-setting-label {
   display: block;
-  font-size: var(--pf-text-xs);
-  color: var(--pf-text-secondary);
-  margin-bottom: var(--pf-space-1);
+  font-size: var(--my-text-xs);
+  color: var(--my-text-secondary);
+  margin-bottom: var(--my-space-1);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .trap-detection-setting-value {
-  font-size: var(--pf-text-lg);
+  font-size: var(--my-text-lg);
   font-weight: bold;
-  color: var(--pf-gold);
+  color: var(--my-gold);
 }
 
 /* Trap Preview */
 .trap-preview {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-4);
-  margin-top: var(--pf-space-4);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-4);
+  margin-top: var(--my-space-4);
 }
 
 .trap-preview-title {
   font-weight: bold;
-  color: var(--pf-text-primary);
-  margin-bottom: var(--pf-space-2);
-  font-size: var(--pf-text-base);
+  color: var(--my-text-primary);
+  margin-bottom: var(--my-space-2);
+  font-size: var(--my-text-base);
 }
 
 .trap-preview-text {
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-sm);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-sm);
   line-height: 1.5;
 }
 
 /* Trap Visualization */
 .trap-visualization {
-  background: var(--pf-gradient-parchment-dark);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-4);
-  margin-top: var(--pf-space-4);
+  background: var(--my-gradient-parchment-dark);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-4);
+  margin-top: var(--my-space-4);
   text-align: center;
 }
 
 .trap-visualization-title {
   font-weight: bold;
-  color: var(--pf-text-primary);
-  margin-bottom: var(--pf-space-3);
-  font-size: var(--pf-text-base);
+  color: var(--my-text-primary);
+  margin-bottom: var(--my-space-3);
+  font-size: var(--my-text-base);
 }
 
 .trap-visualization-grid {
@@ -301,25 +301,25 @@
   grid-template-columns: repeat(5, 30px);
   grid-template-rows: repeat(5, 30px);
   gap: 2px;
-  background: var(--pf-brown-light);
-  padding: var(--pf-space-2);
-  border-radius: var(--pf-border-radius);
+  background: var(--my-brown-light);
+  padding: var(--my-space-2);
+  border-radius: var(--my-border-radius);
 }
 
 .trap-visualization-cell {
-  background: var(--pf-gradient-parchment);
+  background: var(--my-gradient-parchment);
   border-radius: 2px;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
 }
 
 .trap-visualization-cell.trap {
-  background: var(--pf-gradient-danger);
-  box-shadow: 0 0 4px var(--pf-error);
+  background: var(--my-gradient-danger);
+  box-shadow: 0 0 4px var(--my-error);
 }
 
 .trap-visualization-cell.trigger {
-  background: var(--pf-gradient-warning);
-  box-shadow: 0 0 4px var(--pf-warning);
+  background: var(--my-gradient-warning);
+  box-shadow: 0 0 4px var(--my-warning);
 }
 
 /* Responsive Design */
@@ -337,7 +337,7 @@
   }
   
   .trap-placement-container {
-    padding: var(--pf-space-4);
-    gap: var(--pf-space-4);
+    padding: var(--my-space-4);
+    gap: var(--my-space-4);
   }
 }

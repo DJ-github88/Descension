@@ -44,13 +44,13 @@ Carve the bone. Invoke the dead. Inscribe the earth. The ancestors remember what
     roleplayIdentity: {
       title: "Roleplay Identity",
       content: `**HISTORY: THE TRIPLE GENESIS**
-The Animist's power was born from three founding events across the Mythrill continent. Kael the herd-ranger in the Sundrift Vale discovered totemic communion through bone eruption. Nyssa the herbalist in the Bryngloom discovered spirit invocation through loa bargaining. Theron the Skald in the Frozen Archive discovered runic inscription through memory sacrifice. The traditions merged when their carriers met at a crossroads and recognized each other's scars as the same ancestral language.
+The Animist's power was born from three founding events across the Mythrill continent. Kael the herd-ranger in the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink> discovered totemic communion through bone eruption. Nyssa the herbalist in the <LoreLink termId="bryngloom-forest">Bryngloom Forest</LoreLink> discovered spirit invocation through loa bargaining. Theron the <LoreLink termId="skald">Skald</LoreLink> in the Frozen Archive of <LoreLink termId="nordhalla">Nordhalla</LoreLink> discovered runic inscription through memory sacrifice. The traditions merged when their carriers met at a crossroads and recognized each other's scars as the same ancestral language.
 
 **CITIES & CIVIL RECEPTION**
 Animists are viewed with a mixture of deep respect and visceral fear. Their bone spurs, glowing inscriptions, and spirit-static hallucinations make them unmistakable. They are essential in wilderness expeditions and siege defense, but unsettling in settled communities.
 
 **RACES & CULTURAL AFFILIATION**
-The class is practiced by the Ordan humans, Sylen Astril, Clean Vreken, Morren humans, Rune Keeper Skald, and Velun Neth.
+The class is practiced by the <LoreLink termId="house_ordavan">Ordan</LoreLink> humans, Sylen <LoreLink termId="astril">Astril</LoreLink>, Clean <LoreLink termId="vreken">Vreken</LoreLink>, <LoreLink termId="house_morrath">Morren</LoreLink> humans, Rune Keeper <LoreLink termId="skald">Skald</LoreLink>, and Velun <LoreLink termId="neth">Neth</LoreLink>.
 
 **NOTABLE FIGURES**
 * **Kael the Herd-Runner**: The ranger who lived as a wolf for ten seasons, founding the totemic tradition.

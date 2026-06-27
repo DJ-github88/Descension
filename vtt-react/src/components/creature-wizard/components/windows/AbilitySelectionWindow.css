@@ -17,7 +17,7 @@
   overflow: hidden;
 }
 
-/* Ensure the WowWindow inside the ability selection is properly isolated */
+/* Ensure the MythrillWindow inside the ability selection is properly isolated */
 .ability-selection-backdrop .wow-window {
   position: relative;
   z-index: 100000; /* Higher than the backdrop */

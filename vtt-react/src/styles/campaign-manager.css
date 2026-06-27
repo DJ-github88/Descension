@@ -2,28 +2,28 @@
 
 /* Define CSS variables locally since spellbook variables are scoped */
 .campaign-manager-content {
-    --pf-gradient-parchment: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%);
-    --pf-gradient-parchment-light: linear-gradient(145deg, #f8f4e6 0%, #f0ead6 50%, #ede4d3 100%);
-    --pf-gradient-parchment-dark: linear-gradient(145deg, #ede4d3 0%, #e8dcc6 30%, #d5cbb0 70%, #c4a373 100%);
-    --pf-font-body: 'Crimson Text', serif;
-    --pf-font-display: 'Cinzel', serif;
-    --pf-font-ui: 'Cinzel', serif;
-    --pf-text-primary: #2d1810;
-    --pf-text-secondary: #5a1e12;
-    --pf-parchment: #ede4d3;
-    --pf-parchment-light: #f8f4e6;
-    --pf-parchment-dark: #e8dcc6;
-    --pf-parchment-darker: #d5cbb0;
-    --pf-brown-dark: #5a1e12;
-    --pf-brown-medium: #8B4513;
-    --pf-brown-light: #a08c70;
-    --pf-gold: #d4af37;
+    --my-gradient-parchment: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%);
+    --my-gradient-parchment-light: linear-gradient(145deg, #f8f4e6 0%, #f0ead6 50%, #ede4d3 100%);
+    --my-gradient-parchment-dark: linear-gradient(145deg, #ede4d3 0%, #e8dcc6 30%, #d5cbb0 70%, #c4a373 100%);
+    --my-font-body: 'Crimson Text', serif;
+    --my-font-display: 'Cinzel', serif;
+    --my-font-ui: 'Cinzel', serif;
+    --my-text-primary: #2d1810;
+    --my-text-secondary: #5a1e12;
+    --my-parchment: #ede4d3;
+    --my-parchment-light: #f8f4e6;
+    --my-parchment-dark: #e8dcc6;
+    --my-parchment-darker: #d5cbb0;
+    --my-brown-dark: #5a1e12;
+    --my-brown-medium: #8B4513;
+    --my-brown-light: #a08c70;
+    --my-gold: #d4af37;
 
     width: 100%;
     height: 100%;
-    background: var(--pf-gradient-parchment);
-    font-family: var(--pf-font-body);
-    color: var(--pf-text-primary);
+    background: var(--my-gradient-parchment);
+    font-family: var(--my-font-body);
+    color: var(--my-text-primary);
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -51,8 +51,8 @@
 }
 
 .campaign-header-section {
-    background: var(--pf-parchment-light, #f8f4e6);
-    border: 2px solid var(--pf-brown-light, #a08c70);
+    background: var(--my-parchment-light, #f8f4e6);
+    border: 2px solid var(--my-brown-light, #a08c70);
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -69,20 +69,20 @@
 .campaign-field label {
     display: block;
     margin-bottom: 6px;
-    font-family: var(--pf-font-display, 'Cinzel', serif);
+    font-family: var(--my-font-display, 'Cinzel', serif);
     font-weight: 600;
-    color: var(--pf-brown-dark, #5a1e12);
+    color: var(--my-brown-dark, #5a1e12);
     font-size: 14px;
 }
 
 .campaign-input {
     width: 100%;
     padding: 10px 12px;
-    border: 2px solid var(--pf-brown-light, #a08c70);
+    border: 2px solid var(--my-brown-light, #a08c70);
     border-radius: 4px;
     background: white;
-    color: var(--pf-text-primary, #2d1810);
-    font-family: var(--pf-font-body, 'Crimson Text', serif);
+    color: var(--my-text-primary, #2d1810);
+    font-family: var(--my-font-body, 'Crimson Text', serif);
     font-size: 14px;
     transition: border-color 0.2s ease;
     box-sizing: border-box;
@@ -90,7 +90,7 @@
 
 .campaign-input:focus {
     outline: none;
-    border-color: var(--pf-gold, #d4af37);
+    border-color: var(--my-gold, #d4af37);
     box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
     background: white;
 }
@@ -105,25 +105,25 @@ select.campaign-input:focus {
 
 /* Buttons using campaign-input class can override background */
 button.campaign-input {
-    background: var(--pf-brown-light, #a08c70);
-    color: var(--pf-text-primary, #2d1810);
+    background: var(--my-brown-light, #a08c70);
+    color: var(--my-text-primary, #2d1810);
     cursor: pointer;
     width: auto;
 }
 
 button.campaign-input:hover {
-    background: var(--pf-brown-dark, #8b7355);
-    border-color: var(--pf-brown-dark, #8b7355);
+    background: var(--my-brown-dark, #8b7355);
+    border-color: var(--my-brown-dark, #8b7355);
 }
 
 .campaign-textarea {
     width: 100%;
     padding: 10px 12px;
-    border: 2px solid var(--pf-brown-light, #a08c70);
+    border: 2px solid var(--my-brown-light, #a08c70);
     border-radius: 4px;
     background: white;
-    color: var(--pf-text-primary, #2d1810);
-    font-family: var(--pf-font-body, 'Crimson Text', serif);
+    color: var(--my-text-primary, #2d1810);
+    font-family: var(--my-font-body, 'Crimson Text', serif);
     font-size: 14px;
     resize: vertical;
     min-height: 80px;
@@ -132,7 +132,7 @@ button.campaign-input:hover {
 
 .campaign-textarea:focus {
     outline: none;
-    border-color: var(--pf-gold, #d4af37);
+    border-color: var(--my-gold, #d4af37);
     box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
 }
 
@@ -144,8 +144,8 @@ button.campaign-input:hover {
 }
 
 .campaign-stat-card {
-    background: var(--pf-parchment-light, #f8f4e6);
-    border: 2px solid var(--pf-brown-light, #a08c70);
+    background: var(--my-parchment-light, #f8f4e6);
+    border: 2px solid var(--my-brown-light, #a08c70);
     border-radius: 8px;
     padding: 16px;
     display: flex;
@@ -163,12 +163,12 @@ button.campaign-input:hover {
 .stat-icon {
     width: 40px;
     height: 40px;
-    background: var(--pf-gradient-header, linear-gradient(135deg, #8B4513 0%, #5a1e12 100%));
+    background: var(--my-gradient-header, linear-gradient(135deg, #8B4513 0%, #5a1e12 100%));
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--pf-text-on-dark, #f8f4e6);
+    color: var(--my-text-on-dark, #f8f4e6);
     font-size: 16px;
 }
 
@@ -187,7 +187,7 @@ button.campaign-input:hover {
     font-size: 12px;
     color: #000000;
     margin-bottom: 4px;
-    font-family: var(--pf-font-display, 'Cinzel', serif);
+    font-family: var(--my-font-display, 'Cinzel', serif);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
@@ -195,8 +195,8 @@ button.campaign-input:hover {
 .stat-value {
     font-size: 14px;
     font-weight: 700;
-    color: var(--pf-brown-dark, #5a1e12);
-    font-family: var(--pf-font-display, 'Cinzel', serif);
+    color: var(--my-brown-dark, #5a1e12);
+    font-family: var(--my-font-display, 'Cinzel', serif);
 }
 
 /* Section Headers */
@@ -207,14 +207,14 @@ button.campaign-input:hover {
     gap: 16px;
     margin-bottom: 20px;
     padding-bottom: 12px;
-    border-bottom: 2px solid var(--pf-brown-light, #a08c70);
+    border-bottom: 2px solid var(--my-brown-light, #a08c70);
     flex-wrap: wrap;
 }
 
 .campaign-section-header h3 {
     margin: 0;
-    color: var(--pf-brown-dark, #5a1e12);
-    font-family: var(--pf-font-display, 'Cinzel', serif);
+    color: var(--my-brown-dark, #5a1e12);
+    font-family: var(--my-font-display, 'Cinzel', serif);
     font-size: 18px;
     font-weight: 700;
     flex-shrink: 0;
@@ -222,11 +222,11 @@ button.campaign-input:hover {
 
 .campaign-add-btn {
     background: linear-gradient(135deg, #8B0000 0%, #5a1e12 100%);
-    color: var(--pf-text-on-dark, #f8f4e6);
+    color: var(--my-text-on-dark, #f8f4e6);
     border: none;
     padding: 10px 16px;
     border-radius: 6px;
-    font-family: var(--pf-font-display, 'Cinzel', serif);
+    font-family: var(--my-font-display, 'Cinzel', serif);
     font-weight: 600;
     font-size: 12px;
     cursor: pointer;
@@ -253,11 +253,11 @@ button.campaign-input:hover {
     align-items: center;
     justify-content: center;
     padding: 60px 20px;
-    background: var(--pf-parchment-light, #f8f4e6);
-    border: 2px dashed var(--pf-brown-light, #a08c70);
+    background: var(--my-parchment-light, #f8f4e6);
+    border: 2px dashed var(--my-brown-light, #a08c70);
     border-radius: 8px;
     text-align: center;
-    color: var(--pf-text-muted, #8B4513);
+    color: var(--my-text-muted, #8B4513);
 }
 
 .session-placeholder i,
@@ -266,7 +266,7 @@ button.campaign-input:hover {
 .plot-placeholder i {
     font-size: 48px;
     margin-bottom: 16px;
-    color: var(--pf-brown-light, #a08c70);
+    color: var(--my-brown-light, #a08c70);
 }
 
 .session-placeholder p,
@@ -282,8 +282,8 @@ button.campaign-input:hover {
 /* Player Roster Styles */
 .campaign-players-section {
     width: 100%;
-    background: var(--pf-parchment-light, #f8f4e6);
-    border: 2px solid var(--pf-brown-light, #a08c70);
+    background: var(--my-parchment-light, #f8f4e6);
+    border: 2px solid var(--my-brown-light, #a08c70);
     border-radius: 8px;
     padding: 20px;
     margin-bottom: 40px;
@@ -312,7 +312,7 @@ button.campaign-input:hover {
 
 .player-card {
     background: white;
-    border: 2px solid var(--pf-brown-light, #a08c70);
+    border: 2px solid var(--my-brown-light, #a08c70);
     border-radius: 6px;
     padding: 16px;
     display: flex;
@@ -322,7 +322,7 @@ button.campaign-input:hover {
 }
 
 .player-card:hover {
-    border-color: var(--pf-gold, #d4af37);
+    border-color: var(--my-gold, #d4af37);
     box-shadow: 0 2px 8px rgba(212, 175, 55, 0.2);
 }
 
@@ -334,10 +334,10 @@ button.campaign-input:hover {
 }
 
 .player-name {
-    font-family: var(--pf-font-display, 'Cinzel', serif);
+    font-family: var(--my-font-display, 'Cinzel', serif);
     font-weight: 600;
     font-size: 16px;
-    color: var(--pf-brown-dark, #5a1e12);
+    color: var(--my-brown-dark, #5a1e12);
 }
 
 .player-character {
@@ -353,18 +353,18 @@ button.campaign-input:hover {
 
 .player-input {
     padding: 6px 10px;
-    border: 1px solid var(--pf-brown-light, #a08c70);
+    border: 1px solid var(--my-brown-light, #a08c70);
     border-radius: 4px;
     background: white;
-    color: var(--pf-text-primary, #2d1810);
-    font-family: var(--pf-font-body, 'Crimson Text', serif);
+    color: var(--my-text-primary, #2d1810);
+    font-family: var(--my-font-body, 'Crimson Text', serif);
     font-size: 14px;
     transition: border-color 0.2s ease;
 }
 
 .player-input:focus {
     outline: none;
-    border-color: var(--pf-gold, #d4af37);
+    border-color: var(--my-gold, #d4af37);
     box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.15);
 }
 
@@ -373,15 +373,15 @@ button.campaign-input:hover {
 }
 
 .player-level {
-    font-family: var(--pf-font-display, 'Cinzel', serif);
+    font-family: var(--my-font-display, 'Cinzel', serif);
     font-weight: 600;
-    color: var(--pf-brown-dark, #5a1e12);
+    color: var(--my-brown-dark, #5a1e12);
     font-size: 14px;
 }
 
 .player-remove-btn {
     background: rgba(160, 140, 112, 0.15);
-    color: var(--pf-brown-dark, #5a1e12);
+    color: var(--my-brown-dark, #5a1e12);
     border: 1px solid rgba(160, 140, 112, 0.3);
     width: 36px;
     height: 36px;
@@ -409,16 +409,16 @@ button.campaign-input:hover {
     justify-content: center;
     padding: 40px 20px;
     background: white;
-    border: 2px dashed var(--pf-brown-light, #a08c70);
+    border: 2px dashed var(--my-brown-light, #a08c70);
     border-radius: 6px;
     text-align: center;
-    color: var(--pf-text-muted, #8B4513);
+    color: var(--my-text-muted, #8B4513);
 }
 
 .players-placeholder i {
     font-size: 32px;
     margin-bottom: 12px;
-    color: var(--pf-brown-light, #a08c70);
+    color: var(--my-brown-light, #a08c70);
 }
 
 .players-placeholder p {
@@ -429,8 +429,8 @@ button.campaign-input:hover {
 
 /* Session Management Styles */
 .session-card {
-    background: var(--pf-parchment-light, #f8f4e6);
-    border: 2px solid var(--pf-brown-light, #a08c70);
+    background: var(--my-parchment-light, #f8f4e6);
+    border: 2px solid var(--my-brown-light, #a08c70);
     border-radius: 8px;
     padding: 20px;
     margin-bottom: 16px;
@@ -439,7 +439,7 @@ button.campaign-input:hover {
 }
 
 .session-card:hover {
-    border-color: var(--pf-gold, #d4af37);
+    border-color: var(--my-gold, #d4af37);
     box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
 }
 
@@ -449,7 +449,7 @@ button.campaign-input:hover {
     align-items: flex-start;
     margin-bottom: 16px;
     padding-bottom: 12px;
-    border-bottom: 1px solid var(--pf-brown-light, #a08c70);
+    border-bottom: 1px solid var(--my-brown-light, #a08c70);
 }
 
 .session-title-section {
@@ -459,11 +459,11 @@ button.campaign-input:hover {
 .session-title-input {
     width: 100%;
     padding: 8px 12px;
-    border: 2px solid var(--pf-brown-light, #a08c70);
+    border: 2px solid var(--my-brown-light, #a08c70);
     border-radius: 4px;
     background: white;
-    color: var(--pf-text-primary, #2d1810);
-    font-family: var(--pf-font-display, 'Cinzel', serif);
+    color: var(--my-text-primary, #2d1810);
+    font-family: var(--my-font-display, 'Cinzel', serif);
     font-weight: 600;
     font-size: 16px;
     margin-bottom: 8px;
@@ -472,7 +472,7 @@ button.campaign-input:hover {
 
 .session-title-input:focus {
     outline: none;
-    border-color: var(--pf-gold, #d4af37);
+    border-color: var(--my-gold, #d4af37);
 }
 
 .session-meta {
@@ -483,49 +483,49 @@ button.campaign-input:hover {
 }
 
 .session-number {
-    background: var(--pf-gradient-header, linear-gradient(135deg, #8B4513 0%, #5a1e12 100%));
-    color: var(--pf-text-on-dark, #f8f4e6);
+    background: var(--my-gradient-header, linear-gradient(135deg, #8B4513 0%, #5a1e12 100%));
+    color: var(--my-text-on-dark, #f8f4e6);
     padding: 4px 8px;
     border-radius: 4px;
-    font-family: var(--pf-font-display, 'Cinzel', serif);
+    font-family: var(--my-font-display, 'Cinzel', serif);
     font-weight: 600;
     font-size: 12px;
 }
 
 .session-date-input {
     padding: 6px 10px;
-    border: 1px solid var(--pf-brown-light, #a08c70);
+    border: 1px solid var(--my-brown-light, #a08c70);
     border-radius: 4px;
     background: white;
-    color: var(--pf-text-primary, #2d1810);
-    font-family: var(--pf-font-body, 'Crimson Text', serif);
+    color: var(--my-text-primary, #2d1810);
+    font-family: var(--my-font-body, 'Crimson Text', serif);
     font-size: 14px;
     transition: border-color 0.2s ease;
 }
 
 .session-date-input:focus {
     outline: none;
-    border-color: var(--pf-gold, #d4af37);
+    border-color: var(--my-gold, #d4af37);
 }
 
 .session-status-select {
     padding: 6px 10px;
-    border: 1px solid var(--pf-brown-light, #a08c70);
+    border: 1px solid var(--my-brown-light, #a08c70);
     border-radius: 4px;
     background: white;
-    color: var(--pf-text-primary, #2d1810);
-    font-family: var(--pf-font-body, 'Crimson Text', serif);
+    color: var(--my-text-primary, #2d1810);
+    font-family: var(--my-font-body, 'Crimson Text', serif);
     font-size: 14px;
     transition: border-color 0.2s ease;
 }
 
 .session-status-select:focus {
     outline: none;
-    border-color: var(--pf-gold, #d4af37);
+    border-color: var(--my-gold, #d4af37);
 }
 
 .session-remove-btn {
-    background: var(--pf-brown-light, #a08c70);
+    background: var(--my-brown-light, #a08c70);
     color: white;
     border: none;
     width: 36px;
@@ -557,20 +557,20 @@ button.campaign-input:hover {
 }
 
 .session-field label {
-    font-family: var(--pf-font-display, 'Cinzel', serif);
+    font-family: var(--my-font-display, 'Cinzel', serif);
     font-weight: 600;
-    color: var(--pf-brown-dark, #5a1e12);
+    color: var(--my-brown-dark, #5a1e12);
     font-size: 14px;
 }
 
 .session-textarea {
     width: 100%;
     padding: 10px 12px;
-    border: 2px solid var(--pf-brown-light, #a08c70);
+    border: 2px solid var(--my-brown-light, #a08c70);
     border-radius: 4px;
     background: white;
-    color: var(--pf-text-primary, #2d1810);
-    font-family: var(--pf-font-body, 'Crimson Text', serif);
+    color: var(--my-text-primary, #2d1810);
+    font-family: var(--my-font-body, 'Crimson Text', serif);
     font-size: 14px;
     resize: vertical;
     min-height: 60px;
@@ -579,14 +579,14 @@ button.campaign-input:hover {
 
 .session-textarea:focus {
     outline: none;
-    border-color: var(--pf-gold, #d4af37);
+    border-color: var(--my-gold, #d4af37);
     box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
 }
 
 /* NPC Management Styles */
 .npc-card {
-    background: var(--pf-parchment-light, #f8f4e6);
-    border: 2px solid var(--pf-brown-light, #a08c70);
+    background: var(--my-parchment-light, #f8f4e6);
+    border: 2px solid var(--my-brown-light, #a08c70);
     border-radius: 8px;
     padding: 16px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -594,7 +594,7 @@ button.campaign-input:hover {
 }
 
 .npc-card:hover {
-    border-color: var(--pf-gold, #d4af37);
+    border-color: var(--my-gold, #d4af37);
     box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
 }
 
@@ -604,17 +604,17 @@ button.campaign-input:hover {
     align-items: center;
     margin-bottom: 12px;
     padding-bottom: 8px;
-    border-bottom: 1px solid var(--pf-brown-light, #a08c70);
+    border-bottom: 1px solid var(--my-brown-light, #a08c70);
 }
 
 .npc-name-input {
     flex: 1;
     padding: 8px 12px;
-    border: 2px solid var(--pf-brown-light, #a08c70);
+    border: 2px solid var(--my-brown-light, #a08c70);
     border-radius: 4px;
     background: white;
-    color: var(--pf-text-primary, #2d1810);
-    font-family: var(--pf-font-display, 'Cinzel', serif);
+    color: var(--my-text-primary, #2d1810);
+    font-family: var(--my-font-display, 'Cinzel', serif);
     font-weight: 600;
     font-size: 16px;
     transition: border-color 0.2s ease;
@@ -622,11 +622,11 @@ button.campaign-input:hover {
 
 .npc-name-input:focus {
     outline: none;
-    border-color: var(--pf-gold, #d4af37);
+    border-color: var(--my-gold, #d4af37);
 }
 
 .npc-remove-btn {
-    background: var(--pf-brown-light, #a08c70);
+    background: var(--my-brown-light, #a08c70);
     color: white;
     border: none;
     width: 28px;
@@ -659,9 +659,9 @@ button.campaign-input:hover {
 }
 
 .npc-field label {
-    font-family: var(--pf-font-display, 'Cinzel', serif);
+    font-family: var(--my-font-display, 'Cinzel', serif);
     font-weight: 600;
-    color: var(--pf-brown-dark, #5a1e12);
+    color: var(--my-brown-dark, #5a1e12);
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -669,27 +669,27 @@ button.campaign-input:hover {
 
 .npc-input {
     padding: 6px 10px;
-    border: 1px solid var(--pf-brown-light, #a08c70);
+    border: 1px solid var(--my-brown-light, #a08c70);
     border-radius: 4px;
     background: white;
-    color: var(--pf-text-primary, #2d1810);
-    font-family: var(--pf-font-body, 'Crimson Text', serif);
+    color: var(--my-text-primary, #2d1810);
+    font-family: var(--my-font-body, 'Crimson Text', serif);
     font-size: 14px;
     transition: border-color 0.2s ease;
 }
 
 .npc-input:focus {
     outline: none;
-    border-color: var(--pf-gold, #d4af37);
+    border-color: var(--my-gold, #d4af37);
 }
 
 .npc-textarea {
     padding: 8px 10px;
-    border: 1px solid var(--pf-brown-light, #a08c70);
+    border: 1px solid var(--my-brown-light, #a08c70);
     border-radius: 4px;
     background: white;
-    color: var(--pf-text-primary, #2d1810);
-    font-family: var(--pf-font-body, 'Crimson Text', serif);
+    color: var(--my-text-primary, #2d1810);
+    font-family: var(--my-font-body, 'Crimson Text', serif);
     font-size: 14px;
     resize: vertical;
     min-height: 50px;
@@ -698,23 +698,23 @@ button.campaign-input:hover {
 
 .npc-textarea:focus {
     outline: none;
-    border-color: var(--pf-gold, #d4af37);
+    border-color: var(--my-gold, #d4af37);
 }
 
 .npc-select {
     padding: 6px 10px;
-    border: 1px solid var(--pf-brown-light, #a08c70);
+    border: 1px solid var(--my-brown-light, #a08c70);
     border-radius: 4px;
     background: white;
-    color: var(--pf-text-primary, #2d1810);
-    font-family: var(--pf-font-body, 'Crimson Text', serif);
+    color: var(--my-text-primary, #2d1810);
+    font-family: var(--my-font-body, 'Crimson Text', serif);
     font-size: 14px;
     transition: border-color 0.2s ease;
 }
 
 .npc-select:focus {
     outline: none;
-    border-color: var(--pf-gold, #d4af37);
+    border-color: var(--my-gold, #d4af37);
 }
 
 .npc-meta {
@@ -750,7 +750,7 @@ button.campaign-input:hover {
     min-width: 0;
     max-width: 100%;
     background: #faf6ee;
-    border: 2px solid var(--pf-brown-light, #a08c70);
+    border: 2px solid var(--my-brown-light, #a08c70);
     border-radius: 12px;
     padding: 0;
     transition: all 0.3s ease;
@@ -762,7 +762,7 @@ button.campaign-input:hover {
 }
 
 .player-card-expanded:hover {
-    border-color: var(--pf-gold, #d4af37);
+    border-color: var(--my-gold, #d4af37);
     box-shadow: 0 4px 16px rgba(212, 175, 55, 0.15);
 }
 
@@ -782,12 +782,12 @@ button.campaign-input:hover {
     height: 56px;
     min-width: 56px;
     border-radius: 10px;
-    background: linear-gradient(135deg, var(--pf-gold, #d4af37) 0%, #c19b26 100%);
+    background: linear-gradient(135deg, var(--my-gold, #d4af37) 0%, #c19b26 100%);
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: var(--pf-font-display, 'Cinzel', serif);
+    font-family: var(--my-font-display, 'Cinzel', serif);
     font-weight: 700;
     font-size: 24px;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
@@ -815,11 +815,11 @@ button.campaign-input:hover {
 .player-name-input {
     flex: 1;
     padding: 8px 12px;
-    border: 2px solid var(--pf-brown-light, #a08c70);
+    border: 2px solid var(--my-brown-light, #a08c70);
     border-radius: 6px;
     background: white;
-    color: var(--pf-text-primary, #2d1810);
-    font-family: var(--pf-font-display, 'Cinzel', serif);
+    color: var(--my-text-primary, #2d1810);
+    font-family: var(--my-font-display, 'Cinzel', serif);
     font-weight: 600;
     font-size: 16px;
     transition: all 0.2s ease;
@@ -834,7 +834,7 @@ button.campaign-input:hover {
 
 .player-name-input:focus {
     outline: none;
-    border-color: var(--pf-gold, #d4af37);
+    border-color: var(--my-gold, #d4af37);
     box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.12);
 }
 
@@ -852,11 +852,11 @@ button.campaign-input:hover {
     min-width: 120px;
     max-width: 200px;
     padding: 7px 10px;
-    border: 1px solid var(--pf-brown-light, #a08c70);
+    border: 1px solid var(--my-brown-light, #a08c70);
     border-radius: 6px;
     background: white;
-    color: var(--pf-text-primary, #2d1810);
-    font-family: var(--pf-font-body, 'Crimson Text', serif);
+    color: var(--my-text-primary, #2d1810);
+    font-family: var(--my-font-body, 'Crimson Text', serif);
     font-size: 13px;
     transition: all 0.2s ease;
 }
@@ -868,7 +868,7 @@ button.campaign-input:hover {
 
 .player-class-input:focus {
     outline: none;
-    border-color: var(--pf-gold, #d4af37);
+    border-color: var(--my-gold, #d4af37);
     box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.12);
 }
 
@@ -876,7 +876,7 @@ button.campaign-input:hover {
     display: flex;
     align-items: center;
     background: white;
-    border: 1px solid var(--pf-brown-light, #a08c70);
+    border: 1px solid var(--my-brown-light, #a08c70);
     border-radius: 6px;
     overflow: hidden;
     transition: all 0.2s ease;
@@ -884,20 +884,20 @@ button.campaign-input:hover {
 }
 
 .player-level-group:focus-within {
-    border-color: var(--pf-gold, #d4af37);
+    border-color: var(--my-gold, #d4af37);
     box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.12);
 }
 
 .player-level-label {
     padding: 8px 10px;
-    font-family: var(--pf-font-display, 'Cinzel', serif);
+    font-family: var(--my-font-display, 'Cinzel', serif);
     font-weight: 600;
     font-size: 11px;
-    color: var(--pf-brown-dark, #5a1e12);
+    color: var(--my-brown-dark, #5a1e12);
     text-transform: uppercase;
     letter-spacing: 0.8px;
     background: rgba(212, 175, 55, 0.12);
-    border-right: 1px solid var(--pf-brown-light, #a08c70);
+    border-right: 1px solid var(--my-brown-light, #a08c70);
     white-space: nowrap;
 }
 
@@ -907,10 +907,10 @@ button.campaign-input:hover {
     border: none;
     background: transparent;
     text-align: center;
-    font-family: var(--pf-font-display, 'Cinzel', serif);
+    font-family: var(--my-font-display, 'Cinzel', serif);
     font-weight: 600;
     font-size: 14px;
-    color: var(--pf-text-primary, #2d1810);
+    color: var(--my-text-primary, #2d1810);
     -moz-appearance: textfield;
     appearance: textfield;
 }
@@ -927,12 +927,12 @@ button.campaign-input:hover {
 
 .player-status-select {
     padding: 7px 10px;
-    border: 1px solid var(--pf-brown-light, #a08c70);
+    border: 1px solid var(--my-brown-light, #a08c70);
     border-radius: 6px;
     font-size: 13px;
     background: white;
-    color: var(--pf-text-primary, #2d1810);
-    font-family: var(--pf-font-body, 'Crimson Text', serif);
+    color: var(--my-text-primary, #2d1810);
+    font-family: var(--my-font-body, 'Crimson Text', serif);
     cursor: pointer;
     transition: all 0.2s ease;
     min-width: 90px;
@@ -941,7 +941,7 @@ button.campaign-input:hover {
 
 .player-status-select:focus {
     outline: none;
-    border-color: var(--pf-gold, #d4af37);
+    border-color: var(--my-gold, #d4af37);
     box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.12);
 }
 
@@ -997,10 +997,10 @@ button.campaign-input:hover {
 
 .player-field label {
     display: block;
-    font-family: var(--pf-font-display, 'Cinzel', serif);
+    font-family: var(--my-font-display, 'Cinzel', serif);
     font-weight: 600;
     font-size: 11px;
-    color: var(--pf-brown-dark, #5a1e12);
+    color: var(--my-brown-dark, #5a1e12);
     text-transform: uppercase;
     letter-spacing: 1px;
     margin-bottom: 2px;
@@ -1013,22 +1013,22 @@ button.campaign-input:hover {
 }
 
 .player-notes-field label {
-    color: var(--pf-gold, #d4af37);
+    color: var(--my-gold, #d4af37);
 }
 
 .player-textarea {
     width: 100%;
     padding: 12px 14px;
-    border: 1px solid var(--pf-brown-light, #a08c70);
+    border: 1px solid var(--my-brown-light, #a08c70);
     border-radius: 6px;
     background: white;
-    font-family: var(--pf-font-body, 'Crimson Text', serif);
+    font-family: var(--my-font-body, 'Crimson Text', serif);
     font-size: 14px;
     line-height: 1.6;
     resize: vertical;
     transition: all 0.2s ease;
     min-height: 90px;
-    color: var(--pf-text-primary, #2d1810);
+    color: var(--my-text-primary, #2d1810);
 }
 
 .player-textarea::placeholder {
@@ -1038,7 +1038,7 @@ button.campaign-input:hover {
 
 .player-textarea:focus {
     outline: none;
-    border-color: var(--pf-gold, #d4af37);
+    border-color: var(--my-gold, #d4af37);
     box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.12);
 }
 
@@ -1048,7 +1048,7 @@ button.campaign-input:hover {
 }
 
 .player-textarea.player-notes:focus {
-    border-color: var(--pf-gold, #d4af37);
+    border-color: var(--my-gold, #d4af37);
     box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.18);
 }
 
@@ -1078,7 +1078,7 @@ button.campaign-input:hover {
     background: transparent;
     border: none;
     border-radius: 8px;
-    font-family: var(--pf-font-display, 'Cinzel', serif);
+    font-family: var(--my-font-display, 'Cinzel', serif);
     font-weight: 600;
     font-size: 13px;
     color: #5d4e37;
@@ -1132,7 +1132,7 @@ button.campaign-input:hover {
 }
 
 .homebrew-tip i {
-    color: var(--pf-gold, #d4af37);
+    color: var(--my-gold, #d4af37);
 }
 
 .homebrew-grid {
@@ -1148,8 +1148,8 @@ button.campaign-input:hover {
 }
 
 .homebrew-card {
-    background: var(--pf-parchment-light, #f8f4e6);
-    border: 2px solid var(--pf-brown-light, #a08c70);
+    background: var(--my-parchment-light, #f8f4e6);
+    border: 2px solid var(--my-brown-light, #a08c70);
     border-radius: 10px;
     overflow: hidden;
     transition: all 0.2s ease;
@@ -1157,7 +1157,7 @@ button.campaign-input:hover {
 }
 
 .homebrew-card:hover {
-    border-color: var(--pf-gold, #d4af37);
+    border-color: var(--my-gold, #d4af37);
     box-shadow: 0 4px 12px rgba(212, 175, 55, 0.15);
 }
 
@@ -1178,7 +1178,7 @@ button.campaign-input:hover {
     border: 1px solid transparent;
     border-radius: 4px;
     background: transparent;
-    font-family: var(--pf-font-display, 'Cinzel', serif);
+    font-family: var(--my-font-display, 'Cinzel', serif);
     font-weight: 600;
     font-size: 14px;
     color: #2d1810;
@@ -1187,7 +1187,7 @@ button.campaign-input:hover {
 
 .homebrew-name-input:hover,
 .homebrew-name-input:focus {
-    border-color: var(--pf-brown-light, #a08c70);
+    border-color: var(--my-brown-light, #a08c70);
     background: white;
     outline: none;
 }
@@ -1255,7 +1255,7 @@ button.campaign-input:hover {
     flex: 1 1 120px;
     min-width: 100px;
     padding: 8px 10px;
-    border: 1px solid var(--pf-brown-light, #a08c70);
+    border: 1px solid var(--my-brown-light, #a08c70);
     border-radius: 4px;
     background: white;
     font-size: 13px;
@@ -1266,7 +1266,7 @@ button.campaign-input:hover {
     flex: 1 1 120px;
     min-width: 100px;
     padding: 8px 10px;
-    border: 1px solid var(--pf-brown-light, #a08c70);
+    border: 1px solid var(--my-brown-light, #a08c70);
     border-radius: 4px;
     background: white;
     font-size: 13px;
@@ -1276,7 +1276,7 @@ button.campaign-input:hover {
     width: 70px;
     flex-shrink: 0;
     padding: 8px 10px;
-    border: 1px solid var(--pf-brown-light, #a08c70);
+    border: 1px solid var(--my-brown-light, #a08c70);
     border-radius: 4px;
     background: white;
     font-size: 13px;
@@ -1285,17 +1285,17 @@ button.campaign-input:hover {
 .homebrew-textarea {
     width: 100%;
     padding: 8px 10px;
-    border: 1px solid var(--pf-brown-light, #a08c70);
+    border: 1px solid var(--my-brown-light, #a08c70);
     border-radius: 4px;
     background: white;
-    font-family: var(--pf-font-body, 'Crimson Text', serif);
+    font-family: var(--my-font-body, 'Crimson Text', serif);
     font-size: 13px;
     resize: vertical;
 }
 
 .homebrew-textarea:focus {
     outline: none;
-    border-color: var(--pf-gold, #d4af37);
+    border-color: var(--my-gold, #d4af37);
 }
 
 .homebrew-placeholder {
@@ -1306,14 +1306,14 @@ button.campaign-input:hover {
     justify-content: center;
     padding: 60px 20px;
     background: rgba(248, 245, 240, 0.5);
-    border: 2px dashed var(--pf-brown-light, #a08c70);
+    border: 2px dashed var(--my-brown-light, #a08c70);
     border-radius: 10px;
     text-align: center;
 }
 
 .homebrew-placeholder i {
     font-size: 48px;
-    color: var(--pf-gold, #d4af37);
+    color: var(--my-gold, #d4af37);
     margin-bottom: 16px;
 }
 
@@ -1331,8 +1331,8 @@ button.campaign-input:hover {
 }
 
 .lore-article-card {
-    background: var(--pf-parchment-light, #f8f4e6);
-    border: 2px solid var(--pf-brown-light, #a08c70);
+    background: var(--my-parchment-light, #f8f4e6);
+    border: 2px solid var(--my-brown-light, #a08c70);
     border-radius: 10px;
     overflow: hidden;
 }
@@ -1352,14 +1352,14 @@ button.campaign-input:hover {
     border: 1px solid transparent;
     border-radius: 4px;
     background: transparent;
-    font-family: var(--pf-font-display, 'Cinzel', serif);
+    font-family: var(--my-font-display, 'Cinzel', serif);
     font-weight: 600;
     font-size: 16px;
     color: #2d1810;
 }
 
 .lore-title-input:focus {
-    border-color: var(--pf-brown-light, #a08c70);
+    border-color: var(--my-brown-light, #a08c70);
     background: white;
     outline: none;
 }
@@ -1372,7 +1372,7 @@ button.campaign-input:hover {
 
 .lore-category-select {
     padding: 5px 10px;
-    border: 1px solid var(--pf-brown-light, #a08c70);
+    border: 1px solid var(--my-brown-light, #a08c70);
     border-radius: 4px;
     background: white;
     font-size: 12px;
@@ -1417,10 +1417,10 @@ button.campaign-input:hover {
 .lore-content-textarea {
     width: 100%;
     padding: 12px;
-    border: 1px solid var(--pf-brown-light, #a08c70);
+    border: 1px solid var(--my-brown-light, #a08c70);
     border-radius: 6px;
     background: white;
-    font-family: var(--pf-font-body, 'Crimson Text', serif);
+    font-family: var(--my-font-body, 'Crimson Text', serif);
     font-size: 14px;
     line-height: 1.6;
     resize: vertical;
@@ -1429,7 +1429,7 @@ button.campaign-input:hover {
 
 .lore-content-textarea:focus {
     outline: none;
-    border-color: var(--pf-gold, #d4af37);
+    border-color: var(--my-gold, #d4af37);
 }
 
 .lore-field {
@@ -1439,16 +1439,16 @@ button.campaign-input:hover {
 .lore-field label {
     display: block;
     margin-bottom: 6px;
-    font-family: var(--pf-font-display, 'Cinzel', serif);
+    font-family: var(--my-font-display, 'Cinzel', serif);
     font-weight: 600;
     font-size: 12px;
-    color: var(--pf-brown-dark, #5a1e12);
+    color: var(--my-brown-dark, #5a1e12);
 }
 
 .lore-tags-input {
     width: 100%;
     padding: 8px 10px;
-    border: 1px solid var(--pf-brown-light, #a08c70);
+    border: 1px solid var(--my-brown-light, #a08c70);
     border-radius: 4px;
     background: white;
     font-size: 13px;
@@ -1461,14 +1461,14 @@ button.campaign-input:hover {
     justify-content: center;
     padding: 60px 20px;
     background: rgba(248, 245, 240, 0.5);
-    border: 2px dashed var(--pf-brown-light, #a08c70);
+    border: 2px dashed var(--my-brown-light, #a08c70);
     border-radius: 10px;
     text-align: center;
 }
 
 .lore-placeholder i {
     font-size: 48px;
-    color: var(--pf-gold, #d4af37);
+    color: var(--my-gold, #d4af37);
     margin-bottom: 16px;
 }
 
@@ -1483,14 +1483,14 @@ button.campaign-input:hover {
 /* Library Button */
 .campaign-add-btn.library-btn {
     background: linear-gradient(135deg, rgba(248, 245, 240, 0.98) 0%, rgba(240, 234, 214, 0.98) 100%);
-    color: var(--pf-brown-dark, #5a1e12);
-    border: 2px solid var(--pf-brown-light, #a08c70);
+    color: var(--my-brown-dark, #5a1e12);
+    border: 2px solid var(--my-brown-light, #a08c70);
 }
 
 .campaign-add-btn.library-btn:hover {
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 245, 240, 0.98) 100%);
-    border-color: var(--pf-gold, #d4af37);
-    color: var(--pf-text-primary, #2d1810);
+    border-color: var(--my-gold, #d4af37);
+    color: var(--my-text-primary, #2d1810);
 }
 
 /* Library Section */
@@ -1499,25 +1499,25 @@ button.campaign-input:hover {
 }
 
 .library-section-title {
-    font-family: var(--pf-font-display, 'Cinzel', serif);
+    font-family: var(--my-font-display, 'Cinzel', serif);
     font-size: 1rem;
     font-weight: 600;
-    color: var(--pf-brown-dark, #5a1e12);
+    color: var(--my-brown-dark, #5a1e12);
     margin: 0 0 16px 0;
     padding-bottom: 8px;
-    border-bottom: 1px dashed var(--pf-brown-light, #a08c70);
+    border-bottom: 1px dashed var(--my-brown-light, #a08c70);
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
 .library-section-title i {
-    color: var(--pf-gold, #d4af37);
+    color: var(--my-gold, #d4af37);
 }
 
 /* Library Card Styling */
 .homebrew-card.library-card {
-    border-left: 4px solid var(--pf-gold, #d4af37);
+    border-left: 4px solid var(--my-gold, #d4af37);
 }
 
 .homebrew-card.library-card .homebrew-card-header {
@@ -1531,7 +1531,7 @@ button.campaign-input:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, var(--pf-gold, #d4af37), #c49b2f);
+    background: linear-gradient(135deg, var(--my-gold, #d4af37), #c49b2f);
     color: #fff;
     border-radius: 5px;
     font-size: 0.65rem;
@@ -1540,10 +1540,10 @@ button.campaign-input:hover {
 
 .homebrew-name-display {
     flex: 1;
-    font-family: var(--pf-font-display, 'Cinzel', serif);
+    font-family: var(--my-font-display, 'Cinzel', serif);
     font-weight: 600;
     font-size: 14px;
-    color: var(--pf-text-primary, #2d1810);
+    color: var(--my-text-primary, #2d1810);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1561,7 +1561,7 @@ button.campaign-input:hover {
     background: rgba(139, 69, 19, 0.1);
     border-radius: 4px;
     font-size: 0.7rem;
-    color: var(--pf-brown-dark, #5a1e12);
+    color: var(--my-brown-dark, #5a1e12);
     text-transform: capitalize;
     font-weight: 500;
 }
@@ -1806,8 +1806,8 @@ button.campaign-input:hover {
 }
 
 .shareables-creator {
-    background: var(--pf-parchment-light, #f8f4e6);
-    border: 2px solid var(--pf-brown-light, #a08c70);
+    background: var(--my-parchment-light, #f8f4e6);
+    border: 2px solid var(--my-brown-light, #a08c70);
     border-radius: 8px;
     padding: 20px;
 }
@@ -1952,8 +1952,8 @@ button.campaign-input:hover {
 
 /* Shareables Library */
 .shareables-library {
-    background: var(--pf-parchment-light, #f8f4e6);
-    border: 2px solid var(--pf-brown-light, #a08c70);
+    background: var(--my-parchment-light, #f8f4e6);
+    border: 2px solid var(--my-brown-light, #a08c70);
     border-radius: 8px;
     padding: 20px;
 }
@@ -2099,7 +2099,7 @@ button.campaign-input:hover {
 
 .shareable-actions .action-btn.show {
     background: rgba(33, 150, 243, 0.15);
-    color: var(--pf-mana-dark);
+    color: var(--my-mana-dark);
 }
 
 .shareable-actions .action-btn.show:hover {

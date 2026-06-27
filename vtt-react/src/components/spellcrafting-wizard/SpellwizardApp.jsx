@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import WowWindow from '../windows/WowWindow';
+import MythrillWindow from '../windows/MythrillWindow';
 import {
   SpellWizardProvider,
   useSpellWizardState,
@@ -1047,7 +1047,7 @@ const LibraryView = ({ onLoadSpell }) => {
 // Settings Modal component
 const SettingsModal = ({ onClose }) => {
   return (
-    <WowWindow
+    <MythrillWindow
       title="Settings"
       isOpen
       onClose={onClose}
@@ -1078,7 +1078,7 @@ const SettingsModal = ({ onClose }) => {
           </div>
         </div>
       </div>
-    </WowWindow>
+    </MythrillWindow>
   );
 };
 
@@ -1186,7 +1186,7 @@ const QuickSpellModal = ({ onClose, onGenerateSpell }) => {
   };
 
   return (
-    <WowWindow
+    <MythrillWindow
       title="Quick Spell Generator"
       isOpen
       onClose={onClose}
@@ -1236,14 +1236,14 @@ const QuickSpellModal = ({ onClose, onGenerateSpell }) => {
           </button>
         </div>
       </div>
-    </WowWindow>
+    </MythrillWindow>
   );
 };
 
 // Help Modal component
 const HelpModal = ({ onClose }) => {
   return (
-    <WowWindow
+    <MythrillWindow
       title="Help"
       isOpen
       onClose={onClose}
@@ -1281,14 +1281,14 @@ const HelpModal = ({ onClose }) => {
           </ul>
         </div>
       </div>
-    </WowWindow>
+    </MythrillWindow>
   );
 };
 
 // Load Spell Modal component
 const LoadSpellModal = ({ onClose, onLoadSpell, spells = [] }) => {
   return (
-    <WowWindow
+    <MythrillWindow
       title="Load Spell"
       isOpen
       onClose={onClose}
@@ -1329,7 +1329,7 @@ const LoadSpellModal = ({ onClose, onLoadSpell, spells = [] }) => {
           </div>
         )}
       </div>
-    </WowWindow>
+    </MythrillWindow>
   );
 };
 

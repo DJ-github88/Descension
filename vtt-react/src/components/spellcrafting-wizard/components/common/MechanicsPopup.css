@@ -1,9 +1,9 @@
 /* Mechanics Popup - body content styling.
    The popup chrome (overlay/header/footer) is now provided by the canonical
-   WowWindow modal primitive. .mechanics-popup-body is retained because effect
+   MythrillWindow modal primitive. .mechanics-popup-body is retained because effect
    config UIs scope their styles to it (see ChanceOnHitConfig.css et al.). */
 .mechanics-popup-body {
-  padding: var(--pf-space-4);
+  padding: var(--my-space-4);
   overflow-y: auto;
   flex: 1;
 }
@@ -19,17 +19,17 @@
 }
 
 .mechanics-popup-body::-webkit-scrollbar-thumb {
-  background: var(--pf-gradient-button);
+  background: var(--my-gradient-button);
   border-radius: 4px;
 }
 
 .mechanics-popup-body::-webkit-scrollbar-thumb:hover {
-  background: var(--pf-gradient-button-hover);
+  background: var(--my-gradient-button-hover);
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .mechanics-popup-body {
-    padding: var(--pf-space-4);
+    padding: var(--my-space-4);
   }
 }

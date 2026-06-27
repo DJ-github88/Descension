@@ -1,10 +1,10 @@
 /* Object Tools Styles - Clean Version */
 
 .object-master-header {
-    background: var(--pf-parchment-light, #f8f4e6);
+    background: var(--my-parchment-light, #f8f4e6);
     margin: -16px -16px 20px -16px;
     padding: 16px;
-    border-bottom: 1px solid var(--pf-brown-light, #a08c70);
+    border-bottom: 1px solid var(--my-brown-light, #a08c70);
     box-shadow: inset 0 -4px 8px rgba(0,0,0,0.03);
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
@@ -25,12 +25,12 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    color: var(--pf-brown-dark, #5a1e12);
+    color: var(--my-brown-dark, #5a1e12);
 }
 
 .lock-info i {
     font-size: 18px;
-    color: var(--pf-gold, #d4af37);
+    color: var(--my-gold, #d4af37);
     width: 24px;
     text-align: center;
 }
@@ -46,7 +46,7 @@
     text-transform: uppercase;
     letter-spacing: 0.5px;
     line-height: 1.2;
-    font-family: var(--pf-font-title, 'EB Garamond', serif);
+    font-family: var(--my-font-title, 'EB Garamond', serif);
 }
 
 .lock-desc {
@@ -70,7 +70,7 @@
 }
 
 .interaction-switch.active {
-    background: var(--pf-gold, #d4af37);
+    background: var(--my-gold, #d4af37);
     border-color: #b38f2d;
 }
 
@@ -98,12 +98,12 @@
     gap: 20px;
     height: 100%;
     overflow-y: auto;
-    font-family: var(--pf-font-body, 'Crimson Text', serif);
+    font-family: var(--my-font-body, 'Crimson Text', serif);
 }
 
 .tool-section {
-    background: var(--pf-parchment-light, #f8f4e6);
-    border: 1px solid var(--pf-brown-light, #a08c70);
+    background: var(--my-parchment-light, #f8f4e6);
+    border: 1px solid var(--my-brown-light, #a08c70);
     border-radius: 6px;
     padding: 16px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -111,13 +111,13 @@
 
 .tool-section h4 {
     margin: 0 0 16px 0;
-    color: var(--pf-brown-dark, #5a1e12);
-    font-family: var(--pf-font-display, 'Cinzel', serif);
+    color: var(--my-brown-dark, #5a1e12);
+    font-family: var(--my-font-display, 'Cinzel', serif);
     font-size: 16px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.8px;
-    border-bottom: 2px solid var(--pf-gold, #d4af37);
+    border-bottom: 2px solid var(--my-gold, #d4af37);
     padding-bottom: 8px;
     position: relative;
     font-weight: 700;
@@ -147,36 +147,36 @@
     align-items: center;
     justify-content: center;
     padding: 12px 16px;
-    background: var(--pf-parchment, #ede4d3);
-    border: 2px solid var(--pf-brown-light, #a08c70);
+    background: var(--my-parchment, #ede4d3);
+    border: 2px solid var(--my-brown-light, #a08c70);
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.2s ease;
-    font-family: var(--pf-font-body, 'Crimson Text', serif);
+    font-family: var(--my-font-body, 'Crimson Text', serif);
     min-width: 80px;
     flex: 1;
     font-size: 14px;
     font-weight: 600;
-    color: var(--pf-text-primary, #2d1810);
+    color: var(--my-text-primary, #2d1810);
 }
 
 .object-tools .action-btn:hover {
-    background: var(--pf-parchment-light, #f8f4e6);
-    border-color: var(--pf-gold, #d4af37);
+    background: var(--my-parchment-light, #f8f4e6);
+    border-color: var(--my-gold, #d4af37);
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .object-tools .action-btn.active {
-    background: var(--pf-gold-light, #f4e4a6);
-    border-color: var(--pf-gold, #d4af37);
+    background: var(--my-gold-light, #f4e4a6);
+    border-color: var(--my-gold, #d4af37);
     box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
     transform: translateY(-1px);
 }
 
 .object-tools .action-btn.primary.active {
     background: linear-gradient(135deg, #d4af37 0%, #f4e4a6 100%);
-    border-color: var(--pf-gold, #d4af37);
+    border-color: var(--my-gold, #d4af37);
 }
 
 .object-tools .action-btn.danger:hover {
@@ -204,7 +204,7 @@
 .category-header {
     margin: 0 0 10px 0;
     font-size: 13px;
-    color: var(--pf-brown, #8b4513);
+    color: var(--my-brown, #8b4513);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -232,9 +232,9 @@
 }
 
 .object-card.mini {
-    background: var(--pf-parchment, #ede4d3);
+    background: var(--my-parchment, #ede4d3);
     background-image: radial-gradient(circle at center, rgba(255,255,255,0.4) 0%, transparent 70%);
-    border: 1px solid var(--pf-brown-light, #a08c70);
+    border: 1px solid var(--my-brown-light, #a08c70);
     border-radius: 8px;
     padding: 16px 8px;
     display: flex;
@@ -263,8 +263,8 @@
 }
 
 .object-card.mini:hover {
-    background: var(--pf-parchment-light, #f8f4e6);
-    border-color: var(--pf-gold, #d4af37);
+    background: var(--my-parchment-light, #f8f4e6);
+    border-color: var(--my-gold, #d4af37);
     transform: translateY(-3px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
 }
@@ -275,9 +275,9 @@
 }
 
 .object-card.mini.selected {
-    background: var(--pf-gold-light, #f4e4a6);
+    background: var(--my-gold-light, #f4e4a6);
     background-image: radial-gradient(circle at center, rgba(255,255,255,0.6) 0%, transparent 80%);
-    border-color: var(--pf-gold, #d4af37);
+    border-color: var(--my-gold, #d4af37);
     box-shadow: 
         0 0 20px rgba(212, 175, 55, 0.4),
         inset 0 0 15px rgba(212, 175, 55, 0.2);
@@ -303,7 +303,7 @@
 .mini-name {
     font-size: 11px;
     font-weight: 600;
-    color: var(--pf-brown-dark, #5a1e12);
+    color: var(--my-brown-dark, #5a1e12);
     line-height: 1.2;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -314,7 +314,7 @@
 
 .mini-badge {
     font-size: 8px;
-    background: var(--pf-brown-dark, #5a1e12);
+    background: var(--my-brown-dark, #5a1e12);
     color: white;
     padding: 1px 3px;
     border-radius: 2px;
@@ -333,7 +333,7 @@
 
 .connection-item {
     background: white;
-    border: 1px solid var(--pf-brown-light, #a08c70);
+    border: 1px solid var(--my-brown-light, #a08c70);
     border-radius: 4px;
     padding: 8px;
     cursor: pointer;
@@ -341,8 +341,8 @@
 }
 
 .connection-item:hover {
-    background: var(--pf-parchment-light, #f8f4e6);
-    border-color: var(--pf-gold, #d4af37);
+    background: var(--my-parchment-light, #f8f4e6);
+    border-color: var(--my-gold, #d4af37);
 }
 
 .conn-info {
@@ -355,7 +355,7 @@
 .conn-name {
     font-weight: 700;
     font-size: 13px;
-    color: var(--pf-brown-dark, #5a1e12);
+    color: var(--my-brown-dark, #5a1e12);
 }
 
 .conn-hidden {
@@ -379,7 +379,7 @@
     width: 48px;
     height: 48px;
     border-radius: 6px;
-    border: 2px solid var(--pf-brown-light, #a08c70);
+    border: 2px solid var(--my-brown-light, #a08c70);
     flex-shrink: 0;
 }
 
@@ -389,23 +389,23 @@
 
 .object-card-name {
     margin: 0 0 8px 0;
-    color: var(--pf-brown-dark, #5a1e12);
-    font-family: var(--pf-font-display, 'Cinzel', serif);
+    color: var(--my-brown-dark, #5a1e12);
+    font-family: var(--my-font-display, 'Cinzel', serif);
     font-size: 16px;
     font-weight: 600;
 }
 
 .object-card-description {
     margin: 0 0 8px 0;
-    color: var(--pf-text-secondary, #5a1e12);
+    color: var(--my-text-secondary, #5a1e12);
     font-size: 14px;
     line-height: 1.4;
 }
 
 .gm-only-badge {
     display: inline-block;
-    background: var(--pf-brown-dark, #5a1e12);
-    color: var(--pf-text-on-dark, #f8f4e6);
+    background: var(--my-brown-dark, #5a1e12);
+    color: var(--my-text-on-dark, #f8f4e6);
     padding: 4px 8px;
     border-radius: 4px;
     font-size: 11px;

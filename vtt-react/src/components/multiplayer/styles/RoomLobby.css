@@ -395,12 +395,12 @@
 }
 
 .tab-button.active {
-  background: var(--pf-gradient-parchment);
-  color: var(--pf-brown-dark);
+  background: var(--my-gradient-parchment);
+  color: var(--my-brown-dark);
   border: 2px solid #8b4513;
   border-bottom-color: #8b4513;
   box-shadow:
-    var(--pf-shadow-md),
+    var(--my-shadow-md),
     inset 0 2px 4px rgba(255, 255, 255, 0.4),
     0 4px 12px rgba(139, 69, 19, 0.2);
   font-weight: 700;

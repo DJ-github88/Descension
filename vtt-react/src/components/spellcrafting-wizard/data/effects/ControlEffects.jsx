@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import WowWindow from '../../../windows/WowWindow';
+import MythrillWindow from '../../../windows/MythrillWindow';
 import {
   FaPersonWalkingArrowRight,
   FaGrip,
@@ -1609,7 +1609,7 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
 
       {/* Enhanced Effect Configuration Popup - Rendered outside spellbook window */}
       {configPopupOpen && selectedEffectForPopupConfig && (
-        <WowWindow
+        <MythrillWindow
           title="Configure Control Effect"
           isOpen={true}
           onClose={() => setConfigPopupOpen(false)}
@@ -1816,7 +1816,7 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
                 Save Changes
               </button>
             </div>
-        </WowWindow>
+        </MythrillWindow>
       )}
 
 

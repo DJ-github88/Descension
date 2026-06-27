@@ -1,26 +1,26 @@
 :root {
-  --pf-text-xs: 0.75rem;
-  --pf-text-sm: 0.875rem;
-  --pf-text-base: 1rem;
-  --pf-text-lg: 1.125rem;
-  --pf-text-xl: 1.25rem;
-  --pf-font-normal: 400;
-  --pf-font-medium: 500;
-  --pf-font-semibold: 600;
-  --pf-font-bold: 700;
-  --pf-border-radius-sm: 4px;
-  --pf-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
-  --pf-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --pf-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-  --pf-transition-slow: 350ms ease;
+  --my-text-xs: 0.75rem;
+  --my-text-sm: 0.875rem;
+  --my-text-base: 1rem;
+  --my-text-lg: 1.125rem;
+  --my-text-xl: 1.25rem;
+  --my-font-normal: 400;
+  --my-font-medium: 500;
+  --my-font-semibold: 600;
+  --my-font-bold: 700;
+  --my-border-radius-sm: 4px;
+  --my-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
+  --my-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --my-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --my-transition-slow: 350ms ease;
 
   /* Font families */
-  --pf-font-serif: 'Bookman Old Style', 'Garamond', serif;
-  --pf-font-cinzel: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
+  --my-font-serif: 'Bookman Old Style', 'Garamond', serif;
+  --my-font-cinzel: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
 
   /* Common backgrounds */
-  --pf-bg-overlay-light: rgba(0, 0, 0, 0.2);
-  --pf-bg-overlay-medium: rgba(0, 0, 0, 0.3);
-  --pf-bg-overlay-heavy: rgba(0, 0, 0, 0.5);
-  --pf-bg-overlay-dark: rgba(0, 0, 0, 0.8);
+  --my-bg-overlay-light: rgba(0, 0, 0, 0.2);
+  --my-bg-overlay-medium: rgba(0, 0, 0, 0.3);
+  --my-bg-overlay-heavy: rgba(0, 0, 0, 0.5);
+  --my-bg-overlay-dark: rgba(0, 0, 0, 0.8);
 }

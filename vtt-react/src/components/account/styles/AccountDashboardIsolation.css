@@ -14,14 +14,14 @@
 .account-main,
 .account-main * {
   /* Reset all possible game-mode variables */
-  --pf-font-body: 'Cinzel', 'Times New Roman', serif !important;
-  --pf-font-ui: 'Cinzel', 'Times New Roman', serif !important;
-  --pf-font-display: 'Cinzel', 'Times New Roman', serif !important;
-  --pf-text-primary: #2d1810 !important;
-  --pf-text-secondary: #5a1e12 !important;
-  --pf-brown-medium: #8B4513 !important;
-  --pf-brown-light: #a08c70 !important;
-  --pf-gold: #d4af37 !important;
+  --my-font-body: 'Cinzel', 'Times New Roman', serif !important;
+  --my-font-ui: 'Cinzel', 'Times New Roman', serif !important;
+  --my-font-display: 'Cinzel', 'Times New Roman', serif !important;
+  --my-text-primary: #2d1810 !important;
+  --my-text-secondary: #5a1e12 !important;
+  --my-brown-medium: #8B4513 !important;
+  --my-brown-light: #a08c70 !important;
+  --my-gold: #d4af37 !important;
 }
 
 /* ===== CHARACTER STATS ISOLATION ===== */

@@ -10,185 +10,185 @@
   /* ===== PATHFINDER COLOR PALETTE ===== */
   
   /* Primary Parchment Colors */
-  --pf-parchment-light: #f8f4e6;
-  --pf-parchment: #ede4d3;
-  --pf-parchment-dark: #e8dcc6;
-  --pf-parchment-darker: #d5cbb0;
+  --my-parchment-light: #f8f4e6;
+  --my-parchment: #ede4d3;
+  --my-parchment-dark: #e8dcc6;
+  --my-parchment-darker: #d5cbb0;
   
   /* Rich Brown/Leather Colors */
-  --pf-brown-darkest: #2d1810;
-  --pf-brown-dark: #5a1e12;
-  --pf-brown-medium: #8B4513;
-  --pf-brown-light: #a08c70;
-  --pf-brown-lighter: #c4a373;
+  --my-brown-darkest: #2d1810;
+  --my-brown-dark: #5a1e12;
+  --my-brown-medium: #8B4513;
+  --my-brown-light: #a08c70;
+  --my-brown-lighter: #c4a373;
   
   /* Text Colors - SPELLBOOK SPECIFIC */
-  --pf-text-primary: #2d1810;
-  --pf-text-secondary: #5a1e12;
-  --pf-text-muted: #8B4513;
-  --pf-text-light: #6b5a42;
-  --pf-text-on-dark: #f8f4e6;
+  --my-text-primary: #2d1810;
+  --my-text-secondary: #5a1e12;
+  --my-text-muted: #8B4513;
+  --my-text-light: #6b5a42;
+  --my-text-on-dark: #f8f4e6;
   
   /* Accent Colors */
-  --pf-gold: #d4af37;
-  --pf-gold-light: #f4d03f;
-  --pf-gold-dark: #b8860b;
+  --my-gold: #d4af37;
+  --my-gold-light: #f4d03f;
+  --my-gold-dark: #b8860b;
   
   /* Status Colors */
-  --pf-success: #2d5016;
-  --pf-success-light: #4a7c59;
-  --pf-warning: #8b4513;
-  --pf-warning-light: #cd853f;
-  --pf-error: #8b0000;
-  --pf-error-light: #cd5c5c;
-  --pf-info: #2f4f4f;
-  --pf-info-light: #708090;
+  --my-success: #2d5016;
+  --my-success-light: #4a7c59;
+  --my-warning: #8b4513;
+  --my-warning-light: #cd853f;
+  --my-error: #8b0000;
+  --my-error-light: #cd5c5c;
+  --my-info: #2f4f4f;
+  --my-info-light: #708090;
   
   /* Damage Type Colors (9-type schema) */
-  --pf-ember: #a62626;
-  --pf-rime: #24587a;
-  --pf-storm: #a3811f;
-  --pf-arcane: #6c3dbf;
-  --pf-primal: #2b5c20;
-  --pf-blight: #53236e;
-  --pf-wyrd: #87206f;
-  --pf-divine: #DAA520;
-  --pf-physical: #51626b;
+  --my-ember: #a62626;
+  --my-rime: #24587a;
+  --my-storm: #a3811f;
+  --my-arcane: #6c3dbf;
+  --my-primal: #2b5c20;
+  --my-blight: #53236e;
+  --my-wyrd: #87206f;
+  --my-divine: #DAA520;
+  --my-physical: #51626b;
   
   /* Legacy aliases */
-  --pf-fire: #8B1A1A;
-  --pf-frost: #2C5F7C;
-  --pf-nature: #2D5A1E;
-  --pf-holy: #8B7328;
-  --pf-shadow: #6B2D8B;
-  --pf-lightning: #8B7328;
-  --pf-force: #9B5FBF;
-  --pf-necrotic: #6B2D8B;
-  --pf-radiant: #8B7328;
-  --pf-poison: #2D6A3F;
-  --pf-psychic: #9B3D8B;
-  --pf-chaos: #7A2040;
-  --pf-void: #3D3D6B;
-  --pf-bludgeoning: #5C4033;
-  --pf-piercing: #5A6A72;
-  --pf-slashing: #6B2D2D;
-  --pf-magical: #7B4FBF;
+  --my-fire: #8B1A1A;
+  --my-frost: #2C5F7C;
+  --my-nature: #2D5A1E;
+  --my-holy: #8B7328;
+  --my-shadow: #6B2D8B;
+  --my-lightning: #8B7328;
+  --my-force: #9B5FBF;
+  --my-necrotic: #6B2D8B;
+  --my-radiant: #8B7328;
+  --my-poison: #2D6A3F;
+  --my-psychic: #9B3D8B;
+  --my-chaos: #7A2040;
+  --my-void: #3D3D6B;
+  --my-bludgeoning: #5C4033;
+  --my-piercing: #5A6A72;
+  --my-slashing: #6B2D2D;
+  --my-magical: #7B4FBF;
   
   /* Rarity Colors (Pathfinder-themed) */
-  --pf-common: #8b7355;
-  --pf-uncommon: #2d5016;
-  --pf-rare: #8b4513;
-  --pf-epic: #6a0dad;
-  --pf-legendary: #b8860b;
-  --pf-artifact: #d4af37;
+  --my-common: #8b7355;
+  --my-uncommon: #2d5016;
+  --my-rare: #8b4513;
+  --my-epic: #6a0dad;
+  --my-legendary: #b8860b;
+  --my-artifact: #d4af37;
   
   /* ===== TYPOGRAPHY ===== */
   
   /* Font Families */
-  --pf-font-display: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
-  --pf-font-body: 'Crimson Text', 'Georgia', serif;
-  --pf-font-ui: 'Cinzel', 'Times New Roman', serif;
+  --my-font-display: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
+  --my-font-body: 'Crimson Text', 'Georgia', serif;
+  --my-font-ui: 'Cinzel', 'Times New Roman', serif;
   
   /* Font Sizes */
-  --pf-text-2xs: 8px;
-  --pf-text-xs: 10px;
-  --pf-text-sm: 12px;
-  --pf-text-base: 14px;
-  --pf-text-lg: 16px;
-  --pf-text-xl: 18px;
-  --pf-text-2xl: 20px;
-  --pf-text-3xl: 24px;
-  --pf-text-4xl: 28px;
+  --my-text-2xs: 8px;
+  --my-text-xs: 10px;
+  --my-text-sm: 12px;
+  --my-text-base: 14px;
+  --my-text-lg: 16px;
+  --my-text-xl: 18px;
+  --my-text-2xl: 20px;
+  --my-text-3xl: 24px;
+  --my-text-4xl: 28px;
   
   /* Font Weights */
-  --pf-font-normal: 400;
-  --pf-font-medium: 500;
-  --pf-font-semibold: 600;
-  --pf-font-bold: 700;
+  --my-font-normal: 400;
+  --my-font-medium: 500;
+  --my-font-semibold: 600;
+  --my-font-bold: 700;
   
   /* Line Heights */
-  --pf-leading-tight: 1.25;
-  --pf-leading-normal: 1.5;
-  --pf-leading-relaxed: 1.75;
+  --my-leading-tight: 1.25;
+  --my-leading-normal: 1.5;
+  --my-leading-relaxed: 1.75;
   
   /* ===== SPACING ===== */
   
-  --pf-space-1: 4px;
-  --pf-space-2: 8px;
-  --pf-space-3: 12px;
-  --pf-space-4: 16px;
-  --pf-space-5: 20px;
-  --pf-space-6: 24px;
-  --pf-space-8: 32px;
-  --pf-space-10: 40px;
-  --pf-space-12: 48px;
-  --pf-space-16: 64px;
-  --pf-space-20: 80px;
+  --my-space-1: 4px;
+  --my-space-2: 8px;
+  --my-space-3: 12px;
+  --my-space-4: 16px;
+  --my-space-5: 20px;
+  --my-space-6: 24px;
+  --my-space-8: 32px;
+  --my-space-10: 40px;
+  --my-space-12: 48px;
+  --my-space-16: 64px;
+  --my-space-20: 80px;
   
   /* ===== BORDERS & RADIUS ===== */
   
-  --pf-border-width: 2px;
-  --pf-border-width-thick: 3px;
-  --pf-border-radius: 8px;
-  --pf-border-radius-lg: 12px;
-  --pf-border-radius-xl: 16px;
+  --my-border-width: 2px;
+  --my-border-width-thick: 3px;
+  --my-border-radius: 8px;
+  --my-border-radius-lg: 12px;
+  --my-border-radius-xl: 16px;
   
   /* ===== SHADOWS ===== */
   
-  --pf-shadow-sm: 0 2px 4px rgba(45, 24, 16, 0.1);
-  --pf-shadow-md: 0 4px 8px rgba(45, 24, 16, 0.15);
-  --pf-shadow-lg: 0 8px 16px rgba(45, 24, 16, 0.2);
-  --pf-shadow-xl: 0 12px 24px rgba(45, 24, 16, 0.25);
+  --my-shadow-sm: 0 2px 4px rgba(45, 24, 16, 0.1);
+  --my-shadow-md: 0 4px 8px rgba(45, 24, 16, 0.15);
+  --my-shadow-lg: 0 8px 16px rgba(45, 24, 16, 0.2);
+  --my-shadow-xl: 0 12px 24px rgba(45, 24, 16, 0.25);
   
   /* Pathfinder-specific shadows */
-  --pf-shadow-parchment: 
+  --my-shadow-parchment: 
     0 8px 32px rgba(0, 0, 0, 0.4),
     inset 0 2px 0 rgba(255, 255, 255, 0.7),
     inset 0 -2px 0 rgba(139, 69, 19, 0.2),
     0 0 0 1px rgba(139, 69, 19, 0.3),
     0 0 20px rgba(139, 69, 19, 0.15);
   
-  --pf-shadow-inset: inset 0 2px 4px rgba(45, 24, 16, 0.1);
-  --pf-shadow-glow: 0 0 12px rgba(212, 175, 55, 0.3);
+  --my-shadow-inset: inset 0 2px 4px rgba(45, 24, 16, 0.1);
+  --my-shadow-glow: 0 0 12px rgba(212, 175, 55, 0.3);
   
   /* ===== TRANSITIONS ===== */
   
-  --pf-transition-fast: 0.15s ease;
-  --pf-transition-normal: 0.25s ease;
-  --pf-transition-slow: 0.4s ease;
+  --my-transition-fast: 0.15s ease;
+  --my-transition-normal: 0.25s ease;
+  --my-transition-slow: 0.4s ease;
   
   /* ===== GRADIENTS ===== */
   
   /* Parchment Background Gradients */
-  --pf-gradient-parchment: 
+  --my-gradient-parchment: 
     linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%),
     radial-gradient(circle at 20% 20%, rgba(139, 69, 19, 0.03) 0%, transparent 50%);
   
-  --pf-gradient-parchment-dark:
+  --my-gradient-parchment-dark:
     linear-gradient(145deg, #ede4d3 0%, #e8dcc6 30%, #d5cbb0 70%, #c4a373 100%);
 
-  --pf-gradient-parchment-light:
+  --my-gradient-parchment-light:
     linear-gradient(145deg, #f8f4e6 0%, #f0ead6 50%, #ede4d3 100%);
   
   /* Button Gradients */
-  --pf-gradient-button: 
+  --my-gradient-button: 
     linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%);
   
-  --pf-gradient-button-hover: 
+  --my-gradient-button-hover: 
     linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%);
   
-  --pf-gradient-button-active: 
+  --my-gradient-button-active: 
     linear-gradient(145deg, #d5cbb0 0%, #c4a373 50%, #a08c70 100%);
   
   /* Header Gradients */
-  --pf-gradient-header:
+  --my-gradient-header:
     linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%);
 
   /* Gold Gradients */
-  --pf-gradient-gold:
+  --my-gradient-gold:
     linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%);
 
-  --pf-gradient-gold-subtle:
+  --my-gradient-gold-subtle:
     linear-gradient(145deg,
       rgba(244, 208, 63, 0.1) 0%,
       rgba(212, 175, 55, 0.15) 50%,
@@ -196,42 +196,42 @@
   
   /* ===== Z-INDEX LAYERS ===== */
 
-  --pf-z-base: 1;
-  --pf-z-dropdown: 1000;
-  --pf-z-sticky: 1020;
-  --pf-z-fixed: 1030;
-  --pf-z-modal-backdrop: 15000; /* Increased to ensure modals appear above spellbook window */
-  --pf-z-modal: 15001; /* Increased to ensure modals appear above spellbook window */
-  --pf-z-popover: 15002; /* Increased to ensure popovers appear above modals */
-  --pf-z-tooltip: 1070;
-  --pf-z-toast: 1080;
+  --my-z-base: 1;
+  --my-z-dropdown: 1000;
+  --my-z-sticky: 1020;
+  --my-z-fixed: 1030;
+  --my-z-modal-backdrop: 15000; /* Increased to ensure modals appear above spellbook window */
+  --my-z-modal: 15001; /* Increased to ensure modals appear above spellbook window */
+  --my-z-popover: 15002; /* Increased to ensure popovers appear above modals */
+  --my-z-tooltip: 1070;
+  --my-z-toast: 1080;
   
   /* ===== COMPONENT SPECIFIC VARIABLES ===== */
   
   /* Wizard Layout */
-  --pf-wizard-header-height: 80px;
-  --pf-wizard-footer-height: 60px;
-  --pf-wizard-sidebar-width: 280px;
-  --pf-wizard-step-width: 800px;
+  --my-wizard-header-height: 80px;
+  --my-wizard-footer-height: 60px;
+  --my-wizard-sidebar-width: 280px;
+  --my-wizard-step-width: 800px;
   
   /* Card Dimensions */
-  --pf-card-width: 280px;
-  --pf-card-height: 380px;
-  --pf-card-padding: var(--pf-space-4);
+  --my-card-width: 280px;
+  --my-card-height: 380px;
+  --my-card-padding: var(--my-space-4);
   
   /* Form Elements */
-  --pf-input-height: 40px;
-  --pf-input-padding: var(--pf-space-3) var(--pf-space-4);
-  --pf-button-height: 40px;
-  --pf-button-padding: var(--pf-space-3) var(--pf-space-6);
+  --my-input-height: 40px;
+  --my-input-padding: var(--my-space-3) var(--my-space-4);
+  --my-button-height: 40px;
+  --my-button-padding: var(--my-space-3) var(--my-space-6);
   
   /* ===== BREAKPOINTS ===== */
   
-  --pf-breakpoint-sm: 640px;
-  --pf-breakpoint-md: 768px;
-  --pf-breakpoint-lg: 1024px;
-  --pf-breakpoint-xl: 1280px;
-  --pf-breakpoint-2xl: 1536px;
+  --my-breakpoint-sm: 640px;
+  --my-breakpoint-md: 768px;
+  --my-breakpoint-lg: 1024px;
+  --my-breakpoint-xl: 1280px;
+  --my-breakpoint-2xl: 1536px;
 }
 
 /* ===== PATHFINDER TEXTURE PATTERNS ===== */

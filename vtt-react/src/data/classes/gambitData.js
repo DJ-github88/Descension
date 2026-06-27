@@ -27,9 +27,9 @@ export const GAMBIT_DATA = {
   overview: {
     originStory: `The Gambit tradition was born from two independent discoveries of probability manipulation, separated by a thousand miles of frozen coastline and later fused into a single, devastating art.
 
-In the floating alleys of Merrowport, the Merryn pirate captain Jax wagered his own lifeline in a game of dice against a freezing storm-spirit of the Iceheart Sea. He rolled three sixes, claiming the wind, but the spirit claimed the warmth of his blood in return. His heartbeat was permanently synchronized with the ocean's tides, preventing him from ever finding sleep unless his head was submerged in freezing saltwater. Jax discovered probability manipulation through gambling: coin flips, dice throws, and card draws that siphoned luck from the world around him.
+In the floating alleys of <LoreLink termId="merrowport">Merrowport</LoreLink>, the Merryn pirate captain Jax wagered his own lifeline in a game of dice against a freezing storm-spirit of the <LoreLink termId="iceheart-sea">Iceheart Sea</LoreLink>. He rolled three sixes, claiming the wind, but the spirit claimed the warmth of his blood in return. His heartbeat was permanently synchronized with the ocean's tides, preventing him from ever finding sleep unless his head was submerged in freezing saltwater. Jax discovered probability manipulation through gambling: coin flips, dice throws, and card draws that siphoned luck from the world around him.
 
-In the vertical canyons of the Cragjaw Peaks, the Kessen Neth probability-watcher Lyra saw her trade-caravan cornered by a massive rockslide. Rather than outrun the stone, she used her rune-etched cards to pluck the threads of alternate timelines, finding the single reality where her companions survived. The psychic recoil of experiencing all alternate deaths in a single second permanently fractured her consciousness. Lyra discovered probability manipulation through card-reading: weaving the threads of destiny to force absolute outcomes on the battlefield.
+In the vertical canyons of the <LoreLink termId="cragjaw-peaks">Cragjaw Peaks</LoreLink>, the Kessen <LoreLink termId="neth">Neth</LoreLink> probability-watcher Lyra saw her trade-caravan cornered by a massive rockslide. Rather than outrun the stone, she used her rune-etched cards to pluck the threads of alternate timelines, finding the single reality where her companions survived. The psychic recoil of experiencing all alternate deaths in a single second permanently fractured her consciousness. Lyra discovered probability manipulation through card-reading: weaving the threads of destiny to force absolute outcomes on the battlefield.
 
 The traditions merged when Jax's ship, the Last Wager, docked at Cragjaw during a rare thaw. Lyra was there, reading the fate-threads of the harbor. When their abilities resonated across the dock, the two discovered they were manipulating the same fundamental force: probability itself. Jax approached it as a bet to be won. Lyra approached it as a landscape to be navigated. Together, they founded the Gambit tradition, an art that treats probability as both a wager and a tapestry.
 
@@ -57,13 +57,13 @@ Flip the coin. Read the card. The universe is a game, and the board is yours to 
     roleplayIdentity: {
       title: "Roleplay Identity",
       content: `**HISTORY: THE DUAL GENESIS**
-The Gambit's power was born from two founding events. In the floating alleys of Merrowport, the Merryn pirate captain Jax wagered his lifeline against a storm-spirit, discovering probability manipulation through gambling. In the vertical canyons of the Cragjaw Peaks, the Kessen Neth probability-watcher Lyra severed alternate timelines to save her caravan, discovering probability manipulation through card-reading. The traditions merged when Jax's ship docked at Cragjaw and their abilities resonated across the harbor.
+The Gambit's power was born from two founding events. In the floating alleys of <LoreLink termId="merrowport">Merrowport</LoreLink>, the Merryn pirate captain Jax wagered his lifeline against a storm-spirit, discovering probability manipulation through gambling. In the vertical canyons of the <LoreLink termId="cragjaw-peaks">Cragjaw Peaks</LoreLink>, the Kessen <LoreLink termId="neth">Neth</LoreLink> probability-watcher Lyra severed alternate timelines to save her caravan, discovering probability manipulation through card-reading. The traditions merged when Jax's ship docked at Cragjaw and their abilities resonated across the harbor.
 
 **CITIES AND CIVIL RECEPTION**
-Gambits are celebrated in the tavern-decks of Merrowport and valued in the canopy-libraries of Atropolis, but they are viewed with clinical contempt by the Neth pact-lords of Ironjaw Port.
+Gambits are celebrated in the tavern-decks of <LoreLink termId="merrowport">Merrowport</LoreLink> and valued in the canopy-libraries of <LoreLink termId="atropolis">Atropolis</LoreLink>, but they are viewed with clinical contempt by the Neth pact-lords of <LoreLink termId="ironjaw_port">Ironjaw Port</LoreLink>.
 
 **RACES AND CULTURAL AFFILIATION**
-The class is practiced by Merryn humans, the Breakers-Born Myrathil, the Kessen Neth, and the fine-scaled Ithran Groven.
+The class is practiced by Merryn humans, the Breakers-Born <LoreLink termId="myrathil">Myrathil</LoreLink>, the Kessen <LoreLink termId="neth">Neth</LoreLink>, and the fine-scaled Ithran <LoreLink termId="groven">Groven</LoreLink>.
 
 **NOTABLE FIGURES**
 * Jax the Storm-Wagerer: The pirate who gambled his soul for a gale and lost his sleep to the ocean's tides. Now missing, believed to have walked into the Iceheart Sea for one final game.

@@ -13,8 +13,8 @@ export const LORE_DICTIONARY = {
     term: 'Frostwood Reach',
     type: 'region',
     region: 'frostwood-reach',
-    summary: 'A dense, fog-choked ironwood forest in the western hemisphere where volcanic heat from the south collides with the northern freeze.',
-    fullEntry: 'The Frostwood Reach represents the desperate compromise between the warmth of the deep earth and the encroaching silence of the Freeze-Front. Ancient, towering ironwood forests stretch beneath a perpetual canopy of mist, their petrified trunks hardened by centuries of cold until the wood mimics tempered iron. To prevent the forests and their native beasts from freezing into glass, House Thalreth traded spatial clarity for an insulating, protective fog. Scribe-sentinels patrol the timber keeps, quills constantly scratching out lineages and maps before the fog slowly eats what they remember of themselves.',
+    summary: 'A dense, fog-choked ironwood forest in the western hemisphere, governed under the Sovereign Ledger and policed by the Sunder-Palisade check-posts.',
+    fullEntry: 'The Frostwood Reach is an ironwood forest wreathed in protective, memory-erasing fog. To prevent it from freezing, House Thalreth traded spatial clarity for insulating mist. Recently, Jarl-Archivist Kaelen Thalreth enforced the Sovereign Ledger, declaring unrecorded property rights void. The region is policed by Mist-Sentinels along the Ironwood Palisade and choked by the Scribe-Cartel monopoly on ink and parchment. Society is split between the registered Ledgered and the outlawed, undocumented Forgotten.',
     relatedTerms: ['house_thalreth', 'greymark_keep', 'mimir', 'briaran', 'gref', 'gambrel', 'wraithfen', 'mistbarrow', 'mirror_mere', 'greythorn_copse', 'bramble_heath']
   },
   'nordhalla': {
@@ -22,8 +22,8 @@ export const LORE_DICTIONARY = {
     term: 'Nordhalla',
     type: 'region',
     region: 'nordhalla',
-    summary: 'A brutalist cathedral of frozen black fjords and towering glaciers in the northern reaches, warmed only by deep geothermal sumps.',
-    fullEntry: 'Nordhalla is a freezing wilderness where the advance of titanic, mountain-crushing glaciers was halted mid-stride by the desperate bargain of House Skalvyr. The tundra is a flat black mirror beneath a washed-out sky that has not seen true sunlight in eight centuries. Wind-carved ice sculptures stand as monuments to the ancient dead, and keeps are dug into geothermal volcanic vents. Survival here is an endurance-purist\'s trial, where bloodlines are fiercely guarded and the heat determines a family\'s status.',
+    summary: 'A brutalist cathedral of frozen black fjords and towering glaciers in the northern reaches, fractured by King-Jarl Járn-Tand\'s consolidation and the Sunder-Wall.',
+    fullEntry: 'Nordhalla is a freezing wilderness where the advance of titanic glaciers was halted by House Skalvyr\'s bargain. It is currently ruled with an iron fist by King-Jarl Halvar Skalvyr, known as Járn-Tand (Iron-Tooth), who unified the region\'s clans by force. Járn-Tand constructed the Sunder-Wall to regulate the nomadic Fredløse clans and enforce a trade monopoly through the Icechamber Syndicate. The region is marked by intense conflict between loyal Fastboende and outlaw clans, and a campaign of religious persecution known as the Cleansing of the Hearth which targets tribal Animists.',
     relatedTerms: ['house_skalvyr', 'frozen_archive', 'rime_born', 'bloodhammer', 'stel', 'skreika', 'ymirs_col', 'vargtor', 'the_black_firth', 'rooks_promontory', 'frostcirque']
   },
   'sundale': {
@@ -31,8 +31,8 @@ export const LORE_DICTIONARY = {
     term: 'Sundale',
     type: 'region',
     region: 'sundale',
-    summary: 'The scorched ashlands surrounding Emberspire, where the dying sun-god Sol was bound beneath the earth.',
-    fullEntry: 'Sundale is the volcanic womb of the world, a desert of basalt, obsidian rivers, and perpetual ashfall. It is here that Sol was bound beneath the volcanic crust by the seven noble families to protect the star from the cosmic hunter Keth-Amar. Warmed by the world-heart volcano Emberspire, the region is thick with geothermal activity and soot-filled air. It is shared by the forge-clans of the Emberth, who tend the Solbrand, and the remnants of Solvarn humans who refuse to abandon the tomb of their star.',
+    summary: 'The scorched ashlands surrounding Emberspire, currently governed by Hierophant Aethelgard\'s Dawn Vigil.',
+    fullEntry: 'Sundale is a volcanic ashland desert surrounding the tomb of the sun-god Sol. After the collapse of House Solvan, the region was seized by Hierophant Aethelgard and the Dawn Vigil, who rule it as a martial-theocracy. The state enforces the Caldera Labor-Levies, conscripting the youth into the Martyr Brigades to mine sulfur for the Korr priests\' Sulfur Cartel monopoly. The population is split between the wealthy Deep-Born who live in the Harath-Vault and the impoverished Ash-Dwellers who are blockaded by the Obsidian Citadels.',
     relatedTerms: ['house_solvan', 'emberspire', 'harath_vault', 'emberth', 'solbrand', 'cinder', 'sols_anvil_mesa', 'the_ashen_escarpment', 'ember_lagoon', 'cinderhoodoo']
   },
   'iceheart-sea': {
@@ -40,8 +40,8 @@ export const LORE_DICTIONARY = {
     term: 'Iceheart Sea',
     type: 'region',
     region: 'iceheart-sea',
-    summary: 'A violent, freezing ocean of city-sized icebergs and perpetual gales, navigated only by the grace of unfreezing currents.',
-    fullEntry: 'The Iceheart Sea is a churning, frozen expanse where storm-cycles are perpetual and icebergs drift like slow-moving mountains. House Mereval traded calm waters for navigable sea-lanes that never freeze, ensuring trade routes remain open at the cost of the ocean never sleeping. Ships pitch and roll through freezing foam, and sailors navigate by bioluminescent light and the advice of the Merryn captains who tattoo their charts directly onto their skin.',
+    summary: 'A violent, churning ocean of city-sized icebergs, governed by the Sea-Charter and policed by the Unfreezing Booms.',
+    fullEntry: 'The Iceheart Sea is a storm-lashed ocean where navigable channels never freeze. Recently, Grand Admiral Varis Mereval enforced the Sea-Charter, mandating ship registry with the Mereval Board of Trade. The region is policed by patrol ironclads along the Unfreezing Booms and controlled by the Brine-Bond Syndicate. Undocumented refugees are pressed into lifetime servitude under Press-Warrants. Society is split between the Deck-Born officers and pressed Bilge-Dwellers, while traditional Tide-Speak animism is suppressed under the Luck-Ledger.',
     relatedTerms: ['house_mereval', 'merrowport', 'ironjaw_port', 'myrathil', 'drowned_spume', 'spindrift_lagoon', 'deepwell_archipelago', 'wraithsound', 'kelpies_cove']
   },
   'cragjaw-peaks': {
@@ -49,8 +49,8 @@ export const LORE_DICTIONARY = {
     term: 'Cragjaw Peaks',
     type: 'region',
     region: 'cragjaw-peaks',
-    summary: 'A vertical wilderness of howling blizzards and razor ridges, bridged together by the calcified spans of the Groven.',
-    fullEntry: 'The Cragjaw Peaks are a vertical labyrinth of rock and ice where visibility was traded for a perpetual blizzard to hide the keeps of House Tesshan from the starving lowlanders. Centuries of drift have buried all natural landmarks, leaving the high mountain holds isolated. The only thoroughfares above the whiteout are the Ancestor-Spans — bridges grown from the bones of the Groven\'s willing dead, spanning bottomless ravines.',
+    summary: 'A vertical labyrinth of howling blizzards, governed by the Knotted Decree and linked by Groven bone-spans.',
+    fullEntry: 'The Cragjaw Peaks are a vertical wilderness of razor ridges. Since House Tesshan traded visibility for a perpetual snow-veil, the region has been buried in blizzard. It is ruled by Jarl-Inca Oda Tesshan, who enforces the Knotted Decree, replacing written script with knotted khipus. The region is governed through the Steam-Line Cartel monopoly and the Tesshan-Mit\'a forced labor system. Its population is split between the high keeps\' Terraced and the lower chasms\' Chasm-Dwellers, while Yokai like the Yuki-Onna and Tengu-Crows stalk the cliffs.',
     relatedTerms: ['house_tesshan', 'frostmaw_holdfast', 'groven', 'fexrick', 'thrumm', 'scrab', 'the_great_gorge', 'gearworks_gulch', 'deepchasm_keep', 'frostmaw_massif']
   },
   'sundrift-vale': {
@@ -58,8 +58,8 @@ export const LORE_DICTIONARY = {
     term: 'Sundrift Vale',
     type: 'region',
     region: 'sundrift-vale',
-    summary: 'A wind-swept, starless steppe of dead tundra grass where nomadic clans follow woolly herds.',
-    fullEntry: 'The Sundrift Vale stretches beneath a dark sky empty of stars, constellations, or navigable heavens. House Ordavan traded fertile soil for the endless migration, ensuring the steppe\'s grass always returns to feed the great woolly herds. Nomadic clans navigate the starless grasslands by memory and the hum of ancestral burial mounds, sharing the steppe with the crystal-skinned Astril who carry the constellation-spirits of Sol\'s ministers in their veins.',
+    summary: 'A starless nomadic steppe governed by the Iron-Yurt Law and mapped by Steppe-Staves.',
+    fullEntry: 'The Sundrift Vale is a flat, wind-swept steppe beneath a starless sky. House Ordavan traded fertile soil for the endless migration. It is ruled by Khatun Bayarmaa Ordavan under the Iron-Yurt Law, which regulates grazing pastures using bone Steppe-Staves. Nomadic clans perform the mandatory Ordan-Urtuu post-system service and pay a heavy Herd-Tithe. The population is split between the horse-owning Mounted and the walking Unmounted, while traditional star-communing Sky-Singers are persecuted by the state.',
     relatedTerms: ['house_ordavan', 'synod_hold', 'astril', 'lien', 'hungry_child', 'starfall_vale', 'the_unlit_knoll', 'kumis_downs', 'ancestor_wold']
   },
   'bryngloom-forest': {
@@ -67,8 +67,8 @@ export const LORE_DICTIONARY = {
     term: 'Bryngloom Forest',
     type: 'region',
     region: 'bryngloom-forest',
-    summary: 'A semi-frozen sinking bog and bioluminescent forest governed by the contracts of the silver-skinned Neth.',
-    fullEntry: 'The Bryngloom Forest is a damp, twilight canopy where ironwood trees grow above bottomless, peat-sinking bogs. Here, the ancestors of the Neth struck a legalistic contract with the Root-Veil, trading death\'s finality for silver skin and stilled breath. It is a land of litigation, memory-preservation, and bioluminescent fungal groves, shared in cold silence with the lantern-eyed Vreken who sing to their glowing ancestors in inverted cathedrals. The oldest pre-bargain records name this land simply the Gloom — an older name that still survives in archaic speech, in the ancestral Gloom-Tongue, and in the Vreken epithet \'the Gloom-Lit\'; the compound Bryngloom is the modern form.',
+    summary: 'A twilight ironwood canopy and sinking peat-bog, governed by the First Contract and the Great Registry.',
+    fullEntry: 'The Bryngloom Forest is a twilight swamp. Since the Neth signed the First Contract with the Keeper of the Last Threshold, the region has been governed by legalistic debt-covenants. It is ruled by Regent Morrath Neth, who enforces the Great Registry at Atropolis. Passage is controlled via the living-ironwood Toll-Dikes, and the economy is driven by the Peat-Debt Bondage. Poor Morren are trapped in peonage, while deceased debtors are conscripted into postmortem labor as Debt-Revenants. Traditional Swamp-Song animism is suppressed under Registry-Rituals.',
     relatedTerms: ['atropolis', 'sunken_spire', 'neth', 'vreken', 'cycle_eater', 'debt_revenant', 'vel_keth_bayou', 'aran_glen', 'black_fen', 'widows_quagmire', 'morrens_bogpost']
   },
 
@@ -78,8 +78,8 @@ export const LORE_DICTIONARY = {
     term: 'House Thalreth',
     type: 'noble_house',
     region: 'frostwood-reach',
-    summary: 'The noble lineage of the Frostwood Reach who traded the region\'s spatial clarity for an insulating, protective fog.',
-    fullEntry: 'House Thalreth is the ancient ruling family of the Frostwood Reach, whose seat of power is Greymark Keep. Driven by a desperate need to protect their territory and wildlife from freezing solid during the Deepening, they bargained away the spatial clarity of the Reach. The resulting insulating fog keeps their ironwood timber warm but slowly eats the memories of their descendants, forcing them to maintain exhaustive, chained ledger-libraries to verify their lineages. The house also maintains satellite settlements at Mistbarrow, where archivists continue to petition for excavation of the ancient barrow, and Greythorn Copse, the fortified copse on the eastern trade route co-managed with the Briaran.',
+    summary: 'The noble lineage of the Frostwood Reach who traded the region\'s spatial clarity for an insulating fog, now enforcing the Sovereign Ledger.',
+    fullEntry: 'House Thalreth is the ancient ruling family of the Frostwood Reach, whose seat of power is Greymark Keep. Driven to protect their lands from the Freeze-Front, they traded spatial clarity for insulating fog. The current lord, Jarl-Archivist Kaelen Thalreth, enforces the Sovereign Ledger, stripping undocumented peoples of their rights. The house maintains the Scribe-Cartel monopoly on ink and paper, and operates the Tapestry-Wards to forcibly assimilate frontier and Mimir children into structured runic logic.',
     relatedTerms: ['frostwood-reach', 'greymark_keep', 'mistbarrow', 'greythorn_copse', 'mirror_mere']
   },
   'house_skalvyr': {
@@ -87,8 +87,8 @@ export const LORE_DICTIONARY = {
     term: 'House Skalvyr',
     type: 'noble_house',
     region: 'nordhalla',
-    summary: 'The northern lords of Nordhalla who halted the glaciers at the price of an eternal winter.',
-    fullEntry: 'House Skalvyr is the unyielding noble family of Nordhalla. During the sun\'s burial, when titanic glaciers advanced to grind their mountain keeps into dust, Skalvyr bargained with the Cosmic Warden to freeze the ice sheets in place. The Warden capitulated, halting the glaciers permanently — but decreed that summer would never return to the north. Their descendants rule the brutalist fjord-keeps, valuing cold-resistance above all. Vargtor, the wolf-tor garrison rising above the glacier line, serves as the house\'s primary forward garrison against glacier wyrms and eastern threats.',
+    summary: 'The northern lords of Nordhalla who halted the glaciers at the price of eternal winter, now represented by King-Jarl Járn-Tand.',
+    fullEntry: 'House Skalvyr is the unyielding ruling family of Nordhalla. During the solar burial, they traded summer to freeze the grinding glaciers in place. Recently, the house consolidated its rule under King-Jarl Halvar Skalvyr (Járn-Tand), who unified the clans by force. To fund his mercenaries, Járn-Tand mortgaged regional resources to southern syndicates, establishing the Icechamber Syndicate trade monopoly. The house enforces its rule through the Sunder-Wall and the Runic Academies, suppressing ancestral animism in favor of controlled runic calculations.',
     relatedTerms: ['nordhalla', 'frozen_archive', 'vargtor', 'ymirs_col', 'the_black_firth']
   },
   'house_solvan': {
@@ -96,8 +96,8 @@ export const LORE_DICTIONARY = {
     term: 'House Solvan',
     type: 'noble_house',
     region: 'sundale',
-    summary: 'The tragic family of Sundale whose heirs were sacrificed to bind the dying star Sol beneath their ashlands.',
-    fullEntry: 'House Solvan is the noble family of Sundale, heavily scarred by the history of the Great Breach. It was Solvan who spearheaded the entombment of Sol, flaying Aex to weave the binding seal. Pressed to extinction by the cold, they capitulated to Keth-Amar, marching their firstborn north. Their descendants remain in the scorched, soot-choked badlands of Emberspire, refusing to leave because leaving would mean admitting their ancestral sacrifice was meaningless. Sol\'s Anvil Mesa, the massive basalt tableland where Solvarn sun-priests conduct their holiest ceremonies, remains the house\'s most sacred ceremonial site outside Emberspire itself.',
+    summary: 'The tragic noble family of Sundale, recently sidelined by the Dawn Vigil theocracy.',
+    fullEntry: 'House Solvan is the ancient noble lineage of Sundale that spearheaded the entombment of Sol. Following Keth-Amar\'s breach and the collapse of the Solvan Imperium, the house lost its political legitimacy as the volcanic vents began to cool. The family has been largely sidelined by Hierophant Aethelgard and the Dawn Vigil. Their remaining descendants live in the shadow of Emberspire, witnessing their lands being industrially fractured and their youth conscripted by the state.',
     relatedTerms: ['sundale', 'emberspire', 'keth_amar', 'sols_anvil_mesa', 'the_ashen_escarpment', 'ember_lagoon']
   },
 
@@ -685,8 +685,8 @@ export const LORE_DICTIONARY = {
     term: 'Greymark Keep',
     type: 'location',
     region: 'frostwood-reach',
-    summary: 'The ancestral seat of House Thalreth and the center of Frostwood Reach\'s timber civilization, protected by the insulating fog of the Fog Compact.',
-    fullEntry: 'Greymark Keep is the seat of House Thalreth and the administrative heart of the Frostwood Reach. A vast timber fortress of petrified ironwood, it houses the ledger-libraries that preserve Thalren bloodlines against the fog\'s memory erosion, the Scribe-Sentinels\' headquarters, and the sealed vault containing the original text of the Fog Compact. The current Lord, Aldren Thalreth, has forgotten the location of a critical ledger — a secret that could doom the entire house.',
+    summary: 'The ancestral seat of House Thalreth and the administrative core of the Sovereign Ledger, protected by petrified ironwood palisades.',
+    fullEntry: 'Greymark Keep is the administrative capital of the Frostwood Reach. A massive peat-stone fortress, it houses the great tapestries of the Sovereign Ledger and the Tapestry-Wards, where Mimir and frontier children are assimilated. The keep is the base of the Scribe-Cartel, which enforces the monopoly on soot-resin ink and paper. It is ruled by Jarl-Archivist Kaelen Thalreth, who holds the keys to the ledger-libraries that legally validate all human existence in the region.',
     relatedTerms: ['frostwood-reach', 'house_thalreth', 'scribe-sentinels']
   },
   'ironjaw_port': {
@@ -753,8 +753,8 @@ export const LORE_DICTIONARY = {
     term: 'House Mereval',
     type: 'noble_house',
     region: 'iceheart-sea',
-    summary: 'The seafaring noble family of the Iceheart Sea who traded calm waters for perpetually unfreezing sea-lanes, binding the ocean to never rest.',
-    fullEntry: 'House Mereval rules the great, churning expanse of the Iceheart Sea. When their ancestors faced the freezing of the oceans during the Deepening, they bargained for navigable sea-lanes that would never freeze. The Warden accepted, but the price was the ocean\'s peace: the Iceheart would never sleep. Storm-cycles are now perpetual, and the sea must be fought as much as navigated. Their descendants rule from Merrowport, a floating city anchored to a warm submarine volcano, maintaining the trade routes that connect all seven regions. Spindrift Lagoon, the warm-water coral port tended by the Breakers-Born Myrathil, and the Deepwell Archipelago, the hidden underwater chain of Myrathil cave-cities, serve as the house\'s key southern and deep-water ports.',
+    summary: 'The seafaring ruling family of the Iceheart Sea, enforcing the Sea-Charter and the Brine-Bond Syndicate.',
+    fullEntry: 'House Mereval rules the Iceheart Sea under Grand Admiral Varis. Having traded calm waters for unfreezing sea-lanes, the house governs the floating capital of Merrowport. They maintain control through a monopoly on the Brine-Bond Syndicate, paying crews in Voyage-Shares, and enforce ship registrations via the Unfreezing Booms. Under the state-enforced Luck-Ledger, the house purges Tide-Speak animists. The house has recently deployed steam-trawling fleets, causing ecological damage that drives Myrathil to madness.',
     relatedTerms: ['iceheart-sea', 'merrowport', 'minstrel', 'spindrift_lagoon', 'deepwell_archipelago', 'kelpies_cove']
   },
   'house_tesshan': {
@@ -762,8 +762,8 @@ export const LORE_DICTIONARY = {
     term: 'House Tesshan',
     type: 'noble_house',
     region: 'cragjaw-peaks',
-    summary: 'The mountain lords of the Cragjaw Peaks who traded visibility for a perpetual blizzard to hide their highland keeps from starving lowlanders.',
-    fullEntry: 'House Tesshan rules the vertical labyrinth of the Cragjaw Peaks, where the eternal blizzard hides their fortress-keeps from the starving lowland riders. Their bargain traded spatial visibility for protective snow-veil — a dense, permanent whiteout that buries all natural landmarks. Their descendants survive through the Groven\'s Ancestor-Spans, the only thoroughfares above the blizzard line. The Tesshan value altitude as status and concealment as currency. Deepchasm Keep, the fortress spanning the great mountain fissure, controls the only reliable passage between upper peaks and lower galleries and serves as the house\'s most strategically vital installation.',
+    summary: 'The mountain lords of the Cragjaw Peaks who enforce the Knotted Decree, the Steam-Line Cartel, and the Tesshan-Mit\'a.',
+    fullEntry: 'House Tesshan rules the vertical keeps of the Cragjaw Peaks under Jarl-Inca Oda Tesshan. Having traded visibility for a protective snow-veil, the house isolated itself from lowlanders. They maintain control through a monopoly on the geothermal Steam-Line Cartel and the enforcement of the Tesshan-Mit\'a labor system. By outlawing written language in favor of knotted khipu-cords, Oda Tesshan regulates keeps by controlling their records. The house systematically purges traditional "Kami-Speakers" who commune with mountain rock-spirits (Kami).',
     relatedTerms: ['cragjaw-peaks', 'frostmaw_holdfast', 'groven', 'deepchasm_keep', 'gearworks_gulch', 'frostmaw_massif']
   },
   'house_ordavan': {
@@ -771,8 +771,8 @@ export const LORE_DICTIONARY = {
     term: 'House Ordavan',
     type: 'noble_house',
     region: 'sundrift-vale',
-    summary: 'The nomadic noble family of the Sundrift Vale who traded fertile soil for the endless migration, ensuring the steppe grass always returns to feed the great woolly herds.',
-    fullEntry: 'House Ordavan governs the wind-swept, starless steppe of the Sundrift Vale. Their bargain traded fertile soil for the endless migration — the grass will always return, but nothing deeper than grass can take root. Their descendants follow the woolly herds in perpetual nomadic cycles, navigating by the hum of ancestral burial mounds. The Ordavan are increasingly puppeteered by the Unlit Veil, whose "advisors" have embedded themselves at every level of governance. The Kumis Downs, rolling grasslands in the southern steppe, serve as the primary gathering grounds for the Ordavan clan-meets where migration routes are negotiated and bloodline disputes are settled.',
+    summary: 'The nomadic ruling family of the Sundrift Vale, enforcing the Iron-Yurt Law and the Herd-Tithe.',
+    fullEntry: 'House Ordavan governs the starless steppe of the Sundrift Vale under Khatun Bayarmaa. Having traded fertile soil for the endless migration, the house enforces pasture and migration registrations on Steppe-Staves. They maintain a monopoly through the Herd-Tithe, demanding a third of yearly foals, and police routes via basalt Cairn-Checkpoints. Under the state-enforced ancestor worship, they systematically purge Sky-Singers. The house recently authorized geothermal Thermal Bores, creating toxic sinkholes on the steppe.',
     relatedTerms: ['sundrift-vale', 'synod_hold', 'astril', 'kumis_downs', 'ancestor_wold', 'starfall_vale']
   },
   'house_morrath': {
@@ -780,8 +780,8 @@ export const LORE_DICTIONARY = {
     term: 'House Morrath',
     type: 'noble_house',
     region: 'bryngloom-forest',
-    summary: 'The seventh and most mysterious of the binding houses, who rule the Bryngloom Forest. Unique among the houses: they had nothing left to trade, so they borrowed their survival from the Neth.',
-    fullEntry: 'House Morrath is the ghost among houses — the seventh noble family named in the Binding Compact, yet the one with the least surviving record. When the six other houses marched their firstborn to the northern peaks to satisfy Keth-Amar, Morrath had nothing left to trade that Keth-Amar would accept. Their survival was instead borrowed from the Neth — the scribe-clan who had already struck their own legalistic contract with the Keeper of the Last Threshold. This has produced a permanent tension: the Morrath are a noble house whose authority is mediated through the Neth\'s contract-law, making them simultaneously sovereign and subordinate, a contradiction that has defined the Bryngloom\'s politics for eight centuries. Morren\'s Bogpost, the trading outpost at the forest-steppe edge, exemplifies the Morrath strategy of financial entanglement — generous credit, compounding interest, and permanent economic leverage over every trading partner.',
+    summary: 'The noble house of the Bryngloom Forest governed by Regent Morrath Neth, enforcing the Great Registry and the Postmortem Corvée.',
+    fullEntry: 'House Morrath governs the Bryngloom Forest under the First Contract. Having borrowed their survival from the Neth scribe-clan, the house operates as an administrative regency. They maintain control through a monopoly on Memory-Glass Covenants and the Great Registry, demanding labor and memory tithes. Deceased debtors are conscripted as Debt-Revenants (the Postmortem Corvée) to work the sumps. The house has recently authorized industrial Peat-Presses, causing swamp drainage that decays the ironwood roots.',
     relatedTerms: ['bryngloom-forest', 'neth', 'keth_amar', 'morrens_bogpost', 'black_fen', 'widows_quagmire']
   },
 

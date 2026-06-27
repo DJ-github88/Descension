@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useCallback } from 'react';
-import WowWindow from '../windows/WowWindow';
+import MythrillWindow from '../windows/MythrillWindow';
 import SummonTokenCard from './SummonTokenCard';
 import { getTokensForCharacter, resolveClassId } from '../../data/summonableTokens';
 import { summonTokenFromTemplate, templateToCreatureData } from '../../services/tokenSummonService';
@@ -89,7 +89,7 @@ const SummonTokenBar = ({ isOpen, onClose, character }) => {
   const windowTitle = `${character?.characterClass || character?.name || 'Class'} Summons`;
 
   return (
-    <WowWindow
+    <MythrillWindow
       title={windowTitle}
       isOpen={true}
       onClose={onClose}
@@ -232,7 +232,7 @@ const SummonTokenBar = ({ isOpen, onClose, character }) => {
           <span>Level {character?.level || 1}</span>
         </div>
       </div>
-    </WowWindow>
+    </MythrillWindow>
   );
 };
 

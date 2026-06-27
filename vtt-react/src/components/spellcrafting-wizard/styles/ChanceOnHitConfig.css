@@ -3,35 +3,35 @@
 .chance-on-hit-config,
 .critical-hit-config,
 .saving-throw-config {
-  background: var(--pf-gradient-parchment-light);
-  border-radius: var(--pf-border-radius);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  padding: var(--pf-space-3);
-  margin-bottom: var(--pf-space-4);
-  font-family: var(--pf-font-body);
+  background: var(--my-gradient-parchment-light);
+  border-radius: var(--my-border-radius);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  padding: var(--my-space-3);
+  margin-bottom: var(--my-space-4);
+  font-family: var(--my-font-body);
 }
 
 /* Pathfinder-styled option */
 .wow-option {
-  background: var(--pf-gradient-parchment-dark);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-4);
-  margin-bottom: var(--pf-space-4);
-  transition: all var(--pf-transition-normal);
+  background: var(--my-gradient-parchment-dark);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-4);
+  margin-bottom: var(--my-space-4);
+  transition: all var(--my-transition-normal);
 }
 
 .wow-option:hover {
-  background: var(--pf-gradient-button-hover);
-  border-color: var(--pf-brown-dark);
-  box-shadow: var(--pf-shadow-sm);
+  background: var(--my-gradient-button-hover);
+  border-color: var(--my-brown-dark);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .wow-checkbox-label {
   display: flex;
   align-items: center;
   cursor: pointer;
-  margin-bottom: var(--pf-space-2);
+  margin-bottom: var(--my-space-2);
 }
 
 .wow-checkbox {
@@ -49,8 +49,8 @@
   background: linear-gradient(135deg, #f8f5e8 0%, #f0ead6 100%);
   border: 2px solid #8b6914;
   border-radius: 4px;
-  margin-right: var(--pf-space-3);
-  transition: all var(--pf-transition-normal);
+  margin-right: var(--my-space-3);
+  transition: all var(--my-transition-normal);
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
   flex-shrink: 0;
   cursor: pointer;
@@ -97,35 +97,35 @@
 }
 
 .wow-option-text {
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-primary);
-  font-size: var(--pf-text-base);
-  text-shadow: var(--pf-text-shadow);
-  font-family: var(--pf-font-ui);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-primary);
+  font-size: var(--my-text-base);
+  text-shadow: var(--my-text-shadow);
+  font-family: var(--my-font-ui);
 }
 
 .wow-option-description {
   margin-left: 34px;
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-secondary);
+  font-size: var(--my-text-sm);
+  color: var(--my-text-secondary);
   line-height: 1.4;
-  font-family: var(--pf-font-body);
+  font-family: var(--my-font-body);
 }
 
 .config-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--pf-space-4);
-  border-bottom: var(--pf-border-width) solid var(--pf-brown-light);
-  padding-bottom: var(--pf-space-3);
+  margin-bottom: var(--my-space-4);
+  border-bottom: var(--my-border-width) solid var(--my-brown-light);
+  padding-bottom: var(--my-space-3);
 }
 
 /* Toggle Container */
 .toggle-container {
   display: flex;
   align-items: center;
-  margin-bottom: var(--pf-space-4);
+  margin-bottom: var(--my-space-4);
 }
 
 /* Toggle Switch Label */
@@ -148,20 +148,20 @@
   display: inline-block;
   width: 50px;
   height: 24px;
-  background: var(--pf-gradient-input);
+  background: var(--my-gradient-input);
   border-radius: 24px;
-  margin-right: var(--pf-space-3);
-  transition: all var(--pf-transition-normal);
-  box-shadow: var(--pf-shadow-inset);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  margin-right: var(--my-space-3);
+  transition: all var(--my-transition-normal);
+  box-shadow: var(--my-shadow-inset);
+  border: var(--my-border-width) solid var(--my-brown-medium);
 }
 
 .toggle-label {
   display: inline-block;
-  font-size: var(--pf-text-base);
-  color: var(--pf-text-primary);
+  font-size: var(--my-text-base);
+  color: var(--my-text-primary);
   white-space: nowrap;
-  font-family: var(--pf-font-ui);
+  font-family: var(--my-font-ui);
 }
 
 .toggle-slider:before {
@@ -171,15 +171,15 @@
   width: 18px;
   left: 3px;
   bottom: 2px;
-  background: linear-gradient(to bottom, var(--pf-parchment-light), var(--pf-parchment));
+  background: linear-gradient(to bottom, var(--my-parchment-light), var(--my-parchment));
   border-radius: 50%;
-  transition: all var(--pf-transition-normal);
-  box-shadow: var(--pf-shadow-sm);
+  transition: all var(--my-transition-normal);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .toggle-switch-label input:checked + .toggle-slider {
-  background: var(--pf-gradient-gold);
-  border-color: var(--pf-gold-dark);
+  background: var(--my-gradient-gold);
+  border-color: var(--my-gold-dark);
 }
 
 .toggle-switch-label input:checked + .toggle-slider:before {
@@ -188,30 +188,30 @@
 
 .toggle-text {
   display: inline-block;
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-primary);
-  font-size: var(--pf-text-base);
-  text-shadow: var(--pf-text-shadow);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-primary);
+  font-size: var(--my-text-base);
+  text-shadow: var(--my-text-shadow);
   white-space: nowrap;
-  margin-left: var(--pf-space-2);
-  font-family: var(--pf-font-ui);
+  margin-left: var(--my-space-2);
+  font-family: var(--my-font-ui);
 }
 
 .proc-resolution-method {
-  margin-bottom: var(--pf-space-6);
+  margin-bottom: var(--my-space-6);
 }
 
 .proc-resolution-method h4 {
-  font-size: var(--pf-text-base);
-  color: var(--pf-text-primary);
-  margin-bottom: var(--pf-space-3);
-  font-family: var(--pf-font-heading);
+  font-size: var(--my-text-base);
+  color: var(--my-text-primary);
+  margin-bottom: var(--my-space-3);
+  font-family: var(--my-font-heading);
 }
 
 .resolution-options {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--pf-space-4);
+  gap: var(--my-space-4);
 }
 
 @media (max-width: 768px) {
@@ -223,8 +223,8 @@
 .config-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--pf-space-4);
-  margin-bottom: var(--pf-space-4);
+  gap: var(--my-space-4);
+  margin-bottom: var(--my-space-4);
 }
 
 @media (max-width: 768px) {
@@ -234,7 +234,7 @@
 }
 
 .form-group {
-  margin-bottom: var(--pf-space-4);
+  margin-bottom: var(--my-space-4);
 }
 
 /* Removed duplicate .form-group label - using consolidated styles */
@@ -246,37 +246,37 @@
 
 .input-with-label input {
   flex: 1;
-  background: var(--pf-gradient-input);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
-  padding: var(--pf-space-2);
-  font-size: var(--pf-text-sm);
-  font-family: var(--pf-font-body);
+  background: var(--my-gradient-input);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
+  padding: var(--my-space-2);
+  font-size: var(--my-text-sm);
+  font-family: var(--my-font-body);
 }
 
 .input-label {
-  margin-left: var(--pf-space-2);
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-sm);
-  font-family: var(--pf-font-ui);
+  margin-left: var(--my-space-2);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-sm);
+  font-family: var(--my-font-ui);
 }
 
 .help-text {
-  font-size: var(--pf-text-xs);
-  color: var(--pf-text-secondary);
-  margin-top: var(--pf-space-1);
-  font-family: var(--pf-font-body);
+  font-size: var(--my-text-xs);
+  color: var(--my-text-secondary);
+  margin-top: var(--my-space-1);
+  font-family: var(--my-font-body);
 }
 
 .checkbox-label {
   display: flex;
   align-items: center;
   cursor: pointer;
-  margin-bottom: var(--pf-space-2);
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-ui);
+  margin-bottom: var(--my-space-2);
+  font-size: var(--my-text-sm);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-ui);
 }
 
 .checkbox-label input[type="checkbox"] {
@@ -284,20 +284,20 @@
   appearance: none;
   width: 22px;
   height: 22px;
-  background: var(--pf-gradient-input);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  margin-right: var(--pf-space-3);
+  background: var(--my-gradient-input);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  margin-right: var(--my-space-3);
   position: relative;
   cursor: pointer;
-  box-shadow: var(--pf-shadow-inset);
-  transition: all var(--pf-transition-normal);
+  box-shadow: var(--my-shadow-inset);
+  transition: all var(--my-transition-normal);
   flex-shrink: 0;
 }
 
 .checkbox-label input[type="checkbox"]:checked {
-  background: var(--pf-gradient-gold);
-  border-color: var(--pf-gold-dark);
+  background: var(--my-gradient-gold);
+  border-color: var(--my-gold-dark);
 }
 
 /* DISABLED - This creates the 90-degree angle checkmark that conflicts */
@@ -322,66 +322,66 @@
 }
 
 .checkbox-label input[type="checkbox"]:hover {
-  background: var(--pf-gradient-button-hover);
+  background: var(--my-gradient-button-hover);
 }
 
 .checkbox-label input[type="checkbox"]:focus {
   outline: none;
-  box-shadow: 0 0 0 2px var(--pf-gold);
+  box-shadow: 0 0 0 2px var(--my-gold);
 }
 
 .suit-selection {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
 }
 
 .suit-button {
-  background: var(--pf-gradient-button);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
-  padding: var(--pf-space-2);
+  background: var(--my-gradient-button);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
+  padding: var(--my-space-2);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
-  font-family: var(--pf-font-ui);
+  transition: all var(--my-transition-normal);
+  font-family: var(--my-font-ui);
 }
 
 .suit-button:hover {
-  background: var(--pf-gradient-button-hover);
-  border-color: var(--pf-brown-dark);
+  background: var(--my-gradient-button-hover);
+  border-color: var(--my-brown-dark);
   transform: translateY(-1px);
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .suit-button.selected {
-  background: var(--pf-gradient-gold);
-  border-color: var(--pf-gold-dark);
-  color: var(--pf-brown-darkest);
+  background: var(--my-gradient-gold);
+  border-color: var(--my-gold-dark);
+  color: var(--my-brown-darkest);
 }
 
 .proc-effects-section {
-  margin-top: var(--pf-space-6);
+  margin-top: var(--my-space-6);
 }
 
 .proc-effects-section h4 {
-  font-size: var(--pf-text-base);
-  color: var(--pf-text-primary);
-  margin-bottom: var(--pf-space-2);
-  font-family: var(--pf-font-heading);
+  font-size: var(--my-text-base);
+  color: var(--my-text-primary);
+  margin-bottom: var(--my-space-2);
+  font-family: var(--my-font-heading);
 }
 
 .proc-effects-section p {
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-secondary);
-  margin-bottom: var(--pf-space-4);
-  font-family: var(--pf-font-body);
+  font-size: var(--my-text-sm);
+  color: var(--my-text-secondary);
+  margin-bottom: var(--my-space-4);
+  font-family: var(--my-font-body);
 }
 
 .proc-effects-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--pf-space-4);
+  gap: var(--my-space-4);
 }
 
 @media (max-width: 768px) {
@@ -393,10 +393,10 @@
 .proc-effect-card {
   background: linear-gradient(135deg, #f8f5e8 0%, #f0ead6 100%);
   border: 2px solid #8b6914;
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-3);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-3);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -415,180 +415,180 @@
 }
 
 .effect-icon {
-  font-size: var(--pf-text-xl);
-  color: var(--pf-gold);
-  margin-bottom: var(--pf-space-2);
+  font-size: var(--my-text-xl);
+  color: var(--my-gold);
+  margin-bottom: var(--my-space-2);
   text-align: center;
 }
 
 .effect-name {
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-primary);
-  margin-bottom: var(--pf-space-1);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-primary);
+  margin-bottom: var(--my-space-1);
   text-align: center;
-  font-family: var(--pf-font-ui);
+  font-family: var(--my-font-ui);
 }
 
 .effect-description {
-  font-size: var(--pf-text-xs);
-  color: var(--pf-text-secondary);
+  font-size: var(--my-text-xs);
+  color: var(--my-text-secondary);
   text-align: center;
-  font-family: var(--pf-font-body);
+  font-family: var(--my-font-body);
 }
 
 /* Dice-based proc configuration */
 .dice-proc-config {
-  background: var(--pf-gradient-parchment-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-4);
-  margin-bottom: var(--pf-space-4);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+  background: var(--my-gradient-parchment-light);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-4);
+  margin-bottom: var(--my-space-4);
+  border: var(--my-border-width) solid var(--my-brown-light);
 }
 
 /* Card-based proc configuration */
 .card-proc-config {
-  background: var(--pf-gradient-parchment-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-4);
-  margin-bottom: var(--pf-space-4);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+  background: var(--my-gradient-parchment-light);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-4);
+  margin-bottom: var(--my-space-4);
+  border: var(--my-border-width) solid var(--my-brown-light);
 }
 
 /* Coin-based proc configuration */
 .coin-proc-config {
-  background: var(--pf-gradient-parchment-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-4);
-  margin-bottom: var(--pf-space-4);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+  background: var(--my-gradient-parchment-light);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-4);
+  margin-bottom: var(--my-space-4);
+  border: var(--my-border-width) solid var(--my-brown-light);
 }
 
 /* Spell selection */
 .proc-spell-section {
-  margin-top: var(--pf-space-6);
-  margin-bottom: var(--pf-space-6);
+  margin-top: var(--my-space-6);
+  margin-bottom: var(--my-space-6);
 }
 
 .proc-spell-section h4 {
-  font-size: var(--pf-text-base);
-  color: var(--pf-text-primary);
-  margin-bottom: var(--pf-space-2);
-  font-family: var(--pf-font-heading);
+  font-size: var(--my-text-base);
+  color: var(--my-text-primary);
+  margin-bottom: var(--my-space-2);
+  font-family: var(--my-font-heading);
 }
 
 .proc-spell-section p {
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-secondary);
-  margin-bottom: var(--pf-space-4);
-  font-family: var(--pf-font-body);
+  font-size: var(--my-text-sm);
+  color: var(--my-text-secondary);
+  margin-bottom: var(--my-space-4);
+  font-family: var(--my-font-body);
 }
 
 .spell-selector {
-  margin-bottom: var(--pf-space-4);
+  margin-bottom: var(--my-space-4);
 }
 
 .spell-select {
   width: 100%;
-  background: var(--pf-gradient-input);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
-  padding: var(--pf-space-3);
-  font-size: var(--pf-text-sm);
-  font-family: var(--pf-font-body);
+  background: var(--my-gradient-input);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
+  padding: var(--my-space-3);
+  font-size: var(--my-text-sm);
+  font-family: var(--my-font-body);
 }
 
 .selected-spell-preview {
-  background: var(--pf-gradient-parchment-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-4);
-  margin-top: var(--pf-space-4);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+  background: var(--my-gradient-parchment-light);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-4);
+  margin-top: var(--my-space-4);
+  border: var(--my-border-width) solid var(--my-brown-light);
 }
 
 .selected-spell-preview h5 {
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-primary);
-  margin-bottom: var(--pf-space-2);
-  font-family: var(--pf-font-heading);
+  font-size: var(--my-text-sm);
+  color: var(--my-text-primary);
+  margin-bottom: var(--my-space-2);
+  font-family: var(--my-font-heading);
 }
 
 .spell-card-mini {
-  background: var(--pf-gradient-parchment-dark);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-3);
+  background: var(--my-gradient-parchment-dark);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-3);
 }
 
 .spell-name {
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-primary);
-  margin-bottom: var(--pf-space-1);
-  font-family: var(--pf-font-ui);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-primary);
+  margin-bottom: var(--my-space-1);
+  font-family: var(--my-font-ui);
 }
 
 .spell-type {
-  font-size: var(--pf-text-xs);
-  color: var(--pf-text-secondary);
-  margin-bottom: var(--pf-space-2);
-  font-family: var(--pf-font-body);
+  font-size: var(--my-text-xs);
+  color: var(--my-text-secondary);
+  margin-bottom: var(--my-space-2);
+  font-family: var(--my-font-body);
 }
 
 .spell-description {
-  font-size: var(--pf-text-xs);
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-body);
+  font-size: var(--my-text-xs);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-body);
 }
 
 select {
   width: 100%;
-  background: var(--pf-gradient-input);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
-  padding: var(--pf-space-2);
-  font-size: var(--pf-text-sm);
-  font-family: var(--pf-font-body);
+  background: var(--my-gradient-input);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
+  padding: var(--my-space-2);
+  font-size: var(--my-text-sm);
+  font-family: var(--my-font-body);
 }
 
 input[type="text"],
 input[type="number"] {
   width: 100%;
-  background: var(--pf-gradient-input);
+  background: var(--my-gradient-input);
 
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
-  padding: var(--pf-space-2);
-  font-size: var(--pf-text-sm);
-  font-family: var(--pf-font-body);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
+  padding: var(--my-space-2);
+  font-size: var(--my-text-sm);
+  font-family: var(--my-font-body);
 }
 
 /* Readonly input styling */
 .readonly-input {
-  background: var(--pf-gradient-parchment-light) !important;
-  color: var(--pf-text-secondary) !important;
+  background: var(--my-gradient-parchment-light) !important;
+  color: var(--my-text-secondary) !important;
   cursor: not-allowed !important;
   opacity: 0.8 !important;
 }
 
 /* Selected Effects Summary */
 .selected-effects-summary {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-4);
-  margin-top: var(--pf-space-3);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-4);
+  margin-top: var(--my-space-3);
 }
 
 .selected-effect-item {
   display: flex;
   align-items: flex-start;
-  gap: var(--pf-space-2);
-  margin-bottom: var(--pf-space-3);
-  padding: var(--pf-space-2);
-  background: var(--pf-gradient-parchment);
-  border: 1px solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius-sm);
+  gap: var(--my-space-2);
+  margin-bottom: var(--my-space-3);
+  padding: var(--my-space-2);
+  background: var(--my-gradient-parchment);
+  border: 1px solid var(--my-brown-light);
+  border-radius: var(--my-border-radius-sm);
 }
 
 .selected-effect-item:last-child {
@@ -596,16 +596,16 @@ input[type="number"] {
 }
 
 .selected-effect-item strong {
-  font-family: var(--pf-font-ui);
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-primary);
+  font-family: var(--my-font-ui);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-primary);
   min-width: 120px;
   flex-shrink: 0;
 }
 
 .selected-effect-item span:not(strong) {
-  font-family: var(--pf-font-body);
-  color: var(--pf-text-secondary);
+  font-family: var(--my-font-body);
+  color: var(--my-text-secondary);
   flex: 1;
 }
 
@@ -614,17 +614,17 @@ input[type="checkbox"] {
   appearance: none;
   width: 18px;
   height: 18px;
-  border: 2px solid var(--pf-brown-medium);
+  border: 2px solid var(--my-brown-medium);
   border-radius: 3px;
-  background: var(--pf-gradient-parchment);
+  background: var(--my-gradient-parchment);
   cursor: pointer;
   position: relative;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
 }
 
 input[type="checkbox"]:checked {
-  background: var(--pf-gradient-button);
-  border-color: var(--pf-brown-dark);
+  background: var(--my-gradient-button);
+  border-color: var(--my-brown-dark);
 }
 
 input[type="checkbox"]:checked::after {
@@ -633,13 +633,13 @@ input[type="checkbox"]:checked::after {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: var(--pf-text-light);
+  color: var(--my-text-light);
   font-weight: bold;
   font-size: 12px;
 }
 
 input[type="checkbox"]:hover {
-  border-color: var(--pf-brown-dark);
+  border-color: var(--my-brown-dark);
   box-shadow: 0 0 0 2px rgba(139, 105, 20, 0.2);
 }
 
@@ -652,14 +652,14 @@ input[type="checkbox"]:hover {
 
 .unified-spell-stat.saving-throw .unified-stat-label {
   color: #4a90e2;
-  font-weight: var(--pf-font-bold);
-  font-family: var(--pf-font-ui);
+  font-weight: var(--my-font-bold);
+  font-family: var(--my-font-ui);
 }
 
 .unified-spell-stat.saving-throw .unified-stat-value {
   color: #2c5282;
-  font-family: var(--pf-font-body);
-  font-weight: var(--pf-font-medium);
+  font-family: var(--my-font-body);
+  font-weight: var(--my-font-medium);
 }
 
 .unified-spell-stat.critical-hit {
@@ -668,14 +668,14 @@ input[type="checkbox"]:hover {
 
 .unified-spell-stat.critical-hit .unified-stat-label {
   color: #e53e3e;
-  font-weight: var(--pf-font-bold);
-  font-family: var(--pf-font-ui);
+  font-weight: var(--my-font-bold);
+  font-family: var(--my-font-ui);
 }
 
 .unified-spell-stat.critical-hit .unified-stat-value {
   color: #c53030;
-  font-family: var(--pf-font-body);
-  font-weight: var(--pf-font-medium);
+  font-family: var(--my-font-body);
+  font-weight: var(--my-font-medium);
 }
 
 .unified-spell-stat.chance-on-hit {
@@ -684,14 +684,14 @@ input[type="checkbox"]:hover {
 
 .unified-spell-stat.chance-on-hit .unified-stat-label {
   color: #38a169;
-  font-weight: var(--pf-font-bold);
-  font-family: var(--pf-font-ui);
+  font-weight: var(--my-font-bold);
+  font-family: var(--my-font-ui);
 }
 
 .unified-spell-stat.chance-on-hit .unified-stat-value {
   color: #2f855a;
-  font-family: var(--pf-font-body);
-  font-weight: var(--pf-font-medium);
+  font-family: var(--my-font-body);
+  font-weight: var(--my-font-medium);
 }
 
 /* Main damage formula styling */
@@ -1009,36 +1009,36 @@ input[type="checkbox"]:hover {
 .mechanics-popup-body .critical-hit-config {
   background: transparent !important;
   border: none !important;
-  padding: var(--pf-space-2) !important;
+  padding: var(--my-space-2) !important;
   margin: 0 !important;
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-4);
+  gap: var(--my-space-4);
 }
 
 /* ===== SECTION 1: ENABLE TOGGLES ===== */
 .mechanics-popup-body .config-header {
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius-lg);
-  padding: var(--pf-space-4);
-  box-shadow: var(--pf-shadow-sm);
-  margin-bottom: var(--pf-space-3);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius-lg);
+  padding: var(--my-space-4);
+  box-shadow: var(--my-shadow-sm);
+  margin-bottom: var(--my-space-3);
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-3);
+  gap: var(--my-space-3);
 }
 
 .mechanics-popup-body .config-header h3 {
-  font-family: var(--pf-font-ui);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-primary) !important;
+  font-family: var(--my-font-ui);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-primary) !important;
   margin: 0 !important;
-  font-size: var(--pf-text-base);
+  font-size: var(--my-text-base);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  border-bottom: 2px solid var(--pf-brown-light);
-  padding-bottom: var(--pf-space-2);
+  border-bottom: 2px solid var(--my-brown-light);
+  padding-bottom: var(--my-space-2);
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
@@ -1046,7 +1046,7 @@ input[type="checkbox"]:hover {
 .mechanics-popup-body .config-header {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--pf-space-3);
+  gap: var(--my-space-3);
 }
 
 /* Make h3 span full width */
@@ -1067,12 +1067,12 @@ input[type="checkbox"]:hover {
 /* ===== BULLETPROOF CHECKBOX STYLING ===== */
 .mechanics-popup-body .config-toggle,
 .mechanics-popup-body .crit-only-toggle {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius-lg);
-  padding: var(--pf-space-3);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius-lg);
+  padding: var(--my-space-3);
   margin-bottom: 0;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   min-height: 80px;
   display: flex;
   flex-direction: column;
@@ -1081,20 +1081,20 @@ input[type="checkbox"]:hover {
 
 .mechanics-popup-body .config-toggle:hover,
 .mechanics-popup-body .crit-only-toggle:hover {
-  background: var(--pf-gradient-parchment);
-  border-color: var(--pf-brown-medium);
-  box-shadow: var(--pf-shadow-sm);
+  background: var(--my-gradient-parchment);
+  border-color: var(--my-brown-medium);
+  box-shadow: var(--my-shadow-sm);
 }
 
 /* CRITICAL FIX: Override ALL checkbox styling conflicts - SINGLE CHECKMARK ONLY */
 .mechanics-popup-body .wow-checkbox-label {
   display: flex !important;
   align-items: center !important;
-  gap: var(--pf-space-3) !important;
+  gap: var(--my-space-3) !important;
   cursor: pointer !important;
-  font-family: var(--pf-font-ui) !important;
-  font-weight: var(--pf-font-medium) !important;
-  color: var(--pf-text-primary) !important;
+  font-family: var(--my-font-ui) !important;
+  font-weight: var(--my-font-medium) !important;
+  color: var(--my-text-primary) !important;
   margin: 0 !important;
   padding: 0 !important;
 }
@@ -1112,11 +1112,11 @@ input[type="checkbox"]:hover {
 .mechanics-popup-body .wow-checkbox-custom {
   width: 20px !important;
   height: 20px !important;
-  background: var(--pf-gradient-parchment) !important;
-  border: 2px solid var(--pf-brown-medium) !important;
+  background: var(--my-gradient-parchment) !important;
+  border: 2px solid var(--my-brown-medium) !important;
   border-radius: 4px !important;
   position: relative !important;
-  transition: all var(--pf-transition-normal) !important;
+  transition: all var(--my-transition-normal) !important;
   flex-shrink: 0 !important;
   cursor: pointer !important;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1) !important;
@@ -1131,8 +1131,8 @@ input[type="checkbox"]:hover {
 }
 
 .mechanics-popup-body .wow-checkbox:checked + .wow-checkbox-custom {
-  background: var(--pf-gradient-button) !important;
-  border-color: var(--pf-brown-dark) !important;
+  background: var(--my-gradient-button) !important;
+  border-color: var(--my-brown-dark) !important;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.1) !important;
 }
 
@@ -1166,7 +1166,7 @@ input[type="checkbox"]:hover {
   left: 50% !important;
   top: 50% !important;
   transform: translate(-50%, -50%) !important;
-  color: var(--pf-text-light) !important;
+  color: var(--my-text-light) !important;
   font-weight: bold !important;
   font-size: 16px !important;
   line-height: 1 !important;
@@ -1212,24 +1212,24 @@ input[type="checkbox"]:hover {
 
 /* ===== SECTION 2: SPECIAL EFFECT RESOLUTION ===== */
 .mechanics-popup-body .special-effects-section {
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius-lg);
-  padding: var(--pf-space-4);
-  margin-bottom: var(--pf-space-3);
-  box-shadow: var(--pf-shadow-sm);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius-lg);
+  padding: var(--my-space-4);
+  margin-bottom: var(--my-space-3);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .mechanics-popup-body .special-effects-section h4 {
-  font-family: var(--pf-font-ui);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-primary) !important;
-  margin: 0 0 var(--pf-space-3) 0;
-  font-size: var(--pf-text-sm);
+  font-family: var(--my-font-ui);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-primary) !important;
+  margin: 0 0 var(--my-space-3) 0;
+  font-size: var(--my-text-sm);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  border-bottom: 1px solid var(--pf-brown-light);
-  padding-bottom: var(--pf-space-2);
+  border-bottom: 1px solid var(--my-brown-light);
+  padding-bottom: var(--my-space-2);
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
@@ -1241,24 +1241,24 @@ input[type="checkbox"]:hover {
 }
 
 .mechanics-popup-body .wow-option-text {
-  font-size: var(--pf-text-base) !important;
-  color: var(--pf-text-primary) !important;
-  font-weight: var(--pf-font-medium) !important;
-  font-family: var(--pf-font-ui) !important;
+  font-size: var(--my-text-base) !important;
+  color: var(--my-text-primary) !important;
+  font-weight: var(--my-font-medium) !important;
+  font-family: var(--my-font-ui) !important;
 }
 
 .mechanics-popup-body .wow-option-description {
-  font-size: var(--pf-text-sm) !important;
-  color: var(--pf-text-secondary) !important;
+  font-size: var(--my-text-sm) !important;
+  color: var(--my-text-secondary) !important;
   font-style: italic !important;
-  margin-top: var(--pf-space-2) !important;
+  margin-top: var(--my-space-2) !important;
   line-height: 1.4 !important;
-  font-family: var(--pf-font-body) !important;
+  font-family: var(--my-font-body) !important;
 }
 
 /* ===== ENHANCED FORM CONTROLS ===== */
 .mechanics-popup-body .form-group {
-  margin-bottom: var(--pf-space-4);
+  margin-bottom: var(--my-space-4);
 }
 
 /* Removed duplicate .mechanics-popup-body .form-group label - using consolidated styles */
@@ -1267,14 +1267,14 @@ input[type="checkbox"]:hover {
 .mechanics-popup-body .form-group input[type="text"],
 .mechanics-popup-body .form-group input[type="number"] {
   width: 100%;
-  padding: var(--pf-space-3);
-  border: 2px solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius-lg);
-  background: var(--pf-gradient-parchment-light);
-  color: var(--pf-text-primary) !important;
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-sm);
-  transition: all var(--pf-transition-normal);
+  padding: var(--my-space-3);
+  border: 2px solid var(--my-brown-light);
+  border-radius: var(--my-border-radius-lg);
+  background: var(--my-gradient-parchment-light);
+  color: var(--my-text-primary) !important;
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-sm);
+  transition: all var(--my-transition-normal);
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
@@ -1282,62 +1282,62 @@ input[type="checkbox"]:hover {
 .mechanics-popup-body .form-group input[type="text"]:focus,
 .mechanics-popup-body .form-group input[type="number"]:focus {
   outline: none;
-  border-color: var(--pf-brown-medium);
+  border-color: var(--my-brown-medium);
   box-shadow:
     inset 0 1px 3px rgba(0, 0, 0, 0.1),
     0 0 0 3px rgba(139, 69, 19, 0.2);
-  background: var(--pf-gradient-parchment);
+  background: var(--my-gradient-parchment);
 }
 
 /* Control groups with better spacing */
 .mechanics-popup-body .control-group {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-3);
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius-lg);
-  padding: var(--pf-space-4);
+  gap: var(--my-space-3);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius-lg);
+  padding: var(--my-space-4);
 }
 
 .mechanics-popup-body .control-group label {
-  font-family: var(--pf-font-ui);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-primary);
+  font-family: var(--my-font-ui);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-primary);
   margin: 0;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  font-size: var(--pf-text-sm);
+  font-size: var(--my-text-sm);
   white-space: nowrap;
 }
 
 /* ===== SECTION 3: CRITICAL MULTIPLIER & DICE ===== */
 .mechanics-popup-body .multiplier-section {
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius-lg);
-  padding: var(--pf-space-4);
-  margin-bottom: var(--pf-space-3);
-  box-shadow: var(--pf-shadow-sm);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius-lg);
+  padding: var(--my-space-4);
+  margin-bottom: var(--my-space-3);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .mechanics-popup-body .multiplier-section h4 {
-  font-family: var(--pf-font-ui);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-primary);
-  margin: 0 0 var(--pf-space-4) 0;
-  font-size: var(--pf-text-base);
+  font-family: var(--my-font-ui);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-primary);
+  margin: 0 0 var(--my-space-4) 0;
+  font-size: var(--my-text-base);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  border-bottom: 1px solid var(--pf-brown-light);
-  padding-bottom: var(--pf-space-2);
+  border-bottom: 1px solid var(--my-brown-light);
+  padding-bottom: var(--my-space-2);
 }
 
 .mechanics-popup-body .multiplier-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--pf-space-6);
-  margin-bottom: var(--pf-space-4);
+  gap: var(--my-space-6);
+  margin-bottom: var(--my-space-4);
   align-items: start;
 }
 
@@ -1345,50 +1345,50 @@ input[type="checkbox"]:hover {
 .mechanics-popup-body .control-group {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-3);
+  gap: var(--my-space-3);
 }
 
 .mechanics-popup-body .control-group label {
-  font-family: var(--pf-font-ui);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-primary) !important;
-  font-size: var(--pf-text-sm);
+  font-family: var(--my-font-ui);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-primary) !important;
+  font-size: var(--my-text-sm);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: var(--pf-space-2);
+  margin-bottom: var(--my-space-2);
 }
 
 /* Special effect resolution buttons - REDESIGNED */
 .mechanics-popup-body .resolution-options {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--pf-space-3);
-  margin-top: var(--pf-space-3);
+  gap: var(--my-space-3);
+  margin-top: var(--my-space-3);
 }
 
 .mechanics-popup-body .icon-selection-card {
-  background: var(--pf-gradient-parchment-light);
-  border: 2px solid var(--pf-brown-medium) !important;
-  border-radius: var(--pf-border-radius-lg);
-  padding: var(--pf-space-4);
+  background: var(--my-gradient-parchment-light);
+  border: 2px solid var(--my-brown-medium) !important;
+  border-radius: var(--my-border-radius-lg);
+  padding: var(--my-space-4);
   text-align: center;
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   min-height: 120px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--pf-space-3);
+  gap: var(--my-space-3);
   position: relative;
   overflow: hidden;
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
 }
 
 /* Override inline border: none styles */
 .mechanics-popup-body .icon-selection-card[style*="border: none"],
 .mechanics-popup-body .icon-selection-card[style*="border:none"] {
-  border: 2px solid var(--pf-brown-medium) !important;
+  border: 2px solid var(--my-brown-medium) !important;
 }
 
 .mechanics-popup-body .icon-selection-card::before {
@@ -1400,7 +1400,7 @@ input[type="checkbox"]:hover {
   bottom: 0;
   background: linear-gradient(135deg, transparent 0%, rgba(139, 69, 19, 0.05) 100%);
   opacity: 0;
-  transition: opacity var(--pf-transition-normal);
+  transition: opacity var(--my-transition-normal);
 }
 
 .mechanics-popup-body .icon-selection-card:hover::before {
@@ -1408,25 +1408,25 @@ input[type="checkbox"]:hover {
 }
 
 .mechanics-popup-body .icon-selection-card:hover {
-  border-color: var(--pf-brown-medium);
+  border-color: var(--my-brown-medium);
   transform: translateY(-3px);
-  box-shadow: var(--pf-shadow-lg);
+  box-shadow: var(--my-shadow-lg);
 }
 
 .mechanics-popup-body .icon-selection-card.selected {
-  background: var(--pf-gradient-gold);
-  border-color: var(--pf-gold-dark);
-  color: var(--pf-brown-darkest);
-  box-shadow: var(--pf-shadow-glow);
+  background: var(--my-gradient-gold);
+  border-color: var(--my-gold-dark);
+  color: var(--my-brown-darkest);
+  box-shadow: var(--my-shadow-glow);
   transform: translateY(-2px);
 }
 
 .mechanics-popup-body .icon-selection-card .icon,
 .mechanics-popup-body .icon-selection-card .icon * {
   font-size: 32px;
-  margin-bottom: var(--pf-space-2);
+  margin-bottom: var(--my-space-2);
   color: #ffffff !important;
-  transition: color var(--pf-transition-normal);
+  transition: color var(--my-transition-normal);
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
@@ -1445,77 +1445,77 @@ input[type="checkbox"]:hover {
 }
 
 .mechanics-popup-body .icon-selection-card h5 {
-  font-family: var(--pf-font-ui);
-  font-weight: var(--pf-font-bold);
-  font-size: var(--pf-text-sm);
+  font-family: var(--my-font-ui);
+  font-weight: var(--my-font-bold);
+  font-size: var(--my-text-sm);
   margin: 0;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: var(--pf-text-primary);
+  color: var(--my-text-primary);
 }
 
 .mechanics-popup-body .icon-selection-card p {
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-xs);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-xs);
   margin: 0;
   opacity: 0.8;
   line-height: 1.4;
-  color: var(--pf-text-secondary);
+  color: var(--my-text-secondary);
 }
 
 .mechanics-popup-body .icon-selection-card.selected h5,
 .mechanics-popup-body .icon-selection-card.selected p {
-  color: var(--pf-brown-darkest);
+  color: var(--my-brown-darkest);
 }
 
 /* ===== ENHANCED MULTIPLIER & DC CONTROLS ===== */
 .mechanics-popup-body .multiplier-display,
 .mechanics-popup-body .dc-display {
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-primary) !important;
-  font-size: var(--pf-text-xl);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-primary) !important;
+  font-size: var(--my-text-xl);
   min-width: 80px;
   text-align: center;
-  background: var(--pf-gradient-parchment);
-  border: 2px solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius-lg);
-  padding: var(--pf-space-3) var(--pf-space-4);
-  font-family: var(--pf-font-ui);
+  background: var(--my-gradient-parchment);
+  border: 2px solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius-lg);
+  padding: var(--my-space-3) var(--my-space-4);
+  font-family: var(--my-font-ui);
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
   letter-spacing: 0.5px;
 }
 
 .mechanics-popup-body .multiplier-button,
 .mechanics-popup-body .dc-button {
-  background: var(--pf-gradient-button);
-  border: 2px solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius-lg);
-  color: var(--pf-text-light);
-  font-family: var(--pf-font-ui);
-  font-weight: var(--pf-font-bold);
+  background: var(--my-gradient-button);
+  border: 2px solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius-lg);
+  color: var(--my-text-light);
+  font-family: var(--my-font-ui);
+  font-weight: var(--my-font-bold);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   display: flex;
   align-items: center;
   justify-content: center;
   width: 44px;
   height: 44px;
   font-size: 20px;
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .mechanics-popup-body .multiplier-button:hover:not(:disabled),
 .mechanics-popup-body .dc-button:hover:not(:disabled) {
-  background: var(--pf-gradient-button-hover);
+  background: var(--my-gradient-button-hover);
   transform: translateY(-2px);
-  box-shadow: var(--pf-shadow-md);
-  border-color: var(--pf-brown-dark);
+  box-shadow: var(--my-shadow-md);
+  border-color: var(--my-brown-dark);
 }
 
 .mechanics-popup-body .multiplier-button:active:not(:disabled),
 .mechanics-popup-body .dc-button:active:not(:disabled) {
   transform: translateY(0);
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .mechanics-popup-body .multiplier-button:disabled,
@@ -1531,64 +1531,64 @@ input[type="checkbox"]:hover {
 .mechanics-popup-body .dc-controls {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-3);
+  gap: var(--my-space-3);
   justify-content: center;
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius-lg);
-  padding: var(--pf-space-4);
-  margin-top: var(--pf-space-3);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius-lg);
+  padding: var(--my-space-4);
+  margin-top: var(--my-space-3);
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 /* ===== SECTION 4: ADDITIONAL CONFIGURATION ===== */
 .mechanics-popup-body .additional-config-section {
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius-lg);
-  padding: var(--pf-space-5);
-  box-shadow: var(--pf-shadow-sm);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius-lg);
+  padding: var(--my-space-5);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .mechanics-popup-body .additional-config-section h4 {
-  font-family: var(--pf-font-ui);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-primary);
-  margin: 0 0 var(--pf-space-4) 0;
-  font-size: var(--pf-text-base);
+  font-family: var(--my-font-ui);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-primary);
+  margin: 0 0 var(--my-space-4) 0;
+  font-size: var(--my-text-base);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  border-bottom: 1px solid var(--pf-brown-light);
-  padding-bottom: var(--pf-space-2);
+  border-bottom: 1px solid var(--my-brown-light);
+  padding-bottom: var(--my-space-2);
 }
 
 /* Enhanced text input styling */
 .mechanics-popup-body .text-input-group {
-  margin-bottom: var(--pf-space-4);
+  margin-bottom: var(--my-space-4);
 }
 
 .mechanics-popup-body .text-input-group label {
   display: block;
-  font-family: var(--pf-font-ui);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-primary);
-  margin-bottom: var(--pf-space-2);
+  font-family: var(--my-font-ui);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-primary);
+  margin-bottom: var(--my-space-2);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  font-size: var(--pf-text-sm);
+  font-size: var(--my-text-sm);
 }
 
 .mechanics-popup-body .text-input-group input,
 .mechanics-popup-body .text-input-group textarea {
   width: 100%;
-  padding: var(--pf-space-3);
-  border: 2px solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius-lg);
-  background: var(--pf-gradient-parchment-light);
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-sm);
-  transition: all var(--pf-transition-normal);
+  padding: var(--my-space-3);
+  border: 2px solid var(--my-brown-light);
+  border-radius: var(--my-border-radius-lg);
+  background: var(--my-gradient-parchment-light);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-sm);
+  transition: all var(--my-transition-normal);
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
   resize: vertical;
 }
@@ -1596,11 +1596,11 @@ input[type="checkbox"]:hover {
 .mechanics-popup-body .text-input-group input:focus,
 .mechanics-popup-body .text-input-group textarea:focus {
   outline: none;
-  border-color: var(--pf-brown-medium);
+  border-color: var(--my-brown-medium);
   box-shadow:
     inset 0 1px 3px rgba(0, 0, 0, 0.1),
     0 0 0 3px rgba(139, 69, 19, 0.2);
-  background: var(--pf-gradient-parchment);
+  background: var(--my-gradient-parchment);
 }
 
 /* ===== COMPREHENSIVE YELLOW TEXT FIXES ===== */
@@ -1616,7 +1616,7 @@ input[type="checkbox"]:hover {
 .mechanics-popup-body *[style*="color: #fbbf24"],
 .mechanics-popup-body *[style*="color: yellow"],
 .mechanics-popup-body *[style*="color: gold"] {
-  color: var(--pf-text-primary) !important;
+  color: var(--my-text-primary) !important;
 }
 
 /* Specific overrides for critical hit configuration elements */
@@ -1625,13 +1625,13 @@ input[type="checkbox"]:hover {
 .mechanics-popup-body .critical-hit-config span,
 .mechanics-popup-body .critical-hit-config div,
 .mechanics-popup-body .critical-hit-config p {
-  color: var(--pf-text-primary) !important;
+  color: var(--my-text-primary) !important;
 }
 
 .mechanics-popup-body .critical-hit-config .wow-option-description,
 .mechanics-popup-body .critical-hit-config .config-description,
 .mechanics-popup-body .critical-hit-config .help-text {
-  color: var(--pf-text-secondary) !important;
+  color: var(--my-text-secondary) !important;
 }
 
 /* Fix any remaining yellow text in form elements */
@@ -1639,67 +1639,67 @@ input[type="checkbox"]:hover {
 .mechanics-popup-body select,
 .mechanics-popup-body textarea,
 .mechanics-popup-body button {
-  color: var(--pf-text-primary) !important;
+  color: var(--my-text-primary) !important;
 }
 
 /* Ensure proper text colors for selected states */
 .mechanics-popup-body .icon-selection-card.selected,
 .mechanics-popup-body .icon-selection-card.selected * {
-  color: var(--pf-text-light) !important;
+  color: var(--my-text-light) !important;
 }
 
 /* Fix any inline styles that might override */
 .mechanics-popup-body [style*="color"] {
-  color: var(--pf-text-primary) !important;
+  color: var(--my-text-primary) !important;
 }
 
 .mechanics-popup-body .icon-selection-card.selected [style*="color"] {
-  color: var(--pf-text-light) !important;
+  color: var(--my-text-light) !important;
 }
 
 /* Enhanced section styling */
 .mechanics-popup-body .config-section,
 .mechanics-popup-body .section {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius-lg);
-  padding: var(--pf-space-5);
-  margin-bottom: var(--pf-space-4);
-  box-shadow: var(--pf-shadow-sm);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius-lg);
+  padding: var(--my-space-5);
+  margin-bottom: var(--my-space-4);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .mechanics-popup-body .section .section-title,
 .mechanics-popup-body .section h3 {
-  font-family: var(--pf-font-ui);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-primary) !important;
-  margin: 0 0 var(--pf-space-3) 0;
+  font-family: var(--my-font-ui);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-primary) !important;
+  margin: 0 0 var(--my-space-3) 0;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  font-size: var(--pf-text-base);
-  border-bottom: 2px solid var(--pf-brown-light);
-  padding-bottom: var(--pf-space-2);
+  font-size: var(--my-text-base);
+  border-bottom: 2px solid var(--my-brown-light);
+  padding-bottom: var(--my-space-2);
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .mechanics-popup-body .section p {
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-secondary);
-  margin-bottom: var(--pf-space-4);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-sm);
+  color: var(--my-text-secondary);
+  margin-bottom: var(--my-space-4);
   line-height: 1.5;
 }
 
 .mechanics-popup-body .section .spell-wizard-card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: var(--pf-space-4);
-  margin-top: var(--pf-space-4);
+  gap: var(--my-space-4);
+  margin-top: var(--my-space-4);
 }
 
 .mechanics-popup-body .section .spell-wizard-card-grid.small {
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: var(--pf-space-3);
+  gap: var(--my-space-3);
 }
 
 /* Ensure spell-wizard-card icons are white */
@@ -1726,51 +1726,51 @@ input[type="checkbox"]:hover {
 
 /* Ensure spell-wizard-card has proper borders and improved styling */
 .mechanics-popup-body .section .spell-wizard-card {
-  border: 2px solid var(--pf-brown-medium) !important;
-  box-shadow: var(--pf-shadow-sm);
-  background: var(--pf-gradient-button);
-  padding: var(--pf-space-4);
-  transition: all var(--pf-transition-normal);
+  border: 2px solid var(--my-brown-medium) !important;
+  box-shadow: var(--my-shadow-sm);
+  background: var(--my-gradient-button);
+  padding: var(--my-space-4);
+  transition: all var(--my-transition-normal);
 }
 
 .mechanics-popup-body .section .spell-wizard-card:hover {
-  border-color: var(--pf-brown-dark) !important;
-  box-shadow: var(--pf-shadow-md);
+  border-color: var(--my-brown-dark) !important;
+  box-shadow: var(--my-shadow-md);
   transform: translateY(-2px);
-  background: var(--pf-gradient-button-hover);
+  background: var(--my-gradient-button-hover);
 }
 
 .mechanics-popup-body .section .spell-wizard-card.selected {
-  border-color: var(--pf-gold-dark) !important;
-  box-shadow: var(--pf-shadow-glow);
-  background: var(--pf-gradient-gold) !important;
-  color: var(--pf-brown-darkest) !important;
+  border-color: var(--my-gold-dark) !important;
+  box-shadow: var(--my-shadow-glow);
+  background: var(--my-gradient-gold) !important;
+  color: var(--my-brown-darkest) !important;
 }
 
 .mechanics-popup-body .section .spell-wizard-card.selected h4,
 .mechanics-popup-body .section .spell-wizard-card.selected p {
-  color: var(--pf-brown-darkest) !important;
-  font-weight: var(--pf-font-semibold);
+  color: var(--my-brown-darkest) !important;
+  font-weight: var(--my-font-semibold);
 }
 
 /* Selected spell panel styling */
 .mechanics-popup-body .selected-spell-panel {
-  margin-top: var(--pf-space-4);
+  margin-top: var(--my-space-4);
 }
 
 /* Warning panel styling to replace hardcoded styles */
 .mechanics-popup-body .warning-panel {
   background: rgba(255, 193, 7, 0.1) !important;
   border-left: 3px solid #ffc107 !important;
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-3);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-3);
 }
 
 .mechanics-popup-body .warning-text {
   margin: 0 !important;
   color: #ffc107 !important;
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-sm);
+  font-family: var(--my-font-ui);
+  font-size: var(--my-text-sm);
 }
 
 /* ===== SIMPLIFIED MECHANICS CONFIG STYLING ===== */
@@ -1826,15 +1826,15 @@ input[type="checkbox"]:hover {
 
 /* Formula examples section */
 .mechanics-popup-body .formula-examples-section {
-  margin-top: var(--pf-space-4);
+  margin-top: var(--my-space-4);
 }
 
 .mechanics-popup-body .formula-examples-section h6 {
-  font-family: var(--pf-font-ui);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-primary) !important;
-  margin: 0 0 var(--pf-space-3) 0;
-  font-size: var(--pf-text-sm);
+  font-family: var(--my-font-ui);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-primary) !important;
+  margin: 0 0 var(--my-space-3) 0;
+  font-size: var(--my-text-sm);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -1842,89 +1842,89 @@ input[type="checkbox"]:hover {
 .mechanics-popup-body .examples-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: var(--pf-space-3);
+  gap: var(--my-space-3);
 }
 
 .mechanics-popup-body .example-card {
-  background: var(--pf-gradient-button);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-3);
+  background: var(--my-gradient-button);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-3);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   text-align: center;
-  font-family: var(--pf-font-ui);
+  font-family: var(--my-font-ui);
 }
 
 .mechanics-popup-body .example-card:hover {
-  background: var(--pf-gradient-button-hover);
-  border-color: var(--pf-brown-dark);
+  background: var(--my-gradient-button-hover);
+  border-color: var(--my-brown-dark);
   transform: translateY(-2px);
-  box-shadow: var(--pf-shadow-md);
+  box-shadow: var(--my-shadow-md);
 }
 
 .mechanics-popup-body .example-card.active {
-  background: var(--pf-gradient-gold);
-  border-color: var(--pf-gold-dark);
-  color: var(--pf-brown-darkest);
-  box-shadow: var(--pf-shadow-glow);
+  background: var(--my-gradient-gold);
+  border-color: var(--my-gold-dark);
+  color: var(--my-brown-darkest);
+  box-shadow: var(--my-shadow-glow);
 }
 
 .mechanics-popup-body .example-title {
-  font-weight: var(--pf-font-bold);
-  font-size: var(--pf-text-sm);
-  margin-bottom: var(--pf-space-1);
+  font-weight: var(--my-font-bold);
+  font-size: var(--my-text-sm);
+  margin-bottom: var(--my-space-1);
   font-family: 'Courier New', monospace;
 }
 
 .mechanics-popup-body .example-desc {
-  font-size: var(--pf-text-xs);
+  font-size: var(--my-text-xs);
   opacity: 0.8;
   line-height: 1.3;
 }
 
 .mechanics-popup-body .example-card.active .example-title,
 .mechanics-popup-body .example-card.active .example-desc {
-  color: var(--pf-brown-darkest);
+  color: var(--my-brown-darkest);
 }
 
 /* Formula input styling */
 .mechanics-popup-body .formula-config-section {
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius-lg);
-  padding: var(--pf-space-4);
-  margin-bottom: var(--pf-space-3);
-  box-shadow: var(--pf-shadow-sm);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius-lg);
+  padding: var(--my-space-4);
+  margin-bottom: var(--my-space-3);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .mechanics-popup-body .formula-config-section h5 {
-  font-family: var(--pf-font-ui);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-primary) !important;
-  margin: 0 0 var(--pf-space-3) 0;
-  font-size: var(--pf-text-sm);
+  font-family: var(--my-font-ui);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-primary) !important;
+  margin: 0 0 var(--my-space-3) 0;
+  font-size: var(--my-text-sm);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  border-bottom: 1px solid var(--pf-brown-light);
-  padding-bottom: var(--pf-space-2);
+  border-bottom: 1px solid var(--my-brown-light);
+  padding-bottom: var(--my-space-2);
 }
 
 .mechanics-popup-body .formula-input {
   width: 100%;
-  padding: var(--pf-space-3);
-  border: 2px solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  background: var(--pf-gradient-parchment-light);
-  color: var(--pf-text-primary);
+  padding: var(--my-space-3);
+  border: 2px solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  background: var(--my-gradient-parchment-light);
+  color: var(--my-text-primary);
   font-family: 'Courier New', monospace;
-  font-size: var(--pf-text-sm);
-  transition: all var(--pf-transition-normal);
+  font-size: var(--my-text-sm);
+  transition: all var(--my-transition-normal);
 }
 
 .mechanics-popup-body .formula-input:focus {
   outline: none;
-  border-color: var(--pf-brown-medium);
+  border-color: var(--my-brown-medium);
   box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.2);
 }
 
@@ -1932,28 +1932,28 @@ input[type="checkbox"]:hover {
 .mechanics-popup-body .config-section h6,
 .mechanics-popup-body .section .section-title,
 .mechanics-popup-body .section h3 {
-  font-family: var(--pf-font-ui);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-primary) !important;
-  margin: 0 0 var(--pf-space-3) 0;
+  font-family: var(--my-font-ui);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-primary) !important;
+  margin: 0 0 var(--my-space-3) 0;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  font-size: var(--pf-text-sm);
-  border-bottom: 1px solid var(--pf-brown-light);
-  padding-bottom: var(--pf-space-2);
+  font-size: var(--my-text-sm);
+  border-bottom: 1px solid var(--my-brown-light);
+  padding-bottom: var(--my-space-2);
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .unified-spell-stat.chance-on-hit .unified-stat-label {
-  color: var(--pf-purple-medium);
-  font-weight: var(--pf-font-semibold);
-  font-family: var(--pf-font-ui);
+  color: var(--my-purple-medium);
+  font-weight: var(--my-font-semibold);
+  font-family: var(--my-font-ui);
 }
 
 .unified-spell-stat.chance-on-hit .unified-stat-value {
-  color: var(--pf-purple-dark);
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-sm);
+  color: var(--my-purple-dark);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-sm);
   line-height: 1.3;
   word-wrap: break-word;
 }
@@ -1987,7 +1987,7 @@ input[type="checkbox"]:hover {
 .unified-spell-stat.saving-throw .unified-stat-value,
 .unified-spell-stat.critical-hit .unified-stat-value,
 .unified-spell-stat.chance-on-hit .unified-stat-value {
-  font-family: var(--pf-font-body);
+  font-family: var(--my-font-body);
   font-size: 9px;
   line-height: 1.2;
   margin: 0;
@@ -1997,45 +1997,45 @@ input[type="checkbox"]:hover {
 /* ===== CRITICAL HIT CONFIG STYLING ===== */
 
 .critical-hit-config .config-header {
-  margin-bottom: var(--pf-space-4);
+  margin-bottom: var(--my-space-4);
 }
 
 .critical-hit-config .config-toggle,
 .critical-hit-config .crit-only-toggle {
-  background: var(--pf-gradient-parchment-dark);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-4);
-  margin-bottom: var(--pf-space-4);
-  transition: all var(--pf-transition-normal);
+  background: var(--my-gradient-parchment-dark);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-4);
+  margin-bottom: var(--my-space-4);
+  transition: all var(--my-transition-normal);
 }
 
 .critical-hit-config .config-toggle:hover,
 .critical-hit-config .crit-only-toggle:hover {
-  border-color: var(--pf-brown-dark);
-  box-shadow: var(--pf-shadow-subtle);
+  border-color: var(--my-brown-dark);
+  box-shadow: var(--my-shadow-subtle);
 }
 
 /* Compact critical hit dice configuration */
 .mechanics-grid-item .dice-crit-config {
-  background: var(--pf-gradient-parchment-light);
-  border: 1px solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-3);
-  margin-top: var(--pf-space-2);
+  background: var(--my-gradient-parchment-light);
+  border: 1px solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-3);
+  margin-top: var(--my-space-2);
 }
 
 .mechanics-grid-item .dice-crit-config .config-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--pf-space-2);
-  margin-bottom: var(--pf-space-2);
+  gap: var(--my-space-2);
+  margin-bottom: var(--my-space-2);
 }
 
 .mechanics-grid-item .input-with-label {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-1);
+  gap: var(--my-space-1);
 }
 
 .mechanics-grid-item .input-with-label input {
@@ -2043,9 +2043,9 @@ input[type="checkbox"]:hover {
 }
 
 .mechanics-grid-item .input-with-label .input-label {
-  font-size: var(--pf-text-sm);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-primary);
+  font-size: var(--my-text-sm);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-primary);
 }
 
 /* ===== SHARED CHECKBOX STYLING ===== */
@@ -2054,17 +2054,17 @@ input[type="checkbox"]:hover {
   display: flex;
   align-items: flex-start;
   cursor: pointer;
-  font-family: var(--pf-font-ui);
-  font-weight: var(--pf-font-medium);
-  color: var(--pf-text-primary);
-  gap: var(--pf-space-3);
+  font-family: var(--my-font-ui);
+  font-weight: var(--my-font-medium);
+  color: var(--my-text-primary);
+  gap: var(--my-space-3);
 }
 
 /* Compact checkbox styling for mechanics grid */
 .mechanics-grid-item .wow-checkbox-label {
-  font-size: var(--pf-text-xs);
-  gap: var(--pf-space-2);
-  margin-bottom: var(--pf-space-1);
+  font-size: var(--my-text-xs);
+  gap: var(--my-space-2);
+  margin-bottom: var(--my-space-1);
 }
 
 .mechanics-grid-item .wow-checkbox {
@@ -2078,7 +2078,7 @@ input[type="checkbox"]:hover {
 }
 
 .mechanics-grid-item .wow-option-text {
-  font-size: var(--pf-text-xs);
+  font-size: var(--my-text-xs);
   line-height: 1.2;
 }
 
@@ -2091,17 +2091,17 @@ input[type="checkbox"]:hover {
 .wow-checkbox-custom {
   width: 20px;
   height: 20px;
-  background: var(--pf-gradient-parchment-light);
-  border: 2px solid var(--pf-brown-medium);
+  background: var(--my-gradient-parchment-light);
+  border: 2px solid var(--my-brown-medium);
   border-radius: 4px;
   position: relative;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   flex-shrink: 0;
 }
 
 .wow-checkbox:checked + .wow-checkbox-custom {
-  background: var(--pf-gradient-gold);
-  border-color: var(--pf-gold-dark);
+  background: var(--my-gradient-gold);
+  border-color: var(--my-gold-dark);
 }
 
 .wow-checkbox:checked + .wow-checkbox-custom::after {
@@ -2110,21 +2110,21 @@ input[type="checkbox"]:hover {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  color: var(--pf-brown-dark);
+  color: var(--my-brown-dark);
   font-weight: bold;
   font-size: 14px;
 }
 
 .wow-option-text {
-  font-size: var(--pf-text-base);
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-primary);
+  font-size: var(--my-text-base);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-primary);
 }
 
 .wow-option-description {
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-secondary);
-  margin-top: var(--pf-space-2);
+  font-size: var(--my-text-sm);
+  color: var(--my-text-secondary);
+  margin-top: var(--my-space-2);
   line-height: 1.4;
   font-style: italic;
 }
@@ -2132,25 +2132,25 @@ input[type="checkbox"]:hover {
 /* ===== MECHANICS GRID LAYOUT ===== */
 
 .mechanics-grid {
-  margin-top: var(--pf-space-6);
+  margin-top: var(--my-space-6);
 }
 
 .mechanics-grid-title {
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-lg);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-primary);
-  margin-bottom: var(--pf-space-4);
+  font-family: var(--my-font-ui);
+  font-size: var(--my-text-lg);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-primary);
+  margin-bottom: var(--my-space-4);
   text-align: center;
-  border-bottom: 2px solid var(--pf-brown-medium);
-  padding-bottom: var(--pf-space-2);
+  border-bottom: 2px solid var(--my-brown-medium);
+  padding-bottom: var(--my-space-2);
 }
 
 .mechanics-grid-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--pf-space-3);
-  margin-bottom: var(--pf-space-6);
+  gap: var(--my-space-3);
+  margin-bottom: var(--my-space-6);
 }
 
 /* Responsive adjustments for mechanics grid */
@@ -2163,32 +2163,32 @@ input[type="checkbox"]:hover {
 @media (max-width: 768px) {
   .mechanics-grid-container {
     grid-template-columns: 1fr;
-    gap: var(--pf-space-2);
+    gap: var(--my-space-2);
   }
 }
 
 .mechanics-grid-item {
-  background: var(--pf-gradient-parchment-dark);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-3);
-  transition: all var(--pf-transition-normal);
+  background: var(--my-gradient-parchment-dark);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-3);
+  transition: all var(--my-transition-normal);
 }
 
 .mechanics-grid-item:hover {
-  border-color: var(--pf-brown-dark);
-  box-shadow: var(--pf-shadow-subtle);
+  border-color: var(--my-brown-dark);
+  box-shadow: var(--my-shadow-subtle);
 }
 
 .mechanics-grid-item h4 {
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-base);
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-primary);
-  margin: 0 0 var(--pf-space-3) 0;
+  font-family: var(--my-font-ui);
+  font-size: var(--my-text-base);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-primary);
+  margin: 0 0 var(--my-space-3) 0;
   text-align: center;
-  border-bottom: 1px solid var(--pf-brown-light);
-  padding-bottom: var(--pf-space-2);
+  border-bottom: 1px solid var(--my-brown-light);
+  padding-bottom: var(--my-space-2);
 }
 
 /* Compact the configuration components when in grid */
@@ -2202,40 +2202,40 @@ input[type="checkbox"]:hover {
 }
 
 .mechanics-grid-item .config-header {
-  margin-bottom: var(--pf-space-2);
+  margin-bottom: var(--my-space-2);
 }
 
 .mechanics-grid-item .config-toggle,
 .mechanics-grid-item .crit-only-toggle {
-  background: var(--pf-gradient-parchment-light);
-  border: 1px solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-2);
-  margin-bottom: var(--pf-space-2);
-  font-size: var(--pf-text-sm);
+  background: var(--my-gradient-parchment-light);
+  border: 1px solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-2);
+  margin-bottom: var(--my-space-2);
+  font-size: var(--my-text-sm);
 }
 
 /* Compact form elements in mechanics grid */
 .mechanics-grid-item .form-group {
-  margin-bottom: var(--pf-space-2);
+  margin-bottom: var(--my-space-2);
 }
 
 /* Removed duplicate .mechanics-grid-item .form-group label - using consolidated styles */
 
 .mechanics-grid-item .form-group input,
 .mechanics-grid-item .form-group select {
-  padding: var(--pf-space-1);
-  font-size: var(--pf-text-xs);
-  border: 1px solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius-sm);
-  background: var(--pf-gradient-parchment);
+  padding: var(--my-space-1);
+  font-size: var(--my-text-xs);
+  border: 1px solid var(--my-brown-light);
+  border-radius: var(--my-border-radius-sm);
+  background: var(--my-gradient-parchment);
 }
 
 /* Compact config rows */
 .mechanics-grid-item .config-row {
   display: flex;
-  gap: var(--pf-space-2);
-  margin-bottom: var(--pf-space-2);
+  gap: var(--my-space-2);
+  margin-bottom: var(--my-space-2);
 }
 
 .mechanics-grid-item .config-row .form-group {
@@ -2248,70 +2248,70 @@ input[type="checkbox"]:hover {
 .mechanics-grid-item .icon-selection-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
 }
 
 /* Compact chance on hit configuration */
 .mechanics-grid-item .dice-proc-config,
 .mechanics-grid-item .card-proc-config,
 .mechanics-grid-item .coin-proc-config {
-  background: var(--pf-gradient-parchment-light);
-  border: 1px solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-2);
-  margin-top: var(--pf-space-2);
+  background: var(--my-gradient-parchment-light);
+  border: 1px solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-2);
+  margin-top: var(--my-space-2);
 }
 
 .mechanics-grid-item .proc-threshold-config,
 .mechanics-grid-item .proc-card-config,
 .mechanics-grid-item .proc-coin-config {
-  margin-bottom: var(--pf-space-2);
+  margin-bottom: var(--my-space-2);
 }
 
 .mechanics-grid-item .proc-threshold-config label,
 .mechanics-grid-item .proc-card-config label,
 .mechanics-grid-item .proc-coin-config label {
-  font-size: var(--pf-text-xs);
-  margin-bottom: var(--pf-space-1);
-  color: var(--pf-text-primary);
-  font-weight: var(--pf-font-medium);
+  font-size: var(--my-text-xs);
+  margin-bottom: var(--my-space-1);
+  color: var(--my-text-primary);
+  font-weight: var(--my-font-medium);
 }
 
 .mechanics-grid-item .proc-threshold-input,
 .mechanics-grid-item .proc-card-select,
 .mechanics-grid-item .proc-coin-select {
   width: 100%;
-  padding: var(--pf-space-1);
-  font-size: var(--pf-text-xs);
-  border: 1px solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius-sm);
-  background: var(--pf-gradient-parchment);
+  padding: var(--my-space-1);
+  font-size: var(--my-text-xs);
+  border: 1px solid var(--my-brown-light);
+  border-radius: var(--my-border-radius-sm);
+  background: var(--my-gradient-parchment);
 }
 
 /* Compact spell effect selection */
 .mechanics-grid-item .spell-effect-section {
-  background: var(--pf-gradient-parchment-light);
-  border: 1px solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-2);
-  margin-top: var(--pf-space-2);
+  background: var(--my-gradient-parchment-light);
+  border: 1px solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-2);
+  margin-top: var(--my-space-2);
 }
 
 .mechanics-grid-item .spell-effect-section h5 {
-  font-size: var(--pf-text-xs);
-  margin-bottom: var(--pf-space-1);
-  color: var(--pf-text-primary);
-  font-weight: var(--pf-font-medium);
+  font-size: var(--my-text-xs);
+  margin-bottom: var(--my-space-1);
+  color: var(--my-text-primary);
+  font-weight: var(--my-font-medium);
 }
 
 /* Fix yellow text and improve readability */
 .mechanics-grid-item .wow-option-description,
 .mechanics-grid-item .config-description,
 .mechanics-grid-item .section-description {
-  color: var(--pf-text-secondary) !important;
-  font-size: var(--pf-text-xs) !important;
+  color: var(--my-text-secondary) !important;
+  font-size: var(--my-text-xs) !important;
   line-height: 1.3 !important;
-  margin-top: var(--pf-space-1) !important;
+  margin-top: var(--my-space-1) !important;
 }
 
 /* Improve input styling in mechanics grid */
@@ -2319,42 +2319,42 @@ input[type="checkbox"]:hover {
 .mechanics-grid-item input[type="number"],
 .mechanics-grid-item select,
 .mechanics-grid-item textarea {
-  background: var(--pf-gradient-parchment) !important;
-  border: 1px solid var(--pf-brown-light) !important;
-  color: var(--pf-text-primary) !important;
-  font-size: var(--pf-text-xs) !important;
-  padding: var(--pf-space-1) !important;
-  border-radius: var(--pf-border-radius-sm) !important;
+  background: var(--my-gradient-parchment) !important;
+  border: 1px solid var(--my-brown-light) !important;
+  color: var(--my-text-primary) !important;
+  font-size: var(--my-text-xs) !important;
+  padding: var(--my-space-1) !important;
+  border-radius: var(--my-border-radius-sm) !important;
 }
 
 .mechanics-grid-item input[type="text"]:focus,
 .mechanics-grid-item input[type="number"]:focus,
 .mechanics-grid-item select:focus,
 .mechanics-grid-item textarea:focus {
-  border-color: var(--pf-brown-medium) !important;
+  border-color: var(--my-brown-medium) !important;
   box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.2) !important;
   outline: none !important;
 }
 
 /* Improve button styling in mechanics grid */
 .mechanics-grid-item button {
-  background: var(--pf-gradient-button) !important;
-  border: 1px solid var(--pf-brown-medium) !important;
-  color: var(--pf-text-primary) !important;
-  font-size: var(--pf-text-xs) !important;
-  padding: var(--pf-space-1) var(--pf-space-2) !important;
-  border-radius: var(--pf-border-radius-sm) !important;
+  background: var(--my-gradient-button) !important;
+  border: 1px solid var(--my-brown-medium) !important;
+  color: var(--my-text-primary) !important;
+  font-size: var(--my-text-xs) !important;
+  padding: var(--my-space-1) var(--my-space-2) !important;
+  border-radius: var(--my-border-radius-sm) !important;
   cursor: pointer !important;
   transition: all 0.2s ease !important;
 }
 
 .mechanics-grid-item button:hover {
-  border-color: var(--pf-brown-dark) !important;
+  border-color: var(--my-brown-dark) !important;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
 }
 
 .mechanics-grid-item .icon-selection-card {
-  padding: var(--pf-space-2);
+  padding: var(--my-space-2);
   min-height: 60px;
 }
 
@@ -2363,12 +2363,12 @@ input[type="checkbox"]:hover {
 }
 
 .mechanics-grid-item .icon-selection-card h5 {
-  font-size: var(--pf-text-xs);
-  margin: var(--pf-space-1) 0;
+  font-size: var(--my-text-xs);
+  margin: var(--my-space-1) 0;
 }
 
 .mechanics-grid-item .icon-selection-card p {
-  font-size: var(--pf-text-xs);
+  font-size: var(--my-text-xs);
   line-height: 1.2;
 }
 
@@ -2381,15 +2381,15 @@ input[type="checkbox"]:hover {
 .mechanics-grid-item input[type="number"],
 .mechanics-grid-item input[type="text"],
 .mechanics-grid-item select {
-  padding: var(--pf-space-1);
-  font-size: var(--pf-text-sm);
+  padding: var(--my-space-1);
+  font-size: var(--my-text-sm);
 }
 
 /* Compact section headers */
 .mechanics-grid-item h4,
 .mechanics-grid-item h5 {
-  font-size: var(--pf-text-sm);
-  margin-bottom: var(--pf-space-2);
+  font-size: var(--my-text-sm);
+  margin-bottom: var(--my-space-2);
 }
 
 /* Responsive design for mechanics grid */
@@ -2412,24 +2412,24 @@ input[type="checkbox"]:hover {
 
 @media (max-width: 768px) {
   .mechanics-grid {
-    padding: var(--pf-space-3);
+    padding: var(--my-space-3);
   }
 
   .mechanics-grid-container {
-    gap: var(--pf-space-3);
+    gap: var(--my-space-3);
   }
 
   .mechanics-grid-item {
-    padding: var(--pf-space-2);
+    padding: var(--my-space-2);
   }
 
   .mechanics-grid-item .config-row {
     flex-direction: column;
-    gap: var(--pf-space-1);
+    gap: var(--my-space-1);
   }
 
   .mechanics-grid-item .save-config-row {
     grid-template-columns: 1fr;
-    gap: var(--pf-space-1);
+    gap: var(--my-space-1);
   }
 }

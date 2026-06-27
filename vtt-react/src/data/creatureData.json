@@ -1,4 +1,4 @@
-export const BESTIARY_DATA = {
+{
   "regions": [
     {
       "id": "frostwood-reach",
@@ -3652,10 +3652,10 @@ export const BESTIARY_DATA = {
           "heritage": "Spun from snow woman legends, the Yuki-Onna originally served as a cautionary tale warning travelers against crossing alpine passes during whiteouts, explaining how people froze to death. The Wyrd anomaly crystallized the mountain guides' survival panic during freezing blizzards, materializing this frost-breath specter to freeze trespassers."
         },
         {
-          "id": "kappa_crag",
+          "id": "kappa",
           "name": "Kappa",
           "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/kappa_crag.png",
+          "illustration": "/assets/images/creatures/kappa.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Kappa",
           "role": "Kappa",
           "origin": "The Kappa traces its lineage to the ancient water-sprites of old folklore, which were said to carry a shallow bowl of life-giving water upon their crowns and possessed an eccentric obsession with cucumbers, politeness, and the extraction of mythical soul-organs. In the frozen peaks of this land, these roots intermingle with tales of the Yacuruna, the seductive and powerful water-people who dwell in the depths of rivers and lakes, occasionally drawing mortal mates down into their sub-aquatic realms to never return. Here, they have become geothermal sentinels, bound to the steaming waters that keep the freezing wilderness at bay.",
@@ -3820,13 +3820,13 @@ export const BESTIARY_DATA = {
           "heritage": "Derived from Japanese Oni legends and Incan underworld spirits, the Supayoni represented the threat of volcanic eruptions and mining collapses. The Wyrd anomaly acted upon the miners' dread of geothermal foundries collapsing, materializing these club-wielding, iron-clad ogres to bring devastation to the deep shafts."
         },
         {
-          "id": "jorogumo_span",
+          "id": "jorogumo",
           "name": "Jorōgumo",
           "dangerLevel": "Extreme",
-          "illustration": "/assets/images/creatures/jorogumo_span.png",
-          "illustrationCaption": "A hand-drawn field sketch of the legendary Jorōgumo",
+          "illustration": "/assets/images/creatures/jorogumo.png",
+          "illustrationCaption": "A hand-drawn field sketch of the legendary jorogumo",
           "role": "JorÅgumo",
-          "origin": "The Jorōgumo represents the blending of the binding bride spider-spirits of folklore, who lure unsuspecting victims with their beauty, and Urcaguary, the Incan guardian of metals and jewels who watches over the earth's hidden treasures. This fusion yields a creature of deceptive grace and metallic corruption, guarding the richest veins in the mountains with webs of precious metal.",
+          "origin": "The jorogumo represents the blending of the binding bride spider-spirits of folklore, who lure unsuspecting victims with their beauty, and Urcaguary, the Incan guardian of metals and jewels who watches over the earth's hidden treasures. This fusion yields a creature of deceptive grace and metallic corruption, guarding the richest veins in the mountains with webs of precious metal.",
           "nature": "From the front, the creature appears as a beautiful woman in a shimmering bridal gown of semi-transparent silk standing on the Spans, but from behind, she reveals the massive, metallic-chitin abdomen of a spider anchored by thick golden cables. Her gown is actually a sensory web containing trace amounts of gold and silver, and her exquisite human face conceals compound eyes and rows of needle-sharp spider fangs that are exposed only when she smiles.",
           "habitat": "She makes her home on the narrowest Ancestor-Spans and rich mineral chasms of the Cragjaw Peaks.",
           "combat": "650 HP. Web-Bridge (passive: she IS the bridge you are crossing; the Ancestor-Span is woven from her own body — the party walks on her). Spider-Silk-Cable (passive: cables contain gold and silver drawn from the mountain's veins; cutting the silk triggers DC 16 STR or the party falls into the chasm). Gold-Silk-Gown (passive: gown woven from gold-silk; +8 to all social checks). Silk-Corruption (special: cutting her silk corrodes tools with metallic poison — DC 14 CON or poisoned for 1d4 rounds). Web-Trap (1 AP: re-weaves a section into sticky web; DC 15 AGI or restrained). Needle-Fang (melee, +6 to hit, 2d6+4 piercing + 2d6 poison). Vulnerable to fire.",
@@ -3848,11 +3848,11 @@ export const BESTIARY_DATA = {
           },
           "depth": "She lures travelers by posing as a stranded maiden on the bridges, only to bind them in metallic-silk cables and hang them beneath the spans to drain their mineral-rich blood over several weeks. Because her webs are blessed by Urcaguary, they are laced with a corrosive poison that ruins excavation tools, forcing Fexric engineers to offer her precious gems in exchange for passage or access to the veins. Adventurers must tread carefully when searching for missing travelers, often facing the choice of fighting the creature or bargaining with precious jewels to free her captives.",
           "hooks": [
-            "A rumor spreads of a Jorōgumo spotted near the area.",
-            "Adventurers need a component from a Jorōgumo to complete their quest."
+            "A rumor spreads of a jorogumo spotted near the area.",
+            "Adventurers need a component from a jorogumo to complete their quest."
           ],
           "description": "A spider-woman clad in webs of gold and silver who lures travelers on the mountain bridges to drain their mineral-rich blood.",
-          "heritage": "Spun from spider-bride legends, the Jorōgumo was a warning myth to warn young miners against being lured into remote mineral chasms by beautiful illusions. The Wyrd anomaly reacted to the miners' isolation and the deep mountain drafts, materializing this spider-woman to spin webs across the Ancestor-Spans and trap her prey."
+          "heritage": "Spun from spider-bride legends, the jorogumo was a warning myth to warn young miners against being lured into remote mineral chasms by beautiful illusions. The Wyrd anomaly reacted to the miners' isolation and the deep mountain drafts, materializing this spider-woman to spin webs across the Ancestor-Spans and trap her prey."
         },
         {
           "id": "kodama",
@@ -3890,10 +3890,10 @@ export const BESTIARY_DATA = {
           "heritage": "Rooted in Shinto tree-spirit and Incan Apu mountain-spirit beliefs, the Kodama originally served as a projection of human guilt over environmental damage, specifically the scarring geothermal strip-mining, deep gold excavations, and Fexric pipeline construction. When the Wyrd anomaly seeped into Cragjaw Peaks, it materialized around the local rumors spreading through Apus and crystallized the loggers' and travelers' shame of environmental destruction and the fear of woodland isolation, spinning these specific regional crises and tales into a physical, living creature."
         },
         {
-          "id": "nurikabe_drift",
+          "id": "nurikabe",
           "name": "Nurikabe",
           "dangerLevel": "High",
-          "illustration": "/assets/images/creatures/nurikabe_drift.png",
+          "illustration": "/assets/images/creatures/nurikabe.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Nurikabe",
           "role": "Nurikabe",
           "origin": "The Nurikabe combines the wall-spirits of Yokai folklore, which block paths with insurmountable, invisible barriers, and the ancient Tiwanaku stone-spirits said to rearrange massive monoliths under the cover of night. In the cold mountain passes, they manifest as living rock faces that shift and slide, altering the geography of the heights to baffle travelers.",
@@ -3925,10 +3925,10 @@ export const BESTIARY_DATA = {
           "heritage": "Born from Yokai wall-spirit myths, the Nurikabe was a road legend explaining how travelers became disoriented and hit dead ends in narrow passes. The Wyrd anomaly reacted to the Fexric engineers' fear of collapsing mines and blocked corridors, materializing this stone-hided wall spirit to block routes and redirect search parties."
         },
         {
-          "id": "nue_cloud",
+          "id": "nue",
           "name": "Nue",
           "dangerLevel": "Very High",
-          "illustration": "/assets/images/creatures/nue_cloud.png",
+          "illustration": "/assets/images/creatures/nue.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Nue",
           "role": "Nue",
           "origin": "The Nue arises from the chimeric nightmare-monsters of Yokai legend, which bring sickness and dark dreams within a black mist, combined with Pachamama, the Incan earth-mother who nurtures and devours in equal measure. In the high peaks, the creature represents the earth's furious immune response, a living tempest sent to punish those who defile the stone.",
@@ -3961,10 +3961,10 @@ export const BESTIARY_DATA = {
           "heritage": "Derived from chimera nightmare legends, the Nue represented the fear of sudden, devastating sicknesses brought by toxic volcanic mists. The Wyrd anomaly consolidated the forge-workers' fear of steam-scald sickness and sulfur fumes, materializing this black-mist-shrouded beast to bring dark dreams to mountain camps."
         },
         {
-          "id": "kasha_snow",
+          "id": "kasha",
           "name": "Kasha",
           "dangerLevel": "High",
-          "illustration": "/assets/images/creatures/kasha_snow.png",
+          "illustration": "/assets/images/creatures/kasha.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Kasha",
           "role": "Kasha",
           "origin": "The Kasha is born of the fiery corpse-stealing cats of Buddhist folklore, who descend during funerals to claim the bodies of the wicked, and Ekeko, the Andean god of abundance and fortune who brings prosperity through miniature offerings. In the cold mountain holdfasts, they are ambivalent judges, carrying the keys to both spiritual unrest and material wealth.",
@@ -3996,10 +3996,10 @@ export const BESTIARY_DATA = {
           "heritage": "Born from fiery corpse-stealing cat myths, the Kasha was a moral warning to deter desecration of graves and theft of ancestral relics. The Wyrd anomaly reacted to the Fexric engineers' excavations of ancient holdfasts, materializing this fiery cat-spirit to descend during blizzards and claim the bodies of tomb robbers."
         },
         {
-          "id": "tanuki_toll",
+          "id": "tanuki",
           "name": "Tanuki",
           "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/tanuki_toll.png",
+          "illustration": "/assets/images/creatures/tanuki.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Tanuki",
           "role": "Tanuki",
           "origin": "The Tanuki is born of the shape-shifting, sake-loving raccoon-dog spirits of folklore, famed for their magical, shape-shifting pouches and sense of humor, merged with the Illas of Andean tradition—small stone or metal figurines that carry abundance energy to ensure rich finds in the mines. They are jovial tricksters of the spans, bringing good fortune to those who tolerate their games.",
@@ -4030,13 +4030,13 @@ export const BESTIARY_DATA = {
           "heritage": "Spun from shape-shifting raccoon-dog legends, the Tanuki was a lighthearted myth explaining missing goods, unpaid tavern tabs, and strange laughter in the valleys. The Wyrd anomaly reacted to the local merchants' anxiety over Fexric taxes and lost inventories, materializing this trickster to play pranks and trade fake coins."
         },
         {
-          "id": "ushi_oni_crag",
-          "name": "Ushi-Oni",
+          "id": "ushioni",
+          "name": "Ushioni",
           "dangerLevel": "Very High",
-          "illustration": "/assets/images/creatures/ushi_oni_crag.png",
-          "illustrationCaption": "A hand-drawn field sketch of the legendary Ushi-Oni",
-          "role": "UshiOni",
-          "origin": "The Ushi-Oni is born of the spider-bodied, bull-headed ox-demons of eastern folklore, which trap prey in webs and breathe poison, combined with the Cherufe, the magma-monsters of Mapuche myth that demand sacrifices to prevent volcanic eruptions. They are terrifying forces of geothermal heat, occupying the deepest volcanic vents and holding nearby settlements hostage.",
+          "illustration": "/assets/images/creatures/ushioni.png",
+          "illustrationCaption": "A hand-drawn field sketch of the legendary ushioni",
+          "role": "Ushioni",
+          "origin": "The ushioni is born of the spider-bodied, bull-headed ox-demons of eastern folklore, which trap prey in webs and breathe poison, combined with the Cherufe, the magma-monsters of Mapuche myth that demand sacrifices to prevent volcanic eruptions. They are terrifying forces of geothermal heat, occupying the deepest volcanic vents and holding nearby settlements hostage.",
           "nature": "This massive monster combines the body of a six-legged spider plated in rough volcanic stone with the head of a demonic bull bearing curved obsidian horns. Its breath is a yellow cloud of toxic sulfur gas, its cloven hooves leave deep impressions in stone, and its body radiates such intense heat that snow melts in a ten-foot circle around it. Deep obsidian sockets hold glowing red eyes, and steam vents constantly from its nostrils, framing a mouth filled with writhing, worm-like tendrils.",
           "habitat": "They make their lairs inside the active volcanic vents and deep geothermal chambers of the Cragjaw Peaks.",
           "combat": "405 HP. Sulfur-Breath (AoE cone 20 ft, 3d6 poison + DC 15 CON or poisoned for 3 rounds; the gas is toxic enough to suffocate webbed prey). Obsidian-Web (special: webs volcanic-glass silk that is invisible in steam; strong enough to hold a mammoth; DC 15 AGI to break free, or 20 slashing damage to cut). Volcanic-Heat (passive: body radiates intense heat; snow melts in 10 ft radius). Bull-Head-Slam (melee, +6 to hit, 2d8+5 bludgeoning + DC 14 AGI or knocked prone). Sacrifice-Taker (passive: demands monthly offering of refined ore from Fexric holdfasts; if refused, physically blocks hot-water pipes, freezing entire sections of Frostmaw Holdfast within hours). Vulnerable to cold (cold damage halves its regeneration for 3 rounds).",
@@ -4057,19 +4057,19 @@ export const BESTIARY_DATA = {
               "poison": 50
             }
           },
-          "depth": "Spinning webs of volcanic-glass silk across geothermal vents, the Ushi-Oni traps unwary prey in the steam, suffocating them with its yellow sulfur breath before devouring them. It demands monthly tributes of refined ore from Fexric holdfasts, and if denied, it will physically block the geothermal pipes, freezing entire sections of Frostmaw Holdfast within hours. Holdfast leaders frequently hire seasoned adventurers to clear these pipe-blocking beasts or to harvest their valuable volcanic-glass silk.",
+          "depth": "Spinning webs of volcanic-glass silk across geothermal vents, the ushioni traps unwary prey in the steam, suffocating them with its yellow sulfur breath before devouring them. It demands monthly tributes of refined ore from Fexric holdfasts, and if denied, it will physically block the geothermal pipes, freezing entire sections of Frostmaw Holdfast within hours. Holdfast leaders frequently hire seasoned adventurers to clear these pipe-blocking beasts or to harvest their valuable volcanic-glass silk.",
           "hooks": [
-            "A rumor spreads of a Ushi-Oni spotted near the area.",
-            "Adventurers need a component from a Ushi-Oni to complete their quest."
+            "A rumor spreads of a ushioni spotted near the area.",
+            "Adventurers need a component from a ushioni to complete their quest."
           ],
           "description": "A massive, volcanic-plated spider with a demonic bull's head that webs geothermal vents and demands tribute to prevent freezing.",
-          "heritage": "Derived from spider-bodied, bull-headed ox-demons, the Ushi-Oni represented the terror of toxic volcanic pools and cave collapses. The Wyrd anomaly acted upon the miners' fear of steam eruptions in the foundries, materializing this bull-headed beast to trap prey in toxic webs and breathe acid near the vents."
+          "heritage": "Derived from spider-bodied, bull-headed ox-demons, the ushioni represented the terror of toxic volcanic pools and cave collapses. The Wyrd anomaly acted upon the miners' fear of steam eruptions in the foundries, materializing this bull-headed beast to trap prey in toxic webs and breathe acid near the vents."
         },
         {
-          "id": "baku_dream",
+          "id": "baku",
           "name": "Baku",
           "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/baku_dream.png",
+          "illustration": "/assets/images/creatures/baku.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Baku",
           "role": "Baku",
           "origin": "The Baku is born of the chimera-like dream-devourers of folklore, which possess elephantine trunks and tiger legs to consume the nightmares of mortals, merged with the concept of the Huaca, the sacred objects and beings of Incan tradition that contain extraordinary spiritual power. In the high peaks, they are treated as living sanctuaries, bringing peace and protection to the cold holdfasts.",
@@ -4101,10 +4101,10 @@ export const BESTIARY_DATA = {
           "heritage": "Born from dream-devouring chimera legends, the Baku was a comforting myth told to children to absorb nightmares and bring peaceful sleep. The Wyrd anomaly reacted to the settlers' collective dread of night terrors and volcanic eruptions, materializing this elephant-trunked chimera to physically eat bad dreams."
         },
         {
-          "id": "nekomata_spur",
+          "id": "nekomata",
           "name": "Nekomata",
           "dangerLevel": "High",
-          "illustration": "/assets/images/creatures/nekomata_spur.png",
+          "illustration": "/assets/images/creatures/nekomata.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Nekomata",
           "role": "Nekomata",
           "origin": "The Nekomata arises from the two-tailed cat-demons of Yokai lore, which raise the dead and control them like puppets, combined with the Kcoa, the powerful storm-cat spirits of Andean belief. In the freezing heights, this creature represents a dark storm-necromancer, using the static energy of the blizzards to animate the frozen dead.",
@@ -4136,13 +4136,13 @@ export const BESTIARY_DATA = {
           "heritage": "Spun from two-tailed cat-demon legends, the Nekomata was a warning to prevent desecration of those frozen in the mountains. The Wyrd anomaly consolidated the travelers' terror of blizzards and the fear of losing their dead, materializing this twin-tailed cat to control frozen corpses like puppets."
         },
         {
-          "id": "futakuchi_ration",
-          "name": "Futakuchi-onna",
+          "id": "futakuchi",
+          "name": "Futakuchi",
           "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/futakuchi_ration.png",
-          "illustrationCaption": "A hand-drawn field sketch of the legendary Futakuchi-onna",
-          "role": "Futakuchionna",
-          "origin": "The Futakuchi-onna is born of the two-mouthed women of folklore, whose hidden, greedy secondary mouths consume massive amounts of food, combined with the Aiai-Maneco, the Andean spirits of insatiable hunger that leave entire communities destitute. In the survival-strained holdfasts, they represent the terrifying manifestation of greed and the dread of starvation.",
+          "illustration": "/assets/images/creatures/futakuchi.png",
+          "illustrationCaption": "A hand-drawn field sketch of the legendary futakuchi",
+          "role": "Futakuchi-Onna",
+          "origin": "The futakuchi is born of the two-mouthed women of folklore, whose hidden, greedy secondary mouths consume massive amounts of food, combined with the Aiai-Maneco, the Andean spirits of insatiable hunger that leave entire communities destitute. In the survival-strained holdfasts, they represent the terrifying manifestation of greed and the dread of starvation.",
           "nature": "Appearing as a tall, gaunt woman with stringy, matted black hair and sunken eyes, she looks permanently malnourished, her hands shaped as if cradling an empty bowl. Hidden beneath the hair at the back of her skull is a second, lipless mouth filled with jagged teeth and a writhing tongue, which demands food in a guttural, independent voice. From the front, her face is haunted and full of shame, but the rear mouth grins and drools with predatory hunger.",
           "habitat": "They hide in the storage larders, food-vaults, and kitchens of Frostmaw Holdfast and other settlements in the Cragjaw Peaks.",
           "combat": "145 HP. Ration-Devour (passive: infests food-stores; consumes three times the rations of a normal person while appearing to eat almost nothing). Second-Mouth (passive: hidden beneath hair at back of skull; has its own independent tongue and voice — deeper, guttural, always demanding food). Guilt-Mouth (passive: the second mouth speaks the hunger of the mountain itself; Kethrin guild-masters who encounter it are said to have taken more than their share). Hair-Whip (melee, reach 10 ft, +5 to hit, 1d8+3 slashing — the second mouth's hair strikes independently). Vulnerable to fire.",
@@ -4162,19 +4162,19 @@ export const BESTIARY_DATA = {
               "cold": 25
             }
           },
-          "depth": "Infiltrating food stores under the guise of an ordinary worker, the Futakuchi-onna consumes three times the rations of a normal person, using its hidden mouth at night to empty vaults of dried moss-bread, ram-meat, and whiteout-distillate. The second mouth is said to speak the insatiable hunger of the mountains, punishing greedy Kethrin guild-masters who extract too much wealth by leaving their larders bare. Adventurers are often brought in to quietly investigate disappearing food supplies and deal with the hidden consumer before the holdfast starves.",
+          "depth": "Infiltrating food stores under the guise of an ordinary worker, the futakuchi consumes three times the rations of a normal person, using its hidden mouth at night to empty vaults of dried moss-bread, ram-meat, and whiteout-distillate. The second mouth is said to speak the insatiable hunger of the mountains, punishing greedy Kethrin guild-masters who extract too much wealth by leaving their larders bare. Adventurers are often brought in to quietly investigate disappearing food supplies and deal with the hidden consumer before the holdfast starves.",
           "hooks": [
-            "A rumor spreads of a Futakuchi-onna spotted near the area.",
-            "Adventurers need a component from a Futakuchi-onna to complete their quest."
+            "A rumor spreads of a futakuchi spotted near the area.",
+            "Adventurers need a component from a futakuchi to complete their quest."
           ],
           "description": "A gaunt woman with a hidden, ravenous mouth at the back of her head that secretly devours larders and embodies the hunger of the peaks.",
-          "heritage": "Derived from two-mouthed women myths, the Futakuchi-onna was a moral warning against hoarding rations and neglecting family members in lean winters. The Wyrd anomaly reacted to the Fexric engineers' strict rationing during pipeline construction, materializing this two-mouthed spirit to consume massive amounts of food."
+          "heritage": "Derived from two-mouthed women myths, the futakuchi was a moral warning against hoarding rations and neglecting family members in lean winters. The Wyrd anomaly reacted to the Fexric engineers' strict rationing during pipeline construction, materializing this two-mouthed spirit to consume massive amounts of food."
         },
         {
-          "id": "wanyudo_pass",
+          "id": "wanyudo",
           "name": "Wanyūdō",
           "dangerLevel": "Very High",
-          "illustration": "/assets/images/creatures/wanyudo_pass.png",
+          "illustration": "/assets/images/creatures/wanyudo.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Wanyūdō",
           "role": "WanyÅ«dÅ",
           "origin": "The Wanyūdō is born of the flaming souls-wheels of folklore that roll through mountain passes to steal the spirits of onlookers, merged with the ceremonial sun-wheels of the Inti-Raymi festival. In the cold, sunless world, these sacred festival-wheels have been twisted by Wyrd-corruption, turning them into cold-burning engines of eternal torment.",
@@ -4207,10 +4207,10 @@ export const BESTIARY_DATA = {
           "heritage": "Born from flaming soul-wheels rolling through passes, the Wanyūdō was a road myth warned against looking out of windows during dark, volcanic storms. The Wyrd anomaly consolidated the travelers' fear of volcanic debris and flash fires, materializing this flaming wheel to drag souls to the underworld."
         },
         {
-          "id": "tsuchigumo_burrow",
+          "id": "tsuchigumo",
           "name": "Tsuchigumo",
           "dangerLevel": "Very High",
-          "illustration": "/assets/images/creatures/tsuchigumo_burrow.png",
+          "illustration": "/assets/images/creatures/tsuchigumo.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Tsuchigumo",
           "role": "Tsuchigumo",
           "origin": "The Tsuchigumo represents the convergence of the ancient, illusion-weaving earth-spiders of Yokai lore, historically associated with rebellious mountain clans, and the metallic-serpent guardians of Urcaguary who protect the earth's treasures. Birthed from stone and precious ores, these massive arachnids guard the deepest veins of the mountains with webs of solid gold and illusions of wealth.",
@@ -4277,10 +4277,10 @@ export const BESTIARY_DATA = {
           "heritage": "Rooted in filth-licking sprite myths, the Akaname was a household tale to enforce cleanliness and warning against neglecting waste disposal. The Wyrd anomaly reacted to the miners' dirty geothermal worker quarters, materializing this long-tongued sprite to lick volcanic grime and absorb disease."
         },
         {
-          "id": "inugami_chain",
+          "id": "inugami",
           "name": "Inugami",
           "dangerLevel": "High",
-          "illustration": "/assets/images/creatures/inugami_chain.png",
+          "illustration": "/assets/images/creatures/inugami.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Inugami",
           "role": "Inugami",
           "origin": "The Inugami is born of the dog-spirits bound to mortal families through ancient, dark blood-rituals to act as loyal guardians and instruments of revenge, combined with the sacred afterlife-guide dogs of pre-Columbian tradition. In the Span-settlements, they are revered and feared spectral protectors, representing a bond that transcends life and strengthens the very foundations of their homes.",
@@ -4313,13 +4313,13 @@ export const BESTIARY_DATA = {
           "heritage": "Born from dog-spirits bound through dark blood-rituals, the Inugami represented the fear of family feuds and instruments of vengeance between clans. The Wyrd anomaly reacted to the miners' and engineers' clan rivalries over gold claims, materializing this loyal spirit to protect claims and execute targets."
         },
         {
-          "id": "ittan_banner",
-          "name": "Ittan-momen",
+          "id": "ittan",
+          "name": "Ittan",
           "dangerLevel": "Low",
-          "illustration": "/assets/images/creatures/ittan_banner.png",
-          "illustrationCaption": "A hand-drawn field sketch of the legendary Ittan-momen",
-          "role": "IttanMomen",
-          "origin": "The Ittan-momen is born of the flying cotton-cloth Yokai of folklore that wrap around the faces of travelers, combined with the sacred textile-spirits and living quipu documents of Andean tradition, which weave the spiritual essence of their makers into physical form. In the high bridges, they are living, flying records and guardians, acting as peaceful messengers and protectors of the vulnerable.",
+          "illustration": "/assets/images/creatures/ittan.png",
+          "illustrationCaption": "A hand-drawn field sketch of the legendary ittan",
+          "role": "Ittan-Momen",
+          "origin": "The ittan is born of the flying cotton-cloth Yokai of folklore that wrap around the faces of travelers, combined with the sacred textile-spirits and living quipu documents of Andean tradition, which weave the spiritual essence of their makers into physical form. In the high bridges, they are living, flying records and guardians, acting as peaceful messengers and protectors of the vulnerable.",
           "nature": "This creature is a thirty-foot-long, two-foot-wide strip of white, slightly yellowed cotton cloth with frayed edges that floats through the air like a ribbon in water. The fabric is warm, smelling of llama-wool and mountain-herbs, and is embroidered with geometric Andean patterns and quipu-knots that shift when unobserved. It has no face, but the embroidery rearranges itself into readable words, warnings, or names that respond to the observer's deepest concerns.",
           "habitat": "They fly through the open skies, chasms, and Ancestor-Spans of the Cragjaw Peaks, nesting in high bridge arches.",
           "combat": "75 HP. Message-Bearer (special: Groven elder whispers a message into one end; words travel the length of fabric, emerging from the other end at destination; messages cannot be intercepted or forged). Smother-Sleep (special: wraps around attacker's face, putting them in deep, dreamless sleep for exactly 1 day). Heart-Read (passive: embroidered patterns rearrange into readable messages — a name, a question, or a warning; changes based on the observer's deepest concern). Warm-Cloth (passive: warm to the touch, smells of llama-wool and mountain-herbs; +2 to survival checks while within 10 ft). Vulnerable to fire.",
@@ -4339,13 +4339,13 @@ export const BESTIARY_DATA = {
               "psychic": 25
             }
           },
-          "depth": "Serving as living messengers, Ittan-momens carry spoken words whispered into their fabric across the chasms of the peaks, delivering secure and unforgeable communication between Groven communities. When threatened, the banner wraps around an attacker's face, putting them into a peaceful, day-long sleep, and it will wrap around exposed children to protect them from the deadly cold of the blizzards. Adventurers are sometimes sent to recover an Ittan-momen carrying a vital historical message, or to seek their help in surviving a winter crossing.",
+          "depth": "Serving as living messengers, ittans carry spoken words whispered into their fabric across the chasms of the peaks, delivering secure and unforgeable communication between Groven communities. When threatened, the banner wraps around an attacker's face, putting them into a peaceful, day-long sleep, and it will wrap around exposed children to protect them from the deadly cold of the blizzards. Adventurers are sometimes sent to recover an ittan carrying a vital historical message, or to seek their help in surviving a winter crossing.",
           "hooks": [
-            "A rumor spreads of a Ittan-momen spotted near the area.",
-            "Adventurers need a component from a Ittan-momen to complete their quest."
+            "A rumor spreads of a ittan spotted near the area.",
+            "Adventurers need a component from a ittan to complete their quest."
           ],
           "description": "A thirty-foot strip of living embroidered cloth that carries messages across mountain chasms and wraps around travelers to protect them from the cold.",
-          "heritage": "Derived from flying cotton-cloth Yokai, the Ittan-momen originally served to warn travelers against suffocating blizzards and strong winds in narrow passes. The Wyrd anomaly reacted to the mountain guides' fear of sudden windstorms, materializing this flying textile spirit to wrap around faces and drag victims over cliffs."
+          "heritage": "Derived from flying cotton-cloth Yokai, the ittan originally served to warn travelers against suffocating blizzards and strong winds in narrow passes. The Wyrd anomaly reacted to the mountain guides' fear of sudden windstorms, materializing this flying textile spirit to wrap around faces and drag victims over cliffs."
         }
       ]
     },
@@ -6111,4 +6111,4 @@ export const BESTIARY_DATA = {
       ]
     }
   ]
-};
+}

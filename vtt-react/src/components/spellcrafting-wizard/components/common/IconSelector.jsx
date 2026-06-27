@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { getCustomIconUrl } from '../../../../utils/assetManager';
-import WowWindow from '../../../windows/WowWindow';
+import MythrillWindow from '../../../windows/MythrillWindow';
 // Pathfinder styles imported via main.css
 
 /**
@@ -497,9 +497,9 @@ const IconSelector = ({ onSelect, onClose, currentIcon }) => {
     });
   }, [icons, searchTerm, selectedCategory]);
 
-  // Render the modal via WowWindow (handles portal, backdrop, focus trap, Esc, aria)
+  // Render the modal via MythrillWindow (handles portal, backdrop, focus trap, Esc, aria)
   return (
-    <WowWindow
+    <MythrillWindow
       title="Select a Spell Icon"
       isOpen={true}
       onClose={onClose}
@@ -558,7 +558,7 @@ const IconSelector = ({ onSelect, onClose, currentIcon }) => {
           </div>
         )}
       </div>
-    </WowWindow>
+    </MythrillWindow>
   );
 };
 

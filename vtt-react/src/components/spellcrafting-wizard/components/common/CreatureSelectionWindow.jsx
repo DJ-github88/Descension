@@ -3,7 +3,7 @@ import { useCreatureLibrary } from '../../../creature-wizard/context/CreatureLib
 import useCreatureStore from '../../../../store/creatureStore';
 import CompactCreatureCard from '../../../creature-wizard/components/common/CompactCreatureCard';
 import { FaSearch, FaTimes, FaCheck } from 'react-icons/fa';
-import WowWindow from '../../../windows/WowWindow';
+import MythrillWindow from '../../../windows/MythrillWindow';
 // Pathfinder styles imported via main.css
 
 // Helper function to filter creatures based on filters
@@ -130,7 +130,7 @@ const CreatureSelectionWindow = ({
   };
 
   return (
-    <WowWindow
+    <MythrillWindow
       title={title}
       isOpen={isOpen}
       onClose={onClose}
@@ -229,7 +229,7 @@ const CreatureSelectionWindow = ({
           )}
         </div>
       </div>
-    </WowWindow>
+    </MythrillWindow>
   );
 };
 

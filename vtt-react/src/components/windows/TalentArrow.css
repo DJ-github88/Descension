@@ -62,7 +62,7 @@
   height: 0;
   border-top: 9px solid transparent;
   border-bottom: 9px solid transparent;
-  border-left: 12px solid var(--pf-brown-medium, #8B4513);
+  border-left: 12px solid var(--my-brown-medium, #8B4513);
   transition: all 0.3s ease;
   filter: drop-shadow(3px 0 4px rgba(0, 0, 0, 0.5));
 }

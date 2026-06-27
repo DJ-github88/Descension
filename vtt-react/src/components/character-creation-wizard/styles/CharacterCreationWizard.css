@@ -2031,7 +2031,7 @@ button.gender-option.selected {
     }
 
     .character-wizard-container .wizard-top-header {
-        padding: var(--pf-space-mobile-3) var(--pf-space-mobile-4) !important;
+        padding: var(--my-space-mobile-3) var(--my-space-mobile-4) !important;
         min-height: 60px !important;
         flex-shrink: 0 !important;
     }
@@ -2070,11 +2070,11 @@ button.gender-option.selected {
 
     .character-wizard-container .wizard-step-content {
         /* Override the desktop `padding: 2rem 4rem !important` */
-        padding: var(--pf-space-mobile-4) !important;
+        padding: var(--my-space-mobile-4) !important;
         margin: 0 !important;
         width: 100% !important;
         max-width: 100% !important;
-        gap: var(--pf-space-mobile-6) !important;
+        gap: var(--my-space-mobile-6) !important;
         min-height: auto !important;
     }
 
@@ -2091,7 +2091,7 @@ button.gender-option.selected {
 
     .character-wizard-container .wizard-footer {
         flex-shrink: 0 !important;
-        padding: var(--pf-space-mobile-3) var(--pf-space-mobile-4) !important;
+        padding: var(--my-space-mobile-3) var(--my-space-mobile-4) !important;
         position: sticky !important;
         bottom: 0 !important;
         z-index: 100 !important;
@@ -2102,7 +2102,7 @@ button.gender-option.selected {
 
     .character-wizard-container .wizard-navigation {
         flex-direction: row !important;
-        gap: var(--pf-space-mobile-2) !important;
+        gap: var(--my-space-mobile-2) !important;
         flex-wrap: nowrap !important;
         width: 100% !important;
     }
@@ -2126,9 +2126,9 @@ button.gender-option.selected {
     }
 
     .character-wizard-container .wizard-btn {
-        min-height: var(--pf-touch-target-comfortable) !important;
-        padding: var(--pf-space-mobile-3) var(--pf-space-mobile-4) !important;
-        font-size: var(--pf-font-size-mobile-base) !important;
+        min-height: var(--my-touch-target-comfortable) !important;
+        padding: var(--my-space-mobile-3) var(--my-space-mobile-4) !important;
+        font-size: var(--my-font-size-mobile-base) !important;
         min-width: 100px !important;
         flex: 1 1 auto !important;
     }
@@ -6063,7 +6063,7 @@ button.gender-option.selected {
 
 .table-preview-entry.normal,
 .table-preview-entry.partial {
-    border-left: 5px solid var(--pf-health-danger);
+    border-left: 5px solid var(--my-health-danger);
     background: linear-gradient(135deg, #fff8e1 0%, #fff3c4 100%);
     position: relative;
     padding-left: 20px;
@@ -6077,7 +6077,7 @@ button.gender-option.selected {
     top: 50%;
     transform: translateY(-50%);
     font-size: 16px;
-    color: var(--pf-health-danger);
+    color: var(--my-health-danger);
     opacity: 0.9;
     background: white;
     width: 20px;
@@ -6086,7 +6086,7 @@ button.gender-option.selected {
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    border: 2px solid var(--pf-health-danger);
+    border: 2px solid var(--my-health-danger);
     font-weight: bold;
 }
 
@@ -6118,7 +6118,7 @@ button.gender-option.selected {
 }
 
 .table-preview-entry.critical {
-    border-left: 6px solid var(--pf-mana-dark);
+    border-left: 6px solid var(--my-mana-dark);
     background: linear-gradient(135deg, #e3f2fd 0%, #d1e7ff 100%);
     box-shadow: 0 2px 8px rgba(25, 118, 210, 0.25);
     border-left-style: double;
@@ -6133,7 +6133,7 @@ button.gender-option.selected {
     top: 50%;
     transform: translateY(-50%);
     font-size: 16px;
-    color: var(--pf-mana-dark);
+    color: var(--my-mana-dark);
     opacity: 0.9;
     background: white;
     width: 20px;
@@ -6142,7 +6142,7 @@ button.gender-option.selected {
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    border: 2px solid var(--pf-mana-dark);
+    border: 2px solid var(--my-mana-dark);
     font-weight: bold;
 }
 
@@ -6351,8 +6351,8 @@ button.gender-option.selected {
     .character-wizard-container .wizard-top-header {
         flex-direction: row !important;
         align-items: center !important;
-        gap: var(--pf-space-mobile-2) !important;
-        padding: var(--pf-space-mobile-3) var(--pf-space-mobile-4) !important;
+        gap: var(--my-space-mobile-2) !important;
+        padding: var(--my-space-mobile-3) var(--my-space-mobile-4) !important;
         min-height: 60px !important;
         flex-wrap: nowrap !important;
     }
@@ -6364,7 +6364,7 @@ button.gender-option.selected {
 
     .character-wizard-container .wizard-step-content {
         /* Override desktop `padding: 2rem 4rem !important` for landscape/mobile widths */
-        padding: var(--pf-space-mobile-4) !important;
+        padding: var(--my-space-mobile-4) !important;
         margin: 0 !important;
         width: 100% !important;
         max-width: 100% !important;
@@ -6392,7 +6392,7 @@ button.gender-option.selected {
         flex: 1 1 auto !important;
         width: auto !important;
         min-width: 0 !important;
-        padding: 0 var(--pf-space-mobile-2) !important;
+        padding: 0 var(--my-space-mobile-2) !important;
         justify-content: flex-start !important;
         order: 0 !important;
         overflow-x: auto !important;
@@ -6423,7 +6423,7 @@ button.gender-option.selected {
         width: auto !important;
         min-width: max-content !important;
         justify-content: flex-start !important;
-        gap: var(--pf-space-mobile-1) !important;
+        gap: var(--my-space-mobile-1) !important;
         padding: 0 !important;
     }
 

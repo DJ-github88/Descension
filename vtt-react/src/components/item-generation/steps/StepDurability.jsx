@@ -98,7 +98,7 @@ const StepDurability = ({ itemData, updateItemData }) => {
                                 fontSize: '13px',
                                 lineHeight: '1.6'
                             }}>
-                                <strong style={{ color: 'var(--pf-gold-dark, #b8860b)', fontFamily: "'Cinzel', serif", display: 'block', marginBottom: '6px' }}>
+                                <strong style={{ color: 'var(--my-gold-dark, #b8860b)', fontFamily: "'Cinzel', serif", display: 'block', marginBottom: '6px' }}>
                                     <i className="fas fa-scroll" style={{ marginRight: '6px' }}></i> DICE-BASED DURABILITY RULES
                                 </strong>
                                 Armor items grant a Damage Reduction (DR) die. When hit, players roll their current DR die size to absorb damage. If a <strong>1 or 2</strong> is rolled, the armor degrades by one step tier on the ladder. A roll of <strong>3 or higher</strong> maintains its current tier. Critical hits ignore DR and do not degrade durability.
@@ -113,10 +113,10 @@ const StepDurability = ({ itemData, updateItemData }) => {
                                 boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.05)'
                             }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                                    <span style={{ color: 'var(--pf-brown-darkest)', fontFamily: "'Cinzel', serif", fontWeight: '700', fontSize: '14px', letterSpacing: '1px' }}>
+                                    <span style={{ color: 'var(--my-brown-darkest)', fontFamily: "'Cinzel', serif", fontWeight: '700', fontSize: '14px', letterSpacing: '1px' }}>
                                         MAXIMUM CAPACITY (DR DIE)
                                     </span>
-                                    <span style={{ fontSize: '16px', fontWeight: 'bold', color: 'var(--pf-gold-dark, #b8860b)', fontFamily: "'Cinzel', serif", display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                                    <span style={{ fontSize: '16px', fontWeight: 'bold', color: 'var(--my-gold-dark, #b8860b)', fontFamily: "'Cinzel', serif", display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
                                         <DieIcon die={currentMaxDurStr} size="16px" /> {currentMaxDurStr.toUpperCase()}
                                     </span>
                                 </div>
@@ -133,9 +133,9 @@ const StepDurability = ({ itemData, updateItemData }) => {
                                                 gap: '6px',
                                                 padding: '12px 4px',
                                                 height: 'auto',
-                                                background: currentMaxDurStr === step ? 'var(--pf-gradient-gold, linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%))' : 'var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%))',
-                                                border: `2px solid ${currentMaxDurStr === step ? 'var(--pf-gold-dark, #b8860b)' : 'var(--pf-brown-medium, #8B4513)'}`,
-                                                color: currentMaxDurStr === step ? 'var(--pf-brown-darkest, #2d1810)' : 'var(--pf-text-primary, #2d1810)',
+                                                background: currentMaxDurStr === step ? 'var(--my-gradient-gold, linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%))' : 'var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%))',
+                                                border: `2px solid ${currentMaxDurStr === step ? 'var(--my-gold-dark, #b8860b)' : 'var(--my-brown-medium, #8B4513)'}`,
+                                                color: currentMaxDurStr === step ? 'var(--my-brown-darkest, #2d1810)' : 'var(--my-text-primary, #2d1810)',
                                                 borderRadius: '8px',
                                                 cursor: 'pointer',
                                                 boxShadow: currentMaxDurStr === step ? 'inset 0 2px 4px rgba(212, 175, 55, 0.2), 0 2px 4px rgba(0, 0, 0, 0.2), 0 0 12px rgba(212, 175, 55, 0.4)' : 'inset 0 2px 4px rgba(139, 69, 19, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1)',
@@ -160,7 +160,7 @@ const StepDurability = ({ itemData, updateItemData }) => {
                                 boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.05)'
                             }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                                    <span style={{ color: 'var(--pf-brown-darkest)', fontFamily: "'Cinzel', serif", fontWeight: '700', fontSize: '14px', letterSpacing: '1px' }}>
+                                    <span style={{ color: 'var(--my-brown-darkest)', fontFamily: "'Cinzel', serif", fontWeight: '700', fontSize: '14px', letterSpacing: '1px' }}>
                                         CURRENT INTEGRITY (STATUS DIE)
                                     </span>
                                     <span style={{ fontSize: '16px', fontWeight: 'bold', color: barColor, fontFamily: "'Cinzel', serif", display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
@@ -179,10 +179,10 @@ const StepDurability = ({ itemData, updateItemData }) => {
                                 {/* Status Progress Bar */}
                                 <div style={{ margin: '20px 0' }}>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                                        <span style={{ fontSize: '11px', fontWeight: '800', color: 'var(--pf-brown-darkest)' }}>
+                                        <span style={{ fontSize: '11px', fontWeight: '800', color: 'var(--my-brown-darkest)' }}>
                                             {currentDurStr === 'broken' ? 'SHATTERED' : `${currentDurStr.toUpperCase()} OUT OF ${currentMaxDurStr.toUpperCase()}`}
                                         </span>
-                                        <span style={{ fontSize: '11px', fontWeight: '600', color: 'var(--pf-brown-light)' }}>
+                                        <span style={{ fontSize: '11px', fontWeight: '600', color: 'var(--my-brown-light)' }}>
                                             {currentDurStr === 'broken' ? 'broken' : `step ${curIdx} / ${maxIdx}`}
                                         </span>
                                     </div>
@@ -222,9 +222,9 @@ const StepDurability = ({ itemData, updateItemData }) => {
                                                     gap: '4px',
                                                     padding: '10px 2px',
                                                     height: 'auto',
-                                                    background: isSelected ? 'var(--pf-gradient-gold, linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%))' : isAllowed ? 'var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%))' : 'rgba(0,0,0,0.05)',
-                                                    border: `2px solid ${isSelected ? 'var(--pf-gold-dark, #b8860b)' : isAllowed ? 'var(--pf-brown-medium, #8B4513)' : 'rgba(0,0,0,0.1)'}`,
-                                                    color: isSelected ? 'var(--pf-brown-darkest, #2d1810)' : isAllowed ? 'var(--pf-text-primary, #2d1810)' : 'rgba(0,0,0,0.3)',
+                                                    background: isSelected ? 'var(--my-gradient-gold, linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%))' : isAllowed ? 'var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%))' : 'rgba(0,0,0,0.05)',
+                                                    border: `2px solid ${isSelected ? 'var(--my-gold-dark, #b8860b)' : isAllowed ? 'var(--my-brown-medium, #8B4513)' : 'rgba(0,0,0,0.1)'}`,
+                                                    color: isSelected ? 'var(--my-brown-darkest, #2d1810)' : isAllowed ? 'var(--my-text-primary, #2d1810)' : 'rgba(0,0,0,0.3)',
                                                     borderRadius: '8px',
                                                     cursor: isAllowed ? 'pointer' : 'not-allowed',
                                                     boxShadow: isSelected ? 'inset 0 2px 4px rgba(212, 175, 55, 0.2), 0 2px 4px rgba(0, 0, 0, 0.2)' : isAllowed ? 'inset 0 2px 4px rgba(139, 69, 19, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1)' : 'none',

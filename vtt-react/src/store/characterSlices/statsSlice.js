@@ -756,8 +756,6 @@ export const createStatsSlice = (set, get) => ({
     recalculateResistancesFromPassives: () => {
         const state = get();
         if (!state.race || !state.subrace) return;
-
-        const { getRacialStatModifiers } = require('../../utils/raceDisciplineSpellUtils');
         const passiveModifiers = getRacialStatModifiers(state.race, state.subrace);
 
         let updatedResistances = { ...state.resistances };

@@ -15,7 +15,7 @@ import { GENERAL_CATEGORIES } from '../../../../data/generalSpellsData';
 import { getRacialSpells, getDisciplineSpells, isPassiveStatModifier } from '../../../../utils/raceDisciplineSpellUtils';
 import SpellCardWithProcs from '../common/SpellCardWithProcs';
 import UnifiedSpellCard from '../common/UnifiedSpellCard';
-import WowWindow from '../../../windows/WowWindow';
+import MythrillWindow from '../../../windows/MythrillWindow';
 // Pathfinder styles imported via main.css
 
 import SpellContextMenu from './SpellContextMenu';
@@ -2599,7 +2599,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
 
       {/* Spell Popup Modal - Shows full spell card on click */}
       {selectedSpell && (
-        <WowWindow
+        <MythrillWindow
           title={selectedSpell?.name || 'Spell Details'}
           isOpen={true}
           onClose={() => {
@@ -2621,7 +2621,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
               rollableTableData={getSpellRollableTable(selectedSpell)}
             />
           </div>
-        </WowWindow>
+        </MythrillWindow>
       )}
 
 

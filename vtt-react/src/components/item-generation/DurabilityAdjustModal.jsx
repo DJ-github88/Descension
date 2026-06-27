@@ -226,7 +226,7 @@ const DurabilityAdjustModal = ({ visible, item, onClose, onDurabilityChange }) =
                                         gap: '6px',
                                         padding: '12px 2px',
                                         background: isSelected
-                                            ? 'var(--pf-gradient-gold, linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%))'
+                                            ? 'var(--my-gradient-gold, linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%))'
                                             : isAllowed
                                                 ? 'linear-gradient(145deg, #2b180f, #1a0f0a)'
                                                 : 'rgba(0,0,0,0.05)',

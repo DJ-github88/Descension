@@ -15,8 +15,8 @@ const REGIONS = [
     borderColor: '#a04000',
     glowColor: 'rgba(160, 64, 0, 0.12)',
     description: 'A volcanic ash-desert of smoldering badlands and obsidian rivers surrounding the Emberspire caldera. Here, the Emberth and Solvarn humans live in constant, desperate proximity to the dying star Solbound. Survival is a transaction paid in heat, and power is a combustion that devours the practitioner.',
-    darkBargain: 'House Skalvyr and the forge-clans sealed Solbound beneath the crust to save it from Keth-Amar. The price is constant watchfulness, basalt-cracking skin, and the Agony of the Flame.',
-    classIds: ['pyrofiend', 'berserker', 'warden', 'spellguard', 'martyr']
+    darkBargain: 'House Solvan entombed Solbound beneath the crust to save it from Keth-Amar, trading their firstborn heirs for geothermal heat.',
+    classIds: ['pyrofiend', 'berserker', 'spellguard', 'martyr']
   },
   {
     id: 'nordhalla',
@@ -28,7 +28,7 @@ const REGIONS = [
     glowColor: 'rgba(31, 95, 135, 0.12)',
     description: 'The frozen vigil keeps and fjord-settlements of Nordhalla. In this continent of absolute ice, summer is a myth told to children, and the dead are encased upright in glacier-tombs to stand as silent witnesses. Here, the Skald humans and their frost-touched bloodlines measure worth by endurance.',
     darkBargain: 'House Skalvyr traded summer for survival, halting the glaciers at the cost of eternal winter and the shameful history of the Hunger Winter.',
-    classIds: ['augur', 'harbinger', 'animist', 'warden']
+    classIds: ['augur', 'harbinger', 'animist', 'berserker']
   },
   {
     id: 'frostwood-reach',
@@ -64,7 +64,7 @@ const REGIONS = [
     glowColor: 'rgba(108, 52, 131, 0.12)',
     description: 'A vertical labyrinth of razor-sharp ridges, deep steam-shafts, and ancient holdfasts buried under blizzards. The only passage across the chasms are the Ancestor-Spans — living bridges grown from the calcified bones of the Groven.',
     darkBargain: 'House Tessen keeps have lived in absolute isolation for eight generations, developing Byzantine politics to distract from their frozen imprisonment.',
-    classIds: ['martyr', 'gambit', 'chronarch']
+    classIds: ['chronarch', 'warden', 'shaper', 'gambit', 'martyr']
   },
   {
     id: 'iceheart-sea',
@@ -76,6 +76,7 @@ const REGIONS = [
     glowColor: 'rgba(44, 62, 80, 0.12)',
     description: 'A freezing, storm-lashed ocean dotted with floating ice-keeps and pirate channels. Here, the Merryn humans live as storm-chasers and gamblers, mapping their lives on their tattooed skin, navigating tides that freeze in real-time.',
     darkBargain: 'A maritime pact that grants luck and storm-navigation at the cost of tidal synchronization, forcing practitioners to live in perpetual motion.',
+    classIds: ['minstrel', 'gambit']
   },
   {
     id: 'sundrift-vale',
@@ -87,7 +88,7 @@ const REGIONS = [
     glowColor: 'rgba(74, 35, 90, 0.12)',
     description: 'A starless grassland steppe of gravity anomalies and silt-tides. Here, the nomadic Ordan humans migrate along ancient songs under a black sky, while the light-bearing Astril Synod maintains the Luminarchy.',
     darkBargain: 'The Astril carrying constellation-spirits in their skin to hide them from Keth-Amar, trading their physical sight and sanity for inherited light.',
-    classIds: ['augur', 'animist', 'harbinger', 'false_prophet']
+    classIds: ['augur', 'animist', 'harbinger', 'false_prophet', 'minstrel']
   }
 ];
 // Programmatic mapping of class database names to the keys in ALL_CLASSES_DATA

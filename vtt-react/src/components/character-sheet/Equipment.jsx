@@ -7,6 +7,7 @@ import useGameStore from '../../store/gameStore';
 import useChatStore from '../../store/chatStore';
 import { useInspectionCharacter } from '../../contexts/InspectionContext';
 import TooltipPortal from '../tooltips/TooltipPortal';
+import { useTooltipPosition } from '../common/useTooltipPosition';
 import ItemTooltip from '../item-generation/ItemTooltip';
 import UnequipContextMenu from '../equipment/UnequipContextMenu';
 const ClassResourceBar = React.lazy(() => import('../hud/ClassResourceBar'));
@@ -277,200 +278,8 @@ const getPassiveSummary = (passive = {}) => {
 
 
 
-const ResourceBar = ({ current, max, temp = 0, className, label, resourceType, onUpdate, tooltipPosition, setTooltipPosition }) => {
-    const [isHovered, setIsHovered] = useState(false);
-    const [showControls, setShowControls] = useState(false);
-    const [inputValue, setInputValue] = useState('');
-    const [controlsPosition, setControlsPosition] = useState({ x: 0, y: 0 });
-    const percentage = (current / max) * 100;
-
-    const handleMouseEnter = (e) => {
-        setIsHovered(true);
-        setTooltipPosition({
-            x: e.clientX + 15,
-            y: e.clientY - 10
-        });
-    };
-
-    const handleMouseMove = (e) => {
-        setTooltipPosition({
-            x: e.clientX + 15,
-            y: e.clientY - 10
-        });
-    };
-
-    const handleMouseLeave = () => {
-        setIsHovered(false);
-    };
-
-    const handleBarClick = (e) => {
-        if (!showControls) {
-            // Calculate position for the controls popup
-            const rect = e.currentTarget.getBoundingClientRect();
-            const x = rect.left;
-            const y = rect.bottom + 8; // Position below the bar with some spacing
-
-            // Ensure the popup stays within viewport
-            const popupWidth = 200; // Approximate width of controls
-            const popupHeight = 100; // Approximate height of controls
-
-            const adjustedX = Math.min(x, window.innerWidth - popupWidth - 20);
-            const adjustedY = Math.min(y, window.innerHeight - popupHeight - 20);
-
-            setControlsPosition({ x: adjustedX, y: adjustedY });
-        }
-        setShowControls(!showControls);
-    };
-
-    const handleAdjustment = (amount) => {
-        // Calculate the new value without capping (let onUpdate handle overheal detection)
-        const newValue = current + amount;
-        // Only cap negative values (damage)
-        const cappedValue = amount < 0 ? Math.max(0, newValue) : newValue;
-        onUpdate(resourceType, cappedValue, max);
-    };
-
-    const handleInputSubmit = () => {
-        const value = parseInt(inputValue);
-        if (!isNaN(value)) {
-            // For input, allow values above max to trigger overheal detection
-            const newValue = Math.max(0, value);
-            onUpdate(resourceType, newValue, max);
-        }
-        setInputValue('');
-        setShowControls(false);
-    };
-
-    const handleInputKeyPress = (e) => {
-        if (e.key === 'Enter') {
-            handleInputSubmit();
-        } else if (e.key === 'Escape') {
-            setInputValue('');
-            setShowControls(false);
-        }
-    };
-
-    const getTooltipContent = () => {
-        switch (resourceType) {
-            case 'health':
-                return {
-                    title: 'Health Points',
-                    description: 'Your life force. When reduced to 0, you enter the Dying state — conscious but limited in action. Click to adjust.'
-                };
-            case 'mana':
-                return {
-                    title: 'Mana Points',
-                    description: 'Your magical energy used to cast spells and activate magical abilities. Click to adjust.'
-                };
-            case 'actionPoints':
-                return {
-                    title: 'Action Points',
-                    description: 'Points used to perform actions in combat. Refreshes at the start of your turn. Click to adjust.'
-                };
-            default:
-                return null;
-        }
-    };
-
-    const tooltipContent = getTooltipContent();
-
-    return (
-        <div className="resource-bar-container">
-            <div className="resource-bar-header">
-                <span className="resource-bar-label">{label}</span>
-                <span className="resource-bar-values">
-                    {current} / {max}
-                    {temp > 0 && (
-                        <span style={{ color: 'var(--pf-health-low)', marginLeft: '4px' }}>
-                            +{temp} Temporary {resourceType === 'health' ? 'HP' : resourceType === 'mana' ? 'Mana' : 'AP'}
-                        </span>
-                    )}
-                </span>
-            </div>
-
-            <div
-                className="resource-bar-wrapper"
-                onMouseEnter={handleMouseEnter}
-                onMouseMove={handleMouseMove}
-                onMouseLeave={handleMouseLeave}
-                onClick={handleBarClick}
-            >
-                <div className={`resource-bar-track ${className}`}>
-                    <div className="resource-bar-fill" style={{ width: `${percentage}%` }} />
-                </div>
-            </div>
-
-            {showControls && ReactDOM.createPortal(
-                <div
-                    className="resource-controls"
-                    style={{
-                        left: controlsPosition.x,
-                        top: controlsPosition.y,
-                        pointerEvents: 'auto'
-                    }}
-                >
-                    <div className="resource-controls-header">
-                        <span className="resource-controls-title">Adjust {label}</span>
-                        <button
-                            className="resource-controls-close"
-                            onClick={() => setShowControls(false)}
-                        >
-                            ×
-                        </button>
-                    </div>
-                    <div className="resource-adjustment-buttons">
-                        <button onClick={() => handleAdjustment(-10)} className="adjust-btn">-10</button>
-                        <button onClick={() => handleAdjustment(-5)} className="adjust-btn">-5</button>
-                        <button onClick={() => handleAdjustment(-1)} className="adjust-btn">-1</button>
-                        <button onClick={() => handleAdjustment(1)} className="adjust-btn">+1</button>
-                        <button onClick={() => handleAdjustment(5)} className="adjust-btn">+5</button>
-                        <button onClick={() => handleAdjustment(10)} className="adjust-btn">+10</button>
-                    </div>
-                    <div className="resource-input-section">
-                        <input
-                            type="number"
-                            value={inputValue}
-                            onChange={(e) => setInputValue(e.target.value)}
-                            onKeyDown={handleInputKeyPress}
-                            placeholder={`Set to...`}
-                            className="resource-input"
-                            min="0"
-                            max={max}
-                        />
-                        <button onClick={handleInputSubmit} className="set-btn">Set</button>
-                    </div>
-                </div>,
-                document.body
-            )}
-
-            {isHovered && tooltipContent && (
-                <TooltipPortal>
-                    <div
-                        className="equipment-slot-tooltip"
-                        style={{
-                            position: 'fixed',
-                            left: tooltipPosition.x,
-                            top: tooltipPosition.y,
-                            transform: 'translate(10px, -50%)',
-                            pointerEvents: 'none',
-                            zIndex: 999999999
-                        }}
-                    >
-                        <div className="equipment-slot-name">
-                            {tooltipContent.title}
-                        </div>
-                        <div className="equipment-slot-description">
-                            {tooltipContent.description}
-                        </div>
-                    </div>
-                </TooltipPortal>
-            )}
-        </div>
-    );
-};
-
 /* Potion Bottle Resource - replaces bars with tilted fillable bottles */
-const BottleResource = ({ current, max, temp = 0, label, resourceType, onUpdate, tooltipPosition, setTooltipPosition }) => {
+const BottleResource = ({ current, max, temp = 0, label, resourceType, onUpdate, mousePosition, setMousePosition }) => {
     const [isHovered, setIsHovered] = useState(false);
     const [showControls, setShowControls] = useState(false);
     const [inputValue, setInputValue] = useState('');
@@ -479,16 +288,16 @@ const BottleResource = ({ current, max, temp = 0, label, resourceType, onUpdate,
 
     const handleMouseEnter = (e) => {
         setIsHovered(true);
-        setTooltipPosition({
-            x: e.clientX + 15,
-            y: e.clientY - 10
+        setMousePosition({
+            x: e.clientX,
+            y: e.clientY
         });
     };
 
     const handleMouseMove = (e) => {
-        setTooltipPosition({
-            x: e.clientX + 15,
-            y: e.clientY - 10
+        setMousePosition({
+            x: e.clientX,
+            y: e.clientY
         });
     };
 
@@ -558,6 +367,8 @@ const BottleResource = ({ current, max, temp = 0, label, resourceType, onUpdate,
     };
 
     const tooltipContent = getTooltipContent();
+
+    const { adjustedPosition, tooltipRef } = useTooltipPosition(mousePosition, isHovered && !!tooltipContent);
 
     const bottleClass = resourceType === 'health' ? 'health-bottle' :
                         resourceType === 'mana' ? 'mana-bottle' : 'ap-bottle';
@@ -641,12 +452,11 @@ const BottleResource = ({ current, max, temp = 0, label, resourceType, onUpdate,
             {isHovered && tooltipContent && (
                 <TooltipPortal>
                     <div
-                        className="equipment-slot-tooltip"
+                        ref={tooltipRef} className="equipment-slot-tooltip"
                         style={{
                             position: 'fixed',
-                            left: tooltipPosition.x,
-                            top: tooltipPosition.y,
-                            transform: 'translate(10px, -50%)',
+                            left: adjustedPosition.x,
+                            top: adjustedPosition.y,
                             pointerEvents: 'none',
                             zIndex: 999999999
                         }}
@@ -762,7 +572,8 @@ export default function CharacterPanel() {
     const currentPlayerName = useCharacterStore(state => state.name || 'Player');
 
     const [hoveredSlot, setHoveredSlot] = useState(null);
-    const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    const { adjustedPosition, tooltipRef } = useTooltipPosition(mousePosition, !!hoveredSlot);
     const [tooltipDelay, setTooltipDelay] = useState(null);
     const [unequipContextMenu, setUnequipContextMenu] = useState({ visible: false, x: 0, y: 0, item: null, slotName: null });
     const [lastRaceSubracePath, setLastRaceSubracePath] = useState({ race: '', subrace: '', path: '' });
@@ -979,9 +790,9 @@ export default function CharacterPanel() {
 
     const updateTooltipPosition = (e) => {
         // Position tooltip near cursor but with a small offset
-        setTooltipPosition({
-            x: e.clientX + 15,
-            y: e.clientY - 10
+        setMousePosition({
+            x: e.clientX,
+            y: e.clientY
         });
     };
 
@@ -1181,8 +992,8 @@ export default function CharacterPanel() {
                     label="Health"
                     resourceType="health"
                     onUpdate={handleResourceUpdate}
-                    tooltipPosition={tooltipPosition}
-                    setTooltipPosition={setTooltipPosition}
+                    mousePosition={mousePosition}
+                    setMousePosition={setMousePosition}
                 />
                 <BottleResource
                     current={mana.current}
@@ -1191,8 +1002,8 @@ export default function CharacterPanel() {
                     label="Mana"
                     resourceType="mana"
                     onUpdate={handleResourceUpdate}
-                    tooltipPosition={tooltipPosition}
-                    setTooltipPosition={setTooltipPosition}
+                    mousePosition={mousePosition}
+                    setMousePosition={setMousePosition}
                 />
                 <BottleResource
                     current={actionPoints.current}
@@ -1201,8 +1012,8 @@ export default function CharacterPanel() {
                     label="Action Points"
                     resourceType="actionPoints"
                     onUpdate={handleResourceUpdate}
-                    tooltipPosition={tooltipPosition}
-                    setTooltipPosition={setTooltipPosition}
+                    mousePosition={mousePosition}
+                    setMousePosition={setMousePosition}
                 />
             </div>
 
@@ -1316,12 +1127,11 @@ export default function CharacterPanel() {
                                     {hoveredSlot === slotName && (isEmpty || isDisabled) && (
                                         <TooltipPortal>
                                             <div
-                                                className="equipment-slot-tooltip"
+                                                ref={tooltipRef} className="equipment-slot-tooltip"
                                                 style={{
                                                     position: 'fixed',
-                                                    left: tooltipPosition.x,
-                                                    top: tooltipPosition.y,
-                                                    transform: 'translate(10px, -50%)',
+                                                    left: adjustedPosition.x,
+                                                    top: adjustedPosition.y,
                                                     pointerEvents: 'none',
                                                     zIndex: 999999999
                                                 }}
@@ -1570,7 +1380,7 @@ export default function CharacterPanel() {
                                 </button>
                             </div>
                         </div>
-                        
+
                         <div className="vital-item exhaustion-item">
                             <label className="vital-label">Exhaustion Level</label>
                             <select
@@ -1588,7 +1398,7 @@ export default function CharacterPanel() {
                             </select>
                         </div>
                     </div>
-                    
+
                     {/* Exhaustion Warning Panel */}
                     <div className={`exhaustion-effect-panel severity-${exhaustionLevel || 0}`}>
                         <div className="panel-header">
@@ -1616,8 +1426,8 @@ export default function CharacterPanel() {
                             label="Health"
                             resourceType="health"
                             onUpdate={handleResourceUpdate}
-                            tooltipPosition={tooltipPosition}
-                            setTooltipPosition={setTooltipPosition}
+                            mousePosition={mousePosition}
+                            setMousePosition={setMousePosition}
                         />
                         <BottleResource
                             current={mana.current}
@@ -1626,8 +1436,8 @@ export default function CharacterPanel() {
                             label="Mana"
                             resourceType="mana"
                             onUpdate={handleResourceUpdate}
-                            tooltipPosition={tooltipPosition}
-                            setTooltipPosition={setTooltipPosition}
+                            mousePosition={mousePosition}
+                            setMousePosition={setMousePosition}
                         />
                         <BottleResource
                             current={actionPoints.current}
@@ -1636,8 +1446,8 @@ export default function CharacterPanel() {
                             label="Action Points"
                             resourceType="actionPoints"
                             onUpdate={handleResourceUpdate}
-                            tooltipPosition={tooltipPosition}
-                            setTooltipPosition={setTooltipPosition}
+                            mousePosition={mousePosition}
+                            setMousePosition={setMousePosition}
                         />
                     </div>
 
@@ -1976,12 +1786,11 @@ export default function CharacterPanel() {
                 {hoveredSlot === slotName && isEmpty && (
                     <TooltipPortal>
                         <div
-                            className="equipment-slot-tooltip"
+                            ref={tooltipRef} className="equipment-slot-tooltip"
                             style={{
                                 position: 'fixed',
-                                left: tooltipPosition.x,
-                                top: tooltipPosition.y,
-                                transform: 'translate(10px, -50%)',
+                                left: adjustedPosition.x,
+                                top: adjustedPosition.y,
                                 pointerEvents: 'none',
                                 zIndex: 999999999 /* Maximum z-index to ensure it appears above all windows */
                             }}
@@ -2001,13 +1810,13 @@ export default function CharacterPanel() {
         return (
             <TooltipPortal>
                 <div
+                    ref={tooltipRef}
                     style={{
                         position: 'fixed',
-                        left: tooltipPosition.x,
-                        top: tooltipPosition.y,
-                        transform: 'translate(10px, -50%)',
+                        left: adjustedPosition.x,
+                        top: adjustedPosition.y,
                         pointerEvents: 'none',
-                        zIndex: 999999999 /* Maximum z-index to ensure it appears above all windows */
+                        zIndex: 999999999
                     }}
                 >
                     <ItemTooltip item={item} />

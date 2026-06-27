@@ -1,5 +1,5 @@
 import React from 'react';
-import WowWindow from '../../../windows/WowWindow';
+import MythrillWindow from '../../../windows/MythrillWindow';
 // Pathfinder styles imported via main.css
 
 const CleanStatusEffectConfigPopup = ({
@@ -2467,7 +2467,7 @@ const CleanStatusEffectConfigPopup = ({
   );
 
   return (
-    <WowWindow
+    <MythrillWindow
       title={`${effect.name} Configuration`}
       isOpen={isOpen}
       onClose={onClose}
@@ -2504,7 +2504,7 @@ const CleanStatusEffectConfigPopup = ({
           </button>
         </div>
       </div>
-    </WowWindow>
+    </MythrillWindow>
   );
 };
 

@@ -1,5 +1,5 @@
 import React, { useMemo, useCallback, useRef, useEffect, useState } from 'react';
-import WowWindow from './WowWindow';
+import MythrillWindow from './MythrillWindow';
 import useTravelStore from '../../store/travelStore';
 import usePartyStore from '../../store/partyStore';
 import { BIOMES, getBiome, getAtmosphere, getEncounterTable } from '../../data/biomeData';
@@ -1023,7 +1023,7 @@ export const TravelTrackerContent = () => {
 
 const TravelTrackerWindow = ({ isOpen, onClose }) => {
   return (
-    <WowWindow
+    <MythrillWindow
       title="Travel Tracker"
       isOpen={isOpen}
       onClose={onClose}
@@ -1032,7 +1032,7 @@ const TravelTrackerWindow = ({ isOpen, onClose }) => {
       maxConstraints={[900, 960]}
     >
       <TravelTrackerContent />
-    </WowWindow>
+    </MythrillWindow>
   );
 };
 

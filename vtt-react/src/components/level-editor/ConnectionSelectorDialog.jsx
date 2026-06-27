@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import WowWindow from '../windows/WowWindow';
+import MythrillWindow from '../windows/MythrillWindow';
 import useLevelEditorStore from '../../store/levelEditorStore';
 import './styles/ConnectionSelectorDialog.css';
 
@@ -44,7 +44,7 @@ const ConnectionSelectorDialog = ({ isOpen, onClose, sourceConnection, maps, cur
     if (!isOpen) return null;
 
     return (
-        <WowWindow
+        <MythrillWindow
             title="Magical Connection Matrix"
             isOpen={isOpen}
             onClose={onClose}
@@ -114,7 +114,7 @@ const ConnectionSelectorDialog = ({ isOpen, onClose, sourceConnection, maps, cur
                     </button>
                 </div>
             </div>
-        </WowWindow>
+        </MythrillWindow>
     );
 };
 

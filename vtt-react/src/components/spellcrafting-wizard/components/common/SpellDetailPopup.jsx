@@ -1,5 +1,5 @@
 import React from 'react';
-import WowWindow from '../../../windows/WowWindow';
+import MythrillWindow from '../../../windows/MythrillWindow';
 import UnifiedSpellCard from './UnifiedSpellCard';
 import { useSpellLibrary } from '../../context/SpellLibraryContext';
 // Pathfinder styles imported via main.css
@@ -24,7 +24,7 @@ const SpellDetailPopup = ({ isOpen, onClose, spellId, onSelectSpell }) => {
   if (!isOpen || !spell) return null;
 
   return (
-    <WowWindow
+    <MythrillWindow
       isOpen={isOpen}
       onClose={onClose}
       title={`Spell Details: ${spell.name}`}
@@ -94,7 +94,7 @@ const SpellDetailPopup = ({ isOpen, onClose, spellId, onSelectSpell }) => {
           </button>
         </div>
       </div>
-    </WowWindow>
+    </MythrillWindow>
   );
 };
 

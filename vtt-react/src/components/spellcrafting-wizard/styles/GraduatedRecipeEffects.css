@@ -4,27 +4,27 @@
  */
 
 .graduated-effects-container {
-  background: var(--pf-gradient-parchment);
-  border-radius: var(--pf-border-radius-lg);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  padding: var(--pf-space-4);
-  margin-bottom: var(--pf-space-5);
-  box-shadow: var(--pf-shadow-md);
+  background: var(--my-gradient-parchment);
+  border-radius: var(--my-border-radius-lg);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  padding: var(--my-space-4);
+  margin-bottom: var(--my-space-5);
+  box-shadow: var(--my-shadow-md);
 }
 
 .graduated-effects-header {
-  margin-bottom: var(--pf-space-4);
+  margin-bottom: var(--my-space-4);
 }
 
 .graduated-effects-header h4 {
-  color: var(--pf-brown-dark);
+  color: var(--my-brown-dark);
   margin-top: 0;
-  margin-bottom: var(--pf-space-2);
-  font-size: var(--pf-text-xl);
-  font-family: var(--pf-font-display);
-  font-weight: var(--pf-font-bold);
-  border-bottom: var(--pf-border-width) solid var(--pf-brown-light);
-  padding-bottom: var(--pf-space-2);
+  margin-bottom: var(--my-space-2);
+  font-size: var(--my-text-xl);
+  font-family: var(--my-font-display);
+  font-weight: var(--my-font-bold);
+  border-bottom: var(--my-border-width) solid var(--my-brown-light);
+  padding-bottom: var(--my-space-2);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -32,26 +32,26 @@
 .graduated-effects-description {
   display: flex;
   align-items: center;
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-sm);
-  font-family: var(--pf-font-body);
-  margin-bottom: var(--pf-space-3);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-sm);
+  font-family: var(--my-font-body);
+  margin-bottom: var(--my-space-3);
 }
 
 .info-icon {
-  color: var(--pf-brown-medium);
-  margin-right: var(--pf-space-2);
+  color: var(--my-brown-medium);
+  margin-right: var(--my-space-2);
 }
 
 .graduated-effects-empty {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) dashed var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-4);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) dashed var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-4);
   text-align: center;
-  color: var(--pf-text-muted);
+  color: var(--my-text-muted);
   font-style: italic;
-  font-family: var(--pf-font-body);
+  font-family: var(--my-font-body);
 }
 
 .graduated-effects-list {
@@ -61,31 +61,31 @@
 }
 
 .graduated-effect-item {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-3);
-  box-shadow: var(--pf-shadow-sm);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-3);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .graduated-effect-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--pf-space-3);
+  margin-bottom: var(--my-space-3);
 }
 
 .graduated-effect-level {
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-primary);
-  font-size: var(--pf-text-base);
-  font-family: var(--pf-font-ui);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-primary);
+  font-size: var(--my-text-base);
+  font-family: var(--my-font-ui);
 }
 
 .graduated-effect-remove {
-  background: var(--pf-gradient-button);
-  color: var(--pf-error);
-  border: var(--pf-border-width) solid var(--pf-error);
+  background: var(--my-gradient-button);
+  color: var(--my-error);
+  border: var(--my-border-width) solid var(--my-error);
   border-radius: 50%;
   width: 28px;
   height: 28px;
@@ -93,83 +93,83 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
 }
 
 .graduated-effect-remove:hover {
-  background: var(--pf-gradient-button-hover);
-  border-color: var(--pf-error-light);
-  color: var(--pf-error-light);
+  background: var(--my-gradient-button-hover);
+  border-color: var(--my-error-light);
+  color: var(--my-error-light);
   transform: scale(1.05);
 }
 
 .graduated-effect-inputs {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-3);
+  gap: var(--my-space-3);
 }
 
 .graduated-effect-formula,
 .graduated-effect-description {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-1);
+  gap: var(--my-space-1);
 }
 
 .graduated-effect-formula label,
 .graduated-effect-description label {
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-secondary);
-  font-family: var(--pf-font-ui);
-  font-weight: var(--pf-font-medium);
+  font-size: var(--my-text-sm);
+  color: var(--my-text-secondary);
+  font-family: var(--my-font-ui);
+  font-weight: var(--my-font-medium);
 }
 
 .graduated-effect-formula input,
 .graduated-effect-description input {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
-  padding: var(--pf-space-2);
-  font-size: var(--pf-text-sm);
-  font-family: var(--pf-font-body);
-  transition: border-color var(--pf-transition-normal);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
+  padding: var(--my-space-2);
+  font-size: var(--my-text-sm);
+  font-family: var(--my-font-body);
+  transition: border-color var(--my-transition-normal);
 }
 
 .graduated-effect-formula input:focus,
 .graduated-effect-description input:focus {
   outline: none;
-  border-color: var(--pf-gold);
+  border-color: var(--my-gold);
   box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.3);
 }
 
 .graduated-effects-actions {
-  margin-top: var(--pf-space-4);
+  margin-top: var(--my-space-4);
   display: flex;
   justify-content: center;
 }
 
 .graduated-effect-add {
-  background: var(--pf-gradient-button);
-  color: var(--pf-text-secondary);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-2) var(--pf-space-4);
+  background: var(--my-gradient-button);
+  color: var(--my-text-secondary);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-2) var(--my-space-4);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
-  font-weight: var(--pf-font-semibold);
-  font-family: var(--pf-font-ui);
+  transition: all var(--my-transition-normal);
+  font-weight: var(--my-font-semibold);
+  font-family: var(--my-font-ui);
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
 }
 
 .graduated-effect-add:hover:not(:disabled) {
-  background: var(--pf-gradient-button-hover);
-  border-color: var(--pf-gold);
-  color: var(--pf-text-primary);
+  background: var(--my-gradient-button-hover);
+  border-color: var(--my-gold);
+  color: var(--my-text-primary);
   transform: translateY(-1px);
-  box-shadow: var(--pf-shadow-md);
+  box-shadow: var(--my-shadow-md);
 }
 
 .graduated-effect-add:disabled {
@@ -180,17 +180,17 @@
 /* Progress indicator for match percentage */
 .match-progress {
   height: 6px;
-  background: var(--pf-gradient-parchment-dark);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  margin-top: var(--pf-space-2);
+  background: var(--my-gradient-parchment-dark);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  margin-top: var(--my-space-2);
   overflow: hidden;
 }
 
 .match-progress-bar {
   height: 100%;
-  background: var(--pf-gradient-gold);
-  border-radius: var(--pf-border-radius);
+  background: var(--my-gradient-gold);
+  border-radius: var(--my-border-radius);
   transition: width 0.3s ease;
 }
 
@@ -198,36 +198,36 @@
 .effect-type-selector {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--pf-space-2);
-  margin-top: var(--pf-space-1);
+  gap: var(--my-space-2);
+  margin-top: var(--my-space-1);
 }
 
 .effect-type-button {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
-  padding: var(--pf-space-2) var(--pf-space-3);
-  border-radius: var(--pf-border-radius);
-  background: var(--pf-gradient-button);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  color: var(--pf-text-secondary);
+  gap: var(--my-space-2);
+  padding: var(--my-space-2) var(--my-space-3);
+  border-radius: var(--my-border-radius);
+  background: var(--my-gradient-button);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  color: var(--my-text-secondary);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-sm);
-  font-weight: var(--pf-font-semibold);
+  transition: all var(--my-transition-normal);
+  font-family: var(--my-font-ui);
+  font-size: var(--my-text-sm);
+  font-weight: var(--my-font-semibold);
 }
 
 .effect-type-button.active {
-  background: var(--pf-gradient-gold);
-  border-color: var(--pf-gold-dark);
-  color: var(--pf-brown-darkest);
-  box-shadow: var(--pf-shadow-sm);
+  background: var(--my-gradient-gold);
+  border-color: var(--my-gold-dark);
+  color: var(--my-brown-darkest);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .effect-type-button:hover:not(.active) {
-  background: var(--pf-gradient-button-hover);
-  color: var(--pf-brown-dark);
+  background: var(--my-gradient-button-hover);
+  color: var(--my-brown-dark);
   transform: translateY(-1px);
 }
 
@@ -246,27 +246,27 @@
 .effect-reference-button {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
-  padding: var(--pf-space-2) var(--pf-space-3);
-  border-radius: var(--pf-border-radius);
-  background: var(--pf-gradient-button);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  color: var(--pf-text-secondary);
+  gap: var(--my-space-2);
+  padding: var(--my-space-2) var(--my-space-3);
+  border-radius: var(--my-border-radius);
+  background: var(--my-gradient-button);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  color: var(--my-text-secondary);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
-  font-family: var(--pf-font-ui);
+  transition: all var(--my-transition-normal);
+  font-family: var(--my-font-ui);
 }
 
 .effect-reference-button.active {
-  background: var(--pf-gradient-button-active);
-  border-color: var(--pf-gold);
-  color: var(--pf-text-primary);
-  box-shadow: var(--pf-shadow-sm);
+  background: var(--my-gradient-button-active);
+  border-color: var(--my-gold);
+  color: var(--my-text-primary);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .effect-reference-button:hover:not(.active) {
-  background: var(--pf-gradient-button-hover);
-  border-color: var(--pf-brown-medium);
+  background: var(--my-gradient-button-hover);
+  border-color: var(--my-brown-medium);
   transform: translateY(-1px);
 }
 
@@ -293,27 +293,27 @@
 .damage-type-button {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
-  padding: var(--pf-space-2) var(--pf-space-3);
-  border-radius: var(--pf-border-radius);
-  background: var(--pf-gradient-button);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  color: var(--pf-text-secondary);
+  gap: var(--my-space-2);
+  padding: var(--my-space-2) var(--my-space-3);
+  border-radius: var(--my-border-radius);
+  background: var(--my-gradient-button);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  color: var(--my-text-secondary);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
-  font-family: var(--pf-font-ui);
+  transition: all var(--my-transition-normal);
+  font-family: var(--my-font-ui);
 }
 
 .damage-type-button.active {
-  background: var(--pf-gradient-button-active);
-  border-color: var(--pf-error);
-  color: var(--pf-error);
-  box-shadow: var(--pf-shadow-sm);
+  background: var(--my-gradient-button-active);
+  border-color: var(--my-error);
+  color: var(--my-error);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .damage-type-button:hover:not(.active) {
-  background: var(--pf-gradient-button-hover);
-  border-color: var(--pf-brown-medium);
+  background: var(--my-gradient-button-hover);
+  border-color: var(--my-brown-medium);
   transform: translateY(-1px);
 }
 
@@ -333,48 +333,48 @@
 .healing-type-button {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
-  padding: var(--pf-space-2) var(--pf-space-3);
-  border-radius: var(--pf-border-radius);
-  background: var(--pf-gradient-button);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  color: var(--pf-text-secondary);
+  gap: var(--my-space-2);
+  padding: var(--my-space-2) var(--my-space-3);
+  border-radius: var(--my-border-radius);
+  background: var(--my-gradient-button);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  color: var(--my-text-secondary);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
-  font-family: var(--pf-font-ui);
+  transition: all var(--my-transition-normal);
+  font-family: var(--my-font-ui);
 }
 
 .healing-type-button.active {
-  background: var(--pf-gradient-button-active);
-  border-color: var(--pf-gold);
-  color: var(--pf-text-primary);
-  box-shadow: var(--pf-shadow-sm);
+  background: var(--my-gradient-button-active);
+  border-color: var(--my-gold);
+  color: var(--my-text-primary);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .healing-type-button:hover:not(.active) {
-  background: var(--pf-gradient-button-hover);
-  border-color: var(--pf-brown-medium);
+  background: var(--my-gradient-button-hover);
+  border-color: var(--my-brown-medium);
   transform: translateY(-1px);
 }
 
 /* Damage Over Time (DoT) styling */
 .graduated-effect-dot {
-  margin-top: var(--pf-space-3);
-  padding: var(--pf-space-3);
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-error);
-  border-radius: var(--pf-border-radius);
+  margin-top: var(--my-space-3);
+  padding: var(--my-space-3);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-error);
+  border-radius: var(--my-border-radius);
 }
 
 .dot-header {
-  margin-bottom: var(--pf-space-2);
+  margin-bottom: var(--my-space-2);
 }
 
 .dot-header label {
-  color: var(--pf-error);
-  font-weight: var(--pf-font-semibold);
-  font-size: var(--pf-text-base);
-  font-family: var(--pf-font-ui);
+  color: var(--my-error);
+  font-weight: var(--my-font-semibold);
+  font-size: var(--my-text-base);
+  font-family: var(--my-font-ui);
 }
 
 .dot-formula {
@@ -456,45 +456,45 @@
 
 /* Healing Over Time (HoT) styling */
 .graduated-effect-hot {
-  margin-top: var(--pf-space-3);
-  padding: var(--pf-space-3);
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-success);
-  border-radius: var(--pf-border-radius);
+  margin-top: var(--my-space-3);
+  padding: var(--my-space-3);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-success);
+  border-radius: var(--my-border-radius);
 }
 
 .hot-header {
-  margin-bottom: var(--pf-space-2);
+  margin-bottom: var(--my-space-2);
 }
 
 .hot-header label {
-  color: var(--pf-success);
-  font-weight: var(--pf-font-semibold);
-  font-size: var(--pf-text-base);
-  font-family: var(--pf-font-ui);
+  color: var(--my-success);
+  font-weight: var(--my-font-semibold);
+  font-size: var(--my-text-base);
+  font-family: var(--my-font-ui);
 }
 
 .hot-formula {
-  margin-bottom: var(--pf-space-2);
+  margin-bottom: var(--my-space-2);
 }
 
 .hot-formula label {
   display: block;
-  margin-bottom: var(--pf-space-1);
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-sm);
-  font-family: var(--pf-font-ui);
+  margin-bottom: var(--my-space-1);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-sm);
+  font-family: var(--my-font-ui);
 }
 
 .hot-formula input {
   width: 100%;
-  padding: var(--pf-space-2);
-  border-radius: var(--pf-border-radius);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  background: var(--pf-gradient-parchment-light);
-  color: var(--pf-text-primary);
-  font-size: var(--pf-text-sm);
-  font-family: var(--pf-font-body);
+  padding: var(--my-space-2);
+  border-radius: var(--my-border-radius);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  background: var(--my-gradient-parchment-light);
+  color: var(--my-text-primary);
+  font-size: var(--my-text-sm);
+  font-family: var(--my-font-body);
 }
 
 .hot-duration {
@@ -555,22 +555,22 @@
 
 /* Shield styling */
 .graduated-effect-shield {
-  margin-top: var(--pf-space-3);
-  padding: var(--pf-space-3);
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-info);
-  border-radius: var(--pf-border-radius);
+  margin-top: var(--my-space-3);
+  padding: var(--my-space-3);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-info);
+  border-radius: var(--my-border-radius);
 }
 
 .shield-header {
-  margin-bottom: var(--pf-space-2);
+  margin-bottom: var(--my-space-2);
 }
 
 .shield-header label {
-  color: var(--pf-info);
-  font-weight: var(--pf-font-semibold);
-  font-size: var(--pf-text-base);
-  font-family: var(--pf-font-ui);
+  color: var(--my-info);
+  font-weight: var(--my-font-semibold);
+  font-size: var(--my-text-base);
+  font-family: var(--my-font-ui);
 }
 
 .shield-formula {
@@ -654,35 +654,35 @@
 .graduated-effects-preview {
   list-style-type: none;
   padding: 0;
-  margin: var(--pf-space-2) 0;
+  margin: var(--my-space-2) 0;
 }
 
 .graduated-effects-preview li {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-2) var(--pf-space-3);
-  margin-bottom: var(--pf-space-2);
-  color: var(--pf-text-primary);
-  font-size: var(--pf-text-sm);
-  font-family: var(--pf-font-body);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-2) var(--my-space-3);
+  margin-bottom: var(--my-space-2);
+  color: var(--my-text-primary);
+  font-size: var(--my-text-sm);
+  font-family: var(--my-font-body);
 }
 
 .graduated-effects-preview .highlight {
-  color: var(--pf-gold-dark);
-  font-weight: var(--pf-font-semibold);
-  margin-right: var(--pf-space-2);
+  color: var(--my-gold-dark);
+  font-weight: var(--my-font-semibold);
+  margin-right: var(--my-space-2);
 }
 
 .effect-references-preview {
-  margin-top: var(--pf-space-2);
-  font-size: var(--pf-text-xs);
-  color: var(--pf-text-muted);
+  margin-top: var(--my-space-2);
+  font-size: var(--my-text-xs);
+  color: var(--my-text-muted);
 }
 
 .effect-reference-tag {
-  color: var(--pf-gold-dark);
-  font-weight: var(--pf-font-medium);
+  color: var(--my-gold-dark);
+  font-weight: var(--my-font-medium);
 }
 
 /* Stats preview styling */
@@ -690,15 +690,15 @@
 .effect-status-preview,
 .effect-crit-preview,
 .effect-proc-preview {
-  margin-top: var(--pf-space-2);
-  font-size: var(--pf-text-xs);
-  color: var(--pf-text-muted);
+  margin-top: var(--my-space-2);
+  font-size: var(--my-text-xs);
+  color: var(--my-text-muted);
 }
 
 .effect-stat-tag,
 .effect-status-tag {
-  color: var(--pf-gold-dark);
-  font-weight: var(--pf-font-medium);
+  color: var(--my-gold-dark);
+  font-weight: var(--my-font-medium);
 }
 
 .effect-stat-value {
@@ -719,12 +719,12 @@
 .stat-modifiers-list {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-2);
-  margin-top: var(--pf-space-2);
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-2);
+  gap: var(--my-space-2);
+  margin-top: var(--my-space-2);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-2);
 }
 
 .stat-modifier-item {
@@ -824,10 +824,10 @@
 .control-effect-item {
   display: flex;
   flex-direction: column;
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-2);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-2);
 }
 
 .control-effect-header {
@@ -845,7 +845,7 @@
 
 .control-effect-name {
   font-weight: bold;
-  color: var(--pf-brown-dark, #5a1e12);
+  color: var(--my-brown-dark, #5a1e12);
 }
 
 .control-effect-details {

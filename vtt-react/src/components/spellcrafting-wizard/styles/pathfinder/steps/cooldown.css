@@ -4,43 +4,43 @@
 .cooldown-container {
   width: 100%;
   height: 100%;
-  background: var(--pf-gradient-parchment);
-  padding: var(--pf-space-6);
+  background: var(--my-gradient-parchment);
+  padding: var(--my-space-6);
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-6);
-  font-family: var(--pf-font-body);
-  color: var(--pf-text-primary);
+  gap: var(--my-space-6);
+  font-family: var(--my-font-body);
+  color: var(--my-text-primary);
 }
 
 /* Cooldown Type Selection */
 .cooldown-types {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: var(--pf-space-4);
-  margin-bottom: var(--pf-space-6);
+  gap: var(--my-space-4);
+  margin-bottom: var(--my-space-6);
 }
 
 .cooldown-type-card {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius-lg);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius-lg);
   overflow: hidden;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   cursor: pointer;
   position: relative;
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .cooldown-type-card:hover {
   transform: translateY(-2px);
-  box-shadow: var(--pf-shadow-md);
-  border-color: var(--pf-gold);
+  box-shadow: var(--my-shadow-md);
+  border-color: var(--my-gold);
 }
 
 .cooldown-type-card.selected {
-  border-color: var(--pf-gold);
-  box-shadow: 0 0 0 1px var(--pf-gold), var(--pf-shadow-md);
+  border-color: var(--my-gold);
+  box-shadow: 0 0 0 1px var(--my-gold), var(--my-shadow-md);
 }
 
 .cooldown-type-card.selected::before {
@@ -59,133 +59,133 @@
 }
 
 .cooldown-type-header {
-  background: var(--pf-gradient-parchment-dark);
-  padding: var(--pf-space-4);
-  border-bottom: var(--pf-border-width) solid var(--pf-brown-light);
+  background: var(--my-gradient-parchment-dark);
+  padding: var(--my-space-4);
+  border-bottom: var(--my-border-width) solid var(--my-brown-light);
   display: flex;
   align-items: center;
-  gap: var(--pf-space-3);
+  gap: var(--my-space-3);
 }
 
 .cooldown-type-icon {
   width: 32px;
   height: 32px;
-  color: var(--pf-gold);
+  color: var(--my-gold);
 }
 
 .cooldown-type-title {
-  font-size: var(--pf-text-lg);
+  font-size: var(--my-text-lg);
   font-weight: bold;
-  color: var(--pf-text-primary);
+  color: var(--my-text-primary);
   margin: 0;
 }
 
 .cooldown-type-body {
-  padding: var(--pf-space-4);
+  padding: var(--my-space-4);
 }
 
 .cooldown-type-description {
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-sm);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-sm);
   line-height: 1.5;
-  margin-bottom: var(--pf-space-3);
+  margin-bottom: var(--my-space-3);
 }
 
 /* Cooldown Configuration */
 .cooldown-config {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius-lg);
-  padding: var(--pf-space-6);
-  box-shadow: var(--pf-shadow-sm);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius-lg);
+  padding: var(--my-space-6);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .cooldown-config-header {
-  margin-bottom: var(--pf-space-4);
+  margin-bottom: var(--my-space-4);
 }
 
 .cooldown-config-title {
-  font-size: var(--pf-text-xl);
+  font-size: var(--my-text-xl);
   font-weight: bold;
-  color: var(--pf-text-primary);
-  margin: 0 0 var(--pf-space-2) 0;
+  color: var(--my-text-primary);
+  margin: 0 0 var(--my-space-2) 0;
 }
 
 .cooldown-config-description {
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-sm);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-sm);
   line-height: 1.5;
 }
 
 /* Form Elements */
 .cooldown-form-group {
-  margin-bottom: var(--pf-space-4);
+  margin-bottom: var(--my-space-4);
 }
 
 .cooldown-form-label {
   display: block;
   font-weight: bold;
-  color: var(--pf-text-primary);
-  margin-bottom: var(--pf-space-2);
-  font-size: var(--pf-text-sm);
+  color: var(--my-text-primary);
+  margin-bottom: var(--my-space-2);
+  font-size: var(--my-text-sm);
 }
 
 .cooldown-form-input {
   width: 100%;
-  padding: var(--pf-space-3);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  background: var(--pf-gradient-parchment);
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-sm);
-  transition: all var(--pf-transition-normal);
+  padding: var(--my-space-3);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  background: var(--my-gradient-parchment);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-sm);
+  transition: all var(--my-transition-normal);
 }
 
 .cooldown-form-input:focus {
   outline: none;
-  border-color: var(--pf-gold);
-  box-shadow: 0 0 0 1px var(--pf-gold);
+  border-color: var(--my-gold);
+  box-shadow: 0 0 0 1px var(--my-gold);
 }
 
 .cooldown-form-select {
   width: 100%;
-  padding: var(--pf-space-3);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  background: var(--pf-gradient-parchment);
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-sm);
+  padding: var(--my-space-3);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  background: var(--my-gradient-parchment);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-sm);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
 }
 
 .cooldown-form-select:focus {
   outline: none;
-  border-color: var(--pf-gold);
-  box-shadow: 0 0 0 1px var(--pf-gold);
+  border-color: var(--my-gold);
+  box-shadow: 0 0 0 1px var(--my-gold);
 }
 
 /* Cooldown Preview */
 .cooldown-preview {
-  background: var(--pf-gradient-parchment-dark);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-4);
-  margin-top: var(--pf-space-4);
+  background: var(--my-gradient-parchment-dark);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-4);
+  margin-top: var(--my-space-4);
 }
 
 .cooldown-preview-title {
   font-weight: bold;
-  color: var(--pf-text-primary);
-  margin-bottom: var(--pf-space-2);
-  font-size: var(--pf-text-sm);
+  color: var(--my-text-primary);
+  margin-bottom: var(--my-space-2);
+  font-size: var(--my-text-sm);
 }
 
 .cooldown-preview-text {
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-sm);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-sm);
   line-height: 1.5;
 }
 
@@ -196,13 +196,13 @@
   background-color: transparent !important;
   border: none !important;
   padding: 0 !important;
-  margin-bottom: var(--pf-space-3) !important;
+  margin-bottom: var(--my-space-3) !important;
   box-shadow: none !important;
 }
 
 .cooldown-container .section-header h3,
 .effect-config-group .section-header h3 {
-  color: var(--pf-text-primary) !important;
+  color: var(--my-text-primary) !important;
   background: transparent !important;
   background-color: transparent !important;
   text-shadow: none !important;
@@ -215,7 +215,7 @@
   }
   
   .cooldown-container {
-    padding: var(--pf-space-4);
-    gap: var(--pf-space-4);
+    padding: var(--my-space-4);
+    gap: var(--my-space-4);
   }
 }

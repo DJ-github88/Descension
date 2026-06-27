@@ -4,56 +4,56 @@
 .wow-trigger-role-container {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-4);
-  margin-top: var(--pf-space-2);
+  gap: var(--my-space-4);
+  margin-top: var(--my-space-2);
 }
 
 .wow-trigger-role-options {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--pf-space-3);
+  gap: var(--my-space-3);
 }
 
 .wow-trigger-role-option {
   display: flex;
   align-items: center;
-  background: var(--pf-gradient-button);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-3);
+  background: var(--my-gradient-button);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-3);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   flex: 1;
   min-width: 250px;
-  font-family: var(--pf-font-body);
+  font-family: var(--my-font-body);
 }
 
 .wow-trigger-role-option:hover {
-  background: var(--pf-gradient-button-hover);
-  border-color: var(--pf-brown-dark);
+  background: var(--my-gradient-button-hover);
+  border-color: var(--my-brown-dark);
   transform: translateY(-1px);
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .wow-trigger-role-option.active {
-  background: var(--pf-gradient-gold);
-  border-color: var(--pf-gold-dark);
-  box-shadow: var(--pf-shadow-glow);
-  color: var(--pf-brown-darkest);
+  background: var(--my-gradient-gold);
+  border-color: var(--my-gold-dark);
+  box-shadow: var(--my-shadow-glow);
+  color: var(--my-brown-darkest);
 }
 
 .wow-trigger-role-icon {
   width: 40px;
   height: 40px;
-  margin-right: var(--pf-space-3);
+  margin-right: var(--my-space-3);
   flex-shrink: 0;
 }
 
 .wow-trigger-role-icon img {
   width: 100%;
   height: 100%;
-  border-radius: var(--pf-border-radius);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--my-border-radius);
+  border: var(--my-border-width) solid var(--my-brown-light);
 }
 
 .wow-trigger-role-content {
@@ -61,40 +61,40 @@
 }
 
 .wow-trigger-role-title {
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-primary);
-  font-size: var(--pf-text-base);
-  margin-bottom: var(--pf-space-1);
-  font-family: var(--pf-font-ui);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-primary);
+  font-size: var(--my-text-base);
+  margin-bottom: var(--my-space-1);
+  font-family: var(--my-font-ui);
 }
 
 .wow-trigger-role-description {
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-sm);
-  font-family: var(--pf-font-body);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-sm);
+  font-family: var(--my-font-body);
 }
 
 .wow-trigger-role-description-box {
-  background: var(--pf-gradient-parchment-dark);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-4);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  margin-top: var(--pf-space-2);
+  background: var(--my-gradient-parchment-dark);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-4);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  margin-top: var(--my-space-2);
 }
 
 .wow-trigger-role-info {
-  color: var(--pf-text-primary);
-  font-size: var(--pf-text-sm);
-  font-family: var(--pf-font-body);
+  color: var(--my-text-primary);
+  font-size: var(--my-text-sm);
+  font-family: var(--my-font-body);
 }
 
 .wow-trigger-example {
-  margin-top: var(--pf-space-3);
-  padding: var(--pf-space-2);
-  background: var(--pf-gradient-parchment-light);
-  border-radius: var(--pf-border-radius);
-  border-left: 3px solid var(--pf-gold);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+  margin-top: var(--my-space-3);
+  padding: var(--my-space-2);
+  background: var(--my-gradient-parchment-light);
+  border-radius: var(--my-border-radius);
+  border-left: 3px solid var(--my-gold);
+  border: var(--my-border-width) solid var(--my-brown-light);
 }
 
 .wow-example-label {
@@ -195,21 +195,21 @@
 .wow-toggle-button {
   width: 50px;
   height: 24px;
-  background: var(--pf-brown-light);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  background: var(--my-brown-light);
+  border: var(--my-border-width) solid var(--my-brown-medium);
   border-radius: 12px;
   position: relative;
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
 }
 
 .wow-toggle-button:hover {
-  border-color: var(--pf-brown-dark);
+  border-color: var(--my-brown-dark);
 }
 
 .wow-toggle-button.active {
-  background: var(--pf-gradient-gold);
-  border-color: var(--pf-gold-dark);
+  background: var(--my-gradient-gold);
+  border-color: var(--my-gold-dark);
 }
 
 .wow-toggle-slider {
@@ -220,31 +220,31 @@
   position: absolute;
   top: 1px;
   left: 1px;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .wow-toggle-button.active .wow-toggle-slider {
   transform: translateX(26px);
-  background: var(--pf-brown-darkest);
+  background: var(--my-brown-darkest);
 }
 
 .wow-toggle-value {
-  color: var(--pf-text-primary);
-  font-size: var(--pf-text-sm);
-  font-family: var(--pf-font-ui);
+  color: var(--my-text-primary);
+  font-size: var(--my-text-sm);
+  font-family: var(--my-font-ui);
 }
 
 /* Effect Selector Styles */
 .wow-effect-selector {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-4);
-  margin-bottom: var(--pf-space-4);
-  padding: var(--pf-space-3);
-  background: var(--pf-gradient-parchment-light);
-  border-radius: var(--pf-border-radius);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+  gap: var(--my-space-4);
+  margin-bottom: var(--my-space-4);
+  padding: var(--my-space-3);
+  background: var(--my-gradient-parchment-light);
+  border-radius: var(--my-border-radius);
+  border: var(--my-border-width) solid var(--my-brown-light);
 }
 
 /* Summoning Effect Styles */
@@ -257,26 +257,26 @@
 .wow-creature-item {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  background: var(--pf-gradient-parchment-light);
-  border-radius: var(--pf-border-radius);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+  gap: var(--my-space-2);
+  padding: var(--my-space-1) var(--my-space-2);
+  background: var(--my-gradient-parchment-light);
+  border-radius: var(--my-border-radius);
+  border: var(--my-border-width) solid var(--my-brown-light);
 }
 
 .wow-creature-icon {
   width: 20px;
   height: 20px;
-  border-radius: var(--pf-border-radius-sm);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--my-border-radius-sm);
+  border: var(--my-border-width) solid var(--my-brown-medium);
 }
 
 .wow-trigger-detail {
-  margin-top: var(--pf-space-2);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  background: var(--pf-gradient-parchment-light);
-  border-radius: var(--pf-border-radius);
-  border: var(--pf-border-width) solid var(--pf-gold);
+  margin-top: var(--my-space-2);
+  padding: var(--my-space-1) var(--my-space-2);
+  background: var(--my-gradient-parchment-light);
+  border-radius: var(--my-border-radius);
+  border: var(--my-border-width) solid var(--my-gold);
 }
 
 .summon-creature-display {
@@ -296,7 +296,7 @@
 .wow-effect-main {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: var(--pf-space-3);
+  gap: var(--my-space-3);
   align-items: stretch;
   width: 100%;
 }
@@ -318,15 +318,15 @@
 .wow-effect-card-button {
   display: flex;
   flex-direction: column;
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-2) var(--pf-space-3);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-2) var(--my-space-3);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   width: 100%;
-  font-family: var(--pf-font-body);
-  box-shadow: var(--pf-shadow-sm);
+  font-family: var(--my-font-body);
+  box-shadow: var(--my-shadow-sm);
   position: relative;
   overflow: hidden;
   height: 100%;
@@ -340,16 +340,16 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: var(--pf-gradient-gold);
+  background: var(--my-gradient-gold);
   transform: scaleX(0);
-  transition: transform var(--pf-transition-normal);
+  transition: transform var(--my-transition-normal);
 }
 
 .wow-effect-card-button:hover {
-  background: var(--pf-gradient-parchment);
-  border-color: var(--pf-brown-dark);
+  background: var(--my-gradient-parchment);
+  border-color: var(--my-brown-dark);
   transform: translateY(-2px);
-  box-shadow: var(--pf-shadow-md);
+  box-shadow: var(--my-shadow-md);
 }
 
 .wow-effect-card-button:hover::before {
@@ -357,10 +357,10 @@
 }
 
 .wow-effect-card-button.active {
-  background: var(--pf-gradient-parchment);
-  border-color: var(--pf-gold-dark);
+  background: var(--my-gradient-parchment);
+  border-color: var(--my-gold-dark);
   border-width: 2px;
-  box-shadow: var(--pf-shadow-glow);
+  box-shadow: var(--my-shadow-glow);
 }
 
 .wow-effect-card-button.active::before {
@@ -371,18 +371,18 @@
 .wow-effect-card-header {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
-  margin-bottom: var(--pf-space-1);
+  gap: var(--my-space-2);
+  margin-bottom: var(--my-space-1);
 }
 
 .wow-effect-card-icon {
   width: 28px;
   height: 28px;
   flex-shrink: 0;
-  background: var(--pf-gradient-parchment);
-  border-radius: var(--pf-border-radius-sm);
+  background: var(--my-gradient-parchment);
+  border-radius: var(--my-border-radius-sm);
   padding: 3px;
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border: var(--my-border-width) solid var(--my-brown-light);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -391,33 +391,33 @@
 .wow-effect-card-icon .wow-effect-img {
   width: 100%;
   height: 100%;
-  border-radius: var(--pf-border-radius-sm);
+  border-radius: var(--my-border-radius-sm);
 }
 
 .wow-effect-card-title {
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-sm);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-ui);
+  font-size: var(--my-text-sm);
   letter-spacing: 0.3px;
 }
 
 .wow-effect-card-preview {
-  font-size: var(--pf-text-xs);
-  color: var(--pf-text-secondary);
-  font-family: var(--pf-font-body);
+  font-size: var(--my-text-xs);
+  color: var(--my-text-secondary);
+  font-family: var(--my-font-body);
   line-height: 1.3;
-  padding: var(--pf-space-1) var(--pf-space-2);
-  background: var(--pf-gradient-parchment);
-  border-radius: var(--pf-border-radius-sm);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  margin-top: var(--pf-space-1);
+  padding: var(--my-space-1) var(--my-space-2);
+  background: var(--my-gradient-parchment);
+  border-radius: var(--my-border-radius-sm);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  margin-top: var(--my-space-1);
 }
 
 .wow-effect-card-button.active .wow-effect-card-preview {
-  background: var(--pf-gradient-gold-light);
-  border-color: var(--pf-gold);
-  color: var(--pf-brown-darkest);
+  background: var(--my-gradient-gold-light);
+  border-color: var(--my-gold);
+  color: var(--my-brown-darkest);
 }
 
 .wow-effect-suboption-card {
@@ -427,7 +427,7 @@
 .wow-effect-suboptions-row {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: var(--pf-space-3);
+  gap: var(--my-space-3);
   width: 100%;
 }
 
@@ -447,26 +447,26 @@
 .wow-effect-button {
   display: flex;
   align-items: center;
-  background: var(--pf-gradient-button);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-2) var(--pf-space-3);
+  background: var(--my-gradient-button);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-2) var(--my-space-3);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   min-width: 150px;
-  font-family: var(--pf-font-body);
+  font-family: var(--my-font-body);
 }
 
 .wow-effect-icon {
   width: 24px;
   height: 24px;
-  margin-right: var(--pf-space-2);
+  margin-right: var(--my-space-2);
 }
 
 .wow-effect-img {
   width: 100%;
   height: 100%;
-  border-radius: var(--pf-border-radius-sm);
+  border-radius: var(--my-border-radius-sm);
 }
 
 .wow-effect-text {
@@ -475,9 +475,9 @@
 }
 
 .wow-effect-title {
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-ui);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-ui);
 }
 
 
@@ -543,74 +543,74 @@
 }
 
 .wow-conditional-formula-example {
-  margin-top: var(--pf-space-2);
-  padding: var(--pf-space-2) var(--pf-space-3);
-  background: var(--pf-gradient-parchment-light);
-  border-left: 3px solid var(--pf-gold);
-  border-radius: 0 var(--pf-border-radius) var(--pf-border-radius) 0;
+  margin-top: var(--my-space-2);
+  padding: var(--my-space-2) var(--my-space-3);
+  background: var(--my-gradient-parchment-light);
+  border-left: 3px solid var(--my-gold);
+  border-radius: 0 var(--my-border-radius) var(--my-border-radius) 0;
 }
 
 .wow-conditional-formula-tip {
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-primary);
+  font-size: var(--my-text-sm);
+  color: var(--my-text-primary);
   margin: 0;
-  font-family: var(--pf-font-body);
+  font-family: var(--my-font-body);
   line-height: 1.5;
 }
 
 .wow-conditional-formula-tip strong {
-  color: var(--pf-text-secondary);
-  font-weight: var(--pf-font-bold);
+  color: var(--my-text-secondary);
+  font-weight: var(--my-font-bold);
 }
 
 /* Example Cards */
 .wow-example-cards {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--pf-space-2);
-  margin-top: var(--pf-space-2);
+  gap: var(--my-space-2);
+  margin-top: var(--my-space-2);
 }
 
 .wow-example-card {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-2) var(--pf-space-3);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-2) var(--my-space-3);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   flex: 1;
   min-width: 120px;
-  font-family: var(--pf-font-body);
+  font-family: var(--my-font-body);
 }
 
 .wow-example-card:hover {
-  background: var(--pf-gradient-parchment);
-  border-color: var(--pf-brown-dark);
+  background: var(--my-gradient-parchment);
+  border-color: var(--my-brown-dark);
   transform: translateY(-1px);
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .wow-example-title {
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-primary);
-  margin-bottom: var(--pf-space-1);
-  font-family: var(--pf-font-ui);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-primary);
+  margin-bottom: var(--my-space-1);
+  font-family: var(--my-font-ui);
 }
 
 .wow-example-formula {
-  font-family: var(--pf-font-mono);
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-sm);
+  font-family: var(--my-font-mono);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-sm);
 }
 
 .wow-conditional-tip {
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-primary);
-  background: var(--pf-gradient-parchment-light);
-  padding: var(--pf-space-2) var(--pf-space-3);
-  border-radius: var(--pf-border-radius);
-  border-left: 3px solid var(--pf-gold);
-  font-family: var(--pf-font-body);
+  font-size: var(--my-text-sm);
+  color: var(--my-text-primary);
+  background: var(--my-gradient-parchment-light);
+  padding: var(--my-space-2) var(--my-space-3);
+  border-radius: var(--my-border-radius);
+  border-left: 3px solid var(--my-gold);
+  font-family: var(--my-font-body);
   line-height: 1.5;
 }
 
@@ -635,13 +635,13 @@
 .selected-stat {
   display: flex;
   align-items: center;
-  background: var(--pf-gradient-parchment-light);
-  padding: var(--pf-space-2);
-  border-radius: var(--pf-border-radius);
-  border-left: 3px solid var(--pf-gold);
+  background: var(--my-gradient-parchment-light);
+  padding: var(--my-space-2);
+  border-radius: var(--my-border-radius);
+  border-left: 3px solid var(--my-gold);
   position: relative;
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  box-shadow: var(--pf-shadow-sm);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .selected-stat::before {
@@ -662,10 +662,10 @@
 .stat-icon {
   width: 36px;
   height: 36px;
-  border-radius: var(--pf-border-radius);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--my-border-radius);
+  border: var(--my-border-width) solid var(--my-brown-light);
   overflow: hidden;
-  margin-right: var(--pf-space-3);
+  margin-right: var(--my-space-3);
   flex-shrink: 0;
 }
 
@@ -680,63 +680,63 @@
 }
 
 .stat-name {
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-primary);
-  font-size: var(--pf-text-sm);
-  font-family: var(--pf-font-ui);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-primary);
+  font-size: var(--my-text-sm);
+  font-family: var(--my-font-ui);
 }
 
 .stat-description {
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-xs);
-  margin-top: var(--pf-space-1);
-  font-family: var(--pf-font-body);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-xs);
+  margin-top: var(--my-space-1);
+  font-family: var(--my-font-body);
 }
 
 .stat-value {
-  font-weight: var(--pf-font-bold);
-  font-size: var(--pf-text-sm);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  border-radius: var(--pf-border-radius);
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  font-family: var(--pf-font-ui);
+  font-weight: var(--my-font-bold);
+  font-size: var(--my-text-sm);
+  padding: var(--my-space-1) var(--my-space-2);
+  border-radius: var(--my-border-radius);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  font-family: var(--my-font-ui);
 }
 
 .stat-value.positive {
-  color: var(--pf-nature);
+  color: var(--my-nature);
 }
 
 .stat-value.negative {
-  color: var(--pf-fire);
+  color: var(--my-fire);
 }
 
 .formula-label {
-  font-weight: var(--pf-font-bold);
-  margin-right: var(--pf-space-1);
-  color: var(--pf-text-secondary);
-  font-family: var(--pf-font-ui);
+  font-weight: var(--my-font-bold);
+  margin-right: var(--my-space-1);
+  color: var(--my-text-secondary);
+  font-family: var(--my-font-ui);
 }
 
 /* Perspective parameter styling */
 .wow-parameter-label[title="Perspective"] {
-  color: var(--pf-gold);
+  color: var(--my-gold);
 }
 
 /* Trigger categories with perspective */
 .wow-trigger-category[data-has-perspective="true"] {
-  border-color: var(--pf-gold);
+  border-color: var(--my-gold);
 }
 
 /* Trigger options with perspective */
 .wow-trigger-option[data-has-perspective="true"] .wow-trigger-option-title {
-  color: var(--pf-gold);
+  color: var(--my-gold);
 }
 
 /* Selected triggers with perspective */
 .wow-selected-trigger[data-perspective="target"] .wow-selected-trigger-name::after {
   content: " (Target)";
-  color: var(--pf-gold);
+  color: var(--my-gold);
   font-size: 0.9em;
 }
 
@@ -760,39 +760,39 @@
 
 /* Enhanced Healing Effect Styles */
 .wow-effect-details-container {
-  background: var(--pf-gradient-parchment-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-3);
-  margin-bottom: var(--pf-space-4);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  box-shadow: var(--pf-shadow-sm);
+  background: var(--my-gradient-parchment-light);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-3);
+  margin-bottom: var(--my-space-4);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .wow-effect-detail {
-  margin-bottom: var(--pf-space-2);
+  margin-bottom: var(--my-space-2);
   display: flex;
   align-items: center;
 }
 
 .wow-effect-detail-label {
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-secondary);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-secondary);
   width: 100px;
   flex-shrink: 0;
-  font-family: var(--pf-font-ui);
+  font-family: var(--my-font-ui);
 }
 
 .wow-effect-detail-value {
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-body);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-body);
 }
 
 /* Effect Preview Styles */
 .wow-effect-preview {
   font-size: 0.85em;
-  color: var(--pf-text-muted);
+  color: var(--my-text-muted);
   margin-top: 4px;
-  font-family: var(--pf-font-body);
+  font-family: var(--my-font-body);
   line-height: 1.3;
   font-style: italic;
 }
@@ -806,13 +806,13 @@
 
 .wow-suboption-label {
   font-size: 0.9em;
-  font-weight: var(--pf-font-bold);
+  font-weight: var(--my-font-bold);
 }
 
 .wow-suboption-preview {
   font-size: 0.75em;
-  color: var(--pf-text-muted);
-  font-family: var(--pf-font-body);
+  color: var(--my-text-muted);
+  font-family: var(--my-font-body);
   line-height: 1.2;
   text-align: center;
   max-width: 120px;
@@ -823,12 +823,12 @@
 
 /* Effect Card Preview Styles */
 .wow-effect-card-preview {
-  background: var(--pf-gradient-parchment-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-3);
-  margin-bottom: var(--pf-space-4);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  box-shadow: var(--pf-shadow-sm);
+  background: var(--my-gradient-parchment-light);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-3);
+  margin-bottom: var(--my-space-4);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .wow-effect-card-content {
@@ -837,277 +837,277 @@
 }
 
 .wow-effect-formatted-text {
-  font-family: var(--pf-font-body);
-  color: var(--pf-text-primary);
+  font-family: var(--my-font-body);
+  color: var(--my-text-primary);
   font-size: 1em;
   line-height: 1.5;
-  padding: var(--pf-space-2);
-  background: var(--pf-gradient-parchment);
-  border-radius: var(--pf-border-radius-sm);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  padding: var(--my-space-2);
+  background: var(--my-gradient-parchment);
+  border-radius: var(--my-border-radius-sm);
+  border: var(--my-border-width) solid var(--my-brown-medium);
 }
 
 .wow-healing-type {
-  color: var(--pf-gold);
-  font-weight: var(--pf-font-bold);
-  font-family: var(--pf-font-ui);
+  color: var(--my-gold);
+  font-weight: var(--my-font-bold);
+  font-family: var(--my-font-ui);
 }
 
 .wow-formula {
-  font-family: var(--pf-font-mono);
-  background: var(--pf-gradient-parchment);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  border-radius: var(--pf-border-radius);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  color: var(--pf-text-primary);
+  font-family: var(--my-font-mono);
+  background: var(--my-gradient-parchment);
+  padding: var(--my-space-1) var(--my-space-2);
+  border-radius: var(--my-border-radius);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  color: var(--my-text-primary);
 }
 
 .wow-duration {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-1);
+  gap: var(--my-space-1);
 }
 
 .wow-duration-value {
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-secondary);
-  font-family: var(--pf-font-ui);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-secondary);
+  font-family: var(--my-font-ui);
 }
 
 .wow-duration-unit {
-  color: var(--pf-text-muted);
+  color: var(--my-text-muted);
   font-style: italic;
-  font-family: var(--pf-font-body);
+  font-family: var(--my-font-body);
 }
 
 /* Conditional Duration Input */
 .wow-conditional-duration-input {
-  margin-top: var(--pf-space-3);
-  margin-bottom: var(--pf-space-3);
+  margin-top: var(--my-space-3);
+  margin-bottom: var(--my-space-3);
 }
 
 .wow-conditional-duration-input label {
   display: block;
-  margin-bottom: var(--pf-space-1);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-secondary);
-  font-family: var(--pf-font-ui);
+  margin-bottom: var(--my-space-1);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-secondary);
+  font-family: var(--my-font-ui);
 }
 
 .wow-duration-input-group {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
 }
 
 .wow-duration-value {
   width: 60px;
-  padding: var(--pf-space-2);
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
-  font-size: var(--pf-text-sm);
-  font-family: var(--pf-font-ui);
+  padding: var(--my-space-2);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
+  font-size: var(--my-text-sm);
+  font-family: var(--my-font-ui);
 }
 
 .wow-duration-unit {
-  padding: var(--pf-space-2);
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
-  font-size: var(--pf-text-sm);
+  padding: var(--my-space-2);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
+  font-size: var(--my-text-sm);
   min-width: 100px;
-  font-family: var(--pf-font-ui);
+  font-family: var(--my-font-ui);
 }
 
 /* Control Effect Styles */
 .wow-control-config-container {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-4);
-  padding: var(--pf-space-3);
-  background: var(--pf-gradient-parchment-light);
-  border-radius: var(--pf-border-radius);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  box-shadow: var(--pf-shadow-sm);
+  gap: var(--my-space-4);
+  padding: var(--my-space-3);
+  background: var(--my-gradient-parchment-light);
+  border-radius: var(--my-border-radius);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .wow-control-config-section {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
 }
 
 .wow-control-section-title {
-  font-size: var(--pf-text-sm);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-primary);
+  font-size: var(--my-text-sm);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-primary);
   margin: 0;
-  padding-bottom: var(--pf-space-1);
-  border-bottom: var(--pf-border-width) solid var(--pf-brown-medium);
-  font-family: var(--pf-font-display);
+  padding-bottom: var(--my-space-1);
+  border-bottom: var(--my-border-width) solid var(--my-brown-medium);
+  font-family: var(--my-font-display);
 }
 
 .wow-control-type-container {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
 }
 
 .wow-control-type-select {
   flex: 1;
-  padding: var(--pf-space-2) var(--pf-space-3);
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
-  font-size: var(--pf-text-sm);
-  font-family: var(--pf-font-ui);
+  padding: var(--my-space-2) var(--my-space-3);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
+  font-size: var(--my-text-sm);
+  font-family: var(--my-font-ui);
 }
 
 .wow-control-duration-container {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
 }
 
 .wow-control-duration-input {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
 }
 
 .wow-control-duration-value {
   width: 60px;
-  padding: var(--pf-space-2) var(--pf-space-3);
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
-  font-size: var(--pf-text-sm);
+  padding: var(--my-space-2) var(--my-space-3);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
+  font-size: var(--my-text-sm);
   text-align: center;
-  font-family: var(--pf-font-ui);
+  font-family: var(--my-font-ui);
 }
 
 .wow-control-duration-unit {
   flex: 1;
-  padding: var(--pf-space-2) var(--pf-space-3);
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
-  font-size: var(--pf-text-sm);
-  font-family: var(--pf-font-ui);
+  padding: var(--my-space-2) var(--my-space-3);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
+  font-size: var(--my-text-sm);
+  font-family: var(--my-font-ui);
 }
 
 .wow-control-save-container {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-4);
+  gap: var(--my-space-4);
 }
 
 .wow-control-save-type {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
   flex: 2;
 }
 
 .wow-control-save-type label {
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-secondary);
+  font-size: var(--my-text-sm);
+  color: var(--my-text-secondary);
   min-width: 70px;
-  font-family: var(--pf-font-ui);
-  font-weight: var(--pf-font-semibold);
+  font-family: var(--my-font-ui);
+  font-weight: var(--my-font-semibold);
 }
 
 .wow-control-save-select {
   flex: 1;
-  padding: var(--pf-space-2) var(--pf-space-3);
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
-  font-size: var(--pf-text-sm);
-  font-family: var(--pf-font-ui);
+  padding: var(--my-space-2) var(--my-space-3);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
+  font-size: var(--my-text-sm);
+  font-family: var(--my-font-ui);
 }
 
 .wow-control-dc {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
   flex: 1;
 }
 
 .wow-control-dc label {
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-secondary);
+  font-size: var(--my-text-sm);
+  color: var(--my-text-secondary);
   min-width: 30px;
-  font-family: var(--pf-font-ui);
-  font-weight: var(--pf-font-semibold);
+  font-family: var(--my-font-ui);
+  font-weight: var(--my-font-semibold);
 }
 
 .wow-control-dc-value {
   width: 60px;
-  padding: var(--pf-space-2) var(--pf-space-3);
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
-  font-size: var(--pf-text-sm);
+  padding: var(--my-space-2) var(--my-space-3);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
+  font-size: var(--my-text-sm);
   text-align: center;
-  font-family: var(--pf-font-ui);
+  font-family: var(--my-font-ui);
 }
 
 /* Logic Selector */
 .wow-logic-selector {
   display: flex;
-  gap: var(--pf-space-3);
-  margin-bottom: var(--pf-space-4);
+  gap: var(--my-space-3);
+  margin-bottom: var(--my-space-4);
 }
 
 .wow-logic-button {
   display: flex;
   align-items: center;
-  background: var(--pf-gradient-button);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-3);
+  background: var(--my-gradient-button);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-3);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   flex: 1;
   min-width: 200px;
-  font-family: var(--pf-font-body);
+  font-family: var(--my-font-body);
 }
 
 .wow-logic-button:hover {
-  background: var(--pf-gradient-button-hover);
-  border-color: var(--pf-brown-dark);
+  background: var(--my-gradient-button-hover);
+  border-color: var(--my-brown-dark);
   transform: translateY(-1px);
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .wow-logic-button.active {
-  background: var(--pf-gradient-gold);
-  border-color: var(--pf-gold-dark);
-  box-shadow: var(--pf-shadow-glow);
-  color: var(--pf-brown-darkest);
+  background: var(--my-gradient-gold);
+  border-color: var(--my-gold-dark);
+  box-shadow: var(--my-shadow-glow);
+  color: var(--my-brown-darkest);
 }
 
 .wow-logic-icon {
   width: 32px;
   height: 32px;
-  margin-right: var(--pf-space-3);
+  margin-right: var(--my-space-3);
   flex-shrink: 0;
 }
 
 .wow-logic-img {
   width: 100%;
   height: 100%;
-  border-radius: var(--pf-border-radius);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--my-border-radius);
+  border: var(--my-border-width) solid var(--my-brown-light);
 }
 
 .wow-logic-text {
@@ -1115,104 +1115,104 @@
 }
 
 .wow-logic-title {
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-primary);
-  font-size: var(--pf-text-base);
-  margin-bottom: var(--pf-space-1);
-  font-family: var(--pf-font-ui);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-primary);
+  font-size: var(--my-text-base);
+  margin-bottom: var(--my-space-1);
+  font-family: var(--my-font-ui);
 }
 
 .wow-logic-description {
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-sm);
-  font-family: var(--pf-font-body);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-sm);
+  font-family: var(--my-font-body);
 }
 
 /* Trigger Categories */
 .wow-trigger-categories {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: var(--pf-space-3);
-  margin-bottom: var(--pf-space-4);
+  gap: var(--my-space-3);
+  margin-bottom: var(--my-space-4);
 }
 
 .wow-trigger-category {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: var(--pf-gradient-button);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-3);
+  background: var(--my-gradient-button);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-3);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
-  font-family: var(--pf-font-body);
+  transition: all var(--my-transition-normal);
+  font-family: var(--my-font-body);
 }
 
 .wow-trigger-category:hover {
-  background: var(--pf-gradient-button-hover);
-  border-color: var(--pf-brown-dark);
+  background: var(--my-gradient-button-hover);
+  border-color: var(--my-brown-dark);
   transform: translateY(-1px);
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .wow-trigger-category.active {
-  background: var(--pf-gradient-gold);
-  border-color: var(--pf-gold-dark);
-  box-shadow: var(--pf-shadow-glow);
-  color: var(--pf-brown-darkest);
+  background: var(--my-gradient-gold);
+  border-color: var(--my-gold-dark);
+  box-shadow: var(--my-shadow-glow);
+  color: var(--my-brown-darkest);
 }
 
 .wow-trigger-icon-wrapper {
   width: 32px;
   height: 32px;
-  margin-bottom: var(--pf-space-2);
+  margin-bottom: var(--my-space-2);
 }
 
 .wow-trigger-icon {
   width: 100%;
   height: 100%;
-  border-radius: var(--pf-border-radius);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--my-border-radius);
+  border: var(--my-border-width) solid var(--my-brown-light);
 }
 
 .wow-trigger-category-name {
-  font-size: var(--pf-text-xs);
+  font-size: var(--my-text-xs);
   text-align: center;
-  font-family: var(--pf-font-ui);
-  font-weight: var(--pf-font-bold);
+  font-family: var(--my-font-ui);
+  font-weight: var(--my-font-bold);
 }
 
 /* Trigger Options */
 .wow-trigger-options {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: var(--pf-space-3);
+  gap: var(--my-space-3);
 }
 
 .wow-trigger-option {
   display: flex;
   align-items: center;
-  background: var(--pf-gradient-button);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-3);
+  background: var(--my-gradient-button);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-3);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
-  font-family: var(--pf-font-body);
+  transition: all var(--my-transition-normal);
+  font-family: var(--my-font-body);
 }
 
 .wow-trigger-option:hover {
-  background: var(--pf-gradient-button-hover);
-  border-color: var(--pf-brown-dark);
+  background: var(--my-gradient-button-hover);
+  border-color: var(--my-brown-dark);
   transform: translateY(-1px);
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .wow-trigger-option-icon {
   width: 32px;
   height: 32px;
-  margin-right: var(--pf-space-3);
+  margin-right: var(--my-space-3);
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -1229,8 +1229,8 @@
 .wow-trigger-option-img {
   width: 100%;
   height: 100%;
-  border-radius: var(--pf-border-radius);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--my-border-radius);
+  border: var(--my-border-width) solid var(--my-brown-light);
   object-fit: contain;
   display: block;
 }
@@ -1243,17 +1243,17 @@
 }
 
 .wow-trigger-option-title {
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-primary);
-  font-size: var(--pf-text-sm);
-  margin-bottom: var(--pf-space-1);
-  font-family: var(--pf-font-ui);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-primary);
+  font-size: var(--my-text-sm);
+  margin-bottom: var(--my-space-1);
+  font-family: var(--my-font-ui);
   line-height: 1.2;
 }
 
 .wow-trigger-option-description {
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-xs);
-  font-family: var(--pf-font-body);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-xs);
+  font-family: var(--my-font-body);
   line-height: 1.3;
 }

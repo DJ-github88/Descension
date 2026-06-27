@@ -10,7 +10,7 @@ import { FaCog } from 'react-icons/fa';
 import { BUFF_DEBUFF_STAT_MODIFIERS } from '../../core/data/statModifier';
 import CleanStatusEffectConfigPopup from './CleanStatusEffectConfigPopup';
 import { getAbilityIconUrl } from '../../../../utils/assetManager';
-import WowWindow from '../../../windows/WowWindow';
+import MythrillWindow from '../../../windows/MythrillWindow';
 
 
 // Utility type definitions
@@ -524,7 +524,7 @@ const UtilityEffectConfigPopup = ({
   };
 
   return (
-    <WowWindow
+    <MythrillWindow
       title={`${effect.name} Configuration`}
       isOpen={isOpen}
       onClose={onClose}
@@ -552,7 +552,7 @@ const UtilityEffectConfigPopup = ({
           {renderEffectConfig()}
         </div>
       </div>
-    </WowWindow>
+    </MythrillWindow>
   );
 };
 

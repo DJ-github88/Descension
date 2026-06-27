@@ -4,43 +4,43 @@
 .channeling-container {
   width: 100%;
   height: 100%;
-  background: var(--pf-gradient-parchment);
-  padding: var(--pf-space-6);
+  background: var(--my-gradient-parchment);
+  padding: var(--my-space-6);
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-6);
-  font-family: var(--pf-font-body);
-  color: var(--pf-text-primary);
+  gap: var(--my-space-6);
+  font-family: var(--my-font-body);
+  color: var(--my-text-primary);
 }
 
 /* Channeling Type Selection */
 .channeling-types {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: var(--pf-space-4);
-  margin-bottom: var(--pf-space-6);
+  gap: var(--my-space-4);
+  margin-bottom: var(--my-space-6);
 }
 
 .channeling-type-card {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius-lg);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius-lg);
   overflow: hidden;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   cursor: pointer;
   position: relative;
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .channeling-type-card:hover {
   transform: translateY(-2px);
-  box-shadow: var(--pf-shadow-md);
-  border-color: var(--pf-gold);
+  box-shadow: var(--my-shadow-md);
+  border-color: var(--my-gold);
 }
 
 .channeling-type-card.selected {
-  border-color: var(--pf-gold);
-  box-shadow: 0 0 0 1px var(--pf-gold), var(--pf-shadow-md);
+  border-color: var(--my-gold);
+  box-shadow: 0 0 0 1px var(--my-gold), var(--my-shadow-md);
 }
 
 .channeling-type-card.selected::before {
@@ -59,9 +59,9 @@
 }
 
 .channeling-type-header {
-  background: var(--pf-gradient-parchment-dark);
-  padding: var(--pf-space-3) var(--pf-space-4);
-  border-bottom: var(--pf-border-width) solid var(--pf-brown-light);
+  background: var(--my-gradient-parchment-dark);
+  padding: var(--my-space-3) var(--my-space-4);
+  border-bottom: var(--my-border-width) solid var(--my-brown-light);
   display: flex;
   align-items: center;
 }
@@ -72,12 +72,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--pf-gradient-button);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  background: var(--my-gradient-button);
+  border: var(--my-border-width) solid var(--my-brown-medium);
   border-radius: 50%;
-  margin-right: var(--pf-space-3);
-  color: var(--pf-gold);
-  font-size: var(--pf-text-base);
+  margin-right: var(--my-space-3);
+  color: var(--my-gold);
+  font-size: var(--my-text-base);
 }
 
 .channeling-type-title {
@@ -85,61 +85,61 @@
 }
 
 .channeling-type-title h4 {
-  margin: 0 0 var(--pf-space-1) 0;
-  font-size: var(--pf-text-base);
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-secondary);
-  font-family: var(--pf-font-heading);
+  margin: 0 0 var(--my-space-1) 0;
+  font-size: var(--my-text-base);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-secondary);
+  font-family: var(--my-font-heading);
 }
 
 .channeling-type-title p {
   margin: 0;
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-muted);
-  font-family: var(--pf-font-body);
+  font-size: var(--my-text-sm);
+  color: var(--my-text-muted);
+  font-family: var(--my-font-body);
 }
 
 .channeling-type-body {
-  padding: var(--pf-space-4);
+  padding: var(--my-space-4);
 }
 
 .channeling-type-description {
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-primary);
+  font-size: var(--my-text-sm);
+  color: var(--my-text-primary);
   line-height: 1.5;
-  margin-bottom: var(--pf-space-3);
+  margin-bottom: var(--my-space-3);
 }
 
 /* Channeling Configuration */
 .channeling-config {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius-lg);
-  margin-bottom: var(--pf-space-6);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius-lg);
+  margin-bottom: var(--my-space-6);
   overflow: hidden;
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .channeling-config-header {
-  background: var(--pf-gradient-parchment-dark);
-  padding: var(--pf-space-3) var(--pf-space-4);
-  border-bottom: var(--pf-border-width) solid var(--pf-brown-light);
+  background: var(--my-gradient-parchment-dark);
+  padding: var(--my-space-3) var(--my-space-4);
+  border-bottom: var(--my-border-width) solid var(--my-brown-light);
 }
 
 .channeling-config-title {
   margin: 0;
-  font-size: var(--pf-text-lg);
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-secondary);
-  font-family: var(--pf-font-heading);
+  font-size: var(--my-text-lg);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-secondary);
+  font-family: var(--my-font-heading);
 }
 
 .channeling-config-body {
-  padding: var(--pf-space-4);
+  padding: var(--my-space-4);
 }
 
 .channeling-section {
-  margin-bottom: var(--pf-space-6);
+  margin-bottom: var(--my-space-6);
 }
 
 .channeling-section:last-child {
@@ -147,84 +147,84 @@
 }
 
 .channeling-section-title {
-  font-size: var(--pf-text-base);
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-secondary);
-  margin-bottom: var(--pf-space-4);
-  padding-bottom: var(--pf-space-2);
-  border-bottom: var(--pf-border-width) solid var(--pf-brown-light);
-  font-family: var(--pf-font-heading);
+  font-size: var(--my-text-base);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-secondary);
+  margin-bottom: var(--my-space-4);
+  padding-bottom: var(--my-space-2);
+  border-bottom: var(--my-border-width) solid var(--my-brown-light);
+  font-family: var(--my-font-heading);
 }
 
 /* Form Controls */
 .channeling-input-group {
-  margin-bottom: var(--pf-space-4);
+  margin-bottom: var(--my-space-4);
 }
 
 .channeling-input-label {
   display: block;
-  font-size: var(--pf-text-sm);
-  font-weight: var(--pf-font-medium);
-  color: var(--pf-text-primary);
-  margin-bottom: var(--pf-space-2);
-  font-family: var(--pf-font-ui);
+  font-size: var(--my-text-sm);
+  font-weight: var(--my-font-medium);
+  color: var(--my-text-primary);
+  margin-bottom: var(--my-space-2);
+  font-family: var(--my-font-ui);
 }
 
 .channeling-input {
   width: 100%;
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
-  padding: var(--pf-space-2) var(--pf-space-3);
-  font-size: var(--pf-text-sm);
-  font-family: var(--pf-font-body);
-  transition: all var(--pf-transition-normal);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
+  padding: var(--my-space-2) var(--my-space-3);
+  font-size: var(--my-text-sm);
+  font-family: var(--my-font-body);
+  transition: all var(--my-transition-normal);
 }
 
 .channeling-input:focus {
-  border-color: var(--pf-gold);
+  border-color: var(--my-gold);
   outline: none;
   box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
-  background: var(--pf-parchment-light);
+  background: var(--my-parchment-light);
 }
 
 .channeling-input-hint {
-  font-size: var(--pf-text-xs);
-  color: var(--pf-text-muted);
-  margin-top: var(--pf-space-1);
-  font-family: var(--pf-font-ui);
+  font-size: var(--my-text-xs);
+  color: var(--my-text-muted);
+  margin-top: var(--my-space-1);
+  font-family: var(--my-font-ui);
 }
 
 /* Toggle Switch */
 .channeling-toggle {
-  margin-bottom: var(--pf-space-4);
+  margin-bottom: var(--my-space-4);
 }
 
 .channeling-toggle-label {
   display: flex;
   align-items: center;
   cursor: pointer;
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-ui);
+  font-size: var(--my-text-sm);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-ui);
 }
 
 .channeling-toggle-switch {
   position: relative;
   width: 44px;
   height: 22px;
-  background: var(--pf-gradient-parchment-dark);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  background: var(--my-gradient-parchment-dark);
+  border: var(--my-border-width) solid var(--my-brown-medium);
   border-radius: 11px;
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
-  margin-right: var(--pf-space-2);
+  transition: all var(--my-transition-normal);
+  margin-right: var(--my-space-2);
 }
 
 .channeling-toggle-switch.active {
-  background: var(--pf-brown-medium);
-  border-color: var(--pf-gold);
+  background: var(--my-brown-medium);
+  border-color: var(--my-gold);
 }
 
 .channeling-toggle-slider {
@@ -233,10 +233,10 @@
   left: 2px;
   width: 16px;
   height: 16px;
-  background: var(--pf-gold);
+  background: var(--my-gold);
   border-radius: 50%;
-  transition: all var(--pf-transition-normal);
-  box-shadow: var(--pf-shadow-sm);
+  transition: all var(--my-transition-normal);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .channeling-toggle-switch.active .channeling-toggle-slider {
@@ -246,40 +246,40 @@
 /* Select Input */
 .channeling-select {
   width: 100%;
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
-  padding: var(--pf-space-2) var(--pf-space-3);
-  font-size: var(--pf-text-sm);
-  font-family: var(--pf-font-body);
-  transition: all var(--pf-transition-normal);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
+  padding: var(--my-space-2) var(--my-space-3);
+  font-size: var(--my-text-sm);
+  font-family: var(--my-font-body);
+  transition: all var(--my-transition-normal);
   cursor: pointer;
 }
 
 .channeling-select:focus {
-  border-color: var(--pf-gold);
+  border-color: var(--my-gold);
   outline: none;
   box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
 }
 
 /* Summary Cards */
 .channeling-summary-card {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius-lg);
-  margin-bottom: var(--pf-space-5);
+  background: var(--my-gradient-parchment-light);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius-lg);
+  margin-bottom: var(--my-space-5);
   overflow: hidden;
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .channeling-summary-header {
-  background: var(--pf-gradient-parchment-dark);
-  padding: var(--pf-space-3) var(--pf-space-4);
-  border-bottom: var(--pf-border-width) solid var(--pf-brown-light);
+  background: var(--my-gradient-parchment-dark);
+  padding: var(--my-space-3) var(--my-space-4);
+  border-bottom: var(--my-border-width) solid var(--my-brown-light);
   display: flex;
   align-items: center;
-  gap: var(--pf-space-3);
+  gap: var(--my-space-3);
 }
 
 .channeling-summary-icon {
@@ -288,28 +288,28 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--pf-gradient-button);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  background: var(--my-gradient-button);
+  border: var(--my-border-width) solid var(--my-brown-medium);
   border-radius: 50%;
-  color: var(--pf-gold);
+  color: var(--my-gold);
 }
 
 .channeling-summary-title h4 {
-  margin: 0 0 var(--pf-space-1) 0;
-  font-size: var(--pf-text-base);
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-secondary);
-  font-family: var(--pf-font-heading);
+  margin: 0 0 var(--my-space-1) 0;
+  font-size: var(--my-text-base);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-secondary);
+  font-family: var(--my-font-heading);
 }
 
 .channeling-summary-body {
-  padding: var(--pf-space-4);
+  padding: var(--my-space-4);
 }
 
 .channeling-summary-section {
-  margin-bottom: var(--pf-space-4);
-  padding-bottom: var(--pf-space-4);
-  border-bottom: var(--pf-border-width) solid var(--pf-brown-light);
+  margin-bottom: var(--my-space-4);
+  padding-bottom: var(--my-space-4);
+  border-bottom: var(--my-border-width) solid var(--my-brown-light);
 }
 
 .channeling-summary-section:last-child {
@@ -321,12 +321,12 @@
 .channeling-detail-item {
   display: flex;
   align-items: center;
-  margin-bottom: var(--pf-space-2);
-  padding: var(--pf-space-2) var(--pf-space-3);
-  background: var(--pf-gradient-parchment-dark);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  font-size: var(--pf-text-sm);
+  margin-bottom: var(--my-space-2);
+  padding: var(--my-space-2) var(--my-space-3);
+  background: var(--my-gradient-parchment-dark);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  font-size: var(--my-text-sm);
 }
 
 .channeling-detail-item:last-child {
@@ -340,7 +340,7 @@
   }
 
   .channeling-container {
-    padding: var(--pf-space-4);
+    padding: var(--my-space-4);
   }
 }
 

@@ -1288,10 +1288,10 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                     }}>
                       <FontAwesomeIcon icon={faClock} style={{
                         fontSize: '18px',
-                        color: 'var(--pf-brown-medium)',
+                        color: 'var(--my-brown-medium)',
                         marginRight: '8px'
                       }} />
-                      <div style={{ fontWeight: 'bold', color: 'var(--pf-text-primary)' }}>Duration</div>
+                      <div style={{ fontWeight: 'bold', color: 'var(--my-text-primary)' }}>Duration</div>
                     </div>
 
                     <div style={{
@@ -1383,8 +1383,8 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
 
                     <div style={{
                       fontSize: '12px',
-                      color: !channelingConfig.interruptible ? 'var(--pf-error)' : 'var(--pf-text-secondary)',
-                      background: 'var(--pf-gradient-parchment-dark)',
+                      color: !channelingConfig.interruptible ? 'var(--my-error)' : 'var(--my-text-secondary)',
+                      background: 'var(--my-gradient-parchment-dark)',
                       padding: '8px',
                       borderRadius: '4px',
                       textAlign: 'center',
@@ -1411,10 +1411,10 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                     }}>
                       <FontAwesomeIcon icon={faWalking} style={{
                         fontSize: '18px',
-                        color: 'var(--pf-brown-medium)',
+                        color: 'var(--my-brown-medium)',
                         marginRight: '8px'
                       }} />
-                      <div style={{ fontWeight: 'bold', color: 'var(--pf-text-primary)' }}>Movement</div>
+                      <div style={{ fontWeight: 'bold', color: 'var(--my-text-primary)' }}>Movement</div>
                     </div>
 
                     <div className="pf-checkbox-container channeling-option">
@@ -1432,8 +1432,8 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
 
                     <div style={{
                       fontSize: '12px',
-                      color: !channelingConfig.movementAllowed ? 'var(--pf-warning)' : 'var(--pf-text-secondary)',
-                      background: 'var(--pf-gradient-parchment-dark)',
+                      color: !channelingConfig.movementAllowed ? 'var(--my-warning)' : 'var(--my-text-secondary)',
+                      background: 'var(--my-gradient-parchment-dark)',
                       padding: '8px',
                       borderRadius: '4px',
                       textAlign: 'center',
@@ -1462,8 +1462,8 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                     fontSize: '20px',
                     filter: 'drop-shadow(0 0 3px rgba(102, 204, 255, 0.5))'
                   }} />
-                  <div style={{ fontSize: '14px', color: 'var(--pf-text-primary)', lineHeight: '1.4' }}>
-                    <strong style={{ color: 'var(--pf-gold)' }}>Total Duration:</strong> {channelingConfig.maxDuration} {channelingConfig.durationUnit || 'turns'} &nbsp;|&nbsp;
+                  <div style={{ fontSize: '14px', color: 'var(--my-text-primary)', lineHeight: '1.4' }}>
+                    <strong style={{ color: 'var(--my-gold)' }}>Total Duration:</strong> {channelingConfig.maxDuration} {channelingConfig.durationUnit || 'turns'} &nbsp;|&nbsp;
                     <strong style={{ color: '#ff4444' }}> Interruption:</strong> {!channelingConfig.interruptible ? "Cannot be interrupted" : "Can be interrupted"} &nbsp;|&nbsp;
                     <strong style={{ color: '#ff7700' }}> Movement:</strong> {!channelingConfig.movementAllowed ? "Must stand still" : "Can move"}
                   </div>
@@ -1568,7 +1568,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                           </div>
 
                           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                            <div style={{ flex: '0 0 80px', color: 'var(--pf-text-primary)' }}>Formula:</div>
+                            <div style={{ flex: '0 0 80px', color: 'var(--my-text-primary)' }}>Formula:</div>
                             <input
                               type="text"
                               value={round.formula}
@@ -1674,7 +1674,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                           </div>
 
                           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                            <div style={{ flex: '0 0 80px', color: 'var(--pf-text-primary)' }}>Formula:</div>
+                            <div style={{ flex: '0 0 80px', color: 'var(--my-text-primary)' }}>Formula:</div>
                             <input
                               type="text"
                               value={round.formula}
@@ -1722,11 +1722,11 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                 justifyContent: 'center',
                 marginRight: '12px'
               }}>
-                <FontAwesomeIcon icon={faCoins} style={{ color: 'var(--pf-gold)', fontSize: '20px' }} />
+                <FontAwesomeIcon icon={faCoins} style={{ color: 'var(--my-gold)', fontSize: '20px' }} />
               </div>
               <div className="effect-info">
                 <div className="effect-name" style={{
-                  color: 'var(--pf-text-primary)',
+                  color: 'var(--my-text-primary)',
                   fontSize: '18px',
                   fontWeight: 'bold',
                   marginBottom: '4px'
@@ -1765,10 +1765,10 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                     }}>
                       <FontAwesomeIcon icon={faCoins} style={{
                         fontSize: '18px',
-                        color: 'var(--pf-brown-medium)',
+                        color: 'var(--my-brown-medium)',
                         marginRight: '8px'
                       }} />
-                      <div style={{ fontWeight: 'bold', color: 'var(--pf-text-primary)' }}>Cost Amount</div>
+                      <div style={{ fontWeight: 'bold', color: 'var(--my-text-primary)' }}>Cost Amount</div>
                     </div>
 
                     <div style={{
@@ -1806,7 +1806,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                     <div className="pf-info-text" style={{
                       textAlign: 'center',
                       padding: '8px',
-                      background: 'var(--pf-gradient-parchment-dark)',
+                      background: 'var(--my-gradient-parchment-dark)',
                       borderRadius: '4px'
                     }}>
                       <span style={{
@@ -1837,7 +1837,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                   }}>
                     <div style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
                       <FontAwesomeIcon icon={faGem} style={{ fontSize: '18px', color: '#a335ee', marginRight: '8px' }} />
-                      <div style={{ fontWeight: 'bold', color: 'var(--pf-text-primary)' }}>Resource Type</div>
+                      <div style={{ fontWeight: 'bold', color: 'var(--my-text-primary)' }}>Resource Type</div>
                     </div>
 
                     <div style={{
@@ -1865,8 +1865,8 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                               alignItems: 'center',
                               justifyContent: 'center',
                               padding: '6px 4px',
-                              background: channelingConfig.costType === resource.type ? 'var(--pf-gradient-button-selected)' : 'var(--pf-gradient-button)',
-                              border: channelingConfig.costType === resource.type ? `1px solid ${resource.color}` : '1px solid var(--pf-brown-medium)',
+                              background: channelingConfig.costType === resource.type ? 'var(--my-gradient-button-selected)' : 'var(--my-gradient-button)',
+                              border: channelingConfig.costType === resource.type ? `1px solid ${resource.color}` : '1px solid var(--my-brown-medium)',
                               borderRadius: '4px',
                               cursor: 'pointer',
                               boxShadow: channelingConfig.costType === resource.type ? `0 0 5px ${resource.color}` : 'none'
@@ -1883,7 +1883,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                               <span style={{
                                 fontWeight: channelingConfig.costType === resource.type ? 'bold' : 'normal',
-                                color: channelingConfig.costType === resource.type ? resource.color : 'var(--pf-text-primary)'
+                                color: channelingConfig.costType === resource.type ? resource.color : 'var(--my-text-primary)'
                               }}>
                                 {resource.type.charAt(0).toUpperCase() + resource.type.slice(1)}
                               </span>
@@ -1901,7 +1901,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                     <div className="pf-info-text" style={{
                       textAlign: 'center',
                       padding: '8px',
-                      background: 'var(--pf-gradient-parchment-dark)',
+                      background: 'var(--my-gradient-parchment-dark)',
                       borderRadius: '4px'
                     }}>
                       {state.resourceCost?.primaryResourceType ?
@@ -1917,8 +1917,8 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                     padding: '12px'
                   }}>
                     <div style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
-                      <FontAwesomeIcon icon={faClock} style={{ fontSize: '18px', color: 'var(--pf-brown-medium)', marginRight: '8px' }} />
-                      <div style={{ fontWeight: 'bold', color: 'var(--pf-text-primary)' }}>Cost Frequency</div>
+                      <FontAwesomeIcon icon={faClock} style={{ fontSize: '18px', color: 'var(--my-brown-medium)', marginRight: '8px' }} />
+                      <div style={{ fontWeight: 'bold', color: 'var(--my-text-primary)' }}>Cost Frequency</div>
                     </div>
 
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '8px' }}>
@@ -1933,8 +1933,8 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                             display: 'flex',
                             alignItems: 'center',
                             padding: '8px',
-                            background: channelingConfig.costTrigger === trigger.id ? 'var(--pf-gradient-button-selected)' : 'var(--pf-gradient-button)',
-                            border: channelingConfig.costTrigger === trigger.id ? '1px solid var(--pf-gold)' : '1px solid var(--pf-brown-medium)',
+                            background: channelingConfig.costTrigger === trigger.id ? 'var(--my-gradient-button-selected)' : 'var(--my-gradient-button)',
+                            border: channelingConfig.costTrigger === trigger.id ? '1px solid var(--my-gold)' : '1px solid var(--my-brown-medium)',
                             borderRadius: '4px',
                             cursor: 'pointer'
                           }}
@@ -1943,18 +1943,18 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                             icon={trigger.icon}
                             style={{
                               marginRight: '8px',
-                              color: 'var(--pf-brown-medium)',
+                              color: 'var(--my-brown-medium)',
                               fontSize: '16px'
                             }}
                           />
                           <div style={{ textAlign: 'left' }}>
                             <div style={{
                               fontWeight: channelingConfig.costTrigger === trigger.id ? 'bold' : 'normal',
-                              color: channelingConfig.costTrigger === trigger.id ? 'var(--pf-gold)' : 'var(--pf-text-primary)'
+                              color: channelingConfig.costTrigger === trigger.id ? 'var(--my-gold)' : 'var(--my-text-primary)'
                             }}>
                               {trigger.label}
                             </div>
-                            <div style={{ fontSize: '0.8rem', color: 'var(--pf-text-secondary)' }}>{trigger.desc}</div>
+                            <div style={{ fontSize: '0.8rem', color: 'var(--my-text-secondary)' }}>{trigger.desc}</div>
                           </div>
                         </div>
                       ))}
@@ -1963,7 +1963,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                     <div className="pf-info-text" style={{
                       textAlign: 'center',
                       padding: '8px',
-                      background: 'var(--pf-gradient-parchment-dark)',
+                      background: 'var(--my-gradient-parchment-dark)',
                       borderRadius: '4px'
                     }}>
                       {channelingConfig.costTrigger === 'per_round' ?
@@ -1984,12 +1984,12 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                   boxShadow: 'inset 0 0 10px rgba(0, 0, 0, 0.2)'
                 }}>
                   <FontAwesomeIcon icon={faInfoCircle} style={{
-                    color: 'var(--pf-brown-medium)',
+                    color: 'var(--my-brown-medium)',
                     marginRight: '12px',
                     fontSize: '20px'
                   }} />
-                  <div style={{ fontSize: '14px', color: 'var(--pf-text-primary)', lineHeight: '1.4' }}>
-                    <strong style={{ color: 'var(--pf-gold)' }}>Resource Cost:</strong> <span style={{
+                  <div style={{ fontSize: '14px', color: 'var(--my-text-primary)', lineHeight: '1.4' }}>
+                    <strong style={{ color: 'var(--my-gold)' }}>Resource Cost:</strong> <span style={{
                       color: channelingConfig.costType === 'mana' ? '#0077ff' :
                              channelingConfig.costType === 'rage' ? '#ff0000' :
                              channelingConfig.costType === 'energy' ? '#ffff00' :
@@ -2143,7 +2143,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
 
                 {channelingConfig.targetingDescription && (
                   <div className="targeting-description">
-                    <FontAwesomeIcon icon={faInfoCircle} style={{ marginRight: '8px', color: 'var(--pf-brown-medium)' }} />
+                    <FontAwesomeIcon icon={faInfoCircle} style={{ marginRight: '8px', color: 'var(--my-brown-medium)' }} />
                     <span>{channelingConfig.targetingDescription}</span>
                   </div>
                 )}
@@ -2303,7 +2303,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
             <div className="selected-effect area-expansion-section">
               <div className="effect-header">
                 <div className="effect-icon">
-                  <FontAwesomeIcon icon={faShieldAlt} style={{ color: 'var(--pf-brown-medium)' }} />
+                  <FontAwesomeIcon icon={faShieldAlt} style={{ color: 'var(--my-brown-medium)' }} />
                 </div>
                 <div className="effect-info">
                   <div className="effect-name">Defensive Settings</div>
@@ -2643,7 +2643,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
               }}>
                 <FontAwesomeIcon icon={faClock} style={{
                   fontSize: '24px',
-                  color: 'var(--pf-gold)'
+                  color: 'var(--my-gold)'
                 }} />
               </div>
               <div className="effect-preview-title">
@@ -2667,7 +2667,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
 
             <div className="effect-preview-description" style={{
               padding: '12px 16px',
-              borderBottom: '1px solid var(--pf-brown-light)',
+              borderBottom: '1px solid var(--my-brown-light)',
               color: '#a0b9d9',
               fontSize: '14px',
               fontStyle: 'italic',
@@ -2755,11 +2755,11 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                       {effectTypes.map(effect => (
                         <span key={effect} style={{
                           padding: '3px 8px',
-                          backgroundColor: 'var(--pf-gradient-parchment-light)',
+                          backgroundColor: 'var(--my-gradient-parchment-light)',
                           borderRadius: '4px',
                           fontSize: '13px',
-                          border: '1px solid var(--pf-brown-light)',
-                          color: 'var(--pf-text-primary)',
+                          border: '1px solid var(--my-brown-light)',
+                          color: 'var(--my-text-primary)',
                           fontWeight: 'bold'
                         }}>
                           {effect.charAt(0).toUpperCase() + effect.slice(1)}
@@ -2833,9 +2833,9 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                               }}>
                                 <strong style={{ color: '#cdd6f4' }}>Round {round.round}:</strong>
                                 <span style={{
-                                  color: 'var(--pf-gold)',
+                                  color: 'var(--my-gold)',
                                   fontFamily: 'monospace',
-                                  background: 'var(--pf-gradient-parchment-dark)',
+                                  background: 'var(--my-gradient-parchment-dark)',
                                   padding: '2px 6px',
                                   borderRadius: '4px',
                                   fontSize: '13px'
@@ -2903,9 +2903,9 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                               }}>
                                 <strong style={{ color: '#cdd6f4' }}>Round {round.round}:</strong>
                                 <span style={{
-                                  color: 'var(--pf-gold)',
+                                  color: 'var(--my-gold)',
                                   fontFamily: 'monospace',
-                                  background: 'var(--pf-gradient-parchment-dark)',
+                                  background: 'var(--my-gradient-parchment-dark)',
                                   padding: '2px 6px',
                                   borderRadius: '4px',
                                   fontSize: '13px'
@@ -3003,10 +3003,10 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                       {targetingConfig.rangeType === 'ranged' && (
                         <span style={{
                           padding: '3px 8px',
-                          backgroundColor: 'var(--pf-gradient-parchment-light)',
+                          backgroundColor: 'var(--my-gradient-parchment-light)',
                           borderRadius: '4px',
-                          border: '1px solid var(--pf-brown-light)',
-                          color: 'var(--pf-text-primary)',
+                          border: '1px solid var(--my-brown-light)',
+                          color: 'var(--my-text-primary)',
                           fontSize: '13px'
                         }}>
                           {targetingConfig.rangeDistance || 30}ft range
@@ -3015,20 +3015,20 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                       {targetingConfig.rangeType === 'touch' && (
                         <span style={{
                           padding: '3px 8px',
-                          backgroundColor: 'var(--pf-gradient-parchment-light)',
+                          backgroundColor: 'var(--my-gradient-parchment-light)',
                           borderRadius: '4px',
-                          border: '1px solid var(--pf-brown-light)',
-                          color: 'var(--pf-text-primary)',
+                          border: '1px solid var(--my-brown-light)',
+                          color: 'var(--my-text-primary)',
                           fontSize: '13px'
                         }}>Touch</span>
                       )}
                       {targetingConfig.rangeType === 'self' && (
                         <span style={{
                           padding: '3px 8px',
-                          backgroundColor: 'var(--pf-gradient-parchment-light)',
+                          backgroundColor: 'var(--my-gradient-parchment-light)',
                           borderRadius: '4px',
-                          border: '1px solid var(--pf-brown-light)',
-                          color: 'var(--pf-text-primary)',
+                          border: '1px solid var(--my-brown-light)',
+                          color: 'var(--my-text-primary)',
                           fontSize: '13px'
                         }}>Self</span>
                       )}
@@ -3172,10 +3172,10 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                       </span>
                       <span style={{
                         padding: '3px 8px',
-                        backgroundColor: 'var(--pf-gradient-parchment-light)',
+                        backgroundColor: 'var(--my-gradient-parchment-light)',
                         borderRadius: '4px',
-                        border: '1px solid var(--pf-brown-light)',
-                        color: 'var(--pf-text-primary)',
+                        border: '1px solid var(--my-brown-light)',
+                        color: 'var(--my-text-primary)',
                         fontSize: '13px'
                       }}>
                         {channelingConfig.expansionRate}ft per {channelingConfig.durationUnit === 'rounds' ? 'round' : 'turn'}
@@ -3184,11 +3184,11 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                         (propagation && propagation.method)) && (
                         <span style={{
                           fontSize: '12px',
-                          color: 'var(--pf-text-secondary)',
-                          background: 'var(--pf-gradient-parchment)',
+                          color: 'var(--my-text-secondary)',
+                          background: 'var(--my-gradient-parchment)',
                           padding: '2px 6px',
                           borderRadius: '4px',
-                          border: '1px solid var(--pf-brown-light)'
+                          border: '1px solid var(--my-brown-light)'
                         }}>(from targeting)</span>
                       )}
                     </div>

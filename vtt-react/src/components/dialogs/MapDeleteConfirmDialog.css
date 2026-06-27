@@ -4,7 +4,7 @@
     flex-direction: column;
     justify-content: space-between;
     padding: 24px;
-    color: var(--pf-text-primary);
+    color: var(--my-text-primary);
     font-family: 'Cinzel', serif;
     height: 100%;
     overflow: hidden;
@@ -38,18 +38,18 @@
 
 .dialog-message p {
     margin: 0;
-    color: var(--pf-text-primary);
+    color: var(--my-text-primary);
     font-size: 1.1rem;
 }
 
 .dialog-message strong {
-    color: var(--pf-gold-dark);
+    color: var(--my-gold-dark);
     font-weight: bold;
 }
 
 .dialog-submessage {
     font-size: 0.9rem !important;
-    color: var(--pf-text-secondary) !important;
+    color: var(--my-text-secondary) !important;
     font-style: italic;
 }
 
@@ -59,7 +59,7 @@
     justify-content: center;
     gap: 16px;
     padding-top: 20px;
-    border-top: 2px solid var(--pf-brown-medium);
+    border-top: 2px solid var(--my-brown-medium);
 }
 
 .map-delete-confirm-dialog .wow-button {

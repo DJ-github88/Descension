@@ -1,18 +1,18 @@
 /* DiceCalculator.css - Pathfinder Theme */
 
 .dice-calculator {
-  background: var(--pf-gradient-parchment-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-4);
-  margin-top: var(--pf-space-3);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  box-shadow: var(--pf-shadow-md);
-  font-family: var(--pf-font-body);
+  background: var(--my-gradient-parchment-light);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-4);
+  margin-top: var(--my-space-3);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  box-shadow: var(--my-shadow-md);
+  font-family: var(--my-font-body);
 }
 
 .dice-formula-input {
   display: flex;
-  margin-bottom: var(--pf-space-4);
+  margin-bottom: var(--my-space-4);
   align-items: center;
 }
 
@@ -20,120 +20,120 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  color: var(--pf-text-primary);
-  font-size: var(--pf-text-sm);
-  margin-right: var(--pf-space-3);
-  font-family: var(--pf-font-ui);
+  color: var(--my-text-primary);
+  font-size: var(--my-text-sm);
+  margin-right: var(--my-space-3);
+  font-family: var(--my-font-ui);
 }
 
 .dice-formula-input input {
-  background: var(--pf-gradient-input);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
-  padding: var(--pf-space-2) var(--pf-space-3);
-  margin-top: var(--pf-space-1);
-  font-family: var(--pf-font-mono);
-  font-size: var(--pf-text-base);
+  background: var(--my-gradient-input);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
+  padding: var(--my-space-2) var(--my-space-3);
+  margin-top: var(--my-space-1);
+  font-family: var(--my-font-mono);
+  font-size: var(--my-text-base);
 }
 
 .dice-formula-input input.invalid {
-  border-color: var(--pf-error);
+  border-color: var(--my-error);
   box-shadow: 0 0 5px rgba(139, 0, 0, 0.5);
 }
 
 .preset-button {
-  background: var(--pf-gradient-button);
-  color: var(--pf-text-primary);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-2) var(--pf-space-3);
+  background: var(--my-gradient-button);
+  color: var(--my-text-primary);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-2) var(--my-space-3);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   height: fit-content;
-  margin-top: var(--pf-space-6);
-  font-family: var(--pf-font-ui);
+  margin-top: var(--my-space-6);
+  font-family: var(--my-font-ui);
 }
 
 .preset-button:hover {
-  background: var(--pf-gradient-button-hover);
-  color: var(--pf-text-primary);
+  background: var(--my-gradient-button-hover);
+  color: var(--my-text-primary);
   transform: translateY(-1px);
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .dice-presets {
-  background: var(--pf-gradient-parchment-dark);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-3);
-  margin-bottom: var(--pf-space-4);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+  background: var(--my-gradient-parchment-dark);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-3);
+  margin-bottom: var(--my-space-4);
+  border: var(--my-border-width) solid var(--my-brown-light);
 }
 
 .dice-presets h4 {
   margin-top: 0;
-  margin-bottom: var(--pf-space-2);
-  color: var(--pf-text-primary);
-  font-size: var(--pf-text-sm);
-  font-family: var(--pf-font-heading);
+  margin-bottom: var(--my-space-2);
+  color: var(--my-text-primary);
+  font-size: var(--my-text-sm);
+  font-family: var(--my-font-heading);
 }
 
 .preset-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
 }
 
 .preset-item {
-  background: var(--pf-gradient-button);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-2);
+  background: var(--my-gradient-button);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-2);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  transition: all var(--my-transition-normal);
+  border: var(--my-border-width) solid var(--my-brown-medium);
 }
 
 .preset-item:hover {
-  background: var(--pf-gradient-button-hover);
+  background: var(--my-gradient-button-hover);
   transform: translateY(-2px);
-  border-color: var(--pf-gold);
-  box-shadow: var(--pf-shadow-sm);
+  border-color: var(--my-gold);
+  box-shadow: var(--my-shadow-sm);
 }
 
 .preset-header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: var(--pf-space-1);
+  margin-bottom: var(--my-space-1);
 }
 
 .preset-level {
-  color: var(--pf-text-muted);
-  font-size: var(--pf-text-xs);
+  color: var(--my-text-muted);
+  font-size: var(--my-text-xs);
   text-transform: uppercase;
-  font-family: var(--pf-font-ui);
+  font-family: var(--my-font-ui);
 }
 
 .preset-notation {
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-mono);
-  font-weight: var(--pf-font-semibold);
+  color: var(--my-text-primary);
+  font-family: var(--my-font-mono);
+  font-weight: var(--my-font-semibold);
 }
 
 .preset-description {
-  color: var(--pf-text-secondary);
-  font-size: var(--pf-text-xs);
+  color: var(--my-text-secondary);
+  font-size: var(--my-text-xs);
   margin: 0;
-  font-family: var(--pf-font-body);
+  font-family: var(--my-font-body);
 }
 
 .dice-stats {
   display: flex;
   justify-content: space-between;
-  margin-bottom: var(--pf-space-4);
-  background: var(--pf-gradient-parchment-dark);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-2);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+  margin-bottom: var(--my-space-4);
+  background: var(--my-gradient-parchment-dark);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-2);
+  border: var(--my-border-width) solid var(--my-brown-light);
 }
 
 .stat-item {
@@ -143,107 +143,107 @@
 
 .stat-label {
   color: #000000;
-  font-size: var(--pf-text-xs);
+  font-size: var(--my-text-xs);
   display: block;
-  margin-bottom: var(--pf-space-1);
-  font-family: var(--pf-font-ui);
+  margin-bottom: var(--my-space-1);
+  font-family: var(--my-font-ui);
 }
 
 .stat-value {
-  color: var(--pf-text-primary);
-  font-size: var(--pf-text-lg);
-  font-weight: var(--pf-font-semibold);
-  font-family: var(--pf-font-mono);
+  color: var(--my-text-primary);
+  font-size: var(--my-text-lg);
+  font-weight: var(--my-font-semibold);
+  font-family: var(--my-font-mono);
 }
 
 .dice-error {
-  color: var(--pf-error);
+  color: var(--my-error);
   text-align: center;
   font-style: italic;
-  font-family: var(--pf-font-body);
+  font-family: var(--my-font-body);
 }
 
 .dice-scaling {
-  margin-bottom: var(--pf-space-4);
-  background: var(--pf-gradient-parchment-dark);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-2);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+  margin-bottom: var(--my-space-4);
+  background: var(--my-gradient-parchment-dark);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-2);
+  border: var(--my-border-width) solid var(--my-brown-light);
 }
 
 .dice-scaling label {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: var(--pf-text-primary);
-  font-size: var(--pf-text-sm);
-  margin-bottom: var(--pf-space-2);
-  font-family: var(--pf-font-ui);
+  color: var(--my-text-primary);
+  font-size: var(--my-text-sm);
+  margin-bottom: var(--my-space-2);
+  font-family: var(--my-font-ui);
 }
 
 .dice-scaling input {
-  background: var(--pf-gradient-input);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
-  padding: var(--pf-space-2) var(--pf-space-3); /* Increased padding for better usability */
+  background: var(--my-gradient-input);
+  border: var(--my-border-width) solid var(--my-brown-light);
+  border-radius: var(--my-border-radius);
+  color: var(--my-text-primary);
+  padding: var(--my-space-2) var(--my-space-3); /* Increased padding for better usability */
   width: 100px; /* Increased from 60px for better visibility */
   text-align: center;
-  font-size: var(--pf-text-base); /* Increased from text-sm for better readability */
-  font-family: var(--pf-font-mono);
+  font-size: var(--my-text-base); /* Increased from text-sm for better readability */
+  font-family: var(--my-font-mono);
 }
 
 .scaled-preview {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: var(--pf-space-2);
+  margin-top: var(--my-space-2);
 }
 
 .scaled-label {
-  color: var(--pf-text-muted);
-  font-size: var(--pf-text-xs);
-  font-family: var(--pf-font-ui);
+  color: var(--my-text-muted);
+  font-size: var(--my-text-xs);
+  font-family: var(--my-font-ui);
 }
 
 .scaled-value {
-  color: var(--pf-gold);
-  font-family: var(--pf-font-mono);
-  font-weight: var(--pf-font-semibold);
+  color: var(--my-gold);
+  font-family: var(--my-font-mono);
+  font-weight: var(--my-font-semibold);
 }
 
 .dice-distribution {
-  margin-top: var(--pf-space-5);
-  padding-top: var(--pf-space-4);
-  border-top: var(--pf-border-width) solid var(--pf-brown-medium);
+  margin-top: var(--my-space-5);
+  padding-top: var(--my-space-4);
+  border-top: var(--my-border-width) solid var(--my-brown-medium);
 }
 
 .dice-distribution h4 {
   margin-top: 0;
-  margin-bottom: var(--pf-space-3);
-  color: var(--pf-text-primary);
-  font-size: var(--pf-text-sm);
+  margin-bottom: var(--my-space-3);
+  color: var(--my-text-primary);
+  font-size: var(--my-text-sm);
   text-align: center;
-  font-family: var(--pf-font-heading);
+  font-family: var(--my-font-heading);
 }
 
 .distribution-chart {
   height: 120px;
   position: relative;
-  background: var(--pf-gradient-parchment-dark);
-  border-radius: var(--pf-border-radius);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  padding: var(--pf-space-1);
-  margin-bottom: var(--pf-space-1);
+  background: var(--my-gradient-parchment-dark);
+  border-radius: var(--my-border-radius);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  padding: var(--my-space-1);
+  margin-bottom: var(--my-space-1);
 }
 
 .distribution-bar {
   position: absolute;
   bottom: 0;
-  background: linear-gradient(to top, var(--pf-gold-dark), var(--pf-gold));
-  border-radius: var(--pf-border-radius-sm) var(--pf-border-radius-sm) 0 0;
+  background: linear-gradient(to top, var(--my-gold-dark), var(--my-gold));
+  border-radius: var(--my-border-radius-sm) var(--my-border-radius-sm) 0 0;
   opacity: 0.8;
-  transition: opacity var(--pf-transition-normal);
+  transition: opacity var(--my-transition-normal);
 }
 
 .distribution-bar:hover {
@@ -253,9 +253,9 @@
 .distribution-labels {
   display: flex;
   justify-content: space-between;
-  color: var(--pf-text-muted);
-  font-size: var(--pf-text-xs);
-  font-family: var(--pf-font-ui);
+  color: var(--my-text-muted);
+  font-size: var(--my-text-xs);
+  font-family: var(--my-font-ui);
 }
 
 @media (max-width: 768px) {
@@ -270,7 +270,7 @@
 
   .dice-formula-input label {
     margin-right: 0;
-    margin-bottom: var(--pf-space-2);
+    margin-bottom: var(--my-space-2);
   }
 
   .preset-button {

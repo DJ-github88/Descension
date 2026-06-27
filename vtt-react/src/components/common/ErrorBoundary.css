@@ -1,0 +1,125 @@
+/* ===== ERROR BOUNDARY — ON-BRAND FALLBACK ===== */
+/* Uses --my-* tokens (theme-aware) with hardcoded on-brand fallbacks so the
+   UI renders correctly even if the main stylesheet failed to load. */
+
+.error-boundary-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 30000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--my-gradient-parchment, radial-gradient(circle at 30% 30%, #fffbf2 0%, #ede4d3 70%, #d5cbb0 100%));
+  color: var(--my-text-primary, #2d1810);
+  font-family: 'Cinzel', 'Times New Roman', serif;
+  padding: 24px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.error-boundary-emblem {
+  font-size: 2.75rem;
+  color: var(--my-danger, #8b0000);
+  margin-bottom: 14px;
+  line-height: 1;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.error-boundary-title {
+  color: var(--my-text-primary, #5a1e12);
+  font-family: 'Cinzel', serif;
+  font-size: 1.9rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin: 0 0 12px 0;
+}
+
+.error-boundary-message {
+  font-family: 'Crimson Text', 'Georgia', serif;
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--my-text-muted, #5a4030);
+  max-width: 600px;
+  margin-bottom: 22px;
+  line-height: 1.5;
+}
+
+.error-boundary-code {
+  background-color: rgba(255, 255, 255, 0.55);
+  border: 1px solid var(--my-brown-light, rgba(139, 69, 19, 0.3));
+  border-radius: var(--my-border-radius, 6px);
+  padding: 14px 18px;
+  margin-bottom: 22px;
+  max-width: 80%;
+  overflow: auto;
+  text-align: left;
+  max-height: 200px;
+  box-shadow: inset 0 1px 4px rgba(139, 69, 19, 0.1);
+}
+
+.error-boundary-code code {
+  color: var(--my-danger, #8b0000);
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  background: rgba(139, 69, 19, 0.08);
+  padding: 2px 5px;
+  border-radius: 3px;
+}
+
+.error-boundary-button {
+  background: linear-gradient(135deg, var(--my-brown-lighter, #8f6f35) 0%, var(--my-brown-medium, #5d451a) 100%);
+  border: 1px solid var(--my-gold, #d4af37);
+  border-radius: 4px;
+  color: var(--my-parchment-text, #fffbf2);
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 12px 28px;
+  font-family: 'Cinzel', serif;
+  box-shadow: 0 2px 8px rgba(45, 24, 16, 0.3);
+  transition: filter var(--my-transition-fast, 0.15s ease), transform var(--my-transition-fast, 0.15s ease);
+}
+
+.error-boundary-button:hover {
+  filter: brightness(1.12);
+  transform: translateY(-1px);
+}
+
+.error-boundary-button:active {
+  transform: translateY(0);
+  filter: brightness(0.96);
+}
+
+.error-boundary-button:focus-visible {
+  outline: 2px solid var(--my-gold, #d4af37);
+  outline-offset: 3px;
+}
+
+.error-boundary-details {
+  margin-top: 22px;
+  text-align: left;
+  max-width: 80%;
+}
+
+.error-boundary-details summary {
+  color: var(--my-text-muted, #7a5a3a);
+  cursor: pointer;
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+}
+
+.error-boundary-details pre {
+  background-color: var(--my-brown-darkest, #2d1810);
+  color: var(--my-parchment, #ede4d3);
+  padding: 12px;
+  border-radius: 4px;
+  overflow: auto;
+  font-size: 12px;
+  margin-top: 10px;
+  font-family: 'Courier New', monospace;
+  border: 1px solid var(--my-text-muted, #5a4030);
+}

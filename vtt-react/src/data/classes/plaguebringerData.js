@@ -22,7 +22,7 @@ export const PLAGUEBRINGER_DATA = {
   name: "Plaguebringer",
   icon: "fas fa-biohazard",
   role: "Damage/Control",
-  damageTypes: ["blight", "blight", "wyrd"],
+  damageTypes: ["blight", "wyrd"],
 
   classIdentity: {
     title: "Class Identity",

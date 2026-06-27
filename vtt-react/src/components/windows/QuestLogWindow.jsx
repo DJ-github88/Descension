@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { createPortal } from 'react-dom';
-import WowWindow from './WowWindow';
+import MythrillWindow from './MythrillWindow';
 import useQuestStore from '../../store/questStore';
 import useGameStore from '../../store/gameStore';
 import usePresenceStore from '../../store/presenceStore';
@@ -583,7 +583,7 @@ const QuestLogWindow = ({ isOpen = true, onClose = () => { }, activeTab: propAct
   return (
     <>
       {contentOnly ? questContent : (
-        <WowWindow
+        <MythrillWindow
           isOpen={isOpen}
           onClose={onClose}
           defaultPosition={getDefaultPosition()}
@@ -605,7 +605,7 @@ const QuestLogWindow = ({ isOpen = true, onClose = () => { }, activeTab: propAct
           }
         >
           {questContent}
-        </WowWindow>
+        </MythrillWindow>
       )}
 
       {/* Context Menu */}

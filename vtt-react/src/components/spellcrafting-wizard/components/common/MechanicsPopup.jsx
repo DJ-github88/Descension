@@ -1,5 +1,5 @@
 import React from 'react';
-import WowWindow from '../../../windows/WowWindow';
+import MythrillWindow from '../../../windows/MythrillWindow';
 
 const SIZE_MAP = {
   small: { width: 420, height: 480 },
@@ -9,7 +9,7 @@ const SIZE_MAP = {
 
 const MechanicsPopup = ({ show, onHide, title, children, size = 'medium' }) => {
   return (
-    <WowWindow
+    <MythrillWindow
       title={title || 'Mechanics'}
       isOpen={show}
       onClose={onHide}
@@ -20,7 +20,7 @@ const MechanicsPopup = ({ show, onHide, title, children, size = 'medium' }) => {
       <div className="mechanics-popup-body">
         {children}
       </div>
-    </WowWindow>
+    </MythrillWindow>
   );
 };
 

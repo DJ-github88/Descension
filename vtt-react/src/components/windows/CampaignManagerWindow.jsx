@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
-import WowWindow from './WowWindow';
+import MythrillWindow from './MythrillWindow';
 import '../../styles/campaign-manager.css';
 import LibraryBrowserModal, { LIBRARY_TYPES } from '../account/LibraryBrowserModal';
 import ItemTooltip from '../item-generation/ItemTooltip';
@@ -2538,7 +2538,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
 
     return (
         <>
-            <WowWindow
+            <MythrillWindow
                 isOpen={isOpen}
                 onClose={onClose}
                 title="Campaign Manager"
@@ -2561,7 +2561,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                 <div className="campaign-manager-content">
                     {renderTabContent()}
                 </div>
-            </WowWindow>
+            </MythrillWindow>
 
             {/* Input Modal */}
             {showInputModal && (

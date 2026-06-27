@@ -7,20 +7,20 @@
 .game-mode .character-sheet,
 .game-mode .character-container,
 .game-mode .character-navigation {
-  --pf-font-body: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
-  --pf-font-ui: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
-  --pf-font-display: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
-  --pf-text-primary: #5c4033 !important;
-  --pf-text-secondary: #5c4033 !important;
-  --pf-text-muted: #5c4033 !important;
-  --pf-text-light: #5c4033 !important;
-  --pf-text-on-dark: #5c4033 !important;
+  --my-font-body: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
+  --my-font-ui: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
+  --my-font-display: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
+  --my-text-primary: #5c4033 !important;
+  --my-text-secondary: #5c4033 !important;
+  --my-text-muted: #5c4033 !important;
+  --my-text-light: #5c4033 !important;
+  --my-text-on-dark: #5c4033 !important;
   
-  --pf-gradient-parchment: linear-gradient(135deg, #f0e6d2 0%, #e6dac8 50%, #d5cbb8 100%) !important;
-  --pf-parchment: #ede4d3 !important;
-  --pf-parchment-light: #f8f4e6 !important;
-  --pf-parchment-dark: #e8dcc6 !important;
-  --pf-parchment-darker: #d5cbb0 !important;
+  --my-gradient-parchment: linear-gradient(135deg, #f0e6d2 0%, #e6dac8 50%, #d5cbb8 100%) !important;
+  --my-parchment: #ede4d3 !important;
+  --my-parchment-light: #f8f4e6 !important;
+  --my-parchment-dark: #e8dcc6 !important;
+  --my-parchment-darker: #d5cbb0 !important;
   
   font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
   color: #5c4033 !important;

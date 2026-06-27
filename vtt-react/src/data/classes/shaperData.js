@@ -3,45 +3,107 @@ export const SHAPER_DATA = {
   name: "Shaper",
   icon: "fas fa-yin-yang",
   role: "Hybrid (Damage/Mobility/Adaptation)",
-  damageTypes: ["physical", "primal", "storm"],  overview: {
-    originStory: "The first shapers were not warriors or alchemists but desperate survivors who refused to accept the body they were born with. In the Frostwood Reach, the wood-warden Sylvanus learned to synchronize his strikes with the wind-swept ironwood branches, flowing through mist like a falling leaf, his twin axes carving a path of kinetic momentum through face-stealing horrors. In the Cragjaw Peaks, the troll-kin Torin drank a draft of raw alchemical sulfur-clay and forced his skeleton to calcify and expand, mimicking basalt pillars to hold up a collapsing mine.\n\nWhen a wandering Mimir chronicler named Veyra encountered both traditions, she realized they were the same art expressed through different bodies. Sylvanus reshaped posture and momentum. Torin reshaped bone and flesh. Both treated the body as a medium \u2014 malleable, negotiable, and ultimately expendable in pursuit of perfection. Veyra merged the kinetic dance with the biological rupture, creating the Shaper: a combatant who treats their own body as the ultimate weapon, shifting between kinetic states and physical forms with the same fluid inevitability.\n\nThe price of this dual mastery is absolute. The Shaper\u2019s joints grind from kinetic friction. Their bones crack from forced mutations. Their nervous system fires at velocities no mortal frame was designed to sustain. Every transformation leaves a scar. Every stance shift erodes their identity. The body is an instrument, and the Shaper plays it until the strings break.\n\nShape the flesh. Sharpen the bone. The dance does not end when the music stops. It ends when there is nothing left to move.",
+  damageTypes: ["physical", "primal", "storm"],
+
+  overview: {
     title: "The Shaper",
     subtitle: "The Body Is the Weapon",
     illustration: "/assets/images/classes/shaper_illustration.png",
-    illustrationCaption: "A Shaper mid-transition, kinetic sparks trailing from reshaping limbs as bone and blade become one.",    quickOverview: {
+    illustrationCaption: "A Shaper mid-transition, kinetic sparks trailing from reshaping limbs as bone and blade become one.",
+
+    originStory: `The first shapers were not warriors or alchemists but desperate survivors who refused to accept the body they were born with. In the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink>, the wood-warden Sylvanus learned to synchronize his strikes with the wind-swept ironwood branches, flowing through mist like a falling leaf, his twin axes carving a path of kinetic momentum through face-stealing horrors. In the <LoreLink termId="cragjaw-peaks">Cragjaw Peaks</LoreLink>, the troll-kin Torin drank a draft of raw alchemical sulfur-clay and forced his skeleton to calcify and expand, mimicking basalt pillars to hold up a collapsing mine.
+
+When a wandering <LoreLink termId="mimir">Mimir</LoreLink> chronicler named Veyra encountered both traditions, she realized they were the same art expressed through different bodies. Sylvanus reshaped posture and momentum. Torin reshaped bone and flesh. Both treated the body as a medium—malleable, negotiable, and ultimately expendable in pursuit of perfection. Veyra merged the kinetic dance with the biological rupture, creating the Shaper: a combatant who treats their own body as the ultimate weapon, shifting between kinetic states and physical forms with the same fluid inevitability.
+
+The price of this dual mastery is absolute. The Shaper’s joints grind from kinetic friction. Their bones crack from forced mutations. Their nervous system fires at velocities no mortal frame was designed to sustain. Every transformation leaves a scar. Every stance shift erodes their identity. The body is an instrument, and the Shaper plays it until the strings break.
+
+Shape the flesh. Sharpen the bone. The dance does not end when the music stops. It ends when there is nothing left to move.`,
+
+    quickOverview: {
       title: "Quick Overview",
-      content: "**What You Need to Know**: The Shaper merges hyper-accelerated kinetic combat with biological shape-shifting. Navigate 6 Shaping Forms that blend combat posture and physical morphology. Build **Kinetic Flux** through combat actions. **Body Toll** tracks the cumulative cost of every transformation.\n\n**Core Mechanic**: Flow between 6 Shaping Forms (Ataxic Flow, Arterial Strike, Centrifugal Fury, Deadened Bastion, Fluid Apex, Void Predator). Build Flux through form-specific combat actions. Shift forms to match the situation \u2014 but every shift adds Body Toll.\n\n**Resources**: Kinetic Flux (0-20) & Body Toll (0-10).\n\n**Fatal Flaw**: 0 base Armor, +50% wyrd vulnerability. If rooted/grappled, Flux drops to 0 and 1d10 blight/round.\n\n**Best For**: Players who enjoy tactical versatility, rapid form-switching, and dual-resource tension."
+      content: `**What You Need to Know**: The Shaper merges hyper-accelerated kinetic combat with biological shape-shifting. Navigate 6 Shaping Forms that blend combat posture and physical morphology. Build **Kinetic Flux** through combat actions. **Body Toll** tracks the cumulative cost of every transformation.
+
+**Core Mechanic**: Flow between 6 Shaping Forms (Ataxic Flow, Arterial Strike, Centrifugal Fury, Deadened Bastion, Fluid Apex, Void Predator). Build Flux through form-specific combat actions. Shift forms to match the situation—but every shift adds Body Toll.
+
+**Resources**: Kinetic Flux (0-20) & Body Toll (0-10).
+
+**Fatal Flaw**: 0 base Armor, +50% wyrd vulnerability. If rooted/grappled, Flux drops to 0 and 1d10 blight/round.
+
+**Best For**: Players who enjoy tactical versatility, rapid form-switching, and dual-resource tension.`
     },
-    description: "A master of kinetic biology, the Shaper treats their body as a malleable weapon \u2014 reshaping posture, bone density, and musculature in real time. They flow between combat forms that blend the kinetic momentum dance with biological adaptation.",
+
+    description: `A master of kinetic biology, the Shaper treats their body as a malleable weapon—reshaping posture, bone density, and musculature in real time. They flow between combat forms that blend the kinetic momentum dance with biological adaptation.`,
+
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: "**HISTORY**: Born from the convergence of the Frostwood Reach kinetic momentum dance and the Frostmaw Holdfast biological body-sculpting. The Mimir chronicler Veyra merged both traditions into the Shaper art.\n\n**CITIES**: Celebrated in the Frostwood Reach, respected but watched in Frostmaw Holdfast. Common folk find their visible transformations disturbing.\n\n**RACES**: Heavily practiced by the Mist-Woven Mimir (semi-crystalline skin withstands friction) and the Morgh Groven (calcified bone structure stabilizes adaptation).\n\n**NOTABLE**: Sylvanus the Wood-Warden, Torin the Troll-Kin, Veyra the Converger."
+      content: `**HISTORY: THE CONVERGENCE**
+Born from the convergence of the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink> kinetic momentum dance and the <LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink> biological body-sculpting. The Mimir chronicler Veyra merged both traditions into the Shaper art.
+
+**CITIES & CIVIL RECEPTION**
+Celebrated in the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink>, respected but watched in <LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink>. Common folk find their visible transformations disturbing.
+
+**RACES & CULTURAL AFFILIATION**
+Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (semi-crystalline skin withstands friction) and the Morgh <LoreLink termId="groven">Groven</LoreLink> (calcified bone structure stabilizes adaptation).
+
+**NOTABLE FIGURES**
+* **Sylvanus the Wood-Warden**: The pioneer of kinetic momentum shifting.
+* **Torin the Troll-Kin**: The pioneer of biological calcification and expansion.
+* **Veyra the Converger**: The Mimir scholar who synthesized both into a singular art.`
     },
+
     signatureQuote: {
-      text: "\u201CThe blade does not move me. The beast does not frighten me. I am the blade. I am the beast. And when I am done, there will be nothing left of either.\u201D",
+      text: `“The blade does not move me. The beast does not frighten me. I am the blade. I am the beast. And when I am done, there will be nothing left of either.”`,
       speaker: "Veyra the Converger",
       context: "Spoken before the Battle of the Shattered Sump"
     },
+
     philosophy: {
-      coreTenet: "The body is not fixed. It is a conversation between intention and bone, between velocity and flesh. A Shaper negotiates with their body \u2014 posture, density, speed, form \u2014 reshaping in real time until the body becomes the weapon the fight demands.",
-      relationship: "Power comes from kinetic momentum and biological adaptation \u2014 two expressions of the same truth. Momentum reshapes posture. Biology reshapes flesh. Together, they reshape everything.",
-      paradox: "The Shaper achieves perfection by destroying themselves. Every form shift leaves permanent marks \u2014 calcified skin, nocturnal vision, joints moving in wrong directions. The greatest Shapers can become anything and can no longer remember what they started as."
+      coreTenet: `The body is not fixed. It is a conversation between intention and bone, between velocity and flesh. A Shaper negotiates with their body—posture, density, speed, form—reshaping in real time until the body becomes the weapon the fight demands.`,
+      relationship: `Power comes from kinetic momentum and biological adaptation—two expressions of the same truth. Momentum reshapes posture. Biology reshapes flesh. Together, they reshape everything.`,
+      paradox: `The Shaper achieves perfection by destroying themselves. Every form shift leaves permanent marks—calcified skin, nocturnal vision, joints moving in wrong directions. The greatest Shapers can become anything and can no longer remember what they started as.`
     },
-    currentCrisis: "Young Shapers experience **Convergence Collapse** \u2014 kinetic momentum and biological adaptation trigger simultaneously, causing the body to attempt every transformation at once. The Mimir are burning through their semi-crystalline skin in years. A faction of purist Shapers advocates single-tradition practice while convergers push deeper integration. The schism is worsening.",
-    meaningfulTradeoffs: "Every transformation leaves a permanent mark. Void Predator users retain shadow-touched vision. Deadened Bastion users develop calcified skin patches. Frequent shifters lose the ability to remember their original face. The dance is killing them, but stopping is death.",
+
+    currentCrisis: `Young Shapers experience **Convergence Collapse**—kinetic momentum and biological adaptation trigger simultaneously, causing the body to attempt every transformation at once. The Mimir are burning through their semi-crystalline skin in years. A faction of purist Shapers advocates single-tradition practice while convergers push deeper integration. The schism is worsening.`,
+
+    meaningfulTradeoffs: `Every transformation leaves a permanent mark. Void Predator users retain shadow-touched vision. Deadened Bastion users develop calcified skin patches. Frequent shifters lose the ability to remember their original face. The dance is killing them, but stopping is death.`,
+
     classSpecificLocations: [
-      { name: "The Convergence Sumps", locationId: "frostmaw-holdfast", description: "Deep alchemical chambers where Shapers undergo dual-transformations. Walls carved with both Mimir branch-vibration patterns and Groven transformation runes.", purpose: "Training ground, transformation chamber, recovery ward", status: "Active \u2014 divided between purist and converger factions" }
+      {
+        name: "The Convergence Sumps",
+        locationId: "frostmaw-holdfast",
+        description: "Deep alchemical chambers where Shapers undergo dual-transformations. Walls carved with both Mimir branch-vibration patterns and Groven transformation runes.",
+        purpose: "Training ground, transformation chamber, recovery ward",
+        status: "Active — divided between purist and converger factions"
+      }
     ],
+
     combatRole: {
       title: "Combat Role",
-      content: "**Why Bring Me?**: Rewrite combat posture, physical stats, damage resistances, and movement capabilities mid-combat. Bypass armor (Arterial Strike), tank (Deadened Bastion), ambush (Void Predator).\n\n**Fatal Flaw**: 0 base Armor, +50% wyrd permanently. If movement reduced to 0, Flux drops to 0 and 1d10 blight/round."
-    },    playstyle: {
-      title: "Playstyle & Strategy",
-      content: "**Shaping Forms**:\n- Ataxic Flow (Defensive/Agile): +2 dodge, +10ft, advantage Disengage. (2 Flux)\n- Arterial Strike (Offensive/Precision): +2 attack, expanded crit. (2 Flux)\n- Centrifugal Fury (AoE/Multi): Attacks cleave. (3 Flux)\n- Deadened Bastion (Defensive/Counter): Reaction parry, +20 temp HP. (2 Flux)\n- Fluid Apex (Hub): +1 all rolls, any transition. (4 Flux)\n- Void Predator (Stealth/Burst): Advantage first attack, +2d6 stealth. (3 Flux)\n\n**Flux**: +1 hit, +2 crit, +1 dodge, +2 form-specific. -1 miss, hit taken, idle.\n**Body Toll**: +1 per shift. 3+: Joint Lock. 5+: can\u2019t speak. 7+: Feral. 10: GM control. Recovery: -3 Short Rest, reset Long Rest."
+      content: `**Why Bring Me?**: Rewrite combat posture, physical stats, damage resistances, and movement capabilities mid-combat. Bypass armor (Arterial Strike), tank (Deadened Bastion), ambush (Void Predator).
+
+**Fatal Flaw**: 0 base Armor, +50% wyrd permanently. If movement reduced to 0, Flux drops to 0 and 1d10 blight/round.`
     },
+
+    playstyle: {
+      title: "Playstyle & Strategy",
+      content: `**Shaping Forms**:
+- Ataxic Flow (Defensive/Agile): +2 dodge, +10ft, advantage Disengage. (2 Flux)
+- Arterial Strike (Offensive/Precision): +2 attack, expanded crit. (2 Flux)
+- Centrifugal Fury (AoE/Multi): Attacks cleave. (3 Flux)
+- Deadened Bastion (Defensive/Counter): Reaction parry, +20 temp HP. (2 Flux)
+- Fluid Apex (Hub): +1 all rolls, any transition. (4 Flux)
+- Void Predator (Stealth/Burst): Advantage first attack, +2d6 stealth. (3 Flux)
+
+**Flux**: +1 hit, +2 crit, +1 dodge, +2 form-specific. -1 miss, hit taken, idle.
+**Body Toll**: +1 per shift. 3+: Joint Lock. 5+: can’t speak. 7+: Feral. 10: GM control. Recovery: -3 Short Rest, reset Long Rest.`
+    },
+
     immersiveCombatExample: {
       title: "Combat Example: The Shape of Violence",
-      content: "**Turn 1**: Free shift to Void Predator (+1 Toll). Shadow Strike hits, +2 Flux from stealth.\n**Turn 2**: Shift to Arterial Strike (2 Flux, +1 Toll). Kinetic Dissection \u2014 two hits, one crit.\n**Turn 3**: Shift to Deadened Bastion (2 Flux, +1 Toll). +20 temp HP. Toll 3 \u2014 Joint Lock. Arrows bounce.\n**Turn 4**: Shift to Centrifugal Fury (3 Flux, +1 Toll). Sweep catches both archers. The kinetic engine sputters but enemies fall."
+      content: `**Turn 1**: Free shift to Void Predator (+1 Toll). Shadow Strike hits, +2 Flux from stealth.
+**Turn 2**: Shift to Arterial Strike (2 Flux, +1 Toll). Kinetic Dissection—two hits, one crit.
+**Turn 3**: Shift to Deadened Bastion (2 Flux, +1 Toll). +20 temp HP. Toll 3—Joint Lock. Arrows bounce.
+**Turn 4**: Shift to Centrifugal Fury (3 Flux, +1 Toll). Sweep catches both archers. The kinetic engine sputters but enemies fall.`
     }
   },
 

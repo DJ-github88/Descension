@@ -1,5 +1,5 @@
 import React from 'react';
-import WowWindow from '../windows/WowWindow';
+import MythrillWindow from '../windows/MythrillWindow';
 import useCombatStore from '../../store/combatStore';
 import useCreatureStore from '../../store/creatureStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
@@ -80,7 +80,7 @@ const CombatSelectionWindow = () => {
     const selectedTokenData = getSelectedTokenData();
 
     return (
-        <WowWindow
+        <MythrillWindow
             isOpen={isSelectionMode}
             onClose={handleCancel}
             title="Combat Selection"
@@ -160,7 +160,7 @@ const CombatSelectionWindow = () => {
                     </button>
                 </div>
             </div>
-        </WowWindow>
+        </MythrillWindow>
     );
 };
 

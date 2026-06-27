@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback, lazy, Suspense } from 'react';
 import ReactDOM from 'react-dom';
-import WowWindow from './WowWindow';
+import MythrillWindow from './MythrillWindow';
 import useSpellbookStore from '../../store/spellbookStore';
 import useGameStore from '../../store/gameStore';
 import { LIBRARY_SPELLS } from '../../data/spellLibraryData';
@@ -143,7 +143,7 @@ const SpellbookWindow = ({ isOpen = true, onClose = () => { } }) => {
   }, [windowPosition, windowSize]);
 
   return (
-    <WowWindow
+    <MythrillWindow
       ref={windowRef}
       isOpen={isOpen}
       onClose={onClose}
@@ -229,7 +229,7 @@ const SpellbookWindow = ({ isOpen = true, onClose = () => { } }) => {
       <div className="spellbook-content spellbook-layout" style={{ position: 'relative', height: '100%' }}>
         {renderContent()}
       </div>
-    </WowWindow>
+    </MythrillWindow>
   );
 };
 

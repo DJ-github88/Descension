@@ -1,6 +1,7 @@
 import { getStore } from './storeRegistry';
 import characterPersistenceService from '../services/firebase/characterPersistenceService';
 import { updateCharacterData } from '../services/offlineService';
+import { isDemoMode } from '../config/firebase';
 
 export const getEncumbranceState = () => {
     try {
@@ -53,7 +54,6 @@ export const shouldUseFirebase = () => {
     }
 
     try {
-        const { isDemoMode } = require('../config/firebase');
         if (isDemoMode) {
             return false;
         }

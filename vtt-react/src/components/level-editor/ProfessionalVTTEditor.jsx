@@ -5,7 +5,7 @@ import useGridItemStore from '../../store/gridItemStore';
 import useCreatureStore from '../../store/creatureStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
 import useMapStore from '../../store/mapStore';
-import WowWindow from '../windows/WowWindow';
+import MythrillWindow from '../windows/MythrillWindow';
 import { getIconUrl } from '../../utils/assetManager';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import { useLevelEditorPersistence } from '../../hooks/useLevelEditorPersistence';
@@ -2705,7 +2705,7 @@ const ProfessionalVTTEditor = () => {
         <>
 
             {/* Editor Window */}
-            <WowWindow
+            <MythrillWindow
                 title="Editor"
                 isOpen={isOpen}
                 onClose={() => {
@@ -2825,7 +2825,7 @@ const ProfessionalVTTEditor = () => {
                     onRedo={redo}
                 />
 
-            </WowWindow>
+            </MythrillWindow>
 
             {/* Grid Overlay for Drawing */}
             {isEditorMode && (

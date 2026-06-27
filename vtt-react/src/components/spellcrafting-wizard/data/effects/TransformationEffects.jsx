@@ -576,9 +576,9 @@ const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultForm
                   marginTop: '8px',
                   padding: '8px',
                   borderRadius: '4px',
-                  border: '1px solid var(--pf-border-light, #444)',
-                  background: 'var(--pf-input-bg, #1a1a1a)',
-                  color: 'var(--pf-text, #e0e0e0)',
+                  border: '1px solid var(--my-border-light, #444)',
+                  background: 'var(--my-input-bg, #1a1a1a)',
+                  color: 'var(--my-text, #e0e0e0)',
                   resize: 'vertical'
                 }}
               />
@@ -1005,10 +1005,10 @@ const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultForm
         .transform-mode-btn {
           flex: 1;
           padding: 12px 16px;
-          background: var(--pf-bg-dark, #1a1a1a);
-          border: 2px solid var(--pf-border-light, #444);
+          background: var(--my-bg-dark, #1a1a1a);
+          border: 2px solid var(--my-border-light, #444);
           border-radius: 6px;
-          color: var(--pf-text, #e0e0e0);
+          color: var(--my-text, #e0e0e0);
           cursor: pointer;
           display: flex;
           align-items: center;
@@ -1018,13 +1018,13 @@ const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultForm
           transition: all 0.2s ease;
         }
         .transform-mode-btn:hover {
-          border-color: var(--pf-accent, #4a90d9);
-          background: var(--pf-bg-hover, #252525);
+          border-color: var(--my-accent, #4a90d9);
+          background: var(--my-bg-hover, #252525);
         }
         .transform-mode-btn.active {
-          border-color: var(--pf-accent, #4a90d9);
-          background: var(--pf-accent-bg, rgba(74, 144, 217, 0.15));
-          color: var(--pf-accent, #4a90d9);
+          border-color: var(--my-accent, #4a90d9);
+          background: var(--my-accent-bg, rgba(74, 144, 217, 0.15));
+          color: var(--my-accent, #4a90d9);
         }
       `}</style>
     </div>

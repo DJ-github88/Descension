@@ -6,20 +6,20 @@
 .spell-type-selection {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--pf-space-4);
-  padding: var(--pf-space-4);
+  gap: var(--my-space-4);
+  padding: var(--my-space-4);
 }
 
 /* ===== SPELL TYPE CARDS ===== */
 
 .spell-type-card {
   background: linear-gradient(145deg, #f8f5f0 0%, #f0e6d2 50%, #e8dcc6 100%);
-  border: 2px solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius-lg);
+  border: 2px solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius-lg);
   box-shadow:
     0 4px 12px rgba(139, 69, 19, 0.15),
     inset 0 1px 0 rgba(255, 255, 255, 0.8);
-  padding: var(--pf-space-6);
+  padding: var(--my-space-6);
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
@@ -42,7 +42,7 @@
     radial-gradient(circle at 80% 80%, rgba(139, 69, 19, 0.02) 0%, transparent 50%),
     linear-gradient(135deg, transparent 0%, rgba(139, 69, 19, 0.01) 50%, transparent 100%);
   pointer-events: none;
-  border-radius: var(--pf-border-radius-lg);
+  border-radius: var(--my-border-radius-lg);
   z-index: 1;
 }
 
@@ -57,12 +57,12 @@
     0 12px 24px rgba(139, 69, 19, 0.25),
     0 6px 12px rgba(139, 69, 19, 0.15),
     inset 0 1px 0 rgba(255, 255, 255, 0.9);
-  border-color: var(--pf-brown-dark);
+  border-color: var(--my-brown-dark);
   background: linear-gradient(145deg, #faf8f3 0%, #f3e9d5 50%, #ebd9c9 100%);
 }
 
 .spell-type-card.selected {
-  border-color: var(--pf-gold);
+  border-color: var(--my-gold);
   background: linear-gradient(145deg, #fff9e6 0%, #f5f0d8 50%, #ede4ca 100%);
   box-shadow:
     0 8px 20px rgba(212, 175, 55, 0.3),
@@ -75,18 +75,18 @@
 .spell-type-card.selected::after {
   content: '✓';
   position: absolute;
-  top: var(--pf-space-3);
-  right: var(--pf-space-3);
+  top: var(--my-space-3);
+  right: var(--my-space-3);
   width: 36px;
   height: 36px;
-  background: linear-gradient(145deg, var(--pf-gold), #d4af37);
-  color: var(--pf-brown-darkest);
+  background: linear-gradient(145deg, var(--my-gold), #d4af37);
+  color: var(--my-brown-darkest);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--pf-text-lg);
-  font-weight: var(--pf-font-bold);
+  font-size: var(--my-text-lg);
+  font-weight: var(--my-font-bold);
   box-shadow:
     0 3px 8px rgba(212, 175, 55, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.6);
@@ -98,8 +98,8 @@
 
 .spell-type-header {
   text-align: center;
-  margin-bottom: var(--pf-space-4);
-  padding-bottom: var(--pf-space-3);
+  margin-bottom: var(--my-space-4);
+  padding-bottom: var(--my-space-3);
   border-bottom: 1px solid rgba(139, 69, 19, 0.2);
   position: relative;
 }
@@ -112,14 +112,14 @@
   transform: translateX(-50%);
   width: 40px;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--pf-gold), transparent);
+  background: linear-gradient(90deg, transparent, var(--my-gold), transparent);
 }
 
 .spell-type-title {
-  font-family: var(--pf-font-display);
-  font-size: var(--pf-text-xl);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-brown-dark);
+  font-family: var(--my-font-display);
+  font-size: var(--my-text-xl);
+  font-weight: var(--my-font-bold);
+  color: var(--my-brown-dark);
   margin: 0;
   text-shadow:
     0 1px 2px rgba(255, 255, 255, 0.8),
@@ -130,14 +130,14 @@
 }
 
 .spell-type-card:hover .spell-type-title {
-  color: var(--pf-brown-darkest);
+  color: var(--my-brown-darkest);
   text-shadow:
     0 1px 2px rgba(255, 255, 255, 0.9),
     0 -1px 1px rgba(139, 69, 19, 0.3);
 }
 
 .spell-type-card.selected .spell-type-title {
-  color: var(--pf-brown-darkest);
+  color: var(--my-brown-darkest);
   text-shadow:
     0 1px 2px rgba(255, 255, 255, 0.9),
     0 -1px 1px rgba(212, 175, 55, 0.3);
@@ -146,65 +146,65 @@
 /* ===== SPELL TYPE CONTENT ===== */
 
 .spell-type-description {
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-base);
-  color: var(--pf-text-primary);
-  line-height: var(--pf-leading-normal);
-  margin: 0 0 var(--pf-space-4) 0;
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-base);
+  color: var(--my-text-primary);
+  line-height: var(--my-leading-normal);
+  margin: 0 0 var(--my-space-4) 0;
   flex: 1;
 }
 
 .spell-type-examples {
   margin-top: auto;
-  padding-top: var(--pf-space-3);
-  border-top: 1px solid var(--pf-brown-light);
+  padding-top: var(--my-space-3);
+  border-top: 1px solid var(--my-brown-light);
 }
 
 .spell-type-examples-title {
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-sm);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-secondary);
+  font-family: var(--my-font-ui);
+  font-size: var(--my-text-sm);
+  font-weight: var(--my-font-bold);
+  color: var(--my-text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin: 0 0 var(--pf-space-2) 0;
+  margin: 0 0 var(--my-space-2) 0;
 }
 
 .spell-type-examples-list {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--pf-space-1);
+  gap: var(--my-space-1);
 }
 
 .spell-example-tag {
-  padding: var(--pf-space-1) var(--pf-space-2);
-  background: var(--pf-gradient-button);
-  border: 1px solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-xs);
-  color: var(--pf-text-secondary);
-  font-weight: var(--pf-font-semibold);
+  padding: var(--my-space-1) var(--my-space-2);
+  background: var(--my-gradient-button);
+  border: 1px solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-xs);
+  color: var(--my-text-secondary);
+  font-weight: var(--my-font-semibold);
   font-style: italic;
 }
 
 /* ===== TYPE CONFIGURATION ===== */
 
 .type-config-section {
-  margin-top: var(--pf-space-6);
-  padding: var(--pf-space-5);
-  background: var(--pf-gradient-parchment-dark);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius-lg);
-  box-shadow: var(--pf-shadow-inset);
+  margin-top: var(--my-space-6);
+  padding: var(--my-space-5);
+  background: var(--my-gradient-parchment-dark);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius-lg);
+  box-shadow: var(--my-shadow-inset);
 }
 
 .type-config-title {
-  font-family: var(--pf-font-display);
-  font-size: var(--pf-text-lg);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-brown-dark);
-  margin: 0 0 var(--pf-space-4) 0;
+  font-family: var(--my-font-display);
+  font-size: var(--my-text-lg);
+  font-weight: var(--my-font-bold);
+  color: var(--my-brown-dark);
+  margin: 0 0 var(--my-space-4) 0;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -212,72 +212,72 @@
 .type-config-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: var(--pf-space-4);
+  gap: var(--my-space-4);
 }
 
 .type-config-field {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
 }
 
 .type-config-label {
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-sm);
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-secondary);
+  font-family: var(--my-font-ui);
+  font-size: var(--my-text-sm);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .type-config-input {
   width: 100%;
-  height: var(--pf-input-height);
-  padding: var(--pf-input-padding);
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-base);
-  color: var(--pf-text-primary);
-  transition: all var(--pf-transition-normal);
+  height: var(--my-input-height);
+  padding: var(--my-input-padding);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-base);
+  color: var(--my-text-primary);
+  transition: all var(--my-transition-normal);
 }
 
 .type-config-input:focus {
   outline: none;
-  border-color: var(--pf-brown-dark);
+  border-color: var(--my-brown-dark);
   box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.2);
 }
 
 .type-config-select {
   width: 100%;
-  height: var(--pf-input-height);
-  padding: var(--pf-input-padding);
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-base);
-  color: var(--pf-text-primary);
+  height: var(--my-input-height);
+  padding: var(--my-input-padding);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-base);
+  color: var(--my-text-primary);
   cursor: pointer;
   appearance: none;
   background-image: linear-gradient(135deg, rgba(240, 230, 210, 0.95) 0%, rgba(230, 220, 200, 0.9) 50%, rgba(213, 203, 176, 0.85) 100%);
   background-repeat: no-repeat;
-  background-position: right var(--pf-space-3) center;
+  background-position: right var(--my-space-3) center;
   background-size: 16px;
-  padding-right: var(--pf-space-10);
+  padding-right: var(--my-space-10);
 }
 
 .type-config-select:focus {
   outline: none;
-  border-color: var(--pf-brown-dark);
+  border-color: var(--my-brown-dark);
   box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.2);
 }
 
 .type-config-checkbox {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
   cursor: pointer;
 }
 
@@ -285,17 +285,17 @@
   width: 20px;
   height: 20px;
   appearance: none;
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   position: relative;
 }
 
 .type-config-checkbox input[type="checkbox"]:checked {
-  background: var(--pf-brown-medium);
-  border-color: var(--pf-brown-dark);
+  background: var(--my-brown-medium);
+  border-color: var(--my-brown-dark);
 }
 
 .type-config-checkbox input[type="checkbox"]:checked::after {
@@ -304,15 +304,15 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: var(--pf-text-on-dark);
-  font-size: var(--pf-text-sm);
-  font-weight: var(--pf-font-bold);
+  color: var(--my-text-on-dark);
+  font-size: var(--my-text-sm);
+  font-weight: var(--my-font-bold);
 }
 
 .type-config-checkbox-label {
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-base);
-  color: var(--pf-text-primary);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-base);
+  color: var(--my-text-primary);
   cursor: pointer;
   user-select: none;
 }
@@ -320,23 +320,23 @@
 /* ===== HELP TEXT ===== */
 
 .type-config-help {
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-xs);
-  color: var(--pf-text-muted);
-  margin-top: var(--pf-space-1);
-  line-height: var(--pf-leading-normal);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-xs);
+  color: var(--my-text-muted);
+  margin-top: var(--my-space-1);
+  line-height: var(--my-leading-normal);
   font-style: italic;
 }
 
 /* ===== SPELL TYPE CONFIGURATION SECTION ===== */
 
 .spell-type-config {
-  margin-top: var(--pf-space-6);
-  padding: var(--pf-space-5);
-  background: var(--pf-gradient-parchment-dark);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius-lg);
-  box-shadow: var(--pf-shadow-inset);
+  margin-top: var(--my-space-6);
+  padding: var(--my-space-5);
+  background: var(--my-gradient-parchment-dark);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius-lg);
+  box-shadow: var(--my-shadow-inset);
   position: relative;
   overflow: visible;
 }
@@ -357,7 +357,7 @@
       rgba(139, 69, 19, 0.01) 8px
     );
   pointer-events: none;
-  border-radius: var(--pf-border-radius);
+  border-radius: var(--my-border-radius);
   z-index: 1;
 }
 
@@ -367,11 +367,11 @@
 }
 
 .spell-type-config h4 {
-  font-family: var(--pf-font-display);
-  font-size: var(--pf-text-lg);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-brown-dark);
-  margin: 0 0 var(--pf-space-4) 0;
+  font-family: var(--my-font-display);
+  font-size: var(--my-text-lg);
+  font-weight: var(--my-font-bold);
+  color: var(--my-brown-dark);
+  margin: 0 0 var(--my-space-4) 0;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   text-shadow:
@@ -384,8 +384,8 @@
 .spell-wizard-form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--pf-space-4);
-  margin-bottom: var(--pf-space-4);
+  gap: var(--my-space-4);
+  margin-bottom: var(--my-space-4);
 }
 
 .spell-wizard-form-row:last-child {
@@ -395,7 +395,7 @@
 .spell-wizard-form-group {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-2);
+  gap: var(--my-space-2);
 }
 
 .spell-wizard-form-group-half {
@@ -407,26 +407,26 @@
 }
 
 .spell-wizard-label {
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-sm);
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-secondary);
+  font-family: var(--my-font-ui);
+  font-size: var(--my-text-sm);
+  font-weight: var(--my-font-semibold);
+  color: var(--my-text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: var(--pf-space-1);
+  margin-bottom: var(--my-space-1);
 }
 
 .spell-wizard-input {
   width: 100%;
   height: 44px;
-  padding: var(--pf-space-3) var(--pf-space-4);
+  padding: var(--my-space-3) var(--my-space-4);
   background: linear-gradient(145deg, #faf8f3 0%, #f0e6d2 100%);
-  border: 2px solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-base);
-  font-weight: var(--pf-font-medium);
-  color: var(--pf-text-primary);
+  border: 2px solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-base);
+  font-weight: var(--my-font-medium);
+  color: var(--my-text-primary);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.8),
@@ -436,7 +436,7 @@
 
 .spell-wizard-input:hover {
   background: linear-gradient(145deg, #fcfaf5 0%, #f3e9d5 100%);
-  border-color: var(--pf-brown-dark);
+  border-color: var(--my-brown-dark);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.9),
     inset 0 -1px 0 rgba(139, 69, 19, 0.15),
@@ -445,7 +445,7 @@
 
 .spell-wizard-input:focus {
   outline: none;
-  border-color: var(--pf-gold);
+  border-color: var(--my-gold);
   background: linear-gradient(145deg, #fff9e6 0%, #f5f0d8 100%);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.9),
@@ -457,21 +457,21 @@
 .spell-wizard-select {
   width: 100%;
   height: 44px;
-  padding: var(--pf-space-3) var(--pf-space-12) var(--pf-space-3) var(--pf-space-4);
+  padding: var(--my-space-3) var(--my-space-12) var(--my-space-3) var(--my-space-4);
   background: linear-gradient(145deg, #faf8f3 0%, #f0e6d2 100%);
-  border: 2px solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-base);
-  font-weight: var(--pf-font-medium);
-  color: var(--pf-text-primary);
+  border: 2px solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-base);
+  font-weight: var(--my-font-medium);
+  color: var(--my-text-primary);
   cursor: pointer;
   appearance: none;
   background-image:
     linear-gradient(145deg, #faf8f3 0%, #f0e6d2 100%),
     linear-gradient(135deg, rgba(240, 230, 210, 0.95) 0%, rgba(230, 220, 200, 0.9) 50%, rgba(213, 203, 176, 0.85) 100%);
   background-repeat: no-repeat, no-repeat;
-  background-position: 0 0, right var(--pf-space-3) center;
+  background-position: 0 0, right var(--my-space-3) center;
   background-size: 100% 100%, 20px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow:
@@ -482,7 +482,7 @@
 
 .spell-wizard-select:hover {
   background: linear-gradient(145deg, #fcfaf5 0%, #f3e9d5 100%);
-  border-color: var(--pf-brown-dark);
+  border-color: var(--my-brown-dark);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.9),
     inset 0 -1px 0 rgba(139, 69, 19, 0.15),
@@ -494,7 +494,7 @@
 
 .spell-wizard-select:focus {
   outline: none;
-  border-color: var(--pf-gold);
+  border-color: var(--my-gold);
   background: linear-gradient(145deg, #fff9e6 0%, #f5f0d8 100%);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.9),
@@ -508,16 +508,16 @@
 
 .spell-wizard-select option {
   background: #faf8f3;
-  color: var(--pf-text-primary);
-  padding: var(--pf-space-3);
-  font-weight: var(--pf-font-medium);
+  color: var(--my-text-primary);
+  padding: var(--my-space-3);
+  font-weight: var(--my-font-medium);
   border-bottom: 1px solid rgba(139, 69, 19, 0.1);
 }
 
 .spell-wizard-select option:hover,
 .spell-wizard-select option:checked {
   background: linear-gradient(145deg, #f5f0d8 0%, #ede4ca 100%);
-  color: var(--pf-brown-dark);
+  color: var(--my-brown-dark);
 }
 
 /* ===== CHECKBOX STYLING ===== */
@@ -525,11 +525,11 @@
 .spell-wizard-checkbox-group {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-3);
+  gap: var(--my-space-3);
   cursor: pointer;
-  padding: var(--pf-space-2);
-  border-radius: var(--pf-border-radius);
-  transition: background-color var(--pf-transition-normal);
+  padding: var(--my-space-2);
+  border-radius: var(--my-border-radius);
+  transition: background-color var(--my-transition-normal);
 }
 
 .spell-wizard-checkbox-group:hover {
@@ -540,19 +540,19 @@
   width: 20px;
   height: 20px;
   appearance: none;
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
   cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  transition: all var(--my-transition-normal);
   position: relative;
   box-shadow: inset 0 1px 3px rgba(139, 69, 19, 0.1);
   flex-shrink: 0;
 }
 
 .spell-wizard-checkbox:checked {
-  background: var(--pf-brown-medium);
-  border-color: var(--pf-brown-dark);
+  background: var(--my-brown-medium);
+  border-color: var(--my-brown-dark);
   box-shadow:
     inset 0 1px 3px rgba(139, 69, 19, 0.2),
     0 0 0 2px rgba(139, 69, 19, 0.1);
@@ -564,9 +564,9 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: var(--pf-text-on-dark);
-  font-size: var(--pf-text-sm);
-  font-weight: var(--pf-font-bold);
+  color: var(--my-text-on-dark);
+  font-size: var(--my-text-sm);
+  font-weight: var(--my-font-bold);
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
 }
 
@@ -587,30 +587,30 @@
 /* ===== HELP TEXT ===== */
 
 .spell-wizard-help-text {
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-xs);
-  color: var(--pf-text-muted);
-  line-height: var(--pf-leading-normal);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-xs);
+  color: var(--my-text-muted);
+  line-height: var(--my-leading-normal);
   font-style: italic;
-  margin-top: var(--pf-space-1);
+  margin-top: var(--my-space-1);
 }
 
 /* ===== INFO BOX ===== */
 
 .spell-wizard-info-box {
   background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05));
-  border: var(--pf-border-width) solid rgba(59, 130, 246, 0.3);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-4);
-  margin-top: var(--pf-space-4);
+  border: var(--my-border-width) solid rgba(59, 130, 246, 0.3);
+  border-radius: var(--my-border-radius);
+  padding: var(--my-space-4);
+  margin-top: var(--my-space-4);
   position: relative;
 }
 
 .spell-wizard-info-box::before {
   content: 'ℹ';
   position: absolute;
-  top: var(--pf-space-3);
-  left: var(--pf-space-3);
+  top: var(--my-space-3);
+  left: var(--my-space-3);
   width: 24px;
   height: 24px;
   background: rgba(59, 130, 246, 0.2);
@@ -619,29 +619,29 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--pf-text-sm);
-  font-weight: var(--pf-font-bold);
+  font-size: var(--my-text-sm);
+  font-weight: var(--my-font-bold);
 }
 
 .spell-wizard-info-box p {
-  margin: 0 0 0 var(--pf-space-8);
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-primary);
-  line-height: var(--pf-leading-normal);
+  margin: 0 0 0 var(--my-space-8);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-sm);
+  color: var(--my-text-primary);
+  line-height: var(--my-leading-normal);
 }
 
 /* ===== DURATION CONFIG ===== */
 
 .duration-config {
   display: flex;
-  gap: var(--pf-space-3);
+  gap: var(--my-space-3);
   align-items: center;
   font-size: 0; /* Hide any direct text nodes */
 }
 
 .duration-config > * {
-  font-size: var(--pf-text-base); /* Restore font size for child elements */
+  font-size: var(--my-text-base); /* Restore font size for child elements */
 }
 
 .duration-value {
@@ -650,24 +650,24 @@
 
 .duration-value input {
   width: 100%;
-  height: var(--pf-input-height);
-  padding: var(--pf-input-padding);
-  background: var(--pf-gradient-parchment);
-  border: var(--pf-border-width) solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-base);
-  color: var(--pf-text-primary);
+  height: var(--my-input-height);
+  padding: var(--my-input-padding);
+  background: var(--my-gradient-parchment);
+  border: var(--my-border-width) solid var(--my-brown-medium);
+  border-radius: var(--my-border-radius);
+  font-family: var(--my-font-body);
+  font-size: var(--my-text-base);
+  color: var(--my-text-primary);
   text-align: center;
-  transition: all var(--pf-transition-normal);
-  box-shadow: var(--pf-shadow-inset);
+  transition: all var(--my-transition-normal);
+  box-shadow: var(--my-shadow-inset);
 }
 
 .duration-value input:focus {
   outline: none;
-  border-color: var(--pf-brown-dark);
+  border-color: var(--my-brown-dark);
   box-shadow:
-    var(--pf-shadow-inset),
+    var(--my-shadow-inset),
     0 0 0 2px rgba(139, 69, 19, 0.2);
 }
 
@@ -686,38 +686,38 @@
 @media (max-width: 768px) {
   .spell-type-selection {
     grid-template-columns: 1fr;
-    gap: var(--pf-space-3);
-    padding: var(--pf-space-3);
+    gap: var(--my-space-3);
+    padding: var(--my-space-3);
   }
 
   .spell-type-card {
-    padding: var(--pf-space-4);
+    padding: var(--my-space-4);
     min-height: 180px;
   }
 
   .spell-type-header {
-    gap: var(--pf-space-2);
+    gap: var(--my-space-2);
   }
 
 
 
   .spell-type-title {
-    font-size: var(--pf-text-lg);
+    font-size: var(--my-text-lg);
   }
 
   .type-config-section,
   .spell-type-config {
-    padding: var(--pf-space-4);
+    padding: var(--my-space-4);
   }
 
   .type-config-grid {
     grid-template-columns: 1fr;
-    gap: var(--pf-space-3);
+    gap: var(--my-space-3);
   }
 
   .spell-wizard-form-row {
     grid-template-columns: 1fr;
-    gap: var(--pf-space-3);
+    gap: var(--my-space-3);
   }
 
   .spell-wizard-form-group-half {
@@ -726,51 +726,51 @@
 
   .duration-config {
     grid-template-columns: 1fr;
-    gap: var(--pf-space-2);
+    gap: var(--my-space-2);
   }
 }
 
 @media (max-width: 480px) {
   .spell-type-card {
-    padding: var(--pf-space-3);
+    padding: var(--my-space-3);
     min-height: 160px;
   }
 
   .spell-type-header {
     flex-direction: column;
     text-align: center;
-    gap: var(--pf-space-2);
+    gap: var(--my-space-2);
   }
 
 
 
   .spell-type-title {
-    font-size: var(--pf-text-base);
+    font-size: var(--my-text-base);
   }
 
   .spell-type-description {
-    font-size: var(--pf-text-sm);
+    font-size: var(--my-text-sm);
   }
 
   .type-config-section,
   .spell-type-config {
-    padding: var(--pf-space-3);
+    padding: var(--my-space-3);
   }
 
   .spell-wizard-form-row {
-    gap: var(--pf-space-2);
+    gap: var(--my-space-2);
   }
 
   .spell-wizard-checkbox-group {
-    padding: var(--pf-space-1);
+    padding: var(--my-space-1);
   }
 
   .spell-wizard-info-box {
-    padding: var(--pf-space-3);
+    padding: var(--my-space-3);
   }
 
   .spell-wizard-info-box p {
-    margin-left: var(--pf-space-6);
-    font-size: var(--pf-text-xs);
+    margin-left: var(--my-space-6);
+    font-size: var(--my-text-xs);
   }
 }

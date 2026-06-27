@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 import { FaImage, FaCopy, FaTrash, FaExchangeAlt, FaUsers, FaUserAlt } from 'react-icons/fa';
-import WowWindow from './WowWindow';
+import MythrillWindow from './MythrillWindow';
 import useMapStore from '../../store/mapStore';
 import useGameStore from '../../store/gameStore';
 import useSettingsStore from '../../store/settingsStore';
@@ -1200,7 +1200,7 @@ const MapLibraryWindow = ({ isOpen, onClose, contentOnly = false }) => {
                     {contentOnly ? (
                         mapLibraryContent
                     ) : (
-                        <WowWindow
+                        <MythrillWindow
                             isOpen={isOpen}
                             onClose={onClose}
                             defaultSize={{ width: 900, height: 700 }}
@@ -1215,12 +1215,12 @@ const MapLibraryWindow = ({ isOpen, onClose, contentOnly = false }) => {
                             }
                         >
                             {mapLibraryContent}
-                        </WowWindow>
+                        </MythrillWindow>
                     )}
 
             {/* Map Creation Wizard */}
             {mapCreationWizard.isOpen && (
-                <WowWindow
+                <MythrillWindow
                     title="Create New Map"
                     isOpen={true}
                     onClose={closeMapCreationWizard}
@@ -1291,7 +1291,7 @@ const MapLibraryWindow = ({ isOpen, onClose, contentOnly = false }) => {
                             </button>
                         </div>
                     </div>
-                </WowWindow>
+                </MythrillWindow>
             )}
 
             {/* Asset Selector Modal */}
@@ -1348,11 +1348,11 @@ const MapLibraryWindow = ({ isOpen, onClose, contentOnly = false }) => {
                                     <label
                                         htmlFor="map-manual-upload"
                                         className="appearance-upload-area"
-                                        style={{ border: '2px dashed var(--pf-brown-medium)', padding: '40px', display: 'block', cursor: 'pointer', borderRadius: '12px' }}
+                                        style={{ border: '2px dashed var(--my-brown-medium)', padding: '40px', display: 'block', cursor: 'pointer', borderRadius: '12px' }}
                                     >
-                                        <i className="fas fa-cloud-upload-alt" style={{ fontSize: '3rem', color: 'var(--pf-gold)', marginBottom: '15px', display: 'block' }}></i>
-                                        <span style={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'var(--pf-text-primary)' }}>Click to select a file from your device</span>
-                                        <small style={{ display: 'block', marginTop: '10px', color: 'var(--pf-text-secondary)' }}>Maximum file size: 10MB</small>
+                                        <i className="fas fa-cloud-upload-alt" style={{ fontSize: '3rem', color: 'var(--my-gold)', marginBottom: '15px', display: 'block' }}></i>
+                                        <span style={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'var(--my-text-primary)' }}>Click to select a file from your device</span>
+                                        <small style={{ display: 'block', marginTop: '10px', color: 'var(--my-text-secondary)' }}>Maximum file size: 10MB</small>
                                     </label>
                                     <input
                                         id="map-manual-upload"
@@ -1413,7 +1413,7 @@ const MapLibraryWindow = ({ isOpen, onClose, contentOnly = false }) => {
 
             {/* Map Edit Dialog */}
             {editingMapId && (
-                <WowWindow
+                <MythrillWindow
                     title="Edit Map"
                     isOpen={true}
                     onClose={handleCancelMapEdit}
@@ -1460,7 +1460,7 @@ const MapLibraryWindow = ({ isOpen, onClose, contentOnly = false }) => {
                             </button>
                         </div>
                     </div>
-                </WowWindow>
+                </MythrillWindow>
             )}
         </>
     );
