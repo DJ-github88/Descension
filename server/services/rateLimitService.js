@@ -271,6 +271,9 @@ class RateLimitService {
       // Override socket.on to add rate limiting
       const originalOn = socket.on.bind(socket);
 
+      // Clean up violation tracking on disconnect (prevents unbounded Map growth)
+      originalOn('disconnect', () => { violationCounts.delete(socket.id); });
+
       socket.on = (event, handler) => {
         const rateLimitedHandler = async (data) => {
           const playerInfo = getPlayerInfo();

@@ -614,7 +614,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     autoJoinAttemptedRef.current = true;
 
     const selectedRoomId = localStorage.getItem('selectedRoomId');
-    const selectedRoomPassword = localStorage.getItem('selectedRoomPassword');
+    const selectedRoomPassword = sessionStorage.getItem('selectedRoomPassword');
     const isGMResume = localStorage.getItem('isGMResume') === 'true';
     const resumeRoomName = localStorage.getItem('resumeRoomName');
     const pendingInvitation = sessionStorage.getItem('pendingGMSessionInvitation');
@@ -703,7 +703,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       // Clear auto-join flags immediately to prevent loops on error/reconnect
       localStorage.removeItem('selectedRoomId');
-      localStorage.removeItem('selectedRoomPassword');
+      sessionStorage.removeItem('selectedRoomPassword');
       localStorage.removeItem('isGMResume');
       localStorage.removeItem('resumeRoomName');
 

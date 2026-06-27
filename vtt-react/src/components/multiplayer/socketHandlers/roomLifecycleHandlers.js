@@ -179,11 +179,11 @@ export function registerRoomLifecycleHandlers(ctx) {
       setIsGM(isGameMaster);
 
       // Get password from localStorage (auto-join flow stores it there)
-      const usedPassword = localStorage.getItem('selectedRoomPassword') || '';
+      const usedPassword = sessionStorage.getItem('selectedRoomPassword') || '';
 
       // Clear auto-join flags
       localStorage.removeItem('selectedRoomId');
-      localStorage.removeItem('selectedRoomPassword');
+      sessionStorage.removeItem('selectedRoomPassword');
 
       // DETECT AUTO-CONTINUE INTENT
       // Skip "Continue" button for:
@@ -298,7 +298,7 @@ export function registerRoomLifecycleHandlers(ctx) {
 
       // Clear any remaining auto-join flags
       localStorage.removeItem('selectedRoomId');
-      localStorage.removeItem('selectedRoomPassword');
+      sessionStorage.removeItem('selectedRoomPassword');
       localStorage.removeItem('isGMResume');
       localStorage.removeItem('resumeRoomName');
 

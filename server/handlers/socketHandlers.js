@@ -109,6 +109,18 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
 
   const roomJoinRequests = new Map();
 
+  // Evict expired join requests + party invitations (they carry expiresAt but can
+  // linger if never acted upon). Prevents unbounded Map growth.
+  setInterval(() => {
+    const now = Date.now();
+    for (const [id, req] of roomJoinRequests) {
+      if (now > (req.expiresAt || 0)) roomJoinRequests.delete(id);
+    }
+    for (const [id, inv] of partyInvitations) {
+      if (now > (inv.expiresAt || 0)) partyInvitations.delete(id);
+    }
+  }, 5 * 60 * 1000);
+
   io.on('connection', (socket) => {
     logger.info('Player connected', { socketId: socket.id, authenticated: socket.data.authenticated, isGuest: socket.data.isGuest });
 

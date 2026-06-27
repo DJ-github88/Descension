@@ -139,6 +139,26 @@ io.use(rateLimitService.createMiddleware({
   violationThreshold: 10
 }));
 
+// ==================== REDIS ADAPTER (optional, multi-server scaling) ====================
+// Activates only when REDIS_URL is set AND the adapter packages are installed.
+// Without it, the server stays single-server/in-memory (the default).
+if (process.env.REDIS_URL) {
+  try {
+    const { createClient } = require('redis');
+    const { createAdapter } = require('@socket.io/redis-adapter');
+    const pubClient = createClient({ url: process.env.REDIS_URL });
+    const subClient = pubClient.duplicate();
+    Promise.all([pubClient.connect(), subClient.connect()])
+      .then(() => {
+        io.adapter(createAdapter(pubClient, subClient));
+        logger.info('Socket.io Redis adapter enabled', { redisUrl: process.env.REDIS_URL });
+      })
+      .catch(err => logger.error('Redis adapter connection failed', { error: err.message }));
+  } catch (e) {
+    logger.error('Redis adapter not activated (install redis + @socket.io/redis-adapter, or unset REDIS_URL)', { error: e.message });
+  }
+}
+
 // Add Firebase authentication middleware
 io.use(async (socket, next) => {
   try {
@@ -261,6 +281,40 @@ app.use(express.json());
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+// Metrics endpoint (aggregate, non-sensitive runtime stats)
+app.get('/metrics', (req, res) => {
+  const mem = process.memoryUsage();
+  res.json({
+    status: 'ok',
+    uptime_seconds: Math.round(process.uptime()),
+    memory: {
+      rss_mb: Math.round(mem.rss / 1024 / 1024),
+      heap_used_mb: Math.round(mem.heapUsed / 1024 / 1024),
+      heap_total_mb: Math.round(mem.heapTotal / 1024 / 1024)
+    },
+    sockets_connected: io.sockets.sockets.size,
+    rooms_active: rooms.size,
+    players_online: players.size,
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Debug logs endpoint (token-gated when DEBUG_API_TOKEN is set; open in dev)
+app.get('/debug/logs', async (req, res) => {
+  const debugToken = process.env.DEBUG_API_TOKEN;
+  if (debugToken && req.query.token !== debugToken) {
+    return res.status(403).json({ error: 'Forbidden' });
+  }
+  try {
+    const limit = Math.min(parseInt(req.query.limit, 10) || 100, 500);
+    const level = req.query.level || null;
+    const logs = await logger.getRecentLogs(limit, level);
+    res.json({ logs });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to read logs' });
+  }
 });
 
 // Room list endpoint

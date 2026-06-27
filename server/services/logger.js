@@ -86,6 +86,25 @@ class Logger {
       // If file write fails, keep error logs in buffer for retry
       this.logBuffer.unshift(...logsToWrite.filter(l => l.level === 'error'));
     }
+
+    // Optional structured log shipping (fire-and-forget, best-effort).
+    // Enable by setting LOG_SHIP_WEBHOOK to a URL that accepts JSON POSTs.
+    const webhook = process.env.LOG_SHIP_WEBHOOK;
+    if (webhook) {
+      try {
+        const transport = webhook.startsWith('https') ? require('https') : require('http');
+        const payload = JSON.stringify({ source: 'mythrill-server', logs: logsToWrite });
+        const req = transport.request(webhook, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(payload) },
+          timeout: 5000
+        }, () => {});
+        req.on('error', () => {}); // never let shipping failures affect logging
+        req.on('timeout', () => req.destroy());
+        req.write(payload);
+        req.end();
+      } catch (e) { /* shipping is best-effort */ }
+    }
   }
 
   /**

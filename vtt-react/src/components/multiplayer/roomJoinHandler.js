@@ -266,7 +266,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
 
       // CRITICAL: Clear auto-join flags upon successful entry
       localStorage.removeItem('selectedRoomId');
-      localStorage.removeItem('selectedRoomPassword');
+      sessionStorage.removeItem('selectedRoomPassword');
       localStorage.removeItem('isTestRoom');
 
 

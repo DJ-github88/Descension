@@ -201,7 +201,7 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
       console.log('🎮 Joining room:', roomId, roomName);
       localStorage.setItem('selectedRoomId', roomId);
       localStorage.setItem('isGMResume', 'false');
-      localStorage.removeItem('selectedRoomPassword');
+      sessionStorage.removeItem('selectedRoomPassword');
       navigate('/multiplayer', { replace: true });
     }
     closeContextMenu();

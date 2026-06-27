@@ -638,7 +638,7 @@ const RoomManager = () => {
     if (passwordTargetRoom && passwordInputValue.trim()) {
       // Store room selection and navigate to multiplayer
       localStorage.setItem('selectedRoomId', passwordTargetRoom.id);
-      localStorage.setItem('selectedRoomPassword', passwordInputValue.trim());
+      sessionStorage.setItem('selectedRoomPassword', passwordInputValue.trim());
       localStorage.removeItem('isTestRoom');
 
       setShowPasswordModal(false);
@@ -959,7 +959,7 @@ const RoomManager = () => {
                           const password = prompt(`Enter password for "${room.name}":`);
                           if (password !== null && password.trim()) {
                             localStorage.setItem('selectedRoomId', room.id);
-                            localStorage.setItem('selectedRoomPassword', password.trim());
+                            sessionStorage.setItem('selectedRoomPassword', password.trim());
                             localStorage.removeItem('isTestRoom');
                             navigate('/multiplayer');
                           }

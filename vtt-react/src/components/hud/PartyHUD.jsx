@@ -143,15 +143,19 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
 
         // Always return a cleanup function to ensure consistent hook count
         const interval = setInterval(() => {
-            updateConditionTimers('buff');
-            updateConditionTimers('debuff');
-            // Clean up expired conditions from character tokens
-            const { cleanupExpiredConditions } = useCharacterTokenStore.getState();
-            cleanupExpiredConditions();
-            // Clean up expired conditions from creature tokens
-            const useCreatureStore = require('../../store/creatureStore').default;
-            const { cleanupExpiredConditions: cleanupCreatureConditions } = useCreatureStore.getState();
-            cleanupCreatureConditions();
+            // Global condition cleanup only needs to run once per client; gate to the
+            // current player's interval to avoid N redundant cleanups for N party members.
+            if (isCurrentPlayer) {
+                updateConditionTimers('buff');
+                updateConditionTimers('debuff');
+                // Clean up expired conditions from character tokens
+                const { cleanupExpiredConditions } = useCharacterTokenStore.getState();
+                cleanupExpiredConditions();
+                // Clean up expired conditions from creature tokens
+                const useCreatureStore = require('../../store/creatureStore').default;
+                const { cleanupExpiredConditions: cleanupCreatureConditions } = useCreatureStore.getState();
+                cleanupCreatureConditions();
+            }
             setForceUpdate(prev => prev + 1); // Force re-render to update timer displays (including conditions)
         }, 1000);
 

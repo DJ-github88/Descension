@@ -401,7 +401,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
       // Store password in localStorage for MultiplayerApp's room_joined handler
       const usedPassword = joinPasswordRef.current || roomPasswordRef.current || '';
       if (usedPassword) {
-        localStorage.setItem('selectedRoomPassword', usedPassword);
+        sessionStorage.setItem('selectedRoomPassword', usedPassword);
       }
 
       // NOTE: Don't call onJoinRoom directly here - let MultiplayerApp's room_joined handler
@@ -874,7 +874,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
 
     // Save password to localStorage so MultiplayerApp can pick it up
     if (roomPasswordRef.current.trim()) {
-      localStorage.setItem('selectedRoomPassword', roomPasswordRef.current.trim());
+      sessionStorage.setItem('selectedRoomPassword', roomPasswordRef.current.trim());
     }
 
     // Trigger loading screen in parent
@@ -1047,7 +1047,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
     // This is required for the loading screen flow which is handled by MultiplayerApp
     localStorage.setItem('selectedRoomId', finalRoomId);
     if (finalPassword) {
-      localStorage.setItem('selectedRoomPassword', finalPassword);
+      sessionStorage.setItem('selectedRoomPassword', finalPassword);
     }
 
     console.log('📤 Sending join_room event to server:', joinData);
