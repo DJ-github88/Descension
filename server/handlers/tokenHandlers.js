@@ -9,6 +9,28 @@
  * - character_token_created / character_token_removed: player token lifecycle
  */
 
+function isTokensDeltaEnabled() {
+  return process.env.ENABLE_TOKENS_DELTA === 'true';
+}
+
+const deltaDebounces = new Map();
+
+function debouncedEmitTokenDelta(io, roomId, gameState) {
+  if (deltaDebounces.has(roomId)) {
+    clearTimeout(deltaDebounces.get(roomId));
+  }
+  deltaDebounces.set(roomId, setTimeout(() => {
+    deltaDebounces.delete(roomId);
+    const tokens = Object.values(gameState.tokens || {});
+    const characterTokens = Object.values(gameState.characterTokens || {});
+    io.to(roomId).emit('tokens_delta', {
+      tokens,
+      characterTokens,
+      timestamp: Date.now()
+    });
+  }, 50));
+}
+
 function registerTokenHandlers(ctx) {
   const {
     io,
@@ -47,15 +69,18 @@ function registerTokenHandlers(ctx) {
       map.tokens[tokenId] = token;
       room.gameState.tokens[tokenId] = token;
 
-      io.to(room.id).emit('token_created', {
-        ...data,
-        token,
-        mapId,
-        createdBy: socket.id,
-        sequence: getNextEventSequence()
-      });
+      if (!isTokensDeltaEnabled()) {
+        io.to(room.id).emit('token_created', {
+          ...data,
+          token,
+          mapId,
+          createdBy: socket.id,
+          sequence: getNextEventSequence()
+        });
+      }
 
       firebaseBatchWriter.queueWrite(room.id, room.gameState, true);
+      if (isTokensDeltaEnabled()) {debouncedEmitTokenDelta(io, room.id, room.gameState);}
 
       if (typeof ackCallback === 'function') {
         ackCallback({ success: true, tokenId });
@@ -112,16 +137,19 @@ function registerTokenHandlers(ctx) {
           updatedAt: Date.now()
         };
 
-        io.to(room.id).emit('token_updated', {
-          tokenId: data.tokenId,
-          updates: updates,
-          mapId,
-          updatedBy: socket.id,
-          sequence: getNextEventSequence()
-        });
+        if (!isTokensDeltaEnabled()) {
+          io.to(room.id).emit('token_updated', {
+            tokenId: data.tokenId,
+            updates: updates,
+            mapId,
+            updatedBy: socket.id,
+            sequence: getNextEventSequence()
+          });
+        }
 
         const sanitizedState = stripUndefined(room.gameState);
         firebaseBatchWriter.queueWrite(room.id, sanitizedState);
+        if (isTokensDeltaEnabled()) {debouncedEmitTokenDelta(io, room.id, room.gameState);}
       }
 
     } catch (error) {
@@ -228,15 +256,18 @@ function registerTokenHandlers(ctx) {
       map.characterTokens[tokenId] = token;
       room.gameState.characterTokens[tokenId] = token; // Legacy support
 
-      io.to(room.id).emit('character_token_created', {
-        ...data,
-        token,
-        mapId,
-        createdBy: socket.id,
-        sequence: getNextEventSequence()
-      });
+      if (!isTokensDeltaEnabled()) {
+        io.to(room.id).emit('character_token_created', {
+          ...data,
+          token,
+          mapId,
+          createdBy: socket.id,
+          sequence: getNextEventSequence()
+        });
+      }
 
       firebaseBatchWriter.queueWrite(room.id, room.gameState);
+      if (isTokensDeltaEnabled()) {debouncedEmitTokenDelta(io, room.id, room.gameState);}
 
     } catch (error) {
       logger.error('[character_token_created] Error:', { error: error.message });
@@ -255,14 +286,17 @@ function registerTokenHandlers(ctx) {
       delete map.tokens[data.tokenId];
       delete room.gameState.tokens[data.tokenId]; // Legacy support
 
-      io.to(room.id).emit('token_removed', {
-        tokenId: data.tokenId,
-        mapId,
-        removedBy: socket.id,
-        sequence: getNextEventSequence()
-      });
+      if (!isTokensDeltaEnabled()) {
+        io.to(room.id).emit('token_removed', {
+          tokenId: data.tokenId,
+          mapId,
+          removedBy: socket.id,
+          sequence: getNextEventSequence()
+        });
+      }
 
       firebaseBatchWriter.queueWrite(room.id, room.gameState);
+      if (isTokensDeltaEnabled()) {debouncedEmitTokenDelta(io, room.id, room.gameState);}
 
     } catch (error) {
       logger.error('[token_removed] Error:', { error: error.message });
@@ -281,14 +315,17 @@ function registerTokenHandlers(ctx) {
       delete map.tokens[data.tokenId];
       delete room.gameState.tokens[data.tokenId];
 
-      io.to(room.id).emit('token_dismissed', {
-        tokenId: data.tokenId,
-        mapId,
-        dismissedBy: socket.id,
-        sequence: getNextEventSequence()
-      });
+      if (!isTokensDeltaEnabled()) {
+        io.to(room.id).emit('token_dismissed', {
+          tokenId: data.tokenId,
+          mapId,
+          dismissedBy: socket.id,
+          sequence: getNextEventSequence()
+        });
+      }
 
       firebaseBatchWriter.queueWrite(room.id, room.gameState);
+      if (isTokensDeltaEnabled()) {debouncedEmitTokenDelta(io, room.id, room.gameState);}
 
     } catch (error) {
       logger.error('[token_dismissed] Error:', { error: error.message });
@@ -307,14 +344,17 @@ function registerTokenHandlers(ctx) {
       delete map.characterTokens[data.tokenId];
       delete room.gameState.characterTokens[data.tokenId]; // Legacy support
 
-      io.to(room.id).emit('character_token_removed', {
-        tokenId: data.tokenId,
-        mapId,
-        removedBy: socket.id,
-        sequence: getNextEventSequence()
-      });
+      if (!isTokensDeltaEnabled()) {
+        io.to(room.id).emit('character_token_removed', {
+          tokenId: data.tokenId,
+          mapId,
+          removedBy: socket.id,
+          sequence: getNextEventSequence()
+        });
+      }
 
       firebaseBatchWriter.queueWrite(room.id, room.gameState);
+      if (isTokensDeltaEnabled()) {debouncedEmitTokenDelta(io, room.id, room.gameState);}
 
     } catch (error) {
       logger.error('[character_token_removed] Error:', { error: error.message });

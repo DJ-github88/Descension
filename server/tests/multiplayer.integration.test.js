@@ -152,4 +152,52 @@ describe('Multiplayer integration (real socket.io transport)', function () {
     // The foreign token must not have leaked into the real room.
     expect(Object.keys(server.rooms.get(room.id).gameState.tokens).length).to.equal(0);
   });
+
+  describe('tokens_delta (ENABLE_TOKENS_DELTA=true)', function () {
+    let origEnv;
+
+    before(() => {
+      origEnv = process.env.ENABLE_TOKENS_DELTA;
+      process.env.ENABLE_TOKENS_DELTA = 'true';
+    });
+
+    after(() => {
+      if (origEnv === undefined) {
+        delete process.env.ENABLE_TOKENS_DELTA;
+      } else {
+        process.env.ENABLE_TOKENS_DELTA = origEnv;
+      }
+    });
+
+    it('emits tokens_delta instead of token_created when delta sync is enabled', async () => {
+      const gm = openClient();
+      await connected(gm);
+
+      const createdP = once(gm, 'room_created');
+      gm.emit('create_room', { gmName: 'GM', roomName: 'DeltaArena' });
+      const { room } = await createdP;
+
+      const deltaP = once(gm, 'tokens_delta');
+      const granularP = once(gm, 'token_created').then(() => 'granular_fired', () => 'granular_timeout');
+
+      gm.emit('token_created', {
+        roomId: room.id,
+        mapId: 'default',
+        token: { name: 'Orc Grunt', x: 5, y: 10 }
+      });
+
+      const delta = await deltaP;
+      expect(delta.tokens).to.be.an('array');
+      expect(delta.tokens.length).to.equal(1);
+      expect(delta.tokens[0].name).to.equal('Orc Grunt');
+
+      // The granular token_created event should NOT have fired.
+      const granularResult = await granularP;
+      expect(granularResult).to.equal('granular_timeout');
+
+      // Server-authoritative state was still updated.
+      const stored = server.rooms.get(room.id);
+      expect(stored.gameState.tokens[delta.tokens[0].id]).to.exist;
+    });
+  });
 });

@@ -332,6 +332,8 @@ const useCharacterTokenStore = create(
       // Clear all character tokens
       clearCharacterTokens: () => set({ characterTokens: [] }),
 
+      setCharacterTokens: (tokens) => set({ characterTokens: tokens }),
+
       // Get character token by ID
       getCharacterToken: (tokenId) => {
         const state = get();

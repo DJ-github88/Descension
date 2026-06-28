@@ -897,6 +897,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     const cleanup = registerAllSocketHandlers({
       socket,
+      useDeltaSyncTokens: false,
       currentRoom,
       setIsConnecting, setConnectionQuality, setConnectionStatus, setIsJoiningRoom,
       setPendingRoomData, setIsRoomReady, setPendingGameSessionInvitations,

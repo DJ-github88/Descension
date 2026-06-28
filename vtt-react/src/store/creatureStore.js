@@ -600,7 +600,13 @@ const useCreatureStore = create((set, get) => ({
   },
 
   // Alias for clearCreatureTokens for better compatibility
-  clearTokens: () => get().clearCreatureTokens()
+  clearTokens: () => get().clearCreatureTokens(),
+
+  // Batch-replace all creature tokens (used by tokens_delta handler)
+  setTokens: (tokens) => set({
+    creatureTokens: tokens,
+    tokens: tokens
+  })
 }));
 
 export default useCreatureStore;
