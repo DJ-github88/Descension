@@ -239,4 +239,55 @@ describe('Multiplayer integration (real socket.io transport)', function () {
       }
     });
   });
+
+  describe('deltaSync conflict resolution (engine policy hook)', function () {
+    it('concurrent HP updates from two players converge via the minValue policy', () => {
+      // This test exercises the engine directly, not the socket path —
+      // the production socket path for state updates is not yet wired
+      // through createStateUpdate / createStateUpdateWithConflictResolution.
+      const deltaSync = require('../services/deltaSync');
+      deltaSync.clearPolicies();
+      deltaSync.registerPolicy('hp', require('../services/conflictPolicies').minValue);
+      try {
+        const roomId = `policy-test-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
+        deltaSync.initializeRoom(roomId, { characters: { c1: { hp: 80 } } });
+
+        // Two concurrent damage events: -30 and -50 from base 80.
+        const dmg1 = { characters: { c1: { hp: { __value: 50, __type: 'primitive' } } } };
+        const dmg2 = { characters: { c1: { hp: { __value: 30, __type: 'primitive' } } } };
+        const merged = deltaSync.mergeDelta(dmg1, dmg2);
+
+        // minValue picks the smaller HP — the more damaging outcome.
+        expect(merged.characters.c1.hp).to.deep.equal({
+          __value: 30,
+          __type: 'primitive'
+        });
+      } finally {
+        deltaSync.clearPolicies();
+      }
+    });
+
+    it('unrelated fields stay on LWW while a single field uses a policy', () => {
+      const deltaSync = require('../services/deltaSync');
+      deltaSync.clearPolicies();
+      deltaSync.registerPolicy('hp', require('../services/conflictPolicies').minValue);
+      try {
+        const dmg1 = {
+          hp: { __value: 50, __type: 'primitive' },
+          name: { __value: 'Orc', __type: 'primitive' }
+        };
+        const dmg2 = {
+          hp: { __value: 30, __type: 'primitive' },
+          name: { __value: 'Goblin', __type: 'primitive' }
+        };
+        const merged = deltaSync.mergeDelta(dmg1, dmg2);
+        // HP uses the policy.
+        expect(merged.hp).to.deep.equal({ __value: 30, __type: 'primitive' });
+        // Name falls through to LWW.
+        expect(merged.name).to.deep.equal({ __value: 'Goblin', __type: 'primitive' });
+      } finally {
+        deltaSync.clearPolicies();
+      }
+    });
+  });
 });

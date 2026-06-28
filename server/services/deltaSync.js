@@ -11,6 +11,7 @@
 const { v4: uuidv4 } = require('uuid');
 const zlib = require('zlib');
 const logger = require('./logger');
+const { defaultPolicies: buildDefaultPolicies } = require('./conflictPolicies');
 
 class DeltaSyncEngine {
   constructor() {
@@ -20,6 +21,58 @@ class DeltaSyncEngine {
     this.maxVersionHistory = 50; // keep last 50 versions
     this.maxStateSize = 10 * 1024 * 1024; // 10MB max state size
     this.maxDeltaSize = 1024 * 1024; // 1MB max delta size
+    // Per-immediate-key conflict resolution policies. Empty by default;
+    // callers opt in via registerPolicy / registerPolicies / loadDefaultPolicies.
+    // A policy is a function (value1, value2, context) -> resolved | undefined.
+    // Returning undefined defers to the engine's LWW fallback.
+    this.policies = new Map();
+  }
+
+  /**
+   * Register a single conflict policy for an immediate field name.
+   * @param {string} field - immediate field name (e.g. "hp", "ap", "x")
+   * @param {Function} policy - (value1, value2, context) -> resolved | undefined
+   */
+  registerPolicy(field, policy) {
+    if (typeof field !== 'string' || field.length === 0) {
+      throw new TypeError('registerPolicy: field must be a non-empty string');
+    }
+    if (typeof policy !== 'function') {
+      throw new TypeError('registerPolicy: policy must be a function');
+    }
+    this.policies.set(field, policy);
+  }
+
+  /**
+   * Register many policies at once. Existing entries for the same field are overwritten.
+   * @param {Object<string, Function>} map
+   */
+  registerPolicies(map) {
+    if (map == null || typeof map !== 'object') {
+      throw new TypeError('registerPolicies: map must be an object');
+    }
+    for (const [field, policy] of Object.entries(map)) {
+      this.registerPolicy(field, policy);
+    }
+  }
+
+  /**
+   * Remove all policies (or a single one when field is provided).
+   */
+  clearPolicies(field) {
+    if (field === undefined) {
+      this.policies.clear();
+    } else {
+      this.policies.delete(field);
+    }
+  }
+
+  /**
+   * Load the built-in sensible defaults (HP bounded-min, AP bounded-max, etc.).
+   * Existing entries are overwritten.
+   */
+  loadDefaultPolicies() {
+    this.registerPolicies(buildDefaultPolicies());
   }
 
   /**
@@ -405,12 +458,23 @@ class DeltaSyncEngine {
       return this.mergeArrayDelta(value1, value2);
     }
 
+    // Consult the per-field policy registry. A policy returning a non-undefined
+    // value overrides the LWW fallback below. Policies are expected to handle
+    // their own type checks and return undefined to defer.
+    const policy = path ? this.policies.get(path) : undefined;
+    if (typeof policy === 'function') {
+      const resolved = policy(value1, value2, { path });
+      if (resolved !== undefined) {
+        return resolved;
+      }
+    }
+
     // For primitive values or incompatible types, use last-write-wins with timestamp
     // In practice, we'll prefer value2 (more recent) but log the conflict
     if (JSON.stringify(value1) !== JSON.stringify(value2)) {
       logger.warn(`Conflict detected at path "${path}": ${JSON.stringify(value1)} vs ${JSON.stringify(value2)}. Using last-write-wins.`);
     }
-    
+
     return value2; // Last write wins for simple conflicts
   }
 

@@ -267,6 +267,141 @@ describe('DeltaSyncEngine', function () {
         y: { __value: 2, __type: 'primitive' }
       });
     });
+
+    it('applies a registered policy instead of LWW for that field', () => {
+      deltaSync.clearPolicies();
+      deltaSync.registerPolicy('hp', require('../services/conflictPolicies').minValue);
+      try {
+        const merged = deltaSync.mergeDelta(
+          { hp: { __value: 7, __type: 'primitive' } },
+          { hp: { __value: 9, __type: 'primitive' } }
+        );
+        // minValue picks the smaller number — not the LWW "9".
+        expect(merged.hp).to.deep.equal({ __value: 7, __type: 'primitive' });
+      } finally {
+        deltaSync.clearPolicies();
+      }
+    });
+
+    it('a policy that defers (returns undefined) falls through to LWW', () => {
+      deltaSync.clearPolicies();
+      deltaSync.registerPolicy('hp', () => undefined);
+      try {
+        const merged = deltaSync.mergeDelta(
+          { hp: { __value: 7, __type: 'primitive' } },
+          { hp: { __value: 9, __type: 'primitive' } }
+        );
+        expect(merged.hp).to.deep.equal({ __value: 9, __type: 'primitive' });
+      } finally {
+        deltaSync.clearPolicies();
+      }
+    });
+
+    it('policy is consulted at every recursion level (deeply nested field)', () => {
+      deltaSync.clearPolicies();
+      deltaSync.registerPolicy('hp', require('../services/conflictPolicies').minValue);
+      try {
+        const merged = deltaSync.mergeDelta(
+          { token: { id123: { hp: { __value: 7, __type: 'primitive' } } } },
+          { token: { id123: { hp: { __value: 9, __type: 'primitive' } } } }
+        );
+        expect(merged.token.id123.hp).to.deep.equal({ __value: 7, __type: 'primitive' });
+      } finally {
+        deltaSync.clearPolicies();
+      }
+    });
+
+    it('tombstone + value collision still honours the tombstone rule even with a policy', () => {
+      deltaSync.clearPolicies();
+      deltaSync.registerPolicy('hp', require('../services/conflictPolicies').minValue);
+      try {
+        const merged = deltaSync.mergeDelta(
+          { hp: { __deleted: true } },
+          { hp: { __value: 9, __type: 'primitive' } }
+        );
+        expect(merged.hp).to.deep.equal({ __value: 9, __type: 'primitive' });
+      } finally {
+        deltaSync.clearPolicies();
+      }
+    });
+
+    it('unrelated fields remain on LWW when only one field has a policy', () => {
+      deltaSync.clearPolicies();
+      deltaSync.registerPolicy('hp', require('../services/conflictPolicies').minValue);
+      try {
+        const merged = deltaSync.mergeDelta(
+          {
+            hp: { __value: 7, __type: 'primitive' },
+            name: { __value: 'a', __type: 'primitive' }
+          },
+          {
+            hp: { __value: 9, __type: 'primitive' },
+            name: { __value: 'b', __type: 'primitive' }
+          }
+        );
+        expect(merged.hp).to.deep.equal({ __value: 7, __type: 'primitive' });
+        expect(merged.name).to.deep.equal({ __value: 'b', __type: 'primitive' });
+      } finally {
+        deltaSync.clearPolicies();
+      }
+    });
+  });
+
+  describe('policy registry API', () => {
+    it('registerPolicies(map) registers many entries in one call', () => {
+      deltaSync.clearPolicies();
+      const minV = require('../services/conflictPolicies').minValue;
+      const maxV = require('../services/conflictPolicies').maxValue;
+      try {
+        deltaSync.registerPolicies({ hp: minV, ap: maxV });
+        expect(deltaSync.policies.get('hp')).to.equal(minV);
+        expect(deltaSync.policies.get('ap')).to.equal(maxV);
+      } finally {
+        deltaSync.clearPolicies();
+      }
+    });
+
+    it('loadDefaultPolicies populates the registry with the built-in set', () => {
+      deltaSync.clearPolicies();
+      try {
+        deltaSync.loadDefaultPolicies();
+        const p = deltaSync.policies;
+        expect(p.get('hp')).to.be.a('function');
+        expect(p.get('health')).to.be.a('function');
+        expect(p.get('ap')).to.be.a('function');
+        expect(p.get('x')).to.be.a('function');
+        expect(p.get('y')).to.be.a('function');
+      } finally {
+        deltaSync.clearPolicies();
+      }
+    });
+
+    it('clearPolicies() removes all entries; clearPolicies(field) removes one', () => {
+      deltaSync.clearPolicies();
+      const minV = require('../services/conflictPolicies').minValue;
+      deltaSync.registerPolicy('hp', minV);
+      deltaSync.registerPolicy('ap', minV);
+      expect(deltaSync.policies.size).to.equal(2);
+
+      deltaSync.clearPolicies('hp');
+      expect(deltaSync.policies.size).to.equal(1);
+      expect(deltaSync.policies.get('hp')).to.equal(undefined);
+
+      deltaSync.clearPolicies();
+      expect(deltaSync.policies.size).to.equal(0);
+    });
+
+    it('registerPolicy rejects bad input', () => {
+      expect(() => deltaSync.registerPolicy('', () => {})).to.throw(TypeError);
+      expect(() => deltaSync.registerPolicy(null, () => {})).to.throw(TypeError);
+      expect(() => deltaSync.registerPolicy('hp', null)).to.throw(TypeError);
+      expect(() => deltaSync.registerPolicy('hp', 'not a function')).to.throw(TypeError);
+    });
+
+    it('registerPolicies rejects non-object input', () => {
+      expect(() => deltaSync.registerPolicies(null)).to.throw(TypeError);
+      expect(() => deltaSync.registerPolicies('nope')).to.throw(TypeError);
+    });
   });
 
   describe('createStateUpdateWithConflictResolution', () => {
