@@ -121,6 +121,7 @@ function registerSessionHandlers(ctx) {
             players: Array.from(room.players.values()),
             settings: room.settings || {},
             gameState: room.gameState,
+            deltaSyncCapabilities: require('../services/deltaSyncCapabilities').getDeltaSyncCapabilities(),
             playerMapAssignments: room.gameState?.playerMapAssignments || {}
           },
           player: player,

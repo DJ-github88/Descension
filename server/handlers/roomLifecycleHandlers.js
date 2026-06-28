@@ -9,6 +9,8 @@
  * - disconnect: socket disconnect cleanup (social presence, party leave, room state)
  */
 
+const { getDeltaSyncCapabilities } = require('../services/deltaSyncCapabilities');
+
 function registerRoomHandlers(ctx) {
   const {
     io,
@@ -210,6 +212,7 @@ function registerRoomHandlers(ctx) {
         persistentRoomId: room.persistentRoomId,
         isPermanent: room.isPermanent,
         gameState: room.gameState,
+        deltaSyncCapabilities: getDeltaSyncCapabilities(),
         createdAt: room.createdAt
       };
 
@@ -347,6 +350,7 @@ function registerRoomHandlers(ctx) {
         players: Array.from(room.players.values()),
         settings: room.settings,
         gameState: room.gameState,
+        deltaSyncCapabilities: getDeltaSyncCapabilities(),
         persistentRoomId: room.persistentRoomId
       };
 

@@ -500,6 +500,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
   const isGMRef = useRef(isGM);
   const roomPasswordRef = useRef('');
+  const deltaSyncTokensRef = useRef(false);
   const addPartyMemberRef = useRef(addPartyMember);
   const removePartyMemberRef = useRef(removePartyMember);
   const addUserRef = useRef(addUser);
@@ -897,7 +898,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     const cleanup = registerAllSocketHandlers({
       socket,
-      useDeltaSyncTokens: false,
+      useDeltaSyncTokensRef: deltaSyncTokensRef,
       currentRoom,
       setIsConnecting, setConnectionQuality, setConnectionStatus, setIsJoiningRoom,
       setPendingRoomData, setIsRoomReady, setPendingGameSessionInvitations,

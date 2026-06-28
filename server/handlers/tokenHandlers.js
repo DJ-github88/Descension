@@ -9,8 +9,10 @@
  * - character_token_created / character_token_removed: player token lifecycle
  */
 
+const { isDeltaSyncEnabled } = require('../services/deltaSyncCapabilities');
+
 function isTokensDeltaEnabled() {
-  return process.env.ENABLE_TOKENS_DELTA === 'true';
+  return isDeltaSyncEnabled('tokens');
 }
 
 const deltaDebounces = new Map();

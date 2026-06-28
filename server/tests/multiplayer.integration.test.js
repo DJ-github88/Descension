@@ -200,4 +200,43 @@ describe('Multiplayer integration (real socket.io transport)', function () {
       expect(stored.gameState.tokens[delta.tokens[0].id]).to.exist;
     });
   });
+
+  describe('room_joined carries deltaSyncCapabilities', function () {
+    it('reports tokens=true when ENABLE_TOKENS_DELTA=true', async () => {
+      const origEnv = process.env.ENABLE_TOKENS_DELTA;
+      process.env.ENABLE_TOKENS_DELTA = 'true';
+      try {
+        const gm = openClient();
+        await connected(gm);
+
+        const joinedP = once(gm, 'room_joined');
+        gm.emit('create_room', { gmName: 'GM', roomName: 'CapsArena' });
+        const { room } = await joinedP;
+
+        expect(room).to.have.property('deltaSyncCapabilities');
+        expect(room.deltaSyncCapabilities).to.have.property('tokens', true);
+      } finally {
+        if (origEnv === undefined) delete process.env.ENABLE_TOKENS_DELTA;
+        else process.env.ENABLE_TOKENS_DELTA = origEnv;
+      }
+    });
+
+    it('reports tokens=false when ENABLE_TOKENS_DELTA is unset', async () => {
+      const origEnv = process.env.ENABLE_TOKENS_DELTA;
+      delete process.env.ENABLE_TOKENS_DELTA;
+      try {
+        const gm = openClient();
+        await connected(gm);
+
+        const joinedP = once(gm, 'room_joined');
+        gm.emit('create_room', { gmName: 'GM', roomName: 'OffArena' });
+        const { room } = await joinedP;
+
+        expect(room).to.have.property('deltaSyncCapabilities');
+        expect(room.deltaSyncCapabilities).to.have.property('tokens', false);
+      } finally {
+        if (origEnv !== undefined) process.env.ENABLE_TOKENS_DELTA = origEnv;
+      }
+    });
+  });
 });

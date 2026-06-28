@@ -12,6 +12,7 @@ export function registerRoomLifecycleHandlers(ctx) {
     setLoadingStatusMessage,
     currentRoomRef, currentPlayerRef, pendingRoomDataRef,
     activeJoinIdRef, isAutoJoinSequenceRef, isGMRef,
+    useDeltaSyncTokensRef,
     addPartyMember, updatePartyMember, removePartyMember,
     addUser, removeUser, addNotification,
     showPlayerJoinNotification, showPlayerLeaveNotification,
@@ -22,6 +23,12 @@ export function registerRoomLifecycleHandlers(ctx) {
 
     // CRITICAL: Handle room_joined event
     socket.on('room_joined', (data) => {
+      // CRITICAL: Sync per-room delta-sync capability flags FIRST so subsequent
+      // token events honor the server's current configuration (even on reconnect).
+      if (useDeltaSyncTokensRef) {
+        useDeltaSyncTokensRef.current = data?.room?.deltaSyncCapabilities?.tokens === true;
+      }
+
       console.log('âœ… [MultiplayerApp] room_joined received:', data);
 
       // Guard: If we're already in a room, this is a RECONNECT scenario

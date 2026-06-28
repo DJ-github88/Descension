@@ -14,25 +14,26 @@ export function registerTokenHandlers(ctx) {
     addNotification, setPendingControlOffer,
     tokenUpdateThrottleRef, updateBatchRef, batchTimeoutRef,
     GM_THROTTLE_MS, PLAYER_THROTTLE_MS,
-    useDeltaSyncTokens
+    useDeltaSyncTokensRef
   } = ctx;
     if (!socket) return;
 
-    if (useDeltaSyncTokens) {
-      socket.on('tokens_delta', (data) => {
-        const creatureTokens = data.tokens || [];
-        const characterTokens = data.characterTokens || [];
-        const creatureStore = useCreatureStore.getState();
-        creatureStore.setTokens(creatureTokens);
-        const charTokenStore = useCharacterTokenStore.getState();
-        if (charTokenStore.setCharacterTokens) {
-          charTokenStore.setCharacterTokens(characterTokens);
-        }
-      });
-    }
+    const deltaSyncTokensEnabled = () => useDeltaSyncTokensRef?.current === true;
+
+    socket.on('tokens_delta', (data) => {
+      if (!deltaSyncTokensEnabled()) return;
+      const creatureTokens = data.tokens || [];
+      const characterTokens = data.characterTokens || [];
+      const creatureStore = useCreatureStore.getState();
+      creatureStore.setTokens(creatureTokens);
+      const charTokenStore = useCharacterTokenStore.getState();
+      if (charTokenStore.setCharacterTokens) {
+        charTokenStore.setCharacterTokens(characterTokens);
+      }
+    });
 
     socket.on('character_token_created', (data) => {
-      if (useDeltaSyncTokens) return;
+      if (deltaSyncTokensEnabled()) return;
       if (data && data.position) {
         // CRITICAL: Pass mapId for proper map isolation
         addCharacterTokenFromServer(data.tokenId, data.position, data.playerId, data.mapId);
@@ -47,21 +48,21 @@ export function registerTokenHandlers(ctx) {
     });
 
     socket.on('token_removed', (data) => {
-      if (useDeltaSyncTokens) return;
+      if (deltaSyncTokensEnabled()) return;
       if (data && data.tokenId) {
         removeToken(data.tokenId, false); // false = don't send back to server
       }
     });
 
     socket.on('token_dismissed', (data) => {
-      if (useDeltaSyncTokens) return;
+      if (deltaSyncTokensEnabled()) return;
       if (data && data.tokenId) {
         removeToken(data.tokenId, false);
       }
     });
 
     socket.on('character_token_removed', (data) => {
-      if (useDeltaSyncTokens) return;
+      if (deltaSyncTokensEnabled()) return;
       if (data && data.tokenId) {
         removeCharacterToken(data.tokenId, false); // false = don't send back to server
       }
@@ -250,7 +251,7 @@ export function registerTokenHandlers(ctx) {
     });
 
     socket.on('token_updated', (data) => {
-      if (useDeltaSyncTokens) return;
+      if (deltaSyncTokensEnabled()) return;
       const { tokenId, updates, stateUpdates, updatedBy, mapId } = data;
 
       // Skip if we are the one who sent it
@@ -481,7 +482,7 @@ export function registerTokenHandlers(ctx) {
     });
 
     socket.on('token_created', (data) => {
-      if (useDeltaSyncTokens) return;
+      if (deltaSyncTokensEnabled()) return;
       const myRole = isGMRef.current ? 'GM' : 'Player';
       console.log(`ðŸ“¨ [${myRole}] Received token_created:`, {
         creatureName: data.creature?.name,
@@ -636,6 +637,6 @@ export function registerTokenHandlers(ctx) {
     socket.off('token_create_confirmed');
     socket.off('token_control_granted');
     socket.off('token_control_response');
-    if (useDeltaSyncTokens) {socket.off('tokens_delta');}
+    socket.off('tokens_delta');
   };
 }
