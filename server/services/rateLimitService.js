@@ -4,9 +4,10 @@
  */
 
 const logger = require('./logger');
+const { MemoryRateLimitStore } = require('./rateLimitStore');
 
 class RateLimitService {
-  constructor() {
+  constructor(options = {}) {
     // Rate limit configurations per event type
     this.rateLimits = {
       // Chat events - allow frequent but not spam
@@ -49,13 +50,25 @@ class RateLimitService {
       default: { maxPerMinute: 60, maxPerSecond: 5 }
     };
 
-    // In-memory storage for rate limiting (consider Redis for production)
-    this.eventCounts = new Map(); // clientId -> { eventType -> { minute: count, second: count, lastReset: timestamp } }
+    // Storage backend. Defaults to in-memory; pass a Redis-backed store for
+    // multi-server deployments where rate limits must survive process restarts.
+    this.store = options.store || new MemoryRateLimitStore();
 
     // Cleanup old entries every 5 minutes
     this.cleanupInterval = setInterval(() => {
       this.cleanupOldEntries();
     }, 5 * 60 * 1000);
+  }
+
+  /**
+   * Replace the storage backend at runtime. The previous store is destroyed.
+   * @param {Object} store - Store implementing isAllowed, getStatus, resetClient, cleanup, getStats, destroy
+   */
+  setStore(store) {
+    if (this.store && typeof this.store.destroy === 'function') {
+      this.store.destroy();
+    }
+    this.store = store;
   }
 
   /**
@@ -65,7 +78,7 @@ class RateLimitService {
    * @param {boolean} isGM - Whether the client is a GM (less restrictive)
    * @returns {Object} - { allowed: boolean, resetTime: number, remaining: number }
    */
-  checkRateLimit(clientId, eventType, isGM = false) {
+  async checkRateLimit(clientId, eventType, isGM = false) {
     const now = Date.now();
     const limits = this.rateLimits[eventType] || this.rateLimits.default;
 
@@ -75,71 +88,7 @@ class RateLimitService {
       maxPerSecond: Math.floor(limits.maxPerSecond * 1.5)
     } : limits;
 
-    // Initialize client tracking if needed
-    if (!this.eventCounts.has(clientId)) {
-      this.eventCounts.set(clientId, new Map());
-    }
-
-    const clientEvents = this.eventCounts.get(clientId);
-
-    if (!clientEvents.has(eventType)) {
-      clientEvents.set(eventType, {
-        minuteCount: 0,
-        secondCount: 0,
-        lastMinuteReset: now,
-        lastSecondReset: now
-      });
-    }
-
-    const eventTracking = clientEvents.get(eventType);
-
-    // Reset counters if needed
-    if (now - eventTracking.lastMinuteReset >= 60000) { // 1 minute
-      eventTracking.minuteCount = 0;
-      eventTracking.lastMinuteReset = now;
-    }
-
-    if (now - eventTracking.lastSecondReset >= 1000) { // 1 second
-      eventTracking.secondCount = 0;
-      eventTracking.lastSecondReset = now;
-    }
-
-    // Check limits
-    const minuteRemaining = adjustedLimits.maxPerMinute - eventTracking.minuteCount;
-    const secondRemaining = adjustedLimits.maxPerSecond - eventTracking.secondCount;
-
-    if (eventTracking.minuteCount >= adjustedLimits.maxPerMinute) {
-      const resetTime = eventTracking.lastMinuteReset + 60000;
-      return {
-        allowed: false,
-        resetTime: resetTime,
-        remaining: 0,
-        reason: 'minute_limit_exceeded'
-      };
-    }
-
-    if (eventTracking.secondCount >= adjustedLimits.maxPerSecond) {
-      const resetTime = eventTracking.lastSecondReset + 1000;
-      return {
-        allowed: false,
-        resetTime: resetTime,
-        remaining: 0,
-        reason: 'second_limit_exceeded'
-      };
-    }
-
-    // Event is allowed, increment counters
-    eventTracking.minuteCount++;
-    eventTracking.secondCount++;
-
-    return {
-      allowed: true,
-      resetTime: Math.min(
-        eventTracking.lastMinuteReset + 60000,
-        eventTracking.lastSecondReset + 1000
-      ),
-      remaining: Math.min(minuteRemaining - 1, secondRemaining - 1)
-    };
+    return this.store.isAllowed(clientId, eventType, adjustedLimits, isGM, now);
   }
 
   /**
@@ -148,24 +97,20 @@ class RateLimitService {
    * @param {string} eventType - The event type
    * @returns {Object} - Current rate limit status
    */
-  getRateLimitStatus(clientId, eventType) {
-    if (!this.eventCounts.has(clientId)) {
-      return { minuteCount: 0, secondCount: 0, limits: this.rateLimits[eventType] || this.rateLimits.default };
-    }
+  async getRateLimitStatus(clientId, eventType) {
+    const status = await this.store.getStatus(clientId, eventType);
+    const limits = this.rateLimits[eventType] || this.rateLimits.default;
 
-    const clientEvents = this.eventCounts.get(clientId);
-    const eventTracking = clientEvents.get(eventType);
-
-    if (!eventTracking) {
-      return { minuteCount: 0, secondCount: 0, limits: this.rateLimits[eventType] || this.rateLimits.default };
+    if (!status) {
+      return { minuteCount: 0, secondCount: 0, limits };
     }
 
     return {
-      minuteCount: eventTracking.minuteCount,
-      secondCount: eventTracking.secondCount,
-      limits: this.rateLimits[eventType] || this.rateLimits.default,
-      lastMinuteReset: eventTracking.lastMinuteReset,
-      lastSecondReset: eventTracking.lastSecondReset
+      minuteCount: status.minuteCount || 0,
+      secondCount: status.secondCount || 0,
+      limits,
+      lastMinuteReset: status.lastMinuteReset,
+      lastSecondReset: status.lastSecondReset
     };
   }
 
@@ -173,11 +118,8 @@ class RateLimitService {
    * Reset rate limits for a client (useful for testing or admin actions)
    * @param {string} clientId - Socket client ID
    */
-  resetClientLimits(clientId) {
-    if (this.eventCounts.has(clientId)) {
-      this.eventCounts.get(clientId).clear();
-      logger.info(`Reset rate limits for client ${clientId}`);
-    }
+  async resetClientLimits(clientId) {
+    await this.store.resetClient(clientId);
   }
 
   /**
@@ -195,35 +137,8 @@ class RateLimitService {
   /**
    * Clean up old entries to prevent memory leaks
    */
-  cleanupOldEntries() {
-    const now = Date.now();
-    const maxAge = 30 * 60 * 1000; // 30 minutes
-    let cleanedClients = 0;
-    let cleanedEvents = 0;
-
-    for (const [clientId, clientEvents] of this.eventCounts.entries()) {
-      let hasActiveEvents = false;
-
-      for (const [eventType, eventTracking] of clientEvents.entries()) {
-        const age = now - Math.max(eventTracking.lastMinuteReset, eventTracking.lastSecondReset);
-
-        if (age > maxAge) {
-          clientEvents.delete(eventType);
-          cleanedEvents++;
-        } else {
-          hasActiveEvents = true;
-        }
-      }
-
-      if (!hasActiveEvents) {
-        this.eventCounts.delete(clientId);
-        cleanedClients++;
-      }
-    }
-
-    if (cleanedClients > 0 || cleanedEvents > 0) {
-      logger.info(`Rate limit cleanup: removed ${cleanedClients} clients and ${cleanedEvents} event types`);
-    }
+  async cleanupOldEntries() {
+    await this.store.cleanup(30 * 60 * 1000); // 30 minutes
   }
 
   /**
@@ -231,18 +146,11 @@ class RateLimitService {
    * @returns {Object} - Statistics
    */
   getStats() {
-    const totalClients = this.eventCounts.size;
-    let totalEvents = 0;
-    const rateLimitedEvents = 0;
-
-    for (const clientEvents of this.eventCounts.values()) {
-      totalEvents += clientEvents.size;
-    }
-
+    const storeStats = this.store.getStats ? this.store.getStats() : {};
     return {
-      totalClients,
-      totalEvents,
-      rateLimitedEvents, // Would need to track this separately
+      totalClients: storeStats.totalClients ?? 0,
+      totalEvents: storeStats.totalEvents ?? 0,
+      rateLimitedEvents: 0, // Would need to track this separately
       rateLimits: this.rateLimits
     };
   }
@@ -279,7 +187,7 @@ class RateLimitService {
           const playerInfo = getPlayerInfo();
           const isGM = playerInfo?.isGM || false;
 
-          const rateLimitResult = this.checkRateLimit(socket.id, event, isGM);
+          const rateLimitResult = await this.checkRateLimit(socket.id, event, isGM);
 
           if (!rateLimitResult.allowed) {
             // Track violations
@@ -324,6 +232,21 @@ class RateLimitService {
       next();
     };
   }
+
+  /**
+   * Release resources held by the service and its store.
+   */
+  destroy() {
+    if (this.cleanupInterval) {
+      clearInterval(this.cleanupInterval);
+      this.cleanupInterval = null;
+    }
+    if (this.store && typeof this.store.destroy === 'function') {
+      this.store.destroy();
+    }
+  }
 }
 
 module.exports = new RateLimitService();
+module.exports.RateLimitService = RateLimitService;
+module.exports.MemoryRateLimitStore = MemoryRateLimitStore;
