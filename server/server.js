@@ -27,6 +27,7 @@ const { createValidationMiddleware } = require('./services/validationService');
 const rateLimitService = require('./services/rateLimitService');
 const { sanitizeChatMessage, sanitizeRoomName, sanitizePlayerName, createSanitizationMiddleware } = require('./services/sanitizationService');
 const logger = require('./services/logger');
+const { createSocketAuthMiddleware } = require('./services/socketAuthMiddleware');
 const ErrorHandler = require('./services/errorHandler');
 
 // Import handlers
@@ -159,43 +160,9 @@ if (process.env.REDIS_URL) {
   }
 }
 
-// Add Firebase authentication middleware
-io.use(async (socket, next) => {
-  try {
-    const token = socket.handshake.auth?.token || socket.handshake.headers?.authorization?.replace('Bearer ', '');
-    const isProduction = process.env.NODE_ENV === 'production' || process.env.RAILWAY_ENVIRONMENT;
-
-    if (!token) {
-      socket.data.authenticated = false;
-      socket.data.userId = null;
-      socket.data.isGuest = true;
-      logger.debug('Guest connection allowed for multiplayer', { socketId: socket.id });
-      return next();
-    }
-
-    const decodedToken = await firebaseService.verifyIdToken(token);
-    if (decodedToken) {
-      socket.data.authenticated = true;
-      socket.data.userId = decodedToken.uid;
-      socket.data.email = decodedToken.email;
-      socket.data.isGuest = false;
-      logger.info('Socket authenticated', { socketId: socket.id, userId: decodedToken.uid });
-    } else {
-      socket.data.authenticated = false;
-      socket.data.userId = null;
-      socket.data.isGuest = true;
-      logger.warn('Socket authentication failed, allowing as guest', { socketId: socket.id });
-    }
-
-    next();
-  } catch (error) {
-    logger.error('Socket authentication error', { socketId: socket.id, error: error.message });
-    socket.data.authenticated = false;
-    socket.data.userId = null;
-    socket.data.isGuest = true;
-    next();
-  }
-});
+// Socket.io authentication middleware (prod rejects invalid/error tokens;
+// dev downgrades to guest; anonymous/no-token is always allowed as guest)
+io.use(createSocketAuthMiddleware({ firebaseService, logger }));
 
 // ==================== ENHANCED SERVICES ====================
 

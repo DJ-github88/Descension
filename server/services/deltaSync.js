@@ -550,8 +550,12 @@ class DeltaSyncEngine {
     if (delta.__changes) {
       for (const [index, change] of Object.entries(delta.__changes)) {
         const idx = parseInt(index);
-        if (change.__deleted) {
+        if (change && change.__deleted) {
           result.splice(idx, 1);
+        } else if (change && change.__type === 'primitive') {
+          result[idx] = change.__value;
+        } else if (change && typeof change === 'object') {
+          result[idx] = this.applyDelta(result[idx] || {}, change);
         } else {
           result[idx] = change;
         }

@@ -884,45 +884,6 @@ export default function App() {
         };
     }, []);
 
-    // Global condition cleanup - runs every second to remove expired buffs/debuffs
-    // This ensures conditions are cleaned up even when TargetHUD/PartyHUD aren't mounted
-    useEffect(() => { // eslint-disable-line react-hooks/exhaustive-deps
-        const { updateConditionTimers } = useConditionStore.getState();
-        const useCreatureStore = require('./store/creatureStore').default;
-        const { cleanupExpiredConditions: cleanupCreatureConditions } = useCreatureStore.getState();
-        const useCharacterTokenStore = require('./store/characterTokenStore').default;
-        const { cleanupExpiredConditions: cleanupCharacterConditions } = useCharacterTokenStore.getState();
-
-        const cleanupInterval = setInterval(() => {
-            updateConditionTimers('buff');
-            updateConditionTimers('debuff');
-            cleanupCreatureConditions();
-            cleanupCharacterConditions();
-        }, 1000);
-
-        return () => clearInterval(cleanupInterval);
-    }, []);
-
-    // Start real-time effect processing for DOT/HOT that use "Real-Time (Always)" tick setting
-    useEffect(() => {
-        let stopRealtimeEffectProcessing = null;
-
-        // Import dynamically to avoid circular dependencies
-        import('./services/effectProcessingService').then(({ startRealtimeEffectProcessing, stopRealtimeEffectProcessing: stop }) => {
-            startRealtimeEffectProcessing();
-            stopRealtimeEffectProcessing = stop;
-        });
-
-        // Cleanup on unmount
-        return () => {
-            if (stopRealtimeEffectProcessing) {
-                stopRealtimeEffectProcessing();
-            }
-        };
-    }, []);
-
-
-
     const handleReturnToLanding = () => {
         // This will be handled by the navigate function in AppContent
         // since we need access to the navigate hook
@@ -1077,6 +1038,47 @@ const AppContent = ({
     handleReturnToLanding
 }) => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const isGameRoute = location.pathname.startsWith('/game') || location.pathname.startsWith('/multiplayer');
+
+    // Condition cleanup - runs every second while in a game to remove expired buffs/debuffs.
+    // Fallback for in-game views where TargetHUD/PartyHUD aren't mounted; skipped on the landing page.
+    useEffect(() => { // eslint-disable-line react-hooks/exhaustive-deps
+        if (!isGameRoute) return;
+        const { updateConditionTimers } = useConditionStore.getState();
+        const useCreatureStore = require('./store/creatureStore').default;
+        const { cleanupExpiredConditions: cleanupCreatureConditions } = useCreatureStore.getState();
+        const useCharacterTokenStore = require('./store/characterTokenStore').default;
+        const { cleanupExpiredConditions: cleanupCharacterConditions } = useCharacterTokenStore.getState();
+
+        const cleanupInterval = setInterval(() => {
+            updateConditionTimers('buff');
+            updateConditionTimers('debuff');
+            cleanupCreatureConditions();
+            cleanupCharacterConditions();
+        }, 1000);
+
+        return () => clearInterval(cleanupInterval);
+    }, [isGameRoute]);
+
+    // Real-time effect processing (DOT/HOT) - only while in a game.
+    useEffect(() => {
+        if (!isGameRoute) return;
+        let stopRealtimeEffectProcessing = null;
+
+        // Import dynamically to avoid circular dependencies
+        import('./services/effectProcessingService').then(({ startRealtimeEffectProcessing, stopRealtimeEffectProcessing: stop }) => {
+            startRealtimeEffectProcessing();
+            stopRealtimeEffectProcessing = stop;
+        });
+
+        // Cleanup on unmount
+        return () => {
+            if (stopRealtimeEffectProcessing) {
+                stopRealtimeEffectProcessing();
+            }
+        };
+    }, [isGameRoute]);
 
     // Stable completion handler for the login transition overlay.
     // If this is an inline arrow, every AppContent re-render (which fire
