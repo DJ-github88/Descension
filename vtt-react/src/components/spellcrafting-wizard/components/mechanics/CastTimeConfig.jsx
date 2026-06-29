@@ -429,7 +429,7 @@ const CastTimeConfig = ({
         <AlertIcon />
         <AlertDescription>{mechanicsDescription}</AlertDescription>
       </Alert>
-    </Box>
+    </div>
   );
 };
 

@@ -124,13 +124,6 @@ export {
   PRIMALIST_SPIRITCALLER
 } from './primalist.js';
 
-// 'Deathcaller' and 'Lichborne' merged into Revenant as Phase 1.10 consolidation
-export {
-  REVENANT_SANGUINE_HARVEST,
-  REVENANT_FROST_SOVEREIGN,
-  REVENANT_PHYLACTERY_ANCHOR
-} from './revenant.js';
-
 export {
   AUGUR_AUSPICE,
   AUGUR_HARBINGER,
