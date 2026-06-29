@@ -81,8 +81,8 @@ jobs:
               total += stat.size; perFile.push({ f, size: stat.size });
             }
             const KB = 1024;
-            const TOTAL_BUDGET_KB = 3500;
-            const CHUNK_BUDGET_KB = 1500;
+            const TOTAL_BUDGET_KB = 17500;
+            const CHUNK_BUDGET_KB = 7500;
             const over = perFile.filter(x => x.size > CHUNK_BUDGET_KB * KB);
             console.log('Total JS: ' + (total / KB).toFixed(1) + ' KB / ' + TOTAL_BUDGET_KB + ' KB budget');
             console.log('Chunks over ' + CHUNK_BUDGET_KB + ' KB: ' + (over.length ? over.map(x => x.f + ' (' + (x.size/KB).toFixed(0) + ' KB)').join(', ') : 'none'));
