@@ -112,6 +112,26 @@ Now the oldest machines are failing faster. The oral traditions are degrading. T
 
     sharedTraits: [
         {
+        "id": "graft_drawback_fexric",
+                  "name": "Mechanical Interference",
+                  "description": "Mechanical grafts attract lightning/Wyrd damage (+25% vulnerability to storm and Wyrd damage).",
+                  "level": 1,
+                  "icon": "fas fa-bolt",
+                  "spellType": "PASSIVE",
+                  "effectTypes": [
+                            "debuff"
+                  ],
+                  "typeConfig": {
+                            "school": "primal",
+                            "icon": "fas fa-bolt",
+                            "tags": [
+                                      "weakness",
+                                      "debuff",
+                                      "shared"
+                            ]
+                  }
+        },
+        {
             id: 'still_air_sense_fexric',
             name: 'Still-Air Sense',
             description: 'Generations in carefully ventilated holdfasts made you hyper-aware of airflow. You feel the faintest draft, can tell if a tunnel dead-ends or opens into a chamber by air-pressure alone, and instinctively know when ventilation has failed. Advantage on Perception and Survival checks made to navigate underground or detect hidden passages, gas leaks, and structural instability. In stagnant or unventilated spaces, you suffer disadvantage on Concentration checks and feel deeply, irrationally uneasy — the air is wrong, and your body knows it before your mind does.',

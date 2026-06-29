@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Class Spell Generator - COMPLETELY REWRITTEN
  *
  * Generates properly formatted showcase spells for all classes
@@ -454,9 +454,9 @@ if (CLASS_DATA_MAP['Arcanoneer']?.spells || CLASS_DATA_MAP['Arcanoneer']?.exampl
   const arcanoneerSpells = CLASS_DATA_MAP['Arcanoneer'].spells || CLASS_DATA_MAP['Arcanoneer'].exampleSpells;
   const processed = processArcanoneerSpells(arcanoneerSpells);
   generatedSpells['Arcanoneer'] = processed;
-  // console.log(`✅ Loaded ${processed.length} Arcanoneer spells into ALL_CLASS_SPELLS`);
+  // console.log(`? Loaded ${processed.length} Arcanoneer spells into ALL_CLASS_SPELLS`);
 } else {
-  // console.warn('⚠️ Arcanoneer spells not found in CLASS_DATA_MAP', {
+  // console.warn('?? Arcanoneer spells not found in CLASS_DATA_MAP', {
   //   hasArcanoneer: !!CLASS_DATA_MAP['Arcanoneer'],
   //   hasSpells: !!CLASS_DATA_MAP['Arcanoneer']?.spells,
   //   hasExampleSpells: !!CLASS_DATA_MAP['Arcanoneer']?.exampleSpells
@@ -475,9 +475,9 @@ if (CLASS_DATA_MAP['Minstrel']?.spells || CLASS_DATA_MAP['Minstrel']?.exampleSpe
   const minstrelSpells = CLASS_DATA_MAP['Minstrel'].spells || CLASS_DATA_MAP['Minstrel'].exampleSpells;
   const processed = processMinstrelSpells(minstrelSpells);
   generatedSpells['Minstrel'] = processed;
-  // console.log(`✅ Loaded ${processed.length} Minstrel spells into ALL_CLASS_SPELLS`);
+  // console.log(`? Loaded ${processed.length} Minstrel spells into ALL_CLASS_SPELLS`);
 } else {
-  // console.warn('⚠️ Minstrel spells not found in CLASS_DATA_MAP', {
+  // console.warn('?? Minstrel spells not found in CLASS_DATA_MAP', {
   //   hasMinstrel: !!CLASS_DATA_MAP['Minstrel'],
   //   hasSpells: !!CLASS_DATA_MAP['Minstrel']?.spells,
   //   hasExampleSpells: !!CLASS_DATA_MAP['Minstrel']?.exampleSpells
@@ -489,9 +489,9 @@ if (CLASS_DATA_MAP['Chronarch']?.spells || CLASS_DATA_MAP['Chronarch']?.exampleS
   const chronarchSpells = CLASS_DATA_MAP['Chronarch'].spells || CLASS_DATA_MAP['Chronarch'].exampleSpells;
   const processed = processChronarchSpells(chronarchSpells);
   generatedSpells['Chronarch'] = processed;
-  // console.log(`✅ Loaded ${processed.length} Chronarch spells into ALL_CLASS_SPELLS`);
+  // console.log(`? Loaded ${processed.length} Chronarch spells into ALL_CLASS_SPELLS`);
 } else {
-  // console.warn('⚠️ Chronarch spells not found in CLASS_DATA_MAP', {
+  // console.warn('?? Chronarch spells not found in CLASS_DATA_MAP', {
   //   hasChronarch: !!CLASS_DATA_MAP['Chronarch'],
   //   hasSpells: !!CLASS_DATA_MAP['Chronarch']?.spells,
   //   hasExampleSpells: !!CLASS_DATA_MAP['Chronarch']?.exampleSpells
@@ -503,9 +503,9 @@ if (CLASS_DATA_MAP['Martyr']?.spells || CLASS_DATA_MAP['Martyr']?.exampleSpells)
   const martyrSpells = CLASS_DATA_MAP['Martyr'].spells || CLASS_DATA_MAP['Martyr'].exampleSpells;
   const processed = processMartyrSpells(martyrSpells);
   generatedSpells['Martyr'] = processed;
-  // console.log(`✅ Loaded ${processed.length} Martyr spells into ALL_CLASS_SPELLS`);
+  // console.log(`? Loaded ${processed.length} Martyr spells into ALL_CLASS_SPELLS`);
 } else {
-  // console.warn('⚠️ Martyr spells not found in CLASS_DATA_MAP', {
+  // console.warn('?? Martyr spells not found in CLASS_DATA_MAP', {
   //   hasMartyr: !!CLASS_DATA_MAP['Martyr'],
   //   hasSpells: !!CLASS_DATA_MAP['Martyr']?.spells,
   //   hasExampleSpells: !!CLASS_DATA_MAP['Martyr']?.exampleSpells
@@ -543,9 +543,9 @@ remainingClasses.forEach(className => {
     const spells = classData.spells || classData.exampleSpells;
     const processed = processGenericSpells(spells, className);
     generatedSpells[className] = processed;
-    // console.log(`✅ Loaded ${processed.length} ${className} spells into ALL_CLASS_SPELLS`);
+    // console.log(`? Loaded ${processed.length} ${className} spells into ALL_CLASS_SPELLS`);
   } else {
-    // console.warn(`⚠️ ${className} spells not found in CLASS_DATA_MAP`);
+    // console.warn(`?? ${className} spells not found in CLASS_DATA_MAP`);
   }
 });
 
@@ -598,7 +598,7 @@ Object.entries(generatedSpells).forEach(([className, spells]) => {
 
   // Log results
   if (validation.invalidSpells.length > 0) {
-    console.error(`❌ ${className}: ${validation.invalidSpells.length}/${validation.totalSpells} invalid spells`, {
+    console.error(`? ${className}: ${validation.invalidSpells.length}/${validation.totalSpells} invalid spells`, {
       invalidSpells: validation.invalidSpells,
       missingFields: validation.missingFields
     });
@@ -611,7 +611,7 @@ const totalValid = Object.values(validationResults).reduce((sum, v) => sum + v.v
 const totalInvalid = Object.values(validationResults).reduce((sum, v) => sum + v.invalidSpells.length, 0);
 
 // Log summary of loaded spells by class
-// console.log('🎲 SPELL GENERATOR SUMMARY:', {
+// console.log('?? SPELL GENERATOR SUMMARY:', {
 //   totalSpells,
 //   totalValid,
 //   totalInvalid,

@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 
 const SpellCardHeader = ({
   spell,
@@ -45,18 +45,18 @@ const SpellCardHeader = ({
                 return <span>Roll {min}-{max}</span>;
               } else if (resolution === 'CARDS') {
                 const patternText = cardPattern === 'any' ? '' :
-                  cardPattern === 'hearts' ? 'â™¥' :
-                  cardPattern === 'diamonds' ? 'â™¦' :
-                  cardPattern === 'clubs' ? 'â™£' :
-                  cardPattern === 'spades' ? 'â™ ' :
+                  cardPattern === 'hearts' ? '♥' :
+                  cardPattern === 'diamonds' ? '♦' :
+                  cardPattern === 'clubs' ? '♣' :
+                  cardPattern === 'spades' ? '♠' :
                   cardPattern === 'red' ? 'Red' :
                   cardPattern === 'black' ? 'Black' :
                   cardPattern === 'face' ? 'Face' :
                   cardPattern === 'ace' ? 'Ace' :
-                  cardPattern === 'ace_of_hearts' ? 'Aâ™¥' :
-                  cardPattern === 'ace_of_diamonds' ? 'Aâ™¦' :
-                  cardPattern === 'ace_of_clubs' ? 'Aâ™£' :
-                  cardPattern === 'ace_of_spades' ? 'Aâ™ ' :
+                  cardPattern === 'ace_of_hearts' ? 'A♥' :
+                  cardPattern === 'ace_of_diamonds' ? 'A♦' :
+                  cardPattern === 'ace_of_clubs' ? 'A♣' :
+                  cardPattern === 'ace_of_spades' ? 'A♠' :
                   cardPattern;
                 return <span>Draw {cardCount}x{patternText ? ` ${patternText}` : ''}</span>;
               } else if (resolution === 'COINS') {
@@ -93,7 +93,7 @@ const SpellCardHeader = ({
                 if (operator === 'at_least') {
                   return <span>{value}+ Enemies</span>;
                 } else if (operator === 'at_most') {
-                  return <span>â‰¤{value} Enemies</span>;
+                  return <span>≤{value} Enemies</span>;
                 } else {
                   return <span>{value} Enemies</span>;
                 }
@@ -101,7 +101,7 @@ const SpellCardHeader = ({
                 if (operator === 'at_least') {
                   return <span>{value}+ Allies</span>;
                 } else if (operator === 'at_most') {
-                  return <span>â‰¤{value} Allies</span>;
+                  return <span>≤{value} Allies</span>;
                 } else {
                   return <span>{value} Allies</span>;
                 }
@@ -109,7 +109,7 @@ const SpellCardHeader = ({
                 if (operator === 'at_least') {
                   return <span>Round {value}+</span>;
                 } else if (operator === 'at_most') {
-                  return <span>Round â‰¤{value}</span>;
+                  return <span>Round ≤{value}</span>;
                 } else {
                   return <span>Round {value}</span>;
                 }
@@ -117,7 +117,7 @@ const SpellCardHeader = ({
                 if (operator === 'at_least') {
                   return <span>Turn {value}+</span>;
                 } else if (operator === 'at_most') {
-                  return <span>Turn â‰¤{value}</span>;
+                  return <span>Turn ≤{value}</span>;
                 } else {
                   return <span>Turn {value}</span>;
                 }
@@ -145,7 +145,7 @@ const SpellCardHeader = ({
                 if (operator === 'at_least') {
                   return <span>{value}+ AP</span>;
                 } else if (operator === 'at_most') {
-                  return <span>â‰¤{value} AP</span>;
+                  return <span>≤{value} AP</span>;
                 } else {
                   return <span>{value} AP</span>;
                 }
@@ -153,11 +153,11 @@ const SpellCardHeader = ({
                 const thresholdValue = threshold || 25;
                 const enemyText = value === 1 ? 'enemy' : 'enemies';
                 if (operator === 'at_least') {
-                  return <span>If {value}+ {enemyText} â‰¤{thresholdValue}% HP</span>;
+                  return <span>If {value}+ {enemyText} ≤{thresholdValue}% HP</span>;
                 } else if (operator === 'at_most') {
-                  return <span>If â‰¤{value} {enemyText} â‰¤{thresholdValue}% HP</span>;
+                  return <span>If ≤{value} {enemyText} ≤{thresholdValue}% HP</span>;
                 } else {
-                  return <span>If {value} {enemyText} â‰¤{thresholdValue}% HP</span>;
+                  return <span>If {value} {enemyText} ≤{thresholdValue}% HP</span>;
                 }
               } else if (type === 'surrounded') {
                 return <span>Surrounded</span>;
@@ -172,7 +172,7 @@ const SpellCardHeader = ({
                 if (operator === 'at_least') {
                   return <span>Took {value}+</span>;
                 } else if (operator === 'at_most') {
-                  return <span>Took â‰¤{value}</span>;
+                  return <span>Took ≤{value}</span>;
                 } else {
                   return <span>Took {value}</span>;
                 }
@@ -347,7 +347,7 @@ const SpellCardHeader = ({
             {formatTypeSpecificBullets().length > 0 && (
               <div className="unified-spell-bullets-row">
                 {formatTypeSpecificBullets().map((bullet, index) => (
-                  <span key={index} className="unified-spell-bullet">â€¢ {bullet}</span>
+                  <span key={index} className="unified-spell-bullet">• {bullet}</span>
                 ))}
               </div>
             )}

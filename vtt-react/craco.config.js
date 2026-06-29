@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 module.exports = {
   devServer: {
@@ -74,10 +75,30 @@ module.exports = {
           };
         }
 
-        // Temporarily disable CSS minification to avoid special character issues
-        // Focus on JavaScript optimizations for now
+        // CSS minification re-enabled with a UTF-8-safe cssnano preset.
+        // The original "special character issues" came from non-ASCII chars in CSS
+        // content: properties (box-drawing chars U+2500/U+2550 in AdvancedTravelDisplay.css,
+        // em-dashes in AccountDashboard.css, etc.). Modern cssnano preserves these
+        // when mergeLonghand and cssDeclarationSorter are disabled (they were the rules
+        // that mangled multibyte content: values in older versions).
         webpackConfig.optimization.minimizer = webpackConfig.optimization.minimizer.filter(
           plugin => !plugin.constructor.name.includes('Css') && !plugin.constructor.name.includes('CSS')
+        );
+        webpackConfig.optimization.minimizer.push(
+          new CssMinimizerPlugin({
+            minimizerOptions: {
+              preset: [
+                'default',
+                {
+                  mergeLonghand: false, // preserves content: "\f001" Font Awesome escapes
+                  cssDeclarationSorter: false, // avoids reordering that broke UTF-8 content
+                  normalizeUrl: false,
+                  svgo: false, // Disable svgo to prevent parsing errors on inline SVG data URLs
+                  discardComments: { removeAll: true },
+                },
+              ],
+            },
+          })
         );
 
         // Enable tree shaking and dead code elimination

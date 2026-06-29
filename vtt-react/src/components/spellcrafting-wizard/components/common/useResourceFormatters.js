@@ -1,4 +1,4 @@
-﻿import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faBolt, faGem, faFire, faRunning, faEye, faHeart,
   faStar, faSun, faSnowflake, faGhost, faMoon, faWind,
@@ -795,7 +795,7 @@ const useResourceFormatters = ({ spell, variant, className, library }) => {
               type: isGenerating ? 'musical-generates' : 'musical-consumes',
               amount: displayText,
               name: '',
-              clefSymbol: isGenerating ? 'ð„ž' : 'ð„¢', // Treble clef for builder, bass clef for resolver
+              clefSymbol: isGenerating ? '𝄞' : '𝄢', // Treble clef for builder, bass clef for resolver
               color: isGenerating ? '#9370DB' : '#4169E1',
               isMusicalNote: true,
               isGenerate: isGenerating,
@@ -996,7 +996,7 @@ const useResourceFormatters = ({ spell, variant, className, library }) => {
       };
 
       if (musicalCombo.type === 'builder' && musicalCombo.generates) {
-        // Builder spell - shows treble clef "ð„ž +X Note (I)" format
+        // Builder spell - shows treble clef "𝄞 +X Note (I)" format
         musicalCombo.generates.forEach(noteGen => {
           const functionName = noteFunctionMap[noteGen.note] || noteGen.note;
           const displayText = noteGen.count > 1
@@ -1006,14 +1006,14 @@ const useResourceFormatters = ({ spell, variant, className, library }) => {
             type: 'musical-generates',
             amount: displayText,
             name: '',
-            clefSymbol: 'ð„ž', // Treble clef Unicode
+            clefSymbol: '𝄞', // Treble clef Unicode
             color: '#9370DB',
             isMusicalNote: true,
             isGenerate: true
           });
         });
       } else if (musicalCombo.type === 'resolver' && musicalCombo.consumes) {
-        // Resolver spell - shows bass clef "ð„¢ -X Note (I)" format
+        // Resolver spell - shows bass clef "𝄢 -X Note (I)" format
         musicalCombo.consumes.forEach(noteReq => {
           const functionName = noteFunctionMap[noteReq.note] || noteReq.note;
           const displayText = noteReq.count > 1
@@ -1023,7 +1023,7 @@ const useResourceFormatters = ({ spell, variant, className, library }) => {
             type: 'musical-consumes',
             amount: displayText,
             name: '',
-            clefSymbol: 'ð„¢', // Bass clef Unicode
+            clefSymbol: '𝄢', // Bass clef Unicode
             color: '#4169E1',
             isMusicalNote: true,
             isConsume: true

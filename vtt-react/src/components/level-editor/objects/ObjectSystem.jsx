@@ -1,4 +1,4 @@
-﻿import React, { useRef, useEffect, useCallback, useState } from 'react';
+import React, { useRef, useEffect, useCallback, useState } from 'react';
 import ReactDOM from 'react-dom';
 import useLevelEditorStore from '../../../store/levelEditorStore';
 import useGameStore from '../../../store/gameStore';
@@ -9,7 +9,7 @@ import { drawObject, hasObjectArt } from './ObjectCanvasRenderer';
 import { drawObjectArt } from './PixelArtRenderer';
 
 const snapRotationForHitTest = (type, rotation) => {
-    // Snap rotation to the nearest 90° for any object that has a sprite.
+    // Snap rotation to the nearest 90� for any object that has a sprite.
     // Pure canvas-only objects (like GM Notes) get free rotation.
     const def = PROFESSIONAL_OBJECTS[type];
     if (!def || !def.image) return rotation || 0;
@@ -1126,7 +1126,7 @@ const ObjectSystem = () => {
         ctx.save();
         ctx.imageSmoothingEnabled = false;
 
-        // Snap rotation to the nearest 90° for pixel-perfect rotation.
+        // Snap rotation to the nearest 90� for pixel-perfect rotation.
         // Most sprites are top-down so this is rarely visible, but for
         // wall-mounted objects (torches, banners) it keeps the visual
         // rotation in sync with the bounding box rotation.
@@ -1719,12 +1719,12 @@ const ObjectSystem = () => {
 
     // Handle context menu (right-click)
     const handleContextMenu = useCallback((e) => {
-        console.log('ðŸŽ¯ ObjectSystem context menu triggered:', { isEditorMode, isGMMode });
+        console.log('🎯 ObjectSystem context menu triggered:', { isEditorMode, isGMMode });
 
         // Allow context menu in editor mode OR for GM notes objects when in GM mode
         // BUT respect the objectManipulationEnabled toggle
         if (!isEditorMode && !isGMMode) {
-            console.log('ðŸŽ¯ Context menu blocked: not in editor or GM mode');
+            console.log('🎯 Context menu blocked: not in editor or GM mode');
             return;
         }
         if (!objectManipulationEnabled) return;
@@ -1754,7 +1754,7 @@ const ObjectSystem = () => {
         const hasTokenOrHUD = allElementsAtPoint.some(el => isTokenOrHUD(el));
 
         if (connectionElement) {
-            console.log('ðŸ”— ObjectSystem: detected connection element, triggering its context menu', {
+            console.log('🔗 ObjectSystem: detected connection element, triggering its context menu', {
                 connectionElement: {
                     tag: connectionElement.tagName,
                     classes: connectionElement.classList ? Array.from(connectionElement.classList) : [],
@@ -1798,23 +1798,23 @@ const ObjectSystem = () => {
         const screenX = e.clientX - canvasRect.left;
         const screenY = e.clientY - canvasRect.top;
 
-        console.log('ðŸŽ¯ Context menu coordinates:', { screenX, screenY });
+        console.log('🎯 Context menu coordinates:', { screenX, screenY });
 
         const clickedObject = getObjectAtScreenPosition(screenX, screenY);
-        console.log('ðŸŽ¯ Clicked object:', clickedObject);
+        console.log('🎯 Clicked object:', clickedObject);
 
         if (clickedObject) {
             if (isEditorMode || isGMMode) {
-                console.log('ðŸŽ¯ Showing context menu for object:', clickedObject.id, clickedObject.type);
+                console.log('🎯 Showing context menu for object:', clickedObject.id, clickedObject.type);
                 selectEnvironmentalObject(clickedObject.id);
                 setSelectedObject(clickedObject);
                 setContextMenuPosition({ x: e.clientX, y: e.clientY });
                 setShowContextMenu(true);
             } else {
-                console.log('ðŸŽ¯ Context menu blocked: not in editor or GM mode', { isEditorMode, isGMMode, type: clickedObject.type });
+                console.log('🎯 Context menu blocked: not in editor or GM mode', { isEditorMode, isGMMode, type: clickedObject.type });
             }
         } else {
-            console.log('ðŸŽ¯ No object found at click position', { screenX, screenY });
+            console.log('🎯 No object found at click position', { screenX, screenY });
         }
     }, [isEditorMode, isGMMode, getObjectAtScreenPosition, selectEnvironmentalObject]);
 
@@ -2435,11 +2435,11 @@ const ObjectSystem = () => {
                     handleMouseUp();
                 }}
                 onMouseDown={(e) => {
-                    console.log('ðŸŽ¯ Canvas MouseDown');
+                    console.log('🎯 Canvas MouseDown');
                     handleMouseDown(e);
                 }}
                 onContextMenu={(e) => {
-                    console.log('ðŸŽ¯ Canvas ContextMenu');
+                    console.log('🎯 Canvas ContextMenu');
                     handleContextMenu(e);
                 }}
             />

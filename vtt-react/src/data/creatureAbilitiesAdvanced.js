@@ -512,7 +512,7 @@ const ICEHEART = {
 // REGION 5: CRAGJAW PEAKS
 // ═══════════════════════════════════════════════════════════════════════════
 const CRAGJAW = {
-  kappa_crag: [
+  kappa: [
     dmg({ id: 'kappa_beak_snap', name: 'Beak-Snap', icon: 'ability_druid_gore', school: 'physical', desc: 'A beak-lunge that drags into the pool.', ap: 2, mana: 0, cd: 0, range: 5, rangeType: 'melee', formula: '1d6 + 3', types: ['physical'], save: ['agility', 13], saveOutcome: 'no_effect', controlType: 'restraint', duration: 1, effects: [{ id: 'grappled', name: 'Grappled', description: 'Pulled into the pool.' }] }),
     dmg({ id: 'kappa_river_stone_hurl', name: 'River-Stone-Hurl', icon: 'spell_shaman_stormstrike', school: 'physical', desc: 'Hurls a smooth river-stone.', ap: 1, mana: 0, cd: 0, range: 30, formula: '1d6 + 2', types: ['physical'] }),
     util({ id: 'kappa_cucumber_lure', name: 'Cucumber-Lure', icon: 'spell_nature_regeneration', school: 'primal', desc: 'Can be bribed with a cucumber offering.', ap: 1, mana: 0, cd: 5, range: 5, target: 'any', targetRestrictions: ['any'], utilityType: 'special', effects: [{ id: 'bribe', name: 'Cucumber-Bribe', description: 'DC 13 CHA to persuade it to move aside.' }] }),
@@ -537,7 +537,7 @@ const CRAGJAW = {
     dmg({ id: 'oni_mountain_toss', name: 'Mountain-Toss', icon: 'spell_shaman_stormstrike', school: 'physical', desc: 'Hurls a boulder.', ap: 2, mana: 0, cd: 1, range: 40, formula: '3d6 + 5', types: ['physical'] }),
     passive({ id: 'supayoni_rage', name: 'Blizzard-Rage', icon: 'spell_shadow_unbreakablewill', school: 'physical', desc: 'Grows stronger each round of combat.', effects: [{ id: 'rage', name: 'Blizzard-Rage', description: '+2 STR per round of combat.' }] }),
   ],
-  jorogumo_span: [
+  jorogumo: [
     ctrl({ id: 'jorogumo_web_trap', name: 'Web-Trap', icon: 'spell_nature_stranglevines', school: 'physical', desc: 'Re-weaves a section into sticky web.', ap: 1, mana: 10, cd: 2, range: 15, save: ['agility', 15], duration: 2, controlType: 'restraint', effects: [{ id: 'restrained', name: 'Restrained', description: 'Restrained by web.' }] }),
     dmg({ id: 'jorogumo_needle_fang', name: 'Needle-Fang', icon: 'ability_druid_gore', school: 'physical', desc: 'A venomous bite.', ap: 2, mana: 0, cd: 0, range: 5, rangeType: 'melee', formula: '2d6 + 4', types: ['physical', 'blight'] }),
     passive({ id: 'jorogumo_gold_silk', name: 'Gold-Silk-Gown', icon: 'spell_holy_silverseal', school: 'arcane', desc: 'A gown woven from gold-silk.', effects: [{ id: 'social', name: 'Gold-Silk', description: '+8 to all social checks.' }] }),
@@ -547,52 +547,52 @@ const CRAGJAW = {
     passive({ id: 'kodama_peak_warden', name: 'Peak-Warden', icon: 'spell_nature_regeneration', school: 'primal', desc: 'Bound to its mountain-Apu; wails when the mountain is harmed.', effects: [{ id: 'warden', name: 'Mountain-Warden', description: 'DC 14 SPI or driven to tears when the mountain is damaged.' }] }),
     passive({ id: 'kodama_quartz_eyes', name: 'Quartz-Eyes', icon: 'spell_holy_aurabrilliance', school: 'divine', desc: 'Sparkles in the dimmest light.', effects: [{ id: 'sparkle', name: 'Quartz-Eyes', description: 'Reveals its position.' }] }),
   ],
-  nurikabe_drift: [
+  nurikabe: [
     ctrl({ id: 'nurikabe_path_blocker', name: 'Path-Blocker', icon: 'spell_nature_stranglevines', school: 'physical', desc: 'An impassable wall that extends as you climb or flank.', ap: 2, mana: 15, cd: 3, range: 5, save: ['strength', 16], duration: 2, controlType: 'zone', effects: [{ id: 'blocked', name: 'Blocked Path', description: 'Cannot be climbed, flanked, or broken; only a copper staff at the base moves it.' }] }),
     passive({ id: 'nurikabe_living_wall', name: 'Living-Wall', icon: 'spell_druid_camouflage', school: 'primal', desc: 'Looks identical to surrounding rock.', effects: [{ id: 'camouflaged', name: 'Camouflaged Wall', description: 'Indistinguishable from rock.' }] }),
     util({ id: 'nurikabe_night_architect', name: 'Night-Architect', icon: 'spell_arcane_teleportundercity', school: 'arcane', desc: 'Rearranges mountain geography overnight.', ap: 2, mana: 20, cd: 5, range: 0, targetingType: 'area', rangeType: 'self_centered', areaShape: 'circle', areaSize: 100, utilityType: 'environment', effects: [{ id: 'rearrange', name: 'Geography Shift', description: 'Paths clear yesterday are blocked today; dead-ends open.' }] }),
   ],
-  nue_cloud: [
+  nue: [
     ctrl({ id: 'nue_nightmare_cloud', name: 'Nightmare-Cloud', icon: 'spell_shadow_nightmare', school: 'wyrd', desc: 'A cloud of shared overlapping nightmares.', ap: 3, mana: 25, cd: 3, range: 0, targetingType: 'area', rangeType: 'self_centered', areaShape: 'circle', areaSize: 40, save: ['spirit', 15], duration: 3, controlType: 'incapacitation', effects: [{ id: 'shared_nightmare', name: 'Shared Nightmare', description: 'Targets experience overlapping visions of their greatest fears for 1d4 rounds.' }] }),
     passive({ id: 'nue_warm_pocket', name: 'Warm-Pocket', icon: 'spell_fire_firebolt', school: 'ember', desc: 'The cloud is warm and humid.', effects: [{ id: 'warm', name: 'Warm-Pocket', description: 'Snow melts within it.' }] }),
     passive({ id: 'nue_black_snow', name: 'Black-Snow', icon: 'spell_shadow_voidshift', school: 'blight', desc: 'Where the cloud touches ground, snow turns black.', effects: [{ id: 'black_snow', name: 'Black-Snow', description: 'Corrupts the ground it touches.' }] }),
   ],
-  kasha_snow: [
+  kasha: [
     dmg({ id: 'kasha_claw_pounce', name: 'Claw-Pounce', icon: 'ability_druid_gore', school: 'physical', desc: 'A flaming pounce of claw and ember.', ap: 2, mana: 0, cd: 1, range: 10, formula: '2d6 + 3', types: ['physical', 'ember'] }),
     passive({ id: 'kasha_flame_fur', name: 'Flame-Fur', icon: 'spell_fire_moltenarmor', school: 'ember', desc: 'Pale blue-white extremely hot fire-fur.', effects: [{ id: 'flame_fur', name: 'Flame-Fur', description: 'Melee attackers take 1d6 fire on contact.' }] }),
     util({ id: 'kasha_corpse_thief', name: 'Corpse-Thief', icon: 'spell_shadow_unsummon', school: 'blight', desc: 'Descends to steal a funeral-body.', ap: 2, mana: 15, cd: 5, range: 30, target: 'any', targetRestrictions: ['any'], utilityType: 'special', effects: [{ id: 'theft', name: 'Corpse-Thief', description: 'Steals a body; the spirit becomes a restless bridge-ghost.' }] }),
   ],
-  tanuki_toll: [
-    util({ id: 'tanuki_toll_trickster', name: 'Toll-Trickster', icon: 'spell_shadow_mindsteal', school: 'wyrd', desc: 'Demands absurd tolls: a riddle, a song, a story.', ap: 1, mana: 5, cd: 3, range: 5, target: 'any', targetRestrictions: ['any'], utilityType: 'special', effects: [{ id: 'toll', name: 'Absurd Toll', description: 'Compliance yields a lucky illa-stone; refusal turns gear to leaves.' }] }),
+  tanuki: [
+    util({ id: 'tanuki_trickster', name: 'Toll-Trickster', icon: 'spell_shadow_mindsteal', school: 'wyrd', desc: 'Demands absurd tolls: a riddle, a song, a story.', ap: 1, mana: 5, cd: 3, range: 5, target: 'any', targetRestrictions: ['any'], utilityType: 'special', effects: [{ id: 'toll', name: 'Absurd Toll', description: 'Compliance yields a lucky illa-stone; refusal turns gear to leaves.' }] }),
     util({ id: 'tanuki_leaf_hat', name: 'Leaf-Hat', icon: 'spell_shadow_fade', school: 'arcane', desc: 'Gains invisibility for a brief moment.', ap: 1, mana: 5, cd: 2, range: 0, rangeType: 'self', target: 'self', targetRestrictions: ['self'], utilityType: 'movement', duration: 1, effects: [{ id: 'invisible', name: 'Invisible', description: 'Invisible for 1 round; cannot attack.' }] }),
     debuff({ id: 'tanuki_sake_flask', name: 'Sake-Flask', icon: 'spell_shadow_alterhumanform', school: 'blight', desc: 'Offers sake that intoxicates.', ap: 1, mana: 5, cd: 2, range: 5, target: 'any', targetRestrictions: ['any'], save: ['constitution', 12], duration: 2, debuffType: 'statPenalty', effects: [{ id: 'drunk', name: 'Intoxicated', description: '-2 to all checks for 1 hour.' }] }),
   ],
-  ushi_oni_crag: [
+  ushioni: [
     dmg({ id: 'ushi_oni_sulfur_breath', name: 'Sulfur-Breath', icon: 'spell_nature_nullifypoison', school: 'blight', desc: 'A cone of toxic sulfur-gas.', ap: 2, mana: 15, cd: 2, range: 20, targetingType: 'cone', rangeType: 'self_centered', areaShape: 'cone', areaSize: 20, formula: '3d6', types: ['blight'], save: ['constitution', 15], saveOutcome: 'no_effect', duration: 3, debuffType: 'statusEffect', effects: [{ id: 'poisoned', name: 'Poisoned', description: 'Poisoned for 3 rounds.' }] }),
     dmg({ id: 'ushi_oni_bull_head_slam', name: 'Bull-Head-Slam', icon: 'ability_bossman_smash', school: 'physical', desc: 'A bull-head charge.', ap: 2, mana: 0, cd: 1, range: 5, rangeType: 'melee', formula: '2d8 + 5', types: ['physical'], save: ['agility', 14], saveOutcome: 'no_effect', controlType: 'knockdown', duration: 1, effects: [{ id: 'prone', name: 'Knocked Prone', description: 'Knocked prone.' }] }),
     ctrl({ id: 'ushi_oni_obsidian_web', name: 'Obsidian-Web', icon: 'spell_nature_stranglevines', school: 'physical', desc: 'Volcanic-glass silk, invisible in steam.', ap: 1, mana: 10, cd: 2, range: 15, save: ['agility', 15], duration: 2, controlType: 'restraint', effects: [{ id: 'snared', name: 'Snared', description: 'DC 15 AGI to break, or 20 slashing to cut.' }] }),
   ],
-  baku_dream: [
+  baku: [
     util({ id: 'baku_nightmare_eater', name: 'Nightmare-Eater', icon: 'spell_shadow_twistedfaith', school: 'wyrd', desc: 'Consumes a nightmare, leaving the sleeper refreshed.', ap: 2, mana: 15, cd: 3, range: 5, target: 'ally', targetRestrictions: ['ally'], utilityType: 'cure', effects: [{ id: 'devour', name: 'Devour Nightmare', description: 'Sleeper wakes refreshed; no memory of bad dreams.' }] }),
     buff({ id: 'baku_aura_of_calm', name: 'Aura-of-Calm', icon: 'spell_holy_devotionaura', school: 'divine', desc: 'A 20-ft aura of calm.', ap: 1, mana: 10, cd: 3, range: 0, targetingType: 'area', rangeType: 'self_centered', areaShape: 'circle', areaSize: 20, duration: 3, buffType: 'statEnhancement', effects: [{ id: 'calm', name: 'Aura of Calm', description: '+4 to Spirit saves; immune to fear.' }] }),
     passive({ id: 'baku_sacred_huaca', name: 'Sacred-Huaca', icon: 'spell_holy_aurabrilliance', school: 'divine', desc: 'Its claimed area is sacred ground.', effects: [{ id: 'sacred', name: 'Sacred Ground', description: 'No violence, Wyrd-corruption, or supernatural threat can enter.' }] }),
   ],
-  nekomata_spur: [
+  nekomata: [
     ctrl({ id: 'nekomata_corpse_puppeteer', name: 'Corpse-Puppeteer', icon: 'spell_shadow_animatedead', school: 'blight', desc: 'Raises frozen dead as jerky puppets.', ap: 3, mana: 20, cd: 3, range: 30, save: ['spirit', 14], duration: 3, controlType: 'mind_control', effects: [{ id: 'raised', name: 'Animated Corpses', description: 'Animates frozen dead; movements synced to its tails.' }] }),
     dmg({ id: 'nekomata_tail_slash', name: 'Tail-Slash', icon: 'ability_druid_gore', school: 'physical', desc: 'A stunning twin-tail slash.', ap: 1, mana: 0, cd: 0, range: 5, rangeType: 'melee', formula: '1d8 + 3', types: ['physical'], save: ['constitution', 13], saveOutcome: 'no_effect', controlType: 'stunned', duration: 1, effects: [{ id: 'stunned', name: 'Stunned', description: 'Stunned for 1 round.' }] }),
     passive({ id: 'nekomata_twin_tail_lightning', name: 'Twin-Tail-Lightning', icon: 'spell_shaman_lightningbolt', school: 'storm', desc: 'Lightning arcs between tail-tips.', effects: [{ id: 'arcs', name: 'Twin-Tail Arcs', description: 'Each tail-flick can animate a corpse during storms.' }] }),
   ],
-  futakuchi_ration: [
+  futakuchi: [
     dmg({ id: 'futakuchi_hair_whip', name: 'Hair-Whip', icon: 'spell_nature_stranglevines', school: 'physical', desc: 'The second mouth\'s hair strikes independently.', ap: 1, mana: 0, cd: 0, range: 10, rangeType: 'melee', formula: '1d8 + 3', types: ['physical'] }),
     passive({ id: 'futakuchi_second_mouth', name: 'Second-Mouth', icon: 'spell_shadow_twistedfaith', school: 'wyrd', desc: 'A hidden mouth that speaks the mountain\'s hunger.', effects: [{ id: 'hunger', name: 'Second Mouth', description: 'Speaks the hunger of the mountain itself.' }] }),
-    passive({ id: 'futakuchi_ration_devour', name: 'Ration-Devour', icon: 'spell_nature_regeneration', school: 'physical', desc: 'Consumes three times the rations of a normal person.', effects: [{ id: 'devour', name: 'Ration Devourer', description: 'Consumes 3x rations while appearing to eat little.' }] }),
+    passive({ id: 'futakuchi_devour', name: 'Ration-Devour', icon: 'spell_nature_regeneration', school: 'physical', desc: 'Consumes three times the rations of a normal person.', effects: [{ id: 'devour', name: 'Ration Devourer', description: 'Consumes 3x rations while appearing to eat little.' }] }),
   ],
-  wanyudo_pass: [
+  wanyudo: [
     ctrl({ id: 'wanyudo_soul_extraction', name: 'Soul-Extraction', icon: 'spell_shadow_soulleech', school: 'blight', desc: 'Those who look directly lose their soul to the wheel.', ap: 3, mana: 30, cd: 3, range: 5, save: ['spirit', 15], duration: 3, controlType: 'incapacitation', effects: [{ id: 'soul_taken', name: 'Soul Extracted', description: 'Body frozen, face locked in horror; soul joins the wheel.' }] }),
     passive({ id: 'wanyudo_cold_fire', name: 'Cold-Fire', icon: 'spell_fire_moltenarmor', school: 'rime', desc: 'Blue-white fire that gives cold, not heat.', effects: [{ id: 'cold_fire', name: 'Cold-Fire', description: 'Melee attackers take 2d6 frost.' }] }),
     passive({ id: 'wanyudo_soul_wheel', name: 'Soul-Wheel', icon: 'spell_shadow_deathfocus', school: 'blight', desc: 'A wheel of compressed flame and screaming faces.', effects: [{ id: 'wheel', name: 'Soul-Wheel', description: 'Appears as a merchant\'s cart from afar.' }] }),
   ],
-  tsuchigumo_burrow: [
+  tsuchigumo: [
     dmg({ id: 'tsuchigumo_gemstone_beams', name: 'Gemstone-Beams', icon: 'spell_shaman_lightningbolt', school: 'ember', desc: 'Eight gemstone-eyes fire different elemental beams.', ap: 2, mana: 15, cd: 1, range: 30, formula: '1d6 + 2', types: ['ember', 'primal', 'rime', 'wyrd', 'storm', 'blight'] }),
     dmg({ id: 'tsuchigumo_mandible_clash', name: 'Mandible-Clash', icon: 'ability_druid_gore', school: 'physical', desc: 'Metallic venom-slick mandibles.', ap: 1, mana: 0, cd: 0, range: 5, rangeType: 'melee', formula: '2d6 + 4', types: ['physical'], dot: { formula: '1d4', type: 'blight', duration: 2 }, save: ['constitution', 14] }),
     ctrl({ id: 'tsuchigumo_golden_web', name: 'Golden-Web', icon: 'spell_nature_stranglevines', school: 'physical', desc: 'Gold-silk stronger than cable; crystallizes blood.', ap: 2, mana: 15, cd: 2, range: 15, save: ['constitution', 15], duration: 2, controlType: 'restraint', effects: [{ id: 'crystallizing', name: 'Blood Crystallizing', description: 'Blood slowly crystallizes into metallic compounds.' }] }),
@@ -602,12 +602,12 @@ const CRAGJAW = {
     dmg({ id: 'akaname_cleaning_tool', name: 'Cleaning-Tool-Armament', icon: 'ability_rogue_findweakness', school: 'physical', desc: 'Wields brushes and scrapers as weapons.', ap: 1, mana: 0, cd: 0, range: 5, rangeType: 'melee', formula: '1d6 + 1', types: ['physical'] }),
     passive({ id: 'akaname_pipeline_cleaner', name: 'Pipeline-Cleaner', icon: 'spell_nature_regeneration', school: 'primal', desc: 'Licks mineral-scale from pipeline walls.', effects: [{ id: 'clean_pipes', name: 'Pipeline Cleaner', description: 'A pipeline it infests flows three times more efficiently.' }] }),
   ],
-  inugami_chain: [
+  inugami: [
     dmg({ id: 'inugami_loyalty_fang', name: 'Loyalty-Fang', icon: 'ability_druid_gore', school: 'rime', desc: 'A spectral cold bite.', ap: 1, mana: 5, cd: 0, range: 5, rangeType: 'melee', formula: '2d6 + 3', types: ['rime'] }),
     passive({ id: 'inugami_ghost_movement', name: 'Ghost-Movement', icon: 'spell_shadow_fade', school: 'arcane', desc: 'Flickers, appearing to teleport.', effects: [{ id: 'flicker', name: 'Flicker', description: '+8 to evasion.' }] }),
     passive({ id: 'inugami_face_project', name: 'Face-Project', icon: 'spell_shadow_phantasm', school: 'wyrd', desc: 'Projects its face onto reflective surfaces.', effects: [{ id: 'project', name: 'Face-Project', description: 'Watches over multiple locations simultaneously.' }] }),
   ],
-  ittan_banner: [
+  ittan: [
     util({ id: 'ittan_message_bearer', name: 'Message-Bearer', icon: 'spell_arcane_arcanetorrent', school: 'arcane', desc: 'Carries a whisper the length of its fabric.', ap: 1, mana: 5, cd: 2, range: 0, rangeType: 'self', target: 'self', targetRestrictions: ['self'], utilityType: 'communication', effects: [{ id: 'message', name: 'Whisper-Message', description: 'Cannot be intercepted or forged.' }] }),
     ctrl({ id: 'ittan_smother_sleep', name: 'Smother-Sleep', icon: 'spell_shadow_nightmare', school: 'wyrd', desc: 'Wraps an attacker\'s face, forcing deep sleep.', ap: 2, mana: 10, cd: 3, range: 5, save: ['constitution', 13], duration: 3, controlType: 'incapacitation', effects: [{ id: 'sleeping', name: 'Dreamless Sleep', description: 'Deep sleep for exactly 1 day.' }] }),
     passive({ id: 'ittan_heart_read', name: 'Heart-Read', icon: 'spell_shadow_mindsteal', school: 'wyrd', desc: 'Embroidered patterns rearrange into readable messages.', effects: [{ id: 'heart_read', name: 'Heart-Read', description: 'Patterns reveal the observer\'s deepest concern.' }] }),

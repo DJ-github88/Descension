@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import useSpellbookStore from '../../../../store/spellbookStore';
-import { transformSpellForCard, getSpellRollableTable } from '../../../../components/spellcrafting-wizard/core/utils/spellTransformers';
+import { transformSpellForCard, getSpellRollableTable } from '../../../../components/spellcrafting-wizard/core/utils/spellCardTransformer';
 import UnifiedSpellCard from '../../../../components/spellcrafting-wizard/components/common/UnifiedSpellCard';
 import './AbilityLibrary.css';
 import '../../../../components/spellcrafting-wizard/styles/pathfinder/components/compact-spell-view.css';

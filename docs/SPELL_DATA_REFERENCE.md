@@ -137,7 +137,7 @@ typeConfig: { school: 'Ember' }  // capitalized
 ```
 
 Valid school IDs: `physical`, `ember`, `rime`, `storm`, `arcane`, `primal`,
-`blight`, `wyrd`
+`blight`, `wyrd`, `divine`
 
 ## Rule 4: `actionPoints` is ALWAYS set
 
@@ -1101,7 +1101,7 @@ Run this against EVERY spell. Fix any violation.
 
 | # | Class | File | Consolidated from | Resource (display) | **Engine key** | Encoding in spells |
 |---|---|---|---|---|---|---|
-| 1 | **Animist** | animistData.js | Primalist+Witch Doctor+Inscriptor | Ancestral Resonance | _none yet_ | **`implemented: false` — class has no spells; gated out of selection. See report §3.1.** |
+| 1 | **Animist** | animistData.js | Primalist+Witch Doctor+Inscriptor | Ancestral Resonance | `resonance` | `classResource:{type:'resonance', cost}` (negative = generate) |
 | 2 | **Apex** | apexData.js | Huntress | Quarry Marks | `quarry_marks` | `classResource:{type:'quarry_marks', cost\|gain}` |
 | 3 | **Arcanoneer** | arcanoneerData.js | (kept) | Elemental Spheres | `arcane_sphere`/`fire_sphere`/`ice_sphere`/… | `resourceCost.resourceValues:{<sphere>:N}` + `resourceCost.spheres:[…]` |
 | 4 | **Augur** | augurData.js | Oracle | Benediction / Malediction | `benediction` / `malediction` | `classResource:{type:'benediction'\|'malediction', cost}` |

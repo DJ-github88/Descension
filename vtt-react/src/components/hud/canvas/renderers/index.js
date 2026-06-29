@@ -1,4 +1,4 @@
-﻿import BerserkerRageRenderer from './berserkerRageRenderer';
+import BerserkerRageRenderer from './berserkerRageRenderer';
 import ShaperStanceRenderer from './shaperStanceRenderer';
 import HarbingerMayhemRenderer from './chaosWeaverMayhemRenderer';
 import PyrofiendInfernoRenderer from './pyrofiendInfernoRenderer';

@@ -62,17 +62,21 @@ const useWindowManagerStore = create((set, get) => ({
    * @param {string} type - 'window' or 'modal'
    * @returns {number} The assigned z-index
    */
-  registerWindow: (id, type = 'window') => {
+  registerWindow: (id, type = 'window', onClose = null) => {
     const { windows, nextWindowZ, nextModalZ } = get();
     
-    // If already registered, bring to front instead
+    // If already registered, update onClose and bring to front instead
     if (windows.has(id)) {
+      const existing = windows.get(id);
+      const newWindows = new Map(windows);
+      newWindows.set(id, { ...existing, onClose });
+      set({ windows: newWindows });
       return get().bringToFront(id);
     }
     
     const zIndex = type === 'modal' ? nextModalZ : nextWindowZ;
     const newWindows = new Map(windows);
-    newWindows.set(id, { zIndex, type });
+    newWindows.set(id, { zIndex, type, onClose });
     
     set({
       windows: newWindows,
@@ -242,6 +246,44 @@ const useWindowManagerStore = create((set, get) => ({
    * Reset all open windows to their default positions.
    * Bumps layoutVersion; windows watching it re-initialise.
    */
+  updateWindowOnClose: (id, onClose) => {
+    const { windows } = get();
+    if (windows.has(id)) {
+      const win = windows.get(id);
+      // Skip the update entirely when the reference is unchanged. This avoids
+      // creating a new Map and notifying subscribers for a no-op, which can
+      // otherwise cause infinite render loops when callers pass inline
+      // functions.
+      if (win.onClose === onClose) return;
+      const newWindows = new Map(windows);
+      newWindows.set(id, { ...win, onClose });
+      set({ windows: newWindows });
+    }
+  },
+
+  closeTopmostWindow: () => {
+    const { windows } = get();
+    if (windows.size === 0) return false;
+    
+    let topmostId = null;
+    let highestZ = -Infinity;
+    for (const [id, win] of windows.entries()) {
+      if (win.zIndex > highestZ && typeof win.onClose === 'function') {
+        highestZ = win.zIndex;
+        topmostId = id;
+      }
+    }
+    
+    if (topmostId) {
+      const win = windows.get(topmostId);
+      if (typeof win.onClose === 'function') {
+        win.onClose();
+        return true;
+      }
+    }
+    return false;
+  },
+
   resetLayout: () => {
     set((state) => ({ layoutVersion: state.layoutVersion + 1 }));
     get().syncWindowUpdate('layout_reset', {});

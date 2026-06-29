@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import ReactDOM from 'react-dom';
+import { List } from 'react-window';
 import { v4 as generateUniqueId } from 'uuid';
 import { useCreatureLibrary, useCreatureLibraryDispatch, libraryActionCreators } from '../../context/CreatureLibraryContext';
 import useCreatureStore from '../../../../store/creatureStore';
@@ -102,6 +103,25 @@ const CreatureLibrary = ({ onEdit, onCreateNew }) => {
   const [shareDialog, setShareDialog] = useState(null);
   const dragFromHandleRef = useRef(false);
   const suppressCardClickUntilRef = useRef(0);
+  const containerRef = useRef(null);
+  const [dimensions, setDimensions] = useState(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const width = entry.borderBoxSize?.[0]?.inlineSize || entry.contentRect.width;
+        const height = entry.borderBoxSize?.[0]?.blockSize || entry.contentRect.height;
+        if (width > 0 && height > 0) {
+          setDimensions({ width: Math.floor(width), height: Math.floor(height) });
+        }
+      }
+    });
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, []);
 
   // Auth store for community sharing
   const { user } = useAuthStore();
@@ -384,6 +404,111 @@ const CreatureLibrary = ({ onEdit, onCreateNew }) => {
     });
   };
 
+  const COLUMN_WIDTH = viewMode === 'grid' ? 245 : dimensions ? dimensions.width : 500;
+  const COLUMN_COUNT = viewMode === 'grid' ? (dimensions ? Math.max(1, Math.floor(dimensions.width / COLUMN_WIDTH)) : 1) : 1;
+  const ROW_COUNT = Math.ceil(filteredCreatures.length / COLUMN_COUNT);
+  const ROW_HEIGHT = viewMode === 'grid' ? 165 : 90;
+
+  const Row = useCallback(({ index, style }) => {
+    const startIndex = index * COLUMN_COUNT;
+    const rowCreatures = [];
+    for (let i = 0; i < COLUMN_COUNT; i++) {
+      const creatureIndex = startIndex + i;
+      if (creatureIndex < filteredCreatures.length) {
+        rowCreatures.push({ creature: filteredCreatures[creatureIndex], index: creatureIndex });
+      }
+    }
+
+    return (
+      <div style={{ ...style, display: 'flex', gap: '15px' }}>
+        {rowCreatures.map(({ creature, index }) => {
+          const handleCardMouseDown = (e) => {
+            dragFromHandleRef.current = !!e.target.closest('.drag-handle-overlay');
+          };
+
+          const handleDragStart = (e) => {
+            if (!dragFromHandleRef.current) {
+              e.preventDefault();
+              return;
+            }
+            suppressCardClickUntilRef.current = Date.now() + 250;
+            e.dataTransfer.setData('creature/id', creature.id);
+            e.dataTransfer.setData('text/plain', JSON.stringify({
+              type: 'creature',
+              id: creature.id
+            }));
+            e.dataTransfer.effectAllowed = 'copy';
+
+            const dragImage = document.createElement('div');
+            dragImage.className = 'creature-drag-image';
+            dragImage.style.backgroundImage = creature.customTokenImage
+              ? `url(${creature.customTokenImage})`
+              : `url(${getCreatureTokenIconUrl(creature.tokenIcon, creature.type)})`;
+            dragImage.style.width = '40px';
+            dragImage.style.height = '40px';
+            dragImage.style.borderRadius = '50%';
+            dragImage.style.border = `2px solid ${creature.tokenBorder}`;
+            dragImage.style.backgroundSize = 'cover';
+            dragImage.style.position = 'absolute';
+            dragImage.style.top = '-1000px';
+            document.body.appendChild(dragImage);
+            e.dataTransfer.setDragImage(dragImage, 20, 20);
+            setTimeout(() => {
+              if (document.body.contains(dragImage)) {
+                document.body.removeChild(dragImage);
+              }
+            }, 100);
+          };
+
+          const handleDragEnd = () => {
+            dragFromHandleRef.current = false;
+            suppressCardClickUntilRef.current = Date.now() + 250;
+          };
+
+          return (
+            <div
+              key={`${creature.id}-${index}`}
+              className={`creature-card-wrapper ${library.selectedCreature === creature.id ? 'selected' : ''}`}
+              style={{
+                width: viewMode === 'grid' ? `${100 / COLUMN_COUNT}%` : '100%',
+                maxWidth: viewMode === 'grid' ? '220px' : 'none',
+                height: viewMode === 'grid' ? '145px' : '80px',
+                flex: viewMode === 'grid' ? '1 1 0' : 'none'
+              }}
+              onMouseDownCapture={handleCardMouseDown}
+              onClick={(e) => {
+                if (Date.now() < suppressCardClickUntilRef.current) return;
+                if (e.target.closest('.drag-handle-overlay')) return;
+                handleSelectCreature(creature.id);
+                handleCreatureClick(creature, e);
+              }}
+              onContextMenu={(e) => handleContextMenu(e, creature.id)}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={() => {
+                if (hoveredCreature?.id === creature.id) {
+                  setHoveredCreature(null);
+                }
+              }}
+              draggable="true"
+              onDragStart={handleDragStart}
+              onDragEnd={handleDragEnd}
+            >
+              <CompactCreatureCard creature={creature} />
+              <div
+                className="drag-handle-overlay"
+                title="Drag creature to grid"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <i className="fas fa-grip-lines"></i>
+                <span>Drag to Grid</span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    );
+  }, [filteredCreatures, COLUMN_COUNT, viewMode, library.selectedCreature, handleSelectCreature, handleCreatureClick, handleContextMenu, handleMouseMove, hoveredCreature]);
+
   return (
     <div
       ref={libraryRef}
@@ -454,7 +579,7 @@ const CreatureLibrary = ({ onEdit, onCreateNew }) => {
       {/* Content area */}
       <div className="creature-library-content">
         {/* Main content area with creature cards */}
-        <main className={`creature-library-creatures ${viewMode}-view`}>
+        <main className={`creature-library-creatures ${viewMode}-view`} style={{ overflow: 'hidden', padding: '10px 20px' }}>
           {filteredCreatures.length === 0 ? (
             <div className="creature-library-no-results">
               <p>No creatures match your current filters.</p>
@@ -466,107 +591,19 @@ const CreatureLibrary = ({ onEdit, onCreateNew }) => {
               </button>
             </div>
           ) : (
-            <>
-              <div className="creature-cards-container">
-                {filteredCreatures.map((creature, index) => {
-                  // Create a memoized handler for each creature to prevent recreating functions on every render
-                  const handleCardMouseDown = (e) => {
-                    dragFromHandleRef.current = !!e.target.closest('.drag-handle-overlay');
-                  };
-
-                  const handleDragStart = (e) => {
-                    // Only allow drag when user starts from the explicit drag handle.
-                    // This prevents accidental drags when the intent was to click/select.
-                    if (!dragFromHandleRef.current) {
-                      e.preventDefault();
-                      return;
-                    }
-
-                    suppressCardClickUntilRef.current = Date.now() + 250;
-
-                    // Set the creature ID directly
-                    e.dataTransfer.setData('creature/id', creature.id);
-
-                    // Also set JSON data as text/plain for compatibility
-                    e.dataTransfer.setData('text/plain', JSON.stringify({
-                      type: 'creature',
-                      id: creature.id
-                    }));
-
-                    e.dataTransfer.effectAllowed = 'copy';
-
-                    // Create a drag image
-                    const dragImage = document.createElement('div');
-                    dragImage.className = 'creature-drag-image';
-                    dragImage.style.backgroundImage = creature.customTokenImage
-                      ? `url(${creature.customTokenImage})`
-                      : `url(${getCreatureTokenIconUrl(creature.tokenIcon, creature.type)})`;
-                    dragImage.style.width = '40px';
-                    dragImage.style.height = '40px';
-                    dragImage.style.borderRadius = '50%';
-                    dragImage.style.border = `2px solid ${creature.tokenBorder}`;
-                    dragImage.style.backgroundSize = 'cover';
-                    dragImage.style.position = 'absolute';
-                    dragImage.style.top = '-1000px';
-                    document.body.appendChild(dragImage);
-
-                    e.dataTransfer.setDragImage(dragImage, 20, 20);
-
-                    // Remove the drag image after a short delay
-                    setTimeout(() => {
-                      if (document.body.contains(dragImage)) {
-                        document.body.removeChild(dragImage);
-                      }
-                    }, 100);
-
-                  };
-
-                  const handleDragEnd = () => {
-                    dragFromHandleRef.current = false;
-                    suppressCardClickUntilRef.current = Date.now() + 250;
-                  };
-
-                  return (
-                    <div
-                      key={`${creature.id}-${index}`}
-                      className={`creature-card-wrapper ${library.selectedCreature === creature.id ? 'selected' : ''}`}
-                      onMouseDownCapture={handleCardMouseDown}
-                      onClick={(e) => {
-                        // Don't trigger selection/tooltip if click immediately follows drag
-                        if (Date.now() < suppressCardClickUntilRef.current) return;
-
-                        // Drag handle clicks should not toggle selection/details
-                        if (e.target.closest('.drag-handle-overlay')) return;
-
-                        handleSelectCreature(creature.id);
-                        handleCreatureClick(creature, e);
-                      }}
-                      onContextMenu={(e) => handleContextMenu(e, creature.id)}
-                      onMouseMove={handleMouseMove}
-                      onMouseLeave={() => {
-                        // Close tooltip immediately when leaving the card
-                        if (hoveredCreature?.id === creature.id) {
-                          setHoveredCreature(null);
-                        }
-                      }}
-                      draggable="true"
-                      onDragStart={handleDragStart}
-                      onDragEnd={handleDragEnd}
-                    >
-                      <CompactCreatureCard creature={creature} />
-                      <div
-                        className="drag-handle-overlay"
-                        title="Drag creature to grid"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <i className="fas fa-grip-lines"></i>
-                        <span>Drag to Grid</span>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </>
+            <div ref={containerRef} style={{ width: '100%', height: '100%', minHeight: '300px', overflow: 'hidden' }}>
+              {dimensions && (
+                <List
+                  height={dimensions.height}
+                  itemCount={ROW_COUNT}
+                  itemSize={ROW_HEIGHT}
+                  width={dimensions.width}
+                  style={{ overflowX: 'hidden' }}
+                >
+                  {Row}
+                </List>
+              )}
+            </div>
           )}
         </main>
       </div>

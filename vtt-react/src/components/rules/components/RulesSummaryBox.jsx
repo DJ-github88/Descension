@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 
 const RulesSummaryBox = ({ items }) => {
   if (!items || items.length === 0) return null;

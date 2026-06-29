@@ -111,10 +111,10 @@ All files are in `D:\VTT\vtt-react\src\data\classes\`:
 | 26 | spellguardData.js | ~50 | Defensive magic, wards |
 | 27 | titanData.js | ~1 (imports titanSpells.js with ~45) | Celestial devotion |
 | 28 | toxicologistData.js | ~51 | Poisons, debuffs |
-| 29 | wardenData.js | ~52 | Nature, barriers |
+| 29 | gaolerData.js | ~52 | Nature, barriers |
 | 30 | witchDoctorData.js | ~65 | Voodoo, hexes |
 
-**Note**: titanData.js imports spells from `titan/titanSpells.js`. Augur, berserker, doomsayer, plaguebringer, primalist, pyrofiend, spellguard, toxicologist, and warden also have subdirectories with additional files.
+**Note**: titanData.js imports spells from `titan/titanSpells.js`. Augur, berserker, doomsayer, plaguebringer, primalist, pyrofiend, spellguard, toxicologist, and gaoler also have subdirectories with additional files.
 
 ## Audit Process — Per Class
 

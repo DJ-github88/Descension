@@ -59,13 +59,13 @@ const ContainerWindow = ({ container, onClose }) => {
 
     // Register window with window manager on mount
     useEffect(() => {
-        const initialZIndex = registerWindow(windowId, 'window');
+        const initialZIndex = registerWindow(windowId, 'window', onClose);
         setZIndex(initialZIndex);
 
         return () => {
             unregisterWindow(windowId);
         };
-    }, [windowId, registerWindow, unregisterWindow]);
+    }, [windowId, registerWindow, unregisterWindow, onClose]);
 
     // Debug: Log window scale changes
     useEffect(() => {

@@ -5,7 +5,7 @@ import useGridItemStore from '../../store/gridItemStore';
 import useGameStore from '../../store/gameStore';
 import useLevelEditorStore from '../../store/levelEditorStore';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
-import { isPointInPolygon } from '../../utils/VisibilityCalculations';
+import { isPointInPolygon, getPolygonBBox } from '../../utils/VisibilityCalculations';
 import ItemTooltip from '../item-generation/ItemTooltip';
 import ContainerWindow from '../item-generation/ContainerWindow';
 import UnlockContainerModal from '../item-generation/UnlockContainerModal';
@@ -430,6 +430,11 @@ const GridContainer = ({ gridItem }) => {
       if (visibleAreaSet && visibleAreaSet.size > 0) {
         // WALL-OCCLUSION FIX: Use visibilityPolygon for precise checks
         if (visibilityPolygon && visibilityPolygon.length >= 3) {
+          // PERFORMANCE: Bbox pre-filter to skip expensive polygon check for far-away items
+          const bbox = getPolygonBBox(visibilityPolygon);
+          if (bbox && (itemWorldPosition.x < bbox.minX || itemWorldPosition.x > bbox.maxX || itemWorldPosition.y < bbox.minY || itemWorldPosition.y > bbox.maxY)) {
+            return { visible: false, greyedOut: false };
+          }
           const isInPolygon = isPointInPolygon(
             itemWorldPosition.x,
             itemWorldPosition.y,
@@ -437,6 +442,11 @@ const GridContainer = ({ gridItem }) => {
           );
           // If in polygon, show; if not in polygon, hide (don't grey out)
           return { visible: isInPolygon, greyedOut: false };
+        } else if (viewingFromToken && dynamicFogEnabled) {
+          // CRITICAL FIX: If we are in precise mode but don't have a polygon yet,
+          // do NOT assume visible based on tile alone. This prevents items from
+          // flashing through walls during moves.
+          return { visible: false, greyedOut: false };
         }
 
         // Fallback to tile-based check (no visibility polygon available)

@@ -65,6 +65,13 @@ const formatModifier = (mod) => {
   return mod >= 0 ? `+${mod}` : `${mod}`;
 };
 
+const getCreatureThumb = (illustration) => {
+  if (!illustration || typeof illustration !== 'string') return illustration;
+  return illustration
+    .replace('/creatures/', '/creatures/thumbs/')
+    .replace(/\.png$/i, '.jpg');
+};
+
 // Helper to resolve ability icon URLs - converts WoW icons to local ability icons
 const getAbilityIconUrlLocal = (icon) => {
   if (!icon) return getCustomIconUrl('Utility/Utility', 'abilities');
@@ -2152,11 +2159,17 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
             <div className="creature-lore-portrait">
               <div className="creature-lore-portrait-frame">
                 <img
-                  src={illustration}
+                  src={getCreatureThumb(illustration)}
                   alt={illustrationCaption || creature?.name || 'Creature'}
+                  loading="lazy"
+                  decoding="async"
                   onError={(e) => {
                     e.target.onerror = null;
-                    e.target.style.display = 'none';
+                    e.target.src = illustration;
+                    e.target.onerror = () => {
+                      e.target.onerror = null;
+                      e.target.style.display = 'none';
+                    };
                   }}
                 />
               </div>

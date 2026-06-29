@@ -7,7 +7,17 @@
  * - combat_turn_changed: turn order progression (persisted for permanent rooms)
  * - item_looted: grid item removal on loot (server-authoritative)
  * - inventory_update: peer-to-peer inventory change broadcast
+ *
+ * Authority: when COMBAT_AUTHORITY_ENFORCEMENT=true, combat_started and
+ * combat_ended are GM-only and combat_turn_changed is GM-or-current-turn-holder.
+ * Default cooperative-VTT behaviour is unchanged when the flag is unset.
+ *
+ * Field name note: combatStore.js emits currentTurnIndex; legacy GMToolsPanel
+ * code emits turnIndex. The Joi schema in validationService.js normalises both
+ * to currentTurnIndex before this handler runs.
  */
+
+const combatAuthority = require('../services/combatAuthority');
 
 function registerCombatHandlers(ctx) {
   const {
@@ -26,13 +36,28 @@ function registerCombatHandlers(ctx) {
         return;
       }
 
-      const { room } = validation;
+      const { room, player } = validation;
+
+      const auth = combatAuthority.canStartOrEndCombat(player, room);
+      if (!auth.allowed) {
+        logger.warn('[combat_started] rejected by authority check', {
+          playerId: player?.id, reason: auth.reason
+        });
+        if (typeof ackCallback === 'function') ackCallback({ success: false, error: auth.reason });
+        return;
+      }
+
+      const turnOrder = Array.isArray(data.turnOrder) ? data.turnOrder : [];
+      const requestedIndex = Number.isInteger(data.currentTurnIndex) ? data.currentTurnIndex : 0;
+      const safeIndex = turnOrder.length > 0
+        ? Math.min(Math.max(0, requestedIndex), turnOrder.length - 1)
+        : 0;
 
       room.gameState.combat = {
         isActive: true,
-        currentTurnIndex: 0,
-        turnOrder: data.turnOrder || [],
-        round: 1,
+        currentTurnIndex: safeIndex,
+        turnOrder,
+        round: Number.isInteger(data.round) && data.round > 0 ? data.round : 1,
         currentTurnStartTime: Date.now()
       };
 
@@ -60,7 +85,16 @@ function registerCombatHandlers(ctx) {
         return;
       }
 
-      const { room } = validation;
+      const { room, player } = validation;
+
+      const auth = combatAuthority.canStartOrEndCombat(player, room);
+      if (!auth.allowed) {
+        logger.warn('[combat_ended] rejected by authority check', {
+          playerId: player?.id, reason: auth.reason
+        });
+        if (typeof ackCallback === 'function') ackCallback({ success: false, error: auth.reason });
+        return;
+      }
 
       room.gameState.combat = {
         isActive: false,
@@ -106,24 +140,51 @@ function registerCombatHandlers(ctx) {
       const validation = validateRoomMembership(socket, data.roomId);
       if (!validation.valid) return;
 
-      const { room } = validation;
+      const { room, player } = validation;
 
-      if (room.gameState.combat?.isActive) {
-        room.gameState.combat.currentTurnIndex = data.turnIndex;
-        room.gameState.combat.currentTurnStartTime = Date.now();
-
-        if (data.round) {
-          room.gameState.combat.round = data.round;
-        }
-
-        io.to(data.roomId).emit('combat_turn_changed', {
-          turnIndex: data.turnIndex,
-          round: room.gameState.combat.round
+      if (!room.gameState.combat?.isActive) {
+        logger.warn('[combat_turn_changed] ignored — combat not active', {
+          roomId: data.roomId, playerId: player?.id
         });
+        return;
+      }
 
-        if (room.isPermanent) {
-          firebaseBatchWriter.queueWrite(room.id, room.gameState);
-        }
+      const auth = combatAuthority.canChangeTurn(player, room);
+      if (!auth.allowed) {
+        logger.warn('[combat_turn_changed] rejected by authority check', {
+          playerId: player?.id, reason: auth.reason
+        });
+        socket.emit('combat_turn_rejected', {
+          reason: auth.reason,
+          currentTurnIndex: room.gameState.combat.currentTurnIndex
+        });
+        return;
+      }
+
+      const turnOrder = room.gameState.combat.turnOrder || [];
+      const requestedIndex = data.currentTurnIndex;
+      if (!Number.isInteger(requestedIndex) || requestedIndex < 0 || requestedIndex >= turnOrder.length) {
+        logger.warn('[combat_turn_changed] out-of-range turnIndex', {
+          requestedIndex, turnOrderLength: turnOrder.length
+        });
+        return;
+      }
+
+      room.gameState.combat.currentTurnIndex = requestedIndex;
+      room.gameState.combat.currentTurnStartTime = Date.now();
+
+      if (data.round && data.round > 0) {
+        room.gameState.combat.round = data.round;
+      }
+
+      io.to(data.roomId).emit('combat_turn_changed', {
+        currentTurnIndex: room.gameState.combat.currentTurnIndex,
+        round: room.gameState.combat.round,
+        turnOrder
+      });
+
+      if (room.isPermanent) {
+        firebaseBatchWriter.queueWrite(room.id, room.gameState);
       }
 
     } catch (error) {

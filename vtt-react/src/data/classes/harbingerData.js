@@ -1,4 +1,22 @@
 export const HARBINGER_DATA = {
+  restrictions: {
+      "allowedSubraces": [
+          "sylen_astril",
+          "muren_astril",
+          "solvarn_human",
+          "skald_human",
+          "ordan_human"
+      ],
+      "hardBlocks": [
+          "merryn_human",
+          "thalren_human",
+          "morren_human",
+          "neth"
+      ],
+      "narrativeUnlock": true,
+      "justification": "Requires cultural proximity to entropy. These cultures have been waiting for extinction long enough to weaponize it. Merryn are too opportunistic. Thalren too preservationist. Neth can't accept anything that breaks contracts."
+  },
+
   id: "harbinger",
   name: "Harbinger",
   icon: "fas fa-hourglass-half",

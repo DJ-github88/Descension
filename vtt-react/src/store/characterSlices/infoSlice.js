@@ -9,7 +9,7 @@ import characterSessionService from '../../services/firebase/characterSessionSer
 import characterMigrationService from '../../services/firebase/characterMigrationService';
 import localStorageManager from '../../utils/localStorageManager';
 import { getCharacterData, updateCharacterData, storeCharacterOffline } from '../../services/offlineService';
-import { getEncumbranceState, getCurrentUserId, isGuestUser, getCharactersStorageKey, shouldUseFirebase, characterAutoSaveTimer, CHARACTER_AUTO_SAVE_DELAY, setCharacterAutoSaveTimer } from '../characterHelpers';
+import { getEncumbranceState, getCurrentUserId, isGuestUser, getCharactersStorageKey, shouldUseFirebase, CHARACTER_AUTO_SAVE_DELAY, clearCharacterAutoSaveTimer, triggerCharacterAutoSave } from '../characterHelpers';
 import { ALL_CLASSES_DATA } from '../../data/classes';
 import { ALL_CLASS_SPELLS } from '../../data/classSpellGenerator';
 import { getXPForLevel } from '../../utils/experienceUtils';
@@ -826,28 +826,17 @@ export const createInfoSlice = (set, get) => ({
             }
 
             // CRITICAL FIX: Debounced auto-save to Firebase for character changes during gameplay
-            // Clear existing timer
-            if (characterAutoSaveTimer) {
-                clearTimeout(characterAutoSaveTimer);
-            }
-
-            // Schedule auto-save if we have an active character
             if (state.currentCharacterId) {
-                characterAutoSaveTimer = setTimeout(() => {
-                    try {
-                        // Save current character to Firebase and localStorage
-                        get().saveCurrentCharacter();
+                triggerCharacterAutoSave(() => {
+                    get().saveCurrentCharacter();
 
-                        // Also record the change for session tracking
-                        get().recordCharacterChange(state.currentCharacterId, 'stat_change', {
-                            stat: field,
-                            value: value,
-                            timestamp: new Date()
-                        });
-                    } catch (error) {
-                        console.warn('Failed to auto-save character after updateCharacterInfo:', error);
-                    }
-                }, CHARACTER_AUTO_SAVE_DELAY);
+                    // Also record the change for session tracking
+                    get().recordCharacterChange(state.currentCharacterId, 'stat_change', {
+                        stat: field,
+                        value: value,
+                        timestamp: new Date()
+                    });
+                });
             }
 
             return newState;
@@ -869,18 +858,8 @@ export const createInfoSlice = (set, get) => ({
             }
         }
 
-        if (characterAutoSaveTimer) {
-            clearTimeout(characterAutoSaveTimer);
-        }
-
         if (get().currentCharacterId) {
-            characterAutoSaveTimer = setTimeout(() => {
-                try {
-                    get().saveCurrentCharacter();
-                } catch (error) {
-                    console.warn('Failed to auto-save character after setTalents:', error);
-                }
-            }, CHARACTER_AUTO_SAVE_DELAY);
+            triggerCharacterAutoSave(() => get().saveCurrentCharacter());
         }
 
         get().syncWithMultiplayer();

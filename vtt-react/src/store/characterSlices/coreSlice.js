@@ -11,7 +11,7 @@ import characterMigrationService from '../../services/firebase/characterMigratio
 import localStorageManager from '../../utils/localStorageManager';
 import { getCharacterData, updateCharacterData, storeCharacterOffline } from '../../services/offlineService';
 import { getCustomBackgroundData } from '../../data/legacyDisciplineData';
-import { getEncumbranceState, getCurrentUserId, isGuestUser, getCharactersStorageKey, shouldUseFirebase, characterAutoSaveTimer, CHARACTER_AUTO_SAVE_DELAY, setCharacterAutoSaveTimer } from '../characterHelpers';
+import { getEncumbranceState, getCurrentUserId, isGuestUser, getCharactersStorageKey, shouldUseFirebase, CHARACTER_AUTO_SAVE_DELAY, clearCharacterAutoSaveTimer, triggerCharacterAutoSave } from '../characterHelpers';
 
 export const createCoreSlice = (set, get) => ({
     // Character management for account system
@@ -562,6 +562,10 @@ export const createCoreSlice = (set, get) => ({
                     class_spells: character.class_spells || { known_spells: [] },
                 levelUpHistory: character.levelUpHistory || {},
                 talents: character.talents || {},
+                classResource: character.classResource || (character.class ? initializeClassResource(character.class, {
+                    ...(character.stats || {}),
+                    level: character.level || 1
+                }) : null),
                 // Ensure inventory is preserved in character state
                 inventory: character.inventory || {
                     items: [],
@@ -994,12 +998,7 @@ export const createCoreSlice = (set, get) => ({
     },
 
     debouncedSave: () => {
-        if (characterAutoSaveTimer) {
-            clearTimeout(characterAutoSaveTimer);
-        }
-        characterAutoSaveTimer = setTimeout(() => {
-            get().saveCurrentCharacter();
-        }, CHARACTER_AUTO_SAVE_DELAY);
+        triggerCharacterAutoSave(() => get().saveCurrentCharacter());
     },
 
     saveCurrentCharacter: () => {
@@ -1048,6 +1047,7 @@ export const createCoreSlice = (set, get) => ({
             levelUpHistory: state.levelUpHistory, // Include level-up history
             talents: state.talents, // Include talent tree selections
             inventory: inventoryData, // Include inventory data
+            classResource: state.classResource, // Include class resource
             updatedAt: new Date().toISOString()
         };
 

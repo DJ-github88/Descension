@@ -9,6 +9,25 @@
  */
 
 export const AUGUR_DATA = {
+  restrictions: {
+      "allowedSubraces": [
+          "skald_human",
+          "sylen_astril",
+          "muren_astril",
+          "tessen_human",
+          "clean_vreken",
+          "marked_vreken"
+      ],
+      "hardBlocks": [
+          "merryn_human",
+          "ordan_human",
+          "morren_human",
+          "myrathil"
+      ],
+      "narrativeUnlock": true,
+      "justification": "Requires proximity to preserved dead (glacier-tombs) and access to Frozen Archive's runic mathematics. Cultures without burial-preservation traditions (Ordan leave dead to steppe, Merryn bury at sea) can't maintain the ancestral connection."
+  },
+
   id : "augur",
   name: "Augur",
   icon: "fas fa-skull-crossbones",
@@ -112,7 +131,7 @@ Augurs are not frontline gladiators, nor are they safe, back-line spellcasters. 
 **Turn 1 - The First Incision**
 *Because no bleeding targets or fresh corpses exist, your eyes are blind to the future. You pull your ritual flaying hook and drag it across your own left forearm, carving the first sign.*
 * **Self-Mutilation**: You take 1d6 slashing damage (4 HP lost) and suffer Bleed (1d4 damage at the start of your turn for 3 rounds). This generates +2 Malediction.
-* **Your Action**: Cast "Splintered Bone Portent" on the Executioner (8 Mana + 2 Malediction spent).
+* **Your Action**: Cast "Fractured Fate Portent" on the Executioner (8 Mana + 2 Malediction spent).
 * **Effect**: You scream the fracture you see. The executioner staggers as his femur cracks internally. He takes 2d6 wyrd damage and suffers -2 DR and -10ft speed for 3 rounds.
 * **Mana**: 45 → 37/55.
 * **Malediction**: 2 → 0/15.
@@ -124,7 +143,7 @@ Augurs are not frontline gladiators, nor are they safe, back-line spellcasters. 
 * **Omen Reading**: 12 is even → +1 Benediction.
 * **Enemy's Turn**: The executioner swings his massive cleaver at the Fighter → d20+7 → [17] → Hit!
 * **Omen Reading**: 17 is odd → +1 Malediction.
-* **Your Reaction**: Spend 1 Benediction and 1 Malediction to cast "Gore-Sown Foresight".
+* **Your Reaction**: Spend 1 Benediction and 1 Malediction to cast "Blood-Read Foresight".
 * **Effect**: You read the spray of dust and sweat. You pull the threads of the immediate six seconds. The cleaver cleaves empty air as the Fighter slips 10 feet backward under your frantic warning, completely evading the attack without opportunity strikes.
 * **Current State**: Malediction: 0/15 | Benediction: 0/5 | HP: 46/50 | Fighter untouched. The executioner cleaves nothing but shadow.`,
     },
@@ -167,7 +186,7 @@ Augurs are not frontline gladiators, nor are they safe, back-line spellcasters. 
       momentum:
         "Spill blood early. Once an enemy or ally is bleeding, your vision opens and you no longer need to mutilate yourself. Watch the rolls of allies and foes to dynamically adapt your action plan.",
       flourish:
-        "Use your immediate reactions. Saving an ally from a fatal strike with Gore-Sown Foresight or guaranteeing a critical counter-strike turns the tides of battle instantly.",
+        "Use your immediate reactions. Saving an ally from a fatal strike with Blood-Read Foresight or guaranteeing a critical counter-strike turns the tides of battle instantly.",
     },
 
     overheatRules: {
@@ -220,7 +239,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       headers: ["Rite", "Resource Cost", "Defensive / Offensive Focus", "Effect Summary"],
       rows: [
         [
-          "Gore-Sown Foresight",
+          "Blood-Read Foresight",
           "1 Benediction + 1 Malediction",
           "Absolute Defense",
           "Reaction: Incoming attack automatically misses; ally slips 10ft away",
@@ -232,7 +251,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
           "Action: Next weapon attack is a guaranteed critical hit or critical counter-strike",
         ],
         [
-          "Splintered Bone Portent",
+          "Fractured Fate Portent",
           "2 Malediction",
           "Target Crippling",
           "Action: Cracks bones internally. Deals 2d6 psychic, -2 DR, -10ft speed",
@@ -282,12 +301,6 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
           description:
             "10/10 dual resource caps. Dual-cost spells cost 30% less mana. +1 to all saves when pools are balanced.",
         },
-
-        keyAbilities: [
-          "Cruciform Omen: Traces a bloody cross, splitting a target's destiny between blessing and curse",
-          "Gore-Mist Tempests: A swirling storm of spilt gore that heals allies and blinds enemies",
-          "Sovereign Haruspex: The ultimate transformation, giving total command over the dice.",
-        ],
       },
 
       { id : "harbinger",
@@ -318,12 +331,6 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
           description:
             "5/15 dual resource caps. wyrd damage ignores resistance. Malediction spells deal +2d6 wyrd damage.",
         },
-
-        keyAbilities: [
-          "Flayed Eyes Gaze: Shatters a target's mind with visions of their own skinning",
-          "Ruinous Flaying Hex: A massive, crippling curse that paralyzes and rots target meat",
-          "Harbinger of the Black Ash: Transform into an aura of pure, decaying death.",
-        ],
       },
 
       { id : "hierophant",
@@ -354,12 +361,6 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
           description:
             "15/5 dual resource caps. Healing increased by 50%. Benediction spells grant +2 DR to allies.",
         },
-
-        keyAbilities: [
-          "Martyr's Shroud: Wraps allies in a congealed ward that absorbs catastrophic damage",
-          "Blinding Cathedral of Bones: Consecrates a zone with ember bone splinters that blind foes and heal allies",
-          "Hierophant of Blinding Splinters: Transform into a beacon of blinding light, repelling all evil.",
-        ],
       },
     ],
   },
@@ -370,9 +371,9 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
     // ============================================================
 
     { id : "augur_read_the_signs",
-      name: "Read the Guts",
+      name: "Read the Omen",
       description:
-        "You plunge your hands into a fresh wound or a corpse to read the steam rising from the exposed viscera. If no violence is present, you slice your own palm, forcing the omens to speak. The tragic patterns reveal the target's fatal structural flaw.",
+        "You observe the shifting shadows and heat patterns rising from a recent clash. If no conflict is present, you draw upon localized kinetic friction, forcing the omens of fate to speak. The patterns reveal the target's fatal structural flaw.",
       level: 1,
       spellType: "ACTION",
       icon: "Necrotic/Ritual",
@@ -428,9 +429,9 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
     },
 
     { id : "augur_omen_shield",
-      name: "Gore-Sown Foresight",
+      name: "Blood-Read Foresight",
       description:
-        "You read the arterial spray of a targeted ally six seconds before the strike lands. Screaming an agonizing warning, you tear the fabric of probability to yank them out of harm's way, leaving the enemy cleaving nothing but shadow.",
+        "You read the rapid pulse and visual strain of a targeted ally six seconds before the strike lands. Shouting a preemptive warning, you warp the local probability field to yank them out of harm's way, leaving the enemy striking nothing but a fading shadow.",
       level: 1,
       spellType: "REACTION",
       icon: "Nature/Ethereal Bear Spirit",
@@ -461,7 +462,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
         buffType: "damageMitigation",
         effects: [
           { id : "preemptive_evasion",
-            name: "Gore-Sown Evasion",
+            name: "Blood-Read Evasion",
             description:
               "The next attack targeting this ally automatically misses. The ally immediately shifts up to 10 feet without provoking opportunity strikes.",
             mechanicsText: "Forces next attack to miss. Ally moves 10ft free.",
@@ -488,9 +489,9 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
     },
 
     { id : "augur_minor_portent",
-      name: "Arterial Curse",
+      name: "Pulse Curse",
       description:
-        "You fling a drop of your own fresh blood toward a foe. The blood congeals in mid-air, forming a floating, jagged rune of tragedy. Their eyes cloud with black spots as their heartbeats sync to a slow, dying rhythm.",
+        "You project a focused pulse of kinetic pressure toward a foe. The force vibrates in mid-air, forming a floating, glowing rune of doom. Their vision clouds as their heartbeats sync to a slow, halting rhythm.",
       level: 1,
       spellType: "ACTION",
       icon: "Necrotic/Corruption",
@@ -627,9 +628,9 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
     // ============================================================
 
     { id : "augur_portent_of_weakness",
-      name: "Splintered Bone Portent",
+      name: "Fractured Fate Portent",
       description:
-        "You declare an omen of imminent fracture. An invisible, crushing weight slams down on the target's joints, cracking their bone structure internally. They stagger, their armor splitting under their own weight.",
+        "You declare an omen of imminent fracture. An invisible, crushing weight slams down on the target's joints, straining their physical form. They stagger, their defenses splitting under their own weight.",
       level: 2,
       spellType: "ACTION",
       icon: "Necrotic/Bone Shards",
@@ -660,8 +661,8 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       debuffConfig: {
         debuffType: "statPenalty",
         effects: [
-          { id : "splintered_bone_debuff",
-            name: "Cracked Frame",
+          { id : "fractured_fate_debuff",
+            name: "Fractured Frame",
             description: "Target has -2 DR and their Agility is reduced by 2 for 3 rounds.",
             mechanicsText: "-2 DR and -2 Agility.",
           },
@@ -696,9 +697,9 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
     },
 
     { id : "augur_terrain_of_ruin",
-      name: "Fleshy Consecration",
+      name: "Cruor Consecration",
       description:
-        "You pour a chalice of decayed blood onto the earth. The soil instantly putrefies, bubbling into a wet bog of rotting offal and sharp bone fragments. Enemies who walk here are slowed as the dead grasp at their boots.",
+        "You pour a chalice of consecrated alchemical oils onto the earth. The soil instantly shimmers, bubbling into a dense mist of kinetic energy. Enemies who walk here are slowed as the heavy pressure drags at their boots.",
       level: 2,
       spellType: "ACTION",
       icon: "Necrotic/Corruption",
@@ -725,15 +726,15 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
         resourceValues: { mana: 10 },
         actionPoints: 1,
         components: ["verbal", "somatic", "material"],
-        materialComponents: "A cup of stagnant blood",
+        materialComponents: "A cup of alchemical oil",
         classResource: { type: "malediction", cost: 3 },
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       debuffConfig: {
         debuffType: "statPenalty",
         effects: [
-          { id : "fleshy_bog_slow",
-            name: "Rotting Grasp",
+          { id : "kinetic_consecration_slow",
+            name: "Kinetic Grasp",
             description: "Movement speed halved and -2 to all Agility saving throws while in the zone.",
             mechanicsText: "Speed halved, -2 Agility saves.",
           },
@@ -770,9 +771,9 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
     },
 
     { id : "augur_sign_of_protection",
-      name: "Congealed Aegis",
+      name: "Sanguine Aegis",
       description:
-        "You trace your fingers through spilling blood and flick it at an ally. The warm spray congeals in mid-air, hardening into a shimmering, iron-hard carapace of scab and golden light that drinks incoming trauma.",
+        "You trace a protective rune in mid-air and direct it at an ally. A shimmering, iron-hard carapace of crimson and golden light forms around them, drinking incoming trauma.",
       level: 2,
       spellType: "ACTION",
       icon: "Radiant/Divine Blessing",
@@ -822,9 +823,9 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
     // ============================================================
 
     { id : "augur_omen_bolt",
-      name: "Lance of Fractured Marrow",
+      name: "Omen Lance",
       description:
-        "You thrust your hand forward, casting a dual lance of burning ember marrow and shattering wyrd screams. If the immediate combat signs are even, the bolt strikes with terrible, blinding intensity.",
+        "You thrust your hand forward, casting a dual lance of burning energy and shattering, resonant wyrd waves. If the immediate combat signs are even, the bolt strikes with terrible, blinding intensity.",
       level: 3,
       spellType: "ACTION",
       icon: "Radiant/Radiant Sunburst",
@@ -867,9 +868,9 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
     },
 
     { id : "augur_harbinger_gaze",
-      name: "Flayed Eyes Gaze",
+      name: "Unblinking Gaze",
       description:
-        "You lock eyes with a target and force them to see their own body flayed to the bone, their flesh hung to dry. The horror fractures their mind, leaving them shrieking and clawing at their own face in blind terror.",
+        "You lock eyes with a target and force them to see the vastness of fate, fracturing their sense of time. The mental shock breaks their concentration, leaving them staggered in blind terror.",
       level: 3,
       spellType: "ACTION",
       icon: "Psychic/Psionic Boom",
@@ -905,7 +906,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
-          { id : "flayed_gaze_fear",
+          { id : "unblinking_gaze_fear",
             name: "Frightened",
             description: "Target is Frightened and has disadvantage on all attack rolls.",
             mechanicsText: "Frightened state, disadvantage on attack rolls.",
@@ -931,9 +932,9 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
     },
 
     { id : "augur_sacred_ground",
-      name: "Agonizing Sanctuary",
+      name: "Vigilant Sanctuary",
       description:
-        "You hammer your staff into the ground, creating a zone of blinding, painful radiance. Allies who stand within have their wounds sealed with congealing light, while enemies are scorched by the searing truth.",
+        "You hammer your staff into the ground, creating a zone of blinding, protective radiance. Allies who stand within have their wounds sealed with warm, restorative light, while enemies are scorched by the searing truth.",
       level: 3,
       spellType: "ACTION",
       icon: "Radiant/ember light Burst",
@@ -999,9 +1000,9 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
     // ============================================================
 
     { id : "augur_grand_malediction",
-      name: "Ruinous Flaying Hex",
+      name: "Ruinous Fate Hex",
       description:
-        "You speak the ultimate word of decay. The target's skin begins to peel backward as if invisible blades were flaying them alive. They freeze in absolute, screaming paralysis as their nervous system collapses.",
+        "You speak the ultimate word of decay. The target's temporal anchor begins to unravel. They freeze in absolute, screaming paralysis as their sense of self collapses.",
       level: 4,
       spellType: "ACTION",
       icon: "Necrotic/Death Mark",
@@ -1174,9 +1175,9 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
     // ============================================================
 
     { id : "augur_omen_storm",
-      name: "Gore-Mist Tempests",
+      name: "Crimson-Mist Tempest",
       description:
-        "You conjure a violent, swirling tempest of spilt blood and howling souls. The storm is hyper-volatile: allies within are healed by the life-giving mist, while enemies have their flesh shredded by jagged bone winds.",
+        "You conjure a violent, swirling tempest of crimson light and howling chronal echoes. The storm is hyper-volatile: allies within are healed by the life-giving mist, while enemies have their defenses shredded by jagged wind shear.",
       level: 5,
       spellType: "ACTION",
       icon: "Lightning/Thunderstorm",
@@ -1545,9 +1546,9 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
     // ============================================================
 
     { id : "augur_reality_of_omens",
-      name: "Splitting of the Flesh",
+      name: "Splitting of the Veil",
       description:
-        "You split reality down the center. On one side, allies are bolstered by congealing marrow and golden fate. On the other, enemies have their skin torn away, suffering catastrophic vulnerability.",
+        "You split reality down the center. On one side, allies are bolstered by protective, golden fate. On the other, enemies have their planar anchors torn away, suffering catastrophic vulnerability.",
       level: 7,
       spellType: "ACTION",
       icon: "Arcane/Portal Archway",
@@ -1688,9 +1689,9 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
     },
 
     { id : "augur_divine_sanctuary",
-      name: "Bleeding Altar of Grace",
+      name: "Sanguine Altar of Grace",
       description:
-        "You summon a colossal altar of congealed blood and golden splinters. The altar forms an absolute sanctuary: allies within are immune to all damage, while enemies are violently repelled by the searing light.",
+        "You summon a colossal altar of crimson energy and golden splinters. The altar forms an absolute sanctuary: allies within are immune to all damage, while enemies are violently repelled by the searing light.",
       level: 7,
       spellType: "ACTION",
       icon: "Radiant/ember light Burst",

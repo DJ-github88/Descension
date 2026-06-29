@@ -1,4 +1,4 @@
-name: 🚀 Deploy to Netlify
+name: Deploy to Netlify
 
 on:
   push:
@@ -13,39 +13,39 @@ env:
 jobs:
   # Job 1: Build and Test
   build-and-test:
-    name: 🔨 Build & Test
+    name: Build & Test
     runs-on: ubuntu-latest
-    
+
     steps:
-      - name: 📥 Checkout Code
+      - name: Checkout Code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0 # Full history for better caching
-      
-      - name: 📦 Setup Node.js
+
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
           cache-dependency-path: 'vtt-react/package-lock.json'
-      
-      - name: 🧹 Clean Install Dependencies
+
+      - name: Clean Install Dependencies
         working-directory: ./vtt-react
         run: |
           rm -rf node_modules
           npm ci --force
-      
-      - name: 🔍 Lint Code
+
+      - name: Lint Code
         working-directory: ./vtt-react
         run: npm run lint --if-present
 
-      - name: 🧪 Run Tests
+      - name: Run Tests
         working-directory: ./vtt-react
         env:
           CI: true
         run: npm test -- --coverage --watchAll=false
-      
-      - name: 🏗️ Build Application
+
+      - name: Build Application
         working-directory: ./vtt-react
         env:
           CI: true
@@ -57,16 +57,41 @@ jobs:
           REACT_APP_BUILD_TIME: ${{ github.run_number }}
           REACT_APP_BRANCH: ${{ github.ref_name }}
         run: npm run build
-      
-      - name: 📊 Bundle Analysis
+
+      - name: Bundle Size Report
         working-directory: ./vtt-react
         run: |
-          echo "📦 Build Size Analysis:"
+          echo "Build Size Analysis:"
           du -sh build/
-          echo "🗂️ Largest Files:"
-          find build/ -type f -name "*.js" -o -name "*.css" | xargs ls -lah | sort -k5 -hr | head -10
-      
-      - name: 💾 Upload Build Artifacts
+          echo "Largest Files:"
+          find build/ -type f \( -name "*.js" -o -name "*.css" \) -print | xargs ls -lah | sort -k5 -hr | head -10
+
+      - name: Enforce Bundle Budget
+        working-directory: ./vtt-react
+        run: |
+          node -e "
+            const fs = require('fs');
+            const path = require('path');
+            const dir = path.join('build', 'static', 'js');
+            if (!fs.existsSync(dir)) { console.error('No build/static/js directory'); process.exit(1); }
+            const files = fs.readdirSync(dir).filter(f => f.endsWith('.js'));
+            let total = 0; const perFile = [];
+            for (const f of files) {
+              const stat = fs.statSync(path.join(dir, f));
+              total += stat.size; perFile.push({ f, size: stat.size });
+            }
+            const KB = 1024;
+            const TOTAL_BUDGET_KB = 3500;
+            const CHUNK_BUDGET_KB = 1500;
+            const over = perFile.filter(x => x.size > CHUNK_BUDGET_KB * KB);
+            console.log('Total JS: ' + (total / KB).toFixed(1) + ' KB / ' + TOTAL_BUDGET_KB + ' KB budget');
+            console.log('Chunks over ' + CHUNK_BUDGET_KB + ' KB: ' + (over.length ? over.map(x => x.f + ' (' + (x.size/KB).toFixed(0) + ' KB)').join(', ') : 'none'));
+            if (total > TOTAL_BUDGET_KB * KB) { console.error('FAIL: total bundle exceeds budget'); process.exit(1); }
+            if (over.length) { console.error('FAIL: chunk budget exceeded'); process.exit(1); }
+            console.log('Bundle budget OK');
+          "
+
+      - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: build-files-${{ github.sha }}
@@ -75,53 +100,53 @@ jobs:
 
   # Job 2: Server Tests
   server-tests:
-    name: 🧪 Server Tests
+    name: Server Tests
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📥 Checkout Code
+      - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: 📦 Setup Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
           cache-dependency-path: 'server/package-lock.json'
 
-      - name: 🧹 Clean Install Server Dependencies
+      - name: Clean Install Server Dependencies
         working-directory: ./server
         run: npm ci
 
-      - name: 🧪 Run Server Tests
+      - name: Run Server Tests
         working-directory: ./server
         run: npm test
 
   # Job 3: Deploy to Netlify
   deploy-to-netlify:
-    name: 🚀 Deploy to Netlify
+    name: Deploy to Netlify
     needs: [build-and-test, server-tests]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
 
     steps:
-      - name: 📥 Checkout Code
+      - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: 📦 Setup Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
           cache-dependency-path: 'vtt-react/package-lock.json'
 
-      - name: 💾 Download Build Artifacts
+      - name: Download Build Artifacts
         uses: actions/download-artifact@v4
         with:
           name: build-files-${{ github.sha }}
           path: vtt-react/build/
 
-      - name: 🚀 Deploy to Netlify
+      - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v3.0
         with:
           publish-dir: './vtt-react/build'
@@ -138,24 +163,24 @@ jobs:
 
   # Job 4: Post-Deploy Verification
   verify-deployment:
-    name: ✅ Verify Deployment
+    name: Verify Deployment
     needs: deploy-to-netlify
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
-    
+
     steps:
-      - name: 🔍 Health Check
+      - name: Health Check
         run: |
-          echo "🏥 Running deployment health checks..."
+          echo "Running deployment health checks..."
           # Health check for mythrill.netlify.app
           curl -f https://mythrill.netlify.app || exit 1
-          echo "✅ Site is responding"
-      
-      - name: 📝 Deployment Summary
+          echo "Site is responding"
+
+      - name: Deployment Summary
         run: |
-          echo "## 🚀 Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "## Deployment Summary" >> $GITHUB_STEP_SUMMARY
           echo "- **Site URL:** https://mythrill.netlify.app" >> $GITHUB_STEP_SUMMARY
           echo "- **Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Time:** $(date)" >> $GITHUB_STEP_SUMMARY
-          echo "- **Status:** ✅ Success" >> $GITHUB_STEP_SUMMARY
+          echo "- **Status:** Success" >> $GITHUB_STEP_SUMMARY

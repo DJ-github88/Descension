@@ -1,4 +1,4 @@
-﻿import { SparkParticle } from './fluidPhysics';
+import { SparkParticle } from './fluidPhysics';
 
 function hexToRgba(hex, alpha) {
   const r = parseInt(hex.slice(1, 3), 16);

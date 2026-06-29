@@ -8,8 +8,8 @@ const Step6Cooldown = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
   const dispatch = useSpellWizardDispatch();
   const [errors, setErrors] = useState([]);
   
-  const isCompleted = validateStepCompletion(stepNumber || 6, state);
-  const isActive = state.currentStep === (stepNumber || 6);
+  const isCompleted = validateStepCompletion(6, state);
+  const isActive = state.currentStep === 6;
   
   // Local cooldown configuration (supports both old and new key names)
   const [cooldownConfig, setCooldownConfig] = useState(state.cooldownConfig || {

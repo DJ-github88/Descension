@@ -790,3 +790,49 @@ export function getInventoryGridDimensions(carryingCapacity) {
         ROWS_PER_SECTION: rowsPerSection
     };
 }
+
+/**
+ * Validate character selection against lore-based class and background restrictions.
+ * Returns isValid, array of errors (strict blockers), and array of warnings (narrative locks/flavor warnings).
+ */
+export function validateCharacterSelection(raceId, subraceId, classData, backgroundData) {
+    const errors = [];
+    const warnings = [];
+
+    // Class Validation
+    if (classData && classData.restrictions) {
+        const { allowedSubraces, hardBlocks, narrativeUnlock, justification } = classData.restrictions;
+        
+        // Check hard blocks
+        if (hardBlocks && (hardBlocks.includes(raceId) || hardBlocks.includes(subraceId))) {
+            errors.push(`Hard Block: The ${classData.name} class cannot be chosen by ${subraceId || raceId} characters. Justification: ${justification}`);
+        }
+        
+        // Check allowed subraces
+        if (allowedSubraces && allowedSubraces.length > 0) {
+            if (!allowedSubraces.includes(subraceId)) {
+                if (narrativeUnlock) {
+                    warnings.push(`Narrative Unlock: The ${classData.name} class is typically restricted to: ${allowedSubraces.join(', ')}. Choosing this requires DM backstory approval. Justification: ${justification}`);
+                } else {
+                    errors.push(`Restricted: The ${classData.name} class is strictly locked to: ${allowedSubraces.join(', ')}. Justification: ${justification}`);
+                }
+            }
+        }
+    }
+
+    // Background Validation
+    if (backgroundData && backgroundData.restrictions) {
+        const { allowedSubraces, justification } = backgroundData.restrictions;
+        
+        if (allowedSubraces && allowedSubraces.length > 0 && !allowedSubraces.includes(subraceId)) {
+            warnings.push(`The ${backgroundData.name} background is typically restricted to: ${allowedSubraces.join(', ')}. Justification: ${justification}`);
+        }
+    }
+
+    return {
+        isValid: errors.length === 0,
+        errors,
+        warnings
+    };
+}
+

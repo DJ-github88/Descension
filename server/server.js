@@ -143,16 +143,29 @@ io.use(rateLimitService.createMiddleware({
 // ==================== REDIS ADAPTER (optional, multi-server scaling) ====================
 // Activates only when REDIS_URL is set AND the adapter packages are installed.
 // Without it, the server stays single-server/in-memory (the default).
+// The same block also swaps RateLimitService to a Redis-backed store so that
+// per-client counters survive process restarts and are shared across replicas.
 if (process.env.REDIS_URL) {
   try {
     const { createClient } = require('redis');
     const { createAdapter } = require('@socket.io/redis-adapter');
+    const { RedisRateLimitStore } = require('./services/rateLimitStore');
     const pubClient = createClient({ url: process.env.REDIS_URL });
     const subClient = pubClient.duplicate();
     Promise.all([pubClient.connect(), subClient.connect()])
       .then(() => {
         io.adapter(createAdapter(pubClient, subClient));
         logger.info('Socket.io Redis adapter enabled', { redisUrl: process.env.REDIS_URL });
+
+        try {
+          const rateLimitClient = pubClient.duplicate();
+          return rateLimitClient.connect().then(() => {
+            rateLimitService.setStore(new RedisRateLimitStore(rateLimitClient));
+            logger.info('RateLimitService swapped to Redis-backed store');
+          });
+        } catch (storeErr) {
+          logger.error('RedisRateLimitStore activation failed; falling back to in-memory store', { error: storeErr.message });
+        }
       })
       .catch(err => logger.error('Redis adapter connection failed', { error: err.message }));
   } catch (e) {

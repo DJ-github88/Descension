@@ -9,7 +9,7 @@ import characterSessionService from '../../services/firebase/characterSessionSer
 import characterMigrationService from '../../services/firebase/characterMigrationService';
 import localStorageManager from '../../utils/localStorageManager';
 import { getCharacterData, updateCharacterData, storeCharacterOffline } from '../../services/offlineService';
-import { getEncumbranceState, getCurrentUserId, isGuestUser, getCharactersStorageKey, shouldUseFirebase, characterAutoSaveTimer, CHARACTER_AUTO_SAVE_DELAY, setCharacterAutoSaveTimer } from '../characterHelpers';
+import { getEncumbranceState, getCurrentUserId, isGuestUser, getCharactersStorageKey, shouldUseFirebase, CHARACTER_AUTO_SAVE_DELAY, clearCharacterAutoSaveTimer, triggerCharacterAutoSave } from '../characterHelpers';
 
 export const createResourceSlice = (set, get) => ({
     // Resources
@@ -98,14 +98,7 @@ export const createResourceSlice = (set, get) => ({
 
             // CRITICAL FIX: Debounced auto-save to Firebase/Multiplayer for resource changes
             if (state.currentCharacterId && !skipSave) {
-                if (characterAutoSaveTimer) clearTimeout(characterAutoSaveTimer);
-                characterAutoSaveTimer = setTimeout(() => {
-                    try {
-                        get().saveCurrentCharacter();
-                    } catch (error) {
-                        console.warn('Failed to auto-save character after updateResource:', error);
-                    }
-                }, CHARACTER_AUTO_SAVE_DELAY);
+                triggerCharacterAutoSave(() => get().saveCurrentCharacter());
             }
 
             // MULTIPLAYER SYNC: Broadcast resource changes to other players
@@ -137,10 +130,7 @@ export const createResourceSlice = (set, get) => ({
 
             // AUTO-SAVE
             if (state.currentCharacterId && !skipSave) {
-                if (characterAutoSaveTimer) clearTimeout(characterAutoSaveTimer);
-                characterAutoSaveTimer = setTimeout(() => {
-                    get().saveCurrentCharacter();
-                }, CHARACTER_AUTO_SAVE_DELAY);
+                triggerCharacterAutoSave(() => get().saveCurrentCharacter());
             }
 
             return { [tempField]: newAmount };
@@ -173,14 +163,7 @@ export const createResourceSlice = (set, get) => ({
 
             // CRITICAL FIX: Debounced auto-save for class resource changes
             if (state.currentCharacterId && !skipSave) {
-                if (characterAutoSaveTimer) clearTimeout(characterAutoSaveTimer);
-                characterAutoSaveTimer = setTimeout(() => {
-                    try {
-                        get().saveCurrentCharacter();
-                    } catch (error) {
-                        console.warn('Failed to auto-save character after updateClassResource:', error);
-                    }
-                }, CHARACTER_AUTO_SAVE_DELAY);
+                triggerCharacterAutoSave(() => get().saveCurrentCharacter());
             }
 
             // Sync with multiplayer (de-prioritized or separate event)
@@ -210,14 +193,7 @@ export const createResourceSlice = (set, get) => ({
         set({ classResource: fresh });
 
         if (state.currentCharacterId) {
-            if (characterAutoSaveTimer) clearTimeout(characterAutoSaveTimer);
-            characterAutoSaveTimer = setTimeout(() => {
-                try {
-                    get().saveCurrentCharacter();
-                } catch (error) {
-                    console.warn('Failed to auto-save character after resetClassResource:', error);
-                }
-            }, CHARACTER_AUTO_SAVE_DELAY);
+            triggerCharacterAutoSave(() => get().saveCurrentCharacter());
         }
 
         get().syncResourcesWithMultiplayer({ classResource: 0 });

@@ -1,4 +1,22 @@
 export const INQUISITOR_DATA = {
+  restrictions: {
+      "allowedSubraces": [
+          "marked_vreken",
+          "clean_vreken",
+          "thalren_human",
+          "unwoven_mimir",
+          "morren_human"
+      ],
+      "hardBlocks": [
+          "emberth",
+          "fexrick",
+          "myrathil",
+          "skald_human"
+      ],
+      "narrativeUnlock": true,
+      "justification": "Requires either the Ghost-Mycelium (Vreken) or a lifetime of anti-Wyrd training. Other races lack the supernatural exposure density. Emberth too hot for stealth hunts. Fexrick too mechanical. Myrathil too distant from surface Wyrd."
+  },
+
   id : "inquisitor",
   name: "Inquisitor",
   icon: "fas fa-gavel",

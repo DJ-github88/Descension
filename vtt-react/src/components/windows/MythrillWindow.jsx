@@ -138,13 +138,38 @@ const MythrillWindow = forwardRef((props, ref) => {
     // Register window with window manager on mount
     useEffect(() => {
         const windowType = modal ? 'modal' : 'window';
-        const initialZIndex = registerWindow(windowId, windowType);
+        const initialZIndex = registerWindow(windowId, windowType, onClose);
         setZIndex(initialZIndex);
 
         return () => {
             unregisterWindow(windowId);
         };
-    }, [windowId, registerWindow, unregisterWindow, modal]);
+    }, [windowId, registerWindow, unregisterWindow, modal]); // onClose intentionally omitted – it's kept fresh via updateWindowOnClose below
+
+    // Keep the latest onClose in a ref so we can register a STABLE wrapper with
+    // the window manager. This breaks an infinite loop: previously the effect
+    // depended on `onClose`, and parent components (e.g. Navigation) frequently
+    // pass a new inline onClose on every render. Each call to
+    // updateWindowOnClose replaced the store's `windows` Map, which re-rendered
+    // those parents, which produced yet another new onClose reference, etc.
+    const onCloseRef = useRef(onClose);
+    useEffect(() => {
+        onCloseRef.current = onClose;
+    }, [onClose]);
+
+    // Register a stable wrapper once per window. The wrapper always invokes the
+    // freshest onClose via the ref, so we never need to re-register.
+    useEffect(() => {
+        const updateWindowOnClose = useWindowManagerStore.getState().updateWindowOnClose;
+        if (updateWindowOnClose) {
+            const stableWrapper = () => {
+                if (typeof onCloseRef.current === 'function') {
+                    onCloseRef.current();
+                }
+            };
+            updateWindowOnClose(windowId, stableWrapper);
+        }
+    }, [windowId]);
 
     // Bring window to front when it opens
     useEffect(() => {
@@ -290,9 +315,6 @@ const MythrillWindow = forwardRef((props, ref) => {
         e.stopPropagation();
     }, []);
 
-    const onCloseRef = useRef(onClose);
-    useEffect(() => { onCloseRef.current = onClose; }, [onClose]);
-
     useEffect(() => {
         if (!modal || !isOpen) return;
         const dialog = windowElementRef.current;
@@ -302,11 +324,6 @@ const MythrillWindow = forwardRef((props, ref) => {
         dialog.focus();
 
         const handleKeydown = (e) => {
-            if (e.key === 'Escape') {
-                e.stopPropagation();
-                if (onCloseRef.current) onCloseRef.current();
-                return;
-            }
             if (e.key === 'Tab') {
                 const items = dialog.querySelectorAll(
                     'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'

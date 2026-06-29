@@ -6,7 +6,28 @@
  */
 
 export const WARDEN_DATA = {
-  id : "warden",
+  restrictions: {
+      "allowedSubraces": [
+          "morgh_groven",
+          "ithran_groven",
+          "drall_fexric",
+          "kethrin_fexric",
+          "kessen_neth",
+          "skald_human",
+          "clean_vreken",
+          "marked_vreken"
+      ],
+      "hardBlocks": [
+          "merryn_human",
+          "ordan_human",
+          "astril",
+          "emberth"
+      ],
+      "narrativeUnlock": true,
+      "justification": "Requires access to the chain-graft surgical tradition only available in Frostmaw Holdfast and the Frozen Archive. Non-Groven can learn the technique but must undergo the surgical graft, which few cultures accept."
+  },
+
+  id : "Warden",
   name: "Warden",
   icon: "fas fa-link",
   role: "Melee Lockdown / Heavy Sentinel",
@@ -21,7 +42,7 @@ export const WARDEN_DATA = {
       title: "Quick Overview",
       content: `**What You Need to Know**: The Warden is a heavy-martial lockdown specialist who has completely abandoned all druidic or forest ranger tropes. They are the Penitent Jailer—wielding thick, rusted iron chains physically grafted directly into their own forearms, spine, and flesh. They do not guard trees; they guard nightmares.
 
-**Core Mechanic**: Drive rusted hooks into your own flesh and the enemy to establish a *Flesh Tether* -> Restrict target's movement and target selection -> Generate *Tether Tension* through pain and manual reeling -> Spend Tension on bone-crushing flails, agony-infused braces, or ultimate ascundancies.
+**Core Mechanic**: Drive rusted hooks into your own flesh and the enemy to establish a *Iron Chain Tether* -> Restrict target's movement and target selection -> Generate *Tether Tension* through pain and manual reeling -> Spend Tension on bone-crushing flails, agony-infused braces, or ultimate ascundancies.
 
 **Resource**: *Tether Tension* (0-10 scale), representing the agonizing physical strain on the chains driven through your bones. Built by establishing tethers, receiving strikes, or manually reeling; spent on massive crowd-control and crushing counter-strikes.
 
@@ -35,7 +56,7 @@ export const WARDEN_DATA = {
     roleplayIdentity: {
       title: "Roleplay Identity",
       content: `**HISTORY: THE GENESIS**
-The warden's calling was forged by Alaric the Law-Keeper, a Groven mine-guard who drove a mining chain through his own forearm to anchor a colossal abomination during the Vat-Breakers' revolt in the lower tunnels of <LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink>. Over ten years, he and the Fexrick chain-smiths refined the technique of grafting iron tethers directly into muscle and bone.
+The Warden's calling was forged by Alaric the Law-Keeper, a Groven mine-guard who drove a mining chain through his own forearm to anchor a colossal abomination during the Vat-Breakers' revolt in the lower tunnels of <LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink>. Over ten years, he and the Fexrick chain-smiths refined the technique of grafting iron tethers directly into muscle and bone.
 
 **CITIES & CIVIL RECEPTION**
 Common folk in regional settlements find their rusted, skin-grafted chains and heavy iron bolts disturbing, often viewing them as zealots or walking cell blocks. They are tolerated only because they keep the absolute worst terrors of the deep from reaching the surface keeps.
@@ -51,18 +72,18 @@ The tradition is heavily practiced by the subterranean Morgh <LoreLink termId="g
     signatureQuote: {
       text: '"I drove the chain through my own shoulder so I could anchor the beast. The pain kept me conscious. The beast was surprised. We stood there for three hours, neither of us able to move, both of us bleeding. It was the most intimate moment of my life."',
       speaker: 'Alaric the Law-Keeper',
-      context: 'From his training manual on Flesh Tethering, still used to train new Wardens'
+      context: 'From his training manual on Iron Chain Tethering, still used to train new Wardens'
     },
 
     philosophy: {
       coreTenet: 'A chain is not a tool of restraint. It is a tool of connection. When a Warden chains themselves to a monster, they are not trapping the monster — they are agreeing to share its fate. If it falls, they fall. If it bleeds, they feel it. The chain is a vow made of iron and flesh.',
-      relationship: 'A Warden\'s power comes from the Flesh Tether — a chain physically grafted through their own body and anchored to their target. The tether is not magical; it is a medical fact. The hooks are driven through the bone. The chain is anchored to the skeleton. The pain is the source of the Warden\'s Tension, and the Tension is the source of their power.',
+      relationship: 'A Warden\'s power comes from the Iron Chain Tether — a chain physically grafted through their own body and anchored to their target. The tether is not magical; it is a medical fact. The hooks are driven through the bone. The chain is anchored to the skeleton. The pain is the source of the Warden\'s Tension, and the Tension is the source of their power.',
       paradox: 'The Warden controls their enemy by giving up control of themselves. They cannot release the tether at will — the hooks are too deep, the tension too great. Once anchored, the Warden is committed. They must win or die.'
     },
 
     originStory: `The first Warden was Alaric the Law-Keeper, a Groven mine-guard stationed in the lower tunnels beneath Frostmaw Holdfast. When the Deep Alchemists' vat-laboratories collapsed during the Vat-Breakers' revolt, the containment wards shattered and the experiments — things with too many limbs and not enough skin — poured into the tunnels. Alaric's squad was slaughtered in seconds. He survived by driving a ore-hauling chain through his own forearm and into the ribcage of the largest specimen, anchoring it to the tunnel wall with his own body as the pin. He held it for three days. When rescue finally arrived, the chain had rusted into his bone and the creature had died of exhaustion, unable to break free. The Fexric Drall smiths who cut him free noted that the pattern of scar tissue around the graft points had fused with the iron, creating a permanent bond. They asked if he wanted the chain removed. He said no. He spent the next decade refining the technique — grafting thicker chains, developing the tether-and-reel system, training others to do the same. The order he founded still operates from the Forge of Alaric in Frostmaw Holdfast, where new Wardens drive their first hook under the supervision of Fexric Drall chain-smiths. The tradition has spread beyond the Groven — Neth archivists tether themselves to forbidden texts, Skald berserkers chain themselves to glacier-wyrms, and Vreken penitents anchor themselves to the horrors that crawl from the deep bogs. But every Warden's first chain is still forged at Alaric's anvil.`,
 
-    currentCrisis: `The chains are breaking. The iron used for traditional Flesh Tethers is failing — the cold of the Cragjaw Peaks has made the metal brittle, and tethers are snapping at critical moments. The Fexric Drall have proposed a new alloy using recycled chardalyn fragments, which would be stronger and lighter. But chardalyn causes madness with prolonged contact. Wardens who accepted chardalyn chains report hearing whispers at night. Those who refused are running out of replacements for their old chains.`,
+    currentCrisis: `The chains are breaking. The iron used for traditional Iron Chain Tethers is failing — the cold of the Cragjaw Peaks has made the metal brittle, and tethers are snapping at critical moments. The Fexric Drall have proposed a new alloy using recycled chardalyn fragments, which would be stronger and lighter. But chardalyn causes madness with prolonged contact. Wardens who accepted chardalyn chains report hearing whispers at night. Those who refused are running out of replacements for their old chains.`,
 
     meaningfulTradeoffs: `To be a Warden is to carry permanent scars. The tether hooks leave holes in the bone that never fully heal. A Warden can be identified by the pattern of scars on their arms, shoulders, and back — a map of every creature they have ever anchored. Old wounds remember; they hurt more when struck.`,
 
@@ -70,7 +91,7 @@ The tradition is heavily practiced by the subterranean Morgh <LoreLink termId="g
       {
         name: 'The Forge of Alaric',
         locationId: 'frostmaw-holdfast',
-        description: 'The original blacksmith\'s forge where Alaric forged the first Flesh Tether chains. Still maintained by a line of Fexric Drall smiths.',
+        description: 'The original blacksmith\'s forge where Alaric forged the first Iron Chain Tether chains. Still maintained by a line of Fexric Drall smiths.',
         purpose: 'Chain forge and Warden initiation site',
         status: 'Active — struggling to meet demand for new chains'
       }
@@ -81,7 +102,7 @@ The tradition is heavily practiced by the subterranean Morgh <LoreLink termId="g
       content: `**Primary Role**: Heavy-martial lockdown specialist and damage-absorbing anchor.
 
 **Combat Strengths**:
-- **Inescapable forced dueling**: The exclusive *Flesh Tether* creates an unbreakable 15-foot radius. The tethered enemy physically cannot target the Warden's allies.
+- **Inescapable forced dueling**: The exclusive *Iron Chain Tether* creates an unbreakable 15-foot radius. The tethered enemy physically cannot target the Warden's allies.
 - **Massive crowd control**: Able to lock down high-threat targets, preventing all teleportation and movement beyond the chain's reach.
 - **Pain-driven resource economy**: Tether Tension scales with combat aggression and damage taken, feeding their most devastating close-range abilities.
 - **Unrivaled tanking utility**: Keeps fragile allies completely safe from the tethered abomination.
@@ -98,10 +119,10 @@ The tradition is heavily practiced by the subterranean Morgh <LoreLink termId="g
       title: "Playstyle & Strategy",
       content: `**Tether Tension Management**:
 Warden combat is a high-wire balancing act of pain and control. Tether Tension caps at 10. You must constantly manage this tension:
-- **Tether and Reel**: Start combat by driving a *Flesh Tether* into the primary target (generates 2 Tension at the cost of 1d6 self-inflicted blight damage).
+- **Tether and Reel**: Start combat by driving a *Iron Chain Tether* into the primary target (generates 2 Tension at the cost of 1d6 self-inflicted blight damage).
 - **Pain is Power**: Build Tension by taking damage or using abilities that manually pull the chains tighter.
 - **Spend to Subdue**: Consume Tether Tension to activate heavy defensive braces (*Penitent Resolve*, 4 Tension) or to deliver crushing flails (*Barbed Lash*, 2 Tension).
-- **Iron Ascendancy**: Save 10 Tension to enter *Flayed Ascendancy* (ultimate transformation), where the Warden's flesh fuses with the iron, lashing out at all nearby foes and rendering them immune to displacement while the target is dragged helplessly.
+- **Iron Ascendancy**: Save 10 Tension to enter *Iron Ascendancy* (ultimate transformation), where the Warden's flesh fuses with the iron, lashing out at all nearby foes and rendering them immune to displacement while the target is dragged helplessly.
 
 **The Fatal Drag**:
 Be wary of tethering high-strength targets. If they move, you are dragged. Use *Iron Brace* to double your weight and resist displacement, or suffer the bludgeoning recoil of being dragged across the gravel.
@@ -120,7 +141,7 @@ With a permanent +50% Wyrd vulnerability, you must rely on your party's casters 
 
 *The flesh-golem roars, stepping toward your fragile mage. You step forward. You do not shout a holy oath. You grip the rusted chain extending from your forearms and drive the colossal hook straight through your own wrist and deep into the golem's shoulder.*
 
-**Your Action**: "Flesh Tether" on Flesh-Golem (1 Action Point)
+**Your Action**: "Iron Chain Tether" on Flesh-Golem (1 Action Point)
 **Self-Harm**: Take 1d6 blight damage → [4] = 86 HP remaining.
 **Effect**: Golem is tethered. It physically cannot target your allies or move beyond a 15-foot radius from you.
 **Tension Generated**: +2 Tension (Tension: **2/10**)
@@ -173,7 +194,7 @@ With a permanent +50% Wyrd vulnerability, you must rely on your party's casters 
 **Your Reaction**: "Iron Brace" reaction.
 **Tension Generated**: +1 = **4/10**
 
-**Turn 5 - Flayed Ascendancy (Tension: 4 → 10 → 0)**
+**Turn 5 - Iron Ascendancy (Tension: 4 → 10 → 0)**
 
 *You manually reel the chain once more as a free action under Tension, pushing your body to the limit. The pain is blinding, but the lock is absolute.*
 
@@ -183,7 +204,7 @@ With a permanent +50% Wyrd vulnerability, you must rely on your party's casters 
 
 *You let out a tragic, gutteral roar. The rusted iron chains grafted to your spine expand, tearing through your skin and forming a sweeping ribcage of jagged steel around you. The golem tries to pull back, but the chains retract automatically, dragging its massive bulk helplessly toward you. You are the Jailer, and this is your gaol.*
 
-**Final State**: HP: 45/90 | Tension: 0/10 | Flayed Ascendancy: Active (6 rounds) | Golem: Dragged and helpless.`,
+**Final State**: HP: 45/90 | Tension: 0/10 | Iron Ascendancy: Active (6 rounds) | Golem: Dragged and helpless.`,
     },
   },
 
@@ -201,7 +222,7 @@ With a permanent +50% Wyrd vulnerability, you must rely on your party's casters 
         details: "Tension is a physical resource. As it builds, the chains pull taut, ripping through the Warden's flesh. High tension increases damage output but restricts mobility and increases self-harm."
       },
       {
-        title: "Flesh Tether",
+        title: "Iron Chain Tether",
         stats: "1 Target Tethered",
         details: "Drive your rusted hooks into a target within 15 feet. They cannot leave the 15-foot radius or target your allies. Marking a new target tears the hooks out, dealing blight damage to you."
       },
@@ -213,8 +234,8 @@ With a permanent +50% Wyrd vulnerability, you must rely on your party's casters 
     ],
 
     usage: {
-      momentum: "Establish your Flesh Tether immediately. The initial impact generates 2 Tether Tension. Use manual reels to build Tension, then spend it on Iron Brace to ensure you cannot be dragged when the monster attempts to flee.",
-      flourish: "Flayed Ascendancy is your absolute lockdown window. Consuming 10 Tension turns your flesh into an iron bastion, dragging the chained horror helplessly while shredding them with automatic chain lashes."
+      momentum: "Establish your Iron Chain Tether immediately. The initial impact generates 2 Tether Tension. Use manual reels to build Tension, then spend it on Iron Brace to ensure you cannot be dragged when the monster attempts to flee.",
+      flourish: "Iron Ascendancy is your absolute lockdown window. Consuming 10 Tension turns your flesh into an iron bastion, dragging the chained horror helplessly while shredding them with automatic chain lashes."
     },
 
     overheatRules: {
@@ -239,7 +260,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
         title: "Tension Generation",
         headers: ["Action", "Tension Gained", "Notes"],
         rows: [
-          ["Establish Flesh Tether", "2 Tension", "Costs 1d6 self-inflicted blight damage"],
+          ["Establish Iron Chain Tether", "2 Tension", "Costs 1d6 self-inflicted blight damage"],
           ["Suffer Strike from Tethered Target", "1 Tension", "Pain builds tension in the links"],
           ["Agonizing Reel (AP Cost)", "2 Tension", "Pull the chains tighter, dealing 1d4 piercing to self"],
           ["Evasive Brace Miss/Hit", "1 Tension", "Successful bracing or deflection builds tension"]
@@ -253,7 +274,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
           ["3 Tension", "Sweeping Chains", "Cone attack slows all targets by 15 feet"],
           ["4 Tension", "Penient Resolve", "Gain 50% damage resistance, doubled if tethered target is near"],
           ["6 Tension", "Iron Gaol", "Summon heavy iron bars to trap target for 3 rounds"],
-          ["10 Tension", "Flayed Ascendancy", "Ultimate transformation; drag target and shred nearby foes"]
+          ["10 Tension", "Iron Ascendancy", "Ultimate transformation; drag target and shred nearby foes"]
         ]
       }
     ]
@@ -283,7 +304,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
       ],
       armor: [
         {
-          name: "Flayed Jailer Plate",
+          name: "Iron Jailer Plate",
           armor: "15 + agility modifier (max +2)",
           properties: "Heavy iron plate bolted directly to the shoulders. -10ft base speed penalty."
         }
@@ -299,7 +320,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
     startingStats: {
       hp: "12 + Constitution modifier",
       hitDice: "1d12 per Warden level",
-      armor: "15 + agility modifier (max +2) (Flayed Jailer Plate)",
+      armor: "15 + agility modifier (max +2) (Iron Jailer Plate)",
       speed: "20 ft (heavy plate penalty included)",
       savingThrows: ["Agility", "Constitution"],
       skills: [
@@ -309,7 +330,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
 
     startingAbilities: [
       {
-        name: "Flesh Tether",
+        name: "Iron Chain Tether",
         type: "Action",
         desc: "Drive iron chains into target within 15ft, locking them to your radius. Generates 2 Tension."
       },
@@ -332,23 +353,23 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
 
     specializationChoice: {
       level: 3,
-      description: "At 3rd level, choose your path of penance: Flayed Stalker (stealth/bleed), Iron Gaoler (mass lockdown/cages), Relentless Tormentor (inescapable drag/crush), or Monolith (gravitational immovability/calcified defense)."
+      description: "At 3rd level, choose your path of penance: Iron Stalker (stealth/bleed), Iron Warden (mass lockdown/cages), Relentless Tormentor (inescapable drag/crush), or Monolith (gravitational immovability/calcified defense)."
     },
 
     levelProgression: {
       title: "Warden Level Progression",
       headers: ["Level", "Tension Max", "Feature Unlocked"],
       rows: [
-        ["1", "10", "Flesh Tether, Chain Graft, Iron Brace, Barbed Lash"],
+        ["1", "10", "Iron Chain Tether, Chain Graft, Iron Brace, Barbed Lash"],
         ["2", "10", "Sweeping Chains, Penitent Resolve"],
         ["3", "10", "Specialization Choice + Spec Passives"],
         ["4", "10", "Ability Score Improvement"],
-        ["5", "10", "Flayed Ascendancy (Ultimate Transformation)"],
+        ["5", "10", "Iron Ascendancy (Ultimate Transformation)"],
         ["6", "10", "Iron Storm, Gaol Shatter"],
         ["7", "10", "Reel and Execute, Torturer's Wrath, Grave-Iron Cage"],
-        ["8", "10", "Ability Score Improvement, Ascendant Jailer, Eternal Iron Tomb, Brutal Whipping"],
+        ["8", "10", "Ability Score Improvement, Ascendant Jailer, Eternal Iron Tomb, Iron Lash"],
         ["9", "10", "Penitent Judgment, Mass Imprisonment, Inescapable Shackle"],
-        ["10", "10", "Flayed Ascendancy Perfected, Cataclysm of Iron, Iron Prison Realm"]
+        ["10", "10", "Iron Ascendancy Perfected, Cataclysm of Iron, Iron Prison Realm"]
       ]
     }
   },
@@ -368,11 +389,11 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
 
     specs: [
       { id : "shadowblade",
-        name: "Flayed Stalker",
+        name: "Iron Stalker",
         icon: "Piercing/Night Dagger",
         color: "#2E0854",
         theme: "Pain-Channeled Stealth",
-        description: "The Flayed Stalker blends in the shadows not through grace, but through complete stillness and numbed flesh. They strike silently, dragging victims into the dark to rip them apart.",
+        description: "The Iron Stalker blends in the shadows not through grace, but through complete stillness and numbed flesh. They strike silently, dragging victims into the dark to rip them apart.",
         playstyle: "Stealth-based lockdown and bleed assassin, striking from silence with devastating flails.",
         strengths: [
           "Highest burst damage of all Warden specs",
@@ -383,12 +404,12 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
         weaknesses: [
           "Requires stealth setup for maximum effectiveness",
           "Lower sustained survivability than Relentless Tormentor",
-          "Fewer mass-control options than Iron Gaoler",
+          "Fewer mass-control options than Iron Warden",
           "Agonizing recoil when stealth is broken"
         ],
         passiveAbilities: [
           {
-            name: "Lacerating Ambush",
+            name: "Crushing Ambush",
             icon: "Utility/Hide",
             description: "Attacks from stealth generate +1 Tension (total 3 Tension) and deal +1d8 bleed damage. You can hide for 1 action point after a successful strike."
           },
@@ -399,18 +420,18 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
           }
         ],
         recommendedSpells: [
-          "Flayed Leap - Leap from stealth to lock chains around prey",
-          "Flayed Shadow Assault - Ultimate stealth-fused chain frenzy",
+          "Chain Leap - Leap from stealth to lock chains around prey",
+          "Chained Shadow Assault - Ultimate stealth-fused chain frenzy",
           "Pain-Fueled Flail - Basic stealth strike generating high Tension",
-          "Flesh Tether - Crucial to anchor targets before they run"
+          "Iron Chain Tether - Crucial to anchor targets before they run"
         ]
       },
       { id : "jailer",
-        name: "Iron Gaoler",
+        name: "Iron Warden",
         icon: "Necrotic/Crossed Bones",
         color: "#4A5568",
         theme: "Spectral Iron Cages",
-        description: "The Iron Gaoler projects their inner torment outward, summoning heavy, spectral iron bars to cage multiple enemies and isolate them from the battlefield.",
+        description: "The Iron Warden projects their inner torment outward, summoning heavy, spectral iron bars to cage multiple enemies and isolate them from the battlefield.",
         playstyle: "Heavy crowd control and sentinel defense, caging high-threat targets to contain the battlefield.",
         strengths: [
           "Reduced cage costs (4 Tension instead of 6)",
@@ -426,14 +447,14 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
         ],
         passiveAbilities: [
           {
-            name: "Master Gaoler",
+            name: "Master Warden",
             icon: "Psychic/Mind Control",
             description: "Iron Gaol costs -2 Tension (4 Tension instead of 6). You can maintain up to 2 spectral iron cages simultaneously."
           },
           {
             name: "Condemned in Steel",
             icon: "Necrotic/Necrotic Skull",
-            description: "Enemies trapped in your cages take +1d6 damage from all sources. If caged targets are tethered by Flesh Tether, they take an additional +1d6 damage."
+            description: "Enemies trapped in your cages take +1d6 damage from all sources. If caged targets are tethered by Iron Chain Tether, they take an additional +1d6 damage."
           }
         ],
         recommendedSpells: [
@@ -454,10 +475,10 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
           "Marked targets cannot escape or teleport out of line of sight",
           "Free dashes (reels) to tethered prey",
           "Absorbs and resists displacement effects",
-          "Extended Flayed Ascendancy duration"
+          "Extended Iron Ascendancy duration"
         ],
         weaknesses: [
-          "Completely dependent on Flesh Tether for mobility",
+          "Completely dependent on Iron Chain Tether for mobility",
           "Suffers high bludgeoning self-damage when dragged by giants",
           "Absorbs high percentages of shared AoE damage",
           "Zero ranged tools"
@@ -471,14 +492,14 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
           {
             name: "Endless Binding",
             icon: "General/Fiery Rage",
-            description: "Flayed Ascendancy lasts +2 rounds (total 6 rounds). While transformed, strikes against tethered targets generate +1 Tension."
+            description: "Iron Ascendancy lasts +2 rounds (total 6 rounds). While transformed, strikes against tethered targets generate +1 Tension."
           }
         ],
         recommendedSpells: [
           "Cruel Drag - Reel yourself to the target and strike",
           "Spined Torment - Massive crushing blows against tethered prey",
-          "Flayed Ascendancy - Long-lasting ultimate engine of chains",
-          "Flesh Tether - Absolutely mandatory for all mobility"
+          "Iron Ascendancy - Long-lasting ultimate engine of chains",
+          "Iron Chain Tether - Absolutely mandatory for all mobility"
         ]
       },
       { id : "monolith",
@@ -513,7 +534,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
           }
         ],
         recommendedSpells: [
-          "Flesh Tether - Anchor the target and begin calcifying",
+          "Iron Chain Tether - Anchor the target and begin calcifying",
           "Penitent Resolve - Stack with Calcified Armor for devastating damage reduction",
           "Iron Gaol - Trap enemies near your immovable form",
           "Sweeping Chains - Control the area around your anchored position"
@@ -575,8 +596,8 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
       tags: ["blight", "damage", "stealth", "shadowblade"]
     },
     { id : "warden_mark_of_the_hunt",
-      name: "Flesh Tether",
-      description: "Drive rusted iron hooks directly through your own forearms and bone into a single target within 15 feet. Creates an unbreakable physical bond. The tethered enemy cannot move beyond 15 feet of you, cannot target your allies, and you absorb 50% of all AoE or environmental damage they suffer.",
+      name: "Iron Chain Tether",
+      description: "Launch rusted iron chains and hooks into a single target within 15 feet. Creates an unbreakable physical bond. The tethered enemy cannot move beyond 15 feet of you, cannot target your allies, and you absorb 50% of all AoE or environmental damage they suffer.",
       spellType: "ACTION",
       icon: "Piercing/Targeted Strike",
       level: 1,
@@ -614,8 +635,8 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
         durationType: "rounds",
         durationUnit: "rounds",
         effects: [
-          { id : "flesh_tethered",
-            name: "Flesh Tethered",
+          { id : "chained_tethered",
+            name: "Chained & Tethered",
             description: "Tethered to the Warden. Cannot target the Warden's allies, cannot move beyond 15 feet, and the Warden absorbs 50% of your AoE damage.",
             statusType: "restrained",
             level: "strong",
@@ -811,7 +832,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
     // LEVEL 2 SPELLS
     // ==========================================
     { id : "warden_shadow_ambush",
-      name: "Flayed Leap",
+      name: "Chain Leap",
       description: "Leap from stealth, throwing rusted chains directly into the target. You cannot teleport -- you must physically travel through the air, risking opportunity attacks.",
       spellType: "ACTION",
       icon: "Piercing/Night Dagger",
@@ -1129,7 +1150,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
       },
       specialMechanics: {
         tetherBonus: {
-          description: "Deals +2d6 physical damage if the target is tethered via Flesh Tether."
+          description: "Deals +2d6 physical damage if the target is tethered via Iron Chain Tether."
         }
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
@@ -1341,8 +1362,8 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
     // LEVEL 5 SPELLS
     // ==========================================
     { id : "warden_umbral_assault",
-      name: "Flayed Shadow Assault",
-      description: "Dissolve your physical form into a mist of blood and shadow, strike three separate targets with crushing lashings, and disappear back into silence.",
+      name: "Chained Shadow Assault",
+      description: "Dissolve your physical form into a mist of cold iron and shadow, strike three separate targets with crushing lashings, and disappear back into silence.",
       spellType: "ACTION",
       icon: "Psychic/Mind Control",
       level: 5,
@@ -1445,8 +1466,8 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
       tags: ["blight", "control", "cage", "jailer"]
     },
     { id : "warden_avatar_of_vengeance",
-      name: "Flayed Ascendancy",
-      description: "Unleash all tension to fuse your flesh with your rusted iron grafts. Your chains burst outward, forming a cage of spikes around your bones. For 6 rounds, gain +4 DR, add +2d6 physical damage to every strike, and reel in all tethered targets helplessly.",
+      name: "Iron Ascendancy",
+      description: "Unleash all tension to fuse your presence with your rusted iron grafts. Your chains burst outward, forming a defensive cage of spikes around your forearms and torso. For 6 rounds, gain +4 DR, add +2d6 physical damage to every strike, and reel in all tethered targets helplessly.",
       spellType: "ACTION",
       icon: "General/Fiery Rage",
       level: 5,
@@ -1482,7 +1503,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
         durationType: "rounds",
         durationUnit: "rounds",
         effects: [
-          { id : "flayed_transformation",
+          { id : "iron_ascendancy_transformation",
             name: "Ascendant Flesh",
             description: "Gain +4 DR, +2d6 physical damage, and generate +1 Tension on hit.",
             statModifier: {
@@ -1842,7 +1863,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
       tags: ["blight", "control", "cage", "jailer"]
     },
     { id : "warden_relentless_assault",
-      name: "Brutal Whipping",
+      name: "Iron Lash",
       description: "Lash out repeatedly with heavy chains, building 1 Tether Tension with each hit as you tear your own flesh to pieces.",
       spellType: "ACTION",
       icon: "Bludgeoning/Mortal Strike",
@@ -2128,8 +2149,8 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
       tags: ["blight", "control", "cage", "ultimate", "jailer"]
     },
     { id : "warden_avatar_perfected",
-      name: "Flayed Ascendancy Perfected",
-      description: "Transform into a god-like engine of rusted steel. Your chains expand to cover the sky. Gain DR, absolute CC immunity, and automatically shred all tethered targets.",
+      name: "Iron Ascendancy Perfected",
+      description: "Transform into an unstoppable engine of rusted steel. Your chains expand to cover the area. Gain DR, absolute crowd control immunity, and automatically shred all tethered targets.",
       spellType: "ACTION",
       icon: "General/Fiery Rage",
       level: 10,
@@ -2193,7 +2214,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
           "tags": [
             "utility",
             "roleplay",
-            "warden"
+            "Warden"
           ],
           "castTime": 1,
           "castTimeType": "IMMEDIATE"
@@ -2242,7 +2263,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
         "tags": [
           "utility",
           "roleplay",
-          "warden"
+          "Warden"
         ]
       }
   ]

@@ -1,12 +1,30 @@
-﻿/**
+/**
  * Minstrel Class Data
  *
- * Complete class information for the Minstrel — a conductor of reality's death rattle
+ * Complete class information for the Minstrel � a conductor of reality's death rattle
  * who tears magic from dying dimensions through bone and grief instruments.
  * Music is not art. It is violation. Every note is theft. Every cadence is mutilation.
  */
 
 export const MINSTREL_DATA = {
+  restrictions: {
+      "allowedSubraces": [
+          "merryn_human",
+          "breaker_myrathil",
+          "river_myrathil",
+          "deep_myrathil"
+      ],
+      "hardBlocks": [
+          "tessen_human",
+          "fexrick",
+          "groven",
+          "thalren_human",
+          "ordan_human"
+      ],
+      "narrativeUnlock": true,
+      "justification": "Requires a maritime culture with oral-performance tradition. Tessen too isolated. Cragjaw too vertical. Thalren too archival (song is unreliable). Ordan use throat-singing for navigation (functional, not artistic)."
+  },
+
   id : "minstrel",
   name: "Minstrel",
   icon: "fas fa-music",
@@ -25,18 +43,18 @@ Let the chorus rise. The sea has taken your voice, but your song can still shatt
 
     quickOverview: {
       title: "Quick Overview",
-      content: `**What You Need to Know**: The Minstrel does not play music — they tear it screaming from the corpses of dying realities. Each note is a stolen fragment of a collapsing dimension, hoarded and combined into cadences that violate the laws of existence.
+      content: `**What You Need to Know**: The Minstrel does not play music � they tear it screaming from the corpses of dying realities. Each note is a stolen fragment of a collapsing dimension, hoarded and combined into cadences that violate the laws of existence.
 
-**Core Mechanic**: Cast builder spells → Harvest musical notes (I–VII) from unraveling planes → Combine notes into cadences → Unleash catastrophic effects that reshape the battlefield
+**Core Mechanic**: Cast builder spells ? Harvest musical notes (I�VII) from unraveling planes ? Combine notes into cadences ? Unleash catastrophic effects that reshape the battlefield
 
-**Resource**: Musical Notes (7 types, stack up to 5 each), Mana — and the slow erosion of your own body
+**Resource**: Musical Notes (7 types, stack up to 5 each), Mana � and the slow erosion of your own body
 
 **Playstyle**: Combo-building support with sustained power escalation through accumulated sonic atrocities
 
 **Best For**: Players who enjoy combo systems, the creeping dread of building toward devastation, and the martyrdom of protecting everyone except themselves`,
     },
 
-    description: `There is nothing beautiful about what the Minstrel does. They play instruments crafted from bone and grief, each chord progression a fresh wound torn in the fabric of existence. Their magic is not art — it is a fundamental violation of physics that demands biological payment. Every note they collect is a splinter stolen from a dying reality, and every cadence they resolve is an act of cosmic mutilation that rewrites the battlefield in blood and resonance. The music should not exist. It exists because the Minstrel forces it to, and the world pays the price.`,
+    description: `There is nothing beautiful about what the Minstrel does. They play instruments crafted from bone and grief, each chord progression a fresh wound torn in the fabric of existence. Their magic is not art � it is a fundamental violation of physics that demands biological payment. Every note they collect is a splinter stolen from a dying reality, and every cadence they resolve is an act of cosmic mutilation that rewrites the battlefield in blood and resonance. The music should not exist. It exists because the Minstrel forces it to, and the world pays the price.`,
 
     roleplayIdentity: {
       title: "Roleplay Identity",
@@ -55,30 +73,30 @@ The class is heavily practiced by the Merryn humans and the <LoreLink termId="my
     },
 
     signatureQuote: {
-      text: '"You think music is beauty. You are wrong. Music is resonance — the frequency at which things break. I have found the note that shatters ice. I am looking for the one that shatters gods."',
+      text: '"You think music is beauty. You are wrong. Music is resonance � the frequency at which things break. I have found the note that shatters ice. I am looking for the one that shatters gods."',
       speaker: 'Lyris the Tide-Singer',
       context: 'Her lute, recovered from the Iceheart Sea, had this carved into its soundboard'
     },
 
     philosophy: {
-      coreTenet: 'Sound is older than light. Before the sun, before the stars, there was vibration — the hum of potential, the frequency of emptiness, the note that preceded creation. The Minstrel does not make music. They remember the original note, the one that started everything, and they play it backward.',
-      relationship: 'A Minstrel\'s power comes from the resonance of dying realities. When a timeline collapses, it releases a burst of energy — a death-cry that exists as pure frequency. Minstrels harvest these frequencies and store them as musical notes, which they combine into Cadences that violate natural law. The relationship is parasitic: Minstrels cannot create music; they must harvest it from the death of other possibilities. Their art is built on the grave of what could have been.',
-      paradox: 'The Minstrel seeks the perfect Cadence — the combination of notes that will produce the most beautiful sound ever heard. But the most beautiful sounds come from the most catastrophic collapses. The Minstrel is therefore incentivized to seek out destruction, to position themselves at the epicenter of collapsing realities, to drink in the death-rattle of dying timelines. They are artists of catastrophe, and their masterpiece is always someone else\'s tragedy.'
+      coreTenet: 'Sound is older than light. Before the sun, before the stars, there was vibration � the hum of potential, the frequency of emptiness, the note that preceded creation. The Minstrel does not make music. They remember the original note, the one that started everything, and they play it backward.',
+      relationship: 'A Minstrel\'s power comes from the resonance of dying realities. When a timeline collapses, it releases a burst of energy � a death-cry that exists as pure frequency. Minstrels harvest these frequencies and store them as musical notes, which they combine into Cadences that violate natural law. The relationship is parasitic: Minstrels cannot create music; they must harvest it from the death of other possibilities. Their art is built on the grave of what could have been.',
+      paradox: 'The Minstrel seeks the perfect Cadence � the combination of notes that will produce the most beautiful sound ever heard. But the most beautiful sounds come from the most catastrophic collapses. The Minstrel is therefore incentivized to seek out destruction, to position themselves at the epicenter of collapsing realities, to drink in the death-rattle of dying timelines. They are artists of catastrophe, and their masterpiece is always someone else\'s tragedy.'
     },
 
-    currentCrisis: `The Iceheart Sea has fallen silent. For the first time in recorded history, the tides have stopped singing. The Merryn sailors who navigate by the ocean\'s frequency report total silence — no subsonic rhythm, no deep-bass pulse, nothing. The sea is still moving, but it makes no sound.
+    currentCrisis: `The Iceheart Sea has fallen silent. For the first time in recorded history, the tides have stopped singing. The Merryn sailors who navigate by the ocean\'s frequency report total silence � no subsonic rhythm, no deep-bass pulse, nothing. The sea is still moving, but it makes no sound.
 
-The Minstrels of Merrowport are terrified. The ocean\'s song was the oldest continuous frequency in the known world — it had been playing for longer than any Minstrel could measure. Its silence means something. Lyris the Tide-Singer, who understood the sea better than anyone, has not been seen since the silence began. Some Minstrels believe she dove into the silent water to find the lost note. Others believe she fled because she knew what the silence meant: the Iceheart Sea is dying. And if a body of water that large can die, so can everything else.`,
+The Minstrels of Merrowport are terrified. The ocean\'s song was the oldest continuous frequency in the known world � it had been playing for longer than any Minstrel could measure. Its silence means something. Lyris the Tide-Singer, who understood the sea better than anyone, has not been seen since the silence began. Some Minstrels believe she dove into the silent water to find the lost note. Others believe she fled because she knew what the silence meant: the Iceheart Sea is dying. And if a body of water that large can die, so can everything else.`,
 
-    meaningfulTradeoffs: `Minstrels trade their own voice for their music. The stolen frequencies degrade the larynx — every Cadence performed causes cumulative damage to the vocal cords. Senior Minstrels speak in hoarse whispers, if they can speak at all. Their voices are replaced by their instruments; they communicate through hummed melodies, tapped rhythms, and the expressive language of lute-strings. The irony is not lost on them: they are masters of sound who have sacrificed their own.`,
+    meaningfulTradeoffs: `Minstrels trade their own voice for their music. The stolen frequencies degrade the larynx � every Cadence performed causes cumulative damage to the vocal cords. Senior Minstrels speak in hoarse whispers, if they can speak at all. Their voices are replaced by their instruments; they communicate through hummed melodies, tapped rhythms, and the expressive language of lute-strings. The irony is not lost on them: they are masters of sound who have sacrificed their own.`,
 
     classSpecificLocations: [
       {
         name: 'The Tide-Chamber',
         locationId: 'merrowport',
-        description: 'A submerged stone amphitheater beneath the Merrowport docks, accessible only by diving through a flooded passage. The chamber is designed to amplify the ocean\'s natural frequencies — Minstrels would sit here for hours, letting the sea\'s song fill them. The chamber is now completely silent, the water still and dead.',
+        description: 'A submerged stone amphitheater beneath the Merrowport docks, accessible only by diving through a flooded passage. The chamber is designed to amplify the ocean\'s natural frequencies � Minstrels would sit here for hours, letting the sea\'s song fill them. The chamber is now completely silent, the water still and dead.',
         purpose: 'Meditation chamber and frequency-harvesting site',
-        status: 'Silent — the Minstrels maintain a vigil, hoping the song returns'
+        status: 'Silent � the Minstrels maintain a vigil, hoping the song returns'
       }
     ],
 
@@ -86,9 +104,9 @@ The Minstrels of Merrowport are terrified. The ocean\'s song was the oldest cont
       title: "Combat Role",
       content: `The Minstrel is a fragile conductor who stands at the epicenter of atrocity, weaponizing stolen frequencies to reshape the battlefield:
 
-**Cadence Architect**: No other class offers the Minstrel's note-building strategic depth. Through builder spells, they harvest musical notes from collapsing planes, then resolve them into devastating cadences — Perfect Cadence guarantees critical hits, Deceptive Cadence stuns enemies, Authentic Cadence heals the entire party. This is the ONLY combo-building support with cadence mechanics in existence.
+**Cadence Architect**: No other class offers the Minstrel's note-building strategic depth. Through builder spells, they harvest musical notes from collapsing planes, then resolve them into devastating cadences � Perfect Cadence guarantees critical hits, Deceptive Cadence stuns enemies, Authentic Cadence heals the entire party. This is the ONLY combo-building support with cadence mechanics in existence.
 
-**Martyr's Bargain**: The Minstrel protects everyone except themselves. They CANNOT self-heal — all healing targets allies only. They require an instrument to cast; disarmed, they are utterly powerless. While performing any active song, they suffer -2 DR, the music demanding total vulnerability. Silence effects render them useless. They are a conductor stripped of armor, bleeding for the rhythm that keeps their allies alive.
+**Martyr's Bargain**: The Minstrel protects everyone except themselves. They CANNOT self-heal � all healing targets allies only. They require an instrument to cast; disarmed, they are utterly powerless. While performing any active song, they suffer -2 DR, the music demanding total vulnerability. Silence effects render them useless. They are a conductor stripped of armor, bleeding for the rhythm that keeps their allies alive.
 
 **Strengths**:
 - Unmatched combo-building support with cadence resolution
@@ -98,14 +116,14 @@ The Minstrels of Merrowport are terrified. The ocean\'s song was the oldest cont
 - Unique strategic depth through 10 distinct cadence progressions
 
 **Weaknesses**:
-- Requires an instrument to cast (Instrument Dependency — disarmed = no spells, no hope)
-- Cannot self-heal — all healing targets allies only, leaving the Minstrel to rot
-- -2 DR while performing any active song — the music demands total vulnerability
+- Requires an instrument to cast (Instrument Dependency � disarmed = no spells, no hope)
+- Cannot self-heal � all healing targets allies only, leaving the Minstrel to rot
+- -2 DR while performing any active song � the music demands total vulnerability
 - Combo system requires planning and foresight across multiple turns
-- Vulnerable to silence and interruption effects — rendered completely useless
+- Vulnerable to silence and interruption effects � rendered completely useless
 - Fragile without armor, fragile with it, fragile always
 
-The Minstrel shines when they can endure long enough to unleash a prepared cadence at the exact moment their party needs it most — a guaranteed crit on the killing blow, a desperate party heal when death is certain, a stun that buys one more round of survival. They are the doomed conductor of an orchestra that plays on only because they refuse to stop bleeding.`,
+The Minstrel shines when they can endure long enough to unleash a prepared cadence at the exact moment their party needs it most � a guaranteed crit on the killing blow, a desperate party heal when death is certain, a stun that buys one more round of survival. They are the doomed conductor of an orchestra that plays on only because they refuse to stop bleeding.`,
     },
 
     playstyle: {
@@ -136,9 +154,9 @@ Different instruments provide different bonuses and affect your playstyle:
 - **Voice**: No equipment required, bonus to all effects but shorter range
 
 **Specialization Synergies**:
-- **Battlechoir**: Aggressive support, damage amplification, war songs — Perfect Cadence, Circle of Fifths, Phrygian Cadence, Neapolitan Sixth
-- **Soulsinger**: Healing focus, emotional manipulation, protective melodies — Authentic Cadence, Picardy Third, Plagal Cadence
-- **Dissonance**: Debuffs and control, chaotic magic, reality-warping sounds — Deceptive Cadence, Half Cadence, Tritone Substitution
+- **Battlechoir**: Aggressive support, damage amplification, war songs � Perfect Cadence, Circle of Fifths, Phrygian Cadence, Neapolitan Sixth
+- **Soulsinger**: Healing focus, emotional manipulation, protective melodies � Authentic Cadence, Picardy Third, Plagal Cadence
+- **Dissonance**: Debuffs and control, chaotic magic, reality-warping sounds � Deceptive Cadence, Half Cadence, Tritone Substitution
 
 **Team Dynamics**:
 - Works best with coordinated teams who can capitalize on buffs
@@ -153,7 +171,7 @@ Different instruments provide different bonuses and affect your playstyle:
 
 **Starting State**: Notes: I(1), V(1) | Mana: 50/60 | HP: 60/60
 
-**Turn 1 - Building Notes (Notes: I(1), V(1) → I(1), V(3), VII(1))**
+**Turn 1 - Building Notes (Notes: I(1), V(1) ? I(1), V(3), VII(1))**
 
 *You raise your war drum, its surface etched with ancient runes. The bandits charge. You begin to PLAY.*
 
@@ -169,17 +187,17 @@ Different instruments provide different bonuses and affect your playstyle:
 **Your Party's Tank**: "I feel faster! Stronger!"
 **You**: "That's the rhythm of war. Let it guide you."
 
-**Bandit #1's Turn**: Attacks tank → Miss! (tank has +1 attack from your buff, turning a near-miss into a clean dodge)
+**Bandit #1's Turn**: Attacks tank ? Miss! (tank has +1 attack from your buff, turning a near-miss into a clean dodge)
 
 *The bandit's sword clangs off the tank's armor. The rhythm protected him.*
 
 **Current State**: Notes: I(1), V(3), VII(1) | Mana: 47/60
 
-**Turn 2 - More Building (Notes: I(1), V(3), VII(1) → I(2), III(2), V(3), VII(1))**
+**Turn 2 - More Building (Notes: I(1), V(3), VII(1) ? I(2), III(2), V(3), VII(1))**
 
 **Your Action**: Cast "Harmonic Strike" at Bandit #2 (4 mana, builder spell)
-**Attack Roll**: d20+5 → [16] = Hit!
-**Damage**: 1d8 bludgeoning → [6] = **6 damage**
+**Attack Roll**: d20+5 ? [16] = Hit!
+**Damage**: 1d8 bludgeoning ? [6] = **6 damage**
 **Musical Notes Generated**: III(2) + I(1)
 
 *You strike your drum with a thunderous CRASH. The sound wave SLAMS into the bandit, knocking him back.*
@@ -189,13 +207,13 @@ Different instruments provide different bonuses and affect your playstyle:
 
 **Bandit #2**: 6 damage taken, staggered
 
-**Your Party's Mage**: Casts Fireball → 35 damage to 3 bandits
+**Your Party's Mage**: Casts Fireball ? 35 damage to 3 bandits
 
 **Current State**: Notes: I(2), III(2), V(3), VII(1) | Mana: 43/60
 
-**Turn 3 - Building to Cadence (Notes: I(2), III(2), V(3), VII(1) → I(3), III(2), V(4), VII(2))**
+**Turn 3 - Building to Cadence (Notes: I(2), III(2), V(3), VII(1) ? I(3), III(2), V(4), VII(2))**
 
-*You have I(2), V(3). You need I(2) and IV(1) and V(1) for the Perfect Cadence. You have the I and V — but you need an IV note.*
+*You have I(2), V(3). You need I(2) and IV(1) and V(1) for the Perfect Cadence. You have the I and V � but you need an IV note.*
 
 **Your Action**: Cast "Melancholy Melody" on enemies (8 mana, builder spell)
 **Effect**: -1 to enemy attack rolls for 2 rounds (20 ft radius)
@@ -207,11 +225,11 @@ Different instruments provide different bonuses and affect your playstyle:
 **Mana**: 43 - 8 = 35/60
 
 **Your Party's Tank**: "They're weakening! I can see it in their eyes."
-**You**: "Good. Because I'm about to play the Perfect Cadence. Next attack—make it count."
+**You**: "Good. Because I'm about to play the Perfect Cadence. Next attack�make it count."
 
 **Current State**: Notes: I(2), III(2), IV(1), V(3), VI(2), VII(1) | Mana: 35/60
 
-**Turn 4 - PERFECT CADENCE (Notes: I(2), III(2), IV(1), V(3), VI(2), VII(1) → I(0), III(2), IV(0), V(2), VI(2), VII(1))**
+**Turn 4 - PERFECT CADENCE (Notes: I(2), III(2), IV(1), V(3), VI(2), VII(1) ? I(0), III(2), IV(0), V(2), VI(2), VII(1))**
 
 *You have I(2), IV(1), V(3). Time to play the PERFECT CADENCE: I-IV-V-I. This will guarantee your tank's next attack is a critical hit.*
 
@@ -228,8 +246,8 @@ Different instruments provide different bonuses and affect your playstyle:
 **You**: "Strike NOW!"
 
 **Your Party's Tank's Turn**: Attacks Bandit Leader
-**Attack Roll**: d20+6 → [12] = Hit! → **GUARANTEED CRITICAL HIT** (Perfect Cadence)
-**Damage**: 2d8+5 → [7, 8] + 5 = 20 damage → **DOUBLED** = **40 damage!**
+**Attack Roll**: d20+6 ? [12] = Hit! ? **GUARANTEED CRITICAL HIT** (Perfect Cadence)
+**Damage**: 2d8+5 ? [7, 8] + 5 = 20 damage ? **DOUBLED** = **40 damage!**
 
 *The tank's sword strikes with the force of a thunderclap. The bandit leader is CRUSHED.*
 
@@ -245,15 +263,15 @@ Different instruments provide different bonuses and affect your playstyle:
 *The bandit leader is dead. Four bandits remain. Time to rebuild your notes.*
 
 **Your Action**: Cast "Opening Chord" at Bandit #5 (4 mana, builder spell)
-**Attack Roll**: d20+5 → [17] = Hit!
-**Damage**: 1d6 lightning → [5] = **5 storm damage**
+**Attack Roll**: d20+5 ? [17] = Hit!
+**Damage**: 1d6 lightning ? [5] = **5 storm damage**
 **Musical Notes Generated**: I(2) + V(1)
 
 **Notes**: I(0), III(2), V(2), VI(2), VII(1) + I(2), V(1) = **I(2), III(2), V(3), VI(2), VII(1)**
 **Mana**: 19 - 4 = 15/60
 
-**Your Party's Rogue**: Sneak attacks Bandit #3 → DEAD
-**Your Party's Mage**: Casts Fire Bolt → Bandit #4 DEAD
+**Your Party's Rogue**: Sneak attacks Bandit #3 ? DEAD
+**Your Party's Mage**: Casts Fire Bolt ? Bandit #4 DEAD
 
 **Two bandits remain**
 
@@ -262,36 +280,36 @@ Different instruments provide different bonuses and affect your playstyle:
 **Turn 6 - Finishing the Fight**
 
 **Your Action**: Cast "Harmonic Strike" at Bandit #6 (4 mana, builder spell)
-**Attack Roll**: d20+5 → [14] = Hit!
-**Damage**: 1d8 bludgeoning → [6] = **6 damage**
+**Attack Roll**: d20+5 ? [14] = Hit!
+**Damage**: 1d8 bludgeoning ? [6] = **6 damage**
 **Musical Notes Generated**: III(2) + I(1)
 **Result**: Bandit #6 DEAD
 
 **Notes**: I(2), III(2), V(3), VI(2), VII(1) + III(2), I(1) = **I(3), III(4), V(3), VI(2), VII(1)**
 **Mana**: 15 - 4 = 11/60
 
-**Your Party's Tank**: Attacks Bandit #5 → DEAD
+**Your Party's Tank**: Attacks Bandit #5 ? DEAD
 
 **Combat Over**
 
 *You lower your drum. The battlefield is silent except for the fading echoes of your music.*
 
 **Your Party's Tank**: "That Perfect Cadence... I've never hit that hard in my life. Forty damage on a critical."
-**You**: "I spent four musical notes to play it: two I notes, one IV, and one V. The Perfect Cadence requires I(2), IV(1), V(1) and guarantees your next attack is a critical hit. I had been building those notes through my builder spells — Opening Chord generates I(2)+V(1), Harmonic Strike generates III(2)+I(1), and Melancholy Melody generates VI(2)+IV(1)."
+**You**: "I spent four musical notes to play it: two I notes, one IV, and one V. The Perfect Cadence requires I(2), IV(1), V(1) and guarantees your next attack is a critical hit. I had been building those notes through my builder spells � Opening Chord generates I(2)+V(1), Harmonic Strike generates III(2)+I(1), and Melancholy Melody generates VI(2)+IV(1)."
 **Your Party's Mage**: "So you were building up to that the whole fight?"
-**You**: "Exactly. I started with I(1), V(1) from a short rest. By turn 3, I had I(2), IV(1), V(3) — enough for the Perfect Cadence. Now I have I(3), III(4), V(3), VI(2), VII(1) banked for the next fight."
+**You**: "Exactly. I started with I(1), V(1) from a short rest. By turn 3, I had I(2), IV(1), V(3) � enough for the Perfect Cadence. Now I have I(3), III(4), V(3), VI(2), VII(1) banked for the next fight."
 **Your Party's Rogue**: "What other cadences can you play?"
 **You**: "Many. Deceptive Cadence (IV(2), VII(1), V(1)) stuns enemies. Circle of Fifths (V(2), I(1), VI(1)) deals damage over time. Plagal Cadence (VI(1), V(1), I(1), III(1)) gives speed boosts. Each requires specific notes, so I have to plan ahead."
 
 **Final State**: Notes: I(3), III(4), V(3), VI(2), VII(1) | Mana: 11/60 | HP: 60/60
 
 **The Lesson**: Minstrel gameplay is about:
-1. **Note Building**: Cast builder spells to generate musical notes — each spell produces 2-3 notes of specific types
+1. **Note Building**: Cast builder spells to generate musical notes � each spell produces 2-3 notes of specific types
 2. **Note Stacking**: Notes stack up to 5 of each type (I through VII), and persist between combats
-3. **Cadence Planning**: Perfect Cadence requires I(2), IV(1), V(1) — 4 notes total — and guarantees a critical hit
+3. **Cadence Planning**: Perfect Cadence requires I(2), IV(1), V(1) � 4 notes total � and guarantees a critical hit
 4. **Resource Management**: Started with I(1), V(1), built to I(2), IV(1), V(3), spent 4 notes for cadence
 5. **Builder Spells**: Opening Chord (I(2)+V(1)), Harmonic Strike (III(2)+I(1)), Inspiring Rhythm (V(2)+VII(1)), Melancholy Melody (VI(2)+IV(1))
-6. **Cadence Impact**: Perfect Cadence guaranteed tank's critical hit: 20 damage → 40 damage (doubled)
+6. **Cadence Impact**: Perfect Cadence guaranteed tank's critical hit: 20 damage ? 40 damage (doubled)
 7. **Note Persistence**: Ended with I(3), III(4), V(3), VI(2), VII(1) banked for next fight
 
 You're not a simple support caster. You're a MUSICAL CONDUCTOR. You build notes through builder spells, stack them up, then RESOLVE them into powerful cadences. The Perfect Cadence (I(2)+IV(1)+V(1)) guarantees a critical hit. The Deceptive Cadence (IV(2)+VII(1)+V(1)) stuns enemies. Each cadence requires specific notes, so you have to PLAN AHEAD. Cast the right builder spells to generate the notes you need, then unleash the cadence at the perfect moment. Your party fights to the rhythm of your music. You are the MAESTRO of the battlefield.`,
@@ -303,16 +321,16 @@ You're not a simple support caster. You're a MUSICAL CONDUCTOR. You build notes 
     title: "Musical Combo System",
     subtitle: "Harvesting the Death Cries of Collapsing Realities",
 
-    description: `The Minstrel's resource system is built on a foundation of cosmic theft. Every musical note is a splinter harvested from a dimension in its final moments of collapse — a dying reality's last frequency, captured and compressed into something a mortal mind can barely comprehend. Builder spells gouge these fragments from the fabric of existence, accumulating them in a terrible ledger. Resolving spells — cadences — then spend these hoarded fragments to commit fresh atrocities: guaranteeing critical wounds, stunning minds with impossible harmonics, or stitching allies back together through frequencies that should have stayed silent. Mastering the Minstrel means accepting that your power is stolen from the dead, and that every cadence you play hastens the entropy of everything around you.`,
+    description: `The Minstrel's resource system is built on a foundation of cosmic theft. Every musical note is a splinter harvested from a dimension in its final moments of collapse � a dying reality's last frequency, captured and compressed into something a mortal mind can barely comprehend. Builder spells gouge these fragments from the fabric of existence, accumulating them in a terrible ledger. Resolving spells � cadences � then spend these hoarded fragments to commit fresh atrocities: guaranteeing critical wounds, stunning minds with impossible harmonics, or stitching allies back together through frequencies that should have stayed silent. Mastering the Minstrel means accepting that your power is stolen from the dead, and that every cadence you play hastens the entropy of everything around you.`,
 
     resourceBarExplanation: {
       title: "Understanding Your Musical Notes Interface",
-      content: `**What You See**: The Minstrel's interface displays a MUSICAL STAFF with seven note positions (I–VII), each showing how many notes of that type you have stacked (0–5). Available cadences are highlighted below the staff when you have the required notes.
+      content: `**What You See**: The Minstrel's interface displays a MUSICAL STAFF with seven note positions (I�VII), each showing how many notes of that type you have stacked (0�5). Available cadences are highlighted below the staff when you have the required notes.
 
 **Staff Layout**:
 - **Seven Note Positions**: I through VII arranged horizontally, each with a thematic color (gold, blue, purple, green, red, dark blue, white)
-- **Note Stacks**: Each position shows 0–5 notes; filled positions glow, empty positions are dimmed
-- **Cadence Buttons**: Below the staff — green when available, gray when missing notes. Hovering shows required notes, current notes, and the effect
+- **Note Stacks**: Each position shows 0�5 notes; filled positions glow, empty positions are dimmed
+- **Cadence Buttons**: Below the staff � green when available, gray when missing notes. Hovering shows required notes, current notes, and the effect
 
 **Key Interactions**:
 - **Casting a builder spell**: Note symbols fly to the staff and add to the appropriate stacks (e.g., "+1 V, +1 VII")
@@ -332,7 +350,7 @@ You're not a simple support caster. You're a MUSICAL CONDUCTOR. You build notes 
 - Notes decay at 1 per minute when out of combat (oldest note first; if tied, lowest numeral)
 
 **Resolving Spells** consume note combinations:
-- Require specific sequences of notes (e.g., V→I for Perfect Cadence)
+- Require specific sequences of notes (e.g., V?I for Perfect Cadence)
 - Consume the notes used in the progression
 - Create powerful effects based on the cadence type
 - Some progressions have multiple valid orderings
@@ -407,70 +425,70 @@ Your chosen instrument modifies your abilities:
         [
           "Perfect Cadence",
           "Harmonious Resolution",
-          "I→IV→V→I",
+          "I?IV?V?I",
           "Ally's next attack is guaranteed critical hit",
           "Save for boss damage phases",
         ],
         [
           "Deceptive Cadence",
           "Enchanter's Trick",
-          "IV→VII→V→IV",
+          "IV?VII?V?IV",
           "Disorient enemy (-2 attacks/saves, DC 15 Spirit save)",
           "Interrupt dangerous casts",
         ],
         [
           "Circle of Fifths",
           "Eternal Torment",
-          "V→I→VI→V",
+          "V?I?VI?V",
           "3d6+spirit DoT for 3 turns (30 ft radius)",
           "Apply early to groups",
         ],
         [
           "Plagal Cadence",
           "Sacred Ascent",
-          "VI→V→I→III",
+          "VI?V?I?III",
           "+20 ft speed, +2 Dex for 2 rounds",
           "Repositioning or pursuit",
         ],
         [
           "Half Cadence",
           "Arcane Shield",
-          "VII→V→IV→VI",
+          "VII?V?IV?VI",
           "2d6+spirit shield for 2 rounds (15 ft radius)",
           "Pre-cast before big attacks",
         ],
         [
           "Authentic Cadence",
           "Grand Finale",
-          "I→VI→III→I",
+          "I?VI?III?I",
           "-4 damage taken, restore 4d6+spirit HP (20 ft radius)",
           "Survive burst damage",
         ],
         [
           "Phrygian Cadence",
           "Ancient Resolve",
-          "V→IV→I→VII",
+          "V?IV?I?VII",
           "Advantage on attacks for 2 turns",
           "Boost damage dealers",
         ],
         [
           "Neapolitan Sixth",
           "Mystical Precision",
-          "III→I→IV→V",
+          "III?I?IV?V",
           "+2 crit chance for 2 rounds",
           "Stack with other crit buffs",
         ],
         [
           "Tritone Substitution",
           "Dissonant Chains",
-          "IV→I→V→VI",
+          "IV?I?V?VI",
           "Paralyze enemy (DC 18 Spirit save, 30 ft)",
           "Lock down priority targets",
         ],
         [
           "Picardy Third",
           "Triumph of Light",
-          "I→VII→V→III",
+          "I?VII?V?III",
           "+2 to saves, restore 6d6+spirit HP (20 ft)",
           "Counter debuff-heavy enemies",
         ],
@@ -522,24 +540,24 @@ Use different colored tokens to represent each note type:
 Create a tracking mat with 7 columns labeled I through VII:
 \`\`\`
 [I]  [II]  [III]  [IV]  [V]  [VI]  [VII]
- ○    ○     ○      ○     ○    ○     ○
- ○    ○     ○      ○     ○    ○     ○
- ○    ○     ○      ○     ○    ○     ○
- ○    ○     ○      ○     ○    ○     ○
- ○    ○     ○      ○     ○    ○     ○
+ ?    ?     ?      ?     ?    ?     ?
+ ?    ?     ?      ?     ?    ?     ?
+ ?    ?     ?      ?     ?    ?     ?
+ ?    ?     ?      ?     ?    ?     ?
+ ?    ?     ?      ?     ?    ?     ?
 (Max 5 tokens per column)
 \`\`\`
 
 **Generating Notes**:
 - When you cast a builder spell, place a token in the appropriate column
-- Example: Cast "Inspiring Rhythm" (generates II) → Place 1 light blue token in the II column
-- Example: Cast "Resonant Chord" (generates I) → Place 1 gold token in the I column
+- Example: Cast "Inspiring Rhythm" (generates II) ? Place 1 light blue token in the II column
+- Example: Cast "Resonant Chord" (generates I) ? Place 1 gold token in the I column
 - Stack tokens vertically (max 5 per note type)
 
 **Consuming Notes for Cadences**:
 - When you cast a resolver spell (cadence), remove the required tokens
-- Example: Perfect Cadence (I-IV-V-I) → Remove 1 gold, 1 green, 1 red, 1 gold token
-- Example: Circle of Fifths (V-I-VI-V) → Remove 1 red, 1 gold, 1 dark blue, 1 red token
+- Example: Perfect Cadence (I-IV-V-I) ? Remove 1 gold, 1 green, 1 red, 1 gold token
+- Example: Circle of Fifths (V-I-VI-V) ? Remove 1 red, 1 gold, 1 dark blue, 1 red token
 
 **Alternative Tracking Methods**:
 
@@ -651,7 +669,7 @@ Use: Counter debuff-heavy enemies
 
 Many players enhance the musical experience with:
 - **Musical Staff Mat**: Print a decorative musical staff with note positions
-- **Note Symbols**: Use tokens with musical note symbols (♩, ♪, ♫, ♬)
+- **Note Symbols**: Use tokens with musical note symbols (?, ?, ?, ?)
 - **Instrument Prop**: Keep a small instrument prop (toy lute, drum, flute) on the table
 - **Humming/Singing**: Some players hum or sing when casting spells for immersion
 - **Musical Dice**: Use dice with musical symbols instead of numbers
@@ -661,22 +679,22 @@ Many players enhance the musical experience with:
 Keep a list of which spells generate which notes:
 \`\`\`
 BUILDER SPELLS (Generate Notes):
-• Opening Chord → I(2) + V(1)
-• Harmonic Strike → III(2) + I(1)
-• Inspiring Rhythm → V(2) + VII(1)
-• Uplifting Rhythm → II(1) + VI(2)
-• Melancholy Melody → VI(2) + IV(1)
-• Climactic Crescendo → VII(2) + V(1)
-• Healing Hymn → IV(2) + I(1)
-• War Drum Beat → V(1) + VI(2)
-• Dissonant Shriek → VII(3) + II(1)
-• Song of Rest → I(1) + IV(1)
+� Opening Chord ? I(2) + V(1)
+� Harmonic Strike ? III(2) + I(1)
+� Inspiring Rhythm ? V(2) + VII(1)
+� Uplifting Rhythm ? II(1) + VI(2)
+� Melancholy Melody ? VI(2) + IV(1)
+� Climactic Crescendo ? VII(2) + V(1)
+� Healing Hymn ? IV(2) + I(1)
+� War Drum Beat ? V(1) + VI(2)
+� Dissonant Shriek ? VII(3) + II(1)
+� Song of Rest ? I(1) + IV(1)
 
 RESOLVER SPELLS (Consume Notes):
-• Minor Cadence → IV(1) + I(1)
-• Soothing Melody → VII(1) + III(1)
-• Resolving Strike → I(1) + V(1)
-• Mending Cadence → IV(1) + I(1)
+� Minor Cadence ? IV(1) + I(1)
+� Soothing Melody ? VII(1) + III(1)
+� Resolving Strike ? I(1) + V(1)
+� Mending Cadence ? IV(1) + I(1)
 \`\`\`
 
 **Cadence Planning**:
@@ -692,13 +710,13 @@ Before combat, decide which cadences you want to prioritize:
 
 *Starting with 0 notes*
 
-**Turn 1**: Cast Opening Chord → Add I token → I(1)
-**Turn 2**: Cast Inspiring Rhythm → Add II token → I(1), II(1)
-**Turn 3**: Cast Harmonic Strike → Add III token → I(1), II(1), III(1)
-**Turn 4**: Cast Resonant Chord → Add IV token → I(1), II(1), III(1), IV(1)
-**Turn 5**: Cast Power Chord → Add V token → I(1), II(1), III(1), IV(1), V(1)
-**Turn 6**: Cast Opening Chord again → Add I token → I(2), II(1), III(1), IV(1), V(1)
-**Turn 7**: Cast Perfect Cadence! → Remove I, IV, V, I → I(0), II(1), III(1), IV(0), V(0)
+**Turn 1**: Cast Opening Chord ? Add I token ? I(1)
+**Turn 2**: Cast Inspiring Rhythm ? Add II token ? I(1), II(1)
+**Turn 3**: Cast Harmonic Strike ? Add III token ? I(1), II(1), III(1)
+**Turn 4**: Cast Resonant Chord ? Add IV token ? I(1), II(1), III(1), IV(1)
+**Turn 5**: Cast Power Chord ? Add V token ? I(1), II(1), III(1), IV(1), V(1)
+**Turn 6**: Cast Opening Chord again ? Add I token ? I(2), II(1), III(1), IV(1), V(1)
+**Turn 7**: Cast Perfect Cadence! ? Remove I, IV, V, I ? I(0), II(1), III(1), IV(0), V(0)
 **Result**: Ally gets guaranteed critical hit!
 
 **Why This System Works**: The physical act of placing tokens as you build notes creates a visual representation of your musical composition. You can SEE your melody taking shape, FEEL the satisfaction of completing a cadence by removing the tokens, and PLAN ahead by looking at which notes you need for specific progressions. The color-coded tokens make it easy to identify which notes you have at a glance, and the tactile experience of moving tokens mirrors the musical flow of building and resolving tension.
@@ -715,21 +733,21 @@ Before combat, decide which cadences you want to prioritize:
 - **No tokens at all?** Use the dice method (7 d6 dice) or tally marks on paper
 - **Minimalist**: Just write the note counts on paper and update as needed
 
-**Why Minstrel Is Perfect for In-Person Play**: The class is built around accumulating and spending specific combinations of resources, which translates beautifully to physical tokens. Unlike abstract resources like mana, musical notes are discrete, countable, and combinable—perfect for tactile tracking. The act of building your note collection and then spending them in specific sequences mirrors the musical concept of building tension and resolving it, making the gameplay both mechanically satisfying and thematically immersive.`,
+**Why Minstrel Is Perfect for In-Person Play**: The class is built around accumulating and spending specific combinations of resources, which translates beautifully to physical tokens. Unlike abstract resources like mana, musical notes are discrete, countable, and combinable�perfect for tactile tracking. The act of building your note collection and then spending them in specific sequences mirrors the musical concept of building tension and resolving it, making the gameplay both mechanically satisfying and thematically immersive.`,
     },
 
-    // Cadence Matrix — the 10 chord progressions a Minstrel can resolve.
+    // Cadence Matrix � the 10 chord progressions a Minstrel can resolve.
     // Structured counterpart to `chordProgressionsTable` (which is the
     // human-readable table). Each entry is shaped to be consumed directly
     // by `cadenceToSpell.js` to render a UnifiedSpellCard tooltip, and by
     // `MinstrelResourceBar.jsx` to render ready/locked cadence chips.
     //
-    // `notes` is a map of numeral → count consumed, e.g. { I: 2, IV: 1, V: 1 }
+    // `notes` is a map of numeral ? count consumed, e.g. { I: 2, IV: 1, V: 1 }
     // for the Perfect Cadence (matches the in-person tracking card).
     cadenceMatrix: {
       title: "Cadence Matrix",
       subtitle: "The 10 Resolvable Progressions",
-      description: `Every Minstrel can resolve any of the ten cadences provided they have banked the required notes. Cadences are not learned — they are inherent to the mathematics of stolen frequencies. Bank the notes through builder spells, then resolve the cadence to commit its atrocity.`,
+      description: `Every Minstrel can resolve any of the ten cadences provided they have banked the required notes. Cadences are not learned � they are inherent to the mathematics of stolen frequencies. Bank the notes through builder spells, then resolve the cadence to commit its atrocity.`,
       baseManaCost: 16,
       baseRange: 60,
 
@@ -738,7 +756,7 @@ Before combat, decide which cadences you want to prioritize:
           id: "perfect_cadence",
           name: "Perfect Cadence",
           epithet: "Harmonious Resolution",
-          sequence: "I→IV→V→I",
+          sequence: "I?IV?V?I",
           notes: { I: 2, IV: 1, V: 1 },
           damageTypes: ["storm"],
           targetType: "single_ally",
@@ -746,14 +764,14 @@ Before combat, decide which cadences you want to prioritize:
           primaryEffect: "buff",
           secondaryEffect: "guaranteed_crit",
           effectDescription: "Target ally's next attack is a guaranteed critical hit. The progression resolves the dominant tension (V) back onto the tonic (I), and reality rewards the resolution with impossible precision.",
-          flavorText: "BOOM. BOOM-BOOM. BOOM-BOOM-BOOM. BOOM. The rhythm is PERFECT — and the weapon in your ally's hand begins to sing.",
+          flavorText: "BOOM. BOOM-BOOM. BOOM-BOOM-BOOM. BOOM. The rhythm is PERFECT � and the weapon in your ally's hand begins to sing.",
           tacticalUse: "Save for boss damage phases and guaranteed kills.",
         },
         {
           id: "deceptive_cadence",
           name: "Deceptive Cadence",
           epithet: "Enchanter's Trick",
-          sequence: "IV→VII→V→IV",
+          sequence: "IV?VII?V?IV",
           notes: { IV: 2, VII: 1, V: 1 },
           damageTypes: ["wyrd"],
           targetType: "area",
@@ -762,7 +780,7 @@ Before combat, decide which cadences you want to prioritize:
           aoeParameters: { radius: 20 },
           primaryEffect: "control",
           secondaryEffect: "disoriented",
-          effectDescription: "Disorient every enemy in a 20 ft radius: -2 to attacks and saves for 1 round. DC 15 Spirit save negates. The ear refuses the lie the progression tells — V resolves to IV instead of I, and the mind buckles.",
+          effectDescription: "Disorient every enemy in a 20 ft radius: -2 to attacks and saves for 1 round. DC 15 Spirit save negates. The ear refuses the lie the progression tells � V resolves to IV instead of I, and the mind buckles.",
           flavorText: "An impossible resolution. The chord that promised home delivers exile, and the enemy's grip on reality slips a quarter-tone sideways.",
           tacticalUse: "Interrupt dangerous casts and shut down clusters.",
         },
@@ -770,7 +788,7 @@ Before combat, decide which cadences you want to prioritize:
           id: "circle_of_fifths",
           name: "Circle of Fifths",
           epithet: "Eternal Torment",
-          sequence: "V→I→VI→V",
+          sequence: "V?I?VI?V",
           notes: { V: 2, I: 1, VI: 1 },
           damageTypes: ["storm"],
           targetType: "area",
@@ -779,30 +797,30 @@ Before combat, decide which cadences you want to prioritize:
           aoeParameters: { radius: 30 },
           primaryEffect: "damage",
           secondaryEffect: "dot",
-          effectDescription: "Deal 3d6 + Spirit storm damage and apply a damage-over-time effect (3d6 + Spirit per turn) for 3 turns to every creature in a 30 ft radius. The progression never resolves — it spirals endlessly through fifths, and so does the pain.",
-          flavorText: "The progression eats its own tail. Each fifth calls the next, and the next, and the next — a wheel of resonance that grinds whatever it touches.",
+          effectDescription: "Deal 3d6 + Spirit storm damage and apply a damage-over-time effect (3d6 + Spirit per turn) for 3 turns to every creature in a 30 ft radius. The progression never resolves � it spirals endlessly through fifths, and so does the pain.",
+          flavorText: "The progression eats its own tail. Each fifth calls the next, and the next, and the next � a wheel of resonance that grinds whatever it touches.",
           tacticalUse: "Apply early to grouped enemies for sustained pressure.",
         },
         {
           id: "plagal_cadence",
           name: "Plagal Cadence",
           epithet: "Sacred Ascent",
-          sequence: "VI→V→I→III",
+          sequence: "VI?V?I?III",
           notes: { VI: 1, V: 1, I: 1, III: 1 },
           damageTypes: ["ember"],
           targetType: "single_ally",
           range: 60,
           primaryEffect: "buff",
           secondaryEffect: "haste",
-          effectDescription: "Target ally gains +20 ft movement speed and +2 Dexterity for 2 rounds. The 'Amen' progression lifts the listener — feet leave the ground, if only for a moment.",
-          flavorText: "The amen. Not a victory, but the breath before victory — the moment the chorus inhales and the body remembers it can move.",
+          effectDescription: "Target ally gains +20 ft movement speed and +2 Dexterity for 2 rounds. The 'Amen' progression lifts the listener � feet leave the ground, if only for a moment.",
+          flavorText: "The amen. Not a victory, but the breath before victory � the moment the chorus inhales and the body remembers it can move.",
           tacticalUse: "Repositioning, pursuit, escaping an AOE.",
         },
         {
           id: "half_cadence",
           name: "Half Cadence",
           epithet: "Arcane Shield",
-          sequence: "VII→V→IV→VI",
+          sequence: "VII?V?IV?VI",
           notes: { VII: 1, V: 1, IV: 1, VI: 1 },
           damageTypes: ["storm"],
           targetType: "area",
@@ -811,7 +829,7 @@ Before combat, decide which cadences you want to prioritize:
           aoeParameters: { radius: 15 },
           primaryEffect: "barrier",
           secondaryEffect: "shield",
-          effectDescription: "Shield every ally in a 15 ft radius for 2d6 + Spirit. Shield persists for 2 rounds. The progression stops on the dominant — suspended, unresolved, holding its breath and bracing for impact.",
+          effectDescription: "Shield every ally in a 15 ft radius for 2d6 + Spirit. Shield persists for 2 rounds. The progression stops on the dominant � suspended, unresolved, holding its breath and bracing for impact.",
           flavorText: "The music pauses mid-phrase. Everything holds. The shield is the silence before the downbeat, and it will not be broken early.",
           tacticalUse: "Pre-cast before a known big attack lands.",
         },
@@ -819,7 +837,7 @@ Before combat, decide which cadences you want to prioritize:
           id: "authentic_cadence",
           name: "Authentic Cadence",
           epithet: "Grand Finale",
-          sequence: "I→VI→III→I",
+          sequence: "I?VI?III?I",
           notes: { I: 2, VI: 1, III: 1 },
           damageTypes: ["ember"],
           targetType: "area",
@@ -828,15 +846,15 @@ Before combat, decide which cadences you want to prioritize:
           aoeParameters: { radius: 20 },
           primaryEffect: "healing",
           secondaryEffect: "damage_reduction",
-          effectDescription: "Allies in a 20 ft radius take -4 damage for 1 round and restore 4d6 + Spirit HP. The Minstrel CANNOT heal themselves — every drop of mending flows outward. The progression descends through the relative minor and finds its way home, knitting flesh as it goes.",
-          flavorText: "The melody walks down through grief and lands on the tonic. Where it lands, wounds close — except on the hands that played it.",
+          effectDescription: "Allies in a 20 ft radius take -4 damage for 1 round and restore 4d6 + Spirit HP. The Minstrel CANNOT heal themselves � every drop of mending flows outward. The progression descends through the relative minor and finds its way home, knitting flesh as it goes.",
+          flavorText: "The melody walks down through grief and lands on the tonic. Where it lands, wounds close � except on the hands that played it.",
           tacticalUse: "Survive a burst-damage round and stabilize the party.",
         },
         {
           id: "phrygian_cadence",
           name: "Phrygian Cadence",
           epithet: "Ancient Resolve",
-          sequence: "V→IV→I→VII",
+          sequence: "V?IV?I?VII",
           notes: { V: 1, IV: 1, I: 1, VII: 1 },
           damageTypes: ["storm"],
           targetType: "single_ally",
@@ -844,14 +862,14 @@ Before combat, decide which cadences you want to prioritize:
           primaryEffect: "buff",
           secondaryEffect: "advantage",
           effectDescription: "Target ally gains advantage on all attacks for 2 turns. The lowered second of the Phrygian color is a knife-edge the ally's blade learns to ride.",
-          flavorText: "An ancient, dark-hued close. The semitone drop that the ear reads as danger — and your ally reads as permission.",
+          flavorText: "An ancient, dark-hued close. The semitone drop that the ear reads as danger � and your ally reads as permission.",
           tacticalUse: "Boost a damage dealer going into a full attack action.",
         },
         {
           id: "neapolitan_sixth",
           name: "Neapolitan Sixth",
           epithet: "Mystical Precision",
-          sequence: "III→I→IV→V",
+          sequence: "III?I?IV?V",
           notes: { III: 1, I: 1, IV: 1, V: 1 },
           damageTypes: ["wyrd"],
           targetType: "single_ally",
@@ -859,21 +877,21 @@ Before combat, decide which cadences you want to prioritize:
           primaryEffect: "buff",
           secondaryEffect: "crit_chance",
           effectDescription: "Target ally gains +2 to critical hit chance for 2 rounds. Stacks with Perfect Cadence for a guaranteed, amplified crit. The flatted-second chord colors the resolution with exotic precision.",
-          flavorText: "A borrowed chord from a foreign key. It shouldn't fit. It fits perfectly — and your ally's aim suddenly shares its impossible geometry.",
+          flavorText: "A borrowed chord from a foreign key. It shouldn't fit. It fits perfectly � and your ally's aim suddenly shares its impossible geometry.",
           tacticalUse: "Stack with Perfect Cadence for cataclysmic single hits.",
         },
         {
           id: "tritone_substitution",
           name: "Tritone Substitution",
           epithet: "Dissonant Chains",
-          sequence: "IV→I→V→VI",
+          sequence: "IV?I?V?VI",
           notes: { IV: 1, I: 1, V: 1, VI: 1 },
           damageTypes: ["wyrd"],
           targetType: "single",
           range: 60,
           primaryEffect: "control",
           secondaryEffect: "paralyze",
-          effectDescription: "Paralyze a single target. DC 18 Spirit save negates. The devil's interval — the tritone — slides V out and slams a flatted-II in its place, and the enemy's nervous system goes with it.",
+          effectDescription: "Paralyze a single target. DC 18 Spirit save negates. The devil's interval � the tritone � slides V out and slams a flatted-II in its place, and the enemy's nervous system goes with it.",
           flavorText: "The devil's interval, weaponized. Two notes that the Church banned for a thousand years, deployed in a single surgical strike.",
           tacticalUse: "Lock down a priority target for a full round.",
         },
@@ -881,7 +899,7 @@ Before combat, decide which cadences you want to prioritize:
           id: "picardy_third",
           name: "Picardy Third",
           epithet: "Triumph of Light",
-          sequence: "I→VII→V→III",
+          sequence: "I?VII?V?III",
           notes: { I: 1, VII: 1, V: 1, III: 1 },
           damageTypes: ["ember"],
           targetType: "area",
@@ -890,8 +908,8 @@ Before combat, decide which cadences you want to prioritize:
           aoeParameters: { radius: 20 },
           primaryEffect: "healing",
           secondaryEffect: "save_bonus",
-          effectDescription: "Allies in a 20 ft radius gain +2 to all saves for 1 round and restore 6d6 + Spirit HP. A minor key resolves to a major tonic — the raised third that turns despair into borrowed, transient hope. The Minstrel still cannot self-heal.",
-          flavorText: "The third that shouldn't be major, is. For one phrase, the music refuses to grieve — and the wounded get up again.",
+          effectDescription: "Allies in a 20 ft radius gain +2 to all saves for 1 round and restore 6d6 + Spirit HP. A minor key resolves to a major tonic � the raised third that turns despair into borrowed, transient hope. The Minstrel still cannot self-heal.",
+          flavorText: "The third that shouldn't be major, is. For one phrase, the music refuses to grieve � and the wounded get up again.",
           tacticalUse: "Counter debuff-heavy enemies and recover from a bad round.",
         },
       ],
@@ -903,7 +921,7 @@ Before combat, decide which cadences you want to prioritize:
     title: "Minstrel Specializations",
     subtitle: "Three Paths of Accumulated Suffering",
 
-    description: `Every Minstrel chooses how they will suffer. The music demands a specialty — a particular brand of torment through which they channel their stolen frequencies. Each path offers unique passive abilities and shapes both the spells they learn and the manner in which the magic consumes them.`,
+    description: `Every Minstrel chooses how they will suffer. The music demands a specialty � a particular brand of torment through which they channel their stolen frequencies. Each path offers unique passive abilities and shapes both the spells they learn and the manner in which the magic consumes them.`,
 
     specs: [
       { id : "battlechoir",
@@ -912,7 +930,7 @@ Before combat, decide which cadences you want to prioritize:
         color: "#DC143C",
         theme: "War Songs & Aggressive Support",
 
-        description: `Battlechoir Minstrels are the butchers of the battlefield — war drummers who drive soldiers into a killing frenzy with rhythms that bypass the conscious mind entirely. Their songs do not inspire courage; they strip away hesitation, morality, and restraint, leaving only the compulsion to slaughter. Every cadence they play amplifies ally lethality while grinding enemy morale into dust. They favor drums made from stretched skin and horns carved from the ribs of beasts that should have stayed extinct. The Battlechoir does not play music to uplift — they play to ensure that nothing on the receiving end survives.`,
+        description: `Battlechoir Minstrels are the butchers of the battlefield � war drummers who drive soldiers into a killing frenzy with rhythms that bypass the conscious mind entirely. Their songs do not inspire courage; they strip away hesitation, morality, and restraint, leaving only the compulsion to slaughter. Every cadence they play amplifies ally lethality while grinding enemy morale into dust. They favor drums made from stretched skin and horns carved from the ribs of beasts that should have stayed extinct. The Battlechoir does not play music to uplift � they play to ensure that nothing on the receiving end survives.`,
 
         playstyle: "Aggressive support, damage amplification, offensive buffs",
 
@@ -957,7 +975,7 @@ Before combat, decide which cadences you want to prioritize:
         color: "#4169E1",
         theme: "Healing Melodies & Emotional Magic",
 
-        description: `Soulsingers are not healers — they are desperate mourners whose songs are final pleas to powers that may not be listening. They channel raw anguish through their instruments, weaving frequencies that knit torn flesh and mend shattered bone through sheer sonic coercion. Their melodies are not gentle; they are the sounds of grief weaponized, lullabies sung over open graves that somehow keep the living from joining the dead. They favor lutes strung with hair from the bereaved and harps whose frames creek like gallows. A Soulsinger's healing is effective because it transfers the agony — not from patient to healer, but into the instrument itself, which slowly warps and cracks under accumulated sorrow.`,
+        description: `Soulsingers are not healers � they are desperate mourners whose songs are final pleas to powers that may not be listening. They channel raw anguish through their instruments, weaving frequencies that knit torn flesh and mend shattered bone through sheer sonic coercion. Their melodies are not gentle; they are the sounds of grief weaponized, lullabies sung over open graves that somehow keep the living from joining the dead. They favor lutes strung with hair from the bereaved and harps whose frames creek like gallows. A Soulsinger's healing is effective because it transfers the agony � not from patient to healer, but into the instrument itself, which slowly warps and cracks under accumulated sorrow.`,
 
         playstyle:
           "Sustained healing, emotional manipulation, protective support",
@@ -1003,7 +1021,7 @@ Before combat, decide which cadences you want to prioritize:
         color: "#8B008B",
         theme: "Chaotic Sounds & Reality Warping",
 
-        description: `Dissonance Minstrels have gazed into the void between notes and found something staring back. They wield frequencies that should not exist — atonal shrieks that unravel thought, progressions that cause the inner ear to bleed, chords that make the air itself flinch. Their music is not chaos; it is a calculated assault on the fundamental structure of reality, each discordant interval a crowbar prying at the seams of existence. They carry instruments that no luthier would claim: twisted constructions of metal and nerve that produce sounds more felt than heard. To hear a Dissonance Minstrel play is to understand that madness has a melody, and it is being performed at you.`,
+        description: `Dissonance Minstrels have gazed into the void between notes and found something staring back. They wield frequencies that should not exist � atonal shrieks that unravel thought, progressions that cause the inner ear to bleed, chords that make the air itself flinch. Their music is not chaos; it is a calculated assault on the fundamental structure of reality, each discordant interval a crowbar prying at the seams of existence. They carry instruments that no luthier would claim: twisted constructions of metal and nerve that produce sounds more felt than heard. To hear a Dissonance Minstrel play is to understand that madness has a melody, and it is being performed at you.`,
 
         playstyle:
           "Crowd control, debuffs, chaotic effects, reality manipulation",
@@ -1505,7 +1523,7 @@ Before combat, decide which cadences you want to prioritize:
     { id: "minstrel_resolving_strike",
       name: "Resolving Strike",
       description:
-        "Resolve a simple harmonic progression (I→V) that releases a burst of sonic energy.",
+        "Resolve a simple harmonic progression (I?V) that releases a burst of sonic energy.",
       spellType: "ACTION",
       icon: "Arcane/Orb Manipulation",
       level: 3,
@@ -1563,7 +1581,7 @@ Before combat, decide which cadences you want to prioritize:
     { id: "minstrel_mending_cadence",
       name: "Mending Cadence",
       description:
-        "Complete a gentle progression (IV→I) that soothes wounds and calms the spirit.",
+        "Complete a gentle progression (IV?I) that soothes wounds and calms the spirit.",
       spellType: "ACTION",
       icon: "Healing/Reaching Hand",
       level: 1,
@@ -1928,7 +1946,7 @@ Before combat, decide which cadences you want to prioritize:
     { id: "minstrel_perfect_cadence",
       name: "Perfect Cadence",
       description:
-        "Complete a perfect harmonic progression (I→IV→V→I) that guarantees an ally's next attack will critically strike.",
+        "Complete a perfect harmonic progression (I?IV?V?I) that guarantees an ally's next attack will critically strike.",
       spellType: "ACTION",
       icon: "Radiant/Radiant Bolt",
       level: 4,
@@ -2014,7 +2032,7 @@ Before combat, decide which cadences you want to prioritize:
     { id: "minstrel_circle_of_fifths",
       name: "Circle of Fifths",
       description:
-        "Weave an eternal loop of torment (V→I→VI→V) that traps enemies in relentless agony.",
+        "Weave an eternal loop of torment (V?I?VI?V) that traps enemies in relentless agony.",
       spellType: "ACTION",
       icon: "Fire/Dragon Breath",
       level: 5,
@@ -2079,7 +2097,7 @@ Before combat, decide which cadences you want to prioritize:
     { id: "minstrel_authentic_cadence",
       name: "Authentic Cadence",
       description:
-        "Perform a grand finale (I→VI→III→I) that fortifies and heals all nearby allies.",
+        "Perform a grand finale (I?VI?III?I) that fortifies and heals all nearby allies.",
       spellType: "ACTION",
       icon: "Healing/Prayer",
       level: 5,
@@ -2198,7 +2216,7 @@ Before combat, decide which cadences you want to prioritize:
     { id: "minstrel_tritone_substitution",
       name: "Tritone Substitution",
       description:
-        "Unleash powerful dissonance (IV→I→V→VI) that binds and paralyzes a foe.",
+        "Unleash powerful dissonance (IV?I?V?VI) that binds and paralyzes a foe.",
       spellType: "ACTION",
       icon: "Psychic/Mind Strike",
       level: 6,
@@ -2290,7 +2308,7 @@ Before combat, decide which cadences you want to prioritize:
     { id: "minstrel_picardy_third",
       name: "Picardy Third",
       description:
-        "Shift from darkness to light (I→VII→V→III), filling allies with renewed hope and resilience.",
+        "Shift from darkness to light (I?VII?V?III), filling allies with renewed hope and resilience.",
       spellType: "ACTION",
       icon: "Radiant/Divine Radiance",
       level: 6,
@@ -2485,7 +2503,7 @@ Before combat, decide which cadences you want to prioritize:
     },
 
     // ========================================
-    // NEW BUILDER SPELLS — VI & VII Generation
+    // NEW BUILDER SPELLS � VI & VII Generation
     // ========================================
     { id: "minstrel_melancholy_melody",
       name: "Melancholy Melody",
@@ -2657,12 +2675,12 @@ Before combat, decide which cadences you want to prioritize:
     },
 
     // ========================================
-    // NEW CADENCE SPELLS — Missing 5 Cadences
+    // NEW CADENCE SPELLS � Missing 5 Cadences
     // ========================================
     { id: "minstrel_deceptive_cadence",
       name: "Deceptive Cadence",
       description:
-        "Play a deceptive progression (IV→VII→V→IV) that disorients an enemy, imposing -2 to attacks and saves for 1 round (DC 15 Spirit save to resist).",
+        "Play a deceptive progression (IV?VII?V?IV) that disorients an enemy, imposing -2 to attacks and saves for 1 round (DC 15 Spirit save to resist).",
       level: 4,
       spellType: "ACTION",
       icon: "Psychic/Mind Strike",
@@ -2748,7 +2766,7 @@ Before combat, decide which cadences you want to prioritize:
     { id: "minstrel_plagal_cadence",
       name: "Plagal Cadence",
       description:
-        "Perform a sacred ascent (VI→V→I→III) that grants allies swiftness and agility, enhancing their movement and reflexes.",
+        "Perform a sacred ascent (VI?V?I?III) that grants allies swiftness and agility, enhancing their movement and reflexes.",
       level: 4,
       spellType: "ACTION",
       icon: "Radiant/Radiant Warrior",
@@ -2825,7 +2843,7 @@ Before combat, decide which cadences you want to prioritize:
     { id: "minstrel_half_cadence",
       name: "Half Cadence",
       description:
-        "An unresolved progression (VII→V→IV→VI) that creates protective harmonic barriers around your allies, absorbing incoming damage.",
+        "An unresolved progression (VII?V?IV?VI) that creates protective harmonic barriers around your allies, absorbing incoming damage.",
       level: 5,
       spellType: "ACTION",
       icon: "Force/Force Field",
@@ -2928,7 +2946,7 @@ Before combat, decide which cadences you want to prioritize:
     { id: "minstrel_phrygian_cadence",
       name: "Phrygian Cadence",
       description:
-        "An ancient progression (V→IV→I→VII) that channels the resolve of warriors past, granting allies advantage on all attacks.",
+        "An ancient progression (V?IV?I?VII) that channels the resolve of warriors past, granting allies advantage on all attacks.",
       level: 5,
       spellType: "ACTION",
       icon: "Radiant/Divine Halo",
@@ -3020,7 +3038,7 @@ Before combat, decide which cadences you want to prioritize:
     { id: "minstrel_neapolitan_sixth",
       name: "Neapolitan Sixth",
       description:
-        "A precise and unexpected progression (III→I→IV→V) that sharpens ally precision, increasing critical hit chance.",
+        "A precise and unexpected progression (III?I?IV?V) that sharpens ally precision, increasing critical hit chance.",
       level: 6,
       spellType: "ACTION",
       icon: "Radiant/Radiant Bolt",

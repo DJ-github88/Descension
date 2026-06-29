@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 
 const FortunePointsResourceBar = ({
   gamblerState,
@@ -95,7 +95,7 @@ const FortunePointsResourceBar = ({
 
                     {/* Center Divider: Gold card/dice symbol */}
                     <div className="gambler-center" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <span style={{ fontSize: '12px', color: '#8B6508', textShadow: '0 0 4px rgba(255, 215, 0, 0.4)', margin: '0 2px' }}>â™¦</span>
+                        <span style={{ fontSize: '12px', color: '#8B6508', textShadow: '0 0 4px rgba(255, 215, 0, 0.4)', margin: '0 2px' }}>♦</span>
                     </div>
 
                     {/* Karmic Debt Bar (Right) */}

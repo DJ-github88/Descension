@@ -9,7 +9,7 @@ import characterSessionService from '../../services/firebase/characterSessionSer
 import characterMigrationService from '../../services/firebase/characterMigrationService';
 import localStorageManager from '../../utils/localStorageManager';
 import { getCharacterData, updateCharacterData, storeCharacterOffline } from '../../services/offlineService';
-import { getEncumbranceState, getCurrentUserId, isGuestUser, getCharactersStorageKey, shouldUseFirebase, characterAutoSaveTimer, CHARACTER_AUTO_SAVE_DELAY, setCharacterAutoSaveTimer } from '../characterHelpers';
+import { getEncumbranceState, getCurrentUserId, isGuestUser, getCharactersStorageKey, shouldUseFirebase } from '../characterHelpers';
 
 export const createMultiplayerSlice = (set, get) => ({
     // Helper to sync character with multiplayer

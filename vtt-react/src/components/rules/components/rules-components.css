@@ -186,6 +186,7 @@
     column-gap: 36px;
     column-rule: 1px dashed rgba(196, 160, 96, 0.25);
     column-fill: balance;
+    height: max-content;
   }
 }
 
@@ -196,7 +197,7 @@
 
 .rules-section-card-content p {
   margin: 0 0 16px 0;
-  break-inside: avoid;
+  break-inside: auto;
   orphans: 3;
   widows: 3;
 }

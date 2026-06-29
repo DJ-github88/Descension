@@ -1,4 +1,4 @@
-﻿const useTriggerFormatters = ({ spell, library }) => {
+const useTriggerFormatters = ({ spell, library }) => {
 
   const formatChanceOnHit = () => {
     const chanceConfig = spell.damageConfig?.chanceOnHitConfig || spell.healingConfig?.chanceOnHitConfig || spell.chanceOnHitConfig;

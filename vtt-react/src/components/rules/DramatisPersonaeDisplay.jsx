@@ -16,10 +16,63 @@ const REGION_ACCENTS = {
 
 const DEFAULT_ACCENT = { color: '#8b4513', bg: 'rgba(139,69,19,0.08)', icon: 'fas fa-user-shield', glyph: '\u2726' };
 
+const NPC_PORTRAITS = {
+  'Sentinel-Commander Vaelen Greymark': {
+    url: '/assets/images/portraits/vaelen_greymark.png',
+    caption: 'Sentinel-Commander Vaelen Greymark in heavy steel plate armor, guarding Greymark Keep.'
+  },
+  'Sylvain of the Unwoven': {
+    url: '/assets/images/portraits/sylvain_unwoven.png',
+    caption: 'Sylvain of the Unwoven, a Briaran rebel leader with a prosthetic wooden arm containing a bound soul.'
+  },
+  'Jarl Eirik Skalvyr': {
+    url: '/assets/images/portraits/eirik_skalvyr.png',
+    caption: 'Jarl Eirik Skalvyr clad in thick mammoth-furs, holding a carved frost-axe.'
+  },
+  'High-Oracle Skari': {
+    url: '/assets/images/portraits/oracle_skari.png',
+    caption: 'High-Oracle Skari, the blind Skald record-keeper with a blindfold over his eyes, wearing fur robes.'
+  },
+  'Mara of the Badlands': {
+    url: '/assets/images/portraits/mara_badlands.png',
+    caption: 'Mara of the Badlands, a cynical female ranger with outdoor gear and a leather cloak.'
+  },
+  'Synod-Broker Lyra': {
+    url: '/assets/images/portraits/broker_lyra.png',
+    caption: 'Synod-Broker Lyra, the silver-skinned Neth merchant noble with crystalline markings.'
+  },
+  'Guild-Master Fexric Keth': {
+    url: '/assets/images/portraits/fexric_keth.png',
+    caption: 'Guild-Master Fexric Keth, a Fexric dwarf engineer with a clockwork eye-graft wearing an alchemical leather vest.'
+  },
+  'Arch-Sun Speaker Kaelen': {
+    url: '/assets/images/portraits/sun_kaelen.png',
+    caption: 'Arch-Sun Speaker Kaelen, the dogmatic golden-robed priest of the Sol-Vigil.'
+  },
+  'Captain Mereval': {
+    url: '/assets/images/portraits/captain_mereval.png',
+    caption: 'Captain Mereval, his weather-beaten skin covered in shining silver contracts.'
+  },
+  'Toll-Leader Ithra Groven': {
+    url: '/assets/images/portraits/ithra_groven.png',
+    caption: 'Toll-Leader Ithra Groven, a smooth pale-scaled Groven diplomat guarding the Ancestor-Spans.'
+  },
+  'Khan Orda of the Mound-Camps': {
+    url: '/assets/images/portraits/khan_orda.png',
+    caption: 'Khan Orda, the nomadic chieftain leading the horse-clans through gravity-storms.'
+  },
+  'Grand Exemplar Vaelen': {
+    url: '/assets/images/portraits/exemplar_vaelen.png',
+    caption: 'Grand Exemplar Vaelen, the crystalline Astril leader reflecting star-glass light.'
+  },
+  'Sister Vraka': {
+    url: '/assets/images/portraits/sister_vraka.png',
+    caption: 'Sister Vraka of the Vreken rebels, her cowl shadowing glowing red eyes.'
+  }
+};
+
 const parseNpcBlock = (rawText) => {
   if (!rawText) return [];
-  // Data uses markdown-style "- **Name:**" bullets, may be separated by \n\n or \n
-  // Split on lines starting with '- '
   const lines = rawText.split('\n');
   const bullets = [];
   let current = null;
@@ -54,10 +107,10 @@ const parseNpcBlock = (rawText) => {
       secret:   extractField('Secret'),
       conflict: extractField('Conflict'),
     };
-  }).filter(npc => npc.goal || npc.secret || npc.conflict); // only keep full NPC cards
+  }).filter(npc => npc.goal || npc.secret || npc.conflict);
 };
 
-// Parse the Street-Level Contacts block into region groups
+// Parse Street-Level Contacts block
 const parseContactsBlock = (rawText) => {
   if (!rawText) return [];
   const groups = [];
@@ -68,7 +121,7 @@ const parseContactsBlock = (rawText) => {
     const regionMatch = line.match(/^\*\*(.+?):\*\*\s*$/);
     if (regionMatch) {
       if (currentGroup) groups.push(currentGroup);
-      currentGroup = { region: regionMatch[1], contacts: [] };
+      currentGroup = { region: regionMatch[1].trim(), contacts: [] };
       continue;
     }
     if (line.trim().startsWith('- **') && currentGroup) {
@@ -84,7 +137,6 @@ const parseContactsBlock = (rawText) => {
   if (currentGroup) groups.push(currentGroup);
   return groups;
 };
-
 
 const renderLore = (text) => {
   if (!text) return null;
@@ -103,89 +155,29 @@ const renderLore = (text) => {
   return result.length ? result : text;
 };
 
-const NpcCard = ({ npc, accent }) => {
-  const [secretRevealed, setSecretRevealed] = useState(false);
-
-  return (
-    <div className="dp-npc-card" style={{ '--accent': accent.color, '--accent-bg': accent.bg }}>
-      <div className="dp-npc-card-header">
-        <div className="dp-npc-card-icon" style={{ borderColor: accent.color, color: accent.color }}>
-          {npc.name.charAt(0)}
-        </div>
-        <h4 className="dp-npc-card-name">{npc.name}</h4>
-      </div>
-
-      {npc.description && (
-        <p className="dp-npc-card-desc">{renderLore(npc.description)}</p>
-      )}
-
-      <div className="dp-npc-pillars">
-        {npc.goal && (
-          <div className="dp-npc-pillar dp-npc-pillar--goal">
-            <span className="dp-npc-pillar-label">
-              <i className="fas fa-bullseye" /> Goal
-            </span>
-            <p className="dp-npc-pillar-text">{renderLore(npc.goal)}</p>
-          </div>
-        )}
-
-        {npc.conflict && (
-          <div className="dp-npc-pillar dp-npc-pillar--conflict">
-            <span className="dp-npc-pillar-label">
-              <i className="fas fa-crossed-swords" /> Conflict
-            </span>
-            <p className="dp-npc-pillar-text">{renderLore(npc.conflict)}</p>
-          </div>
-        )}
-
-        {npc.secret && (
-          <div className="dp-npc-pillar dp-npc-pillar--secret">
-            <span className="dp-npc-pillar-label">
-              <i className="fas fa-eye-slash" /> Secret
-              <button
-                className="dp-secret-toggle"
-                onClick={() => setSecretRevealed(r => !r)}
-                title={secretRevealed ? 'Conceal secret' : 'Reveal secret (GM only)'}
-              >
-                {secretRevealed ? 'Conceal' : 'Reveal'}
-              </button>
-            </span>
-            <p className={`dp-npc-pillar-text dp-secret-text ${secretRevealed ? 'revealed' : ''}`}>
-              {secretRevealed ? renderLore(npc.secret) : '\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588'}
-            </p>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-};
-// Street-Level Contacts compact renderer
-const StreetContactsSection = ({ content }) => {
+const StreetContactsSection = ({ content, regionName }) => {
   const groups = useMemo(() => parseContactsBlock(content), [content]);
-  if (!groups.length) return null;
+  const activeGroup = useMemo(() => {
+    return groups.find(g => g.region.toLowerCase().includes(regionName.toLowerCase()));
+  }, [groups, regionName]);
+
+  if (!activeGroup || !activeGroup.contacts.length) return null;
 
   return (
     <div className="dp-contacts-section">
       <div className="dp-contacts-header">
         <i className="fas fa-handshake" />
-        <h3>Street-Level Contacts</h3>
-        <span className="dp-contacts-badge">First Sessions</span>
+        <h3>Local Figures & Contacts</h3>
+        <span className="dp-contacts-badge">Street-Level</span>
       </div>
       <p className="dp-contacts-intro">
-        These are the people your characters will actually meet in the first few sessions — not grand exemplars or guild masters, but tavern keepers, merchants, and local figures who have their own problems and can offer work, information, or trouble.
+        These are the local tavern keepers, minor archive clerks, and merchants who provide day-to-day services, rumors, or low-level work in this region.
       </p>
-      <div className="dp-contacts-grid">
-        {groups.map(group => (
-          <div key={group.region} className="dp-contacts-group">
-            <h4 className="dp-contacts-region">{group.region}</h4>
-            <ul className="dp-contacts-list">
-              {group.contacts.map((c, i) => (
-                <li key={i} className="dp-contact-item">
-                  <span className="dp-contact-name">{c.name}</span>
-                  <span className="dp-contact-desc">{renderLore(c.desc)}</span>
-                </li>
-              ))}
-            </ul>
+      <div className="dp-contacts-list">
+        {activeGroup.contacts.map((c, i) => (
+          <div key={i} className="dp-contact-item">
+            <span className="dp-contact-name">{c.name}</span>
+            <span className="dp-contact-desc">{renderLore(c.desc)}</span>
           </div>
         ))}
       </div>
@@ -195,15 +187,15 @@ const StreetContactsSection = ({ content }) => {
 
 const DramatisPersonaeDisplay = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeRegion, setActiveRegion] = useState(null);
-  const sectionRefs = useRef({});
-  const mainRef = useRef(null);
+  const [activeRegionName, setActiveRegionName] = useState('Frostwood Reach');
+  const [selectedNpc, setSelectedNpc] = useState(null);
+  const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'secret' | 'clash'
+  const [secretRevealed, setSecretRevealed] = useState(false);
 
   const worldLore = RULES_CATEGORIES.find(c => c.id === 'world-lore');
   const sub = worldLore?.subcategories?.find(s => s.id === 'dramatis-personae');
   const allSections = sub?.content?.sections || [];
 
-  // Separate the street-level contacts section from named NPC sections
   const contactsSection = allSections.find(s => s.title === 'Street-Level Contacts');
   const npcSections = allSections.filter(s => s.title !== 'Street-Level Contacts');
 
@@ -217,40 +209,45 @@ const DramatisPersonaeDisplay = () => {
     });
   }, [npcSections]);
 
-
-  const filteredRegions = useMemo(() => {
-    if (!searchQuery.trim()) return regionData;
-    const q = searchQuery.toLowerCase();
-    return regionData.map(region => ({
-      ...region,
-      npcs: region.npcs.filter(npc =>
-        npc.name.toLowerCase().includes(q) ||
-        (npc.description && npc.description.toLowerCase().includes(q)) ||
-        (npc.goal && npc.goal.toLowerCase().includes(q)) ||
-        (npc.secret && npc.secret.toLowerCase().includes(q)) ||
-        (npc.conflict && npc.conflict.toLowerCase().includes(q))
-      ),
-    })).filter(region => region.npcs.length > 0);
-  }, [regionData, searchQuery]);
+  const currentRegion = useMemo(() => {
+    return regionData.find(r => r.regionName === activeRegionName) || regionData[0];
+  }, [regionData, activeRegionName]);
 
   const totalNpcs = useMemo(() =>
     regionData.reduce((sum, r) => sum + r.npcs.length, 0),
     [regionData]
   );
 
-  const scrollToRegion = useCallback((regionName) => {
-    setActiveRegion(regionName);
-    const el = sectionRefs.current[regionName];
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  }, []);
+  const filteredNpcs = useMemo(() => {
+    const list = currentRegion?.npcs || [];
+    if (!searchQuery.trim()) return list;
+    const q = searchQuery.toLowerCase();
+    return list.filter(npc =>
+      npc.name.toLowerCase().includes(q) ||
+      (npc.description && npc.description.toLowerCase().includes(q)) ||
+      (npc.goal && npc.goal.toLowerCase().includes(q)) ||
+      (npc.secret && npc.secret.toLowerCase().includes(q)) ||
+      (npc.conflict && npc.conflict.toLowerCase().includes(q))
+    );
+  }, [currentRegion, searchQuery]);
+
+  const handleSelectNpc = (npc) => {
+    setSelectedNpc(npc);
+    setActiveTab('overview');
+    setSecretRevealed(false);
+  };
+
+  const handleBack = () => {
+    setSelectedNpc(null);
+  };
 
   return (
     <div className="dp-display">
       <div className="dp-layout">
+        {/* Left Sidebar for Regions */}
         <aside className="dp-sidebar">
           <h3 className="dp-sidebar-title">
+            <i className="fas fa-scroll"></i>
             Regions <span className="dp-sidebar-count">{totalNpcs}</span>
           </h3>
 
@@ -259,7 +256,7 @@ const DramatisPersonaeDisplay = () => {
             <input
               type="text"
               className="dp-search-input"
-              placeholder="Search figures..."
+              placeholder="Search in region..."
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
             />
@@ -267,13 +264,15 @@ const DramatisPersonaeDisplay = () => {
 
           <ul className="dp-region-list">
             {regionData.map(region => {
-              const isActive = activeRegion === region.regionName;
-              const isFiltered = filteredRegions.some(fr => fr.regionName === region.regionName);
+              const isActive = activeRegionName === region.regionName;
               return (
                 <li
                   key={region.regionName}
-                  className={`dp-region-item ${isActive ? 'active' : ''} ${!isFiltered && searchQuery ? 'dimmed' : ''}`}
-                  onClick={() => scrollToRegion(region.regionName)}
+                  className={`dp-region-item ${isActive ? 'active' : ''}`}
+                  onClick={() => {
+                    setActiveRegionName(region.regionName);
+                    setSelectedNpc(null);
+                  }}
                 >
                   <span className="dp-region-icon">
                     <i className={region.accent.icon} />
@@ -287,50 +286,213 @@ const DramatisPersonaeDisplay = () => {
               );
             })}
           </ul>
-
-          <div className="dp-sidebar-tip">
-            <i className="fas fa-eye-slash" />
-            <span>Click <strong>Reveal</strong> on any card to unlock GM secrets</span>
-          </div>
         </aside>
 
-        <div className="dp-content" ref={mainRef}>
-          {filteredRegions.length === 0 && (
-            <div className="dp-no-results">
-              <i className="fas fa-search" />
-              <p>No figures match "{searchQuery}"</p>
-            </div>
-          )}
+        {/* Content Area */}
+        <div className="dp-content">
+          {selectedNpc ? (
+            /* DETAILED VIEW - JOURNAL PAGE */
+            <div className="dp-detail fade-in">
+              <button className="dp-back-btn" onClick={handleBack}>
+                <i className="fas fa-arrow-left"></i> Back to {currentRegion.regionName}
+              </button>
 
-          {filteredRegions.map(region => (
-            <div
-              key={region.regionName}
-              ref={el => { sectionRefs.current[region.regionName] = el; }}
-              className="dp-region-section"
-              id={`region-${region.index}`}
-            >
-              <div className="dp-region-header" style={{ '--accent': region.accent.color }}>
-                <div className="dp-region-header-icon">
-                  <i className={region.accent.icon} />
+              <div className="dp-detail-header" style={{ '--accent': currentRegion.accent.color }}>
+                <div className="dp-detail-title-group">
+                  <h2 className="dp-detail-name">{selectedNpc.name}</h2>
+                  <span className="dp-detail-region-badge" style={{ backgroundColor: currentRegion.accent.color }}>
+                    <i className={currentRegion.accent.icon}></i> {currentRegion.regionName}
+                  </span>
                 </div>
-                <div className="dp-region-header-text">
-                  <h3 className="dp-region-header-name">{region.regionName}</h3>
-                  {region.subtitle && <span className="dp-region-header-subtitle">{region.subtitle}</span>}
-                </div>
-                <span className="dp-region-header-count">{region.npcs.length} Figure{region.npcs.length !== 1 ? 's' : ''}</span>
+                <p className="dp-detail-subtitle">
+                  {currentRegion.subtitle || 'Notable Figure'}
+                </p>
               </div>
 
-              <div className="dp-card-grid">
-                {region.npcs.map((npc, i) => (
-                  <NpcCard key={i} npc={npc} accent={region.accent} />
-                ))}
+              <div className="dp-detail-body">
+                {/* Column 1: Portrait and Profile */}
+                <div className="dp-portrait-col">
+                  {NPC_PORTRAITS[selectedNpc.name] ? (
+                    <div className="dp-detail-illustration">
+                      <div className="dp-portrait-frame">
+                        <img
+                          src={NPC_PORTRAITS[selectedNpc.name].url}
+                          alt={selectedNpc.name}
+                        />
+                      </div>
+                      <div className="dp-detail-caption">
+                        <i className="fas fa-feather-alt"></i> {NPC_PORTRAITS[selectedNpc.name].caption}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="dp-detail-illustration fallback-avatar">
+                      <div className="dp-portrait-frame empty" style={{ borderColor: currentRegion.accent.color }}>
+                        <div className="dp-portrait-letter" style={{ backgroundColor: currentRegion.accent.bg, color: currentRegion.accent.color }}>
+                          {selectedNpc.name.charAt(0)}
+                        </div>
+                        <span>No sketch available</span>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="dp-quick-profile">
+                    <h4 className="dp-profile-title">
+                      <i className="fas fa-id-card"></i> Figure Profile
+                    </h4>
+                    <div className="dp-profile-row">
+                      <span className="dp-profile-label">Faction:</span>
+                      <span className="dp-profile-value">{currentRegion.subtitle || 'Independent'}</span>
+                    </div>
+                    <div className="dp-profile-row">
+                      <span className="dp-profile-label">Domain:</span>
+                      <span className="dp-profile-value">{currentRegion.regionName}</span>
+                    </div>
+                    <div className="dp-profile-row">
+                      <span className="dp-profile-label">Status:</span>
+                      <span className="dp-profile-value status-active">Active Threat</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Column 2: Biography Tabs */}
+                <div className="dp-tabs-col">
+                  <div className="dp-tabs">
+                    <button
+                      className={`dp-tab-btn ${activeTab === 'overview' ? 'active' : ''}`}
+                      onClick={() => setActiveTab('overview')}
+                      style={{ '--accent': currentRegion.accent.color }}
+                    >
+                      <i className="fas fa-book-open"></i> Overview & Goal
+                    </button>
+                    <button
+                      className={`dp-tab-btn ${activeTab === 'clash' ? 'active' : ''}`}
+                      onClick={() => setActiveTab('clash')}
+                      style={{ '--accent': currentRegion.accent.color }}
+                    >
+                      <i className="fas fa-bolt"></i> Political Conflict
+                    </button>
+                    <button
+                      className={`dp-tab-btn ${activeTab === 'secret' ? 'active' : ''}`}
+                      onClick={() => setActiveTab('secret')}
+                      style={{ '--accent': currentRegion.accent.color }}
+                    >
+                      <i className="fas fa-eye-slash"></i> GM Secrets
+                    </button>
+                  </div>
+
+                  <div className="dp-tab-content">
+                    {activeTab === 'overview' && (
+                      <div className="dp-tab-pane fade-in">
+                        <div className="dp-section">
+                          <h4 className="dp-section-title">Description</h4>
+                          <p className="dp-description-text">{renderLore(selectedNpc.description)}</p>
+                        </div>
+                        {selectedNpc.goal && (
+                          <div className="dp-section dp-highlight-box goal-box" style={{ borderColor: currentRegion.accent.color, background: currentRegion.accent.bg }}>
+                            <h4 className="dp-section-title" style={{ color: currentRegion.accent.color }}>
+                              <i className="fas fa-bullseye"></i> Primary Goal
+                            </h4>
+                            <p className="dp-highlight-text">{renderLore(selectedNpc.goal)}</p>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {activeTab === 'clash' && (
+                      <div className="dp-tab-pane fade-in">
+                        <div className="dp-section">
+                          <h4 className="dp-section-title">Immediate Conflict</h4>
+                          <p className="dp-description-text">{renderLore(selectedNpc.conflict)}</p>
+                        </div>
+                      </div>
+                    )}
+
+                    {activeTab === 'secret' && (
+                      <div className="dp-tab-pane fade-in">
+                        <div className="dp-gm-warning">
+                          <i className="fas fa-exclamation-triangle"></i>
+                          <span><strong>GM WARNING:</strong> The information below contains major campaign secrets and should not be shown to players before they uncover them in-game.</span>
+                        </div>
+                        <div className="dp-section dp-secret-box">
+                          <div className="dp-secret-header">
+                            <span className="dp-secret-title">
+                              <i className="fas fa-key"></i> Redacted Campaign Truth
+                            </span>
+                            <button
+                              className="dp-secret-toggle-btn"
+                              onClick={() => setSecretRevealed(r => !r)}
+                            >
+                              {secretRevealed ? 'Conceal Secret' : 'Reveal Secret'}
+                            </button>
+                          </div>
+                          <p className={`dp-secret-text ${secretRevealed ? 'revealed' : ''}`}>
+                            {secretRevealed ? renderLore(selectedNpc.secret) : '\u2588'.repeat(120) + ' ' + '\u2588'.repeat(80)}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
-          ))}
+          ) : (
+            /* LIST VIEW - REGION DIRECTORY */
+            <div className="dp-region-view fade-in">
+              <div className="dp-region-banner" style={{ '--accent-bg': currentRegion.accent.bg, '--accent': currentRegion.accent.color }}>
+                <div className="dp-region-banner-icon" style={{ color: currentRegion.accent.color }}>
+                  <i className={currentRegion.accent.icon}></i>
+                </div>
+                <div className="dp-region-banner-text">
+                  <h2>{currentRegion.regionName}</h2>
+                  <p>{currentRegion.subtitle || 'Sovereign territory of the noble houses'}</p>
+                </div>
+              </div>
 
-          {/* Street-Level Contacts — rendered below all NPC cards */}
-          {contactsSection && !searchQuery && (
-            <StreetContactsSection content={contactsSection.content} />
+              {filteredNpcs.length === 0 ? (
+                <div className="dp-no-results">
+                  <i className="fas fa-search" />
+                  <p>No figures match your query in this region</p>
+                </div>
+              ) : (
+                <div className="dp-card-grid">
+                  {filteredNpcs.map((npc, i) => {
+                    const hasPortrait = !!NPC_PORTRAITS[npc.name];
+                    return (
+                      <div
+                        key={i}
+                        className="dp-npc-card"
+                        onClick={() => handleSelectNpc(npc)}
+                        style={{ '--accent': currentRegion.accent.color }}
+                      >
+                        <div className="dp-npc-card-avatar">
+                          {hasPortrait ? (
+                            <img src={NPC_PORTRAITS[npc.name].url} alt={npc.name} className="dp-avatar-img" />
+                          ) : (
+                            <div className="dp-avatar-letter" style={{ backgroundColor: currentRegion.accent.bg, color: currentRegion.accent.color }}>
+                              {npc.name.charAt(0)}
+                            </div>
+                          )}
+                        </div>
+                        <div className="dp-npc-card-info">
+                          <h4 className="dp-npc-card-name">{npc.name}</h4>
+                          <p className="dp-npc-card-excerpt">
+                            {npc.description ? (npc.description.length > 95 ? npc.description.substring(0, 95) + '...' : npc.description) : 'No description.'}
+                          </p>
+                          <span className="dp-read-more">
+                            Consult Journal <i className="fas fa-chevron-right"></i>
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+
+              {/* Local figures (street-level contacts) */}
+              {contactsSection && !searchQuery && (
+                <StreetContactsSection content={contactsSection.content} regionName={currentRegion.regionName} />
+              )}
+            </div>
           )}
         </div>
       </div>

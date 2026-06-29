@@ -24,6 +24,23 @@
  */
 
 export const FALSE_PROPHET_DATA = {
+  restrictions: {
+      "allowedSubraces": [
+          "ordan_human",
+          "sylen_astril",
+          "muren_astril",
+          "morren_human"
+      ],
+      "hardBlocks": [
+          "skald_human",
+          "thalren_human",
+          "tessen_human",
+          "emberth"
+      ],
+      "narrativeUnlock": true,
+      "justification": "Requires a population desperate enough for manufactured meaning. Steppe nomads (Ordan) and debt-trapped Morren fit. Skald and Thalren are too institutionally rigid to embrace nihilism as salvation."
+  },
+
   id : "false_prophet",
   name: "False Prophet",
   icon: "fas fa-eye",

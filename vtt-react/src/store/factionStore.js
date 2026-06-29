@@ -34,19 +34,21 @@ const SEEDED_FACTIONS = [
 
     leader: {
 
-      npcId: 'aldren-thalreth',
+      npcId: 'kaelen-thalreth',
 
-      title: 'Lord of Greymark',
+      title: 'Jarl-Archivist',
 
       description:
 
-        'Lord Aldren Thalreth, aging and increasingly forgetful. He carries a worn leather journal everywhere, re-reading entries about his own life that he no longer remembers writing.'
+        'Jarl-Archivist Kaelen Thalreth ("The Quill-Lord"), who has recently seized de facto control of the house due to his father Lord Aldren\'s advanced memory-fog, ruthlessly enforcing the Sovereign Ledger.'
 
     },
 
     members: [
 
-      { npcId: 'aldren-thalreth', role: 'Lord', locationId: 'greymark-keep' },
+      { npcId: 'kaelen-thalreth', role: 'Jarl-Archivist (De Facto Leader)', locationId: 'greymark-keep' },
+
+      { npcId: 'aldren-thalreth', role: 'Lord (De Jure Elder)', locationId: 'greymark-keep' },
 
       { npcId: 'elara-thalreth', role: 'Keeper of the High Hearth', locationId: 'greymark-keep' },
 
@@ -240,19 +242,21 @@ const SEEDED_FACTIONS = [
 
     leader: {
 
-      npcId: 'sigurd-skalvyr',
+      npcId: 'halvar-skalvyr',
 
-      title: 'Jarl of Nordhalla',
+      title: 'High King-Jarl of Nordhalla',
 
       description:
 
-        'Jarl Sigurd Skalvyr, a man carved from glacier ice and old oaths. He knows about the geothermal negotiations. He has not stopped them. He has not endorsed them. He waits.'
+        'High King-Jarl Halvar Skalvyr ("Járn-Tand" or Iron-Tooth), who consolidated his rule by force, constructed the Sunder-Wall to tax nomads, and governs Nordhalla with an iron grip.'
 
     },
 
     members: [
 
-      { npcId: 'sigurd-skalvyr', role: 'Jarl', locationId: 'frozen-archive' },
+      { npcId: 'halvar-skalvyr', role: 'High King-Jarl', locationId: 'fjord-gate' },
+
+      { npcId: 'sigurd-skalvyr', role: 'Jarl of the Archive (Custodian)', locationId: 'frozen-archive' },
 
       { npcId: 'frigga-skalvyr', role: 'Geothermal Negotiator', locationId: 'fjord-gate' }
 

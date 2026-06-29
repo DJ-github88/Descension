@@ -6,6 +6,24 @@
  */
 
 export const MARTYR_DATA = {
+  restrictions: {
+      "allowedSubraces": [
+          "solvarn_human",
+          "korr_emberth",
+          "velun_neth"
+      ],
+      "hardBlocks": [
+          "skald_human",
+          "tessen_human",
+          "merryn_human",
+          "ordan_human",
+          "neth",
+          "mimir"
+      ],
+      "narrativeUnlock": true,
+      "justification": "Requires a theological framework for willing suffering. Solvarn have the sun-vigil. Korr have the Vault-Breath. Neth Velun have contract-martyrdom. Other cultures are too survival-pragmatic to embrace suffering as power."
+  },
+
   id : "martyr",
   name: "Martyr",
   icon: "fas fa-cross",

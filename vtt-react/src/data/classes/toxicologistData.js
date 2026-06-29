@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Toxicologist Class Data
  *
  * Complete class information for the Toxicologist - a master of poisons, concoctions,
@@ -6,6 +6,23 @@
  */
 
 export const TOXICOLOGIST_DATA = {
+  restrictions: {
+      "allowedSubraces": [
+          "thalren_human",
+          "unwoven_mimir",
+          "morren_human",
+          "unshorn_briaran",
+          "smoothskinned_briaran"
+      ],
+      "hardBlocks": [
+          "human",
+          "emberth",
+          "fexrick"
+      ],
+      "narrativeUnlock": false,
+      "justification": "Requires deep knowledge of fungal/pharmacological reagents unique to the Frostwood. Unwoven Mimir brew floor-toxins. Morren know the bog's chemistry. Other regions lack the specific reagents."
+  },
+
   id : "toxicologist",
   name: "Toxicologist",
   icon: "fas fa-flask",
@@ -62,24 +79,24 @@ The class is heavily practiced by the Thalren humans and the <LoreLink termId="m
     },
 
     philosophy: {
-      coreTenet: 'The difference between poison and medicine is dosage. Everything in the world is toxic if you consume enough of it. The Toxicologist simply understands the thresholds better than anyone else. They do not create poisons — they identify which naturally occurring toxins will produce the desired effect.',
-      relationship: 'A Toxicologist\'s body is a chemical processing plant. They have deliberately microdosed themselves with so many toxins that their body has developed a complex tolerance network. New toxins must be administered carefully — the body needs time to learn to process them. The relationship is alchemical: the Toxicologist is both the chemist and the laboratory. Every new resistance they develop changes the internal chemistry, and some changes are irreversible.',
-      paradox: 'The Toxicologist heals more slowly because their body is too busy processing toxins to repair itself. Any magical healing they receive is halved — their internal chemistry rejects outside interference. They are the most self-sufficient alchemists in the world, but they cannot accept help from anyone. A Toxicologist who pushes too hard will find themselves unable to recover, their body too overwhelmed by toxins to heal even the simplest wound.'
+      coreTenet: 'The difference between poison and medicine is dosage. Everything in the world is toxic if you consume enough of it. The Toxicologist simply understands the thresholds better than anyone else. They do not create poisons � they identify which naturally occurring toxins will produce the desired effect.',
+      relationship: 'A Toxicologist\'s body is a chemical processing plant. They have deliberately microdosed themselves with so many toxins that their body has developed a complex tolerance network. New toxins must be administered carefully � the body needs time to learn to process them. The relationship is alchemical: the Toxicologist is both the chemist and the laboratory. Every new resistance they develop changes the internal chemistry, and some changes are irreversible.',
+      paradox: 'The Toxicologist heals more slowly because their body is too busy processing toxins to repair itself. Any magical healing they receive is halved � their internal chemistry rejects outside interference. They are the most self-sufficient alchemists in the world, but they cannot accept help from anyone. A Toxicologist who pushes too hard will find themselves unable to recover, their body too overwhelmed by toxins to heal even the simplest wound.'
     },
 
-    currentCrisis: `The fog is changing the chemistry of the Frostwood Reach. The airborne toxins that Toxicologists have relied on for generations — distilled from fog-predator venom, ironwood sap, and Gref residue — are becoming unstable. Compounds that once remained viable for years are now degrading in weeks.
+    currentCrisis: `The fog is changing the chemistry of the Frostwood Reach. The airborne toxins that Toxicologists have relied on for generations � distilled from fog-predator venom, ironwood sap, and Gref residue � are becoming unstable. Compounds that once remained viable for years are now degrading in weeks.
 
-Toxicologists have traced the cause to a change in the fog\'s composition. Something is leaching into the mist — a new element that reacts unpredictably with their stored compounds. Some believe it is a byproduct of the Void contamination spreading from the Bryngloom. Others believe the fog is simply evolving, becoming more complex as it ages. Whatever the cause, the Toxicologists are losing their arsenal. Their most powerful poisons are turning inert, and they are being forced to develop new formulations from scratch — while the Gref continue to attack.`,
+Toxicologists have traced the cause to a change in the fog\'s composition. Something is leaching into the mist � a new element that reacts unpredictably with their stored compounds. Some believe it is a byproduct of the Void contamination spreading from the Bryngloom. Others believe the fog is simply evolving, becoming more complex as it ages. Whatever the cause, the Toxicologists are losing their arsenal. Their most powerful poisons are turning inert, and they are being forced to develop new formulations from scratch � while the Gref continue to attack.`,
 
-    meaningfulTradeoffs: `To be a Toxicologist is to shake constantly. The chronic tremors caused by years of toxin exposure make fine motor control difficult. A Toxicologist cannot thread a needle, cannot sign their name legibly, cannot hold a cup of tea without sloshing. Their hands are in constant motion, a visible reminder of the price they pay. The tremors are worse when they are stressed, which makes combat particularly challenging — and particularly dangerous for anyone standing next to them when they are trying to pour a precise dose of poison into a vial.`,
+    meaningfulTradeoffs: `To be a Toxicologist is to shake constantly. The chronic tremors caused by years of toxin exposure make fine motor control difficult. A Toxicologist cannot thread a needle, cannot sign their name legibly, cannot hold a cup of tea without sloshing. Their hands are in constant motion, a visible reminder of the price they pay. The tremors are worse when they are stressed, which makes combat particularly challenging � and particularly dangerous for anyone standing next to them when they are trying to pour a precise dose of poison into a vial.`,
 
     classSpecificLocations: [
       {
         name: 'Varis\'s Canopy Laboratory',
         locationId: 'the-shallows',
-        description: 'A suspended platform high in the ironwood canopy where Varis the Alchemist conducted his original research into fog-predator venom. The laboratory is still maintained — glass vials line the walls, each one containing a different toxin sample collected over decades. The newest vials are labeled with question marks — compounds that the Toxicologists cannot yet identify.',
+        description: 'A suspended platform high in the ironwood canopy where Varis the Alchemist conducted his original research into fog-predator venom. The laboratory is still maintained � glass vials line the walls, each one containing a different toxin sample collected over decades. The newest vials are labeled with question marks � compounds that the Toxicologists cannot yet identify.',
         purpose: 'Research laboratory and toxin archive',
-        status: 'Active — the senior Toxicologists use it to analyze the changing fog composition'
+        status: 'Active � the senior Toxicologists use it to analyze the changing fog composition'
       }
     ],
 
@@ -175,7 +192,7 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 
 **Starting State**: Toxin Vials: 7/7 | Contraption Parts: 5/5 | Mana: 40/50 | HP: 50/50 | Weapon Poison: None
 
-**Pre-Combat - Setting the Trap (Parts: 5 Ã¢â€ â€™ 3)**
+**Pre-Combat - Setting the Trap (Parts: 5 â†’ 3)**
 
 *Five bandits and their leader approach. You smile. They're walking into YOUR laboratory.*
 
@@ -198,17 +215,17 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 
 **Current State**: Vials: 7/7 | Parts: 2/5 | Mana: 40/50 | Weapon: None
 
-**Turn 1 - Opening Strike (Vials: 7 Ã¢â€ â€™ 3)**
+**Turn 1 - Opening Strike (Vials: 7 â†’ 3)**
 
 *Roll initiative. The bandits charge. Two of them trigger the spike trap. One stumbles into the poison gas trap.*
 
 **Bandits #1, #2**: Trigger Spike Trap
-**Damage**: 3d6 Ã¢â€ â€™ [4, 5, 3] = 12 physical damage each
-**Save**: DC 14 DEX Ã¢â€ â€™ Bandit #1 fails (immobilized 1 round), Bandit #2 succeeds (half damage = 6)
+**Damage**: 3d6 â†’ [4, 5, 3] = 12 physical damage each
+**Save**: DC 14 DEX â†’ Bandit #1 fails (immobilized 1 round), Bandit #2 succeeds (half damage = 6)
 
 **Bandit #3**: Triggers Poison Gas Trap
 **Effect**: Poison cloud erupts (5ft radius)
-**Damage**: 2d6 Ã¢â€ â€™ [5, 4] = 9 blight damage
+**Damage**: 2d6 â†’ [5, 4] = 9 blight damage
 **Effect**: -10ft movement for 2 rounds
 
 **Bandits #3, #4** (adjacent): Caught in poison cloud, take 9 blight damage each
@@ -223,13 +240,13 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 **Toxin Vials**: 7 - 1 = **6/7**
 
 **Action**: Melee attack Bandit #1 (immobilized, has Neurotoxin on weapon)
-**Attack Roll**: d20+5 Ã¢â€ â€™ [16] = Hit!
-**Base Damage**: 2d6+3 Ã¢â€ â€™ [5, 4] + 3 = 12 physical damage
-**Neurotoxin**: +1d8 poison Ã¢â€ â€™ [6] = +6 blight damage
+**Attack Roll**: d20+5 â†’ [16] = Hit!
+**Base Damage**: 2d6+3 â†’ [5, 4] + 3 = 12 physical damage
+**Neurotoxin**: +1d8 poison â†’ [6] = +6 blight damage
 **Total Damage**: 12 + 6 = **18 damage**
 **Effect**: Bandit #1 has -2 to attack rolls for 2 rounds
 
-**Bandit #1**: Takes 18 damage Ã¢â€ â€™ HEAVILY DAMAGED
+**Bandit #1**: Takes 18 damage â†’ HEAVILY DAMAGED
 
 **Action (1 AP)**: Craft "Explosive Concoction" (3 toxin vials)
 **Effect**: Throwable explosive, 3d8 ember damage in 10ft radius (DEX save DC 15 for half)
@@ -243,7 +260,7 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 
 **Current State**: Vials: 3/7 | Parts: 2/5 | Mana: 40/50 | Weapon: Neurotoxin | Explosive ready
 
-**Turn 2 - The Explosion (Vials: 3 Ã¢â€ â€™ 2)**
+**Turn 2 - The Explosion (Vials: 3 â†’ 2)**
 
 *The poison cloud continues. Bandits #3 and #4 take another 9 blight damage.*
 
@@ -252,7 +269,7 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 
 **Action**: Throw "Explosive Concoction" at grouped bandits (no additional cost, already crafted)
 **Targets**: Bandits #2, #3, #4 (grouped together)
-**Damage**: 3d8 fire Ã¢â€ â€™ [7, 5, 6] = **18 ember damage each**
+**Damage**: 3d8 fire â†’ [7, 5, 6] = **18 ember damage each**
 **Save**: Bandit #2 succeeds (9 damage), Bandit #3 fails (18 damage), Bandit #4 fails (18 damage)
 
 *You hurl the concoction. It EXPLODES in a massive fireball.*
@@ -273,18 +290,18 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 
 **Current State**: Vials: 2/7 | Parts: 2/5 | Mana: 40/50 | Weapon: Cytotoxin
 
-**Turn 3 - Finishing Touches (Vials: 2 Ã¢â€ â€™ 0)**
+**Turn 3 - Finishing Touches (Vials: 2 â†’ 0)**
 
 *Only Bandit #1, #2, #5, and the Leader remain.*
 
 **Action**: Melee attack Bandit #1 (has Cytotoxin on weapon)
-**Attack Roll**: d20+5 Ã¢â€ â€™ [17] = Hit!
-**Base Damage**: 2d6+3 Ã¢â€ â€™ [6, 5] + 3 = 14 physical damage
-**Cytotoxin**: +2d6 necrotic Ã¢â€ â€™ [5, 4] = +9 blight damage
+**Attack Roll**: d20+5 â†’ [17] = Hit!
+**Base Damage**: 2d6+3 â†’ [6, 5] + 3 = 14 physical damage
+**Cytotoxin**: +2d6 necrotic â†’ [5, 4] = +9 blight damage
 **Total Damage**: 14 + 9 = **23 damage**
-**Effect**: Bandit #1's max HP reduced by 4 (1d4 Ã¢â€ â€™ [4])
+**Effect**: Bandit #1's max HP reduced by 4 (1d4 â†’ [4])
 
-**Bandit #1**: Takes 23 damage Ã¢â€ â€™ **DEAD**
+**Bandit #1**: Takes 23 damage â†’ **DEAD**
 
 **Action (1 AP)**: Craft "Antidote" (1 toxin vial)
 **Effect**: Cure poison/disease on ally, +2 CON saves vs poison for 1 hour
@@ -302,21 +319,21 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 
 *Bandit #2, #5, and the Leader remain, all damaged from various sources.*
 
-**Your Party's Tank**: Attacks Bandit #2 Ã¢â€ â€™ DEAD
-**Your Party's Mage**: Casts Magic Missile at Leader Ã¢â€ â€™ HEAVILY DAMAGED
-**Your Party's Rogue**: Attacks Bandit #5 Ã¢â€ â€™ DEAD
+**Your Party's Tank**: Attacks Bandit #2 â†’ DEAD
+**Your Party's Mage**: Casts Magic Missile at Leader â†’ HEAVILY DAMAGED
+**Your Party's Rogue**: Attacks Bandit #5 â†’ DEAD
 
 **Action**: Melee attack Leader (still has Cytotoxin on weapon)
-**Attack Roll**: d20+5 Ã¢â€ â€™ [14] = Hit!
-**Base Damage**: 2d6+3 Ã¢â€ â€™ [4, 3] + 3 = 10 physical damage
-**Cytotoxin**: +2d6 necrotic Ã¢â€ â€™ [6, 2] = +8 blight damage
+**Attack Roll**: d20+5 â†’ [14] = Hit!
+**Base Damage**: 2d6+3 â†’ [4, 3] + 3 = 10 physical damage
+**Cytotoxin**: +2d6 necrotic â†’ [6, 2] = +8 blight damage
 **Total Damage**: 10 + 8 = **18 damage**
 
-**Leader**: Takes 18 damage Ã¢â€ â€™ **DEAD**
+**Leader**: Takes 18 damage â†’ **DEAD**
 
 **Combat Over**
 
-*You collect your contraption parts from the spike trap and poison gas trap (reusable Ã¢â‚¬â€ parts are recovered after combat).*
+*You collect your contraption parts from the spike trap and poison gas trap (reusable â€” parts are recovered after combat).*
 
 **Contraption Parts**: 2 + 3 (recovered) = **5/5** (back to max)
 
@@ -328,9 +345,9 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 **Damage Breakdown**:
 - Neurotoxin (weapon): 6 blight damage to Bandit #1
 - Cytotoxin (weapon): 9 + 8 = 17 blight damage
-- Explosive Concoction: ~15 average ember damage Ãƒâ€” 3 bandits = ~45 total ember damage
-- Poison Gas Trap: 9 blight damage/turn Ãƒâ€” 2 turns Ãƒâ€” 2 bandits = 36 total blight damage
-- Spike Trap: ~9 average physical damage Ãƒâ€” 2 bandits = ~18 total physical damage
+- Explosive Concoction: ~15 average ember damage Ã— 3 bandits = ~45 total ember damage
+- Poison Gas Trap: 9 blight damage/turn Ã— 2 turns Ã— 2 bandits = 36 total blight damage
+- Spike Trap: ~9 average physical damage Ã— 2 bandits = ~18 total physical damage
 - **Grand Total**: ~122 damage from poisons, contraptions, and concoctions
 
 **The Lesson**: Toxicologist gameplay is about:
@@ -341,7 +358,7 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 5. **Contraption Synergy**: Spike trap immobilized one bandit, gas trap dealt ongoing poison to grouped enemies
 6. **Explosive + Gas Combo**: Explosive Concoction killed enemies already weakened by the gas trap
 
-You're an ALCHEMIST WARRIOR who controls the battlefield through preparation and adaptation. You deploy contraptions (spike traps, gas traps) to control enemy movement BEFORE combat starts. You apply poisons to your weapon (Neurotoxin, Cytotoxin) for enhanced attacks. You craft concoctions MID-COMBAT (explosives, antidotes) to adapt to the situation. You're not a simple damage dealerÃ¢â‚¬â€you're a TACTICAL ALCHEMIST who turns the battlefield into your laboratory.`,
+You're an ALCHEMIST WARRIOR who controls the battlefield through preparation and adaptation. You deploy contraptions (spike traps, gas traps) to control enemy movement BEFORE combat starts. You apply poisons to your weapon (Neurotoxin, Cytotoxin) for enhanced attacks. You craft concoctions MID-COMBAT (explosives, antidotes) to adapt to the situation. You're not a simple damage dealerâ€”you're a TACTICAL ALCHEMIST who turns the battlefield into your laboratory.`,
     },
   },
 
@@ -390,7 +407,7 @@ You're an ALCHEMIST WARRIOR who controls the battlefield through preparation and
       content: `The Toxicologist's resources are finite within each rest cycle. Running dry at the wrong moment is the class's greatest vulnerability.
 
 **Vial Exhaustion (0 Vials)**:
-When you run out of vials, you lose your most powerful tool Ã¢â‚¬â€ mid-combat crafting. You can still attack with a poisoned weapon (if applied before running dry), but you cannot craft new concoctions or apply fresh poisons. You become a basic combatant with deployed contraptions as your only edge.
+When you run out of vials, you lose your most powerful tool â€” mid-combat crafting. You can still attack with a poisoned weapon (if applied before running dry), but you cannot craft new concoctions or apply fresh poisons. You become a basic combatant with deployed contraptions as your only edge.
 
 **Contraption Burnout (0 Parts)**:
 No parts means no new traps. Existing contraptions remain active, but you cannot layer the battlefield further. In extended encounters, this severely limits your control options.
@@ -577,22 +594,22 @@ Both resources compete for your limited rest economy. Spending 3 vials on an Exp
     strategicConsiderations: {
       title: "Alchemical Warfare Tactics",
       content: `**Pre-Combat Preparation (Before Initiative)**:
-Deploy contraptions at chokepoints and high-traffic areas before the fight begins. A Poison Gas Trap at a doorway and a Spike Trap behind cover can carry an entire encounter. You are the only class that gets stronger before initiative is even rolled Ã¢â‚¬â€ use every second.
+Deploy contraptions at chokepoints and high-traffic areas before the fight begins. A Poison Gas Trap at a doorway and a Spike Trap behind cover can carry an entire encounter. You are the only class that gets stronger before initiative is even rolled â€” use every second.
 
 **Opening Round (Establish the Debuff Web)**:
-Apply weapon poison (1 AP) and throw an Explosive Concoction or Smoke Bomb at grouped enemies. Your goal in the first round is to get as many debuffs active as possible. Weakening Toxin + Corrosive Acid on the same target means they hit less often AND take more damage Ã¢â‚¬â€ the multiplicative effect is devastating.
+Apply weapon poison (1 AP) and throw an Explosive Concoction or Smoke Bomb at grouped enemies. Your goal in the first round is to get as many debuffs active as possible. Weakening Toxin + Corrosive Acid on the same target means they hit less often AND take more damage â€” the multiplicative effect is devastating.
 
 **Mid-Combat (Reactive Crafting)**:
-Craft concoctions reactively based on what the fight demands. Ally goes down? Healing Mist. Enemy caster is annoying? Smoke Bomb to obscure their line of sight. Getting swarmed? Acid Sprayer trap at your feet. Keep 1-2 vials in reserve at all times Ã¢â‚¬â€ the fight can always go sideways.
+Craft concoctions reactively based on what the fight demands. Ally goes down? Healing Mist. Enemy caster is annoying? Smoke Bomb to obscure their line of sight. Getting swarmed? Acid Sprayer trap at your feet. Keep 1-2 vials in reserve at all times â€” the fight can always go sideways.
 
 **Stack & Finish (The Kill Combo)**:
 Stack Bleeding Venom + Weakening Toxin on priority targets for sustained damage and reduced accuracy. Against tanks, stack Corrosive Acid + Neurotoxin for armor shredding + attack debuff. Against bosses, lead with Cardiotoxin (stun on failed save) then follow up with your highest-damage poison while they can't fight back.
 
 **Contraption Layering**:
-Place traps in sequence Ã¢â‚¬â€ Poison Gas Trap first (slows movement), then Spike Trap behind it (immobilizes slowed targets). Enemies trigger the gas, try to retreat, and hit the spikes. This combo alone can remove a minion from the fight for 2+ rounds.
+Place traps in sequence â€” Poison Gas Trap first (slows movement), then Spike Trap behind it (immobilizes slowed targets). Enemies trigger the gas, try to retreat, and hit the spikes. This combo alone can remove a minion from the fight for 2+ rounds.
 
 **Vial Economy**:
-You have limited vials. Explosive Concoctions (3 vials) are powerful but expensive. Early in a dungeon, lean on cheap 1-vial recipes (Weakening Toxin, Smoke Bomb). Save your vial-heavy plays for bosses. A short rest restores 1d4 vials Ã¢â‚¬â€ plan your rests around your vial count, not just your HP.`,
+You have limited vials. Explosive Concoctions (3 vials) are powerful but expensive. Early in a dungeon, lean on cheap 1-vial recipes (Weakening Toxin, Smoke Bomb). Save your vial-heavy plays for bosses. A short rest restores 1d4 vials â€” plan your rests around your vial count, not just your HP.`,
     },
 
     playingInPerson: {
@@ -601,14 +618,14 @@ You have limited vials. Explosive Concoctions (3 vials) are powerful but expensi
       content: `The Toxicologist is the most tactile class at the table. Vials, traps, poison tokens, and recipe cards make your turn a hands-on alchemy experience that everyone can see and track.
 
 **Required Materials**:
-- **Green Beads/Tokens** Ã¢â‚¬â€ Toxin Vials (INT mod + 3, min 4). Remove one each time you craft.
-- **Gray Tokens** Ã¢â‚¬â€ Contraption Parts (max 5). Remove when deploying.
-- **Colored Skull Tokens** Ã¢â‚¬â€ One per poison type to mark affected enemies (e.g., red = neurotoxin, blue = hemotoxin, purple = cytotoxin).
-- **Index Cards** Ã¢â‚¬â€ Pre-write your top 5 recipes for fast reference during combat.
-- **Miniature Markers** Ã¢â‚¬â€ Small dice or tokens to place on the grid where contraptions are deployed.
+- **Green Beads/Tokens** â€” Toxin Vials (INT mod + 3, min 4). Remove one each time you craft.
+- **Gray Tokens** â€” Contraption Parts (max 5). Remove when deploying.
+- **Colored Skull Tokens** â€” One per poison type to mark affected enemies (e.g., red = neurotoxin, blue = hemotoxin, purple = cytotoxin).
+- **Index Cards** â€” Pre-write your top 5 recipes for fast reference during combat.
+- **Miniature Markers** â€” Small dice or tokens to place on the grid where contraptions are deployed.
 
 **Tracking Vials**:
-- **Bead Method**: Keep green beads in a small pouch. Pull one out for each vial spent. Visual and tactile Ã¢â‚¬â€ the pouch getting lighter is a great tension builder.
+- **Bead Method**: Keep green beads in a small pouch. Pull one out for each vial spent. Visual and tactile â€” the pouch getting lighter is a great tension builder.
 - **d10 Method**: Use a d10 die showing your current vial count. Rotate after each craft. Fast and takes minimal table space.
 
 **Tracking Contraptions**:
@@ -645,9 +662,9 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
 - **Contraption Map**: Before combat, physically place trap markers on the grid where you plan to deploy. This speeds up your turn and makes your battlefield control visible to allies.
 
 **Pro Tips**:
-- Tell your party what you're applying to which enemy. "I'm stacking neurotoxin and corrosive acid on the boss Ã¢â‚¬â€ he's at -2 to hit and -2 armor." This helps everyone play around your debuffs.
-- Pre-write your "panic recipes" Ã¢â‚¬â€ the 1-vial concoctions you'd craft in an emergency (Antidote, Smoke Bomb). Keep them on a separate card for instant reference when things go wrong.
-- Coordinate with your party's melee fighters. They benefit most from weapon poisons applied to their weapons Ã¢â‚¬â€ a Fighter with Corrosive Acid on their greatsword shreds boss armor.`,
+- Tell your party what you're applying to which enemy. "I'm stacking neurotoxin and corrosive acid on the boss â€” he's at -2 to hit and -2 armor." This helps everyone play around your debuffs.
+- Pre-write your "panic recipes" â€” the 1-vial concoctions you'd craft in an emergency (Antidote, Smoke Bomb). Keep them on a separate card for instant reference when things go wrong.
+- Coordinate with your party's melee fighters. They benefit most from weapon poisons applied to their weapons â€” a Fighter with Corrosive Acid on their greatsword shreds boss armor.`,
     },
   },
 
@@ -1010,6 +1027,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
 
       resourceCost: {
         contraptionParts: 1,
+        classResource: { type: "contraption_parts", cost: 1 },
         actionPoints: 1,
         components: ["somatic"],
         somaticText: "Deploy contraption on ground",

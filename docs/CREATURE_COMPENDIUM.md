@@ -473,7 +473,7 @@
 
 #### 3. Ecology: Why It Resides in Nordhalla
 - **The Weight-Bearer:** Myling latch onto passing travelers. The victim feels crushing weight that increases with each step. If carried to a hearth-fire and set down, the ice melts and the spirit is freed. If not, the victim is crushed into the snow.
-- **The Hunger-Plague:** During the Milk-Grief epidemics, Myling numbers explode. They cluster around nurseries, drawn to mothers' suffering. Rune Keepers have developed heating-stones specifically to ward nurseries.
+- **The Hunger-Plague:** During the Frost-Tithe epidemics, Myling numbers explode. They cluster around nurseries, drawn to mothers' suffering. Rune Keepers have developed heating-stones specifically to ward nurseries.
 
 ---
 
@@ -1400,7 +1400,7 @@
 
 ---
 
-### 81. The Kappa-Crag
+### 81. The Kappa
 
 #### 1. Folklore & Setting Roots
 - **Kappa (Japanese Yokai):** A water-sprite with a bowl-like depression on its head that must remain filled with water for the creature to maintain its power on land. Kappa are obsessed with politeness, cucumbers, and the shirikodama (a mythical soul-organ located in the anus).
@@ -1412,8 +1412,8 @@
 - **The Face:** A beaked, turtle-like face with eyes that are perfectly round and black — like polished obsidian beads. Its beak curves downward in a perpetual, judgmental frown. It blinks very slowly.
 
 #### 3. Ecology: Why It Resides in Cragjaw Peaks
-- **The Bow-Debt:** Kappa-Crags are compulsively polite — if you bow to a Kappa-Crag, it MUST bow back, spilling the water from its head-bowl and losing all its power until it can refill from a geothermal vent. Fexric engineers exploit this by bowing deeply at Kappa-Crags blocking pipeline corridors, then sprinting past while the creature is depowered.
-- **The Geothermal-Sentinel:** They guard the geothermal pools that heat Frostmaw Holdfast, allowing no contamination. A pool guarded by a Kappa-Crag never freezes and never runs dry. The Kethrin guilds leave offerings of cucumber (imported at great expense) at pool-rim shrines to keep the Kappa-Crags content.
+- **The Bow-Debt:** Kappas are compulsively polite — if you bow to a Kappa, it MUST bow back, spilling the water from its head-bowl and losing all its power until it can refill from a geothermal vent. Fexric engineers exploit this by bowing deeply at Kappas blocking pipeline corridors, then sprinting past while the creature is depowered.
+- **The Geothermal-Sentinel:** They guard the geothermal pools that heat Frostmaw Holdfast, allowing no contamination. A pool guarded by a Kappa never freezes and never runs dry. The Kethrin guilds leave offerings of cucumber (imported at great expense) at pool-rim shrines to keep the Kappas content.
 
 ---
 
@@ -1485,7 +1485,7 @@
 
 ---
 
-### 86. The Jorogumo-Span
+### 86. The Jorōgumo
 
 #### 1. Folklore & Setting Roots
 - **Jorōgumo (Japanese Yokai):** The "binding bride" — a spider-Yokai that appears as a beautiful woman, luring men into her lair where she binds them in silk and devours them. When she turns 400 years old, a spider gains the power to become a Jorōgumo.
@@ -1519,7 +1519,7 @@
 
 ---
 
-### 88. The Nurikabe-Drift
+### 88. The Nurikabe
 
 #### 1. Folklore & Setting Roots
 - **Nurikabe (Japanese Yokai):** An invisible wall-spirit that blocks travelers' paths. It appears as a broad, featureless wall that cannot be climbed or walked around — but it can be defeated by tapping the ground at its base with a stick.
@@ -1531,12 +1531,12 @@
 - **The Face:** No face — but a vague, primal awareness radiates from the wall's surface. Travelers who press their ears to the stone hear breathing — deep, slow, and ancient, like the breathing of the mountain itself.
 
 #### 3. Ecology: Why It Resides in Cragjaw Peaks
-- **The Path-Blocker:** Nurikabe-Drifts block mountain paths without warning, appearing overnight. They cannot be climbed (the top extends as you climb), cannot be gone around (they extend sideways), and cannot be broken (they regenerate instantly). The only way past is to tap a copper-tipped staff at the base — the copper disrupts the creature's magnetic anchoring, and the wall steps aside.
-- **The Night-Architect:** Like the Tiwanaku-spirits, Nurikabe-Drifts rearrange the mountain's geography at night. Paths that were clear yesterday are blocked today; dead-ends suddenly open into new corridors. This makes navigation in the Peaks impossible without an experienced Groven guide who can read the Nurikabe's overnight rearrangement-patterns.
+- **The Path-Blocker:** Nurikabes block mountain paths without warning, appearing overnight. They cannot be climbed (the top extends as you climb), cannot be gone around (they extend sideways), and cannot be broken (they regenerate instantly). The only way past is to tap a copper-tipped staff at the base — the copper disrupts the creature's magnetic anchoring, and the wall steps aside.
+- **The Night-Architect:** Like the Tiwanaku-spirits, Nurikabes rearrange the mountain's geography at night. Paths that were clear yesterday are blocked today; dead-ends suddenly open into new corridors. This makes navigation in the Peaks impossible without an experienced Groven guide who can read the Nurikabe's overnight rearrangement-patterns.
 
 ---
 
-### 89. The Nue-Cloud
+### 89. The Nue
 
 #### 1. Folklore & Setting Roots
 - **Nue (Japanese Yokai):** A chimeric monster with the head of a monkey, the body of a raccoon-dog (tanuki), the legs of a tiger, and the tail of a serpent. It was said to cause illness and nightmares, appearing as a black cloud that descended on the emperor's palace.
@@ -1548,12 +1548,12 @@
 - **The Face:** The cloud coalesces faces at random — always combinations of different animals, never the same twice. Each face lasts only seconds before dissolving back into chaos. The expressions are always enraged, always hungry, and always watching the observer.
 
 #### 3. Ecology: Why It Resides in Cragjaw Peaks
-- **The Nightmare-Cloud:** The Nue-Cloud descends on mountain-camps at night, enveloping the shelters in its warm, humid darkness. Those trapped inside experience shared, overlapping nightmares — visions of their greatest fears materializing simultaneously. They emerge in the morning exhausted, shaken, and often hallucinating for days.
-- **The Earth-Wound:** The cloud is drawn to places where the mountain has been wounded — collapsed mine-shafts, blasted tunnel-entrances, areas of severe Wyrd-corruption. It is Pachamama's immune-response — the earth-mother sending her nightmare to punish those who have damaged her. Fexric engineers who encounter a Nue-Cloud know immediately that their excavation has gone too deep.
+- **The Nightmare-Cloud:** The Nue descends on mountain-camps at night, enveloping the shelters in its warm, humid darkness. Those trapped inside experience shared, overlapping nightmares — visions of their greatest fears materializing simultaneously. They emerge in the morning exhausted, shaken, and often hallucinating for days.
+- **The Earth-Wound:** The cloud is drawn to places where the mountain has been wounded — collapsed mine-shafts, blasted tunnel-entrances, areas of severe Wyrd-corruption. It is Pachamama's immune-response — the earth-mother sending her nightmare to punish those who have damaged her. Fexric engineers who encounter a Nue know immediately that their excavation has gone too deep.
 
 ---
 
-### 90. The Kasha-Snow
+### 90. The Kasha
 
 #### 1. Folklore & Setting Roots
 - **Kasha (Japanese Yokai):** A fire-cat — a enormous feline Yokai that descends from the sky during funerals to steal the corpse, dragging it away for its own purposes. It is often associated with the Buddhist concept of sin — those whose kasha steals their body were thought to have led wicked lives.
@@ -1565,12 +1565,12 @@
 - **The Face:** A feline face of unusual intelligence — angular, with large, piercing eyes the color of molten gold. Its expression is calculating, not predatory — it evaluates, measures, and judges.
 
 #### 3. Ecology: Why It Resides in Cragjaw Peaks
-- **The Corpse-Thief:** Kasha-Snow descend from the peaks during Groven funeral-processions, attempting to steal the body from its Ancestor-Span burial-niche. A body stolen by a Kasha is never found — and its spirit, denied proper interment, becomes one of the Groven's restless bridge-ghosts, doomed to walk the Spans forever.
-- **The Fortune-Bringer:** Drawing from Ekeko, the Kasha-Snow's bundle contains miniature versions of what it has judged the household needs. If the Kasha deems a family worthy, it leaves a miniature version of the thing they most desperately need — a tiny hammer for a toolless smith, a miniature loaf for a starving family, a tiny coal for a frozen hearth. These miniatures, if treated with reverence, transform into the real thing within seven days.
+- **The Corpse-Thief:** Kasha descend from the peaks during Groven funeral-processions, attempting to steal the body from its Ancestor-Span burial-niche. A body stolen by a Kasha is never found — and its spirit, denied proper interment, becomes one of the Groven's restless bridge-ghosts, doomed to walk the Spans forever.
+- **The Fortune-Bringer:** Drawing from Ekeko, the Kasha's bundle contains miniature versions of what it has judged the household needs. If the Kasha deems a family worthy, it leaves a miniature version of the thing they most desperately need — a tiny hammer for a toolless smith, a miniature loaf for a starving family, a tiny coal for a frozen hearth. These miniatures, if treated with reverence, transform into the real thing within seven days.
 
 ---
 
-### 91. The Tanuki-Toll
+### 91. The Tanuki
 
 #### 1. Folklore & Setting Roots
 - **Tanuki (Japanese Yokai):** The raccoon-dog spirit — a jovial, shape-shifting trickster known for its enormous, magical testicles (which can be shaped into any object), its love of sake, and its leaf-hats that grant invisibility. Tanuki are symbols of prosperity and humor.
@@ -1582,15 +1582,15 @@
 - **The Face:** A broad, friendly face with enormous, dark-rimmed eyes and a permanent grin. Its expression radiates good humor and mischief. When it drinks from its flask, its grin widens to impossible proportions.
 
 #### 3. Ecology: Why It Resides in Cragjaw Peaks
-- **The Toll-Trickster:** Tanuki-Tolls position themselves at Ancestor-Span crossings, disguised as Groven toll-collectors. They demand payment — but the "toll" is always something absurd: a riddle, a song, a drink of sake, a funny story. Those who comply pass safely and find their packs inexplicably heavier (the Tanuki has added an illa-stone that brings good fortune). Those who refuse find their gear transformed into leaves.
-- **The Abundance-Bringer:** The illas they produce are genuine — each one carries abundance-energy. A miner who carries a Tanuki-produced illa into a shaft finds richer veins. A hunter guided by an illa-track finds larger prey. The Groven consider the Tanuki-Toll a blessing, not a nuisance — its presence on a Span means the bridge is favored by fortune.
+- **The Toll-Trickster:** Tanukis position themselves at Ancestor-Span crossings, disguised as Groven toll-collectors. They demand payment — but the "toll" is always something absurd: a riddle, a song, a drink of sake, a funny story. Those who comply pass safely and find their packs inexplicably heavier (the Tanuki has added an illa-stone that brings good fortune). Those who refuse find their gear transformed into leaves.
+- **The Abundance-Bringer:** The illas they produce are genuine — each one carries abundance-energy. A miner who carries a Tanuki-produced illa into a shaft finds richer veins. A hunter guided by an illa-track finds larger prey. The Groven consider the Tanuki a blessing, not a nuisance — its presence on a Span means the bridge is favored by fortune.
 
 ---
 
-### 92. The Ushi-Oni-Crag
+### 92. The Ushioni
 
 #### 1. Folklore & Setting Roots
-- **Ushi-Oni (Japanese Yokai):** The "ox-demon" — a spider-bodied, bovine-headed monster that breathes poison and traps victims in its web. Regional variants differ wildly, but all combine the features of a bull/spider/demon.
+- **Ushioni (Japanese Yokai):** The "ox-demon" — a spider-bodied, bovine-headed monster that breathes poison and traps victims in its web. Regional variants differ wildly, but all combine the features of a bull/spider/demon.
 - **Cherufe (Andean/Mapuche mythology):** A massive, evil creature of magma and rock that inhabited the volcanic depths of the Andes. It demanded human sacrifices — particularly maidens — thrown into volcanic craters to prevent eruptions.
 
 #### 2. Physical Design
@@ -1599,12 +1599,12 @@
 - **The Face:** A bull's skull encased in living volcanic stone, with glowing red eyes set deep in the sockets. Its nostrils vent steam continuously. Its tongue is a mass of writhing, worm-like tendrils.
 
 #### 3. Ecology: Why It Resides in Cragjaw Peaks
-- **The Volcanic-Trap:** Ushi-Oni-Crags web the entrances to geothermal vents with cables of volcanic-glass silk, creating traps that are invisible in the steam. The webs are strong enough to hold a mammoth, and the creature's sulfur-breath ensures that webbed prey suffocates before it can escape.
-- **The Sacrifice-Taker:** Drawing from Cherufe, the Ushi-Oni-Crag demands tribute — not from individuals, but from entire communities. A Fexric holdfast that fails to leave a monthly offering of refined ore at the creature's vent-entrance will find its geothermal heating-system sabotaged — the Ushi-Oni physically blocks the hot-water pipes, freezing entire sections of Frostmaw Holdfast within hours.
+- **The Volcanic-Trap:** Ushionis web the entrances to geothermal vents with cables of volcanic-glass silk, creating traps that are invisible in the steam. The webs are strong enough to hold a mammoth, and the creature's sulfur-breath ensures that webbed prey suffocates before it can escape.
+- **The Sacrifice-Taker:** Drawing from Cherufe, the Ushioni demands tribute — not from individuals, but from entire communities. A Fexric holdfast that fails to leave a monthly offering of refined ore at the creature's vent-entrance will find its geothermal heating-system sabotaged — the Ushioni physically blocks the hot-water pipes, freezing entire sections of Frostmaw Holdfast within hours.
 
 ---
 
-### 93. The Baku-Dream
+### 93. The Baku
 
 #### 1. Folklore & Setting Roots
 - **Baku (Japanese Yokai):** A strange, chimera-like creature — combining elephant-trunk, rhino-eyes, cow-tail, and tiger-legs — that devours nightmares. Originally a protective spirit, its image was placed under pillows to prevent bad dreams.
@@ -1616,16 +1616,16 @@
 - **The Face:** The most striking feature — enormous, soulful, rhinoceros-like eyes of deep brown, framed by folds of grey hide that give the impression of ancient wisdom. Its trunk is prehensile and surprisingly delicate, used for "eating" abstract concepts.
 
 #### 3. Ecology: Why It Resides in Cragjaw Peaks
-- **The Nightmare-Eater:** Baku-Dreams prowl the sleeping-quarters of Frostmaw Holdfast at night, drawn to individuals suffering from nightmares. They insert their trunk into the sleeper's dreamscape and literally consume the nightmare — the sleeper wakes refreshed, with no memory of bad dreams.
-- **The Sacred-Huaca:** A Baku-Dream that takes up residence in a section of the Holdfast makes that section sacred ground — huaca. No violence, no Wyrd-corruption, and no supernatural threat can enter the space it claims. Fexric Kethrin engineers compete fiercely to have their workshop-quarters near a resident Baku, knowing the creature's sacred-aura protects their equipment from sabotage.
+- **The Nightmare-Eater:** Bakus prowl the sleeping-quarters of Frostmaw Holdfast at night, drawn to individuals suffering from nightmares. They insert their trunk into the sleeper's dreamscape and literally consume the nightmare — the sleeper wakes refreshed, with no memory of bad dreams.
+- **The Sacred-Huaca:** A Baku that takes up residence in a section of the Holdfast makes that section sacred ground — huaca. No violence, no Wyrd-corruption, and no supernatural threat can enter the space it claims. Fexric Kethrin engineers compete fiercely to have their workshop-quarters near a resident Baku, knowing the creature's sacred-aura protects their equipment from sabotage.
 
 ---
 
-### 94. The Nekomata-Spur
+### 94. The Nekomata
 
 #### 1. Folklore & Setting Roots
 - **Nekomata (Japanese Yokai):** A cat-Yokai that, upon reaching old age, splits into two tails and gains necromantic power. It can raise the dead and control them like puppets, particularly targeting fresh corpses at funerals.
-- **Kcoa-variant (Andean/Incan):** Drawing from the storm-cat spirit (already in the bestiary) — the Nekomata-Spur is a darker, mountain-adapted relative that combines weather-spirit with necromancer.
+- **Kcoa-variant (Andean/Incan):** Drawing from the storm-cat spirit (already in the bestiary) — the Nekomata is a darker, mountain-adapted relative that combines weather-spirit with necromancer.
 
 #### 2. Physical Design
 - **Appearance:** A large wildcat with a split tail — two tails that move independently, each crackling with static electricity. Its fur is dark storm-grey, and lightning arcs between its tail-tips when it is agitated.
@@ -1633,15 +1633,15 @@
 - **The Face:** A cat's face with an unsettling, intelligent expression. Its pupils are vertical slits in a sea of corpse-green. When it opens its mouth, the interior glows with the same green light — a necromantic furnace.
 
 #### 3. Ecology: Why It Resides in Cragjaw Peaks
-- **The Corpse-Puppeteer:** Nekomata-Spurs animate the frozen dead of the Peaks — corpses lost in the eternal blizzard, buried in snow-slides, or sealed in collapsed mine-shafts. The animated dead walk in jerky, puppet-like fashion, their movements synchronized to the flicking of the Nekomata's twin tails.
-- **The Storm-Necromancer:** It can raise the dead only during storms — the lightning provides the energy for animation. A Nekomata-Spur with a sufficiently large storm can animate dozens of corpses simultaneously, sending them shuffling toward mountain-camps in a macabre, lightning-lit procession. The Groven burn their dead rather than burying them specifically to deny the Nekomata its raw material.
+- **The Corpse-Puppeteer:** Nekomatas animate the frozen dead of the Peaks — corpses lost in the eternal blizzard, buried in snow-slides, or sealed in collapsed mine-shafts. The animated dead walk in jerky, puppet-like fashion, their movements synchronized to the flicking of the Nekomata's twin tails.
+- **The Storm-Necromancer:** It can raise the dead only during storms — the lightning provides the energy for animation. A Nekomata with a sufficiently large storm can animate dozens of corpses simultaneously, sending them shuffling toward mountain-camps in a macabre, lightning-lit procession. The Groven burn their dead rather than burying them specifically to deny the Nekomata its raw material.
 
 ---
 
-### 95. The Futakuchi-Ration
+### 95. The Futakuchi
 
 #### 1. Folklore & Setting Roots
-- **Futakuchi-onna (Japanese Yokai):** The "two-mouthed woman" — a woman with a second, fully functional mouth hidden beneath the hair on the back of her head. It demands to be fed, consuming enormous quantities of food. The Yokai is born from stinginess or starvation.
+- **Futakuchi (Japanese Yokai):** The "two-mouthed woman" — a woman with a second, fully functional mouth hidden beneath the hair on the back of her head. It demands to be fed, consuming enormous quantities of food. The Yokai is born from stinginess or starvation.
 - **Ekkeko variant / Aiai-Maneco (Andean folklore):** A spirit of insatiable hunger and consumption — a creature that could never be satisfied, devouring entire harvests and leaving communities destitute.
 
 #### 2. Physical Design
@@ -1650,12 +1650,12 @@
 - **The Face:** From the front: a thin, haunted face with sunken eyes and cracked lips, an expression of perpetual shame and apology. From behind: a monstrous, gaping maw that grins, drools, and screams.
 
 #### 3. Ecology: Why It Resides in Cragjaw Peaks
-- **The Ration-Devourer:** Futakuchi-Rations infest Fexric food-stores, consuming three times the rations of a normal person while appearing to eat almost nothing. The second mouth feeds at night, consuming dried moss-bread, ram-meat, and whiteout-distillate in enormous quantities. A storage-area with a Futakuchi-Ration will be emptied within a week.
-- **The Guilt-Mouth:** The second mouth speaks the hunger of the mountain itself — the Peaks' voracious appetite for the resources that mortals extract from it. Kethrin guild-masters who encounter a Futakuchi-Ration in their stores are said to have taken more than their share — the creature is a manifestation of greed given flesh.
+- **The Ration-Devourer:** Futakuchis infest Fexric food-stores, consuming three times the rations of a normal person while appearing to eat almost nothing. The second mouth feeds at night, consuming dried moss-bread, ram-meat, and whiteout-distillate in enormous quantities. A storage-area with a Futakuchi will be emptied within a week.
+- **The Guilt-Mouth:** The second mouth speaks the hunger of the mountain itself — the Peaks' voracious appetite for the resources that mortals extract from it. Kethrin guild-masters who encounter a Futakuchi in their stores are said to have taken more than their share — the creature is a manifestation of greed given flesh.
 
 ---
 
-### 96. The Wanyudo-Pass
+### 96. The Wanyūdō
 
 #### 1. Folklore & Setting Roots
 - **Wanyūdō (Japanese Yokai):** The "souls-wheel" — a burning, screaming ox-cart wheel that rolls through mountain-passes, collecting the souls of those who see it. It appears as a nobleman's cart from a distance but transforms into a blazing wheel of tormented faces up close.
@@ -1667,12 +1667,12 @@
 - **The Face:** The wheel IS the face — dozens of faces, each one screaming, each one a different expression of terror, loss, or rage. The faces rotate through the wheel's surface, appearing at the front for a moment before cycling back to the rim.
 
 #### 3. Ecology: Why It Resides in Cragjaw Peaks
-- **The Pass-Collector:** The Wanyudo-Pass rolls through mountain-passes during the worst blizzards, drawn to travelers who are already freezing. Those who look directly at the wheel are pulled toward it — their souls extracted and added to the wheel's collection. Their bodies remain, frozen, eyes wide, faces fixed in an expression of horrified recognition.
-- **The Sun-Procession:** It is most active during what was once the Incan festival of Inti-Raymi — the sun-festival. In the sunless world, the Wanyudo-Pass is a corrupted version of the festival's ceremonial wheel — it rolls endlessly, seeking the sun that will never return, collecting the warmth of souls as a pale substitute.
+- **The Pass-Collector:** The Wanyūdō rolls through mountain-passes during the worst blizzards, drawn to travelers who are already freezing. Those who look directly at the wheel are pulled toward it — their souls extracted and added to the wheel's collection. Their bodies remain, frozen, eyes wide, faces fixed in an expression of horrified recognition.
+- **The Sun-Procession:** It is most active during what was once the Incan festival of Inti-Raymi — the sun-festival. In the sunless world, the Wanyūdō is a corrupted version of the festival's ceremonial wheel — it rolls endlessly, seeking the sun that will never return, collecting the warmth of souls as a pale substitute.
 
 ---
 
-### 97. The Tsuchigumo-Burrow
+### 97. The Tsuchigumo
 
 #### 1. Folklore & Setting Roots
 - **Tsuchigumo (Japanese Yokai):** The "earth-spider" — a massive, ancient spider-Yokai that lives underground and uses illusions to lure victims into its lair. Historically associated with rebellious indigenous clans who were demonized as spider-people.
@@ -1684,7 +1684,7 @@
 - **The Face:** Multiple eyes — eight, arranged in a horseshoe pattern — each one a different gemstone: ruby, emerald, sapphire, diamond, opal, topaz, amethyst, and garnet. The eyes glow with an internal, metallic fire. Its mandibles are carved obsidian, hinged and dripping with metallic venom.
 
 #### 3. Ecology: Why It Resides in Cragjaw Peaks
-- **The Treasure-Web:** Tsuchigumo-Burrows web the richest mineral-veins in the Peaks with golden silk that is stronger than steel cable. The webs are laced with metallic venom — anyone who touches the silk finds their blood slowly crystallizing into metallic compounds. The creature feeds on the minerals extracted from the bodies of miners who try to steal its guarded treasures.
+- **The Treasure-Web:** Tsuchigumos web the richest mineral-veins in the Peaks with golden silk that is stronger than steel cable. The webs are laced with metallic venom — anyone who touches the silk finds their blood slowly crystallizing into metallic compounds. The creature feeds on the minerals extracted from the bodies of miners who try to steal its guarded treasures.
 - **The Illusion-Lair:** It projects illusions of rich, unguarded mineral-veins, luring miners into its web-tunnels. The Fexric have developed a specific protocol: any vein that appears "too good to be true" is marked with a copper-flag and reported. The Drall salvage-folk, who are braver (or more desperate), sometimes attempt to harvest Tsuchigumo-web — a single strand of gold-silk is worth a year's wages.
 
 ---
@@ -1706,7 +1706,7 @@
 
 ---
 
-### 99. The Inugami-Chain
+### 99. The Inugami
 
 #### 1. Folklore & Setting Roots
 - **Inugami (Japanese Yokai):** A dog-spirit bound to a family through a dark ritual — a powerful, loyal guardian-spirit that can possess humans and enact revenge. Inugami-families were feared and ostracized in Japanese villages.
@@ -1718,12 +1718,12 @@
 - **The Face:** A loyal, intelligent dog-face with sorrowful, glowing blue eyes. Its expression is one of eternal vigilance — it is always watching, always waiting, always protecting. It can project its face onto any reflective surface, allowing it to watch over multiple locations simultaneously.
 
 #### 3. Ecology: Why It Resides in Cragjaw Peaks
-- **The Family-Bound:** Inugami-Chains are bound to specific Groven families through ancient blood-rituals. They serve as invisible guardians, protecting the family's home on the Ancestor-Spans, alerting them to approaching threats, and exacting revenge on those who harm their charges. A Groven family without an Inugami is considered vulnerable and poor.
-- **The Afterlife-Guide:** When a bound family-member dies, the Inugami-Chain guides their soul through the dangerous mountain-passes of the spirit-world, ensuring safe passage to the afterlife. This is the Inugami's most sacred duty — and the one that earns it the family's enduring devotion. The bond persists beyond death: when the Inugami itself finally fades, its essence is absorbed into the family's Ancestor-Span, strengthening the bone-bridge's structure.
+- **The Family-Bound:** Inugamis are bound to specific Groven families through ancient blood-rituals. They serve as invisible guardians, protecting the family's home on the Ancestor-Spans, alerting them to approaching threats, and exacting revenge on those who harm their charges. A Groven family without an Inugami is considered vulnerable and poor.
+- **The Afterlife-Guide:** When a bound family-member dies, the Inugami guides their soul through the dangerous mountain-passes of the spirit-world, ensuring safe passage to the afterlife. This is the Inugami's most sacred duty — and the one that earns it the family's enduring devotion. The bond persists beyond death: when the Inugami itself finally fades, its essence is absorbed into the family's Ancestor-Span, strengthening the bone-bridge's structure.
 
 ---
 
-### 100. The Ittan-Banner
+### 100. The Ittan
 
 #### 1. Folklore & Setting Roots
 - **Ittan-Momen (Japanese Yokai):** The "one-tan (cloth) cotton" — a long, white strip of cotton cloth that flies through the night sky and wraps around faces, smothering them. Despite its terrifying behavior, it is generally considered a harmless Yokai that can be befriended.
@@ -1735,8 +1735,8 @@
 - **The Face:** The cloth has no face — but when it hovers before someone, the embroidered patterns arrange themselves into a readable message: a name, a question, or a warning. The messages change based on the observer's deepest concern — the cloth reads the heart and responds.
 
 #### 3. Ecology: Why It Resides in Cragjaw Peaks
-- **The Message-Bearer:** Ittan-Banners serve as messengers between the Groven's scattered Span-communities. They carry spoken words woven into their fabric — a Groven elder whispers a message into one end of the cloth, and the words travel the length of the fabric, emerging from the other end when it arrives at its destination. The messages cannot be intercepted or forged.
-- **The Smotherer:** When threatened, the Ittan-Banner wraps around the attacker's face, smothering them in warm, fragrant cloth. The victim does not die — they are put into a deep, dreamless sleep that lasts exactly one day. The Banner uses this ability to protect Groven children from blizzard-exposure, wrapping them in its warm fabric until help arrives.
+- **The Message-Bearer:** Ittans serve as messengers between the Groven's scattered Span-communities. They carry spoken words woven into their fabric — a Groven elder whispers a message into one end of the cloth, and the words travel the length of the fabric, emerging from the other end when it arrives at its destination. The messages cannot be intercepted or forged.
+- **The Smotherer:** When threatened, the Ittan wraps around the attacker's face, smothering them in warm, fragrant cloth. The victim does not die — they are put into a deep, dreamless sleep that lasts exactly one day. The Banner uses this ability to protect Groven children from blizzard-exposure, wrapping them in its warm fabric until help arrives.
 
 
 ---

@@ -1,4 +1,4 @@
-﻿const GRAVITY = 0.15;
+const GRAVITY = 0.15;
 const DAMPING = 0.92;
 const SURFACE_TENSION = 0.04;
 

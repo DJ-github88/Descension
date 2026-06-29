@@ -45,6 +45,17 @@
 export const BACKGROUND_DATA = {
     emberspirePilgrim: {
         id: 'emberspirePilgrim',
+        restrictions: {
+            "allowedRegions": [
+                "sundale"
+            ],
+            "allowedSubraces": [
+                "solvarn_human",
+                "korr_emberth",
+                "thalren_human"
+            ],
+            "justification": "The pilgrimage to Emberspire is a specific journey requiring proximity to Sundale. Outsiders can take it with a narrative reason for the pilgrimage."
+        },
         name: 'Emberspire Pilgrim',
         description: 'You made the pilgrimage to Emberspire, witnessing the Solbrand\'s fading light under the watchful gaze of Hierophant Aethelgard\'s Dawn Vigil. You have passed through the Obsidian Citadels of the Ashen Escarpment where Ash-Dwellers are held in bondage, and either joined the Vigil\'s crusade for the Reforging or left with gnawing doubt. At Ember Lagoon, pilgrims ship out under the Dawn Vigil’s banner to spread the call of the sun\'s rebirth.',
         skillProficiencies: ['Insight', 'Religion'],
@@ -73,6 +84,16 @@ export const BACKGROUND_DATA = {
 
     shyrRunner: {
         id: 'shyrRunner',
+        restrictions: {
+            "allowedRegions": [
+                "sundale"
+            ],
+            "allowedSubraces": [
+                "thrask_emberth",
+                "solvarn_human"
+            ],
+            "justification": "The Basalt Shyr is a 90-mile road in Sundale. Running it requires Sundale geography knowledge."
+        },
         name: 'Shyr Runner',
         description: 'You navigated the ninety-mile Basalt Shyr, running caravans of volcanic sulfur and geothermal coal under the shadow of the Sulfur Cartel\'s monopoly. You learned when the basalt pillars shift, where magma-fracturing sumps tear open reality, and how to evade the Dawn Vigil patrols at the escarpment checkpoints. Slag Gulch serves as a resupply point where runners dodge the labor-levies, and at Ember Lagoon, Cartel cargo is smuggled onto Merryn ships.',
         skillProficiencies: ['Deception', 'Stealth'],
@@ -102,6 +123,15 @@ export const BACKGROUND_DATA = {
 
     ledgerKeeper: {
         id: 'ledgerKeeper',
+        restrictions: {
+            "allowedRegions": [
+                "frostwood-reach"
+            ],
+            "allowedSubraces": [
+                "thalren_human"
+            ],
+            "justification": "The Sovereign Ledger and Scribe-Cartel are Frostwood-specific. Exclude: Ordan (Steppe-Staves), Skald (runic genealogy), Tessen (khipu-cords) — they use different record-keeping systems."
+        },
         name: 'Ledger Keeper',
         description: 'You maintained identity-ledgers at Greymark Keep in the Frostwood Reach under the Sovereign Ledger enforced by Jarl-Archivist Kaelen Thalreth. In a land where the protective fog erases memory and the Scribe-Cartel holds a monopoly on Soot-Resin Ink and Peat-Parchment, your chained journals are the only proof of legal citizenship. You have checked papers at the Ironwood Palisade checkpoints, catalogued lineages at Greythorn Copse, and researched the prehistoric carvings of Mistbarrow.',
         skillProficiencies: ['Animal Handling', 'Survival'],
@@ -131,6 +161,11 @@ export const BACKGROUND_DATA = {
 
     bloodlineHeir: {
         id: 'bloodlineHeir',
+        restrictions: {
+            "allowedRegions": [],
+            "allowedSubraces": [],
+            "justification": "Any race/subrace can be born into a noble house — even erased/subjugated ones (though with narrative tension for erased bloodlines)."
+        },
         name: 'Bloodline Heir',
         description: 'You descend from one of the seven noble houses that struck the Dark Bargains — Thalreth, Skalvyr, Solvan, Mereval, Tesshan, Ordavan, or Morrath. The weight of ancestral sacrifice shapes every decision you make, though your family\'s influence has long since fractured beneath the consequences of those bargains. (The Bryngloom\'s bargain was unique: it was struck not by House Morrath, but by the Neth\'s own ancestors — a fact the remaining houses prefer to forget.)',
         skillProficiencies: ['History', 'Persuasion'],
@@ -160,6 +195,16 @@ export const BACKGROUND_DATA = {
 
     synodAcademic: {
         id: 'synodAcademic',
+        restrictions: {
+            "allowedRegions": [
+                "sundrift-vale"
+            ],
+            "allowedSubraces": [
+                "ordan_human",
+                "sylen_astril"
+            ],
+            "justification": "Requires access to Synod-Hold crystal archives and steppe scholarship."
+        },
         name: 'Synod Academic',
         description: 'You studied at the Synod-Hold in Sundrift Vale — the shimmering crystal-lattice Astril cathedral where constellation-spirit lineages are preserved. You learned to decipher the forbidden, throat-sung Sky-Songs that map stars that went dark under the Ordavan bargain, and catalogued star-lineages carved on bone Steppe-Staves. You know how to bypass the basalt Cairn-Checkpoints, how to navigate Starfall Vale, and how to identify the Unlit spies of the Synod.',
         skillProficiencies: ['Arcana', 'History'],
@@ -188,8 +233,17 @@ export const BACKGROUND_DATA = {
 
     sumpsVeteran: {
         id: 'sumpsVeteran',
+        restrictions: {
+            "allowedRegions": [
+                "nordhalla"
+            ],
+            "allowedSubraces": [
+                "skald_human"
+            ],
+            "justification": "Bloodhammer Sump skirmishes and Hunger Glacier defense are Nordhalla-specific."
+        },
         name: 'Sumps Veteran',
-        description: 'You fought in the Bloodhammer Sump\'s geothermal skirmishes, the War of Thousand Screams, or the endless defense of the Hunger Glaciers. The Hunger Pact lives in your blood — ancestral starvation channeled into combat fury — and the Milk-Grief may have taken someone you loved.',
+        description: 'You fought in the Bloodhammer Sump\'s geothermal skirmishes, the War of Thousand Screams, or the endless defense of the Hunger Glaciers. The Hunger Pact lives in your blood — ancestral starvation channeled into combat fury — and the Frost-Tithe may have taken someone you loved.',
         skillProficiencies: ['Athletics', 'Intimidation'],
         toolProficiencies: ['Gaming set', 'Vehicles (land)'],
         languages: 1,
@@ -218,6 +272,18 @@ export const BACKGROUND_DATA = {
 
     debtNegotiator: {
         id: 'debtNegotiator',
+        restrictions: {
+            "allowedRegions": [
+                "bryngloom-forest"
+            ],
+            "allowedSubraces": [
+                "velun_neth",
+                "kessen_neth",
+                "drun_neth",
+                "morren_human"
+            ],
+            "justification": "Neth contract law (First Contract, Great Registry) is Bryngloom-specific. Exclude: Skald, Ordan — neither uses written contract law."
+        },
         name: 'Debt Negotiator',
         description: 'You studied the First Contract and Neth legal traditions in Atropolis, helping clients navigate Regent Morrath\'s Great Registry and the Scribe-Cartel’s peonage. You understand that in Bryngloom, debt is a living thing: every agreement is a binding clause, every handshake a potential trap, and the Postmortem Corvée can conscript your corpse if you default. You help negotiate Memory-Glass Covenants to purchase extra years of life.',
         skillProficiencies: ['Deception', 'Sleight of Hand'],
@@ -247,8 +313,17 @@ export const BACKGROUND_DATA = {
 
     frostChanter: {
         id: 'frostChanter',
+        restrictions: {
+            "allowedRegions": [
+                "nordhalla"
+            ],
+            "allowedSubraces": [
+                "skald_human"
+            ],
+            "justification": "Requires Nordhalla oral-history training and the specific context of Járn-Tand's cultural suppression."
+        },
         name: 'Frost Chanter',
-        description: 'You trained in Nordhalla\'s oral-history traditions, where song preserves what Járn-Tand\'s runic inquisitors seek to burn. Your performances are literally history-keeping rituals — each verse a hidden archive of the old animist ways, each chorus a shield against both the Milk-Grief\'s despair and the Runic Academies\' erasure. In a land where the old drums are outlawed, the Frost Chanter\'s voice is a covert hearth for the Fredløse.',
+        description: 'You trained in Nordhalla\'s oral-history traditions, where song preserves what Járn-Tand\'s runic inquisitors seek to burn. Your performances are literally history-keeping rituals — each verse a hidden archive of the old animist ways, each chorus a shield against both the Frost-Tithe\'s despair and the Runic Academies\' erasure. In a land where the old drums are outlawed, the Frost Chanter\'s voice is a covert hearth for the Fredløse.',
         skillProficiencies: ['Acrobatics', 'Performance'],
         toolProficiencies: ['Disguise kit', 'Musical instrument'],
         languages: 1,
@@ -276,6 +351,11 @@ export const BACKGROUND_DATA = {
 
     forgeWright: {
         id: 'forgeWright',
+        restrictions: {
+            "allowedRegions": [],
+            "allowedSubraces": [],
+            "justification": "Every region has some form of metalworking; the flavor shifts by region."
+        },
         name: 'Forge Wright',
         description: 'You apprenticed in the Harath-Vault\'s great forges beneath Emberspire, the Bloodhammer Sump\'s geothermal foundries, or the iron-working halls of Ironjaw Port. You understand metal not as dead material but as living memory — every hammer-strike recorded, every alloy a conversation between elements. At Gearworks Gulch in the Cragjaw Peaks, forge-workers learn clockwork engineering from Fexrick artisans, and at Sol\'s Anvil Mesa in Sundale, a forge-complex operated by Solvarn sun-priests produces ceremonial metalwork using techniques passed down since the Binding.',
         skillProficiencies: ['Insight', 'Persuasion'],
@@ -304,6 +384,11 @@ export const BACKGROUND_DATA = {
 
     hushSurvivor: {
         id: 'hushSurvivor',
+        restrictions: {
+            "allowedRegions": [],
+            "allowedSubraces": [],
+            "justification": "Any character could have traveled to the Bryngloom and survived the spore-hush — though should require a narrative reason for being there."
+        },
         name: 'Hush Survivor',
         description: 'You lived in seclusion after witnessing the fungal hush claim someone you loved — watching Ghost-Mycelium darken their veins, dissolve their mind, and draw them into the Hush-Bogs as a mindless Spores-Born. You fortified your mind against the hush\'s seduction through isolation, but the mycelium\'s song never fully fades.',
         skillProficiencies: ['Medicine', 'Religion'],
@@ -333,6 +418,19 @@ export const BACKGROUND_DATA = {
 
     peakTracker: {
         id: 'peakTracker',
+        restrictions: {
+            "allowedRegions": [
+                "cragjaw-peaks"
+            ],
+            "allowedSubraces": [
+                "tessen_human",
+                "morgh_groven",
+                "ithran_groven",
+                "drall_fexric",
+                "kethrin_fexric"
+            ],
+            "justification": "Requires knowledge of Ancestor-Spans and Cragjaw geography."
+        },
         name: 'Peak Tracker',
         description: 'You navigated the Cragjaw Peaks\' vertical labyrinth, carrying knotted khipu route-markers to map pathways that the blizzard buries within hours. You learned to read the calcified bone-bridges, evade the Rope-Garrison toll-posts, and predict the hunting grounds of Yuki-Onna and Tengu-Crows. Deepchasm Keep is your home, and you know how to bypass the steam pipe junctions where heat-stealing Sump-Kappas nest.',
         skillProficiencies: ['Athletics', 'Survival'],
@@ -363,6 +461,18 @@ export const BACKGROUND_DATA = {
 
     merrowSailor: {
         id: 'merrowSailor',
+        restrictions: {
+            "allowedRegions": [
+                "iceheart-sea"
+            ],
+            "allowedSubraces": [
+                "merryn_human",
+                "breaker_myrathil",
+                "deep_myrathil",
+                "river_myrathil"
+            ],
+            "justification": "Requires Iceheart Sea maritime knowledge. Exclude: Tessen (sealed keep), Ordan (steppe nomads), Astril (crystalline bodies may not float)."
+        },
         name: 'Merrow Sailor',
         description: 'You sailed the Iceheart Sea from Merrowport, navigating under the shadow of the Brine-Bond Syndicate and Admiral Varis\'s Sea-Charter. Your trade-tattoos are legal contracts inked on your skin to verify your debt-shares and prevent you from being pressed into lifetime service under the Board of Trade\'s Press-Warrants. You know how to slip past the Unfreezing Booms, how to dodge the Luck-Ledger inquisitors, and how to trade in Kelpie\'s Cove.',
         skillProficiencies: ['Athletics', 'Perception'],
@@ -392,6 +502,20 @@ export const BACKGROUND_DATA = {
 
     gloomwayTrader: {
         id: 'gloomwayTrader',
+        restrictions: {
+            "allowedRegions": [
+                "bryngloom-forest"
+            ],
+            "allowedSubraces": [
+                "velun_neth",
+                "kessen_neth",
+                "drun_neth",
+                "morren_human",
+                "clean_vreken",
+                "marked_vreken"
+            ],
+            "justification": "Requires knowledge of Bryngloom Toll-Dikes, Mist-Gate Market, and peat-oil trade routes."
+        },
         name: 'Gloomway Trader',
         description: 'You traded goods across the Bryngloom Forest, dealing in memory-glass covenants, peat-oil, and wyrd-warded curios under Regent Morrath\'s Great Registry. You learned to bypass the living-ironwood Toll-Dikes, negotiate with Drun smugglers, and trade at the Mist-Gate Market where lifelines are currency. Morren\'s Bogpost at the forest-steppe border is your frequent trade stop, and you carry a ledger warded against the Inquisition\'s audit.',
         skillProficiencies: ['Insight', 'Persuasion'],
@@ -422,6 +546,18 @@ export const BACKGROUND_DATA = {
 
     shantyRat: {
         id: 'shantyRat',
+        restrictions: {
+            "allowedRegions": [
+                "bryngloom-forest"
+            ],
+            "allowedSubraces": [
+                "morren_human",
+                "drun_neth",
+                "marked_vreken",
+                "clean_vreken"
+            ],
+            "justification": "The Over-Shanty is beneath Atropolis specifically. A non-Bryngloom native has never been there."
+        },
         name: 'Shanty Rat',
         description: 'You grew up in the Over-Shanty — the hanging slum beneath Atropolis\'s high canopy city. Having no record in Regent Morrath\'s Great Registry, you survived as one of the undocumented "Forgotten" among salvage, smugglers, and memory-brokers. You learned which rope-bridges hold, how to slip past the Toll-Dike patrols, and how to bargain with Drun outcasts for black-market peat-oil.',
         skillProficiencies: ['Sleight of Hand', 'Stealth'],
@@ -451,6 +587,11 @@ export const BACKGROUND_DATA = {
 
     monolithHunter: {
         id: 'monolithHunter',
+        restrictions: {
+            "allowedRegions": [],
+            "allowedSubraces": [],
+            "justification": "The seven Monoliths are scattered across all regions; any character could hunt them."
+        },
         name: 'Monolith Hunter',
         description: 'You track the seven Sundered Monoliths — the shattered fragments of Sol\'s original binding seal — as their resonance shifts across the frozen world. The monoliths are waking up after centuries of silence, and their song is getting louder. You carry cold iron stakes to ground Wyrd-echoes and a journal of fragment-locations that certain powers would kill to obtain.',
         skillProficiencies: ['History', 'Investigation'],

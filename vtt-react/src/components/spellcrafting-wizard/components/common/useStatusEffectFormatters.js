@@ -1,4 +1,4 @@
-﻿import { cleanFormula, extractDamageTypeFromResistanceName, getThematicResistanceDescription, normalizeSaveType } from './spellFormatterUtils';
+import { cleanFormula, extractDamageTypeFromResistanceName, getThematicResistanceDescription, normalizeSaveType } from './spellFormatterUtils';
 
 const useStatusEffectFormatters = ({ spell, library, categories, formatSavingThrow }) => {
 
@@ -49,7 +49,7 @@ const useStatusEffectFormatters = ({ spell, library, categories, formatSavingThr
 
     // ===== BUFF EFFECTS =====
 
-    // LUCK EFFECT â€” popup writes option: minor|major|fate, rerollCount
+    // LUCK EFFECT — popup writes option: minor|major|fate, rerollCount
     if (effectId === 'luck') {
       if (option === 'minor') {
         mechanicsParts.push(`Reroll ${status.rerollCount || 1} bad ${status.rerollCount === 1 ? 'roll' : 'rolls'}, keep the new result`);
@@ -60,7 +60,7 @@ const useStatusEffectFormatters = ({ spell, library, categories, formatSavingThr
       }
     }
 
-    // HASTE EFFECT â€” popup writes option: movement|action|casting, speedBonus, extraActions, castingReduction
+    // HASTE EFFECT — popup writes option: movement|action|casting, speedBonus, extraActions, castingReduction
     else if (effectId === 'haste') {
       if (option === 'movement') {
         const sb = status.speedBonus || '50';
@@ -73,7 +73,7 @@ const useStatusEffectFormatters = ({ spell, library, categories, formatSavingThr
       if (status.hasLethargy) mechanicsParts.push('slowed when it wears off');
     }
 
-    // COMBAT ADVANTAGE â€” popup writes advantageType, affectsMelee, affectsRanged, damageTypes, magnitude
+    // COMBAT ADVANTAGE — popup writes advantageType, affectsMelee, affectsRanged, damageTypes, magnitude
     else if (effectId === 'combat_advantage') {
       const advType = status.advantageType || 'attack';
       if (advType === 'attack') {
@@ -91,19 +91,19 @@ const useStatusEffectFormatters = ({ spell, library, categories, formatSavingThr
       }
     }
 
-    // ATTACKERS ADVANTAGE â€” popup writes option: all|melee|ranged|spell, magnitude
+    // ATTACKERS ADVANTAGE — popup writes option: all|melee|ranged|spell, magnitude
     else if (effectId === 'attackers_advantage') {
       const target = option || 'all';
       mechanicsParts.push(`Attackers get +${status.magnitude || 0}${status.magnitudeType === 'percentage' ? '%' : ''} to hit with ${target} attacks`);
     }
 
-    // SKILL MASTERY â€” popup writes option: physical|mental|social, magnitude
+    // SKILL MASTERY — popup writes option: physical|mental|social, magnitude
     else if (effectId === 'skill_mastery') {
       const skillArea = option || 'physical';
       mechanicsParts.push(`+${status.magnitude || 2} to ${skillArea} skill checks`);
     }
 
-    // EMPOWER NEXT â€” popup writes option: spell|heal|weapon, multiplier
+    // EMPOWER NEXT — popup writes option: spell|heal|weapon, multiplier
     else if (effectId === 'empower_next') {
       const mult = status.multiplier || '1.5';
       const pct = mult === 'max' ? 'maximum' : `${Math.round((parseFloat(mult) - 1) * 100)}% more`;
@@ -112,48 +112,48 @@ const useStatusEffectFormatters = ({ spell, library, categories, formatSavingThr
       else if (option === 'weapon') mechanicsParts.push(`Next weapon hit deals ${pct} damage`);
     }
 
-    // DAMAGE SHIELD â€” popup writes option: physical|magical|complete, reductionPercent, hitCount
+    // DAMAGE SHIELD — popup writes option: physical|magical|complete, reductionPercent, hitCount
     else if (effectId === 'damage_shield') {
       const shieldArea = option || 'physical';
       mechanicsParts.push(`${status.reductionPercent || '50'}% less ${shieldArea} damage for ${status.hitCount || 3} hit${(status.hitCount || 3) > 1 ? 's' : ''}`);
     }
 
-    // ELEMENTAL INFUSION â€” popup writes option: ember|rime|storm, extraDamage, procChance
+    // ELEMENTAL INFUSION — popup writes option: ember|rime|storm, extraDamage, procChance
     else if (effectId === 'elemental_infusion') {
       const elem = option || 'ember';
       mechanicsParts.push(`+${status.extraDamage || '1d6'} ${elem} on every hit`);
       if (status.procChance && status.procChance !== '100') mechanicsParts.push(`${status.procChance}% chance to trigger`);
     }
 
-    // INVISIBILITY â€” popup writes option: partial|complete|greater, detectionDC
+    // INVISIBILITY — popup writes option: partial|complete|greater, detectionDC
     else if (effectId === 'invisibility' || effectId === 'invisible') {
       if (option === 'partial') mechanicsParts.push(`Advantage on stealth (detection DC ${status.detectionDC || 15})`);
-      else if (option === 'complete') mechanicsParts.push("Can't be seen â€” breaks on attack or spell");
+      else if (option === 'complete') mechanicsParts.push("Can't be seen — breaks on attack or spell");
       else if (option === 'greater') mechanicsParts.push('Invisible even while attacking or casting');
     }
 
-    // INSPIRATION â€” popup writes option: focus|insight|creativity, magnitude
+    // INSPIRATION — popup writes option: focus|insight|creativity, magnitude
     else if (effectId === 'inspiration') {
       const inspireType = option || 'focus';
       mechanicsParts.push(`+${status.magnitude || 3} to ${inspireType === 'focus' ? 'concentration checks' : inspireType === 'insight' ? 'Intelligence checks' : 'Charisma (Performance) checks'}`);
     }
 
-    // LIFELINK â€” popup writes option: hp_to_hp|mana_to_mana|etc, transferRatio, maxTransfer
+    // LIFELINK — popup writes option: hp_to_hp|mana_to_mana|etc, transferRatio, maxTransfer
     else if (effectId === 'lifelink') {
       const linkMap = {
-        'hp_to_hp': 'HP â†” HP link',
-        'mana_to_mana': 'Mana â†” Mana link',
-        'hp_to_mana': 'HP â†’ Mana conversion',
-        'mana_to_hp': 'Mana â†’ HP conversion',
-        'damage_to_healing': 'Damage â†’ Healing conversion',
-        'healing_to_damage': 'Healing â†’ Damage conversion'
+        'hp_to_hp': 'HP ↔ HP link',
+        'mana_to_mana': 'Mana ↔ Mana link',
+        'hp_to_mana': 'HP → Mana conversion',
+        'mana_to_hp': 'Mana → HP conversion',
+        'damage_to_healing': 'Damage → Healing conversion',
+        'healing_to_damage': 'Healing → Damage conversion'
       };
       mechanicsParts.push(linkMap[option] || option || 'Life link');
       mechanicsParts.push(`${status.transferRatio || '50'}% transfer rate`);
       if (status.maxTransfer) mechanicsParts.push(`max ${status.maxTransfer} per trigger`);
     }
 
-    // INSPIRED â€” popup writes option: bardic|guidance|heroism, inspirationDie, usesPerDuration, appliesTo
+    // INSPIRED — popup writes option: bardic|guidance|heroism, inspirationDie, usesPerDuration, appliesTo
     else if (effectId === 'inspired') {
       const die = status.inspirationDie || 'd6';
       const uses = status.usesPerDuration || 1;
@@ -164,7 +164,7 @@ const useStatusEffectFormatters = ({ spell, library, categories, formatSavingThr
       else if (option === 'heroism') mechanicsParts.push(`Immune to fear, +${die} to saves`);
     }
 
-    // BLESSED â€” popup writes option: protection|fortune|life, bonusType, rollBonus, bonusDie, affects...
+    // BLESSED — popup writes option: protection|fortune|life, bonusType, rollBonus, bonusDie, affects...
     else if (effectId === 'blessed') {
       const bt = status.bonusType || 'flat';
       const bonusVal = bt === 'dice' ? (status.bonusDie || 'd4') : (status.rollBonus ? `+${status.rollBonus}` : '+2');
@@ -178,7 +178,7 @@ const useStatusEffectFormatters = ({ spell, library, categories, formatSavingThr
       else if (option === 'life') mechanicsParts.push(`${bonusVal} to saves + temp HP each turn`);
     }
 
-    // STRENGTHENED â€” popup writes option: physical|magical|overall, damageBonus, strengthBonus
+    // STRENGTHENED — popup writes option: physical|magical|overall, damageBonus, strengthBonus
     else if (effectId === 'strengthened') {
       const dmgBonus = status.damageBonus || '+2';
       if (option === 'physical') mechanicsParts.push(`${dmgBonus} physical damage, +${status.strengthBonus || 2} STR`);
@@ -186,7 +186,7 @@ const useStatusEffectFormatters = ({ spell, library, categories, formatSavingThr
       else if (option === 'overall') mechanicsParts.push(`${dmgBonus} to all damage`);
     }
 
-    // RESISTANCE â€” popup writes option: elemental|physical|magical, damageTypes, resistanceValue, absorptionAmount
+    // RESISTANCE — popup writes option: elemental|physical|magical, damageTypes, resistanceValue, absorptionAmount
     else if (effectId === 'resistance') {
       const resistLevel = status.resistanceValue || '50';
       const levelMap = { '0': 'Immune', '25': 'Minor resistance', '50': 'Resistant (half damage)', '75': 'Guarded' };
@@ -195,7 +195,7 @@ const useStatusEffectFormatters = ({ spell, library, categories, formatSavingThr
       if (status.absorptionAmount) mechanicsParts.push(`absorbs ${status.absorptionAmount} first`);
     }
 
-    // VULNERABILITY â€” popup writes damageTypes, vulnerabilityValue
+    // VULNERABILITY — popup writes damageTypes, vulnerabilityValue
     else if (effectId === 'vulnerability') {
       const pct = status.vulnerabilityValue || '150';
       const dmgTypes = status.damageTypes?.length ? status.damageTypes.join(', ') : 'all';
@@ -205,24 +205,24 @@ const useStatusEffectFormatters = ({ spell, library, categories, formatSavingThr
 
     // ===== DEBUFF EFFECTS =====
 
-    // BLINDED â€” popup writes blindType: full|partial|darkness, attackPenalty
+    // BLINDED — popup writes blindType: full|partial|darkness, attackPenalty
     else if (effectId === 'blinded' || effectId === 'blind') {
       const bt = status.blindType || option || 'full';
       if (bt === 'full') mechanicsParts.push(`Can't see anything (${status.attackPenalty || -5} to attacks)`);
       else if (bt === 'partial') mechanicsParts.push(`Reduced vision (${status.attackPenalty || -5} to attacks)`);
-      else if (bt === 'darkness') mechanicsParts.push(`Magical darkness â€” can't see through it`);
+      else if (bt === 'darkness') mechanicsParts.push(`Magical darkness — can't see through it`);
     }
 
-    // CHARMED â€” popup writes option: friendly|dominated|infatuated, saveDC, saveType
+    // CHARMED — popup writes option: friendly|dominated|infatuated, saveDC, saveType
     else if (effectId === 'charmed' || effectId === 'charm') {
       if (option === 'friendly') mechanicsParts.push('Sees the caster as a trusted friend');
       else if (option === 'dominated') mechanicsParts.push('Must obey the caster\'s commands');
-      else if (option === 'infatuated') mechanicsParts.push('Devoted â€” will defend the caster');
+      else if (option === 'infatuated') mechanicsParts.push('Devoted — will defend the caster');
       if (status.saveDC) mechanicsParts.push(`${status.saveType || 'Spirit'} DC ${status.saveDC} to resist`);
       if (status.canAttackCharmer === false) mechanicsParts.push("can't attack the charmer");
     }
 
-    // FRIGHTENED â€” popup writes option: shaken|terrified|panicked, fearRadius, penaltyMagnitude
+    // FRIGHTENED — popup writes option: shaken|terrified|panicked, fearRadius, penaltyMagnitude
     else if (effectId === 'frightened' || effectId === 'fear') {
       if (option === 'shaken') mechanicsParts.push(`-${status.penaltyMagnitude || 2} to checks while source is visible`);
       else if (option === 'terrified') mechanicsParts.push(`Won't approach the fear source (${status.fearRadius || 30}ft radius)`);
@@ -230,16 +230,16 @@ const useStatusEffectFormatters = ({ spell, library, categories, formatSavingThr
       if (status.saveType) mechanicsParts.push(`${status.saveType} save to shake it off`);
     }
 
-    // PARALYZED â€” popup writes option: partial|complete|magical, canSpeak, canCastNonSomatic
+    // PARALYZED — popup writes option: partial|complete|magical, canSpeak, canCastNonSomatic
     else if (effectId === 'paralyzed' || effectId === 'paralyze') {
       if (option === 'partial') mechanicsParts.push('Speed reduced, limited movement');
-      else if (option === 'complete') mechanicsParts.push("Can't move, act, or speak â€” attacks against them have advantage");
+      else if (option === 'complete') mechanicsParts.push("Can't move, act, or speak — attacks against them have advantage");
       else if (option === 'magical') mechanicsParts.push('Held in magical stasis');
       if (status.canSpeak) mechanicsParts.push('can still speak');
       if (status.canCastNonSomatic) mechanicsParts.push('can cast non-somatic spells');
     }
 
-    // POISONED â€” popup writes option: weakening|debilitating|paralyzing, damagePerRound, saveDC
+    // POISONED — popup writes option: weakening|debilitating|paralyzing, damagePerRound, saveDC
     else if (effectId === 'poisoned' || effectId === 'poison') {
       if (option === 'weakening') mechanicsParts.push('Disadvantage on STR and CON checks');
       else if (option === 'debilitating') mechanicsParts.push(`Takes ${status.damagePerRound || '1d4'} blight damage each round`);
@@ -247,45 +247,45 @@ const useStatusEffectFormatters = ({ spell, library, categories, formatSavingThr
       if (status.saveDC) mechanicsParts.push(`Constitution DC ${status.saveDC}`);
     }
 
-    // RESTRAINED â€” popup writes option: ensnared|grappled|bound, escapeDC, struggleDamage
+    // RESTRAINED — popup writes option: ensnared|grappled|bound, escapeDC, struggleDamage
     else if (effectId === 'restrained' || effectId === 'restrain') {
-      if (option === 'ensnared') mechanicsParts.push('Tangled up â€” speed drops to 0');
-      else if (option === 'grappled') mechanicsParts.push(`Grappled â€” escape DC ${status.escapeDC || 15}`);
-      else if (option === 'bound') mechanicsParts.push(`Trussed up â€” escape DC ${status.escapeDC || 15}, can't use hands`);
+      if (option === 'ensnared') mechanicsParts.push('Tangled up — speed drops to 0');
+      else if (option === 'grappled') mechanicsParts.push(`Grappled — escape DC ${status.escapeDC || 15}`);
+      else if (option === 'bound') mechanicsParts.push(`Trussed up — escape DC ${status.escapeDC || 15}, can't use hands`);
       if (status.struggleDamage && status.struggleDamage !== '0') mechanicsParts.push(`${status.struggleDamage} damage if you struggle`);
     }
 
-    // SILENCED â€” popup writes option: magical|muted|temporal, silenceRadius, affectsSpells
+    // SILENCED — popup writes option: magical|muted|temporal, silenceRadius, affectsSpells
     else if (effectId === 'silenced' || effectId === 'silence') {
-      if (option === 'magical') mechanicsParts.push(`No sound in ${status.silenceRadius || 20}ft radius â€” can't cast verbal spells`);
+      if (option === 'magical') mechanicsParts.push(`No sound in ${status.silenceRadius || 20}ft radius — can't cast verbal spells`);
       else if (option === 'muted') mechanicsParts.push("Can't speak at all");
-      else if (option === 'temporal') mechanicsParts.push('Speech keeps glitching â€” verbal casting unreliable');
+      else if (option === 'temporal') mechanicsParts.push('Speech keeps glitching — verbal casting unreliable');
     }
 
-    // SLOWED â€” popup writes option: hindered|lethargic|temporal, speedReduction, actionPointReduction
+    // SLOWED — popup writes option: hindered|lethargic|temporal, speedReduction, actionPointReduction
     else if (effectId === 'slowed' || effectId === 'slow') {
       const sr = status.speedReduction || '50';
       if (option === 'hindered') mechanicsParts.push(`Movement ${sr}% slower`);
       else if (option === 'lethargic') mechanicsParts.push(`-${status.actionPointReduction || 1} action point${(status.actionPointReduction || 1) > 1 ? 's' : ''} per turn`);
-      else if (option === 'temporal') mechanicsParts.push(`Caught in time distortion â€” ${sr}% slower, -${status.actionPointReduction || 1} AP`);
+      else if (option === 'temporal') mechanicsParts.push(`Caught in time distortion — ${sr}% slower, -${status.actionPointReduction || 1} AP`);
     }
 
-    // BURNING â€” popup writes option: mild|intense|magical, damagePerRound, spreadChance
+    // BURNING — popup writes option: mild|intense|magical, damagePerRound, spreadChance
     else if (effectId === 'burning' || effectId === 'burn') {
       mechanicsParts.push(`${status.damagePerRound || '1d6'} ember damage per round`);
       if (status.spreadChance && status.spreadChance !== '0') mechanicsParts.push(`${status.spreadChance}% chance to spread to nearby targets`);
       if (option === 'magical') mechanicsParts.push('ignores resistance');
     }
 
-    // FROZEN â€” popup writes option: chilled|frostbitten|frozen, coldDamage, movementPenalty
+    // FROZEN — popup writes option: chilled|frostbitten|frozen, coldDamage, movementPenalty
     else if (effectId === 'frozen' || effectId === 'freeze') {
       const mp = status.movementPenalty || '50';
       if (option === 'chilled') mechanicsParts.push(`${mp}% slower`);
       else if (option === 'frostbitten') mechanicsParts.push(`${status.coldDamage || '1d6'} rime damage, ${mp}% slower, disadvantage on Agility`);
-      else if (option === 'frozen') mechanicsParts.push(`Encased in ice â€” ${status.coldDamage || '1d4'} damage, can't move`);
+      else if (option === 'frozen') mechanicsParts.push(`Encased in ice — ${status.coldDamage || '1d4'} damage, can't move`);
     }
 
-    // WEAKENED â€” popup writes option: fatigued|exhausted|drained, damageReduction, strengthPenalty
+    // WEAKENED — popup writes option: fatigued|exhausted|drained, damageReduction, strengthPenalty
     else if (effectId === 'weakened' || effectId === 'weak') {
       const dr = status.damageReduction || '25';
       if (option === 'fatigued') mechanicsParts.push(`${dr}% less damage dealt`);
@@ -293,7 +293,7 @@ const useStatusEffectFormatters = ({ spell, library, categories, formatSavingThr
       else if (option === 'drained') mechanicsParts.push(`${dr}% less damage, -${status.strengthPenalty || 2} STR`);
     }
 
-    // CONFUSED â€” popup writes option: disoriented|befuddled|insane, randomActionChance, accuracyPenalty
+    // CONFUSED — popup writes option: disoriented|befuddled|insane, randomActionChance, accuracyPenalty
     else if (effectId === 'confused' || effectId === 'confusion') {
       const rac = status.randomActionChance || '25';
       if (option === 'disoriented') mechanicsParts.push(`-${status.accuracyPenalty || 2} to attacks, ${rac}% chance to lose action`);
@@ -301,29 +301,29 @@ const useStatusEffectFormatters = ({ spell, library, categories, formatSavingThr
       else if (option === 'insane') mechanicsParts.push(`${rac}% chance to act randomly each turn`);
     }
 
-    // DISEASED â€” popup writes option: infected|contagious|terminal, damagePerDay, contagionRadius
+    // DISEASED — popup writes option: infected|contagious|terminal, damagePerDay, contagionRadius
     else if (effectId === 'diseased' || effectId === 'disease') {
       if (option === 'infected') mechanicsParts.push("Can't regain HP naturally");
       else if (option === 'contagious') mechanicsParts.push(`${status.damagePerDay || '1d4'} damage/day, ${status.contagionRadius || 5}ft contagion`);
       else if (option === 'terminal') mechanicsParts.push(`${status.damagePerDay || '1d4'} damage/day, disadvantage on death saves`);
     }
 
-    // BLEEDING â€” popup writes option: minor|severe|hemorrhaging, damagePerRound, healingDC
+    // BLEEDING — popup writes option: minor|severe|hemorrhaging, damagePerRound, healingDC
     else if (effectId === 'bleeding' || effectId === 'bleed') {
       mechanicsParts.push(`${status.damagePerRound || '1d4'} damage at start of each turn`);
       if (status.healingDC) mechanicsParts.push(`Healing DC ${status.healingDC} to stop the bleed`);
       if (option === 'hemorrhaging') mechanicsParts.push('incapacitated from blood loss');
     }
 
-    // SLEPT â€” popup writes option: drowsy|asleep|comatose, wakeDC, wakesOnDamage
+    // SLEPT — popup writes option: drowsy|asleep|comatose, wakeDC, wakesOnDamage
     else if (effectId === 'slept' || effectId === 'sleep') {
       if (option === 'drowsy') mechanicsParts.push('Disadvantage on Perception and initiative');
-      else if (option === 'asleep') mechanicsParts.push(`Unconscious${status.wakesOnDamage ? ' â€” wakes on damage' : ''}`);
-      else if (option === 'comatose') mechanicsParts.push('Deep magical sleep â€” only woken by magic');
+      else if (option === 'asleep') mechanicsParts.push(`Unconscious${status.wakesOnDamage ? ' — wakes on damage' : ''}`);
+      else if (option === 'comatose') mechanicsParts.push('Deep magical sleep — only woken by magic');
       if (status.wakeDC) mechanicsParts.push(`Wake DC ${status.wakeDC}`);
     }
 
-    // CURSED â€” popup writes option: jinxed|hexed|doomed, failureChance, rollPenalty
+    // CURSED — popup writes option: jinxed|hexed|doomed, failureChance, rollPenalty
     else if (effectId === 'cursed' || effectId === 'curse') {
       const fc = status.failureChance || '10';
       if (option === 'jinxed') mechanicsParts.push(`${fc}% chance any roll fails, -${status.rollPenalty || 1} to all rolls`);
@@ -331,7 +331,7 @@ const useStatusEffectFormatters = ({ spell, library, categories, formatSavingThr
       else if (option === 'doomed') mechanicsParts.push(`${fc}% failure chance, -${status.rollPenalty || 1} to everything, hard to remove`);
     }
 
-    // DAZED â€” popup writes option: lightheaded|disoriented|concussed, focusPenalty, actionDelay
+    // DAZED — popup writes option: lightheaded|disoriented|concussed, focusPenalty, actionDelay
     else if (effectId === 'dazed' || effectId === 'daze') {
       const fp = status.focusPenalty || 2;
       if (option === 'lightheaded') mechanicsParts.push(`-${fp} to attack rolls`);
@@ -386,7 +386,7 @@ const useStatusEffectFormatters = ({ spell, library, categories, formatSavingThr
       mechanicsParts.push(`Gain ${status.temporaryHitPoints || status.amount || '1d4'} temp HP`);
     }
 
-    // Generic fallback â€” if we have a magnitude, show it
+    // Generic fallback — if we have a magnitude, show it
     else if (status.magnitude) {
       mechanicsParts.push(`${status.magnitudeType === 'percentage' ? `${status.magnitude}%` : `+${status.magnitude}`}`);
     }
@@ -787,8 +787,8 @@ const useStatusEffectFormatters = ({ spell, library, categories, formatSavingThr
 
             // Format direction
             const directionMap = {
-              'caster_to_target': 'Caster â†’ Target',
-              'target_to_caster': 'Target â†’ Caster',
+              'caster_to_target': 'Caster → Target',
+              'target_to_caster': 'Target → Caster',
               'bidirectional': 'Bidirectional'
             };
             mechanicsParts.push(directionMap[direction]);
@@ -797,7 +797,7 @@ const useStatusEffectFormatters = ({ spell, library, categories, formatSavingThr
             if (sourceResource === targetResource) {
               mechanicsParts.push(`${sourceResource.charAt(0).toUpperCase() + sourceResource.slice(1)} Link`);
             } else {
-              mechanicsParts.push(`${sourceResource.charAt(0).toUpperCase() + sourceResource.slice(1)} â†’ ${targetResource.charAt(0).toUpperCase() + targetResource.slice(1)}`);
+              mechanicsParts.push(`${sourceResource.charAt(0).toUpperCase() + sourceResource.slice(1)} → ${targetResource.charAt(0).toUpperCase() + targetResource.slice(1)}`);
             }
 
             // Format conversion details
@@ -1059,7 +1059,7 @@ const useStatusEffectFormatters = ({ spell, library, categories, formatSavingThr
           const actionBonus = effectData.actionBonus || false;
           const attackBonus = effectData.attackBonus || false;
 
-          mechanicsParts.push(`${speedMultiplier}Ã— movement speed`);
+          mechanicsParts.push(`${speedMultiplier}× movement speed`);
           if (actionBonus) mechanicsParts.push('extra action');
           if (attackBonus) mechanicsParts.push('extra attack');
 
@@ -2245,7 +2245,7 @@ const useStatusEffectFormatters = ({ spell, library, categories, formatSavingThr
             'infatuated': 'is devoted and will protect the caster at any cost'
           };
 
-          description = `${displayName} â€” target ${charmDescriptions[charmType] || 'is charmed'}`;
+          description = `${displayName} — target ${charmDescriptions[charmType] || 'is charmed'}`;
 
           // Add restrictions based on configuration
           const restrictions = [];
@@ -2267,37 +2267,37 @@ const useStatusEffectFormatters = ({ spell, library, categories, formatSavingThr
           if (effectData.blindType || effectData.option) {
             const blindType = effectData.blindType || effectData.option;
             const typeMap = {
-              'partial': 'Partially blind â€” limited vision, disadvantage on perception and ranged attacks',
-              'complete': 'Totally blind â€” can\'t see at all, auto-fails sight checks',
-              'flash': 'Flash-blinded â€” temporary blindness that fades quickly'
+              'partial': 'Partially blind — limited vision, disadvantage on perception and ranged attacks',
+              'complete': 'Totally blind — can\'t see at all, auto-fails sight checks',
+              'flash': 'Flash-blinded — temporary blindness that fades quickly'
             };
-            description = typeMap[blindType] || `${displayName} â€” can't see and has disadvantage on attacks`;
+            description = typeMap[blindType] || `${displayName} — can't see and has disadvantage on attacks`;
           } else {
-            description = `${displayName} â€” can't see and has disadvantage on attacks`;
+            description = `${displayName} — can't see and has disadvantage on attacks`;
           }
 
         } else if (effectData.id === 'paralyzed' || effectData.id === 'paralyze') {
           if (effectData.option) {
             const typeMap = {
-              'partial': 'Partially paralyzed â€” some limbs affected, reduced movement',
-              'complete': 'Completely paralyzed â€” can\'t move or act, attacks against them have advantage',
-              'magical': 'Magically paralyzed â€” held in place by supernatural forces, aware but helpless'
+              'partial': 'Partially paralyzed — some limbs affected, reduced movement',
+              'complete': 'Completely paralyzed — can\'t move or act, attacks against them have advantage',
+              'magical': 'Magically paralyzed — held in place by supernatural forces, aware but helpless'
             };
-            description = typeMap[effectData.option] || `${displayName} â€” can't move or act`;
+            description = typeMap[effectData.option] || `${displayName} — can't move or act`;
           } else {
-            description = `${displayName} â€” can't move or act`;
+            description = `${displayName} — can't move or act`;
           }
 
         } else if (effectData.id === 'frightened' || effectData.id === 'fear') {
           if (effectData.option) {
             const typeMap = {
-              'shaken': 'Shaken â€” on edge, disadvantage on checks while the scary thing is visible',
-              'terrified': 'Terrified â€” absolutely refuses to go near the source of fear',
-              'panicked': 'Panicked â€” using all their actions to run away from the fear'
+              'shaken': 'Shaken — on edge, disadvantage on checks while the scary thing is visible',
+              'terrified': 'Terrified — absolutely refuses to go near the source of fear',
+              'panicked': 'Panicked — using all their actions to run away from the fear'
             };
-            description = typeMap[effectData.option] || `${displayName} â€” overcome with dread`;
+            description = typeMap[effectData.option] || `${displayName} — overcome with dread`;
           } else {
-            description = `${displayName} â€” overcome with dread`;
+            description = `${displayName} — overcome with dread`;
           }
 
         } else {

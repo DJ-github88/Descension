@@ -6,9 +6,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const CLASSES_DIR = path.join(__dirname, '..', 'vtt-react', 'src', 'data', 'classes');
 
 const CANONICAL_DAMAGE_TYPES = [
-  'fire', 'frost', 'lightning', 'nature', 'bludgeoning', 'piercing', 'slashing',
-  'force', 'psychic', 'radiant', 'arcane', 'necrotic', 'poison', 'void', 'chaos',
-  'physical', 'magical'
+  'physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'divine', 'healing',
+  'bludgeoning', 'piercing', 'slashing',
+  'fire', 'frost', 'lightning', 'nature', 'radiant', 'holy', 'shadow', 'necrotic', 'void', 'poison', 'acid', 'chaos', 'psychic', 'force', 'thunder'
 ];
 
 const VALID_SPELL_TYPES = ['ACTION', 'CHANNELED', 'PASSIVE', 'REACTION', 'TRAP', 'STATE'];

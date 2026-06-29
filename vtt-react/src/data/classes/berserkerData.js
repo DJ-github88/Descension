@@ -6,6 +6,23 @@
  */
 
 export const BERSERKER_DATA = {
+  restrictions: {
+      "allowedSubraces": [
+          "skald_human",
+          "thrask_emberth",
+          "morgh_groven"
+      ],
+      "hardBlocks": [
+          "mimir",
+          "neth",
+          "astril",
+          "merryn_human",
+          "ordan_human"
+      ],
+      "narrativeUnlock": true,
+      "justification": "Requires Hunger Pact lineage (Skald) or deliberate Blood-Heat adoption (Thrask). Mimir are too identity-fragile to sustain the emotional singularity. Neth can't suppress their contract-nature. Ordan reject self-destruction over migration."
+  },
+
   id: "berserker",
   name: "Berserker",
   icon: "fas fa-skull",

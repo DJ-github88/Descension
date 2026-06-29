@@ -96,9 +96,9 @@ Pressed to extinction, **six of the seven families capitulated**. They marched t
               title: 'The Slow Feast',
               content: `Keth-Amar is now inside the binding, inside the vault it was never meant to enter. It feeds on Sol's slumbering embers through the fractured seal, growing incrementally stronger as the world grows incrementally colder. Sol cannot wake. Sol cannot die. Sol is being eaten from within.
 
-**The Refusal:** There was an **eighth house**: House Viridane. When the other families marched their firstborn north, Viridane refused and fled south through the **Frostwood Reach**, making a counter-bargain with fae entities in the moonlit groves. The seven families spent centuries erasing every record of Viridane's existence. Their hidden descendants — the **Briaran** — carry the weight of that refusal through every generation, branded oathbreakers by a history written to justify capitulation.
+**The Refusal:** House Viridane was the **seventh** binding family — until they refused Keth-Amar's terms. When the other families marched their firstborn north, Viridane refused and fled south through the **Frostwood Reach**, making a counter-bargain with fae entities in the moonlit groves. The remaining six houses, unable to complete the binding ritual with only six signatures, elevated a minor family — **House Morrath** — as a substitute seventh and spent three centuries erasing every record of Viridane's existence. The Briaran call themselves the "eighth house" because they count what the official records hide: seven public names and one that was replaced before the ink dried.
 
-**The Silent Seventh:** The lore records six houses capitulated and one refused among the original seven binding families. But history does not record which of the seven that silent house was. Some scholars whisper that one of the named families — Thalreth, Skalvyr, Tesshan, Solvan, Mereval, Ordavan, or Morrath — buried their own refusal as deeply as they buried Viridane's, trading their heir's life for a secret that would shatter the unity of the remaining houses if it ever surfaced. The seventh monolith may not scream with a sacrificed child. It may scream with a silence.`
+**The Silent Seventh:** The official record lists seven houses — Thalreth, Skalvyr, Tesshan, Solvan, Mereval, Ordavan, and Morrath — and claims all seven sealed the Binding Compact. The truth is messier. The original seventh house was **Viridane**, which refused Keth-Amar's terms and fled south. The remaining six could not afford a gap in the binding — the ritual required exactly seven signatures. They elevated a minor family, **House Morrath**, as a substitute and spent three centuries erasing every trace of Viridane from existence. Morrath's records are conspicuously sparse for a reason: they were written to replace a history that predated them. The seventh monolith does not scream with a silenced refusal. It screams with a substituted name — a name that was never meant to be there.`
             }
           ]
         }
@@ -164,7 +164,7 @@ The Solbrand is dimming. The tending-clan has known for three generations and co
 
 The **[Solvarn](world-lore/races-overview)** humans share the ashlands. Every morning a sun-priest climbs the highest tower: *not today. Perhaps tomorrow.* Their seers record the Dimming's progression. Their faithful stay, wounds glowing faintly near the dying ember.
 
-**The Dawn Vigil:** A militant faction has emerged among the Solvarn in the past two decades — the **Dawn Vigil** — who argue the vigil must become a hunt. Their doctrine holds that the seven Sundered Monoliths are not monuments but keys: if all seven can be reforged at the caldera, the binding seal can be restored, Sol can complete its Deepening, and the sun will rise again. Dawn Vigil expeditionary companies — small bands of Solvarn Martyrs, Pyrofiends, and Augurs — now range into every region seeking Monolith fragments. They clash with the conservative Korr Emberth and the heretical Unwoven alike. Their sigil — a rising sun pierced by obsidian — is painted on banners and tattooed on young Solvarn forearms across the ashlands.`
+**The Dawn Vigil:** A militant faction has emerged among the Solvarn in the past two decades — the **Dawn Vigil** (originally a quietist monastic order founded in Year 340, recently radicalized and militarized under Hierophant Aethelgard) — who argue the vigil must become a hunt. Their doctrine holds that the seven Sundered Monoliths are not monuments but keys: if all seven can be reforged at the caldera, the binding seal can be restored, Sol can complete its Deepening, and the sun will rise again. Dawn Vigil expeditionary companies — small bands of Solvarn Martyrs, Pyrofiends, and Augurs — now range into every region seeking Monolith fragments. They clash with the conservative Korr Emberth and the heretical Unwoven alike. Their sigil — a rising sun pierced by obsidian — is painted on banners and tattooed on young Solvarn forearms across the ashlands.`
             },
             {
               title: 'The Stirring of the Shards',
@@ -271,7 +271,7 @@ The **[Solvarn](world-lore/races-overview)** humans share the ashlands. Every mo
 
 The Frostwood Reach is a continent of dense, transitional fog where warm volcanic air from the south collides aggressively with the creeping northern frost. Ancient ironwood forests stretch beneath a perpetual grey canopy, their petrified trunks hardened by centuries of cold until the wood mimics iron. Settlements cluster along mist-choked trails, their inhabitants never quite certain what lies beyond the next bend, or whether they will remember it by the time they arrive. 
 
-To govern this fog-degraded realm, the newly crowned **Jarl-Archivist Kaelen Thalreth ("The Quill-Lord")** enforces the **Sovereign Ledger**. Because the mist erases memory, whoever controls records controls reality; Kaelen has declared all unrecorded property rights and lineages void. To police the forest, he constructed the **Ironwood Palisade (Tåge-Grænsen)**—a colossal wall of petrified logs and spikes. While officially built to repel Wyrd threats like Gref and face-traders, the palisade’s checkpoints are patrolled by **Mist-Sentinels** (heavy armor [Wardens](file:///d:/VTT/vtt-react/src/data/classes/wardenData.js)) who verify every traveler’s journal and tax receipts, denying entry to those who are undocumented.
+To govern this fog-degraded realm, the newly crowned **Jarl-Archivist Kaelen Thalreth ("The Quill-Lord")** enforces the **Sovereign Ledger**. Because the mist erases memory, whoever controls records controls reality; Kaelen has declared all unrecorded property rights and lineages void. To police the forest, he constructed the **Ironwood Palisade**—a colossal wall of petrified logs and spikes. While officially built to repel Wyrd threats like Gref and face-traders, the palisade’s checkpoints are patrolled by **Mist-Sentinels** (heavy armor [Wardens](file:///d:/VTT/vtt-react/src/data/classes/wardenData.js)) who verify every traveler’s journal and tax receipts, denying entry to those who are undocumented.
 
 On the eastern border, where the fog pools into a permanent, drowning bog, lies **Wraithfen**—a fog-drowned fen where Unwoven Mimir who have shed their masks entirely wander in aimless, looping circuits, their identities long since dissolved into the mist.
 
@@ -287,7 +287,7 @@ Within the keep’s high-arched halls, the air smells of pine oil, damp paper, a
 
 **The Social Divide & Subrace Friction**
 
-The population is split into two sharp castes. The **Ledgered** (*De Skrevne*) are humans who swore fealty to Kaelen, keeping their lineages verified in the tapestries in exchange for Cartel grain and garrison defense. The **Forgotten** (*De Uviskede*) are nomadic clans and Mimir outcasts whose journals were lost or confiscated; they have no legal rights and are hunted as ghosts.
+The population is split into two sharp castes. The **Ledgered** are humans who swore fealty to Kaelen, keeping their lineages verified in the tapestries in exchange for Cartel grain and garrison defense. The **Forgotten** are nomadic clans and Mimir outcasts whose journals were lost or confiscated; they have no legal rights and are hunted as ghosts.
 
 The **Mimir** themselves are divided by the masks they wear. The **Mask-Borne Mimir** of the high branches are canopy aristocrats wearing pristine storm-glass masks. They look down on the **Unwoven Mimir** of the forest floor, who wear cracked, salvaged wood masks or go maskless with painted skin. The **Mist-Woven Mimir** are mountain sentinels who use shape-shifting as a lethal tool of guerrilla warfare. Deep in the forest lies **Mirror Mere**, a perfectly still, black-water lake where Mask-Borne Mimir travel to test their reflections against the calcified faces of their masks, reading flaws in the glass-still surface as omens of identity erosion.
 
@@ -316,7 +316,7 @@ In Greymark Keep, a typical tavern (such as *The Ink-stained Finger*) is a low c
 > - **House Skalvyr:** The unyielding noble family that accepted eternal winter to stop the glaciers.
 > - **The Frozen Archive:** A clockwork and runic city-library carved inside a mile-high glacier.
 > - **The Rime-Born:** The frost-touched, stone-skinned survivors of the ancestral Hunger Pact.
-> - **The Milk-Grief:** A supernatural birth-cold that drains mothers, producing blue-skinned Frostbound infants.
+> - **The Frost-Tithe:** Keth-Amar's birth-debt on Rime-Born mothers — the bargain's interest on House Skalvyr's pact, draining warmth to save the child.
 
 **The Regional Landscape & Current Vibe**
 
@@ -340,7 +340,7 @@ Within the Archive, the air smells of old brass and ozone. High walkways span th
 
 The regional population is split between two sharp castes. The **Fastboende** (Settled Loyalists) are Skald humans who swore fealty to Járn-Tand, receiving geothermal valleys and subsidized southern grain. The **Fredløse** (Outlaw Clans) are nomadic hunter-clans who refused the crown; they are hunted as outlaws and shot on sight if they cross loyalist land.
 
-Furthermore, an unspoken divide runs between the warm-blooded ruling clans who control the fjord-keep vents and the frost-touched [Rime-Born](file:///d:/VTT/vtt-react/src/data/rulesData.js#L292) who carry the Hunger Pact's legacy. Pushed to the freezing margins of both are the blue-skinned [Frostbound](file:///d:/VTT/vtt-react/src/data/rulesData.js#L293) infants who survived the Milk-Grief, living in the Gelid-Caverns, suspicious of both libraries and forge-halls.
+Furthermore, an unspoken divide runs between the warm-blooded ruling clans who control the fjord-keep vents and the frost-touched [Rime-Born](file:///d:/VTT/vtt-react/src/data/rulesData.js#L292) who carry the Hunger Pact's legacy. Pushed to the freezing margins of both are the blue-skinned [Frostbound](file:///d:/VTT/vtt-react/src/data/rulesData.js#L293) infants who survived the Frost-Tithe, living in the Gelid-Caverns, suspicious of both libraries and forge-halls.
 
 **Localized Threats, Persecution & The Wyrd**
 
@@ -354,7 +354,7 @@ The region's Sundered Monolith rests within the sealed, lightless central hall o
 
 Commoners in Nordhalla survive on dried fjord-cod, salted mammoth fat, and lichen-mash. The local beverage is frost-mead, brewed in deep geothermal caves. 
 
-The regional economy is choked by **The Icechamber Syndicate**, a cartel of southern merchant houses backed by Járn-Tand. By royal decree, all exports of mammoth skins, walrus ivory, and high-grade iron ore must be sold exclusively to the Syndicate at fixed, low rates. In return, the Syndicate sells life-saving grain and salt at exorbitant, life-threatening prices. 
+The regional economy is choked by **The Icechamber Syndicate**, a cartel of southern merchant houses backed by Járn-Tand. By royal decree, all exports of mammoth skins, walrus ivory, and high-grade iron ore must be sold exclusively to the Syndicate at fixed, low rates. In return, the Syndicate sells life-saving grain (sourced from the Ordan steppe culture of Sundrift Vale via Synod Hold) and salt at exorbitant, life-threatening prices. 
 
 All maritime trade funnels through **The Black Firth**, an obsidian-cliffed inlet where the fjords meet the Iceheart Sea—the primary naval route for iron ore barges and whale-oil tankers navigating the treacherous coastal ice. Here, Syndicate-funded, steam-powered ironclads hunt the mythic sea-beasts with explosive harpoons, polluting the water with soot and coal-run-off, threatening the traditional fishing grounds of the coastal clans. 
 
@@ -390,7 +390,7 @@ At the Vault's absolute center is **The Great Forge**, where oversized obsidian 
 
 **The Social Divide & Subrace Friction**
 
-The population is split into two castes. The **Deep-Born** (*De Dybe*) are wealthy Solvarn nobles and Korr priests who live in climate-controlled luxury in the Vault’s inner rings, sheltered from the ash. The **Ash-Dwellers** (*Aske-Folket*) are Thrask miners and impoverished Solvarn refugees who live in toxic surface shanties, suffering from "Ashen Throat" lung-rot.
+The population is split into two castes. The **Deep-Born** are wealthy Solvarn nobles and Korr priests who live in climate-controlled luxury in the Vault’s inner rings, sheltered from the ash. The **Ash-Dwellers** are Thrask miners and impoverished Solvarn refugees who live in toxic surface shanties, suffering from "Ashen Throat" lung-rot.
 
 The **Emberth** themselves are split by this divide. The **Korr** of the Deep-Vault are the priestly elite with charcoal skin and elongated lungs. The **Thrask** of the surface badlands are the bronze-skinned rangers and miners who live in the frontier calderas, highly skeptical of the Korr's wait-and-see policy. The **Unwoven**, heretical Emberth who have defaced their forge-marks, scour the wastes for Sundered Monoliths, believing that only by sealing the breach can Sol be reborn.
 
@@ -404,7 +404,7 @@ The Sundered Monolith of the region is embedded deep within the primary throat o
 
 Staples in Sundale include ash-baked lizard tail, roasted volcanic beetles, and sulfur-cleansed fern-bulbs, washed down with cinder-brew distilled from soot-tolerant tubers. 
 
-The regional economy is driven by exporting raw obsidian, high-temperature alloys, and volcanic sulfur under Cartel supervision, while importing ice-melt water, woolly herd-hides, and timber. All overseas trade passes through **Ember Lagoon**, Sundale's only warm-water port, where geothermal vents keep the harbor just above freezing — a mercy for the ice-broken hulls that limp in from the Iceheart Sea.
+The regional economy is driven by exporting raw obsidian, high-temperature alloys, and volcanic sulfur under Cartel supervision, while importing ice-melt water, woolly herd-hides (sourced from Sundrift Vale via the Cragjaw chokepoint of the Ancestor-Spans, making the hide supply highly vulnerable to bridge collapse or Groven tolls), and timber. All overseas trade passes through **Ember Lagoon**, Sundale's only warm-water port, where geothermal vents keep the harbor just above freezing — a mercy for the ice-broken hulls that limp in from the Iceheart Sea.
 
 Taverns in the Harath-Vault are steel-grate cages suspended directly over active magma channels. The atmosphere is dry, blisteringly hot, and filled with the deafening clank of anvils and bellows. Currency takes the form of heavy brass coins minted by the forge-clans, or raw pieces of copper and blood-ore.`
             },
@@ -440,7 +440,7 @@ Lately, the port has become a site of brutal conscription. The Board of Trade is
 
 **The Social Divide & Subrace Friction**
 
-The population is split into two castes. The **Deck-Born** (*De Dæksbårne*) are wealthy merchants, captains, and officers who live in heated cabins and the stone keeps of Ironjaw. The **Bilge-Dwellers** (*Køl-Folket*) are pressed sailors, coal-shovelers, and outcasts who live in the freezing, water-logged berths below, breathing coal-dust and rot.
+The population is split into two castes. The **Deck-Born** are wealthy merchants, captains, and officers who live in heated cabins and the stone keeps of Ironjaw. The **Bilge-Dwellers** are pressed sailors, coal-shovelers, and outcasts who live in the freezing, water-logged berths below, breathing coal-dust and rot.
 
 The human fleets of House Mereval (the **Merryn**) dominate Merrowport, tattooing their contracts directly onto their skin because paper rots. They share the waters with the **Myrathil**. The **Breakers-Born Myrathil** are the diplomats and merchants who navigate Merrowport. The **Deep-Born Myrathil** are the mystics and sea-herders who live in the abyssal rifts, deeply troubled by the engine-screams of the whaling fleet. The **River-Fed Myrathil** are the inland scouts who follow freshwater rivers. The **Neth Velun** pact-lords run Ironjaw Port with legalistic coldness, frequently clashing with the chaotic Merryn captains.
 
@@ -492,7 +492,7 @@ Within the holdfast, the air is thick with steam and coal-dust. Cut into the eas
 
 **The Social Divide & Subrace Friction**
 
-The population is split into two sharp castes. The **Terraced** (*De Ophøjede*) are high-born humans who live in warmed keeps, fed by geothermal potato-terraces. The **Chasm-Dwellers** (*Dyb-Folket*) are Fexrick laborers and miner clans who live in dark, unheated chasms, suffering from "Blue Bite" frostbite-rot and sifting through runic waste.
+The population is split into two sharp castes. The **Terraced** are high-born humans who live in warmed keeps, fed by geothermal potato-terraces. The **Chasm-Dwellers** are Fexrick laborers and miner clans who live in dark, unheated chasms, suffering from "Blue Bite" frostbite-rot and sifting through runic waste.
 
 The **Groven** themselves are divided by the **Ladder of Purity**, an unspoken caste system. The heavier-scaled, deep-chested **Morgh Groven** are the bridge-builders, warriors, and laborers. The finer-scaled **Ithran Groven** are the diplomats and toll-keepers. The mixed-caste **Murmur-Blooded** are outcasts who serve as bridge-tenders. The **Fexrick** are split between the **Kethrin** (hereditary guild engineers) and the **Drall** (self-taught scrap-folk).
 
@@ -506,7 +506,7 @@ The region's Sundered Monolith is sealed within a lightless alchemical chamber d
 
 **Daily Life, Trade & Food**
 
-Staples include freeze-dried cliff-potatoes (**chuño**), dried mammoth strips (**charqui**), and lichen-stew, washed down with whiteout-distillate. 
+Staples include freeze-dried cliff-potatoes (**chuño**), dried mammoth strips (**charqui**), and lichen-stew, washed down with whiteout-distillate. Because the agricultural terraces are cooling, the region is increasingly dependent on grain imports from Sundrift Vale and Sundale. 
 
 The economy is driven by exporting alchemical reagents under the **Steam-Line Cartel** monopoly, which demands heavy tribute from keeps in exchange for heat-flow. All trade is recorded on royal khipus. Taverns on the Spans are drafty wooden cages bolted directly to the bone bridges. Currency is rarely used on the heights; trade is conducted via barter of wool, bone tools, and climbing spurs.`
             },
@@ -590,7 +590,7 @@ The Bryngloom's power is split between the canopy city of **Atropolis** and the 
 
 **The Social Divide & Subrace Friction**
 
-The population is split into two castes. **The Contracted** (*De Lovlige*) are high-born Neth and wealthy merchants who hold active credits and live in the clean high canopy of Atropolis. **The Defaulted** (*De Gældsbundne*) are impoverished Morren humans and Marked Vreken who live in damp peat-shanties on the forest floor, breathing toxic rot-fumes and working the sumps.
+The population is split into two castes. **The Contracted** are high-born Neth and wealthy merchants who hold active credits and live in the clean high canopy of Atropolis. **The Defaulted** are impoverished Morren humans and Marked Vreken who live in damp peat-shanties on the forest floor, breathing toxic rot-fumes and working the sumps.
 
 The **Neth** are divided into three bloodlines. The **Velun** are the pact-lords and arcanists. unable to lie, they govern the high libraries. The **Kessen** are the gamblers and weavers, reading the probability-web of the forest floor. The **Drun** are the severed outcasts. Immune to magic but legally non-existent under Neth law, they live in the canopy-sumps. The bog's most infamous landmark is **Black Fen**, a stretch of dead water serving as the contract court's dumping ground.
 
@@ -606,7 +606,7 @@ The regional Sundered Monolith rests at the bottom of a bog-pool that has no bot
 
 **Daily Life, Trade & Food**
 
-Common food includes bog-mushroom stew, roasted peat-truffles, and dried river-eel, accompanied by bioluminescent tea. The local trade economy is built on exporting memory-glass, bog-preserved ironwood, and alchemical moss, under the Scribe-Cartel's monopoly. Poor Morren are trapped in perpetual debt, mortgaging their children's future lifelines.
+Common food includes bog-mushroom stew, roasted peat-truffles, and dried river-eel, accompanied by bioluminescent tea. The local trade economy is built on exporting memory-glass, bog-preserved ironwood, and alchemical moss, under the Neth Regency's monopoly (First Contract, Great Registry). Poor Morren are trapped in perpetual debt, mortgaging their children's future lifelines.
 
 In Atropolis, taverns are open-air branch platforms suspended high in the canopy. The atmosphere is quiet, formal, and strictly transactional. Currency is recorded on ledger-tablets and verified by Velun pact-clerks.`
             }
@@ -680,7 +680,7 @@ In port cities from Sundale to the Frostwood Reach, the Myrathil occupy a strang
               content: `The descendants of House Viridane, the forgotten eighth noble family, struck from history by the seven houses that sealed Keth-Amar's bargain. When the other families marched their firstborn to the northern peaks as sacrifice, House Viridane refused and fled south through the Frostwood Reach, making a counter-bargain with fae entities in the moonlit groves. Their bodies now grow fine briar thorns where other races grow hair, a permanent physical inheritance of the old contract. The seven families spent centuries erasing every record of Viridane's existence, and the Briaran have been hiding ever since, split between the Unshorn who remain in the deep groves and the Smooth-Skinned who shave their thorns and pass as human in the wider world. Their thorns migrate slowly across their bodies over a lifetime, drifting toward the site of the oldest unfulfilled promise their bloodline carries, a physical archive of unfinished business stretching back eight centuries.`
             },
             {
-              title: 'The Corvani (Nordhalla Subfolk)',
+              title: 'The Corvani (GM-only creature race)',
               content: `A rare subfolk of Nordhalla, the Corvani are raven-marked glacier-dwellers who carve their eyries into the sheer faces of the mile-high ice sheets. When House Skalvyr halted the glaciers at the price of eternal winter, a splinter group of highland survivors refused to descend into the fjord-keeps. They climbed higher, into the glacier-spires, and struck a fate-bond with the ancient Corvid Fate-Spirits — trading physical connection for absolute memory and destiny-sight. The Corvani serve as messengers between the isolated fjord-keeps, navigating whiteout and glacier-crevasse with preternatural skill. Their price is always a memory, freely given — recorded in the shifting raven-markings that crawl across their skin. They are not a playable race, but their fate-sight and glacier-navigation make them invaluable NPC allies in any Nordhalla campaign.`
             }
           ]
@@ -734,7 +734,7 @@ In port cities from Sundale to the Frostwood Reach, the Myrathil occupy a strang
         useCustomComponent: true,
         summary: [
           '14 named present-day NPCs (2 per region) complete with goals, secrets, and regional conflicts.',
-          '21 street-level contacts (3 per region) that level 1-5 characters will actually interact with.',
+'21 street-level contacts (3 per region) that level 1-5 characters will actually interact with.',
           'Provides GMs with active, living actors at every level of the world, from grand exemplars to tavern keepers.'
         ],
         content: {
@@ -743,70 +743,70 @@ In port cities from Sundale to the Frostwood Reach, the Myrathil occupy a strang
           sections: [
             {
               title: 'Frostwood Reach (Greymark Keep)',
-              content: `- **Sentinel-Commander Vaelen Greymark:** The iron-willed warden of Greymark Keep. **Goal:** To find a pure, uncorrupted child of Briaran descent to sit on the Greymark Throne to satisfy an ancient lineage pact. **Secret:** He has begun showing the early signs of the memory-fog (forgetting the names of his captains) and has executed two archivists who documented his lapses. **Conflict:** Locked in bitter, covert opposition with Sister Vraka of the Unwoven.\n\n- **Sylvain of the Unwoven:** A soft-spoken Briaran rebel lead who smuggles fae-hush into Greymark's barracks. **Goal:** To provoke a total war between Greymark and the Briaran to break the memory-tithe of the Heart-Oak. **Secret:** His wooden arm contains the living soul of a dead Greymark prince, bound by green-graft fae-sorcery. **Conflict:** Secretly feeding information to Jarl Eirik of Nordhalla to redirect northern raids.`
+              content: `- **Sentinel-Commander Vaelen Greymark:** A battle-scarred veteran whose heavy steel plate armor is etched with glowing protective runes. He has served as the military shield of Greymark Keep for over thirty winters, commanding the Scribe-Sentinels with absolute discipline. In a forest where the mists steal a man's past, Vaelen rules by the strict letters of the Sovereign Ledger, believing that only written contracts, guardposts, and absolute martial order can preserve what remains of human society in the Reach.\n\n**Goal:** He is obsessed with locating a child of pure Briaran descent who remains untouched by the shifting mists. He needs this child to fulfill the ancient blood-compact of the High Hearth, securing the spatial clarity of the Keep for another century before the warding mist collapses entirely.\n\n**Secret:** The memory-fog has already begun eating his mind. He has forgotten the names of his children and the layout of the lower keeps, relying on hidden journals. He recently ordered the secret execution of two senior archivists who documented his mental lapses in the Keep's archives.\n\n**Conflict:** Locked in a shadow-war with Sylvain of the Unwoven, whose memory-smuggling directly undermines the Scribe-Cartel's tax monopoly. He is preparing a massive purge of the frontier settlements to smoke him out.\n\n- **Sylvain of the Unwoven:** A quiet, soft-spoken Mimir who refuses to wear the traditional stone-masks of his kin. He lives in the damp wilderness of the Shallows, tending to the undocumented outcasts. Draped in moss-woven cloaks, he moves like a shadow through the ironwoods, smuggling alchemical fae-hush to ease the memory-loss of the poor who cannot afford the Scribe-Cartel's ledger fees.\n\n**Goal:** To spark a total, unyielding rebellion of the outland trappers and Mimir against the keeps of House Thalreth, ultimately burning the Sovereign Ledger to break the soul-binding memory-tithe of the petrified Heart-Oak.\n\n**Secret:** His prosthetic arm is a graft of living greenwood taken from the Heart-Oak itself. It is bound by forbidden animist sorcery and contains the crying soul of Lord Aldren's deceased firstborn prince, whispering forgotten histories into Sylvain's mind.\n\n**Conflict:** Feeding movement schedules and keep codes to Jarl Eirik of Nordhalla, hoping a massive northern raid will shatter the Keep's defenses, while trying to evade Sentinel-Commander Vaelen's tightening patrols.`
             },
             {
               title: 'Nordhalla (The Frozen Archive)',
-              content: `- **High-Oracle Skari:** The blind Skald record-keeper of the Frozen Archive. **Goal:** To rewrite the tragic history of the Milk-Grief by carving a massive, global memory-rune on the face of the Frostwood Monolith. **Secret:** He whispered the locations of the fjord-keeps to the Skreika, sacrificing them to buy time for his runic excavation. **Conflict:** Opposed by the elders of House Skalvyr, who view the excavation as blasphemous grave-robbing.\n\n- **Jarl Eirik Skalvyr:** The towering, mammoth-fur-clad human leader of the fjord-keeps. **Goal:** To unify the fragmented human clans of the north under the orthodox banner of the Sol-Vigil. **Secret:** He is not a pureborn Skald human; he carries an ancient blood-mutation from the Hunger Winter, his veins running colder than any living Skald. **Conflict:** Clashes continuously with the Archive wardens over ownership of the geothermal pipes.`
+              content: `- **High-Oracle Skari:** The blind, skeletal Skald human who has spent fifty years in the deep ice-chambers of the Frozen Archive. His eyes were voluntarily put out and filled with liquid silver so he could "read the ice-veins" of Nordhalla. He is wrapped in mammoth-skins that are frozen stiff, and his voice carries the hollow resonance of glacier caves.\n\n**Goal:** To rewrite the tragic lineage of the birth-cold (the "Frost-Tithe") by carving a massive, global memory-rune on the face of the Nordhalla Monolith, a desperate act he believes will warm the cradle of the north.\n\n**Secret:** He secretly traded the coordinates of the outland fjord-keeps to the Icechamber Syndicate, intentionally sacrificing his own kin to purchase runic excavation tools.\n\n**Conflict:** Bitterly opposed by the high-clan elders who believe that thawing any part of the glaciers will break the original Warden bargain and trigger a catastrophic collapse of the ice sheets.\n\n- **Jarl Eirik Skalvyr:** The towering, mammoth-fur-clad leader of the outland fjord-keeps who challenges Halvar's high authority. He governs the outland fjord-keeps, surviving the brutal winters through constant raiding. He commands the nomadic Fredløse clans by force of personality, brandishing a massive frost-axe carved from ancient glacier ice.\n\n**Goal:** To break the trade monopoly of the Icechamber Syndicate, seize control of the geothermal pipelines supplying Ymirhold, and unify the northern clans under a single, military banner.\n\n**Secret:** He carries the mutant blue-skin lineage of the Hunger Winter. His blood runs cold as ice, making him completely immune to frostbite but marking him as a mutant outcast to the pureborn Skald nobility who seek to purge his line.\n\n**Conflict:** Clashes continuously with the Archive's high-wardens and Guild-Master Keth over ownership of the geothermal pipes, fighting off alchemical troops sent to choke the outlands' heating vents.`
             },
             {
               title: 'Sundale (The Ash-City of Korr)',
-              content: `- **Arch-Sun Speaker Kaelen:** The dogmatic leader of the orthodox Sol-Vigil in the city of Korr. **Goal:** To sacrifice a thousand Neth contract-slaves to feed the failing embers of the Solbrand. **Secret:** He no longer hears the voice of Sol; the whispers he receives come from Keth-Amar, commanding him to crack the Sundale seal wider. **Conflict:** Locked in a theological schism with the Church of the Golden Horizon.\n\n- **Mara of the Badlands:** A cynical human ranger who patrols the border of the volcanic vents. **Goal:** To smuggle cooling basalt ore out of the Fexric mines to arm the underground rebellion in Korr. **Secret:** She carries a dormant Wyrd-parasite in her chest that flares with solar heat whenever she draws near the Solbrand. **Conflict:** Actively hunted by the alchemical wardens of Frostmaw Holdfast.`
+              content: `- **Arch-Sun Speaker Kaelen:** The dogmatic, golden-robed high priest who rules the martial-theocracy of Sundale from the ash-palace of Korr. He stands before the caldera, preaching that only absolute obedience to the Dawn Vigil and sacrificial devotion can rekindle the entombed sun-god.\n\n**Goal:** To conscript a thousand Neth contract-debtors into the Martyr Brigades to dig sulfur from active volcanic rifts, aiming to sacrifice their blood to feed the failing embers of the Solbrand.\n\n**Secret:** He no longer hears the voice of Sol; the whispers he receives in the inner Harath-Chamber come from Keth-Amar, commanding him to break the volcanic seal.\n\n**Conflict:** Locked in a bitter theological schism with the traditionalists who advocate quietist meditation and the Vault-Breath.\n\n- **Mara of the Badlands (The Shyr-Runner Archetype):** A cynical, ash-streaked ranger who has spent her life in the scorched basalt canyons of Sundale. Draped in alchemical leather, she moves through the cinder hoods with silent grace, guiding refugees past the Obsidian Citadels.\n\n**Goal:** To smuggle refined volcanic ore and geothermal coal out of the Fexric mines to arm the underground rebellion against the Dawn Vigil's theocratic rule in Korr.\n\n**Secret:** A glowing Wyrd-parasite is nestled in her chest, feeding on her blood. It flares with intense, burning heat whenever she gets close to the volcanic Monolith shards, acting as a painful compass.\n\n**Conflict:** Actively hunted by Hierophant Aethelgard's Martyr patrols, who have placed a massive bounty of five hundred gold-weight on her head.`
             },
             {
               title: 'Iceheart Sea (Merrowport)',
-              content: `- **Captain Mereval:** A legendary Merrowport pirate captain whose skin is entirely cross-hatched with shining ink-contracts. **Goal:** To locate the legendary Oceanic Rift Monolith and sell its location to the highest bidder in the Synod. **Secret:** He has already sold his soul's final hour to the Keeper of the Last Threshold, and the contract is set to expire at midnight of the next Silt-Tide. **Conflict:** Hunted by Synod-Broker Lyra's privateers.\n\n- **Synod-Broker Lyra:** A silver-skinned Neth elite who controls the shipping lanes and hush-licensing of the Iceheart Sea. **Goal:** To establish a permanent Neth trade embassy in Korr, cementing their control over geothermal energy distribution. **Secret:** She is the primary financier of the false prophet heresy, using the cult to destabilize human leadership in the south. **Conflict:** Locked in a legal battle with the Cragjaw merchant guilds over toll-rights.`
+              content: `- **Captain Mereval:** A weather-beaten, silver-eyed pirate captain whose skin is entirely cross-hatched with glowing, silver ink-contracts. He commands the ironclad *Storm-Cutter*, sailing the ice-choked channels of the Iceheart Sea with ruthless efficiency, answering to no lord or Board of Trade.\n\n**Goal:** To locate the legendary Oceanic Rift Monolith, which is rumored to control the ocean currents, and sell its coordinates to the highest bidder in the Synod.\n\n**Secret:** He has already mortgaged his soul's final hour to the Keeper of the Last Threshold in exchange for his ship's immunity to the Wyrd-storms, and the debt is set to collect at the next Silt-Tide.\n\n**Conflict:** Constantly evading the patrol ironclads of Synod-Broker Lyra, who has declared his ship a rogue vessel and issued a global press-warrant for his crew.\n\n- **Synod-Broker Lyra:** An elegant, silver-skinned Neth merchant noble whose body is adorned with crystalline markings that pulse with magical energy. She rules the trade ports of the Iceheart Sea, enforcing the Board of Trade's Sea-Charter and collecting taxes on every drop of oil and grain that passes through the ports.\n\n**Goal:** To establish a permanent Neth trade embassy in the ash-city of Korr, securing a total monopoly over the distribution of southern geothermal warmth and cold-iron smelting.\n\n**Secret:** She is the secret financier behind the false prophet heresy, using the cult's anti-noble doctrines to destabilize human leadership in the southern cities.\n\n**Conflict:** Locked in a legal and mercenary war with the Fexric merchant guilds of Cragjaw Peaks, who refuse to pay her maritime transit tolls.`
             },
             {
               title: 'Cragjaw Peaks (Frostmaw Holdfast)',
-              content: `- **Guild-Master Fexric Keth:** The chief engineer of the geothermal pipeline network in Frostmaw Holdfast. **Goal:** To shut down the pipelines supplying heat to Jarl Eirik's fjord-keeps, forcing them to cede ancestral lands. **Secret:** His mechanical eye-graft is actually a dormant piece of the Cragjaw Monolith that records everything he sees for Keth-Amar. **Conflict:** Targets the bridge-scales of the Ancestor-Spans, whom he views as escaped property.\n\n- **Toll-Leader Ithra Groven:** A massive, smooth-scaled Groven diplomat who guards the Ancestor-Spans. **Goal:** To gain sovereign recognition for the Groven nation from the Astril Synod. **Secret:** She is secretly funding the Restorer raids, providing the Morgh warriors with Fexric security codes. **Conflict:** Clashes with Guild-Master Keth over transit tolls and the smuggling of alchemical components.`
+              content: `- **Guild-Master Fexric Keth:** A brilliant, clockwork-augmented Fexric dwarf engineer who oversees the massive geothermal pipeline network of Frostmaw Holdfast. He is cold, analytical, and views the natural world as a machine that must be optimized and regulated.\n\n**Goal:** To shut off the heat supply to the outland keeps of Nordhalla, freezing out the Skald rebels and forcing them to cede their mineral-rich territories.\n\n**Secret:** His mechanical eye-graft is actually an active fragment of the Cragjaw Monolith. It records everything he witnesses, transmitting his visual memory directly to Keth-Amar's slumbering consciousness.\n\n**Conflict:** Targets the bridge-scales of the Ancestor-Spans, whom he views as alchemical property that escaped the holdfast's breeding vats.\n\n- **Toll-Leader Ithra Groven:** A massive, smooth-scaled Groven diplomat who stands guard over the Ancestor-Spans. Her skin is calcifying into pale stone-plates, a heritage of the alchemical experiments that created her race. She is a voice of reason in a mountain range dominated by alchemical greed.\n\n**Goal:** To secure official sovereign recognition for the Groven nation from the Astril Synod, freeing her people from Fexric servitude.\n\n**Secret:** She is secretly funding the Restorer rebel raids, providing the outlaw warriors with Fexric pipeline security codes and alchemical components.\n\n**Conflict:** Clashing with Guild-Master Keth over transit tolls and the smuggling of alchemical components.`
             },
             {
               title: 'Sundrift Vale (Synod-Hold)',
-              content: `- **Khan Orda of the Mound-Camps:** A fierce, nomadic human leader who guides his horse-clans through the ash-storms. **Goal:** To locate the mythical Mound Monolith and harness its gravity-warping properties to lift his people's camps above the freezing Silt-Tide. **Secret:** He has made a private blood-contract with Jarl Eirik, promising to betray the Astril Synod in exchange for mammoth-furs and steel weapons. **Conflict:** Waging a low-intensity guerilla war against the Astril outposts.\n\n- **Grand Exemplar Vaelen:** The silent, crystalline leader of the Astril Synod. **Goal:** To guide the Astril through a ritual ascension that will shed their mortal vessels and return them to the constellation courts. **Secret:** The ascension ritual requires the total collapse of the Sundrift Monolith, which would vaporize the surrounding human settlements. **Conflict:** Pursuing and assassinating Astril heretics who refuse the star-bound ascension.`
+              content: `- **Khan Orda of the Mound-Camps:** A fierce, horse-riding human leader who guides the nomadic Ordan clans through the gravity-warping storms of the Sundrift Vale. He is covered in dust and scars, speaking in the low throat-singing tones of his ancestors.\n\n**Goal:** To locate the mythical Mound Monolith and harness its gravity-warping properties to lift his people's camps above the freezing Silt-Tide.\n\n**Secret:** He has made a private blood-contract with Jarl Eirik, promising to betray the Astril Synod in exchange for mammoth-furs and steel weapons.\n\n**Conflict:** Waging a low-intensity guerilla war against the Astril outposts, attempting to hijack their crystal supply lines.\n\n- **Grand Exemplar Vaelen:** The silent, crystalline leader of the Astril Synod. He is tall and slender, his body composed of semi-translucent star-glass that reflects the light of the constellation courts.\n\n**Goal:** To guide the Astril through a ritual ascension that will shed their mortal vessels and return them to the constellation courts.\n\n**Secret:** The ascension ritual requires the total collapse of the Sundrift Monolith, which would vaporize the surrounding human settlements.\n\n**Conflict:** Pursuing and assassinating Astril heretics who refuse the star-bound ascension, and directing Synod troops to fortify the valley borders.`
             },
             {
               title: 'Bryngloom Forest (The Sunken Spire)',
-              content: `- **Sister Vraka:** A Marked Vreken rebel who has turned her back on the Sunken Spire. **Goal:** To liberate the Vreken peat-cutters from their ancestral contracts with the Neth. **Secret:** Her lantern-eyes glow red rather than amber; she has accepted the Wyrd's gift of Somatic Echoes to gain the power to fight the Neth pact-mages. **Conflict:** Leads targeted raids against Matriarch Isara's scriptoriums.\n\n- **Matriarch Isara:** The ruler of the Sunken Spire's Clean Vreken. **Goal:** To maintain the absolute purity of the Vreken bloodlines and the sacred sanctity of their contracts with the Keeper of the Last Threshold. **Secret:** She has signed a secret treaty with Sister Vraka, supplying the rebels with alchemical weapons to eliminate rival Neth nobles. **Conflict:** Trying to prevent Sister Vraka's red-glowing corruption from spreading to the younger Vreken castes.`
+              content: `- **Sister Vraka:** A Marked Vreken rebel who has turned her back on the Sunken Spire. She wears tattered dark robes, her face hidden behind a cowl, and wields a rusted peat-sickle.\n\n**Goal:** To liberate the Vreken peat-cutters from their ancestral contracts with the Neth.\n\n**Secret:** Her lantern-eyes glow red rather than amber; she has accepted the Wyrd's gift of Somatic Echoes to gain the power to fight the Neth pact-mages.\n\n**Conflict:** Leads targeted raids against Matriarch Isara's scriptoriums, looting records to burn them.\n\n- **Matriarch Isara:** The ruler of the Sunken Spire's Clean Vreken. She is elegant and poised, her robes embroidered with silver threads, and sits upon a throne of woven petrified wood.\n\n**Goal:** To maintain the absolute purity of the Vreken bloodlines and the sacred sanctity of their contracts with the Keeper of the Last Threshold.\n\n**Secret:** She has signed a secret treaty with Sister Vraka, supplying the Vreken rebels with alchemical weapons to eliminate rival Neth noble factions.\n\n**Conflict:** Trying to prevent Sister Vraka's red-glowing corruption from spreading to the younger Vreken castes, while navigating the Neth court politics.`
             },
             {
               title: 'Street-Level Contacts',
               content: `These are the people your characters will actually meet in the first few sessions. They are not grand exemplars or guild masters. They are tavern keepers, merchants, and local figures who have their own problems and can offer work, information, or trouble.
 
 **Frostwood Reach:**
-- **Marta of the Ink & Ember:** Owner of Greymark's most popular tavern. Knows everyone's business. Sells information for the price of a drink. Her journal is the most complete record of the city's comings and goings.
-- **Pike the Ledger-Man:** A Thalren archivist who works the night shift in the Ledger Halls. He is deeply in debt to the Unwoven Mimir and will look the other way for the right price.
-- **Renn:** A young Unwoven Mimir who runs a stall in the Shallows selling bottled memories of questionable origin. He knows the black market better than anyone his age.
+- **Marta of the Ink & Ember:** A sharp-tongued, ink-stained tavern keeper who runs Greymark's busiest hearth. She is secretly an informant for the Scribe-Cartel, recording conversations in her ledger, but she will sell copies of her journals to rebels for a pouch of cold-iron coin.
+- **Pike the Ledger-Man:** A nervous Thalren archivist who works the midnight shifts in the Sovereign Ledger Vaults. He is secretly addicted to Mimir fae-hush to keep his own painful family memories from being legally erased, making him highly susceptible to bribery.
+- **Renn:** A young, maskless Mimir street-rat who runs a stall in the Shallows. He specializes in selling bottled "discarded memories" stolen from the Scribe-Cartel's disposal bins, acting as a key contact for locating lost relatives.
 
 **Nordhalla:**
-- **Bryn the Stoker:** A Bloodhammer veteran who tends the heating pipes in the lower sumps. He knows every tunnel in the Frozen Archive and will guide adventurers for a bottle of frost-mead.
-- **Old Kira:** A Frostbound herbalist who lives in the Gelid-Caverns. She brews remedies for the Milk-Grief and knows which runes are safe to touch.
-- **Haldor Spit-Chit:** A Skald human merchant who trades in copper chits and geothermal coal-receipts. He has a network of informants along the fjord-keeps.
+- **Bryn the Stoker:** A battle-scarred Bloodhammer dwarf veteran who tends the massive coal boilers heating Ymirhold. He knows every steam vent and secret maintenance pipe, and is willing to guide fugitives past High-King Halvar's guards.
+- **Old Kira:** A blind Frostbound shaman who gathers glacier lichen in the cavernous rifts. She brews remedies for the Hunger Winter blue-skin mutation and knows which carved runic columns are safe to touch without triggering glacier ward-bursts.
+- **Haldor Spit-Chit:** A greedy Skald human trader who deals in copper chits and forged heat-tickets. He has an extensive network of sled-dogs and informants along the fjord-keeps, serving as a master smuggler of contraband food.
 
 **Sundale:**
-- **Tarn the Ash-Walker:** A Thrask ranger who patrols the Shyr trade route. He knows every basalt shift and Husque-rift along the road. He charges a toll in blood-ore but will waive it for useful information.
-- **Sister Vess:** A Korr Sun-Speaker who has begun to doubt the Solbrand's silence. She secretly meets with Sunderer heretics and can provide access to the inner rings of the Harath-Vault.
-- **Dusk:** An Unwoven Emberth who has defaced her forge-marks. She scours the wastes for Sundered Monoliths and will hire adventurers as muscle for her expeditions.
+- **Tarn the Ash-Walker:** A scarred Thrask ranger who patrols the sulfurous borders of the volcanic valleys. He wears heavy respirators to survive the soot storms and charges travelers a hefty fee in blood-ore, but he will waive it if they carry messages to the Emberth rebels.
+- **Sister Vess:** A sun-priestess of Korr who has grown disillusioned by Speaker Kaelen's demand for human sacrifices. She secretly guides Neth debt-slaves into the underground vaults, seeking ancient texts to prove the Solbrand's silence is artificial.
+- **Dusk:** An Emberth forge-tender who was cast out of the citadels for defacing her holy sun-brands. She hunts for fragments of the shattered Sundered Monoliths in the badlands, seeking bodyguards for dangerous retrieval runs.
 
 **Iceheart Sea:**
-- **Captain Jax:** A Merryn pirate whose skin is covered in ink-contracts. He runs a floating tavern in Merrowport and always needs crew for dangerous voyages.
-- **The Brine-Ferryman:** A Myrathil Deep-Born who offers passage across the ice-choked channels. His price is always something you do not understand until you have paid it.
-- **Nessa of the Docks:** A human smuggler who moves goods between Merrowport and Ironjaw Port. She knows every captain, every contract, and every secret in the Iceheart.
+- **Captain Jax:** A jolly but untrustworthy Merryn pirate with glowing skin-markings. He operates a floating tavern on a salvaged ironclad deck in Merrowport, constantly recruiting muscle for daring smuggling runs through the Synod's trade blockades.
+- **The Brine-Ferryman:** A quiet Deep-Born ferryman whose wooden skiff is bound with glowing sea-charter runes. He offers passage across the freezing, ice-choked channels of the bay, but his fee is always a drop of the passenger's blood or a secret they have never told anyone.
+- **Nessa of the Docks:** A human dock-master who is secretly the primary fence for Captain Mereval's smuggled goods. She controls the cargo schedules of the shipping lanes and can forge harbor entry permits for a price.
 
 **Cragjaw Peaks:**
-- **Murm the Bridge-Tender:** A Murmur-Blooded Groven who maintains a critical span. He trusts no one fully but will share news of the mountain for a fair trade.
-- **Drall Kess:** A Clan-Free Fexric scrap-dealer who operates a stall in the lower sumps. She sells salvaged gear-work and knows which tunnels are safe.
-- **Wind-Singer Cora:** A Corvani subfolk messenger who dwells in the glacier-spires of Nordhalla. She can carry messages across the frozen wastes in three days. Her price is always a memory.
+- **Murm the Bridge-Tender:** A calcified Groven bridge-warden whose stone-like skin makes it difficult for him to speak. He guards the Ancestor-Span bridges and will only grant passage to travelers who can solve the ancient riddles carved into the calcified bones of his ancestors.
+- **Drall Kess:** A Fexric dwarf outland scrap-dealer who salvages clockwork parts from abandoned pipeline junctions. She possesses detailed schematics of Guild-Master Keth's private workshops and will trade them for rare alchemical compounds.
+- **Wind-Singer Cora:** A Corvani (GM-only creature race) messenger who lives in the highest spires of the peaks. She uses her trained falcons and wind-gliders to carry messages across the freezing mountain passes, charging a high price in personal memories.
 
 **Sundrift Vale:**
-- **Kumiss-Maker Dol:** An Ordan human who brews fermented mare's milk at the Mound-Camps. He knows every clan's movements and will share information for a good story.
-- **The Unlit Guide:** An Astril born without star-glow. He navigates the starless steppe by memory and will guide caravans for a price. No one trusts him, but everyone needs him.
-- **Mound-Watcher Tesa:** An Ordan elder who tends the ancestor-mounds. She knows the throat-sung histories and can interpret the mounds' hums for those who know how to listen.
+- **Kumiss-Maker Dol:** An Ordan elder who brews fermented mare's milk in the nomadic Mound-Camps. He remembers the movements of the horse-clans for the past forty years and can point travelers toward the shifting, gravity-warped paths of the steppe.
+- **The Unlit Guide:** A star-less Astril guide who was born without the typical celestial glow. Because he is blind to star-light, he has developed a perfect memory of the physical landmarks of the steppe, guiding caravans through the shifting silt-tides.
+- **Mound-Watcher Tesa:** An elderly Ordan shaman who tends the ancient burial mounds. She can interpret the low, resonant humming of the valley's Monoliths, translating their warnings of impending gravity storms.
 
 **Bryngloom Forest:**
-- **Peat-Cutter Jor:** A Clean Vreken who harvests bog-peat for the Neth. He knows every safe path through the sinking bogs and which pools have no bottom.
-- **The Hush-Dealer:** A Marked Vreken who sells Ghost-Mycelium spores in the Over-Shanties. He is addicted to his own supply and will trade information for more hush.
-- **Contract-Scribe Vell:** A Velun Neth who drafts agreements in Atropolis. He cannot lie, but he can find loopholes. He will review any contract for a fee.`
+- **Peat-Cutter Jor:** A weary Vreken peat-cutter who works the deep bogs of the Sunken Spire. He knows which pools are bottomless and which paths are safe from Neth pact-mages, helping Sister Vraka's rebels hide in the damp moss.
+- **The Hush-Dealer:** A corrupted Vreken who deals in ghost-mycelium spores in the forest shanties. He uses the spores to block out the telepathic echoes of the forest, selling them to desperate refugees who want to hide from the Neth mind-searches.
+- **Contract-Scribe Vell:** A cynical Neth lawyer who drafts agreements in the city of Atropolis. He is bound by Neth honor to draft only legal contracts, but he is a master at finding loopholes that allow Vreken debtors to escape their peat-bonds.`
             }
           ]
         }
@@ -881,13 +881,13 @@ Jarl Eirik Skalvyr and the Archive wardens are fighting over ownership of the ge
 
 **Consequence:** The geothermal pipes power the Frozen Archive's heating. If they shut down, the Archive freezes. Ancient machines stop. Knowledge is lost. This directly impacts the cosmic conflict, the Archive contains records about Keth-Amar's weaknesses.
 
-**Thread 2: The Milk-Grief Cure**
-High-Oracle Skari is trying to rewrite the history of the Milk-Grief. Players can:
+**Thread 2: The Frost-Tithe Cure**
+High-Oracle Skari is trying to rewrite the history of the Frost-Tithe. Players can:
 - **Help his research**: Gather rare ingredients, protect him from enemies, translate ancient texts. Reward: He shares prophecies about the Sundered Monoliths.
 - **Stop his excavation**: The elders of House Skalvyr view it as blasphemous. Reward: The elders grant political favors.
-- **Discover the truth**: The Milk-Grief is not a curse. It is a **symptom** of the Sundered Monolith's resonance. Cure the Monolith's influence, and the Milk-Grief ends.
+- **Discover the truth**: The Frost-Tithe is not a curse. It is a **symptom** of the Sundered Monolith's resonance. Cure the Monolith's influence, and the Frost-Tithe ends.
 
-**Consequence:** If players cure the Milk-Grief, the Frostbound (blue-skinned outcasts) are no longer born. The Frostbound culture disappears. Players must decide: is ending a disease worth erasing a culture?
+**Consequence:** If players cure the Frost-Tithe, the Frostbound (blue-skinned outcasts) are no longer born. The Frostbound culture disappears. Players must decide: is ending a disease worth erasing a culture?
 
 **Thread 3: The Skreika Siege**
 The Skreika (blue-fleshed drowned warriors) are besieging the fjord-keeps in unprecedented numbers. Players can:
@@ -1087,7 +1087,7 @@ The Cycle-Eater (Wyrd-creature that consumes reincarnation) is growing stronger.
 
 2. **Regional Crises**: When players ignore a problem, it worsens. Example: If players ignore the hush epidemic in Bryngloom, it spreads. More Marked Vreken become addicted. The Clean Vreken become more oppressive. The Inquisitors become more aggressive.
 
-3. **NPC Trajectories**: NPCs have goals. Players can help them achieve those goals, thwart them, or redirect them. Example: If players help High-Oracle Skari in Nordhalla, he completes his excavation. The Milk-Grief's history is rewritten. The Frostbound gain respect. If players stop him, he becomes an enemy. The elders of House Skalvyr gain influence.
+3. **NPC Trajectories**: NPCs have goals. Players can help them achieve those goals, thwart them, or redirect them. Example: If players help High-Oracle Skari in Nordhalla, he completes his excavation. The Frost-Tithe's history is rewritten. The Frostbound gain respect. If players stop him, he becomes an enemy. The elders of House Skalvyr gain influence.
 
 4. **World Changes**: Major player actions permanently change the world. Example: If players destroy the Solbrand in Sundale, Sol dies forever. The Emberth lose their purpose. The region becomes a wasteland. This is a **permanent change**: it cannot be undone.
 
@@ -1141,7 +1141,7 @@ The local village elder, **Marra of the Nine**, offers a simple bounty: recover 
               title: 'Street-Level NPCs',
               content: `- **Marra of the Nine:** The cynical human village elder, her hands heavily scarred from frostbite, desperate to save her grandchildren from the creeping cold.
 - **Jad the Stoker:** A retired Ithran Groven smith who tends the outpost's central heater-forge, coughing soot and warning that the furnace is on its last coal-shavings.
-- **Orl the Scout:** A young Corvani subfolk messenger from Nordhalla\'s glacier-spires who saw the sledge\'s tracks veer off the trail into the **Whispering Silt-Bed** before the mist closed in. He is too terrified of the local Wyrd-whispers to go alone but will provide directions.`
+- **Orl the Scout:** A young Corvani (GM-only creature race) messenger from Nordhalla\'s glacier-spires who saw the sledge\'s tracks veer off the trail into the **Whispering Silt-Bed** before the mist closed in. He is too terrified of the local Wyrd-whispers to go alone but will provide directions.`
             },
             {
               title: 'The Encounter & Stakes',
@@ -1207,7 +1207,7 @@ The local village elder, **Marra of the Nine**, offers a simple bounty: recover 
             },
             {
               title: 'Rite of the Cold Hearth [Pronunciation: RITE of the COLD HARTH]',
-              content: '**Noun.** The forbidden ritual performed by the legendary Skald warlock Karr Bloodhammer in the prehistoric chambers of the <LoreLink termId="frozen_archive">Frozen Archive</LoreLink>. It binds the caster\'s soul to a basalt phylactery, granting undeath. Used to combat the Milk-Grief that claimed so many Skald mothers and children.'
+              content: '**Noun.** The forbidden ritual performed by the legendary Skald warlock Karr Bloodhammer in the prehistoric chambers of the <LoreLink termId="frozen_archive">Frozen Archive</LoreLink>. It binds the caster\'s soul to a basalt phylactery, granting undeath. Used to combat the Frost-Tithe that claimed so many Skald mothers and children.'
             },
             {
               title: 'Scathrach, the Ashen Sovereign [Pronunciation: SKATH-rak, the ASH-en SOV-rin]',
@@ -1526,8 +1526,8 @@ This quest introduces you to the core themes of Mythrill: memory, identity, and 
               content: `The wizard has been streamlined into five focused steps, every choice matters, no screens are filler.\n\n**Step 1: Hero Draft**: Lay the foundations of your hero. Name them, choose your **Race & Subrace** (11 ancestral peoples, each with 2-3 unique subraces), pick your **Class** from 20 distinct callings, and allocate your **Ability Scores** using a tactile point-buy system. Spellcasters select their starting spells here. See [Races & Variants](character-creation/races), [Classes](character-creation/classes), and [Character Statistics](core-rules/character-statistics).\n\n**Step 2: Skills & Languages**: Choose your trained skill proficiencies, tool masteries, and spoken dialects. Skills advance through gameplay quests. See [Skills](character-creation/skills).\n\n**Step 3: Starting Equipment**: Purchase your initial weapons, armor, and traveling rations with your starting copper. See [Weapons](equipment-system/weapons) and [Armor](equipment-system/armor).\n\n**Step 4: Lore & Details**: Write your backstory, personality traits, ideals, bonds, and flaws. Select your **Background** here, 15 pre-adventuring origins (Sailor, Merchant, Soldier, etc.) that grant passive benefits and unique features. Upload a portrait for your token. See [Backgrounds](character-creation/character-backgrounds).\n\n**Step 5: Summary & Finalize**: Review your full character sheet, make any final adjustments, and confirm. Your character is now live and ready for the table.`
             },
             {
-              title: 'Complete Creative Freedom',
-              content: `Your Race, Class, and Background are **entirely independent choices**. There are no restrictions. You can build:\n\n- A noble **Soldier** background with an **Animist** class.\n- A street-smart **Urchin** background with a **Chronarch** class.\n- A wandering **Sailor** background with a **Gambit** class.\n\nEvery combination is viable. Every combination tells a unique story.`
+              title: 'Race, Class & Background Restrictions',
+              content: `Your Race, Class, and Background choices are guided by the world's lore. The system enforces three tiers of restriction:\n\n**Hard Block**: Certain race/subrace and class combinations are fundamentally incompatible due to biology, spirituality, or cultural history. These cannot be selected.\n\n**Subrace Gate**: Each class lists the subraces that canonically practice it. Subraces outside this list require DM approval through the Narrative Unlock system.\n\n**Narrative Unlock**: If your subrace is not on a class's allowed list but is not hard-blocked, you may still choose it with a compelling backstory approved by your DM. The character creation wizard will flag these choices with a warning and the lore justification.\n\nBackgrounds are similarly gated by region and lineage. A Sundrift Vale nomad background is not available to a character raised in Bryngloom without narrative justification.\n\nThese restrictions exist to preserve world identity — every class originated in a specific culture, and that origin matters.`
             },
             {
               title: 'New Player Archetype Recommendations',
@@ -2089,8 +2089,8 @@ Under this rule, a player who rolled a 3-6 can immediately choose to push their 
               content: `In Mythrill, your past does not dictate your combat capabilities. Backgrounds and classes exist as independent choices. Your background represents the social scars, trained trades, and early life of your hero, granting passive benefits and unique utility. Your class, conversely, governs your tactical role, combat maneuvers, and class-specific resource systems. This means you are completely free to build a high-society Noble Berserker, a street-smart urchin Spellguard, or a battle-scarred Soldier Chronarch. Every combination is viable, encouraging rich storytelling.`
             },
             {
-              title: 'Sovereign Combinatorial Freedom',
-              content: `The beauty of the Mythrill system lies in its limitless custom combinations. By separating race, class, and background, you can combine elements to create completely unique characters, such as a Revenant with an Urchin background, a Warden (Monolith) with a Soldier background, or a Toxicologist with a Scholar background. These combinations are designed to feel distinct and provide exciting tactical and roleplaying opportunities at the table.`
+              title: 'Combinatorial Character Building',
+              content: `The Mythrill system separates race, class, and background into distinct axes. Subject to lore-based restrictions (Hard Block, Subrace Gate, and Narrative Unlock tiers), you can combine elements to create unique characters — such as a Revenant with an Urchin background, a Warden (Monolith) with a Soldier background, or a Toxicologist with a Scholar background. Non-standard combinations require DM backstory approval through the Narrative Unlock system.`
             }
           ]
         }
@@ -2167,7 +2167,7 @@ Under this rule, a player who rolled a 3-6 can immediately choose to push their 
           sections: [
             {
               title: 'Language Categories',
-              content: `Language is power in Mythrill, the difference between an ally and an enemy, between deciphering a ruin's warning and triggering its trap. Languages are organised into six categories:\n\n- **Standard**: Common tongues spoken across the seven regions: Common, Deep-Thrum, Synod-Speak, Thrumm-Speech, Gear-Cant, Scrap-Tongue, and Mound-Tongue.\n- **Exotic**: The languages of powerful or alien beings: Wyrm-Script, Celestial, Abyssal, Root-Veil, Infernal, Primordial, Sylvan, and Shanty-Patois. Rare to learn, invaluable to know.\n- **Ancestral**: Heritage tongues of Mythrill's races: Old Nord, Corvid-Speech, Terran, Ethereal, Changeling, Druidic, Ignan, Beast Speech, Necril, War-Cant, Gloom-Tongue, Vale-Speak, Sundari, and Fexric.\n- **Elemental**: The speech of primal forces: Elemental, Primal, Auran, Aquan. Spoken by elementals, worshipped by cults.\n- **Secret**: Guarded dialects like Thieves' Cant, Hex-Speech, and Trickster's Cant. These cannot simply be studied, they require initiation, membership, or a sworn oath.\n- **Special**: Universal languages like Sign Language and comprehensive scholarly knowledge of All Ancient Languages.`
+              content: `Language is power in Mythrill, the difference between an ally and an enemy, between deciphering a ruin's warning and triggering its trap. Languages are organised into six categories:\n\n- **Standard**: Common tongues spoken across the seven regions: Common, Deep-Thrum, Synod-Speak, Thrumm-Speech, Gear-Cant, Scrap-Tongue, and Mound-Tongue.\n- **Exotic**: The languages of powerful or alien beings: Wyrm-Script, Celestial, Abyssal, Root-Veil, Infernal, Primordial, Sylvan, and Shanty-Patois. Rare to learn, invaluable to know.\n- **Ancestral**: Heritage tongues of Mythrill's races: Old Nord, Terran, Ethereal, Changeling, Druidic, Ignan, Beast Speech, Necril, War-Cant, Gloom-Tongue, Vale-Speak, Sundari, and Fexric.\n- **Elemental**: The speech of primal forces: Elemental, Primal, Auran, Aquan. Spoken by elementals, worshipped by cults.\n- **Secret**: Guarded dialects like Thieves' Cant, Hex-Speech, and Trickster's Cant. These cannot simply be studied, they require initiation, membership, or a sworn oath.\n- **Special**: Universal languages like Sign Language and comprehensive scholarly knowledge of All Ancient Languages.`
             },
             {
               title: 'Learning Languages',
@@ -2315,59 +2315,6 @@ Under this rule, a player who rolled a 3-6 can immediately choose to push their 
           ],
           tabs: [
             {
-              id: 'corvani',
-              name: 'Corvani',
-              sections: [
-                {
-                  title: 'Overview',
-                  content: `**Raven-marked people from mist-shrouded highlands who walk between worlds**
-
-The Corvani are a mysterious people marked by the raven, dwelling in the mist-shrouded highlands where the veil between worlds grows thin. They possess an uncanny connection to fate and the ethereal realm.
-
-**Basic Information:**
-- **Size:** Medium
-- **Speed:** 30 feet (Scout: 35 feet)
-- **Lifespan:** 90-110 years
-- **Languages:** Common, Corvid
-- **Variants:** 2 available (Oracle, Scout)`
-                },
-                {
-                  title: 'Cultural Background',
-                  content: `The Corvani are born with raven-black markings that shift and change with their moods and destinies. They dwell in the mist-shrouded highlands where reality blurs and the future whispers through the fog. Their culture values prophecy, spirit, and the ability to navigate both the physical and spiritual worlds. They serve as messengers, seers, and guides between realms, though their gifts often come with a heavy price. The Corvani believe that fate is a tapestry they can glimpse but never fully control.`
-                },
-                {
-                  title: 'Variant Comparison',
-                  content: `**Oracle Corvani** - Gifted seers who peer deep into fate's threads
-- Strength -1, Agility +1, Intelligence +2, Spirit +3, Charisma +1
-- Focus: Divination, prophecy, fate manipulation, support
-
-**Scout Corvani** - Swift messengers navigating treacherous highland paths
-- Constitution +1, Agility +3, Intelligence +1, Spirit +1
-- Focus: Mobility, communication, mist walking, reconnaissance`
-                }
-              ],
-              tables: [
-                {
-                  title: 'Oracle Corvani Traits',
-                  headers: ['Trait', 'Type', 'Description'],
-                  rows: [
-                    ['Prophetic Vision', 'Divination', 'Once per long rest, glimpse the future to reroll any d20 roll (yours or an ally\'s) within 60 feet.'],
-                    ['Raven Sight', 'Perception', 'Can see through illusions and detect hidden creatures within 30 feet, but suffer -2 to Constitution saves against disease.'],
-                    ['Fate\'s Warning', 'Protection', 'Allies within 30 feet gain +1 Armor against the first attack each round, but you take 1 psychic damage when they\'re hit.']
-                  ]
-                },
-                {
-                  title: 'Scout Corvani Traits',
-                  headers: ['Trait', 'Type', 'Description'],
-                  rows: [
-                    ['Highland Navigation', 'Movement', 'Cannot become lost in natural terrain and can move at full speed through difficult terrain.'],
-                    ['Raven Messenger', 'Communication', 'Can send messages via ravens to any location you\'ve visited, but messages can be intercepted by those who speak Corvid.'],
-                    ['Mist Walker', 'Defense', 'Can become partially incorporeal for 1 round (resistance to physical damage), but become vulnerable to radiant damage for 1 minute.']
-                  ]
-                }
-              ]
-            },
-            {
               id: 'myrathil',
               name: 'Myrathil',
               sections: [
@@ -2455,7 +2402,7 @@ The Myrathil cannot truly rest without submersion in water. Their vein-colors be
                     ['Fexrick', 'Subterranean gnomish engineers and alchemists.', '2 (Kethrin, Drall)', 'Tinkering, alchemical crafting, trap design'],
                     ['Neth', 'Tall, immortal, silver-skinned canopy archivists.', '3 (Velun, Kessen, Drun)', 'Contracts, memory-glass, probability weaving'],
                     ['Vreken', 'Lantern-eyed bog-dwellers worshiping entombed ancestors.', '2 (Clean, Marked)', 'Bioluminescent fungi, spiritual cycles, crypt scriptorium'],
-                    ['Rime-Born', 'Stone-skinned survivors of Nordhalla carrying the Milk-Grief.', '3 (Rune Keepers, Bloodhammer, Frostbound)', 'Glacier-tombs, ancestral rage, thermal piping']
+                    ['Rime-Born', 'Stone-skinned survivors of Nordhalla carrying the Frost-Tithe.', '3 (Rune Keepers, Bloodhammer, Frostbound)', 'Glacier-tombs, ancestral rage, thermal piping']
                   ]
                 }
               ]

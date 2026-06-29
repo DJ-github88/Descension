@@ -21,6 +21,29 @@
  */
 
 export const CHRONARCH_DATA = {
+  restrictions: {
+      "allowedSubraces": [
+          "kethrin_fexric",
+          "ithran_groven",
+          "tessen_human"
+      ],
+      "hardBlocks": [
+          "thalren_human",
+          "skald_human",
+          "solvarn_human",
+          "merryn_human",
+          "ordan_human",
+          "morren_human",
+          "astril",
+          "vreken",
+          "briaran",
+          "myrathil",
+          "mimir"
+      ],
+      "narrativeUnlock": true,
+      "justification": "Requires temporal-suspension training only available in Cragjaw. Outsiders have never learned the technique — it requires Fexric gear-craft and Groven bone-knowledge."
+  },
+
   id : "chronarch",
   name: "Chronarch",
   icon: "fas fa-clock",
@@ -512,7 +535,10 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
           time_shard_generate: 1,
           temporal_strain_gain: 1
         },
-        classResource: { type: "time_shards", cost: -1 },
+        classResource: [
+          { type: "time_shards", cost: -1 },
+          { type: "temporal_strain", cost: -1 }
+        ],
         actionPoints: 1,
         components: ["somatic"],
         somaticText: "Step forward as space shimmers, vanishing and reappearing 20 feet away."

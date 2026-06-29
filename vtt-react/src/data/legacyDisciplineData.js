@@ -23,11 +23,7 @@ const LEGACY_DISCIPLINES = {
         statModifiers: { intelligence: 2, spirit: 1, charisma: -1 },
         startingPoints: 2
     },
-    zealot: {
-        name: 'Zealot',
-        statModifiers: { strength: 2, constitution: 1, charisma: -1 },
-        startingPoints: 1
-    },
+
     trickster: {
         name: 'Trickster',
         statModifiers: { agility: 2, intelligence: 1, spirit: -1 },

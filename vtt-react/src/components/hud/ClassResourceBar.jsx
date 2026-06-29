@@ -1,4 +1,4 @@
-﻿import React, { useState, useRef, useEffect, useCallback, useLayoutEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useLayoutEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { getClassResourceConfig } from '../../data/classResources';
 import TooltipPortal from '../tooltips/TooltipPortal';
@@ -10,7 +10,7 @@ import PlaguebringerResourceBar from '../../data/classes/plaguebringer/component
 import PyrofiendResourceBar from '../../data/classes/pyrofiend/components/PyrofiendResourceBar';
 import SpellguardResourceBar from '../../data/classes/spellguard/components/SpellguardResourceBar';
 import ToxicologistResourceBar from '../../data/classes/toxicologist/components/ToxicologistResourceBar';
-import WardenResourceBar from '../../data/classes/warden/components/WardenResourceBar';
+import GaolerResourceBar from '../../data/classes/warden/components/GaolerResourceBar';
 import AugurResourceBar from '../../data/classes/augur/components/AugurResourceBar';
 import StanceFlowResourceBar from './StanceFlowResourceBar';
 import AscensionBloodResourceBar from './AscensionBloodResourceBar';
@@ -1594,7 +1594,7 @@ const ClassResourceBar = ({
             case 'alchemical-arsenal':
                 return <ToxicologistResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} isOwner={isOwner} onClassResourceUpdate={onClassResourceUpdate} />;
             case 'vengeance-points':
-                return <WardenResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} isOwner={isOwner} onClassResourceUpdate={onClassResourceUpdate} />;
+                return <GaolerResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} isOwner={isOwner} onClassResourceUpdate={onClassResourceUpdate} />;
             case 'mayhem-gauge':
                 return (
                     <div
@@ -2154,4 +2154,4 @@ const ClassResourceBar = ({
     );
 };
 
-export default ClassResourceBar;
+export default React.memo(ClassResourceBar);

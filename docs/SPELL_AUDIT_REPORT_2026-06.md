@@ -312,7 +312,7 @@ have no class resource + ~39 class drawback/weakness passives like `*_burnout`, 
 | **gambitData.js** | added `buff`/`debuff` to effectTypes (dealers_choice, fates_wrath) |
 | **martyrData.js** | added `healing` to effectTypes (ultimate_sacrifice) |
 | **revenantData.js** | added `damageConfig` (necrotic_bolt); school `shadow`→`blight`; added `secondaryElement` (soul_rend) |
-| **wardenData.js** | added `controlConfig` (cage_of_vengeance) |
+| **gaolerData.js** | added `controlConfig` (cage_of_vengeance) |
 | **spellguardData.js** | added `secondaryElement` (void_siphon) |
 
 ### Race files edited
@@ -367,7 +367,7 @@ else is obsolete. Final scanner result: **0 data-field hits, 0 prose hits** acro
 - All vague "massive damage"/"devastating damage" spell descriptions rewritten with **exact
   numbers** from each spell's `damageConfig` (apex Shadow Strike, arcanoneer Primal Cataclysm,
   berserker Primal Cataclysm, martyr Willing Vessel & Judgment Day, minstrel Magnum Opus &
-  Legendary Performance, warden Flayed Ascendancy).
+  Legendary Performance, Warden Flayed Ascendancy).
 - Description↔data contradictions corrected: chronarch (psychotic→arcane, necrotic→blight),
   False Prophet (psychic→wyrd, necrotic→blight), gambit (psychic/necrotic→wyrd/blight),
   harbinger (force→storm, fire→ember), lunarch (necrotic→blight), plaguebringer **Plague God**

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Alchemy & Ritual Supplies
  * 
  * Liquids & Powders, Essences, and Containers

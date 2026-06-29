@@ -17,11 +17,11 @@ function ContainerWizard({ onComplete, onCancel, onClose, initialData, editingCo
     const unregisterWindow = useWindowManagerStore(state => state.unregisterWindow);
 
     useEffect(() => {
-        const baseZIndex = registerWindow(windowId, 'modal');
+        const baseZIndex = registerWindow(windowId, 'modal', resolvedOnCancel);
         setOverlayZIndex(baseZIndex);
         setModalZIndex(baseZIndex + 1);
         return () => unregisterWindow(windowId);
-    }, [windowId, registerWindow, unregisterWindow]);
+    }, [windowId, registerWindow, unregisterWindow, resolvedOnCancel]);
 
     const containerIcons = [
         { id: 'inv_box_01', name: 'Wooden Chest', defaultName: 'Wooden Storage Chest', defaultDesc: 'A sturdy wooden chest with iron fittings.', defaultRows: 4, defaultCols: 6 },

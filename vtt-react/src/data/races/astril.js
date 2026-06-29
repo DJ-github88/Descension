@@ -73,6 +73,26 @@ And Keth-Amar — the predator, the hunger beneath Emberspire — knows the Astr
 
     sharedTraits: [
         {
+        "id": "vessel_stress_astril",
+                  "name": "Vessel Stress",
+                  "description": "Constellation-spirit can override body during high stress. Roll natural 1 on saving throws forces a Spirit save to maintain control.",
+                  "level": 1,
+                  "icon": "fas fa-brain",
+                  "spellType": "PASSIVE",
+                  "effectTypes": [
+                            "debuff"
+                  ],
+                  "typeConfig": {
+                            "school": "primal",
+                            "icon": "fas fa-brain",
+                            "tags": [
+                                      "weakness",
+                                      "debuff",
+                                      "shared"
+                            ]
+                  }
+        },
+        {
             id: 'star_sign_flare_astril',
             name: 'Star-Sign Flare',
             description: 'The constellation within you marks your skin with luminous patterns — faint lines and geometric shapes that ebb and flow with your breath, brighten with your emotions, and shift subtly with the position of the invisible stars above. They are visible only in dim light or darkness, a private constellation worn on the body itself. Your eyes carry the ancient tapeta of a people who learned to see when the sky went dark — low-light vision as clear as day. But the sun-that-was and the forges-that-are burn too bright for eyes adapted to starless gloom. And when Keth-Amar\'s influence stirs nearby — near a Shard, near Emberspire, near a Wyrd-creature that serves the predator — your patterns writhe and recoil. The spirit within remembers what ate its kin. Your skin does not forget.',

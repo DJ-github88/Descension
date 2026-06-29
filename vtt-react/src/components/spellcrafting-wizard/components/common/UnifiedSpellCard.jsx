@@ -1,4 +1,4 @@
-﻿import React, { useState, useRef, useCallback, useEffect } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -470,7 +470,7 @@ const UnifiedSpellCard = ({
                       <span className="healing-effect-name">Required</span>
                       {logicBadge && (
                         <span className="healing-effect-description">
-                          {' '}<span className="diamond-symbol">â—†</span> {logicBadge}
+                          {' '}<span className="diamond-symbol">◆</span> {logicBadge}
                         </span>
                       )}
                     </div>
@@ -699,7 +699,7 @@ const UnifiedSpellCard = ({
                                   if (!isDotOnly && !isAreaDamage && damageData?.chanceOnHitConfig?.enabled && !damageData?.savingThrowConfig?.enabled) {
                                     const chanceInfo = formatChanceOnHit();
                                     if (chanceInfo) {
-                                      mechanicsText = mechanicsText ? `${mechanicsText} â€¢ ${chanceInfo}` : chanceInfo;
+                                      mechanicsText = mechanicsText ? `${mechanicsText} • ${chanceInfo}` : chanceInfo;
                                     }
                                   }
 
@@ -814,7 +814,7 @@ const UnifiedSpellCard = ({
                                           </span>
                                           {effect.description && effect.description !== effect.name && (
                                             <span className="damage-effect-description">
-                                              {" "}<span className="diamond-symbol">â—†</span>{" "}{effect.description}
+                                              {" "}<span className="diamond-symbol">◆</span>{" "}{effect.description}
                                             </span>
                                           )}
                                           {/* Targeting/Range badges */}
@@ -949,7 +949,7 @@ const UnifiedSpellCard = ({
                             if (healingResult.bullets && healingResult.bullets.length > 0) {
                               healingResult.bullets.forEach((bullet, index) => {
                                 effects.push({
-                                  name: `  â”” Shield Property`,
+                                  name: `  └ Shield Property`,
                                   description: bullet,
                                   mechanicsText: 'Special shield behavior'
                                 });
@@ -1246,7 +1246,7 @@ const UnifiedSpellCard = ({
                                     const effectTriggers = getEffectTriggersAndFormulas(effectSubType);
                                     const effectTargeting = formatEffectTargeting('damage', effectSubType);
                                     
-                                    // âš ï¸ CRITICAL: All information must be in description (grey cursive text)
+                                    // ⚠️ CRITICAL: All information must be in description (grey cursive text)
                                     // Use damageConfig.description if provided, otherwise build from damageResult
                                     // Build mechanics text for area damage with triggers
                                     let mechanicsText = damageResult;
@@ -1262,11 +1262,11 @@ const UnifiedSpellCard = ({
                                     if (!isDotOnly && !isAreaDamage && damageData?.chanceOnHitConfig?.enabled && !damageData?.savingThrowConfig?.enabled) {
                                       const chanceInfo = formatChanceOnHit();
                                       if (chanceInfo) {
-                                        mechanicsText = mechanicsText ? `${mechanicsText} â€¢ ${chanceInfo}` : chanceInfo;
+                                        mechanicsText = mechanicsText ? `${mechanicsText} • ${chanceInfo}` : chanceInfo;
                                       }
                                     }
 
-                                    // âš ï¸ CRITICAL: Damage should be in bold text (mechanicsText), NOT in grey italic description
+                                    // ⚠️ CRITICAL: Damage should be in bold text (mechanicsText), NOT in grey italic description
                                     // Description should be empty for damage effects - range/area info is already in header tags
                                     effects.push({
                                       name: effectName,
@@ -1354,7 +1354,7 @@ const UnifiedSpellCard = ({
                                             </span>
                                             {effect.description && effect.description !== effect.name && (
                                               <span className="damage-effect-description">
-                                                {" "}<span className="diamond-symbol">â—†</span>{" "}{effect.description}
+                                                {" "}<span className="diamond-symbol">◆</span>{" "}{effect.description}
                                               </span>
                                             )}
                                             {/* Targeting/Range badges */}
@@ -1491,11 +1491,11 @@ const UnifiedSpellCard = ({
                                     if (!isDotOnly && !isAreaDamage && damageData?.chanceOnHitConfig?.enabled && !damageData?.savingThrowConfig?.enabled) {
                                       const chanceInfo = formatChanceOnHit();
                                       if (chanceInfo) {
-                                        mechanicsText = mechanicsText ? `${mechanicsText} â€¢ ${chanceInfo}` : chanceInfo;
+                                        mechanicsText = mechanicsText ? `${mechanicsText} • ${chanceInfo}` : chanceInfo;
                                       }
                                     }
 
-                                    // âš ï¸ CRITICAL: Damage should be in bold text (mechanicsText), NOT in grey italic description
+                                    // ⚠️ CRITICAL: Damage should be in bold text (mechanicsText), NOT in grey italic description
                                     // Description should be empty for damage effects - range/area info is already in header tags
                                     effects.push({
                                       name: effectName,
@@ -1599,7 +1599,7 @@ const UnifiedSpellCard = ({
                                             </span>
                                             {effect.description && effect.description !== effect.name && (
                                               <span className="damage-effect-description">
-                                                {" "}<span className="diamond-symbol">â—†</span>{" "}{effect.description}
+                                                {" "}<span className="diamond-symbol">◆</span>{" "}{effect.description}
                                               </span>
                                             )}
                                             {/* Targeting/Range badges */}
@@ -1718,7 +1718,7 @@ const UnifiedSpellCard = ({
                                     if (healingResult.bullets && healingResult.bullets.length > 0) {
                                       healingResult.bullets.forEach((bullet, index) => {
                                         effects.push({
-                                          name: `  â”” Shield Property`,
+                                          name: `  └ Shield Property`,
                                           description: bullet,
                                           mechanicsText: 'Special shield behavior'
                                         });
@@ -1958,7 +1958,7 @@ const UnifiedSpellCard = ({
                             if (healingResult.bullets && healingResult.bullets.length > 0) {
                               healingResult.bullets.forEach((bullet, index) => {
                                 effects.push({
-                                  name: `  â”” Shield Property`,
+                                  name: `  └ Shield Property`,
                                   description: bullet,
                                   mechanicsText: 'Special shield behavior'
                                 });
@@ -2234,7 +2234,7 @@ const UnifiedSpellCard = ({
                             <div className="damage-effect-details">
                               <div className="damage-effect-mechanics">
                                 <span style={{ color: '#ff8c00' }}>{chain.source}</span>
-                                {" â†’ "}
+                                {" → "}
                                 <span style={{ color: '#6495ED' }}>{chain.target}</span>
                               </div>
                             </div>
@@ -2752,7 +2752,7 @@ const UnifiedSpellCard = ({
 
                         if (!stageStatTexts) return null;
                         return `${unitLabel} ${triggerAt}: ${stageStatTexts}`;
-                      }).filter(Boolean).join(' â†’ ');
+                      }).filter(Boolean).join(' → ');
 
                       if (progressiveStagesText) {
                         mechanicsText = progressiveStagesText;
@@ -3003,7 +3003,7 @@ const UnifiedSpellCard = ({
                                 // Only show stages that have stat modifiers configured
                                 if (!stageStatTexts) return null;
                                 return `${unitLabel} ${triggerAt}: ${stageStatTexts}`;
-                              }).filter(Boolean).join(' â†’ ');
+                              }).filter(Boolean).join(' → ');
 
                               finalMechanicsText = progressiveStagesText || mechanicsText;
                             }
@@ -3065,7 +3065,7 @@ const UnifiedSpellCard = ({
                   durationParts.push('Concentration');
                 }
 
-                const durationText = durationParts.length > 0 ? `(${durationParts.join(' â€¢ ')})` : '';
+                const durationText = durationParts.length > 0 ? `(${durationParts.join(' • ')})` : '';
                 // Use customName from buffConfig if provided, otherwise fallback to 'Buff Effect'
                 const baseName = buffData?.customName || spell?.buffConfig?.customName || 'Buff Effect';
                 // Don't show duration as separate line - it's in the customDescription
@@ -3172,7 +3172,7 @@ const UnifiedSpellCard = ({
                               </span>
                               {effect.description && effect.description !== effect.name && (
                                 <span className="healing-effect-description">
-                                  {" "}<span className="diamond-symbol">â—†</span>{" "}{effect.description}
+                                  {" "}<span className="diamond-symbol">◆</span>{" "}{effect.description}
                                 </span>
                               )}
                               {/* Targeting/Range badges */}
@@ -3644,7 +3644,7 @@ const UnifiedSpellCard = ({
                               }
                               
                               // Strip leading "-" from final description if present
-                              const rawDescription = descriptionParts.length > 0 ? descriptionParts.join(' â€¢ ') : 
+                              const rawDescription = descriptionParts.length > 0 ? descriptionParts.join(' • ') : 
                                                      (effect.description || effect.name || 'Stat reduction');
                               const description = rawDescription.replace(/^-\s*/, '');
                               
@@ -3708,7 +3708,7 @@ const UnifiedSpellCard = ({
                                 }
                               }
 
-                              const finalDescription = descriptionParts.join(' â€¢ ');
+                              const finalDescription = descriptionParts.join(' • ');
 
                               effects.push({
                                 name: formattedEffect.name,
@@ -3760,7 +3760,7 @@ const UnifiedSpellCard = ({
                                 }
                               }
                               
-                              const description = descriptionParts.length > 0 ? descriptionParts.join(' â€¢ ') : 
+                              const description = descriptionParts.length > 0 ? descriptionParts.join(' • ') : 
                                                  (effect.description || 'Debuff effect');
                               
                               const debuffTargeting = formatEffectTargeting('debuff');
@@ -3850,7 +3850,7 @@ const UnifiedSpellCard = ({
                             const debuffTargeting = formatEffectTargeting('debuff');
                             effects.push({
                               name: debuffData?.customName || 'Debuff Effect',
-                              description: configParts.join(' â€¢ '),
+                              description: configParts.join(' • '),
                               mechanicsText: '',
                               targeting: debuffTargeting
                             });
@@ -3915,7 +3915,7 @@ const UnifiedSpellCard = ({
                                     </span>
                                     {effect.description && effect.description !== effect.name && (
                                       <span className="healing-effect-description">
-                                        {" "}<span className="diamond-symbol">â—†</span>{" "}{effect.description}
+                                        {" "}<span className="diamond-symbol">◆</span>{" "}{effect.description}
                                       </span>
                                     )}
                                     {/* Targeting/Range badges */}
@@ -4013,7 +4013,7 @@ const UnifiedSpellCard = ({
                   }
                 }
 
-                // Handle choiceConfig â€” renders as a "Choose One" options table
+                // Handle choiceConfig — renders as a "Choose One" options table
                 if (utilityData?.choiceConfig?.options?.length > 0) {
                   const choiceMode = utilityData.choiceConfig.mode || 'pick_one';
                   const pickCount = utilityData.choiceConfig.pickCount || 1;
@@ -4397,7 +4397,7 @@ const UnifiedSpellCard = ({
                             const effectSavingThrow = effectConfig.savingThrow !== null && effectConfig.savingThrow !== undefined ? effectConfig.savingThrow : (controlData.savingThrow !== null && controlData.savingThrow !== false ? controlData.savingThrow : null);
 
                             // Build duration text for this effect
-                            // âš ï¸ CRITICAL: Forced movement effects (push/pull) don't need duration
+                            // ⚠️ CRITICAL: Forced movement effects (push/pull) don't need duration
                             // Also prevent double formatting by only using effect-level duration if available
                             let effectDurationText = '';
                             const isForcedMovement = controlData?.controlType === 'forcedMovement';
@@ -4464,11 +4464,11 @@ const UnifiedSpellCard = ({
                             // Only set mechanicsText if we have config details (NOT duration/save/DC)
                             // But only if mechanicsText wasn't already provided
                             if (!mechanicsText && configDetails.length > 0) {
-                              mechanicsText = configDetails.join(' â€¢ ');
+                              mechanicsText = configDetails.join(' • ');
                             }
 
                             // Build the inline description with duration and save
-                            // âš ï¸ CRITICAL: Check if description already contains duration/save info to avoid duplication
+                            // ⚠️ CRITICAL: Check if description already contains duration/save info to avoid duplication
                             let baseDescription = effect.customDescription || effect.description || '';
                             const inlineDetails = [];
                             
@@ -4555,7 +4555,7 @@ const UnifiedSpellCard = ({
                                     </span>
                                     {effect.description && effect.description !== effect.name && (
                                       <span className="healing-effect-description">
-                                        {" "}<span className="diamond-symbol">â—†</span>{" "}{effect.description}
+                                        {" "}<span className="diamond-symbol">◆</span>{" "}{effect.description}
                                       </span>
                                     )}
                                     {/* Targeting/Range badges */}
@@ -4713,7 +4713,7 @@ const UnifiedSpellCard = ({
                           summoningData.creatures.forEach(creature => {
                             const creatureConfig = creature.config || {};
                             const quantity = creatureConfig.quantity || 1;
-                            const quantityText = quantity > 1 ? ` (Ã—${quantity})` : '';
+                            const quantityText = quantity > 1 ? ` (×${quantity})` : '';
 
                             // Build control type text from creature config
                             let controlTypeText = '';
@@ -4776,10 +4776,10 @@ const UnifiedSpellCard = ({
                             if (creature.description) {
                               mechanicsText = creature.description;
                               if (stats.length > 0) {
-                                mechanicsText += ' â€¢ ' + stats.join(' â€¢ ');
+                                mechanicsText += ' • ' + stats.join(' • ');
                               }
                             } else {
-                              mechanicsText = stats.length > 0 ? stats.join(' â€¢ ') : `Summons ${creature.name}`;
+                              mechanicsText = stats.length > 0 ? stats.join(' • ') : `Summons ${creature.name}`;
                             }
 
                             // Add attached effects to mechanics text
@@ -4815,7 +4815,7 @@ const UnifiedSpellCard = ({
                                                      `${effectData.magnitude}`;
                                   attachedText = `${effectData.stat || 'stat'} ${debuffValue} in ${effectData.areaRadius || 10}ft radius`;
                                   if (effectData.saveDC) {
-                                    attachedText += ` â€¢ DC ${effectData.saveDC} ${effectData.saveType} save (${effectData.saveOutcome})`;
+                                    attachedText += ` • DC ${effectData.saveDC} ${effectData.saveType} save (${effectData.saveOutcome})`;
                                   }
                                   break;
                                 case 'control':
@@ -4841,7 +4841,7 @@ const UnifiedSpellCard = ({
                                   }
                                   attachedText = `${controlDesc} in ${effectData.areaRadius || 10}ft radius`;
                                   if (effectData.saveDC) {
-                                    attachedText += ` â€¢ DC ${effectData.saveDC} ${effectData.saveType} save (${effectData.saveOutcome})`;
+                                    attachedText += ` • DC ${effectData.saveDC} ${effectData.saveType} save (${effectData.saveOutcome})`;
                                   }
                                   break;
                                 default:
@@ -4854,7 +4854,7 @@ const UnifiedSpellCard = ({
                               });
 
                               if (attachedMechanics.length > 0) {
-                                mechanicsText += (mechanicsText ? ' â€¢ ' : '') + attachedMechanics.join(' â€¢ ');
+                                mechanicsText += (mechanicsText ? ' • ' : '') + attachedMechanics.join(' • ');
                               }
                             }
 
@@ -4899,7 +4899,7 @@ const UnifiedSpellCard = ({
                         // Handle flat structure (legacy format with creatureName, creatureStats, etc.)
                         if (effects.length === 0 && summoningData?.creatureName) {
                           const quantity = summoningData.maxSummons || 1;
-                          const quantityText = quantity > 1 ? ` (Ã—${quantity})` : '';
+                          const quantityText = quantity > 1 ? ` (×${quantity})` : '';
 
                           // Build inline details for duration, control type, etc.
                           const inlineDetails = [];
@@ -4944,10 +4944,10 @@ const UnifiedSpellCard = ({
                           }
 
                           // Add abilities if present
-                          let mechanicsText = stats.join(' â€¢ ');
+                          let mechanicsText = stats.join(' • ');
                           if (creatureStats.abilities?.length > 0) {
                             const abilitiesText = `Abilities: ${creatureStats.abilities.join(', ')}`;
-                            mechanicsText = mechanicsText ? `${mechanicsText} â€¢ ${abilitiesText}` : abilitiesText;
+                            mechanicsText = mechanicsText ? `${mechanicsText} • ${abilitiesText}` : abilitiesText;
                           }
 
                           const summoningTriggers = getSummoningTriggersAndFormulas('summoning');
@@ -4981,7 +4981,7 @@ const UnifiedSpellCard = ({
                                     </span>
                                     {effect.description && effect.description !== effect.name && (
                                       <span className="healing-effect-description">
-                                        {" "}<span className="diamond-symbol">â—†</span>{" "}{effect.description}
+                                        {" "}<span className="diamond-symbol">◆</span>{" "}{effect.description}
                                       </span>
                                     )}
                                     {/* Targeting/Range badges */}
@@ -5224,10 +5224,10 @@ const UnifiedSpellCard = ({
                           if (creature?.description) {
                             mechanicsText = creature.description;
                             if (stats.length > 0) {
-                              mechanicsText += ' â€¢ ' + stats.join(' â€¢ ');
+                              mechanicsText += ' • ' + stats.join(' • ');
                             }
                           } else {
-                            mechanicsText = stats.length > 0 ? stats.join(' â€¢ ') : `Transform into ${transformationType}`;
+                            mechanicsText = stats.length > 0 ? stats.join(' • ') : `Transform into ${transformationType}`;
                           }
 
                           const formName = creature?.name || (targetForm ? targetForm.charAt(0).toUpperCase() + targetForm.slice(1) : 'creature');
@@ -5536,7 +5536,7 @@ const UnifiedSpellCard = ({
                                     </span>
                                     {effect.description && effect.description !== effect.name && (
                                       <span className="healing-effect-description">
-                                        {" "}<span className="diamond-symbol">â—†</span>{" "}{effect.description}
+                                        {" "}<span className="diamond-symbol">◆</span>{" "}{effect.description}
                                       </span>
                                     )}
                                   </div>
@@ -5700,7 +5700,7 @@ const UnifiedSpellCard = ({
                                     </span>
                                     {effect.description && effect.description !== effect.name && (
                                       <span className="healing-effect-description">
-                                        {" "}<span className="diamond-symbol">â—†</span>{" "}{effect.description}
+                                        {" "}<span className="diamond-symbol">◆</span>{" "}{effect.description}
                                       </span>
                                     )}
                                   </div>
@@ -5779,7 +5779,7 @@ const UnifiedSpellCard = ({
                           effects.push({
                             name: 'Resurrection',
                             description: 'Brings the dead back to life',
-                            mechanicsText: mechanicsParts.join(' â€¢ ')
+                            mechanicsText: mechanicsParts.join(' • ')
                           });
                         }
 
@@ -5842,7 +5842,7 @@ const UnifiedSpellCard = ({
                                     </span>
                                     {effect.description && effect.description !== effect.name && (
                                       <span className="healing-effect-description">
-                                        {" "}<span className="diamond-symbol">â—†</span>{" "}{effect.description}
+                                        {" "}<span className="diamond-symbol">◆</span>{" "}{effect.description}
                                       </span>
                                     )}
                                   </div>
@@ -5884,7 +5884,7 @@ const UnifiedSpellCard = ({
                                 </span>
                                 {effect.duration && (
                                   <span className="healing-effect-description">
-                                    {" "}<span className="diamond-symbol">â—†</span>{" "}{effect.duration} {effect.unit || 'rounds'}
+                                    {" "}<span className="diamond-symbol">◆</span>{" "}{effect.duration} {effect.unit || 'rounds'}
                                   </span>
                                 )}
                               </div>
@@ -6293,4 +6293,4 @@ UnifiedSpellCard.propTypes = {
 
 
 
-export default UnifiedSpellCard;
+export default React.memo(UnifiedSpellCard);

@@ -18,6 +18,32 @@
  */
 
 export const PLAGUEBRINGER_DATA = {
+  restrictions: {
+      "allowedSubraces": [
+          "drun_neth",
+          "morren_human",
+          "clean_vreken",
+          "marked_vreken"
+      ],
+      "hardBlocks": [
+          "astril",
+          "skald_human",
+          "emberth",
+          "groven",
+          "fexrick",
+          "myrathil",
+          "briaran",
+          "mimir",
+          "thalren_human",
+          "tessen_human",
+          "solvarn_human",
+          "merryn_human",
+          "ordan_human"
+      ],
+      "narrativeUnlock": false,
+      "justification": "Requires the Bryngloom's unique fungal-bog ecosystem. Other regions lack the specific biological agents. Drun Neth's partial-death allows hosting. Morren's desperation drives acceptance."
+  },
+
   id : "plaguebringer",
   name: "Plaguebringer",
   icon: "fas fa-biohazard",

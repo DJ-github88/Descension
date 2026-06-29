@@ -10,30 +10,38 @@ const sinon = require('sinon');
 
 // Mock dependencies
 const mockIo = () => {
-  const sockets = new Map();
+  const socketsMap = new Map();
+  const handlers = {};
   return {
-    sockets: sockets,
+    sockets: {
+      sockets: socketsMap
+    },
     to: sinon.stub().returns({ emit: sinon.stub() }),
     emit: sinon.stub(),
     use: sinon.stub(),
     on: sinon.stub().callsFake((event, handler) => {
-      // Store handler for later invocation
-      mockIo.handlers = mockIo.handlers || {};
-      mockIo.handlers[event] = handler;
+      handlers[event] = handler;
     }),
-    handlers: {}
+    handlers
   };
 };
 
-const mockSocket = (id = 'test-socket-id') => ({
-  id,
-  data: {},
-  join: sinon.stub(),
-  leave: sinon.stub(),
-  emit: sinon.stub(),
-  to: sinon.stub().returns({ emit: sinon.stub() }),
-  handshake: { auth: {}, headers: {} }
-});
+const mockSocket = (id = 'test-socket-id') => {
+  const handlers = {};
+  return {
+    id,
+    data: {},
+    join: sinon.stub(),
+    leave: sinon.stub(),
+    emit: sinon.stub(),
+    to: sinon.stub().returns({ emit: sinon.stub() }),
+    handshake: { auth: {}, headers: {} },
+    on: sinon.stub().callsFake((event, handler) => {
+      handlers[event] = handler;
+    }),
+    handlers
+  };
+};
 
 const createMockRooms = () => new Map();
 const createMockPlayers = () => new Map();
@@ -86,6 +94,18 @@ describe('Socket Handlers', function() {
     sinon.restore();
   });
 
+  const getConnectedSocket = (id = 'socket-1') => {
+    const socket = mockSocket(id);
+    io.sockets.sockets.set(id, socket);
+    const { registerSocketHandlers } = require('../handlers/socketHandlers');
+    registerSocketHandlers(io, rooms, players, parties, userToParty, partyInvitations, onlineSocialUsers, pendingPartyCreations, helpers, services);
+    
+    // Trigger connection
+    const connectionHandler = io.on.getCall(0).args[1];
+    connectionHandler(socket);
+    return socket;
+  };
+
   describe('Connection Handler', () => {
     it('should register connection handler', () => {
       const { registerSocketHandlers } = require('../handlers/socketHandlers');
@@ -97,16 +117,10 @@ describe('Socket Handlers', function() {
 
   describe('Ping Handler', () => {
     it('should respond to ping with pong', () => {
-      const socket = mockSocket();
-      const callback = sinon.stub();
+      const socket = getConnectedSocket('socket-1');
       
-      // Simulate ping handler logic
-      const pingHandler = (data, cb) => {
-        if (cb) cb('pong');
-      };
-      
-      pingHandler({}, callback);
-      expect(callback.calledWith('pong')).to.be.true;
+      socket.handlers['ping']();
+      expect(socket.emit.calledWith('pong', sinon.match.has('timestamp'))).to.be.true;
     });
   });
 
@@ -138,20 +152,13 @@ describe('Socket Handlers', function() {
   });
 
   describe('Token Handlers', () => {
-    let mockRoom, mockMap;
+    let mockRoom, mockMap, socket;
 
     beforeEach(() => {
       mockMap = {
         tokens: {},
         characterTokens: {},
-        gridItems: {},
-        terrainData: {},
-        wallData: {},
-        environmentalObjects: [],
-        drawingPaths: [],
-        fogOfWarData: {},
-        lightSources: {},
-        dndElements: []
+        gridItems: {}
       };
       
       mockRoom = {
@@ -165,43 +172,80 @@ describe('Socket Handlers', function() {
       };
       
       rooms.set('room-1', mockRoom);
+
+      helpers.validateRoomMembership = sinon.stub().returns({
+        valid: true,
+        player: { id: 'player-1', name: 'Test Player' },
+        room: mockRoom
+      });
+
+      socket = getConnectedSocket('socket-1');
     });
 
-    it('should create token successfully', () => {
-      const tokenId = 'token-1';
+    it('should create token successfully', async () => {
+      const ackCallback = sinon.stub();
       const tokenData = {
-        id: tokenId,
+        id: 'token-1',
         position: { x: 100, y: 100 },
         name: 'Test Token'
       };
 
-      mockMap.tokens[tokenId] = tokenData;
-      mockRoom.gameState.tokens[tokenId] = tokenData;
+      await socket.handlers['token_created']({
+        roomId: 'room-1',
+        mapId: 'default',
+        token: tokenData
+      }, ackCallback);
 
-      expect(mockMap.tokens[tokenId]).to.deep.equal(tokenData);
+      expect(mockMap.tokens['token-1']).to.exist;
+      expect(mockMap.tokens['token-1'].name).to.equal('Test Token');
+      expect(ackCallback.calledWith(sinon.match({ success: true }))).to.be.true;
     });
 
-    it('should update token position', () => {
-      const tokenId = 'token-1';
-      mockMap.tokens[tokenId] = { id: tokenId, position: { x: 100, y: 100 } };
+    it('should queue token movement', async () => {
+      mockMap.tokens['token-1'] = { id: 'token-1', position: { x: 100, y: 100 } };
       
-      mockMap.tokens[tokenId].position = { x: 200, y: 200 };
+      await socket.handlers['token_moved']({
+        roomId: 'room-1',
+        mapId: 'default',
+        tokenId: 'token-1',
+        position: { x: 200, y: 200 },
+        velocity: { x: 1, y: 1 }
+      });
       
-      expect(mockMap.tokens[tokenId].position).to.deep.equal({ x: 200, y: 200 });
+      expect(services.movementDebouncer.queueMove.calledWith('room-1', 'token-1', sinon.match({
+        position: { x: 200, y: 200 },
+        velocity: { x: 1, y: 1 }
+      }))).to.be.true;
     });
 
-    it('should remove token successfully', () => {
-      const tokenId = 'token-1';
-      mockMap.tokens[tokenId] = { id: tokenId };
+    it('should update token state', async () => {
+      mockMap.tokens['token-1'] = { id: 'token-1', name: 'Old Name' };
       
-      delete mockMap.tokens[tokenId];
+      await socket.handlers['token_updated']({
+        roomId: 'room-1',
+        mapId: 'default',
+        tokenId: 'token-1',
+        updates: { name: 'New Name' }
+      });
       
-      expect(mockMap.tokens[tokenId]).to.be.undefined;
+      expect(mockMap.tokens['token-1'].name).to.equal('New Name');
+    });
+
+    it('should remove token successfully', async () => {
+      mockMap.tokens['token-1'] = { id: 'token-1' };
+      
+      await socket.handlers['token_removed']({
+        roomId: 'room-1',
+        mapId: 'default',
+        tokenId: 'token-1'
+      });
+      
+      expect(mockMap.tokens['token-1']).to.be.undefined;
     });
   });
 
   describe('Character Resource Updates', () => {
-    let mockPlayer, mockRoom;
+    let mockPlayer, mockRoom, socket;
 
     beforeEach(() => {
       mockPlayer = {
@@ -221,42 +265,61 @@ describe('Socket Handlers', function() {
       };
       
       rooms.set('room-1', mockRoom);
-      players.set('socket-1', mockPlayer);
+
+      helpers.validateRoomMembership = sinon.stub().returns({
+        valid: true,
+        player: mockPlayer,
+        room: mockRoom
+      });
+
+      socket = getConnectedSocket('socket-1');
     });
 
-    it('should update health resource', () => {
-      mockPlayer.character.health.current = 30;
+    it('should update resource state via character_resource_updated', async () => {
+      await socket.handlers['character_resource_updated']({
+        roomId: 'room-1',
+        playerId: 'player-1',
+        resource: 'health',
+        current: 30,
+        max: 50
+      });
       
       expect(mockPlayer.character.health.current).to.equal(30);
     });
 
-    it('should update mana resource', () => {
-      mockPlayer.character.mana.current = 25;
+    it('should apply positive resource delta', async () => {
+      await socket.handlers['character_resource_delta']({
+        roomId: 'room-1',
+        resource: 'health',
+        delta: 2
+      });
       
-      expect(mockPlayer.character.mana.current).to.equal(25);
+      expect(mockPlayer.character.health.current).to.equal(47);
     });
 
-    it('should update action points', () => {
-      mockPlayer.character.actionPoints.current = 1;
+    it('should apply negative resource delta and clamp to 0', async () => {
+      await socket.handlers['character_resource_delta']({
+        roomId: 'room-1',
+        resource: 'mana',
+        delta: -100
+      });
       
-      expect(mockPlayer.character.actionPoints.current).to.equal(1);
+      expect(mockPlayer.character.mana.current).to.equal(0);
     });
 
-    it('should not exceed max health', () => {
-      mockPlayer.character.health.current = 100; // Over max
-      
-      // Simulate clamping
-      mockPlayer.character.health.current = Math.min(
-        mockPlayer.character.health.current,
-        mockPlayer.character.health.max
-      );
+    it('should clamp resource delta to max health', async () => {
+      await socket.handlers['character_resource_delta']({
+        roomId: 'room-1',
+        resource: 'health',
+        delta: 100
+      });
       
       expect(mockPlayer.character.health.current).to.equal(50);
     });
   });
 
   describe('Chat Handlers', () => {
-    let mockRoom;
+    let mockRoom, socket;
 
     beforeEach(() => {
       mockRoom = {
@@ -267,194 +330,242 @@ describe('Socket Handlers', function() {
       };
       
       rooms.set('room-1', mockRoom);
+
+      helpers.validateRoomMembership = sinon.stub().returns({
+        valid: true,
+        player: { id: 'player-1', name: 'Test Player' },
+        room: mockRoom
+      });
+
+      socket = getConnectedSocket('socket-1');
+
+      // Populate players map so chatHandlers can resolve sender
+      players.set('socket-1', {
+        id: 'player-1',
+        name: 'Test Player',
+        roomId: 'room-1',
+        isGM: false
+      });
     });
 
-    it('should add chat message to history', () => {
-      const message = {
-        id: 'msg-1',
-        sender: { id: 'player-1', name: 'Test' },
-        content: 'Hello!',
-        timestamp: new Date().toISOString()
-      };
-      
-      mockRoom.chatHistory.push(message);
+    it('should add chat message to history', async () => {
+      await socket.handlers['chat_message']({
+        roomId: 'room-1',
+        message: 'Hello!',
+        type: 'chat'
+      });
       
       expect(mockRoom.chatHistory).to.have.lengthOf(1);
       expect(mockRoom.chatHistory[0].content).to.equal('Hello!');
     });
 
-    it('should limit chat history to 500 messages', () => {
-      // Add 600 messages
-      for (let i = 0; i < 600; i++) {
-        mockRoom.chatHistory.push({
-          id: `msg-${i}`,
-          content: `Message ${i}`
-        });
-        
-        // Simulate the 500 limit
-        if (mockRoom.chatHistory.length > 500) {
-          mockRoom.chatHistory = mockRoom.chatHistory.slice(-500);
-        }
+    it('should limit chat history to 500 messages', async () => {
+      // Pre-fill history with 499 messages
+      for (let i = 0; i < 499; i++) {
+        mockRoom.chatHistory.push({ id: `msg-${i}`, content: `Msg ${i}` });
       }
+
+      // Add two more messages via socket
+      await socket.handlers['chat_message']({ roomId: 'room-1', message: 'Hello 1', type: 'chat' });
+      await socket.handlers['chat_message']({ roomId: 'room-1', message: 'Hello 2', type: 'chat' });
       
       expect(mockRoom.chatHistory).to.have.lengthOf(500);
-      expect(mockRoom.chatHistory[0].id).to.equal('msg-100'); // First kept message
+      expect(mockRoom.chatHistory[0].content).to.equal('Msg 1');
     });
   });
 
   describe('Combat Handlers', () => {
-    let mockRoom;
+    let mockPlayer, mockRoom, socket;
 
     beforeEach(() => {
+      mockPlayer = {
+        id: 'player-1',
+        name: 'Test Player',
+        isGM: true
+      };
+      
       mockRoom = {
         id: 'room-1',
         gameState: {
           maps: {},
           combat: {
             isActive: false,
-            currentTurn: null,
+            currentTurnIndex: 0,
             turnOrder: [],
             round: 0
           }
         },
-        players: new Map()
+        players: new Map([['player-1', mockPlayer]])
       };
       
       rooms.set('room-1', mockRoom);
+
+      helpers.validateRoomMembership = sinon.stub().returns({
+        valid: true,
+        player: mockPlayer,
+        room: mockRoom
+      });
+
+      socket = getConnectedSocket('socket-1');
     });
 
-    it('should start combat', () => {
+    it('should start combat', async () => {
+      const ackCallback = sinon.stub();
       const turnOrder = [
-        { id: 'player-1', name: 'Player 1', initiative: 18 },
-        { id: 'creature-1', name: 'Goblin', initiative: 12 }
+        { tokenId: 't1', name: 'Legolas' },
+        { tokenId: 't2', name: 'Goblin' }
       ];
-      
-      mockRoom.gameState.combat = {
-        isActive: true,
+
+      await socket.handlers['combat_started']({
+        roomId: 'room-1',
+        turnOrder,
         currentTurnIndex: 0,
-        turnOrder: turnOrder,
         round: 1
-      };
-      
+      }, ackCallback);
+
       expect(mockRoom.gameState.combat.isActive).to.be.true;
       expect(mockRoom.gameState.combat.turnOrder).to.have.lengthOf(2);
+      expect(mockRoom.gameState.combat.round).to.equal(1);
+      expect(ackCallback.calledWith(sinon.match({ success: true }))).to.be.true;
     });
 
-    it('should end combat', () => {
+    it('should end combat', async () => {
       mockRoom.gameState.combat.isActive = true;
-      
-      // End combat
-      mockRoom.gameState.combat = {
-        isActive: false,
-        currentTurn: null,
-        turnOrder: [],
-        round: 0
-      };
-      
+      const ackCallback = sinon.stub();
+
+      await socket.handlers['combat_ended']({
+        roomId: 'room-1'
+      }, ackCallback);
+
       expect(mockRoom.gameState.combat.isActive).to.be.false;
+      expect(ackCallback.calledWith(sinon.match({ success: true }))).to.be.true;
     });
 
-    it('should advance turn', () => {
+    it('should advance turn', async () => {
       mockRoom.gameState.combat = {
         isActive: true,
         currentTurnIndex: 0,
-        turnOrder: ['player-1', 'creature-1'],
+        turnOrder: [
+          { tokenId: 't1', name: 'Legolas' },
+          { tokenId: 't2', name: 'Goblin' }
+        ],
         round: 1
       };
-      
-      // Advance turn
-      mockRoom.gameState.combat.currentTurnIndex = 1;
-      
+
+      await socket.handlers['combat_turn_changed']({
+        roomId: 'room-1',
+        currentTurnIndex: 1,
+        round: 1
+      });
+
       expect(mockRoom.gameState.combat.currentTurnIndex).to.equal(1);
     });
 
-    it('should increment round when turn order cycles', () => {
+    it('should increment round when turn order cycles', async () => {
       mockRoom.gameState.combat = {
         isActive: true,
         currentTurnIndex: 1,
-        turnOrder: ['player-1', 'creature-1'],
+        turnOrder: [
+          { tokenId: 't1', name: 'Legolas' },
+          { tokenId: 't2', name: 'Goblin' }
+        ],
         round: 1
       };
-      
-      // Cycle back to first
-      const nextIndex = (mockRoom.gameState.combat.currentTurnIndex + 1) % mockRoom.gameState.combat.turnOrder.length;
-      const newRound = nextIndex === 0 ? mockRoom.gameState.combat.round + 1 : mockRoom.gameState.combat.round;
-      
-      mockRoom.gameState.combat.currentTurnIndex = nextIndex;
-      mockRoom.gameState.combat.round = newRound;
-      
+
+      await socket.handlers['combat_turn_changed']({
+        roomId: 'room-1',
+        currentTurnIndex: 0,
+        round: 2
+      });
+
       expect(mockRoom.gameState.combat.currentTurnIndex).to.equal(0);
       expect(mockRoom.gameState.combat.round).to.equal(2);
     });
   });
 
   describe('Party System', () => {
-    it('should create party', () => {
-      const partyId = 'party-1';
-      const party = {
-        id: partyId,
-        name: 'Adventure Party',
-        leaderId: 'player-1',
-        members: [{ id: 'player-1', name: 'Leader', isLeader: true }],
-        createdAt: Date.now()
-      };
-      
-      parties.set(partyId, party);
-      userToParty.set('player-1', partyId);
-      
-      expect(parties.has(partyId)).to.be.true;
-      expect(userToParty.get('player-1')).to.equal(partyId);
+    let socket;
+
+    beforeEach(() => {
+      socket = getConnectedSocket('socket-1');
+      socket.data.userId = 'player-1';
     });
 
-    it('should add member to party', () => {
+    it('should create party', async () => {
+      await socket.handlers['create_party']({
+        partyName: 'Adventure Party',
+        leaderData: { name: 'Leader' }
+      });
+      
+      const partyId = userToParty.get('player-1');
+      expect(partyId).to.exist;
+      expect(parties.has(partyId)).to.be.true;
+      expect(parties.get(partyId).name).to.equal('Adventure Party');
+    });
+
+    it('should add member to party', async () => {
       const partyId = 'party-1';
-      const party = {
+      parties.set(partyId, {
         id: partyId,
         name: 'Test Party',
         leaderId: 'player-1',
-        members: [{ id: 'player-1', name: 'Leader', isLeader: true }]
-      };
+        members: {
+          'player-1': { id: 'player-1', name: 'Leader', isLeader: true }
+        }
+      });
+      userToParty.set('player-1', partyId);
       
-      party.members.push({ id: 'player-2', name: 'Member', isLeader: false });
-      userToParty.set('player-2', partyId);
-      
-      expect(party.members).to.have.lengthOf(2);
+      const socket2 = getConnectedSocket('socket-2');
+      socket2.data.userId = 'player-2';
+
+      await socket2.handlers['join_party']({ partyId });
+
+      const party = parties.get(partyId);
+      expect(Object.keys(party.members)).to.have.lengthOf(2);
+      expect(userToParty.get('player-2')).to.equal(partyId);
     });
 
-    it('should remove member from party', () => {
+    it('should remove member from party', async () => {
       const partyId = 'party-1';
-      const party = {
+      parties.set(partyId, {
         id: partyId,
-        members: [
-          { id: 'player-1', name: 'Leader', isLeader: true },
-          { id: 'player-2', name: 'Member', isLeader: false }
-        ]
-      };
-      
-      party.members = party.members.filter(m => m.id !== 'player-2');
-      userToParty.delete('player-2');
-      
-      expect(party.members).to.have.lengthOf(1);
-      expect(party.members.find(m => m.id === 'player-2')).to.be.undefined;
-    });
-
-    it('should disband party when leader leaves', () => {
-      const partyId = 'party-1';
-      const party = {
-        id: partyId,
+        name: 'Test Party',
         leaderId: 'player-1',
-        members: [{ id: 'player-1', name: 'Leader', isLeader: true }]
-      };
-      
-      parties.set(partyId, party);
-      
-      // Leader leaves - party should be disbanded
-      if (party.leaderId === 'player-1') {
-        parties.delete(partyId);
-        userToParty.delete('player-1');
-      }
-      
+        members: {
+          'player-1': { id: 'player-1', name: 'Leader', isLeader: true },
+          'player-2': { id: 'player-2', name: 'Member', isLeader: false }
+        }
+      });
+      userToParty.set('player-1', partyId);
+      userToParty.set('player-2', partyId);
+
+      const socket2 = getConnectedSocket('socket-2');
+      socket2.data.userId = 'player-2';
+
+      await socket2.handlers['leave_party']();
+
+      const party = parties.get(partyId);
+      expect(Object.keys(party.members)).to.have.lengthOf(1);
+      expect(party.members['player-2']).to.be.undefined;
+      expect(userToParty.get('player-2')).to.be.undefined;
+    });
+
+    it('should disband party when leader leaves', async () => {
+      const partyId = 'party-1';
+      parties.set(partyId, {
+        id: partyId,
+        name: 'Test Party',
+        leaderId: 'player-1',
+        members: {
+          'player-1': { id: 'player-1', name: 'Leader', isLeader: true }
+        }
+      });
+      userToParty.set('player-1', partyId);
+
+      await socket.handlers['leave_party']();
+
       expect(parties.has(partyId)).to.be.false;
+      expect(userToParty.get('player-1')).to.be.undefined;
     });
   });
 

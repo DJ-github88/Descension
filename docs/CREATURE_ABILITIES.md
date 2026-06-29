@@ -363,8 +363,8 @@
 
 ## REGION 5: CRAGJAW PEAKS (Japanese Yokai + Andean/Incan)
 
-### 81. Kappa-Crag  A | Low
-**Combat:** 50 HP. Bow-Debt (passive: if you bow to a Kappa-Crag, it MUST bow back, spilling the water from its head-bowl and losing all power until it refills from a geothermal vent; exploit by bowing then sprinting past). Geothermal-Guard (passive: guards geothermal pools that heat Frostmaw Holdfast; a pool it guards never freezes and never runs dry). Beak-Snap (melee, +5 to hit, 1d6+3 piercing + DC 13 AGI or grappled, pulled into pool). River-Stone-Hurl (ranged 30 ft, +5 to hit, 1d6+2 bludgeoning). Cucumber-Lure (special: can be bribed with cucumber; any cucumber offering DC 13 CHA to persuade it to move aside). Vulnerable to fire.
+### 81. Kappa  A | Low
+**Combat:** 50 HP. Bow-Debt (passive: if you bow to a Kappa, it MUST bow back, spilling the water from its head-bowl and losing all power until it refills from a geothermal vent; exploit by bowing then sprinting past). Geothermal-Guard (passive: guards geothermal pools that heat Frostmaw Holdfast; a pool it guards never freezes and never runs dry). Beak-Snap (melee, +5 to hit, 1d6+3 piercing + DC 13 AGI or grappled, pulled into pool). River-Stone-Hurl (ranged 30 ft, +5 to hit, 1d6+2 bludgeoning). Cucumber-Lure (special: can be bribed with cucumber; any cucumber offering DC 13 CHA to persuade it to move aside). Vulnerable to fire.
 **Stats:** STR 10, AGI 16, CON 14, INT 10, SPI 12, CHA 10 | HP 50, Mana 20, AP 3, Speed 30 (swim 35) | Resist: cold 50, lightning 50
 **Signature:** *The Bow*  The most charmingly specific weakness in the entire compendium. A player who figures this out feels like a genius.
 
@@ -380,7 +380,7 @@
 
 ### 85. [CUT  Tengu Scout already exists in bestiary. This slot should become a new creature.]
 
-### 86. Jorogumo-Span  S | High
+### 86. Jorōgumo  S | High
 **Combat:** 170 HP. Web-Bridge (passive: she IS the bridge you are crossing; the Ancestor-Span is woven from her own body  the party walks on her). Spider-Silk-Cable (passive: cables contain gold and silver drawn from the mountain's veins; cutting the silk triggers DC 16 STR or the party falls into the chasm). Gold-Silk-Gown (passive: gown woven from gold-silk; +8 to all social checks). Silk-Corruption (special: cutting her silk corrodes tools with metallic poison  DC 14 CON or poisoned for 1d4 rounds). Web-Trap (bonus action: re-weaves a section into sticky web; DC 15 AGI or restrained). Needle-Fang (melee, +6 to hit, 2d6+4 piercing + 2d6 poison). Vulnerable to fire.
 **Stats:** STR 16, AGI 18, CON 14, INT 16, SPI 14, CHA 18 | HP 170, Mana 40, AP 5, Speed 30 (climb 40) | Resist: cold 50, poison 100
 **Signature:** *The Bridge Reveals*  The moment the party realizes they are standing ON the creature, not crossing a structure, is a cinematic masterpiece.
@@ -389,45 +389,45 @@
 **Combat:** 30 HP. Echo-Voice (passive: repeats everything it hears with exactly a 7-second delay, creating a layered chorus across the peaks). Communication-Network (special: the Groven use clusters of Kodamaes as a communication-system  shout a message toward a cluster, it bounces the sound across entire valleys; 100% reliable, no interception possible). Peak-Warden (passive: bound to a specific mountain-Apu; when the mountain is damaged, the Kodama wails  DC 14 SPI or all who hear it are driven to tears for 1 round). Quartz-Eyes (passive: sparkles in even dimmest light, revealing its position). Vulnerable to physical damage (if hit, it dissolves into a puff of snow and reappears 10 ft away after 1 round).
 **Stats:** STR 4, AGI 18, CON 8, INT 10, SPI 16, CHA 12 | HP 30, Mana 20, AP 3, Speed 20 | Resist: psychic 100, cold 50
 
-### 88. Nurikabe-Drift  A | Medium
+### 88. Nurikabe  A | Medium
 **Combat:** 100 HP. Living-Wall (passive: looks identical to surrounding rock  grey, striated, snow-dusted; only its edges give it away: a faint gap where it meets the ground). Path-Blocker (special: cannot be climbed (the top extends as you climb), cannot be gone around (it extends sideways), cannot be broken (it regenerates instantly); the only way past is a copper-tipped staff tapped at the base). Night-Architect (passive: rearranges mountain geography overnight; paths clear yesterday are blocked today, dead-ends open into new corridors). Breathing-Stone (passive: pressing ear to surface reveals breathing  deep, slow, ancient). Vulnerable to copper (copper-tipped staff disrupts its magnetic anchoring, causing it to step aside for 1 minute).
 **Stats:** STR 18, AGI 8, CON 20, INT 6, SPI 8, CHA 6 | HP 100, Mana 0, AP 3, Speed 0 (instant reposition 30) | Resist: physical 100, cold 50
 **Signature:** *Tap the Base*  The countermeasure (copper staff tapped at the base) rewards players who research local folklore.
 
-### 89. Nue-Cloud  A | High
+### 89. Nue  A | High
 **Combat:** 130 HP. Nightmare-Cloud (AoE 40 ft, DC 15 SPI or shared nightmares for 1d4 rounds  targets experience overlapping visions of their greatest fears simultaneously). Earth-Wound (passive: drawn to places where the mountain has been wounded  collapsed shafts, blasted entrances; it is Pachamama's immune response). Warm-Pocket (passive: cloud is warm and humid  snow melts within it, creating a pocket of tropical air; those inside feel comforted until the nightmares begin). Shape-Shift (passive: within the cloud, shifting shapes of monkey-jaws, tiger-claws, and serpentine coils appear and vanish). Black-Snow (passive: where the cloud touches ground, snow turns black and corrupted). Vulnerable to radiant (radiant damage disperses the cloud for 1d4 rounds).
 **Stats:** STR 12, AGI 18, CON 14, INT 10, SPI 16, CHA 10 | HP 130, Mana 50, AP 4, Speed 25 (fly 40) | Resist: cold 100, fire 50, physical 75
 
-### 90. Kasha-Snow  A | Medium
+### 90. Kasha  A | Medium
 **Combat:** 85 HP. Corpse-Thief (special: during funeral-processions, descends from peaks to steal the body; if stolen, the spirit becomes a restless bridge-ghost, doomed to walk the Spans forever). Flame-Fur (passive: fur is pale blue-white extremely hot fire; snow sublimates to steam on contact; melee attackers take 1d6 fire on contact). Fortune-Miniatures (passive: bundles of tiny tools, weapons, food-items; if it deems a family worthy, it leaves a miniature version of what they need  transforms into the real thing within 7 days if treated with reverence). Calculating-Gaze (passive: evaluates, measures, judges  it can assess a creature's worth in 1 round). Claw-Pounce (melee, +5 to hit, 2d6+3 slashing + 1d6 fire). Vulnerable to cold.
 **Stats:** STR 12, AGI 18, CON 12, INT 14, SPI 12, CHA 10 | HP 85, Mana 20, AP 4, Speed 35 (fly 45) | Resist: fire 100, cold 25
 
-### 91. Tanuki-Toll  A | Low
+### 91. Tanuki  A | Low
 **Combat:** 40 HP. Toll-Trickster (special: positions at Ancestor-Span crossings, disguised as a Groven toll-collector; demands payment  but always something absurd: a riddle, a song, a drink of sake, a funny story). Illa-Stone-Gift (passive: those who comply find their packs heavier  a Tanuki-produced illa-stone that brings good fortune, enriching mineral finds for 1 week). Leaf-Transform (passive: those who refuse have their gear transformed into leaves). Sake-Flask (passive: flask never empties; drinking from it DC 12 CON or intoxicated, -2 to all checks for 1 hour). Leaf-Hat (bonus action: gains invisibility for 1 round; cannot attack while invisible). Vulnerable to fire.
 **Stats:** STR 8, AGI 16, CON 12, INT 14, SPI 12, CHA 16 | HP 40, Mana 20, AP 3, Speed 30 | Resist: psychic 25
 
-### 92. Ushi-Oni-Crag  A | High
+### 92. Ushioni  A | High
 **Combat:** 145 HP. Sulfur-Breath (AoE cone 20 ft, 3d6 poison + DC 15 CON or poisoned for 3 rounds; the gas is toxic enough to suffocate webbed prey). Obsidian-Web (special: webs volcanic-glass silk that is invisible in steam; strong enough to hold a mammoth; DC 15 AGI to break free, or 20 slashing damage to cut). Volcanic-Heat (passive: body radiates intense heat; snow melts in 10 ft radius). Bull-Head-Slam (melee, +6 to hit, 2d8+5 bludgeoning + DC 14 AGI or knocked prone). Sacrifice-Taker (passive: demands monthly offering of refined ore from Fexric holdfasts; if refused, physically blocks hot-water pipes, freezing entire sections of Frostmaw Holdfast within hours). Vulnerable to cold (cold damage halves its regeneration for 3 rounds).
 **Stats:** STR 20, AGI 12, CON 18, INT 8, SPI 10, CHA 6 | HP 145, Mana 20, AP 5, Speed 30 | Resist: fire 100, physical 50, poison 50
 
-### 93. Baku-Dream  A | Low
+### 93. Baku  A | Low
 **Combat:** 55 HP. Nightmare-Eater (special: inserts trunk into a sleeper's dreamscape and literally consumes the nightmare; target wakes refreshed, no memory of bad dreams). Sacred-Huaca (passive: makes its claimed area sacred ground  no violence, no Wyrd-corruption, no supernatural threat can enter the space it claims). Aura-of-Calm (passive: 20-ft radius, all creatures gain +4 to SPI saves and are immune to fear). Trunk-Sniff (passive: tracks psychic residue of fear and nightmares; can identify which creature caused a nightmare by sniffing the dreamer). Gentle-Nudge (melee, +3 to hit, 1d4 bludgeoning  it is a peaceful creature). Vulnerable to fire.
 **Stats:** STR 14, AGI 10, CON 16, INT 12, SPI 18, CHA 14 | HP 55, Mana 40, AP 3, Speed 25 | Resist: psychic 100, cold 25
-**Signature:** *The Sacred Room*  A Baku-Dream that takes up residence in a section of the Holdfast creates a safe-room. Players will fight over these spaces.
+**Signature:** *The Sacred Room*  A Baku that takes up residence in a section of the Holdfast creates a safe-room. Players will fight over these spaces.
 
-### 94. Nekomata-Spur  A | Medium
+### 94. Nekomata  A | Medium
 **Combat:** 95 HP. Corpse-Puppeteer (special: raises frozen dead of the Peaks; the corpses walk in jerky, puppet-like fashion, movements synchronized to the flicking of its twin tails). Twin-Tail-Lightning (passive: lightning arcs between tail-tips; each tail flick can trigger a corpse-animation if a storm is present). Storm-Raise (passive: can raise the dead ONLY during storms  lightning provides the energy; a sufficiently large storm animates dozens simultaneously). Corpse-Green-Eyes (passive: eyes glow with eerie phosphorescent green, revealing its position in blizzard). Bone-Charm-Necklace (passive: each charm is from a different animated corpse; destroying a charm dismisses that specific corpse). Tail-Slash (melee, +5 to hit, 1d8+3 slashing + DC 13 CON or stunned 1 round). Vulnerable to fire.
 **Stats:** STR 12, AGI 18, CON 12, INT 10, SPI 16, CHA 8 | HP 95, Mana 30, AP 4, Speed 40 | Resist: lightning 100, cold 50
 
-### 95. Futakuchi-Ration  B | Medium
+### 95. Futakuchi  B | Medium
 **Combat:** 80 HP. Ration-Devour (passive: infests food-stores; consumes three times the rations of a normal person while appearing to eat almost nothing). Second-Mouth (passive: hidden beneath hair at back of skull; has its own independent tongue and voice  deeper, guttural, always demanding food). Guilt-Mouth (passive: the second mouth speaks the hunger of the mountain itself; Kethrin guild-masters who encounter it are said to have taken more than their share). Hair-Whip (melee, reach 10 ft, +5 to hit, 1d8+3 slashing  the second mouth's hair strikes independently). Vulnerable to fire.
 **Stats:** STR 10, AGI 14, CON 14, INT 10, SPI 12, CHA 8 | HP 80, Mana 20, AP 4, Speed 25 | Resist: physical 25, cold 25
 
-### 96. Wanyudo-Pass  A | High
+### 96. Wanyūdō  A | High
 **Combat:** 120 HP. Soul-Wheel (passive: from a distance, appears as a merchant's cart; up close, it is a single enormous wheel of compressed flame and screaming faces, rolling upright with no cart, no ox, no driver). Soul-Extraction (melee range 5 ft, targets who look directly at the wheel DC 15 SPI or their souls are extracted and added to the wheel's collection  their bodies remain, frozen, eyes wide, faces fixed in horrified recognition). Cold-Fire (passive: blue-white fire that gives no heat, only cold; melee attackers take 2d6 cold). Face-Rotation (passive: the faces in the wheel are translucent  trapped souls of dead travelers; each screams silently, mouths open in eternal agony). Pass-Collector (passive: most active during the old Inti-Raymi festival period  a corrupted version of the sun-festival's ceremonial wheel). Vulnerable to radiant.
 **Stats:** STR 16, AGI 18, CON 16, INT 8, SPI 16, CHA 10 | HP 120, Mana 40, AP 5, Speed 45 | Resist: fire 100, cold 100, physical 50
 
-### 97. Tsuchigumo-Burrow  A | High
+### 97. Tsuchigumo  A | High
 **Combat:** 135 HP. Golden-Web (passive: webs mineral-veins with gold-silk stronger than steel cable; touching the silk DC 15 CON or blood slowly crystallizes into metallic compounds). Illusion-Vein (passive: projects illusions of rich, unguarded mineral veins, luring miners into its web-tunnels; any vein that appears 'too good to be true' is a Tsuchigumo trap). Geode-Body (passive: body is a geode  cracked open, revealing hollow interior lined with crystal formations). Gemstone-Eyes (passive: eight eyes, each a different gemstone; each emits a different-colored beam that can be used as a ranged attack: +6 to hit, 1d6+2 of the gem's elemental type  ruby=fire, emerald=nature, sapphire=cold, diamond=psychic, opal=ice, topaz=lightning, amethyst=shadow, garnet=poison). Mandible-Clash (melee, +6 to hit, 2d6+4 slashing + metallic venom that slows). Vulnerable to fire.
 **Stats:** STR 18, AGI 14, CON 18, INT 12, SPI 12, CHA 8 | HP 135, Mana 40, AP 4, Speed 25 (burrow 20) | Resist: physical 50, fire 25, cold 50
 
@@ -435,11 +435,11 @@
 **Combat:** 40 HP. Pipeline-Cleaner (passive: infests pipeline-networks; licks accumulated mineral-scale from interior walls; a pipeline with an Akaname flows three times more efficiently). Tongue-Lash (melee, reach 10 ft, +5 to hit, 1d4+2 slashing  the tongue is three feet long, prehensile, rough like a cat's). Taboo-Enforcer (passive: enforces cleanliness rules; a workshop that neglects hygiene loses its Akaname, and within a month its pipes clog, tools corrode, machines fail). Cleaning-Tool-Armament (melee, +4 to hit, 1d6+1 slashing  uses brushes, scrapers, sponges as weapons). Vulnerable to fire.
 **Stats:** STR 8, AGI 18, CON 12, INT 10, SPI 10, CHA 8 | HP 40, Mana 10, AP 3, Speed 35 (climb 30) | Resist: poison 50
 
-### 99. Inugami-Chain  A | Medium
-**Combat:** 85 HP. Family-Bound (passive: bound to specific Groven families through ancient blood-rituals; serves as invisible guardian, protecting the family's home on the Ancestor-Spans). Ghost-Movement (passive: flickers  appearing to teleport short distances rather than walking; +8 to evasion). Face-Project (passive: can project its face onto any reflective surface, allowing it to watch over multiple locations simultaneously). Loyalty-Fang (melee, +5 to hit, 2d6+3 cold damage  spectral bite). Afterlife-Guide (passive: when a bound family-member dies, the Inugami-Chain guides their soul through the dangerous mountain-passes of the spirit-world). Ancestor-Span-Death (passive: when the Inugami itself finally fades, its essence is absorbed into the family's Ancestor-Span, strengthening the bone-bridge's structure permanently). Vulnerable to iron.
+### 99. Inugami  A | Medium
+**Combat:** 85 HP. Family-Bound (passive: bound to specific Groven families through ancient blood-rituals; serves as invisible guardian, protecting the family's home on the Ancestor-Spans). Ghost-Movement (passive: flickers  appearing to teleport short distances rather than walking; +8 to evasion). Face-Project (passive: can project its face onto any reflective surface, allowing it to watch over multiple locations simultaneously). Loyalty-Fang (melee, +5 to hit, 2d6+3 cold damage  spectral bite). Afterlife-Guide (passive: when a bound family-member dies, the Inugami guides their soul through the dangerous mountain-passes of the spirit-world). Ancestor-Span-Death (passive: when the Inugami itself finally fades, its essence is absorbed into the family's Ancestor-Span, strengthening the bone-bridge's structure permanently). Vulnerable to iron.
 **Stats:** STR 10, AGI 18, CON 12, INT 12, SPI 16, CHA 10 | HP 85, Mana 30, AP 4, Speed 35 (flicker 20) | Resist: cold 50, physical 50, psychic 50
 
-### 100. Ittan-Banner  B | Low
+### 100. Ittan  B | Low
 **Combat:** 45 HP. Message-Bearer (special: Groven elder whispers a message into one end; words travel the length of fabric, emerging from the other end at destination; messages cannot be intercepted or forged). Smother-Sleep (special: wraps around attacker's face, putting them in deep, dreamless sleep for exactly 1 day). Heart-Read (passive: embroidered patterns rearrange into readable messages  a name, a question, or a warning; changes based on the observer's deepest concern). Warm-Cloth (passive: warm to the touch, smells of llama-wool and mountain-herbs; +2 to survival checks while within 10 ft). Vulnerable to fire.
 **Stats:** STR 4, AGI 16, CON 10, INT 10, SPI 14, CHA 12 | HP 45, Mana 20, AP 3, Speed 30 (fly 40) | Resist: cold 50, psychic 25
 
@@ -732,7 +732,7 @@
 | 83 | Bean-Sidhe | Graiawood | Wail + prophecy |
 | 84 | Yuki-Onna | Graiawood | Ice-breath + charm |
 | 85 | Tengu-Sword | Graiawood | Wind-cut + dance |
-| 86 | Jorogumo-Span | Graiawood | Web-bridge + ambush |
+| 86 | Jorōgumo | Graiawood | Web-bridge + ambush |
 | 87 | Kappa-Lure | Graiawood | Neck-dish + drown |
 | 88 | Tsuchigumo-Vein | Graiawood | Venom-fang + web |
 | 90 | Zhen-Echo | Graiawood | Mirror-image + charm |

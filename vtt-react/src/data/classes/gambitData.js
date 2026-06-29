@@ -1,4 +1,21 @@
 export const GAMBIT_DATA = {
+  restrictions: {
+      "allowedSubraces": [
+          "merryn_human",
+          "breaker_myrathil",
+          "kessen_neth",
+          "ithran_groven"
+      ],
+      "hardBlocks": [
+          "tessen_human",
+          "skald_human",
+          "ordan_human",
+          "astril"
+      ],
+      "narrativeUnlock": true,
+      "justification": "Requires a culture that embraces risk-calculation. Tessen too isolated and risk-averse. Skald too honor-bound (gambling is dishonorable). Ordan too pragmatic. Astril too spiritually governed (spirit forbids random chance)."
+  },
+
   id: "gambit",
   name: "Gambit",
   icon: "fas fa-dice",
@@ -2348,6 +2365,7 @@ Your Fortune hits 0.
         actionPoints: 0,
         resourceTypes: ["mana"],
         resourceValues: { mana: 4 },
+        classResource: { type: "karmic_debt", cost: -1 },
         components: ["verbal"],
         verbalText: "Decido!"
       },
@@ -2399,6 +2417,7 @@ Your Fortune hits 0.
         actionPoints: 0,
         resourceTypes: ["mana"],
         resourceValues: { mana: 10 },
+        classResource: { type: "karmic_debt", cost: -2 },
         components: ["verbal"],
         verbalText: "Thread snap!"
       },

@@ -6,6 +6,25 @@
  */
 
 export const APEX_DATA = {
+  restrictions: {
+      "allowedSubraces": [
+          "maskborne_mimir",
+          "mistwoven_mimir",
+          "unwoven_mimir",
+          "skald_human",
+          "clean_vreken",
+          "marked_vreken"
+      ],
+      "hardBlocks": [
+          "emberth",
+          "neth",
+          "myrathil",
+          "tessen_human"
+      ],
+      "narrativeUnlock": true,
+      "justification": "Requires cultures with predator-tracking traditions. Skald hunt in the Hunger Glaciers. Mimir track Wyrd in the mist. Other cultures lack the sensory training."
+  },
+
   id : "apex",
   name: "Apex",
   icon: "fas fa-moon",

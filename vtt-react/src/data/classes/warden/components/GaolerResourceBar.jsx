@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom';
 import useChatStore from '../../../../store/chatStore';
 import useGameStore from '../../../../store/gameStore';
 import useCharacterStore from '../../../../store/characterStore';
-import '../styles/WardenResourceBar.css';
+import '../styles/GaolerResourceBar.css';
 import { useResourceBarTooltip } from '../../../../components/hud/useResourceBarTooltip';
 import '../../../../styles/unified-context-menu.css';
 
-const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud', isOwner = true, onClassResourceUpdate = null }) => {
+const GaolerResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud', isOwner = true, onClassResourceUpdate = null }) => {
     // Local state for dev testing
     const vpFromProps = classResource?.current ?? 0;
     const [localVP, setLocalVP] = useState(vpFromProps);
@@ -45,7 +45,7 @@ const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
             uniquePassiveDesc: 'Stealth attacks: +1 VP (total 3 VP), +1d8 damage, hide using action points. After spending 3+ VP: invisible for 1 round.'
         },
         jailer: {
-            name: 'Iron Gaoler',
+            name: 'Iron Warden',
             baseColor: '#1f2937',
             activeColor: '#4A5568',
             glowColor: '#94A3B8',
@@ -613,5 +613,5 @@ const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
     );
 };
 
-export default WardenResourceBar;
+export default GaolerResourceBar;
 

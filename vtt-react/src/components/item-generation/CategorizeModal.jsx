@@ -19,14 +19,14 @@ const CategorizeModal = ({ categories, currentCategoryId, onMoveToCategory, onCl
 
     // Register modal with window manager on mount
     useEffect(() => {
-        const baseZIndex = registerWindow(windowId, 'modal');
+        const baseZIndex = registerWindow(windowId, 'modal', onClose);
         setOverlayZIndex(baseZIndex);
         setModalZIndex(baseZIndex + 1);
 
         return () => {
             unregisterWindow(windowId);
         };
-    }, [windowId, registerWindow, unregisterWindow]);
+    }, [windowId, registerWindow, unregisterWindow, onClose]);
 
     // Position the modal near the cursor but ensure it stays on screen
     const modalStyle = {

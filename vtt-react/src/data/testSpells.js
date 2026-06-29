@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Comprehensive Test Spells
  * 
  * This file contains 37+ test spells that demonstrate EVERY feature of the spell wizard system.
@@ -2038,7 +2038,7 @@ export const ALL_TEST_SPELLS = [
 // Debug: Check if Arcane Counterstrike has triggerConfig
 const arcaneCounterstrike = ALL_TEST_SPELLS.find(s => s.name === 'TEST: Arcane Counterstrike');
 if (arcaneCounterstrike) {
-  console.log('🔍 Arcane Counterstrike in testSpells.js:', {
+  console.log('?? Arcane Counterstrike in testSpells.js:', {
     name: arcaneCounterstrike.name,
     hasTriggerConfig: !!arcaneCounterstrike.triggerConfig,
     triggerConfig: arcaneCounterstrike.triggerConfig
@@ -2091,19 +2091,19 @@ export const TEST_SPELL_CATEGORIES = [
 
 // Summary of test spells
 console.log(`
-╔════════════════════════════════════════════════════════════════╗
-║           COMPREHENSIVE TEST SPELL LIBRARY LOADED              ║
-╠════════════════════════════════════════════════════════════════╣
-║ Total Test Spells: ${ALL_TEST_SPELLS.length}                                          ║
-║                                                                ║
-║ Categories:                                                    ║
-║   • Resolution Methods: ${RESOLUTION_TEST_SPELLS.length} spells                              ║
-║   • Effect Types: ${EFFECT_TYPE_TEST_SPELLS.length} spells                                  ║
-║   • Spell Types: ${SPELL_TYPE_TEST_SPELLS.length} spells                                    ║
-║   • Targeting Types: ${TARGETING_TEST_SPELLS.length} spells                                 ║
-║   • Advanced Mechanics: ${ADVANCED_MECHANICS_TEST_SPELLS.length} spells                             ║
-║                                                                ║
-║ Purpose: Verify spell wizard formatting and display           ║
-╚════════════════════════════════════════════════════════════════╝
++----------------------------------------------------------------+
+�           COMPREHENSIVE TEST SPELL LIBRARY LOADED              �
+�----------------------------------------------------------------�
+� Total Test Spells: ${ALL_TEST_SPELLS.length}                                          �
+�                                                                �
+� Categories:                                                    �
+�   � Resolution Methods: ${RESOLUTION_TEST_SPELLS.length} spells                              �
+�   � Effect Types: ${EFFECT_TYPE_TEST_SPELLS.length} spells                                  �
+�   � Spell Types: ${SPELL_TYPE_TEST_SPELLS.length} spells                                    �
+�   � Targeting Types: ${TARGETING_TEST_SPELLS.length} spells                                 �
+�   � Advanced Mechanics: ${ADVANCED_MECHANICS_TEST_SPELLS.length} spells                             �
+�                                                                �
+� Purpose: Verify spell wizard formatting and display           �
++----------------------------------------------------------------+
 `);
 

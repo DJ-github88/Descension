@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import TooltipPortal from '../tooltips/TooltipPortal';
 
@@ -260,7 +260,7 @@ const ResourceTooltip = ({
                                                     background: 'rgba(160, 82, 45, 0.1)',
                                                     borderRadius: '3px'
                                                 }}>
-                                                    ★  {specBonus}
+                                                    ?  {specBonus}
                                                 </div>
                                             )}
                                         </div>
@@ -741,7 +741,7 @@ const ResourceTooltip = ({
                                         <div className="tooltip-section">
                                             <div className="tooltip-label">DD Progression</div>
                                             <div style={{ fontSize: '0.85rem' }}>
-                                                <strong>Progression:</strong> d12 → d10 → d8 → d6 → 0
+                                                <strong>Progression:</strong> d12 ? d10 ? d8 ? d6 ? 0
                                             </div>
                                             <div style={{ fontSize: '0.85rem', marginTop: '4px' }}>
                                                 Decreases per action/hit
@@ -1176,7 +1176,7 @@ const ResourceTooltip = ({
                                             <strong>Duration:</strong>
                                             <span>3 rounds per phase</span>
                                             <strong>Cycle Order:</strong>
-                                            <span>New → Waxing → Full → Waning</span>
+                                            <span>New ? Waxing ? Full ? Waning</span>
                                             <strong>Auto-Advance:</strong>
                                             <span>After round 3 completes</span>
                                         </div>
@@ -1277,7 +1277,7 @@ const ResourceTooltip = ({
                                             <div className="passive-desc">
                                                 {oracleSpec === 'seer' && 'Gain +1 Vision per correct prediction. Predictions cost no action points. Advantage on initiative.'}
                                                 {oracleSpec === 'truthseeker' && 'Detect lies and illusions. Uncover hidden knowledge for +1 Vision each.'}
-                                                {oracleSpec === 'fateseer' && 'Premonition: When a prediction resolves correctly, spend 1 Vision to immediately apply a fate effect (reroll, ±1d6, or advantage/disadvantage) related to that prediction.'}
+                                                {oracleSpec === 'fateseer' && 'Premonition: When a prediction resolves correctly, spend 1 Vision to immediately apply a fate effect (reroll, �1d6, or advantage/disadvantage) related to that prediction.'}
                                             </div>
                                         </div>
                                     </>
@@ -1354,7 +1354,7 @@ const ResourceTooltip = ({
                                     <strong>Current:</strong> {finalClassResource.current || 0}/{finalClassResource.max || 100} Mayhem
                                 </div>
                                 <div style={{ fontSize: '0.85rem', color: '#4E342E' }}>
-                                    Passive chaos pressure gauge â€” CANNOT be spent. Passively amplifies all spells as it rises. Only release is Wild Surge at 100.
+                                    Passive chaos pressure gauge — CANNOT be spent. Passively amplifies all spells as it rises. Only release is Wild Surge at 100.
                                 </div>
                             </div>
                         </div>

@@ -74,7 +74,7 @@ These 10 creatures are visually distinctive, mechanically unique, and thematical
 | **25** | **Perchtar** | Not a creature — a PROCESSION. A wall of masked ice-demons that parades through your town. Mechanically: a walking weather event. |
 | **59** | **Kur-Pit** | A sentient hole in the ground. Players fight geography. It has a face made of spiraling glyphs. Completely unprecedented. |
 | **78** | **Graia** | A living whirlpool that shows you your own future face and asks "What will you pay?" Ships that sail through it time-travel. |
-| **86** | **Jorōgumo-Span** | Half-spider, half-woman who IS the bridge you're crossing. She weaves the Ancestor-Span from her own body. The reveal is cinematic. |
+| **86** | **Jorōgumo** | Half-spider, half-woman who IS the bridge you're crossing. She weaves the Ancestor-Span from her own body. The reveal is cinematic. |
 | **107** | **Taotie-Gorge** | A creature that is literally a mouth with legs. 80% jaw. Buries itself as a pit trap and swallows entire herds. Classic monster-book art. |
 | **118** | **Lu-Wu Mountain** | A mammoth-sized tiger with nine human heads along its neck. Each head controls a different micro-season. Absurd and unforgettable. |
 | **120** | **Tengri-Spark** | A six-inch humanoid made of pure starlight in a world with no stars. The last fragment of the traded-away sky. Emotionally devastating. |
@@ -213,26 +213,26 @@ These 10 creatures are visually distinctive, mechanically unique, and thematical
 
 | # | Creature | Tier | Danger | Critical Assessment |
 |---|---|---|---|---|
-| 81 | Kappa-Crag | A | Low | Turtle-sprite guarding geothermal pools. The bow-debt weakness is the most charming mechanic in the entire compendium. |
+| 81 | Kappa | A | Low | Turtle-sprite guarding geothermal pools. The bow-debt weakness is the most charming mechanic in the entire compendium. |
 | 82 | Kitsune | A | Medium | Multi-tailed fox with illusion-storage in each tail. The backward-foot Chullachaqui tell is great player-skill design. |
 | 83 | Supayoni | B | High | Standard oni-brute. The aurora-club is nice but the design is the least creative fusion in the region. |
 | 84 | Yuki-Onna variant — CUT | — | — | Yuki-Onna already exists in the bestiary. This slot should be a different creature entirely. |
 | 85 | Tengu-Crag | B | Medium | Crow-spirit with wind-magic. But Tengu Scout already exists. Too similar. Needs radical differentiation. |
-| 86 | **Jorōgumo-Span** | **S** | **High** | **She IS the bridge. Half-spider, half-woman woven into the Ancestor-Span itself. The reveal is cinematic gold.** |
+| 86 | **Jorōgumo** | **S** | **High** | **She IS the bridge. Half-spider, half-woman woven into the Ancestor-Span itself. The reveal is cinematic gold.** |
 | 87 | Kodama | A | Low | Tiny mountain-spirit that repeats everything with a 7-second delay. The communication-network mechanic is genius VTT utility. |
-| 88 | Nurikabe-Drift | A | Medium | A section of cliff that blocks your path and rearranges mountain geography overnight. Unique "living terrain" design. |
-| 89 | Nue-Cloud | A | High | Shape-shifting nightmare-cloud that causes shared hallucinations. The "earth-wound immune response" ecology is inspired. |
-| 90 | Kasha-Snow | A | Medium | Flame-cat that steals corpses — or leaves fortune-miniatures. The duality (death-thief or fortune-bringer) is great ambiguity. |
-| 91 | Tanuki-Toll | A | Low | Raccoon-dog toll-collector who demands riddles and songs. The illa-stone reward mechanic is delightful. |
-| 92 | Ushi-Oni-Crag | A | High | Spider-bodied bull-demon that webs geothermal vents. The sabotage-heating-system mechanic is unique siege design. |
-| 93 | Baku-Dream | A | Low | Chimera that eats nightmares and makes rooms sacred. The "huaca zone" (no violence possible) is a brilliant safe-room mechanic. |
-| 94 | Nekomata-Spur | A | Medium | Split-tailed cat that animates frozen corpses during storms. The "burn your dead" countermeasure is dark worldbuilding. |
-| 95 | Futakuchi-Ration | B | Medium | Two-mouthed woman devouring rations. Great survival-horror mechanic but visually grotesque in a way that may not suit all tables. |
-| 96 | Wanyudo-Pass | A | High | Blazing wheel of screaming souls rolling through mountain passes. The corrupted-sun-festival origin ties beautifully to the setting. |
-| 97 | Tsuchigumo-Burrow | A | High | Geode-spider with gemstone eyes and golden web. The illusion-lure (fake mineral veins) is perfect trap design. |
+| 88 | Nurikabe | A | Medium | A section of cliff that blocks your path and rearranges mountain geography overnight. Unique "living terrain" design. |
+| 89 | Nue | A | High | Shape-shifting nightmare-cloud that causes shared hallucinations. The "earth-wound immune response" ecology is inspired. |
+| 90 | Kasha | A | Medium | Flame-cat that steals corpses — or leaves fortune-miniatures. The duality (death-thief or fortune-bringer) is great ambiguity. |
+| 91 | Tanuki | A | Low | Raccoon-dog toll-collector who demands riddles and songs. The illa-stone reward mechanic is delightful. |
+| 92 | Ushioni | A | High | Spider-bodied bull-demon that webs geothermal vents. The sabotage-heating-system mechanic is unique siege design. |
+| 93 | Baku | A | Low | Chimera that eats nightmares and makes rooms sacred. The "huaca zone" (no violence possible) is a brilliant safe-room mechanic. |
+| 94 | Nekomata | A | Medium | Split-tailed cat that animates frozen corpses during storms. The "burn your dead" countermeasure is dark worldbuilding. |
+| 95 | Futakuchi | B | Medium | Two-mouthed woman devouring rations. Great survival-horror mechanic but visually grotesque in a way that may not suit all tables. |
+| 96 | Wanyūdō | A | High | Blazing wheel of screaming souls rolling through mountain passes. The corrupted-sun-festival origin ties beautifully to the setting. |
+| 97 | Tsuchigumo | A | High | Geode-spider with gemstone eyes and golden web. The illusion-lure (fake mineral veins) is perfect trap design. |
 | 98 | Akaname | B | Low | Filth-licking pipeline cleaner. Functional utility creature but low encounter interest. The taboo-enforcer angle saves it. |
-| 99 | Inugami-Chain | A | Medium | Family-bound ghost-dog that guards and guides souls. The "absorbs into the Ancestor-Span on death" mechanic is emotionally resonant. |
-| 100 | Ittan-Banner | B | Low | Living cloth-strip messenger that reads hearts and smothers to protect. Creative but hard to visualize on a VTT grid. |
+| 99 | Inugami | A | Medium | Family-bound ghost-dog that guards and guides souls. The "absorbs into the Ancestor-Span on death" mechanic is emotionally resonant. |
+| 100 | Ittan | B | Low | Living cloth-strip messenger that reads hearts and smothers to protect. Creative but hard to visualize on a VTT grid. |
 
 **Region 5 Verdict:** Second strongest region. Excellent variety. Only real issues are #84 (redundant with existing Yuki-Onna) and #85 (redundant with existing Tengu Scout). Both slots should become entirely new creatures.
 
@@ -306,7 +306,7 @@ These creature pairs/groups are too similar and should be consolidated or differ
 | "Three-headed serpent" | Tiamat(42), Azi(54), Zmey-Bog(126) | All are multi-headed lava/ bog-serpents. Differentiate or cut one. |
 | "Wind/spirit horse" | Nokk Stallion(existing), Helhest(26), Tulpar(102), Tengri-Wind(114) | 4 spectral horses. Keep the 2 most distinctive. |
 | "Small household sprite" | Schratling(1), Knockbrew(9), Grogoch(12), Pixie(16), Waldschrat(19) | 5 small forest sprites in one region. Cut to 3. |
-| "Nightmare/terror spirit" | Drudehaunt(3), Marepress(22), Popobawa(76), Nue-Cloud(89) | All cause nightmares/paralysis. Differentiate the mechanics. |
+| "Nightmare/terror spirit" | Drudehaunt(3), Marepress(22), Popobawa(76), Nue(89) | All cause nightmares/paralysis. Differentiate the mechanics. |
 | "Bird-woman prophet" | Gamayun(130), Alkonost(137), Sirin(140) | All are Slavic bird-women with song-based powers. Sharpen each one's niche. |
 | "Mine/mineral guardian" | Koboldknock(4), Gaki(existing), Tsuchigumo(97), Bergthrall(34) | Too many underground mineral-keepers across regions. Ensure regional flavor differs enough. |
 

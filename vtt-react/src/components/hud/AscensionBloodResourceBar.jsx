@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 
 const AscensionBloodResourceBar = ({
   deathcallerState,
@@ -112,7 +112,7 @@ const AscensionBloodResourceBar = ({
             <div className={`class-resource-bar ascension-blood ${size} ${context === 'party' ? 'party-context' : ''}`}>
                 <div className="revenant-single-bar" style={{ display: 'flex', alignItems: 'center', width: '100%', gap: '4px' }}>
 
-                    {/* Ascension Paths (Left) â€” segmented skull cells */}
+                    {/* Ascension Paths (Left) — segmented skull cells */}
                     <div
                         ref={pathsBarRef}
                         className="ascension-paths-bar"
@@ -182,12 +182,12 @@ const AscensionBloodResourceBar = ({
                         </div>
                     </div>
 
-                    {/* Center Separator — skull */}
+                    {/* Center Separator � skull */}
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                         <i className="fas fa-skull" style={{ fontSize: '11px', color: '#8B0000', textShadow: '0 0 4px rgba(220,20,60,0.5)', margin: '0 1px' }}></i>
                     </div>
 
-                    {/* Blood Tokens Bar (Right) â€” fill bar */}
+                    {/* Blood Tokens Bar (Right) — fill bar */}
                     <div
                         ref={tokensBarRef}
                         className="blood-tokens-bar"

@@ -1,4 +1,4 @@
-﻿import React, { useRef, useEffect, useCallback, useState, forwardRef, useImperativeHandle } from 'react';
+import React, { useRef, useEffect, useCallback, useState, forwardRef, useImperativeHandle } from 'react';
 import { createRenderer } from './renderers';
 import '../styles/ResourceCanvasBar.css';
 

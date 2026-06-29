@@ -19,10 +19,10 @@ const QuickItemGeneratorModal = ({ onComplete, onCancel }) => {
     const [zIndex, setZIndex] = useState(2001);
 
     useEffect(() => {
-        const base = registerWindow(windowId, 'modal');
+        const base = registerWindow(windowId, 'modal', onCancel);
         setZIndex(base + 1);
         return () => unregisterWindow(windowId);
-    }, [windowId, registerWindow, unregisterWindow]);
+    }, [windowId, registerWindow, unregisterWindow, onCancel]);
 
     const handleMouseDown = useCallback((e) => {
         if (e.target.closest('.qig-close')) return;

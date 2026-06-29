@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
+import { List } from 'react-window';
 import MythrillWindow from '../../../windows/MythrillWindow';
 import { useSpellLibrary } from '../../context/SpellLibraryContext';
 import { transformSpellForCard, getSpellRollableTable } from '../../core/utils/spellCardTransformer';
@@ -60,7 +61,7 @@ const SpellLibraryPopup = ({
   }, [searchQuery, filterType, library.spells]);
 
   // Handle selecting a spell
-  const handleSelectSpell = (spellId) => {
+  const handleSelectSpell = useCallback((spellId) => {
     const selectedSpell = library.spells.find(s => s.id === spellId);
     if (selectedSpell) {
       if (onSelectSpell) {
@@ -68,7 +69,35 @@ const SpellLibraryPopup = ({
       }
       onClose();
     }
-  };
+  }, [library.spells, onSelectSpell, onClose]);
+
+  // Row renderer for react-window
+  const Row = useCallback(({ index, style }) => {
+    const spell = filteredSpells[index];
+    if (!spell) return null;
+    const transformedSpell = transformSpellForCard(spell);
+    const rollableTableData = getSpellRollableTable(spell);
+
+    return (
+      <div style={{ ...style, padding: '4px 8px', boxSizing: 'border-box' }}>
+        <div
+          className="spell-item library-style"
+          onClick={() => handleSelectSpell(spell.id)}
+          style={{ cursor: 'pointer', height: '100%', overflow: 'hidden' }}
+        >
+          <UnifiedSpellCard
+            spell={transformedSpell}
+            variant="wizard"
+            rollableTableData={rollableTableData}
+            showActions={false}
+            showDescription={true}
+            showStats={true}
+            showTags={true}
+          />
+        </div>
+      </div>
+    );
+  }, [filteredSpells, handleSelectSpell]);
 
   if (!isOpen) return null;
 
@@ -97,7 +126,7 @@ const SpellLibraryPopup = ({
         </div>
 
         {/* Spell cards */}
-        <div className="spell-library-popup-spells grid-view">
+        <div className="spell-library-popup-spells grid-view" style={{ overflow: 'hidden', padding: 0 }}>
           {filteredSpells.length === 0 ? (
             <div className="no-spells-found">
               <p>No spells match your search criteria.</p>
@@ -109,29 +138,15 @@ const SpellLibraryPopup = ({
               </button>
             </div>
           ) : (
-            <div className="spell-cards-container">
-              {filteredSpells.map(spell => {
-                const transformedSpell = transformSpellForCard(spell);
-                const rollableTableData = getSpellRollableTable(spell);
-
-                return (
-                  <div
-                    key={spell.id}
-                    className="spell-item library-style"
-                    onClick={() => handleSelectSpell(spell.id)}
-                  >
-                    <UnifiedSpellCard
-                      spell={transformedSpell}
-                      variant="wizard"
-                      rollableTableData={rollableTableData}
-                      showActions={false}
-                      showDescription={true}
-                      showStats={true}
-                      showTags={true}
-                    />
-                  </div>
-                );
-              })}
+            <div className="spell-cards-container" style={{ overflow: 'hidden', maxHeight: 'none', height: '540px', padding: 0 }}>
+              <List
+                height={540}
+                itemCount={filteredSpells.length}
+                itemSize={380}
+                width="100%"
+              >
+                {Row}
+              </List>
             </div>
           )}
         </div>

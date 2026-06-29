@@ -1,4 +1,4 @@
-﻿import { formatAoeShape, formatDurationText } from './spellFormatterUtils';
+import { formatAoeShape, formatDurationText } from './spellFormatterUtils';
 
 const useTargetingFormatters = ({ spell }) => {
   const formatCastTime = () => {
@@ -800,7 +800,7 @@ const useTargetingFormatters = ({ spell }) => {
             const firstKey = keys[0];
             const rounds = prf[firstKey];
             if (Array.isArray(rounds) && rounds.length > 1) {
-              const scaling = rounds.map(r => r.formula || r).join(' â†’ ');
+              const scaling = rounds.map(r => r.formula || r).join(' → ');
               bullets.push(`Scaling: ${scaling}`);
             }
           }
@@ -811,7 +811,7 @@ const useTargetingFormatters = ({ spell }) => {
           const cc = spell.channelingConfig;
           if (cc.persistentRadius) bullets.push(`${cc.persistentRadius}ft radius aura`);
           if (cc.initialRadius && cc.maxRadius && cc.expansionRate) {
-            bullets.push(`${cc.initialRadius}ft â†’ ${cc.maxRadius}ft (+${cc.expansionRate}ft/tick)`);
+            bullets.push(`${cc.initialRadius}ft → ${cc.maxRadius}ft (+${cc.expansionRate}ft/tick)`);
           }
         }
         break;

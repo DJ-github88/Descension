@@ -492,16 +492,18 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
     const registerWindow = useWindowManagerStore(state => state.registerWindow);
     const unregisterWindow = useWindowManagerStore(state => state.unregisterWindow);
 
+    const resolvedOnClose = onCancel || onClose;
+
     // Register modal with window manager on mount
     useEffect(() => {
-        const baseZIndex = registerWindow(windowId, 'modal');
+        const baseZIndex = registerWindow(windowId, 'modal', resolvedOnClose);
         setOverlayZIndex(baseZIndex);
         setModalZIndex(baseZIndex + 1);
 
         return () => {
             unregisterWindow(windowId);
         };
-    }, [windowId, registerWindow, unregisterWindow]);
+    }, [windowId, registerWindow, unregisterWindow, resolvedOnClose]);
 
     const [isDragging, setIsDragging] = useState(false);
     const [position, setPosition] = useState(() => ({

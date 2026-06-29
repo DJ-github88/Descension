@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Class-Specific Starting Equipment
  * 
  * Items that are only available to specific character classes.
@@ -3312,7 +3312,7 @@ export const APEX_ITEMS = [
     }
 ];
 
-// Warden - Guardian protector
+// Warden - Penitent Jailer
 export const WARDEN_ITEMS = [
     {
         id: 'warden-guardian-spear',

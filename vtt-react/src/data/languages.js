@@ -139,15 +139,6 @@ export const LANGUAGES = [
         translation: 'Hold fast to honor in the endless cold'
     },
     {
-        name: 'Corvid-Speech',
-        icon: 'fa-crow',
-        category: 'racial',
-        description: 'The fate-touched language of the Corvani subfolk, bound to the ancient Corvid Fate-Spirits who preserve memories against the northern isolation. Incorporates clicks, whistles, and raven-calls. The markings on a Corvani\'s skin shift in time with certain phrases, allowing silent communication across glacier-faces.',
-        sound: 'Mysterious and melodic, with clicks, whistles, and trills that mimic the calls of ravens and crows carried on polar wind.',
-        example: '*caw-click-whistle* *fate-mark-shift*',
-        translation: 'The flock watches. The secret is kept.'
-    },
-    {
         name: 'Terran',
         icon: 'fa-gem',
         category: 'racial',
@@ -279,7 +270,7 @@ export const LANGUAGES = [
         name: 'Auran',
         icon: 'fa-cloud',
         category: 'elemental',
-        description: 'The light, airy language of sky-dwelling elementals, wind-spirits, and the blizzard-voices above the Cragjaw Peaks\' snow-veil. The Corvani Fate-Scouts who navigate above the blizzard line speak fragments of Auran.',
+        description: 'The light, airy language of sky-dwelling elementals, wind-spirits, and the blizzard-voices above the Cragjaw Peaks\' snow-veil.',
         sound: 'Light and airy, whistling like wind through high clouds with breathy consonants.',
         example: 'Whistle-rush-sky-high-blizzard',
         translation: 'Wind whispers high where the blizzard hides'

@@ -1,4 +1,4 @@
-﻿import { cleanFormula, normalizeSaveType } from './spellFormatterUtils';
+import { cleanFormula, normalizeSaveType } from './spellFormatterUtils';
 
 const useDamageHealingFormatters = ({ spell, variant, enhanceFormulaDisplay }) => {
 
@@ -501,12 +501,12 @@ const useDamageHealingFormatters = ({ spell, variant, enhanceFormulaDisplay }) =
           // Add card/coin info if applicable
           if (spell.resolution === 'CARDS' && cardConfig) {
             const drawCount = cardConfig.drawCount || 3;
-            dotText = `Draw ${drawCount} cards: ${formulas.join(' â†’ ')} over ${durationText}`;
+            dotText = `Draw ${drawCount} cards: ${formulas.join(' → ')} over ${durationText}`;
           } else if (spell.resolution === 'COINS' && coinConfig) {
             const flipCount = coinConfig.flipCount || 4;
-            dotText = `Flip ${flipCount} coins: ${formulas.join(' â†’ ')} over ${durationText}`;
+            dotText = `Flip ${flipCount} coins: ${formulas.join(' → ')} over ${durationText}`;
           } else {
-            dotText = `${formulas.join(' â†’ ')} over ${durationText}`;
+            dotText = `${formulas.join(' → ')} over ${durationText}`;
           }
         }
       } else if (spell.resolution === 'CARDS') {
@@ -674,7 +674,7 @@ const useDamageHealingFormatters = ({ spell, variant, enhanceFormulaDisplay }) =
 
             const progressiveText = spell.healingConfig.hotProgressiveStages
               .map(stage => `${unitLabel} ${stage.turn}: Draw ${drawCount} cards: ${cleanFormula(stage.formula)}`)
-              .join(' â†’ ');
+              .join(' → ');
 
             return progressiveText;
           } else {
@@ -695,7 +695,7 @@ const useDamageHealingFormatters = ({ spell, variant, enhanceFormulaDisplay }) =
 
             const progressiveText = spell.healingConfig.hotProgressiveStages
               .map(stage => `${unitLabel} ${stage.turn}: Flip ${flipCount} coins: ${cleanFormula(stage.formula)}`)
-              .join(' â†’ ');
+              .join(' → ');
 
             return progressiveText;
           } else {
@@ -714,7 +714,7 @@ const useDamageHealingFormatters = ({ spell, variant, enhanceFormulaDisplay }) =
 
             const progressiveText = spell.healingConfig.hotProgressiveStages
               .map(stage => `${unitLabel} ${stage.turn}: ${cleanFormula(stage.formula)}`)
-              .join(' â†’ ');
+              .join(' → ');
 
             return progressiveText;
           } else {

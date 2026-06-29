@@ -1356,7 +1356,7 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
       minstrel: { url: '/assets/images/classes/minstrel_illustration.png', caption: 'A Myrathil Minstrel channeling living melody with a delicate lute.' },
       inquisitor: { url: '/assets/images/classes/inquisitor_illustration.png', caption: 'A Vreken Inquisitor wreathed in cold iron chains and spectral demon-fire, standing over a broken summoning circle.' },
       apex: { url: '/assets/images/classes/apex_illustration.png', caption: 'A Mist-Woven Mimir Apex pulling back a recurve bow with thorny arrows.' },
-      warden: { url: '/assets/images/classes/warden_illustration.png', caption: 'A Briaran Warden forest scout tracing boundary paths with a brass compass.' },
+      Warden: { url: '/assets/images/classes/warden_illustration.png', caption: 'A Warden, the penitent jailer, with rusted iron chains driven through forearms.' },
       gambler: { url: '/assets/images/classes/gambler_illustration.png', caption: 'A Neth Gambler dancing on the scales of blind fortune, flipping a glowing coin.' },
       chronarch: { url: '/assets/images/classes/chronarch_illustration.png', caption: 'An Astril Chronarch using starlight sand to stabilize a bleeding timeline.' },
       spellguard: { url: '/assets/images/classes/spellguard_illustration.png', caption: 'A Fexrick Spellguard deep-gnome shield-master carrying a glowing magical tower shield.' },
@@ -2486,7 +2486,7 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
       'toxicologist': 'fas fa-flask',
       'lunarch': 'fas fa-moon',
       'apex': 'fas fa-crosshairs',
-      'warden': 'fas fa-gavel',
+      'Warden': 'fas fa-gavel',
       'augur': 'fas fa-skull-crossbones'
     };
     

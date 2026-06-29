@@ -8,6 +8,34 @@
  */
 
 export const LUNARCH_DATA = {
+  restrictions: {
+      "allowedSubraces": [
+          "unshorn_briaran",
+          "smoothskinned_briaran",
+          "maskborne_mimir",
+          "mistwoven_mimir",
+          "unwoven_mimir",
+          "thalren_human"
+      ],
+      "hardBlocks": [
+          "neth",
+          "astril",
+          "vreken",
+          "skald_human",
+          "emberth",
+          "groven",
+          "fexrick",
+          "myrathil",
+          "solvarn_human",
+          "merryn_human",
+          "ordan_human",
+          "tessen_human",
+          "morren_human"
+      ],
+      "narrativeUnlock": true,
+      "justification": "Requires fog-dense environments where void-light is accessible. The parasite specifically responded to Viridane blood. Non-Briaran who enter the moonlit groves may be chosen, but the Briaran are the original bloodline."
+  },
+
   id : "lunarch",
   name: "Lunarch",
   icon: "fas fa-moon",

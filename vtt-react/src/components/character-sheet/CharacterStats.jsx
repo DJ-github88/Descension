@@ -1297,17 +1297,32 @@ export default function CharacterStats() {
                                 const magnitudeType = effect.statModifier.magnitudeType;
                                 
                                 const resistanceMap = {
-                                    'frost_resistance': 'frost',
-                                    'cold_resistance': 'frost',
-                                    'fire_resistance': 'fire',
-                                    'lightning_resistance': 'lightning',
-                                    'acid_resistance': 'acid',
-                                    'force_resistance': 'force',
-                                    'necrotic_resistance': 'necrotic',
-                                    'radiant_resistance': 'radiant',
-                                    'poison_resistance': 'poison',
-                                    'psychic_resistance': 'psychic',
-                                    'thunder_resistance': 'thunder'
+                                    'physical_resistance': 'physical',
+                                    'bludgeoning_resistance': 'physical',
+                                    'piercing_resistance': 'physical',
+                                    'slashing_resistance': 'physical',
+                                    'ember_resistance': 'ember',
+                                    'fire_resistance': 'ember',
+                                    'radiant_resistance': 'divine',
+                                    'divine_resistance': 'divine',
+                                    'rime_resistance': 'rime',
+                                    'frost_resistance': 'rime',
+                                    'cold_resistance': 'rime',
+                                    'storm_resistance': 'storm',
+                                    'lightning_resistance': 'storm',
+                                    'force_resistance': 'storm',
+                                    'thunder_resistance': 'storm',
+                                    'arcane_resistance': 'arcane',
+                                    'primal_resistance': 'primal',
+                                    'nature_resistance': 'primal',
+                                    'blight_resistance': 'blight',
+                                    'necrotic_resistance': 'blight',
+                                    'void_resistance': 'blight',
+                                    'poison_resistance': 'blight',
+                                    'acid_resistance': 'blight',
+                                    'wyrd_resistance': 'wyrd',
+                                    'psychic_resistance': 'wyrd',
+                                    'chaos_resistance': 'wyrd'
                                 };
                                 
                                 const resistanceType = resistanceMap[statName];
@@ -1336,23 +1351,31 @@ export default function CharacterStats() {
                                     
                                     // Map immunity names to damage types
                                     const immunityMap = {
-                                        'frost': 'frost',
-                                        'cold': 'frost',
-                                        'fire': 'fire',
-                                        'lightning': 'lightning',
-                                        'acid': 'acid',
-                                        'force': 'force',
-                                        'necrotic': 'necrotic',
-                                        'radiant': 'radiant',
-                                        'psychic': 'psychic',
-                                        'thunder': 'thunder',
-                                        'chaos': 'chaos',
-                                        'void': 'void',
-                                        'nature': 'nature',
+                                        'frost': 'rime',
+                                        'cold': 'rime',
+                                        'rime': 'rime',
+                                        'fire': 'ember',
+                                        'ember': 'ember',
+                                        'lightning': 'storm',
+                                        'storm': 'storm',
+                                        'acid': 'blight',
+                                        'force': 'storm',
+                                        'necrotic': 'blight',
+                                        'blight': 'blight',
+                                        'radiant': 'divine',
+                                        'divine': 'divine',
+                                        'psychic': 'wyrd',
+                                        'wyrd': 'wyrd',
+                                        'thunder': 'storm',
+                                        'chaos': 'wyrd',
+                                        'void': 'blight',
+                                        'nature': 'primal',
+                                        'primal': 'primal',
                                         'arcane': 'arcane',
-                                        'bludgeoning': 'bludgeoning',
-                                        'piercing': 'piercing',
-                                        'slashing': 'slashing'
+                                        'bludgeoning': 'physical',
+                                        'piercing': 'physical',
+                                        'slashing': 'physical',
+                                        'physical': 'physical'
                                     };
                                     
                                     // Check if this immunity matches the damage type
@@ -1657,10 +1680,14 @@ export default function CharacterStats() {
                         if (flatReduction > 0) {
                             // Find which items provide this flat reduction
                             // Check both normalized and original damage type (e.g., necrotic and shadow)
-                            const physicalTypes = ['bludgeoning', 'piercing', 'slashing'];
-                            const checkDamageTypes = damageType === 'necrotic' ? ['necrotic', 'shadow'] : 
-                                                   damageType === 'radiant' ? ['radiant', 'holy'] : 
-                                                   physicalTypes.includes(damageType) ? [damageType, 'physical'] : 
+                            const checkDamageTypes = damageType === 'blight' ? ['blight', 'necrotic', 'shadow', 'poison', 'acid', 'void'] : 
+                                                   damageType === 'divine' ? ['divine', 'radiant', 'holy'] : 
+                                                   damageType === 'rime' ? ['rime', 'frost', 'cold', 'ice'] :
+                                                   damageType === 'ember' ? ['ember', 'fire'] :
+                                                   damageType === 'storm' ? ['storm', 'lightning', 'force', 'thunder'] :
+                                                   damageType === 'primal' ? ['primal', 'nature', 'viscera'] :
+                                                   damageType === 'wyrd' ? ['wyrd', 'chaos', 'psychic'] :
+                                                   damageType === 'physical' ? ['physical', 'bludgeoning', 'piercing', 'slashing'] :
                                                    [damageType];
                             
                             Object.values(equipment).filter(Boolean).forEach(item => {

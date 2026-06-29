@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 
 const THEME_COLORS = {
   mechanic: '#d4af37',

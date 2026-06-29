@@ -556,8 +556,9 @@ function normalizeBuffConfig(spell) {
       }
       
       // Only convert if effects array is empty or doesn't have these statModifiers already
-      const existingStatMods = spell.buffConfig.effects.filter(e => e.statModifier).map(e => e.statModifier.stat);
+      const existingStatMods = spell.buffConfig.effects.filter(e => e && e.statModifier).map(e => e.statModifier.stat);
       spell.buffConfig.statModifiers.forEach(statMod => {
+        if (!statMod) return;
         // Check if this statModifier is already in effects array
         if (!existingStatMods.includes(statMod.stat || statMod.id)) {
           spell.buffConfig.effects.push({

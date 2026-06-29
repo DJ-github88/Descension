@@ -88,7 +88,7 @@ const CharacterManagement = ({ user }) => {
 
       // 'Titan' removed (absorbed into Warden as Monolith specialization)
 
-      'Toxicologist': 'To', 'Warden': 'Wa', 'Augur': 'Au',
+      'Toxicologist': 'To', 'Warden': 'Ga', 'Augur': 'Au',
 
       'Augur': 'Au'
 

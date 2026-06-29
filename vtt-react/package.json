@@ -47,6 +47,7 @@
     "monitor:deployment": "node ../scripts/monitor-deployment.js",
     "monitor:once": "node ../scripts/monitor-deployment.js --once",
     "test": "react-scripts test",
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -70,6 +71,7 @@
     "@babel/eslint-parser": "^7.27.1",
     "@babel/preset-react": "^7.26.3",
     "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^14.3.1",
     "cross-env": "^10.1.0",
     "css-minimizer-webpack-plugin": "^7.0.2",
     "serve": "^14.2.4",

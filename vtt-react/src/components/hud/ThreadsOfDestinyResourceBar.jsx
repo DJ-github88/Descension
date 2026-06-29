@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 
 const ThreadsOfDestinyResourceBar = ({
   fateWeaverState,
@@ -45,13 +45,13 @@ const ThreadsOfDestinyResourceBar = ({
                 const crystalSymbols = modifiedConfig.visual.crystalSymbols || ['\u25C6', '\u25C8', '\u2736', '\u2605'];
                 return crystalSymbols[index % crystalSymbols.length];
             } else if (spec === 'card-master') {
-                const cardSymbols = modifiedConfig.visual.cardSymbols || ['card', '♠', '♥', '♦', '♣'];
+                const cardSymbols = modifiedConfig.visual.cardSymbols || ['card', '?', '?', '?', '?'];
                 return cardSymbols[index % cardSymbols.length];
             } else if (spec === 'thread-weaver') {
                 const webSymbols = modifiedConfig.visual.webSymbols || ['\u29B7', '\u2736', '\u2605', '\u25C8'];
                 return webSymbols[index % webSymbols.length];
             } else {
-                const suits = modifiedConfig.visual.cardSuits || ['♠', '♥', '♦', '♣'];
+                const suits = modifiedConfig.visual.cardSuits || ['?', '?', '?', '?'];
                 return suits[index % suits.length];
             }
         };

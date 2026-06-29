@@ -86,11 +86,45 @@ const validationSchemas = {
     velocity: Joi.object().optional()
   }),
 
-  // Combat
+  // Combat — legacy combat_action event (kept for back-compat; not emitted by current clients)
   combat_action: Joi.object({
     type: Joi.string().valid('next_turn', 'initiative_roll').required(),
     data: Joi.object().optional()
   }),
+
+  // Combat — actual events emitted by combatStore.js / GMToolsPanel.jsx.
+  // turnOrder combatants must have a tokenId; additional combatant fields
+  // (actionPoints, agilityMod, etc.) are passed through so receiving clients
+  // don't lose combat state. Authority checks (combatAuthority.js) are the
+  // stronger defense against malicious payloads.
+  combat_started: Joi.object({
+    roomId: Joi.string().max(200).optional(),
+    turnOrder: Joi.array().items(
+      Joi.object({
+        tokenId: Joi.string().max(200).required()
+      }).unknown(true)
+    ).default([]),
+    round: Joi.number().integer().min(1).max(10000).default(1),
+    currentTurnIndex: Joi.number().integer().min(0).max(10000).default(0),
+    timestamp: Joi.number().optional()
+  }).unknown(false),
+
+  combat_ended: Joi.object({
+    roomId: Joi.string().max(200).optional(),
+    timestamp: Joi.number().optional()
+  }).unknown(false),
+
+  // Client emits inconsistent field names (combatStore: currentTurnIndex,
+  // legacy/GMToolsPanel: turnIndex). Schema normalises to the canonical name.
+  combat_turn_changed: Joi.object({
+    roomId: Joi.string().max(200).optional(),
+    currentTurnIndex: Joi.number().integer().min(0).max(10000).required(),
+    round: Joi.number().integer().min(1).max(10000).optional(),
+    turnOrder: Joi.array().optional(),
+    timestamp: Joi.number().optional()
+  })
+    .rename('turnIndex', 'currentTurnIndex', { ignoreUndefined: true, override: true })
+    .unknown(false),
 
   // Item management
   item_dropped: Joi.object({

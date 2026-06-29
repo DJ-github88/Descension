@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef, useCallback, useMemo, lazy, Suspense } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo, lazy, Suspense } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import RoomLobby from './RoomLobby';
 import GameSessionInvitation from './GameSessionInvitation';
@@ -124,7 +124,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   // Helper to start joining room with synchronized ref (avoids race condition)
   const startJoiningRoom = useCallback(() => {
     const now = Date.now();
-    console.log('ðŸ”„ [MultiplayerApp] startJoiningRoom called at:', new Date(now).toLocaleTimeString());
+    console.log('🔄 [MultiplayerApp] startJoiningRoom called at:', new Date(now).toLocaleTimeString());
     joinStartTimeRef.current = now;
     setJoinStartTime(now);
     setIsJoiningRoom(true);
@@ -255,7 +255,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     const startTime = joinStartTimeRef.current || joinStartTime;
     if (!startTime) {
-      console.log('â³ [MultiplayerApp] Progress Effect: Waiting for startTime...');
+      console.log('⏳ [MultiplayerApp] Progress Effect: Waiting for startTime...');
       return;
     }
 
@@ -267,7 +267,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     const isGMCreating = !!isGM && !currentRoom;
     const readyToContinue = isRoomReady && !isFadingOut;
     
-    console.log('â±ï¸ [MultiplayerApp] Progress Effect:', {
+    console.log('⏱️ [MultiplayerApp] Progress Effect:', {
       isRoomReady,
       isJoiningRoom,
       isFadingOut,
@@ -289,7 +289,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // AUTOMATION: If this was an invitation or auto-join flow, skip the button
     // Also skip for GMs who just created the room (they're in a hurry!)
     if (isInvitation || isGMCreating) {
-      console.log('âœ¨ [MultiplayerApp] Auto-continue triggered:', { isInvitation, isGMCreating });
+      console.log('✨ [MultiplayerApp] Auto-continue triggered:', { isInvitation, isGMCreating });
       const timer = setTimeout(() => {
         if (isJoiningRoom && !isFadingOut) {
           handleLoadingContinue();
@@ -299,7 +299,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     }
 
     // Otherwise, show continue button after minimum duration
-    console.log('ðŸ‘‹ [MultiplayerApp] Auto-continue not triggered, showing Continue button in:', remainingTime);
+    console.log('👋 [MultiplayerApp] Auto-continue not triggered, showing Continue button in:', remainingTime);
     const timer = setTimeout(() => {
       if (isJoiningRoom && !isFadingOut) {
         setShowContinue(true);
@@ -315,11 +315,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   useEffect(() => {
     if (!isJoiningRoom || isFadingOut || currentRoom) return;
 
-    const STUCK_THRESHOLD = 20000; // 20s â€” far beyond the ~1.5s normal auto-continue window
+    const STUCK_THRESHOLD = 20000; // 20s — far beyond the ~1.5s normal auto-continue window
 
     const timeoutId = setTimeout(() => {
       if (isJoiningRoomRef.current && !currentRoomRef.current && !isRoomReady && !isFadingOut) {
-        console.error('âŒ› [MultiplayerApp] Loading safety net triggered â€” stuck joining. Forcing dismissal.');
+        console.error('⌛ [MultiplayerApp] Loading safety net triggered — stuck joining. Forcing dismissal.');
         setIsJoiningRoom(false);
         setIsRoomReady(false);
         setPendingRoomData(null);
@@ -370,7 +370,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         lastMapId = currentMapId;
         setPlayerCurrentMapId(currentMapId);
         playerCurrentMapIdRef.current = currentMapId;
-        console.log(`ðŸ—ºï¸ [MapSync] Synced playerCurrentMapId with mapStore: ${currentMapId}`);
+        console.log(`🗺️ [MapSync] Synced playerCurrentMapId with mapStore: ${currentMapId}`);
       }
     });
     return () => unsubscribe();
@@ -413,7 +413,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   // Unified store cleanup for joining/creating rooms
   const clearAllMultiplayerStores = useCallback((options = {}) => {
     const { preserveMapEntities = false } = options;
-    console.log('ðŸ§¹ Clearing all stores for clean room initialization', { preserveMapEntities });
+    console.log('🧹 Clearing all stores for clean room initialization', { preserveMapEntities });
 
     if (!preserveMapEntities) {
       // Level editor
@@ -424,7 +424,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       useCreatureStore.getState().clearCreatureTokens();
       useCharacterTokenStore.getState().clearCharacterTokens();
     } else {
-      console.log('ðŸ›¡ï¸ Preserving map entity stores for permanent room resume');
+      console.log('🛡️ Preserving map entity stores for permanent room resume');
     }
 
     // Combat
@@ -478,7 +478,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     const targetingStore = useTargetingStore.getState();
     if (targetingStore && targetingStore.resetStore) targetingStore.resetStore();
 
-    console.log('âœ… All stores cleared');
+    console.log('✅ All stores cleared');
   }, []);
 
   // Refs for values used in socket event handlers to prevent dependency issues
@@ -607,7 +607,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // 2. Concurrency Guard: Move this to the VERY TOP to prevent race conditions
     // between rapid socket events and this async function
     if (autoJoinAttemptedRef.current) {
-      console.log('ðŸ”„ [Auto-Join] Already attempted or in progress, skipping');
+      console.log('🔄 [Auto-Join] Already attempted or in progress, skipping');
       return;
     }
 
@@ -620,7 +620,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     const resumeRoomName = localStorage.getItem('resumeRoomName');
     const pendingInvitation = sessionStorage.getItem('pendingGMSessionInvitation');
 
-    console.log('ðŸ” [Auto-Join] checkAutoJoin triggered:', {
+    console.log('🔍 [Auto-Join] checkAutoJoin triggered:', {
       hasSelectedRoom: !!selectedRoomId,
       hasInvitation: !!pendingInvitation,
       isJoining: isJoiningRoomRef.current,
@@ -631,7 +631,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     if (pendingInvitation && !currentRoomRef.current) {
       try {
         const invitation = JSON.parse(pendingInvitation);
-        console.log('ðŸ“¨ [Auto-Join] Found pending GM session invitation, responding:', invitation.partyName);
+        console.log('📨 [Auto-Join] Found pending GM session invitation, responding:', invitation.partyName);
         setLoadingStatusMessage(`Accepting invitation from ${invitation.senderName || 'GM'}...`);
 
         // Mark that we've initiated an invitation response sequence
@@ -645,12 +645,12 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         const retryCount = parseInt(sessionStorage.getItem('invitationRetryCount') || '0', 10);
 
         if (lastEmittedInvitationId === invitation.invitationId && retryCount >= 1) {
-          console.log('â­ï¸ [Auto-Join] Already attempted and retried for this invitation, waiting for server or timeout...');
+          console.log('⏭️ [Auto-Join] Already attempted and retried for this invitation, waiting for server or timeout...');
           return;
         }
 
         if (lastEmittedInvitationId === invitation.invitationId) {
-          console.log('ðŸ”„ [Auto-Join] Retrying invitation response (1/1)...');
+          console.log('🔄 [Auto-Join] Retrying invitation response (1/1)...');
           sessionStorage.setItem('invitationRetryCount', (retryCount + 1).toString());
         } else {
           sessionStorage.setItem('lastEmittedInvitationId', invitation.invitationId);
@@ -668,13 +668,13 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         setTimeout(() => {
           if (isJoiningRoomRef.current && !currentRoomRef.current) {
             setLoadingStatusMessage('Still waiting for realm access...');
-            console.warn('âš ï¸ [Auto-Join] Server took too long to respond to invitation, resetting attempt flag');
+            console.warn('⚠️ [Auto-Join] Server took too long to respond to invitation, resetting attempt flag');
             autoJoinAttemptedRef.current = false;
 
             // If we've already retried, show error or allow manual join
             const finalRetryCount = parseInt(sessionStorage.getItem('invitationRetryCount') || '0', 10);
             if (finalRetryCount >= 1) {
-              console.error('âŒ [Auto-Join] Invitation response totally timed out after retry.');
+              console.error('❌ [Auto-Join] Invitation response totally timed out after retry.');
               addNotification('social', {
                 sender: { name: 'System', class: 'system', level: 0 },
                 content: 'Server connection timed out while joining the realm. Please try joining manually.',
@@ -697,7 +697,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Check if we have a room to join and the socket is connected
     // NOTE: We check !currentRoomRef.current to avoid re-joining if already in a room
     if (selectedRoomId && !currentRoomRef.current) {
-      console.log('ðŸš€ [Auto-Join] Initiating join for:', selectedRoomId, { isGMResume });
+      console.log('🚀 [Auto-Join] Initiating join for:', selectedRoomId, { isGMResume });
 
       // Mark as auto-continue sequence
       isAutoJoinSequenceRef.current = true;
@@ -714,7 +714,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // Ensure character data is loaded before joining
       let activeCharacter = getActiveCharacter();
       if (!activeCharacter) {
-        console.log('ðŸš€ [Auto-Join] Loading active character before join...');
+        console.log('🚀 [Auto-Join] Loading active character before join...');
         activeCharacter = await loadActiveCharacter();
       }
 
@@ -757,17 +757,17 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       if (isGMResume) {
         // GM is resuming a permanent room - need to CREATE/ACTIVATE it on the socket server
-        console.log('ðŸ‘‘ [Auto-Join] GM resuming permanent room - creating on server:', selectedRoomId);
+        console.log('👑 [Auto-Join] GM resuming permanent room - creating on server:', selectedRoomId);
 
         // CRITICAL FIX: Clear social party members BEFORE creating room (not after)
         try {
           const currentPartyMembers = usePartyStore.getState().partyMembers || [];
           if (currentPartyMembers.length > 0) {
-            console.log('ðŸ§¹ Clearing social party members BEFORE create_room');
+            console.log('🧹 Clearing social party members BEFORE create_room');
             usePartyStore.getState().clearPartyMembers();
           }
         } catch (e) {
-          console.warn('âš ï¸ Failed to clear party members before create_room:', e);
+          console.warn('⚠️ Failed to clear party members before create_room:', e);
         }
 
         // Set flag to prevent social party from syncing to partyStore during transition
@@ -783,7 +783,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           partyMembers: [] // GM resumes alone initially
         };
 
-        console.log('ðŸ“¤ [Auto-Join] Sending create_room for GM resume:', selectedRoomId);
+        console.log('📤 [Auto-Join] Sending create_room for GM resume:', selectedRoomId);
         socket.emit('create_room', createData);
       } else {
         // Regular player joining or test room
@@ -795,13 +795,13 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           character: characterData
         };
 
-        console.log('ðŸ“¤ [Auto-Join] Sending join_room:', selectedRoomId);
+        console.log('📤 [Auto-Join] Sending join_room:', selectedRoomId);
         socket.emit('join_room', joinData);
       }
     } else if (isJoiningRoomRef.current && !pendingInvitation && !selectedRoomId) {
       // CRITICAL: If we're in joining state but there's no selectedRoomId or invitation,
       // the auto-join failed or was already cleared - reset the state
-      console.log('âš ï¸ [Auto-Join] No room data found but isJoiningRoom=true, resetting state');
+      console.log('⚠️ [Auto-Join] No room data found but isJoiningRoom=true, resetting state');
       setIsJoiningRoom(false);
       setConnectionStatus('disconnected');
     }
@@ -828,7 +828,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   useEffect(() => {
     const checkInterval = setInterval(() => {
       if (sessionStorage.getItem('pendingGMSessionInvitation') && !currentRoomRef.current && !isJoiningRoomRef.current) {
-        console.log('âš¡ [Auto-Trigger] Detected pending invitation in storage, triggering join');
+        console.log('⚡ [Auto-Trigger] Detected pending invitation in storage, triggering join');
         autoJoinAttemptedRef.current = false;
         checkAutoJoin();
       }
@@ -844,7 +844,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         ? 'https://descension-mythrill.up.railway.app' // Your Railway URL
         : 'http://localhost:3001');
 
-    cursorDebug('ðŸ”Œ [Cursor] Resolved socket URL:', {
+    cursorDebug('🔌 [Cursor] Resolved socket URL:', {
       resolvedUrl,
       nodeEnv: process.env.NODE_ENV,
       hasEnvOverride: !!process.env.REACT_APP_SOCKET_URL
@@ -933,16 +933,16 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   useEffect(() => {
     const handleBeforeUnload = (event) => {
       if (socket && socket.connected && currentRoom) {
-        console.log('ðŸšª [BeforeUnload] Browser closing, attempting to leave room and party');
+        console.log('🚪 [BeforeUnload] Browser closing, attempting to leave room and party');
 
         // Try to send leave events (may not complete if browser closes quickly)
         // Server-side disconnect handler is the authoritative cleanup mechanism
         try {
           socket.emit('leave_room');
           socket.emit('leave_party');
-          console.log('âœ… [BeforeUnload] Leave events sent');
+          console.log('✅ [BeforeUnload] Leave events sent');
         } catch (error) {
-          console.warn('âš ï¸ [BeforeUnload] Failed to send leave events:', error);
+          console.warn('⚠️ [BeforeUnload] Failed to send leave events:', error);
         }
       }
     };
@@ -950,10 +950,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     const handleVisibilityChange = () => {
       // Handle tab switching (hidden/visible)
       if (document.visibilityState === 'hidden') {
-        console.log('ðŸ“± [VisibilityChange] Tab hidden');
+        console.log('📱 [VisibilityChange] Tab hidden');
         // Optionally: could emit 'away' status to party here
       } else if (document.visibilityState === 'visible') {
-        console.log('ðŸ“± [VisibilityChange] Tab visible');
+        console.log('📱 [VisibilityChange] Tab visible');
         // Optionally: could emit 'online' status to party here
       }
     };
@@ -1033,7 +1033,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         // Don't await - let it complete in background
         endCharacterSession(activeCharacter.id).then((sessionEnded) => {
           if (!sessionEnded) {
-            console.warn('âš ï¸ Failed to end character session properly');
+            console.warn('⚠️ Failed to end character session properly');
           }
         }).catch((error) => {
           console.error('Error ending character session:', error);
@@ -1042,7 +1042,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       // Cleanup game state manager (async, non-blocking)
       gameStateManager.cleanup().catch((error) => {
-        console.error('âŒ Error cleaning up game state manager:', error);
+        console.error('❌ Error cleaning up game state manager:', error);
       });
 
       // Disconnect socket after server processes leave_room
@@ -1073,7 +1073,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   // Handler for when user clicks Continue on the loading screen
   const handleLoadingContinue = async () => {
     if (pendingRoomData) {
-      console.log('ðŸš€ [MultiplayerApp] User clicked Continue, starting RPG fade out...');
+      console.log('🚀 [MultiplayerApp] User clicked Continue, starting RPG fade out...');
       setLoadingStatusMessage('Entering the realm...');
 
       // Start fade out immediately and hide button
@@ -1090,13 +1090,13 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         // SAFETY TIMEOUT: Ensure we eventually exit loading state even if handleJoinRoom hangs
         const safetyExitTimer = setTimeout(() => {
           if (isJoiningRoomRef.current) {
-            console.warn('âš ï¸ [MultiplayerApp] Safety timeout triggered during handleJoinRoom. Forcing loading screen closed.');
+            console.warn('⚠️ [MultiplayerApp] Safety timeout triggered during handleJoinRoom. Forcing loading screen closed.');
             setIsJoiningRoom(false);
             setIsFadingOut(false);
           }
         }, 12000); // 12 seconds safety net
 
-        console.log('ðŸ› ï¸ [MultiplayerApp] Executing handleJoinRoom...');
+        console.log('🛠️ [MultiplayerApp] Executing handleJoinRoom...');
 
         // Perform the actual room join logic but don't clear loading screen yet
         await handleJoinRoom(
@@ -1110,10 +1110,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           true // skipSetJoiningFalse
         );
 
-        console.log('ðŸ› ï¸ [MultiplayerApp] handleJoinRoom execution completed');
+        console.log('🛠️ [MultiplayerApp] handleJoinRoom execution completed');
         clearTimeout(safetyExitTimer);
       } catch (error) {
-        console.error('âŒ Error handling loading continue:', error);
+        console.error('❌ Error handling loading continue:', error);
         // Ensure we eventually exit loading state even on error
         setTimeout(() => {
           setIsJoiningRoom(false);
@@ -1128,7 +1128,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           setIsRoomReady(false);
           setLoadingProgress(0);
           setShowContinue(false);
-          console.log('âœ¨ [MultiplayerApp] RPG fade out complete');
+          console.log('✨ [MultiplayerApp] RPG fade out complete');
         }, 2500); // 2.5s matches the updated CSS transition
       }
     }
@@ -1197,7 +1197,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             const partyState = usePartyStore.getState();
             const currentMembers = partyState.partyMembers || [];
             if (currentMembers.length > 0) {
-              console.log('ðŸ§¹ Clearing social party members on join attempt', {
+              console.log('🧹 Clearing social party members on join attempt', {
                 count: currentMembers.length,
                 names: currentMembers.map(m => m.name)
               });
@@ -1208,7 +1208,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
               }
             }
           } catch (e) {
-            console.warn('âš ï¸ Failed to clear party members on join attempt:', e);
+            console.warn('⚠️ Failed to clear party members on join attempt:', e);
           }
 
           isAutoJoinSequenceRef.current = true;

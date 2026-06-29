@@ -6,6 +6,26 @@
  */
 
 export const ARCANONEER_DATA = {
+  restrictions: {
+      "allowedSubraces": [
+          "velun_neth"
+      ],
+      "hardBlocks": [
+          "human",
+          "astril",
+          "vreken",
+          "skald_human",
+          "emberth",
+          "mimir",
+          "groven",
+          "fexrick",
+          "myrathil",
+          "briaran"
+      ],
+      "narrativeUnlock": false,
+      "justification": "Requires inability to lie (Neth-specific biological/legal trait). Contract-magic syntax requires Neth neurology. Non-Neth would breach First Contract terms causing soul-fading."
+  },
+
   id: "arcanoneer",
   name: "Arcanoneer",
   icon: "fas fa-atom",

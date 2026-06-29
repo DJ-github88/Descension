@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import ResourceThresholdSlider from '../common/ResourceThresholdSlider';
 import { useSpellWizardState } from '../../context/spellWizardContext';
 import WizardStep from '../common/WizardStep';

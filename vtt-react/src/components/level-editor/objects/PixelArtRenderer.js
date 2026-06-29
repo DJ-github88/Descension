@@ -1,4 +1,4 @@
-﻿/**
+/**
  * PixelArtRenderer - 16-bit pixel art for level editor objects.
  *
  * Style: Zelda: Link's Awakening / Final Fantasy adventure. Flat colors,

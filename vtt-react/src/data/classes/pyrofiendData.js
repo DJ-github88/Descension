@@ -8,6 +8,23 @@
  */
 
 export const PYROFIEND_DATA = {
+  restrictions: {
+      "allowedSubraces": [
+          "solvarn_human",
+          "thrask_emberth",
+          "skald_human"
+      ],
+      "hardBlocks": [
+          "neth",
+          "mimir",
+          "myrathil",
+          "groven",
+          "briaran"
+      ],
+      "narrativeUnlock": true,
+      "justification": "Requires proximity to Scathrach's influence and a culture that frames self-destruction as power. No Ordan or Morren would willingly make that pact. The cold-loving Skald see it as antithetical."
+  },
+
   id : "pyrofiend",
   name: "Pyrofiend",
   icon: "fas fa-fire",

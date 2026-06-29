@@ -72,4 +72,24 @@ export const setCharacterAutoSaveTimer = (timer) => {
     characterAutoSaveTimer = timer;
 };
 
+export const clearCharacterAutoSaveTimer = () => {
+    if (characterAutoSaveTimer) {
+        clearTimeout(characterAutoSaveTimer);
+        characterAutoSaveTimer = null;
+    }
+};
+
+export const triggerCharacterAutoSave = (saveFn) => {
+    clearCharacterAutoSaveTimer();
+    characterAutoSaveTimer = setTimeout(() => {
+        try {
+            saveFn();
+        } catch (error) {
+            console.warn('Auto-save execution failed:', error);
+        } finally {
+            characterAutoSaveTimer = null;
+        }
+    }, CHARACTER_AUTO_SAVE_DELAY);
+};
+
 export { characterPersistenceService, updateCharacterData };

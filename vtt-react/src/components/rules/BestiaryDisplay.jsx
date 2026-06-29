@@ -52,6 +52,13 @@ const formatModifier = (mod) => {
   return mod >= 0 ? `+${mod}` : `${mod}`;
 };
 
+const getCreatureThumb = (illustration) => {
+  if (!illustration || typeof illustration !== 'string') return illustration;
+  return illustration
+    .replace('/creatures/', '/creatures/thumbs/')
+    .replace(/\.png$/i, '.jpg');
+};
+
 const getSoakDieFromArmor = (armorValue = 0) => {
   const armor = Math.max(0, Math.floor(armorValue));
   if (armor < 5) return '—';
@@ -222,6 +229,7 @@ const BestiaryDisplay = () => {
                         <img
                           src={currentCreature.illustration}
                           alt={currentCreature.illustrationCaption || currentCreature.name}
+                          decoding="async"
                           onError={(e) => {
                             e.target.onerror = null;
                             e.target.style.display = 'none';
@@ -488,11 +496,19 @@ const BestiaryDisplay = () => {
                     <div className="bestiary-card-image">
                       {creature.illustration ? (
                         <img
-                          src={creature.illustration}
+                          src={getCreatureThumb(creature.illustration)}
                           alt={creature.name}
+                          loading="lazy"
+                          decoding="async"
+                          width="512"
+                          height="512"
                           onError={(e) => {
                             e.target.onerror = null;
-                            e.target.style.display = 'none';
+                            e.target.src = creature.illustration;
+                            e.target.onerror = () => {
+                              e.target.onerror = null;
+                              e.target.style.display = 'none';
+                            };
                           }}
                         />
                       ) : (

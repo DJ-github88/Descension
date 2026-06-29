@@ -1,4 +1,22 @@
 export const REVENANT_DATA = {
+  restrictions: {
+      "allowedSubraces": [
+          "clean_vreken",
+          "marked_vreken",
+          "drun_neth",
+          "morren_human",
+          "tessen_human"
+      ],
+      "hardBlocks": [
+          "emberth",
+          "myrathil",
+          "astril",
+          "fexrick"
+      ],
+      "narrativeUnlock": true,
+      "justification": "Requires cultural acceptance of undeath as continuation of obligation. Reframing undeath as contract renewal is Neth/Vreken-specific."
+  },
+
   id: "revenant",
   name: "Revenant",
   icon: "fas fa-skull-crossbones",
@@ -90,7 +108,7 @@ The class is heavily practiced by the <LoreLink termId="vreken">Clean Vreken</Lo
 * **Kora the Veil-Speaker**: The first caller whose voice turned to whispers to keep the crypt-lights burning.
 * **Vesper the Scribe**: The dying scholar who bound his soul to basalt and refused to end.
 * **Neth-Veil Valerius**: A Neth pact-lord who established the necrotic covenant linking bog-graves to Atropolis.
-* **Karr Bloodhammer**: The legendary Skald warlock who performed the first stasis ritual to combat the Milk-Grief.`,
+* **Karr Bloodhammer**: The legendary Skald warlock who performed the first stasis ritual to combat the Frost-Tithe.`,
     },
 
     signatureQuote: {
@@ -572,6 +590,7 @@ The Revenant can switch between two casting modes:
         requiresLineOfSight: true,
       },
       resourceCost: {
+        classResource: { type: "death_toll", cost: -3 },
         resourceTypes: ["mana", "health"],
         resourceValues: { mana: 4 },
         actionPoints: 1,
@@ -876,6 +895,7 @@ The Revenant can switch between two casting modes:
         requiresLineOfSight: true,
       },
       resourceCost: {
+        classResource: { type: "phylactery", cost: -5 },
         resourceTypes: ["mana", "health"],
         resourceValues: { mana: 12 },
         actionPoints: 2,

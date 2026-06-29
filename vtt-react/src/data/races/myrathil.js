@@ -1,4 +1,4 @@
-﻿export const myrathil = {
+export const myrathil = {
         id: 'myrathil',
         name: 'Myrathil',
         essence: 'Free-born children of the sea',
@@ -49,6 +49,18 @@ Among themselves, the Myrathil are warm and direct. They cannot lie well — the
             build: 'Lean and fluid',
             darkvision: 30
         },
+        sharedTraits: [
+            {
+                id: 'dehydration_myrathil',
+                name: 'Dehydration',
+                description: 'Must submerge in water daily. 24 hours without submersion causes -2 to all attributes and halves speed.',
+                level: 1,
+                icon: 'fas fa-tint-slash',
+                spellType: 'PASSIVE',
+                effectTypes: ['debuff'],
+                typeConfig: { school: 'primal', icon: 'fas fa-tint-slash', tags: ['weakness', 'debuff', 'shared'] }
+            }
+        ],
         epicHistory: `
 The First Spawning came before the sun was stolen — crude attempts by the sea mother to give her waters a shape that could walk. Those first children were barely humanoid, more foam than flesh, dissolving back into the waves within hours. But the sea mother was patient in the way of things that have no lifespan. She kept trying. Each storm season the children lasted longer, moved further, remembered more.
 

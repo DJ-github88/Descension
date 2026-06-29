@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VTT Bestiary Asset Showcase</title>
+  <!-- Google Fonts Outfit & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-dark: #0f0f13;
+      --bg-card: rgba(26, 26, 36, 0.7);
+      --border-card: rgba(255, 255, 255, 0.08);
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --accent-gold: #e0a96d;
+      --accent-purple: #c084fc;
+      --parchment: #eae2cb;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      padding: 3rem 1.5rem;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(192, 132, 252, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(224, 169, 109, 0.05) 0%, transparent 40%);
+    }
+
+    header {
+      max-width: 1200px;
+      margin: 0 auto 3rem auto;
+      text-align: center;
+    }
+
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #fff 0%, var(--accent-gold) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+    }
+
+    /* Controls System */
+    .controls {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .search-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 0.8rem 1.5rem;
+      border-radius: 9999px;
+      border: 1px solid var(--border-card);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-main);
+      font-size: 1rem;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .search-input:focus {
+      border-color: var(--accent-gold);
+      background: rgba(255, 255, 255, 0.06);
+      box-shadow: 0 0 15px rgba(224, 169, 109, 0.15);
+    }
+
+    .filter-btn {
+      padding: 0.8rem 1.8rem;
+      border-radius: 9999px;
+      border: 1px solid var(--border-card);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-main);
+      cursor: pointer;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    .filter-btn:hover {
+      border-color: var(--text-main);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .filter-btn.active {
+      background: var(--accent-gold);
+      color: var(--bg-dark);
+      border-color: var(--accent-gold);
+      box-shadow: 0 4px 20px rgba(224, 169, 109, 0.3);
+    }
+
+    /* Grid System */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Creature Cards */
+    .card {
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 24px;
+      border: 1px solid var(--border-card);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent-purple), var(--accent-gold));
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    /* Visual Showcase Side-by-Side */
+    .card-visuals {
+      display: flex;
+      gap: 1rem;
+      height: 180px;
+    }
+
+    /* Token Style - Rounded, framed */
+    .visual-token-wrapper {
+      max-width: 120px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .visual-token {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      border: 3px solid var(--accent-gold);
+      background: var(--parchment);
+      padding: 2px;
+      object-fit: cover;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .visual-token:hover {
+      transform: scale(1.1);
+    }
+
+    .label-token {
+      font-size: 0.75rem;
+      color: var(--accent-gold);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+
+    /* Illustration Style - Solid Beige Parchment Background, Isolated, Borderless */
+    .visual-illustration-wrapper {
+      flex: 2;
+      border-radius: 16px;
+      background: var(--parchment);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: var(--transition);
+    }
+
+    .visual-illustration-wrapper:hover {
+      filter: brightness(1.05);
+    }
+
+    .visual-illustration {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition);
+    }
+
+    /* Details Section */
+    .card-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-title-group {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+    }
+
+    .card-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .badge-region {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .region-nordhalla {
+      background: rgba(192, 132, 252, 0.15);
+      color: var(--accent-purple);
+      border: 1px solid rgba(192, 132, 252, 0.3);
+    }
+
+    .region-sundale {
+      background: rgba(224, 169, 109, 0.15);
+      color: var(--accent-gold);
+      border: 1px solid rgba(224, 169, 109, 0.3);
+    }
+
+    .region-iceheart-sea {
+      background: rgba(56, 189, 248, 0.15);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+
+    .region-cragjaw-peaks {
+      background: rgba(244, 63, 94, 0.15);
+      color: #f43f5e;
+      border: 1px solid rgba(244, 63, 94, 0.3);
+    }
+
+    .region-sundrift-vale {
+      background: rgba(234, 179, 8, 0.15);
+      color: #eab308;
+      border: 1px solid rgba(234, 179, 8, 0.3);
+    }
+
+    .card-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Light/Constellation Overlay Modal */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(10, 10, 15, 0.95);
+      backdrop-filter: blur(20px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      padding: 2rem;
+    }
+
+    .modal.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 800px;
+      width: 100%;
+      background: var(--parchment);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-img {
+      width: 100%;
+      max-height: 70vh;
+      object-fit: contain;
+      background: var(--parchment);
+    }
+
+    .modal-footer {
+      background: #111;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .modal-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.6rem;
+      color: #fff;
+    }
+
+    .modal-desc {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(0,0,0,0.5);
+      border: none;
+      color: #fff;
+      font-size: 1.5rem;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      z-index: 10;
+    }
+
+    .modal-close:hover {
+      background: rgba(0,0,0,0.8);
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Bestiary Asset Viewer</h1>
+    <p class="subtitle">Inspecting processed high-resolution illustrations and 512x512 VTT tokens (watercolor sketch style on flat parchment background)</p>
+    
+    <div class="controls">
+      <div class="search-wrapper">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search by name, region, or concept...">
+      </div>
+      <button class="filter-btn active" data-filter="all">All Batches</button>
+      <button class="filter-btn" data-filter="nordhalla">Nordhalla (Batch 3)</button>
+      <button class="filter-btn" data-filter="sundale">Sundale (Batch 4)</button>
+      <button class="filter-btn" data-filter="iceheart-sea">Iceheart Sea (Batch 5)</button>
+      <button class="filter-btn" data-filter="cragjaw-peaks">Cragjaw Peaks (Batch 6)</button>
+      <button class="filter-btn" data-filter="sundrift-vale">Sundrift Vale (Batch 7)</button>
+    </div>
+  </header>
+
+  <main class="grid" id="creatureGrid">
+    <!-- Dynamic Cards will be rendered here -->
+  </main>
+
+  <div class="modal" id="imageModal">
+    <button class="modal-close" id="modalClose">&times;</button>
+    <div class="modal-content">
+      <img src="" alt="" class="modal-img" id="modalImg">
+      <div class="modal-footer">
+        <h2 class="modal-title" id="modalTitle"></h2>
+        <p class="modal-desc" id="modalDesc"></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const creatures = [
+      // Batch 3
+      {
+        id: "bergthrall",
+        name: "Bergthrall",
+        region: "nordhalla",
+        batch: "Batch 3 (Redrawn)",
+        desc: "A squat four-foot stone-dwarf made of granite and schist, with copper wire beard and quartz crystals.",
+        token: "assets/icons/creatures/Bestiary/bergthrall.png",
+        illustration: "assets/images/creatures/bergthrall.png"
+      },
+      {
+        id: "fenris",
+        name: "Fenris",
+        region: "nordhalla",
+        batch: "Batch 3 (Redrawn)",
+        desc: "A primeval wolf wrapped in a golden runic ribbon (Gleipnir), eyes burning with golden light.",
+        token: "assets/icons/creatures/Bestiary/fenris.png",
+        illustration: "assets/images/creatures/fenris.png"
+      },
+      {
+        id: "disir",
+        name: "Disir",
+        region: "nordhalla",
+        batch: "Batch 3 (Redrawn)",
+        desc: "A single ghostly Norse ancestral woman in a long flowing shroud of white-gold light, holding a spinning spindle.",
+        token: "assets/icons/creatures/Bestiary/disir.png",
+        illustration: "assets/images/creatures/disir.png"
+      },
+      {
+        id: "valravn",
+        name: "Valravn",
+        region: "nordhalla",
+        batch: "Batch 3 (Replaced)",
+        desc: "A half-wolf, half-raven chimera with a sharp obsidian beak and glowing violet eyes. Replaced Skogsra to remove Huldra redundancy.",
+        token: "assets/icons/creatures/Bestiary/valravn.png",
+        illustration: "assets/images/creatures/valravn.png"
+      },
+      {
+        id: "kraken",
+        name: "Kraken",
+        region: "nordhalla",
+        batch: "Batch 3 (Redrawn)",
+        desc: "Enormous teal-blue tentacles with ice-suckers rising from a dark frozen rift, with a beak of black ice.",
+        token: "assets/icons/creatures/Bestiary/kraken.png",
+        illustration: "assets/images/creatures/kraken.png"
+      },
+      {
+        id: "marmennill",
+        name: "Marmennill",
+        region: "nordhalla",
+        batch: "Batch 3 (Redrawn)",
+        desc: "A three-foot Norse merman with ice-blue scales, playing a bone harp. Redrawn to remove AI slop details.",
+        token: "assets/icons/creatures/Bestiary/marmennill.png",
+        illustration: "assets/images/creatures/marmennill.png"
+      },
+      {
+        id: "havgammel",
+        name: "Havgammel",
+        region: "nordhalla",
+        batch: "Batch 3 (Redrawn)",
+        desc: "A single mermaid figure with blue-black scales, wearing a scrimshaw necklace, perched on a lone ice floe.",
+        token: "assets/icons/creatures/Bestiary/havgammel.png",
+        illustration: "assets/images/creatures/havgammel.png"
+      },
+      // Batch 4
+      {
+        id: "tiamat",
+        name: "Tiamat",
+        region: "sundale",
+        batch: "Batch 4",
+        desc: "Multi-headed sea serpent of immense scale armored in dark-blue/obsidian scales, swimming in a dark ocean.",
+        token: "assets/icons/creatures/Bestiary/tiamat.png",
+        illustration: "assets/images/creatures/tiamat.png"
+      },
+      {
+        id: "girtablilu",
+        name: "Girtablilu",
+        region: "sundale",
+        batch: "Batch 4",
+        desc: "Temple guardian with sun-bronzed human upper torso and massive sand scorpion lower body.",
+        token: "assets/icons/creatures/Bestiary/girtablilu.png",
+        illustration: "assets/images/creatures/girtablilu.png"
+      },
+      {
+        id: "lamashtu",
+        name: "Lamashtu",
+        region: "sundale",
+        batch: "Batch 4",
+        desc: "Demonic figure with weathered lioness head, winged dark torso, eagle taloned legs, holding a serpent.",
+        token: "assets/icons/creatures/Bestiary/lamashtu.png",
+        illustration: "assets/images/creatures/lamashtu.png"
+      },
+      {
+        id: "bes",
+        name: "Bes",
+        region: "sundale",
+        batch: "Batch 4",
+        desc: "Squat clay protector dwarf construct decorated with lapis lazuli bands, wielding a curved sickle-sword.",
+        token: "assets/icons/creatures/Bestiary/bes.png",
+        illustration: "assets/images/creatures/bes.png"
+      },
+      {
+        id: "ghul",
+        name: "Ghul",
+        region: "sundale",
+        batch: "Batch 4",
+        desc: "Creeping, emaciated desert spirit with ash-covered skin, hollow skull, and red-embers eyes.",
+        token: "assets/icons/creatures/Bestiary/ghul.png",
+        illustration: "assets/images/creatures/ghul.png"
+      },
+      {
+        id: "gugalanna",
+        name: "Gugalanna",
+        region: "sundale",
+        batch: "Batch 4 (Redrawn)",
+        desc: "A majestic, powerful white bull with curved blue lapis lazuli horns, its hide decorated with simple glowing gold constellation lines.",
+        token: "assets/icons/creatures/Bestiary/gugalanna.png",
+        illustration: "assets/images/creatures/gugalanna.png"
+      },
+      {
+        id: "peri",
+        name: "Peri",
+        region: "sundale",
+        batch: "Batch 4",
+        desc: "Translucent Persian fey spirit with atlas moth wings, shedding tiny glowing fire-seeds.",
+        token: "assets/icons/creatures/Bestiary/peri.png",
+        illustration: "assets/images/creatures/peri.png"
+      },
+      {
+        id: "daeva",
+        name: "Daeva",
+        region: "sundale",
+        batch: "Batch 4",
+        desc: "Jackal-like shadow canine of absolute darkness, with scimitar-like snout, inverted eyes, and a skull-tooth grin.",
+        token: "assets/icons/creatures/Bestiary/daeva.png",
+        illustration: "assets/images/creatures/daeva.png"
+      },
+      {
+        id: "simurgh",
+        name: "Simurgh",
+        region: "sundale",
+        batch: "Batch 4 (Redrawn)",
+        desc: "An ancient giant falcon-like bird with a wise human face and a single magnificent flowing peacock tail, completely free of eagle tail feathers.",
+        token: "assets/icons/creatures/Bestiary/simurgh.png",
+        illustration: "assets/images/creatures/simurgh.png"
+      },
+      {
+        id: "edimmu",
+        name: "Edimmu",
+        region: "sundale",
+        batch: "Batch 4",
+        desc: "Swirling dust-devil sand spirit wrapped in parched rags, with two glowing amber eyes.",
+        token: "assets/icons/creatures/Bestiary/edimmu.png",
+        illustration: "assets/images/creatures/edimmu.png"
+      },
+      // Batch 5
+      {
+        id: "nisroch",
+        name: "Nisroch",
+        region: "sundale",
+        batch: "Batch 5",
+        desc: "A noble, golden-bronze falcon with one human-like eye and one glowing Wedjat eye. It patrols the skies above Emberspire, using beams of light to destroy Wyrd-essence.",
+        token: "assets/icons/creatures/Bestiary/nisroch.png",
+        illustration: "assets/images/creatures/nisroch.png"
+      },
+      {
+        id: "kur_pit",
+        name: "Kur",
+        region: "sundale",
+        batch: "Batch 5",
+        desc: "A circular, bottomless fissure covered in glowing red runes that murmurs with the voices of the dead. It is a portal to the underworld, briefly illuminated by the Solbrand.",
+        token: "assets/icons/creatures/Bestiary/kur_pit.png",
+        illustration: "assets/images/creatures/kur_pit.png"
+      },
+      {
+        id: "mushussu",
+        name: "Mušḫuššu",
+        region: "sundale",
+        batch: "Batch 5",
+        desc: "A dog-sized, pale serpent-dragon with lion paws and eagle talons. It imprints on friendly creatures, using its fertility-blessed breath to double crop yields in ash-choked soil.",
+        token: "assets/icons/creatures/Bestiary/mushussu.png",
+        illustration: "assets/images/creatures/mushussu.png"
+      },
+      {
+        id: "harpy",
+        name: "Harpy",
+        region: "iceheart-sea",
+        batch: "Batch 5",
+        desc: "A storm-riding terror with iron hook-feet and vulture wings, this avian hag snatches sailors from the rigging.",
+        token: "assets/icons/creatures/Bestiary/harpy.png",
+        illustration: "assets/images/creatures/harpy.png"
+      },
+      {
+        id: "hippocampus",
+        name: "Hippocampus",
+        region: "iceheart-sea",
+        batch: "Batch 5",
+        desc: "A noble creature combining horse and serpent, this gentle elemental purifies waters and serves as a swift steed.",
+        token: "assets/icons/creatures/Bestiary/hippocampus.png",
+        illustration: "assets/images/creatures/hippocampus.png"
+      },
+      {
+        id: "gorgon",
+        name: "Gorgon",
+        region: "iceheart-sea",
+        batch: "Batch 5",
+        desc: "An abyssal humanoid whose gaze crystallizes blood into stone, this creature shifts into a bioluminescent eel to hunt.",
+        token: "assets/icons/creatures/Bestiary/gorgon.png",
+        illustration: "assets/images/creatures/gorgon.png"
+      },
+      {
+        id: "tokoloshe",
+        name: "Tokoloshe",
+        region: "iceheart-sea",
+        batch: "Batch 5",
+        desc: "A small, mischievous water-sprite with the lower body of an octopus, this bilge-pest turns invisible by holding a pebble.",
+        token: "assets/icons/creatures/Bestiary/tokoloshe.png",
+        illustration: "assets/images/creatures/tokoloshe.png"
+      },
+      {
+        id: "lamia",
+        name: "Lamia",
+        region: "iceheart-sea",
+        batch: "Batch 5",
+        desc: "A mourning reef-dweller with impossibly long arms, this creature sings to lure sailors into her coral-plated coils.",
+        token: "assets/icons/creatures/Bestiary/lamia.png",
+        illustration: "assets/images/creatures/lamia.png"
+      },
+      {
+        id: "empusa",
+        name: "Empusa",
+        region: "iceheart-sea",
+        batch: "Batch 5",
+        desc: "A shape-shifting elemental with a brass prosthetic leg, this creature drains the life of watch-keepers during storms.",
+        token: "assets/icons/creatures/Bestiary/empusa.png",
+        illustration: "assets/images/creatures/empusa.png"
+      },
+      {
+        id: "telkhine",
+        name: "Telkhine",
+        region: "iceheart-sea",
+        batch: "Batch 5",
+        desc: "A seal-headed blacksmith of walrus-like bulk, this elemental forges weapons from deep-sea ice that never melt.",
+        token: "assets/icons/creatures/Bestiary/telkhine.png",
+        illustration: "assets/images/creatures/telkhine.png"
+      },
+      {
+        id: "stymphalian",
+        name: "Stymphalian Bird",
+        region: "iceheart-sea",
+        batch: "Batch 5",
+        desc: "A swarm of metallic-feathered birds that rain razor-sharp bronze plumage like daggers upon vessels.",
+        token: "assets/icons/creatures/Bestiary/stymphalian.png",
+        illustration: "assets/images/creatures/stymphalian.png"
+      },
+      {
+        id: "nereid",
+        name: "Nereid",
+        region: "iceheart-sea",
+        batch: "Batch 5",
+        desc: "A benevolent spirit of compressed water and light, this fey rescues drowning sailors in the dark depths.",
+        token: "assets/icons/creatures/Bestiary/nereid.png",
+        illustration: "assets/images/creatures/nereid.png"
+      },
+      {
+        id: "graeae",
+        name: "Graeae",
+        region: "iceheart-sea",
+        batch: "Batch 5",
+        desc: "Three ancient crones sharing a single obsidian eye, these sisters offer true prophecies in exchange for a tooth.",
+        token: "assets/icons/creatures/Bestiary/graeae.png",
+        illustration: "assets/images/creatures/graeae.png"
+      },
+      {
+        id: "triton",
+        name: "Triton",
+        region: "iceheart-sea",
+        batch: "Batch 5",
+        desc: "A sovereign merman with a prehensile tentacle mane, this elemental controls the waves with a vibrating conch.",
+        token: "assets/icons/creatures/Bestiary/triton.png",
+        illustration: "assets/images/creatures/triton.png"
+      },
+      {
+        id: "nandi",
+        name: "Nandi",
+        region: "iceheart-sea",
+        batch: "Batch 5",
+        desc: "A ferocious, hyena-like sea-beast that hunts on ice-floes and crushes the skulls of its prey.",
+        token: "assets/icons/creatures/Bestiary/nandi.png",
+        illustration: "assets/images/creatures/nandi.png"
+      },
+      {
+        id: "popobawa",
+        name: "Popobawa",
+        region: "iceheart-sea",
+        batch: "Batch 5",
+        desc: "A shape-shifting shadow with a single bruised eye, this spirit inflicts night-terrors on sleeping crews.",
+        token: "assets/icons/creatures/Bestiary/popobawa.png",
+        illustration: "assets/images/creatures/popobawa.png"
+      },
+      {
+        id: "graia",
+        name: "Graia",
+        region: "iceheart-sea",
+        batch: "Batch 5",
+        desc: "A colorless, mathematical whirlpool that serves as a portal to the spirit-realm and distorts time.",
+        token: "assets/icons/creatures/Bestiary/graia.png",
+        illustration: "assets/images/creatures/graia.png"
+      },
+      {
+        id: "ichthya",
+        name: "Ichthyocentaur",
+        region: "iceheart-sea",
+        batch: "Batch 5",
+        desc: "A scaled sea-centaur with a glowing trident, this volcanic blacksmith warns of Monolith instability.",
+        token: "assets/icons/creatures/Bestiary/ichthya.png",
+        illustration: "assets/images/creatures/ichthya.png"
+      },
+      {
+        id: "brine",
+        name: "Brine",
+        region: "iceheart-sea",
+        batch: "Batch 5",
+        desc: "A floating orb of warm gold light containing smiling faces, this spirit guides ships to safety during storms.",
+        token: "assets/icons/creatures/Bestiary/brine.png",
+        illustration: "assets/images/creatures/brine.png"
+      },
+      // Batch 6
+      {
+        id: "kappa",
+        name: "Kappa",
+        region: "cragjaw-peaks",
+        batch: "Batch 6",
+        desc: "A stone-shelled, turtle-like humanoid that guards geothermal pools, carrying a bowl of glowing water on its head and bound by an unbreakable code of politeness.",
+        token: "assets/icons/creatures/Bestiary/kappa.png",
+        illustration: "assets/images/creatures/kappa.png"
+      },
+      {
+        id: "jorogumo",
+        name: "Jorōgumo",
+        region: "cragjaw-peaks",
+        batch: "Batch 6",
+        desc: "A spider-woman clad in webs of gold and silver who lures travelers on the mountain bridges to drain their mineral-rich blood.",
+        token: "assets/icons/creatures/Bestiary/jorogumo.png",
+        illustration: "assets/images/creatures/jorogumo.png"
+      },
+      {
+        id: "nurikabe",
+        name: "Nurikabe",
+        region: "cragjaw-peaks",
+        batch: "Batch 6",
+        desc: "A living block of cliff-face that floats just above the ground, blocking and rearranging mountain paths overnight unless disrupted by copper.",
+        token: "assets/icons/creatures/Bestiary/nurikabe.png",
+        illustration: "assets/images/creatures/nurikabe.png"
+      },
+      {
+        id: "nue",
+        name: "Nue",
+        region: "cragjaw-peaks",
+        batch: "Batch 6",
+        desc: "A churning black storm-cloud that brings humid heat, animal cries, and terrifying nightmares to punish those who mine too deep.",
+        token: "assets/icons/creatures/Bestiary/nue.png",
+        illustration: "assets/images/creatures/nue.png"
+      },
+      {
+        id: "kasha",
+        name: "Kasha",
+        region: "cragjaw-peaks",
+        batch: "Batch 6",
+        desc: "A lynx-sized cat of blue-white flame that steals corpses from funerals but leaves magical miniatures that bring prosperity to the worthy.",
+        token: "assets/icons/creatures/Bestiary/kasha.png",
+        illustration: "assets/images/creatures/kasha.png"
+      },
+      {
+        id: "tanuki",
+        name: "Tanuki",
+        region: "cragjaw-peaks",
+        batch: "Batch 6",
+        desc: "A round, mischievous raccoon-dog trickster that demands songs and sake as toll, rewarding the friendly with fortune-bringing stone carvings.",
+        token: "assets/icons/creatures/Bestiary/tanuki.png",
+        illustration: "assets/images/creatures/tanuki.png"
+      },
+      {
+        id: "ushioni",
+        name: "Ushioni",
+        region: "cragjaw-peaks",
+        batch: "Batch 6",
+        desc: "A massive, volcanic-plated spider with a demonic bull's head that webs geothermal vents and demands tribute to prevent freezing.",
+        token: "assets/icons/creatures/Bestiary/ushioni.png",
+        illustration: "assets/images/creatures/ushioni.png"
+      },
+      {
+        id: "baku",
+        name: "Baku",
+        region: "cragjaw-peaks",
+        batch: "Batch 6",
+        desc: "A bear-sized chimera with an elephant's trunk and a glowing hide that devours nightmares and turns its home into a sacred sanctuary.",
+        token: "assets/icons/creatures/Bestiary/baku.png",
+        illustration: "assets/images/creatures/baku.png"
+      },
+      {
+        id: "nekomata",
+        name: "Nekomata",
+        region: "cragjaw-peaks",
+        batch: "Batch 6",
+        desc: "A storm-grey wildcat with two tails that crackle with lightning, using the static of blizzards to animate and control the frozen dead.",
+        token: "assets/icons/creatures/Bestiary/nekomata.png",
+        illustration: "assets/images/creatures/nekomata.png"
+      },
+      {
+        id: "futakuchi",
+        name: "Futakuchi",
+        region: "cragjaw-peaks",
+        batch: "Batch 6",
+        desc: "A gaunt woman with a hidden, ravenous mouth at the back of her head that secretly devours larders and embodies the hunger of the peaks.",
+        token: "assets/icons/creatures/Bestiary/futakuchi.png",
+        illustration: "assets/images/creatures/futakuchi.png"
+      },
+      {
+        id: "wanyudo",
+        name: "Wanyūdō",
+        region: "cragjaw-peaks",
+        batch: "Batch 6",
+        desc: "A massive, rolling wheel of blue-white fire and screaming faces that collects the souls of freezing travelers in mountain passes.",
+        token: "assets/icons/creatures/Bestiary/wanyudo.png",
+        illustration: "assets/images/creatures/wanyudo.png"
+      },
+      {
+        id: "tsuchigumo",
+        name: "Tsuchigumo",
+        region: "cragjaw-peaks",
+        batch: "Batch 6",
+        desc: "A draft-horse-sized spider of solid stone and gems that spins webs of molten gold and uses illusions of wealth to trap miners.",
+        token: "assets/icons/creatures/Bestiary/tsuchigumo.png",
+        illustration: "assets/images/creatures/tsuchigumo.png"
+      },
+      {
+        id: "inugami",
+        name: "Inugami",
+        region: "cragjaw-peaks",
+        batch: "Batch 6",
+        desc: "A spectral, blue-lit hound bound to a family by a collar of human hair, serving as a fierce guardian and a guide to the afterlife.",
+        token: "assets/icons/creatures/Bestiary/inugami.png",
+        illustration: "assets/images/creatures/inugami.png"
+      },
+      {
+        id: "ittan",
+        name: "Ittan",
+        region: "cragjaw-peaks",
+        batch: "Batch 6",
+        desc: "A thirty-foot strip of living embroidered cloth that carries messages across mountain chasms and wraps around travelers to protect them from the cold.",
+        token: "assets/icons/creatures/Bestiary/ittan.png",
+        illustration: "assets/images/creatures/ittan.png"
+      },
+      {
+        id: "burkhan_wind",
+        name: "Burkhan",
+        region: "sundrift-vale",
+        batch: "Batch 7",
+        desc: "A sacred localized spirit of wind and fertility, visible only as a rhythmic breathing in the steppe-grass and a shimmering in the air.",
+        token: "assets/icons/creatures/Bestiary/burkhan_wind.png",
+        illustration: "assets/images/creatures/burkhan_wind.png"
+      },
+      {
+        id: "taotie_gorge",
+        name: "Taotie",
+        region: "sundrift-vale",
+        batch: "Batch 7",
+        desc: "An insatiable, fifteen-foot monstrosity that is almost entirely jaws, blending into the high grass to act as a living pit-trap for migrating herds.",
+        token: "assets/icons/creatures/Bestiary/taotie_gorge.png",
+        illustration: "assets/images/creatures/taotie_gorge.png"
+      },
+      {
+        id: "zilant_wing",
+        name: "Zilant",
+        region: "sundrift-vale",
+        batch: "Batch 7",
+        desc: "A massive, winged serpent-dragon with a rooster's head, whose wings hum with a musical resonance that guides travelers through the starless nights.",
+        token: "assets/icons/creatures/Bestiary/zilant_wing.png",
+        illustration: "assets/images/creatures/zilant_wing.png"
+      },
+      {
+        id: "susulu_spring",
+        name: "Susulu",
+        region: "sundrift-vale",
+        batch: "Batch 7",
+        desc: "A translucent, seven-foot-tall water spirit who guards the rare springs of the steppe and fosters tiny, purifying river-dragons.",
+        token: "assets/icons/creatures/Bestiary/susulu_spring.png",
+        illustration: "assets/images/creatures/susulu_spring.png"
+      },
+      {
+        id: "dijiang_chaos",
+        name: "Dijiang",
+        region: "sundrift-vale",
+        batch: "Batch 7",
+        desc: "A faceless, crimson sac with six legs and four wings that sings in beautiful harmonies, feeding on chaos to restore order to the land.",
+        token: "assets/icons/creatures/Bestiary/dijiang_chaos.png",
+        illustration: "assets/images/creatures/dijiang_chaos.png"
+      },
+      {
+        id: "fenghuang_migrate",
+        name: "Fenghuang",
+        region: "sundrift-vale",
+        batch: "Batch 7",
+        desc: "A legendary, twenty-foot bird of elemental plumage whose arrival dictates the migration calendar and blesses harmonious communities.",
+        token: "assets/icons/creatures/Bestiary/fenghuang_migrate.png",
+        illustration: "assets/images/creatures/fenghuang_migrate.png"
+      },
+      {
+        id: "qiongqi_scourge",
+        name: "Qiongqi",
+        region: "sundrift-vale",
+        batch: "Batch 7",
+        desc: "A tattered, blood-furred winged tiger with boar tusks that preys upon the virtuous while protecting the wicked.",
+        token: "assets/icons/creatures/Bestiary/qiongqi_scourge.png",
+        illustration: "assets/images/creatures/qiongqi_scourge.png"
+      },
+      {
+        id: "zhenniao_toxin",
+        name: "Zhenniao",
+        region: "sundrift-vale",
+        batch: "Batch 7",
+        desc: "A toxic vulture-like bird whose oil-slick feathers and acidic tears rot the land, creating sterile dead-zones wherever it nests.",
+        token: "assets/icons/creatures/Bestiary/zhenniao_toxin.png",
+        illustration: "assets/images/creatures/zhenniao_toxin.png"
+      },
+      {
+        id: "ubagan_crystal",
+        name: "Ubagan",
+        region: "sundrift-vale",
+        batch: "Batch 7",
+        desc: "A towering, four-armed ape of living crystal that emerges from subterranean fissures, capable of shifting aquifers and refracting brilliant spectrums of light.",
+        token: "assets/icons/creatures/Bestiary/ubagan_crystal.png",
+        illustration: "assets/images/creatures/ubagan_crystal.png"
+      },
+      {
+        id: "qoraigarash",
+        name: "Qoraigarash",
+        region: "sundrift-vale",
+        batch: "Batch 7",
+        desc: "A forty-foot aquatic dragon covered in semi-precious stones, guarding the bottomless lakes and rising to summon fierce storms.",
+        token: "assets/icons/creatures/Bestiary/qoraigarash.png",
+        illustration: "assets/images/creatures/qoraigarash.png"
+      },
+      {
+        id: "lu_wu_mountain",
+        name: "Lu Wu",
+        region: "sundrift-vale",
+        batch: "Batch 7",
+        desc: "A mammoth-sized tiger with nine human heads and a serpent's tail, governing the seasons and the migrations of the steppe.",
+        token: "assets/icons/creatures/Bestiary/lu_wu_mountain.png",
+        illustration: "assets/images/creatures/lu_wu_mountain.png"
+      },
+      {
+        id: "bura_stormkin",
+        name: "Bura",
+        region: "sundrift-vale",
+        batch: "Batch 7",
+        desc: "A seven-foot-tall spirit of swirling dust and wind, drawn to broken oaths and capable of tearing down shelters with terrifying speed.",
+        token: "assets/icons/creatures/Bestiary/bura_stormkin.png",
+        illustration: "assets/images/creatures/bura_stormkin.png"
+      },
+      {
+        id: "tengri_spark",
+        name: "Tengri",
+        region: "sundrift-vale",
+        batch: "Batch 7",
+        desc: "A tiny, six-inch guide of pure starlight, trailing a thread of fate that connects the world below to the lost stars.",
+        token: "assets/icons/creatures/Bestiary/tengri_spark.png",
+        illustration: "assets/images/creatures/tengri_spark.png"
+      }
+    ];
+
+    const grid = document.getElementById("creatureGrid");
+    const searchInput = document.getElementById("searchInput");
+    const filterButtons = document.querySelectorAll(".filter-btn");
+    const modal = document.getElementById("imageModal");
+    const modalImg = document.getElementById("modalImg");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalDesc = document.getElementById("modalDesc");
+    const modalClose = document.getElementById("modalClose");
+
+    let currentFilter = "all";
+    let searchQuery = "";
+
+    function render() {
+      grid.innerHTML = "";
+      const filtered = creatures.filter(c => {
+        const matchesFilter = currentFilter === "all" || c.region === currentFilter;
+        const matchesSearch = c.name.toLowerCase().includes(searchQuery) ||
+                              c.desc.toLowerCase().includes(searchQuery) ||
+                              c.region.toLowerCase().includes(searchQuery) ||
+                              c.batch.toLowerCase().includes(searchQuery);
+        return matchesFilter && matchesSearch;
+      });
+
+      filtered.forEach(c => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <div class="card-visuals">
+            <div class="visual-token-wrapper">
+              <img src="${c.token}" alt="${c.name} Token" class="visual-token" onclick="openModal('${c.token}', '${c.name} Token', '${c.desc}')">
+              <span class="label-token">TOKEN</span>
+            </div>
+            <div class="visual-illustration-wrapper" onclick="openModal('${c.illustration}', '${c.name}', '${c.desc}')">
+              <img src="${c.illustration}" alt="${c.name} Illustration" class="visual-illustration">
+            </div>
+          </div>
+          <div class="card-info">
+            <div class="card-meta">
+              <div class="card-title-group">
+                <h3 class="card-title">${c.name}</h3>
+              </div>
+              <span class="badge-region region-${c.region}">${c.region}</span>
+            </div>
+            <p style="font-size:0.75rem; color: var(--accent-gold); font-weight:600; margin-bottom: 0.2rem;">${c.batch}</p>
+            <p class="card-desc">${c.desc}</p>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function openModal(imgSrc, title, desc) {
+      modalImg.src = imgSrc;
+      modalTitle.innerText = title;
+      modalDesc.innerText = desc;
+      modal.classList.add("active");
+    }
+
+    modalClose.addEventListener("click", () => {
+      modal.classList.remove("active");
+    });
+
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        modal.classList.remove("active");
+      }
+    });
+
+    searchInput.addEventListener("input", (e) => {
+      searchQuery = e.target.value.toLowerCase();
+      render();
+    });
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        filterButtons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentFilter = btn.getAttribute("data-filter");
+        render();
+      });
+    });
+
+    // Initial render
+    render();
+  </script>
+</body>
+</html>

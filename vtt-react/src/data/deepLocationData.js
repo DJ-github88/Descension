@@ -15,10 +15,10 @@ DEEP_LOCATIONS['greymark-keep'] = {
   dominantRaces: ['Thalren humans', 'Mimir'],
   leadership: {
     type: 'noble_house',
-    title: 'Lord of Greymark',
-    leaderId: 'aldren-thalreth',
+    title: 'Jarl-Archivist of Greymark',
+    leaderId: 'kaelen-thalreth',
     description:
-      'House Thalreth rules from the High Hearth, a massive ironwood throne-room where the Lord receives petitioners while scribes record every word spoken. The current Lord, Aldren Thalreth, is increasingly absent — his seneschal handles most affairs while Aldren sits in his chambers, re-reading his own journals to remember who he is.'
+      'House Thalreth rules from the High Hearth, a massive ironwood throne-room. The de facto ruler is Jarl-Archivist Kaelen Thalreth ("The Quill-Lord"), who enforces the Sovereign Ledger. His father, the elder Lord Aldren Thalreth, remains de jure Lord but is increasingly absent, sitting in his chambers re-reading his own journals to remember who he is.'
   },
   defenses: {
     militiaSize: 50,
@@ -104,7 +104,7 @@ DEEP_LOCATIONS['greymark-keep'] = {
     { destinationId: 'scribes-tower', distance: 'half mile', travelTime: '15 min', route: 'Rope-and-plank bridges through the ironwood canopy' }
   ],
   classPresence: ['martyr', 'inscriptor', 'warden', 'augur'],
-  npcs: ['aldren-thalreth', 'elara-thalreth', 'old-maren']
+  npcs: ['kaelen-thalreth', 'aldren-thalreth', 'elara-thalreth', 'old-maren']
 };
 
 // =============================================================================
@@ -120,10 +120,10 @@ DEEP_LOCATIONS['frozen-archive'] = {
   dominantRaces: ['Skald humans'],
   leadership: {
     type: 'noble_house',
-    title: 'Jarl of Nordhalla',
+    title: 'Jarl of the Archive',
     leaderId: 'sigurd-skalvyr',
     description:
-      'House Skalvyr controls the Archive through a combination of ancestral right and cold pragmatism. Jarl Sigurd Skalvyr is a man carved from glacier ice — he speaks rarely, decides slowly, and never reverses a decision once made.'
+      'Jarl Sigurd Skalvyr governs the Archive as regional custodian, answerable to High King-Jarl Halvar Skalvyr ("Járn-Tand" or Iron-Tooth) who rules the continent from Ymirhold. Sigurd is a man carved from glacier ice — he speaks rarely, decides slowly, and never reverses a decision once made.'
   },
   defenses: {
     militiaSize: 80,
@@ -196,7 +196,7 @@ DEEP_LOCATIONS['frozen-archive'] = {
     { destinationId: 'rimors-hearth', distance: '5 miles', travelTime: '3 hours', route: 'Geothermal vent-trail through ice tunnels' }
   ],
   classPresence: ['skald', 'harbinger', 'warden', 'inscriptor'],
-  npcs: ['sigurd-skalvyr', 'frigga-skalvyr', 'valeria-the-grim']
+  npcs: ['sigurd-skalvyr', 'halvar-skalvyr', 'frigga-skalvyr', 'valeria-the-grim']
 };
 
 // =============================================================================

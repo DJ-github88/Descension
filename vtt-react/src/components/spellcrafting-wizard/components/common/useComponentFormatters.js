@@ -1,4 +1,4 @@
-﻿import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment, faHandSparkles, faFlask } from '@fortawesome/free-solid-svg-icons';
 import { formatComponentName } from './spellFormatterUtils';
 
@@ -424,7 +424,7 @@ const useComponentFormatters = ({ spell, className }) => {
           if (config.type === 'chord') {
             const recipeDisplay = config.chordOptions?.recipeDisplay || [];
             if (recipeDisplay.length > 0) {
-              const recipeNames = recipeDisplay.map(chord => chord.name).join(' â†’ ');
+              const recipeNames = recipeDisplay.map(chord => chord.name).join(' → ');
               mechanicsText = `Requires chord: ${recipeNames}`;
               if (config.chordOptions?.improvisationWindow) {
                 mechanicsText += ` (${config.chordOptions.improvisationWindow} rounds)`;

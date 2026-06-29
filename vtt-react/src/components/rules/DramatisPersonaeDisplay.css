@@ -1,35 +1,27 @@
-/* DramatisPersonaeDisplay.css — Reworked to match app layout pattern (sidebar + content) */
+/* DramatisPersonaeDisplay.css — Pathfinder Beige/Charcoal Premium Style */
 
-/* ─────────────────────────────────────────
-   ROOT
-───────────────────────────────────────── */
 .dp-display {
-  animation: dpFadeIn 0.4s ease;
+  animation: dpFadeIn 0.3s ease;
 }
 
 @keyframes dpFadeIn {
-  from { opacity: 0; transform: translateY(6px); }
+  from { opacity: 0; transform: translateY(4px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ─────────────────────────────────────────
-   SIDEBAR + CONTENT LAYOUT
-───────────────────────────────────────── */
 .dp-layout {
   display: flex;
   gap: 2rem;
   align-items: flex-start;
 }
 
-/* ─────────────────────────────────────────
-   SIDEBAR
-───────────────────────────────────────── */
+/* Sidebar */
 .dp-sidebar {
-  flex: 0 0 260px;
+  flex: 0 0 280px;
   background: linear-gradient(145deg, #fbf7ee 0%, #f3ecd8 100%);
   border: 2px solid #c9b38c;
-  box-shadow: 0 8px 24px rgba(139, 115, 85, 0.15), inset 0 2px 4px rgba(255, 255, 255, 0.9);
-  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(139, 115, 85, 0.12), inset 0 2px 4px rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
   padding: 1.5rem 1.2rem;
   position: sticky;
   top: 1.5rem;
@@ -38,7 +30,7 @@
 
 .dp-sidebar-title {
   font-family: 'Cinzel', serif;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   font-weight: 700;
   color: #4a381f;
   margin: 0 0 1.2rem 0;
@@ -46,7 +38,6 @@
   border-bottom: 2px double #c9b38c;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.8);
   display: flex;
   align-items: center;
   gap: 0.6rem;
@@ -59,15 +50,14 @@
   font-weight: 700;
   color: #5c4728;
   background: #e9dfcb;
-  padding: 3px 9px;
+  padding: 2px 8px;
   border-radius: 12px;
   border: 1px solid #c9b38c;
 }
 
-/* Search */
 .dp-search-wrapper {
   position: relative;
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
 }
 
 .dp-search-icon {
@@ -76,35 +66,30 @@
   top: 50%;
   transform: translateY(-50%);
   color: #8b7355;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   pointer-events: none;
 }
 
 .dp-search-input {
   width: 100%;
-  padding: 8px 12px 8px 34px;
+  padding: 9px 12px 9px 34px;
   font-family: 'Crimson Text', serif;
   font-size: 0.95rem;
   color: #4a381f;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.6);
   border: 1px solid #c9b38c;
   border-radius: 6px;
   outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: all 0.2s;
   box-sizing: border-box;
-}
-
-.dp-search-input::placeholder {
-  color: #a08a6a;
-  font-style: italic;
 }
 
 .dp-search-input:focus {
   border-color: #8b4513;
-  box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.08);
 }
 
-/* Region list */
 .dp-region-list {
   list-style: none;
   padding: 0;
@@ -120,28 +105,23 @@
   gap: 0.75rem;
   padding: 0.7rem 0.85rem;
   border: 1px solid transparent;
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  background: rgba(255, 255, 255, 0.3);
+  transition: all 0.2s ease;
+  background: rgba(255, 255, 255, 0.35);
 }
 
 .dp-region-item:hover {
-  background: rgba(201, 179, 140, 0.2);
+  background: rgba(201, 179, 140, 0.15);
   border-color: #c9b38c;
-  transform: translateX(4px);
+  transform: translateX(3px);
 }
 
 .dp-region-item.active {
   background: linear-gradient(135deg, #2d2215 0%, #1a140b 100%);
   color: #f7f3e8;
   border-color: #1a140b;
-  box-shadow: 0 4px 12px rgba(26, 20, 11, 0.3);
-}
-
-.dp-region-item.dimmed {
-  opacity: 0.35;
-  pointer-events: none;
+  box-shadow: 0 4px 10px rgba(26, 20, 11, 0.25);
 }
 
 .dp-region-icon {
@@ -149,7 +129,6 @@
   text-align: center;
   font-size: 1rem;
   color: #8c6d3f;
-  transition: color 0.2s;
 }
 
 .dp-region-item.active .dp-region-icon {
@@ -192,7 +171,7 @@
   font-weight: 700;
   color: #5c4728;
   background: #e9dfcb;
-  padding: 2px 8px;
+  padding: 2px 7px;
   border-radius: 10px;
   border: 1px solid #c9b38c;
   flex-shrink: 0;
@@ -201,465 +180,618 @@
 .dp-region-item.active .dp-region-count {
   background: rgba(255, 255, 255, 0.15);
   color: #e2d1a6;
-  border-color: rgba(226, 209, 166, 0.3);
+  border-color: rgba(226, 209, 166, 0.2);
 }
 
-/* Sidebar tip */
-.dp-sidebar-tip {
-  margin-top: 1.2rem;
-  padding: 0.7rem 0.8rem;
-  background: rgba(139, 69, 19, 0.06);
-  border: 1px solid rgba(139, 69, 19, 0.15);
-  border-radius: 6px;
-  display: flex;
-  align-items: flex-start;
-  gap: 0.5rem;
-  font-size: 0.72rem;
-  color: #8b6a50;
-  line-height: 1.45;
-}
-
-.dp-sidebar-tip i {
-  color: #8b4513;
-  font-size: 0.7rem;
-  margin-top: 2px;
-  flex-shrink: 0;
-}
-
-.dp-sidebar-tip strong {
-  color: #7a2060;
-}
-
-/* ─────────────────────────────────────────
-   CONTENT AREA
-───────────────────────────────────────── */
+/* Content Area */
 .dp-content {
   flex: 1;
   min-width: 0;
 }
 
-.dp-no-results {
-  text-align: center;
-  padding: 3rem 1rem;
-  color: #8b6a50;
+/* Region List View */
+.dp-region-banner {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem 2rem;
+  background: var(--accent-bg);
+  border-left: 5px solid var(--accent);
+  border-radius: 6px;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
 }
 
-.dp-no-results i {
-  font-size: 2rem;
-  display: block;
-  margin-bottom: 0.8rem;
-  opacity: 0.5;
+.dp-region-banner-icon {
+  font-size: 2.2rem;
+  flex-shrink: 0;
 }
 
-.dp-no-results p {
-  font-family: 'Crimson Text', serif;
-  font-size: 1.1rem;
+.dp-region-banner-text h2 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.6rem;
+  color: #2d2215;
+  margin: 0 0 0.2rem 0;
+}
+
+.dp-region-banner-text p {
+  margin: 0;
+  font-size: 0.9rem;
   font-style: italic;
+  color: #5c4728;
 }
 
-/* ─────────────────────────────────────────
-   REGION SECTION
-───────────────────────────────────────── */
-.dp-region-section {
+/* Card Grid */
+.dp-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
   margin-bottom: 2.5rem;
 }
 
-.dp-region-section:last-child {
-  margin-bottom: 0;
-}
-
-.dp-region-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 16px;
-  background: linear-gradient(90deg, var(--accent-bg) 0%, rgba(245, 240, 232, 0) 100%);
-  border-left: 3px solid var(--accent);
-  border-bottom: 1px solid rgba(196, 160, 96, 0.2);
-  margin-bottom: 16px;
-  border-radius: 0 6px 0 0;
-}
-
-.dp-region-header-icon {
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--accent-bg);
-  border: 1px solid var(--accent);
-  border-radius: 50%;
-  color: var(--accent);
-  font-size: 13px;
-  flex-shrink: 0;
-}
-
-.dp-region-header-text {
-  flex: 1;
-}
-
-.dp-region-header-name {
-  font-family: 'Cinzel', serif;
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: var(--accent);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  margin: 0 0 1px 0;
-}
-
-.dp-region-header-subtitle {
-  font-size: 0.75rem;
-  color: #8b6a50;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  font-family: 'Cinzel', serif;
-}
-
-.dp-region-header-count {
-  font-size: 0.75rem;
-  color: #8b6a50;
-  font-family: 'Cinzel', serif;
-  background: rgba(139, 69, 19, 0.06);
-  border: 1px solid rgba(139, 69, 19, 0.15);
-  border-radius: 10px;
-  padding: 3px 10px;
-  letter-spacing: 0.5px;
-  flex-shrink: 0;
-}
-
-/* ─────────────────────────────────────────
-   NPC CARD GRID
-───────────────────────────────────────── */
-.dp-card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: 16px;
-}
-
-/* ─────────────────────────────────────────
-   NPC CARD
-───────────────────────────────────────── */
 .dp-npc-card {
-  background: linear-gradient(145deg, rgba(255, 251, 242, 0.8) 0%, rgba(240, 228, 208, 0.5) 100%);
-  border: 1px solid rgba(139, 69, 19, 0.2);
-  border-top: 3px solid var(--accent);
-  border-radius: 4px;
-  padding: 18px 20px 16px;
-  transition: box-shadow 220ms ease, border-color 220ms ease, transform 180ms ease;
+  display: flex;
+  gap: 1rem;
+  background: linear-gradient(180deg, #fdfbfa 0%, #f5f0e6 100%);
+  border: 1.5px solid #d4c2a8;
+  border-radius: 8px;
+  padding: 1.2rem;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
-}
-
-.dp-npc-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 4px;
-  background: linear-gradient(180deg, var(--accent-bg) 0%, transparent 35%);
-  pointer-events: none;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(139, 115, 85, 0.08);
 }
 
 .dp-npc-card:hover {
+  transform: translateY(-4px);
   border-color: var(--accent);
-  box-shadow: 0 4px 18px rgba(139, 69, 19, 0.18);
-  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(139, 115, 85, 0.18);
 }
 
-/* Card header */
-.dp-npc-card-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 10px;
-  position: relative;
-  z-index: 1;
+.dp-npc-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--accent);
+  opacity: 0.8;
 }
 
-.dp-npc-card-icon {
-  width: 36px;
-  height: 36px;
+.dp-npc-card-avatar {
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   border: 2px solid var(--accent);
-  background: var(--accent-bg);
+  background: #fff;
+  overflow: hidden;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.dp-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dp-avatar-letter {
   font-family: 'Cinzel', serif;
-  font-size: 0.9rem;
+  font-size: 1.5rem;
   font-weight: 700;
-  color: var(--accent);
-  flex-shrink: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dp-npc-card-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
 
 .dp-npc-card-name {
   font-family: 'Cinzel', serif;
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 700;
-  color: #2b1c11;
-  margin: 0;
-  letter-spacing: 0.3px;
-  line-height: 1.3;
+  color: #2d2215;
+  margin: 0 0 0.4rem 0;
 }
 
-/* Card description */
-.dp-npc-card-desc {
-  font-family: 'Crimson Text', serif;
-  font-size: 0.95rem;
-  color: #5a3a1e;
-  line-height: 1.55;
-  margin: 0 0 14px;
-  font-style: italic;
-  position: relative;
-  z-index: 1;
+.dp-npc-card-excerpt {
+  margin: 0 0 0.8rem 0;
+  font-size: 0.85rem;
+  color: #5c4728;
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-/* Pillars */
-.dp-npc-pillars {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  position: relative;
-  z-index: 1;
-}
-
-.dp-npc-pillar {
-  border-radius: 3px;
-  padding: 8px 10px;
-  border-left: 2px solid transparent;
-  background: rgba(139, 69, 19, 0.04);
-}
-
-.dp-npc-pillar--goal     { border-left-color: #c4a060; }
-.dp-npc-pillar--secret   { border-left-color: #7a2060; }
-.dp-npc-pillar--conflict { border-left-color: #8a1a10; }
-
-.dp-npc-pillar-label {
+.dp-read-more {
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 0.3rem;
+  margin-top: auto;
+}
+
+/* Detailed View */
+.dp-back-btn {
+  background: none;
+  border: 1px solid #c9b38c;
+  color: #5c4728;
+  padding: 7px 14px;
+  border-radius: 5px;
   font-family: 'Cinzel', serif;
-  font-size: 0.65rem;
+  font-size: 0.8rem;
   font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dp-back-btn:hover {
+  background: #2d2215;
+  color: #f7f3e8;
+  border-color: #2d2215;
+}
+
+.dp-detail-header {
+  border-bottom: 2px double #c9b38c;
+  padding-bottom: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.dp-detail-title-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.dp-detail-name {
+  font-family: 'Cinzel', serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #2d2215;
+  margin: 0;
+  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.8);
+}
+
+.dp-detail-region-badge {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #fff;
+  padding: 3px 10px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.dp-detail-subtitle {
+  margin: 0.4rem 0 0 0;
+  font-size: 1.05rem;
+  font-style: italic;
+  color: #7d6a50;
+}
+
+/* Two-column Detail Layout */
+.dp-detail-body {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 2.5rem;
+}
+
+/* Portrait Column */
+.dp-portrait-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.dp-detail-illustration {
+  background: #fcf9f2;
+  border: 1px solid #d4c2a8;
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0 4px 15px rgba(139, 115, 85, 0.1);
+}
+
+.dp-portrait-frame {
+  width: 100%;
+  height: 350px;
+  border: 2px solid #bba37d;
+  background: #fbf9f4;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.dp-portrait-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: contrast(1.05) sepia(0.1);
+}
+
+.dp-portrait-frame.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  color: #8b7355;
+  font-size: 0.85rem;
+  border-style: dashed;
+}
+
+.dp-portrait-letter {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cinzel', serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+.dp-detail-caption {
+  margin-top: 8px;
+  font-size: 0.75rem;
+  color: #7d6a50;
+  line-height: 1.4;
+  text-align: center;
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+/* Quick Profile Card */
+.dp-quick-profile {
+  background: linear-gradient(180deg, #fdfbfa 0%, #f4eede 100%);
+  border: 1.5px solid #d4c2a8;
+  border-radius: 6px;
+  padding: 1.2rem;
+  box-shadow: 0 4px 10px rgba(139, 115, 85, 0.05);
+}
+
+.dp-profile-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  color: #4a381f;
+  margin: 0 0 1rem 0;
+  border-bottom: 1.5px solid #d4c2a8;
+  padding-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dp-profile-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px dashed rgba(212, 194, 168, 0.5);
+}
+
+.dp-profile-row:last-child {
+  border-bottom: none;
+}
+
+.dp-profile-label {
+  color: #7d6a50;
+  font-weight: 600;
+}
+
+.dp-profile-value {
+  color: #2d2215;
+  font-weight: 700;
+  text-align: right;
+}
+
+.dp-profile-value.status-active {
+  color: #9b2226;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
-  margin-bottom: 4px;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
 }
 
-.dp-npc-pillar--goal .dp-npc-pillar-label     { color: #8b6a10; }
-.dp-npc-pillar--secret .dp-npc-pillar-label   { color: #7a2060; }
-.dp-npc-pillar--conflict .dp-npc-pillar-label { color: #8a1a10; }
-
-.dp-npc-pillar-label i {
-  font-size: 0.65rem;
+/* Tabs Column */
+.dp-tabs-col {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
 
-.dp-npc-pillar-text {
+.dp-tabs {
+  display: flex;
+  border-bottom: 2px solid #d4c2a8;
+  margin-bottom: 1.8rem;
+  gap: 0.5rem;
+}
+
+.dp-tab-btn {
+  background: none;
+  border: 1px solid transparent;
+  border-bottom: none;
+  color: #7d6a50;
+  padding: 10px 18px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-radius: 6px 6px 0 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dp-tab-btn:hover {
+  color: var(--accent);
+  background: rgba(201, 179, 140, 0.08);
+}
+
+.dp-tab-btn.active {
+  color: #2d2215;
+  background: #fff;
+  border-color: #d4c2a8;
+  position: relative;
+}
+
+.dp-tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #fff;
+}
+
+.dp-tab-content {
+  background: #fff;
+  border: 1.5px solid #d4c2a8;
+  border-radius: 6px;
+  padding: 2rem;
+  box-shadow: 0 6px 18px rgba(139, 115, 85, 0.05);
+  min-height: 300px;
+}
+
+/* Sections inside Tab Content */
+.dp-section {
+  margin-bottom: 1.8rem;
+}
+
+.dp-section:last-child {
+  margin-bottom: 0;
+}
+
+.dp-section-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #4a381f;
+  margin: 0 0 0.8rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dp-description-text {
   font-family: 'Crimson Text', serif;
-  font-size: 0.9rem;
-  color: #3a2510;
+  font-size: 1.15rem;
+  color: #2d2215;
+  line-height: 1.6;
+  margin: 0;
+  text-align: justify;
+}
+
+/* Highlight Box (Goal) */
+.dp-highlight-box {
+  border-left: 4px solid var(--accent);
+  border-radius: 4px;
+  padding: 1.2rem;
+  margin-top: 1.5rem;
+}
+
+.dp-highlight-text {
+  font-family: 'Crimson Text', serif;
+  font-size: 1.12rem;
+  font-style: italic;
   line-height: 1.5;
+  color: #3d2f1c;
   margin: 0;
 }
 
-/* Secret toggle */
-.dp-secret-toggle {
-  margin-left: auto;
-  background: none;
-  border: 1px solid rgba(122, 32, 96, 0.3);
-  color: #7a2060;
-  font-family: 'Cinzel', serif;
-  font-size: 0.6rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  padding: 2px 7px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 140ms ease, color 140ms ease, border-color 140ms ease;
-}
-
-.dp-secret-toggle:hover {
-  background: rgba(122, 32, 96, 0.1);
-  color: #5a0040;
-  border-color: rgba(122, 32, 96, 0.55);
-}
-
-/* Blurred secret text */
-.dp-secret-text {
-  filter: blur(4px);
-  user-select: none;
-  transition: filter 300ms ease;
-  color: #9a7a5a;
+/* GM Secrets Tab */
+.dp-gm-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  background: #fff5f5;
+  border: 1px solid #feb2b2;
+  border-radius: 6px;
+  padding: 1rem;
+  color: #c53030;
   font-size: 0.85rem;
-  letter-spacing: 1px;
+  line-height: 1.45;
+  margin-bottom: 1.5rem;
+}
+
+.dp-gm-warning i {
+  font-size: 1.1rem;
+  margin-top: 2px;
+}
+
+.dp-secret-box {
+  border: 1.5px solid #cbd5e0;
+  border-radius: 6px;
+  background: #f7fafc;
+  overflow: hidden;
+}
+
+.dp-secret-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #edf2f7;
+  padding: 0.8rem 1.2rem;
+  border-bottom: 1.5px solid #cbd5e0;
+}
+
+.dp-secret-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #4a5568;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dp-secret-toggle-btn {
+  background: #718096;
+  color: #fff;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 4px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.dp-secret-toggle-btn:hover {
+  background: #4a5568;
+}
+
+.dp-secret-text {
+  padding: 1.5rem;
+  margin: 0;
+  font-family: 'Crimson Text', serif;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  word-break: break-all;
+  color: #1a202c;
+  text-align: justify;
 }
 
 .dp-secret-text.revealed {
-  filter: blur(0);
-  color: #3a2510;
-  user-select: text;
-  letter-spacing: 0;
+  word-break: normal;
 }
 
-/* Lore links inside NPC cards */
-.dp-npc-card .lore-link {
-  color: #8b4513;
-  border-bottom-color: rgba(139, 69, 19, 0.35);
-}
-
-.dp-npc-card .lore-link:hover {
-  color: #5a1e12;
-}
-
-/* ─────────────────────────────────────────
-   RESPONSIVE
-───────────────────────────────────────── */
-@media (max-width: 900px) {
-  .dp-layout {
-    flex-direction: column;
-  }
-
-  .dp-sidebar {
-    flex: none;
-    position: static;
-  }
-
-  .dp-region-list {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 0.35rem;
-  }
-
-  .dp-region-item {
-    padding: 0.5rem 0.7rem;
-  }
-
-  .dp-region-subtitle {
-    display: none;
-  }
-}
-
-@media (max-width: 640px) {
-  .dp-card-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* ─────────────────────────────────────────
-   STREET-LEVEL CONTACTS SECTION
-───────────────────────────────────────── */
+/* Local Figures (Street Contacts) */
 .dp-contacts-section {
-  margin-top: 2.5rem;
-  border-top: 1px dashed rgba(196, 160, 96, 0.4);
-  padding-top: 2rem;
+  margin-top: 3.5rem;
+  background: linear-gradient(180deg, #fdfcfa 0%, #f6f2e9 100%);
+  border: 1.5px solid #c9b38c;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
 }
 
 .dp-contacts-header {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 0.75rem;
+  gap: 0.8rem;
+  border-bottom: 1.5px solid #c9b38c;
+  padding-bottom: 0.6rem;
+  margin-bottom: 1rem;
 }
 
 .dp-contacts-header i {
-  color: #8f6f35;
-  font-size: 1rem;
+  font-size: 1.4rem;
+  color: #8b5a2b;
 }
 
 .dp-contacts-header h3 {
   font-family: 'Cinzel', serif;
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #4a381f;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
+  font-size: 1.25rem;
+  color: #2d2215;
   margin: 0;
 }
 
 .dp-contacts-badge {
-  margin-left: auto;
   font-family: 'Cinzel', serif;
-  font-size: 0.65rem;
+  font-size: 0.7rem;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: #8b6a10;
-  background: rgba(196, 160, 96, 0.12);
-  border: 1px solid rgba(196, 160, 96, 0.35);
-  padding: 3px 10px;
-  border-radius: 10px;
+  color: #8b5a2b;
+  background: rgba(139, 90, 43, 0.1);
+  border: 1px solid rgba(139, 90, 43, 0.25);
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-left: auto;
 }
 
 .dp-contacts-intro {
-  font-family: 'Crimson Text', serif;
-  font-size: 0.95rem;
-  font-style: italic;
-  color: #6d4f2e;
-  line-height: 1.55;
   margin: 0 0 1.5rem 0;
-  padding: 10px 14px;
-  background: rgba(251, 247, 238, 0.6);
-  border-left: 3px solid rgba(196, 160, 96, 0.4);
-  border-radius: 0 4px 4px 0;
-}
-
-.dp-contacts-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 14px;
-}
-
-.dp-contacts-group {
-  background: linear-gradient(145deg, rgba(251, 247, 238, 0.7) 0%, rgba(240, 228, 208, 0.4) 100%);
-  border: 1px solid rgba(196, 160, 96, 0.3);
-  border-radius: 6px;
-  padding: 14px 16px;
-}
-
-.dp-contacts-region {
-  font-family: 'Cinzel', serif;
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: #6d4021;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin: 0 0 10px 0;
-  padding-bottom: 7px;
-  border-bottom: 1px solid rgba(196, 160, 96, 0.3);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #5c4728;
 }
 
 .dp-contacts-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 9px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
 }
 
 .dp-contact-item {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+  background: #fff;
+  border: 1px solid #d4c2a8;
+  border-radius: 6px;
+  padding: 1rem 1.2rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.01);
 }
 
 .dp-contact-name {
   font-family: 'Cinzel', serif;
-  font-size: 0.78rem;
+  font-size: 0.9rem;
   font-weight: 700;
-  color: #2b1c11;
-  letter-spacing: 0.2px;
+  color: #2d2215;
+  display: block;
+  margin-bottom: 0.4rem;
+  border-left: 2px solid #8b5a2b;
+  padding-left: 0.4rem;
 }
 
 .dp-contact-desc {
-  font-family: 'Crimson Text', serif;
-  font-size: 0.88rem;
-  color: #5a3a1e;
+  font-size: 0.85rem;
+  color: #5c4728;
   line-height: 1.45;
+  display: block;
 }
 
-@media (max-width: 640px) {
-  .dp-contacts-grid {
-    grid-template-columns: 1fr;
-  }
+/* Animations */
+.fade-in {
+  animation: fadeInEffect 0.25s ease-out;
+}
+
+@keyframes fadeInEffect {
+  from { opacity: 0; transform: translateY(3px); }
+  to { opacity: 1; transform: translateY(0); }
 }

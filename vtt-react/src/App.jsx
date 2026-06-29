@@ -13,6 +13,7 @@ import GlobalSocketManager from "./components/social/GlobalSocketManager";
 import usePartyStore from "./store/partyStore";
 import useGameStore from "./store/gameStore";
 import useConditionStore from "./store/conditionStore";
+import useWindowManagerStore from "./store/windowManagerStore";
 import useTargetingStore from "./store/targetingStore";
 import useIdleDetection from "./hooks/useIdleDetection";
 import useSessionManagement from "./hooks/useSessionManagement";
@@ -860,10 +861,19 @@ export default function App() {
             }
         }, 24 * 60 * 60 * 1000); // Check daily
 
-        // Add keyboard shortcut for performance dashboard (Ctrl+Shift+P)
+        // Global keyboard shortcuts
         const handleKeyDown = (event) => {
+            // Escape: close topmost open window (stacked Esc dismissal)
+            if (event.key === 'Escape') {
+                const handled = useWindowManagerStore.getState().closeTopmostWindow();
+                if (handled) {
+                    event.preventDefault();
+                    return;
+                }
+            }
+
+            // Ctrl+Shift+P: toggle performance dashboard (GMs only)
             if (event.ctrlKey && event.shiftKey && event.key === 'P') {
-                // Restricted to Game Masters only
                 const { isGMMode } = useGameStore.getState();
                 if (!isGMMode) return;
 
