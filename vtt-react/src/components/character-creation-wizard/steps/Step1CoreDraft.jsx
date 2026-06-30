@@ -554,6 +554,65 @@ const getClassRestrictionMessage = (className) => {
 
 
 
+/**
+ * Check whether a background is selectable for the given race/subrace.
+ * Mirrors isClassCompatible, but with a softer "narrativeUnlock" path:
+ *   - unrestricted backgrounds (no allowedSubraces)          -> selectable, normal
+ *   - subrace explicitly allowed                              -> selectable, normal
+ *   - subrace NOT allowed, narrativeUnlock: true             -> selectable, narrative (DM approval)
+ *   - subrace NOT allowed, narrativeUnlock absent/false      -> NOT selectable (hidden)
+ *   - race or subrace in hardBlocks                           -> NOT selectable (hidden)
+ * Returns { selectable: bool, narrativeUnlock: bool }.
+ */
+const isBackgroundCompatible = (bg, raceId, subraceId) => {
+    if (!bg || !bg.restrictions) return { selectable: true, narrativeUnlock: false };
+
+    const { allowedSubraces = [], hardBlocks, narrativeUnlock } = bg.restrictions;
+
+    // Hard blocks — never selectable (mirror class hardBlocks behaviour)
+    if (hardBlocks && (hardBlocks.includes(raceId) || hardBlocks.includes(subraceId))) {
+        return { selectable: false, narrativeUnlock: false };
+    }
+
+    // Unrestricted background — open to everyone
+    if (!allowedSubraces || allowedSubraces.length === 0) {
+        return { selectable: true, narrativeUnlock: false };
+    }
+
+    // Explicitly allowed
+    if (subraceId && allowedSubraces.includes(subraceId)) {
+        return { selectable: true, narrativeUnlock: false };
+    }
+
+    // Race-level fallback: if no subrace chosen yet, allow when ANY of that race's
+    // subraces are listed (so the grid isn't empty before subrace selection).
+    if (!subraceId && raceId) {
+        const racePrefix = raceId + '_';
+        const raceRepresented = allowedSubraces.some((sid) => sid.startsWith(racePrefix));
+        if (raceRepresented) return { selectable: true, narrativeUnlock: false };
+    }
+
+    // Disallowed but soft — selectable with DM-approval flag
+    if (narrativeUnlock) {
+        return { selectable: true, narrativeUnlock: true };
+    }
+
+    // Strictly locked
+    return { selectable: false, narrativeUnlock: false };
+};
+
+
+
+const getBackgroundRestrictionMessage = (bg) => {
+
+    if (!bg || !bg.restrictions || !bg.restrictions.justification) return '';
+
+    return bg.restrictions.justification;
+
+};
+
+
+
 const BACKGROUND_ICONS = {
 
     acolyte: 'fas fa-pray',
@@ -585,6 +644,48 @@ const BACKGROUND_ICONS = {
     urchin: 'fas fa-street-view',
 
     scholar: 'fas fa-feather-alt'
+
+};
+
+
+
+// Mythrill-native backgrounds (backgroundData.js). Falls back to fa-compass elsewhere.
+
+const BACKGROUND_ICONS_MYTHRILL = {
+
+    emberspirePilgrim: 'fas fa-sun',
+
+    shyrRunner: 'fas fa-running',
+
+    ledgerKeeper: 'fas fa-book',
+
+    bloodlineHeir: 'fas fa-crown',
+
+    synodAcademic: 'fas fa-star',
+
+    sumpsVeteran: 'fas fa-shield-alt',
+
+    debtNegotiator: 'fas fa-balance-scale',
+
+    frostChanter: 'fas fa-music',
+
+    forgeWright: 'fas fa-hammer',
+
+    hushSurvivor: 'fas fa-biohazard',
+
+    peakTracker: 'fas fa-mountain',
+
+    merrowSailor: 'fas fa-anchor',
+
+    gloomwayTrader: 'fas fa-coins',
+
+    shantyRat: 'fas fa-mask',
+
+    monolithHunter: 'fas fa-monument',
+
+    groveWarden: 'fas fa-leaf',
+
+    maskWarden: 'fas fa-theater-masks'
 
 };
 
@@ -782,6 +883,74 @@ const Step1CoreDraft = () => {
 
     const [showStatsDrawer, setShowStatsDrawer] = useState(false);
 
+    const [showJustificationModal, setShowJustificationModal] = useState(false);
+
+    const [justificationTarget, setJustificationTarget] = useState(null); // { type: 'class' | 'background', name: string, id: string }
+
+    const [customJustification, setCustomJustification] = useState('');
+
+
+
+    const handleConfirmJustification = (justificationText) => {
+
+        if (!justificationTarget) return;
+
+
+
+        // Append to backstory
+
+        const oldBackstory = characterData.lore?.backstory || '';
+
+        const prefix = `[Narrative Unlock Justification - ${justificationTarget.type === 'class' ? 'Class' : 'Background'} (${justificationTarget.name})]: ${justificationText}\n\n`;
+
+        const newBackstory = prefix + oldBackstory;
+
+
+
+        dispatch(wizardActionCreators.updateLore({
+
+            ...characterData.lore,
+
+            backstory: newBackstory
+
+        }));
+
+
+
+        // Set the choice
+
+        if (justificationTarget.type === 'class') {
+
+            dispatch(wizardActionCreators.setClass(justificationTarget.id));
+
+            setActiveGrimoireTab('calling');
+
+            setFocusedSection('class');
+
+            dispatch(wizardActionCreators.setStartingSpells([]));
+
+        } else if (justificationTarget.type === 'background') {
+
+            dispatch(wizardActionCreators.setBackground(justificationTarget.id));
+
+            setActiveGrimoireTab('origin');
+
+            setFocusedSection('background');
+
+        }
+
+
+
+        // Close modal
+
+        setShowJustificationModal(false);
+
+        setJustificationTarget(null);
+
+        setCustomJustification('');
+
+    };
+
     
 
     // Unified Tooltip hook
@@ -936,19 +1105,33 @@ const Step1CoreDraft = () => {
 
     useEffect(() => {
 
+        // Soft-gate: Do not automatically reset incompatible classes on race/subrace change
+
+        // Players can keep their custom narrative combinations
+
         if (characterData.class && race) {
 
-            if (!isClassCompatible(characterData.class, race, subrace)) {
-
-                dispatch(wizardActionCreators.setClass(''));
-
-                dispatch(wizardActionCreators.setStartingSpells([]));
-
-            }
+            // Keep selection
 
         }
 
     }, [race, subrace, characterData.class, dispatch]);
+
+
+
+    // Reset Incompatible Background on Race/Subrace Change
+
+    useEffect(() => {
+
+        // Soft-gate: Do not automatically reset incompatible backgrounds on race/subrace change
+
+        if (characterData.background && race) {
+
+            // Keep selection
+
+        }
+
+    }, [race, subrace, characterData.background, dispatch]);
 
 
 
@@ -1088,6 +1271,12 @@ const Step1CoreDraft = () => {
 
             dispatch(wizardActionCreators.setStartingSpells([]));
 
+        } else {
+
+            setJustificationTarget({ type: 'class', name: className, id: className });
+
+            setShowJustificationModal(true);
+
         }
 
     };
@@ -1098,11 +1287,27 @@ const Step1CoreDraft = () => {
 
     const handleBackgroundChange = (bgId) => {
 
-        dispatch(wizardActionCreators.setBackground(bgId));
+        const bg = BACKGROUND_DATA[bgId];
 
-        setActiveGrimoireTab('origin');
+        const { selectable, narrativeUnlock } = isBackgroundCompatible(bg, race, subrace);
 
-        setFocusedSection('background');
+        const isCompatible = selectable && !narrativeUnlock;
+
+        if (isCompatible) {
+
+            dispatch(wizardActionCreators.setBackground(bgId));
+
+            setActiveGrimoireTab('origin');
+
+            setFocusedSection('background');
+
+        } else {
+
+            setJustificationTarget({ type: 'background', name: bg.name, id: bgId });
+
+            setShowJustificationModal(true);
+
+        }
 
     };
 
@@ -1538,11 +1743,13 @@ const Step1CoreDraft = () => {
 
                             <div className="class-icons-grid">
 
-                                {Object.values(CLASS_GROUPS).flat().filter(clsName => isClassCompatible(clsName, race, subrace)).map((clsName) => {
+                                {Array.from(new Set(Object.values(CLASS_GROUPS).flat())).map((clsName) => {
 
                                     const classInfo = CLASS_DATA_MAP[clsName];
 
                                     const isSelectedClass = characterData.class === clsName;
+
+                                    const isCompatible = isClassCompatible(clsName, race, subrace);
 
                                     
 
@@ -1588,15 +1795,17 @@ const Step1CoreDraft = () => {
 
                                             key={clsName} 
 
-                                            className={`class-icon-token ${isSelectedClass ? 'selected' : ''}`}
+                                            className={`class-icon-token ${isSelectedClass ? 'selected' : ''} ${!isCompatible ? 'narrative-unlock' : ''}`}
 
                                             onClick={() => handleClassClick(clsName)}
 
-                                            onMouseEnter={handleMouseEnter(tooltipContent, { title: clsName })}
+                                            onMouseEnter={handleMouseEnter(tooltipContent, { title: !isCompatible ? `${clsName} (Narrative Unlock)` : clsName })}
 
                                             onMouseLeave={handleMouseLeave}
 
                                             onMouseMove={handleMouseMove}
+
+                                            style={!isCompatible ? { borderStyle: 'dashed', borderColor: '#d4af37' } : undefined}
 
                                         >
 
@@ -1613,6 +1822,42 @@ const Step1CoreDraft = () => {
                                                 dataClass={clsName} 
 
                                             />
+
+                                            {!isCompatible && (
+
+                                                <div className="narrative-unlock-badge" style={{
+
+                                                    position: 'absolute',
+
+                                                    top: '-2px',
+
+                                                    right: '-2px',
+
+                                                    background: '#faf6eb',
+
+                                                    border: '1px solid #d4af37',
+
+                                                    borderRadius: '50%',
+
+                                                    width: '14px',
+
+                                                    height: '14px',
+
+                                                    display: 'flex',
+
+                                                    alignItems: 'center',
+
+                                                    justifyContent: 'center',
+
+                                                    zIndex: 10
+
+                                                }}>
+
+                                                    <i className="fas fa-exclamation-triangle" style={{ fontSize: '7px', color: '#b07a00' }}></i>
+
+                                                </div>
+
+                                            )}
 
                                         </div>
 
@@ -1646,6 +1891,12 @@ const Step1CoreDraft = () => {
 
                             {Object.values(BACKGROUND_DATA).map((bg) => {
 
+                                const { selectable, narrativeUnlock } = isBackgroundCompatible(bg, race, subrace);
+
+                                const isCompatible = selectable && !narrativeUnlock;
+
+                                const requiresUnlock = !isCompatible;
+
                                 const bgTooltipContent = (
 
                                     <div className="bg-tooltip-content" style={{ fontFamily: "'Crimson Text', serif", fontSize: '0.9rem', maxWidth: '240px' }}>
@@ -1666,6 +1917,18 @@ const Step1CoreDraft = () => {
 
                                         </p>
 
+                                        {requiresUnlock && bg.restrictions?.justification && (
+
+                                            <div style={{ marginTop: '6px', paddingTop: '6px', borderTop: '1px dashed #b08a4a', color: '#8a5a00', fontStyle: 'italic', fontSize: '0.8rem' }}>
+
+                                                <i className="fas fa-exclamation-triangle" style={{ marginRight: '4px' }}></i>
+
+                                                Narrative Unlock — requires DM approval. {bg.restrictions.justification}
+
+                                            </div>
+
+                                        )}
+
                                     </div>
 
                                 );
@@ -1676,11 +1939,11 @@ const Step1CoreDraft = () => {
 
                                         key={bg.id}
 
-                                        className={`background-button-token ${background === bg.id ? 'selected' : ''}`}
+                                        className={`background-button-token ${background === bg.id ? 'selected' : ''} ${requiresUnlock ? 'narrative-unlock' : ''}`}
 
                                         onClick={() => handleBackgroundChange(bg.id)}
 
-                                        onMouseEnter={handleMouseEnter(bgTooltipContent, { title: bg.name })}
+                                        onMouseEnter={handleMouseEnter(bgTooltipContent, { title: requiresUnlock ? `${bg.name} (Narrative Unlock)` : bg.name })}
 
                                         onMouseLeave={handleMouseLeave}
 
@@ -1688,9 +1951,15 @@ const Step1CoreDraft = () => {
 
                                     >
 
-                                        <i className={`${BACKGROUND_ICONS[bg.id] || 'fas fa-compass'} background-token-icon`}></i>
+                                        <i className={`${BACKGROUND_ICONS[bg.id] || BACKGROUND_ICONS_MYTHRILL[bg.id] || 'fas fa-compass'} background-token-icon`}></i>
 
                                         <span className="background-token-label">{bg.name}</span>
+
+                                        {requiresUnlock && (
+
+                                            <i className="fas fa-exclamation-triangle narrative-unlock-marker" title="Narrative Unlock — DM approval" style={{ fontSize: '0.6rem', color: '#b07a00', marginLeft: '3px' }}></i>
+
+                                        )}
 
                                     </div>
 
@@ -1713,6 +1982,7 @@ const Step1CoreDraft = () => {
                 <div 
 
                     className="core-draft-column canvas-panel-center"
+
                     data-mobile-panel="character"
 
                     style={{
@@ -2223,7 +2493,7 @@ const Step1CoreDraft = () => {
 
                                         <span className="grimoire-subtitle">
 
-                                            {characterData.class ? characterData.class : 'None Selected'}
+                                            {characterData.class ? CLASS_DATA_MAP[characterData.class]?.name || characterData.class : 'None Selected'}
 
                                         </span>
 
@@ -2950,6 +3220,302 @@ const Step1CoreDraft = () => {
                 onApplyTransformations={handleApplyTransformations}
 
             />
+
+
+
+            {/* Narrative Justification Modal */}
+
+            {showJustificationModal && (
+
+                <div className="justification-modal-overlay" style={{
+
+                    position: 'fixed',
+
+                    top: 0,
+
+                    left: 0,
+
+                    right: 0,
+
+                    bottom: 0,
+
+                    backgroundColor: 'rgba(0, 0, 0, 0.75)',
+
+                    display: 'flex',
+
+                    alignItems: 'center',
+
+                    justifyContent: 'center',
+
+                    zIndex: 99999,
+
+                    fontFamily: "'Crimson Text', serif"
+
+                }}>
+
+                    <div className="justification-modal-content" style={{
+
+                        background: '#faf6eb',
+
+                        border: '2px solid #b08a4a',
+
+                        borderRadius: '8px',
+
+                        padding: '2rem',
+
+                        maxWidth: '550px',
+
+                        width: '90%',
+
+                        boxShadow: '0 8px 30px rgba(0,0,0,0.5)',
+
+                        color: '#2e1e0f'
+
+                    }}>
+
+                        <h3 style={{
+
+                            marginTop: 0,
+
+                            color: '#5a3d1d',
+
+                            borderBottom: '1px solid #b08a4a',
+
+                            paddingBottom: '0.5rem',
+
+                            fontSize: '1.5rem',
+
+                            display: 'flex',
+
+                            alignItems: 'center',
+
+                            gap: '8px'
+
+                        }}>
+
+                            <i className="fas fa-exclamation-triangle" style={{ color: '#d4af37' }}></i>
+
+                            Narrative Unlock Required
+
+                        </h3>
+
+                        <p style={{ fontSize: '1.05rem', lineHeight: '1.5', margin: '1rem 0' }}>
+
+                            The combination of <strong>{race ? race.charAt(0).toUpperCase() + race.slice(1) : 'your heritage'}</strong> and the <strong>{justificationTarget?.name}</strong> calling/origin is highly unusual or physically constrained in Mythrill's history.
+
+                        </p>
+
+                        <p style={{ fontSize: '0.95rem', color: '#654321', fontStyle: 'italic', marginBottom: '1.5rem' }}>
+
+                            How did your character break through this boundary? Choose a justification to record in your backstory:
+
+                        </p>
+
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1.5rem' }}>
+
+                            {[
+
+                                { id: 'Outcast Training', title: 'Outcast Training', text: 'You studied in secret under an outcast master who operated outside the official guilds or regional checkpoints.' },
+
+                                { id: 'Alchemical Accident', title: 'Alchemical Accident', text: 'An alchemical experiment gone wrong or exposure to Wyrd energy altered your natural biology.' },
+
+                                { id: 'Fateful Encounter', title: 'Fateful Encounter', text: 'A chance meeting with a traveler from another region opened up a path normally denied to your people.' },
+
+                                { id: 'Forgotten Lineage', title: 'Forgotten Lineage', text: 'Your bloodline carries the memory of an older era before the noble houses signed their compacts.' }
+
+                            ].map(opt => (
+
+                                <button
+
+                                    key={opt.id}
+
+                                    onClick={() => {
+
+                                        handleConfirmJustification(opt.title + ': ' + opt.text);
+
+                                    }}
+
+                                    style={{
+
+                                        background: '#faf6eb',
+
+                                        border: '1px solid #c4a882',
+
+                                        borderRadius: '4px',
+
+                                        padding: '0.75rem',
+
+                                        textAlign: 'left',
+
+                                        cursor: 'pointer',
+
+                                        transition: 'all 0.2s',
+
+                                        fontFamily: 'inherit'
+
+                                    }}
+
+                                    onMouseEnter={(e) => {
+
+                                        e.currentTarget.style.borderColor = '#5a3d1d';
+
+                                        e.currentTarget.style.background = '#f5eedb';
+
+                                    }}
+
+                                    onMouseLeave={(e) => {
+
+                                        e.currentTarget.style.borderColor = '#c4a882';
+
+                                        e.currentTarget.style.background = '#faf6eb';
+
+                                    }}
+
+                                >
+
+                                    <strong style={{ display: 'block', color: '#5a3d1d', marginBottom: '2px' }}>{opt.title}</strong>
+
+                                    <span style={{ fontSize: '0.85rem', color: '#4e3629' }}>{opt.text}</span>
+
+                                </button>
+
+                            ))}
+
+                        </div>
+
+                        
+
+                        <div style={{ marginBottom: '1.5rem' }}>
+
+                            <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: 'bold', marginBottom: '0.5rem', color: '#5a3d1d' }}>
+
+                                Or write a custom justification:
+
+                            </label>
+
+                            <textarea
+
+                                value={customJustification}
+
+                                onChange={(e) => setCustomJustification(e.target.value)}
+
+                                placeholder="Describe how your character bypassed this restriction..."
+
+                                style={{
+
+                                    width: '100%',
+
+                                    height: '70px',
+
+                                    padding: '0.5rem',
+
+                                    border: '1px solid #c4a882',
+
+                                    borderRadius: '4px',
+
+                                    background: '#fff',
+
+                                    fontFamily: 'inherit',
+
+                                    fontSize: '0.9rem',
+
+                                    boxSizing: 'border-box'
+
+                                }}
+
+                            />
+
+                        </div>
+
+                        
+
+                        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem' }}>
+
+                            <button
+
+                                onClick={() => {
+
+                                    setShowJustificationModal(false);
+
+                                    setJustificationTarget(null);
+
+                                    setCustomJustification('');
+
+                                }}
+
+                                style={{
+
+                                    background: 'transparent',
+
+                                    border: 'none',
+
+                                    color: '#8b0000',
+
+                                    cursor: 'pointer',
+
+                                    padding: '0.5rem 1rem',
+
+                                    fontSize: '0.95rem',
+
+                                    fontWeight: 'bold'
+
+                                }}
+
+                            >
+
+                                Cancel
+
+                            </button>
+
+                            <button
+
+                                onClick={() => {
+
+                                    if (customJustification.trim()) {
+
+                                        handleConfirmJustification('Custom Justification: ' + customJustification.trim());
+
+                                    }
+
+                                }}
+
+                                disabled={!customJustification.trim()}
+
+                                style={{
+
+                                    background: '#5a3d1d',
+
+                                    color: '#faf6eb',
+
+                                    border: 'none',
+
+                                    borderRadius: '4px',
+
+                                    padding: '0.5rem 1.5rem',
+
+                                    cursor: customJustification.trim() ? 'pointer' : 'not-allowed',
+
+                                    fontSize: '0.95rem',
+
+                                    fontWeight: 'bold',
+
+                                    opacity: customJustification.trim() ? 1 : 0.5
+
+                                }}
+
+                            >
+
+                                Confirm custom
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            )}
 
 
 

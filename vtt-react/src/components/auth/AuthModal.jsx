@@ -354,7 +354,7 @@ const AuthModal = ({ isOpen, onClose, onLoginTransition, initialMode = 'login' }
             {error && <div className="error-message">{error}</div>}
 
             {mode === 'login' && (
-              <div className="form-group checkbox-group">
+              <div className="form-group auth-checkbox-group">
                 <label className="checkbox-label">
                   <input
                     type="checkbox"

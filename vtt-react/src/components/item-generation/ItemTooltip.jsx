@@ -761,21 +761,9 @@ function ItemTooltip({ item }) {
 
             document.body.removeChild(tempElement);
 
-            // Determine if scrolling is needed (if even at 14px it doesn't fit)
-            if (textWidth14 > availableWidth) {
-                // Text is very long - use scrolling animation
-                // Calculate scroll distance: how much we need to scroll to show the end
-                // We start showing the beginning, then scroll left to show the rest
-                // Scroll distance = textWidth - availableWidth (negative value to scroll left)
-                const scrollDistance = textWidth22 - availableWidth;
-                setTitleStyle({
-                    fontSize: '22px',
-                    needsScrolling: true,
-                    scrollDistance: scrollDistance
-                });
-            } else if (textWidth22 > availableWidth) {
-                // Text is slightly too long - reduce font size dynamically
-                let fontSize = '22px';
+            // Determine font size dynamically based on text width relative to availableWidth
+            let fontSize = '22px';
+            if (textWidth22 > availableWidth) {
                 if (textWidth18 <= availableWidth) {
                     fontSize = '18px';
                 } else if (textWidth16 <= availableWidth) {
@@ -783,17 +771,14 @@ function ItemTooltip({ item }) {
                 } else {
                     fontSize = '14px';
                 }
-                setTitleStyle({
-                    fontSize: fontSize,
-                    needsScrolling: false
-                });
             } else {
-                // Text fits - use default size
-                setTitleStyle({
-                    fontSize: item.name && item.name.length > 20 ? '18px' : '22px',
-                    needsScrolling: false
-                });
+                fontSize = item.name && item.name.length > 20 ? '18px' : '22px';
             }
+
+            setTitleStyle({
+                fontSize: fontSize,
+                needsScrolling: false
+            });
         };
 
         // Measure after a short delay to ensure DOM is ready
@@ -879,7 +864,7 @@ function ItemTooltip({ item }) {
                     </div>
                     <div
                         ref={titleRef}
-                        className={`item-name quality-${qualityLower} ${titleStyle.needsScrolling ? 'item-name-scrolling' : ''}`}
+                        className={`item-name quality-${qualityLower}`}
                         style={{
                             fontSize: titleStyle.fontSize,
                             fontWeight: '700',
@@ -887,25 +872,14 @@ function ItemTooltip({ item }) {
                             textShadow: `0 2px 4px rgba(0, 0, 0, 0.5), 0 1px 2px rgba(0, 0, 0, 0.7), 0 0 8px ${qualityColor}50`,
                             flex: 1,
                             fontFamily: 'Cinzel, Trajan Pro, serif',
-                            whiteSpace: 'nowrap',
-                            overflow: titleStyle.needsScrolling ? 'visible' : 'hidden',
-                            textOverflow: titleStyle.needsScrolling ? 'clip' : 'ellipsis',
+                            whiteSpace: 'normal',
+                            wordBreak: 'break-word',
+                            lineHeight: '1.2',
                             maxWidth: '100%',
                             minWidth: 0
                         }}
                     >
-                        {titleStyle.needsScrolling ? (
-                            <span
-                                className="item-name-scroll-text"
-                                style={{
-                                    '--scroll-distance': `-${titleStyle.scrollDistance}px`
-                                }}
-                            >
-                                {getDisplayName(item)}
-                            </span>
-                        ) : (
-                            getDisplayName(item)
-                        )}
+                        {getDisplayName(item)}
                     </div>
                 </div>
 
@@ -1854,12 +1828,12 @@ function ItemTooltip({ item }) {
                 </div>
                 <div
                     ref={titleRef}
-                    className={`item-name quality-${qualityLower} ${titleStyle.needsScrolling ? 'item-name-scrolling' : ''}`}
+                    className={`item-name quality-${qualityLower}`}
                     style={{
                         fontSize: titleStyle.fontSize,
-                        whiteSpace: 'nowrap',
-                        overflow: titleStyle.needsScrolling ? 'visible' : 'hidden',
-                        textOverflow: titleStyle.needsScrolling ? 'clip' : 'ellipsis',
+                        whiteSpace: 'normal',
+                        wordBreak: 'break-word',
+                        lineHeight: '1.2',
                         maxWidth: '100%',
                         minWidth: 0,
                         color: qualityColor, // Apply rarity color directly to the name
@@ -1869,18 +1843,7 @@ function ItemTooltip({ item }) {
                         flex: 1
                     }}
                 >
-                    {titleStyle.needsScrolling ? (
-                        <span
-                            className="item-name-scroll-text"
-                            style={{
-                                '--scroll-distance': `-${titleStyle.scrollDistance}px`
-                            }}
-                        >
-                            {getDisplayName(item) || 'Unknown Item'}
-                        </span>
-                    ) : (
-                        getDisplayName(item) || 'Unknown Item'
-                    )}
+                    {getDisplayName(item) || 'Unknown Item'}
                 </div>
             </div>
 
@@ -2128,6 +2091,7 @@ function ItemTooltip({ item }) {
                     )}
                 </div>
             )}
+
             {/* Miscellaneous Properties */}
             {item.type === 'miscellaneous' && renderMiscInfo(getMiscTypeInfo(item))}
 

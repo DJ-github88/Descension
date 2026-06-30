@@ -3602,6 +3602,7 @@ const RulesPage = () => {
 
 
   const [isLoadingClassData, setIsLoadingClassData] = useState(false);
+  const [isDeepDiveExpanded, setIsDeepDiveExpanded] = useState(false);
 
 
 
@@ -3795,6 +3796,7 @@ const RulesPage = () => {
 
 
     setSelectedClassDetail(null); // Clear class detail when changing subcategory
+    setIsDeepDiveExpanded(false);
 
 
 
@@ -5262,11 +5264,85 @@ const RulesPage = () => {
 
 
 
-        {/* Render sections */}
-
-
-
-        {!isUsingCustomComponent && currentContent.sections && renderSections(currentContent.sections, sectionTheme)}
+        {!isUsingCustomComponent && currentContent.sections && (() => {
+          if (selectedCategory === 'world-lore') {
+            return (
+              <div className="world-lore-deep-dive-container" style={{ marginTop: '2rem' }}>
+                {!isDeepDiveExpanded ? (
+                  <div style={{ textAlign: 'center', margin: '2rem 0' }}>
+                    <button
+                      onClick={() => setIsDeepDiveExpanded(true)}
+                      className="rpg-btn-deep-dive"
+                      style={{
+                        background: 'linear-gradient(135deg, #4a2f15 0%, #2e1e0f 100%)',
+                        color: '#f4ede2',
+                        border: '1px solid #b08a4a',
+                        borderRadius: '4px',
+                        padding: '0.85rem 2.2rem',
+                        cursor: 'pointer',
+                        fontSize: '1rem',
+                        fontFamily: "'Cinzel', 'Crimson Text', serif",
+                        letterSpacing: '0.07em',
+                        fontWeight: 'bold',
+                        boxShadow: '0 4px 15px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.1)',
+                        transition: 'all 0.3s ease',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        textTransform: 'uppercase'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = 'linear-gradient(135deg, #614020 0%, #4a2f15 100%)';
+                        e.currentTarget.style.transform = 'translateY(-2px)';
+                        e.currentTarget.style.boxShadow = '0 6px 20px rgba(176, 138, 74, 0.3)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = 'linear-gradient(135deg, #4a2f15 0%, #2e1e0f 100%)';
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.4)';
+                      }}
+                    >
+                      <i className="fas fa-book-open" style={{ marginRight: '10px', color: '#b08a4a' }}></i>
+                      Expand Archives (Deep Dive)
+                    </button>
+                  </div>
+                ) : (
+                  <div className="deep-dive-expanded-section" style={{ animation: 'fadeIn 0.5s ease-out' }}>
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '1.5rem', borderBottom: '1px solid rgba(176, 138, 74, 0.2)', paddingBottom: '0.5rem' }}>
+                      <button
+                        onClick={() => setIsDeepDiveExpanded(false)}
+                        className="rpg-btn-collapse"
+                        style={{
+                          background: 'transparent',
+                          border: 'none',
+                          color: '#b08a4a',
+                          cursor: 'pointer',
+                          fontFamily: "'Crimson Text', serif",
+                          fontWeight: 'bold',
+                          fontSize: '1.1rem',
+                          display: 'flex',
+                          alignItems: 'center',
+                          transition: 'color 0.2s'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.color = '#e5c185';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.color = '#b08a4a';
+                        }}
+                      >
+                        <i className="fas fa-chevron-up" style={{ marginRight: '6px' }}></i>
+                        Collapse Archives
+                      </button>
+                    </div>
+                    {renderSections(currentContent.sections, sectionTheme)}
+                  </div>
+                )}
+              </div>
+            );
+          }
+          return renderSections(currentContent.sections, sectionTheme);
+        })()}
 
 
 

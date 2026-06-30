@@ -374,7 +374,7 @@
 /* Replaces the default native checkbox with a themed checkmark box.
    The native input is hidden visually but kept for accessibility and
    state syncing — clicking the label toggles it normally. */
-.auth-modal .form-group.checkbox-group {
+.auth-modal .form-group.auth-checkbox-group {
   flex-direction: row;
   align-items: center;
   margin-top: 4px;

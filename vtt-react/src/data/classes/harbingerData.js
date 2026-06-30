@@ -4,17 +4,18 @@ export const HARBINGER_DATA = {
           "sylen_astril",
           "muren_astril",
           "solvarn_human",
-          "skald_human",
-          "ordan_human"
+          "tessen_human"
       ],
       "hardBlocks": [
           "merryn_human",
           "thalren_human",
           "morren_human",
-          "neth"
+          "neth",
+          "skald_human",
+          "ordan_human"
       ],
       "narrativeUnlock": true,
-      "justification": "Requires cultural proximity to entropy. These cultures have been waiting for extinction long enough to weaponize it. Merryn are too opportunistic. Thalren too preservationist. Neth can't accept anything that breaks contracts."
+      "justification": "Requires cultural proximity to entropy and acceptance of inevitable extinction. Tessen have prepared for extinction for four centuries. Solvarn live in the dying light. Astril commune with fading celestial entities. Merryn too opportunistic. Thalren too preservationist. Neth can't accept anything that breaks contracts. Skald preserve history. Ordan migrate to survive."
   },
 
   id: "harbinger",

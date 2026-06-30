@@ -52,8 +52,10 @@ export const BACKGROUND_DATA = {
             "allowedSubraces": [
                 "solvarn_human",
                 "korr_emberth",
+                "thrask_emberth",
                 "thalren_human"
             ],
+            "narrativeUnlock": true,
             "justification": "The pilgrimage to Emberspire is a specific journey requiring proximity to Sundale. Outsiders can take it with a narrative reason for the pilgrimage."
         },
         name: 'Emberspire Pilgrim',
@@ -90,8 +92,10 @@ export const BACKGROUND_DATA = {
             ],
             "allowedSubraces": [
                 "thrask_emberth",
-                "solvarn_human"
+                "solvarn_human",
+                "korr_emberth"
             ],
+            "narrativeUnlock": true,
             "justification": "The Basalt Shyr is a 90-mile road in Sundale. Running it requires Sundale geography knowledge."
         },
         name: 'Shyr Runner',
@@ -128,9 +132,11 @@ export const BACKGROUND_DATA = {
                 "frostwood-reach"
             ],
             "allowedSubraces": [
-                "thalren_human"
+                "thalren_human",
+                "smoothskinned_briaran"
             ],
-            "justification": "The Sovereign Ledger and Scribe-Cartel are Frostwood-specific. Exclude: Ordan (Steppe-Staves), Skald (runic genealogy), Tessen (khipu-cords) — they use different record-keeping systems."
+            "narrativeUnlock": true,
+            "justification": "The Sovereign Ledger and Scribe-Cartel are Frostwood-specific. Exclude: Ordan (Steppe-Staves), Skald (runic genealogy), Tessen (khipu-cords) — they use different record-keeping systems. Smooth-Skinned Briaran can plausibly pass as human scribes in Frostwood ports."
         },
         name: 'Ledger Keeper',
         description: 'You maintained identity-ledgers at Greymark Keep in the Frostwood Reach under the Sovereign Ledger enforced by Jarl-Archivist Kaelen Thalreth. In a land where the protective fog erases memory and the Scribe-Cartel holds a monopoly on Soot-Resin Ink and Peat-Parchment, your chained journals are the only proof of legal citizenship. You have checked papers at the Ironwood Palisade checkpoints, catalogued lineages at Greythorn Copse, and researched the prehistoric carvings of Mistbarrow.',
@@ -201,9 +207,11 @@ export const BACKGROUND_DATA = {
             ],
             "allowedSubraces": [
                 "ordan_human",
-                "sylen_astril"
+                "sylen_astril",
+                "muren_astril"
             ],
-            "justification": "Requires access to Synod-Hold crystal archives and steppe scholarship."
+            "narrativeUnlock": true,
+            "justification": "Requires access to Synod-Hold crystal archives and steppe scholarship. Both Sylen and Muren Astril study at the Synod, just on different paths."
         },
         name: 'Synod Academic',
         description: 'You studied at the Synod-Hold in Sundrift Vale — the shimmering crystal-lattice Astril cathedral where constellation-spirit lineages are preserved. You learned to decipher the forbidden, throat-sung Sky-Songs that map stars that went dark under the Ordavan bargain, and catalogued star-lineages carved on bone Steppe-Staves. You know how to bypass the basalt Cairn-Checkpoints, how to navigate Starfall Vale, and how to identify the Unlit spies of the Synod.',
@@ -240,6 +248,7 @@ export const BACKGROUND_DATA = {
             "allowedSubraces": [
                 "skald_human"
             ],
+            "narrativeUnlock": true,
             "justification": "Bloodhammer Sump skirmishes and Hunger Glacier defense are Nordhalla-specific."
         },
         name: 'Sumps Veteran',
@@ -280,9 +289,12 @@ export const BACKGROUND_DATA = {
                 "velun_neth",
                 "kessen_neth",
                 "drun_neth",
-                "morren_human"
+                "morren_human",
+                "clean_vreken",
+                "marked_vreken"
             ],
-            "justification": "Neth contract law (First Contract, Great Registry) is Bryngloom-specific. Exclude: Skald, Ordan — neither uses written contract law."
+            "narrativeUnlock": true,
+            "justification": "Neth contract law (First Contract, Great Registry) is Bryngloom-specific. Vreken share the Bryngloom and navigate its debt-economy. Exclude: Skald, Ordan — neither uses written contract law."
         },
         name: 'Debt Negotiator',
         description: 'You studied the First Contract and Neth legal traditions in Atropolis, helping clients navigate Regent Morrath\'s Great Registry and the Scribe-Cartel’s peonage. You understand that in Bryngloom, debt is a living thing: every agreement is a binding clause, every handshake a potential trap, and the Postmortem Corvée can conscript your corpse if you default. You help negotiate Memory-Glass Covenants to purchase extra years of life.',
@@ -320,6 +332,7 @@ export const BACKGROUND_DATA = {
             "allowedSubraces": [
                 "skald_human"
             ],
+            "narrativeUnlock": true,
             "justification": "Requires Nordhalla oral-history training and the specific context of Járn-Tand's cultural suppression."
         },
         name: 'Frost Chanter',
@@ -429,6 +442,7 @@ export const BACKGROUND_DATA = {
                 "drall_fexric",
                 "kethrin_fexric"
             ],
+            "narrativeUnlock": true,
             "justification": "Requires knowledge of Ancestor-Spans and Cragjaw geography."
         },
         name: 'Peak Tracker',
@@ -471,7 +485,12 @@ export const BACKGROUND_DATA = {
                 "deep_myrathil",
                 "river_myrathil"
             ],
-            "justification": "Requires Iceheart Sea maritime knowledge. Exclude: Tessen (sealed keep), Ordan (steppe nomads), Astril (crystalline bodies may not float)."
+            "hardBlocks": [
+                "sylen_astril",
+                "muren_astril"
+            ],
+            "narrativeUnlock": true,
+            "justification": "Requires Iceheart Sea maritime knowledge. Exclude: Tessen (sealed keep), Ordan (steppe nomads). Astril crystalline bodies do not float — hard block."
         },
         name: 'Merrow Sailor',
         description: 'You sailed the Iceheart Sea from Merrowport, navigating under the shadow of the Brine-Bond Syndicate and Admiral Varis\'s Sea-Charter. Your trade-tattoos are legal contracts inked on your skin to verify your debt-shares and prevent you from being pressed into lifetime service under the Board of Trade\'s Press-Warrants. You know how to slip past the Unfreezing Booms, how to dodge the Luck-Ledger inquisitors, and how to trade in Kelpie\'s Cove.',
@@ -514,6 +533,7 @@ export const BACKGROUND_DATA = {
                 "clean_vreken",
                 "marked_vreken"
             ],
+            "narrativeUnlock": true,
             "justification": "Requires knowledge of Bryngloom Toll-Dikes, Mist-Gate Market, and peat-oil trade routes."
         },
         name: 'Gloomway Trader',
@@ -556,6 +576,7 @@ export const BACKGROUND_DATA = {
                 "marked_vreken",
                 "clean_vreken"
             ],
+            "narrativeUnlock": true,
             "justification": "The Over-Shanty is beneath Atropolis specifically. A non-Bryngloom native has never been there."
         },
         name: 'Shanty Rat',
@@ -616,6 +637,296 @@ export const BACKGROUND_DATA = {
         statModifiers: {
             intelligence: 4,
             agility: -2
+        }
+    },
+
+    groveWarden: {
+        id: 'groveWarden',
+        restrictions: {
+            "allowedRegions": [
+                "frostwood-reach"
+            ],
+            "allowedSubraces": [
+                "unshorn_briaran",
+                "smoothskinned_briaran"
+            ],
+            "narrativeUnlock": true,
+            "justification": "Grove-Wardens swear the fae counter-bargain in the moonlit groves of the Frostwood Reach — a Briaran bloodline obligation. An outsider could plausibly be sworn to the grove through adoption or an unpaid life-debt."
+        },
+        name: 'Grove Warden',
+        description: 'You swore the old fae bargain in the moonlit groves of the Frostwood Reach, binding yourself as a warden of the Hollow-Court and the ironwood hollows where House Viridane sealed its counter-pact. You tend the Thorn-Fall where eight centuries of shed thorns record every unfulfilled promise, mine ghost-metal from the cold vein beneath the western groves, and enforce the fae\'s old laws against the seven families\' quiet expeditions. Smooth-Skinned wardens carry their oath hidden beneath borrowed names; Unshorn wardens wear their thorns openly as the only proof that Viridane existed.',
+        skillProficiencies: ['Insight', 'Survival'],
+        toolProficiencies: ['Artisan\'s tools (ghost-metal cold-working)'],
+        languages: 1,
+        equipment: [
+            'Ghost-metal warden\'s token',
+            'Thorn-pruning blade',
+            'Moonlit-grove route-cord',
+            'Fae-contract tally (notched bone)',
+            'Traveler\'s clothes'
+        ],
+        startingCurrency: {
+            gold: 8,
+            silver: 10,
+            copper: 0
+        },
+        feature: {
+            name: 'Old-Law Witness',
+            description: 'You carry the fae\'s old laws written in your flesh. Once per long rest, you may witness a spoken oath between two willing creatures and invoke the grove\'s old law: if either party breaks the oath within a year, you sense the breaking immediately and the oathbreaker cannot hide from your Insight checks for one month. Briaran recognize you by your thorn-clusters (or your hidden token); fae-touched creatures and the Smooth-Skinned community provide you shelter in exchange for a small thorn-tithe.'
+        },
+        statModifiers: {
+            spirit: 2,
+            charisma: 1,
+            strength: -1
+        }
+    },
+
+    maskWarden: {
+        id: 'maskWarden',
+        restrictions: {
+            "allowedRegions": [
+                "frostwood-reach"
+            ],
+            "allowedSubraces": [
+                "maskborne_mimir",
+                "mistwoven_mimir",
+                "unwoven_mimir"
+            ],
+            "narrativeUnlock": true,
+            "justification": "Mask-Wardens train in the Fog-Vales to recover stolen masks and turn back the Hunters. A non-Mimir could be sworn in only through a profound act of protection — and even then, the mistrust outlasts the oath."
+        },
+        name: 'Mask Warden',
+        description: 'You stand between the Mimir and the cartels of Hunters who pay fortunes for heartwood masks on the black collector\'s market. You patrol the fog-spider-silk rope-bridges of the Spire-Aeries, watch the Watch-Bells for the next alarm, and hunt the detection-magicians who probe the Vales with ever-refining glass-cutters. Whether Mask-Borne aristocrat, Mist-Woven cliff-sentinel, or Unwoven floor-guide, you have learned to read the spore-trails of intruders and the silence the fog leaves when an outsider moves through it.',
+        skillProficiencies: ['Perception', 'Stealth'],
+        toolProficiencies: ['Navigator\'s tools', 'Disguise kit'],
+        languages: 1,
+        equipment: [
+            'Storm-glass signal-whistle',
+            'Fog-spider silk rope (50ft)',
+            'Spore-trail reading kit',
+            'Recovered mask-shard (provenance unknown)',
+            'Warded traveler\'s cloak'
+        ],
+        startingCurrency: {
+            gold: 9,
+            silver: 10,
+            copper: 0
+        },
+        feature: {
+            name: 'Hunter\'s Reversal',
+            description: 'You have learned how the Hunters track Mimir and how to turn that tracking back on them. Once per long rest, when you observe a creature using detection magic, scrying, or mundane tracking against you or a masked ally, you may turn the method against its user: for 1 hour, the tracker has disadvantage on all Perception and Investigation checks, and you know their general direction. Mist-Woven wardens along the Spire-Aeries and Unwoven guides on the deep floor will shelter you and pass warning of Hunter movements.'
+        },
+        statModifiers: {
+            agility: 2,
+            intelligence: 1,
+            charisma: -1
+        }
+    },
+
+    vaultScholar: {
+        id: 'vaultScholar',
+        restrictions: {
+            "allowedRegions": [
+                "cragjaw-peaks"
+            ],
+            "allowedSubraces": [
+                "kethrin_fexric",
+                "drall_fexric"
+            ],
+            "narrativeUnlock": true,
+            "justification": "The guild-vaults and underground academies are Fexric-specific institutions. Kethrin study in formal academies; Drall learned in secret before being expelled."
+        },
+        name: 'Vault Scholar',
+        description: 'You trained in the guild-vaults of the Fexric warrens — the underground academies where precision gear-craft, temporal mechanics, and ancestral binding theory are inscribed on copper-plate codices behind sealed blast-doors. Kethrin scholars spent decades memorizing proprietary blueprints under the supervision of Master Craft-Guilds. Drall dropouts learned enough before their expulsion to be dangerous — they carry stolen fragment-pages stitched into their clothing, half-understood theories that they improvise into working machines.',
+        skillProficiencies: ['Arcana', 'Investigation'],
+        toolProficiencies: ['Artisan\'s tools (tinkerer\'s)', 'Thieves\' tools'],
+        languages: 1,
+        equipment: [
+            'Copper-plate codex (water-damaged for Drall, pristine for Kethrin)',
+            'Tinker\'s toolkit',
+            'Blueprint fragment-pages (3)',
+            'Vault-pass token (expired or forged)',
+            'Workman\'s clothes'
+        ],
+        startingCurrency: {
+            gold: 10,
+            silver: 8,
+            copper: 0
+        },
+        feature: {
+            name: 'Blueprint Memory',
+            description: 'You carry the structural grammar of Fexric engineering in your mind. You can identify any mechanical or clockwork device\'s origin-guild, approximate age, and intended function by inspection alone. Once per long rest, you can reverse-engineer a minor mechanism (lock, trap trigger, gear assembly) after 10 minutes of study. Kethrin gain research access at recognized guild halls; Drall must rely on the underground salvage markets where their expired tokens still carry cachet.'
+        },
+        statModifiers: {
+            intelligence: 4,
+            strength: -2
+        }
+    },
+
+    herdGuardian: {
+        id: 'herdGuardian',
+        restrictions: {
+            "allowedRegions": [
+                "sundrift-vale"
+            ],
+            "allowedSubraces": [
+                "ordan_human"
+            ],
+            "narrativeUnlock": true,
+            "justification": "The migration herds are Ordan-specific. No other culture follows the herds across the Sundrift Vale."
+        },
+        name: 'Herd Guardian',
+        description: 'You guarded the Ordan migration herds across the Sundrift Vale — a grueling, never-ending circuit following the grass-line south before the frost claims it and north before the thaw rots it. You learned to read hoof-tracks in blizzard, predict predator movements by wind-shift, and keep a hundred head of shag-ox moving through terrain that kills the careless. The herds are the Ordan\'s only wealth, and losing even one animal to Wyrd-predators or frost-collapse can doom a family line for a generation.',
+        skillProficiencies: ['Animal Handling', 'Survival'],
+        toolProficiencies: ['Artisan\'s tools (leatherworker\'s)'],
+        languages: 1,
+        equipment: [
+            'Herder\'s staff (ironwood core)',
+            'Whistle-braided cord (10ft)',
+            'Winter-wraps (lined with shag-ox wool)',
+            'Trail-biscuits (7 days rations)',
+            'Herd-branding iron'
+        ],
+        startingCurrency: {
+            gold: 6,
+            silver: 14,
+            copper: 0
+        },
+        feature: {
+            name: 'Herd-Sense',
+            description: 'You can read the mood and movement of animals with uncanny precision. You have advantage on Animal Handling checks, and once per long rest you can sense the presence and general direction of any predator within 300 feet by the reaction of nearby animals. Ordan migration camps will always offer you shelter and a share of the fire in exchange for a night\'s herd-watch.'
+        },
+        statModifiers: {
+            constitution: 2,
+            agility: 2,
+            intelligence: -2
+        }
+    },
+
+    starboundScholar: {
+        id: 'starboundScholar',
+        restrictions: {
+            "allowedRegions": [
+                "sundrift-vale"
+            ],
+            "allowedSubraces": [
+                "sylen_astril",
+                "muren_astril"
+            ],
+            "narrativeUnlock": true,
+            "justification": "The Luminarchy and its constellation-spirit traditions are Astril-specific institutions. Both Sylen (embracing) and Muren (suppressing) train in the same cathedral."
+        },
+        name: 'Starbound Scholar',
+        description: 'You trained under the Luminarchy — the Astril hierarchy that governs the relationship between constellation-spirits and their living hosts. Whether Sylen who embraced the passenger\'s wild power or Muren who learned to cage it behind mental discipline, you studied the same crystal-lattice techniques for managing celestial resonance. You learned the forbidden Sky-Songs, catalogued spirit-lineages on memory-glass, and were taught to recognize the resonance-signatures of constellation-spirits approaching the Unlit threshold.',
+        skillProficiencies: ['Religion', 'Arcana'],
+        toolProficiencies: ['Musical instrument (throat-singing bowl)'],
+        languages: 2,
+        equipment: [
+            'Memory-glass shard (spirit-lineage encoded)',
+            'Crystal resonance bowl',
+            'Celestial chart (bone-etched)',
+            'Luminarchy vestments',
+            'Ritual incense (3 sticks)'
+        ],
+        startingCurrency: {
+            gold: 8,
+            silver: 12,
+            copper: 0
+        },
+        feature: {
+            name: 'Spirit-Resonance Reading',
+            description: 'You can identify any constellation-spirit\'s lineage, power-level, and stability by observing its host\'s luminous patterns for one minute. Once per long rest, you can calm a constellation-spirit that is approaching the Unlit threshold (loss of control), granting the host advantage on their next Spirit saving throw. The Luminarchy provides sanctuary to recognized scholars — though Muren scholars are watched more carefully than Sylen.'
+        },
+        statModifiers: {
+            spirit: 3,
+            intelligence: 1,
+            strength: -2
+        }
+    },
+
+    deepCurrentGuide: {
+        id: 'deepCurrentGuide',
+        restrictions: {
+            "allowedRegions": [
+                "iceheart-sea"
+            ],
+            "allowedSubraces": [
+                "breaker_myrathil",
+                "deep_myrathil",
+                "river_myrathil"
+            ],
+            "narrativeUnlock": true,
+            "justification": "The deep currents and pressure-dark are Myrathil-specific environments. Merryn sailors stay surface-level; Myrathil descend."
+        },
+        name: 'Deep Current Guide',
+        description: 'You navigated the deep currents beneath the Iceheart Sea\'s frozen surface — pressure zones where light dies and the only maps are current-temperature gradients felt through the skin. Myrathil have always known what flows beneath the ice: thermal vents, bioluminescent trench-walls, and things that breathe in the dark water and remember the names of drowned sailors. You guided expeditions through the Ice Veins, the subsurface arteries where warm water still moves, and learned to read the deep-sea\'s silent language of pressure and temperature.',
+        skillProficiencies: ['Perception', 'Nature'],
+        toolProficiencies: ['Navigator\'s tools', 'Vehicles (water)'],
+        languages: 1,
+        equipment: [
+            'Depth-pressure gauge (Myrathil-crafted)',
+            'Bioluminescent lure-stone',
+            'Cold-waxed rope (silk-core, 50ft)',
+            'Waterproof satchel',
+            'Coral-needle tool'
+        ],
+        startingCurrency: {
+            gold: 8,
+            silver: 10,
+            copper: 0
+        },
+        feature: {
+            name: 'Current-Reading',
+            description: 'You can read underwater and subterranean current patterns with preternatural accuracy. You have advantage on Survival and Nature checks in aquatic environments, and can predict when the Iceheart Sea\'s surface will crack or shift. Myrathil deep-communities recognize your skill and will provide safe harbor, fresh water from thermal vents, and passage through the Ice Veins.'
+        },
+        statModifiers: {
+            agility: 2,
+            constitution: 2,
+            charisma: -2
+        }
+    },
+
+    fogReader: {
+        id: 'fogReader',
+        restrictions: {
+            "allowedRegions": [
+                "frostwood-reach"
+            ],
+            "allowedSubraces": [
+                "maskborne_mimir",
+                "mistwoven_mimir",
+                "unwoven_mimir",
+                "thalren_human",
+                "unshorn_briaran"
+            ],
+            "narrativeUnlock": true,
+            "justification": "Fog-reading requires intimate knowledge of the Frostwood\'s living fog — its memory-erasing properties, its Wyrd-trails, and its secret passages. Non-Frostwood natives have never survived long enough to learn."
+        },
+        name: 'Fog Reader',
+        description: 'You read the Frostwood\'s permanent fog as others read a map — tracing its density shifts, memory-erasure currents, and Wyrd-trails by touch, scent, or instinct. The fog is not weather in the Reach; it is a living geography that responds to the thoughts of those within it, and you have spent enough seasons inside it to read its moods. Mimir navigate the canopy by spore-scent and fog-spider silk markers. Thalren chart fog-currents on ironwood staves. Briaran feel the fog through their thorn-root connection to the forest floor — where the mist pools deepest, their thorns ache with the memory of what it has swallowed.',
+        skillProficiencies: ['Survival', 'Perception'],
+        toolProficiencies: ['Navigator\'s tools'],
+        languages: 1,
+        equipment: [
+            'Fog-ward compass (needle follows memory-currents)',
+            'Fog-spider silk trail-cord (30ft)',
+            'Soot-resin ink stick (marks visible in fog)',
+            'Breath-filtering veil',
+            'Frostwood traveler\'s cloak'
+        ],
+        startingCurrency: {
+            gold: 7,
+            silver: 14,
+            copper: 0
+        },
+        feature: {
+            name: 'Fog-Sense',
+            description: 'You can navigate the Frostwood\'s memory-erasing fog without losing your bearings. You have advantage on Perception and Survival checks in fog, mist, or haze, and you are immune to the disorientation effect of the Reach\'s fog (though not its memory-erasing properties). Once per long rest, you can trace the trail of a Wyrd-creature through the fog for up to 1 mile. Frostwood settlements and Mimir canopy-posts will offer you shelter and fog-current updates.'
+        },
+        statModifiers: {
+            agility: 2,
+            spirit: 2,
+            intelligence: -1
         }
     }
 };

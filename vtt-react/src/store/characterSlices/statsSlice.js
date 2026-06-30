@@ -727,7 +727,7 @@ export const createStatsSlice = (set, get) => ({
             }
         });
 
-        const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0);
+        const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0, state.health, state.race, state.subrace);
 
         // Update health and mana max values based on new derived stats
         const newMaxHealth = Math.round(derivedStats.maxHealth);

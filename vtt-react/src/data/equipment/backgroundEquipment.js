@@ -64,7 +64,9 @@ export const EMBERSPIRE_PILGRIM_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armor: { value: 1, isPercentage: false }
+            resistances: {
+                ember: { level: 75, multiplier: 0.75, label: 'Ember Guard', color: '#B34625' }
+            }
         },
         baseStats: {
             spirit: { value: 1, isPercentage: false }
@@ -84,7 +86,7 @@ export const SHYR_RUNNER_ITEMS = [
         subtype: 'TOOL',
         quality: 'common',
         description: 'A bog-iron pry-bar wrapped in caldera-cloth. Standard issue for a Shyr runner working the obsidian-trade crevices.',
-        iconId: 'Misc/Books/book-brown-teal-question-mark',
+        iconId: 'Misc/Profession Resources/Tools/claw-hammer',
         value: { platinum: 0, gold: 2, silver: 0, copper: 0 },
         weight: 5,
         width: 1,
@@ -110,7 +112,9 @@ export const SHYR_RUNNER_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armor: { value: 1, isPercentage: false }
+            resistances: {
+                physical: { level: 85, multiplier: 0.85, label: 'Caldera Blend', color: '#6E6E6E' }
+            }
         },
         baseStats: {
             agility: { value: 1, isPercentage: false }
@@ -127,7 +131,7 @@ export const SHYR_RUNNER_ITEMS = [
         subtype: 'TOOL',
         quality: 'uncommon',
         description: 'A rolled kit of obsidian-edged picks and bog-iron probes for working the Shyr trade-crevices and the locks that guard them.',
-        iconId: 'Misc/Books/book-brown-teal-question-mark',
+        iconId: 'Misc/Profession Resources/Tools/satchel-pouch-brown-golden-buckle',
         value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
         weight: 1,
         width: 1,
@@ -146,7 +150,7 @@ export const SHYR_RUNNER_ITEMS = [
         subtype: 'TOOL',
         quality: 'common',
         description: 'Five splinters of Shyr obsidian, each honed to a different ward. Brittle, but silent.',
-        iconId: 'Misc/Books/book-brown-teal-question-mark',
+        iconId: 'Misc/Profession Resources/Blacksmithing/resource-three-dark-nails-metallic',
         value: { platinum: 0, gold: 2, silver: 5, copper: 0 },
         weight: 0.5,
         width: 1,
@@ -169,7 +173,7 @@ export const LEDGER_KEEPER_ITEMS = [
         subtype: 'TOOL',
         quality: 'common',
         description: 'A chained kit of quill, peat-ink, and binding-wax. The tools of a Thalren ledger-keeper whose journal is their legal identity.',
-        iconId: 'Misc/Books/book-brown-teal-question-mark',
+        iconId: 'Misc/Books/book-open-quill-pen-cream-pages',
         value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
         weight: 5,
         width: 2,
@@ -214,7 +218,12 @@ export const LEDGER_KEEPER_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armor: { value: 1, isPercentage: false }
+            resistances: {
+                rime: { level: 85, multiplier: 0.85, label: 'Rime Guard', color: '#2C5F7C' }
+            }
+        },
+        baseStats: {
+            spirit: { value: 1, isPercentage: false }
         },
         availableFor: {
             backgrounds: ['ledgerKeeper']
@@ -228,7 +237,7 @@ export const LEDGER_KEEPER_ITEMS = [
         subtype: 'FOOD',
         quality: 'common',
         description: 'Resinous waybread of pine-nut and tallow. Dense enough to survive the fog, plain enough to eat cold.',
-        iconId: 'Misc/Books/book-brown-teal-question-mark',
+        iconId: 'Misc/Profession Resources/Cooking/Food/Other/bread-loaf-rustic-artisan-slashes',
         value: { platinum: 0, gold: 1, silver: 5, copper: 0 },
         weight: 6,
         width: 1,
@@ -282,7 +291,9 @@ export const BLOODLINE_HEIR_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armor: { value: 1, isPercentage: false }
+            resistances: {
+                physical: { level: 90, multiplier: 0.90, label: 'House Ward', color: '#6E6E6E' }
+            }
         },
         baseStats: {
             charisma: { value: 1, isPercentage: false }
@@ -389,7 +400,9 @@ export const SYNOD_ACADEMIC_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armor: { value: 1, isPercentage: false }
+            resistances: {
+                rime: { level: 85, multiplier: 0.85, label: 'Vault Coat', color: '#2C5F7C' }
+            }
         },
         baseStats: {
             intelligence: { value: 1, isPercentage: false }
@@ -450,7 +463,7 @@ export const SUMPS_VETERAN_ITEMS = [
         subtype: 'TOOL',
         quality: 'common',
         description: 'A worn deck of bone cards, used to settle debts and read fortunes in the ranks.',
-        iconId: 'Misc/Books/book-brown-teal-question-mark',
+        iconId: 'Misc/Books/book-scroll-rolled-red-wax-seal',
         value: { platinum: 0, gold: 0, silver: 50, copper: 0 },
         weight: 0.1,
         width: 1,
@@ -476,7 +489,9 @@ export const SUMPS_VETERAN_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armor: { value: 1, isPercentage: false }
+            resistances: {
+                storm: { level: 85, multiplier: 0.85, label: 'Storm Guard', color: '#7E8E9F' }
+            }
         },
         baseStats: {
             constitution: { value: 1, isPercentage: false }
@@ -493,7 +508,7 @@ export const SUMPS_VETERAN_ITEMS = [
         subtype: 'FOOD',
         quality: 'common',
         description: 'Ironwood waybread pressed for the Sumps campaigns. Survives anything, tastes like nothing.',
-        iconId: 'Misc/Books/book-brown-teal-question-mark',
+        iconId: 'Misc/Profession Resources/Cooking/Food/Other/bread-loaf-rustic-artisan-slashes',
         value: { platinum: 0, gold: 2, silver: 0, copper: 0 },
         weight: 10,
         width: 1,
@@ -522,7 +537,7 @@ export const GLOOMWAY_TRADER_ITEMS = [
         subtype: 'TOOL',
         quality: 'common',
         description: 'A precise bog-iron balance used to weigh memory-glass and verify contract-coin against forgery.',
-        iconId: 'Misc/Books/book-brown-teal-question-mark',
+        iconId: 'Misc/Profession Resources/Engineering/resource-compass-divider-drafting-tool',
         value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
         weight: 3,
         width: 1,
@@ -582,7 +597,7 @@ export const SHANTY_RAT_ITEMS = [
         subtype: 'DAGGER',
         quality: 'common',
         description: 'A sharpened ironwood sliver, wrapped in rag. The first tool of anyone raised in the Over-Shanty hanging-slums.',
-        iconId: 'Misc/Books/book-brown-teal-question-mark',
+        iconId: 'Weapons/Swords/sword-dagger-curved-guard-reddish-brown',
         value: { platinum: 0, gold: 2, silver: 0, copper: 0 },
         weight: 1,
         width: 1,
@@ -628,7 +643,7 @@ export const SHANTY_RAT_ITEMS = [
         subtype: 'PET',
         quality: 'common',
         description: 'A half-tame bog-sparrow that roosts in your collar. Eats the spiders, warns of the damp-rot.',
-        iconId: 'Misc/Books/book-brown-teal-question-mark',
+        iconId: 'Misc/Profession Resources/Cooking/animal-sparrow-bird-brown-mosaic-yellow-eye',
         value: { platinum: 0, gold: 0, silver: 0, copper: 0 },
         weight: 0.1,
         width: 1,
@@ -669,7 +684,7 @@ export const MERROW_SAILOR_ITEMS = [
         subtype: 'CLUB',
         quality: 'common',
         description: 'A stout ironwood peg for securing dock-line. Heavy enough to settle a tavern dispute.',
-        iconId: 'Misc/Books/book-brown-teal-question-mark',
+        iconId: 'Weapons/Mace/mace-wooden-club-brown-primitive',
         value: { platinum: 0, gold: 1, silver: 0, copper: 0 },
         weight: 2,
         width: 1,
@@ -696,7 +711,7 @@ export const MERROW_SAILOR_ITEMS = [
         subtype: 'TOOL',
         quality: 'common',
         description: 'Fifty feet of braided salt-sinew line. Holds in freezing spray where hempen rope would snap.',
-        iconId: 'Misc/Books/book-brown-teal-question-mark',
+        iconId: 'Misc/Profession Resources/Tailoring/resource-coiled-brown-rope-hemp',
         value: { platinum: 0, gold: 1, silver: 0, copper: 0 },
         weight: 5,
         width: 1,
@@ -739,7 +754,7 @@ export const PEAK_TRACKER_ITEMS = [
         subtype: 'TOOL',
         quality: 'common',
         description: 'A steel-cable snare for the peak-goats and worse that browse the Cragjaw ledges.',
-        iconId: 'Misc/Books/book-brown-teal-question-mark',
+        iconId: 'Misc/Profession Resources/Blacksmithing/resource-dark-metallic-hook-curved',
         value: { platinum: 0, gold: 3, silver: 0, copper: 0 },
         weight: 25,
         width: 2,
@@ -758,7 +773,7 @@ export const PEAK_TRACKER_ITEMS = [
         subtype: 'TRADE_GOODS',
         quality: 'common',
         description: 'A horn or pelt taken from a Cragjaw beast. Marks you as someone who feeds a hold, not drains it.',
-        iconId: 'Misc/Books/book-brown-teal-question-mark',
+        iconId: 'Misc/Monster Parts/Horns/horn-curved-brown-orange-segmented',
         value: { platinum: 0, gold: 2, silver: 0, copper: 0 },
         weight: 2,
         width: 1,
@@ -789,7 +804,9 @@ export const PEAK_TRACKER_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armor: { value: 1, isPercentage: false }
+            resistances: {
+                physical: { level: 85, multiplier: 0.85, label: 'Climb-Reinforced', color: '#6E6E6E' }
+            }
         },
         baseStats: {
             constitution: { value: 1, isPercentage: false }
@@ -806,7 +823,7 @@ export const PEAK_TRACKER_ITEMS = [
         subtype: 'LIQUID',
         quality: 'common',
         description: 'A waxed flask that holds a day of meltwater from the glacier-runs.',
-        iconId: 'Misc/Books/book-brown-teal-question-mark',
+        iconId: 'Misc/Profession Resources/Cooking/pot-lidded-dome-brownish-beige',
         value: { platinum: 0, gold: 0, silver: 2, copper: 0 },
         weight: 1,
         width: 1,
@@ -832,7 +849,7 @@ export const DEBT_NEGOTIATOR_ITEMS = [
         subtype: 'TOOL',
         quality: 'uncommon',
         description: 'Bone dice weighted with bog-iron filings. The Neth contract-houses check for these; the Drun carry three sets.',
-        iconId: 'Misc/Books/book-brown-teal-question-mark',
+        iconId: 'Misc/Profession Resources/Cooking/plate-coin-octagonal-copper-token',
         value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
         weight: 0.1,
         width: 1,
@@ -877,7 +894,9 @@ export const DEBT_NEGOTIATOR_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armor: { value: 1, isPercentage: false }
+            resistances: {
+                storm: { level: 85, multiplier: 0.85, label: 'Storm Guard', color: '#7E8E9F' }
+            }
         },
         baseStats: {
             charisma: { value: 1, isPercentage: false }
@@ -965,6 +984,15 @@ export const FROST_CHANTER_ITEMS = [
         height: 2,
         rotation: 0,
         stackable: false,
+        combatStats: {
+            resistances: {
+                rime: { level: 85, multiplier: 0.85, label: 'Rime Guard', color: '#2C5F7C' }
+            }
+        },
+        baseStats: {
+            spirit: { value: 1, isPercentage: false },
+            charisma: { value: 1, isPercentage: false }
+        },
         availableFor: {
             backgrounds: ['frostChanter']
         }
@@ -977,7 +1005,7 @@ export const FROST_CHANTER_ITEMS = [
         subtype: 'COSMETIC',
         quality: 'common',
         description: 'A pot of Skald rime-paint, used to mark the saga-characters across the chanter face and hands.',
-        iconId: 'Misc/Books/book-brown-teal-question-mark',
+        iconId: 'Misc/Profession Resources/Cooking/pot-creamy-substance',
         value: { platinum: 0, gold: 1, silver: 0, copper: 0 },
         weight: 0.5,
         width: 1,
@@ -998,7 +1026,7 @@ export const FROST_CHANTER_ITEMS = [
 export const HUSH_SURVIVOR_ITEMS = [
     {
         id: 'hermit-herbalism-kit',
-        name: 'Bog-Herbal Kit',
+        name: 'Mycelium-testing kit',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
@@ -1016,13 +1044,33 @@ export const HUSH_SURVIVOR_ITEMS = [
     },
 
     {
+        id: 'hermit-herbal-sedatives',
+        name: 'Herbal sedatives (3 doses)',
+        type: 'consumable',
+        subtype: 'POTION',
+        quality: 'common',
+        description: 'Pungent herbal pastes that soothe the nervous system, used to stave off the twitching and anxiety of the hush.',
+        iconId: 'Misc/Profession Resources/Alchemy/Dark Green/dark-green-potion-armor-chest-piece-butterfly-x-shaped-beige-green-yellow-band',
+        value: { platinum: 0, gold: 1, silver: 50, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        rotation: 0,
+        stackable: true,
+        maxStackSize: 3,
+        availableFor: {
+            backgrounds: ['hushSurvivor']
+        }
+    },
+
+    {
         id: 'hermit-scroll-case',
-        name: 'Veil-Speaker Scroll-Case',
+        name: 'Sealed journal',
         type: 'miscellaneous',
         subtype: 'DOCUMENT',
         quality: 'common',
-        description: 'A wax-sealed case of Vreken Veil-Speaker writings, carried by one who survived the hush and kept their name.',
-        iconId: 'Misc/Books/book-brown-teal-question-mark',
+        description: 'A leather-bound journal sealed with black resin wax, containing records of life before the hush.',
+        iconId: 'Misc/Books/book-scroll-rolled-red-wax-seal',
         value: { platinum: 0, gold: 3, silver: 0, copper: 0 },
         weight: 1,
         width: 1,
@@ -1036,7 +1084,7 @@ export const HUSH_SURVIVOR_ITEMS = [
 
     {
         id: 'hermit-winter-blanket',
-        name: 'Frost-Wool Wrap',
+        name: 'Winter blanket',
         type: 'miscellaneous',
         subtype: 'CLOTHING',
         quality: 'common',
@@ -1055,12 +1103,12 @@ export const HUSH_SURVIVOR_ITEMS = [
 
     {
         id: 'hermit-trail-rations',
-        name: 'Bog-Waybread (5 days)',
+        name: 'Trail rations (5 days)',
         type: 'consumable',
         subtype: 'FOOD',
         quality: 'common',
         description: 'Dense bog-moss and tallow waybread. The hush takes appetite; this keeps the body fed when the mind forgets to eat.',
-        iconId: 'Misc/Books/book-brown-teal-question-mark',
+        iconId: 'Misc/Profession Resources/Cooking/Food/Other/bread-loaf-rustic-artisan-slashes',
         value: { platinum: 0, gold: 2, silver: 5, copper: 0 },
         weight: 10,
         width: 1,
@@ -1109,7 +1157,7 @@ export const MONOLITH_HUNTER_ITEMS = [
         subtype: 'TOOL',
         quality: 'common',
         description: 'A quill of ironwood-canopy fiber, standard-issue for Frozen Archive fieldwork.',
-        iconId: 'Misc/Books/book-brown-teal-question-mark',
+        iconId: 'Misc/Monster Parts/Feathers/feather-single-reddish-brown-shaft',
         value: { platinum: 0, gold: 0, silver: 2, copper: 0 },
         weight: 0.1,
         width: 1,
@@ -1155,6 +1203,16 @@ export const MONOLITH_HUNTER_ITEMS = [
         height: 2,
         rotation: 0,
         stackable: false,
+        combatStats: {
+            resistances: {
+                rime: { level: 75, multiplier: 0.75, label: 'Rime Guard', color: '#2C5F7C' }
+            }
+        },
+        baseStats: {
+            intelligence: { value: 1, isPercentage: false },
+            spirit: { value: 1, isPercentage: false },
+            strength: { value: -1, isPercentage: false }
+        },
         availableFor: {
             backgrounds: ['monolithHunter']
         }
@@ -1208,7 +1266,7 @@ export const ALL_BACKGROUND_EQUIPMENT = [
         subtype: 'TOOL',
         quality: 'common',
         description: 'A ground and polished Stelequarts crystal that refracts starlight into focused resonance patterns, used to commune with your Astril constellation-spirit.',
-        iconId: 'Misc/Books/book-brown-teal-question-mark',
+        iconId: 'Misc/Profession Resources/Enchanting/resource-blue-diamond-energy-core-vertical-device',
         value: { platinum: 0, gold: 10, silver: 0, copper: 0 },
         weight: 0.5,
         width: 1,
@@ -1242,7 +1300,7 @@ export const ALL_BACKGROUND_EQUIPMENT = [
         subtype: 'UTILITY',
         quality: 'common',
         description: 'Resonant fiber cords tuned to harmonic frequencies, used in throat-singing meditations to align with your constellation-spirit.',
-        iconId: 'Misc/Books/book-brown-teal-question-mark',
+        iconId: 'Misc/Profession Resources/Tailoring/resource-spool-golden-brown-thread-twine',
         value: { platinum: 0, gold: 2, silver: 0, copper: 0 },
         weight: 1,
         width: 1,
@@ -1289,8 +1347,15 @@ export const ALL_BACKGROUND_EQUIPMENT = [
         width: 2,
         height: 3,
         armorSlot: 'CHEST',
-        armorStats: {
-            armor: 10
+        combatStats: {
+            resistances: {
+                storm: { level: 75, multiplier: 0.75, label: 'Storm Guard', color: '#7E8E9F' }
+            }
+        },
+        baseStats: {
+            spirit: { value: 1, isPercentage: false },
+            agility: { value: 1, isPercentage: false },
+            strength: { value: -1, isPercentage: false }
         },
         availableFor: {
             backgrounds: ['vessel']
@@ -1388,7 +1453,7 @@ export const ALL_BACKGROUND_EQUIPMENT = [
         subtype: 'TOOL',
         quality: 'common',
         description: 'Precision tools favored by Drun outcasts for bypassing locks and wards undetected.',
-        iconId: 'Misc/Books/book-brown-teal-question-mark',
+        iconId: 'Misc/Profession Resources/Tools/satchel-pouch-brown-golden-buckle',
         value: { platinum: 0, gold: 25, silver: 0, copper: 0 },
         weight: 1,
         width: 1,
@@ -1460,7 +1525,7 @@ export const ALL_BACKGROUND_EQUIPMENT = [
         subtype: 'TOOL',
         quality: 'common',
         description: 'A set of gaming tiles with Drun outcast cipher-marks, readable only by those trained in Unlit patterns.',
-        iconId: 'Misc/Books/book-brown-teal-question-mark',
+        iconId: 'Misc/Profession Resources/Cooking/plate-coin-octagonal-copper-token',
         value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
         weight: 0.5,
         width: 1,
@@ -1611,7 +1676,7 @@ export const ALL_BACKGROUND_EQUIPMENT = [
         subtype: 'TOOL',
         quality: 'common',
         description: 'A canopy-quill and pot of archival bog-iron ink, standard-issue for Frozen Archive scribes.',
-        iconId: 'Misc/Books/book-brown-teal-question-mark',
+        iconId: 'Misc/Books/book-open-quill-pen-cream-pages',
         value: { platinum: 0, gold: 10, silver: 0, copper: 0 },
         weight: 0.5,
         width: 1,
@@ -1684,7 +1749,7 @@ export const ALL_BACKGROUND_EQUIPMENT = [
         subtype: 'DAGGER',
         quality: 'common',
         description: 'A ceremonial dagger etched with Scathrach bargain-glyphs, used to seal dark deals in bog-iron ink.',
-        iconId: 'Misc/Books/book-brown-teal-question-mark',
+        iconId: 'Weapons/Swords/sword-dagger-curved-guard-reddish-brown',
         value: { platinum: 0, gold: 2, silver: 0, copper: 0 },
         weight: 1,
         width: 1,
@@ -1834,7 +1899,7 @@ export const ALL_BACKGROUND_EQUIPMENT = [
         subtype: 'TOOL',
         quality: 'common',
         description: 'A frost-cracked whetstone from Nordhalla peaks, ideal for maintaining glacier-tempered edges.',
-        iconId: 'Misc/Books/book-brown-teal-question-mark',
+        iconId: 'Misc/Profession Resources/Blacksmithing/resource-block-worn-cracked-brown',
         value: { platinum: 0, gold: 1, silver: 0, copper: 0 },
         weight: 1,
         width: 1,
@@ -1886,7 +1951,7 @@ export const ALL_BACKGROUND_EQUIPMENT = [
         subtype: 'TOOL',
         quality: 'common',
         description: 'Bone dice carved with Ancestor-Span waymarks, used for wagering at waystations along the toll-roads.',
-        iconId: 'Misc/Books/book-brown-teal-question-mark',
+        iconId: 'Misc/Profession Resources/Cooking/plate-coin-octagonal-copper-token',
         value: { platinum: 0, gold: 1, silver: 0, copper: 0 },
         weight: 0.5,
         width: 1,
@@ -1903,7 +1968,7 @@ export const ALL_BACKGROUND_EQUIPMENT = [
         subtype: 'TOOL',
         quality: 'common',
         description: 'A compact kit of Ordan-made tools for maintaining weapons and gear on the Ancestor-Span roads.',
-        iconId: 'Misc/Books/book-brown-teal-question-mark',
+        iconId: 'Misc/Profession Resources/Tools/satchel-pouch-brown-golden-buckle',
         value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
         weight: 2,
         width: 1,
@@ -1976,7 +2041,7 @@ export const ALL_BACKGROUND_EQUIPMENT = [
         subtype: 'TOOL',
         quality: 'common',
         description: '50 feet of braided fiber-cord rope, standard issue for Muren Spellguard patrol and rescue operations.',
-        iconId: 'Misc/Books/book-brown-teal-question-mark',
+        iconId: 'Misc/Profession Resources/Tailoring/resource-coiled-brown-rope-hemp',
         value: { platinum: 0, gold: 1, silver: 0, copper: 0 },
         weight: 10,
         width: 1,

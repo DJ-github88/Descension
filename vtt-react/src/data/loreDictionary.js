@@ -24,7 +24,7 @@ export const LORE_DICTIONARY = {
     region: 'nordhalla',
     summary: 'A brutalist cathedral of frozen black fjords and towering glaciers in the northern reaches, fractured by King-Jarl Járn-Tand\'s consolidation and the Sunder-Wall.',
     fullEntry: 'Nordhalla is a freezing wilderness where the advance of titanic glaciers was halted by House Skalvyr\'s bargain. It is currently ruled with an iron fist by King-Jarl Halvar Skalvyr, known as Járn-Tand (Iron-Tooth), who unified the region\'s clans by force. Járn-Tand constructed the Sunder-Wall to regulate the nomadic Fredløse clans and enforce a trade monopoly through the Icechamber Syndicate. The region is marked by intense conflict between loyal Fastboende and outlaw clans, and a campaign of religious persecution known as the Cleansing of the Hearth which targets tribal Animists.',
-    relatedTerms: ['augur', 'berserker', 'bloodhammer_sump', 'corvani', 'corvid_speech', 'fjord_gate', 'frostcirque', 'frozen_archive', 'harbinger', 'house_skalvyr', 'hunger_glaciers', 'rime_born', 'rimors_hearth', 'rooks_promontory', 'skald', 'skalds_landing', 'skalds_longport', 'stel', 'the_black_firth', 'the_still_crag', 'the_warden', 'vargtor', 'vesperas_perch', 'warden', 'ymirs_col']
+    relatedTerms: ['augur', 'berserker', 'bloodhammer_sump', 'corvani', 'corvid_speech', 'fjord_gate', 'frozen_archive', 'harbinger', 'house_skalvyr', 'hunger_glaciers', 'rime_born', 'rimors_hearth', 'rooks_promontory', 'skald', 'skalds_landing', 'skalds_longport', 'stel', 'the_still_crag', 'the_warden', 'vargtor', 'vesperas_perch', 'warden', 'ymirs_col']
   },
   'sundale': {
     id: 'sundale',
@@ -33,7 +33,7 @@ export const LORE_DICTIONARY = {
     region: 'sundale',
     summary: 'The scorched ashlands surrounding Emberspire, currently governed by Hierophant Aethelgard\'s Dawn Vigil.',
     fullEntry: 'Sundale is a volcanic ashland desert surrounding the tomb of the sun-god Sol. After the collapse of House Solvan, the region was seized by Hierophant Aethelgard and the Dawn Vigil, who rule it as a martial-theocracy. The state enforces the Caldera Labor-Levies, conscripting the youth into the Martyr Brigades to mine sulfur for the Korr priests\' Sulfur Cartel monopoly. The population is split between the wealthy Deep-Born who live in the Harath-Vault and the impoverished Ash-Dwellers who are blockaded by the Obsidian Citadels.',
-    relatedTerms: ['aex', 'basalt_shyr', 'cinder_badlands', 'cinderhoodoo', 'damon', 'dawn_vigil', 'ember_lagoon', 'emberspire', 'emberspire_caldera', 'emberth', 'great_forge', 'grum', 'harath_vault', 'house_solvan', 'inferno_veil', 'keth_amar', 'martyr', 'pyrofiend', 'scathrach', 'sera', 'slag_gulch', 'solbrand', 'sols_anvil_mesa', 'spellguard', 'the_ashen_escarpment', 'the_breach', 'the_cinder_strait', 'the_deepening', 'titan', 'vault_breath', 'vulkars_karst']
+    relatedTerms: ['aex', 'basalt_shyr', 'cinder_badlands', 'cinderhoodoo', 'damon', 'dawn_vigil', 'ember_lagoon', 'emberspire', 'emberspire_caldera', 'emberth', 'great_forge', 'grum', 'harath_vault', 'house_solvan', 'inferno_veil', 'keth_amar', 'martyr', 'pyrofiend', 'scathrach', 'sera', 'slag_gulch', 'solbrand', 'sols_anvil_mesa', 'spellguard', 'the_ashen_escarpment', 'the_breach', 'the_deepening', 'titan', 'vault_breath', 'vulkars_karst']
   },
   'iceheart-sea': {
     id: 'iceheart-sea',
@@ -89,7 +89,7 @@ export const LORE_DICTIONARY = {
     region: 'nordhalla',
     summary: 'The northern lords of Nordhalla who halted the glaciers at the price of eternal winter, now represented by King-Jarl Járn-Tand.',
     fullEntry: 'House Skalvyr is the unyielding ruling family of Nordhalla. During the solar burial, they traded summer to freeze the grinding glaciers in place. Recently, the house consolidated its rule under King-Jarl Halvar Skalvyr (Járn-Tand), who unified the clans by force. To fund his mercenaries, Járn-Tand mortgaged regional resources to southern syndicates, establishing the Icechamber Syndicate trade monopoly. The house enforces its rule through the Sunder-Wall and the Runic Academies, suppressing ancestral animism in favor of controlled runic calculations.',
-    relatedTerms: ['augur', 'bloodhammer_sump', 'corvani', 'fjord_gate', 'frozen_archive', 'harbinger', 'hunger_glaciers', 'nordhalla', 'rime_born', 'skald', 'skalds_landing', 'stel', 'the_black_firth', 'the_warden', 'vargtor', 'vesperas_perch', 'warden', 'ymirs_col']
+    relatedTerms: ['augur', 'bloodhammer_sump', 'corvani', 'fjord_gate', 'frozen_archive', 'harbinger', 'hunger_glaciers', 'nordhalla', 'rime_born', 'skald', 'skalds_landing', 'stel', 'the_warden', 'vargtor', 'vesperas_perch', 'warden', 'ymirs_col']
   },
   'house_solvan': {
     id: 'house_solvan',
@@ -669,7 +669,7 @@ export const LORE_DICTIONARY = {
     region: 'iceheart-sea',
     summary: 'The largest human port-city on the Iceheart Sea, anchored to a warm volcanic seamount beneath the frozen waves.',
     fullEntry: 'Merrowport is the largest human settlement on the Iceheart Sea — a sprawling port-city of timber and iron anchored to a massive, warm subterranean volcanic seamount that keeps the surrounding waters perpetually unfrozen. The Merryn storm-sailors who dominate its docks tattoo their charts directly onto their skin, and the city is the primary gateway for trade between the Iceheart and every other region.',
-    relatedTerms: ['gale_storm_shallows', 'house_mereval', 'iceheart-sea', 'minstrel', 'myrathil', 'the_cinder_strait', 'the_shivering_bight']
+    relatedTerms: ['gale_storm_shallows', 'house_mereval', 'iceheart-sea', 'minstrel', 'myrathil', 'the_shivering_bight']
   },
   'sunken_spire': {
     id: 'sunken_spire',
@@ -1057,22 +1057,13 @@ export const LORE_DICTIONARY = {
     fullEntry: 'Vargtor — Wolf-Tor in the Old Nord tongue — is a military garrison built atop a natural granite pillar that rises two hundred feet above the glacier line. Wolves gather at its base every winter, drawn by some affinity the Skald cannot explain but do not question. The garrison commands the eastern approaches to the Frozen Archive and serves as the first line of defense against Corvani raiding parties and glacier wyrms. In the tor\'s deepest chambers, runic carvings predating the Skald by centuries have drawn the attention of Rime-Born Rune Keepers.',
     relatedTerms: ['house_skalvyr', 'nordhalla', 'rime_born']
   },
-  'frostcirque': {
-    id: 'frostcirque',
-    term: 'Frostcirque',
-    type: 'location',
-    region: 'nordhalla',
-    summary: 'A glacial hollow high in the mountains where the Rime-Born perform their oldest rituals — the freezing of memory into ice.',
-    fullEntry: 'Frostcirque is sacred ground to the Rime-Born — a natural amphitheater carved by ancient glaciers where the ice walls are covered in runic script so old that even the Skald Keepers cannot read it. The Rime-Born perform their Memory-Freezing rites here, preserving their most important experiences in blocks of glacier ice that are stored in the cirque walls for eternity. The air in Frostcirque is absolutely still — a quality that even the constant Nordhalla wind respects.',
-    relatedTerms: ['nordhalla', 'rime_born']
-  },
   'the_still_crag': {
     id: 'the_still_crag',
     term: 'The Still Crag',
     type: 'location',
     region: 'nordhalla',
-    summary: 'A cliff face perpetually frozen in absolute silence, where the Rime-Born claim the Warden\'s breath touched the mountain.',
-    fullEntry: 'The Still Crag is one of Nordhalla\'s most unsettling landmarks — a cliff face where no wind blows, no sound carries, and the ice sculptures of unknown figures stand frozen in attitudes of supplication. The Rime-Born believe the crag is where the Warden\'s breath physically touched the mountain during the Glacier Bargain, freezing everything it touched into permanent, silent witness. The sculptures are not carved — they appear to have been people, caught mid-gesture by something that stopped time itself.',
+    summary: 'A cliff face and glacial hollow perpetually frozen in absolute silence, where the Rime-Born perform memory-freezing rites.',
+    fullEntry: 'The Still Crag is one of Nordhalla\'s most unsettling landmarks — a cliff face where no wind blows, no sound carries, and the ice sculptures of unknown figures stand frozen in attitudes of supplication. The Rime-Born believe the crag is where the Warden\'s breath physically touched the mountain during the Glacier Bargain, freezing everything it touched into permanent, silent witness. Within the crag lies Frostcirque, a natural glacial amphitheater where the ice walls are covered in runic script. Here, the Rime-Born perform their Memory-Freezing rites, preserving their most important experiences in blocks of glacier ice stored in the walls for eternity.',
     relatedTerms: ['nordhalla', 'rime_born', 'the_warden']
   },
   'rooks_promontory': {
@@ -1083,15 +1074,6 @@ export const LORE_DICTIONARY = {
     summary: 'A high cliff over the frozen sea where the Corvani gather in vast, dark congregations to read prophecy in raven-flight.',
     fullEntry: 'Rook\'s Promontory is the Corvani\'s most sacred site in Nordhalla — a black obsidian cliff jutting over the frozen sea where ravens gather in thousands, their flight patterns interpreted as living prophecy by the Corvani shamans. The cliff is cold even by Nordhalla standards, and the Corvani dwellings carved into its face are accessible only to those who can fly or climb without rope. The Skald consider the promontory cursed; the Corvani consider it home.',
     relatedTerms: ['corvani', 'nordhalla', 'vesperas_perch']
-  },
-  'the_black_firth': {
-    id: 'the_black_firth',
-    term: 'The Black Firth',
-    type: 'location',
-    region: 'nordhalla',
-    summary: 'A long, narrow inlet flanked by obsidian cliffs where the black water reflects like a dark mirror.',
-    fullEntry: 'The Black Firth is a long, narrow sea inlet flanked by obsidian cliffs hundreds of feet high — a natural corridor of black stone and blacker water. The firth is the Skald\'s primary naval route to the Iceheart Sea, navigated by starlight since no sunlight has penetrated its depths in eight centuries. The water is perfectly still and perfectly reflective, showing a mirror-image of the cliffs that is indistinguishable from reality. Sailors report seeing things in the reflection that do not exist above the waterline.',
-    relatedTerms: ['house_skalvyr', 'nordhalla']
   },
 
   // SUNDALE — New Locations
@@ -1355,8 +1337,8 @@ export const LORE_DICTIONARY = {
     term: 'Fjord-Gate',
     type: 'location',
     region: 'nordhalla',
-    summary: 'A massive coastal harbor inside a black fjord, guarded by towering stone doors that seal against sea-storms.',
-    fullEntry: 'Fjord-Gate is Nordhalla\'s primary harbor and the greatest engineering achievement of House Skalvyr — a deep coastal fjord sealed by towering stone doors that slide shut to block the worst of the sea-storms. It is the gateway through which all northern trade flows, connecting Nordhalla to the Iceheart Sea and the wider world. The Sea-Guard who patrol the harbor are the only Skald who regularly interact with foreigners, and they have developed a culture distinct from the insular fjord-keepers of the interior.',
+    summary: 'A massive coastal harbor inside a black fjord, guarded by towering stone doors, flanked by the deep water of the Black Firth.',
+    fullEntry: 'Fjord-Gate is Nordhalla\'s primary harbor and the greatest engineering achievement of House Skalvyr — a deep coastal fjord sealed by towering stone doors that slide shut to block sea-storms. The harbor opens directly into the Black Firth, a narrow sea inlet flanked by obsidian cliffs where perfectly reflective water mirrors the dark sky. The firth is the Skald\'s primary naval route to the Iceheart Sea, navigated by starlight since no sunlight has penetrated its depths in eight centuries. Sea-Guard patrols navigate this corridor, where reflections showing non-existent entities test their sanity.',
     relatedTerms: ['bloodhammer_sump', 'frozen_archive', 'house_skalvyr', 'nordhalla']
   },
   'hunger_glaciers': {
@@ -1469,15 +1451,15 @@ export const LORE_DICTIONARY = {
     region: 'sundale',
     summary: 'The active, soot-choked volcanic mouth of Emberspire, where ancient fire-weaving entities dwell among the molten glass.',
     fullEntry: 'The Emberspire Caldera is the screaming mouth of Sundale\'s world-heart volcano — an active, soot-choked caldera that continuously vents ash and molten glass into the dark sky. The heat is lethal to all but the most hardened Emberth, and the volcanic vents are home to fire-weaving elemental entities older than the Dimming itself. Pyrofiend cultists make pilgrimages to the caldera\'s rim to commune with the Cinder-Fiends that nest in the molten rock, returning with scorched eyes and prophecies of burning.',
-    relatedTerms: ['cinder_badlands', 'emberspire', 'harath_vault', 'pyrofiend', 'sundale', 'the_cinder_strait']
+    relatedTerms: ['cinder_badlands', 'emberspire', 'harath_vault', 'pyrofiend', 'sundale']
   },
   'basalt_shyr': {
     id: 'basalt_shyr',
     term: 'Basalt Shyr',
     type: 'location',
     region: 'sundale',
-    summary: 'A trade outpost atop cooling basalt columns on the Sundale border, the primary gateway between the ashlands and the lowlands.',
-    fullEntry: 'Basalt Shyr is Sundale\'s window to the outside world — a trade outpost built atop a formation of cooling basalt columns where the volcanic region meets the lowland approaches. Kessen Merchants and house Solvan factors exchange Sundale\'s refined metals and volcanic coal for Bryngloom fungal-lights, timber, and the rare goods that the frozen world produces in diminishing quantities. The outpost is the closest thing to neutral ground in Sundale, a place where the geothermal heat yields to ordinary cold and the rules of commerce outweigh the passions of sun-worship.',
+    summary: 'A trade outpost atop cooling basalt columns on the Sundale border, adjacent to the steaming waters of the Cinder Strait.',
+    fullEntry: 'Basalt Shyr is Sundale\'s window to the outside world — a trade outpost built atop a formation of cooling basalt columns adjacent to the Cinder Strait, a narrow sea passage between two volcanic islands where the water steams perpetually and the cliffs weep molten rock. Merryn sailors navigate the dangerous strait at tremendous risk, as the passage halves the journey to the harbor but exposes ships to boiling water and Cinder-Fiends. Basalt Shyr serves as neutral ground where commerce outweighs sun-worship, and merchants exchange metals and volcanic coal for Bryngloom timber and fungal-lights.',
     relatedTerms: ['cinder_badlands', 'ember_lagoon', 'great_forge', 'house_solvan', 'sundale']
   },
   'cinder_badlands': {
@@ -1505,16 +1487,7 @@ export const LORE_DICTIONARY = {
     region: 'sundale',
     summary: 'A narrow ravine settlement built on forge waste, where Emberth and Groven workers salvage metals from industrial debris.',
     fullEntry: 'Slag Gulch is Sundale\'s monument to the principle that nothing useful should be wasted — a permanent foundry town built inside a narrow ravine filled with centuries of forge waste and industrial debris. Emberth and Groven workers process the slag for salvageable metals in operations that are hot, loud, and acrid enough to strip paint from iron. The inhabitants have developed a unique patois mixing Sundari and Terran, and the Gulch produces a surprising volume of refined secondary metals that supplement the Great Forge\'s output.',
-    relatedTerms: ['emberth', 'great_forge', 'groven', 'sundale', 'the_cinder_strait']
-  },
-  'the_cinder_strait': {
-    id: 'the_cinder_strait',
-    term: 'The Cinder Strait',
-    type: 'location',
-    region: 'sundale',
-    summary: 'A narrow, boiling water passage between volcanic islands that halves the journey to Merrowport but has claimed more ships than any other route.',
-    fullEntry: 'The Cinder Strait is the most dangerous shipping lane in the known world — a narrow passage between two volcanic islands where the water steams perpetually and the cliffs weep molten rock during peak volcanic cycles. Merryn sailors navigate the strait at tremendous risk, as the passage halves the journey to Merrowport and the profit justifies the danger for those who survive. The strait is home to Cinder-Fiends that surface during eruptions, and the wreckage of a hundred ships litters the boiling floor beneath the waves.',
-    relatedTerms: ['emberspire_caldera', 'merrowport', 'slag_gulch', 'sundale']
+    relatedTerms: ['emberth', 'great_forge', 'groven', 'sundale']
   },
 
   // ICEHEART SEA

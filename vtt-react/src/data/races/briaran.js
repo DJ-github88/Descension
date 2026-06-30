@@ -38,7 +38,7 @@ Children are raised communally. The concept of a nuclear family withered during 
     integrationNotes: {
         actionPointSystem: 'Briaran abilities focus on oath-sensing, fae-contract enforcement, and identity protection. Their thorn-based traits emphasize insight and deception resistance.',
         backgroundSynergy: 'Briaran excel in backgrounds emphasizing deception, survival, and fae diplomacy. Their hidden history creates deep roleplay hooks around identity, erasure, and the weight of unfulfilled promises.',
-        classCompatibility: 'The Unshorn make natural Martyrs and Animists because their visible thorns and oral oaths drive them to shoulder the wounds of others and channel ancestral bonds, while their fae-bond makes them intuitive Lunarchs and Shapers. The Smooth-Skinned favor Shapers, Apex, Augurs, and Minstrels � classes that rely on agility, hidden truths, and the subtle manipulation of identity to survive undetected in the human kingdoms.'
+        classCompatibility: 'The Unshorn make natural Martyrs and Lunarchs because their visible thorns and oral oaths drive them to shoulder the wounds of others, while their fae-bond makes them receptive to the lunar parasite that Selene Viridane first bargained with in the moonlit groves. The Smooth-Skinned favor Toxicologists and Animists — stripped of their thorns, they survive through subtle manipulation of the Bryngloom\'s fungal ecology and the spirit-traditions of the hidden groves, passing as human while brewing floor-toxins beneath borrowed names.'
     },
 
     baseTraits: {

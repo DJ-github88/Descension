@@ -93,7 +93,7 @@ const CLASS_DATA = [
 
     { name: 'Toxicologist', imageIcon: '/assets/icons/classes/toxicologist.png', icon: faFlask, role: 'Damage / Control', resource: 'Alchemical Vials', playstyle: 'Brew vaporous chemical agents and acids, handling corrosive runoffs with trembling, scarred fingers and taste buds dulled by poison.', roleColor: '#e67e22', damageTypes: ['blight'] },
 
-    { name: 'Warden', imageIcon: '/assets/icons/classes/warden.png', icon: faGavel, role: 'Damage / Control', resource: 'Vengeance Points', playstyle: 'Drive rusted iron chains through your own forearms to tether abominations. Build Vengeance Points through suffering and spend them to cage, drag, and execute your prey.', roleColor: '#e67e22', damageTypes: ['physical', 'storm', 'primal'] },
+    { name: 'Bound Penitent', imageIcon: '/assets/icons/classes/warden.png', icon: faGavel, role: 'Damage / Control', resource: 'Vengeance Points', playstyle: 'Drive rusted iron chains through your own forearms to tether abominations. Build Vengeance Points through suffering and spend them to cage, drag, and execute your prey.', roleColor: '#e67e22', damageTypes: ['physical', 'storm', 'primal'] },
 
     { name: 'Augur', imageIcon: '/assets/icons/classes/augur.png', icon: faDove, role: 'Control / Debuffer', resource: 'Benediction & Malediction', playstyle: 'Read the signs in every die roll — even numbers fuel your Benediction, odd numbers your Malediction. Reshape the battlefield through divine omens.', roleColor: '#9b59b6', damageTypes: ['wyrd', 'ember'] }
 

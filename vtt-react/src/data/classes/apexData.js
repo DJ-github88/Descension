@@ -13,7 +13,8 @@ export const APEX_DATA = {
           "unwoven_mimir",
           "skald_human",
           "clean_vreken",
-          "marked_vreken"
+          "marked_vreken",
+          "ordan_human"
       ],
       "hardBlocks": [
           "emberth",
@@ -22,7 +23,7 @@ export const APEX_DATA = {
           "tessen_human"
       ],
       "narrativeUnlock": true,
-      "justification": "Requires cultures with predator-tracking traditions. Skald hunt in the Hunger Glaciers. Mimir track Wyrd in the mist. Other cultures lack the sensory training."
+      "justification": "Requires cultures with predator-tracking traditions. Skald hunt in the Hunger Glaciers. Mimir track Wyrd in the mist. Ordan steppe nomads track prey across open tundra using scent and kinetic vibration. Other cultures lack the sensory training."
   },
 
   id : "apex",

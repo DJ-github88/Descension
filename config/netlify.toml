@@ -43,10 +43,34 @@
     # Allow Firebase Google sign-in popups
     Cross-Origin-Opener-Policy = "unsafe-none"
 
-# Cache static assets
+# Cache hashed static assets (JS/CSS bundles with content hashes)
 [[headers]]
-  for = "/static/*"
+  for = "/static/js/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/static/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Don't cache media/assets that change (images, fonts, etc.)
+[[headers]]
+  for = "/static/media/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Ensure index.html is never cached so browsers fetch the latest bundles
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Ensure service worker is never cached so it can update
+[[headers]]
+  for = "/service-worker.js"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    Expires = "0"
 
 # All environment variables are configured above in [build.environment]

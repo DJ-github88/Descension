@@ -31,7 +31,7 @@ Their society is a meritocracy of craft and endurance, not birth. Those who work
     integrationNotes: {
         actionPointSystem: 'Emberth abilities focus on endurance, forge-craft, and patient combat. Their underground ancestry grants them stillness, ash-resistance, and dark-adapted senses � not fire magic, but the hard-earned adaptations of a people who survived the deep.',
         backgroundSynergy: 'Emberth excel in backgrounds emphasizing crafting, endurance, and spiritual devotion. Their sun-reverent culture and clan-mark identity complement paths of tradition, craft, and unyielding patience.',
-        classCompatibility: 'The Korr favor Wardens (Monolith), Animists, and Augurs because their deep-vault isolation and practice of the Vault-Breath align with absolute physical stillness, the recording of fading lineages, and the quiet shamans who interpret the Solbrand\'s silent dimming. The Thrask favor Apex, Wardens, and Pyrofiends, using their cold-hardened bodies and surface mobility to range the frozen badlands, patrol volcanic border outposts, and harness raw lava-flow heat as a weapon.'
+        classCompatibility: 'The Korr favor Martyrs and Spellguards because their deep-vault isolation and practice of the Vault-Breath align with absolute physical stillness and willing sacrifice — the quiet monks who interpret the Solbrand\'s silent dimming have long formalized suffering as spiritual currency. Spellguards emerge from Korr who have learned to absorb geothermal instability into their mineral-dense bodies. The Thrask favor Pyrofiends above all, using their cold-hardened bodies and surface mobility to harness raw lava-flow heat as a weapon. Thrask defaced their imperial marks to embrace the wild fury of the caldera, and some have made the obvious leap from volcanic heat to Scathrach\'s infernal offer.'
     },
 
     meaningfulTradeoffs: 'Emberth possess formidable physical endurance and ash-resistance but suffer fatigue in clean air and are deeply vulnerable to the cold � not because they are "fire people," but because their bodies adapted to geothermal heat and cannot shed warmth efficiently. Their dark-adapted eyes struggle in daylight. Their stillness is a cultural strength and a social liability among faster, more fidget-prone races.',
@@ -157,6 +157,24 @@ Forge-trials settle disputes between clans. No Emberth may strike another Embert
                                       "debuff",
                                       "shared"
                             ]
+                  },
+                  "debuffConfig": {
+                            "debuffType": "vulnerability",
+                            "effects": [
+                                      {
+                                                "id": "cold_vulnerability",
+                                                "name": "Cold Vulnerability",
+                                                "description": "Vulnerable to rime damage. Take +50% rime damage.",
+                                                "statusEffect": {
+                                                          "vulnerabilityType": "rime",
+                                                          "vulnerabilityPercent": 50
+                                                }
+                                      }
+                            ],
+                            "durationValue": 0,
+                            "durationType": "permanent",
+                            "durationUnit": "permanent",
+                            "canBeDispelled": false
                   }
         },
         {

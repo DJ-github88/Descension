@@ -26,7 +26,6 @@
 export const FALSE_PROPHET_DATA = {
   restrictions: {
       "allowedSubraces": [
-          "ordan_human",
           "sylen_astril",
           "muren_astril",
           "morren_human"
@@ -35,10 +34,11 @@ export const FALSE_PROPHET_DATA = {
           "skald_human",
           "thalren_human",
           "tessen_human",
-          "emberth"
+          "emberth",
+          "ordan_human"
       ],
       "narrativeUnlock": true,
-      "justification": "Requires a population desperate enough for manufactured meaning. Steppe nomads (Ordan) and debt-trapped Morren fit. Skald and Thalren are too institutionally rigid to embrace nihilism as salvation."
+      "justification": "Requires a population with congregation-proximity and cultural susceptibility to manufactured revelation. Astril host constellation-spirits that blur the line between divine truth and parasitic deception. Morren live in debt-trapped desperation adjacent to the Keeper's power. Ordan are nomadic — a class that requires stable congregation proximity contradicts their migrating lifestyle. Skald and Thalren are too institutionally rigid."
   },
 
   id : "false_prophet",

@@ -10,10 +10,10 @@ export const MARTYR_DATA = {
       "allowedSubraces": [
           "solvarn_human",
           "korr_emberth",
-          "velun_neth"
+          "velun_neth",
+          "skald_human"
       ],
       "hardBlocks": [
-          "skald_human",
           "tessen_human",
           "merryn_human",
           "ordan_human",
@@ -21,7 +21,7 @@ export const MARTYR_DATA = {
           "mimir"
       ],
       "narrativeUnlock": true,
-      "justification": "Requires a theological framework for willing suffering. Solvarn have the sun-vigil. Korr have the Vault-Breath. Neth Velun have contract-martyrdom. Other cultures are too survival-pragmatic to embrace suffering as power."
+      "justification": "Requires a theological framework for willing suffering. Solvarn have the sun-vigil. Korr have the Vault-Breath. Velun Neth have contract-martyrdom. Skald have the Hunger Pact — ancestral starvation channeled into combat fury, and the Ironclad specialization formalizes what the Skald have always done: use their own body as a weapon that gets stronger the more it is broken. Other cultures are too survival-pragmatic to embrace suffering as power."
   },
 
   id : "martyr",

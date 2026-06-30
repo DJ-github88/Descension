@@ -12,7 +12,6 @@ export const WARDEN_DATA = {
           "ithran_groven",
           "drall_fexric",
           "kethrin_fexric",
-          "kessen_neth",
           "skald_human",
           "clean_vreken",
           "marked_vreken"
@@ -24,23 +23,23 @@ export const WARDEN_DATA = {
           "emberth"
       ],
       "narrativeUnlock": true,
-      "justification": "Requires access to the chain-graft surgical tradition only available in Frostmaw Holdfast and the Frozen Archive. Non-Groven can learn the technique but must undergo the surgical graft, which few cultures accept."
+      "justification": "Requires access to the chain-graft surgical tradition only available in Frostmaw Holdfast and the Frozen Archive. Groven invented the technique. Vreken adopted it through proximity. Fexric Drall learned it through guild-surgical exchange. Non-listed races must undergo the surgical graft, which few cultures accept — Kessen Neth lack the martial-surgical tradition, Ordan are nomadic, Emberth physiology rejects the cold-iron threading."
   },
 
   id : "Warden",
-  name: "Warden",
+  name: "Bound Penitent",
   icon: "fas fa-link",
   role: "Melee Lockdown / Heavy Sentinel",
   damageTypes: ["physical", "blight"],
 
   // Overview section
   overview: {
-    title: "The Warden",
+    title: "The Bound Penitent",
     subtitle: "The Penitent Jailer & Nightmare Bound",
 
     quickOverview: {
       title: "Quick Overview",
-      content: `**What You Need to Know**: The Warden is a heavy-martial lockdown specialist who has completely abandoned all druidic or forest ranger tropes. They are the Penitent Jailer—wielding thick, rusted iron chains physically grafted directly into their own forearms, spine, and flesh. They do not guard trees; they guard nightmares.
+      content: `**What You Need to Know**: The Bound Penitent is a heavy-martial lockdown specialist who has completely abandoned all druidic or forest ranger tropes. They are the Penitent Jailer—wielding thick, rusted iron chains physically grafted directly into their own forearms, spine, and flesh. They do not guard trees; they guard nightmares.
 
 **Core Mechanic**: Drive rusted hooks into your own flesh and the enemy to establish a *Iron Chain Tether* -> Restrict target's movement and target selection -> Generate *Tether Tension* through pain and manual reeling -> Spend Tension on bone-crushing flails, agony-infused braces, or ultimate ascundancies.
 
@@ -51,12 +50,12 @@ export const WARDEN_DATA = {
 **Best For**: Players who enjoy high-risk, high-reward tactical shielding, inescapable crowd control, and the heavy, agonizing narrative of a warrior who pays for every victory in blood and bone.`,
     },
 
-    description: `The Warden is a grim, tragic figure of absolute lockdown—a Penitent Jailer who binds their own flesh to the horrors they pursue. Stripped of all druidic or forest magic, they wield massive, rusted iron chains grafted directly into their forearms and spine. They exist to hold the line against nightmares, pinning abominations in place by physically chaining themselves to the beast. Their power is not magical grace; it is the desperate, agonizing survival of bone, meat, and iron under crushing tension.`,
+    description: `The Bound Penitent is a grim, tragic figure of absolute lockdown—a Penitent Jailer who binds their own flesh to the horrors they pursue. Stripped of all druidic or forest magic, they wield massive, rusted iron chains grafted directly into their forearms and spine. They exist to hold the line against nightmares, pinning abominations in place by physically chaining themselves to the beast. Their power is not magical grace; it is the desperate, agonizing survival of bone, meat, and iron under crushing tension.`,
 
     roleplayIdentity: {
       title: "Roleplay Identity",
       content: `**HISTORY: THE GENESIS**
-The Warden's calling was forged by Alaric the Law-Keeper, a Groven mine-guard who drove a mining chain through his own forearm to anchor a colossal abomination during the Vat-Breakers' revolt in the lower tunnels of <LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink>. Over ten years, he and the Fexrick chain-smiths refined the technique of grafting iron tethers directly into muscle and bone.
+The Bound Penitent's calling was forged by Alaric the Law-Keeper, a Groven mine-guard who drove a mining chain through his own forearm to anchor a colossal abomination during the Vat-Breakers' revolt in the lower tunnels of <LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink>. Over ten years, he and the Fexrick chain-smiths refined the technique of grafting iron tethers directly into muscle and bone.
 
 **CITIES & CIVIL RECEPTION**
 Common folk in regional settlements find their rusted, skin-grafted chains and heavy iron bolts disturbing, often viewing them as zealots or walking cell blocks. They are tolerated only because they keep the absolute worst terrors of the deep from reaching the surface keeps.
@@ -65,34 +64,34 @@ Common folk in regional settlements find their rusted, skin-grafted chains and h
 The tradition is heavily practiced by the subterranean Morgh <LoreLink termId="groven">Groven</LoreLink> and the <LoreLink termId="fexrick">Fexrick</LoreLink> Drall who forge their iron links. However, it has spread to desperate <LoreLink termId="neth">Neth</LoreLink> archivists, <LoreLink termId="skald">Skald</LoreLink> glacier-hunters, and penitent <LoreLink termId="vreken">Vreken</LoreLink> who seek absolution by chaining themselves to the bog-horrors.
 
 **NOTABLE FIGURES**
-* **Alaric the Law-Keeper**: The first Warden who held the line for three days with a rusted chain driven through his forearm.
+* **Alaric the Law-Keeper**: The first Bound Penitent who held the line for three days with a rusted chain driven through his forearm.
 * **The Fexrick Drall Smiths**: The specialized chain-smiths of Frostmaw Holdfast who perform the flesh-grafting surgical rites.`
     },
 
     signatureQuote: {
       text: '"I drove the chain through my own shoulder so I could anchor the beast. The pain kept me conscious. The beast was surprised. We stood there for three hours, neither of us able to move, both of us bleeding. It was the most intimate moment of my life."',
       speaker: 'Alaric the Law-Keeper',
-      context: 'From his training manual on Iron Chain Tethering, still used to train new Wardens'
+      context: 'From his training manual on Iron Chain Tethering, still used to train new Bound Penitents'
     },
 
     philosophy: {
-      coreTenet: 'A chain is not a tool of restraint. It is a tool of connection. When a Warden chains themselves to a monster, they are not trapping the monster — they are agreeing to share its fate. If it falls, they fall. If it bleeds, they feel it. The chain is a vow made of iron and flesh.',
-      relationship: 'A Warden\'s power comes from the Iron Chain Tether — a chain physically grafted through their own body and anchored to their target. The tether is not magical; it is a medical fact. The hooks are driven through the bone. The chain is anchored to the skeleton. The pain is the source of the Warden\'s Tension, and the Tension is the source of their power.',
-      paradox: 'The Warden controls their enemy by giving up control of themselves. They cannot release the tether at will — the hooks are too deep, the tension too great. Once anchored, the Warden is committed. They must win or die.'
+      coreTenet: 'A chain is not a tool of restraint. It is a tool of connection. When a Bound Penitent chains themselves to a monster, they are not trapping the monster — they are agreeing to share its fate. If it falls, they fall. If it bleeds, they feel it. The chain is a vow made of iron and flesh.',
+      relationship: 'A Bound Penitent\'s power comes from the Iron Chain Tether — a chain physically grafted through their own body and anchored to their target. The tether is not magical; it is a medical fact. The hooks are driven through the bone. The chain is anchored to the skeleton. The pain is the source of the Bound Penitent\'s Tension, and the Tension is the source of their power.',
+      paradox: 'The Bound Penitent controls their enemy by giving up control of themselves. They cannot release the tether at will — the hooks are too deep, the tension too great. Once anchored, the Bound Penitent is committed. They must win or die.'
     },
 
-    originStory: `The first Warden was Alaric the Law-Keeper, a Groven mine-guard stationed in the lower tunnels beneath Frostmaw Holdfast. When the Deep Alchemists' vat-laboratories collapsed during the Vat-Breakers' revolt, the containment wards shattered and the experiments — things with too many limbs and not enough skin — poured into the tunnels. Alaric's squad was slaughtered in seconds. He survived by driving a ore-hauling chain through his own forearm and into the ribcage of the largest specimen, anchoring it to the tunnel wall with his own body as the pin. He held it for three days. When rescue finally arrived, the chain had rusted into his bone and the creature had died of exhaustion, unable to break free. The Fexric Drall smiths who cut him free noted that the pattern of scar tissue around the graft points had fused with the iron, creating a permanent bond. They asked if he wanted the chain removed. He said no. He spent the next decade refining the technique — grafting thicker chains, developing the tether-and-reel system, training others to do the same. The order he founded still operates from the Forge of Alaric in Frostmaw Holdfast, where new Wardens drive their first hook under the supervision of Fexric Drall chain-smiths. The tradition has spread beyond the Groven — Neth archivists tether themselves to forbidden texts, Skald berserkers chain themselves to glacier-wyrms, and Vreken penitents anchor themselves to the horrors that crawl from the deep bogs. But every Warden's first chain is still forged at Alaric's anvil.`,
+    originStory: `The first Bound Penitent was Alaric the Law-Keeper, a Groven mine-guard stationed in the lower tunnels beneath Frostmaw Holdfast. When the Deep Alchemists' vat-laboratories collapsed during the Vat-Breakers' revolt, the containment wards shattered and the experiments — things with too many limbs and not enough skin — poured into the tunnels. Alaric's squad was slaughtered in seconds. He survived by driving a ore-hauling chain through his own forearm and into the ribcage of the largest specimen, anchoring it to the tunnel wall with his own body as the pin. He held it for three days. When rescue finally arrived, the chain had rusted into his bone and the creature had died of exhaustion, unable to break free. The Fexric Drall smiths who cut him free noted that the pattern of scar tissue around the graft points had fused with the iron, creating a permanent bond. They asked if he wanted the chain removed. He said no. He spent the next decade refining the technique — grafting thicker chains, developing the tether-and-reel system, training others to do the same. The order he founded still operates from the Forge of Alaric in Frostmaw Holdfast, where new Bound Penitents drive their first hook under the supervision of Fexric Drall chain-smiths. The tradition has spread beyond the Groven — Neth archivists tether themselves to forbidden texts, Skald berserkers chain themselves to glacier-wyrms, and Vreken penitents anchor themselves to the horrors that crawl from the deep bogs. But every Bound Penitent's first chain is still forged at Alaric's anvil.`,
 
-    currentCrisis: `The chains are breaking. The iron used for traditional Iron Chain Tethers is failing — the cold of the Cragjaw Peaks has made the metal brittle, and tethers are snapping at critical moments. The Fexric Drall have proposed a new alloy using recycled chardalyn fragments, which would be stronger and lighter. But chardalyn causes madness with prolonged contact. Wardens who accepted chardalyn chains report hearing whispers at night. Those who refused are running out of replacements for their old chains.`,
+    currentCrisis: `The chains are breaking. The iron used for traditional Iron Chain Tethers is failing — the cold of the Cragjaw Peaks has made the metal brittle, and tethers are snapping at critical moments. The Fexric Drall have proposed a new alloy using recycled chardalyn fragments, which would be stronger and lighter. But chardalyn causes madness with prolonged contact. Bound Penitents who accepted chardalyn chains report hearing whispers at night. Those who refused are running out of replacements for their old chains.`,
 
-    meaningfulTradeoffs: `To be a Warden is to carry permanent scars. The tether hooks leave holes in the bone that never fully heal. A Warden can be identified by the pattern of scars on their arms, shoulders, and back — a map of every creature they have ever anchored. Old wounds remember; they hurt more when struck.`,
+    meaningfulTradeoffs: `To be a Bound Penitent is to carry permanent scars. The tether hooks leave holes in the bone that never fully heal. A Bound Penitent can be identified by the pattern of scars on their arms, shoulders, and back — a map of every creature they have ever anchored. Old wounds remember; they hurt more when struck.`,
 
     classSpecificLocations: [
       {
         name: 'The Forge of Alaric',
         locationId: 'frostmaw-holdfast',
         description: 'The original blacksmith\'s forge where Alaric forged the first Iron Chain Tether chains. Still maintained by a line of Fexric Drall smiths.',
-        purpose: 'Chain forge and Warden initiation site',
+        purpose: 'Chain forge and Bound Penitent initiation site',
         status: 'Active — struggling to meet demand for new chains'
       }
     ],
@@ -102,7 +101,7 @@ The tradition is heavily practiced by the subterranean Morgh <LoreLink termId="g
       content: `**Primary Role**: Heavy-martial lockdown specialist and damage-absorbing anchor.
 
 **Combat Strengths**:
-- **Inescapable forced dueling**: The exclusive *Iron Chain Tether* creates an unbreakable 15-foot radius. The tethered enemy physically cannot target the Warden's allies.
+- **Inescapable forced dueling**: The exclusive *Iron Chain Tether* creates an unbreakable 15-foot radius. The tethered enemy physically cannot target the Bound Penitent's allies.
 - **Massive crowd control**: Able to lock down high-threat targets, preventing all teleportation and movement beyond the chain's reach.
 - **Pain-driven resource economy**: Tether Tension scales with combat aggression and damage taken, feeding their most devastating close-range abilities.
 - **Unrivaled tanking utility**: Keeps fragile allies completely safe from the tethered abomination.
@@ -118,11 +117,11 @@ The tradition is heavily practiced by the subterranean Morgh <LoreLink termId="g
     playstyle: {
       title: "Playstyle & Strategy",
       content: `**Tether Tension Management**:
-Warden combat is a high-wire balancing act of pain and control. Tether Tension caps at 10. You must constantly manage this tension:
+Bound Penitent combat is a high-wire balancing act of pain and control. Tether Tension caps at 10. You must constantly manage this tension:
 - **Tether and Reel**: Start combat by driving a *Iron Chain Tether* into the primary target (generates 2 Tension at the cost of 1d6 self-inflicted blight damage).
 - **Pain is Power**: Build Tension by taking damage or using abilities that manually pull the chains tighter.
 - **Spend to Subdue**: Consume Tether Tension to activate heavy defensive braces (*Penitent Resolve*, 4 Tension) or to deliver crushing flails (*Barbed Lash*, 2 Tension).
-- **Iron Ascendancy**: Save 10 Tension to enter *Iron Ascendancy* (ultimate transformation), where the Warden's flesh fuses with the iron, lashing out at all nearby foes and rendering them immune to displacement while the target is dragged helplessly.
+- **Iron Ascendancy**: Save 10 Tension to enter *Iron Ascendancy* (ultimate transformation), where the Bound Penitent's flesh fuses with the iron, lashing out at all nearby foes and rendering them immune to displacement while the target is dragged helplessly.
 
 **The Fatal Drag**:
 Be wary of tethering high-strength targets. If they move, you are dragged. Use *Iron Brace* to double your weight and resist displacement, or suffer the bludgeoning recoil of being dragged across the gravel.
@@ -133,7 +132,7 @@ With a permanent +50% Wyrd vulnerability, you must rely on your party's casters 
 
     immersiveCombatExample: {
       title: "Combat Example: The Tethered Nightmare",
-      content: `**The Setup**: You are a Warden (Relentless Tormentor specialization) locking down a colossal flesh-golem. Your party is positioned safely behind you. Starting Tension: 0. HP: 90/90. Your goal: Drive your hooks deep, anchor the abomination, absorb its fury, and drag it into submission.
+      content: `**The Setup**: You are a Bound Penitent (Relentless Tormentor specialization) locking down a colossal flesh-golem. Your party is positioned safely behind you. Starting Tension: 0. HP: 90/90. Your goal: Drive your hooks deep, anchor the abomination, absorb its fury, and drag it into submission.
 
 **Starting State**: Tether Tension: 0/10 | HP: 90/90 | Tethered Target: None
 
@@ -213,13 +212,13 @@ With a permanent +50% Wyrd vulnerability, you must rely on your party's casters 
     title: "Tether Tension",
     subtitle: "The Agony of the Graft",
 
-    description: `The Warden's resource is Tether Tension, a representation of the physical strain on the iron chains driven through their forearms, spine, and flesh. Generated by self-mutilating reels, establishing tethers, and taking damage, Tension is consumed to unleash crushing bludgeoning strikes or to brace against colossal impacts. This system forces the Warden to ride the razor-thin line between holding the beast and being ripped apart by it.`,
+    description: `The Bound Penitent's resource is Tether Tension, a representation of the physical strain on the iron chains driven through their forearms, spine, and flesh. Generated by self-mutilating reels, establishing tethers, and taking damage, Tension is consumed to unleash crushing bludgeoning strikes or to brace against colossal impacts. This system forces the Bound Penitent to ride the razor-thin line between holding the beast and being ripped apart by it.`,
 
     cards: [
       {
         title: "Tether Tension (0-10)",
         stats: "10 Tension Max | Thresholds at 3/6/9",
-        details: "Tension is a physical resource. As it builds, the chains pull taut, ripping through the Warden's flesh. High tension increases damage output but restricts mobility and increases self-harm."
+        details: "Tension is a physical resource. As it builds, the chains pull taut, ripping through the Bound Penitent's flesh. High tension increases damage output but restricts mobility and increases self-harm."
       },
       {
         title: "Iron Chain Tether",
@@ -282,7 +281,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
 
   // Character Creation
   characterCreation: {
-    title: "Creating a Warden",
+    title: "Creating a Bound Penitent",
     subtitle: "Forging the Penitent Anchor",
 
     abilityPriorities: {
@@ -319,7 +318,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
 
     startingStats: {
       hp: "12 + Constitution modifier",
-      hitDice: "1d12 per Warden level",
+      hitDice: "1d12 per Bound Penitent level",
       armor: "15 + agility modifier (max +2) (Iron Jailer Plate)",
       speed: "20 ft (heavy plate penalty included)",
       savingThrows: ["Agility", "Constitution"],
@@ -353,11 +352,11 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
 
     specializationChoice: {
       level: 3,
-      description: "At 3rd level, choose your path of penance: Iron Stalker (stealth/bleed), Iron Warden (mass lockdown/cages), Relentless Tormentor (inescapable drag/crush), or Monolith (gravitational immovability/calcified defense)."
+      description: "At 3rd level, choose your path of penance: Iron Stalker (stealth/bleed), Iron Jailer (mass lockdown/cages), Relentless Tormentor (inescapable drag/crush), or Monolith (gravitational immovability/calcified defense)."
     },
 
     levelProgression: {
-      title: "Warden Level Progression",
+      title: "Bound Penitent Level Progression",
       headers: ["Level", "Tension Max", "Feature Unlocked"],
       rows: [
         ["1", "10", "Iron Chain Tether, Chain Graft, Iron Brace, Barbed Lash"],
@@ -376,10 +375,10 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
 
   // Specializations
   specializations: {
-    title: "Warden Paths of Penance",
+    title: "Bound Penitent Paths of Penance",
     subtitle: "Four Modes of Torment",
 
-    description: "Every Warden chooses a path of physical penance, tuning their iron grafts to perform specific, terrifying functions of lockdown, execution, or stealth.",
+    description: "Every Bound Penitent chooses a path of physical penance, tuning their iron grafts to perform specific, terrifying functions of lockdown, execution, or stealth.",
 
     sharedPassive: {
       name: "Cruel Tracker",
@@ -396,7 +395,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
         description: "The Iron Stalker blends in the shadows not through grace, but through complete stillness and numbed flesh. They strike silently, dragging victims into the dark to rip them apart.",
         playstyle: "Stealth-based lockdown and bleed assassin, striking from silence with devastating flails.",
         strengths: [
-          "Highest burst damage of all Warden specs",
+          "Highest burst damage of all Bound Penitent specs",
           "Attacks from stealth generate +1 Tension (total 3 Tension)",
           "Agonizing silence hides them after spending Tension",
           "Devastating bleed and blight synergy"
@@ -404,7 +403,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
         weaknesses: [
           "Requires stealth setup for maximum effectiveness",
           "Lower sustained survivability than Relentless Tormentor",
-          "Fewer mass-control options than Iron Warden",
+          "Fewer mass-control options than Iron Jailer",
           "Agonizing recoil when stealth is broken"
         ],
         passiveAbilities: [
@@ -427,11 +426,11 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
         ]
       },
       { id : "jailer",
-        name: "Iron Warden",
+        name: "Iron Jailer",
         icon: "Necrotic/Crossed Bones",
         color: "#4A5568",
         theme: "Spectral Iron Cages",
-        description: "The Iron Warden projects their inner torment outward, summoning heavy, spectral iron bars to cage multiple enemies and isolate them from the battlefield.",
+        description: "The Iron Jailer projects their inner torment outward, summoning heavy, spectral iron bars to cage multiple enemies and isolate them from the battlefield.",
         playstyle: "Heavy crowd control and sentinel defense, caging high-threat targets to contain the battlefield.",
         strengths: [
           "Reduced cage costs (4 Tension instead of 6)",
@@ -447,7 +446,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
         ],
         passiveAbilities: [
           {
-            name: "Master Warden",
+            name: "Master Jailer",
             icon: "Psychic/Mind Control",
             description: "Iron Gaol costs -2 Tension (4 Tension instead of 6). You can maintain up to 2 spectral iron cages simultaneously."
           },
@@ -507,7 +506,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
         icon: "Nature/Grasp",
         color: "#533C33",
         theme: "Gravitational Immovability",
-        description: "The Monolith Warden grafts volcanic iron into their skeletal structure, fusing the penitent jailer tradition with the calcified juggernaut arts of the Emberspire forge-clans. Their chains do not merely tether enemies; they anchor the Monolith to the earth itself, weaponizing bone density and localized gravity to become an immovable stone sentinel.",
+        description: "The Monolith Penitent grafts volcanic iron into their skeletal structure, fusing the penitent jailer tradition with the calcified juggernaut arts of the Emberspire forge-clans. Their chains do not merely tether enemies; they anchor the Monolith to the earth itself, weaponizing bone density and localized gravity to become an immovable stone sentinel.",
         playstyle: "Extreme defensive body-blocking and gravitational control, sacrificing all mobility to become an unbreakable battlefield anchor.",
         strengths: [
           "Converts Tether Tension into Calcified Armor at a 1:1 ratio (up to +10 DR)",
@@ -637,7 +636,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
         effects: [
           { id : "chained_tethered",
             name: "Chained & Tethered",
-            description: "Tethered to the Warden. Cannot target the Warden's allies, cannot move beyond 15 feet, and the Warden absorbs 50% of your AoE damage.",
+            description: "Tethered to the Bound Penitent. Cannot target the Bound Penitent's allies, cannot move beyond 15 feet, and the Bound Penitent absorbs 50% of your AoE damage.",
             statusType: "restrained",
             level: "strong",
             statPenalty: [
@@ -1813,7 +1812,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
     },
     { id : "warden_eternal_cage",
       name: "Eternal Iron Tomb",
-      description: "Summon a permanent prison of cursed dungeon iron. The target is locked in place indefinitely until the Warden chooses to dispel it or dies.",
+      description: "Summon a permanent prison of cursed dungeon iron. The target is locked in place indefinitely until the Bound Penitent chooses to dispel it or dies.",
       spellType: "ACTION",
       icon: "Necrotic/Necrotic Skull",
       level: 8,

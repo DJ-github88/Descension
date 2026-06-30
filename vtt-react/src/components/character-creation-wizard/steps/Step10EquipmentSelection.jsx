@@ -455,8 +455,8 @@ const Step10EquipmentSelection = () => {
 
         const item = selectedEquipment[index];
 
-        // If it's background equipment or has no value, just remove it from the cart directly
-        if (!item.value || item.isBackgroundItem) {
+        // If it's equipment with no value, just remove it from the cart directly
+        if (!item.value) {
             setSelectedEquipment(selectedEquipment.filter((_, i) => i !== index));
             return;
         }
@@ -998,26 +998,7 @@ const Step10EquipmentSelection = () => {
                         <div className="equip-confirm-tooltip-wrap">
                             <ItemTooltip item={confirmModal.item} />
                         </div>
-
-                        <div className="equip-confirm-price">
-                            {confirmModal.mode === 'buy' ? (
-                                <>
-                                    <i className="fas fa-coins"></i>
-                                    <span>Cost:</span>
-                                    {formatItemPrice(confirmModal.item.value || { platinum: 0, gold: 0, silver: 0, copper: 0 })}
-                                </>
-                            ) : (
-                                <>
-                                    <i className="fas fa-undo"></i>
-                                    <span>{confirmModal.item.value && !confirmModal.item.isBackgroundItem ? 'Refund:' : 'Remove:'}</span>
-                                    {confirmModal.item.value && !confirmModal.item.isBackgroundItem
-                                        ? formatItemPrice(confirmModal.item.value)
-                                        : <span className="currency-part"><span className="currency-number">Free</span></span>}
-                                </>
-                            )}
-                        </div>
-
-                        <div className="equip-confirm-actions">
+                         <div className="equip-confirm-actions">
                             <button
                                 type="button"
                                 className="equip-confirm-btn equip-confirm-cancel"
@@ -1041,7 +1022,7 @@ const Step10EquipmentSelection = () => {
                                     onClick={handleConfirmAccept}
                                 >
                                     <i className="fas fa-hand-holding-usd"></i>
-                                    {confirmModal.item.value && !confirmModal.item.isBackgroundItem ? 'Sell' : 'Remove'}
+                                    {confirmModal.item.value ? 'Sell' : 'Remove'}
                                 </button>
                             )}
                         </div>

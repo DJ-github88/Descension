@@ -11,22 +11,91 @@ import { formatCurrency } from '../../../data/startingCurrencyData';
 import TabbedSelectionModal from '../components/TabbedSelectionModal';
 import { OverviewTab, StatsTab, SkillsTab, EquipmentTab, FeaturesTab } from '../components/tabs';
 
+const isBackgroundCompatible = (bg, raceId, subraceId) => {
+    if (!bg || !bg.restrictions) return { selectable: true, narrativeUnlock: false };
+
+    const { allowedSubraces = [], hardBlocks, narrativeUnlock } = bg.restrictions;
+
+    if (hardBlocks && (hardBlocks.includes(raceId) || hardBlocks.includes(subraceId))) {
+        return { selectable: false, narrativeUnlock: false };
+    }
+
+    if (!allowedSubraces || allowedSubraces.length === 0) {
+        return { selectable: true, narrativeUnlock: false };
+    }
+
+    if (subraceId && allowedSubraces.includes(subraceId)) {
+        return { selectable: true, narrativeUnlock: false };
+    }
+
+    if (!subraceId && raceId) {
+        const racePrefix = raceId + '_';
+        const raceRepresented = allowedSubraces.some((sid) => sid.startsWith(racePrefix));
+        if (raceRepresented) return { selectable: true, narrativeUnlock: false };
+    }
+
+    if (narrativeUnlock) {
+        return { selectable: true, narrativeUnlock: true };
+    }
+
+    return { selectable: false, narrativeUnlock: false };
+};
+
 const Step4BackgroundSelection = () => {
     const state = useCharacterWizardState();
     const dispatch = useCharacterWizardDispatch();
-    const [selectedBackground, setSelectedBackground] = useState(state.characterData.background);
+    const { characterData, validationErrors } = state;
+    const { race, subrace } = characterData;
     
+    const [selectedBackground, setSelectedBackground] = useState(characterData.background);
     const [showModal, setShowModal] = useState(false);
     const [viewingBackground, setViewingBackground] = useState(null);
 
+    const [showJustificationModal, setShowJustificationModal] = useState(false);
+    const [justificationTarget, setJustificationTarget] = useState(null); // { type: 'background', name: string, id: string }
+    const [customJustification, setCustomJustification] = useState('');
+
     const backgrounds = Object.values(BACKGROUND_DATA) || [];
-    const { validationErrors } = state;
 
     const handleBackgroundSelect = (backgroundId) => {
-        setSelectedBackground(backgroundId);
-        dispatch(wizardActionCreators.setBackground(backgroundId));
-        setShowModal(false);
+        const bg = BACKGROUND_DATA[backgroundId];
+        const { selectable, narrativeUnlock } = isBackgroundCompatible(bg, race, subrace);
+        const isCompatible = selectable && !narrativeUnlock;
+
+        if (isCompatible) {
+            setSelectedBackground(backgroundId);
+            dispatch(wizardActionCreators.setBackground(backgroundId));
+            setShowModal(false);
+            setViewingBackground(null);
+        } else {
+            setShowModal(false);
+            setJustificationTarget({ type: 'background', name: bg.name, id: backgroundId });
+            setShowJustificationModal(true);
+        }
+    };
+
+    const handleConfirmJustification = (justificationText) => {
+        if (!justificationTarget) return;
+
+        // Append to backstory
+        const oldBackstory = characterData.lore?.backstory || '';
+        const prefix = `[Narrative Unlock Justification - Background (${justificationTarget.name})]: ${justificationText}\n\n`;
+        const newBackstory = prefix + oldBackstory;
+
+        dispatch(wizardActionCreators.updateLore({
+            ...characterData.lore,
+            backstory: newBackstory
+        }));
+
+        // Set the choice
+        setSelectedBackground(justificationTarget.id);
+        dispatch(wizardActionCreators.setBackground(justificationTarget.id));
         setViewingBackground(null);
+
+        // Close modal
+        setShowJustificationModal(false);
+        setJustificationTarget(null);
+        setCustomJustification('');
     };
 
     const handleBackgroundCardClick = (backgroundId) => {
@@ -154,14 +223,38 @@ const Step4BackgroundSelection = () => {
                             Available Backgrounds
                         </h3>
                         <div className="background-grid-fullwidth">
-                            {backgrounds.map((background) => (
-                                <div
-                                    key={background.id}
-                                    className={`background-card ${selectedBackground === background.id ? 'selected' : ''}`}
-                                    onClick={() => handleBackgroundCardClick(background.id)}
-                                >
-                                    <div className="background-info">
-                                        <h3 className="background-name">{background.name}</h3>
+                            {backgrounds.map((bgItem) => {
+                                const { selectable, narrativeUnlock } = isBackgroundCompatible(bgItem, race, subrace);
+                                const isCompatible = selectable && !narrativeUnlock;
+                                const requiresUnlock = !isCompatible;
+
+                                return (
+                                    <div
+                                        key={bgItem.id}
+                                        className={`background-card ${selectedBackground === bgItem.id ? 'selected' : ''} ${requiresUnlock ? 'narrative-unlock' : ''}`}
+                                        onClick={() => handleBackgroundCardClick(bgItem.id)}
+                                        style={requiresUnlock ? { borderStyle: 'dashed', borderColor: '#d4af37', position: 'relative' } : { position: 'relative' }}
+                                    >
+                                        {requiresUnlock && (
+                                            <div className="narrative-unlock-badge" style={{
+                                                position: 'absolute',
+                                                top: '4px',
+                                                right: '4px',
+                                                background: '#faf6eb',
+                                                border: '1px solid #d4af37',
+                                                borderRadius: '4px',
+                                                padding: '2px 6px',
+                                                fontSize: '0.65rem',
+                                                color: '#b07a00',
+                                                fontWeight: 'bold',
+                                                zIndex: 10
+                                            }}>
+                                                <i className="fas fa-exclamation-triangle" style={{ marginRight: '4px' }}></i>
+                                                Narrative Unlock
+                                            </div>
+                                        )}
+                                        <div className="background-info">
+                                            <h3 className="background-name">{bgItem.name}</h3>
                                         <p className="background-card-description">
                                             {background.description.substring(0, 100)}...
                                         </p>
@@ -177,10 +270,10 @@ const Step4BackgroundSelection = () => {
                                                 <span>{background.languages} Language{background.languages > 1 ? 's' : ''}</span>
                                             </div>
                                         )}
-                                        {background.toolProficiencies && background.toolProficiencies.length > 0 && (
+                                        {bgItem.toolProficiencies && bgItem.toolProficiencies.length > 0 && (
                                             <div className="benefit-item">
                                                 <i className="fas fa-tools"></i>
-                                                <span>{background.toolProficiencies.length} Tool{background.toolProficiencies.length > 1 ? 's' : ''}</span>
+                                                <span>{bgItem.toolProficiencies.length} Tool{bgItem.toolProficiencies.length > 1 ? 's' : ''}</span>
                                             </div>
                                         )}
                                     </div>
@@ -188,7 +281,7 @@ const Step4BackgroundSelection = () => {
                                         <i className="fas fa-eye"></i> View Details
                                     </button>
                                 </div>
-                            ))}
+                            )})}
                         </div>
                     </div>
                 </div>
@@ -207,6 +300,154 @@ const Step4BackgroundSelection = () => {
                 width="950px"
                 icon="fas fa-book-open"
             />
+
+            {/* Narrative Justification Modal */}
+            {showJustificationModal && (
+                <div className="justification-modal-overlay" style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    backgroundColor: 'rgba(0, 0, 0, 0.75)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    zIndex: 99999,
+                    fontFamily: "'Crimson Text', serif"
+                }}>
+                    <div className="justification-modal-content" style={{
+                        background: '#faf6eb',
+                        border: '2px solid #b08a4a',
+                        borderRadius: '8px',
+                        padding: '2rem',
+                        maxWidth: '550px',
+                        width: '90%',
+                        boxShadow: '0 8px 30px rgba(0,0,0,0.5)',
+                        color: '#2e1e0f'
+                    }}>
+                        <h3 style={{
+                            marginTop: 0,
+                            color: '#5a3d1d',
+                            borderBottom: '1px solid #b08a4a',
+                            paddingBottom: '0.5rem',
+                            fontSize: '1.5rem',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px'
+                        }}>
+                            <i className="fas fa-exclamation-triangle" style={{ color: '#d4af37' }}></i>
+                            Narrative Unlock Required
+                        </h3>
+                        <p style={{ fontSize: '1.05rem', lineHeight: '1.5', margin: '1rem 0' }}>
+                            The combination of <strong>{race ? race.charAt(0).toUpperCase() + race.slice(1) : 'your heritage'}</strong> and the <strong>{justificationTarget?.name}</strong> origin is highly unusual or physically constrained in Mythrill's history.
+                        </p>
+                        <p style={{ fontSize: '0.95rem', color: '#654321', fontStyle: 'italic', marginBottom: '1.5rem' }}>
+                            How did your character break through this boundary? Choose a justification to record in your backstory:
+                        </p>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1.5rem' }}>
+                            {[
+                                { id: 'Outcast Training', title: 'Outcast Training', text: 'You studied in secret under an outcast master who operated outside the official guilds or regional checkpoints.' },
+                                { id: 'Alchemical Accident', title: 'Alchemical Accident', text: 'An alchemical experiment gone wrong or exposure to Wyrd energy altered your natural biology.' },
+                                { id: 'Fateful Encounter', title: 'Fateful Encounter', text: 'A chance meeting with a traveler from another region opened up a path normally denied to your people.' },
+                                { id: 'Forgotten Lineage', title: 'Forgotten Lineage', text: 'Your bloodline carries the memory of an older era before the noble houses signed their compacts.' }
+                            ].map(opt => (
+                                <button
+                                    key={opt.id}
+                                    onClick={() => {
+                                        handleConfirmJustification(opt.title + ': ' + opt.text);
+                                    }}
+                                    style={{
+                                        background: '#faf6eb',
+                                        border: '1px solid #c4a882',
+                                        borderRadius: '4px',
+                                        padding: '0.75rem',
+                                        textAlign: 'left',
+                                        cursor: 'pointer',
+                                        transition: 'all 0.2s',
+                                        fontFamily: 'inherit'
+                                    }}
+                                    onMouseEnter={(e) => {
+                                        e.currentTarget.style.borderColor = '#5a3d1d';
+                                        e.currentTarget.style.background = '#f5eedb';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.currentTarget.style.borderColor = '#c4a882';
+                                        e.currentTarget.style.background = '#faf6eb';
+                                    }}
+                                >
+                                    <strong style={{ display: 'block', color: '#5a3d1d', marginBottom: '2px' }}>{opt.title}</strong>
+                                    <span style={{ fontSize: '0.85rem', color: '#4e3629' }}>{opt.text}</span>
+                                </button>
+                            ))}
+                        </div>
+                        
+                        <div style={{ marginBottom: '1.5rem' }}>
+                            <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: 'bold', marginBottom: '0.5rem', color: '#5a3d1d' }}>
+                                Or write a custom justification:
+                            </label>
+                            <textarea
+                                value={customJustification}
+                                onChange={(e) => setCustomJustification(e.target.value)}
+                                placeholder="Describe how your character bypassed this restriction..."
+                                style={{
+                                    width: '100%',
+                                    height: '70px',
+                                    padding: '0.5rem',
+                                    border: '1px solid #c4a882',
+                                    borderRadius: '4px',
+                                    background: '#fff',
+                                    fontFamily: 'inherit',
+                                    fontSize: '0.9rem',
+                                    boxSizing: 'border-box'
+                                }}
+                            />
+                        </div>
+                        
+                        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem' }}>
+                            <button
+                                onClick={() => {
+                                    setShowJustificationModal(false);
+                                    setJustificationTarget(null);
+                                    setCustomJustification('');
+                                }}
+                                style={{
+                                    background: 'transparent',
+                                    border: 'none',
+                                    color: '#8b0000',
+                                    cursor: 'pointer',
+                                    padding: '0.5rem 1rem',
+                                    fontSize: '0.95rem',
+                                    fontWeight: 'bold'
+                                }}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={() => {
+                                    if (customJustification.trim()) {
+                                        handleConfirmJustification('Custom Justification: ' + customJustification.trim());
+                                    }
+                                }}
+                                disabled={!customJustification.trim()}
+                                style={{
+                                    background: '#5a3d1d',
+                                    color: '#faf6eb',
+                                    border: 'none',
+                                    borderRadius: '4px',
+                                    padding: '0.5rem 1.5rem',
+                                    cursor: customJustification.trim() ? 'pointer' : 'not-allowed',
+                                    fontSize: '0.95rem',
+                                    fontWeight: 'bold',
+                                    opacity: customJustification.trim() ? 1 : 0.5
+                                }}
+                            >
+                                Confirm custom
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
             </div>
         </div>
     );

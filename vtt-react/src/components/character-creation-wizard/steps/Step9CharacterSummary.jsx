@@ -568,7 +568,7 @@ const formatDescriptionText = (text) => {
                     )}
 
                     {characterData.class && (
-                        <div className="identity-bar-class-badge" title={`Calling: ${characterData.class}`}>
+                        <div className="identity-bar-class-badge" title={`Calling: ${CLASS_DATA_MAP[characterData.class]?.name || characterData.class}`}>
                             <ClassIcon
                                 src={CLASS_DATA_MAP[characterData.class]?.imageIcon || `/assets/icons/classes/${characterData.class.toLowerCase().replace(' ', '_')}.png`}
                                 alt={characterData.class}
@@ -585,7 +585,7 @@ const formatDescriptionText = (text) => {
                     <div className="identity-bar-tags">
                         <span className="meta-tag gender-tag">{formatValue(characterData.gender)}</span>
                         <span className="meta-tag race-tag">{selectedSubrace?.name || characterData.race || 'No Race'}</span>
-                        <span className="meta-tag class-tag">{characterData.class || 'No Class'}</span>
+                        <span className="meta-tag class-tag">{characterData.class ? (CLASS_DATA_MAP[characterData.class]?.name || characterData.class) : 'No Class'}</span>
                     </div>
                 </div>
             </div>
@@ -671,7 +671,7 @@ const formatDescriptionText = (text) => {
 
                                 {/* Class Badge Overlay */}
                                 {characterData.class && (
-                                    <div className="visual-card-class-badge-overlay" title={`Calling: ${characterData.class}`}>
+                                    <div className="visual-card-class-badge-overlay" title={`Calling: ${CLASS_DATA_MAP[characterData.class]?.name || characterData.class}`}>
                                         <ClassIcon 
                                             src={CLASS_DATA_MAP[characterData.class]?.imageIcon || `/assets/icons/classes/${characterData.class.toLowerCase().replace(' ', '_')}.png`} 
                                             alt={characterData.class} 
@@ -689,7 +689,7 @@ const formatDescriptionText = (text) => {
                                 <div className="visual-card-meta-tags">
                                     <span className="meta-tag gender-tag">{formatValue(characterData.gender)}</span>
                                     <span className="meta-tag race-tag">{selectedSubrace?.name || characterData.race || 'No Race'}</span>
-                                    <span className="meta-tag class-tag">{characterData.class || 'No Class'}</span>
+                                    <span className="meta-tag class-tag">{characterData.class ? (CLASS_DATA_MAP[characterData.class]?.name || characterData.class) : 'No Class'}</span>
                                 </div>
                             </div>
                         </div>

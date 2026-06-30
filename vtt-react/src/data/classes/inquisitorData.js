@@ -4,7 +4,6 @@ export const INQUISITOR_DATA = {
           "marked_vreken",
           "clean_vreken",
           "thalren_human",
-          "unwoven_mimir",
           "morren_human"
       ],
       "hardBlocks": [
@@ -14,7 +13,7 @@ export const INQUISITOR_DATA = {
           "skald_human"
       ],
       "narrativeUnlock": true,
-      "justification": "Requires either the Ghost-Mycelium (Vreken) or a lifetime of anti-Wyrd training. Other races lack the supernatural exposure density. Emberth too hot for stealth hunts. Fexrick too mechanical. Myrathil too distant from surface Wyrd."
+      "justification": "Requires either the Ghost-Mycelium (Vreken) or a lifetime of anti-Wyrd training. Thalren face Wyrd-horrors born from human fear. Morren dismantled Neth contracts through inquisitorial practice. Other races lack the supernatural exposure density. Emberth too hot for stealth hunts. Fexrick too mechanical. Myrathil too distant from surface Wyrd. Unwoven Mimir lack the specialized anti-Wyrd training — their expertise is floor-toxins and survival, not supernatural investigation."
   },
 
   id : "inquisitor",

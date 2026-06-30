@@ -42,6 +42,9 @@ export const UNIVERSAL_STARTING_ITEMS = [
                 damageType: 'physical'
             }
         },
+        baseStats: {
+            spirit: { value: -1, isPercentage: false }
+        },
         availableFor: {
             universal: true
         }
@@ -68,6 +71,10 @@ export const UNIVERSAL_STARTING_ITEMS = [
                 diceType: 6,
                 damageType: 'physical'
             }
+        },
+        baseStats: {
+            charisma: { value: 1, isPercentage: false },
+            agility: { value: -1, isPercentage: false }
         },
         availableFor: {
             universal: true
@@ -96,6 +103,10 @@ export const UNIVERSAL_STARTING_ITEMS = [
                 damageType: 'physical'
             }
         },
+        baseStats: {
+            spirit: { value: 1, isPercentage: false },
+            strength: { value: -1, isPercentage: false }
+        },
         availableFor: {
             universal: true
         }
@@ -116,7 +127,21 @@ export const UNIVERSAL_STARTING_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armor: { value: 2, isPercentage: false }
+            resistances: {
+                ember: { level: 150, multiplier: 1.5, label: 'Ember Exposed', color: '#ff5722' }
+            },
+            onHitEffects: {
+                enabled: true,
+                procType: 'dice',
+                diceThreshold: 17,
+                spellEffect: true,
+                spellName: 'Peat Shroud',
+                spellDescription: 'Releases a puff of pungent peat smoke, reducing the attacker\'s next attack roll by 1d4.'
+            }
+        },
+        baseStats: {
+            charisma: { value: -2, isPercentage: false },
+            agility: { value: 1, isPercentage: false }
         },
         availableFor: {
             universal: true
@@ -137,7 +162,14 @@ export const UNIVERSAL_STARTING_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armor: { value: 1, isPercentage: false }
+            resistances: {
+                rime: { level: 50, multiplier: 0.5, label: 'Rime Resistance', color: '#2C5F7C' },
+                ember: { level: 150, multiplier: 1.5, label: 'Ember Exposed', color: '#ff5722' }
+            }
+        },
+        baseStats: {
+            constitution: { value: 1, isPercentage: false },
+            spirit: { value: -1, isPercentage: false }
         },
         availableFor: {
             universal: true
@@ -203,6 +235,12 @@ export const UNIVERSAL_STARTING_ITEMS = [
         combatStats: {
             healthRestore: { value: 25, isPercentage: false }
         },
+        baseStats: {
+            spirit: { value: -1, isPercentage: false, duration: 120 }
+        },
+        utilityStats: {
+            duration: { type: 'MINUTES', value: 2 }
+        },
         width: 1,
         height: 1,
         stackable: true,
@@ -224,6 +262,12 @@ export const UNIVERSAL_STARTING_ITEMS = [
         weight: 0.5,
         combatStats: {
             healthRestore: { value: 15, isPercentage: false }
+        },
+        baseStats: {
+            agility: { value: -1, isPercentage: false, duration: 300 }
+        },
+        utilityStats: {
+            duration: { type: 'MINUTES', value: 5 }
         },
         width: 1,
         height: 1,
@@ -371,6 +415,10 @@ export const UNIVERSAL_STARTING_ITEMS = [
                 damageType: 'physical'
             }
         },
+        baseStats: {
+            strength: { value: 1, isPercentage: false },
+            agility: { value: -1, isPercentage: false }
+        },
         availableFor: {
             universal: true
         }
@@ -397,6 +445,10 @@ export const UNIVERSAL_STARTING_ITEMS = [
                 diceType: 6,
                 damageType: 'physical'
             }
+        },
+        baseStats: {
+            constitution: { value: 1, isPercentage: false },
+            agility: { value: -1, isPercentage: false }
         },
         availableFor: {
             universal: true
@@ -425,6 +477,10 @@ export const UNIVERSAL_STARTING_ITEMS = [
                 damageType: 'physical'
             }
         },
+        baseStats: {
+            agility: { value: 1, isPercentage: false },
+            strength: { value: -1, isPercentage: false }
+        },
         availableFor: {
             universal: true
         }
@@ -452,6 +508,9 @@ export const UNIVERSAL_STARTING_ITEMS = [
                 damageType: 'physical'
             }
         },
+        baseStats: {
+            agility: { value: -1, isPercentage: false }
+        },
         availableFor: {
             universal: true
         }
@@ -472,7 +531,23 @@ export const UNIVERSAL_STARTING_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armor: { value: 3, isPercentage: false }
+            resistances: {
+                rime: { level: 50, multiplier: 0.5, label: 'Rime Resistance', color: '#2C5F7C' },
+                ember: { level: 150, multiplier: 1.5, label: 'Ember Exposed', color: '#ff5722' }
+            },
+            onHitEffects: {
+                enabled: true,
+                procType: 'dice',
+                diceThreshold: 18,
+                spellEffect: true,
+                spellName: 'Feral Retaliation',
+                spellDescription: 'Instinctive retaliation deals 1d4 physical damage to the attacker.'
+            }
+        },
+        baseStats: {
+            strength: { value: 1, isPercentage: false },
+            charisma: { value: -3, isPercentage: false },
+            spirit: { value: -1, isPercentage: false }
         },
         availableFor: {
             universal: true
@@ -493,7 +568,22 @@ export const UNIVERSAL_STARTING_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armor: { value: 4, isPercentage: false }
+            resistances: {
+                physical: { level: 75, multiplier: 0.75, label: 'Physical Guard', color: '#cddc39' },
+                storm: { level: 150, multiplier: 1.5, label: 'Storm Exposed', color: '#ff5722' }
+            },
+            onHitEffects: {
+                enabled: true,
+                procType: 'dice',
+                diceThreshold: 19,
+                spellEffect: true,
+                spellName: 'Iron Resonance',
+                spellDescription: 'The heavy ironwood links chime with resonant energy, granting you +1 defense for 1 round.'
+            }
+        },
+        baseStats: {
+            agility: { value: -2, isPercentage: false },
+            constitution: { value: 1, isPercentage: false }
         },
         availableFor: {
             universal: true
@@ -513,9 +603,14 @@ export const UNIVERSAL_STARTING_ITEMS = [
         width: 2,
         height: 2,
         slots: ['offHand'],
-        armor: 2,
+        combatStats: {
+            resistances: {
+                physical: { level: 75, multiplier: 0.75, label: 'Physical Guard', color: '#cddc39' }
+            }
+        },
         baseStats: {
-            constitution: { value: 1, isPercentage: false }
+            constitution: { value: 2, isPercentage: false },
+            agility: { value: -1, isPercentage: false }
         },
         availableFor: {
             universal: true
@@ -537,6 +632,13 @@ export const UNIVERSAL_STARTING_ITEMS = [
         height: 1,
         stackable: true,
         maxStackSize: 3,
+        baseStats: {
+            constitution: { value: 2, isPercentage: false, duration: 600 },
+            intelligence: { value: -2, isPercentage: false, duration: 600 }
+        },
+        utilityStats: {
+            duration: { type: 'MINUTES', value: 10 }
+        },
         availableFor: {
             universal: true
         }
@@ -556,6 +658,12 @@ export const UNIVERSAL_STARTING_ITEMS = [
         height: 1,
         stackable: true,
         maxStackSize: 5,
+        baseStats: {
+            agility: { value: -1, isPercentage: false, duration: 120 }
+        },
+        utilityStats: {
+            duration: { type: 'MINUTES', value: 2 }
+        },
         availableFor: {
             universal: true
         }
@@ -672,6 +780,10 @@ export const UNIVERSAL_STARTING_ITEMS = [
         origin: 'Local',
         demandLevel: 'Moderate',
         qualityGrade: 'Standard',
+        baseStats: {
+            intelligence: { value: 1, isPercentage: false },
+            spirit: { value: -1, isPercentage: false }
+        },
         availableFor: {
             universal: true
         }
@@ -1117,7 +1229,14 @@ export const UNIVERSAL_STARTING_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armor: { value: 1, isPercentage: false }
+            resistances: {
+                rime: { level: 75, multiplier: 0.75, label: 'Rime Guard', color: '#2C5F7C' },
+                ember: { level: 150, multiplier: 1.5, label: 'Ember Exposed', color: '#ff5722' }
+            }
+        },
+        baseStats: {
+            spirit: { value: 1, isPercentage: false },
+            charisma: { value: -1, isPercentage: false }
         },
         availableFor: {
             universal: true
@@ -1137,8 +1256,9 @@ export const UNIVERSAL_STARTING_ITEMS = [
         width: 2,
         height: 1,
         slots: ['feet'],
-        combatStats: {
-            armor: { value: 1, isPercentage: false }
+        baseStats: {
+            constitution: { value: 1, isPercentage: false },
+            agility: { value: -1, isPercentage: false }
         },
         availableFor: {
             universal: true
@@ -1158,6 +1278,9 @@ export const UNIVERSAL_STARTING_ITEMS = [
         width: 1,
         height: 1,
         slots: ['hands'],
+        baseStats: {
+            agility: { value: -1, isPercentage: false }
+        },
         availableFor: {
             universal: true
         }
@@ -1254,6 +1377,12 @@ export const UNIVERSAL_STARTING_ITEMS = [
         origin: 'Local',
         demandLevel: 'Moderate',
         qualityGrade: 'Standard',
+        baseStats: {
+            intelligence: { value: 1, isPercentage: false, duration: 60 }
+        },
+        utilityStats: {
+            duration: { type: 'MINUTES', value: 1 }
+        },
         availableFor: {
             universal: true
         }
@@ -1278,6 +1407,12 @@ export const UNIVERSAL_STARTING_ITEMS = [
         origin: 'Local',
         demandLevel: 'Low',
         qualityGrade: 'Standard',
+        baseStats: {
+            intelligence: { value: 1, isPercentage: false, duration: 60 }
+        },
+        utilityStats: {
+            duration: { type: 'MINUTES', value: 1 }
+        },
         availableFor: {
             universal: true
         }

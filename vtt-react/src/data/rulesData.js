@@ -356,7 +356,7 @@ Commoners in Nordhalla survive on dried fjord-cod, salted mammoth fat, and liche
 
 The regional economy is choked by **The Icechamber Syndicate**, a cartel of southern merchant houses backed by Járn-Tand. By royal decree, all exports of mammoth skins, walrus ivory, and high-grade iron ore must be sold exclusively to the Syndicate at fixed, low rates. In return, the Syndicate sells life-saving grain (sourced from the Ordan steppe culture of Sundrift Vale via Synod Hold) and salt at exorbitant, life-threatening prices. 
 
-All maritime trade funnels through **The Black Firth**, an obsidian-cliffed inlet where the fjords meet the Iceheart Sea—the primary naval route for iron ore barges and whale-oil tankers navigating the treacherous coastal ice. Here, Syndicate-funded, steam-powered ironclads hunt the mythic sea-beasts with explosive harpoons, polluting the water with soot and coal-run-off, threatening the traditional fishing grounds of the coastal clans. 
+All maritime trade funnels through **Fjord-Gate**, an obsidian-cliffed inlet where the fjords meet the Iceheart Sea—the primary naval route for iron ore barges and whale-oil tankers navigating the treacherous coastal ice. Here, Syndicate-funded, steam-powered ironclads hunt the mythic sea-beasts with explosive harpoons, polluting the water with soot and coal-run-off, threatening the traditional fishing grounds of the coastal clans. 
 
 Taverns in fjord-keeps (such as *The Hearth-Glow*) are built over steaming volcanic vents. Patrons engage in physical tests of endurance, such as gripping frozen iron bars, to establish lineage status. Currency consists of copper chits known as spits or Syndicate coal-receipts, though direct barter remains dominant.`
             },

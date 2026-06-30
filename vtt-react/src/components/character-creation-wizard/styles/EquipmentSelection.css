@@ -586,9 +586,15 @@
 
 /* Let the embedded tooltip fill the modal width cleanly */
 .equip-confirm-tooltip-wrap .item-tooltip {
+    position: static !important;
+    pointer-events: auto !important;
+    box-shadow: none !important;
+    transform: none !important;
+    inset: auto !important;
     width: 100% !important;
     max-width: 300px !important;
     min-width: 0 !important;
+    margin: 0 auto !important;
 }
 
 .equip-confirm-price {

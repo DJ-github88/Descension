@@ -59,7 +59,7 @@ export const WOW_TO_LOCAL_ICON_MAP = {
   'inv_drink_08': 'Misc/Profession Resources/Cooking/Food/Other/bread-loaf-rustic-artisan-slashes',
   'inv_drink_wine_01': 'Misc/Profession Resources/Cooking/Food/Other/bread-loaf-rustic-artisan-slashes',
   'inv_egg_05': 'Misc/Monster Parts/Scales/scale-oval-speckled-brown',
-  'inv_enchant_voidcrystal': 'Misc/Books/book-brown-teal-question-mark',
+  'inv_enchant_voidcrystal': 'Misc/Profession Resources/Enchanting/resource-dark-purple-crystal-shard-magenta',
   'inv_fabric_linen_01': 'Misc/Profession Resources/Farming/resource-pile-flour-sand-powder-tan',
   'inv_fabric_mageweave_01': 'Misc/Profession Resources/Farming/resource-pile-mound-teal-blue-patches',
   'inv_fabric_netherweave_01': 'Misc/Profession Resources/Gems/resource-three-crystal-shards-blue-teal-beige',
@@ -87,7 +87,7 @@ export const WOW_TO_LOCAL_ICON_MAP = {
   'inv_helmet_plate_03': 'Armor/Head/head-brown-tan-banded-helmet',
   'inv_ingot_03': 'Misc/Profession Resources/Blacksmithing/resource-bar-ingot-brick-brown-orange',
   'inv_ingot_copper': 'Misc/Profession Resources/Blacksmithing/resource-bar-ingot-light-beige-golden',
-  'inv_ingot_iron': 'Misc/Books/book-brown-teal-question-mark',
+  'inv_ingot_iron': 'Misc/Profession Resources/Blacksmithing/resource-grey-silver-metallic-plate-ingot',
   'inv_ingot_mithril': 'Misc/Profession Resources/Blacksmithing/resource-gold-bar-ingot-bright-yellow',
   'inv_ingot_steel': 'Misc/Profession Resources/Blacksmithing/resource-bar-ingot-reddish-orange-golden-outline',
   'inv_jewelry_necklace_01': 'Armor/Neck/spiky-teal-gem-pendant',
@@ -148,17 +148,17 @@ export const WOW_TO_LOCAL_ICON_MAP = {
   'inv_misc_bone_08': 'Misc/Monster Parts/Teeth/monster-part-teeth-cluster-sharp-yellowish-orange',
   'inv_misc_bone_09': 'Misc/Monster Parts/Bones/bone-fragment-grey-white-jagged',
   'inv_misc_bone_humanskull_01': 'Misc/Monster Parts/Bones/bone-human-skull-three-quarter-view',
-  'inv_misc_book_01': 'Misc/Books/book-brown-teal-question-mark',
-  'inv_misc_book_02': 'Misc/Books/book-brown-teal-question-mark',
+  'inv_misc_book_01': 'Misc/Books/book-brown-decorative-panels',
+  'inv_misc_book_02': 'Misc/Books/book-brown-green-rune-bookmark',
   'inv_misc_book_04': 'Misc/Books/book-brown-alchemy-flask-symbol',
-  'inv_misc_book_05': 'Misc/Books/book-brown-teal-question-mark',
-  'inv_misc_book_06': 'Misc/Books/book-brown-teal-question-mark',
+  'inv_misc_book_05': 'Misc/Books/book-brown-red-spine-arrow-symbol',
+  'inv_misc_book_06': 'Misc/Books/book-brown-teal-spine-rectangular-design',
   'inv_misc_book_08': 'Misc/Books/book-brown-fire-symbol-runes',
   'inv_misc_book_09': 'Misc/Books/book-brown-red-emblem-clasp',
   'inv_misc_book_11': 'Misc/Books/book-open-dark-green-moss-wreath',
-  'inv_misc_bowl_01': 'Misc/Books/book-brown-teal-question-mark',
+  'inv_misc_bowl_01': 'Misc/Profession Resources/Cooking/bowl-empty-orange-brown-terracotta',
   'inv_misc_box_01': 'Container/Chest/treasure-chest-wooden-brown-straps',
-  'inv_misc_button_01': 'Misc/Books/book-brown-teal-question-mark',
+  'inv_misc_button_01': 'Misc/Profession Resources/Tailoring/Buttons',
   'inv_misc_candle_01': 'Misc/Books/book-treasure-map-island',
   'inv_misc_candle_02': 'Misc/Books/book-treasure-map-island',
   'inv_misc_candle_03': 'Misc/Books/book-treasure-map-island',
@@ -169,7 +169,7 @@ export const WOW_TO_LOCAL_ICON_MAP = {
   'inv_misc_cape_17': 'Armor/Cloak/cloak-simple-brown-cape',
   'inv_misc_cape_18': 'Armor/Cloak/cloak-simple-brown-cape',
   'inv_misc_cape_20': 'Armor/Cloak/beige-brown-collared-cloak',
-  'inv_misc_cauldron_01': 'Misc/Books/book-brown-teal-question-mark',
+  'inv_misc_cauldron_01': 'Misc/Profession Resources/Cooking/pot-cauldron-teal-burnt-orange-handles',
   'inv_misc_chain_01': 'Misc/Profession Resources/Blacksmithing/resource-chain-metallic-bronze-links',
   'inv_misc_coin_01': 'Currency/blue-crystal-ingot',
   'inv_misc_coin_02': 'Currency/blue-crystal-ingot',
@@ -180,9 +180,9 @@ export const WOW_TO_LOCAL_ICON_MAP = {
   'inv_misc_coin_08': 'Currency/blue-crystal-ingot',
   'inv_misc_coin_16': 'Currency/blue-crystal-ingot',
   'inv_misc_compass_01': 'Misc/Books/book-treasure-map-island',
-  'inv_misc_crystalfragment_01': 'Misc/Books/book-brown-teal-question-mark',
-  'inv_misc_dice_01': 'Misc/Books/book-brown-teal-question-mark',
-  'inv_misc_dice_02': 'Misc/Books/book-brown-teal-question-mark',
+  'inv_misc_crystalfragment_01': 'Misc/Profession Resources/Gems/resource-three-crystal-shards-blue-teal-beige',
+  'inv_misc_dice_01': 'Misc/Profession Resources/Cooking/plate-coin-octagonal-copper-token',
+  'inv_misc_dice_02': 'Misc/Profession Resources/Cooking/plate-coin-octagonal-copper-token',
   'inv_misc_doll_01': 'Misc/Books/book-scroll-rolled-red-wax-seal',
   'inv_misc_drum_01': 'Instruments/Drum/drum-brown-band',
   'inv_misc_drum_05': 'Instruments/Drum/drum-brown-band',
@@ -190,11 +190,11 @@ export const WOW_TO_LOCAL_ICON_MAP = {
   'inv_misc_dust_02': 'Misc/Profession Resources/Farming/resource-pile-flour-sand-powder-tan',
   'inv_misc_dust_04': 'Misc/Profession Resources/Farming/resource-pile-flour-sand-powder-tan',
   'inv_misc_ear_human_01': 'Misc/Profession Resources/Enchanting/resource-dark-circular-stone-teal-p-rune-sparkles',
-  'inv_misc_enggizmos_19': 'Misc/Books/book-brown-teal-question-mark',
-  'inv_misc_enggizmos_20': 'Misc/Books/book-brown-teal-question-mark',
-  'inv_misc_enggizmos_27': 'Misc/Books/book-brown-teal-question-mark',
+  'inv_misc_enggizmos_19': 'Misc/Profession Resources/Engineering/resource-dark-cylindrical-knurled-handle',
+  'inv_misc_enggizmos_20': 'Misc/Profession Resources/Engineering/resource-dark-cylindrical-knurled-handle',
+  'inv_misc_enggizmos_27': 'Misc/Profession Resources/Engineering/resource-dark-cylindrical-knurled-handle',
   'inv_misc_eye_01': 'Misc/Monster Parts/Organs/organ-eye-pink-iris-bloodshot',
-  'inv_misc_flower_02': 'Misc/Books/book-brown-teal-question-mark',
+  'inv_misc_flower_02': 'Misc/Profession Resources/Herbs and Plants/five-petaled-flower-purple',
   'inv_misc_flute_01': 'Instruments/Flute/flute-reddish-brown-wooden-simple',
   'inv_misc_food_08': 'Misc/Profession Resources/Cooking/Food/Other/bread-loaf-rustic-artisan-slashes',
   'inv_misc_food_12': 'Misc/Profession Resources/Cooking/Food/Fruit/red-apple',
@@ -206,25 +206,25 @@ export const WOW_TO_LOCAL_ICON_MAP = {
   'inv_misc_food_99': 'Misc/Profession Resources/Cooking/Food/Other/bread-loaf-rustic-artisan-slashes',
   'inv_misc_food_meat_cooked_02': 'Misc/Profession Resources/Cooking/Food/Other/cooked-steak-grill-marks',
   'inv_misc_food_wheat_01': 'Misc/Profession Resources/Cooking/Food/Other/sack-grain-flour',
-  'inv_misc_fork&knife': 'Misc/Books/book-brown-teal-question-mark',
-  'inv_misc_fork_01': 'Misc/Books/book-brown-teal-question-mark',
+  'inv_misc_fork&knife': 'Misc/Profession Resources/Cooking/spoon-fork-knife-set',
+  'inv_misc_fork_01': 'Misc/Profession Resources/Cooking/spoon-fork-knife-set',
   'inv_misc_gem_01': 'Misc/Profession Resources/Gems/Ruby',
-  'inv_misc_gem_02': 'Misc/Books/book-brown-teal-question-mark',
-  'inv_misc_gem_03': 'Misc/Books/book-brown-teal-question-mark',
-  'inv_misc_gem_amber_01': 'Misc/Books/book-brown-teal-question-mark',
-  'inv_misc_gem_amethyst_02': 'Misc/Books/book-brown-teal-question-mark',
-  'inv_misc_gem_azuredraenite_01': 'Misc/Books/book-brown-teal-question-mark',
-  'inv_misc_gem_bloodstone_01': 'Misc/Books/book-brown-teal-question-mark',
-  'inv_misc_gem_crystal_01': 'Misc/Books/book-brown-teal-question-mark',
-  'inv_misc_gem_crystal_02': 'Misc/Books/book-brown-teal-question-mark',
-  'inv_misc_gem_diamond_01': 'Misc/Books/book-brown-teal-question-mark',
-  'inv_misc_gem_emerald_02': 'Misc/Books/book-brown-teal-question-mark',
+  'inv_misc_gem_02': 'Misc/Profession Resources/Gems/Ruby',
+  'inv_misc_gem_03': 'Misc/Profession Resources/Gems/Ruby',
+  'inv_misc_gem_amber_01': 'Misc/Profession Resources/Gems/resource-golden-brown-gem-bipyramidal-diamond',
+  'inv_misc_gem_amethyst_02': 'Misc/Profession Resources/Gems/resource-purple-gem-crystal-shiny',
+  'inv_misc_gem_azuredraenite_01': 'Misc/Profession Resources/Gems/resource-blue-faceted-gem-crystal-orb',
+  'inv_misc_gem_bloodstone_01': 'Misc/Profession Resources/Gems/Ruby',
+  'inv_misc_gem_crystal_01': 'Misc/Profession Resources/Gems/resource-three-crystal-shards-blue-teal-beige',
+  'inv_misc_gem_crystal_02': 'Misc/Profession Resources/Gems/resource-three-crystal-shards-blue-teal-beige',
+  'inv_misc_gem_diamond_01': 'Misc/Profession Resources/Gems/resource-light-blue-gem-octagonal-emerald-cut',
+  'inv_misc_gem_emerald_02': 'Misc/Profession Resources/Gems/resource-green-faceted-gem-crystal',
   'inv_misc_gem_flame_01': 'Misc/Profession Resources/Gems/Ruby',
-  'inv_misc_gem_pearl_03': 'Misc/Books/book-brown-teal-question-mark',
-  'inv_misc_gem_pearl_05': 'Misc/Books/book-brown-teal-question-mark',
-  'inv_misc_gem_sapphire_02': 'Misc/Books/book-brown-teal-question-mark',
-  'inv_misc_gem_stone_01': 'Misc/Books/book-brown-teal-question-mark',
-  'inv_misc_gem_variety_01': 'Misc/Books/book-brown-teal-question-mark',
+  'inv_misc_gem_pearl_03': 'Misc/Profession Resources/Gems/resource-light-blue-pearl-grey-casing',
+  'inv_misc_gem_pearl_05': 'Misc/Profession Resources/Gems/resource-light-blue-pearl-grey-casing',
+  'inv_misc_gem_sapphire_02': 'Misc/Profession Resources/Gems/resource-blue-faceted-gem-crystal-orb',
+  'inv_misc_gem_stone_01': 'Misc/Profession Resources/Gems/Oval Gem',
+  'inv_misc_gem_variety_01': 'Misc/Profession Resources/Gems/Waffley Gem',
   'inv_misc_head_dragon_01': 'Misc/Books/book-scroll-rolled-red-wax-seal',
   'inv_misc_herb_01': 'Misc/Profession Resources/Woodworking/resource-wood-shard-broken-splinter',
   'inv_misc_herb_02': 'Misc/Books/book-brown-teal-question-mark',
@@ -232,16 +232,16 @@ export const WOW_TO_LOCAL_ICON_MAP = {
   'inv_misc_herb_07': 'Misc/Books/book-brown-teal-question-mark',
   'inv_misc_herb_08': 'Misc/Books/book-brown-teal-question-mark',
   'inv_misc_herb_11': 'Misc/Books/book-brown-teal-question-mark',
-  'inv_misc_hook_01': 'Misc/Books/book-brown-teal-question-mark',
+  'inv_misc_hook_01': 'Misc/Profession Resources/Blacksmithing/resource-dark-metallic-hook-curved',
   'inv_misc_horn_01': 'Misc/Monster Parts/Horns/horn-curved-brown-orange-segmented',
   'inv_misc_inscription_tradeskill01': 'Misc/Books/book-brown-alchemy-flask-symbol',
-  'inv_misc_key_01': 'Misc/Books/book-brown-teal-question-mark',
-  'inv_misc_key_02': 'Misc/Books/book-brown-teal-question-mark',
-  'inv_misc_key_03': 'Misc/Books/book-brown-teal-question-mark',
-  'inv_misc_key_04': 'Misc/Books/book-brown-teal-question-mark',
-  'inv_misc_key_05': 'Misc/Books/book-brown-teal-question-mark',
-  'inv_misc_key_10': 'Misc/Books/book-brown-teal-question-mark',
-  'inv_misc_key_13': 'Misc/Books/book-brown-teal-question-mark',
+  'inv_misc_key_01': 'Misc/Profession Resources/Blacksmithing/Bronze Key',
+  'inv_misc_key_02': 'Misc/Profession Resources/Blacksmithing/Bronze Key',
+  'inv_misc_key_03': 'Misc/Profession Resources/Blacksmithing/Bronze Key',
+  'inv_misc_key_04': 'Misc/Profession Resources/Blacksmithing/Bronze Key',
+  'inv_misc_key_05': 'Misc/Profession Resources/Blacksmithing/Bronze Key',
+  'inv_misc_key_10': 'Misc/Profession Resources/Blacksmithing/Bronze Key',
+  'inv_misc_key_13': 'Misc/Profession Resources/Blacksmithing/Bronze Key',
   'inv_misc_lantern_01': 'Misc/Profession Resources/Engineering/resource-lantern-metallic-orange-glow',
   'inv_misc_leatherscrap_01': 'Misc/Books/book-brown-teal-question-mark',
   'inv_misc_leatherscrap_02': 'Misc/Monster Parts/Hide/hide-piece-dark-brown-textured',
@@ -257,7 +257,7 @@ export const WOW_TO_LOCAL_ICON_MAP = {
   'inv_misc_monsterscales_15': 'Misc/Monster Parts/Scales/scale-circular-orange-center-spiky',
   'inv_misc_monsterscales_17': 'Misc/Monster Parts/Scales/scale-fragment-teal-blue-bumps',
   'inv_misc_mug_01': 'Misc/Profession Resources/Cooking/Food/Other/bread-loaf-rustic-artisan-slashes',
-  'inv_misc_nail_01': 'Misc/Books/book-brown-teal-question-mark',
+  'inv_misc_nail_01': 'Misc/Profession Resources/Blacksmithing/resource-three-dark-nails-metallic',
   'inv_misc_note_01': 'Misc/Books/book-scroll-parchment-rolled',
   'inv_misc_note_05': 'Misc/Books/book-folded-letter-envelope',
   'inv_misc_orb_05': 'Misc/Books/book-scroll-rolled-red-wax-seal',
@@ -268,8 +268,8 @@ export const WOW_TO_LOCAL_ICON_MAP = {
   'inv_misc_pelt_14': 'Misc/Monster Parts/Hide/hide-piece-dark-brown-textured',
   'inv_misc_pelt_bear_03': 'Misc/Profession Resources/Cooking/Food/Other/bread-loaf-rustic-artisan-slashes',
   'inv_misc_pelt_wolf_01': 'Misc/Profession Resources/Cooking/Food/Other/bread-loaf-rustic-artisan-slashes',
-  'inv_misc_pipe_01': 'Misc/Books/book-brown-teal-question-mark',
-  'inv_misc_pocketwatch_01': 'Misc/Books/book-brown-teal-question-mark',
+  'inv_misc_pipe_01': 'Misc/Profession Resources/Blacksmithing/resource-block-worn-cracked-brown',
+  'inv_misc_pocketwatch_01': 'Misc/Profession Resources/Cooking/animal-map-compass-disc-orange-x-markings',
   'inv_misc_pottery_01': 'Misc/Books/book-brown-teal-question-mark',
   'inv_misc_powder_purple': 'Misc/Profession Resources/Farming/resource-pile-mound-teal-blue-patches',
   'inv_misc_powder_red': 'Misc/Profession Resources/Farming/resource-pile-red-chunks-material',
@@ -283,10 +283,10 @@ export const WOW_TO_LOCAL_ICON_MAP = {
   'inv_misc_shovel_01': 'Misc/Profession Resources/Tools/shovel',
   'inv_misc_slime_01': 'Container/Vase/pot-vase-brown-beige-bulbous',
   'inv_misc_spool_01': 'Misc/Profession Resources/Tailoring/resource-spool-golden-brown-thread-twine',
-  'inv_misc_spoon': 'Misc/Books/book-brown-teal-question-mark',
-  'inv_misc_spyglass_01': 'Misc/Books/book-brown-teal-question-mark',
-  'inv_misc_spyglass_02': 'Misc/Books/book-brown-teal-question-mark',
-  'inv_misc_stone_15': 'Misc/Books/book-brown-teal-question-mark',
+  'inv_misc_spoon': 'Misc/Profession Resources/Cooking/spoon-wooden-ribbed-handle',
+  'inv_misc_spyglass_01': 'Misc/Profession Resources/Engineering/resource-dark-cylindrical-knurled-handle',
+  'inv_misc_spyglass_02': 'Misc/Profession Resources/Engineering/resource-dark-cylindrical-knurled-handle',
+  'inv_misc_stone_15': 'Misc/Profession Resources/Enchanting/resource-dark-octagonal-stone-cyan-p-rune-cracks',
   'inv_misc_stone_grindingstone_01': 'Misc/Books/book-brown-teal-question-mark',
   'inv_misc_stonetablet_01': 'Misc/Profession Resources/Enchanting/resource-dark-stone-golden-anchor-rune-orange-cracks',
   'inv_misc_ticket_tarot_01': 'Misc/Books/book-scroll-rolled-red-wax-seal',
@@ -298,8 +298,8 @@ export const WOW_TO_LOCAL_ICON_MAP = {
   'inv_misc_urn_01': 'Container/Vase/vase-brown-two-handles-amphora',
   'inv_misc_web_02': 'Misc/Monster Parts/Feathers/feather-single-reddish-brown-shaft',
   'inv_misc_wood_01': 'Misc/Profession Resources/Woodworking/resource-log-wood-grain-cut-end',
-  'inv_misc_wrench_01': 'Misc/Books/book-brown-teal-question-mark',
-  'inv_misc_wrench_02': 'Misc/Books/book-brown-teal-question-mark',
+  'inv_misc_wrench_01': 'Misc/Profession Resources/Tools/claw-hammer',
+  'inv_misc_wrench_02': 'Misc/Profession Resources/Tools/claw-hammer',
   'inv_mushroom_11': 'Misc/Profession Resources/Cooking/Food/Other/bread-loaf-rustic-artisan-slashes',
   'inv_ore_copper_01': 'Misc/Profession Resources/Mining/resource-ore-cluster-orange-red-veins',
   'inv_ore_gold_01': 'Misc/Profession Resources/Mining/resource-ore-gold-sparkling-yellow-orange',
@@ -314,7 +314,7 @@ export const WOW_TO_LOCAL_ICON_MAP = {
   'inv_potion_04': 'Misc/Profession Resources/Alchemy/Blue/blue-potion-bottle-classic-shape-cork',
   'inv_potion_09': 'Misc/Profession Resources/Alchemy/Blue/blue-potion-bottle-classic-shape-cork',
   'inv_potion_109': 'Misc/Profession Resources/Alchemy/Red/red-potion-angular-flask-base',
-  'inv_potion_162': 'Misc/Books/book-brown-teal-question-mark',
+  'inv_potion_162': 'Misc/Profession Resources/Alchemy/teal-bottle-stopper',
   'inv_potion_17': 'Misc/Profession Resources/Alchemy/Dark Green/dark-green-potion-armor-chest-piece-butterfly-x-shaped-beige-green-yellow-band',
   'inv_potion_20': 'Misc/Profession Resources/Alchemy/Blue/blue-potion-bottle-classic-shape-cork',
   'inv_potion_21': 'Misc/Profession Resources/Alchemy/Red/red-potion-angular-flask-base',
@@ -322,10 +322,10 @@ export const WOW_TO_LOCAL_ICON_MAP = {
   'inv_potion_27': 'Misc/Profession Resources/Alchemy/Orange/orange-potion-flask-bulbous-two-layer-orange-red-yellow-amber-beige-stopper',
   'inv_potion_28': 'Misc/Profession Resources/Alchemy/Orange/orange-potion-vial-cylindrical-horizontal-gradient-red-orange-yellow-beige-cap',
   'inv_potion_35': 'Misc/Profession Resources/Alchemy/Blue/blue-potion-bottle-classic-shape-cork',
-  'inv_potion_39': 'Misc/Books/book-brown-teal-question-mark',
+  'inv_potion_39': 'Misc/Profession Resources/Alchemy/orange-brown-bottle-cream',
   'inv_potion_41': 'Misc/Profession Resources/Alchemy/Dark Green/dark-green-potion-armor-chest-piece-butterfly-x-shaped-beige-green-yellow-band',
   'inv_potion_43': 'Misc/Profession Resources/Alchemy/Red/red-potion-angular-flask-base',
-  'inv_potion_47': 'Misc/Books/book-brown-teal-question-mark',
+  'inv_potion_47': 'Misc/Profession Resources/Alchemy/empty-beige-bottle',
   'inv_potion_51': 'Misc/Profession Resources/Alchemy/Empty/empty-potion-bottle-elongated-cylindrical-beige-diagonal-brown-cork',
   'inv_potion_52': 'Misc/Profession Resources/Alchemy/Blue/blue-potion-bottle-classic-shape-cork',
   'inv_potion_54': 'Misc/Profession Resources/Alchemy/Red/red-potion-angular-flask-base',
@@ -349,7 +349,7 @@ export const WOW_TO_LOCAL_ICON_MAP = {
   'inv_shield_09': 'Weapons/Shields/shield-circular-beige-brown-boss-vertical-lines-segmented',
   'inv_shirt_07': 'Armor/Chest/chest-simple-belted-tunic',
   'inv_shirt_16': 'Armor/Chest/chest-simple-belted-tunic',
-  'inv_spear_01': 'Misc/Books/book-brown-teal-question-mark',
+  'inv_spear_01': 'Weapons/Polearm/polearm-spear-staff-brown-wrapped-light-tip-simple',
   'inv_spear_07': 'Weapons/Jousting Spear/jousting-spear-sword-brown-beige-golden-metallic',
   'inv_staff_01': 'Weapons/Staff/staff-wooden-curved-head-bone-tip-red-orange-details',
   'inv_staff_13': 'Weapons/Staff/staff-wooden-golden-star-green-wrapping-red-pommel',
@@ -473,6 +473,12 @@ export const convertWowIconToLocal = (wowIconId) => {
   if (wowIconId.startsWith('inv_chest_')) {
     return 'Armor/Chest/chest-simple-tan-tunic';
   }
+  if (wowIconId.startsWith('inv_jewelry_necklace_') || wowIconId.startsWith('inv_jewelry_talisman_')) {
+    return 'Armor/Neck/spiky-teal-gem-pendant';
+  }
+  if (wowIconId.startsWith('inv_jewelry_ring_')) {
+    return 'Armor/Finger/finger-gem-studded-ring';
+  }
   if (wowIconId.startsWith('inv_jewelry_')) {
     return 'Armor/Finger/finger-gem-studded-ring';
   }
@@ -499,6 +505,39 @@ export const convertWowIconToLocal = (wowIconId) => {
   }
   if (wowIconId.startsWith('inv_belt_')) {
     return 'Armor/Waist/brown-leather-belt';
+  }
+  if (wowIconId.startsWith('inv_gauntlets_')) {
+    return 'Armor/Hands/hands-fur-cuffed-brown-glove';
+  }
+  if (wowIconId.startsWith('inv_shirt_')) {
+    return 'Armor/Chest/chest-simple-tan-tunic';
+  }
+  if (wowIconId.startsWith('inv_bracer_')) {
+    return 'Armor/Wrist/worn-leather-bracer';
+  }
+  if (wowIconId.startsWith('inv_flask_')) {
+    return 'Misc/Profession Resources/Alchemy/Red/red-potion-angular-flask-base';
+  }
+  if (wowIconId.startsWith('inv_misc_book_') || wowIconId.startsWith('inv_misc_ledger_')) {
+    return 'Misc/Books/book-brown-decorative-panels';
+  }
+  if (wowIconId.startsWith('inv_misc_drum_')) {
+    return 'Instruments/Drum/drum-brown-band';
+  }
+  if (wowIconId.startsWith('inv_misc_flute_')) {
+    return 'Instruments/Flute/flute-reddish-brown-wooden-simple';
+  }
+  if (wowIconId.startsWith('inv_misc_bell_')) {
+    return 'Misc/Books/book-treasure-map-island';
+  }
+  if (wowIconId.startsWith('inv_misc_dice_')) {
+    return 'Misc/Profession Resources/Cooking/plate-coin-octagonal-copper-token';
+  }
+  if (wowIconId.startsWith('inv_misc_coin_')) {
+    return 'Container/Coins/golden-coin-single-isometric';
+  }
+  if (wowIconId.startsWith('inv_misc_pocketwatch_')) {
+    return 'Misc/Profession Resources/Engineering/resource-watch-gold';
   }
   if (wowIconId.startsWith('inv_misc_lantern_')) {
     return 'Misc/Profession Resources/Engineering/resource-lantern-metallic-orange-glow';

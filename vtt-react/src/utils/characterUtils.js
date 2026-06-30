@@ -509,6 +509,67 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
         encumbranceEffects: encumbranceEffects
     };
 
+    // Apply always-active racial passive effects (like max HP reduction)
+    if (race && subrace) {
+        try {
+            const raceDisciplineSpellUtils = require('./raceDisciplineSpellUtils');
+            const passiveModifiers = raceDisciplineSpellUtils.getRacialStatModifiers(race, subrace);
+            
+            passiveModifiers.forEach(passive => {
+                // If it has triggers, skip here (handled in the conditional block below)
+                if (passive.triggerConfig?.global?.compoundTriggers) return;
+                
+                // Process always-on effects
+                const effectsList = [
+                    ...(passive.buffConfig?.effects || []),
+                    ...(passive.debuffConfig?.effects || [])
+                ];
+                
+                effectsList.forEach(effect => {
+                    // Check statusEffect for max HP reduction
+                    if (effect.statusEffect && effect.statusEffect.penaltyType === 'max_hp_reduction') {
+                        const pct = effect.statusEffect.magnitude || 0;
+                        derivedStats.maxHealth = Math.floor(derivedStats.maxHealth * (1 - pct / 100));
+                    }
+                    
+                    // Apply other always-on stat modifiers
+                    if (effect.statModifier) {
+                        const statName = effect.statModifier.stat;
+                        const magnitude = effect.statModifier.magnitude;
+                        
+                        if (statName === 'slashing_damage') {
+                            derivedStats.slashingDamage = (derivedStats.slashingDamage || 0) + magnitude;
+                        } else if (statName === 'bludgeoning_damage') {
+                            derivedStats.bludgeoningDamage = (derivedStats.bludgeoningDamage || 0) + magnitude;
+                        } else if (statName === 'piercing_damage') {
+                            derivedStats.piercingDamage = (derivedStats.piercingDamage || 0) + magnitude;
+                        } else if (statName === 'ranged_damage') {
+                            derivedStats.rangedDamage = (derivedStats.rangedDamage || 0) + magnitude;
+                        } else if (statName === 'armor') {
+                            derivedStats.armor = (derivedStats.armor || 0) + magnitude;
+                        } else if (statName === 'saving_throws' || statName === 'savingThrowPenalty') {
+                            derivedStats.savingThrowPenalty = (derivedStats.savingThrowPenalty || 0) + magnitude;
+                        } else if (statName === 'damage') {
+                            derivedStats.damage = (derivedStats.damage || 0) + magnitude;
+                        } else if (statName === 'spell_damage' || statName === 'spellDamage') {
+                            derivedStats.spellDamage = (derivedStats.spellDamage || 0) + magnitude;
+                        } else if (statName === 'movement_speed' || statName === 'moveSpeed' || statName === 'speed') {
+                            derivedStats.moveSpeed = (derivedStats.moveSpeed || 30) + magnitude;
+                            derivedStats.moveSpeed = Math.max(0, derivedStats.moveSpeed);
+                        } else if (statName === 'maxHealth' || statName === 'max_health' || statName === 'hp') {
+                            derivedStats.maxHealth = (derivedStats.maxHealth || 0) + magnitude;
+                        } else if (statName === 'initiative') {
+                            derivedStats.initiative = (derivedStats.initiative || 0) + magnitude;
+                        }
+                    }
+                });
+            });
+        } catch (e) {
+            console.warn('Could not process always-on racial stat modifiers:', e);
+        }
+    }
+
+
     // Apply equipment bonuses (but skip stats that are already handled above)
     const alreadyHandledStats = ['maxHealth', 'maxMana', 'healthRegen', 'manaRegen', 'healingPower', 'maxHealthPercent', 'maxManaPercent', 'healthRegenPercent', 'manaRegenPercent', 'healingPowerPercent'];
     for (const stat in equipmentBonuses) {
@@ -820,12 +881,22 @@ export function validateCharacterSelection(raceId, subraceId, classData, backgro
         }
     }
 
-    // Background Validation
+    // Background Validation (mirrors class validation: hardBlocks + narrativeUnlock)
     if (backgroundData && backgroundData.restrictions) {
-        const { allowedSubraces, justification } = backgroundData.restrictions;
-        
-        if (allowedSubraces && allowedSubraces.length > 0 && !allowedSubraces.includes(subraceId)) {
-            warnings.push(`The ${backgroundData.name} background is typically restricted to: ${allowedSubraces.join(', ')}. Justification: ${justification}`);
+        const { allowedSubraces, hardBlocks, narrativeUnlock, justification } = backgroundData.restrictions;
+
+        // Check hard blocks
+        if (hardBlocks && (hardBlocks.includes(raceId) || hardBlocks.includes(subraceId))) {
+            errors.push(`Hard Block: The ${backgroundData.name} background cannot be chosen by ${subraceId || raceId} characters. Justification: ${justification}`);
+        }
+
+        // Check allowed subraces
+        if (allowedSubraces && allowedSubraces.length > 0 && subraceId && !allowedSubraces.includes(subraceId)) {
+            if (narrativeUnlock) {
+                warnings.push(`Narrative Unlock: The ${backgroundData.name} background is typically restricted to: ${allowedSubraces.join(', ')}. Choosing this requires DM backstory approval. Justification: ${justification}`);
+            } else {
+                errors.push(`Restricted: The ${backgroundData.name} background is strictly locked to: ${allowedSubraces.join(', ')}. Justification: ${justification}`);
+            }
         }
     }
 

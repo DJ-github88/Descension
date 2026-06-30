@@ -21,7 +21,7 @@ const SESSION_CONFIG = {
   SESSION_TIMEOUT: 8 * 60 * 60 * 1000, // 8 hours in milliseconds
 
   // Idle timeout (user gets warning before auto-logout)
-  IDLE_TIMEOUT: 30 * 60 * 1000, // 30 minutes in milliseconds
+  IDLE_TIMEOUT: 15 * 60 * 1000, // 15 minutes in milliseconds
 
   // Warning period before auto-logout
   WARNING_PERIOD: 5 * 60 * 1000, // 5 minutes in milliseconds
@@ -247,6 +247,10 @@ export const useSessionManagement = () => {
       remainingSeconds -= 1;
       if (remainingSeconds <= 0) {
         clearInterval(countdownInterval);
+        if (document.body.contains(warningModal)) {
+          document.body.removeChild(warningModal);
+        }
+        handleSessionTimeout();
       } else {
         updateModalContent();
       }
@@ -266,6 +270,8 @@ export const useSessionManagement = () => {
    */
   const resetSessionTimers = useCallback(() => {
     if (!isAuthenticated || !user) return;
+
+    if (isWarningShownRef.current) return;
 
     // CRITICAL FIX: Don't start idle timers if user is in a room or game
     // OR if the user is not on the landing page

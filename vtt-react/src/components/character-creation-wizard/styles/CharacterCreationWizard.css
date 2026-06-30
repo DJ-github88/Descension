@@ -507,7 +507,11 @@
 }
 
 .character-wizard-container .wizard-content.step-2 .wizard-step-container,
-.character-wizard-container .wizard-content.step-2 .wizard-step-content {
+.character-wizard-container .wizard-content.step-2 .wizard-step-content,
+.character-wizard-container .wizard-content.step-4 .wizard-step-container,
+.character-wizard-container .wizard-content.step-4 .wizard-step-content,
+.character-wizard-container .wizard-content.step-5 .wizard-step-container,
+.character-wizard-container .wizard-content.step-5 .wizard-step-content {
     height: auto !important;
     min-height: auto !important;
     overflow: visible !important;
@@ -12451,6 +12455,29 @@ button.gender-option.selected {
     border-color: #5a3d1d !important;
     border-width: 1.5px !important;
     background: #fdf8ef !important;
+}
+
+/* Narrative-Unlock backgrounds (allowed via DM approval, not native to subrace) */
+.background-button-token.narrative-unlock {
+    border-style: dashed !important;
+    border-color: #b08a4a !important;
+    background: #fdf6e3 !important;
+}
+
+.background-button-token.narrative-unlock:hover {
+    border-color: #8a5a00 !important;
+    background: #fbf1d6 !important;
+}
+
+.background-button-token.narrative-unlock.selected {
+    border-style: dashed !important;
+    border-color: #8a5a00 !important;
+    background: #f7e8c1 !important;
+}
+
+.narrative-unlock-marker {
+    color: #b07a00 !important;
+    opacity: 0.85;
 }
 
 .background-token-label {
