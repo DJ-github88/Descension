@@ -43,7 +43,6 @@ import './styles/MultiplayerApp.css';
 // Import main game components
 import Grid from "../Grid";
 import Navigation from "../Navigation";
-const HUDContainer = lazy(() => import("../hud/HUDContainer"));
 import GridItemsManager from "../grid/GridItemsManager";
 
 import DynamicFogManager from "../level-editor/DynamicFogManager";
@@ -58,6 +57,7 @@ import DialogueSystem from "../dialogue/DialogueSystem";
 import DialogueControls from "../dialogue/DialogueControls";
 import DiceRollingSystem from "../dice/DiceRollingSystem";
 import AudioPlayerWidget from "../jukebox/AudioPlayerWidget";
+const HUDContainer = lazy(() => import("../hud/HUDContainer"));
 
 const CHAT_DEBUG = process.env.NODE_ENV === 'development' || process.env.REACT_APP_CHAT_DEBUG === 'true';
 const chatDebug = (...args) => {

@@ -34,6 +34,8 @@ import LevelUpChoiceModal from "./components/modals/LevelUpChoiceModal";
 import { FloatingCombatTextManager } from "./components/combat/FloatingCombatText";
 import ErrorBoundary from "./components/common/ErrorBoundary";
 import NotificationContainer from "./components/common/NotificationContainer";
+import CookieConsent from "./components/common/CookieConsent";
+import { hasConsent } from "./components/common/CookieConsent";
 import { clearLocalRoom } from "./utils/localRoom";
 import WorldMapImmerse from "./components/world-map/WorldMapImmerse";
 import useLocalRoomAutoSave from "./hooks/useLocalRoomAutoSave";
@@ -124,6 +126,7 @@ const AccountDashboard = lazy(() => import("./components/account/AccountDashboar
 const CharacterManagement = lazy(() => import("./components/account/CharacterManagement"));
 const CharacterCreationPage = lazy(() => import("./components/account/CharacterCreationPage"));
 const CharacterViewPage = lazy(() => import("./components/account/CharacterViewPage"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 
 // Test components
 
@@ -1104,12 +1107,25 @@ const AppContent = ({
     // Initialize comprehensive session management
     useSessionManagement();
 
-    // Initialize offline support and analytics when user is authenticated
+    // Initialize offline support and analytics when user is authenticated and consent given
     React.useEffect(() => {
         if (isAuthenticated && user && !user.isGuest) {
             initializeOfflineSupport(user.uid);
-            initializeAnalytics(user.uid);
+            if (hasConsent()) {
+                initializeAnalytics(user.uid);
+            }
         }
+    }, [isAuthenticated, user]);
+
+    // Re-initialize analytics when consent is granted mid-session
+    React.useEffect(() => {
+        const handleConsentChange = (e) => {
+            if (e.detail.accepted && isAuthenticated && user && !user.isGuest) {
+                initializeAnalytics(user.uid);
+            }
+        };
+        window.addEventListener('consent-change', handleConsentChange);
+        return () => window.removeEventListener('consent-change', handleConsentChange);
     }, [isAuthenticated, user]);
 
     const [worldMapState, setWorldMapState] = useState(null); // null | 'active' | 'exiting'
@@ -1261,6 +1277,15 @@ const AppContent = ({
                     </Suspense>
                 } />
 
+                {/* Privacy Policy - public, no auth required */}
+                <Route path="/privacy" element={
+                    <Suspense fallback={<LoadingFallback message="Loading..." />}>
+                        <ErrorBoundary name="PrivacyPolicy">
+                            <PrivacyPolicy />
+                        </ErrorBoundary>
+                    </Suspense>
+                } />
+
                 {/* Redirect unknown routes to home */}
                 <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
@@ -1305,6 +1330,9 @@ const AppContent = ({
             {loginTransition && (
                 <LoginTransitionOverlay onComplete={handleTransitionComplete} />
             )}
+
+            {/* Cookie Consent Banner */}
+            <CookieConsent />
         </>
     );
 };

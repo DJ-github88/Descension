@@ -42,6 +42,9 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     # Allow Firebase Google sign-in popups
     Cross-Origin-Opener-Policy = "unsafe-none"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.gstatic.com https://apis.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com; img-src 'self' data: blob: https://firebasestorage.googleapis.com https://lh3.googleusercontent.com https://images.unsplash.com; connect-src 'self' https://firestore.googleapis.com https://firebaseinstallations.googleapis.com https://fcmregistrations.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firebase-crashpingsystem.googleapis.com https://firebaseremoteconfig.googleapis.com https://app-measurement.com https://www.google.com wss://descension-mythrill.up.railway.app https://mythrill.netlify.app https://windtunnel.netlify.app; frame-src https://accounts.google.com https://firebaseremoteconfig.googleapis.com; worker-src 'self' blob:;"
 
 # Cache hashed static assets (JS/CSS bundles with content hashes)
 [[headers]]

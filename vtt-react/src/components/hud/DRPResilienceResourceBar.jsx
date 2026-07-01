@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 const DRPResilienceResourceBar = ({
   dreadnaughtState,
@@ -12,7 +13,9 @@ const DRPResilienceResourceBar = ({
   onClassResourceUpdate,
   size,
   context,
-  drpBarRef
+  drpBarRef,
+  renderStatusFlavor,
+  logClassResourceChange,
 }) => {
   const {
     localDRP,
@@ -30,6 +33,10 @@ const DRPResilienceResourceBar = ({
   const setShowTooltip = (value) => setUiState(prev => ({ ...prev, showTooltip: value }));
   const setTooltipPosition = (value) => setUiState(prev => ({ ...prev, tooltipPosition: value }));
   const setTooltipPlacement = (value) => setUiState(prev => ({ ...prev, tooltipPlacement: value }));
+  const setLocalDRP = (value) => setDreadnaughtState(prev => ({ ...prev, localDRP: value }));
+  const setSelectedResistanceType = (value) => setDreadnaughtState(prev => ({ ...prev, selectedResistanceType: value }));
+  const setShowDRPMenu = (value) => setDreadnaughtState(prev => ({ ...prev, showDRPMenu: value }));
+  const setDreadnaughtHoverSection = (value) => setDreadnaughtState(prev => ({ ...prev, dreadnaughtHoverSection: value }));
 
         const drpValue = localDRP;
         const drpMax = finalClassResource.max || 50;

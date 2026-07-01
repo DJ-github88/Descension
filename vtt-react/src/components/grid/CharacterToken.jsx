@@ -1482,10 +1482,12 @@ const CharacterToken = ({
                 m.socketId === mySocketId ||
                 m.userId === myId
             );
+            let finalValue = newValue;
+            let finalTemp = 0;
             if (selfMember && selfMember.character) {
                 const currentValue = selfMember.character[resourceType]?.current || 0;
-                let finalValue = newValue;
-                let finalTemp = selfMember.character[tempField] || 0;
+                finalValue = newValue;
+                finalTemp = selfMember.character[tempField] || 0;
 
                 if (asTemporary && adjustment > 0) {
                     const overhealAmount = adjustment - (maxValue - currentValue);

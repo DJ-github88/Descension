@@ -734,10 +734,11 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
     setIsCreatingRoom(true); // Show loading state
     setError('');
 
+    const activeCharacter = getActiveCharacter();
+
     // If we are the GM, we should use create_room to "resume" or "activate" the room
     // on the socket server, using the metadata we already have from userRooms.
     if (room.userRole === 'gm') {
-      const activeCharacter = getActiveCharacter();
 
       // Determine GM name for the server
       const characterName = activeCharacter?.name || activeCharacter?.baseName;

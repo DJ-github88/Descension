@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 const MayhemModifiersResourceBar = ({
   chaosWeaverState,
@@ -11,6 +12,7 @@ const MayhemModifiersResourceBar = ({
   size,
   context,
   mayhemBarRef,
+  renderStatusFlavor,
 }) => {
   const {
     showTooltip,

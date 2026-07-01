@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 const MadnessGaugeResourceBar = ({
   falseProphetState,
@@ -13,6 +14,9 @@ const MadnessGaugeResourceBar = ({
   size,
   context,
   madnessBarRef,
+  renderStatusFlavor,
+  logClassResourceChange,
+  getDangerLevel,
 }) => {
   const { localMadness, showMadnessMenu, falseProphetHoverSection } = falseProphetState;
   const { showTooltip, tooltipPosition, tooltipPlacement } = uiState;
@@ -24,7 +28,7 @@ const MadnessGaugeResourceBar = ({
   const setFalseProphetHoverSection = (value) => setFalseProphetState(prev => ({ ...prev, falseProphetHoverSection: value }));
 
         // Use local state for demo, fallback to classResource
-        const currentMadness = localMadness ?? classResource?.current ?? 0;
+        const currentMadness = localMadness ?? finalClassResource?.current ?? 0;
         const maxMadness = finalConfig.mechanics?.max ?? 20;
 
         const dangerLevel = getDangerLevel(currentMadness);

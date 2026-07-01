@@ -10,6 +10,7 @@ import useAuthStore from '../../store/authStore';
 import useCharacterStore from '../../store/characterStore';
 import useSocialStore from '../../store/socialStore';
 import usePresenceStore from '../../store/presenceStore';
+import { logger } from '../../utils/logger';
 import RoomCard from '../common/RoomCard';
 import ConfirmationDialog from '../item-generation/ConfirmationDialog';
 import RoomToast from './RoomToast';

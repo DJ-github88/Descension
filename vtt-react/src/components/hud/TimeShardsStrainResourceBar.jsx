@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 const TimeShardsStrainResourceBar = ({
   chronarchState,
@@ -14,6 +15,8 @@ const TimeShardsStrainResourceBar = ({
   temporalStrainBarRef,
   setShowTooltip,
   setTooltipPosition,
+  renderStatusFlavor,
+  logClassResourceChange,
 }) => {
   const {
     showTimeShardsMenu,

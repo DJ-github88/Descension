@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment, faHandSparkles, faFlask } from '@fortawesome/free-solid-svg-icons';
 import { formatComponentName } from './spellFormatterUtils';
 
-const useComponentFormatters = ({ spell, className }) => {
+const useComponentFormatters = ({ spell, library, className }) => {
 
   const formatSpellComponents = () => {
     if (!spell || !spell.resourceCost) {

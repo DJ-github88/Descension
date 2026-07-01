@@ -7,6 +7,12 @@ import useLevelEditorStore from '../../store/levelEditorStore';
 import useMapStore from '../../store/mapStore';
 import useInventoryStore from '../../store/inventoryStore';
 import useTravelStore from '../../store/travelStore';
+import useCharacterTokenStore from '../../store/characterTokenStore';
+import useChatStore, { setCombatSyncSocket } from '../../store/chatStore';
+import useDialogueStore from '../../store/dialogueStore';
+import { getBackgroundData } from '../../data/backgroundData';
+import { getCustomBackgroundData, getEnhancedPathData } from '../../data/legacyDisciplineData';
+import gameStateManager from '../../services/gameStateManager';
 
 export async function handleJoinRoom(room, socketConnection, isGameMaster, playerObject, password, levelEditorState, gridSettings, skipSetJoiningFalse, ctx) {
   const {
@@ -733,7 +739,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
 
             // Check if it's our own token, if so, ensure local store matches
             if (charTokenData.playerId === currentPlayerData?.id) {
-              updateCharacterTokenPosition(charTokenData.position);
+              useCharacterTokenStore.getState().updateCharacterTokenPosition(charTokenData.position, charTokenData.id);
 
               // CRITICAL FIX: Set viewingFromToken for player when they have a character token
               // This enables the afterimage/memory system for players
@@ -758,8 +764,9 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
               // then separate sync logic will place them.
 
               // However, we can perform a raw visual add if we have the data
-              if (addCharacterTokenFromServer) {
-                addCharacterTokenFromServer(
+              const charTokenStore = useCharacterTokenStore.getState();
+              if (charTokenStore.addCharacterTokenFromServer) {
+                charTokenStore.addCharacterTokenFromServer(
                   charTokenData.id,
                   charTokenData.position,
                   charTokenData.playerId,
@@ -1144,7 +1151,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
       // Simple: Room creator is GM, others are players (no leadership transfer needed)
 
       // Set multiplayer state in game store with socket
-      setMultiplayerState(true, room, handleReturnToSinglePlayer, socketConnection, currentPlayerData);
+      useGameStore.getState().setMultiplayerState(true, room, null, socketConnection, currentPlayerData);
 
       if (!isGameMaster) {
         console.log('Ã°Å¸â€”ÂºÃ¯Â¸Â [Travel] Requesting travel sync from GM, roomId:', room?.id);
@@ -1179,10 +1186,10 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
           });
         }
       };
-      setMultiplayerIntegration(socketConnection, sendChatMessage);
+      useChatStore.getState().setMultiplayerIntegration(socketConnection, sendChatMessage);
 
       // Set up dialogue system for multiplayer
-      setMultiplayerSocket(socketConnection, true, currentPlayerData?.id);
+      useDialogueStore.getState().setMultiplayerSocket(socketConnection, true, currentPlayerData?.id);
 
       // Initialize game state manager for permanent room state
       if (room.persistentRoomId || room.id) {

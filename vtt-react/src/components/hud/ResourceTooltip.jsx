@@ -10,6 +10,16 @@ const ResourceTooltip = ({
   chaosWeaverHoverSection,
   activeSpecialization,
   animistHoverSection,
+  shaperHoverSection,
+  chronarchHoverSection,
+  covenbaneHoverSection,
+  deathcallerHoverSection,
+  falseProphetHoverSection,
+  fateWeaverHoverSection,
+  gamblerHoverSection,
+  huntressHoverSection,
+  lunarchHoverSection,
+  minstrelHoverSection,
   tooltipRef,
 }) => {
   const isArcanoneer = finalConfig.visual.type === 'elemental-spheres';
@@ -1277,7 +1287,7 @@ const ResourceTooltip = ({
                                             <div className="passive-desc">
                                                 {oracleSpec === 'seer' && 'Gain +1 Vision per correct prediction. Predictions cost no action points. Advantage on initiative.'}
                                                 {oracleSpec === 'truthseeker' && 'Detect lies and illusions. Uncover hidden knowledge for +1 Vision each.'}
-                                                {oracleSpec === 'fateseer' && 'Premonition: When a prediction resolves correctly, spend 1 Vision to immediately apply a fate effect (reroll, ±1d6, or advantage/disadvantage) related to that prediction.'}
+                                                {oracleSpec === 'fateseer' && 'Premonition: When a prediction resolves correctly, spend 1 Vision to immediately apply a fate effect (reroll, â€”1d6, or advantage/disadvantage) related to that prediction.'}
                                             </div>
                                         </div>
                                     </>

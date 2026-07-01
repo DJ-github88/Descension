@@ -95,7 +95,7 @@ const ContentModerationDashboard = ({ isOpen, onClose }) => {
   };
 
   const handleRemoveWord = async (wordId) => {
-    if (!confirm('Are you sure you want to remove this filtered word?')) return;
+    if (!window.confirm('Are you sure you want to remove this filtered word?')) return;
 
     try {
       const result = await removeFilteredWord(wordId);

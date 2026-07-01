@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 const LunarPhasesResourceBar = ({
   lunarchState,
@@ -31,6 +32,10 @@ const LunarPhasesResourceBar = ({
   const setShowTooltip = (value) => setUiState(prev => ({ ...prev, showTooltip: value }));
   const setTooltipPosition = (value) => setUiState(prev => ({ ...prev, tooltipPosition: value }));
   const setTooltipPlacement = (value) => setUiState(prev => ({ ...prev, tooltipPlacement: value }));
+  const setCurrentLunarPhase = (value) => setLunarchState(prev => ({ ...prev, currentLunarPhase: value }));
+  const setRoundsInPhase = (value) => setLunarchState(prev => ({ ...prev, roundsInPhase: value }));
+  const setShowLunarPhaseMenu = (value) => setLunarchState(prev => ({ ...prev, showLunarPhaseMenu: value }));
+  const setLunarchHoverSection = (value) => setLunarchState(prev => ({ ...prev, lunarchHoverSection: value }));
 
         // Get phase configurations
         const phases = finalConfig.visual;

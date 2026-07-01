@@ -6,6 +6,7 @@ import useGameStore from '../../../store/gameStore';
 import useAuthStore from '../../../store/authStore';
 import usePartyStore from '../../../store/partyStore';
 import useChatStore from '../../../store/chatStore';
+import optimisticUpdatesService from '../../../services/optimisticUpdatesService';
 
 export function registerTokenHandlers(ctx) {
   const {
@@ -36,7 +37,7 @@ export function registerTokenHandlers(ctx) {
       if (deltaSyncTokensEnabled()) return;
       if (data && data.position) {
         // CRITICAL: Pass mapId for proper map isolation
-        addCharacterTokenFromServer(data.tokenId, data.position, data.playerId, data.mapId);
+        useCharacterTokenStore.getState().addCharacterTokenFromServer(data.tokenId, data.position, data.playerId, data.mapId);
       }
     });
 
@@ -64,7 +65,7 @@ export function registerTokenHandlers(ctx) {
     socket.on('character_token_removed', (data) => {
       if (deltaSyncTokensEnabled()) return;
       if (data && data.tokenId) {
-        removeCharacterToken(data.tokenId, false); // false = don't send back to server
+        useCharacterTokenStore.getState().removeCharacterToken(data.tokenId, false); // false = don't send back to server
       }
     });
 

@@ -454,7 +454,7 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
 
       if (member) {
         removePartyMember(member.id);
-        console.log(`✅ Removed ${userName} from party`);
+        console.log(`✅ Removed ${member?.name || contextMenu?.user?.name || 'User'} from party`);
       }
     }
     closeContextMenu();

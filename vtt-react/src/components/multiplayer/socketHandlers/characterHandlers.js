@@ -2,6 +2,7 @@ import useAuthStore from '../../../store/authStore';
 import useGameStore from '../../../store/gameStore';
 import useCharacterStore from '../../../store/characterStore';
 import usePartyStore from '../../../store/partyStore';
+import useChatStore from '../../../store/chatStore';
 
 export function registerCharacterHandlers(ctx) {
   const {
@@ -420,7 +421,7 @@ export function registerCharacterHandlers(ctx) {
 
       // Update chat user data
       try {
-        updateUser(senderSocketId, {
+        useChatStore.getState().updateUser(senderSocketId, {
           name: data.character.name,
           class: data.character.class || 'Unknown',
           level: data.character.level || 1

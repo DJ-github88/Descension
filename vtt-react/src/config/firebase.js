@@ -91,10 +91,14 @@ if (app) {
     // Initialize Cloud Storage and get a reference to the service
     storage = getStorage(app);
 
-    // Initialize Analytics (optional)
+    // Initialize Analytics (optional, requires consent)
     if (typeof window !== 'undefined') {
       try {
-        analytics = getAnalytics(app);
+        const stored = localStorage.getItem('mythrill_cookie_consent');
+        const hasAnalyticsConsent = stored ? JSON.parse(stored) === true : false;
+        if (hasAnalyticsConsent) {
+          analytics = getAnalytics(app);
+        }
       } catch (analyticsError) {
         console.warn('⚠️ Firebase Analytics initialization failed:', analyticsError);
       }

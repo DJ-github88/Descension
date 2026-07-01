@@ -10,22 +10,22 @@ import TooltipPortal from '../tooltips/TooltipPortal';
 import { useTooltipPosition } from '../common/useTooltipPosition';
 import ItemTooltip from '../item-generation/ItemTooltip';
 import UnequipContextMenu from '../equipment/UnequipContextMenu';
-const ClassResourceBar = React.lazy(() => import('../hud/ClassResourceBar'));
 import { isOffHandDisabled } from '../../utils/equipmentUtils';
 import { calculateDerivedStats } from '../../utils/characterUtils';
 import { getClassResourceConfig } from '../../data/classResources';
 import { getRaceList, getSubraceList, getRacialSavingThrowModifiers } from '../../data/raceData';
 import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from '../spellcrafting-wizard/context/SpellLibraryContext';
-    import { selectRandomSpells, filterNewSpells, getRacialSpells, getRacialStatModifiers, addSpellsToLibrary, removeSpellsByCategory, normalizeDisciplineAbility } from '../../utils/raceDisciplineSpellUtils';
+import { selectRandomSpells, filterNewSpells, getRacialSpells, getRacialStatModifiers, addSpellsToLibrary, removeSpellsByCategory, normalizeDisciplineAbility } from '../../utils/raceDisciplineSpellUtils';
 import { getPassiveAbilities } from '../../data/backgroundAbilities';
 import { getBackgroundData } from '../../data/backgroundData';
 import '../../styles/character-sheet.css';
 import '../../styles/resistance-styles.css';
 import '../../styles/racial-traits.css';
-
-import { getIconUrl, getCustomIconUrl } from '../../utils/assetManager';
+import { getIconUrl, getCustomIconUrl, getWowIconUrl } from '../../utils/assetManager';
 import useItemStore from '../../store/itemStore';
 import Languages from './Languages';
+
+const ClassResourceBar = React.lazy(() => import('../hud/ClassResourceBar'));
 
 const SECTIONS = {
     equipment: {
@@ -540,6 +540,7 @@ export default function CharacterPanel() {
         level,
         alignment,
         exhaustionLevel,
+        characterIcon,
         updateEquipment,
         updateCharacterInfo,
         updateBaseName,
@@ -983,39 +984,6 @@ export default function CharacterPanel() {
     // Render equipment section
     const renderEquipment = () => (
         <div className="equipment-content">
-            {/* Floating Potion Strip — above the grid */}
-            <div className="floating-potion-strip">
-                <BottleResource
-                    current={health.current}
-                    max={health.max}
-                    temp={tempHealth}
-                    label="Health"
-                    resourceType="health"
-                    onUpdate={handleResourceUpdate}
-                    mousePosition={mousePosition}
-                    setMousePosition={setMousePosition}
-                />
-                <BottleResource
-                    current={mana.current}
-                    max={mana.max}
-                    temp={tempMana}
-                    label="Mana"
-                    resourceType="mana"
-                    onUpdate={handleResourceUpdate}
-                    mousePosition={mousePosition}
-                    setMousePosition={setMousePosition}
-                />
-                <BottleResource
-                    current={actionPoints.current}
-                    max={actionPoints.max}
-                    temp={tempActionPoints}
-                    label="Action Points"
-                    resourceType="actionPoints"
-                    onUpdate={handleResourceUpdate}
-                    mousePosition={mousePosition}
-                    setMousePosition={setMousePosition}
-                />
-            </div>
 
             <div className="equipment-layout">
                 {/* LEFT EQUIPMENT COLUMN */}
@@ -1027,20 +995,50 @@ export default function CharacterPanel() {
 
                 {/* CHARACTER PORTRAIT CENTER */}
                 <div className="character-center-section">
-                    <div className="character-image-container">
-                        {lore?.characterImage ? (
-                            <img
-                                src={lore.characterImage}
-                                alt="Character Portrait"
-                                className="character-portrait"
-                            />
-                        ) : (
-                            <div className="character-portrait-placeholder">
-                                <i className="fas fa-user"></i>
-                                <span>No Image</span>
+                    {(() => {
+                        const bgImage = lore?.iconBackgroundImage;
+                        const bgColor = lore?.iconBackgroundColor || 'transparent';
+                        const imageContainerStyle = bgImage
+                          ? {
+                              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.25)), url(/assets/Backgrounds/${encodeURIComponent(bgImage)})`,
+                              backgroundSize: 'cover',
+                              backgroundPosition: 'center',
+                              backgroundRepeat: 'no-repeat',
+                              backgroundColor: bgColor
+                            }
+                          : { backgroundColor: bgColor };
+
+                        return (
+                            <div className="character-image-container" style={imageContainerStyle}>
+                                {lore?.characterImage ? (
+                                    <img
+                                        src={lore.characterImage}
+                                        alt="Character Portrait"
+                                        className="character-portrait"
+                                    />
+                                ) : (characterIcon || lore?.characterIcon) ? (
+                                    <div className="character-portrait-icon-wrapper">
+                                        <img
+                                            src={(() => {
+                                                const icon = characterIcon || lore?.characterIcon;
+                                                if (icon.includes('/')) {
+                                                    return getCustomIconUrl(icon, 'creatures');
+                                                }
+                                                return getWowIconUrl(icon);
+                                            })()}
+                                            alt="Character Icon"
+                                            className="character-portrait-icon"
+                                        />
+                                    </div>
+                                ) : (
+                                    <div className="character-portrait-placeholder">
+                                        <i className="fas fa-user"></i>
+                                        <span>No Image</span>
+                                    </div>
+                                )}
                             </div>
-                        )}
-                    </div>
+                        );
+                    })()}
 
                     {/* Weapon Slots Below Image */}
                     <div className="weapon-slots-bottom">
@@ -1871,6 +1869,42 @@ export default function CharacterPanel() {
                         className="character-section-icon"
                     />
                     <h2 className="character-section-title">{SECTIONS[activeSection].title}</h2>
+
+                    {/* Interactive Vials in the header bar */}
+                    {activeSection === 'equipment' && (
+                        <div className="header-potion-strip">
+                            <BottleResource
+                                current={health.current}
+                                max={health.max}
+                                temp={tempHealth}
+                                label="Health"
+                                resourceType="health"
+                                onUpdate={handleResourceUpdate}
+                                mousePosition={mousePosition}
+                                setMousePosition={setMousePosition}
+                            />
+                            <BottleResource
+                                current={mana.current}
+                                max={mana.max}
+                                temp={tempMana}
+                                label="Mana"
+                                resourceType="mana"
+                                onUpdate={handleResourceUpdate}
+                                mousePosition={mousePosition}
+                                setMousePosition={setMousePosition}
+                            />
+                            <BottleResource
+                                current={actionPoints.current}
+                                max={actionPoints.max}
+                                temp={tempActionPoints}
+                                label="Action Points"
+                                resourceType="actionPoints"
+                                onUpdate={handleResourceUpdate}
+                                mousePosition={mousePosition}
+                                setMousePosition={setMousePosition}
+                            />
+                        </div>
+                    )}
 
                     {/* Compact Level & Exhaustion indicators */}
                     {activeSection === 'equipment' && (

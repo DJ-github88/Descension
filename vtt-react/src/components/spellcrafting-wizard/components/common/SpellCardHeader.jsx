@@ -1,4 +1,5 @@
 import React from 'react';
+import { getCustomIconUrl } from '../../../../utils/assetManager';
 
 const SpellCardHeader = ({
   spell,

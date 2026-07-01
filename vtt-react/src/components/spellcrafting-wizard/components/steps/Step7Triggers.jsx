@@ -1805,6 +1805,7 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                     trigger={trigger}
                     selectedEffect={selectedEffect}
                     conditionalEffects={conditionalEffects}
+                    setConditionalEffects={setConditionalEffects}
                     updateConditionalFormula={updateConditionalFormula}
                     updateConditionalSettings={updateConditionalSettings}
                   />

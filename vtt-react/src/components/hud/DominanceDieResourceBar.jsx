@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 const DominanceDieResourceBar = ({
   exorcistState,
@@ -12,7 +13,8 @@ const DominanceDieResourceBar = ({
   onClassResourceUpdate,
   size,
   context,
-  dominanceBarRef
+  dominanceBarRef,
+  renderStatusFlavor,
 }) => {
   const {
     localDominanceDie,
@@ -34,10 +36,18 @@ const DominanceDieResourceBar = ({
   const setShowTooltip = (value) => setUiState(prev => ({ ...prev, showTooltip: value }));
   const setTooltipPosition = (value) => setUiState(prev => ({ ...prev, tooltipPosition: value }));
   const setTooltipPlacement = (value) => setUiState(prev => ({ ...prev, tooltipPlacement: value }));
+  const setLocalDominanceDie = (value) => setExorcistState(prev => ({ ...prev, localDominanceDie: value }));
+  const setBoundDemons = (value) => setExorcistState(prev => ({ ...prev, boundDemons: value }));
+  const setSelectedDemonIndex = (value) => setExorcistState(prev => ({ ...prev, selectedDemonIndex: value }));
+  const setShowDominanceMenu = (value) => setExorcistState(prev => ({ ...prev, showDominanceMenu: value }));
+  const setExorcistHoverSection = (value) => setExorcistState(prev => ({ ...prev, exorcistHoverSection: value }));
+  const setDemonConfigMode = (value) => setExorcistState(prev => ({ ...prev, demonConfigMode: value }));
+  const setDemonConfigInitialData = (value) => setExorcistState(prev => ({ ...prev, demonConfigInitialData: value }));
+  const setShowDemonConfigModal = (value) => setExorcistState(prev => ({ ...prev, showDemonConfigModal: value }));
 
         // Use local state for demo, fallback to classResource
         const currentDemon = boundDemons[selectedDemonIndex];
-        const currentDD = currentDemon?.dd ?? localDominanceDie ?? classResource?.current ?? 0;
+        const currentDD = currentDemon?.dd ?? localDominanceDie ?? finalClassResource?.current ?? 0;
 
         // Check if demon slot is empty or escaped
         const isDemonBound = currentDemon && currentDD > 0;
@@ -69,7 +79,7 @@ const DominanceDieResourceBar = ({
 
         // Get DD label and demon name
         const getDemonDisplay = () => {
-            if (!currentDemon) return { name: 'No demon bound to this slot', ddLabel: '—' };
+            if (!currentDemon) return { name: 'No demon bound to this slot', ddLabel: 'â€”' };
             if (currentDD === 0) return { name: 'No demon bound to this slot', ddLabel: 'ESCAPED' };
             return { name: currentDemon.name, ddLabel: `d${currentDD}` };
         };

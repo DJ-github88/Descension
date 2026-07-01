@@ -210,7 +210,7 @@ const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultForm
   // Handle transform configuration changes
   const handleTransformConfigChange = (field, value) => {
     const newConfig = {
-      ...transformationConfig,
+      ...transformConfig,
       [field]: value
     };
 
@@ -379,7 +379,7 @@ const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultForm
     
     // Update the config with the mode
     const newConfig = {
-      ...transformationConfig,
+      ...transformConfig,
       isCustom: mode === 'custom'
     };
     
@@ -424,7 +424,7 @@ const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultForm
     
     // Update the config
     const newConfig = {
-      ...transformationConfig,
+      ...transformConfig,
       isCustom: true,
       [field]: value
     };
@@ -440,7 +440,7 @@ const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultForm
     setCustomAbilities(updatedAbilities);
 
     const newConfig = {
-      ...transformationConfig,
+      ...transformConfig,
       isCustom: true,
       grantedAbilities: updatedAbilities
     };
@@ -455,7 +455,7 @@ const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultForm
     
     // Update config
     const newConfig = {
-      ...transformationConfig,
+      ...transformConfig,
       isCustom: true,
       grantedAbilities: updatedAbilities
     };

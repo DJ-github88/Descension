@@ -136,6 +136,7 @@ export function calculateEquipmentBonuses(equipment = {}) {
                             return map[type] || type;
                         };
                         const normalizedResType = normalizeDamageType(resType);
+                        let targetTypes;
                         if (normalizedResType === 'physical') {
                             targetTypes = ['physical'];
                         } else {

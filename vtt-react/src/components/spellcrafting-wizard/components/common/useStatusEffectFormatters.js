@@ -1,4 +1,5 @@
 import { cleanFormula, extractDamageTypeFromResistanceName, getThematicResistanceDescription, normalizeSaveType } from './spellFormatterUtils';
+import { GLOBAL_STAT_MAP, mapStatKeyToLabel, getAdvantageDisadvantageText } from './UnifiedSpellCard';
 
 const useStatusEffectFormatters = ({ spell, library, categories, formatSavingThrow }) => {
 

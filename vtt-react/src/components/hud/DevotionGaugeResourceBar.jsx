@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 const DevotionGaugeResourceBar = ({
   martyrState,
@@ -13,7 +14,9 @@ const DevotionGaugeResourceBar = ({
   size,
   context,
   devotionBarRef,
-  martyrTooltipRef
+  martyrTooltipRef,
+  renderStatusFlavor,
+  getTooltipHeaderColor,
 }) => {
   const {
     localDevotionLevel,
@@ -33,6 +36,10 @@ const DevotionGaugeResourceBar = ({
   const setShowTooltip = (value) => setUiState(prev => ({ ...prev, showTooltip: value }));
   const setTooltipPosition = (value) => setUiState(prev => ({ ...prev, tooltipPosition: value }));
   const setTooltipPlacement = (value) => setUiState(prev => ({ ...prev, tooltipPlacement: value }));
+  const setLocalDevotionLevel = (value) => setMartyrState(prev => ({ ...prev, localDevotionLevel: value }));
+  const setLocalDevotionDamage = (value) => setMartyrState(prev => ({ ...prev, localDevotionDamage: value }));
+  const setShowDevotionMenu = (value) => setMartyrState(prev => ({ ...prev, showDevotionMenu: value }));
+  const setMartyrHoverSection = (value) => setMartyrState(prev => ({ ...prev, martyrHoverSection: value }));
 
         const maxLevel = 6;
         const thresholds = finalConfig.mechanics?.thresholds || [0, 10, 20, 40, 60, 80, 100];

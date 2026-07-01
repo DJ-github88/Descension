@@ -1,8 +1,6 @@
 import './polyfills';
 
 import { initStoreRegistry } from './store/initStoreRegistry';
-initStoreRegistry();
-
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
@@ -11,6 +9,8 @@ import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import { isDevelopment } from './config/env';
 import ErrorBoundary from './components/common/ErrorBoundary';
+
+initStoreRegistry();
 
 if (!isDevelopment()) {
   const noop = () => {};

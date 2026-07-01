@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 const AscensionBloodResourceBar = ({
   deathcallerState,
@@ -14,6 +15,8 @@ const AscensionBloodResourceBar = ({
   tokensBarRef,
   setShowTooltip,
   setTooltipPosition,
+  renderStatusFlavor,
+  logClassResourceChange,
 }) => {
   const {
     localAscensionPaths,
@@ -182,7 +185,7 @@ const AscensionBloodResourceBar = ({
                         </div>
                     </div>
 
-                    {/* Center Separator — skull */}
+                    {/* Center Separator â€” skull */}
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                         <i className="fas fa-skull" style={{ fontSize: '11px', color: '#8B0000', textShadow: '0 0 4px rgba(220,20,60,0.5)', margin: '0 1px' }}></i>
                     </div>

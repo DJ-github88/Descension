@@ -109,7 +109,7 @@ function circle(ctx, cx, cy, r, c) {
     const r2 = r * r;
     for (let y = -r; y <= r; y++) {
         for (let x = -r; x <= r; x++) {
-            if (x * x + y * y <= r2) ctx.fillStyle = c, ctx.fillRect(cx + x, cy + y, 1, 1);
+            if (x * x + y * y <= r2) { ctx.fillStyle = c; ctx.fillRect(cx + x, cy + y, 1, 1); }
         }
     }
 }
@@ -119,7 +119,7 @@ function ellipse(ctx, cx, cy, rx, ry, c) {
     for (let y = -ry; y <= ry; y++) {
         const yn = y / ry;
         const xMax = Math.round(rx * Math.sqrt(Math.max(0, 1 - yn * yn)));
-        for (let x = -xMax; x <= xMax; x++) ctx.fillStyle = c, ctx.fillRect(cx + x, cy + y, 1, 1);
+        for (let x = -xMax; x <= xMax; x++) { ctx.fillStyle = c; ctx.fillRect(cx + x, cy + y, 1, 1); }
     }
 }
 
@@ -130,7 +130,7 @@ function ellipseOutline(ctx, cx, cy, rx, ry, c) {
         const xMax = Math.round(rx * Math.sqrt(Math.max(0, 1 - yn * yn)));
         const xMaxIn = Math.round((rx - 1) * Math.sqrt(Math.max(0, 1 - yn * yn)));
         for (let x = -xMax; x <= xMax; x++) {
-            if (Math.abs(x) > xMaxIn) ctx.fillStyle = c, ctx.fillRect(cx + x, cy + y, 1, 1);
+            if (Math.abs(x) > xMaxIn) { ctx.fillStyle = c; ctx.fillRect(cx + x, cy + y, 1, 1); }
         }
     }
 }

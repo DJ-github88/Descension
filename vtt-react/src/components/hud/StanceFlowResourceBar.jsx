@@ -1,4 +1,6 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
+import ResourceCanvasBar from './canvas/ResourceCanvasBar';
 
 const StanceFlowResourceBar = ({
   shaperState,
@@ -15,6 +17,7 @@ const StanceFlowResourceBar = ({
   stanceBarRef,
   setShowTooltip,
   setTooltipPosition,
+  renderStatusFlavor,
 }) => {
   const {
     currentStance,

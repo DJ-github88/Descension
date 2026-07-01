@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 const ThreadsOfDestinyResourceBar = ({
   fateWeaverState,
@@ -13,7 +14,10 @@ const ThreadsOfDestinyResourceBar = ({
   size,
   context,
   modifiedConfig,
-  threadsBarRef
+  threadsBarRef,
+  renderStatusFlavor,
+  logClassResourceChange,
+  getThreadLevel,
 }) => {
   const {
     localThreads,
@@ -31,9 +35,13 @@ const ThreadsOfDestinyResourceBar = ({
   const setShowTooltip = (value) => setUiState(prev => ({ ...prev, showTooltip: value }));
   const setTooltipPosition = (value) => setUiState(prev => ({ ...prev, tooltipPosition: value }));
   const setTooltipPlacement = (value) => setUiState(prev => ({ ...prev, tooltipPlacement: value }));
+  const setLocalThreads = (value) => setFateWeaverState(prev => ({ ...prev, localThreads: value }));
+  const setShowThreadsMenu = (value) => setFateWeaverState(prev => ({ ...prev, showThreadsMenu: value }));
+  const setFateWeaverHoverSection = (value) => setFateWeaverState(prev => ({ ...prev, fateWeaverHoverSection: value }));
+  const setSelectedFateWeaverSpec = (value) => setFateWeaverState(prev => ({ ...prev, selectedFateWeaverSpec: value }));
 
         // Use local state for demo, fallback to classResource
-        const currentThreads = localThreads ?? classResource?.current ?? 0;
+        const currentThreads = localThreads ?? finalClassResource?.current ?? 0;
         const maxThreads = modifiedConfig.mechanics?.max ?? 13;
 
         const threadLevel = getThreadLevel(currentThreads);

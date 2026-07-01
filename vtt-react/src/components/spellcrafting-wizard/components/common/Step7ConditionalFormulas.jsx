@@ -19,7 +19,7 @@ const getEffectIconUrl = (effectType) => {
   return getCustomIconUrl(effectIcons[effectType] || 'Utility/Utility', 'abilities');
 };
 
-const Step7ConditionalFormulas = ({ trigger, selectedEffect, conditionalEffects, updateConditionalFormula, updateConditionalSettings }) => {
+const Step7ConditionalFormulas = ({ trigger, selectedEffect, conditionalEffects, setConditionalEffects, updateConditionalFormula, updateConditionalSettings }) => {
   const state = useSpellWizardState();
   const dispatch = useSpellWizardDispatch();
 

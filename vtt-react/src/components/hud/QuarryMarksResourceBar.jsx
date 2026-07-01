@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 const QuarryMarksResourceBar = ({
   huntressState,
@@ -12,7 +13,9 @@ const QuarryMarksResourceBar = ({
   onClassResourceUpdate,
   size,
   context,
-  qmBarRef
+  qmBarRef,
+  renderStatusFlavor,
+  logClassResourceChange,
 }) => {
   const {
     localQuarryMarks,
@@ -33,6 +36,10 @@ const QuarryMarksResourceBar = ({
   const setShowTooltip = (value) => setUiState(prev => ({ ...prev, showTooltip: value }));
   const setTooltipPosition = (value) => setUiState(prev => ({ ...prev, tooltipPosition: value }));
   const setTooltipPlacement = (value) => setUiState(prev => ({ ...prev, tooltipPlacement: value }));
+  const setLocalQuarryMarks = (value) => setHuntressState(prev => ({ ...prev, localQuarryMarks: value }));
+  const setLocalCompanionHP = (value) => setHuntressState(prev => ({ ...prev, companionHP: value }));
+  const setShowQMMenu = (value) => setHuntressState(prev => ({ ...prev, showQMMenu: value }));
+  const setHuntressHoverSection = (value) => setHuntressState(prev => ({ ...prev, huntressHoverSection: value }));
 
         const specs = finalConfig.visual?.quarryMarks || {};
         const maxQM = finalClassResource.max ?? 5;

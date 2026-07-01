@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 const AncestralResonanceResourceBar = ({
   showResonanceMenu,
@@ -15,6 +16,8 @@ const AncestralResonanceResourceBar = ({
   size,
   context,
   resonanceBarRef,
+  renderStatusFlavor,
+  logClassResourceChange,
 }) => {
   const { showTooltip, tooltipPosition, tooltipPlacement } = uiState;
   const setShowTooltip = (value) => setUiState(prev => ({ ...prev, showTooltip: value }));

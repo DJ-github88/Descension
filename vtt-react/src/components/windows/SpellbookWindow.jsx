@@ -15,12 +15,13 @@ import { formatFormulaToPlainEnglish } from '../spellcrafting-wizard/components/
 // Pathfinder-themed styles are now imported globally in App.jsx
 import { clearAllSpellCache } from '../../utils/clearSpellCache';
 
+import SpellWizard from '../spellcrafting-wizard/SpellWizardWrapper';
+
 // Icons removed for cleaner tab design
 const BoltIcon = () => <span style={{ fontSize: '12px' }}></span>;
 const PlusIcon = () => <span style={{ fontSize: '12px' }}></span>;
 
 // Pre-load SpellWizard for better development experience
-import SpellWizard from '../spellcrafting-wizard/SpellWizardWrapper';
 
 // Simple wrapper that uses UnifiedSpellCard for spellbook display
 const SpellCardWrapper = ({ spell, onClick }) => {

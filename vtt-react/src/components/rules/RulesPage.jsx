@@ -4956,11 +4956,15 @@ const RulesPage = () => {
 
 
 
-    const currentSubcategory = RULES_CATEGORIES
+    const currentCategory = RULES_CATEGORIES
 
 
 
-      .find(cat => cat.id === selectedCategory)
+      .find(cat => cat.id === selectedCategory);
+
+
+
+    const currentSubcategory = currentCategory
 
 
 

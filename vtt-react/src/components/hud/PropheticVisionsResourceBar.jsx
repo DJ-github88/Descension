@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 const PropheticVisionsResourceBar = ({
   oracleState,
@@ -12,7 +13,9 @@ const PropheticVisionsResourceBar = ({
   onClassResourceUpdate,
   size,
   context,
-  visionsBarRef
+  visionsBarRef,
+  renderStatusFlavor,
+  logClassResourceChange,
 }) => {
   const {
     localVisions,
@@ -32,6 +35,12 @@ const PropheticVisionsResourceBar = ({
   const setShowTooltip = (value) => setUiState(prev => ({ ...prev, showTooltip: value }));
   const setTooltipPosition = (value) => setUiState(prev => ({ ...prev, tooltipPosition: value }));
   const setTooltipPlacement = (value) => setUiState(prev => ({ ...prev, tooltipPlacement: value }));
+  const setLocalVisions = (value) => setOracleState(prev => ({ ...prev, localVisions: value }));
+  const setOracleSpec = (value) => setOracleState(prev => ({ ...prev, oracleSpec: value }));
+  const setPredictionAccuracy = (value) => setOracleState(prev => ({ ...prev, predictionAccuracy: typeof value === 'function' ? value(prev.predictionAccuracy) : value }));
+  const setLastVisionGain = (value) => setOracleState(prev => ({ ...prev, lastVisionGain: typeof value === 'function' ? value(prev.lastVisionGain) : value }));
+  const setShowVisionsMenu = (value) => setOracleState(prev => ({ ...prev, showVisionsMenu: value }));
+  const setOracleHoverSection = (value) => setOracleState(prev => ({ ...prev, oracleHoverSection: value }));
 
         const specs = finalConfig.visual || {};
         const currentSpec = specs[oracleSpec] || specs['seer'];

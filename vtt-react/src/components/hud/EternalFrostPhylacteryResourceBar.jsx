@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 const EternalFrostPhylacteryResourceBar = ({
   lichborneState,
@@ -13,6 +14,7 @@ const EternalFrostPhylacteryResourceBar = ({
   size,
   context,
   phylacteryBarRef,
+  logClassResourceChange,
 }) => {
   const { localPhylacteryHP, eternalFrostActive, lichborneSpec, showPhylacteryMenu, lichborneHoverSection } = lichborneState;
   const { showTooltip, tooltipPosition, tooltipPlacement } = uiState;

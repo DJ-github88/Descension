@@ -4,6 +4,7 @@ import useCreatureStore from '../../../store/creatureStore';
 import useGameStore from '../../../store/gameStore';
 import useMapStore from '../../../store/mapStore';
 import usePartyStore from '../../../store/partyStore';
+import { TRANSITION_TIMINGS } from '../UnifiedTransitionOverlay';
 
 export function registerGmHandlers(ctx) {
   const {
@@ -546,7 +547,7 @@ export function registerGmHandlers(ctx) {
           characterTokens.forEach(tokenData => {
             if (tokenData && tokenData.position) {
               console.log('â™Ÿï¸ [gm_view_changed] Adding character token:', tokenData.id, tokenData.playerId, tokenData.position);
-              addCharacterTokenFromServer(tokenData.id || tokenData.tokenId, tokenData.position, tokenData.playerId, data.newMapId);
+              useCharacterTokenStore.getState().addCharacterTokenFromServer(tokenData.id || tokenData.tokenId, tokenData.position, tokenData.playerId, data.newMapId);
             }
           });
 

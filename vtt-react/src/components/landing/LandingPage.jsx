@@ -575,6 +575,12 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
           {activeSection === 'membership' && renderMembershipSection()}
         </main>
 
+        <footer className="landing-footer">
+          <button className="footer-link" onClick={() => navigate('/privacy')}>
+            <i className="fas fa-shield-alt"></i> Privacy Policy
+          </button>
+        </footer>
+
         {/* Scroll to Top Button */}
         {showScrollTop && (
           <button

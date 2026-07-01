@@ -1,4 +1,6 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
+import ResourceCanvasBar from './canvas/ResourceCanvasBar';
 
 const RageBarResourceBar = ({
   berserkerState,
@@ -13,7 +15,9 @@ const RageBarResourceBar = ({
   size,
   context,
   rageInputValue,
-  rageBarRef
+  rageBarRef,
+  renderStatusFlavor,
+  logClassResourceChange,
 }) => {
   const {
     showRageMenu
@@ -33,6 +37,16 @@ const RageBarResourceBar = ({
   const berserkerRageMax = finalClassResource?.max ?? 100;
   const setRageInputValue = (value) => setUiState(prev => ({ ...prev, rageInputValue: value }));
   const setShowRageMenu = (value) => setUiState(prev => ({ ...prev, showRageMenu: value }));
+
+  const handleRageBarEnter = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setTooltipPosition({ x: rect.left + rect.width / 2, y: rect.top });
+    setShowTooltip(true);
+  };
+
+  const handleRageBarLeave = () => {
+    setShowTooltip(false);
+  };
 
         const rageValue = berserkerRage;
         const isOverheated = rageValue > 100;

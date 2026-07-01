@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 const HexbreakerChargesResourceBar = ({
   covenbaneState,
@@ -12,7 +13,10 @@ const HexbreakerChargesResourceBar = ({
   onClassResourceUpdate,
   size,
   context,
-  chargesDisplayRef
+  chargesDisplayRef,
+  renderIcon,
+  renderStatusFlavor,
+  logClassResourceChange
 }) => {
   const {
     showChargesMenu,
@@ -28,6 +32,8 @@ const HexbreakerChargesResourceBar = ({
   const setShowTooltip = (value) => setUiState(prev => ({ ...prev, showTooltip: value }));
   const setTooltipPosition = (value) => setUiState(prev => ({ ...prev, tooltipPosition: value }));
   const setTooltipPlacement = (value) => setUiState(prev => ({ ...prev, tooltipPlacement: value }));
+  const setShowChargesMenu = (value) => setCovenbaneState(prev => ({ ...prev, showChargesMenu: value }));
+  const setCovenbaneHoverSection = (value) => setCovenbaneState(prev => ({ ...prev, covenbaneHoverSection: value }));
 
   const covenbaneHexbreakerCharges = finalClassResource?.hexbreakerCharges ?? 4;
   const covenbaneAttackCounter = finalClassResource?.attackCounter ?? 2;

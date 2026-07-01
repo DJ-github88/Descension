@@ -1,3 +1,5 @@
+import { getIconUrl as getAssetIconUrl } from '../../utils/assetManager';
+
 // List of item icons from items folder categorized by type
 export const WOW_ICONS = {
     weapons: {
@@ -285,9 +287,6 @@ export const WOW_ICONS = {
 
 // Base URL for WoW icons (legacy - not used for items)
 export const WOW_ICON_BASE_URL = 'https://wow.zamimg.com/images/wow/icons/large/';
-
-// Import the correct getIconUrl from assetManager
-import { getIconUrl as getAssetIconUrl } from '../../utils/assetManager';
 
 // Function to get full icon URL - uses only local assets for items
 export const getIconUrl = (iconId, category = 'items') => {

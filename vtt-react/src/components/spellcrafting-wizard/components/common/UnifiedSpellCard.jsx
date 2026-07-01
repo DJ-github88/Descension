@@ -37,15 +37,15 @@ import SpellCardHeader from './SpellCardHeader';
 import RollableTableSummary from './RollableTableSummary';
 import ProphecySummary from './ProphecySummary';
 import { useSpellLibrary } from '../../context/SpellLibraryContext';
-const SpellTooltip = React.lazy(() => import('./SpellTooltip'));
 import { calculateManaCost } from '../../core/mechanics/resourceManager';
 import { normalizeSpell } from '../../core/utils/spellNormalizer';
 import useCharacterStore from '../../../../store/characterStore';
 import { getAbilityIconUrl, getCustomIconUrl } from '../../../../utils/assetManager';
+const SpellTooltip = React.lazy(() => import('./SpellTooltip'));
 // Pathfinder styles imported via main.css
 
 // Comprehensive mapping of internal stat keys to user-friendly labels
-const GLOBAL_STAT_MAP = {
+export const GLOBAL_STAT_MAP = {
   // Primary stats
   'strength': 'Strength', 'agility': 'Agility', 'constitution': 'Constitution',
   'intelligence': 'Intelligence', 'spirit': 'Spirit', 'charisma': 'Charisma',
@@ -82,7 +82,7 @@ const GLOBAL_STAT_MAP = {
 };
 
 // Helper to map stat key to a premium, user-friendly label
-const mapStatKeyToLabel = (key) => {
+export const mapStatKeyToLabel = (key) => {
   if (!key) return 'Stat';
   const lower = key.toLowerCase();
   
@@ -119,7 +119,7 @@ const mapStatKeyToLabel = (key) => {
 };
 
 // Helper to identify and format Advantage/Disadvantage modifiers
-const getAdvantageDisadvantageText = (statKey, magnitude, magnitudeType) => {
+export const getAdvantageDisadvantageText = (statKey, magnitude, magnitudeType) => {
   const lowerType = (magnitudeType || '').toLowerCase();
   const val = parseInt(magnitude, 10);
   const isAdvantage = val === 99 || lowerType === 'advantage';
@@ -211,7 +211,7 @@ const UnifiedSpellCard = ({
   const { enhanceFormulaDisplay, getRarityClass, getSpellSchoolClass, getBorderColor, getSpellIcon } = useSpellMeta({ spell });
   const { formatCastTime, formatRange, formatEffectTargeting, formatTargetingType, formatPropagation, formatDuration, formatCooldown, formatTypeSpecificBullets } = useTargetingFormatters({ spell });
   const { getResourceIcon, getResourceColor, formatResourceCosts } = useResourceFormatters({ spell, variant, className, library });
-  const { formatSpellComponents, formatMaterialComponentsText, formatMechanics, formatGraduatedEffects, processMechanicConfig } = useComponentFormatters({ spell, className });
+  const { formatSpellComponents, formatMaterialComponentsText, formatMechanics, formatGraduatedEffects, processMechanicConfig } = useComponentFormatters({ spell, library, className });
   const { formatChanceOnHit, formatTriggerId, formatTriggerText, formatTriggerForConditionalDisplay } = useTriggerFormatters({ spell, library });
   const { getDamageTypeSuffix, formatCriticalHit, formatSavingThrow, formatDamage, formatHealing, formatCombinedHealing, getDamageTypes, getSpellTags } = useDamageHealingFormatters({ spell, variant, enhanceFormulaDisplay });
   const { formatStatusEffectDetails, formatBuffEffects, formatPurificationEffects, formatDebuffEffects } = useStatusEffectFormatters({ spell, library, categories, formatSavingThrow });

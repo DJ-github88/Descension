@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 const FortunePointsResourceBar = ({
   gamblerState,
@@ -12,7 +13,9 @@ const FortunePointsResourceBar = ({
   onClassResourceUpdate,
   size,
   context,
-  fpBarRef
+  fpBarRef,
+  renderStatusFlavor,
+  logClassResourceChange,
 }) => {
   const {
     localFortunePoints,
@@ -32,6 +35,9 @@ const FortunePointsResourceBar = ({
   const setShowTooltip = (value) => setUiState(prev => ({ ...prev, showTooltip: value }));
   const setTooltipPosition = (value) => setUiState(prev => ({ ...prev, tooltipPosition: value }));
   const setTooltipPlacement = (value) => setUiState(prev => ({ ...prev, tooltipPlacement: value }));
+  const setLocalFortunePoints = (value) => setGamblerState(prev => ({ ...prev, localFortunePoints: value }));
+  const setShowFPMenu = (value) => setGamblerState(prev => ({ ...prev, showFPMenu: value }));
+  const setGamblerHoverSection = (value) => setGamblerState(prev => ({ ...prev, gamblerHoverSection: value }));
 
         const fpValue = finalClassResource.current ?? localFortunePoints;
         const maxFP = finalClassResource.max ?? 7;
