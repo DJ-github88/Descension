@@ -41,6 +41,63 @@ export const FALSE_PROPHET_DATA = {
       "justification": "Requires a population with congregation-proximity and cultural susceptibility to manufactured revelation. Astril host constellation-spirits that blur the line between divine truth and parasitic deception. Morren live in debt-trapped desperation adjacent to the Keeper's power. Ordan are nomadic — a class that requires stable congregation proximity contradicts their migrating lifestyle. Skald and Thalren are too institutionally rigid."
   },
 
+  /**
+   * Subrace Variants — the False Prophet sells manufactured meaning, and what counts
+   * as "meaning" depends entirely on what your people are desperate to hear. The Astril
+   * variants are the most dangerous: their constructed faith is indistinguishable from
+   * the genuine celestial resonance their bodies already carry.
+   */
+  subraceVariants: {
+    sylen_astril: {
+      subraceName: 'Sylen Astril',
+      title: 'The False Star',
+      reframe: `The <LoreLink termId="astril">Sylen</LoreLink> host *real* constellation-spirits, and a Sylen False Prophet is the most insidious variant of the tradition: their manufactured faith is indistinguishable from genuine celestial resonance because their bodies already hum with it. They do not need to fake divinity — they borrow the credibility of a real imprisoned god-fragment and redirect the devotion it generates. The congregation cannot tell the prophet from the temple.`,
+      signatureAbility: {
+        name: 'Borrowed Resonance',
+        description: `The Prophet channels their host constellation-spirit's *genuine* resonance as cover for manufactured doctrine. The congregation experiences real celestial contact — which makes the false gospel layered into it almost impossible to disbelieve. Detecting the lie requires separating true resonance from fabricated, a feat few can manage.`
+      },
+      currentCrisisAngle: `The Voice of the Silence has begun issuing instructions that the Sylen's constellation-spirits *recognize* — the imprisoned fragments of Sol's court react to the Voice with something the Sylen can only describe as fear. The False Prophets suspect the Voice is not a void-entity at all, but something the constellation-spirits remember from before the Deepening. Their constructed faith may be older than they knew.`,
+      signatureQuote: {
+        text: '"My congregation feels the star in my blood and calls it proof. I have not told them the star is as fooled as they are."',
+        speaker: 'Aenith the Luminous Lie',
+        context: 'A Sylen False Prophet, three years into a fabricated solar-revival cult'
+      }
+    },
+
+    muren_astril: {
+      subraceName: 'Muren Astril',
+      title: 'The Gagged Evangelist',
+      reframe: `The <LoreLink termId="astril">Muren</LoreLink> suppress their constellation-spirits, and a Muren False Prophet weaponizes the *suppression itself* — preaching a gospel the bound spirit rages against, harnessing the captive's desperate need to be heard as the engine of the congregation's fervor. The Muren Prophet's faith is built on a hostage's screaming, and the congregation experiences that screaming as divine conviction.`,
+      signatureAbility: {
+        name: 'Hostage-Sermon',
+        description: `Faith-power scales with the suppressed constellation-spirit's agitation; the more the bound spirit fights the doctrine, the more the congregation believes it — genuine supernatural resistance reads, to mortals, as the force of true revelation.`
+      },
+      currentCrisisAngle: `The Voice's instructions to descend to the Frozen Archive's lowest vault have a peculiar effect on the Muren: their suppressed spirits have gone *quiet*, complying with the doctrine for the first time. A Muren False Prophet whose hostage agrees with them is, almost universally, a Muren False Prophet who has finally said something the hostage wants.`,
+      signatureQuote: {
+        text: '"For years I preached against my star\'s will, and the people believed the struggle. Now my star is silent. I do not know which frightens me more."',
+        speaker: 'Orathin the Willing',
+        context: 'A Muren False Prophet, the morning his suppressed spirit stopped objecting'
+      }
+    },
+
+    morren_human: {
+      subraceName: 'Morren',
+      title: 'The Debt-Preacher',
+      reframe: `The <LoreLink termId="house_morrath">Morren</LoreLink> live in debt-trapped desperation adjacent to the <LoreLink termId="keeper_of_the_last_threshold">Keeper</LoreLink>'s power, and a Morren False Prophet sells the one thing every Morren family would pay anything for: salvation from the Neth contract-debt. Their manufactured faith is a counter-currency — devotion in lieu of gold, belief in lieu of blood, the congregation paying in worship what their families owe in interest.`,
+      signatureAbility: {
+        name: 'Indulgence-Economy',
+        description: `The Prophet's congregation pays devotion in direct proportion to their inherited debt; the more a follower owes the Neth, the more powerful the Prophet's faith-effects become when channeling through them. The Morren False Prophet is, in effect, a competing creditor.`
+      },
+      currentCrisisAngle: `The Voice's instructions to open "the way" in the Frozen Archive have been read by the Morren Debt-Preachers as a promise: a way out of the contract-system entirely. Some have begun preaching that the Keeper itself is the first False Prophet — that the entire Neth contract-economy is a manufactured faith eight centuries old. If they are right, the Morren are not heretics. If they are wrong, the Keeper's Sanction will be absolute.`,
+      signatureQuote: {
+        text: '"Your grandmother signed a contract with a thing that eats debts. I am offering you a god who will tear it up. Tell me again which one of us is the fraud."',
+        speaker: 'Preacher Mor-Velk',
+        context: 'A Morren Debt-Preacher, to a Neth tax-collector, the night before his arrest'
+      }
+    }
+  },
+
+
   id : "false_prophet",
   name: "False Prophet",
   icon: "fas fa-eye",
@@ -48,6 +105,28 @@ export const FALSE_PROPHET_DATA = {
   damageTypes: ["wyrd", "blight"],
 
   // Overview section
+  livingOrder: {
+    orderName: 'The Congregation of the Silence',
+    founder: {
+      name: '<LoreLink termId="li-wei">Li Wei</LoreLink>',
+      status: `Alive — barely. The Ordan herd-watcher who followed a meteor into a crystalline crater, looked into the void where Sol once shone, and returned blind and mind-shattered. He cannot lead; he can only listen, and the Voice now speaks through his broken heartbeats.`,
+      note: `<LoreLink termId="li-wei">Li Wei</LoreLink> never intended to found a faith. He wanted to know what replaced the sun. The Voice answered, and the answer is still arriving. The Congregation formed around him without his consent.`
+    },
+    currentLeader: {
+      name: '<LoreLink termId="mor-vereth">Cell-Mother Mor-Vereth</LoreLink>',
+      title: 'Weaver of the Congregation',
+      characterization: `A <LoreLink termId="house_morrath">Morren</LoreLink> debtor who heard the Voice through <LoreLink termId="li-wei">Li Wei</LoreLink>'s breathing and built the cell-network around it. She is cold, organized, and genuinely uncertain whether she is leading a liberation movement or steering millions toward something she cannot see. She keeps <LoreLink termId="li-wei">Li Wei</LoreLink> alive because the Voice will not speak through any other throat.`
+    },
+    headquarters: { name: 'The Crater of the First Silence (cell-network, no fixed seat)', locationId: 'starfall_vale' },
+    crisisConnection: `<LoreLink termId="mor-vereth">Mor-Vereth</LoreLink> is the one receiving the Voice's new, specific instructions — *descend to the Frozen Archive's lowest vault, open the way* — and she is terrified because the instructions are no longer suggestions. <LoreLink termId="li-wei">Li Wei</LoreLink>'s heart has begun beating in the rhythm of the commands, and the Congregation's cells across every region are reporting the same rhythm. Whatever is trapped beneath the Archive is using the faith to free itself, and <LoreLink termId="mor-vereth">Mor-Vereth</LoreLink> does not know how to stop a god she invented.`
+  },
+
+  worldFriction: [
+    { region: 'sundrift-vale', location: 'synod_hold', status: 'hunted', consequence: 'The Synod-Hold explicitly tries and banishes False Prophets — their deceptive light is recognized as toxic forgery of true celestial resonance. A Prophet identified by the Luminarchy is subject to immediate crystal-binding and exile; repeat offenders are "quieted."', workaround: 'The constructed faith is designed to be indistinguishable from genuine religion; a careful Prophet hides behind a competing institutional faith (the Dawn Vigil, the Synod itself) until the congregation is large enough to protect them.' },
+    { region: 'sundale', status: 'persecuted', consequence: 'The Dawn Vigil considers manufactured revelation a direct threat to the Reforging theology; False Prophets in Sundale are burned as heretics alongside suspected Pyrofiends.' },
+    { region: 'bryngloom-forest', status: 'tolerated', consequence: 'The Neth are constitutionally unable to be fooled by spoken faith (they cannot lie and sense lies), so the Congregation of the Silence struggles in Bryngloom — but the Morren debt-population is desperate enough to believe anything.' }
+  ],
+
   overview: {
     originStory: `In the starless grasslands of the Sundrift Vale, a nomadic herd-watcher named Li Wei followed a falling meteor into a deep, crystalline crater. He did not find a metal shard, but an ancient, sundered monolith humming with a black, empty vacuum. When he looked directly into the void where the sun-god Sol once shone, he did not see light; he saw the gospel of the cosmic void. The vacuum spoke not in words, but in the terrifying, silent architecture of the stars' demise.
 

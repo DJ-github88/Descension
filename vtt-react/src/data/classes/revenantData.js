@@ -17,6 +17,96 @@ export const REVENANT_DATA = {
       "justification": "Requires cultural acceptance of undeath as continuation of obligation. Reframing undeath as contract renewal is Neth/Vreken-specific."
   },
 
+  /**
+   * Subrace Variants — the Revenant refuses death, and the *reason* for that refusal
+   * is what makes each variant distinct. The Vreken refuse death because their ancestors
+   * need them. The Drun Neth refuse it because they are already legally dead. The
+   * Morren refuse it because their contracts survive the body. The Tessen refuse it
+   * because their bloodline cannot end.
+   */
+  subraceVariants: {
+    clean_vreken: {
+      subraceName: 'Clean Vreken',
+      title: 'The Ancestor-Bound',
+      reframe: `The <LoreLink termId="vreken">Clean Vreken</LoreLink> are the tradition's <LoreLink termId="kora">Kora</LoreLink>-inheritors — the ancestral lights Kora the Veil-Speaker tended were the Vreken's own dead. A Clean Vreken Revenant refuses death because their *ancestors need a living voice to speak through*. The Revenant state is not selfish survival; it is continued service, the host kept half-alive so the dead can keep speaking.`,
+      signatureAbility: {
+        name: 'Anchor-Voice',
+        description: `Death-Toll is generated through ancestral communion rather than blood-sacrifice; the Clean Vreken channels the dead's residual vitality, the ancestors willingly feeding the host to keep their voice alive. The arrangement is reciprocal — and the ancestors, eventually, expect to be *answered*.`
+      },
+      currentCrisisAngle: `The bog-graves waking on their own is, to the Clean Vreken, the ancestors *firing them* — the dead no longer need a living voice because they are rising to speak for themselves. The Clean Vreken Revenants are being made obsolete by their own charge, and several have begun hearing a new voice in the chorus: something that is not an ancestor, calling the dead toward the <LoreLink termId="the_breach">Sundered Monoliths</LoreLink>.`,
+      signatureQuote: {
+        text: '"I stayed half-dead so my grandmother could speak through me. Now my grandmother is walking, and she will not look at me. She is listening to something I cannot hear."',
+        speaker: 'Voice-Keeper Yssen',
+        context: 'A Clean Vreken Revenant, watching her risen ancestor shamble past'
+      }
+    },
+
+    marked_vreken: {
+      subraceName: 'Marked Vreken',
+      title: 'The Mycelium-Dead',
+      reframe: `The <LoreLink termId="vreken">Marked Vreken</LoreLink> — ghost-mycelium walkers — achieve the Revenant state *through the Root-Veil itself*, the network preserving them in a distributed half-death the way it preserves every organism it absorbs. A Marked Revenant is not a single corpse kept animate; they are a consciousness smeared across miles of mycelium, dying everywhere and nowhere.`,
+      signatureAbility: {
+        name: 'Network-Stasis',
+        description: `The Phylactery is *distributed* across the mycelial network rather than housed in a single basalt stone; a Marked Revenant is nearly impossible to permanently kill, as their soul is cached in the forest itself. The cost: they feel every wound the forest feels, and the Root-Veil's health is their own.`
+      },
+      currentCrisisAngle: `The dead marching toward the Monoliths are using the Root-Veil to travel — and the Marked Revenants, distributed across that same network, are being *carried along* whether they consent or not. Several Marked Revenants have reported their distributed consciousness *fragmenting*, pieces of themselves dragged toward the Monoliths with the rising dead, their identity thinning as the network routes the dead through their soul.`,
+      signatureQuote: {
+        text: '"I am not in my body. I am in the forest, and the forest is walking somewhere I did not choose to go. I am losing pieces of myself with every mile the dead travel."',
+        speaker: 'Vesh the Spread',
+        context: 'A Marked Revenant, feeling a fragment of himself arrive at a Monolith he has never visited'
+      }
+    },
+
+    drun_neth: {
+      subraceName: 'Drun Neth',
+      title: 'The Contract-Expired',
+      reframe: `The <LoreLink termId="neth">Drun Neth</LoreLink> severed all contracts and legally do not exist — and the Revenant state is, for them, the *fulfillment* of that legal non-existence made metaphysical. A Drun Revenant is a being the Keeper cannot see, the First Contract cannot bind, and death cannot claim, because they have already been erased from every ledger that governs such things. They are the freest undead in existence, and the loneliest.`,
+      signatureAbility: {
+        name: 'Unrecorded-Death',
+        description: `The Revenant state is invisible to the Keeper and to contract-magic; a Drun Revenant cannot be sensed, bound, or dismissed by any system that relies on legal recognition. They are ghosts to the bureaucracy that governs all other Neth undeath — and pay for it with total social nonexistence.`
+      },
+      currentCrisisAngle: `The bog-graves waking is, to the Drun, a *jurisdictional crisis*: the risen dead are being routed by something the Keeper *does* see, and the Drun — unrecorded, unbound — are the only Revenants immune to the routing. Some Drun Revenants have realized they are the only undead still capable of *free movement*, and the question of whether to flee the marching dead or investigate what is driving them has split the caste entirely.`,
+      signatureQuote: {
+        text: '"I erased myself from every ledger so that no power could find me. Now every dead thing in the bog is marching to a single order, and I am the only corpse that can still choose its direction. The freedom is suffocating."',
+        speaker: 'Drun Vel-Thaussen',
+        context: 'A Drun Revenant, watching the dead stream past without stopping for her'
+      }
+    },
+
+    morren_human: {
+      subraceName: 'Morren',
+      title: 'The Debt-Revenant',
+      reframe: `The <LoreLink termId="house_morrath">Morren</LoreLink> become Revenants for the most Morren reason possible: their contracts survive their death, and the <LoreLink termId="house_morrath">Postmortem Corvée</LoreLink> conscripts the deceased debtor into continued labor. A Morren Revenant is not refusing death — they are *being denied* it, by the same contract-economy that owned them in life. Undeath, for the Morren, is the final clause in a bargain they never wanted.`,
+      signatureAbility: {
+        name: 'Corvée-Animation',
+        description: `The Revenant state is maintained by *contractual obligation* rather than personal will; the Morren Revenant cannot choose to rest, only to work, and their power scales with the size of their outstanding debt. The more they owe, the harder they are to kill — the Neth will not let a major debtor simply die.`
+      },
+      currentCrisisAngle: `The bog-graves waking has the Morren Revenants terrified for a specific reason: the marching dead are heading toward the Monoliths, and if whatever drives them *breaks the contract-system*, the Morren Revenants — sustained entirely by that system — will simply collapse. Their undeath depends on the bureaucracy that enslaves them, and the bureaucracy is, apparently, under attack.`,
+      signatureQuote: {
+        text: '"In life I owed the Neth everything. In death I owe them more. If the thing driving the dead breaks the Ledger, I fall — and for the first time in eight hundred years, I am not certain that falling would be a mercy."',
+        speaker: 'Debt-Revenant Mor-Kael',
+        context: 'A Morren Revenant, watching the dead pass his contract-post'
+      }
+    },
+
+    tessen_human: {
+      subraceName: 'Tessen',
+      title: 'The Keep-Waked',
+      reframe: `The <LoreLink termId="house_tesshan">Tessen</LoreLink> have prepared for extinction for four centuries inside their sealed keeps, and the Revenant is the ultimate expression of that preparation — undeath as *dynastic preservation*, the refusal to let a bloodline end even when biology insists. A Tessen Revenant does not fear death; they have *rehearsed* it, and the rehearsal made it optional.`,
+      signatureAbility: {
+        name: 'Lineage-Phylactery',
+        description: `The Phylactery is not a single stone but the *keep itself* — the Tessen Revenant's soul is anchored to their ancestral architecture. As long as the keep stands, the Revenant cannot be permanently destroyed. As long as the Revenant endures, the bloodline technically continues.`
+      },
+      currentCrisisAngle: `The keeps are failing (the Chronarch crisis), and with them the Tessen Revenants' anchor. Worse, the marching dead are heading toward the Monoliths — and the Tessen suspect one Monolith lies *beneath their own keeps*, which is why the dead are circling closer. The Tessen Revenants face annihilation from two directions: their phylactery crumbling above, and the dead arriving below.`,
+      signatureQuote: {
+        text: '"My keep is my coffin and my coffin is my keep. I have stood in this hall for four hundred years refusing to be the last of my line. The hall is falling. The line may finally end. I am not ready, even now."',
+        speaker: 'Castellan Tess-Varek the Waked',
+        context: 'A Tessen Revenant, as the eastern wall of her keep-phylactery began to crack'
+      }
+    }
+  },
+
+
   id: "revenant",
   name: "Revenant",
   icon: "fas fa-skull-crossbones",
@@ -59,6 +149,27 @@ export const REVENANT_DATA = {
     ],
     notes: "Revenants cannot wield holy symbols or consecrated weapons — the blight resonance in their blood causes such items to crack and dull. Bows and crossbows are forbidden; the Revenant's work requires the press of blood or frost against flesh.",
   },
+
+  livingOrder: {
+    orderName: 'The Twice-Born',
+    founder: {
+      name: '<LoreLink termId="kora">Kora the Veil-Speaker</LoreLink> (Vreken) and <LoreLink termId="vesper">Vesper the Scribe</LoreLink> (Neth)',
+      status: `Kora — dead and still speaking. She sacrificed her life-force to keep the ancestral lights burning and was cursed to hear the screams of every ancestor she tended; her voice survives in the chorus. Vesper — perpetually dying, heart beating once per hour, bound to a basalt phylactery in the deep sumps. He answers correspondence.`,
+      note: `<LoreLink termId="kora">Kora</LoreLink>'s blood-covenant and <LoreLink termId="vesper">Vesper</LoreLink>'s frost-stasis merged when the bog-graves began waking on their own — the two traditions recognized their separate wars were the same war against death's finality.`
+    },
+    currentLeader: {
+      name: '<LoreLink termId="kor-vasseth">Threshold-Keeper Kor-Vasseth</LoreLink>',
+      title: 'Warden of the Waking Graves',
+      characterization: `A Revenant of mixed Vreken-Neth descent who carries both founders' arts — <LoreLink termId="kora">Kora</LoreLink>'s Death Toll and <LoreLink termId="vesper">Vesper</LoreLink>'s Phylactery. He is calm, ancient, and speaks in a whisper layered with ancestral overtones. He has led the Twice-Born through three previous bog-grave awakenings. The fourth, the current one, is different, and the difference has him frightened for the first time in four centuries.`
+    },
+    headquarters: { name: 'The Cold Hearth, deep Bryngloom peat-sinks', locationId: 'bryngloom-forest' },
+    crisisConnection: `<LoreLink termId="kor-vasseth">Kor-Vasseth</LoreLink> is investigating the twelve Revenants found drained of blood but unwounded — and the dead marching toward the <LoreLink termId="the_breach">Sundered Monoliths</LoreLink>. He has determined that the waking dead are *not* his order's doing: something is calling them, and the call routes through the Root-Veil. The Marked Revenants, distributed across that same network, are being dragged along as passengers. He cannot stop the march without severing the Root-Veil itself, which would kill every Marked Revenant — including half his order.`
+  },
+
+  worldFriction: [
+    { region: 'bryngloom-forest', status: 'persecuted', consequence: 'The bog-graves are waking and the dead march toward the Monoliths; the Neth Regency has blamed the Revenants and revoked their burial rights. A Revenant caught near a waking grave is charged with "unauthorized reanimation" and subject to the Keeper\'s Sanction — permanent, final dissolution.', workaround: 'A Drun Neth Revenant is invisible to the Keeper and thus immune to the Sanction — but a Drun in the Bryngloom cannot prove they exist, which makes defending the charge impossible.' },
+    { region: 'sundrift-vale', status: 'distrusted', consequence: 'The Ordan leave their dead to the steppe and consider any who traffic in undeath to be corpse-violators; a Revenant on the migration is refused fire, water, and passage.' }
+  ],
 
   overview: {
     title: "The Revenant",

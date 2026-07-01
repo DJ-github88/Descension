@@ -11288,6 +11288,26 @@ button.gender-option.selected {
     margin-top: -0.25rem;
 }
 
+.categorized-section-title {
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    color: #7a5a35 !important;
+    margin: 0.75rem 0 0.5rem 0 !important;
+    border-bottom: 1px dashed rgba(122, 90, 53, 0.4) !important;
+    padding-bottom: 0.2rem !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.4rem !important;
+    width: 100% !important;
+}
+
+.categorized-section-title.restricted-title {
+    color: #b07a00 !important;
+    border-bottom: 1px dashed rgba(176, 122, 0, 0.4) !important;
+}
+
 /* Accordion Race List */
 .accordion-race-list {
     display: flex;
@@ -12110,6 +12130,13 @@ button.gender-option.selected {
     border: 1px solid rgba(153, 126, 85, 0.2) !important;
 }
 
+.mod-pill.lore-bonus {
+    background: rgba(46, 117, 89, 0.12) !important;
+    border: 1px solid rgba(46, 117, 89, 0.3) !important;
+    color: #276e4c !important;
+    font-weight: 600;
+}
+
 .ability-sliders-list {
     display: flex;
     flex-direction: column;
@@ -12689,7 +12716,7 @@ button.gender-option.selected {
 
 .grimoire-book-container {
     display: flex !important;
-    flex-direction: row !important;
+    flex-direction: column !important;
     align-items: stretch !important;
     width: 100% !important;
     height: 100% !important;
@@ -12704,7 +12731,7 @@ button.gender-option.selected {
     background-color: #f4efe1 !important;
     border: 3px double #7a5a35 !important;
     outline: 1px solid #7a5a35 !important;
-    border-radius: 0 8px 8px 0 !important; /* Open book page vibe on the right */
+    border-radius: 0 8px 8px 8px !important; /* Open book page vibe on the right */
     padding: 1.5rem !important;
     box-sizing: border-box !important;
     overflow-y: auto !important;
@@ -12713,7 +12740,7 @@ button.gender-option.selected {
     gap: 1.25rem !important;
     box-shadow: -5px 5px 20px rgba(46, 30, 15, 0.15) !important;
     position: relative !important;
-    height: 100% !important;
+    height: calc(100% - 37px) !important;
     z-index: 2 !important;
 }
 
@@ -12744,27 +12771,30 @@ button.gender-option.selected {
     pointer-events: none !important;
 }
 
-/* Grimoire Vertical Tabs (Bookmarks) - Positioned on the Left overlapping center background */
+/* Grimoire Horizontal Tabs (Bookmarks) - Positioned on the Top */
 .grimoire-tabs {
     display: flex !important;
-    flex-direction: column !important;
+    flex-direction: row !important;
     align-items: flex-end !important;
     justify-content: flex-start !important;
     gap: 0.5rem !important;
-    padding-top: 2rem !important;
-    width: 44px !important;
-    margin-left: -44px !important; /* Pull tabs left outside the right panel to sit in the column gap */
+    padding-top: 0 !important;
+    padding-left: 1rem !important;
+    width: auto !important;
+    height: 40px !important;
+    margin-left: 0 !important;
+    margin-bottom: -3px !important; /* Overlap top page border */
     background: transparent !important;
     z-index: 10 !important;
 }
 
 .grimoire-tab-button {
-    width: 44px !important;
-    height: 48px !important;
+    width: 52px !important;
+    height: 36px !important;
     background: #dcd0b4 !important;
     border: 1px solid #7a5a35 !important;
-    border-right: none !important; /* Blend straight into page left border */
-    border-radius: 8px 0 0 8px !important; /* Rounded on the left */
+    border-bottom: none !important; /* Blend straight into page top border */
+    border-radius: 8px 8px 0 0 !important; /* Rounded on top */
     cursor: pointer !important;
     display: flex !important;
     align-items: center !important;
@@ -12772,24 +12802,24 @@ button.gender-option.selected {
     color: #5a3d1d !important;
     font-size: 1.1rem !important;
     transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
-    box-shadow: -2px 2px 5px rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 2px -2px 5px rgba(0, 0, 0, 0.1) !important;
     padding: 0 !important;
 }
 
 .grimoire-tab-button:hover {
     background: #eedfc2 !important;
     color: #2e1e0f !important;
-    transform: translateX(-4px) !important; /* Slide left on hover */
-    box-shadow: -3px 2px 8px rgba(0, 0, 0, 0.15) !important;
+    transform: translateY(-4px) !important; /* Slide up on hover */
+    box-shadow: 2px -3px 8px rgba(0, 0, 0, 0.15) !important;
 }
 
 .grimoire-tab-button.active {
     background: #f4efe1 !important;
     color: #7a5a35 !important;
-    width: 48px !important; /* Extend further left */
-    border-right: 1px solid #f4efe1 !important; /* blend into page */
-    margin-right: -1px !important;
-    box-shadow: -4px 2px 10px rgba(46, 30, 15, 0.2) !important;
+    height: 40px !important; /* Extend further down */
+    border-bottom: 2px solid #f4efe1 !important; /* blend into page */
+    margin-bottom: -1px !important;
+    box-shadow: 2px -4px 10px rgba(46, 30, 15, 0.2) !important;
     z-index: 12 !important;
 }
 

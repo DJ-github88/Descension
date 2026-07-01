@@ -47,7 +47,11 @@ const MapCanvas = ({
   onDeletePlayerPin,
   onSelectPlayerPin,
   onSelectPlayerArea,
-  activeShare
+  activeShare,
+
+  // Dev move/select props
+  selectedDevPinId,
+  onSelectForMove
 }) => {
   const transformRef = useRef(null);
   const [driftEnabled, setDriftEnabled] = useState(false);
@@ -416,6 +420,8 @@ const MapCanvas = ({
                     onDragStart={handleDragStart}
                     onResolveClick={onResolveClick}
                     currentCampaign={currentCampaign}
+                    selectedDevPinId={selectedDevPinId}
+                    onSelectForMove={onSelectForMove}
                   />
 
                   {/* Player Annotations Layer */}

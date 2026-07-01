@@ -445,7 +445,20 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
               </div>
 
               <div className="header-right header-actions">
-              {authStoreIsAuthenticated && authStoreUser ? (
+                <button
+                  type="button"
+                  className="privacy-btn"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    navigate('/privacy');
+                  }}
+                  title="Privacy Policy"
+                >
+                  <i className="fas fa-shield-alt"></i>
+                  Privacy
+                </button>
+                {authStoreIsAuthenticated && authStoreUser ? (
                 <>
                   <button
                     type="button"
@@ -565,6 +578,13 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
                   </button>
                 </>
               )}
+              <button
+                className="mobile-menu-item"
+                onClick={() => { navigate('/privacy'); setMobileMenuOpen(false); }}
+              >
+                <i className="fas fa-shield-alt"></i>
+                Privacy Policy
+              </button>
             </div>
           </div>
         </header>
@@ -575,11 +595,7 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
           {activeSection === 'membership' && renderMembershipSection()}
         </main>
 
-        <footer className="landing-footer">
-          <button className="footer-link" onClick={() => navigate('/privacy')}>
-            <i className="fas fa-shield-alt"></i> Privacy Policy
-          </button>
-        </footer>
+        {/* Footer removed to prevent vertical scrollbar and layout issues */}
 
         {/* Scroll to Top Button */}
         {showScrollTop && (

@@ -44,6 +44,63 @@ export const CHRONARCH_DATA = {
       "justification": "Requires temporal-suspension training only available in Cragjaw. Outsiders have never learned the technique — it requires Fexric gear-craft and Groven bone-knowledge."
   },
 
+  /**
+   * Subrace Variants — the Chronarch engine is half gear-craft (Fexric) and half
+   * living-bone interface (Groven), and the Tessen learned it by sending emissaries up
+   * to Frostmaw. Each subrace treats the same temporal engine as a different object:
+   * machine, body, or anchor.
+   */
+  subraceVariants: {
+    kethrin_fexric: {
+      subraceName: 'Kethrin Fexrick',
+      title: 'The Gear-Stitcher',
+      reframe: `The guild-bound <LoreLink termId="fexrick">Kethrin</LoreLink> built the gear-craft half of Nesta's engine, and they have never stopped believing the Chronarch tradition is, fundamentally, an engineering discipline that happens to be embedded in a person. A Kethrin Chronarch treats time as a mechanism with replaceable parts — and treats their own chest-engine as a machine that, with sufficient maintenance, need not kill them. (It still kills them.)`,
+      signatureAbility: {
+        name: 'Gear-Swap',
+        description: `Temporal effects are modulated by physically swapping gear-configurations in the chest-engine — a maintenance action that briefly destabilizes the user but allows re-tuning of a temporal effect mid-cast. The Kethrin alone can hot-swap without lethal feedback.`
+      },
+      currentCrisisAngle: `Nesta is disappearing, and the Kethrin read this as a *maintainable failure* — a fault in the oldest engine that a sufficiently skilled guild-master could, in theory, repair. The Kethrin guilds have begun the most ambitious repair attempt in history: rebuilding Nesta's engine from recorded schematics, hoping that if the machine persists, its inventor will too.`,
+      signatureQuote: {
+        text: '"Time is a gearbox. Nesta is a gearbox. Both can be rebuilt. The only question is whether we have the parts, and we have always had the parts."',
+        speaker: 'Guild-Master Fex-Torren',
+        context: 'A Kethrin engineer, unveiling the reconstruction schematics'
+      }
+    },
+
+    ithran_groven: {
+      subraceName: 'Ithran Groven',
+      title: 'The Bone-Calibrator',
+      reframe: `The volcanic-glass gears of a Chronarch engine must interface with *living bone* to function, and the long-limbed <LoreLink termId="groven">Ithran Groven</LoreLink> — the bridge-builders, the diplomats who instinctively read load and stress — provide the ideal substrate. An Ithran Chronarch does not own their engine so much as *host* it; the gears grow into the extended limbs, and the tradition reads as much like architecture as like time.`,
+      signatureAbility: {
+        name: 'Span-Calibration',
+        description: `Temporal effects scale with the reach and stability of the host's limbs — an Ithran Chronarch can stretch a local time-dilation across a wider area than any other practitioner, anchoring the field through their own outstretched body the way a bridge distributes load.`
+      },
+      currentCrisisAngle: `Nesta's disappearance terrifies the Ithran most: they feel temporal friction as *bone-ache*, and as Nesta fades, every Ithran Chronarch's limbs ache a little more. Some have begun to splint their own arms — not for injury, but because the bone-engine interface is vibrating at a frequency the living skeleton cannot sustain.`,
+      signatureQuote: {
+        text: '"My grandmother built a bridge from the bones of her dead. I build a bridge from the bones of my living. Hers still stands. Ask me in a century about mine."',
+        speaker: 'Ith-Sparra Long-Limb',
+        context: 'An Ithran Chronarch, splinting her forearm before a long cast'
+      }
+    },
+
+    tessen_human: {
+      subraceName: 'Tessen',
+      title: 'The Keep-Anchor',
+      reframe: `The <LoreLink termId="house_tesshan">Tessen</LoreLink> learned the Chronarch art by sending emissaries up through the <LoreLink termId="cragjaw-peaks">Cragjaw</LoreLink> trade-routes to Frostmaw, and they practice it for one reason: to keep their sealed keeps from collapsing *in time*, not merely in stone. A Tessen Chronarch does not manipulate time to win battles — they manipulate it to delay the arrival of a future their entire culture has been dreading for four centuries.`,
+      signatureAbility: {
+        name: 'Keep-Anchor',
+        description: `Temporal effects are drastically amplified when cast inside a single fixed structure the Augur has inhabited for years — the keep itself becomes a stasis-anchor. Outside their home keep, a Tessen Chronarch is the weakest of the tradition. Inside it, they are nearly omnipotent over local time.`
+      },
+      currentCrisisAngle: `The Tessen's keeps are failing *and* Nesta is disappearing — and the Tessen Chronarchs have realized the two events are linked. Nesta's engine and the Tessen keeps were built in the same decade, on the same geothermal line. As Nesta fades, the keeps' temporal integrity fails. The Tessen face a choice no other tradition shares: save Nesta, or save home.`,
+      signatureQuote: {
+        text: '"I learned to bend time so that my granddaughter could grow old in the same hall I did. I will not bend it so that the hall falls on her instead."',
+        speaker: 'Castellan Tess-Varek',
+        context: 'A Tessen Chronarch, refusing a summons to the Frostmaw conclave'
+      }
+    }
+  },
+
+
   id : "chronarch",
   name: "Chronarch",
   icon: "fas fa-clock",
@@ -58,6 +115,27 @@ export const CHRONARCH_DATA = {
   },
 
   // Overview section
+  livingOrder: {
+    orderName: 'The Frostmaw Conclave',
+    founder: {
+      name: '<LoreLink termId="nesta">Nesta</LoreLink>',
+      status: `Disappearing. Physical records bearing her name are going blank; people who knew her are forgetting. She built the first time-dilation engine of volcanic glass and alchemical gears, hooked it into her chest at <LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink>, and has been living in perpetual agonizing present ever since.`,
+      note: `The only Chronarch whose temporal friction feeds back into her own historical existence. If she ceases to exist retroactively, every living Chronarch inherits her accumulated temporal debt.`
+    },
+    currentLeader: {
+      name: '<LoreLink termId="fex-vestara">Conclave-Prime Fex-Vestara</LoreLink>',
+      title: 'Keeper of the Reconstruction Schematics',
+      characterization: `A guild-bound <LoreLink termId="fexrick">Kethrin</LoreLink> engineer who refuses to accept that <LoreLink termId="nesta">Nesta</LoreLink>'s disappearance is unpreventable. She has spent six years rebuilding <LoreLink termId="nesta">Nesta</LoreLink>'s original engine from recorded schematics, arguing that if the machine persists, its inventor will too. The other Conclave members consider this either genius or grief.`
+    },
+    headquarters: { name: 'Frostmaw Holdfast', locationId: 'frostmaw_holdfast' },
+    crisisConnection: `<LoreLink termId="fex-vestara">Fex-Vestara</LoreLink>'s reconstruction is a race against <LoreLink termId="nesta">Nesta</LoreLink>'s erasure — and the Conclave has gathered at Frostmaw to witness what they believe will be <LoreLink termId="nesta">Nesta</LoreLink>'s final collapse. If <LoreLink termId="fex-vestara">Fex-Vestara</LoreLink> completes the rebuild before <LoreLink termId="nesta">Nesta</LoreLink> vanishes, the founder may persist as a clause in the new engine. If she is too late, every Chronarch's temporal debt comes due at once. She is three weeks from completion. <LoreLink termId="nesta">Nesta</LoreLink> is estimated at four.`
+  },
+
+  worldFriction: [
+    { region: 'cragjaw-peaks', location: 'frostmaw_holdfast', status: 'celebrated', consequence: 'In the Cragjaw, Chronarchs are the engineers of last resort — their temporal stitching has held collapsing spans and stalled mine-cave-ins. House Tesshan grants them privileged heat-line access, though the Jarl-Inca records their every stitch in knotted khipu (the Chronarchs resent the surveillance).', workaround: 'A Chronarch who refuses to log a stitch is suspected of temporal crime; the khipu-record is both protection and leash.' },
+    { region: 'nordhalla', status: 'distrusted', consequence: 'The Skald genealogists despise temporal manipulation — an unraveled moment can edit an ancestor out of the record. Chronarchs are tolerated at the Frozen Archive only under escort, and a Chronarch caught stitching near the glacier-tombs may be lawfully killed by any Rune-Keeper.' }
+  ],
+
   overview: {
     originStory: `During the War of Thousand Screams, when a collapsing glacier threatened to crush the Frostmaw Holdfast, the Fexric engineer Nesta realized that physical struts could not hold back the grinding weight of the ice. She built a prototype time-dilation engine using volcanic glass and alchemical gears. In her desperation to freeze the falling stone, she hooked the engine's temporal loop directly into her own chest, trapping her timeline in a temporal feedback loop.
 

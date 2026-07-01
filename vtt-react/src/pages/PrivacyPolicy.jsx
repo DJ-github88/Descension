@@ -1,11 +1,22 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './PrivacyPolicy.css';
 
 const PrivacyPolicy = () => {
+  const navigate = useNavigate();
+
+  const handleBack = () => {
+    if (window.history.length > 1) {
+      navigate(-1);
+    } else {
+      navigate('/');
+    }
+  };
+
   return (
     <div className="privacy-policy-page">
       <div className="privacy-policy-container">
-        <button className="privacy-back-btn" onClick={() => window.history.back()}>
+        <button className="privacy-back-btn" onClick={handleBack}>
           <i className="fas fa-arrow-left"></i> Back
         </button>
 

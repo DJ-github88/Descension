@@ -57,4 +57,9 @@ export const REGION_POLYGONS = {
   }
 };
 
+// Pristine snapshot of committed region boundaries, captured at module load
+// before localStorage overrides. Used by the dev editor to diff boundary
+// edits for agent export.
+export const BASELINE_REGION_POLYGONS = JSON.parse(JSON.stringify(REGION_POLYGONS));
+
 export default REGION_POLYGONS;

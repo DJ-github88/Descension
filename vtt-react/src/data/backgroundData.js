@@ -58,6 +58,14 @@ export const BACKGROUND_DATA = {
             "narrativeUnlock": true,
             "justification": "The pilgrimage to Emberspire is a specific journey requiring proximity to Sundale. Outsiders can take it with a narrative reason for the pilgrimage."
         },
+        classHooks: [
+            { classId: 'martyr', bridge: 'Witnessing the Solbrand fade kindles the theology of willing suffering; many pilgrims take the Vow within a year of the pilgrimage.' },
+            { classId: 'pyrofiend', bridge: 'Proximity to Emberspire draws the desperate toward Scathrach deeper vents; some pilgrims never climb back out.' },
+            { classId: 'spellguard', bridge: 'Forgeside exposure to volatile Solbrand resonance is the on-ramp into the Damon tradition of magical defense.' }
+        ],
+        tensionPairings: [
+            { classId: 'harbinger', tension: 'Pilgrims seek restoration of the buried star; a Harbinger among them has usually left the Vigil with the doom-arithmetic instead of faith.' }
+        ],
         name: 'Emberspire Pilgrim',
         description: 'You made the pilgrimage to Emberspire, witnessing the Solbrand\'s fading light under the watchful gaze of Hierophant Aethelgard\'s Dawn Vigil. You have passed through the Obsidian Citadels of the Ashen Escarpment where Ash-Dwellers are held in bondage, and either joined the Vigil\'s crusade for the Reforging or left with gnawing doubt. At Ember Lagoon, pilgrims ship out under the Dawn Vigil’s banner to spread the call of the sun\'s rebirth.',
         skillProficiencies: ['Insight', 'Religion'],
@@ -98,6 +106,14 @@ export const BACKGROUND_DATA = {
             "narrativeUnlock": true,
             "justification": "The Basalt Shyr is a 90-mile road in Sundale. Running it requires Sundale geography knowledge."
         },
+        classHooks: [
+            { classId: 'spellguard', bridge: 'A career dodging magma-fractures and magical eruptions along the Shyr feeds directly into magical-defense engineering.' },
+            { classId: 'pyrofiend', bridge: 'The magma-fracturing sumps that tear reality open are Scathrach territory; runners who linger too long hear the Ashen Sovereign.' },
+            { classId: 'martyr', bridge: 'Runners who could not outrun a sulfur-cartel debt sometimes trade survival-pragmatism for the Vow.' }
+        ],
+        tensionPairings: [
+            { classId: 'arcanoneer', tension: 'A runner lives by evasion and improvisation; the contract-mage lives by pre-filed precision. The two mindsets are incompatible.' }
+        ],
         name: 'Shyr Runner',
         description: 'You navigated the ninety-mile Basalt Shyr, running caravans of volcanic sulfur and geothermal coal under the shadow of the Sulfur Cartel\'s monopoly. You learned when the basalt pillars shift, where magma-fracturing sumps tear open reality, and how to evade the Dawn Vigil patrols at the escarpment checkpoints. Slag Gulch serves as a resupply point where runners dodge the labor-levies, and at Ember Lagoon, Cartel cargo is smuggled onto Merryn ships.',
         skillProficiencies: ['Deception', 'Stealth'],
@@ -138,6 +154,14 @@ export const BACKGROUND_DATA = {
             "narrativeUnlock": true,
             "justification": "The Sovereign Ledger and Scribe-Cartel are Frostwood-specific. Exclude: Ordan (Steppe-Staves), Skald (runic genealogy), Tessen (khipu-cords) — they use different record-keeping systems. Smooth-Skinned Briaran can plausibly pass as human scribes in Frostwood ports."
         },
+        classHooks: [
+            { classId: 'toxicologist', bridge: 'Fog-reagent cataloguing and ledger precision translate directly into the Distillery craft.' },
+            { classId: 'inquisitor', bridge: 'Tracking the undocumented and the Wyrd-corrupted is the same archival discipline, turned predatory.' },
+            { classId: 'spellguard', bridge: 'Anti-Wyrd paranoia and contract-literacy are the Thalren half of the Spellguard tradition.' }
+        ],
+        tensionPairings: [
+            { classId: 'berserker', tension: 'An archivist chained to their journals cannot sustain the emotional singularity the Blood-Heat demands.' }
+        ],
         name: 'Ledger Keeper',
         description: 'You maintained identity-ledgers at Greymark Keep in the Frostwood Reach under the Sovereign Ledger enforced by Jarl-Archivist Kaelen Thalreth. In a land where the protective fog erases memory and the Scribe-Cartel holds a monopoly on Soot-Resin Ink and Peat-Parchment, your chained journals are the only proof of legal citizenship. You have checked papers at the Ironwood Palisade checkpoints, catalogued lineages at Greythorn Copse, and researched the prehistoric carvings of Mistbarrow.',
         skillProficiencies: ['Animal Handling', 'Survival'],
@@ -172,6 +196,14 @@ export const BACKGROUND_DATA = {
             "allowedSubraces": [],
             "justification": "Any race/subrace can be born into a noble house — even erased/subjugated ones (though with narrative tension for erased bloodlines)."
         },
+        classHooks: [
+            { classId: 'martyr', bridge: 'Solvan and Korr heirs carry the original sacrifice as inheritance; the Vow formalizes what their house already demands.' },
+            { classId: 'harbinger', bridge: 'An heir who works out the doom-arithmetic of their own house bargain becomes a Harbinger by deduction.' },
+            { classId: 'false_prophet', bridge: 'Morren and Astril heirs can leverage house authority as the seed of a manufactured congregation.' }
+        ],
+        tensionPairings: [
+            { classId: 'inquisitor', tension: 'Heirs are trained to protect house secrets; the Inquisitor exists to sever them. An heir who takes the Barbed Vow hunts their own blood.' }
+        ],
         name: 'Bloodline Heir',
         description: 'You descend from one of the seven noble houses that struck the Dark Bargains — Thalreth, Skalvyr, Solvan, Mereval, Tesshan, Ordavan, or Morrath. The weight of ancestral sacrifice shapes every decision you make, though your family\'s influence has long since fractured beneath the consequences of those bargains. (The Bryngloom\'s bargain was unique: it was struck not by House Morrath, but by the Neth\'s own ancestors — a fact the remaining houses prefer to forget.)',
         skillProficiencies: ['History', 'Persuasion'],
@@ -213,6 +245,14 @@ export const BACKGROUND_DATA = {
             "narrativeUnlock": true,
             "justification": "Requires access to Synod-Hold crystal archives and steppe scholarship. Both Sylen and Muren Astril study at the Synod, just on different paths."
         },
+        classHooks: [
+            { classId: 'augur', bridge: 'Celestial-archive study and constellation arithmetic are the Astril path into the augury.' },
+            { classId: 'false_prophet', bridge: 'Mastery of genuine constellation-lore is the perfect substrate for a manufactured faith.' },
+            { classId: 'harbinger', bridge: 'Academics who model the dimming of the constellation-spirits slide naturally into the doom-arithmetic.' }
+        ],
+        tensionPairings: [
+            { classId: 'berserker', tension: 'A scholar tempered by crystal archives and throat-sung theory rarely survives the Blood-Heat.' }
+        ],
         name: 'Synod Academic',
         description: 'You studied at the Synod-Hold in Sundrift Vale — the shimmering crystal-lattice Astril cathedral where constellation-spirit lineages are preserved. You learned to decipher the forbidden, throat-sung Sky-Songs that map stars that went dark under the Ordavan bargain, and catalogued star-lineages carved on bone Steppe-Staves. You know how to bypass the basalt Cairn-Checkpoints, how to navigate Starfall Vale, and how to identify the Unlit spies of the Synod.',
         skillProficiencies: ['Arcana', 'History'],
@@ -251,6 +291,14 @@ export const BACKGROUND_DATA = {
             "narrativeUnlock": true,
             "justification": "Bloodhammer Sump skirmishes and Hunger Glacier defense are Nordhalla-specific."
         },
+        classHooks: [
+            { classId: 'berserker', bridge: 'The Hunger Pact lives in a Sumps Veteran blood; the Blood-Heat is its combat expression.' },
+            { classId: 'warden', bridge: 'Frozen Archive proximity and geothermal-tunnel warfare are the surgical-graft on-ramp into the Bound.' },
+            { classId: 'augur', bridge: 'A veteran of the glacier defenses has plenty of preserved dead to read at the Frozen Archive.' }
+        ],
+        tensionPairings: [
+            { classId: 'false_prophet', tension: 'A veteran earned every scar in real combat; manufactured faith tastes like insult to someone who bled for truth.' }
+        ],
         name: 'Sumps Veteran',
         description: 'You fought in the Bloodhammer Sump\'s geothermal skirmishes, the War of Thousand Screams, or the endless defense of the Hunger Glaciers. The Hunger Pact lives in your blood — ancestral starvation channeled into combat fury — and the Frost-Tithe may have taken someone you loved.',
         skillProficiencies: ['Athletics', 'Intimidation'],
@@ -296,6 +344,14 @@ export const BACKGROUND_DATA = {
             "narrativeUnlock": true,
             "justification": "Neth contract law (First Contract, Great Registry) is Bryngloom-specific. Vreken share the Bryngloom and navigate its debt-economy. Exclude: Skald, Ordan — neither uses written contract law."
         },
+        classHooks: [
+            { classId: 'arcanoneer', bridge: 'Contract-law mastery is the foundation Valerius weaponized; a Neth negotiator is halfway to the Arcanoneer already.' },
+            { classId: 'revenant', bridge: 'A career in the debt-economy makes undeath-as-obligation-continuation a logical, not horrific, step.' },
+            { classId: 'gambit', bridge: 'Reading loopholes and hidden clauses is the same art as reading probability-webs — just applied to law instead of fate.' }
+        ],
+        tensionPairings: [
+            { classId: 'berserker', tension: 'Contract discipline and the Blood-Heat fury are mutually exclusive states of mind.' }
+        ],
         name: 'Debt Negotiator',
         description: 'You studied the First Contract and Neth legal traditions in Atropolis, helping clients navigate Regent Morrath\'s Great Registry and the Scribe-Cartel’s peonage. You understand that in Bryngloom, debt is a living thing: every agreement is a binding clause, every handshake a potential trap, and the Postmortem Corvée can conscript your corpse if you default. You help negotiate Memory-Glass Covenants to purchase extra years of life.',
         skillProficiencies: ['Deception', 'Sleight of Hand'],
@@ -335,6 +391,14 @@ export const BACKGROUND_DATA = {
             "narrativeUnlock": true,
             "justification": "Requires Nordhalla oral-history training and the specific context of Járn-Tand's cultural suppression."
         },
+        classHooks: [
+            { classId: 'augur', bridge: 'A keeper of oral history at the Frozen Archive has the dead close at hand and the patience to read them.' },
+            { classId: 'animist', bridge: 'The covert oral archive of the old ways is the seed of the Skald runic-branch of Animism. The ancestors the Runic Academies tried to burn still answer the songs.' },
+            { classId: 'apex', bridge: 'Throat-sung navigation and wind-reading translate directly into the sensory tracking of the Silent Hunt.' }
+        ],
+        tensionPairings: [
+            { classId: 'arcanoneer', tension: 'The oral archive and the written contract are rival memory-systems; a Frost Chanter trusts song where an Arcanoneer trusts filing.' }
+        ],
         name: 'Frost Chanter',
         description: 'You trained in Nordhalla\'s oral-history traditions, where song preserves what Járn-Tand\'s runic inquisitors seek to burn. Your performances are literally history-keeping rituals — each verse a hidden archive of the old animist ways, each chorus a shield against both the Frost-Tithe\'s despair and the Runic Academies\' erasure. In a land where the old drums are outlawed, the Frost Chanter\'s voice is a covert hearth for the Fredløse.',
         skillProficiencies: ['Acrobatics', 'Performance'],
@@ -369,6 +433,14 @@ export const BACKGROUND_DATA = {
             "allowedSubraces": [],
             "justification": "Every region has some form of metalworking; the flavor shifts by region."
         },
+        classHooks: [
+            { classId: 'spellguard', bridge: 'The Damon tradition treats magical defense as forge-engineering; a Forge Wright is already half-trained.' },
+            { classId: 'warden', bridge: 'Chain-craft and gear-work are the mechanical backbone of the chain-graft surgical tradition.' },
+            { classId: 'berserker', bridge: 'Skald and Thrask forge-workers who absorbed enough forge-heat sometimes find the Blood-Heat igniting on its own.' }
+        ],
+        tensionPairings: [
+            { classId: 'plaguebringer', tension: 'The sterile forge and the cultivated bog-disease are opposite relationships to material — creation versus decay.' }
+        ],
         name: 'Forge Wright',
         description: 'You apprenticed in the Harath-Vault\'s great forges beneath Emberspire, the Bloodhammer Sump\'s geothermal foundries, or the iron-working halls of Ironjaw Port. You understand metal not as dead material but as living memory — every hammer-strike recorded, every alloy a conversation between elements. At Gearworks Gulch in the Cragjaw Peaks, forge-workers learn clockwork engineering from Fexrick artisans, and at Sol\'s Anvil Mesa in Sundale, a forge-complex operated by Solvarn sun-priests produces ceremonial metalwork using techniques passed down since the Binding.',
         skillProficiencies: ['Insight', 'Persuasion'],
@@ -402,6 +474,14 @@ export const BACKGROUND_DATA = {
             "allowedSubraces": [],
             "justification": "Any character could have traveled to the Bryngloom and survived the spore-hush — though should require a narrative reason for being there."
         },
+        classHooks: [
+            { classId: 'plaguebringer', bridge: 'Surviving the hush leaves a permanent familiarity with the fungal substrate — the first step of cultivation.' },
+            { classId: 'inquisitor', bridge: 'A mind fortified against the hush is fortified against the Wyrd; the Barbed Vow is a short step.' },
+            { classId: 'animist', bridge: 'Resisting the mycelium song teaches the channeler discipline the spirit-bonds require.' }
+        ],
+        tensionPairings: [
+            { classId: 'martyr', tension: 'A survivor built their whole identity around NOT being consumed; the Vow asks them to be consumed willingly.' }
+        ],
         name: 'Hush Survivor',
         description: 'You lived in seclusion after witnessing the fungal hush claim someone you loved — watching Ghost-Mycelium darken their veins, dissolve their mind, and draw them into the Hush-Bogs as a mindless Spores-Born. You fortified your mind against the hush\'s seduction through isolation, but the mycelium\'s song never fully fades.',
         skillProficiencies: ['Medicine', 'Religion'],
@@ -445,6 +525,14 @@ export const BACKGROUND_DATA = {
             "narrativeUnlock": true,
             "justification": "Requires knowledge of Ancestor-Spans and Cragjaw geography."
         },
+        classHooks: [
+            { classId: 'warden', bridge: 'Frostmaw tunnel-navigation and bone-bridge reading are the native training-ground of the Bound.' },
+            { classId: 'chronarch', bridge: 'The temporal-suspension pockets of the Cragjaw blizzard are where the Chronarch art is learned.' },
+            { classId: 'shaper', bridge: 'Groven and Ithran trackers who internalize the bone-knowledge of the spans are primed for the Shaping Forms.' }
+        ],
+        tensionPairings: [
+            { classId: 'minstrel', tension: 'The vertical silence of the peaks and the maritime cadence of the Iceheart are opposite acoustic worlds.' }
+        ],
         name: 'Peak Tracker',
         description: 'You navigated the Cragjaw Peaks\' vertical labyrinth, carrying knotted khipu route-markers to map pathways that the blizzard buries within hours. You learned to read the calcified bone-bridges, evade the Rope-Garrison toll-posts, and predict the hunting grounds of Yuki-Onna and Tengu-Crows. Deepchasm Keep is your home, and you know how to bypass the steam pipe junctions where heat-stealing Sump-Kappas nest.',
         skillProficiencies: ['Athletics', 'Survival'],
@@ -492,6 +580,13 @@ export const BACKGROUND_DATA = {
             "narrativeUnlock": true,
             "justification": "Requires Iceheart Sea maritime knowledge. Exclude: Tessen (sealed keep), Ordan (steppe nomads). Astril crystalline bodies do not float — hard block."
         },
+        classHooks: [
+            { classId: 'gambit', bridge: 'Tattooed trade-contracts and sea-omen gambling are the Merrain foundation of the Gambit tradition.' },
+            { classId: 'minstrel', bridge: 'The storm-rhythm and ship-board cadence are the native substrate of the Tide-Choir.' }
+        ],
+        tensionPairings: [
+            { classId: 'warden', tension: 'A Warden must anchor and hold; a sailor lives by movement and current. The immovable chain and the shifting tide are opposed philosophies.' }
+        ],
         name: 'Merrow Sailor',
         description: 'You sailed the Iceheart Sea from Merrowport, navigating under the shadow of the Brine-Bond Syndicate and Admiral Varis\'s Sea-Charter. Your trade-tattoos are legal contracts inked on your skin to verify your debt-shares and prevent you from being pressed into lifetime service under the Board of Trade\'s Press-Warrants. You know how to slip past the Unfreezing Booms, how to dodge the Luck-Ledger inquisitors, and how to trade in Kelpie\'s Cove.',
         skillProficiencies: ['Athletics', 'Perception'],
@@ -536,6 +631,14 @@ export const BACKGROUND_DATA = {
             "narrativeUnlock": true,
             "justification": "Requires knowledge of Bryngloom Toll-Dikes, Mist-Gate Market, and peat-oil trade routes."
         },
+        classHooks: [
+            { classId: 'gambit', bridge: 'Toll-negotiation probability and bypass-route calculation are the Cragjaw-refined half of the Gambit art.' },
+            { classId: 'revenant', bridge: 'A career in the peat-debt economy makes the undeath-as-obligation step both familiar and rational.' },
+            { classId: 'toxicologist', bridge: 'Trading bog-reagents and memory-glass builds the pharmacological literacy the Distillery requires.' }
+        ],
+        tensionPairings: [
+            { classId: 'berserker', tension: 'Trade demands patience and read of the other party; the Blood-Heat dissolves both in seconds.' }
+        ],
         name: 'Gloomway Trader',
         description: 'You traded goods across the Bryngloom Forest, dealing in memory-glass covenants, peat-oil, and wyrd-warded curios under Regent Morrath\'s Great Registry. You learned to bypass the living-ironwood Toll-Dikes, negotiate with Drun smugglers, and trade at the Mist-Gate Market where lifelines are currency. Morren\'s Bogpost at the forest-steppe border is your frequent trade stop, and you carry a ledger warded against the Inquisition\'s audit.',
         skillProficiencies: ['Insight', 'Persuasion'],
@@ -579,6 +682,14 @@ export const BACKGROUND_DATA = {
             "narrativeUnlock": true,
             "justification": "The Over-Shanty is beneath Atropolis specifically. A non-Bryngloom native has never been there."
         },
+        classHooks: [
+            { classId: 'toxicologist', bridge: 'The black-market reagent trade of the Over-Shanty is a self-taught pharmacology degree.' },
+            { classId: 'plaguebringer', bridge: 'Bog-proximity and salvage of the fungal underworld are the unwelcome apprenticeship of the Cultivar.' },
+            { classId: 'inquisitor', bridge: 'Knowing the supernatural underworld from below makes a Shanty Rat a devastating hunter when they turn.' }
+        ],
+        tensionPairings: [
+            { classId: 'martyr', tension: 'A Shanty Rat survived by being invisible and unrecorded; the Vow demands they be seen and broken for others.' }
+        ],
         name: 'Shanty Rat',
         description: 'You grew up in the Over-Shanty — the hanging slum beneath Atropolis\'s high canopy city. Having no record in Regent Morrath\'s Great Registry, you survived as one of the undocumented "Forgotten" among salvage, smugglers, and memory-brokers. You learned which rope-bridges hold, how to slip past the Toll-Dike patrols, and how to bargain with Drun outcasts for black-market peat-oil.',
         skillProficiencies: ['Sleight of Hand', 'Stealth'],
@@ -613,6 +724,14 @@ export const BACKGROUND_DATA = {
             "allowedSubraces": [],
             "justification": "The seven Monoliths are scattered across all regions; any character could hunt them."
         },
+        classHooks: [
+            { classId: 'harbinger', bridge: 'A career measuring the waking resonance of the Monoliths leads inevitably to the doom-arithmetic.' },
+            { classId: 'augur', bridge: 'Reading the prophetic song of the fragments is a natural extension of the augury.' },
+            { classId: 'spellguard', bridge: 'Wyrd-grounding stakes and resonance-sense are the defensive half of the Aegis discipline.' }
+        ],
+        tensionPairings: [
+            { classId: 'false_prophet', tension: 'A Hunter pursues buried truth; a False Prophet manufactures it. The two are professional enemies.' }
+        ],
         name: 'Monolith Hunter',
         description: 'You track the seven Sundered Monoliths — the shattered fragments of Sol\'s original binding seal — as their resonance shifts across the frozen world. The monoliths are waking up after centuries of silence, and their song is getting louder. You carry cold iron stakes to ground Wyrd-echoes and a journal of fragment-locations that certain powers would kill to obtain.',
         skillProficiencies: ['History', 'Investigation'],
@@ -653,6 +772,13 @@ export const BACKGROUND_DATA = {
             "narrativeUnlock": true,
             "justification": "Grove-Wardens swear the fae counter-bargain in the moonlit groves of the Frostwood Reach — a Briaran bloodline obligation. An outsider could plausibly be sworn to the grove through adoption or an unpaid life-debt."
         },
+        classHooks: [
+            { classId: 'lunarch', bridge: 'The moonlit groves a Grove Warden patrols are the only place the lunar parasite is found; the patrol and the pact are one career.' },
+            { classId: 'toxicologist', bridge: 'Thorn-blood and ghost-metal cold-working are the Briaran foundation of the Distillery craft.' }
+        ],
+        tensionPairings: [
+            { classId: 'martyr', tension: 'The fae bargain is fundamentally transactional; the Vow asks for uncompensated self-destruction. A Grove Warden turned Martyr has betrayed one covenant for another.' }
+        ],
         name: 'Grove Warden',
         description: 'You swore the old fae bargain in the moonlit groves of the Frostwood Reach, binding yourself as a warden of the Hollow-Court and the ironwood hollows where House Viridane sealed its counter-pact. You tend the Thorn-Fall where eight centuries of shed thorns record every unfulfilled promise, mine ghost-metal from the cold vein beneath the western groves, and enforce the fae\'s old laws against the seven families\' quiet expeditions. Smooth-Skinned wardens carry their oath hidden beneath borrowed names; Unshorn wardens wear their thorns openly as the only proof that Viridane existed.',
         skillProficiencies: ['Insight', 'Survival'],
@@ -695,6 +821,14 @@ export const BACKGROUND_DATA = {
             "narrativeUnlock": true,
             "justification": "Mask-Wardens train in the Fog-Vales to recover stolen masks and turn back the Hunters. A non-Mimir could be sworn in only through a profound act of protection — and even then, the mistrust outlasts the oath."
         },
+        classHooks: [
+            { classId: 'apex', bridge: 'Reading spore-trails and fog-silence is the native tracking art of the Silent Hunt.' },
+            { classId: 'shaper', bridge: 'A Mimir who defends masks understands form and identity deeply — the substrate of the Shaping Forms.' },
+            { classId: 'toxicologist', bridge: 'Floor-toxin brewing and intruder-detection are the Unwoven half of the Distillery.' }
+        ],
+        tensionPairings: [
+            { classId: 'berserker', tension: 'A Mask Warden exists to preserve fixed identity; the Blood-Heat dissolves it. The two are philosophical opposites — and a Mimir cannot be a Berserker anyway.' }
+        ],
         name: 'Mask Warden',
         description: 'You stand between the Mimir and the cartels of Hunters who pay fortunes for heartwood masks on the black collector\'s market. You patrol the fog-spider-silk rope-bridges of the Spire-Aeries, watch the Watch-Bells for the next alarm, and hunt the detection-magicians who probe the Vales with ever-refining glass-cutters. Whether Mask-Borne aristocrat, Mist-Woven cliff-sentinel, or Unwoven floor-guide, you have learned to read the spore-trails of intruders and the silence the fog leaves when an outsider moves through it.',
         skillProficiencies: ['Perception', 'Stealth'],
@@ -736,6 +870,13 @@ export const BACKGROUND_DATA = {
             "narrativeUnlock": true,
             "justification": "The guild-vaults and underground academies are Fexric-specific institutions. Kethrin study in formal academies; Drall learned in secret before being expelled."
         },
+        classHooks: [
+            { classId: 'chronarch', bridge: 'Temporal-mechanics and gear-craft blueprints are the Kethrin foundation of the Chronarch engine.' },
+            { classId: 'warden', bridge: 'Chain-graft gear-work and surgical-engineering literacy are the Fexric path into the Bound.' }
+        ],
+        tensionPairings: [
+            { classId: 'animist', tension: 'A Vault Scholar treats the world as a mechanism; an Animist treats it as a conversation. The two frames cannot share a skull.' }
+        ],
         name: 'Vault Scholar',
         description: 'You trained in the guild-vaults of the Fexric warrens — the underground academies where precision gear-craft, temporal mechanics, and ancestral binding theory are inscribed on copper-plate codices behind sealed blast-doors. Kethrin scholars spent decades memorizing proprietary blueprints under the supervision of Master Craft-Guilds. Drall dropouts learned enough before their expulsion to be dangerous — they carry stolen fragment-pages stitched into their clothing, half-understood theories that they improvise into working machines.',
         skillProficiencies: ['Arcana', 'Investigation'],
@@ -775,6 +916,13 @@ export const BACKGROUND_DATA = {
             "narrativeUnlock": true,
             "justification": "The migration herds are Ordan-specific. No other culture follows the herds across the Sundrift Vale."
         },
+        classHooks: [
+            { classId: 'apex', bridge: 'Reading hoof-tracks in blizzard and predicting predator movement by wind-shift is the Ordan foundation of the Silent Hunt.' },
+            { classId: 'animist', bridge: 'Totem-weaving from the migration-horse mane and ancestor-communion through the herd is Kael totemic root tradition.' }
+        ],
+        tensionPairings: [
+            { classId: 'martyr', tension: 'A Herd Guardian lives to keep the migration moving; the Vow demands they stop and be broken. Stillness is the enemy of the steppe.' }
+        ],
         name: 'Herd Guardian',
         description: 'You guarded the Ordan migration herds across the Sundrift Vale — a grueling, never-ending circuit following the grass-line south before the frost claims it and north before the thaw rots it. You learned to read hoof-tracks in blizzard, predict predator movements by wind-shift, and keep a hundred head of shag-ox moving through terrain that kills the careless. The herds are the Ordan\'s only wealth, and losing even one animal to Wyrd-predators or frost-collapse can doom a family line for a generation.',
         skillProficiencies: ['Animal Handling', 'Survival'],
@@ -816,6 +964,14 @@ export const BACKGROUND_DATA = {
             "narrativeUnlock": true,
             "justification": "The Luminarchy and its constellation-spirit traditions are Astril-specific institutions. Both Sylen (embracing) and Muren (suppressing) train in the same cathedral."
         },
+        classHooks: [
+            { classId: 'augur', bridge: 'Reading constellation-spirit stability and resonance-signatures is the Astril path into the augury.' },
+            { classId: 'false_prophet', bridge: 'Genuine mastery of celestial resonance is the most convincing substrate for a manufactured faith.' },
+            { classId: 'harbinger', bridge: 'Scholars who model the constellation-spirits fade into the doom-arithmetic of the Doom-Choir.' }
+        ],
+        tensionPairings: [
+            { classId: 'berserker', tension: 'Crystal-archive discipline and the Blood-Heat fury cannot coexist in the same nervous system.' }
+        ],
         name: 'Starbound Scholar',
         description: 'You trained under the Luminarchy — the Astril hierarchy that governs the relationship between constellation-spirits and their living hosts. Whether Sylen who embraced the passenger\'s wild power or Muren who learned to cage it behind mental discipline, you studied the same crystal-lattice techniques for managing celestial resonance. You learned the forbidden Sky-Songs, catalogued spirit-lineages on memory-glass, and were taught to recognize the resonance-signatures of constellation-spirits approaching the Unlit threshold.',
         skillProficiencies: ['Religion', 'Arcana'],
@@ -858,6 +1014,13 @@ export const BACKGROUND_DATA = {
             "narrativeUnlock": true,
             "justification": "The deep currents and pressure-dark are Myrathil-specific environments. Merryn sailors stay surface-level; Myrathil descend."
         },
+        classHooks: [
+            { classId: 'gambit', bridge: 'Reading current-temperature gradients and pressure-patterns is the Myrathil tide-probability half of the Gambit art.' },
+            { classId: 'minstrel', bridge: 'The subsonic pressure-language of the abyss is the Deep-Born foundation of the Pressure-Cadence.' }
+        ],
+        tensionPairings: [
+            { classId: 'warden', tension: 'A Deep Current Guide lives in fluid, shifting space; a Warden must be immovable stone. The abyss and the anchor are opposed vocations.' }
+        ],
         name: 'Deep Current Guide',
         description: 'You navigated the deep currents beneath the Iceheart Sea\'s frozen surface — pressure zones where light dies and the only maps are current-temperature gradients felt through the skin. Myrathil have always known what flows beneath the ice: thermal vents, bioluminescent trench-walls, and things that breathe in the dark water and remember the names of drowned sailors. You guided expeditions through the Ice Veins, the subsurface arteries where warm water still moves, and learned to read the deep-sea\'s silent language of pressure and temperature.',
         skillProficiencies: ['Perception', 'Nature'],
@@ -902,6 +1065,14 @@ export const BACKGROUND_DATA = {
             "narrativeUnlock": true,
             "justification": "Fog-reading requires intimate knowledge of the Frostwood\'s living fog — its memory-erasing properties, its Wyrd-trails, and its secret passages. Non-Frostwood natives have never survived long enough to learn."
         },
+        classHooks: [
+            { classId: 'apex', bridge: 'Tracing Wyrd-trails through the fog by touch and scent is the Mist-Woven and Mimir foundation of the Silent Hunt.' },
+            { classId: 'lunarch', bridge: 'Fog-dense void-light is the exact medium the lunar parasite feeds on; a Fog Reader is standing in the Lunarch recruiting-ground.' },
+            { classId: 'inquisitor', bridge: 'Reading Wyrd-currents and memory-erasure patterns is the Thalren anti-Wyrd half of the Barbed Vow.' }
+        ],
+        tensionPairings: [
+            { classId: 'arcanoneer', tension: 'A Fog Reader trusts instinct and shifting currents; an Arcanoneer trusts pre-filed precision. The fog makes the latter impossible and the former essential.' }
+        ],
         name: 'Fog Reader',
         description: 'You read the Frostwood\'s permanent fog as others read a map — tracing its density shifts, memory-erasure currents, and Wyrd-trails by touch, scent, or instinct. The fog is not weather in the Reach; it is a living geography that responds to the thoughts of those within it, and you have spent enough seasons inside it to read its moods. Mimir navigate the canopy by spore-scent and fog-spider silk markers. Thalren chart fog-currents on ironwood staves. Briaran feel the fog through their thorn-root connection to the forest floor — where the mist pools deepest, their thorns ache with the memory of what it has swallowed.',
         skillProficiencies: ['Survival', 'Perception'],

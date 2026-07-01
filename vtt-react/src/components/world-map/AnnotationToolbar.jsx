@@ -40,7 +40,7 @@ const AnnotationToolbar = ({
         onClick={toggleOpen}
         title={isOpen ? "Close map tools" : "Open map tools"}
       >
-        <i className={`fas ${isOpen ? 'fa-chevron-right' : 'fa-layer-group'} trigger-icon`}></i>
+        <i className={`fas ${isOpen ? 'fa-chevron-up' : 'fa-layer-group'} trigger-icon`}></i>
         <span className="trigger-label">Tools</span>
       </button>
 

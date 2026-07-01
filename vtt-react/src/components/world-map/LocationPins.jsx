@@ -13,7 +13,9 @@ const LocationPins = ({
   onDeletePin,
   onDragStart,
   onResolveClick,
-  currentCampaign
+  currentCampaign,
+  selectedDevPinId,
+  onSelectForMove
 }) => {
   const [hoveredPin, setHoveredPin] = React.useState(null);
   const deepZoneIds = ['greymark-keep', 'frozen-archive', 'over-shanty', 'synod-hold'];
@@ -116,6 +118,7 @@ const LocationPins = ({
           zoneId={pin.zoneId}
           hasDeep={pin.hasDeep}
           isHovered={hoveredPin === pin.zoneId}
+          isSelected={!!selectedDevPinId && selectedDevPinId === pin.zoneId}
           onClick={handlePinClick}
           onHover={(id) => setHoveredPin(id)}
           onLeave={() => setHoveredPin(null)}
@@ -123,6 +126,7 @@ const LocationPins = ({
           devTool={devTool}
           onDeletePin={onDeletePin}
           onDragStart={onDragStart}
+          onSelectForMove={onSelectForMove}
         />
       ))}
     </g>

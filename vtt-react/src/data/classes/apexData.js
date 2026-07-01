@@ -26,6 +26,127 @@ export const APEX_DATA = {
       "justification": "Requires cultures with predator-tracking traditions. Skald hunt in the Hunger Glaciers. Mimir track Wyrd in the mist. Ordan steppe nomads track prey across open tundra using scent and kinetic vibration. Other cultures lack the sensory training."
   },
 
+  /**
+   * Subrace Variants — the Apex tracks and resolves targets with minimum force, and the
+   * *medium* of the tracking is what each variant inherits. The Mimir read the mist.
+   * The Skald read the ice. The Vreken read the mycelium. The Ordan read the open steppe.
+   * The mist is learning to hide from all of them.
+   */
+  subraceVariants: {
+    maskborne_mimir: {
+      subraceName: 'Mask-Borne Mimir',
+      title: 'The Mask-Hunter',
+      reframe: `The <LoreLink termId="mimir">Mask-Borne</LoreLink> anchor their identity to a fixed mask, and an Apex among them tracks through the fog with an *identity-stable perception* — the mask holds the self still while the senses range, a fixed point of awareness in the shifting mist. The Mask-Borne are the tradition's steadiest trackers, their judgment unclouded by the fog's identity-erosion.`,
+      signatureAbility: {
+        name: 'Anchor-Sense',
+        description: `Tracking-perception is stabilized by the mask; while the Mask-Borne Apex's mask is intact and untouched, their sensory acuity cannot be eroded by the fog's memory-decay. The instant the mask is displaced, the senses scatter. The Mask-Borne hunt with their face protected at all costs.`
+      },
+      currentCrisisAngle: `The mist is learning to hide (the foundational crisis), and the Mask-Borne feel it as their anchored perception *meeting resistance* — the fog no longer merely erodes, it actively *evades* their senses. Several Mask-Borne Apexes have reported the mist *looking back* through their own stabilized perception, as if the thing they are hunting is now hunting through the very clarity they rely on.`,
+      signatureQuote: {
+        text: '"My mask holds me steady so I can see what the fog hides. Lately the fog sees me back, through my own steadiness. I have become the thing I am hunting, or it has become me."',
+        speaker: 'Mask-Hunter Mir-Vassen',
+        context: 'A Mask-Borne Apex, the fourth hunt his anchored senses returned nothing'
+      }
+    },
+
+    mistwoven_mimir: {
+      subraceName: 'Mist-Woven Mimir',
+      title: 'The Sentinel-Tracker',
+      reframe: `The <LoreLink termId="mimir">Mist-Woven</LoreLink> — the fog-sentinels of the <LoreLink termId="frostwood-reach">Ironwood Palisade</LoreLink> — track as *vigil*, treating every hunt as an extension of their sentinel-duty. A Mist-Woven Apex does not hunt for sport or bounty; they hunt because something has entered the perimeter, and the perimeter must be answered. Their tracking is defensive, methodical, and relentless.`,
+      signatureAbility: {
+        name: 'Perimeter-Track',
+        description: `Tracking-acuity is amplified inside a defined perimeter the Apex has sworn to guard — a settlement, a stretch of palisade, a party's camp. Inside the perimeter, the Mist-Woven are nearly infallible. Outside it, pursuing prey that has fled, their acuity drops sharply. They are guards, not pursuers.`
+      },
+      currentCrisisAngle: `The mist's new evasion has the Mist-Woven sentinels on the verge of panic: the perimeter they have guarded for centuries is now *leaking*, the fog itself opening gaps for things to slip through undetected. Several Mist-Woven Apexes have abandoned their posts in the Palisade to hunt whatever is teaching the mist to hide, judging the root cause more dangerous than the perimeter-breaches it causes.`,
+      signatureQuote: {
+        text: '"I have guarded this wall for thirty years and the wall has held because the mist cooperated. Now the mist opens doors for the things I am meant to stop. I am leaving the wall to find the hand on the door."',
+        speaker: 'Sentinel-Tracker Mir-Felss',
+        context: 'A Mist-Woven Apex, requesting leave to hunt beyond the Palisade'
+      }
+    },
+
+    unwoven_mimir: {
+      subraceName: 'Unwoven Mimir',
+      title: 'The Fog-Walker',
+      reframe: `The <LoreLink termId="mimir">Unwoven</LoreLink> — maskless, dissolving — track by *becoming the fog*: their already-blurring forms merge with the mist, letting them move *inside* the very medium the prey hides in. An Unwoven Apex is the tradition's ghost, hunting from within the fog rather than against it. Their perception is fluid, unstable, and uniquely able to find things that have *become* the fog.`,
+      signatureAbility: {
+        name: 'Fog-Merge',
+        description: `The Apex can dissolve partially into the fog, tracking prey *from inside* the mist rather than through it — the only tracking method effective against things that have adapted to hide *in* the fog. The cost: each merge costs the Unwoven more of their already-fading definition, and a prolonged hunt risks the tracker never fully re-cohering.`
+      },
+      currentCrisisAngle: `The mist's new evasion is, for the Unwoven, *entrapping* — they merge with the fog to hunt, and the fog, now actively deceptive, *keeps* them. Several Unwoven Apexes have failed to re-cohere after a deep-merge hunt, dissolving permanently into the very mist they entered. The Unwoven are the only trackers who can find what hides in the fog, and the fog is now killing them for it.`,
+      signatureQuote: {
+        text: '"I hunt by becoming the thing I hunt in. The fog used to let me leave. Now it does not want to. I am losing my edges, and the fog is gaining a hunter who will not need a body."',
+        speaker: 'Unwoven Mir-Naeth',
+        context: 'An Unwoven Apex, the morning after a hunt she barely re-cohered from'
+      }
+    },
+
+    skald_human: {
+      subraceName: 'Skald',
+      title: 'The Glacier-Stalker',
+      reframe: `The <LoreLink termId="skald">Skald</LoreLink> hunt in the <LoreLink termId="nordhalla">Hunger Glaciers</LoreLink>, tracking the things that crawl from the ice — the Stel, the glacier-revenants — across terrain that records every footprint in permanent frost. A Skald Apex reads the ice the way the Thalren read a ledger: every mark is recorded, every track is preserved, and the glacier does not lie.`,
+      signatureAbility: {
+        name: 'Ice-Reading',
+        description: `Tracking-acuity is amplified on frozen terrain — snow, ice, frost — where every mark is preserved and readable. The Skald are the tradition's forensic trackers, able to read tracks days or weeks old in permanent frost. On thawed or warm terrain, their acuity collapses; the record simply is not there.`
+      },
+      currentCrisisAngle: `The glaciers are *warming* — slowly, marginally, but measurably — and the Skald Apexes read it as a catastrophe in slow motion: their entire tracking substrate is *melting*. The Hunger Glaciers preserve the record the Skald hunt by, and as they recede, the Skald are losing tracks that have stood for centuries. Several elders read the melt as the world itself forgetting how to be hunted.`,
+      signatureQuote: {
+        text: '"The glacier has kept every footprint for eight hundred years and I have read them all. Now the glacier weeps, and the footprints blur. I am watching my library melt, one drop at a time."',
+        speaker: 'Glacier-Stalker Skald-Ragna',
+        context: 'A Skald Apex, reading a track that was crisp last season and is now slush'
+      }
+    },
+
+    clean_vreken: {
+      subraceName: 'Clean Vreken',
+      title: 'The Glow-Trailer',
+      reframe: `The <LoreLink termId="vreken">Clean Vreken</LoreLink> track through bioluminescent *spoor* — the faint glow-trail every living thing leaves on the mycelial network as it moves. A Clean Vreken Apex reads the forest's nervous system the way a sailor reads a wake: the passage of any creature through connected ground lights a trail in the Root-Veil, and the Clean Vreken follow the light.`,
+      signatureAbility: {
+        name: 'Spoor-Glow',
+        description: `Tracking is performed by reading bioluminescent spoor-trails in the Root-Veil — effective across any mycelium-connected terrain, and able to track creatures that leave no physical trace. The cost: tracks fade as the network's memory of the passage fades, and a spoor-trail in disturbed or dying mycelium is unreadable.`
+      },
+      currentCrisisAngle: `The Root-Veil is rejecting the Marked (the Plaguebringer crisis), and as the network recoils, the spoor-trails are *degrading* — the forest's memory of what passed through is being erased along with the mycelium. Clean Vreken Apexes are watching their tracking-substrate die the way the Skald watch the glaciers melt: the record they hunt by is disappearing.`,
+      signatureQuote: {
+        text: '"Everything that moves in this forest leaves a light, and I read the light. Now the lights are going out, not because the prey has stopped moving, but because the forest has stopped remembering. I am tracking things the world is forgetting."',
+        speaker: 'Glow-Trailer Yssen',
+        context: 'A Clean Vreken Apex, following a spoor-trail that was fading as she read it'
+      }
+    },
+
+    marked_vreken: {
+      subraceName: 'Marked Vreken',
+      title: 'The Mycelium-Scent',
+      reframe: `The <LoreLink termId="vreken">Marked Vreken</LoreLink> — ghost-mycelium walkers — track *through* their own network-connected skin, feeling the passage of prey as vibrations in the Root-Veil the way a spider feels a web. A Marked Apex does not read spoor; they *feel* movement, their mycelium-threaded body a living sensory net spread across miles of forest floor.`,
+      signatureAbility: {
+        name: 'Web-Sense',
+        description: `Tracking is performed through tactile vibration in the host's own mycelial network — the Apex feels prey moving anywhere on connected ground, through their skin. The most *immediate* tracking method, but requires the prey to be moving; a stationary target produces no vibration and is invisible to the Web-Sense.`
+      },
+      currentCrisisAngle: `The Root-Veil's rejection of the Marked (the Plaguebringer crisis) is *amputating their senses* — as the network expels their mycelium, the Web-Sense's range collapses. Marked Apexes are being reduced from miles-wide perception to the range of their own skin, and the terror of going *numb* — of losing the web they have felt through for centuries — is driving some to tear the expelling mycelium out faster, to get the loss over with.`,
+      signatureQuote: {
+        text: '"I felt the whole forest through my skin, and now the forest is pulling its fingers out of me one by one. Soon I will feel only myself. I do not know how to hunt with only a body."',
+        speaker: 'Marked Apex Vesh',
+        context: 'A Marked Vreken, feeling another patch of mycelium detach from her arm'
+      }
+    },
+
+    ordan_human: {
+      subraceName: 'Ordan',
+      title: 'The Steppe-Scent',
+      reframe: `The <LoreLink termId="skald">Ordan</LoreLink> — steppe nomads — track across the open <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink> by *scent and kinetic vibration*, reading the grass and the wind the way a sailor reads the sea. An Ordan Apex is the tradition's open-terrain specialist: where the forest-trackers read cover and the glacier-trackers read frost, the Ordan read *distance*, tracking prey across miles of featureless steppe through the bend of a grass-stalk.`,
+      signatureAbility: {
+        name: 'Steppe-Read',
+        description: `Tracking-acuity is amplified on open, windswept terrain — grassland, steppe, tundra — where kinetic vibration and scent carry for miles. The Ordan are the tradition's longest-range trackers, able to follow prey at distances that would lose any forest or glacier specialist. The cost: in dense cover or enclosed spaces, their range-craft is nearly useless.`
+      },
+      currentCrisisAngle: `The mist-learning-to-hide crisis has not reached the open steppe directly, but the Ordan report a subtler symptom: the *wind has started lying*. The steppe-trackers read the grass and the air, and both have begun carrying false information — scent-trails that lead nowhere, vibrations that have no source. The Ordan suspect whatever is teaching the Frostwood mist to hide is *also teaching the steppe wind to deceive*, and the open sky they have trusted for millennia is no longer neutral ground.`,
+      signatureQuote: {
+        text: '"I read the grass the way your scholar reads a page. The grass has started writing fiction. I have followed three trails this moon that led to nothing but wind. The steppe is lying to me, and I do not know what I did to deserve it."',
+        speaker: 'Steppe-Scent Bayar',
+        context: 'An Ordan Apex, returning from a third hunt that found nothing'
+      }
+    }
+  },
+
+
   id : "apex",
   name: "Apex",
   icon: "fas fa-moon",
@@ -33,6 +154,27 @@ export const APEX_DATA = {
   damageTypes: ["physical"],
 
   // Overview section
+  livingOrder: {
+    orderName: 'The Silent Hunt',
+    founder: {
+      name: '<LoreLink termId="sylas">Sylas</LoreLink>',
+      status: `Alive — and entirely deaf. The tracker who tuned his senses to the silent vibrations of pine needles and damp earth, stalking a conceptual Wyrd-entity for seven days. To achieve absolute sensory focus, he paid with his hearing — completely deaf to kin, living in a silent predatory world. He has led the Hunt in sign-language ever since.`,
+      note: `<LoreLink termId="sylas">Sylas</LoreLink> built the Silent Hunt on a trade the order still honors: give up one sense to sharpen the rest. Every Apex initiate chooses a sacrifice. <LoreLink termId="sylas">Sylas</LoreLink> chose hearing. The mist that is now learning to hide is teaching him that some things cannot be tracked even with every sense paid for.`
+    },
+    currentLeader: {
+      name: '<LoreLink termId="sylas">Silent-Master Sylas</LoreLink>',
+      title: 'The First Hunter',
+      characterization: `Deaf, lethal, and patient beyond any living tracker. <LoreLink termId="sylas">Sylas</LoreLink> communicates through a tactile sign-language the Hunt developed specifically because spoken words are unreliable in the <LoreLink termId="frostwood-reach">Frostwood</LoreLink> fog. He leads from the deep ironwood and has tracked the same conceptual Wyrd-entity, on and off, for forty years. It has never let him close. Lately, it has begun circling *him*.`
+    },
+    headquarters: { name: 'The Still Blind, deep Ironwood Heart (Frostwood Reach)', locationId: 'frostwood-reach' },
+    crisisConnection: `<LoreLink termId="sylas">Sylas</LoreLink> is the hunter realizing he has become the hunted. The mist is learning to hide — not randomly but *deliberately*, evading Apex senses that have held for centuries. He has concluded that something large has moved through the Reach for months without leaving trace, and that the something is *teaching the mist to evade the Hunt itself*. The Unwoven trackers who dissolve into the fog to find it are not coming back. <LoreLink termId="sylas">Sylas</LoreLink> is preparing to dissolve into the fog himself, knowing he may not come back either — because he is the only tracker who has ever gotten close, and the thing in the mist has noticed.`
+  },
+
+  worldFriction: [
+    { region: 'frostwood-reach', status: 'celebrated', consequence: 'The Silent Hunt is the Frostwood\'s primary defense against the Wyrd; Mimir canopy-posts and Thalren settlements pay retainers to resident Apexes. A licensed Apex holds right-of-passage through the Ironwood Palisade without papers.', workaround: 'This standing is eroding with the mist-learning-to-hide crisis: an Apex who cannot find the Wyrd is an Apex who cannot justify their retainer, and the settlements are beginning to question the expense.' },
+    { region: 'everywhere-else', status: 'solitary', consequence: 'Apexes are not persecuted anywhere, but they are universally considered unsettling — the absolute sensory focus reads as predation to ordinary people. An Apex in a market is given space, not welcome. They are tolerated, distrusted, and left alone, which is exactly how they prefer it.' }
+  ],
+
   overview: {
     originStory: `The ranger Sylas tracked the invisible spoor of Wyrd-creatures through the Frostwood Reach by tuning his senses to the silent, sub-vocal vibrations of the pine needles and the damp earth. In a fog-shrouded valley, he stalked a conceptual entity for seven days, breathing only when the wind blew, training his eyes to trace the faint disturbances in the fog-memory.
 

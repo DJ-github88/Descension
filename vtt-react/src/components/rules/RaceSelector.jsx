@@ -1576,7 +1576,7 @@ const RaceSelector = () => {
           {raceData.integrationNotes && (
             <div className="integration-section">
               <h4 className="integration-title">
-                <i className="fas fa-link"></i> Integration with Game Systems
+                <i className="fas fa-link"></i> Integration with World Systems
               </h4>
               <div className="integration-grid">
                 {raceData.integrationNotes.actionPointSystem && (
@@ -1597,6 +1597,21 @@ const RaceSelector = () => {
                     <p>{renderLoreText(raceData.integrationNotes.classCompatibility)}</p>
                   </div>
                 )}
+              </div>
+            </div>
+          )}
+
+          {/* Diaspora — In the Wider World */}
+          {raceData.diasporaVariation && (
+            <div className="integration-section">
+              <h4 className="integration-title">
+                <i className="fas fa-globe"></i> In the Wider World
+              </h4>
+              <div className="integration-grid">
+                <div className="integration-card">
+                  <h5>Diaspora</h5>
+                  <p>{renderLoreText(raceData.diasporaVariation)}</p>
+                </div>
               </div>
             </div>
           )}

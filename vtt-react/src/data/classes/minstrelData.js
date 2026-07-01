@@ -1,7 +1,7 @@
 /**
  * Minstrel Class Data
  *
- * Complete class information for the Minstrel — a conductor of reality's death rattle
+ * Complete class information for the Minstrel â€” a conductor of reality's death rattle
  * who tears magic from dying dimensions through bone and grief instruments.
  * Music is not art. It is violation. Every note is theft. Every cadence is mutilation.
  */
@@ -25,6 +25,78 @@ export const MINSTREL_DATA = {
       "justification": "Requires a maritime culture with oral-performance tradition. Tessen too isolated. Cragjaw too vertical. Thalren too archival (song is unreliable). Ordan use throat-singing for navigation (functional, not artistic)."
   },
 
+  /**
+   * Subrace Variants â€” the Minstrel weaponizes sound, and the sea is the original
+   * instrument. The four allowed subraces all answer to the Iceheart, but each hears a
+   * different frequency: the storm, the surf, the river, and the abyss.
+   */
+  subraceVariants: {
+    merryn_human: {
+      subraceName: 'Merryn',
+      title: 'The Storm-Singer',
+      reframe: `This is <LoreLink termId="skald">Lyris the Tide-Singer</LoreLink>'s tradition. The <LoreLink termId="skald">Merryn</LoreLink> storm-sailors discovered that certain rhythms synchronized a crew's physiology to wave and wind â€” sustained effort that would exhaust any other people within hours. A Merryn Minstrel's Cadence is not art; it is *maritime engineering*, the precise technical manipulation of bodies through sound. The stolen voice is the price â€” screaming fills the lungs with saltwater.`,
+      signatureAbility: {
+        name: 'Storm-Cadence',
+        description: `Cadences are dramatically amplified on open water in active weather; a Merryn Minstrel conducting in a storm can synchronize an entire ship's crew into a single sustained effort-organism. Inland, in calm, the same Cadence is a pale echo.`
+      },
+      currentCrisisAngle: `The <LoreLink termId="iceheart-sea">Iceheart Sea</LoreLink> has fallen silent, and the Merryn Minstrels are the most destabilized: their entire tradition *is* the sea's voice, and the sea has stopped singing. Lyris vanished the same night the silence began. The Merryn suspect their founder walked into the water to argue with the mute ocean â€” or to find out what the silence is hiding.`,
+      signatureQuote: {
+        text: '"I traded my scream for the storm\'s voice. Now the storm has gone quiet, and I cannot even whisper loud enough to ask it why."',
+        speaker: 'Lyris the Tide-Singer',
+        context: 'The founder, in her final log entry before vanishing'
+      }
+    },
+
+    breaker_myrathil: {
+      subraceName: 'Breakers-Born Myrathil',
+      title: 'The Shore-Conductor',
+      reframe: `The <LoreLink termId="myrathil">Breakers-Born</LoreLink> â€” the shore-dwelling diplomats of the Myrathil â€” conduct the *surf*, not the storm. Their Cadence is the rhythm of the tide-line, the negotiation between sea and shore. Where the Merryn command the deep water, the Breakers-Born mediate the boundary, and their sound-work is gentler, more diplomatic, and far more versatile on land.`,
+      signatureAbility: {
+        name: 'Tide-Cadence',
+        description: `Cadences are strongest at the waterline â€” the literal boundary between sea and land â€” and degrade smoothly with distance from shore. A Breakers-Born Minstrel is the only variant effective *both* on water and inland, the natural diplomat of the tradition.`
+      },
+      currentCrisisAngle: `The silence has reached the surf â€” the Breakers-Born heard the deep sea go quiet first, through the tide-line they mediate. They have become the tradition's messengers, carrying the warning inland, but the shore-diplomats are realizing the silence is *spreading up the rivers*. Whatever silenced the sea is following the freshwater inland.`,
+      signatureQuote: {
+        text: '"The sea stopped speaking and the shore is translating the silence. It says: be afraid. It says it in every language the foam knows."',
+        speaker: 'Shore-Mother Mrya',
+        context: 'A Breakers-Born Minstrel, addressing the Merrowport council'
+      }
+    },
+
+    river_myrathil: {
+      subraceName: 'River-Fed Myrathil',
+      title: 'The Freshwater-Voice',
+      reframe: `The <LoreLink termId="myrathil">River-Fed</LoreLink> â€” the inland swimmers who traded ocean-depth for freshwater mobility â€” conduct the *river*, not the tide. Their Cadence is current-speed, the pull of water over stone, and it is the only Minstrel variant that functions fully inland, far from any sea. They are the tradition's frontier, carrying the sound-work up the waterways into the heart of every continent.`,
+      signatureAbility: {
+        name: 'Current-Cadence',
+        description: `Cadences are amplified by flowing freshwater and attenuated by still or salt water; a River-Fed Minstrel on a swift river is nearly as potent as a Merryn in a storm. On a lake or the open sea, they are the weakest variant â€” the wrong element entirely.`
+      },
+      currentCrisisAngle: `The silence is spreading up the rivers, and the River-Fed are the variant watching it advance in real time â€” each tributary going mute in sequence, upstream. Some River-Fed Minstrels have begun fleeing *downstream* toward the silent sea, reasoning that the source must be found before it reaches the headwaters. Others are fleeing further inland, toward the mountains, where the rivers are born â€” and where no Minstrel has ever played.`,
+      signatureQuote: {
+        text: '"I followed this river from the sea to its birth in the peaks. The silence is chasing me upstream. I am faster. The river is not."',
+        speaker: 'Current-Swimmer Ryn',
+        context: 'A River-Fed Minstrel, the day the estuary went quiet behind her'
+      }
+    },
+
+    deep_myrathil: {
+      subraceName: 'Deep-Born Myrathil',
+      title: 'The Abyss-Resonant',
+      reframe: `The <LoreLink termId="myrathil">Deep-Born</LoreLink> â€” the abyssal pressure-forgers of the ocean trench â€” conduct frequencies no surface ear can parse. Their Cadence is subsonic, felt in the bone rather than heard, the deep-water pressure-wave made musical. A Deep-Born Minstrel is, to surface-dwellers, unsettling rather than beautiful: you do not hear them play so much as *vibrate* in sympathy.`,
+      signatureAbility: {
+        name: 'Pressure-Cadence',
+        description: `Cadences operate below the threshold of hearing, as physical vibration; a Deep-Born Minstrel's effects bypass auditory resistance entirely and cannot be countered by silence or deafness. The cost is range â€” subsonic effects attenuate fast in shallow water or air.`
+      },
+      currentCrisisAngle: `The Deep-Born are the variant who know *what* silenced the sea â€” they felt it, in the deep, before anyone on the surface noticed. They will not say what they felt. The Deep-Born Minstrels have surfaced for the first time in centuries, and they are not performing. They are fleeing, and the look in their bioluminescent eyes is not artistic. Something in the abyss began to sing back.`,
+      signatureQuote: {
+        text: '"You ask why I left the deep. I left because something down there learned my song and is singing it back, in a voice that should not exist. I will not go down again."',
+        speaker: 'Pressure-Forge Myr-Than',
+        context: 'A Deep-Born Minstrel, the first to surface in three hundred years'
+      }
+    }
+  },
+
+
   id : "minstrel",
   name: "Minstrel",
   icon: "fas fa-music",
@@ -32,6 +104,27 @@ export const MINSTREL_DATA = {
   damageTypes: ["wyrd", "storm"],
 
   // Overview section
+  livingOrder: {
+    orderName: 'The Tide-Choir',
+    founder: {
+      name: '<LoreLink termId="lyris">Lyris the Tide-Singer</LoreLink>',
+      status: `Vanished â€” the same night the <LoreLink termId="iceheart-sea">Iceheart Sea</LoreLink> went silent. She traded her spoken voice for the storm's voice decades ago; screaming fills her lungs with saltwater. Her lute was recovered from the water with a final carving: she was looking for the note that shatters gods.`,
+      note: `Lyris sang a sacred sea-symphony to calm the gales and the ocean mother stole her spoken voice in exchange. She founded the Tide-Choir to teach what the sea taught her. She is the only Minstrel the sea ever spoke to directly â€” and the sea has stopped speaking.`
+    },
+    currentLeader: {
+      name: '<LoreLink termId="mer-lyrisa">Tide-Choir Mistress Mer-Lyrisa</LoreLink>',
+      title: 'Keeper of the Silent Frequency',
+      characterization: `Named for the vanished founder she never met, <LoreLink termId="mer-lyrisa">Mer-Lyrisa</LoreLink> leads a Choir that has lost its instrument. She is hoarse, sleepless, and obsessed: she has spent every night since the silence began standing at the waterline of <LoreLink termId="merrowport">Merrowport</LoreLink>, listening for a sea that makes no sound. She is beginning to suspect the silence is not absence but *holding breath*.`
+    },
+    headquarters: { name: 'The Drowned Opera, Merrowport', locationId: 'merrowport' },
+    crisisConnection: `<LoreLink termId="mer-lyrisa">Mer-Lyrisa</LoreLink> is holding a collapsing Choir together while the silence spreads up the rivers (the River-Fed variant's crisis). She has forbidden deep-water performances and grounded the Deep-Born who fled the abyss â€” but she knows the silence is advancing, and that whatever caused it sang back to the Deep-Born in a voice that should not exist. Her only lead is Lyris's recovered lute and the carving about shattering gods. She is considering playing the note.`
+  },
+
+  worldFriction: [
+    { region: 'iceheart-sea', location: 'merrowport', status: 'celebrated', consequence: 'In Merrowport the Tide-Choir are civic treasures â€” their storm-cadences have saved fleets, and a licensed Minstrel holds privileged berthing and Board-of-Trade exemption. The Drowned Opera is city-subsidized.', workaround: 'This standing is collapsing with the silence: a Minstrel who cannot make the sea sing is increasingly seen as a fraud, and desperate Minstrels are beginning to be suspected of causing the silence itself.' },
+    { region: 'nordhalla', status: 'tolerated', consequence: 'The Frost Chanter tradition overlaps Minstrel craft enough that Nordhalla tolerates visiting Minstrels â€” provided their performances do not drown the oral-history verses the Runic Academies seek to suppress.' }
+  ],
+
   overview: {
     originStory: `The Merryn sailor Lyris sang a sacred sea-symphony to the churning gales of the Iceheart Sea, calming the waves so her ice-locked vessel could dock at Merrowport. The song was beautiful, but it was a transaction with the deep tides, drawing the freezing currents into her lungs.
 
@@ -43,18 +136,18 @@ Let the chorus rise. The sea has taken your voice, but your song can still shatt
 
     quickOverview: {
       title: "Quick Overview",
-      content: `**What You Need to Know**: The Minstrel does not play music — they tear it screaming from the corpses of dying realities. Each note is a stolen fragment of a collapsing dimension, hoarded and combined into cadences that violate the laws of existence.
+      content: `**What You Need to Know**: The Minstrel does not play music â€” they tear it screaming from the corpses of dying realities. Each note is a stolen fragment of a collapsing dimension, hoarded and combined into cadences that violate the laws of existence.
 
-**Core Mechanic**: Cast builder spells ? Harvest musical notes (I–VII) from unraveling planes ? Combine notes into cadences ? Unleash catastrophic effects that reshape the battlefield
+**Core Mechanic**: Cast builder spells ? Harvest musical notes (Iâ€”VII) from unraveling planes ? Combine notes into cadences ? Unleash catastrophic effects that reshape the battlefield
 
-**Resource**: Musical Notes (7 types, stack up to 5 each), Mana — and the slow erosion of your own body
+**Resource**: Musical Notes (7 types, stack up to 5 each), Mana â€” and the slow erosion of your own body
 
 **Playstyle**: Combo-building support with sustained power escalation through accumulated sonic atrocities
 
 **Best For**: Players who enjoy combo systems, the creeping dread of building toward devastation, and the martyrdom of protecting everyone except themselves`,
     },
 
-    description: `There is nothing beautiful about what the Minstrel does. They play instruments crafted from bone and grief, each chord progression a fresh wound torn in the fabric of existence. Their magic is not art — it is a fundamental violation of physics that demands biological payment. Every note they collect is a splinter stolen from a dying reality, and every cadence they resolve is an act of cosmic mutilation that rewrites the battlefield in blood and resonance. The music should not exist. It exists because the Minstrel forces it to, and the world pays the price.`,
+    description: `There is nothing beautiful about what the Minstrel does. They play instruments crafted from bone and grief, each chord progression a fresh wound torn in the fabric of existence. Their magic is not art â€” it is a fundamental violation of physics that demands biological payment. Every note they collect is a splinter stolen from a dying reality, and every cadence they resolve is an act of cosmic mutilation that rewrites the battlefield in blood and resonance. The music should not exist. It exists because the Minstrel forces it to, and the world pays the price.`,
 
     roleplayIdentity: {
       title: "Roleplay Identity",
@@ -73,30 +166,30 @@ The class is heavily practiced by the Merryn humans and the <LoreLink termId="my
     },
 
     signatureQuote: {
-      text: '"You think music is beauty. You are wrong. Music is resonance — the frequency at which things break. I have found the note that shatters ice. I am looking for the one that shatters gods."',
+      text: '"You think music is beauty. You are wrong. Music is resonance â€” the frequency at which things break. I have found the note that shatters ice. I am looking for the one that shatters gods."',
       speaker: 'Lyris the Tide-Singer',
       context: 'Her lute, recovered from the Iceheart Sea, had this carved into its soundboard'
     },
 
     philosophy: {
-      coreTenet: 'Sound is older than light. Before the sun, before the stars, there was vibration — the hum of potential, the frequency of emptiness, the note that preceded creation. The Minstrel does not make music. They remember the original note, the one that started everything, and they play it backward.',
-      relationship: 'A Minstrel\'s power comes from the resonance of dying realities. When a timeline collapses, it releases a burst of energy — a death-cry that exists as pure frequency. Minstrels harvest these frequencies and store them as musical notes, which they combine into Cadences that violate natural law. The relationship is parasitic: Minstrels cannot create music; they must harvest it from the death of other possibilities. Their art is built on the grave of what could have been.',
-      paradox: 'The Minstrel seeks the perfect Cadence — the combination of notes that will produce the most beautiful sound ever heard. But the most beautiful sounds come from the most catastrophic collapses. The Minstrel is therefore incentivized to seek out destruction, to position themselves at the epicenter of collapsing realities, to drink in the death-rattle of dying timelines. They are artists of catastrophe, and their masterpiece is always someone else\'s tragedy.'
+      coreTenet: 'Sound is older than light. Before the sun, before the stars, there was vibration â€” the hum of potential, the frequency of emptiness, the note that preceded creation. The Minstrel does not make music. They remember the original note, the one that started everything, and they play it backward.',
+      relationship: 'A Minstrel\'s power comes from the resonance of dying realities. When a timeline collapses, it releases a burst of energy â€” a death-cry that exists as pure frequency. Minstrels harvest these frequencies and store them as musical notes, which they combine into Cadences that violate natural law. The relationship is parasitic: Minstrels cannot create music; they must harvest it from the death of other possibilities. Their art is built on the grave of what could have been.',
+      paradox: 'The Minstrel seeks the perfect Cadence â€” the combination of notes that will produce the most beautiful sound ever heard. But the most beautiful sounds come from the most catastrophic collapses. The Minstrel is therefore incentivized to seek out destruction, to position themselves at the epicenter of collapsing realities, to drink in the death-rattle of dying timelines. They are artists of catastrophe, and their masterpiece is always someone else\'s tragedy.'
     },
 
-    currentCrisis: `The Iceheart Sea has fallen silent. For the first time in recorded history, the tides have stopped singing. The Merryn sailors who navigate by the ocean\'s frequency report total silence — no subsonic rhythm, no deep-bass pulse, nothing. The sea is still moving, but it makes no sound.
+    currentCrisis: `The Iceheart Sea has fallen silent. For the first time in recorded history, the tides have stopped singing. The Merryn sailors who navigate by the ocean\'s frequency report total silence â€” no subsonic rhythm, no deep-bass pulse, nothing. The sea is still moving, but it makes no sound.
 
-The Minstrels of Merrowport are terrified. The ocean\'s song was the oldest continuous frequency in the known world — it had been playing for longer than any Minstrel could measure. Its silence means something. Lyris the Tide-Singer, who understood the sea better than anyone, has not been seen since the silence began. Some Minstrels believe she dove into the silent water to find the lost note. Others believe she fled because she knew what the silence meant: the Iceheart Sea is dying. And if a body of water that large can die, so can everything else.`,
+The Minstrels of Merrowport are terrified. The ocean\'s song was the oldest continuous frequency in the known world â€” it had been playing for longer than any Minstrel could measure. Its silence means something. Lyris the Tide-Singer, who understood the sea better than anyone, has not been seen since the silence began. Some Minstrels believe she dove into the silent water to find the lost note. Others believe she fled because she knew what the silence meant: the Iceheart Sea is dying. And if a body of water that large can die, so can everything else.`,
 
-    meaningfulTradeoffs: `Minstrels trade their own voice for their music. The stolen frequencies degrade the larynx — every Cadence performed causes cumulative damage to the vocal cords. Senior Minstrels speak in hoarse whispers, if they can speak at all. Their voices are replaced by their instruments; they communicate through hummed melodies, tapped rhythms, and the expressive language of lute-strings. The irony is not lost on them: they are masters of sound who have sacrificed their own.`,
+    meaningfulTradeoffs: `Minstrels trade their own voice for their music. The stolen frequencies degrade the larynx â€” every Cadence performed causes cumulative damage to the vocal cords. Senior Minstrels speak in hoarse whispers, if they can speak at all. Their voices are replaced by their instruments; they communicate through hummed melodies, tapped rhythms, and the expressive language of lute-strings. The irony is not lost on them: they are masters of sound who have sacrificed their own.`,
 
     classSpecificLocations: [
       {
         name: 'The Tide-Chamber',
         locationId: 'merrowport',
-        description: 'A submerged stone amphitheater beneath the Merrowport docks, accessible only by diving through a flooded passage. The chamber is designed to amplify the ocean\'s natural frequencies — Minstrels would sit here for hours, letting the sea\'s song fill them. The chamber is now completely silent, the water still and dead.',
+        description: 'A submerged stone amphitheater beneath the Merrowport docks, accessible only by diving through a flooded passage. The chamber is designed to amplify the ocean\'s natural frequencies â€” Minstrels would sit here for hours, letting the sea\'s song fill them. The chamber is now completely silent, the water still and dead.',
         purpose: 'Meditation chamber and frequency-harvesting site',
-        status: 'Silent — the Minstrels maintain a vigil, hoping the song returns'
+        status: 'Silent â€” the Minstrels maintain a vigil, hoping the song returns'
       }
     ],
 
@@ -104,9 +197,9 @@ The Minstrels of Merrowport are terrified. The ocean\'s song was the oldest cont
       title: "Combat Role",
       content: `The Minstrel is a fragile conductor who stands at the epicenter of atrocity, weaponizing stolen frequencies to reshape the battlefield:
 
-**Cadence Architect**: No other class offers the Minstrel's note-building strategic depth. Through builder spells, they harvest musical notes from collapsing planes, then resolve them into devastating cadences — Perfect Cadence guarantees critical hits, Deceptive Cadence stuns enemies, Authentic Cadence heals the entire party. This is the ONLY combo-building support with cadence mechanics in existence.
+**Cadence Architect**: No other class offers the Minstrel's note-building strategic depth. Through builder spells, they harvest musical notes from collapsing planes, then resolve them into devastating cadences â€” Perfect Cadence guarantees critical hits, Deceptive Cadence stuns enemies, Authentic Cadence heals the entire party. This is the ONLY combo-building support with cadence mechanics in existence.
 
-**Martyr's Bargain**: The Minstrel protects everyone except themselves. They CANNOT self-heal — all healing targets allies only. They require an instrument to cast; disarmed, they are utterly powerless. While performing any active song, they suffer -2 DR, the music demanding total vulnerability. Silence effects render them useless. They are a conductor stripped of armor, bleeding for the rhythm that keeps their allies alive.
+**Martyr's Bargain**: The Minstrel protects everyone except themselves. They CANNOT self-heal â€” all healing targets allies only. They require an instrument to cast; disarmed, they are utterly powerless. While performing any active song, they suffer -2 DR, the music demanding total vulnerability. Silence effects render them useless. They are a conductor stripped of armor, bleeding for the rhythm that keeps their allies alive.
 
 **Strengths**:
 - Unmatched combo-building support with cadence resolution
@@ -116,14 +209,14 @@ The Minstrels of Merrowport are terrified. The ocean\'s song was the oldest cont
 - Unique strategic depth through 10 distinct cadence progressions
 
 **Weaknesses**:
-- Requires an instrument to cast (Instrument Dependency — disarmed = no spells, no hope)
-- Cannot self-heal — all healing targets allies only, leaving the Minstrel to rot
-- -2 DR while performing any active song — the music demands total vulnerability
+- Requires an instrument to cast (Instrument Dependency â€” disarmed = no spells, no hope)
+- Cannot self-heal â€” all healing targets allies only, leaving the Minstrel to rot
+- -2 DR while performing any active song â€” the music demands total vulnerability
 - Combo system requires planning and foresight across multiple turns
-- Vulnerable to silence and interruption effects — rendered completely useless
+- Vulnerable to silence and interruption effects â€” rendered completely useless
 - Fragile without armor, fragile with it, fragile always
 
-The Minstrel shines when they can endure long enough to unleash a prepared cadence at the exact moment their party needs it most — a guaranteed crit on the killing blow, a desperate party heal when death is certain, a stun that buys one more round of survival. They are the doomed conductor of an orchestra that plays on only because they refuse to stop bleeding.`,
+The Minstrel shines when they can endure long enough to unleash a prepared cadence at the exact moment their party needs it most â€” a guaranteed crit on the killing blow, a desperate party heal when death is certain, a stun that buys one more round of survival. They are the doomed conductor of an orchestra that plays on only because they refuse to stop bleeding.`,
     },
 
     playstyle: {
@@ -154,9 +247,9 @@ Different instruments provide different bonuses and affect your playstyle:
 - **Voice**: No equipment required, bonus to all effects but shorter range
 
 **Specialization Synergies**:
-- **Battlechoir**: Aggressive support, damage amplification, war songs — Perfect Cadence, Circle of Fifths, Phrygian Cadence, Neapolitan Sixth
-- **Soulsinger**: Healing focus, emotional manipulation, protective melodies — Authentic Cadence, Picardy Third, Plagal Cadence
-- **Dissonance**: Debuffs and control, chaotic magic, reality-warping sounds — Deceptive Cadence, Half Cadence, Tritone Substitution
+- **Battlechoir**: Aggressive support, damage amplification, war songs â€” Perfect Cadence, Circle of Fifths, Phrygian Cadence, Neapolitan Sixth
+- **Soulsinger**: Healing focus, emotional manipulation, protective melodies â€” Authentic Cadence, Picardy Third, Plagal Cadence
+- **Dissonance**: Debuffs and control, chaotic magic, reality-warping sounds â€” Deceptive Cadence, Half Cadence, Tritone Substitution
 
 **Team Dynamics**:
 - Works best with coordinated teams who can capitalize on buffs
@@ -213,7 +306,7 @@ Different instruments provide different bonuses and affect your playstyle:
 
 **Turn 3 - Building to Cadence (Notes: I(2), III(2), V(3), VII(1) ? I(3), III(2), V(4), VII(2))**
 
-*You have I(2), V(3). You need I(2) and IV(1) and V(1) for the Perfect Cadence. You have the I and V — but you need an IV note.*
+*You have I(2), V(3). You need I(2) and IV(1) and V(1) for the Perfect Cadence. You have the I and V â€” but you need an IV note.*
 
 **Your Action**: Cast "Melancholy Melody" on enemies (8 mana, builder spell)
 **Effect**: -1 to enemy attack rolls for 2 rounds (20 ft radius)
@@ -225,7 +318,7 @@ Different instruments provide different bonuses and affect your playstyle:
 **Mana**: 43 - 8 = 35/60
 
 **Your Party's Tank**: "They're weakening! I can see it in their eyes."
-**You**: "Good. Because I'm about to play the Perfect Cadence. Next attack—make it count."
+**You**: "Good. Because I'm about to play the Perfect Cadence. Next attackâ€”make it count."
 
 **Current State**: Notes: I(2), III(2), IV(1), V(3), VI(2), VII(1) | Mana: 35/60
 
@@ -295,18 +388,18 @@ Different instruments provide different bonuses and affect your playstyle:
 *You lower your drum. The battlefield is silent except for the fading echoes of your music.*
 
 **Your Party's Tank**: "That Perfect Cadence... I've never hit that hard in my life. Forty damage on a critical."
-**You**: "I spent four musical notes to play it: two I notes, one IV, and one V. The Perfect Cadence requires I(2), IV(1), V(1) and guarantees your next attack is a critical hit. I had been building those notes through my builder spells — Opening Chord generates I(2)+V(1), Harmonic Strike generates III(2)+I(1), and Melancholy Melody generates VI(2)+IV(1)."
+**You**: "I spent four musical notes to play it: two I notes, one IV, and one V. The Perfect Cadence requires I(2), IV(1), V(1) and guarantees your next attack is a critical hit. I had been building those notes through my builder spells â€” Opening Chord generates I(2)+V(1), Harmonic Strike generates III(2)+I(1), and Melancholy Melody generates VI(2)+IV(1)."
 **Your Party's Mage**: "So you were building up to that the whole fight?"
-**You**: "Exactly. I started with I(1), V(1) from a short rest. By turn 3, I had I(2), IV(1), V(3) — enough for the Perfect Cadence. Now I have I(3), III(4), V(3), VI(2), VII(1) banked for the next fight."
+**You**: "Exactly. I started with I(1), V(1) from a short rest. By turn 3, I had I(2), IV(1), V(3) â€” enough for the Perfect Cadence. Now I have I(3), III(4), V(3), VI(2), VII(1) banked for the next fight."
 **Your Party's Rogue**: "What other cadences can you play?"
 **You**: "Many. Deceptive Cadence (IV(2), VII(1), V(1)) stuns enemies. Circle of Fifths (V(2), I(1), VI(1)) deals damage over time. Plagal Cadence (VI(1), V(1), I(1), III(1)) gives speed boosts. Each requires specific notes, so I have to plan ahead."
 
 **Final State**: Notes: I(3), III(4), V(3), VI(2), VII(1) | Mana: 11/60 | HP: 60/60
 
 **The Lesson**: Minstrel gameplay is about:
-1. **Note Building**: Cast builder spells to generate musical notes — each spell produces 2-3 notes of specific types
+1. **Note Building**: Cast builder spells to generate musical notes â€” each spell produces 2-3 notes of specific types
 2. **Note Stacking**: Notes stack up to 5 of each type (I through VII), and persist between combats
-3. **Cadence Planning**: Perfect Cadence requires I(2), IV(1), V(1) — 4 notes total — and guarantees a critical hit
+3. **Cadence Planning**: Perfect Cadence requires I(2), IV(1), V(1) â€” 4 notes total â€” and guarantees a critical hit
 4. **Resource Management**: Started with I(1), V(1), built to I(2), IV(1), V(3), spent 4 notes for cadence
 5. **Builder Spells**: Opening Chord (I(2)+V(1)), Harmonic Strike (III(2)+I(1)), Inspiring Rhythm (V(2)+VII(1)), Melancholy Melody (VI(2)+IV(1))
 6. **Cadence Impact**: Perfect Cadence guaranteed tank's critical hit: 20 damage ? 40 damage (doubled)
@@ -321,16 +414,16 @@ You're not a simple support caster. You're a MUSICAL CONDUCTOR. You build notes 
     title: "Musical Combo System",
     subtitle: "Harvesting the Death Cries of Collapsing Realities",
 
-    description: `The Minstrel's resource system is built on a foundation of cosmic theft. Every musical note is a splinter harvested from a dimension in its final moments of collapse — a dying reality's last frequency, captured and compressed into something a mortal mind can barely comprehend. Builder spells gouge these fragments from the fabric of existence, accumulating them in a terrible ledger. Resolving spells — cadences — then spend these hoarded fragments to commit fresh atrocities: guaranteeing critical wounds, stunning minds with impossible harmonics, or stitching allies back together through frequencies that should have stayed silent. Mastering the Minstrel means accepting that your power is stolen from the dead, and that every cadence you play hastens the entropy of everything around you.`,
+    description: `The Minstrel's resource system is built on a foundation of cosmic theft. Every musical note is a splinter harvested from a dimension in its final moments of collapse â€” a dying reality's last frequency, captured and compressed into something a mortal mind can barely comprehend. Builder spells gouge these fragments from the fabric of existence, accumulating them in a terrible ledger. Resolving spells â€” cadences â€” then spend these hoarded fragments to commit fresh atrocities: guaranteeing critical wounds, stunning minds with impossible harmonics, or stitching allies back together through frequencies that should have stayed silent. Mastering the Minstrel means accepting that your power is stolen from the dead, and that every cadence you play hastens the entropy of everything around you.`,
 
     resourceBarExplanation: {
       title: "Understanding Your Musical Notes Interface",
-      content: `**What You See**: The Minstrel's interface displays a MUSICAL STAFF with seven note positions (I–VII), each showing how many notes of that type you have stacked (0–5). Available cadences are highlighted below the staff when you have the required notes.
+      content: `**What You See**: The Minstrel's interface displays a MUSICAL STAFF with seven note positions (Iâ€”VII), each showing how many notes of that type you have stacked (0â€”5). Available cadences are highlighted below the staff when you have the required notes.
 
 **Staff Layout**:
 - **Seven Note Positions**: I through VII arranged horizontally, each with a thematic color (gold, blue, purple, green, red, dark blue, white)
-- **Note Stacks**: Each position shows 0–5 notes; filled positions glow, empty positions are dimmed
-- **Cadence Buttons**: Below the staff — green when available, gray when missing notes. Hovering shows required notes, current notes, and the effect
+- **Note Stacks**: Each position shows 0â€”5 notes; filled positions glow, empty positions are dimmed
+- **Cadence Buttons**: Below the staff â€” green when available, gray when missing notes. Hovering shows required notes, current notes, and the effect
 
 **Key Interactions**:
 - **Casting a builder spell**: Note symbols fly to the staff and add to the appropriate stacks (e.g., "+1 V, +1 VII")
@@ -679,22 +772,22 @@ Many players enhance the musical experience with:
 Keep a list of which spells generate which notes:
 \`\`\`
 BUILDER SPELLS (Generate Notes):
-• Opening Chord ? I(2) + V(1)
-• Harmonic Strike ? III(2) + I(1)
-• Inspiring Rhythm ? V(2) + VII(1)
-• Uplifting Rhythm ? II(1) + VI(2)
-• Melancholy Melody ? VI(2) + IV(1)
-• Climactic Crescendo ? VII(2) + V(1)
-• Healing Hymn ? IV(2) + I(1)
-• War Drum Beat ? V(1) + VI(2)
-• Dissonant Shriek ? VII(3) + II(1)
-• Song of Rest ? I(1) + IV(1)
+â€” Opening Chord ? I(2) + V(1)
+â€” Harmonic Strike ? III(2) + I(1)
+â€” Inspiring Rhythm ? V(2) + VII(1)
+â€” Uplifting Rhythm ? II(1) + VI(2)
+â€” Melancholy Melody ? VI(2) + IV(1)
+â€” Climactic Crescendo ? VII(2) + V(1)
+â€” Healing Hymn ? IV(2) + I(1)
+â€” War Drum Beat ? V(1) + VI(2)
+â€” Dissonant Shriek ? VII(3) + II(1)
+â€” Song of Rest ? I(1) + IV(1)
 
 RESOLVER SPELLS (Consume Notes):
-• Minor Cadence ? IV(1) + I(1)
-• Soothing Melody ? VII(1) + III(1)
-• Resolving Strike ? I(1) + V(1)
-• Mending Cadence ? IV(1) + I(1)
+â€” Minor Cadence ? IV(1) + I(1)
+â€” Soothing Melody ? VII(1) + III(1)
+â€” Resolving Strike ? I(1) + V(1)
+â€” Mending Cadence ? IV(1) + I(1)
 \`\`\`
 
 **Cadence Planning**:
@@ -733,10 +826,10 @@ Before combat, decide which cadences you want to prioritize:
 - **No tokens at all?** Use the dice method (7 d6 dice) or tally marks on paper
 - **Minimalist**: Just write the note counts on paper and update as needed
 
-**Why Minstrel Is Perfect for In-Person Play**: The class is built around accumulating and spending specific combinations of resources, which translates beautifully to physical tokens. Unlike abstract resources like mana, musical notes are discrete, countable, and combinable—perfect for tactile tracking. The act of building your note collection and then spending them in specific sequences mirrors the musical concept of building tension and resolving it, making the gameplay both mechanically satisfying and thematically immersive.`,
+**Why Minstrel Is Perfect for In-Person Play**: The class is built around accumulating and spending specific combinations of resources, which translates beautifully to physical tokens. Unlike abstract resources like mana, musical notes are discrete, countable, and combinableâ€”perfect for tactile tracking. The act of building your note collection and then spending them in specific sequences mirrors the musical concept of building tension and resolving it, making the gameplay both mechanically satisfying and thematically immersive.`,
     },
 
-    // Cadence Matrix — the 10 chord progressions a Minstrel can resolve.
+    // Cadence Matrix â€” the 10 chord progressions a Minstrel can resolve.
     // Structured counterpart to `chordProgressionsTable` (which is the
     // human-readable table). Each entry is shaped to be consumed directly
     // by `cadenceToSpell.js` to render a UnifiedSpellCard tooltip, and by
@@ -747,7 +840,7 @@ Before combat, decide which cadences you want to prioritize:
     cadenceMatrix: {
       title: "Cadence Matrix",
       subtitle: "The 10 Resolvable Progressions",
-      description: `Every Minstrel can resolve any of the ten cadences provided they have banked the required notes. Cadences are not learned — they are inherent to the mathematics of stolen frequencies. Bank the notes through builder spells, then resolve the cadence to commit its atrocity.`,
+      description: `Every Minstrel can resolve any of the ten cadences provided they have banked the required notes. Cadences are not learned â€” they are inherent to the mathematics of stolen frequencies. Bank the notes through builder spells, then resolve the cadence to commit its atrocity.`,
       baseManaCost: 16,
       baseRange: 60,
 
@@ -764,7 +857,7 @@ Before combat, decide which cadences you want to prioritize:
           primaryEffect: "buff",
           secondaryEffect: "guaranteed_crit",
           effectDescription: "Target ally's next attack is a guaranteed critical hit. The progression resolves the dominant tension (V) back onto the tonic (I), and reality rewards the resolution with impossible precision.",
-          flavorText: "BOOM. BOOM-BOOM. BOOM-BOOM-BOOM. BOOM. The rhythm is PERFECT — and the weapon in your ally's hand begins to sing.",
+          flavorText: "BOOM. BOOM-BOOM. BOOM-BOOM-BOOM. BOOM. The rhythm is PERFECT â€” and the weapon in your ally's hand begins to sing.",
           tacticalUse: "Save for boss damage phases and guaranteed kills.",
         },
         {
@@ -780,7 +873,7 @@ Before combat, decide which cadences you want to prioritize:
           aoeParameters: { radius: 20 },
           primaryEffect: "control",
           secondaryEffect: "disoriented",
-          effectDescription: "Disorient every enemy in a 20 ft radius: -2 to attacks and saves for 1 round. DC 15 Spirit save negates. The ear refuses the lie the progression tells — V resolves to IV instead of I, and the mind buckles.",
+          effectDescription: "Disorient every enemy in a 20 ft radius: -2 to attacks and saves for 1 round. DC 15 Spirit save negates. The ear refuses the lie the progression tells â€” V resolves to IV instead of I, and the mind buckles.",
           flavorText: "An impossible resolution. The chord that promised home delivers exile, and the enemy's grip on reality slips a quarter-tone sideways.",
           tacticalUse: "Interrupt dangerous casts and shut down clusters.",
         },
@@ -797,8 +890,8 @@ Before combat, decide which cadences you want to prioritize:
           aoeParameters: { radius: 30 },
           primaryEffect: "damage",
           secondaryEffect: "dot",
-          effectDescription: "Deal 3d6 + Spirit storm damage and apply a damage-over-time effect (3d6 + Spirit per turn) for 3 turns to every creature in a 30 ft radius. The progression never resolves — it spirals endlessly through fifths, and so does the pain.",
-          flavorText: "The progression eats its own tail. Each fifth calls the next, and the next, and the next — a wheel of resonance that grinds whatever it touches.",
+          effectDescription: "Deal 3d6 + Spirit storm damage and apply a damage-over-time effect (3d6 + Spirit per turn) for 3 turns to every creature in a 30 ft radius. The progression never resolves â€” it spirals endlessly through fifths, and so does the pain.",
+          flavorText: "The progression eats its own tail. Each fifth calls the next, and the next, and the next â€” a wheel of resonance that grinds whatever it touches.",
           tacticalUse: "Apply early to grouped enemies for sustained pressure.",
         },
         {
@@ -812,8 +905,8 @@ Before combat, decide which cadences you want to prioritize:
           range: 60,
           primaryEffect: "buff",
           secondaryEffect: "haste",
-          effectDescription: "Target ally gains +20 ft movement speed and +2 Dexterity for 2 rounds. The 'Amen' progression lifts the listener — feet leave the ground, if only for a moment.",
-          flavorText: "The amen. Not a victory, but the breath before victory — the moment the chorus inhales and the body remembers it can move.",
+          effectDescription: "Target ally gains +20 ft movement speed and +2 Dexterity for 2 rounds. The 'Amen' progression lifts the listener â€” feet leave the ground, if only for a moment.",
+          flavorText: "The amen. Not a victory, but the breath before victory â€” the moment the chorus inhales and the body remembers it can move.",
           tacticalUse: "Repositioning, pursuit, escaping an AOE.",
         },
         {
@@ -829,7 +922,7 @@ Before combat, decide which cadences you want to prioritize:
           aoeParameters: { radius: 15 },
           primaryEffect: "barrier",
           secondaryEffect: "shield",
-          effectDescription: "Shield every ally in a 15 ft radius for 2d6 + Spirit. Shield persists for 2 rounds. The progression stops on the dominant — suspended, unresolved, holding its breath and bracing for impact.",
+          effectDescription: "Shield every ally in a 15 ft radius for 2d6 + Spirit. Shield persists for 2 rounds. The progression stops on the dominant â€” suspended, unresolved, holding its breath and bracing for impact.",
           flavorText: "The music pauses mid-phrase. Everything holds. The shield is the silence before the downbeat, and it will not be broken early.",
           tacticalUse: "Pre-cast before a known big attack lands.",
         },
@@ -846,8 +939,8 @@ Before combat, decide which cadences you want to prioritize:
           aoeParameters: { radius: 20 },
           primaryEffect: "healing",
           secondaryEffect: "damage_reduction",
-          effectDescription: "Allies in a 20 ft radius take -4 damage for 1 round and restore 4d6 + Spirit HP. The Minstrel CANNOT heal themselves — every drop of mending flows outward. The progression descends through the relative minor and finds its way home, knitting flesh as it goes.",
-          flavorText: "The melody walks down through grief and lands on the tonic. Where it lands, wounds close — except on the hands that played it.",
+          effectDescription: "Allies in a 20 ft radius take -4 damage for 1 round and restore 4d6 + Spirit HP. The Minstrel CANNOT heal themselves â€” every drop of mending flows outward. The progression descends through the relative minor and finds its way home, knitting flesh as it goes.",
+          flavorText: "The melody walks down through grief and lands on the tonic. Where it lands, wounds close â€” except on the hands that played it.",
           tacticalUse: "Survive a burst-damage round and stabilize the party.",
         },
         {
@@ -862,7 +955,7 @@ Before combat, decide which cadences you want to prioritize:
           primaryEffect: "buff",
           secondaryEffect: "advantage",
           effectDescription: "Target ally gains advantage on all attacks for 2 turns. The lowered second of the Phrygian color is a knife-edge the ally's blade learns to ride.",
-          flavorText: "An ancient, dark-hued close. The semitone drop that the ear reads as danger — and your ally reads as permission.",
+          flavorText: "An ancient, dark-hued close. The semitone drop that the ear reads as danger â€” and your ally reads as permission.",
           tacticalUse: "Boost a damage dealer going into a full attack action.",
         },
         {
@@ -877,7 +970,7 @@ Before combat, decide which cadences you want to prioritize:
           primaryEffect: "buff",
           secondaryEffect: "crit_chance",
           effectDescription: "Target ally gains +2 to critical hit chance for 2 rounds. Stacks with Perfect Cadence for a guaranteed, amplified crit. The flatted-second chord colors the resolution with exotic precision.",
-          flavorText: "A borrowed chord from a foreign key. It shouldn't fit. It fits perfectly — and your ally's aim suddenly shares its impossible geometry.",
+          flavorText: "A borrowed chord from a foreign key. It shouldn't fit. It fits perfectly â€” and your ally's aim suddenly shares its impossible geometry.",
           tacticalUse: "Stack with Perfect Cadence for cataclysmic single hits.",
         },
         {
@@ -891,7 +984,7 @@ Before combat, decide which cadences you want to prioritize:
           range: 60,
           primaryEffect: "control",
           secondaryEffect: "paralyze",
-          effectDescription: "Paralyze a single target. DC 18 Spirit save negates. The devil's interval — the tritone — slides V out and slams a flatted-II in its place, and the enemy's nervous system goes with it.",
+          effectDescription: "Paralyze a single target. DC 18 Spirit save negates. The devil's interval â€” the tritone â€” slides V out and slams a flatted-II in its place, and the enemy's nervous system goes with it.",
           flavorText: "The devil's interval, weaponized. Two notes that the Church banned for a thousand years, deployed in a single surgical strike.",
           tacticalUse: "Lock down a priority target for a full round.",
         },
@@ -908,8 +1001,8 @@ Before combat, decide which cadences you want to prioritize:
           aoeParameters: { radius: 20 },
           primaryEffect: "healing",
           secondaryEffect: "save_bonus",
-          effectDescription: "Allies in a 20 ft radius gain +2 to all saves for 1 round and restore 6d6 + Spirit HP. A minor key resolves to a major tonic — the raised third that turns despair into borrowed, transient hope. The Minstrel still cannot self-heal.",
-          flavorText: "The third that shouldn't be major, is. For one phrase, the music refuses to grieve — and the wounded get up again.",
+          effectDescription: "Allies in a 20 ft radius gain +2 to all saves for 1 round and restore 6d6 + Spirit HP. A minor key resolves to a major tonic â€” the raised third that turns despair into borrowed, transient hope. The Minstrel still cannot self-heal.",
+          flavorText: "The third that shouldn't be major, is. For one phrase, the music refuses to grieve â€” and the wounded get up again.",
           tacticalUse: "Counter debuff-heavy enemies and recover from a bad round.",
         },
       ],
@@ -921,7 +1014,7 @@ Before combat, decide which cadences you want to prioritize:
     title: "Minstrel Specializations",
     subtitle: "Three Paths of Accumulated Suffering",
 
-    description: `Every Minstrel chooses how they will suffer. The music demands a specialty — a particular brand of torment through which they channel their stolen frequencies. Each path offers unique passive abilities and shapes both the spells they learn and the manner in which the magic consumes them.`,
+    description: `Every Minstrel chooses how they will suffer. The music demands a specialty â€” a particular brand of torment through which they channel their stolen frequencies. Each path offers unique passive abilities and shapes both the spells they learn and the manner in which the magic consumes them.`,
 
     specs: [
       { id : "battlechoir",
@@ -930,7 +1023,7 @@ Before combat, decide which cadences you want to prioritize:
         color: "#DC143C",
         theme: "War Songs & Aggressive Support",
 
-        description: `Battlechoir Minstrels are the butchers of the battlefield — war drummers who drive soldiers into a killing frenzy with rhythms that bypass the conscious mind entirely. Their songs do not inspire courage; they strip away hesitation, morality, and restraint, leaving only the compulsion to slaughter. Every cadence they play amplifies ally lethality while grinding enemy morale into dust. They favor drums made from stretched skin and horns carved from the ribs of beasts that should have stayed extinct. The Battlechoir does not play music to uplift — they play to ensure that nothing on the receiving end survives.`,
+        description: `Battlechoir Minstrels are the butchers of the battlefield â€” war drummers who drive soldiers into a killing frenzy with rhythms that bypass the conscious mind entirely. Their songs do not inspire courage; they strip away hesitation, morality, and restraint, leaving only the compulsion to slaughter. Every cadence they play amplifies ally lethality while grinding enemy morale into dust. They favor drums made from stretched skin and horns carved from the ribs of beasts that should have stayed extinct. The Battlechoir does not play music to uplift â€” they play to ensure that nothing on the receiving end survives.`,
 
         playstyle: "Aggressive support, damage amplification, offensive buffs",
 
@@ -975,7 +1068,7 @@ Before combat, decide which cadences you want to prioritize:
         color: "#4169E1",
         theme: "Healing Melodies & Emotional Magic",
 
-        description: `Soulsingers are not healers — they are desperate mourners whose songs are final pleas to powers that may not be listening. They channel raw anguish through their instruments, weaving frequencies that knit torn flesh and mend shattered bone through sheer sonic coercion. Their melodies are not gentle; they are the sounds of grief weaponized, lullabies sung over open graves that somehow keep the living from joining the dead. They favor lutes strung with hair from the bereaved and harps whose frames creek like gallows. A Soulsinger's healing is effective because it transfers the agony — not from patient to healer, but into the instrument itself, which slowly warps and cracks under accumulated sorrow.`,
+        description: `Soulsingers are not healers â€” they are desperate mourners whose songs are final pleas to powers that may not be listening. They channel raw anguish through their instruments, weaving frequencies that knit torn flesh and mend shattered bone through sheer sonic coercion. Their melodies are not gentle; they are the sounds of grief weaponized, lullabies sung over open graves that somehow keep the living from joining the dead. They favor lutes strung with hair from the bereaved and harps whose frames creek like gallows. A Soulsinger's healing is effective because it transfers the agony â€” not from patient to healer, but into the instrument itself, which slowly warps and cracks under accumulated sorrow.`,
 
         playstyle:
           "Sustained healing, emotional manipulation, protective support",
@@ -1021,7 +1114,7 @@ Before combat, decide which cadences you want to prioritize:
         color: "#8B008B",
         theme: "Chaotic Sounds & Reality Warping",
 
-        description: `Dissonance Minstrels have gazed into the void between notes and found something staring back. They wield frequencies that should not exist — atonal shrieks that unravel thought, progressions that cause the inner ear to bleed, chords that make the air itself flinch. Their music is not chaos; it is a calculated assault on the fundamental structure of reality, each discordant interval a crowbar prying at the seams of existence. They carry instruments that no luthier would claim: twisted constructions of metal and nerve that produce sounds more felt than heard. To hear a Dissonance Minstrel play is to understand that madness has a melody, and it is being performed at you.`,
+        description: `Dissonance Minstrels have gazed into the void between notes and found something staring back. They wield frequencies that should not exist â€” atonal shrieks that unravel thought, progressions that cause the inner ear to bleed, chords that make the air itself flinch. Their music is not chaos; it is a calculated assault on the fundamental structure of reality, each discordant interval a crowbar prying at the seams of existence. They carry instruments that no luthier would claim: twisted constructions of metal and nerve that produce sounds more felt than heard. To hear a Dissonance Minstrel play is to understand that madness has a melody, and it is being performed at you.`,
 
         playstyle:
           "Crowd control, debuffs, chaotic effects, reality manipulation",
@@ -2503,7 +2596,7 @@ Before combat, decide which cadences you want to prioritize:
     },
 
     // ========================================
-    // NEW BUILDER SPELLS — VI & VII Generation
+    // NEW BUILDER SPELLS â€” VI & VII Generation
     // ========================================
     { id: "minstrel_melancholy_melody",
       name: "Melancholy Melody",
@@ -2675,7 +2768,7 @@ Before combat, decide which cadences you want to prioritize:
     },
 
     // ========================================
-    // NEW CADENCE SPELLS — Missing 5 Cadences
+    // NEW CADENCE SPELLS â€” Missing 5 Cadences
     // ========================================
     { id: "minstrel_deceptive_cadence",
       name: "Deceptive Cadence",

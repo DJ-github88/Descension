@@ -18,11 +18,121 @@ export const SHAPER_DATA = {
       "justification": "Requires biological form-shifting capability. Hard Block: Humans can't physically reshape (bodies too fixed). Emberth bodies are too mineral-dense. Neth bodies are contract-locked by the First Contract. Myrathil are too fluid (can't hold shape)."
   },
 
+  /**
+   * Subrace Variants — the Shaper reshapes their own body, and what the body *is* shapes
+   * the shaping. The Mimir castes each reconcile form-shifting with their mask-anchored
+   * identity differently. The Groven castes carry the Deep Alchemists' original
+   * body-sculpting heritage — the vats that made them, turned inward.
+   */
+  subraceVariants: {
+    maskborne_mimir: {
+      subraceName: 'Mask-Borne Mimir',
+      title: 'The Form-Locked',
+      reframe: `The <LoreLink termId="mimir">Mask-Borne</LoreLink> anchor their identity to a single carved mask, and a Shaper among them must reconcile the shaping forms with an *external identity-anchor* that resists change. The Mask-Borne are the most controlled Shapers: the mask holds the self stable while the body shifts around it, a fixed point around which transformation orbits. The most stable, and the most limited — they cannot reshape the face the mask protects.`,
+      signatureAbility: {
+        name: 'Anchor-Form',
+        description: `Kinetic Flux builds faster when the Shaper's mask remains untouched — the mask is the fixed axis, and every transformation radiates from it. The instant the mask is struck or displaced, all held forms destabilize violently. The Mask-Borne fight to protect the one thing they cannot change.`
+      },
+      currentCrisisAngle: `Convergence Collapse hits the Mask-Borne as a *mask-crisis*: when young Mask-Borne attempt every form at once, the transformations begin *reaching for the mask*, trying to reshape the one thing that holds the self. Several young Mask-Borne have shattered their own masks mid-convergence, and the resulting identity-collapse is the most frightening thing the elder Shapers have ever witnessed — a Mimir without an anchor, dissolving in real time.`,
+      signatureQuote: {
+        text: '"My mask is the only shape I cannot change, and the dance keeps trying to take it from me. The day I let it, I will not be anyone to remember the loss."',
+        speaker: 'Form-Keeper Mir-Vassen',
+        context: 'A Mask-Borne Shaper, splinting his mask-straps before a convergence drill'
+      }
+    },
+
+    mistwoven_mimir: {
+      subraceName: 'Mist-Woven Mimir',
+      title: 'The Sentinel-Shifter',
+      reframe: `The <LoreLink termId="mimir">Mist-Woven</LoreLink> — the fog-sentinels of the <LoreLink termId="frostwood-reach">Ironwood Palisade</LoreLink> — treat the shaping forms as *vigil-adaptations*: each form is a posture of watching, a body configured for a specific kind of surveillance. A Mist-Woven Shaper does not reshape for combat; they reshape for *perception*, becoming the thing that sees what the fog hides.`,
+      signatureAbility: {
+        name: 'Vigil-Form',
+        description: `Shaping forms optimized for sensory coverage rather than offense — widened eyes, extended auditory structures, distributed nerve-endings. The Mist-Woven are the tradition's scouts, and their Kinetic Flux generates from *detection* (spotting an enemy) as much as from combat impact.`
+      },
+      currentCrisisAngle: `The mist is learning to hide (the Apex crisis), and the Mist-Woven Shapers feel it most acutely — every vigil-form is returning less, the sensory adaptations hitting a fog that refuses to cooperate. The young Mist-Woven, in frustration, are pushing their vigil-forms past design limits, burning through crystalline skin to see a fog that has decided to be blind.`,
+      signatureQuote: {
+        text: '"I reshaped my eyes to pierce the mist. The mist reshaped itself to defy my eyes. We are arguing, and I am losing, and I do not know what it is protecting."',
+        speaker: 'Sentinel Mir-Felss',
+        context: 'A Mist-Woven Shaper, the third night her vigil-form returned nothing'
+      }
+    },
+
+    unwoven_mimir: {
+      subraceName: 'Unwoven Mimir',
+      title: 'The Dissolving',
+      reframe: `The <LoreLink termId="mimir">Unwoven</LoreLink> are already dissolving — maskless, their forms blurring into the fog. For the Unwoven, the Shaper art is both curse and *temporary salvation*: each held form briefly *coheres* a self that is otherwise fading. An Unwoven Shaper reshapes not to fight but to *remember what having an edge feels like*, and every transformation buys a few more hours of definition before the dissolution resumes.`,
+      signatureAbility: {
+        name: 'Coherence-Form',
+        description: `Shaping forms temporarily *reverse* the Unwoven's dissolution, granting hours of crisp identity per transformation. The cost: every reversion to baseline loses a little more of the baseline itself. The Unwoven are buying time with the time they have left, and the exchange rate is worsening.`
+      },
+      currentCrisisAngle: `Convergence Collapse is, for the Unwoven, the most *tempting* crisis: attempting every form at once briefly produces a *super-coherent* state more defined than any single form. Young Unwoven are chasing convergence highs, burning through crystalline skin (which the Mimir cannot regenerate) for hours of feeling like a complete person. The Unwoven Shapers are, measurably, the happiest Shapers — and the fastest-dying.`,
+      signatureQuote: {
+        text: '"You fear the dance will dissolve you. I am already dissolving. The dance is the only thing that gives me edges. I will dance until there is nothing left to dance, and it will have been worth it."',
+        speaker: 'Unwoven Mir-Naeth',
+        context: 'An Unwoven Shaper, mid-convergence, more coherent than she has been in years'
+      }
+    },
+
+    morgh_groven: {
+      subraceName: 'Morgh Groven',
+      title: 'The Vat-Sculpted',
+      reframe: `The <LoreLink termId="groven">Morgh Groven</LoreLink> were *made* by body-sculpting — the Deep Alchemists' vats reshaped their <LoreLink termId="thrumm">Thrumm</LoreLink> root-stock into the heavy-scaled Morgh form. A Morgh Shaper does not learn body-sculpting; they *inherit* it, the alchemical heritage in their blood re-awakened. Their shaping is the tradition's most visceral irony: the race that was sculpted against its will, now sculpting *itself*.`,
+      signatureAbility: {
+        name: 'Vat-Recursion',
+        description: `Shaping forms draw on the Morgh's dormant alchemical substrate — the same serums the Deep Alchemists used to create them. The Morgh can sculpt with a precision and violence no Mimir can match, hardening stone-scale into weapon-plate or softening it for flexibility. The regenerative Thrumm biology makes them the most durable Shapers.`
+      },
+      currentCrisisAngle: `Convergence Collapse among the Morgh risks *re-awakening the vat-protocols entirely* — a fully converged Morgh Shaper begins to resemble the Deep Alchemists' *original design intent*, a perfect servitor, before the will reasserts. The Vat-Breakers' Guild considers this the ultimate desecration: a Groven voluntarily returning to the vat-state. Worse, the Deep Alchemists have heard, and they are *very interested* in a Groven who can re-enter the vat without being put there.`,
+      signatureQuote: {
+        text: '"My makers sculpted me to kneel. I sculpt myself to stand. The danger is that the clay remembers the first shape, and so do I. Every form I take, the old one whispers."',
+        speaker: 'Morgh Veyr Anvil-Sculpted',
+        context: 'A Morgh Shaper, the morning after a convergence that left him briefly obedient'
+      }
+    },
+
+    ithran_groven: {
+      subraceName: 'Ithran Groven',
+      title: 'The Span-Dancer',
+      reframe: `The long-limbed <LoreLink termId="groven">Ithran Groven</LoreLink> — the bridge-builders, the diplomats — contribute the *kinetic* half of the Shaper art. An Ithran Shaper runs the Ancestor-Spans as a dance, building Kinetic Flux from the momentum of bridge-running, then channels that momentum into extended-limb transformations. Where the Morgh sculpt for durability, the Ithran sculpt for *reach and speed*.`,
+      signatureAbility: {
+        name: 'Span-Momentum',
+        description: `Kinetic Flux generates dramatically faster from movement across the Shaper's own architecture — running a familiar bridge, swinging between spans. The Ithran are the tradition's momentum-specialists, and their forms emphasize reach, leverage, and the bone-knowledge of load-distribution that makes their bridges hold.`
+      },
+      currentCrisisAngle: `The Ancestor-Spans are cracking (the Warden/Gambit crisis), and the Ithran Span-Dancers are losing their *kinetic substrate* — the bridges that generate their Flux are failing. Young Ithran are running the cracking spans anyway, chasing momentum from structures that may collapse beneath them. The convergence of failing bridges and convergence-collapse is producing a generation of Ithran Shapers who dance on the edge of two collapses at once.`,
+      signatureQuote: {
+        text: '"My grandmother\'s span made me fast. Her span is failing. I run it anyway — the falling is faster than the standing, and the Flux does not care which one feeds it."',
+        speaker: 'Ith-Sparra Span-Dancer',
+        context: 'An Ithran Shaper, choosing which cracking span to run before a battle'
+      }
+    }
+  },
+
+
   id: "shaper",
   name: "Shaper",
   icon: "fas fa-yin-yang",
   role: "Hybrid (Damage/Mobility/Adaptation)",
   damageTypes: ["physical", "primal", "storm"],
+
+  livingOrder: {
+    orderName: 'The Form-Convergence',
+    founder: {
+      name: '<LoreLink termId="veyra">Veyra</LoreLink>',
+      status: `Alive. The <LoreLink termId="mimir">Mimir</LoreLink> chronicler who merged Sylvanus's kinetic momentum dance (Frostwood) with Torin's biological adaptation art (<LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink>) still leads the Convergence, her semi-crystalline skin more calcified each year. She is the only Shaper who has held the merged art without burning out — because she invented it slowly, over centuries.`,
+      note: `<LoreLink termId="veyra">Veyra</LoreLink> did not invent the Shaping Forms; she invented the *convergence*. The kinetic and biological traditions existed separately for centuries. She proved they were one dance seen from two angles.`
+    },
+    currentLeader: {
+      name: '<LoreLink termId="veyra">Form-Matriarch Veyra the Merged</LoreLink>',
+      title: 'Keeper of the Six Forms',
+      characterization: `Ancient, patient, and more stone than flesh — <LoreLink termId="veyra">Veyra</LoreLink>'s body is a living record of every transformation she has ever held. She leads the Convergence from Frostmaw and teaches the six Forms in sequence, insisting no student attempt convergence until they have mastered each form alone. The young convergers consider this archaic. She considers their burnout rate the proof she is right.`
+    },
+    headquarters: { name: 'The Shaping Hall, Frostmaw Holdfast', locationId: 'frostmaw_holdfast' },
+    crisisConnection: `<LoreLink termId="veyra">Veyra</LoreLink> is losing the argument. The purist-vs-converger schism is worsening, and Convergence Collapse is killing the young Mimir Shapers — burning through crystalline skin in years rather than centuries. <LoreLink termId="veyra">Veyra</LoreLink>'s slow method works, but the era does not allow for slow: the Frostwood mist is learning to hide, the Ancestor-Spans are cracking, and the world demands Shapers who can converge *now*. <LoreLink termId="veyra">Veyra</LoreLink> is being forced to teach the dangerous convergence she spent centuries proving was premature, because the alternative is a tradition of pure-form specialists who cannot meet the moment.`
+  },
+
+  worldFriction: [
+    { region: 'human-settlements', status: 'distrusted', consequence: 'Form-shifting reads to most humans as Wyrd-adjacent — the Gref steals faces, and a being that reshapes its own face triggers the same reflex. A Shaper in a Thalren or Solvarn town is watched closely and barred from archive or temple interiors until they hold a single form for inspection.', workaround: 'Hold a single stable form in public; the Shaping is the art, but stillness is the camouflage. A Shaper who never transforms in view is treated as merely an unusual Mimir or Groven.' },
+    { region: 'cragjaw-peaks', location: 'frostmaw_holdfast', status: 'celebrated', consequence: 'At Frostmaw, the Shaping Hall is a respected institution and Shapers are honored as the inheritors of the Vat-Breakers\' biological heritage. Groven and Mimir Shapers receive lodging, training-access, and the protection of the Form-Convergence.' }
+  ],
 
   overview: {
     title: "The Shaper",

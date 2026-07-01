@@ -18,11 +18,104 @@ export const HARBINGER_DATA = {
       "justification": "Requires cultural proximity to entropy and acceptance of inevitable extinction. Tessen have prepared for extinction for four centuries. Solvarn live in the dying light. Astril commune with fading celestial entities. Merryn too opportunistic. Thalren too preservationist. Neth can't accept anything that breaks contracts. Skald preserve history. Ordan migrate to survive."
   },
 
+  /**
+   * Subrace Variants — the Harbinger weaponizes the certainty of catastrophe, and what
+   * counts as "catastrophe" depends on what your culture has been bracing for. All four
+   * allowed subraces have been waiting for the end long enough to make a weapon of the
+   * waiting.
+   */
+  subraceVariants: {
+    sylen_astril: {
+      subraceName: 'Sylen Astril',
+      title: 'The Entropy-Symphony',
+      reframe: `The <LoreLink termId="astril">Sylen</LoreLink> commune with fading celestial entities — fragments of Sol's dying court — and a Harbinger among them hears the constellation-spirit's death-crescendo as entropy made musical. A Sylen Harbinger does not predict doom; they *harmonize* with it, channeling the slow death of a star-god as a symphony whose final note is the end of everything.`,
+      signatureAbility: {
+        name: 'Death-Crescendo',
+        description: `Mayhem-pressure builds in resonance with the host constellation-spirit's fading; the closer the spirit is to final extinction, the more catastrophic the Harbinger's Wild Surges. A Sylen Harbinger is, in effect, accelerating their own god's death to fuel their magic.`
+      },
+      currentCrisisAngle: `The Chaos Pockets now permanent in the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink> resonate *sympathetically* with the Sylen's fading spirits — the Pockets are, the elders now believe, the death-crescendo made geographic. The Sylen Harbingers did not cause the Pockets, but their magic feeds them, and stopping would mean letting their god-fragments die in silence.`,
+      signatureQuote: {
+        text: '"My star is dying and I am making it sing. When the song ends, so does everything. Hum along while you still can."',
+        speaker: 'Caelum Dim-Voiced',
+        context: 'A Sylen Harbinger, conducting a Wild Surge that rearranged a hillside'
+      }
+    },
+
+    muren_astril: {
+      subraceName: 'Muren Astril',
+      title: 'The Suppressed Catastrophe',
+      reframe: `The <LoreLink termId="astril">Muren</LoreLink> suppress their constellation-spirits, and a Harbinger among them weaponizes the suppressed spirit's catastrophic foreknowledge — doom the bound spirit is gagged from preventing. A Muren Harbinger's prophecy is a hostage's muffled scream of the apocalypse, channeled through a cage the host built and refuses to open.`,
+      signatureAbility: {
+        name: 'Gagged-Doom',
+        description: `Mayhem-pressure builds from the suppressed spirit's frantic, gagged warnings of catastrophe; the more the bound spirit fights to *prevent* the doom, the more the Harbinger weaponizes it. The cruelty is the point — the Muren burn their captive's love for the world as fuel.`
+      },
+      currentCrisisAngle: `The permanent Chaos Pockets have made the Muren's suppressed spirits go quiet — the same silence the False Prophet Muren report. A Muren Harbinger whose hostage stops screaming has lost their fuel source, and several have begun *loosening* their suppressions, risking full possession, just to hear the catastrophe again.`,
+      signatureQuote: {
+        text: '"I bound my star to stop it from warning me. Now I weaponize the warning it cannot give. The star has not forgiven me. I did not ask."',
+        speaker: 'Vesh the Muffled',
+        context: 'A Muren Harbinger, tightening her bindings before a major surge'
+      }
+    },
+
+    solvarn_human: {
+      subraceName: 'Solvarn',
+      title: 'The Dying-Light Doomsayer',
+      reframe: `The <LoreLink termId="house_solvan">Solvarn</LoreLink> live in the dying light of Sundale, tending the tomb of a star they helped bury. A Solvarn Harbinger reads the arithmetic of Sol's final extinguishment — the exact, grinding math of when the last warmth fails — and weaponizes the certainty. They are the tradition's purest Malakor inheritors: the ones who calculated doom and decided to *use* it.`,
+      signatureAbility: {
+        name: 'Dimming-Arithmetic',
+        description: `Mayhem-pressure scales with the ambient decay of light and warmth; a Solvarn Harbinger is strongest at dusk, at winter, and in the deepening dark of the world they helped make. Their magic is fueled by the very catastrophe their ancestors caused.`
+      },
+      currentCrisisAngle: `The Solvarn Harbingers have calculated something they will not share with the <LoreLink termId="dawn_vigil">Dawn Vigil</LoreLink>: the permanent Chaos Pockets are accelerating Sol's dimming. Every Pocket is a small hole through which the star's remaining warmth bleeds. The Harbingers know the world ends sooner than the Vigil preaches, and some have begun preaching the opposite — that the Pockets are not a crisis but a *mercy killing*.`,
+      signatureQuote: {
+        text: '"My ancestors murdered the sun and called it salvation. I am merely honest about what comes after. The math does not lie. I simply read it first."',
+        speaker: 'Scryer Sol-Varen',
+        context: 'A Solvarn Harbinger, burning a Dawn Vigil proclamation'
+      }
+    },
+
+    tessen_human: {
+      subraceName: 'Tessen',
+      title: 'The Extinction-Architect',
+      reframe: `The <LoreLink termId="house_tesshan">Tessen</LoreLink> have prepared for extinction for four centuries inside their sealed keeps, and the Harbinger is the inevitable product of that preparation — entropy practiced as a discipline, the end rehearsed until it became a tool. A Tessen Harbinger does not fear the apocalypse; they have *drilled* for it, and the drilling made them its architects.`,
+      signatureAbility: {
+        name: 'Rehearsed-End',
+        description: `Mayhem-pressure is generated through pre-planned collapse-sequences the Harbinger has rehearsed for decades; each Wild Surge is a scenario run live that the Tessen has already lived through, in their mind, a thousand times. The catastrophe is not chaos to them — it is choreography.`
+      },
+      currentCrisisAngle: `The Tessen's keeps are failing, and the Tessen Harbingers have, for the first time, begun to *welcome* it. Four centuries of rehearsal, and the real thing is finally arriving. Some Tessen Harbingers have stopped maintaining their keeps' temporal integrity (undermining the Tessen Chronarchs) because the extinction they prepared for is, to them, a graduation. The keep's collapse is the final exam.`,
+      signatureQuote: {
+        text: '"You fear the end. I have feared it for four hundred years, and the fear has grown bored of itself. Let it come. I have rehearsed my part."',
+        speaker: 'Castellan Tess-Haral',
+        context: 'A Tessen Harbinger, ignoring a Chronarch\'s order to reinforce the eastern wall'
+      }
+    }
+  },
+
   id: "harbinger",
   name: "Harbinger",
   icon: "fas fa-hourglass-half",
   role: "Entropy Prophet / Catastrophe Engine",
   damageTypes: ["storm", "blight", "wyrd", "ember", "rime"],
+
+  livingOrder: {
+    orderName: 'The Doom-Choir',
+    founder: {
+      name: '<LoreLink termId="xyris">Xyris</LoreLink> (the Tear) and <LoreLink termId="malakor">Malakor</LoreLink> (the Arithmetic)',
+      status: `<LoreLink termId="xyris">Xyris</LoreLink> — dead. She spliced temporal friction into her veins, tore a hole in reality in the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink>, and the hole killed her. <LoreLink termId="malakor">Malakor</LoreLink> — alive, and leading. He calculated exactly when <LoreLink termId="xyris">Xyris</LoreLink>'s holes would consume everything, and the calculation did not break him; it gave him a purpose.`,
+      note: `<LoreLink termId="xyris">Xyris</LoreLink> opened the wounds. <LoreLink termId="malakor">Malakor</LoreLink> learned to read them. The Doom-Choir formed around the survivors who could do both: tear reality and predict where it would tear next.`
+    },
+    currentLeader: {
+      name: '<LoreLink termId="malakor">Catastrophe-Reader Malakor the Finite</LoreLink>',
+      title: 'Choir-Prime of the Doom-Arithmetic',
+      characterization: `A Nordhalla archivist who has spent four centuries reducing the apocalypse to an equation. He is calm, precise, and absolutely without hope — not despair, which would be an error in the math, but the serene certainty that the equation has only one solution. He leads the Choir from the <LoreLink termId="frozen_archive">Frozen Archive</LoreLink> and considers hope a rounding error.`
+    },
+    headquarters: { name: 'The Reading Room, Frozen Archive (field-work: the Sundrift Vale chaos pockets)', locationId: 'frozen_archive' },
+    crisisConnection: `<LoreLink termId="malakor">Malakor</LoreLink> *predicted* the permanent chaos pockets — his arithmetic said they would stabilize, and they did. What his arithmetic did not predict is that each pocket bleeds warmth from the buried star, accelerating <LoreLink termId="the_deepening">Sol's dimming</LoreLink>. The Doom-Choir's own magic is, measurably, ending the world faster. <LoreLink termId="malakor">Malakor</LoreLink> has not shared this, because he considers a faster end a *more accurate* end — and a faction of the Choir agrees with him.`
+  },
+
+  worldFriction: [
+    { region: 'sundrift-vale', status: 'wanted', consequence: 'The permanent Chaos Pockets have made the Harbingers persona non grata across the Vale — House Ordavan blames the Doom-Choir for the reality-tears and has posted bounties. A Harbinger manifesting a Wild Surge on Ordan soil is hunted by steppe-riders within the hour.', workaround: 'Conceal the Mayhem-pressure; a Harbinger at low pressure reads as merely unsettling rather than actively criminal. The Ordan cannot prosecute "doom-arithmetic" they cannot see.' },
+    { region: 'nordhalla', location: 'frozen_archive', status: 'distrusted', consequence: 'The Skald preserve history; the Harbinger calculates its end. Senior Doom-Choir members are granted advisory tolerance at the Frozen Archive (their arithmetic is too valuable to exile), but they are watched, housed alone, and never seated near the genealogical records.' }
+  ],
 
   overview: {
     originStory: `Reality is a woven tapestry, but the nomad Xyris did not see beauty in the threads; she saw a cage. Splicing a thread of raw temporal friction directly into her own veins, she sought to tear open the veil and draw power from the gravity anomalies left behind by the Breach. She gathered fragments of the Sundrift Monolith, fusing them into her own blood to thin the planar anchor that binds her to this world.

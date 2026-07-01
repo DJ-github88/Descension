@@ -18,6 +18,109 @@ export const ANIMIST_DATA = {
       "justification": "Requires ancestral spirit-channeling. Emberth commune with volcanic entities (different paradigm). Fexrick see spirits as machine-failure states. Tessen isolation prevents access. Myrathil have no land spirit tradition."
   },
 
+  /**
+   * Subrace Variants — the Animist is three traditions fused (totemic, runic, spore),
+   * and each allowed subrace practices one of the three — or a fourth, stranger variant
+   * born of debt or contract. The ancestral language they share is fracturing.
+   */
+  subraceVariants: {
+    ordan_human: {
+      subraceName: 'Ordan',
+      title: 'The Steppe-Throat',
+      reframe: `The <LoreLink termId="skald">Ordan</LoreLink> Animist does not carve runes or inhale spores. They sing. The ancestor lives in the overtone — the second voice the throat produces above the fundamental — woven into the mane-hair of the migration-horse and carried fifteen miles across the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink>. An Ordan Animist who loses their voice loses their entire lineage in a single silence.`,
+      signatureAbility: {
+        name: 'Overtone-Channel',
+        description: `Spirit-invocations are throat-sung and carry across vast open distances, but fail utterly indoors, underground, or under heavy canopy. The totem (a braid of migration-horse mane) must face the open steppe to resonate.`
+      },
+      currentCrisisAngle: `The Ordan's throat-sung dialect was never written down — it lives only in muscle-memory. As the ancestral language fragments, the Ordan hear the disharmony first and loudest, and cannot cross-reference it against the runic or spore traditions because they have no text to compare. They are screaming about a fracture no one else can verify.`,
+      signatureQuote: {
+        text: '"The ancestor is the second voice. Kill the first, and I will still answer you with the one that matters."',
+        speaker: 'Bayar Wind-Throat',
+        context: 'A stepse Animist who survived losing his speaking voice to a Wyrd-strike'
+      }
+    },
+
+    sylen_astril: {
+      subraceName: 'Sylen Astril',
+      title: 'The Constellation-Conduit',
+      reframe: `The <LoreLink termId="astril">Sylen</LoreLink> seek total symbiosis with the constellation-spirits nesting in their crystalline skin. An Astril Animist does not summon a separate ancestor — they commune with the imprisoned fragment of Sol's celestial court carried in their own blood. The spirit is not external. It is the host. They channel the trapped court of a dead god through skin that hums with stellar resonance.`,
+      signatureAbility: {
+        name: 'Star-Communion',
+        description: `Spirit-power scales with the depth of the host's symbiosis; a fully-symbiotic Sylen Animist channels the spirit as self, not as other. Power is strongest in absolute darkness — where the trapped star-light in their skin is the only light left.`
+      },
+      currentCrisisAngle: `The constellation-spirits in Sylen blood predate the Animist tradition — they are the loudest "ancestors" of any tradition. When the dialect fractured, the Sylen's spirits began screaming contradictory prophecies through crystalline skin. Young Sylen Animists are going mad, unable to silence a chorus that predates the language meant to speak to it.`,
+      signatureQuote: {
+        text: '"You call them ancestors. I call them the court of a murdered god, and they live in my forearm. Do not ask me to be quiet about it."',
+        speaker: 'Lirien Bright-Veined',
+        context: 'A Sylen Animist, declining to join a tri-regional communion'
+      }
+    },
+
+    clean_vreken: {
+      subraceName: 'Clean Vreken',
+      title: 'The Spore-Inhaler',
+      reframe: `The <LoreLink termId="vreken">Clean Vreken</LoreLink> inhale the loa — the ancestral dead ride bioluminescent spores into the lungs and speak through shifting glow-patterns on the skin. Their Animism is the oldest of the three root traditions, older than <LoreLink termId="kora">Kora</LoreLink>, older than the Root-Veil contract. The dead speak through mycelium, and the Clean Vreken have been breathing the dead for centuries.`,
+      signatureAbility: {
+        name: 'Spore-Inhalation',
+        description: `The loa must be inhaled from a specific fungal strain native to the deep <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink>; bonds form in the lungs and express as bioluminescent skin-text. The Clean Vreken's deep-glow makes their spirit-dialogue legible at a distance — but broadcasts every emotion to every Vreken nearby.`
+      },
+      currentCrisisAngle: `The fungal substrate is the Clean Vreken's dialect, and that substrate is one with the <LoreLink termId="root_veil">Root-Veil</LoreLink>. When the Root-Veil shifts, the Clean Vreken hear it as a scream. The dialect-fracture feels, to them, like the forest itself is being strangled — and they are the only tradition that feels it as physical pain.`,
+      signatureQuote: {
+        text: '"You carve your dead into stone. You sing them into wind. I breathe mine, and when the forest coughs, I taste blood."',
+        speaker: 'Mother Ysen',
+        context: 'A Clean Vreken spore-elder, explaining why she will not travel south'
+      }
+    },
+
+    morren_human: {
+      subraceName: 'Morren',
+      title: 'The Debt-Bound',
+      reframe: `The <LoreLink termId="house_morrath">Morren</LoreLink> are debtors to the Neth, and a Morren Animist channels no glorious ancestor — they summon the specific forebear whose unpaid contract still accrues interest against their family. The ancestor is not honored. The ancestor is *owed*. Every Morren family recites their contract at mealtimes; the Animist makes that recitation literal.`,
+      signatureAbility: {
+        name: 'Contract-Invocation',
+        description: `The spirit summoned is the family's debt-ancestor; it bargains for service rather than aiding freely, each invocation incrementally renegotiating an inherited obligation. Power, for a Morren Animist, is also a form of payment — and the interest compounds.`
+      },
+      currentCrisisAngle: `The Morren are the only tradition whose ancestors are *legally* bound. When the dialect fractured, the debt-ancestors began refusing to acknowledge renegotiations — demanding the original terms, in the original language, which the living no longer speak correctly. Families are being called to account for debts they cannot even recite, and the Keeper's Sanction looms.`,
+      signatureQuote: {
+        text: '"My grandmother borrowed her survival and left me the bill. Now she will not leave until I have read it back to her, correctly, in a language neither of us remembers."',
+        speaker: 'Petr Debt-Son',
+        context: 'A Morren Animist, the night before his family\'s contract-review'
+      }
+    },
+
+    skald_human: {
+      subraceName: 'Skald',
+      title: 'The Rune-Keeper',
+      reframe: `Where the Ordan sing and the Vreken inhale, the <LoreLink termId="skald">Skald</LoreLink> inscribe. They carve their ancestors' names into their own skin — the rune IS the ancestor, and the scar-tissue is its house. A Skald Animist covered in runic scars carries a permanent retinue of the dead, each anchored to a specific wound that never fully closes.`,
+      signatureAbility: {
+        name: 'Skin-Rune Anchoring',
+        description: `Spirits are bound to carved runes on the Animist's own body; the more runes, the more ancestors on call — but each rune is a permanent open wound that re-opens and bleeds during invocation. A Skald Animist's power is written, visibly, in their scars.`
+      },
+      currentCrisisAngle: `The Skald's runic dialect is the most rigid — carved in flesh, it cannot adapt. When the ancestral language shifted, the runes did not shift with it. Carved ancestors are now speaking a dialect no living practitioner matches, and the runes, cut in good faith eight generations ago, are beginning to itch, warm, and — some swear — migrate.`,
+      signatureQuote: {
+        text: '"My great-grandmother carved this name into her own arm so it would outlast the glacier. It has. She has not been so cooperative."',
+        speaker: 'Hakon Scar-List',
+        context: 'A Rune-Keeper of the Frozen Archive, counting his open wounds'
+      }
+    },
+
+    velun_neth: {
+      subraceName: 'Velun Neth',
+      title: 'The Ledger-Summoner',
+      reframe: `The <LoreLink termId="neth">Velun Neth</LoreLink> cannot lie, and cannot forget — the Keeper enforces both. A Velun Neth Animist does not commune with the dead; they *file a request*. The ancestor is a recorded entry in the great archive of <LoreLink termId="atropolis">Atropolis</LoreLink>, summoned through proper citation, offer, and acknowledgment of outstanding obligation.`,
+      signatureAbility: {
+        name: 'Ledger-Citation',
+        description: `Spirits are summoned by referencing their exact entry in the archive; the more precise the citation (full name, dates, contract history), the stronger the bond. A mis-citation summons the wrong ancestor — and the Velun Neth cannot legally dismiss what they have invoked.`
+      },
+      currentCrisisAngle: `The Velun Neth are the tradition most committed to a unified ancestral language — it is their filing system. The dialect-fracture is, to them, a corruption of the archive itself. Some senior Ledger-Summoners suspect the <LoreLink termId="keeper_of_the_last_threshold">Keeper</LoreLink> is permitting it — that the death-threshold guardian is, for reasons of its own, redacting the dead.`,
+      signatureQuote: {
+        text: '"You speak to your ancestors. I file a motion to hear mine. The difference is that mine always answer, and the answer is always admissible."',
+        speaker: 'Clerk Vel-Ossaren',
+        context: 'A senior Ledger-Summoner, declining an invitation to a spirit-communion'
+      }
+    }
+  },
+
   id: "animist",
   name: "Animist",
   icon: "fas fa-seedling",
@@ -32,6 +135,28 @@ export const ANIMIST_DATA = {
     utility: "Channel three distinct ancestral traditions through a single unified resource. The Animist erupts bone totems from self-mutilation (Primalist heritage), invokes ancient spirits through curse-driven invocation rituals (Witch Doctor heritage), and carves permanent runic networks into earth and flesh (Inscriptor heritage). They simultaneously terraform the battlefield, summon specters, and inscribe divine sigils, paying for every manifestation with their own blood, memories, and sanity.",
     fatalFlaw: "Triple catastrophic flaw from fused traditions. Spirit Erosion at 15+ Ancestral Resonance: 100% ember vulnerability, cannot receive party healing, forced movement shatters active runic networks dealing backlash, and the spirits demand service with 1d6 wyrd/turn if you hoard resonance without invoking. The Animist walks three tightropes simultaneously, and falling from any one is devastating."
   },
+
+  livingOrder: {
+    orderName: 'The Ancestral Convergence',
+    founder: {
+      name: '<LoreLink termId="triune-founders">The Triune Founders</LoreLink> — Kael, Nyssa, Theron',
+      status: `All dead. The three carriers met at a crossroads and recognized each other's scars. The crossroads is now the Convergence shrine, rotating between the three regions.`,
+      note: `Kael (<LoreLink termId="skald">Ordan</LoreLink>, totemic), Nyssa (<LoreLink termId="vreken">Vreken</LoreLink>, spore), and Theron (<LoreLink termId="skald">Skald</LoreLink>, runic) merged their traditions when they realized they spoke dialects of a single ancestral language.`
+    },
+    currentLeader: {
+      name: '<LoreLink termId="sera-three-scars">Convenor Sera Three-Scars</LoreLink>',
+      title: 'Voice of the Convergence',
+      characterization: `A Morren woman who bears the marks of all three traditions — throat-sung overtones, inhaled spores, and a single carved rune on her collarbone. She is the only living Animist who can still hold all three dialects at once, which is also slowly killing her. She convenes the tri-regional councils and translates between traditions that no longer fully understand each other.`
+    },
+    headquarters: { name: 'The Convergence Crossroads (archive seat: the Frozen Archive)', locationId: 'frozen_archive' },
+    crisisConnection: `<LoreLink termId="sera-three-scars">Sera Three-Scars</LoreLink> is the Convergence's last fluent translator, and the dialect-fracture is eroding even her ability to bridge the three traditions. When she can no longer hold all three dialects, the Convergence dissolves — and with it the Animist tradition's claim to be a single art. She is searching desperately for a successor and finding none; every young Animist who attempts all three simultaneously suffers sensory collapse.`
+  },
+
+  worldFriction: [
+    { region: 'nordhalla', status: 'persecuted', consequence: 'The Cleansing of the Hearth — House Skalvyr religious purge — explicitly targets tribal Animists and Sky-Readers. Practitioners caught throat-singing or skin-carving are arrested; the Runic Academies denounce ancestral communion as heresy.', workaround: 'The Skald Rune-Keeper variant survives by framing its practice as genealogy rather than magic — the runes read as record-keeping to inquisitors who do not look too closely.' },
+    { region: 'sundrift-vale', status: 'persecuted', consequence: 'House Ordavan systematically purges Sky-Singers under the state-enforced ancestor worship. Ordan throat-sung Animists are the most hunted; their overtones carry for miles and cannot be hidden.' },
+    { region: 'bryngloom-forest', location: 'atropolis', status: 'tolerated', consequence: 'The Velun Neth Ledger-Summoners are legally protected as archival practice; the Vreken spore-elders are tolerated as a forest-floor fixture. Bryngloom is the safest region for an Animist — provided they do not disturb the Root-Veil.' }
+  ],
 
   overview: {
     originStory: `The Animist tradition was born from three independent discoveries of ancestral communion, separated by mountains and marshlands, later fused into a single, devastating art.

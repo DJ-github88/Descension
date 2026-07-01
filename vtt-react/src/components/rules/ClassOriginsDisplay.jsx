@@ -117,7 +117,7 @@ const CLASS_DB_MAP = {
   spellguard: 'Spellguard',
   // titan removed (absorbed into Warden as Monolith specialization)
   toxicologist: 'Toxicologist',
-  Warden: 'Bound Penitent',
+  Warden: 'Warden',
   augur: 'Augur',
   doomsayer: 'Harbinger'
 };

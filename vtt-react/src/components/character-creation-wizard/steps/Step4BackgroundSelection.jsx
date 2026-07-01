@@ -182,7 +182,7 @@ const Step4BackgroundSelection = () => {
                     <EquipmentTab
                         equipmentNames={equipment}
                         currency={currency}
-                        note="Background equipment is included free with your character."
+                        note="Your heritage grants this equipment by right of custom and law."
                     />
                 )
             },
@@ -222,66 +222,106 @@ const Step4BackgroundSelection = () => {
                             <i className="fas fa-users"></i>
                             Available Backgrounds
                         </h3>
-                        <div className="background-grid-fullwidth">
-                            {backgrounds.map((bgItem) => {
-                                const { selectable, narrativeUnlock } = isBackgroundCompatible(bgItem, race, subrace);
-                                const isCompatible = selectable && !narrativeUnlock;
-                                const requiresUnlock = !isCompatible;
+                        <div className="background-grid-wrapper-fullwidth">
+                            {(() => {
+                                const compatibleBackgrounds = backgrounds.filter((bgItem) => {
+                                    const { selectable, narrativeUnlock } = isBackgroundCompatible(bgItem, race, subrace);
+                                    return selectable && !narrativeUnlock;
+                                });
+                                const restrictedBackgrounds = backgrounds.filter((bgItem) => {
+                                    const { selectable, narrativeUnlock } = isBackgroundCompatible(bgItem, race, subrace);
+                                    return !(selectable && !narrativeUnlock);
+                                });
+
+                                const renderBackgroundCard = (bgItem) => {
+                                    const { selectable, narrativeUnlock } = isBackgroundCompatible(bgItem, race, subrace);
+                                    const isCompatible = selectable && !narrativeUnlock;
+                                    const requiresUnlock = !isCompatible;
+
+                                    return (
+                                        <div
+                                            key={bgItem.id}
+                                            className={`background-card ${selectedBackground === bgItem.id ? 'selected' : ''} ${requiresUnlock ? 'narrative-unlock' : ''}`}
+                                            onClick={() => handleBackgroundCardClick(bgItem.id)}
+                                            style={requiresUnlock ? { borderStyle: 'dashed', borderColor: '#d4af37', position: 'relative' } : { position: 'relative' }}
+                                        >
+                                            <div className="background-info">
+                                                <h3 className="background-name">{bgItem.name}</h3>
+                                                <p className="background-card-description">
+                                                    {bgItem.description?.substring(0, 100) || ''}...
+                                                </p>
+                                            </div>
+                                            <div className="background-benefits">
+                                                <div className="benefit-item">
+                                                    <i className="fas fa-cogs"></i>
+                                                    <span>{bgItem.skillProficiencies?.length || 0} Skills</span>
+                                                </div>
+                                                {bgItem.languages > 0 && (
+                                                    <div className="benefit-item">
+                                                        <i className="fas fa-language"></i>
+                                                        <span>{bgItem.languages} Language{bgItem.languages > 1 ? 's' : ''}</span>
+                                                    </div>
+                                                )}
+                                                {bgItem.toolProficiencies && bgItem.toolProficiencies.length > 0 && (
+                                                    <div className="benefit-item">
+                                                        <i className="fas fa-tools"></i>
+                                                        <span>{bgItem.toolProficiencies.length} Tool{bgItem.toolProficiencies.length > 1 ? 's' : ''}</span>
+                                                    </div>
+                                                )}
+                                            </div>
+                                            {bgItem.classHooks && bgItem.classHooks.length > 0 && (
+                                                <div className="bg-class-hooks" style={{ marginTop: '8px', display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+                                                    {bgItem.classHooks.map((hook) => (
+                                                        <span key={hook.classId} style={{
+                                                            display: 'inline-flex', alignItems: 'center', gap: '4px',
+                                                            padding: '2px 8px', borderRadius: '10px', fontSize: '0.7rem',
+                                                            background: 'rgba(90,130,90,0.12)', border: '1px solid rgba(90,130,90,0.3)',
+                                                            color: '#3a6b3a', fontFamily: "'Crimson Text', serif", fontWeight: 'bold'
+                                                        }} title={hook.bridge}>
+                                                            <i className="fas fa-link" style={{ fontSize: '0.6rem' }}></i>{hook.classId}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            )}
+                                            {bgItem.tensionPairings && bgItem.tensionPairings.length > 0 && (
+                                                <div className="bg-tension-pairings" style={{ marginTop: '4px', display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+                                                    {bgItem.tensionPairings.map((tp) => (
+                                                        <span key={tp.classId} style={{
+                                                            display: 'inline-flex', alignItems: 'center', gap: '4px',
+                                                            padding: '2px 8px', borderRadius: '10px', fontSize: '0.7rem',
+                                                            background: 'rgba(180,130,40,0.12)', border: '1px solid rgba(180,130,40,0.3)',
+                                                            color: '#8a6a10', fontFamily: "'Crimson Text', serif", fontStyle: 'italic'
+                                                        }} title={tp.tension}>
+                                                            <i className="fas fa-bolt" style={{ fontSize: '0.6rem' }}></i>{tp.classId}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            )}
+                                            <button className="background-view-btn">
+                                                <i className="fas fa-eye"></i> View Details
+                                            </button>
+                                        </div>
+                                    );
+                                };
 
                                 return (
-                                    <div
-                                        key={bgItem.id}
-                                        className={`background-card ${selectedBackground === bgItem.id ? 'selected' : ''} ${requiresUnlock ? 'narrative-unlock' : ''}`}
-                                        onClick={() => handleBackgroundCardClick(bgItem.id)}
-                                        style={requiresUnlock ? { borderStyle: 'dashed', borderColor: '#d4af37', position: 'relative' } : { position: 'relative' }}
-                                    >
-                                        {requiresUnlock && (
-                                            <div className="narrative-unlock-badge" style={{
-                                                position: 'absolute',
-                                                top: '4px',
-                                                right: '4px',
-                                                background: '#faf6eb',
-                                                border: '1px solid #d4af37',
-                                                borderRadius: '4px',
-                                                padding: '2px 6px',
-                                                fontSize: '0.65rem',
-                                                color: '#b07a00',
-                                                fontWeight: 'bold',
-                                                zIndex: 10
-                                            }}>
-                                                <i className="fas fa-exclamation-triangle" style={{ marginRight: '4px' }}></i>
-                                                Narrative Unlock
-                                            </div>
-                                        )}
-                                        <div className="background-info">
-                                            <h3 className="background-name">{bgItem.name}</h3>
-                                        <p className="background-card-description">
-                                            {background.description.substring(0, 100)}...
-                                        </p>
-                                    </div>
-                                    <div className="background-benefits">
-                                        <div className="benefit-item">
-                                            <i className="fas fa-cogs"></i>
-                                            <span>{background.skillProficiencies?.length || 0} Skills</span>
+                                    <>
+                                        <h4 className="categorized-section-title">Lore-Fitting Origins</h4>
+                                        <div className="background-grid-fullwidth">
+                                            {compatibleBackgrounds.map(renderBackgroundCard)}
                                         </div>
-                                        {background.languages > 0 && (
-                                            <div className="benefit-item">
-                                                <i className="fas fa-language"></i>
-                                                <span>{background.languages} Language{background.languages > 1 ? 's' : ''}</span>
-                                            </div>
+
+                                        {restrictedBackgrounds.length > 0 && (
+                                            <>
+                                                <h4 className="categorized-section-title restricted-title">Requires GM Approval / Narrative Reason</h4>
+                                                <div className="background-grid-fullwidth restricted-grid">
+                                                    {restrictedBackgrounds.map(renderBackgroundCard)}
+                                                </div>
+                                            </>
                                         )}
-                                        {bgItem.toolProficiencies && bgItem.toolProficiencies.length > 0 && (
-                                            <div className="benefit-item">
-                                                <i className="fas fa-tools"></i>
-                                                <span>{bgItem.toolProficiencies.length} Tool{bgItem.toolProficiencies.length > 1 ? 's' : ''}</span>
-                                            </div>
-                                        )}
-                                    </div>
-                                    <button className="background-view-btn">
-                                        <i className="fas fa-eye"></i> View Details
-                                    </button>
-                                </div>
-                            )})}
+                                    </>
+                                );
+                            })()}
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { REGION_POLYGONS } from '../../data/regionPolygons';
-import { LOCATION_COORDINATES } from '../../data/locationCoordinates';
+import { REGION_POLYGONS, BASELINE_REGION_POLYGONS } from '../../data/regionPolygons';
+import { LOCATION_COORDINATES, BASELINE_LOCATION_COORDINATES } from '../../data/locationCoordinates';
 import { PIN_TYPE_OPTIONS } from './mapPinIcons';
 import PIN_ICONS from './mapPinIcons';
 import { ZONE_DATA } from '../../data/zoneData';
@@ -161,13 +161,31 @@ const DevEditor = ({
   setCustomPinDesc,
   cursorPos,
   onUpdate,
-  showConfirm
+  showConfirm,
+  selectedDevPinId,
+  setSelectedDevPinId,
+  updateTrigger
 }) => {
 
   const [exportModalOpen, setExportModalOpen] = useState(false);
   const [exportData, setExportData] = useState({ regions: '', locations: '' });
   const [copiedType, setCopiedType] = useState(null);
-  const [exportFormat, setExportFormat] = useState('code');
+  const [exportFormat, setExportFormat] = useState('agent');
+
+  // Inspector draft coordinates for the currently selected dev pin.
+  const [draftX, setDraftX] = useState('');
+  const [draftY, setDraftY] = useState('');
+
+  // Sync the inspector inputs whenever the selection changes, and also while
+  // the pin is being dragged (updateTrigger bumps from WorldMapImmerse) — but
+  // never clobber the field the user is actively typing in.
+  useEffect(() => {
+    const c = selectedDevPinId ? LOCATION_COORDINATES[selectedDevPinId] : null;
+    if (!c) { setDraftX(''); setDraftY(''); return; }
+    const ae = document.activeElement;
+    const focused = ae && (ae.dataset && ae.dataset.coordAxis);
+    if (!focused) { setDraftX(String(c.x)); setDraftY(String(c.y)); }
+  }, [selectedDevPinId, updateTrigger]);
 
   if (!devMode) return null;
 
@@ -196,33 +214,100 @@ const DevEditor = ({
     return `'${r.id}': {\n  points: [${pts}],\n  labelPosition: [${r.labelPosition[0]}, ${r.labelPosition[1]}]\n}`;
   };
 
+  // ── Diff computation against the committed file baseline ──
+  const computeLocationDiff = () => {
+    const moved = [], added = [], removed = [];
+    Object.keys(LOCATION_COORDINATES).forEach((key) => {
+      const cur = LOCATION_COORDINATES[key];
+      const base = BASELINE_LOCATION_COORDINATES[key];
+      if (!base) added.push(key);
+      else if (cur.x !== base.x || cur.y !== base.y) {
+        moved.push({ key, from: [base.x, base.y], to: [cur.x, cur.y] });
+      }
+    });
+    Object.keys(BASELINE_LOCATION_COORDINATES).forEach((key) => {
+      if (!LOCATION_COORDINATES[key]) removed.push(key);
+    });
+    return { moved, added, removed };
+  };
+
+  const computeRegionDiff = () => {
+    const changed = [];
+    Object.values(REGION_POLYGONS).forEach((r) => {
+      const base = BASELINE_REGION_POLYGONS[r.id];
+      if (!base || !r.points || r.points.length < 3) return;
+      const ptsChanged = JSON.stringify(base.points) !== JSON.stringify(r.points);
+      const labelChanged = JSON.stringify(base.labelPosition) !== JSON.stringify(r.labelPosition);
+      if (ptsChanged || labelChanged) changed.push(r);
+    });
+    return changed;
+  };
+
+  const locDiff = computeLocationDiff();
+  const regDiff = computeRegionDiff();
+  const changeCount =
+    locDiff.moved.length + locDiff.added.length + locDiff.removed.length + regDiff.length;
+
+  // Resolve display info for the currently selected dev pin (inspector panel).
+  const selectedPin = selectedDevPinId ? LOCATION_COORDINATES[selectedDevPinId] : null;
+  const selectedPinZone = selectedDevPinId ? ZONE_DATA.find((z) => z.id === selectedDevPinId) : null;
+  const selectedRegionName = (() => {
+    const rid = selectedPinZone?.regionId || selectedPin?.regionId;
+    return rid ? (REGION_POLYGONS[rid]?.name || rid) : '—';
+  })();
+
+  const commitCoord = (axis, raw) => {
+    if (!selectedDevPinId || !selectedPin) return;
+    const max = axis === 'x' ? MAP_WIDTH : MAP_HEIGHT;
+    const parsed = parseInt(raw, 10);
+    const val = Number.isFinite(parsed) ? Math.max(0, Math.min(max, parsed)) : 0;
+    if (axis === 'x') setDraftX(raw); else setDraftY(raw);
+    selectedPin[axis] = val;
+    if (onUpdate) onUpdate();
+  };
+
   const handleExport = () => {
     const drawnRegions = getDrawnRegions();
-    const hasRegions = Object.keys(drawnRegions).length > 0;
-    const hasLocations = Object.keys(LOCATION_COORDINATES).length > 0;
 
     let regionsStr = '';
     let locationsStr = '';
 
     if (exportFormat === 'agent') {
-      // Agent instruction format
-      if (hasRegions) {
-        const entries = Object.values(drawnRegions).map(r => formatRegionEntry(r)).join('\n\n');
-        regionsStr = `Update the file src/data/regionPolygons.js — replace each region entry's "points" and "labelPosition" with these values (drawn in the map editor):\n\n${entries}`;
+      // Agent format: emit ONLY the diff vs the committed file baseline so a
+      // code agent gets a precise, minimal change-set to apply.
+      const diff = computeLocationDiff();
+      const rDiff = computeRegionDiff();
+      const anyChanges =
+        diff.moved.length || diff.added.length || diff.removed.length || rDiff.length;
+
+      if (rDiff.length) {
+        const entries = rDiff.map((r) => formatRegionEntry(r)).join('\n\n');
+        regionsStr = `Update src/data/regionPolygons.js — replace each region entry's "points" and "labelPosition" with these values (edited in the map dev editor):\n\n${entries}`;
       } else {
-        regionsStr = 'No region boundaries have been drawn yet.';
+        regionsStr = 'No region boundary changes to export.';
       }
 
-      if (hasLocations) {
-        const entries = Object.entries(LOCATION_COORDINATES).map(([key, data]) =>
-          `'${key}': ${JSON.stringify(data, null, 2)}`
-        ).join('\n\n');
-        locationsStr = `Add these entries to the file src/data/locationCoordinates.js:\n\n${entries}`;
+      if (!anyChanges) {
+        locationsStr = 'No location coordinate changes to export — the live map matches src/data/locationCoordinates.js exactly.';
       } else {
-        locationsStr = 'No location pins have been placed yet.';
+        const parts = [];
+        if (diff.moved.length) {
+          parts.push(`## Moved (${diff.moved.length})\n` + diff.moved.map((m) =>
+            `'${m.key}': { x: ${m.to[0]}, y: ${m.to[1]} }  // was [${m.from[0]}, ${m.from[1]}]`
+          ).join('\n'));
+        }
+        if (diff.added.length) {
+          parts.push(`## Added (${diff.added.length})\n` + diff.added.map((k) =>
+            `'${k}': ${JSON.stringify(LOCATION_COORDINATES[k])}`
+          ).join('\n'));
+        }
+        if (diff.removed.length) {
+          parts.push(`## Removed (${diff.removed.length})\n` + diff.removed.map((k) => `'${k}'`).join('\n'));
+        }
+        locationsStr = `Update src/data/locationCoordinates.js with these changes (edited in the map dev editor). Replace the matching entries' x/y (or add/remove the keys):\n\n${parts.join('\n\n')}`;
       }
     } else {
-      // Full JS code format (original behavior)
+      // Full JS code format (complete dump)
       const regionsOutput = drawnRegions;
       regionsStr = `export const REGION_POLYGONS = ${JSON.stringify(regionsOutput, null, 2)};\n\nexport default REGION_POLYGONS;`;
       locationsStr = `export const LOCATION_COORDINATES = ${JSON.stringify(LOCATION_COORDINATES, null, 2)};\n\nexport default LOCATION_COORDINATES;`;
@@ -236,20 +321,6 @@ const DevEditor = ({
     navigator.clipboard.writeText(text);
     setCopiedType(type);
     setTimeout(() => setCopiedType(null), 2000);
-  };
-
-  const getPolygonPath = (points) => {
-    if (!points || points.length === 0) return '';
-    return points.map(([x, y]) => `${x},${y}`).join(' ');
-  };
-
-  const getDrawingPreview = () => {
-    if (!drawingPoints || drawingPoints.length === 0) return '';
-    const pts = [...drawingPoints];
-    if (cursorPos && pts.length > 0) {
-      pts.push(cursorPos);
-    }
-    return pts.map(([x, y]) => `${x},${y}`).join(' ');
   };
 
   return (
@@ -276,6 +347,13 @@ const DevEditor = ({
               onClick={() => setDevTool('placePin')}
             >
               <i className="fas fa-map-pin"></i> Place Pin
+            </button>
+            <button
+              className={`dev-tool-btn ${devTool === 'movePin' ? 'active' : ''}`}
+              onClick={() => setDevTool('movePin')}
+              title="Select and nudge existing pins (arrow keys = 1px, Shift = 10px)"
+            >
+              <i className="fas fa-arrows-up-down-left-right"></i> Move
             </button>
             <button
               className={`dev-tool-btn danger-active ${devTool === 'erasePin' ? 'active' : ''}`}
@@ -464,10 +542,18 @@ const DevEditor = ({
         <div className="dev-toolbar-divider" />
 
         <div className="dev-toolbar-section dev-toolbar-right">
-          <button className="dev-tool-btn export" onClick={handleExport}>
+          <button className="dev-tool-btn export" onClick={handleExport} title="Copy coordinate changes for your code agent">
             <i className="fas fa-code"></i> Export
+            {changeCount > 0 && (
+              <span className="dev-export-badge">{changeCount}</span>
+            )}
           </button>
-          {((devTool === 'drawRegion' && drawingPoints && drawingPoints.length > 0) || 
+          {devTool === 'movePin' && (
+            <span className="dev-point-count">
+              {selectedDevPinId ? `${selectedPinZone?.name || selectedDevPinId}` : 'select a pin'}
+            </span>
+          )}
+          {((devTool === 'drawRegion' && drawingPoints && drawingPoints.length > 0) ||
             (devTool === 'placePin' && selectedPinType)) && (
             <span className="dev-point-count">
               {devTool === 'drawRegion' ? (
@@ -496,15 +582,29 @@ const DevEditor = ({
                   className={`export-format-btn ${exportFormat === 'code' ? 'active' : ''}`}
                   onClick={() => { setExportFormat('code'); setTimeout(handleExport, 0); }}
                 >
-                  <i className="fas fa-code"></i> JS Code
+                  <i className="fas fa-code"></i> JS Code (full dump)
                 </button>
                 <button
                   className={`export-format-btn ${exportFormat === 'agent' ? 'active' : ''}`}
                   onClick={() => { setExportFormat('agent'); setTimeout(handleExport, 0); }}
                 >
-                  <i className="fas fa-robot"></i> Agent Instruction
+                  <i className="fas fa-robot"></i> Agent Diff
+                  {changeCount > 0 && <span className="export-diff-count">{changeCount}</span>}
                 </button>
               </div>
+
+              {exportFormat === 'agent' && (
+                <div className={`export-summary ${changeCount === 0 ? 'clean' : 'dirty'}`}>
+                  {changeCount === 0 ? (
+                    <><i className="fas fa-circle-check"></i> Live map matches the committed file — nothing to sync.</>
+                  ) : (
+                    <>
+                      <i className="fas fa-pen-to-square"></i>
+                      <span><strong>{locDiff.moved.length}</strong> moved · <strong>{locDiff.added.length}</strong> added · <strong>{locDiff.removed.length}</strong> removed · <strong>{regDiff.length}</strong> regions</span>
+                    </>
+                  )}
+                </div>
+              )}
 
               <div className="export-section">
                 <div className="export-section-header">
@@ -548,6 +648,64 @@ const DevEditor = ({
               </button>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Move-tool inspector: precise coordinate editing for the selected pin */}
+      {devTool === 'movePin' && (
+        <div className="dev-move-inspector animate-fade-in-up">
+          {selectedDevPinId && selectedPin ? (
+            <>
+              <div className="dev-inspector-head">
+                <i className="fas fa-arrows-up-down-left-right dev-inspector-grip" />
+                <div className="dev-inspector-title">
+                  <span className="dev-inspector-name">{selectedPinZone?.name || selectedDevPinId}</span>
+                  <span className="dev-inspector-region">{selectedRegionName}</span>
+                </div>
+                <button
+                  className="dev-inspector-close"
+                  onClick={() => setSelectedDevPinId(null)}
+                  title="Deselect pin"
+                  aria-label="Deselect pin"
+                >
+                  <i className="fas fa-times" />
+                </button>
+              </div>
+              <div className="dev-inspector-coords">
+                <label className="dev-coord-field">
+                  <span className="dev-coord-label">X</span>
+                  <input
+                    type="number"
+                    data-coord-axis="x"
+                    value={draftX}
+                    onChange={(e) => commitCoord('x', e.target.value)}
+                    min={0}
+                    max={MAP_WIDTH}
+                  />
+                </label>
+                <label className="dev-coord-field">
+                  <span className="dev-coord-label">Y</span>
+                  <input
+                    type="number"
+                    data-coord-axis="y"
+                    value={draftY}
+                    onChange={(e) => commitCoord('y', e.target.value)}
+                    min={0}
+                    max={MAP_HEIGHT}
+                  />
+                </label>
+              </div>
+              <div className="dev-inspector-hint">
+                <i className="fas fa-keyboard" />
+                <span>Arrow keys nudge 1px · <kbd>Shift</kbd>+arrows 10px · drag to move</span>
+              </div>
+            </>
+          ) : (
+            <div className="dev-inspector-empty">
+              <i className="fas fa-hand-pointer" />
+              <span>Click a pin on the map to select &amp; move it</span>
+            </div>
+          )}
         </div>
       )}
     </>

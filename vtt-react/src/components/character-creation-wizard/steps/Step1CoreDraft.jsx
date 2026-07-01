@@ -1741,135 +1741,122 @@ const Step1CoreDraft = () => {
 
                         <div className="class-grid-wrapper">
 
-                            <div className="class-icons-grid">
+                            {(() => {
+                                const allClassNames = Array.from(new Set(Object.values(CLASS_GROUPS).flat()));
+                                const compatibleClasses = allClassNames.filter((clsName) => isClassCompatible(clsName, race, subrace));
+                                const restrictedClasses = allClassNames.filter((clsName) => !isClassCompatible(clsName, race, subrace));
 
-                                {Array.from(new Set(Object.values(CLASS_GROUPS).flat())).map((clsName) => {
-
+                                const renderClassToken = (clsName) => {
                                     const classInfo = CLASS_DATA_MAP[clsName];
-
                                     const isSelectedClass = characterData.class === clsName;
-
                                     const isCompatible = isClassCompatible(clsName, race, subrace);
 
-                                    
-
                                     const tooltipContent = (
-
                                         <div className="class-tooltip-content" style={{ fontFamily: "'Crimson Text', serif", fontSize: '0.9rem' }}>
-
                                             {classInfo?.overview?.theme && (
-
                                                 <div className="class-tooltip-theme" style={{ color: '#7a5a35', fontWeight: 'bold', fontSize: '0.85rem', textTransform: 'uppercase', marginBottom: '4px' }}>
-
                                                     Theme: {classInfo.overview.theme}
-
                                                 </div>
-
                                             )}
-
                                             {classInfo?.role && (
-
                                                 <div className="class-tooltip-role" style={{ color: '#5a3d1d', fontStyle: 'italic', fontSize: '0.8rem', marginBottom: '8px' }}>
-
                                                     Role: {classInfo.role}
-
                                                 </div>
-
                                             )}
-
                                             <p className="class-tooltip-description" style={{ margin: 0, color: '#2e1e0f', lineHeight: '1.4' }}>
-
                                                 {formatDescriptionText(classInfo?.overview?.description || classInfo?.description || '')}
-
                                             </p>
-
                                         </div>
-
                                     );
-
-
 
                                     return (
-
                                         <div 
-
                                             key={clsName} 
-
                                             className={`class-icon-token ${isSelectedClass ? 'selected' : ''} ${!isCompatible ? 'narrative-unlock' : ''}`}
-
                                             onClick={() => handleClassClick(clsName)}
-
                                             onMouseEnter={handleMouseEnter(tooltipContent, { title: !isCompatible ? `${clsName} (Narrative Unlock)` : clsName })}
-
                                             onMouseLeave={handleMouseLeave}
-
                                             onMouseMove={handleMouseMove}
-
                                             style={!isCompatible ? { borderStyle: 'dashed', borderColor: '#d4af37' } : undefined}
-
                                         >
-
                                             <ClassIcon 
-
                                                 src={classInfo?.imageIcon || `/assets/icons/classes/${clsName.toLowerCase().replace(' ', '_')}.png`} 
-
                                                 alt={clsName} 
-
                                                 size="medium" 
-
                                                 className="class-pixel-icon-token" 
-
                                                 dataClass={clsName} 
-
                                             />
+                                        </div>
+                                    );
+                                };
 
-                                            {!isCompatible && (
-
-                                                <div className="narrative-unlock-badge" style={{
-
-                                                    position: 'absolute',
-
-                                                    top: '-2px',
-
-                                                    right: '-2px',
-
-                                                    background: '#faf6eb',
-
-                                                    border: '1px solid #d4af37',
-
-                                                    borderRadius: '50%',
-
-                                                    width: '14px',
-
-                                                    height: '14px',
-
-                                                    display: 'flex',
-
-                                                    alignItems: 'center',
-
-                                                    justifyContent: 'center',
-
-                                                    zIndex: 10
-
-                                                }}>
-
-                                                    <i className="fas fa-exclamation-triangle" style={{ fontSize: '7px', color: '#b07a00' }}></i>
-
-                                                </div>
-
-                                            )}
-
+                                return (
+                                    <>
+                                        <h4 className="categorized-section-title">Lore-Fitting Callings</h4>
+                                        <div className="class-icons-grid">
+                                            {compatibleClasses.map(renderClassToken)}
                                         </div>
 
-                                    );
-
-                                })}
-
-                            </div>
+                                        {restrictedClasses.length > 0 && (
+                                            <>
+                                                <h4 className="categorized-section-title restricted-title">Requires GM Approval / Narrative Reason</h4>
+                                                <div className="class-icons-grid restricted-grid">
+                                                    {restrictedClasses.map(renderClassToken)}
+                                                </div>
+                                            </>
+                                        )}
+                                    </>
+                                );
+                            })()}
 
                         </div>
 
                     </div>
+
+                    {(() => {
+                        const classData = CLASS_DATA_MAP[characterData.class];
+                        const variant = classData?.subraceVariants?.[characterData.subrace];
+                        if (!variant) return null;
+                        return (
+                            <div className="subrace-variant-flavor-card" style={{
+                                marginTop: '16px',
+                                padding: '16px 20px',
+                                background: 'linear-gradient(135deg, #faf6eb 0%, #f5eedb 100%)',
+                                border: '1px solid #c4a882',
+                                borderLeft: '4px solid #b08a4a',
+                                borderRadius: '6px',
+                                fontFamily: "'Crimson Text', serif"
+                            }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
+                                    <i className="fas fa-scroll" style={{ color: '#b08a4a', fontSize: '1.1rem' }}></i>
+                                    <h5 style={{ margin: 0, color: '#5a3d1d', fontSize: '1.15rem', fontWeight: 'bold' }}>{variant.subraceName} {characterData.class} — {variant.title}</h5>
+                                </div>
+                                <p style={{ margin: '0 0 12px', color: '#2e1e0f', lineHeight: '1.6', fontSize: '0.95rem' }} dangerouslySetInnerHTML={{ __html: formatDescriptionText(variant.reframe) }} />
+                                {variant.signatureAbility && (
+                                    <div style={{ marginBottom: '10px', padding: '10px 14px', background: 'rgba(176,138,74,0.08)', borderRadius: '4px', borderLeft: '3px solid #b08a4a' }}>
+                                        <div style={{ fontWeight: 'bold', color: '#7a5a35', fontSize: '0.85rem', textTransform: 'uppercase', marginBottom: '4px' }}>
+                                            <i className="fas fa-bolt" style={{ marginRight: '4px' }}></i>{variant.signatureAbility.name}
+                                        </div>
+                                        <p style={{ margin: 0, color: '#3e2e1f', fontSize: '0.9rem', lineHeight: '1.5' }} dangerouslySetInnerHTML={{ __html: formatDescriptionText(variant.signatureAbility.description) }} />
+                                    </div>
+                                )}
+                                {variant.currentCrisisAngle && (
+                                    <div style={{ marginBottom: '10px', padding: '10px 14px', background: 'rgba(139,0,0,0.05)', borderRadius: '4px', borderLeft: '3px solid #8b0000' }}>
+                                        <div style={{ fontWeight: 'bold', color: '#8b0000', fontSize: '0.85rem', textTransform: 'uppercase', marginBottom: '4px' }}>
+                                            <i className="fas fa-exclamation-circle" style={{ marginRight: '4px' }}></i>Current Crisis
+                                        </div>
+                                        <p style={{ margin: 0, color: '#3e2e1f', fontSize: '0.9rem', lineHeight: '1.5' }} dangerouslySetInnerHTML={{ __html: formatDescriptionText(variant.currentCrisisAngle) }} />
+                                    </div>
+                                )}
+                                {variant.signatureQuote && (
+                                    <div style={{ padding: '10px 14px', background: 'rgba(90,61,29,0.06)', borderRadius: '4px', fontStyle: 'italic' }}>
+                                        <p style={{ margin: '0 0 4px', color: '#5a3d1d', fontSize: '0.9rem', lineHeight: '1.5' }} dangerouslySetInnerHTML={{ __html: formatDescriptionText(variant.signatureQuote.text) }} />
+                                        <span style={{ color: '#8a7a5a', fontSize: '0.8rem' }}>— {variant.signatureQuote.speaker}, {variant.signatureQuote.context}</span>
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    })()}
 
 
 
@@ -1887,85 +1874,76 @@ const Step1CoreDraft = () => {
 
                         
 
-                        <div className="background-buttons-grid">
+                        <div className="background-buttons-wrapper">
 
-                            {Object.values(BACKGROUND_DATA).map((bg) => {
+                            {(() => {
+                                const allBackgrounds = Object.values(BACKGROUND_DATA);
+                                const compatibleBackgrounds = allBackgrounds.filter((bg) => {
+                                    const { selectable, narrativeUnlock } = isBackgroundCompatible(bg, race, subrace);
+                                    return selectable && !narrativeUnlock;
+                                });
+                                const restrictedBackgrounds = allBackgrounds.filter((bg) => {
+                                    const { selectable, narrativeUnlock } = isBackgroundCompatible(bg, race, subrace);
+                                    return !(selectable && !narrativeUnlock);
+                                });
 
-                                const { selectable, narrativeUnlock } = isBackgroundCompatible(bg, race, subrace);
+                                const renderBackgroundToken = (bg) => {
+                                    const { selectable, narrativeUnlock } = isBackgroundCompatible(bg, race, subrace);
+                                    const isCompatible = selectable && !narrativeUnlock;
+                                    const requiresUnlock = !isCompatible;
 
-                                const isCompatible = selectable && !narrativeUnlock;
+                                    const bgTooltipContent = (
+                                        <div className="bg-tooltip-content" style={{ fontFamily: "'Crimson Text', serif", fontSize: '0.9rem', maxWidth: '240px' }}>
+                                            {bg.feature?.name && (
+                                                <div style={{ color: '#7a5a35', fontWeight: 'bold', fontSize: '0.85rem', textTransform: 'uppercase', marginBottom: '4px' }}>
+                                                    Feature: {bg.feature.name}
+                                                </div>
+                                            )}
+                                            <p style={{ margin: 0, color: '#2e1e0f', lineHeight: '1.4' }}>
+                                                {bg.description}
+                                            </p>
+                                            {requiresUnlock && bg.restrictions?.justification && (
+                                                <div style={{ marginTop: '6px', paddingTop: '6px', borderTop: '1px dashed #b08a4a', color: '#8a5a00', fontStyle: 'italic', fontSize: '0.8rem' }}>
+                                                    <i className="fas fa-exclamation-triangle" style={{ marginRight: '4px' }}></i>
+                                                    Narrative Unlock — requires DM approval. {bg.restrictions.justification}
+                                                </div>
+                                            )}
+                                        </div>
+                                    );
 
-                                const requiresUnlock = !isCompatible;
-
-                                const bgTooltipContent = (
-
-                                    <div className="bg-tooltip-content" style={{ fontFamily: "'Crimson Text', serif", fontSize: '0.9rem', maxWidth: '240px' }}>
-
-                                        {bg.feature?.name && (
-
-                                            <div style={{ color: '#7a5a35', fontWeight: 'bold', fontSize: '0.85rem', textTransform: 'uppercase', marginBottom: '4px' }}>
-
-                                                Feature: {bg.feature.name}
-
-                                            </div>
-
-                                        )}
-
-                                        <p style={{ margin: 0, color: '#2e1e0f', lineHeight: '1.4' }}>
-
-                                            {bg.description}
-
-                                        </p>
-
-                                        {requiresUnlock && bg.restrictions?.justification && (
-
-                                            <div style={{ marginTop: '6px', paddingTop: '6px', borderTop: '1px dashed #b08a4a', color: '#8a5a00', fontStyle: 'italic', fontSize: '0.8rem' }}>
-
-                                                <i className="fas fa-exclamation-triangle" style={{ marginRight: '4px' }}></i>
-
-                                                Narrative Unlock — requires DM approval. {bg.restrictions.justification}
-
-                                            </div>
-
-                                        )}
-
-                                    </div>
-
-                                );
+                                    return (
+                                        <div
+                                            key={bg.id}
+                                            className={`background-button-token ${background === bg.id ? 'selected' : ''} ${requiresUnlock ? 'narrative-unlock' : ''}`}
+                                            onClick={() => handleBackgroundChange(bg.id)}
+                                            onMouseEnter={handleMouseEnter(bgTooltipContent, { title: requiresUnlock ? `${bg.name} (Narrative Unlock)` : bg.name })}
+                                            onMouseLeave={handleMouseLeave}
+                                            onMouseMove={handleMouseMove}
+                                        >
+                                            <i className={`${BACKGROUND_ICONS[bg.id] || BACKGROUND_ICONS_MYTHRILL[bg.id] || 'fas fa-compass'} background-token-icon`}></i>
+                                            <span className="background-token-label">{bg.name}</span>
+                                        </div>
+                                    );
+                                };
 
                                 return (
+                                    <>
+                                        <h4 className="categorized-section-title">Lore-Fitting Origins</h4>
+                                        <div className="background-buttons-grid">
+                                            {compatibleBackgrounds.map(renderBackgroundToken)}
+                                        </div>
 
-                                    <div
-
-                                        key={bg.id}
-
-                                        className={`background-button-token ${background === bg.id ? 'selected' : ''} ${requiresUnlock ? 'narrative-unlock' : ''}`}
-
-                                        onClick={() => handleBackgroundChange(bg.id)}
-
-                                        onMouseEnter={handleMouseEnter(bgTooltipContent, { title: requiresUnlock ? `${bg.name} (Narrative Unlock)` : bg.name })}
-
-                                        onMouseLeave={handleMouseLeave}
-
-                                        onMouseMove={handleMouseMove}
-
-                                    >
-
-                                        <i className={`${BACKGROUND_ICONS[bg.id] || BACKGROUND_ICONS_MYTHRILL[bg.id] || 'fas fa-compass'} background-token-icon`}></i>
-
-                                        <span className="background-token-label">{bg.name}</span>
-
-                                        {requiresUnlock && (
-
-                                            <i className="fas fa-exclamation-triangle narrative-unlock-marker" title="Narrative Unlock — DM approval" style={{ fontSize: '0.6rem', color: '#b07a00', marginLeft: '3px' }}></i>
-
+                                        {restrictedBackgrounds.length > 0 && (
+                                            <>
+                                                <h4 className="categorized-section-title restricted-title">Requires GM Approval / Narrative Reason</h4>
+                                                <div className="background-buttons-grid restricted-grid">
+                                                    {restrictedBackgrounds.map(renderBackgroundToken)}
+                                                </div>
+                                            </>
                                         )}
-
-                                    </div>
-
+                                    </>
                                 );
-
-                            })}
+                            })()}
 
                         </div>
 
@@ -2541,7 +2519,7 @@ const Step1CoreDraft = () => {
 
                                             
 
-                                            <h4 className="grimoire-section-header">Mechanical Features</h4>
+                                            <h4 className="grimoire-section-header">Order Arts</h4>
 
                                             <table className="grimoire-stats-table">
 
@@ -2856,6 +2834,10 @@ const Step1CoreDraft = () => {
                                     {bonusPoints.race > 0 && <span className="mod-pill">+Race: {bonusPoints.race}</span>}
 
                                     {bonusPoints.background > 0 && <span className="mod-pill">+Origin: {bonusPoints.background}</span>}
+
+                                    {bonusPoints.loreClass > 0 && <span className="mod-pill lore-bonus">+Lore Calling: {bonusPoints.loreClass}</span>}
+
+                                    {bonusPoints.loreBackground > 0 && <span className="mod-pill lore-bonus">+Lore Origin: {bonusPoints.loreBackground}</span>}
 
                                 </div>
 

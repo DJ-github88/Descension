@@ -31,6 +31,95 @@ export const SPELLGUARD_DATA = {
       "justification": "Requires access to Emberspire's volcanic forge-tradition and the Solbrand's residual energy. The Neth Velun provide precise magical cancellation. Thalren provide anti-Wyrd paranoia."
   },
 
+  /**
+   * Subrace Variants — the Spellguard dismantles incoming magic, and how they dismantle
+   * it depends on what tradition of "understanding magic" they inherited. The Neth cancel
+   * it legally. The Thalren defuse it like a Wyrd-trap. The Solvarn shield it like a
+   * tomb-guard. The Emberth intercept it like a forge-rupture.
+   */
+  subraceVariants: {
+    velun_neth: {
+      subraceName: 'Velun Neth',
+      title: 'The Clause-Canceller',
+      reframe: `The <LoreLink termId="neth">Velun Neth</LoreLink> understand magic as *contract*, and a Spellguard among them cancels incoming spells by *drafting the annulment* — identifying the hostile magic's clause-structure and filing the counter-instrument before it lands. To a Velun Spellguard, a fireball is just an aggressively-worded offer, and the correct response is a timely rejection on procedural grounds.`,
+      signatureAbility: {
+        name: 'Clause-Annulment',
+        description: `Incoming spells are canceled through legal-inversion rather than raw absorption; the Spellguard files the annulment, and the magic fails on its own terms. The process is precise and low-radiation — the Velun take on far less Void Resonance than absorbing variants — but fails entirely against magic with no clause-structure (wild Wyrd, primal forces).`
+      },
+      currentCrisisAngle: `The rising ambient magic is, to the Velun, a *jurisdictional overload* — too many spells in the air, too many clauses to parse in real time. The Velun Spellguards are the most radiation-resistant variant, but they are being drowned in paperwork: the annulments cannot be drafted fast enough to keep pace with a world whose magic level is spiking.`,
+      signatureQuote: {
+        text: '"Your fireball is poorly drafted. I have filed an objection. It will not arrive. The objection was sustained."',
+        speaker: 'Canceller Vel-Ossar',
+        context: 'A Velun Spellguard, intercepting a court-mage\'s assault on procedural grounds'
+      }
+    },
+
+    thalren_human: {
+      subraceName: 'Thalren',
+      title: 'The Wyrd-Defuser',
+      reframe: `The <LoreLink termId="skald">Thalren</LoreLink> have spent eight centuries paranoid about the Wyrd-horrors born from human fear, and a Spellguard among them defuses incoming magic the way a sapper defuses a trap — slowly, suspiciously, expecting a second trigger. The Thalren are the tradition's most *cautious* variant: they assume every spell has a backup, and they are usually right.`,
+      signatureAbility: {
+        name: 'Trap-Defusal',
+        description: `Incoming spells are disarmed through methodical structural analysis — the Spellguard identifies the spell's trigger, payload, and failsafe, then neutralizes each in sequence. Slower than absorption or annulment, but the only method that reliably catches layered/contingent spells that would detonate on a hasty counter.`
+      },
+      currentCrisisAngle: `The rising ambient magic is producing spells the Thalren's paranoia cannot fully parse — magic with *no visible structure*, wild and structureless, the kind the Wyrd itself uses. The Thalren Spellguards, trained to find traps in everything, are being driven to breakdown by magic that has no trap to find because it has no design at all.`,
+      signatureQuote: {
+        text: '"Every spell has a second trigger. Every spell. This one has none, and that is the most dangerous second trigger I have ever failed to find."',
+        speaker: 'Defuser Thal-Veyr',
+        context: 'A Thalren Spellguard, confronting the first wild-magic eruption he could not parse'
+      }
+    },
+
+    solvarn_human: {
+      subraceName: 'Solvarn',
+      title: 'The Tomb-Aegis',
+      reframe: `The <LoreLink termId="house_solvan">Solvarn</LoreLink> have stood vigil over <LoreLink termId="emberspire">Sol's tomb</LoreLink> for eight centuries, and a Spellguard among them treats incoming magic as *another eruption from the buried star* — something to be shielded, contained, and held until it cools. The Solvarn are the tradition's pure *sponges*, absorbing magic the way a tomb-wall absorbs the volatile resonance of an imprisoned god.`,
+      signatureAbility: {
+        name: 'Tomb-Shielding',
+        description: `Incoming spells are absorbed raw into the Spellguard's flesh, then contained — held in the body until they can be vented or redirected. The Solvarn take on the most Void Resonance of any variant, but they can absorb the largest single bursts, having practiced against Solbrand-scale eruptions their whole lives.`
+      },
+      currentCrisisAngle: `The rising ambient magic is, to the Solvarn, a familiar enemy — this is what their ancestors shielded against. But the scale is wrong: the ambient level is approaching Solbrand-volatility *everywhere*, and the Solvarn Spellguards, trained for rare spikes, are being asked to sustain tomb-level absorption *continuously*. Several have begun glowing so brightly they cannot hide, and the Dawn Vigil has begun "recruiting" them as walking beacons.`,
+      signatureQuote: {
+        text: '"I was built to catch a star\'s death-rattle once a season. Now the whole world hums at that frequency. I am a tomb-wall asked to be a sky. I cannot be a sky."',
+        speaker: 'Aegis Sol-Varen',
+        context: 'A Solvarn Spellguard, glowing too brightly to enter Merrowport unnoticed'
+      }
+    },
+
+    korr_emberth: {
+      subraceName: 'Korr Emberth',
+      title: 'The Silent-Guard',
+      reframe: `The <LoreLink termId="emberth">Korr Emberth</LoreLink> tend the Solbrand in wordless silence, and a Spellguard among them intercepts magic from a state of <LoreLink termId="vault_breath">Vault-Breath</LoreLink> stillness — the same meditative suspension they use to tend the buried star. The Korr are the tradition's *steadiest* variant: their interception happens in the gaps between heartbeats, in a stillness so absolute that incoming magic has nothing to push against.`,
+      signatureAbility: {
+        name: 'Silent-Intercept',
+        description: `Magical interception is performed from a state of metabolic stillness — the Spellguard slows their own vitals to near-zero, becoming a void that incoming magic *falls into* rather than strikes. The Korr intercept with the least collateral damage and the quietest profile, but cannot intercept while moving.`
+      },
+      currentCrisisAngle: `The rising ambient magic makes stillness *unsafe* — the ambient radiation accumulates in a stationary body faster than a moving one, and the Korr's Silent-Intercept is becoming a liability. The Korr Spellguards, masters of stillness, are being forced to *move* for the first time in their tradition's history, and the movement is breaking their meditation.`,
+      signatureQuote: {
+        text: '"I caught magic by being the silence it fell into. Now the silence itself is radioactive, and I must move to survive. I have forgotten how to walk and guard at once."',
+        speaker: 'Keeper Kor-Vesh the Still',
+        context: 'A Korr Spellguard, taking her first step mid-intercept in forty years of service'
+      }
+    },
+
+    thrask_emberth: {
+      subraceName: 'Thrask Emberth',
+      title: 'The Forge-Shield',
+      reframe: `The <LoreLink termId="emberth">Thrask Emberth</LoreLink> — badland rangers — intercept magic the way they intercept forge-ruptures in the field: practically, violently, on the move. The Thrask are the tradition's *mobile* variant, deflecting and redirecting rather than absorbing, treating incoming magic as a thermal hazard to be angled away from the party rather than caught.`,
+      signatureAbility: {
+        name: 'Rupture-Deflection',
+        description: `Incoming spells are deflected or redirected rather than absorbed — the Spellguard angles the magic away using alchemical shield-surfaces, the way a forge-ranger angles a thermal vent. The Thrask take on the least Void Resonance, but cannot fully neutralize a spell, only redirect it (sometimes back at the caster, sometimes into the terrain).`
+      },
+      currentCrisisAngle: `The rising ambient magic cannot be *deflected* — it is everywhere, ambient, with no vector to angle away. The Thrask Forge-Shields, masters of redirection, are helpless against a hazard that has no direction. Several have begun abandoning deflection for desperate absorption, a technique they were never trained for, and the radiation sickness is spreading through the badland garrisons.`,
+      signatureQuote: {
+        text: '"I redirect what has a direction. This has no direction. I am a shield-wall against the weather. You cannot parry the sky."',
+        speaker: 'Ranger Thrak-Vess',
+        context: 'A Thrask Spellguard, abandoning his shield-surface to absorb his first spell'
+      }
+    }
+  },
+
+
   id : "spellguard",
   name: "Spellguard",
   icon: "fas fa-shield-alt",
@@ -44,6 +133,27 @@ export const SPELLGUARD_DATA = {
     4: ["sg_violent_purge", "sg_leyline_blackout"],
     5: ["sg_cosmic_unraveling"]
   },
+
+  livingOrder: {
+    orderName: 'The Aegis',
+    founder: {
+      name: '<LoreLink termId="damon">Damon</LoreLink>',
+      status: `Dead — five centuries. The <LoreLink termId="emberth">Emberth</LoreLink> blacksmith who blocked a solar flare with an alchemical tower shield during Sol's entombment. His hands froze in rigid shielding posture; the shield is preserved in the <LoreLink termId="emberspire">Emberspire</LoreLink> forge-keeps, still faintly humming.`,
+      note: `<LoreLink termId="damon">Damon</LoreLink> treated magical defense as engineering, not artistry. The Aegis still trains in his method: identify the spell's structure, dismantle it before it arrives, redirect the residue. His one unbreakable rule — *a Spellguard who absorbs what they cannot dismantle is a weapon pointed at their own line* — is now being violated daily.`
+    },
+    currentLeader: {
+      name: '<LoreLink termId="thrak-damos">Bulwark-Captain Thrak-Damos</LoreLink>',
+      title: 'Warden of the Void-Scars',
+      characterization: `A Thrask Emberth veteran whose forearms are latticed with absorbed-magic scars that glow through his sleeves. He leads the Aegis from the forge-keeps and enforces <LoreLink termId="damon">Damon</LoreLink>'s method with drill-sergeant discipline. He is a pragmatist who is watching his entire engineering discipline fail against a threat — ambient magic with no structure — that <LoreLink termId="damon">Damon</LoreLink> never imagined.`
+    },
+    headquarters: { name: 'The Shield-Forge Keeps, Emberspire', locationId: 'emberspire' },
+    crisisConnection: `<LoreLink termId="thrak-damos">Thrak-Damos</LoreLink> is watching the Aegis's foundational method collapse: ambient magic has no structure to dismantle, no vector to redirect. The Spellguards' Void Resonance is filling faster than they can purge, and the Arcane Saturation radiation-bursts are striking their own lines. He has begun ordering his Spellguards to *absorb* — <LoreLink termId="damon">Damon</LoreLink>'s forbidden technique — because there is nothing left to dismantle. The order that defined itself by precision is being reduced to a wall of sponges, and <LoreLink termId="thrak-damos">Thrak-Damos</LoreLink> considers this the death of his craft even if his Spellguards survive.`
+  },
+
+  worldFriction: [
+    { region: 'everywhere-else', status: 'valued', consequence: 'Magical defense is in universal demand — a Spellguard can find paid work in any settlement within a day. The Wyrd-bleed and rising ambient magic have made them the most actively recruited class in the known world.', workaround: 'The same glow that makes them valued makes them unable to hide: a Spellguard cannot pass unnoticed, take a rear-guard position, or avoid being the first target. Their welcome is inseparable from their exposure.' },
+    { region: 'sundale', location: 'emberspire', status: 'conscripted', consequence: 'The Dawn Vigil claims authority over all Spellguards within Sundale as "shield-assets of the Reforging"; refusal of Vigil secondment is treated as obstruction of a holy war.' }
+  ],
 
   overview: {
     originStory: `Damon the blacksmith blocked a solar flare with an alchemical tower shield during Sol's entombment, protecting the caravan at the cost of his own hands. The solar energy permanently scarred his flesh, leaving his veins humming with volatile, trapped mana that threatens to detonate his own marrow.

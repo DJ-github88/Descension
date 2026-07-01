@@ -16,6 +16,79 @@ export const INQUISITOR_DATA = {
       "justification": "Requires either the Ghost-Mycelium (Vreken) or a lifetime of anti-Wyrd training. Thalren face Wyrd-horrors born from human fear. Morren dismantled Neth contracts through inquisitorial practice. Other races lack the supernatural exposure density. Emberth too hot for stealth hunts. Fexrick too mechanical. Myrathil too distant from surface Wyrd. Unwoven Mimir lack the specialized anti-Wyrd training — their expertise is floor-toxins and survival, not supernatural investigation."
   },
 
+  /**
+   * Subrace Variants — the Inquisitor severs corrupted supernatural bonds, and what
+   * counts as "corruption" depends on what your people are surrounded by. The tradition
+   * has two roots — Vreken mycelial-hunting (Bryngloom) and Thalren anti-Wyrd paranoia
+   * (Frostwood) — and the Morren are the bridge, turning the contract-law that binds
+   * them into the weapon that unbinds others.
+   */
+  subraceVariants: {
+    marked_vreken: {
+      subraceName: 'Marked Vreken',
+      title: 'The Mycelium-Hunter',
+      reframe: `The <LoreLink termId="vreken">Marked Vreken</LoreLink> — ghost-mycelium walkers — hunt through the <LoreLink termId="root_veil">mycelial network</LoreLink> itself, because the same network that hosts corrupt ancestral bonds is their native hunting-ground. A Marked Inquisitor does not track a rogue shaman across country; they track the corruption *through the forest's nervous system*, feeling the infection as a wrongness in their own skin.`,
+      signatureAbility: {
+        name: 'Network-Severance',
+        description: `Corrupted bonds are severed *through* the mycelial network rather than at the host — the Inquisitor cuts the spiritual infection where it roots in the forest itself. This heals the forest but leaves a permanent dead-patch in the network the Inquisitor must carry.`
+      },
+      currentCrisisAngle: `Only 47 active Inquisitors remain, and the Marked Vreken are dwindling fastest — the mycelial rash that marks them now spreads to their *families*, glowing in the dark, making stealth impossible and marking entire lineages as targets. The Marked are being hunted by what they hunt, and the network they love is, slowly, rejecting them.`,
+      signatureQuote: {
+        text: '"The forest knows me by my scars. Lately it has begun to flinch. I do not blame it — I am carrying its disease so it does not have to."',
+        speaker: 'Orven the Still-Handed',
+        context: 'The founder, recording his final network-severance before going dark'
+      }
+    },
+
+    clean_vreken: {
+      subraceName: 'Clean Vreken',
+      title: 'The Glow-Auditor',
+      reframe: `The <LoreLink termId="vreken">Clean Vreken</LoreLink> — deep-glow scholars — read the bioluminescent signatures of corrupted bonds the way a scribe reads ink. The same deep-glow that broadcasts their emotion also betrays supernatural infection: a corrupted bond glows *wrong*, and a Clean Vreken Inquisitor can diagnose a rogue covenant from across a room by the color of its bleed.`,
+      signatureAbility: {
+        name: 'Glow-Diagnosis',
+        description: `Corrupted bonds are identified by their aberrant bioluminescent signature — readable at distance, through cover, even through walls if the glow is strong enough. The Clean Vreken are the tradition's diagnosticians; they find what the Marked sever.`
+      },
+      currentCrisisAngle: `The new, unnamed entities manifesting in the deep <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink> glow in colors the Clean Vreken have no name for — colors their deep-glow *cannot parse*. An infection you can see is an infection you can cut. An infection that glows in a color outside your experience is an infection that may already be inside you.`,
+      signatureQuote: {
+        text: '"I have read the glow of ten thousand corruptions. This one I cannot read. That is not reassuring. That is the most frightening sentence I have ever spoken."',
+        speaker: 'Scholar Yssen Bright-Eye',
+        context: 'A Clean Vreken Auditor, on the new deep-grove entities'
+      }
+    },
+
+    thalren_human: {
+      subraceName: 'Thalren',
+      title: 'The Salt-Scarred',
+      reframe: `This is <LoreLink termId="elias">Elias</LoreLink> the Salt-Scarred's tradition, born in the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink>. The Thalren open their own veins to draw the Wyrd's face-stealing horrors into living flesh — baiting the Gref and the Gambrel with the one thing they cannot resist: a human who has promised something they intend to break. Anti-Wyrd paranoia, for the Thalren, is not a personality trait. It is a survival discipline learned over eight fog-eaten centuries.`,
+      signatureAbility: {
+        name: 'Bait-Vow',
+        description: `The Inquisitor makes a deliberately breakable oath to lure Wyrd-creatures that hunt broken promises, then severs the creature as it manifests to collect. The cost is paid in blood — the vow must be genuinely breakable, genuinely tempting, and the Inquisitor must survive the bait to make the cut.`
+      },
+      currentCrisisAngle: `The Frostwood incursion rate has tripled, and the Thalren Inquisitors are running out of oaths they can afford to break. Every Bait-Vow leaves a permanent scar of *intended betrayal* in the Inquisitor's ledger — and the Sovereign Ledger, which validates Thalren legal identity, is beginning to refuse to register Inquisitors whose scar-count exceeds a threshold. They are being legally erased by their own work.`,
+      signatureQuote: {
+        text: '"I promised my daughter I would come home. I broke it to lure the thing that steals faces. The Ledger struck my name. My daughter still knows me. The fog will take that too, soon enough."',
+        speaker: 'Elias the Salt-Scarred',
+        context: 'The founder, the last entry in his journal before his name was struck'
+      }
+    },
+
+    morren_human: {
+      subraceName: 'Morren',
+      title: 'The Contract-Severer',
+      reframe: `The <LoreLink termId="house_morrath">Morren</LoreLink> live bound by Neth contract-law, and the Inquisitors among them turned the architecture of their own bondage into the weapon that unbinds others. A Morren Inquisitor does not hunt Wyrd-creatures; they hunt *rogue contracts* — the corrupted familiar, the broken oath, the faustian bargain — and they sever them with the same legal precision the Neth used to write them.`,
+      signatureAbility: {
+        name: 'Clause-Severance',
+        description: `Corrupted magical bonds are severed through contract-law inversion — the Inquisitor drafts the annulment, files it against the bond, and the bond breaks under its own legal weight. The Morren are uniquely suited: they have been reading fine print since birth.`
+      },
+      currentCrisisAngle: `The Wyrd is bleeding faster, and the Morren Inquisitors have noticed the new entities do not *have* contracts — they cannot be severed because they were never bound. A Morren Inquisitor facing a contract-less entity is a swordsman facing a ghost: their entire art assumes the enemy can be litigated. The recruits are refusing the oath not from cowardice but from the dawning realization that the oath may already be obsolete.`,
+      signatureQuote: {
+        text: '"Everything the Neth bound, I can unbind. Everything. But the things coming now were never bound. They have no clause. I am a lawyer watching a crime that is not, technically, illegal."',
+        speaker: 'Severer Mor-Kael',
+        context: 'A Morren Inquisitor, requesting transfer from contract-work to the deep groves'
+      }
+    }
+  },
+
   id : "inquisitor",
   name: "Inquisitor",
   icon: "fas fa-gavel",
@@ -58,6 +131,27 @@ export const INQUISITOR_DATA = {
     ],
     notes: "Inquisitors cannot wield enchanted or arcane weapons. Their iron and salt nullifies foreign enchantments on contact. All weapons must be mundane materials (iron, steel, salt crystal). Bows and crossbows are forbidden; the Inquisitor's work requires the press of iron against flesh or the projection of pure will through chains."
   },
+
+  livingOrder: {
+    orderName: 'The Barbed Vow',
+    founder: {
+      name: '<LoreLink termId="orven">Orven the Still-Handed</LoreLink> (Vreken) and <LoreLink termId="elias">Elias the Salt-Scarred</LoreLink> (Thalren)',
+      status: `Orven — gone dark, last recorded during a final network-severance in the deep <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink>. Elias — name struck from the <LoreLink termId="frostwood-reach">Frostwood</LoreLink> Ledger, his legal existence erased by his own Bait-Vow scars. Neither is confirmed dead. Neither is coming back.`,
+      note: `Two parallel traditions from the same wound. Orven forged the first cold-iron blade and swore the Barbed Vow to hunt corrupted Vreken. Elias opened his veins to draw Wyrd face-stealers into living flesh. The traditions merged when the incursion rate tripled.`
+    },
+    currentLeader: {
+      name: '<LoreLink termId="vrael-forty-seventh">High-Severer <LoreLink termId="vrael-forty-seventh">Vrael the Forty-Seventh</LoreLink></LoreLink>',
+      title: 'Last Commander of the Barbed Vow',
+      characterization: `A Thalren woman who took command because she was, literally, the forty-seventh remaining Inquisitor — and the most senior willing to lead. She bears more Bait-Vow scars than any living practitioner and is, as a result, half-erased from the Sovereign Ledger. She leads from the <LoreLink termId="sunken_spire">Sunken Spire</LoreLink> and has stopped recruiting, because the oath now kills more initiates than it survives.`
+    },
+    headquarters: { name: 'The Sunken Spire (Bryngloom seat) and Greymark Keep (Frostwood seat)', locationId: 'sunken_spire' },
+    crisisConnection: `Vrael commands forty-six others against an incursion rate that has tripled and is still climbing. The new, unnamed entities in the deep groves have no contracts to sever and no faces to bait — they fall outside the Inquisitor's entire art. She has begun, in desperation, to train recruits in techniques the order considers forbidden: not severing corruption, but *binding* it, borrowing from the very traditions the Inquisitors were founded to destroy. She knows this is how the order ends. She does not see another way it survives.`
+  },
+
+  worldFriction: [
+    { region: 'bryngloom-forest', status: 'persecuted-by-network', consequence: 'The mycelial rash now marks every active Inquisitor (and spreads to their families) — the Root-Veil itself is identifying them. In the deep Bryngloom, a glowing Inquisitor cannot hide, and the very forest routes Wyrd-creatures toward them.', workaround: 'The Barbed Vow offers no concealment; the only workaround is to operate outside the network — but outside the network, an Inquisitor cannot track. They are caught between exposure and blindness.' },
+    { region: 'frostwood-reach', status: 'celebrated', consequence: 'In the Frostwood, the Thalren-rooted Inquisitors are celebrated as the line between civilization and the Wyrd. Greymark Keep grants them lodging, authority, and a standing bounty on severed corruptions. The incursion-rate triple has only increased their standing — and their casualty rate.' }
+  ],
 
   overview: {
     title: "The Inquisitor",

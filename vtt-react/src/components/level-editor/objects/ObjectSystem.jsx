@@ -9,7 +9,7 @@ import { drawObject, hasObjectArt } from './ObjectCanvasRenderer';
 import { drawObjectArt } from './PixelArtRenderer';
 
 const snapRotationForHitTest = (type, rotation) => {
-    // Snap rotation to the nearest 90° for any object that has a sprite.
+    // Snap rotation to the nearest 90â€” for any object that has a sprite.
     // Pure canvas-only objects (like GM Notes) get free rotation.
     const def = PROFESSIONAL_OBJECTS[type];
     if (!def || !def.image) return rotation || 0;
@@ -1126,7 +1126,7 @@ const ObjectSystem = () => {
         ctx.save();
         ctx.imageSmoothingEnabled = false;
 
-        // Snap rotation to the nearest 90° for pixel-perfect rotation.
+        // Snap rotation to the nearest 90â€” for pixel-perfect rotation.
         // Most sprites are top-down so this is rarely visible, but for
         // wall-mounted objects (torches, banners) it keeps the visual
         // rotation in sync with the bounding box rotation.

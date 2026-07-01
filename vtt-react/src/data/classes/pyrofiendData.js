@@ -25,6 +25,64 @@ export const PYROFIEND_DATA = {
       "justification": "Requires proximity to Scathrach's influence and a culture that frames self-destruction as power. No Ordan or Morren would willingly make that pact. The cold-loving Skald see it as antithetical."
   },
 
+  /**
+   * Subrace Variants — the Pyrofiend pacts with Scathrach, the Ashen Sovereign, and the
+   * meaning of that pact inverts depending on who makes it. For the Solvarn it is the
+   * original blasphemy. For the Thrask it is the dark mirror of their forge-craft. For
+   * the Skald it is the ultimate treason — a betrayal of the cold their entire culture
+   * worships.
+   */
+  subraceVariants: {
+    solvarn_human: {
+      subraceName: 'Solvarn',
+      title: 'The Sun-Blasphemer',
+      reframe: `This is the original tradition — the cabal of <LoreLink termId="house_solvan">Solvarn</LoreLink> occultists who, in an obsidian cavern beneath <LoreLink termId="emberspire">Emberspire</LoreLink>, swallowed Scathrach's burning coals. For the Solvarn, the pact is the founding blasphemy: they helped bury the sun, then made a deal with the thing nesting in its tomb. A Solvarn Pyrofiend's fire is not foreign — it is the *perverted echo* of the star they entombed, and every spell is a small re-enactment of the crime.`,
+      signatureAbility: {
+        name: 'Solar-Perversion',
+        description: `Inferno-Veil generation is amplified by proximity to the Solbrand's residual warmth — the Pyrofiend drinks the dying star's own heat and channels it through Scathrach's filter. The most potent Solvarn Pyrofiends operate literally atop Sol's grave, and the grave, the Korr whisper, is dimmer for their presence.`
+      },
+      currentCrisisAngle: `Scathrach calling in all debts simultaneously reads, to the Solvarn, as the *completion of an eight-century plot*: the Ashen Sovereign nested beneath Emberspire to *feed on the buried star*, and the Pyrofiends were always the delivery mechanism. The Solvarn Pyrofiends are realizing they were never partners in the pact — they were cutlery, and the meal is ready.`,
+      signatureQuote: {
+        text: '"We buried the sun to save it, then fed it to the thing beneath our feet. I have been the fork. I did not know. Scathrach always sets a long table."',
+        speaker: 'Acolyte Sol-Vesh',
+        context: 'A Solvarn Pyrofiend, the night Scathrach named the price'
+      }
+    },
+
+    thrask_emberth: {
+      subraceName: 'Thrask Emberth',
+      title: 'The Forge-Damned',
+      reframe: `The <LoreLink termId="emberth">Thrask Emberth</LoreLink> — badland rangers and forge-clans — know fire as a *tool*, and a Pyrofiend among them treats the Scathrach pact as the dark mirror of their craft. Where the forge-Emberth tame heat to shape metal, the Thrask Pyrofiend lets Scathrach's heat *reshape them* — the body itself as the workpiece, the demonic fire as the forge. The pact is, to the Thrask, a perverted apprenticeship.`,
+      signatureAbility: {
+        name: 'Forge-Conversion',
+        description: `The char-vessel conversion (flesh becoming volcanic material) is, for the Thrask, partially *directable* — they can guide which parts of their body calcify into heat-resistant forge-plate, trading organs for armor. The most veteran Thrask Pyrofiends are more basalt than flesh, and fight accordingly.`
+      },
+      currentCrisisAngle: `The mass debt-collection hits the Thrask as a *deadline on their own conversion*: those who have not finished forging themselves into survivable char-vessels will be claimed raw. A race has begun in the deep caldera — Thrask Pyrofiends desperately completing their self-forging before Scathrach arrives to collect the unfinished work. Some are choosing to forge their *hearts* last, knowing it will kill them, just to deny the Ashen Sovereign a complete tool.`,
+      signatureQuote: {
+        text: '"My ancestors tamed the forge. I let the forge tame me. When Scathrach comes to collect, it will find a finished blade, not ore. I will not be taken unfinished."',
+        speaker: 'Forge-Damned Thrak-Vess',
+        context: 'A Thrask Pyrofiend, forging the last plate over his own ribs'
+      }
+    },
+
+    skald_human: {
+      subraceName: 'Skald',
+      title: 'The Cold-Traitor',
+      reframe: `The <LoreLink termId="skald">Skald</LoreLink> worship cold-endurance as the measure of worth, and a Pyrofiend among them is the ultimate *traitor* — a Skald who rejected the cold their culture built itself around and embraced its antithesis. Skald Pyrofiends are the rarest, most reviled variant: exiles before they ever pact, drawn to Scathrach precisely *because* the cold abandoned them. Their fire is not faith. It is revenge against the frost that broke them.`,
+      signatureAbility: {
+        name: 'Frost-Betrayal',
+        description: `Inferno-Veil generation is *amplified by cold* — a Skald Pyrofiend draws extra power from environments that should be their native element, burning hotter the colder the surroundings. The pact is, mechanically, the inversion of everything Skald biology was built for, and the body resists violently.`
+      },
+      currentCrisisAngle: `Scathrach's mass collection is, for the Skald Pyrofiends, almost a *relief* — they have been exiles their whole lives, and being claimed by the Ashen Sovereign is, to them, finally belonging to something. The Skald Pyrofiends are not fleeing the collection. They are *walking toward* it, the first home they have ever been promised, and the Skald Council does not know whether to mourn them or consider the problem self-solving.`,
+      signatureQuote: {
+        text: '"Your cold broke me and cast me out. Scathrach\'s fire is the first thing that ever wanted me whole. I am going home. Do not call it damnation when it is the only welcome I have received."',
+        speaker: 'Traitor Skald-Varenn',
+        context: 'A Skald Pyrofiend, the night before walking into Emberspire\'s deepest vent'
+      }
+    }
+  },
+
+
   id : "pyrofiend",
   name: "Pyrofiend",
   icon: "fas fa-fire",
@@ -47,6 +105,27 @@ export const PYROFIEND_DATA = {
   },
 
   // Overview section
+  livingOrder: {
+    orderName: 'The Ashen Communion',
+    founder: {
+      name: '<LoreLink termId="first-cabal">The First Cabal</LoreLink> (seven Solvarn occultists)',
+      status: `All claimed. The seven who swallowed Scathrach's burning coals in an obsidian cavern beneath <LoreLink termId="emberspire">Emberspire</LoreLink> have, one by one, been collected — their souls fed to the Ashen Sovereign's furnace. The last was collected forty years ago. The Communion has no living founder.`,
+      note: `The cabal believed they were partnering with a power. They were, in fact, the first cutlery. Every Pyrofiend since has been a place setting at the same long table.`
+    },
+    currentLeader: {
+      name: '<LoreLink termId="sol-vareths">Last-Ember Sol-Vareths</LoreLink>',
+      title: 'The Most-Converted',
+      characterization: `The oldest living Pyrofiend — more char-vessel than flesh, his bones visible through translucent magma-skin. He leads only by virtue of having survived the longest, and he leads nothing so much as the countdown. He has calculated the exact day Scathrach will finish converting him, and he marks it on a calendar of scar-tissue. He is serene, terrifying, and entirely resigned.`
+    },
+    headquarters: { name: 'The Obsidian Cavern, beneath Emberspire', locationId: 'emberspire' },
+    crisisConnection: `<LoreLink termId="sol-vareths">Sol-Vareths</LoreLink> is the Communion's de facto leader precisely when Scathrach has called in *all* debts simultaneously — meaning his leadership is a countdown to everyone's collection. He has not told the younger Pyrofiends the full terms; he has instead organized them into the Apostate's Path, a discipline of accelerating one's own conversion to fight harder before the end. He considers this mercy. The Thrask Pyrofiends racing to finish their self-forging consider it a death sentence with extra steps.`
+  },
+
+  worldFriction: [
+    { region: 'sundale', status: 'used-and-distrusted', consequence: 'The Dawn Vigil would purge Pyrofiends as demon-bound heretics, but Scathrach fire is tactically indispensable against the Wyrd — so the Vigil "secondments" known Pyrofiends into suicidal vanguard units, a sentence dressed as service. A Pyrofiend who refuses is burned as a heretic; one who accepts is burned by Scathrach.', workaround: 'The Solvarn Apostate\'s Path (accelerating one\'s own conversion) is, politically, the only way to be "useful" enough to delay execution. There is no safe status for a Pyrofiend in Sundale.' },
+    { region: 'nordhalla', status: 'antithetical', consequence: 'The cold-worshipping Skald consider fire-pacts an abomination; a Pyrofiend in the glacier-keeps is killed on sight as a thermal pollutant — their very presence melts the archive-ice.' }
+  ],
+
   overview: {
     title: "The Pyrofiend",
     subtitle: "Demonic Fire Wielder",

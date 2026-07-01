@@ -348,7 +348,7 @@ const parseTextWithLoreLinks = (text, skipAutoLink = false) => {
   const processedText = skipAutoLink ? text : autoLinkTerminology(text);
 
   const result = [];
-  const regex = /(<LoreLink termId="([^"]+)">([\s\S]*?)<\/LoreLink>|\*\*(.*?)\*\*)/g;
+  const regex = /(<LoreLink termId="([^"]+)">([\s\S]*?)<\/LoreLink>|\*\*(.*?)\*\*|\*(.*?)\*)/g;
   let lastIndex = 0;
   let match;
   let key = 0;
@@ -375,6 +375,14 @@ const parseTextWithLoreLinks = (text, skipAutoLink = false) => {
         <strong key={`bold-${key++}`}>
           {parseTextWithLoreLinks(boldText, skipAutoLink)}
         </strong>
+      );
+    } else if (match[5] !== undefined) {
+      // Italic match: match[5] is the italic content
+      const italicText = match[5];
+      result.push(
+        <em key={`italic-${key++}`}>
+          {parseTextWithLoreLinks(italicText, skipAutoLink)}
+        </em>
       );
     }
 
@@ -493,42 +501,60 @@ const parseCombatRole = (content) => {
     weaknesses: []
   };
 
-  let currentKey = '';
+  let currentKey = 'primaryRole';
   lines.forEach(line => {
     const trimmed = line.trim();
     if (!trimmed) return;
 
-    // Match markdown section headings
-    const primaryRoleMatch = trimmed.match(/^\*\*Primary Role\*\*:\s*(.*)/i);
-    const whyBringMeMatch = trimmed.match(/^\*\*Why Bring Me\??(?:\s*\([^)]+\))?\*\*:\s*(.*)/i);
-    const howYouFightMatch = trimmed.match(/^\*\*How You Fight\*\*:\s*(.*)/i);
-    const strengthsMatch = trimmed.match(/^\*\*Strengths\*\*:\s*(.*)/i);
-    const weaknessesMatch = trimmed.match(/^\*\*Weaknesses\*\*:\s*(.*)/i);
+    // Check if the line is a section header (e.g. **Title**: or **Title** followed by text)
+    // We match **Title**: or **Title?**: or **Title** followed by a colon or colon+text
+    const headerMatch = trimmed.match(/^\*\*([^*]+)\*\*(?:\s*\([^)]+\))?\??:\s*(.*)/);
 
-    if (primaryRoleMatch) {
-      result.primaryRole = primaryRoleMatch[1];
-      currentKey = 'primaryRole';
-    } else if (whyBringMeMatch) {
-      result.whyBringMe = whyBringMeMatch[1];
-      currentKey = 'whyBringMe';
-    } else if (howYouFightMatch) {
-      result.howYouFight = [];
-      if (howYouFightMatch[1]) result.howYouFight.push(howYouFightMatch[1]);
-      currentKey = 'howYouFight';
-    } else if (strengthsMatch) {
-      result.strengths = [];
-      if (strengthsMatch[1]) result.strengths.push(strengthsMatch[1]);
-      currentKey = 'strengths';
-    } else if (weaknessesMatch) {
-      result.weaknesses = [];
-      if (weaknessesMatch[1]) result.weaknesses.push(weaknessesMatch[1]);
-      currentKey = 'weaknesses';
+    if (headerMatch) {
+      const headerTitle = headerMatch[1].trim();
+      const headerContent = headerMatch[2] ? headerMatch[2].trim() : '';
+
+      if (/role/i.test(headerTitle)) {
+        currentKey = 'primaryRole';
+        if (headerContent) {
+          result.primaryRole = (result.primaryRole ? result.primaryRole + '\n' : '') + headerContent;
+        }
+      } else if (/why\s+bring|what\s+you\s+bring|catalyst|promise/i.test(headerTitle)) {
+        currentKey = 'whyBringMe';
+        if (headerContent) {
+          result.whyBringMe = (result.whyBringMe ? result.whyBringMe + '\n' : '') + headerContent;
+        }
+      } else if (/how\s+you\s+fight|combat\s+loop/i.test(headerTitle)) {
+        currentKey = 'howYouFight';
+        if (headerContent) {
+          result.howYouFight.push(headerContent);
+        }
+      } else if (/weakness|flaw|toll|pays/i.test(headerTitle)) {
+        currentKey = 'weaknesses';
+        if (headerContent) {
+          result.weaknesses.push(headerContent);
+        }
+      } else {
+        // Any other header (e.g., custom strengths/capabilities) goes to strengths
+        currentKey = 'strengths';
+        if (headerContent) {
+          result.strengths.push(`**${headerTitle}**: ${headerContent}`);
+        } else {
+          // If no content, only push the title if it is not generic like "Combat Strengths"
+          if (!/strength/i.test(headerTitle)) {
+            result.strengths.push(`**${headerTitle}**`);
+          }
+        }
+      }
     } else {
       // Append bullet/numbered points or append to string
       if (currentKey === 'howYouFight') {
         const itemMatch = trimmed.match(/^\d+\.\s*(.*)/);
+        const bulletMatch = trimmed.match(/^[-•*]\s*(.*)/);
         if (itemMatch) {
           result.howYouFight.push(itemMatch[1]);
+        } else if (bulletMatch) {
+          result.howYouFight.push(bulletMatch[1]);
         } else {
           result.howYouFight.push(trimmed);
         }
@@ -547,9 +573,9 @@ const parseCombatRole = (content) => {
           result.weaknesses.push(trimmed);
         }
       } else if (currentKey === 'whyBringMe') {
-        result.whyBringMe += (result.whyBringMe ? ' ' : '') + trimmed;
+        result.whyBringMe += (result.whyBringMe ? '\n' : '') + trimmed;
       } else if (currentKey === 'primaryRole') {
-        result.primaryRole += (result.primaryRole ? ' ' : '') + trimmed;
+        result.primaryRole += (result.primaryRole ? '\n' : '') + trimmed;
       }
     }
   });
@@ -722,7 +748,7 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
   const [combatExampleOpen, setCombatExampleOpen] = useState(false);
   const contentContainerRef = useRef(null);
 
-  // Deep Tactical Dossier Fallbacks to guarantee content is never empty
+  // Deep Combat Chronicle Fallbacks to guarantee content is never empty
   const combatRoleData = useMemo(() => {
     if (!classData) return null;
     const overview = classData.overview || {};
@@ -818,9 +844,9 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
       }
       if (!data.howYouFight || data.howYouFight.length === 0) {
         data.howYouFight = [
-          "Generate your unique class resources through targeted attacks and setups.",
-          "Monitor cooldowns and align precursor conditions before invoking massive powers.",
-          "Trigger devastating high-tier finishers while staying safely behind your frontliners."
+          "Build momentum through precise strikes and advantageous positioning.",
+          "Read the battlefield for the moment of maximum leverage before committing.",
+          "Unleash the decisive blow when the conditions align — no sooner, no later."
         ];
       }
     }
@@ -1329,6 +1355,51 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
             </div>
           </div>
         )}
+        {/* Living Order — founder, current leader, headquarters, crisis connection */}
+        {classData.livingOrder && (() => {
+          const lo = classData.livingOrder;
+          return (
+            <div className="chronicle-card full-width-card" style={{ marginTop: '20px' }}>
+              <div className="chronicle-card-header bronze-header">
+                <i className="fas fa-flag"></i> THE LIVING ORDER{lo.orderName ? ` — ${lo.orderName}` : ''}
+              </div>
+              <div className="notable-practitioners-list">
+                {lo.founder && (
+                  <div className="practitioner-card" style={{ borderLeft: `4px solid ${regionInfo.borderColor}` }}>
+                    <div className="practitioner-avatar" style={{ backgroundColor: regionInfo.accentColor }}><i className="fas fa-monument"></i></div>
+                    <div className="practitioner-content">
+                      <h5 style={{ color: regionInfo.accentColor }}>Founder — {parseTextWithLoreLinks(lo.founder.name)}</h5>
+                      {lo.founder.status && <p>{parseTextWithLoreLinks(lo.founder.status)}</p>}
+                      {lo.founder.note && <p style={{ fontStyle: 'italic' }}>{parseTextWithLoreLinks(lo.founder.note)}</p>}
+                    </div>
+                  </div>
+                )}
+                {lo.currentLeader && (
+                  <div className="practitioner-card" style={{ borderLeft: `4px solid ${regionInfo.accentColor}` }}>
+                    <div className="practitioner-avatar" style={{ backgroundColor: regionInfo.accentColor }}><i className="fas fa-crown"></i></div>
+                    <div className="practitioner-content">
+                      <h5 style={{ color: regionInfo.accentColor }}>Current Leader — {parseTextWithLoreLinks(lo.currentLeader.name)}{lo.currentLeader.title ? `, ${lo.currentLeader.title}` : ''}</h5>
+                      {lo.currentLeader.characterization && <p>{parseTextWithLoreLinks(lo.currentLeader.characterization)}</p>}
+                    </div>
+                  </div>
+                )}
+                {lo.headquarters && (
+                  <div className="practitioner-card" style={{ borderLeft: `4px solid ${regionInfo.borderColor}` }}>
+                    <div className="practitioner-avatar" style={{ backgroundColor: regionInfo.accentColor }}><i className="fas fa-fort-awesome"></i></div>
+                    <div className="practitioner-content">
+                      <h5 style={{ color: regionInfo.accentColor }}>Headquarters — {lo.headquarters.name}</h5>
+                    </div>
+                  </div>
+                )}
+                {lo.crisisConnection && (
+                  <div className="tradition-call-to-action" style={{ borderLeft: `3px solid ${regionInfo.borderColor}`, marginTop: '8px' }}>
+                    <p>{parseTextWithLoreLinks(lo.crisisConnection)}</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })()}
       </div>
     );
   };
@@ -1450,32 +1521,32 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
             {overview.combatRole && (
               <div className="dossier-card tactical-card">
                 <div className="dossier-card-header crimson-header">
-                  <i className="fas fa-swords"></i> TACTICAL DOSSIER
+                  <i className="fas fa-swords"></i> COMBAT CHRONICLE
                 </div>
                 
                 {combatRoleData.primaryRole && (
                   <div className="dossier-sub-section">
-                    <span className="sub-label">Combat Archetype</span>
-                    <p className="sub-text">{combatRoleData.primaryRole}</p>
+                    <span className="sub-label">Battle Aspect</span>
+                    <p className="sub-text">{parseTextWithLoreLinks(combatRoleData.primaryRole)}</p>
                   </div>
                 )}
 
                 {combatRoleData.whyBringMe && (
                   <div className="dossier-sub-section">
-                    <span className="sub-label">Why Bring This Tradition?</span>
-                    <p className="sub-text italic-promise">“{combatRoleData.whyBringMe}”</p>
+                    <span className="sub-label">Why This Tradition Endures</span>
+                    <p className="sub-text italic-promise">“{parseTextWithLoreLinks(combatRoleData.whyBringMe)}”</p>
                   </div>
                 )}
 
                 <div className="tactical-pros-cons-grid">
                   {combatRoleData.strengths && combatRoleData.strengths.length > 0 && (
                     <div className="tactical-list-section pros">
-                      <div className="list-title"><i className="fas fa-check-circle"></i> KEY STRENGTHS</div>
+                      <div className="list-title"><i className="fas fa-check-circle"></i> SIGNATURE ADVANTAGES</div>
                       <ul>
                         {combatRoleData.strengths.map((str, idx) => (
-                          <li key={idx} dangerouslySetInnerHTML={{
-                            __html: str.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                          }} />
+                          <li key={idx}>
+                            {parseTextWithLoreLinks(str)}
+                          </li>
                         ))}
                       </ul>
                     </div>
@@ -1483,12 +1554,12 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
 
                   {combatRoleData.weaknesses && combatRoleData.weaknesses.length > 0 && (
                     <div className="tactical-list-section cons">
-                      <div className="list-title"><i className="fas fa-exclamation-triangle"></i> VULNERABILITIES</div>
+                      <div className="list-title"><i className="fas fa-exclamation-triangle"></i> ACKNOWLEDGED PERILS</div>
                       <ul>
                         {combatRoleData.weaknesses.map((weak, idx) => (
-                          <li key={idx} dangerouslySetInnerHTML={{
-                            __html: weak.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                          }} />
+                          <li key={idx}>
+                            {parseTextWithLoreLinks(weak)}
+                          </li>
                         ))}
                       </ul>
                     </div>
@@ -1504,15 +1575,15 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
             {combatRoleData.howYouFight && combatRoleData.howYouFight.length > 0 && (
               <div className="chronicle-card flow-card">
                 <div className="chronicle-card-header gold-header">
-                  <i className="fas fa-spinner"></i> COMBAT LOOP: HOW YOU FIGHT
+                  <i className="fas fa-spinner"></i> IN COMBAT: THE FLOW OF BATTLE
                 </div>
                 <div className="flow-steps-container">
                   {combatRoleData.howYouFight.map((step, idx) => (
                     <div className="flow-step-item" key={idx}>
                       <div className="flow-step-number">{idx + 1}</div>
-                      <div className="flow-step-body" dangerouslySetInnerHTML={{
-                        __html: step.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                      }} />
+                      <div className="flow-step-body">
+                        {parseTextWithLoreLinks(step)}
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -2258,7 +2329,7 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
               margin: '0 0 12px 0',
               textShadow: '0 0 20px rgba(255,180,60,0.4)',
             }}>
-              Work in Progress
+              Still Being Forged
             </h2>
             <p style={{
               color: 'rgba(255,220,170,0.8)',
@@ -2344,7 +2415,7 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
                 <p className="spec-description">{spec.description}</p>
 
                 <div className="spec-playstyle">
-                  <strong>Playstyle:</strong> {spec.playstyle}
+                  <strong>Combat Method:</strong> {spec.playstyle}
                 </div>
 
                 {spec.strengths && spec.strengths.length > 0 && (

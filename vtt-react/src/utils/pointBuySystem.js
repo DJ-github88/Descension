@@ -6,7 +6,7 @@
  */
 
 import { getCustomBackgroundStartingPoints } from '../data/legacyDisciplineData';
-// import { getPathStartingPoints } from '../data/pathData'; // Disciplines removed
+import { BACKGROUND_DATA } from '../data/backgroundData';
 
 // Base point-buy configuration
 export const POINT_BUY_CONFIG = {
@@ -105,8 +105,8 @@ export const calculateTotalPointsSpent = (stats) => {
  * Calculate available points based on race, subrace, background, and path bonuses
  */
 export const calculateAvailablePoints = (stats, bonuses = {}) => {
-    const { race = 0, subrace = 0, background = 0, path = 0 } = bonuses;
-    const totalPool = POINT_BUY_CONFIG.BASE_POINT_POOL + race + subrace + background + path;
+    const { race = 0, subrace = 0, background = 0, path = 0, loreClass = 0, loreBackground = 0 } = bonuses;
+    const totalPool = POINT_BUY_CONFIG.BASE_POINT_POOL + race + subrace + background + path + loreClass + loreBackground;
     const spent = calculateTotalPointsSpent(stats);
     return totalPool - spent;
 };
@@ -315,6 +315,83 @@ export const getSubraceBonusPoints = (raceId, subraceId) => {
     return subraceBonuses[`${raceId}_${subraceId}`] || 0;
 };
 
+const ALLOWED_CLASSES_BY_RACE = {
+    myrathil: ['Shaper', 'Spellguard', 'Chronarch', 'Animist', 'Lunarch', 'Minstrel', 'Augur'],
+    briaran: ['Apex', 'Animist', 'Shaper', 'Lunarch', 'Warden'],
+    groven: ['Martyr (Ironclad)', 'Warden', 'Animist', 'Martyr', 'Augur'],
+    emberth: ['Berserker', 'Warden', 'Harbinger', 'Martyr', 'Pyrofiend'],
+    vreken: ['Shaper', 'Apex', 'Revenant', 'Toxicologist', 'False Prophet', 'Plaguebringer', 'Gambit', 'Inquisitor'],
+    neth: ['Martyr (Ironclad)', 'Revenant', 'Harbinger', 'Plaguebringer'],
+    astril: ['Spellguard', 'Chronarch', 'Lunarch', 'Inquisitor', 'Augur'],
+    fexrick: ['Berserker', 'Animist', 'Shaper', 'Martyr', 'Warden'],
+    human: ['Berserker', 'Shaper', 'Martyr (Ironclad)', 'Warden', 'Spellguard', 'Arcanoneer', 'Inquisitor', 'Martyr', 'Minstrel'],
+    mimir: ['Arcanoneer', 'Toxicologist', 'Gambit', 'Chronarch', 'Harbinger', 'Augur']
+};
+
+const ALLOWED_CLASSES_BY_SUBRACE = {
+    breaker_myrathil: ['Shaper', 'Minstrel', 'Augur', 'Spellguard', 'Chronarch', 'Lunarch'],
+    deep_myrathil: ['Chronarch', 'Augur', 'Animist', 'Spellguard', 'Lunarch', 'Shaper'],
+    river_myrathil: ['Shaper', 'Animist', 'Lunarch', 'Minstrel', 'Augur', 'Chronarch'],
+    unshorn_briaran: ['Animist', 'Shaper', 'Apex', 'Warden'],
+    smoothskinned_briaran: ['Apex', 'Lunarch', 'Animist', 'Shaper', 'Warden'],
+    korr_emberth: ['Berserker', 'Warden', 'Pyrofiend', 'Harbinger', 'Martyr'],
+    thrask_emberth: ['Berserker', 'Harbinger', 'Martyr', 'Warden', 'Pyrofiend'],
+    kethrin_fexric: ['Animist', 'Shaper', 'Berserker', 'Martyr'],
+    drall_fexric: ['Berserker', 'Martyr', 'Animist', 'Shaper'],
+    morgh_groven: ['Martyr (Ironclad)', 'Martyr', 'Augur', 'Warden', 'Animist'],
+    ithran_groven: ['Warden', 'Animist', 'Augur', 'Martyr (Ironclad)', 'Martyr'],
+    maskborne_mimir: ['Arcanoneer', 'Toxicologist', 'Gambit', 'Chronarch', 'Harbinger', 'Augur'],
+    mistwoven_mimir: ['Chronarch', 'Augur', 'Gambit', 'Arcanoneer', 'Harbinger', 'Toxicologist'],
+    unwoven_mimir: ['Martyr (Ironclad)', 'Harbinger', 'Augur', 'Chronarch', 'Toxicologist', 'Gambit', 'Arcanoneer'],
+    velun_neth: ['Revenant', 'Harbinger', 'Martyr (Ironclad)', 'Plaguebringer'],
+    kessen_neth: ['Martyr (Ironclad)', 'Plaguebringer', 'Harbinger', 'Revenant'],
+    drun_neth: ['Martyr (Ironclad)', 'Revenant', 'Harbinger', 'Plaguebringer'],
+    sylen_astril: ['Chronarch', 'Augur', 'Gambit', 'Lunarch', 'Spellguard', 'Inquisitor'],
+    muren_astril: ['Spellguard', 'Inquisitor', 'Augur', 'Chronarch', 'Gambit', 'Lunarch'],
+    clean_vreken: ['Shaper', 'Apex', 'Gambit', 'Toxicologist', 'False Prophet', 'Inquisitor'],
+    marked_vreken: ['Revenant', 'Toxicologist', 'False Prophet', 'Plaguebringer', 'Inquisitor', 'Gambit', 'Shaper'],
+    thalren_human: ['Berserker', 'Martyr (Ironclad)', 'Warden', 'Martyr', 'Minstrel', 'Inquisitor'],
+    skald_human: ['Berserker', 'Minstrel', 'Martyr', 'Warden', 'Shaper'],
+    tessen_human: ['Spellguard', 'Arcanoneer', 'Harbinger', 'Inquisitor', 'Martyr (Ironclad)'],
+    solvarn_human: ['Inquisitor', 'Martyr', 'Spellguard', 'Warden', 'Arcanoneer'],
+    merryn_human: ['Shaper', 'Gambit', 'Minstrel', 'Warden', 'Harbinger'],
+    ordan_human: ['Warden', 'Shaper', 'Gambit', 'Martyr', 'Minstrel'],
+    morren_human: ['Shaper', 'Harbinger', 'Gambit', 'Arcanoneer', 'Spellguard']
+};
+
+const isClassCompatible = (className, raceId, subraceId) => {
+    if (!raceId) return true;
+    if (!subraceId) {
+        const allowedForRace = ALLOWED_CLASSES_BY_RACE[raceId];
+        return allowedForRace ? allowedForRace.includes(className) : false;
+    }
+    const allowed = ALLOWED_CLASSES_BY_SUBRACE[subraceId];
+    return allowed ? allowed.includes(className) : false;
+};
+
+const isBackgroundCompatible = (bg, raceId, subraceId) => {
+    if (!bg || !bg.restrictions) return { selectable: true, narrativeUnlock: false };
+    const { allowedSubraces = [], hardBlocks, narrativeUnlock } = bg.restrictions;
+    if (hardBlocks && (hardBlocks.includes(raceId) || hardBlocks.includes(subraceId))) {
+        return { selectable: false, narrativeUnlock: false };
+    }
+    if (!allowedSubraces || allowedSubraces.length === 0) {
+        return { selectable: true, narrativeUnlock: false };
+    }
+    if (subraceId && allowedSubraces.includes(subraceId)) {
+        return { selectable: true, narrativeUnlock: false };
+    }
+    if (!subraceId && raceId) {
+        const racePrefix = raceId + '_';
+        const raceRepresented = allowedSubraces.some((sid) => sid.startsWith(racePrefix));
+        if (raceRepresented) return { selectable: true, narrativeUnlock: false };
+    }
+    if (narrativeUnlock) {
+        return { selectable: true, narrativeUnlock: true };
+    }
+    return { selectable: false, narrativeUnlock: false };
+};
+
 /**
  * Get all available bonus points from character choices
  */
@@ -325,12 +402,32 @@ export const getTotalBonusPoints = (characterData) => {
         getCustomBackgroundStartingPoints(characterData.background) : 0;
     const pathBonus = 0; // Path bonus removed (disciplines are no longer part of the system)
 
+    let loreClassBonus = 0;
+    if (characterData.race && characterData.class) {
+        if (isClassCompatible(characterData.class, characterData.race, characterData.subrace)) {
+            loreClassBonus = 2; // +2 extra points
+        }
+    }
+
+    let loreBackgroundBonus = 0;
+    if (characterData.race && characterData.background) {
+        const bgObj = BACKGROUND_DATA[characterData.background];
+        if (bgObj) {
+            const comp = isBackgroundCompatible(bgObj, characterData.race, characterData.subrace);
+            if (comp.selectable && !comp.narrativeUnlock) {
+                loreBackgroundBonus = 2; // +2 extra points
+            }
+        }
+    }
+
     return {
         race: raceBonus,
         subrace: subraceBonus,
         background: backgroundBonus,
         path: pathBonus,
-        total: raceBonus + subraceBonus + backgroundBonus + pathBonus
+        loreClass: loreClassBonus,
+        loreBackground: loreBackgroundBonus,
+        total: raceBonus + subraceBonus + backgroundBonus + pathBonus + loreClassBonus + loreBackgroundBonus
     };
 };
 

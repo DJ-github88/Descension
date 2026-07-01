@@ -133,4 +133,10 @@ export const LOCATION_COORDINATES = {
   'merryns-drift':           { x: 850,  y: 2900, pinType: 'settlement', regionId: 'bryngloom-forest', source: 'world' }
 };
 
+// Pristine snapshot of the committed file coordinates, captured at module
+// load BEFORE any localStorage overrides are merged in WorldMapImmerse. The
+// dev editor diffs the live (possibly mutated) LOCATION_COORDINATES against
+// this baseline to produce a precise agent export of only what changed.
+export const BASELINE_LOCATION_COORDINATES = JSON.parse(JSON.stringify(LOCATION_COORDINATES));
+
 export default LOCATION_COORDINATES;

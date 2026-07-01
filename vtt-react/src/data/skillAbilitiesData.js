@@ -75,7 +75,7 @@ export const SKILL_ABILITIES = [
         id: 'jump',
         name: 'Jump',
         description: 'Jump up to 10 ft. horizontally or vertically. On a miss, you land prone.',
-        mechanicsText: '10 ft horizontal or 10 ft vertical • Acrobatics roll vs d8 • Add 5 ft by stepping die up once (e.g., d8 ? d10)',
+        mechanicsText: '10 ft horizontal or 10 ft vertical â€” Acrobatics roll vs d8 â€” Add 5 ft by stepping die up once (e.g., d8 ? d10)',
         distance: 10,
         verticalDistance: 10,
         needsLineOfSight: false
@@ -140,7 +140,7 @@ export const SKILL_ABILITIES = [
         id: 'command',
         name: 'Command',
         description: 'Command your pet to perform an action',
-        mechanicsText: 'Range: 30 ft • Start with d6, shift up/down based on pet Int/Wis vs your Int/Wis'
+        mechanicsText: 'Range: 30 ft â€” Start with d6, shift up/down based on pet Int/Wis vs your Int/Wis'
       }]
     },
     targetingConfig: {
@@ -195,7 +195,7 @@ export const SKILL_ABILITIES = [
         id: 'counter',
         name: 'Arcane Counter',
         description: 'Ready a counterspell for the next hostile cast within 30 ft.',
-        mechanicsText: 'Range: 30 ft • Arcana roll vs d8 • Step die up one size per spell level'
+        mechanicsText: 'Range: 30 ft â€” Arcana roll vs d8 â€” Step die up one size per spell level'
       }],
       duration: 1,
       durationUnit: 'rounds',
@@ -259,7 +259,7 @@ export const SKILL_ABILITIES = [
         id: 'bind',
         name: 'Grapple',
         description: 'Restrain target, reducing speed to 0 and granting advantage on attacks against them',
-        mechanicsText: 'Athletics Roll vs Target\'s Strength or Agility Roll • Speed becomes 0 • Disadvantage on rolls • Attacks against target have advantage',
+        mechanicsText: 'Athletics Roll vs Target\'s Strength or Agility Roll â€” Speed becomes 0 â€” Disadvantage on rolls â€” Attacks against target have advantage',
         config: {
           restraintType: 'physical'
         }
@@ -319,7 +319,7 @@ export const SKILL_ABILITIES = [
       effects: [{
         id: 'surprised',
         name: 'Surprised',
-        description: 'Cannot react and has disadvantage on attacks • DC varies by target Intelligence (d6 for dull, up to d10 for sharp minds)',
+        description: 'Cannot react and has disadvantage on attacks â€” DC varies by target Intelligence (d6 for dull, up to d10 for sharp minds)',
         mechanicsText: ''
       }]
     },
@@ -374,7 +374,7 @@ export const SKILL_ABILITIES = [
         id: 'recall',
         name: 'Lore Recall',
         description: 'Recall information about a creature\'s abilities and tactics',
-        mechanicsText: 'Range: 30 ft • History roll vs d8 • Step die up one size for tougher CRs'
+        mechanicsText: 'Range: 30 ft â€” History roll vs d8 â€” Step die up one size for tougher CRs'
       }],
       duration: 0,
       durationUnit: 'instant',
@@ -429,7 +429,7 @@ export const SKILL_ABILITIES = [
       effects: [{
         id: 'damage_reduction',
         name: 'Flow State',
-        description: 'Reduces incoming damage by 2 (flat reduction) until your next turn • Insight roll vs d8',
+        description: 'Reduces incoming damage by 2 (flat reduction) until your next turn â€” Insight roll vs d8',
         mechanicsText: '',
         statModifier: {
           stat: 'damage_reduction',
@@ -496,7 +496,7 @@ export const SKILL_ABILITIES = [
         id: 'command',
         name: 'Taunt',
         description: 'Forces target to attack you',
-        mechanicsText: 'Range: 15 ft area • Intimidation Roll vs Opponent\'s Spirit Save • Effect lasts until opponent succeeds save',
+        mechanicsText: 'Range: 15 ft area â€” Intimidation Roll vs Opponent\'s Spirit Save â€” Effect lasts until opponent succeeds save',
         config: {
           controlLevel: 'suggestion'
         }
@@ -555,7 +555,7 @@ export const SKILL_ABILITIES = [
         id: 'analyze',
         name: 'Deduct',
         description: 'Analyze an opponent to discover weaknesses and tactics',
-        mechanicsText: 'Range: 15 ft • Investigation roll vs d8 • Step die up for higher-CR foes'
+        mechanicsText: 'Range: 15 ft â€” Investigation roll vs d8 â€” Step die up for higher-CR foes'
       }],
       duration: 0,
       durationUnit: 'instant',
@@ -611,7 +611,7 @@ export const SKILL_ABILITIES = [
       hasHotEffect: false,
       hasShieldEffect: false,
       description: 'Treat a nearby ally for minor injury',
-      mechanicsText: 'Range: Touch (5 ft) • Medicine roll vs d6 • Stabilize: Step die up once per exhaustion level • Bandage: 1d4 + Medicine mod healing (once per character)'
+      mechanicsText: 'Range: Touch (5 ft) â€” Medicine roll vs d6 â€” Stabilize: Step die up once per exhaustion level â€” Bandage: 1d4 + Medicine mod healing (once per character)'
     },
     targetingConfig: {
       targetingType: 'single',
@@ -664,7 +664,7 @@ export const SKILL_ABILITIES = [
         id: 'terrain',
         name: 'Terrain Insight',
         description: 'Identify terrain advantages and environmental features',
-        mechanicsText: 'Range: 10 ft area • Nature roll vs d8'
+        mechanicsText: 'Range: 10 ft area â€” Nature roll vs d8'
       }],
       duration: 0,
       durationUnit: 'instant',
@@ -779,7 +779,7 @@ export const SKILL_ABILITIES = [
         id: 'stun',
         name: 'Mesmerized',
         description: 'Lose next turn',
-        mechanicsText: 'Range: 15 ft area • Performance Roll vs Spirit Save • All creatures within 15 ft must save • Immune: blind, multiple heads, undead, celestials, fiends, fey, dragons, constructs • Limited to one use per combat',
+        mechanicsText: 'Range: 15 ft area â€” Performance Roll vs Spirit Save â€” All creatures within 15 ft must save â€” Immune: blind, multiple heads, undead, celestials, fiends, fey, dragons, constructs â€” Limited to one use per combat',
         config: {
           durationType: 'temporary',
           recoveryMethod: 'automatic'
@@ -844,7 +844,7 @@ export const SKILL_ABILITIES = [
       effects: [{
         id: 'confuse',
         name: 'Confused',
-        description: 'Random actions determined by d10 roll • Persuasion Roll vs Spirit Save • Effect lasts until target rolls above persuasion roll (limited to one roll per turn)',
+        description: 'Random actions determined by d10 roll â€” Persuasion Roll vs Spirit Save â€” Effect lasts until target rolls above persuasion roll (limited to one roll per turn)',
         mechanicsText: 'Confusion Table (d10): 1) Run random direction (d8), 2-4) Do nothing, 5-6) Cast random spell at random target, 7-8) Attack nearby random creature, 9-10) Act normally'
       }]
     },
@@ -897,8 +897,8 @@ export const SKILL_ABILITIES = [
       effects: [{
         id: 'divine_boon',
         name: 'Divine Favor',
-        description: 'Grants one of four boons based on d4 roll • Religion Roll vs Spirit or Intelligence Save • All within 15 ft must roll below your Religion Roll to gain boon',
-        mechanicsText: 'Range: 15 ft area • Roll d4 for boon: 1) Shield of Conviction (temp HP = religion mod), 2) Guardian\'s Favor (damage reduction = religion mod), 3) Zealot\'s Blessing (attack bonus = religion mod), 4) Wisdom of the Ancients (advantage on next save)'
+        description: 'Grants one of four boons based on d4 roll â€” Religion Roll vs Spirit or Intelligence Save â€” All within 15 ft must roll below your Religion Roll to gain boon',
+        mechanicsText: 'Range: 15 ft area â€” Roll d4 for boon: 1) Shield of Conviction (temp HP = religion mod), 2) Guardian\'s Favor (damage reduction = religion mod), 3) Zealot\'s Blessing (attack bonus = religion mod), 4) Wisdom of the Ancients (advantage on next save)'
       }],
       durationValue: 1,
       durationType: 'rounds',
@@ -1000,7 +1000,7 @@ export const SKILL_ABILITIES = [
         id: 'disarm',
         name: 'Disarm',
         description: 'Disarm opponent and equip their weapon if able',
-        mechanicsText: 'Range: Touch (5 ft) • Reaction (when attacked) • Sleight of Hand Roll vs Opponent\'s Strength Save • Requires free hand (cannot use wielding 2 weapons)'
+        mechanicsText: 'Range: Touch (5 ft) â€” Reaction (when attacked) â€” Sleight of Hand Roll vs Opponent\'s Strength Save â€” Requires free hand (cannot use wielding 2 weapons)'
       }]
     },
     targetingConfig: {
@@ -1070,7 +1070,7 @@ export const SKILL_ABILITIES = [
         id: 'sneak',
         name: 'Sneak',
         description: 'Move through enemy space without provoking opportunity attacks',
-        mechanicsText: 'Move 15 ft • Stealth roll vs d6 • On success: move through opponent\'s space without provoking',
+        mechanicsText: 'Move 15 ft â€” Stealth roll vs d6 â€” On success: move through opponent\'s space without provoking',
         distance: 15,
         avoidOpportunityAttacks: true
       }],
@@ -1128,7 +1128,7 @@ export const SKILL_ABILITIES = [
         id: 'trap',
         name: 'Trapping',
         description: 'Set a trap on a 5 ft. square',
-        mechanicsText: 'Range: 5 ft • Survival roll starts at d10 (step die down if INT is high) • Trap Types: Pitfall [4 AP] (1d6 per 10 ft depth, restrains), Snare [3 AP] (hoists target, attacks have advantage), Tripwire [2 AP] (target falls prone, may drop items)'
+        mechanicsText: 'Range: 5 ft â€” Survival roll starts at d10 (step die down if INT is high) â€” Trap Types: Pitfall [4 AP] (1d6 per 10 ft depth, restrains), Snare [3 AP] (hoists target, attacks have advantage), Tripwire [2 AP] (target falls prone, may drop items)'
       }],
       duration: 0,
       durationUnit: 'instant',

@@ -23,6 +23,63 @@ export const BERSERKER_DATA = {
       "justification": "Requires Hunger Pact lineage (Skald) or deliberate Blood-Heat adoption (Thrask). Mimir are too identity-fragile to sustain the emotional singularity. Neth can't suppress their contract-nature. Ordan reject self-destruction over migration."
   },
 
+  /**
+   * Subrace Variants — how each allowed subrace *lives* the Berserker path differently.
+   * The Blood-Heat mechanic is universal; what the Heat *means*, where it comes from,
+   * and how the practitioner is received by their own people is not. A Skald who ignites
+   * is performing a liturgy. A Thrask who ignites is arguing with a mountain. A Groven
+   * who ignites is reawakening the alchemy their ancestors bled to escape.
+   */
+  subraceVariants: {
+    skald_human: {
+      subraceName: 'Skald',
+      title: 'The Hunger-Pact Sworn',
+      reframe: `The <LoreLink termId="skald">Skald</LoreLink> did not invent the Blood-Heat — they *inherited* it. During the three-winter blizzard that broke the old Nordhalla, the ancestors of the Bloodhammer line consumed their own fallen so the bloodline could persist through the cold. That act did not merely scar their history. It entered their marrow. When a Skald Berserker ignites, they do not simply burn — they relive the feast. Every surge of <LoreLink termId="blood_heat">Blood-Heat</LoreLink> carries the copper taste of kin-blood, the ancestral memory of eating the dead so the living could march another mile. The Skald do not consider this shameful. They consider it sacred: the consumed did not die, they were carried. A Skald Berserker's rage is a liturgy, and the liturgy is never finished.`,
+      signatureAbility: {
+        name: 'Hunger-Pact Ignition',
+        description: `Blood-Heat builds faster in the presence of the dying. Standing near a falling ally, a Skald Berserker ignites quicker — the ancestral reflex demanding they consume or be consumed. The dead feed the living, one more mile through the cold.`
+      },
+      currentCrisisAngle: `The Unbound schism cuts deepest among the Skald, because the argument is theological, not tactical. To a Pact-sworn elder of the <LoreLink termId="frozen_archive">Frozen Archive</LoreLink>, an Unbound Berserker is not merely unauthorized — they are a blasphemy against the dead they did not eat. They burn hot with none of the lineage-respect that sanctifies the act. The Skald Council's execution order was not cruelty; it was doctrine. The Unbound settlement forming in Emberspire's deep tunnels is, to the Pact-sworn, a heretical church.`,
+      signatureQuote: {
+        text: '"They call it rage. It is not rage. It is every grandparent I ever ate, reminding me why I am still here."',
+        speaker: 'Torra Bloodhammer',
+        context: 'To a Pact-sworn initiate who asked why the Heat makes her weep'
+      }
+    },
+
+    thrask_emberth: {
+      subraceName: 'Thrask Emberth',
+      title: 'The Caldera-Forged',
+      reframe: `The <LoreLink termId="emberth">Thrask Emberth</LoreLink> did not inherit the Hunger Pact — they stole it. When the Bloodhammer clans descended into the <LoreLink termId="harath_vault">Harath-Vault</LoreLink> tunnels, the Thrask rangers who shared those volcanic darks watched the Skald ignite and wanted the fire for themselves. They could not eat their dead — Emberth dead are committed to the Vault in sacred silence. So they found another door: geothermal resonance. A Thrask Berserker's Blood-Heat is drawn not from ancestry but from the caldera itself. They do not taste kin-blood when they burn; they taste sulfur, basalt-dust, and the deep thermal hum of <LoreLink termId="emberspire">Emberspire</LoreLink>. Their fury is tectonic, not memorial. Where the Skald rage is a song to the dead, the Thrask rage is an argument with the mountain.`,
+      signatureAbility: {
+        name: 'Caldera-Draw',
+        description: `Blood-Heat rises faster near geothermal vents, magma-fractures, and the <LoreLink termId="solbrand">Solbrand</LoreLink>'s residual warmth. A Thrask Berserker fighting on volcanic terrain ignites with terrifying speed — and slides toward Metabolic Burnout just as fast. The mountain gives freely, and takes freely.`
+      },
+      currentCrisisAngle: `The Thrask largely ignore the Unbound schism — it is a Skald argument about Skald ancestry, and the Thrask never signed the Pact to begin with. But the Thrask carry a quieter, worse crisis of their own: the caldera's vents are cooling as Sol's prison dims. A Thrask Berserker who could once draw limitless Heat from the mountain now finds the well running dry. Some have begun, in desperation, to seek out Scathrach's deeper vents — the ones the Pyrofiends whisper about — trading geothermal fire for something far more expensive.`,
+      signatureQuote: {
+        text: '"The Skald burn for their dead. I burn because the mountain told me to. Ask me which one of us sleeps better when the vent goes cold."',
+        speaker: 'Vareth Cinder-Kin',
+        context: 'A Thrask arena-champion, to a Pact-sworn Skald who accused him of theft'
+      }
+    },
+
+    morgh_groven: {
+      subraceName: 'Morgh Groven',
+      title: 'The Vat-Woken',
+      reframe: `The <LoreLink termId="groven">Morgh Groven</LoreLink> were never meant to rage. The <LoreLink termId="deep_alchemists">Fexric Deep Alchemists</LoreLink> engineered the <LoreLink termId="thrumm">Thrumm</LoreLink> root-stock for docility — the one trait that made them perfect vat-subjects. When the first Groven shattered their containment vessels in the <LoreLink termId="vat_breakers_guild">Vat-Breakers' revolt</LoreLink>, they discovered something the Alchemists had accidentally bred into them: the regenerative Thrumm biology, supercharged by eight centuries of alchemical saturation, could be pushed past its design limit. A Morgh Berserker does not burn blood — they burn the dormant alchemy still circulating in their stone-scaled veins. The serums that were meant to make them obedient instead make them, when ignited, catastrophically free. Their Blood-Heat tastes of reagents and old Thrumm grief.`,
+      signatureAbility: {
+        name: 'Vat-Overclock',
+        description: `Blood-Heat builds from the Groven's regenerative biology fighting itself. Each wound the Groven regenerates dumps waste-heat into serum-saturated blood — meaning a Morgh Berserker ignites fastest when they are being *healed*, the opposite of every other tradition. The alchemy that was meant to suppress them becomes, under pressure, the engine of their liberation.`
+      },
+      currentCrisisAngle: `The Morgh Groven Berserkers are few, and feared by their own kind. The Vat-Breakers' Guild considers Vat-Overclock a desecration — re-igniting the very alchemy their ancestors bled to escape. Worse, word has reached the sealed laboratories beneath <LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink>. To the Deep Alchemists, a Groven Berserker is not a threat — it is a successful prototype, eight centuries overdue for retrieval. The Vat-Woken who vanish from the Ancestor-Spans are not, the Guild suspects, running. They are being collected.`,
+      signatureQuote: {
+        text: '"They made us to kneel. The serum forgot its purpose before I did. When I burn, I burn the leash they wrote into my blood."',
+        speaker: 'Gareth Anvil-Born',
+        context: 'The first Vat-Woken, three days before he vanished from the lower sumps'
+      }
+    }
+  },
+
   id: "berserker",
   name: "Berserker",
   icon: "fas fa-skull",
@@ -30,6 +87,28 @@ export const BERSERKER_DATA = {
   damageTypes: ["physical"],
 
   // Overview section (Oppressive & Tragic Lore)
+  livingOrder: {
+    orderName: 'The Bloodhammer Line',
+    founder: {
+      name: '<LoreLink termId="grum">Grum Bloodhammer</LoreLink>',
+      status: `Dead — eight centuries. His forge still burns in the <LoreLink termId="emberspire">Emberspire</LoreLink> tunnels, tended by a single elderly Berserker who has not spoken in sixty years.`,
+      note: `The first to ignite the Blood-Heat. The Skald insist Grum was sacrificed by his lords to test whether a man could burn and stand; the Bloodhammer clans insist he chose the fury. The disagreement is theological and unresolved.`
+    },
+    currentLeader: {
+      name: '<LoreLink termId="hark-ash-hammer">Blood-Priest Hark Ash-Hammer</LoreLink>',
+      title: 'Keeper of the First Forge',
+      characterization: `A Pact-sworn Skald elder who has maintained the Forge of <LoreLink termId="grum">Grum</LoreLink> for forty years. He personally countersigned the Skald Council's execution order against the Unbound, and has not slept soundly since. He carries <LoreLink termId="grum">Grum</LoreLink>'s original hammer — too heavy for any living Berserker to lift, which he considers the point of carrying it.`
+    },
+    headquarters: { name: 'The Harath-Vault Arenas', locationId: 'harath_vault' },
+    crisisConnection: `Hark signed the Unbound execution order and leads the hunt for the deep-tunnel settlement. Privately, he is troubled: the Unbound ignite *without* the Pact, which means the Hunger Pact was never the source of the Heat — only the leash. If the Unbound are right, Hark has spent forty years enforcing a lie. He has not said this aloud. The hammer grows heavier each year.`
+  },
+
+  worldFriction: [
+    { region: 'bryngloom-forest', location: 'atropolis', status: 'banned', consequence: 'Berserkers are outlawed within Atropolis as rabid beasts — a volatile Blood-Heat burst in the silver law-chambers would be catastrophic. Any identified Berserker is denied entry at the Toll-Dikes and arrested on sight.', workaround: 'Travel cold and masked; register as a laborer or forge-hand. A Berserker who has not ignited in days is nearly indistinguishable from a scarred Thrask smith — until the Heat rises.' },
+    { region: 'sundale', location: 'harath_vault', status: 'celebrated', consequence: 'In the Harath-Vault arenas, Berserkers are champion-entertainers and sacred survivors. Arena victors receive lodging, patrons, and legal immunity within Sundale for the duration of their winning streak.' },
+    { region: 'nordhalla', location: 'frozen_archive', status: 'distrusted', consequence: 'The Skald elders of the Frozen Archive claim jurisdiction over who may carry the Hunger Pact; an Unbound Berserker in Nordhalla faces execution without trial.' }
+  ],
+
   overview: {
     title: "The Berserker",
     subtitle: "The Hemorrhagic Butcher",

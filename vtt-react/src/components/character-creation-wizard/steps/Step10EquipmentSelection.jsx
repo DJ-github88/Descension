@@ -22,6 +22,96 @@ import { getIconUrl } from '../../../utils/assetManager';
 import ItemTooltip from '../../item-generation/ItemTooltip';
 import '../styles/EquipmentSelection.css';
 
+const getFallbackItemDetails = (itemName) => {
+    const nameLower = itemName.toLowerCase();
+
+    // Default values
+    let iconId = 'inv_misc_questionmark';
+    let width = 1;
+    let height = 1;
+
+    // Matching logic
+    if (nameLower.includes('journal') || nameLower.includes('book') || nameLower.includes('ledger') || nameLower.includes('codex') || nameLower.includes('diary')) {
+        iconId = 'Misc/Books/book-brown-red-emblem-clasp';
+        width = 1;
+        height = 2;
+    } else if (nameLower.includes('robe') || nameLower.includes('vestments') || nameLower.includes('robes') || nameLower.includes('tunic')) {
+        iconId = 'Armor/Chest/chest-simple-tan-tunic';
+        width = 2;
+        height = 2;
+    } else if (nameLower.includes('cloak') || nameLower.includes('coat')) {
+        iconId = 'Armor/Back/back-cloak-green-leather';
+        width = 2;
+        height = 2;
+    } else if (nameLower.includes('rope') || nameLower.includes('cord') || nameLower.includes('line')) {
+        iconId = 'Misc/Containers/rope-coil-brown';
+        width = 1;
+        height = 2;
+    } else if (nameLower.includes('staff') || nameLower.includes('stave')) {
+        iconId = 'Weapon/2H Staff/staff-wood-carved-emerald-eye';
+        width = 1;
+        height = 3;
+    } else if (nameLower.includes('dagger') || nameLower.includes('shiv') || nameLower.includes('blade') || nameLower.includes('stakes') || nameLower.includes('pin')) {
+        iconId = 'Weapon/1H Dagger/dagger-iron-simple';
+        width = 1;
+        height = 2;
+    } else if (nameLower.includes('scale') || nameLower.includes('scales') || nameLower.includes('gauge')) {
+        iconId = 'Misc/Profession Resources/Jewelcrafting/balance-scale-gold';
+        width = 2;
+        height = 2;
+    } else if (nameLower.includes('hook')) {
+        iconId = 'Misc/Containers/grappling-hook-iron';
+        width = 1;
+        height = 2;
+    } else if (nameLower.includes('apron')) {
+        iconId = 'Armor/Chest/chest-leather-heavy-apron';
+        width = 2;
+        height = 2;
+    } else if (nameLower.includes('hammer')) {
+        iconId = 'Weapon/1H Mace/mace-iron-warhammer';
+        width = 1;
+        height = 2;
+    } else if (nameLower.includes('ink') || nameLower.includes('vial') || nameLower.includes('phial') || nameLower.includes('potion')) {
+        iconId = 'Misc/Profession Resources/Alchemy/Blue/blue-potion-bottle';
+        width = 1;
+        height = 1;
+    } else if (nameLower.includes('kit') || nameLower.includes('toolkit')) {
+        iconId = 'Misc/Profession Resources/Jewelcrafting/toolbox-leather-closed';
+        width = 2;
+        height = 2;
+    } else if (nameLower.includes('blanket') || nameLower.includes('tarp')) {
+        iconId = 'Misc/Containers/tarp-folded-green';
+        width = 2;
+        height = 1;
+    } else if (nameLower.includes('satchel') || nameLower.includes('pouch') || nameLower.includes('bag')) {
+        iconId = 'Container/Bag/bag-leather-satchel-tan';
+        width = 2;
+        height = 2;
+    } else if (nameLower.includes('lens') || nameLower.includes('glass') || nameLower.includes('goggles')) {
+        iconId = 'Misc/Profession Resources/Jewelcrafting/monocle-gold';
+        width = 1;
+        height = 1;
+        if (nameLower.includes('goggles')) {
+            iconId = 'Armor/Head/head-goggles-bronze';
+            width = 2;
+            height = 1;
+        }
+    } else if (nameLower.includes('beads') || nameLower.includes('charm') || nameLower.includes('tally') || nameLower.includes('token') || nameLower.includes('insignia') || nameLower.includes('ring')) {
+        iconId = 'Misc/Profession Resources/Jewelcrafting/necklace-beads-wood';
+        width = 1;
+        height = 1;
+        if (nameLower.includes('ring')) {
+            iconId = 'Misc/Profession Resources/Jewelcrafting/ring-gold-ruby';
+        }
+    } else if (nameLower.includes('chart') || nameLower.includes('scroll') || nameLower.includes('papers') || nameLower.includes('letter')) {
+        iconId = 'Misc/Books/book-scroll-unrolled-textured-markings';
+        width = 1;
+        height = 1;
+    }
+
+    return { iconId, width, height };
+};
+
 // Helper function to get background equipment as selected items
 const getBackgroundEquipmentAsSelected = (characterData) => {
     const backgroundData = characterData.background ? getBackgroundData(characterData.background) : null;
@@ -118,6 +208,7 @@ const getBackgroundEquipmentAsSelected = (characterData) => {
                 const goldValue = goldMatch ? parseInt(goldMatch[1]) : 0;
 
                 // Final fallback: create minimal item object with tooltip-compatible properties
+                const fallbackDetails = getFallbackItemDetails(cleanName);
                 return {
                     name: cleanName,
                     quantity: quantity,
@@ -125,13 +216,13 @@ const getBackgroundEquipmentAsSelected = (characterData) => {
                     subtype: 'TOOL',
                     quality: 'common',
                     description: `${cleanName} - Included with your background`,
-                    iconId: 'inv_misc_questionmark',
+                    iconId: fallbackDetails.iconId,
                     value: goldValue > 0
                         ? { platinum: 0, gold: goldValue, silver: 0, copper: 0 }
                         : { platinum: 0, gold: 0, silver: 45, copper: 75 }, // Default sell price
                     weight: 1,
-                    width: 1,
-                    height: 1,
+                    width: fallbackDetails.width,
+                    height: fallbackDetails.height,
                     requiredLevel: 1,
                     isBackgroundItem: true, // Mark as background item
                 };

@@ -16,6 +16,78 @@ export const GAMBIT_DATA = {
       "justification": "Requires a culture that embraces risk-calculation. Tessen too isolated and risk-averse. Skald too honor-bound (gambling is dishonorable). Ordan too pragmatic. Astril too spiritually governed (spirit forbids random chance)."
   },
 
+  /**
+   * Subrace Variants — the Gambit nudges probability, and what counts as a "gamble"
+   * depends on what your people are willing to stake. The four allowed subraces each
+   * wager a different currency: salt, foam, clause, and bone.
+   */
+  subraceVariants: {
+    merryn_human: {
+      subraceName: 'Merryn',
+      title: 'The Sea-Omen Gambler',
+      reframe: `The <LoreLink termId="skald">Merryn</LoreLink> practically invented the tradition — Jax the pirate wagered his lifeline against a storm-spirit in <LoreLink termId="merrowport">Merrowport</LoreLink>. A Merryn Gambit's dice are weighted with salt-coral, the stakes are always voyage-shares, and the loss is always someone else's debt transferred onto your own ledger. The sea is the house, and the house always wins, but a Merryn Gambit makes the house wait.`,
+      signatureAbility: {
+        name: 'Salt-Coral Wager',
+        description: `Fortune-points are staked against sea-conditions; a gamble made on open water draws probability from the storm itself, but a gamble made inland draws from the Gambit's own dwindling luck with nothing to replenish it. The Merryn are strongest where the sea can hear them.`
+      },
+      currentCrisisAngle: `Jax is missing — seen walking into the <LoreLink termId="iceheart-sea">Iceheart Sea</LoreLink> with a smile. The Merryn Gambits of Merrowport read his disappearance as the ultimate wager: Jax betting his entire existence against the storm-spirit to clear his debt in one final throw. The search party suspects he won. The fact that he won by ceasing to exist is, to a Merryn Gambit, a perfectly acceptable outcome.`,
+      signatureQuote: {
+        text: '"I do not gamble to win. I gamble to make the loss interesting enough that the sea forgets to collect."',
+        speaker: 'Jax',
+        context: 'The founder, the night before he walked into the water'
+      }
+    },
+
+    breaker_myrathil: {
+      subraceName: 'Breakers-Born Myrathil',
+      title: 'The Tide-Reader',
+      reframe: `The <LoreLink termId="myrathil">Breakers-Born</LoreLink> read probability in foam-patterns and the color-shift of their own mood-skin. A Myrathil Gambit does not roll dice — they read the odds the sea-mother writes in the surf, and the payment is always in *memory*: the Myrathil's bioluminescent skin dims a little with each stake, the wager paid in recalled light.`,
+      signatureAbility: {
+        name: 'Foom-Cast',
+        description: `Probability is read from sea-foam patterns and staked against the Gambit's own bioluminescence — each wager dims the host's glow as a memory is spent. A Myrathil Gambit who gambles too much goes dark, and a dark Myrathil is, by their own culture, considered already half-dead.`
+      },
+      currentCrisisAngle: `The Iceheart Sea has fallen silent (the Minstrel crisis), and the Myrathil Tide-Readers can no longer read foam — the surf writes nothing. A Myrathil Gambit without surf to read is gambling blind, and the tradition's young are dimming themselves on nothing, paying memory for randomness. The elders have forbidden deep-water wagers until the sea speaks again.`,
+      signatureQuote: {
+        text: '"The foam used to whisper. Now it stares. I will not bet against a sea that has stopped blinking."',
+        speaker: 'Tide-Mother Mrya',
+        context: 'A Breakers-Born Gambit, refusing a wager her grand-daughter begged her to take'
+      }
+    },
+
+    kessen_neth: {
+      subraceName: 'Kessen Neth',
+      title: 'The Clause-Gambler',
+      reframe: `The <LoreLink termId="neth">Kessen Neth</LoreLink> — the weavers of the forest floor — refined probability-web reading in the <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink>, and Lyra formalized it through rune-etched cards in the Cragjaw toll-negotiations. To a Kessen Gambit, every hand of cards is a clause analysis: the opponent's tells are legal vulnerabilities, the pot is a renegotiated term, and the win is a precedent.`,
+      signatureAbility: {
+        name: 'Clause-Analysis',
+        description: `Probability is calculated as contract-law; the Gambit reads opponents' tells as legal exposures and stakes against the binding-force of their own word. A Kessen Gambit cannot bluff — but they can structure a wager so that losing it benefits them more than winning, which is the same thing, legally.`
+      },
+      currentCrisisAngle: `Lyra has radicalized. Her Deck-Burners faction seeks to force the universe to choose — burning their rune-cards to collapse probability into certainty. The Kessen Gambits of Ironjaw Port consider this heresy: a Gambit who forces the outcome is no longer gambling, and a Neth who no longer gambles is, by the terms of their own tradition, in breach of their relationship with chance itself.`,
+      signatureQuote: {
+        text: '"I do not cheat. I draft the wager so that every outcome is mine. The other player signed the rules. That they did not read them is not my failure."',
+        speaker: 'Lyra',
+        context: 'The co-founder, defending her record before the Ironjaw trade-council'
+      }
+    },
+
+    ithran_groven: {
+      subraceName: 'Ithran Groven',
+      title: 'The Span-Better',
+      reframe: `The long-limbed <LoreLink termId="groven">Ithran Groven</LoreLink> — the bridge-builders — bet on which calcified bone-span will hold and which will crack. Their risk-calculation is architectural: load, stress, fatigue, the precise moment a structure fails. An Ithran Gambit does not gamble on chance; they gamble on *when the inevitable arrives*, and their bridge-builder's instinct makes them terrifyingly precise.`,
+      signatureAbility: {
+        name: 'Load-Reading',
+        description: `Probability is calculated as structural failure-analysis; the Gambit reads any system (a negotiation, a battle, a person) as a load-bearing structure and stakes on its failure-point. The Ithran are weakest against genuinely random events — but almost nothing in a world of bargains is genuinely random.`
+      },
+      currentCrisisAngle: `The Ancestor-Spans are cracking (the Warden crisis), and every Ithran Gambit can feel it. They have begun refusing to wager on anything that crosses a span — because they can read the spans' failure-point now, and it is *soon*. The Ithran Gambits know when their own bridges will fall, and the knowing has made them the most frightened people in the Cragjaw.`,
+      signatureQuote: {
+        text: '"I can tell you the exact hour my grandmother\'s bridge fails. I have bet against telling her. I am losing that bet too."',
+        speaker: 'Ith-Calss Span-Reader',
+        context: 'An Ithran Gambit, declining to cross the oldest Ancestor-Span'
+      }
+    }
+  },
+
+
   id: "gambit",
   name: "Gambit",
   icon: "fas fa-dice",
@@ -41,6 +113,27 @@ export const GAMBIT_DATA = {
     9: ["gambler_high_roller", "gambler_jackpot_surge", "gambler_fortune_reversal", "fate_weaver_grand_gambit", "fate_weaver_master_of_destiny", "fate_weaver_jackpot_supreme"],
     10: ["gambler_all_in", "gambler_divine_jackpot", "fate_weaver_rewrite_destiny", "fate_weaver_deck_of_many_things", "fate_weaver_casino_royale"]
   },
+  livingOrder: {
+    orderName: 'The Merrowport House',
+    founder: {
+      name: '<LoreLink termId="jax">Jax</LoreLink> (the Wager) and <LoreLink termId="lyra">Lyra</LoreLink> (the Clause)',
+      status: `<LoreLink termId="jax">Jax</LoreLink> — missing, last seen walking into the <LoreLink termId="iceheart-sea">Iceheart Sea</LoreLink> with a smile. <LoreLink termId="lyra">Lyra</LoreLink> — radicalized, leading the Deck-Burners faction from <LoreLink termId="ironjaw_port">Ironjaw Port</LoreLink>. Both founders are alive and neither is leading the House anymore.`,
+      note: `<LoreLink termId="jax">Jax</LoreLink> wagered his lifeline against a storm-spirit and won the wind but lost his blood's warmth. <LoreLink termId="lyra">Lyra</LoreLink> plucked the one timeline her caravan survived and fractured her consciousness doing it. The House was their détente; with both gone, the détente is over.`
+    },
+    currentLeader: {
+      name: '<LoreLink termId="merr-cael">Harbor-Master Merr-Cael</LoreLink>',
+      title: 'Keeper of the Middle Odds',
+      characterization: `A Merryn broker who has spent thirty years keeping the House solvent while its founders self-destruct. He believes in the wager as a *discipline*, not a religion — the opposite of <LoreLink termId="lyra">Lyra</LoreLink>'s Deck-Burners. He is tired, principled, and the only thing standing between the House and a civil war between the followers of its two vanished founders.`
+    },
+    headquarters: { name: 'The Last Table, Merrowport', locationId: 'merrowport' },
+    crisisConnection: `<LoreLink termId="merr-cael">Merr-Cael</LoreLink> is losing. <LoreLink termId="jax">Jax</LoreLink>'s disappearance has emboldened the mystics who want to emulate his final wager; <LoreLink termId="lyra">Lyra</LoreLink>'s radicalization has armed the Deck-Burners who want to *force* the universe to choose. The House is splitting along the same fault-line that defined its founding — luck versus clause, sea versus contract — and <LoreLink termId="merr-cael">Merr-Cael</LoreLink>'s middle ground is shrinking. He has one play left: find out what <LoreLink termId="jax">Jax</LoreLink> actually won, before the Deck-Burners find out first.`
+  },
+
+  worldFriction: [
+    { region: 'iceheart-sea', location: 'merrowport', status: 'tolerated', consequence: 'The Merrowport House is a licensed institution; its Gambits operate openly as brokers, odds-makers, and contract-underwriters. A House Gambit in good standing has legal authority to adjudicate voyage-share disputes.', workaround: 'The Deck-Burners (Lyra radicals) are NOT tolerated — they are wanted by the House middle for forcing outcomes, which the House considers a breach of the wager itself.' },
+    { region: 'nordhalla', status: 'outlawed', consequence: 'The Skald consider gambling dishonorable and House Skalvyr law treats probability-manipulation as a form of theft. A Gambit caught working the glacier-keeps is stripped of voyage-shares and exiled; a Gambit who "forces" an outcome near a Skald is killed.' }
+  ],
+
   overview: {
     originStory: `The Gambit tradition was born from two independent discoveries of probability manipulation, separated by a thousand miles of frozen coastline and later fused into a single, devastating art.
 

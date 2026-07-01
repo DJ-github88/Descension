@@ -8,7 +8,7 @@ import { RACE_DATA } from '../../data/raceData';
 import { getClassResourceConfig, initializeClassResource } from '../../data/classResources';
 import { calculateDerivedStats, calculateEquipmentBonuses } from '../../utils/characterUtils';
 import { applyRacialModifiers } from '../../data/raceData';
-import { getWowIconUrl } from '../../utils/assetManager';
+import { getWowIconUrl, getCustomIconUrl } from '../../utils/assetManager';
 import RoomManager from './RoomManager';
 import CampaignManager, { canAccessCampaignManager } from './CampaignManager';
 import AccountJournalManager from './AccountJournalManager';
@@ -718,8 +718,13 @@ const AccountDashboard = ({ user }) => {
                       const getCharacterImage = (char) => {
                         if (char.lore?.characterImage) return char.lore.characterImage;
                         if (char.image) return char.image;
-                        if (char.characterIcon) return getWowIconUrl(char.characterIcon);
-                        if (char.lore?.characterIcon) return getWowIconUrl(char.lore.characterIcon);
+                        const icon = char.characterIcon || char.lore?.characterIcon;
+                        if (icon) {
+                          if (icon.includes('/')) {
+                            return getCustomIconUrl(icon, 'creatures');
+                          }
+                          return getWowIconUrl(icon);
+                        }
                         return null;
                       };
 
@@ -731,8 +736,23 @@ const AccountDashboard = ({ user }) => {
                       const { health, mana } = calculateCharacterResources(character);
                       const actionPoints = character.actionPoints || character.resources?.actionPoints || { current: 3, max: 3 };
 
+                      const bgImage = character.lore?.iconBackgroundImage || character.iconBackgroundImage;
+                      const bgColor = character.lore?.iconBackgroundColor || character.iconBackgroundColor || '#f8f5eb';
+                      const bgStyle = bgImage
+                        ? {
+                            backgroundImage: `linear-gradient(rgba(248, 245, 240, 0.82), rgba(240, 234, 214, 0.88)), url(/assets/Backgrounds/${encodeURIComponent(bgImage)})`,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                            backgroundRepeat: 'no-repeat'
+                          }
+                        : { backgroundColor: bgColor };
+
                       return (
-                        <div key={character.id} className={`character-card-compact ${currentCharacterId === character.id ? 'active-character' : ''}`}>
+                        <div 
+                          key={character.id} 
+                          className={`character-card-compact ${currentCharacterId === character.id ? 'active-character' : ''}`}
+                          style={bgStyle}
+                        >
                           <div className="character-header">
                             <div className="character-header-top">
                               <div className="character-name-tags-section">

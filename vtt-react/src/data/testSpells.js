@@ -2092,18 +2092,18 @@ export const TEST_SPELL_CATEGORIES = [
 // Summary of test spells
 console.log(`
 +----------------------------------------------------------------+
-¦           COMPREHENSIVE TEST SPELL LIBRARY LOADED              ¦
-¦----------------------------------------------------------------¦
-¦ Total Test Spells: ${ALL_TEST_SPELLS.length}                                          ¦
-¦                                                                ¦
-¦ Categories:                                                    ¦
-¦   • Resolution Methods: ${RESOLUTION_TEST_SPELLS.length} spells                              ¦
-¦   • Effect Types: ${EFFECT_TYPE_TEST_SPELLS.length} spells                                  ¦
-¦   • Spell Types: ${SPELL_TYPE_TEST_SPELLS.length} spells                                    ¦
-¦   • Targeting Types: ${TARGETING_TEST_SPELLS.length} spells                                 ¦
-¦   • Advanced Mechanics: ${ADVANCED_MECHANICS_TEST_SPELLS.length} spells                             ¦
-¦                                                                ¦
-¦ Purpose: Verify spell wizard formatting and display           ¦
+â€”           COMPREHENSIVE TEST SPELL LIBRARY LOADED              â€”
+â€”----------------------------------------------------------------â€”
+â€” Total Test Spells: ${ALL_TEST_SPELLS.length}                                          â€”
+â€”                                                                â€”
+â€” Categories:                                                    â€”
+â€”   â€” Resolution Methods: ${RESOLUTION_TEST_SPELLS.length} spells                              â€”
+â€”   â€” Effect Types: ${EFFECT_TYPE_TEST_SPELLS.length} spells                                  â€”
+â€”   â€” Spell Types: ${SPELL_TYPE_TEST_SPELLS.length} spells                                    â€”
+â€”   â€” Targeting Types: ${TARGETING_TEST_SPELLS.length} spells                                 â€”
+â€”   â€” Advanced Mechanics: ${ADVANCED_MECHANICS_TEST_SPELLS.length} spells                             â€”
+â€”                                                                â€”
+â€” Purpose: Verify spell wizard formatting and display           â€”
 +----------------------------------------------------------------+
 `);
 

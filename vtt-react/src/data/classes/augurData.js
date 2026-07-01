@@ -28,11 +28,136 @@ export const AUGUR_DATA = {
       "justification": "Requires proximity to preserved dead (glacier-tombs) and access to Frozen Archive's runic mathematics. Cultures without burial-preservation traditions (Ordan leave dead to steppe, Merryn bury at sea) can't maintain the ancestral connection."
   },
 
+  /**
+   * Subrace Variants — every Augur reads the future in something dead or dying, but
+   * what counts as "entrails" depends entirely on what your people preserve. The
+   * star-arithmetic is failing for all of them — but each tradition fails differently.
+   */
+  subraceVariants: {
+    skald_human: {
+      subraceName: 'Skald',
+      title: 'The Glacier-Haruspex',
+      reframe: `This is Cassia's original tradition. The <LoreLink termId="skald">Skald</LoreLink> read the future in the entrails of sacrificed glacier-elk at the <LoreLink termId="frozen_archive">Frozen Archive</LoreLink>, where the preserved dead stand upright in the ice as witnesses. The glacier-cold slows the cooling of the gore, extending the reading window — a Skald Augur working in a warm room has seconds; working against glacier-ice, they have minutes.`,
+      signatureAbility: {
+        name: 'Glacier-Reading',
+        description: `Visceral auguries remain legible far longer when read against frozen ground or glacier-ice, extending the window in which a vision can be parsed. In warmth, the entrails (and the future they hold) cool and lie within heartbeats.`
+      },
+      currentCrisisAngle: `The accuracy collapse (93% to 41%) began at the Frozen Archive itself — the Skald's seat. The elder Haruspexes insist the elk are still true and that something is interfering with the ice, not the entrails. The younger Skald suspect the elders cannot accept that their founding method is obsolete.`,
+      signatureQuote: {
+        text: '"The elk has not lied to me in eight hundred years. I will not call her a liar now because the answer frightens me."',
+        speaker: 'Cassia',
+        context: 'The founder, defending her method against the first contradictory readings'
+      }
+    },
+
+    sylen_astril: {
+      subraceName: 'Sylen Astril',
+      title: 'The Star-Viscera Reader',
+      reframe: `The <LoreLink termId="astril">Sylen</LoreLink> read the future not in animal gore but in the resonant fractures of their own crystalline skin. The constellation-spirit's death-rattle echoes *forward* through the crystal lattice — a Sylen Augur's body is the entrail, and the prophecy is the crack that has not yet formed.`,
+      signatureAbility: {
+        name: 'Lattice-Fracture',
+        description: `Visions manifest as stress-fractures in the host's crystalline skin, each fracture a glimpse of a future that has not yet occurred. The deeper the symbiosis, the clearer the crack — but the crack is real, and the skin does not always heal.`
+      },
+      currentCrisisAngle: `The Sylen's accuracy has not collapsed so much as *inverted* — they now see futures that are vividly clear and entirely wrong. Some Sylen Augurs believe their constellation-spirits are no longer reading the real future but a future the spirit *wants* to be true, the dying star's court choosing comfortable lies over the Deepening's truth.`,
+      signatureQuote: {
+        text: '"My skin broke in the shape of your death three days ago. You are still here. I do not know which of us to believe."',
+        speaker: 'Aenith Glass-Skinned',
+        context: 'A Sylen Augur to a party member who, by her reading, should be dead'
+      }
+    },
+
+    muren_astril: {
+      subraceName: 'Muren Astril',
+      title: 'The Suppressed Oracle',
+      reframe: `The <LoreLink termId="astril">Muren</LoreLink> bind and suppress their constellation-spirits — and an Augur among them weaponizes that captivity. The suppressed spirit *knows* what is coming and screams it through the crystal the Muren have gagged. A Muren Augur's prophecy is the desperate, trapped foreknowledge of a prisoner pounding on the inside of its own cage.`,
+      signatureAbility: {
+        name: 'Gagged-Foresight',
+        description: `Suppressed constellation-spirits leak prophecy as involuntary flashes — vivid but fragmentary, the spirit smuggling warnings past its own bindings. The Muren cannot control what they see, only endure it.`
+      },
+      currentCrisisAngle: `The accuracy collapse has, paradoxically, made the Muren's spirits *easier* to suppress — the future they scream about is now so garbled it barely registers. Some Muren Augurs are relieved. Others are terrified: a spirit that stops screaming may have stopped because it has nothing left worth warning about.`,
+      signatureQuote: {
+        text: '"I bound it to silence it. Now it whispers, and I cannot tell whether it is finally dying or finally right."',
+        speaker: 'Orathin the Muzzled',
+        context: 'A Muren Augur, the night the readings first contradicted themselves'
+      }
+    },
+
+    tessen_human: {
+      subraceName: 'Tessen',
+      title: 'The Keep-Prophet',
+      reframe: `Sealed inside their snow-buried keeps for four centuries, the <LoreLink termId="house_tesshan">Tessen</LoreLink> have no elk and no glacier. They read the future in the cracks of their own crumbling architecture — the dying keep *as* entrail, the settling stone a slow-motion sacrifice. A Tessen Augur's prophecy is the sound the wall made before it fell.`,
+      signatureAbility: {
+        name: 'Stone-Harrow',
+        description: `Visions are read in the stress-fractures of load-bearing architecture — the Augur's own keep, or any large masonry structure under strain. The bigger the structure and the closer to collapse, the clearer and more catastrophic the reading.`
+      },
+      currentCrisisAngle: `The Tessen's crisis is the most literal: their keeps are failing, and the stones now prophesy only one future — the keep's own collapse. Every Tessen Augur reads the same vision: the roof, falling, within a generation. The Tessen elders have classified this as a "structural problem" rather than a prophecy, because they cannot afford to believe otherwise.`,
+      signatureQuote: {
+        text: '"The wall sang its own death this morning. I have written it down. I will not read it aloud — the keep is listening."',
+        speaker: 'Warden-Castellan Tess-Otha',
+        context: 'A Tessen Augur, filing a prophecy she dare not share with her garrison'
+      }
+    },
+
+    clean_vreken: {
+      subraceName: 'Clean Vreken',
+      title: 'The Bog-Gore Diviner',
+      reframe: `The <LoreLink termId="vreken">Clean Vreken</LoreLink> read the future in the preserved dead the bog itself coughs up — peat-mummified corpses whose final, frozen expressions encode their last vision. Where the Skald read fresh sacrifice, the Vreken read the ancient dead the <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink> has been kind enough to return.`,
+      signatureAbility: {
+        name: 'Peat-Reading',
+        description: `Visions are parsed from recovered bog-mummies — their posture, expression, and the orientation of their last grasp. The older the corpse, the further forward it sees, but the more degraded the image. A fresh corpse sees hours; a centuries-old mummy sees decades, in fragments.`
+      },
+      currentCrisisAngle: `The bog has stopped returning its dead. For eight centuries the peat gave up a body every few months; in the past year, nothing. The Clean Vreken read this as the single clearest prophecy of all: the bog itself has seen something so terrible it refuses to let its witnesses surface.`,
+      signatureQuote: {
+        text: '"The dead come up when they have something to say. The dead have stopped coming up. You tell me what that means."',
+        speaker: 'Grave-Keeper Yssen',
+        context: 'A Clean Vreken diviner, at the edge of an empty peat-cut'
+      }
+    },
+
+    marked_vreken: {
+      subraceName: 'Marked Vreken',
+      title: 'The Mycelium-Haruspex',
+      reframe: `The <LoreLink termId="vreken">Marked Vreken</LoreLink> — ghost-mycelium walkers — read the future in the bioluminescent bloom-patterns of the <LoreLink termId="root_veil">mycelial network</LoreLink> threading their skin. The forest's nervous system is a living entrail-spread, and the Marked are the only ones who can feel it think.`,
+      signatureAbility: {
+        name: 'Bloom-Casting',
+        description: `Visions manifest as shifting bioluminescent patterns across the host's fungal network — readable in real time by the Augur and, unfortunately, by any other Marked Vreken in proximity. The prophecy is broadcast as much as it is received.`
+      },
+      currentCrisisAngle: `The Root-Veil's bloom-patterns have begun *looping* — repeating the same prophecy over and over, as if the network is stuck. Marked Vreken Augurs cannot tell whether the forest is trying to emphasize one future or has simply broken. The repetition is driving the youngest readers to rip the mycelium from their own skin.`,
+      signatureQuote: {
+        text: '"The forest has one dream now, and it dreams it louder every night. I have stopped sleeping. I am afraid that if I sleep, I will dream it too."',
+        speaker: 'Vesh the Bloom-Walked',
+        context: 'A Marked Vreken Augur, during the third week of the looping vision'
+      }
+    }
+  },
+
+
   id : "augur",
   name: "Augur",
   icon: "fas fa-skull-crossbones",
   role: "Visceral Haruspex (Omen Reading, Flesh Mutilation & Preemptive Evasion)",
   damageTypes: ["wyrd", "ember"],
+
+  livingOrder: {
+    orderName: 'The Frozen Order of the Elk',
+    founder: {
+      name: '<LoreLink termId="cassia">Cassia</LoreLink>',
+      status: `Alive — technically. Her body sits in the <LoreLink termId="frozen_archive">Frozen Archive</LoreLink>, preserved upright in the glacier-ice, eyes open. She forgot her own name forty years ago but still reads entrails through the glass.`,
+      note: `The Skald star-watcher who read the Deepening in a sacrificed elk's entrails. The temporal-feedback burn took her past, her family, and eventually her identity — the price of seeing too clearly, paid in installments.`
+    },
+    currentLeader: {
+      name: '<LoreLink termId="skadi-glass-eye">Archive-Mistress <LoreLink termId="skadi-glass-eye">Skadi Glass-Eye</LoreLink></LoreLink>',
+      title: 'Keeper of the Elk-Rites',
+      characterization: `<LoreLink termId="cassia">Cassia</LoreLink>'s great-great-granddaughter, who learned the augury from a woman who no longer remembers being her great-great-grandmother. Skadi maintains the elk-herds and the ritual calendar, and has presided over the accuracy collapse from 93% to 41% without flinching — at least not where the junior augurs can see.`
+    },
+    headquarters: { name: 'The Frozen Archive', locationId: 'frozen_archive' },
+    crisisConnection: `Skadi defends her founder's method against contradictory readings she cannot explain. Privately, she has begun a secret cross-reference — comparing the elk-readings against <LoreLink termId="cassia">Cassia</LoreLink>'s pre-collapse predictions. The pattern suggests the interference is *temporal*: something is editing the future the elk can see. She has not told the Archive council, because the implication is that the Chronarchs' temporal stitching is responsible.`
+  },
+
+  worldFriction: [
+    { region: 'nordhalla', location: 'frozen_archive', status: 'celebrated', consequence: 'At the Frozen Archive, Augurs are the prophetic backbone — their readings inform Skald military deployment and House Skalvyr policy. Senior Augurs hold advisory seats and their elk-readings are recorded in the genealogical archives.', workaround: 'This standing is currently fragile: the 41% accuracy collapse has halved their credibility, and junior augurs are increasingly ignored by commanders who remember the 93% era.' },
+    { region: 'sundrift-vale', status: 'distrusted', consequence: 'The Ordan leave their dead to the steppe and have no preservation tradition — Augury reads as necromancy to them. An Augur traveling the Vale is treated as a corpse-violator and refused hospitality at migration camps.' }
+  ],
 
   overview: {
     originStory: `The future does not reveal itself to clean minds; it must be dragged, warm and steaming, from the belly of the dead. It is said that Cassia, the chief star-watcher of the Nordhalla Keeps, sat in the Frozen Archive when the star Sol first darkened. With the astrolabes frozen solid, she did not look to the sky. Instead, she took a bronze scaling knife and opened the abdomen of a sacrificial glacier-elk, spilling its entrails across the icy stone. By tracing the steaming convolutions of the intestines and the purple mottling of the liver, she read the exact hour of the Deepening. She did not find a path to salvation, but a map of the deaths to come.

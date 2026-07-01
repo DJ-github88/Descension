@@ -196,7 +196,7 @@ DEEP_LOCATIONS['frozen-archive'] = {
     { destinationId: 'rimors-hearth', distance: '5 miles', travelTime: '3 hours', route: 'Geothermal vent-trail through ice tunnels' }
   ],
   classPresence: ['skald', 'harbinger', 'warden', 'inscriptor'],
-  npcs: ['sigurd-skalvyr', 'halvar-skalvyr', 'frigga-skalvyr', 'valeria-the-grim']
+  npcs: ['sigurd-skalvyr', 'halvar-skalvyr', 'frigga-skalvyr', 'valeria-the-grim', 'skadi-glass-eye', 'sera-three-scars', 'malakor']
 };
 
 // =============================================================================
@@ -1007,7 +1007,265 @@ DEEP_LOCATIONS['starfall-vale'] = {
     { destinationId: 'ancestor-wold', distance: '15 miles', travelTime: '1 day', route: 'Open steppe — guided by the hum of the ancestral mounds' }
   ],
   classPresence: ['augur', 'falseProphet', 'warden'],
-  npcs: []
+  npcs: ['mor-vereth']
+};
+
+// =============================================================================
+// SUNDALE — Harath-Vault (deep)
+// =============================================================================
+DEEP_LOCATIONS['harath-vault'] = {
+  heraldry: {
+    iconUrl: '/assets/heraldry/harath-vault.png',
+    colors: { primary: '#5a1a00', secondary: '#cc4400' },
+    description: 'A volcanic forge-anvil superimposed on a blood-red sun, crossed by a ceremonial hammer'
+  },
+  population: 600,
+  dominantRaces: ['Emberth', 'Solvarn humans', 'Groven'],
+  leadership: {
+    type: 'religious_order',
+    title: 'Blood-Priest of the Forge',
+    leaderId: 'hark-ash-hammer',
+    description:
+      'The Harath-Vault is governed by the Blood-Priest — a Berserker elected by the Skald Council from among the most seasoned forge-masters. The current Blood-Priest is Hark Ash-Hammer, who countersigned the execution order against the Pact-less Unbound and views the deep-tunnel settlement forming in Emberspire as a heretical church.'
+  },
+  defenses: {
+    militiaSize: 100,
+    fortifications:
+      'The vault is a natural volcanic chamber accessible only through a single basalt tunnel that narrows to a chokepoint wide enough for two combatants abreast. The tunnel is lined with geothermal vents that the Blood-Priest can trigger to flood the approach with superheated steam.',
+    watchPresence: 'Berserker Blood-Guards patrol the approach tunnel in pairs — their Blood-Heat makes them visible in thermal vision as walking furnaces'
+  },
+  economy: {
+    primary: 'Masterwork forge-metal and ceremonial weapon production',
+    secondary: ['Geothermal energy distribution to Sundale surface settlements', 'Blood-Heat ritual training', 'Volcanic alloy refinement'],
+    status: 'stable'
+  },
+  atmosphere: {
+    mood: 'Reverent, violent, and incandescent. The Harath-Vault is not a settlement — it is a working temple to the Blood-Heat. The air throbs with the rhythm of forge-hammers and the chanting of Berserkers in meditation. Every surface is hot enough to burn bare skin. The Emberth who live here have calloused lungs from the volcanic air.',
+    architecture: 'Carved directly into the volcanic basalt — no timber, no cloth, nothing that burns. The chambers are rough-hewn, the corridors narrow, and every major hall opens onto a forge-pit fed by geothermal vents. The deeper chambers date back to the Deep Alchemists, their geometric precision a jarring contrast to the rough Emberth work.',
+    sounds: 'The rhythmic thunder of forge-hammers, the hiss of quenched metal, the low chanting of Berserkers preparing for the Blood-Heat, the rumble of volcanic activity beneath the floor, and the occasional roar of a successful ignition from the training pits.',
+    smells: 'Superheated basalt, molten metal, Emberth sweat, volcanic sulfur, and the sharp, metallic tang of Blood-Heat ignition — ozone and hot iron.',
+    lighting: 'Orange-red from the forge-pits and geothermal vents. The vault has no windows and no natural light — it is illuminated entirely by fire, metal, and the occasional eruption of volcanic glow from the deeper chambers.'
+  },
+  history: {
+    founded: 'Year 15 of the Dimming',
+    foundedBy: 'Grum Bloodhammer',
+    foundingStory:
+      'When Grum Bloodhammer first ignited the Blood-Heat in Emberspire\'s caldera, the Solvarn Vigil thought the buried star was returning. The eruption of fury he unleashed melted a tunnel through the basalt into this natural vault, where he established the Forge of Grum — the first Berserker training ground. The impression of his hammer is still preserved in the main forge-floor, and every Blood-Priest since has begun their term by pressing their own hammer into the cooling metal beside it.',
+    significantEvents: [
+      { date: 'Year 15, Dimming', event: 'Grum Bloodhammer ignites the first Blood-Heat; the Forge of Grum is established in the newly-formed Harath-Vault' },
+      { date: 'Year 150, Dimming', event: 'The Skald Council formed to govern the growing Berserker order; the Vault becomes the Council\'s permanent seat' },
+      { date: 'Year 720, Dimming', event: 'The Void-Heat Heresy reaches Sundale; Hark Ash-Hammer purges the Pact-less Unbound from the Vault' },
+      { date: 'Year 790, Dimming', event: 'Deep-tunnel settlers from Emberspire\'s lower reaches attempt to establish an independent forge-hold; Hark Ash-Hammer condemns it as heretical' }
+    ]
+  },
+  subLocations: [
+    {
+      id: 'the-forge-floor',
+      name: 'The Forge Floor',
+      type: 'great_hall',
+      description: 'The heart of the Harath-Vault — a massive chamber where the forge-pits glow with captured geothermal fire. The floor is scarred by eight centuries of hammer-strikes, ritual ignitions, and the Blood-Heat testing of every Berserker who has trained here. Grum\'s original hammer-impression is preserved under volcanic glass at the chamber\'s center.',
+      proprietor: 'Blood-Priest',
+      notableFeatures: [
+        'Grum\'s Impression: the volcanic glass seal preserving the founder\'s hammer-strike',
+        'The Council Ring: a circle of basalt seats around the central forge where the Skald Council convenes'
+      ]
+    },
+    {
+      id: 'the-blood-pits',
+      name: 'The Blood-Pits',
+      type: 'military',
+      description: 'A series of descending training chambers where Berserkers practice the Blood-Heat under increasingly extreme conditions. The lowest pit — the Crucible — is a sealed volcanic chamber where the geothermal temperature exceeds what any un-ignited body can survive. Only those who have mastered the third ignition are permitted below the second catwalk.',
+      proprietor: 'Berserker Order',
+      notableFeatures: [
+        'The Crucible: the lowest pit, where final Blood-Heat mastery is tested in volcanic conditions',
+        'The Scar-Wall: a basalt face where Berserkers record their ignitions by carving their names with red-hot metal'
+      ]
+    }
+  ],
+  connectedMaps: [],
+  factionPresence: [
+    { factionId: 'bloodhammer-line', influence: 'dominant', description: 'Hark Ash-Hammer leads both the Vault and the Blood-Priest tradition' },
+    { factionId: 'house-solvan', influence: 'moderate', description: 'Maintain a shrine-crypt dedicated to Sera Solvan, the first Martyr' },
+    { factionId: 'dawn-vigil', influence: 'minor', description: 'The Vigil maintains a small chapterhouse monitoring Berzerker dreams of the buried star' }
+  ],
+  travelConnections: [
+    { destinationId: 'ember-lagoon', distance: '2 miles', travelTime: '1 hour', route: 'The Cinder Path — a winding tunnel through cooled basalt, lit by Emberth glow-lanterns' },
+    { destinationId: 'great-forge', distance: '1 mile', travelTime: '30 minutes', route: 'The Forge-Road — a wide volcanic tunnel used for transporting ingots and ore' }
+  ],
+  classPresence: ['berserker', 'pyrofiend', 'warden'],
+  npcs: ['hark-ash-hammer', 'grum-bloodhammer']
+};
+
+// =============================================================================
+// CRAGJAW PEAKS — Frostmaw Holdfast (deep)
+// =============================================================================
+DEEP_LOCATIONS['frostmaw-holdfast'] = {
+  heraldry: {
+    iconUrl: '/assets/heraldry/frostmaw-holdfast.png',
+    colors: { primary: '#2a3a4a', secondary: '#7a8a5a' },
+    description: 'A massive stone fist gripping a gear, frost riming the iron teeth'
+  },
+  population: 900,
+  dominantRaces: ['Groven', 'Fexrick', 'Tessen humans'],
+  leadership: {
+    type: 'guild',
+    title: 'Vat-Breaker Foreman',
+    leaderId: 'vat-breaker-foreman',
+    description:
+      'Frostmaw Holdfast is governed by the Vat-Breakers\' Guild, led by the First Foreman — the eldest Groven whose calcification has not yet claimed their mobility. The Foreman adjudicates Groven law, manages the Ancestor-Spans, and patrols the lower tunnels for signs of renewed Deep Alchemist experimentation.'
+  },
+  defenses: {
+    militiaSize: 150,
+    fortifications:
+      'The holdfast is built into a volcanic plug at Cragjaw\'s heart, accessible only through three defended gates — each sealed by an Ancestor-Span (a bridge grown from the calcified bones of willing Groven dead) that can be withdrawn into the walls.',
+    watchPresence: 'Vat-Breaker Sentinels patrol the Ancestor-Spans and tunnel approaches, their stone-scale hide making them nearly indistinguishable from the rock they guard'
+  },
+  economy: {
+    primary: 'Ancestor-Span toll collection and Groven labor contracts',
+    secondary: ['Deep Alchemist relic recovery', 'Stone-scale harvesting for Fexrick alloys', 'Geothermal heat distribution'],
+    status: 'stable'
+  },
+  atmosphere: {
+    mood: 'Enduring, somber, and calcified — both literally and emotionally. Frostmaw Holdfast is the oldest continuously inhabited Groven settlement, and it shows. The stone walls are polished smooth by eight centuries of Groven hands. The air is warm from geothermal vents but carries the mineral scent of old bone.',
+    architecture: 'Groven construction — brutalist, functional, and built to last millennia. Walls are grown from calcified Groven bone, fused with volcanic stone into a composite harder than either material. The Ancestor-Spans are the most visible feature — bridges of interlocking Groven vertebrae that groan and settle like living things.',
+    sounds: 'The creak and groan of the Ancestor-Spans settling, the deep echoes of Groven work-chants from the lower tunnels, the hiss of geothermal steam, the clatter of stone-scale against stone, and the occasional bone-deep vibration of Deep Alchemist experiments far below.',
+    smells: 'Warm stone, mineral steam, Groven musk, old bone, and the faint chemical tang of alchemical residue that leaks upward from the sealed vat-labs.',
+    lighting: 'Dim and amber — Groven bio-luminescent moss cultivated on the ceilings provides most light, supplemented by geothermal glow-tubes in the inhabited chambers. The lower tunnels are dark enough that even Groven darkvision strains.'
+  },
+  history: {
+    founded: 'Year 40 of the Dimming',
+    foundedBy: 'The First Foreman (Groven Vat-Breakers)',
+    foundingStory:
+      'Forty years after the Deep Alchemists began their experiments on Thrumm broodlings, the first generation of transformed Groven — engineered for docility but gifted with will by the alchemical serums — shattered their containment vats and rose against their creators. The Vat-Breakers\' Revolt was bloody and total: the Groven drove the Alchemists from the surface tunnels and sealed them in the deeper laboratories. Frostmaw Holdfast was built on the site of the first shattered vat, the Foreman\'s calcified skeleton forming the hall\'s central arch.',
+    significantEvents: [
+      { date: 'Year 40, Dimming', event: 'The Vat-Breakers\' Revolt — Groven shatter their containment vats and seize Frostmaw from the Deep Alchemists' },
+      { date: 'Year 200, Dimming', event: 'First Ancestor-Span grown across the Great Gorge, connecting Frostmaw to the Gearworks Gulch' },
+      { date: 'Year 600, Dimming', event: 'Deep Alchemist activity detected in the lower tunnels; Frostmaw seals the sub-levels and establishes permanent sentry-rotations' },
+      { date: 'Year 790, Dimming', event: 'The Dimming accelerates; the geothermal terraces begin cooling, threatening Frostmaw\'s food supply' }
+    ]
+  },
+  subLocations: [
+    {
+      id: 'the-sealed-vat-labs',
+      name: 'The Sealed Vat-Labs',
+      type: 'fortification',
+      description: 'The sub-levels beneath Frostmaw Holdfast, sealed by decree of the First Foreman and never reopened. The Deep Alchemists\' original laboratories lie behind three iron doors, each engraved with Groven warning-runes. The seals are inspected annually by the Vat-Breaker Foreman, who listens at the iron for sounds of continued work from below.',
+      proprietor: 'Vat-Breakers\' Guild',
+      notableFeatures: [
+        'The First Vat: a shattered containment vessel displayed in a sealed chamber as a reminder of what was',
+        'The Alchemist Archive: a stolen cache of Fexric alchemical formulae, including one that may reverse calcification'
+      ]
+    },
+    {
+      id: 'the-span-arch',
+      name: 'The Span-Arch',
+      type: 'great_hall',
+      description: 'The main hall of Frostmaw Holdfast — a soaring chamber whose arched ceiling is formed by the calcified skeleton of the First Foreman, her outstretched hand forming the keystone. The hall serves as throne room, judgment chamber, and gathering space for the Groven community.',
+      proprietor: 'Vat-Breakers\' Guild',
+      notableFeatures: [
+        'The Foreman\'s Keystone: the hand of the First Foreman, calcified in mid-reach, forming the arch\'s final stone',
+        'The Memory-Room: a side chamber where the names of every Groven who has died in service to the holdfast are carved into the living rock'
+      ]
+    }
+  ],
+  connectedMaps: [],
+  factionPresence: [
+    { factionId: 'vat-breakers-guild', influence: 'dominant', description: 'The governing body of Groven civilization; holds absolute authority in Frostmaw' },
+    { factionId: 'deep-alchemists', influence: 'outcast', description: 'Sealed in the lower tunnels — their influence is felt only through the warnings carved on the iron doors' },
+    { factionId: 'house-tesshan', influence: 'moderate', description: 'Maintain a trade office for Groven stone-scale and Fexrick alloy imports' }
+  ],
+  travelConnections: [
+    { destinationId: 'gearworks-gulch', distance: '8 miles', travelTime: '4 hours', route: 'The Ancestor-Span passage across the Great Gorge, maintained by Fexrick bridge-engineers' },
+    { destinationId: 'sump-galleries', distance: '3 miles', travelTime: '1 hour', route: 'Lower tunnels — officially sealed; travel requires Vat-Breaker approval' }
+  ],
+  classPresence: ['shaper', 'warden', 'berserker'],
+  npcs: ['vat-breaker-foreman', 'alaric', 'torin']
+};
+
+// =============================================================================
+// ICEHEART SEA — Merrowport Deep-Quarter (deep)
+// =============================================================================
+DEEP_LOCATIONS['merrowport-deep'] = {
+  heraldry: {
+    iconUrl: '/assets/heraldry/merrowport-deep.png',
+    colors: { primary: '#1a3a5a', secondary: '#c4a040' },
+    description: 'A golden scale balanced on a coral spire, the tide rising around it'
+  },
+  population: 500,
+  dominantRaces: ['Merryn', 'Myrathil', 'Neth'],
+  leadership: {
+    type: 'guild',
+    title: 'Harbor-Master',
+    leaderId: 'merr-cael',
+    description:
+      'The Merrowport Deep-Quarter is governed by the Harbor-Master, who holds authority over gambling licenses, debt enforcement, and the Storm-Spirit covenant. The current Harbor-Master, Merr-Cael, presides over the Gambit order\'s fracturing between Jax\'s luck-cult and Lyra\'s Deck-Burners, a balancing act that grows harder by the season.'
+  },
+  defenses: {
+    militiaSize: 40,
+    fortifications:
+      'The Deep-Quarter is built on coral foundations below the tideline, accessible only by descending staircases that flood at high tide. The gambling halls are constructed from Myrathil shell-concrete, reinforced with Neth contract-wards that magically bind anyone who enters uninvited.',
+    watchPresence: 'Myrathil Breakers-Born patrol the underwater approaches, their bioluminescence marking safe passages'
+  },
+  economy: {
+    primary: 'Gambling, debt-finance, and contract-brokering',
+    secondary: ['Storm-spirit covenant maintenance', 'Rune-etched card manufacturing', 'Coral-harvest export'],
+    status: 'volatile'
+  },
+  atmosphere: {
+    mood: 'Electric, reckless, and desperate. The Deep-Quarter is where fortunes are made and unmade in a single hand of salt-coral cards. The air is thick with salt spray, Myrathil incense, and the smell of Neth silver-blood contracts drying on coral tables. The patrons laugh too loud and watch each other too closely.',
+    architecture: 'Submerged Myrathil construction — shell-concrete domes, coral archways, and floors of polished sea-stone that ripple with trapped bioluminescence. The gambling halls are arranged around a central tide-pool that rises and falls with the lunar cycle, the water level determining which tables are accessible.',
+    sounds: 'The constant rattle of dice and cards, the crash of waves against the coral foundations, the hum of Myrathil bioluminescent light-filters, the murmur of Neth contract recitations, and the occasional roar of a storm-spirit covenant being honored or breached.',
+    smells: 'Salt, seaweed, Myrathil incense, Neth silver-blood (metallic), spilled Merryn ale, and the deep-ocean mineral scent of the tide-pool.',
+    lighting: 'Bioluminescent — Myrathil light-coral in the ceilings casts a cool blue-green glow. Neth contract-lanterns with silver-flame supplement the illumination during high-stakes negotiations. The tide-pool at the center glows faintly from the coral beneath.'
+  },
+  history: {
+    founded: 'Year 60 of the Dimming',
+    foundedBy: 'Jax the Wager and Lyra the Clause',
+    foundingStory:
+      'When Jax the Merryn pirate wagered his lifeline against a storm-spirit and won, he used the favor to establish the first gambling hall in what would become the Deep-Quarter. Lyra the Neth clause-weaver joined him soon after, formalizing chance through rune-etched cards and binding the hall\'s debts with First Contract authority. The two founders disagreed on the soul of their creation — luck versus structure — and their schism is carved into the foundations: Jax\'s wing is open to the sea, Lyra\'s is sealed with contract-wards.',
+    significantEvents: [
+      { date: 'Year 60, Dimming', event: 'Jax and Lyra establish the Gambit tradition in the newly-built Merrowport Deep-Quarter' },
+      { date: 'Year 300, Dimming', event: 'Jax walks into the sea, telling no one why; his followers splinter into the luck-cult' },
+      { date: 'Year 500, Dimming', event: 'Lyra\'s Deck-Burners radicalize; the Deep-Quarter\'s ruling council is established to mediate between the factions' },
+      { date: 'Year 780, Dimming', event: 'The Dimming disrupts Myrathil bioluminescence; the Deep-Quarter\'s coral foundations begin to weaken' }
+    ]
+  },
+  subLocations: [
+    {
+      id: 'the-luck-hall',
+      name: 'The Luck Hall',
+      type: 'tavern',
+      description: 'Jax\'s original gambling hall, built open to the sea — the waves crash against the coral pillars, and the salt spray keeps the patrons alert. The Luck Hall is where the luck-cult practices its art: weighted dice, salt-coral cards, stakes measured in years rather than coin.',
+      proprietor: 'Luck-Cult Elders',
+      notableFeatures: [
+        'Jax\'s Table: the original coral gaming table where Jax wagered his lifeline, preserved under glass',
+        'The Wager-Wall: a coral surface where debtors carve their promises — and where the storm-spirit\'s favor is said to be inscribed in invisible ink'
+      ]
+    },
+    {
+      id: 'the-clause-chamber',
+      name: 'The Clause Chamber',
+      type: 'temple',
+      description: 'Lyra\'s wing of the Deep-Quarter, sealed by Neth contract-wards that prevent unauthorized entry. The Clause Chamber is a library of rune-etched cards, stacked to the ceiling in coral shelves, each card a formalized probability that can be read, played, or burned.',
+      proprietor: 'Deck-Burners',
+      notableFeatures: [
+        'The Probability-Index: a complete taxonomy of every possible outcome the Deck-Burners have calculated — filling seventeen coral shelves',
+        'The Burning-Altar: a coral brazier where Deck-Burners destroy cards to force the universe to choose between chaos and order'
+      ]
+    }
+  ],
+  connectedMaps: [],
+  factionPresence: [
+    { factionId: 'merrowport-house', influence: 'dominant', description: 'The Gambit order\'s headquarters — Harbor-Master Merr-Cael governs the Deep-Quarter' },
+    { factionId: 'house-mereval', influence: 'moderate', description: 'Maintain a customs office at the Deep-Quarter\'s water-level entrance collecting gambling taxes' },
+    { factionId: 'tide-choir', influence: 'minor', description: 'Minstrels of the Tide-Choir perform in the Luck Hall for coin and rumors' }
+  ],
+  travelConnections: [
+    { destinationId: 'spindrift-lagoon', distance: '15 miles', travelTime: '3 hours by sea', route: 'The Coral Passage — a Myrathil-maintained underwater route marked by bioluminescent buoys' },
+    { destinationId: 'synod-hold', distance: '40 miles', travelTime: '5 hours by sea', route: 'The open-water route across the Iceheart Sea — dangerous in storm season' }
+  ],
+  classPresence: ['gambit', 'minstrel', 'warden'],
+  npcs: ['merr-cael', 'jax', 'lyra']
 };
 
 const getDeepLocation = (locationId) => DEEP_LOCATIONS[locationId] || null;
@@ -1022,5 +1280,15 @@ const getEnrichedZone = (zoneId) => {
 const getEnrichedZonesByRegion = (regionId) =>
   ZONE_DATA.filter((z) => z.regionId === regionId).map((z) => getEnrichedZone(z.id));
 
-export { DEEP_LOCATIONS, getDeepLocation, getEnrichedZone, getEnrichedZonesByRegion };
+const LEGACY_SITES = {
+  bladedancer: { site: "The Old Dance-Floor", region: "frostwood-reach", parentLocation: "mirror-mere", note: "A mossed-over ironwood platform in the deep Frostwood where the kinetic forms were once drilled; a pilgrimage site for purist Shapers who practice single-tradition momentum work." },
+  deathcaller: { site: "The Veil-Speaker Shrine", region: "bryngloom-forest", parentLocation: "over-shanty", note: "A deep peat-bog shrine marking where Kora first fed the ancestral lights; Revenants of the blood-covenant inclination still make offerings here before major workings." },
+  dreadnaught: { site: "The Old Foundry", region: "cragjaw-peaks", parentLocation: "gearworks-gulch", note: "The foundry beneath Frostmaw that still stamps the Dreadnaught sigil (a pipe-crossed fist) onto Ironclad plate as a maker-mark, the only surviving public acknowledgment of the original tradition." },
+  exorcist: { site: "The Cleansing Chapels", region: "bryngloom-forest", parentLocation: "aran-glen", note: "The mid-Bryngloom chapels where Exorcist rites were codified; they now serve as Inquisitor chapterhouses, the old purification fonts still in daily use." },
+  covenbane: { site: "The Covenbane Stronghold", region: "bryngloom-forest", parentLocation: "over-shanty", note: "The eastern Bryngloom stronghold that is now the regional Inquisitor seat; its hanging-cages, once for bound witches awaiting trial, are preserved as grim heritage." },
+  formbender: { site: "The Calcifying Vats", region: "cragjaw-peaks", parentLocation: "gearworks-gulch", note: "The Frostmaw vats re-purposed from the old Deep Alchemist heritage, where Formbender techniques are still taught in isolation to Shaper initiates before they learn the momentum dance." },
+  lichborne: { site: "Vesper's Basalt-Phylactery", region: "bryngloom-forest", parentLocation: "aran-glen", note: "The founder's own basalt stone, enshrined in the Cold Hearth, still pulsing once per hour; Revenants of the frost-stasis inclination touch it before long operations." }
+};
+
+export { DEEP_LOCATIONS, LEGACY_SITES, getDeepLocation, getEnrichedZone, getEnrichedZonesByRegion };
 export default DEEP_LOCATIONS;

@@ -89,6 +89,7 @@ const WorldMapImmerse = ({ onClose, onClosing }) => {
   const [selectedPinType, setSelectedPinType] = useState('fortress');
   const [selectedZoneId, setSelectedZoneId] = useState('');
   const [cursorPos, setCursorPos] = useState(null);
+  const [selectedDevPinId, setSelectedDevPinId] = useState(null);
 
   // Campaign & custom pin connection state
   const [currentCampaign, setCurrentCampaign] = useState(null);
@@ -284,6 +285,11 @@ const WorldMapImmerse = ({ onClose, onClosing }) => {
 
     // Dev drawing/pin logic
     if (devMode) {
+      if (devTool === 'movePin') {
+        // Clicking empty map space in Move mode deselects the current pin.
+        setSelectedDevPinId(null);
+        return;
+      }
       if (devTool === 'drawRegion') {
         if (!currentRegion) {
           notify('Please select a Region in the dropdown toolbar first to start drawing boundaries.', 'warning');
@@ -449,6 +455,42 @@ const WorldMapImmerse = ({ onClose, onClosing }) => {
     setSelectedLocationId(null);
   }, []);
 
+  // ── Dev Move tool: arrow-key nudging of the selected pin ──
+  useEffect(() => {
+    if (!devMode || devTool !== 'movePin' || !selectedDevPinId) return;
+
+    const handleKeyDown = (e) => {
+      const key = e.key;
+      if (!['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(key)) return;
+      // Don't hijack arrows while editing a text/number input.
+      const tag = ((document.activeElement && document.activeElement.tagName) || '').toLowerCase();
+      if (tag === 'input' || tag === 'textarea') return;
+
+      e.preventDefault();
+      const step = e.shiftKey ? 10 : 1;
+      const coord = LOCATION_COORDINATES[selectedDevPinId];
+      if (!coord) return;
+
+      if (key === 'ArrowUp')    coord.y = Math.max(0, coord.y - step);
+      if (key === 'ArrowDown')  coord.y = Math.min(MAP_HEIGHT, coord.y + step);
+      if (key === 'ArrowLeft')  coord.x = Math.max(0, coord.x - step);
+      if (key === 'ArrowRight') coord.x = Math.min(MAP_WIDTH, coord.x + step);
+
+      saveCoordsToCache();
+      setUpdateTrigger((prev) => prev + 1);
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [devMode, devTool, selectedDevPinId]);
+
+  // Clear dev selection when leaving dev mode or the move tool.
+  useEffect(() => {
+    if (!devMode || devTool !== 'movePin') {
+      setSelectedDevPinId(null);
+    }
+  }, [devMode, devTool]);
+
   // === Overlap Click Resolution logic ===
   const handleResolveClick = useCallback((x, y, fallbackItem) => {
     const hits = [];
@@ -463,6 +505,8 @@ const WorldMapImmerse = ({ onClose, onClosing }) => {
             id: zoneId,
             title: zone.name,
             type: 'devPin',
+            pinType: coord.pinType,
+            regionId: zone.regionId,
             action: () => {
               setSelectedRegionId(zone.regionId);
               setSelectedLocationId(zoneId);
@@ -481,6 +525,8 @@ const WorldMapImmerse = ({ onClose, onClosing }) => {
           id: pin.id,
           title: pin.title,
           type: 'playerPin',
+          pinType: pin.pinType,
+          regionId: pin.regionId,
           action: () => {
             setSelectedAnnotation(pin);
             setShowAnnotationPopup(true);
@@ -511,6 +557,7 @@ const WorldMapImmerse = ({ onClose, onClosing }) => {
           id: region.id,
           title: region.name,
           type: 'region',
+          regionId: region.id,
           action: () => {
             setSelectedRegionId(region.id);
             setSelectedLocationId(null);
@@ -661,6 +708,8 @@ const WorldMapImmerse = ({ onClose, onClosing }) => {
           setShowAnnotationPopup(true);
         }}
         activeShare={activeShare}
+        selectedDevPinId={selectedDevPinId}
+        onSelectForMove={setSelectedDevPinId}
       />
 
       {/* Floating Toolbar Gated by Subscription Tier */}
@@ -792,6 +841,9 @@ const WorldMapImmerse = ({ onClose, onClosing }) => {
           setUpdateTrigger(prev => prev + 1);
         }}
         showConfirm={showConfirm}
+        selectedDevPinId={selectedDevPinId}
+        setSelectedDevPinId={setSelectedDevPinId}
+        updateTrigger={updateTrigger}
       />
 
       {customConfirm.isOpen && (

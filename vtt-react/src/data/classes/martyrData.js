@@ -24,6 +24,79 @@ export const MARTYR_DATA = {
       "justification": "Requires a theological framework for willing suffering. Solvarn have the sun-vigil. Korr have the Vault-Breath. Velun Neth have contract-martyrdom. Skald have the Hunger Pact — ancestral starvation channeled into combat fury, and the Ironclad specialization formalizes what the Skald have always done: use their own body as a weapon that gets stronger the more it is broken. Other cultures are too survival-pragmatic to embrace suffering as power."
   },
 
+  /**
+   * Subrace Variants — every Martyr absorbs suffering into their own body, but the
+   * *theology* of that absorption differs. To the Solvarn it is prayer. To the Korr it
+   * is vigil. To the Velun Neth it is contract-fulfillment. To the Skald it is the Ironclad
+   * path — the body as a furnace-weapon, the Dreadnaught tradition reborn.
+   */
+  subraceVariants: {
+    solvarn_human: {
+      subraceName: 'Solvarn',
+      title: 'The Sun-Vigil',
+      reframe: `This is <LoreLink termId="sera">Sera Solvan</LoreLink>'s original tradition. To the <LoreLink termId="house_solvan">Solvarn</LoreLink>, every wound willingly absorbed is a small death in imitation of <LoreLink termId="the_deepening">Sol's entombment</LoreLink> — suffering as prayer, the Martyr's body a living tomb-mass. A Solvarn Martyr does not protect the party by standing in front of it; they protect it by *re-enacting the founding sacrifice*, over and over, until the Devotion Gauge glows like a buried star.`,
+      signatureAbility: {
+        name: 'Solar-Imitation',
+        description: `Devotion-generation is amplified when the Martyr absorbs damage that would have struck a *specifically named* ally — the Solvarn must name who they are dying for, mirroring Sera naming her child. Generalized protection generates less Devotion than the deliberate, named sacrifice.`
+      },
+      currentCrisisAngle: `The conscription crisis cuts deepest among the Solvarn: the noble houses have learned that "recruiting" Martyrs through child-training produces cadres that fight three times as long. The Solvarn Martyrs are watching their sacred prayer industrialized into a strategic resource, and the veterans cannot decide whether to be honored or horrified that the houses finally found a use for their grief.`,
+      signatureQuote: {
+        text: '"I carved my son\'s name into my arm so the world would not forget him. Now the houses carve other children\'s names into other arms, and call it muster. My prayer has become a draft-notice."',
+        speaker: 'Sera Solvan',
+        context: 'The founder, confronting the first conscripted cadre'
+      }
+    },
+
+    korr_emberth: {
+      subraceName: 'Korr Emberth',
+      title: 'The Vault-Silent',
+      reframe: `The <LoreLink termId="emberth">Korr Emberth</LoreLink> tend the <LoreLink termId="solbrand">Solbrand</LoreLink> in the deep vaults in sacred, wordless silence — and a Martyr among them frames every absorbed wound as another minute of that vigil. To a Korr Martyr, suffering is not prayer; it is *keeping watch*. Every hit absorbed is another second the buried star's tomb remains tended. The <LoreLink termId="vault_breath">Vault-Breath</LoreLink> is the template.`,
+      signatureAbility: {
+        name: 'Vigil-Absorption',
+        description: `Devotion-generation is amplified by absolute physical stillness — a Korr Martyr who absorbs damage without flinching, without moving, generates more Devotion than one who reacts. The tradition borrows directly from the Vault-Breath meditative state.`
+      },
+      currentCrisisAngle: `The Solbrand is faltering — the buried star's warmth dims year by year — and the Korr Martyrs read the conscription crisis as a *distraction from the vigil*. Every hour spent absorbing a party's wounds is an hour not spent tending the Solbrand. The Korr are being pulled between two duties, and the older they get, the more they suspect the noble houses engineered the conscription specifically to pull them from the vault.`,
+      signatureQuote: {
+        text: '"I kept silence in the deep for sixty years and called it holy. Now I keep silence in your battle-line and call it overtime. The star does not know the difference. I do."',
+        speaker: 'Keeper of the Quiet Kor-Vesh',
+        context: 'A Korr Martyr, the first of his order conscripted into a field cadre'
+      }
+    },
+
+    velun_neth: {
+      subraceName: 'Velun Neth',
+      title: 'The Contract-Martyr',
+      reframe: `The <LoreLink termId="neth">Velun Neth</LoreLink> cannot lie and cannot breach a contract — and a Martyr among them sacrifices per *explicit contract terms*, the suffering legally binding and the protection it generates a delivered obligation. A Velun Neth Martyr does not suffer out of love or faith; they suffer because the contract *requires* it, and the Devotion Gauge is, to them, a ledger of fulfilled clauses.`,
+      signatureAbility: {
+        name: 'Covenant-Absorption',
+        description: `Devotion-generation requires a *prior written covenant* naming the protected party and the terms of sacrifice; the Martyr cannot protect strangers, only contracted allies. In return, the protection is absolute — the Keeper enforces the transfer. No waste, no ambiguity, no mercy.`
+      },
+      currentCrisisAngle: `The conscription crisis is, to the Velun Neth, not a moral horror but a *jurisdictional dispute*. The noble houses are drafting Martyrs without proper Velun oversight, and the resulting cadres operate under contracts the Neth never co-signed. The Velun consider this not exploitation but *counterfeiting* — unauthorized parties issuing obligations in the Keeper's name — and the legal ramifications may be worse than the human cost.`,
+      signatureQuote: {
+        text: '"I suffer because I agreed to suffer, in writing, with witnesses, at a fair rate of exchange. What you call martyrdom I call a satisfied clause. Do not sentimentalize my contract."',
+        speaker: 'Covenant-Martyr Vel-Ossar',
+        context: 'A Velun Neth Martyr, rejecting a Solvarn priest\'s blessing'
+      }
+    },
+
+    skald_human: {
+      subraceName: 'Skald',
+      title: 'The Ironclad',
+      reframe: `This is the <LoreLink termId="dreadnaught">Dreadnaught</LoreLink> tradition reborn — the furnace-armor juggernauts of the Cragjaw, absorbed into the Martyr path. The <LoreLink termId="skald">Skald</LoreLink> Ironclad does not absorb suffering as prayer or vigil; they absorb it as *fuel*, sealing themselves in riveted iron plate threaded with heating-pipes, converting incoming damage into combustion pressure. The Hunger Pact meets the furnace: the body as a weapon that gets stronger the more it is broken.`,
+      signatureAbility: {
+        name: 'Furnace-Conversion',
+        description: `Devotion is tracked as *boiler-pressure* in the Martyr's furnace-armor; incoming damage heats the boiler rather than wounding the flesh directly, and vented pressure drives devastating counter-strikes. The Ironclad is the only Martyr variant that converts absorbed suffering into *offensive* output.`
+      },
+      currentCrisisAngle: `The Skald Ironclads are the variant the noble houses want most — a Martyr that fights back — and the conscription has hit them hardest. Worse, the furnace-pipes rely on Cragjaw geothermal design, and the Steam-Line Cartel has begun *licensing* Ironclad production to the houses, turning a sacred adaptation into a manufactured asset. The original Ironclads consider this a desecration; the houses consider it procurement.`,
+      signatureQuote: {
+        text: '"They put the furnace in my chest so I would burn for them. They did not expect me to aim it. Everything you hit me with comes back hotter. Stand clear."',
+        speaker: 'Ironclad Torra Furnace-Born',
+        context: 'A Skald Martyr, the first to vent boiler-pressure in a counter-strike'
+      }
+    }
+  },
+
+
   id : "martyr",
   name: "Martyr",
   icon: "fas fa-cross",
@@ -31,6 +104,27 @@ export const MARTYR_DATA = {
   damageTypes: ["ember"],
 
   // Overview section
+  livingOrder: {
+    orderName: 'The Covenant of the Scar',
+    founder: {
+      name: '<LoreLink termId="sera">Sera Solvan</LoreLink>',
+      status: `Dead — eight centuries. She carved her sacrificed child's name into her forearm with volcanic obsidian, the wound healed into a glowing solar scar, and she became the first Martyr. Her scarred forearm is preserved beneath <LoreLink termId="emberspire">Emberspire</LoreLink>, still faintly warm.`,
+      note: `<LoreLink termId="sera">Sera</LoreLink>'s covenant was personal — a mother's refusal to let her child be forgotten. The noble houses have spent two centuries turning that personal grief into an industrial resource. Sera would not recognize what her prayer has become.`
+    },
+    currentLeader: {
+      name: '<LoreLink termId="sol-kaessen">Vigil-Mother Sol-Kaessen</LoreLink>',
+      title: 'Keeper of the First Scar',
+      characterization: `A Solvarn woman who has absorbed so much suffering that she glows faintly in the dark — the Devotion Gauge made visible. She is the Covenant's moral center and its greatest hypocrisy: she genuinely believes in the willing sacrifice, and she has presided over the noble houses' conscription program without intervening, because the conscripted Martyrs keep the people of <LoreLink termId="sundale">Sundale</LoreLink> alive. She has not decided whether she is a saint or a collaborator.`
+    },
+    headquarters: { name: 'The Scar-Shrine, beneath Emberspire', locationId: 'emberspire' },
+    crisisConnection: `<LoreLink termId="sol-kaessen">Sol-Kaessen</LoreLink> is being crushed between the Covenant's founding principle (willing sacrifice) and the houses' practice (conscripted child-training). The conscripted Martyrs heal less cleanly, and several have begun *absorbing without consent* — pulling suffering from allies who did not offer it, the Devotion Gauge corrupting into something predatory. <LoreLink termId="sol-kaessen">Sol-Kaessen</LoreLink> suspects the houses know and consider it a feature. She is one quiet order away from open schism with Sundale's theocracy.`
+  },
+
+  worldFriction: [
+    { region: 'sundale', status: 'celebrated-and-conscripted', consequence: 'The noble houses draft Martyrs as strategic resources; a Martyr cadre extends a battalion fight-duration threefold. Celebrated in public procession, a Sundale Martyr is in practice a conscript — refusal of "muster" is treated as desertion. The Vow-corruption (predatory absorption) is officially denied.', workaround: 'A Martyr who refuses the formal Vow but still absorbs covertly can operate as a "freelance" — legally ambiguous, but the houses cannot conscript what they cannot document.' },
+    { region: 'bryngloom-forest', status: 'distrusted', consequence: 'The Neth read the Devotion Gauge as an unfiled transfer of suffering — a Martyr in Atropolis who absorbs an ally wound without a prior covenant is in technical breach of contract-law. The Velun tolerate only their own Contract-Martyr variant.' }
+  ],
+
   overview: {
     originStory: `The Solvarn mother Sera refused to let her sacrificed child's name be erased by the noble houses' history-purge. She carved the name directly into her forearm with volcanic obsidian, swearing to bear the pain of the entire badlands to keep the memory alive.
 

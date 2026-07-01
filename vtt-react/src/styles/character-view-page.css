@@ -9,163 +9,189 @@
 }
 
 /* Header - Same rustic red as spellcard wizard headers */
+/* Compact Page Header */
 .character-view-header {
-  background: linear-gradient(135deg, #5a1e12 0%, #8B4513 50%, #2d1810 100%);
-  border-bottom: 3px solid #3a1e12;
-  padding: 20px 40px;
+  background: linear-gradient(135deg, #2d1810 0%, #452418 50%, #1a0f0a 100%);
+  border-bottom: 2px solid #5c4033;
+  padding: 8px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+}
+
+.header-top-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 30px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  width: 100%;
+  position: relative;
 }
 
-.back-button {
-  background: rgba(240, 234, 214, 0.15);
-  border: 1px solid rgba(240, 234, 214, 0.3);
-  color: #f0ead6;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
+.header-left-col {
   display: flex;
   align-items: center;
-  gap: 8px;
-  transition: all 0.2s ease;
+  gap: 12px;
+  flex: 1 1 30%;
+  justify-content: flex-start;
 }
 
-.back-button:hover {
-  background: rgba(240, 234, 214, 0.25);
-  border-color: rgba(240, 234, 214, 0.5);
-  transform: translateX(-2px);
-}
-
-.back-button i {
-  font-size: 12px;
-}
-
-.character-view-title {
-  flex: 1;
+.header-center-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex: 1 1 40%;
   text-align: center;
 }
 
-.character-view-title h1 {
-  margin: 0;
-  font-size: 32px;
-  color: #f0ead6;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5), 0 0 8px rgba(0, 0, 0, 0.3);
-  font-family: 'Cinzel', serif;
-}
-
-.character-view-subtitle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin-top: 10px;
-  font-size: 15px;
-  color: #d5cbb0;
-}
-
-.character-view-subtitle span {
-  padding: 6px 14px;
-  background: rgba(240, 234, 214, 0.1);
-  border: 1px solid rgba(240, 234, 214, 0.2);
-  border-radius: 4px;
-  font-family: 'Cinzel', serif;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  transition: all 0.2s ease;
-}
-
-.character-view-subtitle span:hover {
-  background: rgba(240, 234, 214, 0.2);
-  transform: translateY(-1px);
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
-}
-
-.character-level {
-  color: #ffe680;
-  font-weight: bold;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6), 0 0 10px rgba(255, 215, 0, 0.5);
-}
-
-.character-class {
-  color: #87ceeb;
-  text-shadow: 0 0 8px rgba(135, 206, 235, 0.3);
-}
-
-.character-race {
-  color: #98fb98;
-  text-shadow: 0 0 8px rgba(152, 251, 152, 0.3);
-}
-
-.character-background {
-  color: #dda0dd;
-  text-shadow: 0 0 8px rgba(221, 160, 221, 0.3);
-}
-
-.character-alignment {
-  color: #f0e68c;
-  text-shadow: 0 0 8px rgba(240, 230, 140, 0.3);
-}
-
-.character-exhaustion {
-  color: #ff6b6b;
-  font-weight: bold;
-  text-shadow: 0 0 8px rgba(255, 107, 107, 0.4);
-  animation: pulse-exhaustion 2s ease-in-out infinite;
-}
-
-@keyframes pulse-exhaustion {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.7;
-  }
-}
-
-.character-view-resources {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  margin-left: auto;
-}
-
-.resource-display {
+.header-right-col {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 0;
-  background: transparent;
-  border: none;
-  font-size: 15px;
-  font-weight: 600;
-  font-family: 'Cinzel', serif;
-  letter-spacing: 0.5px;
-  box-shadow: none;
+  flex: 1 1 30%;
+  justify-content: flex-end;
+}
+
+.back-button-compact {
+  background: rgba(240, 234, 214, 0.1);
+  border: 1px solid rgba(240, 234, 214, 0.2);
+  color: #f0ead6;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
   transition: all 0.2s ease;
+  padding: 0;
 }
 
-.resource-display.health {
+.back-button-compact:hover {
+  background: rgba(240, 234, 214, 0.2);
+  transform: scale(1.05);
+}
+
+.character-header-name {
+  margin: 0;
+  font-size: 24px;
+  color: #f0ead6;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6), 0 0 5px rgba(240, 234, 214, 0.3);
+  letter-spacing: 0.5px;
+}
+
+.character-header-badge-group {
+  display: flex;
+  gap: 4px;
+}
+
+.header-badge {
+  padding: 2px 6px;
+  background: rgba(240, 234, 214, 0.08);
+  border: 1px solid rgba(240, 234, 214, 0.15);
+  border-radius: 4px;
+  font-size: 11px;
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  color: #d5cbb0;
+}
+
+.header-badge.level {
+  color: #ffe680;
+  border-color: rgba(255, 230, 128, 0.3);
+}
+
+.header-badge.class {
+  color: #87ceeb;
+  border-color: rgba(135, 206, 235, 0.3);
+}
+
+.header-badge.race {
+  color: #98fb98;
+  border-color: rgba(152, 251, 152, 0.3);
+}
+
+.header-badge.background {
+  color: #dda0dd;
+  border-color: rgba(221, 160, 221, 0.3);
+}
+
+.header-badge.alignment {
+  color: #f0e68c;
+  border-color: rgba(240, 230, 140, 0.3);
+}
+
+.header-badge.exhaustion {
   color: #ff6b6b;
-  text-shadow: 0 0 8px rgba(255, 107, 107, 0.4);
+  border-color: rgba(255, 107, 107, 0.3);
 }
 
-.resource-display.mana {
-  color: #4dabf7;
-  text-shadow: 0 0 8px rgba(77, 171, 247, 0.3);
+/* Left and right groups replaced by left-col, center-col, and right-col */
+
+/* Resources row containing HP, Mana, AP counters */
+.header-resources-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
 }
 
-.resource-display.action-points {
-  color: #ffd43b;
-  text-shadow: 0 0 8px rgba(255, 212, 59, 0.4);
+.header-resource-counter {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 3px 8px;
+  border-radius: 12px;
+  border: 1px solid rgba(139, 115, 85, 0.3);
 }
 
-.resource-display i {
-  font-size: 16px;
+.header-resource-counter i {
+  font-size: 12px;
+}
+
+.header-resource-counter.health i { color: #ff6b6b; }
+.header-resource-counter.mana i { color: #4dabf7; }
+.header-resource-counter.action-points i { color: #ffd43b; }
+
+.resource-counter-value {
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+  min-width: 60px;
+  text-align: center;
+}
+
+.resource-adjust-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(139, 115, 85, 0.4);
+  color: #f0ead6;
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 0;
+  transition: all 0.15s ease;
+}
+
+.resource-adjust-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(139, 115, 85, 0.6);
+}
+
+.resource-adjust-btn:active {
+  transform: scale(0.9);
 }
 
 /* Tab Navigation */
@@ -1391,9 +1417,17 @@
   background-image: none !important;
 }
 
-/* Remove occupied cell brownish tint */
-.character-view-content .inventory-cell.occupied {
-  background: transparent !important;
+/* Keep slot color under occupied cells */
+.character-view-content .inventory-cell.occupied.normal {
+  background: linear-gradient(135deg, #e8f5e8 0%, #d4e8d4 100%) !important;
+}
+
+.character-view-content .inventory-cell.occupied.encumbered {
+  background: linear-gradient(135deg, #f5f0d4 0%, #e8dcc0 100%) !important;
+}
+
+.character-view-content .inventory-cell.occupied.overencumbered {
+  background: linear-gradient(135deg, #f0e0d4 0%, #e8d0c0 100%) !important;
 }
 
 .character-view-content .item-icon {
@@ -1491,33 +1525,59 @@
 @media (max-width: 768px) {
   .character-view-header {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 10px 15px !important;
+    gap: 8px !important;
   }
 
   .character-view-title {
-    text-align: left;
+    text-align: center !important;
+    width: 100%;
+  }
+
+  .character-view-title h1 {
+    font-size: 20px !important;
+    margin-bottom: 4px;
   }
 
   .character-view-subtitle {
-    flex-wrap: wrap;
-    justify-content: flex-start;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    margin-top: 4px !important;
+  }
+
+  .character-view-subtitle span {
+    padding: 3px 8px !important;
+    font-size: 11px !important;
+    border-radius: 4px !important;
   }
 
   .character-view-resources {
-    margin-left: 0;
-    width: 100%;
-    margin-top: 8px;
+    display: flex !important;
+    justify-content: center !important;
+    gap: 12px !important;
+    margin-top: 6px !important;
+    width: 100% !important;
+  }
+
+  .resource-display {
+    font-size: 12px !important;
   }
 
   .character-view-tabs {
     overflow-x: auto;
-    padding: 0 20px;
+    padding: 0 10px;
+    justify-content: flex-start;
   }
 
   .character-view-tab {
-    padding: 12px 20px;
-    font-size: 14px;
+    padding: 8px 12px;
+    font-size: 13px;
+    white-space: nowrap;
   }
 
   /* Removed padding - let content manage its own spacing */
@@ -1526,4 +1586,16 @@
     padding: 0;
   }
 }
+
+/* Constrain lore book height in desktop view to make it look like a real tome on the desk */
+@media screen and (min-width: 991px) {
+  .character-view-content .lore-book-wrapper {
+    height: 720px !important;
+    max-height: calc(100vh - 180px);
+    margin: 20px auto;
+    border-radius: 12px;
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.5);
+  }
+}
+
 

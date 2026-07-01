@@ -33,7 +33,8 @@ const CharacterViewPage = () => {
     lore,
     background,
     alignment,
-    exhaustionLevel
+    exhaustionLevel,
+    updateResource
   } = useCharacterStore();
 
   // Load character data on mount
@@ -149,38 +150,63 @@ const CharacterViewPage = () => {
 
   const subraceDisplayName = getSubraceDisplayName();
 
+  const healthPct = health?.max ? Math.min(100, Math.max(0, (health.current / health.max) * 100)) : 0;
+  const manaPct = mana?.max ? Math.min(100, Math.max(0, (mana.current / mana.max) * 100)) : 0;
+  const apPct = actionPoints?.max ? Math.min(100, Math.max(0, (actionPoints.current / actionPoints.max) * 100)) : 0;
+
   return (
     <div className="character-view-page">
       {/* Header */}
       <header className="character-view-header">
-        <button onClick={handleBack} className="back-button">
-          <i className="fas fa-arrow-left"></i>
-          Back
-        </button>
+        <div className="header-top-row">
+          <div className="header-left-col">
+            <button onClick={handleBack} className="back-button-compact" title="Back to Account">
+              <i className="fas fa-arrow-left"></i>
+            </button>
+            <span className="header-badge race">{subraceDisplayName || race}</span>
+          </div>
 
-        <div className="character-view-title">
-          <h1>{name}</h1>
-          <div className="character-view-subtitle">
-            <span className="character-level">Level {level}</span>
-            <span className="character-class">{characterClass}</span>
-            <span className="character-race">{subraceDisplayName || race}</span>
-            {background && <span className="character-background">{background}</span>}
-            {alignment && <span className="character-alignment">{alignment}</span>}
-            {exhaustionLevel > 0 && <span className="character-exhaustion">Exhaustion {exhaustionLevel}</span>}
-            <div className="character-view-resources">
-              <div className="resource-display health">
-                <i className="fas fa-heart"></i>
-                <span>{health?.current || 0} / {health?.max || 0}</span>
-              </div>
-              <div className="resource-display mana">
-                <i className="fas fa-flask"></i>
-                <span>{mana?.current || 0} / {mana?.max || 0}</span>
-              </div>
-              <div className="resource-display action-points">
-                <i className="fas fa-bolt"></i>
-                <span>{actionPoints?.current || 0} / {actionPoints?.max || 0}</span>
-              </div>
+          <div className="header-center-col">
+            <h1 className="character-header-name">{name}</h1>
+            <div className="character-header-badge-group">
+              <span className="header-badge level">Lvl {level}</span>
+              <span className="header-badge class">{characterClass}</span>
             </div>
+          </div>
+
+          <div className="header-right-col">
+            {background && <span className="header-badge background">{background}</span>}
+            {alignment && <span className="header-badge alignment">{alignment}</span>}
+            {exhaustionLevel > 0 && <span className="header-badge exhaustion">Exh {exhaustionLevel}</span>}
+          </div>
+        </div>
+
+        <div className="header-resources-row">
+          <div className="header-resource-counter health" style={{
+            background: `linear-gradient(90deg, rgba(255, 107, 107, 0.25) 0%, rgba(255, 107, 107, 0.25) ${healthPct}%, rgba(0, 0, 0, 0.4) ${healthPct}%)`
+          }}>
+            <i className="fas fa-heart"></i>
+            <button className="resource-adjust-btn" onClick={() => updateResource('health', Math.max(0, (health?.current || 0) - 1), health?.max || 1)}>−</button>
+            <span className="resource-counter-value">{health?.current || 0} / {health?.max || 0}</span>
+            <button className="resource-adjust-btn" onClick={() => updateResource('health', Math.min(health?.max || 100, (health?.current || 0) + 1), health?.max || 1)}>+</button>
+          </div>
+
+          <div className="header-resource-counter mana" style={{
+            background: `linear-gradient(90deg, rgba(77, 171, 247, 0.25) 0%, rgba(77, 171, 247, 0.25) ${manaPct}%, rgba(0, 0, 0, 0.4) ${manaPct}%)`
+          }}>
+            <i className="fas fa-flask"></i>
+            <button className="resource-adjust-btn" onClick={() => updateResource('mana', Math.max(0, (mana?.current || 0) - 1), mana?.max || 1)}>−</button>
+            <span className="resource-counter-value">{mana?.current || 0} / {mana?.max || 0}</span>
+            <button className="resource-adjust-btn" onClick={() => updateResource('mana', Math.min(mana?.max || 100, (mana?.current || 0) + 1), mana?.max || 1)}>+</button>
+          </div>
+
+          <div className="header-resource-counter action-points" style={{
+            background: `linear-gradient(90deg, rgba(255, 212, 59, 0.25) 0%, rgba(255, 212, 59, 0.25) ${apPct}%, rgba(0, 0, 0, 0.4) ${apPct}%)`
+          }}>
+            <i className="fas fa-bolt"></i>
+            <button className="resource-adjust-btn" onClick={() => updateResource('actionPoints', Math.max(0, (actionPoints?.current || 0) - 1), actionPoints?.max || 1)}>−</button>
+            <span className="resource-counter-value">{actionPoints?.current || 0} / {actionPoints?.max || 0}</span>
+            <button className="resource-adjust-btn" onClick={() => updateResource('actionPoints', Math.min(actionPoints?.max || 10, (actionPoints?.current || 0) + 1), actionPoints?.max || 1)}>+</button>
           </div>
         </div>
       </header>

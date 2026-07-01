@@ -8,7 +8,9 @@
 export const ARCANONEER_DATA = {
   restrictions: {
       "allowedSubraces": [
-          "velun_neth"
+          "velun_neth",
+          "kessen_neth",
+          "drun_neth"
       ],
       "hardBlocks": [
           "human",
@@ -24,6 +26,59 @@ export const ARCANONEER_DATA = {
       ],
       "narrativeUnlock": false,
       "justification": "Requires inability to lie (Neth-specific biological/legal trait). Contract-magic syntax requires Neth neurology. Non-Neth would breach First Contract terms causing soul-fading."
+  },
+
+  /**
+   * Subrace Variants — the Arcanoneer is Neth-exclusive by biology and law. The single
+   * Velun Neth entry exists not for variety but to articulate, in-world, WHY no other
+   * race can practice this tradition: the inability to lie is the engine, not a cost.
+   */
+  subraceVariants: {
+    velun_neth: {
+      subraceName: 'Velun Neth',
+      title: 'The Contract-Caster',
+      reframe: `Every Arcanoneer incantation is a legally-binding document — offer, consideration, consequence — and only a being that *cannot breach a contract* can utter one without the magic recoiling into soul-fading. <LoreLink termId="valerius">Valerius</LoreLink> did not invent the Velun Neth's inability to lie; he weaponized it. The silver blood and stilled breath that mark the Neth are not side-effects of the magic — they are its prerequisite. To an Arcanoneer, a non-Neth attempting this craft is not a student who struggles; they are a litigant who has already defaulted.`,
+      signatureAbility: {
+        name: 'Mnemonic Shard',
+        description: `Silver blood crystallizes into volatile spell-anchors, siphoned through the pig-iron forearm graft. Each shard is a filed clause — a prepared spell held in legal suspension. A misfiled shard cannot be recalled, only detonated, because the contract has already been struck.`
+      },
+      currentCrisisAngle: `The Canopy-Ledger fracture is an existential threat specifically *because* only the Velun Neth practice this art. If the senior Arcanoneers of <LoreLink termId="atropolis">Atropolis</LoreLink> cannot agree on the Velun Contingency Protocol, and half the Ledger dissolves its oaths, the Velun Neth who *filed* those oaths may legally cease to exist — the Keeper does not distinguish between a caster and their filings.`,
+      signatureQuote: {
+        text: '"Every word I speak is evidence. Every spell I cast is a conviction. Do not ask me to improvise — I am not permitted to lie, and a lie is what improvisation would require."',
+        speaker: 'Valerius',
+        context: 'The founder, refusing a request to "try something untested" during the first contract-war'
+      }
+    },
+    kessen_neth: {
+      subraceName: 'Kessen Neth',
+      title: 'The Clause-Weaver',
+      reframe: `The Kessen Neth carry the pact's sight — they perceive the obligation-web that connects every living thing to every contract ever struck. For <LoreLink termId="valerius">Valerius</LoreLink>'s tradition, this is not an enhancement — it is a different method entirely. Where the Velun Arcanoneer files a clause and trusts the Keeper to enforce it, the Kessen sees the exact thread of obligation and *tugs*. Their Mnemonic Shards are not filed — they are woven, anchored not to the First Contract but to the web of lesser agreements that surrounds every Neth transaction. A Kessen Arcanoneer's silver blood crystallizes into threads rather than shards, and each cast reweaves a small piece of the obligation-web to their advantage. The magic is less absolute than the Velun method but more adaptive — a Kessen can alter a spell in-flight by finding a loophole in the local obligation-web.`,
+      signatureAbility: {
+        name: 'Thread-Shard',
+        description: `Silver blood crystallizes into filament-thin threads that latch onto existing obligation-nodes in the surrounding web. Each thread is a leveraged clause — the spell borrows enforcement from a pre-existing contract. A thread that snaps does not detonate harmlessly; it triggers whatever penalty the borrowed contract stipulated.`
+      },
+      currentCrisisAngle: `The Canopy-Ledger fracture is visible to Kessen Arcanoneers in a way it is not to their Velun brethren. They can *see* which threads are fraying, which clauses are being countermanded, and whose signatures are fading from the Ledger. The Kessen have begun withdrawing from the Heart-Vault arbitration sessions not in protest but in fear — the web around Atropolis is tearing faster than any living Kessen has witnessed, and they do not wish to be standing on it when it fails.`,
+      signatureQuote: {
+        text: '"You see ink on parchment. I see lines of force that hold the world together — and I see which ones are about to snap. The arcanoneer who only reads the text is already dead; they just have not filed the paperwork yet."',
+        speaker: 'Kessen Clause-Weaver',
+        context: 'Testimony before the Canopy-Ledger arbitration council, shortly before withdrawing from the proceedings'
+      }
+    },
+    drun_neth: {
+      subraceName: 'Drun Neth',
+      title: 'The Severed-Caster',
+      reframe: `The Drun Neth severed their names from the First Contract through the traumatic fire-ritual of the Severing, rendering themselves magic-resistant, debt-null, and legally non-existent. A Drun Arcanoneer should, by all logic, be an impossibility — the entire tradition is built on the inability to breach a contract, and the Drun have breached *the* contract. And yet a handful exist, carrying the art not as a legal instrument but as scar-tissue. A Drun Arcanoneer's silver blood no longer crystallizes into orderly Mnemonic Shards — it congeals into unstable, heat-brittle fragments that remember the shape of contracts even though their bearer is no longer bound by any. Their magic is erratic, painful, and terrifyingly creative: they cast by *re-enacting* clauses they no longer have the legal standing to file, and the magic answers from muscle-memory rather than contractual obligation. The Canopy-Ledger does not know how to classify them — they are not signatories, they are not oath-breakers, they are simply *unfiled*.`,
+      signatureAbility: {
+        name: 'Scar-Shard',
+        description: `Heat-brittle silver fragments that retain the impression of filed clauses without the legal standing to enforce them. A Scar-Shard detonates on impact with the chaotic force of a contract that has lost its signatory — the magic has nowhere to go and expresses itself as raw, untethered elemental release.`
+      },
+      currentCrisisAngle: `The Canopy-Ledger fracture creates an unexpected opening for the Drun. As half the Ledger dissolves its oaths, those former signatories become Drun-adjacent — legally unbound, debt-null, their Mnemonic Shards going dark. The Drun Arcanoneers of the Deep-Quarter have begun extending offers to these newly-unbound: not to re-sign, but to *Sever properly*, trading one form of legal death for another. The Ledger's leadership has noticed. They do not know whether to prosecute the Drun for poaching or to study their Severing ritual as a contingency plan for the dissolution.`,
+      signatureQuote: {
+        text: '"You want to know how I cast without the First Contract? I do not. I remember how it *felt* to have the Keeper\'s eye on me, and I flinch in the right direction. Every spell I cast is a phantom limb reaching for a contract that no longer has my name on it."',
+        speaker: 'Unnamed Drun Arcanoneer',
+        context: 'Intercepted correspondence, found nailed to the Heart-Vault door'
+      }
+    }
   },
 
   id: "arcanoneer",
@@ -44,6 +99,28 @@ export const ARCANONEER_DATA = {
   ],
 
   // Overview section
+  livingOrder: {
+    orderName: 'The Canopy-Ledger',
+    founder: {
+      name: '<LoreLink termId="valerius">Valerius</LoreLink>',
+      status: `Ascended into the First Contract — neither alive nor dead. His name is now a clause in the Heart-Vault, his pig-iron forearm graft preserved in <LoreLink termId="atropolis">Atropolis</LoreLink> as a relic.`,
+      note: `The Velun archivist who drafted the First Contract and weaponized the Neth inability to lie. He did not invent the magic; he proved it had always been there, waiting for someone who could not lie to speak it.`
+    },
+    currentLeader: {
+      name: '<LoreLink termId="vel-otharen">Ledger-Prime Vel-Otharen</LoreLink>',
+      title: 'Senior Signatory of the Canopy-Ledger',
+      characterization: `The eldest active Arcanoneer, whose body is more Mnemonic Shard than flesh. He has not spoken an unplanned word in thirty years — every sentence pre-filed, every utterance a legal instrument. He believes the Velun Contingency Protocol dispute can be resolved by arbitration. He is almost certainly wrong, and he knows it.`
+    },
+    headquarters: { name: 'The Heart-Vault, Atropolis', locationId: 'atropolis' },
+    crisisConnection: `<LoreLink termId="vel-otharen">Vel-Otharen</LoreLink> chairs the arbitration that cannot resolve the Contingency Protocol: half the Ledger demands magical warfare against the unknown contract-breacher, half demands the Ledger dissolve itself. His own Mnemonic Shards are degrading — clauses he filed decades ago are being rejected by the Keeper — and he suspects, but cannot yet prove, that the breach originates *inside* the Heart-Vault itself.`
+  },
+
+  worldFriction: [
+    { region: 'bryngloom-forest', location: 'atropolis', status: 'celebrated', consequence: 'At Atropolis the Arcanoneer is the legal and magical authority — Senior Signatories sit on the Heart-Vault council and their filed clauses are binding law. An Arcanoneer in good standing can commandeer archive-resources and demand audience with Regent Morrath.' },
+    { region: 'iceheart-sea', location: 'ironjaw_port', status: 'restricted', consequence: 'Away from the Heart-Vault, an Arcanoneer operates at reduced jurisdiction — the Ironjaw Port copy of the First Contract sustains their craft, but Mnemonic Shards filed here carry less enforcement-weight. Hostile foreign magic is harder to annul when the local Keeper-presence is thin.' },
+    { region: 'sundrift-vale', status: 'banned', consequence: 'House Ordavan outlaws written contract-magic across the steppe (the Iron-Yurt Law recognizes only Steppe-Staves and oral bond). An Arcanoneer who files a clause on Ordan soil has it voided — and may be charged with sedition against the Khatun.' }
+  ],
+
   overview: {
     originStory: `In the first drafting of the First Contract with the Keeper of the Last Threshold, the high Neth archivist Valerius sought to capture the raw, volatile magic of the Bryngloom Forest without succumbing to its decay. By structuring incantations as strict legal syntax and balanced clauses, he bypassed the chaotic feedback of traditional spellcasting.
 

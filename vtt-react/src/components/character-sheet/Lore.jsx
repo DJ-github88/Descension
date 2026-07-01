@@ -1013,7 +1013,7 @@ export default function Lore() {
             <div className="lore-book-spread-container">
                 <div className="lore-book-spread">
                     
-                    {/* LEFT PAGE: Split fields list or static Character Portrait fallback */}
+                    {/* LEFT PAGE: Portrait summary or backstory */}
                     <div className="lore-book-page left-page">
                         <div className="page-filigree-border">
                             <div className="page-ornament top-ornament"></div>
@@ -1030,20 +1030,25 @@ export default function Lore() {
                                     renderPortraitSummary()
                                 )}
                             </div>
-                            <div className="page-number-marker">
-                                {activeSection === 'identity' ? (subPage === 0 ? 'Page I' : 'Page III') : 'Page I'}
+                            <div className="page-footer-strip">
+                                {activeSection === 'identity' && subPage === 1 ? (
+                                    <button
+                                        type="button"
+                                        className="book-page-flip-btn prev-page"
+                                        onClick={() => setSubPage(0)}
+                                        title="Go back to Character Identity (Page I)"
+                                    >
+                                        <i className="fas fa-chevron-left"></i>
+                                        <span>Identity Details</span>
+                                    </button>
+                                ) : (
+                                    <span className="page-footer-spacer"></span>
+                                )}
+                                <div className="page-number-marker">
+                                    {activeSection === 'identity' ? (subPage === 0 ? 'Page I' : 'Page III') : 'Page I'}
+                                </div>
+                                <span className="page-footer-spacer"></span>
                             </div>
-                            {activeSection === 'identity' && subPage === 1 && (
-                                <button
-                                    type="button"
-                                    className="book-page-flip-btn prev-page"
-                                    onClick={() => setSubPage(0)}
-                                    title="Go back to Character Identity (Page I)"
-                                >
-                                    <i className="fas fa-chevron-left"></i>
-                                    <span>Identity Details</span>
-                                </button>
-                            )}
                         </div>
                     </div>
 
@@ -1071,24 +1076,30 @@ export default function Lore() {
                                     renderRightFields()
                                 )}
                             </div>
-                            <div className="page-number-marker">
-                                {activeSection === 'identity' ? (subPage === 0 ? 'Page II' : 'Page IV') : 'Page II'}
+                            <div className="page-footer-strip">
+                                <span className="page-footer-spacer"></span>
+                                <div className="page-number-marker">
+                                    {activeSection === 'identity' ? (subPage === 0 ? 'Page II' : 'Page IV') : 'Page II'}
+                                </div>
+                                {activeSection === 'identity' && subPage === 0 ? (
+                                    <button
+                                        type="button"
+                                        className="book-page-flip-btn next-page"
+                                        onClick={() => setSubPage(1)}
+                                        title="Flip to Backstory (Page III)"
+                                    >
+                                        <span>Detailed Backstory</span>
+                                        <i className="fas fa-feather-alt"></i>
+                                    </button>
+                                ) : (
+                                    <span className="page-footer-spacer"></span>
+                                )}
                             </div>
-                            {activeSection === 'identity' && subPage === 0 && (
-                                <button
-                                    type="button"
-                                    className="book-page-flip-btn next-page"
-                                    onClick={() => setSubPage(1)}
-                                    title="Flip to Backstory (Page III)"
-                                >
-                                    <span>Detailed Backstory</span>
-                                    <i className="fas fa-feather-alt"></i>
-                                </button>
-                            )}
                         </div>
                     </div>
                 </div>
             </div>
+
 
             {/* Portrait Customization Appearance Modal */}
             <CharacterAppearanceModal

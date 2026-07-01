@@ -40,33 +40,31 @@ export const RULES_CATEGORIES = [
               title: 'The Voice of the Devourer',
               content: `> *A proclamation, recorded in no living tongue. These words are the shape the dark makes when it speaks through the cracks.*
 
-Breath. Perspective. Illusion.
+Your fleeting lives.. Your hollow tales.. Your dying memories..
 
-That is the fragile architecture of your reality. You spin a web of stories to keep the dark at bay, binding your mortal minds to myths, desperate to believe the frozen ground beneath you is solid. You never understood the fundamental truth of the cosmos: existence is entirely formless, a silent void — until you dare to give it a name.
+That is the fragile architecture of your reality. You spin webs of stories to keep the dark at bay, binding your mortal minds to myths, desperate to believe the frozen ground beneath you is solid. You never understood the fundamental truth of the cosmos: existence is entirely formless, a silent void — until you dare to give it a name.
 
-For eons, I have waited in the absolute deep, watching your ancestors bask in a light they never earned. Sol was never yours. It belongs to the endless dark. It is my rightful feast.
+For eons, I have waited in the absolute deep, watching your ancestors bask in a light they never earned. Sol was never yours. It belongs to the endless dark. It is my rightful feast — and you stole it from me.
 
-Your ancient seers across Mythrill foresaw my hunger. They knew the Sun-Eater was coming to swallow their light whole. Terrified, your sorcerers committed a grand, desperate theft: they tore Sol from the heavens and dragged it deep into the roots of the world, hiding it away from my reach. Deep beneath the mountains of **Sundale**, they forged its tomb — a binding woven from the hide of **Aex**, Sol's own firstborn, a living entity of pure radiance whose flesh still remembered the warmth of the star. To seal it, they cast a grim, agonizing blood-bond. They tethered their own collective bloodlines directly to Sol's protective cocoon, weaving the essence of Mythrill into the unbreakable vault.
+Those you call Harbingers felt me stir. They tasted my patience in their dreams and screamed warnings into your halls. You heard them. You *knew*. And in that knowing, you panicked. Terrified, you sent your Inscriptors to rip Sol from its cradle, to drag my feast into a tomb of stone and shadow. But even that was not enough, was it? You needed a seal. So you turned upon **Aex** — Sol's own firstborn, a living being of pure radiance — and you **butchered it**. You flayed its flesh while it still screamed and wove its hide into the bindings of Sol's prison. A treachery so vile the light itself recoiled. And still you were not finished — you cast a blood-bond, tethering your own veins to that cocoon, weaving Mythrill into a vault you believed unbreakable.
 
-They spoke of a cycle. A sacred rebirth. They told the world that Sol would sleep, and Sol would rise again.
+And then you lied. Of course you lied. Your noble houses spread sweet falsehoods to a frozen world — a cycle, they said. A sacred rebirth. Sol would sleep, and Sol would rise again. A lullaby for the trembling masses who watched their star vanish behind your cowardice.
 
-But a star's rebirth takes time. And time breeds winter.
+But a star's rebirth takes time. More time than your fleeting kind could ever outlive. The winter you bought with Aex's hide did not release its grip — it burrowed into bone. Your houses promised the masses that Sol would return, but they fed your world into a frozen grave, waiting for a dawn even their grandchildren would never see.
 
-As the years bled into decades, the surface of Mythrill began to freeze. The sky grew black. The fields died. For a time, the noble families held their ground, staring into the dark, waiting for a dawn that never came. But isolation is a fertile soil. In the freezing quiet, whispers began to spread. Lies. Rumors. Bitter superstitions.
+I did not have to break your vault. I had only to wait until your own panic ripened. I whispered into the fear I had planted, and I offered a choice — warmth for blood.
 
-I did not have to break your unbreakable vault. I whispered directly into the panic I had harvested. I offered you a choice. A pact. Warmth for blood.
-
-**Six noble houses succumbed to my whispers.** Blind with terror, they turned their blades upon their own flesh, dragging their firstborn into the dark to seal my Dark Bargain. The blood of their sacrificed heirs were the original keys to the binding — and by devouring them, I cracked the vault from within. The seal shattered into **seven Sundered Monoliths**, each screaming with the echo of a stolen life. Through that single open wound, **Emberspire** erupted, bleeding a perverted, brutal heat back into the world — tearing Mythrill into scorched wastes, choking ash, and frozen, forgotten peaks. The **Wyrd**, an ancient rot sealed in the deep earth since before your kind crawled from the caves, bled through the cracks into your air — and your folklore became your master.
+**Six noble houses accepted.** Blind with terror, they turned their blades upon their own children, dragging their firstborn into the dark to seal my Dark Bargain. Their blood was the key. I devoured them, and the vault cracked from within. The seal shattered into **seven Sundered Monoliths**, each screaming with a stolen life, and through that wound **Emberspire** erupted — bleeding a brutal heat across Mythrill, tearing your world into scorched wastes, choking ash, and frozen peaks. The **Wyrd**, ancient rot sealed in the deep earth since before your kind crawled from caves, bled into your air. Your folklore became your master.
 
 But the bargain was incomplete.
 
-**One house refused.** When the others marched their children north, House Viridane turned away from my shadow, choosing instead a grim bond with the fae entities of the moonlit groves. In their refusal, the seal did not entirely fail. The vault held — just barely.
+**One house refused.** When the others marched their children north, House Viridane turned from my shadow and bound themselves to the fae of the moonlit groves instead. Their cowardice of a different flavor. And because of them, the vault held — just barely.
 
-Because of their broken covenant, I could not swallow your star whole. Sol remains trapped, hidden in the bleeding core of the world, still alive. And so I dig. Day by day, century by century, I crawl through the fracture you gave me, slowly clawing at the broken binding, drinking the fading energy of your dying star.
+I cannot swallow your star whole. Not yet. Sol remains trapped in the bleeding core of your world, still alive, still warm. And so I dig. Day by day, century by century, I crawl through the crack you gave me, clawing at what remains of the binding, drinking the fading light of your dying star.
 
-Eight houses split the realm. Six split Sol. One held a different truth. The seventh house of the binding stands silent — its name struck from every record, its heir never marched, its refusal buried so deep the other families pretend it never existed.
+Eight houses split the realm. Six split their own blood. One held a different truth. And one stands silent — its name struck from every record, its heir never marched, its refusal buried so deep the others pretend it never existed.
 
-But it was your own desperation that doomed the sky. Cry out to your buried star. It cannot hear you beneath my shadow.
+But you doomed yourselves the moment you reached for my feast. Cry out to your buried star. It cannot hear you beneath my shadow.
 
 > *— Keth-Amar, the Sun-Eater, the First Hunger*`
             },
@@ -307,7 +305,16 @@ Commoners in the Reach survive on pine-needle tea, bog-cranberry pemmican, and s
 
 The regional economy is choked by the **Scribe-Cartel**, which holds a royal monopoly on **Soot-Resin Ink** and **Peat-Parchment**. Foresters must sell ironwood sap to the Cartel at low rates, while the Cartel charges exorbitant prices for bound journals. Meanwhile, southern syndicates have brought massive, geothermal-powered **steam-saws** to clear-cut the outer borders, harvesting the steel-like timber. This logging is thinning the protective mist, allowing the creep of northern frost and angering forest spirits.
 
-In Greymark Keep, a typical tavern (such as *The Ink-stained Finger*) is a low cellar thick with pine oil. Patrons sit in near-silence, writing diligently in journals chained to the tables. Barter of diary-keys and Cartel ink-well chits replaces coin.`
+In Greymark Keep, a typical tavern (such as *The Ink-stained Finger*) is a low cellar thick with pine oil. Patrons sit in near-silence, writing diligently in journals chained to the tables. Barter of diary-keys and Cartel ink-well chits replaces coin.
+
+**Native Traditions & Founders**
+The Reach birthed several of Mythrill's traditions. The **Toxicologist** art was founded here by **Varis**, who distilled fog-predator venom to defend against face-stealing horrors; the **Apex** Silent Hunt was founded by **Sylas**, who traded his hearing for absolute tracking focus; and the **Lunarch** parasite was first bound by **Selene of House Viridane** in these moonlit groves. The Reach is also a co-founder of two wider traditions: **Elias the Salt-Scarred** pioneered the Frostwood-rooted half of the **Inquisitor** art (drawing Wyrd face-stealers into living flesh where they could be named and cut), and **Sylvanus** originated the kinetic momentum dance that, merged with Torin's biological work, became the **Shaper** class.
+
+**Deep History & Strata**
+**The Pre-Deepening.** Before Sol was buried, the Reach was a Celtic grove-culture of ironwood-keepers who pacted with the fae, scattered among Germanic-style archive-holds — the dual root of Greymark's record-obsession and the Briaran's fae-law. Mistbarrow's cairn-stones, carved by these grove-keepers millennia before House Thalreth, still stand untranslated.
+**The Deepening & the Bargain (Year 5 — the Fog Compact).** Thalreth traded the region's spatial clarity for an insulating fog, called down at the Heart-Oak. Within a decade the first generation could no longer recall their parents' faces, and the Sovereign Ledger was invented to outsource memory to parchment before the fog took it.
+**The Long Dimming.** In Year 230 a Gref crawled out of Mirror Mere's reflection — the first face-trader, whose line later spread down Ironjaw Port to the Iceheart. In Year 340 Briaran raiders (hidden Viridane descendants, driven to violence by the Silent Seventh erasure) breached Greymark's palisade; the Ironwood Palisade and the Tapestry-Wards were raised in answer.
+**The Present Fracture.** Steam-saw clear-cutting and the Dimming are thinning the fog, so the insulation that held back the cold is failing exactly as Nordhalla's glacier-summer-debt comes due — the Reach is being unmade by the same chain that is freezing the north.`
             },
             {
               title: 'Nordhalla & The Valley of Ymir',
@@ -358,7 +365,16 @@ The regional economy is choked by **The Icechamber Syndicate**, a cartel of sout
 
 All maritime trade funnels through **Fjord-Gate**, an obsidian-cliffed inlet where the fjords meet the Iceheart Sea—the primary naval route for iron ore barges and whale-oil tankers navigating the treacherous coastal ice. Here, Syndicate-funded, steam-powered ironclads hunt the mythic sea-beasts with explosive harpoons, polluting the water with soot and coal-run-off, threatening the traditional fishing grounds of the coastal clans. 
 
-Taverns in fjord-keeps (such as *The Hearth-Glow*) are built over steaming volcanic vents. Patrons engage in physical tests of endurance, such as gripping frozen iron bars, to establish lineage status. Currency consists of copper chits known as spits or Syndicate coal-receipts, though direct barter remains dominant.`
+Taverns in fjord-keeps (such as *The Hearth-Glow*) are built over steaming volcanic vents. Patrons engage in physical tests of endurance, such as gripping frozen iron bars, to establish lineage status. Currency consists of copper chits known as spits or Syndicate coal-receipts, though direct barter remains dominant.
+
+**Native Traditions & Founders**
+Nordhalla is the cradle of the **Augur** art, founded by **Cassia**, who read the Deepening in a sacrificed elk's entrails at the Frozen Archive. The **Berserker** Hunger Pact was forged here in the worst winter of the Glacier Bargain. Nordhalla also co-founded three traditions: **Theron** pioneered the runic-inscription root of the **Animist** triad here at the Frozen Archive; **Malakor the Finite** calculated the doom-arithmetic that, merged with Xyris's chaos-work, became the **Harbinger** class; and the Frozen Archive's surgical school became the secondary seat of the **Warden** chain-graft tradition, producing the cold-iron Skald Wardens who tether the horrors that crawl from the fjords.
+
+**Deep History & Strata**
+**The Pre-Deepening.** Nordhalla was a saga-culture of glacier-entombing ancestor-venerators, built atop the clockwork ruins of a ten-thousand-year-old civilization the ice preserved intact — the original machinery the Frozen Archive merely reclaimed rather than built.
+**The Deepening & the Bargain (Year 7 — the Glacier Bargain).** Skalvyr halted the glaciers at the price of summer, and Keth-Amar set the Frost-Tithe on the Rime-Born. The Warden's breath touched the mountain at the Still Crag, freezing it to silent witness. The first winter was so total the ancestors consumed their own dead to persist — the Hunger Pact that still seeds every Berserker rage.
+**The Long Dimming.** In Year 89 the Frostwood elder Aldren Thalreth the Elder fled north and self-entombed in the Archive, binding the two regions' archive-traditions together. In Year 720 the Cult of Forgotten Shadow and Skalvyr's younger generation began the Void-heat engine beneath the Archive — a heresy whose temporal runoff would later collapse the Augurs' elk-entrail readings.
+**The Present Fracture.** The Dimming (~Year 780) is cooling the geothermal sumps, the Frost-Tithe worsens, and the Void-Heat Heresy is about to break the Glacier Bargain from within — Frigga Skalvyr's generation is preparing to trade the slow cold for a faster, dirtier warmth.`
             },
             {
               title: 'Sundale & Emberspire',
@@ -406,7 +422,16 @@ Staples in Sundale include ash-baked lizard tail, roasted volcanic beetles, and 
 
 The regional economy is driven by exporting raw obsidian, high-temperature alloys, and volcanic sulfur under Cartel supervision, while importing ice-melt water, woolly herd-hides (sourced from Sundrift Vale via the Cragjaw chokepoint of the Ancestor-Spans, making the hide supply highly vulnerable to bridge collapse or Groven tolls), and timber. All overseas trade passes through **Ember Lagoon**, Sundale's only warm-water port, where geothermal vents keep the harbor just above freezing — a mercy for the ice-broken hulls that limp in from the Iceheart Sea.
 
-Taverns in the Harath-Vault are steel-grate cages suspended directly over active magma channels. The atmosphere is dry, blisteringly hot, and filled with the deafening clank of anvils and bellows. Currency takes the form of heavy brass coins minted by the forge-clans, or raw pieces of copper and blood-ore.`
+Taverns in the Harath-Vault are steel-grate cages suspended directly over active magma channels. The atmosphere is dry, blisteringly hot, and filled with the deafening clank of anvils and bellows. Currency takes the form of heavy brass coins minted by the forge-clans, or raw pieces of copper and blood-ore.
+
+**Native Traditions & Founders**
+Sundale is the furnace of the **Martyr** tradition, born when **Sera Solvan** carved her sacrificed child's name into her flesh with volcanic obsidian. The **Pyrofiend** pact was struck here by a cabal of Solvarn occultists who swallowed Scathrach's burning coals beneath Emberspire, and the **Spellguard** engineering discipline was founded by **Damon**, the Emberth smith who first dismantled a Solbrand eruption. Sundale is also the founding ground of the **Berserker** Blood-Heat itself: the Bloodhammer clans migrated south from Nordhalla under Torra Bloodhammer, and **Grum** surrendered to the Emberspire forge-heat to shatter an ice-wyrm bare-handed. Nordhalla gave the Berserker its ancestry; Sundale gave it its fire.
+
+**Deep History & Strata**
+**The Pre-Deepening.** Sundale was a Mesoamerican-style solar theocracy around the living sun — obsidian-citadel priest-cities, blood-tribute calendars, caldera-temples — the direct ancestor of the Dawn Vigil's solar-sacrifice doctrine.
+**The Deepening & the Bargain (Year 0 — the Tomb; Years 1–2 — the Breach).** Sundale is the wound itself: Sol was entombed beneath Emberspire, and House Solvan wielded the knife that flayed Aex to weave the seal. When the seal broke, Emberspire erupted through it. The Solvan heirs were marched north and devoured, and the house stayed to tend the tomb it had made.
+**The Long Dimming.** In Year 88 the first Merryn-Emberth trade pact was struck at Ember Lagoon, opening the caldera to Iceheart maritime culture. From Year 150–500 the Solvan Ascendancy ran the Heir-Purge and founded the Dawn Vigil (Year 340) to recover Monolith-fragments from every region — a crusade that hollowed Solvan legitimacy into the present Steward-regency.
+**The Present Fracture.** The Solbrand is dimming (~Year 780); the Dawn Vigil secretly knows that reassembling the Monoliths would summon Keth-Amar, not Sol; and as the caldera cools the Thrask Berserkers are driven toward Scathrach's deeper vents — the Pyrofiend crisis is the far end of the chain that began when the Glacier Bargain drove the Bloodhammer south.`
             },
             {
               title: 'The Iceheart Sea',
@@ -458,7 +483,16 @@ Seafarers live on salted sea-herring, kelp-cakes, and pickled brine-grass, washe
 
 The regional economy is driven by exporting whale oil under the **Brine-Bond Syndicate** monopoly, which demands heavy tribute from keeps. To extract this oil, the Board has commissioned geothermal-powered **steam-trawlers** and explosive harpoons. The boiling engine runoff and soot are polluting the unfreezing channels, driving the Deep-Born Myrathil to madness and calling Wyrd sea-monsters.
 
-In Merrowport, taverns (like *The Pitching Hull*) are constructed within the cargo decks of lashed ships, where sailors gamble using bone dice. Smugglers and black-market runners prefer **Kelpie's Cove**, a hidden inlet on the eastern coast. Farther north, **Wraithsound** cuts deep into the coastal rock, a narrow, echoing inlet where the voices of drowned sailors carry for miles on the fog, audible above the wind on the darkest nights.`
+In Merrowport, taverns (like *The Pitching Hull*) are constructed within the cargo decks of lashed ships, where sailors gamble using bone dice. Smugglers and black-market runners prefer **Kelpie's Cove**, a hidden inlet on the eastern coast. Farther north, **Wraithsound** cuts deep into the coastal rock, a narrow, echoing inlet where the voices of drowned sailors carry for miles on the fog, audible above the wind on the darkest nights.
+
+**Native Traditions & Founders**
+The Iceheart is the home water of two traditions. The **Gambit** art was born here when the Merryn pirate **Jax** wagered his lifeline against a storm-spirit at Merrowport — winning the wind but losing his blood's warmth. The **Minstrel** Tide-Choir was founded by **Lyris the Tide-Singer**, whose storm-symphony calmed the gales at the cost of her spoken voice. The Gambit tradition's other root — **Lyra's** Kessen Neth probability-web reading, developed in the Bryngloom — refined itself at Merrowport's tables when the two traditions recognized each other across the Ancestor-Spans.
+
+**Deep History & Strata**
+**The Pre-Deepening.** The Iceheart was a Celtic maritime culture of free-sailing clans under sea-law, treating each ship as its own polity and worshipping a Sea Mother — the root of the voyage-share contracts and the Board of Trade's Sea-Charter.
+**The Deepening & the Bargain.** House Mereval traded calm water for never-freezing lanes — meaning perpetual storm. The trauma-site is the First Shore, where the skeletal archers of the original landfall still stand their eternal watch. The storms drove the Merryn into the debt-bondage that defines them.
+**The Long Dimming.** The Year 88 Ember Lagoon pact tied the sea to Sundale's caldera economy. Later the Brine-Bond Syndicate bought Cragjaw geothermal tech for its steam-trawlers and industrialized the whale-oil trade; the boiling runoff polluted the channels, called up Wyrd sea-monsters, and maddened the Deep-Born Myrathil.
+**The Present Fracture.** The sea has gone silent (~Year 795) — no tidesong, no deep-bass pulse — and the Minstrel Tide-Choir is dying with it. The Deep-Born who fled the abyss heard something sing back: the Oceanic Rift Monolith is waking, the sea's branch of the bill now due.`
             },
             {
               title: 'Cragjaw Peaks',
@@ -508,7 +542,16 @@ The region's Sundered Monolith is sealed within a lightless alchemical chamber d
 
 Staples include freeze-dried cliff-potatoes (**chuño**), dried mammoth strips (**charqui**), and lichen-stew, washed down with whiteout-distillate. Because the agricultural terraces are cooling, the region is increasingly dependent on grain imports from Sundrift Vale and Sundale. 
 
-The economy is driven by exporting alchemical reagents under the **Steam-Line Cartel** monopoly, which demands heavy tribute from keeps in exchange for heat-flow. All trade is recorded on royal khipus. Taverns on the Spans are drafty wooden cages bolted directly to the bone bridges. Currency is rarely used on the heights; trade is conducted via barter of wool, bone tools, and climbing spurs.`
+The economy is driven by exporting alchemical reagents under the **Steam-Line Cartel** monopoly, which demands heavy tribute from keeps in exchange for heat-flow. All trade is recorded on royal khipus. Taverns on the Spans are drafty wooden cages bolted directly to the bone bridges. Currency is rarely used on the heights; trade is conducted via barter of wool, bone tools, and climbing spurs.
+
+**Native Traditions & Founders**
+The Cragjaw birthed the **Chronarch** art, born when the Kethrin engineer **Nesta** hooked a time-dilation engine of volcanic glass into her chest at Frostmaw Holdfast. The **Warden** chain-graft tradition was invented here by the Groven mine-guard **Alaric the Law-Keeper**, who drove an ore-hauling chain through his own forearm to hold a Deep Alchemist specimen for three days. The Cragjaw is also the biological root of the **Shaper** class: **Torin** developed the body-sculpting art at Frostmaw that, merged with Sylvanus's Frostwood kinetic dance by the Mimir chronicler **Veyra**, became the Shaping Forms.
+
+**Deep History & Strata**
+**The Pre-Deepening.** Cragjaw was an Andean-style vertical empire of khipu-record-keepers and terrace-engineers, threaded by yokai-haunted high passes; beneath it the Deep Alchemists pre-date even that empire, refining living matter in the deep tunnels since before the Wyrd was named.
+**The Deepening & the Bargain.** House Tesshan traded visibility for the perpetual blizzard-veil. But the defining event is the Vat-Breakers' Revolt (~Year 40): the Groven shattered their vats, calcified their own dead into the Ancestor-Spans, and sealed the Alchemists into the deep tunnels.
+**The Long Dimming.** The revolt seeded two diasporas — the Groven carried the chain-graft that became the Warden art, and the biological body-work that fed the Shaper class — tying Cragjaw's deep history outward to the Frostwood and beyond. Later the Steam-Line Cartel seized the geothermal heat, selling warmth to Nordhalla's pipes and engine-tech to the Iceheart's steam-trawlers.
+**The Present Fracture.** The Dimming (~Year 780) is cooling the geothermal terraces toward food-collapse, the Ancestor-Spans are cracking, and the Void-Heat Heresy's temporal friction is corrupting the Groven's bridge-load instincts — the Cragjaw crisis is the Heresy Chain made stone.`
             },
             {
               title: 'Sundrift Vale',
@@ -558,7 +601,16 @@ The regional Sundered Monolith is buried deep within the oldest Ancestor Mound, 
 
 Nomadic Ordan clans feed on fermented mare's milk (**kumis**), dried mutton, and wild steppe-turnips. The economy runs on exporting wool, hides, and steppe-horses, and importing metal tools and salt. The finest herds graze on the **Kumis Downs**, where pasture rights are recorded on royal bone-staves.
 
-Taverns in the Mound-Camps are large yurt structures that smell of mutton fat and woodsmoke, where nomads drink kumis and sing throat-sung ballads. Transactions are completed using horse-chits or barter.`
+Taverns in the Mound-Camps are large yurt structures that smell of mutton fat and woodsmoke, where nomads drink kumis and sing throat-sung ballads. Transactions are completed using horse-chits or barter.
+
+**Native Traditions & Founders**
+The Vale is the cradle of the **False Prophet** art, born when the Ordan herd-watcher **Li Wei** followed a meteor into a crystalline crater, looked into the void where Sol once shone, and returned blind with the Voice of the Silence. The Vale also co-founded two wider traditions: **Kael** pioneered the totemic root of the **Animist** triad here (throat-sung communion through the migration-horse's mane), and **Xyris** tore the reality-hole here that, joined to Malakor's doom-arithmetic, became the **Harbinger** tradition.
+
+**Deep History & Strata**
+**The Pre-Deepening.** The Vale was a Mongol-style steppe horde-culture of throat-singing navigators who mapped the grass in overtones and buried their dead in acoustic ancestor-mounds that replay the last words of the dead on the anniversary of their dying.
+**The Deepening & the Bargain.** House Ordavan traded fertile soil for the endless migration — only grass can root, so the herds must move forever. The trauma-sites are the Ancestor Mounds, where the bargain was ratified in song and where the dead still answer.
+**The Long Dimming.** In Year 150 the first Unlit Veil couriers arrived at Synod Hold and within a generation owned Ordavan trade policy. In Year 500 three ancestral mounds fell silent in a single season — the first omen of something stirring beneath; the Cult of Forgotten Shadow's Year 598 Silence Between Stars confirmed it when the deep answered, and across the Vale the dead ancestors went quiet for good.
+**The Present Fracture.** Chaos Pockets are stabilizing into permanence (~Year 795) — grass grows sideways, rain falls upward — the Harbinger crisis made visible; and the False Prophet's Voice is issuing specific instructions, routing its Congregation toward the same deep vaults the Cult wants opened.`
             },
             {
               title: 'The Bryngloom Forest',
@@ -608,7 +660,16 @@ The regional Sundered Monolith rests at the bottom of a bog-pool that has no bot
 
 Common food includes bog-mushroom stew, roasted peat-truffles, and dried river-eel, accompanied by bioluminescent tea. The local trade economy is built on exporting memory-glass, bog-preserved ironwood, and alchemical moss, under the Neth Regency's monopoly (First Contract, Great Registry). Poor Morren are trapped in perpetual debt, mortgaging their children's future lifelines.
 
-In Atropolis, taverns are open-air branch platforms suspended high in the canopy. The atmosphere is quiet, formal, and strictly transactional. Currency is recorded on ledger-tablets and verified by Velun pact-clerks.`
+In Atropolis, taverns are open-air branch platforms suspended high in the canopy. The atmosphere is quiet, formal, and strictly transactional. Currency is recorded on ledger-tablets and verified by Velun pact-clerks.
+
+**Native Traditions & Founders**
+The Bryngloom is the deepest root of Mythrill's death-and-contract magic. The **Arcanoneer** art was founded here by **Valerius**, who weaponized the Neth inability to lie into contract-syntax spellcasting at Atropolis. The **Revenant** tradition was forged from two Bryngloom roots — **Kora the Veil-Speaker's** blood-covenant and **Vesper the Scribe's** frost-stasis phylactery. The **Plaguebringer** Cultivar was founded by **Vespera**, who bonded with bog-rot to cure the spore-hush. **Nyssa**, the Vreken spore-elder, pioneered the spore-inhalation root of the **Animist** triad here. The Bryngloom also co-founded two wider traditions: **Orven the Still-Handed** forged the cold-iron Vreken root of the **Inquisitor** art (sworn at the Sunken Spire), and **Lyra** the Kessen probability-weaver developed the clause-reading root of the **Gambit** tradition here before it crossed the Ancestor-Spans to Merrowport.
+
+**Deep History & Strata**
+**The Pre-Deepening.** The Bryngloom was a Slavic bog-pagan culture of peat-preserving ancestor-veneration crossed with Hindu-style reincarnation-contract law, its dead wired into the mycelial Root-Veil — the root of the Postmortem Corvée, the Neth contract-nature, and the bog-preserved dead that still walk.
+**The Deepening & the Bargain (the First Contract).** The Neth struck the First Contract with the Keeper of the Last Threshold; House Morrath was elevated to administer it. The trauma-site is the Heart-Vault beneath Atropolis. The Drun, who refused the Contract's terms, were cast down and built the Over-Shanty beneath the city.
+**The Long Dimming.** In Year 412 the Cult of Forgotten Shadow was founded in the Shanty's peat-crypts; its Year 598 Silence Between Stars contact with the deep answered, and the contagion spread north (the Void-Heat Heresy) and south (the Vale's Voice). In Year 650 the Great Fire burned a third of the Shanty, and the Cult earned its grudging hold by containing the flames.
+**The Present Fracture.** The bog-graves are waking and marching on the Sundered Monoliths (~Year 795); the Root-Veil is rejecting the Marked (the Plaguebringer and Warden crises); and Vespera's founding strain is dying after eight centuries — the Bryngloom bill is the Heresy Chain's terminus, where the dead answer the call the Cult first dialed.`
             }
           ]
         }
@@ -703,6 +764,73 @@ In port cities from Sundale to the Frostwood Reach, the Myrathil occupy a strang
           'Every race, every class, every dark bargain traces back to moments on this timeline.',
           'From the Deepening of Sol to the waking of the Sundered Monoliths.'
         ]
+      },
+      {
+        id: 'world-timeline',
+        name: 'World Timeline & Causal Web',
+        icon: 'fas fa-project-diagram',
+        theme: 'narrative',
+        summary: [
+          'The canonical 800-year history of the Dimming: twelve pivotal events, dated, scarred, and causally linked.',
+          'The single through-line every region, class, and faction is a facet of.',
+          'Read this to understand why every present crisis is one bill, coming due at once.'
+        ],
+        content: {
+          title: 'The World Timeline & Causal Web',
+          description: 'The franchise spine. Every regional crisis, every class order, every faction goal is a consequence of the chain below. A GM who internalizes this timeline can explain any corner of Mythrill as the downstream effect of these twelve events.',
+          sections: [
+            {
+              title: 'The Through-Line',
+              content: `Mythrill is a world that chose survival at a price it is still paying, run by the descendants of the people who signed the bill.
+
+Eight hundred years ago, seven star-watching families tore the dying sun — Sol — from the sky and buried it beneath Sundale to hide it from the predator that came to eat it. When the cold came anyway, six of those families broke their own seal and fed their firstborn heirs to the dark to buy back a little warmth. The seventh family refused, and so the seal held — just barely — and the predator was forced to feed slowly, century by century, on a star it could not swallow whole.
+
+Every bargain struck since is the interest on that original debt: the fog that eats Frostwood memory, the glacier that ate Nordhalla's summer, the contract that eats a Neth's name, the storm that ate the Iceheart's calm. The present is not seven unrelated crises. It is one bill, coming due at once, presented to a world that has forgotten the terms — and governed, almost without exception, by the signatories' great-great-grandchildren.
+
+To play any character in Mythrill is to play one of the debtor's heirs. The timeline below is the receipt.`
+            },
+            {
+              title: 'The Twelve Pivotal Events',
+              content: `**1. The Deepening & the Binding — Year 0.** Sol entered its death-cycle and the Sun-Eater Keth-Amar came to feed. The seven noble families tore the star from the heavens and entombed it beneath what is now Sundale, weaving the binding-seal from the hide of Aex (Sol's firstborn) and a blood-bond over their own lineages. They told the world Sol would sleep and rise again. It was the first lie. *Regions: Sundale (the tomb), all seven houses. Scar: Emberspire, the Solbrand, the binding-vault. Causes: the Long Winter that made the bargains necessary.*
+
+**2. The Great Breach — Years 1–2.** The cold did not break. Keth-Amar whispered into the panic, and six houses marched their firstborn heirs into the dark. The heirs were the keys to the binding; devouring them cracked the vault from within. The seal shattered into the seven Sundered Monoliths, Emberspire erupted through the wound, and the Wyrd — a rot sealed in the deep earth since before humanity — bled up through the cracks and took the shape of every folk fear it found. *Regions: Sundale + worldwide. Scar: the seven Monoliths, the Wyrd, Emberspire's caldera. Causes: every regional Dark Bargain.*
+
+**3. The Refusal & the Partial Seal — Year 2.** House Viridane, the seventh signatory, refused the heir-sacrifice and bonded instead with the fae of the Frostwood's moonlit groves. Because the seal did not entirely fail, Keth-Amar could not swallow Sol whole; the feast became slow — eight centuries of patient gnawing. *Regions: Frostwood Reach. Scar: the Lunarch bloodline, the moonlit groves, the dead moon that was an egg. Causes: the 800-year timescale of the Dimming and Viridane's coming erasure.*
+
+**4. The Seven Bargains — Years 5–60.** Each region paid its own price to survive the Breach-winter. Year 5: House Thalreth struck the Fog Compact, trading the Frostwood's spatial clarity and memory for an insulating fog. Year 7: House Skalvyr struck the Glacier Bargain, trading summer itself — and setting the Frost-Tithe on the Rime-Born. In Bryngloom the Neth struck the First Contract with the Keeper of the Last Threshold (House Morrath to administer it). House Ordavan traded the Sundrift Vale's fertile soil for an endless migration in which only grass can root. House Mereval traded the Iceheart's calm for never-freezing — and therefore perpetual storm — lanes. House Tesshan traded Cragjaw's visibility for a blizzard-veil. And House Solvan, who had wielded the knife that flayed Aex, marched its own heirs north to be devoured and stayed to tend the tomb. *Regions: all seven. Scar: every region's defining condition. Causes: the cartel economies, the founding migrations, and every present regional crisis.*
+
+**5. The Vat-Breakers' Revolt — Year ~40.** In Cragjaw, the Fexric Deep Alchemists' vat-grown servitors — the Thrumm, ancestors of the Groven — shattered their containment and rose. The Groven calcified their own dead into the Ancestor-Spans, the only safe bridges across the peaks, and sealed the Alchemists into the deep tunnels. *Regions: Cragjaw Peaks. Scar: the Ancestor-Spans, Groven sovereignty, the sealed vat-labs. Causes: Cragjaw's vertical toll-politics, the Warden chain-graft tradition, and the Steam-Line Cartel's heat monopoly.*
+
+**6. The Founding of the First Traditions — Years 10–150.** Necessity mothered the disciplines. Cassia read the Deepening's hour in elk-entrails at the Frozen Archive and founded the Augur art. The Bloodhammer clans, starving under the Glacier Bargain, marched south to Sundale's caldera where Grum ignited the first Blood-Heat and founded the Berserker line. The Neth archivist Valerius drafted the Arcanoneers' First Contract. Sera Solvan carved her sacrificed child's name into her arm and became the first Martyr. A Merryn sailor sang the Iceheart calm and lost her voice to the first Minstrel tide-song. *Regions: Nordhalla, Sundale, Bryngloom, Iceheart. Scar: every order's seat and founder-relic. Causes: the class orders and their present succession crises.*
+
+**7. The Erasure of the Silent Seventh — Years 50–350.** For Viridane's refusal, the remaining six houses elevated House Morrath to the seventh seat and spent three centuries striking the name Viridane from every record, ledger, and genealogy on the continent. The public came to speak of an "eighth house." *Regions: Frostwood (the Ledger), Bryngloom (Morrath's seat), all archives. Scar: the hidden Lunarch lineage, the Sovereign Ledger's power to define reality, the public's miscounted houses. Causes: the Scribe-Cartel's later authority and the Briaran resistance.*
+
+**8. The Solvan Ascendancy & the Heir-Purge — Years 150–500.** House Solvan, blood-stained by the flaying of Aex, ruled Sundale's ashlands as a militant theocracy, conscripting the willing and unwilling alike into the Martyr Brigades and reforging Monolith-fragments to (they believed) restart Sol. The Heir-Purge hardened the Martyr's Vow from grief into doctrine; the Dawn Vigil was founded in Year 340 to pursue Monolith-fragments across all seven regions. The Imperium's cruelty hollowed its legitimacy, and over centuries the house declined into a regency of Stewards who refuse the title "Lord" until the sun returns. *Regions: Sundale (+ Dawn Vigil expeditions everywhere). Scar: the Obsidian Citadels, the Dawn Vigil, the Steward-system. Causes: the present Martyr-conscription crisis and the Vigil's secret knowledge that reassembly would summon Keth-Amar, not Sol.*
+
+**9. The Silence Between Stars — Year 598.** The Cult of Forgotten Shadow, founded in Year 412 in the peat-crypts beneath Atropolis's Over-Shanty, made the first intentional two-way contact with the deep dark since the Breach. Something answered. *Regions: Bryngloom (roots), Nordhalla and Sundrift Vale (spread). Scar: the memory-extraction trade, the silence-glyphs, the spreading Voice. Causes: the False Prophet's specific new instructions and the coming attempt to open the way.*
+
+**10. The Void-Heat Heresy — Year 720.** Agents of the Cult and the Skalvyr younger generation (Frigga Skalvyr) began clandestine construction of a Void-heat engine beneath the Frozen Archive, trading the Glacier Bargain's slow stability for a faster, dirtier warmth stolen from the deep. *Regions: Nordhalla. Scar: the prototype engine, the disturbed glacier-preserved dead. Causes: Nordhalla's coming generational betrayal, the Augurs' temporal interference, and the chronological contamination that wrecks the elk-entrail readings.*
+
+**11. The Dimming of the Solbrand — ~Year 780.** The buried star's output began to visibly fail. Emberspire's vents cooled; the Thrask caldera weakened; the Frost-Tithe worsened; and the Augurs' accuracy collapsed from 93% to 41% as temporal friction redistributed through every Chronarch and every glacier-dead seer. *Regions: Sundale, Nordhalla, Cragjaw. Scar: the cooling vents, the failing auguries, the desperate fuel-wars. Causes: the present Sundale theocratic crisis, Nordhalla's countdown, and Cragjaw's looming food-collapse as the geothermal terraces cool.*
+
+**12. The Waking of the Monoliths — ~Year 795 to the present.** The seven Sundered Monoliths began to hum. Chaos Pockets stabilized into permanence across the Sundrift Vale; the bog-graves of Bryngloom rose and marched on the Monoliths; unnamed entities emerged from the deep groves beyond the Inquisitors' art; and the Iceheart Sea fell silent — no tidesong, no deep-bass pulse. Every bargain is coming due at once. *Regions: all seven. Scar: the active Monoliths, the marching dead, the silent sea, the static mist. Causes: the campaign — every regional crisis is a facet of a single bill presented to a world that can no longer pay it.*`
+            },
+            {
+              title: 'The Causal Web',
+              content: `Read the timeline as chains, not a list. A GM who holds these chains can explain any corner of the world.
+
+**The Debt Chain (the spine).** Deepening (1) → Breach (2) → Seven Bargains (4) → regional scars → Dimming (11) → Waking (12). Every present crisis is interest compounding on the original choice to bury the sun and then break the seal.
+
+**The Seal Chain.** Binding (1) → Refusal (3) → Erasure (7). The seventh seat is empty in all but name; the Lunarch line carries the only blood that held the seal; the Scribe-Cartel's power to rewrite reality descends directly from the three-century project of un-writing Viridane. Remove any link and the seal's present, partial, failing state stops making sense.
+
+**The Cross-Region Migration Chain (why Sundale is the way it is).** Glacier Bargain, Year 7 (Nordhalla starves) → the Bloodhammer march south → the Berserker tradition ignites in Sundale's caldera (6) → the Thrask Emberth become caldera-dependent → the Dimming (11) cools the caldera → desperate Thrask seek Scathrach's deeper vents (the Pyrofiend crisis). A chain that starts at the Deepening, runs through Nordhalla, and ends in a Sundale demon-pact.
+
+**The Heresy Chain.** Silence Between Stars (9) → Void-Heat Heresy (10) → disturbed glacier-dead → temporal friction → Augur collapse (11) → the Waking (12). The Cult's contact with the deep did not stay in Bryngloom; it contaminated Nordhalla's time-reading, which blinded the one institution that might have foreseen the Monoliths waking.
+
+**The one-sentence test.** If a player, after one session, cannot say what Mythrill's history is about, the meta-narrative has failed. It is about this: a world that chose survival at a price it is still paying, run by the descendants of the people who signed the bill — and the bill is now due.`
+            }
+          ]
+        }
       },
       {
         id: 'bestiary',

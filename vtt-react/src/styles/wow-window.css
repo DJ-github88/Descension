@@ -739,17 +739,16 @@
    LORE BOOK PAGE FLIPPING & DECORATIVE PAGES STYLING
    ========================================================================== */
 
-/* Elegant fantasy page flip button */
+/* Elegant fantasy page flip button — sits inside .page-footer-strip flex row */
 .book-page-flip-btn {
-    position: absolute;
-    bottom: 24px;
+    position: static; /* Part of the footer flex row, not absolute */
     background: linear-gradient(135deg, #8b7355 0%, #6b5a45 100%);
     border: 1px solid #5a4a3a;
     border-radius: 6px;
     color: #f0e6d2;
-    padding: 6px 14px;
+    padding: 5px 12px;
     font-family: 'Cinzel', serif;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.8px;
@@ -757,21 +756,25 @@
     box-shadow: 0 2px 6px rgba(60, 45, 30, 0.15);
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 10;
+    flex-shrink: 0;
+    white-space: nowrap;
 }
 
 .book-page-flip-btn.next-page {
-    right: 24px;
     border-color: #b89b6a;
     background: linear-gradient(135deg, #c5a47a 0%, #a68b52 100%);
     color: #3d2b1d;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
+    justify-self: flex-end;
+    margin-left: auto;
 }
 
 .book-page-flip-btn.prev-page {
-    left: 24px;
+    justify-self: flex-start;
+    margin-right: auto;
 }
 
 .book-page-flip-btn:hover {

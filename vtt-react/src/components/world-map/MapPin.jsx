@@ -15,9 +15,12 @@ const MapPin = ({
   devMode,
   devTool,
   onDeletePin,
-  onDragStart
+  onDragStart,
+  onSelectForMove,
+  isSelected
 }) => {
   const isErasing = devMode && devTool === 'erasePin' && isHovered;
+  const isMoveMode = devMode && devTool === 'movePin';
 
   const icon = isErasing
     ? { viewBox: '0 0 24 24', path: 'M9 3v1H4v2h1v13a2 2 0 002 2h10a2 2 0 002-2V6h1V4h-5V3H9zm2 5h2v9h-2V8zm-4 0h2v9H7V8zm8 0h2v9h-2V8z' }
@@ -26,25 +29,41 @@ const MapPin = ({
   if (!icon) return null;
 
   const outerFill = isErasing ? '#2c0c0c' : '#1c120a';
-  const outerStroke = isErasing ? '#ff5252' : (isHovered ? '#ffe082' : '#C4A44A');
-  const innerStroke = isErasing ? 'rgba(255, 82, 82, 0.4)' : (isHovered ? 'rgba(255, 224, 130, 0.6)' : 'rgba(255, 224, 130, 0.25)');
-  const pathFill = isErasing ? '#ff8a80' : (isHovered ? '#ffffff' : '#ebd5a3');
+  const outerStroke = isErasing
+    ? '#ff5252'
+    : (isSelected || isHovered ? '#ffe082' : '#C4A44A');
+  const innerStroke = isErasing
+    ? 'rgba(255, 82, 82, 0.4)'
+    : ((isSelected || isHovered) ? 'rgba(255, 224, 130, 0.6)' : 'rgba(255, 224, 130, 0.25)');
+  const pathFill = isErasing ? '#ff8a80' : ((isSelected || isHovered) ? '#ffffff' : '#ebd5a3');
 
   return (
     <g
-      className={`map-pin ${isHovered ? 'hovered' : ''} ${isErasing ? 'erasing' : ''}`}
+      className={`map-pin ${isHovered ? 'hovered' : ''} ${isErasing ? 'erasing' : ''} ${isSelected ? 'selected' : ''}`}
       transform={`translate(${x}, ${y})`}
       onClick={(e) => {
         if (devMode && devTool === 'erasePin') {
           e.stopPropagation();
-          onDeletePin(zoneId, true); // Bypass confirmation!
+          onDeletePin(zoneId, true);
           return;
         }
-        if (devMode && e.shiftKey) return; // Ignore regular clicks during shift-drag
+        if (isMoveMode) {
+          e.stopPropagation();
+          if (onSelectForMove) onSelectForMove(zoneId);
+          return;
+        }
+        if (devMode && e.shiftKey) return;
         e.stopPropagation();
         onClick(zoneId);
       }}
       onMouseDown={(e) => {
+        if (isMoveMode) {
+          e.stopPropagation();
+          e.preventDefault();
+          if (onSelectForMove) onSelectForMove(zoneId);
+          onDragStart(zoneId);
+          return;
+        }
         if (devMode && e.shiftKey) {
           e.stopPropagation();
           e.preventDefault();
@@ -60,31 +79,36 @@ const MapPin = ({
       }}
       onMouseEnter={() => onHover(zoneId)}
       onMouseLeave={() => onLeave()}
-      style={{ cursor: devMode ? (devTool === 'erasePin' ? 'pointer' : 'grab') : 'pointer', pointerEvents: 'auto' }}
+      style={{ cursor: devMode ? (devTool === 'erasePin' ? 'pointer' : (isMoveMode ? 'grab' : 'grab')) : 'pointer', pointerEvents: 'auto' }}
     >
       {hasDeep && (
         <circle cx="0" cy="16" r="2.5" fill="#C4A44A" opacity="0.8" />
       )}
 
+      {/* Selection pulse ring */}
+      {isSelected && (
+        <circle cx="0" cy="0" r="18" fill="none" stroke="#ffe082" strokeWidth="1" opacity="0.7" className="pin-selected-pulse" />
+      )}
+
       <g className="pin-icon-group">
         {/* Outer gold ring */}
-        <circle 
-          cx="0" 
-          cy="0" 
-          r="14" 
-          fill={outerFill} 
-          stroke={outerStroke} 
-          strokeWidth="1.5" 
+        <circle
+          cx="0"
+          cy="0"
+          r="14"
+          fill={outerFill}
+          stroke={outerStroke}
+          strokeWidth={isSelected ? 2 : 1.5}
           filter="url(#pinShadow)"
           style={{ transition: 'stroke 0.2s ease, fill 0.2s ease' }}
         />
         {/* Inner fine gold ring */}
-        <circle 
-          cx="0" 
-          cy="0" 
-          r="11" 
-          fill="none" 
-          stroke={innerStroke} 
+        <circle
+          cx="0"
+          cy="0"
+          r="11"
+          fill="none"
+          stroke={innerStroke}
           strokeWidth="0.75"
           style={{ transition: 'stroke 0.2s ease' }}
         />

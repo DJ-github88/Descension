@@ -12,6 +12,7 @@ import { getBackgroundData, getBackgroundStatModifiers } from '../../../data/bac
 import { getBackgroundAbilities } from '../../../data/backgroundAbilities';
 import { applyRacialModifiers, RACE_DATA, getFullRaceData } from '../../../data/raceData';
 import { getEquipmentPreview, STARTING_EQUIPMENT_LIBRARY } from '../../../data/startingEquipmentData';
+import { ALL_BACKGROUND_EQUIPMENT } from '../../../data/equipment/backgroundEquipment';
 import ItemTooltip from '../../item-generation/ItemTooltip';
 import ClassIcon from '../../common/ClassIcon';
 import { ALL_CLASS_SPELLS, CLASS_DATA_MAP } from '../../../data/classSpellGenerator';
@@ -215,6 +216,8 @@ const formatDescriptionText = (text) => {
             // First try to find the item by its full original name
             let foundItem = STARTING_EQUIPMENT_LIBRARY.find(item =>
                 item.name.toLowerCase() === itemName.toLowerCase()
+            ) || ALL_BACKGROUND_EQUIPMENT.find(item =>
+                item.name.toLowerCase() === itemName.toLowerCase()
             );
 
             if (foundItem) {
@@ -226,6 +229,8 @@ const formatDescriptionText = (text) => {
             if (quantityMatch) {
                 const cleanName = quantityMatch[1].trim();
                 foundItem = STARTING_EQUIPMENT_LIBRARY.find(item =>
+                    item.name.toLowerCase() === cleanName.toLowerCase()
+                ) || ALL_BACKGROUND_EQUIPMENT.find(item =>
                     item.name.toLowerCase() === cleanName.toLowerCase()
                 );
                 if (foundItem) {
@@ -243,6 +248,8 @@ const formatDescriptionText = (text) => {
 
             for (const variation of variations) {
                 foundItem = STARTING_EQUIPMENT_LIBRARY.find(item =>
+                    item.name === variation
+                ) || ALL_BACKGROUND_EQUIPMENT.find(item =>
                     item.name === variation
                 );
                 if (foundItem) {
@@ -430,7 +437,7 @@ const formatDescriptionText = (text) => {
                     item.name.toLowerCase().includes(bgItem.toLowerCase().replace(/\s*\([^)]*\)/, ''))
                 );
 
-            const fullItem = getFullItemObjects([item.name])[0];
+            const fullItem = getFullItemObjects([item.name])[0] || item;
             if (fullItem) {
                 allEquipment.push({
                     ...fullItem,
@@ -784,7 +791,7 @@ const formatDescriptionText = (text) => {
 
                             return (
                                 <div className="base-stats-compact-grid">
-                                    <div className="base-stat-compact-item" title="Hit Points (Con * 5 + Race Base)">
+                                    <div className="base-stat-compact-item" title="Vitality (Con * 5 + Race Base)">
                                         <div className="base-stat-compact-icon"><i className="fas fa-heart"></i></div>
                                         <div className="base-stat-compact-details">
                                             <span className="base-stat-compact-label">Health</span>

@@ -44,6 +44,79 @@ export const PLAGUEBRINGER_DATA = {
       "justification": "Requires the Bryngloom's unique fungal-bog ecosystem. Other regions lack the specific biological agents. Drun Neth's partial-death allows hosting. Morren's desperation drives acceptance."
   },
 
+  /**
+   * Subrace Variants — the Plaguebringer cultivates living disease inside their own body,
+   * and what that body *is* determines what it can host. The Drun Neth are half-dead
+   * already. The Morren are desperate enough to accept anything. The Vreken castes
+   * carry the disease on the forest's own infrastructure.
+   */
+  subraceVariants: {
+    drun_neth: {
+      subraceName: 'Drun Neth',
+      title: 'The Void-Host',
+      reframe: `The <LoreLink termId="neth">Drun Neth</LoreLink> — the leaden-grey outcasts who severed all contracts and legally do not exist — are the Plaguebringer's ideal substrate. Their state of partial-death means their body no longer fully resists foreign biology; disease *cultivates* in them the way moss cultivates on dead wood. A Drun Plaguebringer is not a sick person wielding sickness — they are a halfway-corpse whose decay hosts an ecosystem.`,
+      signatureAbility: {
+        name: 'Void-Cultivation',
+        description: `Cultivated diseases take root faster and more virulently in the Drun's partially-dead flesh, generating more Virulence per affliction cast. The cost: the Drun's decay *accelerates* with each cultivation — they are spending their remaining life as substrate.`
+      },
+      currentCrisisAngle: `The foundational strain's collapse hits the Drun as *accelerated dissolution* — as the cultivated bacteria die, they take the host's half-life with them. The Drun Plaguebringers are dying faster than the tradition can replace them, and the others are beginning to suspect the Drun knew this would happen: that they chose this path knowing it was, in the end, a faster form of the death they were already living.`,
+      signatureQuote: {
+        text: '"I was legally dead before I swallowed the first culture. Everything since has been interest on a debt I never owed. Let the strain die. I have been dying for years."',
+        speaker: 'Drun Vel-Kaassen',
+        context: 'A Drun Plaguebringer, declining treatment for the collapsing strain'
+      }
+    },
+
+    morren_human: {
+      subraceName: 'Morren',
+      title: 'The Desperation-Cultivator',
+      reframe: `The <LoreLink termId="house_morrath">Morren</LoreLink> took to the Plaguebringer path out of pure desperation — the bog's pharmacological resources were their only leverage against the Neth contract-economy, and cultivating the hush itself as a weapon was the one act the Neth could not tax. A Morren Plaguebringer does not love disease; they *need* it, the way a debtor needs the one skill their creditor cannot repossess.`,
+      signatureAbility: {
+        name: 'Debt-Immunity',
+        description: `Cultivated diseases are engineered to be *untaxable* — they cannot be traced, cannot be contracted under Neth law, cannot be seized as assets. A Morren Plaguebringer's Virulence is, by design, the one property the Keeper has no jurisdiction over.`
+      },
+      currentCrisisAngle: `As the foundational strain collapses and cultivated diseases turn virulent against the host, the Morren Plaguebringers face a bitter symmetry: the weapon they built to escape debt is now *costing them their lives*, and the Neth have offered to "renegotiate" their contracts in exchange for the cultivation techniques. The Morren are dying of the one freedom they ever had, and their creditors are circling.`,
+      signatureQuote: {
+        text: '"I grew the hush in my veins because it was the only thing you could not ledger. Now it is killing me, and you offer to save me if I sign it over. I will die first. That, at least, you cannot tax."',
+        speaker: 'Mor-Vespera',
+        context: 'A Morren Plaguebringer, to a Neth renegotiator, the week her strain turned'
+      }
+    },
+
+    clean_vreken: {
+      subraceName: 'Clean Vreken',
+      title: 'The Glow-Culture',
+      reframe: `The <LoreLink termId="vreken">Clean Vreken</LoreLink> — deep-glow scholars — interact with cultivated disease through their bioluminescence: the pathogens glow in their skin, visibly trackable, the Plaguebringer's internal ecosystem rendered as a living map of light. A Clean Vreken Plaguebringer can *see* their diseases the way a cartographer sees coastlines.`,
+      signatureAbility: {
+        name: 'Luminescent-Tracking',
+        description: `Cultivated diseases express as visible bioluminescent patterns, allowing the Plaguebringer to track infection-progress in real time and tune virulence with surgical precision — but also broadcasting the disease-map to every Vreken nearby, a glowing confession of biological warfare.`
+      },
+      currentCrisisAngle: `As the strains mutate virulently, the Clean Vreken's glow-maps are going *dark* in patches — the mutated pathogens no longer fluoresce, becoming invisible even to their own cultivator. A Clean Vreken Plaguebringer who cannot see their disease is a blind surgeon, and the first deaths from untracked mutations have already begun in the deep groves.`,
+      signatureQuote: {
+        text: '"I used to read my diseases like scripture. Now entire passages have gone dark. I am preaching a gospel I can no longer proofread, and the congregation is dying."',
+        speaker: 'Scholar Ysen Bright-Blight',
+        context: 'A Clean Vreken Plaguebringer, cataloguing the first dark-patch mutation'
+      }
+    },
+
+    marked_vreken: {
+      subraceName: 'Marked Vreken',
+      title: 'The Mycelium-Vector',
+      reframe: `The <LoreLink termId="vreken">Marked Vreken</LoreLink> — ghost-mycelium walkers — deliver cultivated disease through the <LoreLink termId="root_veil">Root-Veil</LoreLink> itself. The mycelial network threading their skin is the forest's nervous system, and a Marked Plaguebringer rides it like a delivery infrastructure, seeding affliction across miles of interconnected root and spore.`,
+      signatureAbility: {
+        name: 'Network-Seeding',
+        description: `Cultivated diseases can be transmitted *through the mycelial network* to any connected organism, bypassing physical proximity entirely. The Marked are the tradition's only area-effect cultivators — a single Marked Plaguebringer can blight a grove through the roots beneath it.`
+      },
+      currentCrisisAngle: `The virulent strain-mutations have begun spreading *through the network itself* — the Root-Veil, the Vreken's sacred ancestor, is now carrying weaponized disease to organisms that never encountered the Plaguebringer. The Marked are being accused of poisoning the forest's god, and the Root-Veil, for the first time in eight centuries, has begun *rejecting* the Marked — expelling mycelium from their skin the way a body expels a splinter.`,
+      signatureQuote: {
+        text: '"The forest was my delivery-system and my ancestor. Now it coughs up my touch like an infection. I have poisoned the god that raised me, and it knows."',
+        speaker: 'Vesh the Blight-Walked',
+        context: 'A Marked Plaguebringer, the morning the mycelium began rejecting her'
+      }
+    }
+  },
+
+
   id : "plaguebringer",
   name: "Plaguebringer",
   icon: "fas fa-biohazard",
@@ -60,6 +133,27 @@ The Plaguebringer excels at unstoppable, compounding, exponential battlefield co
 **The Fatal Flaw (Incubation & Purity)**:
 The Plaguebringer possesses zero immediate burst damage. Their diseases require time to mature ("Incubation Lag"), making them highly vulnerable to aggressive rush tactics. Furthermore, their contagions are volatile ("Vector Isolation")—allies who stand too close to infected targets risk contracting the rot themselves. Finally, their rot cannot survive clean heat: any source of ember damage immediately purges active rot from both targets and the environment, leaving the gardener exposed and helpless.`
   },
+
+  livingOrder: {
+    orderName: 'The Cultivar',
+    founder: {
+      name: '<LoreLink termId="vespera">Vespera</LoreLink>',
+      status: `Alive — and the crisis. The <LoreLink termId="vreken">Vreken</LoreLink> alchemist who bonded with bog-rot to cure the spore-hush eight centuries ago still hosts the foundational bacterial strain, and the strain is dying inside her. She is the substrate; when it fails, so does she.`,
+      note: `<LoreLink termId="vespera">Vespera</LoreLink> injected decaying moss from the <LoreLink termId="sunken_spire">Sunken Spire</LoreLink> directly into her veins to save her family. She succeeded, and has been a permanent host to active decay ever since — waxy, pale, cold, cultivating new diseases for eight hundred years.`
+    },
+    currentLeader: {
+      name: '<LoreLink termId="vespera">Blight-Mother Vespera</LoreLink>',
+      title: 'The First Host',
+      characterization: `<LoreLink termId="vespera">Vespera</LoreLink> leads the Cultivar from the deep peat-sinks, but "leads" is generous — she is bedridden, her foundational strain failing, and most of her authority is delegated to her senior cultivators. She is calm about her own death in a way her students find unbearable. She has been dying for eight centuries. This is just the final stretch.`
+    },
+    headquarters: { name: 'The Peat-Sink Laboratories, deep Bryngloom', locationId: 'bryngloom-forest' },
+    crisisConnection: `<LoreLink termId="vespera">Vespera</LoreLink>'s failing strain is mutating into virulent forms that attack the host, and every Plaguebringer who learned from her is now carrying a dying inheritance. She has tasked her cultivators with a single project before she goes: engineer a successor strain that does not require *her* blood as substrate. The project is failing. The Marked Vreken cultivators are being rejected by the Root-Veil as they work, and <LoreLink termId="vespera">Vespera</LoreLink> has begun to suspect the forest is *deliberately* killing the strain — that the <LoreLink termId="root_veil">Root-Veil</LoreLink> has decided the Plaguebringer art is a disease worth curing.`
+  },
+
+  worldFriction: [
+    { region: 'bryngloom-forest', status: 'persecuted', consequence: 'The Root-Veil is rejecting the Marked cultivators and the network is carrying weaponized disease to organisms that never met a Plaguebringer. The Neth Regency has begun classifying Plaguebringer cultivation as "assault on the archive-substrate" — a capital offense against the Keeper.', workaround: 'None. A Plaguebringer in the deep Bryngloom is now hunted by the forest they depend on; the only refuge is the Over-Shanty, where the network does not reach.' },
+    { region: 'everywhere-else', status: 'shunned', consequence: 'Plaguebringers are universally untouchable — their cultivated diseases are contagious enough (even if host-specific) that no settlement permits casual contact. A traveling Plaguebringer is housed outside the walls and trades through intermediaries. This is not persecution; it is quarantine.' }
+  ],
 
   overview: {
     originStory: `Vespera the Vreken alchemist bonded with the bog-rot of the Bryngloom to synthesize a cure for the spore-hush that ravaged her family's cave-keeps. She gathered the decaying moss of the Sunken Spire, injecting its alchemical bile directly into her veins to act as a counter-toxin.

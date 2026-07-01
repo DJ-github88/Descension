@@ -1384,6 +1384,9 @@ const ClassResourceBar = ({
                     size={size}
                     context={context}
                     chargesDisplayRef={chargesDisplayRef}
+                    renderIcon={renderIcon}
+                    renderStatusFlavor={renderStatusFlavor}
+                    logClassResourceChange={logClassResourceChange}
                 />;
             case 'ascension-blood':
                 return <AscensionBloodResourceBar
