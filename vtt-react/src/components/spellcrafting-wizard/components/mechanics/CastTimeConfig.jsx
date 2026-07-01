@@ -1,6 +1,31 @@
 // components/mechanics/CastTimeConfig.jsx
 import React, { useState, useEffect } from 'react';
 import {
+  Box,
+  FormControl,
+  FormLabel,
+  Tooltip,
+  Switch,
+  Text,
+  Heading,
+  HStack,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
+  Slider,
+  SliderTrack,
+  SliderFilledTrack,
+  SliderThumb,
+  Progress,
+  Alert,
+  AlertIcon,
+  AlertDescription,
+  Divider,
+  Stack
+} from '@chakra-ui/react';
+import {
   PfSelect,
   PfNumberInput,
   PfSwitch,

@@ -54,6 +54,7 @@ const ChannelingConfig = ({
   // Theme colors
   const bgColor = useColorModeValue('gray.50', 'gray.700');
   const borderColor = useColorModeValue('gray.200', 'gray.600');
+  const vizBgColor = useColorModeValue('white', 'gray.800');
   
   // Initialize state with provided config or defaults
   const [config, setConfig] = useState({
@@ -285,7 +286,7 @@ const ChannelingConfig = ({
             borderWidth="1px" 
             borderRadius="md"
             borderColor={borderColor}
-            bg={useColorModeValue('white', 'gray.800')}
+            bg={vizBgColor}
           >
             <Text mb={2} fontWeight="medium">
               {visualization.visualProperties.scalingTypeName} Scaling

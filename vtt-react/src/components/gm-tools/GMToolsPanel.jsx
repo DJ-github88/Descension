@@ -14,6 +14,8 @@ const GMToolsPanel = ({ isVisible, onClose }) => {
   const [activeTab, setActiveTab] = useState('players');
   const [connectedPlayers, setConnectedPlayers] = useState([]);
   const [roomSettings, setRoomSettings] = useState({});
+  const [showXPModal, setShowXPModal] = useState(false);
+  const [partyXPAmount, setPartyXPAmount] = useState('');
 
   const {
     isGMMode,
@@ -120,9 +122,6 @@ const GMToolsPanel = ({ isVisible, onClose }) => {
   };
 
   const renderPlayersTab = () => {
-    const [showXPModal, setShowXPModal] = useState(false);
-    const [partyXPAmount, setPartyXPAmount] = useState('');
-
     const handleAwardPartyXP = () => {
       const xpAmount = parseInt(partyXPAmount);
       if (isNaN(xpAmount) || xpAmount <= 0) return;

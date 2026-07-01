@@ -38,7 +38,7 @@ const PortalLibrary = () => {
     };
 
     const handleDeleteTemplate = (templateId) => {
-        if (confirm('Are you sure you want to delete this connection template?')) {
+        if (window.confirm('Are you sure you want to delete this connection template?')) {
             removePortalTemplate(templateId);
         }
     };
