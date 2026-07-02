@@ -93,6 +93,296 @@ export const EXPLORATION_RULES = {
     ]
   },
 
+  frostwood_reach: {
+    id: 'frostwood_reach',
+    name: 'Frostwood Reach Exploration',
+    region: 'frostwood-reach',
+    description: 'The dense, petrified ironwood canopy is wrapped in a thick, memory-erasing grey fog. Survival depends on maintaining written journals, burning moss-wax candles, and following established silt-roads.',
+    rules: [
+      {
+        id: 'silt_road_travel',
+        name: 'Silt-Road Travel',
+        type: 'travel',
+        description: 'Travelers must navigate the shifting silt-roads marked by rusted lantern-posts.',
+        resolution: {
+          requirement: 'Requires a Thalren tracker guide OR successful Survival check (DC 12) to stay on path.',
+          success: 'On course. Normal travel time.',
+          failure: '+1d4 hours added to travel segment AND party wanders into a High Density Fog Pocket (triggers immediate Memory Toll check).'
+        }
+      },
+      {
+        id: 'memory_fog_exposure',
+        name: 'Memory Fog Exposure',
+        type: 'environmental',
+        description: 'The creeping protective fog of the Reach slowly erases personal memories.',
+        trigger: 'Every 24 hours spent traveling in the wilderness.',
+        immuneRaces: ['mimir'],
+        resolution: {
+          protection: 'Burning a Moss-Wax Candle (lasts 8 hours, costs 5 copper) or wearing a carved Mimir mask grants immunity.',
+          save: 'Spirit',
+          dc: '12 + days exposed in wilderness',
+          success: 'No effect.',
+          failure: 'The GM removes one piece of personal identity information from the character (their name, a family face, an active contract, or a critical memory).',
+          recovery: 'Visit Mirror Mere to gaze into your reflection, or pay a 10 silver registration update fee to Scribes\' Tower to recover lost records.'
+        }
+      },
+      {
+        id: 'palisade_checkpoints',
+        name: 'Palisade Checkposts',
+        type: 'faction',
+        description: 'Mist-Sentinels along the petrified Ironwood Palisade enforce Jarl Kaelen's Sovereign Ledger.',
+        trigger: 'Entering or leaving any major settlement zone.',
+        resolution: {
+          requirement: 'Produce a valid, stamped page from the Sovereign Ledger.',
+          options: [
+            { path: 'Comply', result: 'Show documents. Access granted.' },
+            { path: 'Bribe', skill: 'Persuasion (DC 14)', success: 'Allowed to pass for a 5 silver tax.', failure: 'Turned back; repeat attempts trigger hostiles.' },
+            { path: 'Sneak', skill: 'Stealth (DC 15)', success: 'Slipped past the checkpoint.', failure: 'Busted. Mist-Sentinels pursue; characters are marked as "Forgotten Outlaws" in the district.' }
+          ]
+        }
+      }
+    ]
+  },
+
+  nordhalla: {
+    id: 'nordhalla',
+    name: 'Nordhalla Exploration',
+    region: 'nordhalla',
+    description: 'A brutal glacier cathedral where the advance of ice was halted at the price of eternal winter. Ruled by King-Jarl Halvar Skalvyr.',
+    rules: [
+      {
+        id: 'glacier_pathing',
+        name: 'Glacier Pathing',
+        type: 'travel',
+        description: 'Trekking through active crevasse fields and shifting ice walls.',
+        resolution: {
+          skill: 'Athletics or Survival',
+          dc: 13,
+          success: 'Safe navigation over ice bridges.',
+          failure: 'Crevasse fall (1d6 falling damage + 1d6 cold damage) or party delayed by +1d4 hours due to sudden ice collapse.'
+        }
+      },
+      {
+        id: 'rime_bite',
+        name: 'The Rime-Bite',
+        type: 'environmental',
+        description: 'The freezing climate saps the strength of the unprepared.',
+        trigger: 'Every 12 hours traveling in sub-zero wilderness.',
+        resolution: {
+          protection: 'Wearing rime-resistant heavy furs or consuming rime-resistant spirits grants advantage.',
+          save: 'Constitution',
+          dc: 12,
+          success: 'No effect.',
+          failure: 'Suffer 1 level of exhaustion. At 3+ exhaustion levels, the character's speed is halved and they cannot gain the benefits of a short rest.'
+        }
+      },
+      {
+        id: 'sunder_wall_check',
+        name: 'Sunder-Wall Gateways',
+        type: 'faction',
+        description: 'The Icechamber Syndicate polices trade and migration along Halvar's massive Sunder-Wall.',
+        trigger: 'Crossing clan boundaries or entering Syndicate ports.',
+        resolution: {
+          requirement: 'Present a clan charter or pay the Syndicate toll.',
+          options: [
+            { path: 'Tax', effect: 'Pay 10% of carried goods or 5 silver.' },
+            { path: 'Fredløse Passage', skill: 'Deception (DC 13) or Stealth (DC 16)', success: 'Passed through hidden gaps.', failure: 'Conscription into glacial mining labor for 48 hours or open combat.' }
+          ]
+        }
+      }
+    ]
+  },
+
+  sundale: {
+    id: 'sundale',
+    name: 'Sundale Exploration',
+    region: 'sundale',
+    description: 'A volcanic wasteland surrounding the tomb of Sol, governed under Hierophant Aethelgard's Dawn Vigil theocracy.',
+    rules: [
+      {
+        id: 'ash_storm_navigation',
+        name: 'Ash Storm Navigation',
+        type: 'travel',
+        description: 'Volcanic vents erupt, filling the sky with blinding black ash.',
+        resolution: {
+          skill: 'Perception (hearing/smell)',
+          dc: 14,
+          success: 'Party finds shelter or navigates through.',
+          failure: 'Party is blinded for 1d4 hours, adding +2d4 hours to travel, and encounters a pyrofiend or ash-wyrm.'
+        }
+      },
+      {
+        id: 'sulfur_fumes',
+        name: 'Sulfur Fumes & Heat Strain',
+        type: 'environmental',
+        description: 'Toxic caldera fumes and blistering heat stress the body.',
+        trigger: 'Every 24 hours spent in the volcanic plains.',
+        resolution: {
+          protection: 'Wearing a wet cloth or a sulfur-filter mask grants immunity to the fumes.',
+          save: 'Constitution',
+          dc: '11 + hours traveled',
+          success: 'No effect.',
+          failure: 'Poisoned condition for 24 hours (disadvantage on attack rolls and ability checks).'
+        }
+      },
+      {
+        id: 'labor_levies',
+        name: 'Dawn Vigil Levies',
+        type: 'faction',
+        description: 'Dawn Vigil inquisitors press-gang youth and outlanders into sulfur mine Martyr Brigades.',
+        trigger: 'Encountered at volcanic crossroads or sulfur springs.',
+        resolution: {
+          options: [
+            { path: 'Produce Exemption', skill: 'Deception or Persuasion (DC 13)', success: 'Vigil patrol lets you pass.', failure: 'Patrol demands immediate inspection.' },
+            { path: 'Resist', effect: 'Initiates combat with Dawn Vigil Spellguards.' }
+          ]
+        }
+      }
+    ]
+  },
+
+  iceheart_sea: {
+    id: 'iceheart_sea',
+    name: 'Iceheart Sea Navigation',
+    region: 'iceheart-sea',
+    description: 'Navigating city-sized glaciers and permanent storm-lanes under Grand Admiral Mereval's Sea-Charter.',
+    rules: [
+      {
+        id: 'storm_lane_steering',
+        name: 'Storm-Lane Steering',
+        type: 'travel',
+        description: 'Steering a vessel through churning, ice-choked ocean currents.',
+        resolution: {
+          skill: 'Vehicles (water) or Survival',
+          dc: 14,
+          success: 'Vessel sails safely.',
+          failure: 'Vessel hull takes 2d10 structural damage AND travel segment takes double time.'
+        }
+      },
+      {
+        id: 'luck_ledger',
+        name: 'The Luck-Ledger Sacrifice',
+        type: 'environmental',
+        description: 'Tide-Speak spirits demand a toll to keep the ship's rigging from freezing.',
+        trigger: 'Entering a freezing gale or dense iceberg field.',
+        resolution: {
+          sacrifice: 'Throw 1 silver coin per crew member into the ocean.',
+          outcome: {
+            paid: 'Navigation checks made with advantage for 24 hours.',
+            refused: 'Rigging freezes. All Dexterity and ship navigation checks are made with disadvantage until the ship docks.'
+          }
+        }
+      },
+      {
+        id: 'mereval_press_warrants',
+        name: 'Board of Trade Press-Warrants',
+        type: 'faction',
+        description: 'Mereval Board of Trade ironclads patrol the lanes, pressing unregistered sailors into service.',
+        trigger: 'Spotted by Syndicate ironclads.',
+        resolution: {
+          requirement: 'Show valid Board of Trade Registry.',
+          options: [
+            { path: 'Registry', effect: 'Present papers. Safe to pass.' },
+            { path: 'Evade', skill: 'Sail / Steering (DC 15)', success: 'Outmaneuvered the ironclad in the fog.', failure: 'Vessel boarded. Crew must pay a 10 gold fine or fight.' }
+          ]
+        }
+      }
+    ]
+  },
+
+  cragjaw_peaks: {
+    id: 'cragjaw_peaks',
+    name: 'Cragjaw Peaks Exploration',
+    region: 'cragjaw-peaks',
+    description: 'A vertical maze of howling blizzards and bottomless chasms, governed by Tesshan's Knotted Decree.',
+    rules: [
+      {
+        id: 'khipu_navigation',
+        name: 'Khipu-Knot Navigation',
+        type: 'travel',
+        description: 'Navigating paths marked by knotted khipu strings rather than written signage.',
+        resolution: {
+          skill: 'Investigation or History',
+          dc: 12,
+          success: 'Correctly interpret the knots. Travel proceeds normally.',
+          failure: 'Misread the path, adding +1d4 hours to travel and leading the party to a unstable rope-bridge crossing.'
+        }
+      },
+      {
+        id: 'blizzard_ascent',
+        name: 'Blizzard Ascent',
+        type: 'travel',
+        description: 'Scaling vertical ice walls while battered by heavy snow-veils.',
+        resolution: {
+          skill: 'Athletics',
+          dc: 14,
+          success: 'Secure climb.',
+          failure: 'Slip. Character falls 2d10 feet (caught by climbing rope if anchored, otherwise falling into the chasm; takes cold and bludgeoning damage).'
+        }
+      },
+      {
+        id: 'mita_labor_exhaustion',
+        name: 'The Mit'a Strain',
+        type: 'environmental',
+        description: 'Low oxygen levels and heavy steam-drafts from geothermal vents exhaust travelers.',
+        trigger: 'Every 24 hours spent above the chasm floors.',
+        resolution: {
+          save: 'Constitution',
+          dc: '13 + altitude level (1-3)',
+          success: 'No effect.',
+          failure: 'Gain 1 level of exhaustion.'
+        }
+      }
+    ]
+  },
+
+  bryngloom_forest: {
+    id: 'bryngloom_forest',
+    name: 'Bryngloom Forest Exploration',
+    region: 'bryngloom-forest',
+    description: 'A twilight ironwood canopy and peat-bog governed by legalistic debt-covenants.',
+    rules: [
+      {
+        id: 'peat_bog_sinks',
+        name: 'Peat-Bog Sinks',
+        type: 'travel',
+        description: 'Hidden peat-quagmires that swallow travelers who stray from the roots.',
+        resolution: {
+          requirement: 'Requires a Morren guide OR active Survival check (DC 13) to spot sink-pools.',
+          success: 'On course.',
+          failure: 'One random party member sinks into the peat-mud. Requires an Athletics check (DC 14) from an ally to pull them out, or the sinking character takes 1 level of exhaustion and loses one random piece of gear.'
+        }
+      },
+      {
+        id: 'debt_covenant_audit',
+        name: 'Debt-Covenant Audit',
+        type: 'environmental',
+        description: 'The Keeper of the Last Threshold enforces the legal terms of all active covenants.',
+        trigger: 'Violating a local contract, telling a direct lie, or failing to pay a toll.',
+        resolution: {
+          save: 'Spirit',
+          dc: 15,
+          success: 'Audit resolved with minor spiritual strain.',
+          failure: 'Marked by the Great Registry. The character takes the "Audit-Cursed" status (cannot benefit from healing spells until they perform a restitution ritual at the Scriptorium).'
+        }
+      },
+      {
+        id: 'toll_dike_inspection',
+        name: 'Toll-Dike Gateways',
+        type: 'faction',
+        description: 'Morrath inspectors check Registry logs at the living-ironwood Toll-Dikes.',
+        trigger: 'Crossing major waterways or entering Atropolis territory.',
+        resolution: {
+          requirement: 'Pay the peat-debt bond (2 silver) or present an exemption registry.',
+          options: [
+            { path: 'Pay Toll', effect: 'Pay 2 silver. Gate opens.' },
+            { path: 'Contract Loophole', skill: 'History or Persuasion (DC 14)', success: 'Argued a legal exemption under the First Contract.', failure: 'Toll doubled; failure to pay results in the gate summoning a Debt-Revenant warden.' }
+          ]
+        }
+      }
+    ]
+  },
+
   lost_brood: {
     id: 'lost_brood',
     name: 'The Lost Brood',
@@ -173,7 +463,12 @@ export const EXPLORATION_RULES = {
   }
 };
 
-export const getExplorationRules = (regionId) => EXPLORATION_RULES[regionId] || null;
+export const getExplorationRules = (regionId) => {
+  if (!regionId) return null;
+  const normalizedId = regionId.toLowerCase().replace(/-/g, '_');
+  return EXPLORATION_RULES[normalizedId] || null;
+};
+
 export const getExplorationRule = (ruleId) => {
   for (const region of Object.values(EXPLORATION_RULES)) {
     if (region.rules) {
@@ -183,4 +478,5 @@ export const getExplorationRule = (ruleId) => {
   }
   return null;
 };
+
 export default EXPLORATION_RULES;

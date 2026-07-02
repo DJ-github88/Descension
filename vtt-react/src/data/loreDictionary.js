@@ -14,8 +14,8 @@ export const LORE_DICTIONARY = {
     type: 'region',
     region: 'frostwood-reach',
     summary: 'A dense, fog-choked ironwood forest in the western hemisphere, governed under the Sovereign Ledger and policed by the Sunder-Palisade check-posts.',
-    fullEntry: 'The Frostwood Reach is an ironwood forest wreathed in protective, memory-erasing fog. To prevent it from freezing, House Thalreth traded spatial clarity for insulating mist. Recently, Jarl-Archivist Kaelen Thalreth enforced the Sovereign Ledger, declaring unrecorded property rights void. The region is policed by Mist-Sentinels along the Ironwood Palisade and choked by the Scribe-Cartel monopoly on ink and parchment. Society is split between the registered Ledgered and the outlawed, undocumented Forgotten.',
-    relatedTerms: ['apex', 'bladedancer', 'bramble_heath', 'briaran', 'drunhold', 'gambrel', 'gref', 'greymark_keep', 'greythorn_copse', 'grimmwood', 'house_thalreth', 'house_viridane', 'ironwood_heart', 'ledger_halls', 'lunarch', 'mimir', 'mirror_mere', 'mistbarrow', 'rite-of-masks', 'scribes_tower', 'shaper', 'siltmire_flats', 'skalds_landing', 'the_shallows', 'the_shifting_fen', 'toxicologist', 'wraithfen', 'inquisitor', 'veyra', 'sylvanus', 'elias', 'vrael-forty-seventh', 'bri-vessela', 'varis', 'sylas', 'kaelen-thalreth', 'aldren-thalreth', 'elara-thalreth', 'caedren-thalreth', 'thorn-speaker', 'vellan-archivist', 'selene']
+    fullEntry: 'The Frostwood Reach is an ironwood forest wreathed in protective, <LoreLink termId="memory_fog_mechanics">memory-erasing fog</LoreLink>. To prevent it from freezing, House Thalreth traded spatial clarity for insulating mist. Recently, Jarl-Archivist Kaelen Thalreth enforced the Sovereign Ledger, declaring unrecorded property rights void. The region is policed by Mist-Sentinels along the Ironwood Palisade and choked by the Scribe-Cartel monopoly on ink and parchment. Society is split between the registered Ledgered and the outlawed, undocumented Forgotten.',
+    relatedTerms: ['apex', 'bladedancer', 'bramble_heath', 'briaran', 'drunhold', 'gambrel', 'gref', 'greymark_keep', 'greythorn_copse', 'grimmwood', 'house_thalreth', 'house_viridane', 'ironwood_heart', 'ledger_halls', 'lunarch', 'mimir', 'mirror_mere', 'mistbarrow', 'rite-of-masks', 'scribes_tower', 'shaper', 'siltmire_flats', 'skalds_landing', 'the_shallows', 'the_shifting_fen', 'toxicologist', 'wraithfen', 'inquisitor', 'veyra', 'sylvanus', 'elias', 'vrael-forty-seventh', 'bri-vessela', 'varis', 'sylas', 'kaelen-thalreth', 'aldren-thalreth', 'elara-thalreth', 'caedren-thalreth', 'thorn-speaker', 'vellan-archivist', 'selene', 'memory_fog_mechanics']
   },
   'nordhalla': {
     id: 'nordhalla',
@@ -69,7 +69,7 @@ export const LORE_DICTIONARY = {
     region: 'bryngloom-forest',
     summary: 'A twilight ironwood canopy and sinking peat-bog, governed by the First Contract and the Great Registry.',
     fullEntry: 'The Bryngloom Forest is a twilight swamp. Since the Neth signed the First Contract with the Keeper of the Last Threshold, the region has been governed by legalistic debt-covenants. It is ruled by Regent Morrath Neth, who enforces the Great Registry at Atropolis. Passage is controlled via the living-ironwood Toll-Dikes, and the economy is driven by the Peat-Debt Bondage. Poor Morren are trapped in peonage, while deceased debtors are conscripted into postmortem labor as Debt-Revenants. Traditional Swamp-Song animism is suppressed under Registry-Rituals.',
-    relatedTerms: ['animist', 'aran_glen', 'arcanoneer', 'atropolis', 'black_fen', 'covenbane', 'deathcaller', 'drowned_dingle', 'elias', 'exorcist', 'fangmere_grove', 'gambit', 'house_morrath', 'hunters_gully', 'inquisitor', 'ironjaw_port', 'keeper_of_the_last_threshold', 'kora', 'lichborne', 'merryns_drift', 'morrens_bogpost', 'neth', 'orven', 'over_shanty', 'peat_bog_sinks', 'plaguebringer', 'revenant', 'root_veil', 'root_veil_scriptorium', 'sunken_spire', 'thalrens_ledger_post', 'valerius', 'vel_keth_bayou', 'vesper', 'vreken', 'widows_quagmire', 'lyra', 'nyssa', 'sera-three-scars', 'vrael-forty-seventh', 'vespera', 'kor-vasseth', 'triune-founders']
+    relatedTerms: ['animist', 'aran_glen', 'arcanoneer', 'atropolis', 'black_fen', 'covenbane', 'deathcaller', 'drowned_dingle', 'elias', 'exorcist', 'fangmere_grove', 'gambit', 'house_morrath', 'hunters_gully', 'inquisitor', 'ironjaw_port', 'keeper_of_the_last_threshold', 'kora', 'lichborne', 'merryns_drift', 'morrens_bogpost', 'neth', 'orven', 'over_shanty', 'peat_bog_sinks', 'plaguebringer', 'revenant', 'root_veil', 'root_veil_scriptorium', 'sunken_spire', 'thalrens_ledger_post', 'valerius', 'vel_keth_bayou', 'vesper', 'vreken', 'lyra', 'nyssa', 'sera-three-scars', 'vrael-forty-seventh', 'vespera', 'kor-vasseth', 'triune-founders']
   },
 
   // NOBLE HOUSES
@@ -79,8 +79,8 @@ export const LORE_DICTIONARY = {
     type: 'noble_house',
     region: 'frostwood-reach',
     summary: 'The noble lineage of the Frostwood Reach who traded the region\'s spatial clarity for an insulating fog, now enforcing the Sovereign Ledger.',
-    fullEntry: 'House Thalreth is the ancient ruling family of the Frostwood Reach, whose seat of power is Greymark Keep. Driven to protect their lands from the Freeze-Front, they traded spatial clarity for insulating fog. The current lord, Jarl-Archivist Kaelen Thalreth, enforces the Sovereign Ledger, stripping undocumented peoples of their rights. The house maintains the Scribe-Cartel monopoly on ink and paper, and operates the Tapestry-Wards to forcibly assimilate frontier and Mimir children into structured runic logic.',
-    relatedTerms: ['briaran', 'frostwood-reach', 'gambrel', 'greymark_keep', 'greythorn_copse', 'house_viridane', 'mirror_mere', 'mistbarrow', 'scribes_tower', 'skalds_landing', 'the_warden', 'toxicologist', 'kaelen-thalreth', 'aldren-thalreth', 'elara-thalreth', 'caedren-thalreth']
+    fullEntry: 'House Thalreth is the ancient ruling family of the Frostwood Reach, whose seat of power is Greymark Keep. Driven to protect their lands from the Freeze-Front, they traded spatial clarity for <LoreLink termId="memory_fog_mechanics">insulating fog</LoreLink>. The current lord, Jarl-Archivist Kaelen Thalreth, enforces the Sovereign Ledger, stripping undocumented peoples of their rights. The house maintains the Scribe-Cartel monopoly on ink and paper, and operates the Tapestry-Wards to forcibly assimilate frontier and Mimir children into structured runic logic.',
+    relatedTerms: ['briaran', 'frostwood-reach', 'gambrel', 'greymark_keep', 'greythorn_copse', 'house_viridane', 'mirror_mere', 'mistbarrow', 'scribes_tower', 'skalds_landing', 'the_warden', 'toxicologist', 'kaelen-thalreth', 'aldren-thalreth', 'elara-thalreth', 'caedren-thalreth', 'memory_fog_mechanics']
   },
   'house_skalvyr': {
     id: 'house_skalvyr',
@@ -183,7 +183,7 @@ export const LORE_DICTIONARY = {
     region: 'sundrift-vale',
     summary: 'A crystal-skinned people of the Sundrift Vale whose bodies carry the nesting constellation-spirits of Sol\'s ministers.',
     fullEntry: 'The Astril are the luminous guardians of the starless steppe. When Sol was bound, the constellation-spirits of the sun\'s celestial court took refuge inside the bloodlines of the steppe peoples. This nesting manifests as crystalline, glowing skin patterns that hum with celestial resonance. They are divided into the Sylen, who seek total symbiosis with their spirits, the Muren, who bind and suppress them, and the Unlit, who carry no star-glow. Starfall Vale, where the residue of Sol\'s shattered celestial court impacts the earth, remains the most important pilgrimage site for Astril of every caste — a place where the Memory of Sol can still be heard in the harmonic tones of trapped starlight.',
-    relatedTerms: ['ancestor_mounds', 'false_prophet', 'house_ordavan', 'lien_stalked_grazes', 'nova_heath', 'starfall_vale', 'sundrift-vale', 'synod_hold', 'the_unlit_knoll', 'xyris']
+    relatedTerms: ['ancestor_mounds', 'ancestor_wold', 'astril', 'false_prophet', 'grass_tundra', 'harbinger', 'house_ordavan', 'kumis_downs', 'lien_stalked_grazes', 'morrens_bogpost', 'mound_camps', 'nova_heath', 'starfall_vale', 'synod_hold', 'the_long_steppe', 'the_unlit_knoll', 'animist', 'xyris', 'kael', 'sera-three-scars', 'mor-vereth', 'loras-ordavan', 'li-wei', 'triune-founders']
   },
 
   // RESOURCES
@@ -928,6 +928,15 @@ export const LORE_DICTIONARY = {
     summary: 'The Emberth smith who founded the Spellguard tradition, developing the art of identifying and neutralizing magical threats near the volatile Solbrand.',
     fullEntry: 'Damon was a master Emberth smith in the forge-caldera keeps of Sundale, working in close proximity to the Solbrand. The imprisoned star\'s resonance occasionally erupted in unpredictable magical bursts — dangerous for the forge-clans who worked nearby. Damon developed the first systematic method for detecting, analyzing, and dismantling incoming magical energy before it could manifest. His techniques became the foundation of the Spellguard tradition: practitioners who treat magical defense as an engineering discipline rather than an artistic one.',
     relatedTerms: ['emberth', 'solbrand', 'spellguard', 'sundale']
+  },
+  'memory_fog_mechanics': {
+    id: 'memory_fog_mechanics',
+    term: 'Memory Fog Mechanics',
+    type: 'concept',
+    region: 'frostwood-reach',
+    summary: 'The rules of memory decay, acute exposure tolls, and survival countermeasures within the Frostwood Reach.',
+    fullEntry: 'The memory-erasing fog of the Frostwood Reach operates on two distinct levels. Locally, residents experience a slow, chronic decay—taking a decade of unprotected exposure to hollow out foundational memories like family faces. For travelers in the deep wilderness, the danger becomes acute, forcing a Spirit save every 24 hours (The Memory Toll) to avoid losing a specific piece of personal identity (a name, a face, or a contract). To combat this, travelers burn aromatic Moss-Wax Candles to ward off the mist, drink alchemical Fae-Hush to stabilize their minds, or record their pasts on light-refracting Memory-Glass tablets. The shape-shifting Mimir must perform the Rite of Masks to lock their fluid anatomy, which would otherwise dissolve entirely into the fog.',
+    relatedTerms: ['frostwood-reach', 'house_thalreth', 'mimir', 'rite-of-masks', 'scribes_tower', 'mirror_mere']
   },
 
   // ============================================================
