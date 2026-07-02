@@ -222,7 +222,7 @@ export const LORE_DICTIONARY = {
     type: 'event',
     region: 'sundale',
     summary: 'The ancient, natural death-rebirth cycle of celestial bodies that was interrupted by the burial of the sun.',
-    fullEntry: 'The Deepening is the fundamental rhythm of the Mythrill universe — the cyclical process by which a star sheds its exhausted light and rekindles its fire from within. When Sol entered this vulnerable state, it attracted the cosmic predator Keth-Amar, triggering the seven noble families\' desperate entombment of the star beneath Sundale and breaking the natural cycle of the heavens.',
+    fullEntry: 'The Deepening is the fundamental rhythm of the Mythrill universe — the cyclical process by which a star sheds its exhausted light and rekindles its fire from within. When Sol entered this vulnerable state, it attracted the cosmic predator Keth-Amar, triggering the seven noble families\' desperate entombment of the star beneath Sundale and breaking the natural cycle of the heavens.\n\nEach Deepening presents a 12-year rebirth window — a narrow interval during which the dying star must reignite its core or be extinguished forever. Sol has entered this window 65 times since its entombment in Year 3, and has failed every time: each rebirth attempt is consumed by Keth-Amar before ignition can complete. The Augurs at the Frozen Archive have measured the decline across all 65 cycles, from a 40% probability of successful rekindling in the first window to 0% in the most recent. The calendar months of First Thaw and False Dawn are cultural echoes of this rebirth window — the old world\'s memory of when the sun should have returned, preserved in ritual long after the hope behind it withered.',
     relatedTerms: ['aex', 'keth_amar', 'lunarch', 'solbrand', 'sundale', 'the_warden']
   },
   'the_breach': {
@@ -231,7 +231,7 @@ export const LORE_DICTIONARY = {
     type: 'event',
     region: 'sundale',
     summary: 'The catastrophic event when Keth-Amar cracked Sol\'s volcanic tomb, releasing the Wyrd.',
-    fullEntry: 'The Breach occurred when Keth-Amar devoured the firstborn heirs of the six noble houses, utilizing their bloodline keys to fracture the vault binding Sol beneath Sundale. The seal shattered into seven Sundered Monoliths, triggering the eruption of Emberspire and letting the Wyrd bleed through the volcanic cracks into the surface air.',
+    fullEntry: 'The Breach occurred in Year 11 of the Dimming, when Keth-Amar devoured the firstborn heirs of the six noble houses, utilizing their bloodline keys to fracture the vault binding Sol beneath Sundale. The Breach was not sudden — it followed an eight-year corruption arc. For eight years after the Binding (Year 3), Keth-Amar whispered to the noble houses from the darkness beyond Sol\'s tomb, eroding their resolve through bargains, dreams, and the slow poison of dread. Only after those eight years of erosion did the houses capitulate, marching their heirs to the northern peaks. When Keth-Amar consumed them, the seal shattered into seven Sundered Monoliths, triggering the eruption of Emberspire and letting the Wyrd bleed through the volcanic cracks into the surface air.',
     relatedTerms: ['emberspire', 'keth_amar', 'starfall_vale', 'sundale', 'the_warden']
   },
 
@@ -274,7 +274,7 @@ export const LORE_DICTIONARY = {
     type: 'entity',
     region: 'sundale',
     summary: 'The ancient, impartial cosmic arbitrator who brokered the Original Binding of Sol and enforces the cost of every bargain struck in Mythrill.',
-    fullEntry: 'The Warden is not a god, not a spirit, not a force of nature in any conventional sense. It is the universe\'s mechanism of consequence — a presence older than Sol itself that exists to enforce the logic of exchange. The Warden\'s role in Mythrill\'s history is two-fold.\n\nFirst: the **Original Binding**. When Sol entered the Deepening, the seven noble families approached the Warden with a desperate proposal — to entomb the dying star beneath the volcanic crust of Sundale. The Warden accepted this bargain on one condition: the willing sacrifice of Aex, Sol\'s own firstborn, whose living hide was flayed to weave the binding seal. This is the act for which the Warden is remembered, and the reason its name is spoken with both reverence and dread.\n\nSecond: the **Regional Compacts**. After Sol was bound, each noble house (or, in Bryngloom\'s case, the Neth ancestors rather than a noble family) returned to the Warden to negotiate individual compacts — protective bargains that traded something precious for something necessary. Thalreth traded clarity for fog. Skalvyr traded summer for halted glaciers. Each compact was accepted without negotiation and without mercy.\n\nThe Dark Bargains — the capitulation to Keth-Amar and the sacrifice of firstborn heirs — were struck with Keth-Amar directly, not with the Warden. Confusion arises because both entities deal in exchange, but they are not the same. The Warden enforces balance. Keth-Amar devours.\n\nThe Warden does not punish. It does not reward. It remembers every clause of every contract, and it enforces them without exception. Those who have encountered what they believe to be the Warden describe only a sensation: the certainty that a debt has just been recognized.',
+    fullEntry: 'The Warden is not a god, not a spirit, not a force of nature in any conventional sense. It is the universe\'s mechanism of consequence — a presence older than Sol itself that exists to enforce the logic of exchange. The Warden\'s role in Mythrill\'s history is two-fold.\n\nFirst: the **Original Binding** (Year 3). When Sol entered the Deepening, the seven noble families approached the Warden with a desperate proposal — to entomb the dying star beneath the volcanic crust of Sundale. The Warden accepted this bargain on one condition: the willing sacrifice of Aex, Sol\'s own firstborn, whose living hide was flayed to weave the binding seal. This is the act for which the Warden is remembered, and the reason its name is spoken with both reverence and dread.\n\nSecond: the **Regional Compacts**. After Sol was bound, each noble house (or, in Bryngloom\'s case, the Neth ancestors rather than a noble family) returned to the Warden to negotiate individual compacts — protective bargains that traded something precious for something necessary. Thalreth traded clarity for fog. Skalvyr traded summer for halted glaciers. Each compact was accepted without negotiation and without mercy.\n\nThe Dark Bargains — the capitulation to Keth-Amar and the sacrifice of firstborn heirs — were struck with Keth-Amar directly, not with the Warden. Confusion arises because both entities deal in exchange, but they are not the same. The Warden enforces balance. Keth-Amar devours.\n\nThe Warden does not punish. It does not reward. It remembers every clause of every contract, and it enforces them without exception. Those who have encountered what they believe to be the Warden describe only a sensation: the certainty that a debt has just been recognized.',
     relatedTerms: ['aex', 'house_skalvyr', 'house_solvan', 'house_thalreth', 'keth_amar', 'nordhalla', 'silent_seventh', 'the_breach', 'the_deepening', 'the_still_crag', 'titan', 'warden']
   },
 
@@ -284,7 +284,7 @@ export const LORE_DICTIONARY = {
     type: 'entity',
     region: 'sundale',
     summary: 'The ancient cosmic predator that hunts dying stars during their Deepening cycle — the catastrophe that triggered the burial of Sol.',
-    fullEntry: 'Keth-Amar is a force that has no name in any living language older than eight centuries — because every civilization that named it in writing was destroyed before the word could spread. It hunts stars during their Deepening, the vulnerable death-rebirth cycle, consuming them before they can rekindle. When Sol entered its Deepening, Keth-Amar followed. The seven noble houses, recognizing what was coming, chose to entomb Sol beneath the world rather than surrender it. Keth-Amar accepted the firstborn heirs of the six noble families as tribute — a cost extracted through the dark bargains — and in consuming them, cracked the seal of Sol\'s vault, triggering The Breach. Whether Keth-Amar was satisfied, or merely delayed, is the question every court mage and hedge prophet in Mythrill has been arguing since the eruption of Emberspire.',
+    fullEntry: 'Keth-Amar is a force that has no name in any living language older than eight centuries — because every civilization that named it in writing was destroyed before the word could spread. It hunts stars during their Deepening, the vulnerable death-rebirth cycle, consuming them before they can rekindle. When Sol entered its Deepening, Keth-Amar followed. The seven noble houses, recognizing what was coming, chose to entomb Sol beneath the world rather than surrender it. Keth-Amar whispered to the noble houses for eight years following the Binding (Year 3), a slow corruption arc that eroded their collective resolve through dreams, bargains, and the poison of dread. In Year 11, the houses capitulated, marching their firstborn heirs to the northern peaks. Keth-Amar accepted them as tribute — a cost extracted through the dark bargains — and in consuming them, cracked the seal of Sol\'s vault, triggering The Breach. Over the centuries since, Keth-Amar has consumed each of Sol\'s 65 rebirth attempts, extinguishing every 12-year window before the star could rekindle. Since Year 598, the entity known as the Voice — believed by many scholars to be an aspect or emissary of Keth-Amar — has spoken through the Cult of Forgotten Shadow, a growing heresy that worships the star-eater as a necessary purge rather than a predator. Whether Keth-Amar was satisfied, or merely delayed, is the question every court mage and hedge prophet in Mythrill has been arguing since the eruption of Emberspire.',
     relatedTerms: ['dawn_vigil', 'emberspire', 'house_morrath', 'house_solvan', 'house_viridane', 'lunarch', 'silent_seventh', 'sundale', 'the_breach', 'the_deepening', 'the_warden']
   },
 
@@ -304,8 +304,18 @@ export const LORE_DICTIONARY = {
     type: 'entity',
     region: 'sundale',
     summary: 'Sol\'s own firstborn — a living entity of pure radiance whose body was flayed to weave the binding seal that entombs the dying star.',
-    fullEntry: 'Aex was the firstborn of Sol — not a god, not an angel, but a living entity of pure stellar radiance who had protected the sun through every Deepening since the first star learned to burn. When the seven noble families chose to entomb Sol beneath the volcanic crust of Sundale to protect it from Keth-Amar, the Warden demanded a price: Aex\'s willing sacrifice. It was Solvan who wielded the knife, flaying Aex\'s living hide to weave the binding seal. Whether Aex consented freely or was compelled by loyalty to Sol remains the subject of bitter theological dispute in Sundale.',
+    fullEntry: 'Aex was the firstborn of Sol — not a god, not an angel, but a living entity of pure stellar radiance who had protected the sun through every Deepening since the first star learned to burn. When the seven noble families chose to entomb Sol beneath the volcanic crust of Sundale (Year 3) to protect it from Keth-Amar, the Warden demanded a price: Aex\'s willing sacrifice. It was House Solvan who wielded the knife, flaying Aex\'s living hide to weave the binding seal. Whether Aex consented freely — a willing sacrifice for its parent star — or was compelled by loyalty to Sol remains the subject of bitter theological dispute in Sundale. The Dawn Vigil holds that Aex offered itself willingly; the Augurs at the Frozen Archive maintain that the evidence in the seal\'s resonance suggests coercion. The knife itself, a blade of crystallized starlight, was shattered in the act and its fragments distributed among the binding houses as both relics and reminders.',
     relatedTerms: ['emberspire', 'house_solvan', 'sundale', 'the_deepening', 'the_warden']
+  },
+
+  'sol': {
+    id: 'sol',
+    term: 'Sol',
+    type: 'entity',
+    region: 'sundale',
+    summary: 'The dying star-god entombed beneath Emberspire — a living celestial consciousness whose natural rebirth cycle has been thwarted by Keth-Amar for 780 years.',
+    fullEntry: 'Sol is not a god in any conventional sense, but a living star whose consciousness spans the solar system it warms. When Sol entered the Deepening — the natural death-rebirth cycle every star undergoes — it attracted Keth-Amar, the cosmic predator that hunts dying stars. The seven noble houses, rather than surrender Sol to consumption, entombed the star beneath the volcanic crust of Sundale in Year 3, an act known as the Original Binding. Since that entombment, Sol has attempted the 12-year rebirth cycle 65 times. Each attempt has failed: Keth-Amar consumes the rekindling before it can complete, extinguishing the star\'s resurgence at the moment of ignition. The Solbrand — the residual thermal current that radiates upward from the buried star — is all that remains of Sol\'s conscious warmth. The Korr Emberth who tend it in holy silence believe Sol still breathes. The Augurs at the Frozen Archive, who have tracked every rebirth window since the Binding, have watched the probability of success decline from 40% to 0% across all 65 cycles.',
+    relatedTerms: ['aex', 'keth_amar', 'solbrand', 'sundale', 'the_deepening', 'the_breach', 'the_warden', 'emberspire', 'frozen_archive']
   },
 
   // ============================================================
@@ -320,7 +330,7 @@ export const LORE_DICTIONARY = {
     type: 'class',
     region: 'bryngloom-forest',
     summary: 'A contract-mage who crystallizes their silver Neth blood into volatile shards, anchoring spells in legal precision rather than instinct.',
-    fullEntry: 'The Arcanoneer tradition was formalized by Valerius, the great Velun archivist who realized that the Bryngloom Forest\'s ambient magic responded to the same syntax as Neth contract law. By structuring incantations as strict, legally-binding documents — with offer, consideration, and consequence — a caster can crystallize their blood into volatile Mnemonic Shards that anchor spells with extraordinary precision. The cost is rigidity: an Arcanoneer cannot improvise. Every spell must be prepared, structured, and filed. In combat this translates to absolute devastation within their prepared repertoire and near-helplessness outside it.',
+    fullEntry: 'Founded: Year 60 (Dimming), by Valerius — drafted the First Contract, structuring incantations as binding legal documents. The Arcanoneer tradition was formalized by Valerius, the great Velun archivist who realized that the Bryngloom Forest\'s ambient magic responded to the same syntax as Neth contract law. By structuring incantations as strict, legally-binding documents — with offer, consideration, and consequence — a caster can crystallize their blood into volatile Mnemonic Shards that anchor spells with extraordinary precision. The cost is rigidity: an Arcanoneer cannot improvise. Every spell must be prepared, structured, and filed. In combat this translates to absolute devastation within their prepared repertoire and near-helplessness outside it.',
     relatedTerms: ['bryngloom-forest', 'neth', 'valerius']
   },
   'augur': {
@@ -331,7 +341,7 @@ export const LORE_DICTIONARY = {
     type: 'class',
     region: 'nordhalla',
     summary: 'A death-touched seer who reads the future in the entrails of the present, trading years of their own lifespan for visions.',
-    fullEntry: 'The Augur tradition grew in the glacier-tombs of Nordhalla, where the dead stand upright in the ice as permanent witnesses to the living. The first Augurs discovered that prolonged proximity to the glacier-preserved dead created a resonance — flashes of the deceased\'s final visions. They learned to court this resonance deliberately, burning their own life-years to pull usable foresight from the edges of death. An Augur sees probabilities, not certainties — they tell you which path has fewer corpses, not which path has none.',
+    fullEntry: 'Founded: Year 2 (Deepening), by Cassia — read the Deepening\'s hour in glacier-elk entrails at the Frozen Archive. The Augur tradition grew in the glacier-tombs of Nordhalla, where the dead stand upright in the ice as permanent witnesses to the living. The first Augurs discovered that prolonged proximity to the glacier-preserved dead created a resonance — flashes of the deceased\'s final visions. They learned to court this resonance deliberately, burning their own life-years to pull usable foresight from the edges of death. An Augur sees probabilities, not certainties — they tell you which path has fewer corpses, not which path has none.',
     relatedTerms: ['frozen_archive', 'house_skalvyr', 'nordhalla']
   },
   'berserker': {
@@ -343,7 +353,7 @@ export const LORE_DICTIONARY = {
     region: 'nordhalla',
     secondaryRegions: ['sundale'],
     summary: 'A warrior of dual heritage — Skald ancestry from Nordhalla and the volcanic founding of Grum Bloodhammer in Sundale — who ignites their Blood-Heat to overdrive their physiology, trading control for catastrophic, self-burning strength.',
-    fullEntry: 'The Berserker is a tradition of two regions and one terrible inheritance. The Hunger Pact was forged in Nordhalla: during the worst winter of the Glacier Bargain, the ancestors of the Bloodhammer line consumed their own fallen so the bloodline could persist, and that act entered their marrow. The Blood-Heat itself, however, was born in Sundale — when the Bloodhammer clans migrated south under Torra Bloodhammer into the volcanic tunnels of Emberspire, the smith Grum surrendered to the forge\'s heat to shatter an ice-wyrm bare-handed. Nordhalla gave the Berserker its ancestry; Sundale gave it its fire. Berserkers do not resist pain — they use it as fuel. The Blood-Heat mechanic tracks their physiological thermal pressure as it builds from wounds and exertion. At low heat, a Berserker is fast and strong. At high heat, they are apocalyptic but begin damaging themselves. At Metabolic Burnout, they collapse in systemic shock. Today the tradition is trained in the Harath-Vault arenas of Sundale and pilgrimaged at the Forge of Grum beneath Emberspire, while the Skald elders of the Frozen Archive in Nordhalla still claim the right to decide who may carry the Pact.',
+    fullEntry: 'Founded: Year 100 (Dimming), by Grum the Iron-Smith — ignited the Blood-Heat in Emberspire\'s caldera, shattering an ice-wyrm bare-handed. The Berserker is a tradition of two regions and one terrible inheritance. The Hunger Pact was forged in Nordhalla: during the worst winter of the Glacier Bargain, the ancestors of the Bloodhammer line consumed their own fallen so the bloodline could persist, and that act entered their marrow. The Blood-Heat itself, however, was born in Sundale — when the Bloodhammer clans migrated south under Torra Bloodhammer into the volcanic tunnels of Emberspire, the smith Grum surrendered to the forge\'s heat to shatter an ice-wyrm bare-handed. Nordhalla gave the Berserker its ancestry; Sundale gave it its fire. Berserkers do not resist pain — they use it as fuel. The Blood-Heat mechanic tracks their physiological thermal pressure as it builds from wounds and exertion. At low heat, a Berserker is fast and strong. At high heat, they are apocalyptic but begin damaging themselves. At Metabolic Burnout, they collapse in systemic shock. Today the tradition is trained in the Harath-Vault arenas of Sundale and pilgrimaged at the Forge of Grum beneath Emberspire, while the Skald elders of the Frozen Archive in Nordhalla still claim the right to decide who may carry the Pact.',
     relatedTerms: ['blood_heat', 'grum', 'harath_vault', 'nordhalla', 'sundale']
   },
   'shaper': {
@@ -355,7 +365,7 @@ export const LORE_DICTIONARY = {
     region: 'frostwood-reach',
     secondaryRegions: ['cragjaw-peaks'],
     summary: 'A master of kinetic biology of dual origin — the Frostwood Reach momentum dance (Sylvanus) fused with the Frostmaw Holdfast biological body-sculpting (Torin) by the Mimir chronicler Veyra — who treats their body as a malleable weapon.',
-    fullEntry: 'The Shaper is a convergence of two regional traditions. In the Frostwood Reach, the kinetic momentum dance was born among the ironwood canopy — a hyper-accelerated combat art of wind-synced striking. In the Cragjaw Peaks, the biological body-sculpting art arose at Frostmaw Holdfast, where practitioners drank raw alchemical sulfur-clay to calcify and reshape their own skeletons. The two traditions existed separately for centuries until the Mimir chronicler Veyra, who had studied both, proved they were one dance seen from two angles — momentum shaping form, form directing momentum. A Shaper navigates 6 Shaping Forms that blend kinetic stances with physical form adaptations, building Kinetic Flux through combat and accumulating Body Toll from every transformation. The tradition is taught at the Shaping Hall in Frostmaw Holdfast (Cragjaw) and in the deep ironwood groves of the Frostwood Reach. The price is absolute: every shift erodes identity, calcifies skin, and frays the nervous system. The dance is killing them, but stopping is death.',
+    fullEntry: 'Founded: Year 350 (Dimming), by Veyra the Merged — fused Sylvanus\'s kinetic momentum dance with Torin\'s biological body-sculpting into one tradition. The Shaper is a convergence of two regional traditions. In the Frostwood Reach, the kinetic momentum dance was born among the ironwood canopy — a hyper-accelerated combat art of wind-synced striking. In the Cragjaw Peaks, the biological body-sculpting art arose at Frostmaw Holdfast, where practitioners drank raw alchemical sulfur-clay to calcify and reshape their own skeletons. The two traditions existed separately for centuries until the Mimir chronicler Veyra, who had studied both, proved they were one dance seen from two angles — momentum shaping form, form directing momentum. A Shaper navigates 6 Shaping Forms that blend kinetic stances with physical form adaptations, building Kinetic Flux through combat and accumulating Body Toll from every transformation. The tradition is taught at the Shaping Hall in Frostmaw Holdfast (Cragjaw) and in the deep ironwood groves of the Frostwood Reach. The price is absolute: every shift erodes identity, calcifies skin, and frays the nervous system. The dance is killing them, but stopping is death.',
     relatedTerms: ['bladedancer', 'cragjaw-peaks', 'formbender', 'frostmaw_holdfast', 'frostwood-reach', 'groven', 'mimir', 'veyra', 'sylvanus', 'torin']
   },
   'bladedancer': {
@@ -381,7 +391,7 @@ export const LORE_DICTIONARY = {
     region: 'nordhalla',
     secondaryRegions: ['sundrift-vale'],
     summary: 'An entropy prophet of dual origin — Xyris\'s reality-tearing in the Sundrift Vale and Malakor\'s doom-arithmetic in Nordhalla — who channels entropic friction and prophetic certainty into living bomb prophecies.',
-    fullEntry: 'The Harbinger was forged in two regions that share a single conviction: that the world is ending, and that the ending can be wielded. In the Sundrift Vale, the nomad Xyris spliced temporal friction into her veins and tore a hole in reality — and the hole killed her. In Nordhalla, the archivist Malakor did the colder work: he calculated the arithmetic of doom, working out exactly when Xyris\'s holes would consume everything. The Harbinger tradition is their merger — the chaos-weaver\'s philosophical surrender to the Wyrd joined to the doomsayer\'s prophetic certainty. A Harbinger does not simply predict doom — they orchestrate it, channeling entropic friction through prophetic visions into living bomb prophecies that detonate across the battlefield. Their Mayhem pressure gauge amplifies all spells as it rises, creating a self-reinforcing cycle of chaos that can only be released through catastrophic Wild Surges. The tradition\'s arithmetic is honed in the Frozen Archive of Nordhalla; its chaos-work is field-tested in the permanent Chaos Pockets now stabilizing across the Sundrift Vale.',
+    fullEntry: 'Founded: Year 380 (Dimming), by Xyris and Malakor — merged the chaos-weaver\'s reality-tearing with the doomsayer\'s prophetic arithmetic. The Harbinger was forged in two regions that share a single conviction: that the world is ending, and that the ending can be wielded. In the Sundrift Vale, the nomad Xyris spliced temporal friction into her veins and tore a hole in reality — and the hole killed her. In Nordhalla, the archivist Malakor did the colder work: he calculated the arithmetic of doom, working out exactly when Xyris\'s holes would consume everything. The Harbinger tradition is their merger — the chaos-weaver\'s philosophical surrender to the Wyrd joined to the doomsayer\'s prophetic certainty. A Harbinger does not simply predict doom — they orchestrate it, channeling entropic friction through prophetic visions into living bomb prophecies that detonate across the battlefield. Their Mayhem pressure gauge amplifies all spells as it rises, creating a self-reinforcing cycle of chaos that can only be released through catastrophic Wild Surges. The tradition\'s arithmetic is honed in the Frozen Archive of Nordhalla; its chaos-work is field-tested in the permanent Chaos Pockets now stabilizing across the Sundrift Vale.',
     relatedTerms: ['frozen_archive', 'house_skalvyr', 'nordhalla', 'sundrift-vale', 'xyris', 'malakor']
   },
   'chronarch': {
@@ -392,7 +402,7 @@ export const LORE_DICTIONARY = {
     type: 'class',
     region: 'cragjaw-peaks',
     summary: 'A time-manipulator who unravels small loops of causality to reverse, delay, or accelerate moments — at the cost of temporal echoes.',
-    fullEntry: 'The Chronarch tradition is the most intellectually demanding in the known traditions — it requires a practitioner to hold in mind not just what is, but what was and what could be, simultaneously. Chronarchs emerged from the Cragjaw Peaks, where the eternal blizzard that hides the mountains from the outside world created pockets of temporal suspension. A Chronarch does not travel in time. They stitch it — pulling a thread of the past forward or pushing a thread of the present backward by seconds or minutes. Each stitch leaves a temporal echo, a ghost-impression of the unraveled moment that lingers and occasionally acts on its own.',
+    fullEntry: 'Founded: Year 310 (Dimming), by Nesta — built the time-dilation engine at Frostmaw during the War of Thousand Screams. The Chronarch tradition is the most intellectually demanding in the known traditions — it requires a practitioner to hold in mind not just what is, but what was and what could be, simultaneously. Chronarchs emerged from the Cragjaw Peaks, where the eternal blizzard that hides the mountains from the outside world created pockets of temporal suspension. A Chronarch does not travel in time. They stitch it — pulling a thread of the past forward or pushing a thread of the present backward by seconds or minutes. Each stitch leaves a temporal echo, a ghost-impression of the unraveled moment that lingers and occasionally acts on its own.',
     relatedTerms: ['cragjaw-peaks', 'house_tesshan']
   },
   'inquisitor': {
@@ -404,7 +414,7 @@ export const LORE_DICTIONARY = {
     region: 'bryngloom-forest',
     secondaryRegions: ['frostwood-reach'],
     summary: 'A witch-hunter of dual root — Orven\'s cold-iron Vreken tradition in the Bryngloom and Elias the Salt-Scarred\'s anti-Wyrd Thalren tradition in the Frostwood Reach — who severs magical bindings and commands bound fiends.',
-    fullEntry: 'The Inquisitor tradition has two roots in two regions, both born from the same necessity: policing the supernatural when it turns predatory. In the Bryngloom Forest, Orven the Still-Handed forged the first cold-iron blade and swore the Barbed Vow to hunt corrupted Vreken whose ancestral spirit-bonds had gone rogue and Drun Neth whose void-sealed contracts defied conventional magic. In the Frostwood Reach, Elias the Salt-Scarred opened his own veins to draw the Wyrd\'s face-stealing horrors — the Gref, the Gambrel — into living flesh where they could be named and cut. The two traditions merged when the supernatural incursion rate tripled and neither regional order could contain it alone. An Inquisitor specializes in identifying, disrupting, and severing magical contracts — they are not magic-resistant by nature; they are magic-literate in the way a surgeon is anatomy-literate. The tradition also encompasses the binding and commanding of fiends through sacred dominance ritual. The Bryngloom order is seated at the Sunken Spire; the Frostwood order operates out of Greymark Keep, and the two stay in contact through a chain of border-shrines.',
+    fullEntry: 'Founded: Year 380 (Dimming), by Orven and Elias — merged the Barbed Vow, combining cold-iron witch-hunting with flesh-baiting Wyrd-tracking. The Inquisitor tradition has two roots in two regions, both born from the same necessity: policing the supernatural when it turns predatory. In the Bryngloom Forest, Orven the Still-Handed forged the first cold-iron blade and swore the Barbed Vow to hunt corrupted Vreken whose ancestral spirit-bonds had gone rogue and Drun Neth whose void-sealed contracts defied conventional magic. In the Frostwood Reach, Elias the Salt-Scarred opened his own veins to draw the Wyrd\'s face-stealing horrors — the Gref, the Gambrel — into living flesh where they could be named and cut. The two traditions merged when the supernatural incursion rate tripled and neither regional order could contain it alone. An Inquisitor specializes in identifying, disrupting, and severing magical contracts — they are not magic-resistant by nature; they are magic-literate in the way a surgeon is anatomy-literate. The tradition also encompasses the binding and commanding of fiends through sacred dominance ritual. The Bryngloom order is seated at the Sunken Spire; the Frostwood order operates out of Greymark Keep, and the two stay in contact through a chain of border-shrines.',
     relatedTerms: ['bryngloom-forest', 'covenbane', 'elias', 'exorcist', 'frostwood-reach', 'greymark_keep', 'neth', 'sunken_spire', 'vreken', 'orven']
   },
   'revenant': {
@@ -415,7 +425,7 @@ export const LORE_DICTIONARY = {
     type: 'class',
     region: 'bryngloom-forest',
     summary: 'A death caster who has returned from the grave, combining blood-magic sacrifice (Kora\'s covenant) with frost-stasis harvest (Vesper\'s phylactery) into a unified economy of death.',
-    fullEntry: 'The Revenant tradition was born from the convergence of two death-magic schools in the Bryngloom Forest. The blood covenant of Kora the Veil-Speaker — who sacrificed her own life force to keep the ancestral lights burning and was cursed to hear the screams of the dead — merged with the frost stasis of Vesper the Scribe — who bound his soul to a basalt phylactery and negotiated perpetual dying to escape the sumps\' lung-rot. When the bog-graves began waking on their own, the two traditions recognized their separate wars were the same. The Revenant now carries both volatile Death Toll (blood-derived necrotic energy) and a kill-charged Phylactery (frost-stasis resurrection), toggling between Rest Mode and Death Shroud to burn HP for devastating power.',
+    fullEntry: 'Founded: Year 550 (Dimming), by Kora and Vesper — bog-graves began waking on their own, and the blood-covenant and frost-stasis traditions merged. The Revenant tradition was born from the convergence of two death-magic schools in the Bryngloom Forest. The blood covenant of Kora the Veil-Speaker — who sacrificed her own life force to keep the ancestral lights burning and was cursed to hear the screams of the dead — merged with the frost stasis of Vesper the Scribe — who bound his soul to a basalt phylactery and negotiated perpetual dying to escape the sumps\' lung-rot. When the bog-graves began waking on their own, the two traditions recognized their separate wars were the same. The Revenant now carries both volatile Death Toll (blood-derived necrotic energy) and a kill-charged Phylactery (frost-stasis resurrection), toggling between Rest Mode and Death Shroud to burn HP for devastating power.',
     relatedTerms: ['bryngloom-forest', 'deathcaller', 'kora', 'lichborne', 'neth', 'vesper', 'vreken']
   },
   // 'deathcaller' and 'lichborne' merged into Revenant as Phase 1.10 consolidation
@@ -486,7 +496,7 @@ export const LORE_DICTIONARY = {
     type: 'class',
     region: 'sundrift-vale',
     summary: 'A manipulator who weaponizes faith — creating and exploiting constructed belief systems to accumulate political power and divine-adjacent ability.',
-    fullEntry: 'The False Prophet does not believe their own gospel. They understand that belief itself is a resource — that a people who believe something with sufficient intensity generate a spiritual resonance that can be harvested. The tradition originated in the Sundrift Vale, where the starless sky and the nomadic migrations created desperate demand for meaning. A False Prophet engineers that meaning with the cold precision of an architect. They are not necessarily malicious — some build their constructed faiths to protect people, knowing that the lie is more useful than the truth. The power comes from the congregation, not the prophet.',
+    fullEntry: 'Founded: Year 598 (Dimming), by Li Wei — followed a meteor into a Sundered Monolith crater and witnessed the Silence Between Stars. The False Prophet does not believe their own gospel. They understand that belief itself is a resource — that a people who believe something with sufficient intensity generate a spiritual resonance that can be harvested. The tradition originated in the Sundrift Vale, where the starless sky and the nomadic migrations created desperate demand for meaning. A False Prophet engineers that meaning with the cold precision of an architect. They are not necessarily malicious — some build their constructed faiths to protect people, knowing that the lie is more useful than the truth. The power comes from the congregation, not the prophet.',
     relatedTerms: ['astril', 'sundrift-vale', 'synod_hold']
   },
   'gambit': {
@@ -498,7 +508,7 @@ export const LORE_DICTIONARY = {
     region: 'cragjaw-peaks',
     secondaryRegions: ['iceheart-sea', 'bryngloom-forest'],
     summary: 'A probability-manipulator of tri-regional origin — Jax\'s sea-omen gambling on the Iceheart Sea and Lyra\'s Kessen Neth probability-web reading in the Bryngloom, refined in the toll-negotiations of the Cragjaw Peaks.',
-    fullEntry: 'The Gambit tradition was born twice, in two regions, and refined in a third. On the Iceheart Sea, the Merryn pirate Jax wagered his lifeline against a storm-spirit at Merrowport — winning the wind but losing his blood\'s warmth, and proving that probability itself could be staked and won. In the Bryngloom Forest, the Kessen Neth probability-weaver Lyra read the threads of consequence through rune-etched cards, plucking the single timeline in which her caravan survived — at the cost of fracturing her consciousness. The two traditions recognized each other when Lyra\'s caravan crossed the Ancestor-Spans into the Cragjaw Peaks, where the high-stakes toll-negotiations refined both arts into the modern Gambit. A Gambit does not control fate — they nudge it, the power of compound interest: small adjustments made early that accumulate into dramatically different outcomes. They win battles before they start by ensuring the terrain, weather, and morale are all marginally more favorable. The tradition\'s sea-work is headquartered at the Last Table in Merrowport; its contract-work at Ironjaw Port; and its toll-craft among the Groven bridge-keepers of the Cragjaw.',
+    fullEntry: 'Founded: Year 350 (Dimming), by Jax and Lyra — merged the sea-omen gambling of the Iceheart Sea with the probability-web reading of the Bryngloom. The Gambit tradition was born twice, in two regions, and refined in a third. On the Iceheart Sea, the Merryn pirate Jax wagered his lifeline against a storm-spirit at Merrowport — winning the wind but losing his blood\'s warmth, and proving that probability itself could be staked and won. In the Bryngloom Forest, the Kessen Neth probability-weaver Lyra read the threads of consequence through rune-etched cards, plucking the single timeline in which her caravan survived — at the cost of fracturing her consciousness. The two traditions recognized each other when Lyra\'s caravan crossed the Ancestor-Spans into the Cragjaw Peaks, where the high-stakes toll-negotiations refined both arts into the modern Gambit. A Gambit does not control fate — they nudge it, the power of compound interest: small adjustments made early that accumulate into dramatically different outcomes. They win battles before they start by ensuring the terrain, weather, and morale are all marginally more favorable. The tradition\'s sea-work is headquartered at the Last Table in Merrowport; its contract-work at Ironjaw Port; and its toll-craft among the Groven bridge-keepers of the Cragjaw.',
     relatedTerms: ['bryngloom-forest', 'cragjaw-peaks', 'iceheart-sea', 'ironjaw_port', 'merrowport', 'neth', 'jax', 'lyra']
   },
   'formbender': {
@@ -524,7 +534,7 @@ export const LORE_DICTIONARY = {
     term: 'Apex',
     aliases: [],
     summary: 'The oldest tradition in the Frostwood Reach — a predator\'s art older than the fog, rooted in hunting blind through mist-choked timber with anatomical precision and sensory sacrifice.',
-    fullEntry: 'The Apex tradition is older than any noble house in the Frostwood Reach — it predates the fog and the bargains, rooted in the practical necessity of hunting blind through mist-choked timber. A Apex does not fight in the conventional sense. They identify, track, position, and resolve targets with the minimum expenditure of force required. Their knowledge of anatomy is comprehensive and non-squeamish — every debilitating strike targets a specific nerve cluster, joint, or blood vessel. They are not warriors. They are problems solved.',
+    fullEntry: 'Founded: Years 10-30 (Dimming), by Sylas — formalized the Silent Hunt, trading hearing for vibration-sense in the fog-choked timber. The Apex tradition is older than any noble house in the Frostwood Reach — it predates the fog and the bargains, rooted in the practical necessity of hunting blind through mist-choked timber. A Apex does not fight in the conventional sense. They identify, track, position, and resolve targets with the minimum expenditure of force required. Their knowledge of anatomy is comprehensive and non-squeamish — every debilitating strike targets a specific nerve cluster, joint, or blood vessel. They are not warriors. They are problems solved.',
     relatedTerms: ['frostwood-reach', 'mimir', 'sylas', 'ironwood_heart']
   },
   'animist': {
@@ -536,7 +546,7 @@ export const LORE_DICTIONARY = {
     region: 'bryngloom-forest',
     secondaryRegions: ['sundrift-vale', 'nordhalla'],
     summary: 'A spirit-channeler of tri-regional origin — three independent discoveries fused: Kael\'s totemic communion (Sundrift Vale), Nyssa\'s spore-inhalation (Bryngloom), and Theron\'s runic inscription (Nordhalla).',
-    fullEntry: 'The Animist tradition is not one art but three, fused at a crossroads by carriers who recognized each other\'s scars. In the Sundrift Vale, the Ordan totem-singer Kael discovered ancestral communion through bone-eruption — the spirit called through a totem woven from the migration-horse\'s mane. In the Bryngloom Forest, the Vreken spore-elder Nyssa inhaled the loa on bioluminescent spores, the spirit speaking through shifting glow on the skin. In Nordhalla, the Skald rune-carver Theron inscribed his ancestors\' names into his own skin at the Frozen Archive, the rune itself the house of the dead. The three traditions merged when their carriers met and realized they spoke dialects of a single ancestral language. An Animist does not summon spirits; they open channels that already exist, drawing power from negotiated bonds with ancestral lineages, spirit courts, and the memory-echoes embedded in the land itself. Where others see death as an ending, an Animist sees it as a change of state. The Convergence rotates its seat between the three regions, keeping its archive-records at the Frozen Archive.',
+    fullEntry: 'Founded: Years 120-200 (Dimming), by Kael, Nyssa, and Theron — three independent ancestral-communion traditions (totemic, spore-inhalation, runic inscription) developed separately and later fused. The Animist tradition is not one art but three, fused at a crossroads by carriers who recognized each other\'s scars. In the Sundrift Vale, the Ordan totem-singer Kael discovered ancestral communion through bone-eruption — the spirit called through a totem woven from the migration-horse\'s mane. In the Bryngloom Forest, the Vreken spore-elder Nyssa inhaled the loa on bioluminescent spores, the spirit speaking through shifting glow on the skin. In Nordhalla, the Skald rune-carver Theron inscribed his ancestors\' names into his own skin at the Frozen Archive, the rune itself the house of the dead. The three traditions merged when their carriers met and realized they spoke dialects of a single ancestral language. An Animist does not summon spirits; they open channels that already exist, drawing power from negotiated bonds with ancestral lineages, spirit courts, and the memory-echoes embedded in the land itself. Where others see death as an ending, an Animist sees it as a change of state. The Convergence rotates its seat between the three regions, keeping its archive-records at the Frozen Archive.',
     relatedTerms: ['bryngloom-forest', 'frozen_archive', 'neth', 'nordhalla', 'sundrift-vale', 'vreken', 'kael', 'nyssa', 'theron']
   },
   // 'lichborne' merged into Revenant as Phase 1.10 consolidation
@@ -562,7 +572,7 @@ export const LORE_DICTIONARY = {
     type: 'class',
     region: 'frostwood-reach',
     summary: 'A void-touched mage who draws power from the absent sky — channeling the dark between the stars that Sol\'s absence left exposed.',
-    fullEntry: 'The Lunarch tradition was born in the Frostwood Reach\'s perpetual fog-shrouded canopy — a place where sunlight never reached even before the Deepening. Lunarchs realized that Sol\'s absence had not left the sky empty. It had left the sky exposed to whatever lay beyond Sol — the cold, vast dark between stars that Keth-Amar itself travels through. They learned to channel this ambient void-light, which is not darkness but the specific quality of space that darkness reveals. A Lunarch\'s power is most effective at night, in low light, and in areas of high Wyrd-density — conditions that describe most of the world.',
+    fullEntry: 'Founded: Year 80 (Dimming), by Selene of House Viridane — bargained with wildwood fae in the moonlit groves where the insulating fog thins. The Lunarch tradition was born in the Frostwood Reach\'s perpetual fog-shrouded canopy — a place where sunlight never reached even before the Deepening. Lunarchs realized that Sol\'s absence had not left the sky empty. It had left the sky exposed to whatever lay beyond Sol — the cold, vast dark between stars that Keth-Amar itself travels through. They learned to channel this ambient void-light, which is not darkness but the specific quality of space that darkness reveals. A Lunarch\'s power is most effective at night, in low light, and in areas of high Wyrd-density — conditions that describe most of the world.',
     relatedTerms: ['frostwood-reach', 'keth_amar', 'the_deepening']
   },
   'martyr': {
@@ -573,7 +583,7 @@ export const LORE_DICTIONARY = {
     type: 'class',
     region: 'sundale',
     summary: 'A self-sacrificing healer and shield who absorbs the suffering of allies into their own body, converting it into protective power through the Devotion Gauge.',
-    fullEntry: 'The Martyr tradition was born from the act of Sera Solvan, who carved her sacrificed child\'s name into her flesh with volcanic obsidian and found that the wound glowed rather than healed. A Martyr does not protect allies by standing between them and danger — they absorb what reaches allies into themselves, metabolizing kinetic and magical damage into spiritual resonance tracked in the Devotion Gauge. At low Devotion, a Martyr is a walking wound. At high Devotion, they are a radiant engine of protection that makes the entire party significantly harder to harm. The tradition selects heavily for those who find meaning in suffering.',
+    fullEntry: 'Founded: Year 5 (Deepening), by Sera Solvan — carved her sacrificed child\'s name into her forearm with volcanic obsidian, the wound glowing into the first Martyr scar. The Martyr tradition was born from the act of Sera Solvan, who carved her sacrificed child\'s name into her flesh with volcanic obsidian and found that the wound glowed rather than healed. A Martyr does not protect allies by standing between them and danger — they absorb what reaches allies into themselves, metabolizing kinetic and magical damage into spiritual resonance tracked in the Devotion Gauge. At low Devotion, a Martyr is a walking wound. At high Devotion, they are a radiant engine of protection that makes the entire party significantly harder to harm. The tradition selects heavily for those who find meaning in suffering.',
     relatedTerms: ['devotion_gauge', 'dreadnaught', 'house_solvan', 'sera', 'sundale']
   },
   'minstrel': {
@@ -584,7 +594,7 @@ export const LORE_DICTIONARY = {
     type: 'class',
     region: 'iceheart-sea',
     summary: 'A sonic-resonance practitioner who weaponizes, heals with, and manipulates the world through structured sound and narrative.',
-    fullEntry: 'The Minstrel tradition grew from the Merryn storm-sailors of the Iceheart Sea, who discovered that certain rhythms synchronized the body\'s physiological responses to waves and wind — enabling sustained effort that would otherwise exhaust a crew within hours. A Minstrel is not a bard in the conventional sense. Their sound-work is precise, technical, and physically demanding. They can accelerate healing, sharpen focus, disrupt coordination, or shatter stone at the correct resonant frequency. The tradition requires perfect pitch and the ability to maintain complex rhythmic structures while under combat pressure.',
+    fullEntry: 'Founded: Year 100 (Dimming), by Lyris — sang the Iceheart calms at Merrowport, discovering rhythm could synchronize body and storm. The Minstrel tradition grew from the Merryn storm-sailors of the Iceheart Sea, who discovered that certain rhythms synchronized the body\'s physiological responses to waves and wind — enabling sustained effort that would otherwise exhaust a crew within hours. A Minstrel is not a bard in the conventional sense. Their sound-work is precise, technical, and physically demanding. They can accelerate healing, sharpen focus, disrupt coordination, or shatter stone at the correct resonant frequency. The tradition requires perfect pitch and the ability to maintain complex rhythmic structures while under combat pressure.',
     relatedTerms: ['house_mereval', 'iceheart-sea', 'merrowport', 'skald']
   },
   'plaguebringer': {
@@ -595,7 +605,7 @@ export const LORE_DICTIONARY = {
     type: 'class',
     region: 'bryngloom-forest',
     summary: 'A biological-vector specialist who cultivates, directs, and weaponizes living disease with the precision of a mycologist.',
-    fullEntry: 'The Plaguebringer tradition grew from the Bryngloom Forest\'s fungal-ecology — a world where bioluminescent mycelium connected the roots of every ironwood tree and where the bog-preserved dead occasionally reanimated with fungal intelligence rather than necromantic will. A Plaguebringer is not a chaos agent. They are a cultivator with very specific targets. Their diseases are engineered for selective transmission, predictable progression, and controllable severity. The tradition demands deep biochemical knowledge and the philosophical comfort with causing suffering that most medical traditions specifically train against.',
+    fullEntry: 'Founded: Year 500 (Dimming), by Vespera — bonded with bog-rot to cure the spore-hush, weaponizing the Bryngloom\'s fungal ecology. The Plaguebringer tradition grew from the Bryngloom Forest\'s fungal-ecology — a world where bioluminescent mycelium connected the roots of every ironwood tree and where the bog-preserved dead occasionally reanimated with fungal intelligence rather than necromantic will. A Plaguebringer is not a chaos agent. They are a cultivator with very specific targets. Their diseases are engineered for selective transmission, predictable progression, and controllable severity. The tradition demands deep biochemical knowledge and the philosophical comfort with causing suffering that most medical traditions specifically train against.',
     relatedTerms: ['bryngloom-forest', 'neth', 'vreken']
   },
   'pyrofiend': {
@@ -606,7 +616,7 @@ export const LORE_DICTIONARY = {
     type: 'class',
     region: 'sundale',
     summary: 'A volcanic pact-mage who channels Scathrach\'s demonic fire at the cost of their body being slowly remade into a cracking char-vessel of magma and bone.',
-    fullEntry: 'The Pyrofiend tradition is the most viscerally destructive in the known world and one of the shortest in average practitioner lifespan. Scathrach, the Ashen Sovereign nesting in Emberspire\'s deepest vent, answers prayers of desperation with uncontrollable combustion — and the Pyrofiend tradition is the art of making that combustion controllable enough to survive. The Inferno Veil mechanic tracks how much of Scathrach\'s heat the practitioner is channeling; at high levels it damages the caster as well as the targets. The body gradually shifts from flesh to volcanic material. Eventually the conversion is complete and Scathrach claims the soul for its eternal furnace.',
+    fullEntry: 'Founded: Year 12 (Dimming), by the Seven Solvarn occultists — swallowed Scathrach\'s demonic coals beneath Emberspire when the first rebirth failed. The Pyrofiend tradition is the most viscerally destructive in the known world and one of the shortest in average practitioner lifespan. Scathrach, the Ashen Sovereign nesting in Emberspire\'s deepest vent, answers prayers of desperation with uncontrollable combustion — and the Pyrofiend tradition is the art of making that combustion controllable enough to survive. The Inferno Veil mechanic tracks how much of Scathrach\'s heat the practitioner is channeling; at high levels it damages the caster as well as the targets. The body gradually shifts from flesh to volcanic material. Eventually the conversion is complete and Scathrach claims the soul for its eternal furnace.',
     relatedTerms: ['cinderhoodoo', 'emberspire', 'emberspire_caldera', 'inferno_veil', 'scathrach', 'sundale']
   },
   'spellguard': {
@@ -617,7 +627,7 @@ export const LORE_DICTIONARY = {
     type: 'class',
     region: 'sundale',
     summary: 'A defensive combat-mage who specializes in identifying, neutralizing, and reflecting incoming magical threats — a living counterspell.',
-    fullEntry: 'The Spellguard tradition was developed in the forge-caldera keeps of Sundale, where Emberth smiths who worked near the Solbrand needed practitioners capable of intercepting and defusing the occasional magical eruption from Sol\'s imprisoned resonance. A Spellguard does not primarily cast offensive spells — they identify the structure of incoming magic and dismantle it before it arrives, redirect it, or reshape it into something that serves a different purpose. They are the tradition that most resembles engineering rather than artistry.',
+    fullEntry: 'Founded: Year 3 (Deepening), by Damon the Emberth smith — blocked a solar flare with an alchemical tower shield during Sol\'s entombment. The Spellguard tradition was developed in the forge-caldera keeps of Sundale, where Emberth smiths who worked near the Solbrand needed practitioners capable of intercepting and defusing the occasional magical eruption from Sol\'s imprisoned resonance. A Spellguard does not primarily cast offensive spells — they identify the structure of incoming magic and dismantle it before it arrives, redirect it, or reshape it into something that serves a different purpose. They are the tradition that most resembles engineering rather than artistry.',
     relatedTerms: ['damon', 'emberth', 'solbrand', 'sundale']
   },
   'titan': {
@@ -642,7 +652,7 @@ export const LORE_DICTIONARY = {
     type: 'class',
     region: 'frostwood-reach',
     summary: 'A poison-crafter and delivery specialist who fights through careful preparation rather than direct confrontation — the most premeditated tradition in Mythrill.',
-    fullEntry: 'The Toxicologist tradition grew in the Frostwood Reach\'s fog-choked timber, where the dense undergrowth produced both extraordinary pharmacological resources and the tactical conditions that made slow-acting, area-denial poisons more useful than swords. A Toxicologist is not an assassin in the conventional sense — they are a chemist. Their poisons are engineered for specific physiological effects, specific target populations, and specific durations. The tradition requires extraordinary patience and the stomach for outcomes that unfold over hours rather than seconds.',
+    fullEntry: 'Founded: Year 380 (Dimming), by Varis the Trembling — systematized venom extraction from the fog-predator reagents unique to the Frostwood Reach. The Toxicologist tradition grew in the Frostwood Reach\'s fog-choked timber, where the dense undergrowth produced both extraordinary pharmacological resources and the tactical conditions that made slow-acting, area-denial poisons more useful than swords. A Toxicologist is not an assassin in the conventional sense — they are a chemist. Their poisons are engineered for specific physiological effects, specific target populations, and specific durations. The tradition requires extraordinary patience and the stomach for outcomes that unfold over hours rather than seconds.',
     relatedTerms: ['frostwood-reach', 'house_thalreth']
   },
   'warden': {
@@ -654,7 +664,7 @@ export const LORE_DICTIONARY = {
     region: 'cragjaw-peaks',
     secondaryRegions: ['nordhalla'],
     summary: 'A grim, penitent jailer of dual seat — the chain-graft tradition invented by the Groven Alaric in Frostmaw Holdfast (Cragjaw Peaks) and secondarily practiced through the surgical school of the Frozen Archive (Nordhalla).',
-    fullEntry: 'The Warden tradition was born in the lower tunnels of Frostmaw Holdfast in the Cragjaw Peaks, pioneered by the Groven mine-guard Alaric the Law-Keeper. When the Deep Alchemists\' vat-laboratories collapsed and their experiments poured into the tunnels, Alaric drove an ore-hauling chain through his own forearm into the largest specimen and held for three days. The chain rusted into his bone; he refused to have it removed. From that act came the entire chain-graft surgical tradition. Wardens are heavy-martial lockdown specialists who physically anchor themselves to the battlefield\'s greatest horrors, forcing them into a brutal duel of meat and bone; by driving rusted hooks and chains directly into their own flesh, they establish tethers that restrict the movement of abominations and let them build Tether Tension for devastating counter-strikes. Though born in the Cragjaw, the tradition spread to Nordhalla, where the surgical school of the Frozen Archive learned the graft-rite and adapted it for glacier-hunting — producing the cold-iron Skald Wardens who tether the things that crawl from the fjords. The primary seat remains the Chain-Hold at Frostmaw; the secondary seat the Frozen Archive.',
+    fullEntry: 'Founded: Year 70 (Dimming), by Alaric the Law-Keeper — drove an ore-hauling chain through his own forearm at Frostmaw to hold a vat-escapee for three days. The Warden tradition was born in the lower tunnels of Frostmaw Holdfast in the Cragjaw Peaks, pioneered by the Groven mine-guard Alaric the Law-Keeper. When the Deep Alchemists\' vat-laboratories collapsed and their experiments poured into the tunnels, Alaric drove an ore-hauling chain through his own forearm into the largest specimen and held for three days. The chain rusted into his bone; he refused to have it removed. From that act came the entire chain-graft surgical tradition. Wardens are heavy-martial lockdown specialists who physically anchor themselves to the battlefield\'s greatest horrors, forcing them into a brutal duel of meat and bone; by driving rusted hooks and chains directly into their own flesh, they establish tethers that restrict the movement of abominations and let them build Tether Tension for devastating counter-strikes. Though born in the Cragjaw, the tradition spread to Nordhalla, where the surgical school of the Frozen Archive learned the graft-rite and adapted it for glacier-hunting — producing the cold-iron Skald Wardens who tether the things that crawl from the fjords. The primary seat remains the Chain-Hold at Frostmaw; the secondary seat the Frozen Archive.',
     relatedTerms: ['cragjaw-peaks', 'frozen_archive', 'frostmaw_holdfast', 'house_skalvyr', 'nordhalla', 'titan', 'the_warden', 'alaric']
   },
   'corvani': {
@@ -1977,7 +1987,7 @@ export const LORE_DICTIONARY = {
     role: 'Choir-Prime of the Doom-Arithmetic',
     region: 'nordhalla',
     summary: 'The Harbinger who calculates when each Chaos Pocket will consume reality — and has been correct every time.',
-    fullEntry: 'Malakor co-founded the Harbinger tradition with Xyris, who tore the first Chaos Pocket into existence. Math is Malakor\'s medium: he does not see the future, he calculates it, tracking when each reality-tear will expand past the point of containment. The arithmetic has never been wrong. Each Chaos Pocket that opens bleeds warmth from the buried star of Emberspire, accelerating the end the Doom-Choir was founded to predict. Malakor the Finite is the current Choir-Prime, and the number he is most often asked for — the estimated remaining lifespan of the known world — is one he refuses to give.',
+    fullEntry: 'Malakor co-founded the Harbinger tradition with Xyris, who tore the first Chaos Pocket into existence. Math is Malakor\'s medium: he does not see the future, he calculates it, tracking when each reality-tear will expand past the point of containment. The arithmetic has never been wrong. Each Chaos Pocket that opens bleeds warmth from the buried star of Emberspire, accelerating the end the Doom-Choir was founded to predict. Malakor the Finite is the current Choir-Prime, and the number he is most often asked for — the estimated remaining lifespan of the known world — is one he refuses to give. Malakor\'s unnatural longevity — he is 471 years old despite being Skald human — is a side-effect of sustained contact with the Harbinger equations, temporal friction suspending his biological aging.',
     relatedTerms: ['frozen_archive', 'nordhalla', 'emberspire', 'harbinger'],
     worldFriction: 'Each Chaos Pocket accelerates the end. He knows the estimate. He will not say it.'
   },
@@ -2530,6 +2540,228 @@ export const LORE_DICTIONARY = {
     summary: 'Seven Solvarn occultists who swallowed Scathrach\'s burning coals in an obsidian cavern beneath Emberspire, trading their souls for demonic fire.',
     fullEntry: 'The Pyrofiend tradition was founded by seven Solvarn occultists — nobles of the house that helped entomb Sol — who gathered in an obsidian cavern beneath Emberspire and swallowed the burning coals offered by Scathrach the Ashen Sovereign. They understood the pact they were making: demonic fire in exchange for eventual collection. The seven scattered after their pact, each founding a separate Pyrofiend lineage that survives today. Their individual names have been deliberately erased — the Ashen Communion considers anonymity a form of protection, since the demon Scathrach knows exactly who it is coming to collect. What the Cabal did not anticipate is that Scathrach would one day call in all seven debts simultaneously.',
     relatedTerms: ['emberspire', 'sundale', 'house_solvan']
+  },
+
+  // ============================================================
+  // CORE EVENTS & CONCEPTS
+  // ============================================================
+
+  'rebirth-cycle': {
+    id: 'rebirth-cycle',
+    term: 'Rebirth Cycle',
+    type: 'concept',
+    region: 'sundale',
+    summary: 'The 12-year death-rebirth cycle of Sol. Sixty-five windows have opened. Every single one has failed.',
+    fullEntry: 'Every twelve years, the Solbrand surges — a pulse of heat and light that rises from Sol\'s buried vault beneath Emberspire, ripples outward through Sundale\'s volcanic crust, and then subsides. This is the Rebirth Cycle: the mechanical remnant of Sol\'s natural Deepening rhythm, the window during which the star attempts to rekindle itself. Each window, Keth-Amar consumes the rekindling energy before it can crest. The Augurs at the Frozen Archive in Nordhalla have systematically recorded every window\'s output since the first, twelve years after the Binding. Year 12: 40%. Year 96: 31%. Year 240: 14%. Year 480: 2%. Year 660: 0%. Sixty-five windows have opened since the entombment. Not one has succeeded. The Solbrand — the visible thermal current that radiates from Sol\'s vault — is the cumulative scar of sixty-five consumed rebirths, each one dimmer than the last. The calendar months "First Thaw" and "The False Dawn" are cultural echoes of the window: the brief weeks when surface frost melts slightly and the eastern horizon glows amber for an hour before fading. The holiday "First Thaw Vigil" is not a celebration — it is the population of Sundale standing in their doorways, watching for a rebirth that has never come.',
+    relatedTerms: ['solbrand', 'the_deepening', 'keth_amar', 'frozen_archive', 'sundale', 'augur', 'dawn_vigil', 'emberspire']
+  },
+
+  'the-first-thermal-war': {
+    id: 'the-first-thermal-war',
+    term: 'The First Thermal War',
+    type: 'event',
+    region: 'cragjaw-peaks',
+    summary: 'A conflict (Years 100-120, Dimming) fought over failing geothermal vents in the Cragjaw border tunnels — the first resource war of the Dimming.',
+    fullEntry: 'The First Thermal War was the moment the Dimming ceased to be an inconvenience and became a catastrophe. Fought across Years 100-120 in the winding border tunnels of the Cragjaw Peaks, it was the first armed conflict fought explicitly over thermal resources rather than territory or honor. Three factions converged on the same declining geothermal vent-system: Fexric holdfasts defending ancestral geothermal infrastructure that had heated their great-halls for generations, Nordhalla Skald refugees pressing south along the Hunger Road after their own vents failed, and Groven toll-keepers at the Ancestor-Spans who saw every tunnel as a tollable passage. The war was not large by later standards — perhaps three thousand dead across two decades — but it established the pattern for everything that followed. Out of its chaos, the Steam-Line Cartel emerged, consolidating the surviving geothermal pipes into a unified distribution network with monopoly pricing. The first formal Groven toll-treaties were signed at Ironjaw Port, recognizing bridge-rights in exchange for regulated rates — a compromise that established the Groven as the gatekeepers of Cragjaw transit for the next seven centuries. The war\'s true legacy was precedent: as the vents cooled, populations moved, and the displaced clashed with the entrenched. The First Thermal War proved that thermal scarcity would not produce cooperation. It would produce corpses.',
+    relatedTerms: ['cragjaw-peaks', 'fexrick', 'groven', 'ancestor_gaps', 'ironjaw_port', 'house_skalvyr', 'nordhalla']
+  },
+
+  'the-war-of-thousand-screams': {
+    id: 'the-war-of-thousand-screams',
+    term: 'The War of Thousand Screams',
+    type: 'event',
+    region: 'cragjaw-peaks',
+    summary: 'The largest mid-era conflict (Years 300-320, Dimming), centered on Frostmaw Holdfast — Deep Alchemists vs. the surface world.',
+    fullEntry: 'The War of Thousand Screams was the largest conflict of the middle Dimming era — a twenty-year cataclysm fought across Years 300-320 that erupted when two catastrophes converged. In the lowest tunnels beneath Frostmaw Holdfast, Deep Alchemist experiments overran containment, flooding the lower galleries with warped biological constructs and raw alchemical runoff. Simultaneously, the accelerating failure of geothermal vents triggered surface faction warfare between the major holds of Cragjaw, as each fought to secure the few remaining warm zones. The war produced four permanent changes to Mythrill. Nesta the Fexric engineer built her time-dilation engine in the ruins of a collapsed alchemy-vat, founding the Chronarch tradition — her first successful stitch rewound a tunnel collapse by forty seconds, saving three hundred trapped miners. The Steam-Line Cartel consolidated its geothermal monopoly, emerging from the chaos as the unchallenged distributor of heat across the Cragjaw Peaks. The Deep Alchemists, recognizing their experiments could no longer be safely conducted anywhere near the surface, sealed themselves into the lowest tunnels and vanished from recorded history. The Groven fortified the Ancestor-Spans as permanent military checkpoints, a defensive posture they have maintained through every subsequent war. The conflict is named for the sound the Deep Alchemists\' escaped constructs made — a chorus of synthetic, echoing screams that still haunt the sealed lower galleries.',
+    relatedTerms: ['cragjaw-peaks', 'frostmaw_holdfast', 'deepchasm_keep', 'chronarch', 'groven', 'ancestor_gaps', 'fexrick', 'nesta']
+  },
+
+  'the-toll-wars': {
+    id: 'the-toll-wars',
+    term: 'The Toll Wars',
+    type: 'event',
+    region: 'cragjaw-peaks',
+    summary: 'A centuries-spanning conflict (Years 280-340, Dimming) over Groven bridge-tolls on the Ancestor-Spans.',
+    fullEntry: 'The Toll Wars were not a single war but a sixty-year cascade of skirmishes, ambushes, sieges, and broken treaties fought between Years 280 and 340 across the Groven-controlled Ancestor-Spans — the massive bone-and-iron bridges that are the only viable crossings of the Cragjaw chasms. As the Dimming accelerated and thermal refugees flooded westward, the Groven toll-keepers responded by raising rates. Then raising them again. When Nordhalla Skald caravans could no longer afford passage, they fought. When Sundale merchant trains were turned back at Deepchasm Keep, they fought. The bloodiest engagement occurred at Ironjaw Port, where a combined Nordhalla-Sundale force attempted to seize the bridge customs-house and hold it until rates were renegotiated — the Groven defenders held for eleven days until reinforcements arrived from the Tesshan high-keeps. The wars ended not through military victory but through diplomacy: the Ithran diplomat Ithra-Mal negotiated the first formal sovereign treaty recognizing Groven bridge-rights in exchange for capped rates and guaranteed passage for recognized noble houses. The treaty was signed under duress — the noble houses had no alternative crossing — and they have resented its terms for six hundred years.',
+    relatedTerms: ['cragjaw-peaks', 'groven', 'ancestor_gaps', 'ironjaw_port', 'deepchasm_keep', 'house_tesshan', 'house_skalvyr', 'sundale']
+  },
+
+  'the-memory-wars': {
+    id: 'the-memory-wars',
+    term: 'The Memory Wars',
+    type: 'event',
+    region: 'frostwood-reach',
+    summary: 'A protracted Cold War (Years 250-350, Dimming) in the Frostwood Reach — the Scribe-Cartel vs. the undocumented Forgotten.',
+    fullEntry: 'The Memory Wars were a hundred-year cold war fought across Years 250-350 in the Frostwood Reach — not with armies, but with ink, parchment, and erasure. The Scribe-Cartel\'s monopoly on Soot-Resin Ink and Peat-Parchment — the only materials that resist the fog\'s memory-erosion — had made literacy itself a privilege. A family whose ledger was complete held legal rights; a family whose ledger was damaged, incomplete, or never purchased held nothing. The Forgotten were the Thalren whose ledgers had been lost to fog, whose ancestors had never been recorded, or whose records had been deliberately erased during Cartel "audits." They organized — raiding archive-towers and ledger-shrines, stealing blank parchment, burning Cartel ink-stores, carving their names into ironwood trees in defiance. The Cartel responded with ink-embargoes on entire villages, the expansion of the Mist-Sentinels border guard, and a standing bounty on any Thalren found carrying forged documents. The Briaran, whose oral history is immune to fog-erasure — the tell-songs are passed by voice, not parchment — sheltered Forgotten fugitives in the canopied deep-groves, an act the Cartel has never forgiven. The Memory Wars ended in stalemate: the Forgotten remained undocumented, the Cartel remained in power, and the Briaran remain the only population the Mist-Sentinels refuse to patrol.',
+    relatedTerms: ['frostwood-reach', 'scribe-cartel', 'sovereign-ledger', 'briaran', 'house_thalreth', 'ledger_halls', 'scribes_tower', 'memory_fog_mechanics']
+  },
+
+  'the-false-dawn-riots': {
+    id: 'the-false-dawn-riots',
+    term: 'The False Dawn Riots',
+    type: 'event',
+    region: 'sundale',
+    summary: 'Widespread riots (Year 480, Dimming) when the 40th Rebirth Window produced no visible warming — the myth of Sol\'s return collapsed overnight.',
+    fullEntry: 'Year 480: the 40th Rebirth Window. After four hundred and eighty years of priests promising that Sol would rise again — that the next window would be the one, that the warmth would return, that the Dimming was temporary — the window opened and produced nothing. No surge. No glow. The eastern horizon remained dead. The common people of Sundale, who had been told to watch and wait and pray, saw nothing. The lie broke overnight. Temples were torched across the Caldera Ward. Augurs who had spent careers predicting imminent rekindling were dragged from the Frozen Archive\'s satellite observatories and beaten in the streets. The Frozen Archive sealed its gates and did not open them for eleven years. House Solvan\'s Imperium — already weakened — collapsed entirely, its remaining authority dissolving as enraged Ash-Dwellers stormed the Harath-Vault. The Dawn Vigil, until then a ceremonial order of sun-priests, militarized to fill the power vacuum, seizing the Obsidian Citadels and imposing martial law. The Solbrand\'s concealment — the practice by which the Korr tending-clan hid the sacred flame\'s accelerating decline — began in the chaos of these riots. The Korr had known the truth for decades: the Solbrand was dimming. They chose silence over panic, and their silence became permanent.',
+    relatedTerms: ['sundale', 'rebirth-cycle', 'solbrand', 'dawn_vigil', 'house_solvan', 'emberspire', 'frozen_archive', 'harath_vault', 'augur']
+  },
+
+  'the-void-heat-heresy': {
+    id: 'the-void-heat-heresy',
+    term: 'The Void-Heat Heresy',
+    type: 'event',
+    region: 'nordhalla',
+    summary: 'A clandestine conspiracy (Year 720, Dimming) — House Skalvyr\'s younger generation built a heat-engine beneath the Frozen Archive using Emberspire obsidian and outlawed Pyrofiend contact.',
+    fullEntry: 'The Void-Heat Heresy is Nordhalla\'s deepest shame and its only remaining source of warmth. In Year 720, Frigga Skalvyr — the youngest daughter of House Skalvyr, facing Nordhalla\'s terminal geothermal failure — made a decision that every Skald elder would have called unthinkable. She excavated a chamber beneath the Frozen Archive, the most sacred site in Nordhalla, where generations of Skald dead stand preserved in glacier ice. In that chamber, she constructed a heat-engine powered by Emberspire obsidian — volcanic glass stolen from Sundale — and calibrated it through outlawed contact with a bound Pyrofiend, the very class whose demonic bargains House Skalvyr had publicly condemned for centuries. The engine worked. It produced heat — enough to warm the Archive, the fjord-gate garrison, the northern keeps. But the heat came with a price. The thermal gradient disturbed the glacier-preserved dead, introducing temporal friction — a slow distortion of the ice\'s preservative properties that contaminated the Augurs\' readings with ghost-data from centuries past and future. Proximity to the engine produced double-visions in Skald rune-readers and sent three Augurs into irreversible prophecy-trances from which they have never awakened. Frigga traded the Glacier Bargain\'s stability for stolen warmth. Whether she saved Nordhalla or doomed it is the question every shaman asks and none can answer.',
+    relatedTerms: ['nordhalla', 'house_skalvyr', 'frozen_archive', 'emberspire', 'pyrofiend', 'augur', 'frigga-skalvyr']
+  },
+
+  'the-sundale-civil-war': {
+    id: 'the-sundale-civil-war',
+    term: 'The Sundale Civil War',
+    type: 'event',
+    region: 'sundale',
+    summary: 'The ongoing three-way conflict (Year 780-present, Dimming) over the dying Solbrand — Risen vs. Sunderer vs. Scoured.',
+    fullEntry: 'The Sundale Civil War began in Year 780 and has never formally ended. It is a three-way theological conflict fought over a single question: what does it mean when the fire goes out? The Risen are the old faith — believers that Sol will rekindle, that the Rebirth Cycle will one day succeed, that faith must be maintained at any cost. They control the Dawn Vigil\'s conservative wing and the upper reaches of the Harath-Vault. The Sunderer are heretics who believe the Solbrand is not Sol\'s warmth but Keth-Amar\'s feeding-line — that the sacred flame is the cosmic predator\'s feeding-tendril, and that extinguishing it would free Sol from consumption. They are hunted, outlawed, and growing in number among the Ash-Dwellers who have seen nothing but dimming all their lives. The Scoured are the most extreme: they deface their forge-marks, sever their ancestral contracts, and scour the badlands for scattered Monolith Shards. Their solution to the Dimming is to reassemble the Sundered Monoliths — the fragments of Sol\'s original binding seal — re-forge the vault, and re-entomb Sol properly, even knowing this would summon Keth-Amar to consume what remains. The Dawn Vigil itself has split: one faction wants the Monoliths reassembled regardless of consequence; the other would rather let the star die than summon the predator back. Hierophant Aethelgard seized the Korr territories as strategic assets, beginning the formal conscription of Martyrs — individuals with Sol\'s sacred scars — as weapons in a theological war no one is winning.',
+    relatedTerms: ['sundale', 'solbrand', 'rebirth-cycle', 'dawn_vigil', 'keth_amar', 'house_solvan', 'martyr', 'emberspire', 'the_breach', 'harath_vault']
+  },
+
+  'sovereign-ledger': {
+    id: 'sovereign-ledger',
+    term: 'The Sovereign Ledger',
+    type: 'concept',
+    region: 'frostwood-reach',
+    summary: 'The Frostwood Reach\'s legal system (established Year 100, Dimming) — only those with registered lineages hold legal rights.',
+    fullEntry: 'The Sovereign Ledger is the legal foundation of the Frostwood Reach — a centralized registry of every citizen\'s lineage, property claim, and legal standing, maintained in the sealed archive-vaults of Greymark Keep. Established in Year 100, it was a direct response to the fog\'s memory-erosion: if living memory could not be trusted, written records must serve instead. The Scribe-Cartel monopolizes Soot-Resin Ink and Peat-Parchment — the only materials that resist the fog — making literacy and legal recognition one and the same. The system divides the Frostwood Reach into two classes: the Ledgered, whose documentation is complete and who hold rights to property, trade, marriage, and legal standing; and the Forgotten, whose documentation was lost, damaged, never purchased, or deliberately expunged, and who are legally invisible. A Forgotten person cannot own land, cannot testify, cannot marry a Ledgered, and can be expelled from any settlement at the Cartel\'s discretion. The system was formalized by Lord Aldren Thalreth\'s Ledger Purge of Year 89, which consolidated all regional records into a single sealed vault at Greymark Keep and declared that any claim not present in the consolidated ledger was void. The Purge eliminated three noble houses from legal existence in a single afternoon.',
+    relatedTerms: ['frostwood-reach', 'scribe-cartel', 'the-memory-wars', 'house_thalreth', 'greymark_keep', 'ledger_halls', 'memory_fog_mechanics', 'aldren-thalreth']
+  },
+
+  'scribe-cartel': {
+    id: 'scribe-cartel',
+    term: 'The Scribe-Cartel',
+    type: 'faction',
+    region: 'frostwood-reach',
+    summary: 'The monopoly guild (established Year 100, Dimming) that controls ink and parchment production in the Frostwood Reach — and thus controls who legally exists.',
+    fullEntry: 'The Scribe-Cartel is the monopoly guild that controls the production, distribution, and pricing of Soot-Resin Ink and Peat-Parchment — the only materials that resist the fog\'s memory-erosion — in the Frostwood Reach. Its power is absolute because the Sovereign Ledger requires its products: every birth, death, marriage, property transfer, and legal judgment must be recorded on Cartel-certified parchment in Cartel-certified ink, at Cartel-set prices. A family whose ledger is lost to fog becomes Forgotten. A family that cannot afford Cartel prices becomes Forgotten. A family whose records the Cartel decides contain errors becomes Forgotten. The Cartel\'s headquarters is the Scribe\'s Tower near Greymark Keep, where senior Scribe-Sentinels inspect every ledger-page. The Cartel is formally a trade guild under House Thalreth\'s charter, but the distinction is ceremonial: a body that controls literacy, legal identity, and historical record is not subordinate to any house. The Cartel is an economic institution whose power is indistinguishable from theocratic authority.',
+    relatedTerms: ['frostwood-reach', 'sovereign-ledger', 'the-memory-wars', 'the-great-revision', 'house_thalreth', 'scribes_tower', 'greymark_keep', 'ledger_halls', 'memory_fog_mechanics']
+  },
+
+  'brine-bond-syndicate': {
+    id: 'brine-bond-syndicate',
+    term: 'The Brine-Bond Syndicate',
+    type: 'faction',
+    region: 'iceheart-sea',
+    summary: 'The Iceheart Sea\'s maritime guild (established Year 300, Dimming) — gatekeepers of storm-luck and the Merrowport trade lanes.',
+    fullEntry: 'The Brine-Bond Syndicate is the maritime trade guild that governs the Iceheart Sea\'s commercial lanes from its headquarters at Merrowport. Established in Year 300, the Syndicate administers the Luck-Ledger — a system that quantifies and taxes the Merryn sailors\' storm-luck, the intangible quality that determines whether a ship survives the Iceheart\'s savage weather. Luck was once a personal, unquantifiable gift — some Merryn had it, some did not, and the sea decided. The Syndicate changed this: luck was measured, recorded, taxed, and, eventually, traded. A Merryn born with high luck can now sell it. A Merryn whose luck runs low can purchase more — at Syndicate-set rates, on Syndicate-set terms, forfeitable upon default. The Syndicate also issues the Sea-Charter registry: every vessel that sails the Iceheart must be Syndicate-registered, crewed by Syndicate-certified sailors, and insured through Syndicate-approved bonds. The Syndicate determines who sails and who is pressed into lifetime service as a Bilge-Dweller — an undocumented sailor whose existence is not recorded in any ledger and whose debt can never be paid. Membership is tracked through skin-tattoos applied at the Merrowport registry-house: a Merryn\'s body is a legal document, and every tattoo is a contract binding them to the Syndicate.',
+    relatedTerms: ['iceheart-sea', 'house_mereval', 'merrowport', 'merryns_drift', 'skalds_longport', 'ironjaw_port']
+  },
+
+  'the-great-revision': {
+    id: 'the-great-revision',
+    term: 'The Great Revision',
+    type: 'event',
+    region: 'frostwood-reach',
+    summary: 'An ongoing conspiracy (beginning Year 500, Dimming) — senior Scribe-Sentinels systematically edit the ledger-libraries, erasing family lines and rewriting history.',
+    fullEntry: 'The Great Revision is the Frostwood Reach\'s longest-running conspiracy — and the one that cannot be proven. Beginning approximately in Year 500, senior Scribe-Sentinels at the Cartel\'s ledger-libraries discovered a property of the fog that had never been documented: because the fog erases memory, a living document — one still being read, copied, and revised — can be edited without detection. A line added today will, within a generation, be remembered as having always been there. A line removed will, within a generation, be forgotten as having ever existed. Each cohort of Sentinels believes they are the first to make this discovery, and each cohort, upon making it, uses it — unaware that their predecessors did precisely the same. The cumulative damage is unknowable because it extends across every ledger-page ever written. Entire family lines have been erased and replaced. Noble houses that existed in Year 200 no longer appear in any census from Year 400. Treaties whose terms were "corrected" quietly bind houses to obligations their ancestors never agreed to. The Revision continues because no generation of Sentinels can verify what their predecessors changed — and because the Cartel\'s authority depends on the Ledger being the source of truth. The truth has been edited so many times that the original no longer exists.',
+    relatedTerms: ['frostwood-reach', 'scribe-cartel', 'sovereign-ledger', 'house_thalreth', 'scribes_tower', 'ledger_halls', 'memory_fog_mechanics']
+  },
+
+  // ============================================================
+  // CONCEPTS — Wyrd, Monoliths, Tithe
+  // ============================================================
+
+  'wyrd': {
+    id: 'wyrd',
+    term: 'Wyrd',
+    type: 'concept',
+    region: 'sundale',
+    summary: 'The raw, entropic substance of unmaking that bled through the cracks in Sol\'s seal after the Breach — a corrupting force that mirrors mortal fears into living horrors.',
+    fullEntry: 'The Wyrd is not magic in any traditional sense. It is the raw, entropic substance of unmaking — the "blood" of Keth-Amar that bled through the fractures in Sol\'s binding seal when the Breach occurred in Year 11. The Wyrd responds to mortal consciousness, specifically fear: it takes the shape of whatever a population dreads most, producing the face-stealing Gref in the Frostwood Reach, the oath-hunting Gambrel, the frozen death-echo Stel of Nordhalla, and countless other localized horrors. Wyrd concentration was initially confined to the Emberspire caldera, but increased dramatically during the Contraction phase (Year 200-450) as the seal-cracks widened under geothermal pressure, spreading Wyrd-miasma across the continent. During the Squeeze (Year 450-650), Wyrd-density reached epidemic levels — entire settlements were abandoned to Wyrd-manifestations, and the Inquisitor order was founded specifically to hunt and sever Wyrd-creatures. The Wyrd is not diminishing. It is accelerating.',
+    relatedTerms: ['keth_amar', 'the_breach', 'gref', 'gambrel', 'stel', 'inquisitor', 'emberspire', 'the_deepening']
+  },
+
+  'sundered_monoliths': {
+    id: 'sundered_monoliths',
+    term: 'Sundered Monoliths',
+    type: 'concept',
+    region: 'sundale',
+    summary: 'The seven fragments of Sol\'s binding seal, scattered across the continent when Keth-Amar cracked the vault in Year 11 — now beginning to wake simultaneously.',
+    fullEntry: 'When Keth-Amar consumed the firstborn heirs and shattered Sol\'s vault in Year 11, the binding seal — woven from the flayed essence of Aex — fractured into seven fragments. These Sundered Monoliths were hurled across the continent, embedding themselves in the geography of every region. For nearly eight centuries they lay dormant — inert stone monuments whose only significance was their origin. Then, beginning around Year 795, all seven began to wake simultaneously. The Treakous Rift Monolith, sunk beneath the Iceheart Sea, now broadcasts a low-frequency command signal that certain Wyrd-creatures obey without deviation. The Cragjaw Subterranean Vault Monolith, buried in the deep sumps beneath Frostmaw, has begun warming — its ambient temperature rising by measurable degrees each year, worrying the Groven who mine nearby. The Shard-Window Monolith, lodged in the storm-wall above the Sundrift Vale, has intensified its surrounding vortex to hurricane force, making approach impossible. The Dawn Vigil publicly claims reassembling the Monoliths will restart Sol; their inner council has calculated it will summon Keth-Amar instead. They continue their expeditions not for restoration, but to ensure no one else assembles them first.',
+    relatedTerms: ['the_breach', 'aex', 'keth_amar', 'emberspire', 'dawn_vigil', 'treakous_rift', 'cragjaw-peaks', 'sundrift-vale', 'iceheart-sea', 'wyrd']
+  },
+
+  'frost_tithe': {
+    id: 'frost_tithe',
+    term: 'Frost-Tithe',
+    type: 'concept',
+    region: 'nordhalla',
+    summary: 'The supernatural birth-curse tied to House Skalvyr\'s Glacier Bargain — a price extracted in infant lives from every frost-touched bloodline.',
+    fullEntry: 'The Frost-Tithe is the interest collected on House Skalvyr\'s Glacier Bargain — the compact that halted the advancing ice sheets at the price of eternal winter. Every child born to the frost-touched bloodlines (Rime-Born, Skald, and certain northern families) must "pay" a life to the cold: the infant survives only by drawing its mother\'s warmth into itself, not as biology but as the bargain\'s metaphysical interest collected on each new generation. The Tithe has worsened dramatically since the Solbrand began failing around Year 780, its diminishing thermal resonance no longer sufficient to offset the bargain\'s accumulating debt. The Frost-Tithe now claims twice as many infants as it did a generation ago — mothers who once lost one child in three now lose two. Ice-Cradles — niches carved into living glacier faces where the deep cold suppresses the tithe\'s pull — are the only known mitigation, and even these are failing as the glaciers themselves begin to shift in response to the Solbrand\'s decline.',
+    relatedTerms: ['house_skalvyr', 'nordhalla', 'rime_born', 'skald', 'solbrand', 'keth_amar']
+  },
+
+  'silt_tide': {
+    id: 'silt_tide',
+    term: 'Silt-Tide',
+    type: 'concept',
+    region: 'sundrift-vale',
+    summary: 'A gravitational anomaly in the Sundrift Vale — silt and soil rise and fall like ocean tides, reshaping the landscape with every cycle.',
+    fullEntry: 'The Silt-Tide is a gravitational peculiarity of the Sundrift Vale, one of the lingering consequences of House Ordavan\'s dark bargain. When the fertile soil was traded away for endless migration, the land itself grew restless. On a regular cycle — roughly every three months — the silt and topsoil of the Vale rises in a slow wave, cresting several feet before receding. The Ordan migration routes are timed to the Silt-Tide\'s rhythm. Ancient cairns and mound-camps are built on ground that the tide never reaches. Astril throat-singers can predict the tide\'s arrival by the way their constellation-spirits hum in response to the shifting earth.',
+    relatedTerms: ['sundrift-vale', 'house-ordavan', 'ordan']
+  },
+
+  // ============================================================
+  // ADDITIONAL HISTORICAL FIGURES
+  // ============================================================
+
+  'aurel-shorn-first': {
+    id: 'aurel-shorn-first',
+    term: 'Aurel Shorn-First',
+    type: 'historical_figure',
+    region: 'frostwood-reach',
+    summary: 'The first Smooth-Skinned Briaran, who walked out of the moonlit groves three generations after House Viridane\'s flight.',
+    fullEntry: 'Aurel Shorn-First was the first Briaran to systematically shave his thorns flat to the skin and walk the wider world in a borrowed human name. He walked out of the moonlit groves three generations after House Viridane\'s flight (~Year 75 of the Dimming). The Smooth-Skinned subrace traces its origin to him.',
+    relatedTerms: ['briaran', 'frostwood-reach', 'house_viridane', 'ironwood_heart']
+  },
+
+  'saren-vel': {
+    id: 'saren-vel',
+    term: 'Saren-Vel',
+    type: 'historical_figure',
+    region: 'bryngloom-forest',
+    summary: 'The founder of the Drun subrace — the most powerful Velun Neth mage who burned her name from the First Contract.',
+    fullEntry: 'Saren-Vel was the most powerful Velun Neth mage of her generation. In Year ~380 of the Dimming, she walked into the deepest Bryngloom bog with a flame that consumed only ink — not paper, not flesh — and burned her name from every active copy of the First Contract. She has not spoken a word in over 400 years. The Drun subrace she created are legally nonexistent, magic-immune, and free.',
+    relatedTerms: ['bryngloom-forest', 'neth', 'velun', 'drunhold', 'keeper_of_the_last_threshold', 'house_morrath']
+  },
+
+  'frigga-skalvyr': {
+    id: 'frigga-skalvyr',
+    term: 'Frigga Skalvyr',
+    type: 'historical_figure',
+    region: 'nordhalla',
+    summary: 'A Skalvyr of the younger generation who initiated the Void-Heat Heresy beneath the Frozen Archive.',
+    fullEntry: 'Frigga Skalvyr is a member of House Skalvyr\'s younger generation who, facing Nordhalla\'s terminal geothermal failure in Year 720 of the Dimming, made clandestine contact with outcast Emberth pyrofiends. She initiated construction of the Void-Heat engine beneath the Frozen Archive — trading the Glacier Bargain\'s stability for stolen warmth, and unleashing temporal friction that contaminated the Augurs\' readings.',
+    relatedTerms: ['nordhalla', 'house_skalvyr', 'frozen_archive', 'skald', 'augur', 'emberth']
+  },
+
+  'watcher_in_the_mist': {
+    id: 'watcher_in_the_mist',
+    term: 'The Watcher in the Mist',
+    type: 'entity',
+    region: 'frostwood-reach',
+    summary: 'An ancient fey presence in the Frostwood\'s moonlit groves — the entity that reached House Viridane before Keth-Amar could claim them.',
+    fullEntry: 'The Watcher in the Mist is the name given by Briaran oral tradition to the presence that spoke to House Viridane in the moonlit groves during their flight south. Older than Keth-Amar\'s hunger and more patient, it offered the fleeing family a counter-bargain: protection from the Sun-Eater\'s sight in exchange for a permanent bond to the groves. Its exact nature is unknown — some Briaran theologians believe it is the dreaming consciousness of the dead moon, whose shattered fragments became the lunar parasites; others believe it is the collective voice of the fae court that has inhabited the Frostwood since before humans first set foot on the continent. What is certain is that it chose Viridane, and Viridane chose it, and the Briaran have carried the physical mark of that choice — their thorns — for eight centuries.',
+    relatedTerms: ['house-viridane', 'briaran', 'lunarch', 'frostwood-reach']
+  },
+
+  'dead_moon': {
+    id: 'dead_moon',
+    term: 'The Dead Moon',
+    type: 'entity',
+    region: 'frostwood-reach',
+    summary: 'The shattered corpse of a celestial thing — what the Lunarch parasites hatched from.',
+    fullEntry: 'The dead moon was not a moon at all — it was an egg. What laid it, and what it was meant to hatch, are questions no living scholar can answer. When it shattered — whether by violence, age, or the same cosmic hunger that devours Sol — its fragments fell across the Frostwood Reach. The fae of the moonlit groves gathered the largest pieces and nurtured them. From those fragments, the lunar parasites emerged: ancient celestial predators that feed on memory, sensation, sanity, and vitality. The Lunarch class bonds with these parasites, trading warmth and memory for void-light. The relationship between the dead moon, the Watcher in the Mist, and the lunar parasites is one of the deepest theological mysteries in Mythrill.',
+    relatedTerms: ['watcher_in_the_mist', 'lunarch', 'briaran', 'frostwood-reach']
   }
 
 };

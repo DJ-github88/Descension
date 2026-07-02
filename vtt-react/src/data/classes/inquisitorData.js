@@ -144,7 +144,7 @@ export const INQUISITOR_DATA = {
       title: 'Last Commander of the Barbed Vow',
       characterization: `A Thalren woman who took command because she was, literally, the forty-seventh remaining Inquisitor — and the most senior willing to lead. She bears more Bait-Vow scars than any living practitioner and is, as a result, half-erased from the Sovereign Ledger. She leads from the <LoreLink termId="sunken_spire">Sunken Spire</LoreLink> and has stopped recruiting, because the oath now kills more initiates than it survives.`
     },
-    headquarters: { name: 'The Sunken Spire (Bryngloom seat) and Greymark Keep (Frostwood seat)', locationId: 'sunken_spire' },
+    headquarters: { name: 'The Sunken Spire (Bryngloom seat) and Greymark Keep (Frostwood seat)', locationId: 'the-sunken-spire' },
     crisisConnection: `Vrael commands forty-six others against an incursion rate that has tripled and is still climbing. The new, unnamed entities in the deep groves have no contracts to sever and no faces to bait — they fall outside the Inquisitor's entire art. She has begun, in desperation, to train recruits in techniques the order considers forbidden: not severing corruption, but *binding* it, borrowing from the very traditions the Inquisitors were founded to destroy. She knows this is how the order ends. She does not see another way it survives.`
   },
 
@@ -156,7 +156,7 @@ export const INQUISITOR_DATA = {
   overview: {
     title: "The Inquisitor",
     subtitle: "Cold Iron, Burning Salt, and the Barbed Leash of the Damned",
-    originStory: `Two traditions of occult warfare, born in parallel from the same wound in the world. In the deep bogs of the Bryngloom Forest, the Vreken hunter Orven the Still-Handed forged the first cold-iron blade and swore the Barbed Vow to hunt his own corrupted kinsmen. In the fog-shrouded groves of the Frostwood Reach, the healer Elias the Salt-Scarred opened his own veins to draw the Wyrd's face-stealing horrors into living flesh.
+    originStory: `Founded in Year 380 of the Dimming when two Wyrd-hunting traditions merged into the Barbed Vow: Orven the Still-Handed and Elias the Salt-Scarred. Two traditions of occult warfare, born in parallel from the same wound in the world. In the deep bogs of the Bryngloom Forest, the Vreken hunter Orven the Still-Handed forged the first cold-iron blade and swore the Barbed Vow to hunt his own corrupted kinsmen. In the fog-shrouded groves of the Frostwood Reach, the healer Elias the Salt-Scarred opened his own veins to draw the Wyrd's face-stealing horrors into living flesh.
 
 Both traditions understood the same truth: the Wyrd bleeds through every crack that magic carves in reality. One tradition learned to seal the cracks by destroying the caster. The other learned to trap what seeped through, binding it in chains of salt and will. When the Sundered Monoliths began cracking wider and the incursion rate tripled, the two orders recognized that their separate wars were the same war.
 
@@ -219,7 +219,7 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
     classSpecificLocations: [
       {
         name: 'The Hall of Barbed Vows',
-        locationId: 'sunken-spire',
+        locationId: 'the-sunken-spire',
         description: 'A deep chamber beneath the Sunken Spire where Inquisitors undergo their initiation. The walls are hung with the cold-iron blades of every Inquisitor who has taken the oath, and the floor is carved with containment circles for binding rituals.',
         purpose: 'Initiation hall, armory, ritual space, and memorial',
         status: 'Active -- but the newest blades are being hung by people whose families now glow in the dark'

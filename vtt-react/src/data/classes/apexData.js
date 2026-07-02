@@ -176,7 +176,7 @@ export const APEX_DATA = {
   ],
 
   overview: {
-    originStory: `The ranger Sylas tracked the invisible spoor of Wyrd-creatures through the Frostwood Reach by tuning his senses to the silent, sub-vocal vibrations of the pine needles and the damp earth. In a fog-shrouded valley, he stalked a conceptual entity for seven days, breathing only when the wind blew, training his eyes to trace the faint disturbances in the fog-memory.
+    originStory: `Founded in the early decades of the Dimming (Years 10-30) by Sylas, who traded his hearing for vibration-sense to track Wyrd-creatures through the Frostwood fog. The ranger Sylas tracked the invisible spoor of Wyrd-creatures through the Frostwood Reach by tuning his senses to the silent, sub-vocal vibrations of the pine needles and the damp earth. In a fog-shrouded valley, he stalked a conceptual entity for seven days, breathing only when the wind blew, training his eyes to trace the faint disturbances in the fog-memory.
 
 To achieve this absolute sensory focus, Sylas paid with his own hearing, becoming completely deaf to the voices of his kin. The Apex lives in a silent, predatory world of scents and vibrations, unable to hear the warnings of allies or the screams of her prey. The forest is a map written in heat, odor, and kinetic tremors.
 

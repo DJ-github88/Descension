@@ -135,7 +135,7 @@ export const GAMBIT_DATA = {
   ],
 
   overview: {
-    originStory: `The Gambit tradition was born from two independent discoveries of probability manipulation, separated by a thousand miles of frozen coastline and later fused into a single, devastating art.
+    originStory: `Founded in Year 350 of the Dimming by two figures whose traditions merged: Jax, who wagered his lifeline against a storm-spirit at Merrowport, and Lyra, who plucked the single surviving timeline. The Gambit tradition was born from two independent discoveries of probability manipulation, separated by a thousand miles of frozen coastline and later fused into a single, devastating art.
 
 In the floating alleys of <LoreLink termId="merrowport">Merrowport</LoreLink>, the Merryn pirate captain Jax wagered his own lifeline in a game of dice against a freezing storm-spirit of the <LoreLink termId="iceheart-sea">Iceheart Sea</LoreLink>. He rolled three sixes, claiming the wind, but the spirit claimed the warmth of his blood in return. His heartbeat was permanently synchronized with the ocean's tides, preventing him from ever finding sleep unless his head was submerged in freezing saltwater. Jax discovered probability manipulation through gambling: coin flips, dice throws, and card draws that siphoned luck from the world around him.
 

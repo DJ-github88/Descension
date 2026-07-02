@@ -16,7 +16,7 @@ export const ZONE_DATA = [
     "regionId": "frostwood-reach",
     "name": "Greymark Keep",
     "type": "city",
-    "description": "The ancient, towering stronghold of House Thalreth, constructed from wet grey peat-stone and massive petrified ironwood logs. It stands as the primary sanctuary in the Reach, its massive fireplaces fueled by resinous heartwood to ward off both the biting cold and the encroaching memory-eating fog.",
+    "description": "The ancient, towering stronghold of House Thalreth, constructed from wet grey peat-stone and massive petrified ironwood logs. It stands as the primary sanctuary in the Reach, its massive fireplaces fueled by resinous heartwood to ward off both the biting cold and the encroaching memory-eating fog. Founded in Year 5 of the Deepening with the Fog Compact. The Scribe-Sentinels codified the Sovereign Ledger here in Year 100 of the Dimming.",
     "dangerLevel": "low",
     "factions": [
       "house-thalreth",
@@ -193,7 +193,7 @@ export const ZONE_DATA = [
     "regionId": "nordhalla",
     "name": "The Frozen Archive",
     "type": "tomb",
-    "description": "A subterranean cathedral of blue ice and basalt, carved deep beneath the Nordhalla glaciers. It serves as the ultimate resting place for the Skald clans, who chisel their ancestors' histories into glacier walls so they will be preserved forever in stasis.",
+    "description": "A subterranean cathedral of blue ice and basalt, carved deep beneath the Nordhalla glaciers. It serves as the ultimate resting place for the Skald clans, who chisel their ancestors' histories into glacier walls so they will be preserved forever in stasis. The Archive predates the Dimming — a dead civilization's flash-frozen capital discovered and repurposed after the Glacier Bargain (Year 7, Deepening). The Augurs have recorded every rebirth cycle from this site for nearly 800 years.",
     "dangerLevel": "medium",
     "factions": [
       "house-skalvyr",
@@ -373,7 +373,7 @@ export const ZONE_DATA = [
     "regionId": "cragjaw-peaks",
     "name": "Frostmaw Holdfast",
     "type": "city",
-    "description": "The primary fortress of House Tesshan, built into a titanic cavern high on the mountain peaks. Protected from the eternal blizzards by heavy iron blast-gates, the city is a vertical network of stone arches, smelting galleries, and steam-ducts.",
+    "description": "The primary fortress of House Tesshan, built into a titanic cavern high on the mountain peaks. Protected from the eternal blizzards by heavy iron blast-gates, the city is a vertical network of stone arches, smelting galleries, and steam-ducts. The oldest Fexric holdfast in the Cragjaw, operating for millennia before the Dimming. The Vat-Breakers' Revolt (Year ~40) birthed the Groven civilization here. The War of Thousand Screams (Years 300-320) was fought across its vertical tunnels.",
     "dangerLevel": "low",
     "factions": [
       "house-tesshan",
@@ -557,7 +557,7 @@ export const ZONE_DATA = [
     "regionId": "sundale",
     "name": "The Harath-Vault",
     "type": "city",
-    "description": "The massive subterranean capital of the Emberth forge-clans in Sundale, carved radially into the volcanic throat of a dormant secondary caldera by the Sun-Speakers centuries before the sun's death. It serves as both sacred temple to the Solbrand and industrial forge-caldera where the Korr Emberth tend the eternal ember in holy silence.",
+    "description": "The massive subterranean capital of the Emberth forge-clans in Sundale, carved radially into the volcanic throat of a dormant secondary caldera by the Sun-Speakers centuries before the sun's death. It serves as both sacred temple to the Solbrand and industrial forge-caldera where the Korr Emberth tend the eternal ember in holy silence. The Emberth vault-capital beneath Emberspire. The Korr tending-clan has protected the Solbrand here since before the Binding. The Forge of Grum — the first Berserker training ground — was established here in Year 100.",
     "dangerLevel": "extreme",
     "factions": [
       "Solvarn Martyrs",
@@ -594,7 +594,7 @@ export const ZONE_DATA = [
     "regionId": "sundale",
     "name": "Emberspire Caldera",
     "type": "wilderness",
-    "description": "The active, soot-choked volcanic mouth of Emberspire, where the world's heart volcano continuously vents ash and molten glass into the sky. The heat is oppressive, and the volcanic vents are home to ancient, fire-weaving elemental entities.",
+    "description": "The active, soot-choked volcanic mouth of Emberspire, where the world's heart volcano continuously vents ash and molten glass into the sky. The heat is oppressive, and the volcanic vents are home to ancient, fire-weaving elemental entities. Emberspire erupted in Year 11 of the Deepening when Keth-Amar cracked the binding seal. It has burned without interruption for eight centuries, fed by Sol's fading radiance.",
     "dangerLevel": "extreme",
     "factions": [
       "Pyrofiend Cults"
@@ -738,7 +738,7 @@ export const ZONE_DATA = [
     "regionId": "iceheart-sea",
     "name": "Merrowport",
     "type": "city",
-    "description": "A magnificent, floating city of wood and iron, anchored to a massive, warm subterranean volcanic seamount that keeps the surrounding waters perpetually unfrozen. Merrowport is the primary maritime trade hub, filled with Merryn captains, Neth brokers, and northern sailors.",
+    "description": "A magnificent, floating city of wood and iron, anchored to a massive, warm subterranean volcanic seamount that keeps the surrounding waters perpetually unfrozen. Merrowport is the primary maritime trade hub, filled with Merryn captains, Neth brokers, and northern sailors. Established as a permanent port in the early First Ebbing (~Year 80-100), Merrowport grew into the Iceheart's primary trade hub over seven centuries. The Brine-Bond Syndicate formalized the Luck-Ledger here in Year ~300.",
     "dangerLevel": "low",
     "factions": [
       "house-mereval",
@@ -755,7 +755,7 @@ export const ZONE_DATA = [
     "regionId": "iceheart-sea",
     "name": "Ironjaw Port",
     "type": "settlement",
-    "description": "A rough, cliffside harbor carved from black basalt walls on the southern shore. Walled in cold-iron blocks to withstand the crushing force of drifting icebergs, it is a haven for whalers, deep-sea miners, and smugglers.",
+    "description": "A rough, cliffside harbor carved from black basalt walls on the southern shore. Walled in cold-iron blocks to withstand the crushing force of drifting icebergs, it is a haven for whalers, deep-sea miners, and smugglers. Established during the First Thermal War (Years 100-120) as the Groven toll-negotiation seat. The Ironjaw Port Toll-Treaties — the first formal recognition of Groven bridge-rights — were signed here during the Toll Wars (Years 280-340).",
     "dangerLevel": "medium",
     "factions": [
       "Merryn Whalers",
@@ -921,7 +921,7 @@ export const ZONE_DATA = [
     "regionId": "sundrift-vale",
     "name": "The Synod-Hold",
     "type": "city",
-    "description": "The vertical fortress of House Ordavan, built atop a series of sheer cliffs. The city serves as the administrative heart of the steppe, where the nomadic clans gather every summer to balance trade accounts and resolve border disputes.",
+    "description": "The vertical fortress of House Ordavan, built atop a series of sheer cliffs. The city serves as the administrative heart of the steppe, where the nomadic clans gather every summer to balance trade accounts and resolve border disputes. The Astril cathedral was formally established in Year 150 of the Dimming, built over the stone circles where the first constellation-spirit vessels were received (Year 15).",
     "dangerLevel": "low",
     "factions": [
       "house-ordavan",
@@ -1083,7 +1083,7 @@ export const ZONE_DATA = [
     "regionId": "sundrift-vale",
     "name": "Morren's Bogpost",
     "type": "settlement",
-    "description": "A Morren trading outpost at the forest-steppe edge where Bryngloom goods — fungal lights, memory-glass, bog-mushroom reagents — are exchanged for Ordan wool and hide. The outpost is a cluster of squat, peat-stone buildings that smell perpetually of bog-water. The Morren traders here are debt-brokers, always willing to extend credit at terms that seem generous until the interest compounds.",
+    "description": "A Morren trading outpost at the forest-steppe edge where Bryngloom goods — fungal lights, memory-glass, bog-mushroom reagents — are exchanged for Ordan wool and hide. The outpost is a cluster of squat, peat-stone buildings that smell perpetually of bog-water. The Morren traders here are debt-brokers, always willing to extend credit at terms that seem generous until the interest compounds. Established ~Year 50-100 of the Dimming as the Bryngloom-Sundrift trade border-post. The Bogpost marks the forest-steppe border where the Bryngloom Bog-Route meets the Steppe Migration Circuit.",
     "dangerLevel": "medium",
     "factions": [
       "Morren Traders",
@@ -1100,7 +1100,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Atropolis",
     "type": "city",
-    "description": "The magnificent, suspended canopy city of the Neth, constructed inside a cathedral-grove of living ironwoods coaxed into shape over a thousand years. A quiet city of branch-walkways, lawyers, pact-mages, and merchants who view survival as a binding agreement and write their records on glowing memory-glass.",
+    "description": "The magnificent, suspended canopy city of the Neth, constructed inside a cathedral-grove of living ironwoods coaxed into shape over a thousand years. A quiet city of branch-walkways, lawyers, pact-mages, and merchants who view survival as a binding agreement and write their records on glowing memory-glass. Founded in Year 25 of the Dimming, built around the Heart-Vault where the First Contract is preserved. The city has grown downward and outward for nearly 780 years.",
     "dangerLevel": "low",
     "factions": [
       "Velun Pact-Lords",
@@ -1116,7 +1116,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "The Sunken Spire",
     "type": "city",
-    "description": "The inverted subterranean capital of the Vreken — a colossal cathedral and crypt carved four hundred feet down into a peat-stone sinkhole. Lit solely by the phosphorescence of entombed ancestors wrapped in fungal shrouds, it is a place of deep ancestor worship and silent, glowing graves.",
+    "description": "The inverted subterranean capital of the Vreken — a colossal cathedral and crypt carved four hundred feet down into a peat-stone sinkhole. Lit solely by the phosphorescence of entombed ancestors wrapped in fungal shrouds, it is a place of deep ancestor worship and silent, glowing graves. The oldest Vreken crypt-cathedral in the Bryngloom, predating the Dimming. Aedris, the first recorded Over-Lit, served as Veil-Speaker here for forty years before her condition was documented (~Year 400-420).",
     "dangerLevel": "low",
     "factions": [
       "Clean Vreken",
@@ -1153,7 +1153,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Over-Shanty",
     "type": "settlement",
-    "description": "A chaotic, hanging slum of rope-bridges and ramshackle wooden cabins built under Atropolis's main platforms. It is populated by sallow-skinned Morren peat-cutters and the leaden-skinned Drun outcasts who chose to burn their names from the First Contract.",
+    "description": "A chaotic, hanging slum of rope-bridges and ramshackle wooden cabins built under Atropolis's main platforms. It is populated by sallow-skinned Morren peat-cutters and the leaden-skinned Drun outcasts who chose to burn their names from the First Contract. Established in Year 412 of the Dimming at the edge of the peat-bogs. The Cult of Forgotten Shadow made first contact with the deep dark from the crypts beneath here in Year 598.",
     "dangerLevel": "high",
     "factions": [
       "Drun Outcasts",

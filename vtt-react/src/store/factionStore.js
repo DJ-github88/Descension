@@ -1,4 +1,4 @@
-import { create } from 'zustand';
+﻿import { create } from 'zustand';
 
 
 
@@ -178,7 +178,7 @@ const SEEDED_FACTIONS = [
 
         targetFactionId: 'house-thalreth',
 
-        type: 'vassal',
+        type: 'allied',
 
         description: 'Officially neutral archivists, unofficially House Thalreth\'s most essential servants â€” their quills literally define Thalreth\'s reality'
 
@@ -200,7 +200,7 @@ const SEEDED_FACTIONS = [
 
     lore:
 
-      'Founded the same year as the Fog Compact. The first Scribe-Sentinels were Thalreth family members who volunteered to have their memories erased before taking their vows, ensuring their objectivity. This tradition continues â€” every new Sentinel surrenders their past.',
+      'Founded the same year as the Fog Compact. The first Scribe-Sentinels were Thalreth family members who volunteered to have their memories erased before taking their vows, ensuring their objectivity. This tradition continues — every new Sentinel surrenders their past. Founded in Year 5 of the Deepening with the Fog Compact. Formally appointed at Greymark Keep in Year 13. The Great Revision — the ongoing conspiracy of systematic ledger-editing — was begun by senior Sentinels in Year 500.',
 
     secrets:
 
@@ -294,7 +294,7 @@ const SEEDED_FACTIONS = [
 
     lore:
 
-      'Skalvyr\'s bargain was the harshest of all seven houses. Where others traded memory or heirs, Skalvyr traded summer itself â€” condemning their entire region to eternal winter in exchange for survival. Every Skalvyr child is taught this: their comfort is built on the suffering of every living thing in Nordhalla.',
+      'Skalvyr\'s bargain was the harshest of all seven houses. Where others traded memory or heirs, Skalvyr traded summer itself — condemning their entire region to eternal winter in exchange for survival. Every Skalvyr child is taught this: their comfort is built on the suffering of every living thing in Nordhalla. House Skalvyr struck the Glacier Bargain in Year 7 of the Deepening, trading summer forever to halt the grinding ice. The Hunger Winter (Years 7-10) — when ancestors consumed their dead — seeded the Hunger Pact in Skald blood. The house has ruled Nordhalla\'s frozen fjords for nearly 800 years.',
 
     secrets:
 
@@ -526,17 +526,19 @@ const SEEDED_FACTIONS = [
 
     leader: {
 
-      npcId: 'loras-ordavan',
+      npcId: 'bayarmaa-ordavan',
 
-      title: 'Steppe-Lord',
+      title: 'Khatun',
 
-      description: 'Loras Ordavan, a man who inherited a puppet\'s throne and hasn\'t yet realized it.'
+      description: 'The previous Steppe-Lord, Loras Ordavan, was an Unlit Veil puppet who presided over the house\'s decline for decades. Khatun Bayarmaa Ordavan (\'The Steel-Voiced\') deposed him and reclaimed the house\'s authority, though the Unlit Veil\'s embedded advisors still hold key trade-policy positions.'
 
     },
 
     members: [
 
-      { npcId: 'loras-ordavan', role: 'Steppe-Lord', locationId: 'synod-hold' }
+      { npcId: 'bayarmaa-ordavan', role: 'Khatun', locationId: 'synod-hold' },
+
+      { npcId: 'loras-ordavan', role: 'Deposed Steppe-Lord', locationId: 'synod-hold' }
 
     ],
 
@@ -550,7 +552,7 @@ const SEEDED_FACTIONS = [
 
         targetFactionId: 'unlit-veil',
 
-        type: 'puppet_master',
+        type: 'puppet',
 
         description: 'The Unlit Veil control Ordavan trade policy through embedded advisors â€” the house is a figurehead'
 
@@ -607,7 +609,7 @@ const SEEDED_FACTIONS = [
       { targetFactionId: 'deep-alchemists', type: 'rival', description: 'The Alchemists\' Wyrd-experimentation threatens to wake what the Vigil is trying to keep asleep' }
     ],
     classAffinities: ['martyr', 'pyrofiend', 'augur'],
-    lore: 'The Vigil was founded in Year 340 of the Dimming by a Martyr who had absorbed so much suffering that she could feel every Monolith fragment\'s location across the continent. She followed the pain like a compass.',
+    lore: 'The Vigil was founded in Year 340 of the Dimming by a Martyr who had absorbed so much suffering that she could feel every Monolith fragment\'s location across the continent. She followed the pain like a compass. Originally a quietist monastic order of Martyrs, the Vigil was militarized under Hierophant Aethelgard in the decades following the False Dawn Riots (Year 480). The Vigil\'s deepest secret: reassembling the Seven Sundered Monoliths would summon Keth-Amar, not Sol.',
     secrets: 'The First Dawn has been dead for eighty years. The basalt tablets are being sent by an Augur who glimpsed the First Dawn\'s final orders in a death-vision and has been executing them ever since.',
     quests: []
   },
@@ -637,7 +639,7 @@ const SEEDED_FACTIONS = [
       { targetFactionId: 'vat-breakers-guild', type: 'hostile', description: 'The Vat-Breakers are the direct descendants of the revolt — the Alchemists consider them stolen property' }
     ],
     classAffinities: ['toxicologist', 'plaguebringer', 'shaper'],
-    lore: 'The Deep Alchemists pre-date the Dark Bargains. They were refining living matter in the deep tunnels before humans discovered fire. Some of their oldest formulae are written in a language that predates the Wyrd itself.',
+    lore: 'The Deep Alchemists pre-date the Dark Bargains. They were refining living matter in the deep tunnels before humans discovered fire. Some of their oldest formulae are written in a language that predates the Wyrd itself. Emerged as a distinct guild roughly two thousand years before the Dimming. Created the Groven from captured Thrumm broodlings — and lost control. Sealed themselves into the deepest tunnels after the Vat-Breakers\' Revolt (~Year 40) and the War of Thousand Screams (Years 300-320).',
     secrets: 'Recent Groven expeditions have returned with evidence of fresh alchemical residue — suggesting the Lost Brood, the broodlings left behind during the Vat-Breakers\' revolt, are still alive.',
     quests: []
   },
@@ -667,7 +669,7 @@ const SEEDED_FACTIONS = [
       { targetFactionId: 'house-tesshan', type: 'allied', description: 'The Tesshan depend on the Ancestor-Spans for all travel above the blizzard-line — a dependency the Groven are increasingly willing to leverage' }
     ],
     classAffinities: ['warden', 'shaper', 'berserker'],
-    lore: 'The first foreman of the Guild was the Groven who shattered the first vat. Her calcified skeleton still stands in the Guild hall in Frostmaw Holdfast, her outstretched hand forming the keystone of the main Ancestor-Span.',
+    lore: 'The first foreman of the Guild was the Groven who shattered the first vat. Her calcified skeleton still stands in the Guild hall in Frostmaw Holdfast, her outstretched hand forming the keystone of the main Ancestor-Span. Founded during the Vat-Breakers\' Revolt (~Year 40) when the first generation of Groven shattered their containment vats at Frostmaw Holdfast. The Guild represents Groven sovereignty and the Ancestor-Span bridge-rights.',
     secrets: 'One of the Guild\'s alchemical formulae — stolen from the Deep Alchemists during the revolt — describes a process for reversing calcification. If it works, it could cure the Groven\'s most terrifying condition. If it fails, it could restart the war.',
     quests: []
   },
@@ -955,8 +957,8 @@ const SEEDED_FACTIONS = [
     publicDescription: 'The Inquisitor order sworn at the Sunken Spire, baiting Wyrd horrors into living flesh where they can be named and cut.',
     leader: { npcId: 'vrael-forty-seventh', title: 'Last Commander of the Barbed Vow', description: 'The Inquisitor order sworn at the Sunken Spire, baiting Wyrd horrors into living flesh where they can be named and cut.' },
     members: [],
-    headquarters: 'sunken-spire',
-    territory: ['sunken-spire'],
+    headquarters: 'the-sunken-spire',
+    territory: ['the-sunken-spire'],
     relationships: [],
     classAffinities: ['inquisitor'],
     lore: 'Forged from Orvens cold-iron Vreken root and Elias face-baiting Thalren root. Only forty-seven Inquisitors remain and the new deep-grove entities fall outside their entire art.',
@@ -1012,8 +1014,8 @@ const SEEDED_FACTIONS = [
     publicDescription: 'The Martyr order beneath Emberspire, absorbing others suffering into the Devotion Gauge.',
     leader: { npcId: 'sol-kaessen', title: 'Vigil-Mother / Keeper of the First Scar', description: 'The Martyr order beneath Emberspire, absorbing others suffering into the Devotion Gauge.' },
     members: [],
-    headquarters: 'emberspire',
-    territory: ['emberspire'],
+    headquarters: 'emberspire-caldera',
+    territory: ['emberspire-caldera'],
     relationships: [],
     classAffinities: ['martyr'],
     lore: 'Founded by Sera Solvan, who carved her sacrificed childs name into her arm. Now the houses conscript Martyrs through child-training, and the Devotion Gauge is corrupting into something predatory.',
@@ -1050,8 +1052,8 @@ const SEEDED_FACTIONS = [
     publicDescription: 'The Plaguebringer Cultivar, disease-hosts of the Bryngloom bog-rot, founded to cure the spore-hush.',
     leader: { npcId: 'vespera', title: 'Blight-Mother / The First Host', description: 'The Plaguebringer Cultivar, disease-hosts of the Bryngloom bog-rot, founded to cure the spore-hush.' },
     members: [],
-    headquarters: 'sunken-spire',
-    territory: ['sunken-spire'],
+    headquarters: 'the-sunken-spire',
+    territory: ['the-sunken-spire'],
     relationships: [],
     classAffinities: ['plaguebringer'],
     lore: 'Founded by Vespera, who injected Sunken Spire decay-moss into her own veins. Her eight-century foundational strain is dying and every Plaguebringer trained from her blood carries a failing inheritance.',
@@ -1069,8 +1071,8 @@ const SEEDED_FACTIONS = [
     publicDescription: 'The Pyrofiend order beneath Emberspire, more basalt than flesh, counting down to Scathrachs collection.',
     leader: { npcId: 'sol-vareths', title: 'Last-Ember / The Most-Converted', description: 'The Pyrofiend order beneath Emberspire, more basalt than flesh, counting down to Scathrachs collection.' },
     members: [],
-    headquarters: 'emberspire',
-    territory: ['emberspire'],
+    headquarters: 'emberspire-caldera',
+    territory: ['emberspire-caldera'],
     relationships: [],
     classAffinities: ['pyrofiend'],
     lore: 'Born when a cabal of Solvarn occultists swallowed Scathrachs burning coals. Scathrach is now calling in all debts simultaneously; no Pyrofiend has ever survived contract collection.',
@@ -1088,8 +1090,8 @@ const SEEDED_FACTIONS = [
     publicDescription: 'The Revenant order of the Bryngloom peat-bogs, carrying both Koras blood-covenant and Vestpers frost-stasis arts.',
     leader: { npcId: 'kor-vasseth', title: 'Threshold-Keeper / Warden of the Waking Graves', description: 'The Revenant order of the Bryngloom peat-bogs, carrying both Koras blood-covenant and Vestpers frost-stasis arts.' },
     members: [],
-    headquarters: 'sunken-spire',
-    territory: ['sunken-spire'],
+    headquarters: 'the-sunken-spire',
+    territory: ['the-sunken-spire'],
     relationships: [],
     classAffinities: ['revenant'],
     lore: 'Forged from two Bryngloom roots. The bog-graves are waking on their own and the dead march toward the Sundered Monoliths; the call routes through the Root-Veil.',
@@ -1126,8 +1128,8 @@ const SEEDED_FACTIONS = [
     publicDescription: 'The Spellguard order at the Emberspire forge-keeps, enforcing Damons method of magical defense.',
     leader: { npcId: 'thrak-damos', title: 'Bulwark-Captain / Warden of the Void-Scars', description: 'The Spellguard order at the Emberspire forge-keeps, enforcing Damons method of magical defense.' },
     members: [],
-    headquarters: 'emberspire',
-    territory: ['emberspire'],
+    headquarters: 'emberspire-caldera',
+    territory: ['emberspire-caldera'],
     relationships: [],
     classAffinities: ['spellguard'],
     lore: 'Founded by Damon the Emberth smith, who blocked a solar flare with an alchemical tower shield. Ambient magic is rising and Spellguards Void Resonance fills faster than they can purge it.',

@@ -122,7 +122,7 @@ export const ARCANONEER_DATA = {
   ],
 
   overview: {
-    originStory: `In the first drafting of the First Contract with the Keeper of the Last Threshold, the high Neth archivist Valerius sought to capture the raw, volatile magic of the Bryngloom Forest without succumbing to its decay. By structuring incantations as strict legal syntax and balanced clauses, he bypassed the chaotic feedback of traditional spellcasting.
+    originStory: `Founded in Year 60 of the Dimming by Valerius, a Velun Neth archivist who drafted the First Contract with the Keeper of the Last Threshold. In the first drafting of the First Contract with the Keeper of the Last Threshold, the high Neth archivist Valerius sought to capture the raw, volatile magic of the Bryngloom Forest without succumbing to its decay. By structuring incantations as strict legal syntax and balanced clauses, he bypassed the chaotic feedback of traditional spellcasting.
 
 Yet, the Keeper demanded a physical toll. The price of this absolute structured clarity was that his blood crystallized into volatile, multicolored shards that had to be physically siphoned through a massive pig-iron cylinder forearm graft. Firing these shards anchors the limbs to the earth in a freezing lock, fractures the ribs from recoil, and seals the voice against any falsehood.
 

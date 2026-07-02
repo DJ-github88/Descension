@@ -137,7 +137,7 @@ export const CHRONARCH_DATA = {
   ],
 
   overview: {
-    originStory: `During the War of Thousand Screams, when a collapsing glacier threatened to crush the Frostmaw Holdfast, the Fexric engineer Nesta realized that physical struts could not hold back the grinding weight of the ice. She built a prototype time-dilation engine using volcanic glass and alchemical gears. In her desperation to freeze the falling stone, she hooked the engine's temporal loop directly into her own chest, trapping her timeline in a temporal feedback loop.
+    originStory: `Founded in Year 310 of the Dimming by Nesta, a Kethrin Fexric engineer who built a time-dilation engine at Frostmaw Holdfast during the War of Thousand Screams. During the War of Thousand Screams, when a collapsing glacier threatened to crush the Frostmaw Holdfast, the Fexric engineer Nesta realized that physical struts could not hold back the grinding weight of the ice. She built a prototype time-dilation engine using volcanic glass and alchemical gears. In her desperation to freeze the falling stone, she hooked the engine's temporal loop directly into her own chest, trapping her timeline in a temporal feedback loop.
 
 Nesta held the span, but the temporal feedback loop incinerated her past. The Chronarch carries no personal memories of childhood or family; she lives in a perpetual, agonizing present, her past constantly erased to make space for the calculations of time manipulation. Furthermore, every second she bends causes severe skeletal decay, her bones calcifying like ancient fossilized stone under the strain of chronal friction.
 

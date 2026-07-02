@@ -174,7 +174,7 @@ export const REVENANT_DATA = {
   overview: {
     title: "The Revenant",
     subtitle: "Death Is Fuel. The Grave Is a Door. You Walk Both Ways.",
-    originStory: `Two traditions of death magic, born in the same peat-bogs of the <LoreLink termId="bryngloom-forest">Bryngloom Forest</LoreLink>, bound by the same terrible truth: life force is the only currency that matters.
+    originStory: `Founded in Year 550 of the Dimming when bog-graves began waking on their own and two death-magic traditions merged: Kora the Veil-Speaker's blood-covenant and Vesper the Scribe's frost-stasis phylactery. Two traditions of death magic, born in the same peat-bogs of the <LoreLink termId="bryngloom-forest">Bryngloom Forest</LoreLink>, bound by the same terrible truth: life force is the only currency that matters.
 
 The Vreken Veil-Speaker <LoreLink termId="kora">Kora</LoreLink> was the first to pay it. Desperate to keep the ancestral lights of thirty generations burning, she walked into the marsh-depths and bargained with the Root-Veil, offering her own blood as blight thread. The covenant was absolute — every spell she wove drained her own life, generating volatile Blood Tokens that orbited her body like carrion flies. The dead answered. The living recoiled. Kora's voice was reduced to a dry whisper by the overlapping screams of ancestors she could never silence.
 

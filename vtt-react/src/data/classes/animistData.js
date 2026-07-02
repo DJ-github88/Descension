@@ -159,7 +159,7 @@ export const ANIMIST_DATA = {
   ],
 
   overview: {
-    originStory: `The Animist tradition was born from three independent discoveries of ancestral communion, separated by mountains and marshlands, later fused into a single, devastating art.
+    originStory: `Founded across the span of Years 120-200 of the Dimming by three figures whose ancestral-communion traditions developed independently: Kael (Ordan totemic), Nyssa (Vreken spore), and Theron (Skald runic). The Animist tradition was born from three independent discoveries of ancestral communion, separated by mountains and marshlands, later fused into a single, devastating art.
 
 In the starless grasslands of the Sundrift Vale, the human herd-ranger Kael sat motionless for three seasons, letting bone and root erupt from his own flesh until the wind-spirits claimed him as kin. He discovered communion through totemic eruption: the sacrifice of physical form to channel the brutal laws of the wilderness.
 

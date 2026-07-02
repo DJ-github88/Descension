@@ -126,7 +126,7 @@ export const MARTYR_DATA = {
   ],
 
   overview: {
-    originStory: `The Solvarn mother Sera refused to let her sacrificed child's name be erased by the noble houses' history-purge. She carved the name directly into her forearm with volcanic obsidian, swearing to bear the pain of the entire badlands to keep the memory alive.
+    originStory: `Founded in Year 5 of the Deepening by Sera Solvan, who carved her sacrificed child's name into her forearm with volcanic obsidian. The Solvarn mother Sera refused to let her sacrificed child's name be erased by the noble houses' history-purge. She carved the name directly into her forearm with volcanic obsidian, swearing to bear the pain of the entire badlands to keep the memory alive.
 
 Her devotion opened a channel of sympathetic pain. The Martyr carries the physical scars of all nearby wounds, her tissue burning with sympathetic heat whenever an ally is struck. She finds power only in her own suffering, converting blood to light, her skin cracking to reveal the solar embers of her vow.
 

@@ -156,7 +156,7 @@ The Plaguebringer possesses zero immediate burst damage. Their diseases require 
   ],
 
   overview: {
-    originStory: `Vespera the Vreken alchemist bonded with the bog-rot of the Bryngloom to synthesize a cure for the spore-hush that ravaged her family's cave-keeps. She gathered the decaying moss of the Sunken Spire, injecting its alchemical bile directly into her veins to act as a counter-toxin.
+    originStory: `Founded in Year 500 of the Dimming by Blight-Mother Vespera, who bonded with bog-rot to cure the spore-hush ravaging her family's cave-keeps in the Bryngloom. Vespera the Vreken alchemist bonded with the bog-rot of the Bryngloom to synthesize a cure for the spore-hush that ravaged her family's cave-keeps. She gathered the decaying moss of the Sunken Spire, injecting its alchemical bile directly into her veins to act as a counter-toxin.
 
 She cured the hush, but her body became a permanent host for active decay. The Plaguebringer's skin is waxy, pale, and cold, and she must constantly cultivate new diseases within her own tissue to prevent the rot from consuming her own internal organs, transforming her body into a living laboratory.
 

@@ -128,7 +128,7 @@ export const FALSE_PROPHET_DATA = {
   ],
 
   overview: {
-    originStory: `In the starless grasslands of the Sundrift Vale, a nomadic herd-watcher named Li Wei followed a falling meteor into a deep, crystalline crater. He did not find a metal shard, but an ancient, sundered monolith humming with a black, empty vacuum. When he looked directly into the void where the sun-god Sol once shone, he did not see light; he saw the gospel of the cosmic void. The vacuum spoke not in words, but in the terrifying, silent architecture of the stars' demise.
+    originStory: `Founded in Year 598 of the Dimming by Li Wei, who witnessed the Silence Between Stars in a Sundered Monolith crater and returned with blank white eyes and a hypnotic madness. In the starless grasslands of the Sundrift Vale, a nomadic herd-watcher named Li Wei followed a falling meteor into a deep, crystalline crater. He did not find a metal shard, but an ancient, sundered monolith humming with a black, empty vacuum. When he looked directly into the void where the sun-god Sol once shone, he did not see light; he saw the gospel of the cosmic void. The vacuum spoke not in words, but in the terrifying, silent architecture of the stars' demise.
 
 Li Wei returned with blank, white eyes and a mind permanently shattered by the competing voices of dead stars. The False Prophet is physically blind, his skin pale and cracked, and his heart beating in erratic, asynchronous patterns. His words carry a hypnotic madness that drains the stamina of listeners, forcing them to see the phantom embers of dead stars.
 

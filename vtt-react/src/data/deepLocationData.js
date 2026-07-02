@@ -48,10 +48,20 @@ DEEP_LOCATIONS['greymark-keep'] = {
     foundingStory:
       'Built where three ancient ironwood roots converged above a geothermal vent. The first Thalreth settlers chose this spot because the roots formed a natural shelter, and the vent provided the only unfrozen ground within fifty miles. The original keep was a single hall carved into the largest root — that hall is now the High Hearth.',
     significantEvents: [
-      { date: 'Year 5, Dimming', event: 'The Fog Compact was sealed; Greymark established as seat of House Thalreth' },
+      { date: 'Year 5, Deepening', event: 'The Fog Compact: House Thalreth trades spatial clarity for insulating fog; first Scribe-Sentinels founded' },
       { date: 'Year 13, Dimming', event: 'The Church of the Holy Light was founded in the High Hearth' },
+      { date: 'Year 13, Dimming', event: 'Founding of the Church of the Holy Light at Greymark Keep; first Scribe-Sentinels formally appointed' },
+      { date: 'Year 17, Dimming', event: 'The Preservation Compact: noble houses seal dark-bargain tablets in the Council Chamber' },
       { date: 'Year 89, Dimming', event: 'High Confessor Aldren Thalreth the Elder, ancestor of the present line, departed for Nordhalla\'s Frozen Archive to seal himself in meditative stasis' },
-      { date: 'Year 350, Dimming', event: 'Briaran raiders breached the outer palisade; repelled after three days of house-to-house fighting' }
+      { date: 'Year 89, Dimming', event: 'The Ledger Purge: Lord Aldren Thalreth consolidates all family ledgers into a single sealed vault, entrusting location to no one' },
+      { date: 'Year 100, Dimming', event: 'The Sovereign Ledger established: the first formal system of documented vs. undocumented citizenship' },
+      { date: 'Year 150, Dimming', event: 'The Fogwood Schism: Thalren archivists split into Preservationists vs. Adaptationists; the Forgotten underclass emerges' },
+      { date: 'Year 203, Dimming', event: 'The Ledger Halls Collapse: original archives buried; the Great Forgetting begins' },
+      { date: 'Year 250-350, Dimming', event: 'The Memory Wars: Scribe-Cartel vs. the undocumented Forgotten; Mist-Sentinels formed' },
+      { date: 'Year 350, Dimming', event: 'Briaran raiders breached the outer palisade; repelled after three days of house-to-house fighting' },
+      { date: 'Year 350, Dimming', event: 'The Briaran Uprising: Unshorn Briaran raid timber caravans; Thalreth suppression campaign drives them deep into Ironwood Heart' },
+      { date: 'Year 380, Dimming', event: 'The Inquisitor Traditions Merge: Elias the Salt-Scarred establishes the Frostwood chapter at Greymark Keep' },
+      { date: 'Year 500, Dimming', event: 'The Great Revision: senior Scribe-Sentinels begin systematically editing ledger-libraries' }
     ]
   },
   subLocations: [
@@ -153,9 +163,15 @@ DEEP_LOCATIONS['frozen-archive'] = {
     foundingStory:
       'Carved into the glacier as both a fortress and a tomb. The first chamber was a burial vault for the Skalvyr dead — the family believed that freezing their ancestors in ice would preserve not just their bodies, but their wisdom. Over centuries, the vaults expanded as more knowledge was added: genealogies, star-charts, treaties, and prophecies.',
     significantEvents: [
-      { date: 'Year 7, Dimming', event: 'The Glacier Bargain was struck; construction of the Archive began' },
+      { date: 'Year 2, Deepening', event: 'First Augur reading: Cassia reads the Deepening\'s hour in glacier-elk entrails' },
+      { date: 'Year 7, Deepening', event: 'The Skalvyr Glacier Bargain: Warden freezes glaciers; Frost-Tithe set on Rime-Born' },
+      { date: 'Year 12, Dimming', event: 'First Rebirth Window: Augurs measure 40% output; systematic logging begins' },
       { date: 'Year 89, Dimming', event: 'Aldren Thalreth the Elder\'s self-entombment — his frozen chamber remains in the deepest vault' },
-      { date: 'Year 720, Dimming', event: 'Clandestine Void-heat engine construction began beneath the Archive' }
+      { date: 'Year 100, Dimming', event: 'Berserker founding: Grum\'s Blood-Heat occurs in Emberspire\'s caldera, recorded in Archive annals' },
+      { date: 'Year 480, Dimming', event: 'False Dawn Riots: Archive seals outer gates for the first time as mobs attack Augurs' },
+      { date: 'Year 720, Dimming', event: 'Clandestine Void-heat engine construction began beneath the Archive' },
+      { date: 'Year 720, Dimming', event: 'Void-Heat Heresy: construction of the heat-engine beneath the Archive begins in earnest' },
+      { date: 'Year 760, Dimming', event: 'Augur Collapse: accuracy plummets from 93% to 41%; Cassia\'s preserved body weeps frozen tears' }
     ]
   },
   subLocations: [
@@ -247,7 +263,9 @@ DEEP_LOCATIONS['over-shanty'] = {
       'When the Velun Neth signed the First Contract, those who could not abide its terms — who refused to surrender their names, their memories, or their autonomy — were cast down. They built platforms beneath Atropolis, then more platforms, then rope-bridges between them. The Shanty has never stopped growing.',
     significantEvents: [
       { date: 'Year 412, Dimming', event: 'Natalie Seline founded the Cult of Forgotten Shadow in a peat-crypt beneath the Shanty' },
+      { date: 'Year 412, Dimming', event: 'Establishment: the Over-Shanty coalesces as permanent black-market settlement at peat-bog edge' },
       { date: 'Year 598, Dimming', event: 'The Silence Between Stars made first contact with the Cult\'s inner circle' },
+      { date: 'Year 598, Dimming', event: 'The Silence Between Stars: Cult makes first two-way contact with the deep dark; the Voice answers' },
       { date: 'Year 650, Dimming', event: 'The Great Fire — a third of the Shanty burned; the Cult used Shadow magic to contain the flames, earning grudging respect' }
     ]
   },
@@ -338,9 +356,14 @@ DEEP_LOCATIONS['synod-hold'] = {
       'Originally a seasonal gathering site for nomadic clans, Synod Hold grew into a permanent settlement when the Ordavan realized that the steppe\'s trade value exceeded its grazing value. The Unlit Veil arrived within a generation and never left.',
 
     significantEvents: [
+      { date: 'Year 15, Dimming', event: 'Astril First Vessels: Ordan ancestors volunteer to carry constellation-spirits' },
       { date: 'Year 30, Dimming', event: 'Synod Hold established as a permanent trade post' },
       { date: 'Year 150, Dimming', event: 'The first Unlit Veil couriers arrived — offering "trade consultation services"' },
-      { date: 'Year 500, Dimming', event: 'Three ancestral mounds fell silent in a single season; cause still unknown' }
+      { date: 'Year 150, Dimming', event: 'The Synod Organizes: formal ruling council established; first Over-Sung case recorded' },
+      { date: 'Year 250-300, Dimming', event: 'The Sylen-Muren Schism: Harmonists vs. Silencers split the Astril' },
+      { date: 'Year 480, Dimming', event: 'False Dawn Riots: Luminarchy authority challenged when the myth of Sol\'s return breaks' },
+      { date: 'Year 500, Dimming', event: 'Three ancestral mounds fell silent in a single season; cause still unknown' },
+      { date: 'Year 598, Dimming', event: 'Silence Between Stars: Li Wei witnesses the contact and founds the False Prophet tradition' }
     ]
   },
   subLocations: [
@@ -1047,12 +1070,12 @@ DEEP_LOCATIONS['harath-vault'] = {
     lighting: 'Orange-red from the forge-pits and geothermal vents. The vault has no windows and no natural light — it is illuminated entirely by fire, metal, and the occasional eruption of volcanic glow from the deeper chambers.'
   },
   history: {
-    founded: 'Year 15 of the Dimming',
+    founded: 'Year 100 of the Dimming',
     foundedBy: 'Grum Bloodhammer',
     foundingStory:
       'When Grum Bloodhammer first ignited the Blood-Heat in Emberspire\'s caldera, the Solvarn Vigil thought the buried star was returning. The eruption of fury he unleashed melted a tunnel through the basalt into this natural vault, where he established the Forge of Grum — the first Berserker training ground. The impression of his hammer is still preserved in the main forge-floor, and every Blood-Priest since has begun their term by pressing their own hammer into the cooling metal beside it.',
     significantEvents: [
-      { date: 'Year 15, Dimming', event: 'Grum Bloodhammer ignites the first Blood-Heat; the Forge of Grum is established in the newly-formed Harath-Vault' },
+      { date: 'Year 100, Dimming', event: 'Grum Bloodhammer ignites the first Blood-Heat; the Forge of Grum is established in the newly-formed Harath-Vault' },
       { date: 'Year 150, Dimming', event: 'The Skald Council formed to govern the growing Berserker order; the Vault becomes the Council\'s permanent seat' },
       { date: 'Year 720, Dimming', event: 'The Void-Heat Heresy reaches Sundale; Hark Ash-Hammer purges the Pact-less Unbound from the Vault' },
       { date: 'Year 790, Dimming', event: 'Deep-tunnel settlers from Emberspire\'s lower reaches attempt to establish an independent forge-hold; Hark Ash-Hammer condemns it as heretical' }
@@ -1063,7 +1086,7 @@ DEEP_LOCATIONS['harath-vault'] = {
       id: 'the-forge-floor',
       name: 'The Forge Floor',
       type: 'great_hall',
-      description: 'The heart of the Harath-Vault — a massive chamber where the forge-pits glow with captured geothermal fire. The floor is scarred by eight centuries of hammer-strikes, ritual ignitions, and the Blood-Heat testing of every Berserker who has trained here. Grum\'s original hammer-impression is preserved under volcanic glass at the chamber\'s center.',
+      description: 'The heart of the Harath-Vault — a massive chamber where the forge-pits glow with captured geothermal fire. The floor is scarred by seven centuries of hammer-strikes, ritual ignitions, and the Blood-Heat testing of every Berserker who has trained here. Grum\'s original hammer-impression is preserved under volcanic glass at the chamber\'s center.',
       proprietor: 'Blood-Priest',
       notableFeatures: [
         'Grum\'s Impression: the volcanic glass seal preserving the founder\'s hammer-strike',

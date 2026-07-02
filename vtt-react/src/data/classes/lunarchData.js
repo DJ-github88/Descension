@@ -171,7 +171,7 @@ export const LUNARCH_DATA = {
   ],
 
   overview: {
-    originStory: `Selene, a sister of the forgotten House Viridane, bargained with the wildwood fae in the moonlit groves of the Frostwood, seeking the light of the dead moon to guide her family's escape from the northern vigil keeps. She bound a lunar parasite to her bones, letting its starlight veins wrap around her marrow.
+    originStory: `Founded in Year 80 of the Dimming by Selene of House Viridane, who bargained with wildwood fae in the moonlit groves to guide her family's escape. Selene, a sister of the forgotten House Viridane, bargained with the wildwood fae in the moonlit groves of the Frostwood, seeking the light of the dead moon to guide her family's escape from the northern vigil keeps. She bound a lunar parasite to her bones, letting its starlight veins wrap around her marrow.
 
 The fae granted the light, but they took the warmth from her blood. The Lunarch carries a permanent chill in her marrow, unable to feel heat even when standing in forge-fire. Her power fluctuates erratically with the lunar cycles, leaving her weak during the new moon, her skin glowing with a pale silver aura.
 

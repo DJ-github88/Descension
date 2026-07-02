@@ -118,7 +118,7 @@ export const HARBINGER_DATA = {
   ],
 
   overview: {
-    originStory: `Reality is a woven tapestry, but the nomad Xyris did not see beauty in the threads; she saw a cage. Splicing a thread of raw temporal friction directly into her own veins, she sought to tear open the veil and draw power from the gravity anomalies left behind by the Breach. She gathered fragments of the Sundrift Monolith, fusing them into her own blood to thin the planar anchor that binds her to this world.
+    originStory: `Founded in Year 380 of the Dimming when two apocalyptic traditions merged: Xyris, who tore the first permanent Chaos Pocket, and Malakor, who calculated Sol's extinction in thirty scrolls of star-arithmetic. Reality is a woven tapestry, but the nomad Xyris did not see beauty in the threads; she saw a cage. Splicing a thread of raw temporal friction directly into her own veins, she sought to tear open the veil and draw power from the gravity anomalies left behind by the Breach. She gathered fragments of the Sundrift Monolith, fusing them into her own blood to thin the planar anchor that binds her to this world.
 
 During the first solar eclipse of Sol's Deepening, the Skald archivist Malakor did not flee. He locked himself in the Scribe's Tower with thirty scrolls of star-arithmetic. By calculating the mass of the dying sun and the cooling rate of the mantle, he realized that the freeze was not temporary. It was mathematically absolute. The realization did not break his mind. It froze it.
 

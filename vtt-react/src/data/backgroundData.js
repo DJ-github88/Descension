@@ -163,7 +163,7 @@ export const BACKGROUND_DATA = {
             { classId: 'berserker', tension: 'An archivist chained to their journals cannot sustain the emotional singularity the Blood-Heat demands.' }
         ],
         name: 'Ledger Keeper',
-        description: 'You maintained identity-ledgers at Greymark Keep in the Frostwood Reach under the Sovereign Ledger enforced by Jarl-Archivist Kaelen Thalreth. In a land where the protective fog erases memory and the Scribe-Cartel holds a monopoly on Soot-Resin Ink and Peat-Parchment, your chained journals are the only proof of legal citizenship. You have checked papers at the Ironwood Palisade checkpoints, catalogued lineages at Greythorn Copse, and researched the prehistoric carvings of Mistbarrow.',
+        description: 'You maintained identity-ledgers at Greymark Keep in the Frostwood Reach under the Sovereign Ledger enforced by Jarl-Archivist Kaelen Thalreth. In a land where the protective fog erases memory and the Scribe-Cartel holds a monopoly on Soot-Resin Ink and Peat-Parchment, your chained journals are the only proof of legal citizenship. You have checked papers at the Ironwood Palisade checkpoints, catalogued lineages at Greythorn Copse, and researched the prehistoric carvings of Mistbarrow. The Sovereign Ledger was established at Greymark Keep in Year 100 of the Dimming, formalized after Lord Aldren Thalreth\'s Ledger Purge of Year 89.',
         skillProficiencies: ['Animal Handling', 'Survival'],
         toolProficiencies: ['Artisan\'s tools', 'Vehicles (land)'],
         languages: 1,
@@ -205,7 +205,7 @@ export const BACKGROUND_DATA = {
             { classId: 'inquisitor', tension: 'Heirs are trained to protect house secrets; the Inquisitor exists to sever them. An heir who takes the Barbed Vow hunts their own blood.' }
         ],
         name: 'Bloodline Heir',
-        description: 'You descend from one of the seven noble houses that struck the Dark Bargains — Thalreth, Skalvyr, Solvan, Mereval, Tesshan, Ordavan, or Morrath. The weight of ancestral sacrifice shapes every decision you make, though your family\'s influence has long since fractured beneath the consequences of those bargains. (The Bryngloom\'s bargain was unique: it was struck not by House Morrath, but by the Neth\'s own ancestors — a fact the remaining houses prefer to forget.)',
+        description: 'You descend from one of the seven noble houses that struck the Dark Bargains — Thalreth, Skalvyr, Solvan, Mereval, Tesshan, Ordavan, or Morrath. The weight of ancestral sacrifice shapes every decision you make, though your family\'s influence has long since fractured beneath the consequences of those bargains. (The Bryngloom\'s bargain was unique: it was struck not by House Morrath, but by the Neth\'s own ancestors — a fact the remaining houses prefer to forget.) The dark bargains that fractured the sky were struck between Year 5 of the Deepening and Year 50 of the Dimming. The Breach — when six houses fed their heirs to Keth-Amar — occurred in Year 11.',
         skillProficiencies: ['History', 'Persuasion'],
         toolProficiencies: ['Gaming set'],
         languages: 1,
@@ -254,7 +254,7 @@ export const BACKGROUND_DATA = {
             { classId: 'berserker', tension: 'A scholar tempered by crystal archives and throat-sung theory rarely survives the Blood-Heat.' }
         ],
         name: 'Synod Academic',
-        description: 'You studied at the Synod-Hold in Sundrift Vale — the shimmering crystal-lattice Astril cathedral where constellation-spirit lineages are preserved. You learned to decipher the forbidden, throat-sung Sky-Songs that map stars that went dark under the Ordavan bargain, and catalogued star-lineages carved on bone Steppe-Staves. You know how to bypass the basalt Cairn-Checkpoints, how to navigate Starfall Vale, and how to identify the Unlit spies of the Synod.',
+        description: 'You studied at the Synod-Hold in Sundrift Vale — the shimmering crystal-lattice Astril cathedral where constellation-spirit lineages are preserved. You learned to decipher the forbidden, throat-sung Sky-Songs that map stars that went dark under the Ordavan bargain, and catalogued star-lineages carved on bone Steppe-Staves. You know how to bypass the basalt Cairn-Checkpoints, how to navigate Starfall Vale, and how to identify the Unlit spies of the Synod. The Synod-Hold cathedral and its crystal-lattice archives were formally established in Year 150 of the Dimming, built over the stone circles where the Astril ancestors first received the constellation-spirits.',
         skillProficiencies: ['Arcana', 'History'],
         languages: 2,
         equipment: [
@@ -300,7 +300,7 @@ export const BACKGROUND_DATA = {
             { classId: 'false_prophet', tension: 'A veteran earned every scar in real combat; manufactured faith tastes like insult to someone who bled for truth.' }
         ],
         name: 'Sumps Veteran',
-        description: 'You fought in the Bloodhammer Sump\'s geothermal skirmishes, the War of Thousand Screams, or the endless defense of the Hunger Glaciers. The Hunger Pact lives in your blood — ancestral starvation channeled into combat fury — and the Frost-Tithe may have taken someone you loved.',
+        description: 'You fought in the Bloodhammer Sump\'s geothermal skirmishes, the War of Thousand Screams, or the endless defense of the Hunger Glaciers. The Hunger Pact lives in your blood — ancestral starvation channeled into combat fury — and the Frost-Tithe may have taken someone you loved. The Hunger Pact traces its origin to the Hunger Winter of Years 7-10, the three-year blizzard after the Glacier Bargain when Skald ancestors consumed their own dead. The geothermal sump-skirmishes intensified during the First Thermal War (Years 100-120).',
         skillProficiencies: ['Athletics', 'Intimidation'],
         toolProficiencies: ['Gaming set', 'Vehicles (land)'],
         languages: 1,
@@ -353,7 +353,7 @@ export const BACKGROUND_DATA = {
             { classId: 'berserker', tension: 'Contract discipline and the Blood-Heat fury are mutually exclusive states of mind.' }
         ],
         name: 'Debt Negotiator',
-        description: 'You studied the First Contract and Neth legal traditions in Atropolis, helping clients navigate Regent Morrath\'s Great Registry and the Scribe-Cartel’s peonage. You understand that in Bryngloom, debt is a living thing: every agreement is a binding clause, every handshake a potential trap, and the Postmortem Corvée can conscript your corpse if you default. You help negotiate Memory-Glass Covenants to purchase extra years of life.',
+        description: 'You studied the First Contract and Neth legal traditions in Atropolis, helping clients navigate Regent Morrath\'s Great Registry and the Scribe-Cartel’s peonage. You understand that in Bryngloom, debt is a living thing: every agreement is a binding clause, every handshake a potential trap, and the Postmortem Corvée can conscript your corpse if you default. You help negotiate Memory-Glass Covenants to purchase extra years of life. The First Contract itself was drafted in Year 25 of the Dimming. The Drun — legally nonexistent Neth — emerged in Year ~380 when Saren-Vel burned her name from the Contract.',
         skillProficiencies: ['Deception', 'Sleight of Hand'],
         toolProficiencies: ['Forgery kit', 'Disguise kit'],
         languages: 1,
@@ -400,7 +400,7 @@ export const BACKGROUND_DATA = {
             { classId: 'arcanoneer', tension: 'The oral archive and the written contract are rival memory-systems; a Frost Chanter trusts song where an Arcanoneer trusts filing.' }
         ],
         name: 'Frost Chanter',
-        description: 'You trained in Nordhalla\'s oral-history traditions, where song preserves what Járn-Tand\'s runic inquisitors seek to burn. Your performances are literally history-keeping rituals — each verse a hidden archive of the old animist ways, each chorus a shield against both the Frost-Tithe\'s despair and the Runic Academies\' erasure. In a land where the old drums are outlawed, the Frost Chanter\'s voice is a covert hearth for the Fredløse.',
+        description: 'You trained in Nordhalla\'s oral-history traditions, where song preserves what Járn-Tand\'s runic inquisitors seek to burn. Your performances are literally history-keeping rituals — each verse a hidden archive of the old animist ways, each chorus a shield against both the Frost-Tithe\'s despair and the Runic Academies\' erasure. In a land where the old drums are outlawed, the Frost Chanter\'s voice is a covert hearth for the Fredløse. The oral-history tradition preserved by Frost Chanters dates to the Glacier Bargain (Year 7) and the Hunger Winter that followed. What Járn-Tand\'s runic inquisitors seek to burn is eight centuries old.',
         skillProficiencies: ['Acrobatics', 'Performance'],
         toolProficiencies: ['Disguise kit', 'Musical instrument'],
         languages: 1,
@@ -483,7 +483,7 @@ export const BACKGROUND_DATA = {
             { classId: 'martyr', tension: 'A survivor built their whole identity around NOT being consumed; the Vow asks them to be consumed willingly.' }
         ],
         name: 'Hush Survivor',
-        description: 'You lived in seclusion after witnessing the fungal hush claim someone you loved — watching Ghost-Mycelium darken their veins, dissolve their mind, and draw them into the Hush-Bogs as a mindless Spores-Born. You fortified your mind against the hush\'s seduction through isolation, but the mycelium\'s song never fully fades.',
+        description: 'You lived in seclusion after witnessing the fungal hush claim someone you loved — watching Ghost-Mycelium darken their veins, dissolve their mind, and draw them into the Hush-Bogs as a mindless Spores-Born. You fortified your mind against the hush\'s seduction through isolation, but the mycelium\'s song never fully fades. The Vreken Over-Lit epidemic began in the fifth century of the Dimming (~Year 400-450), when the Neth\'s expanding trade networks made concentrated Ghost-Mycelium fungal exports into currency.',
         skillProficiencies: ['Medicine', 'Religion'],
         toolProficiencies: ['Herbalism kit'],
         languages: 1,
@@ -588,7 +588,7 @@ export const BACKGROUND_DATA = {
             { classId: 'warden', tension: 'A Warden must anchor and hold; a sailor lives by movement and current. The immovable chain and the shifting tide are opposed philosophies.' }
         ],
         name: 'Merrow Sailor',
-        description: 'You sailed the Iceheart Sea from Merrowport, navigating under the shadow of the Brine-Bond Syndicate and Admiral Varis\'s Sea-Charter. Your trade-tattoos are legal contracts inked on your skin to verify your debt-shares and prevent you from being pressed into lifetime service under the Board of Trade\'s Press-Warrants. You know how to slip past the Unfreezing Booms, how to dodge the Luck-Ledger inquisitors, and how to trade in Kelpie\'s Cove.',
+        description: 'You sailed the Iceheart Sea from Merrowport, navigating under the shadow of the Brine-Bond Syndicate and Admiral Varis\'s Sea-Charter. Your trade-tattoos are legal contracts inked on your skin to verify your debt-shares and prevent you from being pressed into lifetime service under the Board of Trade\'s Press-Warrants. You know how to slip past the Unfreezing Booms, how to dodge the Luck-Ledger inquisitors, and how to trade in Kelpie\'s Cove. The Brine-Bond Syndicate and the Luck-Ledger system were formalized at Merrowport in Year ~300 of the Dimming, though Merryn tattooing traditions predate the Syndicate by centuries.',
         skillProficiencies: ['Athletics', 'Perception'],
         toolProficiencies: ['Navigator\'s tools', 'Vehicles (water)'],
         languages: 1,
@@ -691,7 +691,7 @@ export const BACKGROUND_DATA = {
             { classId: 'martyr', tension: 'A Shanty Rat survived by being invisible and unrecorded; the Vow demands they be seen and broken for others.' }
         ],
         name: 'Shanty Rat',
-        description: 'You grew up in the Over-Shanty — the hanging slum beneath Atropolis\'s high canopy city. Having no record in Regent Morrath\'s Great Registry, you survived as one of the undocumented "Forgotten" among salvage, smugglers, and memory-brokers. You learned which rope-bridges hold, how to slip past the Toll-Dike patrols, and how to bargain with Drun outcasts for black-market peat-oil.',
+        description: 'You grew up in the Over-Shanty — the hanging slum beneath Atropolis\'s high canopy city. Having no record in Regent Morrath\'s Great Registry, you survived as one of the undocumented "Forgotten" among salvage, smugglers, and memory-brokers. You learned which rope-bridges hold, how to slip past the Toll-Dike patrols, and how to bargain with Drun outcasts for black-market peat-oil. The Over-Shanty was established in Year 412 of the Dimming, coalescing from Drun outcasts, Morren defaulters, and desperate merchants.',
         skillProficiencies: ['Sleight of Hand', 'Stealth'],
         toolProficiencies: ['Disguise kit', 'Thieves\' tools'],
         languages: 1,
@@ -733,7 +733,7 @@ export const BACKGROUND_DATA = {
             { classId: 'false_prophet', tension: 'A Hunter pursues buried truth; a False Prophet manufactures it. The two are professional enemies.' }
         ],
         name: 'Monolith Hunter',
-        description: 'You track the seven Sundered Monoliths — the shattered fragments of Sol\'s original binding seal — as their resonance shifts across the frozen world. The monoliths are waking up after centuries of silence, and their song is getting louder. You carry cold iron stakes to ground Wyrd-echoes and a journal of fragment-locations that certain powers would kill to obtain.',
+        description: 'You track the seven Sundered Monoliths — the shattered fragments of Sol\'s original binding seal — as their resonance shifts across the frozen world. The monoliths are waking up after centuries of silence, and their song is getting louder. You carry cold iron stakes to ground Wyrd-echoes and a journal of fragment-locations that certain powers would kill to obtain. The seven Sundered Monoliths were created in Year 11 when Keth-Amar consumed the six sacrificed heirs and shattered the binding seal. They began waking simultaneously around Year 795 — after 784 years of silence.',
         skillProficiencies: ['History', 'Investigation'],
         toolProficiencies: ['Calligrapher\'s supplies'],
         languages: 2,
@@ -780,7 +780,7 @@ export const BACKGROUND_DATA = {
             { classId: 'martyr', tension: 'The fae bargain is fundamentally transactional; the Vow asks for uncompensated self-destruction. A Grove Warden turned Martyr has betrayed one covenant for another.' }
         ],
         name: 'Grove Warden',
-        description: 'You swore the old fae bargain in the moonlit groves of the Frostwood Reach, binding yourself as a warden of the Hollow-Court and the ironwood hollows where House Viridane sealed its counter-pact. You tend the Thorn-Fall where eight centuries of shed thorns record every unfulfilled promise, mine ghost-metal from the cold vein beneath the western groves, and enforce the fae\'s old laws against the seven families\' quiet expeditions. Smooth-Skinned wardens carry their oath hidden beneath borrowed names; Unshorn wardens wear their thorns openly as the only proof that Viridane existed.',
+        description: 'You swore the old fae bargain in the moonlit groves of the Frostwood Reach, binding yourself as a warden of the Hollow-Court and the ironwood hollows where House Viridane sealed its counter-pact. You tend the Thorn-Fall where eight centuries of shed thorns record every unfulfilled promise, mine ghost-metal from the cold vein beneath the western groves, and enforce the fae\'s old laws against the seven families\' quiet expeditions. Smooth-Skinned wardens carry their oath hidden beneath borrowed names; Unshorn wardens wear their thorns openly as the only proof that Viridane existed. House Viridane\'s counter-pact with the fae was sealed in Year 11, when the household fled south through the Frostwood Reach as the six capitulating houses marched their heirs north. The thorn-archive at Thorn-Fall has preserved every unfulfilled promise for nearly 800 years.',
         skillProficiencies: ['Insight', 'Survival'],
         toolProficiencies: ['Artisan\'s tools (ghost-metal cold-working)'],
         languages: 1,
@@ -830,7 +830,7 @@ export const BACKGROUND_DATA = {
             { classId: 'berserker', tension: 'A Mask Warden exists to preserve fixed identity; the Blood-Heat dissolves it. The two are philosophical opposites — and a Mimir cannot be a Berserker anyway.' }
         ],
         name: 'Mask Warden',
-        description: 'You stand between the Mimir and the cartels of Hunters who pay fortunes for heartwood masks on the black collector\'s market. You patrol the fog-spider-silk rope-bridges of the Spire-Aeries, watch the Watch-Bells for the next alarm, and hunt the detection-magicians who probe the Vales with ever-refining glass-cutters. Whether Mask-Borne aristocrat, Mist-Woven cliff-sentinel, or Unwoven floor-guide, you have learned to read the spore-trails of intruders and the silence the fog leaves when an outsider moves through it.',
+        description: 'You stand between the Mimir and the cartels of Hunters who pay fortunes for heartwood masks on the black collector\'s market. You patrol the fog-spider-silk rope-bridges of the Spire-Aeries, watch the Watch-Bells for the next alarm, and hunt the detection-magicians who probe the Vales with ever-refining glass-cutters. Whether Mask-Borne aristocrat, Mist-Woven cliff-sentinel, or Unwoven floor-guide, you have learned to read the spore-trails of intruders and the silence the fog leaves when an outsider moves through it. The Mimir Purge — the Wyrd incursion that destroyed the birthing chambers and killed the last Mask-Mothers — occurred around Year 220. The Rupture — the inheritance law restricting masks to first-borns — followed in Year ~240. Mask-Wardens have protected the surviving masks against the Hunters\' cartels for over 550 years.',
         skillProficiencies: ['Perception', 'Stealth'],
         toolProficiencies: ['Navigator\'s tools', 'Disguise kit'],
         languages: 1,

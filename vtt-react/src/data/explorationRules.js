@@ -388,7 +388,7 @@ export const EXPLORATION_RULES = {
     name: 'The Lost Brood',
     region: 'cragjaw-peaks',
     type: 'campaign_arc',
-    description: 'A multi-phase campaign arc centered on the Groven broodlings left behind in the Deep Alchemists\' vats during the Vat-Breakers\' revolt 800 years ago.',
+    description: 'A multi-phase campaign arc centered on the Groven broodlings left behind in the Deep Alchemists\' vats during the Vat-Breakers\' revolt ~760 years ago.',
     phases: [
       {
         tier: [1, 3],

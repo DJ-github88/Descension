@@ -142,7 +142,7 @@ export const TOXICOLOGIST_DATA = {
   ],
 
   overview: {
-    originStory: `Varis the alchemist extracted raw venom from the fog-predators of the Frostwood, seeking a chemical defense against the face-stealing horrors that cornered his scout patrols. He spent years in the ironwood canopies, distilling toxic moss and acidic secretions.
+    originStory: `Founded in Year 380 of the Dimming by Varis the Trembling, who systematized venom extraction from the fog-predators of the Frostwood Reach. Varis the alchemist extracted raw venom from the fog-predators of the Frostwood, seeking a chemical defense against the face-stealing horrors that cornered his scout patrols. He spent years in the ironwood canopies, distilling toxic moss and acidic secretions.
 
 The constant exposure to toxic fumes caused chronic tremors in his hands, burning away his sense of taste and leaving his fingers permanently stained with acid runoff. The Toxicologist cannot handle delicate tools without intense pain, their catalysts trailing corrosive fumes.
 

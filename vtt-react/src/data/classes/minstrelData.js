@@ -126,7 +126,7 @@ export const MINSTREL_DATA = {
   ],
 
   overview: {
-    originStory: `The Merryn sailor Lyris sang a sacred sea-symphony to the churning gales of the Iceheart Sea, calming the waves so her ice-locked vessel could dock at Merrowport. The song was beautiful, but it was a transaction with the deep tides, drawing the freezing currents into her lungs.
+    originStory: `Founded in Year 100 of the Dimming by Lyris the Tide-Singer, who sang a sea-symphony to calm the Iceheart gales at Merrowport. The Merryn sailor Lyris sang a sacred sea-symphony to the churning gales of the Iceheart Sea, calming the waves so her ice-locked vessel could dock at Merrowport. The song was beautiful, but it was a transaction with the deep tides, drawing the freezing currents into her lungs.
 
 The ocean mother accepted the song, but she stole Lyris's spoken voice. The Minstrel can only communicate through melodic whispers or the strings of her lute. Attempting to scream or speak normally causes her throat to bleed and her lungs to fill with salt-water, her melodies carrying the physical weight of the gales.
 

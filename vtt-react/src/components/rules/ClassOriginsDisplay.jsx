@@ -39,7 +39,7 @@ const REGIONS = [
     borderColor: '#196f3d',
     glowColor: 'rgba(25, 111, 61, 0.12)',
     description: 'A pine forest of perpetual fog where the mist eats memories and births conceptual Wyrd-horrors from human fear. The Thalren humans keep journals chained to their belts to preserve their pasts, while the mask-bound Mimir and Briaran hide in the mist-shrouded canopies.',
-    darkBargain: 'House Viridane refused the Warden\'s sacrifice and fled south, making a counter-bargain with fae entities that left their descendants with physical thorns.',
+    darkBargain: 'House Thalreth traded the region\'s spatial clarity for an insulating fog — the same fog that now devours memory with every passing year. The Sovereign Ledger and Scribe-Cartel emerged to fight what the bargain created.',
     classIds: ['apex', 'shaper', 'lunarch', 'inquisitor', 'toxicologist']
   },
   {
@@ -63,7 +63,7 @@ const REGIONS = [
     borderColor: '#6c3483',
     glowColor: 'rgba(108, 52, 131, 0.12)',
     description: 'A vertical labyrinth of razor-sharp ridges, deep steam-shafts, and ancient holdfasts buried under blizzards. The only passage across the chasms are the Ancestor-Spans — living bridges grown from the calcified bones of the Groven.',
-    darkBargain: 'House Tessen keeps have lived in absolute isolation for eight generations, developing Byzantine politics to distract from their frozen imprisonment.',
+    darkBargain: 'House Tesshan traded visibility for a perpetual snow-veil — a blizzard that has buried every landmark for eight centuries. The only visible routes are the Ancestor-Spans, built from the calcified bodies of willing Groven dead.',
     classIds: ['chronarch', 'warden', 'shaper', 'gambit', 'martyr']
   },
   {
@@ -87,8 +87,8 @@ const REGIONS = [
     borderColor: '#4a235a',
     glowColor: 'rgba(74, 35, 90, 0.12)',
     description: 'A starless grassland steppe of gravity anomalies and silt-tides. Here, the nomadic Ordan humans migrate along ancient songs under a black sky, while the light-bearing Astril Synod maintains the Luminarchy.',
-    darkBargain: 'The Astril carrying constellation-spirits in their skin to hide them from Keth-Amar, trading their physical sight and sanity for inherited light.',
-    classIds: ['augur', 'animist', 'harbinger', 'false_prophet', 'minstrel']
+    darkBargain: 'House Ordavan traded fertile soil for the endless migration — herds that never stop, grass that always returns. The price: the sky went dark, and the constellation-spirits fled into willing Astril vessels.',
+    classIds: ['animist', 'harbinger', 'false_prophet']
   }
 ];
 // Programmatic mapping of class database names to the keys in ALL_CLASSES_DATA

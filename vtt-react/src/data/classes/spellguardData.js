@@ -156,7 +156,7 @@ export const SPELLGUARD_DATA = {
   ],
 
   overview: {
-    originStory: `Damon the blacksmith blocked a solar flare with an alchemical tower shield during Sol's entombment, protecting the caravan at the cost of his own hands. The solar energy permanently scarred his flesh, leaving his veins humming with volatile, trapped mana that threatens to detonate his own marrow.
+    originStory: `Founded in Year 3 of the Deepening by Damon, who blocked a solar flare with an alchemical tower shield during Sol's entombment. Damon the blacksmith blocked a solar flare with an alchemical tower shield during Sol's entombment, protecting the caravan at the cost of his own hands. The solar energy permanently scarred his flesh, leaving his veins humming with volatile, trapped mana that threatens to detonate his own marrow.
 
 The Spellguard's hands are frozen in a rigid, shielding posture, and absorbing spells causes intense nerve pain. A single cracked barrier can detonate his own marrow. They weld heavy brass plates to their arms to channel the backdraft, standing as the ultimate shield against the arcane.
 
