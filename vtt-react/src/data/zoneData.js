@@ -1275,6 +1275,938 @@ export const ZONE_DATA = [
       "the-sunken-spire"
     ],
     "wyrdCreatures": []
+  },
+
+  // ========================================================================
+  // NEW ZONES — MAP ENRICHMENT (Frostwood Reach)
+  // ========================================================================
+  {
+    "id": "frostfang-wastes",
+    "regionId": "frostwood-reach",
+    "name": "The Frostfang Wastes",
+    "type": "wilderness",
+    "description": "The cold, stony northern half of the Frostwood Reach — far from the volcanic warmth of Sundale. The ironwoods grow short and twisted here, then fail entirely into granite tundra. Carved runic monoliths and stone watch-posts mark the few roads. Frozen lakes surface for eight weeks in summer; the rest of the year, only their names are remembered. Travelers who go too far into the deep wastes sometimes do not return; whether from cold, from giants, or from things stranger than giants, no one will say.",
+    "dangerLevel": "extreme",
+    "factions": [
+      "Greymark Northwatch",
+      "The Stone-Speakers"
+    ],
+    "connections": [
+      "grevtholm",
+      "iron-lake",
+      "the-stone-circles"
+    ],
+    "wyrdCreatures": [
+      "Stel",
+      "Jutul-raider"
+    ]
+  },
+  {
+    "id": "grevtholm",
+    "regionId": "frostwood-reach",
+    "name": "Grevtholm",
+    "type": "settlement",
+    "description": "A fortified stone keep at the edge of the Frostfang Wastes — the northernmost Thalren outpost, manned by the Greymark Northwatch. The keep is built into a granite outcrop and ringed with carved warning-runes. The Grevtholm garrison is the only thing keeping the Jutul warbands from ranging freely into the southern Reach.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Greymark Northwatch"
+    ],
+    "connections": [
+      "frostfang-wastes",
+      "iron-lake"
+    ],
+    "wyrdCreatures": []
+  },
+  {
+    "id": "iron-lake",
+    "regionId": "frostwood-reach",
+    "name": "Iron Lake",
+    "type": "wilderness",
+    "description": "A frozen lake in the Frostfang Wastes, its name for the iron-grey color of its winter ice. In summer the surface melts into mirror-still water that reflects nothing — not the sky, not the cliffs, not the traveler standing at its edge. The Mimir say this is a wound in the world where the Reach's memory-fog cannot reach; locals say it is where drowned Jutul-maidens wait for the unwary.",
+    "dangerLevel": "high",
+    "factions": [],
+    "connections": [
+      "frostfang-wastes",
+      "grevtholm"
+    ],
+    "wyrdCreatures": [
+      "Drowned-Memory"
+    ]
+  },
+  {
+    "id": "the-stone-circles",
+    "regionId": "frostwood-reach",
+    "name": "The Stone Circles",
+    "type": "ruin",
+    "description": "A field of carved runic monoliths in the Frostfang Wastes, older than the Reach's memory. The circles hum at certain hours. The Stone-Speakers — an obscure order of Skald expatriates — maintain them in the belief that they predate even the binding of Sol. Whether they do anything at all, or whether the Stone-Speakers are simply mad, the Greymark Northwatch has never been able to determine.",
+    "dangerLevel": "medium",
+    "factions": [
+      "The Stone-Speakers"
+    ],
+    "connections": [
+      "frostfang-wastes"
+    ],
+    "wyrdCreatures": []
+  },
+  {
+    "id": "bearsback-summit",
+    "regionId": "frostwood-reach",
+    "name": "Bearsback Summit",
+    "type": "wilderness",
+    "description": "A double-peaked granite mountain at the northernmost tip of the Reach, said by Skalds to be the place where the great bear of the ancient world broke its spine and died, freezing into two peaks. The summit is past the Stone-Speakers' circles; few climb it. Those who do speak of finding a cairn at the top, already ancient when they arrive.",
+    "dangerLevel": "extreme",
+    "factions": [],
+    "connections": [
+      "the-stone-circles"
+    ],
+    "wyrdCreatures": []
+  },
+  {
+    "id": "meadowglen-crossing",
+    "regionId": "frostwood-reach",
+    "name": "Meadowglen Crossing",
+    "type": "settlement",
+    "description": "A waystation on the wide grass valley between the Frostwood Reach and Sundale — the only place where the ironwood thins enough to graze cattle. A market-town of mixed Thalren and Solvarn, the Crossing is officially under Greymark's writ but in practice answers to whichever side of the valley sent the last patrol. Trades: peat-iron, Solvan sulfur-lamps, Mist-Sentinel fish.",
+    "dangerLevel": "low",
+    "factions": [
+      "House Thalreth (nominally)",
+      "Solvarn exiles",
+      "Merryn caravan-captains"
+    ],
+    "connections": [
+      "warmheath",
+      "breezebough",
+      "greymark-keep"
+    ],
+    "wyrdCreatures": []
+  },
+  {
+    "id": "velling-pass",
+    "regionId": "frostwood-reach",
+    "name": "The Velling Pass",
+    "type": "wilderness",
+    "description": "The long, narrow valley connecting the Frostwood Reach to Sundale's Meadowglen. The pass is watched by both Greymark and the Dawn Vigil; treaties, broken and remade, govern who passes. The narrowest stretch is called the Velling-Throat, where the cliffs close in and a single cart blocks the road.",
+    "dangerLevel": "medium",
+    "factions": [
+      "House Thalreth (West gate)",
+      "Dawn Vigil (East gate)"
+    ],
+    "connections": [
+      "meadowglen-crossing",
+      "meadowglen"
+    ],
+    "wyrdCreatures": [
+      "Mist-Shark"
+    ]
+  },
+
+  // ========================================================================
+  // NEW ZONES — MAP ENRICHMENT (Nordhalla)
+  // ========================================================================
+  {
+    "id": "frosthold-citadel",
+    "regionId": "nordhalla",
+    "name": "Frosthold Citadel",
+    "type": "city",
+    "description": "The royal seat of House Skalvyr, carved into the side of Bearsbeard's Beak itself. The citadel's great hall is a single ice-cavern, the throne a slab of stone older than the Skald clans. King-Jarl Halvar Járn-Tand rules from here, surrounded by the Icechamber Syndicate, the Skald Keepers, and the blood-guard of the Bloodhammer Clan.",
+    "dangerLevel": "low",
+    "factions": [
+      "House Skalvyr",
+      "Icechamber Syndicate",
+      "Skald Keepers",
+      "Bloodhammer Clan"
+    ],
+    "connections": [
+      "bearsbeards-beak",
+      "ymirs-col",
+      "the-still-crag"
+    ],
+    "wyrdCreatures": []
+  },
+  {
+    "id": "bearsbeards-beak",
+    "regionId": "nordhalla",
+    "name": "Bearsbeard's Beak",
+    "type": "wilderness",
+    "description": "The highest peak in Nordhalla — a granite tooth that splits the sky above Frosthold Citadel. The Skald say the mountain is the petrified corpse of a great bear that challenged the sun before Sol was bound. The climb is sacred; only the most pure-tested may attempt it. Avalanches are common; the bodies of those who fail are never recovered.",
+    "dangerLevel": "extreme",
+    "factions": [],
+    "connections": [
+      "frosthold-citadel",
+      "ymirs-col"
+    ],
+    "wyrdCreatures": [
+      "Jutul-king"
+    ]
+  },
+  {
+    "id": "xardins-hearth",
+    "regionId": "nordhalla",
+    "name": "Xardin's Hearth",
+    "type": "settlement",
+    "description": "The southernmost major port of Nordhalla, built around a volcanic vent that keeps the harbor ice-free year-round. The hot-springs that bubble up around the vent are the only place in the world where Skald, Merryn, and even the occasional Frostbound can sit in the same water. Xardin's Trading Company runs the southern smuggling-lanes; the Icechamber Syndicate tolerates them only because the navy cannot survive the long southern coast without their fuel.",
+    "dangerLevel": "low",
+    "factions": [
+      "Xardin's Trading Company",
+      "Skald Navy (visiting)",
+      "Fredløse smugglers"
+    ],
+    "connections": [
+      "southern-shore-smugglers-cove",
+      "eldonholm"
+    ],
+    "wyrdCreatures": []
+  },
+  {
+    "id": "eldonholm",
+    "regionId": "nordhalla",
+    "name": "Eldonholm",
+    "type": "settlement",
+    "description": "A Skald fishing-town on the eastern coast, where the black fjords meet the open sea. Eldonholm is the only Nordhalla town that has never had a Sundale or Frostwood immigrant — the locals are pure-blooded Skald and proud of it. The town's hall holds the Eldon-Stone, an ancient runic slab that names every chieftain who has ruled here since the binding.",
+    "dangerLevel": "low",
+    "factions": [
+      "Eldonholm Council",
+      "Skald Keepers"
+    ],
+    "connections": [
+      "xardins-hearth",
+      "fjord-gate"
+    ],
+    "wyrdCreatures": []
+  },
+  {
+    "id": "spars-folly",
+    "regionId": "nordhalla",
+    "name": "The Spar's Folly",
+    "type": "ruin",
+    "description": "The half-built bones of a great sea-wall on the southern coast, abandoned when the Icechamber Syndicate ran out of stone and the ice-flows returned. The Skald say a syndicate-master wagered his daughter that the wall would tame the sea. He lost. The wall stands unfinished, a black-granite skeleton pointing at the open water, the names of its dead stonemasons still carved into the foundation stones.",
+    "dangerLevel": "low",
+    "factions": [],
+    "connections": [
+      "xardins-hearth"
+    ],
+    "wyrdCreatures": []
+  },
+  {
+    "id": "southern-shore-smugglers-cove",
+    "regionId": "nordhalla",
+    "name": "Smuggler's Cove",
+    "type": "settlement",
+    "description": "A hidden inlet on the southern shore, just south of Xardin's Hearth. The Fredløse clans use it to slip past the Icechamber Syndicate's patrol-ships. There is no permanent town — only shacks built into the cliff, rebuilt each year after the winter storms wash them away. The captain who runs it changes names every season.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Fredløse clans"
+    ],
+    "connections": [
+      "xardins-hearth"
+    ],
+    "wyrdCreatures": []
+  },
+
+  // ========================================================================
+  // NEW ZONES — MAP ENRICHMENT (Sundale)
+  // ========================================================================
+  {
+    "id": "konjaw-port",
+    "regionId": "sundale",
+    "name": "Konjaw Port",
+    "type": "settlement",
+    "description": "A fishing port on Sundale's southern coast, the most cosmopolitan town in the region. Merryn captains, Frostwood Thalren exiles, and Emberth forge-clans all dock here. The Dawn Vigil holds the citadel at the harbor-mouth, but the back-alleys are the Risen's, and the cult of the old sun-worship has its public shrines in plain view. Konjaw is the only Sundale port where the Sea-Charter is honored without the Board of Trade's registration.",
+    "dangerLevel": "low",
+    "factions": [
+      "Dawn Vigil (harbor)",
+      "The Risen",
+      "Merryn captains",
+      "Free Konjaw Council"
+    ],
+    "connections": [
+      "ironjaw-village",
+      "ember-lagoon",
+      "the-glittering-forest"
+    ],
+    "wyrdCreatures": []
+  },
+  {
+    "id": "ironjaw-village",
+    "regionId": "sundale",
+    "name": "Ironjaw Village",
+    "type": "settlement",
+    "description": "A small Emberth fishing-and-smelting hamlet south of Konjaw Port, named for the iron-rimmed volcanic crater that the villagers use as a forge. The Dawn Vigil's patrols are infrequent; the villagers prefer it that way. A handful of Smooth-Skinned exiles from the old Solvan nobility live here in disguise.",
+    "dangerLevel": "low",
+    "factions": [
+      "Ironjaw Council",
+      "Emberth forgemen"
+    ],
+    "connections": [
+      "konjaw-port"
+    ],
+    "wyrdCreatures": []
+  },
+  {
+    "id": "thornshire-colony",
+    "regionId": "sundale",
+    "name": "Thornshire Colony",
+    "type": "settlement",
+    "description": "A penal colony of thorn-vines and black basalt huts on the Ashen Fringe, where the Dawn Vigil sends the incorrigible — conscripted Martyrs who refused, heretics who recanted, debt-defaulters from the Solvarn nobility. The colony is surrounded by a hedge of bramble-thorns that grows inward by an inch every season; no one knows what lies outside it now.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Dawn Vigil (overlord)",
+      "The Thorned (prisoners)"
+    ],
+    "connections": [
+      "the-ashen-escarpment"
+    ],
+    "wyrdCreatures": []
+  },
+  {
+    "id": "meadowglen",
+    "regionId": "sundale",
+    "name": "Meadowglen",
+    "type": "wilderness",
+    "description": "A wide grass valley in Sundale's northern Green Rim, sheltered by ridges and warmed by a hot-spring network that never freezes. Meadowglen is the breadbasket of Sundale — the only place in the region where the soil is rich enough to grow grain year-round. The Dawn Vigil maintains a fortress-monastery at the glen's mouth, but the high meadows are the Risen's, and they hold their old-sun ceremonies at dawn when the citadel is still asleep.",
+    "dangerLevel": "low",
+    "factions": [
+      "Dawn Vigil (fortress)",
+      "The Risen",
+      "Free Meadowglen Council"
+    ],
+    "connections": [
+      "warmheath",
+      "breezebough",
+      "velling-pass"
+    ],
+    "wyrdCreatures": []
+  },
+  {
+    "id": "warmheath",
+    "regionId": "sundale",
+    "name": "Warmheath",
+    "type": "wilderness",
+    "description": "A rolling stretch of warm moor in Sundale's north, where the volcanic heat rising through fissures keeps the grass green even in the cold months. The Heath is grazing-land for the few cattle the Dawn Vigil has permitted; it is also the hiding-place of the Risen's wandering preachers, who move from cairn to cairn speaking the old names of the sun.",
+    "dangerLevel": "low",
+    "factions": [
+      "The Risen",
+      "Free Heath herders"
+    ],
+    "connections": [
+      "meadowglen",
+      "emberspire-caldera"
+    ],
+    "wyrdCreatures": []
+  },
+  {
+    "id": "breezebough",
+    "regionId": "sundale",
+    "name": "Breezebough",
+    "type": "settlement",
+    "description": "A market-town at the western edge of the Green Rim, where the warm sea-breezes meet the ashen plain. Breezebough is the trading-hub between the Dawn Vigil's territory and the Frostwood Reach — Thalren ink, Solvan obsidian, Merryn salt-fish, and Emberth sulfur change hands in the open square. The town is technically under Hierophant Aethelgard's writ; in practice, the council of merchants governs.",
+    "dangerLevel": "low",
+    "factions": [
+      "Dawn Vigil (nominally)",
+      "Merchant Council",
+      "Thalren trading-posts"
+    ],
+    "connections": [
+      "meadowglen",
+      "basalt-shyr"
+    ],
+    "wyrdCreatures": []
+  },
+  {
+    "id": "the-glittering-forest",
+    "regionId": "sundale",
+    "name": "The Glittering Forest",
+    "type": "wilderness",
+    "description": "A peninsula connected to Sundale's main landmass by a narrow isthmus — a half-island, the greenest land in the region. Crystal-rich volcanic soil supports ancient broadleaf forest; the leaves catch the volcanic light and throw it back in shards. Long thought cursed, the Glitterwood is now the home of the Risen, the Smooth-Skinned exiles of the old Solvan nobility, and hermits who fled the Dawn Vigil's conscription. The Dawn Vigil pretends the isthmus does not exist.",
+    "dangerLevel": "low",
+    "factions": [
+      "The Risen",
+      "Free Glitterwood Council",
+      "Smooth-Skinned exiles"
+    ],
+    "connections": [
+      "glitterwood-heart",
+      "old-sun-shrine",
+      "konjaw-port"
+    ],
+    "wyrdCreatures": [
+      "Crystal-Stag"
+    ]
+  },
+  {
+    "id": "glitterwood-heart",
+    "regionId": "sundale",
+    "name": "Glitterwood Heart",
+    "type": "settlement",
+    "description": "The unofficial capital of the Glitterwood — a village of longhouses built into the living trees, where the Risen's council meets. The village has no walls; the forest itself is the defense. The Risen's forbidden library of pre-binding texts is rumored to be hidden in the heart-tree, but no outsider has ever seen it.",
+    "dangerLevel": "low",
+    "factions": [
+      "The Risen",
+      "Free Glitterwood Council"
+    ],
+    "connections": [
+      "the-glittering-forest"
+    ],
+    "wyrdCreatures": []
+  },
+  {
+    "id": "old-sun-shrine",
+    "regionId": "sundale",
+    "name": "The Old Sun Shrine",
+    "type": "ruin",
+    "description": "A pre-binding temple at the southern tip of the Glitterwood, where the original Solvan sun-priests performed their rites before the binding. The shrine is a circular basalt plaza open to the sky; the central altar-stone still bears the names of the first dawn and the last. The Dawn Vigil has tried to destroy it three times; each time, the forest has regrown around the ruins faster than the soldiers can burn it.",
+    "dangerLevel": "medium",
+    "factions": [
+      "The Risen (pilgrims)"
+    ],
+    "connections": [
+      "the-glittering-forest"
+    ],
+    "wyrdCreatures": []
+  },
+  {
+    "id": "spinstones-columns",
+    "regionId": "sundale",
+    "name": "The Spinstones Columns",
+    "type": "wilderness",
+    "description": "A ring of basalt columns surrounding Emberspire at a distance of two leagues — natural formations that the Emberth have carved with binding-runes. The columns mark the boundary of the inner Ash-Heart; only the Emberth Watchers and the Dawn Vigil's senior priests are permitted past them. The Wyrd here is thick enough to taste.",
+    "dangerLevel": "extreme",
+    "factions": [
+      "Emberth Watchers",
+      "Dawn Vigil senior priests"
+    ],
+    "connections": [
+      "emberspire-caldera",
+      "cinderbloom-crater"
+    ],
+    "wyrdCreatures": [
+      "Cinder-Fiend"
+    ]
+  },
+  {
+    "id": "cinderbloom-crater",
+    "regionId": "sundale",
+    "name": "Cinderbloom Crater",
+    "type": "wilderness",
+    "description": "A secondary volcanic vent north of Emberspire, named for the red-bloomed lichen that grows in its caldera. The Emberth use the crater as a place of purification — Martyrs are sent here to cleanse before the final Vow. The Dawn Vigil claims the lichens have healing properties; the Emberth say the crater simply burns the unworthy.",
+    "dangerLevel": "high",
+    "factions": [
+      "Emberth Watchers",
+      "Dawn Vigil"
+    ],
+    "connections": [
+      "spinstones-columns",
+      "sols-anvil-mesa"
+    ],
+    "wyrdCreatures": [
+      "Ash-Woven Oracle"
+    ]
+  },
+  {
+    "id": "the-star-caves",
+    "regionId": "sundale",
+    "name": "The Star Caves",
+    "type": "ruin",
+    "description": "A network of lava-tubes beneath the Spinstones Columns, where the Solvan priests once communed with what they believed were the spirits of Sol's ministers. The binding broke that communion; the caves are now silent and haunted by the Husque — mobile reality-fissures that walk the tunnels. The Emberth seal the entrances, but the seals do not always hold.",
+    "dangerLevel": "extreme",
+    "factions": [],
+    "connections": [
+      "spinstones-columns"
+    ],
+    "wyrdCreatures": [
+      "Husque",
+      "The Cinder"
+    ]
+  },
+
+  // ========================================================================
+  // NEW ZONES — MAP ENRICHMENT (Cragjaw Peaks)
+  // ========================================================================
+  {
+    "id": "skirmours-crag",
+    "regionId": "cragjaw-peaks",
+    "name": "Skirmour's Crag",
+    "type": "wilderness",
+    "description": "The southernmost great peak of the Cragjaw, named for the legendary Jutul-king Skirmour who ruled the high ice before House Tesshan climbed. The Crag is sacred to the Jutul — they gather at the summit at midwinter to hear the wind that, they say, is the breath of their dead ancestors. No human has reached the summit and returned whole.",
+    "dangerLevel": "extreme",
+    "factions": [
+      "Jutul warbands"
+    ],
+    "connections": [
+      "frostmaw-massif",
+      "the-great-gorge"
+    ],
+    "wyrdCreatures": [
+      "Thrum"
+    ]
+  },
+  {
+    "id": "alley-of-knor",
+    "regionId": "cragjaw-peaks",
+    "name": "Alley of Knor",
+    "type": "wilderness",
+    "description": "A narrow pass through the Cragjaw's central spine — the only east-west route through the peaks that does not require Groven bone-bridges. The alley is named for the ancient Fexrick runemaster Knor, who carved the warning-runes on the cliff walls when the Tesshan first came. Avalanches are common; the Alley is closed in winter.",
+    "dangerLevel": "high",
+    "factions": [
+      "Tessen patrols",
+      "Fexrick engineer-corps"
+    ],
+    "connections": [
+      "the-great-gorge",
+      "deepchasm-keep"
+    ],
+    "wyrdCreatures": [
+      "Chasm-Stalker"
+    ]
+  },
+  {
+    "id": "the-stone-cog",
+    "regionId": "cragjaw-peaks",
+    "name": "The Stone Cog",
+    "type": "settlement",
+    "description": "A Tesshan fortress-monastery on the upper Frostmaw Massif, its walls carved into the living rock to resemble the teeth of a great gear. The Cog is the seat of the Jarl-Inca's political power — the Frostmaw Holdfast is the ceremonial seat, but the Cog is where the Knotted Decree is administered. The steam-pipes that run from the Iron Sumps to the Cog are the only reason the fortress is habitable.",
+    "dangerLevel": "low",
+    "factions": [
+      "House Tesshan",
+      "Steam-Line Cartel",
+      "Kethrin Guild-Bound"
+    ],
+    "connections": [
+      "frostmaw-holdfast",
+      "frostmaw-massif"
+    ],
+    "wyrdCreatures": []
+  },
+  {
+    "id": "driknell-foundry",
+    "regionId": "cragjaw-peaks",
+    "name": "Driknell Foundry",
+    "type": "settlement",
+    "description": "A Fexric industrial complex in the deep Iron Sumps — the largest forge-works in the Cragjaw, fed by geothermal pipes from below. Driknell stamps the Tesshan sigil onto every Ironclad plate that comes off the line. The Drall Clan-Free workers in the lower foundries are the most numerous Fexric caste; the Kethrin Guild-Bound overseers in the upper halls are the most despised.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Fexrick Kethrin Guild-Bound",
+      "Fexrick Drall Clan-Free",
+      "Steam-Line Cartel"
+    ],
+    "connections": [
+      "gearworks-gulch",
+      "iron-ravine",
+      "sump-galleries"
+    ],
+    "wyrdCreatures": [
+      "Scrab"
+    ]
+  },
+
+  // ========================================================================
+  // NEW ZONES — MAP ENRICHMENT (Sundrift Vale)
+  // ========================================================================
+  {
+    "id": "blizzard-bluff",
+    "regionId": "sundrift-vale",
+    "name": "Blizzard Bluff",
+    "type": "wilderness",
+    "description": "A high cold bluff on the northern edge of the Sundrift Vale, separating the warmer steppe from the deep ice of the Frostwood Reach. The Ordan call this the Snow-Tooth — the wind here never stops, and the cairns along the bluff are half-buried in the worst winters. Ordan sentry-posts watch the passes; the few who cross into the Frostwood rarely come back.",
+    "dangerLevel": "high",
+    "factions": [
+      "Ordan March Wardens",
+      "Frostwood Palisade patrols (visiting)"
+    ],
+    "connections": [
+      "the-long-steppe"
+    ],
+    "wyrdCreatures": [
+      "Zud"
+    ]
+  },
+  {
+    "id": "novas-heath",
+    "regionId": "sundrift-vale",
+    "name": "Nova's Heath",
+    "type": "wilderness",
+    "description": "A stretch of the eastern Ancestor Wolds where a single celestial impact scorched the earth centuries ago, leaving a perfect circle of crystallized soil. The Astril come here to meditate; the Ordan avoid it, saying the ground is unlucky. The Unlit Veil is rumored to hold a hidden judgment-hill within the Heath's heart.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Astril Synod (visiting)",
+      "Unlit Veil (rumored)"
+    ],
+    "connections": [
+      "ancestor-mounds"
+    ],
+    "wyrdCreatures": [
+      "Lien"
+    ]
+  },
+  {
+    "id": "the-moundwatch",
+    "regionId": "sundrift-vale",
+    "name": "The Moundwatch",
+    "type": "settlement",
+    "description": "A cairn-checkpoint in the eastern Wolds, manned by Ordan March Wardens who enforce the Herd-Tithe. Every migrating clan must stop here to register their herds, their people, and the names of the dead carried for burial at the Ancestor Mounds. The Moundwatch's records are the only continuous chronicle of the Ordan people.",
+    "dangerLevel": "low",
+    "factions": [
+      "House Ordavan",
+      "Ordan March Wardens"
+    ],
+    "connections": [
+      "ancestor-mounds"
+    ],
+    "wyrdCreatures": []
+  },
+
+  // ========================================================================
+  // NEW ZONES — MAP ENRICHMENT (Iceheart Sea)
+  // ========================================================================
+  {
+    "id": "saryreach-castle",
+    "regionId": "iceheart-sea",
+    "name": "Saryreach Castle",
+    "type": "city",
+    "description": "A Mereval naval fortress on the largest of the Western Isles, abandoned by the Board of Trade a century ago and now the seat of the Pirate-Queen of Saryreach. The castle's black-granite walls rise from a sea-stack; the harbor below is a forest of captured masts. The Pirate-Queen keeps the Sea-Charter's letter of marque — a relic — as proof of her legitimacy; the Board of Trade calls it piracy.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Pirate-Queen of Saryreach",
+      "Tide-Speakers (animist holdouts)",
+      "Mer-Court emissaries"
+    ],
+    "connections": [
+      "blackteeth-skerry",
+      "tide-court-cove"
+    ],
+    "wyrdCreatures": [
+      "Draugr Helmsman"
+    ]
+  },
+  {
+    "id": "blackteeth-skerry",
+    "regionId": "iceheart-sea",
+    "name": "Blackteeth Skerry",
+    "type": "wilderness",
+    "description": "A jagged reef of black volcanic rock on the western edge of the Iceheart Sea, named for the way the basalt teeth tear any hull that comes too close. The Blackteeth are the traditional boundary between the Merryn charted-waters and the deep ocean; beyond them, the Sea-Charter does not hold. The Skrei (drowned Skald warriors) are said to swim here at midwinter.",
+    "dangerLevel": "high",
+    "factions": [],
+    "connections": [
+      "saryreach-castle"
+    ],
+    "wyrdCreatures": [
+      "Skrei"
+    ]
+  },
+  {
+    "id": "tide-court-cove",
+    "regionId": "iceheart-sea",
+    "name": "Tide-Court Cove",
+    "type": "settlement",
+    "description": "A hidden tidal harbor on a Western Isle, the meeting-place of the Mer-Court — a council of Tide-Speakers, Myrathil River-Fed, and animist holdouts who refuse the Sea-Charter. The Cove fills twice a day with the tide; the rest of the time, it is a ring of black-sand beach around a tidal pool full of singing fish. The Mer-Court is older than the Mereval House; the Board of Trade has never been able to suppress it.",
+    "dangerLevel": "low",
+    "factions": [
+      "Mer-Court",
+      "Tide-Speakers"
+    ],
+    "connections": [
+      "saryreach-castle"
+    ],
+    "wyrdCreatures": [
+      "Nereid"
+    ]
+  },
+  {
+    "id": "shard-window",
+    "regionId": "iceheart-sea",
+    "name": "The Shard-Window",
+    "type": "wilderness",
+    "description": "A three-mile-wide circular storm-vortex above a Sundered Monolith in the Storm-Belt. The storm never rests; it is the binding-storm of the Shard, the leash Keth-Amar holds on the buried star. The vortex pulls ships into its eye; those that survive the descent say they can see, in the lightning-flashes, the shape of a star being eaten. The Storm-Speakers tend a shrine on the rim.",
+    "dangerLevel": "extreme",
+    "factions": [
+      "Stormspeakers"
+    ],
+    "connections": [
+      "gale-storm-shallows"
+    ],
+    "wyrdCreatures": [
+      "Storm-Wraith"
+    ]
+  },
+  {
+    "id": "berg-of-the-frozen-flame",
+    "regionId": "iceheart-sea",
+    "name": "Berg of the Frozen Flame",
+    "type": "wilderness",
+    "description": "A city-sized iceberg in the Northern Ice-Flows, named for the orange flame that burns in its heart — a natural gas-vent that has burned since before the binding. The Berg-Witches make their home in caves carved into the ice around the flame; their Fire-Pacts allow them to walk barefoot on the ice and to call the Boreal Huldra from the floes.",
+    "dangerLevel": "high",
+    "factions": [
+      "Icewhisper Coven"
+    ],
+    "connections": [
+      "first-shore"
+    ],
+    "wyrdCreatures": [
+      "Boreal Huldra"
+    ]
+  },
+  {
+    "id": "whaleroot-floe",
+    "regionId": "iceheart-sea",
+    "name": "Whaleroot Floe",
+    "type": "wilderness",
+    "description": "A flat pan of sea-ice in the Northern Ice-Flows, named for the whalebone pillars the Icewhisper Coven raised around its edge. The Coven performs the Bone-Reading here — they crack a frozen whale's ribs to read the future in the splinters. The floe drifts; only the Berg-Witches know where it will be in a season.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Icewhisper Coven"
+    ],
+    "connections": [
+      "berg-of-the-frozen-flame"
+    ],
+    "wyrdCreatures": []
+  },
+  {
+    "id": "blackteeth-isle",
+    "regionId": "iceheart-sea",
+    "name": "Blackteeth Isle",
+    "type": "settlement",
+    "description": "A volcanic island in the Merrow Archipelago, home to a Drift-Council representatives' house and a Brine-Bond Syndicate warehouse. The island's black-granite cliffs make a natural breakwater; the harbor is the second-busiest in the archipelago after Merrowport. The locals are fiercely loyal to the Drift-Council and despise Ironjaw Port's Neth administrators.",
+    "dangerLevel": "low",
+    "factions": [
+      "Drift-Council",
+      "Brine-Bond Syndicate"
+    ],
+    "connections": [
+      "merrowport",
+      "ironjaw-port"
+    ],
+    "wyrdCreatures": []
+  },
+  {
+    "id": "the-lucky-anchor",
+    "regionId": "iceheart-sea",
+    "name": "The Lucky Anchor",
+    "type": "settlement",
+    "description": "A floating gambling-and-dock built on the hulls of three lashed Merryn warships, anchored in the lee of Blackteeth Isle. The Lucky Anchor is the most famous den of the Gambit tradition — Jax the Pirate is said to have wagered his lifeline here, against a storm-spirit, and won the first dice-weight of bog-iron filings that became the Gambit's signature. The current proprietor keeps the original dice under glass.",
+    "dangerLevel": "low",
+    "factions": [
+      "Gambit (the gambling house)",
+      "Merryn Gamblers' Guild"
+    ],
+    "connections": [
+      "blackteeth-isle"
+    ],
+    "wyrdCreatures": []
+  },
+  {
+    "id": "spindrift-lagoon",
+    "regionId": "iceheart-sea",
+    "name": "Spindrift Lagoon",
+    "type": "settlement",
+    "description": "A warm bioluminescent coral inlet on a volcanic island in the Merrow Archipelago, the only place in the Iceheart Sea where the water is warm enough to swim. The lagoon glows at night with light from the coral; the Breakers-Born Myrathil come here to spawn, and the lagoon is closed to surface traffic during the spawning season.",
+    "dangerLevel": "low",
+    "factions": [
+      "Myrathil Breakers-Born",
+      "Spindrift Spa-Cult (visiting)"
+    ],
+    "connections": [
+      "merrowport"
+    ],
+    "wyrdCreatures": [
+      "Nereid"
+    ]
+  },
+
+  // ========================================================================
+  // NEW ZONES — MAP ENRICHMENT (Bryngloom Forest)
+  // ========================================================================
+  {
+    "id": "the-great-mere",
+    "regionId": "bryngloom-forest",
+    "name": "The Great Mere",
+    "type": "wilderness",
+    "description": "The vast central lake of the Bryngloom Forest, dotted with small wooded islands. The Mere is the trade-hub of the forest — Merryn barges tie up at the lake-ports, Vreken shrines hide on the western islands, and an old Velun monastery stands on the largest. The lake level rises and falls with the moon; the islands that are above-water one season may be underwater the next.",
+    "dangerLevel": "low",
+    "factions": [
+      "Lake-Council (joint Neth/Merryn)",
+      "Monks of the Sunken Stone"
+    ],
+    "connections": [
+      "monks-of-the-sunken-stone",
+      "atropolis"
+    ],
+    "wyrdCreatures": [
+      "Vatra"
+    ]
+  },
+  {
+    "id": "monks-of-the-sunken-stone",
+    "regionId": "bryngloom-forest",
+    "name": "Monks of the Sunken Stone",
+    "type": "settlement",
+    "description": "A Velun monastery on the largest island in the Great Mere, founded before the First Contract. The monks keep the lake's old record-stones — basalt slabs on which the original Neth clans carved their genealogies. The monastery is half-submerged in the high-water season; the monks live on platforms above the water-line and dive to read the stones in the low-water season.",
+    "dangerLevel": "low",
+    "factions": [
+      "Monks of the Sunken Stone",
+      "Velun Pact-Lords (visiting)"
+    ],
+    "connections": [
+      "the-great-mere"
+    ],
+    "wyrdCreatures": []
+  },
+  {
+    "id": "covenbane-stronghold",
+    "regionId": "bryngloom-forest",
+    "name": "Covenbane Stronghold",
+    "type": "settlement",
+    "description": "The Inquisition's seat in the western bayous — a grim fortress of black ironwood and cold-iron bars, built on the bones of a witch-trial gallows that once held three hundred accused. The hanging-cages are preserved as heritage. The Covenbane trains Inquisitors in cold-iron combat; the swamp outside the walls is mined with cold-iron stakes to keep the Coven's spirits out.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Covenbane Inquisition"
+    ],
+    "connections": [
+      "hunters-gully",
+      "drowned-dingle"
+    ],
+    "wyrdCreatures": []
+  },
+  {
+    "id": "the-crypt-of-aedris",
+    "regionId": "bryngloom-forest",
+    "name": "The Crypt of Aedris",
+    "type": "tomb",
+    "description": "The deepest chamber of the Sunken Spire, where Aedris the First-Lit is interred in a basalt sarcophagus that glows with an eternal pale-moonlight. The Vault-Breath — a six-hour meditative technique — is taught to Veil-Speakers here; the eternal light is tended in shifts by silent priests. The Chamber of Records, where every Vreken who has ever lived has their name sung, lies below.",
+    "dangerLevel": "high",
+    "factions": [
+      "Veil-Speakers",
+      "Crypt-Council"
+    ],
+    "connections": [
+      "the-sunken-spire"
+    ],
+    "wyrdCreatures": [
+      "Lichborne Aedris"
+    ]
+  },
+  {
+    "id": "drowned-dingle",
+    "regionId": "bryngloom-forest",
+    "name": "Drowned Dingle",
+    "type": "wilderness",
+    "description": "A drowned forest in the western bayous, where the ironwood trunks stand black in a shallow lake of tannin-stained water. The Drowned Dingle is a smuggler's route — the Morren peat-cutters use it to move un-registered peat past the Covenbane's checkpoints. The drowned wood is sacred to the Neth Kessen; they believe each submerged trunk is a sealed contract.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Morren smugglers",
+      "Neth Kessen (pilgrims)"
+    ],
+    "connections": [
+      "hunters-gully",
+      "covenbane-stronghold"
+    ],
+    "wyrdCreatures": [
+      "Drowned-Wraith"
+    ]
+  },
+  {
+    "id": "hunters-gully",
+    "regionId": "bryngloom-forest",
+    "name": "Hunter's Gully",
+    "type": "wilderness",
+    "description": "A deep, narrow ravine in the western bayous, the only safe (if not exactly safe) path from the Bryngloom interior to the Covenbane Stronghold. The Covenbane patrols the Gully; the swamp-singers they purged once held their rites in the limestone caves along its walls. The gully still echoes with the old songs, when the wind is right.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Covenbane Inquisition (patrols)"
+    ],
+    "connections": [
+      "covenbane-stronghold",
+      "drowned-dingle"
+    ],
+    "wyrdCreatures": []
+  },
+
+  // ========================================================================
+  // LEGACY ZONES — referenced in subregions.js but only had locationCoordinates
+  // (restored to zoneData.js for full data integrity)
+  // ========================================================================
+  {
+    "id": "the-shifting-fen",
+    "regionId": "frostwood-reach",
+    "name": "The Shifting Fen",
+    "type": "wilderness",
+    "description": "A peat-bog in the eastern Fens whose geography rearranges itself overnight — paths taken at dawn are not there at dusk, islands become pools, pools become solid ground. The Mimir Unwoven say the Fen is a wound where the Reach's memory-fog has eaten a hole in the world; the Forgotten who shelter here say it is a place where the Keth-Amar's tendrils cannot reach, because nothing here stays the same long enough to be remembered.",
+    "dangerLevel": "high",
+    "factions": [
+      "Mimir Unwoven",
+      "The Forgotten"
+    ],
+    "connections": [
+      "wraithfen",
+      "mistbarrow"
+    ],
+    "wyrdCreatures": [
+      "Drudehaunt"
+    ]
+  },
+  {
+    "id": "mistbarrow",
+    "regionId": "frostwood-reach",
+    "name": "Mistbarrow",
+    "type": "ruin",
+    "description": "A pre-Thalreth burial mound on the eastern edge of the Reach, untouched by the memory-fog for reasons no Scribe-Sentinel has ever been able to explain. The barrow predates House Thalreth; the original inhabitants are unknown. The Mist-Sentinels are forbidden to enter; the Briaran come here to grieve for the Forgotten who have no other grave.",
+    "dangerLevel": "medium",
+    "factions": [
+      "Unshorn Briaran (pilgrims)"
+    ],
+    "connections": [
+      "the-shifting-fen"
+    ],
+    "wyrdCreatures": []
+  },
+  {
+    "id": "solvans-stand",
+    "regionId": "sundale",
+    "name": "Solvan's Stand",
+    "type": "city",
+    "description": "The dying capital of House Solvan, once thirty thousand strong, now under four thousand. The outer wall has lost forty feet to ashfall in the last century alone. The remaining Solvan families refuse to leave; the day the last Solvan leaves the ashfields is the day the house ceases to exist. The Stand is a city of ghosts and stubbornness, its basalt avenues half-buried, its fountains choked with ash.",
+    "dangerLevel": "medium",
+    "factions": [
+      "House Solvan (Stewards)",
+      "Solvarn Martyrs (veterans)"
+    ],
+    "connections": [
+      "the-ashen-escarpment",
+      "thornshire-colony"
+    ],
+    "wyrdCreatures": [
+      "Sun-Husk"
+    ]
+  },
+  {
+    "id": "lost-brood-vats",
+    "regionId": "cragjaw-peaks",
+    "name": "Lost Brood Vats",
+    "type": "ruin",
+    "description": "The abandoned chambers of the Deep Alchemists, sealed after the Lost Brood rebellion three centuries ago. The vats are deep below Gearworks Gulch, accessible only through a Fexric service-shaft that was supposed to have been collapsed. Something survived the sealing. The Fexrick refuse to speak of what.",
+    "dangerLevel": "extreme",
+    "factions": [],
+    "connections": [
+      "gearworks-gulch"
+    ],
+    "wyrdCreatures": [
+      "Lost-Brood Remnant"
+    ]
+  },
+  {
+    "id": "root-veil-scriptorium",
+    "regionId": "bryngloom-forest",
+    "name": "The Root-Veil Scriptorium",
+    "type": "settlement",
+    "description": "The library of unbreakable memory at the heart of the Root-Veil — the deepest archive in the Bryngloom, where every Neth contract ever written is held in ironwood-root crystals. The Keeper of the Last Threshold guards the entrance. Few have entered and returned; fewer still have entered and emerged unchanged.",
+    "dangerLevel": "extreme",
+    "factions": [
+      "Keeper of the Last Threshold",
+      "Root-Veil Coven"
+    ],
+    "connections": [],
+    "wyrdCreatures": [
+      "Kessen-Wraith"
+    ]
   }
 ];
 

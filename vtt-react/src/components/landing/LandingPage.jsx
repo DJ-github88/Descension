@@ -5,6 +5,7 @@ import usePresenceStore from '../../store/presenceStore';
 import { useIsPhone } from '../../hooks/useIsPhone';
 import GlobalChatWindowWrapper from '../social/GlobalChatWindowWrapper';
 import RulesPage from '../rules/RulesPage';
+import MapMakingSection from './MapMakingSection';
 import { shouldReduceMotion } from '../../utils/accessibility';
 import './styles/LandingPage.css';
 
@@ -20,7 +21,10 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
   const [showPhoneNotice, setShowPhoneNotice] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
-  const { isDevelopmentBypass, signOut, isAuthenticated: authStoreIsAuthenticated, user: authStoreUser, isDevelopmentBypass: authStoreIsDevelopmentBypass } = useAuthStore();
+  const { isDevelopmentBypass, signOut, isAuthenticated: authStoreIsAuthenticated, user: authStoreUser, isDevelopmentBypass: authStoreIsDevelopmentBypass, isAdminBypass } = useAuthStore();
+
+  // Lord Bertil's Map Making section is only available to admin (admin/admin dev-login)
+  const isAdmin = isAdminBypass || !!authStoreUser?.isAdmin;
 
   // Party state for indicator
   const isInParty = usePresenceStore((state) => state.isInParty);
@@ -380,6 +384,20 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
     </div>
   );
 
+  const renderMapMakingSection = () => (
+    <div className="landing-section map-making-section-wrapper">
+      {isAdmin ? (
+        <MapMakingSection />
+      ) : (
+        <div className="map-making-locked">
+          <i className="fas fa-lock"></i>
+          <h2>Map Making — Restricted</h2>
+          <p>This section is reserved for the map maker. Please log in as an admin to access it.</p>
+        </div>
+      )}
+    </div>
+  );
+
   const handleNavClick = (sectionId) => {
     setActiveSection(sectionId);
     setMobileMenuOpen(false);
@@ -388,6 +406,7 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
   const navigation = [
     { id: 'home', label: 'Home', icon: 'fas fa-home' },
     { id: 'rules', label: 'Rules', icon: 'fas fa-book' },
+    ...(isAdmin ? [{ id: 'map-making', label: 'Map Making', icon: 'fas fa-feather-alt' }] : []),
     { id: 'membership', label: 'Membership', icon: 'fas fa-star' }
   ];
 
@@ -592,6 +611,7 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
         <main className="landing-main">
           {activeSection === 'home' && renderHomeSection()}
           {activeSection === 'rules' && renderRulesSection()}
+          {activeSection === 'map-making' && renderMapMakingSection()}
           {activeSection === 'membership' && renderMembershipSection()}
         </main>
 

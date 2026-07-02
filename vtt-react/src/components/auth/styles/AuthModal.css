@@ -262,7 +262,7 @@
   background: rgba(0, 0, 0, 0.3);
   border: 2px solid rgba(212, 175, 55, 0.3);
   border-radius: 8px;
-  color: var(--my-parchment-text);
+  color: #000000;
   font-family: 'Cinzel', serif;
   font-size: 1rem;
   transition: all 0.3s ease;
