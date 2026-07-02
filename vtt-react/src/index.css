@@ -1045,3 +1045,85 @@ html.a11y-screen-reader *:focus {
     outline: 2px solid #ffdd00 !important;
     outline-offset: 2px !important;
 }
+
+/* ==================== PWA UPDATE BANNER ==================== */
+.sw-update-banner {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: rgba(26, 20, 16, 0.95);
+  border: 1px solid #b8a888;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  z-index: 9999;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  animation: slide-in-bottom 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  max-width: 420px;
+}
+
+@keyframes slide-in-bottom {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.sw-update-content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #e8d8b8;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.sw-update-icon {
+  color: #b8a888;
+  font-size: 1.1rem;
+  animation: rotate-sync 4s linear infinite;
+}
+
+@keyframes rotate-sync {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.sw-update-btn {
+  background: linear-gradient(135deg, #b8a888, #8b7355);
+  color: #1a1410;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  font-family: 'Cinzel', serif;
+}
+
+.sw-update-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(184, 168, 136, 0.3);
+  filter: brightness(1.15);
+}
+
+@media (max-width: 480px) {
+  .sw-update-banner {
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+    max-width: none;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+    text-align: center;
+  }
+  .sw-update-content {
+    justify-content: center;
+  }
+}

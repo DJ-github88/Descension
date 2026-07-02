@@ -54,5 +54,10 @@ if (isDevelopment()) {
     serviceWorkerRegistration.unregister();
 } else {
     // Register service worker for caching and performance in production
-    serviceWorkerRegistration.register();
+    serviceWorkerRegistration.register({
+        onUpdate: (registration) => {
+            const event = new CustomEvent('swUpdateAvailable', { detail: registration });
+            window.dispatchEvent(event);
+        }
+    });
 }

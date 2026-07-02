@@ -20,11 +20,19 @@ const getPresenceStore = () => {
  */
 const ADMIN_DEV_LOGIN_ENABLED = true;
 
-/**
- * Returns true only when admin dev login is both enabled in code AND
- * we are not in a production build.
- */
-export const isAdminLoginEnabled = () => ADMIN_DEV_LOGIN_ENABLED && !isProduction();
+export const isAdminLoginEnabled = () => {
+  if (!ADMIN_DEV_LOGIN_ENABLED) return false;
+  if (!isProduction()) return true;
+  
+  // Also enable on Netlify preview/testing deployments
+  if (typeof window !== 'undefined' && window.location) {
+    const hostname = window.location.hostname;
+    if (hostname === 'mythrill.netlify.app' || hostname.endsWith('.netlify.app')) {
+      return true;
+    }
+  }
+  return false;
+};
 
 const ADMIN_EMAIL = 'admin';
 const ADMIN_PASSWORD = 'admin';

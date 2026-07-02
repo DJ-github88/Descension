@@ -1054,6 +1054,18 @@ const AppContent = ({
     const location = useLocation();
     const isGameRoute = location.pathname.startsWith('/game') || location.pathname.startsWith('/multiplayer');
 
+    const [swRegistration, setSwRegistration] = useState(null);
+
+    useEffect(() => {
+        const handleUpdate = (e) => {
+            if (e.detail) {
+                setSwRegistration(e.detail);
+            }
+        };
+        window.addEventListener('swUpdateAvailable', handleUpdate);
+        return () => window.removeEventListener('swUpdateAvailable', handleUpdate);
+    }, []);
+
     // Condition cleanup - runs every second while in a game to remove expired buffs/debuffs.
     // Fallback for in-game views where TargetHUD/PartyHUD aren't mounted; skipped on the landing page.
     useEffect(() => { // eslint-disable-line react-hooks/exhaustive-deps
@@ -1333,6 +1345,31 @@ const AppContent = ({
 
             {/* Cookie Consent Banner */}
             <CookieConsent />
+
+            {/* PWA Update Banner */}
+            {swRegistration && (
+                <div className="sw-update-banner">
+                    <div className="sw-update-content">
+                        <i className="fas fa-sync-alt sw-update-icon"></i>
+                        <span>A new version of Mythrill is available!</span>
+                    </div>
+                    <button 
+                        className="sw-update-btn"
+                        onClick={() => {
+                            if (swRegistration.waiting) {
+                                navigator.serviceWorker.addEventListener('controllerchange', () => {
+                                    window.location.reload();
+                                });
+                                swRegistration.waiting.postMessage({ type: 'SKIP_WAITING' });
+                            } else {
+                                window.location.reload();
+                            }
+                        }}
+                    >
+                        Update
+                    </button>
+                </div>
+            )}
         </>
     );
 };
