@@ -549,7 +549,7 @@ export const ZONE_DATA = [
     ],
     "wyrdCreatures": [
       "Chasm-Stalker",
-      "Thrum"
+      "Thrumm"
     ]
   },
   {
@@ -1737,7 +1737,7 @@ export const ZONE_DATA = [
       "the-great-gorge"
     ],
     "wyrdCreatures": [
-      "Thrum"
+      "Thrumm"
     ]
   },
   {

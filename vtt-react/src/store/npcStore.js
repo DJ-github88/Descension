@@ -94,7 +94,7 @@ const NPC_DATA = {
     id: 'thorn-speaker',
     name: 'The Thorn-Speaker',
     title: 'Voice of the Ironwood',
-    race: 'Briaran human',
+    race: 'Unshorn Briaran',
     gender: 'Female',
     factionIds: ['unshorn-briaran'],
     locationIds: ['ironwood-heart'],
@@ -149,7 +149,7 @@ const NPC_DATA = {
     personality:
       'Valeria is the last living person who studied under Malakor the Grim, the original Doomsayer. She is blunt, unsentimental, and brutally honest. She does not offer comfort because she believes comfort is a lie. She offers truth, which is cold but reliable.',
     backstory:
-      'Valeria was a young Solvarn priestess when Malakor found her. He recognized in her the same cold clarity that had driven him mad. She became his apprentice and, after his death, his successor. She sealed herself in the deepest vault of the Frozen Archive after her calculations began returning contradictory results — she believes she is close to a truth that will either save or doom everything, and she will not emerge until she knows which.',
+      'Valeria was a young Solvarn priestess when Malakor found her. He recognized in her the same cold clarity that had driven him mad. She became his apprentice and, after his death, his successor. She sealed herself in the deepest vault of the Frozen Archive after her calculations began returning contradictory results — she believes she is close to a truth that will either save or doom everything, and she will not emerge until she knows which. Valeria\'s unnatural longevity mirrors that of her teacher, Malakor the Finite: decades sealed in the Frozen Archive\'s deepest ice-chamber — a form of deliberate temporal stasis — suspended her biological aging, though at the cost of her connection to the outside world. She emerged having aged only a decade while two centuries passed beyond the Archive\'s walls.',
     hooks: [
       'Valeria\'s calculations, if completed, would reveal the exact timeline of the world\'s extinction — including how much time is left',
       'The contradictory results she obtained suggest someone or something is actively interfering with the Doomsayer\'s equations'
@@ -497,11 +497,11 @@ const NPC_DATA = {
     gender: 'Female',
     factionIds: ['cultivar'],
     locationIds: ['bryngloom-forest'],
-    age: '800+',
+    age: '300+',
     status: 'Active — bedridden, dying with her strain',
-    appearance: 'Waxy, pale, and cold — a Vreken alchemist who bonded with bog-rot eight centuries ago. Her bioluminescence is dim and irregular, flickering where the dying foundational strain no longer sustains her skin. She is calm about her own death in a way her students find unbearable.',
-    personality: 'Serene, clinical, and terminally patient. Vespera has been dying for eight centuries; this is just the final stretch. She is more concerned with the succession-strain project than her own survival.',
-      backstory: 'Blight-Mother and First Host of the Cultivar, Vespera founded the Plaguebringer tradition by injecting Sunken Spire decay-moss into her own veins to cure the spore-hush. Her foundational bacterial strain is now dying, and every Plaguebringer trained from her blood is carrying a failing inheritance. She has tasked her cultivators with engineering a successor strain that does not require her blood as substrate. Vespera bonded with bog-rot to cure the spore-hush in Year 500 of the Dimming. The foundational bacterial strain she cultivated for five centuries is now dying — the Root-Veil has begun actively rejecting Marked cultivators since the Monoliths woke (~Year 795).',
+    appearance: 'Waxy, pale, and cold — a Vreken alchemist who bonded with bog-rot three centuries ago. Her bioluminescence is dim and irregular, flickering where the dying foundational strain no longer sustains her skin. She is calm about her own death in a way her students find unbearable.',
+    personality: 'Serene, clinical, and terminally patient. Vespera has been dying for three centuries; this is just the final stretch. She is more concerned with the succession-strain project than her own survival.',
+      backstory: 'Blight-Mother and First Host of the Cultivar, Vespera founded the Plaguebringer tradition by injecting Sunken Spire decay-moss into her own veins to cure the spore-hush. Her foundational bacterial strain is now dying, and every Plaguebringer trained from her blood is carrying a failing inheritance. She has tasked her cultivators with engineering a successor strain that does not require her blood as substrate. Vespera bonded with bog-rot to cure the spore-hush in Year 500 of the Dimming. The foundational bacterial strain she cultivated for three centuries is now dying — the Root-Veil has begun actively rejecting Marked cultivators since the Monoliths woke (~Year 795).',
     hooks: [
       'Vespera will fund any expedition to recover a viable deep-bog strain uncontorrupted by the Root-Veil\'s rejection',
       'She suspects the Root-Veil is deliberately killing her strain — and can explain why the forest would wage biological war',
@@ -597,11 +597,11 @@ const NPC_DATA = {
     gender: 'Male',
     factionIds: ['distillery'],
     locationIds: ['frostwood-reach'],
-    age: '800+ (prolonged by careful self-dosing)',
+    age: '400+ (prolonged by careful self-dosing)',
     status: 'Active',
     appearance: 'Old, trembling, and still working — a Thalren alchemist whose chronic tremors make every pour dangerous. His fingers are permanently stained and two apprentices flank each dose. He carries Grum-weight nothing; his burden is a satchel of degrading vials.',
     personality: 'Stubborn, brilliant, and furious at the fog. Varis considers the changing fog a personal insult — the resentment of a master watching his medium rewrite itself without his consent.',
-    backstory: 'Venom-Master and founder of the Distillery, Varis extracted fog-predator venom for eight centuries and now presides over the spoilage of his life\'s work. His desperation project — distilling the changing fog itself — has killed two apprentices and produced uncharacterizable reagents. He refuses to stop.',
+    backstory: 'Venom-Master and founder of the Distillery, Varis extracted fog-predator venom for four centuries and now presides over the spoilage of his life\'s work. His desperation project — distilling the changing fog itself — has killed two apprentices and produced uncharacterizable reagents. He refuses to stop.',
     hooks: [
       'Varis will pay for live fog-predator specimens from the deep Reach — the shallow ones no longer yield stable venom',
       'He can identify any poison or reagent in the Frostwood on sight, including the new fog-distillates no one understands',
@@ -617,9 +617,9 @@ const NPC_DATA = {
     gender: 'Male',
     factionIds: ['the-bound', 'vat-breakers-guild'],
     locationIds: ['frostmaw-holdfast'],
-    age: '800+ (sustained by Thrumm-derived regeneration)',
+    age: '700+ (sustained by Thrumm-derived regeneration)',
     status: 'Active',
-    appearance: 'Ancient, immovable, and more iron than flesh — the original ore-hauling chain rusted into his forearm eight centuries ago is now so integrated that removing it would kill him. His Groven stone-hide is threaded with the oxidation of generations.',
+    appearance: 'Ancient, immovable, and more iron than flesh — the original ore-hauling chain rusted into his forearm seven centuries ago is now so integrated that removing it would kill him. His Groven stone-hide is threaded with the oxidation of generations.',
     personality: 'Grieved, principled, and immovable. Alaric refuses chardalyn absolutely — even as brittle-iron casualties mount — because the chain exists to ensure nothing is contained the way the Groven were, and the makers\' metal betrays the principle.',
     backstory: 'Chain-Lord and founder of the Bound, Alaric invented the chain-graft tradition when he drove an ore-hauling chain through his own forearm to hold a Deep Alchemist specimen for three days. He still leads from the Chain-Hold at Frostmaw. The Bound are fracturing along the chardalyn fault-line, and Alaric\'s principled refusal may be the order\'s epitaph.',
     hooks: [

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Lore Dictionary Database
  *
  * Houses TTRPG-styled dictionary entries for regions, noble houses, historical figures,
@@ -1031,7 +1031,7 @@ export const LORE_DICTIONARY = {
     type: 'historical_figure',
     region: 'cragjaw-peaks',
     summary: 'The Groven mine-guard who invented the chain-graft tradition and founded the Warden class; still leads the Bound with the chain rusted into his bone.',
-    fullEntry: 'Alaric the Law-Keeper was a Groven mine-guard in the lower tunnels of Frostmaw Holdfast. When the Deep Alchemists\' vat-laboratories collapsed and their experiments poured into the tunnels, Alaric drove an ore-hauling chain through his own forearm into the largest specimen and held for three days. The chain rusted into his bone; he refused to have it removed. From that act came the entire chain-graft surgical tradition and the Warden class. Alaric still leads the Bound from the Chain-Hold at Frostmaw, his regenerative Thrumm-derived biology keeping him functional eight centuries beyond a normal Groven lifespan.',
+    fullEntry: 'Alaric the Law-Keeper was a Groven mine-guard in the lower tunnels of Frostmaw Holdfast. When the Deep Alchemists\' vat-laboratories collapsed and their experiments poured into the tunnels, Alaric drove an ore-hauling chain through his own forearm into the largest specimen and held for three days. The chain rusted into his bone; he refused to have it removed. From that act came the entire chain-graft surgical tradition and the Warden class. Alaric still leads the Bound from the Chain-Hold at Frostmaw, his regenerative Thrumm-derived biology keeping him functional seven centuries beyond a normal Groven lifespan.',
     relatedTerms: ['cragjaw-peaks', 'deep_alchemists', 'frostmaw_holdfast', 'groven', 'warden', 'house_tesshan']
   },
   'kael': {
@@ -1446,7 +1446,7 @@ export const LORE_DICTIONARY = {
     type: 'location',
     region: 'sundrift-vale',
     summary: 'High, open ground where the Ordan dead are honored in vast earthen barrows that hum with ancestral resonance.',
-    fullEntry: 'The Ancestor Wold is the spiritual anchor of the Ordan people — high, open ground where twenty generations of chieftains lie buried beneath earthen barrows that hum with a constant, resonant tone. The hum guides Ordan herders across the starless steppe and marks the Wold as sacred ground where silence is enforced by custom stronger than law. To speak above a whisper here is to invite the wrath of every ancestor buried in the mounds.',
+    fullEntry: 'The Ancestor Wold is the spiritual anchor of the Ordan people — high, open ground where thirty-one generations of chieftains lie buried beneath earthen barrows that hum with a constant, resonant tone. The hum guides Ordan herders across the starless steppe and marks the Wold as sacred ground where silence is enforced by custom stronger than law. To speak above a whisper here is to invite the wrath of every ancestor buried in the mounds.',
     relatedTerms: ['house_ordavan', 'sundrift-vale', 'the_long_steppe']
   },
   'morrens_bogpost': {
@@ -1792,8 +1792,8 @@ export const LORE_DICTIONARY = {
     term: 'Ancestor Mounds',
     type: 'location',
     region: 'sundrift-vale',
-    summary: 'A vast network of grass-covered earthen barrows holding twenty generations of Ordan chieftains, emitting a continuous guiding hum.',
-    fullEntry: 'The Ancestor Mounds are the Sundrift Vale\'s most sacred and practical landmark — a vast network of grass-covered earthen barrows containing the preserved remains of twenty generations of Ordan chieftains, each mound emitting a low, continuous hum at a unique frequency. The Mound-Keepers who tend the barrows maintain that the hum is the ancestors still speaking, guiding lost travelers through the starless steppe and warning of danger through changes in pitch and rhythm. Astril Sylen make pilgrimages here to harmonize with the ancestral tones, seeking glimpses of the constellation-spirits that fell during the Breach.',
+    summary: 'A vast network of grass-covered earthen barrows holding thirty-one generations of Ordan chieftains, emitting a continuous guiding hum.',
+    fullEntry: 'The Ancestor Mounds are the Sundrift Vale\'s most sacred and practical landmark — a vast network of grass-covered earthen barrows containing the preserved remains of thirty-one generations of Ordan chieftains, each mound emitting a low, continuous hum at a unique frequency. The Mound-Keepers who tend the barrows maintain that the hum is the ancestors still speaking, guiding lost travelers through the starless steppe and warning of danger through changes in pitch and rhythm. Astril Sylen make pilgrimages here to harmonize with the ancestral tones, seeking glimpses of the constellation-spirits that fell during the Breach.',
     relatedTerms: ['astril', 'house_ordavan', 'sundrift-vale', 'synod_hold']
   },
   'grass_tundra': {
@@ -2272,12 +2272,12 @@ export const LORE_DICTIONARY = {
 
   'mereval-admiral': {
     id: 'mereval-admiral',
-    term: 'The High Admiral of Merrowport',
+    term: 'The Grand Admiral of Merrowport',
     type: 'character',
-    role: 'High Admiral of House Mereval',
+    role: 'Grand Admiral of House Mereval',
     region: 'iceheart-sea',
     summary: 'Ruler of Merrowport from the prow of the Wave-Kept, a ship that has not docked in forty years.',
-    fullEntry: 'The High Admiral of Merrowport governs House Mereval\'s storm-wracked domains from the prow of the Wave-Kept, a Merryn ships that has not made port in forty years. The Merryn sailors believe a ship that docks loses its luck, and the High Admiral has taken this superstition to its logical extreme: a ruler who never sets foot on land cannot be accused of favoring any port over another. The Wave-Kept sails a circuit of the Iceheart Sea\'s safe currents, and the Admiral\'s judgments are delivered by tide-runner couriers. The Merrowport House considers this elegant governance. The land-bound houses consider it dereliction.',
+    fullEntry: 'The Grand Admiral of Merrowport governs House Mereval\'s storm-wracked domains from the prow of the Wave-Kept, a Merryn ships that has not made port in forty years. The Merryn sailors believe a ship that docks loses its luck, and the Grand Admiral has taken this superstition to its logical extreme: a ruler who never sets foot on land cannot be accused of favoring any port over another. The Wave-Kept sails a circuit of the Iceheart Sea\'s safe currents, and the Admiral\'s judgments are delivered by tide-runner couriers. The Merrowport House considers this elegant governance. The land-bound houses consider it dereliction.',
     relatedTerms: ['merrowport', 'iceheart-sea', 'merryn', 'house_mereval']
   },
 
@@ -2762,6 +2762,108 @@ export const LORE_DICTIONARY = {
     summary: 'The shattered corpse of a celestial thing — what the Lunarch parasites hatched from.',
     fullEntry: 'The dead moon was not a moon at all — it was an egg. What laid it, and what it was meant to hatch, are questions no living scholar can answer. When it shattered — whether by violence, age, or the same cosmic hunger that devours Sol — its fragments fell across the Frostwood Reach. The fae of the moonlit groves gathered the largest pieces and nurtured them. From those fragments, the lunar parasites emerged: ancient celestial predators that feed on memory, sensation, sanity, and vitality. The Lunarch class bonds with these parasites, trading warmth and memory for void-light. The relationship between the dead moon, the Watcher in the Mist, and the lunar parasites is one of the deepest theological mysteries in Mythrill.',
     relatedTerms: ['watcher_in_the_mist', 'lunarch', 'briaran', 'frostwood-reach']
+  },
+
+
+  'the_risen': {
+    id: 'the_risen',
+    term: 'The Risen',
+    type: 'faction',
+    region: 'sundale',
+    summary: 'The old-faith faction of Sundale\'s civil war — they believe Sol will return if the Solbrand is maintained and the Monoliths are reassembled.',
+    fullEntry: 'The Risen are the traditionalist faction of Sundale\'s civil war, holding to the original theology of the Dawn Vigil. They believe that the Solbrand must be tended at all costs, that the Sundered Monoliths must be recovered and reassembled, and that Sol will rise again when the seal is restored. They are headquartered at the Harath-Vault and draw their support primarily from the Korr Emberth, Solvarn deep-born, and older Martyr families. They are opposed by both the Sunderer (who believe the Solbrand is Keth-Amar\'s feeding line) and the Scoured (who scour the world for Monolith Shards to seal the breach rather than reassemble the fragments).',
+    relatedTerms: ['sundale', 'dawn-vigil', 'emberspire', 'sol', 'the_sunderers', 'the_scoured']
+  },
+
+  'the_sunderers': {
+    id: 'the_sunderers',
+    term: 'The Sunderer',
+    type: 'faction',
+    region: 'sundale',
+    summary: 'The heretical faction of Sundale\'s civil war — they believe the Solbrand is Keth-Amar\'s feeding line and must be destroyed.',
+    fullEntry: 'The Sunderer are the radical heretical faction of Sundale\'s civil war. They believe that the Solbrand is not a remnant of Sol at all — it is Keth-Amar\'s feeding line, a conduit through which the Sun-Eater drains the dying star\'s last warmth. Their solution is simple and apocalyptic: destroy the Solbrand, starve Keth-Amar, and accept that Sol will die with it. They are supported primarily by younger Thrask Emberth, disillusioned Dawn Vigil defectors, and Sundale\'s Ash-Dweller conscripts. The Dawn Vigil has declared them anathema.',
+    relatedTerms: ['sundale', 'dawn-vigil', 'emberspire', 'keth_amar', 'the_risen']
+  },
+
+  'the_scoured': {
+    id: 'the_scoured',
+    term: 'The Scoured',
+    type: 'faction',
+    region: 'sundale',
+    summary: 'The radical faction of Sundale\'s civil war — they deface their forge-marks and scour the world for Monolith Shards to seal Keth-Amar\'s breach.',
+    fullEntry: 'The Scoured — named for the forge-marks they ritually deface from their skin upon joining — are a radical faction of Sundale\'s civil war who have left both Korr and Thrask bloodlines behind. They believe that reassembling the Monoliths would summon Keth-Amar, not Sol, and that the only path forward is to gather every Monolith Shard and use them to reinforce the original binding seal. They are scattered across all seven regions, operating in small cells, trading information and Shard-locations through a network of safe houses. The Dawn Vigil considers them dangerous fanatics. The Korr tending-clan considers them noble fools.',
+    relatedTerms: ['sundale', 'sundered_monoliths', 'emberspire', 'keth_amar', 'the_risen', 'the_sunderers']
+  },
+
+  'the_forgotten': {
+    id: 'the_forgotten',
+    term: 'The Forgotten',
+    type: 'concept',
+    region: 'frostwood-reach',
+    summary: 'The undocumented underclass of the Frostwood Reach — Thalren whose ledgers were lost, never recorded, or deliberately erased.',
+    fullEntry: 'The Forgotten are the undocumented underclass of the Frostwood Reach — Thalren whose Sovereign Ledger entries were lost to the fog, never recorded by the Scribe-Cartel, or deliberately erased during the Great Revision. Without a documented lineage, a Forgotten has no legal rights: no property, no marriage, no testimony in a Thalren court. They survive in the palisade-shantytowns outside Greymark Keep and in the deeper ironwood groves beyond Cartel reach. The Briaran, whose oral history is immune to fog-erasure, have sheltered Forgotten fugitives since the Memory Wars.',
+    relatedTerms: ['frostwood-reach', 'sovereign-ledger', 'scribe-cartel', 'the-great-revision', 'memory-wars']
+  },
+
+  'the_fredlose': {
+    id: 'the_fredlose',
+    term: 'The Fredlose',
+    type: 'concept',
+    region: 'nordhalla',
+    summary: 'The outlaw clans of Nordhalla — Skald who refuse to bend knee to King-Jarl Halvar Skalvyr\'s iron crown.',
+    fullEntry: 'The Fredlose (Old Nord for "the lawless") are the outlaw clans of Nordhalla who refuse fealty to King-Jarl Halvar Skalvyr and his Sunder-Wall. They live in the frozen wastes beyond the settled holds, surviving through raiding, mammoth-hunting, and the old ways the Runic Academies seek to burn. The Fredlose maintain the oral-history traditions that the Frost Chanters preserve — songs and stories that predate the Glacier Bargain. They are divided from the settled Fastboende not by blood but by choice, and the boundary between them is the Sunder-Wall.',
+    relatedTerms: ['nordhalla', 'house-skalvyr', 'sunder-wall']
+  },
+
+  'the_deck_born': {
+    id: 'the_deck_born',
+    term: 'The Deck-Born',
+    type: 'concept',
+    region: 'iceheart-sea',
+    summary: 'The officer class of the Iceheart Sea — Merryn sailors born into the Mereval Board of Trade\'s registered families.',
+    fullEntry: 'The Deck-Born are the officer class of the Iceheart Sea\'s maritime society — Merryn sailors born into families registered with the Mereval Board of Trade. They command the ships, hold the Luck-Ledger accounts, and pass their trade-tattoos (legal contracts inked on their skin) to their heirs. Below them in the shipboard hierarchy are the Bilge-Dwellers — pressed sailors with no registered lineage, no Luck-Ledger accounts, and tattoos that mark them as property rather than partners.',
+    relatedTerms: ['iceheart-sea', 'house-mereval', 'brine-bond-syndicate', 'the-bilge-dwellers']
+  },
+
+  'the_bilge_dwellers': {
+    id: 'the_bilge_dwellers',
+    term: 'The Bilge-Dwellers',
+    type: 'concept',
+    region: 'iceheart-sea',
+    summary: 'The pressed sailor underclass of the Iceheart Sea — conscripted into lifetime service under the Board of Trade\'s Press-Warrants.',
+    fullEntry: 'The Bilge-Dwellers are the pressed sailor underclass of the Iceheart Sea — Merryn and non-Merryn alike conscripted into lifetime maritime service under the Mereval Board of Trade\'s Press-Warrants. They work the bilges, the oar-decks, and the storm-watch. Their tattoos are not contracts but property-marks, inked at the moment of pressing to record their debt and their owner. A Bilge-Dweller who earns enough Luck-Ledger credit to buy their freedom becomes Deck-Born in a single generation — a social mobility the Deck-Born officer class fiercely resents and quietly obstructs.',
+    relatedTerms: ['iceheart-sea', 'house-mereval', 'brine-bond-syndicate', 'the-deck-born']
+  },
+
+  'the_mounted': {
+    id: 'the_mounted',
+    term: 'The Mounted (De Hesteborne)',
+    type: 'concept',
+    region: 'sundrift-vale',
+    summary: 'The horse-owning aristocracy of the Ordan nomads — those who ride the Sundrift migration circuit.',
+    fullEntry: 'The Mounted (De Hesteborne in the Ordan tongue) are the horse-owning aristocracy of the Ordan nomads. Under the Iron-Yurt Law established by House Ordavan, only the Mounted may speak in the clan-moots, carry Steppe-Staves recording their lineage, and vote on migration routes. The Mounted own the herds, command the migration, and hold the throat-singing traditions that map the starless sky. Their authority is absolute over the Unmounted — but their numbers are shrinking as horse-populations decline in the cooling Vale.',
+    relatedTerms: ['sundrift-vale', 'house-ordavan', 'the-unmounted']
+  },
+
+  'the_unmounted': {
+    id: 'the_unmounted',
+    term: 'The Unmounted (De Hestelose)',
+    type: 'concept',
+    region: 'sundrift-vale',
+    summary: 'The horse-less underclass of the Ordan nomads — those who walk the migration circuit on foot.',
+    fullEntry: 'The Unmounted (De Hestelose) are the horse-less underclass of the Ordan nomads. Under the Iron-Yurt Law, the Unmounted cannot speak in clan-moots, cannot carry Steppe-Staves, and cannot vote on migration routes. They walk the circuit behind the herds, carrying what the Mounted cannot load. Their oral traditions are unofficial — throat-sung in private, passed between walking families, never acknowledged by the clan-moot. The Purge of the Sky-Singers targeted the Unmounted first, and the Unmounted remember.',
+    relatedTerms: ['sundrift-vale', 'house-ordavan', 'the-mounted']
+  },
+
+  'tharun_muren': {
+    id: 'tharun_muren',
+    term: 'Tharun Muren',
+    type: 'historical_figure',
+    region: 'sundrift-vale',
+    summary: 'The founder of the Muren Astril path — first to suppress a constellation-spirit through ritual rather than embrace.',
+    fullEntry: 'Tharun Muren was a third-century Astril of the Wolf bloodline who became the first to successfully suppress his constellation through ritual rather than embrace it. His methods — the binding chants, the fasting, the scarification patterns that channel spirit-energy away from the conscious mind — became the foundation of the Muren path. He was assassinated at forty-two by his own Sylen sister, who believed his suppression was starving the Wolf. The Wolf chose her. She lost herself to the Over-Sung within the year.',
+    relatedTerms: ['astril', 'sundrift-vale', 'sylen-muren-schism']
   }
+
 
 };

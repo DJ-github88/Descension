@@ -983,14 +983,36 @@ export const getCreatureTokenIconUrl = (iconId, creatureType = null) => {
     return url;
   }
 
-  // Defensive check: If it's a Bestiary icon that is not in our 17 unique ones, redirect to placeholder
+  // Defensive check: If it's a Bestiary icon that is not in our unique ones, redirect to placeholder
   if (typeof iconId === 'string' && iconId.startsWith('Bestiary/')) {
     const uniqueSketches = new Set([
+      // Original unique sketches
       'gref', 'vetch', 'moot', 'gallows-wood', 'gambrel',
-      'rimor', 'kjarn',
-      'cinder', 'ashwen', 'nekh', 'emberveil', 'croon',
-      'spume', 'orun', 'thalass', 'pelagos', 'brine',
-      'placeholder'
+      'rimor', 'kjarn', 'cinder', 'ashwen', 'nekh', 
+      'emberveil', 'croon', 'spume', 'orun', 'thalass', 
+      'pelagos', 'brine', 'placeholder',
+      // Batch 3
+      'bergthrall', 'fenris', 'disir', 'valravn', 'kraken',
+      'marmennill', 'havgammel',
+      // Batch 4
+      'tiamat', 'girtablilu', 'lamashtu', 'bes', 'ghul',
+      'gugalanna', 'peri', 'daeva', 'simurgh', 'edimmu',
+      // Batch 5
+      'nisroch', 'kur_pit', 'mushussu', 'harpy', 'hippocampus',
+      'gorgon', 'tokoloshe', 'lamia', 'empusa', 'telkhine',
+      'stymphalian', 'nereid', 'graeae', 'triton', 'nandi',
+      'popobawa', 'graia', 'ichthya',
+      // Batch 6
+      'kappa', 'jorogumo', 'nurikabe', 'nue', 'kasha',
+      'tanuki', 'ushioni', 'baku', 'nekomata', 'futakuchi',
+      'wanyudo', 'tsuchigumo', 'inugami', 'ittan',
+      // Batch 7
+      'burkhan_wind', 'taotie_gorge', 'zilant_wing', 'susulu_spring', 'dijiang_chaos',
+      'fenghuang_migrate', 'qiongqi_scourge', 'zhenniao_toxin', 'ubagan_crystal', 'qoraigarash',
+      'lu_wu_mountain', 'bura_stormkin', 'tengri_spark',
+      // Batch 8 (Redrawn)
+      'fachanwatch', 'erlkings_hound', 'cusith', 'glacier_gremlin', 'nidhoggr',
+      'lindwyrm', 'jutul', 'landvaettir'
     ]);
     const creatureName = iconId.split('/')[1];
     if (!uniqueSketches.has(creatureName)) {

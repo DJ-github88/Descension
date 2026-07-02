@@ -157,7 +157,7 @@ function processMartyrSpells(spells) {
  */
 function processChaosWeaverSpells(spells) {
   return spells
-    .map(spell => normalizeClassSpell(spell, 'Chaos Weaver', determineChaosWeaverSpecialization))
+    .map(spell => normalizeClassSpell(spell, 'Harbinger', determineChaosWeaverSpecialization))
     .map(spell => ({
       ...spell
     }));

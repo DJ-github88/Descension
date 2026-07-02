@@ -54,7 +54,7 @@ export const validateAllClassConfigurations = () => {
 // Function to test class resource updates
 export const testClassResourceUpdates = (characterStore) => {
     
-    const testClasses = ['Pyrofiend', 'Minstrel', 'Chronarch', 'Chaos Weaver', 'Gambit'];
+    const testClasses = ['Pyrofiend', 'Minstrel', 'Chronarch', 'Harbinger', 'Gambit'];
     
     testClasses.forEach(className => {
         // Set class

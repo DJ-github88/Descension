@@ -227,7 +227,7 @@ The **[Solvarn](world-lore/races-overview)** humans share the ashlands. Every mo
 - **[Nordhalla](world-lore/regions)** (Norse/Alpine): glacier-memory Stels, hearth-parasite Rimors. Warriors wade into fjord-surf; seers extract prophecies from frozen victims.
 - **[Sundale](world-lore/regions)** (Mesopotamian/Egyptian): the burning Cinder, the Husque. Fire-mages alone approach a Husque without immediate consumption.
 - **[Iceheart Sea](world-lore/regions)** (Greek/Yoruba): the Spume of the Drowned, the Writ of Passage. Soul-listeners separate voices; runic cannons study the Writ.
-- **[Cragjaw Peaks](world-lore/regions)** (Yokai/Andean): metal-eating Scrabs, the mountain's consciousness. Alchemists develop deterrents; destiny weavers read the Thrum's approach.
+- **[Cragjaw Peaks](world-lore/regions)** (Yokai/Andean): metal-eating Scrabs, the mountain's consciousness. Alchemists develop deterrents; destiny weavers read the Thrumm's approach.
 - **[Sundrift Vale](world-lore/regions)** (Mongol/Chinese): debt-tracking Lien, the Hungry Child. The dedicated assume debts into flesh; storytellers tell stories of a sky the Child has never seen.
 - **[Bryngloom Forest](world-lore/regions)** (Slavic/Hindu): the Grandmother of the Bog, the Cycle-Eater. Healers treat memory-wounds; oath-bound hunters track Debt-Revenants.
 
@@ -510,7 +510,7 @@ To govern this vertical maze, **Jarl-Inca Oda Tesshan ("The Knot-Lord")** enforc
 
 Movement across the peaks is tightly regulated by **The Rope-Garrisons**—fortress checkpoints built on basalt spires. The military controls the rope bridges, cutting them at the first sign of unrest or Wyrd infestation, isolating entire keeps. 
 
-**The Dark Bargain:** House Tesshan traded **visibility for the eternal snow-veil**: a perpetual blizzard to hide their keeps from the starving lowlanders. The keeps survived because nothing could find them. The price: every landmark was buried. The Tessen have not seen the sky in eight generations.
+**The Dark Bargain:** House Tesshan traded **visibility for the eternal snow-veil**: a perpetual blizzard to hide their keeps from the starving lowlanders. The keeps survived because nothing could find them. The price: every landmark was buried. The Tessen have not seen the sky in thirty generations.
 
 **The Seat of Power: Frostmaw Holdfast & The Spans**
 
@@ -789,7 +789,7 @@ To play any character in Mythrill is to play one of the debtor's heirs. The time
             },
             {
               title: 'The Twelve Pivotal Events',
-              content: `**1. The Deepening & the Binding — Year 0.** Sol entered its death-cycle and the Sun-Eater Keth-Amar came to feed. The seven noble families tore the star from the heavens and entombed it beneath what is now Sundale, weaving the binding-seal from the hide of Aex (Sol's firstborn) and a blood-bond over their own lineages. They told the world Sol would sleep and rise again. It was the first lie. *Regions: Sundale (the tomb), all seven houses. Scar: Emberspire, the Solbrand, the binding-vault. Causes: the Long Winter that made the bargains necessary.*
+              content: `**1. The Deepening & the Binding — Year 3.** Sol entered its death-cycle and the Sun-Eater Keth-Amar came to feed. The seven noble families tore the star from the heavens and entombed it beneath what is now Sundale, weaving the binding-seal from the hide of Aex (Sol's firstborn) and a blood-bond over their own lineages. They told the world Sol would sleep and rise again. It was the first lie. *Regions: Sundale (the tomb), all seven houses. Scar: Emberspire, the Solbrand, the binding-vault. Causes: the Long Winter that made the bargains necessary.*
 
 **2. The Great Breach — Year 11.** After the Binding in Year 3, Keth-Amar spent eight years whispering into the starving nobility — a slow corrosion that turned warmth for blood from blasphemy into desperate hope over nearly a decade of dying children and failing crops. In Year 11, six of the seven houses marched their firstborn heirs into the dark. The heirs were the keys to the binding; devouring them cracked the vault from within. The seal shattered into the seven Sundered Monoliths, Emberspire erupted through the wound, and the Wyrd — a rot sealed in the deep earth since before humanity — bled up through the cracks and took the shape of every folk fear it found. *Regions: Sundale + worldwide. Scar: the seven Monoliths, the Wyrd, Emberspire's caldera. Causes: Keth-Amar's eight-year corruption arc, every regional Dark Bargain.*
 
@@ -1131,13 +1131,13 @@ The Corvani (a raven-marked subfolk of Nordhalla's glacier-spires) can carry mes
 
 **Consequence:** The Corvani are tied to Nordhalla's lore, they carve their eyries into the glacier-faces. Their memories are valuable currency. Players who trade with them gain access to unique knowledge of the frozen fjord-keeps.
 
-**Thread 4: The Thrum's Awakening**
-The Thrum (the mountain's consciousness) is stirring. Players can:
+**Thread 4: The Thrumm's Awakening**
+The Thrumm (the mountain's consciousness) is stirring. Players can:
 - **Investigate the cause**: Why is it waking now? (Hook: The Sundered Monolith's resonance is affecting it.)
-- **Communicate with it**: The Thrum is slow, ancient, and alien. It speaks in vibrations, not words.
-- **Exploit its awakening**: Use the Thrum's power to collapse tunnels, trigger avalanches, or crush enemies.
+- **Communicate with it**: The Thrumm is slow, ancient, and alien. It speaks in vibrations, not words.
+- **Exploit its awakening**: Use the Thrumm's power to collapse tunnels, trigger avalanches, or crush enemies.
 
-**Consequence:** The Thrum is tied to the Cragjaw Peaks' Wyrd-creatures, it is born from "the fear of what the mountain remembers." Players who ally with it gain a powerful but unpredictable ally. Players who anger it face the mountain's wrath.`
+**Consequence:** The Thrumm is tied to the Cragjaw Peaks' Wyrd-creatures, it is born from "the fear of what the mountain remembers." Players who ally with it gain a powerful but unpredictable ally. Players who anger it face the mountain's wrath.`
             },
             {
               title: 'Sundrift Vale: Threads of Stars',

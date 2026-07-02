@@ -108,7 +108,7 @@ export const MARTYR_DATA = {
     orderName: 'The Covenant of the Scar',
     founder: {
       name: '<LoreLink termId="sera">Sera Solvan</LoreLink>',
-      status: `Dead — eight centuries. She carved her sacrificed child's name into her forearm with volcanic obsidian, the wound healed into a glowing solar scar, and she became the first Martyr. Her scarred forearm is preserved beneath <LoreLink termId="emberspire">Emberspire</LoreLink>, still faintly warm.`,
+      status: `Dead — seven centuries. She carved her sacrificed child's name into her forearm with volcanic obsidian, the wound healed into a glowing solar scar, and she became the first Martyr. Her scarred forearm is preserved beneath <LoreLink termId="emberspire">Emberspire</LoreLink>, still faintly warm.`,
       note: `<LoreLink termId="sera">Sera</LoreLink>'s covenant was personal — a mother's refusal to let her child be forgotten. The noble houses have spent two centuries turning that personal grief into an industrial resource. Sera would not recognize what her prayer has become.`
     },
     currentLeader: {

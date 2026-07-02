@@ -42,13 +42,13 @@ const DAMAGE_TYPES = {
     },
     blight: {
       name: 'Blight',
-      description: 'Keth-Amar\'s corruption. Necrotic decay, void consumption, toxic poison, and caustic acid that withers all it touches.',
+      description: 'Necrotic decay, void consumption, toxic poison, and caustic acid that withers all it touches.',
       color: '#3D1F4E',
       icon: 'Necrotic/Necrotic Wither'
     },
     wyrd: {
       name: 'Wyrd',
-      description: 'Spiritual rot. Chaotic and psychic energy that warps minds and fractures reality.',
+      description: 'The raw, entropic blood of Keth-Amar. Spiritual rot, chaotic energy, and psychic corruption that bleeds through the cracks in the binding seal.',
       color: '#7A2040',
       icon: 'Psychic/Psychic Telepathy'
     },

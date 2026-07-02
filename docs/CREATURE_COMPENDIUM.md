@@ -872,7 +872,7 @@
 
 #### 3. Ecology: Why It Resides in Sundale
 - **The Ground-Breaker:** Gugalannas charge across the Shyr — the ninety-mile basalt scar — their hooves cracking the cooling lava-road into new fracture-patterns. The Emberth have learned that these fracture-patterns are actually navigation-maps — the Gugalanna instinctively routes toward stable ground, and Thrask rangers follow their tracks to find safe passage through the lava-fields.
-- **The Sacred-Bull:** The scarab-mark beneath a Gugalanna's tongue is the most valuable alchemical reagent in Sundale — it can purify contaminated water. A single scarab can cleanse an entire cistern of Wyrd-taint. Korr Emberth consider killing a Gugalanna for its scarab an act of profound sacrilege — but the Unwoven do not.
+- **The Sacred-Bull:** The scarab-mark beneath a Gugalanna's tongue is the most valuable alchemical reagent in Sundale — it can purify contaminated water. A single scarab can cleanse an entire cistern of Wyrd-taint. Korr Emberth consider killing a Gugalanna for its scarab an act of profound sacrilege — but the Scoured do not.
 
 ---
 

@@ -83,7 +83,7 @@ export const REVENANT_DATA = {
       },
       currentCrisisAngle: `The bog-graves waking has the Morren Revenants terrified for a specific reason: the marching dead are heading toward the Monoliths, and if whatever drives them *breaks the contract-system*, the Morren Revenants — sustained entirely by that system — will simply collapse. Their undeath depends on the bureaucracy that enslaves them, and the bureaucracy is, apparently, under attack.`,
       signatureQuote: {
-        text: '"In life I owed the Neth everything. In death I owe them more. If the thing driving the dead breaks the Ledger, I fall — and for the first time in eight hundred years, I am not certain that falling would be a mercy."',
+        text: '"In life I owed the Neth everything. In death I owe them more. If the thing driving the dead breaks the Ledger, I fall — and for the first time in two hundred years, I am not certain that falling would be a mercy."',
         speaker: 'Debt-Revenant Mor-Kael',
         context: 'A Morren Revenant, watching the dead pass his contract-post'
       }
@@ -176,7 +176,7 @@ export const REVENANT_DATA = {
     subtitle: "Death Is Fuel. The Grave Is a Door. You Walk Both Ways.",
     originStory: `Founded in Year 550 of the Dimming when bog-graves began waking on their own and two death-magic traditions merged: Kora the Veil-Speaker's blood-covenant and Vesper the Scribe's frost-stasis phylactery. Two traditions of death magic, born in the same peat-bogs of the <LoreLink termId="bryngloom-forest">Bryngloom Forest</LoreLink>, bound by the same terrible truth: life force is the only currency that matters.
 
-The Vreken Veil-Speaker <LoreLink termId="kora">Kora</LoreLink> was the first to pay it. Desperate to keep the ancestral lights of thirty generations burning, she walked into the marsh-depths and bargained with the Root-Veil, offering her own blood as blight thread. The covenant was absolute — every spell she wove drained her own life, generating volatile Blood Tokens that orbited her body like carrion flies. The dead answered. The living recoiled. Kora's voice was reduced to a dry whisper by the overlapping screams of ancestors she could never silence.
+The Vreken Veil-Speaker <LoreLink termId="kora">Kora</LoreLink> was the first to pay it. Desperate to keep the ancestral lights of six generations burning, she walked into the marsh-depths and bargained with the Root-Veil, offering her own blood as blight thread. The covenant was absolute — every spell she wove drained her own life, generating volatile Blood Tokens that orbited her body like carrion flies. The dead answered. The living recoiled. Kora's voice was reduced to a dry whisper by the overlapping screams of ancestors she could never silence.
 
 The human scribe <LoreLink termId="vesper">Vesper</LoreLink> sought the same bogs decades later, dying of the sumps' lung-rot. He performed the forbidden Rite of the Cold Hearth — binding his soul to a basalt phylactery and inviting the bog's freezing decay to halt his mortal heart. Vesper achieved immortality, but his body became a cold, rotting tomb. His heart beats once an hour. His flesh is cold as bog-iron. He must constantly harvest life force to prevent his skeleton from dissolving.
 
@@ -223,7 +223,7 @@ The class is heavily practiced by the <LoreLink termId="vreken">Clean Vreken</Lo
     },
 
     signatureQuote: {
-      text: '"I hear thirty generations of the dead screaming in my veins. Death came for me in the peat-bogs and I told it to wait. It has been waiting eight hundred years. We have an understanding now — I go first, and it follows close behind."',
+      text: '"I hear six generations of the dead screaming in my veins. Death came for me in the peat-bogs and I told it to wait. It has been waiting two hundred years. We have an understanding now — I go first, and it follows close behind."',
       speaker: 'The Revenant (attributed to both Kora and Vesper traditions)',
       context: 'Carved into the threshold of the Hall of Returned Dead, Year 412 of the Dimming',
     },

@@ -49,7 +49,7 @@ A living entity of pure stellar radiance, not a god but a guardian that had prot
 
 The **Warden** is not a god. It is the universe's mechanism of consequence — older than Sol, enforcing every bargain struck in Mythrill without exception, mercy, or negotiation. It is the original binder.
 
-## The Original Binding (Year 0)
+## The Original Binding (Year 3)
 
 The seven noble families (Thalreth, Skalvyr, Tesshan, Solvan, Mereval, Ordavan, and Viridane) sealed Sol beneath the volcanic crust of what would become Sundale. **The volcano shook for eleven days** after the sealing. The binding held. The sun was entombed — but still alive, its fading warmth bleeding upward through eight hundred feet of basalt.
 
@@ -528,7 +528,7 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 - Climate: alpine, year-round blizzard above the mid-line
 - Terrain: granite peaks, glacial cirques, ice fields, volcanic crater-keeps
 - Zones: frostmaw-holdfast, frostmaw-massif, skirmours-crag, the-stone-cog
-- People: Tessen, Jutul warbands (in the high peaks), Thrum (primordial)
+- People: Tessen, Jutul warbands (in the high peaks), Thrumm (primordial)
 
 **B. The Gorge-Web** (Cragjaw-Gorge-Web) — mid-altitude
 - Climate: sub-alpine, wind-blasted, snow-veiled
@@ -568,14 +568,14 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 - **Fexrick (Kethrin Guild-Bound)** — green/pale-skinned goblinoid engineers, 3'8"-4'6". **Elaborate beards woven with copper wire, gear-teeth, fiber-optic strands** — the beard is their resume. **Visible mechanical replacement** (gear, alchemical ocular, cyber-arm). Speak Fexric.
 - **Fexrick (Drall Clan-Free)** — outside the guild system, improvised beards, salvage tinkerers
 - **Jutul warbands** — at Skirmour's Crag
-- **Thrum** — primordial ancestor species, regenerative tunnel-dwellers
+- **Thrumm** — primordial ancestor species, regenerative tunnel-dwellers
 
 ### Creatures & Monsters
 
 - **Chasm-Stalker** — nests in the Span supports, patient and hungry
 - **Scrab** — multi-legged horror of the Sump Galleries
 - **Toxic Spore-Horror** — fungal creature of the lower sumps
-- **Thrum** — primordial tunnel-dwellers
+- **Thrumm** — primordial tunnel-dwellers
 - **Jutul-warbands** — at Skirmour's Crag
 - **Lost-Brood Remnant** — in the sealed Vats
 - **Yokai** — Yuki-Onna (snow-women), Tengu-Crows (raven goblins)

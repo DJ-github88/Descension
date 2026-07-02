@@ -82,6 +82,68 @@ scratch/
 scripts/
 
 # One-off utility files in vtt-react root
+
+# Misc
+.DS_Store
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+build.log
+*.build.log
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Local Netlify folder
+.netlify
+
+# MCP Server (unrelated to VTT project)
+zen-mcp-server/
+
+# Firebase secrets and local persistence
+server/firebase-service-account.json
+server/local-persistence.json
+server/scripts/local-persistence.json
+server/*.json
+
+# Playwright MCP artifacts
+.playwright-mcp/
+
+# Debug/temp files
+_*.txt
+_*.js
+_fix*.js
+fix-*.js
+fix_*.js
+transform_*.js
+replace_*.js
+temp_*.js
+temp_*.mjs
+audit-*
+audit_*.js
+build-log*.txt
+
+# Screenshots in root
+*.png
+
+# Scratch directory
+scratch/
+
+# Backup and disabled files
+*.backup*.js
+*.backup*.jsx
+*.disabled
+*_backup*
+
+# Script utilities (not part of the app)
+scripts/
+
+# One-off utility files in vtt-react root
 vtt-react/rewrite_*.js
 vtt-react/**/*_new.js
 
@@ -90,3 +152,6 @@ vtt-react/src/data/**/*.backup*
 
 # Random root junk
 UTF8
+
+# Agent verification metadata
+.vibemole/

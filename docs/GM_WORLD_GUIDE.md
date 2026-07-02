@@ -188,7 +188,7 @@ At the Vault's absolute center is **The Great Forge**, where oversized obsidian 
 
 The population is split into two sharp castes. The **Deep-Born** are wealthy Solvarn nobles and Korr priests who live in climate-controlled luxury in the Vault’s inner rings, sheltered from the ash. The **Ash-Dwellers** are Thrask miners and impoverished Solvarn refugees who live in toxic surface shanties, suffering from "Ashen Throat" lung-rot.
 
-The **Emberth** themselves are split by this divide. The **Korr** of the Deep-Vault are the priestly elite with charcoal skin and elongated lungs. The **Thrask** of the surface badlands are the bronze-skinned rangers and miners who live in the frontier calderas, highly skeptical of the Korr's wait-and-see policy. The **Unwoven** — heretical Emberth who have ritually defaced their forge-marks — scour the wastes for Sundered Monoliths, believing that only by sealing the breach can Sol be reborn.
+The **Emberth** themselves are split by this divide. The **Korr** of the Deep-Vault are the priestly elite with charcoal skin and elongated lungs. The **Thrask** of the surface badlands are the bronze-skinned rangers and miners who live in the frontier calderas, highly skeptical of the Korr's wait-and-see policy. The **Scoured** — heretical Emberth who have ritually defaced their forge-marks — scour the wastes for Sundered Monoliths, believing that only by sealing the breach can Sol be reborn.
 
 **Localized Threats, Persecution & The Wyrd**
 
@@ -280,7 +280,7 @@ To govern this vertical maze, **Jarl-Inca Oda Tesshan ("The Knot-Lord")** enforc
 
 Movement across the peaks is tightly regulated by **The Rope-Garrisons**—fortress checkpoints built on basalt spires. The military controls the rope bridges, cutting them at the first sign of unrest or Wyrd infestation, isolating entire keeps. 
 
-**The Dark Bargain:** House Tesshan traded **visibility for the eternal snow-veil** — a perpetual blizzard to hide their keeps from the starving lowlanders. The keeps survived because nothing could find them. The price: every landmark was buried. The Tessen have not seen the sky in eight generations.
+**The Dark Bargain:** House Tesshan traded **visibility for the eternal snow-veil** — a perpetual blizzard to hide their keeps from the starving lowlanders. The keeps survived because nothing could find them. The price: every landmark was buried. The Tessen have not seen the sky in thirty generations.
 
 **The Seat of Power: Frostmaw Holdfast & The Spans**
 
@@ -472,7 +472,7 @@ The Emberth are a bulky, powerful people of Sundale — broad-shouldered and del
 
 The Emberth are divided into two bloodlines based on where their ancestors sheltered during the underground exile: the **Korr** of the Deep-Vault, who chose to tend the Solbrand and wait for Sol's return — still, fragile, spiritually attuned; and the **Thrask** of the High-Vault, who chose to range the frozen surface border and keep the other clans fed — swift, cold-hardened, pragmatic.
 
-The crisis of the Dimming has produced three ideological factions: the **Risen** (hold to the old faith — patience will be rewarded), the **Sunderer** (heretics who believe the Solbrand is Keth-Amar's tether, not Sol's gift), and the **Unwoven** (who have defaced their forge-marks and scour the world for Sundered Monoliths, believing that sealing the breach may allow Sol to be reborn). The tending-clan has concealed the dimming for three generations. The other clans are beginning to splinter.
+The crisis of the Dimming has produced three ideological factions: the **Risen** (hold to the old faith — patience will be rewarded), the **Sunderer** (heretics who believe the Solbrand is Keth-Amar's tether, not Sol's gift), and the **Scoured** (who have defaced their forge-marks and scour the world for Sundered Monoliths, believing that sealing the breach may allow Sol to be reborn). The tending-clan has concealed the dimming for three generations. The other clans are beginning to splinter.
 
 **Proximal Relations**
 
@@ -977,7 +977,7 @@ The Revenant has no open presence in any mortal city. They operate from the forg
 ### Races & Cultural Affiliation
 The **Vreken** blood-covenant (Kora) and the human **Morren**/Thalren phylactery-path (Vesper) are the twin roots. The merged tradition has since drawn **Skald** glacier-tomb keepers (whose cold-aligned dead adapt readily to Vesper's rite) and a growing **Neth** contingent who treat the Death Toll as just another renegotiated clause in the contract of mortality.
 
-> *"I hear thirty generations of the dead screaming in my veins. Death came for me in the peat-bogs and I told it to wait. It has been waiting eight hundred years. We have an understanding now — I go first, and it follows close behind."*
+> *"I hear six generations of the dead screaming in my veins. Death came for me in the peat-bogs and I told it to wait. It has been waiting two hundred years. We have an understanding now — I go first, and it follows close behind."*
 
 ---
 

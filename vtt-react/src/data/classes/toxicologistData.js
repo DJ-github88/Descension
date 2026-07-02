@@ -66,14 +66,14 @@ export const TOXICOLOGIST_DATA = {
     morren_human: {
       subraceName: 'Morren',
       title: 'The Bog-Chemist',
-      reframe: `The <LoreLink termId="house_morrath">Morren</LoreLink> know the <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink> bog's chemistry from centuries of peat-debt — every peat-cut, every bog-preserved corpse, every alchemical moss they harvested for the Neth taught them what the water remembers. A Morren Toxicologist does not hunt predators or cultivate decay; they *read the bog*, weaponizing a wetland they have been forced to work for eight hundred years.`,
+      reframe: `The <LoreLink termId="house_morrath">Morren</LoreLink> know the <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink> bog's chemistry from centuries of peat-debt — every peat-cut, every bog-preserved corpse, every alchemical moss they harvested for the Neth taught them what the water remembers. A Morren Toxicologist does not hunt predators or cultivate decay; they *read the bog*, weaponizing a wetland they have been forced to work for over four hundred years.`,
       signatureAbility: {
         name: 'Bog-Reading',
         description: `Toxins are derived from bog-chemistry — peat-acids, alchemical moss, the preservative ichor that sustains the First Contract. The Morren are the tradition's most *versatile* chemists, drawing from the richest pharmacological ecosystem in the known world, and the only variant whose reagents include the contract-preserving ichor itself.`
       },
       currentCrisisAngle: `The bog's chemistry is shifting as the Root-Veil rejects the Marked (the Plaguebringer crisis), and the Morren Toxicologists are losing their most potent reagent — the preservative ichor — as the mycelial network that produces it recoils. Some Morren have begun *intercepting* the ichor shipments meant for the Neth's contract-rituals, a theft that carries the Keeper's Sanction, because it is the only way to keep their craft alive.`,
       signatureQuote: {
-        text: '"I have read this bog for eight hundred years of my family\'s debt. Now the bog is changing its mind, and I am stealing from the Neth to keep my chemistry. The Ledger will strike me. The bog will not."',
+        text: '"I have read this bog for over four hundred years of my family\'s debt. Now the bog is changing its mind, and I am stealing from the Neth to keep my chemistry. The Ledger will strike me. The bog will not."',
         speaker: 'Mor-Velk the Wet',
         context: 'A Morren Toxicologist, the night of her first ichor-theft'
       }
@@ -130,10 +130,10 @@ export const TOXICOLOGIST_DATA = {
     currentLeader: {
       name: '<LoreLink termId="varis">Venom-Master Varis the Trembling</LoreLink>',
       title: 'Keeper of the Slow Cup',
-      characterization: `<LoreLink termId="varis">Varis</LoreLink> still leads, though his tremors make the work dangerous and his junior distillers flank every pour. He is stubborn, brilliant, and furious at the fog in a way only an eight-century practitioner can be — the resentment of a master watching his medium rewrite itself without his consent. He considers the changing fog a personal insult.`
+      characterization: `<LoreLink termId="varis">Varis</LoreLink> still leads, though his tremors make the work dangerous and his junior distillers flank every pour. He is stubborn, brilliant, and furious at the fog in a way only a four-century practitioner can be — the resentment of a master watching his medium rewrite itself without his consent. He considers the changing fog a personal insult.`
     },
     headquarters: { name: 'The Canopy-Distillery, the Shallows (Frostwood Reach)', locationId: 'frostwood-reach' },
-    crisisConnection: `<LoreLink termId="varis">Varis</LoreLink> is presiding over the spoilage of his life's work: fog-predator venoms degrading in weeks rather than years, the entire Distillery pharmacopoeia turning unstable. His desperation project — distilling the *changing fog itself* — has produced reagents no one can characterize, and two of his apprentices have died testing them. He refuses to stop. He has spent eight centuries mastering the Frostwood's chemistry, and he will master the new chemistry or die in the attempt. The Distillery's junior members are no longer certain which outcome they are rooting for.`
+    crisisConnection: `<LoreLink termId="varis">Varis</LoreLink> is presiding over the spoilage of his life's work: fog-predator venoms degrading in weeks rather than years, the entire Distillery pharmacopoeia turning unstable. His desperation project — distilling the *changing fog itself* — has produced reagents no one can characterize, and two of his apprentices have died testing them. He refuses to stop. He has spent four centuries mastering the Frostwood's chemistry, and he will master the new chemistry or die in the attempt. The Distillery's junior members are no longer certain which outcome they are rooting for.`
   },
 
   worldFriction: [

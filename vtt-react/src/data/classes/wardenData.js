@@ -157,7 +157,7 @@ export const WARDEN_DATA = {
     orderName: 'The Bound',
     founder: {
       name: '<LoreLink termId="alaric">Alaric the Law-Keeper</LoreLink>',
-      status: `Alive. The <LoreLink termId="groven">Groven</LoreLink> mine-guard who drove an ore-hauling chain through his own forearm into the largest Deep Alchemist specimen and held for three days still leads the Bound — the chain rusted into his bone, his regenerative Thrumm-derived biology keeping him functional eight centuries beyond a normal Groven lifespan. He said no to removing it then. He has said no every day since.`,
+      status: `Alive. The <LoreLink termId="groven">Groven</LoreLink> mine-guard who drove an ore-hauling chain through his own forearm into the largest Deep Alchemist specimen and held for three days still leads the Bound — the chain rusted into his bone, his regenerative Thrumm-derived biology keeping him functional seven centuries beyond a normal Groven lifespan. He said no to removing it then. He has said no every day since.`,
       note: `<LoreLink termId="alaric">Alaric</LoreLink> founded the Bound on a single principle: the Warden exists to ensure nothing is ever contained the way the Groven were contained in the vats. The chain is chosen, not inflicted. That distinction is the entire order.`
     },
     currentLeader: {

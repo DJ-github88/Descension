@@ -202,7 +202,7 @@ The class is heavily practiced by the <LoreLink termId="skald">Rune Keeper Skald
     signatureQuote: {
       text: '"I opened the elk and saw our chieftain dead, our granary empty, and the sun still dark. The entrails do not lie. They also do not offer comfort."',
       speaker: 'Cassia the Star-Eyed',
-      context: 'First recorded augury, Nordhalla Frozen Archive, Year 0 of the Dimming'
+      context: 'First recorded augury, Nordhalla Frozen Archive, Year 0 of the Deepening'
     },
 
     philosophy: {

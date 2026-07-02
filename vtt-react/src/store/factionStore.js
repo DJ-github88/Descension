@@ -92,16 +92,6 @@ const SEEDED_FACTIONS = [
 
       },
 
-      {
-
-        targetFactionId: 'scribe-sentinels',
-
-        type: 'neutral',
-
-        description: 'Tolerated as necessary border guards â€” the mists they patrol keep the fog contained, which benefits everyone'
-
-      }
-
     ],
 
     classAffinities: ['animist', 'warden', 'martyr'],
@@ -192,6 +182,36 @@ const SEEDED_FACTIONS = [
 
         description: 'Share a mutual respect for record-keeping; exchange maps and genealogies along trade routes'
 
+      },
+
+      {
+
+        targetFactionId: 'house-skalvyr',
+
+        type: 'allied',
+
+        description: 'The Sentinels maintain the glacier-wall genealogies that validate Skalvyr bloodline claims'
+
+      },
+
+      {
+
+        targetFactionId: 'unshorn-briaran',
+
+        type: 'hostile',
+
+        description: 'The Briaran reject the Sentinels\' ledger-keeping entirely — every Sentinel patrol is an intrusion on hallowed ground'
+
+      },
+
+      {
+
+        targetFactionId: 'house-morrath',
+
+        type: 'overlord',
+
+        description: 'The Sentinels maintain the legal archives that prove the Morrath line exists — without their records, the seventh seat would be declared vacant'
+
       }
 
     ],
@@ -244,17 +264,17 @@ const SEEDED_FACTIONS = [
 
       npcId: 'halvar-skalvyr',
 
-      title: 'High King-Jarl of Nordhalla',
+      title: 'King-Jarl of Nordhalla',
 
       description:
 
-        'High King-Jarl Halvar Skalvyr ("Járn-Tand" or Iron-Tooth), who consolidated his rule by force, constructed the Sunder-Wall to tax nomads, and governs Nordhalla with an iron grip.'
+        'King-Jarl Halvar Skalvyr ("Járn-Tand" or Iron-Tooth), who consolidated his rule by force, constructed the Sunder-Wall to tax nomads, and governs Nordhalla with an iron grip.'
 
     },
 
     members: [
 
-      { npcId: 'halvar-skalvyr', role: 'High King-Jarl', locationId: 'fjord-gate' },
+      { npcId: 'halvar-skalvyr', role: 'King-Jarl', locationId: 'fjord-gate' },
 
       { npcId: 'sigurd-skalvyr', role: 'Jarl of the Archive (Custodian)', locationId: 'frozen-archive' },
 
@@ -285,6 +305,16 @@ const SEEDED_FACTIONS = [
         type: 'allied',
 
         description: 'The Sentinels maintain the glacier-wall genealogies that validate Skalvyr bloodline claims'
+
+      },
+
+      {
+
+        targetFactionId: 'house-tesshan',
+
+        type: 'rival',
+
+        description: 'Disputed territory along the Cragjaw-Nordhalla border. Both houses claim the geothermal vents.'
 
       }
 
@@ -636,7 +666,8 @@ const SEEDED_FACTIONS = [
     territory: ['lost-brood-vats', 'sump-galleries', 'sump-rift', 'gearworks-gulch'],
     relationships: [
       { targetFactionId: 'vat-breakers-guild', type: 'hostile', description: 'The Groven were their creation. The Groven shattered their vats. Neither has forgiven the other.' },
-      { targetFactionId: 'vat-breakers-guild', type: 'hostile', description: 'The Vat-Breakers are the direct descendants of the revolt — the Alchemists consider them stolen property' }
+      { targetFactionId: 'dawn-vigil', type: 'rival', description: 'The Vigil\'s Wyrd-suppression conflicts with the Alchemists\' Wyrd-refinement — two approaches to the same cosmic material' },
+      { targetFactionId: 'house-mereval', type: 'rival', description: 'Mereval\'s deep-ocean mapping expeditions keep trespassing into the Alchemists\' submerged tunnel-networks — both sides claim the deeps' }
     ],
     classAffinities: ['toxicologist', 'plaguebringer', 'shaper'],
     lore: 'The Deep Alchemists pre-date the Dark Bargains. They were refining living matter in the deep tunnels before humans discovered fire. Some of their oldest formulae are written in a language that predates the Wyrd itself. Emerged as a distinct guild roughly two thousand years before the Dimming. Created the Groven from captured Thrumm broodlings — and lost control. Sealed themselves into the deepest tunnels after the Vat-Breakers\' Revolt (~Year 40) and the War of Thousand Screams (Years 300-320).',
@@ -718,8 +749,8 @@ const SEEDED_FACTIONS = [
       'House Mereval has been secretly mapping the deep-ocean trenches beneath the Iceheart, cataloguing what the Myrathil call the Sea Mother — an entity they believe can be bargained with for a second compact.',
     leader: {
       npcId: 'mereval-admiral',
-      title: 'High Admiral of Merrowport',
-      description: 'The High Admiral rules from the prow of the Wave-Kept, a ship that has not docked in forty years.'
+      title: 'Grand Admiral of Merrowport',
+      description:         'The Grand Admiral rules from the prow of the Wave-Kept, a ship that has not docked in forty years.'
     },
     members: [],
     headquarters: 'merrowport',
@@ -730,7 +761,7 @@ const SEEDED_FACTIONS = [
     ],
     classAffinities: ['minstrel', 'gambit', 'warden'],
     lore: 'The Mereval were the first humans to cross the Iceheart Sea, landing at the First Shore eight centuries ago. Their skeletal archers still stand guard there, frozen in eternal watch.',
-    secrets: 'The current High Admiral has been dead for three years. The Wave-Kept is being captained by her first mate, who impersonates her voice through a Merryn throat-singing technique. The crew knows. No one has said anything.',
+    secrets: 'The current Grand Admiral has been dead for three years. The Wave-Kept is being captained by her first mate, who impersonates her voice through a Merryn throat-singing technique. The crew knows. No one has said anything.',
     quests: []
   },
 
@@ -748,8 +779,8 @@ const SEEDED_FACTIONS = [
       'The Tessen high council has been secretly negotiating with a faction of Groven separatists who want to break from the Vat-Breakers\' Guild and establish their own Ancestor-Span authority — directly under Tesshan control.',
     leader: {
       npcId: 'tesshan-lord',
-      title: 'High-Lord of the Peaks',
-      description: 'The High-Lord of Tesshan rules from the uppermost gallery of Frostmaw Holdfast, where the blizzard wind is loudest and the altitude sickness keeps visitors brief.'
+      title: 'Jarl-Inca of the Peaks',
+      description:         'The Jarl-Inca of Tesshan rules from the uppermost gallery of Frostmaw Holdfast, where the blizzard wind is loudest and the altitude sickness keeps visitors brief.'
     },
     members: [],
     headquarters: 'frostmaw-holdfast',
@@ -786,7 +817,7 @@ const SEEDED_FACTIONS = [
     territory: ['atropolis', 'peat-bog-sinks', 'over-shanty', 'morrens-bogpost', 'thalrens-ledger-post', 'vel-keth-bayou', 'aran-glen', 'fangmere-grove', 'widows-quagmire', 'black-fen', 'drowned-dingle', 'hunters-gully', 'merryns-drift'],
     relationships: [
       { targetFactionId: 'scribe-sentinels', type: 'vassal', description: 'The Sentinels maintain the legal archives that prove the Morrath line exists — without their records, the seventh seat would be declared vacant' },
-      { targetFactionId: 'unlit-veil', type: 'neutral', description: 'Morrath descendants still exist among the Drun — unrecognized, unnamed, uncounted' }
+      { targetFactionId: 'unlit-veil', type: 'rival', description: 'Morrath descendants still exist among the Drun — unrecognized, unnamed, uncounted' }
     ],
     classAffinities: ['arcanoneer', 'falseProphet', 'plaguebringer'],
     lore: 'The Morrath are mentioned in exactly one clause of the First Contract — a rider specifying that their debt to the Neth is "perpetual until a living Morrath heir presents themselves to renegotiate." No heir has ever come.',

@@ -1177,7 +1177,7 @@ const ClassResourceBar = ({
     }, [updateMinstrelPositions, updateChronarchPositions, updateMayhemPositions, updateDominancePositions, updateMadnessPositions, updateThreadsPositions, updateFortunePointsPositions, updateWildInstinctPositions, updateQuarryMarksPositions]);
 
     // Apply specialization-specific visual and mechanical config for Fate Weaver
-    const modifiedConfig = characterClass === 'Fate Weaver' ? {
+    const modifiedConfig = characterClass === 'Gambit' ? {
         ...finalConfig,
         visual: {
             ...finalConfig.visual,

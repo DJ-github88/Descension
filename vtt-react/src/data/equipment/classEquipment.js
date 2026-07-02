@@ -431,7 +431,7 @@ export const HARBINGER_ITEMS = [
             charisma: { value: 1, isPercentage: false }
         },
         availableFor: {
-            classes: ['Chaos Weaver']
+            classes: ['Harbinger']
         }
     },
     
@@ -450,7 +450,7 @@ export const HARBINGER_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            classes: ['Chaos Weaver']
+            classes: ['Harbinger']
         }
     },
     {
@@ -474,7 +474,7 @@ export const HARBINGER_ITEMS = [
             intelligence: { value: 1, isPercentage: false }
         },
         availableFor: {
-            classes: ['Chaos Weaver']
+            classes: ['Harbinger']
         }
     },
     {
@@ -495,7 +495,7 @@ export const HARBINGER_ITEMS = [
             charisma: { value: 1, isPercentage: false }
         },
         availableFor: {
-            classes: ['Chaos Weaver']
+            classes: ['Harbinger']
         }
     },
     {
@@ -513,7 +513,7 @@ export const HARBINGER_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            classes: ['Chaos Weaver']
+            classes: ['Harbinger']
         }
     }
 ];
@@ -1705,7 +1705,7 @@ export const REVENANT_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            classes: ['Lichborne']
+            classes: ['Revenant']
         }
     }
 ];

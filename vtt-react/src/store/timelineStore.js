@@ -325,7 +325,7 @@ const SEEDED_EVENTS = [
     factionIds: ['deep-alchemists', 'vat-breakers-guild'],
     classIds: ['warden'],
     causes: ['event-remaining-bargains'],
-    effects: ['event-warden-founding', 'event-ancestor-spans']
+    effects: []
   },
   {
     id: 'event-church-founding',
@@ -585,7 +585,7 @@ const SEEDED_EVENTS = [
     factionIds: ['house-thalreth', 'scribe-sentinels'],
     classIds: ['animist'],
     causes: ['event-fog-compact', 'event-sovereign-ledger'],
-    effects: ['event-memory-editing', 'event-great-forgetting']
+    effects: ['event-memory-editing']
   },
   {
     id: 'event-mimir-purge',
@@ -686,7 +686,7 @@ const SEEDED_EVENTS = [
     factionIds: ['vat-breakers-guild', 'steam-line-cartel', 'deep-alchemists'],
     classIds: ['chronarch', 'warden'],
     causes: ['event-first-thermal-war'],
-    effects: ['event-chronarch-founding']
+    effects: []
   },
   {
     id: 'event-toll-wars',

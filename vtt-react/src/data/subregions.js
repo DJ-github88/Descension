@@ -209,10 +209,10 @@ export const SUBREGIONS = {
     id: 'cragjaw-massif',
     name: 'The Frostmaw Massif',
     regionId: 'cragjaw-peaks',
-    description: 'The central spine of the Cragjaw Peaks — the highest, coldest, and most impassable. Frostmaw Holdfast, seat of House Tesshan, sits in a volcanic crater near the center. The peaks here are taller than any tree grows. Jutul, the great trolls, and the primordial Thrum stalk the high ice. Few humans have climbed above the Terraced level and returned.',
+    description: 'The central spine of the Cragjaw Peaks — the highest, coldest, and most impassable. Frostmaw Holdfast, seat of House Tesshan, sits in a volcanic crater near the center. The peaks here are taller than any tree grows. Jutul, the great trolls, and the primordial Thrumm stalk the high ice. Few humans have climbed above the Terraced level and returned.',
     climate: 'Alpine, year-round blizzard above the mid-line',
     dominantTerrain: 'Granite peaks, glacial cirques, ice fields, volcanic crater-keeps',
-    primaryRaces: ['Tessen humans (in the holds)', 'Jutul giants (high peaks)', 'Thrum (primordial)'],
+    primaryRaces: ['Tessen humans (in the holds)', 'Jutul giants (high peaks)', 'Thrumm (primordial)'],
     primaryFactions: ['House Tesshan', 'Steam-Line Cartel', 'Jutul warbands'],
     zoneIds: ['frostmaw-holdfast', 'frostmaw-massif', 'skirmours-crag', 'the-stone-cog']
   },

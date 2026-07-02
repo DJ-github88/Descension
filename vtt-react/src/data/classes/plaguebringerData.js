@@ -107,7 +107,7 @@ export const PLAGUEBRINGER_DATA = {
         name: 'Network-Seeding',
         description: `Cultivated diseases can be transmitted *through the mycelial network* to any connected organism, bypassing physical proximity entirely. The Marked are the tradition's only area-effect cultivators — a single Marked Plaguebringer can blight a grove through the roots beneath it.`
       },
-      currentCrisisAngle: `The virulent strain-mutations have begun spreading *through the network itself* — the Root-Veil, the Vreken's sacred ancestor, is now carrying weaponized disease to organisms that never encountered the Plaguebringer. The Marked are being accused of poisoning the forest's god, and the Root-Veil, for the first time in eight centuries, has begun *rejecting* the Marked — expelling mycelium from their skin the way a body expels a splinter.`,
+      currentCrisisAngle: `The virulent strain-mutations have begun spreading *through the network itself* — the Root-Veil, the Vreken's sacred ancestor, is now carrying weaponized disease to organisms that never encountered the Plaguebringer. The Marked are being accused of poisoning the forest's god, and the Root-Veil, for the first time in three centuries, has begun *rejecting* the Marked — expelling mycelium from their skin the way a body expels a splinter.`,
       signatureQuote: {
         text: '"The forest was my delivery-system and my ancestor. Now it coughs up my touch like an infection. I have poisoned the god that raised me, and it knows."',
         speaker: 'Vesh the Blight-Walked',
@@ -138,13 +138,13 @@ The Plaguebringer possesses zero immediate burst damage. Their diseases require 
     orderName: 'The Cultivar',
     founder: {
       name: '<LoreLink termId="vespera">Vespera</LoreLink>',
-      status: `Alive — and the crisis. The <LoreLink termId="vreken">Vreken</LoreLink> alchemist who bonded with bog-rot to cure the spore-hush eight centuries ago still hosts the foundational bacterial strain, and the strain is dying inside her. She is the substrate; when it fails, so does she.`,
-      note: `<LoreLink termId="vespera">Vespera</LoreLink> injected decaying moss from the <LoreLink termId="sunken_spire">Sunken Spire</LoreLink> directly into her veins to save her family. She succeeded, and has been a permanent host to active decay ever since — waxy, pale, cold, cultivating new diseases for eight hundred years.`
+      status: `Alive — and the crisis. The <LoreLink termId="vreken">Vreken</LoreLink> alchemist who bonded with bog-rot to cure the spore-hush three centuries ago still hosts the foundational bacterial strain, and the strain is dying inside her. She is the substrate; when it fails, so does she.`,
+      note: `<LoreLink termId="vespera">Vespera</LoreLink> injected decaying moss from the <LoreLink termId="sunken_spire">Sunken Spire</LoreLink> directly into her veins to save her family. She succeeded, and has been a permanent host to active decay ever since — waxy, pale, cold, cultivating new diseases for three hundred years.`
     },
     currentLeader: {
       name: '<LoreLink termId="vespera">Blight-Mother Vespera</LoreLink>',
       title: 'The First Host',
-      characterization: `<LoreLink termId="vespera">Vespera</LoreLink> leads the Cultivar from the deep peat-sinks, but "leads" is generous — she is bedridden, her foundational strain failing, and most of her authority is delegated to her senior cultivators. She is calm about her own death in a way her students find unbearable. She has been dying for eight centuries. This is just the final stretch.`
+      characterization: `<LoreLink termId="vespera">Vespera</LoreLink> leads the Cultivar from the deep peat-sinks, but "leads" is generous — she is bedridden, her foundational strain failing, and most of her authority is delegated to her senior cultivators. She is calm about her own death in a way her students find unbearable. She has been dying for three centuries. This is just the final stretch.`
     },
     headquarters: { name: 'The Peat-Sink Laboratories, deep Bryngloom', locationId: 'bryngloom-forest' },
     crisisConnection: `<LoreLink termId="vespera">Vespera</LoreLink>'s failing strain is mutating into virulent forms that attack the host, and every Plaguebringer who learned from her is now carrying a dying inheritance. She has tasked her cultivators with a single project before she goes: engineer a successor strain that does not require *her* blood as substrate. The project is failing. The Marked Vreken cultivators are being rejected by the Root-Veil as they work, and <LoreLink termId="vespera">Vespera</LoreLink> has begun to suspect the forest is *deliberately* killing the strain — that the <LoreLink termId="root_veil">Root-Veil</LoreLink> has decided the Plaguebringer art is a disease worth curing.`
@@ -207,7 +207,7 @@ The class is heavily practiced by the <LoreLink termId="neth">Drun Neth</LoreLin
       paradox: 'The Plaguebringer preserves life by cultivating death. Their body would collapse without the carefully balanced diseases they carry. The rot is not a weapon they wield — it is a symbiotic ecosystem that they host. If they ever cured themselves of every disease, their immune system would collapse from the shock. They need the rot to live. They must keep themselves sick to stay healthy.'
     },
 
-    currentCrisis: `The internal ecosystem is collapsing. Vespera\'s original strain — the carefully balanced blend of diseases that makes Plaguebringer cultivation possible — is failing. After eight centuries of adaptation, the foundational bacteria are dying. Plaguebringers across the Bryngloom are reporting the same symptoms: their cultivated diseases are becoming unstable, mutating into virulent forms that attack the host.
+    currentCrisis: `The internal ecosystem is collapsing. Vespera\'s original strain — the carefully balanced blend of diseases that makes Plaguebringer cultivation possible — is failing. After three centuries of adaptation, the foundational bacteria are dying. Plaguebringers across the Bryngloom are reporting the same symptoms: their cultivated diseases are becoming unstable, mutating into virulent forms that attack the host.
 
 The cause is unclear. Some blame the Void contamination spreading through the peat-bogs. Others believe the bacterial strains have simply reached the end of their evolutionary lifespan. Whatever the cause, the Plaguebringers are facing extinction. Without stable foundational strains, they cannot cultivate new diseases. Without new diseases, they cannot harvest Virulence. Without Virulence, they cannot fight. And some of them are beginning to realize that if the foundational strains die, the diseases they are carrying may turn on them.`,
 
