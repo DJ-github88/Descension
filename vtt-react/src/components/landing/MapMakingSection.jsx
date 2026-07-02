@@ -1328,6 +1328,38 @@ const enrichChecklist = (parsedData) => {
   return clean;
 };
 
+const getItemScope = (item) => {
+  if (item.scope) return item.scope;
+
+  const textLower = (item.text || '').toLowerCase();
+  const category = item.category || '';
+
+  // Explicit overworld items based on keyword matching
+  const overworldKeywords = [
+    'capital', 'massif', 'archipelago', 'strait', 'pass', 'route', 'oceanic',
+    'boundary', 'coastline', 'mountain range', 'highway', 'escarpment', 'sea route',
+    'emberspire', 'greymark', 'atropolis', 'synod hold', 'frosthold', 'merrowport',
+    'frostmaw holdfast', 'climate zone', 'temperature gradient', 'signal-fires', 'signal-towers',
+    'monolith locations', 'monolith areas', 'major landmarks', 'borders', 'border'
+  ];
+
+  if (overworldKeywords.some(kw => textLower.includes(kw))) {
+    return 'overworld';
+  }
+
+  // Major geographical features like oceans, trenches, cyclones, zones
+  if (['terrain', 'water', 'coast', 'effects', 'labels'].includes(category)) {
+    // But minor details like caves, vents, shrines, camps are subregion details
+    const subregionKeywords = ['caves', 'cave', 'vent', 'shrine', 'ruin', 'camp', 'village', 'hamlet', 'outpost', 'springs', 'pool', 'gulch', 'shanty', 'inn', 'tavern', 'dingle', 'quagmire', 'knoll', 'downs', 'crescent', 'crest', 'grove'];
+    if (subregionKeywords.some(kw => textLower.includes(kw))) {
+      return 'subregion';
+    }
+    return 'overworld';
+  }
+
+  return 'subregion';
+};
+
 const MapMakingSection = () => {
   const { isAdminBypass, user } = useAuthStore();
   const isAdmin = isAdminBypass || !!user?.isAdmin;
@@ -1361,6 +1393,7 @@ const MapMakingSection = () => {
   });
   const [activeRegionId, setActiveRegionId] = useState('frostwood-reach');
   const [activeCategory, setActiveCategory] = useState('all');
+  const [activeScope, setActiveScope] = useState('all');
   const [expandedItems, setExpandedItems] = useState({});
 
   useEffect(() => {
@@ -1464,17 +1497,38 @@ const MapMakingSection = () => {
   }, [activeRegionId]);
 
   const filteredChecklist = useMemo(() => {
-    const items = checklist[activeRegionId] || [];
-    if (activeCategory === 'all') return items;
-    return items.filter(item => item && item.category === activeCategory);
-  }, [checklist, activeRegionId, activeCategory]);
+    let items = checklist[activeRegionId] || [];
+    if (activeCategory !== 'all') {
+      items = items.filter(item => item && item.category === activeCategory);
+    }
+    if (activeScope !== 'all') {
+      items = items.filter(item => item && getItemScope(item) === activeScope);
+    }
+    return items;
+  }, [checklist, activeRegionId, activeCategory, activeScope]);
 
   const categoryCounts = useMemo(() => {
-    const items = checklist[activeRegionId] || [];
+    let items = checklist[activeRegionId] || [];
+    if (activeScope !== 'all') {
+      items = items.filter(item => item && getItemScope(item) === activeScope);
+    }
     const counts = { all: items.length };
     for (const item of items) {
       if (item && item.category) {
         counts[item.category] = (counts[item.category] || 0) + 1;
+      }
+    }
+    return counts;
+  }, [checklist, activeRegionId, activeScope]);
+
+  const scopeCounts = useMemo(() => {
+    const items = checklist[activeRegionId] || [];
+    const counts = { all: items.length, overworld: 0, subregion: 0 };
+    for (const item of items) {
+      if (item) {
+        const sc = getItemScope(item);
+        if (sc === 'overworld') counts.overworld++;
+        if (sc === 'subregion') counts.subregion++;
       }
     }
     return counts;
@@ -1546,6 +1600,7 @@ const MapMakingSection = () => {
                 onClick={() => {
                   setActiveRegionId(region.id);
                   setActiveCategory('all');
+                  setActiveScope('all');
                   openRegionLore(region.id);
                 }}
               >
@@ -1596,6 +1651,33 @@ const MapMakingSection = () => {
           </p>
         </div>
 
+        <div className="scope-filters">
+          <span className="scope-filters-label">Map Level / Priority:</span>
+          <div className="scope-tabs">
+            <button
+              className={`scope-tab ${activeScope === 'all' ? 'active' : ''}`}
+              onClick={() => setActiveScope('all')}
+            >
+              <i className="fas fa-globe"></i>
+              Show All ({scopeCounts.all})
+            </button>
+            <button
+              className={`scope-tab ${activeScope === 'overworld' ? 'active' : ''}`}
+              onClick={() => setActiveScope('overworld')}
+            >
+              <i className="fas fa-atlas"></i>
+              Overworld Map ({scopeCounts.overworld})
+            </button>
+            <button
+              className={`scope-tab ${activeScope === 'subregion' ? 'active' : ''}`}
+              onClick={() => setActiveScope('subregion')}
+            >
+              <i className="fas fa-search-plus"></i>
+              Subregion Details ({scopeCounts.subregion})
+            </button>
+          </div>
+        </div>
+
         <div className="category-tabs">
           <button
             className={`category-tab ${activeCategory === 'all' ? 'active' : ''}`}
@@ -1629,6 +1711,7 @@ const MapMakingSection = () => {
             const realIndex = (checklist[activeRegionId] || []).findIndex(x => x === item);
             const isExpanded = !!expandedItems[`${activeRegionId}-${realIndex}`];
             const actionType = ACTION_TYPES[item.action] || ACTION_TYPES.DRAW;
+            const itemScope = getItemScope(item);
             return (
               <li key={realIndex} className={`checklist-item ${item.done ? 'done' : ''} ${isExpanded ? 'expanded' : ''}`}>
                 <label>
@@ -1641,6 +1724,17 @@ const MapMakingSection = () => {
                     <i className={actionType.icon}></i>
                     {actionType.verb}
                   </span>
+                  
+                  {itemScope === 'overworld' ? (
+                    <span className="scope-badge scope-overworld" title="Draw on the primary Overworld Map">
+                      <i className="fas fa-globe"></i> Overworld
+                    </span>
+                  ) : (
+                    <span className="scope-badge scope-subregion" title="Zoomed-in Subregion detail for later maps">
+                      <i className="fas fa-search-plus"></i> Subregion
+                    </span>
+                  )}
+
                   <span className="checklist-text">{item.text}</span>
                   <button
                     type="button"

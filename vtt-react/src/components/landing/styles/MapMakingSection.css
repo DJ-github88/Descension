@@ -792,6 +792,92 @@
   padding-top: 0.5rem;
 }
 
+/* ==================== MAP SCOPE FILTERS ==================== */
+.scope-filters {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  padding: 0.8rem 1rem;
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid var(--map-making-border);
+  border-radius: 8px;
+}
+
+.scope-filters-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  color: var(--map-making-dim);
+  text-transform: uppercase;
+}
+
+.scope-tabs {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.scope-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--map-making-border);
+  color: var(--map-making-dim);
+  padding: 0.45rem 1rem;
+  font-size: 0.85rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.03em;
+}
+
+.scope-tab:hover {
+  border-color: var(--map-making-accent);
+  color: var(--map-making-text);
+  background: rgba(184, 168, 136, 0.05);
+}
+
+.scope-tab.active {
+  background: rgba(184, 168, 136, 0.12);
+  border-color: var(--map-making-accent);
+  color: var(--map-making-accent);
+  box-shadow: 0 0 10px rgba(184, 168, 136, 0.1);
+}
+
+/* ==================== SCOPE BADGES ==================== */
+.scope-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 600;
+  margin-right: 0.75rem;
+  height: 24px;
+  line-height: 1;
+}
+
+.scope-badge i {
+  font-size: 0.75rem;
+}
+
+.scope-badge.scope-overworld {
+  background: rgba(184, 168, 136, 0.08);
+  border: 1px solid rgba(184, 168, 136, 0.3);
+  color: var(--map-making-accent);
+}
+
+.scope-badge.scope-subregion {
+  background: rgba(126, 200, 227, 0.05);
+  border: 1px solid rgba(126, 200, 227, 0.25);
+  color: #7ec8e3;
+}
+
 /* ==================== RESPONSIVE ==================== */
 
 @media (max-width: 960px) {
@@ -809,4 +895,7 @@
   .category-tab { font-size: 0.75rem; padding: 0.35rem 0.65rem; }
   .checklist-item label { flex-wrap: wrap; }
   .action-badge { min-width: auto; }
+  .scope-filters { flex-direction: column; align-items: flex-start; gap: 0.6rem; }
+  .scope-tabs { flex-wrap: wrap; width: 100%; }
+  .scope-tab { flex: 1; min-width: 120px; justify-content: center; }
 }
