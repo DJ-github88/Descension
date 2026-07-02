@@ -153,7 +153,7 @@ function processMartyrSpells(spells) {
 }
 
 /**
- * Process Chaos Weaver spells - emphasizes chaos_sphere and rollable tables
+ * Process Harbinger spells - emphasizes chaos_sphere and rollable tables
  */
 function processChaosWeaverSpells(spells) {
   return spells
@@ -797,7 +797,7 @@ function determineMartyrSpecialization(spell) {
 }
 
 /**
- * Determine Chaos Weaver specialization based on spell properties
+ * Determine Harbinger specialization based on spell properties
  */
 function determineChaosWeaverSpecialization(spell) {
   if (spell.rollableTable?.enabled || (spell.tags && spell.tags.includes('chaos_dice'))) {

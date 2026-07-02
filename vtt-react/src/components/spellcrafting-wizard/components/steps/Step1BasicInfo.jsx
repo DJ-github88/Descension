@@ -59,7 +59,7 @@ const Step1BasicInfo = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
     { id: 'stealth', name: 'Stealth' },
     { id: 'ritual', name: 'Ritual' },
     { id: 'concentration', name: 'Concentration' },
-    { id: 'doomsayer', name: 'Doomsayer' }
+    { id: 'prophecy', name: 'Prophecy' }
   ];
 
   // Handle name change with validation

@@ -396,33 +396,37 @@ const MapCanvas = ({
                       <feDropShadow dx="0" dy="2.5" stdDeviation="2.5" floodColor="#000000" floodOpacity="0.75" />
                     </filter>
                   </defs>
-                  <RegionOverlay
-                    key={`regions-${updateTrigger}`}
-                    selectedRegionId={selectedRegionId}
-                    hoveredRegionId={hoveredRegionId}
-                    setSelectedRegionId={setSelectedRegionId}
-                    setSidebarOpen={setSidebarOpen}
-                    setHoveredRegionId={setHoveredRegionId}
-                    setSelectedLocationId={setSelectedLocationId}
-                    devMode={devMode}
-                    getImageCoords={getImageCoords}
-                    onResolveClick={onResolveClick}
-                  />
-                  <LocationPins
-                    key={`pins-${updateTrigger}`} // Force re-render on edit operations
-                    selectedRegionId={selectedRegionId}
-                    setSelectedRegionId={setSelectedRegionId}
-                    setSelectedLocationId={setSelectedLocationId}
-                    setSidebarOpen={setSidebarOpen}
-                    devMode={devMode}
-                    devTool={devTool}
-                    onDeletePin={handleDeletePin}
-                    onDragStart={handleDragStart}
-                    onResolveClick={onResolveClick}
-                    currentCampaign={currentCampaign}
-                    selectedDevPinId={selectedDevPinId}
-                    onSelectForMove={onSelectForMove}
-                  />
+                  {devMode && (
+                    <RegionOverlay
+                      key={`regions-${updateTrigger}`}
+                      selectedRegionId={selectedRegionId}
+                      hoveredRegionId={hoveredRegionId}
+                      setSelectedRegionId={setSelectedRegionId}
+                      setSidebarOpen={setSidebarOpen}
+                      setHoveredRegionId={setHoveredRegionId}
+                      setSelectedLocationId={setSelectedLocationId}
+                      devMode={devMode}
+                      getImageCoords={getImageCoords}
+                      onResolveClick={onResolveClick}
+                    />
+                  )}
+                  {devMode && (
+                    <LocationPins
+                      key={`pins-${updateTrigger}`} // Force re-render on edit operations
+                      selectedRegionId={selectedRegionId}
+                      setSelectedRegionId={setSelectedRegionId}
+                      setSelectedLocationId={setSelectedLocationId}
+                      setSidebarOpen={setSidebarOpen}
+                      devMode={devMode}
+                      devTool={devTool}
+                      onDeletePin={handleDeletePin}
+                      onDragStart={handleDragStart}
+                      onResolveClick={onResolveClick}
+                      currentCampaign={currentCampaign}
+                      selectedDevPinId={selectedDevPinId}
+                      onSelectForMove={onSelectForMove}
+                    />
+                  )}
 
                   {/* Player Annotations Layer */}
                   <PlayerAnnotationsLayer

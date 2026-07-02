@@ -496,26 +496,28 @@ const WorldMapImmerse = ({ onClose, onClosing }) => {
     const hits = [];
 
     // 1. Proximity check on Dev Pins
-    Object.entries(LOCATION_COORDINATES).forEach(([zoneId, coord]) => {
-      const distance = Math.hypot(coord.x - x, coord.y - y);
-      if (distance < 45) {
-        const zone = ZONE_DATA.find(z => z.id === zoneId);
-        if (zone) {
-          hits.push({
-            id: zoneId,
-            title: zone.name,
-            type: 'devPin',
-            pinType: coord.pinType,
-            regionId: zone.regionId,
-            action: () => {
-              setSelectedRegionId(zone.regionId);
-              setSelectedLocationId(zoneId);
-              setSidebarOpen(true);
-            }
-          });
+    if (devMode) {
+      Object.entries(LOCATION_COORDINATES).forEach(([zoneId, coord]) => {
+        const distance = Math.hypot(coord.x - x, coord.y - y);
+        if (distance < 45) {
+          const zone = ZONE_DATA.find(z => z.id === zoneId);
+          if (zone) {
+            hits.push({
+              id: zoneId,
+              title: zone.name,
+              type: 'devPin',
+              pinType: coord.pinType,
+              regionId: zone.regionId,
+              action: () => {
+                setSelectedRegionId(zone.regionId);
+                setSelectedLocationId(zoneId);
+                setSidebarOpen(true);
+              }
+            });
+          }
         }
-      }
-    });
+      });
+    }
 
     // 2. Proximity check on Player Pins
     pins.forEach((pin) => {
@@ -551,21 +553,23 @@ const WorldMapImmerse = ({ onClose, onClosing }) => {
     });
 
     // 4. Containment check on Region Polygons
-    Object.values(REGION_POLYGONS).forEach((region) => {
-      if (pointInPolygon(x, y, region.points)) {
-        hits.push({
-          id: region.id,
-          title: region.name,
-          type: 'region',
-          regionId: region.id,
-          action: () => {
-            setSelectedRegionId(region.id);
-            setSelectedLocationId(null);
-            setSidebarOpen(true);
-          }
-        });
-      }
-    });
+    if (devMode) {
+      Object.values(REGION_POLYGONS).forEach((region) => {
+        if (pointInPolygon(x, y, region.points)) {
+          hits.push({
+            id: region.id,
+            title: region.name,
+            type: 'region',
+            regionId: region.id,
+            action: () => {
+              setSelectedRegionId(region.id);
+              setSelectedLocationId(null);
+              setSidebarOpen(true);
+            }
+          });
+        }
+      });
+    }
 
     // Resolve selection
     if (hits.length > 1) {
@@ -584,7 +588,7 @@ const WorldMapImmerse = ({ onClose, onClosing }) => {
       // Just run the default fallback click action
       fallbackItem.action();
     }
-  }, [pins, areas, transformState]);
+  }, [pins, areas, transformState, devMode]);
 
   // Player drag updates coordinates in store
   const handleDragPlayerPin = useCallback((pinId, x, y) => {

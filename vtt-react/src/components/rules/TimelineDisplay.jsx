@@ -37,7 +37,7 @@ const E = [
     ]
   },
   {
-    era: 'The Age of the Breach',
+    era: 'The Deepening: The Breach',
     span: '~798 BP',
     color: '#8b0000',
     glow: '#8b000080',
@@ -56,7 +56,7 @@ const E = [
     ]
   },
   {
-    era: 'The Age of Adaptation',
+    era: 'The Age of the Dimming: Adaptation',
     span: '~700–60 BP',
     color: '#5c4033',
     glow: '#5c403380',
