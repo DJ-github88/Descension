@@ -997,11 +997,12 @@ export const getCreatureTokenIconUrl = (iconId, creatureType = null) => {
       // Batch 4
       'tiamat', 'girtablilu', 'lamashtu', 'bes', 'ghul',
       'gugalanna', 'peri', 'daeva', 'simurgh', 'edimmu',
+      'anzu', 'ammit', 'ifrit', 'azi', 'asag',
       // Batch 5
       'nisroch', 'kur_pit', 'mushussu', 'harpy', 'hippocampus',
       'gorgon', 'tokoloshe', 'lamia', 'empusa', 'telkhine',
       'stymphalian', 'nereid', 'graeae', 'triton', 'nandi',
-      'popobawa', 'graia', 'ichthya',
+      'popobawa', 'graia', 'ichthya', 'abada',
       // Batch 6
       'kappa', 'jorogumo', 'nurikabe', 'nue', 'kasha',
       'tanuki', 'ushioni', 'baku', 'nekomata', 'futakuchi',
@@ -1012,7 +1013,14 @@ export const getCreatureTokenIconUrl = (iconId, creatureType = null) => {
       'lu_wu_mountain', 'bura_stormkin', 'tengri_spark',
       // Batch 8 (Redrawn)
       'fachanwatch', 'erlkings_hound', 'cusith', 'glacier_gremlin', 'nidhoggr',
-      'lindwyrm', 'jutul', 'landvaettir'
+      'lindwyrm', 'jutul', 'landvaettir',
+      // Batch 9 (Redrawn)
+      'leshara', 'vila', 'vodyan', 'bukavac', 'hut_ling', 'likho',
+      'rusalka', 'strigoi_canopy', 'domovoi', 'kikimora', 'zmey_bog',
+      'zharptitsa_glow', 'naga_root', 'preta_hollow', 'gamayun_seer',
+      'chort_thorn', 'drekavac_wail', 'bannik_vent', 'psoglav_bone',
+      'vourdalak_debt', 'mavka_willow', 'alkonost', 'dziwozona_wild',
+      'upir_root', 'sirin_song'
     ]);
     const creatureName = iconId.split('/')[1];
     if (!uniqueSketches.has(creatureName)) {

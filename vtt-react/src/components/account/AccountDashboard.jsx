@@ -471,6 +471,9 @@ const AccountDashboard = ({ user }) => {
 
           {/* Right: Action Buttons */}
           <div className="header-actions-new">
+            {/* Storage Cloud */}
+            <StorageUsageWidget cloud={true} />
+
             {/* Notification Bell */}
             <div className="notification-wrapper">
               <button
@@ -662,13 +665,6 @@ const AccountDashboard = ({ user }) => {
           </div>
         )}
 
-        {/* Storage Overview Bar - collapses via CSS when empty */}
-        <div className="account-overview-bar">
-          <div className="account-storage-info">
-            <StorageUsageWidget compact={true} />
-          </div>
-        </div>
-
         {/* Main Content */}
         <main className="account-main">
           {activeTab === 'rooms' && (
@@ -680,32 +676,22 @@ const AccountDashboard = ({ user }) => {
           {activeTab === 'characters' && (
             <div className="tab-content">
               <div className="characters-full-view">
+                {subscriptionStatus && (
+                  <span className="tier-badge">{subscriptionStatus.tier.name}</span>
+                )}
                 <div className="characters-header">
-                  <h2>Character Management</h2>
-                  <div className="characters-header-actions">
-                    {characterLimitInfo && (
-                      <div className="character-limit-info">
-                        <span className="character-count">
-                          {characterLimitInfo.currentCount} / {characterLimitInfo.isUnlimited ? '∞' : characterLimitInfo.limit} characters
-                        </span>
-                        {subscriptionStatus && (
-                          <span className="tier-badge">
-                            {subscriptionStatus.tier.name}
-                          </span>
-                        )}
-                      </div>
-                    )}
+                  <div className="characters-header-left">
+                    <h2>Character Management</h2>
                     <button
-                      className={`create-character-btn ${characterLimitInfo && !characterLimitInfo.canCreate ? 'disabled' : ''}`}
+                      className={`characters-header-add-btn ${characterLimitInfo && !characterLimitInfo.canCreate ? 'disabled' : ''}`}
                       onClick={handleCreateCharacter}
                       disabled={characterLimitInfo && !characterLimitInfo.canCreate}
                       title={characterLimitInfo && !characterLimitInfo.canCreate ?
-                        `Character limit reached(${characterLimitInfo.limit}).Upgrade your membership to create more characters.` :
+                        `Character limit reached(${characterLimitInfo.limit}). Upgrade your membership to create more characters.` :
                         'Create a new character'
                       }
                     >
                       <i className="fas fa-plus"></i>
-                      Create Character
                     </button>
                   </div>
                 </div>
@@ -847,10 +833,18 @@ const AccountDashboard = ({ user }) => {
                   </div>
                 ) : (
                   <div className="no-characters">
+                    {characterLimitInfo && (
+                      <div className="character-limit-info">
+                        <i className="fas fa-users"></i>
+                        <span className="character-count">
+                          {characterLimitInfo.currentCount} / {characterLimitInfo.isUnlimited ? '∞' : characterLimitInfo.limit}
+                        </span>
+                      </div>
+                    )}
                     <div className="no-characters-icon"><i className="fas fa-users"></i></div>
                     <h3>No Characters Yet</h3>
                     <p>Create your first character to begin your adventure!</p>
-                    <button className="create-character-btn" onClick={handleCreateCharacter}>
+                    <button className="create-first-character-btn" onClick={handleCreateCharacter}>
                       <i className="fas fa-plus"></i>
                       Create Your First Character
                     </button>

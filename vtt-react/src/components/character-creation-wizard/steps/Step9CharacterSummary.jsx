@@ -6,7 +6,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { useCharacterWizardState } from '../context/CharacterWizardContext';
-import { ABILITY_SCORES, getStatBreakdown } from '../../../utils/pointBuySystem';
+import { ABILITY_SCORES, getStatBreakdown, getTotalBonusPoints, calculateAvailablePoints } from '../../../utils/pointBuySystem';
 import { getWowIconUrl, getIconUrl, getCustomIconUrl, getAbilityIconUrl } from '../../../utils/assetManager';
 import { getBackgroundData, getBackgroundStatModifiers } from '../../../data/backgroundData';
 import { getBackgroundAbilities } from '../../../data/backgroundAbilities';
@@ -388,17 +388,24 @@ const formatDescriptionText = (text) => {
     const selectedRace = characterData.race ? RACE_DATA[characterData.race] : null;
     const selectedSubrace = selectedRace && characterData.subrace ? Object.values(selectedRace.subraces).find(sr => sr.id === characterData.subrace) : null;
 
-    // Build completion checklist
+    // Build completion checklist — kept in sync with the wizard's validation gate
+    // (validateCurrentStep) so the UI never claims "ready" while Create is disabled.
+    const validationErrors = state.validationErrors || {};
+    const knownSpellCount = characterData.class_spells?.known_spells?.length || 0;
+    const bonusPoints = getTotalBonusPoints(characterData);
+    const unspentPoints = calculateAvailablePoints(characterData.baseStats, bonusPoints);
     const checklistItems = [
-        { label: 'Character Name', done: !!(characterData.name && characterData.name.trim()) },
-        { label: 'Race & Subrace', done: !!(characterData.race && characterData.subrace) },
-        { label: 'Class', done: !!characterData.class },
-        { label: 'Background', done: !!characterData.background },
-        { label: 'Ability Scores', done: !!(characterData.baseStats && Object.values(characterData.baseStats).some(v => v > 0)) },
+        { label: 'Character Name', done: !validationErrors.name && !!(characterData.name && characterData.name.trim()) },
+        { label: 'Race & Subrace', done: !validationErrors.race && !validationErrors.subrace },
+        { label: 'Class', done: !validationErrors.class && !!characterData.class },
+        { label: 'Background', done: !validationErrors.background && !!characterData.background },
+        { label: 'Ability Scores (all points spent)', done: !validationErrors.stats && unspentPoints === 0 },
+        { label: 'Starting Spells (choose 3)', done: !validationErrors.spells && knownSpellCount === 3 },
         { label: 'Equipment Chosen', done: !!(characterData.selectedEquipment && characterData.selectedEquipment.length > 0) },
     ];
     const allComplete = checklistItems.every(i => i.done);
     const missingCount = checklistItems.filter(i => !i.done).length;
+    const blockingErrors = Object.values(validationErrors).filter(Boolean);
 
     // Fetch starting spells chosen
     const chosenSpells = (characterData.class_spells?.known_spells || []).map(spellId => {
@@ -505,6 +512,22 @@ const formatDescriptionText = (text) => {
         <div className="wizard-step-content summary-step-wrapper scroll-themed" style={summaryBgStyle}>
             <div className="character-summary-content-inner">
             
+            {/* Validation errors — surface exactly what's blocking creation so the
+                checklist never shows "all green" while the Create button is disabled. */}
+            {blockingErrors.length > 0 && (
+                <div className="summary-validation-banner">
+                    <div className="summary-validation-banner-title">
+                        <i className="fas fa-exclamation-triangle"></i>
+                        Resolve these before creating your character:
+                    </div>
+                    <ul className="summary-validation-list">
+                        {blockingErrors.map((msg, idx) => (
+                            <li key={idx}>{msg}</li>
+                        ))}
+                    </ul>
+                </div>
+            )}
+
             {/* Floating Checklist Status Badge (tap/click to toggle dropdown) */}
             <div className={`completion-badge-container ${checklistOpen ? 'open' : ''}`}>
                 <button

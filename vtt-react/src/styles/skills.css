@@ -1402,15 +1402,14 @@
 /* Simple Header Right — Die Badge + Controls */
 .skill-simple-header-right {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 14px;
     flex-shrink: 0;
 }
 
 .skill-simple-die-badge {
-    width: 92px;
-    height: 92px;
+    width: 86px;
+    height: 86px;
     border-radius: 50%;
     border: 3px solid;
     background: linear-gradient(135deg,
@@ -1423,6 +1422,7 @@
     justify-content: center;
     gap: 2px;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    flex-shrink: 0;
 }
 
 .skill-simple-die-badge:hover {
@@ -1432,7 +1432,7 @@
 
 .die-badge-size {
     font-family: 'Cinzel', serif;
-    font-size: 28px;
+    font-size: 26px;
     font-weight: 700;
     color: #3e2723;
     line-height: 1;
@@ -1447,15 +1447,31 @@
     color: #8b7355;
 }
 
+.skill-simple-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    min-width: 150px;
+}
+
 .skill-simple-dropdown {
-    min-width: 110px;
+    width: 100%;
     font-size: 12px;
-    padding: 5px 10px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #8b7355;
+    background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(252,248,238,0.9) 100%);
+    color: #3e2723;
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    cursor: pointer;
 }
 
 .skill-simple-roll {
-    padding: 12px 24px;
-    font-size: 15px;
+    width: 100%;
+    padding: 9px 18px;
+    font-size: 14px;
     background: linear-gradient(135deg, #8a2e1d 0%, #5e1c10 100%);
     color: #fdf6e3;
     border: 2px solid #5a2a0f;
@@ -1464,6 +1480,14 @@
     box-shadow: 0 4px 10px rgba(90, 30, 18, 0.25);
     position: relative;
     overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
 }
 
 .skill-simple-roll::after {
@@ -1679,10 +1703,25 @@
         align-items: center;
     }
     .skill-simple-die-badge {
-        width: 64px;
-        height: 64px;
+        width: 72px;
+        height: 72px;
     }
     .die-badge-size {
-        font-size: 20px;
+        font-size: 22px;
+    }
+    .skill-simple-controls {
+        flex: 1;
+        min-width: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .skill-simple-header-right {
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+    }
+    .skill-simple-controls {
+        width: 100%;
     }
 }

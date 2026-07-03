@@ -2273,11 +2273,11 @@
     width: 100%;
     padding: 0;
     margin: 0;
-    background: #f0ebe3;
+    background: transparent;
     box-shadow: inset 0 0 40px rgba(90, 70, 50, 0.06);
     position: relative;
     overflow: hidden;
-    gap: 16px;
+    gap: 0;
 }
 
 .lore-book-navigation {
@@ -2420,15 +2420,12 @@
 .lore-book-spread {
     display: flex;
     width: 100%;
-    max-width: 1300px;
+    max-width: 100%;
     height: 100%;
     background: #5a4a3d;
-    border: 8px solid #6b5a4a;
-    border-radius: 12px;
-    box-shadow:
-        0 30px 70px rgba(60, 45, 30, 0.4),
-        0 15px 30px rgba(60, 45, 30, 0.25),
-        inset 0 0 30px rgba(60, 45, 30, 0.5);
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
     position: relative;
     overflow: visible; /* Allow spine rings to visually bleed over pages */
 }
@@ -3283,7 +3280,8 @@
 
     .lore-book-spread {
         max-width: 100%;
-        border-width: 6px;
+        border: none;
+        border-radius: 0;
     }
 }
 
@@ -3334,7 +3332,8 @@
     .lore-book-spread {
         flex-direction: column;
         height: auto;
-        border-width: 4px;
+        border: none;
+        border-radius: 0;
         overflow: visible;
     }
     

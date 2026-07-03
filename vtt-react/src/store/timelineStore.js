@@ -199,7 +199,7 @@ const SEEDED_EVENTS = [
     factionIds: [],
     classIds: ['minstrel'],
     causes: ['event-emberspire-eruption'],
-    effects: []
+    effects: ['event-deep-born-emerge', 'event-river-fed-emerge']
   },
   {
     id: 'event-viridane-flight',
@@ -213,7 +213,7 @@ const SEEDED_EVENTS = [
     factionIds: ['house-viridane'],
     classIds: ['lunarch'],
     causes: ['event-keth-amar-breach'],
-    effects: []
+    effects: ['event-briaran-smooth-skinned']
   },
   {
     id: 'event-first-rebirth',
@@ -741,7 +741,9 @@ const SEEDED_EVENTS = [
       locationIds: ['bryngloom-forest', 'the-sunken-spire'],
     factionIds: [],
     classIds: ['inquisitor', 'plaguebringer'],
-    causes: [],
+    // No single event caused this — the epidemic was the cumulative result of Neth trade expansion
+    // creating demand for Vreken fungal exports, which intensified ghost-mycelium harvesting
+    causes: ['event-brine-bond-syndicate'],
     effects: ['event-inquisitor-merge']
   },
   {

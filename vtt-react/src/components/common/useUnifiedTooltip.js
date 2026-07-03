@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 /**
  * Custom hook for managing unified tooltips
@@ -78,6 +78,27 @@ export const useUnifiedTooltip = () => {
       updateTooltipPosition(event);
     }
   }, [tooltipState.isVisible, updateTooltipPosition]);
+
+  // Automatically dismiss on touch/click outside on mobile/tablet
+  useEffect(() => {
+    if (!tooltipState.isVisible) return;
+
+    const handleGlobalDismiss = () => {
+      hideTooltip();
+    };
+
+    // Small delay before registering so the initial trigger event doesn't immediately close it
+    const timer = setTimeout(() => {
+      document.addEventListener('click', handleGlobalDismiss);
+      document.addEventListener('touchstart', handleGlobalDismiss);
+    }, 50);
+
+    return () => {
+      clearTimeout(timer);
+      document.removeEventListener('click', handleGlobalDismiss);
+      document.removeEventListener('touchstart', handleGlobalDismiss);
+    };
+  }, [tooltipState.isVisible, hideTooltip]);
 
   return {
     tooltipState,

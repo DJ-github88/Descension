@@ -1362,6 +1362,362 @@ The local village elder, **Marra of the Nine**, offers a simple bounty: recover 
             {
               title: 'Keth-Amar [Pronunciation: KETH-ah-mar]',
               content: '**Noun (Deity).** The Sun-Eater, the First Hunger, an abyssal entity that descended to consume Sol during its Deepening. Denied its prey by the Binding, it spent eight years whispering into the starving nobility until six houses broke and fed their heirs to the dark. Now trapped inside the volcanic vault under <LoreLink termId="emberspire">Emberspire</LoreLink>, it has been slowly devouring the sun\'s fading embers for eight centuries — across sixty-five failed rebirth cycles. Its influence is growing: the Monoliths are waking, the dead are marching, and the Voice has begun to speak.'
+            },
+            {
+              title: 'Aex [Pronunciation: AYKS]',
+              content: '**Noun (Entity).** The firstborn of <LoreLink termId="sol">Sol</LoreLink> — a living being of pure stellar radiance who had shielded the sun through every Deepening since the first star learned to burn. When the seven noble families entombed Sol beneath <LoreLink termId="sundale">Sundale</LoreLink>, the <LoreLink termId="the_warden">Warden</LoreLink> demanded Aex\'s willing sacrifice. <LoreLink termId="house_solvan">House Solvan</LoreLink> wielded the knife, flaying Aex\'s living hide to weave the binding seal — the act the world calls the Original Binding.'
+            },
+            {
+              title: 'Astril [Pronunciation: AS-tril]',
+              content: '**Noun (Plural: Astril).** The luminous guardians of the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink>. When Sol was bound, the constellation-spirits of the sun\'s celestial court took refuge inside steppe bloodlines, manifesting as crystalline, glowing skin-patterns that hum with celestial resonance. They divide into the Sylen (who seek total symbiosis with their spirits), the Muren (who bind and suppress them), and the Unlit, who carry no star-glow and cannot be betrayed by their own skin.'
+            },
+            {
+              title: 'Blood-Heat [Pronunciation: BLUD-HEET]',
+              content: '**Noun.** The volatile physiological meltdown of the <LoreLink termId="berserker">Berserker</LoreLink>. Triggered by wounds and kinetic strain, the blood within a Berserker\'s vessels surges in temperature, overriding pain and granting supernatural strength. Should the thermal pressure exceed its maximum threshold, it triggers Metabolic Burnout — rupturing internal pathways and stalling the body in systemic shock.'
+            },
+            {
+              title: 'Briaran [Pronunciation: bree-AHR-an]',
+              content: '**Noun (Plural: Briaran).** Thorn-blooded descendants of the erased <LoreLink termId="house_viridane">House Viridane</LoreLink> — the original seventh binding house that refused <LoreLink termId="keth_amar">Keth-Amar</LoreLink>. They live deep in the untouched ironwood groves of the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink>, rejecting House Thalreth\'s Fog Compact and keeping the old fae-ways. Divided into the thorn-cloaked Unshorn and the smooth-skinned who pass as human, they possess the Unwritten Word — a truth-sense that detects spoken lies.'
+            },
+            {
+              title: 'The Breach [Pronunciation: thee BREECH]',
+              content: '**Noun.** The catastrophic event of Year 11, when <LoreLink termId="keth_amar">Keth-Amar</LoreLink> devoured the firstborn heirs of the six noble houses and used their bloodline-keys to fracture the vault binding Sol. The seal shattered into seven <LoreLink termId="sundered_monoliths">Sundered Monoliths</LoreLink>, triggering the eruption of <LoreLink termId="emberspire">Emberspire</LoreLink> and letting the <LoreLink termId="wyrd">Wyrd</LoreLink> bleed through the cracks into the surface air.'
+            },
+            {
+              title: 'The Brine-Bond Syndicate [Pronunciation: thee BRYND-bond SIN-duh-kit]',
+              content: '**Noun.** The maritime trade guild governing the <LoreLink termId="iceheart-sea">Iceheart Sea</LoreLink>\'s lanes from <LoreLink termId="merrowport">Merrowport</LoreLink>. It administers the Luck-Ledger — quantifying, taxing, and trading the Merryn sailors\' storm-luck — and issues the Sea-Charter that decides who sails freely and who is pressed into lifetime service as a Bilge-Dweller. A sailor\'s skin-tattoos are themselves binding contracts.'
+            },
+            {
+              title: 'The Dawn Vigil [Pronunciation: thee DAWN VIJ-ul]',
+              content: '**Noun.** Originally a quietist order of <LoreLink termId="martyr">Martyrs</LoreLink> tracking <LoreLink termId="sundered_monoliths">Monolith</LoreLink> locations, now the militant theocracy ruling <LoreLink termId="sundale">Sundale</LoreLink> under Hierophant Aethelgard. They crusade across every region to recover Monolith fragments. Their inner council has calculated that reassembling the Monoliths will not restart <LoreLink termId="sol">Sol</LoreLink> — it will summon <LoreLink termId="keth_amar">Keth-Amar</LoreLink> back to finish what it started.'
+            },
+            {
+              title: 'The Dead Moon [Pronunciation: thee DED MOON]',
+              content: '**Noun (Entity).** The shattered corpse of a celestial thing that was not a moon at all but an egg. When it broke, its fragments fell across the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink>, and the fae of the moonlit groves gathered and nurtured the largest pieces. From those fragments hatched the lunar parasites — ancient celestial predators that feed on memory, sanity, and vitality — which the <LoreLink termId="lunarch">Lunarch</LoreLink> class bonds with.'
+            },
+            {
+              title: 'The Deepening [Pronunciation: thee DEE-pen-ing]',
+              content: '**Noun.** The fundamental rhythm of the Mythrill universe — the cyclical death-rebirth process by which a star sheds its exhausted light and rekindles its core. When <LoreLink termId="sol">Sol</LoreLink> entered this vulnerable state it attracted <LoreLink termId="keth_amar">Keth-Amar</LoreLink>, triggering the entombment that broke the heavens. Each Deepening opens a twelve-year rebirth window; Sol has failed all sixty-five.'
+            },
+            {
+              title: 'Devotion Gauge [Pronunciation: di-VO-shun GAYJ]',
+              content: '**Noun.** The spiritual threshold tracked by the <LoreLink termId="martyr">Martyr</LoreLink>. Woven from the sacrifice of <LoreLink termId="sera">Sera Solvan</LoreLink>, a Martyr generates resonance by absorbing the kinetic and magical strain directed at allies. At low Devotion a Martyr is a walking wound; at high Devotion they are a radiant engine of protection that makes the entire party harder to harm.'
+            },
+            {
+              title: 'The Forgotten [Pronunciation: thee for-GOT-en]',
+              content: '**Noun (Plural: The Forgotten).** The undocumented underclass of the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink> — those whose <LoreLink termId="sovereign-ledger">Sovereign Ledger</LoreLink> entries were lost to the fog, never recorded, or deliberately erased. Without documented lineage they hold no legal rights: no property, no marriage, no testimony. They survive in the shantytowns outside <LoreLink termId="greymark_keep">Greymark Keep</LoreLink> and the deeper groves beyond Cartel reach.'
+            },
+            {
+              title: 'Fredløse (the Lawless) [Pronunciation: FRED-luh-suh]',
+              content: '**Noun (Plural: Fredløse).** The outlaw clans of <LoreLink termId="nordhalla">Nordhalla</LoreLink> — <LoreLink termId="skald">Skald</LoreLink> who refuse fealty to King-Jarl Halvar <LoreLink termId="house_skalvyr">Skalvyr</LoreLink> and his Sunder-Wall. They survive the frozen wastes beyond the settled holds through raiding, mammoth-hunting, and the old ways the Runic Academies seek to burn. Divided from the settled Fastboende not by blood but by choice; the boundary between them is the Sunder-Wall itself.'
+            },
+            {
+              title: 'Frost-Tithe [Pronunciation: FRAWST-tyth]',
+              content: '**Noun.** The supernatural birth-curse tied to <LoreLink termId="house_skalvyr">House Skalvyr</LoreLink>\'s Glacier Bargain. Every child born to the frost-touched bloodlines must "pay" a life to the cold: the infant survives only by drawing its mother\'s warmth into itself — the bargain\'s interest collected on each new generation. As the <LoreLink termId="solbrand">Solbrand</LoreLink> fails, the Tithe now claims twice as many infants as it did a generation ago.'
+            },
+            {
+              title: 'Gambrel [Pronunciation: GAM-bruhl]',
+              content: '**Noun.** A spindly, long-limbed <LoreLink termId="wyrd">Wyrd</LoreLink>-horror of the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink>, drawn to the specific guilt of broken agreements and hollow oaths. The Gambrel uses a debtor\'s hidden shame as a beacon, stalking carriages along the mist-choked trails. It cannot be outrun — its speed is directly proportional to its prey\'s desperation to forget their broken promises.'
+            },
+            {
+              title: 'Gref [Pronunciation: GREF]',
+              content: '**Noun.** A face-stealing <LoreLink termId="wyrd">Wyrd</LoreLink>-manifestation of the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink>, born from the regional fear of losing one\'s identity to the <LoreLink termId="memory_fog_mechanics">fog</LoreLink>. An amorphous, silent predator, it stalks travelers in the mist, stealing their memories and physical features. It leaves its victims faceless in the fog, wearing their stolen visages to infiltrate timber keeps.'
+            },
+            {
+              title: 'Groven [Pronunciation: GRO-ven]',
+              content: '**Noun (Plural: Groven).** The humanoid bridge-trolls of the <LoreLink termId="cragjaw-peaks">Cragjaw Peaks</LoreLink>, not born but made — alchemically forged from Thrumm blood by <LoreLink termId="fexrick">Fexric</LoreLink> Deep Alchemists beneath <LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink>. The first generation developed will, then language, then shattered their containment vats and rose in the Vat-Breakers\' revolt. They now serve as the Cragjaw\'s bridge-builders, growing calcified spans from the bones of their willing dead.'
+            },
+            {
+              title: 'Inferno Veil [Pronunciation: in-FUR-noh VAYL]',
+              content: '**Noun.** The super-heated magical resonance managed by the <LoreLink termId="pyrofiend">Pyrofiend</LoreLink>. Forged from bargains with volcanic caldera fiends, it channels destructive heat that detonates across adjacent tiles. As the veil rises, damage scales aggressively — but the sulfurous energy sears the caster\'s own capillaries, pulling their soul closer to <LoreLink termId="scathrach">Scathrach</LoreLink>\'s absolute claim.'
+            },
+            {
+              title: 'Memory Fog [Pronunciation: MEM-er-ee FOG]',
+              content: '**Noun.** The insulating, memory-erasing mist of the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink>, attributed to <LoreLink termId="house_thalreth">House Thalreth</LoreLink>\'s bargain though it seems to predate the compact. Residents suffer slow chronic decay over a decade; deep-wilderness travelers face an acute Memory Toll every twenty-four hours. Only Soot-Resin Ink, Memory-Glass tablets, and the <LoreLink termId="mimir">Mimir</LoreLink>\'s <LoreLink termId="rite-of-masks">Rite of Masks</LoreLink> hold identity against it.'
+            },
+            {
+              title: 'Neth [Pronunciation: NETH]',
+              content: '**Noun (Plural: Neth).** An immortal, silver-skinned people of <LoreLink termId="atropolis">Atropolis</LoreLink> descended from a dying scribe-clan that struck a treaty with the Keeper of the Last Threshold, trading death\'s finality for survival. Their bloodlines are written in the First Contract, rendering them unable to tell a direct lie. They divide into the silver Velun pact-lords, the Kessen forest-weavers, and the leaden-grey Drun outcasts who legally do not exist.'
+            },
+            {
+              title: 'Rebirth Cycle [Pronunciation: REE-burth SY-kuhl]',
+              content: '**Noun.** The twelve-year window each <LoreLink termId="the_deepening">Deepening</LoreLink> opens, during which a dying star must reignite its core or be extinguished. <LoreLink termId="sol">Sol</LoreLink> has entered this window sixty-five times since its entombment, and failed every time: each rekindling is consumed by <LoreLink termId="keth_amar">Keth-Amar</LoreLink> before ignition can complete. The calendar months of First Thaw and False Dawn are cultural echoes of this lost hope.'
+            },
+            {
+              title: 'Rime-Born [Pronunciation: RYM-born]',
+              content: '**Noun (Plural: Rime-Born).** The frost-touched, non-human survivors of <LoreLink termId="nordhalla">Nordhalla</LoreLink>\'s eternal winter, descended from Hunger-Pact refugees who consumed their own dead to persist. They carry a supernatural cold in their blood — their breath freezes even in southern heat. Every frost-touched birth pays the <LoreLink termId="frost_tithe">Frost-Tithe</LoreLink>, and those marked before birth emerge as blue-skinned Frostbound carrying <LoreLink termId="keth_amar">Keth-Amar</LoreLink>\'s lingering attention.'
+            },
+            {
+              title: 'The Scoured [Pronunciation: thee SKOWRD]',
+              content: '**Noun (Plural: The Scoured).** A radical faction of <LoreLink termId="sundale">Sundale</LoreLink>\'s civil war — named for the <LoreLink termId="emberth">Emberth</LoreLink> forge-marks they ritually deface upon joining. They believe reassembling the <LoreLink termId="sundered_monoliths">Monoliths</LoreLink> would summon <LoreLink termId="keth_amar">Keth-Amar</LoreLink>, not <LoreLink termId="sol">Sol</LoreLink>, and scour every region in scattered cells to gather Monolith Shards and reinforce the original binding seal instead.'
+            },
+            {
+              title: 'The Scribe-Cartel [Pronunciation: thee SKRYB-kar-TEL]',
+              content: '**Noun.** The monopoly guild controlling Soot-Resin Ink and Peat-Parchment — the only materials that resist the <LoreLink termId="memory_fog_mechanics">fog</LoreLink>\'s memory-erosion — in the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink>. Its power is absolute because the <LoreLink termId="sovereign-ledger">Sovereign Ledger</LoreLink> requires its products. A family whose ledger is lost, unaffordable, or found "erroneous" becomes <LoreLink termId="the_forgotten">Forgotten</LoreLink>. A body controlling literacy, identity, and history is not subordinate to any house.'
+            },
+            {
+              title: 'The Silent Seventh [Pronunciation: thee SY-luhnt SEV-enth]',
+              content: '**Noun.** The truth of the Binding Compact: <LoreLink termId="house_viridane">House Viridane</LoreLink> was the original seventh binding house, but refused <LoreLink termId="keth_amar">Keth-Amar</LoreLink> and was erased from history. The six surviving houses elevated <LoreLink termId="house_morrath">House Morrath</LoreLink> as a substitute signatory. The erasure was as much protection as punishment — Keth-Amar hunts through knowledge, and the fog swallowed Viridane\'s name so the Sun-Eater could not follow the thread.'
+            },
+            {
+              title: 'Skald [Pronunciation: SKAHD]',
+              content: '**Noun (Plural: Skalds).** The dominant human bloodline of <LoreLink termId="nordhalla">Nordhalla</LoreLink>, shaped by eight centuries of eternal winter into hardened, cold-tempered warriors. They are the backbone of <LoreLink termId="house_skalvyr">House Skalvyr</LoreLink>\'s domain — broad-shouldered, frost-scarred, possessed of raw endurance. Their oral-history traditions produce the finest chroniclers in the north, and they value cold-resistance as the primary measure of worth.'
+            },
+            {
+              title: 'Solbrand [Pronunciation: SOHL-brand]',
+              content: '**Noun.** Not a flame but the residual warmth of a star that should be dead, bleeding upward through eight hundred feet of volcanic basalt from <LoreLink termId="sol">Sol</LoreLink>\'s buried vault. The <LoreLink termId="emberth">Emberth</LoreLink> Korr tend it in sacred, wordless silence beneath <LoreLink termId="emberspire">Emberspire</LoreLink>, believing it is Sol\'s breathing. It heats the deep-cavern settlements and keeps the <LoreLink termId="sundale">Sundale</LoreLink> badlands from freezing solid — and it is failing.'
+            },
+            {
+              title: 'The Sovereign Ledger [Pronunciation: thee SOV-rin LEJ-er]',
+              content: '**Noun.** The legal foundation of the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink> — a centralized registry of every citizen\'s lineage, property, and standing, sealed in the vaults of <LoreLink termId="greymark_keep">Greymark Keep</LoreLink>. Established in Year 100 to counter the <LoreLink termId="memory_fog_mechanics">fog</LoreLink>\'s memory-erosion, it divides the Reach into the documented Ledgered, who hold all rights, and the <LoreLink termId="the_forgotten">Forgotten</LoreLink>, who are legally invisible.'
+            },
+            {
+              title: 'Stel [Pronunciation: STEL]',
+              content: '**Noun.** A heavy, crystalline colossus of <LoreLink termId="nordhalla">Nordhalla</LoreLink>, formed from compacted glacial ice and the spiritual residue of the dead. A <LoreLink termId="wyrd">Wyrd</LoreLink>-creature acting as a glacier\'s memory, the Stel stalks the frozen fjords, endlessly replaying the final screams of those who froze inside the ice sheets to lure fresh travelers to their doom.'
+            },
+            {
+              title: 'The Sundered Monoliths [Pronunciation: thee SUN-derd MON-uh-liths]',
+              content: '**Noun (Plural).** The seven fragments of Sol\'s binding seal, scattered across the continent when <LoreLink termId="keth_amar">Keth-Amar</LoreLink> cracked the vault in Year 11. For nearly eight centuries they lay dormant — then, around Year 795, all seven began to wake simultaneously, broadcasting command-signals and warming measurably. The <LoreLink termId="dawn_vigil">Dawn Vigil</LoreLink> publicly claims reassembling them restarts Sol; their inner council knows it summons the Sun-Eater.'
+            },
+            {
+              title: 'The Sunderer [Pronunciation: thee SUN-der-er]',
+              content: '**Noun (Plural: The Sunderer).** The radical heretical faction of <LoreLink termId="sundale">Sundale</LoreLink>\'s civil war. They believe the <LoreLink termId="solbrand">Solbrand</LoreLink> is not <LoreLink termId="sol">Sol</LoreLink>\'s warmth at all but <LoreLink termId="keth_amar">Keth-Amar</LoreLink>\'s feeding-line — and that extinguishing it would starve the Sun-Eater and free the star, even knowing Sol would die with it. Their numbers grow among the Ash-Dwellers who have seen nothing but dimming all their lives.'
+            },
+            {
+              title: 'Vreken [Pronunciation: VREK-en]',
+              content: '**Noun (Plural: Vreken).** The <LoreLink termId="bryngloom-forest">Bryngloom Forest</LoreLink>\'s first inhabitants — lantern-eyed crypt-speakers who predate the <LoreLink termId="neth">Neth</LoreLink> by centuries. They carry the bioluminescent amber and silver glow of their ancestors in their eyes and skin, singing to the dead in inverted cathedrals carved into the peat-bogs. Divided into the Clean (deep-glow scholars) and the Marked (ghost-mycelium walkers), they view the Neth as spiritually bankrupt — trading with death instead of honoring it.'
+            },
+            {
+              title: 'The Warden [Pronunciation: thee WOR-den]',
+              content: '**Noun (Entity).** Not a god, not a spirit — the universe\'s mechanism of consequence, older than <LoreLink termId="sol">Sol</LoreLink> itself, existing to enforce the logic of exchange. The Warden brokered the Original Binding that entombed Sol and accepted each noble house\'s Regional Compact without negotiation or mercy. It does not punish or reward; it remembers every clause of every contract and enforces them without exception. Those who meet it describe only one sensation: the certainty that a debt has been recognized.'
+            },
+            {
+              title: 'The Watcher in the Mist [Pronunciation: thee WAH-cher in the MIST]',
+              content: '**Noun (Entity).** The name Briaran oral tradition gives to the ancient fey presence that spoke to <LoreLink termId="house_viridane">House Viridane</LoreLink> in the moonlit groves during their flight south. Older than <LoreLink termId="keth_amar">Keth-Amar</LoreLink>\'s hunger and more patient, it offered a counter-bargain: protection from the Sun-Eater\'s sight in exchange for a permanent bond to the groves. The <LoreLink termId="briaran">Briaran</LoreLink> have carried the physical mark of that choice — their thorns — for eight centuries.'
+            },
+            {
+              title: 'Atropolis [Pronunciation: uh-TROP-uh-lis]',
+              content: '**Noun (Location).** Not a city of stone but a cultivated cathedral-grove — the oldest ironwood trees of the <LoreLink termId="bryngloom-forest">Bryngloom Forest</LoreLink>, each shaped over a thousand years into archive-chambers where the <LoreLink termId="neth">Neth</LoreLink> live, work, and preserve every contract ever written. The deepest chamber of the oldest tree — the Heart-Vault — contains the First Contract itself, visible through living heartwood that has grown around the original document for eight centuries.'
+            },
+            {
+              title: 'Bryngloom Forest [Pronunciation: BRIN-gloom]',
+              content: '**Noun (Region).** A twilight swamp of sinking peat-bog and ironwood canopy, governed since the First Contract by legalistic debt-covenants. The <LoreLink termId="neth">Neth</LoreLink> struck the original bargain here with the <LoreLink termId="keeper_of_the_last_threshold">Keeper of the Last Threshold</LoreLink>, trading death\'s finality for survival. Passage is controlled by living-ironwood Toll-Dikes; the poor Morren are trapped in peonage; and deceased debtors rise again as Debt-Revenants under the Postmortem Corvée.'
+            },
+            {
+              title: 'Cragjaw Peaks [Pronunciation: Krag-JAW]',
+              content: '**Noun (Region).** A vertical labyrinth of howling blizzards and razor ridges, buried in perpetual snow-veil since <LoreLink termId="house_tesshan">House Tesshan</LoreLink> traded visibility for concealment. Ruled by Jarl-Inca Oda Tesshan under the Knotted Decree — written language outlawed in favor of knotted khipu-cords — the region is governed through the Steam-Line Cartel and the Tesshan-Mit\'a forced-labor system, while yokai stalk the cliffs.'
+            },
+            {
+              title: 'Frostwood Reach [Pronunciation: FRAWST-wud]',
+              content: '**Noun (Region).** A dense, fog-choked ironwood forest wreathed in protective, <LoreLink termId="memory_fog_mechanics">memory-erasing mist</LoreLink>. <LoreLink termId="house_thalreth">House Thalreth</LoreLink> traded spatial clarity for the insulating fog, and Jarl-Archivist Kaelen now enforces the <LoreLink termId="sovereign-ledger">Sovereign Ledger</LoreLink>, declaring the undocumented legally void. Society splits between the registered Ledgered and the outlawed <LoreLink termId="the_forgotten">Forgotten</LoreLink>, while the <LoreLink termId="scribe-cartel">Scribe-Cartel</LoreLink> holds monopoly on ink and parchment.'
+            },
+            {
+              title: 'Iceheart Sea [Pronunciation: EYES-hart]',
+              content: '**Noun (Region).** A violent, storm-lashed ocean of city-sized icebergs where navigable channels never freeze. <LoreLink termId="house_mereval">House Mereval</LoreLink> traded calm waters for unfreezing sea-lanes, governing through the <LoreLink termId="brine-bond-syndicate">Brine-Bond Syndicate</LoreLink> and the Sea-Charter. Undocumented refugees are pressed into lifetime servitude under Press-Warrants, while traditional Tide-Speak animism is suppressed under the Luck-Ledger.'
+            },
+            {
+              title: 'Nordhalla [Pronunciation: nord-HAHL-uh]',
+              content: '**Noun (Region).** A brutalist cathedral of frozen black fjords and towering glaciers, fractured by <LoreLink termId="house_skalvyr">House Skalvyr</LoreLink>\'s consolidation under King-Jarl Halvar "Járn-Tand." The Skalvyr traded summer to halt the grinding glaciers, paying the <LoreLink termId="frost_tithe">Frost-Tithe</LoreLink> ever since. The Sunder-Wall regulates the nomadic outlaw clans, and the Cleansing of the Hearth persecutes tribal <LoreLink termId="animist">Animists</LoreLink>.'
+            },
+            {
+              title: 'Sundale [Pronunciation: SUN-dayl]',
+              content: '**Noun (Region).** The scorched ashlands surrounding the tomb of <LoreLink termId="sol">Sol</LoreLink>, currently a martial-theocracy under Hierophant Aethelgard\'s <LoreLink termId="dawn_vigil">Dawn Vigil</LoreLink>. After the collapse of <LoreLink termId="house_solvan">House Solvan</LoreLink>, the Vigil conscripts youth into the Martyr Brigades to mine sulfur for the Korr priests. The population splits between wealthy Deep-Born and blockaded Ash-Dwellers, locked in a three-way civil war over the failing <LoreLink termId="solbrand">Solbrand</LoreLink>.'
+            },
+            {
+              title: 'Sundrift Vale [Pronunciation: SUN-drift]',
+              content: '**Noun (Region).** A starless, wind-swept nomadic steppe governed by the Iron-Yurt Law. <LoreLink termId="house_ordavan">House Ordavan</LoreLink> traded fertile soil for endless migration, regulating pastures with bone Steppe-Staves and the Herd-Tithe. The horse-owning Mounted rule the walking Unmounted, while star-communing Sky-Singers are persecuted and the land itself rises and falls in the <LoreLink termId="silt_tide">Silt-Tide</LoreLink>.'
+            },
+            {
+              title: 'House Mereval [Pronunciation: MARE-uh-vahl]',
+              content: '**Noun (Noble House).** The seafaring ruling family of the <LoreLink termId="iceheart-sea">Iceheart Sea</LoreLink> under Grand Admiral Varis, who traded calm waters for unfreezing sea-lanes. They govern the floating capital of <LoreLink termId="merrowport">Merrowport</LoreLink> through the <LoreLink termId="brine-bond-syndicate">Brine-Bond Syndicate</LoreLink>, paying crews in Voyage-Shares and enforcing registration via the Unfreezing Booms. Their new steam-trawling fleets drive the <LoreLink termId="myrathil">Myrathil</LoreLink> to madness.'
+            },
+            {
+              title: 'House Morrath [Pronunciation: MOR-ath]',
+              content: '**Noun (Noble House).** The substitute signatory that filled the gap left by the erased <LoreLink termId="house_viridane">House Viridane</LoreLink>. Governing the <LoreLink termId="bryngloom-forest">Bryngloom Forest</LoreLink> under Regent Morrath Neth, they operate as an administrative regency — a name written where another was removed. They enforce the Great Registry and the Postmortem Corvée, conscripting deceased debtors as Debt-Revenants to work the sumps.'
+            },
+            {
+              title: 'House Ordavan [Pronunciation: OR-duh-van]',
+              content: '**Noun (Noble House).** The nomadic ruling family of the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink> under Khatun Bayarmaa, who traded fertile soil for the endless migration. They enforce pasture and migration registrations on Steppe-Staves, maintain the Herd-Tithe monopoly, and police routes through basalt Cairn-Checkpoints while systematically purging the Sky-Singers.'
+            },
+            {
+              title: 'House Skalvyr [Pronunciation: SKAHL-veer]',
+              content: '**Noun (Noble House).** The unyielding ruling family of <LoreLink termId="nordhalla">Nordhalla</LoreLink>, who traded summer to freeze the grinding glaciers in place. Consolidated under King-Jarl Halvar "Járn-Tand" (Iron-Tooth), who unified the clans by force and mortgaged the region to southern syndicates. They enforce rule through the Sunder-Wall and the Runic Academies, suppressing ancestral animism for controlled runic calculation.'
+            },
+            {
+              title: 'House Solvan [Pronunciation: SOHL-van]',
+              content: '**Noun (Noble House).** The tragic noble lineage of <LoreLink termId="sundale">Sundale</LoreLink> that spearheaded the entombment of <LoreLink termId="sol">Sol</LoreLink> — and wielded the knife that flayed <LoreLink termId="aex">Aex</LoreLink>. Following Keth-Amar\'s breach and the collapse of the Solvan Imperium, the house lost its legitimacy as the volcanic vents cooled. Its remaining descendants live sidelined by the <LoreLink termId="dawn_vigil">Dawn Vigil</LoreLink>, watching their lands fractured and their youth conscripted.'
+            },
+            {
+              title: 'House Tesshan [Pronunciation: TESH-an]',
+              content: '**Noun (Noble House).** The mountain lords of the <LoreLink termId="cragjaw-peaks">Cragjaw Peaks</LoreLink> under Jarl-Inca Oda Tesshan, who traded visibility for a protective snow-veil. They maintain control through the geothermal Steam-Line Cartel monopoly and the Tesshan-Mit\'a labor system, outlawing written language in favor of knotted khipu-cords to regulate keeps by controlling their records.'
+            },
+            {
+              title: 'House Thalreth [Pronunciation: THAL-reth]',
+              content: '**Noun (Noble House).** The ancient ruling family of the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink>, whose seat is <LoreLink termId="greymark_keep">Greymark Keep</LoreLink>. They traded spatial clarity for <LoreLink termId="memory_fog_mechanics">insulating fog</LoreLink> — though the fog predates the formal bargain. Jarl-Archivist Kaelen enforces the <LoreLink termId="sovereign-ledger">Sovereign Ledger</LoreLink>, stripping the undocumented of their rights, and maintains the Tapestry-Wards that assimilate frontier children.'
+            },
+            {
+              title: 'House Viridane [Pronunciation: VEER-ih-dayn]',
+              content: '**Noun (Noble House).** The original seventh binding house that refused <LoreLink termId="keth_amar">Keth-Amar</LoreLink> and was erased from history. Something reached them in the moonlit groves before the Sun-Eater could claim them; they fled south and the fog rose behind them. Their name was struck from every ledger, their holdings distributed, and <LoreLink termId="house_morrath">House Morrath</LoreLink> elevated as substitute. Their descendants survive as the thorn-blooded <LoreLink termId="briaran">Briaran</LoreLink>.'
+            },
+            {
+              title: 'Emberspire [Pronunciation: EM-ber-spyer]',
+              content: '**Noun (Location).** The single most consequential geological feature in the known world — a massive active volcano in the heart of <LoreLink termId="sundale">Sundale</LoreLink> whose caldera plunges to depths no expedition has survived. Into this volcanic throat the seven noble families lowered the binding seal — woven from the flayed essence of <LoreLink termId="aex">Aex</LoreLink> — to imprison the dying <LoreLink termId="sol">Sol</LoreLink>. It has burned without interruption for eight centuries, fed by the star\'s fading radiance.'
+            },
+            {
+              title: 'Frozen Archive [Pronunciation: FRO-zun AR-kyv]',
+              content: '**Noun (Location).** <LoreLink termId="nordhalla">Nordhalla</LoreLink>\'s most sacred and terrifying site — a cathedral of ice where the dead stand upright in the glacier, perfectly preserved, their final expressions frozen for eternity. Scribe-sentinels maintain the genealogical records here, and the <LoreLink termId="augur">Augur</LoreLink> tradition was born in its corridors, where proximity to the glacier-preserved dead grants glimpses of their final visions.'
+            },
+            {
+              title: 'Frostmaw Holdfast [Pronunciation: FRAWST-maw]',
+              content: '**Noun (Location).** The calcified heart of <LoreLink termId="groven">Groven</LoreLink> civilization — a massive stronghold built into the vertical walls of a <LoreLink termId="cragjaw-peaks">Cragjaw</LoreLink> ravine. Here the <LoreLink termId="fexrick">Fexric</LoreLink> <LoreLink termId="deep_alchemists">Deep Alchemists</LoreLink> first forged the Groven from <LoreLink termId="thrumm">Thrumm</LoreLink> blood, and here the Vat-Breakers\' revolt began. It remains contested ground between the Groven and the Alchemists who still work the tunnels below.'
+            },
+            {
+              title: 'Greymark Keep [Pronunciation: GRAY-mark]',
+              content: '**Noun (Location).** The administrative capital of the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink> — a massive peat-stone fortress housing the great tapestries of the <LoreLink termId="sovereign-ledger">Sovereign Ledger</LoreLink> and the Tapestry-Wards. Base of the <LoreLink termId="scribe-cartel">Scribe-Cartel</LoreLink>, which enforces the monopoly on soot-resin ink and paper, and ruled by Jarl-Archivist Kaelen <LoreLink termId="house_thalreth">Thalreth</LoreLink>, who holds the keys that legally validate all human existence in the region.'
+            },
+            {
+              title: 'Harath-Vault [Pronunciation: HAR-ath]',
+              content: '**Noun (Location).** The massive subterranean capital of the <LoreLink termId="emberth">Emberth</LoreLink> forge-clans, carved radially into the volcanic throat of a dormant secondary caldera three miles from <LoreLink termId="emberspire">Emberspire</LoreLink>. Hewn by the Sun-Speakers centuries before the sun\'s death, it serves as both sacred temple to the <LoreLink termId="solbrand">Solbrand</LoreLink> and industrial forge-caldera. The Korr tend the eternal ember here in holy silence.'
+            },
+            {
+              title: 'Ironjaw Port [Pronunciation: EYE-ern-jaw]',
+              content: '**Noun (Location).** The <LoreLink termId="neth">Neth</LoreLink>\'s economic lung — their largest external outpost, built into frozen cliffs where the <LoreLink termId="bryngloom-forest">Bryngloom Forest</LoreLink> meets the <LoreLink termId="iceheart-sea">Iceheart Sea</LoreLink>. Every trade route between the Bryngloom and the outside world passes through it. The port houses a copy of the First Contract, allowing stationed Neth to operate without the Fading.'
+            },
+            {
+              title: 'Merrowport [Pronunciation: MARE-oh-port]',
+              content: '**Noun (Location).** The largest human settlement on the <LoreLink termId="iceheart-sea">Iceheart Sea</LoreLink> — a sprawling port-city of timber and iron anchored to a massive warm volcanic seamount that keeps the surrounding waters perpetually unfrozen. The Merryn storm-sailors tattoo their charts directly onto their skin, and the city is the primary gateway for trade between the Iceheart and every other region.'
+            },
+            {
+              title: 'Sunken Spire [Pronunciation: SUN-ken SPYER]',
+              content: '**Noun (Location).** A ruin of unknown origin — a half-submerged stone cathedral sinking slowly into the peat-bogs of the deep <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink>. The <LoreLink termId="vreken">Vreken</LoreLink> treat it as sacred ground, believing their strongest ancestral spirits congregate in its drowned crypts. The lawless Over-Shanty has grown in its shadow, where Neth contracts hold no authority.'
+            },
+            {
+              title: 'Synod Hold [Pronunciation: SIN-ud]',
+              content: '**Noun (Location).** The seat of the Astril Luminarchy — a vast archive of resonant crystal-lattice in the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink>. Here the <LoreLink termId="astril">Astril</LoreLink> hierarchy studies the constellation-spirits, adjudicates disputes between Lit and Unlit castes, and maintains the most comprehensive astronomical records in the known world. It is also where <LoreLink termId="false_prophet">False Prophets</LoreLink> are tried and banished.'
+            },
+            {
+              title: 'Damon [Pronunciation: DAY-mon]',
+              content: '**Noun (Historical Figure).** A master <LoreLink termId="emberth">Emberth</LoreLink> smith of the forge-caldera keeps of <LoreLink termId="sundale">Sundale</LoreLink>, and founder of the <LoreLink termId="spellguard">Spellguard</LoreLink> tradition. Working near the volatile <LoreLink termId="solbrand">Solbrand</LoreLink>, Damon developed the first systematic method for detecting, analyzing, and dismantling incoming magical energy before it could manifest — treating magical defense as engineering rather than art.'
+            },
+            {
+              title: 'Grum Bloodhammer [Pronunciation: GRUM]',
+              content: '**Noun (Historical Figure).** The legendary forge-blacksmith of <LoreLink termId="emberspire">Emberspire</LoreLink> who founded the <LoreLink termId="berserker">Berserker</LoreLink> tradition. When a colossal ice-wyrm burst into the heated mining chambers, Grum refused to flee. He threw down his tools, surrendered to the searing heat of the forge, and ignited his <LoreLink termId="blood_heat">Blood-Heat</LoreLink> — shattering the wyrm\'s glacial hide with his bare fists and establishing the path of the Blood-Heat.'
+            },
+            {
+              title: 'Malakor [Pronunciation: MAL-uh-kor]',
+              content: '**Noun (Historical Figure).** The <LoreLink termId="nordhalla">Nordhalla</LoreLink> archivist who co-founded the <LoreLink termId="harbinger">Harbinger</LoreLink> tradition. Where <LoreLink termId="xyris">Xyris</LoreLink> tore a hole in reality and died, Malakor did the cold work: he calculated the arithmetic of doom — exactly when her reality-tears would consume everything. The calculation did not break him; it gave him purpose. He still leads the Doom-Choir from the <LoreLink termId="frozen_archive">Frozen Archive</LoreLink>, serene in the certainty that the equation has only one solution.'
+            },
+            {
+              title: 'Sera Solvan [Pronunciation: SEER-uh]',
+              content: '**Noun (Historical Figure).** The <LoreLink termId="house_solvan">Solvan</LoreLink> mother who became the first <LoreLink termId="martyr">Martyr</LoreLink>. When the six noble houses marched their firstborn heirs to the peaks to be devoured by <LoreLink termId="keth_amar">Keth-Amar</LoreLink>, Sera refused to let her child\'s memory be erased. She carved her sacrificed child\'s name directly into her forearm with volcanic obsidian; the wound healed into a glowing, sympathetic solar scar, marking the path that absorbs the suffering of others.'
+            },
+            {
+              title: 'Valerius [Pronunciation: vuh-LEER-ee-us]',
+              content: '**Noun (Historical Figure).** The Velun <LoreLink termId="neth">Neth</LoreLink> archivist who founded the <LoreLink termId="arcanoneer">Arcanoneer</LoreLink> tradition. Realizing the <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink>\'s ambient magic responded to the same syntax as Neth contract law, he structured incantations as strict legal documents — offer, consideration, consequence — and crystallized his blood into volatile Mnemonic Shards. The cost was absolute rigidity: an Arcanoneer cannot improvise.'
+            },
+            {
+              title: 'Veyra [Pronunciation: VAY-ruh]',
+              content: '**Noun (Historical Figure).** The <LoreLink termId="mimir">Mimir</LoreLink> chronicler who founded the <LoreLink termId="shaper">Shaper</LoreLink> tradition by merging two arts: <LoreLink termId="sylvanus">Sylvanus</LoreLink>\'s kinetic momentum dance of the <LoreLink termId="frostwood-reach">Frostwood</LoreLink> canopy and <LoreLink termId="torin">Torin</LoreLink>\'s biological body-sculpting of <LoreLink termId="frostmaw_holdfast">Frostmaw</LoreLink>. She proved they were one dance seen from two angles — momentum shaping form, form directing momentum. She still leads the Form-Convergence, her skin more calcified each year.'
+            },
+            {
+              title: 'Xyris [Pronunciation: ZY-ris]',
+              content: '**Noun (Historical Figure).** The <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink> nomad who co-founded the <LoreLink termId="harbinger">Harbinger</LoreLink> tradition. She spliced temporal friction into her veins and tore a hole in reality — and the hole killed her, but proved the chaos could be wielded. Her work was completed by <LoreLink termId="malakor-the-archivist">Malakor</LoreLink>, who calculated when her tears would consume everything. The Harbinger tradition is their merger: Xyris\'s tear joined to Malakor\'s arithmetic.'
+            },
+            {
+              title: 'The False Dawn Riots [Pronunciation: thee FAWLS DAWN]',
+              content: '**Noun (Event).** The riots of Year 480, when the 40th <LoreLink termId="rebirth-cycle">Rebirth Window</LoreLink> produced no visible warming. After four hundred and eighty years of priests promising Sol\'s return, the window opened and the eastern horizon stayed dead. The lie broke overnight: temples were torched, Augurs beaten in the streets, and <LoreLink termId="house_solvan">House Solvan</LoreLink>\'s Imperium collapsed. The <LoreLink termId="dawn_vigil">Dawn Vigil</LoreLink> militarized to fill the vacuum, and the Korr began hiding the <LoreLink termId="solbrand">Solbrand</LoreLink>\'s accelerating decline.'
+            },
+            {
+              title: 'The First Thermal War [Pronunciation: thee THUR-mul]',
+              content: '**Noun (Event).** The conflict of Years 100-120 in the <LoreLink termId="cragjaw-peaks">Cragjaw Peaks</LoreLink> — the first war fought explicitly over thermal resources rather than territory. As geothermal vents failed, <LoreLink termId="fexrick">Fexric</LoreLink> holdfasts, <LoreLink termId="skald">Skald</LoreLink> refugees, and <LoreLink termId="groven">Groven</LoreLink> toll-keepers converged on the same declining vent-system. Its true legacy was precedent: thermal scarcity produces corpses, not cooperation. Out of its chaos emerged the Steam-Line Cartel and the first Groven toll-treaties.'
+            },
+            {
+              title: 'The Great Revision [Pronunciation: thee GRAYT ri-VIZH-un]',
+              content: '**Noun (Event).** The <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink>\'s longest-running conspiracy — and the one that cannot be proven. Senior <LoreLink termId="scribe-cartel">Scribe-Sentinels</LoreLink> discovered that because the fog erases memory, a living ledger can be edited without detection: a line added today will be remembered as having always been there. Each cohort of Sentinels believes it is the first to discover this, and each uses it. Entire family lines have been erased and replaced; treaties quietly rewritten. The original truth no longer exists.'
+            },
+            {
+              title: 'The Memory Wars [Pronunciation: thee MEM-er-ee]',
+              content: '**Noun (Event).** A hundred-year cold war (Years 250-350) in the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink> — fought not with armies but with ink, parchment, and erasure. The <LoreLink termId="the_forgotten">Forgotten</LoreLink> organized against the <LoreLink termId="scribe-cartel">Scribe-Cartel</LoreLink>\'s monopoly, raiding archive-towers and carving their names into ironwood in defiance. The <LoreLink termId="briaran">Briaran</LoreLink>, whose oral tell-songs are immune to fog-erasure, sheltered Forgotten fugitives — an act the Cartel has never forgiven, and the reason Mist-Sentinels refuse to patrol their groves.'
+            },
+            {
+              title: 'The Sundale Civil War [Pronunciation: thee sun-DAYL]',
+              content: '**Noun (Event).** The ongoing three-way theological conflict (Year 780-present) over the dying <LoreLink termId="solbrand">Solbrand</LoreLink>, fought over a single question: what does it mean when the fire goes out? The Risen hold the old faith that Sol will rekindle; the <LoreLink termId="the_sunderers">Sunderer</LoreLink> believe the flame is <LoreLink termId="keth_amar">Keth-Amar</LoreLink>\'s feeding-line and must be extinguished; the <LoreLink termId="the_scoured">Scoured</LoreLink> seek Monolith Shards to re-forge the vault. No one is winning.'
+            },
+            {
+              title: 'The Toll Wars [Pronunciation: thee TOHL]',
+              content: '**Noun (Event).** A sixty-year cascade of skirmishes (Years 280-340) over <LoreLink termId="groven">Groven</LoreLink> bridge-tolls on the Ancestor-Spans. As thermal refugees flooded westward, the Groven toll-keepers raised rates until caravans could no longer afford passage — and fought. The wars ended not in victory but in the first sovereign treaty recognizing Groven bridge-rights in exchange for capped rates, signed under duress by noble houses that have resented its terms for six centuries.'
+            },
+            {
+              title: 'The Void-Heat Heresy [Pronunciation: thee VOYD-heet]',
+              content: '**Noun (Event).** <LoreLink termId="nordhalla">Nordhalla</LoreLink>\'s deepest shame and only remaining source of warmth. In Year 720, Frigga <LoreLink termId="house_skalvyr">Skalvyr</LoreLink> — facing terminal geothermal failure — excavated a chamber beneath the <LoreLink termId="frozen_archive">Frozen Archive</LoreLink> and built a heat-engine of stolen <LoreLink termId="emberspire">Emberspire</LoreLink> obsidian, calibrated through outlawed contact with a bound <LoreLink termId="pyrofiend">Pyrofiend</LoreLink>. The engine works, but its thermal gradient has contaminated the <LoreLink termId="augur">Augurs</LoreLink>\' readings with ghost-data from past and future.'
+            },
+            {
+              title: 'The War of Thousand Screams [Pronunciation: thee THOU-zund]',
+              content: '**Noun (Event).** The largest mid-era conflict (Years 300-320), centered on <LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink>, when <LoreLink termId="deep_alchemists">Deep Alchemist</LoreLink> experiments overran containment just as geothermal failure triggered surface faction warfare. From its chaos emerged the <LoreLink termId="chronarch">Chronarch</LoreLink> tradition (Nesta built her time-engine in a collapsed vat), the Steam-Line Cartel monopoly, and the permanent fortification of the Ancestor-Spans. Named for the synthetic, echoing screams of the Alchemists\' escaped constructs.'
+            },
+            {
+              title: 'Deep Alchemists [Pronunciation: DEEP AL-kuh-mists]',
+              content: '**Noun (Faction).** The oldest continuous research organization on Mythrill, predating the Dark Bargains by millennia. A sub-faction of the <LoreLink termId="fexrick">Fexric</LoreLink>, they forged the <LoreLink termId="groven">Groven</LoreLink> from <LoreLink termId="thrumm">Thrumm</LoreLink> blood eight centuries ago. After the Vat-Breakers\' revolt shattered their surface operations, they retreated into sealed vat-laboratories beneath <LoreLink termId="frostmaw_holdfast">Frostmaw</LoreLink> and never stopped — their current "Lost Brood" project seeks to refine the <LoreLink termId="wyrd">Wyrd</LoreLink> itself into new life.'
+            },
+            {
+              title: 'Keeper of the Last Threshold [Pronunciation: KEE-per of the LAST THRESH-ohld]',
+              content: '**Noun (Entity).** The metaphysical being that enforces the <LoreLink termId="neth">Neth</LoreLink>\'s contract system, existing at the boundary between life and death. When the Neth ancestors sought to preserve themselves against the Fading, the Keeper accepted their offer — eternal record-keeping in exchange for preserved bodies. The <LoreLink termId="vreken">Vreken</LoreLink> know this same presence as the <LoreLink termId="root_veil">Root-Veil</LoreLink>; whether the two are one entity or two intelligences sharing a substrate remains bitterly disputed.'
+            },
+            {
+              title: 'Root-Veil [Pronunciation: ROOT VAYL]',
+              content: '**Noun (Concept).** The ancient, continent-spanning mycelial network beneath the <LoreLink termId="bryngloom-forest">Bryngloom Forest</LoreLink> — a living intelligence that has been absorbing and recycling the dead longer than any race has kept records. The <LoreLink termId="vreken">Vreken</LoreLink> worship it as a sacred ancestor; the <LoreLink termId="neth">Neth</LoreLink> knew it as the <LoreLink termId="keeper_of_the_last_threshold">Keeper of the Last Threshold</LoreLink> and struck the First Contract with it, receiving silver skin and stilled breath in exchange for cataloguing every organism it absorbed.'
+            },
+            {
+              title: 'Thrumm [Pronunciation: THRUM]',
+              content: '**Noun (Plural: Thrumm).** The primordial ancestor-species from which the <LoreLink termId="groven">Groven</LoreLink> were alchemically created. Large, powerfully built, and possessed of supernatural regeneration, they were not warlike — they ate, bred, slept, and healed. It was this resilience paired with intellectual docility that made them perfect for the <LoreLink termId="deep_alchemists">Deep Alchemists</LoreLink>\' transformation vats. The uncaptured Thrumm still dwell the deepest tunnels, dwindling as Alchemists harvest fresh broodlings.'
+            },
+            {
+              title: 'Vault-Breath [Pronunciation: VAWLT BRETH]',
+              content: '**Noun (Concept).** The foundational <LoreLink termId="emberth">Emberth</LoreLink> discipline — a meditative practice of absolute physical stillness developed to conserve body heat in the geothermal depths of the <LoreLink termId="harath_vault">Harath-Vault</LoreLink>. At its highest level, Vault-Breath allows an Emberth to enter suspended animation indistinguishable from death — no heartbeat, no breath, no heat signature. The Korr use it for sacred meditation; the Thrask employ it for ambush.'
+            },
+            {
+              title: 'Jax [Pronunciation: JAKS]',
+              content: '**Noun (Historical Figure).** The <LoreLink termId="iceheart-sea">Merryn</LoreLink> pirate who co-founded the <LoreLink termId="gambit">Gambit</LoreLink> tradition, wagering his lifeline against a storm-spirit at <LoreLink termId="merrowport">Merrowport</LoreLink> — winning the wind but losing his blood\'s warmth, and proving that probability itself could be staked and won. Jax is missing: last seen walking into the Iceheart Sea at midnight, fully clothed, with a smile and a loaded die. The Gambits suspect he walked into the water to clear his debt with the storm-spirit in one final game.'
+            },
+            {
+              title: 'Lunarch [Pronunciation: LOO-nark]',
+              content: '**Noun (Class).** A void-touched mage of the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink> who draws power from the absent sky, founded in Year 80 by Selene of <LoreLink termId="house_viridane">House Viridane</LoreLink>. Lunarchs realized that <LoreLink termId="sol">Sol</LoreLink>\'s absence had not left the sky empty but exposed — to the cold, vast dark between stars that <LoreLink termId="keth_amar">Keth-Amar</LoreLink> itself travels through. Their power is strongest at night, in low light, and in areas of high <LoreLink termId="wyrd">Wyrd</LoreLink>-density — conditions that describe most of the world.'
+            },
+            {
+              title: 'Lyra [Pronunciation: LY-ruh]',
+              content: '**Noun (Historical Figure).** The Kessen <LoreLink termId="neth">Neth</LoreLink> probability-weaver who co-founded the <LoreLink termId="gambit">Gambit</LoreLink> tradition with <LoreLink termId="jax">Jax</LoreLink>. She read the threads of consequence through rune-etched cards, plucking the single timeline in which her caravan survived — at the cost of fracturing her consciousness. Lyra has since radicalized: her Deck-Burners faction burns rune-cards to collapse probability into certainty, a heresy the older Gambits consider a breach of the tradition\'s relationship with chance itself.'
+            },
+            {
+              title: 'Orven-Sen [Pronunciation: OR-ven SEN]',
+              content: '**Noun (Historical Figure).** A mid-level Kessen <LoreLink termId="neth">Neth</LoreLink> probability-weaver of <LoreLink termId="ironjaw_port">Ironjaw Port</LoreLink> who predicted the eruption of <LoreLink termId="emberspire">Emberspire</LoreLink> sixty-three years before it happened. He was fined for filing a frivolous prediction and died forty years later without seeing it come true. When the secondary chambers erupted exactly as he had calculated, his quietly inserted contingency clauses in three generations of warmth-resource contracts saved the Neth an estimated four million gold-weight.'
+            },
+            {
+              title: 'Over-Shanty [Pronunciation: OH-ver SHAN-tee]',
+              content: '**Noun (Location).** The <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink>\'s open secret — a chaotic slum of rope-bridges and ramshackle cabins suspended beneath <LoreLink termId="atropolis">Atropolis</LoreLink>\'s main platforms. Populated by Drun Neth who burned their names from the First Contract and Morren peat-cutters who never had names there to begin with, it lies beyond all Neth law. The Cult of Forgotten Shadow operates openly here, running a memory-trade in extracted experiences that the Velun Pact-Lords officially deny exists.'
+            },
+            {
+              title: 'Plaguebringer [Pronunciation: PLAYJ-bring-er]',
+              content: '**Noun (Class).** A biological-vector specialist of the <LoreLink termId="bryngloom-forest">Bryngloom Forest</LoreLink>, founded in Year 500 by Vespera, who bonded with bog-rot to cure the spore-hush. The Plaguebringer is not a chaos agent but a cultivator — their diseases are engineered for selective transmission, predictable progression, and controllable severity. The tradition demands deep biochemical knowledge and the philosophical comfort with causing suffering that most medical traditions specifically train against.'
+            },
+            {
+              title: 'Pyrofiend [Pronunciation: PY-ro-feend]',
+              content: '**Noun (Class).** A volcanic pact-mage of <LoreLink termId="sundale">Sundale</LoreLink>, founded in Year 12 by seven Solvarn occultists who swallowed <LoreLink termId="scathrach">Scathrach</LoreLink>\'s demonic coals beneath <LoreLink termId="emberspire">Emberspire</LoreLink> when the first rebirth failed. They channel the Ashen Sovereign\'s demonic fire through the <LoreLink termId="inferno_veil">Inferno Veil</LoreLink> — the most viscerally destructive tradition in the known world, and one of the shortest in average practitioner lifespan. Eventually the conversion from flesh to volcanic material completes, and Scathrach claims the soul for its eternal furnace.'
+            },
+            {
+              title: 'Qalupalik [Pronunciation: kah-LOO-pah-lik]',
+              content: '**Noun (Creature).** An amphibious, scaly humanoid sprite of the <LoreLink termId="iceheart-sea">Iceheart Sea</LoreLink> — a <LoreLink termId="wyrd">Wyrd</LoreLink>-twisted spirit of the frozen dark born from the Inuit myths of the child-snatchers. Wearing a hooded seal-skin parka and reeking of sulfur, it hides beneath ice cracks and lures the unwary close with a low, humming song, dragging them down to live in its sub-glacial caves. Iceheart parents know the signs of its presence: a hum on the wind, and the absence of any children.'
+            },
+            {
+              title: 'Qilin [Pronunciation: CHEE-lin]',
+              content: '**Noun (Creature).** A sacred, star-born deer of the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink> — a slender fey creature covered in iridescent blue scales with a single warm-glowing horn, blessed by the <LoreLink termId="wyrd">Wyrd</LoreLink> with a power both beautiful and terrible. The Qilin walks silently, its hooves leaving glowing trail-prints in the tall grass, and appears only to those of pure spirit. The nomads know the signs of its presence: a star that falls from the sky, and the sound of a deer\'s call in the night.'
+            },
+            {
+              title: 'Ymir\'s Col [Pronunciation: EE-meerz KAHL]',
+              content: '**Noun (Location).** The most dangerous pass in <LoreLink termId="nordhalla">Nordhalla</LoreLink> — a wind-scoured gap between two peaks where the air moves fast enough to strip flesh from bone. Named for the frost giant of <LoreLink termId="skald">Skald</LoreLink> pre-Binding mythology, the col is marked by cairns of frozen corpses, their expressions preserved in perfect, screaming clarity. Only the Skald Ice-Trackers can navigate it safely, and even they lose people every year.'
+            },
+            {
+              title: 'Zealot [Pronunciation: ZEL-ut]',
+              content: '**Noun (Class Path).** The aggressive damage-dealing specialization of the <LoreLink termId="martyr">Martyr</LoreLink>, defined by the Wrath Tithe — a covenant where every point of bonus damage extracted from their <LoreLink termId="devotion_gauge">Devotion</LoreLink> demands an equal toll of flesh. Zealot Martyrs channel their suffering into devastating radiant attacks: the more they suffer, the more destructive their righteous fury becomes, and the faster they kill themselves doing it. They are simultaneously the party\'s most aggressive support and their own worst enemy.'
             }
           ]
         }

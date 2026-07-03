@@ -19,17 +19,15 @@ export const getCurrentUserId = () => {
         const authStore = getStore('authStore');
         const state = authStore.getState();
 
-        if (process.env.NODE_ENV === 'development' && window.location.hostname === 'localhost') {
-            const devUserId = state.user?.uid || 'dev-user-localhost';
-            return devUserId;
-        }
-
+        // Return the authenticated user's UID, or null when not authenticated.
+        // NEVER return a fake/placeholder UID (e.g. 'dev-user-localhost') — those
+        // leak into Firestore writes (character_backups.userId, characters.metadata.userId)
+        // and fail security rules because they never match request.auth.uid.
+        // The deliberate dev-login identity ('dev-user-123' from authStore) still
+        // flows through here correctly via state.user.uid.
         return state.user?.uid || null;
     } catch (error) {
         console.warn('Could not get current user ID:', error);
-        if (process.env.NODE_ENV === 'development') {
-            return 'dev-user-fallback';
-        }
         return null;
     }
 };

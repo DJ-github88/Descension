@@ -40,7 +40,18 @@ export const useRealtimeSync = (collection, documentId, onRemoteChange, options 
     // Stop existing listener before starting a new one
     stopSync();
 
-    const docRef = doc(db, collection, documentId);
+    // Build the document reference. Support both the legacy
+    // "collection/documentId" signature and the new "users/{uid}/collection/documentId"
+    // signature used by characterStates / roomStates subcollections.
+    let docRef;
+    if (user && collection && collection.startsWith('users/')) {
+      const parts = collection.split('/');
+      // Expect ["users", "{userId}", "{subcollection}"]
+      const subcollection = parts[2];
+      docRef = doc(db, 'users', user.uid, subcollection, documentId);
+    } else {
+      docRef = doc(db, collection, documentId);
+    }
 
     unsubscribeRef.current = onSnapshot(
       docRef,

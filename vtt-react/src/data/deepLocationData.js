@@ -388,7 +388,7 @@ DEEP_LOCATIONS['synod-hold'] = {
   travelConnections: [
     { destinationId: 'emberspire', distance: '80 miles', travelTime: '3 days', route: 'The Ash-Road — a caravan trail marked by charcoal cairns' }
   ],
-  classPresence: ['augur', 'falseProphet', 'gambit', 'gambit'],
+  classPresence: ['augur', 'falseProphet', 'gambit'],
   npcs: ['loras-ordavan', 'the-factotum']
 };
 

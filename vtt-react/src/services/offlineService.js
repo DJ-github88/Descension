@@ -164,7 +164,14 @@ export async function getCharacterData(characterId, userId) {
         };
       }
     } catch (error) {
-      console.error('Error fetching character online:', error);
+      // Suppress noisy permission errors for characters the user doesn't own —
+      // this can happen for legacy docs or seeded data and isn't actionable
+      // for the user. The offline cache is still returned above.
+      if (error?.code === 'permission-denied') {
+        console.debug('Skipping online character fetch (no access):', characterId);
+      } else {
+        console.error('Error fetching character online:', error);
+      }
     }
   }
 

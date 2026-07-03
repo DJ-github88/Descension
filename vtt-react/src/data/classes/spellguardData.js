@@ -282,7 +282,7 @@ Spellguards are reporting that their Void Resonance is filling faster than they 
 
     strategicConsiderations: {
       title: "The Kinetic Death Sentence",
-      content: `Do not try to tank physical monsters. A giant with a club is your hard counter. If a creature deals heavy bludgeoning or physical damage, you will melt instantly due to your +50% vulnerability. Fall back and let the Dreadnaught or Berserker handle the meat—you are here for the magic.`,
+      content: `Do not try to tank physical monsters. A giant with a club is your hard counter. If a creature deals heavy bludgeoning or physical damage, you will melt instantly due to your +50% vulnerability. Fall back and let a dedicated tank or the Berserker handle the meat—you are here for the magic.`,
     },
 
     playingInPerson: {

@@ -304,6 +304,12 @@
       border: 1px solid rgba(16, 185, 129, 0.3);
     }
 
+    .region-bryngloom {
+      background: rgba(14, 165, 233, 0.15);
+      color: #0ea5e9;
+      border: 1px solid rgba(14, 165, 233, 0.3);
+    }
+
     .card-desc {
       font-size: 0.9rem;
       color: var(--text-muted);
@@ -413,6 +419,7 @@
       <button class="filter-btn" data-filter="iceheart-sea">Iceheart Sea (Batch 5)</button>
       <button class="filter-btn" data-filter="cragjaw-peaks">Cragjaw Peaks (Batch 6)</button>
       <button class="filter-btn" data-filter="sundrift-vale">Sundrift Vale (Batch 7)</button>
+      <button class="filter-btn" data-filter="bryngloom">Bryngloom (Batch 9)</button>
     </div>
   </header>
 
@@ -508,19 +515,37 @@
         illustration: "assets/images/creatures/tiamat.png"
       },
       {
+        id: "anzu",
+        name: "Anzu",
+        region: "sundale",
+        batch: "Batch 4 (Redrawn)",
+        desc: "Colossal storm-bird of ash-grey feathers and lava-orange glowing primaries, talons of black obsidian.",
+        token: "assets/icons/creatures/Bestiary/anzu.png",
+        illustration: "assets/images/creatures/anzu.png"
+      },
+      {
         id: "girtablilu",
         name: "Girtablilu",
         region: "sundale",
-        batch: "Batch 4",
+        batch: "Batch 4 (Redrawn)",
         desc: "Temple guardian with sun-bronzed human upper torso and massive sand scorpion lower body.",
         token: "assets/icons/creatures/Bestiary/girtablilu.png",
         illustration: "assets/images/creatures/girtablilu.png"
       },
       {
+        id: "ammit",
+        name: "Ammit",
+        region: "sundale",
+        batch: "Batch 4 (Redrawn)",
+        desc: "Soul-devouring hybrid with lion's burning mane, hippo's volcanic hide, and crocodile's plated back.",
+        token: "assets/icons/creatures/Bestiary/ammit.png",
+        illustration: "assets/images/creatures/ammit.png"
+      },
+      {
         id: "lamashtu",
         name: "Lamashtu",
         region: "sundale",
-        batch: "Batch 4",
+        batch: "Batch 4 (Redrawn)",
         desc: "Demonic figure with weathered lioness head, winged dark torso, eagle taloned legs, holding a serpent.",
         token: "assets/icons/creatures/Bestiary/lamashtu.png",
         illustration: "assets/images/creatures/lamashtu.png"
@@ -529,10 +554,19 @@
         id: "bes",
         name: "Bes",
         region: "sundale",
-        batch: "Batch 4",
+        batch: "Batch 4 (Redrawn)",
         desc: "Squat clay protector dwarf construct decorated with lapis lazuli bands, wielding a curved sickle-sword.",
         token: "assets/icons/creatures/Bestiary/bes.png",
         illustration: "assets/images/creatures/bes.png"
+      },
+      {
+        id: "ifrit",
+        name: "Ifrit",
+        region: "sundale",
+        batch: "Batch 4 (Redrawn)",
+        desc: "Towering giant of white-hot coal and shifting flame, crowned with a cobra-like hood of fire.",
+        token: "assets/icons/creatures/Bestiary/ifrit.png",
+        illustration: "assets/images/creatures/ifrit.png"
       },
       {
         id: "ghul",
@@ -551,6 +585,24 @@
         desc: "A majestic, powerful white bull with curved blue lapis lazuli horns, its hide decorated with simple glowing gold constellation lines.",
         token: "assets/icons/creatures/Bestiary/gugalanna.png",
         illustration: "assets/images/creatures/gugalanna.png"
+      },
+      {
+        id: "azi",
+        name: "Azi",
+        region: "sundale",
+        batch: "Batch 4 (Redrawn)",
+        desc: "Three-headed obsidian crocodile with different colored eyes representing elemental controls.",
+        token: "assets/icons/creatures/Bestiary/azi.png",
+        illustration: "assets/images/creatures/azi.png"
+      },
+      {
+        id: "asag",
+        name: "Asag",
+        region: "sundale",
+        batch: "Batch 4 (Redrawn)",
+        desc: "Humanoid rock mass of porous pumice and jagged obsidian weeping molten lava from its joints.",
+        token: "assets/icons/creatures/Bestiary/asag.png",
+        illustration: "assets/images/creatures/asag.png"
       },
       {
         id: "peri",
@@ -620,7 +672,7 @@
         id: "harpy",
         name: "Harpy",
         region: "iceheart-sea",
-        batch: "Batch 5",
+        batch: "Batch 5 (Redrawn)",
         desc: "A storm-riding terror with iron hook-feet and vulture wings, this avian hag snatches sailors from the rigging.",
         token: "assets/icons/creatures/Bestiary/harpy.png",
         illustration: "assets/images/creatures/harpy.png"
@@ -629,7 +681,7 @@
         id: "hippocampus",
         name: "Hippocampus",
         region: "iceheart-sea",
-        batch: "Batch 5",
+        batch: "Batch 5 (Redrawn)",
         desc: "A noble creature combining horse and serpent, this gentle elemental purifies waters and serves as a swift steed.",
         token: "assets/icons/creatures/Bestiary/hippocampus.png",
         illustration: "assets/images/creatures/hippocampus.png"
@@ -656,7 +708,7 @@
         id: "lamia",
         name: "Lamia",
         region: "iceheart-sea",
-        batch: "Batch 5",
+        batch: "Batch 5 (Redrawn)",
         desc: "A mourning reef-dweller with impossibly long arms, this creature sings to lure sailors into her coral-plated coils.",
         token: "assets/icons/creatures/Bestiary/lamia.png",
         illustration: "assets/images/creatures/lamia.png"
@@ -665,7 +717,7 @@
         id: "empusa",
         name: "Empusa",
         region: "iceheart-sea",
-        batch: "Batch 5",
+        batch: "Batch 5 (Redrawn)",
         desc: "A shape-shifting elemental with a brass prosthetic leg, this creature drains the life of watch-keepers during storms.",
         token: "assets/icons/creatures/Bestiary/empusa.png",
         illustration: "assets/images/creatures/empusa.png"
@@ -674,7 +726,7 @@
         id: "telkhine",
         name: "Telkhine",
         region: "iceheart-sea",
-        batch: "Batch 5",
+        batch: "Batch 5 (Redrawn)",
         desc: "A seal-headed blacksmith of walrus-like bulk, this elemental forges weapons from deep-sea ice that never melt.",
         token: "assets/icons/creatures/Bestiary/telkhine.png",
         illustration: "assets/images/creatures/telkhine.png"
@@ -719,10 +771,19 @@
         id: "nandi",
         name: "Nandi",
         region: "iceheart-sea",
-        batch: "Batch 5",
+        batch: "Batch 5 (Redrawn)",
         desc: "A ferocious, hyena-like sea-beast that hunts on ice-floes and crushes the skulls of its prey.",
         token: "assets/icons/creatures/Bestiary/nandi.png",
         illustration: "assets/images/creatures/nandi.png"
+      },
+      {
+        id: "abada",
+        name: "Abada",
+        region: "iceheart-sea",
+        batch: "Batch 5 (Redrawn)",
+        desc: "A small, pearl-white antelope-like narwhal whose ivory horn glows with opalescent light to purify poisons.",
+        token: "assets/icons/creatures/Bestiary/abada.png",
+        illustration: "assets/images/creatures/abada.png"
       },
       {
         id: "popobawa",
@@ -746,7 +807,7 @@
         id: "ichthya",
         name: "Ichthyocentaur",
         region: "iceheart-sea",
-        batch: "Batch 5",
+        batch: "Batch 5 (Redrawn)",
         desc: "A scaled sea-centaur with a glowing trident, this volcanic blacksmith warns of Monolith instability.",
         token: "assets/icons/creatures/Bestiary/ichthya.png",
         illustration: "assets/images/creatures/ichthya.png"
@@ -792,7 +853,7 @@
         id: "nue",
         name: "Nue",
         region: "cragjaw-peaks",
-        batch: "Batch 6",
+        batch: "Batch 6 (Redrawn)",
         desc: "A churning black storm-cloud that brings humid heat, animal cries, and terrifying nightmares to punish those who mine too deep.",
         token: "assets/icons/creatures/Bestiary/nue.png",
         illustration: "assets/images/creatures/nue.png"
@@ -819,7 +880,7 @@
         id: "ushioni",
         name: "Ushioni",
         region: "cragjaw-peaks",
-        batch: "Batch 6",
+        batch: "Batch 6 (Redrawn)",
         desc: "A massive, volcanic-plated spider with a demonic bull's head that webs geothermal vents and demands tribute to prevent freezing.",
         token: "assets/icons/creatures/Bestiary/ushioni.png",
         illustration: "assets/images/creatures/ushioni.png"
@@ -855,7 +916,7 @@
         id: "wanyudo",
         name: "Wanyūdō",
         region: "cragjaw-peaks",
-        batch: "Batch 6",
+        batch: "Batch 6 (Redrawn)",
         desc: "A massive, rolling wheel of blue-white fire and screaming faces that collects the souls of freezing travelers in mountain passes.",
         token: "assets/icons/creatures/Bestiary/wanyudo.png",
         illustration: "assets/images/creatures/wanyudo.png"
@@ -864,7 +925,7 @@
         id: "tsuchigumo",
         name: "Tsuchigumo",
         region: "cragjaw-peaks",
-        batch: "Batch 6",
+        batch: "Batch 6 (Redrawn)",
         desc: "A draft-horse-sized spider of solid stone and gems that spins webs of molten gold and uses illusions of wealth to trap miners.",
         token: "assets/icons/creatures/Bestiary/tsuchigumo.png",
         illustration: "assets/images/creatures/tsuchigumo.png"
@@ -882,7 +943,7 @@
         id: "ittan",
         name: "Ittan",
         region: "cragjaw-peaks",
-        batch: "Batch 6",
+        batch: "Batch 6 (Redrawn)",
         desc: "A thirty-foot strip of living embroidered cloth that carries messages across mountain chasms and wraps around travelers to protect them from the cold.",
         token: "assets/icons/creatures/Bestiary/ittan.png",
         illustration: "assets/images/creatures/ittan.png"
@@ -936,7 +997,7 @@
         id: "fenghuang_migrate",
         name: "Fenghuang",
         region: "sundrift-vale",
-        batch: "Batch 7",
+        batch: "Batch 7 (Redrawn)",
         desc: "A legendary, twenty-foot bird of elemental plumage whose arrival dictates the migration calendar and blesses harmonious communities.",
         token: "assets/icons/creatures/Bestiary/fenghuang_migrate.png",
         illustration: "assets/images/creatures/fenghuang_migrate.png"
@@ -945,7 +1006,7 @@
         id: "qiongqi_scourge",
         name: "Qiongqi",
         region: "sundrift-vale",
-        batch: "Batch 7",
+        batch: "Batch 7 (Redrawn)",
         desc: "A tattered, blood-furred winged tiger with boar tusks that preys upon the virtuous while protecting the wicked.",
         token: "assets/icons/creatures/Bestiary/qiongqi_scourge.png",
         illustration: "assets/images/creatures/qiongqi_scourge.png"
@@ -963,7 +1024,7 @@
         id: "ubagan_crystal",
         name: "Ubagan",
         region: "sundrift-vale",
-        batch: "Batch 7",
+        batch: "Batch 7 (Redrawn)",
         desc: "A towering, four-armed ape of living crystal that emerges from subterranean fissures, capable of shifting aquifers and refracting brilliant spectrums of light.",
         token: "assets/icons/creatures/Bestiary/ubagan_crystal.png",
         illustration: "assets/images/creatures/ubagan_crystal.png"
@@ -981,7 +1042,7 @@
         id: "lu_wu_mountain",
         name: "Lu Wu",
         region: "sundrift-vale",
-        batch: "Batch 7",
+        batch: "Batch 7 (Redrawn)",
         desc: "A mammoth-sized tiger with nine human heads and a serpent's tail, governing the seasons and the migrations of the steppe.",
         token: "assets/icons/creatures/Bestiary/lu_wu_mountain.png",
         illustration: "assets/images/creatures/lu_wu_mountain.png"
@@ -990,7 +1051,7 @@
         id: "bura_stormkin",
         name: "Bura",
         region: "sundrift-vale",
-        batch: "Batch 7",
+        batch: "Batch 7 (Redrawn)",
         desc: "A seven-foot-tall spirit of swirling dust and wind, drawn to broken oaths and capable of tearing down shelters with terrifying speed.",
         token: "assets/icons/creatures/Bestiary/bura_stormkin.png",
         illustration: "assets/images/creatures/bura_stormkin.png"
@@ -1076,6 +1137,231 @@
         desc: "A colossal mountain giant made of living granite and snow, lashing out at dragon imagery.",
         token: "assets/icons/creatures/Bestiary/landvaettir.png",
         illustration: "assets/images/creatures/landvaettir.png"
+      },
+      {
+        id: "leshara",
+        name: "Leshara",
+        region: "bryngloom",
+        batch: "Batch 9 (Redrawn)",
+        desc: "A sentinel forest guardian made of gnarled wood, moss, and bark, carrying a living staff.",
+        token: "assets/icons/creatures/Bestiary/leshara.png",
+        illustration: "assets/images/creatures/leshara.png"
+      },
+      {
+        id: "vila",
+        name: "Vila",
+        region: "bryngloom",
+        batch: "Batch 9",
+        desc: "A beautiful, forest-dwelling nymph of windswept wings and long green hair, guarding ancient contracts.",
+        token: "assets/icons/creatures/Bestiary/vila.png",
+        illustration: "assets/images/creatures/vila.png"
+      },
+      {
+        id: "vodyan",
+        name: "Vodyan",
+        region: "bryngloom",
+        batch: "Batch 9",
+        desc: "A bloated, waterlogged swamp-demon with webbed hands and hair of wet moss, dragging victims down.",
+        token: "assets/icons/creatures/Bestiary/vodyan.png",
+        illustration: "assets/images/creatures/vodyan.png"
+      },
+      {
+        id: "bukavac",
+        name: "Bukavac",
+        region: "bryngloom",
+        batch: "Batch 9",
+        desc: "A six-legged horned water monster that bellows like a bull and traps travelers in mud-sloughs.",
+        token: "assets/icons/creatures/Bestiary/bukavac.png",
+        illustration: "assets/images/creatures/bukavac.png"
+      },
+      {
+        id: "hut_ling",
+        name: "Hutling",
+        region: "bryngloom",
+        batch: "Batch 9",
+        desc: "A tiny mossy humanoid that nests in ironwood shingles, protecting households or causing mischief.",
+        token: "assets/icons/creatures/Bestiary/hut_ling.png",
+        illustration: "assets/images/creatures/hut_ling.png"
+      },
+      {
+        id: "likho",
+        name: "Likho",
+        region: "bryngloom",
+        batch: "Batch 9",
+        desc: "A gaunt, one-eyed giant of absolute bad luck and misfortune, wearing heavy chains of rusted iron.",
+        token: "assets/icons/creatures/Bestiary/likho.png",
+        illustration: "assets/images/creatures/likho.png"
+      },
+      {
+        id: "rusalka",
+        name: "Rusalka",
+        region: "bryngloom",
+        batch: "Batch 9",
+        desc: "A beautiful, vengeful water-maiden with long green willow-branch hair, lure of the bogs.",
+        token: "assets/icons/creatures/Bestiary/rusalka.png",
+        illustration: "assets/images/creatures/rusalka.png"
+      },
+      {
+        id: "strigoi_canopy",
+        name: "Strigoi",
+        region: "bryngloom",
+        batch: "Batch 9 (Redrawn)",
+        desc: "A desiccated humanoid corpse hanging upside-down by its feet from branches, with large leathery bat-like wings.",
+        token: "assets/icons/creatures/Bestiary/strigoi_canopy.png",
+        illustration: "assets/images/creatures/strigoi_canopy.png"
+      },
+      {
+        id: "domovoi",
+        name: "Domovoi",
+        region: "bryngloom",
+        batch: "Batch 9",
+        desc: "A small, bearded hearth-spirit wrapped in sheepskin, protecting households from dark anomalies.",
+        token: "assets/icons/creatures/Bestiary/domovoi.png",
+        illustration: "assets/images/creatures/domovoi.png"
+      },
+      {
+        id: "kikimora",
+        name: "Kikimora",
+        region: "bryngloom",
+        batch: "Batch 9",
+        desc: "A hunched, long-nosed kitchen spirit with chicken legs, spinning spider-silk thread in the dark corners.",
+        token: "assets/icons/creatures/Bestiary/kikimora.png",
+        illustration: "assets/images/creatures/kikimora.png"
+      },
+      {
+        id: "zmey_bog",
+        name: "Zmey",
+        region: "bryngloom",
+        batch: "Batch 9 (Redrawn)",
+        desc: "A serpentine three-headed swamp dragon armored in mud-caked crocodile scales, hoarding contracts.",
+        token: "assets/icons/creatures/Bestiary/zmey_bog.png",
+        illustration: "assets/images/creatures/zmey_bog.png"
+      },
+      {
+        id: "zharptitsa_glow",
+        name: "Zhar-ptitsa",
+        region: "bryngloom",
+        batch: "Batch 9 (Redrawn)",
+        desc: "A majestic, luminescent sun-bird of gold, amber, and crimson plumage that radiates soothing warmth.",
+        token: "assets/icons/creatures/Bestiary/zharptitsa_glow.png",
+        illustration: "assets/images/creatures/zharptitsa_glow.png"
+      },
+      {
+        id: "naga_root",
+        name: "Naga",
+        region: "bryngloom",
+        batch: "Batch 9 (Redrawn)",
+        desc: "A massive half-human, half-serpent lord of deep earth, controlling forest waters with a root crown.",
+        token: "assets/icons/creatures/Bestiary/naga_root.png",
+        illustration: "assets/images/creatures/naga_root.png"
+      },
+      {
+        id: "preta_hollow",
+        name: "Preta",
+        region: "bryngloom",
+        batch: "Batch 9 (Redrawn)",
+        desc: "A tragic, skeletal hungry ghost specter with a distended hollow belly containing absolute darkness.",
+        token: "assets/icons/creatures/Bestiary/preta_hollow.png",
+        illustration: "assets/images/creatures/preta_hollow.png"
+      },
+      {
+        id: "gamayun_seer",
+        name: "Gamayun",
+        region: "bryngloom",
+        batch: "Batch 9 (Redrawn)",
+        desc: "A twilight-winged bird with a sorrowful woman's face, holding a lute to sing devastingly accurate prophecies.",
+        token: "assets/icons/creatures/Bestiary/gamayun_seer.png",
+        illustration: "assets/images/creatures/gamayun_seer.png"
+      },
+      {
+        id: "chort_thorn",
+        name: "Chort",
+        region: "bryngloom",
+        batch: "Batch 9 (Redrawn)",
+        desc: "A horned, goat-legged trickster of the crossroads clad in thorn-armored bark and carrying a vine beard.",
+        token: "assets/icons/creatures/Bestiary/chort_thorn.png",
+        illustration: "assets/images/creatures/chort_thorn.png"
+      },
+      {
+        id: "drekavac_wail",
+        name: "Drekavac",
+        region: "bryngloom",
+        batch: "Batch 9 (Redrawn)",
+        desc: "A shape-shifting, semi-transparent wailing spirit of the unfulfilled dead with an enormous screaming void mouth.",
+        token: "assets/icons/creatures/Bestiary/drekavac_wail.png",
+        illustration: "assets/images/creatures/drekavac_wail.png"
+      },
+      {
+        id: "bannik_vent",
+        name: "Bannik",
+        region: "bryngloom",
+        batch: "Batch 9 (Redrawn)",
+        desc: "A squat steam-wreathed elemental composed of compressed steam and heat-haze, holding glowing peat-stones.",
+        token: "assets/icons/creatures/Bestiary/bannik_vent.png",
+        illustration: "assets/images/creatures/bannik_vent.png"
+      },
+      {
+        id: "psoglav_bone",
+        name: "Psoglav",
+        region: "bryngloom",
+        batch: "Batch 9 (Redrawn)",
+        desc: "An eight-legged lion-dog bone predator with fangs of corroded iron and a single glowing forehead eye.",
+        token: "assets/icons/creatures/Bestiary/psoglav_bone.png",
+        illustration: "assets/images/creatures/psoglav_bone.png"
+      },
+      {
+        id: "vourdalak_debt",
+        name: "Vourdalak",
+        region: "bryngloom",
+        batch: "Batch 9 (Redrawn)",
+        desc: "A pale, tragic revenant in peat-stained burial clothes, holding a contract tablet recording its debts.",
+        token: "assets/icons/creatures/Bestiary/vourdalak_debt.png",
+        illustration: "assets/images/creatures/vourdalak_debt.png"
+      },
+      {
+        id: "mavka_willow",
+        name: "Mavka",
+        region: "bryngloom",
+        batch: "Batch 9 (Redrawn)",
+        desc: "A stunning willow dryad with pale-green leaf skin, hiding a hollow back cavity filled with leaves.",
+        token: "assets/icons/creatures/Bestiary/mavka_willow.png",
+        illustration: "assets/images/creatures/mavka_willow.png"
+      },
+      {
+        id: "alkonost",
+        name: "Alkonost",
+        region: "bryngloom",
+        batch: "Batch 9",
+        desc: "A beautiful, bird-bodied oracle of paradise with gold-and-white plumage, singing soothing songs.",
+        token: "assets/icons/creatures/Bestiary/alkonost.png",
+        illustration: "assets/images/creatures/alkonost.png"
+      },
+      {
+        id: "dziwozona_wild",
+        name: "Dziwożona",
+        region: "bryngloom",
+        batch: "Batch 9 (Redrawn)",
+        desc: "A grotesque, barrel-chested water-woman with wild green hair, swapping children for changelings.",
+        token: "assets/icons/creatures/Bestiary/dziwozona_wild.png",
+        illustration: "assets/images/creatures/dziwozona_wild.png"
+      },
+      {
+        id: "upir_root",
+        name: "Upir",
+        region: "bryngloom",
+        batch: "Batch 9 (Redrawn)",
+        desc: "A skeletal, underground network of pulsing ironwood roots sprouting from a buried, screaming corpse.",
+        token: "assets/icons/creatures/Bestiary/upir_root.png",
+        illustration: "assets/images/creatures/upir_root.png"
+      },
+      {
+        id: "sirin_song",
+        name: "Sirin",
+        region: "bryngloom",
+        batch: "Batch 9 (Redrawn)",
+        desc: "A twilight-winged bird with a beautiful woman's face, singing a perfect melody of absolute melancholy.",
+        token: "assets/icons/creatures/Bestiary/sirin_song.png",
+        illustration: "assets/images/creatures/sirin_song.png"
       }
     ];
 

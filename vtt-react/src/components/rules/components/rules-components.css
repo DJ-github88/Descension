@@ -1038,56 +1038,78 @@
 @media (max-width: 768px) {
   .rpg-tabs-bar {
     display: flex;
+    flex-wrap: nowrap;
     justify-content: flex-start;
-    gap: 2px;
-    padding: 8px 6px;
-    margin: -10px -6px 20px -6px;
+    align-items: center;
+    gap: 0;
+    padding: 6px 0;
+    margin: -6px 0 18px 0;
     overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    /* Edge fade hints for horizontal scroll */
+    mask-image: linear-gradient(to right, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%);
     /* Ensure horizontal scroll works properly */
-    scroll-padding-left: 6px;
+    scroll-padding-left: 12px;
+    scroll-padding-right: 12px;
+  }
+
+  .rpg-tabs-bar::-webkit-scrollbar {
+    display: none;
   }
 
   .rpg-custom-tab {
     display: inline-flex;
+    align-items: center;
+    justify-content: center;
     background: transparent;
     border: none;
+    border-bottom: 2px solid transparent;
     flex-shrink: 0;
+    padding: 10px 14px;
+    min-height: 40px;
+    position: relative;
+    transition: border-color 0.2s ease, color 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .rpg-custom-tab.active {
+    border-bottom-color: var(--rpg-gold, #c4a060);
+  }
+
+  .rpg-custom-tab.active .rpg-tab-label {
+    color: #4a150b;
+  }
+
+  .rpg-tab-label {
+    font-size: 0.78rem;
+    white-space: nowrap;
+    letter-spacing: 0.6px;
+  }
+
+  .rpg-tab-divider {
+    display: none;
+  }
+}
+
+/* Extra small devices — further tighten tab sizing */
+@media (max-width: 480px) {
+  .rpg-tabs-bar {
+    padding: 4px 0;
+    margin-bottom: 14px;
+  }
+
+  .rpg-custom-tab {
     padding: 8px 10px;
     min-height: 36px;
   }
 
   .rpg-tab-label {
-    font-size: 0.75rem;
-    white-space: nowrap;
-    letter-spacing: 0.8px;
-  }
-
-  .rpg-tab-divider {
-    font-size: 0.6rem;
-    margin: 0 2px;
-    flex-shrink: 0;
-  }
-}
-
-/* Extra small devices â€” further tighten tab sizing */
-@media (max-width: 480px) {
-  .rpg-tabs-bar {
-    gap: 0px;
-    padding: 6px 4px;
-  }
-
-  .rpg-custom-tab {
-    padding: 6px 8px;
-    min-height: 32px;
-  }
-
-  .rpg-tab-label {
-    font-size: 0.7rem;
-    letter-spacing: 0.5px;
-  }
-
-  .rpg-tab-divider {
-    margin: 0 1px;
+    font-size: 0.72rem;
+    letter-spacing: 0.4px;
   }
 }
 

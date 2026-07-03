@@ -23,6 +23,7 @@ import {
   deleteDoc
 } from 'firebase/firestore';
 import { db } from '../../config/firebase';
+import { sanitizeForFirestore } from '../../utils/firebaseUtils';
 
 /**
  * Character State Persistence Service
@@ -86,7 +87,7 @@ class CharacterStateService {
         version: stateData.version || 1
       };
 
-      await setDoc(docRef, firestoreData, { merge: true });
+      await setDoc(docRef, sanitizeForFirestore(firestoreData), { merge: true });
 
       return {
         success: true,
@@ -190,7 +191,7 @@ class CharacterStateService {
         lastUpdated: serverTimestamp()
       };
 
-      await updateDoc(stateDocRef, updateData);
+      await updateDoc(stateDocRef, sanitizeForFirestore(updateData));
 
       return {
         success: true,
@@ -232,7 +233,7 @@ class CharacterStateService {
         lastUpdated: serverTimestamp()
       };
 
-      await updateDoc(docRef, updateData);
+      await updateDoc(docRef, sanitizeForFirestore(updateData));
 
       return {
         success: true,
@@ -273,7 +274,7 @@ class CharacterStateService {
         lastUpdated: serverTimestamp()
       };
 
-      await updateDoc(docRef, updateData);
+      await updateDoc(docRef, sanitizeForFirestore(updateData));
 
       return { success: true };
 
@@ -302,7 +303,7 @@ class CharacterStateService {
         lastUpdated: serverTimestamp()
       };
 
-      await updateDoc(docRef, updateData);
+      await updateDoc(docRef, sanitizeForFirestore(updateData));
 
       return {
         success: true,
@@ -334,7 +335,7 @@ class CharacterStateService {
         lastUpdated: serverTimestamp()
       };
 
-      await updateDoc(docRef, updateData);
+      await updateDoc(docRef, sanitizeForFirestore(updateData));
 
       return {
         success: true,

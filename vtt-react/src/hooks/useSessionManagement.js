@@ -58,6 +58,10 @@ export const useSessionManagement = () => {
   // Activity tracking
   const activityThrottleRef = useRef(null);
 
+  // Track whether we've already logged the "bypass" message for the current
+  // "off-landing-page" state so we don't spam the console on every mousemove.
+  const hasLoggedBypassRef = useRef(false);
+
   // Refs to handle circular dependency between callbacks
   const showSessionWarningRef = useRef(null);
   const resetSessionTimersRef = useRef(null);
@@ -276,10 +280,17 @@ export const useSessionManagement = () => {
     // CRITICAL FIX: Don't start idle timers if user is in a room or game
     // OR if the user is not on the landing page
     if (isInRoom || location.pathname !== '/') {
-      console.log('Session timers bypassed - user is in a room/game or not on landing page');
+      if (!hasLoggedBypassRef.current) {
+        console.log('Session timers bypassed - user is in a room/game or not on landing page');
+        hasLoggedBypassRef.current = true;
+      }
       clearTimers();
       return;
     }
+
+    // We've returned to the landing page; allow the bypass log to fire again
+    // the next time the user navigates away.
+    hasLoggedBypassRef.current = false;
 
     const now = Date.now();
     lastActivityRef.current = now;

@@ -206,42 +206,33 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
                         width: `${(localVirulence / maxVirulence) * 100}%`,
                         background: `linear-gradient(90deg, ${currentSpec.color} 0%, ${virulenceTier.color} 100%)`
                     }} />
-                    <div className="virulence-tier-indicator" style={{
-                        borderLeft: localVirulence >= 25 ? `2px solid ${virulenceTier.color}` : 'none',
-                        borderRight: localVirulence >= 50 ? `2px solid ${virulenceTier.color}` : 'none'
-                    }} />
+
+                    {/* Virulence Tier Dividers */}
+                    <div className="virulence-divider t25" />
+                    <div className="virulence-divider t50" />
+                    <div className="virulence-divider t75" />
+
+                    {/* Affliction Dots Overlay */}
+                    <div className="affliction-dots-container">
+                        {Array.from({ length: maxAfflictions }, (_, index) => (
+                            <div
+                                key={index}
+                                className={`affliction-dot ${index < localAfflictions ? 'active' : 'inactive'}`}
+                                style={{
+                                    backgroundColor: index < localAfflictions ? currentSpec.glow : 'rgba(255, 255, 255, 0.2)',
+                                    boxShadow: index < localAfflictions ? `0 0 6px ${currentSpec.glow}, 0 0 2px ${currentSpec.glow}` : 'none'
+                                }}
+                            />
+                        ))}
+                    </div>
+
                     <div className="virulence-overlay">
                         <div className="virulence-number">
                             {localVirulence}/{maxVirulence}
                         </div>
                         <div className="virulence-tier-name" style={{ color: virulenceTier.color }}>
-                            {virulenceTier.name}
+                            {size === 'small' ? `${localAfflictions} ☣️` : `${virulenceTier.name} (${localAfflictions} Afflictions)`}
                         </div>
-                    </div>
-                </div>
-
-                <div className="afflictions-bar">
-                    {Array.from({ length: maxAfflictions }, (_, index) => (
-                        <div
-                            key={index}
-                            className={`affliction-segment ${index < localAfflictions ? 'active' : 'inactive'} ${currentSpec.icon.split('-')[1]}`}
-                            style={{
-                                backgroundColor: index < localAfflictions ? currentSpec.color : 'rgba(85, 107, 47, 0.2)',
-                                borderColor: index < localAfflictions ? currentSpec.glow : 'rgba(85, 107, 47, 0.4)',
-                                boxShadow: index < localAfflictions ? `0 0 4px ${currentSpec.glow}80` : 'none'
-                            }}
-                        >
-                            {index < localAfflictions && (
-                                <i className={`fas ${currentSpec.icon}`} style={{
-                                    color: '#ffffff',
-                                    fontSize: size === 'small' ? '6px' : size === 'large' ? '8px' : '7px',
-                                    filter: 'drop-shadow(0 0 2px rgba(0,0,0,0.8))'
-                                }} />
-                            )}
-                        </div>
-                    ))}
-                    <div className="afflictions-label">
-                        <i className="fas fa-disease"></i> {localAfflictions}
                     </div>
                 </div>
             </div>

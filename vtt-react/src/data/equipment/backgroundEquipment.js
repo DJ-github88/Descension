@@ -1058,6 +1058,15 @@ export const HUSH_SURVIVOR_ITEMS = [
         rotation: 0,
         stackable: true,
         maxStackSize: 3,
+        combatStats: {
+            manaRestore: { value: 10, isPercentage: false } // Restores 10 Mana when consumed
+        },
+        baseStats: {
+            spirit: { value: 1, isPercentage: false } // Calms the nerves, +1 Spirit for the duration
+        },
+        utilityStats: {
+            duration: { type: 'MINUTES', value: 5 } // Effect lasts 5 minutes
+        },
         availableFor: {
             backgrounds: ['hushSurvivor']
         }

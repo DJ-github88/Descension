@@ -474,7 +474,7 @@ const BottleResource = ({ current, max, temp = 0, label, resourceType, onUpdate,
     );
 };
 
-export default function CharacterPanel() {
+export default function CharacterPanel({ activeSubSection: propSubSection, setActiveSubSection: propSetSubSection } = {}) {
     // Use inspection context if available, otherwise use regular character store
     const inspectionData = useInspectionCharacter();
     // PERFORMANCE OPTIMIZATION: Use selector to only subscribe to needed values
@@ -555,7 +555,9 @@ export default function CharacterPanel() {
     const spellLibrary = useSpellLibrary();
 
     // State for navigation
-    const [activeSection, setActiveSection] = useState('equipment');
+    const [internalSection, setInternalSection] = useState('equipment');
+    const activeSection = propSubSection !== undefined ? propSubSection : internalSection;
+    const setActiveSection = propSetSubSection || setInternalSection;
     const [showLabels, setShowLabels] = useState(false);
 
     // Inventory store for adding unequipped items back to inventory

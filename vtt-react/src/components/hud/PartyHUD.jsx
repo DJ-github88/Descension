@@ -66,6 +66,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
     const isGMMode = useGameStore(state => state.isGMMode);
     const showPartyManaBar = useSettingsStore(state => state.showPartyManaBar ?? true);
     const showPartyAPBar = useSettingsStore(state => state.showPartyAPBar ?? true);
+    const updatePartyMember = usePartyStore(state => state.updatePartyMember);
 
     // Get current player data directly from character store (always call hook, but only use if isCurrentPlayer)
     const currentPlayerStoreData = useCharacterStore(state => ({
@@ -76,7 +77,8 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
         backgroundDisplayName: state.backgroundDisplayName,
         path: state.path,
         pathDisplayName: state.pathDisplayName,
-        alignment: state.alignment
+        alignment: state.alignment,
+        exhaustionLevel: state.exhaustionLevel
     }));
 
     // Only use store data if this is the current player
@@ -401,6 +403,101 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
 
             setTooltipPosition({ x, y, transformX: 0, transformY: 0 });
         }
+    };
+
+    const getExhaustionTooltipDescription = (level) => {
+        const levels = [
+            "Level 1: Disadvantage on all ability checks",
+            "Level 2: Movement speed is halved",
+            "Level 3: Disadvantage on attack rolls and saving throws",
+            "Level 4: Maximum hit points are halved",
+            "Level 5: Movement speed is reduced to 0",
+            "Level 6: Instantaneous death"
+        ];
+
+        return (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginTop: '6px' }}>
+                <div style={{ fontWeight: 'bold', color: '#5c4033', marginBottom: '2px', borderBottom: '1px solid rgba(139, 115, 85, 0.2)', paddingBottom: '2px' }}>Exhaustion Effects:</div>
+                {levels.map((text, idx) => {
+                    const isCurrent = level === idx + 1;
+                    const isActive = level >= idx + 1;
+                    return (
+                        <div 
+                            key={idx} 
+                            style={{ 
+                                color: isCurrent ? '#b30000' : (isActive ? '#704a38' : '#7a7a7a'),
+                                fontWeight: isCurrent ? 'bold' : 'normal',
+                                fontStyle: isActive && !isCurrent ? 'italic' : 'normal',
+                                fontSize: '11px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '6px'
+                            }}
+                        >
+                            <span style={{ minWidth: '12px' }}>{isCurrent ? '▶' : (isActive ? '●' : '○')}</span>
+                            <span>{text}</span>
+                        </div>
+                    );
+                })}
+            </div>
+        );
+    };
+
+    const handleExhaustionMouseEnter = (e, level) => {
+        if (tooltipTimeoutRef.current) {
+            clearTimeout(tooltipTimeoutRef.current);
+            tooltipTimeoutRef.current = null;
+        }
+
+        const summaries = [
+            "Level 0: Active and healthy. You suffer no exhaustion penalties.",
+            "Level 1: You have disadvantage on all ability checks.",
+            "Level 2: Your movement speed is halved.",
+            "Level 3: You have disadvantage on attack rolls and saving throws.",
+            "Level 4: Your maximum hit points are halved.",
+            "Level 5: Your movement speed is reduced to 0.",
+            "Level 6: Instantaneous death."
+        ];
+
+        setTooltipData({
+            title: `Exhaustion (Level ${level})`,
+            effectSummary: summaries[level] || summaries[0],
+            description: getExhaustionTooltipDescription(level)
+        });
+
+        // Calculate position to keep tooltip on screen
+        const tooltipWidth = 350;
+        const tooltipHeight = 220; // Exhaustion list is short
+        const padding = 10;
+        const offset = 15;
+
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+
+        let x = e.clientX + offset;
+        let y = e.clientY - offset - tooltipHeight;
+
+        if (x + tooltipWidth > viewportWidth - padding) {
+            x = e.clientX - tooltipWidth - offset;
+            if (x < padding) {
+                x = Math.max(padding, (viewportWidth - tooltipWidth) / 2);
+            }
+        }
+        if (x < padding) {
+            x = padding;
+        }
+        if (y < padding) {
+            y = e.clientY + offset;
+            if (y + tooltipHeight > viewportHeight - padding) {
+                y = Math.max(padding, viewportHeight - tooltipHeight - padding);
+            }
+        }
+        if (y + tooltipHeight > viewportHeight - padding) {
+            y = viewportHeight - tooltipHeight - padding;
+        }
+
+        setTooltipPosition({ x, y, transformX: 0, transformY: 0 });
+        setShowTooltip(true);
     };
 
     const handleBuffMouseLeave = () => {
@@ -849,11 +946,53 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                         <div className="member-name">
                             {member.name}
                             {member.character?.level && ` (Level ${member.character.level})`}
-                            {(member.character?.exhaustionLevel || 0) > 0 && (
-                                <span className="exhaustion-indicator" title={`Exhausted ${member.character.exhaustionLevel}`}>
-                                    💤
-                                </span>
-                            )}
+                            {(() => {
+                                const level = isCurrentPlayer && currentPlayerData
+                                    ? (currentPlayerData.exhaustionLevel || 0)
+                                    : (member.character?.exhaustionLevel || 0);
+                                const isEditable = isCurrentPlayer || isGMMode;
+                                if (level > 0 || isEditable) {
+                                    return (
+                                        <div 
+                                            className={`party-exhaustion-badge level-${level} ${isEditable ? 'editable' : ''}`}
+                                            onMouseEnter={(e) => handleExhaustionMouseEnter(e, level)}
+                                            onMouseMove={handleBuffMouseMove}
+                                            onMouseLeave={handleBuffMouseLeave}
+                                        >
+                                            <i className="fas fa-bed exhaustion-icon"></i>
+                                            {level > 0 && <span className="exhaustion-value">{level}</span>}
+                                            {isEditable && (
+                                                <select
+                                                    value={level}
+                                                    onChange={(e) => {
+                                                        const newVal = parseInt(e.target.value) || 0;
+                                                        if (isCurrentPlayer) {
+                                                            useCharacterStore.getState().updateExhaustionLevel(newVal);
+                                                        } else {
+                                                            updatePartyMember(member.id, {
+                                                                character: {
+                                                                    ...member.character,
+                                                                    exhaustionLevel: newVal
+                                                                }
+                                                            });
+                                                        }
+                                                    }}
+                                                    className="party-exhaustion-select"
+                                                >
+                                                    <option value="0">Level 0 (Normal)</option>
+                                                    <option value="1">Level 1 (Disadvantage on Checks)</option>
+                                                    <option value="2">Level 2 (Speed Halved)</option>
+                                                    <option value="3">Level 3 (Disadvantage on Attacks/Saves)</option>
+                                                    <option value="4">Level 4 (HP Max Halved)</option>
+                                                    <option value="5">Level 5 (Speed 0)</option>
+                                                    <option value="6">Level 6 (Death)</option>
+                                                </select>
+                                            )}
+                                        </div>
+                                    );
+                                }
+                                return null;
+                            })()}
                         </div>
                         <div className="member-details">
                             {(() => {

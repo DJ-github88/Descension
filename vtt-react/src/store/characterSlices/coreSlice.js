@@ -441,12 +441,17 @@ export const createCoreSlice = (set, get) => ({
                 // Store offline for sync when back online
                 storeCharacterOffline(characterId, updatedCharacter);
 
-                // Save to Firebase if user is authenticated
-                try {
-                    await characterPersistenceService.saveCharacter(updatedCharacter, userId);
-                } catch (firebaseError) {
-                    console.warn('Failed to save to Firebase, saving locally:', firebaseError);
-                    // Continue with local save if Firebase fails
+                // Save to Firebase only when Firebase is enabled (matches createCharacter).
+                // shouldUseFirebase() returns false on localhost dev, preventing the
+                // 'dev-user-localhost' fallback UID from being written to Firestore
+                // (which would cause permission-denied due to userId != request.auth.uid).
+                if (shouldUseFirebase() && !isGuestUser()) {
+                    try {
+                        await characterPersistenceService.saveCharacter(updatedCharacter, userId);
+                    } catch (firebaseError) {
+                        console.warn('Failed to save to Firebase, saving locally:', firebaseError);
+                        // Continue with local save if Firebase fails
+                    }
                 }
             }
 
@@ -477,8 +482,8 @@ export const createCoreSlice = (set, get) => ({
             const userId = getCurrentUserId();
             const state = get();
 
-            if (userId) {
-                // Delete from Firebase if user is authenticated
+            if (userId && shouldUseFirebase() && !isGuestUser()) {
+                // Delete from Firebase if user is authenticated and Firebase is enabled
                 try {
                     await characterPersistenceService.deleteCharacter(characterId, userId);
                 } catch (firebaseError) {

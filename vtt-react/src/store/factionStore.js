@@ -826,6 +826,36 @@ const SEEDED_FACTIONS = [
   },
 
   {
+    id: 'house-viridane',
+    name: 'House Viridane',
+    type: 'noble_house',
+    regionId: 'frostwood-reach',
+    icon: '/assets/icons/factions/viridane.png',
+    colors: { primary: '#2d5a27', secondary: '#8fbc8f' },
+    publicGoal: 'Survive. Remember. Wait.',
+    publicDescription:
+      'The forgotten eighth house — struck from every record, erased by the seven families who sealed Keth-Amar\'s bargain. When the other houses marched their firstborn to the northern peaks as sacrifice, Viridane refused and fled south through the Frostwood Reach, making a counter-bargain with fae entities in the moonlit groves. Their descendants are the Briaran.',
+    hiddenAgenda:
+      'House Viridane does not seek restoration. The original bloodline made peace with being forgotten eight centuries ago. What they seek is the final truth: what spoke to them in the moonlit groves before Keth-Amar\'s whispers could reach them, and whether that presence has a price that is still due.',
+    leader: {
+      npcId: 'thorn-speaker',
+      title: 'Voice of the Ironwood',
+      description: 'The Thorn-Speaker is the closest thing Viridane has to a leader — a Briaran elder who remembers the oral history of the flight south and speaks for the Unshorn in the deep groves.'
+    },
+    members: [],
+    headquarters: 'ironwood-heart',
+    territory: ['ironwood-heart', 'frostwood-reach'],
+    relationships: [
+      { targetFactionId: 'unshorn-briaran', type: 'successor', description: 'The Unshorn Briaran are the direct descendants of House Viridane — they carry the original fae contract in their blood and thorns' },
+      { targetFactionId: 'house-thalreth', type: 'rival', description: 'The Thalreth participated in the erasure of Viridane from every record and still enforce the Sovereign Ledger\'s silence on the eighth house' }
+    ],
+    classAffinities: ['lunarch', 'apex'],
+    lore: 'House Viridane made a counter-bargain with ancient fae entities in the Frostwood\'s moonlit groves during their flight south in Year 11 of the Deepening. The Briaran still carry this contract in their flesh — their thorns migrate toward unfulfilled promises. The seven houses spent three centuries erasing every trace of Viridane\'s existence. The Briaran have been hiding ever since.',
+    secrets: 'The original fae contract still exists — a living document grown from thorn-vine and moonlight, buried beneath the oldest Briaran grove. It can be read only by a Briaran Lunarch during a lunar eclipse. The contract contains a clause that the Briaran have never invoked: the fae entities owe House Viridane a debt that has never been collected.',
+    quests: []
+  },
+
+  {
     id: 'bloodhammer-line',
     name: 'The Bloodhammer Line',
     type: 'military',

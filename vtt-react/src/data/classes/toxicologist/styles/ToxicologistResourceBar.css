@@ -82,12 +82,28 @@
     border-color: rgba(124, 77, 255, 0.8);
 }
 
-/* Remove border/backdrop in HUD mode */
-.split-bar-container.compact,
+/* Styling and height adjustments in HUD/compact mode */
+.split-bar-container.normal {
+    height: 20px !important;
+    min-height: 20px !important;
+}
+
+.split-bar-container.compact {
+    height: 16px !important;
+    min-height: 16px !important;
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(139, 69, 19, 0.45);
+    border-radius: 4px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
 .split-bar-container.small {
-    border: none;
-    background: transparent;
-    box-shadow: none;
+    height: 14px !important;
+    min-height: 14px !important;
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(139, 69, 19, 0.45);
+    border-radius: 4px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 /* Keep combo effect even in compact mode */
@@ -97,6 +113,69 @@
         0 0 16px rgba(124, 77, 255, 0.7),
         0 0 24px rgba(124, 77, 255, 0.4);
     border: 2px solid rgba(124, 77, 255, 0.8);
+}
+
+/* Spec button size overrides */
+.toxicologist-resource-container:has(.split-bar-container.normal) .spec-button {
+    width: 22px !important;
+    height: 22px !important;
+    min-width: 22px !important;
+    min-height: 22px !important;
+}
+
+.toxicologist-resource-container:has(.split-bar-container.normal) .spec-button i {
+    font-size: 10px !important;
+}
+
+/* Gear size overrides for compact/small/normal modes */
+.split-bar-container.normal .gear {
+    font-size: 12px !important;
+}
+
+.split-bar-container.compact .gear,
+.split-bar-container.small .gear {
+    font-size: 8px !important;
+}
+
+.split-bar-container.normal .gear-1 {
+    top: 10%;
+    left: 20%;
+}
+.split-bar-container.normal .gear-2 {
+    top: 40%;
+    right: 20%;
+}
+.split-bar-container.normal .gear-3 {
+    bottom: 10%;
+    left: 45%;
+}
+
+.split-bar-container.compact .gear-1,
+.split-bar-container.small .gear-1 {
+    top: 5%;
+    left: 20%;
+}
+.split-bar-container.compact .gear-2,
+.split-bar-container.small .gear-2 {
+    top: 35%;
+    right: 20%;
+}
+.split-bar-container.compact .gear-3,
+.split-bar-container.small .gear-3 {
+    bottom: 5%;
+    left: 45%;
+}
+
+/* Bubble size overrides for compact/small/normal modes */
+.split-bar-container.normal .bubble {
+    width: 5px !important;
+    height: 5px !important;
+}
+
+.split-bar-container.compact .bubble,
+.split-bar-container.small .bubble {
+    width: 4px !important;
+    height: 4px !important;
 }
 
 /* ===== BAR HALVES ===== */
@@ -141,12 +220,30 @@
 }
 
 /* Simplified count in HUD mode - no background, no icon */
-.split-bar-container.compact .bar-count,
+.split-bar-container.normal .bar-count {
+    background: transparent;
+    border: none;
+    font-size: 10px !important;
+    font-weight: 700;
+}
+
+.split-bar-container.compact .bar-count {
+    background: transparent;
+    border: none;
+    font-size: 9px !important;
+    font-weight: 700;
+}
+
 .split-bar-container.small .bar-count {
     background: transparent;
     border: none;
-    font-size: 12px;
+    font-size: 8px !important;
     font-weight: 700;
+}
+
+.split-bar-container.normal .bar-count,
+.split-bar-container.compact .bar-count,
+.split-bar-container.small .bar-count {
     text-shadow:
         -1px -1px 0 rgba(0, 0, 0, 0.8),
         1px -1px 0 rgba(0, 0, 0, 0.8),
@@ -154,6 +251,7 @@
         1px 1px 0 rgba(0, 0, 0, 0.8);
 }
 
+.split-bar-container.normal .bar-count i,
 .split-bar-container.compact .bar-count i,
 .split-bar-container.small .bar-count i {
     display: none;
@@ -169,15 +267,15 @@
     border-left: 1px solid rgba(139, 69, 19, 0.6);
 }
 
-/* Remove dividers in HUD mode */
+/* Dividers in HUD mode */
 .split-bar-container.compact .toxin-half,
 .split-bar-container.small .toxin-half {
-    border-right: none;
+    border-right: 1px solid rgba(139, 69, 19, 0.45) !important;
 }
 
 .split-bar-container.compact .contraption-half,
 .split-bar-container.small .contraption-half {
-    border-left: none;
+    border-left: none !important;
 }
 
 /* ===== LIQUID FILL (Toxin Vials) ===== */

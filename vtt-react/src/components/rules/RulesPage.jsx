@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect, useRef, Suspense, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 
 
 
@@ -313,11 +314,11 @@ const CLASS_ICON_MAP = {
 
 
 
-  'Deathcaller': faSkull,
 
 
 
   // 'Dreadnaught' removed (absorbed into Martyr as Ironclad specialization)
+
 
 
 
@@ -344,7 +345,8 @@ const CLASS_ICON_MAP = {
 
 
 
-  'Lichborne': faSkull,
+
+  'Revenant': faSkull,
 
 
 
@@ -6259,20 +6261,16 @@ const RulesPage = () => {
 
 
 
+                {/* Popout orb menu - portaled to body to escape ancestor mask-image/overflow clipping
+                    (.rules-nav.collapsed uses mask-image + overflow:hidden which would otherwise
+                    trap a position:fixed descendant inside its 58px scrollable bar) */}
 
 
 
-                {/* Popout orb menu */}
 
+                {popoutCategory === category.id && createPortal(
 
-
-                {popoutCategory === category.id && (
-
-
-
-                  <div 
-
-
+                  <div
 
                     className="rules-nav-popout"
 
@@ -6387,18 +6385,17 @@ const RulesPage = () => {
 
 
                       ))}
-
-
-
                     </div>
 
 
 
-                  </div>
 
+                  </div>,
 
+                  document.body
 
                 )}
+
 
 
 

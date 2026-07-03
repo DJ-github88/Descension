@@ -5111,5 +5111,19 @@ div.class-detail-content::-webkit-scrollbar-thumb,
     color: #8b6914 !important;
 }
 
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  .flavor-box-tag {
+    white-space: normal !important;
+    display: inline-block !important;
+    word-break: break-word !important;
+    line-height: 1.4 !important;
+    padding: 6px 12px !important;
+  }
+  .flavor-box-header {
+    align-items: flex-start !important;
+  }
+}
+
 
 

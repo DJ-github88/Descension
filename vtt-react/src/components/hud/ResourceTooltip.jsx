@@ -1477,7 +1477,7 @@ const ResourceTooltip = ({
         return null;
     }
 
-
+    return renderTooltip();
 };
 
 export default ResourceTooltip;

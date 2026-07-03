@@ -88,13 +88,19 @@ const ClassResourceBar = ({
     } = uiState;
 
     // Helper functions for updating uiState
-    const setShowTooltip = (value) => setUiState(prev => ({ ...prev, showTooltip: value }));
+    const setShowTooltip = (value) => {
+        if (value === false && isMouseOverWrapperRef.current) return;
+        setUiState(prev => ({ ...prev, showTooltip: value }));
+    };
     const setTooltipPosition = (value) => setUiState(prev => ({ ...prev, tooltipPosition: value }));
     const setTooltipPlacement = (value) => setUiState(prev => ({ ...prev, tooltipPlacement: value }));
     const setShowRageMenu = (value) => setUiState(prev => ({ ...prev, showRageMenu: value }));
     const setRageInputValue = (value) => setUiState(prev => ({ ...prev, rageInputValue: value }));
     const setShowModifierMenu = (value) => setUiState(prev => ({ ...prev, showModifierMenu: value }));
-    const setChaosWeaverHoverSection = (value) => setUiState(prev => ({ ...prev, chaosWeaverHoverSection: value }));
+    const setChaosWeaverHoverSection = (value) => {
+        if (value === null && isMouseOverWrapperRef.current) return;
+        setUiState(prev => ({ ...prev, chaosWeaverHoverSection: value }));
+    };
     const setActiveSpecialization = (value) => setUiState(prev => ({ ...prev, activeSpecialization: value }));
     const setRerollsUsed = (value) => setUiState(prev => ({ ...prev, rerollsUsed: value }));
     const setSwapMode = (value) => setUiState(prev => ({ ...prev, swapMode: value }));
@@ -120,6 +126,7 @@ const ClassResourceBar = ({
     const tooltipRef = useRef(null);
     const tooltipTimeoutRef = useRef(null);
     const resourceBarWrapperRef = useRef(null);
+    const isMouseOverWrapperRef = useRef(false);
 
     // Class-specific states consolidated - ONLY UI STATE, values read from props
     const [berserkerState, setBerserkerState] = useState({
@@ -315,6 +322,10 @@ const ClassResourceBar = ({
     const resonanceBarRef = useRef(null);
     const [showResonanceMenu, setShowResonanceMenu] = useState(false);
     const [animistHoverSection, setAnimistHoverSection] = useState(null);
+    const setAnimistHoverSectionSafe = (value) => {
+        if (value === null && isMouseOverWrapperRef.current) return;
+        setAnimistHoverSection(value);
+    };
 
     // Destructure local variables from state objects for easier access
     // BERSERKER FIX: Using prop-based berserkerRage instead of local state
@@ -437,7 +448,10 @@ const ClassResourceBar = ({
         minstrelHoverSection
     } = minstrelState;
 
-    const setMinstrelHoverSection = (value) => setMinstrelState(prev => ({ ...prev, minstrelHoverSection: value }));
+    const setMinstrelHoverSection = (value) => {
+        if (value === null && isMouseOverWrapperRef.current) return;
+        setMinstrelState(prev => ({ ...prev, minstrelHoverSection: value }));
+    };
     const setShowMinstrelSpecMenu = (value) => setMinstrelState(prev => ({ ...prev, showMinstrelSpecMenu: value }));
     const setShowNoteMenus = (value) => setMinstrelState(prev => ({ ...prev, showNoteMenus: value }));
     const setLocalNotes = (value) => setMinstrelState(prev => ({ ...prev, localNotes: value }));
@@ -568,26 +582,68 @@ const ClassResourceBar = ({
     const setShowChargesMenu = (value) => setCovenbaneState(prev => ({ ...prev, showChargesMenu: value }));
 
     // Setter functions for hover sections in class-specific states
-    const setShaperHoverSection = (value) => setShaperState(prev => ({ ...prev, shaperHoverSection: value }));
-    const setChronarchHoverSection = (value) => setChronarchState(prev => ({ ...prev, chronarchHoverSection: value }));
-    const setCovenbaneHoverSection = (value) => setCovenbaneState(prev => ({ ...prev, covenbaneHoverSection: value }));
-    const setDeathcallerHoverSection = (value) => setDeathcallerState(prev => ({ ...prev, deathcallerHoverSection: value }));
-    const setDreadnaughtHoverSection = (value) => setDreadnaughtState(prev => ({ ...prev, dreadnaughtHoverSection: value }));
-    const setExorcistHoverSection = (value) => setExorcistState(prev => ({ ...prev, exorcistHoverSection: value }));
-    const setFalseProphetHoverSection = (value) => setFalseProphetState(prev => ({ ...prev, falseProphetHoverSection: value }));
-    const setFateWeaverHoverSection = (value) => setFateWeaverState(prev => ({ ...prev, fateWeaverHoverSection: value }));
+    const setShaperHoverSection = (value) => {
+        if (value === null && isMouseOverWrapperRef.current) return;
+        setShaperState(prev => ({ ...prev, shaperHoverSection: value }));
+    };
+    const setChronarchHoverSection = (value) => {
+        if (value === null && isMouseOverWrapperRef.current) return;
+        setChronarchState(prev => ({ ...prev, chronarchHoverSection: value }));
+    };
+    const setCovenbaneHoverSection = (value) => {
+        if (value === null && isMouseOverWrapperRef.current) return;
+        setCovenbaneState(prev => ({ ...prev, covenbaneHoverSection: value }));
+    };
+    const setDeathcallerHoverSection = (value) => {
+        if (value === null && isMouseOverWrapperRef.current) return;
+        setDeathcallerState(prev => ({ ...prev, deathcallerHoverSection: value }));
+    };
+    const setDreadnaughtHoverSection = (value) => {
+        if (value === null && isMouseOverWrapperRef.current) return;
+        setDreadnaughtState(prev => ({ ...prev, dreadnaughtHoverSection: value }));
+    };
+    const setExorcistHoverSection = (value) => {
+        if (value === null && isMouseOverWrapperRef.current) return;
+        setExorcistState(prev => ({ ...prev, exorcistHoverSection: value }));
+    };
+    const setFalseProphetHoverSection = (value) => {
+        if (value === null && isMouseOverWrapperRef.current) return;
+        setFalseProphetState(prev => ({ ...prev, falseProphetHoverSection: value }));
+    };
+    const setFateWeaverHoverSection = (value) => {
+        if (value === null && isMouseOverWrapperRef.current) return;
+        setFateWeaverState(prev => ({ ...prev, fateWeaverHoverSection: value }));
+    };
     const setSelectedFateWeaverSpec = (value) => setFateWeaverState(prev => ({ ...prev, selectedFateWeaverSpec: value }));
     const setShowThreadsMenu = (value) => setFateWeaverState(prev => ({ ...prev, showThreadsMenu: value }));
     const setLocalThreads = (value) => setFateWeaverState(prev => ({ ...prev, localThreads: value }));
-    const setGamblerHoverSection = (value) => setGamblerState(prev => ({ ...prev, gamblerHoverSection: value }));
-    const setHuntressHoverSection = (value) => setHuntressState(prev => ({ ...prev, huntressHoverSection: value }));
-    const setLichborneHoverSection = (value) => setLichborneState(prev => ({ ...prev, lichborneHoverSection: value }));
+    const setGamblerHoverSection = (value) => {
+        if (value === null && isMouseOverWrapperRef.current) return;
+        setGamblerState(prev => ({ ...prev, gamblerHoverSection: value }));
+    };
+    const setHuntressHoverSection = (value) => {
+        if (value === null && isMouseOverWrapperRef.current) return;
+        setHuntressState(prev => ({ ...prev, huntressHoverSection: value }));
+    };
+    const setLichborneHoverSection = (value) => {
+        if (value === null && isMouseOverWrapperRef.current) return;
+        setLichborneState(prev => ({ ...prev, lichborneHoverSection: value }));
+    };
     const setLocalPhylacteryHP = (value) => setLichborneState(prev => ({ ...prev, localPhylacteryHP: value }));
     const setEternalFrostActive = (value) => setLichborneState(prev => ({ ...prev, eternalFrostActive: value }));
     const setLichborneSpec = (value) => setLichborneState(prev => ({ ...prev, lichborneSpec: value }));
-    const setLunarchHoverSection = (value) => setLunarchState(prev => ({ ...prev, lunarchHoverSection: value }));
-    const setMartyrHoverSection = (value) => setMartyrState(prev => ({ ...prev, martyrHoverSection: value }));
-    const setOracleHoverSection = (value) => setOracleState(prev => ({ ...prev, oracleHoverSection: value }));
+    const setLunarchHoverSection = (value) => {
+        if (value === null && isMouseOverWrapperRef.current) return;
+        setLunarchState(prev => ({ ...prev, lunarchHoverSection: value }));
+    };
+    const setMartyrHoverSection = (value) => {
+        if (value === null && isMouseOverWrapperRef.current) return;
+        setMartyrState(prev => ({ ...prev, martyrHoverSection: value }));
+    };
+    const setOracleHoverSection = (value) => {
+        if (value === null && isMouseOverWrapperRef.current) return;
+        setOracleState(prev => ({ ...prev, oracleHoverSection: value }));
+    };
 
     const renderIcon = (icon) => {
         if (!icon) return null;
@@ -769,17 +825,16 @@ const ClassResourceBar = ({
     useEffect(() => {
         if (!showTooltip) return;
 
-        const tooltip = tooltipRef.current;
-        const bar = resourceBarWrapperRef.current;
-
-        if (!tooltip || !bar) return;
-
-        tooltip.style.opacity = '0';
+        let active = true;
 
         const updatePosition = () => {
+            if (!active) return;
             const tt = tooltipRef.current;
             const br = resourceBarWrapperRef.current;
-            if (!tt || !br) return;
+            if (!tt || !br) {
+                requestAnimationFrame(updatePosition);
+                return;
+            }
 
             // Set fixed position early so getBoundingClientRect returns correct intrinsic dimensions 
             // instead of stretching to 100% of body width
@@ -852,13 +907,18 @@ const ClassResourceBar = ({
 
         updatePosition();
         requestAnimationFrame(() => {
-            requestAnimationFrame(updatePosition);
+            if (active) requestAnimationFrame(updatePosition);
         });
 
-        const timeoutId = setTimeout(updatePosition, 50);
-        const timeoutId2 = setTimeout(updatePosition, 100);
+        const timeoutId = setTimeout(() => {
+            if (active) updatePosition();
+        }, 50);
+        const timeoutId2 = setTimeout(() => {
+            if (active) updatePosition();
+        }, 100);
 
         return () => {
+            active = false;
             clearTimeout(timeoutId);
             clearTimeout(timeoutId2);
             if (tooltipRef.current) {
@@ -1207,6 +1267,7 @@ const ClassResourceBar = ({
     // Handle mouse events for tooltip (following item tooltip pattern)
     // Add 4 second delay before showing tooltip
     const handleMouseEnter = (e) => {
+        isMouseOverWrapperRef.current = true;
         // Clear any existing timeout
         if (tooltipTimeoutRef.current) {
             clearTimeout(tooltipTimeoutRef.current);
@@ -1217,12 +1278,29 @@ const ClassResourceBar = ({
     };
 
     const handleMouseLeave = () => {
+        isMouseOverWrapperRef.current = false;
         // Clear timeout if mouse leaves before tooltip shows
         if (tooltipTimeoutRef.current) {
             clearTimeout(tooltipTimeoutRef.current);
             tooltipTimeoutRef.current = null;
         }
-        setShowTooltip(false);
+        setUiState(prev => ({ ...prev, showTooltip: false }));
+
+        // Clear all custom class hover sections
+        setChaosWeaverHoverSection(null);
+        setShaperHoverSection(null);
+        setChronarchHoverSection(null);
+        setCovenbaneHoverSection(null);
+        setDeathcallerHoverSection(null);
+        setFalseProphetHoverSection(null);
+        setFateWeaverHoverSection(null);
+        setGamblerHoverSection(null);
+        setHuntressHoverSection(null);
+        setLunarchHoverSection(null);
+        setMinstrelHoverSection(null);
+        setLichborneHoverSection(null);
+        setAnimistHoverSection(null);
+        setOracleHoverSection(null);
     };
 
     const handleMouseMove = (e) => {
@@ -1290,6 +1368,7 @@ const ClassResourceBar = ({
                     size={size}
                     context={context}
                     mayhemBarRef={mayhemBarRef}
+                    renderStatusFlavor={renderStatusFlavor}
                 />;
             case 'deck':
                 return renderCardDeck();
@@ -1336,6 +1415,7 @@ const ClassResourceBar = ({
                     context={context}
                     rageInputValue={rageInputValue}
                     rageBarRef={rageBarRef}
+                    renderStatusFlavor={renderStatusFlavor}
                 />;
             case 'stance-flow':
                 return <StanceFlowResourceBar
@@ -1353,6 +1433,7 @@ const ClassResourceBar = ({
                     stanceBarRef={stanceBarRef}
                     setShowTooltip={setShowTooltip}
                     setTooltipPosition={setTooltipPosition}
+                    renderStatusFlavor={renderStatusFlavor}
                 />;
             case 'time-shards-strain':
                 return <TimeShardsStrainResourceBar
@@ -1369,6 +1450,8 @@ const ClassResourceBar = ({
                     temporalStrainBarRef={temporalStrainBarRef}
                     setShowTooltip={setShowTooltip}
                     setTooltipPosition={setTooltipPosition}
+                    renderStatusFlavor={renderStatusFlavor}
+                    logClassResourceChange={logClassResourceChange}
                 />;
             case 'hexbreaker-charges':
                 return <HexbreakerChargesResourceBar
@@ -1403,6 +1486,8 @@ const ClassResourceBar = ({
                     tokensBarRef={tokensBarRef}
                     setShowTooltip={setShowTooltip}
                     setTooltipPosition={setTooltipPosition}
+                    renderStatusFlavor={renderStatusFlavor}
+                    logClassResourceChange={logClassResourceChange}
                 />;
             case 'drp-resilience':
                 return <DRPResilienceResourceBar
@@ -1418,6 +1503,8 @@ const ClassResourceBar = ({
                     size={size}
                     context={context}
                     drpBarRef={drpBarRef}
+                    renderStatusFlavor={renderStatusFlavor}
+                    logClassResourceChange={logClassResourceChange}
                 />;
             case 'dominance-die':
                 return <DominanceDieResourceBar
@@ -1433,6 +1520,7 @@ const ClassResourceBar = ({
                     size={size}
                     context={context}
                     dominanceBarRef={dominanceBarRef}
+                    renderStatusFlavor={renderStatusFlavor}
                 />;
             case 'madness-gauge':
                 return <MadnessGaugeResourceBar
@@ -1448,6 +1536,9 @@ const ClassResourceBar = ({
                     size={size}
                     context={context}
                     madnessBarRef={madnessBarRef}
+                    renderStatusFlavor={renderStatusFlavor}
+                    logClassResourceChange={logClassResourceChange}
+                    getDangerLevel={getDangerLevel}
                 />;
             case 'threads-of-destiny':
                 return <ThreadsOfDestinyResourceBar
@@ -1464,6 +1555,8 @@ const ClassResourceBar = ({
                     context={context}
                     modifiedConfig={modifiedConfig}
                     threadsBarRef={threadsBarRef}
+                    renderStatusFlavor={renderStatusFlavor}
+                    logClassResourceChange={logClassResourceChange}
                 />;
             case 'fortune-points-gambling':
                 return <FortunePointsResourceBar
@@ -1479,6 +1572,8 @@ const ClassResourceBar = ({
                     size={size}
                     context={context}
                     fpBarRef={fpBarRef}
+                    renderStatusFlavor={renderStatusFlavor}
+                    logClassResourceChange={logClassResourceChange}
                 />;
             case 'quarry-marks-companion':
                 return <QuarryMarksResourceBar
@@ -1494,13 +1589,15 @@ const ClassResourceBar = ({
                     size={size}
                     context={context}
                     qmBarRef={qmBarRef}
+                    renderStatusFlavor={renderStatusFlavor}
+                    logClassResourceChange={logClassResourceChange}
                 />;
             case 'ancestral-resonance':
                 return <AncestralResonanceResourceBar
                     showResonanceMenu={showResonanceMenu}
                     setShowResonanceMenu={setShowResonanceMenu}
                     animistHoverSection={animistHoverSection}
-                    setAnimistHoverSection={setAnimistHoverSection}
+                    setAnimistHoverSection={setAnimistHoverSectionSafe}
                     uiState={uiState}
                     setUiState={setUiState}
                     finalClassResource={finalClassResource}
@@ -1511,6 +1608,8 @@ const ClassResourceBar = ({
                     size={size}
                     context={context}
                     resonanceBarRef={resonanceBarRef}
+                    renderStatusFlavor={renderStatusFlavor}
+                    logClassResourceChange={logClassResourceChange}
                 />;
             case 'eternal-frost-phylactery':
                 return <EternalFrostPhylacteryResourceBar
@@ -1526,6 +1625,7 @@ const ClassResourceBar = ({
                     size={size}
                     context={context}
                     phylacteryBarRef={phylacteryBarRef}
+                    logClassResourceChange={logClassResourceChange}
                 />;
             case 'lunar-phases':
                 return <LunarPhasesResourceBar
@@ -1557,6 +1657,8 @@ const ClassResourceBar = ({
                     context={context}
                     devotionBarRef={devotionBarRef}
                     martyrTooltipRef={martyrTooltipRef}
+                    renderStatusFlavor={renderStatusFlavor}
+                    getTooltipHeaderColor={getTooltipHeaderColor}
                 />;
             case 'musical-notes-combo':
                 // Minstrel "Musical Notes & Cadences" — handled by external component.
@@ -1585,6 +1687,8 @@ const ClassResourceBar = ({
                     size={size}
                     context={context}
                     visionsBarRef={visionsBarRef}
+                    renderStatusFlavor={renderStatusFlavor}
+                    logClassResourceChange={logClassResourceChange}
                 />;
             case 'virulence-bar':
                 return <PlaguebringerResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} isOwner={isOwner} onClassResourceUpdate={onClassResourceUpdate} />;
@@ -2143,14 +2247,74 @@ const ClassResourceBar = ({
             <div
                 ref={resourceBarWrapperRef}
                 className={`class-resource-wrapper ${isGMMode ? 'clickable' : ''}`}
-                onMouseEnter={!isBerserker && !isShaper && !isHarbinger && !isChronarch && !isRevenant && !isFalseProphet && !isGambitThreads && !isGambit && !isApex && !isAnimist && !isInquisitor && !isLunarch && !isMartyr && !isMinstrel && !isPlaguebringer && !isPyrofiend && !isSpellguard && !isWarden && !isAugur ? handleMouseEnter : undefined}
-                onMouseLeave={!isBerserker && !isShaper && !isHarbinger && !isChronarch && !isRevenant && !isFalseProphet && !isGambitThreads && !isGambit && !isApex && !isAnimist && !isInquisitor && !isLunarch && !isMartyr && !isMinstrel && !isPlaguebringer && !isPyrofiend && !isSpellguard && !isWarden && !isAugur ? handleMouseLeave : undefined}
-                onMouseMove={!isBerserker && !isShaper && !isHarbinger && !isChronarch && !isRevenant && !isFalseProphet && !isGambitThreads && !isGambit && !isApex && !isAnimist && !isInquisitor && !isLunarch && !isMartyr && !isMinstrel && !isPlaguebringer && !isWarden && !isAugur ? handleMouseMove : undefined}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                onMouseMove={handleMouseMove}
                 onClick={handleClick}
                 style={{ cursor: isGMMode ? 'pointer' : 'default' }}
             >
                 {renderResourceDisplay()}
-                {!isMartyr && !isAugur && !isArcanoneer && <ResourceTooltip finalConfig={finalConfig} modifiedConfig={modifiedConfig} finalClassResource={finalClassResource} showTooltip={showTooltip} chaosWeaverHoverSection={chaosWeaverHoverSection} activeSpecialization={activeSpecialization} animistHoverSection={animistHoverSection} tooltipRef={tooltipRef} />}
+                {!isMartyr && !isAugur && !isArcanoneer && (
+                    <ResourceTooltip
+                        finalConfig={finalConfig}
+                        modifiedConfig={modifiedConfig}
+                        finalClassResource={finalClassResource}
+                        showTooltip={showTooltip}
+                        chaosWeaverHoverSection={chaosWeaverHoverSection}
+                        activeSpecialization={activeSpecialization}
+                        animistHoverSection={animistHoverSection}
+                        shaperHoverSection={shaperHoverSection}
+                        chronarchHoverSection={chronarchHoverSection}
+                        covenbaneHoverSection={covenbaneHoverSection}
+                        deathcallerHoverSection={deathcallerHoverSection}
+                        falseProphetHoverSection={falseProphetHoverSection}
+                        fateWeaverHoverSection={fateWeaverHoverSection}
+                        gamblerHoverSection={gamblerHoverSection}
+                        huntressHoverSection={huntressHoverSection}
+                        lunarchHoverSection={lunarchHoverSection}
+                        minstrelHoverSection={minstrelHoverSection}
+                        tooltipRef={tooltipRef}
+                        shaperMomentum={shaperMomentum}
+                        shaperFlourish={shaperFlourish}
+                        stanceValue={stanceValue}
+                        currentStance={currentStance}
+                        selectedSpecialization={selectedSpecialization}
+                        chronarchTimeShards={chronarchTimeShards}
+                        chronarchTemporalStrain={chronarchTemporalStrain}
+                        covenbaneHexbreakerCharges={covenbaneHexbreakerCharges}
+                        covenbaneAttackCounter={covenbaneAttackCounter}
+                        localAscensionPaths={localAscensionPaths}
+                        localBloodTokens={localBloodTokens}
+                        dreadnaughtHoverSection={dreadnaughtHoverSection}
+                        localDRP={localDRP}
+                        selectedResistanceType={selectedResistanceType}
+                        exorcistHoverSection={exorcistHoverSection}
+                        boundDemons={boundDemons}
+                        selectedDemonIndex={selectedDemonIndex}
+                        localDominanceDie={localDominanceDie}
+                        localMadness={localMadness}
+                        getDangerLevel={getDangerLevel}
+                        getNextThreshold={getNextThreshold}
+                        localThreads={localThreads}
+                        getThreadLevel={getThreadLevel}
+                        selectedFateWeaverSpec={selectedFateWeaverSpec}
+                        localFortunePoints={localFortunePoints}
+                        localQuarryMarks={localQuarryMarks}
+                        companionHP={companionHP}
+                        companionMaxHP={companionMaxHP}
+                        lichborneHoverSection={lichborneHoverSection}
+                        lichborneSpec={lichborneSpec}
+                        localPhylacteryHP={localPhylacteryHP}
+                        currentLunarPhase={currentLunarPhase}
+                        roundsInPhase={roundsInPhase}
+                        lunarchSpec={lunarchSpec}
+                        localNotes={localNotes}
+                        oracleHoverSection={oracleHoverSection}
+                        oracleSpec={oracleSpec}
+                        localVisions={localVisions}
+                        berserkerRage={berserkerRage}
+                    />
+                )}
             </div>
 
         </>

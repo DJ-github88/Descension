@@ -52,14 +52,16 @@ const AncestralResonanceResourceBar = ({
                         cursor: isOwner ? 'pointer' : 'default',
                         display: 'flex',
                         alignItems: 'center',
-                        height: size === 'large' ? '20px' : '14px',
-                        background: 'rgba(16, 185, 129, 0.05)',
-                        border: '1px solid rgba(16, 185, 129, 0.3)',
+                        height: size === 'small' ? '14px' : '20px',
+                        background: 'linear-gradient(180deg, rgba(6, 40, 26, 0.4) 0%, rgba(6, 40, 26, 0.7) 100%)',
+                        border: '2px solid rgba(16, 185, 129, 0.5)',
                         borderRadius: '4px',
                         position: 'relative',
-                        padding: '0 6px',
+                        padding: '0 8px',
                         overflow: 'hidden',
-                        width: '100%'
+                        width: '100%',
+                        boxSizing: 'border-box',
+                        boxShadow: 'inset 0 1px 2px rgba(0, 0, 0, 0.4)'
                     }}
                 >
                     <div
@@ -68,11 +70,11 @@ const AncestralResonanceResourceBar = ({
                             position: 'absolute',
                             left: 0,
                             top: 0,
-                            height: '100%',
+                            bottom: 0,
                             width: `${percentage}%`,
                             background: 'linear-gradient(90deg, #059669 0%, #10B981 100%)',
-                            boxShadow: '0 0 10px rgba(16, 185, 129, 0.5)',
-                            opacity: 0.35,
+                            boxShadow: 'inset 0 1px 1px rgba(255, 255, 255, 0.2), 0 0 10px rgba(16, 185, 129, 0.6)',
+                            opacity: 1,
                             transition: 'width 0.2s ease-out'
                         }}
                     />
@@ -85,13 +87,26 @@ const AncestralResonanceResourceBar = ({
                             top: 0,
                             right: 0,
                             bottom: 0,
-                            backgroundImage: 'repeating-linear-gradient(90deg, transparent, transparent 15px, rgba(52, 211, 153, 0.1) 15px, rgba(52, 211, 153, 0.1) 16px)',
+                            backgroundImage: 'repeating-linear-gradient(90deg, transparent, transparent 12px, rgba(52, 211, 153, 0.08) 12px, rgba(52, 211, 153, 0.08) 13px)',
                             pointerEvents: 'none',
-                            animation: 'runicPulse 3s infinite ease-in-out'
+                            opacity: 0.8
                         }}
                     />
-                    <div style={{ position: 'relative', zIndex: 1, display: 'flex', justifyContent: 'space-between', width: '100%', fontSize: '10px', fontWeight: 'bold', color: '#1B5E20' }}>
-                        <span>Ancestral Resonance</span>
+                    <div style={{
+                        position: 'relative',
+                        zIndex: 1,
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        width: '100%',
+                        fontSize: size === 'small' ? '8px' : '10px',
+                        fontWeight: 'bold',
+                        color: '#ffffff',
+                        fontFamily: 'Bookman Old Style, Garamond, serif',
+                        letterSpacing: '0.5px',
+                        textShadow: '0 0 3px rgba(0, 0, 0, 1), 0 1px 2px rgba(0, 0, 0, 1), 1px 1px 2px rgba(0, 0, 0, 1)'
+                    }}>
+                        <span>{size === 'small' ? 'Resonance' : 'Ancestral Resonance'}</span>
                         <span>{curRes}/{maxRes} AR</span>
                     </div>
                 </div>

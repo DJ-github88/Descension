@@ -181,7 +181,7 @@ body svg[data-icon] {
     var(--map-background-url),
     radial-gradient(circle at 25% 25%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
     radial-gradient(circle at 75% 75%, rgba(139, 69, 19, 0.1) 0%, transparent 50%);
-  background-size: 420% 420%, 100% 100%, 100% 100%; /* Much more zoomed in (420% = very close view) */
+  background-size: auto 420%, 100% 100%, 100% 100%; /* Height-based sizing preserves the image's 4:3 aspect ratio on all devices (no squish on portrait mobile/tablet) */
   background-position: 0% 0%, center, center; /* Start at top-left corner */
   background-repeat: no-repeat;
   background-attachment: scroll;
@@ -1685,17 +1685,13 @@ body svg[data-icon] {
 .mobile-menu {
   display: none;
   flex-direction: column;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.95);
-  border-bottom: 2px solid #8b4513;
+  position: relative;
+  width: 100%;
+  background: transparent;
+  border-top: 1px solid rgba(212, 175, 55, 0.15);
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s ease;
-  z-index: 1001;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
 }
 
 .mobile-menu.open {

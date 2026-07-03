@@ -416,7 +416,7 @@ export const useRoomPersistence = (roomId) => {
   }, []);
 
   const realtimeSync = useRealtimeSync(
-    'roomStates',
+    `users/${user?.uid}/roomStates`,
     currentRoomId,
     handleRemoteRoomChange,
     {

@@ -13895,4 +13895,71 @@ button.gender-option.selected {
         padding: 0.35rem 0.5rem !important;
         font-size: 0.74rem !important;
     }
+}
+
+/* Mobile adjustments for Stats and Spellbook drawers */
+@media (max-width: 768px) {
+    .spellbook-drawer-width {
+        width: 100vw !important;
+        max-width: 100% !important;
+    }
+    
+    .grimoire-drawer-body {
+        width: 100vw !important;
+        max-width: 100% !important;
+        border-left: none !important;
+    }
+    
+    .spellbook-drawer-split {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 1rem !important;
+        padding: 1rem !important;
+        overflow-y: auto !important;
+        height: auto !important;
+        max-height: calc(100vh - 120px) !important;
+    }
+    
+    .spellbook-spell-list-side {
+        width: 100% !important;
+        overflow-y: visible !important;
+        height: auto !important;
+        padding-right: 0 !important;
+    }
+    
+    .spellbook-icon-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.5rem !important;
+    }
+    
+    .spellbook-spell-detail-side {
+        width: 100% !important;
+        border-left: none !important;
+        border-top: 1px solid rgba(153, 126, 85, 0.25) !important;
+        padding-left: 0 !important;
+        padding-top: 1rem !important;
+        overflow-y: visible !important;
+        height: auto !important;
+    }
+
+    .spell-drawer-count {
+        width: 100% !important;
+        margin: 0.5rem 0 0 0 !important;
+        font-size: 0.85rem !important;
+        color: #7a5a35 !important;
+    }
+
+    .drawer-header h2 {
+        font-size: 1.1rem !important;
+        margin: 0 !important;
+    }
+
+    .drawer-header {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        padding: 1rem !important;
+    }
 }

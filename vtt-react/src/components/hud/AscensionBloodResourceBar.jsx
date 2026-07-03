@@ -240,9 +240,9 @@ const AscensionBloodResourceBar = ({
                     {/* Paths Menu */}
                     {showPathsMenu && pathsBarRef.current && ReactDOM.createPortal(
                         <div
-                            className={`unified-context-menu compact context-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                            className={`unified-context-menu compact context-menu-container deathcaller-paths-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
                             onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
-                                onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
+                            onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
                             style={{
                                 position: 'fixed',
                                 top: (() => {

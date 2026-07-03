@@ -466,6 +466,114 @@
     min-width: 36px;
 }
 
+/* Ascension Paths Grid and Buttons */
+.unified-context-menu.deathcaller-paths-menu-container {
+    width: 250px !important;
+}
+
+.unified-context-menu.deathcaller-paths-menu-container.chronarch-party {
+    width: 226px !important;
+    min-width: 226px !important;
+    padding: 8px 6px !important;
+}
+
+.unified-context-menu.deathcaller-paths-menu-container.chronarch-party .deathcaller-path-btn {
+    padding: 4px 6px !important;
+    gap: 4px !important;
+    font-size: 10px !important;
+}
+
+.deathcaller-paths-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+    margin: 10px 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.deathcaller-path-btn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    padding: 6px 10px;
+    background: linear-gradient(135deg, rgba(40, 20, 20, 0.6) 0%, rgba(20, 10, 10, 0.8) 100%);
+    border: 1px solid rgba(139, 0, 0, 0.45);
+    border-radius: 4px;
+    color: #c5bba8;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    text-align: left;
+    outline: none;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.deathcaller-path-btn:last-child {
+    grid-column: span 2;
+    justify-content: center;
+}
+
+.deathcaller-path-btn:hover:not(.disabled):not(.active) {
+    background: linear-gradient(135deg, rgba(100, 30, 30, 0.5) 0%, rgba(60, 15, 15, 0.7) 100%);
+    border-color: rgba(220, 20, 60, 0.75);
+    color: #ffffff;
+    box-shadow: 0 0 6px rgba(220, 20, 60, 0.3), inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.deathcaller-path-btn.active {
+    background: linear-gradient(135deg, rgba(139, 0, 0, 0.75) 0%, rgba(92, 0, 0, 0.85) 100%) !important;
+    border-color: #ff3333 !important;
+    color: #ffffff !important;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(255, 51, 51, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.1) !important;
+    text-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
+}
+
+.deathcaller-path-btn.active i {
+    color: #ff3333;
+    filter: drop-shadow(0 0 3px rgba(255, 51, 51, 0.8));
+}
+
+.deathcaller-path-btn.disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    background: rgba(30, 30, 30, 0.3) !important;
+    border-color: rgba(160, 140, 112, 0.2) !important;
+    color: #777777 !important;
+    box-shadow: none !important;
+    pointer-events: none;
+}
+
+.deathcaller-path-number {
+    font-size: 10px;
+    opacity: 0.6;
+    font-weight: 700;
+    margin-right: 2px;
+}
+
+.deathcaller-path-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.deathcaller-quick-actions {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    margin-top: 10px;
+    box-sizing: border-box;
+}
+
+.deathcaller-quick-actions button {
+    flex: 1;
+}
+
 /* ========================================
    DRP Resilience (Dreadnaught)
    ======================================== */

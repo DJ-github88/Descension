@@ -46,11 +46,19 @@ service cloud.firestore {
 
     // ===== CHARACTER DATA PERSISTENCE =====
     // Users can read/write their own characters (stored in top-level characters collection)
+    // SECURITY: read is allowed for the owner; create requires the userId to match.
+    // The combined `read, write` rule below is split into separate read/create/update
+    // so that missing documents (no resource.data) don't trigger permission errors
+    // during getDoc() calls on non-existent character IDs.
     match /characters/{characterId} {
-      allow read, write: if request.auth != null &&
-        request.auth.uid == resource.data.metadata.userId;
+      allow read: if request.auth != null && (
+        resource == null ||
+        resource.data.metadata.userId == request.auth.uid
+      );
       allow create: if request.auth != null &&
-        request.auth.uid == request.resource.data.metadata.userId;
+        request.resource.data.metadata.userId == request.auth.uid;
+      allow update, delete: if request.auth != null &&
+        resource.data.metadata.userId == request.auth.uid;
     }
 
     // Character runtime state (HP, inventory, equipment, etc.)
@@ -59,11 +67,40 @@ service cloud.firestore {
     }
 
     // Character sessions for tracking gameplay changes
-    match /character_sessions/{sessionId} {
-      allow read, write: if request.auth != null &&
-        request.auth.uid == resource.data.userId;
+    // (top-level `characterSessions` collection — actual collection name used in code)
+    match /characterSessions/{sessionId} {
+      allow read: if request.auth != null && (
+        resource == null ||
+        resource.data.userId == request.auth.uid
+      );
       allow create: if request.auth != null &&
-        request.auth.uid == request.resource.data.userId;
+        request.resource.data.userId == request.auth.uid;
+      allow update, delete: if request.auth != null &&
+        resource.data.userId == request.auth.uid;
+    }
+
+    // Legacy snake_case collection kept for backwards compatibility.
+    match /character_sessions/{sessionId} {
+      allow read: if request.auth != null && (
+        resource == null ||
+        resource.data.userId == request.auth.uid
+      );
+      allow create: if request.auth != null &&
+        request.resource.data.userId == request.auth.uid;
+      allow update, delete: if request.auth != null &&
+        resource.data.userId == request.auth.uid;
+    }
+
+    // Character backup snapshots — owner only
+    match /character_backups/{backupId} {
+      allow read: if request.auth != null && (
+        resource == null ||
+        resource.data.userId == request.auth.uid
+      );
+      allow create: if request.auth != null &&
+        request.resource.data.userId == request.auth.uid;
+      allow update, delete: if request.auth != null &&
+        resource.data.userId == request.auth.uid;
     }
 
     // ===== ROOM DATA PERSISTENCE =====

@@ -176,6 +176,7 @@ const InventoryWindow = memo(() => {
     const [contextMenu, setContextMenu] = useState({ visible: false, x: 0, y: 0, itemId: null });
     const [equipmentContextMenu, setEquipmentContextMenu] = useState({ visible: false, x: 0, y: 0, item: null });
     const [showItemTooltip, setShowItemTooltip] = useState({ visible: false, itemId: null });
+    const [itemActionPanel, setItemActionPanel] = useState({ visible: false, itemId: null, anchorRect: null });
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const { adjustedPosition, tooltipRef } = useTooltipPosition(mousePosition, showItemTooltip.visible);
     const [totalWeight, setTotalWeight] = useState({ normal: 0, encumbered: 0, overencumbered: 0, total: 0 });
@@ -204,6 +205,22 @@ const InventoryWindow = memo(() => {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
+
+    // Touch-drag state for mobile (long-press to drag, quick tap to open popup)
+    const [touchDragState, setTouchDragState] = useState({
+        isDragging: false,
+        pendingLongPress: false,
+        item: null,
+        currentX: 0,
+        currentY: 0,
+        startX: 0,
+        startY: 0,
+        highlightedCells: []
+    });
+    const longPressTimerRef = useRef(null);
+    const touchHandledRef = useRef(false);
+    const TOUCH_DRAG_LONG_PRESS_MS = 500;
+    const TOUCH_DRAG_MOVE_THRESHOLD = 12;
 
 
     // Refs
@@ -248,6 +265,7 @@ const InventoryWindow = memo(() => {
                 setSelectedItemId(null);
                 setContextMenu({ visible: false });
                 setEquipmentContextMenu({ visible: false });
+                setItemActionPanel({ visible: false, itemId: null, anchorRect: null });
             }
         };
 
@@ -256,6 +274,214 @@ const InventoryWindow = memo(() => {
             document.removeEventListener('keydown', handleKeyDown);
         };
     }, []);
+
+    // Show the click-to-open action panel for an item (mobile-friendly)
+    const handleItemActionClick = (e, itemId) => {
+        // Find the inventory cell this item lives in to position the panel
+        const cellEl = e.currentTarget.closest('.inventory-cell');
+        if (!cellEl) return;
+        const rect = cellEl.getBoundingClientRect();
+        setSelectedItemId(itemId);
+        setItemActionPanel({ visible: true, itemId, anchorRect: rect });
+    };
+
+    // Open action panel for a specific item (used by touch quick-tap fallback)
+    const openItemActionPanel = (item) => {
+        if (!item || !item.position) return;
+        const cellEl = document.querySelector(
+            `.inventory-cell[data-row="${item.position.row}"][data-col="${item.position.col}"]`
+        );
+        if (!cellEl) return;
+        const rect = cellEl.getBoundingClientRect();
+        setSelectedItemId(item.id);
+        setItemActionPanel({ visible: true, itemId: item.id, anchorRect: rect });
+    };
+
+    // Highlight inventory cells for a touch-dragged item
+    const highlightTouchDragCells = (item, row, col) => {
+        document.querySelectorAll('.inventory-cell').forEach(cell => {
+            cell.classList.remove('drag-over', 'drag-invalid');
+        });
+        if (!item || isNaN(row) || isNaN(col)) return;
+        const tempItem = { ...item, position: { row, col } };
+        const occupiedCells = getItemOccupiedCells(tempItem);
+        const isValid = isValidPosition(
+            items.filter(i => i.id !== item.id),
+            row,
+            col,
+            item,
+            item.id
+        );
+        occupiedCells.forEach(cellId => {
+            const cellElement = document.querySelector(
+                `.inventory-cell[data-row="${cellId.split('-')[0]}"][data-col="${cellId.split('-')[1]}"]`
+            );
+            if (cellElement) {
+                cellElement.classList.add(isValid ? 'drag-over' : 'drag-invalid');
+            }
+        });
+    };
+
+    const clearTouchDragHighlights = () => {
+        document.querySelectorAll('.inventory-cell').forEach(cell => {
+            cell.classList.remove('drag-over', 'drag-invalid');
+        });
+    };
+
+    // Mobile touch handlers: long-press initiates drag, quick tap opens popup
+    const handleItemTouchStart = (e, item) => {
+        if (!isMobile) return;
+        const touch = e.touches[0];
+        if (!touch) return;
+
+        touchHandledRef.current = false;
+        setTouchDragState({
+            isDragging: false,
+            pendingLongPress: true,
+            item,
+            startX: touch.clientX,
+            startY: touch.clientY,
+            currentX: touch.clientX,
+            currentY: touch.clientY,
+            highlightedCells: []
+        });
+
+        longPressTimerRef.current = setTimeout(() => {
+            setTouchDragState(prev => ({
+                ...prev,
+                pendingLongPress: false,
+                isDragging: true
+            }));
+            setDraggedItem(item);
+            window.isDraggingItem = true;
+            window.draggedItemInfo = {
+                item,
+                width: item.width || 1,
+                height: item.height || 1,
+                rotation: item.rotation || 0
+            };
+            // Haptic feedback if available
+            if (navigator.vibrate) {
+                try { navigator.vibrate(40); } catch (err) {}
+            }
+        }, TOUCH_DRAG_LONG_PRESS_MS);
+    };
+
+    const handleItemTouchMove = (e) => {
+        if (!isMobile) return;
+        if (!touchDragState.pendingLongPress && !touchDragState.isDragging) return;
+
+        const touch = e.touches[0];
+        if (!touch) return;
+
+        const dx = touch.clientX - touchDragState.startX;
+        const dy = touch.clientY - touchDragState.startY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (touchDragState.pendingLongPress) {
+            if (distance > TOUCH_DRAG_MOVE_THRESHOLD) {
+                clearTimeout(longPressTimerRef.current);
+                setTouchDragState({
+                    isDragging: false,
+                    pendingLongPress: false,
+                    item: null,
+                    startX: 0,
+                    startY: 0,
+                    currentX: 0,
+                    currentY: 0,
+                    highlightedCells: []
+                });
+            }
+            return;
+        }
+
+        if (touchDragState.isDragging) {
+            e.preventDefault();
+            setTouchDragState(prev => ({
+                ...prev,
+                currentX: touch.clientX,
+                currentY: touch.clientY
+            }));
+            const cellEl = document.elementFromPoint(touch.clientX, touch.clientY)?.closest('.inventory-cell');
+            if (cellEl) {
+                const row = parseInt(cellEl.dataset.row);
+                const col = parseInt(cellEl.dataset.col);
+                highlightTouchDragCells(touchDragState.item, row, col);
+            }
+        }
+    };
+
+    const handleItemTouchEnd = (e) => {
+        if (!isMobile) return;
+
+        if (touchDragState.pendingLongPress) {
+            // Quick tap -> open popup
+            clearTimeout(longPressTimerRef.current);
+            touchHandledRef.current = true;
+            setTouchDragState({
+                isDragging: false,
+                pendingLongPress: false,
+                item: null,
+                startX: 0,
+                startY: 0,
+                currentX: 0,
+                currentY: 0,
+                highlightedCells: []
+            });
+            if (touchDragState.item) {
+                openItemActionPanel(touchDragState.item);
+            }
+            return;
+        }
+
+        if (touchDragState.isDragging && touchDragState.item) {
+            const touch = e.changedTouches[0];
+            const cellEl = touch
+                ? document.elementFromPoint(touch.clientX, touch.clientY)?.closest('.inventory-cell')
+                : null;
+            if (cellEl) {
+                const row = parseInt(cellEl.dataset.row);
+                const col = parseInt(cellEl.dataset.col);
+                if (!isNaN(row) && !isNaN(col)) {
+                    useInventoryStore.getState().moveItem(touchDragState.item.id, { row, col });
+                }
+            }
+            clearTouchDragHighlights();
+            setDraggedItem(null);
+            window.isDraggingItem = false;
+            window.draggedItemInfo = null;
+        }
+
+        clearTimeout(longPressTimerRef.current);
+        setTouchDragState({
+            isDragging: false,
+            pendingLongPress: false,
+            item: null,
+            startX: 0,
+            startY: 0,
+            currentX: 0,
+            currentY: 0,
+            highlightedCells: []
+        });
+    };
+
+    const handleItemTouchCancel = () => {
+        clearTimeout(longPressTimerRef.current);
+        clearTouchDragHighlights();
+        setDraggedItem(null);
+        window.isDraggingItem = false;
+        window.draggedItemInfo = null;
+        setTouchDragState({
+            isDragging: false,
+            pendingLongPress: false,
+            item: null,
+            startX: 0,
+            startY: 0,
+            currentX: 0,
+            currentY: 0,
+            highlightedCells: []
+        });
+    };
 
     // Handle context menu for items
     const handleItemContextMenu = (e, itemId) => {
@@ -299,6 +525,8 @@ const InventoryWindow = memo(() => {
 
     // Handle item tooltip (simplified to match character sheet pattern)
     const handleItemMouseEnter = (e, itemId) => {
+        // On mobile we only show the action popup, not the hover tooltip
+        if (isMobile) return;
         setShowItemTooltip({ visible: true, itemId });
         setMousePosition({ x: e.clientX, y: e.clientY });
     };
@@ -1028,6 +1256,7 @@ const InventoryWindow = memo(() => {
     // Handle drag start for items
     const handleDragStart = (e, item) => {
         setDraggedItem(item);
+        setItemActionPanel({ visible: false, itemId: null, anchorRect: null });
 
         // Create a deep copy of the item to ensure all properties are included
         const itemCopy = JSON.parse(JSON.stringify(item));
@@ -1484,9 +1713,16 @@ const InventoryWindow = memo(() => {
     const renderGrid = () => {
 
 
-        // Create section headers
+        // Create section headers - widths are driven by GRID_SIZE section columns
         const sectionHeaders = (
-            <div className="inventory-section-headers">
+            <div
+                className="inventory-section-headers"
+                style={{
+                    '--section-normal-cols': GRID_SIZE.NORMAL_SECTION,
+                    '--section-encumbered-cols': GRID_SIZE.ENCUMBERED_SECTION,
+                    '--section-overencumbered-cols': GRID_SIZE.OVERENCUMBERED_SECTION
+                }}
+            >
                 <div className="section-header normal">Normal</div>
                 <div className="section-header encumbered">Encumbered</div>
                 <div className="section-header overencumbered">Overencumbered</div>
@@ -1544,7 +1780,10 @@ const InventoryWindow = memo(() => {
                         onDragOver={handleDragOver}
                         onDragLeave={handleDragLeave}
                         onDrop={(e) => handleDrop(e, row, col)}
-                        onClick={() => setSelectedItemId(null)}
+                        onClick={() => {
+                            setSelectedItemId(null);
+                            setItemActionPanel({ visible: false, itemId: null, anchorRect: null });
+                        }}
                     >
 
                         {isItemOrigin && itemAtOrigin && (() => {
@@ -1658,11 +1897,23 @@ const InventoryWindow = memo(() => {
                                                         onMouseEnter={(e) => handleItemMouseEnter(e, renderitem.id)}
                                                         onMouseMove={(e) => handleItemMouseMove(e, renderitem.id)}
                                                         onMouseLeave={handleItemMouseLeave}
+                                                        onTouchStart={(e) => handleItemTouchStart(e, renderitem)}
+                                                        onTouchMove={handleItemTouchMove}
+                                                        onTouchEnd={(e) => {
+                                                            e.preventDefault();
+                                                            handleItemTouchEnd(e);
+                                                        }}
+                                                        onTouchCancel={handleItemTouchCancel}
                                                         onClick={(e) => {
-                                                            setSelectedItemId(renderitem.id);
+                                                            e.stopPropagation();
+                                                            if (touchHandledRef.current) {
+                                                                touchHandledRef.current = false;
+                                                                return;
+                                                            }
                                                             if (e.detail === 2) {
                                                                 rotateItem(renderitem.id);
                                                             }
+                                                            handleItemActionClick(e, renderitem.id);
                                                         }}
                                                     />
                                                 );
@@ -1681,11 +1932,23 @@ const InventoryWindow = memo(() => {
                                                 e.stopPropagation();
                                                 handleItemContextMenu(e, renderitem.id);
                                             }}
+                                            onTouchStart={(e) => handleItemTouchStart(e, renderitem)}
+                                            onTouchMove={handleItemTouchMove}
+                                            onTouchEnd={(e) => {
+                                                e.preventDefault();
+                                                handleItemTouchEnd(e);
+                                            }}
+                                            onTouchCancel={handleItemTouchCancel}
                                             onClick={(e) => {
-                                                setSelectedItemId(renderitem.id);
+                                                e.stopPropagation();
+                                                if (touchHandledRef.current) {
+                                                    touchHandledRef.current = false;
+                                                    return;
+                                                }
                                                 if (e.detail === 2) {
                                                     rotateItem(renderitem.id);
                                                 }
+                                                handleItemActionClick(e, renderitem.id);
                                             }}
                                         />
                                     )}
@@ -1715,11 +1978,23 @@ const InventoryWindow = memo(() => {
                                             onMouseEnter={(e) => handleItemMouseEnter(e, renderitem.id)}
                                             onMouseMove={(e) => handleItemMouseMove(e, renderitem.id)}
                                             onMouseLeave={handleItemMouseLeave}
+                                            onTouchStart={(e) => handleItemTouchStart(e, renderitem)}
+                                            onTouchMove={handleItemTouchMove}
+                                            onTouchEnd={(e) => {
+                                                e.preventDefault();
+                                                handleItemTouchEnd(e);
+                                            }}
+                                            onTouchCancel={handleItemTouchCancel}
                                             onClick={(e) => {
-                                                setSelectedItemId(renderitem.id);
+                                                e.stopPropagation();
+                                                if (touchHandledRef.current) {
+                                                    touchHandledRef.current = false;
+                                                    return;
+                                                }
                                                 if (e.detail === 2) {
                                                     rotateItem(renderitem.id);
                                                 }
+                                                handleItemActionClick(e, renderitem.id);
                                             }}
                                         />
                                     )}
@@ -2359,6 +2634,177 @@ const InventoryWindow = memo(() => {
                 </TooltipPortal>
             )}
 
+            {/* Item Action Panel - Mobile-friendly click-to-open tooltip with options */}
+            {itemActionPanel.visible && itemActionPanel.anchorRect && (() => {
+                const item = items.find(i => i.id === itemActionPanel.itemId);
+                if (!item) return null;
+                const isContainer = item?.type === 'container';
+                const isLocked = item?.containerProperties?.isLocked || false;
+                const qualityColor = getQualityColor(item.quality, item.rarity);
+                const qualityLower = (item.quality || item.rarity || 'common').toLowerCase();
+                const compatibleSlots = getCompatibleSlots(item);
+                const closePanel = () => setItemActionPanel({ visible: false, itemId: null, anchorRect: null });
+
+                return ReactDOM.createPortal(
+                    <>
+                        <div className="item-action-backdrop" onClick={closePanel} />
+                        <div
+                            className="item-action-panel"
+                            role="dialog"
+                            aria-label={`Actions for ${getDisplayName(item)}`}
+                            style={(() => {
+                                const rect = itemActionPanel.anchorRect;
+                                const panelWidth = 300;
+                                const panelHeight = 560;
+                                const margin = 8;
+                                let left;
+                                let top;
+                                if (isMobile) {
+                                    // Center the popup on screen in mobile view
+                                    left = Math.max(margin, (window.innerWidth - panelWidth) / 2);
+                                    top = Math.max(margin, (window.innerHeight - panelHeight) / 2);
+                                } else {
+                                    left = rect.left + rect.width / 2 - panelWidth / 2;
+                                    top = rect.bottom + margin;
+                                }
+                                if (left < margin) left = margin;
+                                if (left + panelWidth > window.innerWidth - margin) {
+                                    left = window.innerWidth - panelWidth - margin;
+                                }
+                                if (top + panelHeight > window.innerHeight - margin) {
+                                    top = isMobile
+                                        ? Math.max(margin, window.innerHeight - panelHeight - margin)
+                                        : rect.top - panelHeight - margin;
+                                }
+                                if (top < margin) top = margin;
+                                return { left, top, borderColor: qualityColor };
+                            })()}
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            {/* Inline item tooltip showing full details (header omitted; tooltip already identifies the item) */}
+                            <div className="item-action-tooltip-embed">
+                                <ItemTooltip item={item} />
+                            </div>
+
+                            <div className="item-action-buttons">
+                                <button
+                                    type="button"
+                                    className="item-action-btn"
+                                    onClick={() => {
+                                        rotateItem(item.id);
+                                        closePanel();
+                                    }}
+                                >
+                                    <i className="fas fa-redo"></i>
+                                    <span>Rotate</span>
+                                </button>
+
+                                {item.quantity > 1 && (
+                                    <button
+                                        type="button"
+                                        className="item-action-btn"
+                                        onClick={() => {
+                                            setItemToSplit(item);
+                                            setShowSplitStackModal(true);
+                                            closePanel();
+                                        }}
+                                    >
+                                        <i className="fas fa-cut"></i>
+                                        <span>Split Stack</span>
+                                    </button>
+                                )}
+
+                                <button
+                                    type="button"
+                                    className="item-action-btn"
+                                    onClick={() => {
+                                        setItemToRename(item);
+                                        setShowRenameModal(true);
+                                        closePanel();
+                                    }}
+                                >
+                                    <i className="fas fa-edit"></i>
+                                    <span>Rename</span>
+                                </button>
+
+                                {(item.type === 'consumable' || item.type === 'recipe') && (
+                                    <button
+                                        type="button"
+                                        className="item-action-btn primary"
+                                        onClick={() => {
+                                            handleUseConsumable(item);
+                                            closePanel();
+                                        }}
+                                    >
+                                        <i className="fas fa-hand-paper"></i>
+                                        <span>{item.type === 'recipe' ? 'Learn' : 'Use'}</span>
+                                    </button>
+                                )}
+
+                                {compatibleSlots.length > 0 && (
+                                    <button
+                                        type="button"
+                                        className="item-action-btn primary"
+                                        onClick={() => {
+                                            if (compatibleSlots.length === 1) {
+                                                handleEquipItem(compatibleSlots[0], item);
+                                                closePanel();
+                                            } else {
+                                                // Open the slot picker (re-use the equipment context menu)
+                                                const rect = itemActionPanel.anchorRect;
+                                                const mockEvent = {
+                                                    preventDefault: () => {},
+                                                    stopPropagation: () => {},
+                                                    clientX: rect.left + rect.width / 2,
+                                                    clientY: rect.bottom
+                                                };
+                                                handleEquipmentContextMenu(mockEvent, item);
+                                                closePanel();
+                                            }
+                                        }}
+                                    >
+                                        <i className="fas fa-shield-alt"></i>
+                                        <span>Equip</span>
+                                    </button>
+                                )}
+
+                                {isContainer && (
+                                    <button
+                                        type="button"
+                                        className="item-action-btn primary"
+                                        onClick={() => {
+                                            if (!isLocked) {
+                                                toggleContainerOpen(item.id);
+                                            } else {
+                                                setContainerToUnlock(item);
+                                                setShowUnlockModal(true);
+                                            }
+                                            closePanel();
+                                        }}
+                                    >
+                                        <i className={isLocked ? 'fas fa-unlock' : 'fas fa-box-open'}></i>
+                                        <span>{isLocked ? 'Unlock Container' : 'Open Container'}</span>
+                                    </button>
+                                )}
+
+                                <button
+                                    type="button"
+                                    className="item-action-btn danger"
+                                    onClick={() => {
+                                        removeItem(item.id);
+                                        closePanel();
+                                    }}
+                                >
+                                    <i className="fas fa-trash"></i>
+                                    <span>Delete</span>
+                                </button>
+                            </div>
+                        </div>
+                    </>,
+                    document.body
+                );
+            })()}
+
             {/* Unlock Container Modal */}
             {showUnlockModal && containerToUnlock && (
                 <UnlockContainerModal
@@ -2601,6 +3047,43 @@ const InventoryWindow = memo(() => {
                 document.body
             )}
 
+
+            {/* Mobile touch-drag ghost - follows the finger while dragging an item */}
+            {touchDragState.isDragging && touchDragState.item && ReactDOM.createPortal(
+                <div
+                    style={{
+                        position: 'fixed',
+                        left: touchDragState.currentX - 30,
+                        top: touchDragState.currentY - 30,
+                        width: 60,
+                        height: 60,
+                        pointerEvents: 'none',
+                        zIndex: 999999999,
+                        opacity: 0.9,
+                        transform: 'scale(1.05)',
+                        transition: 'none'
+                    }}
+                >
+                    <img
+                        src={touchDragState.item.iconId
+                            ? getIconUrl(touchDragState.item.iconId, 'items')
+                            : getIconUrl('Misc/Books/book-brown-teal-question-mark', 'items')
+                        }
+                        alt={getDisplayName(touchDragState.item)}
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'contain',
+                            filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.5))'
+                        }}
+                        onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = getIconUrl('Misc/Books/book-brown-teal-question-mark', 'items');
+                        }}
+                    />
+                </div>,
+                document.body
+            )}
 
         </div>
     );

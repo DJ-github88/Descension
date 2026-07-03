@@ -135,7 +135,23 @@ const DraggableWindow = forwardRef(({
             }
 
             scaleChangeTimeoutRef.current = setTimeout(() => {
-                setPosition(prev => ({ ...prev }));
+                const scale = useSettingsStore.getState().windowScale;
+                setPosition(prev => {
+                    const vw = window.innerWidth;
+                    const vh = window.innerHeight;
+                    const w = nodeRef.current?.offsetWidth || defaultSize?.width || 400;
+                    const h = nodeRef.current?.offsetHeight || defaultSize?.height || 600;
+                    const visualW = w * scale;
+                    const visualH = h * scale;
+                    const minVisible = 100;
+                    const leftBound = Math.min(0, minVisible - visualW);
+                    const rightBound = Math.max(0, vw - minVisible);
+                    const bottomBound = Math.max(0, vh - minVisible);
+                    return {
+                        x: Math.max(leftBound, Math.min(prev.x, rightBound)),
+                        y: Math.max(0, Math.min(prev.y, bottomBound))
+                    };
+                });
             }, 16);
         };
 
@@ -146,7 +162,7 @@ const DraggableWindow = forwardRef(({
                 clearTimeout(scaleChangeTimeoutRef.current);
             }
         };
-    }, []);
+    }, [defaultSize]);
 
     useEffect(() => {
         return () => {
@@ -267,12 +283,37 @@ const DraggableWindow = forwardRef(({
 
     const disableDragging = isMobile;
 
+    // Compute scale-aware bounds. react-draggable's string bounds (e.g. "body")
+    // measure the node's UNSCALED offsetWidth, so when windowScale != 1 the window
+    // either can't reach the screen edges (scale < 1) or overshoots them (scale > 1).
+    // We compute explicit bounds in visual pixels so dragging is correct at any scale,
+    // and allow partial off-screen movement while keeping the header grabable.
+    const effectiveBounds = (() => {
+        if (disableDragging || !bounds) return false;
+        if (typeof bounds === 'object') return bounds;
+
+        const vw = typeof window !== 'undefined' ? window.innerWidth : 1920;
+        const vh = typeof window !== 'undefined' ? window.innerHeight : 1080;
+        const w = nodeRef.current?.offsetWidth || defaultSize?.width || 400;
+        const h = nodeRef.current?.offsetHeight || defaultSize?.height || 600;
+        const visualW = w * windowScale;
+        const visualH = h * windowScale;
+        const minVisible = 100;
+
+        return {
+            left: Math.min(0, minVisible - visualW),
+            top: 0,
+            right: Math.max(0, vw - minVisible),
+            bottom: Math.max(0, vh - minVisible)
+        };
+    })();
+
     return (
         <Draggable
             handle={disableDragging ? '' : `.${handleClassName}`}
             position={disableDragging ? { x: 0, y: 0 } : position}
             nodeRef={nodeRef}
-            bounds={disableDragging ? false : bounds}
+            bounds={effectiveBounds}
             grid={[1, 1]}
             onStart={disableDragging ? undefined : handleDragStart}
             onDrag={disableDragging ? undefined : handleDrag}

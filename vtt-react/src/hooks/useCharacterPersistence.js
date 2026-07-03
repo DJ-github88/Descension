@@ -362,7 +362,7 @@ export const useCharacterPersistence = () => {
   const realtimeSyncRef = useRef(null);
 
   const realtimeSync = useRealtimeSync(
-    'characterStates',
+    `users/${user?.uid}/characterStates`,
     currentCharacterId,
     handleRemoteCharacterChange,
     {

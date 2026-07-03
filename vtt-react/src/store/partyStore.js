@@ -467,16 +467,16 @@ const usePartyStore = create(subscribeWithSelector((set, get) => ({
 
     // Also clear from presenceStore to be safe
     try {
-      const presenceStore = usePresenceStore.getState();
-      presenceStore.set({ 
+      usePresenceStore.setState({ 
         currentParty: null, 
         isInParty: false, 
         partyMembers: [],
         partyChatMessages: [] 
       });
       
-      if (presenceStore.currentUserPresence?.userId) {
-        presenceService.updateSession(presenceStore.currentUserPresence.userId, {
+      const { currentUserPresence } = usePresenceStore.getState();
+      if (currentUserPresence?.userId) {
+        presenceService.updateSession(currentUserPresence.userId, {
           partyId: null,
           partyName: null
         });

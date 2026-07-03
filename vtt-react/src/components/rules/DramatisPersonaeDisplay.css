@@ -795,3 +795,246 @@
   from { opacity: 0; transform: translateY(3px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* ===== Mobile responsive styles ===== */
+@media (max-width: 768px) {
+  .dp-layout {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  /* Sidebar becomes a borderless toolbar: search + region chip strip */
+  .dp-sidebar {
+    flex: none;
+    width: 100% !important;
+    max-width: 100% !important;
+    position: relative;
+    top: auto;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    z-index: 5;
+  }
+
+  .dp-sidebar-title {
+    font-size: 0.95rem;
+    margin: 0 0 0.6rem 0;
+    padding-bottom: 0.5rem;
+  }
+
+  .dp-search-wrapper {
+    margin-bottom: 0.6rem;
+  }
+
+  /* Region list: horizontally scrollable chip strip */
+  .dp-region-list {
+    flex-direction: row !important;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    gap: 0.4rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .dp-region-list::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Compact chips */
+  .dp-region-item {
+    flex-shrink: 0;
+    padding: 0.45rem 0.85rem;
+    border-radius: 999px;
+    border: 1px solid #c9b38c;
+    background: #fbf7ee;
+    transform: none !important;
+    gap: 0.4rem;
+  }
+
+  .dp-region-item:hover {
+    transform: none !important;
+  }
+
+  .dp-region-subtitle {
+    display: none;
+  }
+
+  .dp-region-icon {
+    width: auto;
+    font-size: 0.85rem;
+  }
+
+  .dp-region-name {
+    font-size: 0.78rem;
+  }
+
+  /* Count is redundant on a chip; total already shown in title */
+  .dp-region-count {
+    display: none;
+  }
+
+  /* Region banner: tight row (icon left), not centered column */
+  .dp-region-banner {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.9rem 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .dp-region-banner-icon {
+    font-size: 1.6rem;
+  }
+
+  .dp-region-banner-text h2 {
+    font-size: 1.2rem;
+  }
+
+  .dp-region-banner-text p {
+    font-size: 0.82rem;
+  }
+
+  /* NPC cards: keep horizontal (avatar + info) but compact */
+  .dp-card-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .dp-npc-card {
+    padding: 0.85rem;
+    gap: 0.75rem;
+  }
+
+  .dp-npc-card-avatar {
+    width: 48px;
+    height: 48px;
+  }
+
+  .dp-npc-card-name {
+    font-size: 0.95rem;
+  }
+
+  .dp-npc-card-excerpt {
+    font-size: 0.8rem;
+  }
+
+  /* Detailed view */
+  .dp-back-btn {
+    margin-bottom: 1rem;
+    padding: 6px 12px;
+    font-size: 0.75rem;
+  }
+
+  .dp-detail-header {
+    padding-bottom: 0.8rem;
+    margin-bottom: 1rem;
+  }
+
+  .dp-detail-title-group {
+    gap: 0.6rem;
+  }
+
+  .dp-detail-name {
+    font-size: 1.5rem;
+  }
+
+  .dp-detail-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .dp-detail-body {
+    grid-template-columns: 1fr !important;
+    gap: 1.2rem;
+  }
+
+  /* Portrait: shorter and centered */
+  .dp-portrait-col {
+    width: 100% !important;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .dp-portrait-frame {
+    height: 240px;
+  }
+
+  .dp-portrait-letter {
+    width: 64px;
+    height: 64px;
+    font-size: 2rem;
+  }
+
+  .dp-tabs-col {
+    width: 100% !important;
+  }
+
+  /* Tabs: wrap so all three fit on narrow screens */
+  .dp-tabs {
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+  }
+
+  .dp-tab-btn {
+    flex: 1 1 auto;
+    justify-content: center;
+    padding: 8px 10px;
+    font-size: 0.76rem;
+    text-align: center;
+  }
+
+  /* Tab content: trim padding */
+  .dp-tab-content {
+    padding: 1rem;
+    min-height: auto;
+  }
+
+  .dp-section {
+    margin-bottom: 1.2rem;
+  }
+
+  .dp-section-title {
+    font-size: 0.95rem;
+  }
+
+  .dp-description-text {
+    font-size: 1rem;
+  }
+
+  .dp-highlight-box {
+    padding: 0.85rem;
+    margin-top: 1rem;
+  }
+
+  .dp-highlight-text {
+    font-size: 1rem;
+  }
+
+  /* GM secrets */
+  .dp-gm-warning {
+    padding: 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  .dp-secret-header {
+    padding: 0.6rem 0.9rem;
+  }
+
+  .dp-secret-text {
+    padding: 1rem;
+    font-size: 1rem;
+  }
+
+  /* Local contacts: stack */
+  .dp-contacts-section {
+    margin-top: 2rem;
+    padding: 1rem;
+  }
+
+  .dp-contacts-list {
+    grid-template-columns: 1fr !important;
+    gap: 0.75rem;
+  }
+}

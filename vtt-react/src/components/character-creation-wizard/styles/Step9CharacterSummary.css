@@ -1084,3 +1084,41 @@
         opacity: 1 !important;
     }
 }
+
+/* Validation banner — explains exactly why Create is disabled */
+.summary-validation-banner {
+    flex: 0 0 auto;
+    margin: 0 0 0.85rem 0;
+    padding: 0.7rem 0.9rem;
+    background: linear-gradient(180deg, rgba(180, 60, 40, 0.12), rgba(180, 60, 40, 0.06));
+    border: 1px solid rgba(180, 60, 40, 0.45);
+    border-radius: 8px;
+    color: #5a1a10;
+    box-shadow: 0 2px 8px rgba(120, 30, 20, 0.15);
+}
+
+.summary-validation-banner-title {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 0.35rem;
+}
+
+.summary-validation-banner-title i {
+    color: #b43c28;
+}
+
+.summary-validation-list {
+    margin: 0;
+    padding-left: 1.3rem;
+    font-size: 0.8rem;
+    line-height: 1.45;
+    color: #4a1408;
+}
+
+.summary-validation-list li {
+    margin-bottom: 0.15rem;
+}

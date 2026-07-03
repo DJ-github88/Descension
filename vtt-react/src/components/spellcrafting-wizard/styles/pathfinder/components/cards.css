@@ -2945,17 +2945,54 @@ body .pf-spell-card.wizard .wow-spell-card-header,
     gap: var(--my-space-1);
   }
 
+  .unified-spell-header-main {
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    align-items: flex-start !important;
+    gap: var(--my-space-2) !important;
+  }
+
   .unified-spell-header-right {
-    max-width: 240px; /* Allow space for the combined box */
+    align-self: flex-start !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-top: 4px !important;
+  }
+
+  .unified-spell-card .unified-spell-card-header,
+  .spellbook-layout .unified-spell-card .unified-spell-card-header,
+  .creature-window .unified-spell-card .unified-spell-card-header,
+  .spellbook-tab-headers ~ * .unified-spell-card .unified-spell-card-header {
+    text-align: left !important;
+    padding: 10px 12px !important;
+  }
+
+  .unified-spell-components-header .pf-component-row {
+    align-items: flex-start !important;
+  }
+
+  .unified-spell-components-header .pf-component {
+    margin-top: 2px !important;
+  }
+
+  .unified-spell-components-header .component-custom-text {
+    text-align: left !important;
   }
 
   .pf-damage-spell-box {
-    max-width: 220px;
-    min-width: 160px;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    width: 100% !important;
   }
 
   .unified-spell-components-header {
-    max-width: 160px; /* Increased width for mobile */
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .unified-spell-components-header .component-custom-text {
+    max-width: 100% !important;
   }
 
   .pf-damage-types-header {
@@ -3000,25 +3037,7 @@ body .pf-spell-card.wizard .wow-spell-card-header,
     font-size: var(--my-text-xs);
   }
 
-  .unified-spell-header-main {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--my-space-2);
-  }
-
-  .unified-spell-header-right {
-    align-self: flex-end;
-    max-width: 180px; /* Allow reasonable space even on small screens */
-  }
-
-  .pf-damage-spell-box {
-    max-width: 160px;
-    min-width: 120px;
-  }
-
-  .unified-spell-components-header {
-    max-width: 140px; /* Increased width for very small screens */
-  }
+  /* Mobilized header adjustments handled above at 768px */
 
   .pf-damage-types-header {
     max-width: 150px; /* Maintain reasonable spread on very small screens */

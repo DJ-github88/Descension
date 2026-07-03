@@ -13,10 +13,10 @@
 .character-view-header {
   background: linear-gradient(135deg, #2d1810 0%, #452418 50%, #1a0f0a 100%);
   border-bottom: 2px solid #5c4033;
-  padding: 8px 16px;
+  padding: 6px 12px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
 }
 
@@ -26,31 +26,35 @@
   justify-content: space-between;
   width: 100%;
   position: relative;
+  min-height: 36px;
 }
 
 .header-left-col {
   display: flex;
   align-items: center;
   gap: 12px;
-  flex: 1 1 30%;
+  flex: 0 0 auto;
   justify-content: flex-start;
+  min-width: 64px;
 }
 
 .header-center-col {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
-  flex: 1 1 40%;
+  gap: 2px;
+  flex: 1 1 auto;
   text-align: center;
+  min-width: 0;
 }
 
 .header-right-col {
   display: flex;
   align-items: center;
   gap: 8px;
-  flex: 1 1 30%;
+  flex: 0 0 auto;
   justify-content: flex-end;
+  min-width: 64px;
 }
 
 .back-button-compact {
@@ -76,7 +80,8 @@
 
 .character-header-name {
   margin: 0;
-  font-size: 24px;
+  font-size: 22px;
+  line-height: 1.1;
   color: #f0ead6;
   font-family: 'Cinzel', serif;
   font-weight: 700;
@@ -87,6 +92,7 @@
 .character-header-badge-group {
   display: flex;
   gap: 4px;
+  justify-content: center;
 }
 
 .header-badge {
@@ -101,13 +107,49 @@
 }
 
 .header-badge.level {
-  color: #ffe680;
-  border-color: rgba(255, 230, 128, 0.3);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #d5cbb0 0%, #c6b894 50%, #b8a980 100%);
+  border: 2px solid #d4af37;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
+  color: #3a2818;
+  font-family: 'Cinzel', serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.3);
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.header-badge.level.clickable:hover {
+  transform: scale(1.06);
+  background: linear-gradient(135deg, #e0d6bd 0%, #d0c2a0 50%, #c2b48c 100%);
+}
+
+.header-badge.level.clickable:active {
+  transform: scale(0.95);
 }
 
 .header-badge.class {
-  color: #87ceeb;
-  border-color: rgba(135, 206, 235, 0.3);
+  padding: 4px 14px;
+  background:
+    linear-gradient(135deg, rgba(135, 206, 235, 0.18) 0%, rgba(70, 130, 180, 0.08) 100%);
+  border: 1px solid rgba(135, 206, 235, 0.45);
+  border-radius: 999px;
+  color: #b8e0f5;
+  font-size: 13px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8), 0 0 4px rgba(135, 206, 235, 0.3);
+  box-shadow: 0 0 6px rgba(135, 206, 235, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.08);
 }
 
 .header-badge.race {
@@ -218,6 +260,89 @@
   position: relative;
 }
 
+/* Desktop tabs visible by default, mobile dropdown hidden */
+.character-view-tabs-desktop {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+/* Desktop: show original resource bar style, hide vial style */
+.resource-vial-fill,
+.resource-vial-label,
+.resource-vial-value,
+.resource-vial-bottle {
+  display: none;
+}
+
+.resource-counter-desktop {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Sub-section dropdown (Equipment & Vitals / Passives / Languages) — rendered outside tabs nav */
+.character-view-sub-dropdown-wrapper {
+  position: relative;
+  z-index: 200;
+  display: flex;
+  justify-content: center;
+  padding: 0 12px;
+  margin-bottom: 8px;
+}
+
+.character-view-tab .tab-chevron {
+  font-size: 10px;
+  opacity: 0.7;
+  margin-left: 4px;
+}
+
+.character-view-sub-dropdown {
+  min-width: 220px;
+  max-width: 90%;
+  background: linear-gradient(135deg, #2d1810 0%, #1a0f0a 100%);
+  border: 2px solid #8b7355;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+}
+
+.character-view-sub-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 16px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid rgba(139, 115, 85, 0.2);
+  color: #d5cbb0;
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.character-view-sub-dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.character-view-sub-dropdown-item:hover {
+  background: rgba(212, 175, 55, 0.1);
+}
+
+.character-view-sub-dropdown-item.active {
+  background: rgba(212, 175, 55, 0.15);
+  color: #ffe680;
+}
+
+.character-view-sub-dropdown-item i {
+  width: 18px;
+  text-align: center;
+}
+
 .character-view-tab:hover {
   background: rgba(240, 234, 214, 0.05);
   color: #d5cbb0;
@@ -288,7 +413,7 @@
   box-shadow: none;
 }
 
-/* Inventory grid styling for full-page view */
+/* Inventory grid styling for full-page view - allow horizontal scroll */
 .character-view-content .inventory-grid {
   flex: 1;
   display: flex;
@@ -296,17 +421,40 @@
   gap: 0;
   padding: 4px;
   min-height: 0;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: auto;
   box-sizing: border-box;
   background: transparent;
   border: none;
   box-shadow: none;
+  scrollbar-width: thin;
+  scrollbar-color: #8b7355 rgba(139, 115, 85, 0.2);
 }
 
-/* Section headers - proportional to grid columns */
+.character-view-content .inventory-grid::-webkit-scrollbar {
+  height: 10px;
+  width: 10px;
+}
+
+.character-view-content .inventory-grid::-webkit-scrollbar-track {
+  background: rgba(139, 115, 85, 0.2);
+  border-radius: 5px;
+}
+
+.character-view-content .inventory-grid::-webkit-scrollbar-thumb {
+  background: #8b7355;
+  border-radius: 5px;
+}
+
+.character-view-content .inventory-grid::-webkit-scrollbar-thumb:hover {
+  background: #6b5344;
+}
+
+/* Section headers - proportional to grid columns, scroll with grid */
 .character-view-content .inventory-section-headers {
   display: flex;
-  width: 100%;
+  width: max-content;
+  min-width: 100%;
   margin-bottom: 0px;
   flex-shrink: 0;
   height: auto;
@@ -319,48 +467,62 @@
   align-items: center;
   justify-content: center;
   text-align: center;
+  /* Width matches the number of columns in this section * the cell size */
+  width: calc(var(--inv-cell-size, 68px) * var(--section-cols, 5));
+  flex: 0 0 calc(var(--inv-cell-size, 68px) * var(--section-cols, 5));
+  /* Kill the side borders that the global inventory.css adds — each cell already
+     contributes 1px to the shared edge, so a 1px side border on the header makes
+     the header end up 4px short of the actual 5-cell row, causing the next
+     section's header to overlap the last cell of the previous section. */
+  border-left: none !important;
+  border-right: none !important;
+  border-top: none !important;
+  border-bottom: 2px solid !important;
+  margin-bottom: -1px;
+  border-radius: 0;
 }
 
-/* Match header widths to column sections */
 .character-view-content .section-header.normal {
-  flex: 0 0 33.333%;
-  border-radius: 6px 0 0 0;
+  --section-cols: var(--section-normal-cols, 5);
+  border-top-left-radius: 6px;
+  border-top-right-radius: 0;
 }
 
 .character-view-content .section-header.encumbered {
-  flex: 0 0 33.333%;
+  --section-cols: var(--section-encumbered-cols, 5);
   border-radius: 0;
 }
 
 .character-view-content .section-header.overencumbered {
-  flex: 0 0 33.333%;
-  border-radius: 0 6px 0 0;
+  --section-cols: var(--section-overencumbered-cols, 5);
+  border-top-left-radius: 0;
+  border-top-right-radius: 6px;
 }
 
-/* Make inventory rows compact without extra spacing */
+/* Make inventory rows compact without extra spacing, scroll with grid */
 .character-view-content .inventory-row {
   display: flex;
   gap: 0;
   flex: 0 0 auto;
-  width: 100%;
+  width: max-content;
+  min-width: 100%;
 }
 
-/* Make inventory cells perfectly square and equal sized */
+/* Make inventory cells a fixed size so they don't shrink to nothing */
 .character-view-content .inventory-cell {
-  flex: 1 1 0;
-  min-width: 0;
-  min-height: 0;
-  width: 0;
-  height: 100%;
+  width: var(--inv-cell-size, 68px);
+  min-width: var(--inv-cell-size, 68px);
+  height: var(--inv-cell-size, 68px);
+  min-height: var(--inv-cell-size, 68px);
   box-sizing: border-box;
   position: relative;
+  flex: 0 0 auto;
 }
 
 /* Force square aspect ratio using padding trick */
 .character-view-content .inventory-cell::before {
   content: '';
-  display: block;
-  padding-top: 100%;
+  display: none;
 }
 
 /* Position cell contents absolutely to fill the square */
@@ -1384,9 +1546,13 @@
 }
 
 /* Inventory item-content background fix - remove brown backdrop */
-.character-view-content .item-content {
+.character-view-content .item-content,
+.character-view-content .item-wrapper,
+.character-view-content .item-border,
+.character-view-content .inventory-item {
   background: transparent !important;
-  overflow: hidden;
+  background-image: none !important;
+  box-shadow: none !important;
 }
 
 .character-view-content .item-content.item-icon-magical-bg {
@@ -1401,23 +1567,27 @@
 }
 
 /* Remove brown/red backdrop from item shape cells in full-page view */
-.character-view-content .item-shape-cell {
-  background: rgba(255, 255, 255, 0.08) !important;
-  background-image: none !important;
-  box-shadow: none !important;
-}
-
+.character-view-content .item-shape-cell,
 .character-view-content .item-shape-cell[data-quality="poor"],
 .character-view-content .item-shape-cell[data-quality="common"],
 .character-view-content .item-shape-cell[data-quality="uncommon"],
 .character-view-content .item-shape-cell[data-quality="rare"],
 .character-view-content .item-shape-cell[data-quality="epic"],
 .character-view-content .item-shape-cell[data-quality="legendary"] {
-  background: rgba(255, 255, 255, 0.08) !important;
+  background: transparent !important;
   background-image: none !important;
+  box-shadow: none !important;
+  outline: none !important;
 }
 
 /* Keep slot color under occupied cells */
+.character-view-content .inventory-cell.occupied,
+.character-view-content .inventory-cell.occupied.normal,
+.character-view-content .inventory-cell.occupied.encumbered,
+.character-view-content .inventory-cell.occupied.overencumbered {
+  background-image: none !important;
+}
+
 .character-view-content .inventory-cell.occupied.normal {
   background: linear-gradient(135deg, #e8f5e8 0%, #d4e8d4 100%) !important;
 }
@@ -1435,6 +1605,7 @@
   height: calc(100% - 4px);
   object-fit: contain;
   object-position: center;
+  background: transparent !important;
 }
 
 /* Sync Indicator */
@@ -1506,84 +1677,864 @@
 }
 
 /* Responsive Design */
+
+/* ===== TABLET (≤ 1024px) — squeeze but keep desktop layout ===== */
 @media (max-width: 1200px) {
   .character-view-header {
-    padding: 15px 30px;
+    padding: 6px 14px;
   }
 
-  .character-view-title h1 {
-    font-size: 28px;
+  .character-header-name {
+    font-size: 20px;
+  }
+
+  .header-badge.level {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+
+  .header-badge.class {
+    font-size: 12px;
   }
 
   .character-view-tabs {
-    padding: 0 30px;
+    padding: 0 20px;
   }
 
-  /* Removed padding - let content manage its own spacing */
+  .character-view-tab {
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+
+  .character-view-content .character-image-container {
+    width: 280px;
+    height: 420px;
+  }
 }
 
+/* ===== MOBILE (≤ 768px) — stack to single column ===== */
 @media (max-width: 768px) {
-  .character-view-header {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 10px 15px !important;
-    gap: 8px !important;
+  .character-view-page {
+    min-height: 100vh;
   }
 
-  .character-view-title {
-    text-align: center !important;
-    width: 100%;
-  }
-
-  .character-view-title h1 {
-    font-size: 20px !important;
-    margin-bottom: 4px;
-  }
-
-  .character-view-subtitle {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    justify-content: center !important;
-    gap: 6px !important;
-    margin-top: 4px !important;
-  }
-
-  .character-view-subtitle span {
-    padding: 3px 8px !important;
-    font-size: 11px !important;
-    border-radius: 4px !important;
-  }
-
-  .character-view-resources {
-    display: flex !important;
-    justify-content: center !important;
-    gap: 12px !important;
-    margin-top: 6px !important;
-    width: 100% !important;
-  }
-
-  .resource-display {
-    font-size: 12px !important;
-  }
-
+  /* --- Main tabs: always visible as a scrollable row --- */
   .character-view-tabs {
+    display: flex !important;
     overflow-x: auto;
-    padding: 0 10px;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    padding: 0 8px;
     justify-content: flex-start;
   }
 
   .character-view-tab {
-    padding: 8px 12px;
-    font-size: 13px;
-    white-space: nowrap;
+    padding: 10px 14px !important;
+    font-size: 13px !important;
+    gap: 6px;
+    flex-shrink: 0;
   }
 
-  /* Removed padding - let content manage its own spacing */
+  .character-view-tab i:not(.tab-chevron) {
+    font-size: 14px;
+  }
+
+  /* --- Header: compact, with vial-style resources --- */
+  .character-view-header {
+    padding: 8px 10px !important;
+    gap: 6px !important;
+  }
+
+  /* Vials in the header: 4-column grid for guaranteed equal spacing (HP/MP/AP/EXH) */
+  .header-resources-row {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr);
+    align-items: end;
+    justify-items: center;
+    gap: 4px;
+    padding: 4px 0 0 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .header-resource-counter {
+    position: relative;
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+    min-width: 0;
+    width: 100%;
+  }
+
+  /* The bottle shape — neck + body wrapper */
+  .resource-vial-bottle {
+    position: relative;
+    width: 28px;
+    height: 38px;
+    background: linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.1) 100%);
+    border: 1.5px solid rgba(139, 115, 85, 0.7);
+    border-radius: 6px 6px 12px 12px;
+    overflow: hidden;
+    margin-top: 4px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+  }
+
+  /* The fill — absolutely positioned at the bottom of the bottle */
+  .resource-vial-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transition: height 0.3s ease;
+    border-radius: 0 0 10px 10px;
+  }
+
+  .resource-vial-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: #f0ead6;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+    margin-top: 2px;
+    letter-spacing: 0.3px;
+    line-height: 1;
+  }
+
+  .resource-vial-value {
+    font-size: 9px;
+    color: #d5cbb0;
+    line-height: 1;
+  }
+
+  /* Hide the simple bar elements that are no longer used */
+  .header-resource-counter i,
+  .header-resource-counter .resource-adjust-btn,
+  .header-resource-counter .resource-counter-desktop {
+    display: none !important;
+  }
+
+  /* Show vial elements on mobile */
+  .resource-vial-fill,
+  .resource-vial-label,
+  .resource-vial-value {
+    display: block;
+  }
+
+  .resource-vial-bottle {
+    display: block;
+  }
+
+  /* Vials are clickable on mobile */
+  .header-resource-counter {
+    cursor: pointer !important;
+  }
+
+  .header-resource-counter:active .resource-vial-bottle {
+    transform: scale(0.95);
+  }
+
+  /* Level medallion on mobile */
+  .header-badge.level {
+    width: 38px;
+    height: 38px;
+    font-size: 17px;
+  }
+
+  .header-badge.class {
+    font-size: 11px;
+    padding: 3px 10px;
+    letter-spacing: 0.8px;
+  }
+
+  .header-badge.level.clickable {
+    cursor: pointer !important;
+    transition: transform 0.15s ease, background 0.15s ease;
+  }
+
+  .header-badge.level.clickable:hover {
+    transform: scale(1.06);
+    background: linear-gradient(135deg, #e0d6bd 0%, #d0c2a0 50%, #c2b48c 100%);
+  }
+
+  .header-badge.level.clickable:active {
+    transform: scale(0.95);
+  }
+
+  /* Bubbly effects inside vials */
+  .resource-vial-bubbles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    overflow: hidden;
+    border-radius: 6px 6px 12px 12px;
+    z-index: 2;
+  }
+
+  .resource-vial-bubbles .bubble {
+    position: absolute;
+    bottom: 0;
+    font-weight: 900;
+    line-height: 1;
+    opacity: 0;
+    animation: bubble-rise 3s ease-in infinite;
+  }
+
+  /* HP bubbles: red + signs */
+  .hp-bubbles .bubble {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 10px;
+    text-shadow: 0 0 3px rgba(255, 50, 50, 0.8);
+  }
+  .hp-bubbles .bubble:nth-child(1) { left: 20%; animation-delay: 0s; }
+  .hp-bubbles .bubble:nth-child(2) { left: 50%; animation-delay: 1s; }
+  .hp-bubbles .bubble:nth-child(3) { left: 75%; animation-delay: 2s; }
+
+  /* MP bubbles: blue water bubbles */
+  .mp-bubbles .bubble {
+    width: 5px;
+    height: 5px;
+    background: radial-gradient(circle at 30% 30%, rgba(200, 230, 255, 0.9), rgba(100, 180, 255, 0.4));
+    border-radius: 50%;
+    box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.6);
+  }
+  .mp-bubbles .bubble:nth-child(1) { left: 15%; width: 4px; height: 4px; animation-delay: 0s; animation-duration: 2.5s; }
+  .mp-bubbles .bubble:nth-child(2) { left: 40%; width: 6px; height: 6px; animation-delay: 0.8s; animation-duration: 3s; }
+  .mp-bubbles .bubble:nth-child(3) { left: 65%; width: 4px; height: 4px; animation-delay: 1.5s; animation-duration: 2.2s; }
+  .mp-bubbles .bubble:nth-child(4) { left: 85%; width: 5px; height: 5px; animation-delay: 0.4s; animation-duration: 2.8s; }
+
+  /* AP bubbles: yellow lightning */
+  .ap-bubbles .bubble {
+    color: rgba(255, 255, 200, 0.95);
+    font-size: 8px;
+    text-shadow: 0 0 4px rgba(255, 200, 0, 0.9);
+    animation-duration: 1.5s;
+  }
+  .ap-bubbles .bubble:nth-child(1) { left: 25%; animation-delay: 0s; }
+  .ap-bubbles .bubble:nth-child(2) { left: 55%; animation-delay: 0.5s; }
+  .ap-bubbles .bubble:nth-child(3) { left: 80%; animation-delay: 1s; }
+
+  /* EXH bubbles: purple Z's */
+  .exh-bubbles .bubble {
+    color: rgba(220, 200, 255, 0.9);
+    font-size: 9px;
+    font-weight: 900;
+    text-shadow: 0 0 3px rgba(150, 100, 200, 0.8);
+    animation-duration: 3.5s;
+  }
+  .exh-bubbles .bubble:nth-child(1) { left: 20%; animation-delay: 0s; font-size: 11px; }
+  .exh-bubbles .bubble:nth-child(2) { left: 55%; animation-delay: 1.2s; font-size: 8px; }
+  .exh-bubbles .bubble:nth-child(3) { left: 78%; animation-delay: 2.4s; font-size: 10px; }
+
+  @keyframes bubble-rise {
+    0% {
+      transform: translateY(0) scale(0.5);
+      opacity: 0;
+    }
+    15% {
+      opacity: 1;
+      transform: translateY(-5px) scale(1);
+    }
+    85% {
+      opacity: 0.8;
+    }
+    100% {
+      transform: translateY(-36px) scale(0.6);
+      opacity: 0;
+    }
+  }
+
+  /* Exhaust pop effect when value changes */
+  @keyframes exhaust-pop {
+    0% { transform: scale(1); }
+    30% { transform: scale(1.3); filter: brightness(1.5); }
+    100% { transform: scale(1); }
+  }
+
+  .resource-vial-fill {
+    animation: exhaust-pop 0.4s ease-out;
+  }
+
+  /* Vial adjustment popup */
+  .vial-popup-wrapper {
+    position: relative;
+    z-index: 300;
+    display: flex;
+    justify-content: center;
+    padding: 0 12px;
+    margin-top: 4px;
+  }
+
+  .vial-popup {
+    background: linear-gradient(135deg, #2d1810 0%, #1a0f0a 100%);
+    border: 2px solid #8b7355;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+    padding: 10px 12px;
+    min-width: 240px;
+  }
+
+  .vial-popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(139, 115, 85, 0.3);
+  }
+
+  .vial-popup-title {
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: #f0ead6;
+  }
+
+  .vial-popup-close {
+    background: none;
+    border: none;
+    color: #d5cbb0;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 0 4px;
+    line-height: 1;
+  }
+
+  .vial-popup-buttons {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .vial-popup-buttons button {
+    background: linear-gradient(135deg, #5c2e1e 0%, #3d1f14 100%);
+    border: 1px solid #8b7355;
+    border-radius: 6px;
+    color: #f0ead6;
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 10px;
+    cursor: pointer;
+    min-width: 40px;
+    transition: all 0.15s ease;
+  }
+
+  .vial-popup-buttons button:hover {
+    background: linear-gradient(135deg, #6b3826 0%, #4a2618 100%);
+    border-color: #d4af37;
+  }
+
+  .vial-popup-buttons button:active {
+    transform: scale(0.95);
+  }
+
+  .header-top-row {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+  }
+
+  .header-left-col {
+    flex: 0 0 auto;
+    justify-content: flex-start;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  .header-center-col {
+    flex: 1 1 auto;
+    order: 0;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  /* Right column now holds the back button — keep it visible on mobile. */
+  .header-right-col {
+    display: flex;
+    min-width: 0;
+  }
+
+  .back-button-compact {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+  }
+
+  .character-header-name {
+    font-size: 18px;
+    letter-spacing: 0.3px;
+  }
+
+  .header-badge {
+    font-size: 10px;
+    padding: 2px 5px;
+  }
+
+  .character-header-badge-group {
+    gap: 3px;
+  }
+
+  /* --- Resource row: compact single-line counters --- */
+  .header-resources-row {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .header-resource-counter {
+    flex: 1 1 0;
+    min-width: 0;
+    justify-content: center;
+    padding: 3px 4px;
+    font-size: 10px;
+    gap: 3px;
+  }
+
+  .header-resource-counter i {
+    font-size: 10px;
+  }
+
+  .resource-counter-value {
+    font-size: 10px;
+    min-width: 32px;
+  }
+
+  .resource-adjust-btn {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+  }
+
+  /* --- Tabs: scrollable row, Character button has dropdown for sub-sections --- */
+  .character-view-tabs {
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0 8px;
+    justify-content: flex-start;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+
+  /* --- Content area: force column layout, no fixed-width sidebars --- */
+  .character-view-content {
+    padding: 0;
+    overflow-y: auto;
+  }
 
   .character-view-content-wrapper {
     padding: 0;
+    flex: 1;
+  }
+
+  /* Force the character-sheet / equipment / stats / skills / lore containers
+     to stack vertically on mobile and use full width. The desktop CSS
+     forces these into a row layout with a ~180px sidebar. */
+  .character-view-content .character-container,
+  .character-view-content .stats-container,
+  .character-view-content .skills-container,
+  .character-view-content .lore-container {
+    flex-direction: column !important;
+    min-height: auto;
+  }
+
+  /* Collapse the side navigation into a horizontal scroll strip
+     so the user can still reach all sub-sections. */
+  .character-view-content .character-navigation,
+  .character-view-content .stats-navigation,
+  .character-view-content .skills-navigation,
+  .character-view-content .lore-navigation {
+    flex-direction: row !important;
+    flex-wrap: wrap;
+    min-width: 0 !important;
+    width: 100% !important;
+    padding: 8px !important;
+    border-right: none !important;
+    border-bottom: 2px solid #7a3b2e;
+    gap: 6px !important;
+    justify-content: center;
+  }
+
+  .character-view-content .character-nav-button,
+  .character-view-content .stats-nav-button,
+  .character-view-content .skills-nav-button,
+  .character-view-content .skills-sidebar-toggle-button {
+    width: auto !important;
+    min-width: 44px;
+    min-height: 44px !important;
+    padding: 6px 10px;
+    flex: 0 0 auto;
+  }
+
+  /* Skills sidebar on mobile becomes a top accordion */
+  .character-view-content .skills-sidebar {
+    width: 100% !important;
+    border-right: none !important;
+    border-bottom: 2px solid #8b7355;
+  }
+
+  /* Content area: full width, smaller paddings */
+  .character-view-content .character-content-area,
+  .character-view-content .stats-content-area,
+  .character-view-content .skills-content,
+  .character-view-content .lore-content {
+    padding: 0 !important;
+    width: 100%;
+  }
+
+  /* Stats fields: prevent overflow on mobile */
+  .character-view-content .stats-fields {
+    padding: 0 !important;
+    width: 100%;
+  }
+
+  .character-view-content .stats-content {
+    width: 100%;
+    padding: 0;
+  }
+
+  /* Fix stat row overflow: label can shrink, value stays right */
+  .character-view-content .stat-row,
+  .character-view-content .enhanced-stat-row {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  .character-view-content .level-experience-top-row {
+    gap: 8px !important;
+    flex-wrap: nowrap !important;
+    min-width: 0 !important;
+  }
+
+  .character-view-content .stat-label-container {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    gap: 8px !important;
+    overflow: hidden !important;
+  }
+
+  .character-view-content .stat-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+  }
+
+  .character-view-content .stat-value-container {
+    flex-shrink: 0 !important;
+    margin-left: auto !important;
+    max-width: 50%;
+  }
+
+  .character-view-content .stat-value {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .character-view-content .stat-icon {
+    flex-shrink: 0;
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  /* Description footer: keep within card */
+  .character-view-content .stat-description-footer {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .character-view-content .stat-description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Equipment layout: 3-column ring — slots LEFT and RIGHT of portrait */
+  .character-view-content .equipment-layout {
+    display: grid !important;
+    grid-template-columns: auto 1fr auto !important;
+    grid-template-areas: "left center right" !important;
+    padding: 12px !important;
+    gap: 8px;
+    align-items: start;
+    justify-items: center;
+  }
+
+  /* Character image: shrink to center column */
+  .character-view-content .character-image-container {
+    grid-area: center !important;
+    width: 100% !important;
+    max-width: 160px;
+    height: 280px;
+    margin: 0 auto;
+    order: 0;
+  }
+
+  /* Character fields stack */
+  .character-view-content .character-fields {
+    padding: 10px;
+  }
+
+  /* Equipment slots: compact size */
+  .character-view-content .equipment-slot,
+  .character-view-content .gear-slot {
+    width: 48px;
+    height: 48px;
+  }
+
+  /* Left slots: stacked vertically in left column */
+  .character-view-content .left-equipment {
+    grid-area: left !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 6px !important;
+    align-items: center !important;
+    min-width: unset !important;
+    width: auto !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Right slots: stacked vertically in right column */
+  .character-view-content .right-equipment {
+    grid-area: right !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 6px !important;
+    align-items: center !important;
+    min-width: unset !important;
+    width: auto !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Center section: just the portrait + weapons below */
+  .character-view-content .character-center-section {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 8px !important;
+    height: auto !important;
+    flex: 1 !important;
+    min-width: 0 !important;
+  }
+
+  /* Weapons row: horizontal strip at the bottom of center */
+  .character-view-content .weapon-slots-bottom {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  /* Hide the floating potion strip on mobile — vials live in the header */
+  .character-view-content .floating-potion-strip {
+    display: none !important;
+  }
+
+  /* Hide the redundant section header on mobile (sub-section dropdown already shows it) */
+  .character-view-content .character-section-header {
+    display: none !important;
+  }
+
+  /* Hide the interactive vials in the Equipment & Vitals section header on mobile */
+  .character-view-content .header-potion-strip {
+    display: none !important;
+  }
+
+  /* Sub-section sidebar hidden on mobile, replaced by Character tab dropdown */
+  .character-view-content .character-navigation {
+    display: none !important;
+  }
+
+  /* Character content area: full width on mobile */
+  .character-view-content .character-content-area {
+    width: 100% !important;
+  }
+
+  /* Stats: vertical list */
+  .character-view-content .stats-fields,
+  .character-view-content .skills-grid {
+    padding: 12px !important;
+    gap: 8px;
+  }
+
+  .character-view-content .skills-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Stats navigation: single scrollable row on mobile */
+  .character-view-content .stats-navigation {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    padding: 8px !important;
+    border-right: none !important;
+    border-bottom: 2px solid #7a3b2e !important;
+    gap: 6px !important;
+    justify-content: flex-start !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+
+  .character-view-content .stats-nav-button {
+    width: auto !important;
+    min-width: 44px;
+    min-height: 44px !important;
+    flex: 0 0 auto !important;
+    padding: 6px 10px !important;
+  }
+
+  .character-view-content .stats-content-area {
+    width: 100% !important;
+  }
+
+  /* Skill detail: better mobile layout for D4 untrained, dropdown, and roll button */
+  .character-view-content .skill-detail-header {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    padding: 14px !important;
+    gap: 14px !important;
+  }
+
+  .character-view-content .skill-detail-icon {
+    margin: 0 auto !important;
+  }
+
+  .character-view-content .skill-detail-title-section {
+    text-align: center !important;
+  }
+
+  .character-view-content .skill-detail-stats {
+    display: grid !important;
+    grid-template-columns: auto 1fr auto !important;
+    gap: 8px !important;
+    align-items: center !important;
+    flex-wrap: nowrap !important;
+  }
+
+  /* D4 untrained circle: sit on the left */
+  .character-view-content .skill-die-size {
+    order: -1 !important;
+  }
+
+  /* Trained/untrained rank badge + dropdown: centered */
+  .character-view-content .skill-rank-selector-wrapper {
+    display: flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    justify-content: center !important;
+  }
+
+  .character-view-content .skill-rank-dropdown {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  /* Roll button: sit on the right */
+  .character-view-content .roll-table-btn {
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+  }
+
+  .character-view-content .quest-section,
+  .character-view-content .table-section,
+  .character-view-content .die-selector-section {
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+
+  /* Inventory: full width grid, smaller cells */
+  .character-view-content .inventory-container {
+    padding: 8px !important;
+  }
+
+  .character-view-content .inventory-cell::before {
+    padding-top: 100%;
+  }
+
+  /* Sync indicator: smaller, anchored */
+  .character-view-sync-indicator {
+    bottom: 12px;
+    right: 12px;
+    padding: 6px 12px;
+    font-size: 10px;
+  }
+}
+
+/* ===== SMALL PHONE (≤ 480px) — tighter packing ===== */
+@media (max-width: 480px) {
+  .character-view-header {
+    padding: 6px 8px !important;
+    gap: 6px !important;
+  }
+
+  .character-header-name {
+    font-size: 15px;
+  }
+
+  .header-badge {
+    font-size: 9px;
+    padding: 1px 4px;
+  }
+
+  /* Stack HP full-width, MP+AP side-by-side — saves vertical space */
+  .header-resources-row {
+    gap: 4px;
+  }
+
+  .header-resource-counter {
+    flex: 1 1 0;
+    padding: 2px 3px;
+    font-size: 9px;
+  }
+
+  .header-resource-counter:nth-child(1) {
+    flex: 1 1 100%;
+  }
+
+  .resource-counter-value {
+    font-size: 9px;
+    min-width: 28px;
+  }
+
+  .resource-adjust-btn {
+    width: 18px;
+    height: 18px;
+    font-size: 9px;
+  }
+
+  .character-view-content .character-image-container {
+    height: 220px;
+    max-width: 150px;
+  }
+
+  .character-view-content .left-equipment,
+  .character-view-content .right-equipment {
+    max-width: 240px;
+  }
+
+  .character-view-content .equipment-slot {
+    width: 46px;
+    height: 46px;
   }
 }
 
