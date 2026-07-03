@@ -51,7 +51,7 @@ const useCharacterTokenStore = create(
       },
 
       // Add a character token to the grid
-      addCharacterToken: (position, playerId = null, targetMapId = null, sendToServer = true) => {
+      addCharacterToken: (position, playerId = null, targetMapId = null, sendToServer = true, characterSnapshot = null) => {
         // Robust position extraction
         const finalPosition = get().normalizePosition(position);
 
@@ -95,7 +95,12 @@ const useCharacterTokenStore = create(
             tokenId = existingToken.id;
             return {
               characterTokens: state.characterTokens.map(token =>
-                token.id === existingToken.id ? { ...token, position, mapId: token.mapId || resolvedMapId } : token
+                token.id === existingToken.id ? {
+                  ...token,
+                  position,
+                  mapId: token.mapId || resolvedMapId,
+                  ...(characterSnapshot ? { character: characterSnapshot, name: characterSnapshot.name || token.name } : {})
+                } : token
               )
             };
           }
@@ -106,6 +111,8 @@ const useCharacterTokenStore = create(
             id: uuidv4(),
             isPlayerToken: !playerId,
             playerId: playerId,
+            name: characterSnapshot?.name || null,
+            character: characterSnapshot || null,
             position: finalPosition,
             mapId: resolvedMapId,
             createdAt: Date.now(),

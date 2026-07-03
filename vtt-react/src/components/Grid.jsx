@@ -2444,12 +2444,46 @@ function GridComponent({
                     return;
                 }
 
-                // CRITICAL FIX: Use socket.id for robust ownership - this must match what server broadcasts
-                const playerId = isInMultiplayer ? (multiplayerSocket?.id || characterName) : null;
-                console.log('🎭 Creating character token with playerId:', playerId, 'socket.id:', multiplayerSocket?.id);
+                // CRITICAL FIX: Resolve playerId + snapshot the character (portrait, lore,
+                // tokenSettings, background) onto the token. Without a snapshot the renderer
+                // can't resolve the character outside multiplayer and the token renders blank.
+                const draggedId = draggedCharacterData?.id;
+                const isSelfPlacement = !draggedId || draggedId === 'current-player';
+                let playerId;
+                if (!isSelfPlacement) {
+                    // Placing a token for a specific party member (e.g. GM placing for a player)
+                    playerId = draggedId;
+                } else {
+                    // Placing our own token: socket id in multiplayer, null in single player
+                    playerId = isInMultiplayer ? (multiplayerSocket?.id || characterName) : null;
+                }
+
+                // draggedCharacterData may be a party MEMBER ({ character: {...} }) or a raw character.
+                // For the current player, snapshot from the authoritative character store — the party
+                // member seed carries no lore/tokenSettings, so the token would render blank otherwise.
+                const sourceChar = isSelfPlacement
+                    ? useCharacterStore.getState()
+                    : (draggedCharacterData?.character || draggedCharacterData);
+                const characterSnapshot = sourceChar ? {
+                    name: draggedCharacterData?.name || sourceChar?.name,
+                    race: sourceChar?.race,
+                    raceDisplayName: sourceChar?.raceDisplayName,
+                    class: sourceChar?.class,
+                    level: sourceChar?.level,
+                    health: sourceChar?.health,
+                    mana: sourceChar?.mana,
+                    actionPoints: sourceChar?.actionPoints,
+                    tempHealth: sourceChar?.tempHealth,
+                    tempMana: sourceChar?.tempMana,
+                    tempActionPoints: sourceChar?.tempActionPoints,
+                    lore: sourceChar?.lore,
+                    tokenSettings: sourceChar?.tokenSettings
+                } : null;
+
+                console.log('🎭 Creating character token with playerId:', playerId, 'socket.id:', multiplayerSocket?.id, 'draggedId:', draggedId, 'hasSnapshot:', !!characterSnapshot);
 
                 // Place the character token with player ID for multiplayer uniqueness
-                addCharacterToken(worldPos, playerId, currentMapId);
+                addCharacterToken(worldPos, playerId, currentMapId, true, characterSnapshot);
 
                 // Exit placement mode
                 setIsDraggingCharacterToken(false);

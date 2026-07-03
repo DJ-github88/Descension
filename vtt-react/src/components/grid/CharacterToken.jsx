@@ -10,6 +10,7 @@ import useConditionStore from '../../store/conditionStore';
 import useLevelEditorStore from '../../store/levelEditorStore';
 // Removed useEnhancedMultiplayer import - hook was removed
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
+import { getIconUrl } from '../../utils/assetManager';
 import CharacterTooltip from '../tooltips/CharacterTooltip';
 import ConditionsWindow from '../conditions/ConditionsWindow';
 import BuffDebuffCreatorModal from '../modals/BuffDebuffCreatorModal';
@@ -145,21 +146,27 @@ const CharacterToken = ({
           )
         : null;
 
-    // Use party member's character data if available, otherwise use current player's data
-    const characterData = partyMember?.character ? {
-        name: partyMember.name,
-        race: partyMember.character.race || currentCharacterData.race,
-        raceDisplayName: partyMember.character.raceDisplayName || currentCharacterData.raceDisplayName,
-        class: partyMember.character.class || currentCharacterData.class,
-        level: partyMember.character.level || currentCharacterData.level,
-        health: partyMember.character.health || currentCharacterData.health,
-        mana: partyMember.character.mana || currentCharacterData.mana,
-        actionPoints: partyMember.character.actionPoints || currentCharacterData.actionPoints,
-        tempHealth: partyMember.character.tempHealth !== undefined ? partyMember.character.tempHealth : currentCharacterData.tempHealth,
-        tempMana: partyMember.character.tempMana !== undefined ? partyMember.character.tempMana : currentCharacterData.tempMana,
-        tempActionPoints: partyMember.character.tempActionPoints !== undefined ? partyMember.character.tempActionPoints : currentCharacterData.tempActionPoints,
-        lore: partyMember.character.lore || currentCharacterData.lore,
-        tokenSettings: partyMember.character.tokenSettings || currentCharacterData.tokenSettings
+    // Resolve character data for rendering. Prefer the snapshot attached to the token at
+    // creation time (works in single-player and for any party member), then the party roster,
+    // then the local player's character store. Without the snapshot, placed tokens render with
+    // no portrait/background because the party lookup is skipped outside multiplayer and the
+    // party-member seed carries no lore/tokenSettings.
+    const snapshotCharacter = token?.character;
+    const resolvedCharacterSource = snapshotCharacter || partyMember?.character;
+    const characterData = resolvedCharacterSource ? {
+        name: snapshotCharacter?.name || partyMember?.name || currentCharacterData.name,
+        race: resolvedCharacterSource.race || currentCharacterData.race,
+        raceDisplayName: resolvedCharacterSource.raceDisplayName || currentCharacterData.raceDisplayName,
+        class: resolvedCharacterSource.class || currentCharacterData.class,
+        level: resolvedCharacterSource.level || currentCharacterData.level,
+        health: resolvedCharacterSource.health || currentCharacterData.health,
+        mana: resolvedCharacterSource.mana || currentCharacterData.mana,
+        actionPoints: resolvedCharacterSource.actionPoints || currentCharacterData.actionPoints,
+        tempHealth: resolvedCharacterSource.tempHealth !== undefined ? resolvedCharacterSource.tempHealth : currentCharacterData.tempHealth,
+        tempMana: resolvedCharacterSource.tempMana !== undefined ? resolvedCharacterSource.tempMana : currentCharacterData.tempMana,
+        tempActionPoints: resolvedCharacterSource.tempActionPoints !== undefined ? resolvedCharacterSource.tempActionPoints : currentCharacterData.tempActionPoints,
+        lore: resolvedCharacterSource.lore || currentCharacterData.lore,
+        tokenSettings: resolvedCharacterSource.tokenSettings || currentCharacterData.tokenSettings
     } : currentCharacterData;
 
     // Check if this token is being viewed from and get visibility data
@@ -555,9 +562,11 @@ const CharacterToken = ({
         if (characterData.lore?.characterImage) {
             return characterData.lore.characterImage;
         }
-        // CRITICAL FIX: Check for characterIcon and convert to URL
+        // Resolve workshop icon via the SAME helper the PartyHUD/TargetHUD use — the old
+        // hardcoded wow.zamimg.com URL was always broken, so icon-based portraits rendered blank.
         if (characterData.lore?.characterIcon) {
-            return `https://wow.zamimg.com/images/wow/icons/large/${characterData.lore.characterIcon}.jpg`;
+            const icon = characterData.lore.characterIcon;
+            return getIconUrl(icon, icon.includes('/') ? 'creatures' : 'items');
         }
         // Return null instead of default icon - let CSS handle the default
         return null;
@@ -2106,10 +2115,34 @@ const CharacterToken = ({
                     );
                 })}
 
+                {/* Portrait background (iconBackgroundImage/color) — mirrors the PartyHUD/Lore styling */}
+                <div
+                    className="token-portrait-bg"
+                    style={{
+                        position: 'absolute',
+                        inset: 0,
+                        zIndex: 0,
+                        borderRadius: '50%',
+                        backgroundColor: characterData.lore?.iconBackgroundColor || 'transparent',
+                        backgroundImage: characterData.lore?.iconBackgroundImage
+                            ? `url(/assets/backgrounds/${encodeURIComponent(characterData.lore.iconBackgroundImage)})`
+                            : 'none',
+                        backgroundSize: characterData.lore?.iconBackgroundImage
+                            ? `${(characterData.lore.iconBackgroundScale || 2.5) * 100}%`
+                            : 'cover',
+                        backgroundPosition: characterData.lore?.iconBackgroundImage
+                            ? `calc(50% + ${characterData.lore.iconBackgroundOffsetX || 0}px) calc(50% + ${characterData.lore.iconBackgroundOffsetY || 0}px)`
+                            : 'center',
+                        backgroundRepeat: 'no-repeat'
+                    }}
+                ></div>
+
                 {/* Character Image with Transformations */}
                 <div
                     className="token-icon"
                     style={{
+                        position: 'relative',
+                        zIndex: 1,
                         backgroundImage: getCharacterImage() ? `url(${getCharacterImage()})` : 'none',
                         width: '100%',
                         height: '100%',

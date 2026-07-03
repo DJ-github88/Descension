@@ -15,7 +15,7 @@ import { GENERAL_CATEGORIES } from '../../../../data/generalSpellsData';
 import { getRacialSpells, getDisciplineSpells, isPassiveStatModifier } from '../../../../utils/raceDisciplineSpellUtils';
 import SpellCardWithProcs from '../common/SpellCardWithProcs';
 import UnifiedSpellCard from '../common/UnifiedSpellCard';
-import MythrillWindow from '../../../windows/MythrillWindow';
+
 // Pathfinder styles imported via main.css
 
 import SpellContextMenu from './SpellContextMenu';
@@ -2258,107 +2258,94 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
             ) : (
               <>
                 <div className="wow-spell-list-container">
-                  {paginatedSpells.map(spell => (
-                    <div
-                      key={spell.id}
-                      className="wow-spell-row"
-                      onContextMenu={(e) => handleSpellContextMenu(e, spell.id)}
-                      draggable={true}
-                      onDragStart={(e) => {
-                        const iconName = spell?.typeConfig?.icon ||
-                          spell?.icon ||
-                          spell?.damageConfig?.icon ||
-                          spell?.healingConfig?.icon ||
-                          'inv_misc_questionmark';
+                    {paginatedSpells.map(spell => (
+                      <div
+                        key={spell.id}
+                        className={`wow-spell-row ${selectedSpell?.id === spell.id ? 'selected' : ''}`}
+                        onContextMenu={(e) => handleSpellContextMenu(e, spell.id)}
+                        draggable={true}
+                        onDragStart={(e) => {
+                          const iconName = spell?.typeConfig?.icon ||
+                            spell?.icon ||
+                            spell?.damageConfig?.icon ||
+                            spell?.healingConfig?.icon ||
+                            'inv_misc_questionmark';
 
-                        const spellData = {
-                          ...spell,
-                          id: spell.id,
-                          name: spell.name,
-                          icon: iconName,
-                          cooldown: spell.cooldown || 0,
-                          level: spell.level || 1,
-                          spellType: spell.spellType || 'ACTION',
-                          type: 'spell'
-                        };
-                        e.dataTransfer.setData('application/json', JSON.stringify(spellData));
-                        e.dataTransfer.effectAllowed = 'copy';
-                      }}
-                      onMouseDown={(e) => {
-                        // Only handle right-click for context menu
-                        if (e.button === 2) {
-                          handleSpellContextMenu(e, spell.id);
-                        } else if (e.button === 0) {
-                          // Track mouse down position for left click
-                          e.currentTarget.dataset.mouseDownX = e.clientX;
-                          e.currentTarget.dataset.mouseDownY = e.clientY;
-                          e.currentTarget.dataset.mouseDownTime = Date.now();
-                        }
-                      }}
-                      onMouseUp={(e) => {
-                        // Handle left-click to show popup (only if it wasn't a drag)
-                        if (e.button === 0) {
-                          const mouseDownX = parseFloat(e.currentTarget.dataset.mouseDownX || '0');
-                          const mouseDownY = parseFloat(e.currentTarget.dataset.mouseDownY || '0');
-                          const mouseDownTime = parseInt(e.currentTarget.dataset.mouseDownTime || '0');
-                          const mouseMoveDistance = Math.sqrt(
-                            Math.pow(e.clientX - mouseDownX, 2) + Math.pow(e.clientY - mouseDownY, 2)
-                          );
-                          const timeDiff = Date.now() - mouseDownTime;
-
-                          // Only show popup if it was a click (not a drag) - small movement and quick
-                          if (mouseMoveDistance < 5 && timeDiff < 300) {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            // Set flag IMMEDIATELY and synchronously to prevent page reset
-                            isShowingPopupRef.current = true;
-                            // Set state immediately - the flag is already set
-                            setSelectedSpell(spell);
+                          const spellData = {
+                            ...spell,
+                            id: spell.id,
+                            name: spell.name,
+                            icon: iconName,
+                            cooldown: spell.cooldown || 0,
+                            level: spell.level || 1,
+                            spellType: spell.spellType || 'ACTION',
+                            type: 'spell'
+                          };
+                          e.dataTransfer.setData('application/json', JSON.stringify(spellData));
+                          e.dataTransfer.effectAllowed = 'copy';
+                        }}
+                        onMouseDown={(e) => {
+                          if (e.button === 2) {
+                            handleSpellContextMenu(e, spell.id);
+                          } else if (e.button === 0) {
+                            e.currentTarget.dataset.mouseDownX = e.clientX;
+                            e.currentTarget.dataset.mouseDownY = e.clientY;
+                            e.currentTarget.dataset.mouseDownTime = Date.now();
                           }
-                        }
-                      }}
-                      onClick={(e) => {
-                        // Fallback: if mouseUp didn't fire for some reason
-                        e.preventDefault();
-                        e.stopPropagation();
-                        // Set flag IMMEDIATELY and synchronously to prevent page reset
-                        isShowingPopupRef.current = true;
-                        // Set state immediately - the flag is already set
-                        setSelectedSpell(spell);
-                      }}
-                      style={{ cursor: 'pointer' }}
-                    >
-                      <div className="wow-spell-icon">
-                        <img
-                          src={getSpellIconUrl(spell)}
-                          alt={spell.name}
-                          onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.src = getCustomIconUrl('Utility/Utility', 'abilities');
-                          }}
-                        />
-                      </div>
-                      <div className="wow-spell-info">
-                        <p className="wow-spell-name">{spell.name}</p>
-                        <p className="wow-spell-rank">
-                          {spell.description || spell.spellType || 'Action'}
-                        </p>
-                      </div>
-                      {spell.spellType && (
-                        <span className="wow-spell-type">{spell.spellType}</span>
-                      )}
-                    </div>
-                  ))}
+                        }}
+                        onMouseUp={(e) => {
+                          if (e.button === 0) {
+                            const mouseDownX = parseFloat(e.currentTarget.dataset.mouseDownX || '0');
+                            const mouseDownY = parseFloat(e.currentTarget.dataset.mouseDownY || '0');
+                            const mouseDownTime = parseInt(e.currentTarget.dataset.mouseDownTime || '0');
+                            const mouseMoveDistance = Math.sqrt(
+                              Math.pow(e.clientX - mouseDownX, 2) + Math.pow(e.clientY - mouseDownY, 2)
+                            );
+                            const timeDiff = Date.now() - mouseDownTime;
 
-                  {Array.from({ length: Math.max(0, spellsPerPage - paginatedSpells.length) }).map((_, idx) => (
-                    <div key={`empty-slot-${idx}`} className="wow-spell-row empty" aria-hidden="true">
-                      <div className="wow-empty-icon" />
-                      <div className="wow-empty-name-box" />
-                    </div>
-                  ))}
+                            if (mouseMoveDistance < 5 && timeDiff < 300) {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              isShowingPopupRef.current = true;
+                              setSelectedSpell(spell);
+                            }
+                          }
+                        }}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                        }}
+                        style={{ cursor: 'pointer' }}
+                      >
+                        <div className="wow-spell-icon">
+                          <img
+                            src={getSpellIconUrl(spell)}
+                            alt={spell.name}
+                            onError={(e) => {
+                              e.target.onerror = null;
+                              e.target.src = getCustomIconUrl('Utility/Utility', 'abilities');
+                            }}
+                          />
+                        </div>
+                        <div className="wow-spell-info">
+                          <p className="wow-spell-name">{spell.name}</p>
+                          <p className="wow-spell-rank">
+                            {spell.description || spell.spellType || 'Action'}
+                          </p>
+                        </div>
+                        {spell.spellType && (
+                          <span className="wow-spell-type">{spell.spellType}</span>
+                        )}
+                      </div>
+                    ))}
 
+                    {Array.from({ length: Math.max(0, spellsPerPage - paginatedSpells.length) }).map((_, idx) => (
+                      <div key={`empty-slot-${idx}`} className="wow-spell-row empty" aria-hidden="true">
+                        <div className="wow-empty-icon" />
+                        <div className="wow-empty-name-box" />
+                      </div>
+                    ))}
                 </div>
-
               </>
             )}
           </div>
@@ -2597,20 +2584,55 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
         />
       )}
 
-      {/* Spell Popup Modal - Shows full spell card on click */}
-      {selectedSpell && (
-        <MythrillWindow
-          title={selectedSpell?.name || 'Spell Details'}
-          isOpen={true}
-          onClose={() => {
+
+
+
+      {/* Confirmation Dialog for Spell Deletion */}
+      {deleteConfirmation && (
+        <ConfirmationDialog
+          message={`Are you sure you want to delete "${deleteConfirmation.spellName}"?`}
+          onConfirm={confirmDelete}
+          onCancel={cancelDelete}
+        />
+      )}
+
+      {/* Spell Card Overlay - fullscreen centered, no window frame */}
+      {selectedSpell && ReactDOM.createPortal(
+        <div
+          onClick={() => {
             isShowingPopupRef.current = false;
             setSelectedSpell(null);
           }}
-          modal={true}
-          centered={true}
-          defaultSize={{ width: 640, height: 720 }}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            width: '100vw',
+            height: '100vh',
+            background: 'radial-gradient(circle at center, rgba(100, 100, 150, 0.4) 0%, rgba(0, 0, 0, 0.8) 100%)',
+            backdropFilter: 'blur(10px)',
+            WebkitBackdropFilter: 'blur(10px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 9999,
+            cursor: 'pointer',
+            animation: 'spellOverlayFadeIn 0.4s ease-out'
+          }}
         >
-          <div className="spellbook-popup-content" style={{ padding: '20px', overflowY: 'auto', flex: '1 1 auto', minHeight: 0, boxSizing: 'border-box' }}>
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              position: 'relative',
+              maxWidth: '600px',
+              width: '90%',
+              maxHeight: '90vh',
+              overflow: 'auto',
+              cursor: 'default'
+            }}
+          >
             <UnifiedSpellCard
               spell={mapSpellToUnifiedFormat(selectedSpell)}
               variant="wizard"
@@ -2621,17 +2643,8 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
               rollableTableData={getSpellRollableTable(selectedSpell)}
             />
           </div>
-        </MythrillWindow>
-      )}
-
-
-      {/* Confirmation Dialog for Spell Deletion */}
-      {deleteConfirmation && (
-        <ConfirmationDialog
-          message={`Are you sure you want to delete "${deleteConfirmation.spellName}"?`}
-          onConfirm={confirmDelete}
-          onCancel={cancelDelete}
-        />
+        </div>,
+        document.body
       )}
 
     </div>

@@ -104,10 +104,9 @@ export const useSessionManagement = () => {
       console.warn('Non-fatal: Could not cleanup social subscriptions:', e.message);
     }
 
-    // Update presence status to offline
-    if (updateStatus) {
-      updateStatus('offline', 'Session expired');
-    }
+    // Note: presence offline is handled by authStore.signOut() → presenceService.cleanup() → setOffline()
+    // We do NOT call updateStatus('offline') here to avoid a race condition where
+    // the async Firebase write hasn't completed before signOut() revokes auth.
 
     // Clear all timers
     clearTimers();

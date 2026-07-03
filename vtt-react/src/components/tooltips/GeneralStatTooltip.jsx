@@ -33,240 +33,163 @@ const getStatDescription = (stat) => {
                 'Higher initiative rolls grant more action points'
             ]
         },
-        // Spell Damage Types
-        'Frost Damage': {
-            title: 'Frost Damage',
-            color: '#87CEEB',
+        // Spell Damage Types (Mythrill canonical)
+        'Ember Damage': {
+            title: 'Ember Damage',
+            color: '#D4380D',
             effects: [
-                'Freezing damage that can slow targets',
-                'Common spells: Cone of Cold, Ice Storm, Frost Bolt',
-                'Can extinguish flames and freeze liquids',
-                'Effective in cold environments',
-                'Frost damage creates difficult terrain and can immobilize enemies'
-            ]
-        },
-        'Fire Damage': {
-            title: 'Fire Damage',
-            color: '#FF4400',
-            effects: [
-                'Burning damage that ignites objects',
-                'Common spells: Fireball, Fire Bolt',
-                'Can light torches and melt ice',
+                'Scorching heat and flame that ignites and sears',
+                'Channels destructive fire and divine light',
+                'Can light torches, melt ice, and ignite objects',
                 'Extra effective in dry environments'
             ]
         },
-        'Fire Power': {
-            title: 'Fire Spell Power',
-            color: '#FF4500',
+        'Rime Damage': {
+            title: 'Rime Damage',
+            color: '#2C5F7C',
             effects: [
-                'Increases damage of fire-based spells',
-                'Affects spells like Fireball, Flame Strike, and Burning Hands',
-                'Based on Intelligence and magical equipment',
-                'Higher power means more devastating fire magic'
+                'Freezing cold and glaciation that slows targets',
+                'Can freeze liquids and extinguish flames',
+                'Effective in cold environments',
+                'Rime damage creates difficult terrain and can immobilize enemies'
             ]
         },
-        'Frost Power': {
-            title: 'Frost Spell Power',
-            color: '#87CEEB',
+        'Storm Damage': {
+            title: 'Storm Damage',
+            color: '#8B7328',
             effects: [
-                'Increases damage of frost-based spells',
-                'Affects spells like Ice Storm, Cone of Cold, Frost Bolt, and Freezing Ray',
-                'Based on Intelligence and magical equipment',
-                'Higher power means more devastating frost magic',
-                'Frost spells can slow enemies and freeze liquids'
-            ]
-        },
-        'Lightning Power': {
-            title: 'Lightning Spell Power',
-            color: '#FFD700',
-            effects: [
-                'Increases damage of lightning-based spells',
-                'Affects spells like Lightning Bolt, Chain Lightning, and Shock',
-                'Based on Intelligence and magical equipment',
-                'Higher power means more devastating electrical magic'
-            ]
-        },
-        'Poison Power': {
-            title: 'Poison Spell Power',
-            color: '#9ACD32',
-            effects: [
-                'Increases damage of poison-based spells',
-                'Affects spells like Poison Cloud, Toxic Bolt, and Venomous Strike',
-                'Based on Intelligence and magical equipment',
-                'Higher power means more potent toxins'
-            ]
-        },
-        'Necrotic Power': {
-            title: 'Necrotic Spell Power',
-            color: '#8B008B',
-            effects: [
-                'Increases damage of necrotic-based spells',
-                'Affects spells like Drain Life, Death Coil, and Wither',
-                'Based on Intelligence and magical equipment',
-                'Higher power means more devastating death magic'
-            ]
-        },
-        'Radiant Power': {
-            title: 'Radiant Spell Power',
-            color: '#FFD700',
-            effects: [
-                'Increases damage of radiant-based spells',
-                'Affects spells like Sacred Flame, Divine Light, and Holy Bolt',
-                'Based on Intelligence and magical equipment',
-                'Higher power means more powerful divine magic'
-            ]
-        },
-        'Psychic Power': {
-            title: 'Psychic Spell Power',
-            color: '#FF69B4',
-            effects: [
-                'Increases damage of psychic-based spells',
-                'Affects spells like Mind Blast, Psychic Lance, and Mental Crush',
-                'Based on Intelligence and magical equipment',
-                'Higher power means more devastating mental attacks'
-            ]
-        },
-        'Force Power': {
-            title: 'Force Spell Power',
-            color: '#4169E1',
-            effects: [
-                'Increases damage of force-based spells',
-                'Affects spells like Magic Missile, Force Bolt, and Telekinetic Strike',
-                'Based on Intelligence and magical equipment',
-                'Higher power means more powerful pure magical force'
-            ]
-        },
-        'Arcane Power': {
-            title: 'Arcane Spell Power',
-            color: '#9370DB',
-            effects: [
-                'Increases damage of arcane-based spells',
-                'Affects spells like Arcane Blast, Magic Missile, and Arcane Barrage',
-                'Based on Intelligence and magical equipment',
-                'Higher power means more devastating pure magical energy',
-                'Arcane magic manipulates the fundamental forces of reality'
-            ]
-        },
-        'Nature Power': {
-            title: 'Nature Spell Power',
-            color: '#228B22',
-            effects: [
-                'Increases damage of nature-based spells',
-                'Affects spells like Entangle, Call Lightning, and Thorn Whip',
-                'Based on Intelligence and magical equipment',
-                'Higher power means more powerful primal and natural magic',
-                'Nature magic draws from the living world and elemental forces'
-            ]
-        },
-        'Void Power': {
-            title: 'Void Spell Power',
-            color: '#1a1a2e',
-            effects: [
-                'Increases damage of void-based spells',
-                'Affects spells like Void Bolt, Abyssal Strike, and Consuming Darkness',
-                'Based on Intelligence and Spirit with magical equipment',
-                'Higher power means more devastating void magic',
-                'Void magic represents the absence of existence and consuming forces'
-            ]
-        },
-        'Chaos Power': {
-            title: 'Chaos Spell Power',
-            color: '#ec4899',
-            effects: [
-                'Increases damage of chaos-based spells',
-                'Affects spells with unpredictable magical energy that defies categorization',
-                'Based on Intelligence and Spirit with magical equipment',
-                'Higher power means more devastating and unpredictable chaos magic'
-            ]
-        },
-        'Lightning Damage': {
-            title: 'Lightning Damage',
-            color: '#FFE93B',
-            effects: [
-                'Electrical damage that arcs between targets',
-                'Common spells: Lightning Bolt, Chain Lightning',
-                'Can short out electrical devices',
+                'Lightning, thunder, and concussive force that arcs between targets',
+                'Can shatter and stun with deafening thunder',
                 'Extra effective against metal armor'
             ]
         },
-        'Arcane Damage': {
-            title: 'Arcane Damage',
-            color: '#9370DB',
+        'Blight Damage': {
+            title: 'Blight Damage',
+            color: '#3D1F4E',
             effects: [
-                'Pure magical energy from arcane sources',
-                'Common spells: Arcane Blast, Magic Missile, Arcane Barrage',
-                'Manipulates the fundamental forces of reality',
-                'Few creatures have natural resistance to arcane magic'
-            ]
-        },
-        'Force Damage': {
-            title: 'Force Damage',
-            color: '#FF8AFF',
-            effects: [
-                'Pure magical energy damage',
-                'Common spells: Magic Missile, Spiritual Weapon',
-                'Affects incorporeal creatures normally',
-                'Very few creatures resist this damage'
-            ]
-        },
-        'Necrotic Damage': {
-            title: 'Necrotic Damage',
-            color: '#8C48FF',
-            effects: [
-                'Death energy that withers matter',
-                'Common spells: Chill Touch, Circle of Death',
-                'Can prevent healing',
+                'Necrotic decay and corruption that withers matter',
+                'Can prevent healing and weaken life force',
                 'Extra effective against living creatures'
             ]
         },
-        'Radiant Damage': {
-            title: 'Radiant Damage',
-            color: '#FFE680',
+        'Wyrd Damage': {
+            title: 'Wyrd Damage',
+            color: '#7A2040',
             effects: [
-                'Divine light that sears undead',
-                'Common spells: Sacred Flame, Sunbeam',
-                'Can dispel darkness',
-                'Extra effective against undead and fiends'
-            ]
-        },
-        'Poison Damage': {
-            title: 'Poison Damage',
-            color: '#A5FF91',
-            effects: [
-                'Toxic damage that sickens targets',
-                'Common spells: Poison Spray, Cloudkill',
-                'Can cause the poisoned condition',
-                'Many creatures have resistance'
-            ]
-        },
-        'Psychic Damage': {
-            title: 'Psychic Damage',
-            color: '#FF8AFF',
-            effects: [
-                'Mental damage that assaults the mind',
-                'Common spells: Vicious Mockery, Mind Sliver',
+                'Chaotic and psychic energy that warps minds and reality',
                 'Bypasses physical defenses',
                 'Constructs often immune'
             ]
         },
-        'Nature Damage': {
-            title: 'Nature Damage',
-            color: '#228B22',
+        'Divine Damage': {
+            title: 'Divine Damage',
+            color: '#DAA520',
             effects: [
-                'Primal energy from the living world',
-                'Common spells: Entangle, Call Lightning, Thorn Whip',
+                'Sacred radiance and celestial power that sears the unholy',
+                'Can dispel darkness and ward evil',
+                'Extra effective against undead and fiends'
+            ]
+        },
+        'Primal Damage': {
+            title: 'Primal Damage',
+            color: '#2D5A1E',
+            effects: [
+                'Natural energy and living growth from the wild',
                 'Draws power from natural forces and elemental nature',
                 'Effective against constructs and corrupted beings'
             ]
         },
-        'Void Damage': {
-            title: 'Void Damage',
-            color: '#1a1a2e',
+        'Arcane Damage': {
+            title: 'Arcane Damage',
+            color: '#5B3A8C',
             effects: [
-                'The absence of existence, consuming all it touches',
-                'Common spells: Void Bolt, Abyssal Strike, Consuming Darkness',
-                'Represents nothingness and consuming forces',
-                'Extra effective against light-aligned creatures'
+                'Pure magical energy from arcane sources',
+                'Manipulates the fundamental forces of reality',
+                'Few creatures have natural resistance to arcane magic'
+            ]
+        },
+        // Spell Power Types (Mythrill canonical)
+        'Ember Power': {
+            title: 'Ember Spell Power',
+            color: '#D4380D',
+            effects: [
+                'Increases damage of Ember spells',
+                'Channels scorching heat, flame, and destructive fire',
+                'Based on Intelligence and magical equipment',
+                'Higher power means more devastating ember magic'
+            ]
+        },
+        'Rime Power': {
+            title: 'Rime Spell Power',
+            color: '#2C5F7C',
+            effects: [
+                'Increases damage of Rime spells',
+                'Channels freezing cold, frost, and glaciation',
+                'Based on Intelligence and magical equipment',
+                'Higher power means more devastating rime magic',
+                'Rime spells can slow enemies and freeze liquids'
+            ]
+        },
+        'Storm Power': {
+            title: 'Storm Spell Power',
+            color: '#8B7328',
+            effects: [
+                'Increases damage of Storm spells',
+                'Channels lightning, thunder, and concussive force',
+                'Based on Intelligence and magical equipment',
+                'Higher power means more devastating storm magic'
+            ]
+        },
+        'Primal Power': {
+            title: 'Primal Spell Power',
+            color: '#2D5A1E',
+            effects: [
+                'Increases damage of Primal spells',
+                'Channels natural energy and living forces',
+                'Based on Intelligence and magical equipment',
+                'Higher power means more powerful primal magic',
+                'Primal magic draws from the living world and elemental forces'
+            ]
+        },
+        'Blight Power': {
+            title: 'Blight Spell Power',
+            color: '#3D1F4E',
+            effects: [
+                'Increases damage of Blight spells',
+                'Channels necrotic decay, corruption, and withering',
+                'Based on Intelligence and magical equipment',
+                'Higher power means more devastating blight magic'
+            ]
+        },
+        'Wyrd Power': {
+            title: 'Wyrd Spell Power',
+            color: '#7A2040',
+            effects: [
+                'Increases damage of Wyrd spells',
+                'Channels chaotic and psychic energy that warps reality',
+                'Based on Intelligence and magical equipment',
+                'Higher power means more devastating wyrd magic'
+            ]
+        },
+        'Divine Power': {
+            title: 'Divine Spell Power',
+            color: '#DAA520',
+            effects: [
+                'Increases damage of Divine spells',
+                'Channels sacred radiance and celestial power',
+                'Based on Intelligence and magical equipment',
+                'Higher power means more powerful divine magic'
+            ]
+        },
+        'Arcane Power': {
+            title: 'Arcane Spell Power',
+            color: '#5B3A8C',
+            effects: [
+                'Increases damage of Arcane spells',
+                'Channels pure magical energy and spell force',
+                'Based on Intelligence and magical equipment',
+                'Higher power means more devastating arcane magic',
+                'Arcane magic manipulates the fundamental forces of reality'
             ]
         },
         // Physical Damage Types
@@ -310,119 +233,80 @@ const getStatDescription = (stat) => {
                 'Different schools gain additional bonuses'
             ]
         },
-        // Individual Spell Power Types (matching store names)
-        'Fire Spell Power': {
-            title: 'Fire Spell Power',
-            color: '#FF4400',
+        // Individual Spell Power Types (Mythrill canonical)
+        'Ember Spell Power': {
+            title: 'Ember Spell Power',
+            color: '#D4380D',
             effects: [
-                'Increases damage of Fire spells',
-                'Adds to Fire spell damage rolls',
+                'Increases damage of Ember spells',
+                'Adds to Ember spell damage rolls',
                 'Enhances burning effects and heat-based magic'
             ]
         },
-        'Frost Spell Power': {
-            title: 'Frost Spell Power',
-            color: '#87CEEB',
+        'Rime Spell Power': {
+            title: 'Rime Spell Power',
+            color: '#2C5F7C',
             effects: [
-                'Increases damage of Frost spells',
-                'Adds to Frost spell damage rolls',
-                'Enhances freezing effects and ice-based magic',
-                'Frost spells can slow enemies and create difficult terrain'
+                'Increases damage of Rime spells',
+                'Adds to Rime spell damage rolls',
+                'Enhances freezing effects and glaciation magic',
+                'Rime spells can slow enemies and create difficult terrain'
             ]
         },
-        'Lightning Spell Power': {
-            title: 'Lightning Spell Power',
-            color: '#FFFF00',
+        'Storm Spell Power': {
+            title: 'Storm Spell Power',
+            color: '#8B7328',
             effects: [
-                'Increases damage of Lightning spells',
-                'Adds to Lightning spell damage rolls',
-                'Enhances electrical effects and storm magic'
+                'Increases damage of Storm spells',
+                'Adds to Storm spell damage rolls',
+                'Enhances lightning, thunder, and concussive effects'
             ]
         },
-
-        'Force Spell Power': {
-            title: 'Force Spell Power',
-            color: '#FF8AFF',
+        'Primal Spell Power': {
+            title: 'Primal Spell Power',
+            color: '#2D5A1E',
             effects: [
-                'Increases damage of Force spells',
-                'Adds to Force spell damage rolls',
-                'Enhances pure magic and arcane force effects'
+                'Increases damage of Primal spells',
+                'Adds to Primal spell damage rolls',
+                'Enhances natural forces and living energy',
+                'Primal magic draws power from the living world'
             ]
         },
-        'Necrotic Spell Power': {
-            title: 'Necrotic Spell Power',
-            color: '#8C48FF',
+        'Blight Spell Power': {
+            title: 'Blight Spell Power',
+            color: '#3D1F4E',
             effects: [
-                'Increases damage of Necrotic spells',
-                'Adds to Necrotic spell damage rolls',
-                'Enhances death magic and life-draining effects'
+                'Increases damage of Blight spells',
+                'Adds to Blight spell damage rolls',
+                'Enhances decay, corruption, and life-draining effects'
             ]
         },
-        'Radiant Spell Power': {
-            title: 'Radiant Spell Power',
-            color: '#FFE680',
+        'Wyrd Spell Power': {
+            title: 'Wyrd Spell Power',
+            color: '#7A2040',
             effects: [
-                'Increases damage of Radiant spells',
-                'Adds to Radiant spell damage rolls',
-                'Enhances divine magic and holy light effects'
+                'Increases damage of Wyrd spells',
+                'Adds to Wyrd spell damage rolls',
+                'Enhances chaotic and psychic magic effects'
             ]
         },
-        'Poison Spell Power': {
-            title: 'Poison Spell Power',
-            color: '#00FF00',
+        'Divine Spell Power': {
+            title: 'Divine Spell Power',
+            color: '#DAA520',
             effects: [
-                'Increases damage of Poison spells',
-                'Adds to Poison spell damage rolls',
-                'Enhances toxic effects and venomous magic'
-            ]
-        },
-        'Psychic Spell Power': {
-            title: 'Psychic Spell Power',
-            color: '#FF69B4',
-            effects: [
-                'Increases damage of Psychic spells',
-                'Adds to Psychic spell damage rolls',
-                'Enhances mental magic and mind effects'
+                'Increases damage of Divine spells',
+                'Adds to Divine spell damage rolls',
+                'Enhances sacred radiance and celestial power'
             ]
         },
         'Arcane Spell Power': {
             title: 'Arcane Spell Power',
-            color: '#9370DB',
+            color: '#5B3A8C',
             effects: [
                 'Increases damage of Arcane spells',
                 'Adds to Arcane spell damage rolls',
                 'Enhances pure magical energy and reality manipulation',
                 'Arcane magic is the foundation of all spellcasting'
-            ]
-        },
-        'Chaos Spell Power': {
-            title: 'Chaos Spell Power',
-            color: '#ec4899',
-            effects: [
-                'Increases damage of Chaos spells',
-                'Adds to Chaos spell damage rolls',
-                'Enhances unpredictable magic and random effects',
-                'Chaos magic defies categorization and creates wild effects'
-            ]
-        },
-        'Nature Spell Power': {
-            title: 'Nature Spell Power',
-            color: '#228B22',
-            effects: [
-                'Increases damage of Nature spells',
-                'Adds to Nature spell damage rolls',
-                'Enhances primal magic and natural forces',
-                'Nature magic draws power from the living world'
-            ]
-        },
-        'Void Spell Power': {
-            title: 'Void Spell Power',
-            color: '#1a1a2e',
-            effects: [
-                'Increases damage of Void spells',
-                'Adds to Void spell damage rolls',
-                'Enhances consuming forces and the absence of existence',
-                'Void magic represents nothingness and consuming darkness'
             ]
         },
 

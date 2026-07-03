@@ -1720,11 +1720,9 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
         'healingpower': 'Healing Power', 'healthregen': 'Health Regen', 'manaregen': 'Mana Regen',
         'movespeed': 'Movement Speed', 'move_speed': 'Movement Speed', 'movementspeed': 'Movement Speed', 'speed': 'Movement Speed',
         'actionpoints': 'Action Points', 'action_points': 'Action Points',
-        'firespellpower': 'Fire Power', 'frostspellpower': 'Frost Power', 'arcanespellpower': 'Arcane Power',
-        'shadowspellpower': 'Shadow Power', 'holyspellpower': 'Holy Power', 'naturespellpower': 'Nature Power',
-        'lightningspellpower': 'Lightning Power', 'coldspellpower': 'Cold Power', 'acidspellpower': 'Acid Power',
-        'forcespellpower': 'Force Power', 'thunderspellpower': 'Thunder Power', 'chaosspellpower': 'Chaos Power',
-        'necroticspellpower': 'Necrotic Power', 'radiantspellpower': 'Radiant Power'
+        'emberspellpower': 'Ember Power', 'rimespellpower': 'Rime Power', 'arcanespellpower': 'Arcane Power',
+        'stormspellpower': 'Storm Power', 'primalspellpower': 'Primal Power', 'blightspellpower': 'Blight Power',
+        'wyrdsignspellpower': 'Wyrd Power', 'divinespellpower': 'Divine Power'
     };
 
     const UNIT_STATS = new Set(['movespeed', 'move_speed', 'movementspeed', 'speed', 'movement speed']);

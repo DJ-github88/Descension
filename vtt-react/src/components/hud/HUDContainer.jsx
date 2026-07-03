@@ -141,16 +141,15 @@ const HUDContainer = () => {
     const handleCreateCharacterToken = (character, isSelf = false) => {
         console.log('🎭 Creating character token:', { character, isSelf });
 
-        if (isSelf) {
-            // Dispatch a custom event that the Grid component can listen for
-            const event = new CustomEvent('createCharacterToken', {
-                detail: {
-                    character: character,
-                    isSelf: true
-                }
-            });
-            window.dispatchEvent(event);
-        }
+        // Always dispatch so the GM can place tokens for ANY party member, not just
+        // their own. Grid.jsx resolves the correct member from the event payload.
+        const event = new CustomEvent('createCharacterToken', {
+            detail: {
+                character: character,
+                isSelf: isSelf
+            }
+        });
+        window.dispatchEvent(event);
     };
 
     return (

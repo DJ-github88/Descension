@@ -25,7 +25,9 @@ class PresenceService {
     this.presenceRef = null;
     this.listeners = new Map();
     this.heartbeatInterval = null;
-    this.offlineHandlers = [];
+    this.visibilityTimer = null;
+    this.isCleanedUp = false;
+    this._boundHandlers = [];
   }
 
   /**
@@ -38,6 +40,7 @@ class PresenceService {
     }
 
     try {
+      this.isCleanedUp = false;
       this.currentUserId = userId;
       this.presenceRef = doc(db, 'presence', userId);
 
@@ -109,41 +112,41 @@ class PresenceService {
    */
   setupOfflineHandlers(userId) {
     const handleOffline = async () => {
+      if (this.isCleanedUp) return;
       console.log('🔴 Setting user offline:', userId);
       await this.setOffline(userId);
     };
 
     // Timer for delayed offline on visibility change
-    let visibilityTimer = null;
     const VISIBILITY_OFFLINE_DELAY = 5 * 60 * 1000; // 5 minutes
 
     // Listen for page visibility changes
     // CRITICAL FIX: Only go offline after prolonged hidden state (5 minutes)
     // This prevents users from appearing offline when just switching tabs
-    document.addEventListener('visibilitychange', () => {
+    const handleVisibilityChange = () => {
+      if (this.isCleanedUp) return;
       if (document.visibilityState === 'hidden') {
         // Start timer - only go offline after 5 minutes hidden
-        visibilityTimer = setTimeout(() => {
+        this.visibilityTimer = setTimeout(() => {
+          this.visibilityTimer = null;
           console.log('⏰ User hidden for 5 minutes, marking offline');
           handleOffline();
         }, VISIBILITY_OFFLINE_DELAY);
       } else {
         // Cancel timer if user returns before 5 minutes
-        if (visibilityTimer) {
-          clearTimeout(visibilityTimer);
-          visibilityTimer = null;
+        if (this.visibilityTimer) {
+          clearTimeout(this.visibilityTimer);
+          this.visibilityTimer = null;
         }
       }
-    });
+    };
 
-    // Listen for beforeunload (user closing tab/browser) - immediate offline
+    document.addEventListener('visibilitychange', handleVisibilityChange);
     window.addEventListener('beforeunload', handleOffline);
     window.addEventListener('unload', handleOffline);
-
-    // Listen for offline events (network connection) - immediate offline
     window.addEventListener('offline', handleOffline);
 
-    this.offlineHandlers.push(handleOffline);
+    this._boundHandlers = [handleVisibilityChange, handleOffline];
   }
 
   /**
@@ -180,7 +183,7 @@ class PresenceService {
    * Update user status (online/away/busy) and optional status comment
    */
   async updateStatus(userId, status, statusComment = null) {
-    if (!this.isConfigured || !db) {
+    if (!this.isConfigured || !db || this.isCleanedUp) {
       return false;
     }
 
@@ -265,7 +268,7 @@ class PresenceService {
    * Set user as offline
    */
   async setOffline(userId) {
-    if (!this.isConfigured || !db) {
+    if (!this.isConfigured || !db || this.isCleanedUp) {
       return false;
     }
 
@@ -444,21 +447,28 @@ class PresenceService {
   cleanup() {
     console.log('🧹 Cleaning up presence service for user:', this.currentUserId);
 
+    this.isCleanedUp = true;
+
     // Stop heartbeat
     if (this.heartbeatInterval) {
       clearInterval(this.heartbeatInterval);
       this.heartbeatInterval = null;
     }
 
-    // Remove offline handlers
-    if (this.offlineHandlers.length > 0) {
-      this.offlineHandlers.forEach((handler) => {
-        document.removeEventListener('visibilitychange', handler);
-        window.removeEventListener('beforeunload', handler);
-        window.removeEventListener('unload', handler);
-        window.removeEventListener('offline', handler);
-      });
-      this.offlineHandlers = [];
+    // Clear visibility timer
+    if (this.visibilityTimer) {
+      clearTimeout(this.visibilityTimer);
+      this.visibilityTimer = null;
+    }
+
+    // Remove all tracked event listeners
+    if (this._boundHandlers.length > 0) {
+      const [handleVisibilityChange, handleOffline] = this._boundHandlers;
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('beforeunload', handleOffline);
+      window.removeEventListener('unload', handleOffline);
+      window.removeEventListener('offline', handleOffline);
+      this._boundHandlers = [];
     }
 
     // Unsubscribe all user listeners
@@ -467,12 +477,13 @@ class PresenceService {
     });
     this.listeners.clear();
 
-    // Set current user offline if we're still authenticated
-    if (this.currentUserId) {
-      this.setOffline(this.currentUserId).catch(err => {
-        console.error('❌ Failed to set offline during cleanup:', err);
+    // Set current user offline if we still have a userId and Firebase is available
+    const userId = this.currentUserId;
+    this.currentUserId = null;
+    if (userId) {
+      this.setOffline(userId).catch(err => {
+        console.warn('⚠️ Could not set offline during cleanup (auth may already be revoked):', err.code || err.message);
       });
-      this.currentUserId = null;
     }
   }
 }

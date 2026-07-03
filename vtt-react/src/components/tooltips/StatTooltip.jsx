@@ -25,7 +25,6 @@ const getStatDescription = (stat, value) => {
             color: "#AAD372",
             effects: [
                 `Increases Ranged Power by ${modifier * 2}`,
-                `Increases Defense by ${modifier}`,
                 `Grants +${modifier} Initiative`
             ]
         },
@@ -37,12 +36,14 @@ const getStatDescription = (stat, value) => {
                 `Enhances Spell Power by ${modifier * 2}`,
                 "Affects all schools of magic:",
                 { spellSchools: [
-                    { name: "Frost", color: "#3CE7FF" },
-                    { name: "Fire", color: "#FF4400" },
-                    { name: "Arcane", color: "#FF8AFF" },
-                    { name: "Necrotic", color: "#8C48FF" },
-                    { name: "Radiant", color: "#FFE680" },
-                    { name: "Nature", color: "#A5FF91" }
+                    { name: "Ember", color: "#D4380D" },
+                    { name: "Rime", color: "#2C5F7C" },
+                    { name: "Storm", color: "#8B7328" },
+                    { name: "Arcane", color: "#5B3A8C" },
+                    { name: "Primal", color: "#2D5A1E" },
+                    { name: "Blight", color: "#3D1F4E" },
+                    { name: "Wyrd", color: "#7A2040" },
+                    { name: "Divine", color: "#DAA520" }
                 ]}
             ]
         },

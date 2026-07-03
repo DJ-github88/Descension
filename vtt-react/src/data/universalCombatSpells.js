@@ -338,7 +338,7 @@ export const UNIVERSAL_COMBAT_SPELLS = [
     description: 'When an ally within 10 ft. is attacked, push them 5 ft. to safety and take the hit. Make a Strength save using an easy difficulty die (typically d6); on a miss the ally falls prone.',
     level: 1,
     spellType: 'REACTION',
-    effectTypes: ['utility', 'control'],
+    effectTypes: ['utility'],
     source: 'general',
     categoryIds: ['general_reactions'],
     typeConfig: {
