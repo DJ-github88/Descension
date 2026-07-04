@@ -60,20 +60,6 @@ fix-*.js
 fix_*.js
 transform_*.js
 replace_*.js
-temp_*.js
-temp_*.mjs
-audit-*
-audit_*.js
-build-log*.txt
-
-# Screenshots in root
-*.png
-
-# Scratch directory
-scratch/
-
-# Backup and disabled files
-*.backup*.js
 *.backup*.jsx
 *.disabled
 *_backup*
@@ -129,7 +115,7 @@ audit_*.js
 build-log*.txt
 
 # Screenshots in root
-*.png
+/*.png
 
 # Scratch directory
 scratch/

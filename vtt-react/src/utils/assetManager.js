@@ -1020,7 +1020,8 @@ export const getCreatureTokenIconUrl = (iconId, creatureType = null) => {
       'zharptitsa_glow', 'naga_root', 'preta_hollow', 'gamayun_seer',
       'chort_thorn', 'drekavac_wail', 'bannik_vent', 'psoglav_bone',
       'vourdalak_debt', 'mavka_willow', 'alkonost', 'dziwozona_wild',
-      'upir_root', 'sirin_song'
+      'upir_root', 'sirin_song', 'abzu', 'erlik', 'ajina', 'supayoni',
+      'pooka', 'koboldknock', 'knockbrew', 'moorboggle', 'wildejagd', 'cailleach'
     ]);
     const creatureName = iconId.split('/')[1];
     if (!uniqueSketches.has(creatureName)) {
