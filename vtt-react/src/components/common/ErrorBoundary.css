@@ -1,4 +1,4 @@
-/* ===== ERROR BOUNDARY — ON-BRAND FALLBACK ===== */
+/* ===== ERROR BOUNDARY: ON-BRAND FALLBACK ===== */
 /* Uses --my-* tokens (theme-aware) with hardcoded on-brand fallbacks so the
    UI renders correctly even if the main stylesheet failed to load. */
 

@@ -314,7 +314,7 @@ export const useCharacterPersistence = () => {
         tempMana: remoteData.tempMana || 0,
         tempActionPoints: remoteData.tempActionPoints || 0,
         exhaustionLevel: remoteData.exhaustionLevel || 0,
-        // One-time migration on remote update too — covers a party member on an
+        // One-time migration on remote update too: covers a party member on an
         // older client broadcasting legacy IDs.
         classResource: migrateArcanoneerClassResource(remoteData.classResource),
         skillRanks: remoteData.skillRanks || {},

@@ -5,7 +5,7 @@ export const RACE_MECHANICS = {
     applicableRace: 'astril',
     applicableSubrace: 'sylen',
     type: 'escalation_track',
-    description: 'When a Sylen opens too completely to the constellation-spirit, the mortal consciousness is submerged. The Over-Sung still walks, still speaks, still recognizes faces, but the person they were is gone — replaced by a constellation that has forgotten it was ever a passenger.',
+    description: 'Bloodline is destiny in a world shaped by bargains. when a Sylen opens too completely to the constellation-spirit, the mortal consciousness is submerged. The Over-Sung still walks, still speaks, still recognizes faces, but the person they were is gone — replaced by a constellation that has forgotten it was ever a passenger.',
     resource: {
       name: 'Spirit Depth',
       range: { min: 0, max: 10 },
@@ -126,7 +126,7 @@ export const RACE_MECHANICS = {
         name: 'The Choice',
         effects: [
           { type: 'branching_choice', options: [
-            { name: 'The Severing', description: 'Become Drun permanently. Legal non-existence, but free. Fraying resets to 0.', consequence: 'Character gains Drun subrace traits and loses all Neth contract abilities.' },
+            { name: 'The Severing', description: 'Bloodline is destiny in a world shaped by bargains. become Drun permanently. Legal non-existence, but free. Fraying resets to 0.', consequence: 'Character gains Drun subrace traits and loses all Neth contract abilities.' },
             { name: 'The Return', description: 'Attempt to re-enter the contract-spiral by honoring 10 consecutive contracts without a single breach (minimum 3 sessions of strict compliance).', consequence: 'If any contract is breached during the return, Fraying advances to 10 immediately.' }
           ]}
         ],

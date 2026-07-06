@@ -18,7 +18,7 @@ export const ARCANONEER_PRISM_MAGE = [
   {
     id: 'prism_mage_t1_elemental_resonance',
     name: 'Elemental Resonance',
-    description: 'When you roll 3 or more spheres of the same element, make a Fortune Roll (1d6, odd = Red). Red result grants +1d4 temporary mana per rank.',
+    description: 'Fexric pipe-resonance and steam-will converge here. when you roll 3 or more spheres of the same element, make a Fortune Roll (1d6, odd = Red). Red result grants +1d4 temporary mana per rank.',
     icon: 'spell_arcane_arcaneresilience',
     maxRanks: 4,
     position: { x: 1, y: 1 },
@@ -56,7 +56,7 @@ export const ARCANONEER_PRISM_MAGE = [
   {
     id: 'prism_mage_t2_sphere_hunting',
     name: 'Sphere Hunting',
-    description: 'When rerolling spheres, roll 1d8. On 7+ per rank, choose the exact element you want instead of rerolling.',
+    description: 'Fexric pipe-resonance and steam-will converge here. when rerolling spheres, roll 1d8. On 7+ per rank, choose the exact element you want instead of rerolling.',
     icon: 'spell_arcane_portalshattrath',
     maxRanks: 4,
     position: { x: 4, y: 2 },
@@ -105,7 +105,7 @@ export const ARCANONEER_PRISM_MAGE = [
   {
     id: 'prism_mage_t4_crystal_armor',
     name: 'Crystal Armor',
-    description: 'While you have 3+ spheres banked of the same element, you gain +2 armor per rank and resistance to that element.',
+    description: 'Fexric pipe-resonance and steam-will converge here. while you have 3+ spheres banked of the same element, you gain +2 armor per rank and resistance to that element.',
     icon: 'inv_misc_gem_crystal_01',
     maxRanks: 2,
     position: { x: 2, y: 4 },
@@ -160,7 +160,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
   {
     id: 'entropy_weaver_t1_wild_magic_surge',
     name: 'Wild Magic Surge',
-    description: 'When you use Chaos spheres in any combination, roll on the Wild Magic Surge table for additional effects. Chaos spells have +5% crit chance per rank.',
+    description: 'Fexric pipe-resonance and steam-will converge here. when you use Chaos spheres in any combination, roll on the Wild Magic Surge table for additional effects. Chaos spells have +5% crit chance per rank.',
     icon: 'spell_arcane_portalironforge',
     maxRanks: 4,
     position: { x: 1, y: 1 },
@@ -247,7 +247,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
   {
     id: 'entropy_weaver_t4_chaos_armor',
     name: 'Chaos Armor',
-    description: 'While you have Chaos spheres banked, you gain +1 armor per Chaos sphere per rank and resistance to random elemental damage.',
+    description: 'Fexric pipe-resonance and steam-will converge here. while you have Chaos spheres banked, you gain +1 armor per Chaos sphere per rank and resistance to random elemental damage.',
     icon: 'spell_shadow_nethercloak',
     maxRanks: 2,
     position: { x: 2, y: 4 },
@@ -256,7 +256,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
   {
     id: 'entropy_weaver_t4_sphere_detonation',
     name: 'Sphere Detonation',
-    description: 'When a Chaos sphere fizzes, it explodes dealing 2d8 chaos damage per rank to enemies within 10 ft.',
+    description: 'Fexric pipe-resonance and steam-will converge here. when a Chaos sphere fizzes, it explodes dealing 2d8 chaos damage per rank to enemies within 10 ft.',
     icon: 'spell_fire_selfdestruct',
     maxRanks: 3,
     position: { x: 4, y: 4 },

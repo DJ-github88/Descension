@@ -468,9 +468,9 @@ const GridContainer = ({ gridItem }) => {
       const hasFogContent = (fogOfWarPaths && fogOfWarPaths.length > 0) || 
                            (fogOfWarData && Object.keys(fogOfWarData).length > 0);
       if (hasFogContent) {
-        return { visible: false, greyedOut: false }; // Map is fogged — hide until player places a token
+        return { visible: false, greyedOut: false }; // Map is fogged: hide until player places a token
       }
-      return { visible: true, greyedOut: false }; // No fog — show normally
+      return { visible: true, greyedOut: false }; // No fog: show normally
     }
 
     return { visible: true, greyedOut: false };

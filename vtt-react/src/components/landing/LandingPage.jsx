@@ -150,7 +150,7 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
       });
     });
 
-    // Cleanup — restore the landing page when exiting Immerse mode
+    // Cleanup: restore the landing page when exiting Immerse mode
     return () => {
       cancelAnimationFrame(raf1);
       if (raf2) cancelAnimationFrame(raf2);
@@ -234,7 +234,7 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
           {isPhone && (
             <p className="phone-notice-banner">
               <i className="fas fa-info-circle"></i>
-              You're on a phone — the tactical grid is designed for larger screens.
+              You're on a phone: the tactical grid is designed for larger screens.
               Character Creation, Lore and the world map are fully available.
             </p>
           )}
@@ -298,7 +298,7 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
             </ul>
             <p className="account-note">
               <i className="fas fa-info-circle"></i>
-              No account needed — just join a game
+              No account needed: just join a game
             </p>
             <button
               className="pricing-btn primary-account-btn"
@@ -346,7 +346,7 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
               <li>✓ 5 rooms (up to 6 players each)</li>
               <li>✓ 500 MB cloud storage</li>
               <li>✓ Full GM notes (scroll, NPC, encounter, trap)</li>
-              <li>✓ Portal system — connect maps</li>
+              <li>✓ Portal system: connect maps</li>
               <li>✓ Travel system with biomes & weather</li>
               <li>✓ Atmospheric effects (rain, snow, fog)</li>
               <li>✓ Campaign manager & session tracking</li>
@@ -391,7 +391,7 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
       ) : (
         <div className="map-making-locked">
           <i className="fas fa-lock"></i>
-          <h2>Map Making — Restricted</h2>
+          <h2>Map Making: Restricted</h2>
           <p>This section is reserved for the map maker. Please log in as an admin to access it.</p>
         </div>
       )}

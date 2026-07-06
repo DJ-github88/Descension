@@ -21,7 +21,7 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* Modal backdrop — rendered by MythrillWindow when modal={true} and backdrop !== false.
+/* Modal backdrop: rendered by MythrillWindow when modal={true} and backdrop !== false.
    Sits at zIndex-1 (above regular windows, below the modal window itself). */
 .wow-window-modal-backdrop {
     position: fixed;
@@ -739,7 +739,7 @@
    LORE BOOK PAGE FLIPPING & DECORATIVE PAGES STYLING
    ========================================================================== */
 
-/* Elegant fantasy page flip button — sits inside .page-footer-strip flex row */
+/* Elegant fantasy page flip button: sits inside .page-footer-strip flex row */
 .book-page-flip-btn {
     position: static; /* Part of the footer flex row, not absolute */
     background: linear-gradient(135deg, #8b7355 0%, #6b5a45 100%);

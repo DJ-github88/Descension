@@ -1601,7 +1601,7 @@ const RaceSelector = () => {
             </div>
           )}
 
-          {/* Diaspora — In the Wider World */}
+          {/* Diaspora: In the Wider World */}
           {raceData.diasporaVariation && (
             <div className="integration-section">
               <h4 className="integration-title">

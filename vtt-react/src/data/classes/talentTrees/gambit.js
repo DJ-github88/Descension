@@ -29,7 +29,7 @@ export const GAMBIT_PROBABILITY_SAVANT = [
   {
     id: 'gambit_ps_t1_crystal_clarity',
     name: 'Crystal Clarity',
-    description: 'When you cast a card-based spell, each face card in your hand grants +1d4 damage per rank to that spell. Your lucky charm resonates with card magic, amplifying the effect.',
+    description: 'The Iceheart Sea teaches that every wave is a wager. when you cast a card-based spell, each face card in your hand grants +1d4 damage per rank to that spell. Your lucky charm resonates with card magic, amplifying the effect.',
     icon: 'spell_arcane_arcaneresilience',
     maxRanks: 3,
     position: { x: 4, y: 1 },
@@ -38,7 +38,7 @@ export const GAMBIT_PROBABILITY_SAVANT = [
   {
     id: 'gambit_ps_t2_lucky_break',
     name: 'Lucky Break',
-    description: 'When reduced below 0 HP or when you take damage, draw a card. Aces reduce the damage by 2d6 per rank. Face cards reduce it by 1d6 per rank. Numbered cards: no reduction, gain 1 Thread.',
+    description: 'The Iceheart Sea teaches that every wave is a wager. when reduced below 0 HP or when you take damage, draw a card. Aces reduce the damage by 2d6 per rank. Face cards reduce it by 1d6 per rank. Numbered cards: no reduction, gain 1 Thread.',
     icon: 'spell_shadow_lifedrain',
     maxRanks: 3,
     position: { x: 0, y: 2 },
@@ -56,7 +56,7 @@ export const GAMBIT_PROBABILITY_SAVANT = [
   {
     id: 'gambit_ps_t2_prescient_strike',
     name: 'Prescient Strike',
-    description: 'When an enemy attacks you, draw a card. Spades: redirect their attack to another enemy (deals 1d6 extra damage per rank). Hearts: reduce the damage by 1d8 per rank. Other suits: no effect, gain 1 Thread.',
+    description: 'The Iceheart Sea teaches that every wave is a wager. when an enemy attacks you, draw a card. Spades: redirect their attack to another enemy (deals 1d6 extra damage per rank). Hearts: reduce the damage by 1d8 per rank. Other suits: no effect, gain 1 Thread.',
     icon: 'ability_hunter_snipershot',
     maxRanks: 4,
     position: { x: 4, y: 2 },
@@ -101,7 +101,7 @@ export const GAMBIT_PROBABILITY_SAVANT = [
   {
     id: 'gambit_ps_t4_doom_divination',
     name: 'Doom Divination',
-    description: 'When you first see an enemy, draw a card. Black cards reduce their damage output by 1d6 per rank for the combat. Red cards: no reduction, gain 2 Threads per rank.',
+    description: 'The Iceheart Sea teaches that every wave is a wager. when you first see an enemy, draw a card. Black cards reduce their damage output by 1d6 per rank for the combat. Red cards: no reduction, gain 2 Threads per rank.',
     icon: 'spell_shadow_antishadow',
     maxRanks: 3,
     position: { x: 4, y: 4 },
@@ -215,7 +215,7 @@ export const GAMBIT_HIGH_ROLLER = [
   {
     id: 'gambit_hr_t3_pair_mastery',
     name: 'Pair Mastery',
-    description: 'When your drawn hand contains a pair, your next spell deals +1d6 damage per rank. Three of a kind: +2d6 per rank. Four of a kind: +4d6 per rank. Bet big on matching cards.',
+    description: 'The Iceheart Sea teaches that every wave is a wager. when your drawn hand contains a pair, your next spell deals +1d6 damage per rank. Three of a kind: +2d6 per rank. Four of a kind: +4d6 per rank. Bet big on matching cards.',
     icon: 'inv_misc_platnumdisks',
     maxRanks: 4,
     position: { x: 2, y: 3 },
@@ -242,7 +242,7 @@ export const GAMBIT_HIGH_ROLLER = [
   {
     id: 'gambit_hr_t4_card_storm',
     name: 'Card Storm',
-    description: 'When you cast a card-based spell with 3+ matching cards, deal 1d6 force damage per rank to all enemies within 15ft of the target. Draw a card — face cards double the storm damage.',
+    description: 'The Iceheart Sea teaches that every wave is a wager. when you cast a card-based spell with 3+ matching cards, deal 1d6 force damage per rank to all enemies within 15ft of the target. Draw a card — face cards double the storm damage.',
     icon: 'spell_arcane_arcanetorrent',
     maxRanks: 4,
     position: { x: 2, y: 4 },
@@ -269,7 +269,7 @@ export const GAMBIT_HIGH_ROLLER = [
   {
     id: 'gambit_hr_t5_royal_flush',
     name: 'Royal Flush Dominion',
-    description: 'When you achieve a Royal Flush, you may control one enemy for 2 rounds per rank. They follow your commands. Spend 6 Threads to guarantee a Royal Flush (still requires casting Hand of Fate). The ultimate gamble pays off.',
+    description: 'The Iceheart Sea teaches that every wave is a wager. when you achieve a Royal Flush, you may control one enemy for 2 rounds per rank. They follow your commands. Spend 6 Threads to guarantee a Royal Flush (still requires casting Hand of Fate). The ultimate gamble pays off.',
     icon: 'inv_misc_platnumdisks',
     maxRanks: 2,
     position: { x: 2, y: 5 },
@@ -417,7 +417,7 @@ export const GAMBIT_KARMIC_WEAVER = [
   {
     id: 'gambit_kw_t5_house_edge',
     name: 'House Edge',
-    description: 'Gain the house edge. All enemy rolls have a 10% chance per rank to be reduced by 1d6. Spend 5 Threads to guarantee this effect for 1 round on all enemies within 60ft.',
+    description: 'The Iceheart Sea teaches that every wave is a wager. gain the house edge. All enemy rolls have a 10% chance per rank to be reduced by 1d6. Spend 5 Threads to guarantee this effect for 1 round on all enemies within 60ft.',
     icon: 'inv_misc_coin_06',
     maxRanks: 3,
     position: { x: 1, y: 5 },

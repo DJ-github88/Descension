@@ -138,7 +138,7 @@ const LockSettingsModal = ({ container, onSave, onClose }) => {
                                                 autoComplete="off"
                                                 data-form-type="other"
                                             />
-                                            <div className="cw-hint">Hangman-style puzzle — spaces preserved</div>
+                                            <div className="cw-hint">Hangman-style puzzle: spaces preserved</div>
                                         </div>
                                     )}
 

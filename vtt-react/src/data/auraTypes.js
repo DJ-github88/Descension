@@ -4,7 +4,7 @@ export const AURA_TYPES = {
             name: 'Protection',
             icon: 'spell_holy_powerwordshield',
             color: '#FFFFFF',
-            description: 'Reduces damage taken by allies',
+            description: 'Auras are the Wyrd made visible. reduces damage taken by allies',
             effects: ['damage_reduction'],
             defaultRadius: 30
         },
@@ -12,7 +12,7 @@ export const AURA_TYPES = {
             name: 'Healing',
             icon: 'spell_holy_healingaura',
             color: '#00FF00',
-            description: 'Restores health to allies over time',
+            description: 'Auras are the Wyrd made visible. restores health to allies over time',
             effects: ['healing_over_time'],
             defaultRadius: 20
         },
@@ -20,7 +20,7 @@ export const AURA_TYPES = {
             name: 'Inspiration',
             icon: 'spell_holy_auraoflight',
             color: '#FFFF00',
-            description: 'Increases damage and healing done by allies',
+            description: 'Auras are the Wyrd made visible. increases damage and healing done by allies',
             effects: ['damage_bonus', 'healing_bonus'],
             defaultRadius: 25
         },
@@ -28,7 +28,7 @@ export const AURA_TYPES = {
             name: 'Swiftness',
             icon: 'spell_nature_swiftness',
             color: '#00FFFF',
-            description: 'Increases movement speed of allies',
+            description: 'Auras are the Wyrd made visible. increases movement speed of allies',
             effects: ['movement_speed'],
             defaultRadius: 30
         }
@@ -38,7 +38,7 @@ export const AURA_TYPES = {
             name: 'Decay',
             icon: 'spell_shadow_creepingplague',
             color: '#880000',
-            description: 'Deals damage to enemies over time',
+            description: 'Auras are the Wyrd made visible. deals damage to enemies over time',
             effects: ['damage_over_time'],
             defaultRadius: 15
         },
@@ -46,7 +46,7 @@ export const AURA_TYPES = {
             name: 'Weakness',
             icon: 'spell_shadow_curseofsargeras',
             color: '#FF0000',
-            description: 'Reduces damage dealt by enemies',
+            description: 'Auras are the Wyrd made visible. reduces damage dealt by enemies',
             effects: ['damage_reduction'],
             defaultRadius: 20
         },
@@ -54,7 +54,7 @@ export const AURA_TYPES = {
             name: 'Slowness',
             icon: 'spell_nature_slowingtotem',
             color: '#0000FF',
-            description: 'Reduces movement speed of enemies',
+            description: 'Auras are the Wyrd made visible. reduces movement speed of enemies',
             effects: ['movement_speed_reduction'],
             defaultRadius: 25
         }
@@ -80,7 +80,7 @@ export const AURA_TYPES = {
             name: 'Clarity',
             icon: 'spell_holy_mageaura',
             color: '#88FFFF',
-            description: 'Increases resource regeneration',
+            description: 'Auras are the Wyrd made visible. increases resource regeneration',
             effects: ['resource_regeneration'],
             defaultRadius: 25
         }

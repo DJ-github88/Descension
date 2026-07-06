@@ -89,7 +89,7 @@ const OverviewTab = ({ cls, context }) => (
     {cls.signatureQuote && (
       <blockquote className="world-quote">
         <p>"{cls.signatureQuote.text}"</p>
-        <cite>— {cls.signatureQuote.speaker}{cls.signatureQuote.context ? `, ${cls.signatureQuote.context}` : ''}</cite>
+        <cite>- {cls.signatureQuote.speaker}{cls.signatureQuote.context ? `, ${cls.signatureQuote.context}` : ''}</cite>
       </blockquote>
     )}
 
@@ -156,7 +156,7 @@ const OverviewTab = ({ cls, context }) => (
             <div key={f.id} className="world-list-item">
               <div className="world-faction-colors" style={{ background: f.colors?.primary || '#888' }} />
               <strong>{f.name}</strong>
-              <span className="world-muted"> — {f.publicGoal?.slice(0, 80)}...</span>
+              <span className="world-muted">: {f.publicGoal?.slice(0, 80)}...</span>
             </div>
           ))}
         </div>

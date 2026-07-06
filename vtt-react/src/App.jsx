@@ -778,12 +778,12 @@ export default function App() {
         initCreatureStore();
 
         // Clean up any duplicate creatures that might exist
-        // Deferred to 2.5s — after auth and creature store are settled
+        // Deferred to 2.5s: after auth and creature store are settled
         setTimeout(() => {
             removeDuplicateCreatures();
         }, 2500);
 
-        // Migrate creature icons — deferred to idle time (non-blocking).
+        // Migrate creature icons: deferred to idle time (non-blocking).
         // Uses requestIdleCallback so the browser picks a quiet moment, with a
         // 5-second hard deadline to ensure it runs even on busy pages.
         // The migration itself is also version-gated and skips if already done.
@@ -1108,7 +1108,7 @@ const AppContent = ({
     // Stable completion handler for the login transition overlay.
     // If this is an inline arrow, every AppContent re-render (which fire
     // constantly during login: auth, presence, social store init) creates a
-    // new function, re-running the overlay's effect and resetting its timers —
+    // new function, re-running the overlay's effect and resetting its timers -
     // leaving the overlay stuck on screen ("stays loading"). useCallback keeps
     // the identity stable so the effect runs exactly once.
     const handleTransitionComplete = useCallback(() => setLoginTransition(null), [setLoginTransition]);

@@ -1157,7 +1157,7 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
   color: #3a3026;
 }
 
-/* Book spine only shown when both pages have content — controlled by JS class */
+/* Book spine only shown when both pages have content: controlled by JS class */
 .rules-table-wrapper::before {
   content: '';
   position: absolute;
@@ -1632,7 +1632,7 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
     -webkit-tap-highlight-color: transparent;
   }
 
-  /* Suppress default browser focus rings — use a clean inner ring instead */
+  /* Suppress default browser focus rings: use a clean inner ring instead */
   .rules-sidebar.collapsed .rules-nav-category-btn:focus,
   .rules-sidebar.collapsed .rules-nav-category-btn:focus-visible,
   .rules-sidebar.collapsed .rules-nav-category-btn:active {
@@ -1688,7 +1688,7 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
     position: relative !important;
   }
 
-  /* Mobile-optimized breadcrumbs — match desktop dark mahogany theme */
+  /* Mobile-optimized breadcrumbs: match desktop dark mahogany theme */
   .rules-breadcrumbs {
     padding: var(--my-space-mobile-4) var(--my-space-mobile-6);
     font-size: var(--my-font-size-mobile-sm);
@@ -1885,7 +1885,7 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
     transform: none;
     background: rgba(212, 175, 55, 0.1) !important;
   }
-  /* Active category on mobile — solid gold border + bright icon (no glow that breaks layout) */
+  /* Active category on mobile: solid gold border + bright icon (no glow that breaks layout) */
   .rules-sidebar.collapsed .rules-nav-category-btn.active-category,
   .rules-sidebar.collapsed .rules-nav-category-btn.expanded {
     background: linear-gradient(145deg, #3e2719 0%, #1d0f07 100%) !important;
@@ -1902,7 +1902,7 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
     display: none !important;
   }
 
-  /* Hover state on mobile — match desktop sidebar hover (subtle, no glow extending outside) */
+  /* Hover state on mobile: match desktop sidebar hover (subtle, no glow extending outside) */
   .rules-sidebar.collapsed .rules-nav-category-btn:hover {
     background: linear-gradient(145deg, #362113 0%, #201107 100%) !important;
     border-color: #c4a060 !important;

@@ -1,4 +1,4 @@
-﻿import { create } from 'zustand';
+import { create } from 'zustand';
 
 
 
@@ -200,7 +200,7 @@ const SEEDED_FACTIONS = [
 
         type: 'hostile',
 
-        description: 'The Briaran reject the Sentinels\' ledger-keeping entirely — every Sentinel patrol is an intrusion on hallowed ground'
+        description: 'The Briaran reject the Sentinels\' ledger-keeping entirely: every Sentinel patrol is an intrusion on hallowed ground'
 
       },
 
@@ -210,7 +210,7 @@ const SEEDED_FACTIONS = [
 
         type: 'overlord',
 
-        description: 'The Sentinels maintain the legal archives that prove the Morrath line exists — without their records, the seventh seat would be declared vacant'
+        description: 'The Sentinels maintain the legal archives that prove the Morrath line exists: without their records, the seventh seat would be declared vacant'
 
       }
 
@@ -220,7 +220,7 @@ const SEEDED_FACTIONS = [
 
     lore:
 
-      'Founded the same year as the Fog Compact. The first Scribe-Sentinels were Thalreth family members who volunteered to have their memories erased before taking their vows, ensuring their objectivity. This tradition continues — every new Sentinel surrenders their past. Founded in Year 5 of the Deepening with the Fog Compact. Formally appointed at Greymark Keep in Year 13. The Great Revision — the ongoing conspiracy of systematic ledger-editing — was begun by senior Sentinels in Year 500.',
+      'Founded the same year as the Fog Compact. The first Scribe-Sentinels were Thalreth family members who volunteered to have their memories erased before taking their vows, ensuring their objectivity. This tradition continues — every new Sentinel surrenders their past. Founded generations ago with the Fog Compact. Formally appointed at Greymark Keep long ago. The Great Revision. the ongoing conspiracy of systematic ledger-editing: was begun by senior Sentinels long ago.',
 
     secrets:
 
@@ -324,7 +324,7 @@ const SEEDED_FACTIONS = [
 
     lore:
 
-      'Skalvyr\'s bargain was the harshest of all seven houses. Where others traded memory or heirs, Skalvyr traded summer itself — condemning their entire region to eternal winter in exchange for survival. Every Skalvyr child is taught this: their comfort is built on the suffering of every living thing in Nordhalla. House Skalvyr struck the Glacier Bargain in Year 7 of the Deepening, trading summer forever to halt the grinding ice. The Hunger Winter (Years 7-10) — when ancestors consumed their dead — seeded the Hunger Pact in Skald blood. The house has ruled Nordhalla\'s frozen fjords for nearly 800 years.',
+      'Skalvyr\'s bargain was the harshest of all seven houses. Where others traded memory or heirs, Skalvyr traded summer itself — condemning their entire region to eternal winter in exchange for survival. Every Skalvyr child is taught this: their comfort is built on the suffering of every living thing in Nordhalla. House Skalvyr struck the Glacier Bargain generations ago, trading summer forever to halt the grinding ice. The Hunger Winter (Years 7-10). when ancestors consumed their dead: seeded the Hunger Pact in Skald blood. The house has ruled Nordhalla\'s frozen fjords for nearly 800 years.',
 
     secrets:
 
@@ -506,7 +506,7 @@ const SEEDED_FACTIONS = [
 
         type: 'rival',
 
-        description: 'The Veil\'s intelligence network periodically uncovers Morrath debts the Neth would rather keep buried — a leverage game that cuts both ways'
+        description: 'The Veil\'s intelligence network periodically uncovers Morrath debts the Neth would rather keep buried: a leverage game that cuts both ways'
 
       }
 
@@ -623,9 +623,9 @@ const SEEDED_FACTIONS = [
     colors: { primary: '#d4a030', secondary: '#1a1a2e' },
     publicGoal: 'Expeditionary companies range into every region seeking Monolith fragments. Their sigil is a rising sun pierced by obsidian.',
     publicDescription:
-      'The Dawn Vigil is the most militant of the Solvarn restoration factions — a fighting order that believes the Sundered Monoliths can be reassembled to restart Sol. Their expeditionary companies — small bands of Solvarn Martyrs, Pyrofiends, and Augurs — operate across all seven regions, recovering Monolith fragments by any means necessary.',
+      'The Dawn Vigil is the most militant of the Solvarn restoration factions (a fighting order that believes the Sundered Monoliths can be reassembled to restart Sol. Their expeditionary companies) small bands of Solvarn Martyrs, Pyrofiends, and Augurs: operate across all seven regions, recovering Monolith fragments by any means necessary.',
     hiddenAgenda:
-      'The Vigil\'s inner council has calculated that reassembling the Monoliths will not restart Sol — it will summon Keth-Amar back to finish the meal. They continue the expeditions not for restoration, but to ensure no one else assembles them first.',
+      'The Vigil\'s inner council has calculated that reassembling the Monoliths will not restart Sol: it will summon Keth-Amar back to finish the meal. They continue the expeditions not for restoration, but to ensure no one else assembles them first.',
     leader: {
       npcId: 'dawn-vigil-commander',
       title: 'First Dawn',
@@ -635,11 +635,11 @@ const SEEDED_FACTIONS = [
     headquarters: 'emberspire-caldera',
     territory: ['emberspire-caldera', 'basalt-shyr', 'cinder-badlands', 'sols-anvil-mesa', 'ember-lagoon', 'cinderhoodoo'],
     relationships: [
-      { targetFactionId: 'house-solvan', type: 'allied', description: 'The Vigil is the Solvan house\'s sword-arm — officially deniable, unofficially essential' },
+      { targetFactionId: 'house-solvan', type: 'allied', description: 'The Vigil is the Solvan house\'s sword-arm: officially deniable, unofficially essential' },
       { targetFactionId: 'deep-alchemists', type: 'rival', description: 'The Alchemists\' Wyrd-experimentation threatens to wake what the Vigil is trying to keep asleep' }
     ],
     classAffinities: ['martyr', 'pyrofiend', 'augur'],
-    lore: 'The Vigil was founded in Year 340 of the Dimming by a Martyr who had absorbed so much suffering that she could feel every Monolith fragment\'s location across the continent. She followed the pain like a compass. Originally a quietist monastic order of Martyrs, the Vigil was militarized under Hierophant Aethelgard in the decades following the False Dawn Riots (Year 480). The Vigil\'s deepest secret: reassembling the Seven Sundered Monoliths would summon Keth-Amar, not Sol.',
+    lore: 'The Vigil was founded generations ago by a Martyr who had absorbed so much suffering that she could feel every Monolith fragment\'s location across the continent. She followed the pain like a compass. Originally a quietist monastic order of Martyrs, the Vigil was militarized under Hierophant Aethelgard in the decades following the False Dawn Riots. The Vigil\'s deepest secret: reassembling the Seven Sundered Monoliths would summon Keth-Amar, not Sol.',
     secrets: 'The First Dawn has been dead for eighty years. The basalt tablets are being sent by an Augur who glimpsed the First Dawn\'s final orders in a death-vision and has been executing them ever since.',
     quests: []
   },
@@ -653,9 +653,9 @@ const SEEDED_FACTIONS = [
     colors: { primary: '#2d4a1e', secondary: '#8b6914' },
     publicGoal: 'Advance the science of alchemical transformation through any means necessary',
     publicDescription:
-      'The Deep Alchemists are the most dangerous sub-faction of the Fexrick — a guild of cold, methodical experimenters who treat living creatures as raw material. Operating from sealed vat-laboratories beneath Frostmaw Crag, they continue the work that created the Groven eight hundred years ago.',
+      'The Deep Alchemists are the most dangerous sub-faction of the Fexrick: a guild of cold, methodical experimenters who treat living creatures as raw material. Operating from sealed vat-laboratories beneath Frostmaw Crag, they continue the work that created the Groven eight hundred years ago.',
     hiddenAgenda:
-      'The Alchemists believe the Wyrd itself can be refined — distilled, purified, and injected — to create a new form of life that transcends both organic and Wyrd biology.',
+      'The Alchemists believe the Wyrd itself can be refined (distilled, purified, and injected) to create a new form of life that transcends both organic and Wyrd biology.',
     leader: {
       npcId: 'deep-alchemist-prime',
       title: 'Prime Alchemist',
@@ -666,12 +666,12 @@ const SEEDED_FACTIONS = [
     territory: ['lost-brood-vats', 'sump-galleries', 'sump-rift', 'gearworks-gulch'],
     relationships: [
       { targetFactionId: 'vat-breakers-guild', type: 'hostile', description: 'The Groven were their creation. The Groven shattered their vats. Neither has forgiven the other.' },
-      { targetFactionId: 'dawn-vigil', type: 'rival', description: 'The Vigil\'s Wyrd-suppression conflicts with the Alchemists\' Wyrd-refinement — two approaches to the same cosmic material' },
-      { targetFactionId: 'house-mereval', type: 'rival', description: 'Mereval\'s deep-ocean mapping expeditions keep trespassing into the Alchemists\' submerged tunnel-networks — both sides claim the deeps' }
+      { targetFactionId: 'dawn-vigil', type: 'rival', description: 'The Vigil\'s Wyrd-suppression conflicts with the Alchemists\' Wyrd-refinement: two approaches to the same cosmic material' },
+      { targetFactionId: 'house-mereval', type: 'rival', description: 'Mereval\'s deep-ocean mapping expeditions keep trespassing into the Alchemists\' submerged tunnel-networks: both sides claim the deeps' }
     ],
     classAffinities: ['toxicologist', 'plaguebringer', 'shaper'],
-    lore: 'The Deep Alchemists pre-date the Dark Bargains. They were refining living matter in the deep tunnels before humans discovered fire. Some of their oldest formulae are written in a language that predates the Wyrd itself. Emerged as a distinct guild roughly two thousand years before the Dimming. Created the Groven from captured Thrumm broodlings — and lost control. Sealed themselves into the deepest tunnels after the Vat-Breakers\' Revolt (~Year 40) and the War of Thousand Screams (Years 300-320).',
-    secrets: 'Recent Groven expeditions have returned with evidence of fresh alchemical residue — suggesting the Lost Brood, the broodlings left behind during the Vat-Breakers\' revolt, are still alive.',
+    lore: 'The Deep Alchemists pre-date the Dark Bargains. They were refining living matter in the deep tunnels before humans discovered fire. Some of their oldest formulae are written in a language that predates the Wyrd itself. Emerged as a distinct guild roughly two thousand years before the Dimming. Created the Groven from captured Thrumm broodlings: and lost control. Sealed themselves into the deepest tunnels after the Vat-Breakers\' Revolt and the War of Thousand Screams.',
+    secrets: 'Recent Groven expeditions have returned with evidence of fresh alchemical residue: suggesting the Lost Brood, the broodlings left behind during the Vat-Breakers\' revolt, are still alive.',
     quests: []
   },
 
@@ -684,24 +684,24 @@ const SEEDED_FACTIONS = [
     colors: { primary: '#5a3a1e', secondary: '#8b6b4a' },
     publicGoal: 'Protect Groven sovereignty, maintain the Ancestor-Spans, and prevent any resumption of Fexric alchemical experimentation on living subjects',
     publicDescription:
-      'The Vat-Breakers\' Guild is the governing body of the Groven — founded by the first generation who shattered their containment vats and rose against the Deep Alchemists. They maintain the Ancestor-Spans, adjudicate Groven law, and patrol the lower tunnels for signs of renewed Fexric experimentation.',
+      'The Vat-Breakers\' Guild is the governing body of the Groven: founded by the first generation who shattered their containment vats and rose against the Deep Alchemists. They maintain the Ancestor-Spans, adjudicate Groven law, and patrol the lower tunnels for signs of renewed Fexric experimentation.',
     hiddenAgenda:
-      'The Guild maintains a secret archive of Fexric alchemical formulae — stolen during the revolt — that they study in case they ever need to create more Groven.',
+      'The Guild maintains a secret archive of Fexric alchemical formulae (stolen during the revolt) that they study in case they ever need to create more Groven.',
     leader: {
       npcId: 'vat-breaker-foreman',
       title: 'First Foreman',
-      description: 'The First Foreman is elected by the Council of Spans and serves until their calcification advances too far — typically 20-30 years.'
+      description: 'The First Foreman is elected by the Council of Spans and serves until their calcification advances too far: typically 20-30 years.'
     },
     members: [],
     headquarters: 'frostmaw-holdfast',
     territory: ['frostmaw-holdfast', 'the-spans', 'ancestor-gaps', 'the-great-gorge', 'stags-rest-moraine', 'deepchasm-keep'],
     relationships: [
       { targetFactionId: 'deep-alchemists', type: 'hostile', description: 'Eight hundred years of war, temporarily paused. The Alchemists stay in their deep tunnels. The Groven patrol the surface.' },
-      { targetFactionId: 'house-tesshan', type: 'allied', description: 'The Tesshan depend on the Ancestor-Spans for all travel above the blizzard-line — a dependency the Groven are increasingly willing to leverage' }
+      { targetFactionId: 'house-tesshan', type: 'allied', description: 'The Tesshan depend on the Ancestor-Spans for all travel above the blizzard-line: a dependency the Groven are increasingly willing to leverage' }
     ],
     classAffinities: ['warden', 'shaper', 'berserker'],
-    lore: 'The first foreman of the Guild was the Groven who shattered the first vat. Her calcified skeleton still stands in the Guild hall in Frostmaw Holdfast, her outstretched hand forming the keystone of the main Ancestor-Span. Founded during the Vat-Breakers\' Revolt (~Year 40) when the first generation of Groven shattered their containment vats at Frostmaw Holdfast. The Guild represents Groven sovereignty and the Ancestor-Span bridge-rights.',
-    secrets: 'One of the Guild\'s alchemical formulae — stolen from the Deep Alchemists during the revolt — describes a process for reversing calcification. If it works, it could cure the Groven\'s most terrifying condition. If it fails, it could restart the war.',
+    lore: 'The first foreman of the Guild was the Groven who shattered the first vat. Her calcified skeleton still stands in the Guild hall in Frostmaw Holdfast, her outstretched hand forming the keystone of the main Ancestor-Span. Founded during the Vat-Breakers\' Revolt when the first generation of Groven shattered their containment vats at Frostmaw Holdfast. The Guild represents Groven sovereignty and the Ancestor-Span bridge-rights.',
+    secrets: 'One of the Guild\'s alchemical formulae (stolen from the Deep Alchemists during the revolt) describes a process for reversing calcification. If it works, it could cure the Groven\'s most terrifying condition. If it fails, it could restart the war.',
     quests: []
   },
 
@@ -714,20 +714,20 @@ const SEEDED_FACTIONS = [
     colors: { primary: '#d4700a', secondary: '#1a1a1a' },
     publicGoal: 'Rule Sundale\'s badlands and refuse to abandon the tomb of their star',
     publicDescription:
-      'House Solvan is the most narratively significant of the seven houses — it was Solvan who wielded the knife that flayed Aex to weave the binding seal. Their heirs were marched north and devoured by Keth-Amar. Their descendants remain in the scorched, soot-choked badlands, refusing to leave because leaving would mean admitting the sacrifice was meaningless.',
+      'House Solvan is the most narratively significant of the seven houses: it was Solvan who wielded the knife that flayed Aex to weave the binding seal. Their heirs were marched north and devoured by Keth-Amar. Their descendants remain in the scorched, soot-choked badlands, refusing to leave because leaving would mean admitting the sacrifice was meaningless.',
     hiddenAgenda:
-      'The current Steward of Emberspire believes one of the original Solvarn heirs survived — that Keth-Amar was tricked or placated with a substitute. She is funding expeditions to find the lost heir\'s bloodline.',
+      'The current Steward of Emberspire believes one of the original Solvarn heirs survived: that Keth-Amar was tricked or placated with a substitute. She is funding expeditions to find the lost heir\'s bloodline.',
     leader: {
       npcId: 'solvan-steward',
       title: 'Steward of Emberspire',
-      description: 'The Steward of Emberspire — the Solvan refuse to call anyone "Lord" until the sun returns.'
+      description: 'The Steward of Emberspire: the Solvan refuse to call anyone "Lord" until the sun returns.'
     },
     members: [],
     headquarters: 'great-forge',
     territory: ['great-forge', 'basalt-shyr', 'cinder-badlands', 'the-ashen-escarpment', 'vulkars-karst', 'slag-gulch', 'harath-vault'],
     relationships: [
       { targetFactionId: 'dawn-vigil', type: 'allied', description: 'The Vigil is Solvan\'s sword-arm, pursuing Monolith fragments that the house cannot officially seek' },
-      { targetFactionId: 'house-tesshan', type: 'neutral', description: 'Tesshan coal-iron feeds Solvan forges — a trade relationship neither house can afford to jeopardize despite mutual distrust' }
+      { targetFactionId: 'house-tesshan', type: 'neutral', description: 'Tesshan coal-iron feeds Solvan forges: a trade relationship neither house can afford to jeopardize despite mutual distrust' }
     ],
     classAffinities: ['martyr', 'pyrofiend', 'spellguard'],
     lore: 'Sera Solvan carved her child\'s name into her flesh with volcanic obsidian. The wound glowed rather than healed. She became the first Martyr, and the Solvan bloodline has been stained by sacrifice ever since.',
@@ -744,9 +744,9 @@ const SEEDED_FACTIONS = [
     colors: { primary: '#1a3a5e', secondary: '#5a7a9a' },
     publicGoal: 'Rule the Iceheart Sea, maintain the unfreezing trade lanes, and oversee all maritime commerce between the seven regions',
     publicDescription:
-      'House Mereval governs the violent, churning expanse of the Iceheart Sea from Merrowport — a floating city anchored to a warm submarine volcano. Their bargain traded calm waters for navigable sea-lanes that never freeze, dooming the ocean to perpetual storm-cycles.',
+      'House Mereval governs the violent, churning expanse of the Iceheart Sea from Merrowport: a floating city anchored to a warm submarine volcano. Their bargain traded calm waters for navigable sea-lanes that never freeze, dooming the ocean to perpetual storm-cycles.',
     hiddenAgenda:
-      'House Mereval has been secretly mapping the deep-ocean trenches beneath the Iceheart, cataloguing what the Myrathil call the Sea Mother — an entity they believe can be bargained with for a second compact.',
+      'House Mereval has been secretly mapping the deep-ocean trenches beneath the Iceheart, cataloguing what the Myrathil call the Sea Mother: an entity they believe can be bargained with for a second compact.',
     leader: {
       npcId: 'mereval-admiral',
       title: 'Grand Admiral of Merrowport',
@@ -756,8 +756,8 @@ const SEEDED_FACTIONS = [
     headquarters: 'merrowport',
     territory: ['merrowport', 'gale-storm-shallows', 'first-shore', 'spindrift-lagoon', 'deepwell-archipelago', 'wraithsound', 'the-saltmaw-estuary', 'kelpies-cove', 'skalds-longport'],
     relationships: [
-      { targetFactionId: 'unlit-veil', type: 'neutral', description: 'Uneasy maritime truce — the Veil needs Mereval\'s ships; Mereval needs Veil intelligence' },
-      { targetFactionId: 'deep-alchemists', type: 'rival', description: 'Mereval\'s deep-ocean mapping expeditions keep trespassing into the Alchemists\' submerged tunnel-networks — both sides claim the deeps' }
+      { targetFactionId: 'unlit-veil', type: 'neutral', description: 'Uneasy maritime truce: the Veil needs Mereval\'s ships; Mereval needs Veil intelligence' },
+      { targetFactionId: 'deep-alchemists', type: 'rival', description: 'Mereval\'s deep-ocean mapping expeditions keep trespassing into the Alchemists\' submerged tunnel-networks: both sides claim the deeps' }
     ],
     classAffinities: ['minstrel', 'gambit', 'warden'],
     lore: 'The Mereval were the first humans to cross the Iceheart Sea, landing at the First Shore eight centuries ago. Their skeletal archers still stand guard there, frozen in eternal watch.',
@@ -774,9 +774,9 @@ const SEEDED_FACTIONS = [
     colors: { primary: '#4a3a5e', secondary: '#8b7aae' },
     publicGoal: 'Rule the Cragjaw Peaks, maintain the highland keeps, and oversee the coal-iron mining operations that fuel the world',
     publicDescription:
-      'House Tesshan governs the vertical labyrinth of the Cragjaw Peaks from Frostmaw Holdfast. Their bargain traded visibility for a perpetual blizzard — a snow-veil that hides their fortress-keeps from starving lowland raiders but buries all natural landmarks.',
+      'House Tesshan governs the vertical labyrinth of the Cragjaw Peaks from Frostmaw Holdfast. Their bargain traded visibility for a perpetual blizzard: a snow-veil that hides their fortress-keeps from starving lowland raiders but buries all natural landmarks.',
     hiddenAgenda:
-      'The Tessen high council has been secretly negotiating with a faction of Groven separatists who want to break from the Vat-Breakers\' Guild and establish their own Ancestor-Span authority — directly under Tesshan control.',
+      'The Tessen high council has been secretly negotiating with a faction of Groven separatists who want to break from the Vat-Breakers\' Guild and establish their own Ancestor-Span authority: directly under Tesshan control.',
     leader: {
       npcId: 'tesshan-lord',
       title: 'Jarl-Inca of the Peaks',
@@ -787,7 +787,7 @@ const SEEDED_FACTIONS = [
     territory: ['frostmaw-holdfast', 'sump-galleries', 'iron-ravine', 'frostmaw-massif', 'gearworks-gulch'],
     relationships: [
       { targetFactionId: 'house-skalvyr', type: 'rival', description: 'Disputed territory along the Cragjaw-Nordhalla border. Both houses claim the geothermal vents.' },
-      { targetFactionId: 'vat-breakers-guild', type: 'allied', description: 'The Tesshan depend on Groven Ancestor-Spans — the Guild is simultaneously indispensable and increasingly independent' }
+      { targetFactionId: 'vat-breakers-guild', type: 'allied', description: 'The Tesshan depend on Groven Ancestor-Spans: the Guild is simultaneously indispensable and increasingly independent' }
     ],
     classAffinities: ['chronarch', 'harbinger', 'warden'],
     lore: 'The perpetual blizzard that hides the Peaks was Tesshan\'s price: visibility for safety. Tesshan children learn to navigate by touch, sound, and the vibration of Ancestor-Spans before they learn to read.',
@@ -802,9 +802,9 @@ const SEEDED_FACTIONS = [
     regionId: 'bryngloom-forest',
     icon: '/assets/icons/factions/morrath.png',
     colors: { primary: '#3a2a4a', secondary: '#7a6a9a' },
-    publicGoal: 'Govern the Bryngloom Forest in absentia — their authority is mediated entirely through Neth contract-law',
+    publicGoal: 'Govern the Bryngloom Forest in absentia: their authority is mediated entirely through Neth contract-law',
     publicDescription:
-      'House Morrath is the ghost among houses — the seventh noble family of the Binding Compact, yet the one with the least surviving record. Unique among the seven: they had nothing left to trade that Keth-Amar would accept, so they borrowed their survival from the Neth rather than striking their own Dark Bargain.',
+      'House Morrath is the ghost among houses: the seventh noble family of the Binding Compact, yet the one with the least surviving record. Unique among the seven: they had nothing left to trade that Keth-Amar would accept, so they borrowed their survival from the Neth rather than striking their own Dark Bargain.',
     hiddenAgenda:
       'House Morrath has been functionally extinct for three centuries. The Velun Pact-Lords of Atropolis continue to issue decrees in Morrath\'s name because a void in the seventh seat would legally invalidate the Binding Compact.',
     leader: {
@@ -816,12 +816,12 @@ const SEEDED_FACTIONS = [
     headquarters: 'atropolis',
     territory: ['atropolis', 'peat-bog-sinks', 'over-shanty', 'morrens-bogpost', 'thalrens-ledger-post', 'vel-keth-bayou', 'aran-glen', 'fangmere-grove', 'widows-quagmire', 'black-fen', 'drowned-dingle', 'hunters-gully', 'merryns-drift'],
     relationships: [
-      { targetFactionId: 'scribe-sentinels', type: 'vassal', description: 'The Sentinels maintain the legal archives that prove the Morrath line exists — without their records, the seventh seat would be declared vacant' },
-      { targetFactionId: 'unlit-veil', type: 'rival', description: 'Morrath descendants still exist among the Drun — unrecognized, unnamed, uncounted' }
+      { targetFactionId: 'scribe-sentinels', type: 'vassal', description: 'The Sentinels maintain the legal archives that prove the Morrath line exists: without their records, the seventh seat would be declared vacant' },
+      { targetFactionId: 'unlit-veil', type: 'rival', description: 'Morrath descendants still exist among the Drun: unrecognized, unnamed, uncounted' }
     ],
     classAffinities: ['arcanoneer', 'falseProphet', 'plaguebringer'],
-    lore: 'The Morrath are mentioned in exactly one clause of the First Contract — a rider specifying that their debt to the Neth is "perpetual until a living Morrath heir presents themselves to renegotiate." No heir has ever come.',
-    secrets: 'A Morrath descendant IS alive — a Drun woman who burned her name from the First Contract two centuries ago. She does not know her bloodline. The Velun have been searching for her for eighty years.',
+    lore: 'The Morrath are mentioned in exactly one clause of the First Contract: a rider specifying that their debt to the Neth is "perpetual until a living Morrath heir presents themselves to renegotiate." No heir has ever come.',
+    secrets: 'A Morrath descendant IS alive: a Drun woman who burned her name from the First Contract two centuries ago. She does not know her bloodline. The Velun have been searching for her for eighty years.',
     quests: []
   },
 
@@ -834,24 +834,24 @@ const SEEDED_FACTIONS = [
     colors: { primary: '#2d5a27', secondary: '#8fbc8f' },
     publicGoal: 'Survive. Remember. Wait.',
     publicDescription:
-      'The forgotten eighth house — struck from every record, erased by the seven families who sealed Keth-Amar\'s bargain. When the other houses marched their firstborn to the northern peaks as sacrifice, Viridane refused and fled south through the Frostwood Reach, making a counter-bargain with fae entities in the moonlit groves. Their descendants are the Briaran.',
+      'The forgotten eighth house: struck from every record, erased by the seven families who sealed Keth-Amar\'s bargain. When the other houses marched their firstborn to the northern peaks as sacrifice, Viridane refused and fled south through the Frostwood Reach, making a counter-bargain with fae entities in the moonlit groves. Their descendants are the Briaran.',
     hiddenAgenda:
       'House Viridane does not seek restoration. The original bloodline made peace with being forgotten eight centuries ago. What they seek is the final truth: what spoke to them in the moonlit groves before Keth-Amar\'s whispers could reach them, and whether that presence has a price that is still due.',
     leader: {
       npcId: 'thorn-speaker',
       title: 'Voice of the Ironwood',
-      description: 'The Thorn-Speaker is the closest thing Viridane has to a leader — a Briaran elder who remembers the oral history of the flight south and speaks for the Unshorn in the deep groves.'
+      description: 'The Thorn-Speaker is the closest thing Viridane has to a leader: a Briaran elder who remembers the oral history of the flight south and speaks for the Unshorn in the deep groves.'
     },
     members: [],
     headquarters: 'ironwood-heart',
     territory: ['ironwood-heart', 'frostwood-reach'],
     relationships: [
-      { targetFactionId: 'unshorn-briaran', type: 'successor', description: 'The Unshorn Briaran are the direct descendants of House Viridane — they carry the original fae contract in their blood and thorns' },
+      { targetFactionId: 'unshorn-briaran', type: 'successor', description: 'The Unshorn Briaran are the direct descendants of House Viridane: they carry the original fae contract in their blood and thorns' },
       { targetFactionId: 'house-thalreth', type: 'rival', description: 'The Thalreth participated in the erasure of Viridane from every record and still enforce the Sovereign Ledger\'s silence on the eighth house' }
     ],
     classAffinities: ['lunarch', 'apex'],
-    lore: 'House Viridane made a counter-bargain with ancient fae entities in the Frostwood\'s moonlit groves during their flight south in Year 11 of the Deepening. The Briaran still carry this contract in their flesh — their thorns migrate toward unfulfilled promises. The seven houses spent three centuries erasing every trace of Viridane\'s existence. The Briaran have been hiding ever since.',
-    secrets: 'The original fae contract still exists — a living document grown from thorn-vine and moonlight, buried beneath the oldest Briaran grove. It can be read only by a Briaran Lunarch during a lunar eclipse. The contract contains a clause that the Briaran have never invoked: the fae entities owe House Viridane a debt that has never been collected.',
+    lore: 'House Viridane made a counter-bargain with ancient fae entities in the Frostwood\'s moonlit groves during their flight south generations ago. The Briaran still carry this contract in their flesh: their thorns migrate toward unfulfilled promises. The seven houses spent three centuries erasing every trace of Viridane\'s existence. The Briaran have been hiding ever since.',
+    secrets: 'The original fae contract still exists: a living document grown from thorn-vine and moonlight, buried beneath the oldest Briaran grove. It can be read only by a Briaran Lunarch during a lunar eclipse. The contract contains a clause that the Briaran have never invoked: the fae entities owe House Viridane a debt that has never been collected.',
     quests: []
   },
 

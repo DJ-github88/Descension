@@ -210,7 +210,7 @@
 
 .rules-section-card-content em { color: #805333; font-style: italic; }
 
-/* Refined TTRPG Unordered Lists — elegant serif dash marker */
+/* Refined TTRPG Unordered Lists: elegant serif dash marker */
 .rules-section-card-content ul {
   margin: 16px 0;
   padding-left: 0;
@@ -225,7 +225,7 @@
   line-height: 1.65;
 }
 .rules-section-card-content li::before {
-  content: '\2014'; /* em-dash — clean, readable, period-appropriate */
+  content: '\2014'; /* em-dash: clean, readable, period-appropriate */
   position: absolute;
   left: 0;
   top: 0;
@@ -456,7 +456,7 @@
 .rules-collapsible-body strong { color: var(--section-theme-color, var(--rules-theme-mechanic)); font-weight: 700; }
 .rules-collapsible-body em { color: #805333; font-style: italic; }
 
-/* Refined TTRPG Unordered Lists — elegant serif dash marker */
+/* Refined TTRPG Unordered Lists: elegant serif dash marker */
 .rules-collapsible-body ul {
   margin: 16px 0;
   padding-left: 0;
@@ -471,7 +471,7 @@
   line-height: 1.65;
 }
 .rules-collapsible-body li::before {
-  content: '\2014'; /* em-dash — clean, readable, period-appropriate */
+  content: '\2014'; /* em-dash: clean, readable, period-appropriate */
   position: absolute;
   left: 0;
   top: 0;
@@ -993,9 +993,9 @@
   }
 }
 
-/* ===== INTERNAL NAVIGATION LINKS — Parchment Amber ===== */
+/* ===== INTERNAL NAVIGATION LINKS: Parchment Amber ===== */
 .rules-link {
-  color: #a07840 !important; /* Warm parchment amber — matches sourcebook aesthetic */
+  color: #a07840 !important; /* Warm parchment amber: matches sourcebook aesthetic */
   font-weight: 600;
   text-decoration: none;
   transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -1021,7 +1021,7 @@
   border-bottom-style: solid;
 }
 
-/* Lore links inside rules content sections — ensure consistent amber tone */
+/* Lore links inside rules content sections: ensure consistent amber tone */
 .rules-section-card-content .lore-link,
 .rules-collapsible-body .lore-link {
   color: #9b7840 !important;
@@ -1095,7 +1095,7 @@
   }
 }
 
-/* Extra small devices — further tighten tab sizing */
+/* Extra small devices: further tighten tab sizing */
 @media (max-width: 480px) {
   .rpg-tabs-bar {
     padding: 4px 0;

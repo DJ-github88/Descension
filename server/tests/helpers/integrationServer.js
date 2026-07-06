@@ -14,7 +14,7 @@
  *
  * This lets multiplayer behavior (event routing, auth gating, room broadcasts,
  * token convergence) be tested against production handler code over a real
- * socket.io transport — without Firebase, network, or tautological mocks.
+ * socket.io transport: without Firebase, network, or tautological mocks.
  */
 
 const http = require('http');

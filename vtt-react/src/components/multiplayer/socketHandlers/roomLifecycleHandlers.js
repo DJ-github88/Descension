@@ -487,7 +487,7 @@ export function registerRoomLifecycleHandlers(ctx) {
       // FIX: GM now broadcasts map-specific terrain based on player's assigned map
       // Players receive data only for the map they're assigned to, preventing cross-map contamination
       if (isGMRef.current && socket && socket.connected) {
-        console.log('ðŸ—ºï¸ GM broadcasting map-specific state to new player:', data.player.name);
+        console.log('ðŸ-ºï¸ GM broadcasting map-specific state to new player:', data.player.name);
 
         try {
           const levelEditorStore = useLevelEditorStore.getState();
@@ -514,7 +514,7 @@ export function registerRoomLifecycleHandlers(ctx) {
           // Map-specific overlays (windows, doors, etc.)
           const mapWindowOverlays = playerMap?.windowOverlays || (playerMapId === mapStore.currentMapId ? levelEditorStore.windowOverlays : {}) || {};
 
-          console.log(`ðŸ—ºï¸ Sending terrain for map ${playerMapId}:`, {
+          console.log(`ðŸ-ºï¸ Sending terrain for map ${playerMapId}:`, {
             terrainTileCount: Object.keys(mapTerrainData).length,
             isFromMapStore: !!playerMap?.terrainData,
             gmCurrentMap: mapStore.currentMapId

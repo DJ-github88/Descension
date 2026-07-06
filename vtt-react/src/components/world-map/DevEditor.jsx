@@ -177,7 +177,7 @@ const DevEditor = ({
   const [draftY, setDraftY] = useState('');
 
   // Sync the inspector inputs whenever the selection changes, and also while
-  // the pin is being dragged (updateTrigger bumps from WorldMapImmerse) — but
+  // the pin is being dragged (updateTrigger bumps from WorldMapImmerse): but
   // never clobber the field the user is actively typing in.
   useEffect(() => {
     const c = selectedDevPinId ? LOCATION_COORDINATES[selectedDevPinId] : null;
@@ -194,7 +194,7 @@ const DevEditor = ({
     const isPlaced = !!LOCATION_COORDINATES[z.id];
     return {
       ...z,
-      name: `${z.name} — ${regionName}`,
+      name: `${z.name}: ${regionName}`,
       badge: isPlaced ? null : 'not placed'
     };
   });
@@ -253,7 +253,7 @@ const DevEditor = ({
   const selectedPinZone = selectedDevPinId ? ZONE_DATA.find((z) => z.id === selectedDevPinId) : null;
   const selectedRegionName = (() => {
     const rid = selectedPinZone?.regionId || selectedPin?.regionId;
-    return rid ? (REGION_POLYGONS[rid]?.name || rid) : '—';
+    return rid ? (REGION_POLYGONS[rid]?.name || rid) : '-';
   })();
 
   const commitCoord = (axis, raw) => {
@@ -282,13 +282,13 @@ const DevEditor = ({
 
       if (rDiff.length) {
         const entries = rDiff.map((r) => formatRegionEntry(r)).join('\n\n');
-        regionsStr = `Update src/data/regionPolygons.js — replace each region entry's "points" and "labelPosition" with these values (edited in the map dev editor):\n\n${entries}`;
+        regionsStr = `Update src/data/regionPolygons.js: replace each region entry's "points" and "labelPosition" with these values (edited in the map dev editor):\n\n${entries}`;
       } else {
         regionsStr = 'No region boundary changes to export.';
       }
 
       if (!anyChanges) {
-        locationsStr = 'No location coordinate changes to export — the live map matches src/data/locationCoordinates.js exactly.';
+        locationsStr = 'No location coordinate changes to export: the live map matches src/data/locationCoordinates.js exactly.';
       } else {
         const parts = [];
         if (diff.moved.length) {
@@ -596,7 +596,7 @@ const DevEditor = ({
               {exportFormat === 'agent' && (
                 <div className={`export-summary ${changeCount === 0 ? 'clean' : 'dirty'}`}>
                   {changeCount === 0 ? (
-                    <><i className="fas fa-circle-check"></i> Live map matches the committed file — nothing to sync.</>
+                    <><i className="fas fa-circle-check"></i> Live map matches the committed file: nothing to sync.</>
                   ) : (
                     <>
                       <i className="fas fa-pen-to-square"></i>

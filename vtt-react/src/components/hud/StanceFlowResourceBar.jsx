@@ -145,7 +145,7 @@ const StanceFlowResourceBar = ({
         return (
             <div className={`class-resource-bar stance-flow ${size}`}>
                 <div className="stance-flow-compact">
-                    {/* Flux Zone (left) — clickable overlay */}
+                    {/* Flux Zone (left): clickable overlay */}
                     <div
                         ref={momentumBarRef}
                         className="shaper-zone-overlay shaper-zone-left"
@@ -166,7 +166,7 @@ const StanceFlowResourceBar = ({
                         onMouseLeave={() => { setShaperHoverSection(null); setShowTooltip(false); }}
                     />
 
-                    {/* Canvas — visual rendering only */}
+                    {/* Canvas: visual rendering only */}
                     <ResourceCanvasBar
                         rendererType="stance-flow"
                         size={size}
@@ -225,7 +225,7 @@ const StanceFlowResourceBar = ({
                         <i className={currentStanceData.icon} style={{ color: currentStanceData.color }}></i>
                     </div>
 
-                    {/* Body Toll Zone (right) — clickable overlay */}
+                    {/* Body Toll Zone (right): clickable overlay */}
                     <div
                         ref={flourishBarRef}
                         className="shaper-zone-overlay shaper-zone-right"

@@ -72,7 +72,7 @@ const CurrencyWithdrawModal = ({ currencyType, onClose }) => {
             return;
         }
 
-        // Deduct currency FIRST, then create item — prevents duplication
+        // Deduct currency FIRST, then create item: prevents duplication
         updateCurrency({
             [currencyType]: currency[currencyType] - amount
         });

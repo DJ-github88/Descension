@@ -36,7 +36,7 @@ export function useResourceBarTooltipPosition(barRef, show, deps = [], opts = {}
             const barRect = bar.getBoundingClientRect();
             const tooltipRect = tooltip.getBoundingClientRect();
 
-            // Bar not laid out yet — retry next frame.
+            // Bar not laid out yet: retry next frame.
             if (barRect.width === 0 && barRect.height === 0 && barRect.left === 0 && barRect.top === 0) {
                 raf1 = requestAnimationFrame(updatePosition);
                 return;
@@ -62,7 +62,7 @@ export function useResourceBarTooltipPosition(barRef, show, deps = [], opts = {}
             let left = barRect.left + (barRect.width / 2) - (tooltipWidth / 2);
             let top = anchorBottom + margin;
 
-            // Tooltip not measured yet — apply a fallback position but stay hidden.
+            // Tooltip not measured yet: apply a fallback position but stay hidden.
             if (tooltipRect.width === 0 || tooltipRect.height === 0) {
                 tooltip.style.left = `${left}px`;
                 tooltip.style.top = `${top}px`;
@@ -91,7 +91,7 @@ export function useResourceBarTooltipPosition(barRef, show, deps = [], opts = {}
         };
 
         updatePosition();
-        // Layout can settle a frame or two late — re-measure a couple of times.
+        // Layout can settle a frame or two late: re-measure a couple of times.
         raf2 = requestAnimationFrame(() => requestAnimationFrame(updatePosition));
         timeoutId = setTimeout(updatePosition, 50);
 

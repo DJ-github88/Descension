@@ -834,7 +834,7 @@
     flex-wrap: nowrap;
 }
 
-/* Floating Potion Strip — across top of equipment grid */
+/* Floating Potion Strip: across top of equipment grid */
 .floating-potion-strip {
     display: flex;
     align-items: flex-end;
@@ -2475,7 +2475,7 @@
     flex-direction: column;
     min-height: 0;
     overflow-y: auto;
-    /* Subtle custom scrollbar — blends into parchment */
+    /* Subtle custom scrollbar: blends into parchment */
     scrollbar-width: thin;
     scrollbar-color: #c5b597 transparent;
 }
@@ -2491,7 +2491,7 @@
 }
 
 
-/* Page Footer Strip — holds page number + flip buttons in a clean row */
+/* Page Footer Strip: holds page number + flip buttons in a clean row */
 .page-footer-strip {
     flex-shrink: 0;
     display: flex;
@@ -2503,7 +2503,7 @@
     margin-top: 8px;
 }
 
-/* Page Numbers — now inside the footer strip, not absolute */
+/* Page Numbers: now inside the footer strip, not absolute */
 .page-number-marker {
     font-family: 'Cinzel', serif;
     font-size: 12px;
@@ -4634,7 +4634,7 @@
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-/* Header vitals — elegant level + exhaustion in section header */
+/* Header vitals: elegant level + exhaustion in section header */
 .header-vitals {
     display: flex;
     align-items: center;
@@ -4642,7 +4642,7 @@
     margin-left: auto;
 }
 
-/* Level badge — shield / medallion style */
+/* Level badge: shield / medallion style */
 .header-level {
     position: relative;
     display: inline-flex;
@@ -4724,7 +4724,7 @@
     cursor: not-allowed;
 }
 
-/* Exhaustion indicator — icon + color + label */
+/* Exhaustion indicator: icon + color + label */
 .header-exhaustion {
     display: flex;
     align-items: center;
@@ -5994,9 +5994,9 @@
     text-decoration: line-through;
 }
 
-/* Dynamic Lore pagination — page outer wrapper clips to fixed size */
+/* Dynamic Lore pagination: page outer wrapper clips to fixed size */
 .lore-book-page {
-    overflow-y: hidden !important; /* Page itself clips — scrolling is in .book-page-content */
+    overflow-y: hidden !important; /* Page itself clips: scrolling is in .book-page-content */
 }
 
 .book-page-content {

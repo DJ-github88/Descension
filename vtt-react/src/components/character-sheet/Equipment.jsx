@@ -1923,7 +1923,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                                 )}
                             </div>
 
-                            {/* Exhaustion — icon + dot + dropdown with hover tooltip */}
+                            {/* Exhaustion: icon + dot + dropdown with hover tooltip */}
                             <div className={`header-exhaustion severity-${exhaustionLevel || 0}`}>
                                 <i className="fas fa-heart-pulse header-exhaustion-icon"></i>
                                 <span className="header-exhaustion-dot"></span>

@@ -367,10 +367,10 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
                 // is ALWAYS false (now - lastChangeTime is always < debounce), and no afterimage
                 // is ever created.
                 if (!prevState.visible) {
-                    // Just became visible — record when it first appeared
+                    // Just became visible: record when it first appeared
                     currentVisibility.set(token.id, { visible: true, lastChangeTime: now });
                 }
-                // If already visible, do NOT touch lastChangeTime — we need it stable so we can
+                // If already visible, do NOT touch lastChangeTime: we need it stable so we can
                 // measure how long the token has been in view.
 
             } else {

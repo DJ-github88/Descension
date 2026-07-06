@@ -1100,7 +1100,7 @@ const useLevelEditorStore = create((set, get) => ({
     // These replace the entire data object (used for initial sync from GM to players)
 
     setTerrainData: (terrainData) => {
-        // console.log('ðŸ—ºï¸ Setting terrain data bulk:', Object.keys(terrainData || {}).length, 'tiles');
+        // console.log('ðŸ-ºï¸ Setting terrain data bulk:', Object.keys(terrainData || {}).length, 'tiles');
         set(state => ({
             terrainData: terrainData || {},
             // Increment version to trigger TerrainSystem buffer refresh

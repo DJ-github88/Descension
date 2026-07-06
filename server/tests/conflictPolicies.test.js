@@ -170,7 +170,7 @@ describe('conflictPolicies', () => {
     it('applies boundedMin semantics to HP fields', () => {
       const p = defaultPolicies();
       // Two concurrent damage events: 30 and 50 from a base of 80.
-      // The lower number (50) should NOT win — the lower damage result is 30
+      // The lower number (50) should NOT win: the lower damage result is 30
       // (taking min). The point is that boundedMin(0, 99999) takes the
       // smaller NUMBER (i.e. the more damaging outcome).
       expect(p.hp(PRIMITIVE(80), PRIMITIVE(30), { path: 'hp' }))

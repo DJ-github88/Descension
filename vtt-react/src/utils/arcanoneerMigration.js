@@ -1,5 +1,5 @@
 /**
- * Arcanoneer Elemental Spheres — save migration helper.
+ * Arcanoneer Elemental Spheres: save migration helper.
  *
  * Older saves may contain inconsistent sphere IDs from the 6-way naming schism.
  * The canonical 8 IDs (defined in classResources.js) are:

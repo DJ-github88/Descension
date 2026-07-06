@@ -160,7 +160,7 @@ export default function Languages() {
                                             <div>
                                                 <span className="language-example-text">"{selectedLang.example}"</span>
                                                 {selectedLang.translation && (
-                                                    <span className="language-example-translation">— {selectedLang.translation}</span>
+                                                    <span className="language-example-translation">- {selectedLang.translation}</span>
                                                 )}
                                             </div>
                                         </div>

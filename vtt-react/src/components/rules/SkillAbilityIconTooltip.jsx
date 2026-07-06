@@ -47,7 +47,7 @@ const SkillAbilityIconTooltip = ({ skillName, className = '', style = {} }) => {
   const abilities = skillId ? getSkillAbilities(skillId) : [];
   const ability = abilities.length > 0 ? abilities[0] : null;
 
-  // Get ability icon — only used when ability exists
+  // Get ability icon: only used when ability exists
   const getAbilityIcon = () => {
     return ability?.typeConfig?.icon || ability?.icon || 'inv_misc_questionmark';
   };

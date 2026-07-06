@@ -164,9 +164,9 @@ const GridItem = ({ gridItem }) => {
     if (!viewingFromToken && !isGMMode) {
       const hasFogContent = (fogOfWarPaths && fogOfWarPaths.length > 0) || (fogOfWarData && Object.keys(fogOfWarData).length > 0);
       if (hasFogContent) {
-        return false; // Map is fogged — hide until player places a token
+        return false; // Map is fogged: hide until player places a token
       }
-      return true; // No fog — show normally
+      return true; // No fog: show normally
     }
 
     return true;

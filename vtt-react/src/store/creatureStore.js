@@ -471,7 +471,7 @@ const useCreatureStore = create((set, get) => ({
   // Delete a creature from the library (does NOT remove placed grid tokens)
   deleteCreature: (creatureId) => set(state => {
     const updatedLibrary = (state.creatures || []).filter(c => c.id !== creatureId);
-    console.log(`ðŸ—‘ï¸ [creatureStore] deleteCreature: Removed ${creatureId} from library`);
+    console.log(`ðŸ-‘ï¸ [creatureStore] deleteCreature: Removed ${creatureId} from library`);
     return { creatures: updatedLibrary };
   }),
 

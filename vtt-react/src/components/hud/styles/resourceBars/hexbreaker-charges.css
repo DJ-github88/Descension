@@ -227,7 +227,7 @@
     font-size: 6px;
 }
 
-/* Hide attack counter in party frame — too cluttered */
+/* Hide attack counter in party frame: too cluttered */
 .party-member-frame .class-resource-bar.hexbreaker-charges .attack-counter {
     display: none;
 }
@@ -328,7 +328,7 @@
    DEATHCALLER - ASCENSION PATHS & BLOOD TOKENS
    ======================================== */
 
-/* Spend/gain action grids — keep amounts readable.
+/* Spend/gain action grids: keep amounts readable.
    Two columns balances compactness with label legibility (-1/-2/-3/-6). */
 .covenbane-action-grid.two-col {
     display: grid;

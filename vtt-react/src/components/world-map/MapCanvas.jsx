@@ -186,7 +186,7 @@ const MapCanvas = ({
     handleUserInteraction();
   }, [onTransformChange, handleUserInteraction]);
 
-  // Set initial transform programmatically on mount — starts at the
+  // Set initial transform programmatically on mount: starts at the
   // cover/fit position to match the end state of the landing page dive.
   useEffect(() => {
     const ref = transformRef.current;
@@ -214,7 +214,7 @@ const MapCanvas = ({
       const t = setTimeout(() => setDriftEnabled(true), 1000);
       return () => clearTimeout(t);
     } else if (phase === 'zoomingIn') {
-      // Exit — just stop drifting; WorldMapImmerse fades out as a whole
+      // Exit: just stop drifting; WorldMapImmerse fades out as a whole
       setDriftEnabled(false);
     }
   }, [phase]);

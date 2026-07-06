@@ -363,7 +363,7 @@ const CharacterViewPage = () => {
         )}
       </header>
 
-      {/* Tab Navigation — main tabs always visible as a row.
+      {/* Tab Navigation: main tabs always visible as a row.
           "Character" tab has a dropdown for sub-sections (Equipment & Vitals / Passives / Languages). */}
       <nav className="character-view-tabs">
         {Object.entries(characterSections).map(([key, section]) => {
@@ -396,7 +396,7 @@ const CharacterViewPage = () => {
         })}
       </nav>
 
-      {/* Sub-section dropdown — rendered outside the tabs nav to avoid overflow clipping */}
+      {/* Sub-section dropdown: rendered outside the tabs nav to avoid overflow clipping */}
       {showSubSectionDropdown && (
         <div className="character-view-sub-dropdown-wrapper" ref={subSectionRef}>
           <div className="character-view-sub-dropdown">

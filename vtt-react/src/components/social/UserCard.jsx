@@ -54,7 +54,7 @@ const UserCard = ({
   const actualStatus = user.status || 'online';
   const statusComment = user.statusComment;
 
-  // Character stats — only if a character is selected
+  // Character stats: only if a character is selected
   const charLevel = hasCharacter ? (user.level || user.character?.level || user.characterLevel || 1) : null;
   const charClass = hasCharacter ? (user.class || user.character?.class || user.characterClass || '') : null;
   const charRace = hasCharacter ? getRaceDisplayName(user) : null;
@@ -113,7 +113,7 @@ const UserCard = ({
         </div>
       </div>
 
-      {/* Character details — ONLY if character is selected and has meaningful data */}
+      {/* Character details: ONLY if character is selected and has meaningful data */}
       {hasCharacter && (showCharClass || showCharRace || charLevel) && (
         <div className="user-card-body">
           <div className="character-stats-row">

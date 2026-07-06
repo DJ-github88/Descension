@@ -31,11 +31,11 @@ import EternalFrostPhylacteryResourceBar from './EternalFrostPhylacteryResourceB
 import AncestralResonanceResourceBar from './AncestralResonanceResourceBar';
 import ResourceTooltip from './ResourceTooltip';
 import ArcanoneerResourceBar from '../../data/classes/arcanoneer/components/ArcanoneerResourceBar';
-// Arcanoneer combination matrix — passed through to ArcanoneerResourceBar so it can
+// Arcanoneer combination matrix: passed through to ArcanoneerResourceBar so it can
 // render live "ready formulation" chips without a separate import in the component.
 import { ARCANONEER_DATA } from '../../data/classes/arcanoneerData';
 import MinstrelResourceBar from '../../data/classes/minstrel/components/MinstrelResourceBar';
-// Minstrel cadence matrix — same pattern: passed through to MinstrelResourceBar
+// Minstrel cadence matrix: same pattern: passed through to MinstrelResourceBar
 // so it can render live "ready cadence" chips with hover-spellcards without a
 // separate import (and without creating a circular dep with minstrelData.js).
 import { MINSTREL_DATA } from '../../data/classes/minstrelData';
@@ -1387,7 +1387,7 @@ const ClassResourceBar = ({
             case 'scythe':
                 return renderScythe();
             case 'elemental-spheres':
-                // Arcanoneer "Building Blocks" — handled by external component.
+                // Arcanoneer "Building Blocks": handled by external component.
                 // combinationMatrix is plumbed through config so the bar can render
                 // live formulation chips without a separate import. `showcase` collapses
                 // the formulation chips behind a toggle on the rules page.
@@ -1661,7 +1661,7 @@ const ClassResourceBar = ({
                     getTooltipHeaderColor={getTooltipHeaderColor}
                 />;
             case 'musical-notes-combo':
-                // Minstrel "Musical Notes & Cadences" — handled by external component.
+                // Minstrel "Musical Notes & Cadences": handled by external component.
                 // cadenceMatrix is plumbed through config so the bar can render live
                 // cadence chips with hover-spellcards (same pattern as Arcanoneer).
                 return <MinstrelResourceBar

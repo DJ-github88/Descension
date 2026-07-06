@@ -567,7 +567,7 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
                         </div>
                         <h2 className="talent-coming-soon-title">Forging Your Path</h2>
                         <p className="talent-coming-soon-flavor">
-                            Deep within the hidden roots of the world tree, ancient powers stir — waiting to be claimed by those worthy of their gift. The branches of destiny have not yet fully grown, but soon, the talents of old will awaken.
+                            Deep within the hidden roots of the world tree, ancient powers stir: waiting to be claimed by those worthy of their gift. The branches of destiny have not yet fully grown, but soon, the talents of old will awaken.
                         </p>
                         <div className="talent-coming-soon-divider"></div>
                         <p className="talent-coming-soon-status">

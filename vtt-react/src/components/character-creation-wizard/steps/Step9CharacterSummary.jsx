@@ -169,7 +169,12 @@ const getSubraceImage = (subraceId, raceId) => {
     }
     
     if (raceId) {
-        const cleanRaceId = raceId === 'fexrick' ? 'fexric' : raceId.toLowerCase();
+        // Fexrick base race rotates between 3 illustrations randomly
+        if (raceId === 'fexrick') {
+            const fexricVariants = ['fexric_illustration_1.png', 'fexric_illustration_2.png', 'fexric_illustration_3.png'];
+            return `/assets/images/races/${fexricVariants[Math.floor(Math.random() * fexricVariants.length)]}`;
+        }
+        const cleanRaceId = raceId.toLowerCase();
         return `/assets/images/races/${cleanRaceId}_illustration.png`;
     }
     return null;
@@ -178,7 +183,7 @@ const getSubraceImage = (subraceId, raceId) => {
 const formatDescriptionText = (text) => {
     if (!text) return '';
     let formatted = text
-        .replace(/\s*—\s*/g, ' - ')
+        .replace(/\s*-\s*/g, ' - ')
         .replace(/\s*--\s*/g, ' - ')
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
         .replace(/\*(.*?)\*/g, '<em>$1</em>')
@@ -388,7 +393,7 @@ const formatDescriptionText = (text) => {
     const selectedRace = characterData.race ? RACE_DATA[characterData.race] : null;
     const selectedSubrace = selectedRace && characterData.subrace ? Object.values(selectedRace.subraces).find(sr => sr.id === characterData.subrace) : null;
 
-    // Build completion checklist — kept in sync with the wizard's validation gate
+    // Build completion checklist: kept in sync with the wizard's validation gate
     // (validateCurrentStep) so the UI never claims "ready" while Create is disabled.
     const validationErrors = state.validationErrors || {};
     const knownSpellCount = characterData.class_spells?.known_spells?.length || 0;
@@ -512,7 +517,7 @@ const formatDescriptionText = (text) => {
         <div className="wizard-step-content summary-step-wrapper scroll-themed" style={summaryBgStyle}>
             <div className="character-summary-content-inner">
             
-            {/* Validation errors — surface exactly what's blocking creation so the
+            {/* Validation errors: surface exactly what's blocking creation so the
                 checklist never shows "all green" while the Create button is disabled. */}
             {blockingErrors.length > 0 && (
                 <div className="summary-validation-banner">

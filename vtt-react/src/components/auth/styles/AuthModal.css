@@ -212,7 +212,7 @@
   color: #d4af37;
 }
 
-/* Divider — uses flex with two pseudo-element lines so the "or" text
+/* Divider: uses flex with two pseudo-element lines so the "or" text
    sits cleanly between lines without a colored box around it. */
 .auth-divider {
   display: flex;
@@ -373,7 +373,7 @@
 /* ===== Custom "Remember me" checkbox ===== */
 /* Replaces the default native checkbox with a themed checkmark box.
    The native input is hidden visually but kept for accessibility and
-   state syncing — clicking the label toggles it normally. */
+   state syncing: clicking the label toggles it normally. */
 .auth-modal .form-group.auth-checkbox-group {
   flex-direction: row;
   align-items: center;

@@ -93,7 +93,7 @@ export default function AudioUploadDialog({ show, onHide, onUpload, disabled }) 
                 <i className="fas fa-cloud-upload-alt" />
                 <span>Drop an audio file here</span>
                 <span className="lutebox-dropzone-hint">or click to browse</span>
-                <span className="lutebox-dropzone-formats">MP3, WAV, OGG — Max {MAX_MB}MB</span>
+                <span className="lutebox-dropzone-formats">MP3, WAV, OGG: Max {MAX_MB}MB</span>
               </div>
             )}
             <input
@@ -126,7 +126,7 @@ export default function AudioUploadDialog({ show, onHide, onUpload, disabled }) 
               placeholder="ambient, combat, tavern, boss..."
               disabled={uploading}
             />
-            <span className="lutebox-field-hint">Comma separated — helps you find tracks later</span>
+            <span className="lutebox-field-hint">Comma separated: helps you find tracks later</span>
           </div>
 
           {uploading && (

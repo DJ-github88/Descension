@@ -12,7 +12,7 @@ export const GAMBIT_PROBABILITY_SAVANT = [
   {
     id: 'ps_t1_aether_foresight',
     name: 'Aether Foresight',
-    description: 'When an enemy within 60ft rolls a saving throw, peek at the top card of your deck per rank. Face card grants enemy disadvantage. Spell modifier.',
+    description: 'The Iceheart Sea teaches that every wave is a wager. when an enemy within 60ft rolls a saving throw, peek at the top card of your deck per rank. Face card grants enemy disadvantage. Spell modifier.',
     icon: 'inv_misc_tarot_01',
     maxRanks: 3,
     position: { x: 1, y: 1 },
@@ -42,7 +42,7 @@ export const GAMBIT_PROBABILITY_SAVANT = [
   {
     id: 'ps_t2_soft_landing',
     name: 'Soft Landing',
-    description: 'When Fortune hits 0, reduce Cosmic Bankruptcy damage by 1d10 per rank. Still grant vulnerabilities but halve duration per rank. Defensive.',
+    description: 'The Iceheart Sea teaches that every wave is a wager. when Fortune hits 0, reduce Cosmic Bankruptcy damage by 1d10 per rank. Still grant vulnerabilities but halve duration per rank. Defensive.',
     icon: 'spell_holy_borrowedtime',
     maxRanks: 2,
     position: { x: 0, y: 2 },
@@ -62,7 +62,7 @@ export const GAMBIT_PROBABILITY_SAVANT = [
   {
     id: 'ps_t4_probability_savant_capstone',
     name: 'Grand Equation',
-    description: 'While you have Fortune equal to your maximum, all your nudges affect the roll by +/- 2 instead of 1 per FP. Win condition.',
+    description: 'The Iceheart Sea teaches that every wave is a wager. while you have Fortune equal to your maximum, all your nudges affect the roll by +/- 2 instead of 1 per FP. Win condition.',
     icon: 'inv_misc_platnumdisks',
     maxRanks: 1,
     position: { x: 2, y: 4 },
@@ -75,7 +75,7 @@ export const GAMBIT_HIGH_ROLLER = [
   {
     id: 'hr_t0_double_down',
     name: 'Double Down',
-    description: 'When you suffer self-damage from a spell or gamble, gain +1 FP per rank (base 2). Pain is fuel. Fortune economy.',
+    description: 'The Iceheart Sea teaches that every wave is a wager. when you suffer self-damage from a spell or gamble, gain +1 FP per rank (base 2). Pain is fuel. Fortune economy.',
     icon: 'ability_warrior_endlessrage',
     maxRanks: 3,
     position: { x: 2, y: 0 },
@@ -95,7 +95,7 @@ export const GAMBIT_HIGH_ROLLER = [
   {
     id: 'hr_t1_all_in',
     name: 'All In',
-    description: 'When you spend 5+ FP on a single nudge, deal bonus force damage equal to FP spent per rank. High-stakes damage.',
+    description: 'The Iceheart Sea teaches that every wave is a wager. when you spend 5+ FP on a single nudge, deal bonus force damage equal to FP spent per rank. High-stakes damage.',
     icon: 'inv_misc_scalesofjustice',
     maxRanks: 2,
     position: { x: 3, y: 1 },
@@ -115,7 +115,7 @@ export const GAMBIT_HIGH_ROLLER = [
   {
     id: 'hr_t2_shockwave_gambler',
     name: 'Shockwave Gambler',
-    description: 'When Debtor\'s Tax deals damage to you, enemies within 15ft per rank take 1d4 force damage. Defensive + Damage.',
+    description: 'The Iceheart Sea teaches that every wave is a wager. when Debtor\'s Tax deals damage to you, enemies within 15ft per rank take 1d4 force damage. Defensive + Damage.',
     icon: 'spell_fire_selfdestruct',
     maxRanks: 2,
     position: { x: 0, y: 2 },
@@ -135,7 +135,7 @@ export const GAMBIT_HIGH_ROLLER = [
   {
     id: 'hr_t4_high_roller_capstone',
     name: 'Jackpot Supreme',
-    description: 'When you trigger Cosmic Bankruptcy, instead of the normal effect, deal 4d10 force to all enemies within 30ft and restore 10 FP. Once per long rest. Win condition.',
+    description: 'The Iceheart Sea teaches that every wave is a wager. when you trigger Cosmic Bankruptcy, instead of the normal effect, deal 4d10 force to all enemies within 30ft and restore 10 FP. Once per long rest. Win condition.',
     icon: 'inv_misc_platnumdisks',
     maxRanks: 1,
     position: { x: 2, y: 4 },
@@ -148,7 +148,7 @@ export const GAMBIT_KARMIC_WEAVER = [
   {
     id: 'kw_t0_loaded_deck',
     name: 'Loaded Deck',
-    description: 'When drawing from your magical deck, draw +1 card per rank. Choose which to resolve. Deck control.',
+    description: 'The Iceheart Sea teaches that every wave is a wager. when drawing from your magical deck, draw +1 card per rank. Choose which to resolve. Deck control.',
     icon: 'inv_misc_tarot_01',
     maxRanks: 3,
     position: { x: 2, y: 0 },
@@ -178,7 +178,7 @@ export const GAMBIT_KARMIC_WEAVER = [
   {
     id: 'kw_t2_debt_harvester',
     name: 'Debt Harvester',
-    description: 'When a linked creature takes damage, gain +1 Karmic Debt stack per rank. Convert debt into power. Deck control + Fortune economy.',
+    description: 'The Iceheart Sea teaches that every wave is a wager. when a linked creature takes damage, gain +1 Karmic Debt stack per rank. Convert debt into power. Deck control + Fortune economy.',
     icon: 'inv_misc_scalesofjustice',
     maxRanks: 3,
     position: { x: 2, y: 2 },
@@ -188,7 +188,7 @@ export const GAMBIT_KARMIC_WEAVER = [
   {
     id: 'kw_t2_strain_redirection',
     name: 'Strain Redirection',
-    description: 'When arcane strain from Karmic Debt deals damage to you, redirect 1d4 per rank to a linked creature within 30ft. Defensive.',
+    description: 'The Iceheart Sea teaches that every wave is a wager. when arcane strain from Karmic Debt deals damage to you, redirect 1d4 per rank to a linked creature within 30ft. Defensive.',
     icon: 'spell_holy_borrowedtime',
     maxRanks: 2,
     position: { x: 0, y: 2 },
@@ -198,7 +198,7 @@ export const GAMBIT_KARMIC_WEAVER = [
   {
     id: 'kw_t3_tapestry_anchor',
     name: 'Tapestry Anchor',
-    description: 'When you trigger Tapestry Collapse, choose 1 linked creature per rank to be immune to the incapacitation effect. Spell modifier.',
+    description: 'The Iceheart Sea teaches that every wave is a wager. when you trigger Tapestry Collapse, choose 1 linked creature per rank to be immune to the incapacitation effect. Spell modifier.',
     icon: 'spell_arcane_arcane04',
     maxRanks: 2,
     position: { x: 2, y: 3 },

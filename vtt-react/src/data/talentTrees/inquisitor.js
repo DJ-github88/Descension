@@ -25,7 +25,7 @@ export const INQUISITOR_WITCH_HAMMER = [
   {
     id: 'whammer_t1_shadow_mastery',
     name: 'Shadow Mastery',
-    description: 'Gain advantage on attacks from stealth. At 3+ Authority, stealth attacks deal +2d6 necrotic damage per rank and reduce enemy movement speed by 10ft for 1 round.',
+    description: 'The Covenbane purges with fire that remembers Sol. gain advantage on attacks from stealth. At 3+ Authority, stealth attacks deal +2d6 necrotic damage per rank and reduce enemy movement speed by 10ft for 1 round.',
     icon: 'spell_shadow_shadowform',
     maxRanks: 3,
     position: { x: 4, y: 1 },
@@ -43,7 +43,7 @@ export const INQUISITOR_WITCH_HAMMER = [
   {
     id: 'whammer_t2_swarm_tactics',
     name: 'Swarm Tactics',
-    description: 'When 3+ demons attack the same target, each deals +1d6 radiant damage per rank. The legion overwhelms through coordinated violence.',
+    description: 'The Covenbane purges with fire that remembers Sol. when 3+ demons attack the same target, each deals +1d6 radiant damage per rank. The legion overwhelms through coordinated violence.',
     icon: 'spell_shadow_curseofsargeras',
     maxRanks: 3,
     position: { x: 3, y: 2 },
@@ -52,7 +52,7 @@ export const INQUISITOR_WITCH_HAMMER = [
   {
     id: 'whammer_t3_mass_restoration',
     name: 'Mass Restoration',
-    description: 'When you cast a DD restoration spell, all bound demons gain +1 DD step as well (half effect on non-targeted demons). One lash fortifies the whole pack.',
+    description: 'The Covenbane purges with fire that remembers Sol. when you cast a DD restoration spell, all bound demons gain +1 DD step as well (half effect on non-targeted demons). One lash fortifies the whole pack.',
     icon: 'spell_holy_circleofrenewal',
     maxRanks: 2,
     position: { x: 0, y: 3 },
@@ -118,7 +118,7 @@ export const INQUISITOR_IRON_VERDICT = [
   {
     id: 'iverdict_t2_mana_vortex',
     name: 'Mana Vortex',
-    description: 'When you counter a spell, create a vortex that drains 2d6 mana per rank from the caster. If they have no mana remaining, they take psychic damage instead.',
+    description: 'The Covenbane purges with fire that remembers Sol. when you counter a spell, create a vortex that drains 2d6 mana per rank from the caster. If they have no mana remaining, they take psychic damage instead.',
     icon: 'spell_shadow_manafeed',
     maxRanks: 3,
     position: { x: 1, y: 2 },
@@ -145,7 +145,7 @@ export const INQUISITOR_IRON_VERDICT = [
   {
     id: 'iverdict_t3_dominant_wrath',
     name: 'Dominant Wrath',
-    description: 'When your demon is at d8 DD or lower, it deals +2d8 radiant damage. Desperation sharpens its fury and your grip.',
+    description: 'The Covenbane purges with fire that remembers Sol. when your demon is at d8 DD or lower, it deals +2d8 radiant damage. Desperation sharpens its fury and your grip.',
     icon: 'spell_shadow_metamorphosis',
     maxRanks: 2,
     position: { x: 4, y: 3 },
@@ -175,7 +175,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
   {
     id: 'hsaint_t0_hollow_pursuit',
     name: 'Hollow Pursuit',
-    description: 'Gain +2 Strength, +2 Constitution, and +10 movement speed permanently. Melee attacks deal +1d6 necrotic damage per rank. Track supernatural targets by scent within 60ft. Cannot be slowed or rooted while 3+ Authority.',
+    description: 'The Covenbane purges with fire that remembers Sol. gain +2 Strength, +2 Constitution, and +10 movement speed permanently. Melee attacks deal +1d6 necrotic damage per rank. Track supernatural targets by scent within 60ft. Cannot be slowed or rooted while 3+ Authority.',
     icon: 'ability_hunter_markedfordeath',
     maxRanks: 5,
     position: { x: 2, y: 0 },
@@ -220,7 +220,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
   {
     id: 'hsaint_t3_inner_peace',
     name: 'Inner Peace',
-    description: 'When your Internal DD reaches 0 and the demon takes control, you regain control after 1 turn instead of 2. The demon\'s turn deals +2d6 damage to enemies (not allies) per rank.',
+    description: 'The Covenbane purges with fire that remembers Sol. when your Internal DD reaches 0 and the demon takes control, you regain control after 1 turn instead of 2. The demon\'s turn deals +2d6 damage to enemies (not allies) per rank.',
     icon: 'spell_shadow_mindrot',
     maxRanks: 2,
     position: { x: 0, y: 3 },

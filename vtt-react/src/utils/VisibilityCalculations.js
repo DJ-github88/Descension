@@ -6,7 +6,7 @@
 // Import WALL_TYPES to check wall properties
 import { WALL_TYPES } from '../store/levelEditorStore';
 
-// PERFORMANCE: Wall edge index cache — maps edge keys to wall entries for O(1) lookup
+// PERFORMANCE: Wall edge index cache: maps edge keys to wall entries for O(1) lookup
 // Edge key format: "h,{minX},{y},{maxX}" for horizontal edges, "v,{x},{minY},{maxY}" for vertical edges
 // Indexed by the exact edge between two adjacent tiles: "v,{wallX},{tileY}" or "h,{tileX},{wallY}"
 let _wallEdgeIndex = null;
@@ -654,7 +654,7 @@ export function getPolygonBBox(polygon) {
 export function isPointInPolygon(x, y, polygon) {
     if (!polygon || polygon.length < 3) return false;
 
-    // PERFORMANCE: Bounding box pre-filter — reject points clearly outside
+    // PERFORMANCE: Bounding box pre-filter: reject points clearly outside
     let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
     for (let i = 0; i < polygon.length; i++) {
         const px = polygon[i].x;

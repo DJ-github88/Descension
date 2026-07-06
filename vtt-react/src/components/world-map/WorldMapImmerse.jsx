@@ -107,7 +107,7 @@ const WorldMapImmerse = ({ onClose, onClosing }) => {
     onCancel: null
   });
 
-  // Dev toast state — shows a quick-copy notification after drawing/placing
+  // Dev toast state: shows a quick-copy notification after drawing/placing
   const [devToast, setDevToast] = useState(null);
 
   const showConfirm = (message, onConfirm) => {
@@ -185,7 +185,7 @@ const WorldMapImmerse = ({ onClose, onClosing }) => {
     return () => cleanupSubscriptions();
   }, [user, syncAnnotations, cleanupSubscriptions]);
 
-  // Calculate the "cover" transform — the map fills the entire viewport.
+  // Calculate the "cover" transform: the map fills the entire viewport.
   // This matches the end state of the landing page dive transition, so the
   // crossfade from the CSS background to this canvas is seamless.
   const [initialTransform] = useState(() => {
@@ -261,7 +261,7 @@ const WorldMapImmerse = ({ onClose, onClosing }) => {
   labelPosition: [${r.labelPosition[0]}, ${r.labelPosition[1]}]
 }`;
       } else {
-        text = `Update the file src/data/regionPolygons.js — replace the '${r.id}' entry with these values (I just drew the boundary in the map editor):\n\n'${r.id}': {\n  points: [${r.points.map(p => `[${p[0]}, ${p[1]}]`).join(', ')}],\n  labelPosition: [${r.labelPosition[0]}, ${r.labelPosition[1]}]\n}`;
+        text = `Update the file src/data/regionPolygons.js: replace the '${r.id}' entry with these values (I just drew the boundary in the map editor):\n\n'${r.id}': {\n  points: [${r.points.map(p => `[${p[0]}, ${p[1]}]`).join(', ')}],\n  labelPosition: [${r.labelPosition[0]}, ${r.labelPosition[1]}]\n}`;
       }
     } else if (devToast.type === 'pin') {
       const { key, data } = devToast.item;
@@ -877,7 +877,7 @@ const WorldMapImmerse = ({ onClose, onClosing }) => {
         <span>Mythrill</span>
       </div>
 
-      {/* Dev Quick-Copy Toast — appears after drawing a region or placing a pin */}
+      {/* Dev Quick-Copy Toast: appears after drawing a region or placing a pin */}
       {devToast && (
         <div className="dev-toast">
           <div className="dev-toast-header">

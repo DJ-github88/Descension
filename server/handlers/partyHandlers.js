@@ -10,7 +10,7 @@
  *
  * NOTE: Four internal helpers (getPartyMemberCount, emitPartyUpdated,
  * createSocialParty, autoDisbandIfTooSmall) appear to be unused after
- * extraction audit — candidates for future cleanup.
+ * extraction audit: candidates for future cleanup.
  */
 
 function registerPartyHandlers(ctx) {

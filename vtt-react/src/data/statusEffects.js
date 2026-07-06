@@ -6,7 +6,7 @@ const STATUS_EFFECTS = {
     // Movement Control Effects
     stun: {
       name: 'Stun',
-      description: 'Target cannot act or move for the duration.',
+      description: 'The body remembers what the mind would forget. target cannot act or move for the duration.',
       type: 'control',
       severity: 'severe',
       color: '#FFD700', // Gold
@@ -15,7 +15,7 @@ const STATUS_EFFECTS = {
     },
     slow: {
       name: 'Slow',
-      description: 'Target\'s movement speed is reduced by a percentage.',
+      description: 'The body remembers what the mind would forget. target\'s movement speed is reduced by a percentage.',
       type: 'control',
       severity: 'minor',
       color: '#87CEEB', // Light blue
@@ -24,7 +24,7 @@ const STATUS_EFFECTS = {
     },
     root: {
       name: 'Root',
-      description: 'Target cannot move but can still perform other actions.',
+      description: 'The body remembers what the mind would forget. target cannot move but can still perform other actions.',
       type: 'control',
       severity: 'moderate',
       color: '#006400', // Dark green
@@ -33,7 +33,7 @@ const STATUS_EFFECTS = {
     },
     knockback: {
       name: 'Knockback',
-      description: 'Target is pushed away from the caster.',
+      description: 'The body remembers what the mind would forget. target is pushed away from the caster.',
       type: 'control',
       severity: 'minor',
       color: '#B8860B', // Dark goldenrod
@@ -42,7 +42,7 @@ const STATUS_EFFECTS = {
     },
     pull: {
       name: 'Pull',
-      description: 'Target is pulled toward the caster.',
+      description: 'The body remembers what the mind would forget. target is pulled toward the caster.',
       type: 'control',
       severity: 'minor',
       color: '#708090', // Slate gray
@@ -53,7 +53,7 @@ const STATUS_EFFECTS = {
     // Action Control Effects
     silence: {
       name: 'Silence',
-      description: 'Target cannot cast spells or use abilities.',
+      description: 'The body remembers what the mind would forget. target cannot cast spells or use abilities.',
       type: 'control',
       severity: 'moderate',
       color: '#4B0082', // Indigo
@@ -62,7 +62,7 @@ const STATUS_EFFECTS = {
     },
     disarm: {
       name: 'Disarm',
-      description: 'Target cannot use weapon attacks.',
+      description: 'The body remembers what the mind would forget. target cannot use weapon attacks.',
       type: 'control',
       severity: 'moderate',
       color: '#CD5C5C', // Indian red
@@ -71,7 +71,7 @@ const STATUS_EFFECTS = {
     },
     blind: {
       name: 'Blind',
-      description: 'Target has decreased accuracy and perception.',
+      description: 'The body remembers what the mind would forget. target has decreased accuracy and perception.',
       type: 'control',
       severity: 'moderate',
       color: '#2F4F4F', // Dark slate gray
@@ -82,7 +82,7 @@ const STATUS_EFFECTS = {
     // Mental Control Effects
     fear: {
       name: 'Fear',
-      description: 'Target runs away uncontrollably.',
+      description: 'The body remembers what the mind would forget. target runs away uncontrollably.',
       type: 'mental',
       severity: 'severe',
       color: '#800080', // Purple
@@ -91,7 +91,7 @@ const STATUS_EFFECTS = {
     },
     charm: {
       name: 'Charm',
-      description: 'Target is temporarily controlled by the caster.',
+      description: 'The body remembers what the mind would forget. target is temporarily controlled by the caster.',
       type: 'mental',
       severity: 'severe',
       color: '#FF1493', // Deep pink
@@ -100,7 +100,7 @@ const STATUS_EFFECTS = {
     },
     confuse: {
       name: 'Confuse',
-      description: 'Target attacks random targets including allies.',
+      description: 'The body remembers what the mind would forget. target attacks random targets including allies.',
       type: 'mental',
       severity: 'moderate',
       color: '#9932CC', // Dark orchid
@@ -109,7 +109,7 @@ const STATUS_EFFECTS = {
     },
     sleep: {
       name: 'Sleep',
-      description: 'Target falls asleep and is incapacitated until damaged.',
+      description: 'The body remembers what the mind would forget. target falls asleep and is incapacitated until damaged.',
       type: 'mental',
       severity: 'severe',
       color: '#5F9EA0', // Cadet blue
@@ -120,7 +120,7 @@ const STATUS_EFFECTS = {
     // Damage Over Time Effects
     bleed: {
       name: 'Bleed',
-      description: 'Target takes physical damage over time that can stack.',
+      description: 'The body remembers what the mind would forget. target takes physical damage over time that can stack.',
       type: 'dot',
       damageType: 'physical',
       severity: 'moderate',
@@ -130,7 +130,7 @@ const STATUS_EFFECTS = {
     },
     poison: {
       name: 'Poison',
-      description: 'Target takes poison damage over time and may have reduced stats.',
+      description: 'The body remembers what the mind would forget. target takes poison damage over time and may have reduced stats.',
       type: 'dot',
       damageType: 'blight',
       severity: 'moderate',
@@ -140,7 +140,7 @@ const STATUS_EFFECTS = {
     },
     burning: {
       name: 'Burning',
-      description: 'Target takes fire damage over time.',
+      description: 'The body remembers what the mind would forget. target takes fire damage over time.',
       type: 'dot',
       damageType: 'ember',
       severity: 'moderate',
@@ -150,7 +150,7 @@ const STATUS_EFFECTS = {
     },
     disease: {
       name: 'Disease',
-      description: 'Target takes damage over time and has reduced healing.',
+      description: 'The body remembers what the mind would forget. target takes damage over time and has reduced healing.',
       type: 'dot',
       damageType: 'blight',
       severity: 'moderate',
@@ -162,7 +162,7 @@ const STATUS_EFFECTS = {
     // Stat Modifiers
     weakness: {
       name: 'Weakness',
-      description: 'Target\'s damage output is reduced.',
+      description: 'The body remembers what the mind would forget. target\'s damage output is reduced.',
       type: 'debuff',
       severity: 'minor',
       color: '#778899', // Light slate gray
@@ -171,7 +171,7 @@ const STATUS_EFFECTS = {
     },
     vulnerability: {
       name: 'Vulnerability',
-      description: 'Target takes increased damage of a specific type.',
+      description: 'The body remembers what the mind would forget. target takes increased damage of a specific type.',
       type: 'debuff',
       severity: 'minor',
       color: '#B22222', // Firebrick
@@ -180,7 +180,7 @@ const STATUS_EFFECTS = {
     },
     curse: {
       name: 'Curse',
-      description: 'Target suffers a magical affliction with varied negative effects.',
+      description: 'The body remembers what the mind would forget. target suffers a magical affliction with varied negative effects.',
       type: 'debuff',
       severity: 'moderate',
       color: '#4B0082', // Indigo
@@ -191,7 +191,7 @@ const STATUS_EFFECTS = {
     // Special Combat Effects
     disoriented: {
       name: 'Disoriented',
-      description: 'Target has disoriented movement and reduced accuracy.',
+      description: 'The body remembers what the mind would forget. target has disoriented movement and reduced accuracy.',
       type: 'debuff',
       severity: 'minor',
       color: '#9370DB', // Medium purple
@@ -200,7 +200,7 @@ const STATUS_EFFECTS = {
     },
     marked: {
       name: 'Marked',
-      description: 'Target is marked, making them more vulnerable to specific attacks.',
+      description: 'The body remembers what the mind would forget. target is marked, making them more vulnerable to specific attacks.',
       type: 'debuff',
       severity: 'minor',
       color: '#8A2BE2', // Blue violet
@@ -209,7 +209,7 @@ const STATUS_EFFECTS = {
     },
     taunt: {
       name: 'Taunt',
-      description: 'Target is forced to attack the caster.',
+      description: 'The body remembers what the mind would forget. target is forced to attack the caster.',
       type: 'control',
       severity: 'moderate',
       color: '#CD5C5C', // Indian red
@@ -220,7 +220,7 @@ const STATUS_EFFECTS = {
     // Petrified (Groven Still-Claiming)
     petrified: {
       name: 'Petrified',
-      description: 'Target is turned to stone — immune to all damage but unable to move, speak, or act. Incapacitated and weight is multiplied by 10.',
+      description: 'The body remembers what the mind would forget. target is turned to stone — immune to all damage but unable to move, speak, or act. Incapacitated and weight is multiplied by 10.',
       type: 'control',
       severity: 'severe',
       color: '#A9A9A9',
@@ -231,7 +231,7 @@ const STATUS_EFFECTS = {
     // Positive Status Effects (Buffs)
     haste: {
       name: 'Haste',
-      description: 'Target\'s movement and attack speed are increased.',
+      description: 'The body remembers what the mind would forget. target\'s movement and attack speed are increased.',
       type: 'buff',
       severity: 'minor',
       color: '#FFD700', // Gold
@@ -240,7 +240,7 @@ const STATUS_EFFECTS = {
     },
     strengthened: {
       name: 'Strengthened',
-      description: 'Target\'s damage output is increased.',
+      description: 'The body remembers what the mind would forget. target\'s damage output is increased.',
       type: 'buff',
       severity: 'minor',
       color: '#DC143C', // Crimson
@@ -249,7 +249,7 @@ const STATUS_EFFECTS = {
     },
     resistance: {
       name: 'Resistance',
-      description: 'Target takes reduced damage of a specific type.',
+      description: 'The body remembers what the mind would forget. target takes reduced damage of a specific type.',
       type: 'buff',
       severity: 'minor',
       color: '#4682B4', // Steel blue
@@ -258,7 +258,7 @@ const STATUS_EFFECTS = {
     },
     immune: {
       name: 'Immune',
-      description: 'Target is immune to specific types of damage or effects.',
+      description: 'The body remembers what the mind would forget. target is immune to specific types of damage or effects.',
       type: 'buff',
       severity: 'major',
       color: '#FFD700', // Gold
@@ -267,7 +267,7 @@ const STATUS_EFFECTS = {
     },
     regen: {
       name: 'Regeneration',
-      description: 'Target recovers health over time.',
+      description: 'The body remembers what the mind would forget. target recovers health over time.',
       type: 'buff',
       severity: 'minor',
       color: '#32CD32', // Lime green
@@ -276,7 +276,7 @@ const STATUS_EFFECTS = {
     },
     shielded: {
       name: 'Shielded',
-      description: 'Target has an absorption shield that blocks a set amount of damage.',
+      description: 'The body remembers what the mind would forget. target has an absorption shield that blocks a set amount of damage.',
       type: 'buff',
       severity: 'moderate',
       color: '#4169E1', // Royal blue

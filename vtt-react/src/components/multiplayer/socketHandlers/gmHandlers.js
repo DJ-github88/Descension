@@ -668,7 +668,7 @@ export function registerGmHandlers(ctx) {
     });
 
     socket.on('player_map_changed', (data) => {
-      console.log('ðŸ—ºï¸ Player map changed:', data);
+      console.log('ðŸ-ºï¸ Player map changed:', data);
 
       // CRITICAL: Block outgoing updates during map switch
       window._isMapSwitching = true;

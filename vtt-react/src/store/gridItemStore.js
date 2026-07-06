@@ -128,7 +128,7 @@ const useGridItemStore = create((set, get) => ({
       try {
         const mapStore = getStore('mapStore');
         resolvedMapId = mapStore.getState().currentMapId || 'default';
-        console.log('ðŸ—ºï¸ [addItemToGrid] Setting mapId for item:', {
+        console.log('ðŸ-ºï¸ [addItemToGrid] Setting mapId for item:', {
           itemName: item.name,
           itemId: item.id,
           mapId: resolvedMapId,

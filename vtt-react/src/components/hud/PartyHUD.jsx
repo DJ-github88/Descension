@@ -3191,7 +3191,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                     }
                 };
             }
-            // Return member data as-is — bars only render when max > 0 (see ClassResourceBar condition)
+            // Return member data as-is: bars only render when max > 0 (see ClassResourceBar condition)
             return { ...member };
         });
 

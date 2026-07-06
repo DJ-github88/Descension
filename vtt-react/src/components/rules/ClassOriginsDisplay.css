@@ -1,5 +1,5 @@
 /* ============================================================
-   CLASS ORIGINS DISPLAY — Root Container
+   CLASS ORIGINS DISPLAY: Root Container
    ============================================================ */
 .class-origins-container {
   display: flex;
@@ -120,7 +120,7 @@ div.class-origins-container div.region-dark-bargain {
 }
 
 /* ============================================================
-   CLASS ORIGINS LIST — Accordion entries
+   CLASS ORIGINS LIST: Accordion entries
    ============================================================ */
 .class-origins-list {
   display: flex;

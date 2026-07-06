@@ -86,13 +86,13 @@ const validationSchemas = {
     velocity: Joi.object().optional()
   }),
 
-  // Combat — legacy combat_action event (kept for back-compat; not emitted by current clients)
+  // Combat: legacy combat_action event (kept for back-compat; not emitted by current clients)
   combat_action: Joi.object({
     type: Joi.string().valid('next_turn', 'initiative_roll').required(),
     data: Joi.object().optional()
   }),
 
-  // Combat — actual events emitted by combatStore.js / GMToolsPanel.jsx.
+  // Combat: actual events emitted by combatStore.js / GMToolsPanel.jsx.
   // turnOrder combatants must have a tokenId; additional combatant fields
   // (actionPoints, agilityMod, etc.) are passed through so receiving clients
   // don't lose combat state. Authority checks (combatAuthority.js) are the

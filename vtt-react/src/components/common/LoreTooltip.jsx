@@ -84,7 +84,7 @@ const LoreTooltip = ({ entry, position, onClose }) => {
   const isClass = entry.type === 'class';
   const isConcept = entry.type === 'concept';
 
-  // worldFriction lives on the class data, not the lore entry — look it up by id
+  // worldFriction lives on the class data, not the lore entry: look it up by id
   const classData = isClass ? Object.values(ALL_CLASSES_DATA).find(c => c.id === entry.id) : null;
   const worldFriction = classData?.worldFriction;
   const secondary = entry.secondaryRegions && entry.secondaryRegions.length ? entry.secondaryRegions : null;
@@ -194,7 +194,7 @@ const LoreTooltip = ({ entry, position, onClose }) => {
               </>
             )}
 
-            {/* Class: world friction (reception) — collapsible */}
+            {/* Class: world friction (reception): collapsible */}
             {isClass && worldFriction && worldFriction.length > 0 && (
               <>
                 <div className="lore-divider" />

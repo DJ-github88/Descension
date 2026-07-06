@@ -2459,7 +2459,7 @@ function GridComponent({
                 }
 
                 // draggedCharacterData may be a party MEMBER ({ character: {...} }) or a raw character.
-                // For the current player, snapshot from the authoritative character store — the party
+                // For the current player, snapshot from the authoritative character store: the party
                 // member seed carries no lore/tokenSettings, so the token would render blank otherwise.
                 const sourceChar = isSelfPlacement
                     ? useCharacterStore.getState()

@@ -775,7 +775,7 @@ const Step7SkillsLanguages = () => {
 
                                         <div className="rules-subsection">
                                             <h5><i className="fas fa-bolt"></i> Exploding Dice</h5>
-                                            <p>Rolling the maximum value is <strong>not</strong> an automatic critical success. Instead, the die <strong>explodes</strong> — roll it again and add the results together! Multiple explosions can stack infinitely, making even legendary DCs reachable by standard dice.</p>
+                                            <p>Rolling the maximum value is <strong>not</strong> an automatic critical success. Instead, the die <strong>explodes</strong>: roll it again and add the results together! Multiple explosions can stack infinitely, making even legendary DCs reachable by standard dice.</p>
                                         </div>
 
                                         <div className="rules-subsection">
@@ -787,10 +787,10 @@ const Step7SkillsLanguages = () => {
                                     <div className="rules-content-block">
                                         <div className="rules-subsection">
                                             <h5><i className="fas fa-cogs"></i> How Skills Work</h5>
-                                            <p>A Mythrill veteran does not swing blindly and hope. <strong>Skills</strong> represent accumulated mastery — trained capabilities that separate a seasoned adventurer from a desperate farmhand.</p>
+                                            <p>A Mythrill veteran does not swing blindly and hope. <strong>Skills</strong> represent accumulated mastery: trained capabilities that separate a seasoned adventurer from a desperate farmhand.</p>
                                             <ul>
                                                 <li>Each skill is tied to a <strong>primary and secondary attribute</strong>.</li>
-                                                <li>The GM assigns a <strong>Difficulty Die</strong> — from a d4 for trivial tasks to a d20 for near-impossible ones.</li>
+                                                <li>The GM assigns a <strong>Difficulty Die</strong>: from a d4 for trivial tasks to a d20 for near-impossible ones.</li>
                                                 <li>If your primary or secondary attribute modifier reaches <strong>+5 or higher</strong>, your mastery steps the difficulty die down by one size.</li>
                                             </ul>
                                         </div>
@@ -799,7 +799,7 @@ const Step7SkillsLanguages = () => {
                                             <h5><i className="fas fa-layer-group"></i> Skill Ranks &amp; Progression</h5>
                                             <p>Skills advance through seven ranks:</p>
                                             <div className="dc-ref-grid">
-                                                <div className="dc-ref-row"><span style={{color:'#6b6b6b'}}>Untrained</span><span>d4</span><span>Baseline — no bonus</span></div>
+                                                <div className="dc-ref-row"><span style={{color:'#6b6b6b'}}>Untrained</span><span>d4</span><span>Baseline: no bonus</span></div>
                                                 <div className="dc-ref-row"><span style={{color:'#8b7355'}}>Novice</span><span>d6</span><span>+1 to checks, 1 quest</span></div>
                                                 <div className="dc-ref-row"><span style={{color:'#4a7c59'}}>Trained</span><span>d8</span><span>+2 to checks, 3 quests</span></div>
                                                 <div className="dc-ref-row"><span style={{color:'#5d8a6b'}}>Apprentice</span><span>d10</span><span>+3 to checks, 6 quests</span></div>
@@ -812,8 +812,8 @@ const Step7SkillsLanguages = () => {
 
                                         <div className="rules-subsection">
                                             <h5><i className="fas fa-dice-d20"></i> Critical Success &amp; Failure</h5>
-                                            <p>Rolling the <strong>maximum value</strong> on your difficulty die is a <strong>Critical Success</strong> — the task is accomplished beyond expectation, often with a tangible bonus or narrative windfall.</p>
-                                            <p>Rolling a <strong>1</strong> is always a <strong>Critical Failure</strong> regardless of rank — complications arise, and the GM determines how badly the moment turns.</p>
+                                            <p>Rolling the <strong>maximum value</strong> on your difficulty die is a <strong>Critical Success</strong>: the task is accomplished beyond expectation, often with a tangible bonus or narrative windfall.</p>
+                                            <p>Rolling a <strong>1</strong> is always a <strong>Critical Failure</strong> regardless of rank: complications arise, and the GM determines how badly the moment turns.</p>
                                         </div>
 
                                         <div className="rules-subsection">
@@ -878,7 +878,7 @@ const Step7SkillsLanguages = () => {
 
                                         <div className="rules-subsection">
                                             <h5><i className="fas fa-bolt"></i> Exploding Dice</h5>
-                                            <p>Rolling the maximum value is <strong>not</strong> an automatic critical success. Instead, the die <strong>explodes</strong> — roll it again and add the results together! Multiple explosions can stack infinitely, making even legendary DCs reachable by standard dice.</p>
+                                            <p>Rolling the maximum value is <strong>not</strong> an automatic critical success. Instead, the die <strong>explodes</strong>: roll it again and add the results together! Multiple explosions can stack infinitely, making even legendary DCs reachable by standard dice.</p>
                                         </div>
 
                                         <div className="rules-subsection">
@@ -890,10 +890,10 @@ const Step7SkillsLanguages = () => {
                                     <div className="rules-content-block">
                                         <div className="rules-subsection">
                                             <h5><i className="fas fa-cogs"></i> How Skills Work</h5>
-                                            <p>A Mythrill veteran does not swing blindly and hope. <strong>Skills</strong> represent accumulated mastery — trained capabilities that separate a seasoned adventurer from a desperate farmhand.</p>
+                                            <p>A Mythrill veteran does not swing blindly and hope. <strong>Skills</strong> represent accumulated mastery: trained capabilities that separate a seasoned adventurer from a desperate farmhand.</p>
                                             <ul>
                                                 <li>Each skill is tied to a <strong>primary and secondary attribute</strong>.</li>
-                                                <li>The GM assigns a <strong>Difficulty Die</strong> — from a d4 for trivial tasks to a d20 for near-impossible ones.</li>
+                                                <li>The GM assigns a <strong>Difficulty Die</strong>: from a d4 for trivial tasks to a d20 for near-impossible ones.</li>
                                                 <li>If your primary or secondary attribute modifier reaches <strong>+5 or higher</strong>, your mastery steps the difficulty die down by one size.</li>
                                             </ul>
                                         </div>
@@ -902,7 +902,7 @@ const Step7SkillsLanguages = () => {
                                             <h5><i className="fas fa-layer-group"></i> Skill Ranks &amp; Progression</h5>
                                             <p>Skills advance through seven ranks:</p>
                                             <div className="dc-ref-grid">
-                                                <div className="dc-ref-row"><span style={{color:'#6b6b6b'}}>Untrained</span><span>d4</span><span>Baseline — no bonus</span></div>
+                                                <div className="dc-ref-row"><span style={{color:'#6b6b6b'}}>Untrained</span><span>d4</span><span>Baseline: no bonus</span></div>
                                                 <div className="dc-ref-row"><span style={{color:'#8b7355'}}>Novice</span><span>d6</span><span>+1 to checks, 1 quest</span></div>
                                                 <div className="dc-ref-row"><span style={{color:'#4a7c59'}}>Trained</span><span>d8</span><span>+2 to checks, 3 quests</span></div>
                                                 <div className="dc-ref-row"><span style={{color:'#5d8a6b'}}>Apprentice</span><span>d10</span><span>+3 to checks, 6 quests</span></div>
@@ -915,8 +915,8 @@ const Step7SkillsLanguages = () => {
 
                                         <div className="rules-subsection">
                                             <h5><i className="fas fa-dice-d20"></i> Critical Success &amp; Failure</h5>
-                                            <p>Rolling the <strong>maximum value</strong> on your difficulty die is a <strong>Critical Success</strong> — the task is accomplished beyond expectation, often with a tangible bonus or narrative windfall.</p>
-                                            <p>Rolling a <strong>1</strong> is always a <strong>Critical Failure</strong> regardless of rank — complications arise, and the GM determines how badly the moment turns.</p>
+                                            <p>Rolling the <strong>maximum value</strong> on your difficulty die is a <strong>Critical Success</strong>: the task is accomplished beyond expectation, often with a tangible bonus or narrative windfall.</p>
+                                            <p>Rolling a <strong>1</strong> is always a <strong>Critical Failure</strong> regardless of rank: complications arise, and the GM determines how badly the moment turns.</p>
                                         </div>
 
                                         <div className="rules-subsection">

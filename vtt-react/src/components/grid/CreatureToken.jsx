@@ -536,7 +536,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
             return isInVisionPolygon;
           }
 
-          // Outside primary bbox — check secondary polygons
+          // Outside primary bbox: check secondary polygons
           let inSecondary = false;
           if (additionalVisibilityPolygons.length > 0) {
             for (const poly of additionalVisibilityPolygons) {
@@ -602,9 +602,9 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     if (!viewingFromToken && !isGMMode) {
       const hasFogContent = (fogOfWarPaths && fogOfWarPaths.length > 0) || (fogOfWarData && Object.keys(fogOfWarData).length > 0);
       if (hasFogContent) {
-        return false; // Map is fogged — hide until player places a token
+        return false; // Map is fogged: hide until player places a token
       }
-      return true; // No fog — show normally
+      return true; // No fog: show normally
     }
 
     // Default: visible (GM mode or no fog system active)
@@ -3974,7 +3974,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         </MythrillWindow>
       )}
 
-      {/* Token Control Offer Modal — shown to receiving player */}
+      {/* Token Control Offer Modal: shown to receiving player */}
       {pendingControlOffer && createPortal(
         <div style={{
           position: 'fixed',

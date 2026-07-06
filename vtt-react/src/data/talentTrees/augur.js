@@ -27,7 +27,7 @@ export const AUGUR_AUSPICE = [
   {
     id: 'auspice_t1_dual_reading',
     name: 'Dual Reading',
-    description: 'When you generate Benediction or Malediction from a d20, gain +1 of the same type as well per rank. Stacks with Harmonic Interpretation (passive: opposite type).',
+    description: 'The Astril Synod reads fate in crystal-lattice refractions. when you generate Benediction or Malediction from a d20, gain +1 of the same type as well per rank. Stacks with Harmonic Interpretation (passive: opposite type).',
     icon: 'spell_holy_divineprovidence',
     maxRanks: 2,
     position: { x: 3, y: 0 },
@@ -117,7 +117,7 @@ export const AUGUR_AUSPICE = [
   {
     id: 'auspice_t4_cosmic_echo',
     name: 'Cosmic Echo',
-    description: 'When a Balanced Sign or Harmonic Bolt resolves, gain back half the spent resources (rounded down) per rank.',
+    description: 'The Astril Synod reads fate in crystal-lattice refractions. when a Balanced Sign or Harmonic Bolt resolves, gain back half the spent resources (rounded down) per rank.',
     icon: 'spell_holy_holyguidance',
     maxRanks: 1,
     position: { x: 4, y: 3 },

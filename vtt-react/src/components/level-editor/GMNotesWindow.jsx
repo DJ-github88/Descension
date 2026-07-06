@@ -529,17 +529,17 @@ const GMNotesWindow = ({
                             {npcs.map(npc => (
                                 <tr key={npc.id}>
                                     <td className="gm-npc-name-cell">
-                                        {isSession ? (npc.name || '—') : (
+                                        {isSession ? (npc.name || '-') : (
                                             <input type="text" className="gm-npc-input" value={npc.name} onChange={(e) => updateNpc(npc.id, 'name', e.target.value)} placeholder="Name" />
                                         )}
                                     </td>
                                     <td className="gm-npc-race-cell">
-                                        {isSession ? (npc.race || '—') : (
+                                        {isSession ? (npc.race || '-') : (
                                             <input type="text" className="gm-npc-input" value={npc.race} onChange={(e) => updateNpc(npc.id, 'race', e.target.value)} placeholder="Human, Elf..." />
                                         )}
                                     </td>
                                     <td className="gm-npc-desc-cell">
-                                        {isSession ? (npc.desc || '—') : (
+                                        {isSession ? (npc.desc || '-') : (
                                             <input type="text" className="gm-npc-input" value={npc.desc} onChange={(e) => updateNpc(npc.id, 'desc', e.target.value)} placeholder="Brief description..." />
                                         )}
                                     </td>
@@ -644,14 +644,14 @@ const GMNotesWindow = ({
                                 <button
                                     className={`gm-mode-switcher-btn ${!isSession ? 'active' : ''}`}
                                     onClick={() => setMode('prep')}
-                                    title="Prep Mode — edit notes"
+                                    title="Prep Mode: edit notes"
                                 >
                                     <i className="fas fa-pen-fancy"></i> Prep
                                 </button>
                                 <button
                                     className={`gm-mode-switcher-btn ${isSession ? 'active' : ''}`}
                                     onClick={() => setMode('session')}
-                                    title="Session Mode — read during game"
+                                    title="Session Mode: read during game"
                                 >
                                     <i className="fas fa-book-open"></i> Session
                                 </button>

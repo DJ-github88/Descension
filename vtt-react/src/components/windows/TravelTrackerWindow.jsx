@@ -762,7 +762,7 @@ function JourneyTab() {
                     <div className="tt-check-card-icon env-icon"><i className="fas fa-shield-alt" /></div>
                     <div className="tt-check-card-info">
                       <span className="tt-check-card-title">Environmental Save</span>
-                      <span className="tt-check-card-subtitle">Constitution vs {weather.envDie} &mdash; fail = 1 exhaustion</span>
+                      <span className="tt-check-card-subtitle">Constitution vs {weather.envDie} :  fail = 1 exhaustion</span>
                     </div>
                     <div className="tt-check-card-dc">{weather.envDie}</div>
                   </div>
@@ -778,10 +778,10 @@ function JourneyTab() {
                         {unequipped.length} player{unequipped.length > 1 ? 's' : ''} without gear
                         {disadvPlayers.length > 0 && ` (${disadvPlayers.length} at disadvantage)`}
                         {gearInfo.text === 'Auto-pass' && unequipped.length < players.length
-                          ? ' — equipped players auto-pass, others roll normally'
+                          ? ': equipped players auto-pass, others roll normally'
                           : gearInfo.text === 'Advantage' && unequipped.length < players.length
-                            ? ' — equipped players get advantage, others roll normally'
-                            : ' — no gear bonus for anyone'}
+                            ? ': equipped players get advantage, others roll normally'
+                            : ': no gear bonus for anyone'}
                       </span>
                     </div>
                   )}

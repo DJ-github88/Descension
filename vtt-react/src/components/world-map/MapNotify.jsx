@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './WorldMapImmerse.css';
 
 // ── Module-level pub/sub ──
-// Lightweight notification manager — any component can call notify() / confirmDialog()
+// Lightweight notification manager: any component can call notify() / confirmDialog()
 // without prop drilling or context wrapping.
 let items = [];
 const listeners = new Set();
@@ -67,7 +67,7 @@ const MapNotificationContainer = () => {
 
   return (
     <>
-      {/* Toast stack — top center */}
+      {/* Toast stack: top center */}
       <div className="map-toast-stack">
         {toasts.map(item => (
           <div key={item.id} className={`map-toast ${item.type}`}>
@@ -83,7 +83,7 @@ const MapNotificationContainer = () => {
         ))}
       </div>
 
-      {/* Confirm dialogs — centered modal overlay */}
+      {/* Confirm dialogs: centered modal overlay */}
       {confirms.map(item => (
         <div key={item.id} className="map-confirm-overlay" onClick={item.onCancel}>
           <div className="map-confirm-card" onClick={e => e.stopPropagation()}>

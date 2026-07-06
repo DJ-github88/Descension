@@ -361,7 +361,7 @@ export const getStatModifiersForTarget = (targetId) => {
             }
         });
     
-    // Collect debuff effects — use raw values; debuffs should already be stored as negative values
+    // Collect debuff effects: use raw values; debuffs should already be stored as negative values
     // (getActiveEffects('debuff', ...) handles negation separately)
     conditionStore.activeDebuffs
         .filter(debuff => debuff.targetId === targetId)

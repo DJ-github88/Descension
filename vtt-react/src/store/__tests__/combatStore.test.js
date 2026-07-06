@@ -16,7 +16,7 @@ jest.mock('../../components/spellcrafting-wizard/core/mechanics/cooldownSystem',
 // Setup fake timers for Jest to test async timeout inside nextTurn
 jest.useFakeTimers();
 
-describe('useCombatStore — Combat Math & State transitions', () => {
+describe('useCombatStore: Combat Math & State transitions', () => {
     let mockCharacterStore;
     let mockPartyStore;
     let mockGameStore;

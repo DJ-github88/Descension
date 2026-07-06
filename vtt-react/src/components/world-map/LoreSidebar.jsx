@@ -39,20 +39,20 @@ const categorize = (type) => {
 const FILTER_CHIPS = [{ id: 'all', label: 'All', icon: 'fa-layer-group' }, ...CATEGORIES];
 
 // ╔══════════════════════════════════════════════════════════════════════╗
-// ║  ⚑ DEMO EXAMPLES — easy to show the new grouped/filter/overview UI.  ║
+// ║  ⚑ DEMO EXAMPLES: easy to show the new grouped/filter/overview UI.  ║
 // ║  Flip EXAMPLES_ENABLED to false (or delete this whole block) when     ║
 // ║  you're done looking. Example entries are tagged `__example: true`.   ║
 // ╚══════════════════════════════════════════════════════════════════════╝
 const EXAMPLES_ENABLED = true;
 const EXAMPLE_LOCATIONS = [
-  { id: '__ex_blackiron',   name: 'Example — Blackiron City',     type: 'city',       description: 'A smog-laden smelting capital built around a dying volcanic vent. Bells ring shift-changes every six hours.' },
-  { id: '__ex_mossford',    name: 'Example — Mossford Village',    type: 'settlement', description: 'A moss-roofed farming village on a slow river. Famous for its honey-fermented ale.' },
-  { id: '__ex_howling',     name: 'Example — The Howling Tundra',  type: 'wilderness', description: 'A wind-scoured plain where the grass itself whispers at night. Few who sleep there wake rested.' },
-  { id: '__ex_grimspire',   name: 'Example — Grimspire Peaks',     type: 'mountain',   description: 'Jagged black peaks said to be the petrified teeth of a buried god. Climbers vanish above the cloud line.' },
-  { id: '__ex_dustfalls',   name: 'Example — Dustfalls Ruin',      type: 'ruin',       description: 'The cracked remains of a pre-Dimming observatory. Sand pours endlessly from its shattered dome.' },
-  { id: '__ex_whispertomb', name: 'Example — Whispering Tomb',     type: 'tomb',       description: 'A sealed barrow whose entrance breathes warm air in winter. The names on its door are crossed out.' },
-  { id: '__ex_trappers',    name: "Example — Trapper's Camp",      type: 'camp',       description: 'A seasonal fur-trader camp on a frozen lake. Smoke, sled-dogs, and a circle of ever-burning torches.' },
-  { id: '__ex_scoutnote',   name: 'Example — Scout’s Chalk Note',   type: 'custom',     description: 'A hand-scrawled marker on a boulder: "Wyrm tracks — three days fresh. Heading north. — V."' }
+  { id: '__ex_blackiron',   name: 'Example: Blackiron City',     type: 'city',       description: 'A smog-laden smelting capital built around a dying volcanic vent. Bells ring shift-changes every six hours.' },
+  { id: '__ex_mossford',    name: 'Example: Mossford Village',    type: 'settlement', description: 'A moss-roofed farming village on a slow river. Famous for its honey-fermented ale.' },
+  { id: '__ex_howling',     name: 'Example: The Howling Tundra',  type: 'wilderness', description: 'A wind-scoured plain where the grass itself whispers at night. Few who sleep there wake rested.' },
+  { id: '__ex_grimspire',   name: 'Example: Grimspire Peaks',     type: 'mountain',   description: 'Jagged black peaks said to be the petrified teeth of a buried god. Climbers vanish above the cloud line.' },
+  { id: '__ex_dustfalls',   name: 'Example: Dustfalls Ruin',      type: 'ruin',       description: 'The cracked remains of a pre-Dimming observatory. Sand pours endlessly from its shattered dome.' },
+  { id: '__ex_whispertomb', name: 'Example: Whispering Tomb',     type: 'tomb',       description: 'A sealed barrow whose entrance breathes warm air in winter. The names on its door are crossed out.' },
+  { id: '__ex_trappers',    name: "Example: Trapper's Camp",      type: 'camp',       description: 'A seasonal fur-trader camp on a frozen lake. Smoke, sled-dogs, and a circle of ever-burning torches.' },
+  { id: '__ex_scoutnote',   name: 'Example (Scout’s Chalk Note',   type: 'custom',     description: 'A hand-scrawled marker on a boulder: "Wyrm tracks) three days fresh. Heading north.: V."' }
 ];
 
 const LoreSidebar = ({ regionId, selectedLocationId, setSelectedLocationId, open, onClose, currentCampaign }) => {
@@ -132,7 +132,7 @@ const LoreSidebar = ({ regionId, selectedLocationId, setSelectedLocationId, open
       out.push({ id: pinId, regionId, name, description, type, isDeep: false });
     });
 
-    // ⚑ DEMO EXAMPLES — inject example entries into whatever region is open,
+    // ⚑ DEMO EXAMPLES: inject example entries into whatever region is open,
     // tagged onto the current regionId so they always render. Delete with the
     // EXAMPLE block at the top of this file.
     if (EXAMPLES_ENABLED && regionId) {
@@ -391,7 +391,7 @@ const LoreSidebar = ({ regionId, selectedLocationId, setSelectedLocationId, open
               <div className="lore-overview-divider" />
               <div className="lore-overview-stat wide">
                 <span className="lore-overview-stat-value small">
-                  {stats.major || '—'}
+                  {stats.major || '-'}
                 </span>
                 <span className="lore-overview-stat-label">Seat</span>
               </div>
@@ -435,7 +435,7 @@ const LoreSidebar = ({ regionId, selectedLocationId, setSelectedLocationId, open
               </div>
             </div>
 
-            {/* ⚑ DEMO EXAMPLES banner — remove with the EXAMPLE block at top of file */}
+            {/* ⚑ DEMO EXAMPLES banner: remove with the EXAMPLE block at top of file */}
             {EXAMPLES_ENABLED && (
               <div className="lore-examples-banner">
                 <i className="fas fa-flask" />

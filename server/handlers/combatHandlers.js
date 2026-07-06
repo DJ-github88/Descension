@@ -143,7 +143,7 @@ function registerCombatHandlers(ctx) {
       const { room, player } = validation;
 
       if (!room.gameState.combat?.isActive) {
-        logger.warn('[combat_turn_changed] ignored — combat not active', {
+        logger.warn('[combat_turn_changed] ignored: combat not active', {
           roomId: data.roomId, playerId: player?.id
         });
         return;

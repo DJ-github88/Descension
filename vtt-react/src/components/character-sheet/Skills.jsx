@@ -168,7 +168,7 @@ export const WEAPON_FACE_TEXT = {
         2: 'Off-line; half damage.',
         3: 'Solid throw; normal damage.',
         4: 'Pin cloak; on hit, target’s speed -2.',
-        5: 'Gouging strike; on hit, target is dazzled—its next attack roll is -1.',
+        5: 'Gouging strike; on hit, target is dazzled-its next attack roll is -1.',
         6: 'Ricochet; on hit, choose a second nearby target for 2 damage.',
         7: 'Crippling toss; on hit, target’s next action is -1 and it bleeds (GM adjudicates).',
         8: 'Bullseye; on hit, add weapon die again and you may immediately retrieve the weapon.'
@@ -492,7 +492,7 @@ export default function Skills() {
         return skill.rollableTable; // Fallback for old format
     };
 
-    // Simple skill roll — trigger 3D physical dice rolling
+    // Simple skill roll: trigger 3D physical dice rolling
     const rollSimpleSkill = (skill, skillId) => {
         const rank = getSkillRank(skillId);
         const dieSize = DIE_SIZE_MAP[rank.key];
@@ -510,7 +510,7 @@ export default function Skills() {
         });
     };
 
-    // Roll on a skill table — trigger 3D physical dice rolling
+    // Roll on a skill table: trigger 3D physical dice rolling
     const rollSkillTable = (skill, skillId) => {
         const rank = getSkillRank(skillId);
         const isWeaponMastery = (skillId || selectedSkill) === 'weaponMastery';
@@ -614,7 +614,7 @@ export default function Skills() {
                                 >
                                     {Object.entries(SKILL_RANKS).map(([key, data]) => (
                                         <option key={key} value={key}>
-                                            d{DIE_SIZE_MAP[key]} — {data.name}
+                                            d{DIE_SIZE_MAP[key]}: {data.name}
                                         </option>
                                     ))}
                                 </select>
@@ -655,7 +655,7 @@ export default function Skills() {
                                     >
                                         {Object.entries(SKILL_RANKS).map(([key, data]) => (
                                             <option key={key} value={key}>
-                                                {data.name} — d{DIE_SIZE_MAP[key]}
+                                                {data.name}: d{DIE_SIZE_MAP[key]}
                                             </option>
                                         ))}
                                     </select>
@@ -691,7 +691,7 @@ export default function Skills() {
                                         onClick={() => setSelectedWeaponType(weaponKey)}
                                         role="button"
                                         tabIndex={0}
-                                        title={`${meta.label} — ${meta.hint}`}
+                                        title={`${meta.label}: ${meta.hint}`}
                                         onKeyPress={(e) => (e.key === 'Enter' || e.key === ' ') && setSelectedWeaponType(weaponKey)}
                                         style={weaponRankStyleVars}
                                     >
@@ -884,7 +884,7 @@ export default function Skills() {
                     <div className="skill-simple-card skill-advancement-card">
                         <h4><i className="fas fa-arrow-up"></i> Getting Better</h4>
                         <p className="skill-simple-context">
-                            When you do something <strong>extraordinary</strong> with this skill — a creative solution, a clutch success under pressure, or a moment that makes the table cheer — the GM may award you a die upgrade.
+                            When you do something <strong>extraordinary</strong> with this skill (a creative solution, a clutch success under pressure, or a moment that makes the table cheer) the GM may award you a die upgrade.
                         </p>
                         <div className="skill-advancement-track">
                             {Object.entries(SKILL_RANKS).map(([key, data]) => {
@@ -905,7 +905,7 @@ export default function Skills() {
                         </div>
                         <div className="skill-simple-hint">
                             <i className="fas fa-comments"></i>
-                            <span>Advancement is a conversation. There are no XP bars — just memorable moments.</span>
+                            <span>Advancement is a conversation. There are no XP bars: just memorable moments.</span>
                         </div>
                     </div>
                     </>

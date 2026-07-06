@@ -2760,7 +2760,7 @@ const TileOverlay = () => {
                             {resourceParts.length > 0 && (
                                 <div style={{ color: '#7a3b2e', fontStyle: 'italic', fontSize: '12px' }}>
                                     {resourceParts.join(', ')}
-                                    {firstNpc && <span> — <strong>{firstNpc.name}</strong></span>}
+                                    {firstNpc && <span>: <strong>{firstNpc.name}</strong></span>}
                                 </div>
                             )}
                         </div>

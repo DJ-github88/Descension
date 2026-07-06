@@ -42,7 +42,7 @@ export function registerTokenHandlers(ctx) {
     });
 
     socket.on('request_travel_sync', () => {
-      console.log('ðŸ—ºï¸ [Travel] GM received request_travel_sync, isGM:', isGMRef.current);
+      console.log('ðŸ-ºï¸ [Travel] GM received request_travel_sync, isGM:', isGMRef.current);
       if (isGMRef.current) {
         useTravelStore.getState().broadcastTravelState();
       }

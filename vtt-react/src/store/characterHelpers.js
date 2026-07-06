@@ -20,7 +20,7 @@ export const getCurrentUserId = () => {
         const state = authStore.getState();
 
         // Return the authenticated user's UID, or null when not authenticated.
-        // NEVER return a fake/placeholder UID (e.g. 'dev-user-localhost') — those
+        // NEVER return a fake/placeholder UID (e.g. 'dev-user-localhost'): those
         // leak into Firestore writes (character_backups.userId, characters.metadata.userId)
         // and fail security rules because they never match request.auth.uid.
         // The deliberate dev-login identity ('dev-user-123' from authStore) still

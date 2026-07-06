@@ -15,7 +15,7 @@
   min-height: 100vh;
 }
 
-/* Override any inherited body color — all text inside this section uses our colors */
+/* Override any inherited body color: all text inside this section uses our colors */
 .map-making-section * {
   color: inherit;
 }

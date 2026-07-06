@@ -296,7 +296,7 @@ function registerSessionInvitationHandlers(ctx) {
           onlineUserIds: Array.from(onlineSocialUsers.values()).map(u => u.userId).slice(0, 10)
         });
         socket.emit('party_invite_failed', {
-          error: 'User is not reachable — their social socket may not be connected',
+          error: 'User is not reachable: their social socket may not be connected',
           toUserId
         });
         partyInvitations.delete(invitationId);

@@ -315,11 +315,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   useEffect(() => {
     if (!isJoiningRoom || isFadingOut || currentRoom) return;
 
-    const STUCK_THRESHOLD = 20000; // 20s — far beyond the ~1.5s normal auto-continue window
+    const STUCK_THRESHOLD = 20000; // 20s: far beyond the ~1.5s normal auto-continue window
 
     const timeoutId = setTimeout(() => {
       if (isJoiningRoomRef.current && !currentRoomRef.current && !isRoomReady && !isFadingOut) {
-        console.error('⌛ [MultiplayerApp] Loading safety net triggered — stuck joining. Forcing dismissal.');
+        console.error('⌛ [MultiplayerApp] Loading safety net triggered: stuck joining. Forcing dismissal.');
         setIsJoiningRoom(false);
         setIsRoomReady(false);
         setPendingRoomData(null);

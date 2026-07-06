@@ -243,9 +243,9 @@ const formatAbilityType = (type) => {
 // NOTE: Creatures do not use equipment-based DR/soak. This is kept for
 // backward compatibility with any legacy creature data that may have armor values.
 const getSoakDieFromArmor = (armorValue = 0) => {
-  if (!armorValue || armorValue <= 0) return '—';
+  if (!armorValue || armorValue <= 0) return '-';
   const armor = Math.max(0, Math.floor(armorValue));
-  if (armor < 5) return '—';
+  if (armor < 5) return '-';
   if (armor <= 9) return '1d4';
   if (armor <= 14) return '1d6';
   if (armor <= 19) return '1d8';

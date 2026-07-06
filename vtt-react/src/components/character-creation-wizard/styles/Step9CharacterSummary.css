@@ -958,7 +958,7 @@
 
 /* Mobile Section Tabs - Summary Step */
 @media (max-width: 768px) {
-    /* Single-column grid — tabs handle which column is visible */
+    /* Single-column grid: tabs handle which column is visible */
     .character-summary-dashboard {
         grid-template-columns: 1fr;
         gap: 0.5rem;
@@ -1085,7 +1085,7 @@
     }
 }
 
-/* Validation banner — explains exactly why Create is disabled */
+/* Validation banner: explains exactly why Create is disabled */
 .summary-validation-banner {
     flex: 0 0 auto;
     margin: 0 0 0.85rem 0;

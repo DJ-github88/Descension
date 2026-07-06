@@ -61,7 +61,7 @@ const getCreatureThumb = (illustration) => {
 
 const getSoakDieFromArmor = (armorValue = 0) => {
   const armor = Math.max(0, Math.floor(armorValue));
-  if (armor < 5) return '—';
+  if (armor < 5) return '-';
   if (armor <= 9) return '1d4';
   if (armor <= 14) return '1d6';
   if (armor <= 19) return '1d8';
@@ -161,7 +161,7 @@ const BestiaryDisplay = () => {
           <h3 className="bestiary-intro-title">📜 The Lore of the Wyrd</h3>
           <p className="bestiary-intro-text">
             The Wyrd is a formless primordial spiritual energy that manifests using human fear and folklore
-            as a structural blueprint. It cannot create — it can only occupy. The creatures that stalk
+            as a structural blueprint. It cannot create: it can only occupy. The creatures that stalk
             the seven continents are not alien invaders. They are the shape of your own nightmares, given
             flesh by an ancient corruption that has been sealed beneath the world since before the first stars.
             Every region breeds its own monsters from its own fears. Understanding the folklore is understanding
@@ -270,7 +270,7 @@ const BestiaryDisplay = () => {
                         ) : (
                           <div className="bestiary-quick-stat-item mana disabled">
                             <span className="label">Mana</span>
-                            <span className="value">—</span>
+                            <span className="value">-</span>
                           </div>
                         )}
                         <div className="bestiary-quick-stat-item ap">

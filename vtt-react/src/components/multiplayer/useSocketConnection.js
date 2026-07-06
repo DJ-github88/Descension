@@ -88,7 +88,7 @@ export function setupSocketConnection({
 
         const isPersistentRejoin = !!roomData?.persistentRoomId;
         if (isPersistentRejoin) {
-          console.warn('🛡️ [Reconnect] Permanent room rejoin detected — ensuring data persists!');
+          console.warn('🛡️ [Reconnect] Permanent room rejoin detected: ensuring data persists!');
         } else {
           useCreatureStore.getState().clearCreatureTokens();
           const charTokenState = useCharacterTokenStore.getState();

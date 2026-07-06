@@ -370,7 +370,7 @@ const CharacterToken = ({
         if (!viewingFromToken && !isGMMode) {
             const hasFogContent = (fogOfWarPaths && fogOfWarPaths.length > 0) || (fogOfWarData && Object.keys(fogOfWarData).length > 0);
             if (hasFogContent) {
-                return false; // Map is fogged — hide until player places a token
+                return false; // Map is fogged: hide until player places a token
             }
         }
 
@@ -562,7 +562,7 @@ const CharacterToken = ({
         if (characterData.lore?.characterImage) {
             return characterData.lore.characterImage;
         }
-        // Resolve workshop icon via the SAME helper the PartyHUD/TargetHUD use — the old
+        // Resolve workshop icon via the SAME helper the PartyHUD/TargetHUD use: the old
         // hardcoded wow.zamimg.com URL was always broken, so icon-based portraits rendered blank.
         if (characterData.lore?.characterIcon) {
             const icon = characterData.lore.characterIcon;
@@ -2115,7 +2115,7 @@ const CharacterToken = ({
                     );
                 })}
 
-                {/* Portrait background (iconBackgroundImage/color) — mirrors the PartyHUD/Lore styling */}
+                {/* Portrait background (iconBackgroundImage/color): mirrors the PartyHUD/Lore styling */}
                 <div
                     className="token-portrait-bg"
                     style={{

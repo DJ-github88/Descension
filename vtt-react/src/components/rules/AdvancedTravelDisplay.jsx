@@ -287,7 +287,7 @@ const AdvancedTravelDisplay = () => {
             <span className="atd-severity-scale-label">Severity Scale:</span>
             {SEVERITY_LABELS.map((label, i) => (
               <span key={i} className="atd-severity-pip" style={{ background: `${SEVERITY_COLORS[i]}20`, color: SEVERITY_COLORS[i], borderColor: `${SEVERITY_COLORS[i]}40` }}>
-                {i} — {label}
+                {i}: {label}
               </span>
             ))}
           </div>
@@ -462,10 +462,10 @@ const AdvancedTravelDisplay = () => {
                     style={{ cursor: 'pointer' }}
                   >
                     <td className="atd-cell-range">{row.hour}</td>
-                    <td>{row.encounter ? '✓' : '—'}</td>
-                    <td>{row.rations ? '✓' : '—'}</td>
-                    <td>{row.rest ? '✓' : '—'}</td>
-                    <td>{row.overmarch ? '⚠' : '—'}</td>
+                    <td>{row.encounter ? '✓' : '-'}</td>
+                    <td>{row.rations ? '✓' : '-'}</td>
+                    <td>{row.rest ? '✓' : '-'}</td>
+                    <td>{row.overmarch ? '⚠' : '-'}</td>
                     <td className="atd-cell-desc">{row.notes}</td>
                   </tr>
                 ))}
@@ -518,7 +518,7 @@ const AdvancedTravelDisplay = () => {
                 <ul>
                   <li><strong>Hours 9-10:</strong> Con vs d10 or 1 exhaustion</li>
                   <li><strong>Hours 11-12:</strong> Con vs d12, speed halved</li>
-                  <li><strong>Hours 13-14:</strong> Con vs d20 — survival territory</li>
+                  <li><strong>Hours 13-14:</strong> Con vs d20: survival territory</li>
                   <li>Beyond hour 14 is not recommended</li>
                 </ul>
               </div>

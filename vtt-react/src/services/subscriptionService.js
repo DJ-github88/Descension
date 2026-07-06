@@ -1,7 +1,7 @@
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { auth, db, isFirebaseConfigured } from '../config/firebase';
 
-// Tier Feature Flags — gates GM tool CONTROLS only.
+// Tier Feature Flags: gates GM tool CONTROLS only.
 // Players always SEE whatever the GM creates/broadcasts regardless of their own tier.
 // Tier restrictions only limit: data storage, tool access, and creation capabilities.
 const TIER_FEATURE_FLAGS = {
@@ -73,7 +73,7 @@ export const SUBSCRIPTION_TIERS = {
       '1 temporary character',
       'Full combat & dice rolling',
       'Room chat',
-      'No cloud save — data cleared on disconnect'
+      'No cloud save: data cleared on disconnect'
     ],
     featureFlags: {
       dynamicFog: false, dynamicLighting: false, atmosphericEffects: false,
@@ -91,7 +91,7 @@ export const SUBSCRIPTION_TIERS = {
       jukebox: false
     },
     price: 0,
-    description: 'Try Mythrill by joining a friend\'s game — no account needed',
+    description: 'Try Mythrill by joining a friend\'s game: no account needed',
     icon: 'fa-user-secret',
     color: '#888'
   },
@@ -165,7 +165,7 @@ export const SUBSCRIPTION_TIERS = {
       jukebox: true
     },
     price: 0,
-    description: 'Development preview account — full access',
+    description: 'Development preview account: full access',
     icon: 'fa-code',
     color: '#ff9800'
   },
@@ -181,7 +181,7 @@ export const SUBSCRIPTION_TIERS = {
       '5 permanent rooms (up to 6 players each)',
       '500 MB cloud storage',
       'Full GM notes (scroll, NPC, encounter, trap, loot)',
-      'Portal system — connect multiple maps',
+      'Portal system: connect multiple maps',
       'Travel system with biomes & weather',
       'Atmospheric effects (rain, snow, fog, embers)',
       'Memory snapshots & afterimages',

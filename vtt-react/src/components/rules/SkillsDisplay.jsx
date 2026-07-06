@@ -155,7 +155,7 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
             1: 'Misstep; you fall prone unless you spend 1 AP to steady.',
             2: 'Glance; half damage.',
             3: 'Quick rap; normal damage.',
-            4: 'Low sweep; on hit, target must steady—its next attack roll is -1.',
+            4: 'Low sweep; on hit, target must steady-its next attack roll is -1.',
             5: 'Disarm flick; on hit, target drops a held item or takes +2 damage.',
             6: 'Trip and follow; on hit, target goes prone and you may step 1.',
             7: 'Sweeping arc; on hit, target is knocked prone or stunned for a turn.',
@@ -186,7 +186,7 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
             2: 'Off-line; half damage.',
             3: 'Solid throw; normal damage.',
             4: 'Pin cloak; on hit, target’s speed -2.',
-            5: 'Gouging strike; on hit, target is dazzled—its next attack roll is -1.',
+            5: 'Gouging strike; on hit, target is dazzled-its next attack roll is -1.',
             6: 'Ricochet; on hit, choose a second nearby target for 2 damage.',
             7: 'Crippling toss; on hit, target’s next action is -1 and it bleeds (GM adjudicates).',
             8: 'Bullseye; on hit, add weapon die again and you may immediately retrieve the weapon.'
@@ -653,7 +653,7 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
                                         role="button"
                                         tabIndex={0}
                                         onKeyPress={(e) => (e.key === 'Enter' || e.key === ' ') && setSelectedWeaponType(weaponKey)}
-                                        title={`${meta.label} — ${meta.hint}`}
+                                        title={`${meta.label}: ${meta.hint}`}
                                         style={weaponRankStyleVars}
                                     >
                                         {(showRankChip || (compact && selectedWeaponType === weaponKey)) && (
@@ -715,7 +715,7 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
     if (!selectedCategory && !selectedSkill) {
         return (
             <div className="skills-single-layout">
-                {/* Skills Guide — full width, stacked */}
+                {/* Skills Guide: full width, stacked */}
                 <div className="skills-guide-section">
                     <div className="premium-parchment-scroll">
                         <div className="skills-rules-toggle" style={{ display: 'flex', justifyContent: 'center', gap: '12px', marginBottom: '20px', borderBottom: '1px dashed #d4af37', paddingBottom: '15px' }}>
@@ -774,7 +774,7 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
 
                             <div className="scroll-section">
                                 <h5><i className="fas fa-bolt"></i> Exploding Dice</h5>
-                                <p>Rolling the maximum value is <strong>not</strong> an automatic critical success. Instead, the die <strong>explodes</strong> — roll it again and add the results together! Multiple explosions can stack infinitely, making even legendary DCs reachable by standard dice.</p>
+                                <p>Rolling the maximum value is <strong>not</strong> an automatic critical success. Instead, the die <strong>explodes</strong>: roll it again and add the results together! Multiple explosions can stack infinitely, making even legendary DCs reachable by standard dice.</p>
                             </div>
 
                             <div className="scroll-section">
@@ -786,10 +786,10 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
                             <>
                             <div className="scroll-section">
                                 <h5><i className="fas fa-cogs"></i> How Skills Work</h5>
-                                <p>A Mythrill veteran does not swing blindly and hope. <strong>Skills</strong> represent accumulated mastery — trained capabilities that separate a seasoned adventurer from a desperate farmhand.</p>
+                                <p>A Mythrill veteran does not swing blindly and hope. <strong>Skills</strong> represent accumulated mastery: trained capabilities that separate a seasoned adventurer from a desperate farmhand.</p>
                                 <ul>
                                     <li>Each skill is tied to a <strong>primary and secondary attribute</strong>.</li>
-                                    <li>The GM assigns a <strong>Difficulty Die</strong> — from a d4 for trivial tasks to a d20 for near-impossible ones.</li>
+                                    <li>The GM assigns a <strong>Difficulty Die</strong>: from a d4 for trivial tasks to a d20 for near-impossible ones.</li>
                                     <li>If your primary or secondary attribute modifier reaches <strong>+5 or higher</strong>, your mastery steps the difficulty die down by one size.</li>
                                 </ul>
                             </div>
@@ -798,7 +798,7 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
                                 <h5><i className="fas fa-layer-group"></i> Skill Ranks & Progression</h5>
                                 <p>Skills advance through seven ranks:</p>
                                 <div className="dc-reference-grid">
-                                    <div className="dc-row"><span style={{color:'#6b6b6b'}}>Untrained</span><span>d4</span><span>Baseline — no bonus</span></div>
+                                    <div className="dc-row"><span style={{color:'#6b6b6b'}}>Untrained</span><span>d4</span><span>Baseline: no bonus</span></div>
                                     <div className="dc-row"><span style={{color:'#8b7355'}}>Novice</span><span>d6</span><span>+1 to checks, 1 quest</span></div>
                                     <div className="dc-row"><span style={{color:'#4a7c59'}}>Trained</span><span>d8</span><span>+2 to checks, 3 quests</span></div>
                                     <div className="dc-row"><span style={{color:'#5d8a6b'}}>Apprentice</span><span>d10</span><span>+3 to checks, 6 quests</span></div>
@@ -811,8 +811,8 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
 
                             <div className="scroll-section">
                                 <h5><i className="fas fa-dice-d20"></i> Critical Success & Failure</h5>
-                                <p>Rolling the <strong>maximum value</strong> on your difficulty die is a <strong>Critical Success</strong> — the task is accomplished beyond expectation, often with a tangible bonus or narrative windfall.</p>
-                                <p>Rolling a <strong>1</strong> is always a <strong>Critical Failure</strong> regardless of rank — complications arise, and the GM determines how badly the moment turns.</p>
+                                <p>Rolling the <strong>maximum value</strong> on your difficulty die is a <strong>Critical Success</strong>: the task is accomplished beyond expectation, often with a tangible bonus or narrative windfall.</p>
+                                <p>Rolling a <strong>1</strong> is always a <strong>Critical Failure</strong> regardless of rank: complications arise, and the GM determines how badly the moment turns.</p>
                             </div>
 
                             <div className="scroll-section">
@@ -824,7 +824,7 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
                     </div>
                 </div>
 
-                {/* Skills Directory — full width, below guide */}
+                {/* Skills Directory: full width, below guide */}
                 <div className="skills-directory-section">
                     <div className="skills-index-header">
                         <h3>{isSimple ? 'Skills Directory' : 'Advanced Skills Directory'}</h3>
@@ -991,7 +991,7 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
                                 </div>
                             </div>
                             <div className="dc-reference-grid" style={{ marginTop: '16px' }}>
-                                <div className="dc-row"><span style={{color:'#6b6b6b'}}>d4</span><span>Untrained</span><span>Baseline — everyone starts here</span></div>
+                                <div className="dc-row"><span style={{color:'#6b6b6b'}}>d4</span><span>Untrained</span><span>Baseline: everyone starts here</span></div>
                                 <div className="dc-row"><span style={{color:'#8b7355'}}>d6</span><span>Novice</span><span>+1 to checks, 1 quest completed</span></div>
                                 <div className="dc-row"><span style={{color:'#4a7c59'}}>d8</span><span>Trained</span><span>+2 to checks, 3 quests completed</span></div>
                                 <div className="dc-row"><span style={{color:'#5d8a6b'}}>d10</span><span>Apprentice</span><span>+3 to checks, 6 quests completed</span></div>
@@ -1004,7 +1004,7 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
                         <div className="benefits-section">
                             <h4><i className="fas fa-bolt"></i> What You Can Do</h4>
                             <p style={{ marginBottom: '14px', color: '#2c1810', fontSize: '15px', fontWeight: '500', lineHeight: '1.6' }}>
-                                Roll your skill die against a DC set by the GM. Roll the max? The die <strong>explodes</strong> — roll again and add!
+                                Roll your skill die against a DC set by the GM. Roll the max? The die <strong>explodes</strong>: roll again and add!
                             </p>
                             <ul className="equipment-items">
                                 <li><i className="fas fa-check"></i> Attempt any task tied to this skill</li>

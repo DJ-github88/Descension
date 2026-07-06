@@ -79,7 +79,7 @@ const DominanceDieResourceBar = ({
 
         // Get DD label and demon name
         const getDemonDisplay = () => {
-            if (!currentDemon) return { name: 'No demon bound to this slot', ddLabel: '—' };
+            if (!currentDemon) return { name: 'No demon bound to this slot', ddLabel: '-' };
             if (currentDD === 0) return { name: 'No demon bound to this slot', ddLabel: 'ESCAPED' };
             return { name: currentDemon.name, ddLabel: `d${currentDD}` };
         };

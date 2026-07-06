@@ -319,7 +319,7 @@ function ContainerWizard({ onComplete, onCancel, onClose, initialData, editingCo
                                                     autoComplete="off"
                                                     data-form-type="other"
                                                 />
-                                                <div className="cw-hint">Hangman-style puzzle — spaces preserved</div>
+                                                <div className="cw-hint">Hangman-style puzzle: spaces preserved</div>
                                             </div>
                                         )}
 

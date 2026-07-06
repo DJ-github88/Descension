@@ -269,7 +269,7 @@ const MultiplayerGameContent = ({
             <div style={{ position: 'absolute', top: '10px', left: '14px', color: '#c9a070', opacity: 0.6, fontSize: '16px' }}>âœ¦</div>
             <div style={{ position: 'absolute', top: '10px', right: '14px', color: '#c9a070', opacity: 0.6, fontSize: '16px' }}>âœ¦</div>
 
-            <div style={{ fontSize: '44px', marginBottom: '14px', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }}>ðŸ—¡ï¸</div>
+            <div style={{ fontSize: '44px', marginBottom: '14px', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }}>ðŸ-¡ï¸</div>
             <h2 style={{ margin: '0 0 10px', fontSize: '22px', color: '#5a1e12', textTransform: 'uppercase', letterSpacing: '2px', textShadow: '0 1px 2px rgba(0,0,0,0.1)' }}>
               Command Bestowed
             </h2>

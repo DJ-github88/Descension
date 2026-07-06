@@ -21,7 +21,7 @@ export const WEAPON_TYPE_QUEST_DATA = {
         { id: 'wm_default_zone', name: 'Zone Denial', description: 'Hold a choke or doorway for a full round uncontested.', rank: 'ADEPT', icon: 'Utility/Split Shield', unlocks: ['Zone control'] },
         { id: 'wm_default_timing', name: 'Timing Window', description: 'Delay and strike exactly when an enemy enters reach.', rank: 'ADEPT', icon: 'Piercing/Piercing Thrust 3', unlocks: ['Timing sense'] },
         { id: 'wm_default_duel', name: 'Tournament Set', description: 'Win a duel against a peer without swapping weapons.', rank: 'EXPERT', icon: 'Slashing/Slashing Slash', unlocks: ['Dueling discipline'] },
-        { id: 'wm_default_split', name: 'Split Decision', description: 'Choose to aid or press—hit and either guard an ally or chase.', rank: 'EXPERT', icon: 'Piercing/Piercing Thrust 3', unlocks: ['Tactical split'] },
+        { id: 'wm_default_split', name: 'Split Decision', description: 'Choose to aid or press-hit and either guard an ally or chase.', rank: 'EXPERT', icon: 'Piercing/Piercing Thrust 3', unlocks: ['Tactical split'] },
         { id: 'wm_default_lockout', name: 'Lock Out', description: 'Shut down an enemy action with a preemptive strike.', rank: 'EXPERT', icon: 'Utility/Broken Item', unlocks: ['Action denial'] },
         { id: 'wm_default_mastery', name: 'Mastery Bout', description: 'Defeat a skilled opponent using your bonded style only.', rank: 'MASTER', icon: 'Slashing/Slashing Cleave', unlocks: ['Master-level techniques'] },
         { id: 'wm_default_melee', name: 'Grand Melee', description: 'Win a large melee while maintaining formation and style.', rank: 'MASTER', icon: 'Social/Rally', unlocks: ['Battle poise'] },

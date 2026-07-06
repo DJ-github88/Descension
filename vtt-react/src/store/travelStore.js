@@ -338,19 +338,19 @@ const useTravelStore = create((set, get) => ({
 
   initPlayerTravelListener: (socket) => {
     if (!socket) return;
-    console.log('ðŸ—ºï¸ [TravelStore] Registering player travel listeners on socket');
+    console.log('ðŸ-ºï¸ [TravelStore] Registering player travel listeners on socket');
     socket.on('travel_sync', (data) => {
-      console.log('ðŸ—ºï¸ [TravelStore] Received travel_sync:', Object.keys(data));
+      console.log('ðŸ-ºï¸ [TravelStore] Received travel_sync:', Object.keys(data));
       set({ playerTravelState: data });
     });
     socket.on('travel_update', (data) => {
-      console.log('ðŸ—ºï¸ [TravelStore] Received travel_update:', Object.keys(data));
+      console.log('ðŸ-ºï¸ [TravelStore] Received travel_update:', Object.keys(data));
       set(s => ({
         playerTravelState: { ...s.playerTravelState, ...data }
       }));
     });
     socket.on('travel_broadcast', (data) => {
-      console.log('ðŸ—ºï¸ [TravelStore] Received travel_broadcast:', data.text?.substring(0, 50));
+      console.log('ðŸ-ºï¸ [TravelStore] Received travel_broadcast:', data.text?.substring(0, 50));
       set(s => ({
         playerTravelState: {
           ...s.playerTravelState,
@@ -373,15 +373,15 @@ const useTravelStore = create((set, get) => ({
     const { multiplayerRoom, multiplayerSocket } = getStore('gameStore').getState();
     const socket = multiplayerSocket || get().travelSocket;
     if (!socket) {
-      console.warn('ðŸ—ºï¸ [TravelStore] Cannot broadcast - no socket available');
+      console.warn('ðŸ-ºï¸ [TravelStore] Cannot broadcast - no socket available');
       return;
     }
     const roomId = multiplayerRoom?.id;
     if (!roomId) {
-      console.warn('ðŸ—ºï¸ [TravelStore] Cannot broadcast - no room ID');
+      console.warn('ðŸ-ºï¸ [TravelStore] Cannot broadcast - no room ID');
       return;
     }
-    console.log('ðŸ—ºï¸ [TravelStore] Broadcasting', event, 'to room', roomId);
+    console.log('ðŸ-ºï¸ [TravelStore] Broadcasting', event, 'to room', roomId);
     socket.emit(event, { ...data, roomId });
   },
 

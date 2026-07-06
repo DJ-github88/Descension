@@ -1067,7 +1067,7 @@
     font-size: 12px;
 }
 
-/* ===== EDITABLE BLOCKS (Prep Mode) — Card Theming ===== */
+/* ===== EDITABLE BLOCKS (Prep Mode): Card Theming ===== */
 .gm-section-blocks {
     padding: 8px;
     display: flex;
@@ -1214,7 +1214,7 @@
     font-size: 12px;
 }
 
-/* ===== SESSION MODE — Presentation Block Cards ===== */
+/* ===== SESSION MODE: Presentation Block Cards ===== */
 .gm-block-card {
     border-radius: 10px;
     overflow: hidden;

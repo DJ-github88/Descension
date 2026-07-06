@@ -71,7 +71,7 @@ export const normalizeSpell = (spell) => {
   normalized.purificationConfig = normalizePurificationConfig(normalized);
   normalized.restorationConfig = normalizeRestorationConfig(normalized);
   
-  // 6b. Normalize resolution — default to DICE if missing
+  // 6b. Normalize resolution: default to DICE if missing
   if (!normalized.resolution) {
     normalized.resolution = 'DICE';
   }

@@ -6411,7 +6411,7 @@ button.gender-option.selected {
         padding: 6px 4px !important;
     }
 
-    /* Don't scale the circle on mobile — prevents clipping inside the scroll strip */
+    /* Don't scale the circle on mobile: prevents clipping inside the scroll strip */
     .character-wizard-container .progress-step-horizontal.active .step-circle-horizontal {
         transform: none !important;
     }
@@ -11054,7 +11054,7 @@ button.gender-option.selected {
 .character-wizard-container .class-card:hover .class-pixel-icon,
 .character-wizard-container .class-card:hover .class-card-icon-container .class-icon-img {
     transform: scale(1.8);
-    /* Keep multiply — boost brightness to compensate */
+    /* Keep multiply: boost brightness to compensate */
     mix-blend-mode: multiply;
     filter: brightness(1.2) contrast(1.15) drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3));
     z-index: 100;

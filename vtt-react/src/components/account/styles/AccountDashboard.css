@@ -853,7 +853,7 @@
   min-width: 0;
 }
 
-/* Upgrade Plan button — lives in the main header alongside Home / Sign Out,
+/* Upgrade Plan button: lives in the main header alongside Home / Sign Out,
    styled as a gold CTA that still matches the pill-shaped action-btn family. */
 .action-btn.upgrade-plan-btn {
   background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);

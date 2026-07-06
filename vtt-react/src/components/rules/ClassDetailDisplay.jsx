@@ -846,7 +846,7 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
         data.howYouFight = [
           "Build momentum through precise strikes and advantageous positioning.",
           "Read the battlefield for the moment of maximum leverage before committing.",
-          "Unleash the decisive blow when the conditions align — no sooner, no later."
+          "Unleash the decisive blow when the conditions align: no sooner, no later."
         ];
       }
     }
@@ -1146,7 +1146,7 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
           }
 
           // 3. Turn divider
-          const turnMatch = trimmed.match(/^\*\*Turn (\d+)\s*—\s*([^*:\n]+)\*\*(.*)/i);
+          const turnMatch = trimmed.match(/^\*\*Turn (\d+)\s*-\s*([^*:\n]+)\*\*(.*)/i);
           if (turnMatch) {
             return (
               <div className="combat-turn-header" key={idx}>
@@ -1355,20 +1355,20 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
             </div>
           </div>
         )}
-        {/* Living Order — founder, current leader, headquarters, crisis connection */}
+        {/* Living Order: founder, current leader, headquarters, crisis connection */}
         {classData.livingOrder && (() => {
           const lo = classData.livingOrder;
           return (
             <div className="chronicle-card full-width-card" style={{ marginTop: '20px' }}>
               <div className="chronicle-card-header bronze-header">
-                <i className="fas fa-flag"></i> THE LIVING ORDER{lo.orderName ? ` — ${lo.orderName}` : ''}
+                <i className="fas fa-flag"></i> THE LIVING ORDER{lo.orderName ? `: ${lo.orderName}` : ''}
               </div>
               <div className="notable-practitioners-list">
                 {lo.founder && (
                   <div className="practitioner-card" style={{ borderLeft: `4px solid ${regionInfo.borderColor}` }}>
                     <div className="practitioner-avatar" style={{ backgroundColor: regionInfo.accentColor }}><i className="fas fa-monument"></i></div>
                     <div className="practitioner-content">
-                      <h5 style={{ color: regionInfo.accentColor }}>Founder — {parseTextWithLoreLinks(lo.founder.name)}</h5>
+                      <h5 style={{ color: regionInfo.accentColor }}>Founder: {parseTextWithLoreLinks(lo.founder.name)}</h5>
                       {lo.founder.status && <p>{parseTextWithLoreLinks(lo.founder.status)}</p>}
                       {lo.founder.note && <p style={{ fontStyle: 'italic' }}>{parseTextWithLoreLinks(lo.founder.note)}</p>}
                     </div>
@@ -1378,7 +1378,7 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
                   <div className="practitioner-card" style={{ borderLeft: `4px solid ${regionInfo.accentColor}` }}>
                     <div className="practitioner-avatar" style={{ backgroundColor: regionInfo.accentColor }}><i className="fas fa-crown"></i></div>
                     <div className="practitioner-content">
-                      <h5 style={{ color: regionInfo.accentColor }}>Current Leader — {parseTextWithLoreLinks(lo.currentLeader.name)}{lo.currentLeader.title ? `, ${lo.currentLeader.title}` : ''}</h5>
+                      <h5 style={{ color: regionInfo.accentColor }}>Current Leader: {parseTextWithLoreLinks(lo.currentLeader.name)}{lo.currentLeader.title ? `, ${lo.currentLeader.title}` : ''}</h5>
                       {lo.currentLeader.characterization && <p>{parseTextWithLoreLinks(lo.currentLeader.characterization)}</p>}
                     </div>
                   </div>
@@ -1387,7 +1387,7 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
                   <div className="practitioner-card" style={{ borderLeft: `4px solid ${regionInfo.borderColor}` }}>
                     <div className="practitioner-avatar" style={{ backgroundColor: regionInfo.accentColor }}><i className="fas fa-fort-awesome"></i></div>
                     <div className="practitioner-content">
-                      <h5 style={{ color: regionInfo.accentColor }}>Headquarters — {lo.headquarters.name}</h5>
+                      <h5 style={{ color: regionInfo.accentColor }}>Headquarters: {lo.headquarters.name}</h5>
                     </div>
                   </div>
                 )}

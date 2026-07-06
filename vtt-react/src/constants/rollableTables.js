@@ -25,11 +25,11 @@ import { ARCANA_TABLES } from './arcanaTables.js';
 import { HISTORY_TABLES } from './historyTables.js';
 import { RELIGION_TABLES } from './religionTables.js';
 
-// Inline Weapon Mastery tables (d8 only, per proficiency) — tuned to scale cleanly per rank
+// Inline Weapon Mastery tables (d8 only, per proficiency): tuned to scale cleanly per rank
 const WEAPON_MASTERY_TABLES = {
     weaponmastery_untrained_d8: {
         name: 'Untrained Weapon Mastery (d8)',
-        description: 'Rough strikes with big swings—could wobble, could wobble into luck.',
+        description: 'Rough strikes with big swings-could wobble, could wobble into luck.',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_sword_04.jpg',
         requiredRank: 'UNTRAINED',
         table: [
@@ -45,7 +45,7 @@ const WEAPON_MASTERY_TABLES = {
     },
     weaponmastery_novice_d8: {
         name: 'Novice Weapon Mastery (d8)',
-        description: 'Basic control—fewer fumbles, small payoffs.',
+        description: 'Basic control-fewer fumbles, small payoffs.',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_sword_04.jpg',
         requiredRank: 'NOVICE',
         table: [
@@ -125,7 +125,7 @@ const WEAPON_MASTERY_TABLES = {
     },
     weaponmastery_master_d8: {
         name: 'Master Weapon Mastery (d8)',
-        description: 'Signature blows—decisive, mobile, oppressive.',
+        description: 'Signature blows-decisive, mobile, oppressive.',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_sword_04.jpg',
         requiredRank: 'MASTER',
         table: [

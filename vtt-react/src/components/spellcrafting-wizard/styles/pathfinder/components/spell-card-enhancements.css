@@ -6,7 +6,7 @@
  *
  * The import of this file is kept in main.css for backward compatibility
  * but this file no longer contains resource/damage/badge styles.
- * DO NOT add new styles here — use cards.css instead.
+ * DO NOT add new styles here: use cards.css instead.
  */
 
 /* ===== EFFECT SECTION STYLING (body-level rules, kept for now) ===== */
@@ -465,7 +465,7 @@
     color: var(--my-text-primary, #2d1810) !important;
 }
 
-/* Choice Config — "Choose One" table styling */
+/* Choice Config: "Choose One" table styling */
 .healing-effect-item.choice-header {
     background: rgba(139, 115, 85, 0.12) !important;
     border: 1px solid rgba(139, 115, 85, 0.4) !important;

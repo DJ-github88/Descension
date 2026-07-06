@@ -317,7 +317,7 @@
    SIZE VARIANTS
    ==================================================================== */
 
-/* Small (HUD) — compact */
+/* Small (HUD): compact */
 .small .minstrel-container { gap: 2px; max-width: 100%; }
 
 .small .minstrel-header { min-height: 13px; }
@@ -348,7 +348,7 @@
 .small .cadence-chip i { font-size: 8px; }
 .small .cadence-chip .cadence-chip-name { display: none; }
 
-/* Party member frame — very constrained width */
+/* Party member frame: very constrained width */
 .party-member-frame .minstrel-container { max-width: 220px; }
 .party-member-frame .musical-note-segment { min-width: 14px; max-width: 24px; }
 .party-member-frame .musical-notes-bar-wrapper { flex: none; overflow: visible; }
@@ -408,7 +408,7 @@
 }
 .minstrel-compact-cell:hover { filter: brightness(1.12); }
 
-/* Vertical fill — height encodes the accumulated count (0–5) */
+/* Vertical fill: height encodes the accumulated count (0–5) */
 .compact-cell-fill {
     position: absolute;
     bottom: 0;
@@ -615,7 +615,7 @@
 .minstrel-spec-indicator:hover { filter: brightness(1.2); }
 .minstrel-spec-indicator i { font-size: 16px; }
 
-/* Legacy vertical fill (replaced by pips) — kept so any stale refs don't break */
+/* Legacy vertical fill (replaced by pips): kept so any stale refs don't break */
 .note-fill {
     position: absolute;
     bottom: 0;
@@ -627,7 +627,7 @@
 }
 
 /* ====================================================================
-   PATHFINDER-STYLE RESOURCE TOOLTIP (shared/duplicated — kept for safety)
+   PATHFINDER-STYLE RESOURCE TOOLTIP (shared/duplicated: kept for safety)
    ==================================================================== */
 .pathfinder-resource-tooltip {
     background: linear-gradient(135deg, rgba(245, 245, 220, 0.95), rgba(240, 240, 210, 0.9));

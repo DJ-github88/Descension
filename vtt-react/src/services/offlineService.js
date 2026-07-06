@@ -164,7 +164,7 @@ export async function getCharacterData(characterId, userId) {
         };
       }
     } catch (error) {
-      // Suppress noisy permission errors for characters the user doesn't own —
+      // Suppress noisy permission errors for characters the user doesn't own -
       // this can happen for legacy docs or seeded data and isn't actionable
       // for the user. The offline cache is still returned above.
       if (error?.code === 'permission-denied') {

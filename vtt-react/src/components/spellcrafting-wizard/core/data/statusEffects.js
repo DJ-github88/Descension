@@ -437,7 +437,7 @@ export const NEGATIVE_STATUS_EFFECTS = [
     {
       id: 'blinded',
       name: 'Blinded',
-      description: 'Cannot see — fails sight-based checks, disadvantage on attacks',
+      description: 'Cannot see: fails sight-based checks, disadvantage on attacks',
       icon: 'Void/Consumed by Void',
       category: 'control',
       options: [
@@ -456,7 +456,7 @@ export const NEGATIVE_STATUS_EFFECTS = [
       options: [
         { id: 'friendly', name: 'Friendly Charm', description: 'Regards caster as a friend, keeps free will' },
         { id: 'dominated', name: 'Domination', description: 'Must obey the caster\'s commands' },
-        { id: 'infatuated', name: 'Infatuation', description: 'Devoted — will protect the caster at any cost' }
+        { id: 'infatuated', name: 'Infatuation', description: 'Devoted: will protect the caster at any cost' }
       ],
       saveType: 'spirit'
     },
@@ -476,7 +476,7 @@ export const NEGATIVE_STATUS_EFFECTS = [
     {
       id: 'paralyzed',
       name: 'Paralyzed',
-      description: 'Cannot move, act, or speak — attacks against them have advantage',
+      description: 'Cannot move, act, or speak: attacks against them have advantage',
       icon: 'Frost/Confused',
       category: 'control',
       options: [
@@ -508,7 +508,7 @@ export const NEGATIVE_STATUS_EFFECTS = [
       options: [
         { id: 'ensnared', name: 'Ensnared', description: 'Caught in vines, webs, or similar' },
         { id: 'grappled', name: 'Grappled', description: 'Held by a creature, can try to break free' },
-        { id: 'bound', name: 'Bound', description: 'Tied up — very difficult to escape' }
+        { id: 'bound', name: 'Bound', description: 'Tied up: very difficult to escape' }
       ],
       saveType: 'strength'
     },
@@ -554,13 +554,13 @@ export const NEGATIVE_STATUS_EFFECTS = [
     {
       id: 'frozen',
       name: 'Frozen',
-      description: 'Encased in ice — reduced speed and takes rime damage',
+      description: 'Encased in ice: reduced speed and takes rime damage',
       icon: 'Frost/Chromium Scales',
       category: 'control',
       options: [
         { id: 'chilled', name: 'Chilled', description: 'Slight speed reduction' },
         { id: 'frostbitten', name: 'Frostbitten', description: 'Significant speed reduction, disadvantage on Agility' },
-        { id: 'frozen', name: 'Frozen Solid', description: 'Completely encased in ice — paralyzed' }
+        { id: 'frozen', name: 'Frozen Solid', description: 'Completely encased in ice: paralyzed' }
       ],
       saveType: 'constitution'
     },
@@ -580,7 +580,7 @@ export const NEGATIVE_STATUS_EFFECTS = [
     {
       id: 'confused',
       name: 'Confused',
-      description: 'Acts unpredictably — may attack allies or wander',
+      description: 'Acts unpredictably: may attack allies or wander',
       icon: 'Psychic/Dark Psychic',
       category: 'disruption',
       options: [
@@ -612,14 +612,14 @@ export const NEGATIVE_STATUS_EFFECTS = [
       options: [
         { id: 'minor', name: 'Minor Wound', description: 'Small damage each turn' },
         { id: 'severe', name: 'Severe Wound', description: 'Significant damage each turn' },
-        { id: 'hemorrhaging', name: 'Hemorrhaging', description: 'Massive damage — risk of incapacitation' }
+        { id: 'hemorrhaging', name: 'Hemorrhaging', description: 'Massive damage: risk of incapacitation' }
       ],
       saveType: 'constitution'
     },
     {
       id: 'slept',
       name: 'Asleep',
-      description: 'Unconscious — wakes on damage or loud noise',
+      description: 'Unconscious: wakes on damage or loud noise',
       icon: 'Nature/Sleeping Enchanted Fox',
       category: 'control',
       options: [

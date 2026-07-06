@@ -25,7 +25,7 @@ const CleanStatusEffectConfigPopup = ({
       );
       updateConfig('statusEffects', updatedEffects);
     } else {
-      // Effect not yet in array (e.g. just added) — insert it with the new field
+      // Effect not yet in array (e.g. just added): insert it with the new field
       const newEntry = {
         id: effect.id,
         name: effect.name,

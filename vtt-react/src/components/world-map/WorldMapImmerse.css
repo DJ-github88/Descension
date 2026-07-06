@@ -183,7 +183,7 @@
   fill: #C4A44A;
 }
 
-/* Selected pin (dev Move tool) — gentle pulsing halo */
+/* Selected pin (dev Move tool): gentle pulsing halo */
 .map-pin.selected .pin-selected-pulse {
   transform-origin: center;
   animation: pinSelectedPulse 1.6s ease-in-out infinite;
@@ -198,7 +198,7 @@
    Player Annotations CSS (Toolbar, Editor Popup, Carousel, Shared View Inbox)
    ========================================================================== */
 
-/* 1. Map Tools — top-left dropdown trigger + panel */
+/* 1. Map Tools: top-left dropdown trigger + panel */
 .map-tools-sidebar {
   position: fixed;
   top: 16px;
@@ -1051,7 +1051,7 @@
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: transparent; /* no dimming — dismiss is via click-outside only */
+  background: transparent; /* no dimming: dismiss is via click-outside only */
 }
 
 .collision-menu-card {
@@ -1482,7 +1482,7 @@
 }
 
 /* ==========================================================================
-   Map Notification System — Toasts & Confirm Dialogs
+   Map Notification System: Toasts & Confirm Dialogs
    ========================================================================== */
 
 /* ── Toast stack (top-center) ── */

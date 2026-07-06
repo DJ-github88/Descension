@@ -1215,7 +1215,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
                     return (
                       <div className="no-character-notice">
                         <i className="fas fa-exclamation-triangle"></i>
-                        <span>No champion chosen—visit Account → Characters to select one.</span>
+                        <span>No champion chosen-visit Account → Characters to select one.</span>
                       </div>
                     );
                   }

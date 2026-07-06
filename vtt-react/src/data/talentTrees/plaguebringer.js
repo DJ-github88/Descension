@@ -38,7 +38,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
   {
     id: 'virulent_t1_auto_contagion',
     name: 'Auto-Contagion',
-    description: 'When an affliction reaches Stage 2+, it auto-spreads to 1 adjacent enemy as a Stage 0 Seed. +1 target per rank.',
+    description: 'The Peat-Wastes teach that decay is transformation. when an affliction reaches Stage 2+, it auto-spreads to 1 adjacent enemy as a Stage 0 Seed. +1 target per rank.',
     icon: 'spell_shadow_plaguecloud',
     maxRanks: 3,
     position: { x: 1, y: 1 },
@@ -66,7 +66,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
   {
     id: 'virulent_t2_viral_burst',
     name: 'Viral Burst',
-    description: 'When any affliction reaches its final form, it spreads to all enemies within 15ft as Stage 0 Seeds.',
+    description: 'The Peat-Wastes teach that decay is transformation. when any affliction reaches its final form, it spreads to all enemies within 15ft as Stage 0 Seeds.',
     icon: 'spell_fire_selfdestruct',
     maxRanks: 1,
     position: { x: 2, y: 2 },
@@ -117,7 +117,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
   {
     id: 'torment_t0_psychic_link',
     name: 'Psychic Link',
-    description: 'When multiple targets have the same base affliction, they become linked. Cultivating one advances all linked targets. Max 2 + 1 per rank linked targets.',
+    description: 'The Peat-Wastes teach that decay is transformation. when multiple targets have the same base affliction, they become linked. Cultivating one advances all linked targets. Max 2 + 1 per rank linked targets.',
     icon: 'spell_shadow_mindtwisting',
     maxRanks: 3,
     position: { x: 2, y: 0 },
@@ -127,7 +127,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
   {
     id: 'torment_t1_resonance_damage',
     name: 'Resonance Damage',
-    description: 'When any linked affliction is activated (advanced, ticks, spreads), all linked targets take +1d4 psychic damage per rank.',
+    description: 'The Peat-Wastes teach that decay is transformation. when any linked affliction is activated (advanced, ticks, spreads), all linked targets take +1d4 psychic damage per rank.',
     icon: 'spell_shadow_shadowwordpain',
     maxRanks: 4,
     position: { x: 1, y: 1 },
@@ -165,7 +165,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
   {
     id: 'torment_t3_cascade_finale',
     name: 'Cascade Finale',
-    description: 'When a final form triggers on a linked target, all linked targets suffer 50% of the finale effect per rank.',
+    description: 'The Peat-Wastes teach that decay is transformation. when a final form triggers on a linked target, all linked targets suffer 50% of the finale effect per rank.',
     icon: 'spell_shadow_mindsteal',
     maxRanks: 2,
     position: { x: 1, y: 3 },
@@ -216,7 +216,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
   {
     id: 'decay_t1_dark_rejuvenation',
     name: 'Dark Rejuvenation',
-    description: 'When any permanent stack is applied, you heal for 1d4 HP per rank. Afflicted enemies\' healing is reduced by 1d6 per rank.',
+    description: 'The Peat-Wastes teach that decay is transformation. when any permanent stack is applied, you heal for 1d4 HP per rank. Afflicted enemies\' healing is reduced by 1d6 per rank.',
     icon: 'spell_shadow_darkritual',
     maxRanks: 4,
     position: { x: 3, y: 1 },
@@ -235,7 +235,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
   {
     id: 'decay_t2_necrotic_burst',
     name: 'Necrotic Burst',
-    description: 'When a target reaches 5+ permanent stacks, they burst for 2d8 necrotic in 15ft radius per rank. Can trigger once per target per combat.',
+    description: 'The Peat-Wastes teach that decay is transformation. when a target reaches 5+ permanent stacks, they burst for 2d8 necrotic in 15ft radius per rank. Can trigger once per target per combat.',
     icon: 'spell_shadow_deathanddecay',
     maxRanks: 3,
     position: { x: 2, y: 2 },
@@ -244,7 +244,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
   {
     id: 'decay_t2_life_drain',
     name: 'Life Drain',
-    description: 'When stacked enemies take damage from any source, you heal for 1d6 HP per rank per 5 permanent stacks on that target.',
+    description: 'The Peat-Wastes teach that decay is transformation. when stacked enemies take damage from any source, you heal for 1d6 HP per rank per 5 permanent stacks on that target.',
     icon: 'spell_shadow_lifedrain02',
     maxRanks: 4,
     position: { x: 4, y: 2 },
@@ -254,7 +254,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
   {
     id: 'decay_t3_withering_aura',
     name: 'Withering Aura',
-    description: 'Targets with 5+ permanent stacks emit a 20ft aura: no healing, 1d6 necrotic/turn per rank to enemies within.',
+    description: 'The Peat-Wastes teach that decay is transformation. targets with 5+ permanent stacks emit a 20ft aura: no healing, 1d6 necrotic/turn per rank to enemies within.',
     icon: 'spell_shadow_plaguecloud',
     maxRanks: 3,
     position: { x: 1, y: 3 },
@@ -292,7 +292,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
   {
     id: 'decay_t4_total_collapse',
     name: 'Total Collapse',
-    description: 'When a target with 10+ permanent stacks dies, all their stacks spread to enemies within 20ft as fresh Stage 0 Seeds with 3 permanent stacks each.',
+    description: 'The Peat-Wastes teach that decay is transformation. when a target with 10+ permanent stacks dies, all their stacks spread to enemies within 20ft as fresh Stage 0 Seeds with 3 permanent stacks each.',
     icon: 'spell_shadow_deathanddecay',
     maxRanks: 2,
     position: { x: 2, y: 4 },

@@ -3,7 +3,7 @@
  *
  * Drives the REAL production socket handlers over a real socket.io transport
  * (see helpers/integrationServer.js). These are the first non-tautological
- * multiplayer tests in the repo — they guard the auth boundary, room
+ * multiplayer tests in the repo: they guard the auth boundary, room
  * lifecycle, and room-wide broadcast convergence that Phase 6 items 1 (delta
  * sync) and 5 (auth strictness) depend on.
  *
@@ -242,7 +242,7 @@ describe('Multiplayer integration (real socket.io transport)', function () {
 
   describe('deltaSync conflict resolution (engine policy hook)', function () {
     it('concurrent HP updates from two players converge via the minValue policy', () => {
-      // This test exercises the engine directly, not the socket path —
+      // This test exercises the engine directly, not the socket path -
       // the production socket path for state updates is not yet wired
       // through createStateUpdate / createStateUpdateWithConflictResolution.
       const deltaSync = require('../services/deltaSync');
@@ -257,7 +257,7 @@ describe('Multiplayer integration (real socket.io transport)', function () {
         const dmg2 = { characters: { c1: { hp: { __value: 30, __type: 'primitive' } } } };
         const merged = deltaSync.mergeDelta(dmg1, dmg2);
 
-        // minValue picks the smaller HP — the more damaging outcome.
+        // minValue picks the smaller HP: the more damaging outcome.
         expect(merged.characters.c1.hp).to.deep.equal({
           __value: 30,
           __type: 'primitive'

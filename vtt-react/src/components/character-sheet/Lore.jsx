@@ -142,11 +142,11 @@ export default function Lore() {
             icon: getIconUrl('Utility/Meditative Figure', 'abilities'),
             leftFields: [
                 { key: 'personalityTraits', label: 'Demeanor & Nature', placeholder: 'How do you carry yourself beneath the endless dark? Mannerisms, habits, and the face you show strangers in the lamplight...', type: 'textarea' },
-                { key: 'ideals', label: 'Convictions', placeholder: 'What principle do you cling to when the lamps go out? The Solbrand\'s fading warmth, the Keeper\'s ledger, a personal oath — what will you not betray?', type: 'textarea' }
+                { key: 'ideals', label: 'Convictions', placeholder: 'What principle do you cling to when the lamps go out? The Solbrand\'s fading warmth, the Keeper\'s ledger, a personal oath: what will you not betray?', type: 'textarea' }
             ],
             rightFields: [
-                { key: 'bonds', label: 'Oaths & Tethers', placeholder: 'To what — or whom — are you bound? A name carved in glacier-ice, an entry in the Canopy-Ledger, a debt to something that does not forget...', type: 'textarea' },
-                { key: 'flaws', label: 'Fractures & Weakness', placeholder: 'Where are you cracked? The Wyrd finds the broken places first — a vice, a buried dread, a secret the cold has kept for you...', type: 'textarea' }
+                { key: 'bonds', label: 'Oaths & Tethers', placeholder: 'To what (or whom) are you bound? A name carved in glacier-ice, an entry in the Canopy-Ledger, a debt to something that does not forget...', type: 'textarea' },
+                { key: 'flaws', label: 'Fractures & Weakness', placeholder: 'Where are you cracked? The Wyrd finds the broken places first: a vice, a buried dread, a secret the cold has kept for you...', type: 'textarea' }
             ]
         },
         appearance: {
@@ -169,8 +169,8 @@ export default function Lore() {
                 { key: 'allies', label: 'Allies & Kin', placeholder: 'Who walks the dark beside you? A mentor of your tradition, a bond-kin of your people, a contractor who has not yet betrayed you...', type: 'textarea', fullPage: true }
             ],
             rightFields: [
-                { key: 'enemies', label: 'Adversaries & Blood-Debts', placeholder: 'Who hunts you across the regions? A Marked Vreken, a broken contract\'s enforcer, a rival of your house — and what stands between you?', type: 'textarea' },
-                { key: 'organizations', label: 'Factions & Guilds', placeholder: 'The Luminarchy, the Solbrand tending-clans, a Neth house, a Bloodhammer band — what banner do you answer to, openly or in the dark?', type: 'textarea' }
+                { key: 'enemies', label: 'Adversaries & Blood-Debts', placeholder: 'Who hunts you across the regions? A Marked Vreken, a broken contract\'s enforcer, a rival of your house: and what stands between you?', type: 'textarea' },
+                { key: 'organizations', label: 'Factions & Guilds', placeholder: 'The Luminarchy, the Solbrand tending-clans, a Neth house, a Bloodhammer band: what banner do you answer to, openly or in the dark?', type: 'textarea' }
             ]
         },
         goals: {
@@ -178,7 +178,7 @@ export default function Lore() {
             label: 'Purpose',
             icon: getIconUrl('Utility/Comet Trail', 'abilities'),
             leftFields: [
-                { key: 'goals', label: 'Purpose & Ambition', placeholder: 'What keeps you walking the frozen roads? A name to restore, a ledger to settle, a light to rekindle — or simply to see one more Dimming...', type: 'textarea', fullPage: true }
+                { key: 'goals', label: 'Purpose & Ambition', placeholder: 'What keeps you walking the frozen roads? A name to restore, a ledger to settle, a light to rekindle: or simply to see one more Dimming...', type: 'textarea', fullPage: true }
             ],
             rightFields: [
                 { key: 'fears', label: 'Dreads', placeholder: 'Fear spawns things in Mythrill. What hunts you in the quiet? The dark beneath the caldera, the day the Solbrand dies, the name you almost forgot...', type: 'textarea', fullPage: true }
@@ -190,7 +190,7 @@ export default function Lore() {
             icon: getIconUrl('Utility/Utility', 'abilities'),
             leftFields: [],
             rightFields: [
-                { key: 'notes', label: 'Marginalia', placeholder: 'Scratchings for the long dark — rumors overheard at the waystation, ledger-balances, a verse half-remembered...', type: 'textarea', fullPage: true }
+                { key: 'notes', label: 'Marginalia', placeholder: 'Scratchings for the long dark: rumors overheard at the waystation, ledger-balances, a verse half-remembered...', type: 'textarea', fullPage: true }
             ]
         },
         heritage: {

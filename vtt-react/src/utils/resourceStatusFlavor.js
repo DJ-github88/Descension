@@ -18,7 +18,7 @@ const FLAVOR = {
             { at: 4, line: "Embers crawl beneath your skin. It almost feels good.", tone: 'warm' },
             { at: 6, line: "Half-damned. The furnace door stands open.", tone: 'warm' },
             { at: 8, line: "You are mostly fire now. What's left of you is screaming.", tone: 'danger' },
-            { at: 9, line: "NINTH CIRCLE. There is no further down — only ash.", tone: 'critical' },
+            { at: 9, line: "NINTH CIRCLE. There is no further down: only ash.", tone: 'critical' },
         ]);
     },
 
@@ -52,7 +52,7 @@ const FLAVOR = {
         return tier(count, [
             { at: 0, line: "The iron sleeve hangs empty. Roll the dice.", tone: 'calm' },
             { at: 2, line: "A few stray spheres rattling around.", tone: 'calm' },
-            { at: 4, line: "The matrix hums — combinations are live.", tone: 'warm' },
+            { at: 4, line: "The matrix hums: combinations are live.", tone: 'warm' },
             { at: 99, line: "Sleeve full. Combine or lose the overflow.", tone: 'danger' },
         ]);
     },
@@ -89,14 +89,14 @@ const FLAVOR = {
         const ratio = pct(fp, max);
         if (ratio >= 0.9) return { line: "All-in territory. The whole table is sweating.", tone: 'warm' };
         if (ratio >= 0.5) return { line: "You're riding the odds.", tone: 'calm' };
-        if (fp <= 1) return { line: "Broke. The house always wins — until it doesn't.", tone: 'danger' };
+        if (fp <= 1) return { line: "Broke. The house always wins: until it doesn't.", tone: 'danger' };
         return { line: "A few chips left. Play them slow.", tone: 'calm' };
     },
 
     Revenant: (res) => {
         const tokens = res?.bloodTokens ?? 0;
         if (tokens >= 16) return { line: "CRITICAL MASS. One death and you take the block with you.", tone: 'critical' };
-        if (tokens >= 11) return { line: "Volatile. Healing won't take — you're a walking bomb.", tone: 'danger' };
+        if (tokens >= 11) return { line: "Volatile. Healing won't take: you're a walking bomb.", tone: 'danger' };
         if (tokens >= 6) return { line: "The tokens itch. They want out.", tone: 'warm' };
         const paths = (res?.stacks ?? []).filter(Boolean).length;
         if (tokens === 0 && paths === 0) return { line: "Dry veins. No bargains struck. Yet.", tone: 'calm' };
@@ -168,7 +168,7 @@ const FLAVOR = {
         const map = {
             new_moon: { line: "New moon. The parasite is hungry.", tone: 'calm' },
             waxing_moon: { line: "Waxing. You can feel it stirring.", tone: 'calm' },
-            full_moon: { line: "Full moon. Power — at a steep cost.", tone: 'warm' },
+            full_moon: { line: "Full moon. Power: at a steep cost.", tone: 'warm' },
             waning_moon: { line: "Waning. The hunger recedes. For now.", tone: 'calm' },
         };
         return map[phase] ?? { line: "The cycle turns.", tone: 'calm' };
@@ -206,7 +206,7 @@ const FLAVOR = {
     Augur: (res) => {
         const ben = res?.benediction ?? 0;
         const mal = res?.malediction ?? 0;
-        if (ben >= 8 && mal >= 8) return { line: "Balanced signs. Powerful — and costly.", tone: 'warm' };
+        if (ben >= 8 && mal >= 8) return { line: "Balanced signs. Powerful: and costly.", tone: 'warm' };
         if (mal >= 8) return { line: "The omens bode ill. For them.", tone: 'warm' };
         if (ben >= 8) return { line: "The omens smile on you.", tone: 'warm' };
         if (ben <= 1 && mal <= 1) return { line: "The signs are mute. Roll something.", tone: 'calm' };

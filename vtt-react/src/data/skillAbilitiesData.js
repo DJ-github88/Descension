@@ -319,7 +319,7 @@ export const SKILL_ABILITIES = [
       effects: [{
         id: 'surprised',
         name: 'Surprised',
-        description: 'Cannot react and has disadvantage on attacks — DC varies by target Intelligence (d6 for dull, up to d10 for sharp minds)',
+        description: 'Skill is memory refined by repetition. cannot react and has disadvantage on attacks — DC varies by target Intelligence (d6 for dull, up to d10 for sharp minds)',
         mechanicsText: ''
       }]
     },
@@ -429,7 +429,7 @@ export const SKILL_ABILITIES = [
       effects: [{
         id: 'damage_reduction',
         name: 'Flow State',
-        description: 'Reduces incoming damage by 2 (flat reduction) until your next turn — Insight roll vs d8',
+        description: 'Skill is memory refined by repetition. reduces incoming damage by 2 (flat reduction) until your next turn — Insight roll vs d8',
         mechanicsText: '',
         statModifier: {
           stat: 'damage_reduction',
@@ -897,7 +897,7 @@ export const SKILL_ABILITIES = [
       effects: [{
         id: 'divine_boon',
         name: 'Divine Favor',
-        description: 'Grants one of four boons based on d4 roll — Religion Roll vs Spirit or Intelligence Save — All within 15 ft must roll below your Religion Roll to gain boon',
+        description: 'Skill is memory refined by repetition. grants one of four boons based on d4 roll — Religion Roll vs Spirit or Intelligence Save — All within 15 ft must roll below your Religion Roll to gain boon',
         mechanicsText: 'Range: 15 ft area — Roll d4 for boon: 1) Shield of Conviction (temp HP = religion mod), 2) Guardian\'s Favor (damage reduction = religion mod), 3) Zealot\'s Blessing (attack bonus = religion mod), 4) Wisdom of the Ancients (advantage on next save)'
       }],
       durationValue: 1,
@@ -980,7 +980,7 @@ export const SKILL_ABILITIES = [
   {
     id: 'skill_sleight_of_hand_disarm',
     name: 'Disarm',
-    description: 'When attacked by an opponent (within 5 ft.), you nimbly disarm the opponent, and if able, you equip the weapon used. (Can\'t be used wielding 2 weapons, as it requires a free hand.) Sleight of Hand Roll vs. Opponents Strength Save',
+    description: 'Skill is memory refined by repetition. when attacked by an opponent (within 5 ft.), you nimbly disarm the opponent, and if able, you equip the weapon used. (Can\'t be used wielding 2 weapons, as it requires a free hand.) Sleight of Hand Roll vs. Opponents Strength Save',
     spellType: 'REACTION',
     effectTypes: ['control'],
     typeConfig: {

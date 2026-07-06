@@ -412,7 +412,7 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
     let baseMaxMana = (modifiedStats.intelligence * 5) + (skillBonuses.manaPool || 0);
     let baseHealthRegen = 0; // Base health regen is 0, only equipment bonuses
     let baseManaRegen = 0; // Base mana regen is 0, only equipment bonuses
-    let baseHealingPower = Math.floor((modifiedStats.spirit - 10) / 2); // Spirit governs innate healing effectiveness — mirrors AGI→armor formula
+    let baseHealingPower = Math.floor((modifiedStats.spirit - 10) / 2); // Spirit governs innate healing effectiveness: mirrors AGI→armor formula
 
     // Apply flat equipment bonuses
     baseMaxHealth += (equipmentBonuses.maxHealth || 0);

@@ -404,7 +404,7 @@ const AfterimageOverlay = () => {
                     loadImage(tileVariationPath);
                 }
             } else if (terrain.color) {
-                // Color-based terrain tile (procedural) — draw as greyscale rectangle
+                // Color-based terrain tile (procedural): draw as greyscale rectangle
                 // Convert hex color to greyscale value
                 const hexColor = terrain.color.replace('#', '');
                 const r = parseInt(hexColor.substring(0, 2), 16);
@@ -646,7 +646,7 @@ const AfterimageOverlay = () => {
             }
 
             // NOTE: We intentionally do NOT skip if the last-seen tile is currently visible.
-            // Tokens are mobile — the creature may have moved OUT of view even though the player
+            // Tokens are mobile: the creature may have moved OUT of view even though the player
             // can still see the tile where they last spotted it. The afterimage is a memory of
             // where the token WAS, and it must remain visible at that spot until the player sees
             // the token again at its new location.

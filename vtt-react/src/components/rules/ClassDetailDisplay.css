@@ -1940,7 +1940,7 @@ div.class-detail-content::-webkit-scrollbar,
   padding: 20px;
 }
 
-/* ===== Resource Bar Sizing — Rules Page Header ===== */
+/* ===== Resource Bar Sizing: Rules Page Header ===== */
 .class-header-resource .class-resource-wrapper {
   width: 100% !important;
   max-width: 100% !important;
@@ -4718,7 +4718,7 @@ div.class-detail-content::-webkit-scrollbar-thumb,
 
 
 /* ============================================================================
-   ARCANONEER "BUILDING BLOCKS" — PARCHMENT THEME + SHOWCASE LAYOUT FIXES
+   ARCANONEER "BUILDING BLOCKS": PARCHMENT THEME + SHOWCASE LAYOUT FIXES
    ----------------------------------------------------------------------------
    The ArcanoneerResourceBar and SphereComboFinder ship with a dark HUD theme.
    When rendered inside the parchment-themed rules page (any descendant of
@@ -4858,7 +4858,7 @@ div.class-detail-content::-webkit-scrollbar-thumb,
     border-color: rgba(139, 69, 19, 0.18) !important;
 }
 
-/* Showcase-mode fill overlay — solid block fill instead of tiny pip strips */
+/* Showcase-mode fill overlay: solid block fill instead of tiny pip strips */
 .parchment-content .arc-block-fill-overlay,
 .resource-bar-showcase .arc-block-fill-overlay {
     background: linear-gradient(180deg,
@@ -4867,7 +4867,7 @@ div.class-detail-content::-webkit-scrollbar-thumb,
     border-radius: 0 0 4px 4px;
 }
 
-/* Hide pip strips in showcase-mode filled segments — the fill overlay is the visual */
+/* Hide pip strips in showcase-mode filled segments: the fill overlay is the visual */
 .resource-bar-showcase .arc-block-segment.filled .arc-block-pip {
     opacity: 0 !important;
 }
@@ -4948,14 +4948,14 @@ div.class-detail-content::-webkit-scrollbar-thumb,
 /* Hover tooltip stays dark (it floats above, dark is fine for readability) */
 .parchment-content .arcanoneer-tooltip,
 .resource-bar-showcase .arcanoneer-tooltip {
-    /* keep dark — tooltips should be high-contrast regardless of page theme */
+    /* keep dark: tooltips should be high-contrast regardless of page theme */
 }
 
-/* ----- Edit menu (stays dark — portal-rendered, OK) ----- */
+/* ----- Edit menu (stays dark: portal-rendered, OK) ----- */
 
 
 /* ============================================================================
-   SPHERE COMBO FINDER — PARCHMENT THEME OVERRIDES
+   SPHERE COMBO FINDER: PARCHMENT THEME OVERRIDES
    ========================================================================== */
 .parchment-content .scf-root,
 .resource-bar-showcase .scf-root,
@@ -4993,7 +4993,7 @@ div.class-detail-content::-webkit-scrollbar-thumb,
     font-family: 'Inter', sans-serif !important;
 }
 
-/* Block buttons — parchment cards */
+/* Block buttons: parchment cards */
 .parchment-content .scf-block-btn,
 .resource-bar-showcase .scf-block-btn,
 .mechanics-box .scf-block-btn {

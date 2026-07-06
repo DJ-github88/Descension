@@ -107,7 +107,7 @@ const LanguagesDisplay = () => {
                                         <i className="fas fa-quote-left"></i>
                                         <div className="language-example-content">
                                             <span className="language-example-text">"{language.example}"</span>
-                                            <span className="language-example-translation">— {language.translation}</span>
+                                            <span className="language-example-translation">- {language.translation}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -147,7 +147,7 @@ const LanguagesDisplay = () => {
                                 <i className="fas fa-quote-left"></i>
                                 <div className="language-example-detail-content">
                                     <strong>Example:</strong> <span className="language-example-phrase">"{selectedLanguage.example}"</span>
-                                    <span className="language-example-translation">— {selectedLanguage.translation}</span>
+                                    <span className="language-example-translation">- {selectedLanguage.translation}</span>
                                 </div>
                             </div>
                         </div>
@@ -295,7 +295,7 @@ const LanguagesDisplay = () => {
                                 <>
                                     <li><i className="fas fa-check"></i> Root-ward tenders and bog-curse practitioners</li>
                                     <li><i className="fas fa-check"></i> Initiates who absorbed mycelial memory-deposits</li>
-                                    <li><i className="fas fa-check"></i> Cannot be taught — only absorbed through exposure</li>
+                                    <li><i className="fas fa-check"></i> Cannot be taught: only absorbed through exposure</li>
                                     <li><i className="fas fa-check"></i> Used for secret communications in the Bryngloom</li>
                                 </>
                             )}
@@ -309,7 +309,7 @@ const LanguagesDisplay = () => {
                             )}
                             {selectedLanguage.name === 'Aquan' && (
                                 <>
-                                    <li><i className="fas fa-check"></i> The Iceheart Sea's consciousness — the Sea Mother</li>
+                                    <li><i className="fas fa-check"></i> The Iceheart Sea's consciousness: the Sea Mother</li>
                                     <li><i className="fas fa-check"></i> Myrathil of all three subraces</li>
                                     <li><i className="fas fa-check"></i> Merrow sailors and Brine-marked survivors</li>
                                     <li><i className="fas fa-check"></i> Water elementals and deep-ocean entities</li>
@@ -356,7 +356,7 @@ const LanguagesDisplay = () => {
                             )}
                             {selectedLanguage.name === 'Sundari' && (
                                 <>
-                                    <li><i className="fas fa-check"></i> Emberth of Sundale — both Korr and Thrask</li>
+                                    <li><i className="fas fa-check"></i> Emberth of Sundale: both Korr and Thrask</li>
                                     <li><i className="fas fa-check"></i> Solvarn humans who tend Emberspire's wound</li>
                                     <li><i className="fas fa-check"></i> Pilgrims who have witnessed the Solbrand's fading</li>
                                     <li><i className="fas fa-check"></i> Forge-priests of the Harath-Vault</li>
@@ -364,7 +364,7 @@ const LanguagesDisplay = () => {
                             )}
                             {selectedLanguage.name === 'Fexric' && (
                                 <>
-                                    <li><i className="fas fa-check"></i> Fexrick of Frostmaw Holdfast — Kethrin and Drall</li>
+                                    <li><i className="fas fa-check"></i> Fexrick of Frostmaw Holdfast: Kethrin and Drall</li>
                                     <li><i className="fas fa-check"></i> Deep Alchemists operating in abyssal tunnels</li>
                                     <li><i className="fas fa-check"></i> Guild artificers and vat-technicians</li>
                                     <li><i className="fas fa-check"></i> Anyone who works the geothermal foundries</li>
@@ -372,7 +372,7 @@ const LanguagesDisplay = () => {
                             )}
                             {selectedLanguage.name === 'Corvid-Speech' && (
                                 <>
-                                    <li><i className="fas fa-check"></i> Corvani subfolk — raven-marked glacier-dwellers of Nordhalla</li>
+                                    <li><i className="fas fa-check"></i> Corvani subfolk: raven-marked glacier-dwellers of Nordhalla</li>
                                     <li><i className="fas fa-check"></i> Corvid Fate-Spirits bound to Corvani bloodlines</li>
                                     <li><i className="fas fa-check"></i> Messengers who carry fate-words between the frozen fjord-keeps</li>
                                     <li><i className="fas fa-check"></i> Those who trade in premonition and hidden knowledge</li>
@@ -407,7 +407,7 @@ const LanguagesDisplay = () => {
                                     <li><i className="fas fa-check"></i> Druids and only druids (secret by oath)</li>
                                     <li><i className="fas fa-check"></i> Initiates of Bryngloom's deepest groves</li>
                                     <li><i className="fas fa-check"></i> Ironwood-heart tenders of the Frostwood Reach</li>
-                                    <li><i className="fas fa-check"></i> Cannot be learned from books — only passed teacher to initiate</li>
+                                    <li><i className="fas fa-check"></i> Cannot be learned from books: only passed teacher to initiate</li>
                                 </>
                             )}
                             {selectedLanguage.name === 'Beast Speech' && (
@@ -415,7 +415,7 @@ const LanguagesDisplay = () => {
                                     <li><i className="fas fa-check"></i> Rangers and those who live among animals</li>
                                     <li><i className="fas fa-check"></i> Thrumm stone-trolls (they understand it in their slow way)</li>
                                     <li><i className="fas fa-check"></i> Ice-wyrms and crag-cats</li>
-                                    <li><i className="fas fa-check"></i> Does not confer obedience — only conversation</li>
+                                    <li><i className="fas fa-check"></i> Does not confer obedience: only conversation</li>
                                 </>
                             )}
                             {selectedLanguage.name === 'Necril' && (
@@ -436,7 +436,7 @@ const LanguagesDisplay = () => {
                             )}
                             {selectedLanguage.name === 'Primal' && (
                                 <>
-                                    <li><i className="fas fa-check"></i> Nature itself — the world speaking to itself</li>
+                                    <li><i className="fas fa-check"></i> Nature itself: the world speaking to itself</li>
                                     <li><i className="fas fa-check"></i> Frostwood ironwood trees and Bryngloom peat-bogs</li>
                                     <li><i className="fas fa-check"></i> Wild and ancient beings across all seven regions</li>
                                     <li><i className="fas fa-check"></i> Older than the Dark Bargains, older than Sol's binding</li>
@@ -452,7 +452,7 @@ const LanguagesDisplay = () => {
                             )}
                             {selectedLanguage.name === 'Sign Language' && (
                                 <>
-                                    <li><i className="fas fa-check"></i> Anyone — developed by Groven Vat-Breakers</li>
+                                    <li><i className="fas fa-check"></i> Anyone: developed by Groven Vat-Breakers</li>
                                     <li><i className="fas fa-check"></i> Silent communication across all language barriers</li>
                                     <li><i className="fas fa-check"></i> Used in ambushes, stealth missions, and loud environments</li>
                                     <li><i className="fas fa-check"></i> Adapted across all seven regions after the rebellion</li>

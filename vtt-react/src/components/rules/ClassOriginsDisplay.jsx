@@ -39,7 +39,7 @@ const REGIONS = [
     borderColor: '#196f3d',
     glowColor: 'rgba(25, 111, 61, 0.12)',
     description: 'A pine forest of perpetual fog where the mist eats memories and births conceptual Wyrd-horrors from human fear. The Thalren humans keep journals chained to their belts to preserve their pasts, while the mask-bound Mimir and Briaran hide in the mist-shrouded canopies.',
-    darkBargain: 'House Thalreth traded the region\'s spatial clarity for an insulating fog — the same fog that now devours memory with every passing year. The Sovereign Ledger and Scribe-Cartel emerged to fight what the bargain created.',
+    darkBargain: 'House Thalreth traded the region\'s spatial clarity for an insulating fog: the same fog that now devours memory with every passing year. The Sovereign Ledger and Scribe-Cartel emerged to fight what the bargain created.',
     classIds: ['apex', 'shaper', 'lunarch', 'inquisitor', 'toxicologist']
   },
   {
@@ -62,8 +62,8 @@ const REGIONS = [
     bgGradient: 'linear-gradient(135deg, rgba(108, 52, 131, 0.08) 0%, rgba(108, 52, 131, 0.02) 100%)',
     borderColor: '#6c3483',
     glowColor: 'rgba(108, 52, 131, 0.12)',
-    description: 'A vertical labyrinth of razor-sharp ridges, deep steam-shafts, and ancient holdfasts buried under blizzards. The only passage across the chasms are the Ancestor-Spans — living bridges grown from the calcified bones of the Groven.',
-    darkBargain: 'House Tesshan traded visibility for a perpetual snow-veil — a blizzard that has buried every landmark for eight centuries. The only visible routes are the Ancestor-Spans, built from the calcified bodies of willing Groven dead.',
+    description: 'A vertical labyrinth of razor-sharp ridges, deep steam-shafts, and ancient holdfasts buried under blizzards. The only passage across the chasms are the Ancestor-Spans: living bridges grown from the calcified bones of the Groven.',
+    darkBargain: 'House Tesshan traded visibility for a perpetual snow-veil: a blizzard that has buried every landmark for eight centuries. The only visible routes are the Ancestor-Spans, built from the calcified bodies of willing Groven dead.',
     classIds: ['chronarch', 'warden', 'shaper', 'gambit', 'martyr']
   },
   {
@@ -87,7 +87,7 @@ const REGIONS = [
     borderColor: '#4a235a',
     glowColor: 'rgba(74, 35, 90, 0.12)',
     description: 'A starless grassland steppe of gravity anomalies and silt-tides. Here, the nomadic Ordan humans migrate along ancient songs under a black sky, while the light-bearing Astril Synod maintains the Luminarchy.',
-    darkBargain: 'House Ordavan traded fertile soil for the endless migration — herds that never stop, grass that always returns. The price: the sky went dark, and the constellation-spirits fled into willing Astril vessels.',
+    darkBargain: 'House Ordavan traded fertile soil for the endless migration: herds that never stop, grass that always returns. The price: the sky went dark, and the constellation-spirits fled into willing Astril vessels.',
     classIds: ['animist', 'harbinger', 'false_prophet']
   }
 ];
@@ -761,7 +761,7 @@ const ClassOriginsDisplay = () => {
                                     <span>{cls.signatureQuote.text}</span>
                                     {cls.signatureQuote.speaker && (
                                       <span style={{ display: 'block', fontSize: '0.85rem', marginTop: '8px', color: '#7a6a55', fontStyle: 'normal' }}>
-                                        — <strong>{cls.signatureQuote.speaker}</strong>
+                                       : <strong>{cls.signatureQuote.speaker}</strong>
                                         {cls.signatureQuote.context && `, ${cls.signatureQuote.context}`}
                                       </span>
                                     )}

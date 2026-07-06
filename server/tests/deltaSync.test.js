@@ -3,8 +3,8 @@
  *
  * Covers the pure delta engine that underpins Phase 6 items 1 (frontend
  * delta-sync application) and 2 (conflict resolution). These tests assert the
- * core roundtrip contract — applying a computed delta to the source state must
- * reproduce the target state — plus versioning, client delta delivery, and
+ * core roundtrip contract: applying a computed delta to the source state must
+ * reproduce the target state: plus versioning, client delta delivery, and
  * conflict resolution. The engine is currently inactive end-to-end, so this
  * suite is the safety net required before wiring it into the live socket path.
  *
@@ -79,7 +79,7 @@ describe('DeltaSyncEngine', function () {
     });
   });
 
-  describe('applyDelta — roundtrip contract', () => {
+  describe('applyDelta: roundtrip contract', () => {
     it('returns state unchanged for a no-op delta', () => {
       const state = { a: 1 };
       expect(deltaSync.applyDelta(state, null)).to.equal(state);
@@ -128,7 +128,7 @@ describe('DeltaSyncEngine', function () {
     });
   });
 
-  describe('applyArrayDelta — roundtrip contract', () => {
+  describe('applyArrayDelta: roundtrip contract', () => {
     it('roundtrips an element change within an array', () => {
       const source = { drawingPaths: [{ n: 1 }, { n: 2 }] };
       const target = { drawingPaths: [{ n: 1 }, { n: 9 }] };
@@ -276,7 +276,7 @@ describe('DeltaSyncEngine', function () {
           { hp: { __value: 7, __type: 'primitive' } },
           { hp: { __value: 9, __type: 'primitive' } }
         );
-        // minValue picks the smaller number — not the LWW "9".
+        // minValue picks the smaller number: not the LWW "9".
         expect(merged.hp).to.deep.equal({ __value: 7, __type: 'primitive' });
       } finally {
         deltaSync.clearPolicies();

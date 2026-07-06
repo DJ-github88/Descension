@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
  * FlavorTooltip
  *
  * Lightweight, reusable hover tooltip for short flavor/lore text on cards.
- * Designed for race cards, subrace cards, background cards, etc. — anywhere
+ * Designed for race cards, subrace cards, background cards, etc.: anywhere
  * a brief descriptive blurb should appear on hover without taking the user
  * away from the page.
  *
@@ -33,7 +33,7 @@ const FlavorTooltip = ({
   const tooltipHeight = 160;
   const padding = 12;
 
-  // Viewport clamp — keep tooltip on screen
+  // Viewport clamp: keep tooltip on screen
   const vw = window.innerWidth;
   const vh = window.innerHeight;
   let x = Math.min(Math.max(position.x, padding), vw - maxWidth - padding);
@@ -95,7 +95,7 @@ const FlavorTooltip = ({
 };
 
 /**
- * useFlavorTooltip — small hook that bundles up the hover state machine
+ * useFlavorTooltip: small hook that bundles up the hover state machine
  * for any element that wants to expose a FlavorTooltip. Returns props that
  * spread onto the trigger element plus the FlavorTooltip JSX to render.
  *

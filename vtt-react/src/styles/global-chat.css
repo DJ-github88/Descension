@@ -2269,7 +2269,7 @@
 }
 
 /* ========== Toggle Users Pane Button ========== */
-/* (Integrated into chat-tabs bar — see .chat-tabs .toggle-users-pane-btn above) */
+/* (Integrated into chat-tabs bar: see .chat-tabs .toggle-users-pane-btn above) */
 
 /* ========== Mobile Responsive Styling ========== */
 @media (max-width: 768px) {

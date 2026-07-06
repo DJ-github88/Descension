@@ -1291,7 +1291,7 @@
 }
 
 /* ============================================================
-   SIMPLE MODE — CLEAN DIE-BASED SKILL VIEW
+   SIMPLE MODE: CLEAN DIE-BASED SKILL VIEW
    ============================================================ */
 
 /* Simple Header */
@@ -1399,7 +1399,7 @@
     color: #6b5344;
 }
 
-/* Simple Header Right — Die Badge + Controls */
+/* Simple Header Right: Die Badge + Controls */
 .skill-simple-header-right {
     display: flex;
     align-items: center;

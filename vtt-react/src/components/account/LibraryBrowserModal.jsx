@@ -49,7 +49,7 @@ const LibraryBrowserModal = ({
               type: c.type || 'humanoid',
               size: c.size || 'medium',
               icon: c.tokenIcon || 'inv_misc_questionmark',
-              cr: c.stats?.challengeRating || '—',
+              cr: c.stats?.challengeRating || '-',
               hp: c.stats?.maxHp || 0,
               tags: c.tags || []
             })));
@@ -328,7 +328,7 @@ const LibraryBrowserModal = ({
                         <>
                           <span className="library-item-tag">{item.type}</span>
                           <span className="library-item-tag">{item.size}</span>
-                          {item.cr !== '—' && <span className="library-item-tag">CR {item.cr}</span>}
+                          {item.cr !== '-' && <span className="library-item-tag">CR {item.cr}</span>}
                         </>
                       )}
                       {libraryType === LIBRARY_TYPES.ITEMS && (

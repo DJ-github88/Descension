@@ -211,7 +211,7 @@ export default function LuteboxPanel({ isGM = false }) {
             <i className="fas fa-broadcast-tower" />
             <span>Broadcast to Party</span>
             {isOffline && (
-              <span className="lutebox-offline-badge" title="No players connected — broadcast will simulate the player experience locally">
+              <span className="lutebox-offline-badge" title="No players connected: broadcast will simulate the player experience locally">
                 <i className="fas fa-eye" /> Preview Mode
               </span>
             )}
@@ -470,7 +470,7 @@ export default function LuteboxPanel({ isGM = false }) {
                   Simulate broadcasting <strong>{selectedTracks.size}</strong> track{selectedTracks.size > 1 ? 's' : ''}{' '}
                   to see how players would experience it?
                   <br />
-                  <small style={{ opacity: 0.7 }}>No players connected — audio will play locally as a preview.</small>
+                  <small style={{ opacity: 0.7 }}>No players connected: audio will play locally as a preview.</small>
                 </>
               ) : (
                 <>

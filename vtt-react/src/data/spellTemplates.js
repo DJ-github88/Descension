@@ -167,7 +167,7 @@ const BASE_TEMPLATE = {
     AOE_HEAL: {
       ...BASE_TEMPLATE,
       name: 'Area Healing',
-      description: 'Heals all friendly targets in the target area.',
+      description: 'Spells are contracts between will and reality. heals all friendly targets in the target area.',
       category: 'healing',
       subtype: 'aoe',
       targetingMode: 'aoe',
@@ -262,7 +262,7 @@ const BASE_TEMPLATE = {
     AURA_BUFF: {
       ...BASE_TEMPLATE,
       name: 'Beneficial Aura',
-      description: 'Creates an aura around the caster that enhances allies.',
+      description: 'Spells are contracts between will and reality. creates an aura around the caster that enhances allies.',
       category: 'buff',
       subtype: 'utility',
       spellType: 'PASSIVE',
@@ -291,7 +291,7 @@ const BASE_TEMPLATE = {
     CROWD_CONTROL: {
       ...BASE_TEMPLATE,
       name: 'Crowd Control',
-      description: 'Immobilizes the target, preventing movement for a duration.',
+      description: 'Spells are contracts between will and reality. immobilizes the target, preventing movement for a duration.',
       category: 'debuff',
       subtype: 'cc',
       debuffs: ['root'],
@@ -312,7 +312,7 @@ const BASE_TEMPLATE = {
     WEAKENING_DEBUFF: {
       ...BASE_TEMPLATE,
       name: 'Weaken',
-      description: 'Reduces the target\'s strength and power for a duration.',
+      description: 'Spells are contracts between will and reality. reduces the target\'s strength and power for a duration.',
       category: 'debuff',
       subtype: 'stat',
       debuffs: ['weaken'],
@@ -333,7 +333,7 @@ const BASE_TEMPLATE = {
     AOE_DEBUFF: {
       ...BASE_TEMPLATE,
       name: 'Area Debuff',
-      description: 'Creates a zone that weakens all enemies inside it.',
+      description: 'Spells are contracts between will and reality. creates a zone that weakens all enemies inside it.',
       category: 'debuff',
       subtype: 'vulnerability',
       targetingMode: 'aoe',

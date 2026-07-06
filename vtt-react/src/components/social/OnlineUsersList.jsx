@@ -41,7 +41,7 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
   const [showNoteDialog, setShowNoteDialog] = useState(false);
   const [pendingRemoveFriend, setPendingRemoveFriend] = useState(null);
 
-  // Subscribe to the raw Map (stable reference — only changes when presenceStore.set() is called).
+  // Subscribe to the raw Map (stable reference: only changes when presenceStore.set() is called).
   // Deriving the array via useMemo avoids the Array.from() reference churn that previously
   // caused a re-render on every store access.
   const onlineUsersMap = usePresenceStore((state) => state.onlineUsers);

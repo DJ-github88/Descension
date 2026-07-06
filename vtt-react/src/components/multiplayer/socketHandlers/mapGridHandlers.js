@@ -10,7 +10,7 @@ export function registerMapGridHandlers(ctx) {
     playerCurrentMapIdRef, addCreature, addToken, addNotification
   } = ctx;
     socket.on('level_editor_state_synced', (data) => {
-      console.log('ðŸ—ºï¸ Received level_editor_state_sync:', {
+      console.log('ðŸ-ºï¸ Received level_editor_state_sync:', {
         mapId: data.mapId,
         hasLevelEditor: !!data.levelEditor,
         hasGridSettings: !!data.gridSettings

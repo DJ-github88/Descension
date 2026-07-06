@@ -1,4 +1,4 @@
-/* ===== LOGIN TRANSITION — PATHFINDER PARCHMENT =====
+/* ===== LOGIN TRANSITION: PATHFINDER PARCHMENT =====
    Aged-paper, candlelit, gold-filigree aesthetic. A wax-seal medallion
    stamps in and breathes; a gold filigree divider sits BELOW the name. */
 
@@ -75,7 +75,7 @@
   transform: translateY(0) scale(1);
 }
 
-/* ── Wax-seal medallion (stamps in, then breathes — no spin) ── */
+/* ── Wax-seal medallion (stamps in, then breathes: no spin) ── */
 .login-transition-medallion {
   position: relative;
   width: 92px;
@@ -153,7 +153,7 @@
   filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.35));
 }
 
-/* ── Filigree divider — sits BELOW the name, in normal flow ── */
+/* ── Filigree divider: sits BELOW the name, in normal flow ── */
 .login-transition-line {
   position: relative;
   width: 0;

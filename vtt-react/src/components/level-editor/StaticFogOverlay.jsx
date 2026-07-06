@@ -77,7 +77,7 @@ const StaticFogOverlay = () => {
 
     const isGMMode = storeIsGMMode;
 
-    // PERFORMANCE: RAF-based camera tracking ref — avoids React re-render on every camera move
+    // PERFORMANCE: RAF-based camera tracking ref: avoids React re-render on every camera move
     const cameraRafRef = useRef(null);
 
     // Store Subscriptions - Level Editor State

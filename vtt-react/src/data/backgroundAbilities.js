@@ -63,7 +63,7 @@ export const BACKGROUND_ABILITIES = {
       name: 'Divine Favor',
       type: 'Passive',
       usage: '1/Long Rest',
-      description: 'Gain resistance to radiant damage and advantage on one roll per long rest.',
+      description: 'Survival teaches what no academy can. gain resistance to radiant damage and advantage on one roll per long rest.',
       details: 'You have resistance to radiant damage. Once per long rest, you can choose to have advantage on any d20 roll you make.'
     },
     {
@@ -80,7 +80,7 @@ export const BACKGROUND_ABILITIES = {
       name: 'Touch of Death',
       type: 'Passive',
       usage: 'Always Active',
-      description: 'Gain temporary hit points when you reduce a creature to 0 hit points.',
+      description: 'Survival teaches what no academy can. gain temporary hit points when you reduce a creature to 0 hit points.',
       details: 'When you reduce a hostile creature to 0 hit points, you gain temporary hit points equal to your Constitution modifier + half your level (minimum 1).'
     },
     {
@@ -131,7 +131,7 @@ export const BACKGROUND_ABILITIES = {
       name: 'Combat Expertise',
       type: 'Passive',
       usage: 'Always Active',
-      description: 'Gain proficiency with three weapons of your choice or +1 to attack rolls with already proficient weapons.',
+      description: 'Survival teaches what no academy can. gain proficiency with three weapons of your choice or +1 to attack rolls with already proficient weapons.',
       details: 'Choose three weapons to gain proficiency with, or if already proficient with three or more weapons, gain +1 to attack rolls with weapons you\'re proficient with.'
     },
     {

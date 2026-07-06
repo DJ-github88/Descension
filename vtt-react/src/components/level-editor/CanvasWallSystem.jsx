@@ -842,7 +842,7 @@ const CanvasWallSystem = () => {
                 // Apply the same FOV / explored-area visibility filtering as walls
                 let isWindowGreyedOut = false;
                 if (shouldFilterByFOV) {
-                    // Windows sit at fractional grid positions — check surrounding integer tiles
+                    // Windows sit at fractional grid positions: check surrounding integer tiles
                     const wgx = Math.floor(gx);
                     const wgy = Math.floor(gy);
                     const tileKeys = [

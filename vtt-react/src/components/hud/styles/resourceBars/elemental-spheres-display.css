@@ -406,7 +406,7 @@
     cursor: not-allowed;
 }
 
-/* Dice button with a mode label — switch to a compact icon-over-label pill so
+/* Dice button with a mode label: switch to a compact icon-over-label pill so
    the current mode (Roll/Spec/Reroll/Swap) is always visible, not just on hover. */
 .sphere-icon-btn:has(.sphere-mode-label) {
     flex-direction: column;

@@ -569,12 +569,12 @@ const isBackgroundCompatible = (bg, raceId, subraceId) => {
 
     const { allowedSubraces = [], hardBlocks, narrativeUnlock } = bg.restrictions;
 
-    // Hard blocks — never selectable (mirror class hardBlocks behaviour)
+    // Hard blocks: never selectable (mirror class hardBlocks behaviour)
     if (hardBlocks && (hardBlocks.includes(raceId) || hardBlocks.includes(subraceId))) {
         return { selectable: false, narrativeUnlock: false };
     }
 
-    // Unrestricted background — open to everyone
+    // Unrestricted background: open to everyone
     if (!allowedSubraces || allowedSubraces.length === 0) {
         return { selectable: true, narrativeUnlock: false };
     }
@@ -592,7 +592,7 @@ const isBackgroundCompatible = (bg, raceId, subraceId) => {
         if (raceRepresented) return { selectable: true, narrativeUnlock: false };
     }
 
-    // Disallowed but soft — selectable with DM-approval flag
+    // Disallowed but soft: selectable with DM-approval flag
     if (narrativeUnlock) {
         return { selectable: true, narrativeUnlock: true };
     }
@@ -785,7 +785,13 @@ const getSubraceImage = (subraceId, raceId) => {
 
     if (raceId) {
 
-        const cleanRaceId = raceId === 'fexrick' ? 'fexric' : raceId.toLowerCase();
+        // Fexrick base race rotates between 3 illustrations randomly
+        if (raceId === 'fexrick') {
+            const fexricVariants = ['fexric_illustration_1.png', 'fexric_illustration_2.png', 'fexric_illustration_3.png'];
+            return `/assets/images/races/${fexricVariants[Math.floor(Math.random() * fexricVariants.length)]}`;
+        }
+
+        const cleanRaceId = raceId.toLowerCase();
 
         return `/assets/images/races/${cleanRaceId}_illustration.png`;
 
@@ -803,7 +809,7 @@ const formatDescriptionText = (text) => {
 
     let formatted = text
 
-        .replace(/\s*—\s*/g, ' - ')
+        .replace(/\s*-\s*/g, ' - ')
 
         .replace(/\s*--\s*/g, ' - ')
 
@@ -1829,7 +1835,7 @@ const Step1CoreDraft = () => {
                             }}>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
                                     <i className="fas fa-scroll" style={{ color: '#b08a4a', fontSize: '1.1rem' }}></i>
-                                    <h5 style={{ margin: 0, color: '#5a3d1d', fontSize: '1.15rem', fontWeight: 'bold' }}>{variant.subraceName} {characterData.class} — {variant.title}</h5>
+                                    <h5 style={{ margin: 0, color: '#5a3d1d', fontSize: '1.15rem', fontWeight: 'bold' }}>{variant.subraceName} {characterData.class}: {variant.title}</h5>
                                 </div>
                                 <p style={{ margin: '0 0 12px', color: '#2e1e0f', lineHeight: '1.6', fontSize: '0.95rem' }} dangerouslySetInnerHTML={{ __html: formatDescriptionText(variant.reframe) }} />
                                 {variant.signatureAbility && (
@@ -1851,7 +1857,7 @@ const Step1CoreDraft = () => {
                                 {variant.signatureQuote && (
                                     <div style={{ padding: '10px 14px', background: 'rgba(90,61,29,0.06)', borderRadius: '4px', fontStyle: 'italic' }}>
                                         <p style={{ margin: '0 0 4px', color: '#5a3d1d', fontSize: '0.9rem', lineHeight: '1.5' }} dangerouslySetInnerHTML={{ __html: formatDescriptionText(variant.signatureQuote.text) }} />
-                                        <span style={{ color: '#8a7a5a', fontSize: '0.8rem' }}>— {variant.signatureQuote.speaker}, {variant.signatureQuote.context}</span>
+                                        <span style={{ color: '#8a7a5a', fontSize: '0.8rem' }}>- {variant.signatureQuote.speaker}, {variant.signatureQuote.context}</span>
                                     </div>
                                 )}
                             </div>
@@ -1905,7 +1911,7 @@ const Step1CoreDraft = () => {
                                             {requiresUnlock && bg.restrictions?.justification && (
                                                 <div style={{ marginTop: '6px', paddingTop: '6px', borderTop: '1px dashed #b08a4a', color: '#8a5a00', fontStyle: 'italic', fontSize: '0.8rem' }}>
                                                     <i className="fas fa-exclamation-triangle" style={{ marginRight: '4px' }}></i>
-                                                    Narrative Unlock — requires DM approval. {bg.restrictions.justification}
+                                                    Narrative Unlock: requires DM approval. {bg.restrictions.justification}
                                                 </div>
                                             )}
                                         </div>

@@ -127,7 +127,7 @@ export const LUNARCH_STARFALL_INVOKER = [
   {
     id: 'starfall_invoker_t2_celestial_storm',
     name: 'Celestial Storm',
-    description: 'When you cast an AoE spell during Full Moon, you can spend 2 extra mana to double the radius and damage (spell level +1).',
+    description: 'Aedris the First-Lit casts a pale shadow on this power. when you cast an AoE spell during Full Moon, you can spend 2 extra mana to double the radius and damage (spell level +1).',
     icon: 'spell_nature_starfall',
     maxRanks: 3,
     position: { x: 2, y: 2 },
@@ -156,7 +156,7 @@ export const LUNARCH_STARFALL_INVOKER = [
   {
     id: 'starfall_invoker_t2_heavenly_retribution',
     name: 'Heavenly Retribution',
-    description: 'When an enemy within 60ft casts a spell, you can use your reaction to deal 4d6 radiant damage to them and all enemies within 10ft.',
+    description: 'Aedris the First-Lit casts a pale shadow on this power. when an enemy within 60ft casts a spell, you can use your reaction to deal 4d6 radiant damage to them and all enemies within 10ft.',
     icon: 'spell_holy_sealofwrath',
     maxRanks: 4,
     position: { x: 4, y: 2 },
@@ -185,7 +185,7 @@ export const LUNARCH_STARFALL_INVOKER = [
   {
     id: 'starfall_invoker_t5_cosmic_overload',
     name: 'Cosmic Overload',
-    description: 'When you cast Starfall, you can overload it to affect all enemies within 60ft for 1 minute, but you cannot cast Starfall again for 1 minute.',
+    description: 'Aedris the First-Lit casts a pale shadow on this power. when you cast Starfall, you can overload it to affect all enemies within 60ft for 1 minute, but you cannot cast Starfall again for 1 minute.',
     icon: 'spell_fire_volcano',
     maxRanks: 1,
     position: { x: 2, y: 4 },
@@ -276,7 +276,7 @@ export const LUNARCH_MOONWELL_GUARDIAN = [
   {
     id: 'moonwell_guardian_t4_lunar_resurgence',
     name: 'Lunar Resurgence',
-    description: 'When you cast a healing spell, you can spend 2 extra mana to cause excess healing to create a lunar barrier that absorbs the next 2d6 damage per rank.',
+    description: 'Aedris the First-Lit casts a pale shadow on this power. when you cast a healing spell, you can spend 2 extra mana to cause excess healing to create a lunar barrier that absorbs the next 2d6 damage per rank.',
     icon: 'spell_holy_layonhands',
     maxRanks: 3,
     position: { x: 2, y: 1 },

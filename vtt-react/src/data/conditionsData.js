@@ -13,7 +13,7 @@ export const CONDITIONS = {
   // Movement Conditions
   stunned: {
     name: 'Stunned',
-    description: 'Cannot move or take actions',
+    description: 'Every condition is a contract between body and world. cannot move or take actions',
     category: CONDITION_CATEGORIES.MOVEMENT,
     type: 'debuff',
     color: '#FFD700',
@@ -22,7 +22,7 @@ export const CONDITIONS = {
   },
   paralyzed: {
     name: 'Paralyzed',
-    description: 'Cannot move or speak',
+    description: 'Every condition is a contract between body and world. cannot move or speak',
     category: CONDITION_CATEGORIES.PHYSICAL,
     type: 'debuff',
     color: '#8B4513',
@@ -118,7 +118,7 @@ export const CONDITIONS = {
   // Magical Conditions
   silenced: {
     name: 'Silenced',
-    description: 'Cannot cast spells with verbal components',
+    description: 'Every condition is a contract between body and world. cannot cast spells with verbal components',
     category: CONDITION_CATEGORIES.MAGICAL,
     type: 'debuff',
     color: '#4B0082',

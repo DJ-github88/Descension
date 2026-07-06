@@ -4013,7 +4013,7 @@ const UnifiedSpellCard = ({
                   }
                 }
 
-                // Handle choiceConfig — renders as a "Choose One" options table
+                // Handle choiceConfig: renders as a "Choose One" options table
                 if (utilityData?.choiceConfig?.options?.length > 0) {
                   const choiceMode = utilityData.choiceConfig.mode || 'pick_one';
                   const pickCount = utilityData.choiceConfig.pickCount || 1;

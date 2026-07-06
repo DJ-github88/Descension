@@ -944,10 +944,10 @@ const UtilityEffects = ({ state, dispatch, actionCreators }) => {
                 className={`toggle-btn ${!!utilityConfig.choiceConfig ? 'active' : ''}`}
                 onClick={() => {
                   if (utilityConfig.choiceConfig) {
-                    // Disable choice mode — move options back to selectedEffects
+                    // Disable choice mode: move options back to selectedEffects
                     updateUtilityConfig('choiceConfig', null);
                   } else {
-                    // Enable choice mode — convert selectedEffects into choice options
+                    // Enable choice mode: convert selectedEffects into choice options
                     const options = (utilityConfig.selectedEffects || []).map(e => ({
                       id: e.id,
                       name: e.customName || e.name,

@@ -659,7 +659,7 @@ const AccountDashboard = ({ user }) => {
               <h4>Playing as Guest</h4>
               <p>
                 You can join other players' rooms and participate in games. To create your own rooms,
-                save characters, and access all features — <button className="guest-signup-link" onClick={() => { window.location.href = '/'; }}>create a free account</button>.
+                save characters, and access all features: <button className="guest-signup-link" onClick={() => { window.location.href = '/'; }}>create a free account</button>.
               </p>
             </div>
           </div>

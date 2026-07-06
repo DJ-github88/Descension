@@ -738,7 +738,7 @@ const usePartyStore = create(subscribeWithSelector((set, get) => ({
 
     if (!socket || !currentParty) return;
 
-    console.log('ðŸ—‘ï¸ Kicking member from party:', memberId);
+    console.log('ðŸ-‘ï¸ Kicking member from party:', memberId);
     socket.emit('remove_party_member', {
       partyId: currentParty.id,
       targetUserId: memberId
