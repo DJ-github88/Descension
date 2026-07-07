@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+﻿import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import useChatStore from '../../../../store/chatStore';
 import useGameStore from '../../../../store/gameStore';
@@ -15,7 +15,7 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
 
     const [localVirulence, setLocalVirulence] = useState(propVirulence);
     const [localAfflictions, setLocalAfflictions] = useState(propAfflictions);
-    // Normalize spec id (data uses kebab-case; component uses camelCase) — accept either.
+    // Normalize spec id (data uses kebab-case; component uses camelCase), accept either.
     const kebabToCamel = (id) => !id ? '' : id.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
     const [selectedSpec, setSelectedSpec] = useState(propSpec ? kebabToCamel(propSpec) : 'virulentSpreader');
     const [showTooltip, setShowTooltip] = useState(false);

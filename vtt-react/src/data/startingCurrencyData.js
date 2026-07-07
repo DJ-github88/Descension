@@ -15,7 +15,7 @@ export const BACKGROUND_STARTING_CURRENCY = {
         gold: 15,
         silver: 0,
         copper: 0,
-        description: 'Modest temple stipend for basic needs'
+        description: 'Temple-keep alms from Solbrand-tenders. Modest temple stipend for basic needs'
     },
     
     criminal: {
@@ -23,7 +23,7 @@ export const BACKGROUND_STARTING_CURRENCY = {
         gold: 20,
         silver: 0,
         copper: 0,
-        description: 'Ill-gotten gains from past exploits'
+        description: 'Neth back-alley pact-coins, still warm from the last hand that held them. Ill-gotten gains from past exploits'
     },
     
     folkHero: {
@@ -31,7 +31,7 @@ export const BACKGROUND_STARTING_CURRENCY = {
         gold: 10,
         silver: 0,
         copper: 0,
-        description: 'Humble savings from common folk'
+        description: 'Coppers pressed into a Tessen road-tavern\'s palm by grateful commoners. Humble savings from common folk'
     },
     
     noble: {
@@ -39,7 +39,7 @@ export const BACKGROUND_STARTING_CURRENCY = {
         gold: 50,
         silver: 0,
         copper: 0,
-        description: 'Generous family allowance'
+        description: 'Thalren house-leadger silver, sealed with the family\'s sigil-ring. Generous family allowance'
     },
     
     sage: {
@@ -47,7 +47,7 @@ export const BACKGROUND_STARTING_CURRENCY = {
         gold: 18,
         silver: 0,
         copper: 0,
-        description: 'Earnings from scholarly pursuits'
+        description: 'Stipend from the Frozen Archive\'s chained-scribe desks. Earnings from scholarly pursuits'
     },
     
     soldier: {
@@ -55,7 +55,7 @@ export const BACKGROUND_STARTING_CURRENCY = {
         gold: 12,
         silver: 0,
         copper: 0,
-        description: 'Military pay and saved wages'
+        description: 'Thrask border-ranger pay-pouches, ledger-stamped at the Greymark garrison. Military pay and saved wages'
     },
     
     outlander: {
@@ -63,7 +63,7 @@ export const BACKGROUND_STARTING_CURRENCY = {
         gold: 8,
         silver: 0,
         copper: 0,
-        description: 'Meager funds from wilderness survival'
+        description: 'A pouch of bog-iron scraps bartered along the Vel-Keth Bayou trails. Meager funds from wilderness survival'
     },
     
     charlatan: {
@@ -71,7 +71,7 @@ export const BACKGROUND_STARTING_CURRENCY = {
         gold: 25,
         silver: 0,
         copper: 0,
-        description: 'Profits from successful cons'
+        description: 'Sleight-of-hand winnings from Atropolis market-marks. Profits from successful cons'
     },
     
     entertainer: {
@@ -79,7 +79,7 @@ export const BACKGROUND_STARTING_CURRENCY = {
         gold: 15,
         silver: 0,
         copper: 0,
-        description: 'Tips from appreciative audiences'
+        description: 'Revel Sylvan applause-coin, tossed from gallery nets. Tips from appreciative audiences'
     },
     
     guildArtisan: {
@@ -87,7 +87,7 @@ export const BACKGROUND_STARTING_CURRENCY = {
         gold: 15,
         silver: 0,
         copper: 0,
-        description: 'Earnings from guild craft sales'
+        description: 'Morren guild-stamped marks from the wagon-fort markets. Earnings from guild craft sales'
     },
     
     hermit: {
@@ -95,7 +95,7 @@ export const BACKGROUND_STARTING_CURRENCY = {
         gold: 5,
         silver: 0,
         copper: 0,
-        description: 'Humble savings from isolation'
+        description: 'A few coppers hoarded against the Frostwood fog. Humble savings from isolation'
     },
     
     sailor: {
@@ -103,7 +103,7 @@ export const BACKGROUND_STARTING_CURRENCY = {
         gold: 10,
         silver: 0,
         copper: 0,
-        description: 'Wages from merchant ship voyages'
+        description: 'Salt-caked shares from the Merrowport docks. Wages from merchant ship voyages'
     },
     
     merchant: {
@@ -111,7 +111,7 @@ export const BACKGROUND_STARTING_CURRENCY = {
         gold: 25,
         silver: 0,
         copper: 0,
-        description: 'Starting trade capital'
+        description: 'Morren caravan-trade silver, bound for the holding markets. Starting trade capital'
     },
     
     urchin: {
@@ -119,7 +119,7 @@ export const BACKGROUND_STARTING_CURRENCY = {
         gold: 10,
         silver: 0,
         copper: 0,
-        description: 'Hidden stash from streets'
+        description: 'A rag-bound roll of stolen coppers hidden in a wall-crack. Hidden stash from streets'
     },
     
     scholar: {
@@ -127,7 +127,7 @@ export const BACKGROUND_STARTING_CURRENCY = {
         gold: 10,
         silver: 0,
         copper: 0,
-        description: 'Academic stipend'
+        description: 'Frozen Archive ink-stained stipend chits. Academic stipend'
     }
 };
 
@@ -215,7 +215,7 @@ export const PATH_CURRENCY_MODIFIERS = {
         gold: 5,
         silver: 0,
         copper: 0,
-        description: 'Mystical insights lead to profitable opportunities'
+        description: 'Astril constellation-readings paid in hush-coin. Mystical insights lead to profitable opportunities'
     },
     
     zealot: {
@@ -223,7 +223,7 @@ export const PATH_CURRENCY_MODIFIERS = {
         gold: 3,
         silver: 0,
         copper: 0,
-        description: 'Donations from the faithful'
+        description: 'Sundale congregation-offerings left at Solbrand shrines. Donations from the faithful'
     },
     
     trickster: {
@@ -231,7 +231,7 @@ export const PATH_CURRENCY_MODIFIERS = {
         gold: 10,
         silver: 0,
         copper: 0,
-        description: 'Extra funds from clever schemes'
+        description: 'Neth contract-house kickbacks from fine-print clauses. Extra funds from clever schemes'
     },
     
     harrow: {
@@ -239,7 +239,7 @@ export const PATH_CURRENCY_MODIFIERS = {
         gold: 2,
         silver: 0,
         copper: 0,
-        description: 'Modest gains from hunting bounties'
+        description: 'Schratling bounty-tokens collected from the Scribe-Sentinels. Modest gains from hunting bounties'
     },
     
     arcanist: {
@@ -247,7 +247,7 @@ export const PATH_CURRENCY_MODIFIERS = {
         gold: 7,
         silver: 0,
         copper: 0,
-        description: 'Arcane research grants and stipends'
+        description: 'Inscriptor guild grants stamped with cold-iron sigils. Arcane research grants and stipends'
     },
     
     hexer: {
@@ -255,7 +255,7 @@ export const PATH_CURRENCY_MODIFIERS = {
         gold: 4,
         silver: 0,
         copper: 0,
-        description: 'Payment for curse removal services'
+        description: 'Coppers paid to lift Plaguebringer hexes from bog-folk cattle. Payment for curse removal services'
     },
     
     reaver: {
@@ -263,7 +263,7 @@ export const PATH_CURRENCY_MODIFIERS = {
         gold: 6,
         silver: 0,
         copper: 0,
-        description: 'Spoils from past battles'
+        description: 'Thrask battlefield-scavenged coin-pouches from the fallen. Spoils from past battles'
     },
     
     mercenary: {
@@ -271,7 +271,7 @@ export const PATH_CURRENCY_MODIFIERS = {
         gold: 8,
         silver: 0,
         copper: 0,
-        description: 'Earnings from contract work'
+        description: 'Sundale ward-guard pay-chits for wall-and-patrol duty. Earnings from contract work'
     },
     
     sentinel: {
@@ -279,7 +279,7 @@ export const PATH_CURRENCY_MODIFIERS = {
         gold: 5,
         silver: 0,
         copper: 0,
-        description: 'Guard duty wages and bonuses'
+        description: 'Scribe-Sentinel chain-of-office pay, ledger-stamped and sure. Guard duty wages and bonuses'
     }
 };
 

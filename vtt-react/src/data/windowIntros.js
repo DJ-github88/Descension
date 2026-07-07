@@ -1,4 +1,4 @@
-import { getAbilityIconUrl } from '../utils/assetManager';
+﻿import { getAbilityIconUrl } from '../utils/assetManager';
 
 export const GUIDE_CHARACTER = {
     name: 'The Lamplighter',
@@ -8,7 +8,7 @@ export const GUIDE_CHARACTER = {
 export const WINDOW_INTROS = {
     leveleditor: {
         title: 'Level Editor',
-        text: 'This is the Level Editor — your table. Paint terrain, raise walls, scatter props, and shape the map your party will explore.'
+        text: 'This is the Level Editor, your table. Paint terrain, raise walls, scatter props, and shape the map your party will explore.'
     },
     campaign: {
         title: 'Campaign Manager',
@@ -16,7 +16,7 @@ export const WINDOW_INTROS = {
     },
     library: {
         title: 'Library',
-        text: 'The Library is your well of content — creatures, spells, and items. Search, filter, then drag what you need onto the field.'
+        text: 'The Library is your well of content, creatures, spells, and items. Search, filter, then drag what you need onto the field.'
     },
     combat: {
         title: 'Combat Initiator',
@@ -32,7 +32,7 @@ export const WINDOW_INTROS = {
     },
     character: {
         title: 'Character Sheet',
-        text: 'The Character Sheet shows gear, stats, skills, and lore — the full picture of who a character is.'
+        text: 'The Character Sheet shows gear, stats, skills, and lore, the full picture of who a character is.'
     },
     quests: {
         title: 'Quest Log',
@@ -44,6 +44,6 @@ export const WINDOW_INTROS = {
     },
     journal: {
         title: 'Player Journal',
-        text: 'The Player Journal — a private record for notes, discoveries, and the margins of the adventure.'
+        text: 'The Player Journal, a private record for notes, discoveries, and the margins of the adventure.'
     }
 };

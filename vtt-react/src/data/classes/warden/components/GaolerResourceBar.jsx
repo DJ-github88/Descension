@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+﻿import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import useChatStore from '../../../../store/chatStore';
 import useGameStore from '../../../../store/gameStore';
@@ -31,7 +31,7 @@ const GaolerResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
         }
     }, [classResource?.current]);
 
-    // Specialization configurations — names aligned to wardenData.js
+    // Specialization configurations, names aligned to wardenData.js
     const specConfigs = {
         shadowblade: {
             name: 'Flayed Stalker',

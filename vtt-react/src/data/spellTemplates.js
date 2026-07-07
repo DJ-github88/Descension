@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Spell Templates - Predefined templates for quick spell creation
  * These templates provide starting points for different spell types across classes.
  */
@@ -160,7 +160,7 @@ const BASE_TEMPLATE = {
       tags: ['healing'],
       cooldownCategory: 'short',
       cooldownValue: 4,
-      visualTheme: 'holy'
+      visualTheme: 'sacred'
     },
     
     // Area healing spell
@@ -186,7 +186,7 @@ const BASE_TEMPLATE = {
       cooldownValue: 15,
       castTimeType: 'short',
       castTimeValue: 2,
-      visualTheme: 'holy'
+      visualTheme: 'sacred'
     },
     
     // Healing over time spell
@@ -255,7 +255,7 @@ const BASE_TEMPLATE = {
       tags: ['buff', 'defensive'],
       cooldownCategory: 'medium',
       cooldownValue: 25,
-      visualTheme: 'holy'
+      visualTheme: 'sacred'
     },
     
     // Group buff / Aura
@@ -281,7 +281,7 @@ const BASE_TEMPLATE = {
       tags: ['buff', 'aura'],
       cooldownCategory: 'long',
       cooldownValue: 60,
-      visualTheme: 'holy'
+      visualTheme: 'sacred'
     }
   };
   
@@ -500,7 +500,7 @@ const BASE_TEMPLATE = {
       'druid': ['nature'],
       'illusionist': ['arcane'],
       'witch': ['shadow', 'poison'],
-      'celestial': ['holy'],
+      'celestial': ['sacred'],
       'shadowblade': ['shadow'],
       'chronomancer': ['arcane', 'temporal']
     };
@@ -514,7 +514,7 @@ const BASE_TEMPLATE = {
       'druid': 'nature',
       'illusionist': 'arcane',
       'witch': 'shadow',
-      'celestial': 'holy',
+      'celestial': 'sacred',
       'shadowblade': 'shadow',
       'chronomancer': 'temporal'
     };

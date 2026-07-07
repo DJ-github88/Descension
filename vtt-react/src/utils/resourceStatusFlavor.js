@@ -1,4 +1,4 @@
-import { getClassResourceConfig } from '../data/classResources';
+﻿import { getClassResourceConfig } from '../data/classResources';
 
 const pct = (cur, max) => (max > 0 ? cur / max : 0);
 
@@ -14,7 +14,7 @@ const FLAVOR = {
         const level = res?.current ?? 0;
         return tier(level, [
             { at: 0, line: "Scathrach slumbers. Your veins run cold.", tone: 'calm' },
-            { at: 2, line: "A flicker of heat. The demon is stirring.", tone: 'calm' },
+            { at: 2, line: "A flicker of heat. The horror is stirring.", tone: 'calm' },
             { at: 4, line: "Embers crawl beneath your skin. It almost feels good.", tone: 'warm' },
             { at: 6, line: "Half-damned. The furnace door stands open.", tone: 'warm' },
             { at: 8, line: "You are mostly fire now. What's left of you is screaming.", tone: 'danger' },

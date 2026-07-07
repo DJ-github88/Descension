@@ -1,4 +1,4 @@
-// Leadership Skill Multi-Dimensional Tables
+﻿// Leadership Skill Multi-Dimensional Tables
 // 7 proficiency levels × 6 dice types = 42 tables total
 
 export const LEADERSHIP_TABLES = {
@@ -489,7 +489,7 @@ export const LEADERSHIP_TABLES = {
             { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You inspire a revolution, followers gain +6 to all stats + quadruple actions', type: 'critical' },
             { roll: [3, 3], result: 'Followers transcend mortality, gain +7 to all stats + quintuple actions', type: 'critical' },
-            { roll: [4, 4], result: 'Your words create gods, followers gain +10 to all stats + unlimited actions', type: 'critical' }
+            { roll: [4, 4], result: 'Your words create spirits, followers gain +10 to all stats + unlimited actions', type: 'critical' }
         ]
     },
     leadership_expert_d6: {
@@ -582,7 +582,7 @@ export const LEADERSHIP_TABLES = {
         requiredRank: 'MASTER',
         table: [
             { roll: [1, 1], result: 'Failure, attempt unsuccessful', type: 'failure' },
-            { roll: [2, 2], result: 'You inspire a divine movement, followers gain +7 to all stats + quintuple actions', type: 'critical' },
+            { roll: [2, 2], result: 'You inspire a sacred movement, followers gain +7 to all stats + quintuple actions', type: 'critical' },
             { roll: [3, 3], result: 'Followers transcend mortality, gain +8 to all stats + unlimited actions', type: 'critical' },
             { roll: [4, 4], result: 'Your words create living legends, followers gain +10 to all stats + time stops for enemies + victory guaranteed', type: 'critical' }
         ]
@@ -597,7 +597,7 @@ export const LEADERSHIP_TABLES = {
             { roll: [2, 2], result: 'Your mastery is absolute, followers gain +6 to all stats + quadruple actions', type: 'success' },
             { roll: [3, 3], result: 'You inspire transcendence, followers gain +7 to all stats + quintuple actions', type: 'success' },
             { roll: [4, 4], result: 'Followers become myths, gain +8 to all stats + unlimited actions', type: 'success' },
-            { roll: [5, 5], result: 'Your expertise creates gods, followers gain +10 to all stats + time stops for enemies', type: 'critical' },
+            { roll: [5, 5], result: 'Your expertise creates spirits, followers gain +10 to all stats + time stops for enemies', type: 'critical' },
             { roll: [6, 6], result: 'Perfect command, followers gain +10 to all stats + time stops for enemies + victory guaranteed', type: 'critical' }
         ]
     },

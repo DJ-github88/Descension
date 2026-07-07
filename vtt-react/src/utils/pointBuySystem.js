@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Point-Buy Stat Allocation System
  *
  * Implements a D&D 5e inspired point-buy system for character creation
@@ -72,7 +72,7 @@ export const ABILITY_SCORES = [
         id: 'spirit',
         name: 'Spirit',
         shortName: 'SPR',
-        description: 'Willpower and intuition. Affects mana, divine magic, and mental resistance.',
+        description: 'Willpower and intuition. Affects mana, sacred magic, and mental resistance.',
         icon: 'fas fa-dove'
     },
     {

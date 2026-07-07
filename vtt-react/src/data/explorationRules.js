@@ -1,4 +1,4 @@
-export const EXPLORATION_RULES = {
+﻿export const EXPLORATION_RULES = {
   sundrift_vale: {
     id: 'sundrift_vale',
     name: 'Sundrift Vale Exploration',
@@ -52,7 +52,7 @@ export const EXPLORATION_RULES = {
           save: 'Spirit',
           dc: '10 + hours beyond 24',
           success: 'No effect.',
-          failure: 'The GM removes one piece of information the character knew — a name, a direction, a promise, a face. Not amnesia: the steppe took it.',
+          failure: 'The GM removes one piece of information the character knew, a name, a direction, a promise, a face. Not amnesia: the steppe took it.',
           recovery: 'Visit an Ancestor Mound and spend 1 hour in the hum. The mound "sings the memory back."'
         }
       },
@@ -68,8 +68,8 @@ export const EXPLORATION_RULES = {
             { range: [1, 5], result: 'Peaceful Hum', effect: 'Characters recover 1 additional exhaustion level.', type: 'beneficial' },
             { range: [6, 10], result: 'Ancestral Vision', effect: 'One character receives a cryptic vision relevant to the campaign. The dead are trying to communicate.', type: 'narrative' },
             { range: [11, 15], result: 'Hungry Child Pack', effect: 'Combat encounter during the rest. Hunts only under starless sky.', type: 'combat' },
-            { range: [16, 19], result: 'Mound-Awakened Ancestor', effect: 'Social encounter — the ancestor has information but demands a toll (a memory, a song, a promise).', type: 'social' },
-            { range: [20, 20], result: 'Ancient Mound-Eater', effect: 'Catastrophic combat encounter. If the party flees, the mound goes permanently silent — a navigation landmark is lost forever.', type: 'catastrophic' }
+            { range: [16, 19], result: 'Mound-Awakened Ancestor', effect: 'Social encounter, the ancestor has information but demands a toll (a memory, a song, a promise).', type: 'social' },
+            { range: [20, 20], result: 'Ancient Mound-Eater', effect: 'Catastrophic combat encounter. If the party flees, the mound goes permanently silent, a navigation landmark is lost forever.', type: 'catastrophic' }
           ]
         }
       },
@@ -130,7 +130,7 @@ export const EXPLORATION_RULES = {
         id: 'palisade_checkpoints',
         name: 'Palisade Checkposts',
         type: 'faction',
-        description: 'Mist-Sentinels along the petrified Ironwood Palisade enforce Jarl Kaelen's Sovereign Ledger.',
+        description: 'Mist-Sentinels along the petrified Ironwood Palisade enforce Jarl Kaelen\'s Sovereign Ledger.',
         trigger: 'Entering or leaving any major settlement zone.',
         resolution: {
           requirement: 'Produce a valid, stamped page from the Sovereign Ledger.',
@@ -173,14 +173,14 @@ export const EXPLORATION_RULES = {
           save: 'Constitution',
           dc: 12,
           success: 'No effect.',
-          failure: 'Suffer 1 level of exhaustion. At 3+ exhaustion levels, the character's speed is halved and they cannot gain the benefits of a short rest.'
+          failure: 'Suffer 1 level of exhaustion. At 3+ exhaustion levels, the character\'s speed is halved and they cannot gain the benefits of a short rest.'
         }
       },
       {
         id: 'sunder_wall_check',
         name: 'Sunder-Wall Gateways',
         type: 'faction',
-        description: 'The Icechamber Syndicate polices trade and migration along Halvar's massive Sunder-Wall.',
+        description: 'The Icechamber Syndicate polices trade and migration along Halvar\'s massive Sunder-Wall.',
         trigger: 'Crossing clan boundaries or entering Syndicate ports.',
         resolution: {
           requirement: 'Present a clan charter or pay the Syndicate toll.',
@@ -197,7 +197,7 @@ export const EXPLORATION_RULES = {
     id: 'sundale',
     name: 'Sundale Exploration',
     region: 'sundale',
-    description: 'A volcanic wasteland surrounding the tomb of Sol, governed under Hierophant Aethelgard's Dawn Vigil theocracy.',
+    description: 'A volcanic wasteland surrounding the tomb of Sol, governed under Hierophant Aethelgard\'s Dawn Vigil theocracy.',
     rules: [
       {
         id: 'ash_storm_navigation',
@@ -245,7 +245,7 @@ export const EXPLORATION_RULES = {
     id: 'iceheart_sea',
     name: 'Iceheart Sea Navigation',
     region: 'iceheart-sea',
-    description: 'Navigating city-sized glaciers and permanent storm-lanes under Grand Admiral Mereval's Sea-Charter.',
+    description: 'Navigating city-sized glaciers and permanent storm-lanes under Grand Admiral Mereval\'s Sea-Charter.',
     rules: [
       {
         id: 'storm_lane_steering',
@@ -263,7 +263,7 @@ export const EXPLORATION_RULES = {
         id: 'luck_ledger',
         name: 'The Luck-Ledger Sacrifice',
         type: 'environmental',
-        description: 'Tide-Speak spirits demand a toll to keep the ship's rigging from freezing.',
+        description: 'Tide-Speak spirits demand a toll to keep the ship\'s rigging from freezing.',
         trigger: 'Entering a freezing gale or dense iceberg field.',
         resolution: {
           sacrifice: 'Throw 1 silver coin per crew member into the ocean.',
@@ -294,13 +294,13 @@ export const EXPLORATION_RULES = {
     id: 'cragjaw_peaks',
     name: 'Cragjaw Peaks Exploration',
     region: 'cragjaw-peaks',
-    description: 'A vertical maze of howling blizzards and bottomless chasms, governed by Tesshan's Knotted Decree.',
+    description: 'A vertical maze of howling blizzards and bottomless chasms, governed by Tesshan\'s Knotted Decree.',
     rules: [
       {
-        id: 'khipu_navigation',
-        name: 'Khipu-Knot Navigation',
+        id: 'knotted cord_navigation',
+        name: 'knotted cord-Knot Navigation',
         type: 'travel',
-        description: 'Navigating paths marked by knotted khipu strings rather than written signage.',
+        description: 'Navigating paths marked by knotted knotted cord strings rather than written signage.',
         resolution: {
           skill: 'Investigation or History',
           dc: 12,
@@ -322,7 +322,7 @@ export const EXPLORATION_RULES = {
       },
       {
         id: 'mita_labor_exhaustion',
-        name: 'The Mit'a Strain',
+        name: 'The Corvée Strain',
         type: 'environmental',
         description: 'Low oxygen levels and heavy steam-drafts from geothermal vents exhaust travelers.',
         trigger: 'Every 24 hours spent above the chasm floors.',
@@ -393,9 +393,9 @@ export const EXPLORATION_RULES = {
       {
         tier: [1, 3],
         name: 'The Evidence',
-        hook: 'A Morgh patrol returns from the Sump Galleries carrying a stone-scale fragment — too fine for Thrumm, too recent to be ancient. Vorr-Geth (last living Vat-Breaker) confirms it is Groven and breaks a decades-long silence to address the Stone-Moot.',
+        hook: 'A Morgh patrol returns from the Sump Galleries carrying a stone-scale fragment, too fine for Thrumm, too recent to be ancient. Vorr-Geth (last living Vat-Breaker) confirms it is Groven and breaks a decades-long silence to address the Stone-Moot.',
         delivery: 'The party is hired by Thessa Ire (Ithran diplomat) through back-channels to escort a tunnel-scout team into the Sump Galleries.',
-        twist: 'House Tesshan has been trading geothermal heat to the Deep Alchemists in exchange for alchemical products — funding the continued experimentation. Exposing this breaks the Groven-Tesshan alliance.',
+        twist: 'House Tesshan has been trading geothermal heat to the Deep Alchemists in exchange for alchemical products, funding the continued experimentation. Exposing this breaks the Groven-Tesshan alliance.',
         keyLocations: ['sump-galleries'],
         keyNPCs: ['vorr-geth', 'thessa-ire'],
         keyFactions: ['vat-breakers-guild', 'house-tesshan', 'deep-alchemists']
@@ -421,7 +421,7 @@ export const EXPLORATION_RULES = {
         factions: [
           {
             name: 'The Feral Brood',
-            description: 'Thrumm injected for 700 years. No longer truly Thrumm — hyper-intelligent but entirely alien. They do not want rescue. They want to understand what they have become.',
+            description: 'Thrumm injected for 700 years. No longer truly Thrumm, hyper-intelligent but entirely alien. They do not want rescue. They want to understand what they have become.',
             stance: 'Will defend the vats against anyone who tries to "free" them.'
           },
           {
@@ -431,7 +431,7 @@ export const EXPLORATION_RULES = {
           },
           {
             name: 'The Third Thing',
-            description: 'The Deep Alchemists\' current project — not Thrumm, not Groven, but a deliberate 700-year synthesis. It is alive. It is aware.',
+            description: 'The Deep Alchemists\' current project, not Thrumm, not Groven, but a deliberate 700-year synthesis. It is alive. It is aware.',
             stance: 'Unknown. The reason the Alchemists have never stopped.'
           }
         ],
@@ -450,12 +450,12 @@ export const EXPLORATION_RULES = {
           },
           {
             choice: 'Negotiate with the Feral Brood',
-            consequence: 'Gain powerful but unpredictable allies — 700-year-old hyper-intelligent tunnel-dwellers who understand Fexric alchemy better than the Fexric. But the Groven must accept their "rescue" narrative was wrong.'
+            consequence: 'Gain powerful but unpredictable allies, 700-year-old hyper-intelligent tunnel-dwellers who understand Fexric alchemy better than the Fexric. But the Groven must accept their "rescue" narrative was wrong.'
           }
         ],
         keyReward: {
           name: 'Calcification-Reversal Formula',
-          description: 'Found in the Alchemists\' archives. The complete original, with an additional chapter: "Reversal of the Still-Claiming" — could not only cure calcification but reverse the Ancestor-Spans. The dead could be restored. But the Spans would be destroyed — the only navigation system in the Cragjaw Peaks.',
+          description: 'Found in the Alchemists\' archives. The complete original, with an additional chapter: "Reversal of the Still-Claiming", could not only cure calcification but reverse the Ancestor-Spans. The dead could be restored. But the Spans would be destroyed, the only navigation system in the Cragjaw Peaks.',
           location: 'deep-alchemists-archive'
         }
       }

@@ -1,4 +1,4 @@
-// Ritual Magic Skill Multi-Dimensional Tables
+﻿// Ritual Magic Skill Multi-Dimensional Tables
 // 7 proficiency levels × 6 dice types = 42 tables total
 // Each die type has exact outcome count: d4=4, d6=6, d8=8, d10=10, d12=12, d20=13
 // For d20 tables: 13 unique outcomes with ranges covering all 20 possible roll values
@@ -455,7 +455,7 @@ export const RITUAL_MAGIC_TABLES = {
             { roll: [4, 4], result: 'Ritual shows strategic thinking', type: 'success' },
             { roll: [5, 5], result: 'Ritual adapts brilliantly to change', type: 'success' },
             { roll: [6, 6], result: 'Ritual coordinates complex pattern', type: 'success' },
-            { roll: [7, 7], result: 'Ritual demonstrates near-divine insight', type: 'critical' },
+            { roll: [7, 7], result: 'Ritual demonstrates near-sacred insight', type: 'critical' },
             { roll: [8, 8], result: 'Ritual achieves perfect execution', type: 'critical' }
         ]
     },
@@ -557,7 +557,7 @@ export const RITUAL_MAGIC_TABLES = {
             { roll: [3, 3], result: 'Ritual shows masterful technique', type: 'success' },
             { roll: [4, 4], result: 'Ritual performs with legendary grace', type: 'critical' },
             { roll: [5, 5], result: 'Ritual achieves tactical perfection', type: 'critical' },
-            { roll: [6, 6], result: 'Ritual demonstrates divine precision', type: 'critical' },
+            { roll: [6, 6], result: 'Ritual demonstrates sacred precision', type: 'critical' },
             { roll: [7, 7], result: 'Ritual transcends physical limits', type: 'critical' },
             { roll: [8, 8], result: 'Ritual becomes myth incarnate', type: 'critical' }
         ]
@@ -577,7 +577,7 @@ export const RITUAL_MAGIC_TABLES = {
             { roll: [7, 7], result: 'Ritual performs impossible pattern', type: 'critical' },
             { roll: [8, 8], result: 'Ritual defies reality itself', type: 'critical' },
             { roll: [9, 9], result: 'Ritual becomes force beyond nature', type: 'critical' },
-            { roll: [10, 10], result: 'Ritual achieves divine perfection', type: 'critical' }
+            { roll: [10, 10], result: 'Ritual achieves sacred perfection', type: 'critical' }
         ]
     },
     ritualmagic_expert_d12: {
@@ -614,7 +614,7 @@ export const RITUAL_MAGIC_TABLES = {
             { roll: [10, 11], result: 'Ritual defies planar law', type: 'success' },
             { roll: [12, 13], result: 'Ritual rewrites reality', type: 'success' },
             { roll: [14, 15], result: 'Ritual becomes force of nature', type: 'critical' },
-            { roll: [16, 16], result: 'Ritual achieves divine miracle', type: 'critical' },
+            { roll: [16, 16], result: 'Ritual achieves sacred miracle', type: 'critical' },
             { roll: [17, 17], result: 'Ritual transcends physical existence', type: 'critical' },
             { roll: [18, 18], result: 'Ritual becomes eternal legend', type: 'critical' },
             { roll: [19, 19], result: 'Ritual ascends to mythic realm', type: 'critical' },
@@ -677,7 +677,7 @@ export const RITUAL_MAGIC_TABLES = {
             { roll: [4, 4], result: 'Ritual transcends planar limits', type: 'critical' },
             { roll: [5, 5], result: 'Ritual rewrites reality itself', type: 'critical' },
             { roll: [6, 6], result: 'Ritual becomes living miracle', type: 'critical' },
-            { roll: [7, 7], result: 'Ritual achieves divine feat', type: 'critical' },
+            { roll: [7, 7], result: 'Ritual achieves sacred feat', type: 'critical' },
             { roll: [8, 8], result: 'Ritual ascends beyond mortal realm', type: 'critical' },
             { roll: [9, 9], result: 'Ritual becomes eternal myth', type: 'critical' },
             { roll: [10, 10], result: 'Ritual achieves cosmic greatness', type: 'critical' }
@@ -711,14 +711,14 @@ export const RITUAL_MAGIC_TABLES = {
         table: [
             { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 3], result: 'Ritual struggles against cosmic will', type: 'success' },
-            { roll: [4, 5], result: 'Ritual overcomes through divine power', type: 'success' },
+            { roll: [4, 5], result: 'Ritual overcomes through sacred power', type: 'success' },
             { roll: [6, 7], result: 'Ritual transcends all mortal limits', type: 'critical' },
             { roll: [8, 9], result: 'Ritual defies reality itself', type: 'critical' },
             { roll: [10, 11], result: 'Ritual rewrites cosmic order', type: 'critical' },
             { roll: [12, 13], result: 'Ritual becomes force beyond nature', type: 'critical' },
-            { roll: [14, 15], result: 'Ritual achieves divine miracle', type: 'critical' },
+            { roll: [14, 15], result: 'Ritual achieves sacred miracle', type: 'critical' },
             { roll: [16, 16], result: 'Ritual transcends physical realm', type: 'critical' },
-            { roll: [17, 17], result: 'Ritual becomes living god', type: 'critical' },
+            { roll: [17, 17], result: 'Ritual becomes living spirit', type: 'critical' },
             { roll: [18, 18], result: 'Ritual ascends to eternal myth', type: 'critical' },
             { roll: [19, 19], result: 'Ritual achieves cosmic perfection', type: 'critical' },
             { roll: [20, 20], result: 'Ritual and caster become one eternal force', type: 'critical' }

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+﻿import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import useChatStore from '../../../../store/chatStore';
 import useGameStore from '../../../../store/gameStore';
@@ -30,7 +30,7 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
     useEffect(() => { if (propAEP != null) setLocalAEP(propAEP); }, [propAEP]);
     useEffect(() => { if (propSpec) setSelectedSpec(toCamelId(propSpec)); }, [propSpec]);
 
-    // Specialization configurations — names/passives aligned to spellguardData.js
+    // Specialization configurations, names/passives aligned to spellguardData.js
     const specConfigs = {
         arcaneWarden: {
             name: 'Void-Scarred Bastion',
@@ -345,7 +345,7 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
                             <strong>Generate:</strong>
                             <span>Intercept magical dmg (+1/dmg), Physical (+1/3), Mana Drain (+1)</span>
                             <strong>Spend:</strong>
-                            <span>Arcane shields, spell reflections, magical strikes — purge to avoid radiation</span>
+                            <span>Arcane shields, spell reflections, magical strikes, purge to avoid radiation</span>
                         </div>
                     </div>
 

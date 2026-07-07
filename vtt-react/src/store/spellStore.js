@@ -1,4 +1,4 @@
-import { create } from 'zustand';
+﻿import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -54,7 +54,7 @@ const SAMPLE_SPELLS = [
     id: 'healing-word-spell',
     name: 'Healing Word',
     type: SPELL_TYPES.ACTION,
-    description: 'A word of divine power that heals a creature you can see within range.',
+    description: 'A word of sacred power that heals a creature you can see within range.',
     healing: {
       diceCount: 1,
       diceType: 4,

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Asset Manager - Handles custom game assets
  * 
  * This utility provides a centralized way to manage game assets using
@@ -904,7 +904,7 @@ export const getAbilityIconUrl = (iconId) => {
     }
 
     // For lowercase folders (legacy creature ability paths), add creature- prefix
-    // combat/demonic-warrior -> combat/creature-combat-demonic-warrior
+    // combat/Wyrd-touched-warrior -> combat/creature-combat-Wyrd-touched-warrior
     const prefixedPath = `${folder}/creature-${folder}-${rest}`;
     return getCustomIconUrl(prefixedPath, 'abilities');
   }

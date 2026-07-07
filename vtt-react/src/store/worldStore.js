@@ -35,7 +35,7 @@ const REGION_META = {
   'sundale': {
     id: 'sundale',
     name: 'Sundale',
-    description: 'Scorched ashlands surrounding Emberspire, where the dying sun-god Sol was bound beneath the earth.',
+    description: 'Scorched ashlands surrounding Emberspire, where the dying star Sol was bound beneath the earth.',
     mapStyle: { zoom: 1, cameraX: 0, cameraY: 0 },
     dangerLevel: 'high'
   },

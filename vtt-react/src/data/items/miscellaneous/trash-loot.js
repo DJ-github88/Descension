@@ -271,7 +271,7 @@ export const TRASH_LOOT = [
   },
   {
     id: 'faded-tapestry-scrap',
-    name: 'Faded Tapestry Scrap',
+    name: 'Faded Fate-Weave Scrap',
     type: 'miscellaneous',
     subtype: 'JUNK',
     quality: 'poor',

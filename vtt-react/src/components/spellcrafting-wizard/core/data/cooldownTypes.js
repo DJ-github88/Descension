@@ -1,4 +1,4 @@
-import { generateIconMarkup } from '../../core/utils/previewGenerator';
+﻿import { generateIconMarkup } from '../../core/utils/previewGenerator';
 import { isValidDiceNotation } from '../../data/enhancedEffectSystemData';
 
 // =====================================================================
@@ -186,8 +186,8 @@ export const COOLDOWN_MODIFIERS = {
     },
     {
       id: 'cleric_divine_intervention',
-      name: 'Divine Intervention',
-      description: 'Has a 10% chance per cleric level to reset a holy ability cooldown',
+      name: 'Warden\'s Intervention',
+      description: 'Has a 10% chance per cleric level to reset a sacred ability cooldown',
       icon: '/assets/icons/abilities/Healing/Golden Heart.png',
       applicableTypes: ['turn_based', 'short_rest', 'long_rest'],
       value: 10, // percentage per level

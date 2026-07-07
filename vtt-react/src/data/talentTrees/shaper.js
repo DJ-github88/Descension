@@ -34,7 +34,7 @@ export const SHAPER_FLOW_MASTER = [
   {
     id: 'flow_master_t2_water_dance',
     name: 'Water Dance',
-    description: 'While in Ataxic Flow, spend 1 Flux to auto-dodge any attack. Dodge distance +10ft.',
+    description: 'Groven ancestor-bridges calcify into something stronger. while in Ataxic Flow, spend 1 Flux to auto-dodge any attack. Dodge distance +10ft.',
     icon: 'spell_nature_resistnature',
     maxRanks: 3,
     position: { x: 0, y: 2 },
@@ -163,7 +163,7 @@ export const SHAPER_IRON_DANCER = [
   {
     id: 'iron_dancer_t3_unyielding_blade',
     name: 'Unyielding Blade',
-    description: 'Cannot be disarmed. Deadened Bastion prevents being moved against your will.',
+    description: 'Groven ancestor-bridges calcify into something stronger. cannot be disarmed. Deadened Bastion prevents being moved against your will.',
     icon: 'ability_warrior_weaponmastery',
     maxRanks: 2,
     position: { x: 3, y: 3 },
@@ -172,7 +172,7 @@ export const SHAPER_IRON_DANCER = [
   {
     id: 'iron_dancer_t4_trait_harvest',
     name: 'Trait Harvest',
-    description: 'When you reduce an enemy to 0 HP, harvest one passive trait (resistance, movement type, or bonus) for rest of combat. +1 Body Toll per trait.',
+    description: 'Groven ancestor-bridges calcify into something stronger. when you reduce an enemy to 0 HP, harvest one passive trait (resistance, movement type, or bonus) for rest of combat. +1 Body Toll per trait.',
     icon: 'spell_shadow_possession',
     maxRanks: 3,
     position: { x: 2, y: 3 },
@@ -181,7 +181,7 @@ export const SHAPER_IRON_DANCER = [
   {
     id: 'iron_dancer_t5_blade_dance',
     name: 'Blade Dance',
-    description: 'While in Arterial Strike or Deadened Bastion, attack twice per action. Can target different enemies within 10ft.',
+    description: 'Groven ancestor-bridges calcify into something stronger. while in Arterial Strike or Deadened Bastion, attack twice per action. Can target different enemies within 10ft.',
     icon: 'ability_rogue_slicedice',
     maxRanks: 1,
     position: { x: 2, y: 4 },
@@ -238,7 +238,7 @@ export const SHAPER_PRIMAL_SHADOW = [
   {
     id: 'primal_shadow_t2_shadow_eruption',
     name: 'Shadow Eruption',
-    description: 'When exiting stealth with attack, all enemies within 10ft take 2d6 shadow damage and disadvantage on next attack.',
+    description: 'Groven ancestor-bridges calcify into something stronger. when exiting stealth with attack, all enemies within 10ft take 2d6 shadow damage and disadvantage on next attack.',
     icon: 'spell_shadow_shadowbolt',
     maxRanks: 4,
     position: { x: 4, y: 2 },
@@ -256,7 +256,7 @@ export const SHAPER_PRIMAL_SHADOW = [
   {
     id: 'primal_shadow_t3_darkness_within',
     name: 'Darkness Within',
-    description: 'While in Void Predator, immune to divination magic. Enemies cannot detect through tremorsense or blindsight.',
+    description: 'Groven ancestor-bridges calcify into something stronger. while in Void Predator, immune to divination magic. Enemies cannot detect through tremorsense or blindsight.',
     icon: 'spell_shadow_shadowform',
     maxRanks: 2,
     position: { x: 1, y: 3 },

@@ -1,7 +1,7 @@
-/**
+﻿/**
  * Legacy class-name migration helper.
  *
- * Several classes were merged during Phase 1.8–1.10 consolidation:
+ * Several classes were merged during Phase 1.8-1.10 consolidation:
  *
  *   Phase 1.8:  Bladedancer + Formbender → Shaper
  *   Phase 1.9:  Covenbane + Exorcist     → Inquisitor

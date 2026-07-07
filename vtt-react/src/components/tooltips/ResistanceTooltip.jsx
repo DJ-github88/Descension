@@ -224,7 +224,7 @@ const RESISTANCE_INFO = {
     },
     divine: {
         name: 'Divine Resistance',
-        description: 'Reduces damage from sacred radiance, celestial power, and holy smiting.',
+        description: 'Reduces damage from sacred radiance, astral power, and sacred smiting.',
         color: '#DAA520',
         effects: [
             'Take half damage from divine sources',

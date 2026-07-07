@@ -1,14 +1,14 @@
-/**
+﻿/**
  * Arcanoneer Elemental Spheres: save migration helper.
  *
  * Older saves may contain inconsistent sphere IDs from the 6-way naming schism.
  * The canonical 8 IDs (defined in classResources.js) are:
  *
- *   arcane / divine / blight / ember / rime / primal / storm / wyrd
+ *   arcane / sacred / blight / ember / rime / primal / storm / wyrd
  *
  * Legacy aliases that need migration:
- *   ember2 → divine (the old duplicate-id fix for d8=2)
- *   holy   → divine
+ *   ember2 → sacred (the old duplicate-id fix for d8=2)
+ *   sacred   → sacred
  *   healing → storm (d8=7 was mislabeled "healing", canonical is "storm")
  *   flesh  → storm
  *   nature → primal
@@ -16,9 +16,9 @@
  *   shadow → blight (shadow was a display-name alias)
  *   fire   → ember  (fire was a display-name alias)
  *   ice / frost → rime
- *   light → divine
+ *   light → sacred
  *   force → arcane
- *   radiant → divine
+ *   radiant → sacred
  *   heat  → ember
  *   cold  → rime
  *   spark → primal
@@ -27,15 +27,15 @@
  */
 
 const CANONICAL_IDS = new Set([
-    'arcane', 'divine', 'blight', 'ember', 'rime', 'primal', 'storm', 'wyrd'
+    'arcane', 'sacred', 'blight', 'ember', 'rime', 'primal', 'storm', 'wyrd'
 ]);
 
 const LEGACY_TO_CANONICAL = {
     // Direct aliases
-    'ember2':  'divine',
-    'holy':    'divine',
-    'light':   'divine',
-    'radiant': 'divine',
+    'ember2':  'sacred',
+    'sacred':    'sacred',
+    'light':   'sacred',
+    'radiant': 'sacred',
     'force':   'arcane',
     'shadow':  'blight',
     'fire':    'ember',
@@ -50,7 +50,7 @@ const LEGACY_TO_CANONICAL = {
     'chaos':   'wyrd',
     // Canonical pass-throughs (for safety)
     'arcane':  'arcane',
-    'divine':  'divine',
+    'sacred':  'sacred',
     'blight':  'blight',
     'ember':   'ember',
     'rime':    'rime',

@@ -1,4 +1,4 @@
-export const TOKEN_TEMPLATES = {
+﻿export const TOKEN_TEMPLATES = {
 
   // =========================================================================
   // ANIMIST (12 tokens)
@@ -7,7 +7,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'primalist_healing_totem',
       name: 'Healing Totem',
-      description: 'A wooden totem carved with healing runes, glowing with green energy.',
+      description: 'The root-veins of Bryngloom answer the Animist\'s chant. From the deep glades of Bryngloom, the spirit-touched wood awakens with verdant light. A wooden totem carved with healing runes, glowing with green energy.',
       level: 1,
       spellId: 'primalist_basic_healing_totem',
       creature: {
@@ -26,7 +26,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'primalist_guardian_totem',
       name: 'Guardian Totem',
-      description: 'A stone totem etched with protective symbols, radiating defensive energy.',
+      description: 'Old Spirits are called up from the deep bog to take up the ward. Bryngloom\'s ancient stones hum with the protective whispers of forgotten guardians. A stone totem etched with protective symbols, radiating defensive energy.',
       level: 1,
       spellId: null,
       creature: {
@@ -45,7 +45,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'primalist_earth_totem',
       name: 'Earth Totem',
-      description: 'A massive stone totem covered in earth runes.',
+      description: 'With a stamp upon sacred soil, the grove\'s bones are raised. The earth itself answers the call, heaving up rune-carved stone from Bryngloom\'s sacred soil. A massive stone totem covered in earth runes.',
       level: 1,
       spellId: null,
       creature: {
@@ -64,7 +64,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'primalist_rejuvenation_totem',
       name: 'Rejuvenation Totem',
-      description: 'A living wood totem with vines, pulsing with life energy.',
+      description: 'The Animist breathes life back into the wound the world forgot. Living vines twist and pulse with the sap of Bryngloom\'s oldest groves. A living wood totem with vines, pulsing with life energy.',
       level: 1,
       spellId: null,
       creature: {
@@ -83,7 +83,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'primalist_venomous_totem',
       name: 'Venomous Totem',
-      description: 'A totem seeping with natural toxins.',
+      description: 'Brewed in secret spite, the Old Spirits grant this ward their venom. The Briarqueen\'s venom drips from this totem, brewed in Bryngloom\'s deepest, darkest hollows. A totem seeping with natural toxins.',
       level: 3,
       spellId: 'primalist_venomous_totem',
       creature: {
@@ -102,7 +102,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'primalist_spirit_wolves',
       name: 'Spirit Wolves',
-      description: 'Two spectral wolves made of primal energy.',
+      description: 'At the summoner\'s howl, the spectral pack leaps the mist. Spectral forms of Bryngloom\'s ancient pack leaders flicker at the edge of vision. Two spectral wolves made of primal energy.',
       level: 4,
       spellId: 'primalist_spirit_wolves',
       creature: {
@@ -121,7 +121,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'primalist_ancestral_guardian',
       name: 'Ancestral Guardian',
-      description: 'A powerful ancestral spirit to protect and fight.',
+      description: 'The oldest name is spoken, and the first guardian returns. An elder spirit from Bryngloom\'s first dawn answers the summons, clad in primal fury. A powerful ancestral spirit to protect and fight.',
       level: 5,
       spellId: 'primalist_ancestral_guardian',
       creature: {
@@ -140,7 +140,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'primalist_elemental_fury_totem',
       name: 'Elemental Fury Totem',
-      description: 'A totem channeling raw fire and lightning.',
+      description: 'Storm and ember are chained together at the Animist\'s word. The volatile heart of Bryngloom\'s storm-scarred peaks channels through this crackling spire. A totem channeling raw fire and lightning.',
       level: 6,
       spellId: 'primalist_elemental_fury_totem',
       creature: {
@@ -159,7 +159,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'primalist_grand_totem_circle_healing',
       name: 'Grand Healing Totem',
-      description: 'Part of the Grand Totem Circle - powerful healing.',
+      description: 'The full circle is opened, and the grove\'s heart laid bare. A fragment of Bryngloom\'s great circle, channeling the grove\'s restorative heartbeat. Part of the Grand Totem Circle - powerful healing.',
       level: 8,
       spellId: 'primalist_grand_totem_circle',
       creature: {
@@ -178,7 +178,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'primalist_grand_totem_circle_damage',
       name: 'Grand Damage Totem',
-      description: 'Part of the Grand Totem Circle - destructive force.',
+      description: 'The circle\'s wrathful half is loosed upon the foe. The destructive half of Bryngloom\'s balanced circle, unleashing the forest\'s wrath. Part of the Grand Totem Circle - destructive force.',
       level: 8,
       spellId: 'primalist_grand_totem_circle',
       creature: {
@@ -197,7 +197,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'primalist_eternal_totem',
       name: 'Eternal Totem',
-      description: 'An indestructible totem of immense power.',
+      description: 'Bedrock itself is sworn into service, unbreakable and old. Forged from Bryngloom\'s unyielding bedrock, this totem stands eternal against all foes. An indestructible totem of immense power.',
       level: 9,
       spellId: 'primalist_eternal_totem',
       creature: {
@@ -216,7 +216,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'primalist_genesis',
       name: 'Genesis',
-      description: 'An army of nature spirits and creatures.',
+      description: 'Bryngloom answers with everything it has left. The full fury of Bryngloom\'s wild heart spills forth in a tide of tooth and claw. An army of nature spirits and creatures.',
       level: 10,
       spellId: 'primalist_genesis',
       creature: {
@@ -247,7 +247,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'exorcist_imp',
       name: 'Imp',
-      description: 'A small, cunning demon with fire bolt, flight, and invisibility.',
+      description: 'Cold-iron wards ring as the binding-rite drags the imp forth. From the smoldering depths of Emberspire, this tiny fiend cackles with malevolent cunning. A small, cunning horror with fire bolt, flight, and invisibility.',
       level: 2,
       spellId: 'exo_bind_imp',
       creature: {
@@ -266,7 +266,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'exorcist_shadow_hound',
       name: 'Shadow Hound',
-      description: 'A shadowy demonic hound with shadow step and pack tactics.',
+      description: 'The Inquisitor\'s seal flares, and the shadow-pack bounds through. Emberspire\'s shadow-bred pack hunts through the veil between worlds. A shadowy Wyrd-touched hound with shadow step and pack tactics.',
       level: 3,
       spellId: 'exo_bind_shadow_hound',
       creature: {
@@ -285,7 +285,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'exorcist_abyssal_brute',
       name: 'Abyssal Brute',
-      description: 'A hulking demon with crushing blow and demonic resilience.',
+      description: 'Chains of binding authority haul the brute from its forge. Forged in Emberspire\'s deepest forges, this brute knows only destruction. A hulking horror with crushing blow and Wyrd-touched resilience.',
       level: 4,
       spellId: 'exo_bind_abyssal_brute',
       creature: {
@@ -294,7 +294,7 @@ export const TOKEN_TEMPLATES = {
         size: 'LARGE',
         stats: { maxHp: 47, maxMana: 0, speed: 30 },
         tokenIcon: 'spell_shadow_summonvoidwalker',
-        abilities: ['Crushing Blow', 'Demonic Resilience', 'Intimidating Presence'],
+        abilities: ['Crushing Blow', 'Ember Resilience', 'Intimidating Presence'],
       },
       quantity: 1,
       duration: { value: 0, unit: 'permanent' },
@@ -304,7 +304,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'exorcist_banshee',
       name: 'Banshee',
-      description: 'A wailing spirit with fear aura and incorporeal form.',
+      description: 'An anti-magic sigil gags the damned wail long enough to bind it. The first wail of Emberspire\'s damned souls echoes through this tormented spirit. A wailing spirit with fear aura and incorporeal form.',
       level: 4,
       spellId: 'exo_bind_banshee',
       creature: {
@@ -323,7 +323,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'exorcist_wraith',
       name: 'Wraith',
-      description: 'A spectral terror with life drain and ethereal jaunt.',
+      description: 'The horror-jailer\'s chain collars the hungering dead. A hunger from the Emberspire Abyss, forever reaching for the warmth of the living. A spectral terror with life drain and ethereal jaunt.',
       level: 4,
       spellId: 'exo_bind_wraith',
       creature: {
@@ -342,7 +342,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'exorcist_pit_fiend',
       name: 'Pit Fiend',
-      description: 'A powerful devil lord with 2 actions per turn.',
+      description: 'Only the weight of the binding-seal bends a lord of the seventh circle. A lord of Emberspire\'s seventh circle, commanding legions with a flick of its claw. A powerful devil lord with 2 actions per turn.',
       level: 6,
       spellId: 'exo_bind_pit_fiend',
       creature: {
@@ -361,7 +361,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'exorcist_balor',
       name: 'Balor',
-      description: 'A towering demon general with 3 actions per turn.',
+      description: 'Cold-iron authority alone makes a general of the host kneel. The generals of Emberspire\'s host stride forth, wreathed in dying starlight and ash. A towering horror general with 3 actions per turn.',
       level: 7,
       spellId: 'exo_bind_balor',
       creature: {
@@ -380,7 +380,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'exorcist_lesser_demon',
       name: 'Lesser Demon',
-      description: 'A squad of lesser demons from the infernal legion.',
+      description: 'The binding-circle ruptures, and the lower pits bleed through. The teeming legions of Emberspire\'s lower pits spill through the rupture. A squad of lesser demons from the infernal legion.',
       level: 8,
       spellId: 'exo_infernal_legion',
       creature: {
@@ -399,7 +399,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'exorcist_apocalypse_demon',
       name: 'Apocalypse Demon',
-      description: 'Devastating apocalyptic demons with 2 actions per turn.',
+      description: 'Even heralds of ash must obey the seal that names them. Emberspire\'s most devastating heralds descend, heralding an age of ash. Devastating apocalyptic demons with 2 actions per turn.',
       level: 9,
       spellId: 'exo_apocalyptic_summoning',
       creature: {
@@ -418,7 +418,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'exorcist_demon_prince',
       name: 'Demon Prince',
-      description: 'A demon lord of immense power with 4 actions per turn.',
+      description: 'No sovereign of Emberspire defies the cold-iron ward that binds it. The throne itself of Emberspire manifests, a sovereign of absolute ruin. A horror lord of immense power with 4 actions per turn.',
       level: 10,
       spellId: 'exo_bind_demon_prince',
       creature: {
@@ -427,7 +427,7 @@ export const TOKEN_TEMPLATES = {
         size: 'HUGE',
         stats: { maxHp: 197, maxMana: 0, speed: 40 },
         tokenIcon: 'spell_shadow_shadowwordpain',
-        abilities: ['Multiattack (4 actions/turn)', 'Demonic Sovereignty', 'Reality Warp'],
+        abilities: ['Multiattack (4 actions/turn)', 'Wyrd Sovereignty', 'Reality Warp'],
       },
       quantity: 1,
       duration: { value: 0, unit: 'permanent' },
@@ -445,7 +445,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'toxicologist_poison_gas_trap',
       name: 'Poison Gas Trap',
-      description: 'Releases poison gas when enemies approach, damaging and slowing.',
+      description: 'Fester-sweet vapors of the Blooming Plague pool within the device. Releases poison gas when enemies approach, damaging and slowing.',
       level: 1,
       spellId: 'tox_poison_trap',
       creature: {
@@ -464,7 +464,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'toxicologist_spike_trap',
       name: 'Spike Trap',
-      description: 'A concealed spike trap that immobilizes enemies.',
+      description: 'Concealed beneath the contagion\'s bloom, the trap waits patient. A concealed spike trap that immobilizes enemies.',
       level: 1,
       spellId: null,
       creature: {
@@ -483,7 +483,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'toxicologist_healing_mist',
       name: 'Healing Mist Dispenser',
-      description: 'Dispenses healing mist when allies approach.',
+      description: 'Distilled from herbs that grew where the Blooming Plague first took root. Dispenses healing mist when allies approach.',
       level: 1,
       spellId: null,
       creature: {
@@ -502,7 +502,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'toxicologist_smoke_launcher',
       name: 'Smoke Grenade Launcher',
-      description: 'Creates a smoke cloud that obscures vision.',
+      description: 'Choking fumes culled from the deepest fester-marshes billow forth. Creates a smoke cloud that obscures vision.',
       level: 1,
       spellId: null,
       creature: {
@@ -521,7 +521,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'toxicologist_acid_sprayer',
       name: 'Acid Sprayer',
-      description: 'Sprays acid in a cone when enemies approach.',
+      description: 'Caustic brew refined from the Plague\'s own corrosive ichors. Sprays acid in a cone when enemies approach.',
       level: 1,
       spellId: null,
       creature: {
@@ -540,7 +540,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'toxicologist_alarm_bell',
       name: 'Alarm Bell',
-      description: 'Alerts allies and grants +2 initiative when enemies approach.',
+      description: 'Forged to ring out the moment the contagion\'s carriers draw near. Alerts allies and grants +2 initiative when enemies approach.',
       level: 1,
       spellId: null,
       creature: {
@@ -559,7 +559,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'toxicologist_mechanical_monstrosity',
       name: 'Mechanical Monstrosity',
-      description: 'A large mechanical construct armed with weapons.',
+      description: 'A hulking contraption animated by the plague-fumes of the fester-bogs. A large mechanical construct armed with weapons.',
       level: 8,
       spellId: null,
       creature: {
@@ -578,7 +578,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'toxicologist_war_machine',
       name: 'War Machine',
-      description: 'A massive war machine bristling with weapons.',
+      description: 'Iron and contagion married into an engine of absolute ruin. A massive war machine bristling with weapons.',
       level: 9,
       spellId: null,
       creature: {
@@ -597,7 +597,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'toxicologist_mechanical_army',
       name: 'Mechanical Army',
-      description: '8 combat-ready mechanical soldiers.',
+      description: 'The Plaguebringer\'s host, rendered in brass and rusting sinew. 8 combat-ready mechanical soldiers.',
       level: 10,
       spellId: null,
       creature: {
@@ -622,7 +622,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'falseprophet_congregation',
       name: 'Abyssal Servants',
-      description: 'Void entities summoned from the congregation. 1d4 appear.',
+      description: 'Void whispers coalesce into shapes the waking mind refuses to hold. Void entities summoned from the congregation. 1d4 appear.',
       level: 6,
       spellId: 'fp_summon_congregation',
       creature: {
@@ -641,7 +641,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'falseprophet_devouring_omen',
       name: 'Devouring Omen',
-      description: 'A void apparition that frightens enemies in 15ft.',
+      description: 'The Lie takes form, and where it passes sanity wilts. A void apparition that frightens enemies in 15ft.',
       level: 6,
       spellId: 'fp_devouring_omen',
       creature: {
@@ -666,7 +666,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'harbinger_chaos_gate',
       name: 'Chaos Gate Entities',
-      description: '5 chaos entities from a random rollable table.',
+      description: 'The Bleeding Eye of Keth-Amar weeps, and chaos bleeds through the rift. 5 chaos entities from a random rollable table.',
       level: 7,
       spellId: 'harbinger-fate_rift-chaos_gate',
       creature: {
@@ -696,7 +696,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'chronarch_temporal_vortex',
       name: 'Temporal Anomaly',
-      description: 'A swirling time anomaly - damages enemies, heals allies, speeds allies within 15ft.',
+      description: 'Spun loose from the Frozen Hours, a paradox given visible form. A swirling time anomaly - damages enemies, heals allies, speeds allies within 15ft.',
       level: 4,
       spellId: 'temporal_vortex',
       creature: {
@@ -726,7 +726,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'minstrel_avatar_of_music',
       name: 'Avatar of Music',
-      description: 'A being of pure musical energy that fights alongside you. Also grants allies +1 all stats.',
+      description: 'Spun from the final chord of the Old Revel, harmony given body. A being of pure musical energy that fights alongside you. Also grants allies +1 all stats.',
       level: 10,
       spellId: 'minstrel_song_of_creation',
       creature: {
@@ -751,7 +751,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'revenant_ice_wall',
       name: 'Ice Wall',
-      description: 'A 20ft x 10ft x 1ft ice wall. Blocks movement and projectiles. Vulnerable to fire, immune to frost.',
+      description: 'Hewn from the Deep Ice of the Frozen Archive, the wall remembers its death. A 20ft x 10ft x 1ft ice wall. Blocks movement and projectiles. Vulnerable to fire, immune to frost.',
       level: 2,
       spellId: 'lb_frozen_bastion',
       creature: {
@@ -770,7 +770,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'revenant_soul_chain',
       name: 'Spectral Ally (Soul Chain)',
-      description: 'A spectral ally bound through health sacrifice.',
+      description: 'A soul torn free of the Deep Ice and bound in chains of frozen blood. A spectral ally bound through health sacrifice.',
       level: 4,
       spellId: null,
       creature: {
@@ -789,7 +789,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'revenant_skeletal_archers',
       name: 'Skeletal Archers',
-      description: '2 skeletal archers raised from the dead.',
+      description: 'Raised in the name of blight-ascension, their bones rime with the Archive\'s frost. 2 skeletal archers raised from the dead.',
       level: 6,
       spellId: null,
       creature: {
@@ -808,7 +808,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'revenant_spectral_vanguard',
       name: 'Spectral Vanguard',
-      description: 'A powerful spectral knight that protects allies.',
+      description: 'Sworn to the blight-ascension, the vanguard\'s oath outlasts even death. A powerful spectral knight that protects allies.',
       level: 8,
       spellId: null,
       creature: {
@@ -833,7 +833,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'apex_beast_companion',
       name: 'Beast Companion',
-      description: 'A loyal beast that fights alongside the Apex.',
+      description: 'Bonded at the first hunt, beast and hunter share one savage heart. A loyal beast that fights alongside the Apex.',
       image: '/assets/images/tokens/apex_beast_companion.png',
       type: 'ally',
       tier: 'basic',
@@ -848,7 +848,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'apex_primal_beast_spirits',
       name: 'Primal Beast Spirits',
-      description: 'Three primal spirits that attack autonomously.',
+      description: 'Old spirits of the hunt given claw and fury, three times over. Three primal spirits that attack autonomously.',
       image: '/assets/images/tokens/apex_primal_beast_spirits.png',
       type: 'ally',
       tier: 'ultimate',
@@ -869,7 +869,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'pyrofiend_infernal_minion',
       name: 'Infernal Minion',
-      description: 'An infernal minion summoned through hellfire.',
+      description: 'Torn howling from the Sundered Caldera, the minion pays its infernal pact in fire. An infernal minion summoned through hellfire.',
       level: 6,
       spellId: null,
       creature: {
@@ -894,7 +894,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'warden_cage_trap',
       name: 'Cage Trap',
-      description: 'A hidden spectral cage that restrains enemies for 2 rounds. DC 14 STR save.',
+      description: 'Woven from cold-iron wards, the spectral cage hungers for the lawless. A hidden spectral cage that restrains enemies for 2 rounds. DC 14 STR save.',
       level: 3,
       spellId: 'warden_cage_trap',
       creature: {
@@ -919,7 +919,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'groven_spirit_beast_wolf',
       name: 'Spirit Wolf',
-      description: 'A spirit wolf companion. 1d8 piercing melee attack.',
+      description: 'The spirit-speaker\'s first ally answers from the Old Spirits\' glade. A spirit wolf companion. 1d8 piercing melee attack.',
       level: 1,
       spellId: 'spirit_call',
       race: 'groven',
@@ -940,7 +940,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'groven_spirit_beast_bear',
       name: 'Spirit Bear',
-      description: 'A spirit bear companion. 1d10 bludgeoning melee attack.',
+      description: 'Root-veins tremble as the spirit-bear lumbers forth from the mist. A spirit bear companion. 1d10 bludgeoning melee attack.',
       level: 1,
       spellId: 'spirit_call',
       race: 'groven',
@@ -961,7 +961,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'groven_spirit_beast_eagle',
       name: 'Spirit Eagle',
-      description: 'A spirit eagle companion. 1d6 piercing ranged attack (60ft).',
+      description: 'A watching spirit of the bog-mists takes to the upper air. A spirit eagle companion. 1d6 piercing ranged attack (60ft).',
       level: 1,
       spellId: 'spirit_call',
       race: 'groven',
@@ -982,7 +982,7 @@ export const TOKEN_TEMPLATES = {
     {
       id: 'neth_raven_scout',
       name: 'Phantom Raven',
-      description: 'A phantom raven scout. See and hear through it up to 1 mile. Invisible.',
+      description: 'A scrap of the Frozen Archive\'s silence rides upon black wings. A phantom raven scout. See and hear through it up to 1 mile. Invisible.',
       level: 1,
       spellId: 'raven_scout',
       race: 'neth',

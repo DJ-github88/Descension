@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react';
+﻿import React, { useState, useRef, useEffect, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import useChatStore from '../../../../store/chatStore';
 import useGameStore from '../../../../store/gameStore';
@@ -10,7 +10,7 @@ import { formulationToSpell } from '../formulationToSpell';
 import { migrateBlockId } from '../../../../utils/arcanoneerMigration';
 
 /**
- * ArcanoneerResourceBar — the "Building Blocks" resource system.
+ * ArcanoneerResourceBar, the "Building Blocks" resource system.
  *
  * Replaces the legacy canvas-based elemental-spheres renderer. Renders an 8-segment
  * pip bar where each segment is one of the 8 Building Blocks (Force, Light, Shadow,
@@ -67,7 +67,7 @@ const ArcanoneerResourceBar = ({
     // In showcase mode (rules page), formulations are collapsed behind a toggle so the
     // demo reads as a bar first, with detail available on demand.
     const [showFormulations, setShowFormulations] = useState(false);
-    // Formulation spellcard hover — shows a full-screen foggy spellcard (same UX as
+    // Formulation spellcard hover, shows a full-screen foggy spellcard (same UX as
     // hovering spells in the action bar) via SpellTooltip's fullscreenMode.
     const [hoveredFormulation, setHoveredFormulation] = useState(null);
     const formHoverTimeoutRef = useRef(null);
@@ -76,7 +76,7 @@ const ArcanoneerResourceBar = ({
     // Keep localSpheres in sync if the upstream classResource changes (e.g. multiplayer update).
     useEffect(() => {
         const incoming = normalizeSpheres(classResource?.spheres);
-        // Shallow compare — only update if the upstream array actually changed.
+        // Shallow compare, only update if the upstream array actually changed.
         if (incoming.length !== localSpheres.length ||
             incoming.some((v, i) => v !== localSpheres[i])) {
             setLocalSpheres(incoming);
@@ -193,7 +193,7 @@ const ArcanoneerResourceBar = ({
     };
 
     /**
-     * Roll 4d8 — the core generation mechanic.
+     * Roll 4d8, the core generation mechanic.
      * Each die maps to a block by d8Value; bank all four (respecting cap).
      * Triggers a brief rolling animation, then commits.
      */
@@ -223,7 +223,7 @@ const ArcanoneerResourceBar = ({
 
     /**
      * Cast a formulation: consumes the two required blocks and logs it.
-     * Doesn't directly fire the spell — that's the combat resolver's job — but
+     * Doesn't directly fire the spell, that's the combat resolver's job, but
      * updates the bank so the player sees their blocks spent.
      */
     const castFormulation = (entry) => {
@@ -337,7 +337,7 @@ const ArcanoneerResourceBar = ({
         );
     };
 
-    // Single block segment — used by the full-mode bar.
+    // Single block segment, used by the full-mode bar.
     // Height is set via inline style so it can't be overridden by external CSS
     // (we had persistent specificity issues with the showcase-mode rules).
     const segmentHeight = showcase ? 95 : (size === 'large' ? 86 : (size === 'small' ? 48 : 64));
@@ -390,7 +390,7 @@ const ArcanoneerResourceBar = ({
         );
     };
 
-    // The hover-bar grid (8 segments) — for full mode. In showcase mode (rules page)
+    // The hover-bar grid (8 segments), for full mode. In showcase mode (rules page)
     // the grid switches to 4 columns so it fits a constrained container without overflow.
     // Column count is set via inline style so it can't be accidentally overridden by CSS.
     const renderBlockGrid = () => {
@@ -416,7 +416,7 @@ const ArcanoneerResourceBar = ({
                         className={`arc-roll-btn ${isRolling ? 'rolling' : ''}`}
                         onClick={(e) => { e.stopPropagation(); roll4d8(); }}
                         disabled={isRolling || totalBanked >= maxBank}
-                        title={totalBanked >= maxBank ? 'Bank full — spend spheres first' : 'Roll 4d8 to generate 4 Spheres'}
+                        title={totalBanked >= maxBank ? 'Bank full, spend spheres first' : 'Roll 4d8 to generate 4 Spheres'}
                     >
                         <i className={`fas fa-dice ${isRolling ? 'fa-spin' : ''}`} />
                         {!compact && <span className="arc-roll-label">{isRolling ? 'Rolling…' : 'Roll 4d8'}</span>}
@@ -426,10 +426,10 @@ const ArcanoneerResourceBar = ({
         </div>
     );
 
-    // Formulation chips — one per combination. Hover shows a full spellcard tooltip
+    // Formulation chips, one per combination. Hover shows a full spellcard tooltip
     // (via SpellTooltip + formulationToSpell adapter) so players can read the
     // formulation's effect, range, damage, etc. without leaving the bar.
-    // Uses fullscreenMode — same foggy-backdrop presentation as action-bar spell hovers.
+    // Uses fullscreenMode, same foggy-backdrop presentation as action-bar spell hovers.
     const handleFormHoverEnter = (entry) => {
         if (formHideTimeoutRef.current) { clearTimeout(formHideTimeoutRef.current); formHideTimeoutRef.current = null; }
         if (formHoverTimeoutRef.current) clearTimeout(formHoverTimeoutRef.current);
@@ -493,7 +493,7 @@ const ArcanoneerResourceBar = ({
                                 className={`arc-form-chip ${ready ? 'ready' : ''} ${isWyrd ? 'is-wyrd' : ''}`}
                                 disabled={!ready || !canEdit}
                                 onClick={(e) => { e.stopPropagation(); castFormulation(entry); }}
-                                title={`${entry.name}\n${entry.elements.map(id => getBlock(id)?.name || id).join(' + ')}\n${ready ? '✓ Ready — click to cast' : '✗ Not enough spheres'}`}
+                                title={`${entry.name}\n${entry.elements.map(id => getBlock(id)?.name || id).join(' + ')}\n${ready ? '✓ Ready, click to cast' : '✗ Not enough spheres'}`}
                             >
                                 <span className="arc-form-chip-name">{entry.name}</span>
                                 <span className="arc-form-chip-cost">
@@ -623,7 +623,7 @@ const ArcanoneerResourceBar = ({
                 <button
                     className={`arc-compact-expand ${readyCount > 0 ? 'has-ready' : ''}`}
                     onClick={(e) => { e.stopPropagation(); setShowPanel(!showPanel); }}
-                    title={readyCount > 0 ? `${readyCount} formulation${readyCount === 1 ? '' : 's'} ready — open to cast` : 'Open Spheres panel'}
+                    title={readyCount > 0 ? `${readyCount} formulation${readyCount === 1 ? '' : 's'} ready, open to cast` : 'Open Spheres panel'}
                 >
                     <i className={`fas ${showPanel ? 'fa-chevron-up' : 'fa-chevron-down'}`} />
                     <span className="arc-compact-banked">{totalBanked}</span>
@@ -635,7 +635,7 @@ const ArcanoneerResourceBar = ({
         </div>
     );
 
-    // Compact popover panel — full edit surface + formulation chips.
+    // Compact popover panel, full edit surface + formulation chips.
     const renderCompactPanel = () => {
         if (!showPanel || !barRef.current) return null;
         const barRect = barRef.current.getBoundingClientRect();

@@ -1,4 +1,4 @@
-// Animal Handling Skill Multi-Dimensional Tables
+﻿// Animal Handling Skill Multi-Dimensional Tables
 // 7 proficiency levels × 6 dice types = 42 tables total
 // Each die type has exact outcome count: d4=4, d6=6, d8=8, d10=10, d12=12, d20=13
 // For d20 tables: 13 unique outcomes with ranges covering all 20 possible roll values
@@ -558,7 +558,7 @@ export const ANIMAL_HANDLING_TABLES = {
             { roll: [3, 3], result: 'Animal shows masterful technique', type: 'success' },
             { roll: [4, 4], result: 'Animal performs with legendary grace', type: 'critical' },
             { roll: [5, 5], result: 'Animal achieves tactical perfection', type: 'critical' },
-            { roll: [6, 6], result: 'Animal demonstrates divine precision', type: 'critical' },
+            { roll: [6, 6], result: 'Animal demonstrates sacred precision', type: 'critical' },
             { roll: [7, 7], result: 'Animal transcends physical limits', type: 'critical' },
             { roll: [8, 8], result: 'Animal becomes myth incarnate', type: 'critical' }
         ]
@@ -578,7 +578,7 @@ export const ANIMAL_HANDLING_TABLES = {
             { roll: [7, 7], result: 'Animal performs impossible maneuver', type: 'critical' },
             { roll: [8, 8], result: 'Animal defies reality itself', type: 'critical' },
             { roll: [9, 9], result: 'Animal becomes force beyond nature', type: 'critical' },
-            { roll: [10, 10], result: 'Animal achieves divine perfection', type: 'critical' }
+            { roll: [10, 10], result: 'Animal achieves sacred perfection', type: 'critical' }
         ]
     },
     animalhandling_expert_d12: {
@@ -615,7 +615,7 @@ export const ANIMAL_HANDLING_TABLES = {
             { roll: [10, 11], result: 'Animal defies natural law', type: 'success' },
             { roll: [12, 13], result: 'Animal rewrites reality', type: 'success' },
             { roll: [14, 15], result: 'Animal becomes force of nature', type: 'critical' },
-            { roll: [16, 16], result: 'Animal achieves divine miracle', type: 'critical' },
+            { roll: [16, 16], result: 'Animal achieves sacred miracle', type: 'critical' },
             { roll: [17, 17], result: 'Animal transcends physical existence', type: 'critical' },
             { roll: [18, 18], result: 'Animal becomes eternal legend', type: 'critical' },
             { roll: [19, 19], result: 'Animal ascends to mythic realm', type: 'critical' },
@@ -678,7 +678,7 @@ export const ANIMAL_HANDLING_TABLES = {
             { roll: [4, 4], result: 'Animal transcends natural limits', type: 'critical' },
             { roll: [5, 5], result: 'Animal rewrites reality itself', type: 'critical' },
             { roll: [6, 6], result: 'Animal becomes living miracle', type: 'critical' },
-            { roll: [7, 7], result: 'Animal achieves divine feat', type: 'critical' },
+            { roll: [7, 7], result: 'Animal achieves sacred feat', type: 'critical' },
             { roll: [8, 8], result: 'Animal ascends beyond mortal realm', type: 'critical' },
             { roll: [9, 9], result: 'Animal becomes eternal myth', type: 'critical' },
             { roll: [10, 10], result: 'Animal achieves cosmic greatness', type: 'critical' }
@@ -712,14 +712,14 @@ export const ANIMAL_HANDLING_TABLES = {
         table: [
             { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 3], result: 'Animal struggles against cosmic will', type: 'success' },
-            { roll: [4, 5], result: 'Animal overcomes through divine power', type: 'success' },
+            { roll: [4, 5], result: 'Animal overcomes through sacred power', type: 'success' },
             { roll: [6, 7], result: 'Animal transcends all mortal limits', type: 'critical' },
             { roll: [8, 9], result: 'Animal defies reality itself', type: 'critical' },
             { roll: [10, 11], result: 'Animal rewrites cosmic order', type: 'critical' },
             { roll: [12, 13], result: 'Animal becomes force beyond nature', type: 'critical' },
-            { roll: [14, 15], result: 'Animal achieves divine miracle', type: 'critical' },
+            { roll: [14, 15], result: 'Animal achieves sacred miracle', type: 'critical' },
             { roll: [16, 16], result: 'Animal transcends physical realm', type: 'critical' },
-            { roll: [17, 17], result: 'Animal becomes living god', type: 'critical' },
+            { roll: [17, 17], result: 'Animal becomes living spirit', type: 'critical' },
             { roll: [18, 18], result: 'Animal ascends to eternal myth', type: 'critical' },
             { roll: [19, 19], result: 'Animal achieves cosmic perfection', type: 'critical' },
             { roll: [20, 20], result: 'Animal and you become one eternal force', type: 'critical' }

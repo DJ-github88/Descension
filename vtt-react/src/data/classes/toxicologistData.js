@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Toxicologist Class Data
  *
  * Complete class information for the Toxicologist - a master of poisons, concoctions,
@@ -24,22 +24,22 @@ export const TOXICOLOGIST_DATA = {
   },
 
   /**
-   * Subrace Variants — the Toxicologist crafts poison, and the source of the reagents
+   * Subrace Variants, the Toxicologist crafts poison, and the source of the reagents
    * defines the craft. The Thalren distill the fog-predators. The Unwoven Mimir brew
    * the canopy floor. The Morren know the bog. The Briaran carry the deep grove's
-   * thorn-venom — and the Smooth-Skinned brew it in secret, among neighbors who would
+   * thorn-venom, and the Smooth-Skinned brew it in secret, among neighbors who would
    * kill them for it.
    */
   subraceVariants: {
     thalren_human: {
       subraceName: 'Thalren',
       title: 'The Fog-Distiller',
-      reframe: `This is Varis's original tradition. The <LoreLink termId="skald">Thalren</LoreLink> extract raw venom from the fog-predators of the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink> — the Gref, the Gambrel, the things that hunt the mist — and distill it into area-denial poisons suited to the dense undergrowth. Years in the ironwood canopies left Varis with chronic tremors and stained fingers; every Thalren Toxicologist inherits both the craft and the cost.`,
+      reframe: `This is Varis's original tradition. The <LoreLink termId="skald">Thalren</LoreLink> extract raw venom from the fog-predators of the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink>, the Gref, the Gambrel, the things that hunt the mist, and distill it into area-denial poisons suited to the dense undergrowth. Years in the ironwood canopies left Varis with chronic tremors and stained fingers; every Thalren Toxicologist inherits both the craft and the cost.`,
       signatureAbility: {
         name: 'Fog-Venom',
-        description: `Toxins are distilled from fog-predator biology and optimized for *area-denial* — slow-acting, persistent, deployed as a perimeter rather than a strike. The Thalren are the tradition's strategists: a poison laid today that blooms in a week.`
+        description: `Toxins are distilled from fog-predator biology and optimized for *area-denial*, slow-acting, persistent, deployed as a perimeter rather than a strike. The Thalren are the tradition's strategists: a poison laid today that blooms in a week.`
       },
-      currentCrisisAngle: `The fog is changing the Frostwood's chemistry (the foundational crisis), and the fog-predator venoms the Thalren rely on are degrading in weeks rather than years. The Thalren Toxicologists are watching their entire pharmacopoeia spoil, and some have begun, in desperation, to distill *the changing fog itself* — a reagent no one has ever weaponized, because no one knows what it does yet.`,
+      currentCrisisAngle: `The fog is changing the Frostwood's chemistry (the foundational crisis), and the fog-predator venoms the Thalren rely on are degrading in weeks rather than years. The Thalren Toxicologists are watching their entire pharmacopoeia spoil, and some have begun, in desperation, to distill *the changing fog itself*, a reagent no one has ever weaponized, because no one knows what it does yet.`,
       signatureQuote: {
         text: '"I have distilled the same venom for forty years. This year it spoils before it cures. The fog is rewriting my craft, and I am old enough to resent the revision."',
         speaker: 'Varis the Trembling',
@@ -50,12 +50,12 @@ export const TOXICOLOGIST_DATA = {
     unwoven_mimir: {
       subraceName: 'Unwoven Mimir',
       title: 'The Floor-Brewer',
-      reframe: `The <LoreLink termId="mimir">Unwoven Mimir</LoreLink> — the maskless floor-dwellers — brew toxins from the canopy's undergrowth, the fungal mats and acidic secretions of the forest floor they inhabit. Where the Thalren distill predators, the Unwoven distill *decay* — the slow chemistry of decomposition, weaponized by the people who live closest to it.`,
+      reframe: `The <LoreLink termId="mimir">Unwoven Mimir</LoreLink>, the maskless floor-dwellers, brew toxins from the canopy's undergrowth, the fungal mats and acidic secretions of the forest floor they inhabit. Where the Thalren distill predators, the Unwoven distill *decay*, the slow chemistry of decomposition, weaponized by the people who live closest to it.`,
       signatureAbility: {
         name: 'Floor-Decay',
-        description: `Toxins are cultivated from decomposing undergrowth and optimized for *persistence* — once deployed, they linger in the environment for weeks, Denying terrain long after the Toxicologist has left. The Unwoven's floor-toxins are the tradition's longest-lasting agents.`
+        description: `Toxins are cultivated from decomposing undergrowth and optimized for *persistence*, once deployed, they linger in the environment for weeks, Denying terrain long after the Toxicologist has left. The Unwoven's floor-toxins are the tradition's longest-lasting agents.`
       },
-      currentCrisisAngle: `The changing fog is altering the undergrowth's decomposition chemistry, and the Unwoven's floor-toxins are *mutating in the vial* — persistent agents becoming *aggressive*, spreading beyond their deployed perimeter. Several Unwoven Toxicologists have lost their own floor-dwellings to toxins they laid months earlier, the poisons refusing to stay where they were put.`,
+      currentCrisisAngle: `The changing fog is altering the undergrowth's decomposition chemistry, and the Unwoven's floor-toxins are *mutating in the vial*, persistent agents becoming *aggressive*, spreading beyond their deployed perimeter. Several Unwoven Toxicologists have lost their own floor-dwellings to toxins they laid months earlier, the poisons refusing to stay where they were put.`,
       signatureQuote: {
         text: '"I brew what the floor gives me. The floor is giving me something new. It does not stay where I pour it. I am afraid I have poisoned the only home I had."',
         speaker: 'Unwoven Mir-Naeth',
@@ -66,12 +66,12 @@ export const TOXICOLOGIST_DATA = {
     morren_human: {
       subraceName: 'Morren',
       title: 'The Bog-Chemist',
-      reframe: `The <LoreLink termId="house_morrath">Morren</LoreLink> know the <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink> bog's chemistry from centuries of peat-debt — every peat-cut, every bog-preserved corpse, every alchemical moss they harvested for the Neth taught them what the water remembers. A Morren Toxicologist does not hunt predators or cultivate decay; they *read the bog*, weaponizing a wetland they have been forced to work for over four hundred years.`,
+      reframe: `The <LoreLink termId="house_morrath">Morren</LoreLink> know the <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink> bog's chemistry from centuries of peat-debt, every peat-cut, every bog-preserved corpse, every alchemical moss they harvested for the Neth taught them what the water remembers. A Morren Toxicologist does not hunt predators or cultivate decay; they *read the bog*, weaponizing a wetland they have been forced to work for over four hundred years.`,
       signatureAbility: {
         name: 'Bog-Reading',
-        description: `Toxins are derived from bog-chemistry — peat-acids, alchemical moss, the preservative ichor that sustains the First Contract. The Morren are the tradition's most *versatile* chemists, drawing from the richest pharmacological ecosystem in the known world, and the only variant whose reagents include the contract-preserving ichor itself.`
+        description: `Toxins are derived from bog-chemistry, peat-acids, alchemical moss, the preservative ichor that sustains the First Contract. The Morren are the tradition's most *versatile* chemists, drawing from the richest pharmacological treasury in the known world, and the only variant whose reagents include the contract-preserving ichor itself.`
       },
-      currentCrisisAngle: `The bog's chemistry is shifting as the Root-Veil rejects the Marked (the Plaguebringer crisis), and the Morren Toxicologists are losing their most potent reagent — the preservative ichor — as the mycelial network that produces it recoils. Some Morren have begun *intercepting* the ichor shipments meant for the Neth's contract-rituals, a theft that carries the Keeper's Sanction, because it is the only way to keep their craft alive.`,
+      currentCrisisAngle: `The bog's chemistry is shifting as the Root-Veil rejects the Marked (the Plaguebringer crisis), and the Morren Toxicologists are losing their most potent reagent, the preservative ichor, as the mycelial network that produces it recoils. Some Morren have begun *intercepting* the ichor shipments meant for the Neth's contract-rituals, a theft that carries the Keeper's Sanction, because it is the only way to keep their craft alive.`,
       signatureQuote: {
         text: '"I have read this bog for over four hundred years of my family\'s debt. Now the bog is changing its mind, and I am stealing from the Neth to keep my chemistry. The Ledger will strike me. The bog will not."',
         speaker: 'Mor-Velk the Wet',
@@ -82,12 +82,12 @@ export const TOXICOLOGIST_DATA = {
     unshorn_briaran: {
       subraceName: 'Unshorn Briaran',
       title: 'The Thorn-Venom',
-      reframe: `The <LoreLink termId="briaran">Unshorn Briaran</LoreLink> — thorn-cloaked traditionalists of the deep groves — carry the most *personal* toxicology in the tradition: the thorn-blood itself. The fae-contract that scrawls shifting raven-markings across the deep ironwood also infuses the Briaran's thorns, and an Unshorn Toxicologist distills *their own blood* — the fae-venom that grows from their forearms.`,
+      reframe: `The <LoreLink termId="briaran">Unshorn Briaran</LoreLink>, thorn-cloaked traditionalists of the deep groves, carry the most *personal* toxicology in the tradition: the thorn-blood itself. The fae-contract that scrawls shifting raven-markings across the deep ironwood also infuses the Briaran's thorns, and an Unshorn Toxicologist distills *their own blood*, the fae-venom that grows from their forearms.`,
       signatureAbility: {
         name: 'Thorn-Blood',
-        description: `Toxins are distilled from the Toxicologist's own fae-touched thorn-blood — a deeply personal reagent that makes every Unshorn Toxicologist's poisons *unique* to their bloodline. The poisons are potent and uncounterable by anyone who has not studied the specific Briaran's blood, but each distillation costs the Toxicologist real HP.`
+        description: `Toxins are distilled from the Toxicologist's own fae-touched thorn-blood, a deeply personal reagent that makes every Unshorn Toxicologist's poisons *unique* to their bloodline. The poisons are potent and uncounterable by anyone who has not studied the specific Briaran's blood, but each distillation costs the Toxicologist real HP.`
       },
-      currentCrisisAngle: `The changing fog has reached the deep groves, and the fae-touched thorn-blood is responding — the thorns growing *faster*, the venom more virulent, the Unshorn Toxicologists *bleeding spontaneously*. Several elders read this as the fae-contract *collecting* — the same interest-compounding the Lunarchs describe — and fear the Unshorn are being bled dry by their own patrons.`,
+      currentCrisisAngle: `The changing fog has reached the deep groves, and the fae-touched thorn-blood is responding, the thorns growing *faster*, the venom more virulent, the Unshorn Toxicologists *bleeding spontaneously*. Several elders read this as the fae-contract *collecting*, the same interest-compounding the Lunarchs describe, and fear the Unshorn are being bled dry by their own patrons.`,
       signatureQuote: {
         text: '"I distill my own arm to poison my enemies. The arm grows back. The venom grows stronger. Lately the arm bleeds whether I ask it to or not. The fae are collecting, and I am the harvest."',
         speaker: 'Thorn-Venom Bri-Vess',
@@ -98,12 +98,12 @@ export const TOXICOLOGIST_DATA = {
     smoothskinned_briaran: {
       subraceName: 'Smooth-Skinned Briaran',
       title: 'The Hidden-Cuil',
-      reframe: `The <LoreLink termId="briaran">Smooth-Skinned Briaran</LoreLink> pass as human among the Thalren edge-settlements, and a Toxicologist among them brews in *absolute secret* — distilling thorn-venom in basements, hiding the reagents from neighbors who would report them. The Smooth-Skinned are the tradition's *spies*: their craft is optimized for concealment, for toxins that kill without trace, for a poisoner who cannot afford to be caught.`,
+      reframe: `The <LoreLink termId="briaran">Smooth-Skinned Briaran</LoreLink> pass as human among the Thalren edge-settlements, and a Toxicologist among them brews in *absolute secret*, distilling thorn-venom in basements, hiding the reagents from neighbors who would report them. The Smooth-Skinned are the tradition's *spies*: their craft is optimized for concealment, for toxins that kill without trace, for a poisoner who cannot afford to be caught.`,
       signatureAbility: {
         name: 'Veiled-Cuil',
-        description: `Toxins are engineered for *untraceability* — delayed onset, undetectable residue, symptoms that mimic natural illness. The Smooth-Skinned are the tradition's assassins, and their poisons are designed to leave no evidence that a Toxicologist was ever present. The cost: the weakest direct-combat toxins in the tradition.`
+        description: `Toxins are engineered for *untraceability*, delayed onset, undetectable residue, symptoms that mimic natural illness. The Smooth-Skinned are the tradition's assassins, and their poisons are designed to leave no evidence that a Toxicologist was ever present. The cost: the weakest direct-combat toxins in the tradition.`
       },
-      currentCrisisAngle: `The spontaneous thorn-bleeding (the Unshorn crisis) affects the Smooth-Skinned too, and it is *exposing* them — a Smooth-Skinned Toxicologist who bleeds thorn-blood in a Thalren market is no longer passing as human. Several have been identified and reported to the Scribe-Cartel, and the Smooth-Skinned Toxicologists are being forced to choose between their craft (which now betrays them) and their cover (which requires abandoning it).`,
+      currentCrisisAngle: `The spontaneous thorn-bleeding (the Unshorn crisis) affects the Smooth-Skinned too, and it is *exposing* them, a Smooth-Skinned Toxicologist who bleeds thorn-blood in a Thalren market is no longer passing as human. Several have been identified and reported to the Scribe-Cartel, and the Smooth-Skinned Toxicologists are being forced to choose between their craft (which now betrays them) and their cover (which requires abandoning it).`,
       signatureQuote: {
         text: '"I brewed in secret for twenty years and the Thalren never knew. Now my arm bleeds in their market and they are looking at me the way I always feared. My craft has unmasked me. I do not know which to mourn."',
         speaker: 'Vael the Smooth',
@@ -124,25 +124,25 @@ export const TOXICOLOGIST_DATA = {
     orderName: 'The Distillery',
     founder: {
       name: '<LoreLink termId="varis">Varis</LoreLink>',
-      status: `Alive — old, trembling, and still working. The <LoreLink termId="frostwood-reach">Thalren</LoreLink> alchemist who extracted raw venom from fog-predators to defend against face-stealing horrors. Years in the ironwood canopies left him with chronic tremors, burned-away taste, and permanently stained fingers. He cannot sign his own name legibly. He can still pour a lethal dose without spilling.`,
-      note: `<LoreLink termId="varis">Varis</LoreLink> built the Distillery on patience: a poison laid today that blooms in a week. The changing fog is rewriting his pharmacopoeia in real time, and the most premeditative tradition in Mythrill is being forced to improvise — the one thing it was never built to do.`
+      status: `Alive, old, trembling, and still working. The <LoreLink termId="frostwood-reach">Thalren</LoreLink> alchemist who extracted raw venom from fog-predators to defend against face-stealing horrors. Years in the ironwood canopies left him with chronic tremors, burned-away taste, and permanently stained fingers. He cannot sign his own name legibly. He can still pour a lethal dose without spilling.`,
+      note: `<LoreLink termId="varis">Varis</LoreLink> built the Distillery on patience: a poison laid today that blooms in a week. The changing fog is rewriting his pharmacopoeia in real time, and the most premeditative tradition in Mythrill is being forced to improvise, the one thing it was never built to do.`
     },
     currentLeader: {
       name: '<LoreLink termId="varis">Venom-Master Varis the Trembling</LoreLink>',
       title: 'Keeper of the Slow Cup',
-      characterization: `<LoreLink termId="varis">Varis</LoreLink> still leads, though his tremors make the work dangerous and his junior distillers flank every pour. He is stubborn, brilliant, and furious at the fog in a way only a four-century practitioner can be — the resentment of a master watching his medium rewrite itself without his consent. He considers the changing fog a personal insult.`
+      characterization: `<LoreLink termId="varis">Varis</LoreLink> still leads, though his tremors make the work dangerous and his junior distillers flank every pour. He is stubborn, brilliant, and furious at the fog in a way only a four-century practitioner can be, the resentment of a master watching his medium rewrite itself without his consent. He considers the changing fog a personal insult.`
     },
     headquarters: { name: 'The Canopy-Distillery, the Shallows (Frostwood Reach)', locationId: 'frostwood-reach' },
-    crisisConnection: `<LoreLink termId="varis">Varis</LoreLink> is presiding over the spoilage of his life's work: fog-predator venoms degrading in weeks rather than years, the entire Distillery pharmacopoeia turning unstable. His desperation project — distilling the *changing fog itself* — has produced reagents no one can characterize, and two of his apprentices have died testing them. He refuses to stop. He has spent four centuries mastering the Frostwood's chemistry, and he will master the new chemistry or die in the attempt. The Distillery's junior members are no longer certain which outcome they are rooting for.`
+    crisisConnection: `<LoreLink termId="varis">Varis</LoreLink> is presiding over the spoilage of his life's work: fog-predator venoms degrading in weeks rather than years, the entire Distillery pharmacopoeia turning unstable. His desperation project, distilling the *changing fog itself*, has produced reagents no one can characterize, and two of his apprentices have died testing them. He refuses to stop. He has spent four centuries mastering the Frostwood's chemistry, and he will master the new chemistry or die in the attempt. The Distillery's junior members are no longer certain which outcome they are rooting for.`
   },
 
   worldFriction: [
-    { region: 'human-settlements', status: 'outlawed', consequence: 'Poison-craft is universally criminalized; a known Toxicologist is barred from taverns, markets, and any gathering where food is served. Possession of a toxin-vial is a felony in six of the seven regions.', workaround: 'Frame the craft as "apothecary" or "fog-ward reagent-distillation" — the line between poison and medicine is thin, and a Toxicologist with a Scribe-Cartel apothecary-license operates openly until caught dosing.' },
-    { region: 'frostwood-reach', status: 'tolerated', consequence: 'The Frostwood is the one region where Toxicologists operate in the open — the Wyrd-predators make chemical defense a civic necessity, and Greymark Keep quietly employs them as fog-predator-control. The Distillery is an open secret.' }
+    { region: 'human-settlements', status: 'outlawed', consequence: 'Poison-craft is universally criminalized; a known Toxicologist is barred from taverns, markets, and any gathering where food is served. Possession of a toxin-vial is a felony in six of the seven regions.', workaround: 'Frame the craft as "apothecary" or "fog-ward reagent-distillation", the line between poison and medicine is thin, and a Toxicologist with a Scribe-Cartel apothecary-license operates openly until caught dosing.' },
+    { region: 'frostwood-reach', status: 'tolerated', consequence: 'The Frostwood is the one region where Toxicologists operate in the open, the Wyrd-predators make chemical defense a civic necessity, and Greymark Keep quietly employs them as fog-predator-control. The Distillery is an open secret.' }
   ],
 
   overview: {
-    originStory: `Founded in Year 380 of the Dimming by Varis the Trembling, who systematized venom extraction from the fog-predators of the Frostwood Reach. Varis the alchemist extracted raw venom from the fog-predators of the Frostwood, seeking a chemical defense against the face-stealing horrors that cornered his scout patrols. He spent years in the ironwood canopies, distilling toxic moss and acidic secretions.
+    originStory: `Founded in the mid-Diming centuries by Varis the Trembling, who systematized venom extraction from the fog-predators of the Frostwood Reach. Varis the alchemist extracted raw venom from the fog-predators of the Frostwood, seeking a chemical defense against the face-stealing horrors that cornered his scout patrols. He spent years in the ironwood canopies, distilling toxic moss and acidic secretions.
 
 The constant exposure to toxic fumes caused chronic tremors in his hands, burning away his sense of taste and leaving his fingers permanently stained with acid runoff. The Toxicologist cannot handle delicate tools without intense pain, their catalysts trailing corrosive fumes.
 
@@ -165,7 +165,7 @@ Brew the end. The vial is filled with your own decay, and the vapor is your shro
 **Best For**: Players who love pre-combat planning, mid-fight crafting, and the grim satisfaction of watching enemies crumble under layered afflictions they never saw coming`,
     },
 
-    description: `There is no cure for what you have become. The Toxicologist began as a healer -- someone who understood the boundary between medicine and venom, who could save a life with one drop and end it with two. That person is dead. What remains is a self-poisoned surgeon whose veins run thick with weaponized toxin, whose body is a walking crucible of reagents that rejects restoration. Every poison you craft costs blood. Every antidote you brew is for someone else. Your own flesh cannot be saved -- it is saturated past the point of no return. Unlike the Plaguebringer (who feeds on enemy death) or the Witch Doctor (who channels angry gods), the Toxicologist is PREPARATION-BASED. You set up before combat, craft during combat, and reclaim after combat. No passive pressure, no divine demands -- just science, poison, and contraptions. Your strength is that NOTHING forces you to act -- but also nothing helps you if you didn't prepare.`,
+    description: `There is no cure for what you have become. The Toxicologist began as a healer -- someone who understood the boundary between medicine and venom, who could save a life with one drop and end it with two. That person is dead. What remains is a self-poisoned surgeon whose veins run thick with weaponized toxin, whose body is a walking crucible of reagents that rejects restoration. Every poison you craft costs blood. Every antidote you brew is for someone else. Your own flesh cannot be saved -- it is saturated past the point of no return. Unlike the Plaguebringer (who feeds on enemy death) or the Witch Doctor (who channels angry old powers), the Toxicologist is PREPARATION-BASED. You set up before combat, craft during combat, and reclaim after combat. No passive pressure, no ancestral demands -- just science, poison, and contraptions. Your strength is that NOTHING forces you to act -- but also nothing helps you if you didn't prepare.`,
 
     roleplayIdentity: {
       title: "Roleplay Identity",
@@ -190,24 +190,24 @@ The class is heavily practiced by the Thalren humans and the <LoreLink termId="m
     },
 
     philosophy: {
-      coreTenet: 'The difference between poison and medicine is dosage. Everything in the world is toxic if you consume enough of it. The Toxicologist simply understands the thresholds better than anyone else. They do not create poisons — they identify which naturally occurring toxins will produce the desired effect.',
-      relationship: 'A Toxicologist\'s body is a chemical processing plant. They have deliberately microdosed themselves with so many toxins that their body has developed a complex tolerance network. New toxins must be administered carefully — the body needs time to learn to process them. The relationship is alchemical: the Toxicologist is both the chemist and the laboratory. Every new resistance they develop changes the internal chemistry, and some changes are irreversible.',
-      paradox: 'The Toxicologist heals more slowly because their body is too busy processing toxins to repair itself. Any magical healing they receive is halved — their internal chemistry rejects outside interference. They are the most self-sufficient alchemists in the world, but they cannot accept help from anyone. A Toxicologist who pushes too hard will find themselves unable to recover, their body too overwhelmed by toxins to heal even the simplest wound.'
+      coreTenet: 'The difference between poison and medicine is dosage. Everything in the world is toxic if you consume enough of it. The Toxicologist simply understands the thresholds better than anyone else. They do not create poisons, they identify which naturally occurring toxins will produce the desired effect.',
+      relationship: 'A Toxicologist\'s body is a chemical processing plant. They have deliberately microdosed themselves with so many toxins that their body has developed a complex tolerance network. New toxins must be administered carefully, the body needs time to learn to process them. The relationship is alchemical: the Toxicologist is both the chemist and the laboratory. Every new resistance they develop changes the internal chemistry, and some changes are irreversible.',
+      paradox: 'The Toxicologist heals more slowly because their body is too busy processing toxins to repair itself. Any magical healing they receive is halved, their internal chemistry rejects outside interference. They are the most self-sufficient alchemists in the world, but they cannot accept help from anyone. A Toxicologist who pushes too hard will find themselves unable to recover, their body too overwhelmed by toxins to heal even the simplest wound.'
     },
 
-    currentCrisis: `The fog is changing the chemistry of the Frostwood Reach. The airborne toxins that Toxicologists have relied on for generations — distilled from fog-predator venom, ironwood sap, and Gref residue — are becoming unstable. Compounds that once remained viable for years are now degrading in weeks.
+    currentCrisis: `The fog is changing the chemistry of the Frostwood Reach. The airborne toxins that Toxicologists have relied on for generations, distilled from fog-predator venom, ironwood sap, and Gref residue, are becoming unstable. Compounds that once remained viable for years are now degrading in weeks.
 
-Toxicologists have traced the cause to a change in the fog\'s composition. Something is leaching into the mist — a new element that reacts unpredictably with their stored compounds. Some believe it is a byproduct of the Void contamination spreading from the Bryngloom. Others believe the fog is simply evolving, becoming more complex as it ages. Whatever the cause, the Toxicologists are losing their arsenal. Their most powerful poisons are turning inert, and they are being forced to develop new formulations from scratch — while the Gref continue to attack.`,
+Toxicologists have traced the cause to a change in the fog\'s composition. Something is leaching into the mist, a new element that reacts unpredictably with their stored compounds. Some believe it is a byproduct of the Void contamination spreading from the Bryngloom. Others believe the fog is simply evolving, becoming more complex as it ages. Whatever the cause, the Toxicologists are losing their arsenal. Their most powerful poisons are turning inert, and they are being forced to develop new formulations from scratch, while the Gref continue to attack.`,
 
-    meaningfulTradeoffs: `To be a Toxicologist is to shake constantly. The chronic tremors caused by years of toxin exposure make fine motor control difficult. A Toxicologist cannot thread a needle, cannot sign their name legibly, cannot hold a cup of tea without sloshing. Their hands are in constant motion, a visible reminder of the price they pay. The tremors are worse when they are stressed, which makes combat particularly challenging — and particularly dangerous for anyone standing next to them when they are trying to pour a precise dose of poison into a vial.`,
+    meaningfulTradeoffs: `To be a Toxicologist is to shake constantly. The chronic tremors caused by years of toxin exposure make fine motor control difficult. A Toxicologist cannot thread a needle, cannot sign their name legibly, cannot hold a cup of tea without sloshing. Their hands are in constant motion, a visible reminder of the price they pay. The tremors are worse when they are stressed, which makes combat particularly challenging, and particularly dangerous for anyone standing next to them when they are trying to pour a precise dose of poison into a vial.`,
 
     classSpecificLocations: [
       {
         name: 'Varis\'s Canopy Laboratory',
         locationId: 'the-shallows',
-        description: 'A suspended platform high in the ironwood canopy where Varis the Alchemist conducted his original research into fog-predator venom. The laboratory is still maintained — glass vials line the walls, each one containing a different toxin sample collected over decades. The newest vials are labeled with question marks — compounds that the Toxicologists cannot yet identify.',
+        description: 'A suspended platform high in the ironwood canopy where Varis the Alchemist conducted his original research into fog-predator venom. The laboratory is still maintained, glass vials line the walls, each one containing a different toxin sample collected over decades. The newest vials are labeled with question marks, compounds that the Toxicologists cannot yet identify.',
         purpose: 'Research laboratory and toxin archive',
-        status: 'Active — the senior Toxicologists use it to analyze the changing fog composition'
+        status: 'Active, the senior Toxicologists use it to analyze the changing fog composition'
       }
     ],
 
@@ -456,9 +456,9 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 **Damage Breakdown**:
 - Neurotoxin (weapon): 6 blight damage to Bandit #1
 - Cytotoxin (weapon): 9 + 8 = 17 blight damage
-- Explosive Concoction: ~15 average ember damage Ã— 3 bandits = ~45 total ember damage
-- Poison Gas Trap: 9 blight damage/turn Ã— 2 turns Ã— 2 bandits = 36 total blight damage
-- Spike Trap: ~9 average physical damage Ã— 2 bandits = ~18 total physical damage
+- Explosive Concoction: ~15 average ember damage Ã, 3 bandits = ~45 total ember damage
+- Poison Gas Trap: 9 blight damage/turn Ã, 2 turns Ã, 2 bandits = 36 total blight damage
+- Spike Trap: ~9 average physical damage Ã, 2 bandits = ~18 total physical damage
 - **Grand Total**: ~122 damage from poisons, contraptions, and concoctions
 
 **The Lesson**: Toxicologist gameplay is about:

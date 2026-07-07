@@ -1,4 +1,4 @@
-export const RARITY_COLORS = {
+﻿export const RARITY_COLORS = {
     poor: {
         border: '#8b7355',
         text: '#a08c70',
@@ -54,7 +54,7 @@ export const ELEMENT_COLORS = {
     poison: '#00ff00',
     psychic: '#ff00ff',
     thunder: '#0066ff',
-    divine: '#DAA520'
+    sacred: '#DAA520'
 };
 
 export const TOOLTIP_COLORS = {

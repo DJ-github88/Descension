@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Consumable Utility Functions
  * 
  * Shared utility for handling consumable item usage across the application.
@@ -10,7 +10,7 @@
 
 import { getIconUrl } from './assetManager';
 
-const SPELL_DAMAGE_TYPES = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'divine'];
+const SPELL_DAMAGE_TYPES = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'sacred'];
 
 /**
  * Calculate resource adjustment and detect overheal

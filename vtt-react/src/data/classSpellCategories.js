@@ -1,4 +1,4 @@
-/**
+﻿/**
 
  * Class-Based Spell Categories
 
@@ -30,7 +30,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Inferno',
 
-        description: 'Pure destruction - aggressive burst damage and rapid ascension',
+        description: 'The Caldera\'s roaring heart given form. Pure destruction - aggressive burst damage and rapid ascension',
 
         color: '#FF4500',
 
@@ -44,7 +44,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Wildfire',
 
-        description: 'Spreading chaos - area damage and damage-over-time effects',
+        description: 'Emberspire spreads its plague of hellfire. Spreading chaos - area damage and damage-over-time effects',
 
         color: '#FF8C00',
 
@@ -58,7 +58,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Apostate',
 
-        description: 'Controlled corruption - mana-intensive sustained damage with slower ascension',
+        description: 'A pact made with the Wyrd-touched, slowly devoured. Controlled corruption - mana-intensive sustained damage with slower ascension',
 
         color: '#6B2020',
 
@@ -84,7 +84,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Battlechoir',
 
-        description: 'Aggressive support, damage amplification, and war songs',
+        description: 'A cadence forged in the Old Revel\'s wars. Aggressive support, damage amplification, and war songs',
 
         color: '#DC143C',
 
@@ -98,7 +98,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Soulsinger',
 
-        description: 'Healing focus, emotional manipulation, and protective melodies',
+        description: 'Melodies woven from fey harmony. Healing focus, emotional manipulation, and protective melodies',
 
         color: '#4169E1',
 
@@ -112,7 +112,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Dissonance',
 
-        description: 'Debuffs and control, chaotic magic, and reality-warping sounds',
+        description: 'The Revel\'s darker chord, where harmony fractures. Debuffs and control, chaotic magic, and reality-warping sounds',
 
         color: '#9370DB',
 
@@ -138,7 +138,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Stasis',
 
-        description: 'Control and freeze effects that halt time',
+        description: 'A shard of the Frozen Hours, locked in place. Control and freeze effects that halt time',
 
         color: '#4169E1',
 
@@ -152,7 +152,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Displacement',
 
-        description: 'Teleportation and mobility through time and space',
+        description: 'Time folds at Sundrift\'s command. Teleportation and mobility through time and space',
 
         color: '#6495ED',
 
@@ -166,7 +166,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Rewinding',
 
-        description: 'Healing and time reversal to undo damage',
+        description: 'The temporal thread rewoven before it frays. Healing and time reversal to undo damage',
 
         color: '#87CEEB',
 
@@ -192,7 +192,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Wild Prophet',
 
-        description: 'Channel entropic friction and prophetic visions into chaotic battlefield transformations',
+        description: 'The Bleeding Eye sees every possible doom. Channel entropic friction and prophetic visions into chaotic battlefield transformations',
 
         color: '#9b59b6',
 
@@ -206,7 +206,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: "Death's Seer",
 
-        description: 'Prophesy doom and decay, amplifying blight energy through prophetic foresight',
+        description: 'Wyrd whispers what must come to pass. Prophesy doom and decay, amplifying blight energy through prophetic foresight',
 
         color: '#4B0082',
 
@@ -220,7 +220,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Fate Rift',
 
-        description: 'Tear open fate-altering rifts that release chaotic probability storms',
+        description: 'A wound torn in destiny itself. Tear open fate-altering rifts that release chaotic probability storms',
 
         color: '#e67e22',
 
@@ -236,21 +236,21 @@ export const CLASS_SPECIALIZATIONS = {
       {
         id: 'probability_savant',
         name: 'Probability Savant',
-        description: 'Mathematical foresight and incremental roll manipulation, treating fate as a ledger',
+        description: 'Every roll is a clause in the contract-deck. Mathematical foresight and incremental roll manipulation, treating fate as a ledger',
         color: '#2980b9',
         icon: 'inv_misc_tarot_01'
       },
       {
         id: 'high_roller',
         name: 'High Roller',
-        description: 'Extreme-risk gambling for devastating reality-warping payloads',
+        description: 'Fortune\'s wheel spun to the breaking point. Extreme-risk gambling for devastating reality-warping payloads',
         color: '#c0392b',
         icon: 'inv_misc_platnumdisks'
       },
       {
         id: 'karmic_weaver',
         name: 'Karmic Weaver',
-        description: 'Thread manipulation, deck siphoning, and damage redirection through fate-binding',
+        description: 'Fate-threads pulled from the cosmic loom. Thread manipulation, deck siphoning, and damage redirection through fate-binding',
         color: '#8e44ad',
         icon: 'spell_arcane_prismaticcloak'
       }
@@ -269,7 +269,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Prism Mage',
 
-        description: 'Master of pure element combinations and elemental specialization',
+        description: 'The combination matrix hums with raw potential. Master of pure element combinations and elemental specialization',
 
         color: '#FF4500',
 
@@ -283,7 +283,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Entropy Weaver',
 
-        description: 'Embraces randomness and chaos magic for explosive unpredictable power',
+        description: 'Formula synthesis collapses into chaos. Embraces randomness and chaos magic for explosive unpredictable power',
 
         color: '#9400D3',
 
@@ -297,7 +297,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Sphere Architect',
 
-        description: 'Precise sphere manipulation and tactical control specialist',
+        description: 'Every sphere placed with formula precision. Precise sphere manipulation and tactical control specialist',
 
         color: '#4169E1',
 
@@ -313,7 +313,7 @@ export const CLASS_SPECIALIZATIONS = {
 
   'Martyr': {
 
-    path: 'Divine Path',
+    path: 'Solbrand Path',
 
     specializations: [
 
@@ -323,7 +323,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Redemption',
 
-        description: 'Healing through sacrifice — converting suffering into powerful restorative magic',
+        description: 'The Sun-That-Was shed its light for the faithful. Healing through sacrifice, converting suffering into powerful restorative magic',
 
         color: '#FFD700',
 
@@ -337,7 +337,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Zealot',
 
-        description: 'Righteous fury — channeling pain into devastating radiant attacks',
+        description: 'Sundale\'s zeal kindles radiant blood. Righteous fury, channeling pain into devastating radiant attacks',
 
         color: '#DC143C',
 
@@ -351,7 +351,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Ascetic',
 
-        description: 'Enduring faith — sustaining high Devotion through resilience and resource management',
+        description: 'Devotion tested in the fires of trial. Enduring faith, sustaining high Devotion through resilience and resource management',
 
         color: '#4169E1',
 
@@ -379,7 +379,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Savage',
 
-        description: 'Raw fury channeled into devastating attacks and hemorrhagic ruin',
+        description: 'Primal rage loosed from its cage. Raw fury channeled into devastating attacks and hemorrhagic ruin',
 
         color: '#8B0000',
 
@@ -393,7 +393,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Juggernaut',
 
-        description: 'Unbreakable resilience fueled by rage, absorbing damage to retaliate',
+        description: 'Rage hardens into living armor. Unbreakable resilience fueled by rage, absorbing damage to retaliate',
 
         color: '#DC143C',
 
@@ -407,7 +407,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Warlord',
 
-        description: 'Battlefield commander whose rage empowers allies and demoralizes enemies',
+        description: 'The war-horn calls all to the slaughter. Battlefield commander whose rage empowers allies and demoralizes enemies',
 
         color: '#B22222',
 
@@ -439,7 +439,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Virulent Spreader',
 
-        description: 'Masters of contagion who excel at spreading afflictions across multiple targets',
+        description: 'The Blooming Plague spreads its perfumed rot. Masters of contagion who excel at spreading afflictions across multiple targets',
 
         color: '#556B2F',
 
@@ -453,7 +453,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Torment Weaver',
 
-        description: 'Specialists in wyrd afflictions who break minds as easily as bodies',
+        description: 'Wyrd-fester blooms in the victim\'s mind. Specialists in wyrd afflictions who break minds as easily as bodies',
 
         color: '#4B0082',
 
@@ -467,7 +467,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Decay Harbinger',
 
-        description: 'Masters of blight decay who accelerate decomposition and prevent healing',
+        description: 'Blight ascension in its purest expression. Masters of blight decay who accelerate decomposition and prevent healing',
 
         color: '#2F4F2F',
 
@@ -493,7 +493,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Venomancer',
 
-        description: 'Masters of deadly poisons and toxins, focusing on maximizing poison damage and duration',
+        description: 'Every toxin a signed death-warrant. Masters of deadly poisons and toxins, focusing on maximizing poison damage and duration',
 
         color: '#32CD32',
 
@@ -507,7 +507,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Gadgeteer',
 
-        description: 'Masters of contraptions and mechanical devices, excelling at deploying multiple battlefield machines',
+        description: 'Contraptions born of cunning artifice. Masters of contraptions and mechanical devices, excelling at deploying multiple battlefield machines',
 
         color: '#FF6347',
 
@@ -521,7 +521,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Saboteur',
 
-        description: 'Masters of debuffs and battlefield disruption, weakening enemies and creating chaos',
+        description: 'Disruption sown like poisoned seed. Masters of debuffs and battlefield disruption, weakening enemies and creating chaos',
 
         color: '#8A2BE2',
 
@@ -548,7 +548,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Frostbound Tyrant',
 
-        description: 'Masters of freezing enemies and controlling the battlefield through ice',
+        description: 'The Deep Ice answers the Archive\'s call. Masters of freezing enemies and controlling the battlefield through ice',
 
         color: '#4A90E2',
 
@@ -562,7 +562,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Spectral Reaper',
 
-        description: 'Combines rime and blight damage for devastating hybrid attacks and minions',
+        description: 'Rime and blight wedded in blight ascension. Combines rime and blight damage for devastating hybrid attacks and minions',
 
         color: '#9370DB',
 
@@ -576,7 +576,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Phylactery Guardian',
 
-        description: 'Enhanced phylactery mechanics and survivability with resurrection',
+        description: 'The Frozen Archive preserves what death would claim. Enhanced phylactery mechanics and survivability with resurrection',
 
         color: '#2D1B69',
 
@@ -590,7 +590,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Blood Reaver',
 
-        description: 'Aggressive life drain specialist who uses health as a resource for devastating attacks',
+        description: 'Blood tokens paid in crimson tribute. Aggressive life drain specialist who uses health as a resource for devastating attacks',
 
         color: '#8B0000',
 
@@ -604,7 +604,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Spectral Master',
 
-        description: 'Master of undead legions who commands spectral armies and controls the battlefield',
+        description: 'The Frozen Archive\'s legions rise at a word. Master of undead legions who commands spectral armies and controls the battlefield',
 
         color: '#4B0082',
 
@@ -618,7 +618,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Void Caller',
 
-        description: 'Psychic devastation specialist who channels cosmic horror and manipulates Blood Tokens',
+        description: 'The void between the stars hungers back. Psychic devastation specialist who channels cosmic horror and manipulates Blood Tokens',
 
         color: '#1C1C1C',
 
@@ -644,7 +644,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Auspex',
 
-        description: 'Balanced omen interpreter who adapts between blessings and curses based on the signs',
+        description: 'Signs read in the casting of bones and stars. Balanced omen interpreter who adapts between blessings and curses based on the signs',
 
         color: '#F0E68C',
 
@@ -658,7 +658,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Harbinger',
 
-        description: 'Dark portent specialist who weaponizes ill omens into devastating debuffs and curses',
+        description: 'Dark omens are not merely seen but enacted. Dark portent specialist who weaponizes ill omens into devastating debuffs and curses',
 
         color: '#8B008B',
 
@@ -672,7 +672,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Hierophant',
 
-        description: 'Cosmic channeler who transforms even omens into terrain-altering blessings and divine protection',
+        description: 'Cosmic will descends through mortal vessel. Cosmic channeler who transforms even omens into terrain-altering blessings and sacred protection',
 
         color: '#FFD700',
 
@@ -698,7 +698,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Voidcaller',
 
-        description: 'Summoners of void entities and emptiness magic',
+        description: 'Whispers from beyond the void take shape. Summoners of void entities and emptiness magic',
 
         color: '#2F1B14',
 
@@ -712,7 +712,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Deceiver',
 
-        description: 'Masters of illusion, deception, and false prophecy',
+        description: 'The Lie wears a familiar face. Masters of illusion, deception, and false prophecy',
 
         color: '#4B0082',
 
@@ -726,7 +726,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Cultist',
 
-        description: 'Leaders of dark cults and forbidden rituals',
+        description: 'Eldritch truth bends the kneeling mind. Leaders of dark cults and forbidden rituals',
 
         color: '#8B0000',
 
@@ -750,26 +750,26 @@ export const CLASS_SPECIALIZATIONS = {
     id: 'inquisitor',
     name: 'Inquisitor',
     path: 'Righteous Authority Path',
-    description: 'Occult arbiters who combine anti-magic negation with demonic binding and purification rituals.',
+    description: 'Cold-iron authority and the horror-jailer\'s art. Occult arbiters who combine anti-magic negation with Wyrd-touched binding and purification rituals.',
     specializations: [
       {
         id: 'witch_hammer',
         name: 'Witch Hammer',
-        description: 'Shadow swarm assassin -- stealth + demon horde',
+        description: 'Righteous chains bind the unholy. Shadow swarm assassin -- stealth + horror horde',
         color: '#2F1B14',
         icon: 'ability_stealth'
       },
       {
         id: 'iron_verdict',
         name: 'Iron Verdict',
-        description: 'Anti-magic bulwark -- dead zones + single powerful demon',
+        description: 'Anti-magic authority rendered as verdict. Anti-magic bulwark -- dead zones + single powerful horror',
         color: '#4B0082',
         icon: 'spell_holy_dispelmagic'
       },
       {
         id: 'hollow_saint',
         name: 'Hollow Saint',
-        description: 'Relentless channeler -- pursuit + internal demon power',
+        description: 'A horror caged within the righteous soul. Relentless channeler -- pursuit + internal horror power',
         color: '#8B0000',
         icon: 'ability_hunter_markedfordeath'
       }
@@ -789,7 +789,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Arcane Warden',
 
-        description: 'Defensive tank, maximum absorption, ally protection, sustained shielding',
+        description: 'AEP reserves hardened into a living wall. Defensive tank, maximum absorption, ally protection, sustained shielding',
 
         color: '#4169E1',
 
@@ -803,7 +803,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Spell Breaker',
 
-        description: 'Disruption specialist, spell reflection, caster punishment, high-risk high-reward',
+        description: 'Counter-spell woven into every parry. Disruption specialist, spell reflection, caster punishment, high-risk high-reward',
 
         color: '#9370DB',
 
@@ -817,7 +817,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Mana Reaver',
 
-        description: 'Offensive drain, mana vampirism, burst damage, caster elimination',
+        description: 'The shielded will turns offensive. Offensive drain, mana vampirism, burst damage, caster elimination',
 
         color: '#8B008B',
 
@@ -843,7 +843,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Thornwarden',
 
-        description: 'Defensive spirit guardian who channels nature spirits through protective thorn barriers',
+        description: 'Root-veins coil with ancient intent. Defensive spirit guardian who channels nature spirits through protective thorn barriers',
 
         color: '#228B22',
 
@@ -857,7 +857,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Spirit Binder',
 
-        description: 'Master of binding ancestral spirits into physical vessels for sustained combat empowerment',
+        description: 'The Old Spirits bound into flesh and bone. Master of binding ancestral spirits into physical vessels for sustained combat empowerment',
 
         color: '#9370DB',
 
@@ -871,7 +871,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Stormscribe',
 
-        description: 'Elemental calligrapher who scribes living storms through ritual totem inscription',
+        description: 'Bog-mists part for the scribed storm. Elemental calligrapher who scribes living storms through ritual totem inscription',
 
         color: '#4169E1',
 
@@ -900,7 +900,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Flow Master',
 
-        description: 'Masters of rapid form transitions and combo chains, flowing seamlessly between shaping forms to overwhelm opponents',
+        description: 'Form is fluid, mastered through endless practice. Masters of rapid form transitions and combo chains, flowing seamlessly between shaping forms to overwhelm opponents',
 
         color: '#00CED1',
 
@@ -914,7 +914,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Iron Dancer',
 
-        description: 'Masters of extreme precision, counter-attacks, and stolen biological traits from slain enemies',
+        description: 'Precision honed against a thousand slain. Masters of extreme precision, counter-attacks, and stolen biological traits from slain enemies',
 
         color: '#27AE60',
 
@@ -928,7 +928,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Primal Shadow',
 
-        description: 'Masters of stealth burst damage and shadow-infused transformations, striking from the void',
+        description: 'Shadow and flesh woven into one strike. Masters of stealth burst damage and shadow-infused transformations, striking from the void',
 
         color: '#2C3E50',
 
@@ -954,7 +954,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Hollow Sentinel',
 
-        description: 'Precision killers who see through the parasite\'s alien geometry, bypassing defenses with surgical ranged attacks',
+        description: 'The parasite\'s geometry laid bare to the chosen. Precision killers who see through the parasite\'s alien geometry, bypassing defenses with surgical ranged attacks',
 
         color: '#A0A0A0',
 
@@ -968,7 +968,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Sanguine Warden',
 
-        description: 'Healers who tear open their own seams to spill blood-tinged moonlight, sacrificing their body to heal allies',
+        description: 'Blood-tinged moonlight pools in mortal wounds. Healers who tear open their own seams to spill blood-tinged moonlight, sacrificing their body to heal allies',
 
         color: '#FFD700',
 
@@ -982,7 +982,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Void Caller',
 
-        description: 'Shadow mages who channel the parasite\'s hunger, mastering area damage through void-infused lunar magic',
+        description: 'The parasite\'s hunger given lunar shape. Shadow mages who channel the parasite\'s hunger, mastering area damage through void-infused lunar magic',
 
         color: '#2C3E50',
 
@@ -1008,7 +1008,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Bladestorm',
 
-        description: 'Glaive masters who chain attacks through multiple enemies, creating whirlwinds of multi-target devastation',
+        description: 'Frostwood Reach forged the glaive\'s first whirlwind. Glaive masters who chain attacks through multiple enemies, creating whirlwinds of multi-target devastation',
 
         color: '#DC143C',
 
@@ -1022,7 +1022,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Beastmaster',
 
-        description: 'Primal hunters whose deep bond with their companion creates devastating coordinated attacks and pack tactics',
+        description: 'Pack-tactics honed on the Frostwood hunt. Primal hunters whose deep bond with their companion creates devastating coordinated attacks and pack tactics',
 
         color: '#8B4513',
 
@@ -1036,7 +1036,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Shadowblade',
 
-        description: 'Stealthy glaive masters who strike from darkness with devastating precision, enhanced by shadowy tactics and burst damage',
+        description: 'The quarry never sees the blade. Stealthy glaive masters who strike from darkness with devastating precision, enhanced by shadowy tactics and burst damage',
 
         color: '#2F1B14',
 
@@ -1062,7 +1062,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Shadowblade',
 
-        description: 'Stealthy hunters who mark targets for death, striking from shadows with lethal precision and execution strikes',
+        description: 'Vengeance wears a hood of shadow. Stealthy hunters who mark targets for death, striking from shadows with lethal precision and execution strikes',
 
         color: '#191970',
 
@@ -1076,7 +1076,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Vengeance Seeker',
 
-        description: 'Relentless tormentors who drag enemies across the battlefield, crushing them with inexorable pursuit and displacement',
+        description: 'No quarry escapes the relentless. Relentless tormentors who drag enemies across the battlefield, crushing them with inexorable pursuit and displacement',
 
         color: '#2F4F4F',
 
@@ -1090,7 +1090,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Monolith',
 
-        description: 'Immovable anchors who calcify their bodies with volcanic iron, becoming unbreakable battlefield sentinels through gravitational control',
+        description: 'Iron and gravity, anchored in hate. Immovable anchors who calcify their bodies with volcanic iron, becoming unbreakable battlefield sentinels through gravitational control',
 
         color: '#533C33',
 
@@ -1144,7 +1144,7 @@ export const createSpellLibraryCategoriesForClass = (className) => {
 
       name: 'Level 1',
 
-      description: 'Basic spells available at character level 1',
+      description: 'Apprentice ink upon the contract page. Basic spells available at character level 1',
 
       color: '#32CD32',
 
@@ -1164,7 +1164,7 @@ export const createSpellLibraryCategoriesForClass = (className) => {
 
       name: 'Level 2',
 
-      description: 'Advanced spells available at character level 2',
+      description: 'The ledger grows heavier with each clause. Advanced spells available at character level 2',
 
       color: '#FFD700',
 
@@ -1184,7 +1184,7 @@ export const createSpellLibraryCategoriesForClass = (className) => {
 
       name: 'Level 4',
 
-      description: 'Powerful spells available at character level 4',
+      description: 'A pact of deeper binding. Powerful spells available at character level 4',
 
       color: '#FF4500',
 
@@ -1204,7 +1204,7 @@ export const createSpellLibraryCategoriesForClass = (className) => {
 
       name: 'Level 6',
 
-      description: 'Master spells available at character level 6',
+      description: 'Mastery inscribed in the First Contract\'s own hand. Master spells available at character level 6',
 
       color: '#8A2BE2',
 
@@ -1230,7 +1230,7 @@ export const createSpellLibraryCategoriesForClass = (className) => {
 
     name: 'Custom Spells',
 
-    description: 'Spells created using the Spell Wizard',
+    description: 'Unsanctioned clauses, penned by mortal hand. Spells created using the Spell Wizard',
 
     color: '#808080',
 

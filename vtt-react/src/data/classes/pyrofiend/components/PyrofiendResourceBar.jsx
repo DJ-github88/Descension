@@ -48,7 +48,7 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
             glowColor: '#C06060',
             icon: 'fa-fire-flame-curved',
             passive: 'Tempered Pact',
-            passiveDesc: "All fire spells cost double mana but ascend the Inferno Veil at half the rate. Descending via Cooling Ember grants +1 next fire damage per level descended. Advantage on Demonic Whisper Spirit saves. No self-healing."
+            passiveDesc: "All fire spells cost double mana but ascend the Inferno Veil at half the rate. Descending via Cooling Ember grants +1 next fire damage per level descended. Advantage on Wyrd Whisper Spirit saves. No self-healing."
         }
     };
 
@@ -352,7 +352,7 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
                                 </div>
                                 {infernoLevel >= 5 && (
                                     <div style={{ color: '#8B0000', fontStyle: 'italic', marginTop: '2px' }}>
-                                        Infernal Surge active â€” Demonic Whisper Spirit saves begin at Level 5.
+                                        Infernal Surge active â€” Wyrd Whisper Spirit saves begin at Level 5.
                                     </div>
                                 )}
                                 {infernoLevel === 0 && (

@@ -54,7 +54,7 @@ const TARGET_RESTRICTIONS = [
   { id: 'hostile_player', name: 'Hostile Players', icon: 'Piercing/Targeted Strike 1', description: 'Can target hostile player characters' },
   { id: 'hostile_npc', name: 'Hostile NPCs', icon: 'Necrotic/Necrotic Skull', description: 'Can target hostile non-player characters' },
   { id: 'elemental', name: 'Elementals', icon: 'Fire/Flame Burst', description: 'Can target elemental entities' },
-  { id: 'demon', name: 'Demons', icon: 'Necrotic/Horned Demon', description: 'Can target demonic entities' },
+  { id: 'demon', name: 'Horrors', icon: 'Necrotic/Horned Demon', description: 'Can target wyrd-touched horrors' },
   { id: 'beast', name: 'Beasts', icon: 'Utility/Beast Paw Claws', description: 'Can target beast entities' }
 ];
 

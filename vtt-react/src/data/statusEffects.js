@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Status effects and conditions with details for the spell wizard
  */
 
@@ -220,7 +220,7 @@ const STATUS_EFFECTS = {
     // Petrified (Groven Still-Claiming)
     petrified: {
       name: 'Petrified',
-      description: 'The body remembers what the mind would forget. target is turned to stone — immune to all damage but unable to move, speak, or act. Incapacitated and weight is multiplied by 10.',
+      description: 'The body remembers what the mind would forget. target is turned to stone, immune to all damage but unable to move, speak, or act. Incapacitated and weight is multiplied by 10.',
       type: 'control',
       severity: 'severe',
       color: '#A9A9A9',

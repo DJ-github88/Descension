@@ -76,7 +76,7 @@ export const WARDEN_SHADOWBLADE = [
   {
     id: 'shadowblade_warden_t4_marked_for_death',
     name: 'Death Mark',
-    description: 'When your marked target dies, gain 3 VP instantly and can mark a new target as a free action. This can trigger once per round.',
+    description: 'The Ordan ancestor-mounds teach eternal vigilance. when your marked target dies, gain 3 VP instantly and can mark a new target as a free action. This can trigger once per round.',
     icon: 'ability_hunter_markedfordeath',
     maxRanks: 2,
     position: { x: 2, y: 1 },
@@ -85,7 +85,7 @@ export const WARDEN_SHADOWBLADE = [
   {
     id: 'shadowblade_warden_t5_apex_hunter',
     name: 'Apex Hunter',
-    description: 'While you have 8+ VP, your attacks against marked targets deal maximum damage and you can spend 1 VP to attack twice as a reaction when hit.',
+    description: 'The Ordan ancestor-mounds teach eternal vigilance. while you have 8+ VP, your attacks against marked targets deal maximum damage and you can spend 1 VP to attack twice as a reaction when hit.',
     icon: 'ability_druid_predatoryinstincts',
     maxRanks: 1,
     position: { x: 2, y: 4 },
@@ -127,7 +127,7 @@ export const WARDEN_JAILER = [
   {
     id: 'jailer_t2_torment_traps',
     name: 'Cage Torment',
-    description: 'When you cage an enemy, they take 1d8 necrotic damage at the start of each of their turns while caged. Simple and relentless.',
+    description: 'The Ordan ancestor-mounds teach eternal vigilance. when you cage an enemy, they take 1d8 necrotic damage at the start of each of their turns while caged. Simple and relentless.',
     icon: 'spell_shadow_curseofsargeras',
     maxRanks: 3,
     position: { x: 0, y: 2 },
@@ -218,7 +218,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
   {
     id: 'vengeance_seeker_t1_wrathful_strikes',
     name: 'Vengeful Strikes',
-    description: 'While at 5+ VP, your attacks deal +1d6 necrotic damage. At 8+ VP, this increases to +2d6 necrotic damage.',
+    description: 'The Ordan ancestor-mounds teach eternal vigilance. while at 5+ VP, your attacks deal +1d6 necrotic damage. At 8+ VP, this increases to +2d6 necrotic damage.',
     icon: 'ability_warrior_weaponmastery',
     maxRanks: 4,
     position: { x: 1, y: 1 },
@@ -227,7 +227,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
   {
     id: 'vengeance_seeker_t2_vengeful_retribution',
     name: 'Spectral Retribution',
-    description: 'When you take damage, the attacker takes 2d6 necrotic damage in return. This damage increases by 1d6 for each VP you have (maximum +6d6). This effect can trigger once per round.',
+    description: 'The Ordan ancestor-mounds teach eternal vigilance. when you take damage, the attacker takes 2d6 necrotic damage in return. This damage increases by 1d6 for each VP you have (maximum +6d6). This effect can trigger once per round.',
     icon: 'spell_fire_soulburn',
     maxRanks: 3,
     position: { x: 0, y: 2 },
@@ -265,7 +265,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
   {
     id: 'vengeance_seeker_t3_vengeful_immolation',
     name: 'Spectral Conflagration',
-    description: 'When you activate Avatar of Vengeance, all enemies within 20ft take 4d6 necrotic damage and are haunted, taking 2d6 necrotic damage per round for 3 rounds.',
+    description: 'The Ordan ancestor-mounds teach eternal vigilance. when you activate Avatar of Vengeance, all enemies within 20ft take 4d6 necrotic damage and are haunted, taking 2d6 necrotic damage per round for 3 rounds.',
     icon: 'spell_fire_volcano',
     maxRanks: 3,
     position: { x: 3, y: 3 },

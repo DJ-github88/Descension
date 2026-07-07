@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Enhanced Effect System Data
  *
  * This file contains all the constants and utility functions for the enhanced effect system.
@@ -61,7 +61,7 @@ export const DAMAGE_TYPES = [
   'primal',
   'blight',
   'wyrd',
-  'divine'
+  'sacred'
 ];
 
 // AOE Shapes
@@ -158,7 +158,7 @@ export const ENHANCED_EFFECT_TYPES_DATA = [
   { id: 'primal', name: 'Primal', category: 'damage', description: 'Raw life-force energy: the unshaped power of the natural world' },
   { id: 'blight', name: 'Blight', category: 'damage', description: 'Life-draining damage that withers flesh and corrodes matter' },
   { id: 'wyrd', name: 'Wyrd', category: 'damage', description: 'Mind-rending damage that fractures consciousness and memory' },
-  { id: 'divine', name: 'Divine', category: 'damage', description: 'Sacred radiance that burns the unholy and blesses the faithful' },
+  { id: 'sacred', name: 'Divine', category: 'damage', description: 'Sacred radiance that burns the unholy and blesses the faithful' },
   // End of damage types
 
   // Area shapes

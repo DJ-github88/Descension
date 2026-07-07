@@ -27,7 +27,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
   {
     id: 'warden_t1_wardens_fortitude',
     name: 'Warden\'s Fortitude',
-    description: 'While you have an active shield, gain +1 armor per rank and +5% resistance to all damage per rank.',
+    description: 'Thalren oath-steel remembers every vow it has witnessed. while you have an active shield, gain +1 armor per rank and +5% resistance to all damage per rank.',
     icon: 'spell_holy_devotionaura',
     maxRanks: 3,
     position: { x: 1, y: 1 },
@@ -36,7 +36,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
   {
     id: 'warden_t1_absorption_mastery',
     name: 'Absorption Mastery',
-    description: 'Gain +1 AEP per rank from all magical damage absorbed.',
+    description: 'Thalren oath-steel remembers every vow it has witnessed. gain +1 AEP per rank from all magical damage absorbed.',
     icon: 'spell_arcane_blast',
     maxRanks: 2,
     position: { x: 3, y: 1 },
@@ -65,7 +65,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
   {
     id: 'warden_t2_arcane_overflow',
     name: 'Arcane Overflow',
-    description: 'When your shields absorb damage, gain +1 AEP per 3 damage absorbed per rank.',
+    description: 'Thalren oath-steel remembers every vow it has witnessed. when your shields absorb damage, gain +1 AEP per 3 damage absorbed per rank.',
     icon: 'spell_arcane_starfire',
     maxRanks: 3,
     position: { x: 2, y: 2 },
@@ -168,7 +168,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
   {
     id: 'breaker_t1_counter_magic',
     name: 'Counter Magic',
-    description: 'When you successfully reflect a spell, gain +2 AEP per rank.',
+    description: 'Thalren oath-steel remembers every vow it has witnessed. when you successfully reflect a spell, gain +2 AEP per rank.',
     icon: 'spell_arcane_blink',
     maxRanks: 3,
     position: { x: 3, y: 1 },
@@ -188,7 +188,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
   {
     id: 'breaker_t2_reflection_chain',
     name: 'Reflection Chain',
-    description: 'When you reflect a spell, the next reflection costs -10 AEP per rank.',
+    description: 'Thalren oath-steel remembers every vow it has witnessed. when you reflect a spell, the next reflection costs -10 AEP per rank.',
     icon: 'spell_arcane_portalironforge',
     maxRanks: 3,
     position: { x: 1, y: 2 },
@@ -327,7 +327,7 @@ export const SPELLGUARD_MANA_REAVER = [
   {
     id: 'reaver_t2_mana_burn',
     name: 'Mana Burn',
-    description: 'When you drain mana, target takes 1 arcane damage per 2 mana drained per rank.',
+    description: 'Thalren oath-steel remembers every vow it has witnessed. when you drain mana, target takes 1 arcane damage per 2 mana drained per rank.',
     icon: 'spell_fire_soulburn',
     maxRanks: 3,
     position: { x: 3, y: 2 },
@@ -365,7 +365,7 @@ export const SPELLGUARD_MANA_REAVER = [
   {
     id: 'reaver_t3_arcane_combustion',
     name: 'Arcane Combustion',
-    description: 'When you kill a target with a melee attack, deal 3d6 arcane damage per rank to all enemies within 10ft.',
+    description: 'Thalren oath-steel remembers every vow it has witnessed. when you kill a target with a melee attack, deal 3d6 arcane damage per rank to all enemies within 10ft.',
     icon: 'spell_fire_fire',
     maxRanks: 3,
     position: { x: 3, y: 3 },
@@ -374,7 +374,7 @@ export const SPELLGUARD_MANA_REAVER = [
   {
     id: 'reaver_t3_spell_theft',
     name: 'Spell Theft',
-    description: 'When you drain mana from a spellcaster, you can steal one of their prepared spells per rank (usable once before disappearing).',
+    description: 'Thalren oath-steel remembers every vow it has witnessed. when you drain mana from a spellcaster, you can steal one of their prepared spells per rank (usable once before disappearing).',
     icon: 'spell_arcane_portalironforge',
     maxRanks: 2,
     position: { x: 4, y: 3 },

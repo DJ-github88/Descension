@@ -1,4 +1,4 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+﻿import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faBolt, faGem, faFire, faRunning, faEye, faHeart,
   faStar, faSun, faSnowflake, faGhost, faMoon, faWind,
@@ -47,7 +47,7 @@ const useResourceFormatters = ({ spell, variant, className, library }) => {
       'spell_slot': faCircleDot,
       'spell-slot': faCircleDot,
       'holypower': faSun,
-      'holy-power': faSun,
+      'sacred-power': faSun,
       'astralpower': faMoon,
       'astral-power': faMoon
     };
@@ -88,7 +88,7 @@ const useResourceFormatters = ({ spell, variant, className, library }) => {
       'spell_slot': '#C084FC',
       'spell-slot': '#C084FC',
       'holypower': '#F1C40F',
-      'holy-power': '#F1C40F',
+      'sacred-power': '#F1C40F',
       'astralpower': '#9B59B6',
       'astral-power': '#9B59B6'
     };
@@ -1129,7 +1129,7 @@ const useResourceFormatters = ({ spell, variant, className, library }) => {
 
     if (resources.length === 0) return null;
 
-    const primaryTypes = ['action_points', 'action-points', 'actionpoints', 'mana', 'health', 'energy', 'rage', 'focus', 'action', 'bonus_action', 'bonus-action', 'reaction', 'spell_slot', 'spell-slot', 'soul_shards', 'soul-shards', 'holy_power', 'holy-power', 'astral_power', 'astral-power', 'combo_points', 'runic_power', 'arcane_energy_points', 'chi', 'ap'];
+    const primaryTypes = ['action_points', 'action-points', 'actionpoints', 'mana', 'health', 'energy', 'rage', 'focus', 'action', 'bonus_action', 'bonus-action', 'reaction', 'spell_slot', 'spell-slot', 'soul_shards', 'soul-shards', 'holy_power', 'sacred-power', 'astral_power', 'astral-power', 'combo_points', 'runic_power', 'arcane_energy_points', 'chi', 'ap'];
     const primaryResources = resources.filter(r => primaryTypes.includes(r.type?.toLowerCase()?.replace(/\s+/g, '-')));
     const classResources = resources.filter(r => !primaryTypes.includes(r.type?.toLowerCase()?.replace(/\s+/g, '-')));
 

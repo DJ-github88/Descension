@@ -7,7 +7,7 @@ export const REVENANT_SANGUINE_HARVEST = [
   {
     id: 'revenant_sanguine_t0_sanguine_mastery',
     name: 'Sanguine Mastery',
-    description: 'Your HP sacrifices generate +1 extra Death Toll per rank. Health costs for spells reduced by 1d4.',
+    description: 'The Frozen Archive\'s blood-scribes teach that paid in crimson, power endures. Your HP sacrifices generate +1 extra Death Toll per rank. Health costs for spells reduced by 1d4.',
     icon: 'spell_shadow_lifedrain02',
     maxRanks: 3,
     position: { x: 2, y: 0 },
@@ -16,7 +16,7 @@ export const REVENANT_SANGUINE_HARVEST = [
   {
     id: 'revenant_sanguine_t1_blood_rush',
     name: 'Blood Rush',
-    description: 'After casting a life drain spell, gain +10ft movement speed per rank for 2 turns.',
+    description: 'Necrotic frost quickens the veins of those who drain the living. After casting a life drain spell, gain +10ft movement speed per rank for 2 turns.',
     icon: 'spell_shadow_bloodboil',
     maxRanks: 3,
     position: { x: 3, y: 1 },
@@ -25,7 +25,7 @@ export const REVENANT_SANGUINE_HARVEST = [
   {
     id: 'revenant_sanguine_t1_drain_efficiency',
     name: 'Drain Efficiency',
-    description: 'Life drain spells restore 10% more HP per rank. Life drain spells cost 2 less mana.',
+    description: 'Each drop stolen from the living feeds the Archive\'s endless hunger. Life drain spells restore 10% more HP per rank. Life drain spells cost 2 less mana.',
     icon: 'spell_shadow_lifedrain',
     maxRanks: 3,
     position: { x: 1, y: 1 },
@@ -34,7 +34,7 @@ export const REVENANT_SANGUINE_HARVEST = [
   {
     id: 'revenant_sanguine_t2_rush_of_blood',
     name: 'Rush of Blood',
-    description: 'When below 50% HP, life drain spells cost 1 less AP per rank (minimum 0).',
+    description: 'Desperation awakens the chill blood-magic buried in your veins. When below 50% HP, life drain spells cost 1 less AP per rank (minimum 0).',
     icon: 'spell_shadow_bloodboil',
     maxRanks: 2,
     position: { x: 4, y: 2 },
@@ -43,7 +43,7 @@ export const REVENANT_SANGUINE_HARVEST = [
   {
     id: 'revenant_sanguine_t2_toll_mastery',
     name: 'Toll Mastery',
-    description: 'Death Toll enhances life drain by +1d8 damage per 2 Toll spent. Toll volatility threshold increased by 1 per rank.',
+    description: 'The Death Toll rings clearer when paid with necrotic frost. Death Toll enhances life drain by +1d8 damage per 2 Toll spent. Toll volatility threshold increased by 1 per rank.',
     icon: 'spell_shadow_soulleech_3',
     maxRanks: 2,
     position: { x: 2, y: 2 },
@@ -52,7 +52,7 @@ export const REVENANT_SANGUINE_HARVEST = [
   {
     id: 'revenant_sanguine_t2_sanguine_burst',
     name: 'Sanguine Burst',
-    description: 'Life drain spells create a burst dealing 1d8 damage per rank to enemies within 10ft.',
+    description: 'Life essence erupts in a burst of frozen gore. Life drain spells create a burst dealing 1d8 damage per rank to enemies within 10ft.',
     icon: 'spell_shadow_bloodboil',
     maxRanks: 3,
     position: { x: 0, y: 2 },
@@ -61,7 +61,7 @@ export const REVENANT_SANGUINE_HARVEST = [
   {
     id: 'revenant_sanguine_t3_blood_fury',
     name: 'Blood Fury',
-    description: 'When you kill with a life drain, gain +1d6 damage per rank on all attacks for 2 turns.',
+    description: 'Killing drives the Frozen Archive\'s wrath into every strike. When you kill with a life drain, gain +1d6 damage per rank on all attacks for 2 turns.',
     icon: 'spell_shadow_bloodboil',
     maxRanks: 3,
     position: { x: 3, y: 3 },
@@ -70,7 +70,7 @@ export const REVENANT_SANGUINE_HARVEST = [
   {
     id: 'revenant_sanguine_t3_vampiric_empowerment',
     name: 'Vampiric Empowerment',
-    description: 'Life drain heals an additional 2d6 HP per rank when cast on enemies below 50% HP.',
+    description: 'The Archive rewards draining the weak with stolen vitality. Life drain heals an additional 2d6 HP per rank when cast on enemies below 50% HP.',
     icon: 'spell_shadow_lifedrain02',
     maxRanks: 3,
     position: { x: 1, y: 3 },
@@ -79,7 +79,7 @@ export const REVENANT_SANGUINE_HARVEST = [
   {
     id: 'revenant_sanguine_t4_blood_storm',
     name: 'Blood Storm',
-    description: 'Once per combat, unleash a blood storm dealing 3d6 damage per rank to all enemies within 30ft. Heal for half total damage.',
+    description: 'A maelstrom of frozen blood descends upon the Archive\'s foes. Once per combat, unleash a blood storm dealing 3d6 damage per rank to all enemies within 30ft. Heal for half total damage.',
     icon: 'spell_shadow_bloodrain',
     maxRanks: 1,
     position: { x: 2, y: 4 },
@@ -92,7 +92,7 @@ export const REVENANT_FROST_SOVEREIGN = [
   {
     id: 'revenant_frost_t0_eternal_focus',
     name: 'Eternal Focus',
-    description: 'Death Shroud chill duration reduced to 1 round. +1 to chill save DC per rank. +1d4 frost damage in Shroud.',
+    description: 'The Frozen Archive\'s chill focuses the Death Shroud into deadly precision. Death Shroud chill duration reduced to 1 round. +1 to chill save DC per rank. +1d4 frost damage in Shroud.',
     icon: 'spell_frost_frostarmor02',
     maxRanks: 3,
     position: { x: 2, y: 0 },
@@ -101,7 +101,7 @@ export const REVENANT_FROST_SOVEREIGN = [
   {
     id: 'revenant_frost_t1_chilling_presence',
     name: 'Chilling Presence',
-    description: 'Enemies within 10ft of frozen targets must save or be chilled. +5ft radius per rank.',
+    description: 'Undead cold radiates from the frozen, reaching for the living. Enemies within 10ft of frozen targets must save or be chilled. +5ft radius per rank.',
     icon: 'spell_frost_frostshock',
     maxRanks: 3,
     position: { x: 1, y: 1 },
@@ -110,7 +110,7 @@ export const REVENANT_FROST_SOVEREIGN = [
   {
     id: 'revenant_frost_t1_frozen_precision',
     name: 'Frozen Precision',
-    description: 'Frost spells have +1d4 to hit frozen targets per rank. Bonus increases by +1d4.',
+    description: 'The Archive\'s ancient frost guides every spell to frozen prey. Frost spells have +1d4 to hit frozen targets per rank. Bonus increases by +1d4.',
     icon: 'spell_frost_frostbolt',
     maxRanks: 2,
     position: { x: 3, y: 1 },
@@ -119,7 +119,7 @@ export const REVENANT_FROST_SOVEREIGN = [
   {
     id: 'revenant_frost_t2_glacial_shards',
     name: 'Glacial Shards',
-    description: 'Frozen targets that take damage shatter, dealing 1d6 frost to adjacent enemies per rank.',
+    description: 'Necrotic ice shatters from frozen victims, seeking new blood. Frozen targets that take damage shatter, dealing 1d6 frost to adjacent enemies per rank.',
     icon: 'spell_frost_icestorm',
     maxRanks: 3,
     position: { x: 0, y: 2 },
@@ -128,7 +128,7 @@ export const REVENANT_FROST_SOVEREIGN = [
   {
     id: 'revenant_frost_t2_ice_bond',
     name: 'Ice Bond',
-    description: 'Frozen targets share 50% damage with other frozen targets within 20ft. Range +5ft per rank.',
+    description: 'The Frozen Archive links its frozen children in shared suffering. Frozen targets share 50% damage with other frozen targets within 20ft. Range +5ft per rank.',
     icon: 'spell_frost_frozencore',
     maxRanks: 2,
     position: { x: 2, y: 2 },
@@ -137,7 +137,7 @@ export const REVENANT_FROST_SOVEREIGN = [
   {
     id: 'revenant_frost_t2_crystal_fracture',
     name: 'Crystal Fracture',
-    description: 'When you freeze a target, adjacent frozen targets extend freeze by 1 round per rank. Range +5ft.',
+    description: 'Frost spreads like plague through the Archive\'s crystallized dead. When you freeze a target, adjacent frozen targets extend freeze by 1 round per rank. Range +5ft.',
     icon: 'spell_frost_frostnova',
     maxRanks: 2,
     position: { x: 4, y: 2 },
@@ -146,7 +146,7 @@ export const REVENANT_FROST_SOVEREIGN = [
   {
     id: 'revenant_frost_t3_permafrost_dominion',
     name: 'Permafrost Dominion',
-    description: 'Frozen targets cannot be healed. Healing on frozen targets deals frost damage instead.',
+    description: 'The everlasting cold of the Frozen Archive denies all warmth. Frozen targets cannot be healed. Healing on frozen targets deals frost damage instead.',
     icon: 'spell_frost_wisp',
     maxRanks: 1,
     position: { x: 1, y: 3 },
@@ -155,7 +155,7 @@ export const REVENANT_FROST_SOVEREIGN = [
   {
     id: 'revenant_frost_t3_absolute_zero',
     name: 'Absolute Zero',
-    description: 'Frozen targets have vulnerability to all damage. +1d6 frost damage per rank to frozen targets.',
+    description: 'At the Archive\'s heart, all things are brittle and breakable. Frozen targets have vulnerability to all damage. +1d6 frost damage per rank to frozen targets.',
     icon: 'spell_frost_arcticwinds',
     maxRanks: 2,
     position: { x: 3, y: 3 },
@@ -164,7 +164,7 @@ export const REVENANT_FROST_SOVEREIGN = [
   {
     id: 'revenant_frost_t4_shatter_protocol',
     name: 'Shatter Protocol',
-    description: '50% chance frozen enemies Shatter on damage (3d6 frost bonus, ends freeze). +3d6 per rank.',
+    description: 'The Frozen Archive commands its dead to splinter on command. 50% chance frozen enemies Shatter on damage (3d6 frost bonus, ends freeze). +3d6 per rank.',
     icon: 'spell_frost_frostnova',
     maxRanks: 2,
     position: { x: 2, y: 4 },
@@ -178,7 +178,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
   {
     id: 'revenant_phylactery_t0_soul_anchor',
     name: 'Soul Anchor',
-    description: 'Phylactery kill charge +1d8 HP per rank (instead of +1d6). +2 max storage per rank. Death Trigger radius +5ft.',
+    description: 'The Archive\'s necrotic frost anchors souls beyond the veil of death. Phylactery kill charge +1d8 HP per rank (instead of +1d6). +2 max storage per rank. Death Trigger radius +5ft.',
     icon: 'spell_frost_frozencore',
     maxRanks: 3,
     position: { x: 2, y: 0 },
@@ -187,7 +187,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
   {
     id: 'revenant_phylactery_t1_vital_reserve',
     name: 'Vital Reserve',
-    description: 'Max Phylactery HP +10 per rank. Kill charge grants +1d4 extra HP per rank.',
+    description: 'Stolen life essence crystallizes within the cold phylactery. Max Phylactery HP +10 per rank. Kill charge grants +1d4 extra HP per rank.',
     icon: 'spell_shadow_lifedrain',
     maxRanks: 3,
     position: { x: 1, y: 1 },
@@ -196,7 +196,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
   {
     id: 'revenant_phylactery_t1_deathly_resilience',
     name: 'Deathly Resilience',
-    description: 'Reduce Phylactery resurrection cost by 1 HP per rank. Resurrect with +2 HP per rank.',
+    description: 'The Frozen Archive\'s undying pact refuses the call of oblivion. Reduce Phylactery resurrection cost by 1 HP per rank. Resurrect with +2 HP per rank.',
     icon: 'spell_shadow_antishadow',
     maxRanks: 2,
     position: { x: 3, y: 1 },
@@ -205,7 +205,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
   {
     id: 'revenant_phylactery_t2_ice_shield',
     name: 'Ice Shield',
-    description: 'While Death Shroud active, gain +2 armor per rank. Shroud drain reduced by 1d6 HP.',
+    description: 'Necrotic frost forms armor from the Death Shroud\'s chill mist. While Death Shroud active, gain +2 armor per rank. Shroud drain reduced by 1d6 HP.',
     icon: 'spell_frost_frostarmor',
     maxRanks: 2,
     position: { x: 0, y: 2 },
@@ -214,7 +214,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
   {
     id: 'revenant_phylactery_t2_frost_barrier',
     name: 'Frost Barrier',
-    description: 'Create ice barriers that absorb 3d6 HP per rank. Lasts 2 rounds.',
+    description: 'The Archive raises walls of frozen soul-stuff to shield its servants. Create ice barriers that absorb 3d6 HP per rank. Lasts 2 rounds.',
     icon: 'spell_frost_icebarrier',
     maxRanks: 3,
     position: { x: 1, y: 2 },
@@ -223,7 +223,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
   {
     id: 'revenant_phylactery_t2_phylactery_link',
     name: 'Phylactery Link',
-    description: 'Allies within 30ft can spend 5 HP to reduce your damage by 1d6 per rank. Range +10ft per rank.',
+    description: 'Spectral chains of frost bind allies to the phylactery\'s protection. Allies within 30ft can spend 5 HP to reduce your damage by 1d6 per rank. Range +10ft per rank.',
     icon: 'spell_shadow_lifedrain02',
     maxRanks: 3,
     position: { x: 3, y: 2 },
@@ -232,7 +232,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
   {
     id: 'revenant_phylactery_t3_eternal_guardian',
     name: 'Eternal Guardian',
-    description: 'Phylactery creates a protective field, reducing all damage by 2 per rank. Active while Phylactery has HP.',
+    description: 'The Frozen Archive\'s deathless vigil watches over its chosen. Phylactery creates a protective field, reducing all damage by 2 per rank. Active while Phylactery has HP.',
     icon: 'spell_frost_frozencore',
     maxRanks: 3,
     position: { x: 1, y: 3 },
@@ -241,7 +241,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
   {
     id: 'revenant_phylactery_t3_soul_siphon',
     name: 'Soul Siphon',
-    description: 'Enemies dying within 30ft store 1d4 Phylactery HP per rank (max once/round). Range +10ft per rank.',
+    description: 'Dying souls are drawn into the Frozen Archive\'s cold embrace. Enemies dying within 30ft store 1d4 Phylactery HP per rank (max once/round). Range +10ft per rank.',
     icon: 'spell_shadow_soulleech_3',
     maxRanks: 2,
     position: { x: 3, y: 3 },
@@ -250,7 +250,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
   {
     id: 'revenant_phylactery_t4_immortal_essence',
     name: 'Immortal Essence',
-    description: 'Once per combat, if Phylactery has 20+ HP, resurrect costs only 20 Phylactery HP. Revive with full Phylactery minus cost.',
+    description: 'The Archive grants its most faithful a taste of true eternity. Once per combat, if Phylactery has 20+ HP, resurrect costs only 20 Phylactery HP. Revive with full Phylactery minus cost.',
     icon: 'spell_frost_wisp',
     maxRanks: 1,
     position: { x: 2, y: 4 },

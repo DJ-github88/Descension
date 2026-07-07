@@ -2131,7 +2131,7 @@ const ClassResourceBar = ({
         // Standard levels for all specs (max 13)
         if (threads <= 3) return { name: 'Sparse Threads', color: '#9370DB' };
         if (threads <= 6) return { name: 'Woven Strands', color: '#B8860B' };
-        if (threads <= 9) return { name: 'Tapestry of Fate', color: '#FFD700' };
+        if (threads <= 9) return { name: 'Wyrd-Weave', color: '#FFD700' };
         if (threads <= 12) return { name: 'Destiny\'s Web', color: '#FFA500' };
         return { name: 'Fate Mastered', color: '#FFD700' };
     };

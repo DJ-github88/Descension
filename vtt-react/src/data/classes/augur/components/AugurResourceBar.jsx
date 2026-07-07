@@ -59,7 +59,7 @@ const AugurResourceBar = ({ classResource = {}, size = 'normal', config = {}, co
     const specConfigs = {
         auspex: { name: 'Auspex', benMax: 10, malMax: 10, icon: 'fa-eye', desc: 'Balanced omen reader' },
         harbinger: { name: 'Harbinger', benMax: 5, malMax: 15, icon: 'fa-cloud-bolt', desc: 'Dark portents focus' },
-        hierophant: { name: 'Hierophant', benMax: 15, malMax: 5, icon: 'fa-sun', desc: 'Divine blessings focus' }
+        hierophant: { name: 'Hierophant', benMax: 15, malMax: 5, icon: 'fa-sun', desc: 'Sacred blessings focus' }
     };
 
     const currentSpec = specConfigs[specialization] || specConfigs.auspex;

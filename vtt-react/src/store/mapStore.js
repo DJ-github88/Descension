@@ -1,4 +1,4 @@
-import { create } from 'zustand';
+﻿import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 // Default map structure
@@ -41,7 +41,7 @@ const createDefaultMap = (name = 'New Map') => ({
     // Portals for map navigation
     portals: [],
 
-    // World-building context — links this map to a location in the world
+    // World-building context, links this map to a location in the world
     worldContext: {
         locationId: null,
         regionId: null,

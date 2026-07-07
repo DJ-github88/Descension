@@ -1,11 +1,11 @@
-import React, { useState, useMemo, useEffect, useRef } from 'react';
+﻿import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { getClassResourceConfig } from '../../../../data/classResources';
 import SpellTooltip from '../../../../components/spellcrafting-wizard/components/common/SpellTooltip';
 import { formulationToSpell } from '../formulationToSpell';
 import '../styles/SphereComboFinder.css';
 
 /**
- * SphereComboFinder — "Building Blocks → Formulations" reference tool.
+ * SphereComboFinder, "Building Blocks → Formulations" reference tool.
  *
  * Replaces the legacy `components/rules/SphereComboFinder.jsx`, which hardcoded
  * its own element IDs that never matched the matrix data (so the lookup always
@@ -37,7 +37,7 @@ const ACTIONS = [
         range: '60ft',
         target: 'One enemy',
         damageFormula: (combo) => {
-            if (combo.primaryEffect === 'cleanse' || combo.primaryEffect === 'barrier') return `Special — see effect`;
+            if (combo.primaryEffect === 'cleanse' || combo.primaryEffect === 'barrier') return `Special, see effect`;
             if (combo.primaryEffect === 'healing') return `Heal 1d6 + INT/4`;
             return `1d6 + INT/4 ${combo.damageTypes.join('/')}`;
         },
@@ -57,7 +57,7 @@ const ACTIONS = [
         target: 'One creature',
         damageFormula: () => 'Absorbs level HP',
         describe: (combo) => {
-            if (combo.isChaosCombo) return `Barrier absorbs your level in HP. Roll Wyrd Table — the result modifies your shield in a random way.`;
+            if (combo.isChaosCombo) return `Barrier absorbs your level in HP. Roll Wyrd Table, the result modifies your shield in a random way.`;
             const types = combo.damageTypes?.length > 0 ? combo.damageTypes.join('/') + ' ' : '';
             return `Barrier absorbs your level in HP. Grants ${types}resistance for 1 round.${combo.secondaryEffect ? ' ' + formatSecondaryDefend(combo.secondaryEffect) : ''}`;
         }
@@ -186,7 +186,7 @@ export default function SphereComboFinder({ combinationMatrix, bankedBlocks = {}
         });
     }, [entries, block1, block2]);
 
-    // The "active" combo for the 5-action breakdown — the focused pair.
+    // The "active" combo for the 5-action breakdown, the focused pair.
     const activeCombo = (visibleFormulations.length === 1) ? visibleFormulations[0] : null;
 
     const selectBlock = (id) => {
@@ -200,7 +200,7 @@ export default function SphereComboFinder({ combinationMatrix, bankedBlocks = {}
                 setBlock2(id);
             }
         } else {
-            // Both selected — start over with this as the first.
+            // Both selected, start over with this as the first.
             setBlock1(id);
             setBlock2(null);
         }
@@ -283,7 +283,7 @@ export default function SphereComboFinder({ combinationMatrix, bankedBlocks = {}
                     )}
                     {activeCombo.isChaosCombo && (
                         <div className="scf-wyrd-note">
-                            This is a <strong>Wyrd formulation</strong> — every use rolls on the Wyrd Effects Table (d20) for a bonus or penalty. The cards below show the base effect; the chaos roll modifies it.
+                            This is a <strong>Wyrd formulation</strong>, every use rolls on the Wyrd Effects Table (d20) for a bonus or penalty. The cards below show the base effect; the chaos roll modifies it.
                         </div>
                     )}
                     <div className="scf-actions-grid">
@@ -309,7 +309,7 @@ export default function SphereComboFinder({ combinationMatrix, bankedBlocks = {}
                             <ul>
                                 {activeCombo.randomEffects.map((re, i) => (
                                     <li key={i}>
-                                        <strong>{re.name}</strong> — {re.description}
+                                        <strong>{re.name}</strong>, {re.description}
                                     </li>
                                 ))}
                             </ul>

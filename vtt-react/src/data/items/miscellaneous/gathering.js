@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Gathering & Botany Materials
  * 
  * Common Plants, Medicinal/Potent Plants, and Rare/Dangerous Plants
@@ -66,7 +66,7 @@ export const GATHERING_ITEMS = [
     professions: ['Alchemy'],
     gatheringMethod: 'herbalism',
     reagentType: 'Flower',
-    magicType: 'divine',
+    magicType: 'sacred',
     reagentState: 'Raw'
   },
   {
@@ -219,9 +219,9 @@ export const GATHERING_ITEMS = [
     professions: ['Alchemy', 'Enchanting'],
     gatheringMethod: 'herbalism',
     reagentType: 'Plant',
-    magicType: 'divine',
+    magicType: 'sacred',
     reagentState: 'Raw',
-    requiredFor: 'Light magic and holy enchantments'
+    requiredFor: 'Light magic and sacred enchantments'
   },
 
   // === RARE / DANGEROUS ===

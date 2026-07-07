@@ -1,4 +1,4 @@
-// ============================================
+﻿// ============================================
 // BERSERKER TALENT TREES
 // ============================================
 
@@ -7,7 +7,7 @@ export const BERSERKER_PRIMAL_RAGE = [
   {
     id: 'primal_rage_t0_inner_fire',
     name: 'Inner Fire',
-    description: 'Your rage burns hotter. Generate +1 Rage per rank when you attack.',
+    description: 'The Skald-poets of Nordhalla whisper of embers that burn cold beneath the ice. Your rage burns hotter. Generate +1 Rage per rank when you attack.',
     icon: 'spell_fire_innerfire',
     maxRanks: 5,
     position: { x: 0, y: 1 },
@@ -18,7 +18,7 @@ export const BERSERKER_PRIMAL_RAGE = [
   {
     id: 'primal_rage_t1_fury_damage',
     name: 'Fury Damage',
-    description: '+1 weapon damage per Rage State above Smoldering. Rank 2+: Spend 1 Rage for advantage on your next attack. Rank 4: Bonus increases to +2 per State.',
+    description: 'Nordhalla\'s battle-singers carve runes of frost-rage into their shields before war. +1 weapon damage per Rage State above Smoldering. Rank 2+: Spend 1 Rage for advantage on your next attack. Rank 4: Bonus increases to +2 per State.',
     icon: 'ability_warrior_savageblow',
     maxRanks: 4,
     position: { x: 1, y: 1 },
@@ -27,7 +27,7 @@ export const BERSERKER_PRIMAL_RAGE = [
   {
     id: 'primal_rage_t2_carnage_strike',
     name: 'Carnage Strike',
-    description: 'Unlocks Carnage Strike - spend 40 Rage for +2d6 damage and advantage on attack.',
+    description: 'The frozen rivers of Nordhalla run red when the Skald\'s blade sings death. Unlocks Carnage Strike - spend 40 Rage for +2d6 damage and advantage on attack.',
     icon: 'ability_warrior_bloodnova',
     maxRanks: 3,
     position: { x: 2, y: 2 },
@@ -36,7 +36,7 @@ export const BERSERKER_PRIMAL_RAGE = [
   {
     id: 'primal_rage_t3_cataclysmic_blow',
     name: 'Cataclysmic Blow',
-    description: 'Unlocks Cataclysmic Blow - spend 80 Rage for 3d6 extra damage and knockback 10 ft.',
+    description: 'Legends tell of Skalds whose rage shatters glaciers with a single cry. Unlocks Cataclysmic Blow - spend 80 Rage for 3d6 extra damage and knockback 10 ft.',
     icon: 'ability_warrior_titansgrip',
     maxRanks: 2,
     position: { x: 3, y: 3 },
@@ -45,7 +45,7 @@ export const BERSERKER_PRIMAL_RAGE = [
   {
     id: 'primal_rage_t4_obliterating_strike',
     name: 'Obliterating Strike',
-    description: 'Unlocks Obliterating Strike - spend 100+ Rage for 4d8 damage and area effect.',
+    description: 'When the blood-frost takes hold, even the mountains of Nordhalla tremble. Unlocks Obliterating Strike - spend 100+ Rage for 4d8 damage and area effect.',
     icon: 'spell_fire_meteorstorm',
     maxRanks: 1,
     position: { x: 4, y: 4 },
@@ -56,7 +56,7 @@ export const BERSERKER_PRIMAL_RAGE = [
   {
     id: 'primal_rage_t1_bloodlust',
     name: 'Bloodlust',
-    description: 'Rank 1: Critical hits generate +1d4 Rage. Rank 2: Critical hits generate +1d4 Rage. You can enter a Frenzied Rage State using action points. Rank 3: Critical hits generate +1d6 Rage. You can enter a Frenzied Rage State using action points. Rank 4: Critical hits generate +1d6 Rage. You can enter a Frenzied Rage State using action points and reduce Rage decay by 1.',
+    description: 'The ice-rage of Nordhalla turns a warrior\'s blood to frozen fire. Rank 1: Critical hits generate +1d4 Rage. Rank 2: Critical hits generate +1d4 Rage. You can enter a Frenzied Rage State using action points. Rank 3: Critical hits generate +1d6 Rage. You can enter a Frenzied Rage State using action points. Rank 4: Critical hits generate +1d6 Rage. You can enter a Frenzied Rage State using action points and reduce Rage decay by 1.',
     icon: 'spell_shadow_bloodboil',
     maxRanks: 4,
     position: { x: 0, y: 2 },
@@ -65,7 +65,7 @@ export const BERSERKER_PRIMAL_RAGE = [
   {
     id: 'primal_rage_t2_frenzied_strikes',
     name: 'Frenzied Strikes',
-    description: 'Attacks while Frenzied generate +1 additional Rage per rank.',
+    description: 'In the grip of frost-fury, every strike carries the weight of an avalanche. Attacks while Frenzied generate +1 additional Rage per rank.',
     icon: 'ability_warrior_weaponmastery',
     maxRanks: 3,
     position: { x: 0, y: 3 },
@@ -74,7 +74,7 @@ export const BERSERKER_PRIMAL_RAGE = [
   {
     id: 'primal_rage_t3_rage_echo',
     name: 'Rage Echo',
-    description: 'When you defeat an enemy, nearby allies generate 1d6 Rage per rank.',
+    description: 'The Skald\'s war-chants echo across the tundra, igniting fury in all who hear. When you defeat an enemy, nearby allies generate 1d6 Rage per rank.',
     icon: 'spell_shadow_unholyfrenzy',
     maxRanks: 3,
     position: { x: 0, y: 4 },
@@ -83,7 +83,7 @@ export const BERSERKER_PRIMAL_RAGE = [
   {
     id: 'primal_rage_t4_primal_surge',
     name: 'Primal Surge',
-    description: 'Once per combat, instantly reach Primal Rage State and gain +1d8 Rage per rank.',
+    description: 'Ancient spirits of Nordhalla surge through the berserker like a thawing river. Once per combat, instantly reach Primal Rage State and gain +1d8 Rage per rank.',
     icon: 'spell_nature_ancestralguardian',
     maxRanks: 2,
     position: { x: 0, y: 5 },
@@ -94,7 +94,7 @@ export const BERSERKER_PRIMAL_RAGE = [
   {
     id: 'primal_rage_t2_rage_decay',
     name: 'Rage Decay',
-    description: 'Rage decays by 3 less per round per rank.',
+    description: 'The cold endurance of Nordhalla\'s warriors outlasts the fiercest blaze. Rage decays by 3 less per round per rank.',
     icon: 'spell_shadow_mindsteal',
     maxRanks: 4,
     position: { x: 1, y: 2 },
@@ -103,7 +103,7 @@ export const BERSERKER_PRIMAL_RAGE = [
   {
     id: 'primal_rage_t3_overheat_resistance',
     name: 'Overheat Resistance',
-    description: 'Overheat threshold increases by 10 per rank.',
+    description: 'Nordhalla\'s frost-touched blood runs deep, tempering the hottest rage. Overheat threshold increases by 10 per rank.',
     icon: 'spell_fire_playingwithfire',
     maxRanks: 3,
     position: { x: 2, y: 3 },
@@ -112,7 +112,7 @@ export const BERSERKER_PRIMAL_RAGE = [
   {
     id: 'primal_rage_t4_fury_mastery',
     name: 'Fury Mastery',
-    description: 'Rage abilities cost 10 less Rage per rank.',
+    description: 'Through years of ice-ritual, the Skald learns to wield rage like a fine blade. Rage abilities cost 10 less Rage per rank.',
     icon: 'spell_nature_unrelentingstorm',
     maxRanks: 3,
     position: { x: 3, y: 4 },
@@ -121,7 +121,7 @@ export const BERSERKER_PRIMAL_RAGE = [
   {
     id: 'primal_rage_t5_rage_overflow',
     name: 'Rage Overflow',
-    description: 'When you would Overheat, spend all Rage on a free Obliterating Strike instead.',
+    description: 'When the berserker\'s cup overflows, Nordhalla\'s spirits guide the excess. When you would Overheat, spend all Rage on a free Obliterating Strike instead.',
     icon: 'spell_shadow_shadowwordpain',
     maxRanks: 1,
     position: { x: 4, y: 5 },
@@ -132,7 +132,7 @@ export const BERSERKER_PRIMAL_RAGE = [
   {
     id: 'primal_rage_t5_apocalyptic_wrath',
     name: 'Apocalyptic Wrath',
-    description: 'At Obliteration Rage State, all attacks deal +2d6 damage and you become immune to control effects.',
+    description: 'The end-days sagas of Nordhalla speak of berserkers who become walking frost-giants. At Obliteration Rage State, all attacks deal +2d6 damage and you become immune to control effects.',
     icon: 'spell_fire_elementaldevastation',
     maxRanks: 3,
     position: { x: 1, y: 6 },
@@ -142,7 +142,7 @@ export const BERSERKER_PRIMAL_RAGE = [
   {
     id: 'primal_rage_t6_god_mode',
     name: 'God Mode',
-    description: 'At Obliteration Rage State, you gain +20 temp HP and attacks have advantage.',
+    description: 'Nordhalla\'s chosen warriors walk the battlefield as living avatars of winter. At Obliteration Rage State, you gain +20 temp HP and attacks have advantage.',
     icon: 'spell_holy_weaponmastery',
     maxRanks: 2,
     position: { x: 3, y: 6 },
@@ -154,7 +154,7 @@ export const BERSERKER_PRIMAL_RAGE = [
   {
     id: 'primal_rage_t7_berserker_god',
     name: 'Berserker God',
-    description: 'Permanently locked in Obliteration state. Overheat no longer triggers. Instead, take 1d6 damage per round. Rage-spending abilities still consume Rage as normal — if Rage drops below 101, you leave Obliteration until you build back up.',
+    description: 'To become a spirit of rage is to freeze eternity in a single moment of battle. Permanently locked in Obliteration state. Overheat no longer triggers. Instead, take 1d6 damage per round. Rage-spending abilities still consume Rage as normal, if Rage drops below 101, you leave Obliteration until you build back up.',
     icon: 'spell_shadow_unholystrength',
     maxRanks: 1,
     position: { x: 2, y: 6 },
@@ -169,7 +169,7 @@ export const BERSERKER_BLOOD_FRENZY = [
   {
     id: 'blood_frenzy_t0_blood_magic',
     name: 'Blood Magic',
-    description: 'Taking damage generates +1 additional Rage per rank.',
+    description: 'The blood-mages of Nordhalla offer their own veins to the frozen earth. Taking damage generates +1 additional Rage per rank.',
     icon: 'spell_shadow_bloodboil',
     maxRanks: 5,
     position: { x: 2, y: 2 },
@@ -180,7 +180,7 @@ export const BERSERKER_BLOOD_FRENZY = [
   {
     id: 'blood_frenzy_t1_blood_rage',
     name: 'Blood Rage',
-    description: 'Convert HP damage to Rage. Roll 1d4 per rank - gain that much Rage instead of taking damage.',
+    description: 'Nordhalla\'s Skalds teach that pain is merely fuel for the ice-rage. Convert HP damage to Rage. Roll 1d4 per rank - gain that much Rage instead of taking damage.',
     icon: 'spell_shadow_soulleech',
     maxRanks: 4,
     position: { x: 1, y: 1 },
@@ -189,7 +189,7 @@ export const BERSERKER_BLOOD_FRENZY = [
   {
     id: 'blood_frenzy_t2_crimson_wave',
     name: 'Crimson Wave',
-    description: 'Unlocks Crimson Wave - spend 30 Rage to heal 2d8 HP and damage nearby enemies for 1d8.',
+    description: 'A tide of crimson washes across the snow when the blood-fury is unleashed. Unlocks Crimson Wave - spend 30 Rage to heal 2d8 HP and damage nearby enemies for 1d8.',
     icon: 'ability_warrior_bloodnova',
     maxRanks: 3,
     position: { x: 0, y: 0 },
@@ -198,7 +198,7 @@ export const BERSERKER_BLOOD_FRENZY = [
   {
     id: 'blood_frenzy_t2_sanguine_eruption',
     name: 'Sanguine Eruption',
-    description: 'Unlocks Sanguine Eruption - spend 60 Rage to deal 3d6 damage in 15 ft radius and heal for half.',
+    description: 'The frozen ground of Nordhalla erupts with gore when the Skald\'s rage peaks. Unlocks Sanguine Eruption - spend 60 Rage to deal 3d6 damage in 15 ft radius and heal for half.',
     icon: 'spell_shadow_bloodboil',
     maxRanks: 2,
     position: { x: 2, y: 0 },
@@ -207,7 +207,7 @@ export const BERSERKER_BLOOD_FRENZY = [
   {
     id: 'blood_frenzy_t3_blood_storm',
     name: 'Blood Storm',
-    description: 'Unlocks Blood Storm - spend 90 Rage to create blood storm dealing 4d6 damage per round for 3 rounds.',
+    description: 'Nordhalla\'s winter skies turn red when the blood-storm is summoned. Unlocks Blood Storm - spend 90 Rage to create blood storm dealing 4d6 damage per round for 3 rounds.',
     icon: 'spell_shadow_painspike',
     maxRanks: 1,
     position: { x: 1, y: 0 },
@@ -218,7 +218,7 @@ export const BERSERKER_BLOOD_FRENZY = [
   {
     id: 'blood_frenzy_t1_wound_power',
     name: 'Wound Power',
-    description: 'For each 25% missing HP per rank, gain +1 to attack and damage rolls.',
+    description: 'Each scar earned in Nordhalla\'s arenas makes the berserker\'s frost-rage bite deeper. For each 25% missing HP per rank, gain +1 to attack and damage rolls.',
     icon: 'spell_shadow_lifedrain',
     maxRanks: 4,
     position: { x: 0, y: 3 },
@@ -227,7 +227,7 @@ export const BERSERKER_BLOOD_FRENZY = [
   {
     id: 'blood_frenzy_t2_bloody_retaliation',
     name: 'Bloody Retaliation',
-    description: 'When damaged, your next attack gains +1d4 damage per rank.',
+    description: 'To strike a Nordhalla berserker is to taste your own blood on their blade. When damaged, your next attack gains +1d4 damage per rank.',
     icon: 'ability_warrior_bloodbath',
     maxRanks: 3,
     position: { x: 1, y: 4 },
@@ -236,7 +236,7 @@ export const BERSERKER_BLOOD_FRENZY = [
   {
     id: 'blood_frenzy_t3_life_steal',
     name: 'Life Steal',
-    description: 'Weapon attacks heal you for 1d4 HP per rank when below 50% HP.',
+    description: 'The Skalds drain life from the wounded tundra to fuel their eternal war-dances. Weapon attacks heal you for 1d4 HP per rank when below 50% HP.',
     icon: 'spell_shadow_lifedrain02',
     maxRanks: 3,
     position: { x: 0, y: 5 },
@@ -245,7 +245,7 @@ export const BERSERKER_BLOOD_FRENZY = [
   {
     id: 'blood_frenzy_t4_blood_fury',
     name: 'Blood Fury',
-    description: 'While below 25% HP, attacks generate +1d6 Rage per rank.',
+    description: 'When death grazes close, Nordhalla\'s warriors find their most savage fury. While below 25% HP, attacks generate +1d6 Rage per rank.',
     icon: 'spell_shadow_bloodboil',
     maxRanks: 2,
     position: { x: 1, y: 6 },
@@ -256,7 +256,7 @@ export const BERSERKER_BLOOD_FRENZY = [
   {
     id: 'blood_frenzy_t1_pain_threshold',
     name: 'Pain Threshold',
-    description: 'You have advantage on saves while below 50% HP per rank.',
+    description: 'Nordhalla\'s shamans bless warriors with numbness born of ancient frost. You have advantage on saves while below 50% HP per rank.',
     icon: 'spell_shadow_shadowwordpain',
     maxRanks: 4,
     position: { x: 4, y: 3 },
@@ -265,7 +265,7 @@ export const BERSERKER_BLOOD_FRENZY = [
   {
     id: 'blood_frenzy_t2_adrenaline_rush',
     name: 'Adrenaline Rush',
-    description: 'When reduced below 25% HP, gain +10 movement speed and +2 to all rolls for 1 round.',
+    description: 'The howling winds of Nordhalla\'s peaks carry the berserker faster than thought. When reduced below 25% HP, gain +10 movement speed and +2 to all rolls for 1 round.',
     icon: 'ability_rogue_sprint',
     maxRanks: 3,
     position: { x: 3, y: 4 },
@@ -274,7 +274,7 @@ export const BERSERKER_BLOOD_FRENZY = [
   {
     id: 'blood_frenzy_t3_berserk_healing',
     name: 'Berserk Healing',
-    description: 'While in Carnage Rage State, regenerate 1d6 HP per round per rank.',
+    description: 'The ice-rage mends flesh as swiftly as it freezes the blood of enemies. While in Carnage Rage State, regenerate 1d6 HP per round per rank.',
     icon: 'spell_holy_blessedrecovery',
     maxRanks: 3,
     position: { x: 4, y: 5 },
@@ -283,7 +283,7 @@ export const BERSERKER_BLOOD_FRENZY = [
   {
     id: 'blood_frenzy_t4_deathless_fury',
     name: 'Deathless Fury',
-    description: 'Cannot be reduced below 1 HP by attacks. Excess damage becomes Rage instead.',
+    description: 'Nordhalla\'s death-goddess refuses those who still burn with frost-rage. Cannot be reduced below 1 HP by attacks. Excess damage becomes Rage instead.',
     icon: 'spell_shadow_deathscream',
     maxRanks: 1,
     position: { x: 3, y: 6 },
@@ -294,7 +294,7 @@ export const BERSERKER_BLOOD_FRENZY = [
   {
     id: 'blood_frenzy_t2_hemorrhagic_link',
     name: 'Hemorrhagic Link',
-    description: 'When you damage an enemy, they bleed for 1d4 damage per round per rank.',
+    description: 'The Skald\'s curse binds wound to wound across the battlefield\'s frozen expanse. When you damage an enemy, they bleed for 1d4 damage per round per rank.',
     icon: 'spell_shadow_bloodboil',
     maxRanks: 3,
     position: { x: 3, y: 1 },
@@ -303,7 +303,7 @@ export const BERSERKER_BLOOD_FRENZY = [
   {
     id: 'blood_frenzy_t3_vampiric_echo',
     name: 'Vampiric Echo',
-    description: 'Life Steal heals nearby allies for half the amount per rank.',
+    description: 'Nordhalla\'s frost-spirits carry the gift of blood from the fallen to the faithful. Life Steal heals nearby allies for half the amount per rank.',
     icon: 'spell_shadow_lifedrain02',
     maxRanks: 2,
     position: { x: 2, y: 4 },
@@ -314,7 +314,7 @@ export const BERSERKER_BLOOD_FRENZY = [
   {
     id: 'blood_frenzy_t5_blood_god',
     name: 'Blood God',
-    description: 'At Obliteration Rage State, you heal 2d6 HP per round and enemies take 2d6 damage when they damage you.',
+    description: 'The ancient Blood God of Nordhalla demands tribute of gore and grants power in return. At Obliteration Rage State, you heal 2d6 HP per round and enemies take 2d6 damage when they damage you.',
     icon: 'spell_shadow_bloodboil',
     maxRanks: 3,
     position: { x: 0, y: 6 },
@@ -324,7 +324,7 @@ export const BERSERKER_BLOOD_FRENZY = [
   {
     id: 'blood_frenzy_t5_eternal_frenzy',
     name: 'Eternal Frenzy',
-    description: 'At Obliteration Rage State, you cannot be killed while Rage remains. Death resets you to 1 HP instead.',
+    description: 'Nordhalla\'s endless winter cannot cool the eternal frenzy of the chosen berserker. At Obliteration Rage State, you cannot be killed while Rage remains. Death resets you to 1 HP instead.',
     icon: 'spell_shadow_unholyfrenzy',
     maxRanks: 2,
     position: { x: 4, y: 6 },
@@ -334,7 +334,7 @@ export const BERSERKER_BLOOD_FRENZY = [
   {
     id: 'blood_frenzy_t5_blood_ritual',
     name: 'Blood Ritual',
-    description: 'Sacrifice HP to gain Rage. Spend 10 HP to gain 20 Rage per rank.',
+    description: 'Under the pale moon of Nordhalla, the Skalds chant while the blood-price is paid. Sacrifice HP to gain Rage. Spend 10 HP to gain 20 Rage per rank.',
     icon: 'spell_shadow_soulleech',
     maxRanks: 3,
     position: { x: 2, y: 6 },
@@ -346,7 +346,7 @@ export const BERSERKER_BLOOD_FRENZY = [
   {
     id: 'blood_frenzy_t6_blood_god_ascended',
     name: 'Blood God Ascended',
-    description: 'Unlocks Blood God Ascension - transform into a blood god, dealing damage equal to HP lost this combat.',
+    description: 'To ascend as Nordhalla\'s Blood God is to become the frozen heart of war itself. Unlocks Blood God Ascension - transform into a blood spirit, dealing damage equal to HP lost this combat.',
     icon: 'spell_shadow_bloodboil',
     maxRanks: 1,
     position: { x: 2, y: 7 },
@@ -361,7 +361,7 @@ export const BERSERKER_SAVAGE_INSTINCTS = [
   {
     id: 'savage_instincts_t0_primal_awareness',
     name: 'Primal Awareness',
-    description: 'You have advantage on Perception checks to detect hidden enemies per rank.',
+    description: 'The primal instincts of Nordhalla\'s hunters never sleep beneath the ice. You have advantage on Perception checks to detect hidden enemies per rank.',
     icon: 'ability_druid_primalprecision',
     maxRanks: 5,
     position: { x: 2, y: 3 },
@@ -372,7 +372,7 @@ export const BERSERKER_SAVAGE_INSTINCTS = [
   {
     id: 'savage_instincts_t1_predators_grasp',
     name: 'Predator\'s Grasp',
-    description: 'Flanking attacks deal +1d6 damage per rank. You always count as flanking.',
+    description: 'Nordhalla\'s great white wolves strike from the flanks with unerring precision. Flanking attacks deal +1d6 damage per rank. You always count as flanking.',
     icon: 'ability_hunter_catlikereflexes',
     maxRanks: 4,
     position: { x: 0, y: 1 },
@@ -381,7 +381,7 @@ export const BERSERKER_SAVAGE_INSTINCTS = [
   {
     id: 'savage_instincts_t2_hunters_instinct',
     name: 'Hunter\'s Instinct',
-    description: 'When you hit a wounded enemy, deal +1d8 damage per rank.',
+    description: 'The Skald-poets say a wounded foe smells of fear across the frozen tundra. When you hit a wounded enemy, deal +1d8 damage per rank.',
     icon: 'ability_druid_predatoryinstincts',
     maxRanks: 3,
     position: { x: 1, y: 0 },
@@ -390,7 +390,7 @@ export const BERSERKER_SAVAGE_INSTINCTS = [
   {
     id: 'savage_instincts_t3_blood_scent',
     name: 'Blood Scent',
-    description: 'You can track wounded creatures by scent. +2 to Survival checks to track bleeding enemies.',
+    description: 'Nordhalla\'s trackers follow the scent of blood across leagues of featureless snow. You can track wounded creatures by scent. +2 to Survival checks to track bleeding enemies.',
     icon: 'ability_hunter_scentoftheblood',
     maxRanks: 3,
     position: { x: 0, y: 0 },
@@ -401,7 +401,7 @@ export const BERSERKER_SAVAGE_INSTINCTS = [
   {
     id: 'savage_instincts_t1_survival_instincts',
     name: 'Survival Instincts',
-    description: 'You have +1 armor per rank when fighting outnumbered. Maximum +5.',
+    description: 'Only the strong survive Nordhalla\'s trials, and the strong know when to endure. You have +1 armor per rank when fighting outnumbered. Maximum +5.',
     icon: 'spell_nature_spiritwolf',
     maxRanks: 4,
     position: { x: 4, y: 5 },
@@ -410,7 +410,7 @@ export const BERSERKER_SAVAGE_INSTINCTS = [
   {
     id: 'savage_instincts_t2_endurance_training',
     name: 'Endurance Training',
-    description: 'Your hit point maximum increases by 5 per rank.',
+    description: 'The endless winter of Nordhalla forges bodies of iron and spirits of ice. Your hit point maximum increases by 5 per rank.',
     icon: 'spell_holy_wordfortitude',
     maxRanks: 3,
     position: { x: 3, y: 6 },
@@ -419,7 +419,7 @@ export const BERSERKER_SAVAGE_INSTINCTS = [
   {
     id: 'savage_instincts_t3_peak_conditioning',
     name: 'Peak Conditioning',
-    description: 'You gain +5 ft movement speed per rank and ignore difficult terrain.',
+    description: 'Nordhalla\'s warriors race the blizzards and emerge swift as the northern wind. You gain +5 ft movement speed per rank and ignore difficult terrain.',
     icon: 'ability_druid_dash',
     maxRanks: 3,
     position: { x: 4, y: 6 },
@@ -430,7 +430,7 @@ export const BERSERKER_SAVAGE_INSTINCTS = [
   {
     id: 'savage_instincts_t1_combat_instincts',
     name: 'Combat Instincts',
-    description: 'You have advantage on initiative rolls per rank.',
+    description: 'The first to strike in a Nordhalla battle is favored by the frost-spirits. You have advantage on initiative rolls per rank.',
     icon: 'ability_warrior_weaponmastery',
     maxRanks: 4,
     position: { x: 4, y: 1 },
@@ -439,7 +439,7 @@ export const BERSERKER_SAVAGE_INSTINCTS = [
   {
     id: 'savage_instincts_t2_weapon_specialization',
     name: 'Weapon Specialization',
-    description: 'Choose a weapon type. You gain +1 to attack and damage rolls with that weapon type per rank.',
+    description: 'Nordhalla\'s Skalds forge bonds with their weapons, treating steel as kin. Choose a weapon type. You gain +1 to attack and damage rolls with that weapon type per rank.',
     icon: 'ability_warrior_savageblow',
     maxRanks: 3,
     position: { x: 3, y: 0 },
@@ -448,7 +448,7 @@ export const BERSERKER_SAVAGE_INSTINCTS = [
   {
     id: 'savage_instincts_t3_combat_mastery',
     name: 'Combat Mastery',
-    description: 'Reduces the Action Point cost of attacks by 1 per rank (minimum 1 AP).',
+    description: 'The economy of motion in Nordhalla\'s war-dances is a thing of frozen beauty. Reduces the Action Point cost of attacks by 1 per rank (minimum 1 AP).',
     icon: 'ability_warrior_bloodfrenzy',
     maxRanks: 2,
     position: { x: 4, y: 0 },
@@ -459,7 +459,7 @@ export const BERSERKER_SAVAGE_INSTINCTS = [
   {
     id: 'savage_instincts_t2_primal_bond',
     name: 'Primal Bond',
-    description: 'You can share senses with nearby beasts. Range 30 ft per rank.',
+    description: 'The beasts of Nordhalla\'s wilds share their senses with those who speak the old tongue. You can share senses with nearby beasts. Range 30 ft per rank.',
     icon: 'ability_druid_primalprecision',
     maxRanks: 3,
     position: { x: 1, y: 2 },
@@ -468,7 +468,7 @@ export const BERSERKER_SAVAGE_INSTINCTS = [
   {
     id: 'savage_instincts_t3_animal_kinship',
     name: 'Animal Kinship',
-    description: 'Beasts have +1 to attack rolls against your enemies per rank.',
+    description: 'Nordhalla\'s wolves answer the call of the Skald, fighting alongside the pack. Beasts have +1 to attack rolls against your enemies per rank.',
     icon: 'ability_hunter_beastcall',
     maxRanks: 3,
     position: { x: 0, y: 2 },
@@ -477,7 +477,7 @@ export const BERSERKER_SAVAGE_INSTINCTS = [
   {
     id: 'savage_instincts_t2_tactical_awareness',
     name: 'Tactical Awareness',
-    description: 'You can direct one ally per rank as a 1 action point, granting them +1d4 damage on their next attack.',
+    description: 'Nordhalla\'s war-leaders direct the battle-song, each ally a note in the chorus. You can direct one ally per rank as a 1 action point, granting them +1d4 damage on their next attack.',
     icon: 'ability_warrior_commandingshout',
     maxRanks: 3,
     position: { x: 3, y: 2 },
@@ -486,7 +486,7 @@ export const BERSERKER_SAVAGE_INSTINCTS = [
   {
     id: 'savage_instincts_t3_leadership_presence',
     name: 'Leadership Presence',
-    description: 'Allies within 30 ft gain +1 to morale saves per rank.',
+    description: 'The presence of a Nordhalla war-leader steels the hearts of all who follow. Allies within 30 ft gain +1 to morale saves per rank.',
     icon: 'spell_holy_prayerofspirit',
     maxRanks: 3,
     position: { x: 4, y: 2 },
@@ -495,7 +495,7 @@ export const BERSERKER_SAVAGE_INSTINCTS = [
   {
     id: 'savage_instincts_t2_terrain_mastery',
     name: 'Terrain Mastery',
-    description: 'You gain +2 to attack rolls in natural terrain per rank.',
+    description: 'Nordhalla\'s warriors know every frozen crevasse and use it as a weapon. You gain +2 to attack rolls in natural terrain per rank.',
     icon: 'spell_nature_earthquake',
     maxRanks: 3,
     position: { x: 2, y: 4 },
@@ -504,7 +504,7 @@ export const BERSERKER_SAVAGE_INSTINCTS = [
   {
     id: 'savage_instincts_t3_environmental_adaptation',
     name: 'Environmental Adaptation',
-    description: 'You are resistant to environmental damage (cold, heat, etc.) per rank.',
+    description: 'The harsh elements of Nordhalla embrace their children as kindred spirits. You are resistant to environmental damage (cold, heat, etc.) per rank.',
     icon: 'spell_nature_naturetouchgrow',
     maxRanks: 3,
     position: { x: 3, y: 4 },
@@ -515,7 +515,7 @@ export const BERSERKER_SAVAGE_INSTINCTS = [
   {
     id: 'savage_instincts_t4_primal_avatar',
     name: 'Primal Avatar',
-    description: 'You can transform into a primal avatar for 1 minute. Gain +2 to all rolls and +10 temp HP.',
+    description: 'Nordhalla\'s ancient beast-spirits descend to inhabit the berserker\'s form. You can transform into a primal avatar for 1 minute. Gain +2 to all rolls and +10 temp HP.',
     icon: 'ability_druid_primalprecision',
     maxRanks: 1,
     position: { x: 1, y: 5 },
@@ -525,7 +525,7 @@ export const BERSERKER_SAVAGE_INSTINCTS = [
   {
     id: 'savage_instincts_t4_battle_hardened',
     name: 'Battle Hardened',
-    description: 'You cannot be surprised and have advantage on saves against being frightened.',
+    description: 'No war-horn surprises a Nordhalla warrior who has heard the screams of a thousand battles. You cannot be surprised and have advantage on saves against being frightened.',
     icon: 'ability_warrior_defensivestance',
     maxRanks: 2,
     position: { x: 3, y: 5 },
@@ -537,7 +537,7 @@ export const BERSERKER_SAVAGE_INSTINCTS = [
   {
     id: 'savage_instincts_t5_primal_force',
     name: 'Primal Force',
-    description: 'Your primal abilities affect a 30 ft radius per rank.',
+    description: 'The very land of Nordhalla rises to answer the call of its primal children. Your primal abilities affect a 30 ft radius per rank.',
     icon: 'spell_nature_naturetouchgrow',
     maxRanks: 3,
     position: { x: 2, y: 5 },
@@ -549,7 +549,7 @@ export const BERSERKER_SAVAGE_INSTINCTS = [
   {
     id: 'savage_instincts_t6_coming_soon',
     name: 'Coming Soon',
-    description: 'This talent tree is under development.',
+    description: 'The Skalds of Nordhalla are still composing the sagas of talents yet to come. This talent tree is under development.',
     icon: 'inv_misc_questionmark',
     maxRanks: 1,
     position: { x: 1.5, y: 3 },

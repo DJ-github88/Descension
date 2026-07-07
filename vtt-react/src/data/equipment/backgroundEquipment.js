@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Background-Specific Starting Equipment
  * 
  * Items that are only available to specific character backgrounds.
@@ -305,11 +305,11 @@ export const BLOODLINE_HEIR_ITEMS = [
     
     {
         id: 'noble-scroll-of-pedigree',
-        name: 'Lineage Tapestry-Strip',
+        name: 'Lineage Weave-Strip',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'A strip cut from your house great-tapestry, naming your line three generations back. Required at the Greymark gate.',
+        description: 'A strip cut from your house lineage-weave, naming your line three generations back. Required at the Greymark gate.',
         iconId: 'Misc/Books/book-scroll-rolled-red-wax-seal',
         value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
         weight: 0.1,
@@ -1373,7 +1373,7 @@ export const ALL_BACKGROUND_EQUIPMENT = [
 
     // BOUND ITEMS
     {
-        id: 'zealot-holy-symbol',
+        id: 'zealot-sacred-symbol',
         name: 'Keeper\'s Clause-Scroll',
         type: 'miscellaneous',
         subtype: 'TOOL',
@@ -1785,7 +1785,7 @@ export const ALL_BACKGROUND_EQUIPMENT = [
         subtype: 'TOOL',
         quality: 'common',
         description: 'A ledger of outstanding debts and dark bargains, its pages written in bog-iron ink that shifts when read.',
-        iconId: 'Misc/Books/book-fiery-demonic-face-cover',
+        iconId: 'Misc/Books/book-fiery-Wyrd-touched-face-cover',
         value: { platinum: 0, gold: 30, silver: 0, copper: 0 },
         weight: 3,
         width: 1,
@@ -2067,7 +2067,7 @@ export const ALL_BACKGROUND_EQUIPMENT = [
         type: 'miscellaneous',
         subtype: 'CONTAINER',
         quality: 'common',
-        description: 'A blessed temple pouch containing 15 gold pieces. Can be sold for its full value.',
+        description: 'A Solbrand-sealed pouch containing 15 gold pieces from the Dawn Vigil offering-box. Can be sold for its full value.',
         iconId: 'Container/Pouch/brown-tied-pouch',
         value: { platinum: 0, gold: 15, silver: 0, copper: 0 },
         weight: 1,
@@ -2288,7 +2288,7 @@ export const ALL_BACKGROUND_EQUIPMENT = [
         type: 'miscellaneous',
         subtype: 'CONTAINER',
         quality: 'common',
-        description: 'A pouch containing 15 gold pieces from past criminal exploits. Can be sold for its full value.',
+        description: 'A basalt-dusted pouch containing 15 gold pieces from Shyr Cartel runs. Can be sold for its full value.',
         iconId: 'Container/Pouch/brown-tied-pouch',
         value: { platinum: 0, gold: 15, silver: 0, copper: 0 },
         weight: 1,
@@ -2310,7 +2310,7 @@ export const ALL_BACKGROUND_EQUIPMENT = [
         type: 'miscellaneous',
         subtype: 'CONTAINER',
         quality: 'common',
-        description: 'A simple pouch containing 10 gold pieces from humble savings. Can be sold for its full value.',
+        description: 'A fog-grey pouch containing 10 gold pieces from Thalren ledger-stipends. Can be sold for its full value.',
         iconId: 'Container/Pouch/brown-tied-pouch',
         value: { platinum: 0, gold: 10, silver: 0, copper: 0 },
         weight: 1,
@@ -2332,7 +2332,7 @@ export const ALL_BACKGROUND_EQUIPMENT = [
         type: 'miscellaneous',
         subtype: 'CONTAINER',
         quality: 'common',
-        description: 'A pouch containing 10 gold pieces from scholarly earnings. Can be sold for its full value.',
+        description: 'A crystal-threaded pouch containing 10 gold pieces from Synod-Hold research grants. Can be sold for its full value.',
         iconId: 'Container/Pouch/brown-tied-pouch',
         value: { platinum: 0, gold: 10, silver: 0, copper: 0 },
         weight: 1,
@@ -2354,7 +2354,7 @@ export const ALL_BACKGROUND_EQUIPMENT = [
         type: 'miscellaneous',
         subtype: 'CONTAINER',
         quality: 'common',
-        description: 'A pouch containing 10 gold pieces from military pay and savings. Can be sold for its full value.',
+        description: 'A campaign-stamped pouch containing 10 gold pieces from Bloodhammer sump-pay. Can be sold for its full value.',
         iconId: 'Container/Pouch/brown-tied-pouch',
         value: { platinum: 0, gold: 10, silver: 0, copper: 0 },
         weight: 1,
@@ -2376,7 +2376,7 @@ export const ALL_BACKGROUND_EQUIPMENT = [
         type: 'miscellaneous',
         subtype: 'CONTAINER',
         quality: 'common',
-        description: 'A weathered pouch containing 10 gold pieces from seafaring adventures. Can be sold for its full value.',
+        description: 'A salt-stained pouch containing 10 gold pieces from Iceheart trade-shares. Can be sold for its full value.',
         iconId: 'Container/Pouch/brown-tied-pouch',
         value: { platinum: 0, gold: 10, silver: 0, copper: 0 },
         weight: 1,

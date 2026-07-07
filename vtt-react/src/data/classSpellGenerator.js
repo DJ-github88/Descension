@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Class Spell Generator - COMPLETELY REWRITTEN
  *
  * Generates properly formatted showcase spells for all classes
@@ -32,31 +32,31 @@ import { AUGUR_DATA } from './classes/augurData';
 import { UNIVERSAL_COMBAT_SPELLS } from './universalCombatSpells';
 
 // ===== CLASS DATA MAP =====
-// Maps class names to their data files for dynamic loading
+// Maps class names to their data files for shifting loading
 export const CLASS_DATA_MAP = {
-  'Arcanoneer': ARCANONEER_DATA,
-  'Berserker': BERSERKER_DATA,
-  'Shaper': SHAPER_DATA,
-  'Harbinger': HARBINGER_DATA,
-  'Chronarch': CHRONARCH_DATA,
-  // 'Covenbane' and 'Exorcist' merged into Inquisitor as Phase 1.9 consolidation
-  'Inquisitor': INQUISITOR_DATA,
-  // 'Deathcaller' and 'Lichborne' merged into Revenant as Phase 1.10 consolidation
-  'Revenant': REVENANT_DATA,
-  'False Prophet': FALSE_PROPHET_DATA,
-  'Gambit': GAMBIT_DATA,
-  'Apex': APEX_DATA,
-  'Animist': ANIMIST_DATA,
-  'Lunarch': LUNARCH_DATA,
-  'Martyr': MARTYR_DATA,
-  'Minstrel': MINSTREL_DATA,
-  'Plaguebringer': PLAGUEBRINGER_DATA,
-  'Pyrofiend': PYROFIEND_DATA,
-  'Spellguard': SPELLGUARD_DATA,
-  'Toxicologist': TOXICOLOGIST_DATA,
-  'Warden': WARDEN_DATA,
-  'Augur': AUGUR_DATA,
-  'Harbinger': HARBINGER_DATA
+ 'Arcanoneer': ARCANONEER_DATA,
+ 'Berserker': BERSERKER_DATA,
+ 'Shaper': SHAPER_DATA,
+ 'Harbinger': HARBINGER_DATA,
+ 'Chronarch': CHRONARCH_DATA,
+ // 'Covenbane' and 'Exorcist' merged into Inquisitor as Phase 1.9 consolidation
+ 'Inquisitor': INQUISITOR_DATA,
+ // 'Deathcaller' and 'Lichborne' merged into Revenant as Phase 1.10 consolidation
+ 'Revenant': REVENANT_DATA,
+ 'False Prophet': FALSE_PROPHET_DATA,
+ 'Gambit': GAMBIT_DATA,
+ 'Apex': APEX_DATA,
+ 'Animist': ANIMIST_DATA,
+ 'Lunarch': LUNARCH_DATA,
+ 'Martyr': MARTYR_DATA,
+ 'Minstrel': MINSTREL_DATA,
+ 'Plaguebringer': PLAGUEBRINGER_DATA,
+ 'Pyrofiend': PYROFIEND_DATA,
+ 'Spellguard': SPELLGUARD_DATA,
+ 'Toxicologist': TOXICOLOGIST_DATA,
+ 'Warden': WARDEN_DATA,
+ 'Augur': AUGUR_DATA,
+ 'Harbinger': HARBINGER_DATA
 };
 
 // ===== GENERIC SPELL NORMALIZATION =====
@@ -68,24 +68,24 @@ export const CLASS_DATA_MAP = {
  * @returns {Object} Normalized spell object
  */
 function normalizeClassSpell(spell, className, determineSpecialization) {
-  const normalized = {
-    ...spell,
-    // Ensure specialization is set
-    specialization: determineSpecialization ? determineSpecialization(spell) : spell.specialization || 'protector',
-    // Ensure categoryIds exists
-    categoryIds: spell.categoryIds || [],
-    // Ensure basic fields exist
-    id: spell.id || `spell_${Date.now()}_${Math.random()}`,
-    name: spell.name || 'Unnamed Spell',
-    description: spell.description || '',
-    level: spell.level || 1,
-    spellType: spell.spellType || 'ACTION',
-    icon: spell.icon || 'inv_misc_questionmark',
-    effectTypes: spell.effectTypes || [],
-    tags: spell.tags || [],
-  };
+ const normalized = {
+  ...spell,
+  // Ensure specialization is set
+  specialization: determineSpecialization ? determineSpecialization(spell) : spell.specialization || 'protector',
+  // Ensure categoryIds exists
+  categoryIds: spell.categoryIds || [],
+  // Ensure basic fields exist
+  id: spell.id || `spell_${Date.now()}_${Math.random()}`,
+  name: spell.name || 'Unnamed Spell',
+  description: spell.description || '',
+  level: spell.level || 1,
+  spellType: spell.spellType || 'ACTION',
+  icon: spell.icon || 'inv_misc_questionmark',
+  effectTypes: spell.effectTypes || [],
+  tags: spell.tags || [],
+ };
 
-  return normalized;
+ return normalized;
 }
 
 // ===== CLASS-SPECIFIC SPELL PROCESSORS =====
@@ -94,80 +94,80 @@ function normalizeClassSpell(spell, className, determineSpecialization) {
  * Process Arcanoneer spells - handles sphere costs
  */
 function processArcanoneerSpells(spells) {
-  return spells.map(spell => normalizeClassSpell(spell, 'Arcanoneer', determineArcanoneerSpecialization))
-    .map(spell => ({
-      ...spell,
-      sphereCost: spell.resourceCost?.spheres || spell.sphereCost
-    }));
+ return spells.map(spell => normalizeClassSpell(spell, 'Arcanoneer', determineArcanoneerSpecialization))
+  .map(spell => ({
+   ...spell,
+   sphereCost: spell.resourceCost?.spheres || spell.sphereCost
+  }));
 }
 
 /**
  * Process Pyrofiend spells - flattens Inferno Level mechanics
  */
 function processPyrofiendSpells(spells) {
-  return spells.map(spell => normalizeClassSpell(spell, 'Pyrofiend', determinePyrofiendSpecialization))
-    .map(spell => ({
-      ...spell,
-      infernoRequired: spell.specialMechanics?.infernoLevel?.required,
-      infernoAscend: spell.specialMechanics?.infernoLevel?.ascendBy,
-      infernoDescend: spell.specialMechanics?.infernoLevel?.descendBy
-    }));
+ return spells.map(spell => normalizeClassSpell(spell, 'Pyrofiend', determinePyrofiendSpecialization))
+  .map(spell => ({
+   ...spell,
+   infernoRequired: spell.specialMechanics?.infernoLevel?.required,
+   infernoAscend: spell.specialMechanics?.infernoLevel?.ascendBy,
+   infernoDescend: spell.specialMechanics?.infernoLevel?.descendBy
+  }));
 }
 
 /**
  * Process Minstrel spells - handles musical combo mechanics
  */
 function processMinstrelSpells(spells) {
-  return spells.map(spell => normalizeClassSpell(spell, 'Minstrel', determineMinstrelSpecialization))
-    .map(spell => ({
-      ...spell,
-      musicalCombo: spell.musicalCombo || spell.specialMechanics?.musicalCombo
-    }));
+ return spells.map(spell => normalizeClassSpell(spell, 'Minstrel', determineMinstrelSpecialization))
+  .map(spell => ({
+   ...spell,
+   musicalCombo: spell.musicalCombo || spell.specialMechanics?.musicalCombo
+  }));
 }
 
 /**
  * Process Chronarch spells - flattens Temporal mechanics
  */
 function processChronarchSpells(spells) {
-  return spells.map(spell => normalizeClassSpell(spell, 'Chronarch', determineChronarchSpecialization))
-    .map(spell => ({
-      ...spell,
-      timeShardGenerate: spell.timeShardGenerate || spell.specialMechanics?.timeShards?.generated,
-      timeShardCost: spell.timeShardCost || spell.specialMechanics?.temporalFlux?.shardCost,
-      temporalStrainGain: spell.temporalStrainGain || spell.specialMechanics?.temporalFlux?.strainGained,
-      temporalStrainReduce: spell.temporalStrainReduce || spell.specialMechanics?.temporalFlux?.strainReduced
-    }));
+ return spells.map(spell => normalizeClassSpell(spell, 'Chronarch', determineChronarchSpecialization))
+  .map(spell => ({
+   ...spell,
+   timeShardGenerate: spell.timeShardGenerate || spell.specialMechanics?.timeShards?.generated,
+   timeShardCost: spell.timeShardCost || spell.specialMechanics?.temporalFlux?.shardCost,
+   temporalStrainGain: spell.temporalStrainGain || spell.specialMechanics?.temporalFlux?.strainGained,
+   temporalStrainReduce: spell.temporalStrainReduce || spell.specialMechanics?.temporalFlux?.strainReduced
+  }));
 }
 
 /**
  * Process Martyr spells - flattens Devotion Level mechanics
  */
 function processMartyrSpells(spells) {
-  return spells.map(spell => normalizeClassSpell(spell, 'Martyr', determineMartyrSpecialization))
-    .map(spell => ({
-      ...spell,
-      devotionRequired: spell.devotionRequired || spell.specialMechanics?.devotionLevel?.required,
-      devotionCost: spell.devotionCost || spell.specialMechanics?.devotionLevel?.cost || spell.specialMechanics?.devotionLevel?.amplifiedCost,
-      devotionGain: spell.devotionGain || spell.specialMechanics?.devotionLevel?.gain
-    }));
+ return spells.map(spell => normalizeClassSpell(spell, 'Martyr', determineMartyrSpecialization))
+  .map(spell => ({
+   ...spell,
+   devotionRequired: spell.devotionRequired || spell.specialMechanics?.devotionLevel?.required,
+   devotionCost: spell.devotionCost || spell.specialMechanics?.devotionLevel?.cost || spell.specialMechanics?.devotionLevel?.amplifiedCost,
+   devotionGain: spell.devotionGain || spell.specialMechanics?.devotionLevel?.gain
+  }));
 }
 
 /**
  * Process Harbinger spells - emphasizes chaos_sphere and rollable tables
  */
 function processChaosWeaverSpells(spells) {
-  return spells
-    .map(spell => normalizeClassSpell(spell, 'Harbinger', determineChaosWeaverSpecialization))
-    .map(spell => ({
-      ...spell
-    }));
+ return spells
+  .map(spell => normalizeClassSpell(spell, 'Harbinger', determineChaosWeaverSpecialization))
+  .map(spell => ({
+   ...spell
+  }));
 }
 
 /**
  * Generic processor for classes without special mechanics
  */
 function processGenericClassSpells(spells, className, determineSpecialization) {
-  return spells.map(spell => normalizeClassSpell(spell, className, determineSpecialization));
+ return spells.map(spell => normalizeClassSpell(spell, className, determineSpecialization));
 }
 
 // ===== PROPERLY FORMATTED SPELL ARCHETYPES =====
@@ -175,272 +175,272 @@ function processGenericClassSpells(spells, className, determineSpecialization) {
 
 const SPELL_ARCHETYPES = {
 
-  // 1. CONE AOE DAMAGE - Showcases cone targeting
-  damage_cone_aoe: {
-    effectTypes: ['damage'],
-    spellType: 'ACTION',
-    damageConfig: {
-      damageType: 'direct',
-      formula: '4d6 + 3',
-      hasDotEffect: false,
-      savingThrow: {
-        enabled: true,
-        attribute: 'agility',
-        difficulty: 14,
-        onSuccess: 'half_damage',
-        onFailure: 'full_damage'
-      },
-      criticalConfig: {
-        enabled: true,
-        critType: 'dice',
-        critMultiplier: 2,
-        critDiceOnly: false,
-        extraDice: '2d6',
-        explodingDice: true
-      }
-    },
-    targetingConfig: {
-      targetingType: 'area',
-      aoeType: 'cone',
-      aoeSize: 30,
-      range: 30,
-      validTargets: ['enemy'],
-      requiresLineOfSight: true
-    },
-    resourceCost: {
-      mana: 30,
-      health: 0,
-      stamina: 0,
-      focus: 0,
-      components: ['verbal', 'somatic'],
-      materialComponents: '',
-      actionPoints: 1
-    },
-    cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4, charges: 1 },
-    durationConfig: {
-      type: 'instant',
-      value: 0,
-      unit: 'seconds'
-    }
+ // 1. CONE AOE DAMAGE - Showcases cone targeting
+ damage_cone_aoe: {
+  effectTypes: ['damage'],
+  spellType: 'ACTION',
+  damageConfig: {
+   damageType: 'direct',
+   formula: '4d6 + 3',
+   hasDotEffect: false,
+   savingThrow: {
+    enabled: true,
+    attribute: 'agility',
+    difficulty: 14,
+    onSuccess: 'half_damage',
+    onFailure: 'full_damage'
+   },
+   criticalConfig: {
+    enabled: true,
+    critType: 'dice',
+    critMultiplier: 2,
+    critDiceOnly: false,
+    extraDice: '2d6',
+    explodingDice: true
+   }
   },
-
-  // 2. REACTION SPELL - Showcases trigger system
-  damage_reaction: {
-    effectTypes: ['damage'],
-    spellType: 'REACTION',
-    damageConfig: {
-      damageType: 'direct',
-      formula: '3d8 + 4',
-      hasDotEffect: false,
-      criticalConfig: {
-        enabled: true,
-        critType: 'dice',
-        critMultiplier: 2,
-        critDiceOnly: false
-      }
-    },
-    targetingConfig: {
-      targetingType: 'single',
-      range: 60,
-      validTargets: ['enemy'],
-      requiresLineOfSight: true
-    },
-    triggerConfig: {
-      global: {
-        logicType: 'OR',
-        compoundTriggers: [
-          {
-            id: 'on_damage_taken',
-            name: 'When you take damage',
-            parameters: {
-              damageThreshold: 10,
-              damageTypes: ['any'],
-              triggerChance: 100
-            }
-          }
-        ]
-      }
-    },
-    resourceCost: {
-      mana: 20,
-      components: ['verbal'],
-      actionPoints: 0
-    },
-    cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3, charges: 1 },
-    durationConfig: {
-      type: 'instant',
-      value: 0,
-      unit: 'seconds'
-    }
+  targetingConfig: {
+   targetingType: 'area',
+   aoeType: 'cone',
+   aoeSize: 30,
+   range: 30,
+   validTargets: ['enemy'],
+   requiresLineOfSight: true
   },
-
-  // 3. HEALING OVER TIME - Showcases HoT mechanics
-  healing_hot: {
-    effectTypes: ['healing'],
-    spellType: 'ACTION',
-    healingConfig: {
-      formula: '2d4 + 2',
-      modifier: 'SPIRIT',
-      healingType: 'hot',
-      hotDuration: 15,
-      hotTickInterval: 3,
-      canOverheal: true,
-      overhealBecomesShield: true
-    },
-    targetingConfig: {
-      targetingType: 'single',
-      range: 30,
-      validTargets: ['ally', 'self'],
-      requiresLineOfSight: true
-    },
-    resourceCost: {
-      mana: 25,
-      components: ['verbal', 'somatic'],
-      actionPoints: 1
-    },
-    cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5, charges: 1 },
-    durationConfig: {
-      type: 'duration',
-      value: 15,
-      unit: 'rounds'
-    }
+  resourceCost: {
+   mana: 30,
+   health: 0,
+   stamina: 0,
+   focus: 0,
+   components: ['verbal', 'somatic'],
+   materialComponents: '',
+   actionPoints: 1
+  },
+  cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4, charges: 1 },
+  durationConfig: {
+   type: 'instant',
+   value: 0,
+   unit: 'seconds'
   }
+ },
+
+ // 2. REACTION SPELL - Showcases trigger system
+ damage_reaction: {
+  effectTypes: ['damage'],
+  spellType: 'REACTION',
+  damageConfig: {
+   damageType: 'direct',
+   formula: '3d8 + 4',
+   hasDotEffect: false,
+   criticalConfig: {
+    enabled: true,
+    critType: 'dice',
+    critMultiplier: 2,
+    critDiceOnly: false
+   }
+  },
+  targetingConfig: {
+   targetingType: 'single',
+   range: 60,
+   validTargets: ['enemy'],
+   requiresLineOfSight: true
+  },
+  triggerConfig: {
+   global: {
+    logicType: 'OR',
+    compoundTriggers: [
+     {
+      id: 'on_damage_taken',
+      name: 'When you take damage',
+      parameters: {
+       damageThreshold: 10,
+       damageTypes: ['any'],
+       triggerChance: 100
+      }
+     }
+    ]
+   }
+  },
+  resourceCost: {
+   mana: 20,
+   components: ['verbal'],
+   actionPoints: 0
+  },
+  cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3, charges: 1 },
+  durationConfig: {
+   type: 'instant',
+   value: 0,
+   unit: 'seconds'
+  }
+ },
+
+ // 3. HEALING OVER TIME - Showcases HoT mechanics
+ healing_hot: {
+  effectTypes: ['healing'],
+  spellType: 'ACTION',
+  healingConfig: {
+   formula: '2d4 + 2',
+   modifier: 'SPIRIT',
+   healingType: 'hot',
+   hotDuration: 15,
+   hotTickInterval: 3,
+   canOverheal: true,
+   overhealBecomesShield: true
+  },
+  targetingConfig: {
+   targetingType: 'single',
+   range: 30,
+   validTargets: ['ally', 'self'],
+   requiresLineOfSight: true
+  },
+  resourceCost: {
+   mana: 25,
+   components: ['verbal', 'somatic'],
+   actionPoints: 1
+  },
+  cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5, charges: 1 },
+  durationConfig: {
+   type: 'duration',
+   value: 15,
+   unit: 'rounds'
+  }
+ }
 };
 
 // ===== ELEMENT TYPE MAPPING =====
 const getElementTypeForSpecialization = (specializationId) => {
-  const elementMap = {
-    // Fire-based
-    'inferno': 'ember',
-    'wildfire': 'ember',
-    'hellfire': 'ember',
-    'blaze': 'ember',
+ const elementMap = {
+  // Fire-based
+  'inferno': 'ember',
+  'wildfire': 'ember',
+  'hellfire': 'ember',
+  'blaze': 'ember',
 
-    // Arcane-based
-    'prism_mage': 'arcane',
-    'sphere_architect': 'arcane',
-    'entropy_weaver': 'wyrd',
+  // Arcane-based
+  'prism_mage': 'arcane',
+  'sphere_architect': 'arcane',
+  'entropy_weaver': 'wyrd',
 
-    // Healing/Restoration
-    'soulsinger': 'divine',
-    'redeemer': 'divine',
-    'rewinding': 'divine',
+  // Healing/Restoration
+  'soulsinger': 'sacred',
+  'redeemer': 'sacred',
+  'rewinding': 'sacred',
 
-    // Control/Debuff
-    'dissonance': 'wyrd',
-    'stasis': 'storm',
-    'protector': 'divine',
+  // Control/Debuff
+  'dissonance': 'wyrd',
+  'stasis': 'storm',
+  'protector': 'sacred',
 
-    // Damage/Offense
-    'battlechoir': 'storm',
-    'avenger': 'divine',
-    'displacement': 'storm'
-  };
+  // Damage/Offense
+  'battlechoir': 'storm',
+  'avenger': 'sacred',
+  'displacement': 'storm'
+ };
 
-  return elementMap[specializationId] || 'arcane';
+ return elementMap[specializationId] || 'arcane';
 };
 
 // ===== SPELL NAME GENERATOR =====
 const generateSpellName = (specializationName, archetypeKey) => {
-  const nameTemplates = {
-    damage_cone_aoe: ['Breath', 'Cone', 'Spray', 'Gust', 'Sweep'],
-    damage_reaction: ['Retaliation', 'Counterstrike', 'Vengeance', 'Retort', 'Riposte'],
-    healing_hot: ['Regeneration', 'Rejuvenation', 'Recovery', 'Vitality', 'Renewal']
-  };
+ const nameTemplates = {
+  damage_cone_aoe: ['Breath', 'Cone', 'Spray', 'Gust', 'Sweep'],
+  damage_reaction: ['Retaliation', 'Counterstrike', 'Vengeance', 'Retort', 'Riposte'],
+  healing_hot: ['Regeneration', 'Rejuvenation', 'Recovery', 'Vitality', 'Renewal']
+ };
 
-  const template = nameTemplates[archetypeKey] || ['Spell'];
-  const suffix = template[Math.floor(Math.random() * template.length)];
+ const template = nameTemplates[archetypeKey] || ['Spell'];
+ const suffix = template[Math.floor(Math.random() * template.length)];
 
-  // Use first word of specialization name
-  const specPrefix = specializationName.split(' ')[0];
+ // Use first word of specialization name
+ const specPrefix = specializationName.split(' ')[0];
 
-  return `${specPrefix} ${suffix}`;
+ return `${specPrefix} ${suffix}`;
 };
 
 // ===== SPELL DESCRIPTION GENERATOR =====
 const generateDescription = (archetypeKey, elementType, archetype) => {
-  if (archetypeKey === 'damage_cone_aoe') {
-    const aoeSize = archetype.targetingConfig?.aoeSize || 30;
-    return `Unleash a ${aoeSize}ft cone of ${elementType} energy, engulfing all enemies in front of you. Targets must make an Agility saving throw or take full damage.`;
-  } else if (archetypeKey === 'damage_reaction') {
-    return `Instantly retaliate with ${elementType} energy when you take damage, striking back at your attacker with devastating force.`;
-  } else if (archetypeKey === 'healing_hot') {
-    const duration = archetype.healingConfig?.hotDuration || 15;
-    return `Restore health over time, healing the target for ${duration} rounds. Excess healing creates a temporary shield.`;
-  }
-  return `A powerful ${elementType} spell.`;
+ if (archetypeKey === 'damage_cone_aoe') {
+  const aoeSize = archetype.targetingConfig?.aoeSize || 30;
+  return `Unleash a ${aoeSize}ft cone of ${elementType} energy, engulfing all enemies in front of you. Targets must make an Agility saving throw or take full damage.`;
+ } else if (archetypeKey === 'damage_reaction') {
+  return `Instantly retaliate with ${elementType} energy when you take damage, striking back at your attacker with devastating force.`;
+ } else if (archetypeKey === 'healing_hot') {
+  const duration = archetype.healingConfig?.hotDuration || 15;
+  return `Restore health over time, healing the target for ${duration} rounds. Excess healing creates a temporary shield.`;
+ }
+ return `A powerful ${elementType} spell.`;
 };
 
 // ===== SPELL GENERATION =====
 export const generateAllClassSpells = () => {
-  const spellsByClass = {};
+ const spellsByClass = {};
 
-  // Only generate spells for classes that have actual spell data files
-  Object.keys(CLASS_DATA_MAP).forEach(className => {
-    // Skip classes that don't have spells or exampleSpells (they will be handled by real data later)
-    if (!CLASS_DATA_MAP[className]?.spells && !CLASS_DATA_MAP[className]?.exampleSpells) {
-      return;
-    }
+ // Only generate spells for classes that have actual spell data files
+ Object.keys(CLASS_DATA_MAP).forEach(className => {
+  // Skip classes that don't have spells or exampleSpells (they will be handled by real data later)
+  if (!CLASS_DATA_MAP[className]?.spells && !CLASS_DATA_MAP[className]?.exampleSpells) {
+   return;
+  }
 
-    const classData = CLASS_SPECIALIZATIONS[className];
-    if (!classData) {
-      console.warn(`No specialization data found for class ${className}, skipping spell generation`);
-      return;
-    }
+  const classData = CLASS_SPECIALIZATIONS[className];
+  if (!classData) {
+   console.warn(`No specialization data found for class ${className}, skipping spell generation`);
+   return;
+  }
 
-    const classSpells = [];
+  const classSpells = [];
 
-    classData.specializations.forEach((specialization, index) => {
-      // Generate 1 spell per specialization (3 total per class)
-      let archetypeKey;
+  classData.specializations.forEach((specialization, index) => {
+   // Generate 1 spell per specialization (3 total per class)
+   let archetypeKey;
 
-      if (index === 0) {
-        archetypeKey = 'damage_cone_aoe';
-      } else if (index === 1) {
-        archetypeKey = 'healing_hot';
-      } else {
-        archetypeKey = 'damage_reaction';
-      }
+   if (index === 0) {
+    archetypeKey = 'damage_cone_aoe';
+   } else if (index === 1) {
+    archetypeKey = 'healing_hot';
+   } else {
+    archetypeKey = 'damage_reaction';
+   }
 
-      const archetype = SPELL_ARCHETYPES[archetypeKey];
-      const elementType = getElementTypeForSpecialization(specialization.id);
-      const spellName = generateSpellName(specialization.name, archetypeKey);
-      const description = generateDescription(archetypeKey, elementType, archetype);
+   const archetype = SPELL_ARCHETYPES[archetypeKey];
+   const elementType = getElementTypeForSpecialization(specialization.id);
+   const spellName = generateSpellName(specialization.name, archetypeKey);
+   const description = generateDescription(archetypeKey, elementType, archetype);
 
-      const spell = {
-        id: `${className}-${specialization.id}-${archetypeKey}`,
-        name: spellName,
-        description,
-        icon: specialization.icon || 'spell_arcane_arcane01',
-        spellType: archetype.spellType,
-        effectTypes: archetype.effectTypes,
-        damageTypes: [elementType],
-        tags: [className.toLowerCase(), specialization.name.toLowerCase().replace(/ /g, '_'), archetypeKey],
-        specialization: specialization.id, // Add specialization ID for filtering
+   const spell = {
+    id: `${className}-${specialization.id}-${archetypeKey}`,
+    name: spellName,
+    description,
+    icon: specialization.icon || 'spell_arcane_arcane01',
+    spellType: archetype.spellType,
+    effectTypes: archetype.effectTypes,
+    damageTypes: [elementType],
+    tags: [className.toLowerCase(), specialization.name.toLowerCase().replace(/ /g, '_'), archetypeKey],
+    specialization: specialization.id, // Add specialization ID for filtering
 
-        // Copy all configs from archetype
-        ...archetype,
+    // Copy all configs from archetype
+    ...archetype,
 
-        // Customize element type
-        ...(archetype.damageConfig && {
-          damageConfig: {
-            ...archetype.damageConfig,
-            elementType
-          }
-        })
-      };
+    // Customize element type
+    ...(archetype.damageConfig && {
+     damageConfig: {
+      ...archetype.damageConfig,
+      elementType
+     }
+    })
+   };
 
-      // Remove duplicate tags
-      spell.tags = [...new Set(spell.tags.map(tag => tag.toLowerCase()))];
+   // Remove duplicate tags
+   spell.tags = [...new Set(spell.tags.map(tag => tag.toLowerCase()))];
 
-      classSpells.push(spell);
-    });
-
-    // Store spells for this class
-    spellsByClass[className] = classSpells;
+   classSpells.push(spell);
   });
 
-  return spellsByClass;
+  // Store spells for this class
+  spellsByClass[className] = classSpells;
+ });
+
+ return spellsByClass;
 };
 
 // Generate all spells organized by class
@@ -451,80 +451,80 @@ const generatedSpells = generateAllClassSpells();
 
 // Arcanoneer
 if (CLASS_DATA_MAP['Arcanoneer']?.spells || CLASS_DATA_MAP['Arcanoneer']?.exampleSpells) {
-  const arcanoneerSpells = CLASS_DATA_MAP['Arcanoneer'].spells || CLASS_DATA_MAP['Arcanoneer'].exampleSpells;
-  const processed = processArcanoneerSpells(arcanoneerSpells);
-  generatedSpells['Arcanoneer'] = processed;
-  // console.log(`? Loaded ${processed.length} Arcanoneer spells into ALL_CLASS_SPELLS`);
+ const arcanoneerSpells = CLASS_DATA_MAP['Arcanoneer'].spells || CLASS_DATA_MAP['Arcanoneer'].exampleSpells;
+ const processed = processArcanoneerSpells(arcanoneerSpells);
+ generatedSpells['Arcanoneer'] = processed;
+ // console.log(`? Loaded ${processed.length} Arcanoneer spells into ALL_CLASS_SPELLS`);
 } else {
-  // console.warn('?? Arcanoneer spells not found in CLASS_DATA_MAP', {
-  //   hasArcanoneer: !!CLASS_DATA_MAP['Arcanoneer'],
-  //   hasSpells: !!CLASS_DATA_MAP['Arcanoneer']?.spells,
-  //   hasExampleSpells: !!CLASS_DATA_MAP['Arcanoneer']?.exampleSpells
-  // });
+ // console.warn('?? Arcanoneer spells not found in CLASS_DATA_MAP', {
+ //  hasArcanoneer: !!CLASS_DATA_MAP['Arcanoneer'],
+ //  hasSpells: !!CLASS_DATA_MAP['Arcanoneer']?.spells,
+ //  hasExampleSpells: !!CLASS_DATA_MAP['Arcanoneer']?.exampleSpells
+ // });
 }
 
 // Pyrofiend
 if (CLASS_DATA_MAP['Pyrofiend']?.spells || CLASS_DATA_MAP['Pyrofiend']?.exampleSpells) {
-  const pyrofiendSpells = CLASS_DATA_MAP['Pyrofiend'].spells || CLASS_DATA_MAP['Pyrofiend'].exampleSpells;
-  const processed = processPyrofiendSpells(pyrofiendSpells);
-  generatedSpells['Pyrofiend'] = processed;
+ const pyrofiendSpells = CLASS_DATA_MAP['Pyrofiend'].spells || CLASS_DATA_MAP['Pyrofiend'].exampleSpells;
+ const processed = processPyrofiendSpells(pyrofiendSpells);
+ generatedSpells['Pyrofiend'] = processed;
 }
 
 // Minstrel
 if (CLASS_DATA_MAP['Minstrel']?.spells || CLASS_DATA_MAP['Minstrel']?.exampleSpells) {
-  const minstrelSpells = CLASS_DATA_MAP['Minstrel'].spells || CLASS_DATA_MAP['Minstrel'].exampleSpells;
-  const processed = processMinstrelSpells(minstrelSpells);
-  generatedSpells['Minstrel'] = processed;
-  // console.log(`? Loaded ${processed.length} Minstrel spells into ALL_CLASS_SPELLS`);
+ const minstrelSpells = CLASS_DATA_MAP['Minstrel'].spells || CLASS_DATA_MAP['Minstrel'].exampleSpells;
+ const processed = processMinstrelSpells(minstrelSpells);
+ generatedSpells['Minstrel'] = processed;
+ // console.log(`? Loaded ${processed.length} Minstrel spells into ALL_CLASS_SPELLS`);
 } else {
-  // console.warn('?? Minstrel spells not found in CLASS_DATA_MAP', {
-  //   hasMinstrel: !!CLASS_DATA_MAP['Minstrel'],
-  //   hasSpells: !!CLASS_DATA_MAP['Minstrel']?.spells,
-  //   hasExampleSpells: !!CLASS_DATA_MAP['Minstrel']?.exampleSpells
-  // });
+ // console.warn('?? Minstrel spells not found in CLASS_DATA_MAP', {
+ //  hasMinstrel: !!CLASS_DATA_MAP['Minstrel'],
+ //  hasSpells: !!CLASS_DATA_MAP['Minstrel']?.spells,
+ //  hasExampleSpells: !!CLASS_DATA_MAP['Minstrel']?.exampleSpells
+ // });
 }
 
 // Chronarch
 if (CLASS_DATA_MAP['Chronarch']?.spells || CLASS_DATA_MAP['Chronarch']?.exampleSpells) {
-  const chronarchSpells = CLASS_DATA_MAP['Chronarch'].spells || CLASS_DATA_MAP['Chronarch'].exampleSpells;
-  const processed = processChronarchSpells(chronarchSpells);
-  generatedSpells['Chronarch'] = processed;
-  // console.log(`? Loaded ${processed.length} Chronarch spells into ALL_CLASS_SPELLS`);
+ const chronarchSpells = CLASS_DATA_MAP['Chronarch'].spells || CLASS_DATA_MAP['Chronarch'].exampleSpells;
+ const processed = processChronarchSpells(chronarchSpells);
+ generatedSpells['Chronarch'] = processed;
+ // console.log(`? Loaded ${processed.length} Chronarch spells into ALL_CLASS_SPELLS`);
 } else {
-  // console.warn('?? Chronarch spells not found in CLASS_DATA_MAP', {
-  //   hasChronarch: !!CLASS_DATA_MAP['Chronarch'],
-  //   hasSpells: !!CLASS_DATA_MAP['Chronarch']?.spells,
-  //   hasExampleSpells: !!CLASS_DATA_MAP['Chronarch']?.exampleSpells
-  // });
+ // console.warn('?? Chronarch spells not found in CLASS_DATA_MAP', {
+ //  hasChronarch: !!CLASS_DATA_MAP['Chronarch'],
+ //  hasSpells: !!CLASS_DATA_MAP['Chronarch']?.spells,
+ //  hasExampleSpells: !!CLASS_DATA_MAP['Chronarch']?.exampleSpells
+ // });
 }
 
 // Martyr
 if (CLASS_DATA_MAP['Martyr']?.spells || CLASS_DATA_MAP['Martyr']?.exampleSpells) {
-  const martyrSpells = CLASS_DATA_MAP['Martyr'].spells || CLASS_DATA_MAP['Martyr'].exampleSpells;
-  const processed = processMartyrSpells(martyrSpells);
-  generatedSpells['Martyr'] = processed;
-  // console.log(`? Loaded ${processed.length} Martyr spells into ALL_CLASS_SPELLS`);
+ const martyrSpells = CLASS_DATA_MAP['Martyr'].spells || CLASS_DATA_MAP['Martyr'].exampleSpells;
+ const processed = processMartyrSpells(martyrSpells);
+ generatedSpells['Martyr'] = processed;
+ // console.log(`? Loaded ${processed.length} Martyr spells into ALL_CLASS_SPELLS`);
 } else {
-  // console.warn('?? Martyr spells not found in CLASS_DATA_MAP', {
-  //   hasMartyr: !!CLASS_DATA_MAP['Martyr'],
-  //   hasSpells: !!CLASS_DATA_MAP['Martyr']?.spells,
-  //   hasExampleSpells: !!CLASS_DATA_MAP['Martyr']?.exampleSpells
-  // });
+ // console.warn('?? Martyr spells not found in CLASS_DATA_MAP', {
+ //  hasMartyr: !!CLASS_DATA_MAP['Martyr'],
+ //  hasSpells: !!CLASS_DATA_MAP['Martyr']?.spells,
+ //  hasExampleSpells: !!CLASS_DATA_MAP['Martyr']?.exampleSpells
+ // });
 }
 
 // Gambit
 if (CLASS_DATA_MAP['Gambit']?.spells || CLASS_DATA_MAP['Gambit']?.exampleSpells) {
-  const gambitSpells = CLASS_DATA_MAP['Gambit'].spells || CLASS_DATA_MAP['Gambit'].exampleSpells;
-  const processed = gambitSpells
-    .map(spell => normalizeClassSpell(spell, 'Gambit', () => 'probability_savant'));
-  generatedSpells['Gambit'] = processed;
+ const gambitSpells = CLASS_DATA_MAP['Gambit'].spells || CLASS_DATA_MAP['Gambit'].exampleSpells;
+ const processed = gambitSpells
+  .map(spell => normalizeClassSpell(spell, 'Gambit', () => 'probability_savant'));
+ generatedSpells['Gambit'] = processed;
 }
 
 // Harbinger (merged from Chaos Weaver + Doomsayer)
 if (CLASS_DATA_MAP['Harbinger']?.spells || CLASS_DATA_MAP['Harbinger']?.exampleSpells) {
-  const harbingerSpells = CLASS_DATA_MAP['Harbinger'].spells || CLASS_DATA_MAP['Harbinger'].exampleSpells;
-  const processed = processGenericClassSpells(harbingerSpells, 'Harbinger', determineChaosWeaverSpecialization);
-  generatedSpells['Harbinger'] = processed;
+ const harbingerSpells = CLASS_DATA_MAP['Harbinger'].spells || CLASS_DATA_MAP['Harbinger'].exampleSpells;
+ const processed = processGenericClassSpells(harbingerSpells, 'Harbinger', determineChaosWeaverSpecialization);
+ generatedSpells['Harbinger'] = processed;
 }
 
 // ===== PROCESS REMAINING CLASSES =====
@@ -534,75 +534,75 @@ const remainingClasses = Object.keys(CLASS_DATA_MAP).filter(className => !proces
 
 // Generic spell processor for classes without special processing
 function processGenericSpells(spells, className) {
-  return spells.map(spell => normalizeClassSpell(spell, className, () => 'general'));
+ return spells.map(spell => normalizeClassSpell(spell, className, () => 'general'));
 }
 
 remainingClasses.forEach(className => {
-  const classData = CLASS_DATA_MAP[className];
-  if (classData?.spells || classData?.exampleSpells) {
-    const spells = classData.spells || classData.exampleSpells;
-    const processed = processGenericSpells(spells, className);
-    generatedSpells[className] = processed;
-    // console.log(`? Loaded ${processed.length} ${className} spells into ALL_CLASS_SPELLS`);
-  } else {
-    // console.warn(`?? ${className} spells not found in CLASS_DATA_MAP`);
-  }
+ const classData = CLASS_DATA_MAP[className];
+ if (classData?.spells || classData?.exampleSpells) {
+  const spells = classData.spells || classData.exampleSpells;
+  const processed = processGenericSpells(spells, className);
+  generatedSpells[className] = processed;
+  // console.log(`? Loaded ${processed.length} ${className} spells into ALL_CLASS_SPELLS`);
+ } else {
+  // console.warn(`?? ${className} spells not found in CLASS_DATA_MAP`);
+ }
 });
 
 // ===== VALIDATE ALL SPELLS =====
 // Ensure all spells have required fields and proper formatting
 const validationResults = {};
 Object.entries(generatedSpells).forEach(([className, spells]) => {
-  const validation = {
-    totalSpells: spells.length,
-    validSpells: 0,
-    invalidSpells: [],
-    missingFields: {},
-    specializationCounts: {}
-  };
+ const validation = {
+  totalSpells: spells.length,
+  validSpells: 0,
+  invalidSpells: [],
+  missingFields: {},
+  specializationCounts: {}
+ };
 
-  spells.forEach(spell => {
-    const issues = [];
+ spells.forEach(spell => {
+  const issues = [];
 
-    // Required fields
-    if (!spell.id) issues.push('missing id');
-    if (!spell.name) issues.push('missing name');
-    if (!spell.specialization) issues.push('missing specialization');
-    if (!Array.isArray(spell.categoryIds)) issues.push('invalid categoryIds');
-    if (!spell.spellType) issues.push('missing spellType');
-    if (!spell.level) issues.push('missing level');
+  // Required fields
+  if (!spell.id) issues.push('missing id');
+  if (!spell.name) issues.push('missing name');
+  if (!spell.specialization) issues.push('missing specialization');
+  if (!Array.isArray(spell.categoryIds)) issues.push('invalid categoryIds');
+  if (!spell.spellType) issues.push('missing spellType');
+  if (!spell.level) issues.push('missing level');
 
-    // Track missing fields
-    issues.forEach(issue => {
-      validation.missingFields[issue] = (validation.missingFields[issue] || 0) + 1;
-    });
-
-    // Track specializations
-    if (spell.specialization) {
-      validation.specializationCounts[spell.specialization] =
-        (validation.specializationCounts[spell.specialization] || 0) + 1;
-    }
-
-    if (issues.length === 0) {
-      validation.validSpells++;
-    } else {
-      validation.invalidSpells.push({
-        id: spell.id || 'unknown',
-        name: spell.name || 'unnamed',
-        issues
-      });
-    }
+  // Track missing fields
+  issues.forEach(issue => {
+   validation.missingFields[issue] = (validation.missingFields[issue] || 0) + 1;
   });
 
-  validationResults[className] = validation;
-
-  // Log results
-  if (validation.invalidSpells.length > 0) {
-    console.error(`? ${className}: ${validation.invalidSpells.length}/${validation.totalSpells} invalid spells`, {
-      invalidSpells: validation.invalidSpells,
-      missingFields: validation.missingFields
-    });
+  // Track specializations
+  if (spell.specialization) {
+   validation.specializationCounts[spell.specialization] =
+    (validation.specializationCounts[spell.specialization] || 0) + 1;
   }
+
+  if (issues.length === 0) {
+   validation.validSpells++;
+  } else {
+   validation.invalidSpells.push({
+    id: spell.id || 'unknown',
+    name: spell.name || 'unnamed',
+    issues
+   });
+  }
+ });
+
+ validationResults[className] = validation;
+
+ // Log results
+ if (validation.invalidSpells.length > 0) {
+  console.error(`? ${className}: ${validation.invalidSpells.length}/${validation.totalSpells} invalid spells`, {
+   invalidSpells: validation.invalidSpells,
+   missingFields: validation.missingFields
+  });
+ }
 });
 
 // Summary
@@ -612,28 +612,28 @@ const totalInvalid = Object.values(validationResults).reduce((sum, v) => sum + v
 
 // Log summary of loaded spells by class
 // console.log('?? SPELL GENERATOR SUMMARY:', {
-//   totalSpells,
-//   totalValid,
-//   totalInvalid,
-//   classesWithSpells: Object.entries(validationResults).map(([className, results]) => ({
-//     className,
-//     totalSpells: results.totalSpells,
-//     validSpells: results.validSpells
-//   })).filter(c => c.totalSpells > 0)
+//  totalSpells,
+//  totalValid,
+//  totalInvalid,
+//  classesWithSpells: Object.entries(validationResults).map(([className, results]) => ({
+//   className,
+//   totalSpells: results.totalSpells,
+//   validSpells: results.validSpells
+//  })).filter(c => c.totalSpells > 0)
 // });
 
 // ===== ADD UNIVERSAL COMBAT SPELLS TO ALL CLASSES =====
 // These spells are available to all classes
 const allClassNames = Object.keys(CLASS_DATA_MAP);
 allClassNames.forEach(className => {
-  if (!generatedSpells[className]) {
-    generatedSpells[className] = [];
-  }
-  // Add universal spells to each class (they're available to everyone)
-  generatedSpells[className] = [
-    ...UNIVERSAL_COMBAT_SPELLS,
-    ...generatedSpells[className]
-  ];
+ if (!generatedSpells[className]) {
+  generatedSpells[className] = [];
+ }
+ // Add universal spells to each class (they're available to everyone)
+ generatedSpells[className] = [
+  ...UNIVERSAL_COMBAT_SPELLS,
+  ...generatedSpells[className]
+ ];
 });
 
 export const ALL_CLASS_SPELLS = generatedSpells;
@@ -645,22 +645,22 @@ export const ALL_CLASS_SPELLS = generatedSpells;
  * Entropy Weaver: Chaos sphere combos
  */
 function determineArcanoneerSpecialization(spell) {
-  // Check for Chaos sphere
-  if (spell.sphereCost && spell.sphereCost.includes('Chaos')) {
-    return 'entropy_weaver';
-  }
+ // Check for Chaos sphere
+ if (spell.sphereCost && spell.sphereCost.includes('Chaos')) {
+  return 'entropy_weaver';
+ }
 
-  // Check for pure element combo (same sphere twice)
-  if (spell.sphereCost && spell.sphereCost.length >= 2) {
-    const firstSphere = spell.sphereCost[0];
-    const isPure = spell.sphereCost.every(s => s === firstSphere);
-    if (isPure) {
-      return 'prism_mage';
-    }
+ // Check for pure element combo (same sphere twice)
+ if (spell.sphereCost && spell.sphereCost.length >= 2) {
+  const firstSphere = spell.sphereCost[0];
+  const isPure = spell.sphereCost.every(s => s === firstSphere);
+  if (isPure) {
+   return 'prism_mage';
   }
+ }
 
-  // Default to Sphere Architect for mixed combos
-  return 'sphere_architect';
+ // Default to Sphere Architect for mixed combos
+ return 'sphere_architect';
 }
 
 /**
@@ -670,28 +670,28 @@ function determineArcanoneerSpecialization(spell) {
  * Hellfire: Healing and utility spells
  */
 function determinePyrofiendSpecialization(spell) {
-  // Check tags for specialization hints
-  if (spell.tags) {
-    if (spell.tags.includes('healing') || spell.tags.includes('utility') || spell.tags.includes('buff')) {
-      return 'hellfire';
-    }
-    if (spell.tags.includes('aoe') || spell.tags.includes('dot') || spell.tags.includes('spread')) {
-      return 'wildfire';
-    }
+ // Check tags for specialization hints
+ if (spell.tags) {
+  if (spell.tags.includes('healing') || spell.tags.includes('utility') || spell.tags.includes('buff')) {
+   return 'hellfire';
   }
-
-  // Check for AoE targeting
-  if (spell.targetingConfig?.targetingType === 'area' || spell.targetingConfig?.aoeShape) {
-    return 'wildfire';
+  if (spell.tags.includes('aoe') || spell.tags.includes('dot') || spell.tags.includes('spread')) {
+   return 'wildfire';
   }
+ }
 
-  // Check for healing effects
-  if (spell.healingConfig || spell.effects?.healing) {
-    return 'hellfire';
-  }
+ // Check for AoE targeting
+ if (spell.targetingConfig?.targetingType === 'area' || spell.targetingConfig?.aoeShape) {
+  return 'wildfire';
+ }
 
-  // Default to Inferno for pure damage
-  return 'inferno';
+ // Check for healing effects
+ if (spell.healingConfig || spell.effects?.healing) {
+  return 'hellfire';
+ }
+
+ // Default to Inferno for pure damage
+ return 'inferno';
 }
 
 /**
@@ -701,31 +701,31 @@ function determinePyrofiendSpecialization(spell) {
  * Dissonance: Control and debuffs
  */
 function determineMinstrelSpecialization(spell) {
-  // Check tags first
-  if (spell.tags) {
-    if (spell.tags.includes('battlechoir')) return 'battlechoir';
-    if (spell.tags.includes('soulsinger')) return 'soulsinger';
-    if (spell.tags.includes('dissonance')) return 'dissonance';
-  }
+ // Check tags first
+ if (spell.tags) {
+  if (spell.tags.includes('battlechoir')) return 'battlechoir';
+  if (spell.tags.includes('soulsinger')) return 'soulsinger';
+  if (spell.tags.includes('dissonance')) return 'dissonance';
+ }
 
-  // Check for healing effects
-  if (spell.healingConfig || spell.effects?.healing) {
-    return 'soulsinger';
-  }
+ // Check for healing effects
+ if (spell.healingConfig || spell.effects?.healing) {
+  return 'soulsinger';
+ }
 
-  // Check for control/debuff effects
-  if (spell.effects?.condition || spell.effects?.debuff || spell.debuffConfig) {
-    return 'dissonance';
-  }
+ // Check for control/debuff effects
+ if (spell.effects?.condition || spell.effects?.debuff || spell.debuffConfig) {
+  return 'dissonance';
+ }
 
-  // Check for damage or offensive buffs
-  if (spell.damageConfig || spell.effects?.damage ||
-    (spell.effects?.buff && (spell.effects.buff.type === 'attack-bonus' || spell.effects.buff.type === 'damage-bonus'))) {
-    return 'battlechoir';
-  }
-
-  // Default to Battlechoir
+ // Check for damage or offensive buffs
+ if (spell.damageConfig || spell.effects?.damage ||
+  (spell.effects?.buff && (spell.effects.buff.type === 'attack-bonus' || spell.effects.buff.type === 'damage-bonus'))) {
   return 'battlechoir';
+ }
+
+ // Default to Battlechoir
+ return 'battlechoir';
 }
 
 /**
@@ -735,26 +735,26 @@ function determineMinstrelSpecialization(spell) {
  * Rewinding: Healing and time reversal
  */
 function determineChronarchSpecialization(spell) {
-  // Check tags for specialization hints
-  if (spell.tags) {
-    if (spell.tags.includes('healing') || spell.tags.includes('support') || spell.tags.includes('rewinding')) {
-      return 'rewinding';
-    }
-    if (spell.tags.includes('teleport') || spell.tags.includes('mobility') || spell.tags.includes('displacement')) {
-      return 'displacement';
-    }
-    if (spell.tags.includes('control') || spell.tags.includes('freeze') || spell.tags.includes('stasis')) {
-      return 'stasis';
-    }
+ // Check tags for specialization hints
+ if (spell.tags) {
+  if (spell.tags.includes('healing') || spell.tags.includes('support') || spell.tags.includes('rewinding')) {
+   return 'rewinding';
   }
-
-  // Check for Temporal Flux abilities (high strain = control)
-  if (spell.specialMechanics?.temporalFlux?.strainGained >= 4) {
-    return 'stasis';
+  if (spell.tags.includes('teleport') || spell.tags.includes('mobility') || spell.tags.includes('displacement')) {
+   return 'displacement';
   }
+  if (spell.tags.includes('control') || spell.tags.includes('freeze') || spell.tags.includes('stasis')) {
+   return 'stasis';
+  }
+ }
 
-  // Default to Stasis
+ // Check for Temporal Flux abilities (high strain = control)
+ if (spell.specialMechanics?.temporalFlux?.strainGained >= 4) {
   return 'stasis';
+ }
+
+ // Default to Stasis
+ return 'stasis';
 }
 
 /**
@@ -764,47 +764,47 @@ function determineChronarchSpecialization(spell) {
  * Avenger: Damage and retribution spells
  */
 function determineMartyrSpecialization(spell) {
-  // Check tags for specialization hints
-  if (spell.tags) {
-    if (spell.tags.includes('healing') || spell.tags.includes('restoration') || spell.tags.includes('redeemer')) {
-      return 'redeemer';
-    }
-    if (spell.tags.includes('damage') || spell.tags.includes('retribution') || spell.tags.includes('avenger')) {
-      return 'avenger';
-    }
-    if (spell.tags.includes('protection') || spell.tags.includes('shield') || spell.tags.includes('protector')) {
-      return 'protector';
-    }
+ // Check tags for specialization hints
+ if (spell.tags) {
+  if (spell.tags.includes('healing') || spell.tags.includes('restoration') || spell.tags.includes('redeemer')) {
+   return 'redeemer';
   }
-
-  // Check for healing effects
-  if (spell.healingConfig || spell.effects?.healing || spell.restorationConfig) {
-    return 'redeemer';
+  if (spell.tags.includes('damage') || spell.tags.includes('retribution') || spell.tags.includes('avenger')) {
+   return 'avenger';
   }
-
-  // Check for damage effects
-  if (spell.damageConfig || spell.effects?.damage) {
-    return 'avenger';
+  if (spell.tags.includes('protection') || spell.tags.includes('shield') || spell.tags.includes('protector')) {
+   return 'protector';
   }
+ }
 
-  // Check for defensive/buff effects
-  if (spell.buffConfig || spell.effects?.buff || spell.targetingConfig?.targetingType === 'self') {
-    return 'protector';
-  }
+ // Check for healing effects
+ if (spell.healingConfig || spell.effects?.healing || spell.restorationConfig) {
+  return 'redeemer';
+ }
 
-  // Default to Protector
+ // Check for damage effects
+ if (spell.damageConfig || spell.effects?.damage) {
+  return 'avenger';
+ }
+
+ // Check for defensive/buff effects
+ if (spell.buffConfig || spell.effects?.buff || spell.targetingConfig?.targetingType === 'self') {
   return 'protector';
+ }
+
+ // Default to Protector
+ return 'protector';
 }
 
 /**
  * Determine Harbinger specialization based on spell properties
  */
 function determineChaosWeaverSpecialization(spell) {
-  if (spell.rollableTable?.enabled || (spell.tags && spell.tags.includes('chaos_dice'))) {
-    return 'chaos_dice';
-  }
-  if (spell.controlConfig || spell.debuffConfig || (spell.tags && spell.tags.includes('control'))) {
-    return 'entropy_control';
-  }
-  return 'reality_bending';
+ if (spell.rollableTable?.enabled || (spell.tags && spell.tags.includes('chaos_dice'))) {
+  return 'chaos_dice';
+ }
+ if (spell.controlConfig || spell.debuffConfig || (spell.tags && spell.tags.includes('control'))) {
+  return 'entropy_control';
+ }
+ return 'reality_bending';
 }

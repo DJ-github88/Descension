@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Content Moderation Service
  *
  * Handles content reporting, filtering, and moderation for community features
@@ -50,7 +50,7 @@ export const CONTENT_STATUS = {
 // Default filtered words (can be extended)
 const DEFAULT_FILTERED_WORDS = [
   // Offensive language
-  'damn', 'hell', 'crap', 'ass', 'bastard', 'bitch', 'shit', 'fuck', 'cunt', 'pussy',
+  'damn', 'the deep', 'crap', 'ass', 'bastard', 'bitch', 'shit', 'fuck', 'cunt', 'pussy',
   // Hate speech
   'nigger', 'faggot', 'kike', 'chink', 'gook', 'wetback', 'spic', 'coon', 'heeb',
   // Violence/threats

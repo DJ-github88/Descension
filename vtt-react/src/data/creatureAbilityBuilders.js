@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Creature Ability Builders
  *
  * Compact helpers that expand to the FULL advanced spell-card format defined in
@@ -17,13 +17,13 @@
 const DEFAULT_ICON = 'spell_misc_emotion';
 
 // Normalize a school/damage-type id to one of the 9 canonical Mythrill types:
-// physical, ember, rime, storm, arcane, primal, blight, wyrd, divine.
+// physical, ember, rime, storm, arcane, primal, blight, wyrd, sacred.
 // (Mirrors LEGACY_TYPE_MAP in damageTypes.js so creatures render the right badge.)
 const normalizeType = (t) => {
   if (!t) return 'physical';
   const map = {
     psychic: 'wyrd', chaos: 'wyrd',
-    radiant: 'divine', holy: 'divine',
+    radiant: 'sacred', sacred: 'sacred',
     necrotic: 'blight', poison: 'blight', acid: 'blight', void: 'blight', shadow: 'blight',
     cold: 'rime', frost: 'rime', ice: 'rime',
     fire: 'ember',

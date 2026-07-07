@@ -9,7 +9,7 @@ export const JEWELCRAFTING_RECIPES = [
     id: 'cut-gem-recipe',
     name: 'Cut Gem',
     profession: 'jewelcrafting',
-    description: 'Cut and polish a rough gem into a usable jewel.',
+    description: 'Cut to the measure of Vreken crypt-light gems and Neth contract-stones. Cut and polish a rough gem into a usable jewel.',
     requiredLevel: 1,
     resultItemId: 'cut-gem',
     resultQuantity: 1,

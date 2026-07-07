@@ -1,16 +1,16 @@
-// ============================================
+﻿// ============================================
 // APEX TALENT TREES
 // Specializations: Shadowblade / Bladestorm / Beastmaster
 // ============================================
 
 // ============================================
-// SHADOWBLADE — Stealth & Glaive Lethality
+// SHADOWBLADE, Stealth & Glaive Lethality
 // ============================================
 export const APEX_SHADOWBLADE = [
   {
     id: 'shadowblade_t0_glaive_mastery',
     name: 'Glaive Mastery',
-    description: 'Shadow Glaive chains to +1 additional target. You can spend 1 AP to hide after a successful glaive attack.',
+    description: 'Frostwood hunters learn the glaive\'s song in the ironwood groves. Shadow Glaive chains to +1 additional target. You can spend 1 AP to hide after a successful glaive attack.',
     icon: 'ability_stealth',
     maxRanks: 1,
     position: { x: 2, y: 0 },
@@ -19,7 +19,7 @@ export const APEX_SHADOWBLADE = [
   {
     id: 'shadowblade_t1_shadow_strike',
     name: 'Shadow Strike',
-    description: 'Glaive attacks from stealth deal +2d6 bonus damage and generate +1 extra Quarry Mark. You can enter stealth using 1 AP while in combat.',
+    description: 'The ironwood glaive drinks deep from shadows before striking. Glaive attacks from stealth deal +2d6 bonus damage and generate +1 extra Quarry Mark. You can enter stealth using 1 AP while in combat.',
     icon: 'ability_rogue_shadowstrike',
     maxRanks: 1,
     position: { x: 1, y: 1 },
@@ -28,7 +28,7 @@ export const APEX_SHADOWBLADE = [
   {
     id: 'shadowblade_t2_dark_presence',
     name: 'Dark Presence',
-    description: 'Enemies within 10ft of you have disadvantage on Perception checks to detect you. Your companion can enter stealth with you.',
+    description: 'Frostwood nights teach even ironwood to vanish among the pines. Enemies within 10ft of you have disadvantage on Perception checks to detect you. Your companion can enter stealth with you.',
     icon: 'spell_shadow_nethercloak',
     maxRanks: 1,
     position: { x: 0, y: 2 },
@@ -37,7 +37,7 @@ export const APEX_SHADOWBLADE = [
   {
     id: 'shadowblade_t3_phantom_step',
     name: 'Phantom Step',
-    description: 'Spend 2 Quarry Marks to teleport 30ft to an enemy within 60ft, appearing in stealth and attacking with advantage.',
+    description: 'Ironwood hunters walk between the frost-kissed shadows of the deep wood. Spend 2 Quarry Marks to teleport 30ft to an enemy within 60ft, appearing in stealth and attacking with advantage.',
     icon: 'spell_shadow_shadowstep',
     maxRanks: 1,
     position: { x: 1, y: 3 },
@@ -46,7 +46,7 @@ export const APEX_SHADOWBLADE = [
   {
     id: 'shadowblade_t1_chain_mastery',
     name: 'Chain Mastery',
-    description: 'Shadow Glaive chains ignore difficult terrain and can chain through allies. Chained enemies take +1d4 damage per chain link.',
+    description: 'A Frostwood glaive remembers every path through the frozen underbrush. Shadow Glaive chains ignore difficult terrain and can chain through allies. Chained enemies take +1d4 damage per chain link.',
     icon: 'spell_shadow_lifedrain',
     maxRanks: 1,
     position: { x: 3, y: 1 },
@@ -55,7 +55,7 @@ export const APEX_SHADOWBLADE = [
   {
     id: 'shadowblade_t2_glaive_dance',
     name: 'Glaive Dance',
-    description: 'After a successful glaive attack, you can spend 1 Quarry Mark to immediately attack another enemy within range.',
+    description: 'Ironwood hunters whirl their glaives in ceaseless motion. After a successful glaive attack, you can spend 1 Quarry Mark to immediately attack another enemy within range.',
     icon: 'ability_warrior_weaponmastery',
     maxRanks: 1,
     position: { x: 4, y: 2 },
@@ -64,7 +64,7 @@ export const APEX_SHADOWBLADE = [
   {
     id: 'shadowblade_t3_shadow_eruption',
     name: 'Shadow Eruption',
-    description: 'When you kill an enemy with a glaive attack, all enemies within 10ft take 2d6 shadow damage and cannot take reactions until your next turn.',
+    description: 'Frostwood glaive strikes leave echoes that shatter the will of nearby foes. When you kill an enemy with a glaive attack, all enemies within 10ft take 2d6 shadow damage and cannot take reactions until your next turn.',
     icon: 'spell_shadow_shadowfury',
     maxRanks: 1,
     position: { x: 3, y: 3 },
@@ -73,7 +73,7 @@ export const APEX_SHADOWBLADE = [
   {
     id: 'shadowblade_t4_shadow_synergy',
     name: 'Shadow Synergy',
-    description: 'Your companion attacks generate Quarry Marks as if they were your glaive attacks. Stealth attacks allow you to spend 1 Quarry Mark to mark the target automatically.',
+    description: 'Bonds forged in Frostwood run deeper than ironwood roots. Your companion attacks generate Quarry Marks as if they were your glaive attacks. Stealth attacks allow you to spend 1 Quarry Mark to mark the target automatically.',
     icon: 'ability_druid_predatoryinstincts',
     maxRanks: 1,
     position: { x: 2, y: 2 },
@@ -82,7 +82,7 @@ export const APEX_SHADOWBLADE = [
   {
     id: 'shadowblade_t5_apex_predator',
     name: 'Apex Predator',
-    description: 'While you have 5 Quarry Marks, your glaive attacks crit on 18-20. You can spend 1 Quarry Mark to make a glaive attack as a reaction when an enemy attacks you.',
+    description: 'The apex hunter of Frostwood waits with glaive poised and breath stilled. While you have 5 Quarry Marks, your glaive attacks crit on 18-20. You can spend 1 Quarry Mark to make a glaive attack as a reaction when an enemy attacks you.',
     icon: 'ability_hunter_assassinate',
     maxRanks: 1,
     position: { x: 2, y: 4 },
@@ -91,7 +91,7 @@ export const APEX_SHADOWBLADE = [
   {
     id: 'shadowblade_t6_shadow_assassin',
     name: 'Shadow Assassin',
-    description: 'Ultimate: Become a shadow entity for 1 minute. All attacks are silent and cannot be heard, you phase through walls, and glaive attacks deal maximum damage. Costs 5 Quarry Marks.',
+    description: 'Frostwood legends tell of hunters who merge with the ironwood night itself. Ultimate: Become a shadow entity for 1 minute. All attacks are silent and cannot be heard, you phase through walls, and glaive attacks deal maximum damage. Costs 5 Quarry Marks.',
     icon: 'spell_shadow_demonicempathy',
     maxRanks: 1,
     position: { x: 2, y: 5 },
@@ -100,13 +100,13 @@ export const APEX_SHADOWBLADE = [
 ];
 
 // ============================================
-// BLADESTORM — Chain Attack Mastery & Multi-Target Devastation
+// BLADESTORM, Chain Attack Mastery & Multi-Target Devastation
 // ============================================
 export const APEX_BLADESTORM = [
   {
     id: 'bladestorm_t0_whirling_blades',
     name: 'Whirling Blades',
-    description: 'Your Shadow Glaive can chain to +1 additional target (total 5). Chain damage no longer reduces after the second target — all chained hits deal at least 1d6.',
+    description: 'Ironwood glaives carve spiraling paths through the Frostwood air. Your Shadow Glaive can chain to +1 additional target (total 5). Chain damage no longer reduces after the second target, all chained hits deal at least 1d6.',
     icon: 'ability_warrior_weaponmastery',
     maxRanks: 1,
     position: { x: 2, y: 0 },
@@ -115,7 +115,7 @@ export const APEX_BLADESTORM = [
   {
     id: 'bladestorm_t1_momentum',
     name: 'Momentum',
-    description: 'Each successful chain attack grants +1 to your next attack roll (max +3). Bonus resets if you miss. Hitting multiple enemies in one swing builds Momentum faster.',
+    description: 'Frostwood hunters build momentum like winter storms across the ironwood peaks. Each successful chain attack grants +1 to your next attack roll (max +3). Bonus resets if you miss. Hitting multiple enemies in one swing builds Momentum faster.',
     icon: 'spell_shadow_shadowstep',
     maxRanks: 1,
     position: { x: 1, y: 1 },
@@ -124,7 +124,7 @@ export const APEX_BLADESTORM = [
   {
     id: 'bladestorm_t2_extended_reach',
     name: 'Extended Reach',
-    description: 'Glaive chain distance increased from 5ft to 10ft. You can position further from enemies while still chaining between grouped targets.',
+    description: 'An ironwood glaive thrown by a Frostwood arm seeks its mark across any gap. Glaive chain distance increased from 5ft to 10ft. You can position further from enemies while still chaining between grouped targets.',
     icon: 'ability_hunter_aimedshot',
     maxRanks: 1,
     position: { x: 0, y: 2 },
@@ -133,7 +133,7 @@ export const APEX_BLADESTORM = [
   {
     id: 'bladestorm_t3_chain_reaction',
     name: 'Chain Reaction',
-    description: 'When your glaive chains to 3+ enemies in a single attack, your next glaive attack this turn chains to +1 additional target for free (no QM cost).',
+    description: 'Frostwood hunters chain their glaive strikes through packs like lightning through ironwood. When your glaive chains to 3+ enemies in a single attack, your next glaive attack this turn chains to +1 additional target for free (no QM cost).',
     icon: 'spell_shadow_shadowfury',
     maxRanks: 1,
     position: { x: 1, y: 3 },
@@ -142,7 +142,7 @@ export const APEX_BLADESTORM = [
   {
     id: 'bladestorm_t1_cleave',
     name: 'Cleave',
-    description: 'Primary glaive target takes +1d8 damage. If the primary target drops to 0 HP from your attack, all chained targets take an additional 1d6 slashing damage.',
+    description: 'The first cut from an ironwood glaive bites deepest into Frostwood prey. Primary glaive target takes +1d8 damage. If the primary target drops to 0 HP from your attack, all chained targets take an additional 1d6 slashing damage.',
     icon: 'ability_warrior_weaponmastery',
     maxRanks: 1,
     position: { x: 3, y: 1 },
@@ -151,7 +151,7 @@ export const APEX_BLADESTORM = [
   {
     id: 'bladestorm_t2_rising_storm',
     name: 'Rising Storm',
-    description: 'Each enemy hit by your glaive chain increases your movement speed by +5ft until end of turn (max +15ft). Hit 3 enemies, move 15ft extra to reposition for next chain.',
+    description: 'Ironwood hunters ride the gusts of their own glaive storms across Frostwood. Each enemy hit by your glaive chain increases your movement speed by +5ft until end of turn (max +15ft). Hit 3 enemies, move 15ft extra to reposition for next chain.',
     icon: 'ability_hunter_huntervswild',
     maxRanks: 1,
     position: { x: 4, y: 2 },
@@ -160,7 +160,7 @@ export const APEX_BLADESTORM = [
   {
     id: 'bladestorm_t3_blade_frenzy',
     name: 'Blade Frenzy',
-    description: 'Spend 2 QM to immediately make a second glaive chain attack after your first one resolves. Both attacks generate QM normally (subject to per-turn cap).',
+    description: 'Frostwood glaive masters spin their ironwood blades in relentless frenzy. Spend 2 QM to immediately make a second glaive chain attack after your first one resolves. Both attacks generate QM normally (subject to per-turn cap).',
     icon: 'ability_warrior_cleave',
     maxRanks: 1,
     position: { x: 3, y: 3 },
@@ -169,7 +169,7 @@ export const APEX_BLADESTORM = [
   {
     id: 'bladestorm_t4_storm_synergy',
     name: 'Storm Synergy',
-    description: 'When you hit 3+ enemies with a single glaive attack, you and your companion each gain +2 Armor until your next turn. The storm of blades shields you both.',
+    description: 'Ironwood and companion move as one beneath the Frostwood canopy. When you hit 3+ enemies with a single glaive attack, you and your companion each gain +2 Armor until your next turn. The storm of blades shields you both.',
     icon: 'ability_druid_predatoryinstincts',
     maxRanks: 1,
     position: { x: 2, y: 2 },
@@ -178,7 +178,7 @@ export const APEX_BLADESTORM = [
   {
     id: 'bladestorm_t5_hurricane',
     name: 'Hurricane',
-    description: 'While you have 3+ Quarry Marks, your glaive attacks are AoE — all enemies within 5ft of each chain target also take half damage. Your glaive is a storm of steel.',
+    description: 'Frostwood hurricanes howl through ironwood branches with unrelenting fury. While you have 3+ Quarry Marks, your glaive attacks are AoE, all enemies within 5ft of each chain target also take half damage. Your glaive is a storm of steel.',
     icon: 'spell_shadow_shadowfury',
     maxRanks: 1,
     position: { x: 2, y: 4 },
@@ -187,7 +187,7 @@ export const APEX_BLADESTORM = [
   {
     id: 'bladestorm_t6_hurricane_of_blades',
     name: 'Hurricane of Blades',
-    description: 'Ultimate: Become a living storm of blades for 3 rounds. All glaive attacks chain to up to 8 targets within 15ft, chain damage does not reduce below 1d6, and generate +1 bonus QM per target hit (still subject to per-turn cap). Costs 5 Quarry Marks.',
+    description: 'The greatest Frostwood hunters become the blizzard itself, their ironwood glaive an endless gale. Ultimate: Become a living storm of blades for 3 rounds. All glaive attacks chain to up to 8 targets within 15ft, chain damage does not reduce below 1d6, and generate +1 bonus QM per target hit (still subject to per-turn cap). Costs 5 Quarry Marks.',
     icon: 'ability_druid_primaltenacity',
     maxRanks: 1,
     position: { x: 2, y: 5 },
@@ -196,13 +196,13 @@ export const APEX_BLADESTORM = [
 ];
 
 // ============================================
-// BEASTMASTER — Companion Synergy & Pack Coordination
+// BEASTMASTER, Companion Synergy & Pack Coordination
 // ============================================
 export const APEX_BEASTMASTER = [
   {
     id: 'beastmaster_t0_primal_bond',
     name: 'Primal Bond',
-    description: 'Your companion deals +1d6 damage on all attacks. When you spend Quarry Marks on abilities, your companion gains +1d4 damage for 1 minute.',
+    description: 'The bond between Frostwood hunter and ironwood companion sharpens both their fangs. Your companion deals +1d6 damage on all attacks. When you spend Quarry Marks on abilities, your companion gains +1d4 damage for 1 minute.',
     icon: 'ability_hunter_beastcall',
     maxRanks: 1,
     position: { x: 2, y: 0 },
@@ -211,7 +211,7 @@ export const APEX_BEASTMASTER = [
   {
     id: 'beastmaster_t1_coordinated_strike',
     name: 'Coordinated Strike',
-    description: 'When you and your companion attack the same enemy in the same round, both attacks gain advantage. Your companion can flank enemies 10ft away from you.',
+    description: 'Frostwood hunting pairs strike as one with ironwood glaive and claw. When you and your companion attack the same enemy in the same round, both attacks gain advantage. Your companion can flank enemies 10ft away from you.',
     icon: 'ability_hunter_beastcall02',
     maxRanks: 1,
     position: { x: 1, y: 1 },
@@ -220,7 +220,7 @@ export const APEX_BEASTMASTER = [
   {
     id: 'beastmaster_t2_beast_fury',
     name: 'Beast Fury',
-    description: 'Your companion can make 2 attacks per action instead of 1. When your companion crits, you gain +1 Quarry Mark.',
+    description: 'Ironwood companions of Frostwood hunt with a ferocity that matches the glaive wind. Your companion can make 2 attacks per action instead of 1. When your companion crits, you gain +1 Quarry Mark.',
     icon: 'ability_druid_ferociousbite',
     maxRanks: 1,
     position: { x: 0, y: 2 },
@@ -229,7 +229,7 @@ export const APEX_BEASTMASTER = [
   {
     id: 'beastmaster_t3_savage_coordination',
     name: 'Savage Coordination',
-    description: 'Once per turn, when your companion attacks, you can spend 1 Quarry Mark to make a glaive attack against the same target using 1 AP.',
+    description: 'Frostwood hunters and their companions coordinate their strikes like ironwood and sinew. Once per turn, when your companion attacks, you can spend 1 Quarry Mark to make a glaive attack against the same target using 1 AP.',
     icon: 'ability_hunter_animalhandler',
     maxRanks: 1,
     position: { x: 1, y: 3 },
@@ -238,7 +238,7 @@ export const APEX_BEASTMASTER = [
   {
     id: 'beastmaster_t1_bestial_synergy',
     name: 'Bestial Synergy',
-    description: 'When you or your companion damage an enemy, the other gains +1d4 damage on their next attack against that enemy.',
+    description: 'Ironwood glaive and beast share a bond that feeds on every shared victory. When you or your companion damage an enemy, the other gains +1d4 damage on their next attack against that enemy.',
     icon: 'ability_druid_predatoryinstincts',
     maxRanks: 1,
     position: { x: 3, y: 1 },
@@ -247,7 +247,7 @@ export const APEX_BEASTMASTER = [
   {
     id: 'beastmaster_t2_primal_coordination',
     name: 'Primal Coordination',
-    description: 'When you and your companion both hit the same target in one turn, that target takes +1d8 bonus damage and you generate +1 bonus Quarry Mark (bypasses per-turn cap).',
+    description: 'Frostwood packs double their quarry\'s punishment with glaive and fang in perfect rhythm. When you and your companion both hit the same target in one turn, that target takes +1d8 bonus damage and you generate +1 bonus Quarry Mark (bypasses per-turn cap).',
     icon: 'ability_hunter_beastsoothe',
     maxRanks: 1,
     position: { x: 4, y: 2 },
@@ -256,7 +256,7 @@ export const APEX_BEASTMASTER = [
   {
     id: 'beastmaster_t3_primal_hunter',
     name: 'Primal Hunter',
-    description: 'Your companion gains the ability to mark targets. Marked targets take +1d6 damage from your companion and cannot hide from it.',
+    description: 'An ironwood companion\'s nose knows every Frostwood trail and every hiding quarry. Your companion gains the ability to mark targets. Marked targets take +1d6 damage from your companion and cannot hide from it.',
     icon: 'ability_hunter_huntervswild',
     maxRanks: 1,
     position: { x: 3, y: 3 },
@@ -265,7 +265,7 @@ export const APEX_BEASTMASTER = [
   {
     id: 'beastmaster_t4_alpha_predator',
     name: 'Alpha Predator',
-    description: 'Your companion can spend your Quarry Marks to enhance its abilities. When you spend Quarry Marks on companion enhancements, the effect is doubled.',
+    description: 'Frostwood hunters trust their companions with the very marks that guide their glaive. Your companion can spend your Quarry Marks to enhance its abilities. When you spend Quarry Marks on companion enhancements, the effect is doubled.',
     icon: 'ability_hunter_beastmastery',
     maxRanks: 1,
     position: { x: 2, y: 2 },
@@ -274,7 +274,7 @@ export const APEX_BEASTMASTER = [
   {
     id: 'beastmaster_t5_primal_ascension',
     name: 'Primal Ascension',
-    description: 'You and your companion share all damage and healing. When either of you takes damage, the other gains temporary HP equal to half the damage taken.',
+    description: 'The bond of Frostwood runs so deep that ironwood and blood become one. You and your companion share all damage and healing. When either of you takes damage, the other gains temporary HP equal to half the damage taken.',
     icon: 'spell_nature_spiritwolf',
     maxRanks: 1,
     position: { x: 2, y: 4 },
@@ -283,7 +283,7 @@ export const APEX_BEASTMASTER = [
   {
     id: 'beastmaster_t6_beast_lord',
     name: 'Beast Lord',
-    description: 'Ultimate: You and your companion transform into apex predators for 1 minute. Both gain +2d6 damage, advantage on attacks, and can make 2 attacks per action. Costs 5 Quarry Marks.',
+    description: 'Frostwood legends speak of hunters and companions who transcend their mortal forms together. Ultimate: You and your companion transform into apex predators for 1 minute. Both gain +2d6 damage, advantage on attacks, and can make 2 attacks per action. Costs 5 Quarry Marks.',
     icon: 'ability_druid_primaltenacity',
     maxRanks: 1,
     position: { x: 2, y: 5 },

@@ -14,7 +14,7 @@ export const LIBRARY_COLLECTIONS = [
   {
     id: 'damage-spells',
     name: 'Damage Spells',
-    description: 'Spells that deal damage to enemies',
+    description: 'Emberspire wrath condensed into sorcery. Spells that deal damage to enemies',
     icon: 'spell_fire_fireball02',
     spells: [],
     color: '#8B4513'
@@ -22,7 +22,7 @@ export const LIBRARY_COLLECTIONS = [
   {
     id: 'healing-spells',
     name: 'Healing Spells',
-    description: 'Spells that restore health',
+    description: 'Sundale Solbrand mercy knitted into warmth. Spells that restore health',
     icon: 'spell_holy_heal',
     spells: [],
     color: '#2d5016'
@@ -30,7 +30,7 @@ export const LIBRARY_COLLECTIONS = [
   {
     id: 'utility-spells',
     name: 'Utility Spells',
-    description: 'Spells that provide various utility effects',
+    description: 'Vreken hush-traders wielding small conveniences of the Wyrd. Spells that provide various utility effects',
     icon: 'spell_arcane_teleportundercity',
     spells: [],
     color: '#5a1e12'
@@ -38,7 +38,7 @@ export const LIBRARY_COLLECTIONS = [
   {
     id: 'control-spells',
     name: 'Control Spells',
-    description: 'Spells that control enemies or the battlefield',
+    description: 'Inquisitor cold-iron authority imposed on the unruly. Spells that control enemies or the battlefield',
     icon: 'spell_frost_frostbolt',
     spells: [],
     color: '#00CED1'
@@ -46,7 +46,7 @@ export const LIBRARY_COLLECTIONS = [
   {
     id: 'summoning-spells',
     name: 'Summoning Spells',
-    description: 'Spells that summon creatures or objects',
+    description: 'Animist bindings coaxing spirits from the Bryngloom deeps. Spells that summon creatures or objects',
     icon: 'spell_shadow_summonvoidwalker',
     spells: [],
     color: '#9370DB'

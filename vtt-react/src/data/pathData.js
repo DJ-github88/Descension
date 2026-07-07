@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Character Path Data Module
  *
  * Defines the 9 character paths for the character creation wizard:
@@ -17,7 +17,7 @@ export const PATH_DATA = {
     vessel: {
         id: 'vessel',
         name: 'The Vessel',
-        description: 'You have been entered by something older than yourself — a constellation-spirit, a Wyrd-fragment, a bog-presence. You carry a passenger in your blood, and it speaks in frequencies only you can hear. The Astril call this opening the vessel; the Neth call it a breach of contract. Both are correct.',
+        description: 'You have been entered by something older than yourself, a constellation-spirit, a Wyrd-fragment, a bog-presence. You carry a passenger in your blood, and it speaks in frequencies only you can hear. The Astril call this opening the vessel; the Neth call it a breach of contract. Both are correct.',
         icon: 'fas fa-eye',
         statModifiers: {
             intelligence: 1,
@@ -37,7 +37,7 @@ export const PATH_DATA = {
         ],
         feature: {
             name: 'Passenger\'s Whisper',
-            description: 'The presence inside you grants glimpses beyond mortal perception. Once per day, you can gain advantage on any Spirit check or sense magical auras within 30 feet. The passenger may also offer unsolicited advice — not all of it helpful.'
+            description: 'The presence inside you grants glimpses beyond mortal perception. Once per day, you can gain advantage on any Spirit check or sense magical auras within 30 feet. The passenger may also offer unsolicited advice, not all of it helpful.'
         },
         startingPoints: 2
     },
@@ -45,7 +45,7 @@ export const PATH_DATA = {
     bound: {
         id: 'bound',
         name: 'The Bound',
-        description: 'You have sworn a binding oath — to the Keeper, to the Luminarchy, to the Solbrand, or to a personal vow so deep it has become metaphysical. A contract is the most sincere form of love because it says you are willing to be bound in a way the world must enforce. Your word is iron. Your debt is eternal.',
+        description: 'You have sworn a binding oath, to the Keeper, to the Luminarchy, to the Solbrand, or to a personal vow so deep it has become metaphysical. A contract is the most sincere form of love because it says you are willing to be bound in a way the world must enforce. Your word is iron. Your debt is eternal.',
         icon: 'fas fa-scroll',
         statModifiers: {
             strength: 1,
@@ -65,7 +65,7 @@ export const PATH_DATA = {
         ],
         feature: {
             name: 'Keeper\'s Clause',
-            description: 'Your binding oath protects you at the threshold between life and death. Once per day, when you would be reduced to 0 hit points, you can choose to drop to 1 hit point instead — but you incur a debt that must be honored before the next moon or suffer the Keeper\'s attention.'
+            description: 'Your binding oath protects you at the threshold between life and death. Once per day, when you would be reduced to 0 hit points, you can choose to drop to 1 hit point instead, but you incur a debt that must be honored before the next moon or suffer the Keeper\'s attention.'
         },
         startingPoints: 1
     },
@@ -73,7 +73,7 @@ export const PATH_DATA = {
     unseen: {
         id: 'unseen',
         name: 'The Unseen',
-        description: 'You operate in the gaps of the system — where contracts don\'t reach, where patterns don\'t glow, where the obligation-web is thin. The Unlit Astril can lie without their skin betraying them. The Fexrick Clan-Free survive by scavenging what the guilds discard. You are neither. You are worse: you are competent.',
+        description: 'You operate in the gaps of the system, where contracts don\'t reach, where patterns don\'t glow, where the obligation-web is thin. The Unlit Astril can lie without their skin betraying them. The Fexrick Clan-Free survive by scavenging what the guilds discard. You are neither. You are worse: you are competent.',
         icon: 'fas fa-mask',
         statModifiers: {
             agility: 2,
@@ -93,7 +93,7 @@ export const PATH_DATA = {
         ],
         feature: {
             name: 'Exposure Track',
-            description: 'You can attempt to convince, distract, or misdirect even initially suspicious targets. However, each use advances an internal Exposure counter — when maxed, your presence becomes known to the systems you\'ve been evading. Lay low to reset.'
+            description: 'You can attempt to convince, distract, or misdirect even initially suspicious targets. However, each use advances an internal Exposure counter, when maxed, your presence becomes known to the systems you\'ve been evading. Lay low to reset.'
         },
         startingPoints: 1
     },
@@ -101,7 +101,7 @@ export const PATH_DATA = {
     scarred: {
         id: 'scarred',
         name: 'The Scarred',
-        description: 'You survived something that should have destroyed you — a vat, a Wyrd-attack, the Fading, the Over-Sung. You are scarred in ways that give you insight into darkness but cost you connection to the living. The Groven Vat-Breakers carry this. The Morren debtors carry this. You carry this.',
+        description: 'You survived something that should have destroyed you, a vat, a Wyrd-attack, the Fading, the Over-Sung. You are scarred in ways that give you insight into darkness but cost you connection to the living. The Groven Vat-Breakers carry this. The Morren debtors carry this. You carry this.',
         icon: 'fas fa-skull',
         statModifiers: {
             constitution: 2,
@@ -121,7 +121,7 @@ export const PATH_DATA = {
         ],
         feature: {
             name: 'Hardened Soul',
-            description: 'Your brush with annihilation has made you resistant to fear and despair. You have advantage on saving throws against being frightened, and you can help others overcome their fears through your presence — though your muted affect makes this feel hollow.'
+            description: 'Your brush with annihilation has made you resistant to fear and despair. You have advantage on saving throws against being frightened, and you can help others overcome their fears through your presence, though your muted affect makes this feel hollow.'
         },
         startingPoints: 0
     },
@@ -129,7 +129,7 @@ export const PATH_DATA = {
     archive_sworn: {
         id: 'archive_sworn',
         name: 'The Archive-Sworn',
-        description: 'You are a scholar who has gained knowledge through direct neural transmission — memory-glass, celestial frequency, or monolith-resonance — not through books. The Neth Canopy-Ledger holds contracts in crystallized tree-sap. The Emberth sun-records are sung into obsidian. The Frozen Archive preserves the dead\'s final visions. You have touched one of these. It changed you.',
+        description: 'You are a scholar who has gained knowledge through direct neural transmission, memory-glass, celestial frequency, or monolith-resonance, not through books. The Neth Canopy-Ledger holds contracts in crystallized tree-sap. The Emberth sun-records are sung into obsidian. The Frozen Archive preserves the dead\'s final visions. You have touched one of these. It changed you.',
         icon: 'fas fa-book',
         statModifiers: {
             intelligence: 2,
@@ -156,7 +156,7 @@ export const PATH_DATA = {
     indebted: {
         id: 'indebted',
         name: 'The Indebted',
-        description: 'You have made a bargain with something dangerous — Keth-Amar, a Wyrd-entity, the Keeper, Scathrach — and the debt is still outstanding. Every region made a Dark Bargain. Yours was personal. Your power comes from the creditor, and the creditor is patient.',
+        description: 'You have made a bargain with something dangerous, Keth-Amar, a Wyrd-entity, the Keeper, Scathrach, and the debt is still outstanding. Every region made a Dark Bargain. Yours was personal. Your power comes from the creditor, and the creditor is patient.',
         icon: 'fas fa-handshake',
         statModifiers: {
             intelligence: 1,
@@ -176,7 +176,7 @@ export const PATH_DATA = {
         ],
         feature: {
             name: 'Debt Track',
-            description: 'You can place a minor hex on a target, giving them disadvantage on their next check or saving throw. Each use advances your Debt Track — at certain thresholds, you lose HP, suffer max HP reduction, or trigger a creditor visitation that cannot be avoided.'
+            description: 'You can place a minor hex on a target, giving them disadvantage on their next check or saving throw. Each use advances your Debt Track, at certain thresholds, you lose HP, suffer max HP reduction, or trigger a creditor visitation that cannot be avoided.'
         },
         startingPoints: 2
     },
@@ -241,7 +241,7 @@ export const PATH_DATA = {
     threshold_watcher: {
         id: 'threshold_watcher',
         name: 'The Threshold-Watcher',
-        description: 'You guard a boundary — physical, spiritual, or metaphysical. The threshold between regions, between life and death, between the pact and the void. A Muren who maintains their rituals is a fortress; a Muren who falters is a bomb. You do not falter.',
+        description: 'You guard a boundary, physical, spiritual, or metaphysical. The threshold between regions, between life and death, between the pact and the void. A Muren who maintains their rituals is a fortress; a Muren who falters is a bomb. You do not falter.',
         icon: 'fas fa-shield-alt',
         statModifiers: {
             constitution: 1,

@@ -1,4 +1,4 @@
-// ============================================
+﻿// ============================================
 // CHRONARCH TALENT TREES
 // ============================================
 //
@@ -21,7 +21,7 @@ export const CHRONARCH_STASIS_TREE = [
   {
     id: 'stasis_t0_temporal_precision',
     name: 'Temporal Precision',
-    description: 'Stasis Field save DC increased by +1 per rank.',
+    description: 'A single tick of the Sundrift clock can rewrite destinies. Stasis Field save DC increased by +1 per rank.',
     icon: 'spell_holy_borrowedtime',
     maxRanks: 2,
     position: { x: 2, y: 0 },
@@ -32,7 +32,7 @@ export const CHRONARCH_STASIS_TREE = [
   {
     id: 'stasis_t1_frozen_momentum',
     name: 'Frozen Momentum',
-    description: 'Gain +1 Time Shard whenever you freeze or stun an enemy.',
+    description: 'Time Shards crystallize when the fabric of reality is torn asunder. Gain +1 Time Shard whenever you freeze or stun an enemy.',
     icon: 'spell_frost_stun',
     maxRanks: 1,
     position: { x: 1, y: 1 },
@@ -41,7 +41,7 @@ export const CHRONARCH_STASIS_TREE = [
   {
     id: 'stasis_t1_sustained_stasis',
     name: 'Sustained Stasis',
-    description: 'Stasis Field and Temporal Shockwave duration +1 round per rank.',
+    description: 'The constellations hold their breath as moments stretch into eternities. Stasis Field and Temporal Shockwave duration +1 round per rank.',
     icon: 'spell_nature_slow',
     maxRanks: 2,
     position: { x: 3, y: 1 },
@@ -52,7 +52,7 @@ export const CHRONARCH_STASIS_TREE = [
   {
     id: 'stasis_t2_strain_efficiency',
     name: 'Strain Efficiency',
-    description: 'Control-tagged Flux abilities cost -1 Temporal Strain per rank (minimum 1).',
+    description: 'Sundrift magic exacts its toll, but mastery lessens the burden. Control-tagged Flux abilities cost -1 Temporal Strain per rank (minimum 1).',
     icon: 'spell_arcane_arcaneresilience',
     maxRanks: 2,
     position: { x: 0, y: 2 },
@@ -61,7 +61,7 @@ export const CHRONARCH_STASIS_TREE = [
   {
     id: 'stasis_t2_chronal_lockdown',
     name: 'Chronal Lockdown',
-    description: 'Enemies frozen or stunned by your spells have -2 to their save to break free per rank.',
+    description: 'Frozen in a web of temporal threads, escape becomes a distant memory. Enemies frozen or stunned by your spells have -2 to their save to break free per rank.',
     icon: 'spell_frost_stun',
     maxRanks: 3,
     position: { x: 2, y: 2 },
@@ -70,7 +70,7 @@ export const CHRONARCH_STASIS_TREE = [
   {
     id: 'stasis_t2_barrier_strength',
     name: 'Barrier Strength',
-    description: 'Temporal Barrier grants +5 temporary HP per rank and lasts +1 round.',
+    description: 'The barrier between now and then grows thick with woven time. Temporal Barrier grants +5 temporary HP per rank and lasts +1 round.',
     icon: 'spell_holy_borrowedtime',
     maxRanks: 2,
     position: { x: 4, y: 2 },
@@ -81,7 +81,7 @@ export const CHRONARCH_STASIS_TREE = [
   {
     id: 'stasis_t3_echo_dominance',
     name: 'Echo Dominance',
-    description: 'Temporal Echoes spawns +1 illusory copy per rank and echo damage increased by +1d6.',
+    description: 'Each echo carries the weight of a thousand unresolved moments. Temporal Echoes spawns +1 illusory copy per rank and echo damage increased by +1d6.',
     icon: 'spell_arcane_arcanetorrent',
     maxRanks: 2,
     position: { x: 1, y: 3 },
@@ -90,7 +90,7 @@ export const CHRONARCH_STASIS_TREE = [
   {
     id: 'stasis_t3_fracture_mastery',
     name: 'Fracture Mastery',
-    description: 'Temporal Fracture DoT deals +1d6 necrotic damage per rank and lasts +1 round.',
+    description: 'When time fractures, reality bleeds into the spaces between. Temporal Fracture DoT deals +1d6 necrotic damage per rank and lasts +1 round.',
     icon: 'spell_nature_timestop',
     maxRanks: 2,
     position: { x: 3, y: 3 },
@@ -101,7 +101,7 @@ export const CHRONARCH_STASIS_TREE = [
   {
     id: 'stasis_t4_dominion_authority',
     name: 'Dominion Authority',
-    description: 'Temporal Flux: Dominion affects a +10ft larger radius per rank and you are immune to its slow effect.',
+    description: 'The Sundrift crown bestows authority over all that is and was. Temporal Flux: Dominion affects a +10ft larger radius per rank and you are immune to its slow effect.',
     icon: 'spell_nature_timestop',
     maxRanks: 2,
     position: { x: 2, y: 4 },
@@ -112,7 +112,7 @@ export const CHRONARCH_STASIS_TREE = [
   {
     id: 'stasis_t5_shockwave_resonance',
     name: 'Shockwave Resonance',
-    description: 'Temporal Shockwave deals +2d6 force damage per rank and its freeze save DC increases by +2.',
+    description: 'Resonance builds as the temporal tide crashes against fate\'s shore. Temporal Shockwave deals +2d6 force damage per rank and its freeze save DC increases by +2.',
     icon: 'spell_arcane_arcanetorrent',
     maxRanks: 2,
     position: { x: 1, y: 5 },
@@ -121,7 +121,7 @@ export const CHRONARCH_STASIS_TREE = [
   {
     id: 'stasis_t5_temporal_supremacy',
     name: 'Temporal Supremacy',
-    description: 'Temporal Mastery Strain cost reduced by -2 per rank. Its slow radius increased by +10ft per rank.',
+    description: 'To master time is to speak the language of the stars themselves. Temporal Mastery Strain cost reduced by -2 per rank. Its slow radius increased by +10ft per rank.',
     icon: 'spell_arcane_arcaneresilience',
     maxRanks: 2,
     position: { x: 3, y: 5 },
@@ -132,7 +132,7 @@ export const CHRONARCH_STASIS_TREE = [
   {
     id: 'stasis_t6_avatar_of_stasis',
     name: 'Avatar of Stasis',
-    description: 'Once per combat: freeze all enemies within 40ft for 1 round, no save. Costs 6 Time Shards, adds 5 Temporal Strain.',
+    description: 'In that frozen breath between heartbeats, the Sundrift archon imposes their will. Once per combat: freeze all enemies within 40ft for 1 round, no save. Costs 6 Time Shards, adds 5 Temporal Strain.',
     icon: 'spell_nature_timestop',
     maxRanks: 1,
     position: { x: 2, y: 6 },
@@ -151,7 +151,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
   {
     id: 'disp_t0_swift_temporal',
     name: 'Swift Temporal',
-    description: 'Temporal Step range increased by +10ft per rank.',
+    description: 'The Sundrift guides each step along the threads of possibility. Temporal Step range increased by +10ft per rank.',
     icon: 'spell_arcane_blink',
     maxRanks: 2,
     position: { x: 0, y: 0 },
@@ -160,7 +160,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
   {
     id: 'disp_t0_chronal_echo',
     name: 'Chronal Echo Boost',
-    description: 'Chrono Echo radius increased by +5ft per rank and duration +1 round.',
+    description: 'An echo lingers in the Sundrift long after the source has moved on. Chrono Echo radius increased by +5ft per rank and duration +1 round.',
     icon: 'spell_nature_mirrorimage',
     maxRanks: 2,
     position: { x: 4, y: 0 },
@@ -171,7 +171,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
   {
     id: 'disp_t1_repositioning_shards',
     name: 'Repositioning Shards',
-    description: 'Gain +1 Time Shard whenever you teleport an ally or enemy.',
+    description: 'Every displacement sends ripples through the temporal tapestry. Gain +1 Time Shard whenever you teleport an ally or enemy.',
     icon: 'spell_nature_timestop',
     maxRanks: 1,
     position: { x: 1, y: 1 },
@@ -180,7 +180,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
   {
     id: 'disp_t1_dilation_expansion',
     name: 'Dilation Expansion',
-    description: 'Temporal Dilation AoE radius increased by +5ft per rank.',
+    description: 'The Sundrift expands to embrace all who walk its currents. Temporal Dilation AoE radius increased by +5ft per rank.',
     icon: 'spell_arcane_arcaneresilience',
     maxRanks: 2,
     position: { x: 3, y: 1 },
@@ -191,7 +191,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
   {
     id: 'disp_t2_phase_mastery',
     name: 'Phase Mastery',
-    description: 'Temporal Flux: Speed grants +10ft additional movement speed per rank.',
+    description: 'Speed is but a gift from the Sundrift\'s patient flow. Temporal Flux: Speed grants +10ft additional movement speed per rank.',
     icon: 'spell_arcane_blink',
     maxRanks: 2,
     position: { x: 0, y: 2 },
@@ -200,7 +200,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
   {
     id: 'disp_t2_crystal_tuning',
     name: 'Crystal Tuning',
-    description: 'Time Crystal zone radius increased by +5ft per rank. Haste Mode speed bonus +0.25x per rank.',
+    description: 'Crystals of frozen time hum with the music of the spheres. Time Crystal zone radius increased by +5ft per rank. Haste Mode speed bonus +0.25x per rank.',
     icon: 'spell_nature_timestop',
     maxRanks: 2,
     position: { x: 2, y: 2 },
@@ -209,7 +209,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
   {
     id: 'disp_t2_disruption_range',
     name: 'Disruption Range',
-    description: 'Chronal Disruption AoE radius increased by +5ft per rank and damage +1d6 force per rank.',
+    description: 'Disruption spreads like cracks in the Sundrift\'s glassy surface. Chronal Disruption AoE radius increased by +5ft per rank and damage +1d6 force per rank.',
     icon: 'spell_arcane_arcanetorrent',
     maxRanks: 2,
     position: { x: 4, y: 2 },
@@ -220,7 +220,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
   {
     id: 'disp_t3_vortex_durability',
     name: 'Vortex Durability',
-    description: 'Temporal Vortex summon HP increased by +25 per rank and duration +1 round per rank.',
+    description: 'Vortices of temporal energy pulse with the Sundrift\'s rhythm. Temporal Vortex summon HP increased by +25 per rank and duration +1 round per rank.',
     icon: 'spell_nature_mirrorimage',
     maxRanks: 2,
     position: { x: 1, y: 3 },
@@ -229,7 +229,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
   {
     id: 'disp_t3_anchor_weight',
     name: 'Anchor Weight',
-    description: 'Temporal Anchor slow effect: enemies lose an additional -10ft speed per rank. Duration +1 round.',
+    description: 'The anchor sinks deep into the Sundrift\'s endless current. Temporal Anchor slow effect: enemies lose an additional -10ft speed per rank. Duration +1 round.',
     icon: 'spell_arcane_arcaneresilience',
     maxRanks: 2,
     position: { x: 3, y: 3 },
@@ -240,7 +240,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
   {
     id: 'disp_t4_chamber_amplification',
     name: 'Chamber Amplification',
-    description: 'Temporal Echo Chamber echo damage increased by +1d6 force per rank and duration +1 round.',
+    description: 'The chamber resonates with the Sundrift\'s ancient song. Temporal Echo Chamber echo damage increased by +1d6 force per rank and duration +1 round.',
     icon: 'spell_arcane_arcanetorrent',
     maxRanks: 2,
     position: { x: 2, y: 4 },
@@ -251,7 +251,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
   {
     id: 'disp_t5_fate_intervention',
     name: 'Fate Intervention',
-    description: 'Fate Manipulation AoE radius +10ft per rank. Save DC increased by +2 per rank.',
+    description: 'Fate bends to the will of those who read the constellations. Fate Manipulation AoE radius +10ft per rank. Save DC increased by +2 per rank.',
     icon: 'spell_shadow_shadowwordpain',
     maxRanks: 2,
     position: { x: 1, y: 5 },
@@ -260,7 +260,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
   {
     id: 'disp_t5_paradox_mastery',
     name: 'Paradox Mastery',
-    description: 'Chronal Paradox confusion damage increased by +1d6 psychic per rank. Save DC +2 per rank.',
+    description: 'Paradoxes bloom like stars in the Sundrift\'s deepest reaches. Chronal Paradox confusion damage increased by +1d6 psychic per rank. Save DC +2 per rank.',
     icon: 'spell_nature_timestop',
     maxRanks: 2,
     position: { x: 3, y: 5 },
@@ -271,7 +271,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
   {
     id: 'disp_t6_chronal_vortex_master',
     name: 'Chronal Vortex Master',
-    description: 'Chronal Vortex cost reduced by -3 Time Shards and -2 Temporal Strain. Allies healed are also granted +15 temporary HP.',
+    description: 'The vortex\'s master commands the Sundrift\'s full fury. Chronal Vortex cost reduced by -3 Time Shards and -2 Temporal Strain. Allies healed are also granted +15 temporary HP.',
     icon: 'spell_arcane_arcanetorrent',
     maxRanks: 1,
     position: { x: 2, y: 6 },
@@ -291,7 +291,7 @@ export const CHRONARCH_REWINDING_TREE = [
   {
     id: 'rewind_t0_mending_threads',
     name: 'Mending Threads',
-    description: 'Temporal Mend healing increased by +1d8 per rank.',
+    description: 'Threads of time weave together to mend what was broken. Temporal Mend healing increased by +1d8 per rank.',
     icon: 'spell_holy_borrowedtime',
     maxRanks: 2,
     position: { x: 1, y: 0 },
@@ -300,7 +300,7 @@ export const CHRONARCH_REWINDING_TREE = [
   {
     id: 'rewind_t0_rewind_depth',
     name: 'Rewind Depth',
-    description: 'Temporal Rewind restores +10% of damage taken per rank (up to 70% at rank 2).',
+    description: 'The Sundrift allows glimpses of what came before. Temporal Rewind restores +10% of damage taken per rank (up to 70% at rank 2).',
     icon: 'spell_arcane_arcaneresilience',
     maxRanks: 2,
     position: { x: 3, y: 0 },
@@ -311,7 +311,7 @@ export const CHRONARCH_REWINDING_TREE = [
   {
     id: 'rewind_t1_restoration_shards',
     name: 'Restoration Shards',
-    description: 'Gain +1 Time Shard whenever you heal or restore an ally above 50% of the amount restored.',
+    description: 'Restoration gathers like starlight on the Sundrift\'s horizon. Gain +1 Time Shard whenever you heal or restore an ally above 50% of the amount restored.',
     icon: 'spell_arcane_arcanetorrent',
     maxRanks: 1,
     position: { x: 0, y: 1 },
@@ -320,7 +320,7 @@ export const CHRONARCH_REWINDING_TREE = [
   {
     id: 'rewind_t1_purifying_rewind',
     name: 'Purifying Rewind',
-    description: 'Temporal Flux: Rewind removes +1 additional debuff per rank from each ally.',
+    description: 'Purification flows through the Sundrift like a cleansing tide. Temporal Flux: Rewind removes +1 additional debuff per rank from each ally.',
     icon: 'spell_holy_borrowedtime',
     maxRanks: 2,
     position: { x: 2, y: 1 },
@@ -329,7 +329,7 @@ export const CHRONARCH_REWINDING_TREE = [
   {
     id: 'rewind_t1_strain_absorption',
     name: 'Strain Absorption',
-    description: 'Healing-tagged Flux abilities cost -1 Temporal Strain per rank (minimum 1).',
+    description: 'The Sundrift absorbs the strain of mending broken timelines. Healing-tagged Flux abilities cost -1 Temporal Strain per rank (minimum 1).',
     icon: 'spell_arcane_arcaneresilience',
     maxRanks: 2,
     position: { x: 4, y: 1 },
@@ -340,7 +340,7 @@ export const CHRONARCH_REWINDING_TREE = [
   {
     id: 'rewind_t2_shield_reinforcement',
     name: 'Shield Reinforcement',
-    description: 'Temporal Flux: Shield grants +5 additional temporary HP per rank and healing +1d8 per rank.',
+    description: 'Shields woven from the Sundrift\'s fabric hold fast against harm. Temporal Flux: Shield grants +5 additional temporary HP per rank and healing +1d8 per rank.',
     icon: 'spell_arcane_arcaneresilience',
     maxRanks: 2,
     position: { x: 1, y: 2 },
@@ -349,7 +349,7 @@ export const CHRONARCH_REWINDING_TREE = [
   {
     id: 'rewind_t2_buff_reversal',
     name: 'Buff Reversal',
-    description: 'Your rewind spells (Temporal Rewind, Chronal Reversal) can also target enemies. When cast on an enemy, strip 1 buff per rank instead of healing.',
+    description: 'What was done can be undone when the Sundrift bends to your will. Your rewind spells (Temporal Rewind, Chronal Reversal) can also target enemies. When cast on an enemy, strip 1 buff per rank instead of healing.',
     icon: 'spell_shadow_shadowwordpain',
     maxRanks: 2,
     position: { x: 3, y: 2 },
@@ -360,7 +360,7 @@ export const CHRONARCH_REWINDING_TREE = [
   {
     id: 'rewind_t3_reversal_power',
     name: 'Reversal Power',
-    description: 'Chronal Reversal healing increased by +2d6 per rank. Cooldown reduced by -1 turn per rank.',
+    description: 'Reversal is but the Sundrift turning back upon itself. Chronal Reversal healing increased by +2d6 per rank. Cooldown reduced by -1 turn per rank.',
     icon: 'spell_arcane_arcanetorrent',
     maxRanks: 2,
     position: { x: 0, y: 3 },
@@ -369,7 +369,7 @@ export const CHRONARCH_REWINDING_TREE = [
   {
     id: 'rewind_t3_loop_mastery',
     name: 'Loop Mastery',
-    description: 'Temporal Loop duration +1 round per rank and save DC +2 per rank.',
+    description: 'Loops in the Sundrift bind fates together in endless dance. Temporal Loop duration +1 round per rank and save DC +2 per rank.',
     icon: 'spell_nature_timestop',
     maxRanks: 2,
     position: { x: 2, y: 3 },
@@ -378,7 +378,7 @@ export const CHRONARCH_REWINDING_TREE = [
   {
     id: 'rewind_t3_terrain_undo',
     name: 'Terrain Undo',
-    description: 'Temporal Loop and Reality Fracture can also revert terrain hazards and environmental effects in their area.',
+    description: 'The Sundrift remembers the shape of the world before it was broken. Temporal Loop and Reality Fracture can also revert terrain hazards and environmental effects in their area.',
     icon: 'spell_arcane_arcaneresilience',
     maxRanks: 1,
     position: { x: 4, y: 3 },
@@ -389,7 +389,7 @@ export const CHRONARCH_REWINDING_TREE = [
   {
     id: 'rewind_t4_resurrection_mastery',
     name: 'Resurrection Mastery',
-    description: 'Temporal Flux: Resurrection Time Shard cost reduced by -2 per rank. Resurrected ally gains +10 temporary HP per rank.',
+    description: 'Resurrection is the Sundrift\'s most sacred gift to its chosen. Temporal Flux: Resurrection Time Shard cost reduced by -2 per rank. Resurrected ally gains +10 temporary HP per rank.',
     icon: 'spell_holy_borrowedtime',
     maxRanks: 2,
     position: { x: 2, y: 4 },
@@ -400,7 +400,7 @@ export const CHRONARCH_REWINDING_TREE = [
   {
     id: 'rewind_t5_fracture_undo',
     name: 'Fracture Undo',
-    description: 'Reality Fracture now also heals allies in its area for 3d6 + spirit. Strain cost reduced by -1 per rank.',
+    description: 'Fractures in the Sundrift can be turned toward mending. Reality Fracture now also heals allies in its area for 3d6 + spirit. Strain cost reduced by -1 per rank.',
     icon: 'spell_nature_timestop',
     maxRanks: 2,
     position: { x: 1, y: 5 },
@@ -409,7 +409,7 @@ export const CHRONARCH_REWINDING_TREE = [
   {
     id: 'rewind_t5_restoration_supreme',
     name: 'Restoration Supreme',
-    description: 'Chronal Restoration healing increased by +3d6 per rank. Damage reduction increased to 65% at rank 1, 75% at rank 2.',
+    description: 'The Sundrift\'s restorative power knows no bounds. Chronal Restoration healing increased by +3d6 per rank. Damage reduction increased to 65% at rank 1, 75% at rank 2.',
     icon: 'spell_arcane_arcanetorrent',
     maxRanks: 2,
     position: { x: 3, y: 5 },
@@ -420,7 +420,7 @@ export const CHRONARCH_REWINDING_TREE = [
   {
     id: 'rewind_t6_chronos_restoration',
     name: 'Temporal Undoing',
-    description: 'Once per combat: revert the entire battlefield to its state from 2 rounds ago — ally HP, enemy HP, positioning, and active effects all reset. Costs 8 Time Shards, adds 7 Temporal Strain.',
+    description: 'When the Sundrift fully turns, all of existence bends to its will. Once per combat: revert the entire battlefield to its state from 2 rounds ago, ally HP, enemy HP, positioning, and active effects all reset. Costs 8 Time Shards, adds 7 Temporal Strain.',
     icon: 'spell_nature_timestop',
     maxRanks: 1,
     position: { x: 2, y: 6 },

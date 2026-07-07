@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Class-Specific Starting Equipment
  * 
  * Items that are only available to specific character classes.
@@ -7,7 +7,7 @@
 
 // ===== INFERNAL PATH CLASSES =====
 
-// Pyrofiend - Demonic fire wielder
+// Pyrofiend - Ember fire wielder
 export const PYROFIEND_ITEMS = [
     {
         id: 'pyrofiend-flame-staff',
@@ -812,7 +812,7 @@ export const INFERNAL_PATH_ITEMS = [
 
 // ===== ZEALOT PATH CLASSES =====
 
-// Martyr - Sacrifice-based holy warrior
+// Martyr - Sacrifice-based sacred warrior
 export const MARTYR_ITEMS = [
     {
         id: 'martyr-sacred-mace',
@@ -820,7 +820,7 @@ export const MARTYR_ITEMS = [
         type: 'weapon',
         subtype: 'MACE',
         quality: 'uncommon',
-        description: 'A blessed mace that glows faintly with divine light. Bears the symbol of sacrifice.',
+        description: 'A blessed mace that glows faintly with sacred light. Bears the symbol of sacrifice.',
         iconId: 'inv_mace_03',
         value: { platinum: 0, gold: 11, silver: 0, copper: 0 },
         weight: 4,
@@ -845,12 +845,12 @@ export const MARTYR_ITEMS = [
     },
 
     {
-        id: 'martyr-holy-symbol',
-        name: 'Martyr\'s Holy Symbol',
+        id: 'martyr-sacred-symbol',
+        name: 'Martyr\'s Sun-Sigil',
         type: 'accessory',
         subtype: 'NECKLACE',
         quality: 'uncommon',
-        description: 'A holy symbol depicting a figure in sacrifice. Radiates divine energy.',
+        description: 'A sacred symbol depicting a figure in sacrifice. Radiates sacred energy.',
         iconId: 'inv_jewelry_talisman_07',
         value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
         weight: 0.5,
@@ -872,7 +872,7 @@ export const MARTYR_ITEMS = [
         type: 'weapon',
         subtype: 'SWORD',
         quality: 'uncommon',
-        description: 'A curved blade etched with runes of sacrifice. Draws blood to fuel divine power.',
+        description: 'A curved blade etched with runes of sacrifice. Draws blood to fuel sacred power.',
         iconId: 'inv_sword_04',
         value: { platinum: 0, gold: 15, silver: 0, copper: 0 },
         weight: 3,
@@ -908,7 +908,7 @@ export const MARTYR_ITEMS = [
         type: 'armor',
         subtype: 'SHIELD',
         quality: 'common',
-        description: 'A small holy shield inscribed with prayers of protection. Glows faintly when the wielder takes damage for an ally.',
+        description: 'A small sacred shield inscribed with prayers of protection. Glows faintly when the wielder takes damage for an ally.',
         iconId: 'inv_shield_05',
         value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
         weight: 5,
@@ -980,15 +980,15 @@ export const MARTYR_ITEMS = [
     }
 ];
 
-// Inquisitor (Exorcist legacy) - Holy warrior banishing evil spirits
+// Inquisitor (Exorcist legacy) - Sacred warrior banishing evil spirits
 export const INQUISITOR_ITEMS_EX = [
     {
-        id: 'exorcist-holy-symbol',
-        name: 'Inquisitor\'s Holy Symbol',
+        id: 'exorcist-sacred-symbol',
+        name: 'Inquisitor\'s Ward-Sigil',
         type: 'accessory',
         subtype: 'NECKLACE',
         quality: 'uncommon',
-        description: 'A blessed holy symbol that glows with divine light when near evil spirits.',
+        description: 'A blessed sacred symbol that glows with sacred light when near evil spirits.',
         iconId: 'inv_jewelry_talisman_07',
         value: { platinum: 0, gold: 12, silver: 0, copper: 0 },
         weight: 0.5,
@@ -1009,7 +1009,7 @@ export const INQUISITOR_ITEMS_EX = [
         type: 'weapon',
         subtype: 'STAFF',
         quality: 'uncommon',
-        description: 'A staff engraved with banishment runes, pulsing with holy energy.',
+        description: 'A staff engraved with banishment runes, pulsing with sacred energy.',
         iconId: 'inv_staff_18',
         value: { platinum: 0, gold: 13, silver: 0, copper: 0 },
         weight: 4,
@@ -1033,8 +1033,8 @@ export const INQUISITOR_ITEMS_EX = [
         }
     },
     {
-        id: 'exorcist-holy-water',
-        name: 'Vial of Holy Water',
+        id: 'exorcist-sacred-water',
+        name: 'Vial of Dawnwater',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
@@ -1215,7 +1215,7 @@ export const ORACLE_ITEMS = [
     }
 ];
 
-// False Prophet - Deception-based divine caster
+// False Prophet - Deception-based sacred caster
 export const FALSE_PROPHET_ITEMS = [
     {
         id: 'false-prophet-staff',
@@ -1253,7 +1253,7 @@ export const FALSE_PROPHET_ITEMS = [
         type: 'accessory',
         subtype: 'TRINKET',
         quality: 'common',
-        description: 'A convincing fake of a holy relic. Useful for gaining trust.',
+        description: 'A convincing fake of a sacred relic. Useful for gaining trust.',
         iconId: 'inv_jewelry_talisman_12',
         value: { platinum: 0, gold: 6, silver: 0, copper: 0 },
         weight: 1,
@@ -1273,7 +1273,7 @@ export const FALSE_PROPHET_ITEMS = [
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'common',
-        description: 'Robes that appear holy but are woven with threads of shadow and lies.',
+        description: 'Robes that appear sacred but are woven with threads of shadow and lies.',
         iconId: 'inv_chest_cloth_50',
         value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
         weight: 4,
@@ -2253,7 +2253,7 @@ export const WITCH_DOCTOR_ITEMS = [
         type: 'accessory',
         subtype: 'TRINKET',
         quality: 'uncommon',
-        description: 'A ritual mask that allows communication with loa spirits.',
+        description: 'A ritual mask that allows communication with Wyrd spirits.',
         iconId: 'inv_misc_head_dragon_01',
         value: { platinum: 0, gold: 9, silver: 0, copper: 0 },
         weight: 1,
@@ -2268,8 +2268,8 @@ export const WITCH_DOCTOR_ITEMS = [
         }
     },
     {
-        id: 'witch-doctor-voodoo-doll',
-        name: 'Voodoo Doll',
+        id: 'witch-doctor-Animist-doll',
+        name: 'Animist Doll',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'uncommon',
@@ -3434,10 +3434,10 @@ export const WARDEN_ITEMS = [
     }
 ];
 
-// Justicar - Holy avenger
+// Justicar - Dawnsworn avenger
 export const JUSTICAR_ITEMS = [
     {
-        id: 'justicar-holy-sword',
+        id: 'justicar-sacred-sword',
         name: 'Justicar\'s Blade',
         type: 'weapon',
         subtype: 'SWORD',
@@ -3468,12 +3468,12 @@ export const JUSTICAR_ITEMS = [
     },
 
     {
-        id: 'justicar-holy-shield',
+        id: 'justicar-sacred-shield',
         name: 'Shield of Faith',
         type: 'armor',
         subtype: 'SHIELD',
         quality: 'uncommon',
-        description: 'A shield emblazoned with holy symbols.',
+        description: 'A shield emblazoned with sacred symbols.',
         iconId: 'inv_shield_09',
         value: { platinum: 0, gold: 10, silver: 0, copper: 0 },
         weight: 6,
@@ -3489,12 +3489,12 @@ export const JUSTICAR_ITEMS = [
         }
     },
     {
-        id: 'justicar-holy-plate',
-        name: 'Holy Plate',
+        id: 'justicar-sacred-plate',
+        name: 'Solbrand Plate',
         type: 'armor',
         subtype: 'PLATE',
         quality: 'uncommon',
-        description: 'Plate armor blessed with divine protection.',
+        description: 'Plate armor blessed with sacred protection.',
         iconId: 'inv_chest_plate_03',
         value: { platinum: 0, gold: 18, silver: 0, copper: 0 },
         weight: 30,
@@ -3534,12 +3534,12 @@ export const JUSTICAR_ITEMS = [
         }
     },
     {
-        id: 'justicar-holy-tome',
+        id: 'justicar-sacred-tome',
         name: 'Tome of Justice',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'uncommon',
-        description: 'A book containing holy laws and techniques of judgment.',
+        description: 'A book containing sacred laws and techniques of judgment.',
         iconId: 'inv_misc_book_09',
         value: { platinum: 0, gold: 9, silver: 0, copper: 0 },
         weight: 2,

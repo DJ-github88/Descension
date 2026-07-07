@@ -1,4 +1,4 @@
-
+﻿
 const DAMAGE_TYPES = [
     {
       id: 'physical',
@@ -12,7 +12,7 @@ const DAMAGE_TYPES = [
     {
       id: 'ember',
       name: 'Ember',
-      description: 'Scorching heat and divine light from Sol\'s buried warmth.',
+      description: 'Scorching heat and sacred light from Sol\'s buried warmth.',
       icon: '/assets/icons/abilities/Fire/Fire Orb.png',
       category: 'elemental',
       commonResistance: 'red dragons, fire elementals',
@@ -89,7 +89,7 @@ const LEGACY_TYPE_MAP = {
     frost: 'rime',
     fire: 'ember',
     radiant: 'ember',
-    holy: 'ember',
+    sacred: 'ember',
     electric: 'storm',
     lightning: 'storm',
     force: 'storm',

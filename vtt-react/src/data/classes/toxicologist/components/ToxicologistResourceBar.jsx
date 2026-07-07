@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+﻿import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import useChatStore from '../../../../store/chatStore';
 import useGameStore from '../../../../store/gameStore';
@@ -273,7 +273,7 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
 
     return (
         <div className="toxicologist-resource-container">
-            {/* Center divider badge (decorative — specialization selection is on hold) */}
+            {/* Center divider badge (decorative, specialization selection is on hold) */}
             <span
                 className="spec-button"
                 title="Alchemical Bench"

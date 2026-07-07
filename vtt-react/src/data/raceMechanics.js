@@ -1,11 +1,11 @@
-export const RACE_MECHANICS = {
+﻿export const RACE_MECHANICS = {
   over_sung: {
     id: 'over_sung',
     name: 'Over-Sung',
     applicableRace: 'astril',
     applicableSubrace: 'sylen',
     type: 'escalation_track',
-    description: 'Bloodline is destiny in a world shaped by bargains. when a Sylen opens too completely to the constellation-spirit, the mortal consciousness is submerged. The Over-Sung still walks, still speaks, still recognizes faces, but the person they were is gone — replaced by a constellation that has forgotten it was ever a passenger.',
+    description: 'Bloodline is destiny in a world shaped by bargains. when a Sylen opens too completely to the constellation-spirit, the mortal consciousness is submerged. The Over-Sung still walks, still speaks, still recognizes faces, but the person they were is gone, replaced by a constellation that has forgotten it was ever a passenger.',
     resource: {
       name: 'Spirit Depth',
       range: { min: 0, max: 10 },
@@ -31,7 +31,7 @@ export const RACE_MECHANICS = {
         name: 'Surging',
         effects: [
           { type: 'debuff', stat: 'stealth', value: 'disadvantage', description: 'Patterns glow even in bright light' },
-          { type: 'narrative', description: 'GM delivers one "spirit impulse" per session — the constellation wants something. Spirit save DC 12 to resist; success costs 1 Depth, failure advances 1 Depth.' }
+          { type: 'narrative', description: 'GM delivers one "spirit impulse" per session, the constellation wants something. Spirit save DC 12 to resist; success costs 1 Depth, failure advances 1 Depth.' }
         ],
         narrative: 'The constellation\'s will bleeds into daily life. The Sylen begins each session with an intrusive desire that is not their own.'
       },
@@ -56,7 +56,7 @@ export const RACE_MECHANICS = {
           requirements: '3 successful Spirit checks (DC 15) by allies over 3 consecutive in-game days',
           success: 'Character returns at Spirit Depth 5',
           failure: 'Character remains Over-Sung permanently',
-          specialCase: 'Player may continue as the constellation itself — a genuinely different personality — until recovery succeeds or fails.'
+          specialCase: 'Player may continue as the constellation itself, a genuinely different personality, until recovery succeeds or fails.'
         },
         narrative: 'The constellation has forgotten it was ever a passenger. The person who bore it is a memory fading in the starless dark.'
       }
@@ -69,7 +69,7 @@ export const RACE_MECHANICS = {
     applicableRace: 'neth',
     applicableSubrace: 'all',
     type: 'escalation_track',
-    description: 'When a Neth breaks contracts on purpose — not for gain, but to force change — the Fading begins. At first it feels like freedom. The pact loosens. The Neth becomes fluid, spontaneous, briefly alive. Then the silver skin dulls and the mind dissolves.',
+    description: 'When a Neth breaks contracts on purpose, not for gain, but to force change, the Fading begins. At first it feels like freedom. The pact loosens. The Neth becomes fluid, spontaneous, briefly alive. Then the silver skin dulls and the mind dissolves.',
     resource: {
       name: 'Fraying',
       range: { min: 0, max: 10 },
@@ -138,7 +138,7 @@ export const RACE_MECHANICS = {
         effects: [
           { type: 'character_loss', description: 'The Neth becomes a silver-skinned husk. Nothing behind the eyes. Character retired.' }
         ],
-        narrative: 'Nothing behind the eyes. The silver skin is all that remains — a beautiful, empty shell that was once someone.'
+        narrative: 'Nothing behind the eyes. The silver skin is all that remains, a beautiful, empty shell that was once someone.'
       }
     ]
   }

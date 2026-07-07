@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Mythrill Damage Types
  * 9 core types + Healing (separate restorative category)
  */
@@ -12,7 +12,7 @@ const DAMAGE_TYPES = {
     },
     ember: {
       name: 'Ember',
-      description: 'Scorching heat and divine light. Sol\'s buried warmth made manifest, burning the impure and igniting the hopeless.',
+      description: 'Scorching heat and sacred light. Sol\'s buried warmth made manifest, burning the impure and igniting the hopeless.',
       color: '#D4380D',
       icon: 'Fire/Volcanic Corruption'
     },
@@ -52,7 +52,7 @@ const DAMAGE_TYPES = {
       color: '#7A2040',
       icon: 'Psychic/Psychic Telepathy'
     },
-    divine: {
+    sacred: {
       name: 'Divine',
       description: 'Sacred radiance drawn from the upper spheres. Smite the unholy, bless the faithful, and burn corruption with pure celestial light.',
       color: '#DAA520',
@@ -71,8 +71,8 @@ const DAMAGE_TYPES = {
     ice: 'rime',
     frost: 'rime',
     fire: 'ember',
-    radiant: 'divine',
-    holy: 'divine',
+    radiant: 'sacred',
+    sacred: 'sacred',
     electric: 'storm',
     lightning: 'storm',
     force: 'storm',

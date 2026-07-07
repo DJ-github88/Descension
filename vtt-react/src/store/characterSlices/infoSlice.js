@@ -1,4 +1,4 @@
-import { calculateEquipmentBonuses, calculateDerivedStats, flattenEffects } from '../../utils/characterUtils';
+﻿import { calculateEquipmentBonuses, calculateDerivedStats, flattenEffects } from '../../utils/characterUtils';
 import { isTwoHandedWeapon, getSlotsToCleanForTwoHanded } from '../../utils/equipmentUtils';
 import { initializeClassResource, updateClassResourceMax } from '../../data/classResources';
 import { applyRacialModifiers, getFullRaceData, getRaceData } from '../../data/raceData';
@@ -399,7 +399,7 @@ export const createInfoSlice = (set, get) => ({
 
                 // Clear old passives and resistances when race changes
                 // Reset all resistances to normal
-                const damageTypes = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'divine'];
+                const damageTypes = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'sacred'];
                 const resetResistances = {};
                 damageTypes.forEach(type => {
                     resetResistances[type] = { level: 100, multiplier: 1.0 };
@@ -436,7 +436,7 @@ export const createInfoSlice = (set, get) => ({
                     let updatedImmunities = [...(state.immunities || [])];
 
                     // Initialize all damage type resistances if they don't exist
-                    const damageTypes = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'divine'];
+                    const damageTypes = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'sacred'];
                     damageTypes.forEach(type => {
                         if (!updatedResistances[type]) {
                             updatedResistances[type] = { level: 100, multiplier: 1.0 };
@@ -687,7 +687,7 @@ export const createInfoSlice = (set, get) => ({
                 let updatedImmunities = [...(state.immunities || [])];
 
                 // Initialize all damage type resistances if they don't exist
-                const damageTypes = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'divine'];
+                const damageTypes = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'sacred'];
                 damageTypes.forEach(type => {
                     if (!updatedResistances[type]) {
                         updatedResistances[type] = { level: 100, multiplier: 1.0 };

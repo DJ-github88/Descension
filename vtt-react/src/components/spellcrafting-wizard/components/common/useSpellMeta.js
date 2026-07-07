@@ -1,4 +1,4 @@
-import { cleanFormula, mapSpellIcon } from './spellFormatterUtils';
+﻿import { cleanFormula, mapSpellIcon } from './spellFormatterUtils';
 import { getAbilityIconUrl, getCustomIconUrl } from '../../../../utils/assetManager';
 
 const useSpellMeta = ({ spell }) => {
@@ -45,7 +45,7 @@ const useSpellMeta = ({ spell }) => {
       'primal': 'spell-primal',
       'blight': 'spell-blight',
       'wyrd': 'spell-wyrd',
-      'divine': 'spell-divine',
+      'sacred': 'spell-sacred',
       'physical': 'spell-physical',
       'fire': 'spell-ember',
       'frost': 'spell-rime',

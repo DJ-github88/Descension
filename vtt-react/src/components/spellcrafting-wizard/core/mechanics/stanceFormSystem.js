@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Stance/Form System
  * 
  * Provides support for stance and form mechanics:
@@ -332,7 +332,7 @@ export const CUSTOM_FORMS = {
       },
       resourceType: 'mana',
       allowedSpellTypes: ['arcane', 'utility', 'control'],
-      restrictedSpellTypes: ['elemental', 'divine'],
+      restrictedSpellTypes: ['elemental', 'sacred'],
       specialAbilities: [
         'arcane_missiles', 'arcane_explosion', 'arcane_intellect', 'polymorph'
       ]
@@ -349,15 +349,15 @@ export const CUSTOM_FORMS = {
       },
       resourceType: 'mana',
       allowedSpellTypes: ['elemental', 'utility', 'damage'],
-      restrictedSpellTypes: ['arcane', 'divine'],
+      restrictedSpellTypes: ['arcane', 'sacred'],
       specialAbilities: [
         'fireball', 'frostbolt', 'lightning_bolt', 'elemental_shield'
       ]
     },
     DIVINE_FOCUS: {
       id: 'divine_focus',
-      name: 'Divine Focus',
-      description: 'A magical stance that enhances divine spells but weakens arcane and elemental magic.',
+      name: 'Sacred Focus',
+      description: 'A magical stance that enhances sacred spells but weakens arcane and elemental magic.',
       icon: 'spell_holy_holybolt',
       color: '#FFD700', // Gold
       statModifiers: {
@@ -367,7 +367,7 @@ export const CUSTOM_FORMS = {
         elementalDamage: 0.8
       },
       resourceType: 'mana',
-      allowedSpellTypes: ['divine', 'healing', 'utility'],
+      allowedSpellTypes: ['sacred', 'healing', 'utility'],
       restrictedSpellTypes: ['arcane', 'elemental'],
       specialAbilities: [
         'holy_light', 'divine_shield', 'blessing', 'smite'

@@ -1,20 +1,20 @@
-// Room service for Firebase Firestore integration
+﻿// Room service for Firebase Firestore integration
 import {
-  collection,
-  doc,
-  setDoc,
-  getDoc,
-  getDocs,
-  updateDoc,
-  deleteDoc,
-  onSnapshot,
-  query,
-  where,
-  orderBy,
-  limit,
-  serverTimestamp,
-  arrayUnion,
-  arrayRemove
+ collection,
+ doc,
+ setDoc,
+ getDoc,
+ getDocs,
+ updateDoc,
+ deleteDoc,
+ onSnapshot,
+ query,
+ where,
+ orderBy,
+ limit,
+ serverTimestamp,
+ arrayUnion,
+ arrayRemove
 } from 'firebase/firestore';
 import { db, auth } from '../config/firebase';
 import subscriptionService from './subscriptionService';
@@ -29,150 +29,150 @@ const ROOM_SESSIONS_COLLECTION = 'roomSessions';
  * @returns {Promise<string>} - Room ID
  */
 export const createPersistentRoom = async (roomData) => {
-  try {
-    const { isDemoMode } = await import('../config/firebase');
-    if (isDemoMode) {
-      throw new Error('Room creation is disabled in Demo Mode. Please log in with a real account.');
+ try {
+  const { isDemoMode } = await import('../config/firebase');
+  if (isDemoMode) {
+   throw new Error('Room creation is disabled in Demo Mode. Please log in with a real account.');
+  }
+ } catch (e) { }
+
+ if (!db || !auth.currentUser) {
+  throw new Error('Firebase not initialized or user not authenticated');
+ }
+
+ const userId = auth.currentUser.uid;
+
+ const tier = await subscriptionService.getUserTier(userId);
+
+ if (tier.id === 'guest') {
+  throw new Error('Guest accounts cannot create rooms. Please create a free account to host games.');
+ }
+
+ if (tier.roomLimit <= 0) {
+  throw new Error('Your plan does not allow room creation. Please upgrade your membership.');
+ }
+
+ try {
+  const userRooms = await getUserRooms(userId);
+  const currentRoomCount = userRooms.filter(room => room.userRole === 'gm').length;
+
+  const roomLimitCheck = await subscriptionService.canCreateRoom(currentRoomCount, userId);
+
+  if (!roomLimitCheck.canCreate) {
+   throw new Error(`Room limit reached. Your ${tier.name} plan allows ${tier.roomLimit} room${tier.roomLimit === 1 ? '' : 's'}. You currently have ${currentRoomCount} room${currentRoomCount === 1 ? '' : 's'}.`);
+  }
+ } catch (error) {
+  if (error.message.includes('Room limit reached') || error.message.includes('cannot create rooms')) {
+   throw error;
+  }
+  console.warn('Could not check room limits:', error);
+ }
+
+ const maxPlayers = tier.maxPlayersPerRoom || 3;
+
+ const roomId = `room_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+ const room = {
+  id: roomId,
+  name: roomData.name,
+  description: roomData.description || '',
+  // SECURITY: Password must NOT be stored in Firestore.
+  // Room creation/joining should go through server-side socket events which use bcrypt hashing.
+  // This field is intentionally omitted from the Firestore document.
+  gmId: userId,
+  gmName: roomData.gmName || auth.currentUser.displayName || 'Game Master',
+
+  // Room settings
+  settings: {
+   maxPlayers: Math.min(roomData.maxPlayers || maxPlayers, maxPlayers),
+   isPrivate: true,
+   allowSpectators: roomData.allowSpectators || false,
+   autoSaveInterval: 300000, // 5 minutes
+   enableVoiceChat: false,
+   enableVideoChat: false
+  },
+
+  // Game state - complete VTT data
+  gameState: {
+   currentMap: null,
+   characters: {},
+   tokens: {},
+   combat: {
+    isActive: false,
+    currentTurn: null,
+    turnOrder: [],
+    round: 0
+   },
+   mapData: {
+    backgrounds: [],
+    activeBackgroundId: null,
+    cameraPosition: { x: 0, y: 0 },
+    zoomLevel: 1.0,
+    gridSettings: {
+     size: 50,
+     offsetX: 0,
+     offsetY: 0,
+     color: 'rgba(212, 175, 55, 0.8)',
+     thickness: 2
     }
-  } catch (e) { }
+   },
+   fogOfWar: {},
+   lighting: {
+    globalIllumination: 0.3,
+    lightSources: []
+   },
+   // Level editor data
+   levelEditor: {
+    terrainData: [],
+    environmentalObjects: [],
+    wallData: [],
+    dndElements: [],
+    fogOfWarData: [],
+    drawingPaths: [],
+    drawingLayers: [],
+    lightSources: []
+   },
+   // Inventory and items
+   inventory: {
+    droppedItems: {},
+    lootBags: {}
+   },
+   // Notes and annotations
+   notes: {
+    gmNotes: [],
+    playerNotes: [],
+    sharedNotes: []
+   }
+  },
 
-  if (!db || !auth.currentUser) {
-    throw new Error('Firebase not initialized or user not authenticated');
+  // Chat and communication
+  chatHistory: [],
+
+  // Metadata
+  createdAt: serverTimestamp(),
+  lastModified: serverTimestamp(),
+  lastActivity: serverTimestamp(),
+  isActive: false, // Whether there's an active session
+
+  // Player management
+  members: [userId], // Array of user IDs who have access
+  bannedUsers: [],
+
+  // Room statistics
+  stats: {
+   totalSessions: 0,
+   totalPlayTime: 0,
+   lastSessionDate: null
   }
+ };
 
-  const userId = auth.currentUser.uid;
-
-  const tier = await subscriptionService.getUserTier(userId);
-
-  if (tier.id === 'guest') {
-    throw new Error('Guest accounts cannot create rooms. Please create a free account to host games.');
-  }
-
-  if (tier.roomLimit <= 0) {
-    throw new Error('Your plan does not allow room creation. Please upgrade your membership.');
-  }
-
-  try {
-    const userRooms = await getUserRooms(userId);
-    const currentRoomCount = userRooms.filter(room => room.userRole === 'gm').length;
-
-    const roomLimitCheck = await subscriptionService.canCreateRoom(currentRoomCount, userId);
-
-    if (!roomLimitCheck.canCreate) {
-      throw new Error(`Room limit reached. Your ${tier.name} plan allows ${tier.roomLimit} room${tier.roomLimit === 1 ? '' : 's'}. You currently have ${currentRoomCount} room${currentRoomCount === 1 ? '' : 's'}.`);
-    }
-  } catch (error) {
-    if (error.message.includes('Room limit reached') || error.message.includes('cannot create rooms')) {
-      throw error;
-    }
-    console.warn('Could not check room limits:', error);
-  }
-
-  const maxPlayers = tier.maxPlayersPerRoom || 3;
-
-  const roomId = `room_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-
-  const room = {
-    id: roomId,
-    name: roomData.name,
-    description: roomData.description || '',
-    // SECURITY: Password must NOT be stored in Firestore.
-    // Room creation/joining should go through server-side socket events which use bcrypt hashing.
-    // This field is intentionally omitted from the Firestore document.
-    gmId: userId,
-    gmName: roomData.gmName || auth.currentUser.displayName || 'Game Master',
-
-    // Room settings
-    settings: {
-      maxPlayers: Math.min(roomData.maxPlayers || maxPlayers, maxPlayers),
-      isPrivate: true,
-      allowSpectators: roomData.allowSpectators || false,
-      autoSaveInterval: 300000, // 5 minutes
-      enableVoiceChat: false,
-      enableVideoChat: false
-    },
-
-    // Game state - comprehensive VTT data
-    gameState: {
-      currentMap: null,
-      characters: {},
-      tokens: {},
-      combat: {
-        isActive: false,
-        currentTurn: null,
-        turnOrder: [],
-        round: 0
-      },
-      mapData: {
-        backgrounds: [],
-        activeBackgroundId: null,
-        cameraPosition: { x: 0, y: 0 },
-        zoomLevel: 1.0,
-        gridSettings: {
-          size: 50,
-          offsetX: 0,
-          offsetY: 0,
-          color: 'rgba(212, 175, 55, 0.8)',
-          thickness: 2
-        }
-      },
-      fogOfWar: {},
-      lighting: {
-        globalIllumination: 0.3,
-        lightSources: []
-      },
-      // Level editor data
-      levelEditor: {
-        terrainData: [],
-        environmentalObjects: [],
-        wallData: [],
-        dndElements: [],
-        fogOfWarData: [],
-        drawingPaths: [],
-        drawingLayers: [],
-        lightSources: []
-      },
-      // Inventory and items
-      inventory: {
-        droppedItems: {},
-        lootBags: {}
-      },
-      // Notes and annotations
-      notes: {
-        gmNotes: [],
-        playerNotes: [],
-        sharedNotes: []
-      }
-    },
-
-    // Chat and communication
-    chatHistory: [],
-
-    // Metadata
-    createdAt: serverTimestamp(),
-    lastModified: serverTimestamp(),
-    lastActivity: serverTimestamp(),
-    isActive: false, // Whether there's an active session
-
-    // Player management
-    members: [userId], // Array of user IDs who have access
-    bannedUsers: [],
-
-    // Room statistics
-    stats: {
-      totalSessions: 0,
-      totalPlayTime: 0,
-      lastSessionDate: null
-    }
-  };
-
-  try {
-    await setDoc(doc(db, ROOMS_COLLECTION, roomId), room);
-    return roomId;
-  } catch (error) {
-    console.error('❌ Error creating room in Firestore:', error);
-    throw error;
-  }
+ try {
+  await setDoc(doc(db, ROOMS_COLLECTION, roomId), room);
+  return roomId;
+ } catch (error) {
+  console.error('❌ Error creating room in Firestore:', error);
+  throw error;
+ }
 };
 
 /**
@@ -181,27 +181,27 @@ export const createPersistentRoom = async (roomData) => {
  * @returns {Promise<Object|null>} - Room data or null if not found
  */
 export const getRoomData = async (roomId) => {
-  if (!db) {
-    throw new Error('Firebase not initialized');
+ if (!db) {
+  throw new Error('Firebase not initialized');
+ }
+
+ try {
+  const roomDoc = await getDoc(doc(db, ROOMS_COLLECTION, roomId));
+  if (roomDoc.exists()) {
+   return { id: roomDoc.id, ...roomDoc.data() };
+  }
+  return null;
+ } catch (error) {
+  // Check if this is a permission error and handle gracefully
+  if (error.code === 'permission-denied' || error.message.includes('Missing or insufficient permissions')) {
+   console.warn(`⚠️ Firebase permission denied for room ${roomId}. User may not be in room members array.`);
+   // Return null instead of throwing to prevent repeated errors
+   return null;
   }
 
-  try {
-    const roomDoc = await getDoc(doc(db, ROOMS_COLLECTION, roomId));
-    if (roomDoc.exists()) {
-      return { id: roomDoc.id, ...roomDoc.data() };
-    }
-    return null;
-  } catch (error) {
-    // Check if this is a permission error and handle gracefully
-    if (error.code === 'permission-denied' || error.message.includes('Missing or insufficient permissions')) {
-      console.warn(`⚠️ Firebase permission denied for room ${roomId}. User may not be in room members array.`);
-      // Return null instead of throwing to prevent repeated errors
-      return null;
-    }
-
-    console.error('❌ Error fetching room data:', error);
-    throw error;
-  }
+  console.error('❌ Error fetching room data:', error);
+  throw error;
+ }
 };
 
 /**
@@ -211,21 +211,21 @@ export const getRoomData = async (roomId) => {
  * @returns {Promise<void>}
  */
 export const updateRoomGameState = async (roomId, gameStateUpdate) => {
-  if (!db) {
-    throw new Error('Firebase not initialized');
-  }
+ if (!db) {
+  throw new Error('Firebase not initialized');
+ }
 
-  try {
-    const roomRef = doc(db, ROOMS_COLLECTION, roomId);
-    await updateDoc(roomRef, {
-      gameState: gameStateUpdate,
-      lastModified: serverTimestamp(),
-      lastActivity: serverTimestamp()
-    });
-  } catch (error) {
-    console.error('❌ Error updating room game state:', error);
-    throw error;
-  }
+ try {
+  const roomRef = doc(db, ROOMS_COLLECTION, roomId);
+  await updateDoc(roomRef, {
+   gameState: gameStateUpdate,
+   lastModified: serverTimestamp(),
+   lastActivity: serverTimestamp()
+  });
+ } catch (error) {
+  console.error('❌ Error updating room game state:', error);
+  throw error;
+ }
 };
 
 /**
@@ -235,25 +235,25 @@ export const updateRoomGameState = async (roomId, gameStateUpdate) => {
  * @returns {Promise<void>}
  */
 export const addChatMessage = async (roomId, message) => {
-  if (!db) {
-    throw new Error('Firebase not initialized');
-  }
+ if (!db) {
+  throw new Error('Firebase not initialized');
+ }
 
-  const messageWithTimestamp = {
-    ...message,
-    timestamp: serverTimestamp()
-  };
+ const messageWithTimestamp = {
+  ...message,
+  timestamp: serverTimestamp()
+ };
 
-  try {
-    const roomRef = doc(db, ROOMS_COLLECTION, roomId);
-    await updateDoc(roomRef, {
-      chatHistory: arrayUnion(messageWithTimestamp),
-      lastActivity: serverTimestamp()
-    });
-  } catch (error) {
-    console.error('❌ Error adding chat message:', error);
-    throw error;
-  }
+ try {
+  const roomRef = doc(db, ROOMS_COLLECTION, roomId);
+  await updateDoc(roomRef, {
+   chatHistory: arrayUnion(messageWithTimestamp),
+   lastActivity: serverTimestamp()
+  });
+ } catch (error) {
+  console.error('❌ Error adding chat message:', error);
+  throw error;
+ }
 };
 
 /**
@@ -262,59 +262,59 @@ export const addChatMessage = async (roomId, message) => {
  * @returns {Promise<Array>} - Array of room data
  */
 export const getUserRooms = async (userId) => {
-  // Check for demo mode
-  try {
-    const { isDemoMode } = await import('../config/firebase');
-    if (isDemoMode) {
-      return [];
-    }
-  } catch (error) {
-    console.warn('Could not check demo mode:', error);
+ // Check for demo mode
+ try {
+  const { isDemoMode } = await import('../config/firebase');
+  if (isDemoMode) {
+   return [];
   }
+ } catch (error) {
+  console.warn('Could not check demo mode:', error);
+ }
 
-  if (!db) {
-    throw new Error('Firebase not initialized');
-  }
+ if (!db) {
+  throw new Error('Firebase not initialized');
+ }
 
-  try {
-    // Get rooms where user is GM
-    const gmRoomsQuery = query(
-      collection(db, ROOMS_COLLECTION),
-      where('gmId', '==', userId),
-      orderBy('lastActivity', 'desc')
-    );
+ try {
+  // Get rooms where user is GM
+  const gmRoomsQuery = query(
+   collection(db, ROOMS_COLLECTION),
+   where('gmId', '==', userId),
+   orderBy('lastActivity', 'desc')
+  );
 
-    // Get rooms where user is a member
-    const memberRoomsQuery = query(
-      collection(db, ROOMS_COLLECTION),
-      where('members', 'array-contains', userId),
-      orderBy('lastActivity', 'desc')
-    );
+  // Get rooms where user is a member
+  const memberRoomsQuery = query(
+   collection(db, ROOMS_COLLECTION),
+   where('members', 'array-contains', userId),
+   orderBy('lastActivity', 'desc')
+  );
 
-    const [gmRoomsSnapshot, memberRoomsSnapshot] = await Promise.all([
-      getDocs(gmRoomsQuery),
-      getDocs(memberRoomsQuery)
-    ]);
+  const [gmRoomsSnapshot, memberRoomsSnapshot] = await Promise.all([
+   getDocs(gmRoomsQuery),
+   getDocs(memberRoomsQuery)
+  ]);
 
-    const rooms = new Map();
+  const rooms = new Map();
 
-    // Add GM rooms
-    gmRoomsSnapshot.forEach(doc => {
-      rooms.set(doc.id, { id: doc.id, ...doc.data(), userRole: 'gm' });
-    });
+  // Add GM rooms
+  gmRoomsSnapshot.forEach(doc => {
+   rooms.set(doc.id, { id: doc.id, ...doc.data(), userRole: 'gm' });
+  });
 
-    // Add member rooms (avoid duplicates)
-    memberRoomsSnapshot.forEach(doc => {
-      if (!rooms.has(doc.id)) {
-        rooms.set(doc.id, { id: doc.id, ...doc.data(), userRole: 'player' });
-      }
-    });
+  // Add member rooms (avoid duplicates)
+  memberRoomsSnapshot.forEach(doc => {
+   if (!rooms.has(doc.id)) {
+    rooms.set(doc.id, { id: doc.id, ...doc.data(), userRole: 'player' });
+   }
+  });
 
-    return Array.from(rooms.values());
-  } catch (error) {
-    console.error('❌ Error fetching user rooms:', error);
-    throw error;
-  }
+  return Array.from(rooms.values());
+ } catch (error) {
+  console.error('❌ Error fetching user rooms:', error);
+  throw error;
+ }
 };
 
 /**
@@ -325,51 +325,51 @@ export const getUserRooms = async (userId) => {
  * @returns {Promise<Object>} - Room data or error
  */
 export const joinRoom = async (roomId, userId, password) => {
-  if (!db) {
-    throw new Error('Firebase not initialized');
+ if (!db) {
+  throw new Error('Firebase not initialized');
+ }
+
+ try {
+  const roomData = await getRoomData(roomId);
+
+  if (!roomData) {
+   throw new Error(`Room not found: ${roomId}`);
   }
 
-  try {
-    const roomData = await getRoomData(roomId);
+  // SECURITY: Password verification must be done server-side via bcrypt.
+  // Client-side password checking is insecure and has been removed.
+  // The server handles password verification during the join_room socket event.
+  // This function only adds the user to the room's Firestore members list
+  // after the server has already verified the password.
 
-    if (!roomData) {
-      throw new Error(`Room not found: ${roomId}`);
-    }
-
-    // SECURITY: Password verification must be done server-side via bcrypt.
-    // Client-side password checking is insecure and has been removed.
-    // The server handles password verification during the join_room socket event.
-    // This function only adds the user to the room's Firestore members list
-    // after the server has already verified the password.
-
-    if (roomData.password) {
-      throw new Error('Password-protected rooms must be joined through the multiplayer server.');
-    }
-
-    // Check if user is banned
-    if (roomData.bannedUsers.includes(userId)) {
-      throw new Error('You are banned from this room');
-    }
-
-    // Check if room is full
-    if (roomData.members.length >= roomData.settings.maxPlayers + 1) { // +1 for GM
-      throw new Error('Room is full');
-    }
-
-    // Add user to members if not already a member
-    if (!roomData.members.includes(userId)) {
-      const roomRef = doc(db, ROOMS_COLLECTION, roomId);
-      await updateDoc(roomRef, {
-        members: arrayUnion(userId),
-        lastActivity: serverTimestamp()
-      });
-    }
-
-    return await getRoomData(roomId);
-  } catch (error) {
-    console.error('❌ Error joining room:', error);
-    throw error;
+  if (roomData.password) {
+   throw new Error('Password-protected rooms must be joined through the multiplayer server.');
   }
+
+  // Check if user is banned
+  if (roomData.bannedUsers.includes(userId)) {
+   throw new Error('You are banned from this room');
+  }
+
+  // Check if room is full
+  if (roomData.members.length >= roomData.settings.maxPlayers + 1) { // +1 for GM
+   throw new Error('Room is full');
+  }
+
+  // Add user to members if not already a member
+  if (!roomData.members.includes(userId)) {
+   const roomRef = doc(db, ROOMS_COLLECTION, roomId);
+   await updateDoc(roomRef, {
+    members: arrayUnion(userId),
+    lastActivity: serverTimestamp()
+   });
+  }
+
+  return await getRoomData(roomId);
+ } catch (error) {
+  console.error('❌ Error joining room:', error);
+  throw error;
+ }
 };
 
 /**
@@ -379,20 +379,20 @@ export const joinRoom = async (roomId, userId, password) => {
  * @returns {Promise<void>}
  */
 export const leaveRoom = async (roomId, userId) => {
-  if (!db) {
-    throw new Error('Firebase not initialized');
-  }
+ if (!db) {
+  throw new Error('Firebase not initialized');
+ }
 
-  try {
-    const roomRef = doc(db, ROOMS_COLLECTION, roomId);
-    await updateDoc(roomRef, {
-      members: arrayRemove(userId),
-      lastActivity: serverTimestamp()
-    });
-  } catch (error) {
-    console.error('❌ Error leaving room:', error);
-    throw error;
-  }
+ try {
+  const roomRef = doc(db, ROOMS_COLLECTION, roomId);
+  await updateDoc(roomRef, {
+   members: arrayRemove(userId),
+   lastActivity: serverTimestamp()
+  });
+ } catch (error) {
+  console.error('❌ Error leaving room:', error);
+  throw error;
+ }
 };
 
 /**
@@ -402,21 +402,21 @@ export const leaveRoom = async (roomId, userId) => {
  * @returns {Promise<void>}
  */
 export const updateRoom = async (roomId, updates) => {
-  if (!db) {
-    throw new Error('Firebase not initialized');
-  }
+ if (!db) {
+  throw new Error('Firebase not initialized');
+ }
 
-  try {
-    const roomRef = doc(db, ROOMS_COLLECTION, roomId);
-    await updateDoc(roomRef, {
-      ...updates,
-      lastModified: serverTimestamp(),
-      lastActivity: serverTimestamp()
-    });
-  } catch (error) {
-    console.error('❌ Error updating room:', error);
-    throw error;
-  }
+ try {
+  const roomRef = doc(db, ROOMS_COLLECTION, roomId);
+  await updateDoc(roomRef, {
+   ...updates,
+   lastModified: serverTimestamp(),
+   lastActivity: serverTimestamp()
+  });
+ } catch (error) {
+  console.error('❌ Error updating room:', error);
+  throw error;
+ }
 };
 
 /**
@@ -426,36 +426,36 @@ export const updateRoom = async (roomId, updates) => {
  * @returns {Promise<void>}
  */
 export const deleteRoom = async (roomId, userId) => {
-  if (!db) {
-    throw new Error('Firebase not initialized');
+ if (!db) {
+  throw new Error('Firebase not initialized');
+ }
+
+ try {
+  const roomData = await getRoomData(roomId);
+
+  if (!roomData) {
+   throw new Error('Room not found');
   }
 
-  try {
-    const roomData = await getRoomData(roomId);
-
-    if (!roomData) {
-      throw new Error('Room not found');
-    }
-
-    if (roomData.gmId !== userId) {
-      throw new Error('Only the GM can delete the room');
-    }
-
-    const gameStateSnapshot = await getDocs(collection(db, ROOMS_COLLECTION, roomId, 'gameState'));
-    for (const subDoc of gameStateSnapshot.docs) {
-      await deleteDoc(subDoc.ref);
-    }
-
-    const chatSnapshot = await getDocs(collection(db, ROOMS_COLLECTION, roomId, 'chat'));
-    for (const subDoc of chatSnapshot.docs) {
-      await deleteDoc(subDoc.ref);
-    }
-
-    await deleteDoc(doc(db, ROOMS_COLLECTION, roomId));
-  } catch (error) {
-    console.error('❌ Error deleting room:', error);
-    throw error;
+  if (roomData.gmId !== userId) {
+   throw new Error('Only the GM can delete the room');
   }
+
+  const gameStateSnapshot = await getDocs(collection(db, ROOMS_COLLECTION, roomId, 'gameState'));
+  for (const subDoc of gameStateSnapshot.docs) {
+   await deleteDoc(subDoc.ref);
+  }
+
+  const chatSnapshot = await getDocs(collection(db, ROOMS_COLLECTION, roomId, 'chat'));
+  for (const subDoc of chatSnapshot.docs) {
+   await deleteDoc(subDoc.ref);
+  }
+
+  await deleteDoc(doc(db, ROOMS_COLLECTION, roomId));
+ } catch (error) {
+  console.error('❌ Error deleting room:', error);
+  throw error;
+ }
 };
 
 /**
@@ -465,21 +465,21 @@ export const deleteRoom = async (roomId, userId) => {
  * @returns {Function} - Unsubscribe function
  */
 export const subscribeToRoom = (roomId, callback) => {
-  if (!db) {
-    throw new Error('Firebase not initialized');
-  }
+ if (!db) {
+  throw new Error('Firebase not initialized');
+ }
 
-  const roomRef = doc(db, ROOMS_COLLECTION, roomId);
-  return onSnapshot(roomRef, (doc) => {
-    if (doc.exists()) {
-      callback({ id: doc.id, ...doc.data() });
-    } else {
-      callback(null);
-    }
-  }, (error) => {
-    console.error('❌ Error in room subscription:', error);
-    callback(null, error);
-  });
+ const roomRef = doc(db, ROOMS_COLLECTION, roomId);
+ return onSnapshot(roomRef, (doc) => {
+  if (doc.exists()) {
+   callback({ id: doc.id, ...doc.data() });
+  } else {
+   callback(null);
+  }
+ }, (error) => {
+  console.error('❌ Error in room subscription:', error);
+  callback(null, error);
+ });
 };
 
 /**
@@ -488,33 +488,33 @@ export const subscribeToRoom = (roomId, callback) => {
  * @returns {Promise<Array>} - Array of public room data
  */
 export const getPublicRooms = async (limitCount = 20) => {
-  if (!db) {
-    throw new Error('Firebase not initialized');
-  }
+ if (!db) {
+  throw new Error('Firebase not initialized');
+ }
 
-  try {
-    const publicRoomsQuery = query(
-      collection(db, ROOMS_COLLECTION),
-      where('settings.isPrivate', '==', false),
-      orderBy('lastActivity', 'desc'),
-      limit(limitCount)
-    );
+ try {
+  const publicRoomsQuery = query(
+   collection(db, ROOMS_COLLECTION),
+   where('settings.isPrivate', '==', false),
+   orderBy('lastActivity', 'desc'),
+   limit(limitCount)
+  );
 
-    const snapshot = await getDocs(publicRoomsQuery);
-    return snapshot.docs.map(doc => ({
-      id: doc.id,
-      name: doc.data().name,
-      description: doc.data().description,
-      gmName: doc.data().gmName,
-      memberCount: doc.data().members?.length || 0,
-      maxPlayers: doc.data().settings?.maxPlayers || 6,
-      lastActivity: doc.data().lastActivity,
-      isActive: doc.data().isActive || false
-    }));
-  } catch (error) {
-    console.error('❌ Error fetching public rooms:', error);
-    throw error;
-  }
+  const snapshot = await getDocs(publicRoomsQuery);
+  return snapshot.docs.map(doc => ({
+   id: doc.id,
+   name: doc.data().name,
+   description: doc.data().description,
+   gmName: doc.data().gmName,
+   memberCount: doc.data().members?.length || 0,
+   maxPlayers: doc.data().settings?.maxPlayers || 6,
+   lastActivity: doc.data().lastActivity,
+   isActive: doc.data().isActive || false
+  }));
+ } catch (error) {
+  console.error('❌ Error fetching public rooms:', error);
+  throw error;
+ }
 };
 
 /**
@@ -524,27 +524,27 @@ export const getPublicRooms = async (limitCount = 20) => {
  * @returns {Promise<void>}
  */
 export const saveCompleteGameState = async (roomId, gameState) => {
-  if (!db) {
-    throw new Error('Firebase not initialized');
-  }
+ if (!db) {
+  throw new Error('Firebase not initialized');
+ }
 
-  try {
-    const roomRef = doc(db, ROOMS_COLLECTION, roomId);
-    // NOTE: Only update gameState and lastActivity to match Firestore security rules
-    // (members can only update these two fields, GM can update any field)
-    await updateDoc(roomRef, {
-      gameState: gameState,
-      lastActivity: serverTimestamp()
-    });
+ try {
+  const roomRef = doc(db, ROOMS_COLLECTION, roomId);
+  // NOTE: Only update gameState and lastActivity to match Firestore security rules
+  // (members can only update these two fields, GM can update any field)
+  await updateDoc(roomRef, {
+   gameState: gameState,
+   lastActivity: serverTimestamp()
+  });
 
-  } catch (error) {
-    if (error.code === 'permission-denied' || error.message.includes('permission')) {
-      console.warn(`⚠️ Firebase permission denied for saving game state in room ${roomId}. User may not be GM or in members array.`);
-      throw new Error('Firebase permission denied: You may not have permission to save this room state.');
-    }
-    console.error('❌ Error saving complete game state:', error);
-    throw error;
+ } catch (error) {
+  if (error.code === 'permission-denied' || error.message.includes('permission')) {
+   console.warn(`⚠️ Firebase permission denied for saving game state in room ${roomId}. User may not be GM or in members array.`);
+   throw new Error('Firebase permission denied: You may not have permission to save this room state.');
   }
+  console.error('❌ Error saving complete game state:', error);
+  throw error;
+ }
 };
 
 /**
@@ -553,31 +553,31 @@ export const saveCompleteGameState = async (roomId, gameState) => {
  * @returns {Promise<Object>} - Complete game state object
  */
 export const loadCompleteGameState = async (roomId) => {
-  if (!db) {
-    throw new Error('Firebase not initialized');
+ if (!db) {
+  throw new Error('Firebase not initialized');
+ }
+
+ try {
+  const roomData = await getRoomData(roomId);
+
+  if (!roomData) {
+   throw new Error('Room not found');
   }
 
-  try {
-    const roomData = await getRoomData(roomId);
-
-    if (!roomData) {
-      throw new Error('Room not found');
-    }
-
-    return roomData.gameState || {};
-  } catch (error) {
-    // Check if this is a permission error and handle gracefully
-    if (error.code === 'permission-denied' || error.message.includes('permission')) {
-      console.warn(`⚠️ Firebase permission denied for loading room ${roomId}. User may not be in room members array.`);
-      // Re-throw with a clearer message so GameStateManager can decide what to do
-      const permError = new Error('Firebase permission denied: Missing or insufficient permissions to load this hall.');
-      permError.code = 'permission-denied';
-      throw permError;
-    }
-
-    console.error('❌ Error loading complete game state:', error);
-    throw error;
+  return roomData.gameState || {};
+ } catch (error) {
+  // Check if this is a permission error and handle gracefully
+  if (error.code === 'permission-denied' || error.message.includes('permission')) {
+   console.warn(`⚠️ Firebase permission denied for loading room ${roomId}. User may not be in room members array.`);
+   // Re-throw with a clearer message so GameStateManager can decide what to do
+   const permError = new Error('Firebase permission denied: Missing or insufficient permissions to load this hall.');
+   permError.code = 'permission-denied';
+   throw permError;
   }
+
+  console.error('❌ Error loading complete game state:', error);
+  throw error;
+ }
 };
 
 /**
@@ -588,23 +588,23 @@ export const loadCompleteGameState = async (roomId) => {
  * @returns {Promise<void>}
  */
 export const updateGameStateSection = async (roomId, section, sectionData) => {
-  if (!db) {
-    throw new Error('Firebase not initialized');
-  }
+ if (!db) {
+  throw new Error('Firebase not initialized');
+ }
 
-  try {
-    const roomRef = doc(db, ROOMS_COLLECTION, roomId);
-    const updateData = {};
-    updateData[`gameState.${section}`] = sectionData;
-    updateData.lastModified = serverTimestamp();
-    updateData.lastActivity = serverTimestamp();
+ try {
+  const roomRef = doc(db, ROOMS_COLLECTION, roomId);
+  const updateData = {};
+  updateData[`gameState.${section}`] = sectionData;
+  updateData.lastModified = serverTimestamp();
+  updateData.lastActivity = serverTimestamp();
 
-    await updateDoc(roomRef, updateData);
+  await updateDoc(roomRef, updateData);
 
-  } catch (error) {
-    console.error(`❌ Error updating game state section '${section}':`, error);
-    throw error;
-  }
+ } catch (error) {
+  console.error(`❌ Error updating game state section '${section}':`, error);
+  throw error;
+ }
 };
 
 /**
@@ -613,135 +613,135 @@ export const updateGameStateSection = async (roomId, section, sectionData) => {
  * @returns {Promise<Object>} - Room limit information
  */
 export const getRoomLimits = async (userId = null) => {
-  // Check for demo mode
+ // Check for demo mode
+ try {
+  const { isDemoMode } = await import('../config/firebase');
+  if (isDemoMode) {
+   // Import local room service to get local room count
+   const { default: localRoomService } = await import('./localRoomService');
+   const localRooms = localRoomService.getLocalRooms();
+   const localRoomCount = localRooms.length;
+
+   return {
+    tier: { name: 'Demo', roomLimit: 999 },
+    limit: 999,
+    used: localRoomCount, // Include local rooms in demo mode
+    remaining: 999 - localRoomCount,
+    canCreate: true,
+    rooms: [],
+    localRooms: localRooms
+   };
+  }
+ } catch (error) {
+  console.warn('Could not check demo mode:', error);
+ }
+
+ const uid = userId || auth.currentUser?.uid;
+
+ if (!uid) {
+  // Not logged in - guest tier, but still count local rooms
   try {
-    const { isDemoMode } = await import('../config/firebase');
-    if (isDemoMode) {
-      // Import local room service to get local room count
-      const { default: localRoomService } = await import('./localRoomService');
-      const localRooms = localRoomService.getLocalRooms();
-      const localRoomCount = localRooms.length;
+   const { default: localRoomService } = await import('./localRoomService');
+   const localRooms = localRoomService.getLocalRooms();
+   const localRoomCount = localRooms.length;
 
-      return {
-        tier: { name: 'Demo', roomLimit: 999 },
-        limit: 999,
-        used: localRoomCount, // Include local rooms in demo mode
-        remaining: 999 - localRoomCount,
-        canCreate: true,
-        rooms: [],
-        localRooms: localRooms
-      };
-    }
+   return {
+    tier: await subscriptionService.getUserTier(null),
+    limit: 0,
+    used: localRoomCount, // Show local rooms even when not logged in
+    remaining: 0,
+    canCreate: false,
+    localRooms: localRooms
+   };
   } catch (error) {
-    console.warn('Could not check demo mode:', error);
+   console.error('Error loading local rooms for guest user:', error);
+   return {
+    tier: await subscriptionService.getUserTier(null),
+    limit: 0,
+    used: 0,
+    remaining: 0,
+    canCreate: false
+   };
   }
+ }
 
-  const uid = userId || auth.currentUser?.uid;
+ try {
+  // Get both multiplayer and local rooms
+  const [userRooms, localRoomService] = await Promise.all([
+   getUserRooms(uid),
+   import('./localRoomService').then(module => module.default)
+  ]);
 
-  if (!uid) {
-    // Not logged in - guest tier, but still count local rooms
-    try {
-      const { default: localRoomService } = await import('./localRoomService');
-      const localRooms = localRoomService.getLocalRooms();
-      const localRoomCount = localRooms.length;
+  const ownedRooms = userRooms.filter(room => room.userRole === 'gm');
+  const localRooms = localRoomService.getLocalRooms();
 
-      return {
-        tier: await subscriptionService.getUserTier(null),
-        limit: 0,
-        used: localRoomCount, // Show local rooms even when not logged in
-        remaining: 0,
-        canCreate: false,
-        localRooms: localRooms
-      };
-    } catch (error) {
-      console.error('Error loading local rooms for guest user:', error);
-      return {
-        tier: await subscriptionService.getUserTier(null),
-        limit: 0,
-        used: 0,
-        remaining: 0,
-        canCreate: false
-      };
-    }
-  }
+  // Total used rooms = multiplayer rooms + local rooms
+  const multiplayerRoomCount = ownedRooms.length;
+  const localRoomCount = localRooms.length;
+  const totalUsed = multiplayerRoomCount + localRoomCount;
 
+  const tier = await subscriptionService.getUserTier(uid);
+  const limit = tier.roomLimit;
+  const remaining = Math.max(0, limit - totalUsed);
+
+  return {
+   tier: tier,
+   limit: limit,
+   used: totalUsed,
+   remaining: remaining,
+   canCreate: totalUsed < limit,
+   rooms: ownedRooms,
+   localRooms: localRooms,
+   multiplayerCount: multiplayerRoomCount,
+   localCount: localRoomCount
+  };
+ } catch (error) {
+  console.error('Error getting room limits:', error);
+  // Fallback to basic info, but still try to count local rooms
   try {
-    // Get both multiplayer and local rooms
-    const [userRooms, localRoomService] = await Promise.all([
-      getUserRooms(uid),
-      import('./localRoomService').then(module => module.default)
-    ]);
+   const { default: localRoomService } = await import('./localRoomService');
+   const localRooms = localRoomService.getLocalRooms();
+   const localRoomCount = localRooms.length;
 
-    const ownedRooms = userRooms.filter(room => room.userRole === 'gm');
-    const localRooms = localRoomService.getLocalRooms();
-
-    // Total used rooms = multiplayer rooms + local rooms
-    const multiplayerRoomCount = ownedRooms.length;
-    const localRoomCount = localRooms.length;
-    const totalUsed = multiplayerRoomCount + localRoomCount;
-
-    const tier = await subscriptionService.getUserTier(uid);
-    const limit = tier.roomLimit;
-    const remaining = Math.max(0, limit - totalUsed);
-
-    return {
-      tier: tier,
-      limit: limit,
-      used: totalUsed,
-      remaining: remaining,
-      canCreate: totalUsed < limit,
-      rooms: ownedRooms,
-      localRooms: localRooms,
-      multiplayerCount: multiplayerRoomCount,
-      localCount: localRoomCount
-    };
-  } catch (error) {
-    console.error('Error getting room limits:', error);
-    // Fallback to basic info, but still try to count local rooms
-    try {
-      const { default: localRoomService } = await import('./localRoomService');
-      const localRooms = localRoomService.getLocalRooms();
-      const localRoomCount = localRooms.length;
-
-      const tier = await subscriptionService.getUserTier(uid);
-      return {
-        tier: tier,
-        limit: tier.roomLimit,
-        used: localRoomCount, // At least show local rooms
-        remaining: Math.max(0, tier.roomLimit - localRoomCount),
-        canCreate: localRoomCount < tier.roomLimit,
-        rooms: [],
-        localRooms: localRooms
-      };
-    } catch (localError) {
-      console.error('Error loading local rooms in fallback:', localError);
-      const tier = await subscriptionService.getUserTier(uid);
-      return {
-        tier: tier,
-        limit: tier.roomLimit,
-        used: 0,
-        remaining: tier.roomLimit,
-        canCreate: tier.roomLimit > 0,
-        rooms: []
-      };
-    }
+   const tier = await subscriptionService.getUserTier(uid);
+   return {
+    tier: tier,
+    limit: tier.roomLimit,
+    used: localRoomCount, // At least show local rooms
+    remaining: Math.max(0, tier.roomLimit - localRoomCount),
+    canCreate: localRoomCount < tier.roomLimit,
+    rooms: [],
+    localRooms: localRooms
+   };
+  } catch (localError) {
+   console.error('Error loading local rooms in fallback:', localError);
+   const tier = await subscriptionService.getUserTier(uid);
+   return {
+    tier: tier,
+    limit: tier.roomLimit,
+    used: 0,
+    remaining: tier.roomLimit,
+    canCreate: tier.roomLimit > 0,
+    rooms: []
+   };
   }
+ }
 };
 
 export default {
-  createPersistentRoom,
-  getRoomData,
-  updateRoomGameState,
-  addChatMessage,
-  getUserRooms,
-  joinRoom,
-  leaveRoom,
-  deleteRoom,
-  updateRoom,
-  subscribeToRoom,
-  getPublicRooms,
-  getRoomLimits,
-  saveCompleteGameState,
-  loadCompleteGameState,
-  updateGameStateSection
+ createPersistentRoom,
+ getRoomData,
+ updateRoomGameState,
+ addChatMessage,
+ getUserRooms,
+ joinRoom,
+ leaveRoom,
+ deleteRoom,
+ updateRoom,
+ subscribeToRoom,
+ getPublicRooms,
+ getRoomLimits,
+ saveCompleteGameState,
+ loadCompleteGameState,
+ updateGameStateSection
 };

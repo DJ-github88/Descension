@@ -1,4 +1,4 @@
-import { create } from 'zustand';
+﻿import { create } from 'zustand';
 import { v4 as uuidv4 } from 'uuid';
 import socialService from '../services/socialService';
 import authService from '../services/authService';
@@ -9,7 +9,7 @@ const initialState = {
   friends: [],
   friendPresence: {}, // userId -> presenceData
   pendingRequests: [],
-  acceptanceNotifications: [], // { id, friendName } – shown to the sender when accepted
+  acceptanceNotifications: [], // { id, friendName } - shown to the sender when accepted
   ignored: [],
   selectedFriend: null,
   selectedIgnored: null,

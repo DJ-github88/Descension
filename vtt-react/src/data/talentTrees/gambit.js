@@ -197,8 +197,8 @@ export const GAMBIT_KARMIC_WEAVER = [
   },
   {
     id: 'kw_t3_tapestry_anchor',
-    name: 'Tapestry Anchor',
-    description: 'The Iceheart Sea teaches that every wave is a wager. when you trigger Tapestry Collapse, choose 1 linked creature per rank to be immune to the incapacitation effect. Spell modifier.',
+    name: 'Wyrd Anchor',
+    description: 'The Iceheart Sea teaches that every wave is a wager. when you trigger Wyrd Collapse, choose 1 linked creature per rank to be immune to the incapacitation effect. Spell modifier.',
     icon: 'spell_arcane_arcane04',
     maxRanks: 2,
     position: { x: 2, y: 3 },

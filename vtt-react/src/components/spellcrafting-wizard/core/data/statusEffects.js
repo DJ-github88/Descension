@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Status Effects Module
  *
  * Contains positive and negative status effects, combat advantages/disadvantages,
@@ -37,7 +37,7 @@ export const POSITIVE_STATUS_EFFECTS = [
       name: 'Blessed',
       description: 'Divine favor grants various protective benefits',
       icon: '/assets/icons/abilities/Healing/Golden Heart.png',
-      category: 'divine',
+      category: 'sacred',
       actionPointCost: 2,
       options: [
         { id: 'protection', name: 'Protection', description: 'Gain Armor bonus and resistance to certain damage types' },

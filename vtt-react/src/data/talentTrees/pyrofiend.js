@@ -1,4 +1,4 @@
-// ============================================
+﻿// ============================================
 // PYROFIEND TALENT TREES
 // ============================================
 
@@ -7,7 +7,7 @@ export const PYROFIEND_INFERNO = [
   {
     id: 'inferno_t0_burst_mastery',
     name: 'Burst Mastery',
-    description: 'Rank 1: Fire spells have +5 ft range. Rank 2: Fire spells have +10 ft range. Rank 3: Fire spells have +10 ft range and ignore half cover. Rank 4: Fire spells have +15 ft range and ignore half cover. Rank 5: Fire spells have +15 ft range and ignore half and three-quarters cover.',
+    description: 'The fury of Emberspire extends your reach through the Abyss. Rank 1: Fire spells have +5 ft range. Rank 2: Fire spells have +10 ft range. Rank 3: Fire spells have +10 ft range and ignore half cover. Rank 4: Fire spells have +15 ft range and ignore half cover. Rank 5: Fire spells have +15 ft range and ignore half and three-quarters cover.',
     icon: 'spell_fire_fireball02',
     maxRanks: 5,
     position: { x: 2, y: 0 },
@@ -18,7 +18,7 @@ export const PYROFIEND_INFERNO = [
   {
     id: 'inferno_t1_critical_blast',
     name: 'Critical Blast',
-    description: 'Rank 1: Fire spells can be cast as reactions when you take fire damage. Rank 2: Fire spells can be cast as reactions when you take fire damage, and deal +2 fire damage. Rank 3: Fire spells can be cast as reactions when you take fire damage, deal +2 fire damage, and have +5 ft range. Rank 4: Fire spells can be cast as reactions when you take fire damage, deal +2 fire damage, have +5 ft range, and can be cast through allies.',
+    description: 'Abyssal fire awakens your blood, turning pain into power. Rank 1: Fire spells can be cast as reactions when you take fire damage. Rank 2: Fire spells can be cast as reactions when you take fire damage, and deal +2 fire damage. Rank 3: Fire spells can be cast as reactions when you take fire damage, deal +2 fire damage, and have +5 ft range. Rank 4: Fire spells can be cast as reactions when you take fire damage, deal +2 fire damage, have +5 ft range, and can be cast through allies.',
     icon: 'spell_fire_incinerate',
     maxRanks: 4,
     position: { x: 1, y: 1 },
@@ -27,7 +27,7 @@ export const PYROFIEND_INFERNO = [
   {
     id: 'inferno_t1_rapid_ascent',
     name: 'Rapid Ascent',
-    description: 'Rank 1: You can spend 1 Action Point to reduce your Inferno Level by 1. Rank 2: You can spend 1 Action Point to reduce your Inferno Level by 1d3. Rank 3: You can spend 1 Action Point to reduce your Inferno Level by 1d4.',
+    description: 'The horror within grants you command over the ascent of Inferno. Rank 1: You can spend 1 Action Point to reduce your Inferno Level by 1. Rank 2: You can spend 1 Action Point to reduce your Inferno Level by 1d3. Rank 3: You can spend 1 Action Point to reduce your Inferno Level by 1d4.',
     icon: 'spell_fire_soulburn',
     maxRanks: 3,
     position: { x: 3, y: 1 },
@@ -38,7 +38,7 @@ export const PYROFIEND_INFERNO = [
   {
     id: 'inferno_t2_inner_fire',
     name: 'Inner Fire',
-    description: 'Rank 1: You have resistance to fire damage. Rank 2: You have resistance to fire damage and can spend 1 Action Point to extinguish flames affecting you. Rank 3: You have resistance to fire damage, can spend 1 Action Point to extinguish flames affecting you, and take 2 less damage from Inferno drawbacks. Rank 4: You have resistance to fire damage, can spend 1 Action Point to extinguish flames affecting you, take 2 less damage from Inferno drawbacks, and can spend 1 Action Point to reduce your Inferno Level by 1.',
+    description: 'The heart of Emberspire beats within you, making you one with the flame. Rank 1: You have resistance to fire damage. Rank 2: You have resistance to fire damage and can spend 1 Action Point to extinguish flames affecting you. Rank 3: You have resistance to fire damage, can spend 1 Action Point to extinguish flames affecting you, and take 2 less damage from Inferno drawbacks. Rank 4: You have resistance to fire damage, can spend 1 Action Point to extinguish flames affecting you, take 2 less damage from Inferno drawbacks, and can spend 1 Action Point to reduce your Inferno Level by 1.',
     icon: 'spell_fire_flamebolt',
     maxRanks: 4,
     position: { x: 0, y: 2 },
@@ -47,7 +47,7 @@ export const PYROFIEND_INFERNO = [
   {
     id: 'inferno_t2_detonation',
     name: 'Detonation',
-    description: 'Rank 1: Unlocks Detonation - spend 1 Action Point to teleport 15ft to an unoccupied space within fire terrain. Rank 2: Unlocks Detonation - spend 1 Action Point to teleport 20ft to an unoccupied space within fire terrain. Rank 3: Unlocks Detonation - spend 1 Action Point to teleport 25ft to an unoccupied space within fire terrain.',
+    description: 'The Abyss grants you the gift of motion through flame. Rank 1: Unlocks Detonation - spend 1 Action Point to teleport 15ft to an unoccupied space within fire terrain. Rank 2: Unlocks Detonation - spend 1 Action Point to teleport 20ft to an unoccupied space within fire terrain. Rank 3: Unlocks Detonation - spend 1 Action Point to teleport 25ft to an unoccupied space within fire terrain.',
     icon: 'spell_fire_selfdestruct',
     maxRanks: 3,
     position: { x: 2, y: 2 },
@@ -56,7 +56,7 @@ export const PYROFIEND_INFERNO = [
   {
     id: 'inferno_t2_fiery_resurgence',
     name: 'Fiery Resurgence',
-    description: 'Rank 1: You can spend 1 Action Point to create a 5ft radius zone of fire terrain that lasts 1 minute. Rank 2: You can spend 1 Action Point to create a 10ft radius zone of fire terrain that lasts 1 minute. Rank 3: You can spend 1 Action Point to create a 10ft radius zone of fire terrain that lasts 1 minute and deals 1d4 fire damage to creatures that enter it. Rank 4: You can spend 1 Action Point to create a 15ft radius zone of fire terrain that lasts 1 minute and deals 1d4 fire damage to creatures that enter it.',
+    description: 'Ember will ignites the very ground beneath your enemies. Rank 1: You can spend 1 Action Point to create a 5ft radius zone of fire terrain that lasts 1 minute. Rank 2: You can spend 1 Action Point to create a 10ft radius zone of fire terrain that lasts 1 minute. Rank 3: You can spend 1 Action Point to create a 10ft radius zone of fire terrain that lasts 1 minute and deals 1d4 fire damage to creatures that enter it. Rank 4: You can spend 1 Action Point to create a 15ft radius zone of fire terrain that lasts 1 minute and deals 1d4 fire damage to creatures that enter it.',
     icon: 'spell_fire_fire',
     maxRanks: 4,
     position: { x: 4, y: 2 },
@@ -67,7 +67,7 @@ export const PYROFIEND_INFERNO = [
   {
     id: 'inferno_t3_overcharge',
     name: 'Overcharge',
-    description: 'Rank 1: When you take fire damage, you can spend 1 Action Point to deal 1d6 fire damage to one creature within 30ft. Rank 2: When you take fire damage, you can spend 1 Action Point to deal 1d8 fire damage to one creature within 30ft. Rank 3: When you take fire damage, you can spend 1 Action Point to deal 1d10 fire damage to one creature within 30ft.',
+    description: 'Hellfire feeds on itself, each burst of pain birthing a greater retort. Rank 1: When you take fire damage, you can spend 1 Action Point to deal 1d6 fire damage to one creature within 30ft. Rank 2: When you take fire damage, you can spend 1 Action Point to deal 1d8 fire damage to one creature within 30ft. Rank 3: When you take fire damage, you can spend 1 Action Point to deal 1d10 fire damage to one creature within 30ft.',
     icon: 'spell_fire_moltenblood',
     maxRanks: 3,
     position: { x: 1, y: 3 },
@@ -76,7 +76,7 @@ export const PYROFIEND_INFERNO = [
   {
     id: 'inferno_t3_ascended_burst',
     name: 'Ascended Burst',
-    description: 'Rank 1: Unlocks Ascended Burst - create a 20ft radius zone of bright light centered on you for 1 minute. Enemies in the zone have disadvantage on attack rolls. Rank 2: Unlocks Ascended Burst - create a 25ft radius zone of bright light centered on you for 1 minute. Enemies in the zone have disadvantage on attack rolls. You have advantage on attack rolls against enemies in the zone. Rank 3: Unlocks Ascended Burst - create a 30ft radius zone of bright light centered on you for 1 minute. Enemies in the zone have disadvantage on attack rolls. You have advantage on attack rolls against enemies in the zone. Enemies that enter the zone take 2d6 radiant damage.',
+    description: 'The core of Emberspire erupts through you, a star of Abyssal brilliance. Rank 1: Unlocks Ascended Burst - create a 20ft radius zone of bright light centered on you for 1 minute. Enemies in the zone have disadvantage on attack rolls. Rank 2: Unlocks Ascended Burst - create a 25ft radius zone of bright light centered on you for 1 minute. Enemies in the zone have disadvantage on attack rolls. You have advantage on attack rolls against enemies in the zone. Rank 3: Unlocks Ascended Burst - create a 30ft radius zone of bright light centered on you for 1 minute. Enemies in the zone have disadvantage on attack rolls. You have advantage on attack rolls against enemies in the zone. Enemies that enter the zone take 2d6 radiant damage.',
     icon: 'spell_fire_fireball',
     maxRanks: 3,
     position: { x: 2, y: 3 },
@@ -85,7 +85,7 @@ export const PYROFIEND_INFERNO = [
   {
     id: 'inferno_t3_immolation',
     name: 'Immolation',
-    description: 'Rank 1: Enemies within 5ft take 3 fire damage at the start of your turn. Rank 2: Enemies within 5ft take 6 fire damage at the start of your turn. Rank 3: Enemies within 5ft take 9 fire damage at the start of your turn. Rank 4: Enemies within 5ft take 12 fire damage at the start of your turn. Rank 5: Enemies within 5ft take 15 fire damage at the start of your turn.',
+    description: 'Your Wyrd-touched aura sears the air itself, a constant reminder of the Abyss. Rank 1: Enemies within 5ft take 3 fire damage at the start of your turn. Rank 2: Enemies within 5ft take 6 fire damage at the start of your turn. Rank 3: Enemies within 5ft take 9 fire damage at the start of your turn. Rank 4: Enemies within 5ft take 12 fire damage at the start of your turn. Rank 5: Enemies within 5ft take 15 fire damage at the start of your turn.',
     icon: 'spell_fire_sealoffire',
     maxRanks: 5,
     position: { x: 3, y: 3 },
@@ -96,7 +96,7 @@ export const PYROFIEND_INFERNO = [
   {
     id: 'inferno_t4_maximum_power',
     name: 'Maximum Power',
-    description: 'Rank 1: At Inferno Level 9, your fire spells have their range doubled. Rank 2: At Inferno Level 8, your fire spells have their range doubled and ignore half cover.',
+    description: 'The deeper you fall into the Inferno, the farther your flames reach. Rank 1: At Inferno Level 9, your fire spells have their range doubled. Rank 2: At Inferno Level 8, your fire spells have their range doubled and ignore half cover.',
     icon: 'spell_fire_twilightfireward',
     maxRanks: 2,
     position: { x: 0, y: 4 },
@@ -105,7 +105,7 @@ export const PYROFIEND_INFERNO = [
   {
     id: 'inferno_t4_power_surge',
     name: 'Power Surge',
-    description: 'Rank 1: After spending 3+ Inferno Levels in one turn, gain advantage on all attack rolls for 1 round. Rank 2: After spending 2+ Inferno Levels in one turn, gain advantage on all attack rolls for 1 round and regain 1 action point.',
+    description: 'Each notch of the Inferno fuels your Wyrd-touched might to bursting. Rank 1: After spending 3+ Inferno Levels in one turn, gain advantage on all attack rolls for 1 round. Rank 2: After spending 2+ Inferno Levels in one turn, gain advantage on all attack rolls for 1 round and regain 1 action point.',
     icon: 'spell_fire_burnout',
     maxRanks: 2,
     position: { x: 2, y: 4 },
@@ -114,7 +114,7 @@ export const PYROFIEND_INFERNO = [
   {
     id: 'inferno_t4_heat_death',
     name: 'Heat Death',
-    description: 'Rank 1: When an enemy dies from your fire damage, ascend 1 Inferno Level if below Level 7. Otherwise, restore 5 HP. Rank 2: When an enemy dies from your fire damage, ascend 1 Inferno Level if below Level 8. Otherwise, restore 8 HP. Rank 3: When an enemy dies from your fire damage, ascend 1 Inferno Level if below Level 9. Otherwise, restore 10 HP and gain 1 action point.',
+    description: 'Every soul consumed by your hellfire feeds the Emberspire within. Rank 1: When an enemy dies from your fire damage, ascend 1 Inferno Level if below Level 7. Otherwise, restore 5 HP. Rank 2: When an enemy dies from your fire damage, ascend 1 Inferno Level if below Level 8. Otherwise, restore 8 HP. Rank 3: When an enemy dies from your fire damage, ascend 1 Inferno Level if below Level 9. Otherwise, restore 10 HP and gain 1 action point.',
     icon: 'spell_fire_meteorstorm',
     maxRanks: 3,
     position: { x: 4, y: 4 },
@@ -125,7 +125,7 @@ export const PYROFIEND_INFERNO = [
   {
     id: 'inferno_t5_critical_cascade',
     name: 'Critical Cascade',
-    description: 'Rank 1: When you crit with a fire spell, gain 1 action point. Rank 2: When you crit with a fire spell, gain 1 action point and reduce self-damage from Inferno drawbacks by half for 1 round. Rank 3: When you crit with a fire spell, gain 1 action point, reduce self-damage from Inferno drawbacks by half for 1 round, and your next fire spell costs 2 less mana (minimum 1).',
+    description: 'Your Abyssal fire finds the cracks in all things, each critical strike a cascade of hellfire. Rank 1: When you crit with a fire spell, gain 1 action point. Rank 2: When you crit with a fire spell, gain 1 action point and reduce self-damage from Inferno drawbacks by half for 1 round. Rank 3: When you crit with a fire spell, gain 1 action point, reduce self-damage from Inferno drawbacks by half for 1 round, and your next fire spell costs 2 less mana (minimum 1).',
     icon: 'spell_fire_flare',
     maxRanks: 3,
     position: { x: 1, y: 5 },
@@ -135,7 +135,7 @@ export const PYROFIEND_INFERNO = [
   {
     id: 'inferno_t5_permanent_inferno',
     name: 'Permanent Inferno',
-    description: 'Rank 1: You can no longer descend below Inferno Level 3. Rank 2: You can no longer descend below Inferno Level 3. At Level 9, you deal +1d12 fire damage with all attacks. Rank 3: You can no longer descend below Inferno Level 3. At Level 9, you deal +2d12 fire damage with all attacks.',
+    description: 'The Inferno becomes your permanent throne, a pact with the Abyss etched in flame. Rank 1: You can no longer descend below Inferno Level 3. Rank 2: You can no longer descend below Inferno Level 3. At Level 9, you deal +1d12 fire damage with all attacks. Rank 3: You can no longer descend below Inferno Level 3. At Level 9, you deal +2d12 fire damage with all attacks.',
     icon: 'spell_fire_moltenblood',
     maxRanks: 3,
     position: { x: 3, y: 5 },
@@ -147,7 +147,7 @@ export const PYROFIEND_INFERNO = [
   {
     id: 'inferno_t6_supernova',
     name: 'Supernova',
-    description: 'Unlocks Supernova - consume all Inferno Levels to create a star that deals 8d12 fire damage in 50ft radius over 3 rounds. Enemies take damage at the start of each of their turns.',
+    description: 'The final gift of Emberspire,a dying star born of pure Abyssal fury. Unlocks Supernova - consume all Inferno Levels to create a star that deals 8d12 fire damage in 50ft radius over 3 rounds. Enemies take damage at the start of each of their turns.',
     icon: 'spell_fire_soulburn',
     maxRanks: 1,
     position: { x: 2, y: 6 },
@@ -162,7 +162,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     id: 'wildfire_t0_spread',
     name: 'Flame Spread',
-    description: 'Rank 1: When you deal fire damage, roll 1d20. On 16+ the damage jumps to a nearby enemy for half damage. Rank 2: When you deal fire damage, roll 1d20. On 15+ the damage jumps to a nearby enemy for half damage. Rank 3: When you deal fire damage, roll 1d20. On 14+ the damage jumps to a nearby enemy for half damage. Rank 4: When you deal fire damage, roll 1d20. On 13+ the damage jumps to a nearby enemy for half damage.',
+    description: 'Abyssal fire hungers to consume all it touches, leaping from victim to victim. Rank 1: When you deal fire damage, roll 1d20. On 16+ the damage jumps to a nearby enemy for half damage. Rank 2: When you deal fire damage, roll 1d20. On 15+ the damage jumps to a nearby enemy for half damage. Rank 3: When you deal fire damage, roll 1d20. On 14+ the damage jumps to a nearby enemy for half damage. Rank 4: When you deal fire damage, roll 1d20. On 13+ the damage jumps to a nearby enemy for half damage.',
     icon: 'spell_fire_flare',
     maxRanks: 4,
     position: { x: 1, y: 0 },
@@ -171,7 +171,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     id: 'wildfire_t0_ground_fire',
     name: 'Ground Fire',
-    description: 'Rank 1: Fire spells create patches of flame. Enemies entering these areas take 1d8 fire damage. Rank 2: Fire spells create patches of flame. Enemies entering these areas take 2d8 fire damage. Rank 3: Fire spells create patches of flame. Enemies entering these areas take 3d8 fire damage. Rank 4: Fire spells create patches of flame. Enemies entering these areas take 4d8 fire damage.',
+    description: 'Where your hellfire touches the earth, it leaves a scar of living flame. Rank 1: Fire spells create patches of flame. Enemies entering these areas take 1d8 fire damage. Rank 2: Fire spells create patches of flame. Enemies entering these areas take 2d8 fire damage. Rank 3: Fire spells create patches of flame. Enemies entering these areas take 3d8 fire damage. Rank 4: Fire spells create patches of flame. Enemies entering these areas take 4d8 fire damage.',
     icon: 'spell_fire_moltenblood',
     maxRanks: 4,
     position: { x: 3, y: 0 },
@@ -182,7 +182,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     id: 'wildfire_t1_conflagration',
     name: 'Conflagration',
-    description: 'Unlocks Conflagration - ignite all enemies in 25ft radius. They take 2d6 fire damage per round for 4 rounds.',
+    description: 'The Abyss breathes out and everything within reach is claimed by flame. Unlocks Conflagration - ignite all enemies in 25ft radius. They take 2d6 fire damage per round for 4 rounds.',
     icon: 'spell_fire_sealoffire',
     maxRanks: 3,
     position: { x: 0, y: 1 },
@@ -191,7 +191,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     id: 'wildfire_t1_chain_reaction',
     name: 'Chain Reaction',
-    description: 'When a burning enemy dies, roll 1d6. On 4+: ignite a nearby enemy.',
+    description: 'Death is no end to Emberspire wildfire,it is only the next kindling. When a burning enemy dies, roll 1d6. On 4+: ignite a nearby enemy.',
     icon: 'spell_fire_flare',
     maxRanks: 3,
     position: { x: 2, y: 1 },
@@ -200,7 +200,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     id: 'wildfire_t1_wild_growth',
     name: 'Wild Growth',
-    description: 'Rank 1: Ground fire patches grow larger. Each patch now affects 10ft radius instead of 5ft. Rank 2: Ground fire patches grow larger. Each patch now affects 15ft radius instead of 5ft. Rank 3: Ground fire patches grow larger. Each patch now affects 20ft radius instead of 5ft.',
+    description: 'The Wyrd-touched blaze spreads without mercy, consuming ever more ground. Rank 1: Ground fire patches grow larger. Each patch now affects 10ft radius instead of 5ft. Rank 2: Ground fire patches grow larger. Each patch now affects 15ft radius instead of 5ft. Rank 3: Ground fire patches grow larger. Each patch now affects 20ft radius instead of 5ft.',
     icon: 'spell_fire_moltenblood',
     maxRanks: 3,
     position: { x: 4, y: 1 },
@@ -211,7 +211,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     id: 'wildfire_t2_firestorm',
     name: 'Firestorm',
-    description: 'Unlocks Firestorm - summon a storm of fire in 30ft radius. Deals 3d8 fire damage per round for 3 rounds.',
+    description: 'Emberspire rains destruction from above, a tempest of Abyssal fury. Unlocks Firestorm - summon a storm of fire in 30ft radius. Deals 3d8 fire damage per round for 3 rounds.',
     icon: 'spell_fire_selfdestruct',
     maxRanks: 3,
     position: { x: 1, y: 2 },
@@ -220,7 +220,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     id: 'wildfire_t2_searing_heat',
     name: 'Searing Heat',
-    description: 'Rank 1: Enemies take +1d6 fire damage when they take fire damage while already burning. Rank 2: Enemies take +2d6 fire damage when they take fire damage while already burning. Rank 3: Enemies take +3d6 fire damage when they take fire damage while already burning. Rank 4: Enemies take +4d6 fire damage when they take fire damage while already burning.',
+    description: 'Hellfire compounds upon itself, each layer of flame more merciless than the last. Rank 1: Enemies take +1d6 fire damage when they take fire damage while already burning. Rank 2: Enemies take +2d6 fire damage when they take fire damage while already burning. Rank 3: Enemies take +3d6 fire damage when they take fire damage while already burning. Rank 4: Enemies take +4d6 fire damage when they take fire damage while already burning.',
     icon: 'spell_fire_incinerate',
     maxRanks: 4,
     position: { x: 2, y: 2 },
@@ -229,7 +229,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     id: 'wildfire_t2_infernal_rain',
     name: 'Infernal Rain',
-    description: 'Unlocks Infernal Rain - rain of fire in 40ft radius deals 2d8 damage per round for 4 rounds.',
+    description: 'The Abyss weeps tears of liquid fire upon the unworthy. Unlocks Infernal Rain - rain of fire in 40ft radius deals 2d8 damage per round for 4 rounds.',
     icon: 'spell_fire_meteorstorm',
     maxRanks: 3,
     position: { x: 3, y: 2 },
@@ -240,7 +240,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     id: 'wildfire_t3_pandemic',
     name: 'Pandemic',
-    description: 'Rank 1: Your fire DoT effects can spread to nearby enemies. Roll 1d6 when a DoT ticks: on 4+ spread. Rank 2: Your fire DoT effects can spread to nearby enemies. Roll 1d6 when a DoT ticks: on 3+ spread. Rank 3: Your fire DoT effects can spread to nearby enemies. Roll 1d6 when a DoT ticks: on 2+ spread.',
+    description: 'Emberspire plague spreads like a Wyrd-touched contagion through the ranks. Rank 1: Your fire DoT effects can spread to nearby enemies. Roll 1d6 when a DoT ticks: on 4+ spread. Rank 2: Your fire DoT effects can spread to nearby enemies. Roll 1d6 when a DoT ticks: on 3+ spread. Rank 3: Your fire DoT effects can spread to nearby enemies. Roll 1d6 when a DoT ticks: on 2+ spread.',
     icon: 'spell_fire_flare',
     maxRanks: 3,
     position: { x: 0, y: 3 },
@@ -249,7 +249,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     id: 'wildfire_t3_heat_wave',
     name: 'Heat Wave',
-    description: 'Unlocks Heat Wave - 60ft cone dealing 4d8 fire damage. Creates ground fire in the area.',
+    description: 'A wave of Wyrd-touched heat blasts forth, turning stone to ember. Unlocks Heat Wave - 60ft cone dealing 4d8 fire damage. Creates ground fire in the area.',
     icon: 'spell_fire_twilightfireward',
     maxRanks: 3,
     position: { x: 1, y: 3 },
@@ -260,7 +260,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     id: 'wildfire_t3_burn_out',
     name: 'Burn Out',
-    description: 'When fire DoT effects expire, roll 1d6. On 5+: explode dealing 2d6 fire damage to the target.',
+    description: 'Even as the flame dies, it takes one last vengeful breath from the Abyss. When fire DoT effects expire, roll 1d6. On 5+: explode dealing 2d6 fire damage to the target.',
     icon: 'spell_fire_burnout',
     maxRanks: 3,
     position: { x: 3, y: 3 },
@@ -269,7 +269,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     id: 'wildfire_t3_lingering_flames',
     name: 'Lingering Flames',
-    description: 'Rank 1: Your fire DoT effects reduce enemy movement speed by 5ft. Rank 2: Your fire DoT effects reduce enemy movement speed by 10ft. Rank 3: Your fire DoT effects reduce enemy movement speed by 15ft. Rank 4: Your fire DoT effects reduce enemy movement speed by 20ft.',
+    description: 'Hellfire clings to the soul, each agonizing step bought with searing pain. Rank 1: Your fire DoT effects reduce enemy movement speed by 5ft. Rank 2: Your fire DoT effects reduce enemy movement speed by 10ft. Rank 3: Your fire DoT effects reduce enemy movement speed by 15ft. Rank 4: Your fire DoT effects reduce enemy movement speed by 20ft.',
     icon: 'spell_fire_burnout',
     maxRanks: 4,
     position: { x: 4, y: 3 },
@@ -280,7 +280,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     id: 'wildfire_t4_world_fire',
     name: 'World on Fire',
-    description: 'All ground fire patches are connected. Moving between patches costs 2x movement and deals 1d8 damage.',
+    description: 'Emberspire domain is a single, unbroken sea of Abyssal flame. All ground fire patches are connected. Moving between patches costs 2x movement and deals 1d8 damage.',
     icon: 'spell_fire_moltenblood',
     maxRanks: 2,
     position: { x: 0, y: 4 },
@@ -289,7 +289,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     id: 'wildfire_t4_calamity',
     name: 'Calamity',
-    description: 'Once per combat, create a field of endless flame in 50ft radius. Enemies take 3d6 fire damage per round.',
+    description: 'The Abyss yawns open, spilling its infinite wrath upon the battlefield. Once per combat, create a field of endless flame in 50ft radius. Enemies take 3d6 fire damage per round.',
     icon: 'spell_fire_selfdestruct',
     maxRanks: 2,
     position: { x: 2, y: 4 },
@@ -300,7 +300,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     id: 'wildfire_t4_eternal_flame',
     name: 'Eternal Flame',
-    description: 'Your fire effects cannot be extinguished by any means. They persist until their duration ends naturally.',
+    description: 'Emberspire flame is eternal, a Wyrd-touched pact that not even the spirits can break. Your fire effects cannot be extinguished by any means. They persist until their duration ends naturally.',
     icon: 'spell_fire_twilightflamebreath',
     maxRanks: 2,
     position: { x: 4, y: 4 },
@@ -311,7 +311,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     id: 'wildfire_t5_combustion_wave',
     name: 'Combustion Wave',
-    description: 'Unlocks Combustion Wave - 60ft line dealing 6d6 fire damage. Enemies hit lose 2d6 HP at start of their turns for 3 rounds.',
+    description: 'A wall of Abyssal fire surges forward, consuming everything in its path. Unlocks Combustion Wave - 60ft line dealing 6d6 fire damage. Enemies hit lose 2d6 HP at start of their turns for 3 rounds.',
     icon: 'spell_fire_incinerate',
     maxRanks: 3,
     position: { x: 1, y: 5 },
@@ -321,7 +321,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     id: 'wildfire_t5_volcanic_eruption',
     name: 'Volcanic Eruption',
-    description: 'Unlocks Volcanic Eruption - ground explodes in 20ft radius for 5d8 fire damage. Roll 1d6: on 5+, create lava pools.',
+    description: 'Emberspire fury bursts from below, turning the earth into a molten maw. Unlocks Volcanic Eruption - ground explodes in 20ft radius for 5d8 fire damage. Roll 1d6: on 5+, create lava pools.',
     icon: 'spell_fire_twilightfireward',
     maxRanks: 3,
     position: { x: 3, y: 5 },
@@ -333,7 +333,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     id: 'wildfire_t6_apocalypse',
     name: 'Apocalypse',
-    description: 'Unlocks Apocalypse - transform the battlefield into a hellscape. All enemies take 4d8 fire damage per round. Ground fire everywhere within 100ft.',
+    description: 'The Abyss claims all, Emberspire final judgment raining hellfire upon reality itself. Unlocks Apocalypse - transform the battlefield into a hellscape. All enemies take 4d8 fire damage per round. Ground fire everywhere within 100ft.',
     icon: 'spell_fire_soulburn',
     maxRanks: 1,
     position: { x: 2, y: 6 },
@@ -342,13 +342,13 @@ export const PYROFIEND_WILDFIRE = [
   }
 ];
 
-// Hellfire Specialization - Demonic chains wrapping around victims
+// Hellfire Specialization - Ember chains wrapping around victims
 export const PYROFIEND_HELLFIRE = [
   // Tier 0 - The Infernal Core (Center of the abyss)
   {
     id: 'hellfire_t0_demonic_resilience',
-    name: 'Demonic Resilience',
-    description: 'Rank 1: You gain +1 HP when ascending Inferno Levels. Fire damage cannot reduce you below 1 HP. Rank 2: You gain +2 HP when ascending Inferno Levels. Fire damage cannot reduce you below 1 HP. Rank 3: You gain +3 HP when ascending Inferno Levels. Fire damage cannot reduce you below 1 HP. Rank 4: You gain +4 HP when ascending Inferno Levels. Fire damage cannot reduce you below 1 HP. Rank 5: You gain +5 HP when ascending Inferno Levels. Fire damage cannot reduce you below 1 HP.',
+    name: 'Ember Resilience',
+    description: 'The Wyrd-touched core within you mends flesh even as it burns, a gift from the Abyss. Rank 1: You gain +1 HP when ascending Inferno Levels. Fire damage cannot reduce you below 1 HP. Rank 2: You gain +2 HP when ascending Inferno Levels. Fire damage cannot reduce you below 1 HP. Rank 3: You gain +3 HP when ascending Inferno Levels. Fire damage cannot reduce you below 1 HP. Rank 4: You gain +4 HP when ascending Inferno Levels. Fire damage cannot reduce you below 1 HP. Rank 5: You gain +5 HP when ascending Inferno Levels. Fire damage cannot reduce you below 1 HP.',
     icon: 'spell_shadow_shadowwordpain',
     maxRanks: 5,
     position: { x: 2, y: 0 },
@@ -359,7 +359,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     id: 'hellfire_t1_drain_life',
     name: 'Drain Life',
-    description: 'Unlocks Drain Life - deal 3d6 fire damage to target, heal for the damage dealt.',
+    description: 'The Abyss teaches you to take what burns, making their agony your vitality. Unlocks Drain Life - deal 3d6 fire damage to target, heal for the damage dealt.',
     icon: 'spell_shadow_lifedrain',
     maxRanks: 4,
     position: { x: 0, y: 1 },
@@ -368,7 +368,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     id: 'hellfire_t1_soul_fire',
     name: 'Soul Fire',
-    description: 'Rank 1: Your fire spells drain life. Deal +1d4 extra fire damage, heal for half the fire damage you deal. Rank 2: Your fire spells drain life. Deal +1d4 extra fire damage, heal for half the fire damage you deal. You have advantage on saving throws against being frightened. Rank 3: Your fire spells drain life. Deal +1d6 extra fire damage, heal for half the fire damage you deal. You have advantage on saving throws against being frightened. Rank 4: Your fire spells drain life. Deal +1d6 extra fire damage, heal for half the fire damage you deal. You have advantage on saving throws against being frightened and charmed.',
+    description: 'Ember hunger infuses every spark you cast, each flame a leech upon the soul. Rank 1: Your fire spells drain life. Deal +1d4 extra fire damage, heal for half the fire damage you deal. Rank 2: Your fire spells drain life. Deal +1d4 extra fire damage, heal for half the fire damage you deal. You have advantage on saving throws against being frightened. Rank 3: Your fire spells drain life. Deal +1d6 extra fire damage, heal for half the fire damage you deal. You have advantage on saving throws against being frightened. Rank 4: Your fire spells drain life. Deal +1d6 extra fire damage, heal for half the fire damage you deal. You have advantage on saving throws against being frightened and charmed.',
     icon: 'spell_fire_soulburn',
     maxRanks: 4,
     position: { x: 2, y: 1 },
@@ -377,7 +377,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     id: 'hellfire_t1_dark_empowerment',
     name: 'Dark Empowerment',
-    description: 'Rank 1: When you take fire damage, ascend 1 Inferno Level. Rank 2: When you take fire damage, ascend 1 Inferno Level. When you take non-fire damage, reduce the next Inferno drawback self-damage by 1d4. Rank 3: When you take fire damage, ascend 1 Inferno Level. When you take non-fire damage, reduce the next Inferno drawback self-damage by 1d6. Rank 4: When you take fire damage, ascend 1 Inferno Level. When you take non-fire damage, reduce the next Inferno drawback self-damage by 1d8 and gain 1d4 temporary HP.',
+    description: 'Emberspire blesses those who suffer,every wound is a step deeper into Abyssal power. Rank 1: When you take fire damage, ascend 1 Inferno Level. Rank 2: When you take fire damage, ascend 1 Inferno Level. When you take non-fire damage, reduce the next Inferno drawback self-damage by 1d4. Rank 3: When you take fire damage, ascend 1 Inferno Level. When you take non-fire damage, reduce the next Inferno drawback self-damage by 1d6. Rank 4: When you take fire damage, ascend 1 Inferno Level. When you take non-fire damage, reduce the next Inferno drawback self-damage by 1d8 and gain 1d4 temporary HP.',
     icon: 'spell_shadow_soulburn',
     maxRanks: 4,
     position: { x: 4, y: 1 },
@@ -388,7 +388,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     id: 'hellfire_t2_soul_link',
     name: 'Soul Link',
-    description: 'Rank 1: Link your life force to an enemy. Roll 1d6 when they take damage: on 4+ you heal for 1d6. Rank 2: Link your life force to an enemy. Roll 1d6 when they take damage: on 4+ you heal for 2d6. Rank 3: Link your life force to an enemy. Roll 1d6 when they take damage: on 4+ you heal for 3d6. Rank 4: Link your life force to an enemy. Roll 1d6 when they take damage: on 4+ you heal for 4d6.',
+    description: 'Ember chains of Abyssal fire bind your soul to theirs, making their suffering your strength. Rank 1: Link your life force to an enemy. Roll 1d6 when they take damage: on 4+ you heal for 1d6. Rank 2: Link your life force to an enemy. Roll 1d6 when they take damage: on 4+ you heal for 2d6. Rank 3: Link your life force to an enemy. Roll 1d6 when they take damage: on 4+ you heal for 3d6. Rank 4: Link your life force to an enemy. Roll 1d6 when they take damage: on 4+ you heal for 4d6.',
     icon: 'spell_shadow_soulburn',
     maxRanks: 4,
     position: { x: 0, y: 2 },
@@ -397,7 +397,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     id: 'hellfire_t2_immortal',
     name: 'Immortal',
-    description: 'At Inferno Level 5+, you cannot die from HP loss. Instead, you enter a weakened state at 1 HP. This does not protect against The Demon\'s Bargain (Inferno Level 9 death clock).',
+    description: 'Emberspire gift of undeath keeps you standing when all others fall to ash. At Inferno Level 5+, you cannot die from HP loss. Instead, you enter a weakened state at 1 HP. This does not protect against The Demon\'s Bargain (Inferno Level 9 death clock).',
     icon: 'spell_shadow_requiem',
     maxRanks: 2,
     position: { x: 2, y: 2 },
@@ -405,8 +405,8 @@ export const PYROFIEND_HELLFIRE = [
   },
   {
     id: 'hellfire_t2_demonic_shield',
-    name: 'Demonic Shield',
-    description: 'Rank 1: When you ascend to a new Inferno Level, gain a shield absorbing 1d6 damage per level reached. Rank 2: When you ascend to a new Inferno Level, gain a shield absorbing 2d6 damage per level reached. Rank 3: When you ascend to a new Inferno Level, gain a shield absorbing 3d6 damage per level reached.',
+    name: 'Cinderward',
+    description: 'Abyssal flames coalesce into a barrier of Wyrd-touched protection around you. Rank 1: When you ascend to a new Inferno Level, gain a shield absorbing 1d6 damage per level reached. Rank 2: When you ascend to a new Inferno Level, gain a shield absorbing 2d6 damage per level reached. Rank 3: When you ascend to a new Inferno Level, gain a shield absorbing 3d6 damage per level reached.',
     icon: 'spell_fire_twilightfireward',
     maxRanks: 3,
     position: { x: 4, y: 2 },
@@ -417,7 +417,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     id: 'hellfire_t3_demon_form',
     name: 'Demon Form',
-    description: 'Rank 1: Unlocks Demon Form - transform for 1 minute. +2 armor, +1 to all saves, regenerate 1d8 HP per round. Rank 2: Unlocks Demon Form - transform for 1 minute. +4 armor, +2 to all saves, regenerate 2d8 HP per round. Rank 3: Unlocks Demon Form - transform for 1 minute. +6 armor, +3 to all saves, regenerate 3d8 HP per round.',
+    description: 'Emberspire true children shed their mortal guise and embrace the Abyss incarnate. Rank 1: Unlocks Demon Form - transform for 1 minute. +2 armor, +1 to all saves, regenerate 1d8 HP per round. Rank 2: Unlocks Demon Form - transform for 1 minute. +4 armor, +2 to all saves, regenerate 2d8 HP per round. Rank 3: Unlocks Demon Form - transform for 1 minute. +6 armor, +3 to all saves, regenerate 3d8 HP per round.',
     icon: 'spell_shadow_metamorphosis',
     maxRanks: 3,
     position: { x: 0, y: 3 },
@@ -426,7 +426,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     id: 'hellfire_t3_life_steal',
     name: 'Life Steal',
-    description: 'Rank 1: Your fire damage heals you for 1 HP for every 4 damage dealt. Rank 2: Your fire damage heals you for 1 HP for every 4 damage dealt. You can spend 1 action point to regain 1d8 HP when below half health. Rank 3: Your fire damage heals you for 1 HP for every 4 damage dealt. You can spend 1 action point to regain 1d8 HP when below half health. Rank 4: Your fire damage heals you for 2 HP for every 4 damage dealt. You can spend 1 action point to regain 1d10 HP when below half health.',
+    description: 'Every life you take with hellfire becomes a tribute, stolen vitality flowing back to you. Rank 1: Your fire damage heals you for 1 HP for every 4 damage dealt. Rank 2: Your fire damage heals you for 1 HP for every 4 damage dealt. You can spend 1 action point to regain 1d8 HP when below half health. Rank 3: Your fire damage heals you for 1 HP for every 4 damage dealt. You can spend 1 action point to regain 1d8 HP when below half health. Rank 4: Your fire damage heals you for 2 HP for every 4 damage dealt. You can spend 1 action point to regain 1d10 HP when below half health.',
     icon: 'spell_shadow_lifedrain',
     maxRanks: 4,
     position: { x: 2, y: 3 },
@@ -435,7 +435,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     id: 'hellfire_t3_dark_barrier',
     name: 'Dark Barrier',
-    description: 'Enemies within 15ft have disadvantage on saving throws against your fire effects.',
+    description: 'The Abyss radiates from you, a field of pure Wyrd-touched dread that breaks mortal will. Enemies within 15ft have disadvantage on saving throws against your fire effects.',
     icon: 'spell_shadow_antishadow',
     maxRanks: 3,
     position: { x: 4, y: 3 },
@@ -446,7 +446,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     id: 'hellfire_t4_fear_realm',
     name: 'Fear Realm',
-    description: 'Unlocks Fear Realm - create a 40ft zone of terror. Enemies must save or be frightened and take 2d6 psychic damage per round.',
+    description: 'Emberspire nightmares bleed into reality, a domain where fear burns as hot as flame. Unlocks Fear Realm - create a 40ft zone of terror. Enemies must save or be frightened and take 2d6 psychic damage per round.',
     icon: 'spell_shadow_shadowwordpain',
     maxRanks: 3,
     position: { x: 0, y: 4 },
@@ -455,7 +455,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     id: 'hellfire_t4_hellish_aura',
     name: 'Hellish Aura',
-    description: 'Rank 1: Enemies within 20ft take 1d6 fire damage at the start of your turn and have -1 to attack rolls. Rank 2: Enemies within 20ft take 2d6 fire damage at the start of your turn and have -2 to attack rolls. Rank 3: Enemies within 20ft take 3d6 fire damage at the start of your turn and have -3 to attack rolls.',
+    description: 'Your mere presence becomes a weapon, an aura of Abyssal hellfire that withers all who draw near. Rank 1: Enemies within 20ft take 1d6 fire damage at the start of your turn and have -1 to attack rolls. Rank 2: Enemies within 20ft take 2d6 fire damage at the start of your turn and have -2 to attack rolls. Rank 3: Enemies within 20ft take 3d6 fire damage at the start of your turn and have -3 to attack rolls.',
     icon: 'spell_shadow_shadowwordpain',
     maxRanks: 3,
     position: { x: 2, y: 4 },
@@ -464,7 +464,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     id: 'hellfire_t4_abyssal_summoning',
     name: 'Abyssal Summoning',
-    description: 'Unlocks Abyssal Summoning - summon a lesser demon. Roll 1d6: on 4+, summon succeeds.',
+    description: 'Emberspire answers your call, tearing open a rift through which lesser fiends pour forth. Unlocks Abyssal Summoning - summon a lesser horror. Roll 1d6: on 4+, summon succeeds.',
     icon: 'spell_shadow_summonimp',
     maxRanks: 2,
     position: { x: 4, y: 4 },
@@ -475,7 +475,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     id: 'hellfire_t5_soul_harvest',
     name: 'Soul Harvest',
-    description: 'Unlocks Soul Harvest - consume enemy souls in 30ft radius. Deal 3d8 damage, heal for total damage.',
+    description: 'The Abyss demands tribute, and you deliver souls by the handful to its insatiable hunger. Unlocks Soul Harvest - consume enemy souls in 30ft radius. Deal 3d8 damage, heal for total damage.',
     icon: 'spell_shadow_soulburn',
     maxRanks: 3,
     position: { x: 0, y: 5 },
@@ -484,8 +484,8 @@ export const PYROFIEND_HELLFIRE = [
   },
   {
     id: 'hellfire_t5_demonic_dominion',
-    name: 'Demonic Dominion',
-    description: 'Rank 1: Your summoned demons gain +2 to all rolls and deal +1d6 fire damage. Rank 2: Your summoned demons gain +4 to all rolls and deal +2d6 fire damage. Rank 3: Your summoned demons gain +6 to all rolls and deal +3d6 fire damage.',
+    name: 'Emberspire Dominion',
+    description: 'Emberspire legions heed your command, empowered by the infernal fire you feed them. Rank 1: Your summoned demons gain +2 to all rolls and deal +1d6 fire damage. Rank 2: Your summoned demons gain +4 to all rolls and deal +2d6 fire damage. Rank 3: Your summoned demons gain +6 to all rolls and deal +3d6 fire damage.',
     icon: 'spell_shadow_antishadow',
     maxRanks: 3,
     position: { x: 2, y: 5 },
@@ -495,7 +495,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     id: 'hellfire_t5_eternal_torment',
     name: 'Eternal Torment',
-    description: 'Rank 1: Enemies killed by your fire damage explode, dealing 2d6 fire damage to enemies within 10ft. Rank 2: Enemies killed by your fire damage explode, dealing 2d6 fire damage to enemies within 15ft. Each explosion heals you for 1d4 HP. Rank 3: Enemies killed by your fire damage explode, dealing 3d6 fire damage to enemies within 20ft. Each explosion heals you for 1d6 HP and you gain 1 temporary HP per enemy hit.',
+    description: 'Death by your hand is never clean,the Abyss ensures each victim becomes a bomb of hellfire. Rank 1: Enemies killed by your fire damage explode, dealing 2d6 fire damage to enemies within 10ft. Rank 2: Enemies killed by your fire damage explode, dealing 2d6 fire damage to enemies within 15ft. Each explosion heals you for 1d4 HP. Rank 3: Enemies killed by your fire damage explode, dealing 3d6 fire damage to enemies within 20ft. Each explosion heals you for 1d6 HP and you gain 1 temporary HP per enemy hit.',
     icon: 'spell_shadow_requiem',
     maxRanks: 3,
     position: { x: 4, y: 5 },
@@ -506,7 +506,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     id: 'hellfire_t6_prince_of_hell',
     name: 'Prince of Hell',
-    description: 'Unlocks Hell Portal - open a portal to the Abyss. Summon up to 3 demonic minions and deal 6d8 fire damage in 60ft radius per round. Demons last for 1 minute.',
+    description: 'Emberspire throne awaits,you tear open the Abyss itself and command its legions. Unlocks Hell Portal - open a portal to the Abyss. Summon up to 3 Wyrd-touched minions and deal 6d8 fire damage in 60ft radius per round. Demons last for 1 minute.',
     icon: 'spell_shadow_soulburn',
     maxRanks: 1,
     position: { x: 2, y: 6 },

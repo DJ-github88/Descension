@@ -1,8 +1,8 @@
-/**
+﻿/**
  * Class Spell Templates
  *
  * CLEARED FOR TESTING
- * All class spells have been removed and replaced with comprehensive test spells.
+ * All class spells have been removed and replaced with complete test spells.
  * See testSpells.js for the test spell library.
  *
  * Original spells backed up to: BACKUP_classSpellTemplates.js

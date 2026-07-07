@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Spell Component System
  * 
  * Provides support for spell components:
@@ -58,8 +58,8 @@ export const COMPONENT_TYPES = {
   
   DIVINE_FOCUS: {
     id: 'divine_focus',
-    name: 'Divine Focus',
-    description: 'Holy symbol or other divine object required for divine spells',
+    name: 'Sacred Focus',
+    description: 'Sacred symbol or other consecrated object required for sacred spells',
     icon: 'spell_icon_divine_focus',
     restrictions: {
       noComponents: true,
@@ -336,8 +336,8 @@ export function generateDefaultComponents(spellConfig) {
     components.push('focus');
   }
   
-  // Divine spells often require divine focus
-  if (spellConfig.spellTypes && spellConfig.spellTypes.includes('divine')) {
+  // Divine spells often require sacred focus
+  if (spellConfig.spellTypes && spellConfig.spellTypes.includes('sacred')) {
     components.push('divine_focus');
   }
   
@@ -406,10 +406,10 @@ export function getSuggestedMaterialComponent(spellConfig) {
           cost: 0,
           consumed: true
         };
-      case 'divine':
+      case 'sacred':
         return {
-          name: 'Powdered Silver and Holy Water',
-          description: 'A pinch of powdered silver and a vial of blessed water',
+          name: 'Powdered Silver and Sacred Water',
+          description: 'A pinch of powdered silver and a vial of consecrated water',
           cost: 0,
           consumed: true
         };

@@ -1,4 +1,4 @@
-import { create } from 'zustand';
+﻿import { create } from 'zustand';
 
 const CHRONOLOGY_ERA_DISPLAY = [
   {
@@ -10,13 +10,13 @@ const CHRONOLOGY_ERA_DISPLAY = [
   {
     id: 'deepening',
     name: 'The Deepening',
-    yearRange: 'Year 0–12',
+    yearRange: 'Year 0-12',
     description: 'Sol\'s death-rebirth trance: the twelve years of dying light. The era of the Binding, the Bargains, and the Breach.'
   },
   {
     id: 'dimming',
     name: 'The Age of the Dimming',
-    yearRange: 'Year 12–Present',
+    yearRange: 'Year 12-Present',
     description: '~800 years of frozen twilight. Sixty-five failed rebirth cycles. Keth-Amar feeds. The Monoliths are waking.'
   }
 ];
@@ -134,7 +134,7 @@ const TRADE_ROUTES = [
 
 const SEEDED_EVENTS = [
   // ============================================================
-  // PHASE 1: THE FALSE SPRING (Years 0–50)
+  // PHASE 1: THE FALSE SPRING (Years 0-50)
   // Warmth: Volcanic abundance. Intrusion: Ambient.
   // ============================================================
 
@@ -145,7 +145,7 @@ const SEEDED_EVENTS = [
     type: 'cosmic',
     phase: 'false-spring',
     description:
-      'The sun-god Sol entered its ancient death-rebirth cycle called the Deepening. Its light began to dim. The Augurs of the seven noble houses were the first to read the signs in the cooling light. For three years, the families debated while the world froze.',
+      'The star Sol entered its ancient death-rebirth cycle called the Deepening. Its light began to dim. The Augurs of the binding houses were the first to read the signs in the cooling light. For three years, the families debated while the world froze.',
     locationIds: ['sundale'],
     factionIds: ['house-thalreth', 'house-skalvyr', 'house-solvan', 'house-ordavan'],
     classIds: ['augur', 'harbinger'],
@@ -173,7 +173,7 @@ const SEEDED_EVENTS = [
     type: 'cosmic',
     phase: 'false-spring',
     description:
-      'Denied its prey by the Binding, Keth-Amar did not rage — it waited. For eight years, as the winter deepened and children froze and crops failed and whole villages went silent, the Sun-Eater whispered. Not into the grand halls of the noble houses. Into the kitchens, the nurseries, the night-watches. It whispered into the dreams of fathers who had signed the Binding. It showed mothers the faces of their starving children. It offered a simple trade: warmth for blood. The whispers did not compel. they corroded. By Year 11, six noble houses had heard the same offer so many times it no longer sounded like a choice.',
+      'Denied its prey by the Binding, Keth-Amar did not rage, it waited. For eight years, as the winter deepened and children froze and crops failed and whole villages went silent, the Sun-Eater whispered. Not into the grand halls of the noble houses. Into the kitchens, the nurseries, the night-watches. It whispered into the dreams of fathers who had signed the Binding. It showed mothers the faces of their starving children. It offered a simple trade: warmth for blood. The whispers did not compel. they corroded. By Year 11, six noble houses had heard the same offer so many times it no longer sounded like a choice.',
     locationIds: ['sundale', 'frostwood-reach', 'nordhalla', 'cragjaw-peaks', 'sundrift-vale', 'iceheart-sea', 'bryngloom-forest'],
     factionIds: ['house-solvan', 'house-ordavan', 'house-mereval', 'house-tesshan', 'house-thalreth', 'house-skalvyr'],
     classIds: ['pyrofiend', 'martyr', 'harbinger'],
@@ -229,7 +229,7 @@ const SEEDED_EVENTS = [
     type: 'political',
     phase: 'false-spring',
     description:
-      'When the other six houses marched their children north, House Viridane did not. Something had reached them before the Sun-Eater\'s whispers could take hold — a presence in the mist, watching from the moonlit groves, older than Keth-Amar\'s hunger and more patient. They fled south through the Frostwood Reach while sacrifice fires still burned, carrying children hidden beneath cloaks woven from the hair of their own dead. The six houses, unable to complete the binding ritual with only six signatures, elevated House Morrath as a substitute seventh and began the centuries-long project of erasing every trace of Viridane. For fourteen years between their elevation and the First Contract, House Morrath administered basic survival. resource distribution, defense, and refugee settlement: while the Neth scribe-clan negotiated the pact that would define the region.',
+      'When the other six houses marched their children north, House Viridane did not. Something had reached them before the Sun-Eater\'s whispers could take hold, a presence in the mist, watching from the moonlit groves, older than Keth-Amar\'s hunger and more patient. They fled south through the Frostwood Reach while sacrifice fires still burned, carrying children hidden beneath cloaks woven from the hair of their own dead. The six houses, unable to complete the binding ritual with only six signatures, elevated House Morrath as a substitute seventh and began the centuries-long project of erasing every trace of Viridane. For fourteen years between their elevation and the First Contract, House Morrath administered basic survival. resource distribution, defense, and refugee settlement: while the Neth scribe-clan negotiated the pact that would define the region.',
     locationIds: ['frostwood-reach', 'ironwood-heart'],
     factionIds: ['house-viridane'],
     classIds: ['lunarch'],
@@ -243,7 +243,7 @@ const SEEDED_EVENTS = [
     type: 'cosmic',
     phase: 'false-spring',
     description:
-      'Twelve years after Sol entered the Deepening, the first rebirth window arrived. Sol attempted to rekindle. For three days, the sky lightened — the False Dawn, the month named for this event. Then Keth-Amar, newly inside the vault through the Breach wound, consumed the rekindling energy. The warming stopped. The sky darkened. The Augurs at the Frozen Archive measured: 40% of expected output. The first quantifiable data point in what would become a 65-cycle record of decline. The calendar month "The False Dawn" and the "First Thaw Vigil" holiday are cultural echoes of this moment. people still watch for a rebirth that has never come.',
+      'Twelve years after Sol entered the Deepening, the first rebirth window arrived. Sol attempted to rekindle. For three days, the sky lightened, the False Dawn, the month named for this event. Then Keth-Amar, newly inside the vault through the Breach wound, consumed the rekindling energy. The warming stopped. The sky darkened. The Augurs at the Frozen Archive measured: 40% of expected output. The first quantifiable data point in what would become a 65-cycle record of decline. The calendar month "The False Dawn" and the "First Thaw Vigil" holiday are cultural echoes of this moment. people still watch for a rebirth that has never come.',
     locationIds: ['frozen-archive', 'sundale'],
     factionIds: [],
     classIds: ['augur'],
@@ -299,7 +299,7 @@ const SEEDED_EVENTS = [
     type: 'pact',
     phase: 'false-spring',
     description:
-      'House Ordavan traded the Sundrift Vale\'s fertile soil for endless migration and grass that always returned. The sky went dark (the constellation-spirits fled the slaughter and the Astril ancestors volunteered as living vessels. House Mereval traded the Iceheart\'s calm for navigable) and perpetually storm-lashed — sea lanes. House Tesshan traded the Cragjaw\'s visibility for an eternal blizzard-veil. In the Bryngloom, the Neth ancestors. not a noble house, but a dying scribe-clan: negotiated the First Contract with the Keeper of the Last Threshold, trading death\'s finality for silver-skinned survival and an absolute prohibition on falsehood.',
+      'House Ordavan traded the Sundrift Vale\'s fertile soil for endless migration and grass that always returned. The sky went dark (the constellation-spirits fled the slaughter and the Astril ancestors volunteered as living vessels. House Mereval traded the Iceheart\'s calm for navigable) and perpetually storm-lashed, sea lanes. House Tesshan traded the Cragjaw\'s visibility for an eternal blizzard-veil. In the Bryngloom, the Neth ancestors. not a noble house, but a dying scribe-clan: negotiated the First Contract with the Keeper of the Last Threshold, trading death\'s finality for silver-skinned survival and an absolute prohibition on falsehood.',
     locationIds: ['sundrift-vale', 'iceheart-sea', 'cragjaw-peaks', 'bryngloom-forest', 'atropolis'],
     factionIds: ['house-ordavan', 'house-mereval', 'house-tesshan'],
     classIds: ['animist', 'gambit', 'shaper'],
@@ -313,7 +313,7 @@ const SEEDED_EVENTS = [
     type: 'cultural',
     phase: 'false-spring',
     description:
-      'When Sol was bound, the constellation-spirits of the sun\'s celestial court fled the slaughter — Horse, Wolf, Dragon, Serpent, Tiger, Stag. They found the Sundrift Vale, where the Ordan had been singing the stars\' names for a thousand years. The Astril ancestors opened themselves: they became living vessels for the last fragments of Sol\'s court. Every Astril child is born with a constellation-spirit woven into their blood. Faith is visible. patterns brighten with conviction, dim with doubt. This created the assassination economy: kill an Astril, and their spirit may choose you.',
+      'When Sol was bound, the constellation-spirits of the sun\'s celestial court fled the slaughter, Horse, Wolf, Dragon, Serpent, Tiger, Stag. They found the Sundrift Vale, where the Ordan had been singing the stars\' names for a thousand years. The Astril ancestors opened themselves: they became living vessels for the last fragments of Sol\'s court. Every Astril child is born with a constellation-spirit woven into their blood. Faith is visible. patterns brighten with conviction, dim with doubt. This created the assassination economy: kill an Astril, and their spirit may choose you.',
     locationIds: ['sundrift-vale', 'starfall-vale'],
     factionIds: ['house-ordavan'],
     classIds: ['augur', 'harbinger'],
@@ -327,7 +327,7 @@ const SEEDED_EVENTS = [
     type: 'pact',
     phase: 'false-spring',
     description:
-      'The Neth (a dying scribe-clan of the Bryngloom) gathered every contract they had ever written and walked into the deep wood. They found the Keeper of the Last Threshold and did not pray — they presented a legal case: "You are the record-keeper of the forest. The Neth are the record-keepers of civilization. If we die, the record dies." The Keeper accepted. They rose from the bog with silver skin, stilled breath, and the First Contract written in their blood. The Neth cannot lie. Their blood crystallizes into volatile shards. The Velun bloodline. born of the original signatories: still run Atropolis.',
+      'The Neth (a dying scribe-clan of the Bryngloom) gathered every contract they had ever written and walked into the deep wood. They found the Keeper of the Last Threshold and did not pray, they presented a legal case: "You are the record-keeper of the forest. The Neth are the record-keepers of civilization. If we die, the record dies." The Keeper accepted. They rose from the bog with silver skin, stilled breath, and the First Contract written in their blood. The Neth cannot lie. Their blood crystallizes into volatile shards. The Velun bloodline. born of the original signatories: still run Atropolis.',
     locationIds: ['bryngloom-forest', 'atropolis'],
     factionIds: [],
     classIds: ['arcanoneer'],
@@ -351,7 +351,7 @@ const SEEDED_EVENTS = [
   {
     id: 'event-church-founding',
     date: { year: 13, eraId: 'dimming' },
-    title: 'Founding of the Church of the Holy Light',
+    title: 'Founding of the Solbrand Order',
     type: 'founding',
     phase: 'false-spring',
     description:
@@ -387,7 +387,7 @@ const SEEDED_EVENTS = [
       '• Augur (Year ~2): Cassia, a Skald star-watcher at the Frozen Archive, read the Deepening\'s hour in the steaming entrails of a sacrificed glacier-elk the moment Sol first darkened. The temporal-feedback burn incinerated her past to make space for cosmic-doom coordinate chains.\n' +
       '• Spellguard (Year ~3): Damon, an Emberth blacksmith, blocked a solar flare with an alchemical tower shield during Sol\'s entombment. His hands are preserved frozen in the shielding posture at the Shield-Forge Keeps beneath Emberspire.\n' +
       '• Martyr (Year ~5) (Sera Solvan, a mother of House Solvan, carved her sacrificed child\'s name into her forearm with volcanic obsidian when the heirs were marched north. The wound healed into a glowing solar scar) the first Vow.\n' +
-      '• Pyrofiend (Year ~12): When the first rebirth window failed, seven Solvarn occultists gathered in an obsidian cavern beneath Emberspire, drew a summoning circle in their own blood, and swallowed demonic coals of Scathrach, the Ashen Sovereign.\n' +
+      '• Pyrofiend (Year ~12): When the first rebirth window failed, seven Solvarn occultists gathered in an obsidian cavern beneath Emberspire, drew a summoning circle in their own blood, and swallowed Wyrd-touched coals of Scathrach, the Ashen Sovereign.\n' +
       '• Apex (Year ~10-30): Sylas, a Mimir tracker, formalized the Silent Hunt for Wyrd-creatures emerging through the Breach cracks. He traded his hearing for vibration-sense in the deep Ironwood Heart.',
       locationIds: ['frozen-archive', 'sundale', 'emberspire-caldera', 'ironwood-heart'],
     factionIds: ['house-solvan', 'house-skalvyr'],
@@ -397,7 +397,7 @@ const SEEDED_EVENTS = [
   },
 
   // ============================================================
-  // PHASE 2: THE FIRST EBBING (Years 50–200)
+  // PHASE 2: THE FIRST EBBING (Years 50-200)
   // Warmth: Declining. Intrusion: Growing.
   // ============================================================
 
@@ -562,7 +562,7 @@ const SEEDED_EVENTS = [
     type: 'founding',
     phase: 'first-ebbing',
     description:
-      'The Astril Luminarchy formally organized into the Synod — a ruling council of the oldest constellation-bloodlines governing from the crystal-lattice cathedral of Synod-Hold. The assassination economy was openly condemned and privately practiced. The first Over-Sung case was recorded within the year: a Sylen who opened too wide and was consumed, the spirit claiming the vessel entirely. The Unlit. Astril born without a constellation: were conscripted as Synod spies, their patternless skin making them perfectly unreadable.',
+      'The Astril Luminarchy formally organized into the Synod, a ruling council of the oldest constellation-bloodlines governing from the crystal-lattice cathedral of Synod-Hold. The assassination economy was openly condemned and privately practiced. The first Over-Sung case was recorded within the year: a Sylen who opened too wide and was consumed, the spirit claiming the vessel entirely. The Unlit. Astril born without a constellation: were conscripted as Synod spies, their patternless skin making them perfectly unreadable.',
     locationIds: ['sundrift-vale', 'synod-hold'],
     factionIds: [],
     classIds: ['augur', 'harbinger'],
@@ -581,7 +581,7 @@ const SEEDED_EVENTS = [
       '• Warden (Year ~70): Alaric the Law-Keeper, a Groven mine-guard at Frostmaw Holdfast, drove an ore-hauling chain through his own forearm into a colossal Deep Alchemist specimen during the Vat-Breakers\' revolt. He held for three days. The chain rusted into his bone.\n' +
       '• Lunarch (Year ~80) (Selene, sister of House Viridane, bargained with wildwood fae in the moonlit groves to capture the dead moon\'s light. She bound a lunar parasite to her bones) an ancient celestial predator feeding on memory, sensation, and sanity.\n' +
       '• Minstrel (Year ~100) (Lyris the Tide-Singer, a Merryn sailor, sang a sea-symphony to calm the Iceheart gales at Merrowport. The ocean mother accepted but stole her spoken voice) attempting to speak causes her throat to bleed.\n' +
-      '• Animist (Year ~120-200): Three independent ancestral-communion discoveries (Kael the Ordan totemic, Nyssa the Vreken spore-loa, Theron the Skald runic) developed in parallel. They would merge centuries later when the founders\' successors recognized each other\'s scars.',
+      '• Animist (Year ~120-200): Three independent ancestral-communion discoveries (Kael the Ordan totemic, Nyssa the Vreken spore-Wyrd, Theron the Skald runic) developed in parallel. They would merge centuries later when the founders\' successors recognized each other\'s scars.',
     locationIds: ['bryngloom-forest', 'cragjaw-peaks', 'frostwood-reach', 'iceheart-sea', 'sundrift-vale', 'nordhalla'],
     factionIds: [],
     classIds: ['arcanoneer', 'warden', 'lunarch', 'minstrel', 'animist'],
@@ -590,7 +590,7 @@ const SEEDED_EVENTS = [
   },
 
   // ============================================================
-  // PHASE 3: THE CONTRACTION (Years 200–450)
+  // PHASE 3: THE CONTRACTION (Years 200-450)
   // Warmth: Significant decline. Intrusion: Targeted.
   // ============================================================
 
@@ -674,7 +674,7 @@ const SEEDED_EVENTS = [
     type: 'cultural',
     phase: 'contraction',
     description:
-      'Saren-Vel, the most powerful Velun Neth mage of her generation, walked into the deepest Bryngloom bog with a flame that consumed only ink — not paper, not flesh. She burned her name from every active copy of the First Contract. The Drun subrace was born: legally nonexistent, magic-immune, invisible to the Keeper\'s enforcement. They are also legally non-entitled. no property, no marriage, no testimony in a Neth court. Her act was a response to the Keeper\'s growing distraction: as the pact weakened, its cage became unbearable to those who could feel it tightening.',
+      'Saren-Vel, the most powerful Velun Neth mage of her generation, walked into the deepest Bryngloom bog with a flame that consumed only ink, not paper, not flesh. She burned her name from every active copy of the First Contract. The Drun subrace was born: legally nonexistent, magic-immune, invisible to the Keeper\'s enforcement. They are also legally non-entitled. no property, no marriage, no testimony in a Neth court. Her act was a response to the Keeper\'s growing distraction: as the pact weakened, its cage became unbearable to those who could feel it tightening.',
     locationIds: ['bryngloom-forest', 'atropolis'],
     factionIds: [],
     classIds: ['revenant', 'gambit'],
@@ -758,7 +758,7 @@ const SEEDED_EVENTS = [
     type: 'disaster',
     phase: 'contraction',
     description:
-      'With the Neth\'s expanding trade networks making Vreken fungal exports into valuable currency across all seven regions, harvest of Ghost-Mycelium intensified dramatically. Exposure intensified correspondingly. Aedris, a Marked Veil-Speaker at the Sunken Spire, became the first recorded Over-Lit case — pressing raw Ghost-Mycelium pulp to her eyes during a prolonged crypt-vigil and found three days later still glowing, still singing, but no longer able to recognize her own reflection. The epidemic exposed the fatal weakness in Marked biology: the light that makes them extraordinary is the same light that consumes them. The Clean. immune to the hush: began their quiet drift toward the leadership positions the Marked were deemed too volatile to hold.',
+      'With the Neth\'s expanding trade networks making Vreken fungal exports into valuable currency across all seven regions, harvest of Ghost-Mycelium intensified dramatically. Exposure intensified correspondingly. Aedris, a Marked Veil-Speaker at the Sunken Spire, became the first recorded Over-Lit case, pressing raw Ghost-Mycelium pulp to her eyes during a prolonged crypt-vigil and found three days later still glowing, still singing, but no longer able to recognize her own reflection. The epidemic exposed the fatal weakness in Marked biology: the light that makes them extraordinary is the same light that consumes them. The Clean. immune to the hush: began their quiet drift toward the leadership positions the Marked were deemed too volatile to hold.',
       locationIds: ['bryngloom-forest', 'the-sunken-spire'],
     factionIds: [],
     classIds: ['inquisitor', 'plaguebringer'],
@@ -817,7 +817,7 @@ const SEEDED_EVENTS = [
   },
 
   // ============================================================
-  // PHASE 4: THE SQUEEZE (Years 450–650)
+  // PHASE 4: THE SQUEEZE (Years 450-650)
   // Warmth: Accelerating decline. Intrusion: Coordinated.
   // ============================================================
 
@@ -924,7 +924,7 @@ const SEEDED_EVENTS = [
   },
 
   // ============================================================
-  // PHASE 5: THE INTRUSION (Years 650–800)
+  // PHASE 5: THE INTRUSION (Years 650-800)
   // Warmth: Terminal decline. Intrusion: Active Assault.
   // ============================================================
 
@@ -949,7 +949,7 @@ const SEEDED_EVENTS = [
     type: 'conspiracy',
     phase: 'intrusion',
     description:
-      'With Nordhalla\'s geothermal sumps failing and the Frozen Archive\'s heating systems degrading, Frigga Skalvyr of House Skalvyr\'s younger generation made clandestine contact with outcast Emberth pyrofiends. Construction began on a volatile heat-engine powered by Emberspire obsidian, sealed beneath the Frozen Archive\'s deepest levels. The Void-Heat engine traded the Glacier Bargain\'s slow stability for a faster, dirtier warmth: warmth stolen from the deep and from Scathrach\'s demonic fire. The glacier-preserved dead stirred. Temporal friction began contaminating the Augurs\' readings. The engine still runs.',
+      'With Nordhalla\'s geothermal sumps failing and the Frozen Archive\'s heating systems degrading, Frigga Skalvyr of House Skalvyr\'s younger generation made clandestine contact with outcast Emberth pyrofiends. Construction began on a volatile heat-engine powered by Emberspire obsidian, sealed beneath the Frozen Archive\'s deepest levels. The Void-Heat engine traded the Glacier Bargain\'s slow stability for a faster, dirtier warmth: warmth stolen from the deep and from Scathrach\'s Wyrd-touched fire. The glacier-preserved dead stirred. Temporal friction began contaminating the Augurs\' readings. The engine still runs.',
     locationIds: ['frozen-archive', 'nordhalla'],
     factionIds: ['house-skalvyr'],
     classIds: ['pyrofiend', 'augur'],
@@ -1047,7 +1047,7 @@ const SEEDED_EVENTS = [
     type: 'catastrophe',
     phase: 'intrusion',
     description:
-      'All seven Sundered Monoliths began to hum simultaneously — a frequency that could be felt in the bones as much as heard. The Shard-Window storm-vortex above the Iceheart Sea\'s Monolith intensified, pulling ships into its eye. The Berg of the Frozen Flame in the Northern Ice-Flows melted its own cradle. The Cragjaw Subterranean Vault warmed for the first time since the Binding. Emberspire\'s throat Monolith pulsed in rhythm with the Solbrand\'s failing light. The Treakous Oceanic Rift Monolith began broadcasting what the Deep-Born Myrathil call "instructions." Chaos Pockets stabilized into permanence across the Sundrift Vale. The bog-graves of Bryngloom rose and began marching. not randomly, but TOWARD the Monoliths. Every bargain struck in the past 800 years was coming due at once.',
+      'All seven Sundered Monoliths began to hum simultaneously, a frequency that could be felt in the bones as much as heard. The Shard-Window storm-vortex above the Iceheart Sea\'s Monolith intensified, pulling ships into its eye. The Berg of the Frozen Flame in the Northern Ice-Flows melted its own cradle. The Cragjaw Subterranean Vault warmed for the first time since the Binding. Emberspire\'s throat Monolith pulsed in rhythm with the Solbrand\'s failing light. The Treakous Oceanic Rift Monolith began broadcasting what the Deep-Born Myrathil call "instructions." Chaos Pockets stabilized into permanence across the Sundrift Vale. The bog-graves of Bryngloom rose and began marching. not randomly, but TOWARD the Monoliths. Every bargain struck in the past 800 years was coming due at once.',
     locationIds: ['sundale', 'iceheart-sea', 'nordhalla', 'cragjaw-peaks', 'frostwood-reach', 'bryngloom-forest', 'sundrift-vale'],
     factionIds: ['dawn-vigil', 'cult-of-forgotten-shadow'],
     classIds: ['all'],

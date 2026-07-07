@@ -1,4 +1,4 @@
-/**
+﻿/**
  * User Settings Service
  *
  * Manages user preferences and settings persistence to Firebase.
@@ -58,8 +58,8 @@ export const DEFAULT_USER_SETTINGS = {
   showGMArea: true,
   gmOverlayOpacity: 0.8,
   viewUpdateOnPlacement: true, // When true: fog/view only updates on token drop, not during drag
-  playerTooltipMode: 'vague', // 'vague' | 'partial' | 'full' – what info players see on creature tooltips
-  skillSystemMode: 'simple', // 'simple' | 'advanced' – simplified die-based skills vs full quest-based system
+  playerTooltipMode: 'vague', // 'vague' | 'partial' | 'full' - what info players see on creature tooltips
+  skillSystemMode: 'simple', // 'simple' | 'advanced' - simplified die-based skills vs full quest-based system
 
   // Audio Settings
   masterVolume: 0.8,

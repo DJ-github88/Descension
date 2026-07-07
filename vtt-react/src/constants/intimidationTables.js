@@ -1,4 +1,4 @@
-// Intimidation Skill Multi-Dimensional Tables
+﻿// Intimidation Skill Multi-Dimensional Tables
 // 7 proficiency levels × 6 dice types = 42 tables total
 
 export const INTIMIDATION_TABLES = {
@@ -487,7 +487,7 @@ export const INTIMIDATION_TABLES = {
         requiredRank: 'EXPERT',
         table: [
             { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
-            { roll: [2, 2], result: 'Your legend transcends reality, gods fear you', type: 'critical' },
+            { roll: [2, 2], result: 'Your legend transcends reality, spirits fear you', type: 'critical' },
             { roll: [3, 3], result: 'Your presence shatters minds, enemies go mad', type: 'critical' },
             { roll: [4, 4], result: 'You become the embodiment of terror itself', type: 'critical' }
         ]

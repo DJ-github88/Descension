@@ -1,4 +1,4 @@
-export const GAMBIT_DATA = {
+﻿export const GAMBIT_DATA = {
   restrictions: {
       "allowedSubraces": [
           "merryn_human",
@@ -17,7 +17,7 @@ export const GAMBIT_DATA = {
   },
 
   /**
-   * Subrace Variants — the Gambit nudges probability, and what counts as a "gamble"
+   * Subrace Variants, the Gambit nudges probability, and what counts as a "gamble"
    * depends on what your people are willing to stake. The four allowed subraces each
    * wager a different currency: salt, foam, clause, and bone.
    */
@@ -25,12 +25,12 @@ export const GAMBIT_DATA = {
     merryn_human: {
       subraceName: 'Merryn',
       title: 'The Sea-Omen Gambler',
-      reframe: `The <LoreLink termId="skald">Merryn</LoreLink> practically invented the tradition — Jax the pirate wagered his lifeline against a storm-spirit in <LoreLink termId="merrowport">Merrowport</LoreLink>. A Merryn Gambit's dice are weighted with salt-coral, the stakes are always voyage-shares, and the loss is always someone else's debt transferred onto your own ledger. The sea is the house, and the house always wins, but a Merryn Gambit makes the house wait.`,
+      reframe: `The <LoreLink termId="skald">Merryn</LoreLink> practically invented the tradition, Jax the pirate wagered his lifeline against a storm-spirit in <LoreLink termId="merrowport">Merrowport</LoreLink>. A Merryn Gambit's dice are weighted with salt-coral, the stakes are always voyage-shares, and the loss is always someone else's debt transferred onto your own ledger. The sea is the house, and the house always wins, but a Merryn Gambit makes the house wait.`,
       signatureAbility: {
         name: 'Salt-Coral Wager',
         description: `Fortune-points are staked against sea-conditions; a gamble made on open water draws probability from the storm itself, but a gamble made inland draws from the Gambit's own dwindling luck with nothing to replenish it. The Merryn are strongest where the sea can hear them.`
       },
-      currentCrisisAngle: `Jax is missing — seen walking into the <LoreLink termId="iceheart-sea">Iceheart Sea</LoreLink> with a smile. The Merryn Gambits of Merrowport read his disappearance as the ultimate wager: Jax betting his entire existence against the storm-spirit to clear his debt in one final throw. The search party suspects he won. The fact that he won by ceasing to exist is, to a Merryn Gambit, a perfectly acceptable outcome.`,
+      currentCrisisAngle: `Jax is missing, seen walking into the <LoreLink termId="iceheart-sea">Iceheart Sea</LoreLink> with a smile. The Merryn Gambits of Merrowport read his disappearance as the ultimate wager: Jax betting his entire existence against the storm-spirit to clear his debt in one final throw. The search party suspects he won. The fact that he won by ceasing to exist is, to a Merryn Gambit, a perfectly acceptable outcome.`,
       signatureQuote: {
         text: '"I do not gamble to win. I gamble to make the loss interesting enough that the sea forgets to collect."',
         speaker: 'Jax',
@@ -41,12 +41,12 @@ export const GAMBIT_DATA = {
     breaker_myrathil: {
       subraceName: 'Breakers-Born Myrathil',
       title: 'The Tide-Reader',
-      reframe: `The <LoreLink termId="myrathil">Breakers-Born</LoreLink> read probability in foam-patterns and the color-shift of their own mood-skin. A Myrathil Gambit does not roll dice — they read the odds the sea-mother writes in the surf, and the payment is always in *memory*: the Myrathil's bioluminescent skin dims a little with each stake, the wager paid in recalled light.`,
+      reframe: `The <LoreLink termId="myrathil">Breakers-Born</LoreLink> read probability in foam-patterns and the color-shift of their own mood-skin. A Myrathil Gambit does not roll dice, they read the odds the sea-mother writes in the surf, and the payment is always in *memory*: the Myrathil's bioluminescent skin dims a little with each stake, the wager paid in recalled light.`,
       signatureAbility: {
         name: 'Foom-Cast',
-        description: `Probability is read from sea-foam patterns and staked against the Gambit's own bioluminescence — each wager dims the host's glow as a memory is spent. A Myrathil Gambit who gambles too much goes dark, and a dark Myrathil is, by their own culture, considered already half-dead.`
+        description: `Probability is read from sea-foam patterns and staked against the Gambit's own bioluminescence, each wager dims the host's glow as a memory is spent. A Myrathil Gambit who gambles too much goes dark, and a dark Myrathil is, by their own culture, considered already half-dead.`
       },
-      currentCrisisAngle: `The Iceheart Sea has fallen silent (the Minstrel crisis), and the Myrathil Tide-Readers can no longer read foam — the surf writes nothing. A Myrathil Gambit without surf to read is gambling blind, and the tradition's young are dimming themselves on nothing, paying memory for randomness. The elders have forbidden deep-water wagers until the sea speaks again.`,
+      currentCrisisAngle: `The Iceheart Sea has fallen silent (the Minstrel crisis), and the Myrathil Tide-Readers can no longer read foam, the surf writes nothing. A Myrathil Gambit without surf to read is gambling blind, and the tradition's young are dimming themselves on nothing, paying memory for randomness. The elders have forbidden deep-water wagers until the sea speaks again.`,
       signatureQuote: {
         text: '"The foam used to whisper. Now it stares. I will not bet against a sea that has stopped blinking."',
         speaker: 'Tide-Mother Mrya',
@@ -57,12 +57,12 @@ export const GAMBIT_DATA = {
     kessen_neth: {
       subraceName: 'Kessen Neth',
       title: 'The Clause-Gambler',
-      reframe: `The <LoreLink termId="neth">Kessen Neth</LoreLink> — the weavers of the forest floor — refined probability-web reading in the <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink>, and Lyra formalized it through rune-etched cards in the Cragjaw toll-negotiations. To a Kessen Gambit, every hand of cards is a clause analysis: the opponent's tells are legal vulnerabilities, the pot is a renegotiated term, and the win is a precedent.`,
+      reframe: `The <LoreLink termId="neth">Kessen Neth</LoreLink>, the weavers of the forest floor, refined probability-web reading in the <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink>, and Lyra formalized it through rune-etched cards in the Cragjaw toll-negotiations. To a Kessen Gambit, every hand of cards is a clause analysis: the opponent's tells are legal vulnerabilities, the pot is a renegotiated term, and the win is a precedent.`,
       signatureAbility: {
         name: 'Clause-Analysis',
-        description: `Probability is calculated as contract-law; the Gambit reads opponents' tells as legal exposures and stakes against the binding-force of their own word. A Kessen Gambit cannot bluff — but they can structure a wager so that losing it benefits them more than winning, which is the same thing, legally.`
+        description: `Probability is calculated as contract-law; the Gambit reads opponents' tells as legal exposures and stakes against the binding-force of their own word. A Kessen Gambit cannot bluff, but they can structure a wager so that losing it benefits them more than winning, which is the same thing, legally.`
       },
-      currentCrisisAngle: `Lyra has radicalized. Her Deck-Burners faction seeks to force the universe to choose — burning their rune-cards to collapse probability into certainty. The Kessen Gambits of Ironjaw Port consider this heresy: a Gambit who forces the outcome is no longer gambling, and a Neth who no longer gambles is, by the terms of their own tradition, in breach of their relationship with chance itself.`,
+      currentCrisisAngle: `Lyra has radicalized. Her Deck-Burners faction seeks to force the universe to choose, burning their rune-cards to collapse probability into certainty. The Kessen Gambits of Ironjaw Port consider this heresy: a Gambit who forces the outcome is no longer gambling, and a Neth who no longer gambles is, by the terms of their own tradition, in breach of their relationship with chance itself.`,
       signatureQuote: {
         text: '"I do not cheat. I draft the wager so that every outcome is mine. The other player signed the rules. That they did not read them is not my failure."',
         speaker: 'Lyra',
@@ -73,12 +73,12 @@ export const GAMBIT_DATA = {
     ithran_groven: {
       subraceName: 'Ithran Groven',
       title: 'The Span-Better',
-      reframe: `The long-limbed <LoreLink termId="groven">Ithran Groven</LoreLink> — the bridge-builders — bet on which calcified bone-span will hold and which will crack. Their risk-calculation is architectural: load, stress, fatigue, the precise moment a structure fails. An Ithran Gambit does not gamble on chance; they gamble on *when the inevitable arrives*, and their bridge-builder's instinct makes them terrifyingly precise.`,
+      reframe: `The long-limbed <LoreLink termId="groven">Ithran Groven</LoreLink>, the bridge-builders, bet on which calcified bone-span will hold and which will crack. Their risk-calculation is architectural: load, stress, fatigue, the precise moment a structure fails. An Ithran Gambit does not gamble on chance; they gamble on *when the inevitable arrives*, and their bridge-builder's instinct makes them terrifyingly precise.`,
       signatureAbility: {
         name: 'Load-Reading',
-        description: `Probability is calculated as structural failure-analysis; the Gambit reads any system (a negotiation, a battle, a person) as a load-bearing structure and stakes on its failure-point. The Ithran are weakest against genuinely random events — but almost nothing in a world of bargains is genuinely random.`
+        description: `Probability is calculated as structural failure-analysis; the Gambit reads any system (a negotiation, a battle, a person) as a load-bearing structure and stakes on its failure-point. The Ithran are weakest against genuinely random events, but almost nothing in a world of bargains is genuinely random.`
       },
-      currentCrisisAngle: `The Ancestor-Spans are cracking (the Warden crisis), and every Ithran Gambit can feel it. They have begun refusing to wager on anything that crosses a span — because they can read the spans' failure-point now, and it is *soon*. The Ithran Gambits know when their own bridges will fall, and the knowing has made them the most frightened people in the Cragjaw.`,
+      currentCrisisAngle: `The Ancestor-Spans are cracking (the Warden crisis), and every Ithran Gambit can feel it. They have begun refusing to wager on anything that crosses a span, because they can read the spans' failure-point now, and it is *soon*. The Ithran Gambits know when their own bridges will fall, and the knowing has made them the most frightened people in the Cragjaw.`,
       signatureQuote: {
         text: '"I can tell you the exact hour my grandmother\'s bridge fails. I have bet against telling her. I am losing that bet too."',
         speaker: 'Ith-Calss Span-Reader',
@@ -98,7 +98,7 @@ export const GAMBIT_DATA = {
     title: "The Wagering Architect",
     subtitle: "The Probability Siphon",
     utility: "Absolute d20 outcome manipulation through dual resource systems. They combine stolen Fortune Points with pre-drawn Fate Reserve cards to nudge, override, or replace any active roll on the battlefield. No other class wields both real-time nudging and hard-coded card overrides simultaneously.",
-    fatalFlaw: "Dual collapse conditions. Fortune depletion triggers Cosmic Bankruptcy (2d10 necrotic, 100% vulnerability). Karmic Debt overflow triggers Tapestry Collapse (6d10 psychic, incapacitation, Fortune emptied, max HP reduced). Every resource gained costs HP through Debtor's Tax, and every resource spent deals wyrd damage through Calculated Risk. They possess zero defensive multi-target tools and are uniquely vulnerable to sustained physical and spirit-focused attacks."
+    fatalFlaw: "Dual collapse conditions. Fortune depletion triggers Cosmic Bankruptcy (2d10 necrotic, 100% vulnerability). Karmic Debt overflow triggers Wyrd Collapse (6d10 psychic, incapacitation, Fortune emptied, max HP reduced). Every resource gained costs HP through Debtor's Tax, and every resource spent deals wyrd damage through Calculated Risk. They possess zero defensive multi-target tools and are uniquely vulnerable to sustained physical and spirit-focused attacks."
   },
 
   spellPools: {
@@ -117,25 +117,25 @@ export const GAMBIT_DATA = {
     orderName: 'The Merrowport House',
     founder: {
       name: '<LoreLink termId="jax">Jax</LoreLink> (the Wager) and <LoreLink termId="lyra">Lyra</LoreLink> (the Clause)',
-      status: `<LoreLink termId="jax">Jax</LoreLink> — missing, last seen walking into the <LoreLink termId="iceheart-sea">Iceheart Sea</LoreLink> with a smile. <LoreLink termId="lyra">Lyra</LoreLink> — radicalized, leading the Deck-Burners faction from <LoreLink termId="ironjaw_port">Ironjaw Port</LoreLink>. Both founders are alive and neither is leading the House anymore.`,
+      status: `<LoreLink termId="jax">Jax</LoreLink>, missing, last seen walking into the <LoreLink termId="iceheart-sea">Iceheart Sea</LoreLink> with a smile. <LoreLink termId="lyra">Lyra</LoreLink>, radicalized, leading the Deck-Burners faction from <LoreLink termId="ironjaw_port">Ironjaw Port</LoreLink>. Both founders are alive and neither is leading the House anymore.`,
       note: `<LoreLink termId="jax">Jax</LoreLink> wagered his lifeline against a storm-spirit and won the wind but lost his blood's warmth. <LoreLink termId="lyra">Lyra</LoreLink> plucked the one timeline her caravan survived and fractured her consciousness doing it. The House was their détente; with both gone, the détente is over.`
     },
     currentLeader: {
       name: '<LoreLink termId="merr-cael">Harbor-Master Merr-Cael</LoreLink>',
       title: 'Keeper of the Middle Odds',
-      characterization: `A Merryn broker who has spent thirty years keeping the House solvent while its founders self-destruct. He believes in the wager as a *discipline*, not a religion — the opposite of <LoreLink termId="lyra">Lyra</LoreLink>'s Deck-Burners. He is tired, principled, and the only thing standing between the House and a civil war between the followers of its two vanished founders.`
+      characterization: `A Merryn broker who has spent thirty years keeping the House solvent while its founders self-destruct. He believes in the wager as a *discipline*, not a religion, the opposite of <LoreLink termId="lyra">Lyra</LoreLink>'s Deck-Burners. He is tired, principled, and the only thing standing between the House and a civil war between the followers of its two vanished founders.`
     },
     headquarters: { name: 'The Last Table, Merrowport', locationId: 'merrowport' },
-    crisisConnection: `<LoreLink termId="merr-cael">Merr-Cael</LoreLink> is losing. <LoreLink termId="jax">Jax</LoreLink>'s disappearance has emboldened the mystics who want to emulate his final wager; <LoreLink termId="lyra">Lyra</LoreLink>'s radicalization has armed the Deck-Burners who want to *force* the universe to choose. The House is splitting along the same fault-line that defined its founding — luck versus clause, sea versus contract — and <LoreLink termId="merr-cael">Merr-Cael</LoreLink>'s middle ground is shrinking. He has one play left: find out what <LoreLink termId="jax">Jax</LoreLink> actually won, before the Deck-Burners find out first.`
+    crisisConnection: `<LoreLink termId="merr-cael">Merr-Cael</LoreLink> is losing. <LoreLink termId="jax">Jax</LoreLink>'s disappearance has emboldened the mystics who want to emulate his final wager; <LoreLink termId="lyra">Lyra</LoreLink>'s radicalization has armed the Deck-Burners who want to *force* the universe to choose. The House is splitting along the same fault-line that defined its founding, luck versus clause, sea versus contract, and <LoreLink termId="merr-cael">Merr-Cael</LoreLink>'s middle ground is shrinking. He has one play left: find out what <LoreLink termId="jax">Jax</LoreLink> actually won, before the Deck-Burners find out first.`
   },
 
   worldFriction: [
-    { region: 'iceheart-sea', location: 'merrowport', status: 'tolerated', consequence: 'The Merrowport House is a licensed institution; its Gambits operate openly as brokers, odds-makers, and contract-underwriters. A House Gambit in good standing has legal authority to adjudicate voyage-share disputes.', workaround: 'The Deck-Burners (Lyra radicals) are NOT tolerated — they are wanted by the House middle for forcing outcomes, which the House considers a breach of the wager itself.' },
+    { region: 'iceheart-sea', location: 'merrowport', status: 'tolerated', consequence: 'The Merrowport House is a licensed institution; its Gambits operate openly as brokers, odds-makers, and contract-underwriters. A House Gambit in good standing has legal authority to adjudicate voyage-share disputes.', workaround: 'The Deck-Burners (Lyra radicals) are NOT tolerated, they are wanted by the House middle for forcing outcomes, which the House considers a breach of the wager itself.' },
     { region: 'nordhalla', status: 'outlawed', consequence: 'The Skald consider gambling dishonorable and House Skalvyr law treats probability-manipulation as a form of theft. A Gambit caught working the glacier-keeps is stripped of voyage-shares and exiled; a Gambit who "forces" an outcome near a Skald is killed.' }
   ],
 
   overview: {
-    originStory: `Founded in Year 350 of the Dimming by two figures whose traditions merged: Jax, who wagered his lifeline against a storm-spirit at Merrowport, and Lyra, who plucked the single surviving timeline. The Gambit tradition was born from two independent discoveries of probability manipulation, separated by a thousand miles of frozen coastline and later fused into a single, devastating art.
+    originStory: `Founded centuries into the Dimming by two figures whose traditions merged: Jax, who wagered his lifeline against a storm-spirit at Merrowport, and Lyra, who plucked the single surviving timeline. The Gambit tradition was born from two independent discoveries of probability manipulation, separated by a thousand miles of frozen coastline and later fused into a single, devastating art.
 
 In the floating alleys of <LoreLink termId="merrowport">Merrowport</LoreLink>, the Merryn pirate captain Jax wagered his own lifeline in a game of dice against a freezing storm-spirit of the <LoreLink termId="iceheart-sea">Iceheart Sea</LoreLink>. He rolled three sixes, claiming the wind, but the spirit claimed the warmth of his blood in return. His heartbeat was permanently synchronized with the ocean's tides, preventing him from ever finding sleep unless his head was submerged in freezing saltwater. Jax discovered probability manipulation through gambling: coin flips, dice throws, and card draws that siphoned luck from the world around him.
 
@@ -158,7 +158,7 @@ Flip the coin. Read the card. The universe is a game, and the board is yours to 
 
 **Dual Cost System**: Every FP gained costs 1 unpreventable HP damage (Debtor's Tax). Every FP spent deals 1d4 wyrd damage per point (Calculated Risk, irreducible). Every card override generates Karmic Debt, which stacks vulnerability and arcane strain.
 
-**Two Collapse Conditions**: Fortune hitting 0 triggers Cosmic Bankruptcy. Karmic Debt hitting 13 triggers Tapestry Collapse. Both are devastating and can end a fight instantly.
+**Two Collapse Conditions**: Fortune hitting 0 triggers Cosmic Bankruptcy. Karmic Debt hitting 13 triggers Wyrd Collapse. Both are devastating and can end a fight instantly.
 
 **Playstyle**: Extreme high-risk, high-reward dual-resource management. You walk a knife-edge between two different catastrophic failure states while wielding unmatched control over the battlefield's dice.`,
     },
@@ -220,7 +220,7 @@ The Karmic Debt burden is existential: a Gambit who saves a friend by overriding
       title: "Combat Role",
       content: `**Why Bring Me?**: Unmatched dual-axis probability control. The Gambit possesses both the real-time roll nudging of Fortune Points and the absolute d20 override power of Fate Reserve cards. They can squeeze a close failure into a success with FP nudging, or bypass the roll entirely with a hard-coded card override. They are the ultimate mathematical safety net and the most devastating high-stakes payload on the field.
 
-**The Fatal Flaw (Dual Collapse)**: You are at risk from two directions simultaneously. Fortune hitting 0 triggers Cosmic Bankruptcy (2d10 blight damage, 100 percent Spirit/shadow vulnerability for 2 rounds). Karmic Debt hitting 13 triggers Tapestry Collapse (6d10 irreducible wyrd damage, 1-round incapacitation, Fortune emptied, max HP reduced by 5 until long rest). Managing both resource pools under combat pressure is the defining challenge of the class.`,
+**The Fatal Flaw (Dual Collapse)**: You are at risk from two directions simultaneously. Fortune hitting 0 triggers Cosmic Bankruptcy (2d10 blight damage, 100 percent Spirit/shadow vulnerability for 2 rounds). Karmic Debt hitting 13 triggers Wyrd Collapse (6d10 irreducible wyrd damage, 1-round incapacitation, Fortune emptied, max HP reduced by 5 until long rest). Managing both resource pools under combat pressure is the defining challenge of the class.`,
     },
 
     playstyle: {
@@ -236,7 +236,7 @@ The Karmic Debt burden is existential: a Gambit who saves a friend by overriding
 
 **Managing the Dual Void**:
 - Never let Fortune hit 0. Always hold a reserve point, or Cosmic Bankruptcy will trigger.
-- Never let Karmic Debt reach 13. Always track your debt accumulation, or Tapestry Collapse will end you.
+- Never let Karmic Debt reach 13. Always track your debt accumulation, or Wyrd Collapse will end you.
 - The two systems interact: spec passives can convert self-damage into Fortune, or use Karmic Debt to amplify damage.
 
 **The Override Timing**:
@@ -255,7 +255,7 @@ You roll 4d12 bone dice: two pairs emerge. The damage doubles.
 
 **Turn 2: The Card Override (FP: 5 to 4, HP: 43 to 41, Debt: 2 to 4)**
 *The inquisitor raises his hammer for a devastating blow. The roll lands at 19.*
-**Your Reaction**: You cast Tapestry Shred, consuming the King (17) from your Fate Reserve.
+**Your Reaction**: You cast Wyrd Shred, consuming the King (17) from your Fate Reserve.
 **The Result**: The inquisitor's 19 is replaced with your banked card value. His blow swings wide.
 **Karmic Debt**: 2 to 4. Your hands tremble as +20 percent vulnerability settles over you.
 
@@ -299,7 +299,7 @@ Your Fortune hits 0.
         details: "Accumulated from card overrides, forced destiny manipulation, and high-stakes plays. Each stack imposes plus 5 percent vulnerability to ALL damage types. At the end of each round, suffer 1d4 psychic strain per stack.",
       },
       {
-        title: "Tapestry Collapse (Karmic Debt Overflow)",
+        title: "Wyrd Collapse (Karmic Debt Overflow)",
         stats: "Triggers at 13 Stacks",
         details: "6d10 irreducible wyrd damage. 1-round incapacitation. Fortune pool completely emptied. Maximum HP reduced by 5 until long rest. The ultimate price of pushing destiny too far.",
       },
@@ -315,9 +315,9 @@ Your Fortune hits 0.
         ["Fate Reserve (Level 1)", "None", "+2 Debt", "None"],
         ["Arcane Dirge (Level 1)", "None", "+1 to +4 Debt (by hand)", "None"],
         ["Nudge a d20 Roll", "-1 to -X FP", "None", "1d4 psychic per FP"],
-        ["Tapestry Shred Override", "None", "+2 Debt", "None"],
+        ["Wyrd Shred Override", "None", "+2 Debt", "None"],
         ["Cosmic Bankruptcy (0 FP)", "Reset to 0, Locked", "None", "2d10 necrotic + 100% vuln"],
-        ["Tapestry Collapse (13 Debt)", "Fortune emptied", "Reset to 0", "6d10 psychic + incapacitate + max HP -5"],
+        ["Wyrd Collapse (13 Debt)", "Fortune emptied", "Reset to 0", "6d10 psychic + incapacitate + max HP -5"],
       ],
     },
 
@@ -329,7 +329,7 @@ Your Fortune hits 0.
 
     overheatRules: {
       title: "Dual Collapse Conditions",
-      content: "The Gambit faces two catastrophic failure states. Cosmic Bankruptcy triggers when Fortune Points drop to 0: 2d10 blight damage, 100 percent vulnerability to Spirit and blight damage for 2 rounds, inability to generate Fortune Points. Tapestry Collapse triggers when Karmic Debt reaches 13: 6d10 irreducible wyrd damage, 1-round incapacitation, Fortune pool emptied, maximum HP reduced by 5 until long rest. A Gambit who collapses from both systems simultaneously is effectively removed from combat.",
+      content: "The Gambit faces two catastrophic failure states. Cosmic Bankruptcy triggers when Fortune Points drop to 0: 2d10 blight damage, 100 percent vulnerability to Spirit and blight damage for 2 rounds, inability to generate Fortune Points. Wyrd Collapse triggers when Karmic Debt reaches 13: 6d10 irreducible wyrd damage, 1-round incapacitation, Fortune pool emptied, maximum HP reduced by 5 until long rest. A Gambit who collapses from both systems simultaneously is effectively removed from combat.",
     },
 
     rageStatesTable: {
@@ -468,7 +468,7 @@ Your Fortune hits 0.
 
 
     // ========================================
-    // LEVEL 1 SPELLS — The Fortune Engine
+    // LEVEL 1 SPELLS, The Fortune Engine
     // ========================================
     { id: "gambler_lucky_strike",
       name: "Lucky Strike",
@@ -512,7 +512,7 @@ Your Fortune hits 0.
         },
         gamblingGame: {
           gameType: "yahtzee",
-          description: "Roll 4d12 — pairs, triples, and quads multiply your damage and siphon Fortune Points.",
+          description: "Roll 4d12, pairs, triples, and quads multiply your damage and siphon Fortune Points.",
           resolution: "DICE",
           rules: { diceCount: 4, dieType: 12 },
           outcomeTiers: [
@@ -588,7 +588,7 @@ Your Fortune hits 0.
         },
         gamblingGame: {
           gameType: "coin_flip",
-          description: "Flip 1 coin — heads hurts enemies, tails shields allies.",
+          description: "Flip 1 coin, heads hurts enemies, tails shields allies.",
           resolution: "COINS",
           rules: { flipCount: 1 },
           outcomeTiers: [
@@ -645,7 +645,7 @@ Your Fortune hits 0.
         },
         gamblingGame: {
           gameType: "dice_throw",
-          description: "Throw a bone die — siphon minor luck or spend FP to load the throw.",
+          description: "Throw a bone die, siphon minor luck or spend FP to load the throw.",
           resolution: "DICE",
           rules: { diceCount: 1, dieType: 6 },
           outcomeTiers: [
@@ -708,7 +708,7 @@ Your Fortune hits 0.
         },
         gamblingGame: {
           gameType: "begging",
-          description: "Plead for luck — gain instant combat advantage at a physical cost.",
+          description: "Plead for luck, gain instant combat advantage at a physical cost.",
           resolution: "AUTOMATIC",
           rules: { duration: 1 },
           outcomeTiers: [
@@ -728,10 +728,10 @@ Your Fortune hits 0.
       description: "Every twist of probability has a price. When you spend Fortune Points to modify an active d20 roll, intense mental feedback tears through your concentration. You suffer 1d4 wyrd damage per Fortune Point spent. This damage cannot be reduced or prevented. Manipulating fate demands exertion.",
       level: 1,
       spellType: "PASSIVE",
-      icon: "Slashing/Viking Axes",
+      icon: "Slashing/Skald Axes",
       typeConfig: {
         school: "wyrd",
-        icon: "Slashing/Viking Axes",
+        icon: "Slashing/Skald Axes",
         tags: ["passive", "weakness"],
         castTime: 0,
         castTimeType: "PASSIVE",
@@ -798,7 +798,7 @@ Your Fortune hits 0.
     },
 
     // ========================================
-    // LEVEL 2 SPELLS — Risk & Illusion
+    // LEVEL 2 SPELLS, Risk & Illusion
     // ========================================
     { id: "gambler_coin_toss",
       name: "Coin Toss",
@@ -831,7 +831,7 @@ Your Fortune hits 0.
         effects: [
           {
             id : "coin_toss_heads",
-            name: "Heads — Lady Luck's Smile",
+            name: "Heads, Lady Luck's Smile",
             description: "+2 to all attack rolls and saving throws.",
             mechanicsText: "+2 to all attack rolls and saving throws for 1 hour.",
             statModifier: { stat: "attack_and_saves", magnitude: 2, magnitudeType: "flat" },
@@ -846,7 +846,7 @@ Your Fortune hits 0.
         effects: [
           {
             id : "coin_toss_tails",
-            name: "Tails — Collector's Frown",
+            name: "Tails, Collector's Frown",
             description: "-2 to all attack rolls and saving throws.",
             mechanicsText: "-2 to all attack rolls and saving throws for 1 hour.",
           },
@@ -870,7 +870,7 @@ Your Fortune hits 0.
         },
         gamblingGame: {
           gameType: "coin_flip",
-          description: "High-stakes coin toss — tilt your entire stats ledger.",
+          description: "High-stakes coin toss, tilt your entire stats ledger.",
           resolution: "COINS",
           rules: { flipCount: 1, durationHours: 1 },
           outcomeTiers: [
@@ -940,7 +940,7 @@ Your Fortune hits 0.
 
     { id: "gambler_fools_gold",
       name: "Fool's Gold",
-      description: "Reach into the empty void of your pockets and pull out a shimmering pile of coins, jewels, or cards (up to 100gp in value). The wealth is a temporary mathematical illusion; it dissolves into cold, grey ash in 1 hour or instantly if touched by holy steel. Siphons 1 Fortune Point (inflicting 1 HP damage).",
+      description: "Reach into the empty void of your pockets and pull out a shimmering pile of coins, jewels, or cards (up to 100gp in value). The wealth is a temporary mathematical illusion; it dissolves into cold, grey ash in 1 hour or instantly if touched by Wyrd-warded steel. Siphons 1 Fortune Point (inflicting 1 HP damage).",
       level: 2,
       spellType: "ACTION",
       icon: "Utility/Utility",
@@ -990,7 +990,7 @@ Your Fortune hits 0.
     },
 
     // ========================================
-    // LEVEL 3 SPELLS — Prediction & Withdrawal
+    // LEVEL 3 SPELLS, Prediction & Withdrawal
     // ========================================
     { id: "gambler_taunt_the_odds",
       name: "Taunt the Odds",
@@ -1033,7 +1033,7 @@ Your Fortune hits 0.
         },
         gamblingGame: {
           gameType: "number_guess",
-          description: "Guess a number, roll a d20 — close matches deal damage, misses hurt you.",
+          description: "Guess a number, roll a d20, close matches deal damage, misses hurt you.",
           resolution: "DICE",
           rules: { diceCount: 1, dieType: 20, successRange: 3 },
           outcomeTiers: [
@@ -1087,7 +1087,7 @@ Your Fortune hits 0.
     },
 
     // ========================================
-    // LEVEL 4 SPELLS — The Exerting Double Down
+    // LEVEL 4 SPELLS, The Exerting Double Down
     // ========================================
     { id: "gambler_double_or_nothing",
       name: "Double or Nothing",
@@ -1130,7 +1130,7 @@ Your Fortune hits 0.
         },
         gamblingGame: {
           gameType: "double_down",
-          description: "Make a high-stakes hit roll — critical damage on hit, suffer the damage yourself on miss.",
+          description: "Make a high-stakes hit roll, critical damage on hit, suffer the damage yourself on miss.",
           resolution: "DICE",
           rules: { diceCount: 1, dieType: 20 },
           outcomeTiers: [
@@ -1144,7 +1144,7 @@ Your Fortune hits 0.
     },
 
     // ========================================
-    // LEVEL 5 SPELLS — Probability Acceleration
+    // LEVEL 5 SPELLS, Probability Acceleration
     // ========================================
     { id: "gambler_hot_streak",
       name: "Hot Streak",
@@ -1228,7 +1228,7 @@ Your Fortune hits 0.
         effects: [
           {
             id : "mirage_flip_double",
-            name: "Mirage Flip — Double Damage",
+            name: "Mirage Flip, Double Damage",
             description: "Doubles the damage of the triggering attack.",
             mechanicsText: "Double the damage of the triggering attack against the target.",
           },
@@ -1242,7 +1242,7 @@ Your Fortune hits 0.
         effects: [
           {
             id : "mirage_flip_nullify",
-            name: "Mirage Flip — Nullified Damage",
+            name: "Mirage Flip, Nullified Damage",
             description: "Triggering attack's damage is reduced to 0, but you suffer 2d6 wyrd damage.",
             mechanicsText: "Nullify triggering attack's damage, but suffer 2d6 wyrd damage as probability feedback.",
           },
@@ -1329,7 +1329,7 @@ Your Fortune hits 0.
     },
 
     // ========================================
-    // LEVEL 6 SPELLS — Luck Siphoning
+    // LEVEL 6 SPELLS, Luck Siphoning
     // ========================================
     { id: "gambler_house_advantage",
       name: "House Advantage",
@@ -1467,7 +1467,7 @@ Your Fortune hits 0.
         },
         gamblingGame: {
           gameType: "poker",
-          description: "Draw a card from a magical deck — suit determines the effect.",
+          description: "Draw a card from a magical deck, suit determines the effect.",
           resolution: "CARDS",
           rules: { drawCount: 1, deckType: "standard_suits", suits: 4 },
           outcomeTiers: [
@@ -1533,7 +1533,7 @@ Your Fortune hits 0.
     },
 
     // ========================================
-    // LEVEL 7 SPELLS — Competitive Execution
+    // LEVEL 7 SPELLS, Competitive Execution
     // ========================================
     { id: "gambler_death_roll",
       name: "Death Roll",
@@ -1672,7 +1672,7 @@ Your Fortune hits 0.
         },
         gamblingGame: {
           gameType: "coin_flip",
-          description: "High-stakes coin toss — heads devastates enemies, tails wrecks you.",
+          description: "High-stakes coin toss, heads devastates enemies, tails wrecks you.",
           resolution: "COINS",
           rules: { flipCount: 1 },
           outcomeTiers: [
@@ -1686,7 +1686,7 @@ Your Fortune hits 0.
     },
 
     // ========================================
-    // LEVEL 8 SPELLS — The Divine Slot Machine
+    // LEVEL 8 SPELLS, The Radiant Slot Machine
     // ========================================
     { id: "gambler_jackpot",
       name: "Jackpot",
@@ -1736,7 +1736,7 @@ Your Fortune hits 0.
         },
         gamblingGame: {
           gameType: "slot_machine",
-          description: "Roll 3d20 — sum determines your payload tier.",
+          description: "Roll 3d20, sum determines your payload tier.",
           resolution: "DICE",
           rules: { diceCount: 3, dieType: 20 },
           outcomeTiers: [
@@ -1757,7 +1757,7 @@ Your Fortune hits 0.
 
     { id: "gambler_weighted_dice",
       name: "Weighted Dice",
-      description: "Cheat the cosmos entirely. Deal 14d6 storm damage to a target. For each Fortune Point spent (up to 7), you may treat one d6 as an automatic 6. Spend 7 FP and half your dice are guaranteed maximum. This is pure, unmitigated theft of chance—because the best gamblers know when to cheat. Spend triggers Calculated Risk (1d4 wyrd damage per point spent).",
+      description: "Cheat the cosmos entirely. Deal 14d6 storm damage to a target. For each Fortune Point spent (up to 7), you may treat one d6 as an automatic 6. Spend 7 FP and half your dice are guaranteed maximum. This is pure, unmitigated theft of chance,because the best gamblers know when to cheat. Spend triggers Calculated Risk (1d4 wyrd damage per point spent).",
       level: 8,
       spellType: "ACTION",
       icon: "Social/Dice Roll",
@@ -1800,7 +1800,7 @@ Your Fortune hits 0.
     },
 
     // ========================================
-    // LEVEL 9 SPELLS — High Wagers
+    // LEVEL 9 SPELLS, High Wagers
     // ========================================
     { id: "gambler_high_roller",
       name: "High Roller",
@@ -1848,7 +1848,7 @@ Your Fortune hits 0.
         },
         gamblingGame: {
           gameType: "high_card",
-          description: "Roll a d20 — high rolls devastate targets, low rolls send the force rebounding onto you.",
+          description: "Roll a d20, high rolls devastate targets, low rolls send the force rebounding onto you.",
           resolution: "DICE",
           rules: { diceType: "d20", successThreshold: 15, neutralRange: "6-14", failureThreshold: 5 },
           outcomeTiers: [
@@ -1909,7 +1909,7 @@ Your Fortune hits 0.
         },
         gamblingGame: {
           gameType: "slot_machine",
-          description: "Roll 3d6 — matching dice multiply damage exponentially.",
+          description: "Roll 3d6, matching dice multiply damage exponentially.",
           resolution: "DICE",
           rules: { diceCount: 3, dieType: 6 },
           outcomeTiers: [
@@ -1978,7 +1978,7 @@ Your Fortune hits 0.
     },
 
     // ========================================
-    // LEVEL 10 SPELLS — Apocalyptic Endgames
+    // LEVEL 10 SPELLS, Apocalyptic Endgames
     // ========================================
     { id: "gambler_all_in",
       name: "All-In",
@@ -2029,7 +2029,7 @@ Your Fortune hits 0.
         },
         gamblingGame: {
           gameType: "d100_wager",
-          description: "Roll a d100 — double your health, heal to full, or suffer instant collapse and Bankruptcy.",
+          description: "Roll a d100, double your health, heal to full, or suffer instant collapse and Bankruptcy.",
           resolution: "DICE",
           rules: { diceType: "d100" },
         },
@@ -2039,7 +2039,7 @@ Your Fortune hits 0.
     },
 
     { id: "gambler_divine_jackpot",
-      name: "Divine Jackpot",
+      name: "Fated Jackpot",
       description: "Flip a coin wreathed in searing cosmic energy. Heads: deal 20d6 storm damage to all enemies in a 60ft radius. Enemies below 50% HP must succeed on a Spirit DC 20 save or be stunned for 2 rounds. Tails: your systems overload and you take 20d6 storm damage, but you survive at 1 HP with advantage on all rolls for 1 round. You may spend 1 Fortune Point (1d4 wyrd damage) to flip the coin result.",
       level: 10,
       spellType: "ACTION",
@@ -2077,7 +2077,7 @@ Your Fortune hits 0.
         effects: [
           {
             id : "divine_jackpot_stun",
-            name: "Divine Stun",
+            name: "Fated Stun",
             description: "Stunned for 2 rounds on a failed save.",
             mechanicsText: "Stunned for 2 rounds on failed Spirit DC 20 save (enemies below 50% HP only).",
           },
@@ -2168,7 +2168,7 @@ Your Fortune hits 0.
           "gambit"
         ]
       },
-  ,
+ ,
 
     // ========================================
     // LEVEL 1 SPELLS - The Core Probability Engine
@@ -2488,7 +2488,7 @@ Your Fortune hits 0.
     },
 
     { id: "tapestry-shred",
-      name: "Tapestry Shred",
+      name: "Wyrd Shred",
       description: "Sever the threads of time in response to an action. Consume an active card from your Fate Reserve to force an immediate d20 roll override on any creature within 60 feet. The target's active d20 roll is replaced by the banked card's hard-coded value: Aces count as 18, Kings as 17, Queens as 16, Jacks as 15, and numbered cards map to their exact face value. Inflicts 2 Karmic Debt as the timeline violently shifts.",
       level: 1,
       spellType: "REACTION",
@@ -2521,7 +2521,7 @@ Your Fortune hits 0.
         selectedEffects: [
           {
             id : "tapestry_shred_override",
-            name: "Tapestry Shred Override",
+            name: "Wyrd Shred Override",
             description: "Force an immediate d20 roll override by expending a banked card from Fate Reserve. Aces = 18, Kings = 17, Queens = 16, Jacks = 15, Numbered = Face Value."
           }
         ]
@@ -3792,7 +3792,7 @@ Your Fortune hits 0.
       },
       rollableTable: {
         enabled: true,
-        name: "Grim Deck of Fates — Results",
+        name: "Grim Deck of Fates, Results",
         description: "Draw 1-3 cards. Each has a major effect.",
         resolutionType: "CARDS",
         resolutionConfig: { cardType: "deck_of_many_things", cardCount: 3 },
@@ -3924,7 +3924,7 @@ Your Fortune hits 0.
 
     { id: "fate_weaver_fates_wrath",
       name: "Karmic Strain",
-      description: "Every time you override a natural roll, force a destiny, or use the 'Call Card' ability, you accumulate 1 stack of Karmic Debt (max 13). Each stack of debt imposes +5% vulnerability to all damage types and deals 1d4 wyrd strain at the end of each round (untreatable by normal magic). Reaching 13 debt triggers immediate Tapestry Collapse, dealing 6d10 wyrd damage and incapacitating you for 1 round.",
+      description: "Every time you override a natural roll, force a destiny, or use the 'Call Card' ability, you accumulate 1 stack of Karmic Debt (max 13). Each stack of debt imposes +5% vulnerability to all damage types and deals 1d4 wyrd strain at the end of each round (untreatable by normal magic). Reaching 13 debt triggers immediate Wyrd Collapse, dealing 6d10 wyrd damage and incapacitating you for 1 round.",
       level: 1,
       spellType: "PASSIVE",
       icon: "Force/Explosion Burst",
@@ -3946,7 +3946,7 @@ Your Fortune hits 0.
             id : "karmic_debt_vulnerability",
             name: "Karmic Debt Vulnerability",
             description: "Suffer compounding +5% vulnerability and 1d4 psychic strain per stack of debt.",
-            mechanicsText: "+5% all-damage vulnerability per Karmic Debt stack. 1d4 wyrd strain per stack at end of each round. At 13 stacks: Tapestry Collapse (6d10 wyrd + 1 round incapacitation).",
+            mechanicsText: "+5% all-damage vulnerability per Karmic Debt stack. 1d4 wyrd strain per stack at end of each round. At 13 stacks: Wyrd Collapse (6d10 wyrd + 1 round incapacitation).",
             statusEffect: {
               type: "vulnerability",
               value: 5,

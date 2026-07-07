@@ -1,5 +1,5 @@
-/**
- * cadenceToSpell — adapts a Minstrel cadence entry
+﻿/**
+ * cadenceToSpell, adapts a Minstrel cadence entry
  * (from MINSTREL_DATA.cadenceMatrix.entries) into the spell-shaped
  * object that UnifiedSpellCard / SpellTooltip expect.
  *
@@ -7,7 +7,7 @@
  * entries use a different field naming convention than the spell data
  * model (see SPELL_DATA_REFERENCE.md). This adapter bridges that gap so
  * cadences can render through the existing spell-card UI with no further
- * work — same UX as the Arcanoneer's formulation chips.
+ * work, same UX as the Arcanoneer's formulation chips.
  *
  * Each cadence's `notes` map (e.g. { I: 2, IV: 1, V: 1 }) is exposed both
  * as the resource cost (so the spellcard header shows the consumed notes)
@@ -48,7 +48,7 @@ export function cadenceToSpell(entry, matrix = {}) {
     const school = (entry.damageTypes && entry.damageTypes[0]) || 'storm';
     const effectTypes = PRIMARY_EFFECT_TO_EFFECT_TYPES[entry.primaryEffect] || ['buff'];
 
-    // Targeting translation — Minstrel cadences target allies, enemies, or areas.
+    // Targeting translation, Minstrel cadences target allies, enemies, or areas.
     let targetingType = 'single';
     let targetRestrictions = [];
     if (entry.targetType === 'area' || entry.targetType === 'aoe') targetingType = 'area';
@@ -96,7 +96,7 @@ export function cadenceToSpell(entry, matrix = {}) {
             : { saveAttribute: 'spirit', saveDifficulty: 15 },
     } : undefined;
 
-    // Healing cadences (Authentic / Picardy Third) — note Minstrel CANNOT self-heal.
+    // Healing cadences (Authentic / Picardy Third), note Minstrel CANNOT self-heal.
     const healingConfig = effectTypes.includes('healing') ? {
         healingType: 'restore',
         formula: entry.id === 'picardy_third' ? '6d6 + spirit' : '4d6 + spirit',
@@ -139,7 +139,7 @@ export function cadenceToSpell(entry, matrix = {}) {
         },
 
         // Show the chord sequence as the epithet/subtitle where supported.
-        subtitle: `${entry.epithet} — ${entry.sequence}`,
+        subtitle: `${entry.epithet}, ${entry.sequence}`,
 
         effectTypes,
 

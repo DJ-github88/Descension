@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
 import usePresenceStore from '../../store/presenceStore';
@@ -11,631 +11,631 @@ import './styles/LandingPage.css';
 
 const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onShowRegister, onLoginTransition, isAuthenticated, user, onImmerse, isWorldMapActive }) => {
 
-  const [activeSection, setActiveSection] = useState(() => {
-    return localStorage.getItem('landingActiveSection') || 'home';
+ const [activeSection, setActiveSection] = useState(() => {
+  return localStorage.getItem('landingActiveSection') || 'home';
+ });
+ const [showScrollTop, setShowScrollTop] = useState(false);
+ const [showCommunity, setShowCommunity] = useState(false);
+ const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+ const isPhone = useIsPhone();
+ const [showPhoneNotice, setShowPhoneNotice] = useState(null);
+ const navigate = useNavigate();
+ const location = useLocation();
+ const { isDevelopmentBypass, signOut, isAuthenticated: authStoreIsAuthenticated, user: authStoreUser, isDevelopmentBypass: authStoreIsDevelopmentBypass, isAdminBypass } = useAuthStore();
+
+ // Lord Bertil's Map Making section is only available to admin (admin/admin dev-login)
+ const isAdmin = isAdminBypass || !!authStoreUser?.isAdmin;
+
+ // Party state for indicator
+ const isInParty = usePresenceStore((state) => state.isInParty);
+ const currentParty = usePresenceStore((state) => state.currentParty);
+ const currentUserPresence = usePresenceStore((state) => state.currentUserPresence);
+ const isPartyLeader = currentParty?.leaderId === currentUserPresence?.userId;
+
+ // Community notification badge state
+ const whisperTabs = usePresenceStore((state) => state.whisperTabs);
+ const partyChatUnreadCount = usePresenceStore((state) => state.partyChatUnreadCount);
+
+ // Calculate total unread count for community badge
+ const totalCommunityUnread = React.useMemo(() => {
+  let total = partyChatUnreadCount || 0;
+  whisperTabs?.forEach(tab => {
+   total += tab.unreadCount || 0;
   });
-  const [showScrollTop, setShowScrollTop] = useState(false);
-  const [showCommunity, setShowCommunity] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const isPhone = useIsPhone();
-  const [showPhoneNotice, setShowPhoneNotice] = useState(null);
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { isDevelopmentBypass, signOut, isAuthenticated: authStoreIsAuthenticated, user: authStoreUser, isDevelopmentBypass: authStoreIsDevelopmentBypass, isAdminBypass } = useAuthStore();
+  return total;
+ }, [whisperTabs, partyChatUnreadCount]);
 
-  // Lord Bertil's Map Making section is only available to admin (admin/admin dev-login)
-  const isAdmin = isAdminBypass || !!authStoreUser?.isAdmin;
+ // Close mobile menu on resize to desktop
+ useEffect(() => {
+  const handleResize = () => {
+   if (window.innerWidth > 768) setMobileMenuOpen(false);
+  };
+  window.addEventListener('resize', handleResize);
+  return () => window.removeEventListener('resize', handleResize);
+ }, []);
 
-  // Party state for indicator
-  const isInParty = usePresenceStore((state) => state.isInParty);
-  const currentParty = usePresenceStore((state) => state.currentParty);
-  const currentUserPresence = usePresenceStore((state) => state.currentUserPresence);
-  const isPartyLeader = currentParty?.leaderId === currentUserPresence?.userId;
+ // Close mobile menu on navigation
+ useEffect(() => {
+  setMobileMenuOpen(false);
+ }, [location.pathname]);
 
-  // Community notification badge state
-  const whisperTabs = usePresenceStore((state) => state.whisperTabs);
-  const partyChatUnreadCount = usePresenceStore((state) => state.partyChatUnreadCount);
+ // Save active section to localStorage when it changes
+ useEffect(() => {
+  localStorage.setItem('landingActiveSection', activeSection);
+ }, [activeSection]);
 
-  // Calculate total unread count for community badge
-  const totalCommunityUnread = React.useMemo(() => {
-    let total = partyChatUnreadCount || 0;
-    whisperTabs?.forEach(tab => {
-      total += tab.unreadCount || 0;
-    });
-    return total;
-  }, [whisperTabs, partyChatUnreadCount]);
+ // Logout handler
+ const handleLogout = async () => {
+  try {
+   await signOut();
+  } catch (error) {
+   console.error('❌ Logout failed:', error);
+  }
+ };
 
-  // Close mobile menu on resize to desktop
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth > 768) setMobileMenuOpen(false);
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // Close mobile menu on navigation
-  useEffect(() => {
-    setMobileMenuOpen(false);
-  }, [location.pathname]);
-
-  // Save active section to localStorage when it changes
-  useEffect(() => {
-    localStorage.setItem('landingActiveSection', activeSection);
-  }, [activeSection]);
-
-  // Logout handler
-  const handleLogout = async () => {
-    try {
-      await signOut();
-    } catch (error) {
-      console.error('❌ Logout failed:', error);
-    }
+ // Handle scroll to show/hide scroll-to-top button
+ useEffect(() => {
+  const handleScroll = () => {
+   setShowScrollTop(window.scrollY > 300);
   };
 
-  // Handle scroll to show/hide scroll-to-top button
-  useEffect(() => {
-    const handleScroll = () => {
-      setShowScrollTop(window.scrollY > 300);
-    };
+  window.addEventListener('scroll', handleScroll);
+  return () => window.removeEventListener('scroll', handleScroll);
+ }, []);
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+ // Handle navigation to landing page
+ useEffect(() => {
+  // Only scroll to top when the pathname explicitly changes to /
+  // This happens when navigating TO the landing page from another page
+  if (location.pathname === '/') {
+   window.scrollTo(0, 0);
+   setShowCommunity(false);
+  }
+ }, [location.pathname]);
 
-  // Handle navigation to landing page
-  useEffect(() => {
-    // Only scroll to top when the pathname explicitly changes to /
-    // This happens when navigating TO the landing page from another page
-    if (location.pathname === '/') {
-      window.scrollTo(0, 0);
-      setShowCommunity(false);
-    }
-  }, [location.pathname]);
+ const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+ };
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+ // Handle community button click
+ const handleCommunityClick = () => {
+  setShowCommunity(prev => !prev);
+ };
+
+ // ── Dive Transition ──
+ // When Immerse is activated: freeze the mapPan animation at its current frame,
+ // then animate background-size/position from the zoomed-in state to "cover"
+ // so it feels like pulling back to reveal the entire map.
+ // WorldMapImmerse (transparent at this point) crossfades in once the dive completes.
+ useEffect(() => {
+  if (!isWorldMapActive) return;
+
+  const el = document.querySelector('.landing-page.map-background');
+  if (!el) return;
+
+  // 1. Read the current animated frame BEFORE killing the animation
+  const cs = window.getComputedStyle(el);
+  const frozenSize = cs.backgroundSize;
+  const frozenPos = cs.backgroundPosition;
+
+  // 2. Kill the animation entirely so our inline styles can take over
+  //  (animation values outrank normal inline styles in the cascade)
+  el.style.setProperty('animation', 'none', 'important');
+
+  // 3. Lock the frozen frame as inline styles (visual stays the same)
+  el.style.backgroundSize = frozenSize;
+  el.style.backgroundPosition = frozenPos;
+
+  // 4. Enable the transition (skip the cinematic when reduced motion is requested)
+  el.style.transition = shouldReduceMotion()
+   ? 'none'
+   : ('background-size 2.5s cubic-bezier(0.25, 1, 0.5, 1) 0.2s, ' +
+    'background-position 2.5s cubic-bezier(0.25, 1, 0.5, 1) 0.2s');
+
+  // 5. After two RAFs (ensures the browser has painted the locked state),
+  //  set the target "cover" dimensions to trigger the transition
+  let raf2;
+  const raf1 = requestAnimationFrame(() => {
+   raf2 = requestAnimationFrame(() => {
+    const W = window.innerWidth;
+    const H = window.innerHeight;
+    const mapAspect = 4096 / 3072;
+    const s = Math.max(W / 4096, H / 3072);
+
+    const targetSizeX = ((4096 * s) / W) * 100;
+    const targetSizeY = ((3072 * s) / H) * 100;
+
+    el.style.backgroundSize = `${targetSizeX}% ${targetSizeY}%, 100% 100%, 100% 100%`;
+    el.style.backgroundPosition = 'center center, center, center';
+   });
+  });
+
+  // Cleanup: restore the landing page when exiting Immerse mode
+  return () => {
+   cancelAnimationFrame(raf1);
+   if (raf2) cancelAnimationFrame(raf2);
+
+   const cleanupEl = document.querySelector('.landing-page.map-background');
+   if (cleanupEl) {
+    cleanupEl.style.transition = 'none';
+    cleanupEl.style.backgroundSize = '';
+    cleanupEl.style.backgroundPosition = '';
+    cleanupEl.style.removeProperty('animation');
+    // Force reflow so the browser registers the change before the
+    // animation resumes from its CSS declaration
+    void cleanupEl.offsetWidth;
+   }
   };
+ }, [isWorldMapActive]);
 
-  // Handle community button click
-  const handleCommunityClick = () => {
-    setShowCommunity(prev => !prev);
-  };
-
-  // ── Dive Transition ──
-  // When Immerse is activated: freeze the mapPan animation at its current frame,
-  // then animate background-size/position from the zoomed-in state to "cover"
-  // so it feels like pulling back to reveal the entire map.
-  // WorldMapImmerse (transparent at this point) crossfades in once the dive completes.
-  useEffect(() => {
-    if (!isWorldMapActive) return;
-
-    const el = document.querySelector('.landing-page.map-background');
-    if (!el) return;
-
-    // 1. Read the current animated frame BEFORE killing the animation
-    const cs = window.getComputedStyle(el);
-    const frozenSize = cs.backgroundSize;
-    const frozenPos = cs.backgroundPosition;
-
-    // 2. Kill the animation entirely so our inline styles can take over
-    //    (animation values outrank normal inline styles in the cascade)
-    el.style.setProperty('animation', 'none', 'important');
-
-    // 3. Lock the frozen frame as inline styles (visual stays the same)
-    el.style.backgroundSize = frozenSize;
-    el.style.backgroundPosition = frozenPos;
-
-    // 4. Enable the transition (skip the cinematic when reduced motion is requested)
-    el.style.transition = shouldReduceMotion()
-      ? 'none'
-      : ('background-size 2.5s cubic-bezier(0.25, 1, 0.5, 1) 0.2s, ' +
-        'background-position 2.5s cubic-bezier(0.25, 1, 0.5, 1) 0.2s');
-
-    // 5. After two RAFs (ensures the browser has painted the locked state),
-    //    set the target "cover" dimensions to trigger the transition
-    let raf2;
-    const raf1 = requestAnimationFrame(() => {
-      raf2 = requestAnimationFrame(() => {
-        const W = window.innerWidth;
-        const H = window.innerHeight;
-        const mapAspect = 4096 / 3072;
-        const s = Math.max(W / 4096, H / 3072);
-
-        const targetSizeX = ((4096 * s) / W) * 100;
-        const targetSizeY = ((3072 * s) / H) * 100;
-
-        el.style.backgroundSize = `${targetSizeX}% ${targetSizeY}%, 100% 100%, 100% 100%`;
-        el.style.backgroundPosition = 'center center, center, center';
-      });
-    });
-
-    // Cleanup: restore the landing page when exiting Immerse mode
-    return () => {
-      cancelAnimationFrame(raf1);
-      if (raf2) cancelAnimationFrame(raf2);
-
-      const cleanupEl = document.querySelector('.landing-page.map-background');
-      if (cleanupEl) {
-        cleanupEl.style.transition = 'none';
-        cleanupEl.style.backgroundSize = '';
-        cleanupEl.style.backgroundPosition = '';
-        cleanupEl.style.removeProperty('animation');
-        // Force reflow so the browser registers the change before the
-        // animation resumes from its CSS declaration
-        void cleanupEl.offsetWidth;
-      }
-    };
-  }, [isWorldMapActive]);
-
-  const renderHomeSection = () => (
-    <div className="landing-section">
-      <div className="hero-section">
-        <div className="hero-content">
-          <div className="title-section">
-            <h1 className="game-title">Mythrill</h1>
-            <div className="title-ornament">
-              <i className="fas fa-dragon"></i>
-              <span className="ornament-line"></span>
-              <i className="fas fa-gem"></i>
-              <span className="ornament-line"></span>
-              <i className="fas fa-dragon"></i>
-            </div>
-          </div>
-
-          <p className="game-subtitle">The Ultimate Fantasy TTRPG Experience</p>
-          <p className="game-description">
-            Embark on epic adventures in a world of magic, mystery, and endless possibilities.
-          </p>
-
-          <div className="action-buttons">
-            <button
-              className={`primary-action-btn ${isPhone ? 'phone-disabled' : ''}`}
-              onClick={() => {
-                if (isPhone) { setShowPhoneNotice('Play Online'); return; }
-                onEnterMultiplayer();
-              }}
-              disabled={isPhone}
-              title={isPhone ? 'The VTT grid is not optimised for phones. Play on a tablet or desktop.' : ''}
-            >
-              <i className="fas fa-dragon"></i>
-              <span className="btn-text">
-                <span className="btn-title">Play Online</span>
-                <span className="btn-subtitle">Adventure with friends</span>
-              </span>
-            </button>
-            <button
-              className="immersive-action-btn"
-              onClick={onImmerse}
-            >
-              <i className="fas fa-map"></i>
-              <span className="btn-text">
-                <span className="btn-title">Immerse</span>
-                <span className="btn-subtitle">Explore the world map</span>
-              </span>
-            </button>
-            <button
-              className={`secondary-action-btn ${isPhone ? 'phone-disabled' : ''}`}
-              onClick={() => {
-                if (isPhone) { setShowPhoneNotice('Sandbox Mode'); return; }
-                onEnterSinglePlayer();
-              }}
-              disabled={isPhone}
-              title={isPhone ? 'The VTT grid is not optimised for phones. Play on a tablet or desktop.' : ''}
-            >
-              <i className="fas fa-flask"></i>
-              <span className="btn-text">
-                <span className="btn-title">Sandbox Mode</span>
-                <span className="btn-subtitle">Test tools & experiment</span>
-              </span>
-            </button>
-          </div>
-
-          {isPhone && (
-            <p className="phone-notice-banner">
-              <i className="fas fa-info-circle"></i>
-              You're on a phone: the tactical grid is designed for larger screens.
-              Character Creation, Lore and the world map are fully available.
-            </p>
-          )}
-        </div>
+ const renderHomeSection = () => (
+  <div className="landing-section">
+   <div className="hero-section">
+    <div className="hero-content">
+     <div className="title-section">
+      <h1 className="game-title">Mythrill</h1>
+      <div className="title-ornament">
+       <i className="fas fa-dragon"></i>
+       <span className="ornament-line"></span>
+       <i className="fas fa-gem"></i>
+       <span className="ornament-line"></span>
+       <i className="fas fa-dragon"></i>
       </div>
-    </div>
-  );
+     </div>
 
-  const renderGameInfoSection = () => (
-    <div className="landing-section">
-      <div className="info-content">
-        <h2>About Mythrill</h2>
-        <div className="info-grid">
-          <div className="info-card">
-            <h3>Game System</h3>
-            <p>Mythrill uses a unique d20-based system with innovative mechanics for spellcrafting, character progression, and tactical combat.</p>
-            <ul>
-              <li>27 unique character classes</li>
-              <li>10 races with subraces</li>
-              <li>Dynamic spell creation system</li>
-              <li>No traditional leveling - quest-based progression</li>
-            </ul>
-          </div>
+     <p className="game-subtitle">The Ultimate Fantasy TTRPG Experience</p>
+     <p className="game-description">
+      Embark on epic adventures in a world of magic, mystery, and endless possibilities.
+     </p>
 
-          <div className="info-card">
-            <h3>Setting & Lore</h3>
-            <p>Enter a world where magic and technology intertwine, ancient mysteries await discovery, and heroes forge their own destinies.</p>
-            <div className="placeholder-content">
-              <p><em>Rich lore and world-building content coming soon...</em></p>
-            </div>
-          </div>
-
-          <div className="info-card">
-            <h3>Getting Started</h3>
-            <p>New to Mythrill? Our comprehensive guides will help you create your first character and understand the game mechanics.</p>
-            <div className="placeholder-content">
-              <p><em>Tutorial and guide system in development...</em></p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-
-  const renderMembershipSection = () => (
-    <div className="landing-section">
-      <div className="membership-content">
-        <h2>Membership & Pricing</h2>
-        <div className="pricing-grid">
-          <div className="pricing-card free">
-            <div className="pricing-card-icon"><i className="fas fa-user-secret"></i></div>
-            <h3>Guest</h3>
-            <div className="price">Free</div>
-            <ul>
-              <li>✓ Join multiplayer rooms as a player</li>
-              <li>✓ 1 temporary character</li>
-              <li>✓ Full combat & dice rolling</li>
-              <li>✓ Room chat</li>
-              <li><span className="locked-feature">✗ No cloud save</span></li>
-              <li><span className="locked-feature">✗ Cannot create rooms</span></li>
-            </ul>
-            <p className="account-note">
-              <i className="fas fa-info-circle"></i>
-              No account needed: just join a game
-            </p>
-            <button
-              className="pricing-btn primary-account-btn"
-              onClick={onShowLogin}
-            >
-              <i className="fas fa-sign-in-alt"></i>
-              Get Started
-            </button>
-          </div>
-
-          <div className="pricing-card premium">
-            <div className="pricing-card-icon"><i className="fas fa-shield-halved"></i></div>
-            <h3>Free Adventurer</h3>
-            <div className="price">$0<span>/forever</span></div>
-            <ul>
-              <li>✓ 3 character slots with cloud save</li>
-              <li>✓ 1 permanent room (up to 4 players)</li>
-              <li>✓ 25 MB cloud storage</li>
-              <li>✓ Full character creation (30 classes, 12 races)</li>
-              <li>✓ Spell crafting, creature & item creation</li>
-              <li>✓ Map editor with static fog of war</li>
-              <li>✓ Combat system & 3D physics dice</li>
-              <li>✓ Unlimited local rooms</li>
-            </ul>
-            <p className="account-note">
-              <i className="fas fa-info-circle"></i>
-              Free forever • No credit card required
-            </p>
-            <button
-              className="pricing-btn primary-account-btn"
-              onClick={onShowRegister}
-            >
-              <i className="fas fa-user-plus"></i>
-              Create Free Account
-            </button>
-          </div>
-
-          <div className="pricing-card premium">
-            <div className="pricing-card-icon"><i className="fas fa-crown"></i></div>
-            <div className="popular-badge">Most Popular</div>
-            <h3>Dungeon Master</h3>
-            <div className="price">$7.99<span>/month</span></div>
-            <ul>
-              <li>✓ 15 character slots with cloud save</li>
-              <li>✓ 5 rooms (up to 6 players each)</li>
-              <li>✓ 500 MB cloud storage</li>
-              <li>✓ Full GM notes (scroll, NPC, encounter, trap)</li>
-              <li>✓ Portal system: connect maps</li>
-              <li>✓ Travel system with biomes & weather</li>
-              <li>✓ Atmospheric effects (rain, snow, fog)</li>
-              <li>✓ Campaign manager & session tracking</li>
-              <li>✓ Memory snapshots & afterimages</li>
-              <li>✓ Custom rollable tables & quest sharing</li>
-            </ul>
-            <button className="pricing-btn">Coming Soon</button>
-          </div>
-
-          <div className="pricing-card legendary">
-            <div className="pricing-card-icon"><i className="fas fa-chess-king"></i></div>
-            <h3>Archmage</h3>
-            <div className="price">$14.99<span>/month</span></div>
-            <ul>
-              <li>✓ Unlimited character slots</li>
-              <li>✓ 25 rooms (up to 12 players each)</li>
-              <li>✓ Everything in Dungeon Master</li>
-              <li>✓ Campaign analytics dashboard</li>
-              <li>✓ Custom room themes</li>
-              <li>✓ Priority support & early access</li>
-              <li>✓ 5 GB cloud storage</li>
-            </ul>
-            <button className="pricing-btn">Coming Soon</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-
-
-
-  const renderRulesSection = () => (
-    <div className="landing-section rules-section-wrapper">
-      <RulesPage />
-    </div>
-  );
-
-  const renderMapMakingSection = () => (
-    <div className="landing-section map-making-section-wrapper">
-      {isAdmin ? (
-        <MapMakingSection />
-      ) : (
-        <div className="map-making-locked">
-          <i className="fas fa-lock"></i>
-          <h2>Map Making: Restricted</h2>
-          <p>This section is reserved for the map maker. Please log in as an admin to access it.</p>
-        </div>
-      )}
-    </div>
-  );
-
-  const handleNavClick = (sectionId) => {
-    setActiveSection(sectionId);
-    setMobileMenuOpen(false);
-  };
-
-  const navigation = [
-    { id: 'home', label: 'Home', icon: 'fas fa-home' },
-    { id: 'rules', label: 'Rules', icon: 'fas fa-book' },
-    ...(isAdmin ? [{ id: 'map-making', label: 'Map Making', icon: 'fas fa-feather-alt' }] : []),
-    { id: 'membership', label: 'Membership', icon: 'fas fa-star' }
-  ];
-
-  // Map background path
-  const mapImagePath = `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg`;
-
-  return (
-    <>
-      <div
-        className={`landing-page map-background ${isWorldMapActive ? 'immersing' : ''}`}
-        style={{
-          '--map-background-url': `url("${mapImagePath}")`
-        }}
+     <div className="action-buttons">
+      <button
+       className={`primary-action-btn ${isPhone ? 'phone-disabled' : ''}`}
+       onClick={() => {
+        if (isPhone) { setShowPhoneNotice('Play Online'); return; }
+        onEnterMultiplayer();
+       }}
+       disabled={isPhone}
+       title={isPhone ? 'The VTT grid is not optimised for phones. Play on a tablet or desktop.' : ''}
       >
-        <header className="landing-header">
-            <div className="header-content">
-              <div className="header-left">
-                <div className="logo">
-                  <i className="fas fa-gem"></i>
-                  <span>Mythrill</span>
-                </div>
-              </div>
+       <i className="fas fa-dragon"></i>
+       <span className="btn-text">
+        <span className="btn-title">Play Online</span>
+        <span className="btn-subtitle">Adventure with friends</span>
+       </span>
+      </button>
+      <button
+       className="immersive-action-btn"
+       onClick={onImmerse}
+      >
+       <i className="fas fa-map"></i>
+       <span className="btn-text">
+        <span className="btn-title">Immerse</span>
+        <span className="btn-subtitle">Explore the world map</span>
+       </span>
+      </button>
+      <button
+       className={`secondary-action-btn ${isPhone ? 'phone-disabled' : ''}`}
+       onClick={() => {
+        if (isPhone) { setShowPhoneNotice('Sandbox Mode'); return; }
+        onEnterSinglePlayer();
+       }}
+       disabled={isPhone}
+       title={isPhone ? 'The VTT grid is not optimised for phones. Play on a tablet or desktop.' : ''}
+      >
+       <i className="fas fa-flask"></i>
+       <span className="btn-text">
+        <span className="btn-title">Sandbox Mode</span>
+        <span className="btn-subtitle">Test tools & experiment</span>
+       </span>
+      </button>
+     </div>
 
-              <div className="header-center">
-                <nav className="main-nav">
-                  {navigation.map(item => (
-                    <button
-                      key={item.id}
-                      className={`nav-item ${activeSection === item.id ? 'active' : ''}`}
-                      onClick={() => handleNavClick(item.id)}
-                    >
-                      <i className={item.icon}></i>
-                      {item.label}
-                    </button>
-                  ))}
+     {isPhone && (
+      <p className="phone-notice-banner">
+       <i className="fas fa-info-circle"></i>
+       You're on a phone: the tactical grid is designed for larger screens.
+       Character Creation, Lore and the world map are fully available.
+      </p>
+     )}
+    </div>
+   </div>
+  </div>
+ );
 
-                  <button
-                    className={`nav-item community-nav-btn ${isInParty ? 'in-party' : ''} ${showCommunity ? 'active' : ''}`}
-                    onClick={handleCommunityClick}
-                    title={isInParty ? `Community Chat (In Party${isPartyLeader ? ' - Leader' : ''})` : "Community Chat"}
-                  >
-                    <i className="fas fa-users"></i>
-                    {totalCommunityUnread > 0 && (
-                      <span className="community-notification-badge">
-                        {totalCommunityUnread > 99 ? '99+' : totalCommunityUnread}
-                      </span>
-                    )}
-                    {isInParty && (
-                      <i className={`fas ${isPartyLeader ? 'fa-crown' : 'fa-shield-alt'} party-indicator`}
-                        title={isPartyLeader ? 'Party Leader' : 'In Party'}></i>
-                    )}
-                    Community
-                  </button>
-                </nav>
-              </div>
+ const renderGameInfoSection = () => (
+  <div className="landing-section">
+   <div className="info-content">
+    <h2>About Mythrill</h2>
+    <div className="info-grid">
+     <div className="info-card">
+      <h3>Game System</h3>
+      <p>Mythrill uses a unique d20-based system with innovative mechanics for spellcrafting, character progression, and tactical combat.</p>
+      <ul>
+       <li>27 unique character classes</li>
+       <li>10 races with subraces</li>
+       <li>Dynamic spell creation system</li>
+       <li>No traditional leveling - quest-based progression</li>
+      </ul>
+     </div>
 
-              <div className="header-right header-actions">
-                <button
-                  type="button"
-                  className="privacy-btn"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    navigate('/privacy');
-                  }}
-                  title="Privacy Policy"
-                >
-                  <i className="fas fa-shield-alt"></i>
-                  Privacy
-                </button>
-                {authStoreIsAuthenticated && authStoreUser ? (
-                <>
-                  <button
-                    type="button"
-                    className="account-btn"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      navigate('/account', { replace: false });
-                    }}
-                  >
-                    <i className="fas fa-user-circle"></i>
-                    Account
-                  </button>
-                  <button
-                    type="button"
-                    className="logout-btn"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      handleLogout();
-                    }}
-                  >
-                    <i className="fas fa-sign-out-alt"></i>
-                    Logout
-                  </button>
-                </>
-              ) : authStoreIsDevelopmentBypass ? (
-                <button
-                  type="button"
-                  className="account-btn"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    navigate('/account', { replace: false });
-                  }}
-                >
-                  <i className="fas fa-user-circle"></i>
-                  Account
-                </button>
-              ) : (
-                <>
-                  <button className="login-btn" onClick={onShowLogin}>
-                    <i className="fas fa-user"></i>
-                    Login
-                  </button>
-                </>
-              )}
-            </div>
-
-            <button
-              className={`mobile-hamburger ${mobileMenuOpen ? 'open' : ''}`}
-              onClick={() => setMobileMenuOpen(prev => !prev)}
-              aria-label="Menu"
-            >
-              <span></span>
-              <span></span>
-              <span></span>
-            </button>
-          </div>
-
-          <div className={`mobile-menu ${mobileMenuOpen ? 'open' : ''}`}>
-            <div className="mobile-menu-list">
-              {navigation.map(item => (
-                <button
-                  key={item.id}
-                  className={`mobile-menu-item ${activeSection === item.id ? 'active' : ''}`}
-                  onClick={() => handleNavClick(item.id)}
-                >
-                  <i className={item.icon}></i>
-                  {item.label}
-                </button>
-              ))}
-              <button
-                className="mobile-menu-item"
-                onClick={() => { handleCommunityClick(); setMobileMenuOpen(false); }}
-              >
-                <i className="fas fa-users"></i>
-                Community
-                {totalCommunityUnread > 0 && (
-                  <span className="mobile-menu-badge">{totalCommunityUnread > 99 ? '99+' : totalCommunityUnread}</span>
-                )}
-              </button>
-
-              {authStoreIsAuthenticated && authStoreUser ? (
-                <>
-                  <button
-                    className="mobile-menu-item"
-                    onClick={() => { navigate('/account'); setMobileMenuOpen(false); }}
-                  >
-                    <i className="fas fa-user-circle"></i>
-                    Account
-                  </button>
-                  <button
-                    className="mobile-menu-item"
-                    onClick={() => { handleLogout(); setMobileMenuOpen(false); }}
-                  >
-                    <i className="fas fa-sign-out-alt"></i>
-                    Logout
-                  </button>
-                </>
-              ) : authStoreIsDevelopmentBypass ? (
-                <button
-                  className="mobile-menu-item"
-                  onClick={() => { navigate('/account'); setMobileMenuOpen(false); }}
-                >
-                  <i className="fas fa-user-circle"></i>
-                  Account
-                </button>
-              ) : (
-                <>
-                  <button
-                    className="mobile-menu-item highlight"
-                    onClick={() => { onShowLogin(); setMobileMenuOpen(false); }}
-                  >
-                    <i className="fas fa-user"></i>
-                    Login
-                  </button>
-                </>
-              )}
-              <button
-                className="mobile-menu-item"
-                onClick={() => { navigate('/privacy'); setMobileMenuOpen(false); }}
-              >
-                <i className="fas fa-shield-alt"></i>
-                Privacy Policy
-              </button>
-            </div>
-          </div>
-        </header>
-
-        <main className="landing-main">
-          {activeSection === 'home' && renderHomeSection()}
-          {activeSection === 'rules' && renderRulesSection()}
-          {activeSection === 'map-making' && renderMapMakingSection()}
-          {activeSection === 'membership' && renderMembershipSection()}
-        </main>
-
-        {/* Footer removed to prevent vertical scrollbar and layout issues */}
-
-        {/* Scroll to Top Button */}
-        {showScrollTop && (
-          <button
-            className="scroll-to-top"
-            onClick={scrollToTop}
-            title="Back to top"
-          >
-            <i className="fas fa-chevron-up"></i>
-          </button>
-        )}
-
-        {/* Global Chat Window */}
-        <GlobalChatWindowWrapper
-          isOpen={showCommunity}
-          onClose={() => setShowCommunity(false)}
-        />
+     <div className="info-card">
+      <h3>Setting & Lore</h3>
+      <p>Enter a world where magic and technology intertwine, ancient mysteries await discovery, and heroes forge their own destinies.</p>
+      <div className="placeholder-content">
+       <p><em>Rich lore and world-building content coming soon...</em></p>
       </div>
-    </>
-  );
+     </div>
+
+     <div className="info-card">
+      <h3>Getting Started</h3>
+      <p>New to Mythrill? Our complete guides will help you create your first character and understand the game mechanics.</p>
+      <div className="placeholder-content">
+       <p><em>Tutorial and guide system in development...</em></p>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+ );
+
+ const renderMembershipSection = () => (
+  <div className="landing-section">
+   <div className="membership-content">
+    <h2>Membership & Pricing</h2>
+    <div className="pricing-grid">
+     <div className="pricing-card free">
+      <div className="pricing-card-icon"><i className="fas fa-user-secret"></i></div>
+      <h3>Guest</h3>
+      <div className="price">Free</div>
+      <ul>
+       <li>✓ Join multiplayer rooms as a player</li>
+       <li>✓ 1 temporary character</li>
+       <li>✓ Full combat & dice rolling</li>
+       <li>✓ Room chat</li>
+       <li><span className="locked-feature">✗ No cloud save</span></li>
+       <li><span className="locked-feature">✗ Cannot create rooms</span></li>
+      </ul>
+      <p className="account-note">
+       <i className="fas fa-info-circle"></i>
+       No account needed: just join a game
+      </p>
+      <button
+       className="pricing-btn primary-account-btn"
+       onClick={onShowLogin}
+      >
+       <i className="fas fa-sign-in-alt"></i>
+       Get Started
+      </button>
+     </div>
+
+     <div className="pricing-card premium">
+      <div className="pricing-card-icon"><i className="fas fa-shield-halved"></i></div>
+      <h3>Free Adventurer</h3>
+      <div className="price">$0<span>/forever</span></div>
+      <ul>
+       <li>✓ 3 character slots with cloud save</li>
+       <li>✓ 1 permanent room (up to 4 players)</li>
+       <li>✓ 25 MB cloud storage</li>
+       <li>✓ Full character creation (30 classes, 12 races)</li>
+       <li>✓ Spell crafting, creature & item creation</li>
+       <li>✓ Map editor with static fog of war</li>
+       <li>✓ Combat system & 3D physics dice</li>
+       <li>✓ Unlimited local rooms</li>
+      </ul>
+      <p className="account-note">
+       <i className="fas fa-info-circle"></i>
+       Free forever • No credit card required
+      </p>
+      <button
+       className="pricing-btn primary-account-btn"
+       onClick={onShowRegister}
+      >
+       <i className="fas fa-user-plus"></i>
+       Create Free Account
+      </button>
+     </div>
+
+     <div className="pricing-card premium">
+      <div className="pricing-card-icon"><i className="fas fa-crown"></i></div>
+      <div className="popular-badge">Most Popular</div>
+      <h3>Dungeon Master</h3>
+      <div className="price">$7.99<span>/month</span></div>
+      <ul>
+       <li>✓ 15 character slots with cloud save</li>
+       <li>✓ 5 rooms (up to 6 players each)</li>
+       <li>✓ 500 MB cloud storage</li>
+       <li>✓ Full GM notes (scroll, NPC, encounter, trap)</li>
+       <li>✓ Portal system: connect maps</li>
+       <li>✓ Travel system with biomes & weather</li>
+       <li>✓ Atmospheric effects (rain, snow, fog)</li>
+       <li>✓ Campaign manager & session tracking</li>
+       <li>✓ Memory snapshots & afterimages</li>
+       <li>✓ Custom rollable tables & quest sharing</li>
+      </ul>
+      <button className="pricing-btn">Coming Soon</button>
+     </div>
+
+     <div className="pricing-card legendary">
+      <div className="pricing-card-icon"><i className="fas fa-chess-king"></i></div>
+      <h3>Archmage</h3>
+      <div className="price">$14.99<span>/month</span></div>
+      <ul>
+       <li>✓ Unlimited character slots</li>
+       <li>✓ 25 rooms (up to 12 players each)</li>
+       <li>✓ Everything in Dungeon Master</li>
+       <li>✓ Campaign analytics dashboard</li>
+       <li>✓ Custom room themes</li>
+       <li>✓ Priority support & early access</li>
+       <li>✓ 5 GB cloud storage</li>
+      </ul>
+      <button className="pricing-btn">Coming Soon</button>
+     </div>
+    </div>
+   </div>
+  </div>
+ );
+
+
+
+ const renderRulesSection = () => (
+  <div className="landing-section rules-section-wrapper">
+   <RulesPage />
+  </div>
+ );
+
+ const renderMapMakingSection = () => (
+  <div className="landing-section map-making-section-wrapper">
+   {isAdmin ? (
+    <MapMakingSection />
+   ) : (
+    <div className="map-making-locked">
+     <i className="fas fa-lock"></i>
+     <h2>Map Making: Restricted</h2>
+     <p>This section is reserved for the map maker. Please log in as an admin to access it.</p>
+    </div>
+   )}
+  </div>
+ );
+
+ const handleNavClick = (sectionId) => {
+  setActiveSection(sectionId);
+  setMobileMenuOpen(false);
+ };
+
+ const navigation = [
+  { id: 'home', label: 'Home', icon: 'fas fa-home' },
+  { id: 'rules', label: 'Rules', icon: 'fas fa-book' },
+  ...(isAdmin ? [{ id: 'map-making', label: 'Map Making', icon: 'fas fa-feather-alt' }] : []),
+  { id: 'membership', label: 'Membership', icon: 'fas fa-star' }
+ ];
+
+ // Map background path
+ const mapImagePath = `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg`;
+
+ return (
+  <>
+   <div
+    className={`landing-page map-background ${isWorldMapActive ? 'immersing' : ''}`}
+    style={{
+     '--map-background-url': `url("${mapImagePath}")`
+    }}
+   >
+    <header className="landing-header">
+      <div className="header-content">
+       <div className="header-left">
+        <div className="logo">
+         <i className="fas fa-gem"></i>
+         <span>Mythrill</span>
+        </div>
+       </div>
+
+       <div className="header-center">
+        <nav className="main-nav">
+         {navigation.map(item => (
+          <button
+           key={item.id}
+           className={`nav-item ${activeSection === item.id ? 'active' : ''}`}
+           onClick={() => handleNavClick(item.id)}
+          >
+           <i className={item.icon}></i>
+           {item.label}
+          </button>
+         ))}
+
+         <button
+          className={`nav-item community-nav-btn ${isInParty ? 'in-party' : ''} ${showCommunity ? 'active' : ''}`}
+          onClick={handleCommunityClick}
+          title={isInParty ? `Community Chat (In Party${isPartyLeader ? ' - Leader' : ''})` : "Community Chat"}
+         >
+          <i className="fas fa-users"></i>
+          {totalCommunityUnread > 0 && (
+           <span className="community-notification-badge">
+            {totalCommunityUnread > 99 ? '99+' : totalCommunityUnread}
+           </span>
+          )}
+          {isInParty && (
+           <i className={`fas ${isPartyLeader ? 'fa-crown' : 'fa-shield-alt'} party-indicator`}
+            title={isPartyLeader ? 'Party Leader' : 'In Party'}></i>
+          )}
+          Community
+         </button>
+        </nav>
+       </div>
+
+       <div className="header-right header-actions">
+        <button
+         type="button"
+         className="privacy-btn"
+         onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          navigate('/privacy');
+         }}
+         title="Privacy Policy"
+        >
+         <i className="fas fa-shield-alt"></i>
+         Privacy
+        </button>
+        {authStoreIsAuthenticated && authStoreUser ? (
+        <>
+         <button
+          type="button"
+          className="account-btn"
+          onClick={(e) => {
+           e.preventDefault();
+           e.stopPropagation();
+           navigate('/account', { replace: false });
+          }}
+         >
+          <i className="fas fa-user-circle"></i>
+          Account
+         </button>
+         <button
+          type="button"
+          className="logout-btn"
+          onClick={(e) => {
+           e.preventDefault();
+           e.stopPropagation();
+           handleLogout();
+          }}
+         >
+          <i className="fas fa-sign-out-alt"></i>
+          Logout
+         </button>
+        </>
+       ) : authStoreIsDevelopmentBypass ? (
+        <button
+         type="button"
+         className="account-btn"
+         onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          navigate('/account', { replace: false });
+         }}
+        >
+         <i className="fas fa-user-circle"></i>
+         Account
+        </button>
+       ) : (
+        <>
+         <button className="login-btn" onClick={onShowLogin}>
+          <i className="fas fa-user"></i>
+          Login
+         </button>
+        </>
+       )}
+      </div>
+
+      <button
+       className={`mobile-hamburger ${mobileMenuOpen ? 'open' : ''}`}
+       onClick={() => setMobileMenuOpen(prev => !prev)}
+       aria-label="Menu"
+      >
+       <span></span>
+       <span></span>
+       <span></span>
+      </button>
+     </div>
+
+     <div className={`mobile-menu ${mobileMenuOpen ? 'open' : ''}`}>
+      <div className="mobile-menu-list">
+       {navigation.map(item => (
+        <button
+         key={item.id}
+         className={`mobile-menu-item ${activeSection === item.id ? 'active' : ''}`}
+         onClick={() => handleNavClick(item.id)}
+        >
+         <i className={item.icon}></i>
+         {item.label}
+        </button>
+       ))}
+       <button
+        className="mobile-menu-item"
+        onClick={() => { handleCommunityClick(); setMobileMenuOpen(false); }}
+       >
+        <i className="fas fa-users"></i>
+        Community
+        {totalCommunityUnread > 0 && (
+         <span className="mobile-menu-badge">{totalCommunityUnread > 99 ? '99+' : totalCommunityUnread}</span>
+        )}
+       </button>
+
+       {authStoreIsAuthenticated && authStoreUser ? (
+        <>
+         <button
+          className="mobile-menu-item"
+          onClick={() => { navigate('/account'); setMobileMenuOpen(false); }}
+         >
+          <i className="fas fa-user-circle"></i>
+          Account
+         </button>
+         <button
+          className="mobile-menu-item"
+          onClick={() => { handleLogout(); setMobileMenuOpen(false); }}
+         >
+          <i className="fas fa-sign-out-alt"></i>
+          Logout
+         </button>
+        </>
+       ) : authStoreIsDevelopmentBypass ? (
+        <button
+         className="mobile-menu-item"
+         onClick={() => { navigate('/account'); setMobileMenuOpen(false); }}
+        >
+         <i className="fas fa-user-circle"></i>
+         Account
+        </button>
+       ) : (
+        <>
+         <button
+          className="mobile-menu-item highlight"
+          onClick={() => { onShowLogin(); setMobileMenuOpen(false); }}
+         >
+          <i className="fas fa-user"></i>
+          Login
+         </button>
+        </>
+       )}
+       <button
+        className="mobile-menu-item"
+        onClick={() => { navigate('/privacy'); setMobileMenuOpen(false); }}
+       >
+        <i className="fas fa-shield-alt"></i>
+        Privacy Policy
+       </button>
+      </div>
+     </div>
+    </header>
+
+    <main className="landing-main">
+     {activeSection === 'home' && renderHomeSection()}
+     {activeSection === 'rules' && renderRulesSection()}
+     {activeSection === 'map-making' && renderMapMakingSection()}
+     {activeSection === 'membership' && renderMembershipSection()}
+    </main>
+
+    {/* Footer removed to prevent vertical scrollbar and layout issues */}
+
+    {/* Scroll to Top Button */}
+    {showScrollTop && (
+     <button
+      className="scroll-to-top"
+      onClick={scrollToTop}
+      title="Back to top"
+     >
+      <i className="fas fa-chevron-up"></i>
+     </button>
+    )}
+
+    {/* Global Chat Window */}
+    <GlobalChatWindowWrapper
+     isOpen={showCommunity}
+     onClose={() => setShowCommunity(false)}
+    />
+   </div>
+  </>
+ );
 };
 
 export default LandingPage;

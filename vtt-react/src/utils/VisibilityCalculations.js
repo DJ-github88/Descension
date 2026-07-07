@@ -1,5 +1,5 @@
-/**
- * Visibility and Line-of-Sight Calculations for Dynamic Fog of War
+﻿/**
+ * Visibility and Line-of-Sight Calculations for shifting Fog of War
  * Professional VTT implementation with Bresenham's line algorithm and wall detection
  */
 
@@ -13,77 +13,77 @@ let _wallEdgeIndex = null;
 let _wallEdgeIndexKey = null;
 
 function getWallEdgeIndex(wallData, windowOverlays) {
-    const dataKey = wallData === _wallEdgeIndex?.__src ? _wallEdgeIndexKey : null;
-    if (dataKey && _wallEdgeIndex) return _wallEdgeIndex;
+  const dataKey = wallData === _wallEdgeIndex?.__src ? _wallEdgeIndexKey : null;
+  if (dataKey && _wallEdgeIndex) return _wallEdgeIndex;
 
-    const index = { __src: wallData };
-    const verticalEdges = index._v = new Map(); // "x,y" -> [{wall, wallKey}]
-    const horizontalEdges = index._h = new Map(); // "x,y" -> [{wall, wallKey}]
+  const index = { __src: wallData };
+  const verticalEdges = index._v = new Map(); // "x,y" -> [{wall, wallKey}]
+  const horizontalEdges = index._h = new Map(); // "x,y" -> [{wall, wallKey}]
 
-    for (const [wallKey, wall] of Object.entries(wallData)) {
-        const [wx1, wy1, wx2, wy2] = wallKey.split(',').map(Number);
-        if (wx1 === wx2) {
-            // Vertical wall at x=wx1, spans wy1..wy2
-            const minY = Math.min(wy1, wy2);
-            const maxY = Math.max(wy1, wy2);
-            for (let y = minY; y < maxY; y++) {
-                const key = `${wx1},${y}`;
-                if (!verticalEdges.has(key)) verticalEdges.set(key, []);
-                verticalEdges.get(key).push({ wall, wallKey });
-            }
-        } else if (wy1 === wy2) {
-            // Horizontal wall at y=wy1, spans wx1..wx2
-            const minX = Math.min(wx1, wx2);
-            const maxX = Math.max(wx1, wx2);
-            for (let x = minX; x < maxX; x++) {
-                const key = `${x},${wy1}`;
-                if (!horizontalEdges.has(key)) horizontalEdges.set(key, []);
-                horizontalEdges.get(key).push({ wall, wallKey });
-            }
-        }
+  for (const [wallKey, wall] of Object.entries(wallData)) {
+    const [wx1, wy1, wx2, wy2] = wallKey.split(',').map(Number);
+    if (wx1 === wx2) {
+      // Vertical wall at x=wx1, spans wy1..wy2
+      const minY = Math.min(wy1, wy2);
+      const maxY = Math.max(wy1, wy2);
+      for (let y = minY; y < maxY; y++) {
+        const key = `${wx1},${y}`;
+        if (!verticalEdges.has(key)) verticalEdges.set(key, []);
+        verticalEdges.get(key).push({ wall, wallKey });
+      }
+    } else if (wy1 === wy2) {
+      // Horizontal wall at y=wy1, spans wx1..wx2
+      const minX = Math.min(wx1, wx2);
+      const maxX = Math.max(wx1, wx2);
+      for (let x = minX; x < maxX; x++) {
+        const key = `${x},${wy1}`;
+        if (!horizontalEdges.has(key)) horizontalEdges.set(key, []);
+        horizontalEdges.get(key).push({ wall, wallKey });
+      }
     }
+  }
 
-    _wallEdgeIndex = index;
-    _wallEdgeIndexKey = wallData;
-    return index;
+  _wallEdgeIndex = index;
+  _wallEdgeIndexKey = wallData;
+  return index;
 }
 
 /**
  * Calculate line of sight between two points using Bresenham's line algorithm
  * @param {number} x0 - Starting x coordinate
- * @param {number} y0 - Starting y coordinate  
+ * @param {number} y0 - Starting y coordinate 
  * @param {number} x1 - Ending x coordinate
  * @param {number} y1 - Ending y coordinate
  * @returns {Array} Array of {x, y} coordinates along the line
  */
 export function getLineOfSight(x0, y0, x1, y1) {
-    const points = [];
-    const dx = Math.abs(x1 - x0);
-    const dy = Math.abs(y1 - y0);
-    const sx = x0 < x1 ? 1 : -1;
-    const sy = y0 < y1 ? 1 : -1;
-    let err = dx - dy;
+  const points = [];
+  const dx = Math.abs(x1 - x0);
+  const dy = Math.abs(y1 - y0);
+  const sx = x0 < x1 ? 1 : -1;
+  const sy = y0 < y1 ? 1 : -1;
+  let err = dx - dy;
 
-    let x = x0;
-    let y = y0;
+  let x = x0;
+  let y = y0;
 
-    while (true) {
-        points.push({ x, y });
+  while (true) {
+    points.push({ x, y });
 
-        if (x === x1 && y === y1) break;
+    if (x === x1 && y === y1) break;
 
-        const e2 = 2 * err;
-        if (e2 > -dy) {
-            err -= dy;
-            x += sx;
-        }
-        if (e2 < dx) {
-            err += dx;
-            y += sy;
-        }
+    const e2 = 2 * err;
+    if (e2 > -dy) {
+      err -= dy;
+      x += sx;
     }
+    if (e2 < dx) {
+      err += dx;
+      y += sy;
+    }
+  }
 
-    return points;
+  return points;
 }
 
 /**
@@ -97,150 +97,150 @@ export function getLineOfSight(x0, y0, x1, y1) {
  * @returns {boolean} True if wall blocks line of sight
  */
 export function isWallBlocking(x1, y1, x2, y2, wallData, windowOverlays = {}) {
-    if (!wallData || Object.keys(wallData).length === 0) return false;
+  if (!wallData || Object.keys(wallData).length === 0) return false;
 
-    const gx1 = Math.floor(x1);
-    const gy1 = Math.floor(y1);
-    const gx2 = Math.floor(x2);
-    const gy2 = Math.floor(y2);
+  const gx1 = Math.floor(x1);
+  const gy1 = Math.floor(y1);
+  const gx2 = Math.floor(x2);
+  const gy2 = Math.floor(y2);
 
-    const dx = Math.abs(gx2 - gx1);
-    const dy = Math.abs(gy2 - gy1);
+  const dx = Math.abs(gx2 - gx1);
+  const dy = Math.abs(gy2 - gy1);
 
-    if (dx > 1 || dy > 1 || (dx === 0 && dy === 0)) {
-        return false;
-    }
-
-    // PERFORMANCE: Use edge index for O(1) lookup instead of iterating all walls
-    const index = getWallEdgeIndex(wallData, windowOverlays);
-
-    // Check vertical edge between tiles (horizontal movement)
-    if (gx1 !== gx2) {
-        const wallX = Math.max(gx1, gx2); // Vertical wall at this x
-        const edgeKey = `${wallX},${gy1}`;
-        const walls = index._v.get(edgeKey);
-        if (walls) {
-            for (const { wall, wallKey } of walls) {
-                if (checkIfWallBlocks(wall, wallKey, windowOverlays)) {
-                    return true;
-                }
-            }
-        }
-    }
-
-    // Check horizontal edge between tiles (vertical movement)
-    if (gy1 !== gy2) {
-        const wallY = Math.max(gy1, gy2); // Horizontal wall at this y
-        const edgeKey = `${gx1},${wallY}`;
-        const walls = index._h.get(edgeKey);
-        if (walls) {
-            for (const { wall, wallKey } of walls) {
-                if (checkIfWallBlocks(wall, wallKey, windowOverlays)) {
-                    return true;
-                }
-            }
-        }
-    }
-
-    // For diagonal movement, check both edges
-    if (dx === 1 && dy === 1) {
-        // Check vertical edge for diagonal
-        const wallX = Math.max(gx1, gx2);
-        for (const checkY of [gy1, gy2]) {
-            const edgeKey = `${wallX},${checkY}`;
-            const walls = index._v.get(edgeKey);
-            if (walls) {
-                for (const { wall, wallKey } of walls) {
-                    if (checkIfWallBlocks(wall, wallKey, windowOverlays)) {
-                        return true;
-                    }
-                }
-            }
-        }
-
-        // Check horizontal edge for diagonal
-        const wallY = Math.max(gy1, gy2);
-        for (const checkX of [gx1, gx2]) {
-            const edgeKey = `${checkX},${wallY}`;
-            const walls = index._h.get(edgeKey);
-            if (walls) {
-                for (const { wall, wallKey } of walls) {
-                    if (checkIfWallBlocks(wall, wallKey, windowOverlays)) {
-                        return true;
-                    }
-                }
-            }
-        }
-    }
-
+  if (dx > 1 || dy > 1 || (dx === 0 && dy === 0)) {
     return false;
+  }
+
+  // PERFORMANCE: Use edge index for O(1) lookup instead of iterating all walls
+  const index = getWallEdgeIndex(wallData, windowOverlays);
+
+  // Check vertical edge between tiles (horizontal movement)
+  if (gx1 !== gx2) {
+    const wallX = Math.max(gx1, gx2); // Vertical wall at this x
+    const edgeKey = `${wallX},${gy1}`;
+    const walls = index._v.get(edgeKey);
+    if (walls) {
+      for (const { wall, wallKey } of walls) {
+        if (checkIfWallBlocks(wall, wallKey, windowOverlays)) {
+          return true;
+        }
+      }
+    }
+  }
+
+  // Check horizontal edge between tiles (vertical movement)
+  if (gy1 !== gy2) {
+    const wallY = Math.max(gy1, gy2); // Horizontal wall at this y
+    const edgeKey = `${gx1},${wallY}`;
+    const walls = index._h.get(edgeKey);
+    if (walls) {
+      for (const { wall, wallKey } of walls) {
+        if (checkIfWallBlocks(wall, wallKey, windowOverlays)) {
+          return true;
+        }
+      }
+    }
+  }
+
+  // For diagonal movement, check both edges
+  if (dx === 1 && dy === 1) {
+    // Check vertical edge for diagonal
+    const wallX = Math.max(gx1, gx2);
+    for (const checkY of [gy1, gy2]) {
+      const edgeKey = `${wallX},${checkY}`;
+      const walls = index._v.get(edgeKey);
+      if (walls) {
+        for (const { wall, wallKey } of walls) {
+          if (checkIfWallBlocks(wall, wallKey, windowOverlays)) {
+            return true;
+          }
+        }
+      }
+    }
+
+    // Check horizontal edge for diagonal
+    const wallY = Math.max(gy1, gy2);
+    for (const checkX of [gx1, gx2]) {
+      const edgeKey = `${checkX},${wallY}`;
+      const walls = index._h.get(edgeKey);
+      if (walls) {
+        for (const { wall, wallKey } of walls) {
+          if (checkIfWallBlocks(wall, wallKey, windowOverlays)) {
+            return true;
+          }
+        }
+      }
+    }
+  }
+
+  return false;
 }
 
 function checkIfWallBlocks(wall, wallKey = null, windowOverlays = {}) {
-    // Handle both old format (wall is a string) and new format (wall is an object)
-    if (typeof wall === 'string') {
-        // Old format: wall is just the type string
-        // Check for window overlays at this wall's position
-        if (wallKey && windowOverlays && Object.keys(windowOverlays).length > 0) {
-            const [wx1, wy1, wx2, wy2] = wallKey.split(',').map(Number);
-            // Check if there's a window at any point along this wall
-            const minX = Math.min(wx1, wx2);
-            const maxX = Math.max(wx1, wx2);
-            const minY = Math.min(wy1, wy2);
-            const maxY = Math.max(wy1, wy2);
-
-            for (let x = minX; x <= maxX; x++) {
-                for (let y = minY; y <= maxY; y++) {
-                    const windowKey = `${x},${y}`;
-                    if (windowOverlays[windowKey]) {
-                        // Window found - allows vision through
-                        return false;
-                    }
-                }
-            }
-        }
-        // Default: assume all walls block vision
-        return true;
-    }
-
-    // New format: wall is an object with { type, state, id }
-    const wallTypeId = wall.type;
-
-    // Check wall state first (closed/locked doors block vision, open doors don't)
-    if (wall.state === 'closed') return true;
-    if (wall.state === 'locked') return true; // Locked doors also block vision
-    if (wall.state === 'open') return false; // Open doors don't block
-
+  // Handle both old format (wall is a string) and new format (wall is an object)
+  if (typeof wall === 'string') {
+    // Old format: wall is just the type string
     // Check for window overlays at this wall's position
     if (wallKey && windowOverlays && Object.keys(windowOverlays).length > 0) {
-        const [wx1, wy1, wx2, wy2] = wallKey.split(',').map(Number);
-        // Check if there's a window at any point along this wall
-        const minX = Math.min(wx1, wx2);
-        const maxX = Math.max(wx1, wx2);
-        const minY = Math.min(wy1, wy2);
-        const maxY = Math.max(wy1, wy2);
+      const [wx1, wy1, wx2, wy2] = wallKey.split(',').map(Number);
+      // Check if there's a window at any point along this wall
+      const minX = Math.min(wx1, wx2);
+      const maxX = Math.max(wx1, wx2);
+      const minY = Math.min(wy1, wy2);
+      const maxY = Math.max(wy1, wy2);
 
-        for (let x = minX; x <= maxX; x++) {
-            for (let y = minY; y <= maxY; y++) {
-                const windowKey = `${x},${y}`;
-                if (windowOverlays[windowKey]) {
-                    // Window found - allows vision through
-                    return false;
-                }
-            }
+      for (let x = minX; x <= maxX; x++) {
+        for (let y = minY; y <= maxY; y++) {
+          const windowKey = `${x},${y}`;
+          if (windowOverlays[windowKey]) {
+            // Window found - allows vision through
+            return false;
+          }
         }
+      }
     }
-
-    // Check if this wall type blocks line of sight
-    if (WALL_TYPES && WALL_TYPES[wallTypeId]) {
-        const wallType = WALL_TYPES[wallTypeId];
-        const blocksVision = wallType.blocksLineOfSight !== false;
-        return blocksVision;
-    }
-
-    // If we can't find the wall type, default to blocking (safer assumption)
-    // This ensures walls always block unless explicitly marked otherwise
+    // Default: assume all walls block vision
     return true;
+  }
+
+  // New format: wall is an object with { type, state, id }
+  const wallTypeId = wall.type;
+
+  // Check wall state first (closed/locked doors block vision, open doors don't)
+  if (wall.state === 'closed') return true;
+  if (wall.state === 'locked') return true; // Locked doors also block vision
+  if (wall.state === 'open') return false; // Open doors don't block
+
+  // Check for window overlays at this wall's position
+  if (wallKey && windowOverlays && Object.keys(windowOverlays).length > 0) {
+    const [wx1, wy1, wx2, wy2] = wallKey.split(',').map(Number);
+    // Check if there's a window at any point along this wall
+    const minX = Math.min(wx1, wx2);
+    const maxX = Math.max(wx1, wx2);
+    const minY = Math.min(wy1, wy2);
+    const maxY = Math.max(wy1, wy2);
+
+    for (let x = minX; x <= maxX; x++) {
+      for (let y = minY; y <= maxY; y++) {
+        const windowKey = `${x},${y}`;
+        if (windowOverlays[windowKey]) {
+          // Window found - allows vision through
+          return false;
+        }
+      }
+    }
+  }
+
+  // Check if this wall type blocks line of sight
+  if (WALL_TYPES && WALL_TYPES[wallTypeId]) {
+    const wallType = WALL_TYPES[wallTypeId];
+    const blocksVision = wallType.blocksLineOfSight !== false;
+    return blocksVision;
+  }
+
+  // If we can't find the wall type, default to blocking (safer assumption)
+  // This ensures walls always block unless explicitly marked otherwise
+  return true;
 }
 
 /**
@@ -256,66 +256,66 @@ function checkIfWallBlocks(wall, wallKey = null, windowOverlays = {}) {
  * @returns {{x: number, y: number, distance: number}} Ray end point
  */
 function castRay(originX, originY, angle, maxRange, wallData, gridSize, gridOffsetX, gridOffsetY, windowOverlays = {}) {
-    const endX = originX + Math.cos(angle) * maxRange;
-    const endY = originY + Math.sin(angle) * maxRange;
+  const endX = originX + Math.cos(angle) * maxRange;
+  const endY = originY + Math.sin(angle) * maxRange;
 
-    let closestHit = null;
-    let closestDistance = maxRange;
+  let closestHit = null;
+  let closestDistance = maxRange;
 
-    // Check all walls for intersections
-    for (const [wallKey, wall] of Object.entries(wallData)) {
-        if (!checkIfWallBlocks(wall, wallKey, windowOverlays)) continue;
+  // Check all walls for intersections
+  for (const [wallKey, wall] of Object.entries(wallData)) {
+    if (!checkIfWallBlocks(wall, wallKey, windowOverlays)) continue;
 
-        const [wx1, wy1, wx2, wy2] = wallKey.split(',').map(Number);
-        // Convert grid corner coordinates to world coordinates
-        // Walls are stored at grid corners, so multiply by gridSize and add offset
-        const worldX1 = (wx1 * gridSize) + gridOffsetX;
-        const worldY1 = (wy1 * gridSize) + gridOffsetY;
-        const worldX2 = (wx2 * gridSize) + gridOffsetX;
-        const worldY2 = (wy2 * gridSize) + gridOffsetY;
+    const [wx1, wy1, wx2, wy2] = wallKey.split(',').map(Number);
+    // Convert grid corner coordinates to world coordinates
+    // Walls are stored at grid corners, so multiply by gridSize and add offset
+    const worldX1 = (wx1 * gridSize) + gridOffsetX;
+    const worldY1 = (wy1 * gridSize) + gridOffsetY;
+    const worldX2 = (wx2 * gridSize) + gridOffsetX;
+    const worldY2 = (wy2 * gridSize) + gridOffsetY;
 
-        // Line-line intersection between ray and wall segment
-        const hit = lineIntersection(
-            originX, originY, endX, endY,
-            worldX1, worldY1, worldX2, worldY2
-        );
+    // Line-line intersection between ray and wall segment
+    const hit = lineIntersection(
+      originX, originY, endX, endY,
+      worldX1, worldY1, worldX2, worldY2
+    );
 
-        if (hit) {
-            const distance = Math.sqrt(
-                Math.pow(hit.x - originX, 2) + Math.pow(hit.y - originY, 2)
-            );
-            if (distance < closestDistance) {
-                closestDistance = distance;
-                closestHit = hit;
-            }
-        }
+    if (hit) {
+      const distance = Math.sqrt(
+        Math.pow(hit.x - originX, 2) + Math.pow(hit.y - originY, 2)
+      );
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestHit = hit;
+      }
     }
+  }
 
-    if (closestHit) {
-        return { ...closestHit, distance: closestDistance };
-    }
+  if (closestHit) {
+    return { ...closestHit, distance: closestDistance };
+  }
 
-    // No wall hit - return max range point
-    return { x: endX, y: endY, distance: maxRange };
+  // No wall hit - return max range point
+  return { x: endX, y: endY, distance: maxRange };
 }
 
 /**
  * Line-line intersection helper
  */
 function lineIntersection(x1, y1, x2, y2, x3, y3, x4, y4) {
-    const denom = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
-    if (Math.abs(denom) < 0.0001) return null; // Parallel lines
+  const denom = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
+  if (Math.abs(denom) < 0.0001) return null; // Parallel lines
 
-    const t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / denom;
-    const u = -((x1 - x2) * (y1 - y3) - (y1 - y2) * (x1 - x3)) / denom;
+  const t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / denom;
+  const u = -((x1 - x2) * (y1 - y3) - (y1 - y2) * (x1 - x3)) / denom;
 
-    if (t >= 0 && t <= 1 && u >= 0 && u <= 1) {
-        return {
-            x: x1 + t * (x2 - x1),
-            y: y1 + t * (y2 - y1)
-        };
-    }
-    return null;
+  if (t >= 0 && t <= 1 && u >= 0 && u <= 1) {
+    return {
+      x: x1 + t * (x2 - x1),
+      y: y1 + t * (y2 - y1)
+    };
+  }
+  return null;
 }
 
 /**
@@ -333,43 +333,43 @@ function lineIntersection(x1, y1, x2, y2, x3, y3, x4, y4) {
  * @returns {Array} Array of {x, y} points forming the visibility polygon
  */
 export function calculateVisibilityPolygon(originX, originY, visionRange, wallData, gridSize, gridOffsetX, gridOffsetY, fovAngle = 360, facingAngle = null, windowOverlays = {}) {
-    const maxRange = visionRange * gridSize;
-    const numRays = Math.max(180, visionRange * 20); // More rays for smoother polygon
-    const polygon = [];
+  const maxRange = visionRange * gridSize;
+  const numRays = Math.max(180, visionRange * 20); // More rays for smoother polygon
+  const polygon = [];
 
-    // Determine angle range based on FOV
-    let startAngle, endAngle, angleStep;
+  // Determine angle range based on FOV
+  let startAngle, endAngle, angleStep;
 
-    if (fovAngle >= 360) {
-        // Full 360-degree sweep
-        startAngle = 0;
-        endAngle = Math.PI * 2;
-        angleStep = (endAngle - startAngle) / numRays;
-    } else {
-        // Limited FOV cone
-        const halfFovRadians = (fovAngle * Math.PI / 180) / 2;
-        if (facingAngle === null || facingAngle === undefined) {
-            // Default to facing up (0 radians = pointing right, but -PI/2 = up in screen coords)
-            facingAngle = -Math.PI / 2; // Up by default
-        }
-        startAngle = facingAngle - halfFovRadians;
-        endAngle = facingAngle + halfFovRadians;
-        angleStep = (endAngle - startAngle) / numRays;
+  if (fovAngle >= 360) {
+    // Full 360-degree sweep
+    startAngle = 0;
+    endAngle = Math.PI * 2;
+    angleStep = (endAngle - startAngle) / numRays;
+  } else {
+    // Limited FOV cone
+    const halfFovRadians = (fovAngle * Math.PI / 180) / 2;
+    if (facingAngle === null || facingAngle === undefined) {
+      // Default to facing up (0 radians = pointing right, but -PI/2 = up in screen coords)
+      facingAngle = -Math.PI / 2; // Up by default
     }
+    startAngle = facingAngle - halfFovRadians;
+    endAngle = facingAngle + halfFovRadians;
+    angleStep = (endAngle - startAngle) / numRays;
+  }
 
-    // Cast rays within the FOV cone
-    for (let i = 0; i < numRays; i++) {
-        const angle = startAngle + (i * angleStep);
-        const rayEnd = castRay(originX, originY, angle, maxRange, wallData, gridSize, gridOffsetX, gridOffsetY, windowOverlays);
-        polygon.push({ x: rayEnd.x, y: rayEnd.y });
-    }
+  // Cast rays within the FOV cone
+  for (let i = 0; i < numRays; i++) {
+    const angle = startAngle + (i * angleStep);
+    const rayEnd = castRay(originX, originY, angle, maxRange, wallData, gridSize, gridOffsetX, gridOffsetY, windowOverlays);
+    polygon.push({ x: rayEnd.x, y: rayEnd.y });
+  }
 
-    // For limited FOV, add the token position as a point to close the polygon
-    if (fovAngle < 360) {
-        polygon.push({ x: originX, y: originY });
-    }
+  // For limited FOV, add the token position as a point to close the polygon
+  if (fovAngle < 360) {
+    polygon.push({ x: originX, y: originY });
+  }
 
-    return polygon;
+  return polygon;
 }
 
 /**
@@ -383,27 +383,27 @@ export function calculateVisibilityPolygon(originX, originY, visionRange, wallDa
  * @returns {boolean} True if target is within FOV cone
  */
 function isWithinFovCone(tokenX, tokenY, targetX, targetY, fovAngle, facingAngle) {
-    // If full 360 view, always return true
-    if (fovAngle >= 360) {
-        return true;
-    }
+  // If full 360 view, always return true
+  if (fovAngle >= 360) {
+    return true;
+  }
 
-    // If no facing angle provided, cannot determine cone (default to full view)
-    if (facingAngle === null || facingAngle === undefined) {
-        return true; // For backward compatibility, allow if no facing angle
-    }
+  // If no facing angle provided, cannot determine cone (default to full view)
+  if (facingAngle === null || facingAngle === undefined) {
+    return true; // For backward compatibility, allow if no facing angle
+  }
 
-    // Calculate angle from token to target
-    const angleToTarget = Math.atan2(targetY - tokenY, targetX - tokenX);
+  // Calculate angle from token to target
+  const angleToTarget = Math.atan2(targetY - tokenY, targetX - tokenX);
 
-    // Calculate angle difference (normalize to -PI to PI)
-    let angleDiff = angleToTarget - facingAngle;
-    while (angleDiff > Math.PI) angleDiff -= 2 * Math.PI;
-    while (angleDiff < -Math.PI) angleDiff += 2 * Math.PI;
+  // Calculate angle difference (normalize to -PI to PI)
+  let angleDiff = angleToTarget - facingAngle;
+  while (angleDiff > Math.PI) angleDiff -= 2 * Math.PI;
+  while (angleDiff < -Math.PI) angleDiff += 2 * Math.PI;
 
-    // Check if within FOV cone (half angle on each side)
-    const halfFovRadians = (fovAngle * Math.PI / 180) / 2;
-    return Math.abs(angleDiff) <= halfFovRadians;
+  // Check if within FOV cone (half angle on each side)
+  const halfFovRadians = (fovAngle * Math.PI / 180) / 2;
+  return Math.abs(angleDiff) <= halfFovRadians;
 }
 
 /**
@@ -421,95 +421,95 @@ function isWithinFovCone(tokenX, tokenY, targetX, targetY, fovAngle, facingAngle
  * @returns {Set} Set of visible tile keys "x,y" or "q,r" for hex
  */
 export function calculateVisibleTiles(tokenX, tokenY, visionRange, visionType = 'normal', wallData = {}, lightSources = {}, fovAngle = 360, facingAngle = null, gridType = 'square', gridSystem = null, windowOverlays = {}) {
-    const visibleTiles = new Set();
-    const tokenTileX = Math.floor(tokenX);
-    const tokenTileY = Math.floor(tokenY);
+  const visibleTiles = new Set();
+  const tokenTileX = Math.floor(tokenX);
+  const tokenTileY = Math.floor(tokenY);
 
-    // Always include the token's current tile
-    visibleTiles.add(`${tokenTileX},${tokenTileY}`);
+  // Always include the token's current tile
+  visibleTiles.add(`${tokenTileX},${tokenTileY}`);
 
-    // Validate vision range
-    if (!visionRange || visionRange <= 0 || isNaN(visionRange)) {
-        // If invalid range, return only the token's tile
-        return visibleTiles;
-    }
-
-    // Calculate vision range based on type
-    let effectiveRange = Math.max(1, Math.floor(visionRange)); // Ensure at least 1 tile
-    if (visionType === 'blindsight') {
-        // Blindsight ignores walls and lighting
-        effectiveRange = Math.min(effectiveRange, 6); // Usually limited range
-    }
-
-    if (gridType === 'hex' && gridSystem) {
-        // Hex grid visibility calculation
-        const tokenQ = tokenTileX; // In hex, tokenX is q
-        const tokenR = tokenTileY; // In hex, tokenY is r
-
-        // Check all hexes within vision range using hex distance
-        for (let q = tokenQ - effectiveRange; q <= tokenQ + effectiveRange; q++) {
-            for (let r = tokenR - effectiveRange; r <= tokenR + effectiveRange; r++) {
-                // Calculate hex distance
-                const hexDist = gridSystem.hexDistance(q, r, tokenQ, tokenR);
-                if (hexDist > effectiveRange) continue;
-
-                const targetKey = `${q},${r}`;
-
-                // For blindsight, add all hexes within range regardless of walls
-                if (visionType === 'blindsight') {
-                    visibleTiles.add(targetKey);
-                    continue;
-                }
-
-                // Check if target is within FOV cone (if limited FOV is enabled)
-                // For hex, we need to convert to world coords for FOV check
-                const tokenWorld = gridSystem.hexToWorld(tokenQ, tokenR);
-                const targetWorld = gridSystem.hexToWorld(q, r);
-                if (!isWithinFovCone(tokenWorld.x, tokenWorld.y, targetWorld.x, targetWorld.y, fovAngle, facingAngle)) {
-                    continue;
-                }
-
-                // Check line of sight to target hex (simplified for hex - could be improved)
-                const hasLOS = hasLineOfSight(tokenQ, tokenR, q, r, wallData, gridType, windowOverlays);
-                if (hasLOS) {
-                    visibleTiles.add(targetKey);
-                }
-            }
-        }
-    } else {
-        // Square grid visibility calculation (original behavior)
-        // Check all tiles within vision range
-        for (let dx = -effectiveRange; dx <= effectiveRange; dx++) {
-            for (let dy = -effectiveRange; dy <= effectiveRange; dy++) {
-                const targetX = tokenTileX + dx;
-                const targetY = tokenTileY + dy;
-
-                // Skip if outside range (circular vision)
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                if (distance > effectiveRange) continue;
-
-                // For blindsight, add all tiles within range regardless of walls
-                if (visionType === 'blindsight') {
-                    visibleTiles.add(`${targetX},${targetY}`);
-                    continue;
-                }
-
-                // Check if target is within FOV cone (if limited FOV is enabled)
-                if (!isWithinFovCone(tokenTileX, tokenTileY, targetX, targetY, fovAngle, facingAngle)) {
-                    continue; // Skip tiles outside FOV cone
-                }
-
-                // Check line of sight to target tile
-                const hasLOS = hasLineOfSight(tokenTileX, tokenTileY, targetX, targetY, wallData, gridType, windowOverlays);
-                if (hasLOS) {
-                    visibleTiles.add(`${targetX},${targetY}`);
-                }
-                // Line of sight check complete (logging removed for performance)
-            }
-        }
-    }
-
+  // Validate vision range
+  if (!visionRange || visionRange <= 0 || isNaN(visionRange)) {
+    // If invalid range, return only the token's tile
     return visibleTiles;
+  }
+
+  // Calculate vision range based on type
+  let effectiveRange = Math.max(1, Math.floor(visionRange)); // Ensure at least 1 tile
+  if (visionType === 'blindsight') {
+    // Blindsight ignores walls and lighting
+    effectiveRange = Math.min(effectiveRange, 6); // Usually limited range
+  }
+
+  if (gridType === 'hex' && gridSystem) {
+    // Hex grid visibility calculation
+    const tokenQ = tokenTileX; // In hex, tokenX is q
+    const tokenR = tokenTileY; // In hex, tokenY is r
+
+    // Check all hexes within vision range using hex distance
+    for (let q = tokenQ - effectiveRange; q <= tokenQ + effectiveRange; q++) {
+      for (let r = tokenR - effectiveRange; r <= tokenR + effectiveRange; r++) {
+        // Calculate hex distance
+        const hexDist = gridSystem.hexDistance(q, r, tokenQ, tokenR);
+        if (hexDist > effectiveRange) continue;
+
+        const targetKey = `${q},${r}`;
+
+        // For blindsight, add all hexes within range regardless of walls
+        if (visionType === 'blindsight') {
+          visibleTiles.add(targetKey);
+          continue;
+        }
+
+        // Check if target is within FOV cone (if limited FOV is enabled)
+        // For hex, we need to convert to world coords for FOV check
+        const tokenWorld = gridSystem.hexToWorld(tokenQ, tokenR);
+        const targetWorld = gridSystem.hexToWorld(q, r);
+        if (!isWithinFovCone(tokenWorld.x, tokenWorld.y, targetWorld.x, targetWorld.y, fovAngle, facingAngle)) {
+          continue;
+        }
+
+        // Check line of sight to target hex (simplified for hex - could be improved)
+        const hasLOS = hasLineOfSight(tokenQ, tokenR, q, r, wallData, gridType, windowOverlays);
+        if (hasLOS) {
+          visibleTiles.add(targetKey);
+        }
+      }
+    }
+  } else {
+    // Square grid visibility calculation (original behavior)
+    // Check all tiles within vision range
+    for (let dx = -effectiveRange; dx <= effectiveRange; dx++) {
+      for (let dy = -effectiveRange; dy <= effectiveRange; dy++) {
+        const targetX = tokenTileX + dx;
+        const targetY = tokenTileY + dy;
+
+        // Skip if outside range (circular vision)
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance > effectiveRange) continue;
+
+        // For blindsight, add all tiles within range regardless of walls
+        if (visionType === 'blindsight') {
+          visibleTiles.add(`${targetX},${targetY}`);
+          continue;
+        }
+
+        // Check if target is within FOV cone (if limited FOV is enabled)
+        if (!isWithinFovCone(tokenTileX, tokenTileY, targetX, targetY, fovAngle, facingAngle)) {
+          continue; // Skip tiles outside FOV cone
+        }
+
+        // Check line of sight to target tile
+        const hasLOS = hasLineOfSight(tokenTileX, tokenTileY, targetX, targetY, wallData, gridType, windowOverlays);
+        if (hasLOS) {
+          visibleTiles.add(`${targetX},${targetY}`);
+        }
+        // Line of sight check complete (logging removed for performance)
+      }
+    }
+  }
+
+  return visibleTiles;
 }
 
 /**
@@ -523,28 +523,28 @@ export function calculateVisibleTiles(tokenX, tokenY, visionRange, visionType = 
  * @returns {boolean} True if line of sight exists
  */
 export function hasLineOfSight(x1, y1, x2, y2, wallData, gridType = 'square', windowOverlays = {}) {
-    if (!wallData || Object.keys(wallData).length === 0) {
-        // No walls to check - line of sight is clear
-        return true;
-    }
-
-    const linePoints = getLineOfSight(x1, y1, x2, y2);
-
-    // Check each step along the line for wall obstructions
-    for (let i = 0; i < linePoints.length - 1; i++) {
-        const current = linePoints[i];
-        const next = linePoints[i + 1];
-
-        // Check if a wall blocks movement between these two adjacent tiles
-        // Walls can be stored on edges between tiles, so we need to check multiple potential wall keys
-        if (isWallBlocking(current.x, current.y, next.x, next.y, wallData, windowOverlays)) {
-            // Wall detected blocking line of sight
-            return false;
-        }
-
-    }
-
+  if (!wallData || Object.keys(wallData).length === 0) {
+    // No walls to check - line of sight is clear
     return true;
+  }
+
+  const linePoints = getLineOfSight(x1, y1, x2, y2);
+
+  // Check each step along the line for wall obstructions
+  for (let i = 0; i < linePoints.length - 1; i++) {
+    const current = linePoints[i];
+    const next = linePoints[i + 1];
+
+    // Check if a wall blocks movement between these two adjacent tiles
+    // Walls can be stored on edges between tiles, so we need to check multiple potential wall keys
+    if (isWallBlocking(current.x, current.y, next.x, next.y, wallData, windowOverlays)) {
+      // Wall detected blocking line of sight
+      return false;
+    }
+
+  }
+
+  return true;
 }
 
 /**
@@ -555,36 +555,36 @@ export function hasLineOfSight(x1, y1, x2, y2, wallData, gridType = 'square', wi
  * @returns {Object} Updated revealed areas data
  */
 export function updateRevealedAreas(tokens, wallData, fogSettings) {
-    const revealedAreas = {};
+  const revealedAreas = {};
 
-    if (!fogSettings.dynamicFogEnabled) {
-        return revealedAreas;
-    }
-
-    tokens.forEach(token => {
-        if (!token.position || !token.visionRange) return;
-
-        const tokenX = token.position.x;
-        const tokenY = token.position.y;
-        const visionRange = token.visionRange || 6; // Default 30ft vision (6 tiles at 5ft per tile)
-        const visionType = token.visionType || 'normal';
-
-        // Calculate visible tiles for this token
-        const visibleTiles = calculateVisibleTiles(
-            tokenX,
-            tokenY,
-            visionRange,
-            visionType,
-            fogSettings.respectLineOfSight ? wallData : {}
-        );
-
-        // Add visible tiles to revealed areas
-        visibleTiles.forEach(tileKey => {
-            revealedAreas[tileKey] = true;
-        });
-    });
-
+  if (!fogSettings.dynamicFogEnabled) {
     return revealedAreas;
+  }
+
+  tokens.forEach(token => {
+    if (!token.position || !token.visionRange) return;
+
+    const tokenX = token.position.x;
+    const tokenY = token.position.y;
+    const visionRange = token.visionRange || 6; // Default 30ft vision (6 tiles at 5ft per tile)
+    const visionType = token.visionType || 'normal';
+
+    // Calculate visible tiles for this token
+    const visibleTiles = calculateVisibleTiles(
+      tokenX,
+      tokenY,
+      visionRange,
+      visionType,
+      fogSettings.respectLineOfSight ? wallData : {}
+    );
+
+    // Add visible tiles to revealed areas
+    visibleTiles.forEach(tileKey => {
+      revealedAreas[tileKey] = true;
+    });
+  });
+
+  return revealedAreas;
 }
 
 /**
@@ -599,29 +599,29 @@ export function updateRevealedAreas(tokens, wallData, fogSettings) {
  * @returns {boolean} True if tile should be visible
  */
 export function isTileVisible(x, y, fogOfWarData, revealedAreas, isGMMode, lightingData = null, lightInteractsWithFog = false) {
-    const tileKey = `${x},${y}`;
+  const tileKey = `${x},${y}`;
 
-    // GM can always see everything
-    if (isGMMode) return true;
+  // GM can always see everything
+  if (isGMMode) return true;
 
-    // Check if tile has static fog
-    const hasStaticFog = fogOfWarData[tileKey];
+  // Check if tile has static fog
+  const hasStaticFog = fogOfWarData[tileKey];
 
-    // Check if tile is dynamically revealed
-    const isDynamicallyRevealed = revealedAreas[tileKey];
+  // Check if tile is dynamically revealed
+  const isDynamicallyRevealed = revealedAreas[tileKey];
 
-    // Check if tile is illuminated by lighting (if lighting system is enabled)
-    let isIlluminated = false;
-    if (lightingData && lightInteractsWithFog) {
-        const lighting = lightingData[tileKey];
-        isIlluminated = lighting && lighting.intensity > 0.1; // Minimum light threshold
-    }
+  // Check if tile is illuminated by lighting (if lighting system is enabled)
+  let isIlluminated = false;
+  if (lightingData && lightInteractsWithFog) {
+    const lighting = lightingData[tileKey];
+    isIlluminated = lighting && lighting.intensity > 0.1; // Minimum light threshold
+  }
 
-    // Tile is visible if:
-    // 1. It doesn't have static fog, OR
-    // 2. It's dynamically revealed by token vision, OR
-    // 3. It's illuminated by lighting (if lighting interacts with fog)
-    return !hasStaticFog || isDynamicallyRevealed || isIlluminated;
+  // Tile is visible if:
+  // 1. It doesn't have static fog, OR
+  // 2. It's dynamically revealed by token vision, OR
+  // 3. It's illuminated by lighting (if lighting interacts with fog)
+  return !hasStaticFog || isDynamicallyRevealed || isIlluminated;
 }
 
 /**
@@ -630,17 +630,17 @@ export function isTileVisible(x, y, fogOfWarData, revealedAreas, isGMMode, light
  * @returns {{ minX, maxX, minY, maxY }} Bounding box
  */
 export function getPolygonBBox(polygon) {
-    if (!polygon || polygon.length < 3) return null;
-    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-    for (let i = 0; i < polygon.length; i++) {
-        const px = polygon[i].x;
-        const py = polygon[i].y;
-        if (px < minX) minX = px;
-        if (px > maxX) maxX = px;
-        if (py < minY) minY = py;
-        if (py > maxY) maxY = py;
-    }
-    return { minX, maxX, minY, maxY };
+  if (!polygon || polygon.length < 3) return null;
+  let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+  for (let i = 0; i < polygon.length; i++) {
+    const px = polygon[i].x;
+    const py = polygon[i].y;
+    if (px < minX) minX = px;
+    if (px > maxX) maxX = px;
+    if (py < minY) minY = py;
+    if (py > maxY) maxY = py;
+  }
+  return { minX, maxX, minY, maxY };
 }
 
 /**
@@ -652,30 +652,30 @@ export function getPolygonBBox(polygon) {
  * @returns {boolean} True if point is inside polygon
  */
 export function isPointInPolygon(x, y, polygon) {
-    if (!polygon || polygon.length < 3) return false;
+  if (!polygon || polygon.length < 3) return false;
 
-    // PERFORMANCE: Bounding box pre-filter: reject points clearly outside
-    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-    for (let i = 0; i < polygon.length; i++) {
-        const px = polygon[i].x;
-        const py = polygon[i].y;
-        if (px < minX) minX = px;
-        if (px > maxX) maxX = px;
-        if (py < minY) minY = py;
-        if (py > maxY) maxY = py;
-    }
-    if (x < minX || x > maxX || y < minY || y > maxY) return false;
+  // PERFORMANCE: Bounding box pre-filter: reject points clearly outside
+  let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+  for (let i = 0; i < polygon.length; i++) {
+    const px = polygon[i].x;
+    const py = polygon[i].y;
+    if (px < minX) minX = px;
+    if (px > maxX) maxX = px;
+    if (py < minY) minY = py;
+    if (py > maxY) maxY = py;
+  }
+  if (x < minX || x > maxX || y < minY || y > maxY) return false;
 
-    // Ray casting algorithm
-    let inside = false;
-    for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
-        const xi = polygon[i].x, yi = polygon[i].y;
-        const xj = polygon[j].x, yj = polygon[j].y;
+  // Ray casting algorithm
+  let inside = false;
+  for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+    const xi = polygon[i].x, yi = polygon[i].y;
+    const xj = polygon[j].x, yj = polygon[j].y;
 
-        const intersect = ((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
-        if (intersect) inside = !inside;
-    }
-    return inside;
+    const intersect = ((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+    if (intersect) inside = !inside;
+  }
+  return inside;
 }
 
 /**
@@ -690,26 +690,26 @@ export function isPointInPolygon(x, y, polygon) {
  * @returns {boolean} True if position is visible
  */
 export function isPositionVisible(worldX, worldY, visibleArea, gridSize, gridOffsetX, gridOffsetY) {
-    // If visibleArea is null or empty, caller should decide visibility based on context
-    if (!visibleArea || (visibleArea instanceof Set && visibleArea.size === 0) || (Array.isArray(visibleArea) && visibleArea.length === 0)) {
-        return false;
-    }
+  // If visibleArea is null or empty, caller should decide visibility based on context
+  if (!visibleArea || (visibleArea instanceof Set && visibleArea.size === 0) || (Array.isArray(visibleArea) && visibleArea.length === 0)) {
+    return false;
+  }
 
-    // Check if visibleArea is a polygon (array of {x, y} points)
-    if (Array.isArray(visibleArea) && visibleArea.length > 0 && typeof visibleArea[0] === 'object' && 'x' in visibleArea[0]) {
-        // It's a polygon - use point-in-polygon test for accurate visibility
-        return isPointInPolygon(worldX, worldY, visibleArea);
-    }
+  // Check if visibleArea is a polygon (array of {x, y} points)
+  if (Array.isArray(visibleArea) && visibleArea.length > 0 && typeof visibleArea[0] === 'object' && 'x' in visibleArea[0]) {
+    // It's a polygon - use point-in-polygon test for accurate visibility
+    return isPointInPolygon(worldX, worldY, visibleArea);
+  }
 
-    // Otherwise, it's a tile-based Set - use grid-based checking
-    // Convert world coordinates to grid coordinates
-    const gridX = Math.floor((worldX - gridOffsetX) / gridSize);
-    const gridY = Math.floor((worldY - gridOffsetY) / gridSize);
+  // Otherwise, it's a tile-based Set - use grid-based checking
+  // Convert world coordinates to grid coordinates
+  const gridX = Math.floor((worldX - gridOffsetX) / gridSize);
+  const gridY = Math.floor((worldY - gridOffsetY) / gridSize);
 
-    // Check if this tile is in the visible area
-    const tileKey = `${gridX},${gridY}`;
-    const visibleAreaSet = visibleArea instanceof Set ? visibleArea : new Set(visibleArea);
-    return visibleAreaSet.has(tileKey);
+  // Check if this tile is in the visible area
+  const tileKey = `${gridX},${gridY}`;
+  const visibleAreaSet = visibleArea instanceof Set ? visibleArea : new Set(visibleArea);
+  return visibleAreaSet.has(tileKey);
 }
 
 /**
@@ -720,48 +720,48 @@ export function isPositionVisible(worldX, worldY, visibleArea, gridSize, gridOff
  * @returns {number} Vision range in tiles (as radius)
  */
 export function feetToTiles(feetRange, feetPerTile = 5, mode = 'diameter') {
-    const divisor = mode === 'diameter' ? 2 * feetPerTile : feetPerTile;
-    return Math.max(1, Math.ceil(feetRange / divisor));
+  const divisor = mode === 'diameter' ? 2 * feetPerTile : feetPerTile;
+  return Math.max(1, Math.ceil(feetRange / divisor));
 }
 
 /**
  * Standard D&D vision ranges in feet
  */
 export const VISION_RANGES = {
-    BLIND: 0,
-    DIM_LIGHT: 30,
-    NORMAL: 60,
-    DARKVISION_60: 60,
-    DARKVISION_120: 120,
-    BLINDSIGHT_10: 10,
-    BLINDSIGHT_30: 30,
-    BLINDSIGHT_60: 60
+  BLIND: 0,
+  DIM_LIGHT: 30,
+  NORMAL: 60,
+  DARKVISION_60: 60,
+  DARKVISION_120: 120,
+  BLINDSIGHT_10: 10,
+  BLINDSIGHT_30: 30,
+  BLINDSIGHT_60: 60
 };
 
 /**
  * Vision types with their characteristics
  */
 export const VISION_TYPES = {
-    normal: {
-        name: 'Normal Vision',
-        ignoresWalls: false,
-        ignoresLighting: false,
-        description: 'Standard vision affected by walls and lighting'
-    },
-    darkvision: {
-        name: 'Darkvision',
-        ignoresWalls: false,
-        ignoresLighting: true,
-        description: 'Can see in darkness regardless of lighting'
-    },
-    blindsight: {
-        name: 'Blindsight',
-        ignoresWalls: true,
-        ignoresLighting: true,
-        description: 'Can sense surroundings regardless of walls or lighting'
-    }
+  normal: {
+    name: 'Normal Vision',
+    ignoresWalls: false,
+    ignoresLighting: false,
+    description: 'Standard vision affected by walls and lighting'
+  },
+  darkvision: {
+    name: 'Darkvision',
+    ignoresWalls: false,
+    ignoresLighting: true,
+    description: 'Can see in darkness regardless of lighting'
+  },
+  blindsight: {
+    name: 'Blindsight',
+    ignoresWalls: true,
+    ignoresLighting: true,
+    description: 'Can sense surroundings regardless of walls or lighting'
+  }
 };
 
 export function getDefaultVisionRange(mode = 'diameter') {
-    return mode === 'diameter' ? 3 : 6;
+  return mode === 'diameter' ? 3 : 6;
 }

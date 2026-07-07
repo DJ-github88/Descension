@@ -1,4 +1,4 @@
-const frostTexture = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E")`;
+﻿const frostTexture = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E")`;
 const sandTexture = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0.1'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E")`;
 const leafTexture = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0.2'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E")`;
 const mossTexture = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0.15'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E")`;
@@ -319,7 +319,7 @@ export const BIOMES = [
     ],
     atmospheres: {
       0: {
-        0: ['The forest at night is a cathedral of sound — owls, insects, the creak of branches.'],
+        0: ['The forest at night is a cathedral of sound, owls, insects, the creak of branches.'],
         1: ['Morning light filters through the canopy in long golden shafts. Dew hangs from every leaf.'],
         2: ['The forest floor is dappled with shifting light. The canopy overhead is a ceiling of green and gold.']
       },
@@ -407,7 +407,7 @@ export const BIOMES = [
     ],
     encounterTable: [
       { range: [1, 6], type: 'none', label: 'No Encounter', note: 'Standing water, bioluminescent fungi, the drone of peat-bog insects.' },
-      { range: [7, 7], type: 'discovery', label: 'Bubbling Mud Pot', note: 'Nature vs moderate die (d8) — hot spring or fungal vent.' },
+      { range: [7, 7], type: 'discovery', label: 'Bubbling Mud Pot', note: 'Nature vs moderate die (d8), hot spring or fungal vent.' },
       { range: [8, 8], type: 'combat', label: 'Spore Swarm', note: 'Toxic spores. Fire or area effects scatter them.' },
       { range: [9, 9], type: 'social', label: 'Vreken Crypt-Speaker', note: 'Lives alone. Knowledgeable but unsettling.' },
       { range: [10, 10], type: 'social', label: 'Drun Outcasts', note: 'Fleeing Neth contract-enforcement. May warn of hazard.' },
@@ -424,13 +424,13 @@ export const BIOMES = [
     ],
     atmospheres: {
       0: {
-        0: ['The swamp at night is alive with sound — frogs, insects, the splash of something large in water.'],
+        0: ['The swamp at night is alive with sound, frogs, insects, the splash of something large in water.'],
         1: ['Dawn brings grey light. Mist rises from the water in slow columns.'],
         2: ['The humidity is oppressive. Every surface is damp. Moss hangs from trees in curtains.']
       },
       2: {
         0: ['Rain adds to the standing water. The distinction between ground and water is academic.'],
-        1: ['Dawn through swamp fog is an exercise in faith — the path exists but cannot be seen.'],
+        1: ['Dawn through swamp fog is an exercise in faith, the path exists but cannot be seen.'],
         2: ['The rain has turned every trail into a stream. Water rises past the ankles.']
       },
       3: { 0: ['Monsoon rain is so heavy it hurts. The swamp is becoming a lake.'], 1: ['Dawn and dusk are both just different shades of grey water.'], 2: ['Knee-deep water with no visible bottom.'] },
@@ -645,7 +645,7 @@ export const BIOMES = [
         1: ['The spore cloud thickens. Navigation markers become indistinct.'],
         2: ['The fungal haze is so thick that the party can only see a few feet ahead.']
       },
-      3: { 0: ['The tremor sends loose stones rattling down the slopes. The walls groan.'], 1: ['The cave-in may have opened new passages — or sealed old ones.'], 2: ['Falling debris forces the party to press against the walls.'] },
+      3: { 0: ['The tremor sends loose stones rattling down the slopes. The walls groan.'], 1: ['The cave-in may have opened new passages, or sealed old ones.'], 2: ['Falling debris forces the party to press against the walls.'] },
       4: { 0: ['The gas is colourless and odourless at first, then the dizziness begins.'], 1: ['In the gas-filled darkness, shapes seem to move at the edge of vision.'], 2: ['The tunnel is collapsing. Lava seeps through cracks in the floor.'] }
     }
   },
@@ -657,11 +657,11 @@ export const BIOMES = [
     regionFlavor: {
       regionName: 'Sundrift Vale',
       curseName: 'Starless Navigation',
-      description: 'The wind-swept steppe of Sundrift Vale stretches beneath a permanently dark, starless sky. House Ordavan traded fertile soil for the endless migration, ensuring the steppe\'s grass always returns — but nothing deeper than grass can take root. Travelers navigate by the hum of ancestral burial mounds and the distant glow of Astril crystal-skin.',
+      description: 'The wind-swept steppe of Sundrift Vale stretches beneath a permanently dark, starless sky. House Ordavan traded fertile soil for the endless migration, ensuring the steppe\'s grass always returns, but nothing deeper than grass can take root. Travelers navigate by the hum of ancestral burial mounds and the distant glow of Astril crystal-skin.',
       rules: [
         'Navigation checks suffer disadvantage under the starless sky; the ancestral mound-hum provides the only directional reference.',
         'Every 8 hours of travel, the navigator must succeed on a Survival check against a moderate die (d8) or lose the herd-trails, adding 1d3 hours to the travel segment.',
-        'Powerful windstorms can strip exposed skin — Constitution save vs moderate die (d8) or suffer 1 level of Exhaustion from wind-chill.'
+        'Powerful windstorms can strip exposed skin, Constitution save vs moderate die (d8) or suffer 1 level of Exhaustion from wind-chill.'
       ]
     },
     cssVars: {
@@ -742,7 +742,7 @@ export const BIOMES = [
     ],
     atmospheres: {
       0: {
-        0: ['The steppe at night is utterly dark — no stars, no moon. Only the cold hum of distant burial mounds provides reference.'],
+        0: ['The steppe at night is utterly dark, no stars, no moon. Only the cold hum of distant burial mounds provides reference.'],
         1: ['Dawn is a slow grey brightening without a sun. The grass seems to lean toward it, then away.'],
         2: ['The sky is a pale, source-less grey. Wind is constant, pushing the tall grass in waves.']
       },

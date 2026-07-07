@@ -539,7 +539,7 @@ const CLUTTER_CATEGORIES = {
         weight: 0.1
       },
       {
-        name: 'Faded Tapestry Scrap',
+        name: 'Faded Fate-Weave Scrap',
         type: 'miscellaneous',
         subtype: 'JUNK',
         iconId: 'inv_fabric_purplefire_01',
@@ -707,7 +707,7 @@ const CLUTTER_CATEGORIES = {
         weight: 0.05
       },
       {
-        name: 'Frayed Tapestry Thread',
+        name: 'Frayed Fate-Thread',
         type: 'miscellaneous',
         subtype: 'JUNK',
         iconId: 'inv_fabric_linen_03',

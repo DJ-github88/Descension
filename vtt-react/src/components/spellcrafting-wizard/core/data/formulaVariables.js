@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Formula Variables System
  * 
  * This file defines all the valid variables that can be used in spell formulas,
@@ -39,7 +39,7 @@ export const PRIMARY_ATTRIBUTES = {
   },
   charisma: { 
     name: 'Charisma', 
-    description: 'Social influence, leadership, and divine magic',
+    description: 'Social influence, leadership, and sacred magic',
     category: 'Primary Attributes',
     example: 'charisma + level'
   }

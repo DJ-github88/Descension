@@ -1,4 +1,4 @@
-import { create } from 'zustand';
+﻿import { create } from 'zustand';
 
 const NPC_DATA = {
   'aldren-thalreth': {
@@ -18,7 +18,7 @@ const NPC_DATA = {
     backstory:
       'Aldren Thalreth is the current Lord of Greymark Keep, the ancestral seat of House Thalreth (named for his celebrated ancestor, High Confessor Aldren Thalreth the Elder, who chose frozen stasis over memory-loss in Nordhalla\'s Frozen Archive generations ago. The younger Aldren inherited a house already crumbling under the weight of the Fog Compact) the insulating fog that protects the Frostwood Reach has slowly consumed his family\'s memories for generations. His tragedy is that he has forgotten the location of a critical ledger: the one recording the exact terms of the Compact. Without it, no one knows when the fog\'s price will be paid in full.',
     hooks: [
-      'His frozen namesake, High Confessor Aldren Thalreth the Elder, still lies entombed in the Frozen Archive; if the Elder were ever awakened, the knowledge he carries could shatter the Church of the Holy Light',
+      'His frozen namesake, High Confessor Aldren Thalreth the Elder, still lies entombed in the Frozen Archive; if the Elder were ever awakened, the knowledge he carries could shatter the Solbrand Order',
       'The sealed texts the Elder discovered before his self-entombment are still hidden somewhere in the Frozen Archive: no one has found them since',
       'Some pilgrims report that the Elder\'s frozen lips have moved. The Scribe-Sentinels dismiss this as frost-crack.'
     ]
@@ -59,7 +59,7 @@ const NPC_DATA = {
     appearance:
       'A thin, stoop-shouldered man with ink-stained fingers and prematurely grey hair. He wears the grey robes of a Scribe-Sentinel and carries a quill behind his left ear at all times. His eyes are pale and his gaze unsettlingly direct: he looks at people the way he looks at ledgers, as if searching for an error that has been written into them.',
     personality:
-      'Caedren is meticulous, quiet, and morally flexible. He genuinely believes that the edits he makes to the ledgers are necessary: that some truths are too destructive to preserve. He tells himself he is protecting the Reach. He does not enjoy the work, but he has made peace with it.',
+      'Caedren is precise, quiet, and morally flexible. He genuinely believes that the edits he makes to the ledgers are necessary: that some truths are too destructive to preserve. He tells himself he is protecting the Reach. He does not enjoy the work, but he has made peace with it.',
     backstory:
       'The second son of Lord Aldren, Caedren was never expected to inherit anything. He found his purpose in the Scribes\' Tower, where his methodical nature made him an excellent archivist. When the Great Revision began, he was asked to make his first edit: removing a village that had been destroyed by Gref incursion, because its continued existence in the ledgers confused trade calculations. He has not stopped editing since.',
     hooks: [
@@ -125,9 +125,9 @@ const NPC_DATA = {
     appearance:
       'No one has seen the First Liar\'s face. Orders arrive as memory-crystal fragments delivered by Unlit couriers who genuinely do not know what message they carry. The instructions are structured in perfect iambic meter: a signature no forger has ever replicated.',
     personality:
-      'The First Liar\'s orders are cold, efficient, and strategically brilliant. They never threaten — they simply present the logical consequences of non-compliance. They never demand — they offer choices, where one option is clearly advantageous and the others lead to ruin.',
+      'The First Liar\'s orders are cold, efficient, and strategically brilliant. They never threaten, they simply present the logical consequences of non-compliance. They never demand, they offer choices, where one option is clearly advantageous and the others lead to ruin.',
     backstory:
-      'The Unlit Veil has existed for at least three centuries. The First Liar has been its leader for as long as anyone can remember — or at least, the title has. It is widely believed that "the First Liar" is a role passed down, but no one has ever documented a transition. The current First Liar may be the same one who founded the Veil, or the identity may have changed hands dozens of times without anyone knowing. Because Unlit Astril have no light-patterns to betray them, and no star-glow to recognize, any Unlit could be the First Liar — and the Veil cultivates this ambiguity deliberately.',
+      'The Unlit Veil has existed for at least three centuries. The First Liar has been its leader for as long as anyone can remember, or at least, the title has. It is widely believed that "the First Liar" is a role passed down, but no one has ever documented a transition. The current First Liar may be the same one who founded the Veil, or the identity may have changed hands dozens of times without anyone knowing. Because Unlit Astril have no light-patterns to betray them, and no star-glow to recognize, any Unlit could be the First Liar, and the Veil cultivates this ambiguity deliberately.',
     hooks: [
       'If the First Liar is a council of seven, each member could be played against the others',
       'The First Liar\'s memory-crystals carry residual star-sap traces that could be tracked back to their source'
@@ -421,7 +421,7 @@ const NPC_DATA = {
     status: 'Active: half-erased',
     appearance: 'A lean, scar-wrapped Thalren woman whose Bait-Vow scars glow faintly with the broken promises she has sworn to lure the Wyrd. She is translucent at the edges: the Sovereign Ledger is half-done striking her name, and she is visibly becoming a ghost in her own lifetime.',
     personality: 'Weary, iron-willed, and morally compromised. Vrael leads because she was the forty-seventh remaining Inquisitor and the most senior willing. She has stopped recruiting because the oath now kills more initiates than it survives.',
-      backstory: 'Last Commander of the Barbed Vow, Vrael commands forty-six remaining Inquisitors against a tripled incursion rate. The new deep-grove entities have no contracts to sever and no faces to bait, falling outside her entire art. In desperation she has begun training recruits in forbidden binding techniques — borrowing from the traditions the Inquisitors were founded to destroy. Vrael is the forty-seventh High-Severer of the Barbed Vow since the Inquisitor traditions merged long ago. Only 47 active Inquisitors remain. the lowest number since the order\'s founding. The Marching Dead and the Cult of Forgotten Shadow have pushed the Inquisition beyond its operational limits.',
+      backstory: 'Last Commander of the Barbed Vow, Vrael commands forty-six remaining Inquisitors against a tripled incursion rate. The new deep-grove entities have no contracts to sever and no faces to bait, falling outside her entire art. In desperation she has begun training recruits in forbidden binding techniques, borrowing from the traditions the Inquisitors were founded to destroy. Vrael is the forty-seventh High-Severer of the Barbed Vow since the Inquisitor traditions merged long ago. Only 47 active Inquisitors remain. the lowest number since the order\'s founding. The Marching Dead and the Cult of Forgotten Shadow have pushed the Inquisition beyond its operational limits.',
     hooks: [
       'Vrael will commission any party to investigate the unnamed deep-grove entities: she has no tools left for them',
       'She carries a forbidden bound-fiend she has not yet told the order about; it is bargaining for its release',
@@ -479,9 +479,9 @@ const NPC_DATA = {
     locationIds: ['merrowport'],
     age: '36',
     status: 'Active: hoarse',
-    appearance: 'A hoarse, sleepless Merryn woman named for the vanished founder she never met. Her throat bears the old scar of the storm-voice trade, and she carries the recovered lute with the god-shattering note carved into its soundboard.',
+    appearance: 'A hoarse, sleepless Merryn woman named for the vanished founder she never met. Her throat bears the old scar of the storm-voice trade, and she carries the recovered lute with the star-shattering note carved into its soundboard.',
     personality: 'Obsessed, grieving, and increasingly reckless. Mer-Lyrisa leads a Choir that has lost its instrument and suspects the silence is not absence but a held breath. She is considering playing the note.',
-    backstory: 'Tide-Choir Mistress, Mer-Lyrisa holds a collapsing order together while the Iceheart Sea stays silent and the silence spreads up the rivers. Her only lead is the recovered lute and its carving about shattering gods. She has forbidden deep-water performances and grounded the Deep-Born who fled the abyss: but she knows the silence is advancing.',
+    backstory: 'Tide-Choir Mistress, Mer-Lyrisa holds a collapsing order together while the Iceheart Sea stays silent and the silence spreads up the rivers. Her only lead is the recovered lute and its carving about shattering the buried star. She has forbidden deep-water performances and grounded the Deep-Born who fled the abyss: but she knows the silence is advancing.',
     hooks: [
       'Mer-Lyrisa hires the party to investigate what the Deep-Born heard singing back in the abyss',
       'She will trade passage and Choir protection for help decoding the lute-carving',
@@ -541,7 +541,7 @@ const NPC_DATA = {
     status: 'Active: frightened for the first time in four centuries',
     appearance: 'An ancient Revenant of mixed Vreken-Neth descent, calm and whisper-layered with ancestral overtones. His skin is frost-stasis pale, his eyes the bioluminescent amber of Vreken dead-sight. One hand is silver-Neth, the other amber-Vreken: both traditions visible in his body.',
     personality: 'Calm, ancient, and newly afraid. Kor-Vasseth has led the Twice-Born through three previous bog-grave awakenings. The fourth is different, and the difference has him frightened for the first time in four centuries.',
-    backstory: 'Threshold-Keeper of the Twice-Born, Kor-Vasseth carries both founders\' arts — Kora\'s Death Toll and Vesper\'s Phylactery. He is investigating the twelve Revenants found drained and the dead marching toward the Sundered Monoliths. The call routes through the Root-Veil, and he cannot stop the march without severing the Root-Veil itself. which would kill every Marked Revenant, half his order.',
+    backstory: 'Threshold-Keeper of the Twice-Born, Kor-Vasseth carries both founders\' arts, Kora\'s Death Toll and Vesper\'s Phylactery. He is investigating the twelve Revenants found drained and the dead marching toward the Sundered Monoliths. The call routes through the Root-Veil, and he cannot stop the march without severing the Root-Veil itself. which would kill every Marked Revenant, half his order.',
     hooks: [
       'Kor-Vasseth hires the party to escort a Drun Neth Revenant (immune to the routing) to the nearest Monolith to observe what calls the dead',
       'He alone knows which of the Twelve Drained Revenants left a final message: and it names the caller',

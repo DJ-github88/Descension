@@ -88,7 +88,7 @@ const EFFECT_PRESETS = {
       [HAND_RANKINGS.STRAIGHT]: { name: 'Chain Heal', effect: 'chain_heal', icon: 'Healing/Renewal' },
       [HAND_RANKINGS.THREE_OF_A_KIND]: { name: 'Triple Healing', effect: 'triple_healing', icon: 'Healing/Golden Heart' },
       [HAND_RANKINGS.FULL_HOUSE]: { name: 'Sustained Healing', effect: 'sustained_healing', icon: 'Healing/Healing Compass' },
-      [HAND_RANKINGS.ROYAL_FLUSH]: { name: 'Divine Intervention', effect: 'divine_intervention', icon: 'Radiant/Divine Blessing' }
+      [HAND_RANKINGS.ROYAL_FLUSH]: { name: 'Fated Intervention', effect: 'divine_intervention', icon: 'Radiant/Divine Blessing' }
     }
   },
   utility: {

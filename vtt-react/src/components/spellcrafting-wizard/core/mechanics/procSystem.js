@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Proc System
  * 
  * Provides support for proc-based effects:
@@ -180,7 +180,7 @@ export const PROC_EFFECTS = {
     icon: 'spell_shadow_demonform',
     examples: ['Mirror Image', 'Dancing Rune Weapon', 'Conjure Animals', 'Animate Objects'],
     configOptions: {
-      summonType: ['elemental', 'undead', 'beast', 'demon', 'copy', 'object'],
+      summonType: ['elemental', 'undead', 'beast', 'horror', 'copy', 'object'],
       summonDuration: 'formula',
       summonCount: 'formula'
     }

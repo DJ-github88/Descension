@@ -1,4 +1,4 @@
-export const REVENANT_DATA = {
+﻿export const REVENANT_DATA = {
   restrictions: {
       "allowedSubraces": [
           "clean_vreken",
@@ -18,7 +18,7 @@ export const REVENANT_DATA = {
   },
 
   /**
-   * Subrace Variants — the Revenant refuses death, and the *reason* for that refusal
+   * Subrace Variants, the Revenant refuses death, and the *reason* for that refusal
    * is what makes each variant distinct. The Vreken refuse death because their ancestors
    * need them. The Drun Neth refuse it because they are already legally dead. The
    * Morren refuse it because their contracts survive the body. The Tessen refuse it
@@ -28,12 +28,12 @@ export const REVENANT_DATA = {
     clean_vreken: {
       subraceName: 'Clean Vreken',
       title: 'The Ancestor-Bound',
-      reframe: `The <LoreLink termId="vreken">Clean Vreken</LoreLink> are the tradition's <LoreLink termId="kora">Kora</LoreLink>-inheritors — the ancestral lights Kora the Veil-Speaker tended were the Vreken's own dead. A Clean Vreken Revenant refuses death because their *ancestors need a living voice to speak through*. The Revenant state is not selfish survival; it is continued service, the host kept half-alive so the dead can keep speaking.`,
+      reframe: `The <LoreLink termId="vreken">Clean Vreken</LoreLink> are the tradition's <LoreLink termId="kora">Kora</LoreLink>-inheritors, the ancestral lights Kora the Veil-Speaker tended were the Vreken's own dead. A Clean Vreken Revenant refuses death because their *ancestors need a living voice to speak through*. The Revenant state is not selfish survival; it is continued service, the host kept half-alive so the dead can keep speaking.`,
       signatureAbility: {
         name: 'Anchor-Voice',
-        description: `Death-Toll is generated through ancestral communion rather than blood-sacrifice; the Clean Vreken channels the dead's residual vitality, the ancestors willingly feeding the host to keep their voice alive. The arrangement is reciprocal — and the ancestors, eventually, expect to be *answered*.`
+        description: `Death-Toll is generated through ancestral communion rather than blood-sacrifice; the Clean Vreken channels the dead's residual vitality, the ancestors willingly feeding the host to keep their voice alive. The arrangement is reciprocal, and the ancestors, eventually, expect to be *answered*.`
       },
-      currentCrisisAngle: `The bog-graves waking on their own is, to the Clean Vreken, the ancestors *firing them* — the dead no longer need a living voice because they are rising to speak for themselves. The Clean Vreken Revenants are being made obsolete by their own charge, and several have begun hearing a new voice in the chorus: something that is not an ancestor, calling the dead toward the <LoreLink termId="the_breach">Sundered Monoliths</LoreLink>.`,
+      currentCrisisAngle: `The bog-graves waking on their own is, to the Clean Vreken, the ancestors *firing them*, the dead no longer need a living voice because they are rising to speak for themselves. The Clean Vreken Revenants are being made obsolete by their own charge, and several have begun hearing a new voice in the chorus: something that is not an ancestor, calling the dead toward the <LoreLink termId="the_breach">Sundered Monoliths</LoreLink>.`,
       signatureQuote: {
         text: '"I stayed half-dead so my grandmother could speak through me. Now my grandmother is walking, and she will not look at me. She is listening to something I cannot hear."',
         speaker: 'Voice-Keeper Yssen',
@@ -44,12 +44,12 @@ export const REVENANT_DATA = {
     marked_vreken: {
       subraceName: 'Marked Vreken',
       title: 'The Mycelium-Dead',
-      reframe: `The <LoreLink termId="vreken">Marked Vreken</LoreLink> — ghost-mycelium walkers — achieve the Revenant state *through the Root-Veil itself*, the network preserving them in a distributed half-death the way it preserves every organism it absorbs. A Marked Revenant is not a single corpse kept animate; they are a consciousness smeared across miles of mycelium, dying everywhere and nowhere.`,
+      reframe: `The <LoreLink termId="vreken">Marked Vreken</LoreLink>, ghost-mycelium walkers, achieve the Revenant state *through the Root-Veil itself*, the network preserving them in a distributed half-death the way it preserves every organism it absorbs. A Marked Revenant is not a single corpse kept animate; they are a consciousness smeared across miles of mycelium, dying everywhere and nowhere.`,
       signatureAbility: {
         name: 'Network-Stasis',
         description: `The Phylactery is *distributed* across the mycelial network rather than housed in a single basalt stone; a Marked Revenant is nearly impossible to permanently kill, as their soul is cached in the forest itself. The cost: they feel every wound the forest feels, and the Root-Veil's health is their own.`
       },
-      currentCrisisAngle: `The dead marching toward the Monoliths are using the Root-Veil to travel — and the Marked Revenants, distributed across that same network, are being *carried along* whether they consent or not. Several Marked Revenants have reported their distributed consciousness *fragmenting*, pieces of themselves dragged toward the Monoliths with the rising dead, their identity thinning as the network routes the dead through their soul.`,
+      currentCrisisAngle: `The dead marching toward the Monoliths are using the Root-Veil to travel, and the Marked Revenants, distributed across that same network, are being *carried along* whether they consent or not. Several Marked Revenants have reported their distributed consciousness *fragmenting*, pieces of themselves dragged toward the Monoliths with the rising dead, their identity thinning as the network routes the dead through their soul.`,
       signatureQuote: {
         text: '"I am not in my body. I am in the forest, and the forest is walking somewhere I did not choose to go. I am losing pieces of myself with every mile the dead travel."',
         speaker: 'Vesh the Spread',
@@ -60,12 +60,12 @@ export const REVENANT_DATA = {
     drun_neth: {
       subraceName: 'Drun Neth',
       title: 'The Contract-Expired',
-      reframe: `The <LoreLink termId="neth">Drun Neth</LoreLink> severed all contracts and legally do not exist — and the Revenant state is, for them, the *fulfillment* of that legal non-existence made metaphysical. A Drun Revenant is a being the Keeper cannot see, the First Contract cannot bind, and death cannot claim, because they have already been erased from every ledger that governs such things. They are the freest undead in existence, and the loneliest.`,
+      reframe: `The <LoreLink termId="neth">Drun Neth</LoreLink> severed all contracts and legally do not exist, and the Revenant state is, for them, the *fulfillment* of that legal non-existence made metaphysical. A Drun Revenant is a being the Keeper cannot see, the First Contract cannot bind, and death cannot claim, because they have already been erased from every ledger that governs such things. They are the freest undead in existence, and the loneliest.`,
       signatureAbility: {
         name: 'Unrecorded-Death',
-        description: `The Revenant state is invisible to the Keeper and to contract-magic; a Drun Revenant cannot be sensed, bound, or dismissed by any system that relies on legal recognition. They are ghosts to the bureaucracy that governs all other Neth undeath — and pay for it with total social nonexistence.`
+        description: `The Revenant state is invisible to the Keeper and to contract-magic; a Drun Revenant cannot be sensed, bound, or dismissed by any system that relies on legal recognition. They are ghosts to the bureaucracy that governs all other Neth undeath, and pay for it with total social nonexistence.`
       },
-      currentCrisisAngle: `The bog-graves waking is, to the Drun, a *jurisdictional crisis*: the risen dead are being routed by something the Keeper *does* see, and the Drun — unrecorded, unbound — are the only Revenants immune to the routing. Some Drun Revenants have realized they are the only undead still capable of *free movement*, and the question of whether to flee the marching dead or investigate what is driving them has split the caste entirely.`,
+      currentCrisisAngle: `The bog-graves waking is, to the Drun, a *jurisdictional crisis*: the risen dead are being routed by something the Keeper *does* see, and the Drun, unrecorded, unbound, are the only Revenants immune to the routing. Some Drun Revenants have realized they are the only undead still capable of *free movement*, and the question of whether to flee the marching dead or investigate what is driving them has split the caste entirely.`,
       signatureQuote: {
         text: '"I erased myself from every ledger so that no power could find me. Now every dead thing in the bog is marching to a single order, and I am the only corpse that can still choose its direction. The freedom is suffocating."',
         speaker: 'Drun Vel-Thaussen',
@@ -76,14 +76,14 @@ export const REVENANT_DATA = {
     morren_human: {
       subraceName: 'Morren',
       title: 'The Debt-Revenant',
-      reframe: `The <LoreLink termId="house_morrath">Morren</LoreLink> become Revenants for the most Morren reason possible: their contracts survive their death, and the <LoreLink termId="house_morrath">Postmortem Corvée</LoreLink> conscripts the deceased debtor into continued labor. A Morren Revenant is not refusing death — they are *being denied* it, by the same contract-economy that owned them in life. Undeath, for the Morren, is the final clause in a bargain they never wanted.`,
+      reframe: `The <LoreLink termId="house_morrath">Morren</LoreLink> become Revenants for the most Morren reason possible: their contracts survive their death, and the <LoreLink termId="house_morrath">Postmortem Corvée</LoreLink> conscripts the deceased debtor into continued labor. A Morren Revenant is not refusing death, they are *being denied* it, by the same contract-economy that owned them in life. Undeath, for the Morren, is the final clause in a bargain they never wanted.`,
       signatureAbility: {
         name: 'Corvée-Animation',
-        description: `The Revenant state is maintained by *contractual obligation* rather than personal will; the Morren Revenant cannot choose to rest, only to work, and their power scales with the size of their outstanding debt. The more they owe, the harder they are to kill — the Neth will not let a major debtor simply die.`
+        description: `The Revenant state is maintained by *contractual obligation* rather than personal will; the Morren Revenant cannot choose to rest, only to work, and their power scales with the size of their outstanding debt. The more they owe, the harder they are to kill, the Neth will not let a major debtor simply die.`
       },
-      currentCrisisAngle: `The bog-graves waking has the Morren Revenants terrified for a specific reason: the marching dead are heading toward the Monoliths, and if whatever drives them *breaks the contract-system*, the Morren Revenants — sustained entirely by that system — will simply collapse. Their undeath depends on the bureaucracy that enslaves them, and the bureaucracy is, apparently, under attack.`,
+      currentCrisisAngle: `The bog-graves waking has the Morren Revenants terrified for a specific reason: the marching dead are heading toward the Monoliths, and if whatever drives them *breaks the contract-system*, the Morren Revenants, sustained entirely by that system, will simply collapse. Their undeath depends on the bureaucracy that enslaves them, and the bureaucracy is, apparently, under attack.`,
       signatureQuote: {
-        text: '"In life I owed the Neth everything. In death I owe them more. If the thing driving the dead breaks the Ledger, I fall — and for the first time in two hundred years, I am not certain that falling would be a mercy."',
+        text: '"In life I owed the Neth everything. In death I owe them more. If the thing driving the dead breaks the Ledger, I fall, and for the first time in two hundred years, I am not certain that falling would be a mercy."',
         speaker: 'Debt-Revenant Mor-Kael',
         context: 'A Morren Revenant, watching the dead pass his contract-post'
       }
@@ -92,12 +92,12 @@ export const REVENANT_DATA = {
     tessen_human: {
       subraceName: 'Tessen',
       title: 'The Keep-Waked',
-      reframe: `The <LoreLink termId="house_tesshan">Tessen</LoreLink> have prepared for extinction for four centuries inside their sealed keeps, and the Revenant is the ultimate expression of that preparation — undeath as *dynastic preservation*, the refusal to let a bloodline end even when biology insists. A Tessen Revenant does not fear death; they have *rehearsed* it, and the rehearsal made it optional.`,
+      reframe: `The <LoreLink termId="house_tesshan">Tessen</LoreLink> have prepared for extinction for four centuries inside their sealed keeps, and the Revenant is the ultimate expression of that preparation, undeath as *dynastic preservation*, the refusal to let a bloodline end even when biology insists. A Tessen Revenant does not fear death; they have *rehearsed* it, and the rehearsal made it optional.`,
       signatureAbility: {
         name: 'Lineage-Phylactery',
-        description: `The Phylactery is not a single stone but the *keep itself* — the Tessen Revenant's soul is anchored to their ancestral architecture. As long as the keep stands, the Revenant cannot be permanently destroyed. As long as the Revenant endures, the bloodline technically continues.`
+        description: `The Phylactery is not a single stone but the *keep itself*, the Tessen Revenant's soul is anchored to their ancestral architecture. As long as the keep stands, the Revenant cannot be permanently destroyed. As long as the Revenant endures, the bloodline technically continues.`
       },
-      currentCrisisAngle: `The keeps are failing (the Chronarch crisis), and with them the Tessen Revenants' anchor. Worse, the marching dead are heading toward the Monoliths — and the Tessen suspect one Monolith lies *beneath their own keeps*, which is why the dead are circling closer. The Tessen Revenants face annihilation from two directions: their phylactery crumbling above, and the dead arriving below.`,
+      currentCrisisAngle: `The keeps are failing (the Chronarch crisis), and with them the Tessen Revenants' anchor. Worse, the marching dead are heading toward the Monoliths, and the Tessen suspect one Monolith lies *beneath their own keeps*, which is why the dead are circling closer. The Tessen Revenants face annihilation from two directions: their phylactery crumbling above, and the dead arriving below.`,
       signatureQuote: {
         text: '"My keep is my coffin and my coffin is my keep. I have stood in this hall for four hundred years refusing to be the last of my line. The hall is falling. The line may finally end. I am not ready, even now."',
         speaker: 'Castellan Tess-Varek the Waked',
@@ -121,12 +121,12 @@ export const REVENANT_DATA = {
         name: "Blood Rites Kit",
         icon: "Necrotic/Drain Soul",
         items: [
-          "Ritual Dagger (1d6 slashing, blight resonance — HP sacrificed with this weapon generates +1 Death Toll per strike)",
+          "Ritual Dagger (1d6 slashing, blight resonance, HP sacrificed with this weapon generates +1 Death Toll per strike)",
           "Bloodstained Leather Armor (No agility penalty)",
-          "Copper Chalice (ritual focus — reduces HP cost of first spell each combat by 1)",
+          "Copper Chalice (ritual focus, reduces HP cost of first spell each combat by 1)",
         ],
         description:
-          "The close-quarters path. Your dagger is both weapon and conduit — every cut feeds the Death Toll. Best for Sanguine Harvest builds that plan to drain at melee range.",
+          "The close-quarters path. Your dagger is both weapon and conduit, every cut feeds the Death Toll. Best for Sanguine Harvest builds that plan to drain at melee range.",
       },
       {
         name: "Frost Phylactery Rig",
@@ -134,7 +134,7 @@ export const REVENANT_DATA = {
         items: [
           "Obsidian Staff (1d8 bludgeoning, +5 ft reach on necrotic and frost spells)",
           "Tattered Robes (+1 rime damage to all spells)",
-          "Basalt Phylactery Shard (beginning soul anchor — stores up to 15 Phylactery HP, upgrades as you level)",
+          "Basalt Phylactery Shard (beginning soul anchor, stores up to 15 Phylactery HP, upgrades as you level)",
         ],
         description:
           "The ranged caster and phylactery-focused path. The staff extends your reach and the shard starts your resurrection insurance early. Best for Frost Sovereign and Phylactery Anchor builds.",
@@ -147,40 +147,40 @@ export const REVENANT_DATA = {
       "Lantern with black iron cage",
       "1d10 × 5 tarnished silver pieces",
     ],
-    notes: "Revenants cannot wield holy symbols or consecrated weapons — the blight resonance in their blood causes such items to crack and dull. Bows and crossbows are forbidden; the Revenant's work requires the press of blood or frost against flesh.",
+    notes: "Revenants cannot wield sacred tokens or consecrated weapons, the blight resonance in their blood causes such items to crack and dull. Bows and crossbows are forbidden; the Revenant's work requires the press of blood or frost against flesh.",
   },
 
   livingOrder: {
     orderName: 'The Twice-Born',
     founder: {
       name: '<LoreLink termId="kora">Kora the Veil-Speaker</LoreLink> (Vreken) and <LoreLink termId="vesper">Vesper the Scribe</LoreLink> (Neth)',
-      status: `Kora — dead and still speaking. She sacrificed her life-force to keep the ancestral lights burning and was cursed to hear the screams of every ancestor she tended; her voice survives in the chorus. Vesper — perpetually dying, heart beating once per hour, bound to a basalt phylactery in the deep sumps. He answers correspondence.`,
-      note: `<LoreLink termId="kora">Kora</LoreLink>'s blood-covenant and <LoreLink termId="vesper">Vesper</LoreLink>'s frost-stasis merged when the bog-graves began waking on their own — the two traditions recognized their separate wars were the same war against death's finality.`
+      status: `Kora, dead and still speaking. She sacrificed her life-force to keep the ancestral lights burning and was cursed to hear the screams of every ancestor she tended; her voice survives in the chorus. Vesper, perpetually dying, heart beating once per hour, bound to a basalt phylactery in the deep sumps. He answers correspondence.`,
+      note: `<LoreLink termId="kora">Kora</LoreLink>'s blood-covenant and <LoreLink termId="vesper">Vesper</LoreLink>'s frost-stasis merged when the bog-graves began waking on their own, the two traditions recognized their separate wars were the same war against death's finality.`
     },
     currentLeader: {
       name: '<LoreLink termId="kor-vasseth">Threshold-Keeper Kor-Vasseth</LoreLink>',
       title: 'Warden of the Waking Graves',
-      characterization: `A Revenant of mixed Vreken-Neth descent who carries both founders' arts — <LoreLink termId="kora">Kora</LoreLink>'s Death Toll and <LoreLink termId="vesper">Vesper</LoreLink>'s Phylactery. He is calm, ancient, and speaks in a whisper layered with ancestral overtones. He has led the Twice-Born through three previous bog-grave awakenings. The fourth, the current one, is different, and the difference has him frightened for the first time in four centuries.`
+      characterization: `A Revenant of mixed Vreken-Neth descent who carries both founders' arts, <LoreLink termId="kora">Kora</LoreLink>'s Death Toll and <LoreLink termId="vesper">Vesper</LoreLink>'s Phylactery. He is calm, ancient, and speaks in a whisper layered with ancestral overtones. He has led the Twice-Born through three previous bog-grave awakenings. The fourth, the current one, is different, and the difference has him frightened for the first time in four centuries.`
     },
     headquarters: { name: 'The Cold Hearth, deep Bryngloom peat-sinks', locationId: 'bryngloom-forest' },
-    crisisConnection: `<LoreLink termId="kor-vasseth">Kor-Vasseth</LoreLink> is investigating the twelve Revenants found drained of blood but unwounded — and the dead marching toward the <LoreLink termId="the_breach">Sundered Monoliths</LoreLink>. He has determined that the waking dead are *not* his order's doing: something is calling them, and the call routes through the Root-Veil. The Marked Revenants, distributed across that same network, are being dragged along as passengers. He cannot stop the march without severing the Root-Veil itself, which would kill every Marked Revenant — including half his order.`
+    crisisConnection: `<LoreLink termId="kor-vasseth">Kor-Vasseth</LoreLink> is investigating the twelve Revenants found drained of blood but unwounded, and the dead marching toward the <LoreLink termId="the_breach">Sundered Monoliths</LoreLink>. He has determined that the waking dead are *not* his order's doing: something is calling them, and the call routes through the Root-Veil. The Marked Revenants, distributed across that same network, are being dragged along as passengers. He cannot stop the march without severing the Root-Veil itself, which would kill every Marked Revenant, including half his order.`
   },
 
   worldFriction: [
-    { region: 'bryngloom-forest', status: 'persecuted', consequence: 'The bog-graves are waking and the dead march toward the Monoliths; the Neth Regency has blamed the Revenants and revoked their burial rights. A Revenant caught near a waking grave is charged with "unauthorized reanimation" and subject to the Keeper\'s Sanction — permanent, final dissolution.', workaround: 'A Drun Neth Revenant is invisible to the Keeper and thus immune to the Sanction — but a Drun in the Bryngloom cannot prove they exist, which makes defending the charge impossible.' },
+    { region: 'bryngloom-forest', status: 'persecuted', consequence: 'The bog-graves are waking and the dead march toward the Monoliths; the Neth Regency has blamed the Revenants and revoked their burial rights. A Revenant caught near a waking grave is charged with "unauthorized reanimation" and subject to the Keeper\'s Sanction, permanent, final dissolution.', workaround: 'A Drun Neth Revenant is invisible to the Keeper and thus immune to the Sanction, but a Drun in the Bryngloom cannot prove they exist, which makes defending the charge impossible.' },
     { region: 'sundrift-vale', status: 'distrusted', consequence: 'The Ordan leave their dead to the steppe and consider any who traffic in undeath to be corpse-violators; a Revenant on the migration is refused fire, water, and passage.' }
   ],
 
   overview: {
     title: "The Revenant",
     subtitle: "Death Is Fuel. The Grave Is a Door. You Walk Both Ways.",
-    originStory: `Founded in Year 550 of the Dimming when bog-graves began waking on their own and two death-magic traditions merged: Kora the Veil-Speaker's blood-covenant and Vesper the Scribe's frost-stasis phylactery. Two traditions of death magic, born in the same peat-bogs of the <LoreLink termId="bryngloom-forest">Bryngloom Forest</LoreLink>, bound by the same terrible truth: life force is the only currency that matters.
+    originStory: `Founded in the later centuries of the Dimming when bog-graves began waking on their own and two death-magic traditions merged: Kora the Veil-Speaker's blood-covenant and Vesper the Scribe's frost-stasis phylactery. Two traditions of death magic, born in the same peat-bogs of the <LoreLink termId="bryngloom-forest">Bryngloom Forest</LoreLink>, bound by the same terrible truth: life force is the only currency that matters.
 
-The Vreken Veil-Speaker <LoreLink termId="kora">Kora</LoreLink> was the first to pay it. Desperate to keep the ancestral lights of six generations burning, she walked into the marsh-depths and bargained with the Root-Veil, offering her own blood as blight thread. The covenant was absolute — every spell she wove drained her own life, generating volatile Blood Tokens that orbited her body like carrion flies. The dead answered. The living recoiled. Kora's voice was reduced to a dry whisper by the overlapping screams of ancestors she could never silence.
+The Vreken Veil-Speaker <LoreLink termId="kora">Kora</LoreLink> was the first to pay it. Desperate to keep the ancestral lights of six generations burning, she walked into the marsh-depths and bargained with the Root-Veil, offering her own blood as blight thread. The covenant was absolute, every spell she wove drained her own life, generating volatile Blood Tokens that orbited her body like carrion flies. The dead answered. The living recoiled. Kora's voice was reduced to a dry whisper by the overlapping screams of ancestors she could never silence.
 
-The human scribe <LoreLink termId="vesper">Vesper</LoreLink> sought the same bogs decades later, dying of the sumps' lung-rot. He performed the forbidden Rite of the Cold Hearth — binding his soul to a basalt phylactery and inviting the bog's freezing decay to halt his mortal heart. Vesper achieved immortality, but his body became a cold, rotting tomb. His heart beats once an hour. His flesh is cold as bog-iron. He must constantly harvest life force to prevent his skeleton from dissolving.
+The human scribe <LoreLink termId="vesper">Vesper</LoreLink> sought the same bogs decades later, dying of the sumps' lung-rot. He performed the forbidden Rite of the Cold Hearth, binding his soul to a basalt phylactery and inviting the bog's freezing decay to halt his mortal heart. Vesper achieved immortality, but his body became a cold, rotting tomb. His heart beats once an hour. His flesh is cold as bog-iron. He must constantly harvest life force to prevent his skeleton from dissolving.
 
-When the bog-graves began waking on their own — the dead marching toward the Sundered Monoliths without permission — Kora's descendants and Vesper's acolytes recognized that their separate wars were the same war. The necrotic covenant was failing. The peat was turning black. The dead were no longer waiting.
+When the bog-graves began waking on their own, the dead marching toward the Sundered Monoliths without permission, Kora's descendants and Vesper's acolytes recognized that their separate wars were the same war. The necrotic covenant was failing. The peat was turning black. The dead were no longer waiting.
 
 The Revenant was forged in that recognition. Blood magic meets frost stasis. Volatile sacrifice meets methodical harvest. Kora's tokens and Vesper's phylactery are one economy now. The dead answer to a single voice. That voice is yours. It comes out as a whisper, and your hands are always cold.
 
@@ -202,7 +202,7 @@ You died once. That was the easy part. Coming back is where the price starts.`,
 **Best For**: Players who want to ride the razor's edge between annihilation and godhood, who treat death as a tactical resource, and who understand that the real enemy is the timer in their own veins`,
     },
 
-    description: `The Revenant is a death caster who walks between two necrotic traditions — the blood-fueled sacrifice of Kora's covenant and the frost-stasis harvest of Vesper's phylactery. Every spell costs life. Every kill feeds the grave. The Death Toll they carry is not safe storage — it is boiling blight energy orbiting their body, volatile and searing. Their Phylactery is their insurance against the inevitable: when the cold consumes them, the harvested souls drag them back from the threshold. Death Shroud mode transforms them into a walking blizzard of HP-burning devastation. They are the only class that converts their own death into a tactical weapon — the Death Trigger freeze that erupts from their resurrection is one of the strongest control effects in the game. They are not alive. They are not dead. They are the Revenant, and they have work to do.`,
+    description: `The Revenant is a death caster who walks between two necrotic traditions, the blood-fueled sacrifice of Kora's covenant and the frost-stasis harvest of Vesper's phylactery. Every spell costs life. Every kill feeds the grave. The Death Toll they carry is not safe storage, it is boiling blight energy orbiting their body, volatile and searing. Their Phylactery is their insurance against the inevitable: when the cold consumes them, the harvested souls drag them back from the threshold. Death Shroud mode transforms them into a walking blizzard of HP-burning devastation. They are the only class that converts their own death into a tactical weapon, the Death Trigger freeze that erupts from their resurrection is one of the strongest control effects in the game. They are not alive. They are not dead. They are the Revenant, and they have work to do.`,
 
     roleplayIdentity: {
       title: "Roleplay Identity",
@@ -223,46 +223,46 @@ The class is heavily practiced by the <LoreLink termId="vreken">Clean Vreken</Lo
     },
 
     signatureQuote: {
-      text: '"I hear six generations of the dead screaming in my veins. Death came for me in the peat-bogs and I told it to wait. It has been waiting two hundred years. We have an understanding now — I go first, and it follows close behind."',
+      text: '"I hear six generations of the dead screaming in my veins. Death came for me in the peat-bogs and I told it to wait. It has been waiting two hundred years. We have an understanding now, I go first, and it follows close behind."',
       speaker: 'The Revenant (attributed to both Kora and Vesper traditions)',
-      context: 'Carved into the threshold of the Hall of Returned Dead, Year 412 of the Dimming',
+      context: 'Carved into the threshold of the Hall of Returned Dead, in the mid-Diming centuries',
     },
 
     philosophy: {
-      coreTenet: 'Death is not the end — it is a transitional economy. The dead owe their life force to the living, and the Revenant is the collector. Every ancestor has something to teach, every corpse has something to give. Life force is the currency, and the dead are generous lenders. The body decays because it has forgotten how to endure. The Revenant remembers — they simply refuse to stop.',
-      relationship: 'Revenants do not raise the dead as servants — they petition them as ancestors and harvest them as fuel. The dead choose whether to answer the call. This relationship is built on mutual obligation: the Revenant feeds the ancestors with their own life force, and in return the dead lend their power. If the Revenant stops paying, the dead stop answering. The phylactery ensures that even when the payment fails, the Revenant returns to try again.',
+      coreTenet: 'Death is not the end, it is a transitional economy. The dead owe their life force to the living, and the Revenant is the collector. Every ancestor has something to teach, every corpse has something to give. Life force is the currency, and the dead are generous lenders. The body decays because it has forgotten how to endure. The Revenant remembers, they simply refuse to stop.',
+      relationship: 'Revenants do not raise the dead as servants, they petition them as ancestors and harvest them as fuel. The dead choose whether to answer the call. This relationship is built on mutual obligation: the Revenant feeds the ancestors with their own life force, and in return the dead lend their power. If the Revenant stops paying, the dead stop answering. The phylactery ensures that even when the payment fails, the Revenant returns to try again.',
       paradox: 'The Revenant keeps the ancestors alive by feeding them their own blood while preserving their own flesh in peat-stasis. Every spell costs vitality. The most powerful rituals require so much life force that the Revenant must be on the verge of death. They are simultaneously a living blood bank for the dead and an undying corpse that refuses to rot. The question every Revenant eventually faces: how much of yourself are you willing to spend before you become the thing you harvest?',
     },
 
-    currentCrisis: `The bog-graves are waking up on their own. For centuries, the peat-bogs of the Bryngloom have held the dead in perfect preservation. Now the dead are calling themselves — twelve Revenants found dead in their ritual chambers, bodies drained of blood but showing no wounds, the bog-graves empty.
+    currentCrisis: `The bog-graves are waking up on their own. For centuries, the peat-bogs of the Bryngloom have held the dead in perfect preservation. Now the dead are calling themselves, twelve Revenants found dead in their ritual chambers, bodies drained of blood but showing no wounds, the bog-graves empty.
 
-Simultaneously, the Cult of Forgotten Shadow has discovered a way to amplify the frost stasis ritual using Void energy. Unlike traditional peat-preservation, Void-stasis requires no life force harvesting — the Void sustains the body directly. Half of the remaining Revenants have accepted this "clean immortality." The other half suspect the Void is not sustaining them but slowly consuming them, replacing their souls with something else.
+Simultaneously, the Cult of Forgotten Shadow has discovered a way to amplify the frost stasis ritual using Void energy. Unlike traditional peat-preservation, Void-stasis requires no life force harvesting, the Void sustains the body directly. Half of the remaining Revenants have accepted this "clean immortality." The other half suspect the Void is not sustaining them but slowly consuming them, replacing their souls with something else.
 
 The peat-bogs are reacting. In areas where Void-stasis Revenants have congregated, the preserving peat has turned black and acidic. The Root-Veil is withdrawing its blessing. The dead are no longer waiting for permission. They are marching toward the Sundered Monoliths, and the Revenants have lost control of their ancestral covenant.`,
 
-    meaningfulTradeoffs: `To hear the dead is to lose the living. Revenants exist in a state of constant sensory overload — the voices of ancestors overlay every conversation. They feel the cold always, cannot taste food, and their relationships fail because partners realize they are competing with a chorus of dead ancestors for attention. The frost stasis that halts their decay also strips them of warmth, emotion, and physical sensation. They experience the world through frosted glass. Many survive only through an intellectual commitment to goals set centuries ago, the emotional resonance long since faded into ash.`,
+    meaningfulTradeoffs: `To hear the dead is to lose the living. Revenants exist in a state of constant sensory overload, the voices of ancestors overlay every conversation. They feel the cold always, cannot taste food, and their relationships fail because partners realize they are competing with a chorus of dead ancestors for attention. The frost stasis that halts their decay also strips them of warmth, emotion, and physical sensation. They experience the world through frosted glass. Many survive only through an intellectual commitment to goals set centuries ago, the emotional resonance long since faded into ash.`,
 
     classSpecificLocations: [
       {
         name: 'The Bog-Graves of Kora',
         locationId: 'peat-bog-sinks',
-        description: 'The oldest consecrated burial ground in the Bryngloom, where Kora performed the first necrotic covenant. Graves marked by pale, bioluminescent fungi that pulse in sequence — a slow heartbeat of light that Revenants believe is the ancestors breathing.',
+        description: 'The oldest consecrated burial ground in the Bryngloom, where Kora performed the first necrotic covenant. Graves marked by pale, bioluminescent fungi that pulse in sequence, a slow heartbeat of light that Revenants believe is the ancestors breathing.',
         purpose: 'Primary necrotic anchor and covenant site',
-        status: 'Compromised — twelve graves are empty, fungi pulses erratically',
+        status: 'Compromised, twelve graves are empty, fungi pulses erratically',
       },
       {
         name: 'The Peat-Bog Sinks',
         locationId: 'peat-bog-sinks',
-        description: 'The deep, preserving bogs where Revenants perform the Rite of the Cold Hearth. Acidic peat preserves organic matter — those who enter and perform the ritual emerge with their decay halted.',
+        description: 'The deep, preserving bogs where Revenants perform the Rite of the Cold Hearth. Acidic peat preserves organic matter, those who enter and perform the ritual emerge with their decay halted.',
         purpose: 'Initiation site and final resting place',
-        status: 'Active — sections turning black and acidic due to Void contamination',
+        status: 'Active, sections turning black and acidic due to Void contamination',
       },
       {
         name: 'The Sunken Confessionals',
         locationId: 'over-shanty',
         description: 'Where the Cult of Forgotten Shadow offers Void-stasis to Revenants willing to abandon the old ways.',
         purpose: 'Void-stasis initiation',
-        status: 'Active — increasingly popular',
+        status: 'Active, increasingly popular',
       },
     ],
 
@@ -270,7 +270,7 @@ The peat-bogs are reacting. In areas where Void-stasis Revenants have congregate
       title: "The Undying Economy",
       content: `**Primary Role**: The only class that converts its own HP and death itself into explosive damage and tactical resurrection.
 
-**Why Bring a Revenant?**: No other class rides this razor's edge. They pay for power in flesh — every spell costs HP and/or Mana — and generate Death Toll that supercharges the next cast. At 16+ Toll, a single spell becomes a walking nuclear detonation. They drain life back from enemies. They toggle Death Shroud to burn HP for devastating frost+blight damage. They kill to charge their Phylactery, die strategically to trigger a battlefield-wide freeze, resurrect, and do it again. When the party needs something dead and the healer is down, the Revenant opens a vein, freezes the room, and solves the problem permanently.
+**Why Bring a Revenant?**: No other class rides this razor's edge. They pay for power in flesh, every spell costs HP and/or Mana, and generate Death Toll that supercharges the next cast. At 16+ Toll, a single spell becomes a walking nuclear detonation. They drain life back from enemies. They toggle Death Shroud to burn HP for devastating frost+blight damage. They kill to charge their Phylactery, die strategically to trigger a battlefield-wide freeze, resurrect, and do it again. When the party needs something dead and the healer is down, the Revenant opens a vein, freezes the room, and solves the problem permanently.
 
 **Damage Profile**:
 - Sustained necrotic/rime damage through HP sacrifice
@@ -284,7 +284,7 @@ The peat-bogs are reacting. In areas where Void-stasis Revenants have congregate
 - Death Trigger freeze as battlefield control
 - Life drain for self-sustain
 
-**Fatal Flaws**: Death Toll is VOLATILE. At 6+ Toll, searing self-damage. At 11+, cannot be healed. At 16+, nuclear detonation on death that kills allies. Death Shroud drains HP every turn. Phylactery depleted means death is permanent. The Revenant carries enough power to end any fight — and enough instability to end their own party.`,
+**Fatal Flaws**: Death Toll is VOLATILE. At 6+ Toll, searing self-damage. At 11+, cannot be healed. At 16+, nuclear detonation on death that kills allies. Death Shroud drains HP every turn. Phylactery depleted means death is permanent. The Revenant carries enough power to end any fight, and enough instability to end their own party.`,
     },
 
     playstyle: {
@@ -323,7 +323,7 @@ The peat-bogs are reacting. In areas where Void-stasis Revenants have congregate
 
 **Starting State**: HP: 60/72 | Mana: 40/50 | Toll: 0 | Phylactery: 10 | Shroud: OFF
 
-**Turn 1 — Blood Sacrifice + Summon (HP: 60 → 48, Toll: 0 → 9)**
+**Turn 1, Blood Sacrifice + Summon (HP: 60 → 48, Toll: 0 → 9)**
 
 **Action**: Cast "Necrotic Bolt" (4 mana, costs 1d6 HP)
 **Health Cost Roll**: 1d6 → [4] = 4 HP sacrificed
@@ -342,7 +342,7 @@ The peat-bogs are reacting. In areas where Void-stasis Revenants have congregate
 
 **Current State**: HP: 48/72 | Mana: 26/50 | Toll: 9 | Phylactery: 10 | Shroud: OFF
 
-**Turn 2 — Death Shroud Burst (HP: 48 → 30, Toll: 9 → 0)**
+**Turn 2, Death Shroud Burst (HP: 48 → 30, Toll: 9 → 0)**
 
 *The skeletal archers are dangerous. Time to switch to Death Shroud and detonate your Toll.*
 
@@ -352,7 +352,7 @@ The peat-bogs are reacting. In areas where Void-stasis Revenants have congregate
 **Start of Turn Shroud Drain**: 1d6 HP → [4] = 4 HP lost
 **HP**: 48 - 4 = 44 HP
 
-**Action**: Cast "Death's Embrace" — costs HP in Shroud mode (10 mana value = 10 HP cost + 2d8 HP sacrifice)
+**Action**: Cast "Death's Embrace", costs HP in Shroud mode (10 mana value = 10 HP cost + 2d8 HP sacrifice)
 **Total HP Cost**: 10 + 2d8 → 10 + [6,5] = 21 HP
 **HP**: 44 - 21 = 23 HP
 **Death Toll**: +21+1 = +22, but capped at 20 (now at 20)
@@ -367,7 +367,7 @@ The peat-bogs are reacting. In areas where Void-stasis Revenants have congregate
 
 **Current State**: HP: 23/72 | Mana: 16/50 | Toll: 0 | Phylactery: 10 | Shroud: ON
 
-**Turn 3 — Kill to Charge + Strategic Death (HP: 23 → 0 → RESURRECTION!)**
+**Turn 3, Kill to Charge + Strategic Death (HP: 23 → 0 → RESURRECTION!)**
 
 *You're dangerously low. But the knight is nearly dead...*
 
@@ -391,8 +391,8 @@ The peat-bogs are reacting. In areas where Void-stasis Revenants have congregate
 **Current State**: HP: 14/72 | Mana: 16/50 | Toll: 0 | Phylactery: 0 | Shroud: OFF
 
 **The Lesson**:
-1. HP is fuel — you sacrificed 32+ HP for spells
-2. Death Toll volatility — at 9 Toll you're in the "unstable" zone
+1. HP is fuel, you sacrificed 32+ HP for spells
+2. Death Toll volatility, at 9 Toll you're in the "unstable" zone
 3. Death Shroud converts Mana to HP costs for burst damage
 4. Phylactery resurrection turns death into a tactical weapon
 5. Death Trigger freeze is the strongest control effect in the game
@@ -406,7 +406,7 @@ You're not a mage who casts spells. You're an UNDYING PREDATOR who burns your ow
     title: "Death Toll & Phylactery",
     subtitle: "Volatile blight energy + Kill-Harvested Resurrection",
 
-    description: `The Revenant's power is a dual economy built on death itself. **Death Toll** (0-20) is volatile blight energy generated through HP sacrifice and killing — spend it to devastating effect, or let it build and risk catastrophic self-damage. **Phylactery HP** is a kill-charged resurrection pool — every enemy felled by your spells adds life force to your soul anchor, and when you die, that stored life drags you back.
+    description: `The Revenant's power is a dual economy built on death itself. **Death Toll** (0-20) is volatile blight energy generated through HP sacrifice and killing, spend it to devastating effect, or let it build and risk catastrophic self-damage. **Phylactery HP** is a kill-charged resurrection pool, every enemy felled by your spells adds life force to your soul anchor, and when you die, that stored life drags you back.
 
 **Death Shroud Toggle**:
 The Revenant can switch between two casting modes:
@@ -417,11 +417,11 @@ The Revenant can switch between two casting modes:
 - **1-5 Toll**: Stable. No side effects.
 - **6-10 Toll**: Unstable. 1 blight damage/turn to self. Enemies within 5ft take 1 necrotic/Toll.
 - **11-15 Toll**: Volatile. 1d4 necrotic/Toll/turn. Cannot be healed by others. All spell saves at -2.
-- **16-20 Toll**: CRITICAL MASS. 1d6 necrotic/Toll/turn. Advantage on death saves but disadvantage on all other saves. If you die at 16+, ALL Toll detonates — 1d10 necrotic/Toll to EVERYTHING within 30ft (including allies).
+- **16-20 Toll**: CRITICAL MASS. 1d6 necrotic/Toll/turn. Advantage on death saves but disadvantage on all other saves. If you die at 16+, ALL Toll detonates, 1d10 necrotic/Toll to EVERYTHING within 30ft (including allies).
 
 **Toll Decay**: -1 per round if no enemy killed and no HP sacrificed this round. Timer pressure forces aggression.
 
-**Differentiation**: Unlike the Inquisitor (who builds Authority through anti-magic friction and demon command), the Revenant builds Death Toll through raw HP sacrifice and body count. The Inquisitor is surgical; the Revenant is a chain reaction.`,
+**Differentiation**: Unlike the Inquisitor (who builds Authority through anti-magic friction and horror command), the Revenant builds Death Toll through raw HP sacrifice and body count. The Inquisitor is surgical; the Revenant is a chain reaction.`,
 
     cards: [
       {
@@ -468,7 +468,7 @@ The Revenant can switch between two casting modes:
       momentum:
         "Spend Toll to add +1d6 damage each to any spell. Toggle Death Shroud for burst windows. Kill to charge Phylactery.",
       flourish:
-        "The Nuclear Option: At 16+ Toll, your spells deal apocalyptic damage — but death means taking your party with you. The strategic play is to detonate Toll on a spell before it reaches critical mass, or use Death Trigger freeze to control the battlefield while you resurrect.",
+        "The Nuclear Option: At 16+ Toll, your spells deal apocalyptic damage, but death means taking your party with you. The strategic play is to detonate Toll on a spell before it reaches critical mass, or use Death Trigger freeze to control the battlefield while you resurrect.",
     },
 
     overheatRules: {
@@ -531,7 +531,7 @@ The Revenant can switch between two casting modes:
 
     strategicConsiderations: {
       title: "The Razor's Edge: Risk & Recovery",
-      content: `**Phase 1 (0-5 Toll)**: Build your bank. Cast HP-costing spells to generate Toll. Don't fear the HP cost — every point is potential devastation.
+      content: `**Phase 1 (0-5 Toll)**: Build your bank. Cast HP-costing spells to generate Toll. Don't fear the HP cost, every point is potential devastation.
 
 **Phase 2 (6-10 Toll)**: You're in the unstable zone. Self-damage is ticking. Time to spend Toll on a devastating spell, or toggle Death Shroud for maximum burst and kill to charge Phylactery.
 
@@ -571,7 +571,7 @@ The Revenant can switch between two casting modes:
         color: "#8B0000",
         theme: "Aggressive Life Drain + Spectral Army",
 
-        description: `Sanguine Harvests stopped running from the hunger and let it consume them from within. They wade into melee range with their life essence pouring freely, draining vitality from everything they touch. The Crimson Pact and Life Leech marks are their preferred scars — permanent concessions that turn every enemy into a transfusion. Their spectral allies rise from the corpses they create, forming an army of the dead that feeds on the Revenant's own life force. They do not heal. They take. And what they take is never enough.`,
+        description: `Sanguine Harvests stopped running from the hunger and let it consume them from within. They wade into melee range with their lifeblood pouring freely, draining vitality from everything they touch. The Crimson Pact and Life Leech marks are their preferred scars, permanent concessions that turn every enemy into a transfusion. Their spectral allies rise from the corpses they create, forming an army of the dead that feeds on the Revenant's own life force. They do not heal. They take. And what they take is never enough.`,
 
         playstyle: "Melee-range life drain, aggressive HP sacrifice, spectral army from kills, high sustain through draining",
 
@@ -595,9 +595,9 @@ The Revenant can switch between two casting modes:
             "Your life drain effects are 25% more effective. Every enemy killed by your spells rises as a spectral minion for 1d4 rounds (max 4). Minions have 10 HP and deal 1d6 blight damage per turn. When below 25% HP, your next life drain is cast instantly and costs no mana.",
         },
         keyAbilities: [
-          "Blood Leech — Drain health, restoring 25% per HP sacrificed (8 mana, 1d4 HP cost)",
-          "Crimson Shield — Absorb 10× damage sacrificed as a ward (5 mana, 1d10 HP cost)",
-          "Eternal Agony — Escalating psychic DOT based on HP sacrificed (15 mana, 1d10 HP cost)",
+          "Blood Leech, Drain health, restoring 25% per HP sacrificed (8 mana, 1d4 HP cost)",
+          "Crimson Shield, Absorb 10× damage sacrificed as a ward (5 mana, 1d10 HP cost)",
+          "Eternal Agony, Escalating psychic DOT based on HP sacrificed (15 mana, 1d10 HP cost)",
         ],
       },
 
@@ -608,7 +608,7 @@ The Revenant can switch between two casting modes:
         color: "#4A90E2",
         theme: "Freeze-Shatter Loop + Frost Control",
 
-        description: `Frost Sovereigns mastered the art of freezing enemies solid and shattering them for devastating burst damage. Their Death Shroud is the coldest — frost radiates from their body even in Rest Mode, and in Death Mode the temperature drops to lethal levels. The Frostwalker and Shrouded Veil marks are their preferred scars, granting extended freeze durations and bonus blight damage. They create an active loop: freeze, shatter, refreeze, shatter again. Each cycle is faster and more devastating than the last. Their battlefield is a sculpture gallery of frozen corpses, and every new enemy is just raw material.`,
+        description: `Frost Sovereigns mastered the art of freezing enemies solid and shattering them for devastating burst damage. Their Death Shroud is the coldest, frost radiates from their body even in Rest Mode, and in Death Mode the temperature drops to lethal levels. The Frostwalker and Shrouded Veil marks are their preferred scars, granting extended freeze durations and bonus blight damage. They create an active loop: freeze, shatter, refreeze, shatter again. Each cycle is faster and more devastating than the last. Their battlefield is a sculpture gallery of frozen corpses, and every new enemy is just raw material.`,
 
         playstyle: "Ranged frost/necrotic caster, freeze-shatter loop, area control through ice",
 
@@ -619,7 +619,7 @@ The Revenant can switch between two casting modes:
           "Can lock down multiple dangerous enemies",
         ],
         weaknesses: [
-          "Shatter ends freeze — must choose damage vs control",
+          "Shatter ends freeze, must choose damage vs control",
           "Requires setup to freeze before shattering",
           "Less effective against freeze-immune enemies",
           "Relies on landing freeze saves",
@@ -632,9 +632,9 @@ The Revenant can switch between two casting modes:
             "Your freeze effects last 1d4 additional rounds. Frozen enemies take +1d6 damage from your frost and necrotic spells. When a frozen enemy takes damage, 50% chance they Shatter (additional 3d6 frost, freeze ends). In Death Shroud, your chill effect upgrades to a freeze (1 round) on failed save.",
         },
         keyAbilities: [
-          "Wraith Spear — Frost projectile that freezes on hit (10 mana, 1d6 HP cost in Shroud)",
-          "Frozen Orb — AoE frost+necrotic that freezes groups (16 mana, 2d6 HP cost in Shroud)",
-          "Absolute Zero — Lock down all enemies in sight with escalating freeze (35 mana, 4d8 HP cost in Shroud)",
+          "Wraith Spear, Frost projectile that freezes on hit (10 mana, 1d6 HP cost in Shroud)",
+          "Frozen Orb, AoE frost+necrotic that freezes groups (16 mana, 2d6 HP cost in Shroud)",
+          "Absolute Zero, Lock down all enemies in sight with escalating freeze (35 mana, 4d8 HP cost in Shroud)",
         ],
       },
 
@@ -645,12 +645,12 @@ The Revenant can switch between two casting modes:
         color: "#2D1B69",
         theme: "Enhanced Resurrection + Psychic/Frost Control",
 
-        description: `Phylactery Anchors are the most durable Revenants, their phylacteries expanded and reinforced through obsessive ritual. Their Death Trigger freeze radius is the largest of all specs, and their phylactery can store up to 75 HP — enough to resurrect multiple times in extended fights. The Spectral Command and Deep Void marks are their preferred scars, granting spectral army durability and spell negation. They play the long game: absorb damage, kill to charge, die strategically for the freeze, resurrect, and repeat. They are the tankiest Revenant, and the one most likely to outlast an enemy through sheer, stubborn refusal to stay dead.`,
+        description: `Phylactery Anchors are the most durable Revenants, their phylacteries expanded and reinforced through obsessive ritual. Their Death Trigger freeze radius is the largest of all specs, and their phylactery can store up to 75 HP, enough to resurrect multiple times in extended fights. The Spectral Command and Deep Void marks are their preferred scars, granting spectral army durability and spell negation. They play the long game: absorb damage, kill to charge, die strategically for the freeze, resurrect, and repeat. They are the tankiest Revenant, and the one most likely to outlast an enemy through sheer, stubborn refusal to stay dead.`,
 
         playstyle: "Tankiest Revenant with enhanced phylactery, psychic/frost hybrid control, strategic death management",
 
         strengths: [
-          "Highest survivability — 75 HP Phylactery",
+          "Highest survivability, 75 HP Phylactery",
           "Death Trigger freeze in 25ft radius",
           "Can afford aggressive Death Shroud usage",
           "wyrd damage integration for resistances",
@@ -669,9 +669,9 @@ The Revenant can switch between two casting modes:
             "Your Phylactery stores up to 75 HP (instead of 50). Death Trigger freeze radius increased to 25ft (instead of 15ft). In Death Shroud, store 1 HP in Phylactery per 10 damage taken from any source (max 5/round). Your wyrd damage spells ignore resistance.",
         },
         keyAbilities: [
-          "Siphon Soul — Frost+necrotic drain that heals and charges Phylactery on kill (8 mana)",
-          "Glacial Shroud — Ice armor that freezes melee attackers (8 mana)",
-          "Phylactery Nova — Detonate stored Phylactery HP as a massive frost explosion (30 mana, 3d6 HP cost)",
+          "Siphon Soul, Frost+necrotic drain that heals and charges Phylactery on kill (8 mana)",
+          "Glacial Shroud, Ice armor that freezes melee attackers (8 mana)",
+          "Phylactery Nova, Detonate stored Phylactery HP as a massive frost explosion (30 mana, 3d6 HP cost)",
         ],
       },
     ],
@@ -706,7 +706,7 @@ The Revenant can switch between two casting modes:
         resourceValues: { mana: 4 },
         actionPoints: 1,
         components: ["verbal", "somatic"],
-        verbalText: "A low, rattling hiss — like air escaping a collapsed lung.",
+        verbalText: "A low, rattling hiss, like air escaping a collapsed lung.",
         somaticText: "Press your palm outward, dark veins flaring as blight energy condenses into a bolt.",
         useFormulas: { health: true },
         resourceFormulas: { health: "1d6" },
@@ -774,7 +774,7 @@ The Revenant can switch between two casting modes:
         resourceValues: { mana: 4 },
         actionPoints: 1,
         components: ["verbal", "somatic"],
-        verbalText: "A whispered name — the last word spoken by the dead.",
+        verbalText: "A whispered name, the last word spoken by the dead.",
         somaticText: "Drag your fingers through the air as if parting a curtain of ash.",
         useFormulas: { health: true },
         resourceFormulas: { health: "1d6" },
@@ -820,7 +820,7 @@ The Revenant can switch between two casting modes:
         actionPoints: 0,
         components: ["verbal", "somatic"],
         verbalText: "A sharp gasp of exertion, teeth clenched against the strain.",
-        somaticText: "Clench your fist and pull — your life force crystallizes into a crimson shell.",
+        somaticText: "Clench your fist and pull, your life force crystallizes into a crimson shell.",
         useFormulas: { health: true },
         resourceFormulas: { health: "1d8" },
       },
@@ -857,7 +857,7 @@ The Revenant can switch between two casting modes:
 
     { id: "rv_blood_leech",
       name: "Blood Leech",
-      description: "You extend a tendril of coagulated hate. Their life becomes yours — a crude, screaming transfusion.",
+      description: "You extend a tendril of coagulated hate. Their life becomes yours, a crude, screaming transfusion.",
       level: 2,
       spellType: "ACTION",
       icon: "Necrotic/Drain Soul",
@@ -895,7 +895,7 @@ The Revenant can switch between two casting modes:
         resourceValues: { mana: 7 },
         actionPoints: 1,
         components: ["verbal", "somatic"],
-        verbalText: "A guttural growl — hunger given voice.",
+        verbalText: "A guttural growl, hunger given voice.",
         somaticText: "Extend your arm, fingers splayed, as a tendril of dark energy arcs toward the target.",
         useFormulas: { health: true },
         resourceFormulas: { health: "1d4" },
@@ -950,7 +950,7 @@ The Revenant can switch between two casting modes:
         resourceValues: { mana: 8 },
         actionPoints: 1,
         components: ["verbal", "somatic"],
-        verbalText: "A single word — the syllable of decay.",
+        verbalText: "A single word, the syllable of decay.",
         somaticText: "Draw a slow circle in the air with one finger.",
         useFormulas: { health: true },
         resourceFormulas: { health: "1d6" },
@@ -984,7 +984,7 @@ The Revenant can switch between two casting modes:
 
     { id: "rv_soul_rend",
       name: "Soul Rend",
-      description: "You reach across the void and close your grip around their life essence. Something screams. You pull.",
+      description: "You reach across the void and close your grip around their lifeblood. Something screams. You pull.",
       level: 3,
       spellType: "ACTION",
       icon: "Necrotic/Ebon Death",
@@ -1011,7 +1011,7 @@ The Revenant can switch between two casting modes:
         resourceValues: { mana: 12 },
         actionPoints: 2,
         components: ["verbal", "somatic"],
-        verbalText: "A ragged scream — effort torn from the throat.",
+        verbalText: "A ragged scream, effort torn from the throat.",
         somaticText: "Lunge forward and close your grip, tearing at the target's life force.",
         useFormulas: { health: true },
         resourceFormulas: { health: "2d8" },
@@ -1080,7 +1080,7 @@ The Revenant can switch between two casting modes:
         resourceValues: { mana: 22, deathToll: 6 },
         actionPoints: 2,
         components: ["verbal", "somatic"],
-        verbalText: "A roar of release — every held-back scream let loose at once.",
+        verbalText: "A roar of release, every held-back scream let loose at once.",
         somaticText: "Throw both arms wide and detonate.",
         useFormulas: { health: true },
         resourceFormulas: { health: "4d6" },
@@ -1202,7 +1202,7 @@ The Revenant can switch between two casting modes:
         resourceValues: { mana: 36, deathToll: 6 },
         actionPoints: 3,
         components: ["verbal", "somatic"],
-        verbalText: "The last word ever spoken — final, absolute, severing.",
+        verbalText: "The last word ever spoken, final, absolute, severing.",
         somaticText: "Bring your palms together and crack them apart.",
         useFormulas: { health: true, permanentHealth: true },
         resourceFormulas: { health: "10d6", permanentHealth: "2d10" },

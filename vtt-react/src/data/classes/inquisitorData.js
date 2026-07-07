@@ -1,4 +1,4 @@
-export const INQUISITOR_DATA = {
+﻿export const INQUISITOR_DATA = {
   restrictions: {
       "allowedSubraces": [
           "marked_vreken",
@@ -13,28 +13,28 @@ export const INQUISITOR_DATA = {
           "skald_human"
       ],
       "narrativeUnlock": true,
-      "justification": "Requires either the Ghost-Mycelium (Vreken) or a lifetime of anti-Wyrd training. Thalren face Wyrd-horrors born from human fear. Morren dismantled Neth contracts through inquisitorial practice. Other races lack the supernatural exposure density. Emberth too hot for stealth hunts. Fexrick too mechanical. Myrathil too distant from surface Wyrd. Unwoven Mimir lack the specialized anti-Wyrd training — their expertise is floor-toxins and survival, not supernatural investigation."
+      "justification": "Requires either the Ghost-Mycelium (Vreken) or a lifetime of anti-Wyrd training. Thalren face Wyrd-horrors born from human fear. Morren dismantled Neth contracts through inquisitorial practice. Other races lack the supernatural exposure density. Emberth too hot for stealth hunts. Fexrick too mechanical. Myrathil too distant from surface Wyrd. Unwoven Mimir lack the specialized anti-Wyrd training, their expertise is floor-toxins and survival, not supernatural investigation."
   },
 
   /**
-   * Subrace Variants — the Inquisitor severs corrupted supernatural bonds, and what
+   * Subrace Variants, the Inquisitor severs corrupted supernatural bonds, and what
    * counts as "corruption" depends on what your people are surrounded by. The tradition
-   * has two roots — Vreken mycelial-hunting (Bryngloom) and Thalren anti-Wyrd paranoia
-   * (Frostwood) — and the Morren are the bridge, turning the contract-law that binds
+   * has two roots, Vreken mycelial-hunting (Bryngloom) and Thalren anti-Wyrd paranoia
+   * (Frostwood), and the Morren are the bridge, turning the contract-law that binds
    * them into the weapon that unbinds others.
    */
   subraceVariants: {
     marked_vreken: {
       subraceName: 'Marked Vreken',
       title: 'The Mycelium-Hunter',
-      reframe: `The <LoreLink termId="vreken">Marked Vreken</LoreLink> — ghost-mycelium walkers — hunt through the <LoreLink termId="root_veil">mycelial network</LoreLink> itself, because the same network that hosts corrupt ancestral bonds is their native hunting-ground. A Marked Inquisitor does not track a rogue shaman across country; they track the corruption *through the forest's nervous system*, feeling the infection as a wrongness in their own skin.`,
+      reframe: `The <LoreLink termId="vreken">Marked Vreken</LoreLink>, ghost-mycelium walkers, hunt through the <LoreLink termId="root_veil">mycelial network</LoreLink> itself, because the same network that hosts corrupt ancestral bonds is their native hunting-ground. A Marked Inquisitor does not track a rogue shaman across country; they track the corruption *through the forest's nervous system*, feeling the infection as a wrongness in their own skin.`,
       signatureAbility: {
         name: 'Network-Severance',
-        description: `Corrupted bonds are severed *through* the mycelial network rather than at the host — the Inquisitor cuts the spiritual infection where it roots in the forest itself. This heals the forest but leaves a permanent dead-patch in the network the Inquisitor must carry.`
+        description: `Corrupted bonds are severed *through* the mycelial network rather than at the host, the Inquisitor cuts the spiritual infection where it roots in the forest itself. This heals the forest but leaves a permanent dead-patch in the network the Inquisitor must carry.`
       },
-      currentCrisisAngle: `Only 47 active Inquisitors remain, and the Marked Vreken are dwindling fastest — the mycelial rash that marks them now spreads to their *families*, glowing in the dark, making stealth impossible and marking entire lineages as targets. The Marked are being hunted by what they hunt, and the network they love is, slowly, rejecting them.`,
+      currentCrisisAngle: `Only 47 active Inquisitors remain, and the Marked Vreken are dwindling fastest, the mycelial rash that marks them now spreads to their *families*, glowing in the dark, making stealth impossible and marking entire lineages as targets. The Marked are being hunted by what they hunt, and the network they love is, slowly, rejecting them.`,
       signatureQuote: {
-        text: '"The forest knows me by my scars. Lately it has begun to flinch. I do not blame it — I am carrying its disease so it does not have to."',
+        text: '"The forest knows me by my scars. Lately it has begun to flinch. I do not blame it, I am carrying its disease so it does not have to."',
         speaker: 'Orven the Still-Handed',
         context: 'The founder, recording his final network-severance before going dark'
       }
@@ -43,12 +43,12 @@ export const INQUISITOR_DATA = {
     clean_vreken: {
       subraceName: 'Clean Vreken',
       title: 'The Glow-Auditor',
-      reframe: `The <LoreLink termId="vreken">Clean Vreken</LoreLink> — deep-glow scholars — read the bioluminescent signatures of corrupted bonds the way a scribe reads ink. The same deep-glow that broadcasts their emotion also betrays supernatural infection: a corrupted bond glows *wrong*, and a Clean Vreken Inquisitor can diagnose a rogue covenant from across a room by the color of its bleed.`,
+      reframe: `The <LoreLink termId="vreken">Clean Vreken</LoreLink>, deep-glow scholars, read the bioluminescent signatures of corrupted bonds the way a scribe reads ink. The same deep-glow that broadcasts their emotion also betrays supernatural infection: a corrupted bond glows *wrong*, and a Clean Vreken Inquisitor can diagnose a rogue covenant from across a room by the color of its bleed.`,
       signatureAbility: {
         name: 'Glow-Diagnosis',
-        description: `Corrupted bonds are identified by their aberrant bioluminescent signature — readable at distance, through cover, even through walls if the glow is strong enough. The Clean Vreken are the tradition's diagnosticians; they find what the Marked sever.`
+        description: `Corrupted bonds are identified by their aberrant bioluminescent signature, readable at distance, through cover, even through walls if the glow is strong enough. The Clean Vreken are the tradition's diagnosticians; they find what the Marked sever.`
       },
-      currentCrisisAngle: `The new, unnamed entities manifesting in the deep <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink> glow in colors the Clean Vreken have no name for — colors their deep-glow *cannot parse*. An infection you can see is an infection you can cut. An infection that glows in a color outside your experience is an infection that may already be inside you.`,
+      currentCrisisAngle: `The new, unnamed entities manifesting in the deep <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink> glow in colors the Clean Vreken have no name for, colors their deep-glow *cannot parse*. An infection you can see is an infection you can cut. An infection that glows in a color outside your experience is an infection that may already be inside you.`,
       signatureQuote: {
         text: '"I have read the glow of ten thousand corruptions. This one I cannot read. That is not reassuring. That is the most frightening sentence I have ever spoken."',
         speaker: 'Scholar Yssen Bright-Eye',
@@ -59,12 +59,12 @@ export const INQUISITOR_DATA = {
     thalren_human: {
       subraceName: 'Thalren',
       title: 'The Salt-Scarred',
-      reframe: `This is <LoreLink termId="elias">Elias</LoreLink> the Salt-Scarred's tradition, born in the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink>. The Thalren open their own veins to draw the Wyrd's face-stealing horrors into living flesh — baiting the Gref and the Gambrel with the one thing they cannot resist: a human who has promised something they intend to break. Anti-Wyrd paranoia, for the Thalren, is not a personality trait. It is a survival discipline learned over eight fog-eaten centuries.`,
+      reframe: `This is <LoreLink termId="elias">Elias</LoreLink> the Salt-Scarred's tradition, born in the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink>. The Thalren open their own veins to draw the Wyrd's face-stealing horrors into living flesh, baiting the Gref and the Gambrel with the one thing they cannot resist: a human who has promised something they intend to break. Anti-Wyrd paranoia, for the Thalren, is not a personality trait. It is a survival discipline learned over eight fog-eaten centuries.`,
       signatureAbility: {
         name: 'Bait-Vow',
-        description: `The Inquisitor makes a deliberately breakable oath to lure Wyrd-creatures that hunt broken promises, then severs the creature as it manifests to collect. The cost is paid in blood — the vow must be genuinely breakable, genuinely tempting, and the Inquisitor must survive the bait to make the cut.`
+        description: `The Inquisitor makes a deliberately breakable oath to lure Wyrd-creatures that hunt broken promises, then severs the creature as it manifests to collect. The cost is paid in blood, the vow must be genuinely breakable, genuinely tempting, and the Inquisitor must survive the bait to make the cut.`
       },
-      currentCrisisAngle: `The Frostwood incursion rate has tripled, and the Thalren Inquisitors are running out of oaths they can afford to break. Every Bait-Vow leaves a permanent scar of *intended betrayal* in the Inquisitor's ledger — and the Sovereign Ledger, which validates Thalren legal identity, is beginning to refuse to register Inquisitors whose scar-count exceeds a threshold. They are being legally erased by their own work.`,
+      currentCrisisAngle: `The Frostwood incursion rate has tripled, and the Thalren Inquisitors are running out of oaths they can afford to break. Every Bait-Vow leaves a permanent scar of *intended betrayal* in the Inquisitor's ledger, and the Sovereign Ledger, which validates Thalren legal identity, is beginning to refuse to register Inquisitors whose scar-count exceeds a threshold. They are being legally erased by their own work.`,
       signatureQuote: {
         text: '"I promised my daughter I would come home. I broke it to lure the thing that steals faces. The Ledger struck my name. My daughter still knows me. The fog will take that too, soon enough."',
         speaker: 'Elias the Salt-Scarred',
@@ -75,12 +75,12 @@ export const INQUISITOR_DATA = {
     morren_human: {
       subraceName: 'Morren',
       title: 'The Contract-Severer',
-      reframe: `The <LoreLink termId="house_morrath">Morren</LoreLink> live bound by Neth contract-law, and the Inquisitors among them turned the architecture of their own bondage into the weapon that unbinds others. A Morren Inquisitor does not hunt Wyrd-creatures; they hunt *rogue contracts* — the corrupted familiar, the broken oath, the faustian bargain — and they sever them with the same legal precision the Neth used to write them.`,
+      reframe: `The <LoreLink termId="house_morrath">Morren</LoreLink> live bound by Neth contract-law, and the Inquisitors among them turned the architecture of their own bondage into the weapon that unbinds others. A Morren Inquisitor does not hunt Wyrd-creatures; they hunt *rogue contracts*, the corrupted familiar, the broken oath, the faustian bargain, and they sever them with the same legal precision the Neth used to write them.`,
       signatureAbility: {
         name: 'Clause-Severance',
-        description: `Corrupted magical bonds are severed through contract-law inversion — the Inquisitor drafts the annulment, files it against the bond, and the bond breaks under its own legal weight. The Morren are uniquely suited: they have been reading fine print since birth.`
+        description: `Corrupted magical bonds are severed through contract-law inversion, the Inquisitor drafts the annulment, files it against the bond, and the bond breaks under its own legal weight. The Morren are uniquely suited: they have been reading fine print since birth.`
       },
-      currentCrisisAngle: `The Wyrd is bleeding faster, and the Morren Inquisitors have noticed the new entities do not *have* contracts — they cannot be severed because they were never bound. A Morren Inquisitor facing a contract-less entity is a swordsman facing a ghost: their entire art assumes the enemy can be litigated. The recruits are refusing the oath not from cowardice but from the dawning realization that the oath may already be obsolete.`,
+      currentCrisisAngle: `The Wyrd is bleeding faster, and the Morren Inquisitors have noticed the new entities do not *have* contracts, they cannot be severed because they were never bound. A Morren Inquisitor facing a contract-less entity is a swordsman facing a ghost: their entire art assumes the enemy can be litigated. The recruits are refusing the oath not from cowardice but from the dawning realization that the oath may already be obsolete.`,
       signatureQuote: {
         text: '"Everything the Neth bound, I can unbind. Everything. But the things coming now were never bound. They have no clause. I am a lawyer watching a crime that is not, technically, illegal."',
         speaker: 'Severer Mor-Kael',
@@ -119,7 +119,7 @@ export const INQUISITOR_DATA = {
           "Vial of Purified Brine (3 applications for enhanced binding rituals)",
           "Chalk and Iron Dust (for rapid ritual circles in the field)"
         ],
-        description: "Optimized for ranged command, rapid ritual deployment, and demon binding. The chain whip maintains Dominance from a safe distance while the binding kit reduces ritual setup time."
+        description: "Optimized for ranged command, rapid ritual deployment, and horror binding. The chain whip maintains Dominance from a safe distance while the binding kit reduces ritual setup time."
       }
     ],
     standardGear: [
@@ -136,37 +136,37 @@ export const INQUISITOR_DATA = {
     orderName: 'The Barbed Vow',
     founder: {
       name: '<LoreLink termId="orven">Orven the Still-Handed</LoreLink> (Vreken) and <LoreLink termId="elias">Elias the Salt-Scarred</LoreLink> (Thalren)',
-      status: `Orven — gone dark, last recorded during a final network-severance in the deep <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink>. Elias — name struck from the <LoreLink termId="frostwood-reach">Frostwood</LoreLink> Ledger, his legal existence erased by his own Bait-Vow scars. Neither is confirmed dead. Neither is coming back.`,
+      status: `Orven, gone dark, last recorded during a final network-severance in the deep <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink>. Elias, name struck from the <LoreLink termId="frostwood-reach">Frostwood</LoreLink> Ledger, his legal existence erased by his own Bait-Vow scars. Neither is confirmed dead. Neither is coming back.`,
       note: `Two parallel traditions from the same wound. Orven forged the first cold-iron blade and swore the Barbed Vow to hunt corrupted Vreken. Elias opened his veins to draw Wyrd face-stealers into living flesh. The traditions merged when the incursion rate tripled.`
     },
     currentLeader: {
       name: '<LoreLink termId="vrael-forty-seventh">High-Severer <LoreLink termId="vrael-forty-seventh">Vrael the Forty-Seventh</LoreLink></LoreLink>',
       title: 'Last Commander of the Barbed Vow',
-      characterization: `A Thalren woman who took command because she was, literally, the forty-seventh remaining Inquisitor — and the most senior willing to lead. She bears more Bait-Vow scars than any living practitioner and is, as a result, half-erased from the Sovereign Ledger. She leads from the <LoreLink termId="sunken_spire">Sunken Spire</LoreLink> and has stopped recruiting, because the oath now kills more initiates than it survives.`
+      characterization: `A Thalren woman who took command because she was, literally, the forty-seventh remaining Inquisitor, and the most senior willing to lead. She bears more Bait-Vow scars than any living practitioner and is, as a result, half-erased from the Sovereign Ledger. She leads from the <LoreLink termId="sunken_spire">Sunken Spire</LoreLink> and has stopped recruiting, because the oath now kills more initiates than it survives.`
     },
     headquarters: { name: 'The Sunken Spire (Bryngloom seat) and Greymark Keep (Frostwood seat)', locationId: 'the-sunken-spire' },
-    crisisConnection: `Vrael commands forty-six others against an incursion rate that has tripled and is still climbing. The new, unnamed entities in the deep groves have no contracts to sever and no faces to bait — they fall outside the Inquisitor's entire art. She has begun, in desperation, to train recruits in techniques the order considers forbidden: not severing corruption, but *binding* it, borrowing from the very traditions the Inquisitors were founded to destroy. She knows this is how the order ends. She does not see another way it survives.`
+    crisisConnection: `Vrael commands forty-six others against an incursion rate that has tripled and is still climbing. The new, unnamed entities in the deep groves have no contracts to sever and no faces to bait, they fall outside the Inquisitor's entire art. She has begun, in desperation, to train recruits in techniques the order considers forbidden: not severing corruption, but *binding* it, borrowing from the very traditions the Inquisitors were founded to destroy. She knows this is how the order ends. She does not see another way it survives.`
   },
 
   worldFriction: [
-    { region: 'bryngloom-forest', status: 'persecuted-by-network', consequence: 'The mycelial rash now marks every active Inquisitor (and spreads to their families) — the Root-Veil itself is identifying them. In the deep Bryngloom, a glowing Inquisitor cannot hide, and the very forest routes Wyrd-creatures toward them.', workaround: 'The Barbed Vow offers no concealment; the only workaround is to operate outside the network — but outside the network, an Inquisitor cannot track. They are caught between exposure and blindness.' },
-    { region: 'frostwood-reach', status: 'celebrated', consequence: 'In the Frostwood, the Thalren-rooted Inquisitors are celebrated as the line between civilization and the Wyrd. Greymark Keep grants them lodging, authority, and a standing bounty on severed corruptions. The incursion-rate triple has only increased their standing — and their casualty rate.' }
+    { region: 'bryngloom-forest', status: 'persecuted-by-network', consequence: 'The mycelial rash now marks every active Inquisitor (and spreads to their families), the Root-Veil itself is identifying them. In the deep Bryngloom, a glowing Inquisitor cannot hide, and the very forest routes Wyrd-creatures toward them.', workaround: 'The Barbed Vow offers no concealment; the only workaround is to operate outside the network, but outside the network, an Inquisitor cannot track. They are caught between exposure and blindness.' },
+    { region: 'frostwood-reach', status: 'celebrated', consequence: 'In the Frostwood, the Thalren-rooted Inquisitors are celebrated as the line between civilization and the Wyrd. Greymark Keep grants them lodging, authority, and a standing bounty on severed corruptions. The incursion-rate triple has only increased their standing, and their casualty rate.' }
   ],
 
   overview: {
     title: "The Inquisitor",
     subtitle: "Cold Iron, Burning Salt, and the Barbed Leash of the Damned",
-    originStory: `Founded in Year 380 of the Dimming when two Wyrd-hunting traditions merged into the Barbed Vow: Orven the Still-Handed and Elias the Salt-Scarred. Two traditions of occult warfare, born in parallel from the same wound in the world. In the deep bogs of the Bryngloom Forest, the Vreken hunter Orven the Still-Handed forged the first cold-iron blade and swore the Barbed Vow to hunt his own corrupted kinsmen. In the fog-shrouded groves of the Frostwood Reach, the healer Elias the Salt-Scarred opened his own veins to draw the Wyrd's face-stealing horrors into living flesh.
+    originStory: `Founded in the mid-Diming centuries when two Wyrd-hunting traditions merged into the Barbed Vow: Orven the Still-Handed and Elias the Salt-Scarred. Two traditions of occult warfare, born in parallel from the same wound in the world. In the deep bogs of the Bryngloom Forest, the Vreken hunter Orven the Still-Handed forged the first cold-iron blade and swore the Barbed Vow to hunt his own corrupted kinsmen. In the fog-shrouded groves of the Frostwood Reach, the healer Elias the Salt-Scarred opened his own veins to draw the Wyrd's face-stealing horrors into living flesh.
 
 Both traditions understood the same truth: the Wyrd bleeds through every crack that magic carves in reality. One tradition learned to seal the cracks by destroying the caster. The other learned to trap what seeped through, binding it in chains of salt and will. When the Sundered Monoliths began cracking wider and the incursion rate tripled, the two orders recognized that their separate wars were the same war.
 
-The Inquisition was forged in that recognition. Cold iron meets bound demon. Anti-magic negation meets purifying ritual. The Barbed Vow and the salt-scar are one oath now.
+The Inquisition was forged in that recognition. Cold iron meets bound horror. Anti-magic negation meets purifying ritual. The Barbed Vow and the salt-scar are one oath now.
 
 You are the Inquisitor. You hunt the caster, bind the entity, purge the corruption, and pay for every victory with your own blood. The iron in your bones makes you brittle. The demons in your veins make you less than human. But between your two traditions, nothing supernatural escapes.`,
 
     quickOverview: {
       title: "The Weight of Authority",
-      content: `**A Crown of Ash and Chains**: The Inquisitor is a dual-purpose occult warrior who combines anti-magic negation with demonic binding and purification. You build Righteous Authority (0-8) through both anti-magic friction (absorbing spells, breaking wards, shattering enchantments) and binding rituals (commanding bound entities, executing the supernatural). Against mundane threats, you generate nothing, and both the silver in your marrow and the demons in your blood leave you catastrophically vulnerable to ordinary steel.
+      content: `**A Crown of Ash and Chains**: The Inquisitor is a dual-purpose occult warrior who combines anti-magic negation with Wyrd-touched binding and purification. You build Righteous Authority (0-8) through both anti-magic friction (absorbing spells, breaking wards, shattering enchantments) and binding rituals (commanding bound entities, executing the supernatural). Against mundane threats, you generate nothing, and both the silver in your marrow and the demons in your blood leave you catastrophically vulnerable to ordinary steel.
 
 **Core Mechanic**: Absorb and negate enemy magic + Bind and command supernatural entities + Purge corruption from allies at physical cost -> Spend Authority on anti-magic effects, binding commands, and terminal executions
 
@@ -174,12 +174,12 @@ You are the Inquisitor. You hunt the caster, bind the entity, purge the corrupti
 
 **Passive**: Arbiter's Precision -- Every 3rd strike against a supernatural target unleashes a white-hot spike of alchemical silver that bypasses all resistance
 
-**Playstyle**: High-tension anti-magic striker and demon commander carrying alchemical fragility, self-inflicted wounds, and total social isolation
+**Playstyle**: High-tension anti-magic striker and horror commander carrying alchemical fragility, self-inflicted wounds, and total social isolation
 
 **Best For**: Players who crave systematic oppression of spellcasters, volatile pet micromanagement, and heavy, high-stakes trade-offs`,
     },
 
-    description: `For those who stand on the bleeding edge between divine authority and absolute heresy, the Inquisitor is the ultimate arbiter of the occult. Born from the fusion of two parallel traditions, the cold-iron Covenbane and the demon-binding Exorcist, they wield both anti-magic negation and demonic binding as a single devastating doctrine. Their signature resource, Righteous Authority, is fueled by the friction of magical confrontation and the command of bound entities, allowing them to shatter spells, bind demons, and purge corruption. Yet the price of this power is absolute: silver-poisoned bones, whispered demons in the blood, self-inflicted wounds to maintain control, and total isolation from the very communities they protect.`,
+    description: `For those who stand on the bleeding edge between absolute authority and absolute heresy, the Inquisitor is the ultimate arbiter of the occult. Born from the fusion of two parallel traditions, the cold-iron Covenbane and the horror-binding Exorcist, they wield both anti-magic negation and Wyrd-touched binding as a single devastating doctrine. Their signature resource, Righteous Authority, is fueled by the friction of magical confrontation and the command of bound entities, allowing them to shatter spells, bind demons, and purge corruption. Yet the price of this power is absolute: silver-poisoned bones, whispered demons in the blood, self-inflicted wounds to maintain control, and total isolation from the very communities they protect.`,
 
     roleplayIdentity: {
       title: "Roleplay Identity",
@@ -206,7 +206,7 @@ The class is primarily practiced by the <LoreLink termId="vreken">Marked Vreken<
     },
 
     philosophy: {
-      coreTenet: 'Magic is a disease, and those who wield it irresponsibly are vectors. The supernatural cannot be destroyed, only contained. The Inquisitor does not hunt witches because they are evil; they hunt them because unchecked magic attracts worse things. Every spell broken, every demon bound, every curse purged is a crack sealed in reality.',
+      coreTenet: 'Magic is a disease, and those who wield it irresponsibly are vectors. The supernatural cannot be destroyed, only contained. The Inquisitor does not hunt witches because they are evil; they hunt them because unchecked magic attracts worse things. Every spell broken, every horror bound, every curse purged is a crack sealed in reality.',
       relationship: 'Inquisitors draw power from cold iron, null-salt, and the absolute conviction that their work is necessary. They do not cast spells; they shatter them. They do not banish demons; they chain them. Their anti-magic aura is not a gift; it is a curse they have learned to weaponize. An Inquisitor cannot be healed by magic, cannot be enchanted, cannot be blessed. They exist in a permanent state of magical isolation, while the bound entities in their veins whisper heresy to their marrow.',
       paradox: 'The Inquisitor exists to kill the thing they love and cage the thing they fear. Orven killed his sister. Elias opened his veins to the thing that should have destroyed him. Every Inquisitor since has trained to execute their own kin and chain the darkness inside their own flesh. They protect humanity by becoming something less than human. They are the loneliest warriors in Mythrill.',
     },
@@ -215,7 +215,7 @@ The class is primarily practiced by the <LoreLink termId="vreken">Marked Vreken<
 
 There are only forty-seven active Inquisitors left. Each can contain at most a dozen entities before their body fails, and the rash is accelerating the breakdown. For the first time in centuries, recruits are refusing the oath. The existing Inquisitors are divided: some argue the crisis proves the work is more important than ever, while others believe the world is sending a clear message to stop.`,
 
-    meaningfulTradeoffs: `To be an Inquisitor is to accept total isolation and constant agony. The anti-magic aura that allows them to hunt witches prevents them from receiving magical healing or blessing. The silver deposits in their marrow make their bones brittle and vulnerable to physical blows. The bound demons in their blood never sleep, whispering, screaming, and bargaining. Partners report waking to find the Inquisitor's skin moving independently. The Inquisitor's body is not their own; it is a tenement for the horrors they have chained, and the inmates are always trying to escape. Every spell broken costs silver sanity. Every demon commanded costs blood. Every purge costs an ally's flesh.`,
+    meaningfulTradeoffs: `To be an Inquisitor is to accept total isolation and constant agony. The anti-magic aura that allows them to hunt witches prevents them from receiving magical healing or blessing. The silver deposits in their marrow make their bones brittle and vulnerable to physical blows. The bound demons in their blood never sleep, whispering, screaming, and bargaining. Partners report waking to find the Inquisitor's skin moving independently. The Inquisitor's body is not their own; it is a tenement for the horrors they have chained, and the inmates are always trying to escape. Every spell broken costs silver sanity. Every horror commanded costs blood. Every purge costs an ally's flesh.`,
     classSpecificLocations: [
       {
         name: 'The Hall of Barbed Vows',
@@ -235,12 +235,12 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
 
     combatRole: {
       title: "The Twin Doctrine",
-      content: `The Inquisitor is an oppressive anti-magic predator and volatile demon commander that excels at:
+      content: `The Inquisitor is an oppressive anti-magic predator and volatile horror commander that excels at:
 
 **Arcane Desecration**: Shattering active enchantments, silencing spoken incantations, and turning mana to boiling poison in the caster's throat
-**Demonic Binding**: Commanding bound fiends through barbed chains of radiant will, using their supernatural violence to shred enemies
+**Wyrd Binding**: Commanding bound horrors through barbed chains of radiant will, using their supernatural violence to shred enemies
 **Relentless Purge**: Ripping curses, possessions, and crowd control from allies, though the process deals physical damage to the ally
-**Radiant Rupture**: Channeling white-hot alchemical silver to disintegrate evil and demonic flesh
+**Radiant Rupture**: Channeling white-hot alchemical silver to disintegrate evil and Wyrd-touched flesh
 
 **The Strength of the Twin Doctrine**:
 - Systematically strips casters of their safety while binding their summoned creatures against them
@@ -253,7 +253,7 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
 - **Rejection of All Magic**: Your body is a sterile void. You cannot receive beneficial magical buffs or healing without suffering 1d10 wyrd damage from the agonizing friction
 - **Brittle Skeleton**: Silver deposits in your marrow make you fragile. You suffer a permanent 50% vulnerability to physical bludgeoning and physical damage
 - **The Hollow**: Authority decays by -1 per round when no supernatural contact occurs. At 0 Authority, bound entities make rebellion checks
-- **Mundane Famine**: Against non-supernatural enemies, you have no resource generation, no demon benefit, and no magic to devour. You are a slow, fragile mortal carrying heavy iron
+- **Mundane Famine**: Against non-supernatural enemies, you have no resource generation, no horror benefit, and no magic to devour. You are a slow, fragile mortal carrying heavy iron
 - **The Screaming Blood**: The entities in your veins never sleep, extracting a steady psychic toll on your sanity`,
     },
 
@@ -278,14 +278,14 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
 
 **Authority Strategy**:
 - **1-2 Authority**: Small anti-magic disruptions, basic binding commands, minor purges
-- **3-4 Authority**: Dead-magic fields, advanced binding commands, demon enhancement
+- **3-4 Authority**: Dead-magic fields, advanced binding commands, horror enhancement
 - **5-6 Authority**: Terminal executions, mass discipline, silence effects
 - **7-8 Authority**: Anti-magic storms, apex transformations, absolute negation
 
 **Specialization Paths**:
-- **Witch Hammer**: Stealth assassination with demon swarm support
-- **Iron Verdict**: Anti-magic bulwark with single powerful demon
-- **Hollow Saint**: Relentless pursuit with internal demon channeling
+- **Witch Hammer**: Stealth assassination with horror swarm support
+- **Iron Verdict**: Anti-magic bulwark with single powerful horror
+- **Hollow Saint**: Relentless pursuit with internal horror channeling
 
 **Tactical Doctrine**:
 - Position yourself in the trajectory of enemy spells to fuel your Authority
@@ -383,7 +383,7 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
 **Your Action**: Basic attack with advantage (from previous mark)
 **Effect**: Weapon damage. Generate no Authority (mundane target).
 
-**Takeaway**: Against mundane threats, rely on your bound demon's raw physical force. Your own body is glass. Protect the hound, because at 0 Authority, it becomes your enemy.`,
+**Takeaway**: Against mundane threats, rely on your bound horror's raw physical force. Your own body is glass. Protect the hound, because at 0 Authority, it becomes your enemy.`,
     },
   },
 
@@ -399,8 +399,8 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
         icon: "Necrotic/Necrotic Skull",
         color: "#2F2F4F",
         theme: "Stealth Assassination + Demon Swarm",
-        description: "Witch Hammers are shadow-stalking demon generals who combine the Covenbane Shadowbane tradition of stealth assassination with the Exorcist Demonologist's talent for commanding multiple bound entities. They dissolve into darkness, mark their prey, and unleash a pack of chained horrors from the void. Their legion of demons compensates for their fragile bodies, turning the battlefield into a coordinated hunt where nothing supernatural escapes.",
-        playstyle: "Stealth assassin with demon swarm support -- mark targets from shadow, loose demons to shred, execute from invisibility",
+        description: "Witch Hammers are shadow-stalking horror generals who combine the Covenbane Shadowbane tradition of stealth assassination with the Exorcist Demonologist's talent for commanding multiple bound entities. They dissolve into darkness, mark their prey, and unleash a pack of chained horrors from the void. Their legion of demons compensates for their fragile bodies, turning the battlefield into a coordinated hunt where nothing supernatural escapes.",
+        playstyle: "Stealth assassin with horror swarm support -- mark targets from shadow, loose demons to shred, execute from invisibility",
         strengths: [
           "Can bind up to 4 demons simultaneously (Demonologist legacy)",
           "Stealth attacks gain +2d6 blight damage and automatically crit at 3+ Authority",
@@ -415,7 +415,7 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
         ],
         specPassive: {
           name: "Shadow Legion",
-          description: "You can bind up to 4 demons simultaneously. While you have 3+ Authority and are invisible or hidden, stealth attacks automatically crit. When 3+ bound demons attack the same target, each deals +1d4 ember damage. Authority decays 50% slower while at least one demon is bound."
+          description: "You can bind up to 4 demons simultaneously. While you have 3+ Authority and are invisible or hidden, stealth attacks automatically crit. When 3+ bound demons attack the same target, each deals +1d4 ember damage. Authority decays 50% slower while at least one horror is bound."
         }
       },
       { id : "iron_verdict",
@@ -423,23 +423,23 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
         icon: "Arcane/Magical Cross Emblem 2",
         color: "#4F2F2F",
         theme: "Anti-Magic Bulwark + Single Powerful Demon",
-        description: "Iron Verdicts are the ultimate anti-magic fortresses, combining the Covenbane Spellbreaker's mastery of magical negation with the Exorcist Demon Lord's covenant of mutual destruction with a single devastating demon. They create dead-magic zones, counter every spell, and empower their singular bound beast into an apocalyptic force. When the demon attacks, reality cracks. When it falters, the Inquisitor bleeds to restore the chain.",
-        playstyle: "Anti-magic tank with one devastating demon -- create dead zones, counter spells, empower single demon to annihilate",
+        description: "Iron Verdicts are the ultimate anti-magic fortresses, combining the Covenbane Spellbreaker's mastery of magical negation with the Exorcist Demon Lord's covenant of mutual destruction with a single devastating horror. They create dead-magic zones, counter every spell, and empower their singular bound beast into an apocalyptic force. When the horror attacks, reality cracks. When it falters, the Inquisitor bleeds to restore the chain.",
+        playstyle: "Anti-magic tank with one devastating horror -- create dead zones, counter spells, empower single horror to annihilate",
         strengths: [
           "Can bind Tier 4 Greater Demons (most powerful)",
-          "Bound demon has +2 to all stats, DD degrades every 2 actions",
+          "Bound horror has +2 to all stats, DD degrades every 2 actions",
           "Anti-magic zones deal damage to spellcasters inside",
           "Demon deals +2d8 bonus damage at d6 DD or lower",
         ],
         weaknesses: [
-          "Can only bind 1 demon at a time",
-          "All eggs in one basket -- no backup if demon escapes or dies",
+          "Can only bind 1 horror at a time",
+          "All eggs in one basket -- no backup if horror escapes or dies",
           "Greater Demons start at d6 DD (hardest to control)",
           "Less mobile than other specs",
         ],
         specPassive: {
           name: "Covenant of Iron",
-          description: "Your single bound demon's DD only degrades every 2 actions instead of every action. Your demon gains +2 to all stats. When your demon is at d6 DD or lower, it enters a Frenzied state dealing +2d8 ember damage on all attacks. Anti-magic zones you create also deal 2d6 storm damage per round to spellcasters inside."
+          description: "Your single bound horror's DD only degrades every 2 actions instead of every action. Your horror gains +2 to all stats. When your horror is at d6 DD or lower, it enters a Frenzied state dealing +2d8 ember damage on all attacks. Anti-magic zones you create also deal 2d6 storm damage per round to spellcasters inside."
         }
       },
       { id : "hollow_saint",
@@ -447,8 +447,8 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
         icon: "Piercing/Targeted Strike",
         color: "#4F4F2F",
         theme: "Relentless Pursuit + Internal Demon Channeling",
-        description: "Hollow Saints are relentless executioners who combine the Covenbane Demonhunter's unstoppable pursuit with the Exorcist Possessed's internal channeling of demonic essence. They do not bind demons externally; they invite them into their own flesh, gaining supernatural physical power at the cost of constant internal warfare. They track supernatural targets by scent, cannot be stopped, and when their internal demon seizes control, it becomes an apocalyptic force directed at their enemies.",
-        playstyle: "Relentless pursuer with self-buffs and internal demon -- track, chase, channel demon power, risk losing control for devastation",
+        description: "Hollow Saints are relentless executioners who combine the Covenbane Demonhunter's unstoppable pursuit with the Exorcist Possessed's internal channeling of Wyrd-essence. They do not bind demons externally; they invite them into their own flesh, gaining supernatural physical power at the cost of constant internal warfare. They track supernatural targets by scent, cannot be stopped, and when their internal horror seizes control, it becomes an apocalyptic force directed at their enemies.",
+        playstyle: "Relentless pursuer with self-buffs and internal horror -- track, chase, channel horror power, risk losing control for devastation",
         strengths: [
           "Gain +2 Strength, +2 Constitution, +10 speed from internal channeling",
           "Melee attacks deal additional 1d8 blight damage",
@@ -457,9 +457,9 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
         ],
         weaknesses: [
           "Cannot summon external demons at all",
-          "Internal DD failure = demon takes control for 1 turn",
+          "Internal DD failure = horror takes control for 1 turn",
           "Self-harm risk: 3d6 wyrd damage when Internal DD hits 0",
-          "The demon's turn may damage allies if not controlled",
+          "The horror's turn may damage allies if not controlled",
         ],
         specPassive: {
           name: "The Hollow Pursuit",
@@ -473,7 +473,7 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
     title: "Righteous Authority",
     subtitle: "The Unified Barbed Leash of Cold Iron and Sacred Terror",
 
-    description: `The Inquisitor's power is a fusion of two ancient doctrines: the Vreken art of anti-magic negation and the Reach tradition of demonic binding. Both traditions require the same thing: proximity to the supernatural. Righteous Authority (0-8) is the unified measure of your grip on the occult, built through absorbing spells, breaking enchantments, commanding bound entities, and executing the supernatural. It decays when the battlefield falls silent, and at zero, your bound entities begin to slip their chains.`,
+    description: `The Inquisitor's power is a fusion of two ancient doctrines: the Vreken art of anti-magic negation and the Reach tradition of Wyrd-touched binding. Both traditions require the same thing: proximity to the supernatural. Righteous Authority (0-8) is the unified measure of your grip on the occult, built through absorbing spells, breaking enchantments, commanding bound entities, and executing the supernatural. It decays when the battlefield falls silent, and at zero, your bound entities begin to slip their chains.`,
 
     cards: [
       {
@@ -517,7 +517,7 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
       momentum:
         "Spend 5-8 Authority to trigger Execution effects, Anti-Magic Storms, or Apex Transformations. Against supernatural casters, these include instant-kill thresholds, silence effects, and zone-wide magic suppression.",
       flourish:
-        "Open with Scent of Ash to mark the primary caster. Command your demon to engage their summon while you close distance. Maintain Authority above 3 to keep your demon obedient.",
+        "Open with Scent of Ash to mark the primary caster. Command your horror to engage their summon while you close distance. Maintain Authority above 3 to keep your horror obedient.",
     },
 
     overheatRules: {
@@ -537,7 +537,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
 - Spells deal full damage but lose bonus anti-magic effects.
 - You cannot generate Authority. It decays -1/round.
 - You are a competent fighter with no access to defining abilities.
-- Your bound demon still fights, but at increasing risk of rebellion.
+- Your bound horror still fights, but at increasing risk of rebellion.
 
 **Supernatural Encounters**:
 - Every spell cast near you feeds your Authority.
@@ -547,13 +547,13 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
 
     strategicConsiderations: {
       title: "The Twin Doctrine: Targeting & Resource Management",
-      content: `**Phase 1: Bait the Occult (0-2 Authority)**: Position aggressively, make yourself a target for spells. Each spell aimed at you is +1 Authority. Mark the primary caster with Scent of Ash and command your demon to engage their summon.
+      content: `**Phase 1: Bait the Occult (0-2 Authority)**: Position aggressively, make yourself a target for spells. Each spell aimed at you is +1 Authority. Mark the primary caster with Scent of Ash and command your horror to engage their summon.
 
-**Phase 2: Feast on Negation (3-4 Authority)**: Use anti-magic effects to dispel enemy buffs. Each dispel = +2 Authority. Your demon should be actively shredding supernatural threats while you build toward devastating effects.
+**Phase 2: Feast on Negation (3-4 Authority)**: Use anti-magic effects to dispel enemy buffs. Each dispel = +2 Authority. Your horror should be actively shredding supernatural threats while you build toward devastating effects.
 
 **Phase 3: Judgment (5-8 Authority)**: Unleash terminal executions, anti-magic storms, or apex transformations. Against supernatural casters, these are fight-ending abilities.
 
-**The Hollow Risk**: Keep Authority above 1 at all times. At 0, your demon rebels. Plan an escape route for your demon if Authority is dropping -- dismiss is better than rebellion.`,
+**The Hollow Risk**: Keep Authority above 1 at all times. At 0, your horror rebels. Plan an escape route for your horror if Authority is dropping -- dismiss is better than rebellion.`,
     },
 
     playingInPerson: {
@@ -562,11 +562,11 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
       content: `Use a tray of 8 tokens to track Authority. Different colors represent different sources:
 - **Silver Coins**: Authority from anti-magic events
 - **Iron Tokens**: Authority from combat/execution
-- **Chain Links**: Authority from demon commands/purges
+- **Chain Links**: Authority from horror commands/purges
 
 **The Precision Tally**: Keep a d6 next to your dice. Each attack against a supernatural target turns it: 1 -> 2 -> 3. On 3, trigger Arbiter's Precision, then reset.
 
-**The Demon Tracker**: Place a die next to each bound demon's card showing their current DD. Physically swap the die size when you command them (d12 -> d10).
+**The Demon Tracker**: Place a die next to each bound horror's card showing their current DD. Physically swap the die size when you command them (d12 -> d10).
 `,
     },
   },
@@ -602,7 +602,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     { id : "witch_hammer",
       name: "Witch Hammer - Shadow Swarm",
       description:
-        "Masters of darkness and demon swarm tactics, striking from shadows while loosing packs of chained horrors.",
+        "Masters of darkness and horror swarm tactics, striking from shadows while loosing packs of chained horrors.",
       icon: "Utility/Hide",
       color: "#2F2F4F",
       talents: [],
@@ -610,7 +610,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     { id : "iron_verdict",
       name: "Iron Verdict - Anti-Magic Bulwark",
       description:
-        "Specialists in disrupting magic and commanding a single apocalyptic demon through iron resolve.",
+        "Specialists in disrupting magic and commanding a single apocalyptic horror through iron resolve.",
       icon: "Arcane/Magical Cross Emblem 2",
       color: "#4F2F2F",
       talents: [],
@@ -618,7 +618,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     { id : "hollow_saint",
       name: "Hollow Saint - Relentless Channeler",
       description:
-        "Fanatical pursuers who channel demonic essence internally, becoming unstoppable engines of pursuit and execution.",
+        "Fanatical pursuers who channel Wyrd-essence internally, becoming unstoppable engines of pursuit and execution.",
       icon: "Piercing/Targeted Strike",
       color: "#4F4F2F",
       talents: [],
@@ -1038,7 +1038,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
           {
             id : "restore_dd_1",
             name: "Dominance Restored",
-            description: "Restores the target demon's Dominance Die by 1 step.",
+            description: "Restores the target horror's Dominance Die by 1 step.",
           },
         ],
       },
@@ -1301,7 +1301,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     { id : "inq_shackles_of_searing_iron",
       name: "Shackles of Searing Iron",
       description:
-        "Pull an agonizing chain of rusted iron and salt out of your own veins, wrapping it around a bound demon. Restores its Dominance Die by 2 steps. The backlash cuts deep: 1d6 HP to yourself.",
+        "Pull an agonizing chain of rusted iron and salt out of your own veins, wrapping it around a bound horror. Restores its Dominance Die by 2 steps. The backlash cuts deep: 1d6 HP to yourself.",
       level: 4,
       spellType: "ACTION",
       effectTypes: ["damage", "utility"],
@@ -1338,7 +1338,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
           {
             id : "restore_dd_2",
             name: "Dominance Restored",
-            description: "Restores target demon's Dominance Die by 2 steps.",
+            description: "Restores target horror's Dominance Die by 2 steps.",
           },
         ],
       },
@@ -1467,7 +1467,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
         effects: [
           {
             id : "divine_execution",
-            name: "Divine Execution",
+            name: "Warden's Verdict",
             description: "Instantly kill supernatural targets at 25 HP or lower. On kill: gain 2 Authority.",
           },
         ],
@@ -1702,7 +1702,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     { id : "inq_judgment_day",
       name: "Judgment Day",
       description:
-        "Call down pillars of divine fire in a 40-foot radius. Deals 10d10 ember damage (Charisma save DC 19 halves) against supernatural creatures.",
+        "Call down pillars of sacred fire in a 40-foot radius. Deals 10d10 ember damage (Charisma save DC 19 halves) against supernatural creatures.",
       level: 8,
       spellType: "ACTION",
       effectTypes: ["damage"],
@@ -1757,7 +1757,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
             isConditional: true,
             defaultEnabled: false,
             conditionalFormulas: {
-              supernatural_target: "10d10 radiant + holy ignition + fear aura",
+              supernatural_target: "10d10 radiant + sacred ignition + fear aura",
               default: "10d10 radiant",
             },
           },

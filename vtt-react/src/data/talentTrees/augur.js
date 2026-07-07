@@ -1,4 +1,4 @@
-// ============================================
+﻿// ============================================
 // AUGUR TALENT TREES
 // Benediction & Malediction fuel all talents.
 // Each tree focuses on one aspect of omen
@@ -256,7 +256,7 @@ export const AUGUR_HARBINGER = [
   {
     id: 'harbinger_t5_harbinger_supreme',
     name: 'Harbinger Supreme',
-    description: 'Passive: All odd d20 rolls within 60ft generate triple Malediction. Enemies have -2 to all rolls in your presence. Activated: Spend 15 Malediction to curse all enemies in 40ft — they take 8d10 psychic damage and are stunned for 2 rounds on failed Spirit save.',
+    description: 'Passive: All odd d20 rolls within 60ft generate triple Malediction. Enemies have -2 to all rolls in your presence. Activated: Spend 15 Malediction to curse all enemies in 40ft, they take 8d10 psychic damage and are stunned for 2 rounds on failed Spirit save.',
     icon: 'spell_shadow_curseofsargeras',
     maxRanks: 1,
     position: { x: 2, y: 4 },
@@ -331,7 +331,7 @@ export const AUGUR_HIEROPHANT = [
   },
   {
     id: 'hierophant_t2_divine_resonance',
-    name: 'Divine Resonance',
+    name: 'Radiant Resonance',
     description: 'Passive: When an ally within your blessed terrain rolls a natural 20, gain 2 Benediction per rank.',
     icon: 'spell_holy_mindsoothe',
     maxRanks: 2,
@@ -358,7 +358,7 @@ export const AUGUR_HIEROPHANT = [
   },
   {
     id: 'hierophant_t4_divine_conduit',
-    name: 'Divine Conduit',
+    name: 'Radiant Conduit',
     description: 'Passive: Your Benediction cap increases by 5. All Benediction healing is increased by your Spirit modifier per rank.',
     icon: 'spell_holy_righteousnessaura',
     maxRanks: 2,
@@ -386,7 +386,7 @@ export const AUGUR_HIEROPHANT = [
   {
     id: 'hierophant_t5_hierophant_supreme',
     name: 'Hierophant Supreme',
-    description: 'Passive: All even d20 rolls within 60ft generate triple Benediction. Allies in your presence gain +2 to all rolls. Activated: Spend 15 Benediction to create 60ft sacred zone for 1 minute — allies gain +3 to all rolls, resistance to all damage, immunity to frightened/charmed, heal 2d8/turn.',
+    description: 'Passive: All even d20 rolls within 60ft generate triple Benediction. Allies in your presence gain +2 to all rolls. Activated: Spend 15 Benediction to create 60ft sacred zone for 1 minute, allies gain +3 to all rolls, resistance to all damage, immunity to frightened/charmed, heal 2d8/turn.',
     icon: 'spell_holy_farsight',
     maxRanks: 1,
     position: { x: 2, y: 4 },

@@ -9,7 +9,7 @@ export const ENGINEERING_RECIPES = [
     id: 'tool-kit-recipe',
     name: 'Tool Kit',
     profession: 'engineering',
-    description: 'Assemble a basic toolkit with essential crafting tools.',
+    description: 'Assembled from Arcanoneer iron sleeves, Toxicologist contraption-parts, and hush-fungal lantern-glass. Assemble a basic toolkit with essential crafting tools.',
     requiredLevel: 1,
     resultItemId: 'tool-kit',
     resultQuantity: 1,

@@ -1,6 +1,6 @@
-/**
- * Lighting Calculations for Dynamic Lighting System
- * Professional VTT implementation with realistic light falloff and dynamic shadows
+﻿/**
+ * Lighting Calculations for shifting Lighting System
+ * Professional VTT implementation with realistic light falloff and shifting shadows
  */
 
 import { getLineOfSight, hasLineOfSight } from './VisibilityCalculations';
@@ -17,67 +17,67 @@ import { getLineOfSight, hasLineOfSight } from './VisibilityCalculations';
  * @returns {Object} Light data { intensity, shadowFactor, atmosphericFactor }
  */
 export function calculateLightIntensity(lightX, lightY, targetX, targetY, lightSource, wallData = {}, settings = {}) {
-    if (!lightSource.enabled) return { intensity: 0, shadowFactor: 1, atmosphericFactor: 1 };
+  if (!lightSource.enabled) return { intensity: 0, shadowFactor: 1, atmosphericFactor: 1 };
 
-    const {
-        atmosphericEffects = true,
-        performanceMode = false,
-        lightAnimations = true
-    } = settings;
+  const {
+    atmosphericEffects = true,
+    performanceMode = false,
+    lightAnimations = true
+  } = settings;
 
-    // Calculate distance
-    const dx = targetX - lightX;
-    const dy = targetY - lightY;
-    const distance = Math.sqrt(dx * dx + dy * dy);
+  // Calculate distance
+  const dx = targetX - lightX;
+  const dy = targetY - lightY;
+  const distance = Math.sqrt(dx * dx + dy * dy);
 
-    // Check if within light radius
-    if (distance > lightSource.radius) return { intensity: 0, shadowFactor: 1, atmosphericFactor: 1 };
+  // Check if within light radius
+  if (distance > lightSource.radius) return { intensity: 0, shadowFactor: 1, atmosphericFactor: 1 };
 
-    // Calculate base intensity with realistic falloff
-    let intensity = lightSource.intensity;
+  // Calculate base intensity with realistic falloff
+  let intensity = lightSource.intensity;
 
-    // Apply distance falloff (quadratic for realism, but clamped for gameplay)
-    const falloffFactor = 1 - (distance / lightSource.radius);
-    const quadraticFalloff = falloffFactor * falloffFactor;
+  // Apply distance falloff (quadratic for realism, but clamped for gameplay)
+  const falloffFactor = 1 - (distance / lightSource.radius);
+  const quadraticFalloff = falloffFactor * falloffFactor;
 
-    // Use a mix of linear and quadratic falloff for better gameplay
-    const linearFalloff = falloffFactor;
-    const mixedFalloff = (quadraticFalloff * 0.7) + (linearFalloff * 0.3);
+  // Use a mix of linear and quadratic falloff for better gameplay
+  const linearFalloff = falloffFactor;
+  const mixedFalloff = (quadraticFalloff * 0.7) + (linearFalloff * 0.3);
 
-    intensity *= mixedFalloff;
+  intensity *= mixedFalloff;
 
-    // Calculate dynamic shadow factor based on line of sight
-    let shadowFactor = 1;
-    if (!hasLineOfSight(lightX, lightY, targetX, targetY, wallData)) {
-        shadowFactor = performanceMode ? 0 : calculateDynamicShadow(lightX, lightY, targetX, targetY, wallData);
-    }
+  // Calculate shifting shadow factor based on line of sight
+  let shadowFactor = 1;
+  if (!hasLineOfSight(lightX, lightY, targetX, targetY, wallData)) {
+    shadowFactor = performanceMode ? 0 : calculateDynamicShadow(lightX, lightY, targetX, targetY, wallData);
+  }
 
-    // Apply atmospheric effects
-    let atmosphericFactor = 1;
-    if (atmosphericEffects) {
-        atmosphericFactor = calculateAtmosphericEffect(lightX, lightY, targetX, targetY, distance, lightSource);
-    }
+  // Apply atmospheric effects
+  let atmosphericFactor = 1;
+  if (atmosphericEffects) {
+    atmosphericFactor = calculateAtmosphericEffect(lightX, lightY, targetX, targetY, distance, lightSource);
+  }
 
-    // Apply flickering effect for certain light types
-    if (lightSource.flickering && lightAnimations) {
-        const time = Date.now() / 1000;
-        const baseFlicker = 0.9 + 0.1 * Math.sin(time * 8 + lightSource.x * 0.1 + lightSource.y * 0.1);
-        const detailFlicker = 0.98 + 0.02 * Math.sin(time * 15 + lightSource.y * 0.2);
-        intensity *= baseFlicker * detailFlicker;
-    }
+  // Apply flickering effect for certain light types
+  if (lightSource.flickering && lightAnimations) {
+    const time = Date.now() / 1000;
+    const baseFlicker = 0.9 + 0.1 * Math.sin(time * 8 + lightSource.x * 0.1 + lightSource.y * 0.1);
+    const detailFlicker = 0.98 + 0.02 * Math.sin(time * 15 + lightSource.y * 0.2);
+    intensity *= baseFlicker * detailFlicker;
+  }
 
-    // Apply shadow and atmospheric factors
-    intensity *= shadowFactor * atmosphericFactor;
+  // Apply shadow and atmospheric factors
+  intensity *= shadowFactor * atmosphericFactor;
 
-    return {
-        intensity: Math.max(0, Math.min(1, intensity)),
-        shadowFactor,
-        atmosphericFactor
-    };
+  return {
+    intensity: Math.max(0, Math.min(1, intensity)),
+    shadowFactor,
+    atmosphericFactor
+  };
 }
 
 /**
- * Calculate dynamic shadow factor using line-of-sight sampling
+ * Calculate shifting shadow factor using line-of-sight sampling
  * @param {number} lightX - Light source x
  * @param {number} lightY - Light source y
  * @param {number} targetX - Target x
@@ -86,29 +86,29 @@ export function calculateLightIntensity(lightX, lightY, targetX, targetY, lightS
  * @returns {number} Shadow factor (0.0 = full shadow, 1.0 = no shadow)
  */
 function calculateDynamicShadow(lightX, lightY, targetX, targetY, wallData) {
-    const samples = 5;
-    const radius = 0.25;
+  const samples = 5;
+  const radius = 0.25;
 
-    let visibleSamples = 0;
+  let visibleSamples = 0;
 
-    for (let i = 0; i < samples; i++) {
-        const angle = (i / samples) * Math.PI * 2;
-        const offsetX = Math.cos(angle) * radius;
-        const offsetY = Math.sin(angle) * radius;
+  for (let i = 0; i < samples; i++) {
+    const angle = (i / samples) * Math.PI * 2;
+    const offsetX = Math.cos(angle) * radius;
+    const offsetY = Math.sin(angle) * radius;
 
-        const sampleX = targetX + offsetX;
-        const sampleY = targetY + offsetY;
+    const sampleX = targetX + offsetX;
+    const sampleY = targetY + offsetY;
 
-        if (hasLineOfSight(lightX, lightY, sampleX, sampleY, wallData)) {
-            visibleSamples++;
-        }
+    if (hasLineOfSight(lightX, lightY, sampleX, sampleY, wallData)) {
+      visibleSamples++;
     }
+  }
 
-    if (hasLineOfSight(lightX, lightY, targetX, targetY, wallData)) {
-        visibleSamples++;
-    }
+  if (hasLineOfSight(lightX, lightY, targetX, targetY, wallData)) {
+    visibleSamples++;
+  }
 
-    return visibleSamples / (samples + 1);
+  return visibleSamples / (samples + 1);
 }
 
 /**
@@ -122,30 +122,30 @@ function calculateDynamicShadow(lightX, lightY, targetX, targetY, wallData) {
  * @returns {number} Atmospheric factor (0.0 to 1.0)
  */
 function calculateAtmosphericEffect(lightX, lightY, targetX, targetY, distance, lightSource) {
-    let atmosphericFactor = 1;
+  let atmosphericFactor = 1;
 
-    // Atmospheric scattering - light becomes slightly less intense over distance
-    const scatteringFactor = 1 - (distance * 0.02); // Very subtle effect
-    atmosphericFactor *= Math.max(0.8, scatteringFactor);
+  // Atmospheric scattering - light becomes slightly less intense over distance
+  const scatteringFactor = 1 - (distance * 0.02); // Very subtle effect
+  atmosphericFactor *= Math.max(0.8, scatteringFactor);
 
-    // Light type specific atmospheric effects
-    switch (lightSource.type) {
-        case 'torch':
-        case 'campfire':
-            // Fire-based lights have more atmospheric scattering
-            atmosphericFactor *= 0.95 - (distance * 0.01);
-            break;
-        case 'magical':
-            // Magical lights are less affected by atmosphere
-            atmosphericFactor *= 0.98;
-            break;
-        case 'sunlight':
-            // Sunlight has minimal atmospheric effects at this scale
-            atmosphericFactor *= 0.99;
-            break;
-    }
+  // Light type specific atmospheric effects
+  switch (lightSource.type) {
+    case 'torch':
+    case 'campfire':
+      // Fire-based lights have more atmospheric scattering
+      atmosphericFactor *= 0.95 - (distance * 0.01);
+      break;
+    case 'magical':
+      // Magical lights are less affected by atmosphere
+      atmosphericFactor *= 0.98;
+      break;
+    case 'sunlight':
+      // Sunlight has minimal atmospheric effects at this scale
+      atmosphericFactor *= 0.99;
+      break;
+  }
 
-    return Math.max(0.7, Math.min(1, atmosphericFactor));
+  return Math.max(0.7, Math.min(1, atmosphericFactor));
 }
 
 /**
@@ -159,63 +159,63 @@ function calculateAtmosphericEffect(lightX, lightY, targetX, targetY, distance, 
  * @returns {Object} Combined lighting data { intensity, color, shadowInfo, atmosphericInfo }
  */
 export function calculateCombinedLighting(x, y, lightSources, wallData = {}, ambientLight = 0.2, settings = {}) {
-    let totalIntensity = ambientLight;
-    let totalRed = ambientLight * 255;
-    let totalGreen = ambientLight * 255;
-    let totalBlue = ambientLight * 255;
+  let totalIntensity = ambientLight;
+  let totalRed = ambientLight * 255;
+  let totalGreen = ambientLight * 255;
+  let totalBlue = ambientLight * 255;
 
-    // Advanced lighting info
-    let shadowInfo = { averageShadowFactor: 1, lightCount: 0 };
-    let atmosphericInfo = { averageAtmosphericFactor: 1, lightCount: 0 };
+  // Advanced lighting info
+  let shadowInfo = { averageShadowFactor: 1, lightCount: 0 };
+  let atmosphericInfo = { averageAtmosphericFactor: 1, lightCount: 0 };
 
-    // Add contribution from each light source
-    Object.values(lightSources).forEach(lightSource => {
-        const lightData = calculateLightIntensity(
-            lightSource.x,
-            lightSource.y,
-            x,
-            y,
-            lightSource,
-            wallData,
-            settings
-        );
+  // Add contribution from each light source
+  Object.values(lightSources).forEach(lightSource => {
+    const lightData = calculateLightIntensity(
+      lightSource.x,
+      lightSource.y,
+      x,
+      y,
+      lightSource,
+      wallData,
+      settings
+    );
 
-        if (lightData.intensity > 0) {
-            // Parse light color
-            const color = hexToRgb(lightSource.color);
-            if (color) {
-                totalRed += color.r * lightData.intensity;
-                totalGreen += color.g * lightData.intensity;
-                totalBlue += color.b * lightData.intensity;
-                totalIntensity += lightData.intensity;
+    if (lightData.intensity > 0) {
+      // Parse light color
+      const color = hexToRgb(lightSource.color);
+      if (color) {
+        totalRed += color.r * lightData.intensity;
+        totalGreen += color.g * lightData.intensity;
+        totalBlue += color.b * lightData.intensity;
+        totalIntensity += lightData.intensity;
 
-                // Accumulate shadow and atmospheric info
-                shadowInfo.averageShadowFactor += lightData.shadowFactor;
-                atmosphericInfo.averageAtmosphericFactor += lightData.atmosphericFactor;
-                shadowInfo.lightCount++;
-                atmosphericInfo.lightCount++;
-            }
-        }
-    });
-
-    // Calculate averages for shadow and atmospheric info
-    if (shadowInfo.lightCount > 0) {
-        shadowInfo.averageShadowFactor /= shadowInfo.lightCount;
-        atmosphericInfo.averageAtmosphericFactor /= atmosphericInfo.lightCount;
+        // Accumulate shadow and atmospheric info
+        shadowInfo.averageShadowFactor += lightData.shadowFactor;
+        atmosphericInfo.averageAtmosphericFactor += lightData.atmosphericFactor;
+        shadowInfo.lightCount++;
+        atmosphericInfo.lightCount++;
+      }
     }
+  });
 
-    // Normalize and clamp values
-    totalIntensity = Math.min(1, totalIntensity);
-    totalRed = Math.min(255, totalRed);
-    totalGreen = Math.min(255, totalGreen);
-    totalBlue = Math.min(255, totalBlue);
+  // Calculate averages for shadow and atmospheric info
+  if (shadowInfo.lightCount > 0) {
+    shadowInfo.averageShadowFactor /= shadowInfo.lightCount;
+    atmosphericInfo.averageAtmosphericFactor /= atmosphericInfo.lightCount;
+  }
 
-    return {
-        intensity: totalIntensity,
-        color: `rgb(${Math.round(totalRed)}, ${Math.round(totalGreen)}, ${Math.round(totalBlue)})`,
-        shadowInfo,
-        atmosphericInfo
-    };
+  // Normalize and clamp values
+  totalIntensity = Math.min(1, totalIntensity);
+  totalRed = Math.min(255, totalRed);
+  totalGreen = Math.min(255, totalGreen);
+  totalBlue = Math.min(255, totalBlue);
+
+  return {
+    intensity: totalIntensity,
+    color: `rgb(${Math.round(totalRed)}, ${Math.round(totalGreen)}, ${Math.round(totalBlue)})`,
+    shadowInfo,
+    atmosphericInfo
+  };
 }
 
 /**
@@ -231,16 +231,16 @@ export function calculateCombinedLighting(x, y, lightSources, wallData = {}, amb
  * @returns {Object} Lighting data for each tile { "x,y": { intensity, color, shadowInfo, atmosphericInfo } }
  */
 export function calculateAreaLighting(minX, minY, maxX, maxY, lightSources, wallData = {}, ambientLight = 0.2, settings = {}) {
-    const lightingData = {};
+  const lightingData = {};
 
-    for (let x = minX; x <= maxX; x++) {
-        for (let y = minY; y <= maxY; y++) {
-            const lighting = calculateCombinedLighting(x, y, lightSources, wallData, ambientLight, settings);
-            lightingData[`${x},${y}`] = lighting;
-        }
+  for (let x = minX; x <= maxX; x++) {
+    for (let y = minY; y <= maxY; y++) {
+      const lighting = calculateCombinedLighting(x, y, lightSources, wallData, ambientLight, settings);
+      lightingData[`${x},${y}`] = lighting;
     }
+  }
 
-    return lightingData;
+  return lightingData;
 }
 
 /**
@@ -254,8 +254,8 @@ export function calculateAreaLighting(minX, minY, maxX, maxY, lightSources, wall
  * @returns {boolean} True if tile is illuminated enough to see
  */
 export function isTileIlluminated(x, y, lightSources, wallData = {}, ambientLight = 0.2, threshold = 0.1) {
-    const lighting = calculateCombinedLighting(x, y, lightSources, wallData, ambientLight);
-    return lighting.intensity >= threshold;
+  const lighting = calculateCombinedLighting(x, y, lightSources, wallData, ambientLight);
+  return lighting.intensity >= threshold;
 }
 
 /**
@@ -267,29 +267,29 @@ export function isTileIlluminated(x, y, lightSources, wallData = {}, ambientLigh
  * @returns {Set} Set of shadowed tile keys "x,y"
  */
 export function calculateShadows(lightX, lightY, lightRadius, wallData) {
-    const shadowedTiles = new Set();
+  const shadowedTiles = new Set();
+  
+  // Find all walls within light radius
+  const nearbyWalls = Object.entries(wallData).filter(([wallKey, wall]) => {
+    const [x1, y1, x2, y2] = wallKey.split(',').map(Number);
+    const wallCenterX = (x1 + x2) / 2;
+    const wallCenterY = (y1 + y2) / 2;
+    const distance = Math.sqrt(
+      (wallCenterX - lightX) ** 2 + (wallCenterY - lightY) ** 2
+    );
+    return distance <= lightRadius && wall.type.blocksVision !== false;
+  });
+
+  // For each wall, calculate shadow projection
+  nearbyWalls.forEach(([wallKey, wall]) => {
+    const [x1, y1, x2, y2] = wallKey.split(',').map(Number);
     
-    // Find all walls within light radius
-    const nearbyWalls = Object.entries(wallData).filter(([wallKey, wall]) => {
-        const [x1, y1, x2, y2] = wallKey.split(',').map(Number);
-        const wallCenterX = (x1 + x2) / 2;
-        const wallCenterY = (y1 + y2) / 2;
-        const distance = Math.sqrt(
-            (wallCenterX - lightX) ** 2 + (wallCenterY - lightY) ** 2
-        );
-        return distance <= lightRadius && wall.type.blocksVision !== false;
-    });
+    // Calculate shadow projection beyond the wall
+    const shadowTiles = projectShadow(lightX, lightY, x1, y1, x2, y2, lightRadius);
+    shadowTiles.forEach(tile => shadowedTiles.add(tile));
+  });
 
-    // For each wall, calculate shadow projection
-    nearbyWalls.forEach(([wallKey, wall]) => {
-        const [x1, y1, x2, y2] = wallKey.split(',').map(Number);
-        
-        // Calculate shadow projection beyond the wall
-        const shadowTiles = projectShadow(lightX, lightY, x1, y1, x2, y2, lightRadius);
-        shadowTiles.forEach(tile => shadowedTiles.add(tile));
-    });
-
-    return shadowedTiles;
+  return shadowedTiles;
 }
 
 /**
@@ -304,45 +304,45 @@ export function calculateShadows(lightX, lightY, lightRadius, wallData) {
  * @returns {Array} Array of shadowed tile keys
  */
 function projectShadow(lightX, lightY, wallX1, wallY1, wallX2, wallY2, maxDistance) {
-    const shadowTiles = [];
-    
-    // Calculate wall endpoints relative to light
-    const wall1X = wallX1 - lightX;
-    const wall1Y = wallY1 - lightY;
-    const wall2X = wallX2 - lightX;
-    const wall2Y = wallY2 - lightY;
-    
-    // Project shadow rays from wall endpoints
-    const projectionDistance = maxDistance * 2;
-    
-    // Project from first endpoint
-    const proj1X = lightX + (wall1X / Math.sqrt(wall1X ** 2 + wall1Y ** 2)) * projectionDistance;
-    const proj1Y = lightY + (wall1Y / Math.sqrt(wall1X ** 2 + wall1Y ** 2)) * projectionDistance;
-    
-    // Project from second endpoint
-    const proj2X = lightX + (wall2X / Math.sqrt(wall2X ** 2 + wall2Y ** 2)) * projectionDistance;
-    const proj2Y = lightY + (wall2Y / Math.sqrt(wall2X ** 2 + wall2Y ** 2)) * projectionDistance;
-    
-    // Fill shadow polygon (simplified - just the area behind the wall)
-    const minX = Math.floor(Math.min(wallX1, wallX2, proj1X, proj2X));
-    const maxX = Math.ceil(Math.max(wallX1, wallX2, proj1X, proj2X));
-    const minY = Math.floor(Math.min(wallY1, wallY2, proj1Y, proj2Y));
-    const maxY = Math.ceil(Math.max(wallY1, wallY2, proj1Y, proj2Y));
-    
-    // Check each tile in the potential shadow area
-    for (let x = minX; x <= maxX; x++) {
-        for (let y = minY; y <= maxY; y++) {
-            // Simple check: if tile is behind wall relative to light
-            if (isPointInShadow(lightX, lightY, wallX1, wallY1, wallX2, wallY2, x, y)) {
-                const distance = Math.sqrt((x - lightX) ** 2 + (y - lightY) ** 2);
-                if (distance <= maxDistance) {
-                    shadowTiles.push(`${x},${y}`);
-                }
-            }
+  const shadowTiles = [];
+  
+  // Calculate wall endpoints relative to light
+  const wall1X = wallX1 - lightX;
+  const wall1Y = wallY1 - lightY;
+  const wall2X = wallX2 - lightX;
+  const wall2Y = wallY2 - lightY;
+  
+  // Project shadow rays from wall endpoints
+  const projectionDistance = maxDistance * 2;
+  
+  // Project from first endpoint
+  const proj1X = lightX + (wall1X / Math.sqrt(wall1X ** 2 + wall1Y ** 2)) * projectionDistance;
+  const proj1Y = lightY + (wall1Y / Math.sqrt(wall1X ** 2 + wall1Y ** 2)) * projectionDistance;
+  
+  // Project from second endpoint
+  const proj2X = lightX + (wall2X / Math.sqrt(wall2X ** 2 + wall2Y ** 2)) * projectionDistance;
+  const proj2Y = lightY + (wall2Y / Math.sqrt(wall2X ** 2 + wall2Y ** 2)) * projectionDistance;
+  
+  // Fill shadow polygon (simplified - just the area behind the wall)
+  const minX = Math.floor(Math.min(wallX1, wallX2, proj1X, proj2X));
+  const maxX = Math.ceil(Math.max(wallX1, wallX2, proj1X, proj2X));
+  const minY = Math.floor(Math.min(wallY1, wallY2, proj1Y, proj2Y));
+  const maxY = Math.ceil(Math.max(wallY1, wallY2, proj1Y, proj2Y));
+  
+  // Check each tile in the potential shadow area
+  for (let x = minX; x <= maxX; x++) {
+    for (let y = minY; y <= maxY; y++) {
+      // Simple check: if tile is behind wall relative to light
+      if (isPointInShadow(lightX, lightY, wallX1, wallY1, wallX2, wallY2, x, y)) {
+        const distance = Math.sqrt((x - lightX) ** 2 + (y - lightY) ** 2);
+        if (distance <= maxDistance) {
+          shadowTiles.push(`${x},${y}`);
         }
+      }
     }
-    
-    return shadowTiles;
+  }
+  
+  return shadowTiles;
 }
 
 /**
@@ -358,13 +358,13 @@ function projectShadow(lightX, lightY, wallX1, wallY1, wallX2, wallY2, maxDistan
  * @returns {boolean} True if point is in shadow
  */
 function isPointInShadow(lightX, lightY, wallX1, wallY1, wallX2, wallY2, pointX, pointY) {
-    // Use line-of-sight check - if blocked by wall, it's in shadow
-    return !hasLineOfSight(lightX, lightY, pointX, pointY, {
-        [`${Math.min(wallX1, wallX2)},${Math.min(wallY1, wallY2)},${Math.max(wallX1, wallX2)},${Math.max(wallY1, wallY2)}`]: {
-            type: { blocksVision: true },
-            state: 'closed'
-        }
-    });
+  // Use line-of-sight check - if blocked by wall, it's in shadow
+  return !hasLineOfSight(lightX, lightY, pointX, pointY, {
+    [`${Math.min(wallX1, wallX2)},${Math.min(wallY1, wallY2)},${Math.max(wallX1, wallX2)},${Math.max(wallY1, wallY2)}`]: {
+      type: { blocksVision: true },
+      state: 'closed'
+    }
+  });
 }
 
 /**
@@ -373,64 +373,64 @@ function isPointInShadow(lightX, lightY, wallX1, wallY1, wallX2, wallY2, pointX,
  * @returns {Object|null} RGB object or null if invalid
  */
 function hexToRgb(hex) {
-    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return result ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16)
-    } : null;
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result ? {
+    r: parseInt(result[1], 16),
+    g: parseInt(result[2], 16),
+    b: parseInt(result[3], 16)
+  } : null;
 }
 
 /**
  * Light source presets for easy configuration
  */
 export const LIGHT_PRESETS = {
-    torch: {
-        name: 'Torch',
-        radius: 4,
-        color: '#ff6b35',
-        intensity: 0.8,
-        flickering: true,
-        description: 'Standard torch - 20ft radius, warm orange glow'
-    },
-    lantern: {
-        name: 'Lantern',
-        radius: 6,
-        color: '#ffeb3b',
-        intensity: 1.0,
-        flickering: false,
-        description: 'Steady lantern - 30ft radius, bright yellow'
-    },
-    candle: {
-        name: 'Candle',
-        radius: 1,
-        color: '#fff3e0',
-        intensity: 0.4,
-        flickering: true,
-        description: 'Small candle - 5ft radius, dim warm light'
-    },
-    magical: {
-        name: 'Magical Light',
-        radius: 8,
-        color: '#9c27b0',
-        intensity: 1.2,
-        flickering: false,
-        description: 'Magical illumination - 40ft radius, purple glow'
-    },
-    campfire: {
-        name: 'Campfire',
-        radius: 5,
-        color: '#ff5722',
-        intensity: 1.0,
-        flickering: true,
-        description: 'Campfire - 25ft radius, dancing flames'
-    },
-    sunlight: {
-        name: 'Sunlight',
-        radius: 12,
-        color: '#fff59d',
-        intensity: 1.5,
-        flickering: false,
-        description: 'Bright sunlight - 60ft radius, natural daylight'
-    }
+  torch: {
+    name: 'Torch',
+    radius: 4,
+    color: '#ff6b35',
+    intensity: 0.8,
+    flickering: true,
+    description: 'Standard torch - 20ft radius, warm orange glow'
+  },
+  lantern: {
+    name: 'Lantern',
+    radius: 6,
+    color: '#ffeb3b',
+    intensity: 1.0,
+    flickering: false,
+    description: 'Steady lantern - 30ft radius, bright yellow'
+  },
+  candle: {
+    name: 'Candle',
+    radius: 1,
+    color: '#fff3e0',
+    intensity: 0.4,
+    flickering: true,
+    description: 'Small candle - 5ft radius, dim warm light'
+  },
+  magical: {
+    name: 'Magical Light',
+    radius: 8,
+    color: '#9c27b0',
+    intensity: 1.2,
+    flickering: false,
+    description: 'Magical illumination - 40ft radius, purple glow'
+  },
+  campfire: {
+    name: 'Campfire',
+    radius: 5,
+    color: '#ff5722',
+    intensity: 1.0,
+    flickering: true,
+    description: 'Campfire - 25ft radius, dancing flames'
+  },
+  sunlight: {
+    name: 'Sunlight',
+    radius: 12,
+    color: '#fff59d',
+    intensity: 1.5,
+    flickering: false,
+    description: 'Bright sunlight - 60ft radius, natural daylight'
+  }
 };

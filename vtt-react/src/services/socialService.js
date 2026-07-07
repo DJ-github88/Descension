@@ -1,4 +1,4 @@
-import {
+﻿import {
     collection,
     doc,
     setDoc,
@@ -170,7 +170,7 @@ class SocialService {
     }
 
     /**
-     * Decline a friend request – hard-deletes the document to keep things clean.
+     * Decline a friend request - hard-deletes the document to keep things clean.
      */
     async declineFriendRequest(requestId) {
         if (!db) return { error: 'Not authenticated', success: false };

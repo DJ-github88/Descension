@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react';
+﻿import React, { useState, useRef, useEffect, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import useChatStore from '../../../../store/chatStore';
 import useGameStore from '../../../../store/gameStore';
@@ -9,7 +9,7 @@ import SpellTooltip from '../../../../components/spellcrafting-wizard/components
 import { cadenceToSpell } from '../cadenceToSpell';
 
 /**
- * MinstrelResourceBar — the "Musical Notes & Cadences" resource system.
+ * MinstrelResourceBar, the "Musical Notes & Cadences" resource system.
  *
  * Spiritual sibling to ArcanoneerResourceBar. Renders a 7-segment note staff
  * (I–VII) where each segment is one of the seven musical notes, with discrete
@@ -22,9 +22,9 @@ import { cadenceToSpell } from '../cadenceToSpell';
  *   - Cadence chips: one per progression (all 10). Hover shows a full
  *     UnifiedSpellCard tooltip (via SpellTooltip + cadenceToSpell adapter)
  *     so players can read the cadence's effect, range, consumed notes, etc.
- *     without leaving the bar — same UX as Arcanoneer formulation chips.
+ *     without leaving the bar, same UX as Arcanoneer formulation chips.
  *   - Click a ready cadence to consume its notes and log the resolution.
- *     Does NOT auto-cast the learned spell — that's still done via the
+ *     Does NOT auto-cast the learned spell, that's still done via the
  *     action bar with its own targeting. This just tracks note economy.
  *   - Compact mode for party-HUD: single thin row of note cells + popover.
  *
@@ -51,7 +51,7 @@ const MinstrelResourceBar = ({
     const notes = config?.visual?.notes || [];
     const maxPerNote = config?.mechanics?.maxPerNote || 5;
     // Cadence matrix is plumbed via config.cadenceMatrix by ClassResourceBar's
-    // dispatcher — we don't import minstrelData directly (avoids circular deps
+    // dispatcher, we don't import minstrelData directly (avoids circular deps
     // and matches the Arcanoneer pattern).
     const matrix = config?.cadenceMatrix || null;
     const cadenceEntries = matrix?.entries || [];
@@ -75,7 +75,7 @@ const MinstrelResourceBar = ({
     // the demo reads as a staff first. Default open in showcase so the rules
     // reference immediately shows all 10 cadences and their hover-spellcards.
     const [showCadences, setShowCadences] = useState(showcase);
-    // Cadence spellcard hover — shows a full-screen foggy spellcard (same UX
+    // Cadence spellcard hover, shows a full-screen foggy spellcard (same UX
     // as hovering spells in the action bar / Arcanoneer formulations) via
     // SpellTooltip's fullscreenMode.
     const [hoveredCadence, setHoveredCadence] = useState(null);
@@ -199,7 +199,7 @@ const MinstrelResourceBar = ({
 
     /**
      * Resolve a cadence: consumes the required notes and logs it.
-     * Doesn't directly fire the learned spell — that's the action bar's job
+     * Doesn't directly fire the learned spell, that's the action bar's job
      * (cadences exist as learnable spells like `minstrel_perfect_cadence`).
      * This just decrements the bank so the player sees their notes spent.
      */
@@ -313,7 +313,7 @@ const MinstrelResourceBar = ({
         );
     };
 
-    // Single note segment — used by the full-mode staff. Height is inline so
+    // Single note segment, used by the full-mode staff. Height is inline so
     // it can't be overridden by external CSS (matches Arcanoneer workaround).
     const segmentHeight = showcase ? 95 : (size === 'large' ? 86 : (size === 'small' ? 48 : 64));
     const renderNoteSegment = (note, index) => {
@@ -360,7 +360,7 @@ const MinstrelResourceBar = ({
         );
     };
 
-    // The staff grid (7 segments) — full mode. In showcase mode (rules page)
+    // The staff grid (7 segments), full mode. In showcase mode (rules page)
     // the grid switches to 4 columns so it fits a constrained container.
     const renderNoteGrid = () => {
         const cols = showcase ? 4 : 7;
@@ -384,10 +384,10 @@ const MinstrelResourceBar = ({
         </div>
     );
 
-    // Cadence chips — one per progression (all 10). Hover shows a full
+    // Cadence chips, one per progression (all 10). Hover shows a full
     // spellcard tooltip (via SpellTooltip + cadenceToSpell adapter) so
     // players can read the cadence's effect, range, consumed notes, etc.
-    // without leaving the bar. Uses fullscreenMode — same foggy-backdrop
+    // without leaving the bar. Uses fullscreenMode, same foggy-backdrop
     // presentation as action-bar spell hovers and Arcanoneer formulations.
     const handleCadHoverEnter = (entry) => {
         if (cadHideTimeoutRef.current) { clearTimeout(cadHideTimeoutRef.current); cadHideTimeoutRef.current = null; }
@@ -423,7 +423,7 @@ const MinstrelResourceBar = ({
 
     const renderCadenceChips = () => {
         if (cadenceEntries.length === 0) return null;
-        // Always show all cadences — 10 is a manageable count and players want
+        // Always show all cadences, 10 is a manageable count and players want
         // to read every cadence's spellcard whether or not it's currently
         // resolvable. The ready/locked styling indicates which are spendable
         // given the current note bank. (Arcanoneer filters to ready-only in
@@ -447,7 +447,7 @@ const MinstrelResourceBar = ({
                                 className={`minstrel-cad-chip ${ready ? 'ready' : ''}`}
                                 disabled={!ready || !canEdit}
                                 onClick={(e) => { e.stopPropagation(); resolveCadence(entry); }}
-                                title={`${entry.name}\n${entry.sequence}\nCost: ${costStr}\n${ready ? '✓ Ready — click to resolve' : '✗ Not enough notes'}`}
+                                title={`${entry.name}\n${entry.sequence}\nCost: ${costStr}\n${ready ? '✓ Ready, click to resolve' : '✗ Not enough notes'}`}
                             >
                                 <span className="minstrel-cad-chip-name">{entry.name}</span>
                                 <span className="minstrel-cad-chip-seq">{entry.sequence}</span>
@@ -461,7 +461,7 @@ const MinstrelResourceBar = ({
         );
     };
 
-    // Per-note edit menu (portal) — mirrors Arcanoneer's per-block edit menu.
+    // Per-note edit menu (portal), mirrors Arcanoneer's per-block edit menu.
     const renderEditMenu = () => {
         if (editMenuNoteIndex === null || !barRef.current) return null;
         const note = notes[editMenuNoteIndex];
@@ -489,7 +489,7 @@ const MinstrelResourceBar = ({
                             {note.name} ({note.numeral})
                             <span style={{ fontSize: '0.75rem', color: 'rgba(58,42,26,0.5)', marginLeft: 'auto' }}>{count}/{maxPerNote}</span>
                         </div>
-                        <div style={{ fontSize: '0.78rem', color: 'rgba(58,42,26,0.65)', marginBottom: '6px', lineHeight: 1.35 }}>{note.function} — {note.description}</div>
+                        <div style={{ fontSize: '0.78rem', color: 'rgba(58,42,26,0.65)', marginBottom: '6px', lineHeight: 1.35 }}>{note.function}, {note.description}</div>
 
                         <div className="context-menu-section-header" style={{ fontSize: '11px', marginTop: '4px' }}>Set Count</div>
                         <div style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.min(maxPerNote + 1, 6)}, 1fr)`, gap: '3px', marginBottom: '6px' }}>
@@ -558,7 +558,7 @@ const MinstrelResourceBar = ({
                 <button
                     className={`minstrel-compact-expand ${readyCount > 0 ? 'has-ready' : ''}`}
                     onClick={(e) => { e.stopPropagation(); setShowPanel(!showPanel); }}
-                    title={readyCount > 0 ? `${readyCount} cadence${readyCount === 1 ? '' : 's'} ready — open to resolve` : 'Open Notes panel'}
+                    title={readyCount > 0 ? `${readyCount} cadence${readyCount === 1 ? '' : 's'} ready, open to resolve` : 'Open Notes panel'}
                 >
                     <i className={`fas ${showPanel ? 'fa-chevron-up' : 'fa-chevron-down'}`} />
                     <span className="minstrel-compact-banked">{totalBanked}</span>
@@ -570,7 +570,7 @@ const MinstrelResourceBar = ({
         </div>
     );
 
-    // Compact popover panel — full edit surface + cadence chips.
+    // Compact popover panel, full edit surface + cadence chips.
     const renderCompactPanel = () => {
         if (!showPanel || !barRef.current) return null;
         const barRect = barRef.current.getBoundingClientRect();

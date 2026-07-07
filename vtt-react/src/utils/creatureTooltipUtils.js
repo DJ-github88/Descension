@@ -1,4 +1,4 @@
-// Creature Tooltip Utility Functions
+﻿// Creature Tooltip Utility Functions
 // Provides classification and formatting for creature token tooltips
 
 // === HEALTH STATE ===
@@ -160,7 +160,7 @@ export const formatDamageType = (damageType) => {
     psychic: '#8b2a5a',
     radiant: '#7a6812',
     necrotic: '#4A148C',
-    holy: '#7a6812',
+    sacred: '#7a6812',
     shadow: '#3a3a3a'
   };
   

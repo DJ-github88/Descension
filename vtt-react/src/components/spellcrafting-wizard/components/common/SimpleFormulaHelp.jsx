@@ -80,10 +80,10 @@ const SimpleFormulaHelp = ({ show, onClose, resourceType }) => {
     ],
     soul_shards: [
       { name: 'Soul Harvest', formula: 'max(1, dot_count / 2)' },
-      { name: 'Demonic Pact', formula: 'demons_active + 1' },
+      { name: 'Wyrd Pact', formula: 'demons_active + 1' },
     ],
     holy_power: [
-      { name: 'Divine Intervention', formula: 'max(1, allies_nearby / 3)' },
+      { name: 'Warden\'s Intervention', formula: 'max(1, allies_nearby / 3)' },
       { name: 'Blessing of Light', formula: 'min(3, healing_done / 10000)' },
     ],
     astral_power: [

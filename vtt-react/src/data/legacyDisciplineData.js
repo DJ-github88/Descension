@@ -1,5 +1,5 @@
-/**
- * Legacy Discipline Data — backward-compatibility shim
+﻿/**
+ * Legacy Discipline Data, backward-compatibility shim
  *
  * The "disciplines" (mystic, zealot, trickster, harrow, arcanist, hexer,
  * reaver, mercenary, sentinel) were a character-creation axis that was cut.
@@ -9,7 +9,7 @@
  * This module exists ONLY to keep save-file continuity for characters created
  * before the cut: it resolves display names, stat modifiers, and point-buy
  * bonuses for the old ids stored on legacy Firebase save documents. It is
- * intentionally minimal — the cut disciplines' abilities/equipment/sub-paths
+ * intentionally minimal, the cut disciplines' abilities/equipment/sub-paths
  * are gone and are not coming back.
  *
  * Function names are preserved (getEnhancedPathData / getCustomBackgroundData /

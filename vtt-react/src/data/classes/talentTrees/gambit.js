@@ -1,4 +1,4 @@
-export const GAMBIT_PROBABILITY_SAVANT = [
+﻿export const GAMBIT_PROBABILITY_SAVANT = [
   {
     id: 'gambit_ps_t0_lucky_gaze',
     name: 'Lucky Gaze',
@@ -47,7 +47,7 @@ export const GAMBIT_PROBABILITY_SAVANT = [
   {
     id: 'gambit_ps_t2_serendipity',
     name: 'Serendipity',
-    description: 'Lucky discoveries occur. When searching, find an extra item or clue 25% of the time per rank. Once per round, draw a card — face cards grant +1 to your next roll per rank.',
+    description: 'Lucky discoveries occur. When searching, find an extra item or clue 25% of the time per rank. Once per round, draw a card, face cards grant +1 to your next roll per rank.',
     icon: 'inv_misc_coin_01',
     maxRanks: 4,
     position: { x: 2, y: 2 },
@@ -65,7 +65,7 @@ export const GAMBIT_PROBABILITY_SAVANT = [
   {
     id: 'gambit_ps_t3_lady_luck',
     name: 'Lady Luck\'s Favor',
-    description: 'Lady Luck smiles upon you. +1 to all saving throws. Roll 1d20 after failed saves: on 15+ per rank, succeed instead. Your prophetic gifts amplify the luck — face cards in your hand increase the threshold by 2.',
+    description: 'Lady Luck smiles upon you. +1 to all saving throws. Roll 1d20 after failed saves: on 15+ per rank, succeed instead. Your prophetic gifts amplify the luck, face cards in your hand increase the threshold by 2.',
     icon: 'achievement_dungeon_icecrown_frostmourne',
     maxRanks: 3,
     position: { x: 1, y: 3 },
@@ -74,7 +74,7 @@ export const GAMBIT_PROBABILITY_SAVANT = [
   {
     id: 'gambit_ps_t3_shared_vision',
     name: 'Shared Vision',
-    description: 'Allies within 20ft can see your Prophetic cards. When they make an attack, draw a card from your Prophecy — face cards grant +1d4 to their attack per rank. Each rank extends the range by 5ft.',
+    description: 'Allies within 20ft can see your Prophetic cards. When they make an attack, draw a card from your Prophecy, face cards grant +1d4 to their attack per rank. Each rank extends the range by 5ft.',
     icon: 'spell_holy_searinglightpriest',
     maxRanks: 4,
     position: { x: 3, y: 3 },
@@ -130,7 +130,7 @@ export const GAMBIT_PROBABILITY_SAVANT = [
   {
     id: 'gambit_ps_t6_cosmic_fortune',
     name: 'Cosmic Fortune',
-    description: 'You become a being of pure probability. Draw 13 cards and arrange them in a circle around you. Allies within 60ft gain advantage on all rolls. Enemies within 60ft have disadvantage. Each round, flip the top card — if it matches an enemy\'s suit, they lose their reaction. You may reroll any die result once per turn and choose the better result. Lasts 5 rounds or until all 13 cards are flipped.',
+    description: 'You become a being of pure probability. Draw 13 cards and arrange them in a circle around you. Allies within 60ft gain advantage on all rolls. Enemies within 60ft have disadvantage. Each round, flip the top card, if it matches an enemy\'s suit, they lose their reaction. You may reroll any die result once per turn and choose the better result. Lasts 5 rounds or until all 13 cards are flipped.',
     icon: 'spell_arcane_arcanepower',
     maxRanks: 1,
     position: { x: 2, y: 6 },
@@ -242,7 +242,7 @@ export const GAMBIT_HIGH_ROLLER = [
   {
     id: 'gambit_hr_t4_card_storm',
     name: 'Card Storm',
-    description: 'The Iceheart Sea teaches that every wave is a wager. when you cast a card-based spell with 3+ matching cards, deal 1d6 force damage per rank to all enemies within 15ft of the target. Draw a card — face cards double the storm damage.',
+    description: 'The Iceheart Sea teaches that every wave is a wager. when you cast a card-based spell with 3+ matching cards, deal 1d6 force damage per rank to all enemies within 15ft of the target. Draw a card, face cards double the storm damage.',
     icon: 'spell_arcane_arcanetorrent',
     maxRanks: 4,
     position: { x: 2, y: 4 },
@@ -287,7 +287,7 @@ export const GAMBIT_HIGH_ROLLER = [
   {
     id: 'gambit_hr_t6_house_wins',
     name: 'The House Always Wins',
-    description: 'Once per long rest, draw 5 cards. Each card becomes a permanent passive for 1 minute: Aces = +5 to all rolls. Face cards = immunity to one damage type. Numbered cards = your spells cost 5 less mana. After the duration, you may choose to succeed or fail any roll once. The gods deal in absolutes.',
+    description: 'Once per long rest, draw 5 cards. Each card becomes a permanent passive for 1 minute: Aces = +5 to all rolls. Face cards = immunity to one damage type. Numbered cards = your spells cost 5 less mana. After the duration, you may choose to succeed or fail any roll once. The spirits deal in absolutes.',
     icon: 'inv_misc_scalesofjustice',
     maxRanks: 1,
     position: { x: 2, y: 6 },
@@ -300,7 +300,7 @@ export const GAMBIT_KARMIC_WEAVER = [
   {
     id: 'gambit_kw_t0_fate_thread',
     name: 'Fate Thread',
-    description: 'You can sense the turning of fate\'s wheel and the threads that bind it. Once per day, glimpse into possible futures. When you generate Threads, draw a card — face cards generate +1 additional Thread per rank, Aces generate +2.',
+    description: 'You can sense the turning of fate\'s wheel and the threads that bind it. Once per day, glimpse into possible futures. When you generate Threads, draw a card, face cards generate +1 additional Thread per rank, Aces generate +2.',
     icon: 'spell_arcane_prismaticcloak',
     maxRanks: 3,
     position: { x: 2, y: 0 },
@@ -318,7 +318,7 @@ export const GAMBIT_KARMIC_WEAVER = [
   {
     id: 'gambit_kw_t1_thread_binding',
     name: 'Thread Binding',
-    description: 'Spend 1 Thread to force any creature to reroll a die. Draw a card — face cards: you choose which result. Numbered cards: the roller chooses. Aces: both results apply (take the better for allies, worse for enemies).',
+    description: 'Spend 1 Thread to force any creature to reroll a die. Draw a card, face cards: you choose which result. Numbered cards: the roller chooses. Aces: both results apply (take the better for allies, worse for enemies).',
     icon: 'spell_arcane_prismaticcloak',
     maxRanks: 3,
     position: { x: 2, y: 1 },
@@ -327,7 +327,7 @@ export const GAMBIT_KARMIC_WEAVER = [
   {
     id: 'gambit_kw_t1_thread_weaving',
     name: 'Thread Weaving',
-    description: 'Spend 2 Threads to enhance your next card draw — draw 2 additional cards and choose the best per rank. Discarded cards still count for Thread generation.',
+    description: 'Spend 2 Threads to enhance your next card draw, draw 2 additional cards and choose the best per rank. Discarded cards still count for Thread generation.',
     icon: 'spell_arcane_prismaticcloak',
     maxRanks: 3,
     position: { x: 4, y: 1 },
@@ -345,7 +345,7 @@ export const GAMBIT_KARMIC_WEAVER = [
   {
     id: 'gambit_kw_t2_karmic_balance',
     name: 'Karmic Balance',
-    description: 'Karma balances the scales. When you help an ally, they gain +1d4 to their next roll. When you harm an enemy, draw a card — face cards let you choose the lesser damage option to build karma, granting +1 Thread per rank.',
+    description: 'Karma balances the scales. When you help an ally, they gain +1d4 to their next roll. When you harm an enemy, draw a card, face cards let you choose the lesser damage option to build karma, granting +1 Thread per rank.',
     icon: 'spell_holy_divineprovidence',
     maxRanks: 3,
     position: { x: 2, y: 2 },
@@ -381,7 +381,7 @@ export const GAMBIT_KARMIC_WEAVER = [
   {
     id: 'gambit_kw_t3_web_of_fate',
     name: 'Web of Fate',
-    description: 'Spend 4 Threads to link all creatures in 30ft with fate threads. When one creature takes damage, all linked creatures of the same type take 1d4 per rank. Draw a card each round — Aces sever the link for your allies.',
+    description: 'Spend 4 Threads to link all creatures in 30ft with fate threads. When one creature takes damage, all linked creatures of the same type take 1d4 per rank. Draw a card each round, Aces sever the link for your allies.',
     icon: 'spell_arcane_prismaticcloak',
     maxRanks: 3,
     position: { x: 4, y: 3 },
@@ -399,7 +399,7 @@ export const GAMBIT_KARMIC_WEAVER = [
   {
     id: 'gambit_kw_t4_thread_storm',
     name: 'Thread Storm',
-    description: 'Spend 3 Threads to create a storm of threads in 30ft. Each round, draw a card — face cards deal 2d6 force damage per rank to enemies in the area. Numbered cards deal 1d6 per rank and generate 1 Thread. Lasts 3 rounds.',
+    description: 'Spend 3 Threads to create a storm of threads in 30ft. Each round, draw a card, face cards deal 2d6 force damage per rank to enemies in the area. Numbered cards deal 1d6 per rank and generate 1 Thread. Lasts 3 rounds.',
     icon: 'spell_arcane_arcanetorrent',
     maxRanks: 4,
     position: { x: 2, y: 4 },

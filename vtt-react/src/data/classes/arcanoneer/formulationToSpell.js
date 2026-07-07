@@ -1,5 +1,5 @@
-/**
- * formulationToSpell — adapts an Arcanoneer Building Block formulation
+﻿/**
+ * formulationToSpell, adapts an Arcanoneer Building Block formulation
  * (from ARCANONEER_DATA.combinationMatrix.entries) into the spell-shaped
  * object that UnifiedSpellCard / SpellTooltip expect.
  *
@@ -17,7 +17,7 @@ const PRIMARY_EFFECT_TO_EFFECT_TYPES = {
     cleanse:  ['purification'],
     buff:     ['buff'],
     utility:  ['utility'],
-    random:   ['utility'],   // chaos/wyrd combos — rendered with rollable table
+    random:   ['utility'],   // chaos/wyrd combos, rendered with rollable table
     healing:  ['healing'],
 };
 

@@ -1,4 +1,4 @@
-const getInfernoStageName = (level) => {
+﻿const getInfernoStageName = (level) => {
   const stageNames = {
     0: 'Mortal',
     1: 'Ember',
@@ -253,7 +253,7 @@ const extractDamageTypeFromResistanceName = (resistanceName) => {
   if (name.includes('nature') || name.includes('primal')) return 'primal';
   if (name.includes('blight') || name.includes('necrotic') || name.includes('death') || name.includes('shadow')) return 'blight';
   if (name.includes('wyrd') || name.includes('mental') || name.includes('chaos') || name.includes('psychic')) return 'wyrd';
-  if (name.includes('divine') || name.includes('radiant') || name.includes('holy')) return 'divine';
+  if (name.includes('sacred') || name.includes('radiant') || name.includes('sacred')) return 'sacred';
   if (name.includes('physical')) return 'physical';
   if (name.includes('all')) return 'all damage';
 

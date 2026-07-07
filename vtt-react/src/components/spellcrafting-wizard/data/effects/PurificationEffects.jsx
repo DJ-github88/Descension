@@ -407,7 +407,7 @@ const PurificationEffects = ({ state, dispatch, actionCreators }) => {
             description: 'Quick combat resurrection with minimal health'
           },
           {
-            name: 'Divine Intervention',
+            name: 'Warden\'s Intervention',
             formula: '8d8 + SPI * 3',
             description: 'Miraculous resurrection with maximum health recovery'
           }
@@ -448,7 +448,7 @@ const PurificationEffects = ({ state, dispatch, actionCreators }) => {
             description: 'Major health boost when heads and tails are balanced'
           },
           {
-            name: 'Divine Blessing',
+            name: 'Sacred Blessing',
             formula: 'HEADS_COUNT * 15 * (ALL_HEADS ? 2 : 1) + SPI',
             description: 'Double health when all coins show heads'
           },

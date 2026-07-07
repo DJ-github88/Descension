@@ -1,4 +1,4 @@
-import { getStore } from '../storeRegistry';
+﻿import { getStore } from '../storeRegistry';
 import { calculateEquipmentBonuses, calculateDerivedStats, flattenEffects } from '../../utils/characterUtils';
 import { isTwoHandedWeapon, getSlotsToCleanForTwoHanded } from '../../utils/equipmentUtils';
 import { initializeClassResource, updateClassResourceMax } from '../../data/classResources';
@@ -618,7 +618,7 @@ export const createCoreSlice = (set, get) => ({
                     let updatedImmunities = [...(get().immunities || [])];
 
                     // Initialize all damage type resistances if they don't exist
-                    const damageTypes = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'divine'];
+                    const damageTypes = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'sacred'];
                     damageTypes.forEach(type => {
                         if (!updatedResistances[type]) {
                             updatedResistances[type] = { level: 100, multiplier: 1.0 };

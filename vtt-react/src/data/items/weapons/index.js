@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Weapons - All weapon items
  * 
  * Starter weapons with Dark Souls-esque philosophy:
@@ -881,7 +881,7 @@ export const WEAPONS = [
     type: 'weapon',
     subtype: 'IDOL',
     quality: 'poor',
-    description: 'A roughly carved stone idol, barely recognizable. Channels divine power weakly, like a prayer half-remembered.',
+    description: 'A roughly carved stone idol, barely recognizable. Channels sacred power weakly, like a prayer half-remembered.',
     iconId: 'Misc/Profession Resources/Archaeology/resource-bone-charm-three-protrusions',
     value: { gold: 0, silver: 2, copper: 0 },
     stackable: false,
@@ -906,7 +906,7 @@ export const WEAPONS = [
     combatStats: {
       spellDamage: {
         types: {
-          holy: { value: 1, isPercentage: false }
+          sacred: { value: 1, isPercentage: false }
         }
       }
     },
@@ -919,7 +919,7 @@ export const WEAPONS = [
     type: 'weapon',
     subtype: 'IDOL',
     quality: 'common',
-    description: 'A carved idol that radiates divine presence. Channels holy power, but the connection demands faith.',
+    description: 'A carved idol that radiates sacred presence. Channels sacred power, but the connection demands faith.',
     iconId: 'Misc/Profession Resources/Enchanting/resource-circular-medallion-four-faces-trees-golden-frame',
     value: { gold: 0, silver: 5, copper: 0 },
     stackable: false,
@@ -943,7 +943,7 @@ export const WEAPONS = [
     combatStats: {
       spellDamage: {
         types: {
-          holy: { value: 2, isPercentage: false }
+          sacred: { value: 2, isPercentage: false }
         }
       }
     },

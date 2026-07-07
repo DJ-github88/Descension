@@ -829,8 +829,8 @@ const CLASS_SPECIFIC_TRIGGERS = [
   // Paladin
   {
     id: 'divine_shield',
-    name: 'Divine Shield',
-    description: 'Triggers when Divine Shield is activated or expires',
+    name: 'Solbrand Aegis',
+    description: 'Triggers when Solbrand Aegis is activated or expires',
     parameters: [
       { name: 'trigger_on', type: 'select', options: ['activation', 'expiration'], default: 'activation' }
     ],
