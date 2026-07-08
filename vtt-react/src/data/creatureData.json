@@ -3619,15 +3619,15 @@
           "heritage": "Born from Japanese winged mountain-protector legends, the Tengu Scout myth was created to enforce respect for territorial borders in the high passes. The Wyrd anomaly reacted to the Fexric engineers' fear of losing cargo along the pipeline scaffolds, materializing these winged sentinels to aggressively guard the bridges."
         },
         {
-          "id": "yuki_onna",
-          "name": "Yuki-Onna",
+          "id": "rime_bride",
+          "name": "Rime-Bride",
           "dangerLevel": "Medium",
           "illustration": "/assets/images/creatures/yuki_onna.png",
-          "illustrationCaption": "A pale Yuki-Onna frost spirit floating in a snowstorm, her white kimono blending into the snow",
+          "illustrationCaption": "A pale Rime-Bride frost spirit floating in a snowstorm, her white shroud blending into the snow",
           "role": "The frost-breath specter",
-          "origin": "The Yuki-Onna is a creature of the snow and the cold, born from the Japanese legends of the snow woman who appears in blizzards to freeze travelers. In the Cragjaw Peaks, where the snow is deep and the wind is fierce, the Yuki-Onnas are the spirits of the winter, creatures that have been twisted by the Wyrd into something that is both beautiful and deadly. The Wyrd's corruption did not change their nature, but it did make them more cruel, for the creature now sees all who enter its territory as prey, and it will freeze any who come near its storm. The mountain guides of the Cragjaw Peaks know the signs of a Yuki-Onna's presence—a snowstorm that appears from nowhere, and the sound of a woman's voice in the wind.",
-          "nature": "A beautiful, ethereal woman with pale blue skin, long black hair, and eyes like frozen stars. She wears a long white kimono that leaves no footprints in the snow, and she floats slightly above the drifts, accompanied by a freezing wind. The creature is a thing of terrible beauty, and her frost-breath is cold enough to freeze a man in seconds. The Yuki-Onna is a creature of the snow, and she is most active during the winter, when the snow is deepest and the wind is strongest.",
-          "habitat": "The Yuki-Onna inhabits the snowy peaks, glacier cols, and high passes of the Cragjaw Peaks, particularly in the Frost-Crown Pass where the snow is deepest and the wind is strongest. She is most active during the winter, when the snow is deepest and the wind is strongest, and during the spring, when the snow melts and the air is warm. The Yuki-Onna's lair is always in the snow, and it is said to be a place of terrible beauty, filled with the frozen bodies of her prey.",
+          "origin": "The Rime-Bride is a creature of the snow and the cold, born from the deep-winter legends of the snow woman who appears in blizzards to freeze travelers. In the Cragjaw Peaks, where the snow is deep and the wind is fierce, the Rime-Brides are the spirits of the winter, creatures that have been twisted by the Wyrd into something that is both beautiful and deadly. The Wyrd's corruption did not change their nature, but it did make them more cruel, for the creature now sees all who enter its territory as prey, and it will freeze any who come near its storm. The mountain guides of the Cragjaw Peaks know the signs of a Rime-Bride's presence—a snowstorm that appears from nowhere, and the sound of a woman's voice in the wind.",
+          "nature": "A beautiful, ethereal woman with pale blue skin, long black hair, and eyes like frozen stars. She wears a long white shroud that leaves no footprints in the snow, and she floats slightly above the drifts, accompanied by a freezing wind. The creature is a thing of terrible beauty, and her frost-breath is cold enough to freeze a man in seconds. The Rime-Bride is a creature of the snow, and she is most active during the winter, when the snow is deepest and the wind is strongest.",
+          "habitat": "The Rime-Bride inhabits the snowy peaks, glacier cols, and high passes of the Cragjaw Peaks, particularly in the Frost-Crown Pass where the snow is deepest and the wind is strongest. She is most active during the winter, when the snow is deepest and the wind is strongest, and during the spring, when the snow melts and the air is warm. The Rime-Bride's lair is always in the snow, and it is said to be a place of terrible beauty, filled with the frozen bodies of her prey.",
           "combat": "200 HP. Frost Breath (15-ft cone, DC 14 CON save or take 2d8 rime damage and be frozen/restrained for 1 round). Chilling Touch (+6 to hit, 2d6 rime damage + drains 5 mana). Snow Cloak (gains full concealment inside snowstorms). Vulnerable to ember.",
           "stats": {
             "strength": 10,
@@ -3644,12 +3644,12 @@
               "rime": 100
             }
           },
-          "depth": "Volatile winter spirits. They represent the beautiful but deadly nature of high mountain blizzards. They will sometimes spare travelers who display great courage or tell a beautiful story. The Yuki-Onna's frost-breath is a mystery to scholars, for it is colder than any known substance, and some believe that her breath is made of the same material as the stars, a living cold that freezes the soul as well as the body.",
+          "depth": "Volatile winter spirits. They represent the beautiful but deadly nature of high mountain blizzards. They will sometimes spare travelers who display great courage or tell a beautiful story. The Rime-Bride's frost-breath is a mystery to scholars, for it is colder than any known substance, and some believe that her breath is made of the same material as the stars, a living cold that freezes the soul as well as the body.",
           "hooks": [
-            "A high mountain pass is permanently frozen by a Yuki-Onna, blocking the trade route. Find a way to pacify her or defeat her.",
-            "A hunter claims a Yuki-Onna spared his life in exchange for a promise he has now broken, and she is hunting him."
+            "A high mountain pass is permanently frozen by a Rime-Bride, blocking the trade route. Find a way to pacify her or defeat her.",
+            "A hunter claims a Rime-Bride spared his life in exchange for a promise he has now broken, and she is hunting him."
           ],
-          "heritage": "Spun from snow woman legends, the Yuki-Onna originally served as a cautionary tale warning travelers against crossing alpine passes during whiteouts, explaining how people froze to death. The Wyrd anomaly crystallized the mountain guides' survival panic during freezing blizzards, materializing this frost-breath specter to freeze trespassers."
+          "heritage": "Spun from snow woman legends, the Rime-Bride originally served as a cautionary tale warning travelers against crossing mountain passes during whiteouts, explaining how people froze to death. The Wyrd anomaly crystallized the mountain guides' survival panic during freezing blizzards, materializing this frost-breath specter to freeze trespassers."
         },
         {
           "id": "kappa",

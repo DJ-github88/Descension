@@ -128,7 +128,7 @@ export const SUBREGIONS = {
     climate: 'Warm, humid, sheltered by mountain spine',
     dominantTerrain: 'Crystal-rich soil, ancient broadleaf forest, geothermal hot-springs, hidden valleys',
     primaryRaces: ['The Risen (old Solvarn faith)', 'Smooth-Skinned exiles', 'Emberth hermits'],
-    primaryFactions: ['The Risen', 'Free Glitterwood Council', 'Old-Sun worship revival'],
+    primaryFactions: ['The Risen', 'Free Glitterwood Council', 'Old-Sun reverence revival'],
     zoneIds: ['the-glittering-forest', 'glitterwood-heart', 'old-sun-shrine']
   },
 
@@ -234,7 +234,7 @@ export const SUBREGIONS = {
     description: 'The deep industrial heart of the Cragjaw Peaks, the toxic mining shafts, geothermal plants, and Fexric workshops that keep the high keeps alive. The Sump Galleries, Gearworks Gulch, and Iron Ravine are all here. Chasm-Dwellers work the mines; Deep Alchemists run the vats; the Lost Brood Vats are the abandoned ruins of a guild that went too deep.',
     climate: 'Hot, toxic, sulfuric at the deepest',
     dominantTerrain: 'Toxic mining shafts, geothermal pipes, basalt vats, lava-fed forges',
-    primaryRaces: ['Fexrick (Kethrin Guild-Bound, Drall Clan-Free)', 'Chasm-Dweller humans', 'Sump-Kappa'],
+    primaryRaces: ['Fexrick (Kethrin Guild-Bound, Drall Clan-Free)', 'Chasm-Dweller humans', 'Sump-Scrab'],
     primaryFactions: ['Steam-Line Cartel', 'Kethrin Guilds', 'Deep Alchemist (secret)', 'Vat-Breakers Guild'],
     zoneIds: ['gearworks-gulch', 'sump-galleries', 'iron-ravine', 'lost-brood-vats', 'stags-rest-moraine', 'driknell-foundry']
   },

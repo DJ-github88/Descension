@@ -224,11 +224,11 @@ The **[Solvarn](world-lore/races-overview)** humans share the ashlands. Every mo
 
 **Why Each Continent Has Unique Monsters:**
 - **[Frostwood Reach](world-lore/regions)** (Skald/Briaran): face-stealing Gref, oath-hunting Gambrels. Cleansers cross-reference journals; swift defenders navigate the Revel's circle.
-- **[Nordhalla](world-lore/regions)** (Nordhallan/Alpine): glacier-memory Stels, hearth-parasite Rimors. Warriors wade into fjord-surf; seers extract prophecies from frozen victims.
+- **[Nordhalla](world-lore/regions)** (Skald/fjord-folk): glacier-memory Stels, hearth-parasite Rimors. Warriors wade into fjord-surf; seers extract prophecies from frozen victims.
 - **[Sundale](world-lore/regions)** (pre-Binding/Solvarn): the burning Cinder, the Husque. Fire-mages alone approach a Husque without immediate consumption.
-- **[Iceheart Sea](world-lore/regions)** (pre-Binding/Yoruba): the Spume of the Drowned, the Writ of Passage. Soul-listeners separate voices; runic cannons study the Writ.
+- **[Iceheart Sea](world-lore/regions)** (pre-Binding/salt-depth): the Spume of the Drowned, the Writ of Passage. Soul-listeners separate voices; runic cannons study the Writ.
 - **[Cragjaw Peaks](world-lore/regions)** (Wyrd-kin/Tesshan): metal-eating Scrabs, the mountain's consciousness. Alchemists develop deterrents; destiny weavers read the Thrumm's approach.
-- **[Sundrift Vale](world-lore/regions)** (Ordan/Chinese): debt-tracking Lien, the Hungry Child. The dedicated assume debts into flesh; storytellers tell stories of a sky the Child has never seen.
+- **[Sundrift Vale](world-lore/regions)** (Ordan/steppe-folk): debt-tracking Lien, the Hungry Child. The dedicated assume debts into flesh; storytellers tell stories of a sky the Child has never seen.
 - **[Bryngloom Forest](world-lore/regions)** (Thalren/Solbrand): the Grandmother of the Bog, the Cycle-Eater. Healers treat memory-wounds; oath-bound hunters track Debt-Revenants.
 
 **Key Principles:**
@@ -349,7 +349,7 @@ and, an unspoken divide runs between the warm-blooded ruling clans who control t
 
 **Localized Threats, Persecution & The Wyrd**
 
-Nordhalla's Wyrd draws from Nordhallan and Alpine folklore: the **Skreika**, blue-fleshed drowned warriors who crawl from the black fjords; the **Rimor**, a hearth-parasite that slowly consumes a family's ability to feel warmth; and the **Stel**, a glacier's memory given form. 
+Nordhalla's Wyrd draws from Skald and fjord-folk traditions: the **Skreika**, blue-fleshed drowned warriors who crawl from the black fjords; the **Rimor**, a hearth-parasite that slowly consumes a family's ability to feel warmth; and the **Stel**, a glacier's memory given form. 
 
 This Wyrd has grown increasingly volatile due to **The Cleansing of the Hearth**,Jarn-Tand's state-enforced religious campaign. Backed by southern [Inquisitors](file:///d:/VTT/vtt-react/src/data/classes/inquisitorData.js), the king-jarl's forces systematically burn the sacred pine-groves, smash runic animist drums, and execute tribal [Animists](file:///d:/VTT/vtt-react/src/data/classes/animistData.js) who commune with nature-spirits.
 
@@ -589,7 +589,7 @@ The **Astril** are split by how they live with the constellation-spirits nesting
 
 **Localized Threats, Persecution & The Wyrd**
 
-Sundrift's Wyrd draws from Ordan/Turkic and Chinese folklore: the **Lien**, a debt-tracker that collects on forgotten promises; the **Hungry Child**, a Wyrd-occupied spirit who devours those with no star-stories to tell; and the **Sere-Khan**, a guilt-ridden judge who rides the steppe trying cases brought by the dead.
+Sundrift's Wyrd draws from Ordan/steppe-folk and nomad traditions: the **Lien**, a debt-tracker that collects on forgotten promises; the **Hungry Child**, a Wyrd-occupied spirit who devours those with no star-stories to tell; and the **Sere-Khan**, a guilt-ridden judge who rides the steppe trying cases brought by the dead.
 
 This Wyrd has grown highly active due to the **Purge of the Sky-Singers**. Backed by southern [Inquisitors](file:///d:/VTT/vtt-react/src/data/classes/inquisitorData.js), the Khatun has outlawed the traditional "Sky-Song" throat-singing that communed with star-spirits, forcing all clans to practice only ancestor-singing. Those who throat-sing the old constellations are executed.
 
@@ -881,7 +881,7 @@ To play any character in Mythrill is to play one of the debtor's heirs. The time
  },
  {
  title: 'Sundale (The Ash-City of Korr)',
- content: `- **Arch-Sun Speaker Kaelen:** The dogmatic, golden-robed high priest who rules the martial-theocracy of Sundale from the ash-palace of Korr. He stands before the caldera, preaching that only absolute obedience to the Dawn Vigil and sacrificial devotion can rekindle the entombed star.\n\n**Goal:** To conscript a thousand Neth contract-debtors into the Martyr Brigades to dig sulfur from active volcanic rifts, aiming to sacrifice their blood to feed the failing embers of the Solbrand.\n\n**Secret:** He no longer hears the voice of Sol; the whispers he receives in the inner Harath-Chamber come from Keth-Amar, commanding him to break the volcanic seal.\n\n**Conflict:** Locked in a bitter theological schism with the traditionalists who advocate quietist meditation and the Vault-Breath.\n\n- **Mara of the Badlands (The Shyr-Runner Archetype):** A cynical, ash-streaked ranger who has spent her life in the scorched basalt canyons of Sundale. Draped in alchemical leather, she moves through the cinder hoods with silent grace, guiding refugees past the Obsidian Citadels.\n\n**Goal:** To smuggle refined volcanic ore and geothermal coal out of the Fexric mines to arm the underground rebellion against the Dawn Vigil's theocratic rule in Korr.\n\n**Secret:** A glowing Wyrd-parasite is nestled in her chest, feeding on her blood. It flares with intense, burning heat whenever she gets close to the volcanic Monolith shards, acting as a painful compass.\n\n**Conflict:** Actively hunted by Hierophant Aethelgard's Martyr patrols, who have placed a massive bounty of five hundred gold-weight on her head.`
+ content: `- **Arch-Sun Speaker Kaelen:** The dogmatic, golden-robed high priest who rules the martial-theocracy of Sundale from the ash-palace of Korr. He stands before the caldera, preaching that only absolute obedience to the Dawn Vigil and sacrificial devotion can rekindle the entombed star.\n\n**Goal:** To conscript a thousand Neth contract-debtors into the Martyr Brigades to dig sulfur from active volcanic rifts, aiming to sacrifice their blood to feed the failing embers of the Solbrand.\n\n**Secret:** He no longer hears the voice of Sol; the whispers he receives in the inner Harath-Chamber come from Keth-Amar, commanding him to break the volcanic seal.\n\n**Conflict:** Locked in a bitter doctrinal schism with the traditionalists who advocate quietist meditation and the Vault-Breath.\n\n- **Mara of the Badlands (The Shyr-Runner Archetype):** A cynical, ash-streaked ranger who has spent her life in the scorched basalt canyons of Sundale. Draped in alchemical leather, she moves through the cinder hoods with silent grace, guiding refugees past the Obsidian Citadels.\n\n**Goal:** To smuggle refined volcanic ore and geothermal coal out of the Fexric mines to arm the underground rebellion against the Dawn Vigil's theocratic rule in Korr.\n\n**Secret:** A glowing Wyrd-parasite is nestled in her chest, feeding on her blood. It flares with intense, burning heat whenever she gets close to the volcanic Monolith shards, acting as a painful compass.\n\n**Conflict:** Actively hunted by Hierophant Aethelgard's Martyr patrols, who have placed a massive bounty of five hundred gold-weight on her head.`
  },
  {
  title: 'Iceheart Sea (Merrowport)',
@@ -1641,7 +1641,7 @@ The local village elder, **Marra of the Nine**, offers a simple bounty: recover 
  },
  {
  title: 'The Sundale Civil War [Pronunciation: thee sun-DAYL]',
- content: '**Noun (Event).** The ongoing three-way theological conflict (within living memory-present) over the dying <LoreLink termId="solbrand">Solbrand</LoreLink>, fought over a single question: what does it mean when the fire goes out? The Risen hold the old faith that Sol will rekindle; the <LoreLink termId="the_sunderers">Sunderer</LoreLink> believe the flame is <LoreLink termId="keth_amar">Keth-Amar</LoreLink>\'s feeding-line and must be extinguished; the <LoreLink termId="the_scoured">Scoured</LoreLink> seek Monolith Shards to re-forge the vault. No one is winning.'
+ content: '**Noun (Event).** The ongoing three-way doctrinal conflict (within living memory-present) over the dying <LoreLink termId="solbrand">Solbrand</LoreLink>, fought over a single question: what does it mean when the fire goes out? The Risen hold the old faith that Sol will rekindle; the <LoreLink termId="the_sunderers">Sunderer</LoreLink> believe the flame is <LoreLink termId="keth_amar">Keth-Amar</LoreLink>\'s feeding-line and must be extinguished; the <LoreLink termId="the_scoured">Scoured</LoreLink> seek Monolith Shards to re-forge the vault. No one is winning.'
  },
  {
  title: 'The Toll Wars [Pronunciation: thee TOHL]',
