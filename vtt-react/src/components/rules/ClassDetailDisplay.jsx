@@ -1429,7 +1429,10 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
     { url: '/assets/images/classes/revenant_illustration.png', caption: 'A Marked Vreken Peat-Bog Graverobber Revenant harvesting souls in the Bryngloom.' },
     { url: '/assets/images/classes/revenant_illustration_2.png', caption: 'A Velun Neth Revenant with blank pool eyes holding a glowing soul-lantern.' }
    ],
-   animist: { url: '/assets/images/classes/animist_illustration.png', caption: 'An Unshorn Briaran Forest Ritualist Animist channeling ancestral spirits.' },
+   animist: [
+    { url: '/assets/images/classes/animist_illustration.png', caption: 'An Unshorn Briaran Forest Ritualist Animist channeling ancestral spirits.' },
+    { url: '/assets/images/classes/animist_illustration_2.png', caption: 'An Ithran Groven Animist with stone-scale joints holding a moss-grown staff summoning a bear spirit.' }
+   ],
    pyrofiend: { url: '/assets/images/classes/pyrofiend_illustration.png', caption: 'A Thrask Emberth Ashen Conduit Pyrofiend manifesting molten charcoal skin.' },
    martyr: { url: '/assets/images/classes/martyr_illustration.png', caption: 'A Korr Emberth Dawn Vigil Flagellant Martyr absorbing pain through obsidian scars.' },
    toxicologist: { url: '/assets/images/classes/toxicologist_illustration.png', caption: 'A Mistwoven Mimir Distillery Alchemist Toxicologist in a tattered bark cloak.' },
@@ -1439,9 +1442,15 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
     { url: '/assets/images/classes/inquisitor_illustration.png', caption: 'A Solvarn Human Barbed-Vow Inquisitor wreathed in cold iron chains.' },
     { url: '/assets/images/classes/inquisitor_illustration_2.png', caption: 'A Clean Vreken Inquisitor wreathed in chains holding an iron executioner\'s gavel.' }
    ],
-   apex: { url: '/assets/images/classes/apex_illustration.png', caption: 'A Smoothskinned Briaran Silent Hunter Apex drawing a recurve bow.' },
+   apex: [
+    { url: '/assets/images/classes/apex_illustration.png', caption: 'A Smoothskinned Briaran Silent Hunter Apex drawing a recurve bow.' },
+    { url: '/assets/images/classes/apex_illustration_2.png', caption: 'An Unshorn Briaran Apex with wild thorns growing along their arms drawing a living bow.' }
+   ],
    warden: { url: '/assets/images/classes/warden_illustration.png', caption: 'An Ithran Groven Penitent Jailer Warden with rusted iron chains.' },
-   gambit: { url: '/assets/images/classes/gambit_illustration.png', caption: 'A Muren Astril Luck-Ledger Auditor Gambit flipping a glowing coin.' },
+   gambit: [
+    { url: '/assets/images/classes/gambit_illustration.png', caption: 'A Muren Astril Luck-Ledger Auditor Gambit flipping a glowing coin.' },
+    { url: '/assets/images/classes/gambit_illustration_2.png', caption: 'A Merryn Human Gambit flipping a golden coin and tracing probability lines.' }
+   ],
    chronarch: [
     { url: '/assets/images/classes/chronarch_illustration.png', caption: 'A Sylen Astril Starlight Astrologer Chronarch utilizing time-sand.' },
     { url: '/assets/images/classes/chronarch_illustration_2.png', caption: 'A Mistwoven Mimir Chronarch with storm-glass mask and clockwork device.' }
@@ -1452,7 +1461,10 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
     { url: '/assets/images/classes/harbinger_illustration.png', caption: 'An Unwoven Mimir Sump Archivist Harbinger channeling entropic friction.' },
     { url: '/assets/images/classes/harbinger_illustration_2.png', caption: 'A Drun Neth Harbinger holding a clockwork device of entropic friction.' }
    ],
-   lunarch: { url: '/assets/images/classes/lunarch_illustration.png', caption: 'A Maskborne Mimir Moonlit Grove Sentinel Lunarch, vessel of the lunar parasite.' }
+   lunarch: [
+    { url: '/assets/images/classes/lunarch_illustration.png', caption: 'A Maskborne Mimir Moonlit Grove Sentinel Lunarch, vessel of the lunar parasite.' },
+    { url: '/assets/images/classes/lunarch_illustration_2.png', caption: 'A Deepborn Myrathil Lunarch wielding a crescent blade wreathed in starlight.' }
+   ]
   };
 
   const classId = (classData.id || classData.name || '').toLowerCase().replace(/\s+/g, '_');
