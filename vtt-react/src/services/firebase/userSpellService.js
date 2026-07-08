@@ -23,6 +23,7 @@ import {
 } from 'firebase/firestore';
 import { db, isFirebaseConfigured, isDemoMode } from '../../config/firebase';
 import { sanitizeForFirestore } from '../../utils/firebaseUtils';
+import storageLimitService from './storageLimitService';
 
 // Collection names
 const COLLECTIONS = {
@@ -74,11 +75,38 @@ export async function saveUserSpell(userId, spellData) {
 
     // Save to user_spells collection
     const spellRef = doc(db, COLLECTIONS.USER_SPELLS, spellId);
+    const spellDoc = await getDoc(spellRef);
+    const exists = spellDoc.exists();
 
     // Sanitize spell document to remove undefined values
     const sanitizedSpell = sanitizeForFirestore(spellDocument);
+    const newSize = storageLimitService.estimateDataSize(sanitizedSpell);
+
+    if (!exists) {
+      // Check count limit
+      const countCheck = await storageLimitService.canStoreDocument(userId, COLLECTIONS.USER_SPELLS, 'maxSpells');
+      if (!countCheck.allowed) {
+        return {
+          success: false,
+          reason: 'storage_full',
+          limitType: 'count',
+          error: `Spell limit reached (${countCheck.count}/${countCheck.limit})`
+        };
+      }
+
+      // Check byte limit
+      const canStore = await storageLimitService.canStoreData(userId, newSize, 'spells');
+      if (!canStore) {
+        return { success: false, reason: 'storage_full', localOnly: false };
+      }
+    }
 
     await setDoc(spellRef, sanitizedSpell);
+
+    // Track size delta
+    const oldSize = exists ? storageLimitService.estimateDataSize(spellDoc.data()) : 0;
+    const delta = newSize - oldSize;
+    await storageLimitService.updateStorageUsage(userId, 'spells', delta);
 
     // Update user's spell list
     const userRef = doc(db, COLLECTIONS.USERS, userId);
@@ -218,6 +246,8 @@ export async function deleteUserSpell(userId, spellId) {
       throw new Error('Access denied: Spell does not belong to user');
     }
 
+    const spellSize = storageLimitService.estimateDataSize(spellData);
+
     // Delete the spell
     await deleteDoc(spellRef);
 
@@ -227,6 +257,9 @@ export async function deleteUserSpell(userId, spellId) {
       customSpells: arrayRemove(spellId),
       updatedAt: serverTimestamp()
     });
+
+    // Update storage usage
+    await storageLimitService.updateStorageUsage(userId, 'spells', -spellSize);
 
     return { success: true, localOnly: false };
 

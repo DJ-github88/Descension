@@ -23,6 +23,7 @@ import {
 } from 'firebase/firestore';
 import { db, isFirebaseConfigured, isDemoMode } from '../../config/firebase';
 import { sanitizeForFirestore } from '../../utils/firebaseUtils';
+import storageLimitService from './storageLimitService';
 
 // Collection names
 const COLLECTIONS = {
@@ -74,11 +75,38 @@ export async function saveUserCreature(userId, creatureData) {
 
     // Save to user_creatures collection
     const creatureRef = doc(db, COLLECTIONS.USER_CREATURES, creatureId);
+    const creatureDoc = await getDoc(creatureRef);
+    const exists = creatureDoc.exists();
 
     // Sanitize creature document to remove undefined values
     const sanitizedCreature = sanitizeForFirestore(creatureDocument);
+    const newSize = storageLimitService.estimateDataSize(sanitizedCreature);
+
+    if (!exists) {
+      // Check count limit
+      const countCheck = await storageLimitService.canStoreDocument(userId, COLLECTIONS.USER_CREATURES, 'maxCreatures');
+      if (!countCheck.allowed) {
+        return {
+          success: false,
+          reason: 'storage_full',
+          limitType: 'count',
+          error: `Creature limit reached (${countCheck.count}/${countCheck.limit})`
+        };
+      }
+
+      // Check byte limit
+      const canStore = await storageLimitService.canStoreData(userId, newSize, 'creatures');
+      if (!canStore) {
+        return { success: false, reason: 'storage_full', localOnly: false };
+      }
+    }
 
     await setDoc(creatureRef, sanitizedCreature);
+
+    // Track size delta
+    const oldSize = exists ? storageLimitService.estimateDataSize(creatureDoc.data()) : 0;
+    const delta = newSize - oldSize;
+    await storageLimitService.updateStorageUsage(userId, 'creatures', delta);
 
     // Update user's creature list
     const userRef = doc(db, COLLECTIONS.USERS, userId);
@@ -214,6 +242,8 @@ export async function deleteUserCreature(userId, creatureId) {
       throw new Error('Access denied: Creature does not belong to user');
     }
 
+    const creatureSize = storageLimitService.estimateDataSize(creatureData);
+
     // Delete the creature
     await deleteDoc(creatureRef);
 
@@ -223,6 +253,9 @@ export async function deleteUserCreature(userId, creatureId) {
       customCreatures: arrayRemove(creatureId),
       updatedAt: serverTimestamp()
     });
+
+    // Update storage usage
+    await storageLimitService.updateStorageUsage(userId, 'creatures', -creatureSize);
 
     return { success: true, localOnly: false };
 

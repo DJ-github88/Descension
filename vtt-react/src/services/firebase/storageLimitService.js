@@ -19,30 +19,47 @@ const LEGACY_TIER_MAP = {
 };
 
 export const STORAGE_LIMITS = {
-  GUEST: { total: 0 },
+  GUEST: {
+    total: 0,
+    maxItems: 0,
+    maxSpells: 0,
+    maxCreatures: 0
+  },
   FREE: {
     total: 25 * 1024 * 1024,
     characters: 3,
     campaigns: 1,
-    rooms: 1
+    rooms: 1,
+    maxItems: 100,
+    maxSpells: 100,
+    maxCreatures: 50
   },
   DEV_PREVIEW: {
     total: 5 * 1024 * 1024 * 1024,
     characters: -1,
     campaigns: 25,
-    rooms: 25
+    rooms: 25,
+    maxItems: -1,
+    maxSpells: -1,
+    maxCreatures: -1
   },
   PRO: {
     total: 500 * 1024 * 1024,
     characters: 15,
     campaigns: 5,
-    rooms: 5
+    rooms: 5,
+    maxItems: 500,
+    maxSpells: 500,
+    maxCreatures: 250
   },
   ULTIMATE: {
     total: 5 * 1024 * 1024 * 1024,
     characters: -1,
     campaigns: 25,
-    rooms: 25
+    rooms: 25,
+    maxItems: -1,
+    maxSpells: -1,
+    maxCreatures: -1
   }
 };
 
@@ -308,6 +325,85 @@ class StorageLimitService {
     const i = Math.floor(Math.log(bytes) / Math.log(k));
 
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  }
+
+  /**
+   * Check if user can store more documents of a specific collection
+   */
+  async canStoreDocument(userId, collectionName, limitKey) {
+    if (!userId || userId.startsWith('guest-')) {
+      return { allowed: false, count: 0, limit: 0 };
+    }
+
+    const { limits } = await this.getUserTier(userId);
+    const limitVal = limits[limitKey] !== undefined ? limits[limitKey] : -1;
+
+    // If unlimited, return allowed: true immediately
+    if (limitVal === -1) {
+      return { allowed: true, count: -1, limit: -1 };
+    }
+
+    try {
+      const { getCountFromServer, collection, query, where } = await import('firebase/firestore');
+      const q = query(
+        collection(db, collectionName),
+        where('userId', '==', userId)
+      );
+      const snapshot = await getCountFromServer(q);
+      const count = snapshot.data().count;
+
+      if (count >= limitVal) {
+        return { allowed: false, count, limit: limitVal };
+      }
+      return { allowed: true, count, limit: limitVal };
+    } catch (error) {
+      console.error('Error counting documents:', error);
+      try {
+        const { getDocs, collection, query, where } = await import('firebase/firestore');
+        const q = query(
+          collection(db, collectionName),
+          where('userId', '==', userId)
+        );
+        const snapshot = await getDocs(q);
+        const count = snapshot.size;
+        if (count >= limitVal) {
+          return { allowed: false, count, limit: limitVal };
+        }
+        return { allowed: true, count, limit: limitVal };
+      } catch (fallbackError) {
+        console.error('Fallback counting failed:', fallbackError);
+        return { allowed: true, count: 0, limit: limitVal };
+      }
+    }
+  }
+
+  /**
+   * Count user documents in a collection
+   */
+  async countUserDocuments(userId, collectionName) {
+    if (!userId || userId.startsWith('guest-')) return 0;
+    try {
+      const { getCountFromServer, collection, query, where } = await import('firebase/firestore');
+      const q = query(
+        collection(db, collectionName),
+        where('userId', '==', userId)
+      );
+      const snapshot = await getCountFromServer(q);
+      return snapshot.data().count;
+    } catch (error) {
+      console.error('Error counting documents:', error);
+      try {
+        const { getDocs, collection, query, where } = await import('firebase/firestore');
+        const q = query(
+          collection(db, collectionName),
+          where('userId', '==', userId)
+        );
+        const snapshot = await getDocs(q);
+        return snapshot.size;
+      } catch (fallbackError) {
+        return 0;
+      }
+    }
   }
 
   /**

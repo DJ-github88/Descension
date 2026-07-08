@@ -23,6 +23,7 @@ import {
 } from 'firebase/firestore';
 import { db, isFirebaseConfigured, isDemoMode } from '../../config/firebase';
 import { sanitizeForFirestore } from '../../utils/firebaseUtils';
+import storageLimitService from './storageLimitService';
 
 // Collection names
 const COLLECTIONS = {
@@ -74,11 +75,38 @@ export async function saveUserItem(userId, itemData) {
 
     // Save to user_items collection
     const itemRef = doc(db, COLLECTIONS.USER_ITEMS, itemId);
+    const itemDoc = await getDoc(itemRef);
+    const exists = itemDoc.exists();
 
     // Sanitize item document to remove undefined values
     const sanitizedItem = sanitizeForFirestore(itemDocument);
+    const newSize = storageLimitService.estimateDataSize(sanitizedItem);
+
+    if (!exists) {
+      // Check count limit
+      const countCheck = await storageLimitService.canStoreDocument(userId, COLLECTIONS.USER_ITEMS, 'maxItems');
+      if (!countCheck.allowed) {
+        return {
+          success: false,
+          reason: 'storage_full',
+          limitType: 'count',
+          error: `Item limit reached (${countCheck.count}/${countCheck.limit})`
+        };
+      }
+
+      // Check byte limit
+      const canStore = await storageLimitService.canStoreData(userId, newSize, 'items');
+      if (!canStore) {
+        return { success: false, reason: 'storage_full', localOnly: false };
+      }
+    }
 
     await setDoc(itemRef, sanitizedItem);
+
+    // Track size delta
+    const oldSize = exists ? storageLimitService.estimateDataSize(itemDoc.data()) : 0;
+    const delta = newSize - oldSize;
+    await storageLimitService.updateStorageUsage(userId, 'items', delta);
 
     // Update user's item list
     const userRef = doc(db, COLLECTIONS.USERS, userId);
@@ -214,6 +242,8 @@ export async function deleteUserItem(userId, itemId) {
       throw new Error('Access denied: Item does not belong to user');
     }
 
+    const itemSize = storageLimitService.estimateDataSize(itemData);
+
     // Delete the item
     await deleteDoc(itemRef);
 
@@ -223,6 +253,9 @@ export async function deleteUserItem(userId, itemId) {
       customItems: arrayRemove(itemId),
       updatedAt: serverTimestamp()
     });
+
+    // Update storage usage
+    await storageLimitService.updateStorageUsage(userId, 'items', -itemSize);
 
     return { success: true, localOnly: false };
 
