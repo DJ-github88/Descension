@@ -178,7 +178,6 @@ const CompactItemDisplay = ({ item, onRemove }) => {
                 // Stats
                 baseStats: item.baseStats || {},
                 combatStats: item.combatStats || {
-                  armor: { value: item.armor || 0 },
                   resistances: item.resistances || {}
                 },
                 utilityStats: item.utilityStats || {},
@@ -445,7 +444,6 @@ const QuestCreationForm = ({ onComplete }) => {
         width: item.width,
         height: item.height,
         slots: item.slots,
-        armor: item.armor,
         resistances: item.resistances,
         immunities: item.immunities
       });

@@ -1,4 +1,4 @@
-﻿export const neth = {
+export const neth = {
  id: 'neth',
  name: 'Neth',
  essence: 'The Silver-Touched',
@@ -232,7 +232,7 @@ The most famous Kessen in Neth history made only one bet that anyone remembers, 
 
 Orven-Sen was a mid-level probability-weaver attached to the Ironjaw Port trade delegation, competent, unremarkable, never promoted. His specialty was predicting shipping outcomes: which routes would ice over, which caravans would be delayed, which trade agreements would default. He was accurate enough to be employed and not accurate enough to be feared.
 
-In the spring of the year that would later be known as the Year of the First Ash, Orven-Sen walked into the Ironjaw Port contract-hall and filed a formal prediction with the trade-registry: the volcano Emberspire, dormant for millennia, would erupt within a century. Its eruption would shatter the Sundale surface and create a new thermal equilibrium. The Neth should immediately renegotiate all warmth-resource contracts with the Emberth forge-clans to include eruption-contingency clauses.
+In the spring of the year that would later be known as the Year of the First Ash, Orven-Sen walked into the Ironjaw Port contract-hall and filed a formal prediction with the trade-registry: the volcano Emberspire, dormant since the pre-Binding era, would erupt within a century. Its eruption would shatter the Sundale surface and create a new thermal equilibrium. The Neth should immediately renegotiate all warmth-resource contracts with the Emberth forge-clans to include eruption-contingency clauses.
 
 The contract-hall laughed. Emberspire was a dead mountain. The Emberth themselves believed the sun slept beneath it, but no one, not even the Emberth, expected it to wake.
 
@@ -491,7 +491,7 @@ They view the Kessen with a mixture of admiration and unease, the Kessen see the
   ],
   languages: ['Common', 'Gloom-Tongue'],
   speed: 30,
-  baseStats: { armor: 0, hp: 16, mana: 20, ap: 3, passivePerception: 14, swimSpeed: 10, climbSpeed: 15, visionRange: 50, darkvision: 60, initiative: 1 },
+   baseStats: { hp: 16, mana: 20, ap: 3, passivePerception: 14, swimSpeed: 10, climbSpeed: 15, visionRange: 50, darkvision: 60, initiative: 1 },
   savingThrowModifiers: { advantage: ['charm', 'disease'], disadvantage: [] }
  },
 
@@ -637,7 +637,7 @@ They view the Velun with a mixture of respect and pity, the Velun have power, bu
   ],
   languages: ['Common', 'Gloom-Tongue'],
   speed: 30,
-  baseStats: { armor: 0, hp: 18, mana: 16, ap: 4, passivePerception: 16, swimSpeed: 10, climbSpeed: 15, visionRange: 50, darkvision: 60, initiative: 3 },
+   baseStats: { hp: 18, mana: 16, ap: 4, passivePerception: 16, swimSpeed: 10, climbSpeed: 15, visionRange: 50, darkvision: 60, initiative: 3 },
   savingThrowModifiers: { advantage: ['perception', 'initiative'], disadvantage: ['fear'] }
  },
 
@@ -783,7 +783,7 @@ They view the Velun with something between pity and contempt, the Velun are powe
   ],
   languages: ['Common', 'Gloom-Tongue'],
   speed: 35,
-  baseStats: { armor: 0, hp: 20, mana: 10, ap: 4, passivePerception: 14, swimSpeed: 10, climbSpeed: 20, visionRange: 50, darkvision: 60, initiative: 3 },
+   baseStats: { hp: 20, mana: 10, ap: 4, passivePerception: 14, swimSpeed: 10, climbSpeed: 20, visionRange: 50, darkvision: 60, initiative: 3 },
   savingThrowModifiers: { advantage: ['blight', 'magic'], disadvantage: ['charm'] }
  }
  }

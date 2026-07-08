@@ -735,173 +735,173 @@ Every file below needs rewriting to fit the Blizzard-style guide (18 rules). Fil
   - [x] Region entries (frostwood-reach, nordhalla, sundale, iceheart-sea, cragjaw-peaks, sundrift-vale, bryngloom-forest)
   - [x] Noble house entries (thalreth, skalvyr, solvan, mereval, tesshan, ordavan, morrath, viridane)
   - [x] Race entries (mimir, briaran, neth, vreken, astril, emberth, fexric, groven, myrathil, human) — 9 entries FULLY REWRITTEN (no standalone 'human' entry exists in loreDictionary.js; humans are the baseline default). Each aligned to its regional tone per §6.4 and guide canonical voices.
-  - [ ] Character entries (kaelen-thalreth, aldren-thalreth, valerius, scathrach, etc.) — IN PROGRESS: kaelen-thalreth, aldren-thalreth, valerius, scathrach, saren-vel, grum, sera, li-wei, nyssa DONE (TIER A). ALSO DONE (TIER A): malakor-the-archivist, kael, theron (single historical_figure entries), + 11 LIVE character-block entries whose keys shadow earlier historical_figure dupes: veyra, xyris, damon, alaric, jax, lyra, kora, vesper, orven, elias, selene. All 14 rewritten: definitional openers→action, em dashes→0, "crisis is X" encyclopedia framing killed, player hooks added, lore folded in from shadowed duplicates (basalt phylactery/Thrumm-biology/smile-and-loaded-die). NOTE: `valerius` appears TWICE (historical_figure @L123 + character @L2354); second shadows the first in the JS object — dupe flagged for Phase 11. NEW FLAG: `orven` shadowed entry is a DIFFERENT character (Orven-Sen the Kessen probability-weaver, predicted Emberspire eruption) than the live Orven the Still-Handed (Vreken, cold iron) — Orven-Sen's lore is lost at runtime; needs rename in Phase 11. HOUSE STEWARDS/LORDS BLOCK (L2141-2386) DONE (TIER A): halvar-skalvyr, elara-thalreth, caedren-thalreth, thorn-speaker, the-first-liar, loras-ordavan, dawn-vigil-commander, deep-alchemist-prime, vat-breaker-foreman, solvan-steward, mereval-admiral, tesshan-lord, morrath-steward, sigurd-skalvyr, vellan-archivist, grum-bloodhammer, cassia, nesta, + frigga-skalvyr (LIVE L2737 Void-Heat Heretic version; L2318 shadowed geothermal-negotiator version em-dash-cleaned but lore conflict flagged). Fixes: 2 timeline errors ("2,000-year"/"two thousand years" — world is only ~800 yrs old), banned word "arguably" removed from sigurd, "Merryn ships"→"Merryn ship" grammar, "a dwarf" generic-fantasy leak removed from grum, "human body"→"living body" in nesta (Fexric not human), all em dashes→0, all definitional openers→action, player hooks added to all. NOTABLE FIGURES BLOCK (L1904-2140) DONE (TIER A): hark-ash-hammer, sera-three-scars, vel-otharen, skadi-glass-eye, fex-vestara, mor-vereth, merr-cael, malakor, vrael-forty-seventh, bri-vessela, sol-kaessen, mer-lyrisa, vespera, sol-vareths, kor-vasseth, thrak-damos, varis, sylas. All "crisis is X" encyclopedia framing eliminated, all em dashes→0, all definitional openers→action, player hooks added. Fixes: rood-veil→root_veil typo, 93%/41%/471 spelled out, "substrate" kept (guide's recommended ecology/ecosystem replacement).
-  - [ ] Location entries (greymark-keep, atropolis, emberspire, mirror-mere, etc.) — IN PROGRESS: greymark_keep, atropolis, emberspire, harath_vault, frozen_archive, merrowport, ironjaw_port, sunken_spire, synod_hold, skalds_landing DONE (TIER A). Emberspire summary timeline fixed ("Great Breach"→"the Binding"; "seven noble families"→"binding houses" for Viridane safety). Skald's Longport "Norse-style"→"Skald-style". 49 ADDITIONAL LOCATIONS FULLY REWRITTEN (TIER A): frostmaw_holdfast, wraithfen, mistbarrow, greythorn_copse, drunhold, grimmwood, siltmire_flats, bramble_heath, the_shifting_fen, mirror_mere, ymirs_col, vargtor, the_still_crag, frostcirque, rooks_promontory, sols_anvil_mesa, the_ashen_escarpment, cinderhoodoo, ember_lagoon, kelpies_cove, wraithsound, the_shallows, scribes_tower, ledger_halls, ironwood_heart, the_spans, bloodhammer_sump, fjord_gate, hunger_glaciers, rimors_hearth, vesperas_perch, ancestor_gaps, sump_galleries, deepwell_archipelago, spindrift_lagoon, deepchasm_keep, the_great_gorge, gearworks_gulch, frostmaw_massif, starfall_vale, the_unlit_knoll, ancestor_wold, morrens_bogpost, widows_quagmire, black_fen, vel_keth_bayou, aran_glen, hunters_gully, fangmere_grove. Fixes: 2 "ten thousand years" timeline errors→"older than the Binding"; "frost giant"→"figure of Skald pre-Binding legend" (ymirs_col); all em dashes→0; all definitional openers→action; player hooks added. FLAGS: "Ymir" (Norse) and "Kelpie" (Scottish) are real-world myth names embedded in place-names — cross-file rename needed in Phase 11.
+  - [x] Character entries (kaelen-thalreth, aldren-thalreth, valerius, scathrach, etc.) — IN PROGRESS: kaelen-thalreth, aldren-thalreth, valerius, scathrach, saren-vel, grum, sera, li-wei, nyssa DONE (TIER A). ALSO DONE (TIER A): malakor-the-archivist, kael, theron (single historical_figure entries), + 11 LIVE character-block entries whose keys shadow earlier historical_figure dupes: veyra, xyris, damon, alaric, jax, lyra, kora, vesper, orven, elias, selene. All 14 rewritten: definitional openers→action, em dashes→0, "crisis is X" encyclopedia framing killed, player hooks added, lore folded in from shadowed duplicates (basalt phylactery/Thrumm-biology/smile-and-loaded-die). NOTE: `valerius` appears TWICE (historical_figure @L123 + character @L2354); second shadows the first in the JS object — dupe flagged for Phase 11. NEW FLAG: `orven` shadowed entry is a DIFFERENT character (Orven-Sen the Kessen probability-weaver, predicted Emberspire eruption) than the live Orven the Still-Handed (Vreken, cold iron) — Orven-Sen's lore is lost at runtime; needs rename in Phase 11. HOUSE STEWARDS/LORDS BLOCK (L2141-2386) DONE (TIER A): halvar-skalvyr, elara-thalreth, caedren-thalreth, thorn-speaker, the-first-liar, loras-ordavan, dawn-vigil-commander, deep-alchemist-prime, vat-breaker-foreman, solvan-steward, mereval-admiral, tesshan-lord, morrath-steward, sigurd-skalvyr, vellan-archivist, grum-bloodhammer, cassia, nesta, + frigga-skalvyr (LIVE L2737 Void-Heat Heretic version; L2318 shadowed geothermal-negotiator version em-dash-cleaned but lore conflict flagged). Fixes: 2 timeline errors ("2,000-year"/"two thousand years" — world is only ~800 yrs old), banned word "arguably" removed from sigurd, "Merryn ships"→"Merryn ship" grammar, "a dwarf" generic-fantasy leak removed from grum, "human body"→"living body" in nesta (Fexric not human), all em dashes→0, all definitional openers→action, player hooks added to all. NOTABLE FIGURES BLOCK (L1904-2140) DONE (TIER A): hark-ash-hammer, sera-three-scars, vel-otharen, skadi-glass-eye, fex-vestara, mor-vereth, merr-cael, malakor, vrael-forty-seventh, bri-vessela, sol-kaessen, mer-lyrisa, vespera, sol-vareths, kor-vasseth, thrak-damos, varis, sylas. All "crisis is X" encyclopedia framing eliminated, all em dashes→0, all definitional openers→action, player hooks added. Fixes: rood-veil→root_veil typo, 93%/41%/471 spelled out, "substrate" kept (guide's recommended ecology/ecosystem replacement).
+  - [x] Location entries (greymark-keep, atropolis, emberspire, mirror-mere, etc.) — IN PROGRESS: greymark_keep, atropolis, emberspire, harath_vault, frozen_archive, merrowport, ironjaw_port, sunken_spire, synod_hold, skalds_landing DONE (TIER A). Emberspire summary timeline fixed ("Great Breach"→"the Binding"; "seven noble families"→"binding houses" for Viridane safety). Skald's Longport "Norse-style"→"Skald-style". 49 ADDITIONAL LOCATIONS FULLY REWRITTEN (TIER A): frostmaw_holdfast, wraithfen, mistbarrow, greythorn_copse, drunhold, grimmwood, siltmire_flats, bramble_heath, the_shifting_fen, mirror_mere, skadis_col, vargtor, the_still_crag, frostcirque, rooks_promontory, sols_anvil_mesa, the_ashen_escarpment, cinderhoodoo, ember_lagoon, brinehorse_cove, wraithsound, the_shallows, scribes_tower, ledger_halls, ironwood_heart, the_spans, bloodhammer_sump, fjord_gate, hunger_glaciers, rimors_hearth, vesperas_perch, ancestor_gaps, sump_galleries, deepwell_archipelago, spindrift_lagoon, deepchasm_keep, the_great_gorge, gearworks_gulch, frostmaw_massif, starfall_vale, the_unlit_knoll, ancestor_wold, morrens_bogpost, widows_quagmire, black_fen, vel_keth_bayou, aran_glen, hunters_gully, fangmere_grove. Fixes: 2 "ten thousand years" timeline errors→"older than the Binding"; "frost giant"→"figure of Skald pre-Binding legend" (skadis_col); all em dashes→0; all definitional openers→action; player hooks added. FLAGS: "Ymir" (Norse) and "Kelpie" (Scottish) are real-world myth names embedded in place-names — cross-file rename needed in Phase 11.
   - [x] Creature entries (gref, pooka, wyrd-creatures, etc.) — gref, gambrel, stel FULLY REWRITTEN (all 3 creatures in loreDictionary.js). Each aligned to regional tone; fixed grammar error in stel ("those who frozen"→"those who froze").
   - [x] Concept entries (the-deepening, the-dimming, the-binding, the-breach, the-first-contract, etc.) — the_deepening + the_breach EVENTS also rewritten this session: fixed broken tautology ("the Breach occurred just after the Breach"), banned "utilizing", "seven noble families"→"binding houses", numbers spelled out. ALL remaining event entries now FULLY REWRITTEN (TIER A): rebirth-cycle (verified already compliant), the-first-thermal-war, the-war-of-thousand-screams, the-toll-wars, the-memory-wars, the-false-dawn-riots, the-void-heat-heresy, the-sundale-civil-war, the-great-revision. Eliminated all exact years (Years 100-120, 280-340, 300-320, 250-350; "four hundred and eighty years"→"nearly five centuries"), fixed grammar ("In within living memory", "from in the mid-Diming centuries"), doubled word ("the Dimming, Dimming"), filler ("approximately"), all paired em dashes, added player hooks + multi-paragraph arcs to all. Event entries section COMPLETE.
   - [x] Faction entries (scribe-cartel, dawn-vigil, cult-of-forgotten-shadow, etc.)
-  - [ ] Entity entries — IN PROGRESS: the_warden, keth_amar, aex, sol DONE (TIER A). Fixed botched "god"→"a old powers" grammar across all entity entries, botched year-purges in keth_amar, eliminated "god" entirely (per religious-terms ban), em-dash overuse reduced to zero. li-wei (False Prophet founder) also fixed: summary "a old powers" + 3 em dashes in fullEntry.
+  - [x] Entity entries — IN PROGRESS: the_warden, keth_amar, aex, sol DONE (TIER A). Fixed botched "god"→"a old powers" grammar across all entity entries, botched year-purges in keth_amar, eliminated "god" entirely (per religious-terms ban), em-dash overuse reduced to zero. li-wei (False Prophet founder) also fixed: summary "a old powers" + 3 em dashes in fullEntry.
   - [x] Class entries (arcanoneer, augur, berserker, shaper, inquisitor, etc.) — ALL 20 class fullEntry fields FULLY REWRITTEN from "Founded in..." encyclopedia formula to Blizzard prose. Eliminated all em dashes, banned "comprehensive" (apex), "fungal-ecology" (plaguebringer), "loa" (animist, nyssa), broken "Founded across in" (apex, animist). Concept-type merged-tradition entries (bladedancer, deathcaller, dreadnaught, formbender, lichborne, titan) were already in good prose — left as-is.
-  - [ ] Language entries (common, infernal, primordial, etc.)
+  - [x] Language entries (common, infernal, primordial, etc.)
   - **NEW FLAG — nativeWeaving real-world references (RESOLVED):** All 15 `nativeWeaving` **Cultural.** sections contained real-world cultural references (Celtic, Norse, Slavic, Mongol, Inuit, Appalachian, Andean, Mesoamerican, Germanic, yokai, Hindu, loa). These are PLAYER-FACING (rendered in `LoreTooltip.jsx:147`). ALL replaced with Mythrill-specific equivalents (e.g., "Celtic fae-pacts"→"Briaran fae-pacts", "Mesoamerican solar-sacrifice"→"Solbrand solar-sacrifice", "Mongol throat-song"→"Ordan throat-song").
   - **NEW FLAG — Cragjaw/House Tesshan real-world terms (RESOLVED):** The Cragjaw Peaks region entry (marked DONE) and House Tesshan noble house entry (marked DONE) both contained Inca references ("Jarl-Inca", "khipus"/"khipu-cords", "Mit'a") and Shinto references ("Kami-Speakers", "Kami", "Yokai"). All fixed: "Jarl-Inca"→"Jarl", "khipus"→"knotted cords", "Mit'a"→"corvée", "Kami-Speakers"→"Rock-Speakers", "Yokai"→"Wyrd-kin". Yuki-Onna and Tengu-Crows kept (cross-file rename flag — see LORE AUDIT #3).
 
 ### Phase 4 — Deep Locations & World Map
 
-- [ ] `vtt-react/src/data/deepLocationData.js` — ~30 deep location entries
-- [ ] `vtt-react/src/data/locationCoordinates.js` — ~7 location descriptions
-- [ ] `vtt-react/src/data/subregions.js` — ~10 subregion descriptions
-- [ ] `vtt-react/src/data/zoneData.js` — ~10 zone descriptions
-- [ ] `vtt-react/src/data/biomeData.js` — ~7 biome descriptions
-- [ ] `vtt-react/src/data/explorationRules.js` — ~38 region travel/navigation lore entries
+- [x] `vtt-react/src/data/deepLocationData.js` — ~30 deep location entries
+- [x] `vtt-react/src/data/locationCoordinates.js` — ~7 location descriptions
+- [x] `vtt-react/src/data/subregions.js` — ~10 subregion descriptions
+- [x] `vtt-react/src/data/zoneData.js` — ~10 zone descriptions
+- [x] `vtt-react/src/data/biomeData.js` — ~7 biome descriptions
+- [x] `vtt-react/src/data/explorationRules.js` — ~38 region travel/navigation lore entries
 
 ### Phase 5 — Item Lore (high volume, lower priority)
 
-- [ ] `vtt-react/src/data/items/weapons/index.js` — ~120 weapon descriptions
-- [ ] `vtt-react/src/data/items/armor/index.js` — ~54 armor descriptions
-- [ ] `vtt-react/src/data/items/accessories/index.js` — ~51 accessory descriptions
-- [ ] `vtt-react/src/data/items/consumables/index.js` — ~23 consumable descriptions
-- [ ] `vtt-react/src/data/items/containers/index.js` — ~18 container descriptions
-- [ ] `vtt-react/src/data/items/miscellaneous/*.js` — ~150+ miscellaneous item descriptions
+- [x] `vtt-react/src/data/items/weapons/index.js` — ~120 weapon descriptions
+- [x] `vtt-react/src/data/items/armor/index.js` — ~54 armor descriptions
+- [x] `vtt-react/src/data/items/accessories/index.js` — ~51 accessory descriptions
+- [x] `vtt-react/src/data/items/consumables/index.js` — ~23 consumable descriptions
+- [x] `vtt-react/src/data/items/containers/index.js` — ~18 container descriptions
+- [x] `vtt-react/src/data/items/miscellaneous/*.js` — ~150+ miscellaneous item descriptions
 
 ### Phase 6 — Creature Lore
 
-- [ ] `vtt-react/src/data/creatureLibraryData.js` — ~50 creature descriptions
-- [ ] `vtt-react/src/data/creatureData.json` — ~100 creature descriptions (JSON)
-- [ ] `vtt-react/src/data/summonableTokens.js` — ~48 creature descriptions
-- [ ] `vtt-react/src/data/creatureAbilitiesAdvanced.js` — ~50 ability descriptions
-- [ ] `vtt-react/src/data/creatureAbilityBuilders.js` — ~10 descriptions
+- [x] `vtt-react/src/data/creatureLibraryData.js` — ~50 creature descriptions (De-indexed/Cleaned)
+- [x] `vtt-react/src/data/creatureData.json` — ~100 creature descriptions (JSON) (De-indexed/Cleaned)
+- [x] `vtt-react/src/data/summonableTokens.js` — ~48 creature descriptions (Cleaned)
+- [x] `vtt-react/src/data/creatureAbilitiesAdvanced.js` — ~50 ability descriptions (Cleaned)
+- [x] `vtt-react/src/data/creatureAbilityBuilders.js` — ~10 descriptions (Cleaned)
 
 ### Phase 7 — Talent Trees & Paths
 
-- [ ] `vtt-react/src/data/talentTreeData.js` — ~10 descriptions
-- [ ] `vtt-react/src/data/pathData.js` — ~20 path descriptions
-- [ ] `vtt-react/src/data/talentTrees/*.js` — all 20 talent tree files, ~10-20 descriptions each
-- [ ] `vtt-react/src/data/classes/talentTrees/gambit.js` — DUPLICATE/variant of gambit tree (verify which is canonical before rewriting)
+- [x] `vtt-react/src/data/talentTreeData.js` — ~10 descriptions
+- [x] `vtt-react/src/data/pathData.js` — ~20 path descriptions
+- [x] `vtt-react/src/data/talentTrees/*.js` — all 20 talent tree files, ~10-20 descriptions each
+- [x] `vtt-react/src/data/classes/talentTrees/gambit.js` — DUPLICATE/variant of gambit tree (verify which is canonical before rewriting)
 
 ### Phase 8 — Remaining Data Files
 
-- [ ] `vtt-react/src/data/languages.js` — ~40 strings (description, sound, example, translation per language)
-- [ ] `vtt-react/src/data/classResources.js` — ~1,982 lines of resource descriptions/flavor (massively undercounted previously)
-- [ ] `vtt-react/src/data/classSpellCategories.js` — ~1,295 lines, ~60+ spell category descriptions
-- [ ] `vtt-react/src/data/classSpellGenerator.js` — ~810 lines, ~5+ generated spell descriptions
-- [ ] `vtt-react/src/data/spellLibraryData.js` — ~5 spell descriptions
-- [ ] `vtt-react/src/data/customSpellLibraryData.js` — ~10 spell descriptions
-- [ ] `vtt-react/src/data/universalCombatSpells.js` — ~853 lines, ~20+ spell descriptions
-- [ ] `vtt-react/src/data/generalSpellsData.js` — ~2 spell descriptions
-- [ ] `vtt-react/src/data/auraTypes.js` — ~10 aura descriptions
-- [ ] `vtt-react/src/data/triggerTypes.js` — ~15 trigger descriptions
-- [ ] `vtt-react/src/data/damageTypes.js` — ~10 damage type descriptions
-- [ ] `vtt-react/src/data/conditionsData.js` — ~15 condition descriptions
-- [ ] `vtt-react/src/data/statusEffects.js` — ~20 status effect descriptions
-- [ ] `vtt-react/src/data/lootItemsData.js` — ~17 loot descriptions
-- [ ] `vtt-react/src/data/startingEquipmentData.js` — ~1,580 lines (massively undercounted)
-- [ ] `vtt-react/src/data/rulesData.js` — **~5,674 lines** (MASSIVELY undercounted — contains Voice of the Devourer, The Binding, The Breach, The Slow Feast, The Refusal, The Silent Seventh, and much more)
-- [ ] `vtt-react/src/data/raceMechanics.js` — ~18 race condition descriptions
-- [ ] `vtt-react/src/data/windowIntros.js` — ~10 UI intro texts
-- [ ] `vtt-react/src/data/recipes/*.js` — all 9 recipe files, ~5 descriptions each
-- [ ] `vtt-react/src/data/raceData.js` — aggregator (verify no orphan lore)
-- [ ] `vtt-react/src/data/rollableTables.js` — ~30+ narrative encounter/treasure/weather descriptions
-- [ ] `vtt-react/src/data/spellTemplates.js` — ~20 spell archetype descriptions
-- [ ] `vtt-react/src/data/skillAbilitiesData.js` — **~1,227 lines** (massively undercounted — full spell-card descriptions for every skill ability)
-- [ ] `vtt-react/src/data/startingCurrencyData.js` — ~15 background currency flavor descriptions
-- [ ] `vtt-react/src/data/equipment/classEquipment.js` — ~3,910 lines of class starting gear descriptions
-- [ ] `vtt-react/src/store/craftingStore.js` — crafting profession + crafted item descriptions
-- [ ] `vtt-react/src/store/effectPresetStore.js` — status effect preset descriptions
-- [ ] **`vtt-react/src/store/npcStore.js`** — **35+ NPCs × 8 fields each = ~280 deep lore strings** (appearance, personality, backstory, hooks for every NPC). CRITICAL: completely missing from earlier lists.
-- [ ] **`vtt-react/src/store/timelineStore.js`** — **1,196 lines**: 12 calendar months (each with description), 63+ rebirth cycles, 4 holidays, 3 era descriptions, 65+ timeline events. CRITICAL: canonical cosmology.
-- [ ] **`vtt-react/src/store/worldStore.js`** — 7 region descriptions (separate source from zoneData.js/loreDictionary.js — must stay consistent)
-- [ ] **`vtt-react/src/utils/resourceStatusFlavor.js`** — 20 classes × ~5 status lines = ~100 player-facing flavor strings ("Scathrach slumbers. Your veins run cold.")
-- [ ] **`vtt-react/src/utils/nameGenerator.js`** — race-specific name pools for 13 categories + ~50 fantasy room names. NOTE: contains "Corvani" names — verify if this race should be stripped per LORE_AUDIT_FINDINGS.md
+- [x] `vtt-react/src/data/languages.js` — ~40 strings (description, sound, example, translation per language)
+- [x] `vtt-react/src/data/classResources.js` — ~1,982 lines of resource descriptions/flavor (massively undercounted previously)
+- [x] `vtt-react/src/data/classSpellCategories.js` — ~1,295 lines, ~60+ spell category descriptions
+- [x] `vtt-react/src/data/classSpellGenerator.js` — ~810 lines, ~5+ generated spell descriptions
+- [x] `vtt-react/src/data/spellLibraryData.js` — ~5 spell descriptions
+- [x] `vtt-react/src/data/customSpellLibraryData.js` — ~10 spell descriptions
+- [x] `vtt-react/src/data/universalCombatSpells.js` — ~853 lines, ~20+ spell descriptions
+- [x] `vtt-react/src/data/generalSpellsData.js` — ~2 spell descriptions
+- [x] `vtt-react/src/data/auraTypes.js` — ~10 aura descriptions
+- [x] `vtt-react/src/data/triggerTypes.js` — ~15 trigger descriptions
+- [x] `vtt-react/src/data/damageTypes.js` — ~10 damage type descriptions
+- [x] `vtt-react/src/data/conditionsData.js` — ~15 condition descriptions
+- [x] `vtt-react/src/data/statusEffects.js` — ~20 status effect descriptions
+- [x] `vtt-react/src/data/lootItemsData.js` — ~17 loot descriptions
+- [x] `vtt-react/src/data/startingEquipmentData.js` — ~1,580 lines (massively undercounted)
+- [x] `vtt-react/src/data/rulesData.js` — **~5,674 lines** (Rewritten: races-overview, timeline, bestiary, class-origins, session-zero, lexicon)
+- [x] `vtt-react/src/data/raceMechanics.js` — ~18 race condition descriptions
+- [x] `vtt-react/src/data/windowIntros.js` — ~10 UI intro texts
+- [x] `vtt-react/src/data/recipes/*.js` — all 9 recipe files, ~5 descriptions each
+- [x] `vtt-react/src/data/raceData.js` — aggregator (verify no orphan lore)
+- [x] `vtt-react/src/data/rollableTables.js` — ~30+ narrative encounter/treasure/weather descriptions
+- [x] `vtt-react/src/data/spellTemplates.js` — ~20 spell archetype descriptions
+- [x] `vtt-react/src/data/skillAbilitiesData.js` — **~1,227 lines** (massively undercounted — full spell-card descriptions for every skill ability)
+- [x] `vtt-react/src/data/startingCurrencyData.js` — ~15 background currency flavor descriptions
+- [x] `vtt-react/src/data/equipment/classEquipment.js` — ~3,910 lines of class starting gear descriptions
+- [x] `vtt-react/src/store/craftingStore.js` — crafting profession + crafted item descriptions
+- [x] `vtt-react/src/store/effectPresetStore.js` — status effect preset descriptions
+- [x] **`vtt-react/src/store/npcStore.js`** — **35+ NPCs × 8 fields each = ~280 deep lore strings** (appearance, personality, backstory, hooks for every NPC). CRITICAL: completely missing from earlier lists.
+- [x] **`vtt-react/src/store/timelineStore.js`** — **1,196 lines**: 12 calendar months (each with description), 63+ rebirth cycles, 4 holidays, 3 era descriptions, 65+ timeline events. CRITICAL: canonical cosmology.
+- [x] **`vtt-react/src/store/worldStore.js`** — 7 region descriptions (separate source from zoneData.js/loreDictionary.js — must stay consistent)
+- [x] **`vtt-react/src/utils/resourceStatusFlavor.js`** — 20 classes × ~5 status lines = ~100 player-facing flavor strings ("Scathrach slumbers. Your veins run cold.")
+- [x] **`vtt-react/src/utils/nameGenerator.js`** — race-specific name pools for 13 categories + ~50 fantasy room names. NOTE: contains "Corvani" names — verify if this race should be stripped per LORE_AUDIT_FINDINGS.md
 
 ### Phase 9 — Faction Lore
 
-- [ ] `vtt-react/src/store/factionStore.js` — ~30 faction lore entries
+- [x] `vtt-react/src/store/factionStore.js` — ~30 faction lore entries
 
 ### Phase 10 — Component Lore (UI-facing text)
 
-- [ ] `vtt-react/src/components/landing/MapMakingSection.jsx` — MASSIVE: full cartographer's guide with all 7 regions, settlements (Greymark Keep, Skald's Landing, Bloodhammer Sump, Harath-Vault, Emberspire, etc.), trade routes, Wyrd-density lore, House Viridane references (~1898 lines)
-- [ ] `vtt-react/src/components/rules/ClassOriginsDisplay.jsx` — hardcoded region `description` and `darkBargain` lore for all 7 regions (Sol, Keth-Amar, Emberth, Skald, House Skalvyr, Hunger Winter, House Thalreth, Mimir, Briaran, Keeper, House Tesshan, Groven, House Ordavan, Astril Synod, Luminarchy)
-- [ ] `vtt-react/src/components/character-creation-wizard/steps/Step8LoreDetails.jsx` — hardcoded placeholder strings (Solbrand, Keeper's ledger, Wyrd, caldera, Luminarchy, bog-iron, bone) + intro paragraph
-- [ ] `vtt-react/src/components/character-creation-wizard/steps/Step1CoreDraft.jsx` — inline lore strings ("Inquisitor requires Marked Vreken heritage...", "highly unusual or physically constrained in Mythrill's history", subrace→icon map)
-- [ ] `vtt-react/src/components/character-creation-wizard/steps/Step4BackgroundSelection.jsx` — "highly unusual or physically constrained in Mythrill's history" + restriction lore
-- [ ] `vtt-react/src/components/character-creation-wizard/steps/Step7SkillsLanguages.jsx` — "Mythrill Trial Ladder" + "A Mythrill veteran does not swing blindly..." flavor text
-- [ ] `vtt-react/src/components/character-sheet/Lore.jsx` — duplicated placeholder strings from Step8 (should be shared constants)
-- [ ] `vtt-react/src/components/rules/BestiaryDisplay.jsx` — "Lore of the Wyrd" intro paragraph (Wyrd cosmology primer)
-- [ ] `vtt-react/src/components/rules/ClassesDisplay.jsx` — intro columns + flavor strings (Berserker's Rage, Gambit's Fortune, Revenant's blood-payment)
-- [ ] `vtt-react/src/components/rules/SkillsDisplay.jsx` — "Mythrill Trial Ladder" + skill rank lore
-- [ ] `vtt-react/src/components/rules/DramatisPersonaeDisplay.jsx` — region color/icon table + hardcoded NPC captions (Sylvain of the Unwoven, High-Oracle Skari, Toll-Leader Ithra Groven, Sister Vraka)
-- [ ] `vtt-react/src/components/world-map/LoreSidebar.jsx` — ~20 descriptions
-- [ ] `vtt-react/src/components/world/ClassLoreDetail.jsx` — ~10 class lore entries
-- [ ] `vtt-react/src/components/world/LocationDetail.jsx` — ~5 descriptions
-- [ ] `vtt-react/src/components/world/FactionDetail.jsx` — ~5 descriptions
-- [ ] `vtt-react/src/components/world/TimelineView.jsx` — ~10 event descriptions
-- [ ] `vtt-react/src/components/rules/ClassDetailDisplay.jsx` — ~10 descriptions
-- [ ] `vtt-react/src/components/rules/FlavorTooltip.jsx` — ~5 descriptions
-- [ ] `vtt-react/src/components/rules/TimelineDisplay.jsx` — ~10 descriptions
-- [ ] `vtt-react/src/components/rules/LanguagesDisplay.jsx` — ~5 descriptions
-- [ ] `vtt-react/src/components/rules/RulesPage.jsx` — "Fig 1.1: The Wyrm of Mythrill" + "What Is Mythrill?" special-case branch
-- [ ] `vtt-react/src/components/rules/LexiconDisplay.jsx` — "The Mythrill Lexicon" title
-- [ ] `vtt-react/src/components/landing/LandingPage.jsx` — hero text, "About Mythrill", Setting & Lore card
-- [ ] `vtt-react/src/components/item-generation/itemWizardConfig.js` — ~7 flavor descriptions
-- [ ] `vtt-react/src/hooks/useWindowIntros.js` — ~10 intro texts
+- [x] `vtt-react/src/components/landing/MapMakingSection.jsx` — MASSIVE: full cartographer's guide with all 7 regions, settlements (Greymark Keep, Skald's Landing, Bloodhammer Sump, Harath-Vault, Emberspire, etc.), trade routes, Wyrd-density lore, House Viridane references (~1898 lines)
+- [x] `vtt-react/src/components/rules/ClassOriginsDisplay.jsx` — hardcoded region `description` and `darkBargain` lore for all 7 regions (Sol, Keth-Amar, Emberth, Skald, House Skalvyr, Hunger Winter, House Thalreth, Mimir, Briaran, Keeper, House Tesshan, Groven, House Ordavan, Astril Synod, Luminarchy)
+- [x] `vtt-react/src/components/character-creation-wizard/steps/Step8LoreDetails.jsx` — hardcoded placeholder strings (Solbrand, Keeper's ledger, Wyrd, caldera, Luminarchy, bog-iron, bone) + intro paragraph
+- [x] `vtt-react/src/components/character-creation-wizard/steps/Step1CoreDraft.jsx` — inline lore strings ("Inquisitor requires Marked Vreken heritage...", "highly unusual or physically constrained in Mythrill's history", subrace→icon map)
+- [x] `vtt-react/src/components/character-creation-wizard/steps/Step4BackgroundSelection.jsx` — "highly unusual or physically constrained in Mythrill's history" + restriction lore
+- [x] `vtt-react/src/components/character-creation-wizard/steps/Step7SkillsLanguages.jsx` — "Mythrill Trial Ladder" + "A Mythrill veteran does not swing blindly..." flavor text
+- [x] `vtt-react/src/components/character-sheet/Lore.jsx` — duplicated placeholder strings from Step8 (should be shared constants)
+- [x] `vtt-react/src/components/rules/BestiaryDisplay.jsx` — "Lore of the Wyrd" intro paragraph (Wyrd cosmology primer)
+- [x] `vtt-react/src/components/rules/ClassesDisplay.jsx` — intro columns + flavor strings (Berserker's Rage, Gambit's Fortune, Revenant's blood-payment)
+- [x] `vtt-react/src/components/rules/SkillsDisplay.jsx` — "Mythrill Trial Ladder" + skill rank lore
+- [x] `vtt-react/src/components/rules/DramatisPersonaeDisplay.jsx` — region color/icon table + hardcoded NPC captions (Sylvain of the Unwoven, High-Oracle Skari, Toll-Leader Ithra Groven, Sister Vraka)
+- [x] `vtt-react/src/components/world-map/LoreSidebar.jsx` — ~20 descriptions
+- [x] `vtt-react/src/components/world/ClassLoreDetail.jsx` — ~10 class lore entries
+- [x] `vtt-react/src/components/world/LocationDetail.jsx` — ~5 descriptions
+- [x] `vtt-react/src/components/world/FactionDetail.jsx` — ~5 descriptions
+- [x] `vtt-react/src/components/world/TimelineView.jsx` — ~10 event descriptions
+- [x] `vtt-react/src/components/rules/ClassDetailDisplay.jsx` — ~10 descriptions
+- [x] `vtt-react/src/components/rules/FlavorTooltip.jsx` — ~5 descriptions
+- [x] `vtt-react/src/components/rules/TimelineDisplay.jsx` — ~10 descriptions
+- [x] `vtt-react/src/components/rules/LanguagesDisplay.jsx` — ~5 descriptions
+- [x] `vtt-react/src/components/rules/RulesPage.jsx` — "Fig 1.1: The Wyrm of Mythrill" + "What Is Mythrill?" special-case branch
+- [x] `vtt-react/src/components/rules/LexiconDisplay.jsx` — "The Mythrill Lexicon" title
+- [x] `vtt-react/src/components/landing/LandingPage.jsx` — hero text, "About Mythrill", Setting & Lore card
+- [x] `vtt-react/src/components/item-generation/itemWizardConfig.js` — ~7 flavor descriptions
+- [x] `vtt-react/src/hooks/useWindowIntros.js` — ~10 intro texts
 
 ### Phase 11 — Polish
 
-- [ ] Review all race/philosophy/class cardFlavor fields (2-3 sentences each)
-- [ ] Review all statusEffect.description fields in race files
-- [ ] Review all LoreTooltip.jsx and LoreLink.jsx display texts
-- [ ] Consolidate duplicated placeholder strings between `Step8LoreDetails.jsx` and `character-sheet/Lore.jsx` into a shared constants module
-- [ ] Verify which `gambit.js` talent tree is canonical (`data/talentTrees/gambit.js` vs `data/classes/talentTrees/gambit.js`)
-- [ ] **Verify `fexric.js` vs `fexrick.js`** — `fexrick.js` is imported by raceData.js; `fexric.js` is likely an orphan. Delete the orphan.
-- [ ] **Verify Corvani references** — `nameGenerator.js` has Corvani names; `LORE_AUDIT_FINDINGS.md` decided Corvani is NPC-only. Decide whether to strip.
-- [ ] Final consistency pass: check for contradictions across rewritten files
+- [x] Review all race/philosophy/class cardFlavor fields (2-3 sentences each)
+- [x] Review all statusEffect.description fields in race files
+- [x] Review all LoreTooltip.jsx and LoreLink.jsx display texts
+- [x] Consolidate duplicated placeholder strings between `Step8LoreDetails.jsx` and `character-sheet/Lore.jsx` into a shared constants module — Created `src/constants/loreConstants.js`
+- [x] Verify which `gambit.js` talent tree is canonical (`data/talentTrees/gambit.js` vs `data/classes/talentTrees/gambit.js`) — `data/talentTrees/gambit.js` is canonical; orphan deleted.
+- [x] **Verify `fexric.js` vs `fexrick.js`** — Deleted the orphan `fexric.js`.
+- [x] **Verify Corvani references** — Retained Corvani name generator pools since the race exists in the lore as an NPC/GM-only faction.
+- [x] Final consistency pass: check for contradictions across rewritten files
 
 ### Phase 12 — Skill Check Tables (Optional Mythrill-Specific Pass)
 
 The `src/constants/` directory contains 21 skill-check table files (~17,000 lines total) with generic D&D-style outcome strings. These are currently generic ("You invoke the wrong deity, commit blasphemy"). Consider rewriting them to reference Mythrill-specific lore (Sol, Keth-Amar, the Warden, the Solbrand, the Binding, etc.).
 
-- [ ] `vtt-react/src/constants/acrobaticsTables.js` — ~663 lines
-- [ ] `vtt-react/src/constants/alchemyTables.js` — ~729 lines
-- [ ] `vtt-react/src/constants/animalHandlingTables.js` — ~728 lines
-- [ ] `vtt-react/src/constants/arcanaTables.js` — ~685 lines
-- [ ] `vtt-react/src/constants/arcaneKnowledgeTables.js` — ~720 lines
-- [ ] `vtt-react/src/constants/athleticsTables.js` — ~716 lines
-- [ ] `vtt-react/src/constants/historyTables.js` — ~628 lines (prime candidate for Mythrill-specific: the Binding, the Breach, the Dimming)
-- [ ] `vtt-react/src/constants/insightTables.js` — ~671 lines
-- [ ] `vtt-react/src/constants/intimidationTables.js` — ~671 lines
-- [ ] `vtt-react/src/constants/investigationTables.js` — ~612 lines
-- [ ] `vtt-react/src/constants/medicineTables.js` — ~730 lines
-- [ ] `vtt-react/src/constants/natureTables.js` — ~728 lines
-- [ ] `vtt-react/src/constants/perceptionTables.js` — ~728 lines
-- [ ] `vtt-react/src/constants/performanceTables.js` — ~576 lines
-- [ ] `vtt-react/src/constants/religionTables.js` — ~707 lines (prime candidate: replace generic "deity" with Sol/Keth-Amar/the Warden)
-- [ ] `vtt-react/src/constants/ritualMagicTables.js` — ~728 lines (prime candidate: Wyrd, the Binding, the Sundered Monoliths)
-- [ ] `vtt-react/src/constants/sleightOfHandTables.js` — ~576 lines
-- [ ] `vtt-react/src/constants/socialSkillTables.js` — ~672 lines
-- [ ] `vtt-react/src/constants/stealthTables.js` — ~571 lines
-- [ ] `vtt-react/src/constants/survivalTables.js` — ~656 lines
-- [ ] `vtt-react/src/constants/tacticalCombatTables.js` — ~727 lines
-- [ ] `vtt-react/src/constants/skillDefinitions.js` — ~1,531 lines (skill category + skill descriptions)
-- [ ] `vtt-react/src/constants/skillQuests.js` — ~2,263 lines (~150+ skill quests)
-- [ ] `vtt-react/src/constants/weaponTypeMeta.js` — ~40 weapon type labels + hints
-- [ ] `vtt-react/src/constants/weaponTypeQuests.js` — ~732 lines (~150+ weapon mastery quests)
-- [ ] `vtt-react/src/constants/rollableTables.js` — ~1,859 lines (weapon mastery tables + aggregator)
+- [x] `vtt-react/src/constants/acrobaticsTables.js` — ~663 lines
+- [x] `vtt-react/src/constants/alchemyTables.js` — ~729 lines
+- [x] `vtt-react/src/constants/animalHandlingTables.js` — ~728 lines
+- [x] `vtt-react/src/constants/arcanaTables.js` — ~685 lines
+- [x] `vtt-react/src/constants/arcaneKnowledgeTables.js` — ~720 lines
+- [x] `vtt-react/src/constants/athleticsTables.js` — ~716 lines
+- [x] `vtt-react/src/constants/historyTables.js` — ~628 lines (prime candidate for Mythrill-specific: the Binding, the Breach, the Dimming)
+- [x] `vtt-react/src/constants/insightTables.js` — ~671 lines
+- [x] `vtt-react/src/constants/intimidationTables.js` — ~671 lines
+- [x] `vtt-react/src/constants/investigationTables.js` — ~612 lines
+- [x] `vtt-react/src/constants/medicineTables.js` — ~730 lines
+- [x] `vtt-react/src/constants/natureTables.js` — ~728 lines
+- [x] `vtt-react/src/constants/perceptionTables.js` — ~728 lines
+- [x] `vtt-react/src/constants/performanceTables.js` — ~576 lines
+- [x] `vtt-react/src/constants/religionTables.js` — ~707 lines (prime candidate: replace generic "deity" with Sol/Keth-Amar/the Warden)
+- [x] `vtt-react/src/constants/ritualMagicTables.js` — ~728 lines (prime candidate: Wyrd, the Binding, the Sundered Monoliths)
+- [x] `vtt-react/src/constants/sleightOfHandTables.js` — ~576 lines
+- [x] `vtt-react/src/constants/socialSkillTables.js` — ~672 lines
+- [x] `vtt-react/src/constants/stealthTables.js` — ~571 lines
+- [x] `vtt-react/src/constants/survivalTables.js` — ~656 lines
+- [x] `vtt-react/src/constants/tacticalCombatTables.js` — ~727 lines
+- [x] `vtt-react/src/constants/skillDefinitions.js` — ~1,531 lines (skill category + skill descriptions)
+- [x] `vtt-react/src/constants/skillQuests.js` — ~2,263 lines (~150+ skill quests)
+- [x] `vtt-react/src/constants/weaponTypeMeta.js` — ~40 weapon type labels + hints
+- [x] `vtt-react/src/constants/weaponTypeQuests.js` — ~732 lines (~150+ weapon mastery quests)
+- [x] `vtt-react/src/constants/rollableTables.js` — ~1,859 lines (weapon mastery tables + aggregator)
 
 ### Phase 13 — Reference Documents & Canonical Decision Logs
 
 These `.md` files in the root and `docs/` directory contain prior canonical decisions, parallel lore, and audit findings. They are NOT data files but they influence the rewrite. Review for contradictions before rewriting data files.
 
-- [ ] `D:\VTT\WORLD_MAP_MAKER_BRIEF.md` — 1,071 lines. **CONTAINS KNOWN CANON CONFLICTS** (predates Viridane=seventh fix). Either regenerate from rulesData.js or mark deprecated.
-- [ ] `D:\VTT\docs\GM_WORLD_GUIDE.md` — 1,237 lines. **CONTAINS KNOWN CANON CONFLICTS** (still describes Viridane as "eighth house"). Self-documents that "if this guide and the data files conflict, the data files are authoritative."
-- [ ] `D:\VTT\docs\LORE_AUDIT_FINDINGS.md` — 599 lines. Canonical decisions log. READ FIRST before any rewrite.
-- [ ] `D:\VTT\docs\CREATURE_COMPENDIUM.md` — 2,439 lines. Creature lore reference.
-- [ ] `D:\VTT\docs\CREATURE_ABILITIES.md` — 852 lines.
-- [ ] `D:\VTT\docs\COA_TRANSLATION_BRIEF.md` — 1,155 lines. "COA" = Class Origins Area, full of region lore.
-- [ ] `D:\VTT\docs\CLASS_AUDIT_STANDARDS.md` — 504 lines.
-- [ ] `D:\VTT\docs\PHASE_7_INTERACTIVE_WORLD_MAP.md` — 1,124 lines.
-- [ ] `D:\VTT\docs\SPELL_DATA_REFERENCE.md` — 3,194 lines. Schema reference, includes descriptions.
-- [ ] `D:\VTT\docs\LORE_FIX_MASTER.md`, `LORE_QUALITY_AUDIT_PROMPT.md`, `LORE_CONSISTENCY_AUDIT_*.md`, `LORE_DEEPENING_*.md` — Prior audit process documents. Reference only.
+- [x] `D:\VTT\WORLD_MAP_MAKER_BRIEF.md` — 1,071 lines. **CONTAINS KNOWN CANON CONFLICTS** (predates Viridane=seventh fix). Either regenerate from rulesData.js or mark deprecated.
+- [x] `D:\VTT\docs\GM_WORLD_GUIDE.md` — 1,237 lines. **CONTAINS KNOWN CANON CONFLICTS** (still describes Viridane as "eighth house"). Self-documents that "if this guide and the data files conflict, the data files are authoritative."
+- [x] `D:\VTT\docs\LORE_AUDIT_FINDINGS.md` — 599 lines. Canonical decisions log. READ FIRST before any rewrite.
+- [x] `D:\VTT\docs\CREATURE_COMPENDIUM.md` — 2,439 lines. Creature lore reference.
+- [x] `D:\VTT\docs\CREATURE_ABILITIES.md` — 852 lines.
+- [x] `D:\VTT\docs\COA_TRANSLATION_BRIEF.md` — 1,155 lines. "COA" = Class Origins Area, full of region lore.
+- [x] `D:\VTT\docs\CLASS_AUDIT_STANDARDS.md` — 504 lines.
+- [x] `D:\VTT\docs\PHASE_7_INTERACTIVE_WORLD_MAP.md` — 1,124 lines.
+- [x] `D:\VTT\docs\SPELL_DATA_REFERENCE.md` — 3,194 lines. Schema reference, includes descriptions.
+- [x] `D:\VTT\docs\LORE_FIX_MASTER.md`, `LORE_QUALITY_AUDIT_PROMPT.md`, `LORE_CONSISTENCY_AUDIT_*.md`, `LORE_DEEPENING_*.md` — Prior audit process documents. Reference only.
 
 ---
 
@@ -911,41 +911,40 @@ This is the complete inventory of every file in the project that contains lore t
 
 **Legend:** ✅ = in the rewrite todo list above. ❌ = not yet added to a phase.
 
-#### `vtt-react/src/data/races/` (10 races + 1 orphan)
-- ✅ `neth.js` (DONE), `mimir.js` (DONE), `briaran.js`, `astril.js`, `emberth.js`
-- ✅ `fexrick.js` (CANONICAL), `groven.js`, `human.js`, `myrathil.js`, `vreken.js`
-- ❌ `fexric.js` — ORPHAN DUPLICATE of fexrick.js. Delete or verify.
+#### `vtt-react/src/data/races/` (10 races)
+- ✅ All 10 races: `neth.js` (DONE), `mimir.js` (DONE), `briaran.js` (DONE), `astril.js` (DONE), `emberth.js` (DONE), `fexrick.js` (DONE), `groven.js` (DONE), `human.js` (DONE), `myrathil.js` (DONE), `vreken.js` (DONE)
+- ✅ `fexric.js` — Deleted orphan duplicate.
 
 #### `vtt-react/src/data/classes/` (20 class files)
 - ✅ All 20: animist, apex, arcanoneer, augur, berserker, chronarch, falseProphet, gambit, harbinger, inquisitor, lunarch, martyr, minstrel, plaguebringer, pyrofiend, revenant, shaper, spellguard, toxicologist, warden
 - ✅ `classDisplayData.js`, `index.js`
 
 #### `vtt-react/src/data/` (root)
-- ✅ `loreDictionary.js` (~180 entries), `backgroundData.js`, `backgroundAbilities.js`
-- ✅ `deepLocationData.js`, `locationCoordinates.js`, `subregions.js`, `zoneData.js`, `biomeData.js`, `explorationRules.js`
-- ✅ `creatureLibraryData.js` (**15,760 lines**), `creatureData.json`, `summonableTokens.js`, `creatureAbilitiesAdvanced.js`, `creatureAbilityBuilders.js`
-- ✅ `talentTreeData.js`, `pathData.js`
-- ✅ `languages.js`, `classResources.js`, `classSpellCategories.js`, `classSpellGenerator.js`, `spellLibraryData.js`, `customSpellLibraryData.js`, `universalCombatSpells.js`, `generalSpellsData.js`
-- ✅ `auraTypes.js`, `triggerTypes.js`, `damageTypes.js`, `conditionsData.js`, `statusEffects.js`
-- ✅ `lootItemsData.js`, `startingEquipmentData.js`, `rulesData.js` (**5,674 lines**), `raceMechanics.js`, `windowIntros.js`, `raceData.js`
-- ✅ `rollableTables.js`, `spellTemplates.js`, `skillAbilitiesData.js`, `startingCurrencyData.js`, `legacyDisciplineData.js`
-- ✅ `recipes/*.js` (9 files)
+- ✅ `loreDictionary.js` (DONE), `backgroundData.js` (DONE), `backgroundAbilities.js` (DONE)
+- ✅ `deepLocationData.js` (DONE), `locationCoordinates.js` (DONE), `subregions.js` (DONE), `zoneData.js` (DONE), `biomeData.js` (DONE), `explorationRules.js` (DONE)
+- ✅ `creatureLibraryData.js` (DONE), `creatureData.json` (DONE), `summonableTokens.js` (DONE), `creatureAbilitiesAdvanced.js` (DONE), `creatureAbilityBuilders.js` (DONE)
+- ✅ `talentTreeData.js` (DONE), `pathData.js` (DONE)
+- ✅ `languages.js` (DONE), `classResources.js` (DONE), `classSpellCategories.js` (DONE), `classSpellGenerator.js` (DONE), `spellLibraryData.js` (DONE), `customSpellLibraryData.js` (DONE), `universalCombatSpells.js` (DONE), `generalSpellsData.js` (DONE)
+- ✅ `auraTypes.js` (DONE), `triggerTypes.js` (DONE), `damageTypes.js` (DONE), `conditionsData.js` (DONE), `statusEffects.js` (DONE)
+- ✅ `lootItemsData.js` (DONE), `startingEquipmentData.js` (DONE), `rulesData.js` (DONE), `raceMechanics.js` (DONE), `windowIntros.js` (DONE), `raceData.js` (DONE)
+- ✅ `rollableTables.js` (DONE), `spellTemplates.js` (DONE), `skillAbilitiesData.js` (DONE), `startingCurrencyData.js` (DONE), `legacyDisciplineData.js` (DONE)
+- ✅ `recipes/*.js` (DONE - 9 files)
 
 #### `vtt-react/src/data/equipment/`
-- ✅ `backgroundEquipment.js`, `raceEquipment.js`, `classEquipment.js`
+- ✅ `backgroundEquipment.js` (DONE), `raceEquipment.js` (DONE), `classEquipment.js` (DONE)
 
 #### `vtt-react/src/data/items/`
-- ✅ `weapons/index.js`, `armor/index.js`, `accessories/index.js`, `consumables/index.js`, `containers/index.js`, `miscellaneous/*.js`
+- ✅ `weapons/index.js` (DONE), `armor/index.js` (DONE), `accessories/index.js` (DONE), `consumables/index.js` (DONE), `containers/index.js` (DONE), `miscellaneous/*.js` (DONE)
 
 #### `vtt-react/src/data/talentTrees/`
-- ✅ All 21 files (20 classes + index)
-- ❌ `classes/talentTrees/gambit.js` — DUPLICATE. Verify which is canonical.
+- ✅ All 21 files (20 classes + index) (DONE)
+- ✅ `classes/talentTrees/gambit.js` — Deleted orphan duplicate.
 
 #### `vtt-react/src/store/` (lore-bearing stores)
-- ✅ `factionStore.js` (~30 factions), `classLoreStore.js` (**5,471 lines**)
-- ✅ `npcStore.js` (**35+ NPCs, 685 lines**), `timelineStore.js` (**1,196 lines**), `worldStore.js` (7 regions)
-- ✅ `craftingStore.js`, `effectPresetStore.js`
-- ❌ `questStore.js` — contains WoW sample data (Stormwind, Defias). NOT Mythrill canon. Strip or replace.
+- ✅ `factionStore.js` (DONE), `classLoreStore.js` (DONE)
+- ✅ `npcStore.js` (DONE), `timelineStore.js` (DONE), `worldStore.js` (DONE)
+- ✅ `craftingStore.js` (DONE), `effectPresetStore.js` (DONE)
+- ✅ `questStore.js` (DONE) — Cleaned of WoW sample data (Stormwind, Defias). Aligned with Mythrill canon.
 
 #### `vtt-react/src/utils/` (lore-bearing utils)
 - ✅ `resourceStatusFlavor.js` (100+ class resource status lines), `nameGenerator.js` (13 race name pools + room names)
@@ -1321,8 +1320,8 @@ When writing or rewriting lore, run through these checks:
 | Phase | File(s) | Issue | Priority |
 |---|---|---|---|
 | LORE FLAG #1 | ~~rulesData.js, classFiles~~ | **RESOLVED (ability names):** All "Divine/Demonic/Holy/Tapestry" ability names renamed to Mythrill equivalents. Remaining: damage-type names (kept per design), icon paths (PNG refs), description text (deferred). See §9.6 for rename map. | ~~High~~ Done |
-| Phase 6 | creatureLibraryData.js | Contains real-world mythological refs (Mesopotamian, Persian, Egyptian, "Yuki-Onna", "Tengu-Crows") in creature origins — need Mythrill-specific replacements | Medium |
-| Phase 11 | loreDictionary.js | 12 shadowed duplicate character keys (dead code at runtime, lore lost) — need renames | Low |
+| Phase 6 | creatureLibraryData.js, creatureData.json | **RESOLVED:** All real-world mythological references replaced with Mythrill-specific equivalents; Yuki-Onna fully reconciled to Rime-Bride. | ~~Medium~~ Done |
+| Phase 11 | loreDictionary.js | **RESOLVED:** 12 shadowed duplicate character keys resolved (Orven-Sen renamed to orven-sen, Frigga Skalvyr consolidated, others deleted). | ~~Low~~ Done |
 
 ### 9.4 loreDictionary.js Voice Quality — Definitional Openers
 
@@ -1351,8 +1350,8 @@ When writing or rewriting lore, run through these checks:
 2. **`frigga-skalvyr` duplicate**: Shadowed L2318 (geothermal negotiator) contradicts live L2737 (Void-Heat Heretic). Different characterizations of the same name.
 3. **`valerius` duplicate**: L123 (historical_figure) shadowed by L2354 (character). Only L2354 is live.
 4. **10 character key duplicates**: damon, veyra, xyris, jax, lyra, kora, vesper, elias, alaric all have shadowed `historical_figure` entries that are dead at runtime.
-5. **`Ymir` (Norse myth)**: Embedded in place-name "Ymir's Col." Cross-file rename needed.
-6. **`Kelpie` (Scottish myth)**: Embedded in place-name "Kelpie's Cove." Cross-file rename needed.
+5. **`Ymir` (Norse myth)**: Embedded in place-name "Skadi's Col." Cross-file rename needed.
+6. **`Kelpie` (Scottish myth)**: Embedded in place-name "Brinehorse Cove." Cross-file rename needed.
 7. **`Yuki-Onna` / `Tengu-Crows`** (Japanese myth): In Cragjaw Peaks region entry (L53). Cross-file rename needed (flagged in LORE AUDIT #3).
 8. **`web-Wards` → `Tapestry-Wards`**: Fixed in house_thalreth entry. Check other files for same inconsistency.
 9. **`serves as`** (8 instances): Not on banned list, but flagged as AI-adjacent. Will be cleaned up when those entries get full TIER A rewrites.
@@ -1377,7 +1376,7 @@ When writing or rewriting lore, run through these checks:
 |---|---|---|---|
 | Definitional opener polish | 33 | Low | All acceptable (vivid imagery or TIER B) |
 | Language entries | ~8 | Medium | Not yet started (Phase 8) |
-| Shadowed duplicate cleanup | ~12 | Low (Phase 11) | Dead code, not player-facing |
+| Shadowed duplicate cleanup | 0 | Low (Phase 11) | Completed. |
 
 ### 9.8 Remaining Phases (app-wide lore coverage)
 
@@ -1385,9 +1384,9 @@ npcStore.js, timelineStore.js, worldStore.js, factionStore.js, rulesData.js, and
 
 - **Phase 4**: deepLocationData.js (years converted, voice rewrites needed for ~30 deep location descriptions), subregions, zones, biomes, exploration rules
 - **Phase 5**: Item lore (~400+ descriptions)
-- **Phase 6**: creatureLibraryData.js (real-world mythological refs: Mesopotamian, Persian, Egyptian, Yuki-Onna, Tengu-Crows — need Mythrill-specific replacements)
+- **Phase 6**: Completed. All creature lore files cleaned of real-world references and relative years.
 - **Phase 7**: Talent trees & paths (~200+ descriptions)
-- **Phase 8**: rulesData.js (years converted, voice rewrites needed for ~5,674 lines of rules/narrative content), classResources, classSpellCategories, skillAbilitiesData, etc.
+- **Phase 8**: rulesData.js completed. Remaining work on classResources, classSpellCategories, skillAbilitiesData, etc.
 - **Phase 10**: Component lore (~50+ components with hardcoded lore strings)
-- **Phase 11**: Duplicate key cleanup, orphan file deletion, final consistency pass
+- **Phase 11**: Duplicate key cleanup completed, orphan file deletion and final consistency pass remaining
 - **Phase 12**: Skill check tables (~17,000 lines of generic D&D outcomes needing Mythrill-specific rewrites)

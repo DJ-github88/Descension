@@ -306,7 +306,7 @@ Check if these additional locations have founding context:
 
 - [ ] Grevtholm
 - [ ] Fjord-Gate
-- [ ] Ymirhold
+- [ ] Skalvyrhold
 - [ ] Basalt Shyr
 - [ ] Ember Lagoon
 - [ ] The Shallows
@@ -318,7 +318,7 @@ Check if these additional locations have founding context:
 - [ ] Driknell Foundry
 - [ ] Starfall Vale
 - [ ] The Moundwatch
-- [ ] Kelpie's Cove
+- [ ] Brinehorse Cove
 - [ ] Spindrift Lagoon
 - [ ] Covenbane Stronghold
 - [ ] Vel-Keth Bayou

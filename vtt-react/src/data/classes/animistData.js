@@ -384,12 +384,16 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       effectTypes: ["damage"],
       typeConfig: { school: "primal", icon: "Nature/Nature Natural 11", tags: ["melee","damage","starter"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 60, targetRestrictions: ["enemies"] },
-      resourceCost: { actionPoints: 1, mana: 3, classResource: { type: "resonance", cost: -1 } },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 1, mana: 3, classResource: { type: "resonance", cost: -1 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
       damageConfig: { formula: "1d8 + spirit", damageTypes: ["primal"], resolution: "DICE" },
       resolution: "DICE",
       tags: ["damage","starter","primal"]
-    },
+    ,
+
+  somaticText: "Plant your feet and let the triple toll resonate — bone, blood, and script answering at once.",
+  verbalText: "A single syllable of the ancestral language, spoken aloud.",
+},
     { id : "animist_healing_totem",
       name: "Bone Sprout Totem",
       description: "Erupt a bone totem that heals nearby allies at the start of your turn. Generates 3 Resonance.",
@@ -399,12 +403,16 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       effectTypes: ["healing"],
       typeConfig: { school: "primal", icon: "Healing/Golden Heart", tags: ["summon","healing","totem","starter"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 30, targetRestrictions: ["allies"], areaShape: "circle", areaSize: 15 },
-      resourceCost: { actionPoints: 1, mana: 4, classResource: { type: "resonance", cost: -3 } },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 1, mana: 4, classResource: { type: "resonance", cost: -3 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       healingConfig: { formula: "1d6 + spirit", healingType: "zone", resolution: "DICE" },
       resolution: "DICE",
       tags: ["healing","summon","totem","starter"]
-    },
+    ,
+
+  somaticText: "Drive your off-hand into the soil and wrench a bone spur from your wrist, forcing the totem to tear free of your flesh.",
+  verbalText: "A low, grinding chant thrums in your chest as the ancestor answers.",
+},
     { id : "animist_mojo_whisper",
       name: "Mojo Whisper",
       description: "Whisper a curse of spiritual static to leave a target vulnerable to blight damage. Generates 1 Resonance.",
@@ -414,12 +422,16 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       effectTypes: ["debuff"],
       typeConfig: { school: "blight", icon: "Necrotic/Necrotic Wither", tags: ["debuff","curse","starter"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 45, targetRestrictions: ["enemies"] },
-      resourceCost: { actionPoints: 1, mana: 2, classResource: { type: "resonance", cost: -1 } },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 1, mana: 2, classResource: { type: "resonance", cost: -1 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
       debuffConfig: { debuffType: "statusEffect", effects: [{ id : "animist_mojo_vulnerability", name: "Spirit Static", description: "Target takes +2 blight damage from all spells.", mechanicsText: "+2 Blight damage taken." }], durationType: "rounds", durationValue: 3, durationUnit: "rounds", canBeDispelled: true },
       resolution: "AUTOMATIC",
       tags: ["debuff","curse","starter","blight"]
-    },
+    ,
+
+  somaticText: "Trace the target's silhouette in the air with a bloodied fingertip, anchoring the spirit to your will.",
+  verbalText: "Whisper the target's true name in the fractured ancestor-tongue.",
+},
     { id : "animist_crimson_brand",
       name: "Crimson Brand",
       description: "Carve a bloody brand onto an ally's weapon, adding force damage to strikes. Generates 1 Resonance.",
@@ -429,12 +441,16 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       effectTypes: ["buff"],
       typeConfig: { school: "physical", icon: "Slashing/Bloody Slash", tags: ["buff","brand","starter"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: undefined, targetRestrictions: ["allies"] },
-      resourceCost: { actionPoints: 1, mana: 4, classResource: { type: "resonance", cost: -1 } },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 1, mana: 4, classResource: { type: "resonance", cost: -1 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
       buffConfig: { buffType: "statEnhancement", effects: [{ id : "animist_brand_force", name: "Crimson Brand", description: "Weapon strikes deal +1d4 force damage.", mechanicsText: "+1d4 force damage on hit." }], durationType: "rounds", durationValue: 5, durationUnit: "rounds", canBeDispelled: true },
       resolution: "AUTOMATIC",
       tags: ["buff","brand","starter","physical"]
-    },
+    ,
+
+  somaticText: "Carve the sigil into your own palm, letting welling blood ink the pattern onto the world.",
+  verbalText: "Speak the binding word, lips shaping the old script.",
+},
     { id : "animist_rune_of_shielding",
       name: "Rune of Shielding",
       description: "Carve a protective rune on the floor. Allies standing on it gain a shield. Generates 1 Resonance.",
@@ -444,12 +460,16 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       effectTypes: ["buff"],
       typeConfig: { school: "physical", icon: "Healing/Heart Shield", tags: ["buff","rune","starter"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 30, targetRestrictions: ["allies"], areaShape: "circle", areaSize: 10 },
-      resourceCost: { actionPoints: 1, mana: 5, classResource: { type: "resonance", cost: -1 } },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 1, mana: 5, classResource: { type: "resonance", cost: -1 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       buffConfig: { buffType: "statEnhancement", effects: [{ id : "animist_rune_shield_buff", name: "Runic Ward", description: "Gain +15 temporary HP while inside the rune.", mechanicsText: "+15 Temp HP." }], durationType: "rounds", durationValue: 3, durationUnit: "rounds", canBeDispelled: true },
       resolution: "AUTOMATIC",
       tags: ["buff","rune","starter","physical"]
-    },
+    ,
+
+  somaticText: "Carve the sigil into your own palm, letting welling blood ink the pattern onto the world.",
+  verbalText: "Speak the binding word, lips shaping the old script.",
+},
     { id : "animist_gale_totem",
       name: "Storm-Howl Totem",
       description: "Erupt a lightning totem that shocks and repels enemies. Generates 3 Resonance.",
@@ -459,13 +479,17 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       effectTypes: ["damage","control"],
       typeConfig: { school: "storm", icon: "Lightning/Thunderstorm", tags: ["summon","damage","totem"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 45, targetRestrictions: ["enemies"], areaShape: "circle", areaSize: 15 },
-      resourceCost: { actionPoints: 1, mana: 6, classResource: { type: "resonance", cost: -3 } },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 1, mana: 6, classResource: { type: "resonance", cost: -3 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       damageConfig: { formula: "2d6 + spirit", damageTypes: ["storm"], resolution: "DICE" },
       controlConfig: { controlType: "forcedMovement", effects: [{ id : "animist_gale_push", name: "Storm Gust", description: "Pushes targets 10 feet away from the totem.", config: {"distance":10,"movementType":"push"} }] },
       resolution: "DICE",
       tags: ["damage","control","totem","storm"]
-    },
+    ,
+
+  somaticText: "Drive your off-hand into the soil and wrench a bone spur from your wrist, forcing the totem to tear free of your flesh.",
+  verbalText: "A low, grinding chant thrums in your chest as the ancestor answers.",
+},
     { id : "animist_spirit_link",
       name: "Spirit Link",
       description: "Forge a link between two targets, sharing healing or damage. Generates 1 Resonance.",
@@ -475,12 +499,16 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       effectTypes: ["buff"],
       typeConfig: { school: "wyrd", icon: "Psychic/Psychic Telepathy", tags: ["buff","link"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "chain", rangeType: "ranged", rangeDistance: 30, targetRestrictions: ["any"] },
-      resourceCost: { actionPoints: 1, mana: 4, classResource: { type: "resonance", cost: -1 } },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 1, mana: 4, classResource: { type: "resonance", cost: -1 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       buffConfig: { buffType: "custom", effects: [{ id : "animist_linked_state", name: "Linked Souls", description: "Linked targets share 50% of damage or healing received.", mechanicsText: "Shares 50% damage/healing." }], durationType: "rounds", durationValue: 3, durationUnit: "rounds", canBeDispelled: true },
       resolution: "AUTOMATIC",
       tags: ["buff","link","wyrd"]
-    },
+    ,
+
+  somaticText: "Trace the target's silhouette in the air with a bloodied fingertip, anchoring the spirit to your will.",
+  verbalText: "Whisper the target's true name in the fractured ancestor-tongue.",
+},
     { id : "animist_rune_of_celerity",
       name: "Rune of Celerity",
       description: "Carve a rune on the ground that grants speed to allies. Generates 1 Resonance.",
@@ -490,12 +518,16 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       effectTypes: ["buff"],
       typeConfig: { school: "primal", icon: "Utility/Speed Boot", tags: ["buff","rune"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 30, targetRestrictions: ["allies"], areaShape: "circle", areaSize: 10 },
-      resourceCost: { actionPoints: 1, mana: 4, classResource: { type: "resonance", cost: -1 } },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 1, mana: 4, classResource: { type: "resonance", cost: -1 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       buffConfig: { buffType: "movementBuff", effects: [{ id : "animist_celerity_buff", name: "Quickened Steps", description: "Gain +15 feet of movement speed.", mechanicsText: "+15ft speed." }], durationType: "rounds", durationValue: 3, durationUnit: "rounds", canBeDispelled: true },
       resolution: "AUTOMATIC",
       tags: ["buff","rune","primal"]
-    },
+    ,
+
+  somaticText: "Carve the sigil into your own palm, letting welling blood ink the pattern onto the world.",
+  verbalText: "Speak the binding word, lips shaping the old script.",
+},
     { id : "animist_calcified_spire",
       name: "Calcified Spire",
       description: "Erupt a wall of bone spires to block passage. Generates 2 Resonance.",
@@ -505,12 +537,16 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       effectTypes: ["control"],
       typeConfig: { school: "physical", icon: "Bludgeoning/Hammer Crush", tags: ["control","terrain"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "line", rangeType: "ranged", rangeDistance: 30, targetRestrictions: ["any"] },
-      resourceCost: { actionPoints: 1, mana: 5, classResource: { type: "resonance", cost: -2 } },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 1, mana: 5, classResource: { type: "resonance", cost: -2 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       controlConfig: { controlType: "zone", effects: [{ id : "animist_bone_wall", name: "Impassable Bone", description: "Bones block movement and grant full cover.", config: {"zoneType":"impassable_terrain"} }] },
       resolution: "AUTOMATIC",
       tags: ["control","terrain","physical"]
-    },
+    ,
+
+  somaticText: "Plant your feet and let the triple toll resonate — bone, blood, and script answering at once.",
+  verbalText: "A single syllable of the ancestral language, spoken aloud.",
+},
     { id : "animist_thorn_barrier",
       name: "Thorn Barrier",
       description: "Summon a dense barrier of sharp thorns. Deals damage to enemies who cross it. Generates 2 Resonance.",
@@ -520,13 +556,17 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       effectTypes: ["damage","control"],
       typeConfig: { school: "primal", icon: "Nature/Nature Natural 11", tags: ["control","damage","hazard"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "line", rangeType: "ranged", rangeDistance: 45, targetRestrictions: ["enemies"] },
-      resourceCost: { actionPoints: 1, mana: 6, classResource: { type: "resonance", cost: -2 } },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 1, mana: 6, classResource: { type: "resonance", cost: -2 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       damageConfig: { formula: "2d6", damageTypes: ["primal"], resolution: "DICE" },
       controlConfig: { controlType: "zone", effects: [{ id : "animist_thorn_slow", name: "Thorn Thicket", description: "Difficult terrain. Deals primal damage to trespassers.", config: {"zoneType":"difficult_terrain"} }] },
       resolution: "DICE",
       tags: ["control","damage","hazard","primal"]
-    },
+    ,
+
+  somaticText: "Plant your feet and let the triple toll resonate — bone, blood, and script answering at once.",
+  verbalText: "A single syllable of the ancestral language, spoken aloud.",
+},
     { id : "animist_spirit_wolves",
       name: "Wendigo Specters",
       description: "Summon two spectral wolves from your shadow to attack enemies. Generates 3 Resonance.",
@@ -536,12 +576,16 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       effectTypes: ["damage"],
       typeConfig: { school: "blight", icon: "Necrotic/Necrotic Wither", tags: ["summon","damage"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 30, targetRestrictions: ["enemies"], areaShape: "circle", areaSize: 10 },
-      resourceCost: { actionPoints: 1, mana: 8, classResource: { type: "resonance", cost: -3 } },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 1, mana: 8, classResource: { type: "resonance", cost: -3 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
       damageConfig: { formula: "2d8", damageTypes: ["blight"], resolution: "DICE" },
       resolution: "DICE",
       tags: ["summon","damage","blight"]
-    },
+    ,
+
+  somaticText: "Trace the target's silhouette in the air with a bloodied fingertip, anchoring the spirit to your will.",
+  verbalText: "Whisper the target's true name in the fractured ancestor-tongue.",
+},
     { id : "animist_rune_of_destruction",
       name: "Rune of Destruction",
       description: "Carve a volatile rune on the floor. Detonates in a fire blast when an enemy steps on it. Spends 3 Resonance.",
@@ -551,12 +595,16 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       effectTypes: ["damage"],
       typeConfig: { school: "ember", icon: "Fire/Volcanic Corruption", tags: ["damage","rune","trap"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 45, targetRestrictions: ["enemies"], areaShape: "circle", areaSize: 15 },
-      resourceCost: { actionPoints: 1, mana: 6, classResource: { type: "resonance", cost: 3 } },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 1, mana: 6, classResource: { type: "resonance", cost: 3 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       damageConfig: { formula: "4d6", damageTypes: ["ember"], resolution: "DICE" },
       resolution: "DICE",
       tags: ["damage","rune","trap","ember"]
-    },
+    ,
+
+  somaticText: "Carve the sigil into your own palm, letting welling blood ink the pattern onto the world.",
+  verbalText: "Speak the binding word, lips shaping the old script.",
+},
     { id : "animist_siphon_hex",
       name: "Soul-Dredge Hex",
       description: "Afflict target with a curse that drains HP to heal you each round. Generates 1 Resonance.",
@@ -566,13 +614,17 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       effectTypes: ["damage","healing"],
       typeConfig: { school: "blight", icon: "Necrotic/Necrotic Wither", tags: ["damage","healing","curse"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 60, targetRestrictions: ["enemies"] },
-      resourceCost: { actionPoints: 1, mana: 6, classResource: { type: "resonance", cost: -1 } },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 1, mana: 6, classResource: { type: "resonance", cost: -1 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       damageConfig: { formula: "1d8", damageTypes: ["blight"], resolution: "DICE", dotConfig: { dotFormula: "1d8", duration: 3, tickFrequency: "turn", isProgressiveDot: false } },
       healingConfig: { formula: "1d8", healingType: "target", resolution: "DICE" },
       resolution: "DICE",
       tags: ["damage","healing","curse","blight"]
-    },
+    ,
+
+  somaticText: "Trace the target's silhouette in the air with a bloodied fingertip, anchoring the spirit to your will.",
+  verbalText: "Whisper the target's true name in the fractured ancestor-tongue.",
+},
     { id : "animist_earthen_grasp",
       name: "Gaean Grasp",
       description: "Burl stone hands out of the earth to restrain all enemies in the area. Spends 4 Resonance.",
@@ -582,12 +634,16 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       effectTypes: ["control"],
       typeConfig: { school: "primal", icon: "Nature/Nature Natural 11", tags: ["control","area"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 45, targetRestrictions: ["enemies"], areaShape: "circle", areaSize: 15 },
-      resourceCost: { actionPoints: 1, mana: 8, classResource: { type: "resonance", cost: 4 } },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 1, mana: 8, classResource: { type: "resonance", cost: 4 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       controlConfig: { controlType: "restraint", effects: [{ id : "animist_stone_restraint", name: "Gaean Hold", description: "Restrained by stone. Cannot move. DC 14 Strength save to break.", config: {"restraintType":"physical","breakOnDamage":false,"condition":"restrained"} }] },
       resolution: "AUTOMATIC",
       tags: ["control","area","primal"]
-    },
+    ,
+
+  somaticText: "Plant your feet and let the triple toll resonate — bone, blood, and script answering at once.",
+  verbalText: "A single syllable of the ancestral language, spoken aloud.",
+},
     { id : "animist_invoke_simbi",
       name: "Invoke Simbi",
       description: "Wyrd invocation: Call a restorative rain that heals and cleanses allies. Spends 6 Resonance.",
@@ -597,12 +653,21 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       effectTypes: ["healing"],
       typeConfig: { school: "primal", icon: "Healing/Golden Heart", tags: ["healing","invocation","cleanse"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 60, targetRestrictions: ["allies"], areaShape: "circle", areaSize: 20 },
-      resourceCost: { actionPoints: 1, mana: 8, classResource: { type: "resonance", cost: 6 } },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 1, mana: 8, classResource: { type: "resonance", cost: 6 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
       healingConfig: { formula: "3d8 + spirit", healingType: "zone", resolution: "DICE" },
       resolution: "DICE",
       tags: ["healing","invocation","cleanse","primal"]
-    },
+    ,
+
+  triggerConfig: {
+    triggers: [
+      { id: "animist_invoke_simbi_blood_price", name: "Blood Price", triggerType: "on_cast", action: "Pay the Blood Price: the spirit's bargain drains 1d4 blight HP from you." }
+    ]
+  },
+  somaticText: "Trace the target's silhouette in the air with a bloodied fingertip, anchoring the spirit to your will.",
+  verbalText: "Whisper the target's true name in the fractured ancestor-tongue.",
+},
     { id : "animist_scribe_warding",
       name: "Glyph of Warding",
       description: "Carve a glowing brand onto an ally's armor, granting +2 DR. Generates 1 Resonance.",
@@ -612,12 +677,16 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       effectTypes: ["buff"],
       typeConfig: { school: "arcane", icon: "Arcane/Ebon Blaze", tags: ["buff","brand"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: undefined, targetRestrictions: ["allies"] },
-      resourceCost: { actionPoints: 1, mana: 6, classResource: { type: "resonance", cost: -1 } },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 1, mana: 6, classResource: { type: "resonance", cost: -1 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       buffConfig: { buffType: "statEnhancement", effects: [{ id : "animist_warding_dr", name: "Runic Safeguard", description: "Gain +2 DR.", mechanicsText: "+2 DR." }], durationType: "rounds", durationValue: 5, durationUnit: "rounds", canBeDispelled: true },
       resolution: "AUTOMATIC",
       tags: ["buff","brand","arcane"]
-    },
+    ,
+
+  somaticText: "Carve the sigil into your own palm, letting welling blood ink the pattern onto the world.",
+  verbalText: "Speak the binding word, lips shaping the old script.",
+},
     { id : "animist_totemic_storm",
       name: "Totemic Overload",
       description: "Arc lightning between all active totems, shocking enemies in between. Spends 5 Resonance.",
@@ -627,12 +696,21 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       effectTypes: ["damage"],
       typeConfig: { school: "storm", icon: "Lightning/Thunderstorm", tags: ["damage","storm","totem","combo"], castTime: 2, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "self_centered", rangeDistance: undefined, targetRestrictions: ["enemies"], areaShape: "circle", areaSize: 40 },
-      resourceCost: { actionPoints: 2, mana: 12, classResource: { type: "resonance", cost: 5 } },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 2, mana: 12, classResource: { type: "resonance", cost: 5 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
       damageConfig: { formula: "5d6 + spirit", damageTypes: ["storm"], resolution: "DICE" },
       resolution: "DICE",
       tags: ["damage","storm","totem","combo"]
-    },
+    ,
+
+  triggerConfig: {
+    triggers: [
+      { id: "animist_totemic_storm_blood_price", name: "Blood Price", triggerType: "on_cast", action: "Pay the Blood Price: the bone totem tears free, costing you 5 HP." }
+    ]
+  },
+  somaticText: "Drive your off-hand into the soil and wrench a bone spur from your wrist, forcing the totem to tear free of your flesh.",
+  verbalText: "A low, grinding chant thrums in your chest as the ancestor answers.",
+},
     { id : "animist_ritual_of_the_bog",
       name: "Swamp Consecration",
       description: "Consecrate the ground into a rotting marsh that slows and poisons enemies. Spends 4 Resonance.",
@@ -642,13 +720,17 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       effectTypes: ["damage","debuff"],
       typeConfig: { school: "blight", icon: "Necrotic/Necrotic Wither", tags: ["hazard","area","poison"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 45, targetRestrictions: ["enemies"], areaShape: "circle", areaSize: 20 },
-      resourceCost: { actionPoints: 1, mana: 10, classResource: { type: "resonance", cost: 4 } },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 1, mana: 10, classResource: { type: "resonance", cost: 4 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       damageConfig: { formula: "2d6", damageTypes: ["blight"], resolution: "DICE", dotConfig: { dotFormula: "1d6", duration: 4, tickFrequency: "turn", isProgressiveDot: false } },
       debuffConfig: { debuffType: "movementImpairment", effects: [{ id : "animist_swamp_slow", name: "Mire Slow", description: "Movement speed is halved in the marsh.", mechanicsText: "Movement speed halved." }], durationType: "rounds", durationValue: 4, durationUnit: "rounds", canBeDispelled: false },
       resolution: "DICE",
       tags: ["hazard","area","blight"]
-    },
+    ,
+
+  somaticText: "Trace the target's silhouette in the air with a bloodied fingertip, anchoring the spirit to your will.",
+  verbalText: "Whisper the target's true name in the fractured ancestor-tongue.",
+},
     { id : "animist_brand_of_spellguard",
       name: "Spellbrand",
       description: "Inscribe a runic shield onto an ally's weapon, granting magic resistance. Generates 1 Resonance.",
@@ -658,12 +740,16 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       effectTypes: ["buff"],
       typeConfig: { school: "arcane", icon: "Arcane/Ebon Blaze", tags: ["buff","brand"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: undefined, targetRestrictions: ["allies"] },
-      resourceCost: { actionPoints: 1, mana: 8, classResource: { type: "resonance", cost: -1 } },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 1, mana: 8, classResource: { type: "resonance", cost: -1 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       buffConfig: { buffType: "statEnhancement", effects: [{ id : "animist_spell_resistance", name: "Spellward Brand", description: "Gain +25% magic resistance.", mechanicsText: "+25% Magic Resistance." }], durationType: "rounds", durationValue: 5, durationUnit: "rounds", canBeDispelled: true },
       resolution: "AUTOMATIC",
       tags: ["buff","brand","arcane"]
-    },
+    ,
+
+  somaticText: "Carve the sigil into your own palm, letting welling blood ink the pattern onto the world.",
+  verbalText: "Speak the binding word, lips shaping the old script.",
+},
     { id : "animist_invoke_papa_legba",
       name: "Invoke Papa Legba",
       description: "Wyrd invocation: Summon Papa Legba to immediately cleanse CC and grant +1 AP. Spends 7 Resonance.",
@@ -673,12 +759,21 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       effectTypes: ["buff"],
       typeConfig: { school: "wyrd", icon: "Psychic/Psychic Telepathy", tags: ["buff","invocation","cleanse"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 60, targetRestrictions: ["allies"] },
-      resourceCost: { actionPoints: 1, mana: 10, classResource: { type: "resonance", cost: 7 } },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 1, mana: 10, classResource: { type: "resonance", cost: 7 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
       buffConfig: { buffType: "statusEffectBuff", effects: [{ id : "animist_legba_cleanse", name: "Legba's Key", description: "CC cleansed and gain +1 Action Point next turn.", mechanicsText: "CC cleansed, +1 AP next turn." }], durationType: "rounds", durationValue: 1, durationUnit: "rounds", canBeDispelled: true },
       resolution: "AUTOMATIC",
       tags: ["buff","invocation","cleanse","wyrd"]
-    },
+    ,
+
+  triggerConfig: {
+    triggers: [
+      { id: "animist_invoke_papa_legba_blood_price", name: "Blood Price", triggerType: "on_cast", action: "Pay the Blood Price: the spirit's bargain drains 1d4 blight HP from you." }
+    ]
+  },
+  somaticText: "Trace the target's silhouette in the air with a bloodied fingertip, anchoring the spirit to your will.",
+  verbalText: "Whisper the target's true name in the fractured ancestor-tongue.",
+},
     { id : "animist_grave_sight",
       name: "Grave Sight",
       description: "Shatter a target's mind with the presence of death. Target suffers vulnerability. Spends 4 Resonance.",
@@ -688,12 +783,16 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       effectTypes: ["debuff"],
       typeConfig: { school: "wyrd", icon: "Psychic/Psychic Telepathy", tags: ["debuff","channel"], castTime: 2, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 45, targetRestrictions: ["enemies"] },
-      resourceCost: { actionPoints: 2, mana: 10, classResource: { type: "resonance", cost: 4 } },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 2, mana: 10, classResource: { type: "resonance", cost: 4 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       debuffConfig: { debuffType: "statusEffect", effects: [{ id : "animist_grave_sight_debuff", name: "Wyrd-touched Terror", description: "Target has disadvantage on saves and takes +50% wyrd damage.", mechanicsText: "Disadvantage on saves, +50% Wyrd damage." }], durationType: "rounds", durationValue: 2, durationUnit: "rounds", canBeDispelled: true },
       resolution: "AUTOMATIC",
       tags: ["debuff","channel","wyrd"]
-    },
+    ,
+
+  somaticText: "Trace the target's silhouette in the air with a bloodied fingertip, anchoring the spirit to your will.",
+  verbalText: "Whisper the target's true name in the fractured ancestor-tongue.",
+},
     { id : "animist_rune_of_vitality",
       name: "Rune of Vitality",
       description: "Carve a rune that heals allies when they walk over it. Spends 4 Resonance.",
@@ -703,12 +802,16 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       effectTypes: ["healing"],
       typeConfig: { school: "primal", icon: "Healing/Golden Heart", tags: ["healing","rune"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 30, targetRestrictions: ["allies"], areaShape: "circle", areaSize: 10 },
-      resourceCost: { actionPoints: 1, mana: 8, classResource: { type: "resonance", cost: 4 } },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 1, mana: 8, classResource: { type: "resonance", cost: 4 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
       healingConfig: { formula: "3d6 + spirit", healingType: "zone", resolution: "DICE" },
       resolution: "DICE",
       tags: ["healing","rune","primal"]
-    },
+    ,
+
+  somaticText: "Carve the sigil into your own palm, letting welling blood ink the pattern onto the world.",
+  verbalText: "Speak the binding word, lips shaping the old script.",
+},
     { id : "animist_inscribed_fortress",
       name: "Runic Fortress",
       description: "Inscribe a massive fortress zone that shields allies and blocks enemies. Spends 8 Resonance.",
@@ -718,13 +821,22 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       effectTypes: ["buff","control"],
       typeConfig: { school: "arcane", icon: "Arcane/Ebon Blaze", tags: ["buff","control","zone"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 45, targetRestrictions: ["any"], areaShape: "circle", areaSize: 20 },
-      resourceCost: { actionPoints: 2, mana: 15, classResource: { type: "resonance", cost: 8 } },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 2, mana: 15, classResource: { type: "resonance", cost: 8 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
       buffConfig: { buffType: "statEnhancement", effects: [{ id : "animist_fortress_defense", name: "Fortress Ward", description: "Allies inside gain +3 DR and advantage on physical saving throws.", mechanicsText: "+3 DR, advantage on physical saves." }], durationType: "rounds", durationValue: 3, durationUnit: "rounds", canBeDispelled: false },
       controlConfig: { controlType: "zone", effects: [{ id : "animist_fortress_border", name: "Runic Barrier", description: "Enemies cannot cross the zone boundary.", config: {"zoneType":"impassable_terrain"} }] },
       resolution: "AUTOMATIC",
       tags: ["buff","control","zone","arcane"]
-    },
+    ,
+
+  triggerConfig: {
+    triggers: [
+      { id: "animist_inscribed_fortress_blood_price", name: "Blood Price", triggerType: "on_cast", action: "Pay the Blood Price: carving the rune into your own flesh costs 1d4 slashing HP." }
+    ]
+  },
+  somaticText: "Carve the sigil into your own palm, letting welling blood ink the pattern onto the world.",
+  verbalText: "Speak the binding word, lips shaping the old script.",
+},
     { id : "animist_invoke_erzulie",
       name: "Invoke Erzulie",
       description: "Wyrd invocation: Call Erzulie for a massive healing burst to all allies. Spends 8 Resonance.",
@@ -732,14 +844,23 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       spellType: "ACTION",
       icon: "Healing/Golden Heart",
       effectTypes: ["healing"],
-      typeConfig: { school: "sacred", icon: "Healing/Golden Heart", tags: ["healing","invocation"], castTime: 1, castTimeType: "IMMEDIATE" },
+      typeConfig: { school: "divine", icon: "Healing/Golden Heart", tags: ["healing","invocation"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "self_centered", rangeDistance: undefined, targetRestrictions: ["allies"], areaShape: "circle", areaSize: 30 },
-      resourceCost: { actionPoints: 2, mana: 14, classResource: { type: "resonance", cost: 8 } },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 2, mana: 14, classResource: { type: "resonance", cost: 8 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
       healingConfig: { formula: "6d6 + spirit", healingType: "zone", resolution: "DICE" },
       resolution: "DICE",
-      tags: ["healing","invocation","sacred"]
-    },
+      tags: ["healing","invocation","divine"]
+    ,
+
+  triggerConfig: {
+    triggers: [
+      { id: "animist_invoke_erzulie_blood_price", name: "Blood Price", triggerType: "on_cast", action: "Pay the Blood Price: the spirit's bargain drains 1d4 blight HP from you." }
+    ]
+  },
+  somaticText: "Trace the target's silhouette in the air with a bloodied fingertip, anchoring the spirit to your will.",
+  verbalText: "Whisper the target's true name in the fractured ancestor-tongue.",
+},
     { id : "animist_spirit_dredge",
       name: "Spirit Dredge",
       description: "Siphon HP from all cursed enemies to heal your own flesh. Spends 5 Resonance.",
@@ -749,13 +870,22 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       effectTypes: ["damage","healing"],
       typeConfig: { school: "blight", icon: "Necrotic/Necrotic Wither", tags: ["damage","healing","combo"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "self_centered", rangeDistance: undefined, targetRestrictions: ["enemies"], areaShape: "circle", areaSize: 45 },
-      resourceCost: { actionPoints: 1, mana: 12, classResource: { type: "resonance", cost: 5 } },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 1, mana: 12, classResource: { type: "resonance", cost: 5 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       damageConfig: { formula: "3d8", damageTypes: ["blight"], resolution: "DICE" },
       healingConfig: { formula: "3d8", healingType: "target", resolution: "DICE" },
       resolution: "DICE",
       tags: ["damage","healing","combo","blight"]
-    },
+    ,
+
+  triggerConfig: {
+    triggers: [
+      { id: "animist_spirit_dredge_blood_price", name: "Blood Price", triggerType: "on_cast", action: "Pay the Blood Price: the spirit's bargain drains 1d4 blight HP from you." }
+    ]
+  },
+  somaticText: "Trace the target's silhouette in the air with a bloodied fingertip, anchoring the spirit to your will.",
+  verbalText: "Whisper the target's true name in the fractured ancestor-tongue.",
+},
     { id : "animist_invoke_baron_samedi",
       name: "Invoke Baron Samedi",
       description: "Wyrd invocation: Strike all cursed enemies with devastating shadow rot. Spends 10 Resonance.",
@@ -765,12 +895,21 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       effectTypes: ["damage"],
       typeConfig: { school: "blight", icon: "Necrotic/Necrotic Wither", tags: ["damage","invocation","ultimate"], castTime: 2, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "self_centered", rangeDistance: undefined, targetRestrictions: ["enemies"], areaShape: "circle", areaSize: 60 },
-      resourceCost: { actionPoints: 2, mana: 20, classResource: { type: "resonance", cost: 10 } },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 2, mana: 20, classResource: { type: "resonance", cost: 10 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
       damageConfig: { formula: "8d6 + spirit", damageTypes: ["blight"], resolution: "DICE" },
       resolution: "DICE",
       tags: ["damage","invocation","ultimate","blight"]
-    },
+    ,
+
+  triggerConfig: {
+    triggers: [
+      { id: "animist_invoke_baron_samedi_blood_price", name: "Blood Price", triggerType: "on_cast", action: "Pay the Blood Price: the spirit's bargain drains 1d4 blight HP from you." }
+    ]
+  },
+  somaticText: "Trace the target's silhouette in the air with a bloodied fingertip, anchoring the spirit to your will.",
+  verbalText: "Whisper the target's true name in the fractured ancestor-tongue.",
+},
     { id : "animist_primeval_totem",
       name: "Primal Beast Totem",
       description: "Erupt the ultimate totem that boosts ally attack rolls and DR. Spends 8 Resonance.",
@@ -780,12 +919,21 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       effectTypes: ["buff"],
       typeConfig: { school: "primal", icon: "Nature/Nature Natural 11", tags: ["summon","buff","totem"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 45, targetRestrictions: ["allies"], areaShape: "circle", areaSize: 30 },
-      resourceCost: { actionPoints: 1, mana: 16, classResource: { type: "resonance", cost: 8 } },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 1, mana: 16, classResource: { type: "resonance", cost: 8 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
       buffConfig: { buffType: "statEnhancement", effects: [{ id : "animist_primeval_rage", name: "Beast Totem Rage", description: "+2 to attack rolls and +2 DR.", mechanicsText: "+2 attack, +2 DR." }], durationType: "rounds", durationValue: 5, durationUnit: "rounds", canBeDispelled: false },
       resolution: "AUTOMATIC",
       tags: ["summon","buff","totem","primal"]
-    },
+    ,
+
+  triggerConfig: {
+    triggers: [
+      { id: "animist_primeval_totem_blood_price", name: "Blood Price", triggerType: "on_cast", action: "Pay the Blood Price: the bone totem tears free, costing you 5 HP." }
+    ]
+  },
+  somaticText: "Drive your off-hand into the soil and wrench a bone spur from your wrist, forcing the totem to tear free of your flesh.",
+  verbalText: "A low, grinding chant thrums in your chest as the ancestor answers.",
+},
     { id : "animist_rune_of_binding",
       name: "Rune of Binding",
       description: "Carve a rune on the floor that chains and tethers all enemies in the area. Spends 6 Resonance.",
@@ -793,14 +941,23 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       spellType: "ACTION",
       icon: "Arcane/Ebon Blaze",
       effectTypes: ["control"],
-      typeConfig: { school: "force", icon: "Arcane/Ebon Blaze", tags: ["control","rune"], castTime: 1, castTimeType: "IMMEDIATE" },
+      typeConfig: { school: "arcane", icon: "Arcane/Ebon Blaze", tags: ["control","rune"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 30, targetRestrictions: ["enemies"], areaShape: "circle", areaSize: 15 },
-      resourceCost: { actionPoints: 1, mana: 12, classResource: { type: "resonance", cost: 6 } },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 1, mana: 12, classResource: { type: "resonance", cost: 6 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
       controlConfig: { controlType: "restraint", effects: [{ id : "animist_rune_bind", name: "Chaining Rune", description: "Restrained by spectral chains. Cannot move.", config: {"restraintType":"physical","breakOnDamage":true,"condition":"restrained"} }] },
       resolution: "AUTOMATIC",
-      tags: ["control","rune","force"]
-    },
+      tags: ["control","rune","arcane"]
+    ,
+
+  triggerConfig: {
+    triggers: [
+      { id: "animist_rune_of_binding_blood_price", name: "Blood Price", triggerType: "on_cast", action: "Pay the Blood Price: carving the rune into your own flesh costs 1d4 slashing HP." }
+    ]
+  },
+  somaticText: "Carve the sigil into your own palm, letting welling blood ink the pattern onto the world.",
+  verbalText: "Speak the binding word, lips shaping the old script.",
+},
     { id : "animist_worldscribe",
       name: "Worldscribe",
       description: "Inscribe permanent planar glyphs that continuously pulse healing and shield allies. Spends 12 Resonance.",
@@ -810,13 +967,22 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       effectTypes: ["healing","buff"],
       typeConfig: { school: "arcane", icon: "Arcane/Ebon Blaze", tags: ["healing","buff","ultimate"], castTime: 2, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 45, targetRestrictions: ["allies"], areaShape: "circle", areaSize: 30 },
-      resourceCost: { actionPoints: 2, mana: 25, classResource: { type: "resonance", cost: 12 } },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 2, mana: 25, classResource: { type: "resonance", cost: 12 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 6 },
       healingConfig: { formula: "4d6 + spirit", healingType: "zone", resolution: "DICE" },
       buffConfig: { buffType: "statEnhancement", effects: [{ id : "animist_worldscribe_dr", name: "Worldscribe Aegis", description: "Gain +4 DR.", mechanicsText: "+4 DR." }], durationType: "permanent", durationValue: 0, durationUnit: "rounds", canBeDispelled: false },
       resolution: "DICE",
       tags: ["healing","buff","ultimate","arcane"]
-    },
+    ,
+
+  triggerConfig: {
+    triggers: [
+      { id: "animist_worldscribe_blood_price", name: "Blood Price", triggerType: "on_cast", action: "Pay the Blood Price: carving the rune into your own flesh costs 1d4 slashing HP." }
+    ]
+  },
+  somaticText: "Carve the sigil into your own palm, letting welling blood ink the pattern onto the world.",
+  verbalText: "Speak the binding word, lips shaping the old script.",
+},
     { id : "animist_cataclysmic_eruption",
       name: "Totem Cataclysm",
       description: "Detonate all active totems in a catastrophic blast of fire and stone. Spends 12 Resonance.",
@@ -826,12 +992,21 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       effectTypes: ["damage"],
       typeConfig: { school: "ember", icon: "Fire/Volcanic Corruption", tags: ["damage","ultimate","totem"], castTime: 2, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "self_centered", rangeDistance: undefined, targetRestrictions: ["enemies"], areaShape: "circle", areaSize: 50 },
-      resourceCost: { actionPoints: 2, mana: 24, classResource: { type: "resonance", cost: 12 } },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 2, mana: 24, classResource: { type: "resonance", cost: 12 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 6 },
       damageConfig: { formula: "8d8 + spirit", damageTypes: ["ember"], resolution: "DICE" },
       resolution: "DICE",
       tags: ["damage","ultimate","totem","ember"]
-    },
+    ,
+
+  triggerConfig: {
+    triggers: [
+      { id: "animist_cataclysmic_eruption_blood_price", name: "Blood Price", triggerType: "on_cast", action: "Pay the Blood Price: the bone totem tears free, costing you 5 HP." }
+    ]
+  },
+  somaticText: "Drive your off-hand into the soil and wrench a bone spur from your wrist, forcing the totem to tear free of your flesh.",
+  verbalText: "A low, grinding chant thrums in your chest as the ancestor answers.",
+},
     { id : "animist_triune_ascension",
       name: "Triune Ascension",
       description: "Enter a state of supreme ancestral alignment, unleashing totems, Wyrd, and runes simultaneously. Spends 15 Resonance.",
@@ -841,12 +1016,21 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       effectTypes: ["buff"],
       typeConfig: { school: "primal", icon: "Nature/Nature Natural 11", tags: ["buff","ultimate"], castTime: 3, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "self", rangeType: "self", rangeDistance: undefined, targetRestrictions: ["self"] },
-      resourceCost: { actionPoints: 3, mana: 30, classResource: { type: "resonance", cost: 15 } },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 3, mana: 30, classResource: { type: "resonance", cost: 15 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 8 },
       buffConfig: { buffType: "triggeredEffect", effects: [{ id : "animist_triune_buff", name: "Triune Avatar", description: "+5 to attacks, +5 DR, +2 AP, and double healing.", mechanicsText: "+5 attacks, +5 DR, +2 AP, double healing." }], durationType: "rounds", durationValue: 6, durationUnit: "rounds", canBeDispelled: false },
       resolution: "AUTOMATIC",
       tags: ["buff","ultimate","primal"]
-    },
+    ,
+
+  triggerConfig: {
+    triggers: [
+      { id: "animist_triune_ascension_blood_price", name: "Blood Price", triggerType: "on_cast", action: "Pay the Blood Price: carving the rune into your own flesh costs 1d4 slashing HP." }
+    ]
+  },
+  somaticText: "Carve the sigil into your own palm, letting welling blood ink the pattern onto the world.",
+  verbalText: "Speak the binding word, lips shaping the old script.",
+},
     { id : "animist_spectral_guardian",
       name: "Ancestral Colossus",
       description: "Summon a massive spectral colossus of bone and spirit to smash enemies. Spends 15 Resonance.",
@@ -856,13 +1040,22 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       effectTypes: ["damage","control"],
       typeConfig: { school: "blight", icon: "Necrotic/Necrotic Wither", tags: ["summon","damage","control"], castTime: 3, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 60, targetRestrictions: ["enemies"], areaShape: "circle", areaSize: 25 },
-      resourceCost: { actionPoints: 3, mana: 30, classResource: { type: "resonance", cost: 15 } },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 3, mana: 30, classResource: { type: "resonance", cost: 15 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 8 },
       damageConfig: { formula: "10d10", damageTypes: ["blight"], resolution: "DICE" },
       controlConfig: { controlType: "knockdown", effects: [{ id : "animist_colossus_knockdown", name: "Tremor Slam", description: "Knocked prone.", config: {"saveType":"strength","saveDC":18} }] },
       resolution: "DICE",
       tags: ["summon","damage","control","blight"]
-    }
+    ,
+
+  triggerConfig: {
+    triggers: [
+      { id: "animist_spectral_guardian_blood_price", name: "Blood Price", triggerType: "on_cast", action: "Pay the Blood Price: the spirit's bargain drains 1d4 blight HP from you." }
+    ]
+  },
+  somaticText: "Trace the target's silhouette in the air with a bloodied fingertip, anchoring the spirit to your will.",
+  verbalText: "Whisper the target's true name in the fractured ancestor-tongue.",
+}
   ],
 
   spellPools: {

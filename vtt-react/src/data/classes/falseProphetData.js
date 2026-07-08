@@ -140,7 +140,7 @@ Speak the void's gospel. The stars are dead, and the vacuum is the only truth le
 
  quickOverview: {
   title: "Quick Overview",
-  content: `**What You Need to Know**: The False Prophet harvests Madness Points (0-20) by preaching the void as absolute truth, with each stolen point granting +1 damage to all psychic, void, and necrotic spells. The temptation is a noose, pull toward 20 for godlike power, but cross the threshold and an Insanity Convulsion tears through you: catastrophic self-harm, uncontrolled teleportation, stunned helplessness, or worse. Your Madness resets to zero. You begin the harvest again. You always begin again. Your empathetic link is active from Level 1, Stitch of Suffering threads a parasitic bond between ally and enemy on your very first turn.
+  content: `**What You Need to Know**: The False Prophet harvests Madness Points (0-20) by preaching the void as absolute truth, with each stolen point granting +1 damage to all psychic, void, and necrotic spells. The temptation is a noose, pull toward 20 for godlike power, but cross the threshold and an Insanity Convulsion tears through you: catastrophic self-harm, uncontrolled teleportation, stunned helplessness, or worse. Your Madness resets to zero. You begin the harvest again. You always begin again. Your empathetic link is active from Level 1, Stitch of Suffering threads an empathetic bond between ally and enemy on your very first turn.
 
 **Core Mechanic**: Preach void sermons -> Roll dice for random Madness gains -> Damage scales with Madness (+1 per point to all spell damage types) -> Stitch empathetic links from Level 1 to redirect ally suffering onto enemies -> Unlock Temptation thresholds at 6, 9, 12 Madness -> Reach 20 and trigger Insanity Convulsion -> Reset to 0
 
@@ -209,7 +209,7 @@ The False Prophets of the Over-Shanty are divided. Some believe the Voice is gui
 
 **Madness Accumulation**: Building wyrd pressure to scale damage, but every stolen point brings them closer to catastrophic Insanity Convulsion
 
-**Why Bring Me? (Unique Utility)**: You are the ONLY class that can redirect suffering - and your empathetic link is active from Level 1. **Stitch of Suffering** threads a parasitic bond between ally and enemy on your very first turn, redirecting 30% of the ally's incoming damage straight into the linked foe as wyrd damage. Later, Empathetic Transfer wrenches debuffs from allies onto enemies, Parasitic Link mirrors 50% of your own damage, and Empathetic Agony mirrors 100%. The 40-point blow meant for your tank does not vanish - it travels down the empathetic link and crashes into the boss. Other classes mitigate pain. You weaponize it.
+**Why Bring Me? (Unique Utility)**: You are the ONLY class that can redirect suffering - and your empathetic link is active from Level 1. **Stitch of Suffering** threads an empathetic bond between ally and enemy on your very first turn, redirecting 30% of the ally's incoming damage straight into the linked foe as wyrd damage. Later, Empathetic Transfer wrenches debuffs from allies onto enemies, Echoing Bond mirrors 50% of your own damage, and Empathetic Surge mirrors 100%. The 40-point blow meant for your tank does not vanish - it travels down the empathetic link and crashes into the boss. Other classes mitigate pain. You weaponize it.
 
 **Strengths**:
 - Unique damage/debuff transfer through Empathetic Links
@@ -427,7 +427,7 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
   headers: ["Trigger", "Madness Change", "Notes"],
   rows: [
   ["Stitch of Suffering", "+1 Madness", "Level 1 empathetic link (ally->enemy damage redirect)"],
-  ["Blood Sermon", "+1d4 Madness", "Basic wyrd strike"],
+  ["Sermon of the Silence", "+1d4 Madness", "Basic wyrd strike"],
   ["Profane Bolt", "+1d6 Madness", "Higher power, higher risk"],
   ["Preacher's Grasp", "+1d8 Madness", "Maximum generation"],
   ["Veil of Shadows", "+1d4 Madness", "Temptation: Invisibility (Req 6)"],
@@ -639,7 +639,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
 
  exampleSpells: [
  { id: "fp_blood_sermon",
-  name: "Blood Sermon",
+  name: "Sermon of the Silence",
   description:
   "Preach a sermon that rends the mind with stolen vitality. Deals 1d8 wyrd damage and exacts a toll of 3 HP to channel the wyrd pressure. Generates 1d4 Madness Points as the congregation's anguish echoes in your skull.",
   level: 1,
@@ -668,6 +668,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   resourceValues: { mana: 5 },
   actionPoints: 1,
   components: ["verbal"],
+   verbalText: "Hear the word and kneel",
   },
 
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
@@ -701,6 +702,11 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   },
   },
 
+  triggerConfig: {
+    triggers: [
+      { id: "fp_blood_sermon_trigger", name: "Void Toll", triggerType: "on_cast", action: "Channeling the sermon costs 3 HP — non-negotiable sacrifice to the void." }
+    ]
+  },
   tags: ["damage", "wyrd", "madness", "self-harm", "voidcaller"],
  },
  { id: "fp_hollow_blessing",
@@ -755,6 +761,8 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   resourceValues: { mana: 6 },
   actionPoints: 1,
   components: ["verbal", "somatic"],
+   verbalText: "Be blessed by the void",
+   somaticText: "Trace hollow sigil over target",
   },
 
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
@@ -842,6 +850,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   resourceValues: { mana: 4 },
   actionPoints: 1,
   components: ["verbal"],
+   verbalText: "Doubt the truth you know",
   },
 
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
@@ -909,6 +918,8 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   resourceValues: { mana: 6 },
   actionPoints: 1,
   components: ["verbal", "somatic"],
+   verbalText: "Your faith feeds me",
+   somaticText: "Draw devotion through outstretched hand",
   },
 
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
@@ -1002,6 +1013,8 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   resourceValues: { mana: 4 },
   actionPoints: 1,
   components: ["verbal", "somatic"],
+   verbalText: "Mark the believer",
+   somaticText: "Inscribe zealot's brand on target",
   },
 
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
@@ -1112,6 +1125,8 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   resourceValues: { mana: 8 },
   actionPoints: 1,
   components: ["verbal", "somatic"],
+   verbalText: "Feel what I weave",
+   somaticText: "Weave a conduit of shared anguish toward the target",
   },
 
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
@@ -1198,6 +1213,8 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   resourceValues: { mana: 8 },
   actionPoints: 1,
   components: ["verbal", "somatic"],
+   verbalText: "Witness the false wonder!",
+   somaticText: "Stage miraculous light from hidden reserves",
   },
 
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
@@ -1223,9 +1240,9 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   tags: ["damage", "wyrd", "dot", "deception", "madness"],
  },
  { id: "fp_parasitic_link",
-  name: "Parasitic Link",
+  name: "Echoing Bond",
   description:
-  "Thread an invisible psychic conduit between yourself and an enemy. For 2 rounds, 50% of all damage you receive is mirrored to the linked target as wyrd damage. They stagger under the weight of redirected wyrd strain. Generates 1d4 Madness Points. The link feeds on suffering -- yours and theirs.",
+  "Thread an invisible psychic conduit between yourself and an enemy. For 2 rounds, 50% of all damage you receive is mirrored to the linked target as wyrd damage. They stagger under the weight of redirected wyrd strain. Generates 1d4 Madness Points. The bond echoes every wound you suffer back upon them.",
   level: 2,
   spellType: "ACTION",
   icon: "Psychic/Psionic Strike",
@@ -1253,7 +1270,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   effects: [
    {
    id : "parasitic_link",
-   name: "Parasitic Link",
+   name: "Echoing Bond",
    description:
     "50% of damage taken by caster is mirrored to linked enemy as wyrd damage for 2 rounds.",
    mechanicsText: "50% of damage taken by caster mirrored to linked enemy as wyrd damage for 2 rounds.",
@@ -1278,6 +1295,8 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   resourceValues: { mana: 10 },
   actionPoints: 1,
   components: ["verbal", "somatic"],
+   verbalText: "We are bound, you and I",
+   somaticText: "Extend a shimmering psychic tether toward the target",
   },
 
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
@@ -1309,9 +1328,9 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   tags: ["buff", "empathetic link", "damage mirror", "madness"],
  },
  { id: "fp_blood_tithe",
-  name: "Blood Tithe",
+  name: "Congregation's Tithe",
   description:
-  "Demand a psychic tithe from your congregation. All allies within 15 feet sacrifice 1d4 HP, gaining +2 to attack rolls for 2 rounds as channeled psychic energy sharpens their reflexes. You also pay the tithe -- sacrifice 1d4 HP yourself. The blood feeds your power. Generates 1d4 Madness Points.",
+  "Demand a psychic tithe from your congregation. All allies within 15 feet sacrifice 1d4 HP, gaining +2 to attack rolls for 2 rounds as channeled psychic energy sharpens their reflexes. You also pay the tithe -- sacrifice 1d4 HP yourself. The channeled devotion feeds your power. Generates 1d4 Madness Points.",
   level: 2,
   spellType: "ACTION",
   icon: "Necrotic/Necrotic Decay 1",
@@ -1321,6 +1340,11 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   typeConfig: {
   school: "blight",
   icon: "Necrotic/Necrotic Decay 1",
+  triggerConfig: {
+    triggers: [
+      { id: "fp_blood_tithe_trigger", name: "Void Toll", triggerType: "on_cast", action: "All affected allies sacrifice 1d4 HP to gain the tithe's blessing." }
+    ]
+  },
   tags: ["buff", "sacrifice", "aoe", "madness", "cultist"],
   castTime: 1,
   castTimeType: "IMMEDIATE",
@@ -1339,7 +1363,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   effects: [
    {
    id : "blood_tithe",
-   name: "Blood Tithe",
+   name: "Congregation's Tithe",
    description:
     "+2 to attack rolls for 2 rounds. Cost: 1d4 HP sacrificed.",
    mechanicsText: "+2 to attack rolls for 2 rounds. Cost: 1d4 HP sacrificed by caster and all affected allies.",
@@ -1369,6 +1393,8 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   resourceValues: { mana: 8 },
   actionPoints: 1,
   components: ["verbal", "somatic"],
+   verbalText: "Pay the tithe in devotion",
+   somaticText: "Gather the congregation's offered devotion",
   },
 
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
@@ -1456,6 +1482,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   resourceValues: { mana: 10 },
   actionPoints: 1,
   components: ["verbal"],
+   verbalText: "Receive the shadow-gift",
   },
 
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
@@ -1542,6 +1569,8 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   resourceValues: { mana: 12 },
   actionPoints: 1,
   components: ["verbal", "somatic"],
+   verbalText: "Rot and fester",
+   somaticText: "Spread befouling miasma over area",
   },
 
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
@@ -1623,6 +1652,8 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   resourceValues: { mana: 10 },
   actionPoints: 1,
   components: ["verbal", "somatic"],
+   verbalText: "Cut what binds them",
+   somaticText: "Sever ally-to-ally bonds with severing gesture",
   },
 
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
@@ -1680,6 +1711,8 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   resourceValues: { mana: 12 },
   actionPoints: 1,
   components: ["verbal", "somatic"],
+   verbalText: "Your pain is mine, mine is yours",
+   somaticText: "Channel suffering between self and target",
   },
 
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
@@ -1761,6 +1794,8 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   resourceValues: { mana: 12 },
   actionPoints: 2,
   components: ["verbal", "somatic"],
+   verbalText: "Your god is a lie!",
+   somaticText: "Shatter the target's sacred symbol",
   },
 
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
@@ -1849,6 +1884,8 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   resourceValues: { mana: 16 },
   actionPoints: 2,
   components: ["verbal", "somatic"],
+   verbalText: "See the forbidden truth",
+   somaticText: "Press cursed icon to target's brow",
   },
 
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
@@ -1950,6 +1987,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   resourceValues: { mana: 16 },
   actionPoints: 1,
   components: ["verbal"],
+   verbalText: "Listen and lose your mind",
   },
 
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
@@ -1975,7 +2013,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   tags: ["control", "confusion", "aoe", "wyrd", "madness"],
  },
  { id: "fp_communion_of_blood",
-  name: "Communion of Blood",
+  name: "Hollow Communion",
   description:
   "Partake in communion with the congregation's life force. Spend 1d6 Madness -- gain temporary HP equal to 2 x Madness spent for 3 rounds. At 15+ Madness, the wyrd pressure backfires: take 1d4 wyrd damage per Madness spent instead. The channeled energy overloads.",
   level: 4,
@@ -2028,6 +2066,8 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   resourceValues: { mana: 14 },
   actionPoints: 1,
   components: ["verbal", "somatic"],
+   verbalText: "Drink deep the hollow covenant",
+   somaticText: "Shared cup passed among the faithful",
   },
 
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
@@ -2110,6 +2150,8 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   resourceValues: { mana: 20 },
   actionPoints: 2,
   components: ["verbal", "somatic"],
+   verbalText: "Follow me, not your god",
+   somaticText: "Spread corrupting influence over crowd",
   },
 
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
@@ -2221,6 +2263,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   resourceValues: { mana: 20 },
   actionPoints: 2,
   components: ["verbal"],
+   verbalText: "The word is bent, so bend your knee",
   },
 
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
@@ -2281,6 +2324,8 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   resourceValues: { mana: 20 },
   actionPoints: 2,
   components: ["verbal", "somatic"],
+   verbalText: "The void answers!",
+   somaticText: "Channel the void-god's wrath through body",
   },
 
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
@@ -2297,9 +2342,9 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   tags: ["damage", "blight", "madness", "voidcaller"],
  },
  { id: "fp_empathetic_agony",
-  name: "Empathetic Agony",
+  name: "Empathetic Surge",
   description:
-  "Fuse your psychic network with an enemy's through an agonizing empathetic link. For 2 rounds, 100% of ALL damage you take is mirrored to this enemy as wyrd damage. Generates 1d6 Madness Points. COST: Sacrifice 2d6 HP to forge the psychic bridge.",
+  "Fuse your psychic network with an enemy's through a searing empathetic link. For 2 rounds, 100% of ALL damage you take is mirrored to this enemy as wyrd damage. Generates 1d6 Madness Points. COST: Sacrifice 2d6 HP to forge the psychic bridge.",
   level: 5,
   spellType: "ACTION",
   icon: "Psychic/Psionic Strike",
@@ -2327,7 +2372,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   effects: [
    {
    id : "agony_link",
-   name: "Empathetic Agony",
+   name: "Empathetic Surge",
    description:
     "100% of damage taken by caster is mirrored to linked enemy as wyrd damage for 2 rounds.",
    mechanicsText: "100% of damage taken by caster mirrored to linked enemy as wyrd damage for 2 rounds.",
@@ -2352,6 +2397,8 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   resourceValues: { mana: 18 },
   actionPoints: 2,
   components: ["verbal", "somatic"],
+   verbalText: "Scream together!",
+   somaticText: "Bind your psychic network to the target's mind",
   },
 
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
@@ -2439,6 +2486,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   resourceValues: { mana: 16 },
   actionPoints: 1,
   components: ["verbal"],
+   verbalText: "Shadows, conceal the faithful",
   },
 
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
@@ -2491,7 +2539,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   tags: ["buff", "invisibility", "temptation", "madness"],
  },
  { id: "fp_heresy_of_flesh",
-  name: "Heresy of the Flesh",
+  name: "Profane Doctrine",
   description:
   "Condemn a target's consciousness as heretical -- their own vitality turns against them. Deals 2d6 blight damage per round for 4 rounds. DC 14 Constitution save for half duration. Generates 1d6 Madness Points.",
   level: 5,
@@ -2546,6 +2594,8 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   resourceValues: { mana: 16 },
   actionPoints: 1,
   components: ["verbal", "somatic"],
+   verbalText: "Profane is the vessel within",
+   somaticText: "Brand the target with a profane doctrine",
   },
 
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
@@ -2632,6 +2682,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   resourceValues: { mana: 14 },
   actionPoints: 1,
   components: ["verbal"],
+   verbalText: "Swear the black oath and be bound",
   },
 
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
@@ -2708,6 +2759,8 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   resourceValues: { mana: 24 },
   actionPoints: 2,
   components: ["verbal", "somatic"],
+   verbalText: "Your will is mine",
+   somaticText: "Clasp spirit-chains around target",
   },
 
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
@@ -2724,7 +2777,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   tags: ["control", "domination", "madness", "deceiver"],
  },
  { id: "fp_devouring_omen",
-  name: "Devouring Omen",
+  name: "Omen of Ruin",
   description:
   "Summon a terrifying apparition. All enemies within 15 feet are stricken with supernatural terror. Frightens enemies for 3 rounds. DC 15 Spirit save negates. Generates 1d8 Madness Points.",
   level: 6,
@@ -2787,6 +2840,8 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   resourceValues: { mana: 24 },
   actionPoints: 2,
   components: ["verbal", "somatic"],
+   verbalText: "Behold the ruinous omen",
+   somaticText: "Project a ruinous apparition over the target",
   },
 
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
@@ -2864,6 +2919,8 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   resourceValues: { mana: 22 },
   actionPoints: 2,
   components: ["verbal", "somatic"],
+   verbalText: "Rise, my faithful!",
+   somaticText: "Summon spectral congregation from shadows",
   },
 
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
@@ -2952,6 +3009,8 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   resourceValues: { mana: 26 },
   actionPoints: 2,
   components: ["verbal", "somatic"],
+   verbalText: "Nothing is as it seems",
+   somaticText: "Weave grand illusion over battlefield",
   },
 
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 6 },
@@ -3070,6 +3129,8 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   resourceValues: { mana: 28 },
   actionPoints: 2,
   components: ["verbal", "somatic"],
+   verbalText: "Bend and break!",
+   somaticText: "Warp the fabric of reality around targets",
   },
 
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 6 },
@@ -3120,6 +3181,8 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   resourceValues: { mana: 26 },
   actionPoints: 2,
   components: ["verbal", "somatic"],
+   verbalText: "Your sacrifice was for nothing",
+   somaticText: "Project the martyr's despair onto enemies",
   },
 
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 6 },
@@ -3187,6 +3250,8 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   resourceValues: { mana: 32 },
   actionPoints: 3,
   components: ["verbal", "somatic"],
+   verbalText: "Behold the end of all things!",
+   somaticText: "Tear open the sky, revealing apocalyptic vision",
   },
 
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 6 },
@@ -3334,6 +3399,8 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   resourceValues: { mana: 32 },
   actionPoints: 2,
   components: ["verbal", "somatic"],
+   verbalText: "You are all my puppets",
+   somaticText: "Extend mass puppet-strings across the crowd",
   },
 
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 6 },
@@ -3418,6 +3485,8 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   resourceValues: { mana: 38 },
   actionPoints: 3,
   components: ["verbal", "somatic"],
+   verbalText: "The greatest lie is truth itself",
+   somaticText: "Wrap ultimate deception around all reality",
   },
 
   cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
@@ -3522,6 +3591,8 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   resourceValues: { mana: 42 },
   actionPoints: 3,
   components: ["verbal", "somatic"],
+   verbalText: "I am the word. The word is lies.",
+   somaticText: "Ascend as prophet of lies, reality bending around you",
   },
 
   cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },

@@ -281,10 +281,7 @@ const generateCombatStats = (type, subtype, quality, powerScale) => {
         }
     } else if (type === 'armor') {
         // Add armor class for armor
-        combatStats.armor = {
-            value: Math.max(1, Math.floor(multiplier * getRandomInt(1, 5))),
-            isPercentage: false
-        };
+
 
         // Add resistances for higher quality armor
         if (quality !== 'poor' && quality !== 'common') {

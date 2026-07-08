@@ -326,8 +326,6 @@ export default function CharacterStats() {
             totalStats.slashingDamage = storeDerivedStats.slashingDamage || calculatedDerivedStats.slashingDamage || 0;
             totalStats.bludgeoningDamage = storeDerivedStats.bludgeoningDamage || calculatedDerivedStats.bludgeoningDamage || 0;
             totalStats.piercingDamage = storeDerivedStats.piercingDamage || calculatedDerivedStats.piercingDamage || 0;
-            // Always use calculated values for armor, health, and mana to ensure they reflect current stats and equipment
-            totalStats.armor = calculatedDerivedStats.armor;
             totalStats.maxHealth = calculatedDerivedStats.maxHealth;
             totalStats.maxMana = calculatedDerivedStats.maxMana;
             // Always use calculated values for movement speeds to ensure they reflect exhaustion effects
@@ -599,13 +597,6 @@ export default function CharacterStats() {
             };
         }
 
-        // For armor, encumbrance affects it indirectly through agility changes
-        // The agility modifier already includes encumbrance effects, so we return 0 here
-        // to avoid double-counting
-        if (statLabel.toLowerCase() === 'armor') {
-            return { effect: 0, description: 'Encumbrance affects armor indirectly through agility' };
-        }
-
         // For other derived stats, use the old logic
         let encumbranceMultiplier = 1.0;
         let description = '';
@@ -723,21 +714,6 @@ export default function CharacterStats() {
                 });
             }
         });
-
-        // For armor, check for condition effects (like "defending" which adds +2 armor)
-        if (statLabel.toLowerCase() === 'armor') {
-            const playerToken = characterTokens.find(t => t.isPlayerToken) || characterTokens[0];
-            const conditions = playerToken?.state?.conditions || [];
-            const conditionIds = conditions.map(c => c.id || c.name?.toLowerCase());
-            
-            // Defending condition adds +2 armor
-            if (conditionIds.includes('defending')) {
-                conditionEffect += 2;
-            }
-            
-            // Check for other conditions that might affect armor
-            // (This can be extended as needed)
-        }
 
         // For Movement Speed, also check conditions
         if (statLabel.toLowerCase().includes('movement') && statLabel.toLowerCase().includes('speed')) {
@@ -1503,8 +1479,7 @@ export default function CharacterStats() {
                                     'moveSpeed': 'Movement Speed',
                                     'speed': 'Movement Speed',
                                     'damage_taken': 'Damage Taken',
-                                    'weapon_damage': 'Weapon Damage',
-                                    'armor': 'Armor'
+                                    'weapon_damage': 'Weapon Damage'
                                 };
                                 
                                 if (statMap[statName] === statLabel || statName === statLabel.toLowerCase()) {

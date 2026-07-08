@@ -230,7 +230,6 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
               name: 'Stone-Scale Plating',
               description: '+2 Armor from dense mineral plates.',
               statModifier: {
-                stat: 'armor',
                 magnitude: 2,
                 magnitudeType: 'flat'
               }

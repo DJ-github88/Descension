@@ -82,7 +82,7 @@ Based on trade flows, border descriptions, and lore from `GM_WORLD_GUIDE.md` and
 NORTH (frozen, glaciers)
   │
   ├── NORDHALLA ──────── Fjord-Gate ──────┐
-  │   (Valley of Ymir,                      │
+  │   (Valley of Rime,                      │
   │    Frozen Archive)                      │
   │                                         │
   ├── ICEHEART SEA ◄─── borders Nordhalla ──┘

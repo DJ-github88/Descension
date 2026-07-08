@@ -1,4 +1,4 @@
-﻿export const vreken = {
+export const vreken = {
  id: 'vreken',
  name: 'Vreken',
  essence: 'The Gloom-Lit',
@@ -192,7 +192,7 @@ The founder of the Inquisition and the most feared Vreken in history, not by out
 
 He tracked his sister through the Gloom's deepest caves for four days, reading her trail with the same Ghost-Mycelium sensitivity she had once shared. He found her in a dead-end cavern, surrounded by the empty husks of fungal blooms she had consumed, her eyes burning so brightly they cast her own shadow against the far wall. She recognized him. She asked him to stay. He did what he had come to do.
 
-Orven spent the remaining sixty years of his life training other Marked Vreken to do what he had done: track the Over-Lit who had progressed beyond recovery and end them before they could harm others. He never married. He never spoke more than was necessary. The Inquisitors still follow the protocol he established: the kill must be witnessed by at least two other Inquisitors, the death-trail of the Over-Lit must be recorded in the scriptorium archives, and the name of the Over-Lit must be added to the crypt-singing, not as a martyr, but as a warning. Orven's own name is sung first, every rotation, before all the others.
+Orven spent the following decades training other Marked Vreken to do what he had done: track the Over-Lit who had progressed beyond recovery and end them before they could harm others. He never married. He never spoke more than was necessary. The Inquisitors still follow the protocol he established: the kill must be witnessed by at least two other Inquisitors, the death-trail of the Over-Lit must be recorded in the scriptorium archives, and the name of the Over-Lit must be added to the crypt-singing, not as a martyr, but as a warning. Orven's own name is sung first, every rotation, before all the others. In his later years, he took the hunt deeper into the Bryngloom than any Inquisitor before him, following a trail that seemed to have no end. He stopped reporting back. He is not confirmed dead. The Inquisitors wait for word that may never come.
  `
  },
  {
@@ -388,7 +388,7 @@ The Clean rarely leave the Bryngloom Forest. When they do, they travel in monast
  ],
  languages: ['Common', 'Gloom-Tongue'],
  speed: 25,
- baseStats: { armor: 0, hp: 22, mana: 14, ap: 3, passivePerception: 12, swimSpeed: 10, climbSpeed: 15, visionRange: 50, darkvision: 30, initiative: 1 },
+  baseStats: { hp: 22, mana: 14, ap: 3, passivePerception: 12, swimSpeed: 10, climbSpeed: 15, visionRange: 50, darkvision: 30, initiative: 1 },
  savingThrowModifiers: { advantage: ['blight', 'disease'], disadvantage: [] }
  },
 
@@ -514,7 +514,7 @@ The Marked rarely serve as trade delegates or diplomatic envoys. Their eyes are 
  ],
  languages: ['Common', 'Gloom-Tongue'],
  speed: 25,
- baseStats: { armor: 0, hp: 18, mana: 12, ap: 4, passivePerception: 15, swimSpeed: 10, climbSpeed: 20, visionRange: 50, darkvision: 90, initiative: 3 },
+  baseStats: { hp: 18, mana: 12, ap: 4, passivePerception: 15, swimSpeed: 10, climbSpeed: 20, visionRange: 50, darkvision: 90, initiative: 3 },
  savingThrowModifiers: { advantage: ['perception'], disadvantage: ['blight'] }
  }
  }

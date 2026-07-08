@@ -559,37 +559,14 @@ const GeneralStatTooltip = ({ stat, value, displayValue, baseValue, equipmentBon
       equipmentValue = (value || 0) - (baseValue || 0) - totalOtherEffects;
     }
 
-    // For armor, show detailed breakdown
-    if (stat.toLowerCase() === 'armor' && equipmentBreakdown && equipmentBreakdown.fromAgility !== undefined) {
-      // Show base armor (racial + base agility modifier)
-      // Note: baseValue already includes racial + base agility modifier
-      parts.push(`${Math.round(baseValue)} (base)`);
-      
-      // Show direct armor from equipment
-      if (equipmentBreakdown.directArmor !== undefined && equipmentBreakdown.directArmor !== 0) {
-        parts.push(`+${Math.round(equipmentBreakdown.directArmor)} (equipment)`);
-      }
-      
-      // Show armor from equipment agility modifier (the difference from equipment agility)
-      // This is the additional armor from equipment agility bonuses beyond base agility
-      if (equipmentBreakdown.fromAgility !== undefined && equipmentBreakdown.fromAgility !== 0) {
-        parts.push(`${equipmentBreakdown.fromAgility > 0 ? '+' : ''}${Math.round(equipmentBreakdown.fromAgility)} (Agility)`);
-      }
-      
-      // Note: The actual calculation in calculateDerivedStats uses totalAgility for the modifier,
-      // which means the baseArmor already includes equipment agility. But for display, we split it.
-      // If there's still a discrepancy, it might be from buffs/debuffs/conditions that we're tracking separately.
-    } else {
       // For other stats, show base value
       parts.push(`${Math.round(baseValue)} (base)`);
 
       // Add equipment breakdown if available
       if (equipmentBreakdown) {
-        // Always show direct armor if it exists (even if 0, to be clear)
         if (equipmentBreakdown.directArmor !== undefined && equipmentBreakdown.directArmor !== 0) {
           parts.push(`+${Math.round(equipmentBreakdown.directArmor)} (equipment armor)`);
         }
-        // Show armor from agility equipment bonuses if any
         if (equipmentBreakdown.fromAgility !== undefined && equipmentBreakdown.fromAgility > 0) {
           parts.push(`+${Math.round(equipmentBreakdown.fromAgility)} (from Agility equipment)`);
         }
@@ -597,7 +574,6 @@ const GeneralStatTooltip = ({ stat, value, displayValue, baseValue, equipmentBon
         // Simple equipment bonus display
         parts.push(`${equipmentValue > 0 ? '+' : ''}${Math.round(equipmentValue)} (equipment)`);
       }
-    }
 
     // Add encumbrance if provided and non-zero
     if (encumbranceEffect !== undefined && encumbranceEffect !== 0) {
@@ -648,25 +624,6 @@ const GeneralStatTooltip = ({ stat, value, displayValue, baseValue, equipmentBon
         passiveContribution += numericValue;
         parts.push(`${numericValue > 0 ? '+' : ''}${Math.round(numericValue)} (${source.name}${source.condition || ''})`);
       });
-    }
-    
-    if (stat.toLowerCase() === 'armor' && equipmentBreakdown) {
-      // For armor, the actual calculation in calculateDerivedStats is:
-      // baseArmor = racial + agilityModifier(totalAgility) where totalAgility = base + equipment
-      // armor = baseArmor + equipmentBonuses.armor
-      // 
-      // But we're showing it as:
-      // base = racial + baseAgilityModifier (from base agility only)
-      // equipment = directArmor + equipmentAgilityModifier (difference from equipment agility)
-      //
-      // The key: baseValue already includes baseAgilityModifier, and equipmentBreakdown.fromAgility
-      // is the equipment portion. So:
-      // Our calculation: baseValue + directArmor + equipmentAgilityModifier
-      // Actual calculation: (racial + totalAgilityModifier) + directArmor
-      // Where totalAgilityModifier = baseAgilityModifier + equipmentAgilityModifier
-      //
-      // These should match! If they don't, there's a bug in our breakdown calculation.
-      calculatedEquipment = (equipmentBreakdown.directArmor || 0) + (equipmentBreakdown.fromAgility || 0);
     }
     
     const calculatedTotal = Math.round(calculatedBase) +

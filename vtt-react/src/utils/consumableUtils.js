@@ -126,7 +126,7 @@ export const collectBuffEffects = (item) => {
         }
     });
 
-    const combatStatEffects = ['armor', 'damage', 'healingPower', 'healthRegen', 'manaRegen', 'moveSpeed'];
+    const combatStatEffects = ['damage', 'healingPower', 'healthRegen', 'manaRegen', 'moveSpeed'];
     combatStatEffects.forEach(stat => {
         if (combatStats[stat] && combatStats[stat].value > 0) {
             console.log(`[consumableUtils] Found positive combat effect ${stat}:`, combatStats[stat].value);
@@ -248,7 +248,7 @@ export const collectDebuffEffects = (item) => {
         }
     });
 
-    const combatStatEffects = ['armor', 'damage', 'healingPower', 'healthRegen', 'manaRegen', 'moveSpeed'];
+    const combatStatEffects = ['damage', 'healingPower', 'healthRegen', 'manaRegen', 'moveSpeed'];
     combatStatEffects.forEach(stat => {
         if (combatStats[stat] && combatStats[stat].value < 0) {
             debuffEffects[stat] = Math.abs(combatStats[stat].value);
@@ -447,7 +447,7 @@ export const syncResourceToAll = ({ resourceType, characterStore, partyStore, ga
 const EFFECT_STAT_NAMES = {
     'strength': 'Strength', 'agility': 'Agility', 'constitution': 'Constitution',
     'intelligence': 'Intelligence', 'spirit': 'Spirit', 'charisma': 'Charisma',
-    'armor': 'Armor', 'damage': 'Damage', 'healingpower': 'Healing Power',
+    'damage': 'Damage', 'healingpower': 'Healing Power',
     'healthregen': 'Health Regen', 'manaregen': 'Mana Regen',
     'maxhealth': 'Max Health', 'maxmana': 'Max Mana',
     'movespeed': 'Movement Speed',

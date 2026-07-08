@@ -9,6 +9,21 @@ import { autoLinkTerminology } from '../../utils/loreAutoLinker';
 import { useFlavorTooltip } from './FlavorTooltip';
 import './RaceSelector.css';
 
+const PUB = process.env.PUBLIC_URL || '';
+
+const RACE_WATERCOLOR = {
+  myrathil: 'watercolor_compass',
+  mimir: 'watercolor_void',
+  briaran: 'watercolor_tree',
+  groven: 'watercolor_shield',
+  emberth: 'watercolor_campfire',
+  vreken: 'watercolor_candle',
+  neth: 'watercolor_scales',
+  astril: 'watercolor_crystal',
+  fexrick: 'watercolor_anvil',
+  human: 'watercolor_map'
+};
+
 // Parses lore text to render recognised dictionary terms as interactive LoreLink popups
 const renderLoreText = (text) => {
   if (!text || typeof text !== 'string') return text;
@@ -764,6 +779,15 @@ const RaceCard = React.memo(({ race, isSelected, onSelect }) => {
         style={{ '--race-gradient': race.gradient }}
         {...triggerProps}
       >
+        {RACE_WATERCOLOR[race.id] && (
+          <img
+            className="race-card-watermark"
+            src={`${PUB}/assets/images/${RACE_WATERCOLOR[race.id]}.png`}
+            alt=""
+            aria-hidden="true"
+            onError={(e) => { e.target.style.display = 'none'; }}
+          />
+        )}
         <div className="race-card-header">
           <div className="race-card-icon">
             <i className={race.icon}></i>
@@ -1388,12 +1412,6 @@ const RaceSelector = () => {
                     <div className="info-block">
                       <h4 className="info-block-title">BASE STATS</h4>
                       <div className="info-grid">
-                        {baseStats.armor !== undefined && (
-                          <div className="info-row info-row-no-bg">
-                            <span className="info-label">ARMOR:</span>
-                            <span className="info-value">{baseStats.armor}</span>
-                          </div>
-                        )}
                         {baseStats.hp !== undefined && baseStats.hp !== 0 && (
                           <div className="info-row info-row-no-bg">
                             <span className="info-label">HP:</span>

@@ -1849,6 +1849,8 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   resourceValues: { mana: 7 },
   actionPoints: 1,
   components: ["verbal", "somatic"],
+  verbalText: "Mark the quarry",
+  somaticText: "Trace hunter's sigil toward target",
   classResource: { type: "quarry_marks", cost: 1 },
   },
 
@@ -1936,6 +1938,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   resourceValues: { mana: 14 },
   actionPoints: 1,
   components: ["somatic"],
+  somaticText: "Phase through shadow and strike",
   classResource: { type: "quarry_marks", cost: 2 },
   },
 
@@ -2003,6 +2006,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   resourceValues: { mana: 14 },
   actionPoints: 1,
   components: ["verbal"],
+  verbalText: "Bind our spirits, brother",
   classResource: { type: "quarry_marks", cost: 2 },
   },
 
@@ -2094,6 +2098,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   resourceValues: { mana: 15 },
   actionPoints: 2,
   components: ["somatic"],
+  somaticText: "Spin glaive in deadly arc through enemies",
   classResource: { type: "quarry_marks", gain: 1 },
   },
 
@@ -2162,6 +2167,8 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   resourceValues: { mana: 22 },
   actionPoints: 2,
   components: ["verbal", "somatic"],
+  verbalText: "I am the apex!",
+  somaticText: "Assume predator's stance, glaive blazing",
   classResource: { type: "quarry_marks", cost: 3 },
   },
 
@@ -2240,6 +2247,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   resourceValues: { mana: 22 },
   actionPoints: 2,
   components: ["somatic"],
+  somaticText: "Leap skyward and crash down on target",
   classResource: { type: "quarry_marks", gain: 1 },
   },
 
@@ -2307,6 +2315,8 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   resourceValues: { mana: 20 },
   actionPoints: 2,
   components: ["verbal", "somatic"],
+  verbalText: "Strike together, now!",
+  somaticText: "Signal companion and charge as one",
   classResource: { type: "quarry_marks", cost: 3 },
   },
 
@@ -2385,6 +2395,8 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   resourceValues: { mana: 25 },
   actionPoints: 2,
   components: ["verbal", "somatic"],
+  verbalText: "Umbra revela!",
+  somaticText: "Channel shadow energy through the glaive",
   classResource: { type: "quarry_marks", cost: 3 },
   },
 
@@ -2470,6 +2482,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   resourceValues: { mana: 22 },
   actionPoints: 1,
   components: ["verbal"],
+  verbalText: "Roar, companion! Break their nerve!",
   classResource: { type: "quarry_marks", cost: 2 },
   },
 
@@ -2559,6 +2572,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   resourceValues: { mana: 28 },
   actionPoints: 3,
   components: ["somatic"],
+  somaticText: "Unleash furious flurry of glaive strikes",
   classResource: { type: "quarry_marks", cost: 5 },
   },
 
@@ -2625,6 +2639,8 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   resourceValues: { mana: 30 },
   actionPoints: 3,
   components: ["verbal", "somatic"],
+  verbalText: "Tempestas umbra!",
+  somaticText: "Sweep glaive in wide arc, summoning shadow storm",
   classResource: { type: "quarry_marks", cost: 4 },
   },
 
@@ -2703,6 +2719,8 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   resourceValues: { mana: 30 },
   actionPoints: 3,
   components: ["verbal", "somatic"],
+  verbalText: "Una anima, una ferox!",
+  somaticText: "Grasp companion's spirit and pull close",
   classResource: { type: "quarry_marks", cost: 4 },
   },
 
@@ -2822,6 +2840,8 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   resourceValues: { mana: 28 },
   actionPoints: 3,
   components: ["verbal", "somatic"],
+  verbalText: "Pluat mors!",
+  somaticText: "Raise glaive high, summoning rain of blades",
   classResource: { type: "quarry_marks", gain: 2 },
   channelingFrequency: "per_round",
   },
@@ -2901,6 +2921,8 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   resourceValues: { mana: 35 },
   actionPoints: 3,
   components: ["verbal", "somatic"],
+  verbalText: "I transcend the hunt!",
+  somaticText: "Glaive and companion blaze with primal light",
   classResource: { type: "quarry_marks", cost: 5 },
   },
 
@@ -3006,6 +3028,8 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   resourceValues: { mana: 35 },
   actionPoints: 2,
   components: ["verbal", "somatic"],
+  verbalText: "Mors te amat",
+  somaticText: "Drive glaive forward, trailing death's shroud",
   classResource: { type: "quarry_marks", cost: 5 },
   },
 
@@ -3181,6 +3205,8 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   resourceValues: { mana: 40 },
   actionPoints: 3,
   components: ["verbal", "somatic"],
+  verbalText: "Fall, eternal one!",
+  somaticText: "Raise glaive in both hands, channel all fury",
   classResource: { type: "quarry_marks", cost: 5 },
   },
 
@@ -3267,6 +3293,8 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   resourceValues: { mana: 38 },
   actionPoints: 3,
   components: ["verbal", "somatic"],
+  verbalText: "Nature, answer my call!",
+  somaticText: "Slam glaive into earth, unleashing primal cataclysm",
   classResource: { type: "quarry_marks", cost: 5 },
   },
 
@@ -3281,9 +3309,8 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
    size: "Large",
    type: "beast",
    stats: {
-    maxHp: 50,
-    armor: 15,
-    maxMana: 0,
+     maxHp: 50,
+     maxMana: 0,
    },
    config: {
     quantity: 3,

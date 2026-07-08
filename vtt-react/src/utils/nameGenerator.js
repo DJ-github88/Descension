@@ -22,7 +22,7 @@ export const RACE_NAMES = {
     ],
     rime_born: [
         'Hrym', 'Frost', 'Glacier', 'Shard', 'Rime', 'Winter', 'Storm', 'Ice', 'Crystal', 'Skalde',
-        'Svala', 'Thora', 'Bryn', 'Kael', 'Dren', 'Varg', 'Halden', 'Skadi', 'Ymir', 'Frode',
+        'Svala', 'Thora', 'Bryn', 'Kael', 'Dren', 'Varg', 'Halden', 'Skadi', 'Frode', 'Frode',
         'Runa', 'Sigrid'
     ],
     mimir: [

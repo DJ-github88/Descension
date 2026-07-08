@@ -908,6 +908,7 @@ Your Fortune hits 0.
         resourceValues: { mana: 6 },
         components: ["verbal", "somatic"],
         verbalText: "I see your hand...",
+        somaticText: "Squint and trace the target's fate-line in the air",
       },
       resolution: "NONE",
       effectTypes: ["buff"],
@@ -1017,6 +1018,7 @@ Your Fortune hits 0.
         resourceValues: { mana: 10 },
         components: ["verbal", "somatic"],
         verbalText: "The number is...",
+        somaticText: "Roll phantom dice between your palms and thrust the result forward",
       },
       resolution: "DICE",
       effectTypes: ["damage"],
@@ -1139,6 +1141,16 @@ Your Fortune hits 0.
           ],
         },
       },
+      triggerConfig: {
+      triggers: [
+        {
+        id : "gambler_double_or_nothing_reckoning",
+        name: "Karmic Reckoning",
+        triggerType: "on_miss",
+        action: "On a miss, the kinetic recoil deals full spell damage to the caster instead. If this reduces caster to 0 HP, trigger Cosmic Bankruptcy."
+        }
+      ]
+      },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
       tags: ["melee", "damage", "critical_hit", "high_risk", "gambit"],
     },
@@ -1220,6 +1232,7 @@ Your Fortune hits 0.
         resourceTypes: ["mana"],
         resourceValues: { mana: 17 },
         components: ["somatic"],
+        somaticText: "Flip a probability-charged coin with a snap of the wrist",
       },
       resolution: "COINS",
       effectTypes: ["buff", "debuff"],
@@ -1560,6 +1573,7 @@ Your Fortune hits 0.
         resourceValues: { mana: 24 },
         components: ["verbal", "somatic"],
         verbalText: "Let us roll for your soul...",
+        somaticText: "Mimic rolling invisible dice with a forceful slam",
       },
       resolution: "DICE",
       effectTypes: ["damage", "control"],
@@ -1681,6 +1695,16 @@ Your Fortune hits 0.
           ],
         },
       },
+      triggerConfig: {
+      triggers: [
+        {
+        id : "gambler_all_or_nothing_reckoning",
+        name: "Karmic Reckoning",
+        triggerType: "on_tails",
+        action: "On tails, the spell backfires and deals 6d6 storm damage to the caster."
+        }
+      ]
+      },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 8 },
       tags: ["damage", "aoe", "coin_flip", "ultimate", "gambit"],
     },
@@ -1713,6 +1737,7 @@ Your Fortune hits 0.
         resourceValues: { mana: 28 },
         components: ["verbal", "somatic"],
         verbalText: "JACKPOT!",
+        somaticText: "Cast three bone dice onto the ground with a dramatic flourish",
       },
       resolution: "DICE",
       effectTypes: ["utility"],
@@ -1857,6 +1882,16 @@ Your Fortune hits 0.
             { condition: "1-5", name: "Low Card Failure", selfDamage: "18d6 + CHA force", fpGain: 0 },
           ],
         },
+      },
+      triggerConfig: {
+      triggers: [
+        {
+        id : "gambler_high_roller_reckoning",
+        name: "Karmic Reckoning",
+        triggerType: "on_miss",
+        action: "On a d20 roll of 1-5, the probability violently backfires and the caster takes the full 18d6 + Charisma storm damage."
+        }
+      ]
       },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
       tags: ["damage", "high_risk", "gambit"],
@@ -2102,6 +2137,16 @@ Your Fortune hits 0.
       },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
       resolution: "COINS",
+      triggerConfig: {
+      triggers: [
+        {
+        id : "gambler_divine_jackpot_reckoning",
+        name: "Karmic Reckoning",
+        triggerType: "on_tails",
+        action: "On tails, the caster's systems overload and they take 20d6 storm damage, but survive at 1 HP with advantage on all rolls for 1 round."
+        }
+      ]
+      },
       tags: ["damage", "coin_flip", "ultimate", "gambit"],
     },
 
@@ -2168,7 +2213,6 @@ Your Fortune hits 0.
           "gambit"
         ]
       },
- ,
 
     // ========================================
     // LEVEL 1 SPELLS - The Core Probability Engine

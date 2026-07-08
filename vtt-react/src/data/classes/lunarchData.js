@@ -856,6 +856,11 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
           fullMoon: "Add +1d8 ember damage and increase crit range by 2.",
           waningMoon: "Heal for 25% of damage dealt. Costs 1 less mana (minimum 1).",
         },
+        triggerConfig: {
+          triggers: [
+            { id: "lunarch_parasitic_bolt_parasitic_toll", name: "Parasitic Toll", triggerType: "on_cast", action: "The rift-parasite feeds on your flesh: selfDamage applies on cast." }
+          ]
+        },
         selfDamage: "Take 1d4 blight damage when you cast this spell",
         phaseAdvancement: 1,
       },
@@ -1351,6 +1356,11 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
 
       specialMechanics: {
+        triggerConfig: {
+          triggers: [
+            { id: "lunarch_sanguine_transfer_parasitic_toll", name: "Parasitic Toll", triggerType: "on_cast", action: "The rift-parasite feeds on your flesh: selfDamage applies on cast." }
+          ]
+        },
         selfDamage: "Take 1d6 necrotic when cast. During Waxing: take 1d4 extra but healing +50%.",
         phaseAdvancement: 1,
         phaseInteraction: {
@@ -1691,6 +1701,11 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
             "Full Moon: Next attack deals +1d6 damage with +2 crit range",
             "Waning: Next spell costs 2 less mana",
           ],
+          triggerConfig: {
+            triggers: [
+              { id: "rapid_cycle_phase_advance_parasitic_toll", name: "Parasitic Toll", triggerType: "on_cast", action: "The rift-parasite feeds on your flesh: selfDamage applies on cast." }
+            ]
+          },
           selfDamage: "Take 4d4 blight damage (cumulative tissue damage from four rapid shifts). Roll Transition Shock once.",
           phaseAdvancement: 1,
         },
@@ -1746,6 +1761,11 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
 
       specialMechanics: {
+        triggerConfig: {
+          triggers: [
+            { id: "lunarch_sanguine_rites_parasitic_toll", name: "Parasitic Toll", triggerType: "on_cast", action: "The rift-parasite feeds on your flesh: selfDamage applies on cast." }
+          ]
+        },
         selfDamage: "Take 2d6 necrotic when cast. During Waxing: healing +50% but take 1d6 extra necrotic.",
         phaseAdvancement: 1,
         phaseInteraction: {
@@ -1835,6 +1855,11 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
       specialMechanics: {
         dualPhase: {
+          triggerConfig: {
+            triggers: [
+              { id: "stellar_aura_parasitic_toll", name: "Parasitic Toll", triggerType: "on_cast", action: "The rift-parasite feeds on your flesh: selfDamage applies on cast." }
+            ]
+          },
           selfDamage: "Take 3d6 necrotic when cast. Roll Transition Shock twice.",
           phaseAdvancement: 1,
           phaseLock: "Phase does not cycle during Eclipse.",
@@ -1898,6 +1923,11 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
 
       specialMechanics: {
+        triggerConfig: {
+          triggers: [
+            { id: "lunarch_hollow_volley_parasitic_toll", name: "Parasitic Toll", triggerType: "on_cast", action: "The rift-parasite feeds on your flesh: selfDamage applies on cast." }
+          ]
+        },
         selfDamage: "Take 2d4 blight damage per target hit (parasite feeds on each bolt).",
         phaseAdvancement: 1,
         phaseInteraction: {
@@ -1976,6 +2006,11 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       },
 
       specialMechanics: {
+        triggerConfig: {
+          triggers: [
+            { id: "mass_delirium_parasitic_toll", name: "Parasitic Toll", triggerType: "on_cast", action: "The rift-parasite feeds on your flesh: selfDamage applies on cast." }
+          ]
+        },
         selfDamage: "Take 3d6 necrotic (tearing the rift-core from your chest).",
         phaseAdvancement: 1,
         phaseInteraction: {
@@ -2044,6 +2079,11 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
 
       specialMechanics: {
+        triggerConfig: {
+          triggers: [
+            { id: "lunarch_sanguine_deluge_parasitic_toll", name: "Parasitic Toll", triggerType: "on_cast", action: "The rift-parasite feeds on your flesh: selfDamage applies on cast." }
+          ]
+        },
         selfDamage: "Take 4d6 blight damage. This damage cannot reduce you below 1 HP (the parasite will not let you die before it finishes feeding).",
         phaseAdvancement: 1,
         phaseInteraction: {
@@ -2107,6 +2147,11 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
 
       specialMechanics: {
+        triggerConfig: {
+          triggers: [
+            { id: "lunarch_hollow_annihilation_parasitic_toll", name: "Parasitic Toll", triggerType: "on_cast", action: "The rift-parasite feeds on your flesh: selfDamage applies on cast." }
+          ]
+        },
         selfDamage: "Take 4d6 blight damage. The bolt is forged from your own vital force.",
         phaseAdvancement: 1,
         phaseInteraction: {
@@ -2179,6 +2224,11 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       },
 
       specialMechanics: {
+        triggerConfig: {
+          triggers: [
+            { id: "star_sickness_constellation_parasitic_toll", name: "Parasitic Toll", triggerType: "on_cast", action: "The rift-parasite feeds on your flesh: selfDamage applies on cast." }
+          ]
+        },
         selfDamage: "Take 3d6 necrotic. Each rift-wound bleeds you as it fires.",
         phaseAdvancement: 1,
         phaseInteraction: {
@@ -2250,6 +2300,11 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
 
       specialMechanics: {
+        triggerConfig: {
+          triggers: [
+            { id: "parasitic_bulwark_parasitic_toll", name: "Parasitic Toll", triggerType: "on_cast", action: "The rift-parasite feeds on your flesh: selfDamage applies on cast." }
+          ]
+        },
         selfDamage: "Take 2d6 necrotic when cast (the tendrils erupt violently from your flesh).",
         phaseAdvancement: 1,
         phaseInteraction: {
@@ -2314,6 +2369,11 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
 
       specialMechanics: {
+        triggerConfig: {
+          triggers: [
+            { id: "lunarch_skyhole_parasitic_toll", name: "Parasitic Toll", triggerType: "on_cast", action: "The rift-parasite feeds on your flesh: selfDamage applies on cast." }
+          ]
+        },
         selfDamage: "Take 5d6 necrotic (the tear opens through your own body first).",
         phaseAdvancement: 1,
         zoneConfig: {
@@ -2544,6 +2604,11 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
 
       specialMechanics: {
+        triggerConfig: {
+          triggers: [
+            { id: "lunarch_hollowpoint_parasitic_toll", name: "Parasitic Toll", triggerType: "on_cast", action: "The rift-parasite feeds on your flesh: selfDamage applies on cast." }
+          ]
+        },
         selfDamage: "Take 6d6 blight damage. Your maximum HP is reduced by 10 until your next long rest (the parasite takes time to regenerate the portion of itself you fired).",
         phaseAdvancement: 1,
         specialRules: "Ignores resistance to ember damage. Destroys unattended objects in path.",
@@ -2636,6 +2701,11 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
 
       specialMechanics: {
+        triggerConfig: {
+          triggers: [
+            { id: "lunarch_sanguine_eternity_parasitic_toll", name: "Parasitic Toll", triggerType: "on_cast", action: "The rift-parasite feeds on your flesh: selfDamage applies on cast." }
+          ]
+        },
         selfDamage: "Take 5d6 necrotic when cast. At the start of each subsequent turn, take 1d6 necrotic while the zone persists (your body is the pump).",
         phaseAdvancement: 1,
         zoneConfig: {

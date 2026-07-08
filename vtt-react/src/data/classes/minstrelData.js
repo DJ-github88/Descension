@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Minstrel Class Data
  *
  * Complete class information for the Minstrel, a conductor of reality's death rattle
@@ -985,7 +985,7 @@ Before combat, decide which cadences you want to prioritize:
    primaryEffect: "control",
    secondaryEffect: "paralyze",
    effectDescription: "Paralyze a single target. DC 18 Spirit save negates. The devil's interval, the tritone, slides V out and slams a flatted-II in its place, and the enemy's nervous system goes with it.",
-   flavorText: "The devil's interval, weaponized. Two notes that the Church banned for a thousand years, deployed in a single surgical strike.",
+   flavorText: "The devil's interval, weaponized. Two notes that the Church banned for centuries, deployed in a single surgical strike.",
    tacticalUse: "Lock down a priority target for a full round.",
   },
   {
@@ -1577,14 +1577,9 @@ Before combat, decide which cadences you want to prioritize:
   buffType: "statEnhancement",
   effects: [
    { id : "armor_boost",
-   name: "DR Boost",
-   description: "+2 DR for 2 turns",
-   statModifier: {
-    stat: "armor",
-    magnitude: 2,
-    magnitudeType: "flat",
-   },
-   },
+    name: "DR Boost",
+    description: "+2 DR for 2 turns",
+    },
   ],
   durationValue: 2,
   durationType: "turns",
@@ -2076,6 +2071,7 @@ Before combat, decide which cadences you want to prioritize:
   resourceValues: { mana: 16 },
   actionPoints: 1,
   components: ["verbal", "somatic"],
+  somaticText: "Channel perfect cadence through gesture",
   verbalText: "Harmonic resolution phrase",
   },
 
@@ -2159,6 +2155,7 @@ Before combat, decide which cadences you want to prioritize:
   resourceValues: { mana: 20 },
   actionPoints: 1,
   components: ["verbal", "somatic"],
+  somaticText: "Channel circle of fifths through gesture",
   verbalText: "Cyclical harmonic phrase",
   },
 
@@ -2231,6 +2228,7 @@ Before combat, decide which cadences you want to prioritize:
   resourceValues: { mana: 20 },
   actionPoints: 1,
   components: ["verbal", "somatic"],
+  somaticText: "Channel authentic cadence through gesture",
   verbalText: "Triumphant finale verse",
   },
 
@@ -2346,6 +2344,7 @@ Before combat, decide which cadences you want to prioritize:
   resourceValues: { mana: 24 },
   actionPoints: 1,
   components: ["verbal", "somatic"],
+  somaticText: "Channel tritone substitution through gesture",
   verbalText: "Dissonant binding phrase",
   },
 
@@ -2440,6 +2439,7 @@ Before combat, decide which cadences you want to prioritize:
   resourceValues: { mana: 24 },
   actionPoints: 1,
   components: ["verbal", "somatic"],
+  somaticText: "Channel picardy third through gesture",
   verbalText: "Hopeful ascending melody",
   },
 
@@ -2551,6 +2551,7 @@ Before combat, decide which cadences you want to prioritize:
   resourceValues: { mana: 12 },
   actionPoints: 1,
   components: ["verbal", "somatic"],
+  somaticText: "Channel song of rest through gesture",
   verbalText: "Soothing rest melody",
   },
 
@@ -3592,14 +3593,13 @@ Before combat, decide which cadences you want to prioritize:
    name: "Entranced",
    description:
     "Enemies have -4 DR and disadvantage on saving throws for 4 rounds.",
-   statPenalty: [
-    { stat: "armor", value: -4 },
-    {
-    stat: "saving_throws",
-    value: -99,
-    magnitudeType: "disadvantage",
-    },
-   ],
+    statPenalty: [
+     {
+     stat: "saving_throws",
+     value: -99,
+     magnitudeType: "disadvantage",
+     },
+    ],
    mechanicsText:
     "-4 DR and disadvantage on saving throws for 4 rounds",
    },
@@ -4289,6 +4289,8 @@ Before combat, decide which cadences you want to prioritize:
   },
   actionPoints: 1,
   components: ["verbal", "somatic"],
+  verbalText: "Harmony Strike!",
+  somaticText: "Channel harmony strike through gesture",
   },
 
   musicalCombo: {

@@ -307,8 +307,8 @@ const CHECKLIST_TEMPLATE = {
     {
       category: 'terrain',
       action: 'DRAW',
-      text: 'Ymir\'s Col: wind-scoured gap between two peaks',
-      why: 'Ymir\'s Col is a wind-scoured mountain pass between two towering peaks. Located in the northern interior, it is surrounded by sheer ice cliffs. The winds here are so violent they can strip flesh from bone in minutes, making it a legendary and highly dangerous natural barrier.',
+      text: 'Skadi\'s Col: wind-scoured gap between two peaks',
+      why: 'Skadi\'s Col is a wind-scoured mountain pass between two towering peaks. Located in the northern interior, it is surrounded by sheer ice cliffs. The winds here are so violent they can strip flesh from bone in minutes, making it a legendary and highly dangerous natural barrier.',
       inkarnate: 'Mountain pass icon'
     },
     {
@@ -874,8 +874,8 @@ const CHECKLIST_TEMPLATE = {
     {
       category: 'cities',
       action: 'PLACE',
-      text: 'Kelpie\'s Cove: black-market port behind ice-shoals',
-      why: 'Kelpie\'s Cove is a black-market port. Hidden behind a wall of shifting ice-shoals on the northern shore, it is surrounded by freezing waters, serving as a secret trading haven for Fredløse outlaws to exchange contraband.',
+      text: 'Brinehorse Cove: black-market port behind ice-shoals',
+      why: 'Brinehorse Cove is a black-market port. Hidden behind a wall of shifting ice-shoals on the northern shore, it is surrounded by freezing waters, serving as a secret trading haven for Fredløse outlaws to exchange contraband.',
       inkarnate: 'Port icon'
     },
     // LANDMARKS
@@ -1238,7 +1238,7 @@ const enrichChecklist = (parsedData) => {
               { key: 'blackteeth', target: 'Blackteeth' },
               { key: 'lucky anchor', target: 'Lucky Anchor' },
               { key: 'tide-court', target: 'Tide-Court' },
-              { key: 'kelpie\'s cove', target: 'Kelpie' },
+              { key: 'brinehorse cove', target: 'Brinehorse' },
               { key: 'first shore', target: 'First Shore' },
               { key: 'frozen flame', target: 'Frozen Flame' },
               { key: 'whaleroot floe', target: 'Whaleroot' },

@@ -662,7 +662,6 @@ export const createStatsSlice = (set, get) => ({
         totalStats.maxMana = Math.round(derivedStats.maxMana || state.mana.max);
         totalStats.healthRegen = Math.round(derivedStats.healthRegen || 0);
         totalStats.manaRegen = Math.round(derivedStats.manaRegen || 0);
-        totalStats.armor = Math.round(derivedStats.armor || 0);
         totalStats.movementSpeed = Math.round(derivedStats.moveSpeed || 30);
         totalStats.carryingCapacity = Math.round(derivedStats.carryingCapacity || 0);
         totalStats.damage = Math.round(derivedStats.damage || 0);

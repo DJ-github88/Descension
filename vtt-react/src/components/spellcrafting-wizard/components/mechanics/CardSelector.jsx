@@ -73,7 +73,7 @@ const EFFECT_PRESETS = {
     suitEffects: {
       [CARD_SUITS.HEARTS]: { name: 'Major Healing', effect: 'major_healing', icon: 'Healing/Golden Heart' },
       [CARD_SUITS.DIAMONDS]: { name: 'Healing Over Time', effect: 'regen_over_time', icon: 'Healing/Renewal' },
-      [CARD_SUITS.CLUBS]: { name: 'Armor Bonus', effect: 'armor_bonus', icon: 'Utility/Golden Shield' },
+       [CARD_SUITS.CLUBS]: { name: 'DR Bonus', effect: 'dr_bonus', icon: 'Utility/Golden Shield' },
       [CARD_SUITS.SPADES]: { name: 'Cleanse', effect: 'cleanse', icon: 'Healing/Healing Compass' }
     },
     rankEffects: {

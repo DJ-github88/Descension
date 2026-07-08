@@ -478,7 +478,6 @@ The name "Sylvain" is a common honor-name among Unwoven rebels. Since the Ruptur
         languages: ['Common', 'Vale-Speak'],
         speed: 30,
         baseStats: {
-          armor: 0,
           hp: 22,
           mana: 30,
           ap: 3,
@@ -639,7 +638,6 @@ The name "Sylvain" is a common honor-name among Unwoven rebels. Since the Ruptur
         languages: ['Common', 'Vale-Speak'],
         speed: 30,
         baseStats: {
-          armor: 0,
           hp: 26,
           mana: 20,
           ap: 4,
@@ -806,7 +804,6 @@ The name "Sylvain" is a common honor-name among Unwoven rebels. Since the Ruptur
         languages: ['Common', 'Vale-Speak'],
         speed: 30,
         baseStats: {
-          armor: 0,
           hp: 30,
           mana: 18,
           ap: 3,

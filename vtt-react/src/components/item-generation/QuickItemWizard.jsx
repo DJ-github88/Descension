@@ -314,11 +314,6 @@ const generateCombatStats = (type, quality, powerScale = 1) => {
 
         case 'armor':
             // Always add armor class
-            stats.armor = {
-                value: Math.floor(Math.random() * (range.armor.max - range.armor.min + 1)) + range.armor.min,
-                isPercentage: false
-            };
-
             // Add health bonus for uncommon and above
             if (quality !== 'poor' && (quality !== 'common' || Math.random() < 0.5)) {
                 stats.maxHealth = {
@@ -1156,8 +1151,6 @@ const QuickItemWizard = ({ onComplete, onCancel, initialData }) => {
             }),
 
             // Armor class directly at top level for display
-            armor: stats.combatStats?.armor?.value || 0,
-
             // Slots (important for display)
             slots: type === 'weapon' ?
                   [stats.weaponSlot || 'mainHand'] :

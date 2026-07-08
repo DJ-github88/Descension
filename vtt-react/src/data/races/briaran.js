@@ -395,7 +395,7 @@ The Unshorn rarely leave the groves. When they do, they travel cloaked and hoode
  ],
  languages: ['Common', 'Sylvan'],
  speed: 30,
- baseStats: { armor: 0, hp: 22, mana: 12, ap: 3, passivePerception: 13, swimSpeed: 10, climbSpeed: 15, visionRange: 50, darkvision: 30, initiative: 1 },
+ baseStats: { hp: 22, mana: 12, ap: 3, passivePerception: 13, swimSpeed: 10, climbSpeed: 15, visionRange: 50, darkvision: 30, initiative: 1 },
  savingThrowModifiers: { advantage: ['charm'], disadvantage: ['fear'] }
  },
 
@@ -532,7 +532,7 @@ They view the Mimir with silent recognition, another race that hides its true fa
  ],
  languages: ['Common', 'Sylvan'],
  speed: 30,
- baseStats: { armor: 0, hp: 20, mana: 10, ap: 3, passivePerception: 13, swimSpeed: 10, climbSpeed: 15, visionRange: 50, darkvision: 0, initiative: 2 },
+ baseStats: { hp: 20, mana: 10, ap: 3, passivePerception: 13, swimSpeed: 10, climbSpeed: 15, visionRange: 50, darkvision: 0, initiative: 2 },
  savingThrowModifiers: { advantage: ['charm'], disadvantage: ['fear'] }
  }
  }

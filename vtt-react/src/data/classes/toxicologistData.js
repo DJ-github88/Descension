@@ -1342,18 +1342,13 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       debuffConfig: {
         debuffType: "statReduction",
         effects: [
-          { id : "burned",
-            name: "Burned",
-            description:
-              "DR reduced by 3 and takes 1d6 ember damage per round for 3 rounds.",
-            mechanicsText:
-              "-3 DR and 1d6 ember damage per round for 3 rounds",
-            statModifier: {
-              stat: "armor",
-              magnitude: -3,
-              magnitudeType: "flat",
-            },
-          },
+           { id : "burned",
+             name: "Burned",
+             description:
+               "DR reduced by 3 and takes 1d6 ember damage per round for 3 rounds.",
+             mechanicsText:
+               "-3 DR and 1d6 ember damage per round for 3 rounds",
+           },
         ],
         durationValue: 3,
         durationType: "rounds",
@@ -2389,7 +2384,6 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
             description:
               "All enemy magical items stop working. All buffs are removed. Cannot cast spells for 1 round. -10 DR.",
             statPenalty: [
-              { stat: "armor", value: -10 },
               { stat: "spellcasting", value: -99, magnitudeType: "blocked" },
             ],
             mechanicsText:
@@ -2727,6 +2721,8 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
           toxinVials: 1,
         },
         actionPoints: 1,
+        components: ["somatic"],
+        somaticText: "Fire poison dart from wrist launcher",
       },
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
@@ -2789,6 +2785,8 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         },
         actionPoints: 1,
         components: ["verbal", "somatic"],
+        verbalText: "Exhale the wasting breath",
+        somaticText: "Crush noxious reagents between palms",
       },
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
@@ -2841,6 +2839,9 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         },
         actionPoints: 1,
         components: ["verbal", "somatic", "material"],
+        verbalText: "Drink deep the cup of clearing",
+        somaticText: "Press purifying compound to ally's lips",
+        materialText: "Purifying reagents and clean water",
       },
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
@@ -2894,11 +2895,6 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
             name: "DR Corrosion",
             description: "-2 armor for 2 rounds",
             mechanicsText: "-2 armor for 2 rounds",
-            statModifier: {
-              stat: "armor",
-              magnitude: -2,
-              magnitudeType: "flat",
-            },
           },
         ],
         durationValue: 2,
@@ -2915,6 +2911,8 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         },
         actionPoints: 1,
         components: ["verbal", "somatic"],
+        verbalText: "Corrode and consume!",
+        somaticText: "Hurl concentrated venom at target",
       },
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
@@ -2972,7 +2970,6 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         effects: [
           { id : "toxic_shock",
             name: "Toxic Shock",
-            name: "Toxic Shock",
             mechanicsText: "Nauseated for 1 round (disadvantage on attacks/checks, halved movement), CON save DC 16 to resist",
             config: {
               effectType: "nauseated",
@@ -2992,6 +2989,8 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         },
         actionPoints: 1,
         components: ["verbal", "somatic"],
+        verbalText: "Grip and wrench the gut!",
+        somaticText: "Channel concentrated toxin through gesture",
       },
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
@@ -3054,11 +3053,6 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
             name: "Corroded",
             description: "-1 armor for 2 rounds",
             mechanicsText: "-1 armor for 2 rounds",
-            statModifier: {
-              stat: "armor",
-              magnitude: -1,
-              magnitudeType: "flat",
-            },
           },
         ],
         durationValue: 2,
@@ -3075,6 +3069,8 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         },
         actionPoints: 2,
         components: ["verbal", "somatic"],
+        verbalText: "Shatter and spread!",
+        somaticText: "Lob poison bomb at target location",
       },
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
@@ -3137,6 +3133,8 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         },
         actionPoints: 1,
         components: ["verbal", "somatic"],
+        verbalText: "Thin the blood to water",
+        somaticText: "Apply deadly toxin to weapon or projectile",
       },
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
@@ -3215,6 +3213,8 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         },
         actionPoints: 2,
         components: ["verbal", "somatic"],
+        verbalText: "Rise and overwhelm!",
+        somaticText: "Sweep both arms forward, releasing the wave",
       },
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
@@ -3274,13 +3274,17 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         },
         actionPoints: 2,
         components: ["verbal", "somatic"],
+        verbalText: "Spread, leap, consume!",
+        somaticText: "Release plague vial and direct its leap",
       },
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 6 },
 
       resolution: "DICE",
       tags: ["damage", "blight", "spreading", "plague", "universal"],
-    },    {
+    },
+
+    {
       id : "tox_vial_dependency",
       name: "Vial Dependency",
       description:

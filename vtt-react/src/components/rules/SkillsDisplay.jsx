@@ -3,9 +3,18 @@ import { SKILL_DEFINITIONS, SKILL_CATEGORIES, SKILL_RANKS } from '../../constant
 import { SKILL_QUESTS } from '../../constants/skillQuests';
 import { WEAPON_TYPE_QUEST_DATA } from '../../constants/weaponTypeQuests';
 import { WEAPON_TYPE_META } from '../../constants/weaponTypeMeta';
+import { WEAPON_TYPE_TIERS, getWeaponSimpleTable, getWeaponArchetype } from '../../constants/weaponTypeSimpleTables';
 import { ROLLABLE_TABLES } from '../../constants/rollableTables';
 import { getIconUrl, getAbilityIconUrl } from '../../utils/assetManager';
 import './BackgroundSelector.css';
+
+const PUB = process.env.PUBLIC_URL || '';
+const CATEGORY_WATERCOLOR = {
+    'Combat Mastery': 'watercolor_swords',
+    'Exploration & Survival': 'watercolor_compass',
+    'Social & Influence': 'watercolor_quill',
+    'Arcane Studies': 'watercolor_sigil'
+};
 
 const SkillsDisplay = ({ variant = 'advanced' }) => {
     const [isSimple, setIsSimple] = useState(variant === 'simple');
@@ -76,7 +85,7 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
             2: 'Edge scrapes; shallow cut only.',
             3: 'Measured cut; steady but simple.',
             4: 'Quick slash; you may step 1 after the hit.',
-            5: 'Pommel check; on hit, target reels and loses 1 space of movement.',
+            5: 'Pommel check; on hit, target reels and loses 1 tile of movement.',
             6: 'Cross-cut; on hit, roll weapon die again and add half.',
             7: 'Riposte set; if target attacks you before your next turn, make a free counter at -2.',
             8: 'Dancing steel; make a free follow-up slash at half damage.'
@@ -84,19 +93,19 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
         axe: {
             1: 'Head bites and lodges; spend 1 AP to wrench it free.',
             2: 'Heavy chop skids; half damage.',
-            3: 'Wide arc forces them back 1 space on hit.',
+            3: 'Wide arc forces them back 1 tile on hit.',
             4: 'Hack through; +2 damage versus shields or hard cover.',
             5: 'Cleave; on hit, deal 2 damage to an adjacent foe.',
-            6: 'Hook and yank; pull target 1 space on hit.',
+            6: 'Hook and yank; pull target 1 tile on hit.',
             7: 'Rending blow; on hit, target suffers a bleeding nick (GM: minor ongoing).',
-            8: 'Sundering chop; on hit, crack armor or deal +4 damage.'
+            8: 'Sundering chop; on hit, knock a durability step off the target’s armor or shield, or deal +4 damage.'
         },
         mace: {
             1: 'Shock up the arm; you drop 1 AP after this swing.',
             2: 'Glancing crown; half damage.',
             3: 'Bruising tap; normal damage.',
             4: 'Ringing strike; on hit, target’s next action is -1.',
-            5: 'Shatter guard; ignore hardness/armor for this hit.',
+            5: 'Shatter guard; knock a durability step off the target’s armor for this hit.',
             6: 'Crush limb; on hit, target’s move is -1 until end of next turn.',
             7: 'Concussive blow; on hit, target is dazed (loses 1 AP) or takes +3 damage.',
             8: 'Skull-rattler; on hit, target is stunned for a turn or takes +5 damage.'
@@ -118,15 +127,15 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
             4: 'Driving cut; +2 damage.',
             5: 'Mighty sweep; on hit, also deal 2 damage to an adjacent foe.',
             6: 'Batter through; ignore heavy cover for this attack.',
-            7: 'Cleaving stride; on hit, shift 1 and strike a second adjacent foe at -2 to hit.',
+            7: 'Cleaving stride; on hit, move 1 tile and strike a second adjacent foe at -2 to hit.',
             8: 'Heaving execution; on hit, add weapon die again and force target prone or take +5 damage.'
         },
         greataxe: {
             1: 'Head bites stone; you must spend 1 AP to free it.',
-            2: 'Wild chop; half damage and you stagger 1 space.',
+            2: 'Wild chop; half damage and you stagger 1 tile.',
             3: 'Raking cut; normal damage.',
             4: 'Hefted cleave; +2 damage.',
-            5: 'Armor split; on hit, ignore armor/hardness for this strike.',
+            5: 'Armor split; on hit, knock a durability step off the target’s armor for this strike.',
             6: 'Sweeping murder; cleave an adjacent foe for half damage.',
             7: 'Bonebreaker; on hit, target’s next move is halved; if it can’t move, +3 damage.',
             8: 'Executioner’s arc; on hit, add weapon die again and the target is rattled (loses 1 AP).'
@@ -139,17 +148,17 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
             5: 'Ring their bell; on hit, target is dazed (loses 1 AP) or takes +3 damage.',
             6: 'Ground-shake; on hit, target is knocked prone.',
             7: 'Stunning smash; on hit, target is stunned for a turn.',
-            8: 'Pulverize; on hit, add weapon die again and shove target 2 spaces.'
+            8: 'Pulverize; on hit, add weapon die again and shove target 2 tiles.'
         },
         polearm: {
-            1: 'Hook catches; you cannot shift this turn.',
+            1: 'Hook catches; you cannot move this turn.',
             2: 'Overreach; half damage.',
             3: 'Set vs advance; if target moves toward you, it takes +2 damage on hit.',
             4: 'Lever pull; on hit, pull target 2 or push 2.',
             5: 'Trip arc; on hit, target is knocked prone.',
             6: 'Pin and post; target’s move is -2 until end of next turn.',
-            7: 'Crow’s beak; ignore armor and add +3 damage.',
-            8: 'Whirl hook; on hit, you may reposition the target 3 and follow into its space.'
+            7: 'Crow’s beak; add +3 damage and pull the target 1 tile.',
+            8: 'Whirl hook; on hit, you may reposition the target 3 tiles and follow into its tile.'
         },
         staff: {
             1: 'Misstep; you fall prone unless you spend 1 AP to steady.',
@@ -159,7 +168,7 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
             5: 'Disarm flick; on hit, target drops a held item or takes +2 damage.',
             6: 'Trip and follow; on hit, target goes prone and you may step 1.',
             7: 'Sweeping arc; on hit, target is knocked prone or stunned for a turn.',
-            8: 'Whirling stave; on hit, strike a second adjacent foe for half damage and shift 1.'
+            8: 'Whirling stave; on hit, strike a second adjacent foe for half damage and move 1 tile.'
         },
         bow: {
             1: 'String frays; next shot costs +1 AP to ready.',
@@ -216,26 +225,26 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
             2: 'Glancing slice; half damage.',
             3: 'Clean cut; normal damage.',
             4: 'Iaido draw; +1 damage and step 1.',
-            5: 'Battou-jutsu; on hit, target is staggered (loses 1 space movement).',
+            5: 'Battou-jutsu; on hit, target is staggered (loses 1 tile movement).',
             6: 'Flowing cut; on hit, roll weapon die again and add half.',
-            7: 'Perfect form; on hit, ignore armor and add +2 damage.',
+            7: 'Perfect form; on hit, add +2 damage and the target is staggered (loses 1 tile movement).',
             8: 'Iaijutsu master; on hit, add weapon die again and target is rattled (loses 1 AP).'
         },
         halberd: {
             1: 'Head catches; spend 1 AP to free it.',
             2: 'Awkward swing; half damage.',
             3: 'Controlled strike; normal damage.',
-            4: 'Hook and pull; on hit, pull target 1 space.',
+            4: 'Hook and pull; on hit, pull target 1 tile.',
             5: 'Axe-head chop; on hit, ignore light armor.',
             6: 'Spear point thrust; on hit, add +2 damage.',
-            7: 'Combined attack; on hit, choose: pull 2 spaces or +3 damage.',
+            7: 'Combined attack; on hit, choose: pull 2 tiles or +3 damage.',
             8: 'Masterful halberd; on hit, pull target 2, then strike again at -2 to hit.'
         },
         scythe: {
             1: 'Blade catches; lose 1 AP to free it.',
             2: 'Wide miss; half damage.',
             3: 'Sweeping cut; normal damage.',
-            4: 'Reaping arc; on hit, target is pulled 1 space.',
+            4: 'Reaping arc; on hit, target is pulled 1 tile.',
             5: 'Deep cut; on hit, target suffers minor bleed (GM adjudicates).',
             6: 'Harvest strike; on hit, add +2 damage.',
             7: 'Grim reaper; on hit, target is rattled (loses 1 AP) or takes +3 damage.',
@@ -255,11 +264,11 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
             1: 'Hook misses; lose 1 AP.',
             2: 'Shallow hook; half damage.',
             3: 'Curved cut; normal damage.',
-            4: 'Hooking strike; on hit, pull target 1 space.',
+            4: 'Hooking strike; on hit, pull target 1 tile.',
             5: 'Disarm hook; on hit, target drops a held item or takes +2 damage.',
             6: 'Trip and cut; on hit, target is knocked prone.',
             7: 'Reaping hook; on hit, target is staggered (speed -1) or takes +3 damage.',
-            8: 'Harvest master; on hit, add weapon die again and pull target 2 spaces.'
+            8: 'Harvest master; on hit, add weapon die again and pull target 2 tiles.'
         },
         blowgun: {
             1: 'Dart fumbles; next shot costs +1 AP.',
@@ -405,10 +414,10 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
             1: 'Lance breaks; lose 1 AP.',
             2: 'Glancing strike; half damage.',
             3: 'Solid impact; normal damage.',
-            4: 'Charging strike; on hit, push target 2 spaces.',
+            4: 'Charging strike; on hit, push target 2 tiles.',
             5: 'Unhorse; on hit, target is knocked prone.',
-            6: 'Piercing lance; on hit, ignore armor and add +2 damage.',
-            7: 'Perfect charge; on hit, add weapon die again and push target 3 spaces.',
+            6: 'Piercing lance; on hit, add +2 damage and push the target 1 tile.',
+            7: 'Perfect charge; on hit, add weapon die again and push target 3 tiles.',
             8: 'Masterful joust; on hit, add weapon die again, target is knocked prone, and you may continue moving.'
         },
         'double sided sword': {
@@ -445,8 +454,8 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
             1: 'Heavy swing exhausts; lose 1 AP after this attack.',
             2: 'Glancing blow; half damage.',
             3: 'Solid strike; normal damage.',
-            4: 'Crushing blow; on hit, ignore light armor.',
-            5: 'Armor shatter; on hit, ignore armor/hardness for this strike.',
+            4: 'Crushing blow; on hit, knock a durability step off the target’s light armor.',
+            5: 'Armor shatter; on hit, knock a durability step off the target’s armor for this strike.',
             6: 'Concussive strike; on hit, target is dazed (loses 1 AP) or takes +3 damage.',
             7: 'Skull-crusher; on hit, target is stunned for a turn or takes +5 damage.',
             8: 'Masterful war mace; on hit, add weapon die again and target is stunned for a turn.'
@@ -473,17 +482,17 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
             'Off-balance; the next attack against you is +1 as you reset your stance.',
             'Find footing; gain +1 damage on your next hit.',
             'Tag a weak spot; your next attack ignores 1 point of cover/guard.',
-            'Flow improves; step 1 space for free after this attack.',
+            'Flow improves; step 1 tile for free after this attack.',
             'Lucky break; roll your weapon die again and take the better result.'
         ],
         // NOVICE
         [
-            'Mistimed strike; your next attack roll is -1 and you cannot shift after this attack.',
+            'Mistimed strike; your next attack roll is -1 and you cannot move after this attack.',
             'Follow-through; +1 damage if this attack hits.',
             'Feint opens them; next ally to attack the target gains +1 to their attack roll.',
             'Snap draw; gain +1 to this attack roll.',
             'Edge alignment; upgrade this hit to a minor wound (GM discretion) or +2 damage.',
-            'Shoulder in; push the target 1 space on a hit.',
+            'Shoulder in; push the target 1 tile on a hit.',
             'Hands sure; you may reroll 1 die on this attack (take the new result).',
             'Clean angle; crit range expands by 1 for this attack only.'
         ],
@@ -493,26 +502,26 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
             'Tempo steal; if this hits, target suffers -1 to its next attack roll.',
             'Set your stance; next attack you make this turn costs 1 less AP (min 1).',
             'Solid contact; add +2 damage on hit.',
-            'Hook or twist; displace target 1 space on hit; if impossible, +1 damage.',
+            'Hook or twist; displace target 1 tile on hit; if impossible, +1 damage.',
             'Read footing; roll this attack twice and pick the better result.',
             'Drive-through; ignore light cover for this attack.',
             'Perfect release; on hit, roll weapon die again and add half (round down).'
         ],
         // APPRENTICE
         [
-            'Stumble; this attack roll is -1 and you cannot shift this turn.',
+            'Stumble; this attack roll is -1 and you cannot move this turn.',
             'Pressure; on hit, target is easier to hit by +1 until your next turn.',
             'Exploit; if you miss, gain +2 to your immediate follow-up attack roll.',
             'Shoulder roll; you gain resistance to the next 2 damage you would take.',
             'Edge bites; on hit, inflict a lingering minor bleed (or +2 damage).',
             'Trip/Pin; on hit, target takes -1 on its next attack roll.',
-            'Fluid strike; you may shift the target 1 space and follow into it.',
+            'Fluid strike; you may move the target 1 tile and follow into it.',
             'Surge; if you hit, immediately make a free basic strike at -2 to the attack roll.'
         ],
         // ADEPT
         [
             'Overreach; foes gain +1 to hit you and you provoke reactions as normal.',
-            'Aimed flex; choose: +3 damage or push/pull 2 spaces on hit.',
+            'Aimed flex; choose: +3 damage or push/pull 2 tiles on hit.',
             'Guard shred; treat the target as if it has no cover this round.',
             'Anchor; foes take -2 to hit you until the target’s next turn.',
             'Soft spot; crit range expands by 1 and +2 damage on hit.',
@@ -529,7 +538,7 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
             'Line-up; you may target a second adjacent foe at -2 to the attack roll (same roll).',
             'Wrench; on hit, disarm or sunder a held item (GM discretion); else +3 damage.',
             'Pinpoint; ignore resistances/vulnerabilities; treat as normal damage.',
-            'Masterful arc; on hit, add weapon die again and shift 1 space for free.'
+            'Masterful arc; on hit, add weapon die again and move 1 tile for free.'
         ],
         // MASTER
         [
@@ -837,8 +846,18 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
                                 <div
                                     key={categoryName}
                                     className="skill-category-simple-card"
+                                    data-cat={categoryName}
                                     onClick={() => handleCategoryClick(categoryName)}
                                 >
+                                    {CATEGORY_WATERCOLOR[categoryName] && (
+                                        <img
+                                            className="skill-category-watermark"
+                                            src={`${PUB}/assets/images/${CATEGORY_WATERCOLOR[categoryName]}.png`}
+                                            alt=""
+                                            aria-hidden="true"
+                                            onError={(e) => { e.target.style.display = 'none'; }}
+                                        />
+                                    )}
                                     <div className="skill-category-icon">
                                         {categoryData?.icon && (
                                             <img
@@ -857,6 +876,7 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
                                             {categoryData?.description || 'Skills in this category'}
                                         </p>
                                     </div>
+                                    <i className="fas fa-chevron-right skill-category-arrow" aria-hidden="true"></i>
                                 </div>
                             );
                         })}
@@ -961,7 +981,106 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
                         </div>
                     </div>
 
+                    {selectedSkill.id === 'weaponMastery' && (
+                        <div className="wm-distinct-callout">
+                            <div className="wm-distinct-title">
+                                <i className="fas fa-info-circle"></i> Weapon Mastery works differently from other skills
+                            </div>
+                            <div className="wm-distinct-grid">
+                                <div className="wm-distinct-item">
+                                    <i className="fas fa-khanda"></i>
+                                    <div>
+                                        <strong>Bound to your weapon</strong>
+                                        Outcomes are unique per weapon type (Sword, Axe, Bow…) and filter to whatever you have equipped — not a generic task check.
+                                    </div>
+                                </div>
+                                <div className="wm-distinct-item">
+                                    <i className="fas fa-dice"></i>
+                                    <div>
+                                        <strong>Part of the two-dice attack</strong>
+                                        Rolled alongside your weapon damage die. Standard Rules use a <em>d6</em> type outcome; Advanced Rules use this <em>d8</em> mastery table.
+                                    </div>
+                                </div>
+                                <div className="wm-distinct-item">
+                                    <i className="fas fa-bolt"></i>
+                                    <div>
+                                        <strong>Modifies the strike</strong>
+                                        Outcomes add to or retract from your attack — they are combat modifiers, not pass/fail results.
+                                    </div>
+                                </div>
+                                <div className="wm-distinct-item">
+                                    <i className="fas fa-tasks"></i>
+                                    <div>
+                                        <strong>One ladder per weapon</strong>
+                                        Each weapon type has its own quest ladder; you master weapons individually rather than the skill as a whole.
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="wm-distinct-pointer">
+                                <i className="fas fa-arrow-right"></i> Browse every weapon's unique outcomes and damage dice under <strong>Equipment System → Weapons</strong>.
+                            </div>
+                        </div>
+                    )}
+
                     {isSimple ? (
+                        selectedSkill.id === 'weaponMastery' ? (
+                        <>
+                        {/* Weapon Mastery Standard: d8 flavor system (NOT the skill-die ladder) */}
+                        <div className="benefits-section">
+                            <h4><i className="fas fa-dice"></i> Weapon Mastery doesn't use the skill-die ladder</h4>
+                            <p style={{ marginBottom: '14px', color: '#2c1810', fontSize: '15px', fontWeight: '500', lineHeight: '1.6' }}>
+                                Other skills track proficiency as a single die size. Weapon Mastery is different: every
+                                time you attack you roll a static <strong>d8</strong> alongside your weapon damage die.
+                                The d8 picks a unique outcome for your weapon type that <strong>adds flavor and a
+                                tactical effect</strong> to the swing — so a Bow, a War Mace, and a Dagger all feel
+                                distinct. An 8 triggers that weapon's signature move.
+                            </p>
+                            <div className="damage-type-section">
+                                <h4>Weapon Type (Type Die: d8)</h4>
+                                {renderWeaponTypeGrid('standard-wm-grid', { compact: true, showRankChip: false })}
+                            </div>
+                        </div>
+
+                        <div className="benefits-section">
+                            <h4>
+                                <i className="fas fa-eye"></i> {WEAPON_TYPE_META[selectedWeaponType]?.label} — d8 Outcomes
+                                {getWeaponArchetype(selectedWeaponType) !== selectedWeaponType && (
+                                    <span style={{ fontSize: '12px', fontWeight: 'normal', color: '#8a6d3b', fontStyle: 'italic' }}>
+                                        {' '}(shares the {WEAPON_TYPE_META[getWeaponArchetype(selectedWeaponType)]?.label} table)
+                                    </span>
+                                )}
+                            </h4>
+                            <p style={{ marginBottom: '14px', color: '#2c1810', fontSize: '15px', fontWeight: '500', lineHeight: '1.6' }}>
+                                Each face adds to or retracts from the strike. Face 8 is the weapon's signature tactical advantage.
+                            </p>
+                            <div className="table-preview-entries">
+                                {[1, 2, 3, 4, 5, 6, 7, 8].map(n => {
+                                    const tier = WEAPON_TYPE_TIERS[n];
+                                    const table = getWeaponSimpleTable(selectedWeaponType);
+                                    const typeClass = n === 1 ? 'total-failure' : n === 2 ? 'failure' : n === 8 ? 'critical' : n >= 6 ? 'success' : n >= 4 ? 'success' : 'normal';
+                                    return (
+                                        <div key={n} className={`table-preview-entry ${typeClass}`}>
+                                            <span className="roll-range">{n}</span>
+                                            <span className="roll-result">
+                                                <strong>{tier.name}</strong> <span style={{ color: '#8a6d3b', fontSize: '12px' }}>({tier.delta})</span> — {table[n]}
+                                            </span>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+
+                        <div className="benefits-section">
+                            <h4><i className="fas fa-shield-alt"></i> No flat DR — gear uses durability</h4>
+                            <ul className="equipment-items">
+                                <li><i className="fas fa-check"></i> Outcomes add flavor &amp; tactics, not pass/fail — they modify the strike</li>
+                                <li><i className="fas fa-check"></i> "Crack guard" effects threaten the target's <strong>gear durability</strong>, not a Damage Reduction number</li>
+                                <li><i className="fas fa-check"></i> Want the full quest ladder &amp; rank progression? Switch to <strong>Advanced</strong> above</li>
+                                <li><i className="fas fa-check"></i> Browse every weapon's damage die under <strong>Equipment → Weapons</strong></li>
+                            </ul>
+                        </div>
+                        </>
+                        ) : (
                         <>
                         {/* Simple: Die Size Selector */}
                         <div className="benefits-section">
@@ -1014,6 +1133,7 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
                             </ul>
                         </div>
                         </>
+                        )
                     ) : (
                         <>
                         {/* Advanced: Full skill detail with quests and rollable tables */}
@@ -1206,25 +1326,51 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
                                     </div>
                                 )}
 
-                                <div className="benefits-section">
-                                    <h4>Common Uses</h4>
-                                    <ul className="equipment-items">
-                                        <li><i className="fas fa-check"></i> Make skill checks when attempting tasks related to this skill</li>
-                                        <li><i className="fas fa-check"></i> Your proficiency rank determines which rollable table outcomes are available</li>
-                                        <li><i className="fas fa-check"></i> Primary and secondary stats affect your ability to reduce die size with +5 modifiers</li>
-                                        <li><i className="fas fa-check"></i> Higher proficiency ranks unlock better outcomes on rollable tables</li>
-                                    </ul>
-                                </div>
+                                {isWeaponMastery ? (
+                                    <>
+                                    <div className="benefits-section">
+                                        <h4><i className="fas fa-khanda"></i> How Weapon Mastery Is Used</h4>
+                                        <ul className="equipment-items">
+                                            <li><i className="fas fa-check"></i> Triggered automatically when you attack with a weapon of this type</li>
+                                            <li><i className="fas fa-check"></i> Rolled as the Weapon Type die alongside your weapon damage die (two-dice attack)</li>
+                                            <li><i className="fas fa-check"></i> Each face adds to or retracts from the strike — a 1 is a fumble, an 8 is a mastery moment</li>
+                                            <li><i className="fas fa-check"></i> Higher ranks can step the mastery die down, sharpening your odds</li>
+                                        </ul>
+                                    </div>
 
-                                <div className="benefits-section">
-                                    <h4>Gaining Proficiency</h4>
-                                    <ul className="equipment-items">
-                                        <li><i className="fas fa-check"></i> Choose during character creation (2 skills from your class list)</li>
-                                        <li><i className="fas fa-check"></i> Gain from your background (automatically granted)</li>
-                                        <li><i className="fas fa-check"></i> Gain from your path/specialization (automatically granted)</li>
-                                        <li><i className="fas fa-check"></i> Gain from racial traits (some races grant specific skills)</li>
-                                    </ul>
-                                </div>
+                                    <div className="benefits-section">
+                                        <h4><i className="fas fa-tasks"></i> Raising Mastery</h4>
+                                        <ul className="equipment-items">
+                                            <li><i className="fas fa-check"></i> Complete <strong>per-weapon-type quests</strong> (shown above) to advance that weapon's ladder</li>
+                                            <li><i className="fas fa-check"></i> Each weapon type is mastered independently — a Sword master starts fresh with an Axe</li>
+                                            <li><i className="fas fa-check"></i> Rank gates richer outcome tables (Untrained → Master)</li>
+                                            <li><i className="fas fa-check"></i> Switch to Standard Rules for the simpler d6 outcome tables (see Equipment → Weapons)</li>
+                                        </ul>
+                                    </div>
+                                    </>
+                                ) : (
+                                    <>
+                                    <div className="benefits-section">
+                                        <h4>Common Uses</h4>
+                                        <ul className="equipment-items">
+                                            <li><i className="fas fa-check"></i> Make skill checks when attempting tasks related to this skill</li>
+                                            <li><i className="fas fa-check"></i> Your proficiency rank determines which rollable table outcomes are available</li>
+                                            <li><i className="fas fa-check"></i> Primary and secondary stats affect your ability to reduce die size with +5 modifiers</li>
+                                            <li><i className="fas fa-check"></i> Higher proficiency ranks unlock better outcomes on rollable tables</li>
+                                        </ul>
+                                    </div>
+
+                                    <div className="benefits-section">
+                                        <h4>Gaining Proficiency</h4>
+                                        <ul className="equipment-items">
+                                            <li><i className="fas fa-check"></i> Choose during character creation (2 skills from your class list)</li>
+                                            <li><i className="fas fa-check"></i> Gain from your background (automatically granted)</li>
+                                            <li><i className="fas fa-check"></i> Gain from your path/specialization (automatically granted)</li>
+                                            <li><i className="fas fa-check"></i> Gain from racial traits (some races grant specific skills)</li>
+                                        </ul>
+                                    </div>
+                                    </>
+                                )}
                                 </>
                             );
                         })()}

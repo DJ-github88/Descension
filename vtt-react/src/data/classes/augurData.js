@@ -551,7 +551,11 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   },
   resolution: "DICE",
   tags: ["debuff", "haruspex", "vulnerability", "omen"],
- },
+ 
+
+  somaticText: "Press two fingers to your brow and draw the pattern of what will be.",
+  verbalText: "Whisper the reading aloud so the world is bound to it.",
+},
 
  { id : "augur_omen_shield",
   name: "Blood-Read Foresight",
@@ -611,7 +615,11 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   },
   resolution: "AUTOMATIC",
   tags: ["reaction", "evasion", "preemptive", "omen"],
- },
+ 
+
+  somaticText: "Press two fingers to your brow and draw the pattern of what will be.",
+  verbalText: "Whisper the reading aloud so the world is bound to it.",
+},
 
  { id : "augur_minor_portent",
   name: "Pulse Curse",
@@ -648,7 +656,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   debuffType: "statusEffect",
   effects: [
    { id : "arterial_curse_debuff",
-   name: "Arterial Decay",
+   name: "Withering Decay",
    description: "Target has -2 to all attack rolls as their vision clouds with rot.",
    mechanicsText: "-2 penalty to all attack rolls.",
    },
@@ -670,10 +678,14 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   },
   resolution: "DICE",
   tags: ["debuff", "damage", "curse", "omen"],
- },
+ 
+
+  somaticText: "Press two fingers to your brow and draw the pattern of what will be.",
+  verbalText: "Whisper the reading aloud so the world is bound to it.",
+},
 
  { id : "augur_sign_of_clarity",
-  name: "Omen of the Flayed Strike",
+  name: "Omen of the Sundered Strike",
   description:
   "You paint a wet, crimson sigil on an ally's weapon. In their mind, they see the absolute, terrifying vulnerability of their foe,their guard shattered, their throat exposed. A guaranteed, bone-splintering strike.",
   level: 1,
@@ -719,7 +731,11 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   },
   resolution: "AUTOMATIC",
   tags: ["buff", "critical", "support", "omen"],
- },
+ 
+
+  somaticText: "Snap your wrist to release the gathered omen as a lance of fated heat.",
+  verbalText: "Utter the decree that condemns the target to its foretold end.",
+},
 
  { id : "augur_desperate_omen",
   name: "Death-Stretched Panic",
@@ -740,13 +756,17 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   targetingType: "self",
   },
   resourceCost: {
-  resourceTypes: [],
+  components: ['verbal', 'somatic'], resourceTypes: [],
   resourceValues: {},
   actionPoints: 0,
   },
   resolution: "AUTOMATIC",
   tags: ["passive", "debuff", "omen", "augur"],
- },
+ 
+
+  somaticText: "Press two fingers to your brow and draw the pattern of what will be.",
+  verbalText: "Whisper the reading aloud so the world is bound to it.",
+},
 
  // ============================================================
  // LEVEL 2 SPELLS (3)
@@ -792,10 +812,9 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
    mechanicsText: "-2 DR and -2 Agility.",
    },
   ],
-  statPenalties: [
-   { stat: "armor", magnitude: -2, magnitudeType: "flat" },
-   { stat: "agility", magnitude: -2, magnitudeType: "flat" },
-  ],
+   statPenalties: [
+    { stat: "agility", magnitude: -2, magnitudeType: "flat" },
+   ],
   savingThrow: {
    ability: "constitution",
    difficultyClass: 14,
@@ -819,10 +838,14 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   },
   resolution: "DICE",
   tags: ["debuff", "damage", "crippling", "omen"],
- },
+ 
+
+  somaticText: "Press two fingers to your brow and draw the pattern of what will be.",
+  verbalText: "Whisper the reading aloud so the world is bound to it.",
+},
 
  { id : "augur_terrain_of_ruin",
-  name: "Cruor Consecration",
+  name: "Hallowed Consecration",
   description:
   "You pour a chalice of consecrated alchemical oils onto the earth. The soil instantly shimmers, bubbling into a dense mist of kinetic energy. Enemies who walk here are slowed as the heavy pressure drags at their boots.",
   level: 2,
@@ -893,10 +916,18 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   },
   resolution: "DICE",
   tags: ["area", "damage", "debuff", "hazard", "omen"],
- },
+ 
+  triggerConfig: {
+    triggers: [
+      { id: "augur_terrain_of_ruin_fate_cost", name: "Fate's Toll", triggerType: "on_cast", action: "Spends 3 malediction to bend fate." }
+    ]
+  },
+  somaticText: "Carve a slow circle in the air, letting the rot of prophecy take root.",
+  verbalText: "Chant the names of the doomed until the curse lands.",
+},
 
  { id : "augur_sign_of_protection",
-  name: "Sanguine Aegis",
+  name: "Fated Aegis",
   description:
   "You trace a protective rune in mid-air and direct it at an ally. A shimmering, iron-hard carapace of crimson and golden light forms around them, drinking incoming trauma.",
   level: 2,
@@ -929,7 +960,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   buffType: "custom",
   effects: [
    { id : "congealed_aegis_buff",
-   name: "Congealed Resolve",
+   name: "Steadfast Resolve",
    description: "Grants +3 DR and resistance to the next source of physical damage.",
    mechanicsText: "+3 DR, physical resistance (1 charge).",
    },
@@ -941,7 +972,15 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   },
   resolution: "AUTOMATIC",
   tags: ["buff", "armor", "mitigation", "omen"],
- },
+ 
+  triggerConfig: {
+    triggers: [
+      { id: "augur_sign_of_protection_fate_cost", name: "Fate's Toll", triggerType: "on_cast", action: "Spends 3 benediction to bend fate." }
+    ]
+  },
+  somaticText: "Snap your wrist to release the gathered omen as a lance of fated heat.",
+  verbalText: "Utter the decree that condemns the target to its foretold end.",
+},
 
  // ============================================================
  // LEVEL 3 SPELLS (3)
@@ -990,7 +1029,11 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   },
   resolution: "DICE",
   tags: ["attack", "damage", "dual_element", "omen"],
- },
+ 
+
+  somaticText: "Snap your wrist to release the gathered omen as a lance of fated heat.",
+  verbalText: "Utter the decree that condemns the target to its foretold end.",
+},
 
  { id : "augur_harbinger_gaze",
   name: "Unblinking Gaze",
@@ -1054,7 +1097,15 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   },
   resolution: "DICE",
   tags: ["damage", "debuff", "fear", "omen"],
- },
+ 
+  triggerConfig: {
+    triggers: [
+      { id: "augur_harbinger_gaze_fate_cost", name: "Fate's Toll", triggerType: "on_cast", action: "Spends 3 malediction to bend fate." }
+    ]
+  },
+  somaticText: "Press two fingers to your brow and draw the pattern of what will be.",
+  verbalText: "Whisper the reading aloud so the world is bound to it.",
+},
 
  { id : "augur_sacred_ground",
   name: "Vigilant Sanctuary",
@@ -1118,7 +1169,15 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   },
   resolution: "DICE",
   tags: ["area", "healing", "damage", "consecrated", "omen"],
- },
+ 
+  triggerConfig: {
+    triggers: [
+      { id: "augur_sacred_ground_fate_cost", name: "Fate's Toll", triggerType: "on_cast", action: "Spends 3 benediction to bend fate." }
+    ]
+  },
+  somaticText: "Snap your wrist to release the gathered omen as a lance of fated heat.",
+  verbalText: "Utter the decree that condemns the target to its foretold end.",
+},
 
  // ============================================================
  // LEVEL 4 SPELLS (3)
@@ -1164,7 +1223,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   debuffType: "statusEffect",
   effects: [
    { id : "ruinous_flay_paralysis",
-   name: "Skinless Shock",
+   name: "Unveiled Shock",
    description: "Target is Paralyzed for 2 rounds by catastrophic sensory overload.",
    mechanicsText: "Paralyzed state.",
    },
@@ -1186,7 +1245,15 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   },
   resolution: "DICE",
   tags: ["debuff", "damage", "paralyze", "omen"],
- },
+ 
+  triggerConfig: {
+    triggers: [
+      { id: "augur_grand_malediction_fate_cost", name: "Fate's Toll", triggerType: "on_cast", action: "Spends 5 malediction to bend fate." }
+    ]
+  },
+  somaticText: "Press two fingers to your brow and draw the pattern of what will be.",
+  verbalText: "Whisper the reading aloud so the world is bound to it.",
+},
 
  { id : "augur_balanced_sign",
   name: "Cruciform Omen",
@@ -1237,7 +1304,11 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   },
   resolution: "DICE",
   tags: ["area", "healing", "damage", "omen"],
- },
+ 
+
+  somaticText: "Snap your wrist to release the gathered omen as a lance of fated heat.",
+  verbalText: "Utter the decree that condemns the target to its foretold end.",
+},
 
  { id : "augur_hierophants_ward",
   name: "Martyr's Shroud",
@@ -1276,15 +1347,10 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   buffType: "custom",
   effects: [
    { id : "martyrs_shroud_buff",
-   name: "Searing Shroud",
-   description: "Grants +2 DR and absolute immunity to Charmed and Frightened conditions.",
-   mechanicsText: "+2 DR, immune to Charmed/Frightened.",
-   statModifier: {
-    stat: "armor",
-    magnitude: 2,
-    magnitudeType: "flat",
-   },
-   },
+    name: "Searing Shroud",
+    description: "Grants +2 DR and absolute immunity to Charmed and Frightened conditions.",
+    mechanicsText: "+2 DR, immune to Charmed/Frightened.",
+    },
   ],
   durationType: "rounds",
   durationValue: 3,
@@ -1293,7 +1359,15 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   },
   resolution: "AUTOMATIC",
   tags: ["buff", "support", "armor", "omen"],
- },
+ 
+  triggerConfig: {
+    triggers: [
+      { id: "augur_hierophants_ward_fate_cost", name: "Fate's Toll", triggerType: "on_cast", action: "Spends 4 benediction to bend fate." }
+    ]
+  },
+  somaticText: "Snap your wrist to release the gathered omen as a lance of fated heat.",
+  verbalText: "Utter the decree that condemns the target to its foretold end.",
+},
 
  // ============================================================
  // LEVEL 5 SPELLS (3)
@@ -1358,10 +1432,14 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   },
   resolution: "DICE",
   tags: ["area", "damage", "healing", "storm", "omen"],
- },
+ 
+
+  somaticText: "Snap your wrist to release the gathered omen as a lance of fated heat.",
+  verbalText: "Utter the decree that condemns the target to its foretold end.",
+},
 
  { id : "augur_field_of_misfortune",
-  name: "Desolate Bog of Fractures",
+  name: "Desolate Bog of Ruin",
   description:
   "You consecrate a massive area with ancient, agonizing curses. The ground shudders as bones break beneath the surface, creating an oppressive aura that saps all martial coordination and breaks armor.",
   level: 5,
@@ -1397,15 +1475,14 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   debuffType: "statPenalty",
   effects: [
    { id : "field_misfortune_debuff",
-   name: "Splintered Stance",
+   name: "Sundered Stance",
    description: "Enemies have -3 to all attack rolls and -3 to DR while in the zone.",
    mechanicsText: "-3 attack rolls, -3 DR.",
    },
   ],
-  statPenalties: [
-   { stat: "attack_rolls", magnitude: -3, magnitudeType: "flat" },
-   { stat: "armor", magnitude: -3, magnitudeType: "flat" },
-  ],
+   statPenalties: [
+    { stat: "attack_rolls", magnitude: -3, magnitudeType: "flat" },
+   ],
   durationType: "rounds",
   durationValue: 5,
   durationUnit: "rounds",
@@ -1431,10 +1508,18 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   },
   resolution: "DICE",
   tags: ["area", "debuff", "damage", "hazard", "omen"],
- },
+ 
+  triggerConfig: {
+    triggers: [
+      { id: "augur_field_of_misfortune_fate_cost", name: "Fate's Toll", triggerType: "on_cast", action: "Spends 5 malediction to bend fate." }
+    ]
+  },
+  somaticText: "Press two fingers to your brow and draw the pattern of what will be.",
+  verbalText: "Whisper the reading aloud so the world is bound to it.",
+},
 
  { id : "augur_hierophants_domain",
-  name: "Blinding Cathedral of Bones",
+  name: "Blinding Cathedral of Radiance",
   description:
   "You raise a colossal temple of ember bone splinters. The air burns with golden light, providing absolute shelter for your allies. Their wounds seal, their skin hardens, and all fear is instantly incinerated.",
   level: 5,
@@ -1502,14 +1587,22 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   },
   resolution: "DICE",
   tags: ["area", "healing", "buff", "sanctuary", "omen"],
- },
+ 
+  triggerConfig: {
+    triggers: [
+      { id: "augur_hierophants_domain_fate_cost", name: "Fate's Toll", triggerType: "on_cast", action: "Spends 5 benediction to bend fate." }
+    ]
+  },
+  somaticText: "Snap your wrist to release the gathered omen as a lance of fated heat.",
+  verbalText: "Utter the decree that condemns the target to its foretold end.",
+},
 
  // ============================================================
  // LEVEL 6 SPELLS (3)
  // ============================================================
 
  { id : "augur_omen_shatter",
-  name: "Flesh-Shattering Portent",
+  name: "Fate-Shattering Portent",
   description:
   "You violently detonate the active omens clinging to your targets. Jagged shards of ember bone and wyrd agony burst outward from their skin, shredding nearby tissue and leaving them bleeding.",
   level: 6,
@@ -1552,10 +1645,14 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   },
   resolution: "DICE",
   tags: ["damage", "aoe", "detonate", "omen"],
- },
+ 
+
+  somaticText: "Snap your wrist to release the gathered omen as a lance of fated heat.",
+  verbalText: "Utter the decree that condemns the target to its foretold end.",
+},
 
  { id : "augur_curse_of_the_unlucky",
-  name: "Agony of the Miscreant",
+  name: "Doom of the Miscreant",
   description:
   "You cast a horrific curse that binds a target's destiny to immediate misery. Every time they make a d20 roll, odd results are interpreted as natural 1s, causing catastrophic failures and shattering their bones.",
   level: 6,
@@ -1589,7 +1686,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   debuffType: "statusEffect",
   effects: [
    { id : "unlucky_curse_debuff",
-   name: "Agonizing Misfortune",
+   name: "Crushing Misfortune",
    description: "All odd d20 rolls count as natural 1s. Target stumbles on every action.",
    mechanicsText: "Odd rolls count as natural 1s.",
    },
@@ -1611,7 +1708,15 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   },
   resolution: "DICE",
   tags: ["debuff", "curse", "unlucky", "omen"],
- },
+ 
+  triggerConfig: {
+    triggers: [
+      { id: "augur_curse_of_the_unlucky_fate_cost", name: "Fate's Toll", triggerType: "on_cast", action: "Spends 6 malediction to bend fate." }
+    ]
+  },
+  somaticText: "Press two fingers to your brow and draw the pattern of what will be.",
+  verbalText: "Whisper the reading aloud so the world is bound to it.",
+},
 
  { id : "augur_crown_of_radiance",
   name: "Crown of Thorns and Glory",
@@ -1664,7 +1769,15 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   },
   resolution: "AUTOMATIC",
   tags: ["buff", "support", "elevate", "omen"],
- },
+ 
+  triggerConfig: {
+    triggers: [
+      { id: "augur_crown_of_radiance_fate_cost", name: "Fate's Toll", triggerType: "on_cast", action: "Spends 6 benediction to bend fate." }
+    ]
+  },
+  somaticText: "Snap your wrist to release the gathered omen as a lance of fated heat.",
+  verbalText: "Utter the decree that condemns the target to its foretold end.",
+},
 
  // ============================================================
  // LEVEL 7 SPELLS (3)
@@ -1730,7 +1843,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   debuffType: "statusEffect",
   effects: [
    { id : "reality_enemies_debuff",
-   name: "Flayed Reality",
+   name: "Riven Reality",
    description: "Enemies have -2 to all d20 rolls and +50% vulnerability to all damage types.",
    mechanicsText: "-2 all rolls, +50% all damage vulnerability.",
    statusEffect: {
@@ -1751,7 +1864,11 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   },
   resolution: "AUTOMATIC",
   tags: ["area", "buff", "debuff", "split", "omen"],
- },
+ 
+
+  somaticText: "Snap your wrist to release the gathered omen as a lance of fated heat.",
+  verbalText: "Utter the decree that condemns the target to its foretold end.",
+},
 
  { id : "augur_apocalypse_portent",
   name: "Dirge of the Unmade",
@@ -1811,10 +1928,18 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   },
   resolution: "DICE",
   tags: ["damage", "debuff", "apocalypse", "omen"],
- },
+ 
+  triggerConfig: {
+    triggers: [
+      { id: "augur_apocalypse_portent_fate_cost", name: "Fate's Toll", triggerType: "on_cast", action: "Spends 7 malediction to bend fate." }
+    ]
+  },
+  somaticText: "Press two fingers to your brow and draw the pattern of what will be.",
+  verbalText: "Whisper the reading aloud so the world is bound to it.",
+},
 
  { id : "augur_divine_sanctuary",
-  name: "Sanguine Altar of Grace",
+  name: "Hallowed Altar of Grace",
   description:
   "You summon a colossal altar of crimson energy and golden splinters. The altar forms an absolute sanctuary: allies within are immune to all damage, while enemies are violently repelled by the searing light.",
   level: 7,
@@ -1879,14 +2004,22 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   },
   resolution: "AUTOMATIC",
   tags: ["area", "buff", "sanctuary", "omen"],
- },
+ 
+  triggerConfig: {
+    triggers: [
+      { id: "augur_divine_sanctuary_fate_cost", name: "Fate's Toll", triggerType: "on_cast", action: "Spends 8 benediction to bend fate." }
+    ]
+  },
+  somaticText: "Snap your wrist to release the gathered omen as a lance of fated heat.",
+  verbalText: "Utter the decree that condemns the target to its foretold end.",
+},
 
  // ============================================================
  // LEVEL 8 SPELLS (3)
  // ============================================================
 
  { id : "augur_twist_of_fate",
-  name: "Agonizing Fate Tear",
+  name: "Rending Fate Tear",
   description:
   "You reach out with ethereal, bloody talons and tear the thread of a target's destiny. You force an immediate d20 reroll, modifying the final result by up to 5 points by draining your own marrow.",
   level: 8,
@@ -1922,7 +2055,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   utilityType: "special",
   selectedEffects: [
    { id : "fate_tear_reroll",
-   name: "Agonizing Reroll",
+   name: "Weighted Reroll",
    description:
     "Force any creature within 60ft to reroll a d20. You may add or subtract up to 5 to the final result.",
    mechanicsText: "Forces d20 reroll, modify result by ±5.",
@@ -1932,10 +2065,14 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   },
   resolution: "AUTOMATIC",
   tags: ["reaction", "manipulation", "fate", "omen"],
- },
+ 
+
+  somaticText: "Press two fingers to your brow and draw the pattern of what will be.",
+  verbalText: "Whisper the reading aloud so the world is bound to it.",
+},
 
  { id : "augur_omen_of_death",
-  name: "Entropic Carrion Sign",
+  name: "Entropic Harbinger Sign",
   description:
   "You mark a target's forehead with a wet, black sigil of absolute ending. The sign calls the carrion crows; if the target rolls an odd number on any d20, they suffer catastrophic bone failure, collapsing to 0 HP instantly.",
   level: 8,
@@ -1969,7 +2106,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   debuffType: "statusEffect",
   effects: [
    { id : "carrion_sign_death",
-   name: "Entropic Carrion Sign",
+   name: "Entropic Omen Sign",
    description:
     "If the target rolls an odd number on any d20 (attack, save, or check), they are instantly reduced to 0 HP (Constitution save DC 18 reduces this to 10d10 blight damage).",
    mechanicsText: "Odd d20 rolls trigger instant 0 HP or 10d10 blight.",
@@ -1987,10 +2124,18 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   },
   resolution: "DICE",
   tags: ["debuff", "curse", "execute", "crows", "omen"],
- },
+ 
+  triggerConfig: {
+    triggers: [
+      { id: "augur_omen_of_death_fate_cost", name: "Fate's Toll", triggerType: "on_cast", action: "Spends 8 malediction to bend fate." }
+    ]
+  },
+  somaticText: "Carve a slow circle in the air, letting the rot of prophecy take root.",
+  verbalText: "Chant the names of the doomed until the curse lands.",
+},
 
  { id : "augur_cosmic_aurora",
-  name: "Searing Agony Aurora",
+  name: "Searing Doom Aurora",
   description:
   "You flood the battlefield in a blinding, searing sky-fire of tragic ember light. The aurora bleeds the eyes of all who gaze upon it: allies have their flesh hardened, while enemies are charred to black ash.",
   level: 8,
@@ -2036,15 +2181,10 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   buffType: "custom",
   effects: [
    { id : "aurora_allies_buff",
-   name: "Sky-Clad Flesh",
-   description: "Allies gain +3 DR and immunity to wyrd damage for the duration.",
-   mechanicsText: "+3 DR, wyrd immunity.",
-   statModifier: {
-    stat: "armor",
-    magnitude: 3,
-    magnitudeType: "flat",
-   },
-   },
+    name: "Sky-Clad Form",
+    description: "Allies gain +3 DR and immunity to wyrd damage for the duration.",
+    mechanicsText: "+3 DR, wyrd immunity.",
+    },
   ],
   durationType: "rounds",
   durationValue: 3,
@@ -2059,14 +2199,22 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   },
   resolution: "DICE",
   tags: ["area", "healing", "damage", "aurora", "omen"],
- },
+ 
+  triggerConfig: {
+    triggers: [
+      { id: "augur_cosmic_aurora_fate_cost", name: "Fate's Toll", triggerType: "on_cast", action: "Spends 8 benediction to bend fate." }
+    ]
+  },
+  somaticText: "Snap your wrist to release the gathered omen as a lance of fated heat.",
+  verbalText: "Utter the decree that condemns the target to its foretold end.",
+},
 
  // ============================================================
  // LEVEL 9 SPELLS (3)
  // ============================================================
 
  { id : "augur_the_signs_speak",
-  name: "The Gore Whispers",
+  name: "The Omen Whispers",
   description:
   "You plunge your mind fully into the screaming network of spilt blood. The whispers of gore become a roaring torrent: for one round, you dictate the exact outcome of every d20 roll within 60 feet.",
   level: 9,
@@ -2121,7 +2269,11 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   },
   resolution: "AUTOMATIC",
   tags: ["buff", "manipulation", "fate", "omen"],
- },
+ 
+
+  somaticText: "Press two fingers to your brow and draw the pattern of what will be.",
+  verbalText: "Whisper the reading aloud so the world is bound to it.",
+},
 
  { id : "augur_cataclysm_portent",
   name: "Wounded World Portent",
@@ -2181,10 +2333,18 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   },
   resolution: "DICE",
   tags: ["damage", "debuff", "stun", "omen"],
- },
+ 
+  triggerConfig: {
+    triggers: [
+      { id: "augur_cataclysm_portent_fate_cost", name: "Fate's Toll", triggerType: "on_cast", action: "Spends 10 malediction to bend fate." }
+    ]
+  },
+  somaticText: "Press two fingers to your brow and draw the pattern of what will be.",
+  verbalText: "Whisper the reading aloud so the world is bound to it.",
+},
 
  { id : "augur_eternal_benediction",
-  name: "Agonizing Immortality Rite",
+  name: "Unending Immortality Rite",
   description:
   "You perform the ultimate sacrificial rite of grace. You permanently blind your left eye, but raise a blinding, golden canopy of absolute preservation. Allies are immortal, completely immune to death and injury.",
   level: 9,
@@ -2244,7 +2404,15 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   },
   resolution: "AUTOMATIC",
   tags: ["area", "buff", "healing", "immortality", "omen"],
- },
+ 
+  triggerConfig: {
+    triggers: [
+      { id: "augur_eternal_benediction_fate_cost", name: "Fate's Toll", triggerType: "on_cast", action: "Spends 10 benediction to bend fate." }
+    ]
+  },
+  somaticText: "Snap your wrist to release the gathered omen as a lance of fated heat.",
+  verbalText: "Utter the decree that condemns the target to its foretold end.",
+},
 
  // ============================================================
  // LEVEL 10 SPELLS (3)
@@ -2315,7 +2483,15 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   },
   resolution: "AUTOMATIC",
   tags: ["ultimate", "transformation", "fate", "sovereign", "omen"],
- },
+ 
+  triggerConfig: {
+    triggers: [
+      { id: "augur_master_of_omens_fate_cost", name: "Fate's Toll", triggerType: "on_cast", action: "Spends 0 fate to bend fate." }
+    ]
+  },
+  somaticText: "Snap your wrist to release the gathered omen as a lance of fated heat.",
+  verbalText: "Utter the decree that condemns the target to its foretold end.",
+},
 
  { id : "augur_harbinger_supreme",
   name: "Harbinger of the Black Ash",
@@ -2383,10 +2559,18 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   },
   resolution: "AUTOMATIC",
   tags: ["ultimate", "transformation", "ash", "debuff", "omen"],
- },
+ 
+  triggerConfig: {
+    triggers: [
+      { id: "augur_harbinger_supreme_fate_cost", name: "Fate's Toll", triggerType: "on_cast", action: "Spends 15 malediction to bend fate." }
+    ]
+  },
+  somaticText: "Press two fingers to your brow and draw the pattern of what will be.",
+  verbalText: "Whisper the reading aloud so the world is bound to it.",
+},
 
  { id : "augur_hierophant_supreme",
-  name: "Hierophant of Blinding Splinters",
+  name: "Hierophant of Blinding Radiance",
   description:
   "You burn away your humanity, transforming into an towering cathedral of blinding, white-hot radiant splinters. The battlefield is consecrated in a sea of golden light: allies are absolute, healed, and blessed with legendary fortune.",
   level: 10,
@@ -2468,7 +2652,15 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   },
   resolution: "AUTOMATIC",
   tags: ["ultimate", "transformation", "splinters", "buff", "omen"],
- },
+ 
+  triggerConfig: {
+    triggers: [
+      { id: "augur_hierophant_supreme_fate_cost", name: "Fate's Toll", triggerType: "on_cast", action: "Spends 15 benediction to bend fate." }
+    ]
+  },
+  somaticText: "Snap your wrist to release the gathered omen as a lance of fated heat.",
+  verbalText: "Utter the decree that condemns the target to its foretold end.",
+},
 
   {
   "id": "augur_whisper_harvester",
@@ -2536,7 +2728,11 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
    "roleplay",
    "augur"
   ]
-  },
+  ,
+
+  somaticText: "Press two fingers to your brow and draw the pattern of what will be.",
+  verbalText: "Whisper the reading aloud so the world is bound to it.",
+},
  ],
 
  spellPools: {

@@ -58,7 +58,7 @@ export const WEAPON_FACE_TEXT = {
         2: 'Edge scrapes; shallow cut only.',
         3: 'Measured cut; steady but simple.',
         4: 'Quick slash; you may step 1 after the hit.',
-        5: 'Pommel check; on hit, target reels and loses 1 space of movement.',
+        5: 'Pommel check; on hit, target reels and loses 1 tile of movement.',
         6: 'Cross-cut; on hit, roll weapon die again and add half.',
         7: 'Riposte set; if target attacks you before your next turn, make a free counter at -2.',
         8: 'Dancing steel; make a free follow-up slash at half damage.'
@@ -66,19 +66,19 @@ export const WEAPON_FACE_TEXT = {
     axe: {
         1: 'Head bites and lodges; spend 1 AP to wrench it free.',
         2: 'Heavy chop skids; half damage.',
-        3: 'Wide arc forces them back 1 space on hit.',
+        3: 'Wide arc forces them back 1 tile on hit.',
         4: 'Hack through; +2 damage versus shields or hard cover.',
         5: 'Cleave; on hit, deal 2 damage to an adjacent foe.',
-        6: 'Hook and yank; pull target 1 space on hit.',
+        6: 'Hook and yank; pull target 1 tile on hit.',
         7: 'Rending blow; on hit, target suffers a bleeding nick (GM: minor ongoing).',
-        8: 'Sundering chop; on hit, crack armor or deal +4 damage.'
+        8: 'Sundering chop; on hit, knock a durability step off the target’s armor or shield, or deal +4 damage.'
     },
     mace: {
         1: 'Shock up the arm; you drop 1 AP after this swing.',
         2: 'Glancing crown; half damage.',
         3: 'Bruising tap; normal damage.',
         4: 'Ringing strike; on hit, target’s next action is -1.',
-        5: 'Shatter guard; ignore hardness/armor for this hit.',
+        5: 'Shatter guard; knock a durability step off the target’s armor for this hit.',
         6: 'Crush limb; on hit, target’s move is -1 until end of next turn.',
         7: 'Concussive blow; on hit, target is dazed (loses 1 AP) or takes +3 damage.',
         8: 'Skull-rattler; on hit, target is stunned for a turn or takes +5 damage.'
@@ -100,15 +100,15 @@ export const WEAPON_FACE_TEXT = {
         4: 'Driving cut; +2 damage.',
         5: 'Mighty sweep; on hit, also deal 2 damage to an adjacent foe.',
         6: 'Batter through; ignore heavy cover for this attack.',
-        7: 'Cleaving stride; on hit, shift 1 and strike a second adjacent foe at -2 to hit.',
+        7: 'Cleaving stride; on hit, move 1 tile and strike a second adjacent foe at -2 to hit.',
         8: 'Heaving execution; on hit, add weapon die again and force target prone or take +5 damage.'
     },
     greataxe: {
         1: 'Head bites stone; you must spend 1 AP to free it.',
-        2: 'Wild chop; half damage and you stagger 1 space.',
+        2: 'Wild chop; half damage and you stagger 1 tile.',
         3: 'Raking cut; normal damage.',
         4: 'Hefted cleave; +2 damage.',
-        5: 'Armor split; on hit, ignore armor/hardness for this strike.',
+        5: 'Armor split; on hit, knock a durability step off the target’s armor for this strike.',
         6: 'Sweeping murder; cleave an adjacent foe for half damage.',
         7: 'Bonebreaker; on hit, target’s next move is halved; if it can’t move, +3 damage.',
         8: 'Executioner’s arc; on hit, add weapon die again and the target is rattled (loses 1 AP).'
@@ -121,17 +121,17 @@ export const WEAPON_FACE_TEXT = {
         5: 'Ring their bell; on hit, target is dazed (loses 1 AP) or takes +3 damage.',
         6: 'Ground-shake; on hit, target is knocked prone.',
         7: 'Stunning smash; on hit, target is stunned for a turn.',
-        8: 'Pulverize; on hit, add weapon die again and shove target 2 spaces.'
+        8: 'Pulverize; on hit, add weapon die again and shove target 2 tiles.'
     },
     polearm: {
-        1: 'Hook catches; you cannot shift this turn.',
+        1: 'Hook catches; you cannot move this turn.',
         2: 'Overreach; half damage.',
         3: 'Set vs advance; if target moves toward you, it takes +2 damage on hit.',
         4: 'Lever pull; on hit, pull target 2 or push 2.',
         5: 'Trip arc; on hit, target is knocked prone.',
         6: 'Pin and post; target’s move is -2 until end of next turn.',
-        7: 'Crow’s beak; ignore armor and add +3 damage.',
-        8: 'Whirl hook; on hit, reposition the target 3 and follow into its space.'
+        7: 'Crow’s beak; add +3 damage and pull the target 1 tile.',
+        8: 'Whirl hook; on hit, reposition the target 3 tiles and follow into its tile.'
     },
     staff: {
         1: 'Misstep; you fall prone unless you spend 1 AP to steady.',
@@ -141,7 +141,7 @@ export const WEAPON_FACE_TEXT = {
         5: 'Disarm flick; on hit, target drops a held item or takes +2 damage.',
         6: 'Trip and follow; on hit, target goes prone and you may step 1.',
         7: 'Sweeping arc; on hit, target is knocked prone or stunned for a turn.',
-        8: 'Whirling stave; on hit, strike a second adjacent foe for half damage and shift 1.'
+        8: 'Whirling stave; on hit, strike a second adjacent foe for half damage and move 1 tile.'
     },
     bow: {
         1: 'String frays; next shot costs +1 AP to ready.',
@@ -187,11 +187,11 @@ export const WEAPON_FACE_TEXT = {
         1: 'Wild swing; you overextend and lose 1 AP.',
         2: 'Glancing jab; half damage.',
         3: 'Solid hit; normal damage.',
-        4: 'Counter palm; on hit, shove target 1 space.',
+        4: 'Counter palm; on hit, shove target 1 tile.',
         5: 'Elbow in; on hit, target’s next attack is -1.',
         6: 'Sweep the leg; on hit, target is knocked prone.',
         7: 'Stunning strike; on hit, target is dazed (loses 1 AP) or takes +3 damage.',
-        8: 'Open-hand finale; on hit, add weapon die again and shift 1 into a better position.'
+        8: 'Open-hand finale; on hit, add weapon die again and move 1 tile into a better position.'
     }
 };
 

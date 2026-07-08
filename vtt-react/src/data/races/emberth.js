@@ -441,7 +441,6 @@ The current crisis is a Korr crisis. The tending-clan has concealed the Solbrand
       languages: ['Common', 'Sundari'],
       speed: 20,
       baseStats: {
-        armor: 0,
         hp: 24,
         mana: 32,
         ap: 3,
@@ -603,7 +602,6 @@ The Thrask were the first to notice the evidence of the Solbrand's dimming. They
       languages: ['Common', 'Sundari'],
       speed: 25,
       baseStats: {
-        armor: 0,
         hp: 26,
         mana: 16,
         ap: 3,

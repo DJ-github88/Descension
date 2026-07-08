@@ -2471,7 +2471,7 @@ const UnifiedSpellCard = ({
          }
 
          // Handle generic buff types (stealth_bonus, speed_bonus, etc.)
-         if (actualLegacyBuff.type && !actualLegacyBuff.resistance && !actualLegacyBuff.temporaryHP && !actualLegacyBuff.immunity && !actualLegacyBuff.damageRedirection && !actualLegacyBuff.actionPoints && !actualLegacyBuff.attackBonus && !actualLegacyBuff.armor && !actualLegacyBuff.statModifiers) {
+         if (actualLegacyBuff.type && !actualLegacyBuff.resistance && !actualLegacyBuff.temporaryHP && !actualLegacyBuff.immunity && !actualLegacyBuff.damageRedirection && !actualLegacyBuff.actionPoints && !actualLegacyBuff.attackBonus && !actualLegacyBuff.statModifiers) {
           const buffTypeLabels = {
            'stealth_bonus': 'Stealth Bonus',
            'speed_bonus': 'Speed Bonus',

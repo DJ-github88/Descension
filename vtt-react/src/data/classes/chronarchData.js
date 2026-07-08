@@ -1047,9 +1047,9 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   durationType: "rounds"
   },
   tags: ["stasis", "shield", "support", "chronarch"]
- },
+  },
 
- { id: "temporal_foresight",
+  { id: "temporal_foresight",
   name: "Temporal Foresight",
   description: "Glimpse high-probability timelines to grant an ally advantage on all attack rolls and saving throws for 2 rounds as they anticipate threats.",
   level: 3,
@@ -1465,16 +1465,26 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   durationValue: 2,
   durationType: "rounds"
   },
-  permanentCost: {
-  type: "max_hp",
-  amount: 1,
-  duration: "long_rest",
-  description: "Lose 1 max HP until next Long Rest as cellular stability fractures."
+   permanentCost: {
+   type: "max_hp",
+   amount: 1,
+   duration: "long_rest",
+   description: "Lose 1 max HP until next Long Rest as cellular stability fractures."
+   },
+   triggerConfig: {
+   triggers: [
+    {
+    id : "temporal_flux_shield_recoil",
+    name: "Chronal Recoil",
+    triggerType: "on_cast",
+    action: "Caster erodes 1 max HP."
+    }
+   ]
+   },
+   tags: ["flux", "shield", "support", "stasis", "chronarch"]
   },
-  tags: ["flux", "shield", "support", "stasis", "chronarch"]
- },
 
- { id: "temporal_flux_speed",
+  { id: "temporal_flux_speed",
   name: "Temporal Flux: Speed",
   description: "Heavy Flux acceleration. Grant an ally +2 AP and double movement speed for 2 rounds. Caster suffers cold chills and erodes 1 max HP.",
   level: 5,
@@ -1526,17 +1536,27 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   durationValue: 2,
   durationType: "rounds"
   },
-  permanentCost: {
-  type: "max_hp",
-  amount: 1,
-  duration: "long_rest",
-  description: "Lose 1 max HP until next Long Rest as time accelerates past cells."
+   permanentCost: {
+   type: "max_hp",
+   amount: 1,
+   duration: "long_rest",
+   description: "Lose 1 max HP until next Long Rest as time accelerates past cells."
+   },
+   triggerConfig: {
+   triggers: [
+    {
+    id : "temporal_flux_speed_recoil",
+    name: "Chronal Recoil",
+    triggerType: "on_cast",
+    action: "Caster erodes 1 max HP."
+    }
+   ]
+   },
+   tags: ["flux", "haste", "support", "displacement", "chronarch"]
   },
-  tags: ["flux", "haste", "support", "displacement", "chronarch"]
- },
 
- // ========================================
- // LEVEL 6 SPELLS - Fracture, Echoes, Flux: Loop
+  // ========================================
+  // LEVEL 6 SPELLS - Fracture, Echoes, Flux: Loop
  // ========================================
  { id: "temporal_fracture",
   name: "Temporal Fracture",
@@ -1708,17 +1728,27 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    saveOutcome: "negates"
   }
   },
-  permanentCost: {
-  type: "max_hp",
-  amount: 2,
-  duration: "long_rest",
-  description: "Lose 2 max HP until next Long Rest as causality bits back."
+   permanentCost: {
+   type: "max_hp",
+   amount: 2,
+   duration: "long_rest",
+   description: "Lose 2 max HP until next Long Rest as causality bits back."
+   },
+   triggerConfig: {
+   triggers: [
+    {
+    id : "temporal_loop_recoil",
+    name: "Chronal Recoil",
+    triggerType: "on_cast",
+    action: "Caster erodes 2 max HP."
+    }
+   ]
+   },
+   tags: ["flux", "control", "stasis", "chronarch"]
   },
-  tags: ["flux", "control", "stasis", "chronarch"]
- },
 
- // ========================================
- // LEVEL 7 SPELLS - Flux: Disruption, Reversal, Flux: Echo Chamber
+  // ========================================
+  // LEVEL 7 SPELLS - Flux: Disruption, Reversal, Flux: Echo Chamber
  // ========================================
  { id: "chronal_disruption",
   name: "Chronal Disruption",
@@ -1788,16 +1818,26 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    saveOutcome: "negates"
   }
   },
-  permanentCost: {
-  type: "max_hp",
-  amount: 2,
-  duration: "long_rest",
-  description: "Lose 2 max HP until next Long Rest as cellular matrix undergoes high strain."
+   permanentCost: {
+   type: "max_hp",
+   amount: 2,
+   duration: "long_rest",
+   description: "Lose 2 max HP until next Long Rest as cellular matrix undergoes high strain."
+   },
+   triggerConfig: {
+   triggers: [
+    {
+    id : "chronal_disruption_recoil",
+    name: "Chronal Recoil",
+    triggerType: "on_cast",
+    action: "Caster erodes 2 max HP."
+    }
+   ]
+   },
+   tags: ["flux", "damage", "aoe", "stasis", "chronarch"]
   },
-  tags: ["flux", "damage", "aoe", "stasis", "chronarch"]
- },
 
- { id: "chronal_reversal",
+  { id: "chronal_reversal",
   name: "Chronal Reversal",
   description: "Rewind the temporal stream for a creature, fully healing all damage taken last round (10d6 + Spirit). Caster takes 3d6 blight recoil.",
   level: 7,
@@ -1894,17 +1934,27 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    }
   ]
   },
-  permanentCost: {
-  type: "max_hp",
-  amount: 2,
-  duration: "long_rest",
-  description: "Lose 2 max HP until next Long Rest as your timelines loop."
+   permanentCost: {
+   type: "max_hp",
+   amount: 2,
+   duration: "long_rest",
+   description: "Lose 2 max HP until next Long Rest as your timelines loop."
+   },
+   triggerConfig: {
+   triggers: [
+    {
+    id : "temporal_echo_chamber_recoil",
+    name: "Chronal Recoil",
+    triggerType: "on_cast",
+    action: "Caster erodes 2 max HP."
+    }
+   ]
+   },
+   tags: ["flux", "control", "aoe", "displacement", "chronarch"]
   },
-  tags: ["flux", "control", "aoe", "displacement", "chronarch"]
- },
 
- // ========================================
- // LEVEL 8 SPELLS - Flux: Dominion, Flux: Resurrection, Flux: Fate
+  // ========================================
+  // LEVEL 8 SPELLS - Flux: Dominion, Flux: Resurrection, Flux: Fate
  // ========================================
  { id: "temporal_flux_dominion",
   name: "Temporal Flux: Dominion",
@@ -1962,16 +2012,26 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    saveOutcome: "negates"
   }
   },
-  permanentCost: {
-  type: "max_hp",
-  amount: 3,
-  duration: "long_rest",
-  description: "Lose 3 max HP until next Long Rest as you override another soul's timeline."
+   permanentCost: {
+   type: "max_hp",
+   amount: 3,
+   duration: "long_rest",
+   description: "Lose 3 max HP until next Long Rest as you override another soul's timeline."
+   },
+   triggerConfig: {
+   triggers: [
+    {
+    id : "temporal_flux_dominion_recoil",
+    name: "Chronal Recoil",
+    triggerType: "on_cast",
+    action: "Caster erodes 3 max HP."
+    }
+   ]
+   },
+   tags: ["flux", "control", "charm", "chronarch"]
   },
-  tags: ["flux", "control", "charm", "chronarch"]
- },
 
- { id: "temporal_flux_resurrection",
+  { id: "temporal_flux_resurrection",
   name: "Temporal Flux: Resurrection",
   description: "Extreme Flux. Wrench a deceased ally's timeline back, reviving them at 50% HP. Caster takes 4d6 blight and erodes 3 max HP.",
   level: 8,
@@ -2080,17 +2140,27 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   durationValue: 1,
   durationType: "rounds"
   },
-  permanentCost: {
-  type: "max_hp",
-  amount: 2,
-  duration: "long_rest",
-  description: "Lose 2 max HP until next Long Rest as probability cracks your focus."
+   permanentCost: {
+   type: "max_hp",
+   amount: 2,
+   duration: "long_rest",
+   description: "Lose 2 max HP until next Long Rest as probability cracks your focus."
+   },
+   triggerConfig: {
+   triggers: [
+    {
+    id : "fate_manipulation_recoil",
+    name: "Chronal Recoil",
+    triggerType: "on_cast",
+    action: "Caster erodes 2 max HP."
+    }
+   ]
+   },
+   tags: ["flux", "luck", "support", "rewinding", "chronarch"]
   },
-  tags: ["flux", "luck", "support", "rewinding", "chronarch"]
- },
 
- // ========================================
- // LEVEL 9 SPELLS - Flux: Shockwave, Flux: Fracture, Flux: Paradox
+  // ========================================
+  // LEVEL 9 SPELLS - Flux: Shockwave, Flux: Fracture, Flux: Paradox
  // ========================================
  { id: "temporal_shockwave",
   name: "Temporal Shockwave",
@@ -2159,16 +2229,26 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    saveOutcome: "reduced_duration"
   }
   },
-  permanentCost: {
-  type: "max_hp",
-  amount: 5,
-  duration: "long_rest",
-  description: "Lose 5 max HP until next Long Rest as cellular structures age terminally."
+   permanentCost: {
+   type: "max_hp",
+   amount: 5,
+   duration: "long_rest",
+   description: "Lose 5 max HP until next Long Rest as cellular structures age terminally."
+   },
+   triggerConfig: {
+   triggers: [
+    {
+    id : "temporal_shockwave_recoil",
+    name: "Chronal Recoil",
+    triggerType: "on_cast",
+    action: "Caster erodes 5 max HP."
+    }
+   ]
+   },
+   tags: ["flux", "damage", "aoe", "stasis", "chronarch"]
   },
-  tags: ["flux", "damage", "aoe", "stasis", "chronarch"]
- },
 
- { id: "reality_fracture",
+  { id: "reality_fracture",
   name: "Reality Fracture",
   description: "Cataclysmic Flux. Rip open a tear in space dealing 6d12 storm damage in a 20ft radius. Somatic drag deals 1d6 necrotic to caster. erodes 3 max HP.",
   level: 9,
@@ -2213,16 +2293,26 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   critMultiplier: 2,
   resolution: "DICE"
   },
-  permanentCost: {
-  type: "max_hp",
-  amount: 3,
-  duration: "long_rest",
-  description: "Lose 3 max HP until next Long Rest as the temporal strain impacts your cells."
+   permanentCost: {
+   type: "max_hp",
+   amount: 3,
+   duration: "long_rest",
+   description: "Lose 3 max HP until next Long Rest as the temporal strain impacts your cells."
+   },
+   triggerConfig: {
+   triggers: [
+    {
+    id : "reality_fracture_recoil",
+    name: "Chronal Recoil",
+    triggerType: "on_cast",
+    action: "Caster erodes 3 max HP."
+    }
+   ]
+   },
+   tags: ["flux", "damage", "aoe", "blight", "chronarch"]
   },
-  tags: ["flux", "damage", "aoe", "blight", "chronarch"]
- },
 
- { id: "chronal_paradox",
+  { id: "chronal_paradox",
   name: "Chronal Paradox",
   description: "Cataclysmic Flux. Split enemy timeline: Spirit save each round or take 8d6 arcane and stunned; success halves damage and slows. erodes 3 max HP.",
   level: 9,
@@ -2288,17 +2378,27 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    saveOutcome: "negates"
   }
   },
-  permanentCost: {
-  type: "max_hp",
-  amount: 3,
-  duration: "long_rest",
-  description: "Lose 3 max HP until next Long Rest as timeline loop splits your cells."
+   permanentCost: {
+   type: "max_hp",
+   amount: 3,
+   duration: "long_rest",
+   description: "Lose 3 max HP until next Long Rest as timeline loop splits your cells."
+   },
+   triggerConfig: {
+   triggers: [
+    {
+    id : "chronal_paradox_recoil",
+    name: "Chronal Recoil",
+    triggerType: "on_cast",
+    action: "Caster erodes 3 max HP."
+    }
+   ]
+   },
+   tags: ["flux", "damage", "control", "stasis", "chronarch"]
   },
-  tags: ["flux", "damage", "control", "stasis", "chronarch"]
- },
 
- // ========================================
- // LEVEL 10 SPELLS - Mastery, Flux: Restoration, Flux: Vortex
+  // ========================================
+  // LEVEL 10 SPELLS - Mastery, Flux: Restoration, Flux: Vortex
  // ========================================
  { id: "temporal_mastery",
   name: "Temporal Mastery",
@@ -2441,17 +2541,27 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   durationValue: 2,
   durationType: "rounds"
   },
-  permanentCost: {
-  type: "max_hp",
-  amount: 5,
-  duration: "long_rest",
-  description: "Lose 5 max HP until next Long Rest as your molecular layout unravels."
+   permanentCost: {
+   type: "max_hp",
+   amount: 5,
+   duration: "long_rest",
+   description: "Lose 5 max HP until next Long Rest as your molecular layout unravels."
+   },
+   triggerConfig: {
+   triggers: [
+    {
+    id : "chronal_vortex_recoil",
+    name: "Chronal Recoil",
+    triggerType: "on_cast",
+    action: "Caster erodes 5 max HP."
+    }
+   ]
+   },
+   tags: ["flux", "damage", "control", "aoe", "stasis", "chronarch"]
   },
-  tags: ["flux", "damage", "control", "aoe", "stasis", "chronarch"]
- },
 
-  {
-  "id": "chrono_temporal_rewind",
+   {
+   "id": "chrono_temporal_rewind",
   "name": "Temporal Rewind",
   "description": "Focus your temporal anchor to reverse the immediate past for a tiny, unattended object. A spilled goblet of wine flows back upward to fill its cup, a shattered porcelain vase fuses back into pristine form, or a burned letter stitches itself back into unread ink.",
   "level": 1,

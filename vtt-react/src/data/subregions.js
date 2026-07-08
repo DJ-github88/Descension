@@ -59,7 +59,7 @@ export const SUBREGIONS = {
     dominantTerrain: 'Glaciers, ice fields, frozen chasms, granite peaks',
     primaryRaces: ['Rime-Born', 'Frostbound', 'Corvani (clan flocks)'],
     primaryFactions: ['House Skalvyr (royal seat)', 'Skald Keepers', 'Cult of Forgotten Shadow'],
-    zoneIds: ['frozen-archive', 'rimors-hearth', 'hunger-glaciers', 'ymirs-col', 'the-still-crag', 'frosthold-citadel', 'bearsbeards-beak']
+    zoneIds: ['frozen-archive', 'rimors-hearth', 'hunger-glaciers', 'skadis-col', 'the-still-crag', 'frosthold-citadel', 'bearsbeards-beak']
   },
   'nordhalla-fjord-coast': {
     id: 'nordhalla-fjord-coast',
@@ -144,7 +144,7 @@ export const SUBREGIONS = {
     dominantTerrain: 'Volcanic seamounts lashed into floating cities, black-sand beaches, sea-cliffs',
     primaryRaces: ['Merryn humans', 'Neth Velun (at Ironjaw Port)', 'Smugglers and pirates'],
     primaryFactions: ['House Mereval', 'Brine-Bond Syndicate', 'Board of Trade', 'Drift-Council'],
-    zoneIds: ['merrowport', 'ironjaw-port', 'kelpies-cove', 'spindrift-lagoon', 'blackteeth-isle', 'the-lucky-anchor']
+    zoneIds: ['merrowport', 'ironjaw-port', 'brinehorse-cove', 'spindrift-lagoon', 'blackteeth-isle', 'the-lucky-anchor']
   },
   'iceheart-storm-belt': {
     id: 'iceheart-storm-belt',

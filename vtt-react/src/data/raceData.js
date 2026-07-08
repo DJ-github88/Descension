@@ -90,13 +90,12 @@ export const getFullRaceData = (raceId, subraceId) => {
 
 /**
  * Get racial base stats for a race/subrace combination
- * Returns base values for armor, speed, hp, mana, ap, passive perception, etc.
+ * Returns base values for speed, hp, mana, ap, passive perception, etc.
  */
 export const getRacialBaseStats = (raceId, subraceId) => {
     const raceData = getFullRaceData(raceId, subraceId);
     if (!raceData) {
         return {
-            armor: 0,
             speed: 30,
             hp: 25,
             mana: 25,
@@ -114,7 +113,6 @@ export const getRacialBaseStats = (raceId, subraceId) => {
     const baseStats = subrace.baseStats || {};
 
     return {
-        armor: baseStats.armor !== undefined ? baseStats.armor : 0,
         speed: subrace.speed || raceData.race.baseTraits.baseSpeed || 30,
         hp: baseStats.hp !== undefined ? baseStats.hp : 25,
         mana: baseStats.mana !== undefined ? baseStats.mana : 15,

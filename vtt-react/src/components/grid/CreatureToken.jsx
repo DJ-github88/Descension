@@ -1492,7 +1492,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         maxMana: creature.stats.maxMana || 0,
         maxActionPoints: creature.stats.maxActionPoints || 2,
         speed: creature.stats.speed || 30,
-        armor: creature.stats.armor || 10
+        armor: 0
       }
     };
 

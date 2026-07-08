@@ -59,7 +59,7 @@ const statMap = {
 export function calculateEquipmentBonuses(equipment = {}) {
   const bonuses = {
     str: 0, con: 0, agi: 0, int: 0, spir: 0, cha: 0,
-    damage: 0, armor: 0, healthRegen: 0, manaRegen: 0,
+    damage: 0, healthRegen: 0, manaRegen: 0,
     moveSpeed: 0, spellDamage: 0, healingPower: 0,
     rangedDamage: 0, carryingCapacity: 0,
     maxHealth: 0, maxMana: 0, // Add direct health/mana bonuses
@@ -236,7 +236,7 @@ export function calculateEquipmentBonuses(equipment = {}) {
             healthRestore: 'healthRegen',
             manaRestore: 'manaRegen',
             armorClass: 'armor',
-            armor: 'armor', // Direct armor mapping
+
             spellPower: 'spellDamage',
             healingPower: 'healingPower',
             maxHealth: 'maxHealth',
@@ -331,7 +331,7 @@ export function calculateEquipmentBonuses(equipment = {}) {
       }
     });
 
-    // Handle top-level armorClass property (for legacy items - deprecated, use armor instead)
+    // Handle top-level armorClass property (legacy - no longer used as a stat)
     // Only add if it hasn't already been processed from combatStats to avoid double-counting
     if (item.armorClass && typeof item.armorClass === 'number') {
       const alreadyProcessed = item.combatStats && (
@@ -339,16 +339,16 @@ export function calculateEquipmentBonuses(equipment = {}) {
         item.combatStats.armorClass !== undefined
       );
       if (!alreadyProcessed) {
-        bonuses.armor = (bonuses.armor || 0) + item.armorClass;
+        // armorClass no longer feeds a character stat - ignored
       }
     }
-    // Handle top-level armor property (canonical field name)
+    // Handle top-level armor property (canonical field name) - no longer a character stat
     if (item.armor && typeof item.armor === 'number' && !item.armorClass) {
       const alreadyProcessed = item.combatStats && (
         item.combatStats.armor !== undefined
       );
       if (!alreadyProcessed) {
-        bonuses.armor = (bonuses.armor || 0) + item.armor;
+        // armor no longer feeds a character stat - ignored
       }
     }
   });
@@ -456,7 +456,6 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
 
   // Get racial base stats
   let racialBaseStats = {
-    armor: 0,
     speed: 30,
     hp: 0,
     mana: 0,
@@ -482,9 +481,6 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
   // Note: Passive movement speed modifiers will be applied later in conditional passives section
   const baseMoveSpeed = racialBaseStats.speed + (skillBonuses.movementSpeed || 0);
 
-  // Base armor from race (0 by default), then add agility modifier ((agility - 10) / 2) and equipment
-  const baseArmor = racialBaseStats.armor + Math.floor((modifiedStats.agility - 10) / 2);
-
   let derivedStats = {
     maxHealth: baseMaxHealth + racialBaseStats.hp, // Add racial base HP to calculated HP
     maxMana: baseMaxMana + racialBaseStats.mana, // Add racial base mana to calculated mana
@@ -497,8 +493,7 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
     slashingDamage: 0 + (equipmentBonuses.slashingDamage || 0) + getMod(buffModifiers, ['slashingDamage']), // Include buffs
     bludgeoningDamage: 0 + (equipmentBonuses.bludgeoningDamage || 0) + getMod(buffModifiers, ['bludgeoningDamage']), // Include buffs
     piercingDamage: 0 + (equipmentBonuses.piercingDamage || 0) + getMod(buffModifiers, ['piercingDamage']), // Include buffs
-    armor: baseArmor + (equipmentBonuses.armor || 0) + (skillBonuses.armor || 0) + getMod(buffModifiers, ['armor', 'armorClass', 'ac']), // Include buffs
-    moveSpeed: baseMoveSpeed + getMod(buffModifiers, ['moveSpeed', 'movementSpeed', 'speed']), // Include buffs
+  moveSpeed: baseMoveSpeed + getMod(buffModifiers, ['moveSpeed', 'movementSpeed', 'speed']), // Include buffs
     swimSpeed: racialBaseStats.swimSpeed + getMod(buffModifiers, ['swimSpeed']), // Include buffs
     climbSpeed: racialBaseStats.climbSpeed + getMod(buffModifiers, ['climbSpeed']), // Include buffs
     passivePerception: racialBaseStats.passivePerception + (equipmentBonuses.passivePerception || 0) + (skillBonuses.passivePerception || 0) + getMod(buffModifiers, ['passivePerception']),
@@ -546,8 +541,6 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
               derivedStats.piercingDamage = (derivedStats.piercingDamage || 0) + magnitude;
             } else if (statName === 'ranged_damage') {
               derivedStats.rangedDamage = (derivedStats.rangedDamage || 0) + magnitude;
-            } else if (statName === 'armor') {
-              derivedStats.armor = (derivedStats.armor || 0) + magnitude;
             } else if (statName === 'saving_throws' || statName === 'savingThrowPenalty') {
               derivedStats.savingThrowPenalty = (derivedStats.savingThrowPenalty || 0) + magnitude;
             } else if (statName === 'damage') {
@@ -581,7 +574,7 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
 
   // Apply additional skill bonuses that don't map to derived stats
   for (const stat in skillBonuses) {
-    if (derivedStats.hasOwnProperty(stat) && !['strength', 'constitution', 'agility', 'intelligence', 'spirit', 'charisma', 'maxHealth', 'manaPool', 'spellPower', 'armor', 'movementSpeed'].includes(stat)) {
+    if (derivedStats.hasOwnProperty(stat) && !['strength', 'constitution', 'agility', 'intelligence', 'spirit', 'charisma', 'maxHealth', 'manaPool', 'spellPower', 'movementSpeed'].includes(stat)) {
       derivedStats[stat] = (derivedStats[stat] || 0) + skillBonuses[stat];
     }
   }
@@ -689,8 +682,6 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
               derivedStats.piercingDamage = (derivedStats.piercingDamage || 0) + magnitude;
             } else if (statName === 'ranged_damage') {
               derivedStats.rangedDamage = (derivedStats.rangedDamage || 0) + magnitude;
-            } else if (statName === 'armor') {
-              derivedStats.armor = (derivedStats.armor || 0) + magnitude;
             } else if (statName === 'saving_throws') {
               derivedStats.savingThrowPenalty = (derivedStats.savingThrowPenalty || 0) + magnitude;
             } else if (statName === 'damage') {

@@ -55,7 +55,7 @@ const WEAPON_MASTERY_TABLES = {
       { roll: [4, 4], result: 'Solid swing: normal damage.', type: 'normal' },
       { roll: [5, 5], result: 'Shoulder behind it: +1 damage.', type: 'normal' },
       { roll: [6, 6], result: 'Reset grip: reroll one attack die.', type: 'success' },
-      { roll: [7, 7], result: 'Make space: step 1 or give ally +1 to hit this target.', type: 'success' },
+      { roll: [7, 7], result: 'Make space: step 1 tile or give ally +1 to hit this target.', type: 'success' },
       { roll: [8, 8], result: 'Sweet line: crit range expands by 1 for this attack.', type: 'success' }
     ]
   },
@@ -120,7 +120,7 @@ const WEAPON_MASTERY_TABLES = {
       { roll: [5, 5], result: 'Line up: may target a second adjacent foe at -2.', type: 'success' },
       { roll: [6, 6], result: 'Wrench: disarm/sunder on hit; else +3 damage.', type: 'success' },
       { roll: [7, 7], result: 'Pinpoint: ignore resistances/vulnerabilities this hit.', type: 'success' },
-      { roll: [8, 8], result: 'Masterful arc: on hit, add weapon die again and shift 1.', type: 'success' }
+      { roll: [8, 8], result: 'Masterful arc: on hit, add weapon die again and move 1 tile.', type: 'success' }
     ]
   },
   weaponmastery_master_d8: {

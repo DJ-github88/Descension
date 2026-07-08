@@ -1622,13 +1622,12 @@ MAX BANKED SPHERES: 12
      "Entropy. The death of order. The spheres don't combine so much as unravel each other, producing a flickering mass of shadow and static that even you find unsettling.",
     randomEffects: [
      {
-      name: "Wither",
-      description:
-       "A wave of decay reduces the target's armor by 2 for 2 rounds.",
-      damageTypes: ["blight"],
-      targetType: "single",
-      armorReduction: 2,
-     },
+       name: "Wither",
+       description:
+        "A wave of decay reduces the target's armor by 2 for 2 rounds.",
+       damageTypes: ["blight"],
+       targetType: "single",
+      },
      {
       name: "Soul Rend",
       description:
@@ -1748,6 +1747,11 @@ MAX BANKED SPHERES: 12
        "The flame sputters and backfires, dealing ember damage to you instead.",
       damageTypes: ["ember"],
       targetType: "self",
+      triggerConfig: {
+        triggers: [
+          { id: "fire_chaos_recoil", name: "Aetheric Recoil", triggerType: "on_cast", action: "Raw aetheric energy tears through your body: selfDamage applies on cast." }
+        ]
+      },
       selfDamage: true,
      },
     ],
@@ -1821,9 +1825,8 @@ MAX BANKED SPHERES: 12
       name: "Frost Armor",
       description: "You gain +2 armor and frost resistance for 2 rounds.",
       damageTypes: [],
-      targetType: "self",
-      armorBuff: 2,
-     },
+       targetType: "self",
+      },
      {
       name: "Shatterstorm",
       description:
@@ -1926,9 +1929,8 @@ MAX BANKED SPHERES: 12
       description:
        "The flesh solidifies into a wall of fused bone. Gain +2 Armor for 2 rounds.",
       damageTypes: [],
-      targetType: "self",
-      armorBuff: 2,
-      durationValue: 2,
+       targetType: "self",
+       durationValue: 2,
       durationType: "rounds",
       durationUnit: "rounds",
      },
@@ -2036,6 +2038,60 @@ MAX BANKED SPHERES: 12
   // Basic 2-sphere combinations - weak starter spells
   // ========================================
   {
+   id: "arc_aetheric_lantern",
+   name: "Aetheric Projection Lantern",
+   description:
+    "You focus raw aetheric energy through your mechanical lens, projecting a highly detailed 3D holographic blueprint or map of an observed mechanical object, lock, or structural seam. Somatic strain causes sweat to bead on your forehead as you maintain the projection.",
+   level: 1,
+   spellType: "ACTION",
+   icon: "Arcane/Aura",
+
+   typeConfig: {
+    school: "arcane",
+    icon: "Arcane/Aura",
+    tags: ["utility", "roleplay", "arcanoneer"],
+    castTime: 1,
+    castTimeType: "IMMEDIATE",
+   },
+
+   targetingConfig: {
+    targetingType: "single",
+    rangeType: "ranged",
+    rangeDistance: 30,
+    targetRestrictions: [],
+   },
+
+   resourceCost: {
+    actionPoints: 1,
+    resourceTypes: ["mana"],
+    resourceValues: { mana: 4 },
+    components: ["somatic"],
+    somaticText: "Adjust the focus dial on your mechanical lens with trembling, high-exertion precision",
+   },
+
+   resolution: "NONE",
+   effectTypes: ["utility"],
+
+   utilityConfig: {
+    utilityType: "conjuration",
+    selectedEffects: [
+     {
+      id: "aetheric_lantern_effect",
+      name: "Aetheric Blueprint",
+      description: "Project a perfect, glowing 3D schematic of a lock or mechanical device, granting advantage on Investigation and Thieves Tools checks to disable it.",
+     },
+    ],
+    duration: 10,
+    durationUnit: "minutes",
+    concentration: true,
+    power: "minor",
+   },
+
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+   tags: ["utility", "roleplay", "arcanoneer"],
+  },
+
+  {
    id: "arc_spark_bolt",
    name: "Marrow-Piercing Slug",
    description:
@@ -2077,8 +2133,7 @@ MAX BANKED SPHERES: 12
    damageConfig: {
     formula: "1d8 + intelligence/4",
     damageTypes: ["arcane"],
-    resolution: "DICE",
-    armorPiercing: 2,
+     resolution: "DICE",
     description:
      "The bolt strikes with precise arcane force, dealing direct force damage.",
    },
@@ -2607,17 +2662,12 @@ MAX BANKED SPHERES: 12
     durationType: "rounds",
     durationUnit: "rounds",
     effects: [
-     {
-      id: "radiant_exposure",
-      name: "Radiant Exposure",
-      description: "Target's defenses are weakened by searing light, granting attackers +1 to hit them.",
-      mechanicsText: "+1 to attack rolls against target for 2 rounds",
-      statModifier: {
-       stat: "armor",
-       magnitude: -1,
-       magnitudeType: "flat",
+      {
+       id: "radiant_exposure",
+       name: "Radiant Exposure",
+       description: "Target's defenses are weakened by searing light, granting attackers +1 to hit them.",
+       mechanicsText: "+1 to attack rolls against target for 2 rounds",
       },
-     },
     ],
    },
 
@@ -3363,18 +3413,13 @@ MAX BANKED SPHERES: 12
    buffConfig: {
     buffType: "statEnhancement",
     effects: [
-     {
-      id: "glacial_armor",
-      name: "Glacial Armor",
-      description:
-       "Gain +4 Armor and resistance to ember damage for 3 rounds. Crystalline armor of ice and sacred light deflects blows and absorbs heat.",
-      mechanicsText: "+4 armor and ember resistance for 3 rounds",
-      statModifier: {
-       stat: "armor",
-       magnitude: 4,
-       magnitudeType: "flat",
+      {
+       id: "glacial_armor",
+       name: "Glacial Armor",
+       description:
+        "Gain +4 Armor and resistance to ember damage for 3 rounds. Crystalline armor of ice and sacred light deflects blows and absorbs heat.",
+       mechanicsText: "+4 armor and ember resistance for 3 rounds",
       },
-     },
     ],
     durationValue: 3,
     durationType: "rounds",
@@ -4236,6 +4281,11 @@ MAX BANKED SPHERES: 12
     },
    },
 
+   triggerConfig: {
+     triggers: [
+       { id: "arc_primal_cataclysm_recoil", name: "Aetheric Recoil", triggerType: "on_cast", action: "Raw aetheric energy tears through your body: selfDamage applies on cast." }
+     ]
+   },
    selfDamageConfig: {
     formula: "2d6",
     damageTypes: ["storm"],
@@ -4348,6 +4398,11 @@ MAX BANKED SPHERES: 12
     },
    },
 
+   triggerConfig: {
+     triggers: [
+       { id: "arc_chaos_vortex_recoil", name: "Aetheric Recoil", triggerType: "on_cast", action: "Raw aetheric energy tears through your body: selfDamage applies on cast." }
+     ]
+   },
    selfDamageConfig: {
     formula: "1d8",
     damageTypes: ["wyrd"],
@@ -4562,6 +4617,11 @@ MAX BANKED SPHERES: 12
     },
    },
 
+   triggerConfig: {
+     triggers: [
+       { id: "arc_elemental_convergence_recoil", name: "Aetheric Recoil", triggerType: "on_cast", action: "Raw aetheric energy tears through your body: selfDamage applies on cast." }
+     ]
+   },
    selfDamageConfig: {
     formula: "3d6",
     damageTypes: ["storm"],
@@ -4701,6 +4761,11 @@ MAX BANKED SPHERES: 12
     ],
    },
 
+   triggerConfig: {
+     triggers: [
+       { id: "void_disorientation_recoil", name: "Aetheric Recoil", triggerType: "on_cast", action: "Raw aetheric energy tears through your body: selfDamage applies on cast." }
+     ]
+   },
    selfDamageConfig: {
     formula: "2d6",
     damageTypes: ["blight"],

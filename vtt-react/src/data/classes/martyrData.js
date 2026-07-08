@@ -1345,6 +1345,11 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
      amplifiedCost: 2,
      amplifiedEffect: "Heal for 6d4 + Spirit modifier HP instead",
     },
+    triggerConfig: {
+      triggers: [
+        { id: "martyr_purifying_pain_trigger", name: "Sacred Sacrifice", triggerType: "on_cast", action: "Sacrifice HP to purify: the spell drains your life force to cleanse afflictions." }
+      ]
+    },
     selfDamage: {
      buildsDevotion: true,
     },
@@ -1634,6 +1639,11 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     targetRestrictions: ["enemy"],
    },
 
+    triggerConfig: {
+      triggers: [
+        { id: "martyr_burning_sacrifice_trigger", name: "Sacred Sacrifice", triggerType: "on_cast", action: "Burn your own life force as fuel: HP cost is non-negotiable and cannot be reduced." }
+      ]
+    },
    resourceCost: {
     resourceTypes: ["mana", "hp"],
     resourceValues: { mana: 10, hp: 15 },
@@ -1805,6 +1815,11 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     targetRestrictions: ["ally"],
    },
 
+    triggerConfig: {
+      triggers: [
+        { id: "martyr_life_transfer_trigger", name: "Sacred Sacrifice", triggerType: "on_cast", action: "Transfer your own HP to heal an ally: the sacrifice is permanent until natural healing." }
+      ]
+    },
    resourceCost: {
     resourceTypes: ["mana", "hp"],
     resourceValues: { mana: 8, hp: 20 },
@@ -1916,6 +1931,11 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     targetRestrictions: ["ally"],
    },
 
+    triggerConfig: {
+      triggers: [
+        { id: "martyr_righteous_suffering_trigger", name: "Sacred Sacrifice", triggerType: "on_cast", action: "Embrace suffering as power: HP cost fuels your Devotion and empowers the spell." }
+      ]
+    },
    resourceCost: {
     resourceTypes: ["mana", "hp"],
     resourceValues: { mana: 20, hp: 10 },
@@ -1984,6 +2004,11 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     targetRestrictions: ["ally"],
    },
 
+    triggerConfig: {
+      triggers: [
+        { id: "martyr_blood_pact_trigger", name: "Sacred Sacrifice", triggerType: "on_cast", action: "Blood pact: all affected allies sacrifice HP to gain the covenant's protection." }
+      ]
+    },
    resourceCost: {
     resourceTypes: ["mana", "hp"],
     resourceValues: { mana: 22, hp: 15 },
@@ -2343,6 +2368,11 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     targetRestrictions: ["ally", "unconscious"],
    },
 
+    triggerConfig: {
+      triggers: [
+        { id: "martyr_mass_resurrection_trigger", name: "Sacred Sacrifice", triggerType: "on_cast", action: "Mass restoration demands a heavy HP toll from the caster to revive multiple allies." }
+      ]
+    },
    resourceCost: {
     resourceTypes: ["mana", "hp"],
     resourceValues: { mana: 30, hp: 20 },
@@ -2674,15 +2704,14 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     formDescription: "A glowing sacred form radiating protective light.",
     duration: 5,
     durationUnit: "rounds",
-    statModifiers: [
-     { stat: "armor", magnitude: 5, magnitudeType: "flat" },
-     { stat: "maxHp", magnitude: 50, magnitudeType: "temporary" },
-     {
-      stat: "damageReduction",
-      magnitude: 50,
-      magnitudeType: "percentage",
-     },
-    ],
+     statModifiers: [
+      { stat: "maxHp", magnitude: 50, magnitudeType: "temporary" },
+      {
+       stat: "damageReduction",
+       magnitude: 50,
+       magnitudeType: "percentage",
+      },
+     ],
     specialAbilities: [
      {
       name: "Absolute Protection",
@@ -2745,6 +2774,11 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     },
    },
 
+    triggerConfig: {
+      triggers: [
+        { id: "martyr_judgment_day_trigger", name: "Sacred Sacrifice", triggerType: "on_cast", action: "Channeling judgment through your body: HP cost reflects the devastating power flowing through you." }
+      ]
+    },
    resourceCost: {
     resourceTypes: ["mana", "hp"],
     resourceValues: { mana: 40, hp: 40 },
@@ -2879,6 +2913,11 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     targetRestrictions: ["ally", "dead"],
    },
 
+    triggerConfig: {
+      triggers: [
+        { id: "martyr_ultimate_sacrifice_trigger", name: "Ultimate Sacrifice", triggerType: "on_cast", action: "Full Sacrifice: reduce yourself to 0 HP to fully resurrect and empower all allies. Partial: sacrifice 50 HP." }
+      ]
+    },
    resourceCost: {
     resourceTypes: ["hp"],
     resourceValues: { hp: "all" },
@@ -2938,6 +2977,11 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     partialSacrifice: {
      description:
       "Partial Sacrifice: Instead of sacrificing all HP, you may sacrifice 50 HP to fully heal all living allies within range. Does not resurrect fallen allies.",
+     triggerConfig: {
+       triggers: [
+         { id: "martyrs_blessing_trigger", name: "Ultimate Sacrifice", triggerType: "on_cast", action: "Full Sacrifice: reduced to 0 HP. Partial: sacrifice 50 HP to heal all living allies." }
+       ]
+     },
      hpCost: 50,
      fullHeal: true,
     },
@@ -2983,6 +3027,11 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     targetRestrictions: ["ally"],
    },
 
+    triggerConfig: {
+      triggers: [
+        { id: "martyr_final_blessing_trigger", name: "Sacred Sacrifice", triggerType: "on_cast", action: "Final blessing costs HP: the last gift of a dying martyr burns brightest." }
+      ]
+    },
    resourceCost: {
     resourceTypes: ["mana", "hp"],
     resourceValues: { mana: 45, hp: 50 },

@@ -2694,10 +2694,9 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
   durationValue: 10,
   durationType: "rounds",
   concentrationRequired: true,
-  statModifiers: [
-   { stat: "fire_spell_power", magnitude: 5, magnitudeType: "flat" },
-   { stat: "armor", magnitude: 3, magnitudeType: "flat" },
-  ],
+   statModifiers: [
+    { stat: "fire_spell_power", magnitude: 5, magnitudeType: "flat" },
+   ],
   resistances: [{ damageType: "ember", resistanceType: "immunity" }],
   specialAbilities: [
    {
@@ -2991,16 +2990,11 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     "+15 ember damage to all spells, +5 DR, ember damage immunity, flight (30 ft), and enemies within 15 feet take 3d6 ember damage at start of their turn. Requires Inferno Level 9. Death clock still ticks.",
    mechanicsText: "",
    },
-   { id : "demonicAscension_armor",
-   name: "Ashen Carapace",
-   description: "+5 DR from Wyrd-touched carapace",
-   mechanicsText: "",
-   statModifier: {
-    stat: "armor",
-    magnitude: 5,
-    magnitudeType: "flat",
-   },
-   },
+    { id : "demonicAscension_armor",
+    name: "Ashen Carapace",
+    description: "+5 DR from Wyrd-touched carapace",
+    mechanicsText: "",
+    },
    { id : "demonicAscension_fire",
    name: "Fire Mastery",
    description: "+15 fire spell power",

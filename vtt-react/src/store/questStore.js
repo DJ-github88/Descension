@@ -14,38 +14,38 @@ const BASE_CATEGORY = {
 const SAMPLE_QUESTS = [
   {
     id: 'quest-001',
-    title: 'The Missing Shipment',
-    description: 'A shipment of valuable goods has gone missing on the road to Stormwind. The merchant guild is offering a reward for anyone who can recover it.',
+    title: 'The Missing Cinder-Casks',
+    description: 'A shipment of valuable geothermal cinder-casks from Sundale has gone missing on the road to Greymark Keep. Renn of the Shallows is offering a reward for their recovery.',
     difficulty: 'Normal',
     level: 5,
     status: 'active', // active, completed, failed
-    giver: 'Merchant Watkins',
-    location: 'Elwynn Forest',
+    giver: 'Merchant Renn',
+    location: 'Frostwood Reach',
     objectives: [
       {
         id: 'obj-001',
         type: 'kill',
-        target: 'Defias Bandit',
+        target: 'Ashland Raider',
         count: 8,
         progress: 0,
-        description: 'Kill Defias Bandits that have been attacking travelers',
+        description: 'Defeat Ashland Raiders that have been attacking the caravans',
         optional: false
       },
       {
         id: 'obj-002',
         type: 'collect',
-        target: 'Stolen Crate',
+        target: 'Stolen Cinder-Cask',
         count: 3,
         progress: 0,
-        description: 'Recover the stolen crates',
-        itemId: 'item-stolen-crate',
+        description: 'Recover the stolen geothermal cinder-casks',
+        itemId: 'item-stolen-cinder-cask',
         optional: false
       },
       {
         id: 'obj-003',
         type: 'visit',
-        target: 'Bandit Camp',
-        description: 'Locate the bandit camp in the forest',
+        target: 'Raider Camp',
+        description: 'Locate the raider camp in the pine margins',
         coordinates: { x: 100, y: 200 },
         completed: false,
         optional: true
@@ -61,7 +61,7 @@ const SAMPLE_QUESTS = [
       items: [
         {
           id: 'item-001',
-          name: 'Traveler\'s Backpack',
+          name: "Traveler's Backpack",
           quality: 'uncommon',
           type: 'container'
         }

@@ -1,4 +1,4 @@
-﻿// complete Rules Data Structure
+// complete Rules Data Structure
 // Organized into 8 main categories with subcategories and detailed content
 
 import { ALL_CLASSES_DATA } from './classes';
@@ -315,7 +315,7 @@ The Reach birthed several of Mythrill's traditions. The **Toxicologist** art was
 **The Present Fracture.** Steam-saw clear-cutting and the Dimming are thinning the fog, so the insulation that held back the cold is failing exactly as Nordhalla's glacier-summer-debt comes due, the Reach is being unmade by the same chain that is freezing the north.`
  },
  {
- title: 'Nordhalla & The Valley of Ymir',
+ title: 'Nordhalla & The Valley of Rime',
  content: `> **Key Terms in Nordhalla:**
 > - **Nordhalla:** A freezing northern wilderness of black fjords and towering glaciers halted mid-advance.
 > - **House Skalvyr:** The unyielding noble family that accepted eternal winter to stop the glaciers.
@@ -329,13 +329,13 @@ Nordhalla is a brutalist cathedral of ice and stone, a blinding-white tundra sli
 
 To consolidate his rule, the newly crowned **King-Jarl Halvar Skalvyr (Jarn-Tand)** has constructed the **Sunder-Wall**, a titanic barrier of compacted glacier-ice and black granite spanning the tundra. While officially built to keep out Wyrd horrors like the [Skreika](file:///d:/VTT/vtt-react/src/data/rulesData.js#L315) and glacier-wyrms, the wall's garrisoned gates primarily control, tax, and restrict the movements of the nomadic outlands clans.
 
-South of the Archive, **Ymir's Col** serves as a treacherous mountain pass winding between collapsed ice-sheets, now a vital smuggling corridor for those evading Jarn-Tand's taxes. High above the glacier line, the watchtower garrison of **Vargtor** rises from a basalt pillar, its signal-fires burning day and night to coordinate patrols. At the northernmost reach of the coastline, **Rook's Promontory** juts from the cliffs like a broken finger, a high, wind-scoured crag where the Corvani gather in murmuring congregations before dispersing to their glacier-eyries.
+South of the Archive, **Skadi's Col** serves as a treacherous mountain pass winding between collapsed ice-sheets, now a vital smuggling corridor for those evading Jarn-Tand's taxes. High above the glacier line, the watchtower garrison of **Vargtor** rises from a basalt pillar, its signal-fires burning day and night to coordinate patrols. At the northernmost reach of the coastline, **Rook's Promontory** juts from the cliffs like a broken finger, a high, wind-scoured crag where the Corvani gather in murmuring congregations before dispersing to their glacier-eyries.
 
 **The Dark Bargain:** House Skalvyr bargained to halt the grinding advance of massive glaciers that threatened to crush their mountain keeps. Keth-Amar froze the ice sheets permanently in place, but decreed that **summer would never return to the north**.
 
 **The Seat of Power: The Frozen Archive**
 
-Carved into the sheer face of a titanic, mile-high glacier in the Valley of Ymir sits **The Frozen Archive**, the ancient, flash-frozen capital of a long-dead ten-thousand-year-old civilization. Reclaimed by the Rime-Born three centuries ago, the Archive is not a traditional city of trade, but a massive library-fortress of prehistoric clockwork and runic machinery. 
+Carved into the sheer face of a titanic, mile-high glacier in the Valley of Rime sits **The Frozen Archive**, the ancient, flash-frozen capital of a long-dead, ancient pre-Binding civilization. Reclaimed by the Rime-Born three centuries ago, the Archive is not a traditional city of trade, but a massive library-fortress of prehistoric clockwork and runic machinery. 
 
 Lately, the Archive has become a place of cultural eradication. In cooperation with southern arcanists, Jarn-Tand has established the **Runic Academies** within its brass-domed halls. Children displaying magical spark are taken by force from their tundra clans and brought here; their native, animistic folklore-magic is systematically suppressed in favor of "structured, controlled runic calculations" to fuel the Archive's heating grids.
 
@@ -369,7 +369,7 @@ Taverns in fjord-keeps (such as *The Hearth-Glow*) are built over steaming volca
 Nordhalla is the cradle of the **Augur** art, founded by **Cassia**, who read the Deepening in a sacrificed elk's entrails at the Frozen Archive. The **Berserker** Hunger Pact was forged here in the worst winter of the Glacier Bargain. Nordhalla also co-founded three traditions: **Theron** pioneered the runic-inscription root of the **Animist** triad here at the Frozen Archive; **Malakor the Finite** calculated the doom-arithmetic that, merged with Xyris's chaos-work, became the **Harbinger** class; and the Frozen Archive's surgical school became the secondary seat of the **Warden** chain-graft tradition, producing the cold-iron Skald Wardens who tether the horrors that crawl from the fjords.
 
 **Deep History & Strata**
-**The Pre-Deepening.** Nordhalla was a saga-culture of glacier-entombing ancestor-venerators, built atop the clockwork ruins of a ten-thousand-year-old civilization the ice preserved intact, the original machinery the Frozen Archive merely reclaimed rather than built.
+**The Pre-Deepening.** Nordhalla was a saga-culture of glacier-entombing ancestor-venerators, built atop the clockwork ruins of an ancient pre-Binding civilization the ice preserved intact, the original machinery the Frozen Archive merely reclaimed rather than built.
 **The Deepening & the Bargain (just after the Binding, the Glacier Bargain).** Skalvyr halted the glaciers at the price of summer, and Keth-Amar set the Frost-Tithe on the Rime-Born. The Warden's breath touched the mountain at the Still Crag, freezing it to silent witness. The first winter was so total the ancestors consumed their own dead to persist, the Hunger Pact that still seeds every Berserker rage.
 **The Long Dimming.** In the first centuries of the Dimming the Frostwood elder Aldren Thalreth the Elder fled north and self-entombed in the Archive, binding the two regions' archive-traditions together. Within living memory the Cult of Forgotten Shadow and Skalvyr's younger generation began the Void-heat engine beneath the Archive, a heresy whose temporal runoff would later collapse the Augurs' elk-entrail readings.
 **The Present Fracture.** The Dimming (within living memory) is cooling the geothermal sumps, the Frost-Tithe worsens, and the Void-Heat Heresy is about to break the Glacier Bargain from within, Frigga Skalvyr's generation is preparing to trade the slow cold for a faster, dirtier warmth.`
@@ -481,7 +481,7 @@ Seafarers live on salted sea-herring, kelp-cakes, and pickled brine-grass, washe
 
 The regional economy is driven by exporting whale oil under the **Brine-Bond Syndicate** monopoly, which demands heavy tribute from keeps. To extract this oil, the Board has commissioned geothermal-powered **steam-trawlers** and explosive harpoons. The boiling engine runoff and soot are polluting the unfreezing channels, driving the Deep-Born Myrathil to madness and calling Wyrd sea-monsters.
 
-In Merrowport, taverns (like *The Pitching Hull*) are constructed within the cargo decks of lashed ships, where sailors gamble using bone dice. Smugglers and black-market runners prefer **Kelpie's Cove**, a hidden inlet on the eastern coast. Farther north, **Wraithsound** cuts deep into the coastal rock, a narrow, echoing inlet where the voices of drowned sailors carry for miles on the fog, audible above the wind on the darkest nights.
+In Merrowport, taverns (like *The Pitching Hull*) are constructed within the cargo decks of lashed ships, where sailors gamble using bone dice. Smugglers and black-market runners prefer **Brinehorse Cove**, a hidden inlet on the eastern coast. Farther north, **Wraithsound** cuts deep into the coastal rock, a narrow, echoing inlet where the voices of drowned sailors carry for miles on the fog, audible above the wind on the darkest nights.
 
 **Native Traditions & Founders**
 The Iceheart is the home water of two traditions. The **Gambit** art was born here when the Merryn pirate **Jax** wagered his lifeline against a storm-spirit at Merrowport, winning the wind but losing his blood's warmth. The **Minstrel** Tide-Choir was founded by **Lyris the Tide-Singer**, whose storm-symphony calmed the gales at the cost of her spoken voice. The Gambit tradition's other root, **Lyra's** Kessen Neth probability-web reading, developed in the Bryngloom, refined itself at Merrowport's tables when the two traditions recognized each other across the Ancestor-Spans.
@@ -622,7 +622,7 @@ The Vale is the cradle of the **False Prophet** art, born when the Ordan herd-wa
 
 **The Regional Landscape & Current Vibe**
 
-The Bryngloom Forest is a continent of contradictions: semi-frozen sinking bogs give way to ancient bioluminescent woods, sacred fungal-lit groves, and cathedral-canopies of living ironwood coaxed into shape over a thousand years. The forest does not simply grow here, it is governed. An entity called the **Keeper of the Last Threshold** (the same being the Vreken call the Root-Veil) decides what the Gloom preserves and what the Gloom consumes. This is not myth. This is legal precedent. 
+The Bryngloom Forest is a continent of contradictions: semi-frozen sinking bogs give way to ancient bioluminescent woods, sacred fungal-lit groves, and cathedral-canopies of living ironwood coaxed into shape over eight centuries. The forest does not simply grow here, it is governed. An entity called the **Keeper of the Last Threshold** (the same being the Vreken call the Root-Veil) decides what the Gloom preserves and what the Gloom consumes. This is not myth. This is legal precedent. 
 
 To govern this twilight swamp, **Regent Morrath Neth ("The Scribe-King")** enforces the **First Contract**. By decree of the Contract, all citizens (humans, Neth, and Vreken) are born into a default state of debt to the Regency. All land titles, debts, and lifespans are recorded in the **Great Registry** of Atropolis. Those who attempt to live outside the Registry are branded "Uncontracted Outlaws."
 
@@ -687,61 +687,91 @@ The Bryngloom is the deepest root of Mythrill's death-and-contract magic. The **
  description: 'Humans comprise the largest overall population across the world, split into distinct regional subraces occupying feudal settlements, castles, and outposts. The original fantasy races exist as highly specialized cultures interacting with this human majority.',
  sections: [
  {
- title: 'The Mimir',
- content: `A secretive, rare people of the Frostwood Reach, tall, slender, with unnaturally fluid movement and a deep relationship with identity that the Thalren humans have never fully understood and never fully stopped fearing. Their origin traces to a woman named Sylvain, a forester's daughter who merged with her fetch (a doppelganger death-omen) rather than die, and whose unborn child became the first Mimir born from spore rather than blood. The mask every Mimir wears is the calcified barrier between the original soul and the fetch, forged in the sacred mother-flame chambers, gifted from each mother to each child as both armor and identity.
+  title: 'The Mimir',
+  content: `For eight centuries, the Mimir have worn masks to remember who they are. The thick, grey fog of the Frostwood Reach protects their canopy-holds from freezing, but it also slowly devours the memory of generations. The Mimir do not hide their faces because they are monstrous; they hide them because, without the bone-hard heartwood or storm-glass to anchor their features, their physical identities would dissolve into the mist. Their lineage began with Sylvain, a forester's daughter who bound her soul to her own fetch (a doppelganger death-omen) to survive the first winter of the Dimming. Today, that dual nature remains: a constant, dangerous tension between their mortal minds and the shifting reflections in their blood.
 
-An event ninety years ago, the **Rupture**, when the art of mask-forging was lost during a targeted purge of the canopy-holds, shattered Mimir society into three distinct peoples. The **Mask-Borne** claimed the high branches and became an aristocracy, hoarding both masks and lineage-records, viewing shape-shifting as a statecraft reserved strictly for the nobility. The **Mist-Woven** were pushed to the mountain aeries and became sentinels, wearing stone masks and deploying shape-shifting as a lethal tool of guerrilla defense against the next Purge they are certain is coming. The **Unwoven**, those born maskless or who lost their masks, drifted to the forest floor and built a culture from what the others discarded: black markets, bottled memories, stolen diary keys, and an intimate knowledge of every shadow in Greymark's undercity.
+A targeted purge by House Thalreth's inquisitors shattered their civilization, destroying the sacred mask-forging chambers and killing the last Mask-Mothers. Now, the Mimir are fractured. The Mask-Borne nobility rule the high canopy-holds, hoarding the remaining masks and viewing shape-shifting as a privilege of statecraft. In the cold mountain aeries, the stone-masked Mist-Woven train as sentinels, deploying shape-shifting as a silent, lethal tool of guerrilla warfare. On the forest floor, the maskless or wooden-masked Unwoven run the black markets of Greymark's Shallows, trading bottled memories and stolen diary keys to survive. 
 
-The mother-flame still burns in the oldest canopy-hold, but no successful birthing has occurred there in three decades. The last mother to use it died in childbirth. Her daughter is Unwoven, raised on the floor by strangers, carrying a cracked mask no one knows how to repair. The Thalren humans fear the Mimir's faceshifting deeply, a paranoia that the Wyrd has weaponized into the Gref, a creature that steals faces. The Frostbound exiles from Nordhalla share a grudging respect with the Unwoven: two peoples cast out by their own kind who recognize each other's survival. The Mimir regard the Briaran with wary recognition, two hunted peoples hiding in the same mist.`
- },
- {
- title: 'The Emberth',
- content: `A bulky, powerful race of sun-reverent forge-clans who are the original children of Sundale. Long before the binding, their Sun-Speakers received cryptic prophecy from Sol, fragments of heat and image that foretold the coming darkness. Forewarned, they excavated vast thermal tunnel networks beneath the continent and were already underground when the surface froze. They spent centuries in the deep, tending the **Solbrand**: a small eternal ember believed to be Sol's final conscious fragment. Since Emberspire erupted, they have reclaimed the ashland surface, organized into forge-clans bound to volcanic calderas. Their culture is built around the vigil: waiting for Sol to speak again. The silence has lasted centuries.`
- },
- {
- title: 'The Fexrick',
- content: `The oldest continuous civilization on Mythrill, compact, gnomish subterranean engineers who carved their first holdfast into the Cragjaw Peaks eight millennia ago, before the Thrumm, before the noble families, before the sun's death. Their skin is pale, tinted green from alchemical exposure or darkened from mine-work; their eyes are droopy but eager, the perpetual look of a people who have been working too long and cannot stop because something still needs fixing. Every Fexric carries one subtle mechanical body replacement (a brass finger, a copper ear, a lens-eye), earned by mastering a craft, and every replacement is a lightning rod waiting for a storm. Divided between the Guild-Bound **Kethrin** (hereditary guild members who hoard ancient oral maintenance songs) and the Clan-Free **Drall** (self-taught outsiders who survive on salvage and improvisation), their society is built on three pillars: practical tinkering, mineral alchemy, and the goblin-gnome cunning that keeps their trap-laden holdfasts hidden from a surface world that barely knows they exist. They created the Groven from the Thrumm (intentionally, and lost control). They are brilliant, ancient, paranoid, and slowly forgetting more than any other race has ever known.`
- },
- {
- title: 'The Neth',
- content: `A tall, beautiful, silver-skinned people, the Bryngloom Forest's immortal archivists. Their ancestors were a dying clan of scribes who walked into the deep wood and presented the **Keeper of the Last Threshold** (the same entity the Vreken call the Root-Veil and revere as sacred) with a legal argument for their own survival. The Keeper accepted. The Neth rose from the bog with stilled breath, pure-silver skin, and a pact written in the blood of every descendant, death would be a clause to renegotiate, not an ending. In exchange, every Neth contract carries the Keeper's cosmic authority, and every broken contract is enforced by the same entity that preserves them.
+As a Mimir, you wear a mask that someone died to carve. Whether you seek to restore the mother-flame, sell your face to the highest bidder, or simply outrun the Sovereign Ledger, it falls to you to carve your own path before the fog claims what remains of your name.`
+  },
+  {
+  title: 'The Emberth',
+  content: `Long before the sun died, the volcanic forge-clans of the Emberth heard Sol's final warnings. Their Sun-Speakers, receiving whispers of heat and vision, foretold the coming of the Sun-Eater Keth-Amar. Desperate to survive the creeping ice, the Emberth excavated colossal geothermal tunnel networks beneath Sundale, retreats of fire and stone. They spent centuries in the deep, tending the Solbrand—a tiny, eternal ember believed to be the last conscious fragment of the star. Since Emberspire erupted, they have reclaimed the ashland surface, organized into forge-clans bound to volcanic calderas. Their culture is built around the vigil: waiting for Sol to speak again. The silence has lasted centuries.
 
-They are organized into three bloodlines: the **Velun** (who inherited the Keeper's authority, arcanists and pact-mages who cannot lie, whose every spoken word is binding on themselves), the **Kessen** (who inherited the Keeper's sight, weavers and gamblers who perceive the obligation-web connecting every living thing and manipulate probability by tugging its threads, though every tug snaps something elsewhere), and the **Drun** (who inherited the Keeper's silence, Neth who burned their names from the First Contract through a traumatic Severing ritual, becoming magic-resistant, debt-null, and legally non-existent under Neth law).
+Now, organized into proud forge-clans bound to the active calderas of Sundale, the Emberth watch the ash-choked skies. They have waited eight centuries for Sol to speak again, but the silence from the volcano-keeps remains absolute. While the elder priests urge patience and prayer, a younger generation of Thrask prospectors and miners has grown restless. They patrol the volcanic badlands, demanding tolls in blood-ore and alchemical reagents from those who seek the warmth of their geothermal vents. 
 
-Operating from their living canopy-city of **Atropolis**: a cathedral-grove of ancient ironwood coaxed into shape over a thousand years, and the frozen dock-outpost of **Ironjaw Port** on the Iceheart Sea, the Neth control the major trade routes and preservation techniques needed by every warm-blooded survivor. Their memory-glass records, grown from crystallized tree-sap, form the oldest continuous archive in the known world. They share the Bryngloom with the Vreken in coldly functional coexistence: the Vreken worship the Keeper; the Neth negotiated with it. Neither defers to the other. Neither particularly wants to.`
- },
- {
- title: 'The Groven',
- content: `Humanoid troll-kin bridge-keepers of the Cragjaw Peaks. Originally Thrumm broodlings captured and injected with alchemical serums by the Fexric Deep Alchemists, the Smoothing Plague refined their stone-hide into fine scales, lengthened their limbs for reaching across chasms, and awakened higher cognition. The first Groven (the Vat-Breakers), shattered their vats, freed their kin, and fled into the upper crags where they built their bridge-civilization. Divided between the heavy-scaled **Morgh** warriors of the mid-crag warrens and the long-limbed **Ithran** diplomats of the bridge-top settlements, Groven society is governed by the unspoken Ladder of Purity, a hierarchy born from the Fexric's design that no Groven will openly acknowledge. Their Ancestor-Spans, grown from their calcified dead, are the only visible landmarks in the perpetual blizzard of the peaks.`
- },
- {
- title: 'The Thrumm',
- content: `The ancient parent race of the Groven, hulking, hunched, bestial stone-trolls who have inhabited the deepest crags of the Cragjaw Peaks since before humans walked the world. They speak with minimal language, live in loose family packs, and possess a brutish intelligence rooted in instinct rather than reason. The Thrumm view the Groven with superstitious fear, their smoothed cousins smell wrong, think too fast, and carry the taint of the Fexric vats. The Groven protect Thrumm territories from the periphery but cannot live among them anymore. The Deep Alchemists of the Fexric still capture Thrumm broodlings, and somewhere far below Frostmaw Crag, the Lost Brood (Thrumm never rescued during the Vat-Breakers' escape), are still being injected, still being molded.`
- },
- {
- title: 'The Myrathill',
- content: `Amphibious sea-children spawned from storm-foam where Emberspire's volcanic heat met the glacial meltwater runoff, the Myrathill have no parents and no bloodlines. They are the sea's own experiment in personhood, her attempt to give her waters a voice, a shape, a will that could walk upon land her tides could only touch. Their skin is translucent at the wrists and temples, the veins beneath shifting colour with emotion: cobalt-blue when calm, rust-amber when curious, bone-white when grieving. Their eyes are ocean-wide and made for dim submarine light, perpetually half-squinting at the sunless sky with an expression the land-folk read as dreaming but is simply vision adjusted for different depths.
+As an Emberth, you carry the heat of a dying star in your veins. It falls to you to guard the sacred embers of your ancestors, challenge the silent heavens, and prove that the flame of Sundale will not be extinguished by the encroaching cold.`
+  },
+  {
+  title: 'The Fexrick',
+  content: `Eight millennia ago, long before the first human kingdoms rose, the Fexric carved their first holdfast into the basalt spires of the Cragjaw Peaks. They are the oldest continuous civilization on Mythrill, a compact, green-skinned race of gnomish subterranean engineers who survived the death of the sun through geothermal mastery and alchemical cunning. Every Fexric carries a mechanical body graft—a brass eye, a copper ear, or clockwork fingers—earned by mastering a guild craft. But these replacements are double-edged: they act as lightning rods for the alchemical currents that hum through the mountain halls, eventually grounding the user in systemic shock.
 
-Three subraces are shaped entirely by the water that births them. The **Breakers-Born** (spawned where waves hammer the shore) are the diplomats, merchants, and poets who navigate port cities and serve as the face the world associates with their kind, gregarious, emotionally fluent, and perpetually torn between their attachment to the land and the pull of the open water. The **Deep-Born** (spawned in the open ocean, far from any coast) are the mystics and sea-herders who live in the abyssal rifts, find land-folk overwhelming in their noise and shallowness, and are the ones most disturbed by the new resonance thrumming from the Treakous Rift, a frequency that makes their teeth ache and their dreaming turn dark. The **River-Fed** (spawned where freshwater estuaries meet the salt) are the scouts and explorers, following rivers inland, often passing as human in cities that have never seen open ocean, returning to the shore with stories no other Myrathil could tell.
+Today, the Fexric warrens are divided by a bitter social schism. The guild-bound Kethrin hoard the proprietary oral blueprints and maintenance songs of their ancestors, treating temporal mechanics and gear-craft as corporate secrets. The clan-free Drall, expelled from the guild halls, live as nomadic scavengers on the peak margins, improvising working clockwork from scrap and chardalyn. Together, they face the slow decay of their ancient holds as the blizzards deepen and the steam-lines freeze. 
 
-In port cities from Sundale to the Frostwood Reach, the Myrathil occupy a strange social position: exotic celebrities that poets write about, nobles collect, and merchants quietly resent. The **Merryn** captains of House Mereval trade with them at Salt-Hinge as equals, the only port in the world where land commerce and sea commerce meet without condescension on either side. The **Rime-Born** of Nordhalla view them with deep suspicion: anything that does not freeze cannot be trusted. The **Neth** simply ask what they want to trade. The Myrathil themselves hold one secret that grows heavier each season: they know the precise location of the Sundered Monolith in the Treakous Oceanic Rift, have known for three generations, and have chosen silence. That decision grows harder to justify as the Deep-Born Listeners begin hearing new voices rising from the abyss, voices that do not belong to the sea.`
- },
- {
- title: 'The Astril',
- content: `A humble people of herders and throat-singers who carry the last surviving constellation-spirits in their blood, the celestial ministers of Sol's court who fled Keth-Amar's slaughter and took sanctuary in willing mortal vessels. Their skin bears luminous patterns that ebb with faith and emotion, visible only in darkness. Organized around a hierarchy of inherited light (the Luminarchy), their society is a labyrinth of devotion, assassination, and the unending performance of belief. The Sylen embrace the spirit within at the risk of being consumed. The Muren suppress it through ritual at the risk of eruption. Their presence is a living accusation: they carry what Keth-Amar failed to eat.`
- },
- {
- title: 'The Vreken',
- content: `The Bryngloom Forest's oldest inhabitants, a compact, lantern-eyed people standing between dwarf and human height, whose irises emit a steady bioluminescent glow. Native to the deep bog-caves where they cultivated phosphorescent fungi millennia before the sun died, the Vreken perceive "the trail" (residual light left by passage, death, and decay), invisible to all other races. Their society is organized around sunken gothic cathedrals lit by the perpetual glow of entombed ancestors wrapped in fungal shrouds. Divided between the Clean (rust-amber eyes, immune to the fungal addiction that ravages their kin, disproportionately occupying leadership and diplomacy) and the Marked (silver-white eyes, extraordinary trail-sight, genetically vulnerable to the Over-Lit epidemic). To humans, they are "grave-lights", lantern-eyed monks who arrive at the dying before anyone else knows death is coming, spawning the strigoi superstitions that still follow them.`
- },
- {
- title: 'The Briaran',
- content: `The descendants of House Viridane, the forgotten eighth noble family, struck from history by the seven houses that sealed Keth-Amar's bargain. When the other families marched their firstborn to the northern peaks as sacrifice, House Viridane refused and fled south through the Frostwood Reach, making a counter-bargain with fae entities in the moonlit groves. Their bodies now grow fine briar thorns where other races grow hair, a permanent physical inheritance of the old contract. The seven families spent centuries erasing every record of Viridane's existence, and the Briaran have been hiding ever since, split between the Unshorn who remain the deep groves and the Smooth-Skinned who shave their thorns and pass as human in the wider world. Their thorns migrate slowly across their bodies over a lifetime, drifting toward the site of the oldest unfulfilled promise their bloodline carries, a physical archive of unfinished business stretching back eight centuries.`
- },
- {
- title: 'The Corvani (GM-only creature race)',
- content: `A rare subfolk of Nordhalla, the Corvani are raven-marked glacier-dwellers who carve their eyries into the sheer faces of the mile-high ice sheets. When House Skalvyr halted the glaciers at the price of eternal winter, a splinter group of highland survivors refused to descend into the fjord-keeps. They climbed higher, into the glacier-spires, and struck a fate-bond with the ancient Corvid Fate-Spirits, trading physical connection for absolute memory and destiny-sight. The Corvani serve as messengers between the isolated fjord-keeps, navigating whiteout and glacier-crevasse with preternatural skill. Their price is always a memory, freely given, recorded in the shifting raven-markings that crawl across their skin. They are not a playable race, but their fate-sight and glacier-navigation make them invaluable NPC allies in any Nordhalla campaign.`
- }
+As a Fexric, you possess a mind built for gears and formulas in a world that is running out of time. Whether you seek to safeguard the guild-archives, trade in stolen blueprints, or repair the failing clockwork of your ancestors, it falls to you to keep the gears turning.`
+  },
+  {
+  title: 'The Neth',
+  content: `When the first frost threatened to claim the Bryngloom Forest, a dying clan of human scribes walked into the deep wood and offered the Keeper of the Last Threshold a legal argument for their survival. The Keeper accepted the bargain. The scribes rose from the bogs as the Neth: an immortal, silver-skinned people of pact-mages and archivists whose breath is stilled forever. Under the terms of the First Contract, a Neth's death is merely a clause to be renegotiated, but the price is absolute: their very blood is bound to the contract, and any breach is enforced by the same primordial entity that preserves them.
+
+Operating from their living canopy-city of Atropolis, the Neth control the memory-glass trade, recording the histories of Mythrill on crystallized tree-sap. They are split into three bloodlines: the Velun, whose pure-silver skin flashes with light if they attempt to lie, forcing them to speak only binding truths; the Kessen, who perceive the probability-threads of the causal web and manipulate them at the cost of unseen catastrophes; and the Drun outcasts, who burned their names from the contract to gain magic-immunity and debt-null status.
+
+As a Neth, your word is literally your bond. Whether you enforce the libraries of Atropolis, manipulate the threads of fate, or seek to sever your name from the Keeper's ledger, it is your duty to honor the terms or face the silence that waits for the breaker.`
+  },
+  {
+  title: 'The Groven',
+  content: `The Groven were engineered for servitude, but they chose freedom. Originally bestial Thrumm captured by Fexric alchemists, they were injected with serums that refined their stone-hide into fine scales, lengthened their limbs for chasm-work, and awakened their minds. In the Vat-Breakers' revolt, the first Groven shattered their containment vessels, freed their kin, and fled into the highest, most dangerous peaks of Cragjaw. To bridge the vertical chasms of their new home, they calcified the bones of their willing dead into the Ancestor-Spans, creating the only safe passages across the blizzards.
+
+Today, Groven society is split by the alchemical heritage of their makers. The heavy-scaled Morgh warriors guard the mid-crag warrens, their blood-heat fueled by the alchemical residues in their veins. The long-limbed Ithran diplomats govern the bridge-top settlements, brokering trade agreements between the mountain holds. Yet they must all walk the Ladder of Purity, a subtle social hierarchy based on how far their blood has cleansed itself of the alchemical taint. 
+
+As a Groven, you are a bridge-keeper between a brutal past and an uncertain future. Whether you stand as a Morgh Warden guarding the Ancestor-Spans, or an Ithran envoy negotiating with the houses of the valley, it falls to you to hold the line.`
+  },
+  {
+  title: 'The Thrumm',
+  content: `Before the first human walked the world, the Thrumm inhabited the deepest chasms of the Cragjaw Peaks. They are a hulking, hunched race of stone-trolls, living in loose family packs and speaking in low, resonant grunts. They possess a brutish, instinctual intelligence and a deep, ancestral connection to the earth itself. The Thrumm view their smooth-scaled Groven cousins with superstitious dread, sensing the wrongness of the Fexric alchemy that transformed them. 
+
+Though the Groven protect Thrumm territories from the margins, the two races can no longer live together. Meanwhile, the Fexric Deep Alchemists still hunt the low tunnels, capturing Thrumm broodlings to fuel their alchemical vats. Somewhere beneath the frost-shattered crags of Frostmaw, the Lost Brood—those Thrumm who were never rescued during the ancient revolt—remain trapped in the dark, their bodies warped by ongoing experimentation.
+
+To encounter a Thrumm is to face the raw, unyielding stone of the peaks—a reminder of what the Groven were before the vats, and what the peaks will return to if the steam-lines fail.`
+  },
+  {
+  title: 'The Myrathill',
+  content: `The Myrathil were born from the sea's collision with fire. Spawned from storm-foam where Emberspire's volcanic heat met the runoff of Nordhalla's glacier-sheets, they have no parents, no families, and no bloodlines. They are the ocean's attempt to give its waters a voice and a shape that can walk the land. Their translucent skin shifts colors with their emotions—cobalt-blue when calm, rust-amber when curious, bone-white when grieving—and their wide, dark eyes are built to gather the faint light of the submarine depths.
+
+The Myrathil are shaped by the waters of their birth. The Breakers-Born, spawned in coastal surf, serve as the gregarious diplomats and poets of the port cities, perpetually torn between their love for the land and the pull of the open sea. The Deep-Born, spawned in the open ocean, far from any coast, are the silent herders and mystics who avoid the shallow noise of land-folk, now deeply disturbed by a dark resonance rising from the Treakous Rift. The River-Fed, born where fresh water meets the salt, follow the rivers inland, passing as human in cities that have never seen the ocean.
+
+As a Myrathil, you are the tide given form. Whether you navigate the storm-lanes of the Iceheart Sea, herd the glowing creatures of the abyssal rifts, or seek to understand the dark frequency thrumming from the deep monolith, it falls to you to carry the sea's voice to the shores of the world.`
+  },
+  {
+  title: 'The Astril',
+  content: `When the Sun-Eater Keth-Amar slaughtered the celestial court of Sol, the surviving constellation-spirits fled to the world below and took sanctuary inside willing mortal vessels. Their descendants are the Astril: herders and throat-singers of the Sundrift Vale who carry the light of dying stars in their blood. Their skin bears luminous star-patterns that ebb and flow with their emotions, glowing in the perpetual darkness of the steppe. Yet their celestial heritage is a heavy burden, a constant struggle for control between the mortal mind and the spirit within.
+
+Astril society is split by how they manage this internal light. The Sylen embrace total symbiosis with their spirits, seeking the ecstasy of the Over-Sung even at the risk of losing their mortal minds. The Muren suppress their spirits through fasting, binding chants, and scarification, keeping the light under ritual control at the risk of violent eruption. The Unlit, born without constellation-patterns, carry no star-glow and are legally ignored by the Luminarchy, but they are the only Astril who can lie without their skin flashing betrayal, making them perfect spies and smugglers.
+
+As an Astril, you are a living temple of a forgotten sky. Whether you seek the celestial ascension of the Sylen, the disciplined mastery of the Muren, or the shadow-freedom of the Unlit, it falls to you to carry the light through the starless night.`
+  },
+  {
+  title: 'The Vreken',
+  content: `Cultivating phosphorescent fungi in deep bog-caves long before the sun died, the Vreken are the native grave-lights of the Bryngloom Forest. They are a compact, lantern-eyed people whose glowing irises pierce the gloom of the deep woods. The Vreken possess the unique ability to perceive the trail—a residual path of light left by passage, death, and decay that remains invisible to all other races. Their gothic cathedrals are built within the bogs, illuminated by the bioluminescent shrouds of their entombed ancestors.
+
+Their society is divided by their vulnerability to the Wyrd. The Clean, distinguished by rust-amber eyes, are immune to the fungal addictions that ravage their kin and occupy positions of leadership. The Marked, carrying silver-white eyes, possess extraordinary trail-sight but are highly susceptible to the Over-Lit epidemic, a horrific fungal transformation. To the humans of the timber-keeps, the Vreken are "grave-lights," lantern-eyed monks who arrive at the dying before anyone else knows death is coming.
+
+As a Vreken, you walk the line between guidance and decay. Whether you trace the trails of the lost through the Bryngloom, lead your people from the gothic cathedral-holds, or seek a cure for the Over-Lit epidemic, it falls to you to guide the living through the shadows of the wood.`
+  },
+  {
+  title: 'The Briaran',
+  content: `The Briaran are the heirs to a forgotten refusal. They are the descendants of House Viridane, the eighth noble family of the Binding, which was struck from history by the seven houses that signed the Sun-Eater's bargain. When the other sacrifices were made, House Viridane refused, fleeing south through the Frostwood Reach to forge a counter-bargain with the fae entities of the moonlit groves. Today, their bloodline carries a permanent thorn-curse: Briar thorns grow where other races grow hair, migrating slowly across their skin over a lifetime toward the site of the oldest unfulfilled promise they carry.
+
+To survive the erasure campaigns of the seven houses, the Briaran split into two factions. The Unshorn remain in the deepest groves, keeping the fae laws and carrying the Unwritten Word, a truth-sense that detects spoken lies. The Smooth-Skin shave their thorns and pass as humans in the timber-posts, hiding their heritage from Kaelen Thalreth's Scribe-Sentinels.
+
+As a Briaran, you are the living proof of a broken compact. Whether you hide among the humans of the Ledger, defend the deep groves from the Jarl's fire-teams, or seek to fulfill the ancient promises etched in your thorns, it falls to you to keep the memory of the eighth house alive.`
+  },
+  {
+  title: 'The Corvani (GM-only creature race)',
+  content: `High above the fjord-keeps of Nordhalla, the Corvani carve their eyries into the sheer faces of the mile-high ice sheets. When House Skalvyr halted the glaciers at the price of eternal winter, a splinter group of highland survivors refused to descend. They climbed higher, into the frozen spires, and struck a fate-bond with the ancient Corvid Fate-Spirits, trading physical warmth and connection for absolute memory and destiny-sight.
+
+The Corvani serve as messengers between the isolated holds, navigating whiteout blizzards that would freeze others to the bone. Their price is always a memory, freely given, which manifests as shifting, raven-like markings across their pale skin. To deal with a Corvani is to trade in the only currency they value: your own recollections. They are not a playable race, but their fate-sight and glacier-navigation make them unsettling, if invaluable, allies in the whiteout of the northern wastes.`
+  }
  ]
  }
  }
@@ -797,7 +827,7 @@ To play any character in Mythrill is to play one of the debtor's heirs. The time
 
 **4. The Seven Bargains, just after the Binding through the first centuries.** Each region paid its own price to survive the deepening winter. Just after the Binding: House Thalreth struck the Fog Compact, trading the Frostwood's spatial clarity and memory for an insulating fog. Just after the Binding: House Skalvyr struck the Glacier Bargain, trading summer itself, and setting the Frost-Tithe on the Rime-Born. Post-Breach (just after the Breach), in Bryngloom the Neth struck the First Contract with the Keeper of the Last Threshold (House Morrath to administer it). House Ordavan traded the Sundrift Vale's fertile soil for an endless migration in which only grass can root. House Mereval traded the Iceheart's calm for never-freezing, and therefore perpetual storm, lanes. House Tesshan traded Cragjaw's visibility for a blizzard-veil. And House Solvan, who had wielded the knife that flayed Aex, marched its own heirs north to be devoured and stayed to tend the tomb. *Regions: all seven. Scar: every region's defining condition. Causes: the cartel economies, the founding migrations, and every present regional crisis.*
 
-**5. The Vat-Breakers' Revolt, Year ~40.** In Cragjaw, the Fexric Deep Alchemists' vat-grown servitors, the Thrumm, ancestors of the Groven, shattered their containment and rose. The Groven calcified their own dead into the Ancestor-Spans, the only safe bridges across the peaks, and sealed the Alchemists into the deep tunnels. *Regions: Cragjaw Peaks. Scar: the Ancestor-Spans, Groven sovereignty, the sealed vat-labs. Causes: Cragjaw's vertical toll-politics, the Warden chain-graft tradition, and the Steam-Line Cartel's heat monopoly.*
+**5. The Vat-Breakers' Revolt, in the early decades of the Dimming.** In Cragjaw, the Fexric Deep Alchemists' vat-grown servitors, the Thrumm, ancestors of the Groven, shattered their containment and rose. The Groven calcified their own dead into the Ancestor-Spans, the only safe bridges across the peaks, and sealed the Alchemists into the deep tunnels. *Regions: Cragjaw Peaks. Scar: the Ancestor-Spans, Groven sovereignty, the sealed vat-labs. Causes: Cragjaw's vertical toll-politics, the Warden chain-graft tradition, and the Steam-Line Cartel's heat monopoly.*
 
 **6. The Founding of the Traditions, across the long Dimming.** Necessity mothered the disciplines across five phases of the Dimming. The First Ebbing (across the Dimming) produced the early adaptation classes: Cassia read the Deepening's hour in elk-entrails at the Frozen Archive and founded the Augur art; Valerius drafted the Arcanoneers' First Contract; Selene bargained with fae for the Lunarch bloodline; Lyris sang the Iceheart calm and lost her voice to Minstrel tide-song; and independent animist traditions emerged across Nordhalla, the Sundrift Vale, and Bryngloom. The Contraction (across the Dimming) birthed the Chronarch, Gambit, Shaper, Inquisitor, Harbinger, and Toxicologist lines in response to organized Wyrd and thermal scarcity. The Squeeze (across the Dimming) weaponized the Wyrd itself in the Plaguebringer, Revenant, and False Prophet traditions. *Regions: all seven. Scar: every order's seat and founder-relic. Causes: the class orders spread across five warmth phases and their present succession crises.*
 
@@ -877,7 +907,7 @@ To play any character in Mythrill is to play one of the debtor's heirs. The time
  },
  {
  title: 'Nordhalla (The Frozen Archive)',
- content: `- **High-Oracle Skari:** The blind, skeletal Skald human who has spent fifty years in the deep ice-chambers of the Frozen Archive. His eyes were voluntarily put out and filled with liquid silver so he could "read the ice-veins" of Nordhalla. He is wrapped in mammoth-skins that are frozen stiff, and his voice carries the hollow resonance of glacier caves.\n\n**Goal:** To rewrite the tragic lineage of the birth-cold (the "Frost-Tithe") by carving a massive, global memory-rune on the face of the Nordhalla Monolith, a desperate act he believes will warm the cradle of the north.\n\n**Secret:** He secretly traded the coordinates of the outland fjord-keeps to the Icechamber Syndicate, intentionally sacrificing his own kin to purchase runic excavation tools.\n\n**Conflict:** Bitterly opposed by the high-clan elders who believe that thawing any part of the glaciers will break the original Warden bargain and trigger a catastrophic collapse of the ice sheets.\n\n- **Jarl Eirik Skalvyr:** The towering, mammoth-fur-clad leader of the outland fjord-keeps who challenges Halvar's high authority. He governs the outland fjord-keeps, surviving the brutal winters through constant raiding. He commands the nomadic Fredløse clans by force of personality, brandishing a massive frost-axe carved from ancient glacier ice.\n\n**Goal:** To break the trade monopoly of the Icechamber Syndicate, seize control of the geothermal pipelines supplying Ymirhold, and unify the northern clans under a single, military banner.\n\n**Secret:** He carries the mutant blue-skin lineage of the Hunger Winter. His blood runs cold as ice, making him completely immune to frostbite but marking him as a mutant outcast to the pureborn Skald nobility who seek to purge his line.\n\n**Conflict:** Clashes continuously with the Archive's high-wardens and Guild-Master Keth over ownership of the geothermal pipes, fighting off alchemical troops sent to choke the outlands' heating vents.`
+ content: `- **High-Oracle Skari:** The blind, skeletal Skald human who has spent fifty years in the deep ice-chambers of the Frozen Archive. His eyes were voluntarily put out and filled with liquid silver so he could "read the ice-veins" of Nordhalla. He is wrapped in mammoth-skins that are frozen stiff, and his voice carries the hollow resonance of glacier caves.\n\n**Goal:** To rewrite the tragic lineage of the birth-cold (the "Frost-Tithe") by carving a massive, global memory-rune on the face of the Nordhalla Monolith, a desperate act he believes will warm the cradle of the north.\n\n**Secret:** He secretly traded the coordinates of the outland fjord-keeps to the Icechamber Syndicate, intentionally sacrificing his own kin to purchase runic excavation tools.\n\n**Conflict:** Bitterly opposed by the high-clan elders who believe that thawing any part of the glaciers will break the original Warden bargain and trigger a catastrophic collapse of the ice sheets.\n\n- **Jarl Eirik Skalvyr:** The towering, mammoth-fur-clad leader of the outland fjord-keeps who challenges Halvar's high authority. He governs the outland fjord-keeps, surviving the brutal winters through constant raiding. He commands the nomadic Fredløse clans by force of personality, brandishing a massive frost-axe carved from ancient glacier ice.\n\n**Goal:** To break the trade monopoly of the Icechamber Syndicate, seize control of the geothermal pipelines supplying Skalvyrhold, and unify the northern clans under a single, military banner.\n\n**Secret:** He carries the mutant blue-skin lineage of the Hunger Winter. His blood runs cold as ice, making him completely immune to frostbite but marking him as a mutant outcast to the pureborn Skald nobility who seek to purge his line.\n\n**Conflict:** Clashes continuously with the Archive's high-wardens and Guild-Master Keth over ownership of the geothermal pipes, fighting off alchemical troops sent to choke the outlands' heating vents.`
  },
  {
  title: 'Sundale (The Ash-City of Korr)',
@@ -909,7 +939,7 @@ To play any character in Mythrill is to play one of the debtor's heirs. The time
 - **Renn:** A young, maskless Mimir street-rat who runs a stall in the Shallows. He specializes in selling bottled "discarded memories" stolen from the Scribe-Cartel's disposal bins, acting as a key contact for locating lost relatives.
 
 **Nordhalla:**
-- **Bryn the Stoker:** A battle-scarred Bloodhammer dwarf veteran who tends the massive coal boilers heating Ymirhold. He knows every steam vent and secret maintenance pipe, and is willing to guide fugitives past High-King Halvar's guards.
+- **Bryn the Stoker:** A battle-scarred Bloodhammer dwarf veteran who tends the massive coal boilers heating Skalvyrhold. He knows every steam vent and secret maintenance pipe, and is willing to guide fugitives past High-King Halvar's guards.
 - **Old Kira:** A blind Frostbound shaman who gathers glacier lichen in the cavernous rifts. She brews remedies for the Hunger Winter blue-skin mutation and knows which carved runic columns are safe to touch without triggering glacier ward-bursts.
 - **Haldor Spit-Chit:** A greedy Skald human trader who deals in copper chits and forged heat-tickets. He has an extensive network of sled-dogs and informants along the fjord-keeps, serving as a master smuggler of contraband food.
 
@@ -1625,7 +1655,7 @@ The local village elder, **Marra of the Nine**, offers a simple bounty: recover 
  },
  {
  title: 'The False Dawn Riots [Pronunciation: thee FAWLS DAWN]',
- content: '**Noun (Event).** The riots in the later centuries of the Dimming, when the 40th <LoreLink termId="rebirth-cycle">Rebirth Window</LoreLink> produced no visible warming. After four hundred and eighty years of priests promising Sol\'s return, the window opened and the eastern horizon stayed dead. The lie broke overnight: temples were torched, Augurs beaten in the streets, and <LoreLink termId="house_solvan">House Solvan</LoreLink>\'s Imperium collapsed. The <LoreLink termId="dawn_vigil">Dawn Vigil</LoreLink> militarized to fill the vacuum, and the Korr began hiding the <LoreLink termId="solbrand">Solbrand</LoreLink>\'s accelerating decline.'
+ content: '**Noun (Event).** The riots in the later centuries of the Dimming, when the 40th <LoreLink termId="rebirth-cycle">Rebirth Window</LoreLink> produced no visible warming. After nearly five centuries of priests promising Sol\'s return, the window opened and the eastern horizon stayed dead. The lie broke overnight: temples were torched, Augurs beaten in the streets, and <LoreLink termId="house_solvan">House Solvan</LoreLink>\'s Imperium collapsed. The <LoreLink termId="dawn_vigil">Dawn Vigil</LoreLink> militarized to fill the vacuum, and the Korr began hiding the <LoreLink termId="solbrand">Solbrand</LoreLink>\'s accelerating decline.'
  },
  {
  title: 'The First Thermal War [Pronunciation: thee THUR-mul]',
@@ -1712,7 +1742,7 @@ The local village elder, **Marra of the Nine**, offers a simple bounty: recover 
  content: '**Noun (Creature).** A sacred, star-born deer of the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink>, a slender fey creature covered in iridescent blue scales with a single warm-glowing horn, blessed by the <LoreLink termId="wyrd">Wyrd</LoreLink> with a power both beautiful and terrible. The Qilin walks silently, its hooves leaving glowing trail-prints in the tall grass, and appears only to those of pure spirit. The nomads know the signs of its presence: a star that falls from the sky, and the sound of a deer\'s call in the night.'
  },
  {
- title: 'Ymir\'s Col [Pronunciation: EE-meerz KAHL]',
+ title: 'Skadi\'s Col [Pronunciation: EE-meerz KAHL]',
  content: '**Noun (Location).** The most dangerous pass in <LoreLink termId="nordhalla">Nordhalla</LoreLink>, a wind-scoured gap between two peaks where the air moves fast enough to strip flesh from bone. Named for the frost giant of <LoreLink termId="skald">Skald</LoreLink> pre-Binding mythology, the col is marked by cairns of frozen corpses, their expressions preserved in perfect, screaming clarity. Only the Skald Ice-Trackers can navigate it safely, and even they lose people every year.'
  },
  {
@@ -1953,7 +1983,7 @@ This quest introduces you to the core themes of Mythrill: memory, identity, and 
  sections: [
  {
  title: 'The Main Play Area (The Grid)',
- content: `The vast center of your screen is the **tactical play area**: a scrollable, zoomable map grid that the Game Master populates with terrain, lighting, and tokens. This is where movement, combat, exploration, and encounters play out.\n\n- **Your Token**: Your character is represented as a circular portrait token on the grid. Click your token to select it; drag to move it (a movement confirmation dialog will appear).\n- **Grid Squares**: Each square represents 5 feet of real distance. Your movement speed determines how many squares you can traverse per turn. See [Token Movement](combat-system/token-movement).\n- **Right-Click Menu**: Right-clicking any token opens a context menu with options to inspect, target, or roll skill checks against them.\n- **Zoom & Pan**: Scroll the mouse wheel to zoom; middle-click-drag to pan the view.`
+ content: `The vast center of your screen is the **tactical play area**: a scrollable, zoomable map grid that the Game Master populates with terrain, lighting, and tokens. This is where movement, combat, exploration, and encounters play out.\n\n- **Your Token**: Your character is represented as a circular portrait token on the grid. Click your token to select it; drag to move it (a movement confirmation dialog will appear).\n- **Grid Tiles**: Each tile represents 5 feet of real distance. Your movement speed determines how many tiles you can traverse per turn. See [Token Movement](combat-system/token-movement).\n- **Right-Click Menu**: Right-clicking any token opens a context menu with options to inspect, target, or roll skill checks against them.\n- **Zoom & Pan**: Scroll the mouse wheel to zoom; middle-click-drag to pan the view.`
  },
  {
  title: 'The Character HUD (Top-Left)',
@@ -3398,7 +3428,7 @@ This unified flow makes every single weapon swing incredibly fast-paced, keeping
   ['Religion', 'Dawn\'s Favor', 'A', '15 ft; Religion vs Spirit/Int save. Roll d4 boon: temp HP, damage reduction, attack bonus, or save advantage. You always gain the boon; allies gain if they fail the save.', '2 AP'],
   ['Sleight of Hand', 'Disarm', 'R', '5 ft; needs free hand. Sleight vs STR save to disarm and equip the weapon.', '1 AP'],
   ['Stealth', 'Stealthy Passage', 'A', 'Move through a foe-s space without provoking; Stealth vs easy d6. On success move 15 ft.', '1 AP'],
-  ['Survival', 'Trapping', 'A', 'Set a trap in a 5-ft square within 5 ft; Survival starts d10 (step down with high INT). Pick: Pitfall (4 AP) 1d6/10 ft & restrains; Snare (3 AP) hoists, attacks adv; Tripwire (2 AP) prone, may drop items.', '1 AP']
+  ['Survival', 'Trapping', 'A', 'Set a trap in a 5-ft tile within 5 ft; Survival starts d10 (step down with high INT). Pick: Pitfall (4 AP) 1d6/10 ft & restrains; Snare (3 AP) hoists, attacks adv; Tripwire (2 AP) prone, may drop items.', '1 AP']
  ]
  }
  ]
@@ -3713,11 +3743,11 @@ This unified flow makes every single weapon swing incredibly fast-paced, keeping
  sections: [
  {
  title: 'Tactical Movement on the Grid',
- content: `The tactical map is divided into **5-foot grid squares**. Your token represents your exact physical position in the combat space, which is critical for determining line of sight, range, cover, and flanking opportunities.\n\nMoving your token is simple and fully handled by the VTT:\n\n- **AP Cost**: Moving up to your base movement speed ( 30 feet, or 6 squares) costs **1 AP**. This action can be repeated as long as you have AP remaining.\n- **Tactical Splitting**: You can split your movement. For example, you can spend 1 AP to move 15 feet, spend 2 AP to strike an enemy, and then use the remaining 15 feet of your movement without spending additional AP. The system tracks your remaining feet for the current movement action automatically.`
+ content: `The tactical map is divided into **5-foot grid tiles**. Your token represents your exact physical position in the combat space, which is critical for determining line of sight, range, cover, and flanking opportunities.\n\nMoving your token is simple and fully handled by the VTT:\n\n- **AP Cost**: Moving up to your base movement speed ( 30 feet, or 6 tiles) costs **1 AP**. This action can be repeated as long as you have AP remaining.\n- **Tactical Splitting**: You can split your movement. For example, you can spend 1 AP to move 15 feet, spend 2 AP to strike an enemy, and then use the remaining 15 feet of your movement without spending additional AP. The system tracks your remaining feet for the current movement action automatically.`
  },
  {
  title: 'Movement AP Cost & Drag Confirmation',
- content: `To prevent accidental moves or miscalculations, Mythrill uses a **Movement Path & Confirm** system:\n\n1. **Drag and Trace**: Click and drag your token across the map. As you drag, a glowing path line traces your route, showing the exact distance in feet and squares.\n2. **AP Calculation**: The VTT calculates the total AP cost in real time, displaying it as a floating badge next to your token (e.g. "Move: 15ft [0/1 AP Used]" or "Move: 45ft [2 AP Required]").\n3. **Difficult Terrain**: Moving through rough terrain (mud, deep snow, narrow crevices) is marked on the path in red. Each square of difficult terrain costs double movement speed (10 feet instead of 5 feet).\n4. **Confirmation**: Release the drag. A checkmark and cross button will appear. Click the checkmark (or press Space) to execute the move and subtract the AP. Click the cross (or press Escape) to cancel and snap your token back.`
+ content: `To prevent accidental moves or miscalculations, Mythrill uses a **Movement Path & Confirm** system:\n\n1. **Drag and Trace**: Click and drag your token across the map. As you drag, a glowing path line traces your route, showing the exact distance in feet and tiles.\n2. **AP Calculation**: The VTT calculates the total AP cost in real time, displaying it as a floating badge next to your token (e.g. "Move: 15ft [0/1 AP Used]" or "Move: 45ft [2 AP Required]").\n3. **Difficult Terrain**: Moving through rough terrain (mud, deep snow, narrow crevices) is marked on the path in red. Each tile of difficult terrain costs double movement speed (10 feet instead of 5 feet).\n4. **Confirmation**: Release the drag. A checkmark and cross button will appear. Click the checkmark (or press Space) to execute the move and subtract the AP. Click the cross (or press Escape) to cancel and snap your token back.`
  },
  {
  title: 'Measuring Range & Targeting',
@@ -3730,10 +3760,10 @@ This unified flow makes every single weapon swing incredibly fast-paced, keeping
  description: 'AP and speed conversions for grid movement.',
  headers: ['Terrain / Move Type', 'Speed Cost', 'AP Cost', 'Tactical Penalty'],
  rows: [
- ['Standard Movement', '5 feet per square', '1 AP per 30ft speed', 'None'],
- ['Difficult Terrain', '10 feet per square', '1 AP per 15ft speed', 'Doubles distance cost'],
- ['Squeezing through crevice', '20 feet per square', '1 AP per 5ft speed', 'Quadruples cost; disadvantage on physical checks'],
- ['Climbing / Swimming', '10 feet per square', '1 AP per 15ft speed', 'Requires Athletics / Athletics check unless speed exists'],
+ ['Standard Movement', '5 feet per tile', '1 AP per 30ft speed', 'None'],
+ ['Difficult Terrain', '10 feet per tile', '1 AP per 15ft speed', 'Doubles distance cost'],
+ ['Squeezing through crevice', '20 feet per tile', '1 AP per 5ft speed', 'Quadruples cost; disadvantage on physical checks'],
+ ['Climbing / Swimming', '10 feet per tile', '1 AP per 15ft speed', 'Requires Athletics / Athletics check unless speed exists'],
  ['Disengage Action', 'Up to full speed', '1 AP', 'Ignores opportunity attacks during move']
  ]
  }
@@ -3749,39 +3779,40 @@ This unified flow makes every single weapon swing incredibly fast-paced, keeping
  description: 'Weapons, armor, and magical items with durability mechanics',
  subcategories: [
  {
- id: 'weapons',
- name: 'Weapons',
- icon: 'fas fa-axe',
- theme: 'trade',
- content: {
- title: 'Weapons',
- description: 'Attacks combine your base attack with weapon damage dice and a weapon mastery roll.',
- sections: [
- {
- title: 'shifting Weapon State',
- content: `Your active weapon card updates to whatever is equipped. Each weapon shows its base damage die and its type (Sword, Axe, Mace, etc.).`
- },
- {
- title: 'Two Dice, One Attack',
- content: `When you attack you roll:
-- Your Weapon Damage die (varies by weapon type; see table).
-- Your Weapon Mastery die (default **d8** unless modified by feats/gear). If the weapon die rolls max, it counts as a crit and you add the mastery result to the damage.
+  id: 'weapons',
+  name: 'Weapons',
+  icon: 'fas fa-axe',
+  theme: 'trade',
+  useCustomComponent: true,
+  content: {
+  title: 'Weapons',
+  description: 'Every attack rolls two dice at once: a Weapon Type d8 (which adds flavor and a tactical effect to the strike based on your weapon) plus your Weapon Damage die. An 8 triggers the weapon’s signature move. Switch between Standard and Advanced (full Weapon Mastery) rules.',
+  sections: [
+  {
+  title: 'Dynamic Weapon State',
+  content: `Your active weapon card updates to whatever is equipped. Each weapon shows its base damage die and its type (Sword, Axe, Mace, etc.).`
+  },
+  {
+  title: 'Two Dice, One Attack',
+  content: `When you attack you roll two dice together:
+- **Weapon Type die (d8)** — a static d8 for every weapon. The result picks a unique outcome for your weapon type that ADDS to or RETRACTS from the attack (a 1 is a fumble, an 8 is the weapon’s signature tactical move).
+- **Weapon Damage die** — varies by weapon type (d4–d12; see table). A 1 is a miss; the max explodes into a crit.
 
-Both dice use the weapon type to pick the correct outcome text.`
- },
- {
- title: 'Weapon Mastery Skill',
- content: `Weapon attacks also trigger a Weapon Mastery skill check for the equipped weapon type. Mastery gates special outcomes (disarms, cleaves, rebound mishaps) and can reduce die size with bonuses.`
- },
- {
- title: 'How to Read Results',
- content: `Outcome lines are keyed by weapon type (e.g., "Sword:", "Greataxe:", "Bow:"). The UI filters to the equipped type so you only see relevant text.`
- }
- ],
+In Advanced Rules the Weapon Type die becomes a **d8** and ties into the full Weapon Mastery quest ladder.`
+  },
+  {
+  title: 'Weapon Mastery Skill',
+  content: `In Advanced Rules, weapon attacks also trigger a Weapon Mastery skill check (d8) for the equipped weapon type. Mastery gates special outcomes (disarms, cleaves, rebound mishaps) and advances through a per-weapon quest ladder that can step the mastery die down. Standard Rules use the same d8 outcomes without the progression.`
+  },
+  {
+  title: 'How to Read Results',
+  content: `Outcome lines are keyed by weapon type (e.g., "Sword:", "Greataxe:", "Bow:"). The rules browser lets you pick any weapon and see its unique outcomes, plus the archetype it uses if it shares a table.`
+  }
+  ],
  tables: [
  {
- title: 'Weapon Types & Dice',
- description: 'All weapon types available in the game, with their typical damage dice. All weapons use a d8 for Weapon Mastery checks.',
+  title: 'Weapon Types & Dice',
+  description: 'All weapon types available in the game, with their typical damage dice. Every weapon rolls a Weapon Type d8 alongside its damage die to add flavor and tactical effects.',
  headers: ['Weapon Type', 'Typical Damage Die', 'Notes'],
  rows: [
  // One-Handed Melee
@@ -3837,78 +3868,8 @@ Both dice use the weapon type to pick the correct outcome text.`
  ]
  }
  },
- {
- id: 'armor',
- name: 'Armor',
- icon: 'fas fa-vest',
- theme: 'trade',
- content: {
- title: 'Armor',
- description: 'Total Armor drives passive DR and the Defend soak die',
- sections: [
- {
- title: 'How Armor Works Now',
- content: `Armor is no longer a separate skill and no longer uses per-piece reduction dice. Your total Armor sets two things:
-
-- Passive Damage Reduction: Reduce every incoming hit by Armor - 10 (rounded down).
-- Defend Soak Die: When you take the Defend action, roll the soak die from the table below and reduce damage by the roll.`
- },
- {
- title: 'Read This Page',
- content: `1) Use the Soak Die Scale to find the die you roll when you Defend.
-2) Use Armor Benchmarks to quickly see your passive DR (Armor - 10).
-3) Armor Types are just a reference for armor bonuses and cost, the bonus feeds your total Armor.`
- },
- ],
- tables: [
- {
- title: 'Soak Die Scale (Defend)',
- layout: 'armor-grid',
- headers: ['Armor', 'Soak Die'],
- rows: [
- ['0-4', '-'],
- ['5-9', '1d4'],
- ['10-14', '1d6'],
- ['15-19', '1d8'],
- ['20-24', '1d10'],
- ['25-29', '1d12'],
- ['30-34', '1d12 + 1d4'],
- ['35-39', '1d12 + 1d6'],
- ['40-44', '2d12'],
- ['45-49', '2d12 + 1d4']
- ]
- },
- {
- title: 'Armor Benchmarks',
- layout: 'armor-grid',
- headers: ['Armor', 'Passive DR (Armor - 10)'],
- rows: [
- ['0-9', '0'],
- ['10-19', '1'],
- ['20-29', '2'],
- ['30-39', '3'],
- ['40-49', '4'],
- ['50-59', '5'],
- ['60-69', '6'],
- ['70-79', '7']
- ]
- },
- {
- title: 'Armor Types (Reference)',
- layout: 'armor-grid',
- headers: ['Armor', 'Armor Bonus', 'Notes', 'Cost'],
- rows: [
- ['Cloth', 'Varies by item', 'Light; best for casters and mobility', 'See item library'],
- ['Leather', 'Varies by item', 'Light/medium; balanced defense and stealth', 'See item library'],
- ['Mail', 'Varies by item', 'Heavy; solid protection, some noise/weight', 'See item library'],
- ['Plate', 'Varies by item', 'Heavy; highest protection, hefty weight', 'See item library']
- ]
- }
- ]
- }
- },
- {
- id: 'magical-items',
+  {
+  id: 'magical-items',
  name: 'Magical Items',
  icon: 'fas fa-wand-sparkles',
  theme: 'arcane',

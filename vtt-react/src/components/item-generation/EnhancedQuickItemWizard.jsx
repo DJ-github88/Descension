@@ -703,9 +703,6 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
             item.hand = 'ONE_HAND';
           }
         } else if (randomType === 'armor') {
-          // Add armor class
-          item.armor = Math.max(1, Math.floor(powerMultiplier * getRandomInt(3, 8)));
-
           // Set armor slots based on item size and type
           let armorSlot = 'chest'; // default
           if (itemWidth === 2 && itemHeight === 3) {
@@ -1187,18 +1184,6 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
 
     // Generate combat stats
     const combatStats = {};
-
-    // Add armor if it's armor type
-    if (type === 'armor') {
-      // Scale the range based on power level - at low levels allow 1, at high levels allow higher values
-      const armorMin = Math.max(1, Math.floor(powerLevel * 3));
-      const armorMax = Math.max(armorMin + 1, Math.floor(powerLevel * 15));
-      
-      combatStats.armor = {
-        value: Math.max(1, Math.floor(powerMultiplier * getRandomInt(armorMin, armorMax))),
-        isPercentage: false
-      };
-    }
 
     // Add slots for armor
     let slots = [];

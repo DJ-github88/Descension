@@ -80,13 +80,7 @@ export function applyConditionStatModifiers(baseStats, conditions = []) {
   modifiedStats.movementSpeed = calculateEffectiveMovementSpeed(baseStats.movementSpeed, conditions);
  }
 
- // Apply defending condition (increases armor)
- if (conditionIds.includes('defending')) {
-  // Defending adds +2 armor (as seen in CreatureToken.jsx)
-  modifiedStats.armor = (modifiedStats.armor || 0) + 2;
- }
-
- return modifiedStats;
+  return modifiedStats;
 }
 
 /**

@@ -513,6 +513,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
      cost: -15, 
     },
     components: ["somatic"],
+   somaticText: "Channel spellguard through gesture",
    },
 
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
@@ -567,6 +568,8 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
      cost: 10,
     },
     components: ["verbal", "somatic"],
+   verbalText: "Spellguard!",
+   somaticText: "Channel spellguard through gesture",
    },
 
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
@@ -620,6 +623,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
      cost: 10,
     },
     components: ["somatic"],
+   somaticText: "Channel spellguard through gesture",
    },
 
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
@@ -633,11 +637,6 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       name: "Kinetic Hardening",
       description: "Suppresses physical vulnerability and grants +2 DR.",
       mechanicsText: "+2 DR",
-      statModifier: {
-       stat: "armor",
-       magnitude: 2,
-       magnitudeType: "flat",
-      },
      },
     ],
     durationValue: 1,
@@ -685,6 +684,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
      cost: -10,
     },
     components: ["verbal"],
+   verbalText: "Spellguard!",
    },
 
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
@@ -744,6 +744,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
      cost: 0,
     },
     components: ["somatic"],
+   somaticText: "Channel spellguard through gesture",
    },
 
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
@@ -807,6 +808,8 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
      cost: 15,
     },
     components: ["verbal", "somatic"],
+   verbalText: "Spellguard!",
+   somaticText: "Channel spellguard through gesture",
    },
 
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
@@ -867,6 +870,8 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
      cost: 20,
     },
     components: ["verbal", "somatic", "material"],
+   verbalText: "Spellguard!",
+   somaticText: "Channel spellguard through gesture",
    },
 
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
@@ -921,6 +926,8 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
      cost: 15,
     },
     components: ["verbal", "somatic"],
+   verbalText: "Spellguard!",
+   somaticText: "Channel spellguard through gesture",
    },
 
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
@@ -992,6 +999,8 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
      cost: 40,
     },
     components: ["verbal", "somatic"],
+   verbalText: "Spellguard!",
+   somaticText: "Channel spellguard through gesture",
    },
 
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
@@ -1059,6 +1068,8 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
      cost: 50,
     },
     components: ["verbal", "somatic"],
+   verbalText: "Spellguard!",
+   somaticText: "Channel spellguard through gesture",
    },
 
    cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
@@ -1120,6 +1131,8 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
      cost: 100, 
     },
     components: ["verbal", "somatic"],
+   verbalText: "Spellguard!",
+   somaticText: "Channel spellguard through gesture",
    },
 
    cooldownConfig: { cooldownType: "short_rest", cooldownValue: 1 },
@@ -1170,6 +1183,8 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
      cost: 35,
     },
     components: ["verbal", "somatic"],
+   verbalText: "Spellguard!",
+   somaticText: "Channel spellguard through gesture",
    },
 
    cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
@@ -1236,6 +1251,8 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
      cost: 100,
     },
     components: ["verbal", "somatic", "material"],
+   verbalText: "Spellguard!",
+   somaticText: "Channel spellguard through gesture",
    },
 
    cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },

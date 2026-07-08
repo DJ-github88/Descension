@@ -416,7 +416,7 @@ Zealot was never a background — it was a former discipline entry left behind w
 | Fjord-Gate | Settlement | — |
 | Hunger Glaciers | Wilderness | — |
 | Rimor's Hearth | Ruin | — |
-| Ymir's Col | Wilderness | — |
+| Skadi's Col | Wilderness | — |
 | Vargtor | Settlement | — |
 | Frostcirque | Ruin | Redundant with The Still Crag (both are ritual/religious sites with Stel/Skrei creatures) |
 | The Still Crag | Wilderness | See above. Has unique Warden's Breath lore worth preserving as sub-location |

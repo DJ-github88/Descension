@@ -657,15 +657,14 @@ const ClassOriginsDisplay = () => {
      </button>
     ))}
    </div>
-   <div
-    className="region-header-card"
-    style={{
-     borderLeft: `5px solid ${activeRegion.borderColor}`,
-     backgroundColor: '#faf6eb',
-     backgroundImage: activeRegion.bgGradient,
-     boxShadow: `0 4px 20px ${activeRegion.glowColor}`
-    }}
-   >
+    <div
+     className="region-header-card"
+     style={{
+      backgroundColor: '#faf6eb',
+      backgroundImage: activeRegion.bgGradient,
+      boxShadow: `0 4px 20px ${activeRegion.glowColor}`
+     }}
+    >
     <div className="region-header-top">
      <div className="region-badge-area" style={{ color: activeRegion.themeColor }}>
       <i className={activeRegion.icon}></i>
@@ -674,7 +673,7 @@ const ClassOriginsDisplay = () => {
     </div>
     <p className="region-description">{parseTextWithLoreLinks(activeRegion.description)}</p>
     {activeRegion.darkBargain && (
-     <div className="region-dark-bargain" style={{ borderLeft: `3px solid ${activeRegion.borderColor}` }}>
+     <div className="region-dark-bargain">
       <strong>The Dark Bargain:</strong> {parseTextWithLoreLinks(activeRegion.darkBargain)}
      </div>
     )}

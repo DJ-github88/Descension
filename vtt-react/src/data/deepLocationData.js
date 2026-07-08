@@ -1,4 +1,4 @@
-﻿import { ZONE_DATA } from './zoneData';
+import { ZONE_DATA } from './zoneData';
 
 const DEEP_LOCATIONS = {};
 
@@ -73,7 +73,7 @@ DEEP_LOCATIONS['greymark-keep'] = {
     'The throne room of House Thalreth, carved into the heart of the largest petrified ironwood root. The root still lives, faintly, and its sap sometimes seeps through the walls, glowing amber in the darkness. The Lord\'s throne is a natural seat formed where three root-branches diverge.',
    proprietor: 'House Thalreth',
    notableFeatures: [
-    'The Hearth-Fire: a perpetual flame fed by resinous heartwood that has not gone out in 800 years',
+    'The Hearth-Fire: a perpetual flame fed by resinous heartwood that has not gone out in eight centuries',
     'The Whispering Gallery: a curved wall where petitioners stand, the acoustics carry their words directly to the Lord\'s ear',
     'The Ledger-Stand: a rotating ironwood pillar displaying the day\'s decrees, updated hourly by Scribe-Sentinels'
    ]
@@ -133,7 +133,7 @@ DEEP_LOCATIONS['frozen-archive'] = {
   title: 'Jarl of the Archive',
   leaderId: 'sigurd-skalvyr',
   description:
-   'Jarl Sigurd Skalvyr runs the Archive as regional custodian under High King-Jarl Halvar Skalvyr (Jarn-Tand), who rules the continent from Ymirhold. Sigurd is a man carved from glacier ice. He speaks rarely, decides slowly, and never reverses a decision once made.'
+   'Jarl Sigurd Skalvyr runs the Archive as regional custodian under High King-Jarl Halvar Skalvyr (Jarn-Tand), who rules the continent from Skalvyrhold. Sigurd is a man carved from glacier ice. He speaks rarely, decides slowly, and never reverses a decision once made.'
  },
  defenses: {
   militiaSize: 80,

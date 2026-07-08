@@ -535,6 +535,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   resourceTypes: ["mana"],
   resourceValues: { mana: 3 },
   components: ["verbal", "somatic"],
+   verbalText: "Plaguebringer!",
+   somaticText: "Channel plaguebringer through gesture",
   classResource: { type: "virulence", gain: 15 }
   },
   damageConfig: {
@@ -602,6 +604,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   resourceTypes: ["mana"],
   resourceValues: { mana: 4 },
   components: ["somatic"],
+   somaticText: "Channel plaguebringer through gesture",
   classResource: { type: "virulence", gain: 10 }
   },
   damageConfig: {
@@ -662,6 +665,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   resourceTypes: ["mana"],
   resourceValues: { mana: 4 },
   components: ["verbal"],
+   verbalText: "Plaguebringer!",
   classResource: { type: "virulence", gain: 15 }
   },
   damageConfig: {
@@ -725,6 +729,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   resourceTypes: ["mana"],
   resourceValues: { mana: 6 },
   components: ["verbal", "somatic"],
+   verbalText: "Plaguebringer!",
+   somaticText: "Channel plaguebringer through gesture",
   classResource: { type: "virulence", gain: 15 }
   },
   damageConfig: {
@@ -806,6 +812,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   resourceTypes: ["mana"],
   resourceValues: { mana: 6 },
   components: ["somatic"],
+   somaticText: "Channel plaguebringer through gesture",
   classResource: { type: "virulence", gain: 15 }
   },
   damageConfig: {
@@ -827,10 +834,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
    description: "Flesh softens under the mark, reducing DR by 5."
    }
   ],
-  statPenalties: [
-   { stat: "armor", magnitude: -5, magnitudeType: "flat" }
-  ],
-  savingThrow: {
+   savingThrow: {
    ability: "constitution",
    difficultyClass: 15,
    saveOutcome: "negates"
@@ -886,6 +890,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   resourceTypes: ["mana"],
   resourceValues: { mana: 4 },
   components: ["somatic"],
+   somaticText: "Channel plaguebringer through gesture",
   classResource: { type: "virulence", gain: 10 }
   },
   debuffConfig: {
@@ -958,6 +963,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   resourceTypes: ["mana"],
   resourceValues: { mana: 8 },
   components: ["verbal", "somatic"],
+   verbalText: "Plaguebringer!",
+   somaticText: "Channel plaguebringer through gesture",
   classResource: { type: "virulence", gain: 15 }
   },
   damageConfig: {
@@ -1025,6 +1032,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   resourceTypes: ["mana"],
   resourceValues: { mana: 6 },
   components: ["somatic"],
+   somaticText: "Channel plaguebringer through gesture",
   classResource: { type: "virulence", gain: 15 }
   },
   controlConfig: {
@@ -1090,6 +1098,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   resourceTypes: ["mana"],
   resourceValues: { mana: 9 },
   components: ["verbal"],
+   verbalText: "Plaguebringer!",
   classResource: { type: "virulence", gain: 15 }
   },
   damageConfig: {
@@ -1168,6 +1177,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   resourceTypes: ["mana"],
   resourceValues: { mana: 6 },
   components: ["somatic"],
+   somaticText: "Channel plaguebringer through gesture",
   classResource: { type: "virulence", gain: 20 }
   },
   damageConfig: {
@@ -1231,6 +1241,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   resourceTypes: ["mana"],
   resourceValues: { mana: 8 },
   components: ["verbal", "somatic"],
+   verbalText: "Plaguebringer!",
+   somaticText: "Channel plaguebringer through gesture",
   classResource: { type: "virulence", gain: 15 }
   },
   damageConfig: {
@@ -1315,6 +1327,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   resourceTypes: ["mana"],
   resourceValues: { mana: 9 },
   components: ["somatic"],
+   somaticText: "Channel plaguebringer through gesture",
   classResource: { type: "virulence", gain: 20 }
   },
   damageConfig: {
@@ -1378,6 +1391,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   resourceTypes: ["mana"],
   resourceValues: { mana: 10 },
   components: ["somatic"],
+   somaticText: "Channel plaguebringer through gesture",
   classResource: { type: "virulence", gain: 15 }
   },
   damageConfig: {
@@ -1451,6 +1465,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   resourceTypes: ["mana"],
   resourceValues: { mana: 8 },
   components: ["verbal", "somatic"],
+   verbalText: "Plaguebringer!",
+   somaticText: "Channel plaguebringer through gesture",
   classResource: { type: "virulence", gain: 10 }
   },
   healingConfig: {
@@ -1521,6 +1537,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   resourceTypes: ["mana"],
   resourceValues: { mana: 9 },
   components: ["verbal"],
+   verbalText: "Plaguebringer!",
   classResource: { type: "virulence", gain: 20 }
   },
   damageConfig: {
@@ -1583,6 +1600,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   resourceTypes: ["mana"],
   resourceValues: { mana: 12 },
   components: ["verbal", "somatic"],
+   verbalText: "Plaguebringer!",
+   somaticText: "Channel plaguebringer through gesture",
   classResource: { type: "virulence", gain: 20 }
   },
   damageConfig: {
@@ -1639,6 +1658,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   resourceTypes: ["mana"],
   resourceValues: { mana: 14 },
   components: ["verbal"],
+   verbalText: "Plaguebringer!",
   classResource: { type: "virulence", gain: 15 }
   },
   damageConfig: {
@@ -1716,6 +1736,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   resourceTypes: ["mana"],
   resourceValues: { mana: 10 },
   components: ["somatic"],
+   somaticText: "Channel plaguebringer through gesture",
   classResource: { type: "virulence", gain: 20 }
   },
   debuffConfig: {
@@ -1789,6 +1810,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   resourceTypes: ["mana"],
   resourceValues: { mana: 15 },
   components: ["verbal", "somatic"],
+   verbalText: "Plaguebringer!",
+   somaticText: "Channel plaguebringer through gesture",
   classResource: { type: "virulence", gain: 20 }
   },
   damageConfig: {
@@ -1849,6 +1872,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   resourceTypes: ["mana"],
   resourceValues: { mana: 18 },
   components: ["somatic"],
+   somaticText: "Channel plaguebringer through gesture",
   classResource: { type: "virulence", gain: 25 }
   },
   debuffConfig: {
@@ -1914,6 +1938,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   resourceTypes: ["mana"],
   resourceValues: { mana: 20 },
   components: ["verbal", "somatic"],
+   verbalText: "Plaguebringer!",
+   somaticText: "Channel plaguebringer through gesture",
   classResource: { type: "virulence", gain: 25 }
   },
   damageConfig: {
@@ -1975,6 +2001,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   resourceTypes: ["mana"],
   resourceValues: { mana: 22 },
   components: ["verbal", "somatic"],
+   verbalText: "Plaguebringer!",
+   somaticText: "Channel plaguebringer through gesture",
   classResource: { type: "virulence", gain: 20 }
   },
   damageConfig: {
@@ -2062,6 +2090,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   resourceTypes: ["mana"],
   resourceValues: { mana: 26 },
   components: ["verbal", "somatic"],
+   verbalText: "Plaguebringer!",
+   somaticText: "Channel plaguebringer through gesture",
   classResource: { type: "virulence", gain: 10 }
   },
   damageConfig: {
@@ -2120,6 +2150,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   resourceTypes: ["mana"],
   resourceValues: { mana: 27 },
   components: ["verbal", "somatic"],
+   verbalText: "Plaguebringer!",
+   somaticText: "Channel plaguebringer through gesture",
   classResource: { type: "virulence", gain: 5 }
   },
   damageConfig: {
@@ -2194,6 +2226,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   resourceTypes: ["mana"],
   resourceValues: { mana: 32 },
   components: ["verbal", "somatic"],
+   verbalText: "Plaguebringer!",
+   somaticText: "Channel plaguebringer through gesture",
   classResource: { type: "virulence", gain: 25 }
   },
   transformationConfig: {
@@ -2265,6 +2299,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   resourceTypes: ["mana"],
   resourceValues: { mana: 30 },
   components: ["verbal", "somatic"],
+   verbalText: "Plaguebringer!",
+   somaticText: "Channel plaguebringer through gesture",
   classResource: { type: "virulence", gain: 5 }
   },
   damageConfig: {
@@ -2332,6 +2368,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   resourceTypes: ["mana"],
   resourceValues: { mana: 36 },
   components: ["verbal", "somatic"],
+   verbalText: "Plaguebringer!",
+   somaticText: "Channel plaguebringer through gesture",
   classResource: { type: "virulence", gain: 10 }
   },
   damageConfig: {
@@ -2391,7 +2429,9 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   actionPoints: 3,
   resourceTypes: ["mana"],
   resourceValues: { mana: 34 },
-  components: ["verbal", "somatic"]
+  components: ["verbal", "somatic"],
+   verbalText: "Plaguebringer!",
+   somaticText: "Channel plaguebringer through gesture",
   },
   damageConfig: {
   formula: "Consumed Afflictions × 4d8 necrotic (max 8)",
@@ -2444,6 +2484,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   resourceTypes: ["mana"],
   resourceValues: { mana: 40 },
   components: ["verbal", "somatic"],
+   verbalText: "Plaguebringer!",
+   somaticText: "Channel plaguebringer through gesture",
   classResource: { type: "virulence", gain: 25 }
   },
   transformationConfig: {
@@ -2519,6 +2561,8 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   resourceTypes: ["mana"],
   resourceValues: { mana: 36 },
   components: ["verbal", "somatic"],
+   verbalText: "Plaguebringer!",
+   somaticText: "Channel plaguebringer through gesture",
   classResource: { type: "virulence", gain: 25 }
   },
   damageConfig: {

@@ -1013,8 +1013,6 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
   position: relative;
   display: flex;
   flex-direction: column;
-  min-height: 400px;
-  /* Remove fixed viewport height to prevent stacking issues */
   height: auto;
   /* Create a new stacking context for each table to prevent overlap */
   contain: layout style;
@@ -1078,7 +1076,6 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
   position: relative;
   z-index: 2;
   table-layout: fixed;
-  height: 100%;
   display: table;
 }
 

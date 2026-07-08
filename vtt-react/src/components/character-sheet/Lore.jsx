@@ -3,6 +3,7 @@ import useCharacterStore from '../../store/characterStore';
 import { getAllBackgrounds } from '../../data/backgroundData';
 import { useInspectionCharacter } from '../../contexts/InspectionContext';
 import { getFullRaceData, getSubraceData, getRaceData, getRaceList, getSubraceList } from '../../data/raceData';
+import { LORE_PLACEHOLDERS } from '../../constants/loreConstants';
 // import { ENHANCED_PATHS } from '../../data/enhancedPathData'; // Disciplines removed
 import { getIconUrl, getCustomIconUrl } from '../../utils/assetManager';
 import CharacterAppearanceModal from '../character-creation-wizard/components/CharacterAppearanceModal';
@@ -133,7 +134,7 @@ export default function Lore() {
             ],
             rightFields: [
                 { key: 'background', label: 'Social Background', type: 'backgroundSelect' },
-                { key: 'backstory', label: 'Origin Story', placeholder: 'Where were you when the fog found you? Trace your life from the cold hearth of your upbringing to the moment you took the frozen road...', type: 'textarea', fullPage: true }
+                { key: 'backstory', label: 'Origin Story', placeholder: LORE_PLACEHOLDERS.backstory, type: 'textarea', fullPage: true }
             ]
         },
         personality: {
@@ -141,12 +142,12 @@ export default function Lore() {
             label: 'Demeanor',
             icon: getIconUrl('Utility/Meditative Figure', 'abilities'),
             leftFields: [
-                { key: 'personalityTraits', label: 'Demeanor & Nature', placeholder: 'How do you carry yourself beneath the endless dark? Mannerisms, habits, and the face you show strangers in the lamplight...', type: 'textarea' },
-                { key: 'ideals', label: 'Convictions', placeholder: 'What principle do you cling to when the lamps go out? The Solbrand\'s fading warmth, the Keeper\'s ledger, a personal oath: what will you not betray?', type: 'textarea' }
+                { key: 'personalityTraits', label: 'Demeanor & Nature', placeholder: LORE_PLACEHOLDERS.personalityTraits, type: 'textarea' },
+                { key: 'ideals', label: 'Convictions', placeholder: LORE_PLACEHOLDERS.ideals, type: 'textarea' }
             ],
             rightFields: [
-                { key: 'bonds', label: 'Oaths & Tethers', placeholder: 'To what (or whom) are you bound? A name carved in glacier-ice, an entry in the Canopy-Ledger, a debt to something that does not forget...', type: 'textarea' },
-                { key: 'flaws', label: 'Fractures & Weakness', placeholder: 'Where are you cracked? The Wyrd finds the broken places first: a vice, a buried dread, a secret the cold has kept for you...', type: 'textarea' }
+                { key: 'bonds', label: 'Oaths & Tethers', placeholder: LORE_PLACEHOLDERS.bonds, type: 'textarea' },
+                { key: 'flaws', label: 'Fractures & Weakness', placeholder: LORE_PLACEHOLDERS.flaws, type: 'textarea' }
             ]
         },
         appearance: {
@@ -158,7 +159,7 @@ export default function Lore() {
                 ...(tokenSettings ? [{ key: 'tokenBorder', label: 'Token Border Color', type: 'borderColor' }] : [])
             ],
             rightFields: [
-                { key: 'appearance', label: 'Bearing & Aspect', placeholder: 'Wind-leather and ash-cloth, bog-iron and bone. Describe how your character looks and dresses, and the marks the dark world has left on them...', type: 'textarea', fullPage: true }
+                { key: 'appearance', label: 'Bearing & Aspect', placeholder: LORE_PLACEHOLDERS.appearance, type: 'textarea', fullPage: true }
             ]
         },
         relationships: {
@@ -166,11 +167,11 @@ export default function Lore() {
             label: 'Bonds',
             icon: getIconUrl('Social/Party Gathering', 'abilities'),
             leftFields: [
-                { key: 'allies', label: 'Allies & Kin', placeholder: 'Who walks the dark beside you? A mentor of your tradition, a bond-kin of your people, a contractor who has not yet betrayed you...', type: 'textarea', fullPage: true }
+                { key: 'allies', label: 'Allies & Kin', placeholder: LORE_PLACEHOLDERS.allies, type: 'textarea', fullPage: true }
             ],
             rightFields: [
-                { key: 'enemies', label: 'Adversaries & Blood-Debts', placeholder: 'Who hunts you across the regions? A Marked Vreken, a broken contract\'s enforcer, a rival of your house: and what stands between you?', type: 'textarea' },
-                { key: 'organizations', label: 'Factions & Guilds', placeholder: 'The Luminarchy, the Solbrand tending-clans, a Neth house, a Bloodhammer band: what banner do you answer to, openly or in the dark?', type: 'textarea' }
+                { key: 'enemies', label: 'Adversaries & Blood-Debts', placeholder: LORE_PLACEHOLDERS.enemies, type: 'textarea' },
+                { key: 'organizations', label: 'Factions & Guilds', placeholder: LORE_PLACEHOLDERS.organizations, type: 'textarea' }
             ]
         },
         goals: {
@@ -178,10 +179,10 @@ export default function Lore() {
             label: 'Purpose',
             icon: getIconUrl('Utility/Comet Trail', 'abilities'),
             leftFields: [
-                { key: 'goals', label: 'Purpose & Ambition', placeholder: 'What keeps you walking the frozen roads? A name to restore, a ledger to settle, a light to rekindle: or simply to see one more Dimming...', type: 'textarea', fullPage: true }
+                { key: 'goals', label: 'Purpose & Ambition', placeholder: LORE_PLACEHOLDERS.goals, type: 'textarea', fullPage: true }
             ],
             rightFields: [
-                { key: 'fears', label: 'Dreads', placeholder: 'Fear spawns things in Mythrill. What hunts you in the quiet? The dark beneath the caldera, the day the Solbrand dies, the name you almost forgot...', type: 'textarea', fullPage: true }
+                { key: 'fears', label: 'Dreads', placeholder: LORE_PLACEHOLDERS.fears, type: 'textarea', fullPage: true }
             ]
         },
         notes: {
@@ -190,7 +191,7 @@ export default function Lore() {
             icon: getIconUrl('Utility/Utility', 'abilities'),
             leftFields: [],
             rightFields: [
-                { key: 'notes', label: 'Marginalia', placeholder: 'Scratchings for the long dark: rumors overheard at the waystation, ledger-balances, a verse half-remembered...', type: 'textarea', fullPage: true }
+                { key: 'notes', label: 'Marginalia', placeholder: LORE_PLACEHOLDERS.notes, type: 'textarea', fullPage: true }
             ]
         },
         heritage: {

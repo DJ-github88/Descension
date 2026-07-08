@@ -1,4 +1,4 @@
-﻿import { create } from 'zustand';
+import { create } from 'zustand';
 
 
 
@@ -284,7 +284,7 @@ const SEEDED_FACTIONS = [
 
   headquarters: 'frozen-archive',
 
-  territory: ['frozen-archive', 'fjord-gate', 'rimors-hearth', 'vargtor', 'ymirs-col', 'the-black-firth', 'bloodhammer-sump', 'vesperas-perch'],
+  territory: ['frozen-archive', 'fjord-gate', 'rimors-hearth', 'vargtor', 'skadis-col', 'the-black-firth', 'bloodhammer-sump', 'vesperas-perch'],
 
   relationships: [
 
@@ -324,7 +324,7 @@ const SEEDED_FACTIONS = [
 
   lore:
 
-   'Skalvyr\'s bargain was the harshest of all seven houses. Where others traded memory or heirs, Skalvyr traded summer itself, condemning their entire region to eternal winter in exchange for survival. Every Skalvyr child is taught this: their comfort is built on the suffering of every living thing in Nordhalla. House Skalvyr struck the Glacier Bargain generations ago, trading summer forever to halt the grinding ice. The Hunger Winter (Years 7-10). when ancestors consumed their dead: seeded the Hunger Pact in Skald blood. The house has ruled Nordhalla\'s frozen fjords for nearly 800 years.',
+   'Skalvyr\'s bargain was the harshest of all seven houses. Where others traded memory or heirs, Skalvyr traded summer itself, condemning their entire region to eternal winter in exchange for survival. Every Skalvyr child is taught this: their comfort is built on the suffering of every living thing in Nordhalla. House Skalvyr struck the Glacier Bargain generations ago, trading summer forever to halt the grinding ice. The Hunger Winter (in the years leading to the Breach). when ancestors consumed their dead: seeded the Hunger Pact in Skald blood. The house has ruled Nordhalla\'s frozen fjords for nearly eight centuries.',
 
   secrets:
 
@@ -754,7 +754,7 @@ const SEEDED_FACTIONS = [
   },
   members: [],
   headquarters: 'merrowport',
-  territory: ['merrowport', 'gale-storm-shallows', 'first-shore', 'spindrift-lagoon', 'deepwell-archipelago', 'wraithsound', 'the-saltmaw-estuary', 'kelpies-cove', 'skalds-longport'],
+  territory: ['merrowport', 'gale-storm-shallows', 'first-shore', 'spindrift-lagoon', 'deepwell-archipelago', 'wraithsound', 'the-saltmaw-estuary', 'brinehorse-cove', 'skalds-longport'],
   relationships: [
    { targetFactionId: 'unlit-veil', type: 'neutral', description: 'Uneasy maritime truce: the Veil needs Mereval\'s ships; Mereval needs Veil intelligence' },
    { targetFactionId: 'deep-alchemists', type: 'rival', description: 'Mereval\'s deep-ocean mapping expeditions keep trespassing into the Alchemists\' submerged tunnel-networks: both sides claim the deeps' }
@@ -810,7 +810,7 @@ const SEEDED_FACTIONS = [
   leader: {
    npcId: 'morrath-steward',
    title: 'Steward of the Seventh Seat (Velun Appointee)',
-   description: 'The current Steward is a Velun Neth who has been "acting" in Morrath\'s name for 317 years. No Morrath descendant has presented themselves to claim the seat in living memory.'
+   description: 'The current Steward is a Velun Neth who has been "acting" in Morrath\'s name for over three centuries. No Morrath descendant has presented themselves to claim the seat in living memory.'
   },
   members: [],
   headquarters: 'atropolis',

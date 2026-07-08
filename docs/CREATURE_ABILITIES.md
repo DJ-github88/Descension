@@ -671,7 +671,7 @@
 | 1 | Nuckelavee | Frostwood | Fleshless horse, lung-venom |
 | 2 | Selkies-Puppeteer | Frostwood | Skin-wear disguise |
 | 4 | Fuath-SeaLure | Frostwood | Siren-song + drowning |
-| 5 | Kelpie-Hag | Frostwood | Kelp-hair + drowning |
+| 5 | Brinehorse-Hag | Frostwood | Kelp-hair + drowning |
 | 6 | Nuckelmist | Frostwood | Mist-form + mimicry |
 | 7 | Trollsweird | Frostwood | Branch-swap with trees |
 | 10 | Leshy-Prime | Frostwood | Woodland authority |

@@ -331,7 +331,7 @@ const ActionBar = () => {
         });
 
         // Collect other combat stat effects
-        ['armor', 'damage', 'spellDamage', 'healingPower', 'healthRegen', 'manaRegen', 'moveSpeed'].forEach(stat => {
+        ['damage', 'spellDamage', 'healingPower', 'healthRegen', 'manaRegen', 'moveSpeed'].forEach(stat => {
             if (combatStats[stat] && combatStats[stat].value !== 0) {
                 const value = combatStats[stat].value;
                 if (value > 0) {
@@ -671,7 +671,7 @@ const ActionBar = () => {
         });
 
         // Collect other combat stat effects
-        ['armor', 'damage', 'spellDamage', 'healingPower', 'healthRegen', 'manaRegen', 'moveSpeed'].forEach(stat => {
+        ['damage', 'spellDamage', 'healingPower', 'healthRegen', 'manaRegen', 'moveSpeed'].forEach(stat => {
             if (combatStats[stat] && combatStats[stat].value !== 0) {
                 const value = combatStats[stat].value;
                 if (value > 0) {
@@ -727,7 +727,7 @@ const ActionBar = () => {
         });
 
         // Collect other combat stat effects
-        ['armor', 'damage', 'spellDamage', 'healingPower', 'healthRegen', 'manaRegen', 'moveSpeed'].forEach(stat => {
+        ['damage', 'spellDamage', 'healingPower', 'healthRegen', 'manaRegen', 'moveSpeed'].forEach(stat => {
             if (combatStats[stat] && combatStats[stat].value !== 0) {
                 const value = combatStats[stat].value;
                 if (value > 0) {

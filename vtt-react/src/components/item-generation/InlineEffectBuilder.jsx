@@ -27,7 +27,7 @@ const DEFAULT_CONFIGS = {
     areaRadius: 0
   },
   buff: {
-    statModifier: { stat: 'armor', magnitude: 2, magnitudeType: 'flat' },
+    statModifier: { stat: 'damage', magnitude: 2, magnitudeType: 'flat' },
     durationValue: 2,
     durationType: 'rounds',
     targetType: 'self',

@@ -847,15 +847,6 @@ const formatDescriptionText = (text) => {
                       <span className="base-stat-compact-val">{baseStats.ap} AP</span>
                     </div>
                   </div>
-                  {baseStats.armor !== undefined && baseStats.armor !== 0 && (
-                    <div className="base-stat-compact-item" title="Racial Defense Armor">
-                      <div className="base-stat-compact-icon" style={{ color: '#7f8c8d', background: 'rgba(127, 140, 141, 0.1)' }}><i className="fas fa-shield-alt"></i></div>
-                      <div className="base-stat-compact-details">
-                        <span className="base-stat-compact-label">Armor</span>
-                        <span className="base-stat-compact-val">+{baseStats.armor}</span>
-                      </div>
-                    </div>
-                  )}
                   {baseStats.darkvision !== undefined && baseStats.darkvision !== 0 && (
                     <div className="base-stat-compact-item" title="Distance visible in dark environments">
                       <div className="base-stat-compact-icon" style={{ color: '#9d4edd', background: 'rgba(157, 78, 221, 0.1)' }}><i className="fas fa-eye"></i></div>

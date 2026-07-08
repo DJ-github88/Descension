@@ -85,12 +85,6 @@ const StatsTab = ({
                                 <span className="base-stat-value">{baseStats.ap}</span>
                             </div>
                         )}
-                        {baseStats.armor !== undefined && baseStats.armor !== 0 && (
-                            <div className="base-stat-item">
-                                <span className="base-stat-label">Armor:</span>
-                                <span className="base-stat-value">{baseStats.armor}</span>
-                            </div>
-                        )}
                         {baseStats.passivePerception !== undefined && baseStats.passivePerception !== 0 && (
                             <div className="base-stat-item">
                                 <span className="base-stat-label">Passive Perception:</span>

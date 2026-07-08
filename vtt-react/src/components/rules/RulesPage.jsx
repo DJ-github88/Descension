@@ -45,6 +45,10 @@ import LanguagesDisplay from './LanguagesDisplay';
 
 
 
+import WeaponsRulesDisplay from './WeaponsRulesDisplay';
+
+
+
 import ClassDetailDisplay from './ClassDetailDisplay';
 
 
@@ -5349,6 +5353,18 @@ const RulesPage = () => {
 
 
           <SkillsDisplay variant="advanced" />
+
+
+
+        )}
+
+
+
+        {currentSubcategory?.useCustomComponent && selectedSubcategory === 'weapons' && (
+
+
+
+          <WeaponsRulesDisplay />
 
 
 

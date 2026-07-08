@@ -581,15 +581,10 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
   buffType: "statEnhancement",
   effects: [
    {
-   id: "calloused_skin",
-   name: "Calloused Skin",
-   description: "Gain +2 Armor. Every time an enemy hits you with a melee attack, gain +1d4 Blood-Heat.",
-   statModifier: {
-    stat: "armor",
-    magnitude: 2,
-    magnitudeType: "flat",
-   },
-   },
+    id: "calloused_skin",
+    name: "Calloused Skin",
+    description: "Gain +2 Armor. Every time an enemy hits you with a melee attack, gain +1d4 Blood-Heat.",
+    },
    {
    id: "rigid_flesh_drawback",
    name: "Rigid Flesh",
@@ -2077,15 +2072,10 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
   effects: [
    {
    id: "systemic_muscle_tear",
-   name: "Systemic Tear",
-   description: "Your muscular system begins to fail. Take 4d6 physical damage and your Armor is reduced by 4 for 2 rounds.",
-   mechanicsText: "Take 4d6 physical damage and -4 Armor for 2 rounds",
-   statModifier: {
-    stat: "armor",
-    magnitude: -4,
-    magnitudeType: "flat",
-   },
-   },
+    name: "Systemic Tear",
+    description: "Your muscular system begins to fail. Take 4d6 physical damage and your Armor is reduced by 4 for 2 rounds.",
+    mechanicsText: "Take 4d6 physical damage and -4 Armor for 2 rounds",
+    },
   ],
   durationType: "rounds",
   durationValue: 2,

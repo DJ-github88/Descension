@@ -279,9 +279,9 @@ export const ZONE_DATA = [
  ]
  },
  {
- "id": "ymirs-col",
+ "id": "skadis-col",
  "regionId": "nordhalla",
- "name": "Ymir's Col",
+ "name": "Skadi's Col",
  "type": "wilderness",
  "description": "A treacherous mountain pass between two glacier-capped peaks, named for the frost giant of Skald legend. The wind through the col is so violent it can strip flesh from bone in minutes. Cairns of frozen corpses mark the safest path, their expressions preserved in perfect, screaming clarity.",
  "dangerLevel": "extreme",
@@ -309,7 +309,7 @@ export const ZONE_DATA = [
   "Fjords-Riders"
  ],
  "connections": [
-  "ymirs-col",
+  "skadis-col",
   "the-still-crag"
  ],
  "wyrdCreatures": [
@@ -823,9 +823,9 @@ export const ZONE_DATA = [
  ]
  },
  {
- "id": "kelpies-cove",
+ "id": "brinehorse-cove",
  "regionId": "iceheart-sea",
- "name": "Kelpie's Cove",
+ "name": "Brinehorse Cove",
  "type": "settlement",
  "description": "A sheltered inlet used by smugglers and black-market traders, hidden behind a wall of grinding ice-shoals that only the most skilled Merryn pilots can navigate. The cove is named for the phantom sea-horse said to lure ships onto the rocks. Lanterns of captured bioluminescence mark the safe channel.",
  "dangerLevel": "medium",
@@ -851,7 +851,7 @@ export const ZONE_DATA = [
   "Myrathil River-Fed"
  ],
  "connections": [
-  "kelpies-cove",
+  "brinehorse-cove",
   "ironjaw-port"
  ],
  "wyrdCreatures": [
@@ -1418,7 +1418,7 @@ export const ZONE_DATA = [
  ],
  "connections": [
   "bearsbeards-beak",
-  "ymirs-col",
+  "skadis-col",
   "the-still-crag"
  ],
  "wyrdCreatures": []
@@ -1433,7 +1433,7 @@ export const ZONE_DATA = [
  "factions": [],
  "connections": [
   "frosthold-citadel",
-  "ymirs-col"
+  "skadis-col"
  ],
  "wyrdCreatures": [
   "Jutul-king"

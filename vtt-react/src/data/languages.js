@@ -88,7 +88,7 @@ export const LANGUAGES = [
     category: 'exotic',
     description: 'The mycelial network\'s ancient whisper-language, older than any surface civilization. Spoken by the Keeper of the Last Threshold and fungal entities in the Bryngloom Forest. The Over-Lit hear it constantly. Sounds like spores settling on old bone.',
     sound: 'Alien and unsettling, with sub-vocal clicks, fungal hisses, and sounds that seem to bypass the ears entirely.',
-    example: '*spore-settle* *mycelium-pulse* *root-whisper*',
+    example: 'Kss\'vul nyr\'gast thol-veir',
     translation: 'We observe your debt. The Gloom remembers.'
   },
   {
@@ -106,7 +106,7 @@ export const LANGUAGES = [
     category: 'exotic',
     description: 'The ancient root-language of elementals, from which Aquan, Auran, Ignan, and Terran descend. The Sea Mother\'s first words were Primordial. The Deep Thrum beneath Cragjaw speaks a dialect so old it barely qualifies as language.',
     sound: 'Raw and elemental, shifting between flowing water, crackling fire, rushing air, and rumbling earth in a single breath.',
-    example: 'Aur-ign-aqu-terr-unus',
+    example: 'Kh\'aur-dra ign\'vael thal\'aqu dhur\'terr',
     translation: 'Air-fire-water-earth as one'
   },
   {
@@ -115,7 +115,7 @@ export const LANGUAGES = [
     category: 'exotic',
     description: 'The whimsical, binding tongue of the fae entities who accepted House Viridane\'s counter-bargain in moonlit groves. Briaran thorns resonate with its cadence; the Unshorn speak it to their groves. The Revel\'s celebration-song is Sylvan, endlessly repeating.',
     sound: 'Musical and enchanting, like wind through thorn-briars with trilling notes and promises that echo.',
-    example: 'Viridane-thornwhisper-grove-song',
+    example: 'Loun-syl vaen\'drael virathel',
     translation: 'The eighth house endures beneath the leaves'
   },
   {
@@ -135,7 +135,7 @@ export const LANGUAGES = [
     category: 'racial',
     description: 'The ancestral language of the Skald people of Nordhalla, preserved in the Frozen Archive\'s clockwork city-library. Filled with tales of ice, endurance, and the Hunger Pact that lives in every Rime-Born bloodline. Spoken at Bloodhammer funeral-pyres.',
     sound: 'Bold and resonant, echoing with the strength of glacier winds and the clarity of eternal winter.',
-    example: 'Frost-hold hunger-keep',
+    example: 'Frosthald hungrvegr',
     translation: 'Hold fast to honor in the endless cold'
   },
   {
@@ -144,7 +144,7 @@ export const LANGUAGES = [
     category: 'racial',
     description: 'The slow, grinding language of earth elementals and stone-touched races. Groven speak a calcified dialect, their words grinding like the Ancestor-Spans shifting under blizzard-weight. The Deep Thrum answers in Terran.',
     sound: 'Deep and rumbling, like shifting stone with low, grinding tones and mineral resonance.',
-    example: 'Rumble-grind-stone-deep-vat',
+    example: 'Dhorgum krath\'veil',
     translation: 'Stone rumbles deep. The vat remembers.'
   },
   {
@@ -152,8 +152,8 @@ export const LANGUAGES = [
     icon: 'fa-ghost',
     category: 'racial',
     description: 'The whispered language of spirits, the Veilborn, and entities that exist between the Wyrd and physical reality. Constellation-spirits murmur it in their Astril vessels\' dreams. Barely audible to mortal ears without training.',
-    sound: 'Whispered and ethereal, like distant voices carried on wind that may not exist. Barely perceptible.',
-    example: '*whisper-whisper-echo* *veil-drift*',
+    sound: 'Breathy and barely audible, with whispered fricatives and hollow vowels that seem to drift between worlds.',
+    example: 'Fhae\'sul thae\'vir isel\'nym',
     translation: 'Between worlds, we speak. Between breaths, we listen.'
   },
   {
@@ -161,8 +161,8 @@ export const LANGUAGES = [
     icon: 'fa-masks-theater',
     category: 'racial',
     description: 'The secretive language of changelings and shapeshifters, designed to convey hidden meanings and shifting identities. Each speaker develops a personal dialect; fluent listeners can identify a specific changeling by their speech-patterns alone.',
-    sound: 'Fluid and shifting, with tones that seem to change mid-sentence, reflecting the speaker\'s mutable nature.',
-    example: 'Face-shift meaning-change truth-hide',
+    sound: 'Fluid and shifting, with palatal consonants and liquid tones that seem to change mid-sentence.',
+    example: 'Shael\'nyr voresh\'im',
     translation: 'I wear many faces. Truth is what I choose.'
   },
   {
@@ -170,8 +170,8 @@ export const LANGUAGES = [
     icon: 'fa-leaf',
     category: 'racial',
     description: 'The secret code language of druids, forbidden to non-druids by ancient oath. Passed from teacher to initiate in the Bryngloom\'s deepest groves and the Frostwood Reach\'s ironwood hearts. Cannot be learned from books.',
-    sound: 'Natural and flowing, woven from nature\'s sounds, rustling leaves, flowing water, bird calls.',
-    example: '*rustle* *flow* *chirp-chirp*',
+    sound: 'Structured natural clicks, trills, and flowing syllables woven into a grammar only initiates comprehend.',
+    example: 'Klik\'thar vash\'en druil',
     translation: 'The grove speaks: balance returns'
   },
   {
@@ -179,8 +179,8 @@ export const LANGUAGES = [
     icon: 'fa-fire',
     category: 'racial',
     description: 'The crackling, volatile language of fire elementals, Emberspire\'s magma-children, and flame-touched beings. The Korr Sun-Speakers use it in their six-hour silent vigils, speaking it only in their minds. Scathrach\'s voice corrupts Ignan into Abyssal.',
-    sound: 'Crackling and sizzling, with sharp pops and hisses like magma meeting ice.',
-    example: 'Crackle-pop-burn-hot-ember',
+    sound: 'Sharp explosive stops and sibilant hisses, crackling with rhythmic intensity like magma meeting ice.',
+    example: 'Kra\'shek tar\'vek iss',
     translation: 'Flame crackles hot. The ember endures.'
   },
   {
@@ -188,8 +188,8 @@ export const LANGUAGES = [
     icon: 'fa-paw',
     category: 'racial',
     description: 'The primal tongue that allows communication with animals and beasts. Understood by the Thrumm in their slow way, the ice-wyrms in their cold way, and the crag-cats in their indifferent way. Does not confer obedience, only conversation.',
-    sound: 'Primal and instinctual, mixing growls, chirps, and natural animal sounds with meaning.',
-    example: '*growl-chirp-whine*',
+    sound: 'Low-register gutturals and tonal shifts that carry meaning through pitch as much as sound.',
+    example: 'Grr\'krakth thol\'vrin',
     translation: 'Pack-hunt together-strong'
   },
   {
@@ -197,8 +197,8 @@ export const LANGUAGES = [
     icon: 'fa-skull',
     category: 'racial',
     description: 'The cold, lifeless tongue of the undead, Debt-Revenants who rise to complete broken contracts, and lichborne souls bound to basalt phylacteries. Used in necromantic rituals. The Frozen Archive\'s oldest revenant-scribes write only in Necril.',
-    sound: 'Cold and lifeless, with hollow tones that seem to drain warmth from the air. Each word a memory of breath.',
-    example: 'Death-cold-eternal-rest-contract',
+    sound: 'Hollow and dark, with breathy fricatives and deep resonants that drain warmth from the air.',
+    example: 'Vhyl\'kraz nthar\'vel dhrim',
     translation: 'In death, we find eternal rest. The contract remains.'
   },
   {
@@ -207,7 +207,7 @@ export const LANGUAGES = [
     category: 'racial',
     description: 'The tactical battle-speech developed in the Bloodhammer Sump\'s geothermal skirmishes and refined during the War of Thousand Screams. Clipped commands, hand-sign modifiers, and gestural shorthand designed to carry over forge-noise and howling Nordhalla wind.',
     sound: 'Guttural and aggressive, with sharp stops and explosive consonants that cut through combat noise.',
-    example: 'VAEL-GRUM! Forge-hold! Break-line!',
+    example: 'VAEL-GRUM! Krath\'voel! Dhra\'kesh!',
     translation: 'By Vaelen and Grum! Hold the forge! Break their line!'
   },
   {
@@ -215,8 +215,8 @@ export const LANGUAGES = [
     icon: 'fa-moon',
     category: 'racial',
     description: 'The ancestral language of the Bryngloom Forest, spoken by Vreken and Neth alike. Carries the cadence of the Root-Veil\'s mycelial whispers beneath its surface syllables. The Over-Lit lose Gloom-Tongue last, it is the final thing the hush takes.',
-    sound: 'Low and murmuring, with fungal undertones and syllables that seem to echo from beneath the peat.',
-    example: 'Gloom-keep root-speak veil-hold',
+    sound: 'Low and nasal, with murmured consonants and submerged syllables that echo from beneath the peat.',
+    example: 'Mulgresh veir\'nam gloam\'dhur',
     translation: 'The Gloom keeps. The root speaks. The veil holds.'
   },
   {
@@ -224,8 +224,8 @@ export const LANGUAGES = [
     icon: 'fa-feather',
     category: 'racial',
     description: 'The memory-language of the Mimir, developed in the Frostwood Reach after the Purge that destroyed the art of mask-forging ninety years ago. Incorporates fog-adapted tonal shifts that carry identity where faces cannot. Each speaker\'s dialect is as unique as a lost mask.',
-    sound: 'Mist-soft and layered, with tonal shifts that carry through fog. Each voice uniquely identifiable.',
-    example: 'Fog-keep mask-remember vale-speak',
+    sound: 'Mist-soft with layered sibilants, tonal shifts that carry identity through fog. Each voice uniquely identifiable.',
+    example: 'Sael\'myr thuv\'ael virath',
     translation: 'The fog holds. The mask remembers. The vale speaks.'
   },
   {
@@ -234,7 +234,7 @@ export const LANGUAGES = [
     category: 'racial',
     description: 'The ember-tongue of the Emberth people, forged in the shadow of Emberspire. Incorporates heat-gradations as grammatical markers, a word spoken at one temperature means something different at another. The Korr Sun-Speakers elevate it to sacred silence.',
     sound: 'Warm and layered, with tonal shifts that suggest temperature. Ranges from forge-hot consonants to ash-cool vowels.',
-    example: 'Sol-ember-korr-thrask',
+    example: 'Soth\'keth vir\'rash thrask\'dhel',
     translation: 'The sun\'s ember. The priest tends. The ranger guards.'
   },
   {
@@ -243,7 +243,7 @@ export const LANGUAGES = [
     category: 'racial',
     description: 'The industrial tongue of the Fexrick, developed in the vertical subterranean city of Frostmaw Holdfast around geothermal chimneys. Incorporates pipe-resonance harmonics and pressure-hiss modifiers. The Deep Alchemists\' oldest formulae are written in Fexric.',
     sound: 'Mechanical and resonant, with pipe-harmonics and pressure-hiss consonants. Echoes like a foundry at work.',
-    example: 'Kethrin-guild drall-free vat-hold',
+    example: 'Drall\'vek keth\'syrin dhav\'holm',
     translation: 'The guild binds. The clan roams. The vat holds.'
   },
 
@@ -254,16 +254,16 @@ export const LANGUAGES = [
     category: 'elemental',
     description: 'The general language of elementals, bridging all elemental planes and intelligences. A simplified derivative of Primordial used when fire, water, earth, and air must arrive at consensus.',
     sound: 'Balanced and shifting, a simplified harmony of all four elemental cadences.',
-    example: 'Aur-ign-aqu-terr',
-    translation: 'Air, fire, water, earth'
+    example: 'Vael-urn keth-sol dhav-lhum',
+    translation: 'All elements hear. All elements answer.'
   },
   {
     name: 'Primal',
     icon: 'fa-leaf-oak',
     category: 'elemental',
     description: 'The raw language of nature itself, understood by wild and ancient beings across all seven regions. The Frostwood\'s ironwood trees murmur it. The Bryngloom\'s peat-bogs preserve it. Older than the Dark Bargains, older than Sol\'s binding.',
-    sound: 'Raw and ancient, a language that is less speech and more the world speaking to itself.',
-    example: 'Grow-thrive-root-deep',
+    sound: 'Deep resonant chanting with heavy vowel harmony, less speech and more the world speaking to itself.',
+    example: 'Gruum\'vael thol\'en dir\'na',
     translation: 'Grow. Thrive. Root deep.'
   },
   {
@@ -271,8 +271,8 @@ export const LANGUAGES = [
     icon: 'fa-cloud',
     category: 'elemental',
     description: 'The light, airy language of sky-dwelling elementals, wind-spirits, and the blizzard-voices above the Cragjaw Peaks\' snow-veil.',
-    sound: 'Light and airy, whistling like wind through high clouds with breathy consonants.',
-    example: 'Whistle-rush-sky-high-blizzard',
+    sound: 'Breathy fricatives and whistling high vowels, light and airy with wind-rush cadence.',
+    example: 'Fhael\'whir suth\'aer vael\'kesh',
     translation: 'Wind whispers high where the blizzard hides'
   },
   {
@@ -280,8 +280,8 @@ export const LANGUAGES = [
     icon: 'fa-water',
     category: 'elemental',
     description: 'The fluid, flowing language of water elementals, the Iceheart Sea\'s consciousness, and the Myrathil people. The Sea Mother speaks in Aquan, though she rarely speaks at all, preferring to send storms. Myrathil Deep-Born learn it in the womb.',
-    sound: 'Flowing and fluid, like water rushing over stones with bubbling and gurgling tones.',
-    example: 'Gurgle-flow-deep-current-tide',
+    sound: 'Liquid consonants and flowing vowels with wave-like rhythm, smooth and deep.',
+    example: 'Lhum\'vael syl\'ru thar\'nym',
     translation: 'Flowing current runs deep. The tide remembers.'
   },
 
@@ -300,8 +300,8 @@ export const LANGUAGES = [
     icon: 'fa-seedling',
     category: 'secret',
     description: 'The guarded ritual language of the Bryngloom\'s root-wards and bog-curses. Spoken by those who tend the fungal shrines and bargain with the Grandmother of the Bog. Not taught, absorbed through exposure to mycelial memory-deposits.',
-    sound: 'Natural and thrumming, woven from fungal resonance, low hums, and animal calls.',
-    example: '*rustle* *thrum* *growl* *spore*',
+    sound: 'Harsh staccato clicks interwoven with low sustained drones, like the bog itself speaking.',
+    example: 'Krag\'vex thul\'mir nur\'gash',
     translation: 'The wild wood speaks. The Gloom answers.'
   },
   {

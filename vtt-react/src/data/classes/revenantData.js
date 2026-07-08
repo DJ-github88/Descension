@@ -779,6 +779,15 @@ The Revenant can switch between two casting modes:
         useFormulas: { health: true },
         resourceFormulas: { health: "1d6" },
       },
+      triggerConfig: {
+      triggers: [
+        { id: "rv_blood_sacrifice_walk",
+          name: "Blood Sacrifice",
+          triggerType: "on_cast",
+          action: "Sacrifice 1d6 HP. Generate Death Toll equal to HP lost.",
+        },
+      ],
+      },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
       utilityConfig: {
         utilityType: "movement",
@@ -955,6 +964,15 @@ The Revenant can switch between two casting modes:
         useFormulas: { health: true },
         resourceFormulas: { health: "1d6" },
       },
+      triggerConfig: {
+      triggers: [
+        { id: "rv_blood_sacrifice_whisper",
+          name: "Blood Sacrifice",
+          triggerType: "on_cast",
+          action: "Sacrifice 1d6 HP. Generate Death Toll equal to HP lost.",
+        },
+      ],
+      },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
       debuffConfig: {
         debuffType: "statusEffect",
@@ -1085,6 +1103,15 @@ The Revenant can switch between two casting modes:
         useFormulas: { health: true },
         resourceFormulas: { health: "4d6" },
       },
+      triggerConfig: {
+      triggers: [
+        { id: "rv_blood_sacrifice_cataclysm",
+          name: "Blood Sacrifice",
+          triggerType: "on_cast",
+          action: "Sacrifice 4d6 HP. Generate Death Toll equal to HP lost. Consume Death Toll for bonus damage.",
+        },
+      ],
+      },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       damageConfig: {
         formula: "8d6 + death_toll_spent x 1d6",
@@ -1157,6 +1184,15 @@ The Revenant can switch between two casting modes:
         useFormulas: { health: true },
         resourceFormulas: { health: "6d6" },
       },
+      triggerConfig: {
+      triggers: [
+        { id: "rv_blood_sacrifice_judgment",
+          name: "Blood Sacrifice",
+          triggerType: "on_cast",
+          action: "Sacrifice 6d6 HP. Generate Death Toll equal to HP lost.",
+        },
+      ],
+      },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       damageConfig: {
         formula: "12d6",
@@ -1206,6 +1242,15 @@ The Revenant can switch between two casting modes:
         somaticText: "Bring your palms together and crack them apart.",
         useFormulas: { health: true, permanentHealth: true },
         resourceFormulas: { health: "10d6", permanentHealth: "2d10" },
+      },
+      triggerConfig: {
+      triggers: [
+        { id: "rv_blood_sacrifice_armageddon",
+          name: "Blood Sacrifice",
+          triggerType: "on_cast",
+          action: "Sacrifice 10d6 HP and 2d10 permanent HP. Generate Death Toll equal to HP lost.",
+        },
+      ],
       },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
       damageConfig: {

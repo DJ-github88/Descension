@@ -33,7 +33,7 @@ export const getSpeedRating = (speed) => {
 // === ARMOR RATING ===
 // Returns qualitative armor description for creatures (resistances only)
 export const getArmorRating = (armor) => {
-  return { label: 'Resistances Only', color: '#8b7d6b', passiveDR: 0, soakDie: '-', armorValue: 0 };
+  return { label: 'Resistances Only', color: '#8b7d6b', passiveDR: 0, soakDie: '-' };
 };
 
 // === SOAK DIE ===

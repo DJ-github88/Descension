@@ -77,15 +77,6 @@ export const SKILL_QUESTS = {
       unlocks: ['Weapon bonding']
     },
     {
-      id: 'armor_piercing',
-      name: 'Armor Piercing',
-      description: 'Learn to strike through gaps in heavy armor',
-      icon: 'Piercing/Piercing Thrust 3',
-      rank: 'EXPERT',
-      completed: false,
-      unlocks: ['Armor penetration']
-    },
-    {
       id: 'weapon_master_duel',
       name: 'Weapon Master Duel',
       description: 'Defeat a skilled weapon master in single combat',

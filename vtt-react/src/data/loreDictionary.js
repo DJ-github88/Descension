@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Lore Dictionary Database
  *
  * Houses TTRPG-styled dictionary entries for regions, noble houses, historical figures,
@@ -24,7 +24,7 @@ export const LORE_DICTIONARY = {
  region: 'nordhalla',
  summary: 'A brutalist cathedral of frozen black fjords and towering glaciers in the northern reaches, fractured by King-Jarl Jarn-Tand\'s consolidation and the Sunder-Wall.',
  fullEntry: 'House Skalvyr halted the titanic glaciers of Nordhalla with a bargain, and the price of that halt is eternal winter. It is currently ruled with an iron fist by King-Jarl Halvar Skalvyr, called Jarn-Tand, who unified the region\'s clans by force. Jarn-Tand constructed the Sunder-Wall to regulate the nomadic Fredløse clans and enforce a trade monopoly through the Icechamber Syndicate. The region is marked by intense conflict between loyal Fastboende and outlaw clans, and a campaign of religious persecution, the Cleansing of the Hearth, which targets tribal Animists.',
- relatedTerms: ['augur', 'berserker', 'bloodhammer_sump', 'corvani', 'corvid_speech', 'fjord_gate', 'frozen_archive', 'harbinger', 'house_skalvyr', 'hunger_glaciers', 'rime_born', 'rimors_hearth', 'rooks_promontory', 'skald', 'skalds_landing', 'skalds_longport', 'stel', 'the_still_crag', 'the_warden', 'vargtor', 'vesperas_perch', 'warden', 'ymirs_col', 'animist', 'malakor', 'theron', 'frostcirque', 'xyris', 'sera-three-scars', 'skadi-glass-eye', 'mor-vereth', 'halvar-skalvyr', 'the-first-liar', 'sigurd-skalvyr', 'frigga-skalvyr', 'cassia', 'triune-founders']
+ relatedTerms: ['augur', 'berserker', 'bloodhammer_sump', 'corvani', 'corvid_speech', 'fjord_gate', 'frozen_archive', 'harbinger', 'house_skalvyr', 'hunger_glaciers', 'rime_born', 'rimors_hearth', 'rooks_promontory', 'skald', 'skalds_landing', 'skalds_longport', 'stel', 'the_still_crag', 'the_warden', 'vargtor', 'vesperas_perch', 'warden', 'skadis_col', 'animist', 'malakor', 'theron', 'frostcirque', 'xyris', 'sera-three-scars', 'skadi-glass-eye', 'mor-vereth', 'halvar-skalvyr', 'the-first-liar', 'sigurd-skalvyr', 'frigga-skalvyr', 'cassia', 'triune-founders']
   },
   'sundale': {
  id: 'sundale',
@@ -42,7 +42,7 @@ export const LORE_DICTIONARY = {
  region: 'iceheart-sea',
  summary: 'A violent, churning ocean of city-sized icebergs, governed by the Sea-Charter and policed by the Unfreezing Booms.',
  fullEntry: 'Storms and city-sized icebergs rule the Iceheart Sea, and the channels between them never freeze. Recently, Grand Admiral Varis Mereval enforced the Sea-Charter, mandating ship registry with the Mereval Board of Trade. The region is policed by patrol ironclads along the Unfreezing Booms and controlled by the Brine-Bond Syndicate. Undocumented refugees are pressed into lifetime servitude under Press-Warrants. Society is split between the Deck-Born officers and pressed Bilge-Dwellers, while traditional Tide-Speak animism is suppressed under the Luck-Ledger.',
- relatedTerms: ['deepwell_archipelago', 'first_shore', 'gale_storm_shallows', 'house_mereval', 'ironjaw_port', 'kelpies_cove', 'merrowport', 'merryns_drift', 'minstrel', 'myrathil', 'skalds_longport', 'spindrift_lagoon', 'the_saltmaw_estuary', 'the_shivering_bight', 'treakous_rift', 'wraithsound', 'gambit', 'jax', 'merr-cael', 'mer-lyrisa', 'mereval-admiral', 'lyris']
+ relatedTerms: ['deepwell_archipelago', 'first_shore', 'gale_storm_shallows', 'house_mereval', 'ironjaw_port', 'brinehorse_cove', 'merrowport', 'merryns_drift', 'minstrel', 'myrathil', 'skalds_longport', 'spindrift_lagoon', 'the_saltmaw_estuary', 'the_shivering_bight', 'treakous_rift', 'wraithsound', 'gambit', 'jax', 'merr-cael', 'mer-lyrisa', 'mereval-admiral', 'lyris']
   },
   'cragjaw-peaks': {
  id: 'cragjaw-peaks',
@@ -89,7 +89,7 @@ export const LORE_DICTIONARY = {
  region: 'nordhalla',
  summary: 'The northern lords of Nordhalla who halted the glaciers at the price of eternal winter, now represented by King-Jarl Jarn-Tand.',
  fullEntry: 'House Skalvyr traded summer to freeze the grinding glaciers of Nordhalla in place, and the cold has been theirs ever since. Recently, the house consolidated its rule under King-Jarl Halvar Skalvyr (Jarn-Tand), who unified the clans by force. To fund his mercenaries, Jarn-Tand mortgaged regional resources to southern syndicates, establishing the Icechamber Syndicate trade monopoly. The house enforces its rule through the Sunder-Wall and the Runic Academies, suppressing ancestral animism in favor of controlled runic calculations.',
- relatedTerms: ['augur', 'bloodhammer_sump', 'corvani', 'fjord_gate', 'frozen_archive', 'harbinger', 'hunger_glaciers', 'nordhalla', 'rime_born', 'skald', 'skalds_landing', 'stel', 'the_warden', 'vargtor', 'vesperas_perch', 'warden', 'ymirs_col', 'halvar-skalvyr', 'sigurd-skalvyr', 'frigga-skalvyr']
+ relatedTerms: ['augur', 'bloodhammer_sump', 'corvani', 'fjord_gate', 'frozen_archive', 'harbinger', 'hunger_glaciers', 'nordhalla', 'rime_born', 'skald', 'skalds_landing', 'stel', 'the_warden', 'vargtor', 'vesperas_perch', 'warden', 'skadis_col', 'halvar-skalvyr', 'sigurd-skalvyr', 'frigga-skalvyr']
   },
   'house_solvan': {
  id: 'house_solvan',
@@ -119,15 +119,6 @@ export const LORE_DICTIONARY = {
  summary: 'The Solvarn mother who carved her sacrificed child\'s name into her flesh, becoming the first Martyr.',
  fullEntry: 'When the six houses marched their firstborn to the peaks to feed them to Keth-Amar, Sera Solvan of House Solvan went with a piece of volcanic obsidian and carved her child\'s name into her own forearm. The houses tried to purge the memory of what they\'d done. The wound had other ideas. It healed into a glowing solar scar that pulsed with the heat of the child she had lost, and Sera became the first Martyr: one who takes the suffering meant for others and carries it in their own flesh. The Scar-Shrine beneath Emberspire still keeps the obsidian, and the scar still glows.',
  relatedTerms: ['devotion_gauge', 'house_solvan', 'martyr', 'sundale', 'sol-kaessen']
-  },
-  'valerius': {
- id: 'valerius',
- term: 'Valerius',
- type: 'historical_figure',
- region: 'bryngloom-forest',
- summary: 'The Velun Neth archivist who formulated the rigid, contract-based spellcasting of the Arcanoneer.',
- fullEntry: 'In the early generations of the Dimming, the Velun Neth were still learning what their new silver skin could do. Valerius, a high archivist of Atropolis, noticed that the Bryngloom\'s magic obeyed the same syntax as a contract: offer, consideration, consequence. He structured his first incantation like a filing and watched his own blood crystallize into volatile shards siphoned through iron, his limbs locking to the earth in a freezing grip. He didn\'t flinch. The Arcanoneer tradition was born in that moment, and every spell a Velun casts today descends from Valerius\'s first clause, filed with a Keeper that can\'t be cheated.',
- relatedTerms: ['arcanoneer', 'atropolis', 'bryngloom-forest', 'neth', 'vel-otharen']
   },
   'scathrach': {
  id: 'scathrach',
@@ -174,7 +165,7 @@ export const LORE_DICTIONARY = {
  region: 'bryngloom-forest',
  summary: 'An immortal, silver-skinned people of the Bryngloom Forest bound by legal contracts to the Root-Veil.',
  fullEntry: 'For eight centuries, the Neth have kept a contract with the forest spirit other races only fear. The terms are simple: the Keeper of the Last Threshold preserves their bodies, and the Neth write down everything it consumes. They cannot lie. They cannot break a promise. They cannot stop writing. The alternative is the silence that waits for anyone who breaches the agreement.\n\nThey rose from the bog with silver skin and stilled breath, descended from a dying scribe-clan that negotiated survival out of the Keeper\'s mouth. Now they rule Atropolis and divide into three: the silver-skinned Velun pact-lords who govern the canopy, the Kessen weavers who work the forest floor, and the leaden-grey Drun, outcasts who burned their names from the Contract and legally do not exist.\n\nBeyond the city, the Vel-Keth Bayou, "the water that remembers," supplies the memory-glass that Kessen weavers harvest from its bed. The living-ironwood settlement of Aran-Glen shows what the Neth can build when they have centuries and a forest willing to be shaped.',
- relatedTerms: ['animist', 'aran_glen', 'arcanoneer', 'atropolis', 'black_fen', 'bryngloom-forest', 'deathcaller', 'drowned_dingle', 'elias', 'gambit', 'house_morrath', 'inquisitor', 'ironjaw_port', 'keeper_of_the_last_threshold', 'kelpies_cove', 'lichborne', 'morrens_bogpost', 'orven', 'over_shanty', 'plaguebringer', 'revenant', 'root_veil', 'root_veil_scriptorium', 'sunken_spire', 'thalrens_ledger_post', 'valerius', 'vel_keth_bayou', 'vesper', 'vreken', 'lyra']
+ relatedTerms: ['animist', 'aran_glen', 'arcanoneer', 'atropolis', 'black_fen', 'bryngloom-forest', 'deathcaller', 'drowned_dingle', 'elias', 'gambit', 'house_morrath', 'inquisitor', 'ironjaw_port', 'keeper_of_the_last_threshold', 'brinehorse_cove', 'lichborne', 'morrens_bogpost', 'orven', 'over_shanty', 'plaguebringer', 'revenant', 'root_veil', 'root_veil_scriptorium', 'sunken_spire', 'thalrens_ledger_post', 'valerius', 'vel_keth_bayou', 'vesper', 'vreken', 'lyra']
   },
   'astril': {
  id: 'astril',
@@ -261,7 +252,7 @@ export const LORE_DICTIONARY = {
  region: 'nordhalla',
  summary: 'A frozen Wyrd-creature that acts as a glacier\'s memory, replaying the death-moments of those caught in the ice.',
  fullEntry: 'The glaciers of Nordhalla remember everyone they have taken, and sometimes they give the dead back. The Stel is a heavy, crystalline colossus compacted from glacial ice and the spiritual residue of those who froze inside it. It stalks the frozen fjords as the living projection of the glacier\'s memory, replaying the final screams of the dead to lure the living close enough to join them. If you hear a familiar voice out on the ice, it isn\'t.',
- relatedTerms: ['house_skalvyr', 'hunger_glaciers', 'nordhalla', 'rime_born', 'rimors_hearth', 'ymirs_col']
+ relatedTerms: ['house_skalvyr', 'hunger_glaciers', 'nordhalla', 'rime_born', 'rimors_hearth', 'skadis_col']
   },
 
   // ============================================================
@@ -313,7 +304,7 @@ export const LORE_DICTIONARY = {
  term: 'Sol',
  type: 'entity',
  region: 'sundale',
- summary: 'The dying star entombed beneath Emberspire, a living celestial consciousness whose natural rebirth cycle has been thwarted by Keth-Amar for 780 years.',
+ summary: 'The dying star entombed beneath Emberspire, a living celestial consciousness whose natural rebirth cycle has been thwarted by Keth-Amar for nearly eight centuries.',
  fullEntry: 'Sol burns at the heart of this world, a living star whose consciousness spans the system it warms. When it entered the Deepening, the death-rebirth cycle every star undergoes, Keth-Amar came to consume it, and the binding houses entombed Sol beneath the volcanic crust of Sundale at the Binding rather than let it be eaten. Since then Sol has tried to rekindle sixty-five times. Keth-Amar has eaten every attempt at the moment of ignition.\n\nAll that remains of Sol\'s conscious warmth is the Solbrand, the thermal current bleeding upward through the basalt. The Korr Emberth tend it in sacred silence and believe Sol still breathes. The Augurs at the Frozen Archive have tracked every rebirth window since the Binding, and they\'ve watched the chance of success fall from forty percent to nothing across all sixty-five cycles. The star is still trying. The star is still failing.',
  relatedTerms: ['aex', 'keth_amar', 'solbrand', 'sundale', 'the_deepening', 'the_breach', 'the_warden', 'emberspire', 'frozen_archive']
   },
@@ -807,41 +798,14 @@ export const LORE_DICTIONARY = {
  fullEntry: 'The Skald are the dominant human bloodline of Nordhalla, shaped by eight centuries of eternal winter into a hardened, cold-tempered people. They are the warrior backbone of House Skalvyr\'s domain, broad-shouldered, frost-scarred, and possessed of a raw physical endurance that other regions find unsettling. Their oral-history traditions produce the finest chroniclers in the north, and their glacier-keep genealogies validate every Skalvyr bloodline claim. They speak Old Nord and value cold-resistance as the primary measure of worth. Carry Skald blood and the cold tests you before the world does; the glacier-keep genealogies remember every ancestor who passed, and every one who didn\'t.',
  relatedTerms: ['house_skalvyr', 'minstrel', 'nordhalla', 'grum-bloodhammer', 'cassia']
   },
-  'kora': {
- id: 'kora',
- term: 'Kora',
- type: 'historical_figure',
- region: 'bryngloom-forest',
- summary: 'The Veil-Speaker who founded the blood-covenant tradition of death magic that became one half of the Revenant class.',
- fullEntry: 'Kora the Veil-Speaker sacrificed her own life force to keep the ancestral lights of the Bryngloom burning. When the candle-flames that guided the Vreken through the peat-bogs began to dim, Kora fed them her own vitality, converting her blood into luminous death-magic. The curse that followed, the ability to hear the screams of every ancestor whose light she tended, drove her to codify her techniques into the blood-covenant tradition. Her methods were later merged with Vesper\'s frost-stasis art to create the unified Revenant class.',
- relatedTerms: ['bryngloom-forest', 'revenant', 'vesper', 'vreken']
-  },
-  'vesper': {
- id: 'vesper',
- term: 'Vesper',
- type: 'historical_figure',
- region: 'bryngloom-forest',
- summary: 'The Scribe who founded the frost-stasis tradition, binding his soul to a basalt phylactery to achieve perpetual dying.',
- fullEntry: 'Vesper the Scribe was a Neth archivist who discovered that the bog\'s preserving ichor, the same substance that sustains the First Contract, could be used to arrest the dying process itself. By binding his soul to a carved basalt phylactery, Vesper achieved a state of perpetual dying: neither alive nor dead, sustained by the cold preservation of the deep peat. His techniques were later merged with Kora\'s blood-covenant to create the Revenant class, combining volatile death-magic with frost-stasis resurrection.',
- relatedTerms: ['bryngloom-forest', 'kora', 'neth', 'revenant']
-  },
-  'orven': {
- id: 'orven',
- term: 'Orven-Sen',
+  'orven-sen': {
+    id: 'orven-sen',
+    term: 'Orven-Sen',
  type: 'historical_figure',
  region: 'bryngloom-forest',
  summary: 'The Kessen probability-weaver who predicted the eruption of Emberspire sixty-three years before it happened, and whose hidden contingency clauses saved millions.',
  fullEntry: 'Orven-Sen was a mid-level Kessen probability-weaver attached to the Ironjaw Port trade delegation. In the Year of the First Ash (the first year following the Shattering of the Seal and the initial eruption of Emberspire), he filed a formal prediction that the volcano\'s secondary chambers would suffer a second, catastrophic tectonic eruption within a century. He was fined for filing a frivolous prediction and died forty years later without seeing it come true. Sixty-three years after his death, the secondary chambers erupted exactly as predicted, permanently blanketing the sky in thick soot, and his quietly inserted contingency clauses in three generations of warmth-resource contracts saved the Neth an estimated four million gold-weight in renegotiation costs.',
- relatedTerms: ['bryngloom-forest', 'emberspire', 'neth', 'inquisitor']
-  },
-  'elias': {
- id: 'elias',
- term: 'Elias',
- type: 'historical_figure',
- region: 'bryngloom-forest',
- summary: 'A co-founder of the Inquisitor tradition who developed the ritual frameworks for severing magical contracts and binding fiends.',
- fullEntry: 'Elias was a scholar of the Bryngloom who recognized that the same legal precision the Neth used to write contracts could be inverted to dismantle them. Where the Velun built binding clauses, Elias built severance clauses, ritual frameworks capable of identifying, disrupting, and annulling magical contracts of any complexity. His work became the foundation of the Inquisitor tradition, enabling witch-hunters to sever the bonds between rogue mages and their contracted powers.',
- relatedTerms: ['bryngloom-forest', 'inquisitor', 'neth', 'orven']
+ relatedTerms: ['bryngloom-forest', 'emberspire', 'neth']
   },
 
   // ============================================================
@@ -855,7 +819,7 @@ export const LORE_DICTIONARY = {
  region: 'iceheart-sea',
  summary: 'The seafaring ruling family of the Iceheart Sea, enforcing the Sea-Charter and the Brine-Bond Syndicate.',
  fullEntry: 'House Mereval rules the Iceheart Sea under Grand Admiral Varis. Having traded calm waters for unfreezing sea-lanes, the house governs the floating capital of Merrowport. They maintain control through a monopoly on the Brine-Bond Syndicate, paying crews in Voyage-Shares, and enforce ship registrations via the Unfreezing Booms. Under the state-enforced Luck-Ledger, the house purges Tide-Speak animists. The house has recently deployed steam-trawling fleets, causing damage to the deep-current substrate that drives Myrathil to madness. Sail under Mereval colors and the Sea-Charter follows you; the Board of Trade owns your wake, and the Myrathil beneath the keel remember every ship that wronged them.',
- relatedTerms: ['deepwell_archipelago', 'first_shore', 'gale_storm_shallows', 'iceheart-sea', 'kelpies_cove', 'merrowport', 'minstrel', 'spindrift_lagoon', 'the_saltmaw_estuary', 'mereval-admiral', 'merr-cael', 'mer-lyrisa']
+ relatedTerms: ['deepwell_archipelago', 'first_shore', 'gale_storm_shallows', 'iceheart-sea', 'brinehorse_cove', 'merrowport', 'minstrel', 'spindrift_lagoon', 'the_saltmaw_estuary', 'mereval-admiral', 'merr-cael', 'mer-lyrisa']
   },
   'house_tesshan': {
  id: 'house_tesshan',
@@ -930,15 +894,6 @@ export const LORE_DICTIONARY = {
  fullEntry: 'Among the houses that signed the Binding Compact, one stands silent. Its entry in every ledger and contract-hall is a blank line where a name should be.\n\nThe reason is now known, though no house will say so aloud. House Viridane was the original seventh signatory. When something reached them before Keth-Amar could claim them, they fled south. The remaining six houses, Thalreth, Skalvyr, Tesshan, Solvan, Mereval, Ordavan, could not complete the ritual with a gap. They elevated a minor family, House Morrath, as a substitute signatory.\n\nThe erasure that followed was not political. Keth-Amar hunts through knowledge. To carry the memory of Viridane was to hold a thread the Sun-Eater could follow. The fog that swallowed their name was protection as much as punishment. Morrath\'s records are sparse because they were written to replace a history that predated them, and because the details of what happened to the seventh house are safest when they are not known at all.\n\nSix houses suspect this truth. None will confirm it. Scribe-Sentinels who research the matter have a habit of disappearing into the fog. The Briaran carry Viridane\'s blood in their thorns, and they do not forget what the ledgers will not record.\n\nYou will not find Viridane\'s name in any ledger that survives. But if you walk the deep ironwood with a Briaran guide, the Unwritten Word will tell you whether what you have been told about the seventh house is the truth, or merely what the fog has decided you are allowed to remember.',
  relatedTerms: ['briaran', 'house_morrath', 'house_viridane', 'keth_amar', 'the_warden']
   },
-  'damon': {
- id: 'damon',
- term: 'Damon',
- type: 'historical_figure',
- region: 'sundale',
- summary: 'The Emberth smith who founded the Spellguard tradition, developing the art of identifying and neutralizing magical threats near the volatile Solbrand.',
- fullEntry: 'Damon was a master Emberth smith in the forge-caldera keeps of Sundale, working in close proximity to the Solbrand. The imprisoned star\'s resonance occasionally erupted in unpredictable magical bursts, dangerous for the forge-clans who worked nearby. Damon developed the first systematic method for detecting, analyzing, and dismantling incoming magical energy before it could manifest. His techniques became the foundation of the Spellguard tradition: practitioners who treat magical defense as an engineering discipline rather than an artistic one.',
- relatedTerms: ['emberth', 'solbrand', 'spellguard', 'sundale']
-  },
   'memory_fog_mechanics': {
  id: 'memory_fog_mechanics',
  term: 'Memory Fog Mechanics',
@@ -953,15 +908,6 @@ export const LORE_DICTIONARY = {
   // DUAL-ORIGIN & CLASS FOUNDERS
   // ============================================================
 
-  'veyra': {
- id: 'veyra',
- term: 'Veyra',
- type: 'historical_figure',
- region: 'frostwood-reach',
- summary: 'The Mimir chronicler who merged the Frostwood kinetic momentum dance with the Frostmaw biological body-sculpting art to create the Shaper tradition.',
- fullEntry: 'Veyra was a Mimir chronicler who spent centuries studying both the Frostwood Reach kinetic momentum dance (pioneered by Sylvanus) and the Frostmaw Holdfast biological body-sculpting art (pioneered by Torin). She proved they were one dance seen from two angles, momentum shaping form, form directing momentum, and fused them into the six Shaping Forms. She still leads the Form-Convergence from Frostmaw Holdfast, her semi-crystalline skin more calcified each year, the only Shaper to hold the merged art without burning out.',
- relatedTerms: ['frostwood-reach', 'frostmaw_holdfast', 'mimir', 'shaper', 'sylvanus', 'torin', 'house_tesshan']
-  },
   'sylvanus': {
  id: 'sylvanus',
  term: 'Sylvanus',
@@ -980,15 +926,6 @@ export const LORE_DICTIONARY = {
  fullEntry: 'Torin was a Groven of Frostmaw Holdfast who drank raw alchemical sulfur-clay, forcing his skeleton to calcify and expand, and developed the biological body-sculpting art from the Deep Alchemists\' vat-heritage turned inward. The tradition was later merged by Veyra with Sylvanus\'s kinetic momentum dance into the Shaper class.',
  relatedTerms: ['cragjaw-peaks', 'frostmaw_holdfast', 'groven', 'shaper', 'veyra']
   },
-  'xyris': {
- id: 'xyris',
- term: 'Xyris',
- type: 'historical_figure',
- region: 'sundrift-vale',
- summary: 'The Sundrift Vale nomad who tore a hole in reality and co-founded the Harbinger tradition; she died from the tear.',
- fullEntry: 'Xyris was a nomad of the Sundrift Vale who spliced temporal friction into her veins and tore open reality. The hole killed her, but it proved the chaos could be wielded. Her work was completed by Malakor of Nordhalla, who calculated the arithmetic of her doom, when the holes she opened would consume everything. The Harbinger tradition is their merger: Xyris\'s tear joined to Malakor\'s arithmetic.',
- relatedTerms: ['harbinger', 'malakor', 'sundrift-vale']
-  },
   'malakor-the-archivist': {
  id: 'malakor-the-archivist',
  term: 'Malakor',
@@ -997,42 +934,6 @@ export const LORE_DICTIONARY = {
  summary: 'The archivist who calculated when the world ends, and found the answer soothing. He still leads the Doom-Choir from the Frozen Archive, counting down.',
  fullEntry: 'Xyris tore the holes in reality. Malakor did the cold work she could not: he calculated exactly when those tears would consume everything. The number did not break him; it gave him a purpose. He merged Xyris\'s chaos-work with his own prophetic arithmetic and founded the Harbinger tradition, and he still leads the Doom-Choir from the Frozen Archive, serene in the certainty that the equation has only one solution. The Choir is still singing the count, and if you can hear it, you\'re already a Harbinger; the only question left is what you do with the time Malakor says you have.',
  relatedTerms: ['frozen_archive', 'harbinger', 'nordhalla', 'xyris']
-  },
-  'orven': {
- id: 'orven',
- term: 'Orven',
- type: 'historical_figure',
- region: 'bryngloom-forest',
- summary: 'The Vreken who forged the first cold-iron blade, swore the Barbed Vow, and co-founded the Inquisitor tradition; gone dark in the deep Bryngloom.',
- fullEntry: 'Orven the Still-Handed was a Vreken of the Bryngloom Forest who forged the first cold-iron blade and swore the Barbed Vow to hunt corrupted kin whose ancestral spirit-bonds had gone rogue. His Bryngloom-rooted tradition was merged with Elias the Salt-Scarred\'s Frostwood anti-Wyrd work into the Inquisitor class. Orven has gone dark, last recorded during a final network-severance in the deep Bryngloom. Neither confirmed dead nor returning.',
- relatedTerms: ['bryngloom-forest', 'elias', 'inquisitor', 'vreken', 'neth', 'emberspire']
-  },
-  'jax': {
- id: 'jax',
- term: 'Jax',
- type: 'historical_figure',
- region: 'iceheart-sea',
- summary: 'The Merryn pirate who wagered his lifeline against a storm-spirit at Merrowport and co-founded the Gambit tradition; missing, last seen walking into the Iceheart Sea.',
- fullEntry: 'Jax was a Merryn pirate who wagered his lifeline against a storm-spirit at Merrowport, winning the wind but losing his blood\'s warmth. He co-founded the Gambit tradition with Lyra the Kessen probability-weaver. Jax is missing: last seen walking into the Iceheart Sea at midnight, fully clothed, with a smile and a loaded die. The Gambits suspect he walked into the water to clear his debt with the storm-spirit in one final game.',
- relatedTerms: ['gambit', 'iceheart-sea', 'lyra', 'merrowport']
-  },
-  'lyra': {
- id: 'lyra',
- term: 'Lyra',
- type: 'historical_figure',
- region: 'bryngloom-forest',
- summary: 'The Kessen Neth probability-weaver who co-founded the Gambit tradition; radicalized, now leading the Deck-Burners faction from Ironjaw Port.',
- fullEntry: 'Lyra was a Kessen Neth probability-weaver who read the threads of consequence through rune-etched cards, plucking the single timeline in which her caravan survived, at the cost of fracturing her consciousness. She co-founded the Gambit tradition with Jax the Merryn pirate. Lyra has since radicalized: her Deck-Burners faction seeks to force the universe to choose, burning rune-cards to collapse probability into certainty, a heresy the older Gambits consider a breach of the tradition\'s relationship with chance itself.',
- relatedTerms: ['bryngloom-forest', 'gambit', 'ironjaw_port', 'jax', 'neth']
-  },
-  'alaric': {
- id: 'alaric',
- term: 'Alaric',
- type: 'historical_figure',
- region: 'cragjaw-peaks',
- summary: 'The Groven mine-guard who invented the chain-graft tradition and founded the Warden class; still leads the Bound with the chain rusted into his bone.',
- fullEntry: 'Alaric the Law-Keeper was a Groven mine-guard in the lower tunnels of Frostmaw Holdfast. When the Deep Alchemists\' vat-laboratories collapsed and their experiments poured into the tunnels, Alaric drove an ore-hauling chain through his own forearm into the largest specimen and held for three days. The chain rusted into his bone; he refused to have it removed. From that act came the entire chain-graft surgical tradition and the Warden class. Alaric still leads the Bound from the Chain-Hold at Frostmaw, his regenerative Thrumm-derived biology keeping him functional seven centuries beyond a normal Groven lifespan.',
- relatedTerms: ['cragjaw-peaks', 'deep_alchemists', 'frostmaw_holdfast', 'groven', 'warden', 'house_tesshan']
   },
   'kael': {
  id: 'kael',
@@ -1120,7 +1021,7 @@ export const LORE_DICTIONARY = {
  type: 'faction',
  region: 'cragjaw-peaks',
  summary: 'Older than the Dark Bargains, older than human fire, the Fexric research sect that forged the Groven from Thrumm blood, lost them to revolt, and retreated beneath Frostmaw Crag to keep working.',
- fullEntry: 'For millennia before the Dark Bargains, the Deep Alchemists worked the deep tunnels of the Cragjaw Peaks, refining living flesh in sealed vats while humans were still learning to make fire. They are the oldest continuous research sect on Mythrill, a branch of the Fexric who treated flesh the way a smith treats ore: something to be melted, alloyed, and poured into a better shape. They were never kind about it.\n\nTheir great work was the Groven. Eight hundred years ago, the Alchemists captured hundreds of Thrumm broodlings, the regenerative tunnel-dwellers who did little but eat, sleep, and heal, and submerged them in alchemical serums. They hardened skin into stone-scale, lengthened limbs for tool use, and forced cognition awake. The Groven were built to labor. The first generation developed will, then language, then a revolt that shattered the Alchemists\' surface operations.\n\nThe guild didn\'t die. It retreated into sealed vat-laboratories beneath Frostmaw Crag and kept working. Its current project is the Lost Brood: Thrumm and half-transformed Groven who have hung in those vats for seven centuries, still being adjusted by hands that never stopped. The Alchemists now believe the Wyrd itself can be refined, distilled, and injected. They want to brew a form of life that transcends both organic flesh and Wyrd substance.\n\nThey are still down there. The Groven above know it. If you walk the lower sumps of Frostmaw and listen to the pipes, you can hear the vats humming. Whether you come as a Groven with a debt to settle, a Fexric with a curiosity you cannot explain, or simply someone who values their own bones, the Deep Alchemists would very much like to meet you.',
+ fullEntry: 'For long ages before the Dark Bargains, the Deep Alchemists worked the deep tunnels of the Cragjaw Peaks, refining living flesh in sealed vats while humans were still learning to make fire. They are the oldest continuous research sect on Mythrill, a branch of the Fexric who treated flesh the way a smith treats ore: something to be melted, alloyed, and poured into a better shape. They were never kind about it.\n\nTheir great work was the Groven. Eight hundred years ago, the Alchemists captured hundreds of Thrumm broodlings, the regenerative tunnel-dwellers who did little but eat, sleep, and heal, and submerged them in alchemical serums. They hardened skin into stone-scale, lengthened limbs for tool use, and forced cognition awake. The Groven were built to labor. The first generation developed will, then language, then a revolt that shattered the Alchemists\' surface operations.\n\nThe guild didn\'t die. It retreated into sealed vat-laboratories beneath Frostmaw Crag and kept working. Its current project is the Lost Brood: Thrumm and half-transformed Groven who have hung in those vats for seven centuries, still being adjusted by hands that never stopped. The Alchemists now believe the Wyrd itself can be refined, distilled, and injected. They want to brew a form of life that transcends both organic flesh and Wyrd substance.\n\nThey are still down there. The Groven above know it. If you walk the lower sumps of Frostmaw and listen to the pipes, you can hear the vats humming. Whether you come as a Groven with a debt to settle, a Fexric with a curiosity you cannot explain, or simply someone who values their own bones, the Deep Alchemists would very much like to meet you.',
  relatedTerms: ['fexrick', 'frostmaw_holdfast', 'groven', 'lost_brood_vats', 'thrumm', 'vat_breakers_guild', 'alaric', 'vat-breaker-foreman']
   },
 
@@ -1261,13 +1162,13 @@ export const LORE_DICTIONARY = {
   },
 
   // NORDHALLA, New Locations
-  'ymirs_col': {
- id: 'ymirs_col',
- term: "Ymir's Col",
+  'skadis_col': {
+ id: 'skadis_col',
+ term: "Skadi's Col",
  type: 'location',
  region: 'nordhalla',
  summary: 'A treacherous mountain pass between glacier-capped peaks, named for a figure of Skald pre-Binding legend.',
- fullEntry: 'Ymir\'s Col is the most dangerous pass in Nordhalla, a wind-scoured gap between two peaks where the air moves fast enough to strip flesh from bone. Named for a figure of Skald pre-Binding legend, the col is marked by cairns of frozen corpses, their expressions preserved in perfect, screaming clarity. Only the Skald Ice-Trackers can navigate it safely, and even they lose people every year. Cross the col with an Ice-Tracker or don\'t cross it at all; the wind doesn\'t negotiate, and the cairns are full of people who thought they could make it in a hurry.',
+ fullEntry: 'Skadi\'s Col is the most dangerous pass in Nordhalla, a wind-scoured gap between two peaks where the air moves fast enough to strip flesh from bone. Named for a figure of Skald pre-Binding legend, the col is marked by cairns of frozen corpses, their expressions preserved in perfect, screaming clarity. Only the Skald Ice-Trackers can navigate it safely, and even they lose people every year. Cross the col with an Ice-Tracker or don\'t cross it at all; the wind doesn\'t negotiate, and the cairns are full of people who thought they could make it in a hurry.',
  relatedTerms: ['house_skalvyr', 'nordhalla', 'stel']
   },
   'vargtor': {
@@ -1346,13 +1247,13 @@ export const LORE_DICTIONARY = {
   },
 
   // ICEHEART SEA, New Locations
-  'kelpies_cove': {
- id: 'kelpies_cove',
- term: "Kelpie's Cove",
+  'brinehorse_cove': {
+ id: 'brinehorse_cove',
+ term: "Brinehorse Cove",
  type: 'location',
  region: 'iceheart-sea',
  summary: 'A smuggler\'s inlet hidden behind ice-shoals, marked by bioluminescent lanterns.',
- fullEntry: 'Kelpie\'s Cove is the Iceheart Sea\'s most notorious black-market port, a sheltered inlet hidden behind a wall of grinding ice-shoals that only the most skilled Merryn pilots can navigate. Named for the phantom sea-horse said to lure ships onto the rocks, the cove is where contraband from every region changes hands without questions. Drun outcasts from the Bryngloom maintain a permanent presence here, running the memory-trade alongside traditional smuggling. Run the ice-shoals into the cove and you\'ll find every region\'s secrets for sale; the phantom sea-horse is a story the smugglers tell to explain the ships that don\'t come back, and not all of them are stories.',
+ fullEntry: 'Brinehorse Cove is the Iceheart Sea\'s most notorious black-market port, a sheltered inlet hidden behind a wall of grinding ice-shoals that only the most skilled Merryn pilots can navigate. Named for the phantom sea-horse said to lure ships onto the rocks, the cove is where contraband from every region changes hands without questions. Drun outcasts from the Bryngloom maintain a permanent presence here, running the memory-trade alongside traditional smuggling. Run the ice-shoals into the cove and you\'ll find every region\'s secrets for sale; the phantom sea-horse is a story the smugglers tell to explain the ships that don\'t come back, and not all of them are stories.',
  relatedTerms: ['house_mereval', 'iceheart-sea', 'neth']
   },
   'wraithsound': {
@@ -1987,7 +1888,7 @@ export const LORE_DICTIONARY = {
  role: 'Choir-Prime of the Doom-Arithmetic',
  region: 'nordhalla',
  summary: 'The Harbinger who calculates when each Chaos Pocket will consume reality, and has been correct every time.',
- fullEntry: 'Malakor co-founded the Harbinger tradition with Xyris, who tore the first Chaos Pocket into existence. Math is Malakor\'s medium: he does not see the future, he calculates it, tracking when each reality-tear will expand past the point of containment. The arithmetic has never been wrong. Each Chaos Pocket that opens bleeds warmth from the buried star of Emberspire, accelerating the end the Doom-Choir was founded to predict. Malakor the Finite is the current Choir-Prime, and the number he is most often asked for, the estimated remaining lifespan of the known world, is the one he refuses to give. His unnatural longevity, four hundred and seventy-one years and counting despite Skald blood, is a side-effect of sustained contact with the Harbinger equations, temporal friction suspending his biological aging. Ask Malakor for the number and he will not give it; ask whether you should be afraid, and his silence is the answer.',
+ fullEntry: 'Malakor co-founded the Harbinger tradition with Xyris, who tore the first Chaos Pocket into existence. Math is Malakor\'s medium: he does not see the future, he calculates it, tracking when each reality-tear will expand past the point of containment. The arithmetic has never been wrong. Each Chaos Pocket that opens bleeds warmth from the buried star of Emberspire, accelerating the end the Doom-Choir was founded to predict. Malakor the Finite is the current Choir-Prime, and the number he is most often asked for, the estimated remaining lifespan of the known world, is the one he refuses to give. His unnatural longevity, nearly five centuries of counting despite Skald blood, is a side-effect of sustained contact with the Harbinger equations, temporal friction suspending his biological aging. Ask Malakor for the number and he will not give it; ask whether you should be afraid, and his silence is the answer.',
  relatedTerms: ['frozen_archive', 'nordhalla', 'emberspire', 'harbinger'],
  worldFriction: 'Each Chaos Pocket accelerates the end. He knows the estimate. He will not say it.'
   },
@@ -2298,10 +2199,10 @@ export const LORE_DICTIONARY = {
  type: 'character',
  role: 'Velun Neth Appointee to House Morrath',
  region: 'atropolis',
- summary: 'A Velun Neth who has been "acting" Steward of House Morrath for 317 years. No Morrath descendant has claimed the seat in living memory.',
- fullEntry: 'The Steward of the Seventh Seat has governed House Morrath from Atropolis for 317 years, a Velun Neth appointed as a placeholder when the last Morrath descendant failed to present themselves. The position was meant to be temporary. No Morrath has appeared in living memory. The Steward administers the Morrath contract-debt, the family\'s hereditary obligation to the Keeper, as though the seat\'s true owners might walk through the door tomorrow. Every year that passes without them makes the fiction harder to maintain, but the Keeper of the Last Threshold has not acknowledged any breach, and a Velun Neth cannot voluntarily abandon a contract they signed. Sign a contract in Atropolis and you may wait a long time for the seat\'s real owner to relieve you of it; the Steward has been waiting three centuries, and the door still hasn\'t opened.',
+ summary: 'A Velun Neth who has been "acting" Steward of House Morrath for over three centuries. No Morrath descendant has claimed the seat in living memory.',
+ fullEntry: 'The Steward of the Seventh Seat has governed House Morrath from Atropolis for over three centuries, a Velun Neth appointed as a placeholder when the last Morrath descendant failed to present themselves. The position was meant to be temporary. No Morrath has appeared in living memory. The Steward administers the Morrath contract-debt, the family\'s hereditary obligation to the Keeper, as though the seat\'s true owners might walk through the door tomorrow. Every year that passes without them makes the fiction harder to maintain, but the Keeper of the Last Threshold has not acknowledged any breach, and a Velun Neth cannot voluntarily abandon a contract they signed. Sign a contract in Atropolis and you may wait a long time for the seat\'s real owner to relieve you of it; the Steward has been waiting three centuries, and the door still hasn\'t opened.',
  relatedTerms: ['atropolis', 'keeper_of_the_last_threshold', 'house_morrath'],
- worldFriction: '317 years as "acting" Steward. The Morrath line may be extinct. The contract binds regardless.'
+ worldFriction: 'Over three centuries as "acting" Steward. The Morrath line may be extinct. The contract binds regardless.'
   },
 
   'sigurd-skalvyr': {
@@ -2321,9 +2222,9 @@ export const LORE_DICTIONARY = {
  type: 'character',
  role: 'Geothermal Negotiator for House Skalvyr',
  region: 'nordhalla',
- summary: 'The diplomat who negotiates Nordhalla\'s geothermal energy trade with Sundale\'s volcano-keeps.',
-  fullEntry: 'Frigga Skalvyr holds what may be House Skalvyr\'s most dangerous position: Geothermal Negotiator. Nordhalla\'s glacier-bound fjord-keeps depend on imported heat from Sundale\'s volcanic vents, a dependence the Skalvyr would prefer no one mention. Frigga\'s work takes her from the Fjord Gate to Emberspire and back, brokering thermal-trade agreements with houses that have every reason to charge whatever they wish. She has survived three assassination attempts, two trade collapses, and one marriage proposal from a Thrask forge-lord who genuinely did not understand why a Skalvyr would say no.',
- relatedTerms: ['fjord_gate', 'nordhalla', 'emberspire', 'house_skalvyr']
+ summary: 'The Skalvyr diplomat who built the Void-Heat engine beneath the Frozen Archive and now negotiates Nordhalla\'s clandestine geothermal trade.',
+  fullEntry: 'Facing Nordhalla\'s terminal geothermal failure, Frigga Skalvyr decided the Glacier Bargain was worth breaking. She made clandestine contact with outcast Emberth pyrofiends and built the Void-Heat engine beneath the Frozen Archive, trading ancestral stability for stolen warmth. The engine worked, but the price came due in ghost-data and double-visions. Today, she holds the dangerous title of Geothermal Negotiator, traveling between the Fjord Gate and Emberspire to broker thermal-trade agreements with houses that hold all the leverage. She still tends the engine, and whether she saved her house or doomed it is the question every shaman asks and none can answer.',
+ relatedTerms: ['fjord_gate', 'nordhalla', 'emberspire', 'house_skalvyr', 'frozen_archive', 'emberth']
   },
 
   'vellan-archivist': {
@@ -2734,15 +2635,6 @@ export const LORE_DICTIONARY = {
  relatedTerms: ['bryngloom-forest', 'neth', 'velun', 'drunhold', 'keeper_of_the_last_threshold', 'house_morrath']
   },
 
-  'frigga-skalvyr': {
- id: 'frigga-skalvyr',
- term: 'Frigga Skalvyr',
- type: 'historical_figure',
- region: 'nordhalla',
- summary: 'The Skalvyr daughter who built a heat-engine beneath the Frozen Archive and traded the Glacier Bargain\'s stability for stolen warmth.',
- fullEntry: 'Frigga Skalvyr decided the Glacier Bargain was worth breaking, and built the engine to prove it. Within living memory, facing Nordhalla\'s terminal geothermal failure, she made clandestine contact with outcast Emberth pyrofiends and constructed the Void-Heat engine beneath the Frozen Archive, trading ancestral stability for stolen warmth. The engine worked, and the price came due in ghost-data, double-visions, and three Augurs who never woke. Frigga still tends the engine, and whether she saved her house or doomed it is the question every shaman asks and none can answer.',
- relatedTerms: ['nordhalla', 'house_skalvyr', 'frozen_archive', 'skald', 'augur', 'emberth']
-  },
 
   'watcher_in_the_mist': {
  id: 'watcher_in_the_mist',

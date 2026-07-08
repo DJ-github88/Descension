@@ -352,7 +352,7 @@
 
 ---
 
-# REGION 2: NORDHALLA & THE VALLEY OF YMIR — The Frozen Throne
+# REGION 2: NORDHALLA & THE VALLEY OF RIME — The Frozen Throne
 ### Folklore Pairing: Norse + Alpine
 > *Setting:* Brutalist tundra of black fjords and halted glaciers. The Frozen Archive — a prehistoric clockwork city preserved in ice. House Skalvyr traded summer to freeze the advancing glaciers. Rime-Born carve runes for memories; Bloodhammer warriors burn with ancestral rage.
 
@@ -438,7 +438,7 @@
 - **The Face:** The masks are the faces. No one has seen what lies behind them. The Schönperchten masks radiate warmth; the Schiachperchten masks radiate killing cold. When a mask cracks, the Percht beneath dissolves into snow.
 
 #### 3. Ecology: Why It Resides in Nordhalla
-- **The Winter-Procession:** The Perchtar sweeps through the Valley of Ymir during the deepest winter nights, a column of light and sound visible for miles. Its passage clears the Wyrd-corruption from the region for one month — the only reliable method of Wyrd-suppression in Nordhalla.
+- **The Winter-Procession:** The Perchtar sweeps through the Valley of Rime during the deepest winter nights, a column of light and sound visible for miles. Its passage clears the Wyrd-corruption from the region for one month — the only reliable method of Wyrd-suppression in Nordhalla.
 - **The Mask-Judge:** They stop before each settlement. If the village has maintained hearth-fires and honored its dead, the Schönperchten leave gifts of preserved fish and coal. If the village has neglected its duties, the Schiachperchten step forward — and no one sleeps until they leave.
 
 ---

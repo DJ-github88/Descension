@@ -239,24 +239,7 @@ const formatAbilityType = (type) => {
   return typeMap[type.toLowerCase()] || type.charAt(0).toUpperCase() + type.slice(1);
 };
 
-// Calculate soak die based on armor value (same logic as character sheet)
-// NOTE: Creatures do not use equipment-based DR/soak. This is kept for
-// backward compatibility with any legacy creature data that may have armor values.
-const getSoakDieFromArmor = (armorValue = 0) => {
-  if (!armorValue || armorValue <= 0) return '-';
-  const armor = Math.max(0, Math.floor(armorValue));
-  if (armor < 5) return '-';
-  if (armor <= 9) return '1d4';
-  if (armor <= 14) return '1d6';
-  if (armor <= 19) return '1d8';
-  if (armor <= 24) return '1d10';
-  if (armor <= 29) return '1d12';
-  if (armor <= 34) return '1d12 + 1d4';
-  if (armor <= 39) return '1d12 + 1d6';
-  if (armor <= 44) return '2d12';
-  if (armor <= 49) return '2d12 + 1d4';
-  return '2d12 + 1d6';
-};
+
 
 
 

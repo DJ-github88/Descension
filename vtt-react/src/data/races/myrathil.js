@@ -476,7 +476,6 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
         languages: ['Common', 'Aquan'],
         speed: 30,
         baseStats: {
-          armor: 0,
           hp: 22,
           mana: 22,
           ap: 3,
@@ -786,7 +785,6 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
         languages: ['Common', 'Aquan', 'Primordial'],
         speed: 25,
         baseStats: {
-          armor: 0,
           hp: 24,
           mana: 28,
           ap: 3,
@@ -1101,7 +1099,6 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
         languages: ['Common', 'Aquan'],
         speed: 30,
         baseStats: {
-          armor: 0,
           hp: 26,
           mana: 18,
           ap: 3,

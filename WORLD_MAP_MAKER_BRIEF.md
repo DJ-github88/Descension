@@ -1,5 +1,17 @@
 # MYTHRILL — World Map Maker's Brief
 
+> [!IMPORTANT]
+> **CANONICAL SOURCE NOTICE & LORE REVISIONS**
+> This document is a reference brief for map artists and GMs, not the final source of truth. The canonical sources of truth are:
+> 1. `vtt-react/src/data/rulesData.js` for cosmology, timelines, and regional overviews.
+> 2. `vtt-react/src/data/loreDictionary.js` for specific characters, locations, factions, and house definitions.
+> 3. `LORE_STYLE_GUIDE.md` for writing rules and the unified history timeline.
+>
+> **Known Canon Adjustments:**
+> - **House Viridane**: Under the unified canon, House Viridane was the **original seventh binding family** (one of the original seven signatories of Sol's Binding Compact). When they refused Keth-Amar's demands, the remaining six houses elevated House Morrath as their replacement and spent three centuries erasing every trace of Viridane. The common label of House Viridane as the "eighth house" is the public's term (counting the seven official houses plus the erased one).
+> - **Timeline Consistency**: The world is approximately 800 years old since the Binding (Year 3) and the Breach (Year 11). Any legacy mentions in this brief of "thousands of years" or "2,000 years" have been corrected in the code database to align with the ~800-year timeline.
+> - **Real-World Renames**: Legacy Norse/Scottish place-names have been updated in the source code (e.g. `Ymir's Col` -> `Skadi's Col`, `Ymirhold` -> `Skalvyrhold`, `Valley of Ymir` -> `Valley of Rime`, `Kelpie's Cove` -> `Brinehorse Cove`).
+>
 > **A comprehensive documentation of the world, its regions, races, creatures, factions, and lore — for the map artist who will draw our world.**
 
 ---
@@ -229,7 +241,7 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 **A. The Glacier-Heart** (Nordhalla-Glacier-Heart) — the polar interior
 - Climate: polar, perpetual blizzard, brief white summer
 - Terrain: glaciers, ice fields, frozen chasms, granite peaks
-- Zones: frozen-archive, rimors-hearth, hunger-glaciers, ymirs-col, the-still-crag, frosthold-citadel, bearsbeards-beak
+- Zones: frozen-archive, rimors-hearth, hunger-glaciers, skadis-col, the-still-crag, frosthold-citadel, bearsbeards-beak
 - People: Rime-Born, Frostbound, Corvani, Skald royal clans
 
 **B. The Fjord-Coast** (Nordhalla-Fjord-Coast) — the populated eastern face
@@ -257,7 +269,7 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 ### Notable Landmarks
 
 - **Bearsbeard's Beak** — highest peak, a granite tooth said to be the petrified corpse of a bear that challenged the sun
-- **Ymir's Col** — wind-scoured gap between two peaks, the air strips flesh from bone in minutes
+- **Skadi's Col** — wind-scoured gap between two peaks, the air strips flesh from bone in minutes
 - **The Hunger Glaciers** — shifting whiteout expanse
 - **The Still Crag** — cliff face perpetually frozen in absolute silence; the Rime-Born perform memory-freezing rites here
 - **Rimor's Hearth** — ruins of a buried mountain keep, still warm from stubborn steam vents
@@ -296,7 +308,7 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 
 - **Symbols:** ice-axes, Járn-Tand sigil (iron-tooth), Corvani raven-feather, Frost-Tithe cradle, runic cold-iron axes, wolf-head gateposts, whale-bone staves
 - **Buildings:** black granite, basalt, ice-carved facades, dragon-prow longhouses (Skald style), seal-skin roofed huts on southern shore
-- **Landmarks:** the Frozen Archive as a glacier face with the dead standing visible in the ice, Bearsbeard's Beak as an impossible tooth, Ymir's Col with cairns of frozen corpses, Vargtor's wolf-circle, geothermal vents with steam plumes
+- **Landmarks:** the Frozen Archive as a glacier face with the dead standing visible in the ice, Bearsbeard's Beak as an impossible tooth, Skadi's Col with cairns of frozen corpses, Vargtor's wolf-circle, geothermal vents with steam plumes
 - **Color: ice blue, glacier white, obsidian black, blood red, forge orange. Use a lot of stark white contrast.**
 
 ---
@@ -420,7 +432,7 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 **A. The Merrow Archipelago** (Iceheart-Merrow-Archipelago) — central inhabited islands
 - Climate: storm-belt, sea-cold, gales year-round
 - Terrain: volcanic seamounts lashed into floating cities, black-sand beaches
-- Zones: merrowport, ironjaw-port, kelpies-cove, spindrift-lagoon, blackteeth-isle, the-lucky-anchor
+- Zones: merrowport, ironjaw-port, brinehorse-cove, spindrift-lagoon, blackteeth-isle, the-lucky-anchor
 
 **B. The Storm-Belt** (Iceheart-Storm-Belt) — western
 - Climate: perpetual cyclone-belt, lightning, salt-rain
@@ -456,7 +468,7 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 - **Blackteeth Isle** (settlement) — volcanic island, Drift-Council representatives
 - **The Lucky Anchor** (settlement) — floating gambling-and-dock on three lashed warships
 - **Tide-Court Cove** (settlement) — Mer-Court's hidden tidal harbor
-- **Kelpie's Cove** (settlement) — black-market port behind ice-shoals
+- **Brinehorse Cove** (settlement) — black-market port behind ice-shoals
 
 ### Notable Landmarks
 

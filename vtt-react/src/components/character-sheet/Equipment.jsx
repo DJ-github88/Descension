@@ -1716,7 +1716,6 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
             totalStats.maxMana = Math.round(freshDerivedStats.maxMana || mana.max);
             totalStats.healthRegen = Math.round(freshDerivedStats.healthRegen || 0);
             totalStats.manaRegen = Math.round(freshDerivedStats.manaRegen || 0);
-            totalStats.armor = Math.round(freshDerivedStats.armor || 0);
             totalStats.movementSpeed = Math.round(freshDerivedStats.moveSpeed ?? 30);
             totalStats.carryingCapacity = Math.round(freshDerivedStats.carryingCapacity || 0);
             totalStats.damage = Math.round(freshDerivedStats.damage || 0);

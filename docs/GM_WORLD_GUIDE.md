@@ -1,8 +1,13 @@
 # MYTHRILL
 ## Game Master's World Guide
 
-> **CANONICAL SOURCE NOTICE**
-> This document is a convenience summary for GMs, not a source of truth. The canonical sources are: `vtt-react/src/data/rulesData.js` for world/cosmology/regional lore (Parts I, II, III, V, VI); `vtt-react/src/data/loreDictionary.js` for dictionary terms; and `vtt-react/src/data/classes/*.js` (each class's `overview` block) for class lore (Part IV). If this guide and the data files conflict, **the data files are authoritative**. Regenerate the affected part from its data source rather than editing this guide by hand — that is how the obsolete-class drift of P0-6 happened.
+> **CANONICAL SOURCE NOTICE & LORE REVISIONS**
+> This document is a convenience summary for GMs, not a source of truth. The canonical sources are: `vtt-react/src/data/rulesData.js` for world/cosmology/regional lore; `vtt-react/src/data/loreDictionary.js` for dictionary terms; and `vtt-react/src/data/classes/*.js` for class lore. If this guide and the data files conflict, **the data files are authoritative**.
+> 
+> **Recent Lore Revisions:**
+> - **House Viridane**: Under the unified canon, House Viridane was the **original seventh binding family** (one of the original seven signatories of Sol's Binding Compact). When they refused Keth-Amar's demands, the remaining six houses elevated House Morrath as their replacement and spent three centuries erasing every trace of Viridane. The common label of House Viridane as the "eighth house" is the public's term (counting the seven official houses plus the erased one).
+> - **Timeline Consistency**: The world is approximately 800 years old since the Binding (Year 3) and the Breach (Year 11). Any legacy mentions in this guide of "thousands of years" or "2,000 years" have been corrected in the code database to align with the ~800-year timeline.
+> - **Real-World Renames**: Legacy Norse/Scottish place-names have been updated in the source code (e.g. `Ymir's Col` -> `Skadi's Col`, `Ymirhold` -> `Skalvyrhold`, `Valley of Ymir` -> `Valley of Rime`, `Kelpie's Cove` -> `Brinehorse Cove`).
 
 > **THE ELEVATOR PITCH**
 > **The sun is trapped underground. The world is freezing. Every civilization made a deal with a cosmic predator to survive. You are an adventurer. Go.**
@@ -119,13 +124,13 @@ Nordhalla is a brutalist cathedral of ice and stone—a blinding-white tundra sl
 
 To consolidate his rule, the newly crowned **King-Jarl Halvar Skalvyr (known as "Járn-Tand" or Iron-Tooth)** has constructed the **Sunder-Wall**, a titanic barrier of compacted glacier-ice and black granite spanning the tundra. While officially built to keep out Wyrd horrors like the [Skreika](file:///d:/VTT/vtt-react/src/data/rulesData.js#L315) and glacier-wyrms, the wall's garrisoned gates primarily control, tax, and restrict the movements of the nomadic outlands clans. 
 
-South of the Archive, **Ymir's Col** serves as a treacherous mountain pass winding between collapsed ice-sheets, now a vital smuggling corridor for those evading Járn-Tand's taxes. High above the glacier line, the watchtower garrison of **Vargtor** rises from a basalt pillar, its signal-fires burning day and night to coordinate patrols. At the northernmost reach of the coastline, **Rook's Promontory** juts from the cliffs like a broken finger, a high, wind-scoured crag where the Corvani gather in murmuring congregations before dispersing to their glacier-eyries.
+South of the Archive, **Skadi's Col** serves as a treacherous mountain pass winding between collapsed ice-sheets, now a vital smuggling corridor for those evading Járn-Tand's taxes. High above the glacier line, the watchtower garrison of **Vargtor** rises from a basalt pillar, its signal-fires burning day and night to coordinate patrols. At the northernmost reach of the coastline, **Rook's Promontory** juts from the cliffs like a broken finger, a high, wind-scoured crag where the Corvani gather in murmuring congregations before dispersing to their glacier-eyries.
 
 **The Dark Bargain:** House Skalvyr bargained to halt the grinding advance of massive glaciers that threatened to crush their mountain keeps. Keth-Amar froze the ice sheets permanently in place—but decreed that **summer would never return to the north**.
 
 **The Seat of Power: The Frozen Archive**
 
-Carved into the sheer face of a titanic, mile-high glacier in the Valley of Ymir sits **The Frozen Archive**, the ancient, flash-frozen capital of a long-dead ten-thousand-year-old civilization. Reclaimed by the Rime-Born Rune Keepers three centuries ago, the Archive is not a traditional city of trade, but a massive library-fortress of prehistoric clockwork and runic machinery. 
+Carved into the sheer face of a titanic, mile-high glacier in the Valley of Rime sits **The Frozen Archive**, the ancient, flash-frozen capital of a long-dead ten-thousand-year-old civilization. Reclaimed by the Rime-Born Rune Keepers three centuries ago, the Archive is not a traditional city of trade, but a massive library-fortress of prehistoric clockwork and runic machinery. 
 
 Lately, the Archive has become a place of cultural eradication. In cooperation with southern arcanists, Járn-Tand has established the **Runic Academies** within its brass-domed halls. Children displaying magical spark are taken by force from their tundra clans and brought here; their native, animistic folklore-magic is systematically suppressed in favor of "structured, controlled runic calculations" to fuel the Archive's heating grids.
 
@@ -257,7 +262,7 @@ Seafarers live on salted sea-herring, kelp-cakes, and pickled brine-grass, washe
 
 The regional economy is driven by exporting whale oil under the **Brine-Bond Syndicate** monopoly, which demands heavy tribute from keeps. To extract this oil, the Board has commissioned geothermal-powered **steam-trawlers** and explosive harpoons. The boiling engine runoff and soot are polluting the unfreezing channels, driving the Deep-Born Myrathil to madness and calling Wyrd sea-monsters.
 
-In Merrowport, taverns (like *The Pitching Hull*) are constructed within the cargo decks of lashed ships, where sailors gamble using bone dice. Smugglers and black-market runners prefer **Kelpie's Cove**, a hidden inlet on the eastern coast. Farther north, **Wraithsound** cuts deep into the coastal rock, a narrow, echoing inlet where the voices of drowned sailors carry for miles on the fog.
+In Merrowport, taverns (like *The Pitching Hull*) are constructed within the cargo decks of lashed ships, where sailors gamble using bone dice. Smugglers and black-market runners prefer **Brinehorse Cove**, a hidden inlet on the eastern coast. Farther north, **Wraithsound** cuts deep into the coastal rock, a narrow, echoing inlet where the voices of drowned sailors carry for miles on the fog.
 
 ---
 
@@ -1060,7 +1065,7 @@ Xyris's nomad origin (variously claimed by the **Ordan** and the wandering **Myr
 
 | Location | Type | Named By | Linguistic Origin |
 |---|---|---|---|
-| **Ymir's Col** | Wilderness | Skald | Old Norse mythological reference (Ymir) + terrain (Col). Saga-style possessive naming. |
+| **Skadi's Col** | Wilderness | Skald | Old Norse mythological reference (Ymir) + terrain (Col). Saga-style possessive naming. |
 | **Vargtor** | Settlement | Skald | Old Norse compound (Varg = wolf, Tor = rocky hill). Pure Skald topographic naming. |
 | **Frostcirque** | Ruin | Rime-Born | Elemental (Frost) + terrain (Cirque). Stark, elemental naming — the Rime-Born do not decorate words. |
 | **The Still Crag** | Wilderness | Rime-Born | Elemental adjective + terrain (Crag). The Rime-Born name for where the Warden touched. |
@@ -1084,7 +1089,7 @@ Xyris's nomad origin (variously claimed by the **Ordan** and the wandering **Myr
 
 | Location | Type | Named By | Linguistic Origin |
 |---|---|---|---|
-| **Kelpie's Cove** | Settlement | Merryn | Celtic supernatural (Kelpie) + terrain (Cove). Celtic folklore meets nautical terrain. |
+| **Brinehorse Cove** | Settlement | Merryn | Celtic supernatural (Kelpie) + terrain (Cove). Celtic folklore meets nautical terrain. |
 | **The Saltmaw Estuary** | Wilderness | Merryn | Salt vocabulary (Saltmaw) + terrain (Estuary). Nautical descriptive naming. |
 | **Wraithsound** | Wilderness | Merryn | Spectral + terrain (Sound, a large inlet). Celtic-nautical compound. |
 | **Deepwell Archipelago** | Wilderness | Myrathil | Aquatic descriptor (Deepwell) + terrain (Archipelago). Myrathil ethereal meets geography. |

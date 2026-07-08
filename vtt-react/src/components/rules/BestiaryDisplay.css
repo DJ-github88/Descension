@@ -569,11 +569,6 @@
 }
 .bestiary-quick-stat-item.ap .value { color: #146c43; }
 
-.bestiary-quick-stat-item.armor {
-    border-left: 3px solid #6c757d;
-    background: linear-gradient(135deg, #fff 50%, rgba(108, 117, 125, 0.05) 100%);
-}
-
 .bestiary-quick-stat-item.soak {
     border-left: 3px solid #5c3a21;
     background: linear-gradient(135deg, #fff 50%, rgba(92, 58, 33, 0.05) 100%);

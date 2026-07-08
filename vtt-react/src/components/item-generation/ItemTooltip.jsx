@@ -1019,17 +1019,6 @@ function ItemTooltip({ item }) {
                                 </>
                             )}
 
-                            {/* Armor Details */}
-                            {resultItem.type === 'armor' && (
-                                <>
-                                    {resultItem.combatStats?.armor && (
-                                        <div style={{ color: '#5a1e12', marginBottom: '2px', fontWeight: '500' }}>
-                                            Armor: <span style={{ fontWeight: '700', color: '#8b4513', textShadow: 'none' }}>{resultItem.combatStats.armor.value || resultItem.combatStats.armor}</span>
-                                        </div>
-                                    )}
-                                </>
-                            )}
-
                             {/* Consumable Effects */}
                             {resultItem.type === 'consumable' && (
                                 <>
@@ -1485,10 +1474,7 @@ function ItemTooltip({ item }) {
     };
 
 
-
-    // Get armor value - check multiple possible locations
-    const armorValue = getStatValue(item.armor) ||
-        getStatValue(item.combatStats?.armor) || 0;
+    const armorValue = 0;
 
     // Get base stats
     const baseStats = Object.entries(item.baseStats || item.stats || {})
@@ -1504,7 +1490,6 @@ function ItemTooltip({ item }) {
         .filter(([stat, data]) =>
             stat !== 'resistances' &&
             stat !== 'spellDamage' &&
-            stat !== 'armor' &&
             stat !== 'healthRestore' &&
             stat !== 'manaRestore' &&
             stat !== 'apRestore' &&
@@ -1748,7 +1733,6 @@ function ItemTooltip({ item }) {
         utilityStats.length > 0 ||
         spellDamageStats.length > 0 ||
         hasCarryingCapacity ||
-        armorValue > 0 ||
         (item.immunities && item.immunities.length > 0) ||
         (item.combatStats?.resistances && Object.keys(item.combatStats.resistances).length > 0) ||
         conditionModifiers.length > 0
@@ -2154,13 +2138,6 @@ function ItemTooltip({ item }) {
                         </div>
                     ))}
 
-                    {/* Armor for consumables */}
-                    {armorValue > 0 && (
-                        <div className="base-stat" style={{ marginLeft: '0', paddingLeft: '0' }}>
-                            Increases your Armor by <span style={{ fontWeight: 'normal' }}>{armorValue}</span>
-                        </div>
-                    )}
-
                     {/* Other Effects */}
                     {otherStats.map(({ description }) => (
                         <div key={description} className="base-stat" style={{ marginLeft: '0', paddingLeft: '0' }}>
@@ -2424,7 +2401,7 @@ function ItemTooltip({ item }) {
                                                         }
                                                         return `Heal ${target} for ${cfg.healingFormula || '1d8'}`;
                                                     case 'buff':
-                                                        return `Grant ${target} +${cfg.statModifier?.magnitude || 2} ${formatName(cfg.statModifier?.stat || 'armor')} for ${cfg.durationValue || 2} ${cfg.durationType || 'rounds'}`;
+                                                        return `Grant ${target} +${cfg.statModifier?.magnitude || 2} ${formatName(cfg.statModifier?.stat || 'damage')} for ${cfg.durationValue || 2} ${cfg.durationType || 'rounds'}`;
                                                     case 'debuff':
                                                         return `Reduce ${target}'s ${formatName(cfg.statModifier?.stat || 'speed')} by ${cfg.statModifier?.magnitude || 2} (DC ${cfg.saveDC || 14} ${formatName(cfg.saveType || 'constitution')})`;
                                                     case 'control':

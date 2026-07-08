@@ -2,6 +2,17 @@
 import { LANGUAGES, LANGUAGE_CATEGORIES } from '../../data/languages';
 import './BackgroundSelector.css';
 
+const PUB = process.env.PUBLIC_URL || '';
+
+const LANG_WATERCOLOR = {
+  standard: 'watercolor_scroll',
+  exotic: 'watercolor_dragon',
+  racial: 'watercolor_shield',
+  elemental: 'watercolor_flask',
+  secret: 'watercolor_shackles',
+  special: 'watercolor_tome'
+};
+
 const COMMON_LANGUAGES = LANGUAGES;
 
 const LanguagesDisplay = () => {
@@ -53,6 +64,15 @@ const LanguagesDisplay = () => {
                   className="background-card language-category-card"
                   onClick={() => handleCategoryClick(categoryId)}
                 >
+                  {LANG_WATERCOLOR[categoryId] && (
+                    <img
+                      className="category-watermark"
+                      src={`${PUB}/assets/images/${LANG_WATERCOLOR[categoryId]}.png`}
+                      alt=""
+                      aria-hidden="true"
+                      onError={(e) => { e.target.style.display = 'none'; }}
+                    />
+                  )}
                   <div className="background-card-header">
                     <h3>{categoryData.name}</h3>
                     <span className="language-count">{languages.length}</span>

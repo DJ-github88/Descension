@@ -39,7 +39,7 @@ const CreatureTooltip = ({
   const stats = creature.stats || {};
   const currentHp = tokenState?.currentHp ?? stats.currentHp ?? stats.maxHp ?? 0;
   const maxHp = stats.maxHp || 100;
-  const armor = stats.armor || 10;
+  const armor = 0;
   const speed = stats.speed || 30;
 
   const healthState = getHealthState(currentHp, maxHp);
