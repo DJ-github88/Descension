@@ -731,6 +731,66 @@ const getSpellIconUrl = (spell) => {
  return getCustomIconUrl('Utility/Utility', 'abilities');
 };
 
+// Fallback watercolor image assets map based on class ID for an authentic guidebook feel
+const classFallbacks = {
+ arcanoneer: [
+  { url: '/assets/images/classes/arcanoneer_illustration.png', caption: 'A Velun Neth Vault Custodian Arcanoneer with a heavy pig-iron forearm graft.' },
+  { url: '/assets/images/classes/arcanoneer_illustration_2.png', caption: 'A Kessen Neth Clause-Weaver Arcanoneer weaving obligation lines.' }
+ ],
+ berserker: [
+  { url: '/assets/images/classes/berserker_illustration.png', caption: 'A Skald Human Iceheart Outcast Berserker holding a massive blood-rusted axe.' },
+  { url: '/assets/images/classes/berserker_illustration_2.png', caption: 'A Korr Emberth Berserker wielding a massive greataxe wreathed in embers.' }
+ ],
+ false_prophet: [
+  { url: '/assets/images/classes/false_prophet_illustration.png', caption: 'A Clean Vreken Herd-Watcher False Prophet preaching the cosmic void.' },
+  { url: '/assets/images/classes/false_prophet_illustration_2.png', caption: 'A Marked Vreken Prophet with glowing lantern-eyes holding a starlight book.' }
+ ],
+ shaper: [
+  { url: '/assets/images/classes/shaper_illustration.png', caption: 'A Morgh Groven Bone-Reader Shaper reshaping bone and sinew.' },
+  { url: '/assets/images/classes/shaper_illustration_2.png', caption: 'A Breakerborn Myrathil Shaper with curved bone-swords and water-force.' }
+ ],
+ revenant: [
+  { url: '/assets/images/classes/revenant_illustration.png', caption: 'A Marked Vreken Peat-Bog Graverobber Revenant harvesting souls in the Bryngloom.' },
+  { url: '/assets/images/classes/revenant_illustration_2.png', caption: 'A Velun Neth Revenant with blank pool eyes holding a glowing soul-lantern.' }
+ ],
+ animist: [
+  { url: '/assets/images/classes/animist_illustration.png', caption: 'An Unshorn Briaran Forest Ritualist Animist channeling ancestral spirits.' },
+  { url: '/assets/images/classes/animist_illustration_2.png', caption: 'An Ithran Groven Animist with stone-scale joints holding a moss-grown staff summoning a bear spirit.' }
+ ],
+ pyrofiend: { url: '/assets/images/classes/pyrofiend_illustration.png', caption: 'A Thrask Emberth Ashen Conduit Pyrofiend manifesting molten charcoal skin.' },
+ martyr: { url: '/assets/images/classes/martyr_illustration.png', caption: 'A Korr Emberth Dawn Vigil Flagellant Martyr absorbing pain through obsidian scars.' },
+ toxicologist: { url: '/assets/images/classes/toxicologist_illustration.png', caption: 'A Mistwoven Mimir Distillery Alchemist Toxicologist in a tattered bark cloak.' },
+ plaguebringer: { url: '/assets/images/classes/plaguebringer_illustration.png', caption: 'A Drun Neth Peat-Waste Herbalist Plaguebringer hosting the Ghost-Mycelium rot.' },
+ minstrel: { url: '/assets/images/classes/minstrel_illustration.png', caption: 'A River-fed Myrathil Tide-Choir Singer Minstrel playing a delicate lute.' },
+ inquisitor: [
+  { url: '/assets/images/classes/inquisitor_illustration.png', caption: 'A Solvarn Human Barbed-Vow Inquisitor wreathed in cold iron chains.' },
+  { url: '/assets/images/classes/inquisitor_illustration_2.png', caption: 'A Clean Vreken Inquisitor wreathed in chains holding an iron executioner\'s gavel.' }
+ ],
+ apex: [
+  { url: '/assets/images/classes/apex_illustration.png', caption: 'A Smoothskinned Briaran Silent Hunter Apex drawing a recurve bow.' },
+  { url: '/assets/images/classes/apex_illustration_2.png', caption: 'An Unshorn Briaran Apex with wild thorns growing along their arms drawing a living bow.' }
+ ],
+ warden: { url: '/assets/images/classes/warden_illustration.png', caption: 'An Ithran Groven Penitent Jailer Warden with rusted iron chains.' },
+ gambit: [
+  { url: '/assets/images/classes/gambit_illustration.png', caption: 'A Muren Astril Luck-Ledger Auditor Gambit flipping a glowing coin.' },
+  { url: '/assets/images/classes/gambit_illustration_2.png', caption: 'A Merryn Human Gambit flipping a golden coin and tracing probability lines.' }
+ ],
+ chronarch: [
+  { url: '/assets/images/classes/chronarch_illustration.png', caption: 'A Sylen Astril Starlight Astrologer Chronarch utilizing time-sand.' },
+  { url: '/assets/images/classes/chronarch_illustration_2.png', caption: 'A Mistwoven Mimir Chronarch with storm-glass mask and clockwork device.' }
+ ],
+ spellguard: { url: '/assets/images/classes/spellguard_illustration.png', caption: 'A Kethrin Fexric Shield-Master Spellguard carrying a glowing tower shield.' },
+ augur: { url: '/assets/images/classes/augur_illustration.png', caption: 'A Deep Myrathil Nebula Seer Augur tracing stargate alignments.' },
+ harbinger: [
+  { url: '/assets/images/classes/harbinger_illustration.png', caption: 'An Unwoven Mimir Sump Archivist Harbinger channeling entropic friction.' },
+  { url: '/assets/images/classes/harbinger_illustration_2.png', caption: 'A Drun Neth Harbinger holding a clockwork device of entropic friction.' }
+ ],
+ lunarch: [
+  { url: '/assets/images/classes/lunarch_illustration.png', caption: 'A Maskborne Mimir Moonlit Grove Sentinel Lunarch, vessel of the lunar parasite.' },
+  { url: '/assets/images/classes/lunarch_illustration_2.png', caption: 'A Deepborn Myrathil Lunarch wielding a crescent blade wreathed in starlight.' }
+ ]
+};
+
 /**
  * ClassDetailDisplay Component
  *
@@ -747,6 +807,22 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
  const [loadedImages, setLoadedImages] = useState(new Set());
  const [combatExampleOpen, setCombatExampleOpen] = useState(false);
  const contentContainerRef = useRef(null);
+
+ const classId = (classData?.id || classData?.name || '').toLowerCase().replace(/\s+/g, '_');
+ const illustrationData = useMemo(() => {
+  if (!classData) return null;
+  const overview = classData.overview || {};
+  if (overview.illustration) {
+   return { url: overview.illustration, caption: overview.illustrationCaption };
+  }
+  const fallbacks = classFallbacks[classId];
+  if (!fallbacks) return null;
+  if (Array.isArray(fallbacks)) {
+   const randomIndex = Math.floor(Math.random() * fallbacks.length);
+   return fallbacks[randomIndex];
+  }
+  return fallbacks;
+ }, [classId, classData]);
 
  // Deep Combat Chronicle Fallbacks to guarantee content is never empty
  const combatRoleData = useMemo(() => {
@@ -1406,81 +1482,6 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
 
  const renderOverview = () => {
   const { overview } = classData;
-
-  // Fallback watercolor image assets map based on class ID for an authentic guidebook feel
-  const classFallbacks = {
-   arcanoneer: [
-    { url: '/assets/images/classes/arcanoneer_illustration.png', caption: 'A Velun Neth Vault Custodian Arcanoneer with a heavy pig-iron forearm graft.' },
-    { url: '/assets/images/classes/arcanoneer_illustration_2.png', caption: 'A Kessen Neth Clause-Weaver Arcanoneer weaving obligation lines.' }
-   ],
-   berserker: [
-    { url: '/assets/images/classes/berserker_illustration.png', caption: 'A Skald Human Iceheart Outcast Berserker holding a massive blood-rusted axe.' },
-    { url: '/assets/images/classes/berserker_illustration_2.png', caption: 'A Korr Emberth Berserker wielding a massive greataxe wreathed in embers.' }
-   ],
-   false_prophet: [
-    { url: '/assets/images/classes/false_prophet_illustration.png', caption: 'A Clean Vreken Herd-Watcher False Prophet preaching the cosmic void.' },
-    { url: '/assets/images/classes/false_prophet_illustration_2.png', caption: 'A Marked Vreken False Prophet with glowing lantern-eyes holding a starlight book.' }
-   ],
-   shaper: [
-    { url: '/assets/images/classes/shaper_illustration.png', caption: 'A Morgh Groven Bone-Reader Shaper reshaping bone and sinew.' },
-    { url: '/assets/images/classes/shaper_illustration_2.png', caption: 'A Breakerborn Myrathil Shaper with curved bone-swords and water-force.' }
-   ],
-   revenant: [
-    { url: '/assets/images/classes/revenant_illustration.png', caption: 'A Marked Vreken Peat-Bog Graverobber Revenant harvesting souls in the Bryngloom.' },
-    { url: '/assets/images/classes/revenant_illustration_2.png', caption: 'A Velun Neth Revenant with blank pool eyes holding a glowing soul-lantern.' }
-   ],
-   animist: [
-    { url: '/assets/images/classes/animist_illustration.png', caption: 'An Unshorn Briaran Forest Ritualist Animist channeling ancestral spirits.' },
-    { url: '/assets/images/classes/animist_illustration_2.png', caption: 'An Ithran Groven Animist with stone-scale joints holding a moss-grown staff summoning a bear spirit.' }
-   ],
-   pyrofiend: { url: '/assets/images/classes/pyrofiend_illustration.png', caption: 'A Thrask Emberth Ashen Conduit Pyrofiend manifesting molten charcoal skin.' },
-   martyr: { url: '/assets/images/classes/martyr_illustration.png', caption: 'A Korr Emberth Dawn Vigil Flagellant Martyr absorbing pain through obsidian scars.' },
-   toxicologist: { url: '/assets/images/classes/toxicologist_illustration.png', caption: 'A Mistwoven Mimir Distillery Alchemist Toxicologist in a tattered bark cloak.' },
-   plaguebringer: { url: '/assets/images/classes/plaguebringer_illustration.png', caption: 'A Drun Neth Peat-Waste Herbalist Plaguebringer hosting the Ghost-Mycelium rot.' },
-   minstrel: { url: '/assets/images/classes/minstrel_illustration.png', caption: 'A River-fed Myrathil Tide-Choir Singer Minstrel playing a delicate lute.' },
-   inquisitor: [
-    { url: '/assets/images/classes/inquisitor_illustration.png', caption: 'A Solvarn Human Barbed-Vow Inquisitor wreathed in cold iron chains.' },
-    { url: '/assets/images/classes/inquisitor_illustration_2.png', caption: 'A Clean Vreken Inquisitor wreathed in chains holding an iron executioner\'s gavel.' }
-   ],
-   apex: [
-    { url: '/assets/images/classes/apex_illustration.png', caption: 'A Smoothskinned Briaran Silent Hunter Apex drawing a recurve bow.' },
-    { url: '/assets/images/classes/apex_illustration_2.png', caption: 'An Unshorn Briaran Apex with wild thorns growing along their arms drawing a living bow.' }
-   ],
-   warden: { url: '/assets/images/classes/warden_illustration.png', caption: 'An Ithran Groven Penitent Jailer Warden with rusted iron chains.' },
-   gambit: [
-    { url: '/assets/images/classes/gambit_illustration.png', caption: 'A Muren Astril Luck-Ledger Auditor Gambit flipping a glowing coin.' },
-    { url: '/assets/images/classes/gambit_illustration_2.png', caption: 'A Merryn Human Gambit flipping a golden coin and tracing probability lines.' }
-   ],
-   chronarch: [
-    { url: '/assets/images/classes/chronarch_illustration.png', caption: 'A Sylen Astril Starlight Astrologer Chronarch utilizing time-sand.' },
-    { url: '/assets/images/classes/chronarch_illustration_2.png', caption: 'A Mistwoven Mimir Chronarch with storm-glass mask and clockwork device.' }
-   ],
-   spellguard: { url: '/assets/images/classes/spellguard_illustration.png', caption: 'A Kethrin Fexric Shield-Master Spellguard carrying a glowing tower shield.' },
-   augur: { url: '/assets/images/classes/augur_illustration.png', caption: 'A Deep Myrathil Nebula Seer Augur tracing stargate alignments.' },
-   harbinger: [
-    { url: '/assets/images/classes/harbinger_illustration.png', caption: 'An Unwoven Mimir Sump Archivist Harbinger channeling entropic friction.' },
-    { url: '/assets/images/classes/harbinger_illustration_2.png', caption: 'A Drun Neth Harbinger holding a clockwork device of entropic friction.' }
-   ],
-   lunarch: [
-    { url: '/assets/images/classes/lunarch_illustration.png', caption: 'A Maskborne Mimir Moonlit Grove Sentinel Lunarch, vessel of the lunar parasite.' },
-    { url: '/assets/images/classes/lunarch_illustration_2.png', caption: 'A Deepborn Myrathil Lunarch wielding a crescent blade wreathed in starlight.' }
-   ]
-  };
-
-  const classId = (classData.id || classData.name || '').toLowerCase().replace(/\s+/g, '_');
-  const illustrationData = useMemo(() => {
-    if (overview.illustration) {
-     return { url: overview.illustration, caption: overview.illustrationCaption };
-    }
-    const fallbacks = classFallbacks[classId];
-    if (!fallbacks) return null;
-    if (Array.isArray(fallbacks)) {
-     const randomIndex = Math.floor(Math.random() * fallbacks.length);
-     return fallbacks[randomIndex];
-    }
-    return fallbacks;
-   }, [classId, overview.illustration, overview.illustrationCaption]);
-
   const roleplaySections = parseRoleplayIdentity(overview.roleplayIdentity?.content);
 
   return (
