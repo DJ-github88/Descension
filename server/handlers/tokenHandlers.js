@@ -56,7 +56,7 @@ function registerTokenHandlers(ctx) {
         return;
       }
 
-      const { room } = validation;
+      const { room, player } = validation;
       const mapId = data.mapId || room.gameState.defaultMapId || 'default';
       const map = validateMapExists(room, mapId);
 
@@ -65,6 +65,7 @@ function registerTokenHandlers(ctx) {
         ...data.token,
         id: tokenId,
         createdBy: socket.id,
+        ownerPlayerId: player ? player.id : undefined,
         createdAt: Date.now()
       };
 
@@ -101,8 +102,26 @@ function registerTokenHandlers(ctx) {
       const validation = validateRoomMembership(socket, data.roomId);
       if (!validation.valid) return;
 
-      const { room } = validation;
+      const { room, player } = validation;
       const mapId = data.mapId || room.gameState.defaultMapId || 'default';
+      const map = validateMapExists(room, mapId);
+
+      // Authority check: GM, Owner, or Delegated Controller
+      if (map) {
+        const token = (map.tokens && map.tokens[data.tokenId]) || 
+                      (map.characterTokens && map.characterTokens[data.tokenId]);
+        if (token) {
+          const ownerId = token.playerId || token.ownerPlayerId;
+          const isOwner = ownerId && ownerId === (player ? player.id : null);
+          const isGM = player && player.isGM;
+          const isDelegated = room.tokenControllers && room.tokenControllers[data.tokenId] === (player ? player.id : null);
+
+          if (ownerId && !isOwner && !isGM && !isDelegated) {
+            // Block unauthorized movement
+            return;
+          }
+        }
+      }
 
       movementDebouncer.queueMove(room.id, data.tokenId, {
         position: data.position,
@@ -217,7 +236,14 @@ function registerTokenHandlers(ctx) {
       const validation = validateRoomMembership(socket, data.roomId);
       if (!validation.valid) return;
 
-      const { room } = validation;
+      const { room, player } = validation;
+
+      if (data.accepted) {
+        if (!room.tokenControllers) {
+          room.tokenControllers = {};
+        }
+        room.tokenControllers[data.tokenId] = player ? player.id : undefined;
+      }
 
       if (room.gm && room.gm.socketId) {
         io.to(room.gm.socketId).emit('token_control_response', {

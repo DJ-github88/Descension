@@ -85,7 +85,7 @@ export const ARCANONEER_DATA = {
  name: "Arcanoneer",
  icon: "fas fa-atom",
  imageIcon: "/assets/icons/classes/arcanoneer.png",
- role: "Magi-ballistic Mutilator (Damage/Utility -- Zero Healing)",
+  role: "Magi-ballistic Artillery (Damage/Utility -- Zero Healing)",
  damageTypes: [
   "arcane",
   "ember",
@@ -128,23 +128,23 @@ Yet, the Keeper demanded a physical toll. The price of this absolute structured 
 
 You are the contract's executioner. The Keeper has written the syntax in your bones, and your forearm cylinder is the chamber. Pull the trigger.`,
   title: "The Arcanoneer",
-  subtitle: "The Magi-ballistic Mutilator",
+   subtitle: "The Magi-ballistic Artillery",
   illustration: "/assets/images/classes/arcanoneer_illustration.png",
   illustrationCaption: "A Neth Vault Keeper Arcanoneer with a heavy pig-iron forearm graft.",
 
   quickOverview: {
    title: "Quick Overview",
-   content: `**What You Need to Know**: You are a Magi-ballistic Mutilator. A massive, super-heated cylinder of pig-iron is grafted directly to your forearm, the skin scorched and bonded to the metal. Every turn, you gouge out your own crystallized blood and soul-shards, rolling 4d8 to generate volatile ballistic spheres (Arcane, Radiant, blight+blight, Fire, Frost, Nature, Chaos). You slam two of these essences into the cylinder to chamber a volatile shell. Fire + Frost shatters from the barrel as a flesh-scorching steam vent, while Fire + Fire kicks back with a rib-shattering inferno blast.
+   content: `**What You Need to Know**: You are a Magi-ballistic Artillery. A massive, super-heated cylinder of pig-iron is grafted directly to your forearm, the skin scorched and bonded to the metal. Every turn, you extract volatile aether-shards from your forearm condensers, rolling 4d8 to generate ballistic spheres (Arcane, Radiant, blight+blight, Fire, Frost, Nature, Chaos). You slam two of these essences into the cylinder to chamber a volatile shell. Fire + Frost shatters from the barrel as a blinding steam vent, while Fire + Fire kicks back with a concussive inferno blast.
 
-**Recoil and Pain**: Firing this weapon shatters your own ribs and tears your flesh. You do not cast safe spells; you trigger explosive detonations that demand a toll in blood and bone. This constant self-mutilation is mechanically mandatory across all firing profiles.
+**Recoil and Pain**: Firing this weapon kicks like a siege engine and floods the graft with waste heat. You do not cast safe spells; you trigger explosive detonations that demand a toll in stamina and focus. This recoil is mechanically mandatory across all firing profiles.
 
 **The Recoil Anchor**: The sheer kinetic force of discharging your forearm sleeve reduces your movement speed to 0 for the turn whenever you fire a spell. You must anchor yourself to fire.
 
-**The Chamber Flush**: Should your forearm chambers jam with catastrophic elemental RNG, you can execute a "Chamber Flush" action, costing Mana and AP, to gouge out alternate crystallized blood-shards from your arm, discarding all rolled spheres and rerolling your 4d8 grid.
+**The Chamber Flush**: Should your forearm chambers jam with catastrophic elemental RNG, you can execute a "Chamber Flush" action, costing Mana and AP, to flush alternate aether-shards from your forearm condensers, discarding all rolled spheres and rerolling your 4d8 grid.
 
-**Core Loop**: Roll 4d8 to forge crystallized blood-shards → Chamber spheres into your iron cylinder → Choose a firing profile Action (Mutilate, Shield, Infuse, Rupt, or Snare) → Combine two essences to chamber a shell → If you've learned a Recipe, fire it instead for devastating, rib-cracking power.
+**Core Loop**: Roll 4d8 to condense aether-shards → Chamber spheres into your iron cylinder → Choose a firing profile Action (Bombard, Shield, Infuse, Rupt, or Snare) → Combine two essences to chamber a shell → If you've learned a Recipe, fire it instead for devastating power.
 
-**Resource**: Elemental Spheres (random each turn, forged from your own blood, bankable during combat, lost when combat ends) + Mana + Your Own Health (Recoil).`,
+**Resource**: Elemental Spheres (random each turn, forged from condensed aether, bankable during combat, lost when combat ends) + Mana + Your Own Health (Recoil).`,
   },
 
   description: `The Arcanoneer is a clinical, hyper-precise pact-mage whose spells are written as strict contractual clauses. They do not draw magic from emotion or raw instinct; they negotiate it. By converting mana into elemental spheres, they generate and combine different magical terms (Sphere Generation & Combination) to produce highly specialized, legally binding spellcraft. The Arcanoneer operates with absolute strategic clarity: because their magic is a contract submitted to the Keeper of the Last Threshold, they cannot lie, and this limitation makes their spellcraft the most rigorously honest and devastatingly precise magic in the world.`,
@@ -163,7 +163,7 @@ Arcanoneers are the most politically powerful and highly respected citizens with
 The class is almost exclusively practiced by the <LoreLink termId="neth">Velun Neth</LoreLink>, whose biology (being unable to lie) provides the absolute honesty required to submit contracts to the Keeper without triggering a catastrophic, soul-fading breach of terms.
 
 **NOTABLE FIGURES**
-* **Valerius the Scriptor**: First Neth archivist to graft the pig-iron sleeve to channel crystallized blood-shards.
+* **Valerius the Scriptor**: First Neth archivist to graft the pig-iron sleeve to channel condensed aether-shards.
 * **Kaelen the Unbroken**: A Neth arcanoneer who held the docks of <LoreLink termId="ironjaw_port">Ironjaw Port</LoreLink> against a tide of glacier-wyrms.`
   },
 
@@ -209,7 +209,7 @@ Behind the legal dispute is a darker truth: someone IS breaching the First Contr
 **Why Bring Me? (The Arcanoneer's Promise)**: You are the ultimate cover-shattering, screen-clearing siege master. Your pig-iron sleeve can fire any combination of raw elements, giving you unparalleled versatility to obliterate enemy defenses, destroy defensive cover, and clear groups from extreme range.
 
 **How You Fight**:
-1. **Roll your spheres** (4d8, or 5d8 for Entropy Weavers) to extract volatile blood-shards.
+1. **Roll your spheres** (4d8, or 5d8 for Entropy Weavers) to extract volatile aether-shards.
 2. **Read your hand**, What ammo is loaded? What recipes can you chamber?
 3. **Decide**: Pull the trigger now with what you have, or bank spheres to chamber a larger shell?
 4. **Execute**, Fire the cannon, pay the mana, accept the mandatory recoil self-damage, and reduce your movement speed to 0.
@@ -232,7 +232,7 @@ Behind the legal dispute is a darker truth: someone IS breaching the First Contr
    title: "Playstyle",
    content: `**The Moment-to-Moment**:
 
-Every turn begins with the sound of bones grinding as you roll 4d8 and watch your crystallized blood-shards appear.
+Every turn begins with the sound of metal grinding as you roll 4d8 and watch your aether-shards condense.
 
 **Turn 1, The Hand You're Dealt**
 
@@ -268,15 +268,15 @@ You banked all 4 spheres from Turn 1. Now you roll Arcane, blight+blight, Nature
 
 **Turn 1, The Opening Discharge** *(2 AP available, 34 mana)*
 
-*You dig your fingers into your forearm, gouging out four crystallized blood-shards...*
+*You crank four aether-shards from the forearm condensers...*
 
 **Roll 4d8**: [4, 4, 5, 7] → Fire, Fire, Frost, Nature
 
 *Two jagged, red-glowing shards of flame feed into the first chamber. A shard of freezing rime goes into the second, and a rusted crimson sphere of nature waits in the reserve. The iron cylinder hums, its surface searing.*
 
-**Your Mind Races**: Three bandits, clustered together. You have the Recipe: **Superheated Steam Vent** (Fire + Frost). Using the **Area** action (7 mana + 1d6 HP recoil), you vent a 20ft cone of flesh-scorching steam.
+**Your Mind Races**: Three bandits, clustered together. You have the Recipe: **Superheated Steam Vent** (Fire + Frost). Using the **Area** action (7 mana + 1d6 HP recoil), you vent a 20ft cone of blinding steam.
 
-*You slam the fire and ice shards into the main chamber. The pig-iron cylinder roars as the opposing forces react. A pressurized column of superheated steam erupts from the barrel, boiling the bandits' skin. The kinetic back-blast punches your shoulder, cracking your ribs (1d6 recoil damage) and anchoring you to the stone bridge (movement speed reduced to 0).*
+*You slam the fire and ice shards into the main chamber. The pig-iron cylinder roars as the opposing forces react. A pressurized column of superheated steam erupts from the barrel, searing the bandits. The kinetic back-blast punches your shoulder, shuddering through your arm (1d6 recoil damage) and anchoring you to the stone bridge (movement speed reduced to 0).*
 
 **Result**: Cast **Superheated Steam Vent** via Area action. 1d8 + INT/4 ember+rime damage to all three bandits + Blinded. **Cost: 7 mana, 1d6 HP. Remaining: 27 mana, 1 AP. Movement: 0.** You bank the Ember and Nature spheres.
 
@@ -309,7 +309,7 @@ You banked all 4 spheres from Turn 1. Now you roll Arcane, blight+blight, Nature
 
 *"Umbra Clausura!"*
 
-*The pig-iron chassis shudders violently. Firing it sends a sickening crack through your collarbone (1d6 HP recoil damage) and anchoring you (movement speed 0). Skeletal jaws of living shadow erupt from the barrel, chewing through the leader's flesh and draining his strength.*
+*The pig-iron chassis shudders violently. Firing it sends a shockwave through your collarbone (1d6 HP recoil damage) and anchoring you (movement speed 0). Ethereal jaws of shadow erupt from the barrel, devouring the leader's strength.*
 
 **Result**: Cast **Abyssal Maw** (Recipe-enhanced blight+blight + blight+blight). 2d8 + INT/3 blight+blight + 1d6 blight+blight DoT + target STR reduced by 2. **Cost: 14 mana, 1d6 HP. Remaining: 21 mana, 1 AP. Movement: 0.**
 
@@ -325,11 +325,11 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
 
 **Roll 4d8**: [7, 7, 7, 7] → Nature, Nature, Nature, Nature
 
-*Four soft crimson spheres of marrow energy emerge. You are not helpless, but you need to support your fighter. You cast Gristle Blockade (Nature + Nature) via Buff action on the fighter, stitching together their wounds with compressed tissue and bone plates.*
+*Four soft green spheres of nature energy emerge. You are not helpless, but you need to support your fighter. You cast Gristle Blockade (Nature + Nature) via Buff action on the fighter, binding their wounds with compressed botanical fiber and bone-knit plates.*
 
 **Result**: Fighter gained gristle armor. **Cost: 4 mana, 1d4 HP. Remaining: 12 mana.**
 
-**The Lesson**: Being a Magi-ballistic Mutilator is not about having an elegant solution; it is about managing the kinetic chaos, bracing your bones against the recoil, knowing which volatile combinations to chamber, and paying the price in pain to erase your enemies. The master knows when to vent and when to discharge.`,
+**The Lesson**: Being a Magi-ballistic Artillery is not about having an elegant solution; it is about managing the kinetic chaos, bracing yourself against the recoil, knowing which volatile combinations to chamber, and paying the price in stamina to erase your enemies. The master knows when to vent and when to discharge.`,
   },
  },
 
@@ -481,7 +481,7 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
      stepNumber: 1,
      title: "Roll Blocks",
      subtitle: "Start of Turn",
-     content: `Roll **4d8** (5d8 for Entropy Weavers). Each die produces one primordial Building Block, a crystallized blood-shard.`,
+      content: `Roll **4d8** (5d8 for Entropy Weavers). Each die produces one primordial Building Block, an aether-shard.`,
     },
     {
      type: "step",
@@ -600,7 +600,7 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
       name: "Chamber Flush",
       cost: "3 Mana + 1 AP + 1d4 HP",
       type: "Utility / Emergency",
-      description: "Gouge out alternate crystallized blood-shards from your forearm to discard all currently rolled spheres and reroll your 4d8 grid (5d8 if Entropy Weaver).",
+       description: "Flush alternate aether-shards from your forearm condensers to discard all currently rolled spheres and reroll your 4d8 grid (5d8 if Entropy Weaver).",
      },
      {
       name: "Fling",
@@ -785,7 +785,7 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
      "7",
      "storm",
      "Compressed Flesh",
-     "Suture flesh, create gristle barriers, cauterize, and manipulate biological tissue. Grimdark, visceral, and dark fantasy.",
+      "Suture and reinforce flesh, create gristle barriers, and manipulate biological tissue. Visceral tactical biology.",
     ],
     [
      "8",
@@ -1495,9 +1495,9 @@ MAX BANKED SPHERES: 12
     primaryEffect: "cleanse",
     secondaryEffect: "damage",
     effectDescription:
-     "A scourging burst of sacred marrow-light. Removes all debuffs from the target but deals 1d6 ember damage per debuff removed as tissue is forcefully cauterized.",
-    flavorText:
-     "Searing sacred fire collides with the viscera sphere, causing a blinding, agonizing flash. The target's skin melts and knits together instantly, purging toxins and curses. Your ally screams in agony, but stands entirely cleansed.",
+      "A scourging burst of sacred aether-light. Removes all debuffs from the target but deals 1d6 ember damage per debuff removed as tissue is seared shut.",
+     flavorText:
+      "Searing sacred fire collides with the viscera sphere, causing a blinding flash. The target's wounds sear closed instantly, purging toxins and curses. Your ally gasps at the heat, but stands entirely cleansed.",
    },
    {
     id: "holy_chaos",
@@ -2122,9 +2122,9 @@ MAX BANKED SPHERES: 12
     useFormulas: {},
     actionPoints: 1,
     components: ["verbal", "somatic"],
-    verbalText: "Marrow Ignis!",
-    somaticText:
-     "Your pig-iron sleeve superheats as a violet blood-shard feeds into the chamber. Firing it sends a sharp vibration through your forearm bones.",
+     verbalText: "Aether Ignis!",
+     somaticText:
+      "Your pig-iron sleeve superheats as a violet aether-shard feeds into the chamber. Firing it sends a sharp vibration through your forearm.",
     spheres: ["Arcane", "Arcane"],
    },
 
@@ -2291,9 +2291,9 @@ MAX BANKED SPHERES: 12
 
   {
    id: "arc_arcane_missile",
-   name: "Blood-Shard Barrage",
-   description:
-    "Loads sacred and arcane blood-shards into the chamber, firing an unerring burst of pressurized force that cannot be dodged or blocked.",
+    name: "Storm-Shard Barrage",
+    description:
+     "Loads sacred and arcane aether-shards into the chamber, firing an unerring burst of pressurized force that cannot be dodged or blocked.",
    level: 1,
    enhancesCombo: "arcane_holy",
    spellType: "ACTION",
@@ -2320,9 +2320,9 @@ MAX BANKED SPHERES: 12
     useFormulas: {},
     actionPoints: 1,
     components: ["verbal", "somatic"],
-    verbalText: "Sanguis Barrage!",
-    somaticText:
-     "Brace your arm as three crystallized marrow slugs feed into the breech, venting red and violet steam with each discharge",
+     verbalText: "Fulgur Barrage!",
+     somaticText:
+      "Brace your arm as three crystallized aether slugs feed into the breech, venting red and violet steam with each discharge",
     spheres: ["Arcane", "ember"],
    },
 
@@ -2440,7 +2440,7 @@ MAX BANKED SPHERES: 12
    id: "arc_steam_burst",
    name: "Superheated Steam Vent",
    description:
-    "Vents the pig-iron cylinder's thermal chambers, unleashing a pressurized cone of blinding, flesh-scorching steam.",
+     "Vents the pig-iron cylinder's thermal chambers, unleashing a pressurized cone of blinding steam.",
    level: 2,
    enhancesCombo: "fire_ice",
    spellType: "ACTION",
@@ -2522,7 +2522,7 @@ MAX BANKED SPHERES: 12
    id: "arc_shadow_bolt",
    name: "Vampiric Slug",
    description:
-    "Fires a heavy shell forged from crystallized blight+blight marrow. The bullet drains the target's life force on impact, siphoning their vitality back into your own bloodstream.",
+     "Fires a heavy shell forged from crystallized blight+blight aether. The bullet drains the target's life force on impact, siphoning their vitality back through the graft.",
    level: 2,
    enhancesCombo: "shadow_shadow",
    spellType: "ACTION",
@@ -3076,7 +3076,7 @@ MAX BANKED SPHERES: 12
    id: "arc_shadow_embrace",
    name: "Abyssal Maw",
    description:
-    "Discharges a shell of pure crystallized dark marrow that unfolds on impact into skeletal jaws of shadows, chewing through flesh and draining muscle strength.",
+     "Discharges a shell of pure crystallized dark aether that unfolds on impact into ethereal jaws of shadow, devouring strength and draining muscle.",
    level: 4,
    enhancesCombo: "shadow_shadow",
    spellType: "ACTION",
@@ -3163,7 +3163,7 @@ MAX BANKED SPHERES: 12
    id: "arc_elemental_blast",
    name: "Thermobaric Burst",
    description:
-    "Ignites fire and ice blood-shards in rapid succession, venting a synchronized thermal shockwave that splits armor and boils blood.",
+     "Ignites fire and ice aether-shards in rapid succession, venting a synchronized thermal shockwave that splits armor and flash-boils moisture.",
    level: 5,
    enhancesCombo: "fire_ice",
    spellType: "ACTION",
