@@ -4,7 +4,7 @@
  * Complete surgical overhaul for the Augur - the Visceral Haruspex who reads
  * the immediate, blood-soaked future in fresh gore, spilt blood, and splintered marrow.
  *
- * Fueling Benediction and Malediction through d20 Even/Odd outcomes and self-mutilation,
+ * Fueling Benediction and Malediction through d20 Even/Odd outcomes and blood sacrifice,
  * this class dominates immediate preemptive action economy and round-by-round survival.
  */
 
@@ -135,7 +135,7 @@ export const AUGUR_DATA = {
  id : "augur",
  name: "Augur",
  icon: "fas fa-skull-crossbones",
- role: "Visceral Haruspex (Omen Reading, Flesh Mutilation & Preemptive Evasion)",
+  role: "Visceral Haruspex (Omen Reading, Blood Work & Preemptive Evasion)",
  damageTypes: ["wyrd", "ember"],
 
  livingOrder: {
@@ -179,7 +179,7 @@ Predict the end. The sky is dark, but the runes in the meat still burn. Read the
 **Why Bring Me?**: You dominate the round-by-round action economy. You provide absolute preemptive evasion to allies targeted by deadly strikes, or congeal warm blood across their weapons to guarantee devastating critical counter-strikes.`,
  },
 
- description: `The Augur is a tragic seer of the immediate gutter. While scholars squabble over ancient astronomical charts, the Augur plunges their hands into fresh wounds and reads the heat of spilling intestines. They do not predict broad cosmic destinies,they sacred the exact trajectory of a blade, the snapping point of a bone, and the moment a throat will open. Every vision demands a toll of sanity or flesh; magic is not a formula, but a visceral mutilation that must be paid for in blood.`,
+ description: `The Augur is a tragic seer of the immediate gutter. While scholars squabble over ancient astronomical charts, the Augur reads the heat of fresh battlefields and the trajectory of violence yet to come. They do not predict broad cosmic destinies, they track the exact trajectory of a blade, the moment a guard will drop, and the instant a killing blow will land. Every vision demands a toll of sanity or stamina; magic is not a formula, but a visceral price that must be paid in focus and fortitude.`,
 
  roleplayIdentity: {
   title: "Roleplay Identity",
@@ -236,7 +236,15 @@ The Augurs have identified the cause: something is interfering with the flow of 
 **Visceral Debuffs**: Breaking bones, splintering marrow, and inflicting deep vulnerability through target flesh mutilation.
 **Self-Inflicted Fuel**: Sacrificing their own health and enduring self-induced Bleed states to cast spells when the battlefield is clean of fresh gore.
 
-Augurs are not frontline gladiators, nor are they safe, back-line spellcasters. They are high-risk, high-reward catalysts of immediate probability who must bleed to keep their allies breathing.`,
+Augurs are not frontline gladiators, nor are they safe, back-line spellcasters. They are high-risk, high-reward catalysts of immediate probability who must bleed to keep their allies breathing.
+
+**Weaknesses**:
+- Blind Without Blood: with no bleeding target or fresh corpse within 60 ft, your omens fail — you must cut yourself (1d6 slashing + Bleed) to see anything. Clean rooms, ambushes, and parley are your blind spots.
+- Reaction-Window Only: you prevent damage, you never heal it — miss the reaction window and you have done nothing that round.
+- Omen Debt: hoard Benediction/Malediction to a long rest and the unspent visions scourge you — -1 to all saves per leftover point (cap -10) until blood is spilled again.
+- Cap Overflow Waste: resource generated past your spec cap is lost and deals 1 wyrd damage per wasted point straight to your mind.
+- Squishy Soothsayer: light armor and a fragile body — if a frontline reaches you, you fold fast.
+- Chronal Myopia (social/exploration): you forget the last five minutes, cannot read (tomorrow's page overlays today's), and lose names — briefings, passwords, and faces slip through you.`,
  },
 
  playstyle: {
@@ -255,7 +263,7 @@ Augurs are not frontline gladiators, nor are they safe, back-line spellcasters. 
 
 **Turn 1 - The First Incision**
 *Because no bleeding targets or fresh corpses exist, your eyes are blind to the future. You pull your ritual flaying hook and drag it across your own left forearm, carving the first sign.*
-* **Self-Mutilation**: You take 1d6 slashing damage (4 HP lost) and suffer Bleed (1d4 damage at the start of your turn for 3 rounds). This generates +2 Malediction.
+* **Blood Price**: You take 1d6 slashing damage (4 HP lost) and suffer Bleed (1d4 damage at the start of your turn for 3 rounds). This generates +2 Malediction.
 * **Your Action**: Cast "Fractured Fate Portent" on the Executioner (8 Mana + 2 Malediction spent).
 * **Effect**: You scream the fracture you see. The executioner staggers as his femur cracks internally. He takes 2d6 wyrd damage and suffers -2 DR and -10ft speed for 3 rounds.
 * **Mana**: 45 → 37/55.
@@ -276,13 +284,13 @@ Augurs are not frontline gladiators, nor are they safe, back-line spellcasters. 
 
  resourceSystem: {
  title: "Benediction & Malediction of the Haruspex",
- subtitle: "Agonizing Foresight & Fracturing Curses",
+ subtitle: "Bleak Foresight & Fracturing Curses",
 
  description: `The Augur's magic is driven by the immediate vibration of combat. Every d20 roll within 60 feet generated by any creature fuels the Haruspex:
 - **Even Rolls**: Generate 1 **Benediction**,the radiant, blinding flash of immediate preservation.
 - **Odd Rolls**: Generate 1 **Malediction**,the psychic, decaying rot of immediate doom.
 
-⚠️ **The Haruspex Flaw**: Your omen-reading spells require fresh violence. If no bleeding targets or fresh corpses exist within 60 feet, your vision is blind. You must execute a **Self-Mutilation** action (0 AP, once per round): take 1d6 slashing damage and inflict Bleed (1d4 damage at start of turn for 3 rounds) on yourself to generate 2 Benediction or 2 Malediction of your choice.
+⚠️ **The Haruspex Flaw**: Your omen-reading spells require fresh violence. If no bleeding targets or fresh corpses exist within 60 feet, your vision is blind. You must execute a **Blood Price** action (0 AP, once per round): take 1d6 slashing damage and inflict Bleed (1d4 damage at start of turn for 3 rounds) on yourself to generate 2 Benediction or 2 Malediction of your choice.
 
 ⚠️ **Omen Debt**: Your soul cannot safely hold these visions. At the end of a long rest, any unused Benediction or Malediction decays. If you had unused resources, your mind is scourged by the ghosts of unfulfilled futures, inflicting **Omen Debt** (a permanent -1 penalty to all saving throws per unused point, capped at -10) until you spill blood in combat again.`,
 
@@ -301,9 +309,9 @@ Augurs are not frontline gladiators, nor are they safe, back-line spellcasters. 
   },
   {
   title: "Visceral Haruspex",
-  stats: "Self-Mutilation",
-  details:
-   "If no fresh violence is spilt, you must flay your own flesh to generate omens. Spills 1d6 HP and inflicts self-bleed for 3 rounds.",
+   stats: "Blood Price",
+   details:
+    "If no fresh violence is spilt, you must cut your own flesh to generate omens. Spills 1d6 HP and inflicts self-bleed for 3 rounds.",
   },
  ],
 
@@ -347,7 +355,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
    "Generated by attacks, saves, or checks of allies, enemies, or yourself",
   ],
   [
-   "Self-Mutilation (No Violence Present)",
+   "Blood Price (No Violence Present)",
    "+2 Benediction or Malediction",
    "Takes 1d6 slashing damage and inflicts self-bleed (1d4/round, 3 rounds)",
   ],
@@ -370,7 +378,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
    "Reaction: Incoming attack automatically misses; ally slips 10ft away",
   ],
   [
-   "Omen of the Flayed Strike",
+   "Omen of the Rending Strike",
    "2 Benediction",
    "Absolute Offense",
    "Action: Next weapon attack is a guaranteed critical hit or critical counter-strike",
@@ -387,7 +395,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
 
  specializations: {
  title: "Visceral Specializations",
- subtitle: "Three Paths of the Agonizing Sign",
+ subtitle: "Three Paths of the Bleak Sign",
 
  description: `Every Haruspex must choose how they interpret the spilt gore of the world. Will you balance the scales of agony, rot away in the shadow of doom, or burn your own sight to channel searing grace?`,
 
@@ -1113,11 +1121,11 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   "You hammer your staff into the ground, creating a zone of blinding, protective radiance. Allies who stand within have their wounds sealed with warm, restorative light, while enemies are scorched by the searing truth.",
   level: 3,
   spellType: "ACTION",
-  icon: "Radiant/ember light Burst",
+  icon: "Radiant/Radiant Light Burst",
   effectTypes: ["healing", "damage"],
   typeConfig: {
   school: "ember",
-  icon: "Radiant/ember light Burst",
+  icon: "Radiant/Radiant Light Burst",
   tags: ["area", "healing", "damage", "consecrated", "omen"],
   castTime: 1,
   castTimeType: "IMMEDIATE",
@@ -1944,11 +1952,11 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   "You summon a colossal altar of crimson energy and golden splinters. The altar forms an absolute sanctuary: allies within are immune to all damage, while enemies are violently repelled by the searing light.",
   level: 7,
   spellType: "ACTION",
-  icon: "Radiant/ember light Burst",
+  icon: "Radiant/Radiant Light Burst",
   effectTypes: ["buff", "utility"],
   typeConfig: {
   school: "ember",
-  icon: "Radiant/ember light Burst",
+  icon: "Radiant/Radiant Light Burst",
   tags: ["area", "buff", "sanctuary", "omen"],
   castTime: 1,
   castTimeType: "IMMEDIATE",
@@ -2733,7 +2741,99 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   somaticText: "Press two fingers to your brow and draw the pattern of what will be.",
   verbalText: "Whisper the reading aloud so the world is bound to it.",
 },
+ // ===== NON-COMBAT / HARUSPEX DIVINATION (the omen-reader identity) =====
+ { id : "augur_cast_the_bones",
+  name: "Cast the Bones",
+  description: "Scatter rune-scored bone fragments and read the pattern they fall in. Ask one specific question about a near-future event (within one day) and receive a truthful omen: yes, no, ill, or favorable — plus a single cryptic image of what the bones see coming. Out of combat.",
+  level: 1,
+  spellType: "ACTION",
+  icon: "Psychic/Focused Mind",
+  effectTypes: ["utility"],
+  typeConfig: { school: "wyrd", icon: "Psychic/Focused Mind", tags: ["utility","divination","social","augur"], castTime: 1, castTimeType: "IMMEDIATE" },
+  targetingConfig: { targetingType: "self", rangeType: "self" },
+  resourceCost: { components: ["somatic"], actionPoints: 1, mana: 4, classResource: { type: "benediction", cost: 1 } },
+  cooldownConfig: { cooldownType: "short_rest", cooldownValue: 1 },
+  utilityConfig: { utilityType: "divination", selectedEffects: [ { id : "cast_bones_omen", name: "Bone Omen", description: "One yes/no/ill/favorable answer to a near-future (within 1 day) question, plus a single cryptic image. The bones answer the likeliest probability, not destiny — and they are terse.", mechanicsText: "1 near-future yes/no + a cryptic image." } ], power: "minor" },
+  resolution: "NONE",
+  tags: ["utility","divination","social","augur"],
+
+  somaticText: "Cast the bone-set on bare ground; the scatter is the sentence.",
+  verbalText: "The question, once — the bones answer what is asked, not what is meant.",
+ },
+ { id : "augur_read_the_entrails",
+  name: "Read the Entrails",
+  description: "Open a fresh kill or fresh corpse and read its steaming viscera. Learn what killed it, what it feared last, what it carried or ate recently, and whether greater danger lies in the direction it came from. Requires a fresh corpse; without one you pay the Blood Price (1d6 slashing + Bleed) to use your own. Out of combat.",
+  level: 1,
+  spellType: "ACTION",
+  icon: "Necrotic/Necrotic Wither",
+  effectTypes: ["utility"],
+  typeConfig: { school: "wyrd", icon: "Necrotic/Necrotic Wither", tags: ["utility","divination","investigation","exploration","augur"], castTime: 1, castTimeType: "IMMEDIATE" },
+  targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
+  resourceCost: { components: ["verbal","somatic"], actionPoints: 1, mana: 5, classResource: { type: "malediction", cost: 1 } },
+  cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+  utilityConfig: { utilityType: "divination", selectedEffects: [ { id : "entrails_read", name: "Visceral Reading", description: "From a fresh corpse learn: cause of death, its last fear, recent stomach/contents, and whether greater danger lies back along its trail. No fresh corpse: pay 1d6 slashing + Bleed to read your own viscera for a lesser reading.", mechanicsText: "Read a fresh corpse's last moments + danger on its trail." } ], power: "minor" },
+  resolution: "NONE",
+  tags: ["utility","divination","investigation","exploration","augur"],
+
+  somaticText: "Hook the blade beneath the ribs and let the heat speak before it cools.",
+  verbalText: "A low, droning tone — the entrails will not read themselves in silence.",
+ },
+ { id : "augur_smoke_sign",
+  name: "Smoke-Sign Reading",
+  description: "Burn a token of the thing you seek — a lock of hair, a scrap of its clothing, a written name — and read the curl and drift of the smoke. It streams toward the target's current location and grows thick when close, thin when far, letting you track a person, place, or object across any distance for the duration. Out of combat.",
+  level: 2,
+  spellType: "ACTION",
+  icon: "Nature/Fog",
+  effectTypes: ["utility"],
+  typeConfig: { school: "wyrd", icon: "Nature/Fog", tags: ["utility","divination","tracking","exploration","augur"], castTime: 1, castTimeType: "IMMEDIATE" },
+  targetingConfig: { targetingType: "self", rangeType: "self" },
+  resourceCost: { components: ["verbal","somatic"], actionPoints: 1, mana: 7, classResource: { type: "benediction", cost: 2 } },
+  cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+  utilityConfig: { utilityType: "tracking", selectedEffects: [ { id : "smoke_sign_trail", name: "Smoke Trail", description: "For 1 hour the smoke from a burned token of the target streams toward its current location — thickening as you near, thinning as you move away. Works across any distance; defeated by wards that block divination, not by distance.", mechanicsText: "Track one person/place/object by smoke for 1 hour." } ], duration: 1, durationUnit: "hours", power: "moderate" },
+  resolution: "NONE",
+  tags: ["utility","divination","tracking","exploration","augur"],
+
+  somaticText: "Feed the token to the flame and watch which way the ash leans.",
+  verbalText: "Name the quarry in the old counting-tongue; the smoke listens.",
+ },
+ { id : "augur_omen_of_the_threshold",
+  name: "Omen of the Threshold",
+  description: "Before a door, a pass, or a chosen path, slit your palm and read the immediate future of crossing. You glimpse the next minute of what will happen if you proceed — ambushers, traps, who waits beyond, the first blow struck. Visions fade past sixty seconds. Out of combat.",
+  level: 2,
+  spellType: "ACTION",
+  icon: "Arcane/Spiral Vortex",
+  effectTypes: ["utility"],
+  typeConfig: { school: "wyrd", icon: "Arcane/Spiral Vortex", tags: ["utility","divination","exploration","augur"], castTime: 1, castTimeType: "IMMEDIATE" },
+  targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
+  resourceCost: { components: ["verbal","somatic"], actionPoints: 1, mana: 8, classResource: { type: "benediction", cost: 2 } },
+  cooldownConfig: { cooldownType: "short_rest", cooldownValue: 1 },
+  utilityConfig: { utilityType: "divination", selectedEffects: [ { id : "threshold_glimpse", name: "Sixty-Second Glimpse", description: "Glimpse the next 60 seconds of what occurs if you cross the threshold now — threats, waiting foes, the first attack. Shows the likeliest immediate future only; changes if you delay or alter approach.", mechanicsText: "Preview next 60 seconds past a threshold." } ], power: "moderate" },
+  resolution: "NONE",
+  tags: ["utility","divination","exploration","augur"],
+
+  somaticText: "Press a bleeding palm to the doorframe and breathe until the room ahead bleeds into view.",
+  verbalText: "A counted whisper — one, two, three — the future arrives on the third.",
+ },
+ { id : "augur_doomseers_mark",
+  name: "Doom-Seer's Mark",
+  description: "Study a creature within sight and read the omens written on its body — the way it holds its weight, the fate-lines in its skin. Learn its single greatest near-future fear or vulnerability, and sense whether it intends you betrayal within the next hour. Out of combat.",
+  level: 3,
+  spellType: "ACTION",
+  icon: "Psychic/Focused Mind",
+  effectTypes: ["utility"],
+  typeConfig: { school: "wyrd", icon: "Psychic/Focused Mind", tags: ["utility","divination","social","investigation","augur"], castTime: 1, castTimeType: "IMMEDIATE" },
+  targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 30 },
+  resourceCost: { components: ["verbal","somatic"], actionPoints: 1, mana: 8, classResource: { type: "malediction", cost: 2 } },
+  cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+  utilityConfig: { utilityType: "social", selectedEffects: [ { id : "doomseers_read", name: "Read the Marked", description: "Learn one creature's greatest near-future fear/vulnerability and whether it intends you betrayal within the hour. Surface omens only — not deep secrets or long plans.", mechanicsText: "Read one creature's top fear + betrayal intent." } ], power: "moderate" },
+  resolution: "NONE",
+  tags: ["utility","divination","social","investigation","augur"],
+
+  somaticText: "Lidless stare at the target until the fate-lines surface on their skin.",
+  verbalText: "Silence — the reading is done with the eyes, not the mouth.",
+ },
  ],
+
 
  spellPools: {
  1: [
@@ -2743,16 +2843,21 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   "augur_sign_of_clarity",
   "augur_omen_bolt",
   "augur_whisper_harvester",
+  "augur_cast_the_bones",
+  "augur_read_the_entrails",
  ],
  2: [
   "augur_portent_of_weakness",
   "augur_terrain_of_ruin",
   "augur_sign_of_protection",
+  "augur_smoke_sign",
+  "augur_omen_of_the_threshold",
  ],
  3: [
   "augur_omen_bolt",
   "augur_harbinger_gaze",
   "augur_sacred_ground",
+  "augur_doomseers_mark",
  ],
  4: [
   "augur_grand_malediction",

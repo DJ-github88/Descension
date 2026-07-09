@@ -232,8 +232,9 @@ Toxicologists have traced the cause to a change in the fog\'s composition. Somet
 - Rewards strategic planning and tactical positioning
 
 **Weaknesses**:
-- Requires careful management of two separate resources
-- Contraption deployment costs action economy
+- Slow to Boot Up: contraptions and brewed concoctions cost actions to deploy — a fast ambush before you're set leaves you a basic combatant with a body full of toxins and nowhere to spend them.
+- Two-Resource Bind: Toxin Vials and Contraption Parts are separate pools that don't substitute — running one dry guts half your kit, and a foe who burns your prep time starves both.
+- Chronic Tremors (social): your hands shake from years of toxin exposure, worse under stress (combat, a lie, interrogation); fine work, steady pours, signed names, and Sleight of Hand all suffer, and your stained fingers mark you plainly as a poisoner.
 - Less effective against poison-immune enemies
 - 50% healing reduction makes you dangerously fragile
 - Fire/ember damage triggers internal poison detonation
@@ -478,7 +479,7 @@ You're an ALCHEMIST WARRIOR who controls the battlefield through preparation and
     title: "Alchemical Arsenal",
     subtitle: "Toxin Vials & Contraption Parts",
 
-    description: `Your arsenal is fed by self-mutilation and scavenged wreckage. **Toxin Vials** are filled by slicing open your own flesh -- each vial drawn from a body already saturated with reagents, your blood mixing with venom until the distinction is meaningless. **Contraption Parts** are pried from battlefield debris, salvaged from the dead, or assembled from components no surgeon would sanction.
+    description: `Your arsenal is fed by blood extraction and scavenged wreckage. **Toxin Vials** are filled by lancing your own flesh -- each vial drawn from a body already saturated with reagents, your blood mixing with venom until the distinction is meaningless. **Contraption Parts** are pried from battlefield debris, salvaged from the dead, or assembled from components no surgeon would sanction.
 
 **Two Crafting Systems:**
 - **Weapon Poisons** (1 vial, 1 AP): Quick-apply poisons to your weapon. Lasts 3 attacks or until end of combat. Choose from 5 poison types (Neurotoxin, Hemotoxin, Cytotoxin, Myotoxin, Cardiotoxin).
@@ -3356,6 +3357,72 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       resolution: "AUTOMATIC",
       tags: ["passive", "restriction", "no hard cc", "nauseated", "toxicologist"],
     },
+    // ===== NON-COMBAT / ALCHEMY & GADGET UTILITY (the poisoner-craftsman, out of combat) =====
+    {
+      id: "tox_chemical_analysis",
+      name: "Chemical Analysis",
+      description: "Taste, smell, or test a powder, liquid, residue, or food/drink and read its chemistry — what it is, its components, any toxins/poisons/contaminants, and what it does (and the antidote, if you know one). Your dead tastebuds are the instrument. Out of combat.",
+      level: 1, spellType: "ACTION", icon: "Poison/Poison Flask",
+      typeConfig: { school: "blight", icon: "Poison/Poison Flask", castTime: 1, castTimeType: "MINUTES", tags: ["utility","investigation","toxicologist"] },
+      targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 3 }, components: ["somatic"], somaticText: "Touch the sample to tongue or waft it to nose; the dead tastebuds read what living ones cannot" },
+      resolution: "NONE", effectTypes: ["utility"],
+      utilityConfig: { utilityType: "divination", selectedEffects: [ { "id": "chemical_analysis_read", "name": "Reagent Reading", "description": "Identify a substance's composition, any toxins/contaminants, its effect, and a known antidote if one exists. Engineered or magical compounds may read partially.", "mechanicsText": "Identify a substance + toxins + effect + antidote." } ], power: "minor" },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+      tags: ["utility","investigation","toxicologist"]
+    },
+    {
+      id: "tox_caustic_flask",
+      name: "Caustic Flask",
+      description: "Brew and apply a precise corrosive: dissolve a lock's pins, eat through a hinge, etch a hole in thin metal, scissor a rope, or destroy a document/parchment. Quiet fuming acid, not an explosion. You take 1 blight self-damage from the back-splash. Out of combat.",
+      level: 1, spellType: "ACTION", icon: "Poison/Poison Flask",
+      typeConfig: { school: "blight", icon: "Poison/Poison Flask", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","exploration","infiltration","toxicologist"] },
+      targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 4 }, components: ["somatic"], classResource: { type: "toxin_vials", cost: 1 }, somaticText: "Decant just enough acid to do the work and no more — hands shaking" },
+      resolution: "AUTOMATIC", effectTypes: ["utility"],
+      utilityConfig: { utilityType: "demolition", selectedEffects: [ { "id": "caustic_flask_etch", "name": "Precision Corrosive", "description": "Dissolve a lock, hinge, thin metal, rope, or document; or etch a small hole. Costs 1 Toxin Vial; 1 blight back-splash to you. Reinforced/magical materials resist.", "mechanicsText": "Acid-open a lock/hinge/metal/rope; costs 1 vial, 1 blight self." } ], power: "moderate" },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+      tags: ["utility","exploration","infiltration","toxicologist"]
+    },
+    {
+      id: "tox_smoke_screen",
+      name: "Smoke Screen",
+      description: "Throw down a billowing chemical smoke that fills the area, blocks vision, lays a pungent reagent-stink that defeats scent tracking, and irritates the lungs of pursuers (they cough and slow). Excellent for retreats, break-ins, or masking your party's exact count. Out of combat.",
+      level: 2, spellType: "ACTION", icon: "Nature/Fog",
+      typeConfig: { school: "blight", icon: "Nature/Fog", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","exploration","infiltration","toxicologist"] },
+      targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 30, areaType: "circle", areaSize: 20 },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 5 }, components: ["somatic"], classResource: { type: "toxin_vials", cost: 1 }, somaticText: "Crush the pellet and let the chemical fog boil out" },
+      resolution: "NONE", effectTypes: ["utility"],
+      utilityConfig: { utilityType: "stealth", selectedEffects: [ { "id": "smoke_screen_cloud", "name": "Reagent Fog", "description": "A 20 ft smoke cloud blocks vision, defeats scent tracking, and irritates lungs (pursuers cough, -10 ft speed) for 1 minute. Masks your party's numbers and retreat.", "mechanicsText": "20 ft smoke: blocks vision/scent, slows coughing pursuers, 1 min." } ], duration: 1, durationUnit: "minutes", power: "moderate" },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+      tags: ["utility","exploration","infiltration","toxicologist"]
+    },
+    {
+      id: "tox_brew_antidote",
+      name: "Brew Antidote",
+      description: "From your own saturated blood and carried reagents, quickly culture an antidote to any poison, venom, or disease you have diagnosed in an ally — they made the cure for everyone but themselves. You suffer a brief toxic flush (1 blight) to brew it. Out of combat.",
+      level: 2, spellType: "ACTION", icon: "Healing/Golden Heart",
+      typeConfig: { school: "blight", icon: "Healing/Golden Heart", castTime: 10, castTimeType: "MINUTES", tags: ["utility","investigation","exploration","toxicologist"] },
+      targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0, targetRestrictions: ["any"] },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 6 }, components: ["somatic"], classResource: { type: "toxin_vials", cost: 1 }, somaticText: "Draw a little of your own toxic blood to seed the counter-agent" },
+      resolution: "AUTOMATIC", effectTypes: ["utility"],
+      utilityConfig: { utilityType: "protection", selectedEffects: [ { "id": "brew_antidote_cure", "name": "Cultured Antidote", "description": "Neutralize one diagnosed poison/venom/disease in another creature. Cannot self-administer (your blood rejects it). Costs 1 Toxin Vial and 1 blight to brew.", "mechanicsText": "Cure one diagnosed poison/venom/disease in another; no self-cure." } ], power: "major" },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+      tags: ["utility","investigation","exploration","toxicologist"]
+    },
+    {
+      id: "tox_slow_taint",
+      name: "Slow Taint",
+      description: "Slip a slow, untraceable reagent into a target's food or drink — no immediate effect, but hours later the victim is gripped by cramping sickness, weakness, or a deep sleep with no obvious cause. The poisoner's quiet art. A wary target may taste it; a paranoia-check saves them. Out of combat.",
+      level: 3, spellType: "ACTION", icon: "Poison/Poison Flask",
+      typeConfig: { school: "blight", icon: "Poison/Poison Flask", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","social","infiltration","toxicologist"] },
+      targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 8 }, components: ["somatic"], classResource: { type: "toxin_vials", cost: 2 }, somaticText: "Decant the colorless, tasteless reagent into the cup with a steady(ish) hand" },
+      resolution: "AUTOMATIC", effectTypes: ["utility"],
+      utilityConfig: { utilityType: "social", selectedEffects: [ { "id": "slow_taint_dose", "name": "Delayed Dose", "description": "Taint one food/drink; 1d4 hours later the drinker suffers cramping sickness (disadvantage on all checks for a day), weakness, or deep sleep — no obvious cause. A paranoid taster (DC 13) detects it first. Costs 2 Toxin Vials.", "mechanicsText": "Slip a delayed sickness/sleep poison into food/drink; DC 13 to detect." } ], power: "major" },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+      tags: ["utility","social","infiltration","toxicologist"]
+    }
   ],
 };
 

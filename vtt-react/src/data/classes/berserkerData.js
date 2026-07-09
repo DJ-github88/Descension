@@ -111,7 +111,7 @@ export const BERSERKER_DATA = {
 
  overview: {
  title: "The Berserker",
- subtitle: "The Hemorrhagic Butcher",
+ subtitle: "The Blood-Fueled Berserker",
  illustration: "/assets/images/classes/berserker_illustration.png",
  illustrationCaption: "A Mimir mask-merged Berserker dual-wielding battleaxes with subtle crystal skin lines.",
  originStory: `Founded in the first centuries of the Dimming by Grum the Iron-Smith, who ignited the Blood-Heat in Emberspire's caldera at the end of the Bloodhammer migration. The world of Mythrill does not forgive weakness, and in the freezing wastes of Nordhalla, the line between survival and savagery was erased eight centuries ago. When the Glacier Bargain halted the ice at the price of summer, the Skald were left in a land of absolute cold. In the darkest winter of the cataclysm, when starvation stalked the keeps of the Frozen Archive, the Skald did not pray for warmth, they prayed for endurance. The ancestors consumed their own fallen kin so the bloodline could persist, and that terrible act did not merely scar their history. It entered their very blood.
@@ -124,7 +124,7 @@ As a Berserker of the Bloodhammer line, you carry the Hunger Pact in your veins.
 
  quickOverview: {
   title: "Quick Overview",
-  content: `**What You Need to Know**: The Berserker is not a noble hero; they are a tragic anomaly. Their "Rage" is a violent physiological meltdown,Blood-Heat (0-100),where adrenaline boils their blood and snaps their tendons to force inhuman strikes. The standard Blood-Heat gauge caps at 100, and exceeding it triggers **Metabolic Burnout (Overheat)**, causing internal organs to seize under the agonizing pressure. However, high-level overdrive masteries allow the player to enter temporary catastrophic states (101-150+) without instant burnout.
+   content: `**What You Need to Know**: The Berserker is not a noble hero; they are a tragic anomaly. Their "Rage" is a violent physiological meltdown,Blood-Heat (0-100),where adrenaline boils their blood and snaps their tendons to force inhuman strikes. The standard Blood-Heat gauge caps at 100, and exceeding it triggers **Metabolic Burnout (Overheat)**, causing internal organs to seize under the crushing pressure. However, high-level overdrive masteries allow the player to enter temporary catastrophic states (101-150+) without instant burnout.
 
 **Core Mechanic**: Every strike feeds the boiling Blood-Heat. At higher heat, their raw damage output scales drastically, but they permanently damage themselves to maintain it. They possess **Pain Immunity**, making them completely immune to pain,but this horrific state blocks all incoming healing from allies while raging.
 
@@ -135,7 +135,7 @@ As a Berserker of the Bloodhammer line, you carry the Hunger Pact in your veins.
 **Best For**: Players who enjoy riding the absolute edge of survival, trading health for unmitigated ruin, and punishing passivity.`,
  },
 
- description: `The Berserker represents the desperate, agonizing survival of meat and bone. They do not wield magic; they mutilate their own anatomy through pure adrenaline and boiling fury. As their Blood-Heat rises, their muscles literally tear themselves from the bone to swing harder. This physiological meltdown grants terrifying strength but rapidly burns their metabolic reserves, leading toward inevitable systemic collapse.`,
+  description: `The Berserker represents the raw survival of flesh and bone. They do not wield magic; they push their own anatomy past its limits through pure adrenaline and boiling fury. As their Blood-Heat rises, their muscles strain beyond human tolerance to swing harder. This physiological meltdown grants terrifying strength but rapidly burns their metabolic reserves, leading toward inevitable systemic collapse.`,
 
  roleplayIdentity: {
   title: "Roleplay Identity",
@@ -151,7 +151,7 @@ Berserkers are completely outlawed within the silver law-chambers and administra
 The class is heavily practiced by the massive Skald and hot-headed <LoreLink termId="emberth">Thrask Emberth</LoreLink> who defaced their imperial marks to embrace the wild fury of the caldera.
 
 **NOTABLE FIGURES**
-* **Grum the Iron-Smith**: The legendary smith who crushed a glacier-wyrm with bare hands while his marrow boiled.
+* **Grum the Iron-Smith**: The legendary smith who crushed a glacier-wyrm with bare hands while his veins burned.
 * **Torra Bloodhammer**: A chieftain who led the Bloodhammer clans down into the geothermal vaults.`
  },
 
@@ -194,11 +194,20 @@ Tensions erupted into violence at the last Harath-Vault arena, when an Unbound B
   title: "The Death's Door Execute",
   content: `The Berserker is the ultimate "Why Bring Me?" execute engine. When their own health is critically low (below 30% HP), their survival instinct turns apocalyptic. Their boiling blood reaches such extreme temperatures that their strikes **completely bypass all physical resistances** of their enemies. They turn near-death into unmitigated destruction.
 
-However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess absolutely zero self-healing or lifesteal. and, while their fury burns (Rage > 20), their pain immunity prevents their allies' magic from mending their flesh. They are highly vulnerable to sustained damage-over-time (Bleed/Poison) effects, which will silently drain their remaining meat while they are blind with rage.`,
+However, their weaknesses are absolute and exploitable:
+
+**Weaknesses**:
+- Pain Immunity Blocks Healing: while Raging (Blood-Heat over 20) you cannot be healed by allies — you solo your own survival until the fury ends.
+- Zero Recovery: no self-heal, no lifesteal, none — every HP lost is gone until you stop raging and rest.
+- DoT Bait: Bleed and Poison silently drain you while you are pain-blind; a stacking DoT will kill you before you ever feel it.
+- Metabolic Burnout: push Blood-Heat past 100 and you have one round to dump it, or take 2d6 unresistable damage and crash to 0 Heat.
+- Pain Starvation: two full rounds without dealing melee damage and the rage turns inward (mind decay) — kiting and hard CC shut you down.
+- Death's-Door Gamble: your peak damage requires being under 30 percent HP — misjudge the threshold and you simply die.`
+,
  },
 
  playstyle: {
-  title: "Strategic Self-Mutilation",
+   title: "Strategic Self-Inflicted Strain",
   content: `Managing the Berserker is a dance of attrition.
   
 **The Sweet Spot (41-80 Blood-Heat)**: You hit with terrifying force and gain massive combat bonuses, but the thermal pressure is mounting.
@@ -252,10 +261,10 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
   description: "Maximum single-strike mutilation. Designed to deliver devastating blows at the cost of your own skeletal integrity.",
   },
   {
-  name: "Dual Flayed Warhammers Path",
+  name: "Dual Sinew-Wrapped Warhammers Path",
   icon: "Bludgeoning/Mortal Strike",
   items: [
-   "Two Flayed Warhammers (1d10 bludgeoning each, wrapped in raw sinew)",
+   "Two Sinew-Wrapped Warhammers (1d10 bludgeoning each, wrapped in hardened leather)",
    "Heavy Splinted Bracers (Armor 13, max Agility +2)",
    "2 Sinew-Bound Throwing Spikes (1d6 piercing, range 20/60)",
   ],
@@ -263,7 +272,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
   },
  ],
  standardGear: [
-  "Butcher's Pack ( backpack, salt rations x10, cauterizing iron, torches x5, waterskin, hempen rope 50ft )",
+  "Warrior's Pack ( backpack, salt rations x10, cauterizing iron, torches x5, waterskin, hempen rope 50ft )",
   "1d10 x 5 rusted copper pieces",
  ],
  notes: "Ranged weapons are an insult to the meat. You cannot wield bows or crossbows; your rage requires close-quarters mutilation.",
@@ -278,7 +287,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
  {
   step: 2,
   title: "Select Your Instrument",
-  description: "Choose the heavy Shattered Greataxe (massive recoil) or Dual Flayed Warhammers (frequent self-harm).",
+  description: "Choose the heavy Shattered Greataxe (massive recoil) or Dual Sinew-Wrapped Warhammers (frequent self-harm).",
  },
  {
   step: 3,
@@ -295,14 +304,14 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
  // Resource System Config
  resourceSystem: {
  title: "Blood-Heat & Pain Immunity",
- subtitle: "The Agony of the Flesh",
+   subtitle: "The Price of the Flesh",
  description: "Blood-Heat is a thermal pressure gauge of your physiological decay. It builds through self-harm and taking pain, unlocking terrifying physical thresholds. However, once you boil, you are immune to pain, preventing your allies from healing you. If you exceed 100 heat, you suffer Metabolic Burnout.",
  
  cards: [
   {
   title: "Blood-Heat (0-100)",
   stats: "Thermal Scale",
-  details: "Rage represented as boiling blood. Built by striking, self-mutilation, and taking damage. Exceeding 100 triggers Metabolic Burnout.",
+  details: "Rage represented as boiling blood. Built by striking, self-inflicted strain, and taking damage. Exceeding 100 triggers Metabolic Burnout.",
   },
  ],
 
@@ -337,7 +346,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
 
  rageStatesTable: {
   title: "Blood-Heat Thresholds",
-  headers: ["State", "Heat Range", "Unlocked Mechanics", "Agony / Penalty"],
+   headers: ["State", "Heat Range", "Unlocked Mechanics", "Strain / Penalty"],
   rows: [
   ["Smoldering", "0-20", "Basic strikes available. You feel the cold chill of mortality.", "None"],
   ["Frenzied", "21-40", "+1 melee attack roll, +5 ft movement.", "Pain Immunity begins: Allies cannot heal you."],
@@ -413,7 +422,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
   icon: "Utility/Powerful Warrior",
   color: "#DAA520",
   theme: "Tyrannical Dirge",
-  description: "The Warlord is a commanding terror on the battlefield. They direct their physical suffering outward, transforming their agonizing screams into thunderous bellows that demoralize foes and whip allies into a bloodthirsty frenzy.",
+   description: "The Warlord is a commanding terror on the battlefield. They direct their physical suffering outward, transforming their bellows of effort into thunderous roars that demoralize foes and whip allies into a bloodthirsty frenzy.",
   playstyle: "Tactical support, area-of-effect crowd control, and amplifying team-wide aggression.",
   strengths: [
    "Amplified shout and roar radius, intimidating entire groups of enemies at once.",
@@ -444,7 +453,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
   id: "berserk_hemorrhagic_strike",
   name: "Hemorrhagic Strike",
   description:
-  "Heave your weapon with terrifying, uncontrolled force. Your muscles snap and tear from the bone, dealing damage to yourself but building your Blood-Heat and tearing into your enemy's flesh.",
+  "Heave your weapon with terrifying, uncontrolled force. Your muscles strain beyond their limit, dealing damage to yourself but building your Blood-Heat and tearing into your enemy.",
   level: 1,
   spellType: "ACTION",
   icon: "Slashing/Cross Slash",
@@ -472,7 +481,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
   classResource: { type: "rage", cost: -6 }, // Negative cost means generation
   components: ["verbal", "somatic"],
   verbalText: "A guttural, rattling gasp of raw exertion.",
-  somaticText: "Heave your weapon back with agonizing force, muscles visibly tearing as you force the blade forward."
+  somaticText: "Heave your weapon back with explosive force, muscles visibly tearing as you force the blade forward."
   },
 
   resolution: "DICE",
@@ -482,7 +491,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
   formula: "1d12 + strength",
   damageTypes: ["physical"],
   resolution: "DICE",
-  description: "A brutal, agonizing swing. Deals massive physical damage, but the recoil snaps your own muscle fibers.",
+   description: "A brutal, devastating swing. Deals massive physical damage, but the recoil snaps your own muscle fibers.",
   },
 
   debuffConfig: {
@@ -491,7 +500,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
    {
    id: "self_laceration",
    name: "Self-Laceration",
-   description: "Your tendons tear from the swing.",
+   description: "Your tendons strain from the swing.",
    mechanicsText: "Take 1d4 physical damage to self",
    statModifier: {
     stat: "health",
@@ -536,9 +545,9 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
    { range: { min: 1, max: 2 }, customName: "Tendon Rupture", effect: "Your shoulder dislocates. Take 1d6 damage and your next attack has disadvantage." },
    { range: { min: 3, max: 5 }, customName: "Shallow Gash", effect: "Normal damage. You take 1d4 recoil damage." },
    { range: { min: 6, max: 10 }, customName: "Savage Rent", effect: "Deal +1d6 physical damage. You take 1d4 recoil." },
-   { range: { min: 11, max: 15 }, customName: "Boiling Splatter", effect: "Your boiling blood sprays the target. Deal +1d6 ember damage. Gain +2 additional Blood-Heat." },
-   { range: { min: 16, max: 18 }, customName: "Arterial Sunder", effect: "Deal +2d6 damage. Target is inflicted with Bleeding (1d4 damage/round for 2 rounds). Take 1d4 recoil." },
-   { range: { min: 19, max: 20 }, customName: "Hemorrhagic Meltdown", effect: "Apocalyptic swing. Bypasses all armor. Deal +3d6 damage and gain +1d8 Blood-Heat. Take 2d4 recoil." },
+    { range: { min: 11, max: 15 }, customName: "Boiling Spray", effect: "Your boiling blood sprays the target. Deal +1d6 ember damage. Gain +2 additional Blood-Heat." },
+    { range: { min: 16, max: 18 }, customName: "Deep Sunder", effect: "Deal +2d6 damage. Target is inflicted with Bleeding (1d4 damage/round for 2 rounds). Take 1d4 recoil." },
+    { range: { min: 19, max: 20 }, customName: "Blood-Heat Meltdown", effect: "Apocalyptic swing. Bypasses all armor. Deal +3d6 damage and gain +1d8 Blood-Heat. Take 2d4 recoil." },
   ],
   },
  },
@@ -1071,11 +1080,11 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
   "CLASS WEAKNESS. If you go 2 full rounds without dealing melee damage to an enemy, your body suffers immediate adrenaline withdrawal. Your Blood-Heat decays by 10 per round, and you gain disadvantage on all Dodge and Agility checks as your muscles shake.",
   level: 3,
   spellType: "PASSIVE",
-  icon: "/Exhausted",
+  icon: "Exhausted",
   effectTypes: ["passive"],
   typeConfig: {
   school: "physical",
-  icon: "/Exhausted",
+  icon: "Exhausted",
   tags: ["passive", "weakness", "berserker"],
   },
   targetingConfig: { targetingType: "self" },
@@ -1100,7 +1109,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
  },
 
  // ========================================
- // LEVEL 4 SPELLS (Peak Self-Mutilation)
+  // LEVEL 4 SPELLS (Peak Self-Sacrifice)
  // ========================================
  {
   id: "berserk_carnage_strike",
@@ -1195,7 +1204,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
   id: "berserk_raging_defense",
   name: "Raging Defense",
   description:
-  "Force your mind to block out the agony of your ruined frame. You gain massive temporary endurance, but the sheer physical exertion leaves you slow to react.",
+   "Force your mind to block out the damage of your ruined frame. You gain massive temporary endurance, but the sheer physical exertion leaves you slow to react.",
   level: 4,
   spellType: "ACTION",
   icon: "Utility/Shield",
@@ -1220,7 +1229,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
   resourceValues: { mana: 0, rage_cost: 25 },
   classResource: { type: "rage", cost: 25 },
   components: ["somatic"],
-  somaticText: "Clench your fists until your fingernails cut your palms, ignoring the agony of current wounds."
+  somaticText: "Clench your fists until your fingernails cut your palms, ignoring the severity of current wounds."
   },
 
   resolution: "DICE",
@@ -1536,7 +1545,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
   resourceValues: { mana: 0, rage_cost: 50 },
   classResource: { type: "rage", cost: 50 },
   components: ["verbal", "somatic"],
-  verbalText: "An agonizing, hoarse scream of absolute finality that bursts capillaries in your eyes.",
+  verbalText: "A hoarse scream of absolute finality that bursts capillaries in your eyes.",
   somaticText: "Put every ounce of your structural momentum into a shattering, two-handed downward slash, ignoring the warning crunch of your shoulder joints."
   },
 
@@ -2105,7 +2114,7 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
   id: "berserk_veterans_resolve",
   name: "Veteran's Resolve",
   description:
-  "Focus your agonizing pain into perfect, deadly accuracy. Your melee attacks gain a flat damage bonus, but the frenzy requires constant aggression,if you go a turn without attacking, your focus collapses.",
+   "Focus your intense pain into perfect, deadly accuracy. Your melee attacks gain a flat damage bonus, but the frenzy requires constant aggression,if you go a turn without attacking, your focus collapses.",
   level: 9,
   spellType: "ACTION",
   icon: "General/Rage",
@@ -2577,14 +2586,95 @@ However, their **Fatal Flaw** is absolute: **Metabolic Burnout**. They possess a
    "berserker"
   ]
   },
+  // ===== NON-COMBAT / BODY-FORGE UTILITY (the all-combat class, in non-combat scenes) =====
+  {
+   "id": "berserk_pain_blind",
+   "name": "Pain-Blind",
+   "description": "Your Pain Immunity is not a combat state; it is what you are. You cannot feel pain at all — torture and pain-based interrogation simply do not register, and you shrug off fear-pain. The cost: you cannot gauge your own wounds, and must be told or checked to know how badly you are hurt. Out of combat.",
+   "level": 1,
+   "spellType": "ACTION",
+   "icon": "Utility/Shout",
+   "typeConfig": { "school": "physical", "icon": "Utility/Shout", "tags": ["utility","roleplay","social","berserker"], "castTime": 1, "castTimeType": "IMMEDIATE" },
+   "targetingConfig": { "targetingType": "self", "rangeType": "self" },
+   "resourceCost": { "actionPoints": 0, "resourceTypes": [], "resourceValues": {}, "components": ["somatic"] },
+   "resolution": "NONE",
+   "effectTypes": ["utility"],
+   "utilityConfig": {
+    "utilityType": "social",
+    "selectedEffects": [ { "id": "pain_blind_steadfast", "name": "Pain-Blind", "description": "Immune to pain-based interrogation/torture and advantage on saves vs fear. You cannot feel your own injuries and do not know your current HP/wounds unless examined — a danger in long attrition.", "mechanicsText": "Immune to pain interrogation; advantage vs fear; cannot self-assess wounds." } ],
+    "duration": 1, "durationUnit": "hours", "concentration": false, "power": "minor"
+   },
+   "cooldownConfig": { "cooldownType": "turn_based", "cooldownValue": 0 },
+   "tags": ["utility","roleplay","social","berserker"]
+  },
+  {
+   "id": "berserk_boiled_blood_constitution",
+   "name": "Boiled-Blood Constitution",
+   "description": "Your blood runs hotter than forge-steel; cold cannot settle in you and heat cannot cook what is already boiling. You ignore environmental heat and cold exposure, cannot be frostbitten or heat-exhausted, and walk barefoot over coals or frost without harm. Out of combat.",
+   "level": 1,
+   "spellType": "ACTION",
+   "icon": "Fire/Volcanic Corruption",
+   "typeConfig": { "school": "physical", "icon": "Fire/Volcanic Corruption", "tags": ["utility","exploration","berserker"], "castTime": 1, "castTimeType": "IMMEDIATE" },
+   "targetingConfig": { "targetingType": "self", "rangeType": "self" },
+   "resourceCost": { "actionPoints": 1, "resourceTypes": ["mana"], "resourceValues": { "mana": 3 }, "components": ["somatic"], "somaticText": "Breathe deep and let the forge-heat circulate to your skin" },
+   "resolution": "NONE",
+   "effectTypes": ["utility", "buff"],
+   "utilityConfig": {
+    "utilityType": "environment",
+    "selectedEffects": [ { "id": "boiled_blood_hardy", "name": "Forge-Tempered", "description": "For 8 hours ignore mundane heat/cold exposure (blizzards, caldera floors, deserts), take no environmental exhaustion from temperature, and cross coals/frost unharmed. Does not stop magical fire/frost damage in combat.", "mechanicsText": "Ignore heat/cold exposure 8 hours; no temp exhaustion." } ],
+    "duration": 8, "durationUnit": "hours", "concentration": false, "power": "minor"
+   },
+   "cooldownConfig": { "cooldownType": "turn_based", "cooldownValue": 0 },
+   "tags": ["utility","exploration","berserker"]
+  },
+  {
+   "id": "berserk_forge_touched_hands",
+   "name": "Forge-Touched Hands",
+   "description": "Seize non-magical metal — shackles, a lock, an iron bar, a chain, a thin gate — and let your forge-hot grip soften and warp it. Bend, break, or prise apart the metal with bare hands; the heat leaves your palms blistered. Cannot affect enchanted or large reinforced structures. Out of combat.",
+   "level": 2,
+   "spellType": "ACTION",
+   "icon": "Fire/Volcanic Corruption",
+   "typeConfig": { "school": "physical", "icon": "Fire/Volcanic Corruption", "tags": ["utility","exploration","infiltration","berserker"], "castTime": 1, "castTimeType": "IMMEDIATE" },
+   "targetingConfig": { "targetingType": "single", "rangeType": "touch", "rangeDistance": 0 },
+   "resourceCost": { "actionPoints": 1, "resourceTypes": ["mana"], "resourceValues": { "mana": 6 }, "components": ["somatic"], "somaticText": "Grip the metal and pour heat from your palms until it sags", "classResource": { "type": "blood_heat", "cost": 8 } },
+   "resolution": "AUTOMATIC",
+   "effectTypes": ["utility"],
+   "utilityConfig": {
+    "utilityType": "demolition",
+    "selectedEffects": [ { "id": "forge_touched_warp", "name": "Warp Metal", "description": "Bend, break, or prise open one non-magical metal object (shackles, lock, chain, bar, thin gate) with bare hands. Take 1d4 self-damage from blistering. Enchanted metal or large reinforced structures resist.", "mechanicsText": "Break one non-magical metal object; 1d4 self-damage." } ],
+    "power": "moderate"
+   },
+   "cooldownConfig": { "cooldownType": "turn_based", "cooldownValue": 1 },
+   "tags": ["utility","exploration","infiltration","berserker"]
+  },
+  {
+   "id": "berserk_unbroken_will",
+   "name": "Unbroken Will",
+   "description": "The survival instinct that ignites your Blood-Heat will not let you kneel. For the duration you have advantage against charm, fear, sleep, and domination, and no magic can force you to grovel, confess, or surrender. You may still be restrained or imprisoned — but never made willing. Out of combat.",
+   "level": 3,
+   "spellType": "ACTION",
+   "icon": "Utility/Empowered Warrior",
+   "typeConfig": { "school": "physical", "icon": "Utility/Empowered Warrior", "tags": ["utility","roleplay","social","berserker"], "castTime": 1, "castTimeType": "IMMEDIATE" },
+   "targetingConfig": { "targetingType": "self", "rangeType": "self" },
+   "resourceCost": { "actionPoints": 1, "resourceTypes": ["mana"], "resourceValues": { "mana": 6 }, "components": ["verbal","somatic"], "verbalText": "A single flat statement: I do not kneel" },
+   "resolution": "NONE",
+   "effectTypes": ["utility", "buff"],
+   "utilityConfig": {
+    "utilityType": "social",
+    "selectedEffects": [ { "id": "unbroken_will_steadfast", "name": "Unbroken", "description": "For 1 hour gain advantage vs charm, fear, sleep, and domination, and immunity to any effect that would force you to grovel, confess, or willingly surrender. Restraint and imprisonment still work; only your will cannot be bent.", "mechanicsText": "Advantage vs charm/fear/sleep/domination; can't be forced willing, 1 hour." } ],
+    "duration": 1, "durationUnit": "hours", "concentration": false, "power": "moderate"
+   },
+   "cooldownConfig": { "cooldownType": "turn_based", "cooldownValue": 1 },
+   "tags": ["utility","roleplay","social","berserker"]
+  },
  ],
 
  // Spell pools for level-based spell selection
  spellPools: {
  1: ["berserk_hemorrhagic_strike", "berserk_calloused_hide", "berserk_boiling_veins",
-  "berserk_roar_unyielding"],
- 2: ["berserk_frenzied_slash", "berserk_sanguine_howl"],
- 3: ["berserk_ruptured_leap"],
+  "berserk_roar_unyielding", "berserk_pain_blind", "berserk_boiled_blood_constitution"],
+ 2: ["berserk_frenzied_slash", "berserk_sanguine_howl", "berserk_forge_touched_hands"],
+ 3: ["berserk_ruptured_leap", "berserk_unbroken_will"],
  4: ["berserk_carnage_strike", "berserk_raging_defense"],
  5: ["berserk_cataclysmic_blow"],
  6: ["berserk_obliterating_strike", "berserk_wrath_berserker"],

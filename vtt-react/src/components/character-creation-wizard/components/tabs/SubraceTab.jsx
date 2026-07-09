@@ -46,6 +46,28 @@ const SubraceTab = ({
                     <p>{selectedSubrace.description}</p>
                 </div>
 
+                {(selectedSubrace.culturalBackground || selectedSubrace.heritage) && (
+                    <div className="subrace-detail-section subrace-cultural-section">
+                        <h5 className="section-title">
+                            <i className="fas fa-scroll"></i>
+                            Cultural Background
+                        </h5>
+                        <div className="subrace-cultural-body">
+                            {selectedSubrace.name && (
+                                <p className="subrace-cultural-race-note">
+                                    The <strong>{selectedSubrace.name}</strong> are one of the subraces of the {raceName}.
+                                </p>
+                            )}
+                            {selectedSubrace.culturalBackground && (
+                                <p className="subrace-cultural-text">{selectedSubrace.culturalBackground}</p>
+                            )}
+                            {!selectedSubrace.culturalBackground && selectedSubrace.heritage && (
+                                <p className="subrace-cultural-text">{selectedSubrace.heritage}</p>
+                            )}
+                        </div>
+                    </div>
+                )}
+
                 {hasStatModifiers && (
                     <div className="subrace-detail-section">
                         <h5 className="section-title">

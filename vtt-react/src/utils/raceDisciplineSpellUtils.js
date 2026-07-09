@@ -126,58 +126,20 @@ export function isPassiveStatModifier(trait) {
         // Must not have action points (triggers are allowed for passives)
         const hasNoActionPoints = (!trait.resourceCost?.actionPoints || trait.resourceCost.actionPoints === 0);
         
-        // Check for other active effects (excluding immunity statusEffects and survival utility)
-        // If it has non-immunity statusEffect, buffConfig effects, or other active effects, keep it as a spell
+        // A passive is rendered as a plain passive entry (not a spell card) unless it has
+        // genuine *active* combat configuration. Status-effect / buffType passives
+        // (triggered, sensory, immunity, etc.) are plain passives and should be laid out
+        // consistently with other racial passives.
         const hasActiveEffects = (
-            trait.buffConfig?.effects?.some(effect => {
-                // Skip immunity statusEffects - they're stat modifiers (check by name/description, not just level)
-                if (effect.statusEffect) {
-                    const effectName = (effect.name || '').toLowerCase();
-                    const effectDesc = (effect.description || '').toLowerCase();
-                    const statusEffect = effect.statusEffect;
-                    // Check if this is an immunity-related effect (by name/description, any level)
-                    const isImmunityRelated = (
-                        effectName.includes('immunity') || 
-                        effectName.includes('immune') ||
-                        effectDesc.includes('immune') ||
-                        effectDesc.includes('immunity') ||
-                        (statusEffect.level === 'extreme' && (effectName.includes('immunity') || effectName.includes('immune')))
-                    );
-                    if (isImmunityRelated) return false; // Don't count immunity-related effects as active effects
-                }
-                // If it has statusEffect or buffType that's not a stat modifier, it's an active effect
-                return effect.statusEffect || (effect.buffType && !effect.statModifier);
-            }) ||
-            trait.debuffConfig?.effects?.some(effect => {
-                // Also check debuff effects for immunity-related status effects
-                if (effect.statusEffect) {
-                    const effectName = (effect.name || '').toLowerCase();
-                    const effectDesc = (effect.description || '').toLowerCase();
-                    const isImmunityRelated = (
-                        effectName.includes('immunity') || 
-                        effectName.includes('immune') ||
-                        effectDesc.includes('immune') ||
-                        effectDesc.includes('immunity')
-                    );
-                    if (isImmunityRelated) return false;
-                }
-                return effect.statusEffect && !effect.statModifier;
-            }) ||
-            // Allow utilityConfig if it's only survival/environmental (not combat utility)
             (trait.utilityConfig && trait.utilityConfig.utilityType !== 'survival') ||
             trait.controlConfig ||
             trait.healingConfig ||
             trait.damageConfig
         );
-        
-        // If it has active effects (excluding immunities and stat modifiers), it's a spell, not just a stat modifier
-        if (hasActiveEffects) {
-            return false;
-        }
-        
-        // Return true if it has stat modifiers OR immunity statusEffects, and no action points
-        // Passives with triggers (like Battle Fury) are still considered passives
-        return (hasStatModifiers || hasImmunityStatusEffects) && hasNoActionPoints;
+
+        // Any PASSIVE with no action-point cost and no active combat config is a plain passive.
+        // This keeps subrace passives uniform instead of rendering some as spell cards.
+        return hasNoActionPoints && !hasActiveEffects;
     }
     
     return false;

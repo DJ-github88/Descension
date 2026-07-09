@@ -237,7 +237,7 @@ const AugurResourceBar = ({ classResource = {}, size = 'normal', config = {}, co
                         <div style={{ fontSize: '0.8rem', color: 'rgba(58,42,26,0.85)', lineHeight: 1.4 }}>
                             Every d20 rolled within 60 ft (yours, an ally's, or an enemy's) generates an Omen:
                             <strong> even results → Benediction</strong>, <strong>odd results → Malediction</strong>.
-                            With no bleeding targets or corpses available, you must <strong>Self-Mutilate</strong> (1d6 slashing + Bleed) to generate either.
+                            With no bleeding targets or corpses available, you must <strong>draw Blood</strong> (1d6 slashing + Bleed) to generate either.
                         </div>
                     </div>
 

@@ -385,7 +385,7 @@ const formatDescriptionText = (text) => {
     setSpellTooltip({ show: false, spell: null, x: 0, y: 0 });
   };
 
-  // Get background and path data for display
+  // Get background data for display
   const backgroundData = characterData.background ? getBackgroundData(characterData.background) : null;
   const backgroundAbilities = characterData.background ? getBackgroundAbilities(characterData.background) : [];
 

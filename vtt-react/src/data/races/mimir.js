@@ -65,7 +65,7 @@ The Mimir have been hiding ever since. But the world is not done with them. The 
       {
         name: 'Sylvain of the First Fetch',
         title: 'The Original',
-        portraitIcon: 'Armor/Head/head-golden-crown-helmet',
+        portraitIcon: 'Halfling/Icon3',
         backstory: `
 She was a forester's daughter from a village whose name has been eaten by time. When her fetch appeared at the foot of her bed, she was twenty-two, unwed, and carrying a child that would never have a father, he had died in a hunting accident three weeks prior, and the fetch wore his face for the first three seconds before it smoothed into the mask-surface all Mimir now know.
 
@@ -77,7 +77,7 @@ Sylvain lived to one hundred and seven. She taught three generations of Mimir ho
       {
         name: 'Ithra Mask-Mother',
         title: 'The Last Forge-Master',
-        portraitIcon: 'Armor/Head/head-split-dual-face-helmet',
+        portraitIcon: 'Halfling/Icon7',
         backstory: `
 No Mimir alive remembers how to make a new mask. The last person who did was Ithra, and she died in the Purge ninety years ago with the technique still in her hands.
 
@@ -91,7 +91,7 @@ Some Mimir believe she finished the mask and used it to become something else, s
       {
         name: 'Kalev Rope-Caller',
         title: 'The One Who Held the Pass',
-        portraitIcon: 'Armor/Head/head-hooded-helmet',
+        portraitIcon: 'Halfling/Icon11',
         backstory: `
 The Mist-Woven do not build monuments. They build warnings. The highest spire in the eastern aerie range has a single rope dangling from its peak, not a bridge, not a ladder, just a line of fog-spider silk that Kalev climbed alone, in the dark, while a poacher company was working its way up the cliff below.
 
@@ -103,7 +103,7 @@ He scaled the sheer face of the spire, three hundred feet of vertical stone, no 
       {
         name: 'The Eyeless One',
         title: 'The Floor Remembers',
-        portraitIcon: 'Armor/Head/head-blue-visor-helmet',
+        portraitIcon: 'Halfling/Icon15',
         backstory: `
 Among the Unwoven, elders do not rule, they persist. The oldest living Unwoven has no name, or rather has had so many patchwork-names stitched together from mask fragments that no single one applies. Other Mimir call them the Eyeless One because both eye-beads in their composite mask are dark, extinguished decades ago, and yet they navigate the floor perfectly, reading spore-trails by touch and scent.
 
@@ -339,7 +339,7 @@ The name "Sylvain" is a common honor-name among Unwoven rebels. Since the Ruptur
           {
             id: 'heartwood_lineage_maskborne',
             name: 'Heartwood Lineage',
-            description: 'Your mask carries eleven generations of ancestral patterns legible to every Mask-Borne you meet. Among your own kind, you are known. Among the maskless, your privilege is a wall they learned to recognize before they learned to speak.',
+            description: 'You gain +2 to Persuasion and Insight checks against Mask-Borne NPCs, whose carved records name and respect your lineage. You suffer disadvantage on Deception and Stealth checks against Mist-Woven and Unwoven, who read your aristocratic bearing as a tell before you speak. (Your heartwood mask carries eleven generations of ancestry legible to every Mask-Borne — among the maskless, that privilege is a wall they learned to recognize long before they learned to speak.)',
             level: 1,
             icon: 'spell_holy_divinefavor',
             spellType: 'PASSIVE',
@@ -387,7 +387,7 @@ The name "Sylvain" is a common honor-name among Unwoven rebels. Since the Ruptur
           {
             id: 'fog_piercing_sight_maskborne',
             name: 'Fog-Piercing Sight',
-            description: 'Your eye-beads were calibrated for the high canopy where mist thins. You see through fog like glass. But the sun was never meant to reach your face directly, and it reminds you with every unfiltered hour.',
+            description: 'You gain Darkvision 60ft and see through non-magical fog and mist without penalty, with +2 to Perception checks in fog, mist, or darkness. In bright sunlight or clear daylight, you suffer disadvantage on sight-based Perception checks, your eye-beads never meant for the open sun. (Your eye-beads were calibrated for the high canopy where the mist thins to glass — clear sky is the one thing they cannot bear.)',
             level: 1,
             icon: 'spell_holy_mindvision',
             spellType: 'PASSIVE',
@@ -510,7 +510,7 @@ The name "Sylvain" is a common honor-name among Unwoven rebels. Since the Ruptur
           {
             id: 'storm_glass_senses_mistwoven',
             name: 'Storm-Glass Senses',
-            description: 'Your mask was forged from fulgurite, the glass that forms when lightning strikes mountain stone. Through it, you feel vibration through solid surfaces as if the world were a drum and you were the skin. But the same sensitivity that reads footfalls also reads thunder, and concussive force hits you like a blow to the skull.',
+            description: 'You gain Tremorsense 30ft while touching stone, rope, or earth, feeling movement through solid surfaces. When you take storm damage or are within 30ft of a loud concussive impact (explosion, avalanche, collapsing structure), you are Dazed for 1 round unless you pass a DC 14 Constitution save. (Forged from fulgurite, your storm-glass mask reads the world as vibration — but the same sensitivity that reads footfalls also reads thunder as a blow to the skull.)',
             level: 1,
             icon: 'spell_lightning_lightning',
             spellType: 'PASSIVE',
@@ -553,7 +553,7 @@ The name "Sylvain" is a common honor-name among Unwoven rebels. Since the Ruptur
           {
             id: 'rope_runner_mistwoven',
             name: 'Rope-Runner',
-            description: 'You grew up on rope-bridges and cliff faces where a misstep is death. Your body expects the world to flex beneath you. When the ground is solid and unmoving, your balance, trained for sway and give, briefly betrays you.',
+            description: 'You gain +20ft climb speed and advantage on Acrobatics checks involving balance, narrow surfaces, and rope-work. The first round of any combat begun on solid, flat ground, you are Off-Guard until the end of your first turn as your body recalibrates to surfaces that do not move. (You were raised where a misstep is death — when the world holds still, your cliff-trained balance briefly betrays you.)',
             level: 1,
             icon: 'ability_rogue_sprint',
             spellType: 'PASSIVE',
@@ -595,7 +595,7 @@ The name "Sylvain" is a common honor-name among Unwoven rebels. Since the Ruptur
           {
             id: 'first_alert_mistwoven',
             name: 'First-Alert',
-            description: 'You were raised to see threats before they see you. In fog and shadow, nothing surprises you. But the instinct that keeps you alive does not have an off-switch, it cannot tell an ally\'s sudden movement from an enemy\'s lunge.',
+            description: 'You gain +3 Initiative and cannot be surprised while in fog, mist, darkness, or similar obscured terrain. When an ally moves into or starts their turn within 5ft of you, you must make a DC 12 Spirit save or spend your reaction (if available) on a single melee attack at disadvantage against that ally. (Raised to see threats before they see you, your vigilance has no off-switch — it cannot tell a friend\'s lunge from a foe\'s.)',
             level: 1,
             icon: 'ability_rogue_findweakness',
             spellType: 'PASSIVE',
@@ -670,7 +670,7 @@ The name "Sylvain" is a common honor-name among Unwoven rebels. Since the Ruptur
           {
             id: 'floor_touched_unwoven',
             name: 'Floor-Touched',
-            description: 'The deep fog has saturated your spore. Your body treats poison like an old acquaintance and disease like a language it already speaks. But the floor clings to you, animals know what you carry, and they want no part of it.',
+            description: 'You gain resistance to blight damage and advantage on saving throws against disease and poison. Animals become hostile or flee at the GM\'s discretion and creatures with scent-based perception detect you at twice normal range, the floor\'s rot carried in your spore. (The deep fog has saturated you so thoroughly that poison reads like an old acquaintance — but the floor clings, and beasts want no part of what you carry.)',
             level: 1,
             icon: 'spell_nature_poison',
             spellType: 'PASSIVE',
@@ -719,7 +719,7 @@ The name "Sylvain" is a common honor-name among Unwoven rebels. Since the Ruptur
           {
             id: 'patchwork_mask_unwoven',
             name: 'Patchwork Mask',
-            description: 'Your composite mask hungers for fragments. When you defeat someone, you can take a sliver of what they were. But every stolen fragment comes with a voice, and voices that do not belong to you do not stay quiet for long.',
+            description: 'After personally defeating a humanoid enemy, spend 10 minutes to harvest a fragment, gaining +1 to one skill they were proficient in (one active fragment at a time, fades on long rest). While a harvested fragment is active, you suffer disadvantage on Spirit saving throws until your next long rest. (Your composite mask hungers for fragments of the fallen — but every stolen sliver comes with a voice, and voices that are not your own do not stay quiet for long.)',
             level: 1,
             icon: 'spell_shadow_deathcoil',
             spellType: 'PASSIVE',

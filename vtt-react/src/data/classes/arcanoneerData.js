@@ -136,7 +136,7 @@ You are the contract's executioner. The Keeper has written the syntax in your bo
    title: "Quick Overview",
    content: `**What You Need to Know**: You are a Magi-ballistic Artillery. A massive, super-heated cylinder of pig-iron is grafted directly to your forearm, the skin scorched and bonded to the metal. Every turn, you extract volatile aether-shards from your forearm condensers, rolling 4d8 to generate ballistic spheres (Arcane, Radiant, blight+blight, Fire, Frost, Nature, Chaos). You slam two of these essences into the cylinder to chamber a volatile shell. Fire + Frost shatters from the barrel as a blinding steam vent, while Fire + Fire kicks back with a concussive inferno blast.
 
-**Recoil and Pain**: Firing this weapon kicks like a siege engine and floods the graft with waste heat. You do not cast safe spells; you trigger explosive detonations that demand a toll in stamina and focus. This recoil is mechanically mandatory across all firing profiles.
+**Recoil and Pain**:\n\n**Wild Combination Mayhem**: You don't cast tidy spells — you slam elements together and pull the trigger. Fire + Frost shatters the barrel as a blinding steam-vent; Fire + Fire kicks out a concussive inferno; Chaos + anything rolls on a table for pure unpredictability. Half the fun is reading your random 4d8 hand and concocting the cleverest combination it allows.\n\nThis is the Magicka-inspired heart of the class: a fanatic juggling every element at once, mathematical about the combos but chaotic in the firing.
 
 **The Recoil Anchor**: The sheer kinetic force of discharging your forearm sleeve reduces your movement speed to 0 for the turn whenever you fire a spell. You must anchor yourself to fire.
 
@@ -144,7 +144,7 @@ You are the contract's executioner. The Keeper has written the syntax in your bo
 
 **Core Loop**: Roll 4d8 to condense aether-shards → Chamber spheres into your iron cylinder → Choose a firing profile Action (Bombard, Shield, Infuse, Rupt, or Snare) → Combine two essences to chamber a shell → If you've learned a Recipe, fire it instead for devastating power.
 
-**Resource**: Elemental Spheres (random each turn, forged from condensed aether, bankable during combat, lost when combat ends) + Mana + Your Own Health (Recoil).`,
+**Resource**: Elemental Spheres (random each turn, forged from condensed aether, bankable during combat, lost when combat ends) + Mana.`,
   },
 
   description: `The Arcanoneer is a clinical, hyper-precise pact-mage whose spells are written as strict contractual clauses. They do not draw magic from emotion or raw instinct; they negotiate it. By converting mana into elemental spheres, they generate and combine different magical terms (Sphere Generation & Combination) to produce highly specialized, legally binding spellcraft. The Arcanoneer operates with absolute strategic clarity: because their magic is a contract submitted to the Keeper of the Last Threshold, they cannot lie, and this limitation makes their spellcraft the most rigorously honest and devastatingly precise magic in the world.`,
@@ -212,7 +212,7 @@ Behind the legal dispute is a darker truth: someone IS breaching the First Contr
 1. **Roll your spheres** (4d8, or 5d8 for Entropy Weavers) to extract volatile aether-shards.
 2. **Read your hand**, What ammo is loaded? What recipes can you chamber?
 3. **Decide**: Pull the trigger now with what you have, or bank spheres to chamber a larger shell?
-4. **Execute**, Fire the cannon, pay the mana, accept the mandatory recoil self-damage, and reduce your movement speed to 0.
+4. **Execute**, Fire the cannon, pay the mana, and brace — firing pins your movement to 0 for the turn (Recoil Anchor).
 
 **Strengths**:
 - Unmatched versatility: can produce ANY damage type to exploit enemy weaknesses.
@@ -222,10 +222,12 @@ Behind the legal dispute is a darker truth: someone IS breaching the First Contr
 - Chaos combos provide wild swing potential (high risk, high reward).
 
 **Weaknesses**:
-- RNG-dependent, bad rolls mean suboptimal ammunition.
-- Recoil Anchor, firing any spell reduces your movement speed to 0 for the turn.
-- Mandatory Recoil Tax, standard firing profiles and recipes drain your own HP, while high-sphere recipes erode your max HP.
-- Zero clinical healing -- you manipulate flesh and gristle at a health cost, but you cannot restore HP without a dark biological toll.`,
+- Rooted to Fire: every offensive shot pins your movement to 0 for the turn — enemies reposition freely while you are anchored.
+- Ammo by RNG: your damage type depends on a 4d8 roll — a bad hand means the wrong element for the enemy's resistances, and your only fix (Chamber Flush) costs Mana and AP.
+- Siege-Slow: big Recipes take turns to bank; fast swarmers or ambushers reach you before a shell is chambered.
+- Glass Artillery: light armor and you must plant yourself to fire — a mobile flanker or ranged attacker can pin and shred you while you're rooted.
+- Zero Clinical Healing: you can sew flesh at a cost but cannot restore HP without a dark biological toll — attrition is one-way.
+- Cannot Lie (social): the graft forces honesty — you cannot bluff, deceive, or even stay silent when asked a direct question. A clever interrogator can pin you with a yes/no trap.`,
   },
 
   playstyle: {
@@ -251,13 +253,13 @@ You banked all 4 spheres from Turn 1. Now you roll Arcane, blight+blight, Nature
 - Start building toward a 3-sphere Recipe (need 1 more turn of banking)
 - Cast multiple 2-sphere combos if you have the action points
 
-**The Core Tension**: Spend now for immediate impact and pay the immediate recoil tax, or bank for devastating multi-sphere Recipes later that will crack your bones and erode your max HP? There is no wrong answer, only the answer that wins this particular fight.
+**The Core Tension**: Spend your random hand now for immediate impact, or bank spheres for devastating multi-sphere Recipes later? Banking pays off big — but it costs turns, and a bad 4d8 roll can leave you with the wrong elements for the fight. There is no wrong answer, only the answer that wins this particular fight.
 
 **Where Mastery Lives**:
 - Knowing the 36 matrix combos by heart (or at least the ones relevant to your spec)
 - Recognizing when your rolled spheres match a Recipe you've learned
 - Managing your sphere bank like a hand of cards, planning two turns ahead
-- Managing your remaining health pool against the devastating recoil of your own arm.`,
+- Reading the battlefield's resistances and concocting the combination that exploits them.`,
   },
 
   immersiveCombatExample: {
@@ -495,13 +497,13 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
      stepNumber: 3,
      title: "Pick Action + Blocks",
      subtitle: "Combine & Cast",
-     content: `Choose an **action** (what shape) and your **blocks** (what elements). Combine two blocks into a formulation and pay both mana and mandatory HP recoil. Firing anchors you, reducing movement speed to 0.`,
+     content: `Choose an **action** (what shape) and your **blocks** (what elements). Combine two blocks into a formulation and pay mana. Firing anchors you, reducing movement speed to 0.`,
     },
    ],
    actionTable: {
     title: "Your 5 Firing Profiles",
     subtitle:
-     "Pick one. Firing standard profiles deals mandatory recoil damage to you. Firing reduces your movement speed to 0 for the turn. Defensive actions bypass recoil.",
+     "Pick one. Offensive firing profiles pin your movement speed to 0 for the turn (Recoil Anchor). The Defend profile does not anchor you.",
     actions: [
      {
       name: "Attack",
@@ -511,7 +513,7 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
       range: "30ft",
       target: "One enemy",
       damage: "1d8 + INT/4",
-      note: "Recoil: 1d4 HP. Standard single-target ballistic blast.",
+      note: "Standard single-target ballistic blast. Pins your movement to 0.",
      },
      {
       name: "Defend",
@@ -521,7 +523,7 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
       range: "Self/Ally 30ft",
       target: "One creature",
       damage: "Absorbs level HP",
-      note: "Recoil: 0 HP. The defensive shield absorbs the recoil shockwave completely.",
+      note: "Defensive shield; does not pin your movement.",
      },
      {
       name: "Buff",
@@ -531,7 +533,7 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
       range: "Touch",
       target: "One weapon",
       damage: "+1d6 next hit",
-      note: "Recoil: 1d4 HP. Infuses a weapon with the combo's elements.",
+      note: "Infuses a weapon with the combo's elements. Pins your movement to 0.",
      },
      {
       name: "Area",
@@ -541,7 +543,7 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
       range: "30ft center",
       target: "10ft radius",
       damage: "1d6 + INT/4 each",
-      note: "Recoil: 1d6 HP. Vents the explosion in a wider area, shaking your frame.",
+      note: "Vents the explosion in a wider area. Pins your movement to 0.",
      },
      {
       name: "Trap",
@@ -551,7 +553,7 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
       range: "30ft surface",
       target: "5ft zone",
       damage: "1d8 + INT/4",
-      note: "Recoil: 1d6 HP. Seeds a mine of raw magical energy that lasts 1 minute.",
+      note: "Seeds a mine of raw magical energy that lasts 1 minute. Pins your movement to 0.",
      },
     ],
    },
@@ -707,7 +709,7 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
       manaCost: "25-36",
       available: "Level 8+",
       description:
-       "The big guns. Bank across turns. Battlefield-shaping power. Punishes your skeleton, dealing heavy self-damage and eroding max HP.",
+       "The big guns. Bank across turns. Battlefield-shaping power — but the bigger the shell, the harder the Recoil Anchor pins you, and the more spheres it eats.",
      },
     ],
    },
@@ -1747,12 +1749,6 @@ MAX BANKED SPHERES: 12
        "The flame sputters and backfires, dealing ember damage to you instead.",
       damageTypes: ["ember"],
       targetType: "self",
-      triggerConfig: {
-        triggers: [
-          { id: "fire_chaos_recoil", name: "Aetheric Recoil", triggerType: "on_cast", action: "Raw aetheric energy tears through your body: selfDamage applies on cast." }
-        ]
-      },
-      selfDamage: true,
      },
     ],
    },
@@ -2220,16 +2216,6 @@ MAX BANKED SPHERES: 12
     cooldownValue: 0,
    },
 
-   triggerConfig: {
-    conditionalEffects: [
-     {
-      id: "frost_shatter",
-      condition: "next_physical_attack_against_target",
-      effect: "+1d4 bonus damage from the next physical attack against the frozen target",
-      mechanicsText: "Frozen targets take +1d4 bonus damage from the next physical attack",
-     },
-    ],
-   },
 
    tags: ["rime", "damage", "debuff", "touch", "starter"],
   },
@@ -4202,7 +4188,7 @@ MAX BANKED SPHERES: 12
     school: "storm",
     secondaryElement: "wyrd",
     icon: "Arcane/Ebon Blaze",
-    tags: ["ultimate", "damage", "aoe", "all elements", "self damage"],
+    tags: ["ultimate", "damage", "aoe", "all elements"],
     castTime: 3,
     castTimeType: "IMMEDIATE",
    },
@@ -4281,16 +4267,6 @@ MAX BANKED SPHERES: 12
     },
    },
 
-   triggerConfig: {
-     triggers: [
-       { id: "arc_primal_cataclysm_recoil", name: "Aetheric Recoil", triggerType: "on_cast", action: "Raw aetheric energy tears through your body: selfDamage applies on cast." }
-     ]
-   },
-   selfDamageConfig: {
-    formula: "2d6",
-    damageTypes: ["storm"],
-    description: "Elemental backlash from combining opposing elements",
-   },
 
    cooldownConfig: {
     cooldownType: "encounter",
@@ -4298,7 +4274,7 @@ MAX BANKED SPHERES: 12
     description: "Once per combat",
    },
 
-   tags: ["ultimate", "damage", "aoe", "all elements", "self damage"],
+   tags: ["ultimate", "damage", "aoe", "all elements"],
   },
 
   {
@@ -4313,7 +4289,7 @@ MAX BANKED SPHERES: 12
    typeConfig: {
     school: "wyrd",
     icon: "Void/Corrupted Eye",
-    tags: ["wyrd", "damage", "aoe", "ultimate", "self damage"],
+    tags: ["wyrd", "damage", "aoe", "ultimate"],
     castTime: 2,
     castTimeType: "IMMEDIATE",
    },
@@ -4398,16 +4374,6 @@ MAX BANKED SPHERES: 12
     },
    },
 
-   triggerConfig: {
-     triggers: [
-       { id: "arc_chaos_vortex_recoil", name: "Aetheric Recoil", triggerType: "on_cast", action: "Raw aetheric energy tears through your body: selfDamage applies on cast." }
-     ]
-   },
-   selfDamageConfig: {
-    formula: "1d8",
-    damageTypes: ["wyrd"],
-    description: "Chaotic energy feedback from concentrated entropy",
-   },
 
    cooldownConfig: {
     cooldownType: "encounter",
@@ -4415,7 +4381,7 @@ MAX BANKED SPHERES: 12
     description: "Once per combat",
    },
 
-   tags: ["wyrd", "damage", "aoe", "ultimate", "self damage"],
+   tags: ["wyrd", "damage", "aoe", "ultimate"],
   },
 
   {
@@ -4540,7 +4506,6 @@ MAX BANKED SPHERES: 12
      "damage",
      "aoe",
      "mastery",
-     "self damage",
      "exhaustion",
     ],
     castTime: 3,
@@ -4617,16 +4582,6 @@ MAX BANKED SPHERES: 12
     },
    },
 
-   triggerConfig: {
-     triggers: [
-       { id: "arc_elemental_convergence_recoil", name: "Aetheric Recoil", triggerType: "on_cast", action: "Raw aetheric energy tears through your body: selfDamage applies on cast." }
-     ]
-   },
-   selfDamageConfig: {
-    formula: "3d6",
-    damageTypes: ["storm"],
-    description: "Severe elemental backlash from convergence strain",
-   },
 
    debuffConfig: {
     debuffType: "statPenalty",
@@ -4657,7 +4612,6 @@ MAX BANKED SPHERES: 12
     "damage",
     "aoe",
     "mastery",
-    "self damage",
     "exhaustion",
    ],
   },
@@ -4675,7 +4629,7 @@ MAX BANKED SPHERES: 12
     school: "storm",
     secondaryElement: "blight",
     icon: "Fire/Shadowy Blaze",
-    tags: ["ultimate", "damage", "control", "aoe", "blight", "self damage"],
+    tags: ["ultimate", "damage", "control", "aoe", "blight"],
     castTime: 2,
     castTimeType: "IMMEDIATE",
    },
@@ -4761,16 +4715,6 @@ MAX BANKED SPHERES: 12
     ],
    },
 
-   triggerConfig: {
-     triggers: [
-       { id: "void_disorientation_recoil", name: "Aetheric Recoil", triggerType: "on_cast", action: "Raw aetheric energy tears through your body: selfDamage applies on cast." }
-     ]
-   },
-   selfDamageConfig: {
-    formula: "2d6",
-    damageTypes: ["blight"],
-    description: "Void energy feedback from unstable rift",
-   },
 
    cooldownConfig: {
     cooldownType: "encounter",
@@ -4778,7 +4722,7 @@ MAX BANKED SPHERES: 12
     description: "Once per combat",
    },
 
-   tags: ["ultimate", "damage", "control", "aoe", "blight", "self damage"],
+   tags: ["ultimate", "damage", "control", "aoe", "blight"],
   },
 
   {

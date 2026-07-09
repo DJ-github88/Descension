@@ -67,7 +67,7 @@ The Emberth do not know which of these stories is true. They only know the ember
     {
       name: 'Thaeron',
       title: 'Keeper of the Dimming Flame',
-      portraitIcon: 'Armor/Head/head-split-dual-face-helmet',
+      portraitIcon: 'Demon/Icon4',
       backstory: `
 The eldest living Sun-Speaker, Thaeron has tended the Solbrand for sixty years. His skin is dark as cooled basalt, cross-hatched with age-lines that trace the pattern of old lava-flows across his forearms. His eyes, enormous even for an Emberth, the pupils barely distinguishable from the near-black sclera, have stared into the Solbrand's light for so long that he claims to see colors in it that younger shamans cannot perceive. He does not speak of what those colors mean.
 
@@ -79,7 +79,7 @@ Thaeron does not believe the Solbrand is Keth-Amar's tether. But he also does no
     {
       name: 'Vaelith',
       title: 'The Ash-Veiled',
-      portraitIcon: 'Armor/Head/head-orange-cross-faceplate-helmet',
+      portraitIcon: 'Demon/Icon8',
       backstory: `
 The most traveled living messenger of the forge-clans, Vaelith has crossed every volcanic wasteland in Sundale five times, on foot, alone, carrying nothing but a sealed message-tube and the marks of her clan. Her skin is lighter than most Emberth from decades of constant ash-wind exposure, the grain worn smooth across her shoulders where the storms hit hardest. Her eye-wraps are so permanently stained with volcanic ash that they have become part of her face; no living Emberth has seen her without them.
 
@@ -298,7 +298,7 @@ The current crisis is a Korr crisis. The tending-clan has concealed the Solbrand
         {
           id: 'listening_dark_korr',
           name: 'The Listening Dark',
-          description: 'Generations in the Solbrand\'s light have reshaped your vision entirely. You perceive heat gradients in darkness, treating dim light as bright within 30 feet and total darkness as dim light within 60. But your eyes have forgotten daylight, even with your wraps, you suffer disadvantage on all sight-based perception checks in bright light.',
+          description: 'Gain heat-sight: treat dim light as bright within 30 ft and total darkness as dim light within 60 ft, perceiving residual heat traces. However, you suffer disadvantage on all sight-based perception checks in bright light. The Solbrand\'s light reshaped your eyes across generations and left them unable to forgive the sun.',
           level: 1,
           icon: 'ability_rogue_shadowstrikes',
           spellType: 'PASSIVE',
@@ -346,7 +346,7 @@ The current crisis is a Korr crisis. The tending-clan has concealed the Solbrand
         {
           id: 'solbrand_pulse_korr',
           name: 'The Solbrand\'s Pulse',
-          description: 'You feel the Solbrand regardless of distance, a pressure at the base of your skull, a rhythm beneath your heartbeat. When within one mile of the ember, gain advantage on spirit checks. But during moments when the ember gutters (DM discretion), you suffer -2 to concentration checks. The pain in your skull is the pain of the ember. You cannot separate them.',
+          description: 'Advantage on spirit checks when within 1 mile of the Solbrand; -2 to concentration checks when the ember gutters (DM discretion). The pressure at the base of your skull is the Solbrand\'s pulse, and you cannot tell where you end and it begins.',
           level: 1,
           icon: 'spell_fire_flameblades',
           spellType: 'PASSIVE',
@@ -396,7 +396,7 @@ The current crisis is a Korr crisis. The tending-clan has concealed the Solbrand
         {
           id: 'deep_curse_korr',
           name: 'Deep-Curse',
-          description: 'The oxygen-starved vaults that sheltered your ancestors claimed a permanent toll. -5ft movement speed. Your bone density makes you sink in water, you cannot swim. The cold that your people fled seeps into your marrow more readily than into other Emberth: disadvantage on saving throws against cold effects. The Deep-Vault kept you alive. It also kept you fragile.',
+          description: '-5 ft movement speed, you cannot swim (you sink in water), and disadvantage on saving throws against cold effects. The oxygen-starved Deep-Vault that sheltered your ancestors kept you alive at the cost of leaving your marrow fragile to the very cold it was built to escape.',
           level: 1,
           icon: 'spell_frost_chillingbolt',
           spellType: 'PASSIVE',
@@ -477,7 +477,7 @@ The Thrask were the first to notice the evidence of the Solbrand's dimming. They
         {
           id: 'border_blood_thrask',
           name: 'Border-Blood',
-          description: 'Generations of hunting the frozen surface border have granted you partial resistance to the one thing that kills your people fastest. Advantage on saving throws against cold weather and environmental cold effects. Your body learned to survive the cold by burning hotter, disadvantage on saving throws against heat effects and extreme heat. You are a creature of thresholds, and the threshold cuts both ways.',
+          description: 'Advantage on saving throws against cold weather and environmental cold effects, but disadvantage on saving throws against heat effects and extreme heat. Your body learned to survive the border\'s cold by burning hotter — a threshold that cuts both ways and leaves you vulnerable to the fire your kin hoard.',
           level: 1,
           icon: 'spell_frost_frostward',
           spellType: 'PASSIVE',
@@ -525,7 +525,7 @@ The Thrask were the first to notice the evidence of the Solbrand's dimming. They
         {
           id: 'ash_skimmer_thrask',
           name: 'Ash-Skimmer',
-          description: 'You have spent decades running across sliding volcanic scree and unstable ash-dunes. You treat non-magical difficult terrain caused by snow, ice, ash, or loose stone as normal terrain. In addition, when you take the dash action, you can make a leap of up to 15 feet as part of your movement without requiring a running start, your splay-toed feet launch you across the drifts with ease.',
+          description: 'Treat non-magical difficult terrain from snow, ice, ash, or loose stone as normal terrain, and leap up to 15 ft as part of a Dash without a running start. Decades of running volcanic scree taught your splay-toed feet to ride the drifts as though they were solid ground.',
           level: 1,
           icon: 'ability_rogue_sprint',
           spellType: 'PASSIVE',
@@ -557,7 +557,7 @@ The Thrask were the first to notice the evidence of the Solbrand's dimming. They
         {
           id: 'obsidian_graft_thrask',
           name: 'Obsidian Striker',
-          description: 'Your clan-marks on your forearms are reinforced with volcanic obsidian flakes. When you strike with an unarmed attack, you deal 1d4 physical damage instead of bludgeoning, and once per short rest, when you score a critical hit with a melee attack, you can cause the obsidian to splinter inside the wound: the target takes an additional 1d6 physical damage and is afflicted with deep bleeding, taking 1d4 damage at the start of its turn for 3 turns or until it spends 1 AP to tend the wound. Splintering the obsidian causes you 1d2 physical damage as the flakes break from your own flesh.',
+          description: 'Unarmed strikes deal 1d4 physical damage (instead of bludgeoning). Once per short rest, a critical melee hit can splinter the obsidian: +1d6 physical damage and 1d4 bleeding damage at the start of the target\'s turn for 3 turns (or until it spends 1 AP to tend it); you take 1d2 physical recoil damage. Your clan-marks are blades of volcanic glass, and every cut you give the world gives one back to you.',
           level: 1,
           icon: 'inv_stone_02',
           spellType: 'PASSIVE',

@@ -98,12 +98,12 @@
     title: "The Wagering Architect",
     subtitle: "The Probability Siphon",
     utility: "Absolute d20 outcome manipulation through dual resource systems. They combine stolen Fortune Points with pre-drawn Fate Reserve cards to nudge, override, or replace any active roll on the battlefield. No other class wields both real-time nudging and hard-coded card overrides simultaneously.",
-    fatalFlaw: "Dual collapse conditions. Fortune depletion triggers Cosmic Bankruptcy (2d10 necrotic, 100% vulnerability). Karmic Debt overflow triggers Wyrd Collapse (6d10 psychic, incapacitation, Fortune emptied, max HP reduced). Every resource gained costs HP through Debtor's Tax, and every resource spent deals wyrd damage through Calculated Risk. They possess zero defensive multi-target tools and are uniquely vulnerable to sustained physical and spirit-focused attacks."
+    fatalFlaw: "Dual collapse conditions. Fortune depletion triggers Cosmic Bankruptcy (2d10 necrotic, 100% vulnerability). Karmic Debt overflow triggers Wyrd Collapse (6d10 psychic, incapacitation, Fortune emptied, max HP reduced). Every Fortune Point spent deals wyrd damage through Calculated Risk, and every card override deepens Karmic Debt. They possess zero defensive multi-target tools and are uniquely vulnerable to sustained physical and spirit-focused attacks."
   },
 
   spellPools: {
     1: ["gambler_lucky_strike", "gambler_lucky_toss", "gambler_dice_dart", "gambler_beginners_luck", "gambler_calculated_risk", "gambler_house_edge", "hand-of-fate", "war-of-wills", "echoes-of-the-past", "marked-card", "fate_lucky_strike", "fate_twist_probability", "tapestry-shred", "fate-reading_loom", "fate_weaver_deck_exhaustion", "fate_weaver_fates_wrath"],
-    2: ["gambler_coin_toss", "gambler_insight", "gambler_fools_gold", "gambler_cheats_sleight", "hearts-gamble", "fate_fortune_favor"],
+    2: ["gambler_coin_toss", "gambler_insight", "gambler_fools_gold", "gambler_cheats_sleight", "hearts-gamble", "fate_fortune_favor", "gambler_odds_read"],
     3: ["gambler_taunt_the_odds", "gambler_busted", "draw-of-the-damned", "echo-of-fate", "fate_weaver_empty_hand"],
     4: ["gambler_double_or_nothing", "solitaires-shield", "fates-exchange", "destiny-bond"],
     5: ["gambler_hot_streak", "gambler_mirage_flip", "gambler_fate_reroll", "fate_weaver_stacked_deck", "fate_weaver_twist_fate"],
@@ -152,11 +152,13 @@ Flip the coin. Read the card. The universe is a game, and the board is yours to 
       title: "Quick Overview",
       content: `**What You Need to Know**: The Gambit is a high-strung, dual-resource architect who wields both stolen Fortune Points and pre-drawn Fate Reserve cards. They manipulate probability through gambling mechanics and cartomantic surgery simultaneously, enduring intense physical and mental strain for every twist of fate they command.
 
+**Core Mechanic**: Spend Fortune Points to nudge any d20 by ±1 after the roll (gaining FP costs HP; spending FP costs wyrd) OR burn a banked Fate Reserve card to hard-override a d20 entirely (costs Karmic Debt). Walk the knife-edge: Fortune hitting 0 = Cosmic Bankruptcy, Karmic Debt hitting 13 = Wyrd Collapse.
+
 **Core Mechanic 1 (Fortune Nudge)**: You generate Fortune Points (FP) through coin flips, die throws, card draws, and successful attacks. You spend these points to nudge any d20 roll by plus or minus 1 per point after the roll is made but before the outcome is resolved.
 
 **Core Mechanic 2 (Fate Reserve Override)**: You draw rune-etched cards and bank them in your Fate Reserve. You spend these banked cards to hard-override d20 rolls, replacing dice results with pre-drawn card values. Face cards and Aces map to high values, numbered cards to their face value.
 
-**Dual Cost System**: Every FP gained costs 1 unpreventable HP damage (Debtor's Tax). Every FP spent deals 1d4 wyrd damage per point (Calculated Risk, irreducible). Every card override generates Karmic Debt, which stacks vulnerability and arcane strain.
+**Dual Cost System**: Every FP spent deals 1d4 wyrd damage per point (Calculated Risk, irreducible) — the mental strain of forcing fate. Every card override generates Karmic Debt, which stacks vulnerability and arcane strain.
 
 **Two Collapse Conditions**: Fortune hitting 0 triggers Cosmic Bankruptcy. Karmic Debt hitting 13 triggers Wyrd Collapse. Both are devastating and can end a fight instantly.
 
@@ -188,7 +190,7 @@ The class is practiced by Merryn humans, the Breakers-Born <LoreLink termId="myr
 
     philosophy: {
       coreTenet: 'Everything is a bet, and probability is a landscape. Love, war, survival, the weather: every moment is a wager between you and the universe, played on a terrain of shifting threads. Most people walk blindly across both. The Gambit reads the map, knows the game is rigged, and has learned to rig it back.',
-      relationship: 'A Gambit wields two forms of stolen power. Fortune Points are banked luck siphoned from the world, paid for in HP through the Debtor\'s Tax. Fate Reserve cards are pre-drawn destiny, paid for in Karmic Debt. Both are borrowed from the Gambit\'s own future. Every FP spent was once a genuine stroke of good fortune waiting in their future. Every card override severs a thread of probability that the universe will eventually demand back. The Gambit is always in debt to two collectors simultaneously.',
+      relationship: 'A Gambit wields two forms of stolen power. Fortune Points are banked luck siphoned from the world, siphoned freely from the world. Fate Reserve cards are pre-drawn destiny, paid for in Karmic Debt. Both are borrowed from the Gambit\'s own future. Every FP spent was once a genuine stroke of good fortune waiting in their future. Every card override severs a thread of probability that the universe will eventually demand back. The Gambit is always in debt to two collectors simultaneously.',
       paradox: 'The Gambit controls luck and weaves fate, but cannot be lucky themselves. Every Fortune Point costs 1 unpreventable HP. Every card override accumulates Karmic Debt that amplifies all incoming damage. A Gambit who uses their power excessively bleeds from both resource systems: physical degradation from Fortune strain and temporal strain from Karmic Debt. The universe always balances both ledgers, and the Gambit always pays twice.'
     },
 
@@ -220,7 +222,13 @@ The Karmic Debt burden is existential: a Gambit who saves a friend by overriding
       title: "Combat Role",
       content: `**Why Bring Me?**: Unmatched dual-axis probability control. The Gambit possesses both the real-time roll nudging of Fortune Points and the absolute d20 override power of Fate Reserve cards. They can squeeze a close failure into a success with FP nudging, or bypass the roll entirely with a hard-coded card override. They are the ultimate mathematical safety net and the most devastating high-stakes payload on the field.
 
-**The Fatal Flaw (Dual Collapse)**: You are at risk from two directions simultaneously. Fortune hitting 0 triggers Cosmic Bankruptcy (2d10 blight damage, 100 percent Spirit/shadow vulnerability for 2 rounds). Karmic Debt hitting 13 triggers Wyrd Collapse (6d10 irreducible wyrd damage, 1-round incapacitation, Fortune emptied, max HP reduced by 5 until long rest). Managing both resource pools under combat pressure is the defining challenge of the class.`,
+**Weaknesses**:
+- Dual Collapse: you can die from two directions at once — Fortune hitting 0 triggers Cosmic Bankruptcy (2d10 blight + 100% spirit/shadow vulnerability for 2 rounds); Karmic Debt hitting 13 triggers Wyrd Collapse (6d10 irreducible wyrd, 1-round incapacitation, Fortune emptied, -5 max HP).
+- Calculated Risk: every Fortune Point you spend to nudge a roll costs 1d4 wyrd (irreducible) — forcing fate burns the mind, and hoarding Fortune risks Cosmic Bankruptcy.
+- Debt Amplifies Incoming Damage: as Karmic Debt stacks, your vulnerability to all damage climbs — the more you override fate, the harder reality hits back.
+- Tightrope Reserves: you must always hold a Fortune point back and always watch your Debt, or a single bad trade detonates a Collapse mid-fight.
+- Squishy Ledger-Keeper: low HP and light armor — caught with empty reserves, you fold to a stiff breeze.
+- Compulsive Wagerer (social): the pain of unspent Fortune is physiological, driving compulsive gambling and a refusal to make trivial choices; a canny NPC can bait you into a wager you should have walked away from.`,
     },
 
     playstyle: {
@@ -229,7 +237,7 @@ The Karmic Debt burden is existential: a Gambit who saves a friend by overriding
 
 **The Dual Resource Loop**:
 - Start combat with 1 Fortune Point and 0 Karmic Debt.
-- Use Gambler spells (Lucky Strike, Lucky Toss, Dice Dart) to generate Fortune Points, paying 1 HP per point via Debtor's Tax.
+- Use Gambler spells (Lucky Strike, Lucky Toss, Dice Dart) to generate Fortune Points (generation is free; the cost comes when you spend them).
 - Use Fate Weaver spells (Fate Reserve, Arcane Dirge) to draw and bank cards for hard overrides, generating Karmic Debt.
 - Spend Fortune Points to nudge rolls (1d4 wyrd damage per point, irreducible).
 - Spend Fate Reserve cards to override rolls entirely (generates Karmic Debt per override).
@@ -251,7 +259,7 @@ The Karmic Debt burden is existential: a Gambit who saves a friend by overriding
 **Turn 1: Harvesting the Collateral (FP: 3 to 5, HP: 45 to 43, Debt: 2)**
 *You grit your teeth, channeling probability into your blade, and cast Lucky Strike!*
 You roll 4d12 bone dice: two pairs emerge. The damage doubles.
-**The Debtor's Tax**: You bank 2 Fortune Points. Your muscles seize as you suffer 2 immediate HP damage.
+**Free Generation**: You bank 2 Fortune Points — generating them costs nothing. The toll comes only when you spend them (Calculated Risk) or override a roll (Karmic Debt).
 
 **Turn 2: The Card Override (FP: 5 to 4, HP: 43 to 41, Debt: 2 to 4)**
 *The inquisitor raises his hammer for a devastating blow. The roll lands at 19.*
@@ -284,9 +292,9 @@ Your Fortune hits 0.
         details: "Vibrating tokens of stolen probability. Generated through coin flips, die rolls, card draws, and successful attacks. Spent after any d20 roll to adjust the result by plus or minus 1 per point. Must be declared after the roll is seen but before the outcome is resolved.",
       },
       {
-        title: "Debtor's Tax (Fortune Generation Cost)",
-        stats: "1 HP per FP Gained",
-        details: "Every Fortune Point gained costs 1 immediate, unpreventable HP damage. Your body serves as collateral for the cosmic debt. This damage cannot be reduced, prevented, or redirected.",
+        title: "Fortune Generation (No Physical Toll)",
+        stats: "Free to Generate",
+        details: "Generating Fortune Points costs NO health — only spending them (Calculated Risk) and overriding rolls (Karmic Debt) exact a toll. Your flesh is no longer the price; your mind and your debt-ledger are.",
       },
       {
         title: "Calculated Risk (Fortune Spending Cost)",
@@ -306,12 +314,12 @@ Your Fortune hits 0.
     ],
 
     generationTable: {
-      headers: ["Action / Spell", "Fortune Change", "Karmic Debt Change", "Physical Toll"],
+      headers: ["Action / Spell", "Fortune Change", "Karmic Debt Change", "Wyrd/Debt Toll"],
       rows: [
-        ["Lucky Strike (Level 1)", "+1 to +3 on match", "None", "-1 HP per FP generated"],
-        ["Lucky Toss (Level 1)", "+1 on cast", "None", "-1 HP"],
-        ["Dice Dart (Level 1)", "+1 on cast", "None", "-1 HP"],
-        ["Beginner's Luck (Level 1)", "+1 on cast", "None", "-1 HP"],
+        ["Lucky Strike (Level 1)", "+1 to +3 on match", "None", "None"],
+        ["Lucky Toss (Level 1)", "+1 on cast", "None", "None"],
+        ["Dice Dart (Level 1)", "+1 on cast", "None", "None"],
+        ["Beginner's Luck (Level 1)", "+1 on cast", "None", "None"],
         ["Fate Reserve (Level 1)", "None", "+2 Debt", "None"],
         ["Arcane Dirge (Level 1)", "None", "+1 to +4 Debt (by hand)", "None"],
         ["Nudge a d20 Roll", "-1 to -X FP", "None", "1d4 psychic per FP"],
@@ -324,7 +332,7 @@ Your Fortune hits 0.
     usage: {
       nudging: "Modify any d20 roll (attack, save, ability check) by plus or minus 1 per Fortune Point spent. Must be declared AFTER the roll is seen but BEFORE the outcome is narrated.",
       overrides: "Spend banked Fate Reserve cards to hard-replace any d20 roll within range. Face cards force high outcomes, numbered cards force exact values. Each override generates Karmic Debt.",
-      flourish: "Both the Debtor's Tax and Calculated Risk apply without exception. Neither can be reduced, prevented, or mitigated. Karmic Debt vulnerability stacks multiplicatively with other vulnerability sources.",
+      flourish: "Calculated Risk applies without exception — it cannot be reduced, prevented, or mitigated. Karmic Debt vulnerability stacks multiplicatively with other vulnerability sources.",
     },
 
     overheatRules: {
@@ -508,7 +516,7 @@ Your Fortune hits 0.
       specialMechanics: {
         fortunePoints: {
           generates: "variable",
-          description: "Generates FP on matching dice. You suffer 1 HP per FP generated as the toll of fortune.",
+          description: "Generates FP on matching dice — free to bank; the toll comes when you spend them.",
         },
         gamblingGame: {
           gameType: "yahtzee",
@@ -584,7 +592,7 @@ Your Fortune hits 0.
         },
         fortunePoints: {
           generates: 1,
-          description: "Generates 1 FP on cast, inflicting 1 HP damage to the caster.",
+          description: "Generates 1 FP on cast.",
         },
         gamblingGame: {
           gameType: "coin_flip",
@@ -606,7 +614,7 @@ Your Fortune hits 0.
 
     { id: "gambler_dice_dart",
       name: "Dice Dart",
-      description: "Throw a magically weighted bone die at a creature. Deals 1d8 wyrd damage. Generates 1 Fortune Point, inflicting 1 HP damage to you. You can spend up to 3 Fortune Points to add +1d6 wyrd damage per point, taking 1d4 wyrd damage per point spent.",
+      description: "Throw a magically weighted bone die at a creature. Deals 1d8 wyrd damage. Generates 1 Fortune Point to you. You can spend up to 3 Fortune Points to add +1d6 wyrd damage per point, taking 1d4 wyrd damage per point spent.",
       level: 1,
       spellType: "ACTION",
       icon: "Social/Dice Roll",
@@ -641,7 +649,7 @@ Your Fortune hits 0.
         fortunePoints: {
           generates: 1,
           optionalCost: "1-3 FP",
-          description: "Generates 1 FP (1 HP cost). You can spend 1-3 FP to add +1d6 wyrd damage per point (1d4 wyrd damage per point spent).",
+          description: "Generates 1 FP. You can spend 1-3 FP to add +1d6 wyrd damage per point (1d4 wyrd damage per point spent).",
         },
         gamblingGame: {
           gameType: "dice_throw",
@@ -704,7 +712,7 @@ Your Fortune hits 0.
       specialMechanics: {
         fortunePoints: {
           generates: 1,
-          description: "Generates 1 FP on cast, inflicting 1 HP damage to the caster.",
+          description: "Generates 1 FP on cast.",
         },
         gamblingGame: {
           gameType: "begging",
@@ -728,10 +736,10 @@ Your Fortune hits 0.
       description: "Every twist of probability has a price. When you spend Fortune Points to modify an active d20 roll, intense mental feedback tears through your concentration. You suffer 1d4 wyrd damage per Fortune Point spent. This damage cannot be reduced or prevented. Manipulating fate demands exertion.",
       level: 1,
       spellType: "PASSIVE",
-      icon: "Slashing/Skald Axes",
+      icon: "Slashing/Viking Axes",
       typeConfig: {
         school: "wyrd",
-        icon: "Slashing/Skald Axes",
+        icon: "Slashing/Viking Axes",
         tags: ["passive", "weakness"],
         castTime: 0,
         castTimeType: "PASSIVE",
@@ -866,7 +874,7 @@ Your Fortune hits 0.
         fortunePoints: {
           generates: 1,
           optionalCost: "1 FP",
-          description: "Generates 1 FP on cast (1 HP damage). Spend 1 FP to flip the result (1d4 wyrd damage spent).",
+          description: "Generates 1 FP on cast. Spend 1 FP to flip the result (1d4 wyrd damage spent).",
         },
         gamblingGame: {
           gameType: "coin_flip",
@@ -929,7 +937,7 @@ Your Fortune hits 0.
       specialMechanics: {
         fortunePoints: {
           generates: 1,
-          description: "Generates 1 FP on cast, inflicting 1 HP damage.",
+          description: "Generates 1 FP on cast.",
         },
       },
       cooldownConfig: {
@@ -980,7 +988,7 @@ Your Fortune hits 0.
       specialMechanics: {
         fortunePoints: {
           generates: 1,
-          description: "Generates 1 FP on cast, inflicting 1 HP damage.",
+          description: "Generates 1 FP on cast.",
         },
       },
       cooldownConfig: {
@@ -995,7 +1003,7 @@ Your Fortune hits 0.
     // ========================================
     { id: "gambler_taunt_the_odds",
       name: "Taunt the Odds",
-      description: "Challenge the math of the universe. Predict a number between 1 and 20, then roll a d20. If your roll is within 3 of your guess, deal 3d10 wyrd damage to a target. If you are off by 4 or more, the probability backfires, dealing 1d10 wyrd damage to you. You can spend Fortune Points to nudge the d20 roll toward your guess (1d4 wyrd damage per point). Gain 1 FP on success (1 HP damage).",
+      description: "Challenge the math of the universe. Predict a number between 1 and 20, then roll a d20. If your roll is within 3 of your guess, deal 3d10 wyrd damage to a target. If you are off by 4 or more, the probability backfires, dealing 1d10 wyrd damage to you. You can spend Fortune Points to nudge the d20 roll toward your guess (1d4 wyrd damage per point). Gain 1 FP on success.",
       level: 3,
       spellType: "ACTION",
       icon: "Radiant/Radiant Warrior",
@@ -1031,7 +1039,7 @@ Your Fortune hits 0.
         fortunePoints: {
           generates: 1,
           optionalCost: "1-5 FP",
-          description: "Generates 1 FP on success (1 HP cost). Spend Fortune Points to nudge your d20 roll toward your guess (1d4 wyrd damage per point spent).",
+          description: "Generates 1 FP on success. Spend Fortune Points to nudge your d20 roll toward your guess (1d4 wyrd damage per point spent).",
         },
         gamblingGame: {
           gameType: "number_guess",
@@ -1056,10 +1064,10 @@ Your Fortune hits 0.
       description: "When you have 0 Fortune Points, you enter severe probability withdrawal. Your senses dim and your reflexes slow under the collector's gaze. You have disadvantage on all gambling-based resolution rolls (dice rolls, coin flips, card draws used for spell effects) until you bank at least 1 Fortune Point.",
       level: 3,
       spellType: "PASSIVE",
-      icon: "/Exhausted",
+      icon: "Exhausted",
       typeConfig: {
         school: "physical",
-        icon: "/Exhausted",
+        icon: "Exhausted",
         tags: ["passive", "weakness"],
         castTime: 0,
         castTimeType: "PASSIVE",
@@ -1190,7 +1198,7 @@ Your Fortune hits 0.
             id : "hot_streak_buff",
             name: "Hot Streak Acceleration",
             description: "Each successful attack adds +1d6 storm damage, stacking up to 4 times.",
-            mechanicsText: "For 1 round, each successful attack/spell adds +1d6 storm damage to next strike (max 4 stacks). Each stack generates 1 FP (1 HP cost).",
+            mechanicsText: "For 1 round, each successful attack/spell adds +1d6 storm damage to next strike (max 4 stacks). Each stack generates 1 FP.",
           },
         ],
         durationValue: 1,
@@ -1201,7 +1209,7 @@ Your Fortune hits 0.
         fortunePoints: {
           cost: 4,
           generates: "up_to_4",
-          description: "Costs 4 FP to cast (4d4 wyrd damage). Generates 1 FP (1 HP damage) per stack built during the duration.",
+          description: "Costs 4 FP to cast (4d4 wyrd damage). Generates 1 FP per stack built during the duration.",
         },
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
@@ -1476,7 +1484,7 @@ Your Fortune hits 0.
       specialMechanics: {
         fortunePoints: {
           generates: 1,
-          description: "Generates 1 FP on draw, inflicting 1 HP damage.",
+          description: "Generates 1 FP on draw.",
         },
         gamblingGame: {
           gameType: "poker",
@@ -1757,7 +1765,7 @@ Your Fortune hits 0.
         fortunePoints: {
           generates: "variable",
           optionalCost: "1-10 FP",
-          description: "Siphons 1-5 FP depending on win tier (1 HP cost per FP gained). Spend FP to nudge individual dice results (1d4 wyrd damage per point spent).",
+          description: "Siphons 1-5 FP depending on win tier . Spend FP to nudge individual dice results (1d4 wyrd damage per point spent).",
         },
         gamblingGame: {
           gameType: "slot_machine",
@@ -1782,7 +1790,7 @@ Your Fortune hits 0.
 
     { id: "gambler_weighted_dice",
       name: "Weighted Dice",
-      description: "Cheat the cosmos entirely. Deal 14d6 storm damage to a target. For each Fortune Point spent (up to 7), you may treat one d6 as an automatic 6. Spend 7 FP and half your dice are guaranteed maximum. This is pure, unmitigated theft of chance,because the best gamblers know when to cheat. Spend triggers Calculated Risk (1d4 wyrd damage per point spent).",
+      description: "Cheat the cosmos entirely. Deal 14d6 storm damage to a target. For each Fortune Point spent (up to 7), you may treat one d6 as an automatic 6. Spend 7 FP and half your dice are guaranteed maximum. This is pure, unmitigated theft of chance, because the best gamblers know when to cheat. Spend triggers Calculated Risk (1d4 wyrd damage per point spent).",
       level: 8,
       spellType: "ACTION",
       icon: "Social/Dice Roll",
@@ -1940,7 +1948,7 @@ Your Fortune hits 0.
         fortunePoints: {
           cost: 8,
           generates: "variable",
-          description: "Costs 8 FP to cast. Generates 1, 3, or 5 FP (1 HP damage per FP gained).",
+          description: "Costs 8 FP to cast. Generates 1, 3, or 5 FP (free to bank).",
         },
         gamblingGame: {
           gameType: "slot_machine",
@@ -2337,10 +2345,10 @@ Your Fortune hits 0.
       description: "Draw the residual memory of a severed timeline from your deck. You gain temporary proficiency in one skill or tool of your choice for 10 minutes. Bending timeline constraints to absorb these residual echoes inflicts 1 Karmic Debt.",
       level: 1,
       spellType: "ACTION",
-      icon: "Arcane/Arcane Scroll",
+      icon: "Necrotic/Blood Scroll",
       typeConfig: {
         school: "wyrd",
-        icon: "Arcane/Arcane Scroll",
+        icon: "Necrotic/Blood Scroll",
         tags: ["utility", "starter"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
@@ -2387,10 +2395,10 @@ Your Fortune hits 0.
       description: "Focus your will and channel probability energy into your cards. Peek at the top 3 cards of your deck. You may 'bank' one card into your Fate Reserve (max 4 capacity) and draw the other two. Each override reaction expends a card from this reserve. Reshaping the deck's probability generates 2 Karmic Debt.",
       level: 1,
       spellType: "ACTION",
-      icon: "Arcane/Arcane Scroll",
+      icon: "Necrotic/Blood Scroll",
       typeConfig: {
         school: "blight",
-        icon: "Arcane/Arcane Scroll",
+        icon: "Necrotic/Blood Scroll",
         tags: ["draw", "utility", "starter"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
@@ -3340,10 +3348,10 @@ Your Fortune hits 0.
       description: "Target an active status effect on a creature. Choose one active buff or debuff on any target within 60 feet. Draw 1 card. If the card is a face card or Ace, you double the remaining duration of that effect. If it is a numbered card, you immediately end the effect. Rewriting a status duration generates 2 Karmic Debt.",
       level: 7,
       spellType: "ACTION",
-      icon: "Utility/Hourglass",
+      icon: "Arcane/Sands of Time",
       typeConfig: {
         school: "wyrd",
-        icon: "Utility/Hourglass",
+        icon: "Arcane/Sands of Time",
         tags: ["utility", "cards"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
@@ -3440,10 +3448,10 @@ Your Fortune hits 0.
       description: "Seal the target's probability anchor. Choose an enemy within 60 feet. They must make a Spirit saving throw against your spell DC. On a failure, they are marked for immediate execution: for the next 3 rounds, any attack roll made against them is a guaranteed critical hit. The strain of sealing this absolute doom generates 4 Karmic Debt.",
       level: 8,
       spellType: "ACTION",
-      icon: "General/Gallows",
+      icon: "Utility/Grim Reaper",
       typeConfig: {
         school: "blight",
-        icon: "General/Gallows",
+        icon: "Utility/Grim Reaper",
         tags: ["debuff", "utility"],
         castTime: 1,
         castTimeType: "IMMEDIATE"
@@ -3806,10 +3814,10 @@ Your Fortune hits 0.
       description: "Summon a legendary deck of probability and draw 1-3 cards. Each card yields either a miraculous blessing or a catastrophic curse. Catastrophic cards immediately generate 3 Karmic Debt. You may spend 5 debt to redraw a curse.",
       level: 10,
       spellType: "ACTION",
-      icon: "Arcane/Arcane Tome",
+      icon: "Necrotic/Skull Tome Of Corruption",
       typeConfig: {
         school: "blight",
-        icon: "Arcane/Arcane Tome",
+        icon: "Necrotic/Skull Tome Of Corruption",
         durationValue: 0,
         durationUnit: "instant"
       },
@@ -4105,6 +4113,56 @@ Your Fortune hits 0.
           "roleplay",
           "gambit"
         ]
+      },
+      // ===== NON-COMBAT / PROBABILITY-SIGHT (the one divination mode unique to Gambit) =====
+      {
+        "id": "gambler_odds_read",
+        "name": "Odds-Read",
+        "description": "Read the probability landscape around a single planned action and see how the odds lay — if we go through that door, attack now, take this deal, lie to this guard. You receive a blunt likelihood for the most probable outcome: certain, likely, even-money, unlikely, or doomed. The threads will not tell you what to do, only where the weight of chance currently rests. Out of combat.",
+        "level": 2,
+        "spellType": "ACTION",
+        "icon": "Utility/Utility",
+        "typeConfig": {
+          "school": "storm",
+          "icon": "Utility/Utility",
+          "tags": ["utility", "divination", "social", "gambit"],
+          "castTime": 1,
+          "castTimeType": "IMMEDIATE"
+        },
+        "targetingConfig": {
+          "targetingType": "self",
+          "rangeType": "self"
+        },
+        "resourceCost": {
+          "actionPoints": 1,
+          "resourceTypes": ["mana"],
+          "resourceValues": { "mana": 6 },
+          "components": ["verbal", "somatic"],
+          "somaticText": "Roll a single bone die and watch how it settles against the question",
+          "classResource": { "type": "fortune_points", "cost": 1 }
+        },
+        "resolution": "NONE",
+        "effectTypes": ["utility"],
+        "utilityConfig": {
+          "utilityType": "divination",
+          "selectedEffects": [
+            {
+              "id": "odds_read_lay",
+              "name": "Lay of the Odds",
+              "description": "Name one concrete action you are about to take; learn the likelihood of its most probable outcome (certain / likely / even-money / unlikely / doomed). Shows where chance currently rests, not hidden facts or the 'right' choice. Costs 1 Fortune Point (Debtor's Tax still applies).",
+              "mechanicsText": "Learn the probability tier of one planned action's outcome."
+            }
+          ],
+          "duration": 0,
+          "durationUnit": "instant",
+          "concentration": false,
+          "power": "moderate"
+        },
+        "cooldownConfig": {
+          "cooldownType": "short_rest",
+          "cooldownValue": 1
+        },
+        "tags": ["utility", "divination", "social", "gambit"]
       }
  
   ],

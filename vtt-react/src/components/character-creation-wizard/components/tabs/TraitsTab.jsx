@@ -46,15 +46,15 @@ const getPassiveSummary = (trait = {}) => {
         return `${stat} ${mag}`;
     };
 
-    const statMods = [];
-    const otherEffects = [];
+    const benefits = [];
+    const drawbacks = [];
 
     if (trait.buffConfig?.effects) {
         trait.buffConfig.effects.forEach(effect => {
             if (effect.statModifier) {
-                statMods.push(formatStatMod(effect.statModifier));
+                benefits.push(formatStatMod(effect.statModifier));
             } else if (effect.statusEffect) {
-                otherEffects.push(effect.name || effect.statusEffect.type || 'Status effect');
+                benefits.push(effect.name || effect.statusEffect.type || 'Status effect');
             }
         });
     }
@@ -62,9 +62,9 @@ const getPassiveSummary = (trait = {}) => {
     if (trait.debuffConfig?.effects) {
         trait.debuffConfig.effects.forEach(effect => {
             if (effect.statModifier) {
-                statMods.push(formatStatMod(effect.statModifier));
+                drawbacks.push(formatStatMod(effect.statModifier));
             } else if (effect.statusEffect) {
-                otherEffects.push(effect.name || effect.statusEffect.type || 'Status effect');
+                drawbacks.push(effect.name || effect.statusEffect.type || 'Status effect');
             }
         });
     }
@@ -79,16 +79,15 @@ const getPassiveSummary = (trait = {}) => {
             : durationType === 'permanent'
                 ? ' continuously'
                 : '';
-        parts.push(`Regenerates ${formula}${intervalText}${durationText}`.trim() + '.');
+        benefits.push(`Regenerates ${formula}${intervalText}${durationText}`.trim());
     }
 
-    if (statMods.length > 0) {
-        const modText = statMods.join(', ');
-        parts.push(conditionText ? `${modText} ${conditionText}` : modText);
+    if (benefits.length > 0) {
+        parts.push('Benefit: ' + benefits.join(', ') + (conditionText ? ` ${conditionText}` : '') + '.');
     }
 
-    if (otherEffects.length > 0) {
-        parts.push(otherEffects.join(', '));
+    if (drawbacks.length > 0) {
+        parts.push('Drawback: ' + drawbacks.join(', ') + '.');
     }
 
     return parts.length ? parts.join(' ') : 'No description available';

@@ -328,12 +328,12 @@ const RaceEpicLore = ({ raceData, availableTabs = ['history', 'figures', 'locati
                                                     <div className="tome-card-portrait">
                                                         {figure.portraitIcon ? (
                                                             <img
-                                                                src={getIconUrl(figure.portraitIcon, 'items')}
+                                                                src={getIconUrl(figure.portraitIcon, figure.portraitIcon.includes('/') ? 'creatures' : 'items')}
                                                                 alt={figure.name}
                                                                 className="tome-card-portrait-img"
                                                                 onError={(e) => {
                                                                     e.target.onerror = null;
-                                                                    e.target.src = getIconUrl('Utility/Utility', 'ui');
+                                                                    e.target.src = getIconUrl('Human/Icon1', 'creatures');
                                                                 }}
                                                             />
                                                         ) : (
@@ -471,12 +471,12 @@ const RaceEpicLore = ({ raceData, availableTabs = ['history', 'figures', 'locati
                                             <div className="tome-detail-portrait">
                                                 {selectedFigure.portraitIcon ? (
                                                     <img
-                                                        src={getIconUrl(selectedFigure.portraitIcon, 'items')}
+                                                        src={getIconUrl(selectedFigure.portraitIcon, selectedFigure.portraitIcon.includes('/') ? 'creatures' : 'items')}
                                                         alt={selectedFigure.name}
                                                         className="tome-detail-portrait-img"
                                                         onError={(e) => {
                                                             e.target.onerror = null;
-                                                            e.target.src = getIconUrl('Utility/Utility', 'ui');
+                                                            e.target.src = getIconUrl('Human/Icon1', 'creatures');
                                                         }}
                                                     />
                                                 ) : (

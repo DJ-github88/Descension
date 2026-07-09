@@ -206,8 +206,14 @@ Simultaneously, they cannot feel warmth, not physical, not emotional. They exper
 
 **The Unstable Catalyst ("Why Bring Me?")**: You offer both the Chaos Weaver's apocalyptic area-of-effect amplification and the Doomsayer's living bomb prophecy system. As your Mayhem climbs, your spells swell with massive bonus damage dice, expanded radii, and multi-targeting capabilities. Meanwhile, your prophecies tick and fester in the enemy's bones, waiting for the moment of detonation. The two systems feed each other: fulfilled prophecies generate Mayhem, and Mayhem amplifies prophecy damage.
 
-**The Fatal Flaw ("Anomalous Dissociation")**: At 100 Mayhem pressure, your physical form undergoes traumatic displacement. Your molecular density drops to zero, triggering a Wild Surge and leaving you 100% vulnerable to raw kinetic Bludgeoning and martial Slashing force. Every prophecy that misses its range deals backlash damage to you. You cannot receive healing while prophecies are active. You are the most powerful and the most fragile thing on the battlefield.`
-  },
+**Weaknesses**:
+- Anomalous Dissociation: at 100 Mayhem your molecular density drops to zero, a Wild Surge triggers, and you become 100 percent vulnerable to bludgeoning and slashing — a rogue with a blade is your nightmare.
+- Prophecy Collapse: every prophecy that resolves outside its range fizzles and drains your Mayhem (and stacks a Doom on you on the heavy ones) — a bad roll wastes the cast and bleeds your pressure, not the enemy's.
+- No Healing While Prophesying: you cannot receive healing while any of your prophecies are active — your own magic blocks the mender.
+- Ticking to Inevitability: Mayhem climbs toward 100 whether you want it to or not; you can delay the Surge, never cancel it. The bomb always goes off.
+- Glass Cannon: light armor, low HP — you hit the hardest and fold the fastest.
+- Terminal Certainty (social): you compute the doom of every moment (a wedding becomes its divorce and death odds) and cannot feel warmth; you read as coldly cruel. Your own past is being overwritten by other people's lives, so you cannot fully trust your own memories.`
+   },
 
   playstyle: {
    title: "Playstyle & Strategy",
@@ -418,19 +424,24 @@ The Master Wild Surge table is structured across four absolute thematic categori
    "harbinger-universal-doom_bolt",
    "harbinger-wild_prophet-chaos_bolt",
    "harbinger-deaths_seer-entropic_touch",
-   "harbinger-universal-reality_flicker"
+   "harbinger-universal-reality_flicker",
+   "harbinger-universal-doom_reckoning",
+   "harbinger-universal-entropy_read"
   ],
   2: [
    "harbinger-fate_rift-doom_countdown",
    "harbinger-universal-dimensional_rift",
    "harbinger-deaths_seer-chaotic_decay",
-   "harbinger-wild_prophet-calamity_zone"
+   "harbinger-wild_prophet-calamity_zone",
+   "harbinger-universal-rift_step",
+   "harbinger-universal-prophetic_warning"
   ],
   3: [
    "harbinger-universal-havoc_blast",
    "harbinger-wild_prophet-prismatic_chaos",
    "harbinger-fate_rift-escalating_doom",
-   "harbinger-deaths_seer-chaos_burst"
+   "harbinger-deaths_seer-chaos_burst",
+   "harbinger-universal-cold_certainty"
   ],
   4: [
    "harbinger-deaths_seer-death_mark",
@@ -489,7 +500,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     rangeDice: ["d8", "d6"], resolutionDie: "d6",
     prophesied: { damage: "4d8", effect: { id: "doom_i", name: "Doom I", duration: 2, unit: "rounds", statModifiers: [{ stat: "spirit", value: -1, magnitudeType: "penalty" }], description: "Marked by prophetic doom. Target suffers -1 to Spirit saves for 2 rounds.", doomStack: true, doomStackValue: 1 }, havocGain: 3, description: "Deals 4d8 blight damage and afflicts the target with Doom I." },
     base: { damage: "2d8", havocGain: 1, description: "Deals 2d8 blight damage." },
-    outside: { backlash: "1d8 wyrd to self", havocGain: 0, description: "The prophecy turns inward. Deals 1d8 wyrd damage to you." }
+    outside: { backlash: "spell fizzles; lose 1d4 Mayhem", havocGain: 0, description: "The prophecy turns inward. Deals 1d8 wyrd damage to you." }
    }}],
    damageConfig: { formula: "2d8", damageTypes: ["blight"], resolution: "PROPHECY" },
    debuffConfig: {
@@ -584,7 +595,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     rangeDice: ["d6", "d4"], resolutionDie: "d4", tickDamage: "1d6 necrotic",
     prophesied: { damage: "4d8", effect: { id: "doom_i", name: "Doom I", duration: 2, unit: "rounds", statModifiers: [{ stat: "spirit", value: -1, magnitudeType: "penalty" }], description: "Target suffers -1 to Spirit saves for 2 rounds.", doomStack: true, doomStackValue: 1 }, havocGain: 3, description: "Detonates for 4d8 blight damage + Doom I." },
     base: { damage: "2d8", havocGain: 1, description: "Detonates for 2d8 blight damage." },
-    outside: { backlash: "1d8 blight to self", havocGain: 0, description: "The countdown backfires. Deals 1d8 blight damage to you." }
+    outside: { backlash: "spell fizzles; lose 1d4 Mayhem", havocGain: 0, description: "The countdown backfires. Deals 1d8 blight damage to you." }
    }}],
    damageConfig: { formula: "1d6", damageTypes: ["blight"], resolution: "PROPHECY" },
    debuffConfig: {
@@ -645,7 +656,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     rangeDice: ["d10", "d8"], resolutionDie: "d8",
     prophesied: { damage: "3d8 ember + 1d8 force", effect: { name: "Burning Ground", duration: 3, unit: "rounds", damagePerRound: "1d4", damageType: "ember", description: "Zone becomes burning difficult terrain (1d4 ember/round, half speed) for 3 rounds." }, havocGain: 4, description: "Deals 3d8 fire + 1d8 force to all in area. Burning difficult terrain for 3 rounds." },
     base: { damage: "2d8 fire", havocGain: 2, description: "Deals 2d8 ember damage to all in area." },
-    outside: { backlash: "1d6 ember to self", havocGain: 0, description: "The ground erupts beneath you. 1d6 ember damage." }
+    outside: { backlash: "spell fizzles; lose 1d4 Mayhem", havocGain: 0, description: "The ground erupts beneath you. 1d6 ember damage." }
    }}],
    damageConfig: { formula: "2d8", damageTypes: ["ember", "storm"], resolution: "PROPHECY" },
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
@@ -665,7 +676,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     rangeDice: ["d10", "d10"], resolutionDie: "d10",
     prophesied: { damage: "5d10", havocGain: 0, description: "Deals 5d10 storm damage." },
     base: { damage: "3d10", havocGain: 0, description: "Deals 3d10 storm damage." },
-    outside: { backlash: "2d10 force to self", havocGain: 0, description: "The Havoc detonates in your grasp. 2d10 storm damage to you." }
+    outside: { backlash: "spell fizzles; lose 1d4 Mayhem", havocGain: 0, description: "The Havoc detonates in your grasp. 2d10 storm damage to you." }
    }}],
    damageConfig: { formula: "3d10", damageTypes: ["storm"], resolution: "PROPHECY" },
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
@@ -706,7 +717,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     tickDamage: { formula: "1d8", scaling: "+1d6 per round", damageTypes: ["storm"] },
     prophesied: { damage: "4d10", effect: { id: "doom_ii", name: "Doom II", duration: 2, unit: "rounds", damagePerRound: "2d6", damageType: "storm", statModifiers: [{ stat: "spirit", value: -2, magnitudeType: "penalty" }], description: "2d6 force/round + -2 Spirit saves for 2 rounds.", doomStack: true, doomStackValue: 2 }, havocGain: 5, description: "4d10 force detonation + 2d6 force/round for 2 rounds + Doom II." },
     base: { damage: "2d10", havocGain: 2, description: "2d10 force detonation plus accumulated bonus damage." },
-    outside: { backlash: "1d10 force to self", havocGain: 0, description: "The doom collapses. 1d10 storm damage to you." }
+    outside: { backlash: "spell fizzles; lose 1d4 Mayhem", havocGain: 0, description: "The doom collapses. 1d10 storm damage to you." }
    }}],
    damageConfig: { formula: "1d8", damageTypes: ["storm"], resolution: "PROPHECY" },
    debuffConfig: {
@@ -764,7 +775,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     rangeDice: ["d4", "d4"], resolutionDie: "d4",
     prophesied: { damage: "6d8", effect: { id: "marked_for_death", name: "Marked for Death", duration: 5, unit: "rounds", healingBlock: true, bonusDamageTaken: "1d8", bonusDamageType: "blight", description: "Target cannot be healed and takes +1d8 necrotic from all hits for 5 rounds." }, havocGain: 0, description: "6d8 necrotic + no healing + +1d8 from all incoming damage for 5 rounds." },
     base: { damage: "3d8", havocGain: 0, description: "3d8 blight damage." },
-    outside: { backlash: "2d8 blight to self + Doom I", havocGain: 0, effect: { id: "doom_i", name: "Doom I", duration: 2, unit: "rounds", statModifiers: [{ stat: "spirit", value: -1, magnitudeType: "penalty" }], description: "Death mark rebounds. -1 Spirit saves for 2 rounds.", doomStack: true, doomStackValue: 1 }, description: "2d8 necrotic to you + Doom I." }
+    outside: { backlash: "spell fizzles; lose 1d4 Mayhem + Doom I", havocGain: 0, effect: { id: "doom_i", name: "Doom I", duration: 2, unit: "rounds", statModifiers: [{ stat: "spirit", value: -1, magnitudeType: "penalty" }], description: "Death mark rebounds. -1 Spirit saves for 2 rounds.", doomStack: true, doomStackValue: 1 }, description: "2d8 necrotic to you + Doom I." }
    }}],
    damageConfig: { formula: "3d8", damageTypes: ["blight"], resolution: "PROPHECY" },
    debuffConfig: { debuffType: "statusEffect", effects: [{ id: "marked_for_death", name: "Marked for Death", description: "No healing + +1d8 necrotic from all damage sources, 5 rounds", statusType: "death_mark", mechanicsText: "Target cannot be healed and takes bonus necrotic from all incoming damage." }], durationType: "rounds", durationValue: 5, durationUnit: "rounds" },
@@ -808,7 +819,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     rangeDice: ["d10", "d8"], resolutionDie: "d8",
     prophesied: { damage: "6d8 fire + 3d8 necrotic", effect: { name: "Difficult Terrain", duration: 5, unit: "rounds", description: "Area becomes shattered difficult terrain for 5 rounds." }, havocGain: 6, description: "6d8 fire + 3d8 necrotic to all in area. Difficult terrain for 5 rounds." },
     base: { damage: "4d8 fire + 2d8 necrotic", havocGain: 3, description: "4d8 fire + 2d8 necrotic to all in area." },
-    outside: { backlash: "2d8 to self + Doom I", havocGain: 0, effect: { id: "doom_i", name: "Doom I", duration: 2, unit: "rounds", statModifiers: [{ stat: "spirit", value: -1, magnitudeType: "penalty" }], description: "Cataclysm recoils. Doom I.", doomStack: true, doomStackValue: 1 }, description: "2d8 damage to you + Doom I." }
+    outside: { backlash: "spell fizzles; lose 1d6 Mayhem + Doom I", havocGain: 0, effect: { id: "doom_i", name: "Doom I", duration: 2, unit: "rounds", statModifiers: [{ stat: "spirit", value: -1, magnitudeType: "penalty" }], description: "Cataclysm recoils. Doom I.", doomStack: true, doomStackValue: 1 }, description: "2d8 damage to you + Doom I." }
    }}],
    damageConfig: { formula: "4d8+2d8", damageTypes: ["ember", "blight"], resolution: "PROPHECY" },
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
@@ -843,7 +854,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     rangeDice: ["d12", "d8"], resolutionDie: "d8",
     prophesied: { damage: "8d8", effect: { id: "doom_iii", name: "Doom III", duration: 2, unit: "rounds", statModifiers: [{ stat: "spirit", value: -3, magnitudeType: "penalty" }], description: "-3 Spirit saves for 2 rounds.", doomStack: true, doomStackValue: 3 }, havocGain: 8, description: "8d8 mixed damage to all in area + Doom III." },
     base: { damage: "5d8", havocGain: 4, description: "5d8 mixed damage to all in area." },
-    outside: { backlash: "3d8 to self + Doom II", havocGain: 0, effect: { id: "doom_ii", name: "Doom II", duration: 2, unit: "rounds", statModifiers: [{ stat: "spirit", value: -2, magnitudeType: "penalty" }], description: "Word of ruin turns on speaker.", doomStack: true, doomStackValue: 2 }, description: "3d8 to you + Doom II." }
+    outside: { backlash: "spell fizzles; lose 1d6 Mayhem + Doom II", havocGain: 0, effect: { id: "doom_ii", name: "Doom II", duration: 2, unit: "rounds", statModifiers: [{ stat: "spirit", value: -2, magnitudeType: "penalty" }], description: "Word of ruin turns on speaker.", doomStack: true, doomStackValue: 2 }, description: "3d8 to you + Doom II." }
    }}],
    damageConfig: { formula: "5d8", damageTypes: ["ember", "blight", "wyrd", "storm"], resolution: "PROPHECY" },
    debuffConfig: {
@@ -905,7 +916,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     rangeDice: ["d4", "d4"], resolutionDie: "d4",
     prophesied: { damage: "instant_death", effect: { name: "Execution", description: "Target reduced to 0 HP instantly. No save. No immunity.", instantKill: true, bypassImmunity: true }, havocGain: 10, description: "Instant death. No save. No immunity." },
     base: { damage: "8d10 necrotic", effect: { name: "Near Execution", description: "If target below 50% HP, Spirit save or reduced to 0 HP.", conditionalKill: true, hpThreshold: 50, saveType: "spirit" }, havocGain: 5, description: "8d10 necrotic. Below 50% HP: Spirit save or 0 HP." },
-    outside: { backlash: "8d10 blight to self", effect: { id: "doom_iii", name: "Doom III", duration: 2, unit: "rounds", statModifiers: [{ stat: "spirit", value: -3, magnitudeType: "penalty" }], description: "Execution turns on its speaker.", doomStack: true, doomStackValue: 3 }, havocGain: 0, description: "8d10 necrotic to you + Doom III." }
+    outside: { backlash: "spell fizzles; lose 1d4 Mayhem", effect: { id: "doom_iii", name: "Doom III", duration: 2, unit: "rounds", statModifiers: [{ stat: "spirit", value: -3, magnitudeType: "penalty" }], description: "Execution turns on its speaker.", doomStack: true, doomStackValue: 3 }, havocGain: 0, description: "8d10 necrotic to you + Doom III." }
    }}],
    damageConfig: { formula: "8d10", damageTypes: ["blight"], resolution: "PROPHECY" },
    cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
@@ -982,7 +993,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     rangeDice: ["d4", "d4"], resolutionDie: "d4",
     prophesied: { damage: "12d12 necrotic", effect: { name: "Erasure", description: "If target below 25% HP after damage, erased from existence. No resurrection for 24 hours.", conditionalErase: true, hpThreshold: 25, eraseDuration: 24, eraseDurationUnit: "hours", blockResurrection: true }, havocGain: 10, description: "12d12 necrotic. Below 25% HP = erased." },
     base: { damage: "8d12 necrotic", havocGain: 5, description: "8d12 blight damage." },
-    outside: { backlash: "6d12 blight to self", effect: { id: "doom_iii", name: "Doom III", duration: 2, unit: "rounds", statModifiers: [{ stat: "spirit", value: -3, magnitudeType: "penalty" }], description: "Annihilation turns inward. Stunned 1 round.", doomStack: true, doomStackValue: 3, stunDuration: 1, stunDurationUnit: "rounds" }, havocGain: 0, description: "6d12 necrotic to you + Doom III + stunned 1 round." }
+    outside: { backlash: "spell fizzles; lose 1d4 Mayhem", effect: { id: "doom_iii", name: "Doom III", duration: 2, unit: "rounds", statModifiers: [{ stat: "spirit", value: -3, magnitudeType: "penalty" }], description: "Annihilation turns inward. Stunned 1 round.", doomStack: true, doomStackValue: 3, stunDuration: 1, stunDurationUnit: "rounds" }, havocGain: 0, description: "6d12 necrotic to you + Doom III + stunned 1 round." }
    }}],
    damageConfig: { formula: "8d12", damageTypes: ["blight"], resolution: "PROPHECY" },
    cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
@@ -1065,7 +1076,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     rangeDice: ["d8", "d6"], resolutionDie: "d6",
     prophesied: { damage: "8d8", effect: { name: "Legion Ignition", description: "All ignited, 2d6 ember/round for 3 rounds. +4 Mayhem per enemy hit.", dotDamage: "2d6", dotDamageType: "ember", dotDuration: 3, dotDurationUnit: "rounds", havocPerTarget: 4 }, havocGain: 4, description: "8d8 ember+blight to EACH enemy. All ignited (2d6 ember/round, 3 rounds). +4 Mayhem per enemy." },
     base: { damage: "5d8", havocGain: 2, description: "5d8 ember+blight to each enemy." },
-    outside: { backlash: "2d8 per target in range to self", havocGain: 0, description: "The legion turns. 2d8 damage per enemy in range." }
+    outside: { backlash: "spell fizzles; lose 1d6 Mayhem", havocGain: 0, description: "The legion turns. 2d8 damage per enemy in range." }
    }}],
    damageConfig: { formula: "5d8", damageTypes: ["ember", "blight"], resolution: "PROPHECY", dotConfig: { enabled: true, damagePerTick: "2d6", damageType: "ember", tickFrequency: "round", duration: 3, canStack: false, maxStacks: 1 } },
    cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
@@ -1114,7 +1125,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     rangeDice: ["d12", "d10"], resolutionDie: "d10",
     prophesied: { damage: "10d10 mixed", effect: { name: "Erasure", description: "Enemies below 30% HP after damage erased. No save. No immunity.", instantKillThreshold: 30, instantKillMetric: "hp_percent", bypassImmunity: true }, havocGain: 12, description: "10d10 mixed damage. Below 30% HP = erased. Friendly fire possible." },
     base: { damage: "6d10 mixed", havocGain: 6, description: "6d10 mixed damage. Friendly fire possible." },
-    outside: { backlash: "4d10 to self", effect: { id: "doom_iii", name: "Doom III", duration: 2, unit: "rounds", statModifiers: [{ stat: "spirit", value: -3, magnitudeType: "penalty" }], description: "The End turns on its speaker.", doomStack: true, doomStackValue: 3 }, havocGain: 0, description: "4d10 to you + Doom III." }
+    outside: { backlash: "spell fizzles; lose 1d6 Mayhem", effect: { id: "doom_iii", name: "Doom III", duration: 2, unit: "rounds", statModifiers: [{ stat: "spirit", value: -3, magnitudeType: "penalty" }], description: "The End turns on its speaker.", doomStack: true, doomStackValue: 3 }, havocGain: 0, description: "4d10 to you + Doom III." }
    }}],
    damageConfig: { formula: "6d10", damageTypes: ["blight", "ember", "wyrd", "storm"], resolution: "PROPHECY" },
    cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
@@ -1133,7 +1144,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     rangeDice: ["d4", "d4"], resolutionDie: "d4",
     prophesied: { damage: "instant_death", effect: { name: "Absolute Requiem", description: "Target reduced to 0 HP. No save. No immunity. All creature types. Absolute.", instantKill: true, bypassImmunity: true, allCreatureTypes: true, absolute: true }, havocGain: 12, description: "Target reduced to 0 HP. No save. No immunity. All creature types. Absolute." },
     base: { damage: "15d12 necrotic", havocGain: 6, description: "15d12 blight damage." },
-    outside: { backlash: "15d12 blight to self", effect: { id: "doom_iv", name: "Doom IV", duration: 2, unit: "rounds", statModifiers: [{ stat: "spirit", value: -4, magnitudeType: "penalty" }], description: "Absolute requiem turns on its speaker.", doomStack: true, doomStackValue: 4 }, havocGain: 0, description: "15d12 necrotic to you + Doom IV." }
+    outside: { backlash: "spell fizzles; lose 1d4 Mayhem", effect: { id: "doom_iv", name: "Doom IV", duration: 2, unit: "rounds", statModifiers: [{ stat: "spirit", value: -4, magnitudeType: "penalty" }], description: "Absolute requiem turns on its speaker.", doomStack: true, doomStackValue: 4 }, havocGain: 0, description: "15d12 necrotic to you + Doom IV." }
    }}],
    damageConfig: { formula: "15d12", damageTypes: ["blight"], resolution: "PROPHECY" },
    cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
@@ -1196,7 +1207,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     rangeDice: ["d12", "d10", "d8"], resolutionDie: "d8",
     prophesied: { damage: "15d12 mixed", effect: { name: "Extinction Protocol", description: "All enemies below 40% HP erased. All others take max damage. Terrain devastated.", instantKillThreshold: 40, instantKillMetric: "hp_percent", bypassImmunity: true, terrainDevastation: true }, havocGain: 15, description: "15d12 mixed. Below 40% HP = erased. Friendly fire." },
     base: { damage: "8d12 mixed", havocGain: 8, description: "8d12 mixed damage. Friendly fire possible." },
-    outside: { backlash: "8d12 to self", effect: { id: "doom_iv", name: "Doom IV", duration: 3, unit: "rounds", statModifiers: [{ stat: "spirit", value: -4, magnitudeType: "penalty" }], description: "Extinction turns on its prophet.", doomStack: true, doomStackValue: 4 }, havocGain: 0, description: "8d12 to you + Doom IV." }
+    outside: { backlash: "spell fizzles; lose 1d6 Mayhem", effect: { id: "doom_iv", name: "Doom IV", duration: 3, unit: "rounds", statModifiers: [{ stat: "spirit", value: -4, magnitudeType: "penalty" }], description: "Extinction turns on its prophet.", doomStack: true, doomStackValue: 4 }, havocGain: 0, description: "8d12 to you + Doom IV." }
    }}],
    damageConfig: { formula: "8d12", damageTypes: ["storm", "blight"], resolution: "PROPHECY" },
    cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
@@ -1215,11 +1226,77 @@ The Master Wild Surge table is structured across four absolute thematic categori
     rangeDice: ["d4", "d4", "d4"], resolutionDie: "d4",
     prophesied: { damage: "instant_death", effect: { name: "Final Requiem", description: "Target erased from existence. No save. No immunity. No resurrection. Ever. All creature types. Absolute. Final.", instantKill: true, bypassImmunity: true, allCreatureTypes: true, absolute: true, blockResurrection: true, resurrectionBlockDuration: "permanent" }, havocGain: 15, description: "Target erased. No save. No immunity. No resurrection. Ever. Absolute. Final." },
     base: { damage: "20d12 necrotic", havocGain: 8, description: "20d12 blight damage." },
-    outside: { backlash: "20d12 blight to self", effect: { id: "doom_iv", name: "Doom IV", duration: 3, unit: "rounds", statModifiers: [{ stat: "spirit", value: -4, magnitudeType: "penalty" }], description: "The Final Requiem consumes its prophet.", doomStack: true, doomStackValue: 4 }, havocGain: 0, description: "20d12 necrotic to you + Doom IV." }
+    outside: { backlash: "spell fizzles; lose 1d4 Mayhem", effect: { id: "doom_iv", name: "Doom IV", duration: 3, unit: "rounds", statModifiers: [{ stat: "spirit", value: -4, magnitudeType: "penalty" }], description: "The Final Requiem consumes its prophet.", doomStack: true, doomStackValue: 4 }, havocGain: 0, description: "20d12 necrotic to you + Doom IV." }
    }}],
    damageConfig: { formula: "20d12", damageTypes: ["blight"], resolution: "PROPHECY" },
    cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
    tags: ["damage", "blight", "prophecy", "deaths_seer", "instant_kill", "absolute", "final", "apocalypse"]
+  },
+  // ===== NON-COMBAT / DOOM-ARITHMETIC & CHAOS UTILITY (the prophet of catastrophe, out of combat) =====
+  { id: "harbinger-universal-doom_reckoning",
+   name: "Doomsayer's Reckoning",
+   description: "Touch a creature, place, or object and run the arithmetic of its ending. Learn, in cold certainty, how and roughly when it is most likely to be destroyed, killed, or broken — by blade, by rot, by fire, by betrayal. The math shows the likeliest doom, not a guaranteed fate, and it never shows you a way to prevent it. Out of combat.",
+   level: 1, icon: "Necrotic/Skull Burst", spellType: "ACTION", specialization: "universal",
+   effectTypes: ["utility"],
+   typeConfig: { school: "blight", castTime: 1, castTimeType: "IMMEDIATE", icon: "Necrotic/Skull Burst", tags: ["utility", "divination", "investigation", "doom", "universal"] },
+   targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
+   resourceCost: { actionPoints: 1, mana: 5, classResource: { type: "mayhem", cost: -2 }, components: ["verbal", "somatic"], verbalText: "The reckoning, spoken as a sum", somaticText: "Lay a hand on the subject and let the equation resolve behind your eyes" },
+   resolution: "NONE",
+   utilityConfig: { utilityType: "divination", selectedEffects: [ { "id": "doom_reckoning_read", "name": "Computed Doom", "description": "Learn the likeliest cause and rough timeframe of a touched subject's destruction/death/breakage. Shows the doom, never the prevention; one probability among many.", "mechanicsText": "Learn how + roughly when a subject most likely ends." } ], power: "moderate" },
+   cooldownConfig: { cooldownType: "short_rest", cooldownValue: 1 },
+   tags: ["utility", "divination", "investigation", "doom", "universal"]
+  },
+  { id: "harbinger-universal-entropy_read",
+   name: "Entropy Read",
+   description: "Run your doom-arithmetic over an object or mechanism and read its decay — how old it truly is, what has stressed or damaged it, how close it sits to breaking, and the last force that struck it. The colder and deader the object, the clearer the reading. Out of combat.",
+   level: 1, icon: "Arcane/Spiral Vortex", spellType: "ACTION", specialization: "universal",
+   effectTypes: ["utility"],
+   typeConfig: { school: "blight", castTime: 1, castTimeType: "IMMEDIATE", icon: "Arcane/Spiral Vortex", tags: ["utility", "divination", "investigation", "universal"] },
+   targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
+   resourceCost: { actionPoints: 1, mana: 3, classResource: { type: "mayhem", cost: -1 }, components: ["somatic"], somaticText: "Trace the stress-fractures in the air around the object" },
+   resolution: "NONE",
+   utilityConfig: { utilityType: "divination", selectedEffects: [ { "id": "entropy_read_decay", "name": "Decay Reading", "description": "Learn an object's true age, what stressed/damaged it, how close it is to breaking, and the nature of the last force that struck it.", "mechanicsText": "Read an object's age/damage/break-point/last-impact." } ], power: "minor" },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+   tags: ["utility", "divination", "investigation", "universal"]
+  },
+  { id: "harbinger-universal-rift_step",
+   name: "Rift-Step",
+   description: "Thin reality at a single point and slip through it — pass through a wall, door, pane of glass, or sealed barrier up to a few feet thick as though it were not there, leaving a brief shimmer of deleted space behind. Living matter and magical wards resist. Out of combat.",
+   level: 2, icon: "Arcane/Spiral Vortex", spellType: "ACTION", specialization: "universal",
+   effectTypes: ["utility"],
+   typeConfig: { school: "storm", castTime: 1, castTimeType: "IMMEDIATE", icon: "Arcane/Spiral Vortex", tags: ["utility", "mobility", "infiltration", "chaos", "universal"] },
+   targetingConfig: { targetingType: "self", rangeType: "self" },
+   resourceCost: { actionPoints: 1, mana: 8, classResource: { type: "mayhem", cost: 3 }, components: ["verbal", "somatic"], verbalText: "The syllable of thinning", somaticText: "Press palm to the barrier and step where it is not" },
+   resolution: "AUTOMATIC",
+   utilityConfig: { utilityType: "mobility", selectedEffects: [ { "id": "rift_step_pass", "name": "Phase Through", "description": "Pass through one non-magical barrier/wall/door up to 5 ft thick. Living matter, force effects, and magical wards block you.", "mechanicsText": "Phase through one barrier (<=5 ft)." } ], power: "moderate" },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+   tags: ["utility", "mobility", "infiltration", "chaos", "universal"]
+  },
+  { id: "harbinger-universal-prophetic_warning",
+   name: "Prophetic Warning",
+   description: "Plant a shallow prophecy of warning in your own mind: you gain a cold premonition of the next ambush, trap, or hostile danger that will threaten you or your allies within the next hour, and a single detail of its nature (blade, fire, fall, betrayal). It does not show where or when, only that it is coming and what kind. Out of combat.",
+   level: 2, icon: "Psychic/Focused Mind", spellType: "ACTION", specialization: "universal",
+   effectTypes: ["utility"],
+   typeConfig: { school: "wyrd", castTime: 1, castTimeType: "IMMEDIATE", icon: "Psychic/Focused Mind", tags: ["utility", "divination", "exploration", "prophecy", "universal"] },
+   targetingConfig: { targetingType: "self", rangeType: "self" },
+   resourceCost: { actionPoints: 1, mana: 6, classResource: { type: "mayhem", cost: -2 }, components: ["verbal", "somatic"], somaticText: "Press two fingers to your temple and let the next ending surface" },
+   resolution: "NONE",
+   utilityConfig: { utilityType: "divination", selectedEffects: [ { "id": "prophetic_warning_premonition", "name": "Premonition", "description": "For 1 hour, gain a premonition of the next ambush/trap/hostile danger and one detail of its nature. No location, no timing.", "mechanicsText": "Warned of next danger + its nature, 1 hour." } ], duration: 1, durationUnit: "hours", power: "moderate" },
+   cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+   tags: ["utility", "divination", "exploration", "prophecy", "universal"]
+  },
+  { id: "harbinger-universal-cold_certainty",
+   name: "Cold Certainty",
+   description: "Turn your terminal-certain gaze on a creature and compute the doom written into them — their deepest insecurity, the fatal flaw in the plan they are hiding, or the loss they cannot survive. The reading grants advantage on Intimidation (you tell them exactly how it ends) but disadvantage on Persuasion and empathy (you cannot stop calculating their odds). Out of combat.",
+   level: 3, icon: "Psychic/Focused Mind", spellType: "ACTION", specialization: "universal",
+   effectTypes: ["utility"],
+   typeConfig: { school: "wyrd", castTime: 1, castTimeType: "IMMEDIATE", icon: "Psychic/Focused Mind", tags: ["utility", "divination", "social", "universal"] },
+   targetingConfig: { targetingType: "single", rangeType: "sight", rangeDistance: 60 },
+   resourceCost: { actionPoints: 1, mana: 7, classResource: { type: "mayhem", cost: -2 }, components: ["somatic"], somaticText: "A lidless, pity-free stare that is already doing the arithmetic" },
+   resolution: "NONE",
+   utilityConfig: { utilityType: "social", selectedEffects: [ { "id": "cold_certainty_read", "name": "Computed Flaw", "description": "Learn one creature's deepest insecurity or the fatal flaw in their current plan. Advantage on Intimidation against them for 1 hour; disadvantage on Persuasion/Empathy.", "mechanicsText": "Read one insecurity/plan-flaw; +Intimidation, -Persuasion 1 hour." } ], duration: 1, durationUnit: "hours", power: "moderate" },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+   tags: ["utility", "divination", "social", "universal"]
   }
  ],
  passiveAbilities: [

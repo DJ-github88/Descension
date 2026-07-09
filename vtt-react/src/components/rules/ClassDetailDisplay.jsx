@@ -757,11 +757,26 @@ const classFallbacks = {
   { url: '/assets/images/classes/animist_illustration.png', caption: 'An Unshorn Briaran Forest Ritualist Animist channeling ancestral spirits.' },
   { url: '/assets/images/classes/animist_illustration_2.png', caption: 'An Ithran Groven Animist with stone-scale joints holding a moss-grown staff summoning a bear spirit.' }
  ],
- pyrofiend: { url: '/assets/images/classes/pyrofiend_illustration.png', caption: 'A Thrask Emberth Ashen Conduit Pyrofiend manifesting molten charcoal skin.' },
- martyr: { url: '/assets/images/classes/martyr_illustration.png', caption: 'A Korr Emberth Dawn Vigil Flagellant Martyr absorbing pain through obsidian scars.' },
- toxicologist: { url: '/assets/images/classes/toxicologist_illustration.png', caption: 'A Mistwoven Mimir Distillery Alchemist Toxicologist in a tattered bark cloak.' },
- plaguebringer: { url: '/assets/images/classes/plaguebringer_illustration.png', caption: 'A Drun Neth Peat-Waste Herbalist Plaguebringer hosting the Ghost-Mycelium rot.' },
- minstrel: { url: '/assets/images/classes/minstrel_illustration.png', caption: 'A River-fed Myrathil Tide-Choir Singer Minstrel playing a delicate lute.' },
+ pyrofiend: [
+  { url: '/assets/images/classes/pyrofiend_illustration.png', caption: 'A Thrask Emberth Ashen Conduit Pyrofiend manifesting molten charcoal skin.' },
+  { url: '/assets/images/classes/pyrofiend_illustration_2.png', caption: 'A Korr Emberth Pyrofiend holding a sphere of molten flame wreathed in ash.' }
+ ],
+ martyr: [
+  { url: '/assets/images/classes/martyr_illustration.png', caption: 'A Korr Emberth Dawn Vigil Flagellant Martyr absorbing pain through obsidian scars.' },
+  { url: '/assets/images/classes/martyr_illustration_2.png', caption: 'A Solvarn Human Martyr wreathed in iron chains holding a Solbrand stone amulet.' }
+ ],
+ toxicologist: [
+  { url: '/assets/images/classes/toxicologist_illustration.png', caption: 'A Mistwoven Mimir Distillery Alchemist Toxicologist in a tattered bark cloak.' },
+  { url: '/assets/images/classes/toxicologist_illustration_2.png', caption: 'A Clean Vreken Toxicologist with glowing lantern-eyes holding a bubbling vial of green acid.' }
+ ],
+ plaguebringer: [
+  { url: '/assets/images/classes/plaguebringer_illustration.png', caption: 'A Drun Neth Peat-Waste Herbalist Plaguebringer hosting the Ghost-Mycelium rot.' },
+  { url: '/assets/images/classes/plaguebringer_illustration_2.png', caption: 'A Marked Vreken Plaguebringer with glowing lantern-eyes holding a smoking plague-flask.' }
+ ],
+ minstrel: [
+  { url: '/assets/images/classes/minstrel_illustration.png', caption: 'A River-fed Myrathil Tide-Choir Singer Minstrel playing a delicate lute.' },
+  { url: '/assets/images/classes/minstrel_illustration_2.png', caption: 'A Skald Human Minstrel singing a tale and playing a rustic lute.' }
+ ],
  inquisitor: [
   { url: '/assets/images/classes/inquisitor_illustration.png', caption: 'A Solvarn Human Barbed-Vow Inquisitor wreathed in cold iron chains.' },
   { url: '/assets/images/classes/inquisitor_illustration_2.png', caption: 'A Clean Vreken Inquisitor wreathed in chains holding an iron executioner\'s gavel.' }
@@ -770,7 +785,10 @@ const classFallbacks = {
   { url: '/assets/images/classes/apex_illustration.png', caption: 'A Smoothskinned Briaran Silent Hunter Apex drawing a recurve bow.' },
   { url: '/assets/images/classes/apex_illustration_2.png', caption: 'An Unshorn Briaran Apex with wild thorns growing along their arms drawing a living bow.' }
  ],
- warden: { url: '/assets/images/classes/warden_illustration.png', caption: 'An Ithran Groven Penitent Jailer Warden with rusted iron chains.' },
+ warden: [
+  { url: '/assets/images/classes/warden_illustration.png', caption: 'An Ithran Groven Penitent Jailer Warden with rusted iron chains.' },
+  { url: '/assets/images/classes/warden_illustration_2.png', caption: 'A Thrask Emberth Warden wrapped in rusted iron chains dragging a spiked shackle.' }
+ ],
  gambit: [
   { url: '/assets/images/classes/gambit_illustration.png', caption: 'A Muren Astril Luck-Ledger Auditor Gambit flipping a glowing coin.' },
   { url: '/assets/images/classes/gambit_illustration_2.png', caption: 'A Merryn Human Gambit flipping a golden coin and tracing probability lines.' }
@@ -779,8 +797,14 @@ const classFallbacks = {
   { url: '/assets/images/classes/chronarch_illustration.png', caption: 'A Sylen Astril Starlight Astrologer Chronarch utilizing time-sand.' },
   { url: '/assets/images/classes/chronarch_illustration_2.png', caption: 'A Mistwoven Mimir Chronarch with storm-glass mask and clockwork device.' }
  ],
- spellguard: { url: '/assets/images/classes/spellguard_illustration.png', caption: 'A Kethrin Fexric Shield-Master Spellguard carrying a glowing tower shield.' },
- augur: { url: '/assets/images/classes/augur_illustration.png', caption: 'A Deep Myrathil Nebula Seer Augur tracing stargate alignments.' },
+ spellguard: [
+  { url: '/assets/images/classes/spellguard_illustration.png', caption: 'A Kethrin Fexric Shield-Master Spellguard carrying a glowing tower shield.' },
+  { url: '/assets/images/classes/spellguard_illustration_2.png', caption: 'A Muren Astril Spellguard with four glowing eyes carrying a rune-inscribed brass shield.' }
+ ],
+ augur: [
+  { url: '/assets/images/classes/augur_illustration.png', caption: 'A Deep Myrathil Nebula Seer Augur tracing stargate alignments.' },
+  { url: '/assets/images/classes/augur_illustration_2.png', caption: 'A Sylen Astril Augur with stardust skin holding a crystal ball displaying nebulae.' }
+ ],
  harbinger: [
   { url: '/assets/images/classes/harbinger_illustration.png', caption: 'An Unwoven Mimir Sump Archivist Harbinger channeling entropic friction.' },
   { url: '/assets/images/classes/harbinger_illustration_2.png', caption: 'A Drun Neth Harbinger holding a clockwork device of entropic friction.' }
@@ -1435,45 +1459,45 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
     {classData.livingOrder && (() => {
      const lo = classData.livingOrder;
      return (
-      <div className="chronicle-card full-width-card" style={{ marginTop: '20px' }}>
-       <div className="chronicle-card-header bronze-header">
-        <i className="fas fa-flag"></i> THE LIVING ORDER{lo.orderName ? `: ${lo.orderName}` : ''}
+       <div className="chronicle-card full-width-card living-order-card" style={{ marginTop: '20px', borderTop: `3px solid ${regionInfo.borderColor}` }}>
+        <div className="chronicle-card-header" style={{ color: regionInfo.accentColor, borderBottomColor: regionInfo.borderColor }}>
+         <i className="fas fa-flag" style={{ color: regionInfo.accentColor }}></i> THE LIVING ORDER{lo.orderName ? `: ${lo.orderName}` : ''}
+        </div>
+        <div className="living-order-list">
+         {lo.founder && (
+          <div className="living-order-entry">
+           <span className="lo-icon"><i className="fas fa-monument"></i></span>
+           <div className="lo-content">
+            <h5 style={{ color: regionInfo.accentColor }}>Founder: {parseTextWithLoreLinks(lo.founder.name)}</h5>
+            {lo.founder.status && <p>{parseTextWithLoreLinks(lo.founder.status)}</p>}
+            {lo.founder.note && <p style={{ fontStyle: 'italic' }}>{parseTextWithLoreLinks(lo.founder.note)}</p>}
+           </div>
+          </div>
+         )}
+         {lo.currentLeader && (
+          <div className="living-order-entry">
+           <span className="lo-icon"><i className="fas fa-crown"></i></span>
+           <div className="lo-content">
+            <h5 style={{ color: regionInfo.accentColor }}>Current Leader: {parseTextWithLoreLinks(lo.currentLeader.name)}{lo.currentLeader.title ? `, ${lo.currentLeader.title}` : ''}</h5>
+            {lo.currentLeader.characterization && <p>{parseTextWithLoreLinks(lo.currentLeader.characterization)}</p>}
+           </div>
+          </div>
+         )}
+         {lo.headquarters && (
+          <div className="living-order-entry">
+           <span className="lo-icon"><i className="fas fa-fort-awesome"></i></span>
+           <div className="lo-content">
+            <h5 style={{ color: regionInfo.accentColor }}>Headquarters: {lo.headquarters.name}</h5>
+           </div>
+          </div>
+         )}
+         {lo.crisisConnection && (
+          <div className="tradition-call-to-action" style={{ borderLeft: `3px solid ${regionInfo.borderColor}`, marginTop: '8px' }}>
+           <p>{parseTextWithLoreLinks(lo.crisisConnection)}</p>
+          </div>
+         )}
+        </div>
        </div>
-       <div className="notable-practitioners-list">
-        {lo.founder && (
-         <div className="practitioner-card" style={{ borderLeft: `4px solid ${regionInfo.borderColor}` }}>
-          <div className="practitioner-avatar" style={{ backgroundColor: regionInfo.accentColor }}><i className="fas fa-monument"></i></div>
-          <div className="practitioner-content">
-           <h5 style={{ color: regionInfo.accentColor }}>Founder: {parseTextWithLoreLinks(lo.founder.name)}</h5>
-           {lo.founder.status && <p>{parseTextWithLoreLinks(lo.founder.status)}</p>}
-           {lo.founder.note && <p style={{ fontStyle: 'italic' }}>{parseTextWithLoreLinks(lo.founder.note)}</p>}
-          </div>
-         </div>
-        )}
-        {lo.currentLeader && (
-         <div className="practitioner-card" style={{ borderLeft: `4px solid ${regionInfo.accentColor}` }}>
-          <div className="practitioner-avatar" style={{ backgroundColor: regionInfo.accentColor }}><i className="fas fa-crown"></i></div>
-          <div className="practitioner-content">
-           <h5 style={{ color: regionInfo.accentColor }}>Current Leader: {parseTextWithLoreLinks(lo.currentLeader.name)}{lo.currentLeader.title ? `, ${lo.currentLeader.title}` : ''}</h5>
-           {lo.currentLeader.characterization && <p>{parseTextWithLoreLinks(lo.currentLeader.characterization)}</p>}
-          </div>
-         </div>
-        )}
-        {lo.headquarters && (
-         <div className="practitioner-card" style={{ borderLeft: `4px solid ${regionInfo.borderColor}` }}>
-          <div className="practitioner-avatar" style={{ backgroundColor: regionInfo.accentColor }}><i className="fas fa-fort-awesome"></i></div>
-          <div className="practitioner-content">
-           <h5 style={{ color: regionInfo.accentColor }}>Headquarters: {lo.headquarters.name}</h5>
-          </div>
-         </div>
-        )}
-        {lo.crisisConnection && (
-         <div className="tradition-call-to-action" style={{ borderLeft: `3px solid ${regionInfo.borderColor}`, marginTop: '8px' }}>
-          <p>{parseTextWithLoreLinks(lo.crisisConnection)}</p>
-         </div>
-        )}
-       </div>
-      </div>
      );
     })()}
    </div>

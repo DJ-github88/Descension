@@ -84,7 +84,7 @@ The most significant event in recent Myrathil history was the Inland Expedition,
       {
         name: 'Saelith of the First Tide',
         title: 'The Voice That Crossed',
-        portraitIcon: 'Armor/Head/head-split-dual-face-helmet',
+        portraitIcon: 'Pirates/Icon3',
         backstory: `
 Saelith was the first Breakers-Born to walk into a human port and refuse to perform. When the poets wanted to write about her eyes, she asked them what they paid their last human subject. When a noble offered her rooms in his manor, she asked if the offer came with a collar. She was not angry, Myrathil are rarely angry, but she was direct in a way that land-folk found profoundly uncomfortable.
 
@@ -96,7 +96,7 @@ Saelith died old, nearly two hundred, floating in the tide pool where she was sp
       {
         name: 'Ulvir the Listen-Long',
         title: 'The One Who Heard Too Much',
-        portraitIcon: 'Armor/Head/head-orange-cross-faceplate-helmet',
+        portraitIcon: 'Pirates/Icon7',
         backstory: `
 Ulvir was Deep-Born, spawned in open ocean during a moonless gale and not found by other Myrathil for nearly a month. He arrived on a floating village-raft already half-grown, speaking only in the low-frequency hum that Deep-Born use underwater. It took him a year to learn spoken language. His first words were: "The bottom is speaking."
 
@@ -108,7 +108,7 @@ His teachings are controversial. Breakers-Born find them unsettling. River-Fed d
       {
         name: 'Venn the Salt-Walker',
         title: 'The One Who Found the Inland Sea',
-        portraitIcon: 'Armor/Head/head-split-orange-faceplate-helmet',
+        portraitIcon: 'Pirates/Icon11',
         backstory: `
 Venn was River-Fed, spawned in a brackish delta where three rivers met the sea. From childhood she was drawn inland, not toward the sea like most Myrathil, but upstream, following the taste of freshwater thinning into something else. At sixteen she left her delta camp and walked upriver alone. She was gone for three years.
 
@@ -218,7 +218,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
           {
             id: 'amphibious_breaker',
             name: 'Born of Spindrift',
-            description: 'The sea mother gave you lungs for air and gill-veins for water. You breathe both. But you are not equally at home, only submersion in salt water brings true rest. On land you sleep lightly, half-consciously, always listening for the tide.',
+            description: 'You gain Water Breathing and a +30 ft swim speed. True rest requires 4+ hours of submersion in salt water; sleeping on land yields only half normal HP recovery. The sea mother gave you lungs for air and gill-veins for water, but only the tide\'s weight lets you truly sleep.',
             level: 1,
             icon: 'spell_nature_water',
             spellType: 'PASSIVE',
@@ -292,7 +292,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
           {
             id: 'wake_drawn_breaker',
             name: 'Wake-Drawn',
-            description: 'Something small follows every Myrathil. Shore-crabs scuttle in your footsteps an hour after you pass. Tide-pools you linger near develop new shell species overnight. Clams unbury themselves and orient toward you on a still beach. Small fish school around your ankles when you wade and stay there for hours after you leave, confused. You are not summoning anything. The sea mother\'s children just trail a little ocean with them wherever they go.',
+            description: 'You have Advantage on Animal Handling checks with coastal and marine creatures, and small shore animals (crabs, fish, clams, seabirds) are non-hostile by default. The sea trails after you — shore-crabs scuttle in your wake, and tide-pools you linger near seem to rearrange themselves in your honor.',
             level: 1,
             icon: 'ability_rogue_findweakness',
             spellType: 'PASSIVE',
@@ -337,7 +337,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
           {
             id: 'storm_blood_breaker',
             name: 'Storm-Blooded',
-            description: 'Your vein-colors shift with atmospheric pressure. You feel a storm building in your blood three days before it breaks, a restlessness, a color-surge, a hunger to be at the waterline when the gale hits. Storms do not frighten you. Storms wake you up. The spawning weather that made you left a permanent sensitivity to the sky.',
+            description: 'During storm conditions (rain, gale, thunder, heavy sea) you gain +2 Initiative. You always know the direction of the nearest major body of water and can sense incoming storms up to 72 hours ahead — their direction, intensity, and arrival time. Your vein-colors surge and your blood wakes at the sky\'s first pressure-change; the spawning weather that made you left a permanent sensitivity to the storm.',
             level: 1,
             icon: 'spell_nature_storm',
             spellType: 'PASSIVE',
@@ -397,7 +397,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
           {
             id: 'tide_tongue_breaker',
             name: 'Tide-Tongue',
-            description: 'The Breakers-Born learn land-languages young and master the art of reading people the way they read tides. You feel the emotional currents in a room, the pull of anger, the retreat of fear, the riptide of deception. Your own emotions are visible in your vein-colors, so you learned honesty early. You cannot lie well. But you learned that the truth, delivered gently, is a currency most people have forgotten how to spend.',
+            description: 'You gain +1 to Insight and Persuasion checks, but suffer Disadvantage on Deception — your vein-colors betray strong emotion and dishonesty to any Myrathil. You feel the emotional currents in a room like weather patterns, and you learned early that the truth, delivered gently, is a currency most have forgotten how to spend.',
             level: 1,
             icon: 'spell_holy_divinefavor',
             spellType: 'PASSIVE',
@@ -460,7 +460,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
           {
             id: 'spindrift_diplomacy',
             name: 'Spindrift Diplomacy',
-            description: 'Breakers-Born mediate between sea and land, between ship-captains and shore-towns, between tide-dwellers and port-masters. This is your inheritance: reading a room the way you read a tide chart, feeling emotional currents beneath every negotiation. You have advantage on Persuasion checks during trade negotiations or diplomatic mediations. But the middle is a lonely place, when you fail to mediate a conflict between two parties sharing your loyalty, you suffer 1 wyrd damage.',
+            description: 'Advantage on Persuasion checks during trade negotiations or diplomatic mediations; failing to mediate a conflict between two parties who share your loyalty deals you 1 wyrd damage. Breakers-Born carry the middle between sea and land, reading a room the way you read a tide chart — but the middle is a lonely place, and the sea mother does not judge those who try to hold it.',
             level: 1,
             icon: 'spell_holy_divinefavor',
             spellType: 'PASSIVE',
@@ -509,7 +509,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
           {
             id: 'amphibious_deep',
             name: 'Born of Spindrift',
-            description: 'The sea mother gave you lungs for air and gill-veins for water. You breathe both. But you are not equally at home, only submersion in salt water brings true rest. On land you sleep lightly, half-consciously, always listening for the tide.',
+            description: 'You gain Water Breathing and a +30 ft swim speed. True rest requires 4+ hours of submersion in salt water; sleeping on land yields only half normal HP recovery. The sea mother gave you lungs for air and gill-veins for water, but you are not equally at home on land — only the weight of the deep lets you truly sleep.',
             level: 1,
             icon: 'spell_nature_water',
             spellType: 'PASSIVE',
@@ -583,7 +583,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
           {
             id: 'wake_drawn_deep',
             name: 'Wake-Drawn',
-            description: 'Something small follows every Myrathil. Shore-crabs scuttle in your footsteps an hour after you pass. Tide-pools you linger near develop new shell species overnight. Clams unbury themselves and orient toward you on a still beach. Small fish school around your ankles when you wade and stay there for hours after you leave, confused. You are not summoning anything. The sea mother\'s children just trail a little ocean with them wherever they go.',
+            description: 'You have Advantage on Animal Handling checks with coastal and marine creatures, and small shore animals (crabs, fish, clams, seabirds) are non-hostile by default. The sea trails after you — shore-crabs scuttle in your wake, and tide-pools you linger near seem to rearrange themselves in your honor.',
             level: 1,
             icon: 'ability_rogue_findweakness',
             spellType: 'PASSIVE',
@@ -628,7 +628,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
           {
             id: 'abyssal_adaptation_deep',
             name: 'Abyssal Adaptation',
-            description: 'You were born in open ocean, and the deep left its mark. Your lungs compress without pain under pressure, your eyes adjust to absolute darkness, and the cold currents that would kill a surface-swimmer barely register to your skin. But the surface exacts a price, your body was never built for dry air and bright sun, and it reminds you with every hour you spend away from the weight of water.',
+            description: 'While submerged you gain Darkvision 60 ft, 25% Cold Resistance, and can hold your breath for 30 minutes. Every 12 hours continuously on land without submersion costs -1 to all ability checks (cumulative, max -3), resetting the moment you submerge in salt water. The deep left its mark on your body — lungs that compress without pain, eyes built for absolute dark, skin that barely feels the cold that kills surface-swimmers.',
             level: 1,
             icon: 'spell_nature_water',
             spellType: 'PASSIVE',
@@ -768,7 +768,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
           {
             id: 'sea_mothers_hum',
             name: "Sea Mother's Hum",
-            description: 'Deep-Born are the Listeners, the Myrathil who hum into the Treakous Rift and record what answers. You carry the sea mother\'s frequency in your bones, a low vibration that aligns you with the deep currents and the creatures who navigate them. Once per long rest, you may enter a trance for 1 minute of uninterrupted humming, during which you sense the emotional state and approximate location of all creatures within 100 feet who are touching the same body of water as you. On land, you feel uneasy, you must succeed a DC 10 Spirit save to benefit from a long rest without at least one hour of salt-water submersion.',
+            description: 'Once per long rest you may enter a 1-minute uninterrupted humming trance to sense the emotional state and approximate location of all creatures within 100 ft touching the same body of water. On land, you must succeed a DC 10 Spirit save to benefit from a long rest without at least 1 hour of salt-water submersion. You carry the sea mother\'s frequency in your bones, a low vibration aligning you with the deep currents and the creatures who navigate them.',
             level: 1,
             icon: 'spell_nature_water',
             spellType: 'PASSIVE',
@@ -817,7 +817,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
           {
             id: 'amphibious_river',
             name: 'Born of Spindrift',
-            description: 'The sea mother gave you lungs for air and gill-veins for water. You breathe both. But you are not equally at home, only submersion brings true rest. Unlike your sea-bound kin, your brackish spawning means you can rest in fresh water as easily as salt. The rivers welcome you where the sea cannot reach.',
+            description: 'You gain Water Breathing, a +30 ft swim speed, and can achieve full rest through submersion in fresh OR salt water. True rest otherwise requires 4+ hours of submersion; sleeping on land yields only half normal HP recovery. Your brackish spawning means the rivers welcome you where the sea cannot reach, and you breathe both air and water.',
             level: 1,
             icon: 'spell_nature_water',
             spellType: 'PASSIVE',
@@ -900,7 +900,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
           {
             id: 'wake_drawn_river',
             name: 'Wake-Drawn',
-            description: 'Something small follows every Myrathil. Shore-crabs scuttle in your footsteps an hour after you pass. Tide-pools you linger near develop new shell species overnight. Clams unbury themselves and orient toward you on a still beach. Small fish school around your ankles when you wade and stay there for hours after you leave, confused. You are not summoning anything. The sea mother\'s children just trail a little ocean with them wherever they go.',
+            description: 'You have Advantage on Animal Handling checks with coastal and marine creatures, and small shore animals (crabs, fish, clams, seabirds) are non-hostile by default. The sea trails after you — shore-crabs scuttle in your wake, and tide-pools you linger near seem to rearrange themselves in your honor.',
             level: 1,
             icon: 'ability_rogue_findweakness',
             spellType: 'PASSIVE',
@@ -945,7 +945,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
           {
             id: 'brackish_heritage_river',
             name: 'Brackish Heritage',
-            description: 'You were spawned where two waters meet, and your body remembers the blend. Freshwater does not irritate your gills. River-mud does not clog your webbing. You can drink from inland streams without the salt-sickness that plagues your sea-bound kin. But the further you travel from any water at all, from any river, any lake, any coast, the thinner your connection to the sea mother becomes. The compass in your blood starts spinning.',
+            description: 'You are immune to freshwater-exposure effects that afflict other Myrathil and gain 25% Poison Resistance; you also gain +5 ft movement speed when traveling along rivers or streams. When more than 50 miles from any natural water source (river, lake, or coast), you lose 1 Spirit. Spawned where two waters meet, your body remembers the blend — but the further you travel from any water, the fainter the sea mother\'s voice becomes in your chest.',
             level: 1,
             icon: 'spell_nature_water',
             spellType: 'PASSIVE',
@@ -1082,7 +1082,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
           {
             id: 'fresh_water_memory',
             name: 'Fresh-Water Memory',
-            description: 'River-Fed carry the maps no one else draws. Every river you have ever swum, every estuary you have charted, every spawning site you have documented, they live in your blood as currents, not memories, a flowing cartography that surfaces when you need it most. You have advantage on Intelligence (History) or Survival checks to recall geographical features of any freshwater system you have personally traveled. Once per long rest, you may perfectly retrace any river route you have swum within the last week, even if blinded or disoriented, the current remembers you, and you remember the current. But rivers move, and what was mapped yesterday shifts tomorrow: you suffer disadvantage on Knowledge checks relating to land-based geography, because the land-folk\'s maps make no sense to someone who navigates by flow.',
+            description: 'Advantage on Intelligence (History) or Survival checks to recall geographical features of any freshwater system you have personally traveled, and once per long rest you may perfectly retrace any river route you swam within the last week (even if blinded or disoriented); you suffer Disadvantage on Knowledge checks for land-based geography. River-Fed carry maps no one else draws — every river lived in your blood as currents, not memories, a flowing cartography that surfaces when you need it most, though the land-folk\'s maps still make no sense to someone who navigates by flow.',
             level: 1,
             icon: 'spell_nature_water',
             spellType: 'PASSIVE',

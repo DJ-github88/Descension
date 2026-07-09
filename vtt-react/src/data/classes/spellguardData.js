@@ -127,8 +127,8 @@ export const SPELLGUARD_DATA = {
  damageTypes: ["arcane", "storm", "blight"],
 
  spellPools: {
-  1: ["sg_void_siphon", "sg_entropic_aegis", "sg_refract_kinetic", "sg_leyline_rift", "spellguard_arcane_radiation", "spellguard_kinetic_fragility", "spellguard_aegis_beacon"],
-  2: ["sg_agonizing_intercept", "sg_shattered_mirror_ward", "sg_warding_ribcage"],
+  1: ["sg_void_siphon", "sg_entropic_aegis", "sg_refract_kinetic", "sg_leyline_rift", "spellguard_arcane_radiation", "spellguard_kinetic_fragility", "spellguard_aegis_beacon", "spellguard_ley_reading", "spellguard_aegis_ward", "spellguard_glow_lantern"],
+  2: ["sg_agonizing_intercept", "sg_shattered_mirror_ward", "sg_warding_ribcage", "spellguard_resonance_discharge", "spellguard_disenchant"],
   3: ["sg_void_suppression", "sg_entropic_supernova", "sg_tomb_of_the_aegis"],
   4: ["sg_violent_purge", "sg_leyline_blackout"],
   5: ["sg_cosmic_unraveling"]
@@ -175,7 +175,7 @@ Stand as the shield. You are the iron wall against the arcane, and the backdraft
 **Core Loop**: Intercept magical damage → Absorb it into the flesh as volatile Void Resonance → Suffer Arcane Radiation → Violently purge the radiation through devastating explosions and reflections.`,
   },
 
-  description: `A tragic, heavily-armored sponge for magical catastrophe. The Spellguard absorbs spells meant for their allies, converting the hostile magic into a highly unstable internal resource called Void Resonance, before vomiting it back as raw force.`,
+  description: `A tragic, heavily-armored sponge for magical catastrophe. The Spellguard absorbs spells meant for their allies, converting the hostile magic into a highly unstable internal resource called Void Resonance, before expelling it back as raw force.`,
 
   roleplayIdentity: {
    title: "Roleplay Identity",
@@ -220,9 +220,27 @@ Spellguards are reporting that their Void Resonance is filling faster than they 
     status: 'Active, operating at maximum capacity'
    }
   ],
+  combatRole: {
+   title: "Combat Role",
+   content: `**Primary Role**: The ultimate magical sponge and reflector — the only class that intercepts lethal spells meant for allies, drinks the raw energy into its own flesh, and detonates it back at the caster.
+
+**Strengths**:
+- Exclusive magical interception: physically absorb spells aimed at allies and store the energy as Void Resonance
+- Reflect/repurpose: vent stored resonance as devastating return-fire or as barriers
+- Hard counter to enemy casters — the more magic thrown at the party, the more dangerous you become
+- Prismatic barriers and refraction can shelter allies from an arcane assault
+
+**Weaknesses**:
+- Kinetic Fragility: +50% bludgeoning and physical damage — a mundane axe, mace, or crossbow bolt is your hard counter; any martial flanker shreds you.
+- Arcane Radiation: holding unspent Void Resonance burns your max HP and deals blight every round you fail to purge it — vent or melt.
+- Purge or Pop: silenced, CC'd, or denied a target, the resonance builds to a spontaneous Radiation Burst that harms everyone nearby, allies included.
+- Anti-Mage, Not Anti-Steel: built to eat magic, not weapons — a fight with no casters leaves you a fragile liability.
+- Glowing (social): absorbed magic emits pale blue light through your skin — you cannot hide, sneak, or pass unnoticed; you are always visible, always identifiable, always the first target for a sniper.
+- Reliant on Allies: you need your party to handle mundane threats so you can handle the magical ones — isolated, you are a glowing, brittle mark.`
+  },
  },
 
- // Resource System
+  // Resource System
  resourceSystem: {
   title: "Void Resonance & Arcane Radiation",
   subtitle: "The Anatomy of a Meltdown",
@@ -259,7 +277,7 @@ Spellguards are reporting that their Void Resonance is filling faster than they 
    headers: ["Action", "Resonance Change", "The Toll"],
    rows: [
     ["Absorb Magical Damage", "+1 per damage", "Energy fills your lungs"],
-    ["Void Siphon (Melee)", "+15 Resonance", "Ripping magic from their blood"],
+     ["Void Siphon (Melee)", "+15 Resonance", "Siphoning magic from their veins"],
     ["Agonizing Intercept", "Absorb Ally's Damage", "Internal temperature spikes"],
     ["Violent Purge", "-All Resonance", "Radiation clears, flesh cools"],
    ],
@@ -356,7 +374,7 @@ Bastions focus entirely on intercepting damage meant for their allies, convertin
     color: "#4C1D95",
     theme: "Violent Refraction",
 
-    description: `**Do not hold the poison. Vomit it back.**
+    description: `**Do not hold the poison. Expel it back.**
     
 Erasers specialize in bouncing magic back before it can fully settle in their lungs. They focus on precise reflections, treating enemy casters like mirrors.`,
 
@@ -383,7 +401,7 @@ Erasers specialize in bouncing magic back before it can fully settle in their lu
     },
 
     keyAbilities: [
-     "Agonizing Refraction, Reflect a spell, but the physical strain causes your eyes to bleed.",
+     "Void Refraction, Reflect a spell, but the physical strain scorches your vision.",
      "Mirror's Edge, Shatter your void-armor to unleash a flurry of reflective shards.",
     ],
 
@@ -714,9 +732,9 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   // LEVEL 2 SPELLS
   // ========================================
   { id : "sg_agonizing_intercept",
-   name: "Agonizing Intercept",
+   name: "Void Intercept",
    description:
-    "When an ally within 15 feet is targeted by a spell, you instantly leap into its path, becoming the new target. The magical impact is fully absorbed into your body, generating Void Resonance equal to the damage it would have dealt. The horrific strain causes your eyes to bleed, blinding you until the end of your next turn.",
+    "When an ally within 15 feet is targeted by a spell, you instantly leap into its path, becoming the new target. The magical impact is fully absorbed into your body, generating Void Resonance equal to the damage it would have dealt. The intense radiation feedback scorches your vision, blinding you until the end of your next turn.",
    level: 2,
    spellType: "REACTION",
    icon: "Force/Force Field",
@@ -898,7 +916,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   { id : "sg_void_suppression",
    name: "Void Suppression",
    description:
-    "Instantly crush a spell in the target's throat by flooding their lungs with void ash. Force an Intelligence save. On fail, their spell is countered, and you absorb Resonance equal to the spell's level × 10.",
+     "Instantly choke a spell at its source by filling the target's lungs with void ash. Force an Intelligence save. On fail, their spell is countered, and you absorb Resonance equal to the spell's level × 10.",
    level: 3,
    spellType: "REACTION",
    icon: "Arcane/Magical Cross Emblem 2",
@@ -1154,7 +1172,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   { id : "sg_leyline_blackout",
    name: "Leyline Blackout",
    description:
-    "Absolute suppression of the dimensional leylines. Creates a 60-foot zone of oppressive gravity that suppresses all spells, magic items, and magical effects for 5 rounds. Casting this tears your vocal cords, silencing you for 1 minute.",
+     "Absolute suppression of the dimensional leylines. Creates a 60-foot zone of oppressive gravity that suppresses all spells, magic items, and magical effects for 5 rounds. Casting this strains your vocal cords, silencing you for 1 minute.",
    level: 7,
    spellType: "ACTION",
    icon: "Void/Black Hole",
@@ -1340,6 +1358,72 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
      "roleplay",
      "spellguard"
     ]
-   }
+   },
+   // ===== NON-COMBAT / ARCANE-ABSORBENT UTILITY (the magic sponge, out of combat) =====
+  {
+   id: "spellguard_ley_reading",
+   name: "Ley-Reading",
+   description: "Open your scarred senses and read the magic in a place or object. For the duration you perceive active spells, enchantments, lingering spell-residue, magical traps, leylines, and the school and rough strength of each — glowing like heat-shimmer only you can see. Out of combat.",
+   level: 1, spellType: "ACTION", icon: "Arcane/Spellcasting Aura",
+   typeConfig: { school: "arcane", icon: "Arcane/Spellcasting Aura", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","detection","investigation","spellguard"] },
+   targetingConfig: { targetingType: "self", rangeType: "self" },
+   resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 3 }, components: ["somatic"], somaticText: "Press scarred palms together and let the old burns listen" },
+   resolution: "NONE", effectTypes: ["utility"],
+   utilityConfig: { utilityType: "perception", selectedEffects: [ { "id": "ley_reading_sight", "name": "Arcane Sight", "description": "For 10 minutes see active spells, enchantments, magical traps, residue, and leylines within 60 ft, plus each effect's school and rough strength.", "mechanicsText": "See magic/enchantments/traps/leylines + school/strength, 10 min." } ], duration: 10, durationUnit: "minutes", power: "minor" },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+   tags: ["utility","detection","investigation","spellguard"]
+  },
+  {
+   id: "spellguard_aegis_ward",
+   name: "Aegis-Ward",
+   description: "Raise a tuned prismatic barrier over a doorway, threshold, object, or small area that drinks incoming spells the way you do — absorbing hostile magic and weak magical traps before they can pass. It does not stop steel or bodies, only spells, and it cracks once it has drunk its fill. Out of combat.",
+   level: 1, spellType: "ACTION", icon: "Arcane/Ebon Blaze",
+   typeConfig: { school: "arcane", icon: "Arcane/Ebon Blaze", castTime: 10, castTimeType: "MINUTES", tags: ["utility","ward","exploration","rest","spellguard"] },
+   targetingConfig: { targetingType: "area", rangeType: "touch", rangeDistance: 0, areaType: "circle", areaSize: 15 },
+   resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 6 }, components: ["verbal","somatic"], somaticText: "Lay a sheet of refraction across the threshold and hum it into tune" },
+   resolution: "NONE", effectTypes: ["utility"],
+   utilityConfig: { utilityType: "ward", selectedEffects: [ { "id": "aegis_ward_drink", "name": "Spell-Drinking Ward", "description": "A 15 ft barrier absorbs hostile spells and weak magical traps crossing it (disarming the trap) until it has drunk a set amount, then cracks. Does not bar physical objects or creatures.", "mechanicsText": "Barrier absorbs spells/disarms magic traps; not physical." } ], duration: 8, durationUnit: "hours", power: "moderate" },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+   tags: ["utility","ward","exploration","rest","spellguard"]
+  },
+  {
+   id: "spellguard_resonance_discharge",
+   name: "Resonance Discharge",
+   description: "Dump stored Void Resonance into a mechanism, magical lock, construct, or device — powering it, overloading it, forcing a jammed magical mechanism, or blasting open an arcane seal. Pure energetic fuel drawn straight from spells you have already eaten. Out of combat.",
+   level: 2, spellType: "ACTION", icon: "Arcane/Spiral Vortex",
+   typeConfig: { school: "arcane", icon: "Arcane/Spiral Vortex", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","exploration","investigation","spellguard"] },
+   targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
+   resourceCost: { actionPoints: 1, resourceTypes: [], resourceValues: {}, classResource: { type: "void_resonance", cost: 3 }, components: ["somatic"], somaticText: "Grip the mechanism and pour the eaten magic back out" },
+   resolution: "AUTOMATIC", effectTypes: ["utility"],
+   utilityConfig: { utilityType: "conjuration", selectedEffects: [ { "id": "resonance_discharge_fuel", "name": "Eaten Fuel", "description": "Power, overload, force, or blast one magical mechanism/lock/seal/construct using 3 stored Void Resonance. Spend resonance you already absorbed — no mana cost.", "mechanicsText": "Power/overload a magical mechanism; costs 3 stored resonance." } ], power: "moderate" },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+   tags: ["utility","exploration","investigation","spellguard"]
+  },
+  {
+   id: "spellguard_disenchant",
+   name: "Disenchant",
+   description: "Drain the magic out of an enchanted object into your own flesh — temporarily suppressing its enchantment (a magic trap goes inert, a ward drops, a cursed item sleeps, a glowing alarm dims) and feeding the spent power into you as Void Resonance. The magic returns when you stop feeding on it. Out of combat.",
+   level: 2, spellType: "ACTION", icon: "Arcane/Ebon Blaze",
+   typeConfig: { school: "arcane", icon: "Arcane/Ebon Blaze", castTime: 1, castTimeType: "MINUTES", tags: ["utility","investigation","exploration","spellguard"] },
+   targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
+   resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 8 }, components: ["somatic"], somaticText: "Clamp your scarred hand over the object and breathe its magic in" },
+   resolution: "AUTOMATIC", effectTypes: ["utility"],
+   utilityConfig: { utilityType: "protection", selectedEffects: [ { "id": "disenchant_drain", "name": "Magic Leeched", "description": "Suppress one object's enchantment for up to 10 minutes (magic trap inert, ward down, cursed item quiet, alarm dimmed); gain 1 Void Resonance from the drained magic. Magic returns when the suppression ends.", "mechanicsText": "Suppress one object's enchantment 10 min; gain 1 resonance." } ], duration: 10, durationUnit: "minutes", power: "major" },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+   tags: ["utility","investigation","exploration","spellguard"]
+  },
+  {
+   id: "spellguard_glow_lantern",
+   name: "Glow-Lantern",
+   description: "Let the magic in your veins surface as steady pale-blue light. Shape and brighten it to illuminate a 30 ft radius, or dampen it to a dim pulse (you can never go fully dark, but you can stop glowing like a beacon). The light is calm and carries a faint soothing quality against magically-induced dread. Out of combat.",
+   level: 1, spellType: "ACTION", icon: "Arcane/Spellcasting Aura",
+   typeConfig: { school: "arcane", icon: "Arcane/Spellcasting Aura", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","exploration","rest","spellguard"] },
+   targetingConfig: { targetingType: "self", rangeType: "self" },
+   resourceCost: { actionPoints: 0, resourceTypes: [], resourceValues: {}, components: ["somatic"], somaticText: "Will the trapped light up under the skin, or push it back down" },
+   resolution: "NONE", effectTypes: ["utility"],
+   utilityConfig: { utilityType: "environment", selectedEffects: [ { "id": "glow_lantern_shape", "name": "Shaped Glow", "description": "Brighten your innate glow to steady 30 ft light, or dampen it to a dim pulse (never fully dark). The light grants advantage vs magically-induced fear/dread to those within it.", "mechanicsText": "Brighten/dampen innate glow (30 ft light); advantage vs magic fear." } ], duration: 1, durationUnit: "hours", power: "minor" },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+   tags: ["utility","exploration","rest","spellguard"]
+  }
  ],
 };

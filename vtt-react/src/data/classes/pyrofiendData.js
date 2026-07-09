@@ -131,7 +131,7 @@ export const PYROFIEND_DATA = {
  subtitle: "Wyrd-fire Wielder",
  illustration: "/assets/images/classes/pyrofiend_illustration.png",
  illustrationCaption: "An Emberth Pyrofiend, a Damned Conduit manifesting molten charcoal skin and burning horror embers.",
- originStory: `Founded just after the Breach by seven Solvarn occultists who swallowed Wyrd-touched coals of Scathrach when the first rebirth window failed. The summoner does not command the flame; they submit their flesh to it. In the lightless badlands of Sundale, when the sun-spirit Sol was entombed, a cabal of Solvarn occultists gathered in an obsidian cavern beneath the Emberspire caldera. They did not pray for salvation; they drew a summoning circle in their own blood, using volcanic glass knives to carve the seven sigils of Scathrach, the Ashen Sovereign. They offered their marrow as kindling, inviting the Ninth Flame of the Burning Throne to nest in their bones.
+ originStory: `Founded just after the Breach by seven Solvarn occultists who swallowed Wyrd-touched coals of Scathrach when the first rebirth window failed. The summoner does not command the flame; they submit their flesh to it. In the lightless badlands of Sundale, when the sun-spirit Sol was entombed, a cabal of Solvarn occultists gathered in an obsidian cavern beneath the Emberspire caldera. They did not pray for salvation; they drew a summoning circle in their own blood, using volcanic glass knives to carve the seven sigils of Scathrach, the Ashen Sovereign. They offered their life-force as kindling, inviting the Ninth Flame of the Burning Throne to nest in their bones.
 
 When the ritual was completed, they swallowed Wyrd-touched coals of pure, burning sulfur. The Wyrd-touched embers did not destroy their flesh, but bound their capillaries in a permanent, glowing lattice of occult channels. Their blood became liquid fire, their bones seared black, and their eyes reflecting the lightless heat of the infernal mantle. They survived the freeze, but they emerged as the first Pyrofiends, living vessels for a parasitic horror-lord.
 
@@ -209,7 +209,16 @@ The Pyrofiends of Sundale are in chaos. Some believe Scathrach is preparing for 
 **Risk-Reward Tension**: Managing Inferno Levels creates agonizing tactical decisions every single turn
 **The Wyrd-touched Whisper Threat**: At Level 5+, the Pyrofiend may be forced to attack allies, the party must position carefully around them
 
-The cost is everything. The Pyrofiend's drawbacks at high Inferno Levels are catastrophic: self-damage, movement loss, suffocation, Wyrd-touched possession, and eventually the death clock. Their vulnerability to Rime damage is devastating, frost attacks deal +50% damage and force the Veil to ascend. A Pyrofiend who ascends too quickly dies by their own fire. A Pyrofiend who ascends too slowly insults the horror. There is no safe middle ground, only calculated sacrifice.`,
+The cost is everything. The Pyrofiend's drawbacks at high Inferno Levels are catastrophic: self-damage, movement loss, suffocation, Wyrd-touched possession, and eventually the death clock.
+
+**Weaknesses**:
+- Rime Bait: frost deals +50% damage AND forces your Veil to ascend — cold attackers literally accelerate your death spiral.
+- Death Clock at Veil 9: climb to the top and you have three turns to live, period. Over-ascend and you simply die by your own fire.
+- Wyrd-touched Friendly Fire: at Veil 5+ you may be forced to attack the nearest living thing — friend or foe; your party must position around you like a bomb.
+- No Healing at Veil 6+: Heresy blocks all outside healing — healers cannot save you once you climb past the line.
+- Squishy Furnace: light armor, and escalating self-damage/movement loss at high Veil — you hit the hardest and die the fastest.
+- Burn-Touch (social): you char anything organic you touch — books, cloth, skin, food. You cannot hold a tome, embrace a friend, or eat a normal meal; affection is measured in millimeters of clearance.`
+,
  },
 
  playstyle: {
@@ -586,7 +595,7 @@ You are the HIGHEST AoE DAMAGE CEILING in the game. You ascend through Inferno L
    level: 4,
    title: "The Cracking",
    appearance:
-   "Skin begins to split. Not wounds, eruptions. Thin fissures form along joints and ribs, revealing not tissue but a dim orange-red ember glow beneath, as though the body is a ceramic vessel filled with coals. Fingertips are permanently charred. Touching the Pyrofiend deals 1 ember damage. The smell of burning hair and rendered fat is constant and nauseating.",
+    "Skin begins to glow at every joint, revealing molten ember light beneath, as though the body is a vessel filled with coals. Fingertips are permanently charred. Touching the Pyrofiend deals 1 ember damage. The smell of burning hair is constant.",
   },
   {
    level: 5,
@@ -598,25 +607,25 @@ You are the HIGHEST AoE DAMAGE CEILING in the game. You ascend through Inferno L
    level: 6,
    title: "The Schism of Flesh",
    appearance:
-   "Skin splits at every joint, revealing magma beneath. Eyes are solid orange, no pupil, no iris, just burning light. Teeth have sharpened into points. The Pyrofiend can no longer be healed by others; Scathrach's corruption rejects mortal magic. Smoke curls from every orifice. The Pyrofiend speaks in two voices, their own and something ancient. Body temperature ignites dry wood on contact.",
+    "Skin glows at every joint, revealing molten ember light beneath. Eyes are solid orange, no pupil, no iris, just burning light. The Pyrofiend can no longer be healed by others; Scathrach's corruption rejects mortal magic. Smoke curls from every orifice. The Pyrofiend speaks in two voices, their own and something ancient. Body temperature ignites dry wood on contact.",
   },
   {
    level: 7,
    title: "The Smoldering Atrocity",
    appearance:
-   "Horns curl backward like a crown of charred bone. Smoke pours continuously from mouth, ears, and wounds. Movement leaves burning footprints that persist for 1 round. The Pyrofiend is barely recognizable as having once been mortal, they are now a shambling furnace, a vessel of hate and fire. Flammable objects within 5 feet ignite spontaneously. Allies give them a wide berth. Children weep.",
+    "Horns curl backward like a crown of charred bone. Smoke pours continuously from mouth and ears. Movement leaves burning footprints that persist for 1 round. The Pyrofiend is barely recognizable as having once been mortal, they are now a shambling furnace, a vessel of hate and fire. Flammable objects within 5 feet ignite spontaneously. Allies give them a wide berth.",
   },
   {
    level: 8,
    title: "The Unraveling",
    appearance:
-   "The body distorts. Legs char and crack with every step. Arms trail flame like tattered banners. The face is a mask of splitting flesh over white-hot bone, still recognizably humanoid, but only just. Movement is agonizing, every step costs hit points. Scathrach's voice is now dominant; the original personality screams from behind eyes of solid fire. They leave a trail of ash and embers. They smell like a crematorium.",
+    "The body distorts. Legs smolder with every step. Arms trail flame like tattered banners. The face is a mask of glowing fissures over seared bone, still recognizably humanoid, but only just. Movement is agonizing, every step costs hit points. Scathrach's voice is now dominant; the original personality screams from behind eyes of solid fire. They leave a trail of ash and embers.",
   },
   {
    level: 9,
    title: "The Death Threshold, Scathrach Made Manifest",
    appearance:
-   "BARELY HUMAN. The Pyrofiend is a charring, screaming vessel of living fire held together by will and Wyrd-touched spite. Flesh sloughs off in burning sheets, revealing bone that glows white-hot. Scathrach's voice IS the only voice now, the original personality is a passenger, a spectator in their own execution. The death clock begins: 3 of your turns before Scathrach claims you entirely. Your soul becomes fuel. You become the fire. There is no coming back from this except through desperate, immediate descent. If you fail, if the clock runs out, your body detonates in a 30-foot radius of 10d6 ember damage and your soul is dragged into Scathrach's furnace forever. Standard resurrection fails. You are ash. You are kindling. You are finished.",
+    "BARELY HUMAN. The Pyrofiend is a burning, screaming vessel of living fire held together by will and Wyrd-touched spite. Flesh burns away in sheets, revealing bone that glows white-hot. Scathrach's voice IS the only voice now, the original personality is a passenger, a spectator in their own execution. The death clock begins: 3 of your turns before Scathrach claims you entirely. Your soul becomes fuel. You become the fire. There is no coming back from this except through desperate, immediate descent. If you fail, if the clock runs out, your body detonates in a 30-foot radius of 10d6 ember damage and your soul is dragged into Scathrach's furnace forever. Standard resurrection fails. You are ash. You are finished.",
   },
   ],
  },
@@ -824,18 +833,23 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
   "pyro_flicker",
   "pyro_cooling_ember",
   "pyro_heat_shield",
+  "pyro_living_hearth",
+  "pyro_smelters_touch",
  ],
  2: [
   // Level 2 spells
   "pyro_scorching_grasp",
   "pyro_flame_lash",
   "pyro_cinder_bolt",
+  "pyro_ash_reading",
+  "pyro_cauterize",
  ],
  3: [
   // Level 3 spells
   "pyro_fireball",
   "pyro_burning_hands",
   "pyro_flame_step",
+  "pyro_cinder_veil",
  ],
  4: [
   // Level 4 spells
@@ -3180,5 +3194,66 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
   resolution: "AUTOMATIC",
   tags: ["passive", "pyrofiend", "weakness"],
  },
+  // ===== NON-COMBAT / FIRE & ASH UTILITY (the living furnace, out of combat) =====
+  { id: "pyro_living_hearth",
+    name: "Living Hearth",
+    description: "Bank your inner fire to a gentle, even glow. For the duration you radiate safe warmth and soft ember-light: stave off cold exposure and frostbite for yourself and nearby allies, ignite a campfire or torch from your palm, and light a 30 ft radius. Costs 1 HP per hour held. Out of combat.",
+    level: 1, spellType: "ACTION", icon: "Fire/Ember Shield",
+    typeConfig: { school: "ember", icon: "Fire/Ember Shield", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","exploration","rest","pyrofiend"] },
+    targetingConfig: { targetingType: "area", rangeType: "self_centered", areaType: "circle", areaSize: 30 },
+    resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 3 }, components: ["somatic"], somaticText: "Cup the ember in your palms and breathe it down to a glow" },
+    resolution: "NONE", effectTypes: ["utility","buff"],
+    utilityConfig: { utilityType: "environment", selectedEffects: [ { "id": "living_hearth_warmth", "name": "Banked Fire", "description": "For 1 hour: emit safe warmth + ember-light in 30 ft; allies ignore mundane cold exposure/frostbite; kindle fires. Costs 1 HP/hour.", "mechanicsText": "Warmth + light 30 ft; ignore cold exposure; 1 HP/hour." } ], duration: 1, durationUnit: "hours", power: "minor" },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+    tags: ["utility","exploration","rest","pyrofiend"]
+  },
+  { id: "pyro_smelters_touch",
+    name: "Smelter's Touch",
+    description: "Focus your heat to a precise, surgical point. Smelt, weld, solder, or cut metal — seal a crack, fuse two pieces, repair a mechanism, or slice through a bar. Far finer than brute force; the Pyrofiend as glassblower and smith. You take 1d4 self-damage from the back-heat. Out of combat.",
+    level: 1, spellType: "ACTION", icon: "Fire/Volcanic Corruption",
+    typeConfig: { school: "ember", icon: "Fire/Volcanic Corruption", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","exploration","infiltration","pyrofiend"] },
+    targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
+    resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 5 }, components: ["somatic"], somaticText: "Pinch the heat to a needle-fine point at your fingertips" },
+    resolution: "AUTOMATIC", effectTypes: ["utility"],
+    utilityConfig: { utilityType: "conjuration", selectedEffects: [ { "id": "smelters_touch_work", "name": "Surgical Heat", "description": "Smelt/weld/solder/cut one metal object: repair a mechanism, seal a crack, fuse metals, or slice a bar. Precise, not destructive. Take 1d4 self-damage from back-heat. Enchanted metal resists.", "mechanicsText": "Precisely weld/cut/repair one metal object; 1d4 self-damage." } ], power: "moderate" },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+    tags: ["utility","exploration","infiltration","pyrofiend"]
+  },
+  { id: "pyro_ash_reading",
+    name: "Ash-Reading",
+    description: "Burn an object or substance to ash and read the Sovereign's memory in what remains — what the thing was, how it was destroyed, who last held it, or the answer to a single question Scathrach deigns to whisper from the smoke. The Ashen Sovereign is honest, never kind, and the smoke-voice costs you 1d4 sanity (wyrd self-damage). Out of combat.",
+    level: 2, spellType: "ACTION", icon: "Fire/Volcanic Corruption",
+    typeConfig: { school: "ember", icon: "Fire/Volcanic Corruption", castTime: 1, castTimeType: "MINUTES", tags: ["utility","divination","investigation","pyrofiend"] },
+    targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
+    resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 7 }, components: ["verbal","somatic"], somaticText: "Crumble the object to ash and inhale the question off the smoke" },
+    resolution: "NONE", effectTypes: ["utility"],
+    utilityConfig: { utilityType: "divination", selectedEffects: [ { "id": "ash_reading_memory", "name": "Sovereign's Memory", "description": "From the ash of a burned object: learn what it was, how it was destroyed, who last held it — OR ask Scathrach one question answered in the smoke (truthful, unkind, partial). Costs 1d4 wyrd self-damage (sanity).", "mechanicsText": "Read an object's end-memory or ask Scathrach 1 question; 1d4 wyrd." } ], power: "moderate" },
+    cooldownConfig: { cooldownType: "short_rest", cooldownValue: 1 },
+    tags: ["utility","divination","investigation","pyrofiend"]
+  },
+  { id: "pyro_cauterize",
+    name: "Cauterize",
+    description: "Grip a wound and burn it shut. Stop active bleeding, sear closed a gash, or burn a toxin-laced wound to neutralize a contact poison — painful, scarring field surgery that trades agony for survival. Restores no HP, but stabilizes and prevents bleed/poison progression. Out of combat.",
+    level: 2, spellType: "ACTION", icon: "Healing/Heart Shield",
+    typeConfig: { school: "ember", icon: "Healing/Heart Shield", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","investigation","pyrofiend"] },
+    targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0, targetRestrictions: ["any"] },
+    resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 5 }, components: ["somatic"], somaticText: "Press a burning palm over the wound and hold" },
+    resolution: "AUTOMATIC", effectTypes: ["utility"],
+    utilityConfig: { utilityType: "protection", selectedEffects: [ { "id": "cauterize_sear", "name": "Burned Shut", "description": "Stop active bleeding, stabilize a dying creature, or neutralize a contact/ingested poison by burning the wound. Restores no HP; deals 1d6 self-damage to the caster (sympathetic heat) and leaves a scar.", "mechanicsText": "Stop bleed/stabilize/neutralize contact poison; no HP heal; 1d6 self." } ], power: "moderate" },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+    tags: ["utility","investigation","pyrofiend"]
+  },
+  { id: "pyro_cinder_veil",
+    name: "Cinder-Veil",
+    description: "Bend the heat rising off your skin into a shimmering mirage that distorts your party's outlines. In hot, dry, or smoky environments the haze grants advantage on Stealth and hides your exact numbers/position from distant observers. Useless in cold, wet, or wind. Out of combat.",
+    level: 3, spellType: "ACTION", icon: "Fire/Ember Shield",
+    typeConfig: { school: "ember", icon: "Fire/Ember Shield", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","stealth","exploration","pyrofiend"] },
+    targetingConfig: { targetingType: "area", rangeType: "self_centered", areaType: "circle", areaSize: 20 },
+    resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 6 }, components: ["somatic"], somaticText: "Exhale a flat sheet of rippling heat across your party" },
+    resolution: "NONE", effectTypes: ["utility","buff"],
+    utilityConfig: { utilityType: "stealth", selectedEffects: [ { "id": "cinder_veil_mirage", "name": "Heat Mirage", "description": "For 10 minutes, you and allies within 20 ft gain advantage on Stealth and obscure your exact count/position from distant observers — but only in hot, dry, or smoky conditions. Cold, wet, or wind dissolves the mirage instantly.", "mechanicsText": "Advantage Stealth + obscure position; hot/dry/smoky only, 10 min." } ], duration: 10, durationUnit: "minutes", power: "moderate" },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+    tags: ["utility","stealth","exploration","pyrofiend"]
+  }
  ],
 };

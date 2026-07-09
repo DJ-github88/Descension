@@ -132,7 +132,7 @@ export const CHRONARCH_DATA = {
  },
 
  worldFriction: [
- { region: 'cragjaw-peaks', location: 'frostmaw_holdfast', status: 'celebrated', consequence: 'In the Cragjaw, Chronarchs are the engineers of last resort, their temporal stitching has held collapsing spans and stalled mine-cave-ins. House Tesshan grants them privileged heat-line access, though the Jarl-Tesshan records their every stitch in knotted knotted cord (the Chronarchs resent the surveillance).', workaround: 'A Chronarch who refuses to log a stitch is suspected of temporal crime; the knotted cord-record is both protection and leash.' },
+ { region: 'cragjaw-peaks', location: 'frostmaw_holdfast', status: 'celebrated', consequence: 'In the Cragjaw, Chronarchs are the engineers of last resort, their temporal stitching has held collapsing spans and stalled mine-cave-ins. House Tesshan grants them privileged heat-line access, though the Jarl-Tesshan records their every stitch in knotted cord (the Chronarchs resent the surveillance).', workaround: 'A Chronarch who refuses to log a stitch is suspected of temporal crime; the knotted cord-record is both protection and leash.' },
  { region: 'nordhalla', status: 'distrusted', consequence: 'The Skald genealogists despise temporal manipulation, an unraveled moment can edit an ancestor out of the record. Chronarchs are tolerated at the Frozen Archive only under escort, and a Chronarch caught stitching near the glacier-tombs may be lawfully killed by any Rune-Keeper.' }
  ],
 
@@ -150,12 +150,14 @@ Command the ticking of the gears. You are the clockwork sentinel, and the timeli
  quickOverview: {
   title: "Quick Overview",
   content: `**What You Need to Know**: You did not study the arcane to master time; you were broken by it. You are an accidental anchor, a dying mortal whose cells hum with high-velocity temporal friction. With every temporal fracture you sew, your hair turns stark white and your cellular structures undergo intense micro-strain.
+
+**Core Mechanic**: Cast basic spells to bank Time Shards (0-10) -> spend them on Flux abilities that violate causality (rewind, loop, displace). Every Flux deepens Temporal Strain (0-10); hit 10 and the timeline snaps back with a Backlash roll.
   
 **The Double Resource Engine**:
 1. **Time Shards (0-10)**: Stolen fragments of temporal energy. Basic spells generate them; Flux spells spend them. They persist across combats.
 2. **Temporal Strain (0-10)**: Cellular decay tracking immediate temporal instability. Reaching 10 Strain triggers an unpredictable, terrifying **Temporal Backlash** roll on a 1d6 table.
 
-**The Metabolic Burnout Tax**: To prevent time from unspooling, heavy Flux spending abilities enforce a temporary maximum HP erosion penalty that persists until a full Long Rest.
+**The Strain Tax**: Every Flux ability deepens Temporal Strain (0-10). Push too far and the timeline snaps back with a Temporal Backlash roll — the real cost of bending causality, tracked on a single gauge.
 
 **Best For**: Players who love absolute battlefield control, timeline rewinding, and high-stakes tactical risk-management.`
  },
@@ -215,9 +217,15 @@ If Nesta ceases to exist retroactively, the temporal friction she generated will
 **Battlefield Control**: Freeze enemies in temporal stasis, forcing them to watch helplessly as your allies reposition.
 **Damage Mitigation**: Rewind damage taken by allies, but each wound you erase grafts localized kinetic recoil into your own body.
 **Tactical Repositioning**: Displace allies and enemies through coordinates swapping, rewriting positioning that took entire turns to establish.
-**Why Your Body Pays**: Every Flux ability accelerates metabolic fatigue. Your cells undergo micro-strain. Your max HP erodes. You take increased Arcane and Blight damage because your tether to the present is frayed, those damage types resonate with the temporal fractures already embedded in your biology.
+**Why Your Body Pays**: Every Flux ability deepens Temporal Strain — your cells undergo micro-strain as you bend causality. You take increased Arcane and Blight damage because your tether to the present is frayed; those damage types resonate with the temporal fractures already embedded in your biology.
 
-**The Fatal Flaw**: You are incredibly fragile. Not because of armor, but because chronomancy is eating your physical stamina. Arcane and Blight damage hit you with severe resonance. Your movement slows as local chronal drag increases. And the more you rewrite reality for others, the less reality wants to hold onto you.`
+**Weaknesses**:
+- Chronal Fragility: you take +50% Arcane and Blight damage — those types resonate with the fractures already laced through your body.
+- Shatter on Impact: forced movement, shoves, or heavy physical impacts crack your internal clock — your Dodge drops to 0 and you immediately roll the Temporal Backlash table.
+- Strain Tightrope: every Flux pushes you toward Backlash — you must space your big spells or the timeline snaps back at 10 Strain.
+- Backlash at 10: hit 10 Temporal Strain and the timeline snaps back, phasing you out and forcing an unpredictable, often dangerous Anomaly roll.
+- Fragile and Dragging: light armor, and your movement slows as local chronal drag builds — you are not where the front line happens.
+- Already-Lived (social): you know how every conversation, meal, and song ends; you blurt "I already know what you'll say," and your own past is going blank. You read as bored, rude, or unhinged, and you forget your own history.`
  },
 
  playstyle: {
@@ -278,7 +286,7 @@ If Nesta ceases to exist retroactively, the temporal friction she generated will
   ["Flux Ability (Shard Cost)", "-Cost", "+1 to +8", "Violations of causality degrade cellular structure."],
   ["No Flux Cast on Turn", ",", "-1", "Passive cellular restabilization."],
   ["Temporal Backlash", ",", "Reset to 0", "Timeline snaps back, phasing you out and triggering anomaly."],
-  ["Long Rest", "Reset to 0", "Reset to 0", "Full atomic alignment restored; erases max HP erosion."]
+  ["Long Rest", "Reset to 0", "Reset to 0", "Full atomic alignment restored; Temporal Strain and Backlash risk reset."]
   ]
  },
 
@@ -298,7 +306,7 @@ If Nesta ceases to exist retroactively, the temporal friction she generated will
 
 **The Anomaly Matrix (1d6 Table)**:
 When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
-1. **Accelerated Aging**: Take 3d6 blight damage and permanently lose 2 max HP until your next Long Rest.
+1. **Accelerated Aging**: Take 3d6 blight damage until your next Long Rest.
 2. **Entropic Echo**: An entropic, hostile clone of yourself manifests in an adjacent space for 1 round, attacking your closest ally using basic Chrono Bolt profiles.
 3. **Causality Loop**: Pinned to the timeline. For 1 round, you cannot move and must repeat the exact action you took last turn.
 4. **Timeline Desynchronization**: You desynchronize completely, lengthening your Phased Out status to 2 rounds.
@@ -321,7 +329,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   title: "The Toll of Causality",
   content: `**Persistent Fuel**: Time Shards do not decay after combat. If you end an encounter with 8 shards, you begin the next fight with 8 shards. This allows you to launch devastating high-level Flux spells on Turn 1,at the cost of immediate cellular decay.
 
-**The Max HP Erosion Tax**: The heaviest Flux spells (spending 4+ Shards) take a permanent toll on your body. Each cast permanently subtracts 1 to 10 points from your maximum HP pool. This erosion cannot be healed by any spell, potion, or rest short of a full, undisturbed Long Rest. Chronomancy is a terminal resource.
+**The Strain Economy**: The heaviest Flux spells (spending 4+ Shards) push multiple points of Temporal Strain at once — bringing you closer to the Backlash threshold. Chronomancy's cost is tracked on the Strain gauge, not in flesh: bank Shards, spend them on Flux, and manage Strain so the timeline doesn't snap back.
 
 **Vulnerability to Void/Necrotic**: Because your atomic anchor is frayed, you take 50% extra damage from all Void and Necrotic sources. and, if you are subjected to forced movement (shoves, pulls, knockbacks) or time acceleration fields, your internal clock fractures,instantly dropping your Dodge rating to 0 and triggering an immediate roll on the Temporal Backlash Table.`
  },
@@ -726,7 +734,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    {
    range: { min: 1, max: 1 },
    customName: "Accelerated Aging",
-   effect: "Your cellular clock accelerates under friction. Take 3d6 blight damage and permanently lose 2 max HP until your next Long Rest."
+   effect: "Your cellular clock accelerates under friction. Take 3d6 blight damage until your next Long Rest."
    },
    {
    range: { min: 2, max: 2 },
@@ -1205,7 +1213,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
 
  { id: "temporal_flux_rewind",
   name: "Temporal Flux: Rewind",
-  description: "Heavy Flux. Rewind an ally's timeline to heal 4d8 + Spirit and clear physical debuffs. Caster takes 1d6 blight recoil and erodes 1 max HP.",
+  description: "Heavy Flux. Rewind an ally's timeline to heal 4d8 + Spirit and clear physical debuffs. Caster takes 1d6 blight recoil.",
   level: 4,
   spellType: "ACTION",
   icon: "Arcane/Rewind Time",
@@ -1248,7 +1256,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    id : "temporal_flux_rewind_recoil",
    name: "Chronal Recoil",
    triggerType: "on_cast",
-   action: "Caster takes 1d6 blight recoil damage and erodes 1 max HP."
+   action: "Caster takes 1d6 blight recoil damage."
    }
   ]
   },
@@ -1256,7 +1264,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   type: "max_hp",
   amount: 1,
   duration: "long_rest",
-  description: "Lose 1 max HP until next Long Rest as cellular stability fractures."
+  description: "Temporal Strain builds as cellular stability fractures."
   },
   tags: ["flux", "heal", "cleanse", "rewinding", "chronarch"]
  },
@@ -1416,7 +1424,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
 
  { id: "temporal_flux_shield",
   name: "Temporal Flux: Shield",
-  description: "Heavy Flux protection. Encase an ally in a stasis bubble absorbing 4d8 + INT damage and granting CC immunity for 2 rounds. Caster erodes 1 max HP.",
+  description: "Heavy Flux protection. Encase an ally in a stasis bubble absorbing 4d8 + INT damage and granting CC immunity for 2 rounds. Temporal Strain accumulates.",
   level: 5,
   spellType: "ACTION",
   icon: "Force/Force Shield",
@@ -1469,7 +1477,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    type: "max_hp",
    amount: 1,
    duration: "long_rest",
-   description: "Lose 1 max HP until next Long Rest as cellular stability fractures."
+   description: "Temporal Strain builds as cellular stability fractures."
    },
    triggerConfig: {
    triggers: [
@@ -1477,7 +1485,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
     id : "temporal_flux_shield_recoil",
     name: "Chronal Recoil",
     triggerType: "on_cast",
-    action: "Caster erodes 1 max HP."
+    action: "Temporal Strain accumulates."
     }
    ]
    },
@@ -1486,7 +1494,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
 
   { id: "temporal_flux_speed",
   name: "Temporal Flux: Speed",
-  description: "Heavy Flux acceleration. Grant an ally +2 AP and double movement speed for 2 rounds. Caster suffers cold chills and erodes 1 max HP.",
+  description: "Heavy Flux acceleration. Grant an ally +2 AP and double movement speed for 2 rounds. Caster suffers cold chills.",
   level: 5,
   spellType: "ACTION",
   icon: "Utility/Speed Boot",
@@ -1540,7 +1548,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    type: "max_hp",
    amount: 1,
    duration: "long_rest",
-   description: "Lose 1 max HP until next Long Rest as time accelerates past cells."
+   description: "Temporal Strain builds as time accelerates past cells."
    },
    triggerConfig: {
    triggers: [
@@ -1548,7 +1556,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
     id : "temporal_flux_speed_recoil",
     name: "Chronal Recoil",
     triggerType: "on_cast",
-    action: "Caster erodes 1 max HP."
+    action: "Temporal Strain accumulates."
     }
    ]
    },
@@ -1674,7 +1682,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
 
  { id: "temporal_loop",
   name: "Temporal Flux: Loop",
-  description: "Heavy Flux loop. Trap an enemy in a 2-round causality loop, forcing them to repeat their previous round's action exactly (DC 16 Spirit save negates). erodes 2 max HP.",
+  description: "Heavy Flux loop. Trap an enemy in a 2-round causality loop, forcing them to repeat their previous round's action exactly (DC 16 Spirit save negates).",
   level: 6,
   spellType: "ACTION",
   icon: "Arcane/Sands of Time",
@@ -1732,7 +1740,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    type: "max_hp",
    amount: 2,
    duration: "long_rest",
-   description: "Lose 2 max HP until next Long Rest as causality bits back."
+   description: "Temporal Strain builds as causality bits back."
    },
    triggerConfig: {
    triggers: [
@@ -1740,7 +1748,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
     id : "temporal_loop_recoil",
     name: "Chronal Recoil",
     triggerType: "on_cast",
-    action: "Caster erodes 2 max HP."
+    action: "Temporal Strain accumulates."
     }
    ]
    },
@@ -1752,7 +1760,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
  // ========================================
  { id: "chronal_disruption",
   name: "Chronal Disruption",
-  description: "Heavy Flux shockwave. Deal 6d6 + INT storm damage in a 30ft cone and freeze enemies in stasis for 1 round (DC 16 Agility save). erodes 2 max HP.",
+  description: "Heavy Flux shockwave. Deal 6d6 + INT storm damage in a 30ft cone and freeze enemies in stasis for 1 round (DC 16 Agility save).",
   level: 7,
   spellType: "ACTION",
   icon: "Force/Force Wave",
@@ -1822,7 +1830,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    type: "max_hp",
    amount: 2,
    duration: "long_rest",
-   description: "Lose 2 max HP until next Long Rest as cellular matrix undergoes high strain."
+   description: "Temporal Strain builds as cellular matrix undergoes high strain."
    },
    triggerConfig: {
    triggers: [
@@ -1830,7 +1838,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
     id : "chronal_disruption_recoil",
     name: "Chronal Recoil",
     triggerType: "on_cast",
-    action: "Caster erodes 2 max HP."
+    action: "Temporal Strain accumulates."
     }
    ]
    },
@@ -1890,7 +1898,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
 
  { id: "temporal_echo_chamber",
   name: "Temporal Echo Chamber",
-  description: "Heavy Flux. Encase a 20ft area: spells/attacks cast within are mirrored 1 round later. Caster erodes 2 max HP.",
+  description: "Heavy Flux. Encase a 20ft area: spells/attacks cast within are mirrored 1 round later. Temporal Strain accumulates.",
   level: 7,
   spellType: "ACTION",
   icon: "Force/Force Field",
@@ -1938,7 +1946,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    type: "max_hp",
    amount: 2,
    duration: "long_rest",
-   description: "Lose 2 max HP until next Long Rest as your timelines loop."
+   description: "Temporal Strain builds as your timelines loop."
    },
    triggerConfig: {
    triggers: [
@@ -1946,7 +1954,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
     id : "temporal_echo_chamber_recoil",
     name: "Chronal Recoil",
     triggerType: "on_cast",
-    action: "Caster erodes 2 max HP."
+    action: "Temporal Strain accumulates."
     }
    ]
    },
@@ -1958,7 +1966,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
  // ========================================
  { id: "temporal_flux_dominion",
   name: "Temporal Flux: Dominion",
-  description: "Supreme Flux. Seize complete control of an enemy's timeline, forcing them to take their turn under your control (DC 17 Spirit save). erodes 3 max HP.",
+  description: "Supreme Flux. Seize complete control of an enemy's timeline, forcing them to take their turn under your control (DC 17 Spirit save).",
   level: 8,
   spellType: "ACTION",
   icon: "Arcane/Orb Manipulation",
@@ -2016,7 +2024,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    type: "max_hp",
    amount: 3,
    duration: "long_rest",
-   description: "Lose 3 max HP until next Long Rest as you override another soul's timeline."
+   description: "Temporal Strain builds as you override another soul's timeline."
    },
    triggerConfig: {
    triggers: [
@@ -2024,7 +2032,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
     id : "temporal_flux_dominion_recoil",
     name: "Chronal Recoil",
     triggerType: "on_cast",
-    action: "Caster erodes 3 max HP."
+    action: "Temporal Strain accumulates."
     }
    ]
    },
@@ -2033,7 +2041,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
 
   { id: "temporal_flux_resurrection",
   name: "Temporal Flux: Resurrection",
-  description: "Extreme Flux. Wrench a deceased ally's timeline back, reviving them at 50% HP. Caster takes 4d6 blight and erodes 3 max HP.",
+  description: "Extreme Flux. Wrench a deceased ally's timeline back, reviving them at 50% HP. Caster takes 4d6 blight.",
   level: 8,
   spellType: "ACTION",
   icon: "Arcane/Open Portal",
@@ -2076,7 +2084,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    id : "temporal_flux_resurrection_recoil",
    name: "Chronal Recoil",
    triggerType: "on_cast",
-   action: "Caster takes 4d6 blight recoil damage and erodes 3 max HP."
+   action: "Caster takes 4d6 blight recoil damage."
    }
   ]
   },
@@ -2084,14 +2092,14 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   type: "max_hp",
   amount: 3,
   duration: "long_rest",
-  description: "Lose 3 max HP until next Long Rest as you drag a soul out of timeline decay."
+  description: "Temporal Strain builds as you drag a soul out of timeline decay."
   },
   tags: ["flux", "heal", "revive", "rewinding", "chronarch"]
  },
 
  { id: "fate_manipulation",
   name: "Temporal Flux: Fate Manipulation",
-  description: "Heavy Flux. Rewrite the probability matrix: force a creature to reroll with disadvantage or grant an ally advantage. Caster erodes 2 max HP.",
+  description: "Heavy Flux. Rewrite the probability matrix: force a creature to reroll with disadvantage or grant an ally advantage. Temporal Strain accumulates.",
   level: 8,
   spellType: "ACTION",
   icon: "Arcane/Zen",
@@ -2144,7 +2152,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    type: "max_hp",
    amount: 2,
    duration: "long_rest",
-   description: "Lose 2 max HP until next Long Rest as probability cracks your focus."
+   description: "Temporal Strain builds as probability cracks your focus."
    },
    triggerConfig: {
    triggers: [
@@ -2152,7 +2160,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
     id : "fate_manipulation_recoil",
     name: "Chronal Recoil",
     triggerType: "on_cast",
-    action: "Caster erodes 2 max HP."
+    action: "Temporal Strain accumulates."
     }
    ]
    },
@@ -2164,7 +2172,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
  // ========================================
  { id: "temporal_shockwave",
   name: "Temporal Shockwave",
-  description: "Cataclysmic Flux. Deal 8d10 + INT storm damage in a 30ft radius and freeze survivors in stasis for 2 rounds (DC 18 Agility save). erodes 5 max HP.",
+  description: "Cataclysmic Flux. Deal 8d10 + INT storm damage in a 30ft radius and freeze survivors in stasis for 2 rounds (DC 18 Agility save).",
   level: 9,
   spellType: "ACTION",
   icon: "Force/Force Wave",
@@ -2233,7 +2241,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    type: "max_hp",
    amount: 5,
    duration: "long_rest",
-   description: "Lose 5 max HP until next Long Rest as cellular structures age terminally."
+   description: "Temporal Strain builds as cellular structures age terminally."
    },
    triggerConfig: {
    triggers: [
@@ -2241,7 +2249,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
     id : "temporal_shockwave_recoil",
     name: "Chronal Recoil",
     triggerType: "on_cast",
-    action: "Caster erodes 5 max HP."
+    action: "Temporal Strain accumulates."
     }
    ]
    },
@@ -2250,7 +2258,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
 
   { id: "reality_fracture",
   name: "Reality Fracture",
-  description: "Cataclysmic Flux. Rip open a tear in space dealing 6d12 storm damage in a 20ft radius. Somatic drag deals 1d6 necrotic to caster. erodes 3 max HP.",
+  description: "Cataclysmic Flux. Rip open a tear in space dealing 6d12 storm damage in a 20ft radius. Somatic drag deals 1d6 necrotic to caster.",
   level: 9,
   spellType: "ACTION",
   icon: "Arcane/Spiral Vortex",
@@ -2297,7 +2305,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    type: "max_hp",
    amount: 3,
    duration: "long_rest",
-   description: "Lose 3 max HP until next Long Rest as the temporal strain impacts your cells."
+   description: "Temporal Strain builds as the temporal strain impacts your cells."
    },
    triggerConfig: {
    triggers: [
@@ -2305,7 +2313,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
     id : "reality_fracture_recoil",
     name: "Chronal Recoil",
     triggerType: "on_cast",
-    action: "Caster erodes 3 max HP."
+    action: "Temporal Strain accumulates."
     }
    ]
    },
@@ -2314,7 +2322,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
 
   { id: "chronal_paradox",
   name: "Chronal Paradox",
-  description: "Cataclysmic Flux. Split enemy timeline: Spirit save each round or take 8d6 arcane and stunned; success halves damage and slows. erodes 3 max HP.",
+  description: "Cataclysmic Flux. Split enemy timeline: Spirit save each round or take 8d6 arcane and stunned; success halves damage and slows.",
   level: 9,
   spellType: "ACTION",
   icon: "Arcane/Sands of Time",
@@ -2382,7 +2390,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    type: "max_hp",
    amount: 3,
    duration: "long_rest",
-   description: "Lose 3 max HP until next Long Rest as timeline loop splits your cells."
+   description: "Temporal Strain builds as timeline loop splits your cells."
    },
    triggerConfig: {
    triggers: [
@@ -2390,7 +2398,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
     id : "chronal_paradox_recoil",
     name: "Chronal Recoil",
     triggerType: "on_cast",
-    action: "Caster erodes 3 max HP."
+    action: "Temporal Strain accumulates."
     }
    ]
    },
@@ -2427,7 +2435,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
 
  { id: "chronal_restoration",
   name: "Chronal Restoration",
-  description: "Absolute Flux. Fully restore all allies within 30ft to their start-of-combat HP/AP/status. Caster takes 5d6 blight and erodes 10 max HP.",
+  description: "Absolute Flux. Fully restore all allies within 30ft to their start-of-combat HP/AP/status. Caster takes 5d6 blight.",
   level: 10,
   spellType: "ACTION",
   icon: "Arcane/Rewind Time",
@@ -2471,7 +2479,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    id : "chronal_restoration_recoil",
    name: "Chronal Recoil",
    triggerType: "on_cast",
-   action: "Caster takes 5d6 blight recoil damage and erodes 10 max HP."
+   action: "Caster takes 5d6 blight recoil damage."
    }
   ]
   },
@@ -2479,14 +2487,14 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   type: "max_hp",
   amount: 10,
   duration: "long_rest",
-  description: "Permanently lose 10 max HP until next Long Rest as the universe extracts a violent cellular tax."
+  description: "Severe Temporal Strain builds as the universe extracts a violent cellular tax."
   },
   tags: ["flux", "heal", "cleanse", "rewinding", "chronarch"]
  },
 
  { id: "chronal_vortex",
   name: "Chronal Vortex",
-  description: "Absolute Flux. Deal 10d10 + INT storm damage in a 50ft radius, drag all caught to the center, and freeze them in stasis for 2 rounds. erodes 5 max HP.",
+  description: "Absolute Flux. Deal 10d10 + INT storm damage in a 50ft radius, drag all caught to the center, and freeze them in stasis for 2 rounds.",
   level: 10,
   spellType: "ACTION",
   icon: "Force/Force Wave",
@@ -2545,7 +2553,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    type: "max_hp",
    amount: 5,
    duration: "long_rest",
-   description: "Lose 5 max HP until next Long Rest as your molecular layout unravels."
+   description: "Temporal Strain builds as your molecular layout unravels."
    },
    triggerConfig: {
    triggers: [
@@ -2553,7 +2561,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
     id : "chronal_vortex_recoil",
     name: "Chronal Recoil",
     triggerType: "on_cast",
-    action: "Caster erodes 5 max HP."
+    action: "Temporal Strain accumulates."
     }
    ]
    },
@@ -2624,16 +2632,110 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    "utility",
    "roleplay",
    "chronarch"
-  ]
-  }
+   ]
+  },
+  // ===== NON-COMBAT / TEMPORAL UTILITY (the time-mage out of combat) =====
+  { id: "temporal_deja_vu",
+   name: "Deja Vu",
+   description: "Touch a surface and relive the last minute that played out in this spot as a ghostly accelerated echo — words spoken, who stood where, blows struck, which way they left. You see it; you cannot change it. Older echoes are fainter. Out of combat.",
+   level: 1,
+   spellType: "ACTION",
+   icon: "Arcane/Sands of Time",
+   effectTypes: ["utility"],
+   typeConfig: { school: "arcane", icon: "Arcane/Sands of Time", tags: ["utility","divination","investigation","chronarch"], castTime: 1, castTimeType: "IMMEDIATE" },
+   targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
+   resourceCost: { components: ["verbal","somatic"], actionPoints: 1, mana: 5, classResource: { type: "time_shards", cost: -1 } },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+   utilityConfig: { utilityType: "divination", selectedEffects: [ { id : "deja_vu_echo", name: "One-Minute Echo", description: "Relive the last 60 seconds at the touched location as a sped-up silent vision: speech, positions, violence, departures. Detail fades for events older than a minute per level. You observe only.", mechanicsText: "Replay last 60s at a location; observe only." } ], power: "minor" },
+   resolution: "NONE",
+   tags: ["utility","divination","investigation","chronarch"],
+
+   somaticText: "Press palm flat to the surface and let the moment unspool backward.",
+   verbalText: "Tempus Revoco — the recent past answers.",
+  },
+  { id: "temporal_compression",
+   name: "Temporal Compression",
+   description: "Wrap a small object or process in a bubble of accelerated time. Brew a potion in seconds, cure leather, dry soaked gear, age wine, grow a seedling, rust a mundane lock, or spoil food. Living creatures and magical items resist. Out of combat.",
+   level: 2,
+   spellType: "ACTION",
+   icon: "Arcane/Sands of Time",
+   effectTypes: ["utility"],
+   typeConfig: { school: "arcane", icon: "Arcane/Sands of Time", tags: ["utility","exploration","chronarch"], castTime: 1, castTimeType: "IMMEDIATE" },
+   targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
+   resourceCost: { components: ["verbal","somatic"], actionPoints: 1, mana: 7, classResource: { type: "time_shards", cost: 1 } },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+   utilityConfig: { utilityType: "conjuration", selectedEffects: [ { id : "compression_hasten", name: "Hasten Process", description: "Accelerate up to ~1 hour of a mundane process into a single round: brewing, curing, drying, rusting a lock, spoiling food, sprouting a seed. No effect on living creatures or magical items. Costs 1 Temporal Strain.", mechanicsText: "Compress ~1 hour of a mundane process into 1 round." } ], power: "moderate" },
+   resolution: "AUTOMATIC",
+   tags: ["utility","exploration","chronarch"],
+
+   somaticText: "Cage the object between your palms and let its hours pour out in seconds.",
+   verbalText: "Tempus Accelero.",
+  },
+  { id: "temporal_slow_descent",
+   name: "Slow Descent",
+   description: "Bend local time around a fall. You, a willing ally, or an object fall at a crawl — drifting safely to the ground, and you can slow a falling ally or object within range to catch or save them. No damage on landing. Out of combat or combat.",
+   level: 1,
+   spellType: "REACTION",
+   icon: "Arcane/Quick Step",
+   effectTypes: ["utility"],
+   typeConfig: { school: "arcane", icon: "Arcane/Quick Step", tags: ["utility","mobility","chronarch"], castTime: 1, castTimeType: "REACTION" },
+   targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 60 },
+   resourceCost: { components: ["verbal"], actionPoints: 0, mana: 4, classResource: { type: "time_shards", cost: -1 } },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+   utilityConfig: { utilityType: "mobility", selectedEffects: [ { id : "slow_descent_feather", name: "Feathered Time", description: "Slow a falling creature or object to a safe drift; no falling damage on landing. Works as a reaction the instant a fall begins.", mechanicsText: "Negate falling damage for one target." } ], power: "minor" },
+   resolution: "AUTOMATIC",
+   tags: ["utility","mobility","chronarch"],
+
+   somaticText: "Snap your fingers downward; the air beneath the target thickens with slow seconds.",
+   verbalText: "Tempus Lentus.",
+  },
+  { id: "temporal_foreknowledge",
+   name: "Foreknowledge",
+   description: "You have already lived the next few seconds of this exchange. Glimpse what a creature within sight is about to say or do, and whether they intend harm in the next minute. Grants advantage on your next social check against them and warns of an imminent attack. Out of combat.",
+   level: 2,
+   spellType: "ACTION",
+   icon: "Arcane/Sands of Time",
+   effectTypes: ["utility","buff"],
+   typeConfig: { school: "arcane", icon: "Arcane/Sands of Time", tags: ["utility","divination","social","chronarch"], castTime: 1, castTimeType: "IMMEDIATE" },
+   targetingConfig: { targetingType: "single", rangeType: "sight", rangeDistance: 60 },
+   resourceCost: { components: ["verbal","somatic"], actionPoints: 1, mana: 6, classResource: { type: "time_shards", cost: 1 } },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+   utilityConfig: { utilityType: "social", selectedEffects: [ { id : "foreknowledge_read", name: "Already-Lived", description: "For 1 minute you know what one creature is about to say/do next, sense if they intend harm, and gain advantage on social checks against them. Shows the immediate next action only, not long intent.", mechanicsText: "Preview one creature's next action + intent; advantage socially." } ], duration: 1, durationUnit: "minutes", power: "moderate" },
+   resolution: "NONE",
+   tags: ["utility","divination","social","chronarch"],
+
+   somaticText: "Tilt your head a half-second ahead of their words; you answer before they finish.",
+   verbalText: "Tempus Prospicio.",
+  },
+  { id: "temporal_rewind_blunder",
+   name: "Rewind Blunder",
+   description: "Unsay it. Undo it. Rewind the last six seconds of your own action and try again — re-roll a single failed out-of-combat ability check, or take back a social blunder, a botched pickpocket, or a broken object. The timeline bruises for it: you take 1 Temporal Strain and forget which version was real. Out of combat.",
+   level: 3,
+   spellType: "REACTION",
+   icon: "Arcane/Spiral Vortex",
+   effectTypes: ["utility"],
+   typeConfig: { school: "arcane", icon: "Arcane/Spiral Vortex", tags: ["utility","rewinding","social","chronarch"], castTime: 1, castTimeType: "REACTION" },
+   targetingConfig: { targetingType: "self", rangeType: "self" },
+   resourceCost: { components: ["verbal","somatic"], actionPoints: 0, mana: 8, classResource: { type: "time_shards", cost: 2 } },
+   cooldownConfig: { cooldownType: "short_rest", cooldownValue: 1 },
+   utilityConfig: { utilityType: "special", selectedEffects: [ { id : "rewind_blunder_reroll", name: "Six-Second Take-Back", description: "Immediately re-roll one failed out-of-combat ability check, or undo one social blunder / botched action / broken mundane object from the last 6 seconds. Costs 1 Temporal Strain and you lose the memory of the undone attempt.", mechanicsText: "Re-roll one failed out-of-combat check or undo a 6s blunder; +1 Strain." } ], power: "moderate" },
+   resolution: "AUTOMATIC",
+   tags: ["utility","rewinding","social","chronarch"],
+
+   somaticText: "Snap your fingers backward; the broken thing un-breaks, the said word unsays.",
+   verbalText: "Tempus Redo — but you will not recall the first attempt.",
+  },
  ],
+
 
  // Spell Pools
  spellPools: {
  1: ["chrono_bolt", "temporal_mend", "temporal_step",
-  "chrono_temporal_rewind"],
- 2: ["stasis_field", "temporal_rewind", "chrono_echo"],
- 3: ["temporal_dilation", "time_crystal", "temporal_foresight"],
+  "chrono_temporal_rewind", "temporal_deja_vu", "temporal_slow_descent"],
+ 2: ["stasis_field", "temporal_rewind", "chrono_echo",
+  "temporal_compression", "temporal_foreknowledge"],
+ 3: ["temporal_dilation", "time_crystal", "temporal_foresight",
+  "temporal_rewind_blunder"],
  4: ["temporal_vortex", "temporal_flux_rewind", "temporal_paradox"],
  5: [
   "temporal_anchor",

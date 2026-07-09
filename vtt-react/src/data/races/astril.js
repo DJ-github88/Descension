@@ -76,7 +76,7 @@ And Keth-Amar, the predator, the hunger beneath Emberspire, knows the Astril exi
         {
         "id": "vessel_stress_astril",
                   "name": "Vessel Stress",
-                  "description": "Constellation-spirit can override body during high stress. Roll natural 1 on saving throws forces a Spirit save to maintain control.",
+                  "description": "On a natural 1 on any saving throw, the constellation-spirit fights to override your body; you must succeed on a Spirit saving throw to maintain control, or the vessel's will takes the reins. A constant hazard of the inhabited, the whisper waits for weakness to surface.",
                   "level": 1,
                   "icon": "fas fa-brain",
                   "spellType": "PASSIVE",
@@ -96,7 +96,7 @@ And Keth-Amar, the predator, the hunger beneath Emberspire, knows the Astril exi
         {
             id: 'star_sign_flare_astril',
             name: 'Star-Sign Flare',
-            description: 'The constellation within you marks your skin with luminous patterns, faint lines and geometric shapes that ebb and flow with your breath, brighten with your emotions, and shift subtly with the position of the invisible stars above. They are visible only in dim light or darkness, a private constellation worn on the body itself. Your eyes carry the ancient tapeta of a people who learned to see when the sky went dark, low-light vision as clear as day. But the sun-that-was and the forges-that-are burn too bright for eyes adapted to starless gloom. And when Keth-Amar\'s influence stirs nearby, near a Shard, near Emberspire, near a Wyrd-creature that serves the predator, your patterns writhe and recoil. The spirit within remembers what ate its kin. Your skin does not forget.',
+            description: 'You see in dim light as if it were bright light within 60 feet, and within 120 feet of Keth-Amar\'s influence (a Sundered Monolith, Emberspire\'s caldera, or a Wyrd-creature serving the predator) your luminous patterns writhe and recoil involuntarily, this cannot be suppressed. You suffer disadvantage on attack rolls and Perception checks in bright sunlight, volcanic glow, forge-fire, or daylight spells. The star-carried wear their constellation openly, a private map the dark remembers and the forge-light punishes.',
             level: 1,
             icon: 'spell_holy_innerfire',
             spellType: 'PASSIVE',
@@ -108,7 +108,7 @@ And Keth-Amar, the predator, the hunger beneath Emberspire, knows the Astril exi
                     {
                         id: 'low_light_vision_astril',
                         name: 'Starless Sight',
-                        description: 'Your eyes carry the reflective tapeta of a people who learned to see when the sky went dark. You can see in dim light as if it were bright light within 60 feet.',
+                        description: 'You can see in dim light as if it were bright light within 60 feet, your eyes carry the reflective tapeta of a people who learned to see when the sky went dark.',
                         statusEffect: { level: 'moderate', description: 'Eyes adapted to the starless dark' }
                     },
                     {
@@ -126,7 +126,7 @@ And Keth-Amar, the predator, the hunger beneath Emberspire, knows the Astril exi
                     {
                         id: 'light_sensitivity_astril',
                         name: 'Light Sensitivity',
-                        description: 'Your eyes, adapted to the starless Vale, recoil from intense brightness. Disadvantage on attack rolls and Perception checks made in bright sunlight, volcanic glow, or the immediate radius of forge-fire and daylight spells.',
+                        description: 'Disadvantage on attack rolls and Perception checks made in bright sunlight, volcanic glow, or the immediate radius of forge-fire and daylight spells, your eyes, adapted to the starless Vale, recoil from the forge-light.',
                         statusEffect: {
                             level: 'moderate',
                             description: 'Eyes adapted to darkness cannot bear the forge-light',
@@ -146,7 +146,7 @@ And Keth-Amar, the predator, the hunger beneath Emberspire, knows the Astril exi
         {
             id: 'the_whisper_astril',
             name: 'The Whisper',
-            description: 'The constellation-spirit within you does not sleep. It speaks, a constant low murmur beneath your conscious thought, the voice of a celestial minister who has been living in mortal flesh for centuries and has opinions about everything. This dual consciousness grants you an alien perspective on manipulation: the spirit sees through charm and deception as easily as you see through glass, because to a being who once governed a season, mortal lies are transparent as water. But the spirit is not a shield, it is a passenger, and when wyrd damage tears through your mind, the whisper becomes a scream. Your two consciousnesses do not reinforce each other under assault. They collapse into each other, drowning reason in celestial static.',
+            description: 'You have advantage on Spirit saving throws against being charmed or frightened, the spirit sees through mortal deception. When you take wyrd damage, you must succeed on a DC 12 Spirit save or suffer disadvantage on your next attack roll, saving throw, or ability check as your two consciousnesses collapse into each other. The constellation-spirit is a second mind, alien and opinionated, both your shield and your unraveling.',
             level: 1,
             icon: 'spell_shadow_psychichorrors',
             spellType: 'PASSIVE',
@@ -158,7 +158,7 @@ And Keth-Amar, the predator, the hunger beneath Emberspire, knows the Astril exi
                     {
                         id: 'dual_consciousness_astril',
                         name: 'Dual Consciousness',
-                        description: 'The spirit within is a second mind that sees through mortal deception. Advantage on Spirit saving throws against being charmed or frightened, the constellation has governed seasons for millennia and is not impressed by your intimidation.',
+                        description: 'Advantage on Spirit saving throws against being charmed or frightened, the constellation has governed seasons for millennia and is not impressed by your intimidation.',
                         statusEffect: { level: 'moderate', description: 'Two minds share one skull; manipulation finds twice the resistance' }
                     }
                 ],
@@ -211,19 +211,19 @@ Now, centuries later, the Astril endure. The Luminarchy still rules. The Synod s
         {
             name: 'Selen Veyrith',
             title: 'The First Vessel',
-            portraitIcon: 'Armor/Head/head-split-dual-face-helmet',
+            portraitIcon: 'Fairy/Icon3',
             backstory: 'The legendary ancestor who opened herself to the Horse constellation when it first fled to the Vale. Her true name has been deliberately forgotten, a tradition among the Astril, who believe that naming the first vessel gives the spirit within her bloodline too much power over the living. She is known only as Selen Veyrith: "she who received the star." Her burial mound still glows faintly on moonless nights.'
         },
         {
             name: 'Tharun Muren',
             title: 'The First Silencer',
-            portraitIcon: 'Armor/Head/head-golden-crown-helmet',
+            portraitIcon: 'Fairy/Icon7',
             backstory: 'A third-century Astril of the Wolf bloodline who became the first to successfully suppress his constellation through ritual rather than embrace it. His methods, the binding chants, the fasting, the scarification patterns that channel spirit-energy away from the conscious mind, became the foundation of the Muren path. He was assassinated at forty-two by his own Sylen sister, who believed his suppression was starving the Wolf. The Wolf chose her. She lost herself to the Over-Sung within the year.'
         },
         {
             name: 'Korrath Unlit',
             title: 'The Lightless Prophet',
-            portraitIcon: 'Armor/Head/head-dark-hood',
+            portraitIcon: 'Fairy/Icon11',
             backstory: 'Born without a constellation in an era when the Unlit were considered barely above animals, Korrath became the first spiritless Astril to serve on the Synod, not as a member, but as a truth-speaker whose words could not be verified by pattern-reading because his skin had no patterns to read. He revolutionized Astril intelligence networks by proving that the Unlit could move through Luminarchy society completely unreadable. The Synod has relied on Unlit spies ever since. Korrath himself was never rewarded. He died at sixty-one, still Unlit, still invisible, still waiting for a spirit that never chose him.'
         }
     ],
@@ -302,7 +302,7 @@ Now, centuries later, the Astril endure. The Luminarchy still rules. The Synod s
                 {
                     id: 'faith_made_visible_sylen',
                     name: 'Faith Made Visible',
-                    description: 'Your luminous patterns blaze with the depth of your belief, a constellation-map that shifts and pulses with your emotional state, your spiritual certainty, and the proximity of other spirits. Other Astril can read your faith at a glance, and you can read theirs. Your sincerity is impossible to counterfeit among your own kind. But what the spirits see, the spirits covet, dying Astril release their constellations toward the brightest patterns nearby. And what burns bright enough to attract spirits also burns bright enough to attract predators. You glow. You cannot stop glowing. And in the dark, you are the first thing anything sees.',
+                    description: 'You have advantage on Persuasion and Insight checks against other Astril and spirit-touched creatures, and when near a dying Astril you are always a candidate to inherit their constellation. You suffer disadvantage on Stealth checks in dim light or darkness, your patterns visible from up to 30 feet away. Your luminous faith is a beacon the spirits covet and the dark cannot hide, you glow and you cannot stop glowing.',
                     level: 1,
                     icon: 'spell_holy_auramastery',
                     spellType: 'PASSIVE',
@@ -449,7 +449,7 @@ Now, centuries later, the Astril endure. The Luminarchy still rules. The Synod s
                 {
                     id: 'contained_flare_muren',
                     name: 'Contained Flare',
-                    description: 'You have spent years building walls around the spirit within, and those walls hold, until they do not. When your body suffers a catastrophic blow or your strength fails to half, the suppressed pressure of months or years of containment ruptures. The spirit, sensing weakness, throws itself against the barriers. For one terrible instant, your luminous patterns blaze to full brightness, and a wave of celestial energy radiates outward, starlight with nowhere else to go, a constellation screaming through mortal flesh. The flare does not distinguish friend from foe, heretic from believer. It simply releases. And you reel, the walls you spent so long building now in ruins around you, the spirit laughing in the silence where its prison used to be.',
+                    description: 'When you take a critical hit or fall below 50% HP, the suppressed spirit erupts for an instant, dealing 1d6 ember damage to all creatures within 10 feet (including allies). You then have disadvantage on your next attack roll from the breach. The walls you built for years shatter in a moment, starlight screaming through the cracks where your prison used to be.',
                     level: 1,
                     icon: 'spell_fire_incinerate',
                     spellType: 'PASSIVE',
@@ -492,7 +492,7 @@ Now, centuries later, the Astril endure. The Luminarchy still rules. The Synod s
                 {
                     id: 'ward_skin_muren',
                     name: 'Ward-Skin',
-                    description: 'The constant suppression of the spirit within has hardened your vessel, not just your mind, but your flesh. The same barriers that hold a constellation at bay make you resistant to possession and external domination. Your skin, toughened by years of ritual scarification, turns aside blows that would fell a Sylen. But the spirit perceives sacred energy as a cage, sacred light is the language of its former home, the frequency of the celestial court it was cast out of, and it fights any attempt to bring that light inside. Healing that comes from spirits or faith cannot fully reach you. Your walls keep out the light as efficiently as they keep in the star.',
+                    description: 'You gain +1 Armor and resistance to possession and domination effects, the same barriers that hold the spirit at bay admit no other passenger. Astral and sacred healing you receive is halved, and you cannot benefit from Bardic Inspiration or morale effects. The constant suppression has hardened your flesh into a fortress, one the light cannot enter.',
                     level: 1,
                     icon: 'spell_holy_auramastery',
                     spellType: 'PASSIVE',

@@ -263,11 +263,12 @@ Some Apexes believe the fog is responding to the increased activity of the Wyrd,
 - Excellent at controlling enemy positioning
 
 **Combat Weaknesses**:
-- Requires enemies to be grouped for maximum glaive effectiveness
-- Moderate armor (leather wearer)
-- Companion can be targeted and killed
-- Less effective at long range
-- Dependent on Quarry Mark generation for peak performance (requires companion coordination, not just hits)
+- Kill the Beast, Cripple the Hunter: a dead companion means you generate ZERO Quarry Marks until it is revived — you become an ordinary glaive-fighter with no resource and no burst.
+- Pack-Dependent Damage: your glaive alone hits for base damage; without grouped enemies to chain AND a living companion to feed marks, your output collapses.
+- Leather-Clad: light armor only — caught without Shadowstep, you are a priority burst target.
+- Melee-Only, Kiteable: no ranged answer; fliers, archers, and spread-out formations shut you down.
+- Primal Outrage Friendly-Fire: sit on 5 marks or let your beast get wounded and it Frenzies, attacking the nearest creature, including you and your allies.
+- Bond Sickness: when your companion falls you roll on the Bond Sickness table (disadvantage, wyrd damage) for 3 rounds — a cruel enemy can weaponize your grief.
 
 **Optimal Positioning**:
 Apexes excel at close range (5-15 feet), positioning themselves to maximize glaive chains between grouped enemies. They should maintain mobility, using Shadowstep to reposition and avoid being surrounded while keeping their companion in effective range.`,
@@ -618,7 +619,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   recommendedSpells: [
    "Glaive Toss - Your bread-and-butter chain attack",
    "Whirling Death - Spin attack for maximum AoE",
-   "Blade Fury - Ultimate ability for massive multi-target burst",
+    "Razor Dance - Ultimate ability for massive multi-target burst",
    "Swift Assault - Rapid strikes to build Momentum",
   ],
   },
@@ -727,7 +728,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   id : "apex_glaive_toss",
   name: "Glaive Toss",
   description:
-  "Throw your Shadow Glaive at a target, chaining to additional enemies within 5 feet of each other.",
+  "Throw your Shadow Glaive in a spinning arc; it carves through the air and chains between enemies within 5 feet, shadow energy arcing between wounds.",
   spellType: "ACTION",
   icon: "Piercing/Dagger Rain",
   level: 1,
@@ -819,7 +820,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   id : "apex_whirling_death",
   name: "Whirling Death",
   description:
-  "Spin your Shadow Glaive in a deadly circle, striking all enemies within 10 feet.",
+  "Spin your Shadow Glaive in a deadly circle, the blade singing as it slices through all enemies within 10 feet in a storm of steel and shadow.",
   spellType: "ACTION",
   icon: "Slashing/Quick Slash",
   level: 3,
@@ -882,7 +883,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
  {
   effectTypes: ["damage"],
   id : "apex_blade_fury",
-  name: "Blade Fury",
+  name: "Razor Dance",
   description:
   "Unleash a devastating flurry of glaive strikes, hitting multiple targets in rapid succession.",
   spellType: "ACTION",
@@ -963,7 +964,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   id : "apex_companion_strike",
   name: "Companion Strike",
   description:
-  "Command your companion to attack a target with enhanced ferocity.",
+  "Command your companion to launch a ferocious attack, jaws and claws finding flesh as the bond between you surges with predatory focus.",
   spellType: "ACTION",
   icon: "Nature/Spawn",
   level: 1,
@@ -1391,7 +1392,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   id : "apex_phantom_blades",
   name: "Phantom Blades",
   description:
-  "Create shadow copies of your glaive that strike multiple targets simultaneously.",
+  "Create shadow copies of your glaive that strike multiple targets simultaneously, each phantom blade a whisper of death from the dark between stars.",
   spellType: "ACTION",
   icon: "Piercing/Night Dagger",
   level: 5,
@@ -1580,7 +1581,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   id : "apex_evasion",
   name: "Evasion",
   description:
-  "Use your agility to avoid incoming attacks, increasing your defenses.",
+  "Flow like mist between attacks, your predator's instincts guiding your body into impossible angles that turn killing blows into near-misses.",
   spellType: "REACTION",
   icon: "Utility/Parry",
   level: 2,
@@ -1739,7 +1740,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   id : "apex_swift_assault",
   name: "Swift Assault",
   description:
-  "Perform a rapid series of glaive strikes against multiple nearby enemies.",
+  "Unleash a rapid series of glaive strikes against multiple nearby enemies, each cut faster than the last as momentum builds through your blade.",
   spellType: "ACTION",
   icon: "Slashing/Sword Strike",
   level: 3,
@@ -1819,7 +1820,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   id : "apex_hunters_mark",
   name: "Hunter's Mark",
   description:
-  "Mark a target, making it easier for you and your companion to hunt.",
+  "Fix your hunter's intuition on a target, reading its tells and rhythms; you and your companion gain an edge against it as the mark etches itself into its fate.",
   spellType: "ACTION",
   icon: "Piercing/Focused Arrow Shot",
   level: 2,
@@ -1909,7 +1910,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   effectTypes: ["damage"],
   id : "apex_shadow_assault",
   name: "Shadow Assault",
-  description: "Dash to a target and strike with overwhelming force.",
+  description: "Dash through shadow to close the distance in an instant, arriving beside your target with glaive already mid-swing and momentum fully committed.",
   spellType: "ACTION",
   icon: "Utility/Phantom Dash",
   level: 4,
@@ -1979,7 +1980,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   id : "apex_feral_bond",
   name: "Feral Bond",
   description:
-  "Strengthen your bond with your companion, enhancing both of your combat abilities.",
+  "Strengthen the empathic bond between you and your companion, both of you moving with shared instincts and fighting as one organism with two bodies.",
   spellType: "ACTION",
   icon: "Nature/Spawn",
   level: 4,
@@ -2069,7 +2070,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   id : "apex_glaive_dance",
   name: "Glaive Dance",
   description:
-  "Spin through enemies in a deadly dance, striking all in your path.",
+  "Spin through enemy lines in a deadly choreography, your glaive a blur of silver and shadow as you strike every foe within 15 feet without slowing.",
   spellType: "ACTION",
   icon: "Slashing/Dual Blades",
   level: 4,
@@ -2140,7 +2141,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   id : "apex_apex_predator",
   name: "Apex Predator",
   description:
-  "Transform into the ultimate hunter, enhancing all your abilities.",
+  "Assume the stance of the ultimate hunter — your senses sharpen, your reflexes quicken, and every fiber of your being becomes a weapon for 5 rounds.",
   spellType: "ACTION",
   icon: "Nature/Cat Face",
   level: 6,
@@ -2286,7 +2287,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   effectTypes: ["damage"],
   id : "apex_pack_assault",
   name: "Pack Assault",
-  description: "Coordinate a devastating assault with your companion.",
+  description: "Signal your companion and charge as one, both of you targeting the same enemy in a synchronized onslaught that leaves no room for defense.",
   spellType: "ACTION",
   icon: "Nature/Wolf Dash",
   level: 6,
@@ -2366,9 +2367,9 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
  {
   effectTypes: ["buff"],
   id : "apex_shadow_glaive_mastery",
-  name: "Shadow Glaive Mastery",
+  name: "Glaive Adept",
   description:
-  "Master the Shadow Glaive, unlocking its full devastating potential.",
+  "Awaken the full potential of your Shadow Glaive, its shadow essence bleeding into reality and extending its reach, making every strike more devastating.",
   spellType: "ACTION",
   icon: "Poison/Poison Concoction",
   level: 7,
@@ -2544,7 +2545,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   id : "apex_hunters_fury",
   name: "Hunter's Fury",
   description:
-  "Channel all your fury into a devastating flurry of glaive strikes.",
+  "Channel weeks of tracked prey and denied kills into a single furious flurry of glaive strikes, each blow carrying the weight of every hunt that escaped.",
   spellType: "ACTION",
   icon: "Slashing/Whirl",
   level: 7,
@@ -2609,7 +2610,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   id : "apex_shadow_storm",
   name: "Shadow Storm",
   description:
-  "Create a storm of shadow energy that devastates all enemies.",
+  "Sweep your glaive in a wide arc, tearing open a rift to the shadow realm; a storm of living darkness pours through, ravaging all enemies in a 50-foot radius.",
   spellType: "ACTION",
   icon: "Psychic/Mind Strike",
   level: 8,
@@ -2805,7 +2806,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   id : "apex_glaive_storm",
   name: "Glaive Storm",
   description:
-  "Summon a storm of shadow glaives that strike all enemies repeatedly.",
+  "Raise your glaive high and call down a rain of spectral blades that fall like judgment upon the battlefield, each one a sliver of frozen shadow given edge.",
   spellType: "CHANNELED",
   icon: "Piercing/Dagger Rain",
   level: 8,
@@ -2894,7 +2895,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   id : "apex_ultimate_hunter",
   name: "Ultimate Hunter",
   description:
-  "Become the ultimate hunter, transcending mortal limitations.",
+  "Transcend mortal hunting limits — your perception expands, your companion syncs to your soul, and for 10 rounds you become the thing prey prays never finds them.",
   spellType: "ACTION",
   icon: "Nature/Roaring Bear",
   level: 9,
@@ -2996,9 +2997,9 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
  {
   effectTypes: ["damage"],
   id : "apex_deaths_embrace",
-  name: "Death's Embrace",
+  name: "Mortal Cull",
   description:
-  "Channel the essence of death through your glaive, instantly killing weak enemies.",
+  "Channel the essence of death through your glaive, culling weakened enemies from the field.",
   spellType: "ACTION",
   icon: "Necrotic/Necrotic Death",
   level: 9,
@@ -3176,7 +3177,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
  {
   effectTypes: ["damage"],
   id : "apex_godslayer",
-  name: "Godslayer",
+  name: "Felling Strike",
   description: "Strike with enough force to slay even the old powers.",
   spellType: "ACTION",
   icon: "Slashing/Sword Strike",
@@ -3261,7 +3262,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
  {
   effectTypes: ["damage", "summoning"],
   id : "apex_primal_apocalypse",
-  name: "Primal Apocalypse",
+  name: "Awaken the Wild",
   description:
   "Summon the primal fury of nature itself to devastate the battlefield.",
   spellType: "ACTION",
@@ -3390,7 +3391,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   effectTypes: ["buff", "passive"],
   id : "apex_perfect_hunt",
   name: "Perfect Hunt",
-  description: "Achieve the perfect hunt, mastery beyond mortal limits.",
+  description: "Ascend beyond imperfection: every Quarry Mark spent returns value, every strike finds its target, and the bond with your companion becomes absolute.",
   spellType: "PASSIVE",
   icon: "Piercing/On the Mark",
   level: 10,
@@ -3598,8 +3599,160 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   "tags": [
    "utility",
    "roleplay",
-   "apex"
-  ]
+    "apex"
+   ]
+  },
+  // ===== NON-COMBAT / HUNTER UTILITY (tracker fantasy) =====
+  {
+   effectTypes: ["utility"],
+   id : "apex_read_spoor",
+   name: "Read Spoor",
+   description:
+   "Crouch over disturbed earth, broken twig, or displaced moss and read it like a page. Identify the creatures that passed (type, rough size, numbers), how recently, how fast they moved, and the direction they traveled. The older the spoor, the less you can recover. Out of combat.",
+   spellType: "ACTION",
+   icon: "Nature/Track",
+   level: 1,
+   specialization: "universal",
+   typeConfig: { castTime: 1, castTimeType: "IMMEDIATE", school: "physical", icon: "Nature/Track" },
+   targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
+   durationConfig: { durationType: "instant" },
+   resourceCost: { resourceTypes: ["mana"], resourceValues: { mana: 2 }, actionPoints: 1, components: ["somatic"], somaticText: "Brush fingertips over the track and taste a pinch of soil" },
+   resolution: "NONE",
+   utilityConfig: {
+    utilityType: "divination",
+    selectedEffects: [
+     { id: "read_spoor_read", name: "Spoor Reading", description: "Identify creature type, approximate size, number, speed, direction, and time-since-passed from physical tracks/disturbances. Detail fades with age (hours to days).", mechanicsText: "Read tracks: creature, count, recency, heading." }
+    ],
+    power: "minor",
+   },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+   tags: ["utility", "tracking", "exploration", "universal", "apex"],
+  },
+  {
+   effectTypes: ["utility"],
+   id : "apex_companion_scout",
+   name: "Companion Scout",
+   description:
+   "Send your beast ahead to scout a route, clearing, or building. Through the Shadow Bond you see, hear, and smell what it does in silence; it returns on command or if threatened. You stand blind and motionless while linked. Out of combat.",
+   spellType: "ACTION",
+   icon: "Nature/Wolf Howl",
+   level: 1,
+   specialization: "universal",
+   typeConfig: { castTime: 1, castTimeType: "IMMEDIATE", school: "physical", icon: "Nature/Wolf Howl" },
+   targetingConfig: { targetingType: "self", rangeType: "self" },
+   durationConfig: { durationType: "minutes", duration: 10 },
+   resourceCost: { resourceTypes: ["mana"], resourceValues: { mana: 4 }, actionPoints: 1, components: ["somatic"], somaticText: "Touch brow to your companion's brow to open the link", classResource: { type: "quarry_marks", cost: 1 } },
+   resolution: "NONE",
+   utilityConfig: {
+    utilityType: "scout",
+    selectedEffects: [
+     { id: "companion_scout_eye", name: "Beast's-Eye View", description: "Project your senses through your companion for up to 10 minutes. You see/hear/smell what it does at range; your own body is blind, deaf, and helpless. Ends if your body takes damage.", mechanicsText: "Sense-share scout through companion; body helpless." }
+    ],
+    power: "minor",
+   },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+   tags: ["utility", "scout", "exploration", "universal", "apex"],
+  },
+  {
+   effectTypes: ["utility"],
+   id : "apex_scent_memory",
+   name: "Scent Memory",
+   description:
+   "Let your companion lock onto a presented scent — a drop of blood, a scrap of cloth, a fresh track. Thereafter it can trail that specific quarry across any distance and will alert you (and pinpoint) if the same creature is nearby, even disguised, hidden, or invisible. Out of combat or combat.",
+   spellType: "ACTION",
+   icon: "Nature/Track",
+   level: 2,
+   specialization: "universal",
+   typeConfig: { castTime: 1, castTimeType: "IMMEDIATE", school: "physical", icon: "Nature/Track" },
+   targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
+   durationConfig: { durationType: "hours", duration: 8 },
+   resourceCost: { resourceTypes: ["mana"], resourceValues: { mana: 5 }, actionPoints: 1, components: ["verbal", "somatic"], verbalText: "A low clicking command", somaticText: "Hold the scent-source to the beast's muzzle" },
+   resolution: "NONE",
+   utilityConfig: {
+    utilityType: "tracking",
+    selectedEffects: [
+     { id: "scent_memory_lock", name: "Locked Scent", description: "Memorize one creature's scent. For 8 hours your companion can track it across any distance and detects its presence (revealing disguises/hidden/invisible instances) within 60 ft.", mechanicsText: "Track one specific quarry by scent for 8 hours; detects disguised/hidden." }
+    ],
+    power: "moderate",
+   },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+   tags: ["utility", "tracking", "exploration", "social", "universal", "apex"],
+  },
+  {
+   effectTypes: ["utility", "buff"],
+   id : "apex_fog_veil",
+   name: "Fog-Veil",
+   description:
+   "Wrap yourself and up to your companion in the hush of the Frostwood fog. For one hour you leave no tracks, scent, or sound; you and companions gain advantage on Stealth and cannot be tracked by non-magical means. Ends if you attack or cast a hostile spell.",
+   spellType: "ACTION",
+   icon: "Nature/Fog",
+   level: 2,
+   specialization: "universal",
+   typeConfig: { castTime: 1, castTimeType: "IMMEDIATE", school: "physical", icon: "Nature/Fog" },
+   targetingConfig: { targetingType: "self", rangeType: "self" },
+   durationConfig: { durationType: "hours", duration: 1 },
+   resourceCost: { resourceTypes: ["mana"], resourceValues: { mana: 6 }, actionPoints: 1, components: ["somatic"], somaticText: "Draw a veil-line across your own eyes and breathe slow" },
+   resolution: "NONE",
+   utilityConfig: {
+    utilityType: "stealth",
+    selectedEffects: [
+     { id: "fog_veil_pass", name: "Pass Without Trace", description: "Leave no tracks/scent/sound and gain advantage on Stealth for 1 hour; non-magical tracking fails against you. Ends on a hostile action.", mechanicsText: "Untrackable + advantage Stealth, 1 hour." }
+    ],
+    power: "moderate",
+   },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+   tags: ["utility", "stealth", "exploration", "infiltration", "universal", "apex"],
+  },
+  {
+   effectTypes: ["utility"],
+   id : "apex_silent_sign",
+   name: "Silent Sign",
+   description:
+   "Speak in the hand-pressure sign language of the Silent Sisterhood — fingertaps, glove-squeezes, and gesture-shapes. Convey full thoughts, no sound, at sight-line range, to anyone who knows the signs (your companion, other Apexes, or allies you've taught). Usable while hidden, silenced, or underwater.",
+   spellType: "ACTION",
+   icon: "Utility/Utility",
+   level: 1,
+   specialization: "universal",
+   typeConfig: { castTime: 1, castTimeType: "IMMEDIATE", school: "physical", icon: "Utility/Utility" },
+   targetingConfig: { targetingType: "single", rangeType: "sight", rangeDistance: 120 },
+   durationConfig: { durationType: "minutes", duration: 10 },
+   resourceCost: { resourceTypes: ["mana"], resourceValues: { mana: 1 }, actionPoints: 1, components: ["somatic"], somaticText: "Press and tap the shared signs against palm, thigh, or glove" },
+   resolution: "NONE",
+   utilityConfig: {
+    utilityType: "communication",
+    selectedEffects: [
+     { id: "silent_sign_talk", name: "Silent Speech", description: "Communicate complex intent silently at sight-line range with anyone who knows the signs; works while hidden, silenced, or submerged. A round of teaching lets a willing ally grasp basics.", mechanicsText: "Silent two-way sign-language comms at range; teachable." }
+    ],
+    power: "minor",
+   },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+   tags: ["utility", "social", "communication", "infiltration", "universal", "apex"],
+  },
+  {
+   effectTypes: ["utility", "buff"],
+   id : "apex_hunting_blind",
+   name: "Hunting Blind",
+   description:
+   "Establish a concealed ambush camp — masking scent, mounding cover, and posting your companion as lookout. Allies who rest inside gain advantage on recovery, and the party's first strike out of the blind has advantage and +1d6 damage. Lasts until you move on or break concealment.",
+   spellType: "ACTION",
+   icon: "Nature/Camp",
+   level: 3,
+   specialization: "universal",
+   typeConfig: { castTime: 10, castTimeType: "MINUTES", school: "physical", icon: "Nature/Camp" },
+   targetingConfig: { targetingType: "area", rangeType: "self", areaType: "circle", areaSize: 30 },
+   durationConfig: { durationType: "hours", duration: 8 },
+   resourceCost: { resourceTypes: ["mana"], resourceValues: { mana: 6 }, actionPoints: 1, components: ["somatic"], somaticText: "Break brush, mask scent-lines, and settle the beast into its watch" },
+   resolution: "NONE",
+   utilityConfig: {
+    utilityType: "camp",
+    selectedEffects: [
+     { id: "hunting_blind_rest", name: "Concealed Camp", description: "Allies resting inside recover with advantage; the camp cannot be located by non-magical tracking.", mechanicsText: "Advantage on rest recovery; untrackable camp." },
+     { id: "hunting_blind_strike", name: "Ambush Strike", description: "The party's first attack out of the blind has advantage and deals +1d6 damage.", mechanicsText: "First strike: advantage +1d6." }
+    ],
+    power: "moderate",
+   },
+   cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+   tags: ["utility", "rest", "exploration", "universal", "apex"],
   },
  ],
 };

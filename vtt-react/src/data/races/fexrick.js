@@ -85,13 +85,13 @@ Now the oldest machines are failing faster. The oral traditions are degrading. T
         {
             name: 'Kethrin Gear-Father',
             title: 'The First Tinker',
-            portraitIcon: 'Armor/Head/head-golden-crown-helmet',
+            portraitIcon: 'Kobolds/Icon3',
             backstory: 'The legendary founder of the first holdfast, whose name is preserved in the oldest maintenance song still sung. Kethrin designed the original geothermal turbine, a machine so perfectly balanced that it ran for six thousand years before requiring its first major repair. The Guild-Bound subrace is named for him. His mechanical replacement was a brass right hand, built to replace the one he lost in the turbine\'s initial calibration. The hand is still functional, passed down through his bloodline, worn by the current elder of the First Holdfast. It has outlived seventy-three Fexric. It remembers all of them.'
         },
         {
             name: 'Drall Sump-Scavenger',
             title: 'The First Clan-Free',
-            portraitIcon: 'Armor/Head/head-dark-hood',
+            portraitIcon: 'Kobolds/Icon7',
             backstory: 'A Fexric born into a collapsed holdfast, orphaned at six, who taught herself tinkering from salvaged Guild scrap and alchemy from mineral runoff the Guilds considered waste. She founded the first Clan-Free workshop in the abandoned sump-tunnels beneath the Third Holdfast, proving that formal guild training was not the only path to mastery. The Guilds denounced her as a heretic. Her inventions, a self-regulating ventilation valve and a mineral-testing paste still in use today, outlived the denunciation. The Clan-Free subrace is named for her.'
         }
     ],
@@ -250,7 +250,7 @@ Now the oldest machines are failing faster. The oral traditions are degrading. T
                 {
                     id: 'guild_precision_kethrin',
                     name: 'Guild Precision',
-                    description: 'Your hands were trained by masters who were trained by masters stretching back four thousand years. The muscle memory of your guild lives in your fingers. Advantage on all checks made to repair, disable, or modify mechanical devices and traps. When you take your time, spending at least 1 minute on a task that would normally take 1 action, treat any roll of 9 or lower as a 10. Your hands do not fumble. They have not fumbled in four thousand years. But precision is not speed, your deliberate movements are a liability in combat. Disadvantage on initiative rolls. You do not rush. Rushing is for amateurs.',
+                    description: 'Advantage on all checks to repair, disable, or modify mechanical devices and traps; when you spend at least 1 minute on a task that normally takes 1 action, treat any roll of 9 or lower as a 10. You suffer disadvantage on initiative rolls — precision is not speed. (The muscle memory of your guild lives in your fingers, four thousand years deep, and those hands have not fumbled in millennia.)',
                     level: 1,
                     icon: 'ability_rogue_findweakness',
                     spellType: 'PASSIVE',
@@ -283,7 +283,7 @@ Now the oldest machines are failing faster. The oral traditions are degrading. T
                 {
                     id: 'hoarded_secret_kethrin',
                     name: 'Hoarded Secret',
-                    description: 'Every guild hoards one technique so valuable, so jealously guarded, that it is taught only to those who have reached the highest ranks, and sometimes not even then. You know one such secret. Once per long rest, when you or an ally within 30 feet fails a check to repair, disable, or understand a mechanical device, trap, or construct, you may use your reaction to whisper the secret, a half-remembered phrase from a maintenance song so old its language predates the current dialect. The check succeeds instead. The secret is spoken. For the next 24 hours, you cannot use this ability again, and any Guild-Bound Fexric who heard you speak it knows you shared guild knowledge outside the guild. They will remember.',
+                    description: 'Once per long rest, when you or an ally within 30 feet fails a check to repair, disable, or understand a mechanical device, trap, or construct, you may use your reaction to make that check succeed instead. Any Guild-Bound Fexric who hears you knows you shared guild knowledge outside the guild, and you cannot use this again for 24 hours. (The half-remembered syllables are older than the current tongue; the machine obeys — but the guild remembers everything.)',
                     level: 1,
                     icon: 'spell_arcane_mindmastery',
                     spellType: 'PASSIVE',
@@ -355,7 +355,7 @@ Now the oldest machines are failing faster. The oral traditions are degrading. T
                 {
                     id: 'sump_acclimation_drall',
                     name: 'Sump-Acclimation',
-                    description: 'You spent your life in the sump-tunnels, breathing heavy-metal exhaust and alchemical runoff. Your nervous system has adapted to toxins. Immune to blight damage and the poisoned condition. Advantage on saving throws against disease. But your lungs are permanently scarred: you suffer a -5ft penalty to speed when running in clean surface air. Your body expects the exhaust.',
+                    description: 'Immune to blight damage and the poisoned condition, and you have advantage on saving throws against disease. In clean surface air, your speed is reduced by 5 feet as your scarred lungs struggle with pure oxygen. (You breathed the sump\'s heavy-metal exhaust so long your quicksilver blood now neutralizes the poison — but it never learned to breathe clean.)',
                     level: 1,
                     icon: 'spell_nature_corrosivebreath',
                     spellType: 'PASSIVE',
@@ -365,7 +365,7 @@ Now the oldest machines are failing faster. The oral traditions are degrading. T
                         buffType: 'statEnhancement',
                         effects: [{
                             id: 'sump_immunity',
-                            name: 'Exhaust-Immune',
+                            name: 'Sump-Immunity',
                             description: 'Immune to blight damage and the poisoned condition. Advantage on disease saves.',
                             statusEffect: { level: 'major', description: 'Your quicksilver blood neutralizes heavy metals' }
                         }],
@@ -388,7 +388,7 @@ Now the oldest machines are failing faster. The oral traditions are degrading. T
                 {
                     id: 'sump_salvage_drall',
                     name: 'Sump-Salvage',
-                    description: 'Your mechanical replacement was built from trash. When a mechanical device, construct, or trap within 10 feet is destroyed, you can use your reaction to harvest its components. Gain 1 AP instantly. For the next hour, you gain advantage on your next check made to repair, disable, or modify a device, you have exactly the scrap piece you needed. You cannot harvest from the same device twice, and you must have your hands free to grab the parts as they fall.',
+                    description: 'When a mechanical device, construct, or trap within 10 feet is destroyed, you may use your reaction to harvest its components, gaining 1 AP instantly and advantage on your next check to repair, disable, or modify a device within the next hour. You cannot harvest the same device twice, and you must have your hands free to grab the parts as they fall. (Your mechanical replacement was built from trash, and you never stopped treating destruction as a supply run.)',
                     level: 1,
                     icon: 'ability_creature_disease_05',
                     spellType: 'PASSIVE',

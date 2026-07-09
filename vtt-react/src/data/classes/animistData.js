@@ -132,7 +132,7 @@
   classIdentity: {
     title: "The Ancestral Conduit",
     subtitle: "Blood-Bound Voice of the Wild and the Written Word",
-    utility: "Channel three distinct ancestral traditions through a single unified resource. The Animist erupts bone totems from self-mutilation (Primalist heritage), invokes ancient spirits through curse-driven invocation rituals (Witch Doctor heritage), and carves permanent runic networks into earth and flesh (Inscriptor heritage). They simultaneously terraform the battlefield, summon specters, and inscribe sacred sigils, paying for every manifestation with their own blood, memories, and sanity.",
+    utility: "Channel three distinct ancestral traditions through a single unified resource. The Animist erupts bone totems from their own body (Primalist heritage), invokes ancient spirits through curse-driven invocation rituals (Witch Doctor heritage), and carves permanent runic networks into earth and flesh (Inscriptor heritage). They simultaneously terraform the battlefield, summon specters, and inscribe sacred sigils, paying for every manifestation through the mounting toll of Spirit Erosion.",
     fatalFlaw: "Triple catastrophic flaw from fused traditions. Spirit Erosion at 15+ Ancestral Resonance: 100% ember vulnerability, cannot receive party healing, forced movement shatters active runic networks dealing backlash, and the spirits demand service with 1d6 wyrd/turn if you hoard resonance without invoking. The Animist walks three tightropes simultaneously, and falling from any one is devastating."
   },
 
@@ -174,17 +174,17 @@ Carve the bone. Invoke the dead. Inscribe the earth. The ancestors remember what
     subtitle: "Ancestral Conduit and the Triple Toll of Communion",
     quickOverview: {
       title: "Quick Overview",
-      content: `**What You Need to Know**: The Animist is a tragic, triple-blooded controller who wields three ancestral traditions simultaneously. They erupt bone totems, invoke spirits through curses, and carve runic networks into the earth, paying for every manifestation with HP, memories, and sanity.
+      content: `**What You Need to Know**: The Animist is a tragic, triple-blooded controller who wields three ancestral traditions simultaneously. They erupt bone totems, invoke spirits through curses, and carve runic networks into the earth, paying for every manifestation through the mounting toll of Spirit Erosion.
 
-**Core Mechanic 1 (Ancestral Resonance 0-20)**: Build resonance by sacrificing HP to summon totems, cast curses, carve runes, and complete rituals. Spend resonance on devastating invocations, totem powers, and runic network activations.
+**Core Mechanic 1 (Ancestral Resonance 0-20)**: Build resonance by summoning totems, casting curses, carving runes, and completing rituals. Spend resonance on devastating invocations, totem powers, and runic network activations.
 
 **Core Mechanic 2 (Spirit Erosion)**: At 15+ resonance, the triple toll activates. You suffer 100% ember vulnerability, cannot receive party healing, and forced movement shatters your runic network. The spirits also demand service: 1d6 wyrd damage per turn if you hoard resonance without spending.
 
-**Core Mechanic 3 (Blood Price)**: Every ability costs HP. Totem eruption costs 5 HP. Rune carving costs 1d4-2d6 slashing self-damage. Curse casting drains 1d4 blight. The Animist is always bleeding.
+**Core Loop**: Build resonance cheap (\"Generates\" spells — totems, curses, runes) -> spend it big (\"Spends\" spells — invocations and network detonations) -> dump it before you cross 15+.
 
 **Playstyle**: Extreme battlefield control through three simultaneous systems. Terraform the terrain, summon ancestral specters, and invoke spirit interventions while managing a mounting spiritual debt that threatens to consume you.`,
     },
-    description: `A walking archive of three dead traditions, written in scars, bone spurs, and spiritual static. The Animist does not cast magic; they undergo grotesque physical transformation. Bone erupts from flesh as totems. Blood carves glowing sigils into stone. The voices of ancestral spirits whisper through hallucinations that cannot be silenced. Every word of ancestral power costs a piece of the self: blood, memory, sanity, or all three.`,
+    description: `A walking archive of three dead traditions, written in scars, bone spurs, and spiritual static. The Animist does not cast magic; they undergo intense physical transformation. Bone erupts from flesh as totems. Glowing sigils ignite across stone. The voices of ancestral spirits whisper through hallucinations that cannot be silenced. Every word of ancestral power risks Spirit Erosion — the more resonance you hoard, the more the ancestors consume you.`,
     roleplayIdentity: {
       title: "Roleplay Identity",
       content: `**HISTORY: THE TRIPLE GENESIS**
@@ -210,7 +210,7 @@ The class is practiced by the <LoreLink termId="house_ordavan">Ordan</LoreLink> 
     philosophy: {
       coreTenet: 'The world is not governed by laws or the Wyrd alone. It is governed by ancestors. Every creature that has ever lived has left an imprint on the world, and the Animist can read those imprints, invoke those spirits, and carve those truths into permanence. The bone is the body\'s memory. The spirit is the soul\'s memory. The rune is the mind\'s memory. An Animist reads all three.',
       relationship: 'The Animist stands at the intersection of three ancestral traditions. Totemic power erupts from their flesh as physical bone and root. Spirit invocation accumulates as a debt the Wyrd honor. Runic inscription carves permanent truth into reality. Each tradition reinforces the others: totems provide anchor points for runic networks, spirits can be bound to runes, and runic amplification intensifies totem effects.',
-      paradox: 'The Animist gains power by losing themselves across three dimensions. Physical self (totem eruption costs HP and leaves permanent bone spurs), mental self (spirit channeling erases memories and causes hallucinations), and spiritual self (runic inscription trades lifespan for permanent records). The greatest Animists are covered in bone spurs, covered in runic scars, and accompanied by spirits only they can see. They have given everything to become everything.'
+      paradox: 'The Animist gains power by losing themselves across three dimensions. Physical self (totem eruption leaves permanent bone spurs), mental self (spirit channeling erases memories and causes hallucinations), and spiritual self (runic inscription trades lifespan for permanent records). The greatest Animists are covered in bone spurs, covered in runic scars, and accompanied by spirits only they can see. They have given everything to become everything.'
     },
 
     currentCrisis: `The ancestral language is fragmenting. For centuries, the three traditions spoke the same root language, but centuries of separation have created dialects that no longer align perfectly. Bone totems that should resonate with runic networks are producing unstable harmonics. Spirit invocations are interfering with runic inscriptions, causing letters to shift on the page. The Wyrd are confused by runic binding circles that use totemic syntax.
@@ -225,7 +225,15 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       title: "The Ancestral Architect",
       content: `**Triple Battlefield Control**: Your role is to reshape the entire battlefield through three simultaneous systems. Bone totems create physical anchor points and healing zones. Curse-driven spirit invocations provide burst damage and spirit intervention. Runic networks create permanent zones of denial and amplification.
 
-**Self-Sustaining Agony**: You protect your allies through massive self-sacrifice. Every totem costs HP. Every rune costs HP. Every curse costs HP. You are a one-way conduit of ancestral power, bleeding constantly to maintain control over three overlapping systems of dominance.`
+**Three-Tradition Conduit**: You do not pay in blood — you pay in attention. Every turn you choose where to invest resonance: a totem for zone control, a curse for resonance generation, or a rune for a permanent network. The skill is weaving all three without hoarding enough resonance to trigger Spirit Erosion.
+
+**Weaknesses**:
+- Ember Glasshouse: at 15+ Resonance you take double fire damage — a single torch or ember spell can drop you in one hit.
+- Beyond Healing: at 15+ Resonance no ally's healing touches you; you survive only on your own totems and stolen souls.
+- Shove-Bait: any forced movement detonates every active rune for 1d10 force each — smart enemies weaponize knockback and teleports against you.
+- Rooted to Cast: totems and runes demand you stay planted; mobile foes simply walk out of your setup before it pays off.
+- Resonance Treadmill: you must keep casting to stay useful — stop generating/spending and you neither build power nor control the field; a silenced or CC-locked Animist stalls out completely.
+- Hoarder's Wrath: sit on high Resonance without spending and the spirits claw 1d6 wyrd damage into you every turn.`
     },
     playstyle: {
       title: "The Triple Toll",
@@ -237,8 +245,8 @@ Some Animists believe the Dissonance is a sign that the three founders never int
 
   resourceSystem: {
     title: "Ancestral Resonance & Spirit Erosion",
-    subtitle: "The Triple Toll of Blood, Bone, and Spirit",
-    description: "The Animist's power operates on a unified resource that feeds three ancestral traditions simultaneously. Every totem summoned, every curse cast, every rune carved generates Ancestral Resonance. This resonance is spent across all three systems, but as it builds, the Spirit Erosion exacts a catastrophic triple toll.",
+    subtitle: "The Triple Toll of Bone, Spirit, and Script",
+    description: "**The whole class in one line:** build Ancestral Resonance (0 to 20) with cheap totems, curses, and runes — then spend it on devastating invocations and detonations. But cross 15 and the ancestors turn on you.\n\n**Your one job each turn:** *Build* resonance with cheap spells (the ones that say \"Generates\"), then *Spend* it on big invocations and detonations (the ones that say \"Spends\"). Ride the line near 15 for peak power, then dump it before the toll bites.\n\nThe Animist's power feeds three ancestral traditions at once — totemic bone, spirit curse, and runic inscription. Every spell either feeds this resonance or drinks from it. There is no HP cost to casting — your tension is the resonance gauge itself: hoard it for power and Spirit Erosion punishes you; spend it freely and you stay safe but lean.",
     cards: [
       {
         title: "Ancestral Resonance",
@@ -251,26 +259,26 @@ Some Animists believe the Dissonance is a sign that the three founders never int
         details: "100% ember vulnerability. Cannot receive party healing. Forced movement shatters runic networks (1d10 force per active rune). Spirits demand service: 1d6 wyrd/turn if 15+ resonance and no invocation/spend this turn."
       },
       {
-        title: "Blood Price",
-        stats: "Constant Self-Damage",
-        details: "Totem eruption costs 5 HP. Rune carving costs 1d4-2d6 slashing self-damage. Curse casting drains 1d4 blight self-damage. Every power costs the body."
+        title: "Resonance Economy",
+        stats: "Build vs. Spend",
+        details: "Cheap 'Generates' spells bank resonance; big 'Spends' spells (invocations, network detonations) drink it. No HP cost to cast — the danger is hoarding resonance, not bleeding for it."
       }
     ],
     generationTable: {
-      headers: ["Action", "Resonance Gained", "Blood Price (HP Cost)", "Tradition"],
+      headers: ["Action", "Resonance", "Tradition"],
       rows: [
-        ["Summon/Upgrade Totem", "+3 Resonance", "-5 HP", "Primalist"],
-        ["Cast Curse", "+1 Resonance", "-1d4 blight self", "Spirit"],
-        ["Apply Poison", "+1 Resonance", "-1 HP", "Spirit"],
-        ["Place Healing Totem", "+1 Resonance", "-5 HP", "Primalist + Spirit"],
-        ["Complete Ritual", "+2 Resonance", "-3d4 blight self", "Spirit"],
-        ["Carve Level 1-2 Rune", "+1 Resonance", "-1d4 slashing self", "Inscriptor"],
-        ["Carve Level 3+ Rune", "+2 Resonance", "-2d6 slashing self", "Inscriptor"],
-        ["Remain Stationary (Turn Start)", "+1 Resonance", "Joints calcify", "Inscriptor"],
-        ["Defeat Cursed Enemy", "+3 Resonance", "None", "Spirit"],
-        ["Invoke Wyrd Spirit", "Spends 5-10 Resonance", "-3d6 blight self", "Spirit"],
-        ["Activate Runic Network", "Spends 3-8 Resonance", "-2d6 force self", "Inscriptor"],
-        ["Totem Cataclysm", "Spends 10+ Resonance", "-15 HP", "Primalist"]
+        ["Summon/Upgrade Totem", "+3 Resonance", "Primalist"],
+        ["Cast Curse", "+1 Resonance", "Spirit"],
+        ["Apply Poison", "+1 Resonance", "Spirit"],
+        ["Place Healing Totem", "+1 Resonance", "Primalist + Spirit"],
+        ["Complete Ritual", "+2 Resonance", "Spirit"],
+        ["Carve Level 1-2 Rune", "+1 Resonance", "Inscriptor"],
+        ["Carve Level 3+ Rune", "+2 Resonance", "Inscriptor"],
+        ["Remain Stationary (Turn Start)", "+1 Resonance", "Inscriptor"],
+        ["Defeat Cursed Enemy", "+3 Resonance", "Spirit"],
+        ["Invoke Wyrd Spirit", "Spends 5-10 Resonance", "Spirit"],
+        ["Activate Runic Network", "Spends 3-8 Resonance", "Inscriptor"],
+        ["Totem Cataclysm", "Spends 10+ Resonance", "Primalist"]
       ]
     },
     usage: {
@@ -368,7 +376,7 @@ Some Animists believe the Dissonance is a sign that the three founders never int
         ],
         specPassive: {
           name: "Stormbrand Inscription",
-          description: "When you carve an inscription onto an ally, take 1d6 slashing but ally gains +2 to attacks and saves for 5 rounds. Their weapon siphons life, healing 20% of damage dealt. Your spells deal +1d6 lightning damage near a Storm Totem. Simbi and Erzulie invocations cost 2 less resonance."
+          description: "When you carve an inscription onto an ally, the ally gains +2 to attacks and saves for 5 rounds. Their weapon siphons life, healing 20% of damage dealt. Your spells deal +1d6 lightning damage near a Storm Totem. Simbi and Erzulie invocations cost 2 less resonance."
         },
       }
     ]
@@ -660,11 +668,6 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       tags: ["healing","invocation","cleanse","primal"]
     ,
 
-  triggerConfig: {
-    triggers: [
-      { id: "animist_invoke_simbi_blood_price", name: "Blood Price", triggerType: "on_cast", action: "Pay the Blood Price: the spirit's bargain drains 1d4 blight HP from you." }
-    ]
-  },
   somaticText: "Trace the target's silhouette in the air with a bloodied fingertip, anchoring the spirit to your will.",
   verbalText: "Whisper the target's true name in the fractured ancestor-tongue.",
 },
@@ -703,11 +706,6 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       tags: ["damage","storm","totem","combo"]
     ,
 
-  triggerConfig: {
-    triggers: [
-      { id: "animist_totemic_storm_blood_price", name: "Blood Price", triggerType: "on_cast", action: "Pay the Blood Price: the bone totem tears free, costing you 5 HP." }
-    ]
-  },
   somaticText: "Drive your off-hand into the soil and wrench a bone spur from your wrist, forcing the totem to tear free of your flesh.",
   verbalText: "A low, grinding chant thrums in your chest as the ancestor answers.",
 },
@@ -766,17 +764,12 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       tags: ["buff","invocation","cleanse","wyrd"]
     ,
 
-  triggerConfig: {
-    triggers: [
-      { id: "animist_invoke_papa_legba_blood_price", name: "Blood Price", triggerType: "on_cast", action: "Pay the Blood Price: the spirit's bargain drains 1d4 blight HP from you." }
-    ]
-  },
   somaticText: "Trace the target's silhouette in the air with a bloodied fingertip, anchoring the spirit to your will.",
   verbalText: "Whisper the target's true name in the fractured ancestor-tongue.",
 },
     { id : "animist_grave_sight",
-      name: "Grave Sight",
-      description: "Shatter a target's mind with the presence of death. Target suffers vulnerability. Spends 4 Resonance.",
+      name: "Mortis Glare",
+      description: "Lock eyes with a foe and force the full, crushing weight of death behind them. The target suffers disadvantage on saves and +50% Wyrd vulnerability. Spends 4 Resonance.",
       level: 6,
       spellType: "CHANNELED",
       icon: "Psychic/Psychic Telepathy",
@@ -829,11 +822,6 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       tags: ["buff","control","zone","arcane"]
     ,
 
-  triggerConfig: {
-    triggers: [
-      { id: "animist_inscribed_fortress_blood_price", name: "Blood Price", triggerType: "on_cast", action: "Pay the Blood Price: carving the rune into your own flesh costs 1d4 slashing HP." }
-    ]
-  },
   somaticText: "Carve the sigil into your own palm, letting welling blood ink the pattern onto the world.",
   verbalText: "Speak the binding word, lips shaping the old script.",
 },
@@ -853,11 +841,6 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       tags: ["healing","invocation","divine"]
     ,
 
-  triggerConfig: {
-    triggers: [
-      { id: "animist_invoke_erzulie_blood_price", name: "Blood Price", triggerType: "on_cast", action: "Pay the Blood Price: the spirit's bargain drains 1d4 blight HP from you." }
-    ]
-  },
   somaticText: "Trace the target's silhouette in the air with a bloodied fingertip, anchoring the spirit to your will.",
   verbalText: "Whisper the target's true name in the fractured ancestor-tongue.",
 },
@@ -878,11 +861,6 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       tags: ["damage","healing","combo","blight"]
     ,
 
-  triggerConfig: {
-    triggers: [
-      { id: "animist_spirit_dredge_blood_price", name: "Blood Price", triggerType: "on_cast", action: "Pay the Blood Price: the spirit's bargain drains 1d4 blight HP from you." }
-    ]
-  },
   somaticText: "Trace the target's silhouette in the air with a bloodied fingertip, anchoring the spirit to your will.",
   verbalText: "Whisper the target's true name in the fractured ancestor-tongue.",
 },
@@ -902,11 +880,6 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       tags: ["damage","invocation","ultimate","blight"]
     ,
 
-  triggerConfig: {
-    triggers: [
-      { id: "animist_invoke_baron_samedi_blood_price", name: "Blood Price", triggerType: "on_cast", action: "Pay the Blood Price: the spirit's bargain drains 1d4 blight HP from you." }
-    ]
-  },
   somaticText: "Trace the target's silhouette in the air with a bloodied fingertip, anchoring the spirit to your will.",
   verbalText: "Whisper the target's true name in the fractured ancestor-tongue.",
 },
@@ -926,11 +899,6 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       tags: ["summon","buff","totem","primal"]
     ,
 
-  triggerConfig: {
-    triggers: [
-      { id: "animist_primeval_totem_blood_price", name: "Blood Price", triggerType: "on_cast", action: "Pay the Blood Price: the bone totem tears free, costing you 5 HP." }
-    ]
-  },
   somaticText: "Drive your off-hand into the soil and wrench a bone spur from your wrist, forcing the totem to tear free of your flesh.",
   verbalText: "A low, grinding chant thrums in your chest as the ancestor answers.",
 },
@@ -950,11 +918,6 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       tags: ["control","rune","arcane"]
     ,
 
-  triggerConfig: {
-    triggers: [
-      { id: "animist_rune_of_binding_blood_price", name: "Blood Price", triggerType: "on_cast", action: "Pay the Blood Price: carving the rune into your own flesh costs 1d4 slashing HP." }
-    ]
-  },
   somaticText: "Carve the sigil into your own palm, letting welling blood ink the pattern onto the world.",
   verbalText: "Speak the binding word, lips shaping the old script.",
 },
@@ -975,11 +938,6 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       tags: ["healing","buff","ultimate","arcane"]
     ,
 
-  triggerConfig: {
-    triggers: [
-      { id: "animist_worldscribe_blood_price", name: "Blood Price", triggerType: "on_cast", action: "Pay the Blood Price: carving the rune into your own flesh costs 1d4 slashing HP." }
-    ]
-  },
   somaticText: "Carve the sigil into your own palm, letting welling blood ink the pattern onto the world.",
   verbalText: "Speak the binding word, lips shaping the old script.",
 },
@@ -999,11 +957,6 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       tags: ["damage","ultimate","totem","ember"]
     ,
 
-  triggerConfig: {
-    triggers: [
-      { id: "animist_cataclysmic_eruption_blood_price", name: "Blood Price", triggerType: "on_cast", action: "Pay the Blood Price: the bone totem tears free, costing you 5 HP." }
-    ]
-  },
   somaticText: "Drive your off-hand into the soil and wrench a bone spur from your wrist, forcing the totem to tear free of your flesh.",
   verbalText: "A low, grinding chant thrums in your chest as the ancestor answers.",
 },
@@ -1023,11 +976,6 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       tags: ["buff","ultimate","primal"]
     ,
 
-  triggerConfig: {
-    triggers: [
-      { id: "animist_triune_ascension_blood_price", name: "Blood Price", triggerType: "on_cast", action: "Pay the Blood Price: carving the rune into your own flesh costs 1d4 slashing HP." }
-    ]
-  },
   somaticText: "Carve the sigil into your own palm, letting welling blood ink the pattern onto the world.",
   verbalText: "Speak the binding word, lips shaping the old script.",
 },
@@ -1048,13 +996,122 @@ Some Animists believe the Dissonance is a sign that the three founders never int
       tags: ["summon","damage","control","blight"]
     ,
 
-  triggerConfig: {
-    triggers: [
-      { id: "animist_spectral_guardian_blood_price", name: "Blood Price", triggerType: "on_cast", action: "Pay the Blood Price: the spirit's bargain drains 1d4 blight HP from you." }
-    ]
-  },
   somaticText: "Trace the target's silhouette in the air with a bloodied fingertip, anchoring the spirit to your will.",
   verbalText: "Whisper the target's true name in the fractured ancestor-tongue.",
+},
+    { id : "animist_ancestral_whisper",
+      name: "Ancestral Whisper",
+      description: "Kneel beside a corpse, a bone, or a lingering shade and breathe a thread of the ancestor-tongue into it. The dead answer three questions about their life, their death, or what they last witnessed. Out of combat. Generates 1 Resonance.",
+      level: 1,
+      spellType: "ACTION",
+      icon: "Psychic/Psychic Telepathy",
+      effectTypes: ["utility"],
+      typeConfig: { school: "wyrd", icon: "Psychic/Psychic Telepathy", tags: ["utility","divination","social","spirit","starter"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: undefined, targetRestrictions: ["any"] },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 1, mana: 3, classResource: { type: "resonance", cost: -1 } },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+      utilityConfig: { utilityType: "divination", selectedEffects: [ { id : "animist_whisper_commune", name: "Commune with the Dead", description: "Ask a corpse or spirit up to 3 questions. Answers are truthful from the spirit's own memory, but may be incomplete, biased, or in the fractured ancestor-tongue.", mechanicsText: "3 questions to a corpse/spirit; truthful but possibly incomplete." } ], duration: 1, durationUnit: "minutes" },
+      resolution: "NONE",
+      tags: ["utility","divination","social","spirit","starter"]
+    ,
+
+  somaticText: "Lay a bloodied palm on the remains and let the ancestor's voice rise through your throat.",
+  verbalText: "A question, shaped in the old tongue — the same word for 'remember' and 'answer.'",
+},
+    { id : "animist_bone_reading",
+      name: "Bone-Reading",
+      description: "Press bone to stone and read the ancestral memory printed on a place or held object — a flash of the last creature to die there, a spoken word, or a violent echo. Reveals the recent history of a touched location. Out of combat. Generates 1 Resonance.",
+      level: 1,
+      spellType: "ACTION",
+      icon: "Nature/Nature Natural 11",
+      effectTypes: ["utility"],
+      typeConfig: { school: "primal", icon: "Nature/Nature Natural 11", tags: ["utility","divination","exploration","starter"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: undefined, targetRestrictions: ["any"] },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 1, mana: 3, classResource: { type: "resonance", cost: -1 } },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+      utilityConfig: { utilityType: "divination", selectedEffects: [ { id : "animist_bone_reading_echo", name: "Memory Echo", description: "Glimpse the strongest emotional or violent echo imprinted on a touched place/object within the last day per level.", mechanicsText: "Read recent history of a touched location/object." } ], duration: 1, durationUnit: "rounds" },
+      resolution: "NONE",
+      tags: ["utility","divination","exploration","primal","starter"]
+    ,
+
+  somaticText: "Set a knuckle-bone against the surface and hum until the stone answers in pictures.",
+  verbalText: "A single sustained note — the overtones do the reading, not the words.",
+},
+    { id : "animist_spirit_walk",
+      name: "Spirit-Walk",
+      description: "Dislodge your spirit (or lend it to a summoned specter) and send it roaming as an invisible scout. You see and hear through it for the duration while your body stands blind and defenseless. Spends 2 Resonance.",
+      level: 2,
+      spellType: "ACTION",
+      icon: "Psychic/Psychic Telepathy",
+      effectTypes: ["utility"],
+      typeConfig: { school: "wyrd", icon: "Psychic/Psychic Telepathy", tags: ["utility","scout","exploration","spirit"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "self", rangeType: "self", rangeDistance: undefined, targetRestrictions: ["self"] },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 1, mana: 5, classResource: { type: "resonance", cost: 2 } },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+      utilityConfig: { utilityType: "scout", selectedEffects: [ { id : "animist_spirit_walk_eye", name: "Wandering Eye", description: "Project an invisible spirit scout up to 60 ft per level. You see and hear through it; your body is blind, deaf, and helpless. Ends if the body takes damage.", mechanicsText: "Invisible spirit scout; senses shared; body helpless." } ], duration: 10, durationUnit: "minutes" },
+      resolution: "NONE",
+      tags: ["utility","scout","exploration","spirit"]
+    ,
+
+  somaticText: "Press thumb to sternum and push the self outward, leaving the bone-cage empty.",
+  verbalText: "A farewell word to your own body, promising to return.",
+},
+    { id : "animist_scribes_insight",
+      name: "Scribe's Insight",
+      description: "Inscribe a translating rune over any text. For one hour you read any written language, decipher codes, and surface hidden or illusion-veiled script. The rune can be shared with one ally. Generates 1 Resonance.",
+      level: 2,
+      spellType: "ACTION",
+      icon: "Arcane/Ebon Blaze",
+      effectTypes: ["utility"],
+      typeConfig: { school: "arcane", icon: "Arcane/Ebon Blaze", tags: ["utility","translation","exploration","social","rune"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: undefined, targetRestrictions: ["any"] },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 1, mana: 4, classResource: { type: "resonance", cost: -1 } },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+      utilityConfig: { utilityType: "translation", selectedEffects: [ { id : "animist_scribes_insight_read", name: "Open Script", description: "Read any language, decipher codes, and reveal hidden/magical text for 1 hour. Shareable with one touched ally.", mechanicsText: "Comprehend all writing + reveal hidden text, 1 hour." } ], duration: 1, durationUnit: "hours" },
+      resolution: "NONE",
+      tags: ["utility","translation","exploration","social","rune"]
+    ,
+
+  somaticText: "Carve the open-eye sigil over the page; the rune drinks the ink and gives back meaning.",
+  verbalText: "Speak the word for 'listen' applied to letters — the script begins to speak.",
+},
+    { id : "animist_threshold_ward",
+      name: "Threshold Ward Totem",
+      description: "Erupt a small bone totem at a doorway or camp perimeter. It sounds a spirit-knell in your mind when any creature or restless shade crosses uninvited, and allies resting within its radius recover with advantage. Generates 2 Resonance.",
+      level: 2,
+      spellType: "ACTION",
+      icon: "Nature/Nature Natural 11",
+      effectTypes: ["utility","buff"],
+      typeConfig: { school: "primal", icon: "Nature/Nature Natural 11", tags: ["utility","totem","exploration","rest"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 30, targetRestrictions: ["allies"], areaShape: "circle", areaSize: 30 },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 1, mana: 4, classResource: { type: "resonance", cost: -2 } },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+      utilityConfig: { utilityType: "ward", selectedEffects: [ { id : "animist_threshold_ward_alert", name: "Threshold Knell", description: "Alerts you (no perceptible sound) to any creature crossing the warded boundary. Spirits and incorporeal undead are barred unless invited.", mechanicsText: "Silent intrusion alarm; bars uninvited spirits." }, { id : "animist_threshold_ward_rest", name: "Ancestral Vigil", description: "Allies who complete a rest inside the ward recover HP and resources with advantage.", mechanicsText: "Advantage on rest recovery within the ward." } ], duration: 8, durationUnit: "hours" },
+      resolution: "NONE",
+      tags: ["utility","totem","exploration","rest","primal"]
+    ,
+
+  somaticText: "Plant a finger-bone in the threshold and let it drink a drop of your spit to know the house.",
+  verbalText: "Name every ally aloud so the totem knows who belongs.",
+},
+    { id : "animist_mourners_pact",
+      name: "Mourner's Pact",
+      description: "Offer a drop of blood and a true name to soothe hostile spirits, ghosts, or the freshly bereaved. Restless dead grow calm enough to parley; the grieving instinctively trust you. Grants advantage on social checks with the spirit-touched or the mourning. Generates 1 Resonance.",
+      level: 3,
+      spellType: "ACTION",
+      icon: "Healing/Golden Heart",
+      effectTypes: ["utility","buff"],
+      typeConfig: { school: "wyrd", icon: "Healing/Golden Heart", tags: ["utility","social","spirit","exploration"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 30, targetRestrictions: ["any"] },
+      resourceCost: { components: ['verbal', 'somatic'], actionPoints: 1, mana: 5, classResource: { type: "resonance", cost: -1 } },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+      utilityConfig: { utilityType: "social", selectedEffects: [ { id : "animist_mourners_pact_calm", name: "Mourner's Pact", description: "Calm hostile ghosts/spirits to neutral and open to dialogue, and grant yourself advantage on social checks with the spirit-touched, the bereaved, or the dead for 10 minutes.", mechanicsText: "Calm spirits; advantage on social checks with the mourning/spirit-touched." } ], duration: 10, durationUnit: "minutes" },
+      resolution: "NONE",
+      tags: ["utility","social","spirit","exploration"]
+    ,
+
+  somaticText: "Smear a thumbprint of blood on the target's brow (or the air before a shade) and breathe slow.",
+  verbalText: "Recite the true name and the kin-name — the words the dead answer to.",
 }
   ],
 
@@ -1064,19 +1121,25 @@ Some Animists believe the Dissonance is a sign that the three founders never int
     "animist_healing_totem",
     "animist_mojo_whisper",
     "animist_crimson_brand",
-    "animist_rune_of_shielding"
+    "animist_rune_of_shielding",
+    "animist_ancestral_whisper",
+    "animist_bone_reading"
   ],
   "2": [
     "animist_gale_totem",
     "animist_spirit_link",
     "animist_rune_of_celerity",
-    "animist_calcified_spire"
+    "animist_calcified_spire",
+    "animist_spirit_walk",
+    "animist_scribes_insight",
+    "animist_threshold_ward"
   ],
   "3": [
     "animist_thorn_barrier",
     "animist_spirit_wolves",
     "animist_rune_of_destruction",
-    "animist_siphon_hex"
+    "animist_siphon_hex",
+    "animist_mourners_pact"
   ],
   "4": [
     "animist_earthen_grasp",

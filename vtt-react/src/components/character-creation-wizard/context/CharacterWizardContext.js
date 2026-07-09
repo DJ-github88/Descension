@@ -87,9 +87,6 @@ const initialState = {
         selectedLanguages: [],
         skillRanks: {}, // Object mapping skill IDs to rank names (e.g., { alchemy: 'ADEPT', intimidation: 'UNTRAINED' })
 
-        // Path (custom paths like Mystic, Zealot, etc.)
-        path: '',
-
         // Stats (point-buy allocation)
         baseStats: getDefaultStats(),
 
@@ -145,7 +142,6 @@ export const ACTION_TYPES = {
     SET_SKILLS: 'SET_SKILLS',
     SET_LANGUAGES: 'SET_LANGUAGES',
     SET_SKILL_RANKS: 'SET_SKILL_RANKS',
-    SET_PATH: 'SET_PATH',
     UPDATE_LORE: 'UPDATE_LORE',
     UPDATE_BASE_STATS: 'UPDATE_BASE_STATS',
     RECALCULATE_FINAL_STATS: 'RECALCULATE_FINAL_STATS',
@@ -279,15 +275,6 @@ const characterWizardReducer = (state, action) => {
                 }
             };
 
-        case ACTION_TYPES.SET_PATH:
-            return {
-                ...state,
-                characterData: {
-                    ...state.characterData,
-                    path: action.payload
-                }
-            };
-
         case ACTION_TYPES.UPDATE_LORE:
             return {
                 ...state,
@@ -317,14 +304,11 @@ const characterWizardReducer = (state, action) => {
                 ? applyRacialModifiers({}, characterData.race, characterData.subrace)
                 : {};
 
-            // Path modifiers removed (disciplines are no longer part of the system)
-            const pathModifiers = {};
-
             // Calculate final stats
             const finalStats = calculateFinalStats(
                 characterData.baseStats,
                 racialModifiers,
-                pathModifiers
+                {}
             );
 
             return {
@@ -406,9 +390,6 @@ const characterWizardReducer = (state, action) => {
                     selectedSkills: existingChar.selectedSkills || [],
                     selectedLanguages: existingChar.selectedLanguages || [],
                     skillRanks: existingChar.skillRanks || {},
-
-                    // Path
-                    path: existingChar.path || '',
 
                     // Stats - use existing stats or defaults
                     baseStats: existingChar.stats || getDefaultStats(),
@@ -534,8 +515,7 @@ export function CharacterWizardProvider({ children }) {
     }, [
         state.characterData.baseStats,
         state.characterData.race,
-        state.characterData.subrace,
-        state.characterData.path
+        state.characterData.subrace
     ]);
 
     // Auto-validate current step when data changes
@@ -585,7 +565,6 @@ export const wizardActionCreators = {
     setSkills: (skills) => ({ type: ACTION_TYPES.SET_SKILLS, payload: skills }),
     setLanguages: (languages) => ({ type: ACTION_TYPES.SET_LANGUAGES, payload: languages }),
     setSkillRanks: (skillRanks) => ({ type: ACTION_TYPES.SET_SKILL_RANKS, payload: skillRanks }),
-    setPath: (path) => ({ type: ACTION_TYPES.SET_PATH, payload: path }),
     updateLore: (lore) => ({ type: ACTION_TYPES.UPDATE_LORE, payload: lore }),
     updateBaseStats: (stats) => ({ type: ACTION_TYPES.UPDATE_BASE_STATS, payload: stats }),
     setStartingSpells: (spellIds) => ({ type: ACTION_TYPES.SET_STARTING_SPELLS, payload: spellIds }),

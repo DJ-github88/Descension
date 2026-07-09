@@ -268,7 +268,7 @@ Different instruments provide different bonuses and affect your playstyle:
 
 *You raise your war drum, its surface etched with ancient runes. The bandits charge. You begin to PLAY.*
 
-**Your Action**: Cast "Inspiring Rhythm" on your party (3 mana, builder spell)
+**Your Action**: Cast "Borrowed Rhythm" on your party (3 mana, builder spell)
 **Effect**: Grant +1 to attack rolls for 1 round (allies within 15 ft)
 **Musical Notes Generated**: V(2) + VII(1)
 
@@ -401,7 +401,7 @@ Different instruments provide different bonuses and affect your playstyle:
 2. **Note Stacking**: Notes stack up to 5 of each type (I through VII), and persist between combats
 3. **Cadence Planning**: Perfect Cadence requires I(2), IV(1), V(1), 4 notes total, and guarantees a critical hit
 4. **Resource Management**: Started with I(1), V(1), built to I(2), IV(1), V(3), spent 4 notes for cadence
-5. **Builder Spells**: Opening Chord (I(2)+V(1)), Harmonic Strike (III(2)+I(1)), Inspiring Rhythm (V(2)+VII(1)), Melancholy Melody (VI(2)+IV(1))
+5. **Builder Spells**: Opening Chord (I(2)+V(1)), Harmonic Strike (III(2)+I(1)), Borrowed Rhythm (V(2)+VII(1)), Melancholy Melody (VI(2)+IV(1))
 6. **Cadence Impact**: Perfect Cadence guaranteed tank's critical hit: 20 damage ? 40 damage (doubled)
 7. **Note Persistence**: Ended with I(3), III(4), V(3), VI(2), VII(1) banked for next fight
 
@@ -643,7 +643,7 @@ Create a tracking mat with 7 columns labeled I through VII:
 
 **Generating Notes**:
 - When you cast a builder spell, place a token in the appropriate column
-- Example: Cast "Inspiring Rhythm" (generates II) ? Place 1 light blue token in the II column
+- Example: Cast "Borrowed Rhythm" (generates II) ? Place 1 light blue token in the II column
 - Example: Cast "Resonant Chord" (generates I) ? Place 1 gold token in the I column
 - Stack tokens vertically (max 5 per note type)
 
@@ -735,7 +735,7 @@ Use: Counter debuff-heavy enemies
 *You have: I(3), II(2), III(1), IV(1), V(2), VI(0), VII(0)*
 
 **Turn 1 - Building Notes**:
-1. "I cast Inspiring Rhythm" (costs 4 mana, generates II)
+1. "I cast Borrowed Rhythm" (costs 4 mana, generates II)
 2. Place 1 light blue token in II column
 3. Now have: I(3), II(3), III(1), IV(1), V(2), VI(0), VII(0)
 
@@ -774,18 +774,18 @@ Keep a list of which spells generate which notes:
 BUILDER SPELLS (Generate Notes):
 , Opening Chord ? I(2) + V(1)
 , Harmonic Strike ? III(2) + I(1)
-, Inspiring Rhythm ? V(2) + VII(1)
-, Uplifting Rhythm ? II(1) + VI(2)
+, Borrowed Rhythm ? V(2) + VII(1)
+, Borrowed Cadence ? II(1) + VI(2)
 , Melancholy Melody ? VI(2) + IV(1)
 , Climactic Crescendo ? VII(2) + V(1)
-, Healing Hymn ? IV(2) + I(1)
+ , Harvested Hymn ? IV(2) + I(1)
 , War Drum Beat ? V(1) + VI(2)
 , Dissonant Shriek ? VII(3) + II(1)
-, Song of Rest ? I(1) + IV(1)
+, Stolen Respite ? I(1) + IV(1)
 
 RESOLVER SPELLS (Consume Notes):
 , Minor Cadence ? IV(1) + I(1)
-, Soothing Melody ? VII(1) + III(1)
+, Stolen Frequency ? VII(1) + III(1)
 , Resolving Strike ? I(1) + V(1)
 , Mending Cadence ? IV(1) + I(1)
 \`\`\`
@@ -804,7 +804,7 @@ Before combat, decide which cadences you want to prioritize:
 *Starting with 0 notes*
 
 **Turn 1**: Cast Opening Chord ? Add I token ? I(1)
-**Turn 2**: Cast Inspiring Rhythm ? Add II token ? I(1), II(1)
+**Turn 2**: Cast Borrowed Rhythm ? Add II token ? I(1), II(1)
 **Turn 3**: Cast Harmonic Strike ? Add III token ? I(1), II(1), III(1)
 **Turn 4**: Cast Resonant Chord ? Add IV token ? I(1), II(1), III(1), IV(1)
 **Turn 5**: Cast Power Chord ? Add V token ? I(1), II(1), III(1), IV(1), V(1)
@@ -1023,7 +1023,7 @@ Before combat, decide which cadences you want to prioritize:
   color: "#DC143C",
   theme: "War Songs & Aggressive Support",
 
-  description: `Battlechoir Minstrels are the butchers of the battlefield, war drummers who drive soldiers into a killing frenzy with rhythms that bypass the conscious mind entirely. Their songs do not inspire courage; they strip away hesitation, morality, and restraint, leaving only the compulsion to slaughter. Every cadence they play amplifies ally lethality while grinding enemy morale into dust. They favor drums made from stretched skin and horns carved from the ribs of beasts that should have stayed extinct. The Battlechoir does not play music to uplift, they play to ensure that nothing on the receiving end survives.`,
+  description: `Battlechoir Minstrels are the war drummers of the battlefield, driving soldiers into a relentless rhythm with beats that bypass the conscious mind entirely. Their songs do not inspire courage; they strip away hesitation, morality, and restraint, leaving only the compulsion to fight. Every cadence they play amplifies ally lethality while grinding enemy morale into dust. They favor drums bound in beast hide and horns carved from the ribs of legendary creatures. The Battlechoir does not play music to uplift, they play to ensure that nothing on the receiving end survives.`,
 
   playstyle: "Aggressive support, damage amplification, offensive buffs",
 
@@ -1068,7 +1068,7 @@ Before combat, decide which cadences you want to prioritize:
   color: "#4169E1",
   theme: "Healing Melodies & Emotional Magic",
 
-  description: `Soulsingers are not healers, they are desperate mourners whose songs are final pleas to powers that may not be listening. They channel raw anguish through their instruments, weaving frequencies that knit torn flesh and mend shattered bone through sheer sonic coercion. Their melodies are not gentle; they are the sounds of grief weaponized, lullabies sung over open graves that somehow keep the living from joining the dead. They favor lutes strung with hair from the bereaved and harps whose frames creek like gallows. A Soulsinger's healing is effective because it transfers the agony, not from patient to healer, but into the instrument itself, which slowly warps and cracks under accumulated sorrow.`,
+  description: `Soulsingers are not healers, they are desperate mourners whose songs are final pleas to powers that may not be listening. They channel raw anguish through their instruments, weaving frequencies that knit torn flesh and mend shattered bone through sheer sonic coercion. Their melodies are not gentle; they are the sounds of grief weaponized, lullabies sung over open graves that somehow keep the living from joining the dead. They favor lutes strung with hair from the bereaved and harps whose frames creak like gallows. A Soulsinger's healing is effective because it transfers the agony, not from patient to healer, but into the instrument itself, which slowly warps and cracks under accumulated sorrow.`,
 
   playstyle:
    "Sustained healing, emotional manipulation, protective support",
@@ -1096,7 +1096,7 @@ Before combat, decide which cadences you want to prioritize:
    sharedBy: "All Minstrels",
    },
    {
-   name: "Soothing Melody",
+   name: "Stolen Frequency",
    tier: "Specialization Passive",
    description:
     "Your healing cadences (Authentic Cadence, Picardy Third) heal for an additional 1d6 HP. and, whenever you heal an ally, you generate 1 Tonic (I) note. When using a Lute or Harp, healing is increased by an additional +2.",
@@ -1165,6 +1165,8 @@ Before combat, decide which cadences you want to prioritize:
   "minstrel_inspiring_rhythm",
   "minstrel_uplifting_rhythm",
   "minstrel_symphonic_echo",
+  "minstrel_sirens_calm",
+  "minstrel_resonance_touch",
  ],
  2: [
   "minstrel_healing_hymn",
@@ -1172,6 +1174,8 @@ Before combat, decide which cadences you want to prioritize:
   "minstrel_melancholy_melody",
   "minstrel_minor_cadence",
   "minstrel_mending_cadence",
+  "minstrel_mnemonic_chord",
+  "minstrel_rallying_anthem",
  ],
  3: [
   "minstrel_dissonant_shriek",
@@ -1179,6 +1183,7 @@ Before combat, decide which cadences you want to prioritize:
   "minstrel_climactic_crescendo",
   "minstrel_soothing_melody",
   "minstrel_resolving_strike",
+  "minstrel_buskers_diversion",
  ],
  4: [
   "minstrel_perfect_cadence",
@@ -1227,7 +1232,7 @@ Before combat, decide which cadences you want to prioritize:
  { id: "minstrel_opening_chord",
   name: "Opening Chord",
   description:
-  "Strike a resonant chord that generates foundational notes and deals minor sonic damage.",
+  "Strike a resonant chord torn from a dying key, the vibration rattling through your instrument and into reality itself, dealing sonic damage and harvesting foundational notes from the collision.",
   level: 1,
   spellType: "ACTION",
   icon: "Radiant/Divine Halo",
@@ -1283,7 +1288,7 @@ Before combat, decide which cadences you want to prioritize:
  { id: "minstrel_harmonic_strike",
   name: "Harmonic Strike",
   description:
-  "Strike your foe with a resonant blow, dealing damage and generating mediant notes.",
+  "Drive a resonant blow into your foe, the impact reverberating through bone and steel to wring mediant notes from the trembling air.",
   level: 1,
   spellType: "ACTION",
   icon: "Bludgeoning/Mortal Strike",
@@ -1336,9 +1341,9 @@ Before combat, decide which cadences you want to prioritize:
  },
 
  { id: "minstrel_inspiring_rhythm",
-  name: "Inspiring Rhythm",
+  name: "Borrowed Rhythm",
   description:
-  "Play an inspiring rhythm that grants all nearby allies +1 to attack rolls for 1 round. Generates dominant notes.",
+  "Play a rhythm stolen from a battalion's last charge before it fell — the ghost of their courage lends nearby allies +1 to attack rolls for 1 round, though the original soldiers are dust.",
   level: 1,
   spellType: "ACTION",
   icon: "Radiant/Golden Ring",
@@ -1363,7 +1368,7 @@ Before combat, decide which cadences you want to prioritize:
   actionPoints: 1,
   components: ["verbal", "somatic"],
   verbalText: "Inspiro!",
-  somaticText: "Play inspiring rhythm",
+  somaticText: "Play borrowed rhythm",
   },
 
   resolution: "NONE",
@@ -1373,7 +1378,7 @@ Before combat, decide which cadences you want to prioritize:
   buffType: "custom",
   effects: [
    { id : "inspiring_rhythm",
-   name: "Inspiring Rhythm",
+   name: "Borrowed Rhythm",
    description:
     "Allies within 15ft gain +1 to attack rolls for 1 round.",
    customDescription:
@@ -1409,7 +1414,7 @@ Before combat, decide which cadences you want to prioritize:
  { id: "minstrel_minor_cadence",
   name: "Minor Cadence",
   description:
-  "Play a simple cadence that heals nearby allies by consuming subdominant and tonic notes.",
+  "Complete a stolen fragment of melody — the IV-to-I resolution that should bring peace but instead simply stanches the wound long enough for the next atrocity.",
   level: 1,
   spellType: "ACTION",
   icon: "Radiant/Radiant Bolt",
@@ -1463,9 +1468,9 @@ Before combat, decide which cadences you want to prioritize:
  },
 
  { id: "minstrel_soothing_melody",
-  name: "Soothing Melody",
+  name: "Stolen Frequency",
   description:
-  "Play a calming melody that removes minor debuffs and generates leading tone notes.",
+  "Play a frequency stolen from a dimension that never knew pain; for a moment the listeners forget their wounds as the melody burns away minor afflictions.",
   level: 3,
   spellType: "ACTION",
   icon: "Radiant/Radiant Divinity",
@@ -1492,7 +1497,7 @@ Before combat, decide which cadences you want to prioritize:
   actionPoints: 1,
   components: ["verbal", "somatic"],
   verbalText: "Pax!",
-  somaticText: "Play soothing melody",
+   somaticText: "Play stolen frequency",
   },
 
   resolution: "NONE",
@@ -1526,9 +1531,9 @@ Before combat, decide which cadences you want to prioritize:
  },
 
  { id: "minstrel_uplifting_rhythm",
-  name: "Uplifting Rhythm",
+  name: "Borrowed Cadence",
   description:
-  "Play an uplifting rhythm that bolsters an ally and generates supertonic notes.",
+  "A cadence ripped from a celebration in a world that has already ended — the ghost of joy bolsters an ally while generating supertonic notes from the echo.",
   spellType: "ACTION",
   icon: "Radiant/Radiant Warrior",
   level: 1,
@@ -1611,7 +1616,7 @@ Before combat, decide which cadences you want to prioritize:
  { id: "minstrel_resolving_strike",
   name: "Resolving Strike",
   description:
-  "Resolve a simple harmonic progression (I?V) that releases a burst of sonic energy.",
+  "Force the I-V progression to its inevitable conclusion, releasing a burst of sonic energy as the stolen frequencies snap into alignment.",
   spellType: "ACTION",
   icon: "Arcane/Orb Manipulation",
   level: 3,
@@ -1669,7 +1674,7 @@ Before combat, decide which cadences you want to prioritize:
  { id: "minstrel_mending_cadence",
   name: "Mending Cadence",
   description:
-  "Complete a gentle progression (IV?I) that soothes wounds and calms the spirit.",
+  "Perform the IV-I resolution, the gentlest theft the Minstrel commits — a soothing progression that coaxes flesh to knit and spirit to quiet.",
   spellType: "ACTION",
   icon: "Healing/Reaching Hand",
   level: 1,
@@ -1758,8 +1763,8 @@ Before combat, decide which cadences you want to prioritize:
  },
 
  { id: "minstrel_healing_hymn",
-  name: "Healing Hymn",
-  description: "Sing a soothing melody that heals an ally.",
+  name: "Harvested Hymn",
+  description: "Sing a melody that belongs to a reality where wounds heal in hours, not days — the stolen frequency pulls flesh together by force of stolen warmth.",
   spellType: "ACTION",
   icon: "Healing/Golden Heart",
   level: 2,
@@ -1852,7 +1857,7 @@ Before combat, decide which cadences you want to prioritize:
 
  { id: "minstrel_war_drum",
   name: "War Drum Beat",
-  description: "Beat a powerful rhythm that damages enemies in an area.",
+  description: "Beat a stolen war-rhythm into the earth itself; the ground remembers the march of armies that no longer exist and transmits their violence upward.",
   spellType: "ACTION",
   icon: "Utility/Overlords Command",
   level: 2,
@@ -1936,7 +1941,7 @@ Before combat, decide which cadences you want to prioritize:
  { id: "minstrel_dissonant_shriek",
   name: "Dissonant Shriek",
   description:
-  "Unleash a discordant scream that generates tension notes and frightens enemies.",
+  "Unleash a scream composed of frequencies that should never share the same air — the discordance tears at the mind while flooding your reservoir with tension notes.",
   spellType: "ACTION",
   icon: "Psychic/Agonizing Scream",
   level: 3,
@@ -2034,7 +2039,7 @@ Before combat, decide which cadences you want to prioritize:
  { id: "minstrel_perfect_cadence",
   name: "Perfect Cadence",
   description:
-  "Complete a perfect harmonic progression (I?IV?V?I) that guarantees an ally's next attack will critically strike.",
+  "Complete the I-IV-V-I progression with excruciating precision, forcing reality to honor the resolution: your ally's next attack cannot miss its mark, guided by harmonics borrowed from a dimension where perfection is the only law.",
   spellType: "ACTION",
   icon: "Radiant/Radiant Bolt",
   level: 4,
@@ -2187,7 +2192,7 @@ Before combat, decide which cadences you want to prioritize:
  { id: "minstrel_authentic_cadence",
   name: "Authentic Cadence",
   description:
-  "Perform a grand finale (I?VI?III?I) that fortifies and heals all nearby allies.",
+  "Execute the grand finale — I to VI to III to I — a progression so complete it wraps nearby allies in a cocoon of stolen stability, healing their wounds and steeling their resolve.",
   spellType: "ACTION",
   icon: "Healing/Prayer",
   level: 5,
@@ -2516,7 +2521,7 @@ Before combat, decide which cadences you want to prioritize:
 
  // Utility Spell
  { id: "minstrel_song_of_rest",
-  name: "Song of Rest",
+  name: "Stolen Respite",
   description:
   "Perform a calming melody that allows allies to recover during a short rest.",
   spellType: "ACTION",
@@ -2551,7 +2556,7 @@ Before combat, decide which cadences you want to prioritize:
   resourceValues: { mana: 12 },
   actionPoints: 1,
   components: ["verbal", "somatic"],
-  somaticText: "Channel song of rest through gesture",
+  somaticText: "Channel stolen respite through gesture",
   verbalText: "Soothing rest melody",
   },
 
@@ -2602,7 +2607,7 @@ Before combat, decide which cadences you want to prioritize:
  { id: "minstrel_melancholy_melody",
   name: "Melancholy Melody",
   description:
-  "Play a haunting melody that generates submediant and subdominant notes, weakening nearby enemies with sorrow.",
+  "Play a dirge borrowed from a world that drowned — the sorrow seeps into nearby enemies, slowing their movements as submediant and subdominant notes coalesce from their despair.",
   level: 2,
   spellType: "ACTION",
   icon: "Psychic/Mind Control",
@@ -2688,7 +2693,7 @@ Before combat, decide which cadences you want to prioritize:
  { id: "minstrel_climactic_crescendo",
   name: "Climactic Crescendo",
   description:
-  "Build to a thrilling crescendo that generates leading tone and dominant notes while buffing ally attack power.",
+  "Build toward a peak that the previous reality never reached, its unfinished climax now yours to complete; leading tone and dominant notes flood in as the tension mounts.",
   level: 3,
   spellType: "ACTION",
   icon: "Fire/Rising Inferno",
@@ -2860,7 +2865,7 @@ Before combat, decide which cadences you want to prioritize:
  { id: "minstrel_plagal_cadence",
   name: "Plagal Cadence",
   description:
-  "Perform a sacred ascent (VI?V?I?III) that grants allies swiftness and agility, enhancing their movement and reflexes.",
+  "The 'Amen' progression, torn from a cathedral that collapsed into the sea; its sacred ascent grants allies swiftness and agility as the ghost of grace passes through them.",
   level: 4,
   spellType: "ACTION",
   icon: "Radiant/Radiant Warrior",
@@ -2937,7 +2942,7 @@ Before combat, decide which cadences you want to prioritize:
  { id: "minstrel_half_cadence",
   name: "Half Cadence",
   description:
-  "An unresolved progression (VII?V?IV?VI) that creates protective harmonic barriers around your allies, absorbing incoming damage.",
+  "Suspend the progression on the dominant, unresolved and waiting — the harmonic tension crystallizes into a barrier around your allies, absorbing damage until the music decides where to land.",
   level: 5,
   spellType: "ACTION",
   icon: "Force/Force Field",
@@ -3040,7 +3045,7 @@ Before combat, decide which cadences you want to prioritize:
  { id: "minstrel_phrygian_cadence",
   name: "Phrygian Cadence",
   description:
-  "An ancient progression (V?IV?I?VII) that channels the resolve of warriors past, granting allies advantage on all attacks.",
+  "Channel the resolve of every warrior who fought with a broken instrument — the ancient V-IV-I-VII progression grants your allies advantage on all attacks, the ghost of past defiance borrowed for one more battle.",
   level: 5,
   spellType: "ACTION",
   icon: "Radiant/Divine Halo",
@@ -3132,7 +3137,7 @@ Before combat, decide which cadences you want to prioritize:
  { id: "minstrel_neapolitan_sixth",
   name: "Neapolitan Sixth",
   description:
-  "A precise and unexpected progression (III?I?IV?V) that sharpens ally precision, increasing critical hit chance.",
+  "A chord that arrived from a neighboring reality by mistake — its unexpected precision sharpens your allies' aim, increasing critical hit chance as the wrong note proves itself right.",
   level: 6,
   spellType: "ACTION",
   icon: "Radiant/Radiant Bolt",
@@ -3226,7 +3231,7 @@ Before combat, decide which cadences you want to prioritize:
  { id: "minstrel_symphony_of_destruction",
   name: "Symphony of Destruction",
   description:
-  "Conduct a devastating symphony that unleashes waves of sonic energy, dealing massive storm damage to all enemies in a large area.",
+  "Conduct a symphony assembled from the final moments of seven dying worlds; each movement unleashes a wave of sonic devastation, the collective death-rattle given form and direction.",
   level: 7,
   spellType: "ACTION",
   icon: "Nature/Earth Shatter",
@@ -3307,9 +3312,9 @@ Before combat, decide which cadences you want to prioritize:
  },
 
  { id: "minstrel_song_of_heroes",
-  name: "Song of Heroes",
+  name: "Echoes of the Fallen",
   description:
-  "Perform an inspiring ballad that empowers all allies with legendary might, granting significant bonuses to attack and damage.",
+  "Perform a legendary ballad that empowers all allies with might stolen from a dying timeline, granting significant bonuses to attack and damage.",
   level: 7,
   spellType: "ACTION",
   icon: "Radiant/Divine Radiance",
@@ -3380,7 +3385,7 @@ Before combat, decide which cadences you want to prioritize:
  { id: "minstrel_cacophonous_blast",
   name: "Cacophonous Blast",
   description:
-  "Unleash a devastating blast of pure discordance that disrupts enemy spellcasting and causes wyrd damage to all who hear it.",
+  "Unleash pure discordance — frequencies so contradictory they cannot coexist in the same space — forcing the universe to choose between the sound and the silence, dealing wyrd damage to all who hear.",
   level: 7,
   spellType: "ACTION",
   icon: "Psychic/Agonizing Scream",
@@ -3649,7 +3654,7 @@ Before combat, decide which cadences you want to prioritize:
  },
 
  { id: "minstrel_harmony_of_renewal",
-  name: "Harmony of Renewal",
+  name: "Harmony of the Fallen",
   description:
   "A powerful healing melody that restores allies to full fighting capacity, removing negative effects and providing regeneration.",
   level: 8,
@@ -4082,9 +4087,9 @@ Before combat, decide which cadences you want to prioritize:
  },
 
  { id: "minstrel_song_of_creation",
-  name: "Song of Creation",
+  name: "Echo of the Fallen",
   description:
-  "Sing the primal song of creation, summoning a powerful ally from pure musical energy and enhancing all allies with creative power.",
+  "Reach across the veil between realities, stealing the echo of a being from a dying timeline. The stolen frequency solidifies as an ally under your command, while its presence invigorates your party with borrowed power.",
   level: 10,
   spellType: "ACTION",
   icon: "Arcane/Magical Sword",
@@ -4252,10 +4257,10 @@ Before combat, decide which cadences you want to prioritize:
  { id: "minstrel_harmony_strike",
   name: "Harmony Strike",
   description:
-  "Strike with harmonic resonance, dealing storm damage and generating musical notes.",
+  "Strike with a chord that is wrong in exactly the right way — the harmonic dissonance rips storm damage through the target while shaking loose usable musical notes from the fracture.",
   level: 4,
   spellType: "ACTION",
-  icon: "Bard/Bard Song",
+  icon: "Social/Golden Harp",
   effectTypes: ["damage"],
 
   typeConfig: {
@@ -4422,11 +4427,77 @@ Before combat, decide which cadences you want to prioritize:
    "cooldownType": "turn_based",
    "cooldownValue": 0
   },
-  "tags": [
-   "utility",
-   "roleplay",
-   "minstrel"
-  ]
+   "tags": [
+    "utility",
+    "roleplay",
+    "minstrel"
+   ]
   },
+  // ===== NON-COMBAT / BARDIC UTILITY (the Tide-Choir, out of combat) =====
+  {
+   "id": "minstrel_sirens_calm",
+   "name": "Siren's Calm",
+   "description": "Hum a low, oceanic melody that smooths the edges off hostility. For the duration, hostile or frightened creatures within range grow calm and tractable: a snarling beast lowers its head, an angry crowd loses its nerve, a grieving family softens. Grants advantage on Persuasion and Animal Handling. Ends if you or an ally threatens violence. Out of combat.",
+   "level": 1, "spellType": "ACTION", "icon": "Social/Music Note",
+   "typeConfig": { "school": "wyrd", "icon": "Social/Music Note", "castTime": 1, "castTimeType": "IMMEDIATE", "tags": ["utility","social","exploration","minstrel"] },
+   "targetingConfig": { "targetingType": "area", "rangeType": "self_centered", "areaType": "circle", "areaSize": 30 },
+   "resourceCost": { "actionPoints": 1, "resourceTypes": ["mana"], "resourceValues": { "mana": 4 }, "components": ["verbal"], "verbalText": "A slow, tidal hum" },
+   "resolution": "NONE", "effectTypes": ["utility"],
+   "utilityConfig": { "utilityType": "social", "selectedEffects": [ { "id": "sirens_calm_soothe", "name": "Tide-Calm", "description": "For 10 minutes calm hostile/frightened creatures (beasts, crowds, the grieving) to tractable; advantage on Persuasion and Animal Handling. Breaks on any threat of violence.", "mechanicsText": "Calm hostility + advantage Persuasion/Animal Handling, 10 min." } ], "duration": 10, "durationUnit": "minutes", "power": "minor" },
+   "cooldownConfig": { "cooldownType": "turn_based", "cooldownValue": 0 },
+   "tags": ["utility","social","exploration","minstrel"]
+  },
+  {
+   "id": "minstrel_resonance_touch",
+   "name": "Resonance Touch",
+   "description": "Sing a single pure, climbing note into a surface. Glass, ice, crystal, and brittle materials within range shatter; a mundane lock's mechanism jars loose; and hollow spaces, false walls, or hidden compartments reveal themselves by how they ring differently from solid stone. Out of combat.",
+   "level": 1, "spellType": "ACTION", "icon": "Social/Music Note",
+   "typeConfig": { "school": "storm", "icon": "Social/Music Note", "castTime": 1, "castTimeType": "IMMEDIATE", "tags": ["utility","exploration","investigation","minstrel"] },
+   "targetingConfig": { "targetingType": "single", "rangeType": "touch", "rangeDistance": 0 },
+   "resourceCost": { "actionPoints": 1, "resourceTypes": ["mana"], "resourceValues": { "mana": 4 }, "components": ["verbal","somatic"], "somaticText": "Press a knuckle to the surface and climb the note until it answers" },
+   "resolution": "AUTOMATIC", "effectTypes": ["utility"],
+   "utilityConfig": { "utilityType": "divination", "selectedEffects": [ { "id": "resonance_touch_ring", "name": "Ringing Truth", "description": "Shatter glass/ice/crystal, jar open a mundane lock, or detect hollow/false-wall/hidden spaces by their resonance. Reinforced or magical materials resist.", "mechanicsText": "Shatter brittle materials/open locks/reveal hollow spaces by resonance." } ], "power": "minor" },
+   "cooldownConfig": { "cooldownType": "turn_based", "cooldownValue": 0 },
+   "tags": ["utility","exploration","investigation","minstrel"]
+  },
+  {
+   "id": "minstrel_mnemonic_chord",
+   "name": "Mnemonic Chord",
+   "description": "Play a questioning chord and let the stolen frequencies answer from collective memory. Ask one question of history, magic, language, or local lore; the resonance surfaces what the world still remembers — a name, a date, a translation, a weakness. The deeper or more forgotten the knowledge, the fainter and more fragmentary the answer. Out of combat.",
+   "level": 2, "spellType": "ACTION", "icon": "Psychic/Focused Mind",
+   "typeConfig": { "school": "wyrd", "icon": "Psychic/Focused Mind", "castTime": 1, "castTimeType": "MINUTES", "tags": ["utility","divination","investigation","minstrel"] },
+   "targetingConfig": { "targetingType": "self", "rangeType": "self" },
+   "resourceCost": { "actionPoints": 1, "resourceTypes": ["mana"], "resourceValues": { "mana": 7 }, "components": ["verbal","somatic"], "somaticText": "Fret the questioning chord and listen to what the dead frequencies remember" },
+   "resolution": "NONE", "effectTypes": ["utility"],
+   "utilityConfig": { "utilityType": "divination", "selectedEffects": [ { "id": "mnemonic_chord_lore", "name": "Resonant Lore", "description": "Receive a fragmentary answer to one history/magic/language/lore question from collective memory. Common knowledge comes clear; ancient or secret knowledge comes as half-heard fragments or riddles.", "mechanicsText": "One fragmentary lore answer from collective memory." } ], "power": "moderate" },
+   "cooldownConfig": { "cooldownType": "short_rest", "cooldownValue": 1 },
+   "tags": ["utility","divination","investigation","minstrel"]
+  },
+  {
+   "id": "minstrel_rallying_anthem",
+   "name": "Rallying Anthem",
+   "description": "Strike up a marching anthem and sustain it. For the duration, allies who can hear you shrug off fatigue and dread: advantage on saves vs exhaustion and fear, faster overland travel, and advantage on recovery during the next rest. Requires you to keep playing; the effect fades if you stop. Out of combat.",
+   "level": 2, "spellType": "ACTION", "icon": "Social/Music Note",
+   "typeConfig": { "school": "wyrd", "icon": "Social/Music Note", "castTime": 1, "castTimeType": "MINUTES", "tags": ["utility","rest","exploration","minstrel"] },
+   "targetingConfig": { "targetingType": "area", "rangeType": "self_centered", "areaType": "circle", "areaSize": 60 },
+   "resourceCost": { "actionPoints": 1, "resourceTypes": ["mana"], "resourceValues": { "mana": 6 }, "components": ["verbal","somatic"], "somaticText": "Play the marching anthem without breaking stride" },
+   "resolution": "NONE", "effectTypes": ["utility","buff"],
+   "utilityConfig": { "utilityType": "buff", "selectedEffects": [ { "id": "rallying_anthem_march", "name": "Kept Pace", "description": "For up to 4 hours of maintained playing: hearing allies gain advantage vs exhaustion/fear, +25 percent overland travel speed, and advantage on their next rest's recovery. Fades the moment you stop playing.", "mechanicsText": "Advantage vs exhaustion/fear + faster travel + better next rest, 4 h." } ], "duration": 4, "durationUnit": "hours", "concentration": true, "power": "moderate" },
+   "cooldownConfig": { "cooldownType": "turn_based", "cooldownValue": 0 },
+   "tags": ["utility","rest","exploration","minstrel"]
+  },
+  {
+   "id": "minstrel_buskers_diversion",
+   "name": "Busker's Diversion",
+   "description": "Launch into a loud, dazzling street performance — a shimmering, foot-stomping riot of sound and showmanship. Every guard, crowd, or onlooker within range is drawn to watch you, granting your allies a free round of unnoticed movement to sneak, pick a lock, slip past, or position. Ends if violence breaks out. Out of combat.",
+   "level": 3, "spellType": "ACTION", "icon": "Social/Music Note",
+   "typeConfig": { "school": "wyrd", "icon": "Social/Music Note", "castTime": 1, "castTimeType": "IMMEDIATE", "tags": ["utility","social","infiltration","minstrel"] },
+   "targetingConfig": { "targetingType": "area", "rangeType": "self_centered", "areaType": "circle", "areaSize": 60 },
+   "resourceCost": { "actionPoints": 1, "resourceTypes": ["mana"], "resourceValues": { "mana": 8 }, "components": ["verbal","somatic"], "somaticText": "Hammer out the showpiece, all flash and volume" },
+   "resolution": "NONE", "effectTypes": ["utility"],
+   "utilityConfig": { "utilityType": "social", "selectedEffects": [ { "id": "buskers_diversion_draw", "name": "All Eyes On Me", "description": "Draw all attention within 60 ft to your performance for 1 minute; allies gain one round of effectively-unnoticed movement (sneak/pickpocket/pick-lock/pass). Suspicious or hostile-alerted guards get a save; violence ends it instantly.", "mechanicsText": "Distract all onlookers 1 min; allies get 1 unnoticed round." } ], "duration": 1, "durationUnit": "minutes", "power": "moderate" },
+   "cooldownConfig": { "cooldownType": "turn_based", "cooldownValue": 1 },
+   "tags": ["utility","social","infiltration","minstrel"]
+  }
  ],
 };

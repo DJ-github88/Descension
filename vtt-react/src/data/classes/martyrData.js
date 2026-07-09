@@ -132,11 +132,11 @@ Her devotion opened a channel of sympathetic pain. The Martyr carries the physic
 
 Suffer for them. You are the shield of meat and bone, and your wounds are the only light left in the ash. Bleed until they are safe.`,
   title: "The Martyr",
-  subtitle: "Bleeding Faith Healer, Where the Sacred Meets the Scalpel",
+   subtitle: "Wounded Faith Healer, Where the Sacred Meets the Scalpel",
 
   quickOverview: {
    title: "Quick Overview",
-   content: `**What You Need to Know**: The Martyr does not use shields or armor to stop blades. They use the soft meat of their own body to catch weapons meant for their companions. Every wound they choose to bear becomes a prayer, and every prayer demands more flesh. You do not get stronger by surviving. You get stronger by volunteering to not survive.
+   content: `**What You Need to Know**: The Martyr does not use shields or armor to stop blades. They use the fragile body of their own to catch weapons meant for their companions. Every wound they choose to bear becomes a prayer, and every prayer demands more flesh. You do not get stronger by surviving. You get stronger by volunteering to not survive.
 
 **Core Mechanic**: ACTIVELY sacrifice HP (Intervene, self-damage spells, voluntary offering) → Cross damage thresholds → Unlock Devotion Levels → Spend Devotion to amplify healing/buffs
 
@@ -153,7 +153,7 @@ Suffer for them. You are the shield of meat and bone, and your wounds are the on
 **Best For**: Players who enjoy protective gameplay with genuine risk, the martyrdom fantasy, and the visceral satisfaction of turning personal catastrophe into party survival`,
   },
 
-  description: `The Martyr is not a protector. A protector uses a shield. The Martyr uses the soft meat of their own body to catch weapons swung at their companions. Through the Devotion Gauge, a resource that fills as they deliberately bleed themselves for allies, the Martyr transforms willing suffering into grotesque acts of emergency healing. Their power is not generosity. It is a transaction with something old and hungry that dwells in the space between flesh and faith. The more they bleed, the more that thing stirs. Unlike the Ironclad specialization which passively absorbs whatever hits them through furnace-plate armor, the standard Martyr must CHOOSE to suffer: casting self-damaging spells, using Intervene to intercept attacks, and offering their own HP to cross Devotion thresholds faster. Each wound they volunteer for becomes a wound closed on someone else. Theirutility is singular and terrifying: the ability to completely negate fatal blows tracking toward allies by pulling the entire damage vector into their own anatomy and releasing localized bursts of vitality that scale with accumulated agony. No other class can do this. But their connection to the sacred is fragile. If they stop bleeding, the connection asphyxiates. Devotion Collapse is the Martyr's constant companion, a spiral into the Faithless state where their healing rots to half strength and their reactions lock down. They are a crisis tool with an expiration date, and that date is measured in rounds since their last wound.`,
+  description: `The Martyr is not a protector. A protector uses a shield. The Martyr uses the fragile body of their own to catch weapons swung at their companions. Through the Devotion Gauge, a resource that fills as they deliberately bleed themselves for allies, the Martyr transforms willing suffering into powerful acts of emergency healing. Their power is not generosity. It is a transaction with something old and hungry that dwells in the space between flesh and faith. The more they bleed, the more that thing stirs. Unlike the Ironclad specialization which passively absorbs whatever hits them through furnace-plate armor, the standard Martyr must CHOOSE to suffer: casting self-damaging spells, using Intervene to intercept attacks, and offering their own HP to cross Devotion thresholds faster. Each wound they volunteer for becomes a wound closed on someone else. Theirutility is singular and terrifying: the ability to completely negate fatal blows tracking toward allies by pulling the entire damage vector into their own anatomy and releasing localized bursts of vitality that scale with accumulated suffering. No other class can do this. But their connection to the sacred is fragile. If they stop bleeding, the connection asphyxiates. Devotion Collapse is the Martyr's constant companion, a spiral into the Faithless state where their healing rots to half strength and their reactions lock down. They are a crisis tool with an expiration date, and that date is measured in rounds since their last wound.`,
 
   roleplayIdentity: {
    title: "Roleplay Identity",
@@ -180,7 +180,7 @@ The class is heavily practiced by the Solvarn humans and the <LoreLink termId="e
   philosophy: {
    coreTenet: 'Suffering is not meaningless. Pain is a currency, and the Martyr spends it freely. Every wound they take is a debt the universe owes to someone else. They bleed so others can stand. They burn so others can feel warmth. The balance must be maintained, and the Martyr is the scale.',
    relationship: 'A Martyr\'s power comes from the sympathetic bond between their pain and their allies\' survival. When they Intervene, they do not just take damage, they absorb the spiritual weight of the injury. The wound that was meant for their ally exists in their body instead. The Devotion Gauge is not a resource they generate, it is a measure of how much suffering they have volunteered to carry. Every point of Devotion is a wound that belongs to someone else.',
-   paradox: 'The Martyr heals others by refusing to heal themselves. Their power is maximized when they are at their most vulnerable. A Martyr with full health is useless. A Martyr at death\'s door can raise the entire party from the brink. This creates an agonizing incentive structure: the better a Martyr is at their job, the closer they are to dying. They must walk the exact line between enough sacrifice and too much, and the line moves every time.'
+   paradox: 'The Martyr heals others by refusing to heal themselves. Their power is maximized when they are at their most vulnerable. A Martyr with full health is useless. A Martyr at death\'s door can raise the entire party from the brink. This creates an intense incentive structure: the better a Martyr is at their job, the closer they are to dying. They must walk the exact line between enough sacrifice and too much, and the line moves every time.'
   },
 
   currentCrisis: `The Martyr\'s Vow is being weaponized. Sera\'s original covenant was a personal oath, a mother\'s refusal to let her child be forgotten. But the noble houses have discovered that organized groups of Martyrs can be used as a strategic resource. A battalion supported by a Martyr cadre can fight for three times as long as a normal one.
@@ -201,7 +201,7 @@ Several houses have begun "recruiting" Martyrs, some by indoctrination, some by 
 
   combatRole: {
    title: "Combat Role",
-   content: `The Martyr is a hybrid support/tank whose utility is singular and terrifying: **the exclusive ability to negate fatal blows** tracking toward allies by pulling incoming damage vectors directly into their own body and releasing bursts of emergency vitality scaled to accumulated agony. No other class can do this.
+    content: `The Martyr is a hybrid support/tank whose utility is singular and terrifying: **the exclusive ability to negate fatal blows** tracking toward allies by pulling incoming damage vectors directly into their own body and releasing bursts of emergency vitality scaled to accumulated suffering. No other class can do this.
 
 **Strengths**:
 - **Fatal Blow Negation**: The "Why Bring Me?" answer. Only the Martyr can completely intercept a killing strike and redirect it into themselves
@@ -215,7 +215,9 @@ Several houses have begun "recruiting" Martyrs, some by indoctrination, some by 
 - Highly vulnerable to targeted crowd control that isolates them from the party, if they cannot reach allies to intercept, their Devotion starves
 - Can become overwhelmed if they sacrifice too aggressively
 - Requires ACTIVE self-sacrifice to reach full potential, passive damage absorption alone is insufficient
-- Fundamentally different from Ironclad spec: Ironclad absorbs whatever hits them (passive furnace fortress). Other Martyrs must CHOOSE to bleed (active sacrifice)
+- **Ignored Martyr**: enemies who focus your allies and attack outside your Intervene window starve your Devotion engine — a smart foe attacks when you cannot intercept
+- **Faithless Lockout**: if Devotion decays into the Faithless state, your healing output halves and Intervene locks entirely — foes who stall, kite, or CC you can shut your whole kit down
+- **Sympathetic Vulnerability (social)**: you feel every wound your allies take, always, and cannot turn it off. A captor hurting a friend cripples you with shared agony, and a crowded room of suffering is physically painful
 - **The Zealot's Wrath Tithe**: Zealot-spec Martyrs deal devastating bonus damage scaled to Devotion, but suffer half that bonus as self-harm, they are simultaneously the party's most aggressive support and their own worst enemy
 
 The Martyr shines in prolonged encounters where they can build Devotion Levels and unleash devastating amplified abilities at critical moments. They wither in fights where they cannot reach allies or where enemies ignore them.`,
@@ -235,8 +237,8 @@ The Martyr shines in prolonged encounters where they can build Devotion Levels a
 
 **Devotion Level Strategy**:
 - **Level 1-2 (Building Phase)**: Basic defensive benefits, focus on accumulating damage through interception
-- **Level 3-4 (Power Phase)**: Strong passive effects, moderate amplification power, your wounds begin weeping light that hardens into ally armor
-- **Level 5-6 (The Hollow Transfiguration)**: Your flesh turns translucent, bones blaze with volatile golden energy. You become a weaponized, weeping anatomical horror. Powerful auras and devastating amplified abilities. This is not beautiful. This is not clean. This is survival weaponized.
+- **Level 3-4 (Power Phase)**: Strong passive effects, moderate amplification power, your wounds begin emitting light that hardens into ally armor
+- **Level 5-6 (The Hollow Transfiguration)**: Your form turns translucent, bones blaze with volatile golden energy. You become a weaponized, radiant vessel of sacrifice. Powerful auras and devastating amplified abilities. This is not beautiful. This is not clean. This is survival weaponized.
 
 **Spending Devotion**:
 - Amplified spells cost 1-5 Devotion Levels for enhanced effects
@@ -245,7 +247,7 @@ The Martyr shines in prolonged encounters where they can build Devotion Levels a
 - Some situations require immediate amplified healing over passive bonuses
 
 **Specialization Synergies**:
-- **Redemption**: Maximum healing and protection, defensive playstyle, the purest form of bleeding faith
+- **Redemption**: Maximum healing and protection, defensive playstyle, the purest form of wounded faith
 - **Zealot**: Aggressive damage-dealing through suffering, offensive support, Wrath Tithe makes your radiant spells devastating but you pay half the bonus damage in self-harm
 - **Ascetic**: Balanced endurance, maintains high Devotion efficiently, the martyr who calculates the cost of every wound
 
@@ -438,9 +440,9 @@ You're not a traditional healer. You're a LIVING SACRIFICE. You intercept attack
 
  resourceSystem: {
   title: "Devotion Gauge",
-  subtitle: "Power Through Sacrifice, The Currency of Agony",
+   subtitle: "Power Through Sacrifice, The Currency of Devotion",
 
-  description: `The Devotion Gauge is not a resource. It is an open wound that measures how much of the Martyr's body has been offered to something old and hungry that lives between flesh and faith. By absorbing damage meant for allies, the Martyr builds this gauge, unlocking passive auras and radiant strikes that grow more powerful, and more grotesque, with each threshold crossed. At lower tiers, the Martyr is merely a bruised信徒 with good intentions. At higher tiers, their flesh turns translucent, their bones ignite with volatile golden light, and they become something that should not exist: a weaponized, weeping anatomical horror whose suffering poisons the air with mercy. Each wound is not a prayer, it is a payment. Each scar is not a blessing, it is a receipt. And if the payments stop, the connection dies. Devotion Collapse is not a risk. It is a certainty. The only question is when.`,
+   description: `The Devotion Gauge is not a resource. It is a living testament that measures how much of the Martyr's body has been offered to something old and hungry that lives between flesh and faith. By absorbing damage meant for allies, the Martyr builds this gauge, unlocking passive auras and radiant strikes that grow more powerful with each threshold crossed. At lower tiers, the Martyr is merely a bruised faithful with good intentions. At higher tiers, their form turns translucent, their bones ignite with volatile golden light, and they become something that transcends mortal limits: a radiant vessel whose sacrifice fuels mercy. Each wound is not a prayer, it is a payment. Each scar is not a blessing, it is a receipt. And if the payments stop, the connection dies. Devotion Collapse is not a risk. It is a certainty. The only question is when.`,
 
   cards: [
    {
@@ -453,13 +455,13 @@ You're not a traditional healer. You're a LIVING SACRIFICE. You intercept attack
     title: "Radiant Sacrifice (Level 3-4)",
     stats: "+1 DR Aura | Resists for Allies",
     details:
-     "Your pain becomes their armor. Allies within 10ft gain protection only because your wounds weep light. Every point of resistance you grant was bought with an incision in your own flesh. The sacred does not give, it extracts.",
+      "Your pain becomes their armor. Allies within 10ft gain protection only because your wounds emit light. Every point of resistance you grant was bought with an incision in your own body. The sacred does not give, it extracts.",
    },
    {
     title: "The Hollow Transfiguration (Level 5-6)",
     stats: "+10 Radiant DMG | Massive Resist",
     details:
-     "There is nothing beautiful about what you become. Your flesh turns translucent, stretched thin over a skeleton that blazes with volatile golden energy from within. Your bones become lanterns of radioactive devotion. Tears of liquid radiance stream from hollowed eye sockets. You do not gain phantom wings, you manifest as a weaponized, weeping anatomical horror, a crucified saint whose opened body cavity floods the battlefield with agonizing salvation. Allies within 15ft resist ALL damage types because your transfigured suffering poisons the air itself with mercy.",
+     "There is nothing beautiful about what you become. Your form turns translucent, stretched thin over a skeleton that blazes with volatile golden energy from within. Your bones become lanterns of radioactive devotion. Tears of liquid radiance stream from hollowed eye sockets. You do not gain phantom wings, you manifest as a radiant vessel of sacrifice, a martyr whose body channels salvation. Allies within 15ft resist ALL damage types because your transfigured suffering poisons the air itself with mercy.",
    },
   ],
 
@@ -512,11 +514,11 @@ You're not a traditional healer. You're a LIVING SACRIFICE. You intercept attack
    content: `Your **Devotion Level** determines the strength of your passive auras and the magnitude of your sacred presence, and the horror of your transfiguration.
 
 **The Hollow Transfiguration (Level 5-6)**:
-- **Effect**: God-Tier Protection. Your flesh becomes translucent. Your bones glow with volatile golden energy. You are a weeping anatomical horror, a weaponized saint whose opened body cavity floods the battlefield with agonizing salvation.
+- **Effect**: God-Tier Protection. Your form becomes translucent. Your bones glow with volatile golden energy. You are a radiant vessel of sacrifice, a martyr whose body channels salvation.
 - **Strategy**: This is your peak state, and it is monstrous. You provide resistance to all damage types for the entire team because your transfigured suffering poisons reality itself with mercy. Do not spend these levels on amplified spells unless it is for a game-ending strike or a life-saving burst heal. The transfiguration demands its toll whether you use it or not.
 
 **Ascendant (Level 3-4)**:
-- **Effect**: Support Anchor. Your wounds weep light that hardens into armor around your allies.
+- **Effect**: Support Anchor. Your wounds emit light that hardens into armor around your allies.
 - **Strategy**: The optimal state for most of the battle. You provide balanced armor buffs and have moderate amplification power ready for emergency interventions. Your suffering is productive, controlled, and sustainable.
 
 **Mortal (Level 0-2)**:
@@ -573,7 +575,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
  // Specializations
  specializations: {
   title: "Martyr Specializations",
-  subtitle: "Four Paths Through the Same Flesh",
+   subtitle: "Four Paths Through the Same Body",
 
   description: `Every Martyr chooses one of four specializations that define how they approach the fundamental transaction: their body for their allies' survival. Each specialization is a different theology of suffering, not a different job, but a different interpretation of the same horrible math.`,
 
@@ -584,10 +586,10 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
     color: "#FFD700",
     theme: "Healing Through Sacrifice, The Open Vein",
 
-    description: `Redemption Martyrs are the purest expression of bleeding faith. They do not fight, they hemorrhage on behalf of others, converting their own tissue damage into restorative magic. They are the party's emergency transfusion, willingly bearing wounds so others may live. Their healing is not gentle. It is the desperate, agonizing survival of meat and bone repurposed as medicine.`,
+    description: `Redemption Martyrs are the purest expression of wounded faith. They do not fight, they sacrifice on behalf of others, converting their own tissue damage into restorative magic. They are the party's emergency transfusion, willingly bearing wounds so others may live. Their healing is not gentle. It is the intense survival of flesh and bone repurposed as medicine.`,
 
     playstyle:
-     "Defensive support, maximum healing output, protective buffs purchased with flesh",
+     "Defensive support, maximum healing output, protective buffs purchased with sacrifice",
 
     strengths: [
      "Highest healing output of all Martyr specs",
@@ -626,7 +628,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
 
    { id : "zealot",
     name: "Zealot",
-    icon: "Radiant/sacred Downward Sword",
+    icon: "Radiant/Divine Downward Sword",
     color: "#DC143C",
     theme: "Righteous Fury, The Blade That Cuts Both Ways",
 
@@ -661,7 +663,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       name: "Zealous Wrath",
       tier: "Specialization Passive",
       description:
-       "Wrath Tithe: Your ember damage spells deal additional damage equal to your current Devotion Level x 3. However, you suffer half of this bonus damage as radiant self-harm. The conviction that burns through your enemies must first cauterize your own flesh. At Devotion 6, a single radiant spell deals +18 bonus damage, and you take 9 damage to yourself. There is no borrowed power here. Only borrowed pain.",
+        "Wrath Tithe: Your ember damage spells deal additional damage equal to your current Devotion Level x 3. However, you suffer half of this bonus damage as radiant self-harm. The conviction that burns through your enemies must first sear through your own body. At Devotion 6, a single radiant spell deals +18 bonus damage, and you take 9 damage to yourself. There is no borrowed power here. Only borrowed pain.",
       uniqueTo: "Zealot",
      },
     ],
@@ -774,6 +776,8 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
    "martyr_penance_of_pain",
    "martyr_radiant_burst",
    "martyr_devoted_strike",
+   "martyr_sympathys_thread",
+   "martyr_solbrand_warmth",
   ],
   2: [
    {
@@ -836,13 +840,16 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
      "cooldownType": "turn_based",
      "cooldownValue": 0
     },
-    "tags": [
-     "utility",
-     "roleplay",
-     "martyr",
+     "tags": [
+      "utility",
+      "roleplay",
+      "martyr",
    "martyr_empathic_transference"
-    ]
-   }
+     ]
+    },
+   "martyr_vow_ward",
+   "martyr_bear_the_burden",
+   "martyr_sanctified_word",
   ],
   4: [
    // Level 4 spells: Powerful amplified abilities (3 options, pick 1)
@@ -1468,11 +1475,11 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     "Bless allies with sacred resilience, granting bonuses to saving throws and reducing damage taken.",
    level: 2,
    spellType: "ACTION",
-   icon: "Radiant/sacred Blessing",
+   icon: "Radiant/Divine Blessing",
 
    typeConfig: {
     school: "storm",
-    icon: "Radiant/sacred Blessing",
+    icon: "Radiant/Divine Blessing",
     tags: [
      "buff",
      "saving throws",
@@ -1913,11 +1920,11 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     "Embrace suffering to become immune to crowd control while slowly healing allies around you.",
    level: 5,
    spellType: "ACTION",
-   icon: "Radiant/sacred Illumination",
+   icon: "Radiant/Divine Illumination",
 
    typeConfig: {
     school: "ember",
-    icon: "Radiant/sacred Illumination",
+    icon: "Radiant/Divine Illumination",
     tags: ["buff", "healing", "immunity", "aoe", "level 5"],
     castTime: 1,
     castTimeType: "IMMEDIATE",
@@ -2290,11 +2297,11 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     "Strike an enemy with sacred might. The lower your health, the more damage this deals.",
    level: 6,
    spellType: "ACTION",
-   icon: "Radiant/sacred Downward Sword",
+   icon: "Radiant/Divine Downward Sword",
 
    typeConfig: {
     school: "ember",
-    icon: "Radiant/sacred Downward Sword",
+    icon: "Radiant/Divine Downward Sword",
     tags: ["damage", "ember", "single target", "level 6"],
     castTime: 1,
     castTimeType: "IMMEDIATE",
@@ -2540,11 +2547,11 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     "Call upon ancestral power to completely negate one incoming attack or spell against any ally.",
    level: 8,
    spellType: "REACTION",
-   icon: "Radiant/sacred Radiance",
+   icon: "Radiant/Divine Radiance",
 
    typeConfig: {
     school: "storm",
-    icon: "Radiant/sacred Radiance",
+    icon: "Radiant/Divine Radiance",
     tags: ["protection", "reaction", "negate", "level 8"],
     castTime: 1,
     castTimeType: "REACTION",
@@ -2672,11 +2679,11 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     "Transform into an Avatar of Sacrifice, gaining immense power and the ability to absorb all party damage.",
    level: 9,
    spellType: "ACTION",
-   icon: "Radiant/sacred Illumination",
+   icon: "Radiant/Divine Illumination",
 
    typeConfig: {
     school: "ember",
-    icon: "Radiant/sacred Illumination",
+    icon: "Radiant/Divine Illumination",
     tags: ["transformation", "buff", "protection", "ultimate", "level 9"],
     castTime: 1,
     castTimeType: "IMMEDIATE",
@@ -3096,6 +3103,67 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
    },
    resolution: "AUTOMATIC",
    tags: ["passive", "restriction", "no self-heal", "sacrifice", "martyr"],
+  },
+  // ===== NON-COMBAT / SYMPATHY & SACRED-GUARDIAN UTILITY (the bearer of others' pain, out of combat) =====
+  { id: "martyr_sympathys_thread",
+    name: "Sympathy's Thread",
+    description: "Open the bond and feel the shape of suffering around you. For the duration you sense every wounded, dying, frightened, or despairing creature within range, their direction and rough state, and the emotional tenor of a place (grief, terror, relief). Pain reads louder than health. Out of combat.",
+    level: 1, spellType: "ACTION", icon: "Healing/Heart Shield",
+    typeConfig: { school: "ember", icon: "Healing/Heart Shield", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","detection","investigation","martyr"] },
+    targetingConfig: { targetingType: "self", rangeType: "self" },
+    resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 3 }, components: ["somatic"], somaticText: "Press a hand to your scarred chest and listen through the bond" },
+    resolution: "NONE", effectTypes: ["utility"],
+    utilityConfig: { utilityType: "perception", selectedEffects: [ { id: "sympathys_thread_sense", name: "Pain Radar", description: "For 10 minutes sense wounded/dying/frightened/despairing creatures within 60 ft — direction and rough state — and read a place's emotional tenor. The healthy and hidden-through-numbness read as faint.", mechanicsText: "Sense nearby suffering/emotion for 10 min." } ], duration: 10, durationUnit: "minutes", power: "minor" },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+    tags: ["utility","detection","investigation","martyr"],
+  },
+  { id: "martyr_solbrand_warmth",
+    name: "Solbrand Warmth",
+    description: "Your obsidian scars flare with low Solbrand heat. For the duration you radiate gentle warmth and soft gold light: stave off frostbite and cold-exhaustion for yourself and nearby allies, kindle a fire from your own pain, dry soaked gear, or light a 30 ft radius. You take 1 HP of self-damage per hour maintained. Out of combat.",
+    level: 1, spellType: "ACTION", icon: "Fire/Ember Shield",
+    typeConfig: { school: "ember", icon: "Fire/Ember Shield", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","exploration","rest","martyr"] },
+    targetingConfig: { targetingType: "area", rangeType: "self_centered", areaType: "circle", areaSize: 30 },
+    resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 3 }, components: ["somatic"], somaticText: "Breathe into your scars until they glow" },
+    resolution: "NONE", effectTypes: ["utility","buff"],
+    utilityConfig: { utilityType: "environment", selectedEffects: [ { id: "solbrand_warmth_hearth", name: "Living Hearth", description: "For 1 hour: emit warmth + soft gold light in 30 ft; allies ignore mundane cold exposure/frostbite; kindle a fire; dry gear. Costs 1 HP/hour maintained.", mechanicsText: "Warmth + light 30 ft; ignore cold exposure; 1 HP/hour." } ], duration: 1, durationUnit: "hours", power: "minor" },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+    tags: ["utility","exploration","rest","martyr"],
+  },
+  { id: "martyr_vow_ward",
+    name: "Vow-Ward",
+    description: "Swear to guard one creature or a small defined place for up to a day. For the duration you sense the moment that subject is threatened or breached, and may move an extra 10 ft toward them when you do. If you knowingly abandon the warded subject, you suffer a Devotion penalty and sympathetic pain. Out of combat.",
+    level: 2, spellType: "ACTION", icon: "Healing/Heart Shield",
+    typeConfig: { school: "ember", icon: "Healing/Heart Shield", castTime: 1, castTimeType: "MINUTES", tags: ["utility","ward","social","martyr"] },
+    targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0, targetRestrictions: ["any"] },
+    resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 5 }, components: ["verbal","somatic"], verbalText: "I will stand between you and what comes", somaticText: "Press your scarred palm to their brow (or the threshold) and speak the Vow" },
+    resolution: "NONE", effectTypes: ["utility"],
+    utilityConfig: { utilityType: "ward", selectedEffects: [ { id: "vow_ward_guard", name: "Sworn Guardian", description: "For up to 24 hours, sense the instant the warded creature/place is threatened or breached; gain +10 ft movement toward them in that moment. Knowingly abandoning the ward costs 1 Devotion Level and deals sympathetic pain.", mechanicsText: "Linked threat-sense to one subject; +10 ft to reach it; penalty to abandon." } ], duration: 24, durationUnit: "hours", power: "moderate" },
+    cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+    tags: ["utility","ward","social","martyr"],
+  },
+  { id: "martyr_bear_the_burden",
+    name: "Bear the Burden",
+    description: "Take a curse, magical affliction, or lingering sickness OFF another creature or object and onto your own flesh, suffering it so they are freed. You do not cure it; you carry it. The heavier the burden, the more it hurts you, and you cannot bear what would outright kill you. Out of combat.",
+    level: 2, spellType: "ACTION", icon: "Necrotic/Necrotic Wither",
+    typeConfig: { school: "ember", icon: "Necrotic/Necrotic Wither", castTime: 10, castTimeType: "MINUTES", tags: ["utility","exploration","investigation","martyr"] },
+    targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0, targetRestrictions: ["any"] },
+    resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 8 }, components: ["verbal","somatic"], somaticText: "Draw the affliction out through your scars and into yourself" },
+    resolution: "AUTOMATIC", effectTypes: ["utility"],
+    utilityConfig: { utilityType: "protection", selectedEffects: [ { id: "bear_the_burden_absorb", name: "Carried Curse", description: "Transfer one curse/magical affliction/lingering sickness from a creature or object onto yourself; the original bearer is freed. You suffer the burden (at one step reduced severity) until it runs its course or is removed from you. Cannot absorb what would be immediately lethal.", mechanicsText: "Absorb one curse/affliction from a target onto yourself." } ], power: "major" },
+    cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+    tags: ["utility","exploration","investigation","martyr"],
+  },
+  { id: "martyr_sanctified_word",
+    name: "Sanctified Word",
+    description: "Speak a vow that binds YOU, not them. Once per long rest, swear to fulfill a single stated promise (to protect, to deliver, to answer truly). The vow is magically binding on you — breaking it costs you HP and Devotion — and others feel its weight, granting advantage on Persuasion and reassurance checks with those who hear it, because they can sense you mean it absolutely. Out of combat.",
+    level: 2, spellType: "ACTION", icon: "Utility/Empowered Warrior",
+    typeConfig: { school: "ember", icon: "Utility/Empowered Warrior", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","social","martyr"] },
+    targetingConfig: { targetingType: "self", rangeType: "self" },
+    resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 6 }, components: ["verbal"], verbalText: "The sworn promise, spoken aloud" },
+    resolution: "NONE", effectTypes: ["utility","buff"],
+    utilityConfig: { utilityType: "social", selectedEffects: [ { id: "sanctified_word_vow", name: "Self-Bound Vow", description: "Swear one promise; it binds you (breach costs 2d6 HP + 1 Devotion Level). Listeners feel its reality, granting advantage on Persuasion/reassurance with them for the scene. Useless if you swear falsely — the vow only binds what you truly intend.", mechanicsText: "Self-binding vow; advantage on Persuasion; penalty to break." } ], duration: 1, durationUnit: "days", power: "moderate" },
+    cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+    tags: ["utility","social","martyr"],
   },
  ],
 };

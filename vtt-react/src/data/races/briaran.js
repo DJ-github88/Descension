@@ -172,7 +172,7 @@ There is a fragment of the oral history that only the eldest elders pass down, n
  {
  name: 'Isane Viridane',
  title: 'The One Who Said No',
- portraitIcon: 'Armor/Head/head-golden-crown-helmet',
+ portraitIcon: 'Elves/Icon3',
  backstory: `
 The matriarch who gave the order to flee. She was forty-seven years old, a widow, a mother of three, and the only noble councilor who voted against Keth-Amar's bargain. When the vote lost and the seven families began preparing for the sacrifice, Isane gave the order in the dead of night: wake the children, leave the silver, take nothing that cannot be carried at a run.
 
@@ -182,7 +182,7 @@ She did not survive the flight. Somewhere in the Frostwood Reach, three days fro
  {
  name: 'Torven the Last-Scribe',
  title: 'The Archivist Who Burned the Archive',
- portraitIcon: 'Armor/Head/head-split-dual-face-helmet',
+ portraitIcon: 'Elves/Icon7',
  backstory: `
 House Viridane's archivist. He was the one who realized, five years after the flight, that the seven families were not merely altering records, they were systematically hunting down and destroying every document that contained the Viridane name. Rather than let the families' mages take the archive, Torven burned it himself. Forty years of genealogies, treaty records, correspondence, and legal precedents, all of it, committed to fire in a single night in a moonlit grove, while the fae watched in silence.
 
@@ -192,7 +192,7 @@ He spent the remaining thirty years of his life transcribing what he could remem
  {
  name: 'Aurel Shorn-First',
  title: 'The One Who Chose to Pass',
- portraitIcon: 'Armor/Head/head-hooded-helmet',
+ portraitIcon: 'Elves/Icon11',
  backstory: `
 The first Smooth-Skinned. Three generations after the flight, when the Briaran had established themselves in the groves and the erasure was complete, Aurel looked at the world outside the mist and made a calculation: the seven families would never stop hunting. The groves would never be safe. The only way to ensure the bloodline's survival was to stop being visible. She shaved her thorns flat to the skin, took a human name, Mara Fellwood, and walked into a Frostwood Reach port town alone.
 
@@ -293,7 +293,7 @@ The Unshorn rarely leave the groves. When they do, they travel cloaked and hoode
  {
   id: 'thorn_lineage_unshorn',
   name: 'Thorn-Lineage',
-  description: 'Your unshorn thorns are a living, breathing genealogy, a family tree grown in mineral and memory, stretching back through eight centuries of exile to Isane Viridane herself. Other Briaran read the pattern of your growth at a glance: the clustering at your hands, the drift toward your throat, the slow migration toward promises you have not yet understood. Among your own kind, you are known without introduction, your thorns speak your lineage before your voice can reach your lips. But to those who believe the seven families\' official history, the nobles, the scholars, the merchants who trade in comfortable lies, your thorns mark you as the descendant of the house that weakened Keth-Amar\'s bargain. The world blames you for a crime your ancestor refused to commit.',
+   description: '+2 to Insight and Persuasion checks against Briaran NPCs; disadvantage on Persuasion checks against noble-blooded NPCs and those who believe the seven families\' official history. Your unshorn thorns are a living genealogy grown in mineral and memory, readable by your own kind before you speak a word, while to believers in the official history they mark you as the descendant of the house that refused Keth-Amar\'s bargain.',
   level: 1,
   icon: 'spell_holy_divinefavor',
   spellType: 'PASSIVE',
@@ -352,7 +352,7 @@ The Unshorn rarely leave the groves. When they do, they travel cloaked and hoode
  {
   id: 'memory_keeper_vigil_unshorn',
   name: 'Memory-Keeper\'s Vigil',
-  description: 'You trained for the Recitation, the three-day ceremony where Unshorn elders speak the full oral history without sleep. Your body has learned to endure what would break others. But the training never ends, and silence is a debt that compounds.',
+   description: 'Immune to magical sleep; advantage on saving throws against exhaustion; but if you miss your daily 1-hour silent recitation, you take -1 to all Intelligence checks (stacking to a maximum of -3, cleared by three consecutive days of recitation). You trained for the Recitation, the three-day ceremony where Unshorn elders speak the full oral history without sleep, and your body has learned to endure what would break others.',
   level: 1,
   icon: 'spell_holy_mindvision',
   spellType: 'PASSIVE',
@@ -420,7 +420,7 @@ They view the Mimir with silent recognition, another race that hides its true fa
  {
   id: 'smooth_passing_smoothskinned',
   name: 'The Smooth Passing',
-  description: 'You shaved your thorns flat and walked out of the groves into a world that thinks your bloodline is a myth. Your false identity has become second nature, the name, the mannerisms, the careful gaps in your history. But the mask breathes, and it needs to come off sometimes.',
+   description: 'Advantage on Deception checks made to maintain your false identity; but after 24 continuous hours in disguise without a moment of genuine privacy, you suffer -1 to all Charisma checks until you get 1 hour alone. You shaved your thorns flat and walked out of the groves into a world that thinks your bloodline is a myth, and the lie has become second nature.',
   level: 1,
   icon: 'ability_rogue_disguise',
   spellType: 'PASSIVE',
@@ -457,7 +457,7 @@ They view the Mimir with silent recognition, another race that hides its true fa
  {
   id: 'ghost_metal_token_smoothskinned',
   name: 'Ghost-Metal Token',
-  description: 'You carry a single small piece of ghost-metal, a ring, pendant, or disc sewn into your collar, worn against your skin. It holds a permanent faint chill that heat cannot reach. To another Briaran it is a declaration. To anyone else, unusual jewelry.',
+   description: 'Other Briaran within 10 feet sense your token and recognize you as kin; advantage on saving throws against heat-based effects and extreme environmental heat; but if your token is lost, stolen, or destroyed, you suffer -2 to all Charisma checks until it is replaced. You carry a single small piece of ghost-metal, a ring or pendant sewn against your skin, holding a permanent chill no heat can reach.',
   level: 1,
   icon: 'spell_frost_frozenorb',
   spellType: 'PASSIVE',

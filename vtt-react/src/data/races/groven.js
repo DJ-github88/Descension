@@ -53,7 +53,7 @@ The present age finds the Groven suspended, frail and resilient at once, between
     {
       name: 'Vorr-Geth, Last of the Vat-Breakers',
       title: 'The Shattered One',
-      portraitIcon: 'Armor/Head/head-orange-cross-faceplate-helmet',
+      portraitIcon: 'Dwarf/Icon5',
       backstory: `
 Vorr-Geth is the last living Groven to have shattered a vat with their own hands, the final survivor of the original escape from the Deep Alchemists' laboratories beneath Frostmaw Crag. No one knows exactly how old Vorr-Geth is. The serums that smoothed their flesh also slowed their aging, and the Still-Claiming that should have taken them eighty years ago has instead crept across only their left arm, which is now solid obsidian from shoulder to fingertip.
 
@@ -65,7 +65,7 @@ Vorr-Geth rarely speaks. When they do, it is about the Lost Brood, the broodling
     {
       name: 'Ithra-Mal, High Toll-Keeper of Frostmaw Crag',
       title: 'The Voice of the Spans',
-      portraitIcon: 'Armor/Head/head-split-dual-face-helmet',
+      portraitIcon: 'Dwarf/Icon8',
       backstory: `
 Ithra-Mal is the most powerful Ithran diplomat in living memory, the High Toll-Keeper who negotiates passage rates for every major caravan that crosses the Cragjaw Peaks. Her voice is the voice of the bridge, when she sets a toll, it is binding. When she refuses passage, the caravan turns back or dies in the blizzard.
 
@@ -77,7 +77,7 @@ Her relationship with the Fexric is famously complicated. She negotiates salt an
     {
       name: 'Geth-Run, the Murmur-Blooded',
       title: 'The Bridge Between',
-      portraitIcon: 'Armor/Head/head-crackle-faceplate-helmet',
+      portraitIcon: 'Dwarf/Icon12',
       backstory: `
 Geth-Run was born with scales too fine for the Morgh warrens but too coarse for the Ithran bridge-tops, limbs longer than Morgh but shorter than Ithran, a Murmur-Blood, the rare product of mixed-caste parentage. Neither warren accepted them. No elder vouched for their name. The Morgh called them \'half-voiced.\' The Ithran called them \'half-stone.\' Both meant the same thing: you do not fully belong.
 
@@ -213,7 +213,7 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
         {
           id: 'morgh_stone_scales',
           name: 'Stone-Scale Plating',
-          description: 'The old Thrumm hide never fully smoothed, dense, interlocking mineral plates still encase the shoulders, spine, and outer limbs of every Morgh, a stoic and unyielding carapace grown from the same primordial stone that shaped their ancestors. This natural armor turns blades and sheds frost with the indifference of the mountain itself. But the stone that shields also remembers the alchemists\' forge: ember damage is doubled against you, and each searing hit cracks one of your plates, reducing your Armor by 1 (stacking to -3). Regrow the cracked plates by spending 1 hour in direct contact with natural stone or living rock, the earth gave you armor, and the earth alone can restore what the forge has peeled away.',
+          description: 'You gain +2 Armor from dense interlocking mineral plates (permanent). You have 100% ember vulnerability, and each ember hit cracks a plate, reducing your Armor by 1 (stacking to a maximum loss of -3); you regrow cracked plates by spending 1 hour in direct contact with natural stone or living rock. (The old Thrumm hide was never meant to smooth — this unyielding carapace turns blades and sheds frost, yet still remembers the alchemists\' forge, and only the earth can restore what the fire peels away.)',
           level: 1,
           icon: 'ability_warrior_shieldmastery',
           spellType: 'PASSIVE',
@@ -344,7 +344,7 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
         {
           id: 'ancestors_burden_morgh',
           name: "Ancestor's Burden",
-          description: 'The mountain\'s weight lives in every Morgh bone, a dense, grinding gravity that the serums could thin but never erase, a primordial inheritance from the Thrumm who first walked the deep crags. Your frame is heavier, denser, harder to move than any creature of flesh alone. You count as one size larger for carrying capacity, grappling, and resisting forced movement, when creatures your size try to shove or pull or push you, they find a wall where they expected flesh. But the stone that anchors you also slows you: your base movement speed is reduced by 5ft, each step carrying the deliberate, grinding gravity of a people who have never needed to run. The mountain does not dodge. Neither do you.',
+          description: 'You count as one size larger for carrying capacity, grappling, and resisting forced movement. Your base movement speed is reduced by 5ft (permanent). (The mountain\'s weight lives in every Morgh bone — the stone that anchors you against every shove also keeps you from ever needing to run.)',
           level: 1,
           icon: 'spell_nature_strengthofearth',
           spellType: 'PASSIVE',
@@ -425,7 +425,7 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
         {
           id: 'ithran_span_reach',
           name: 'Span-Reach Agility',
-          description: 'The Fexric serums stretched Ithran limbs for spanning the impossible chasms of the Cragjaw Peaks, and they never stopped stretching, never stopped pulling at the joints, never let the blood forget what it was designed to do. Your movement speed increases by +10ft permanently, and on bridges and natural stone surfaces, you ignore all difficult terrain, the span recognizes its own children and smooths the way beneath their feet. But the serums bred motion into your very blood. For every full round you remain stationary in combat, you take 1 wyrd damage: the stillness is the vat, the vat is the stillness, and every moment spent motionless is a moment the body remembers what it felt like to float in glass while alchemists watched from the other side.',
+          description: 'Your movement speed increases by +10ft (40ft total, permanent), and on bridges and natural stone surfaces you ignore all difficult terrain. However, for every full round you remain stationary in combat, you take 1 wyrd damage. (The Fexric serums stretched your limbs for spanning the chasms and never let the blood forget — stillness is the vat, and the vat is the stillness.)',
           level: 1,
           icon: 'ability_druid_dash',
           spellType: 'PASSIVE',
@@ -496,7 +496,7 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
         {
           id: 'toll_keepers_eye',
           name: "Toll-Keeper's Eye",
-          description: 'Decades, sometimes centuries, of bridge-toll negotiation have honed Ithran perception to a fine, unforgiving edge. You gain Advantage on all Insight checks: you know when a caravan-master is lying about their cargo by the way their breath catches on the number, when a diplomat is hiding their true purpose by the too-even spacing of their words, when an outsider\'s speech and their heartbeat do not align in the subtle, damning rhythm of deception. But the serums that sharpened your mind could not sharpen your body\'s honesty. Your stone-scales grind audibly when you speak a direct lie, a soft, telltale sound like gravel underfoot, and any Groven within 30ft knows immediately that you are lying. Non-Groven within 30ft gain Advantage on Insight checks against your Deception. The serums made you smooth and quick and clever. Your scales remember what you are.',
+          description: 'You gain Advantage on all Insight checks. When you speak a direct lie, your stone-scales grind audibly: any Groven within 30ft automatically detects the lie, and non-Groven within 30ft gain Advantage on Insight checks against your Deception. (Centuries of toll-negotiation honed your perception to a fine edge — but the serums that sharpened your mind could never make your body honest.)',
           level: 1,
           icon: 'ability_hunter_eagleeye',
           spellType: 'PASSIVE',

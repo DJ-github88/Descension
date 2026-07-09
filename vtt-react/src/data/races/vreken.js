@@ -174,7 +174,7 @@ The Vreken have never had a war. They have never had a king. They have never bee
  {
  name: 'Aedris the First-Lit',
  title: 'The Warning',
- portraitIcon: 'Ability/ability_druid_starfall',
+ portraitIcon: 'Dark Elf/Icon3',
  backstory: `
 The first recorded Over-Lit and the reason the Inquisition exists. Aedris was a Marked Veil-Speaker of extraordinary trail-sight, her silver-white eyes could read a death-trail forming three days before the victim felt the first symptom. For forty years she served as the crypt-speaker of the Sunken Spire, the oldest Vreken cathedral in the Gloom, singing the names of seventeen generations of entombed ancestors.
 
@@ -186,7 +186,7 @@ Aedris lived for another eleven years before the hush completed its hollowing. D
  {
  name: 'Orven the Still-Handed',
  title: 'The First Inquisitor',
- portraitIcon: 'Ability/ability_rogue_shadowstrike',
+ portraitIcon: 'Dark Elf/Icon7',
  backstory: `
 The founder of the Inquisition and the most feared Vreken in history, not by outsiders, but by his own people. Orven was a Marked Vreken whose twin sister, Seris, over-lit when they were both forty-three. The hush hollowed her over the course of a year. By the end, she had become a danger, her trail-sight scrambled, her lantern-light blinding, her hunger for the hush overriding every other instinct. She had attacked three other Vreken trying to steal their fungal stores. The crypt-council debated for a week. Orven did not wait for their decision.
 
@@ -198,7 +198,7 @@ Orven spent the following decades training other Marked Vreken to do what he had
  {
  name: 'Isara Deep-Glow',
  title: 'The Matriarch of the Clean',
- portraitIcon: 'Ability/ability_priest_angelicfeather',
+ portraitIcon: 'Dark Elf/Icon11',
  backstory: `
 The Vreken who first articulated what the Clean had always quietly believed: that Deep-Glow immunity to the hush was not merely a biological trait but a moral inheritance. Isara was born nine generations after Aedris over-lit, into a Clean bloodline that had never produced a single case of the hush. She was educated in the scriptoriums, learned the crypt-records, read every documented Over-Lit case, and noticed a pattern that no one else had wanted to see: the Over-Lit epidemic was almost entirely confined to the Marked. The Clean were not more virtuous. They were not more disciplined. They were simply immune, and that immunity had, over generations, silently translated into leadership, into trade delegations, into council seats, into a quiet assumption that the Clean were the face the Vreken should show to the world.
 
@@ -292,7 +292,7 @@ The Clean rarely leave the Bryngloom Forest. When they do, they travel in monast
  {
   id: 'deep_glow_blood_clean',
   name: 'Deep-Glow Blood',
-  description: 'Your rust-amber eyes carry the oldest fungal strain, warm, steady, and mercifully dim. You are immune to the Over-Lit addiction that ravages the Marked, but the deep-glow that protects you also limits you: your trail-sight reaches only half as far, and your eyes do not frighten.',
+   description: 'Immune to the Over-Lit (Hush) addiction and resistant to blight damage; darkvision limited to 30 feet; disadvantage on Intimidation checks against non-Vreken. The Deep-Glow strain that protects you is warm, steady, and mercifully dim — a healer\'s light rather than a predator\'s, though it also halves your trail-sight\'s reach.',
   level: 1,
   icon: 'spell_nature_resistnature',
   spellType: 'PASSIVE',
@@ -335,7 +335,7 @@ The Clean rarely leave the Bryngloom Forest. When they do, they travel in monast
  {
   id: 'crypt_record_clean',
   name: 'Crypt-Record',
-  description: 'You were trained in the scriptoriums, the only formal education the Vreken offer. You can read fungal-wood tablets, trace crypt-genealogies across centuries, and recite the names of the dead as fluently as the Veil-Speakers who taught you. But the records do not maintain themselves, and the backlog does not forgive.',
+   description: '+2 to History and Medicine checks involving Bryngloom Forest, the Neth, fungal substrate, crypt-genealogies, or death-lore; this bonus is lost if you go 24 hours without spending at least 1 hour maintaining your personal crypt-record, and is recovered only by catching up. You were trained in the scriptoriums — the only formal education the Vreken offer — and can read fungal-wood tablets and recite the dead as fluently as any Veil-Speaker, though the records do not maintain themselves and the backlog does not forgive.',
   level: 1,
   icon: 'inv_misc_book_09',
   spellType: 'PASSIVE',
@@ -413,7 +413,7 @@ The Marked rarely serve as trade delegates or diplomatic envoys. Their eyes are 
  {
   id: 'ghost_mycelium_sight_marked',
   name: 'Ghost-Mycelium Sight',
-  description: 'Your silver-white eyes burn with the most volatile fungal strain, brilliant, hungry, impossible to hide. You see death-trails forming miles away, infections blooming beneath skin that still looks healthy, and lies flickering through the trail like heat-lightning. But you are a beacon: everything you see, everything you are, is visible to everyone who looks at you.',
+   description: 'Darkvision 90 feet; advantage on Perception checks to track creatures or detect hidden objects, passages, and traps; automatically sense any creature within 60 feet that drops below 25% of its maximum HP; but disadvantage on Stealth in all lighting, your eyes glow visibly from 120 feet in darkness, and creatures have advantage on Perception to detect you in dim light or darkness. Your silver-white Ghost-Mycelium eyes burn with the most volatile fungal strain — a beacon that shows you death-trails for miles even as it reveals you in turn.',
   level: 1,
   icon: 'spell_holy_mindvision',
   spellType: 'PASSIVE',

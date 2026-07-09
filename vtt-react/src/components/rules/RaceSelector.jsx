@@ -1,12 +1,12 @@
 import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
-import UnifiedSpellCard from '../spellcrafting-wizard/components/common/UnifiedSpellCard';
+import SpellTooltip from '../spellcrafting-wizard/components/common/SpellTooltip';
 import { isPassiveStatModifier } from '../../utils/raceDisciplineSpellUtils';
 import { getRacialBaseStats, getRacialSavingThrowModifiers } from '../../data/raceData';
 import { getIconUrl } from '../../utils/assetManager';
 import RaceEpicLore from './RaceEpicLore';
 import LoreLink from '../common/LoreLink';
 import { autoLinkTerminology } from '../../utils/loreAutoLinker';
-import { useFlavorTooltip } from './FlavorTooltip';
+
 import './RaceSelector.css';
 
 const PUB = process.env.PUBLIC_URL || '';
@@ -759,26 +759,12 @@ const RaceCard = React.memo(({ race, isSelected, onSelect }) => {
       : displayText
     : null;
 
-  // Build concise hover flavor: short flavor line (under 280 chars)
-  const hoverFlavor = displayText
-    ? (displayText.length > 280 ? displayText.substring(0, 280).trim() + '…' : displayText)
-    : null;
-
-  const { triggerProps, tooltip } = useFlavorTooltip({
-    title: race.name,
-    flavor: hoverFlavor,
-    essence: race.essence,
-    icon: race.icon
-  });
-
   return (
-    <>
-      <div
-        className={`race-card ${isSelected ? 'selected' : ''}`}
-        onClick={() => onSelect(race.id)}
-        style={{ '--race-gradient': race.gradient }}
-        {...triggerProps}
-      >
+    <div
+      className={`race-card ${isSelected ? 'selected' : ''}`}
+      onClick={() => onSelect(race.id)}
+      style={{ '--race-gradient': race.gradient }}
+    >
         {RACE_WATERCOLOR[race.id] && (
           <img
             className="race-card-watermark"
@@ -806,48 +792,21 @@ const RaceCard = React.memo(({ race, isSelected, onSelect }) => {
             {race.variantCount} {race.variantCount === 1 ? 'Variant' : 'Variants'}
           </span>
         </div>
-      </div>
-      {tooltip}
-    </>
+    </div>
   );
 });
 
 // Memoized Variant Card Component
 const VariantCard = React.memo(({ variantId, variant, isSelected, onSelect }) => {
-  // Build concise hover flavor from the subrace's description
-  const hoverFlavor = variant.description
-    ? (variant.description.length > 280
-        ? variant.description.substring(0, 280).trim() + '…'
-        : variant.description)
-    : null;
-
-  // Compose essence line: stat modifiers as a short flavor
-  const statLine = variant.statModifiers
-    ? Object.entries(variant.statModifiers)
-        .filter(([, v]) => v !== 0)
-        .map(([stat, v]) => `${stat.substring(0, 3).toUpperCase()} ${v > 0 ? '+' : ''}${v}`)
-        .join(' · ')
-    : null;
-
-  const { triggerProps, tooltip } = useFlavorTooltip({
-    title: variant.name,
-    flavor: hoverFlavor,
-    essence: statLine || undefined
-  });
-
   return (
-    <>
-      <div
-        className={`variant-card ${isSelected ? 'selected' : ''}`}
-        onClick={() => onSelect(variantId)}
-        {...triggerProps}
-      >
-        <h4 className="variant-card-name">{variant.name}</h4>
-        <p className="variant-card-description">{variant.description}</p>
-        <StatModifiersMini statModifiers={variant.statModifiers} />
-      </div>
-      {tooltip}
-    </>
+    <div
+      className={`variant-card ${isSelected ? 'selected' : ''}`}
+      onClick={() => onSelect(variantId)}
+    >
+      <h4 className="variant-card-name">{variant.name}</h4>
+      <p className="variant-card-description">{variant.tooltipSummary || (variant.description?.length > 160 ? variant.description.substring(0, 160).trim() + '...' : variant.description)}</p>
+      <StatModifiersMini statModifiers={variant.statModifiers} />
+    </div>
   );
 });
 
@@ -919,17 +878,17 @@ const getPassiveSummary = (trait = {}) => {
     return `${stat} ${mag}`;
   };
 
-  // Group stat modifiers together
-  const statMods = [];
-  const otherEffects = [];
+  // Group benefits and drawbacks separately for clarity
+  const benefits = [];
+  const drawbacks = [];
 
   // Process buff effects
   if (trait.buffConfig?.effects) {
     trait.buffConfig.effects.forEach(effect => {
       if (effect.statModifier) {
-        statMods.push(formatStatMod(effect.statModifier));
+        benefits.push(formatStatMod(effect.statModifier));
       } else if (effect.statusEffect) {
-        otherEffects.push(effect.name || effect.statusEffect.type || 'Status effect');
+        benefits.push(effect.name || effect.statusEffect.type || 'Status effect');
       }
     });
   }
@@ -938,9 +897,9 @@ const getPassiveSummary = (trait = {}) => {
   if (trait.debuffConfig?.effects) {
     trait.debuffConfig.effects.forEach(effect => {
       if (effect.statModifier) {
-        statMods.push(formatStatMod(effect.statModifier));
+        drawbacks.push(formatStatMod(effect.statModifier));
       } else if (effect.statusEffect) {
-        otherEffects.push(effect.name || effect.statusEffect.type || 'Status effect');
+        drawbacks.push(effect.name || effect.statusEffect.type || 'Status effect');
       }
     });
   }
@@ -956,18 +915,17 @@ const getPassiveSummary = (trait = {}) => {
       : durationType === 'permanent'
         ? ' continuously'
         : '';
-    parts.push(`Regenerates ${formula}${intervalText}${durationText}`.trim() + '.');
+    benefits.push(`Regenerates ${formula}${intervalText}${durationText}`.trim());
   }
 
-  // Add stat modifiers (grouped together)
-  if (statMods.length > 0) {
-    const modText = statMods.join(', ');
-    parts.push(conditionText ? `${modText} ${conditionText}` : modText);
+  // Add benefits (grouped together)
+  if (benefits.length > 0) {
+    parts.push('Benefit: ' + benefits.join(', ') + (conditionText ? ` ${conditionText}` : '') + '.');
   }
 
-  // Add other effects
-  if (otherEffects.length > 0) {
-    parts.push(otherEffects.join(', '));
+  // Add drawbacks
+  if (drawbacks.length > 0) {
+    parts.push('Drawback: ' + drawbacks.join(', ') + '.');
   }
 
   return parts.length ? parts.join(' ') : 'No description available';
@@ -977,7 +935,7 @@ const getPassiveSummary = (trait = {}) => {
 const TraitIcon = React.memo(({ trait, isSelected, onTraitClick }) => (
   <div
     className={`trait-icon-item ${isSelected ? 'selected' : ''}`}
-    onClick={() => onTraitClick(trait)}
+    onClick={(e) => onTraitClick(trait, e)}
     title={trait.name}
   >
     {trait.icon && (
@@ -1002,8 +960,9 @@ const RaceSelector = () => {
   const [racesLoading, setRacesLoading] = useState(true);
   const [visibleRaceCount, setVisibleRaceCount] = useState(24); // Start with 24 races
   const [showEpicLore, setShowEpicLore] = useState(false);
-  const [raceOverviewExpanded, setRaceOverviewExpanded] = useState(false);
+  const [raceOverviewExpanded, setRaceOverviewExpanded] = useState(true);
   const [customIllustration, setCustomIllustration] = useState(null);
+  const [traitTooltip, setTraitTooltip] = useState({ show: false, spell: null, x: 0, y: 0 });
   const raceGridRef = useRef(null);
 
   // Load race list on component mount
@@ -1165,12 +1124,44 @@ const RaceSelector = () => {
     }
   }, [selectedRace, raceData, gatherIllustrations]);
 
+  // Effect to close trait tooltip when clicking outside
+  useEffect(() => {
+    if (!traitTooltip.show) return;
+    const handleClickOutside = (e) => {
+      if (!e.target.closest('.trait-icon-item') && !e.target.closest('.spell-tooltip-container')) {
+        setTraitTooltip({ show: false, spell: null, x: 0, y: 0 });
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [traitTooltip.show]);
+
   const handleVariantSelect = (variantId) => {
     setSelectedVariant(variantId);
   };
 
-  const handleTraitClick = (trait) => {
-    setSelectedTrait(trait);
+  const handleTraitClick = (trait, event) => {
+    if (isPassiveStatModifier(trait)) {
+      setSelectedTrait(prev => prev?.id === trait.id ? null : trait);
+      setTraitTooltip({ show: false, spell: null, x: 0, y: 0 });
+      return;
+    }
+    const spell = transformTraitToSpell(trait);
+    const rect = event?.currentTarget?.getBoundingClientRect();
+    if (rect) {
+      setTraitTooltip({
+        show: true,
+        spell: spell,
+        x: rect.left + rect.width / 2,
+        y: rect.top
+      });
+    } else {
+      setTraitTooltip({ show: true, spell, x: 0, y: 0 });
+    }
+  };
+
+  const handleTraitTooltipClose = () => {
+    setTraitTooltip({ show: false, spell: null, x: 0, y: 0 });
   };
 
   // Determine current step for conditional rendering
@@ -1536,7 +1527,7 @@ const RaceSelector = () => {
               </div>
             </div>
 
-            {/* Right Column: Traits */}
+            {/* Right Column: Traits + Cultural Background */}
             <div className="details-right">
               <div className="traits-block">
                 <h4 className="traits-block-title">Racial Traits</h4>
@@ -1550,44 +1541,52 @@ const RaceSelector = () => {
                     />
                   ))}
                 </div>
-                {selectedTrait && (
-                  isPassiveStatModifier(selectedTrait) ? (
-                    <div className="passive-display">
-                      <div className="passive-summary-item">
-                        <div className="passive-summary-icon-wrapper">
-                          <img
-                            src={getIconUrl(selectedTrait.icon || 'spell_holy_devotion', 'abilities')}
-                            alt={selectedTrait.name}
-                            className="passive-summary-icon"
-                            onError={(e) => e.target.src = getIconUrl('ui_icon_questionmark', 'ui')}
-                          />
-                        </div>
-                        <div className="passive-summary-details">
-                          <div className="passive-summary-name">{selectedTrait.name}</div>
-                          <div className="passive-summary-description">{getPassiveSummary(selectedTrait)}</div>
-                        </div>
+                {selectedTrait && isPassiveStatModifier(selectedTrait) && (
+                  <div className="passive-display">
+                    <div className="passive-summary-item">
+                      <div className="passive-summary-icon-wrapper">
+                        <img
+                          src={getIconUrl(selectedTrait.icon || 'spell_holy_devotion', 'abilities')}
+                          alt={selectedTrait.name}
+                          className="passive-summary-icon"
+                          onError={(e) => e.target.src = getIconUrl('ui_icon_questionmark', 'ui')}
+                        />
+                      </div>
+                      <div className="passive-summary-details">
+                        <div className="passive-summary-name">{selectedTrait.name}</div>
+                        <div className="passive-summary-description">{getPassiveSummary(selectedTrait)}</div>
                       </div>
                     </div>
-                  ) : (
-                    <UnifiedSpellCard
-                      spell={transformTraitToSpell(selectedTrait)}
-                      variant="rules"
-                      showDescription={true}
-                    />
-                  )
+                  </div>
                 )}
               </div>
+
+              {raceData.culturalBackground && (
+                <div className="cultural-section">
+                  <h4 className="cultural-title">
+                    <i className="fas fa-book"></i> Cultural Background
+                  </h4>
+                  <p className="cultural-text">{renderLoreText(raceData.culturalBackground)}</p>
+                  {variantData?.description && (
+                    <div className="cultural-subrace-section">
+                      <h5 className="cultural-subrace-title">
+                        <i className="fas fa-dna"></i> {variantData.name}
+                      </h5>
+                      <p className="cultural-subrace-text">{variantData.description}</p>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
 
-          {/* Cultural Background */}
-          {raceData.culturalBackground && (
-            <div className="cultural-section">
-              <h4 className="cultural-title">
-                <i className="fas fa-book"></i> Cultural Background
-              </h4>
-              <p className="cultural-text">{renderLoreText(raceData.culturalBackground)}</p>
-            </div>
+          {traitTooltip.show && traitTooltip.spell && (
+            <SpellTooltip
+              spell={traitTooltip.spell}
+              fullscreenMode={true}
+              onMouseEnter={() => {}}
+              onMouseLeave={handleTraitTooltipClose}
+            />
           )}
 
           {/* Integration Notes */}

@@ -286,7 +286,7 @@ The Lunarch does not choose whether to suffer -- only HOW. Each phase is a diffe
 Every shift (natural or manual), roll 1d6:
 | d6 | Effect |
 |---|---|
-| 1 | Tissue Rupture -- Take 2d6 necrotic as flesh tears along starlight seams |
+| 1 | Tissue Strain -- Take 2d6 necrotic as flesh strains along starlight seams |
 | 2 | Synaptic Flash -- Blinded for 1 round as the parasite reroutes your optic nerves |
 | 3 | Mana Hemorrhage -- Lose 2d4 mana as the parasite drains arcane reserves |
 | 4 | Temporal Dissonance -- Lose 1 AP on your next turn as time stutters |
@@ -354,7 +354,7 @@ Your unique utility. Key abilities let you add or remove rounds from effects, ex
 **Mana**: 43 - 2 = 41/60
 
 **Your Action**: Cast "Phase Tear" -- Force shift to FULL MOON (8 mana + 1d8+2 blight self-damage)
-*You cannot endure another round of being a punching bag. You reach into the parasite's cycle and TEAR yourself toward Full Moon. Your flesh screams.*
+*You cannot endure another round of being a punching bag. You reach into the parasite's cycle and PULL yourself toward Full Moon. Your body screams.*
 
 **Phase Shift Cost**: 8 mana + 1d8+2 necrotic ? [6] + 2 = 8 blight to you
 **Transition Shock Table (1d6)**: [4] = **Temporal Dissonance** -- lose 1 AP on your next turn
@@ -427,7 +427,7 @@ Your unique utility. Key abilities let you add or remove rounds from effects, ex
 
 **Turn 4 -- Survival Through Parasitism (Manual Shift to Waning Moon)**
 
-*You are dying. The Full Moon is eating you from the inside. You reach into the cycle and RIP yourself toward Waning. The parasite protests -- it was enjoying the Sanity Erosion. Your flesh tears again.*
+*You are dying. The Full Moon is eating you from the inside. You reach into the cycle and PULL yourself toward Waning. The parasite protests -- it was enjoying the Sanity Erosion. Your flesh strains again.*
 
 **Phase Shift**: Full Moon ? Waning Moon (8 mana + 1d8+2 necrotic)
 **Shift Cost**: 1d8+2 ? [5] + 2 = 7 necrotic
@@ -532,7 +532,7 @@ Your unique utility. Key abilities let you add or remove rounds from effects, ex
 
     overheatRules: {
       title: "The Transition Shock Table",
-      content: `Every time a phase shift occurs -- natural cycle OR manual -- the Lunarch's flesh tears along the starlight seams where the parasite has replaced connective tissue. Roll 1d6:
+      content: `Every time a phase shift occurs -- natural cycle OR manual -- the Lunarch's flesh strains along the starlight seams where the parasite has replaced connective tissue. Roll 1d6:
 
 | d6 | Name | Effect |
 |---|---|---|
@@ -743,12 +743,12 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         name: "Sanguine Warden",
         icon: "Nature/Ethereal Bird",
         color: "#8B0000",
-        theme: "Self-Mutilating Healer",
+        theme: "Sacrificial Healer",
 
         description: `The Sanguine Warden has learned to redirect the parasite's feeding outward -- siphoning vitality from the moon's gravitational pull and channeling it through their own bleeding flesh to mend allies. This is not sacred healing. This is not spirit intervention. The Sanguine Warden literally bleeds moonlight, tearing open the starlight seams in their own body to create conduits through which stolen life force can flow into wounded companions. During Waxing Moon, their healing is increased by 50% because the parasite's sensation-feeding creates more tears to channel through -- but each heal costs the Warden 1d4 blight damage as they rip themselves open further. During Waning Moon, a vampiric feedback loop allows them to recover 25% of the healing they deal to others. The Sanguine Warden is the only Lunarch who can semi-reliably sustain themselves, and they do it by making their own suffering into medicine.`,
 
         playstyle:
-          "Self-mutilating healer who bleeds moonlight to keep allies alive, sustaining themselves through vampiric feedback loops during Waning Moon",
+          "Sacrificial healer who bleeds moonlight to keep allies alive, sustaining themselves through vampiric feedback loops during Waning Moon",
 
         strengths: [
           "Only Lunarch spec with reliable self-sustain (Waning Moon vampiric feedback)",
@@ -806,7 +806,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
     { id : "lunarch_parasitic_bolt",
       name: "Parasitic Bolt",
       description:
-        "Channel a sliver of the parasite's hunger into a bolt of condensed starlight that burrows into the target. The casting tears a seam in your palm -- you bleed, they bleed, the parasite feeds on both.",
+        "Channel a sliver of the parasite's hunger into a bolt of condensed starlight that burrows into the target. The casting opens a seam in your palm -- you bleed, they bleed, the parasite feeds on both.",
       spellType: "ACTION",
       icon: "Arcane/Star Trail Path",
       level: 1,
@@ -836,7 +836,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         resourceValues: { mana: 4 },
         actionPoints: 1,
         components: ["somatic"],
-        somaticText: "Tear open palm, channel starlight through the wound",
+        somaticText: "Press palm open, channel starlight through",
       },
 
       resolution: "DICE",
@@ -871,7 +871,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
     { id : "lunarch_phase_tear",
       name: "Phase Tear",
       description:
-        "Gouge your own flesh to fuel a violent phase shift, releasing a shockwave of stellar energy that damages nearby enemies based on which horror you drag yourself into.",
+        "Channel the parasite's hunger to fuel a violent phase shift, releasing a shockwave of stellar energy that damages nearby enemies based on which horror you drag yourself into.",
       spellType: "ACTION",
       icon: "Force/Explosion Burst",
       level: 1,
@@ -899,7 +899,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         resourceValues: { mana: 8 },
         actionPoints: 1,
         components: ["somatic"],
-        somaticText: "Drive fingers into the starlight seams and tear",
+        somaticText: "Press into the starlight seams and pull",
       },
 
       resolution: "DICE",
@@ -979,7 +979,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         resourceValues: { mana: 3 },
         actionPoints: 1,
         components: ["somatic"],
-        somaticText: "Drive starlight-infused fingers into flesh",
+        somaticText: "Trace starlight-infused patterns across flesh",
       },
 
       resolution: "DICE",
@@ -1312,7 +1312,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
     { id : "lunarch_sanguine_transfer",
       name: "Sanguine Transfer",
       description:
-        "Tear open a seam in your flesh and channel stolen life force through the wound into an ally. Blood-tinged moonlight seals their wounds. You lose HP. They gain HP.",
+        "Open a seam in your flesh and channel stolen life force through into an ally. Blood-tinged moonlight seals their wounds. You lose HP. They gain HP.",
       spellType: "ACTION",
       icon: "Healing/Prayer",
       level: 2,
@@ -1342,7 +1342,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         resourceValues: { mana: 5 },
         actionPoints: 1,
         components: ["somatic"],
-        somaticText: "Tear open a starlight seam in your forearm",
+        somaticText: "Open a starlight seam along your forearm",
       },
 
       resolution: "DICE",
@@ -1643,7 +1643,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         actionPoints: 1,
         components: ["verbal", "somatic"],
         verbalText: "QUATTUOR FAMIS!",
-        somaticText: "Convulse as the parasite tears through all four feedings",
+        somaticText: "Strain as the parasite cycles through all four feedings",
       },
 
       resolution: "AUTOMATIC",
@@ -1747,7 +1747,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         resourceValues: { mana: 12 },
         actionPoints: 1,
         components: ["somatic"],
-        somaticText: "Tear open every seam in both arms, channel the flood",
+        somaticText: "Open every seam along both arms, channel the flood",
       },
 
       resolution: "DICE",
@@ -2788,5 +2788,106 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
           "lunarch"
         ]
       },
+      // ===== NON-COMBAT / GRAVITY & LUNAR UTILITY (the moon's pull, out of combat) =====
+      {
+        "id": "lunarch_mass_shift",
+        "name": "Mass-Shift",
+        "description": "Bend local gravity around a single object you can touch. Halve its weight to carry or hurl a heavy stone, double it to anchor or pin, slow a falling ally or object to a safe drift, or lift/move an object too heavy for muscle alone. Living creatures resist a direct shift, but a willing fall can be feathered. Out of combat.",
+        "level": 1,
+        "spellType": "ACTION",
+        "icon": "Arcane/Spiral Vortex",
+        "typeConfig": { "school": "arcane", "icon": "Arcane/Spiral Vortex", "tags": ["utility", "gravity", "exploration", "lunarch"], "castTime": 1, "castTimeType": "IMMEDIATE" },
+        "targetingConfig": { "targetingType": "single", "rangeType": "touch", "rangeDistance": 0 },
+        "resourceCost": { "actionPoints": 1, "resourceTypes": ["mana"], "resourceValues": { "mana": 5 }, "components": ["verbal", "somatic"], "somaticText": "Press palm to the object and feel the moon pull it sideways" },
+        "resolution": "AUTOMATIC",
+        "effectTypes": ["utility"],
+        "utilityConfig": {
+          "utilityType": "telekinesis",
+          "selectedEffects": [ { "id": "mass_shift_gravity", "name": "Gravity Bend", "description": "Halve or double one object's weight for 1 minute, slow a fall to no damage, or lift/move an object up to ~500 lb that muscle could not. Living creatures resist a weight-shift but can be feathered if willing.", "mechanicsText": "Halve/double object weight; slow falls; lift/move heavy objects." } ],
+          "duration": 1, "durationUnit": "minutes", "concentration": false, "power": "moderate"
+        },
+        "cooldownConfig": { "cooldownType": "turn_based", "cooldownValue": 0 },
+        "tags": ["utility", "gravity", "exploration", "lunarch"]
+      },
+      {
+        "id": "lunarch_tide_lift",
+        "name": "Tide-Lift",
+        "description": "Draw the moon's pull through your own body and rise. You or one willing ally levitate, drifting up to ledges, across gaps, over walls, or down to a safe landing, for the duration. No momentum, no speed — just the slow, cold float of a thing the moon is holding. Out of combat.",
+        "level": 2,
+        "spellType": "ACTION",
+        "icon": "Arcane/Quick Step",
+        "typeConfig": { "school": "arcane", "icon": "Arcane/Quick Step", "tags": ["utility", "mobility", "exploration", "lunarch"], "castTime": 1, "castTimeType": "IMMEDIATE" },
+        "targetingConfig": { "targetingType": "single", "rangeType": "ranged", "rangeDistance": 30, "targetRestrictions": ["self", "ally"] },
+        "resourceCost": { "actionPoints": 1, "resourceTypes": ["mana"], "resourceValues": { "mana": 7 }, "components": ["verbal", "somatic"], "somaticText": "Open your arms to the sky and let the tide take your weight" },
+        "resolution": "NONE",
+        "effectTypes": ["utility"],
+        "utilityConfig": {
+          "utilityType": "mobility",
+          "selectedEffects": [ { "id": "tide_lift_levitate", "name": "Lunar Levitation", "description": "Levitate one willing target for up to 10 minutes: rise/lower/drift at a slow walk to reach ledges, cross gaps, or descend safely. Ends if the target makes a hostile action.", "mechanicsText": "Slow levitation for one target, 10 min." } ],
+          "duration": 10, "durationUnit": "minutes", "concentration": true, "power": "moderate"
+        },
+        "cooldownConfig": { "cooldownType": "turn_based", "cooldownValue": 1 },
+        "tags": ["utility", "mobility", "exploration", "lunarch"]
+      },
+      {
+        "id": "lunarch_moon_remembers",
+        "name": "The Moon Remembers",
+        "description": "Under open sky, ask the dead moon what its light has touched here. It shows you, in cold silver images, the shapes of creatures and events that passed beneath the sky within the last night — who walked here, what was carried, what light was cast. Fades under cover, indoors, or in daylight. Out of combat.",
+        "level": 2,
+        "spellType": "ACTION",
+        "icon": "Radiant/Moonlight Beam",
+        "typeConfig": { "school": "arcane", "icon": "Radiant/Moonlight Beam", "tags": ["utility", "divination", "investigation", "lunarch"], "castTime": 1, "castTimeType": "IMMEDIATE" },
+        "targetingConfig": { "targetingType": "self", "rangeType": "self" },
+        "resourceCost": { "actionPoints": 1, "resourceTypes": ["mana"], "resourceValues": { "mana": 8 }, "components": ["verbal", "somatic"], "somaticText": "Tilt your face to the dead moon and let it pour its memory in" },
+        "resolution": "NONE",
+        "effectTypes": ["utility"],
+        "utilityConfig": {
+          "utilityType": "divination",
+          "selectedEffects": [ { "id": "moon_remembers_record", "name": "Silver Record", "description": "Under open night sky, glimpse cold silver images of who/what passed beneath the sky here in the last night. Useless indoors, under heavy cover, or in daylight.", "mechanicsText": "See last night's sky-exposed comings/goings at a location." } ],
+          "power": "moderate"
+        },
+        "cooldownConfig": { "cooldownType": "turn_based", "cooldownValue": 1 },
+        "tags": ["utility", "divination", "investigation", "lunarch"]
+      },
+      {
+        "id": "lunarch_void_chill",
+        "name": "Void-Chill",
+        "description": "The parasite has made your blood a piece of the void between stars. For the duration you radiate an otherworldly cold: freeze a plane of water, crust a wet surface in ice, snuff small flames and heat-signatures, and chill drinks or preserve food. The same aura marks you as deeply, unsettlingly alien — advantage on Intimidation, disadvantage on Persuasion and warmth-based rapport. Out of combat.",
+        "level": 3,
+        "spellType": "ACTION",
+        "icon": "Frost/Ice Shard",
+        "typeConfig": { "school": "rime", "icon": "Frost/Ice Shard", "tags": ["utility", "cold", "exploration", "social", "lunarch"], "castTime": 1, "castTimeType": "IMMEDIATE" },
+        "targetingConfig": { "targetingType": "self", "rangeType": "self" },
+        "resourceCost": { "actionPoints": 1, "resourceTypes": ["mana"], "resourceValues": { "mana": 6 }, "components": ["somatic"], "somaticText": "Let the void-cold bleed out through your skin" },
+        "resolution": "NONE",
+        "effectTypes": ["utility"],
+        "utilityConfig": {
+          "utilityType": "environment",
+          "selectedEffects": [ { "id": "void_chill_cold", "name": "Dead-Moon Cold", "description": "For 1 hour: freeze water/crust ice, snuff small flames and heat-signatures, chill/preserve items. Your alien aura grants advantage on Intimidation but disadvantage on Persuasion — you radiate a cold that isn't entirely of this world.", "mechanicsText": "Freeze water/snuff flames; +Intimidation, -Persuasion 1 hour." } ],
+          "duration": 1, "durationUnit": "hours", "concentration": false, "power": "moderate"
+        },
+        "cooldownConfig": { "cooldownType": "turn_based", "cooldownValue": 0 },
+        "tags": ["utility", "cold", "exploration", "social", "lunarch"]
+      },
+      {
+        "id": "lunarch_phase_stasis",
+        "name": "Phase Stasis",
+        "description": "Force the parasite into a single phase of dormancy for a few hours, buying yourself a window of lucid rest. The involuntary cycle pauses, you take no feeding damage, and you recover with advantage — but you cannot cast phase spells, and at the end the parasite wakes hungry, dealing a Transition Shock on emergence. Out of combat.",
+        "level": 2,
+        "spellType": "ACTION",
+        "icon": "Utility/Utility",
+        "typeConfig": { "school": "arcane", "icon": "Utility/Utility", "tags": ["utility", "rest", "lunarch"], "castTime": 1, "castTimeType": "MINUTES" },
+        "targetingConfig": { "targetingType": "self", "rangeType": "self" },
+        "resourceCost": { "actionPoints": 1, "resourceTypes": ["mana"], "resourceValues": { "mana": 10 }, "components": ["verbal", "somatic"], "somaticText": "Press both hands over the parasite's seat at the base of your skull and hold it still" },
+        "resolution": "NONE",
+        "effectTypes": ["utility"],
+        "utilityConfig": {
+          "utilityType": "rest",
+          "selectedEffects": [ { "id": "phase_stasis_dormant", "name": "Dormant Parasite", "description": "For up to 4 hours the involuntary cycle pauses: no feeding damage, no phase penalties, advantage on rest recovery. You cannot cast Lunarch spells during stasis. On emergence, roll once on the Transition Shock Table — the parasite wakes hungry.", "mechanicsText": "Pause parasite cycle 4h; advantage on rest; Transition Shock on wake." } ],
+          "duration": 4, "durationUnit": "hours", "concentration": false, "power": "moderate"
+        },
+        "cooldownConfig": { "cooldownType": "long_rest", "cooldownValue": 1 },
+        "tags": ["utility", "rest", "lunarch"]
+      }
   ],
 };

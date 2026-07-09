@@ -210,7 +210,13 @@ Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (s
       title: "Combat Role",
       content: `**Why Bring Me?**: Rewrite combat posture, physical stats, damage resistances, and movement capabilities mid-combat. Bypass armor (Arterial Strike), tank (Deadened Bastion), ambush (Void Predator).
 
-**Fatal Flaw**: 0 base Armor, +50% wyrd permanently. If movement reduced to 0, Flux drops to 0 and 1d10 blight/round.`
+**Weaknesses**:
+- Naked Flesh: 0 base armor — every blow lands full. You dodge or you die.
+- Wyrd-Vulnerable: +50% wyrd damage permanently; magic is your hard counter and a caster's best target.
+- Rooted is Death: if your movement is reduced to 0 (grapple, root, pin), your Flux crashes to 0 and you take 1d10 blight every round — immobilizers shut you down completely.
+- Body Toll Cascade: over-shift and you lose yourself — 3+ Toll locks your joints, 5+ silences you, 7+ sends you Feral, 10 hands you to the GM.
+- Flux Starves in a Bad Fight: Flux drops on a miss, on getting hit, and while idle — a fight turning against you drains your engine when you need it most.
+- Lost Face (social): every shift leaves permanent marks — calcified skin, joints bending the wrong way, shadow-eyes — and frequent shifters forget their original face. You read as a monster to common folk, and old friends may not recognize you.`
     },
 
     playstyle: {
@@ -345,33 +351,29 @@ Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (s
     ]
   },  spells: [
     { id: "shaper_structural_fragility", name: "Structural Fragility (Fatal Flaw)", description: "0 base Armor. +50% wyrd damage permanently. If Rooted/Grappled, Flux drops to 0 and take 1d10 blight/round.", level: 1, spellType: "PASSIVE", icon: "Healing/Red Heart", typeConfig: { school: "physical", icon: "Healing/Red Heart", tags: ["passive", "fatal-flaw", "vulnerability"], castTime: 0, castTimeType: "PASSIVE" }, targetingConfig: { targetingType: "self", rangeType: "self" }, resourceCost: { actionPoints: 0, mana: 0, components: ["somatic"] }, resolution: "NONE", effectTypes: ["debuff"], debuffConfig: { debuffType: "statPenalty", effects: [ { id: "structural_fragility_vulnerability", name: "Wyrd Vulnerability", description: "+50% wyrd damage taken permanently." }, { id: "structural_fragility_rooted", name: "Rooted Fragility", description: "If Rooted/Grappled, Kinetic Flux drops to 0 and you take 1d10 blight damage per round." } ] }, cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }, tags: ["passive", "fatal-flaw", "starter", "shaper"] ,
-
-  somaticText: "Let the kinetic flux rip through your limbs, the blade-feathers of mutated bone whistling as you strike.",
-  verbalText: "Release a sharp, controlled breath as the form snaps into focus.",
+  somaticText: "Your tissues remain in a state of perpetual laxity, unable to maintain density.",
+  verbalText: "-"
 },
     { id: "shaper_kinetic_dissection", name: "Kinetic Dissection", description: "Vibrate blade at extreme speeds, bypassing all Armor. Chain by spending 1 extra Flux per repeat.", level: 1, spellType: "ACTION", icon: "Slashing/Bloody Slash", typeConfig: { school: "physical", icon: "Slashing/Bloody Slash", tags: ["melee", "damage", "combo", "armor_bypass", "starter"], castTime: 1, castTimeType: "IMMEDIATE" }, targetingConfig: { targetingType: "single", rangeType: "melee", rangeDistance: 5, targetRestrictions: ["enemy"] }, resourceCost: { actionPoints: 1, mana: 0, classResource: { type: "kinetic_flux", cost: 1 }, components: ["somatic"] }, resolution: "DICE", effectTypes: ["damage"], damageConfig: { formula: "1d8 + agility", damageTypes: ["physical"], resolution: "DICE", canCrit: true, critMultiplier: 2, armorPenetration: "100%" }, cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }, tags: ["melee", "combo", "armor-bypass", "starter", "shaper"] ,
-
-  somaticText: "Let the kinetic flux rip through your limbs, the blade-feathers of mutated bone whistling as you strike.",
-  verbalText: "Release a sharp, controlled breath as the form snaps into focus.",
+  somaticText: "Run your hand along the blade, willing it to resonate at a frequency that parts flesh and armor alike.",
+  verbalText: "Whisper the resonant frequency through barely parted lips."
 },
     { id: "shaper_frantic_laceration", name: "Frantic Rend", description: "Hyper-kinetic rapid slash that builds Flux.", level: 1, spellType: "ACTION", icon: "Slashing/Quick Slash", typeConfig: { school: "physical", icon: "Slashing/Quick Slash", tags: ["melee", "damage", "flux_generation", "starter"], castTime: 1, castTimeType: "IMMEDIATE" }, targetingConfig: { targetingType: "single", rangeType: "melee", rangeDistance: 5, targetRestrictions: ["enemy"] }, resourceCost: { actionPoints: 1, mana: 0, classResource: { type: "kinetic_flux", cost: -2 }, components: ["somatic"] }, resolution: "DICE", effectTypes: ["damage"], damageConfig: { formula: "1d6 + agility", damageTypes: ["physical"], resolution: "DICE", canCrit: true, critMultiplier: 2 }, fluxGain: 2, cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }, tags: ["melee", "damage", "flux_generation", "starter", "shaper"] ,
-
-  somaticText: "Let the kinetic flux rip through your limbs, the blade-feathers of mutated bone whistling as you strike.",
-  verbalText: "Release a sharp, controlled breath as the form snaps into focus.",
+  somaticText: "Vibrate your blade-arm at hypersonic frequency, the air humming around the edge.",
+  verbalText: "Exhale sharply as the strike builds momentum."
 },
-    { id: "shaper_form_shift", name: "Form Shift", description: "Reshape posture and biology into a new Shaping Form. +1 Body Toll.", level: 1, spellType: "ACTION", icon: "Nature/Form Shift", typeConfig: { school: "physical", icon: "Nature/Form Shift", tags: ["utility", "form_shift", "transition", "starter"], castTime: 0, castTimeType: "FREE" }, targetingConfig: { targetingType: "self", rangeType: "self" }, resourceCost: { actionPoints: 0, mana: 0, classResource: { type: "kinetic_flux", cost: 2 }, components: ["somatic"] }, resolution: "NONE", effectTypes: ["utility"], utilityConfig: { utilityType: "stance_change", selectedEffects: [ { id: "form_shift", name: "Shaping Form Shift", description: "Reshape posture and biology into a new Shaping Form. +1 Body Toll." } ], duration: 0, durationUnit: "instant", concentration: false, power: "major" }, bodyTollCost: 1, cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }, tags: ["utility", "form_shift", "transition", "starter", "shaper"] ,
+    { id: "shaper_form_shift", name: "Form Shift", description: "Reshape posture and biology into a new Shaping Form. +1 Body Toll.", level: 1, spellType: "ACTION", icon: "Nature/Transform Bear", typeConfig: { school: "physical", icon: "Nature/Transform Bear", tags: ["utility", "form_shift", "transition", "starter"], castTime: 0, castTimeType: "FREE" }, targetingConfig: { targetingType: "self", rangeType: "self" }, resourceCost: { actionPoints: 0, mana: 0, classResource: { type: "kinetic_flux", cost: 2 }, components: ["somatic"] }, resolution: "NONE", effectTypes: ["utility"], utilityConfig: { utilityType: "stance_change", selectedEffects: [ { id: "form_shift", name: "Shaping Form Shift", description: "Reshape posture and biology into a new Shaping Form. +1 Body Toll." } ], duration: 0, durationUnit: "instant", concentration: false, power: "major" }, bodyTollCost: 1, cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }, tags: ["utility", "form_shift", "transition", "starter", "shaper"] ,
   triggerConfig: {
     triggers: [
       { id: "shaper_form_shift_flux", name: "Kinetic Toll", triggerType: "on_cast", action: "Costs Body Toll and spends 2 Kinetic Flux." }
     ]
   },
-  somaticText: "Let the kinetic flux rip through your limbs, the blade-feathers of mutated bone whistling as you strike.",
-  verbalText: "Release a sharp, controlled breath as the form snaps into focus.",
+  somaticText: "Roll your shoulders as the underlying musculature reknits into a new configuration.",
+  verbalText: "Let out a controlled breath as the form settles."
 },
     { id: "shaper_ataxic_sway", name: "Ataxic Sway", description: "Unpredictable dodge converting defense into kinetic fuel. Requires Ataxic Flow.", level: 2, spellType: "ACTION", icon: "Utility/Deflecting Shield", typeConfig: { school: "physical", icon: "Utility/Deflecting Shield", tags: ["defense", "dodge", "flux_generation", "form_ataxic_flow"], castTime: 1, castTimeType: "IMMEDIATE" }, targetingConfig: { targetingType: "self", rangeType: "self" }, resourceCost: { actionPoints: 1, mana: 0, classResource: { type: "kinetic_flux", cost: 3 }, components: ["somatic"] }, resolution: "NONE", effectTypes: ["buff"], buffConfig: { buffType: "movementBuff", effects: [ { id: "ataxic_dodge", name: "Ataxic Dodge", description: "Unpredictable dodge converting defense into kinetic fuel." } ], durationType: "rounds", durationValue: 1, durationUnit: "rounds", concentrationRequired: false, canBeDispelled: true }, formRequirement: "ataxic_flow", cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 }, tags: ["defense", "dodge", "form_ataxic_flow", "shaper"] ,
-
-  somaticText: "Let the kinetic flux rip through your limbs, the blade-feathers of mutated bone whistling as you strike.",
-  verbalText: "Release a sharp, controlled breath as the form snaps into focus.",
+  somaticText: "Flow through the space between strikes, your form blurring with each step.",
+  verbalText: "Exhale sharply as your body weaves into the current."
 },
     { id: "shaper_arterial_puncture", name: "Arterial Puncture", description: "Bone-hardened talon lunge. Requires Arterial Strike.", level: 2, spellType: "ACTION", icon: "Piercing/Piercing Thrust", typeConfig: { school: "physical", icon: "Piercing/Piercing Thrust", tags: ["melee", "damage", "precision", "bleed", "form_arterial_strike"], castTime: 1, castTimeType: "IMMEDIATE" }, targetingConfig: { targetingType: "single", rangeType: "melee", rangeDistance: 5, targetRestrictions: ["enemy"] }, resourceCost: { actionPoints: 1, mana: 0, classResource: { type: "kinetic_flux", cost: 4 }, components: ["somatic", "verbal"] }, resolution: "DICE", effectTypes: ["damage", "debuff"], damageConfig: { formula: "1d8 + agility + 1d8", damageTypes: ["physical"], resolution: "DICE", canCrit: true, critMultiplier: 2 }, debuffConfig: { debuffType: "damageOverTime", effects: [ { id: "arterial_bleed", name: "Arterial Bleed", description: "Bone-hardened talon lunge causes deep arterial bleeding." } ], durationType: "rounds", durationValue: 2, durationUnit: "rounds", canBeDispelled: true }, formRequirement: "arterial_strike", cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }, tags: ["melee", "damage", "bleed", "form_arterial_strike", "shaper"] ,
   triggerConfig: {
@@ -379,8 +381,8 @@ Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (s
       { id: "shaper_arterial_puncture_flux", name: "Kinetic Toll", triggerType: "on_cast", action: "Spends 4 Kinetic Flux, the mutant flesh straining." }
     ]
   },
-  somaticText: "Let the kinetic flux rip through your limbs, the blade-feathers of mutated bone whistling as you strike.",
-  verbalText: "Release a sharp, controlled breath as the form snaps into focus.",
+  somaticText: "Extend a razor bone spur from your forearm, targeting the gap in their guard.",
+  verbalText: "Breathe in through clenched teeth as the strike finds its mark."
 },
     { id: "shaper_alchemic_purge", name: "Alchemic Purge", description: "Force biology to reject immobilizing effects. +1 Body Toll.", level: 2, spellType: "ACTION", icon: "Nature/Nature Natural", typeConfig: { school: "primal", icon: "Nature/Nature Natural", tags: ["cleanse", "self_damage", "mutation"], castTime: 1, castTimeType: "IMMEDIATE" }, targetingConfig: { targetingType: "self", rangeType: "self" }, resourceCost: { actionPoints: 1, mana: 0, classResource: { type: "kinetic_flux", cost: 3 }, components: ["somatic", "verbal"] }, resolution: "NONE", effectTypes: ["utility"], utilityConfig: { utilityType: "cleanse", selectedEffects: [ { id: "alchemic_cleanse", name: "Alchemic Cleanse", description: "Force biology to reject immobilizing effects." } ], duration: 0, durationUnit: "instant", concentration: false, power: "minor" }, bodyTollCost: 1, cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }, tags: ["utility", "cleanse", "shaper"] ,
   triggerConfig: {
@@ -388,8 +390,8 @@ Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (s
       { id: "shaper_alchemic_purge_flux", name: "Kinetic Toll", triggerType: "on_cast", action: "Costs Body Toll and spends 3 Kinetic Flux." }
     ]
   },
-  somaticText: "Let the kinetic flux rip through your limbs, the blade-feathers of mutated bone whistling as you strike.",
-  verbalText: "Release a sharp, controlled breath as the form snaps into focus.",
+  somaticText: "Force your metabolism into overdrive, rejecting foreign agents through cellular rebellion.",
+  verbalText: "Gasp sharply as the purge courses through your system."
 },
     { id: "shaper_centrifugal_sweep", name: "Centrifugal Sweep", description: "Spin with bone-hardened limbs. Requires Centrifugal Fury.", level: 3, spellType: "ACTION", icon: "Slashing/Cleave", typeConfig: { school: "physical", icon: "Slashing/Cleave", tags: ["melee", "damage", "aoe", "form_centrifugal_fury"], castTime: 1, castTimeType: "IMMEDIATE" }, targetingConfig: { targetingType: "area", rangeType: "self_centered", areaShape: "circle", areaSize: 10, targetRestrictions: ["enemy"] }, resourceCost: { actionPoints: 1, mana: 0, classResource: { type: "kinetic_flux", cost: 4 }, components: ["somatic"] }, resolution: "DICE", effectTypes: ["damage"], damageConfig: { formula: "1d8 + agility", damageTypes: ["physical"], resolution: "DICE", canCrit: true, critMultiplier: 2 }, formRequirement: "centrifugal_fury", fluxGain: 1, cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 }, tags: ["aoe", "damage", "form_centrifugal_fury", "shaper"] ,
   triggerConfig: {
@@ -397,26 +399,24 @@ Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (s
       { id: "shaper_centrifugal_sweep_flux", name: "Kinetic Toll", triggerType: "on_cast", action: "Spends 4 Kinetic Flux, the mutant flesh straining." }
     ]
   },
-  somaticText: "Let the kinetic flux rip through your limbs, the blade-feathers of mutated bone whistling as you strike.",
-  verbalText: "Release a sharp, controlled breath as the form snaps into focus.",
+  somaticText: "Spread your stance and let centrifugal force extend your limbs beyond their natural reach.",
+  verbalText: "Release a guttural grunt as the spin accelerates."
 },
     { id: "shaper_bastion_riposte", name: "Bastion Riposte", description: "Absorb blow with calcified hide, counter. Requires Deadened Bastion.", level: 3, spellType: "REACTION", icon: "Utility/Parry", typeConfig: { school: "physical", icon: "Utility/Parry", tags: ["reaction", "parry", "counter", "form_deadened_bastion"], castTime: 0, castTimeType: "REACTION" }, targetingConfig: { targetingType: "single", rangeType: "melee", rangeDistance: 5, targetRestrictions: ["enemy"] }, resourceCost: { actionPoints: 0, mana: 0, classResource: { type: "kinetic_flux", cost: 3 }, components: ["somatic"] }, resolution: "DICE", effectTypes: ["damage"], damageConfig: { formula: "2d6 + agility", damageTypes: ["physical"], resolution: "DICE", canCrit: true, critMultiplier: 2 }, formRequirement: "deadened_bastion", cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }, tags: ["reaction", "parry", "form_deadened_bastion", "shaper"] ,
-
-  somaticText: "Let the kinetic flux rip through your limbs, the blade-feathers of mutated bone whistling as you strike.",
-  verbalText: "Release a sharp, controlled breath as the form snaps into focus.",
+  somaticText: "Thicken your subdermal tissue into dense calcified plates, anchoring yourself.",
+  verbalText: "Let out a low, resonant breath as the armor sets."
 },
     { id: "shaper_kinetic_dash", name: "Kinetic Dash", description: "Mutation-powered leap 30ft.", level: 3, spellType: "ACTION", icon: "Utility/Speed Boot", typeConfig: { school: "physical", icon: "Utility/Speed Boot", tags: ["mobility", "reposition", "mutation"], castTime: 1, castTimeType: "IMMEDIATE" }, targetingConfig: { targetingType: "self", rangeType: "self" }, resourceCost: { actionPoints: 1, mana: 0, classResource: { type: "kinetic_flux", cost: 2 }, components: ["somatic"] }, resolution: "NONE", effectTypes: ["utility"], utilityConfig: { utilityType: "movement", selectedEffects: [ { id: "kinetic_leap", name: "Kinetic Leap", description: "Mutation-powered leap 30 feet." } ], duration: 0, durationUnit: "instant", concentration: false, power: "minor" }, fluxGain: 3, cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }, tags: ["mobility", "reposition", "shaper"] ,
-
-  somaticText: "Let the kinetic flux rip through your limbs, the blade-feathers of mutated bone whistling as you strike.",
-  verbalText: "Release a sharp, controlled breath as the form snaps into focus.",
+  somaticText: "Crouch and coil your leg muscles into compressed springs, tendons audibly tightening.",
+  verbalText: "Release a burst of air as you launch forward."
 },    { id: "shaper_alchemic_overdrive", name: "Alchemic Overdrive", description: "Venom-laced bone-hardened auto-crit. Signature: +1 Body Toll. Requires Arterial Strike.", level: 4, spellType: "ACTION", icon: "Poison/Envenom Dagger", typeConfig: { school: "physical", icon: "Poison/Envenom Dagger", tags: ["melee", "damage", "blight", "signature", "form_arterial_strike"], castTime: 1, castTimeType: "IMMEDIATE" }, targetingConfig: { targetingType: "single", rangeType: "melee", rangeDistance: 5, targetRestrictions: ["enemy"] }, resourceCost: { actionPoints: 1, mana: 0, classResource: { type: "kinetic_flux", cost: 6 }, components: ["somatic", "verbal"] }, resolution: "DICE", effectTypes: ["damage", "debuff"], damageConfig: { formula: "2d8 + agility", damageTypes: ["physical"], canCrit: true, critMultiplier: 2, isGuaranteedCrit: true, resolution: "DICE" }, debuffConfig: { debuffType: "damageOverTime", effects: [ { id: "venom_overdrive", name: "Venom Overdrive", description: "Venom-laced bone-hardened strike inflicts venom on the target." } ], durationType: "rounds", durationValue: 3, durationUnit: "rounds", canBeDispelled: true }, isSignatureMove: true, bodyTollGenerated: 1, formRequirement: "arterial_strike", cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 }, tags: ["signature", "form_arterial_strike", "shaper"] ,
   triggerConfig: {
     triggers: [
       { id: "shaper_alchemic_overdrive_flux", name: "Kinetic Toll", triggerType: "on_cast", action: "Spends 6 Kinetic Flux, the mutant flesh straining." }
     ]
   },
-  somaticText: "Twist your musculature mid-motion, venom glands flexing as the strike lands.",
-  verbalText: "Hiss the killing syllable through clenched teeth.",
+  somaticText: "Extend a razor bone spur from your forearm, targeting the gap in their guard.",
+  verbalText: "Breathe in through clenched teeth as the strike finds its mark."
 },
     { id: "shaper_void_collapse", name: "Void Collapse", description: "Shadow-blur speed, invisible 1 round. Signature: +1 Body Toll. Requires Void Predator.", level: 4, spellType: "ACTION", icon: "Utility/Hide", typeConfig: { school: "physical", icon: "Utility/Hide", tags: ["invisibility", "burst", "signature", "form_void_predator"], castTime: 1, castTimeType: "IMMEDIATE" }, targetingConfig: { targetingType: "self", rangeType: "self" }, resourceCost: { actionPoints: 1, mana: 0, classResource: { type: "kinetic_flux", cost: 6 }, components: ["somatic"] }, resolution: "NONE", effectTypes: ["buff"], buffConfig: { buffType: "statusEffectBuff", effects: [ { id: "void_invisibility", name: "Void Invisibility", description: "Shadow-blur speed renders you invisible for 1 round." } ], durationType: "rounds", durationValue: 1, durationUnit: "rounds", concentrationRequired: false, canBeDispelled: true }, isSignatureMove: true, bodyTollGenerated: 1, formRequirement: "void_predator", cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 }, tags: ["signature", "form_void_predator", "shaper"] ,
   triggerConfig: {
@@ -424,8 +424,8 @@ Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (s
       { id: "shaper_void_collapse_flux", name: "Kinetic Toll", triggerType: "on_cast", action: "Spends 6 Kinetic Flux, the mutant flesh straining." }
     ]
   },
-  somaticText: "Let the kinetic flux rip through your limbs, the blade-feathers of mutated bone whistling as you strike.",
-  verbalText: "Release a sharp, controlled breath as the form snaps into focus.",
+  somaticText: "Compress your silhouette, drawing shadow into the hollows between your bones.",
+  verbalText: "Hold your breath as you vanish into predatory stillness."
 },
     { id: "shaper_thousand_forms", name: "Thousand Forms", description: "Unleash all Flux in devastating cyclone, shifting through every form. +1 Body Toll.", level: 5, spellType: "ACTION", icon: "Slashing/Whirl", typeConfig: { school: "physical", secondaryElement: "storm", icon: "Slashing/Whirl", tags: ["aoe", "damage", "ultimate", "strain"], castTime: 2, castTimeType: "IMMEDIATE" }, targetingConfig: { targetingType: "area", rangeType: "self_centered", areaShape: "circle", areaSize: 15, targetRestrictions: ["enemy"] }, resourceCost: { actionPoints: 2, mana: 0, classResource: { type: "kinetic_flux", cost: "ALL" }, components: ["somatic", "verbal"] }, resolution: "DICE", effectTypes: ["damage"], damageConfig: { formula: "3d8 + (Flux Expended * 1d4)", damageTypes: ["physical", "storm"], resolution: "DICE", armorPenetration: "50%" }, bodyTollCost: 1, cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 }, tags: ["aoe", "ultimate", "strain", "shaper"] ,
   triggerConfig: {
@@ -433,8 +433,8 @@ Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (s
       { id: "shaper_thousand_forms_flux", name: "Kinetic Toll", triggerType: "on_cast", action: "Expends all Kinetic Flux, the body toll surging." }
     ]
   },
-  somaticText: "Let the kinetic flux rip through your limbs, the blade-feathers of mutated bone whistling as you strike.",
-  verbalText: "Release a sharp, controlled breath as the form snaps into focus.",
+  somaticText: "Cycle through each form in rapid succession, your body a blur of shifting morphologies.",
+  verbalText: "Roar as the cascade of mutations reaches its peak."
 },
     { id: "shaper_sensory_numbing", name: "Sensory Numbing", description: "Suppress pain entirely. Ignore non-lethal conditions for 3 rounds. +1 Body Toll.", level: 6, spellType: "ACTION", icon: "Poison/Poison Contagion", typeConfig: { school: "blight", icon: "Poison/Poison Contagion", tags: ["buff", "mutation", "combo"], castTime: 1, castTimeType: "IMMEDIATE" }, targetingConfig: { targetingType: "self", rangeType: "self" }, resourceCost: { actionPoints: 1, mana: 0, classResource: { type: "kinetic_flux", cost: 5 }, components: ["somatic", "verbal"] }, resolution: "NONE", effectTypes: ["buff"], buffConfig: { buffType: "damageMitigation", effects: [ { id: "pain_suppression", name: "Pain Suppression", description: "Suppress pain entirely and ignore non-lethal conditions for 3 rounds." } ], durationType: "rounds", durationValue: 3, durationUnit: "rounds", concentrationRequired: false, canBeDispelled: true }, bodyTollCost: 1, cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 }, tags: ["buff", "mutation", "shaper"] ,
   triggerConfig: {
@@ -442,8 +442,8 @@ Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (s
       { id: "shaper_sensory_numbing_flux", name: "Kinetic Toll", triggerType: "on_cast", action: "Costs Body Toll and spends 5 Kinetic Flux." }
     ]
   },
-  somaticText: "Twist your musculature mid-motion, venom glands flexing as the strike lands.",
-  verbalText: "Hiss the killing syllable through clenched teeth.",
+  somaticText: "Clench every muscle group simultaneously, locking your pain receptors into overload.",
+  verbalText: "Let out a shuddering exhale as sensation fades to nothing."
 },
     { id: "shaper_terminal_velocity", name: "Terminal Velocity", description: "Pinnacle \u2014 body rips through every form, 50ft radius, bypasses all Armor. +3 Body Toll.", level: 10, spellType: "ACTION", icon: "Force/Explosion Burst", typeConfig: { school: "physical", secondaryElement: "storm", icon: "Force/Explosion Burst", tags: ["ultimate", "aoe", "armor_bypass", "strain"], castTime: 2, castTimeType: "IMMEDIATE" }, targetingConfig: { targetingType: "area", rangeType: "self_centered", areaShape: "circle", areaSize: 50, targetRestrictions: ["enemy"] }, resourceCost: { actionPoints: 3, mana: 0, classResource: { type: "kinetic_flux", cost: 10 }, components: ["somatic", "verbal"] }, resolution: "DICE", effectTypes: ["damage", "debuff"], damageConfig: { formula: "10d10 + (agility * 3)", damageTypes: ["physical", "storm"], resolution: "DICE", armorPenetration: "100%" }, debuffConfig: { debuffType: "statusEffect", effects: [ { id: "terminal_disorientation", name: "Terminal Disorientation", description: "The kinetic shockwave rips through every form, disorienting survivors." } ], durationType: "rounds", durationValue: 2, durationUnit: "rounds", canBeDispelled: true }, bodyTollCost: 3, cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 }, tags: ["ultimate", "aoe", "shaper"] ,
   triggerConfig: {
@@ -451,33 +451,31 @@ Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (s
       { id: "shaper_terminal_velocity_flux", name: "Kinetic Toll", triggerType: "on_cast", action: "Costs Body Toll and spends 10 Kinetic Flux." }
     ]
   },
-  somaticText: "Let the kinetic flux rip through your limbs, the blade-feathers of mutated bone whistling as you strike.",
-  verbalText: "Release a sharp, controlled breath as the form snaps into focus.",
+  somaticText: "Unleash the full spectrum of your mutations in a controlled cascade, every fiber straining.",
+  verbalText: "Scream as the kinetic release tears through your forms."
 },
-    { id: "shaper_perfect_balance", name: "Perfect Balance", description: "Mutating musculature into fluid tension. Perfect balance on any surface. Advantage on Acrobatics.", level: 1, spellType: "ACTION", icon: "Utility/Acrobatic", typeConfig: { school: "physical", icon: "Utility/Acrobatic", tags: ["utility", "roleplay", "shaper"], castTime: 1, castTimeType: "IMMEDIATE" }, targetingConfig: { targetingType: "self", rangeType: "self" }, resourceCost: { actionPoints: 1, mana: 2, components: ["somatic"] }, resolution: "NONE", effectTypes: ["buff"], buffConfig: { buffType: "combatAdvantage", effects: [ { id: "perfect_balance", name: "Perfect Balance", description: "Perfect balance on any surface. Advantage on Acrobatics checks." } ], durationType: "rounds", durationValue: 1, durationUnit: "rounds", concentrationRequired: false, canBeDispelled: true }, cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }, tags: ["utility", "roleplay", "shaper"] ,
-
-  somaticText: "Let the kinetic flux rip through your limbs, the blade-feathers of mutated bone whistling as you strike.",
-  verbalText: "Release a sharp, controlled breath as the form snaps into focus.",
+    { id: "shaper_perfect_balance", name: "Perfect Balance", description: "Mutating musculature into fluid tension. Perfect balance on any surface. Advantage on Acrobatics.", level: 1, spellType: "ACTION", icon: "Bludgeoning/Inverted Acrobatics", typeConfig: { school: "physical", icon: "Bludgeoning/Inverted Acrobatics", tags: ["utility", "roleplay", "shaper"], castTime: 1, castTimeType: "IMMEDIATE" }, targetingConfig: { targetingType: "self", rangeType: "self" }, resourceCost: { actionPoints: 1, mana: 2, components: ["somatic"] }, resolution: "NONE", effectTypes: ["buff"], buffConfig: { buffType: "combatAdvantage", effects: [ { id: "perfect_balance", name: "Perfect Balance", description: "Perfect balance on any surface. Advantage on Acrobatics checks." } ], durationType: "rounds", durationValue: 1, durationUnit: "rounds", concentrationRequired: false, canBeDispelled: true }, cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }, tags: ["utility", "roleplay", "shaper"] ,
+  somaticText: "Adjust the tension in every muscle fiber, finding the exact equilibrium point.",
+  verbalText: "Breathe slowly as your body locks into balance."
 },
-    { id : "shaper_kinetic_deflection",
+     { id : "shaper_kinetic_deflection",
       name: "Kinetic Deflection",
-      description: "Deflect a ranged projectile, converting its energy into a retaliatory storm shock. Requires Ataxic Flow.",
+      description: "Deflect a ranged projectile by hardening your skin at the point of impact, absorbing its momentum and retaliating with a bone shard volley. Requires Ataxic Flow.",
       level: 4,
       spellType: "REACTION",
       icon: "Utility/Deflecting Shield",
       effectTypes: ["damage"],
-      typeConfig: { school: "storm", icon: "Utility/Deflecting Shield", tags: ["reaction","deflect","form_ataxic_flow"], castTime: 0, castTimeType: "REACTION" },
+      typeConfig: { school: "physical", icon: "Utility/Deflecting Shield", tags: ["reaction","deflect","form_ataxic_flow"], castTime: 0, castTimeType: "REACTION" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 30, targetRestrictions: ["enemy"] },
       resourceCost: { actionPoints: 0, mana: 0, classResource: { type: "kinetic_flux", cost: 3 }, components: ["somatic"] },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
-      damageConfig: { formula: "2d6 + agility", damageTypes: ["storm"], resolution: "DICE" },
+      damageConfig: { formula: "2d6 + agility", damageTypes: ["physical"], resolution: "DICE" },
       formRequirement: "ataxic_flow",
       resolution: "DICE",
       tags: ["reaction","deflect","form_ataxic_flow","shaper"]
     ,
-
-  somaticText: "Let the kinetic flux rip through your limbs, the blade-feathers of mutated bone whistling as you strike.",
-  verbalText: "Release a sharp, controlled breath as the form snaps into focus.",
+  somaticText: "Flow through the space between strikes, your form blurring with each step.",
+  verbalText: "Exhale sharply as your body weaves into the current."
 },
     { id : "shaper_arterial_siphon",
       name: "Arterial Siphon",
@@ -500,8 +498,8 @@ Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (s
       { id: "shaper_arterial_siphon_flux", name: "Kinetic Toll", triggerType: "on_cast", action: "Spends 4 Kinetic Flux, the mutant flesh straining." }
     ]
   },
-  somaticText: "Let the kinetic flux rip through your limbs, the blade-feathers of mutated bone whistling as you strike.",
-  verbalText: "Release a sharp, controlled breath as the form snaps into focus.",
+  somaticText: "Extend a razor bone spur from your forearm, targeting the gap in their guard.",
+  verbalText: "Breathe in through clenched teeth as the strike finds its mark."
 },
     { id : "shaper_centrifugal_launch",
       name: "Centrifugal Launch",
@@ -525,8 +523,8 @@ Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (s
       { id: "shaper_centrifugal_launch_flux", name: "Kinetic Toll", triggerType: "on_cast", action: "Spends 5 Kinetic Flux, the mutant flesh straining." }
     ]
   },
-  somaticText: "Let the kinetic flux rip through your limbs, the blade-feathers of mutated bone whistling as you strike.",
-  verbalText: "Release a sharp, controlled breath as the form snaps into focus.",
+  somaticText: "Spread your stance and let centrifugal force extend your limbs beyond their natural reach.",
+  verbalText: "Release a guttural grunt as the spin accelerates."
 },
     { id : "shaper_bastion_fortress",
       name: "Bastion Fortress",
@@ -549,8 +547,8 @@ Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (s
       { id: "shaper_bastion_fortress_flux", name: "Kinetic Toll", triggerType: "on_cast", action: "Spends 5 Kinetic Flux, the mutant flesh straining." }
     ]
   },
-  somaticText: "Let the kinetic flux rip through your limbs, the blade-feathers of mutated bone whistling as you strike.",
-  verbalText: "Release a sharp, controlled breath as the form snaps into focus.",
+  somaticText: "Thicken your subdermal tissue into dense calcified plates, anchoring yourself.",
+  verbalText: "Let out a low, resonant breath as the armor sets."
 },
     { id : "shaper_fluid_parry",
       name: "Fluid Parry",
@@ -568,22 +566,21 @@ Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (s
       resolution: "NONE",
       tags: ["reaction","parry","form_fluid_apex","shaper"]
     ,
-
-  somaticText: "Let the kinetic flux rip through your limbs, the blade-feathers of mutated bone whistling as you strike.",
-  verbalText: "Release a sharp, controlled breath as the form snaps into focus.",
+  somaticText: "Shift your muscles into perfect equilibrium, ready to pivot into any form.",
+  verbalText: "Center your breathing as the form stabilizes."
 },
-    { id : "shaper_void_terror",
-      name: "Void Terror",
-      description: "Manifest shadow claws that rip through a target's mind, imposing the Frightened condition. Requires Void Predator.",
+     { id : "shaper_void_terror",
+      name: "Predator's Display",
+      description: "Erupt jagged bone spurs from your body in a threatening display, imposing the Frightened condition on a target. Requires Void Predator.",
       level: 6,
       spellType: "ACTION",
-      icon: "Psychic/Psychic Telepathy",
+      icon: "Necrotic/Bone Shards",
       effectTypes: ["debuff"],
-      typeConfig: { school: "blight", icon: "Psychic/Psychic Telepathy", tags: ["debuff","fear","form_void_predator"], castTime: 1, castTimeType: "IMMEDIATE" },
+      typeConfig: { school: "physical", icon: "Necrotic/Bone Shards", tags: ["debuff","fear","form_void_predator"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 30, targetRestrictions: ["enemy"] },
       resourceCost: { actionPoints: 1, mana: 0, classResource: { type: "kinetic_flux", cost: 4 }, components: ["somatic","verbal"] },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
-      debuffConfig: { debuffType: "statusEffect", effects: [{ id : "shaper_void_fear", name: "Shadow Terror", description: "Target is Frightened.", mechanicsText: "Frightened condition." }], durationType: "rounds", durationValue: 2, durationUnit: "rounds", canBeDispelled: true },
+      debuffConfig: { debuffType: "statusEffect", effects: [{ id : "shaper_void_fear", name: "Bone-Spike Display", description: "Target is Frightened by the sudden eruption of bone.", mechanicsText: "Frightened condition." }], durationType: "rounds", durationValue: 2, durationUnit: "rounds", canBeDispelled: true },
       formRequirement: "void_predator",
       resolution: "NONE",
       tags: ["debuff","fear","form_void_predator","shaper"]
@@ -593,31 +590,31 @@ Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (s
       { id: "shaper_void_terror_flux", name: "Kinetic Toll", triggerType: "on_cast", action: "Spends 4 Kinetic Flux, the mutant flesh straining." }
     ]
   },
-  somaticText: "Twist your musculature mid-motion, venom glands flexing as the strike lands.",
-  verbalText: "Hiss the killing syllable through clenched teeth.",
+  somaticText: "Compress your silhouette, drawing shadow into the hollows between your bones.",
+  verbalText: "Hold your breath as you vanish into predatory stillness."
 },
-    { id : "shaper_kinetic_discharge",
-      name: "Kinetic Discharge",
-      description: "Release all accumulated Flux in a lightning nova, shocking all nearby enemies. Spends all Flux.",
+     { id : "shaper_kinetic_discharge",
+      name: "Kinetic Detonation",
+      description: "Release all accumulated Flux in a bone-shattering shockwave of hardened tissue and air pressure, damaging all nearby enemies. Spends all Flux.",
       level: 6,
       spellType: "ACTION",
-      icon: "Lightning/Thunderstorm",
+      icon: "Slashing/Slashing Slash",
       effectTypes: ["damage"],
-      typeConfig: { school: "storm", icon: "Lightning/Thunderstorm", tags: ["aoe","damage"], castTime: 1, castTimeType: "IMMEDIATE" },
+      typeConfig: { school: "physical", icon: "Slashing/Slashing Slash", tags: ["aoe","damage"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "self_centered", areaShape: "circle", areaSize: 20, targetRestrictions: ["enemy"] },
       resourceCost: { actionPoints: 1, mana: 0, classResource: { type: "kinetic_flux", cost: "ALL" }, components: ["somatic"] },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
-      damageConfig: { formula: "3d6 + (Flux Expended * 1d4)", damageTypes: ["storm"], resolution: "DICE" },
+      damageConfig: { formula: "3d6 + (Flux Expended * 1d4)", damageTypes: ["physical"], resolution: "DICE" },
       resolution: "DICE",
-      tags: ["aoe","damage","storm","shaper"]
+      tags: ["aoe","damage","physical","shaper"]
     ,
   triggerConfig: {
     triggers: [
       { id: "shaper_kinetic_discharge_flux", name: "Kinetic Toll", triggerType: "on_cast", action: "Expends all Kinetic Flux, the body toll surging." }
     ]
   },
-  somaticText: "Let the kinetic flux rip through your limbs, the blade-feathers of mutated bone whistling as you strike.",
-  verbalText: "Release a sharp, controlled breath as the form snaps into focus.",
+  somaticText: "Focus all internal kinetic energy into a single pressure point, then release.",
+  verbalText: "Bellow as the pent-up energy explodes outward."
 },
     { id : "shaper_myotatic_reflex",
       name: "Myotatic Reflex",
@@ -634,9 +631,8 @@ Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (s
       resolution: "NONE",
       tags: ["passive","buff","reflex","shaper"]
     ,
-
-  somaticText: "Let the kinetic flux rip through your limbs, the blade-feathers of mutated bone whistling as you strike.",
-  verbalText: "Release a sharp, controlled breath as the form snaps into focus.",
+  somaticText: "Pre-tension your connective tissue, ready to snap into motion at the slightest trigger.",
+  verbalText: "Hold your breath, waiting for the moment to strike."
 },
     { id : "shaper_bone_blade_mutation",
       name: "Bone Blade Mutation",
@@ -659,17 +655,17 @@ Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (s
       { id: "shaper_bone_blade_mutation_flux", name: "Kinetic Toll", triggerType: "on_cast", action: "Costs Body Toll and spends 2 Kinetic Flux." }
     ]
   },
-  somaticText: "Let the kinetic flux rip through your limbs, the blade-feathers of mutated bone whistling as you strike.",
-  verbalText: "Release a sharp, controlled breath as the form snaps into focus.",
+  somaticText: "Extend calcium spurs along your forearm, reshaping them into a jagged blade edge.",
+  verbalText: "Grunt as the bone punctures through your skin."
 },
     { id : "shaper_chimeric_burst",
       name: "Chimeric Burst",
       description: "Activate two Shaping Forms simultaneously, gaining the benefits of both. +2 Body Toll.",
       level: 7,
       spellType: "ACTION",
-      icon: "Nature/Form Shift",
+      icon: "Nature/Transform Bear",
       effectTypes: ["buff"],
-      typeConfig: { school: "primal", icon: "Nature/Form Shift", tags: ["buff","transition"], castTime: 1, castTimeType: "IMMEDIATE" },
+      typeConfig: { school: "primal", icon: "Nature/Transform Bear", tags: ["buff","transition"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "self", rangeType: "self" },
       resourceCost: { actionPoints: 1, mana: 0, classResource: { type: "kinetic_flux", cost: 4 }, components: ["somatic","verbal"] },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
@@ -683,8 +679,8 @@ Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (s
       { id: "shaper_chimeric_burst_flux", name: "Kinetic Toll", triggerType: "on_cast", action: "Costs Body Toll and spends 4 Kinetic Flux." }
     ]
   },
-  somaticText: "Let the kinetic flux rip through your limbs, the blade-feathers of mutated bone whistling as you strike.",
-  verbalText: "Release a sharp, controlled breath as the form snaps into focus.",
+  somaticText: "Draw from multiple genetic templates simultaneously, your form flickering between possibilities.",
+  verbalText: "Exhale in a rush as the chimeric energy discharges."
 },
     { id : "shaper_ataxic_maelstrom",
       name: "Ataxic Maelstrom",
@@ -707,8 +703,8 @@ Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (s
       { id: "shaper_ataxic_maelstrom_flux", name: "Kinetic Toll", triggerType: "on_cast", action: "Spends 6 Kinetic Flux, the mutant flesh straining." }
     ]
   },
-  somaticText: "Let the kinetic flux rip through your limbs, the blade-feathers of mutated bone whistling as you strike.",
-  verbalText: "Release a sharp, controlled breath as the form snaps into focus.",
+  somaticText: "Flow through the space between strikes, your form blurring with each step.",
+  verbalText: "Exhale sharply as your body weaves into the current."
 },
     { id : "shaper_arterial_rupture",
       name: "Arterial Rupture",
@@ -732,8 +728,8 @@ Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (s
       { id: "shaper_arterial_rupture_flux", name: "Kinetic Toll", triggerType: "on_cast", action: "Spends 6 Kinetic Flux, the mutant flesh straining." }
     ]
   },
-  somaticText: "Twist your musculature mid-motion, venom glands flexing as the strike lands.",
-  verbalText: "Hiss the killing syllable through clenched teeth.",
+  somaticText: "Extend a razor bone spur from your forearm, targeting the gap in their guard.",
+  verbalText: "Breathe in through clenched teeth as the strike finds its mark."
 },
     { id : "shaper_centrifugal_barrage",
       name: "Centrifugal Barrage",
@@ -756,8 +752,8 @@ Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (s
       { id: "shaper_centrifugal_barrage_flux", name: "Kinetic Toll", triggerType: "on_cast", action: "Spends 6 Kinetic Flux, the mutant flesh straining." }
     ]
   },
-  somaticText: "Let the kinetic flux rip through your limbs, the blade-feathers of mutated bone whistling as you strike.",
-  verbalText: "Release a sharp, controlled breath as the form snaps into focus.",
+  somaticText: "Spread your stance and let centrifugal force extend your limbs beyond their natural reach.",
+  verbalText: "Release a guttural grunt as the spin accelerates."
 },
     { id : "shaper_bastion_earthquake",
       name: "Bastion Slam",
@@ -780,21 +776,21 @@ Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (s
       { id: "shaper_bastion_earthquake_flux", name: "Kinetic Toll", triggerType: "on_cast", action: "Spends 7 Kinetic Flux, the mutant flesh straining." }
     ]
   },
-  somaticText: "Let the kinetic flux rip through your limbs, the blade-feathers of mutated bone whistling as you strike.",
-  verbalText: "Release a sharp, controlled breath as the form snaps into focus.",
+  somaticText: "Thicken your subdermal tissue into dense calcified plates, anchoring yourself.",
+  verbalText: "Let out a low, resonant breath as the armor sets."
 },
-    { id : "shaper_void_phase",
-      name: "Void Phase",
-      description: "Teleport through the shadow planes up to 60 feet, leaving a decoy. Requires Void Predator.",
+     { id : "shaper_void_phase",
+      name: "Phase Shift",
+      description: "Momentarily dissolve your body into a fluid state, reforming up to 60 feet away and leaving a hardened tissue decoy. Requires Void Predator.",
       level: 9,
       spellType: "ACTION",
-      icon: "Utility/Hide",
+      icon: "Nature/Snake Transform",
       effectTypes: ["utility"],
-      typeConfig: { school: "blight", icon: "Utility/Hide", tags: ["mobility","teleport","form_void_predator"], castTime: 1, castTimeType: "IMMEDIATE" },
+      typeConfig: { school: "physical", icon: "Nature/Snake Transform", tags: ["mobility","teleport","form_void_predator"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 60, targetRestrictions: ["any"] },
       resourceCost: { actionPoints: 1, mana: 0, classResource: { type: "kinetic_flux", cost: 8 }, components: ["somatic"] },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
-      utilityConfig: { utilityType: "teleport", selectedEffects: [{ id : "void_decoy", name: "Shadow Decoy", description: "Teleport 60 feet and leave a shadow decoy." }], duration: 0, durationUnit: "instant", concentration: false, power: "major" },
+      utilityConfig: { utilityType: "teleport", selectedEffects: [{ id : "void_decoy", name: "Tissue Decoy", description: "Teleport 60 feet and leave a hardened tissue decoy." }], duration: 0, durationUnit: "instant", concentration: false, power: "major" },
       formRequirement: "void_predator",
       resolution: "NONE",
       tags: ["mobility","teleport","form_void_predator","shaper"]
@@ -804,22 +800,99 @@ Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (s
       { id: "shaper_void_phase_flux", name: "Kinetic Toll", triggerType: "on_cast", action: "Spends 8 Kinetic Flux, the mutant flesh straining." }
     ]
   },
-  somaticText: "Twist your musculature mid-motion, venom glands flexing as the strike lands.",
-  verbalText: "Hiss the killing syllable through clenched teeth.",
+  somaticText: "Compress your silhouette, drawing shadow into the hollows between your bones.",
+  verbalText: "Hold your breath as you vanish into predatory stillness."
+},
+// ===== NON-COMBAT / BODY-RESHAPING UTILITY (the shapeshifter, out of combat) =====
+{ id: "shaper_bone_spread",
+  name: "Bone-Spread",
+  description: "Dislocate, flatten, and reshape your skeleton to fit through absurd gaps — under a door, between the bars of a cage, through a crack barely wider than your skull. You leave your gear behind (it does not reshape) and reform on the other side. Bone and sinew only; you cannot compress past solid obstructions. Out of combat.",
+  level: 1, spellType: "ACTION", icon: "Utility/Utility",
+  typeConfig: { school: "physical", icon: "Utility/Utility", castTime: 1, castTimeType: "MINUTES", tags: ["utility","infiltration","exploration","shaper"] },
+  targetingConfig: { targetingType: "self", rangeType: "self" },
+  resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 4 }, components: ["somatic"], classResource: { type: "body_toll", cost: 1 }, somaticText: "Feel each joint pop free as you pour yourself through the gap" },
+  resolution: "AUTOMATIC", effectTypes: ["utility"],
+  utilityConfig: { utilityType: "mobility", selectedEffects: [ { "id": "bone_spread_contort", "name": "Contortion", "description": "Pass through any gap a skull-width or wider — under doors, between bars, through cracks. Non-body gear stays behind; re-equip after reforming. Adds 1 Body Toll.", "mechanicsText": "Squeeze through any skull-width gap; leave gear behind; +1 Toll." } ], power: "moderate" },
+  cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+  tags: ["utility","infiltration","exploration","shaper"],
+  somaticText: "Feel each joint pop free as you pour yourself through the gap.",
+  verbalText: "A slow, wet exhalation as the bones remember they are not fixed."
+},
+{ id: "shaper_kinetic_parkour",
+  name: "Kinetic Parkour",
+  description: "Channel flux into pure locomotion. For the duration you can wall-run, vault, cling briefly to surfaces, and stick impossible landings — traversing terrain no normal body could: sheer walls, wide chasms, collapsing floors, dense rubble. You carry no one and fight poorly while flowing. Out of combat.",
+  level: 1, spellType: "ACTION", icon: "Utility/Speed Boot",
+  typeConfig: { school: "physical", icon: "Utility/Speed Boot", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","mobility","exploration","shaper"] },
+  targetingConfig: { targetingType: "self", rangeType: "self" },
+  resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 5 }, components: ["somatic"], classResource: { type: "kinetic_flux", cost: 2 }, somaticText: "Drop low and let the momentum sing through your legs" },
+  resolution: "NONE", effectTypes: ["utility"],
+  utilityConfig: { utilityType: "mobility", selectedEffects: [ { "id": "kinetic_parkour_flow", "name": "Momentum Flow", "description": "For 1 minute: wall-run, vault, cling, and stick landings to traverse sheer walls, wide gaps, collapsing terrain. Cannot carry others; attacks made while flowing suffer disadvantage.", "mechanicsText": "Wall-run/vault/cling + stick landings, 1 min; solo only." } ], duration: 1, durationUnit: "minutes", power: "moderate" },
+  cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+  tags: ["utility","mobility","exploration","shaper"],
+  somaticText: "Drop low and let the momentum sing through your legs.",
+  verbalText: "A punched breath on each impact."
+},
+{ id: "shaper_flesh_mask",
+  name: "Flesh-Mask",
+  description: "Reshape your bone, muscle, and skin to mimic another humanoid's face and build, or simply become a forgettable stranger. A true biological disguise — no illusion to dispel, but it cannot change your voice, size-class, or gear, and close inspection may catch the seams. Holds until you next shift a Form. Out of combat.",
+  level: 2, spellType: "ACTION", icon: "Utility/Utility",
+  typeConfig: { school: "physical", icon: "Utility/Utility", castTime: 10, castTimeType: "MINUTES", tags: ["utility","social","infiltration","shaper"] },
+  targetingConfig: { targetingType: "self", rangeType: "self" },
+  resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 7 }, components: ["somatic"], classResource: { type: "body_toll", cost: 2 }, somaticText: "Knead your own features like clay until the mirror answers to a stranger" },
+  resolution: "NONE", effectTypes: ["utility"],
+  utilityConfig: { utilityType: "social", selectedEffects: [ { "id": "flesh_mask_disguise", "name": "Biological Disguise", "description": "Take any humanoid face and build, or become forgettably average. Not an illusion — undispellable, but voice/size/gear stay yours and close inspection may reveal seams. Holds until your next Form shift.", "mechanicsText": "Biological disguise; undispellable; voice/size/gear unchanged." } ], duration: 8, durationUnit: "hours", power: "major" },
+  cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+  tags: ["utility","social","infiltration","shaper"],
+  somaticText: "Knead your own features like clay until the mirror answers to a stranger.",
+  verbalText: "Silence — the work is in the hands and the breath."
+},
+{ id: "shaper_bone_reading",
+  name: "Bone-Reading",
+  description: "Snap off a sliver of your own reshaped bone and cast it, reading the kinetic patterns in how it falls and splinters — the Groven bone-reader's art. Ask one question about a course of action, a foe, or a choice ahead; the bones answer in fragments: favored, ill-fated, or contested. They read momentum, not destiny. Out of combat.",
+  level: 2, spellType: "ACTION", icon: "Nature/Nature Natural 11",
+  typeConfig: { school: "physical", icon: "Nature/Nature Natural 11", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","divination","investigation","shaper"] },
+  targetingConfig: { targetingType: "self", rangeType: "self" },
+  resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 6 }, components: ["somatic"], classResource: { type: "body_toll", cost: 1 }, somaticText: "Snap the bone-splinter and watch how the shards scatter" },
+  resolution: "NONE", effectTypes: ["utility"],
+  utilityConfig: { utilityType: "divination", selectedEffects: [ { "id": "bone_reading_pattern", "name": "Splinter-Pattern", "description": "Cast a bone-splinter for one question about an action, foe, or choice ahead. The bones answer favored / ill-fated / contested in kinetic fragments — momentum, not guaranteed fate.", "mechanicsText": "One favored/ill-fated/contested reading on a course of action." } ], power: "moderate" },
+  cooldownConfig: { cooldownType: "short_rest", cooldownValue: 1 },
+  tags: ["utility","divination","investigation","shaper"],
+  somaticText: "Snap the bone-splinter and watch how the shards scatter.",
+  verbalText: "A counted murmur as the bones decide what to say."
+},
+{ id: "shaper_adaptive_morph",
+  name: "Adaptive Morph",
+  description: "Grow a single temporary environmental adaptation: gills and webbing for water, gripping pads to cling to walls or ceilings, an insulated hide against heat or cold, or dark-sight eyes for pitch black. The adaptation lasts until you next shift a Form and reshapes only one system at a time. Out of combat.",
+  level: 2, spellType: "ACTION", icon: "Nature/Nature Natural 11",
+  typeConfig: { school: "physical", icon: "Nature/Nature Natural 11", castTime: 1, castTimeType: "MINUTES", tags: ["utility","exploration","shaper"] },
+  targetingConfig: { targetingType: "self", rangeType: "self" },
+  resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 6 }, components: ["somatic"], classResource: { type: "body_toll", cost: 2 }, somaticText: "Coax the flesh toward the shape the environment demands" },
+  resolution: "NONE", effectTypes: ["utility"],
+  utilityConfig: { utilityType: "environment", selectedEffects: [ { "id": "adaptive_morph_grow", "name": "One Adaptation", "description": "Grow one environmental adaptation for up to 1 hour: gills/webbing (breathe and swim), gripping pads (climb walls/ceilings), insulated hide (resist heat/cold), or dark-sight eyes (see in pitch black). One system at a time; ends on your next Form shift.", "mechanicsText": "One environmental adaptation (gills/climb/insulation/dark-sight), 1 hour." } ], duration: 1, durationUnit: "hours", power: "moderate" },
+  cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+  tags: ["utility","exploration","shaper"],
+  somaticText: "Coax the flesh toward the shape the environment demands.",
+  verbalText: "A low groan as the body remembers an older design."
 }
   ],
+
 
   spellPools: {
   "1": [
     "shaper_kinetic_dissection",
     "shaper_frantic_laceration",
     "shaper_form_shift",
-    "shaper_perfect_balance"
+    "shaper_perfect_balance",
+    "shaper_bone_spread",
+    "shaper_kinetic_parkour"
   ],
   "2": [
     "shaper_ataxic_sway",
     "shaper_arterial_puncture",
-    "shaper_alchemic_purge"
+    "shaper_alchemic_purge",
+    "shaper_flesh_mask",
+    "shaper_bone_reading",
+    "shaper_adaptive_morph"
   ],
   "3": [
     "shaper_centrifugal_sweep",

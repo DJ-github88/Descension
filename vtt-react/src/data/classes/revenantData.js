@@ -284,7 +284,13 @@ The peat-bogs are reacting. In areas where Void-stasis Revenants have congregate
 - Death Trigger freeze as battlefield control
 - Life drain for self-sustain
 
-**Fatal Flaws**: Death Toll is VOLATILE. At 6+ Toll, searing self-damage. At 11+, cannot be healed. At 16+, nuclear detonation on death that kills allies. Death Shroud drains HP every turn. Phylactery depleted means death is permanent. The Revenant carries enough power to end any fight, and enough instability to end their own party.`,
+**Weaknesses**:
+- Volatile Death Toll: your own resource is a bomb. At 6+ Toll, searing self-damage; at 11+, you cannot be healed; at 16+, your death detonates and kills nearby allies.
+- HP is Fuel: every spell costs HP and/or Mana — you are always one bad trade from the grave, and a long fight with no drains empties you.
+- Death Shroud Bleeds: every turn in Shroud drains HP — sustained use is a slow suicide.
+- No Safety Net Empty: if the Phylactery is depleted, death is permanent — a foe who forces your deaths back-to-back ends you.
+- Party Liability: at 16+ Toll your death kills allies — your party must manage YOU as much as the enemy, and may have to put you down.
+- Cold and Dead Inside (social): you feel cold always, cannot taste food, and the voices of the dead overlay every conversation; warmth, emotion, and intimacy have faded to ash, and relationships fail.`
     },
 
     playstyle: {
@@ -1283,10 +1289,10 @@ The Revenant can switch between two casting modes:
       description: "Summon a tiny wisp of glowing green soulfire that whispers local rumors and the names of those buried nearby.",
       level: 2,
       spellType: "ACTION",
-      icon: "Necrotic/Spirit",
+      icon: "Ethereal Spirit",
       typeConfig: {
         school: "blight",
-        icon: "Necrotic/Spirit",
+        icon: "Ethereal Spirit",
         tags: ["utility", "roleplay", "revenant"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -1321,6 +1327,85 @@ The Revenant can switch between two casting modes:
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
       tags: ["utility", "roleplay", "revenant"],
     },
+    // ===== NON-COMBAT / DEATH-MAGIC UTILITY (the necromancer, out of combat) =====
+    {
+      id: "rv_petition_the_dead",
+      name: "Petition the Dead",
+      description: "Cut your palm and feed the blood to a grave, bone, or lingering shade to petition a specific ancestor by name. The dead answer one question truthfully, in their own voice, for the price of your blood — they owe you nothing freely, and a debt unrecorded is a debt denied. Out of combat.",
+      level: 1, spellType: "ACTION", icon: "Necrotic/Necrotic Wither",
+      typeConfig: { school: "blight", icon: "Necrotic/Necrotic Wither", castTime: 1, castTimeType: "MINUTES", tags: ["utility","divination","investigation","revenant"] },
+      targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 4 }, components: ["verbal","somatic"], somaticText: "Squeeze blood onto the remains and speak the ancestor's true name" },
+      resolution: "NONE", effectTypes: ["utility"],
+      utilityConfig: { utilityType: "divination", selectedEffects: [ { "id": "petition_dead_answer", "name": "Ancestor's Answer", "description": "One named ancestor answers one question truthfully for 1d4 HP of your blood. They may be terse, proud, or incomplete; a debt-name unrecorded in your covenant is refused.", "mechanicsText": "1 truthful answer from a named ancestor for 1d4 HP." } ], power: "moderate" },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+      tags: ["utility","divination","investigation","revenant"],
+    },
+    {
+      id: "rv_death_sense",
+      name: "Death-Sense",
+      description: "Open your eyes to the dead-light. For the duration you sense every corpse, undead, lingering soul, and stain of violent death within range, and at any such spot you can read how and roughly when the thing died. The living read cold and faint; the dead read bright. Out of combat.",
+      level: 1, spellType: "ACTION", icon: "Psychic/Focused Mind",
+      typeConfig: { school: "blight", icon: "Psychic/Focused Mind", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","detection","investigation","exploration","revenant"] },
+      targetingConfig: { targetingType: "self", rangeType: "self" },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 3 }, components: ["somatic"], somaticText: "Prise your eyelids wide and let the cold settle in" },
+      resolution: "NONE", effectTypes: ["utility"],
+      utilityConfig: { utilityType: "perception", selectedEffects: [ { "id": "death_sense_sight", "name": "Dead-Light", "description": "For 10 minutes sense corpses/undead/lingering souls/death-stains within 90 ft, and read cause + rough time-of-death at any you study.", "mechanicsText": "Sense the dead + read cause/time of death, 10 min." } ], duration: 10, durationUnit: "minutes", power: "minor" },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+      tags: ["utility","detection","investigation","exploration","revenant"],
+    },
+    {
+      id: "rv_frost_stasis",
+      name: "Frost-Stasis",
+      description: "Exhale the preserving cold of the peat-bogs over a corpse, food, document, or small object, freezing it in perfect stasis — halting decay, rot, or spoilage for days. Used to keep a body fresh for questioning, preserve evidence, or store perishable reagents. Out of combat.",
+      level: 1, spellType: "ACTION", icon: "Frost/Ice Shard",
+      typeConfig: { school: "rime", icon: "Frost/Ice Shard", castTime: 1, castTimeType: "MINUTES", tags: ["utility","exploration","investigation","revenant"] },
+      targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 4 }, components: ["verbal","somatic"], somaticText: "Breathe a slow rime over the target until a shell of frost seals it" },
+      resolution: "NONE", effectTypes: ["utility"],
+      utilityConfig: { utilityType: "protection", selectedEffects: [ { "id": "frost_stasis_preserve", "name": "Bog-Cold Preservation", "description": "Freeze one corpse/object in perfect stasis for up to 7 days: no decay, rot, or spoilage. Commonly used to keep a body question-ready or evidence intact.", "mechanicsText": "Preserve one corpse/object from decay up to 7 days." } ], duration: 7, durationUnit: "days", power: "minor" },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+      tags: ["utility","exploration","investigation","revenant"],
+    },
+    {
+      id: "rv_soul_interrogate",
+      name: "Soul-Interrogate",
+      description: "Bind a soul that has not yet departed — a fresh corpse, a captured wisp, or one drawn from your Phylactery — and compel it to answer your questions about its life, its death, and what it knew. The bound soul cannot lie, but it may omit or bargain, and older/weaker souls answer faintly. Out of combat.",
+      level: 2, spellType: "ACTION", icon: "Necrotic/Death Mark",
+      typeConfig: { school: "blight", icon: "Necrotic/Death Mark", castTime: 10, castTimeType: "MINUTES", tags: ["utility","divination","investigation","social","revenant"] },
+      targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 8 }, components: ["verbal","somatic"], somaticText: "Trap the soul in a ring of bone-dust and pin it with the covenant-sign" },
+      resolution: "SAVE", effectTypes: ["utility"],
+      utilityConfig: { utilityType: "divination", selectedEffects: [ { "id": "soul_interrogate_truth", "name": "Bound Truth", "description": "A bound soul answers up to 3 questions — no lies, but may omit or bargain. Older/weaker souls answer faintly or in fragments; a strong-willed soul gets a Spirit save per question.", "mechanicsText": "Bind a soul to answer 3 questions; no lies, may omit." } ], power: "major" },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+      tags: ["utility","divination","investigation","social","revenant"],
+    },
+    {
+      id: "rv_undying_constitution",
+      name: "Undying Constitution",
+      description: "Your half-dead body is barely a body at all. For the duration you do not need to breathe, eat, or drink, and you ignore mundane cold exposure — walk the seafloor, cross a poison-gas chamber, endure a blizzard, or sit vigil without food or air. You still take damage from attacks and magical hazards. Out of combat.",
+      level: 2, spellType: "ACTION", icon: "Utility/Empowered Warrior",
+      typeConfig: { school: "rime", icon: "Utility/Empowered Warrior", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","exploration","revenant"] },
+      targetingConfig: { targetingType: "self", rangeType: "self" },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 5 }, components: ["somatic"], somaticText: "Slow your blood and let the frost-heart quiet your living needs" },
+      resolution: "NONE", effectTypes: ["utility"],
+      utilityConfig: { utilityType: "environment", selectedEffects: [ { "id": "undying_constitution_suspend", "name": "Suspended Needs", "description": "For 8 hours: no need to breathe, eat, or drink, and immunity to mundane cold exposure. Walk underwater/in poison gas/blizzard, or sit a long vigil. Attacks and magical hazards still harm you.", "mechanicsText": "No breathe/eat/drink + ignore cold exposure, 8 hours." } ], duration: 8, durationUnit: "hours", power: "moderate" },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+      tags: ["utility","exploration","revenant"],
+    },
+    {
+      id: "rv_blood_reading",
+      name: "Blood-Reading",
+      description: "Taste or scatter a drop of blood and read what the blood remembers — whose it is (kin, species), their recent wounds or trauma, any poisons or diseases in it, and the emotional state at the moment it was shed. Fresh blood speaks clearly; old blood whispers. Out of combat.",
+      level: 2, spellType: "ACTION", icon: "Necrotic/Necrotic Wither",
+      typeConfig: { school: "blight", icon: "Necrotic/Necrotic Wither", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","divination","investigation","revenant"] },
+      targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 5 }, components: ["somatic"], somaticText: "Touch the blood to tongue or scatter it and read the spray" },
+      resolution: "NONE", effectTypes: ["utility"],
+      utilityConfig: { utilityType: "divination", selectedEffects: [ { "id": "blood_reading_memory", "name": "Blood Memory", "description": "From a blood sample learn: whose it is (kin/species), recent wounds/trauma, any poisons/diseases present, and the emotional state when shed. Fresh reads clear; old reads faint.", "mechanicsText": "Read a blood sample's owner/wounds/poisons/emotion." } ], power: "moderate" },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+      tags: ["utility","divination","investigation","revenant"],
+    },
   ],
 
   spellPools: {
@@ -1328,11 +1413,17 @@ The Revenant can switch between two casting modes:
       "rv_necrotic_bolt",
       "rv_corpse_walk",
       "rv_crimson_aegis",
+      "rv_petition_the_dead",
+      "rv_death_sense",
+      "rv_frost_stasis",
     ],
     2: [
       "rv_blood_leech",
       "rv_grave_whisper",
       "rv_ethereal_gossip",
+      "rv_soul_interrogate",
+      "rv_undying_constitution",
+      "rv_blood_reading",
     ],
     3: [
       "rv_soul_rend",

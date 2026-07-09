@@ -8,7 +8,6 @@ import React, { useState, useEffect } from 'react';
 import { useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators } from '../context/CharacterWizardContext';
 import { getBackgroundData } from '../../../data/backgroundData';
 import { getRaceData, getSubraceData } from '../../../data/raceData';
-import { getPathData } from '../../../data/pathData';
 import { LANGUAGES, LANGUAGE_CATEGORIES } from '../../../data/languages';
 import { SKILL_DEFINITIONS, SKILL_RANKS } from '../../../constants/skillDefinitions';
 import { SKILL_QUESTS } from '../../../constants/skillQuests';
@@ -113,8 +112,6 @@ const Step7SkillsLanguages = () => {
     const subraceData = characterData.race && characterData.subrace
         ? getSubraceData(characterData.race, characterData.subrace)
         : null;
-    const pathData = characterData.path ? getPathData(characterData.path) : null;
-
     const racialLanguages = React.useMemo(() => subraceData?.languages || [], [subraceData]);
 
     const backgroundSkills = React.useMemo(() => {
@@ -122,18 +119,13 @@ const Step7SkillsLanguages = () => {
         return dndSkills.map(dndSkill => DND_TO_CUSTOM_SKILL_MAP[dndSkill]).filter(Boolean);
     }, [backgroundData]);
 
-    const pathSkills = React.useMemo(() => {
-        const dndSkills = pathData?.skillProficiencies || [];
-        return dndSkills.map(dndSkill => DND_TO_CUSTOM_SKILL_MAP[dndSkill]).filter(Boolean);
-    }, [pathData]);
-
     const grantedSkills = React.useMemo(() =>
-        [...new Set([...backgroundSkills, ...pathSkills])],
-        [backgroundSkills, pathSkills]
+        [...new Set([...backgroundSkills])],
+        [backgroundSkills]
     );
 
     const classSkillCount = 1; 
-    const languageCount = (backgroundData?.languages || 0) + (pathData?.languages || 0);
+    const languageCount = (backgroundData?.languages || 0);
 
     // Sync state to Context
     useEffect(() => {

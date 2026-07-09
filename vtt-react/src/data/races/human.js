@@ -96,19 +96,19 @@ The seven cultures that exist today are not the direct products of the noble hou
     {
       name: 'Thalra Greymark',
       title: 'The Last Archivist',
-      portraitIcon: 'Armor/Head/head-hooded-helmet',
+      portraitIcon: 'Human/Icon3',
       backstory: 'The eldest living Thalren, keeper of the Greymark lineage-tapestries for one hundred and seven years. She has memorized the genealogy of every family in Frostwood Reach, forty thousand names, stretching back thirty-two generations. She can recite the ancestry of any Thalren who petitions her. She cannot remember her own daughter\'s face. The fog took it thirty years ago. She keeps her daughter\'s journal chained to her belt and reads it every morning, and every morning she grieves a death she does not remember happening.'
     },
     {
       name: 'Ragna Skalvyr',
       title: 'The Ice-Widow',
-      portraitIcon: 'Armor/Head/head-golden-crown-helmet',
+      portraitIcon: 'Human/Icon7',
       backstory: 'The current matriarch of House Skalvyr, who has outlived three husbands and seven of her nine children. She earned her name at forty-two when she walked into a whiteout blizzard to retrieve the body of her eldest son, carrying him back to Skalvyrhold on her shoulders through fifty miles of killing cold. She lost three toes to frostbite. She refuses to wear boots that cover the stumps, she says the cold reminds her of what she is capable of. She is seventy-one. She still leads raids against the glacier-revenants that crawl out of the fjords.'
     },
     {
       name: 'Ordan Khan',
       title: 'The Wind-Singer',
-      portraitIcon: 'Armor/Head/head-dark-hood',
+      portraitIcon: 'Human/Icon11',
       backstory: 'The current head of House Ordavan, a throat-singer whose voice carries fifteen miles across the steppe. She knows every migration route by heart and every ancestor-song by muscle memory. She has never seen the sea. She has never entered a building made of stone. She will die on the steppe, as her mother did, as her grandmother did, and her body will be left at the Khan\'s Mound with a song that will be sung until the migration circles back, and then never sung again, because the song belongs to the dead, and the dead do not travel.'
     }
   ],
@@ -256,7 +256,7 @@ The fog-choked forests of Frostwood Reach shape the Thalren body: lean, watchful
         {
           id: 'fog_sense_thalren',
           name: 'Fog-Sense',
-          description: 'Generations in the memory-degrading mist have given you an uneasy relationship with clarity. You are most comfortable when visibility is limited. Advantage on Perception and Stealth checks in fog, mist, smoke, or dim light. Disadvantage on the same checks in bright, clear conditions, the openness feels wrong, exposed, like standing in a room where someone has removed all the walls.',
+          description: 'Advantage on Perception and Stealth checks in fog, mist, smoke, or dim light; Disadvantage on Perception and Stealth checks in bright, clear conditions. The memory-eating mist taught you to read shadow and whisper where others need open sky.',
           level: 1,
           icon: 'spell_nature_sleep',
           spellType: 'PASSIVE',
@@ -271,7 +271,7 @@ The fog-choked forests of Frostwood Reach shape the Thalren body: lean, watchful
         {
           id: 'written_word_thalren',
           name: 'The Written Word',
-          description: 'The fog takes memory. Ink resists. You have advantage on checks made to detect forgery, decipher codes, or identify altered documents, you have spent a lifetime reading what others wrote, and you know when the handwriting is wrong. and, you can spend 10 minutes writing a detailed account of any event you witnessed in the last 24 hours. That account is considered a reliable record, your memory may fade, but the page remembers.',
+          description: 'Advantage on checks to detect forgery, decipher codes, and identify altered documents. After spending 10 minutes writing a detailed account of any event witnessed in the last 24 hours, that account is treated as a reliable record. The fog takes memory, but ink resists — you have read what others wrote your whole life, and you know when the hand is wrong.',
           level: 1,
           icon: 'spell_arcane_manashield',
           spellType: 'PASSIVE',
@@ -310,7 +310,7 @@ Adding to the tension is the **Icechamber Syndicate**, a southern trade monopoly
         {
           id: 'cold_endurance_skald',
           name: 'Cold Endurance',
-          description: 'Your body has been conditioned by generations of Nordhalla winters. You have resistance to rime damage and automatically succeed on saving throws against environmental cold effects. You can survive indefinitely in freezing temperatures without shelter. Heat, however, is alien and exhausting, you have disadvantage on saving throws against heat effects and take +25% ember damage in environments above freezing. Your blood does not know what warmth means.',
+          description: 'Resistance to rime damage and automatic success on saving throws against environmental cold; you survive indefinitely in freezing temperatures without shelter. Disadvantage on saving throws against heat effects and +25% ember damage taken in environments above freezing. Your blood has learned the cold, and never learned what warmth means.',
           level: 1,
           icon: 'spell_nature_frostarmor',
           spellType: 'PASSIVE',
@@ -325,7 +325,7 @@ Adding to the tension is the **Icechamber Syndicate**, a southern trade monopoly
         {
           id: 'glacier_rage_skald',
           name: 'Glacier Rage',
-          description: 'The cold does not numb you. It focuses you. When you take rime damage or are struck while below 50% HP in a freezing environment, you may use your reaction to enter a state of glacial focus for 1 minute. During this state, you gain +1 to attack rolls and ignore the first level of exhaustion. You cannot use Charisma-based skills, your face has gone still as ice, and no warmth reaches your voice. When the state ends, gain 1 level of exhaustion as your body remembers it is mortal.',
+          description: 'When you take rime damage or are struck below 50% HP in a freezing environment, you may use your reaction to enter Glacial Focus for 1 minute: +1 to attack rolls and immunity to the first level of exhaustion. You cannot use Charisma-based skills while active, and gain 1 level of exhaustion when the state ends. The cold does not numb you; it focuses you, until your body remembers it is mortal.',
           level: 1,
           icon: 'spell_nature_frostarmor',
           spellType: 'PASSIVE',
@@ -340,7 +340,7 @@ Adding to the tension is the **Icechamber Syndicate**, a southern trade monopoly
         {
           id: 'bloodline_pride_skald',
           name: 'Bloodline Pride',
-          description: 'Your ancestry is your armor. When you succeed on a saving throw or ability check through sheer endurance (Constitution-based), allies within 30 feet who can see you gain advantage on their next saving throw against fear. Your refusal to fall inspires those who fight beside you. But your pride cuts both ways, you have disadvantage on Deception checks. A Skald does not lie. A Skald does not need to.',
+          description: 'When you succeed on a Constitution-based saving throw or ability check, allies within 30 feet who can see you gain advantage on their next saving throw against fear. You have disadvantage on Deception checks. Your ancestry is armor, and a Skald does not lie — they do not need to.',
           level: 1,
           icon: 'spell_holy_auramastery',
           spellType: 'PASSIVE',
@@ -371,7 +371,7 @@ The snow-buried keeps of the Cragjaw Peaks produce a particular kind of human: p
         {
           id: 'keep_rat_tessen',
           name: 'Keep-Rat',
-          description: 'You have spent your entire life in an enclosed stone structure with a finite number of rooms. You know every corner, every draft, every sound the old stones make. Advantage on Perception checks to notice changes in your environment, a moved object, a new scent, a door that was closed and is now open. You cannot be surprised in indoor environments. Disadvantage on Survival checks in open wilderness, you have never seen a tree, and your instincts are attuned to stone, not sky.',
+          description: 'Advantage on Perception checks to notice environmental changes indoors, and you cannot be surprised in indoor environments. Disadvantage on Survival checks in open wilderness. A lifetime in finite stone rooms attuned your instincts to wall and draft, never to sky.',
           level: 1,
           icon: 'ability_rogue_stealth',
           spellType: 'PASSIVE',
@@ -386,14 +386,14 @@ The snow-buried keeps of the Cragjaw Peaks produce a particular kind of human: p
         {
           id: 'favor_debt_tessen',
           name: 'Favor-Debt',
-          description: 'In the keeps, everything is negotiated. You have learned to read the unspoken economy of obligation. Advantage on Insight checks made to determine what someone wants from you. Once per long rest, when you fail a Persuasion check with a human NPC who shares your enclosed environment, you may call in an unspoken favor, the check succeeds instead, but you now owe that NPC a debt they will collect. The debt is real. The GM decides when it comes due.',
+          description: 'Advantage on Insight checks to determine what someone wants from you. Once per long rest, when you fail a Persuasion check with a human NPC who shares your enclosed environment, the check succeeds instead, but you incur a narrative debt the GM will collect. In the keeps everything is negotiated, and the unspoken favor is worth more than gold.',
           level: 1,
           icon: 'spell_arcane_mindmastery',
           spellType: 'PASSIVE',
           effectTypes: ['buff', 'debuff'],
           typeConfig: { category: 'racial', school: 'wyrd' },
           buffConfig: { buffType: 'socialBonus', effects: [{ id: 'read_obligation', name: 'Read Obligation', description: 'Advantage on Insight to determine what someone wants. Once per long rest, turn a failed Persuasion into success, but incur a narrative debt.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
-          debuffConfig: { debuffType: 'socialPenalty', effects: [{ id: 'favor_owed', name: 'Favor Owed', description: 'The debt will be collected. The GM decides when.', statusEffect: { penaltyType: 'narrative_debt' } }], targetRestriction: 'self' },
+          debuffConfig: { debuffType: 'socialPenalty', effects: [{ id: 'favor_owed', name: 'Favor Owed', description: 'You incur a narrative debt the GM will collect at a time of their choosing. The debt is real, and it will come due.', statusEffect: { penaltyType: 'narrative_debt' } }], targetRestriction: 'self' },
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
           resourceCost: { actionPoints: 0, mana: 0, components: [] },
           cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 }
@@ -401,7 +401,7 @@ The snow-buried keeps of the Cragjaw Peaks produce a particular kind of human: p
         {
           id: 'sealed_silence_tessen',
           name: 'Sealed Silence',
-          description: 'Centuries of close-quarters living have made silence a survival skill. Advantage on Stealth checks made to avoid detection by sound. You can whisper across a room and be heard by a specific person while remaining inaudible to everyone else, the keep-acoustics are in your bones. Disadvantage on Intimidation checks made through volume, you do not shout. Shouting is what surface-dwellers do. Shouting is beneath you.',
+          description: 'Advantage on Stealth checks made to avoid detection by sound, and you can whisper across a room to a specific person while remaining inaudible to others. Disadvantage on Intimidation checks made through volume. Centuries of close-quarters living made silence a survival skill, and shouting is what surface-dwellers do — beneath you.',
           level: 1,
           icon: 'spell_shadow_antimagicshell',
           spellType: 'PASSIVE',
@@ -432,7 +432,7 @@ The ashlands of Sundale produce a gaunt, hardened people. Solvarn skin is darken
         {
           id: 'ash_blood_solvarn',
           name: 'Ash-Blood',
-          description: 'Generations breathing volcanic particulate have hardened your lungs against airborne contaminants. Resistance to blight damage from inhaled sources. Advantage on saving throws against airborne diseases, gases, and respiratory effects. The ash is in your blood now, you are immune to the negative effects of volcanic ashfall and can see normally in light-to-moderate ash conditions. Disadvantage on saving throws against cold effects, your body has forgotten how to generate its own warmth, relying on the volcanic heat that is slowly killing you.',
+          description: 'Resistance to inhaled blight damage, advantage on saving throws against airborne diseases, gases, and respiratory effects, and immunity to the negative effects of volcanic ashfall (you see normally in light-to-moderate ash). Disadvantage on saving throws against cold effects. The ash is in your blood, and your body has forgotten how to make its own warmth.',
           level: 1,
           icon: 'spell_fire_incinerate',
           spellType: 'PASSIVE',
@@ -447,7 +447,7 @@ The ashlands of Sundale produce a gaunt, hardened people. Solvarn skin is darken
         {
           id: 'vigil_oath_solvarn',
           name: 'Vigil Oath',
-          description: 'You have sworn the vigil, the Solvarn oath to keep watch for Sol\'s return until death takes you or the sun speaks again. Once per long rest, when you would be reduced to 0 HP, you may instead remain at 1 HP. You are not harder to kill. You simply refuse to die before the vigil is complete. This refusal costs you: gain 1 level of exhaustion immediately. The vigil is not broken. But it is heavy.',
+          description: 'Once per long rest, when you would be reduced to 0 HP, you instead remain at 1 HP, gaining 1 level of exhaustion immediately. You are not harder to kill — you simply refuse to die before the vigil is complete, and the refusal is heavy.',
           level: 1,
           icon: 'spell_holy_renew',
           spellType: 'PASSIVE',
@@ -462,7 +462,7 @@ The ashlands of Sundale produce a gaunt, hardened people. Solvarn skin is darken
         {
           id: 'sun_reverence_solvarn',
           name: 'Sun-Reverence',
-          description: 'Your faith in the returning sun is not abstract, it is physical, practiced, worn into your bones by daily ritual. Advantage on saving throws against despair, hopelessness, and effects that would cause you to surrender or retreat. When you are in the presence of fire, a forge, a bonfire, a volcanic vent, you gain +1 to all saving throws. The fire is a promise. You believe it. Disadvantage on saving throws made to abandon your post or retreat from a position you have sworn to hold. The vigil does not permit running.',
+          description: 'Advantage on saving throws against despair, hopelessness, and effects that would cause surrender or retreat. While in the presence of fire (forge, bonfire, volcanic vent), you gain +1 to all saving throws. Disadvantage on saves to abandon your post or retreat from a sworn position. The fire is a promise you believe, and the vigil does not permit running.',
           level: 1,
           icon: 'spell_holy_innerfire',
           spellType: 'PASSIVE',
@@ -493,7 +493,7 @@ The Iceheart Sea shapes the Merryn into something between sailor and storm. Lean
         {
           id: 'sea_legs_merryn',
           name: 'Sea-Legs',
-          description: 'You were born on the water and will probably die on it. Swim speed equal to your walking speed. Advantage on checks to climb rigging, balance on unstable surfaces, and maintain footing during storms. You cannot be made seasick. Disadvantage on Stealth and Acrobatics on solid, unmoving ground, the land feels wrong under your feet, too still, too dead, and your body does not trust it.',
+          description: 'Swim speed equals your walking speed; advantage on checks to climb rigging, balance on unstable surfaces, and keep footing during storms; immunity to seasickness. Disadvantage on Stealth and Acrobatics on solid, unmoving ground. Born on the water, you will likely die on it — the land feels wrong under your feet, too still, too dead.',
           level: 1,
           icon: 'spell_nature_wind',
           spellType: 'PASSIVE',
@@ -508,7 +508,7 @@ The Iceheart Sea shapes the Merryn into something between sailor and storm. Lean
         {
           id: 'tattoo_contract_merryn',
           name: 'Tattoo-Contract',
-          description: 'Your skin is a legal document. The oaths, debts, and agreements tattooed on your body are binding in Merryn law, and Merryn law is the only law on the Iceheart Sea. Once per long rest, when you make a deal with an NPC, you may seal it with a ceremonial mark (ink, blood, or scar). The NPC instinctively understands the contract is binding and will honor its terms until the agreed completion. If you break the contract, the tattoo itches incessantly, preventing long rests until you make amends. The sea remembers.',
+          description: 'Once per long rest, when you make a deal with an NPC, you may seal it with a ceremonial mark (ink, blood, or scar) that the NPC instinctively honors until completion. Breaking a tattooed contract prevents you from taking long rests until you make amends. Your skin is a legal document, and the sea remembers.',
           level: 1,
           icon: 'spell_arcane_manashield',
           spellType: 'PASSIVE',
@@ -523,7 +523,7 @@ The Iceheart Sea shapes the Merryn into something between sailor and storm. Lean
         {
           id: 'storm_luck_merryn',
           name: 'Storm-Luck',
-          description: 'You have survived storms that killed better sailors. You do not know why. Once per long rest, when you fail a saving throw that would result in death or incapacitation, you may reroll it. You must accept the new result. This is not skill. This is luck, the same luck that has kept your particular ship afloat through forty winters of the Iceheart\'s worst. Your crew respects it. You do not understand it. You do not question it.',
+          description: 'Once per long rest, when you fail a saving throw that would result in death or incapacitation, you may reroll it and must accept the new result. This is not skill — it is the luck that has kept your particular ship afloat through forty winters of the Iceheart\'s worst.',
           level: 1,
           icon: 'spell_arcane_blink',
           spellType: 'PASSIVE',
@@ -554,7 +554,7 @@ The wind-swept steppe of the Sundrift Vale shapes the Ordan into endurance runne
         {
           id: 'endless_march_ordan',
           name: 'Endless March',
-          description: 'The migration never stops. Neither do you. You can travel for twice as long as normal before requiring a rest, and you ignore the first level of exhaustion from forced marches. Your base walking speed increases by 5 feet. You have advantage on saving throws against effects that would slow or immobilize you, the herd does not stop, and neither can you. Disadvantage on checks made while stationary for more than 1 minute, your body grows restless, your mind drifts to the horizon.',
+          description: 'Your walking speed increases by 5 feet; you travel twice as long before needing rest, ignore the first level of exhaustion from forced marches, and have advantage on saves against being slowed or immobilized. Disadvantage on checks while stationary for more than 1 minute. The herd does not stop, and neither can you.',
           level: 1,
           icon: 'ability_warrior_rampage',
           spellType: 'PASSIVE',
@@ -618,7 +618,7 @@ The sinking bogs of the Bryngloom Forest shape the Morren into a sallow, watchfu
         {
           id: 'contract_sight_morren',
           name: 'Contract-Sight',
-          description: 'Generations of Neth contract-law have sharpened your ability to read the fine print. Advantage on checks to detect deception, hidden clauses, or loopholes in any agreement, written or spoken. You instinctively know when someone is trying to cheat you, the Neth taught your ancestors to read contract-language, and the skill is in your blood. and, you may spend 1 AP to identify whether a creature you can see is currently bound by any magical or contractual obligation. The terms are not revealed, only the existence of the binding.',
+          description: 'Advantage on checks to detect deception, hidden clauses, or loopholes in any agreement, written or spoken. Spend 1 AP to learn whether a creature you can see is bound by any magical or contractual obligation (existence only, not terms). The Neth taught your ancestors to read contract-language, and the skill is in your blood.',
           level: 1,
           icon: 'spell_arcane_mindmastery',
           spellType: 'PASSIVE',
@@ -632,14 +632,14 @@ The sinking bogs of the Bryngloom Forest shape the Morren into a sallow, watchfu
         {
           id: 'bog_adapted_morren',
           name: 'Bog-Adapted',
-          description: 'The Bryngloom has been your home for generations. You are immune to non-magical diseases from swamp environments. You can move across bog, marsh, and shallow water at full speed without sinking. Advantage on Stealth checks in swamp, marsh, and forest environments. Disadvantage on all physical checks in dry, arid environments, your body is calibrated for moisture, and the dryness cracks your skin and your concentration.',
+          description: 'Your body has been shaped by the Bryngloom\'s潮湿 depths. You are immune to non-magical diseases carried by bog water and fungal spores, including spore-hush and bog-rot. You move at full speed through bog, marsh, and shallow water where others must struggle. Your skin carries the Bog-Strider\'s blessing: advantage on Stealth checks in swamp, marsh, and forest environments. However, your body craves moisture—disadvantage on all physical checks in dry, arid environments like the open steppe or desert, where your skin cracks and your lungs burn.',
           level: 1,
           icon: 'spell_nature_poisongas',
           spellType: 'PASSIVE',
           effectTypes: ['buff', 'debuff'],
           typeConfig: { category: 'racial', school: 'primal' },
-          buffConfig: { buffType: 'environmentalAdaptation', effects: [{ id: 'bog_striding', name: 'Bog-Striding', description: 'Immune to swamp disease. Full speed on bog/marsh. Advantage Stealth in swamp/forest.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
-          debuffConfig: { debuffType: 'environmentalPenalty', effects: [{ id: 'dry_weakness', name: 'Dry-Weakness', description: 'Disadvantage on physical checks in dry/arid environments.', statusEffect: { penaltyType: 'disadvantage', conditions: ['arid', 'dry'] } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+          buffConfig: { buffType: 'environmentalAdaptation', effects: [{ id: 'bog_striding', name: 'Bog-Striding', description: 'Immune to spore-hush, bog-rot, and other non-magical bog-borne diseases. Full movement speed through bog, marsh, and shallow water. Advantage on Stealth in swamp, marsh, and forest.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+          debuffConfig: { debuffType: 'environmentalPenalty', effects: [{ id: 'dry_weakness', name: 'Bog-Thirst', description: 'Disadvantage on all physical checks in dry, arid environments (steppe, desert, sun-baked stone). Your body rejects the absence of moisture.', statusEffect: { penaltyType: 'disadvantage', conditions: ['arid', 'dry', 'steppe', 'desert'] } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
           resourceCost: { actionPoints: 0, mana: 0, components: [] },
           cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
@@ -647,7 +647,7 @@ The sinking bogs of the Bryngloom Forest shape the Morren into a sallow, watchfu
         {
           id: 'debtors_patience_morren',
           name: "Debtor's Patience",
-          description: 'You have spent your life waiting for creditors who are immortal. You have learned patience as a survival mechanism. Advantage on saving throws against effects that would cause you to act rashly or impulsively. Once per long rest, when a creature attempts to Intimidate you, you may respond with the quiet, immovable calm of someone who owes more than they can ever repay, the attempt automatically fails, and the creature realizes it cannot threaten someone who has already accepted the worst possible outcome.',
+          description: 'Advantage on saving throws against effects that would cause you to act rashly or impulsively. Once per long rest, when a creature attempts to Intimidate you, the attempt automatically fails. You have spent a lifetime owing more than you can ever repay, and no one can threaten someone who has already accepted the worst.',
           level: 1,
           icon: 'spell_shadow_antimagicshell',
           spellType: 'PASSIVE',

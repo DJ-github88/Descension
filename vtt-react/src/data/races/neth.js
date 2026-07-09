@@ -194,7 +194,7 @@ The pact holds. The Keeper has never renegotiated the terms. But the oldest Neth
  {
   name: 'Saren-Vel',
   title: 'The First Drun',
-  portraitIcon: 'Ability/ability_rogue_shadowstrike',
+  portraitIcon: 'Undead/Icon3',
   backstory: `
 Before she was the first Drun, Saren-Vel was the most powerful Velun mage of her generation, a contract-lawyer and arcanist whose binding-clauses were so precise that the Keeper itself had never found a loophole in her work. She drafted the trade-treaty that opened Ironjaw Port to the Emberth. She wrote the inheritance-contract that resolved a three-century dispute between two competing Velun bloodlines. She was, by any measure, the apotheosis of what a Velun could become.
 
@@ -212,7 +212,7 @@ She has never spoken. No one knows if she still can.
  {
   name: 'Lyra-Vel',
   title: 'The Twelfth-Generation Oracle',
-  portraitIcon: 'Ability/ability_priest_angelicfeather',
+  portraitIcon: 'Undead/Icon7',
   backstory: `
 The Oracle of Atropolis is not a title. It is a person, always a Velun, always female, always the eldest living Neth who has returned more times than any other. Lyra-Vel is the twelfth to hold the position. She has returned fourteen times: four illnesses, three accidents, five acts of violence, and two causes she refuses to disclose. Her death-count is the highest in recorded Neth history, and the Keeper knows her voice.
 
@@ -226,7 +226,7 @@ She has been writing a personal addendum to the First Contract for two hundred y
  {
   name: 'Orven-Sen',
   title: 'The Gambler Who Bet on the Sun',
-  portraitIcon: 'Ability/ability_rogue_gouge',
+  portraitIcon: 'Undead/Icon11',
   backstory: `
 The most famous Kessen in Neth history made only one bet that anyone remembers, and he made it sixty-three years before Emberspire erupted.
 
@@ -246,7 +246,7 @@ No one knows what he bet. No one knows what broke when he tugged that thread. So
  {
   name: 'Vaelis the Scribe',
   title: 'The One Who Drafted the First Contract',
-  portraitIcon: 'Armor/Head/head-hooded-helmet',
+  portraitIcon: 'Undead/Icon15',
   backstory: `
 Vaelis was the eldest of the dying clan of scribes who walked into the deep wood and presented the Keeper with an argument. She was eighty-three years old when the first freeze reached the Gloom. She had outlived two husbands, three children, and an entire legal tradition that died when the sun was stolen and the trade routes collapsed. She had been writing contracts for sixty-one years. She had never lost a case.
 
@@ -378,7 +378,7 @@ They view the Kessen with a mixture of admiration and unease, the Kessen see the
   {
    id: 'bound_tongue_velun',
    name: 'Bound Tongue',
-   description: 'Your voice carries the Keeper\'s weight. Your promises are binding, on yourself, on others, on the universe. But the tongue that binds is itself bound, and every word you speak is a clause the pact may choose to enforce.',
+    description: 'Advantage on Persuasion checks when negotiating contract terms or formal agreements. You cannot lie: a spoken falsehood deals 1d4 wyrd damage and imposes disadvantage on Deception, and the Keeper may treat any casual or even hypothetical promise as a binding contract at the GM\'s discretion. (The tongue that binds is itself bound — every word you speak is a clause the pact may enforce.)',
    level: 1,
    icon: 'spell_holy_innerfire',
    spellType: 'PASSIVE',
@@ -453,7 +453,7 @@ They view the Kessen with a mixture of admiration and unease, the Kessen see the
   {
    id: 'memory_glass_training_velun',
    name: 'Canopy-Scholar',
-   description: 'You were trained in the Canopy-Ledger, the living archive where every Neth contract is stored in crystallized tree-sap that releases its knowledge directly into the reader\'s mind. Your education was complete. Your curriculum never ended.',
+    description: '+2 to History and Arcana checks involving the Bryngloom Forest, contract law, the Keeper, Neth genealogy, or the Wyrd. Requires 1 hour of archive maintenance per long rest to keep the bonus; missing it forfeits the bonus until you spend 1+ hour catching up. (You trained in the Canopy-Ledger, the living archive where Neth contracts sit in crystallized tree-sap that pours knowledge straight into the reader\'s mind — your education never truly ended.)',
    level: 1,
    icon: 'inv_misc_book_09',
    spellType: 'PASSIVE',
@@ -518,7 +518,7 @@ They view the Velun with a mixture of respect and pity, the Velun have power, bu
   {
    id: 'keepers_sight_kessen',
    name: 'The Keeper\'s Sight',
-   description: 'You perceive the obligation-web, the debt-threads connecting every living thing who has promised, owed, or betrayed. Lies shimmer. Unkept promises stain the air. The web reveals everything, and the web is everywhere.',
+    description: 'Advantage on Insight checks to detect deception, read a creature\'s true loyalties, or gauge whether a promise is sincere. In social situations of more than 10 people you suffer disadvantage on Spirit and Charisma checks as the obligation-web overwhelms you, and your obligation-threads remain visible to any creature with supernatural perception. (You perceive the debt-threads binding all things — the web reveals everything, and the web is everywhere.)',
    level: 1,
    icon: 'spell_holy_mindvision',
    spellType: 'PASSIVE',
@@ -599,7 +599,7 @@ They view the Velun with a mixture of respect and pity, the Velun have power, bu
   {
    id: 'chronometric_intuition_kessen',
    name: 'Temporal Ledger',
-   description: 'Time is the longest obligation-thread. A promise that will come due in twenty years is as real to you as one due tomorrow, the web does not distinguish between present debts and future ones. You perceive the approaching due-dates of promises, the imminence of consequences, the patience of creditors.',
+    description: '+2 to initiative rolls, and once per long rest you may ask the GM one truthful but cryptic question about the approaching consequences of a situation. A failed or ominous divination answer imposes disadvantage on your next initiative roll. (Time is the longest obligation-thread — you feel promises coming due long before they arrive.)',
    level: 1,
    icon: 'spell_arcane_arcanetactics',
    spellType: 'PASSIVE',
@@ -666,7 +666,7 @@ They view the Velun with something between pity and contempt, the Velun are powe
   {
    id: 'severed_drun',
    name: 'Severed',
-   description: 'Your name has been burned from every active copy of the First Contract. The pact cannot feel you. The pact cannot bind you. The pact cannot protect you. You are the only Neth who has ever been truly alone, and you have paid the price for it.',
+    description: 'Advantage on saving throws against spells and magical effects, and immunity to the Keeper\'s enforcement (the Debt-Revenant cannot target you, Velun Clause of Binding cannot bind you, and the Unraveling cannot affect you). You suffer disadvantage on social checks with Velun Neth and, severed from the pact\'s preservation, must eat, drink, and sleep normally and will eventually age to death. (Your name is burned from every copy of the First Contract — the pact cannot feel, bind, or protect you.)',
    level: 1,
    icon: 'spell_fire_fireball',
    spellType: 'PASSIVE',
@@ -709,7 +709,7 @@ They view the Velun with something between pity and contempt, the Velun are powe
   {
    id: 'silence_walker_drun',
    name: 'Silence-Walker',
-   description: 'The pact cannot feel you. This means the pact cannot record you. You leave no trace in the mycelial network, no obligation-thread, no memory-echo, no trail for the Kessen to read or the Debt-Revenant to follow. You are the only Neth who can walk unseen through the web of their own civilization.',
+    description: 'Advantage on Stealth checks, leaving no tracks, scent, or magical residue; creatures using supernatural tracking (trail-sight, mycelial perception, the obligation-web) cannot detect your passage. You cannot give testimony, sign contracts, or serve as a witness in any Neth jurisdiction — your voice carries no pact-weight. (The pact cannot record you; you walk unseen through the web of your own civilization.)',
    level: 1,
    icon: 'ability_rogue_shadowstep',
    spellType: 'PASSIVE',
@@ -746,7 +746,7 @@ They view the Velun with something between pity and contempt, the Velun are powe
   {
    id: 'bog_survival_drun',
    name: 'Bog-Hardened',
-   description: 'You survived the Severing and lived in the deep bog without the pact\'s preservation. The Gloom is not your caretaker, it is your training ground. You have learned what kills, what preserves, and what preserves just enough to keep someone alive through something that should have killed them.',
+    description: 'Resistance to blight damage and advantage on Survival checks in swamps, bogs, or the Bryngloom Forest. When you enter a location holding a strong First Contract copy (Atropolis, Ironjaw Port), you must make a DC 12 Constitution save or be sickened for 1 hour. (You survived the Severing and the bog that followed — the deep wild has stopped trying to kill you.)',
    level: 1,
    icon: 'spell_nature_resistnature',
    spellType: 'PASSIVE',

@@ -418,7 +418,7 @@ const Step10EquipmentSelection = () => {
     if (characterData.background && (choicesChanged || !currentCurrency)) {
       const startingCurrency = calculateStartingCurrency(
         characterData.background,
-        characterData.path,
+        null,
         characterData.class,
         characterData.race,
         characterData.subrace
@@ -431,19 +431,19 @@ const Step10EquipmentSelection = () => {
         setSelectedEquipment(backgroundEquipment);
       }
     }
-  }, [characterData.background, characterData.path, characterData.class, characterData.race, characterData.subrace]);
+  }, [characterData.background, characterData.class, characterData.race, characterData.subrace]);
 
   // Get available items based on character selections (excluding containers)
   const availableItems = useMemo(() => {
     const items = getAvailableStartingItems(characterData);
     // Filter out containers - players shouldn't be able to purchase these
     return items.filter(item => item.type !== 'container');
-  }, [characterData.class, characterData.race, characterData.subrace, characterData.path, characterData.background]);
+  }, [characterData.class, characterData.race, characterData.subrace, characterData.background]);
 
   // Get items organized by category
   const itemsByCategory = useMemo(() => {
     return getItemsByCategory(characterData);
-  }, [characterData.class, characterData.race, characterData.subrace, characterData.path, characterData.background]);
+  }, [characterData.class, characterData.race, characterData.subrace, characterData.background]);
 
   // Filter items based on selected category and search
   const filteredItems = useMemo(() => {
