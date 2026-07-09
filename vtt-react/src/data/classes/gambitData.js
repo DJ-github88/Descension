@@ -671,7 +671,7 @@ Your Fortune hits 0.
 
     { id: "gambler_beginners_luck",
       name: "Beginner's Luck",
-      description: "Whisper a desperate plea to the cosmic collector. Gain advantage on your next attack roll or saving throw within 1 round. Generates 1 Fortune Point, dealing 1 HP damage to you.",
+      description: "Whisper a desperate plea to the cosmic collector. Gain advantage on your next attack roll or saving throw within 1 round. Generates 1 Fortune Point.",
       level: 1,
       spellType: "ACTION",
       icon: "Psychic/Focused Mind",
@@ -810,7 +810,7 @@ Your Fortune hits 0.
     // ========================================
     { id: "gambler_coin_toss",
       name: "Coin Toss",
-      description: "Flip a heavy iron coin wreathed in probability energy. Heads: gain a +2 bonus to all attack rolls and saving throws for 1 hour. Tails: suffer a -2 penalty to all attack rolls and saving throws for 1 hour. Generates 1 Fortune Point (inflicting 1 HP damage). You can spend 1 Fortune Point (taking 1d4 wyrd damage) to force the coin to flip its result.",
+      description: "Flip a heavy iron coin wreathed in probability energy. Heads: gain a +2 bonus to all attack rolls and saving throws for 1 hour. Tails: suffer a -2 penalty to all attack rolls and saving throws for 1 hour. Generates 1 Fortune Point. You can spend 1 Fortune Point (taking 1d4 wyrd damage) to force the coin to flip its result.",
       level: 2,
       spellType: "ACTION",
       icon: "Utility/Utility",
@@ -893,7 +893,7 @@ Your Fortune hits 0.
 
     { id: "gambler_insight",
       name: "Gambler's Insight",
-      description: "Your heightened, probability-tuned senses lock onto a target. Read their microscopically subtle tells, siphoning their luck. You gain advantage on all Insight and Perception checks against them for 10 minutes. Generates 1 Fortune Point, dealing 1 HP damage to you.",
+      description: "Your heightened, probability-tuned senses lock onto a target. Read their microscopically subtle tells, siphoning their luck. You gain advantage on all Insight and Perception checks against them for 10 minutes. Generates 1 Fortune Point.",
       level: 2,
       spellType: "ACTION",
       icon: "Psychic/Focused Mind",
@@ -949,7 +949,7 @@ Your Fortune hits 0.
 
     { id: "gambler_fools_gold",
       name: "Fool's Gold",
-      description: "Reach into the empty void of your pockets and pull out a shimmering pile of coins, jewels, or cards (up to 100gp in value). The wealth is a temporary mathematical illusion; it dissolves into cold, grey ash in 1 hour or instantly if touched by Wyrd-warded steel. Siphons 1 Fortune Point (inflicting 1 HP damage).",
+      description: "Reach into the empty void of your pockets and pull out a shimmering pile of coins, jewels, or cards (up to 100gp in value). The wealth is a temporary mathematical illusion; it dissolves into cold, grey ash in 1 hour or instantly if touched by Wyrd-warded steel. Siphons 1 Fortune Point.",
       level: 2,
       spellType: "ACTION",
       icon: "Utility/Utility",
@@ -1168,7 +1168,7 @@ Your Fortune hits 0.
     // ========================================
     { id: "gambler_hot_streak",
       name: "Hot Streak",
-      description: "Let the probability fever take hold. Spend 4 Fortune Points (taking 4d4 wyrd damage) to accelerate your stolen probability. For 1 round, each successful attack or spell cast grants a stacking +1d6 storm damage to your next strike, up to a maximum of 4 stacks. Each stack siphoned generates 1 FP (and deals 1 HP damage).",
+      description: "Let the probability fever take hold. Spend 4 Fortune Points (taking 4d4 wyrd damage) to accelerate your stolen probability. For 1 round, each successful attack or spell cast grants a stacking +1d6 storm damage to your next strike, up to a maximum of 4 stacks. Each stack siphoned generates 1 FP.",
       level: 5,
       spellType: "ACTION",
       icon: "Fire/Enveloping Fire",
@@ -1430,7 +1430,7 @@ Your Fortune hits 0.
 
     { id: "gambler_card_shark",
       name: "Card Shark",
-      description: "Draw a card from a deck of alchemically treated cards. Resolve based on the suit: Spades (deal 6d8 storm damage), Hearts (heal 5d8 HP), Diamonds (gain 30 damage shield for 1 minute), Clubs (target stunned for 2 rounds, Spirit DC 15 negates). Generates 1 Fortune Point, dealing 1 HP damage to you.",
+      description: "Draw a card from a deck of alchemically treated cards. Resolve based on the suit: Spades (deal 6d8 storm damage), Hearts (heal 5d8 HP), Diamonds (gain 30 damage shield for 1 minute), Clubs (target stunned for 2 rounds, Spirit DC 15 negates). Generates 1 Fortune Point.",
       level: 6,
       spellType: "ACTION",
       icon: "Psychic/Mental Chaos",
@@ -1722,7 +1722,7 @@ Your Fortune hits 0.
     // ========================================
     { id: "gambler_jackpot",
       name: "Jackpot",
-      description: "Roll 3d20 bone dice. The sum of the roll determines your tier of fortune: 3 (Catastrophic: take 5d10 blight damage, go Bust), 4-12 (Bad Luck: take 2d6 storm damage, gain 1 FP), 13-25 (Small Win: deal 2d10 storm damage, gain 1 FP), 26-38 (Moderate Win: deal 4d10 storm damage and stun for 1 round, gain 1 FP), 39-48 (Big Win: deal 6d10 storm damage and stun for 2 rounds, gain 2 FP), 49-55 (Massive Win: deal 8d10 ember damage AoE, gain 2 FP), 56-59 (Near Jackpot: deal 10d10 ember damage AoE, heal 30 HP, gain 3 FP), 60 (Perfect Jackpot: deal 10d10 ember damage AoE, max damage on all attacks for 1 hour, gain 5 FP). Suffer 1 HP damage per FP gained. Spend FP to adjust individual dice by ±1 per point (1d4 wyrd damage per FP spent).",
+      description: "Roll 3d20 bone dice. The sum of the roll determines your tier of fortune: 3 (Catastrophic: take 5d10 blight damage, go Bust), 4-12 (Bad Luck: take 2d6 storm damage, gain 1 FP), 13-25 (Small Win: deal 2d10 storm damage, gain 1 FP), 26-38 (Moderate Win: deal 4d10 storm damage and stun for 1 round, gain 1 FP), 39-48 (Big Win: deal 6d10 storm damage and stun for 2 rounds, gain 2 FP), 49-55 (Massive Win: deal 8d10 ember damage AoE, gain 2 FP), 56-59 (Near Jackpot: deal 10d10 ember damage AoE, heal 30 HP, gain 3 FP), 60 (Perfect Jackpot: deal 10d10 ember damage AoE, max damage on all attacks for 1 hour, gain 5 FP). Spend FP to adjust individual dice by ±1 per point (1d4 wyrd damage per FP spent).",
       level: 8,
       spellType: "ACTION",
       icon: "Utility/Utility",
@@ -1907,7 +1907,7 @@ Your Fortune hits 0.
 
     { id: "gambler_jackpot_surge",
       name: "Jackpot Surge",
-      description: "Pull the lever of probability. Roll 3d6. Deal 16d6 + Charisma storm damage to all enemies in a 25ft radius (Agility DC 19 save for half). If you roll a pair of matching numbers, the damage is doubled. If you roll three-of-a-kind, it is quadrupled. Generates 5 FP on a triple, 3 FP on a pair, and 1 FP on no match (suffering 1 HP damage per FP generated).",
+      description: "Pull the lever of probability. Roll 3d6. Deal 16d6 + Charisma storm damage to all enemies in a 25ft radius (Agility DC 19 save for half). If you roll a pair of matching numbers, the damage is doubled. If you roll three-of-a-kind, it is quadrupled. Generates 5 FP on a triple, 3 FP on a pair, and 1 FP on no match .",
       level: 9,
       spellType: "ACTION",
       icon: "Radiant/Radiant Glow",

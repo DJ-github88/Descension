@@ -850,6 +850,10 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
    "martyr_vow_ward",
    "martyr_bear_the_burden",
    "martyr_sanctified_word",
+   "martyr_divine_shield",
+   "martyr_purifying_pain",
+   "martyr_sanctuary_aura",
+   "martyr_blessed_resilience",
   ],
   4: [
    // Level 4 spells: Powerful amplified abilities (3 options, pick 1)
@@ -861,6 +865,35 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
    // Level 6 spells: Advanced devotion abilities (2 options, pick 1)
    "martyr_sanctified_ground",
    "martyr_willing_vessel",
+   "martyr_redemption_strike",
+  ],
+  3: [
+   "martyr_burning_sacrifice",
+   "martyr_sacrificial_bond",
+   "martyr_cleansing_touch",
+  ],
+  5: [
+   "martyr_righteous_suffering",
+   "martyr_blood_pact",
+   "martyr_divine_retribution",
+  ],
+  7: [
+   "martyr_holy_wrath",
+   "martyr_mass_resurrection",
+   "martyr_guardian_spirit",
+  ],
+  8: [
+   "martyr_divine_intervention",
+   "martyr_shared_agony",
+  ],
+  9: [
+   "martyr_avatar_of_sacrifice",
+   "martyr_judgment_day",
+   "martyr_eternal_bond",
+  ],
+  10: [
+   "martyr_ultimate_sacrifice",
+   "martyr_final_blessing",
   ],
  },
 
