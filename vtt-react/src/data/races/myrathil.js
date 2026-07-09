@@ -156,6 +156,8 @@ The Myrathil are not endangered, not yet. But for the first time in their histor
 The Breakers-Born want to negotiate, to establish treaties and accords with the land-kingdoms before the situation escalates. The Deep-Born want to disappear into the open ocean, to drift so far from shore that no land-folk ship could ever find them. The River-Fed want to map every spawning site, every estuary, every brackish delta before it is destroyed, to preserve at least the knowledge of what was lost if the losses cannot be prevented.
 
 All three answers may be right. None of them may be enough. And beneath the churning, freezing waves of the Iceheart Sea, the Sundered Monolith hums its new, urgent frequency into the dark, waiting for whatever comes to claim it.
+
+The Myrathil have never needed the land's wars or the land's shards — but the land's wars have followed them into the deep. The same Monolith that hums in the Rift is kin to the shards the Dawn Vigil hunts and Keth-Amar feeds through; if the seal fails, no ocean depth will protect what spawns in its waters. The sea mother's children must choose: drift away while the world above burns, or rise and wade into a war that was never theirs.
     `,
     culturalPractices: `
 Every Myrathil child spawns alone and walks ashore with nothing but salt in their hair and the sea's last foam clinging to their heels. They are found, always found, by other Myrathil, because the signs of a spawning are unmistakable. Tide pools arrange shells in spirals. Shorebirds circle silently. The waves sound spoken. Any Myrathil within twenty miles feels the ache in their veins. The community gathers before the child even opens its eyes.

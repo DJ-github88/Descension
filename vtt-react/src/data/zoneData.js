@@ -193,7 +193,7 @@ export const ZONE_DATA = [
  "regionId": "nordhalla",
  "name": "The Frozen Archive",
  "type": "tomb",
- "description": "A subterranean cathedral of blue ice and basalt, carved deep beneath the Nordhalla glaciers. It serves as the ultimate resting place for the Skald clans, who chisel their ancestors' histories into glacier walls so they will be preserved forever in stasis. The Archive predates the Dimming, a dead civilization's flash-frozen capital discovered and repurposed after the Glacier Bargain, just after the Binding. The Augurs have recorded every rebirth cycle from this site for nearly eight centuries.",
+ "description": "A subterranean cathedral of blue ice and basalt, carved deep beneath the Nordhalla glaciers. It serves as the ultimate resting place for the Skald clans, who chisel their ancestors' histories into glacier walls so they will be preserved forever in stasis. The Archive predates the Dimming, a dead civilization's flash-frozen capital discovered and repurposed after the Glacier Bargain, just after the Binding. The Augurs have recorded every pulse from this site for nearly eight centuries.",
  "dangerLevel": "medium",
  "factions": [
   "house-skalvyr",

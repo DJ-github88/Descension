@@ -320,7 +320,9 @@ Don't stand still. Use Shadowstep and Evasion to:
 
  immersiveCombatExample: {
   title: "Combat Example: The Shadow Glaive Dance",
-  content: `**The Setup**: You're a Apex (Bladestorm specialization) with your wolf companion "Fang" facing a group of bandits (5 bandits in a tight formation). Your party is with you. Starting Quarry Marks: 2 (from previous encounter). Your goal: Use glaive chaining to hit multiple enemies, generate Quarry Marks through successful attacks, and coordinate with your companion for devastating combos.
+  content: `Five bandits, one formation, one target-rich environment. Fang whines low in her throat, muscles coiling, already reading the geometry of the kill. You feel the familiar shift in your perception — the world slowing, heat signatures blooming behind every ribcage, the paths between them lighting up like drawn wire.
+
+**The Setup**: You're a Apex (Bladestorm specialization) with your wolf companion "Fang" facing a group of bandits (5 bandits in a tight formation). Your party is with you. Starting Quarry Marks: 2 (from previous encounter). Your goal: Use glaive chaining to hit multiple enemies, generate Quarry Marks through successful attacks, and coordinate with your companion for devastating combos.
 
 **Starting State**: Quarry Marks: 2/5 | HP: 70/70 | Companion (Fang): 50/50 HP | Armor: 14
 

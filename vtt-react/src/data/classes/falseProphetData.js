@@ -170,22 +170,22 @@ The class is practiced by desperate humans and the constellationless <LoreLink t
  },
 
  signatureQuote: {
-  text: '"They call it madness. I call it freedom. The Void does not lie to me, it simply shows me things that would drive you mad, and I have the courage to look."',
+  text: '"They call it madness. I call it freedom. The Silence does not lie to me, it simply shows me things that would drive you mad, and I have the courage to look."',
   speaker: 'Li Wei the Blind Prophet',
   context: 'His first public sermon in the Over-Shanty, in the later centuries of the Dimming'
  },
 
  philosophy: {
-  coreTenet: 'The universe is cold, dark, and empty. The Light is a lie people tell themselves to feel safe. The Void is the truth, vast, silent, and indifferent. To embrace the Void is not to worship death; it is to finally stop being afraid of it. A False Prophet does not preach despair. They preach clarity.',
-  relationship: 'False Prophets draw power from the wyrd resonance of the Void, the space between stars, the silence after death, the vacuum that existed before creation. This resonance is always present, always listening, always hungry. The Prophet opens their mind to it, and it fills them with Madness. Madness is not a side effect. It is the point. The more Madness a Prophet holds, the more clearly they can perceive the Void\'s truth, and the less human they become.',
-  paradox: 'False Prophets preach salvation through oblivion, but they cannot practice what they preach. To fully embrace the Void would be to dissolve, to become one with the silence they worship. But if they dissolved, who would spread the gospel? So they hold themselves at the edge of annihilation, forever teetering, forever preaching, forever denying themselves the peace they offer others.'
+  coreTenet: 'The universe is cold, dark, and empty. The Light is a lie people tell themselves to feel safe. The Silence is the truth, vast, and indifferent. To embrace the Silence is not to worship death; it is to finally stop being afraid of it. A False Prophet does not preach despair. They preach clarity.',
+  relationship: 'False Prophets draw power from the wyrd resonance of the Silence, the space between stars, the quiet after death, the vacuum that existed before creation. This resonance is always present, always listening, always hungry. The Prophet opens their mind to it, and it fills them with Madness. Madness is not a side effect. It is the point. The more Madness a Prophet holds, the more clearly they can perceive the Silence\'s truth, and the less human they become.',
+  paradox: 'False Prophets preach salvation through oblivion, but they cannot practice what they preach. To fully embrace the Silence would be to dissolve, to become one with the absence they worship. But if they dissolved, who would spread the gospel? So they hold themselves at the edge of annihilation, forever teetering, forever preaching, forever denying themselves the peace they offer others.'
  },
 
- currentCrisis: `The Voice of the Silence is getting louder. For centuries, the Void entity that speaks through False Prophets was a distant whisper, a suggestion, not a command. In the past year, the Voice has grown unmistakable, and it is giving specific instructions: "Go to the Frozen Archive. Descend to the lowest vault. Open the way."
+ currentCrisis: `The Voice of the Silence is getting louder. For centuries, the entity that speaks through False Prophets was a distant whisper, a suggestion, not a command. In the past year, the Voice has grown unmistakable, and it is giving specific instructions: "Go to the Frozen Archive. Descend to the lowest vault. Open the way."
 
-The False Prophets of the Over-Shanty are divided. Some believe the Voice is guiding them to a new revelation, a deeper truth that will expand their understanding of the Void. Others hear something else beneath the Voice: a scraping sound, like claws on stone. They believe the Voice is not inviting them to discover something. It is using them as tools to free something that has been trapped since the Deepening. The two factions have begun to war with each other, and the streets of the Over-Shanty run with blood.`,
+The False Prophets of the Over-Shanty are divided. Some believe the Voice is guiding them to a new revelation, a deeper truth that will expand their understanding of the Silence. Others hear something else beneath the Voice: a scraping sound, like claws on stone. They believe the Voice is not inviting them to discover something. It is using them as tools to free something that has been trapped since the Deepening. The two factions have begun to war with each other, and the streets of the Over-Shanty run with blood.`,
 
- meaningfulTradeoffs: `To be a False Prophet is to never be alone, and never at peace. The Voice is always there, commenting on everything, suggesting alternatives, pointing out the horrifying truth behind every mundane moment. A False Prophet cannot enjoy a sunset without being reminded that the light is dying. Cannot hold a child without calculating the exact statistical probability of that child\'s death. Cannot love without feeling the Void\'s amused contempt for something so fragile. The Prophet trades peace for clarity, and they are never sure they made the right choice.`,
+ meaningfulTradeoffs: `To be a False Prophet is to never be alone, and never at peace. The Voice is always there, commenting on everything, suggesting alternatives, pointing out the horrifying truth behind every mundane moment. A False Prophet cannot enjoy a sunset without being reminded that the light is dying. Cannot hold a child without calculating the exact statistical probability of that child\'s death. Cannot love without feeling the Silence\'s amused contempt for something so fragile. The Prophet trades peace for clarity, and they are never sure they made the right choice.`,
 
  classSpecificLocations: [
   {
@@ -278,7 +278,9 @@ The False Prophet thrives when surrounded by a congregation - allies to channel 
 
  immersiveCombatExample: {
   title: "Combat Example: Dancing on the Edge of Madness",
-  content: `**The Setup**: You're a False Prophet (Voidcaller specialization) facing a group of bandits (4 bandits + 1 bandit captain). Your party is with you, but you're the primary damage dealer. Starting Madness: 0. Starting Mana: 40/50. Your goal: Build Madness for maximum damage, use Temptation abilities strategically, and DON'T hit 20 Madness unless you're ready for chaos.
+  content: `The bandits have no idea what they are facing. To them, you are a street preacher in ragged robes, easy prey. They do not understand that the silence you carry is not emptiness — it is a presence. When you open your mouth, it will not be your voice that answers.
+
+**The Setup**: You're a False Prophet (Voidcaller specialization) facing a group of bandits (4 bandits + 1 bandit captain). Your party is with you, but you're the primary damage dealer. Starting Madness: 0. Starting Mana: 40/50. Your goal: Build Madness for maximum damage, use Temptation abilities strategically, and DON'T hit 20 Madness unless you're ready for chaos.
 
 **Starting State**: Madness: 0/20 | Shadow Damage Bonus: +0 | Mana: 40/50 | HP: 60/60
 

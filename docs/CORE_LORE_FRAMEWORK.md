@@ -5,9 +5,22 @@
 
 ---
 
-## 1. COSMIC ENTITY HIERARCHY
+**Capitalization rule:** "The Deepening" (capital D) refers exclusively to Sol's vulnerability cycle that Keth-Amar exploited. "deepening" (lowercase) is the universal star cycle that all stars undergo — a period of internal transformation when they are most vulnerable to predation. Sol's Deepening is one instance of a deepening.
 
-Six entities. Clear roles. No overlap.
+### Wyrd Hierarchy (Bottom–Up)
+
+The Wyrd is Keth-Amar's corruption breathed into rumors, tales, myths, folklore. It is not a single substance — it grows differently depending on what fears it finds:
+
+1. **Wyrd-Taint** — The soil. Passive corruption. A region that has been exposed long enough will develop Wyrd-taint in the land itself: blackened flora, wrong-colored water, crops that taste of ash.
+2. **Wyrd-Wisp** — Manifest fear. When enough sentient beings in a Wyrd-tainted region share a specific fear, that fear condenses into visible phenomena: moving shadows, whispers in wind, shapes at the edge of vision. Not yet animated — just *felt*.
+3. **Wyrd-Spawn** — Animated nightmare. When a fear has enough psychic weight, the Wyrd gives it a body. These are monsters — unique to each region, born from what the local people dread most.
+4. **Wyrd-Channel** — Keth-Amar's direct attention. A Wyrd-Spawn that has grown powerful enough becomes a channel through which Keth-Amar can perceive, whisper, and direct. These are boss-tier entities: Wyrd-priests, Monolith guardians, and the cult leaders who have fully surrendered.
+
+Keth-Amar does not personally create most Wyrd-Spawns. It seeds the soil (Wyrd-Taint) and waits for fear to do the rest. The Wyrd is Keth-Amar's agriculture.
+
+### Cosmic Entities
+
+Seven entities. Clear roles. No overlap.
 
 ### 1.1 — The Warden
 - Not a god, not a person, not a force. The **language reality speaks**. The grammar of consequence.
@@ -29,13 +42,16 @@ Six entities. Clear roles. No overlap.
 - Cannot rebirth. Cannot die. Cannot scream. It endures.
 
 ### 1.4 — Aex
+
+**The silence is not death. Aex is listening.** After 65 pulses declining from 40% to 0%, the scream has stopped not because Aex is gone, but because he has shifted from agony to attention. He is no longer broadcasting pain; he is taking stock of what the Breach has done to him. The next sound he makes will not be a scream. It will be a word. What that word is depends on what the Monoliths hear in the silence.
 - Sol's firstborn. A being of pure stellar radiance. **Willingly sacrificed** himself to cage Sol to save it from Keth-Amar.
-- The embodiment of sacrifice for a greater good. Arthas-before-the-Lich-King tragic figure.
-- **Flayed alive** by House Solvan wielding a blade of crystallized starlight. His hide woven into the binding seal.
-- Not dead. **Lynched** — stretched across the vault in perpetual agony. Conscious. Aware.
+- The embodiment of sacrifice for a greater good — a willing martyr who chose sacrifice and got eternal agony instead.
+- **Flayed alive** by House Solvan wielding a blade of crystallized starlight. His hide woven into the binding seal. **He did not scream. He sang.** The song was Sol's own frequency — a harmonic that matched the star's death-throes. He was willing for *that* seal: clean, whole, 7 houses, 7 signatures. The knife shattered because the price was paid in full.
+- The Breach is what desecrated his sacrifice. Six houses fed him to Keth-Amar through partial corruption, violating the original terms. **The agony did not start at the flaying. It started at the Breach.** He consented to a cage. He did not consent to being eaten through.
+- Now he is not dead. **Lynched** — stretched across the vault in perpetual agony. Conscious. Aware. The agony is the Breach tearing at the seal he wove himself into.
 - The 7 Monoliths are **different parts of Aex's body**. Each is a piece of him, scattered when the seal cracked.
 - The false Monolith (Viridane's missing heir) means Keth-Amar has corrupted 6 of 7. If the false Monolith is also corrupted, the Wyrd reaches Aex's **heart** — transforming him into something worse. This is the world's ticking clock.
-- Every pulse is Aex **screaming** — trying to reach Sol, trying to reunite his scattered body, trying to break free.
+- Every pulse is Aex **screaming** — but he only started screaming *after* the Breach. Before that, there was only song.
 - The Augurs measure the scream's output. 40% → 0% across 65 pulses. Aex is exhausted. He has stopped screaming. The Monoliths are waking not because he wants them to, but because he can no longer hold them still.
 
 ### 1.5 — The Watcher in the Mist / The Keeper of the Last Threshold
@@ -43,9 +59,12 @@ Six entities. Clear roles. No overlap.
 - In the Frostwood: the Watcher — a whisper in the mist, an ancient fae presence in moonlit groves.
 - In the Bryngloom: the Keeper — the death-boundary entity that accepted the Neth's First Contract.
 - The boundary between life and death, memory and oblivion. Older than Keth-Amar's interest in this system.
-- Does not serve the Warden. Is not answerable to Keth-Amar. Has its own agenda.
-- Reached Viridane before Keth-Amar could because it **enjoys balance**. Keth-Amar winning outright would be unbalanced.
-- Its attention is wavering now — Keth-Amar's presence strains the boundary it oversees. It cannot fight Keth-Amar directly. It can only *weigh*.
+- It is the world's conscience — the entity that **knows what justice is**, that **remembers what was lost**, that *weighs*. It is not a force or a god — it is a *personality* woven into the world's fabric. Impartial, all-knowing, but also fundamentally *quiescent* — it watches, remembers, weighs, and rarely acts. Most of the time it does nothing.
+- Does not serve the Warden. Is not answerable to Keth-Amar.
+- Keth-Amar winning outright would collapse the boundary between life and death entirely. The Watcher did not *choose* Viridane — Viridane's desperation reached the boundary, and the Watcher answered because *total imbalance is the one thing it cannot permit*. It did not outmaneuver Keth-Amar. It acted at the last possible moment and did not know if it would work.
+- It hid the false Monolith once, folding it into a pocket of forgotten memory at the moment of the Breach. Now it cannot find it either. The erasure worked too well. The false Monolith is *lost inside the Watcher's own territory* — a splinter it cannot extract without unmaking itself.
+- It cannot fight Keth-Amar directly. It cannot protect the living from what happens. It can only *weigh* — and what it weighs, it remembers. The Wyrd is psychological terror because the Watcher is the world's *memory* — and Keth-Amar poisons memories to feed.
+- Its attention is strained. Keth-Amar's presence presses on the boundary. The Watcher is fracturing under the pressure — and if it fractures, death and memory disappear as categories.
 
 ### 1.6 — Scathrach the Ashen Sovereign
 - A **fragment of Aex's flayed hide** that fell into Emberspire's deepest vent *during the Binding itself* (not the Breach).
@@ -65,7 +84,7 @@ Six entities. Clear roles. No overlap.
 - The 7 noble houses (Thalreth, Skalvyr, Tesshan, Solvan, Mereval, Ordavan, **Viridane**) go to the Warden.
 - The Warden names the price: Aex, Sol's firstborn, willing.
 - House Solvan wields the blade. Aex is flayed alive. His hide is woven into the binding seal. The seal is absolute: 7 bloodlines, 7 signatures, 7 heirs.
-- The knife shatters. Fragments kept as relics.
+- The knife shatters the moment the seal is complete — the price was paid in full, the tool of payment consumed. Fragments kept as relics.
 
 ### 2.2 — The Corruption Years (Years 3-11)
 - Keth-Amar cannot breach. It whispers for 8 years.
@@ -104,8 +123,8 @@ Six entities. Clear roles. No overlap.
 - This creates a **resonance** felt across the world: earthquakes, geysers, lights in the sky, an audible hum.
 - During alignment: the Wyrd recedes globally, Wyrd-creatures weaken, Chaos Pockets shrink. This is the only time the fog in the Frostwood truly thins. Militaries and expeditions move.
 - After alignment: the **Draining** resumes. Keth-Amar presses close. The Wyrd regrows. Tensions escalate.
-- The resonance is **not predictable**. Sometimes it comes every 12 years. Sometimes it skips. Sometimes it comes early if a Monolith is disturbed. The Augurs estimate. They are often wrong.
-- Each pulse is different. Each pulse is weaker (Aex is running out of strength) — or *changed* (a corrupted Monolith warps the resonance). The next pulse may be Aex's last. Or Keth-Amar's first.
+- The **timing** is semi-predictable: roughly 12 years, with variance. It has ranged from 8 to 20 years. The Augurs can say "approximately 3 months" but not "this Thursday." The **intensity and effects** are not predictable at all — they depend on how corrupted the Monoliths are, how active Keth-Amar is, how damaged Aex's remaining membrane has become. The Augurs have 65 clean measurements of *strength* (40% → 0%) but never predicted the *nature* of a single pulse.
+- Sometimes it comes every 12 years. Sometimes it skips. Sometimes it comes early if a Monolith is disturbed. Each pulse is different. Each pulse is weaker (Aex is running out of strength) — or *changed* (a corrupted Monolith warps the resonance). The next pulse may be Aex's last. Or Keth-Amar's first.
 
 ### 3.3 — Narrative Function of the Pulse
 - The pulse is a **clock**, not a loot window.
@@ -119,7 +138,7 @@ Six entities. Clear roles. No overlap.
 
 ---
 
-## 4. THE DWARF BARGANS & THE HOUSES
+## 4. THE DARK BARGANS & THE HOUSES
 
 Each house made a Dark Bargain with Keth-Amar during the Corruption Years. Each bargain was a survival choice — and each one served Keth-Amar's goal of widening the cracks.
 
@@ -148,7 +167,7 @@ Each house made a Dark Bargain with Keth-Amar during the Corruption Years. Each 
 | **Briaran** | House Viridane. Refused Keth-Amar. Fae counter-bargain. | During Breach |
 | **Emberth** | Already underground. Surfaces when vents erupt. | Pre-existed. Surfaced at Breach. |
 | **Myrathil** | Spawned from volcanic foam + glacial meltwater. | Created at Breach |
-| **Neth** | Dying scribe-clan. Contracted with the Keeper. Lawsuit + immortality. | During freeze (1st century) |
+| **Neth** | Dying scribe-clan. Contracted with the Keeper. Petitioned for immortality. | During freeze (1st century) |
 | **Mimir** | Forester Sylvain + doppelganger merger. Mask-bound shapeshifters. | Pre-existed |
 | **Vreken** | Fungal-lit cave species. Bioluminescent. | Pre-existed (oldest besides Fexric) |
 | **Fexric** | Goblinoid engineers. 8,000+ years. | Pre-existed |
@@ -158,14 +177,11 @@ Each house made a Dark Bargain with Keth-Amar during the Corruption Years. Each 
 
 ## 6. THE DEAD MOON
 
-- The moon was an **egg**. What laid it is unknown. It was not Keth-Amar.
-- It shattered eons ago — before humans, before the Binding. What broke it is unknown.
-- The largest fragment **fell in the Frostwood's moonlit groves**. The fae found it, nurtured it.
-- From the nurtured fragments hatched the **lunar parasites** — void-adapted organisms that feed on memory, sensation, vitality.
-- The Lunarch class bonds with these parasites. The parasites cannot survive outside the moon's corpse-ecology.
-- The Watcher in the Mist may be connected — perhaps the Watcher was what laid the egg. Or perhaps it is a parasite that ate its parent. This is a mystery.
-- The Astril's constellation-spirits remember the moon when it was whole — a second light in the sky, now gone. It appears in their oldest songs as a lament for a sibling that never hatched.
-- Keth-Amar, arriving for Sol, *nested* in the corpse-moon. Not laid by it, not connected to it — simply using the largest dead thing in orbit as a perch.
+- The moon is not a moon. It is a **dormant star** — an ancient, sleeping deity. Very old. Unconscious for eons. Not dead in the sense of ended, but dead in the sense of *absent* — its awareness withdrawn so deep that only the shell remains.
+- What sent it into this slumber is unknown. It was not Keth-Amar — the predator arrived far later, drawn to Sol's Deepening, and found a corpse already waiting.
+- The largest fragment **fell in the Frostwood's moonlit groves**. The fae found it, nurtured it. From the nurtured fragments hatched the **lunar parasites** — void-adapted organisms that feed on memory, sensation, vitality. The Lunarch class bonds with these parasites. They are the only living trace of the sleeping star's inner ecology.
+- Keth-Amar, arriving for Sol, *nested* in the corpse-star. Not laid by it, not connected to it — simply using the largest dead thing in orbit as a perch from which to study the living star below.
+- The Astril's constellation-spirits remember the moon when it was awake — a second light in the sky, humming a different frequency than Sol. They sing of it as a sibling that fell silent before they were born. The oldest Astril songs are laments for a voice they never heard but somehow remember.
 
 ---
 
@@ -183,7 +199,7 @@ The Dawn Vigil broke from them 300 years later, when the 12th pulse (then still 
 
 **The Risen (Korr faithful)** — The old Emberth faith. Patience. Vigil. "Sol will return when it is ready. Keep the ember. Wait." They oppose the Vigil's violence openly — hiding Monolith Shards, guiding expeditions away from dangerous discoveries, sheltering dissenters. They are the Silver Hand — dwindling, old, seen as naive. But they are right about one thing the Vigil is wrong about: **you cannot cage what hunts cages.**
 
-**The Scoured** — Heretics who cut their own forge-marks (the ritual scars of Emberth identity). They hunt Monolith Shards to **seal the Breach permanently** — not to restart Sol, but to kill it gently. "Sol is gone. She has been gone since Binding year 3. What bleeds through the vents is a ghost. Seal the door. Let the star die in peace rather than be eaten." They are scattered, hunted by both Vigil and Risen. They carry the truth even the Vigil won't admit: **Aex's sacrifice was for nothing if Sol is still trapped.** Let go. The Scoured are tragic, desperate, and some of them have already made their own bargains with Scathrach.
+**The Scoured** — Heretics who cut their own forge-marks (the ritual scars of Emberth identity). They hunt Monolith Shards to **seal the Breach permanently** — not to restart Sol, but to kill it gently. "Sol is gone. It has been gone since Binding year 3. What bleeds through the vents is a ghost. Seal the door. Let the star die in peace rather than be eaten." They are scattered, hunted by both Vigil and Risen. They carry the truth even the Vigil won't admit: **Aex's sacrifice was for nothing if Sol is still trapped.** Let go. The Scoured are tragic, desperate, and some of them have already made their own bargains with Scathrach.
 
 ### Relationship to the Cult of Forgotten Shadow
 The Vigil is **self-corrupted** — Keth-Amar's Wyrd seeping into existing zealotry, not a separate infiltration. The Cult of Forgotten Shadow, if it exists in this setting, is a Vigil splinter that went too far — openly worshipping Keth-Amar as inevitable rather than as an enemy to be bound.
@@ -236,21 +252,82 @@ Keth-Amar cannot find the false Monolith. The Watcher hides it. If Keth-Amar eve
 
 ## 9. CLASSES AS NARRATIVE ROLES
 
-Each class was **founded by a specific person** in direct response to the world's crisis. Choosing a class means choosing a philosophy, a faction, a relationship with a cosmic entity.
+Each class was **founded by a specific person** in direct response to the world's crisis. Choosing a class means choosing a philosophy, a faction, a relationship with a cosmic entity. Below is the full breakdown.
 
-**[To be detailed — but the principle is:]**
+### 9.1 — Classes That Serve / Witness the Seal
 
 | Class | Founder | What They Refuse To Accept | Cosmic Hook |
 |-------|---------|---------------------------|-------------|
-| Augur | Cassia | That the future cannot be read | Listens for Aex's scream |
-| Berserker | Grum Bloodhammer | That the Hunger Pact is shame | The hunger in their blood |
-| Martyr | Sera Solvan | That sacrifice is meaningless | Tied to Solvan guilt |
-| Pyrofiend | First Cabal | That the vents will die | Bound to Scathrach |
-| Lunarch | Selene Viridane | That the moon is dead | Bonded to a lunar parasite |
-| Apex | Sylas | That the Wyrd cannot be tracked | The Wyrd as predator/prey |
-| Spellguard | Damon | That Sol cannot be protected | Defenders of the old seal |
-| Warden | Merrick | That the Warden has no name | Bound to cosmic consequence |
-| Runekeeper | Hilda Valdottir | That the old songs cannot hold power | The pulse is a song |
-| Elementalist | Shale | That the elements need a master | The world's body is broken |
-| Cleric | — | — | See Emberth faith section |
-| Shadowblade | — | — | See Cult of Forgotten Shadow note |
+| **Augur** | Cassia | That the future cannot be read | Listens for Aex's scream. Measures the pulse. Knows it is failing. |
+| **Spellguard** | Damon | That Sol cannot be protected | Defenders of Aex's remaining seal. Their magic resists Wyrd. |
+| **Martyr** | Sera Solvan | That sacrifice is meaningless | Takes the suffering Keth-Amar would feed on. The Vow starves the predator. |
+| **Warden** | Merrick the Bound | That the Warden has no name | Purposefully misnamed. Chain-surgeons who enforce bargains. |
+| **Animist** | Kael / Nyssa / Theron | That the dead cannot speak | Channel ancestral spirits preserved by the Watcher's boundary. |
+
+### 9.2 — Classes That Weaponize the Crisis
+
+| Class | Founder | What They Refuse To Accept | Cosmic Hook |
+|-------|---------|---------------------------|-------------|
+| **Berserker** | Grum Bloodhammer | That the Hunger Pact is shame | The cold of Nordhalla and the heat of Sundale fused into one bloodline. The body as furnace. |
+| **Pyrofiend** | First Cabal | That the vents will die | Bound to Scathrach. Surrendered flesh for volcanic fire. |
+| **Lunarch** | Selene Viridane | That the moon is dead | Parasitic bond with lunar creatures from the shattered moon-egg. |
+| **Apex** | Sylas | That the Wyrd cannot be tracked | Uses absolute sensory refinement to hunt Wyrd-creatures as prey. |
+| **Harbinger** | Xyris / Malakor | That the future must be accepted | Channels entropy and probability into weaponized prophecies. |
+
+### 9.3 — Classes That Operate Outside the Direct Conflict
+
+These classes are not *about* the cosmic crisis — but the crisis has given them reasons to act.
+
+| Class | Founder | What They Hook Into | Why They'd Join a Campaign |
+|-------|---------|---------------------|---------------------------|
+| **Shaper** | Veyra | The body is a weapon. Survival is form. | The Vigil's violence is breaking patterns they need to study. Or the Wyrd is making shapes they've never seen. |
+| **Arcanoneer** | Valerius | Contract-magic. The Warden's framework weaponized into spell-syntax. | Keth-Amar writes perfect contracts. The Arcanoneers are the only people who might find a loophole. |
+| **Chronarch** | Nesta | Time-stitching. The pulse is a tool. | The pulse destabilizes time in the Cragjaw peaks. A Chronarch who wants to understand time must study the pulse. |
+| **False Prophet** | Li Wei | Manufactures meaning from the Silence. | The crisis is a *market opportunity* for manufactured faith. They follow it because it makes converts. |
+| **Gambit** | Jax / Lyra | Probability-weaving. The future is a bet. | The stakes of the cosmic crisis make it the highest-margin bet in history. A Gambit would *have* to play. |
+| **Minstrel** | Lyris | Tide-song. Calms the Mereval storm. | The storm is worsening as Wyrd concentration rises. The Minstrel's songs are losing ground. They need help. |
+| **Plaguebringer** | Vespera | Disease-hosting. Decay as continuation. | The Wyrd is a disease, and Plaguebringers understand disease. They might be the only ones who can vaccinate against it. |
+| **Revenant** | Kora / Vesper | Postmortem obligation. Death does not cancel the contract. | Keth-Amar consuming Aex's consciousness* is a threat to all dead consciousness. If the boundary collapses, Revenants lose their contracts. |
+| **Inquisitor** | Orven / Elias | Wyrd-hunting. Polices supernatural breaches. | The Inquisitor's entire profession becomes more necessary with every pulse. They do the work no one else will. |
+| **Toxicologist** | Nyssa (splinter) | Chemistry as weapon. | The Wyrd has chemical signatures. A Toxicologist who can identify Wyrd compounds may find a counteragent — or a weapon. |
+
+### 9.4 — Cosmic Relationships Per Class
+
+| Class | Aligned With | Opposed To | Faction Likelihood |
+|-------|-------------|------------|---------------------|
+| Augur | Watcher (seeks truth) | Keth-Amar (lies) | Drawn to Risen or independent |
+| Berserker | Sol (heat as fuel) | Keth-Amar (cold hunger) | Mercenary; could serve any |
+| Martyr | Sol / Dawn Vigil | Keth-Amar | Vigil (majority) or Scoured (guilt-resigned) |
+| Pyrofiend | Scathrach (patron) | Keth-Amar (by Scathrach's will) | Independent contractors bound to a shared patron; no unified cult |
+| Lunarch | Watcher / Viridane | Keth-Amar (memory-hunter) | Briaran / Watcher-protected |
+| Apex | Self (survival) | Wyrd (prey) | Mercenary; often Risen-adjacent |
+| Spellguard | Sol / Seal | Keth-Amar / Vigil extremists | Guard the seal, not the Vigil |
+| Warden | Warden (entity) | Bargain-breakers | Independent enforcers |
+| Shaper | Self (biological) | None (apolitical) | Mercenary |
+| Harbinger | Keth-Amar (entropy) | Vigil (denial) | Drawn toward cults or solitude |
+| Inquisitor | Risen / Watcher | Wyrd / Cult of Forgotten Shadow | Risen-adjacent |
+| Arcanoneer | Neth contract-law | Bargain-breakers | Bryngloom loyalists |
+| Minstrel | Mereval (sea) | Storms (Wyrd manifestation) | Independent |
+| Revenant | Neth / Keeper | Keth-Amar (consumes memory) | Bryngloom loyalists |
+| Chronarch | Fexric engineering | None | Independent |
+| False Prophet | Keth-Amar / Wyrd | Seal (resists truth) | Cult of Forgotten Shadow |
+| Gambit | Self (survival) | Determinism | Independent / syndicates |
+| Plaguebringer | Wyrd (by nature) | Vigil (purges him) | Independent / Scoured-adjacent |
+| Toxicologist | Self | Vigil (censorship) | Independent / syndicates |
+| Warden (class) | Warden (entity) | Bargain-breakers | Independent enforcers |
+
+---
+
+## 10. THE CONNECTIVE THREAD
+
+The seven great secrets of Mythrill are not separate mysteries — they are one mystery seen from seven angles.
+
+1. **The Watcher** is fracturing under Keth-Amar's pressure. Its attention strains, and the boundary between life and death thins.
+2. **The timeline fracture** is the Watcher's fracture bleeding into reality. Time is breaking because the entity that remembers time is breaking.
+3. **The moon-egg** is hatching because the Watcher can no longer keep it dormant. The lunar parasites were the Watcher's anchors on the sleeping star — as the Watcher falters, the anchors slip.
+4. **Selene Viridane** (the Lunarch founder) hears the egg in her dreams. She translates what the Watcher cannot speak: the moon's awakening is the Watcher's last message before the boundary collapses.
+5. **Aex's silence** is not death. He is listening for the Watcher's word — the final judgment that will either seal the Breach or shatter the world.
+6. **The false Monolith** is hidden inside the Watcher's own territory. Finding it means finding the Watcher's heart.
+7. **Keth-Amar** knows none of this. It believes it is winning. It is not.
+
+All seven secrets are one secret: *the Watcher is dying, and everything else is downstream of that death.*

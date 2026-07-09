@@ -298,7 +298,9 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 
     immersiveCombatExample: {
       title: "Combat Example: The Alchemist's Laboratory",
-      content: `**The Setup**: You're a Toxicologist (Venomancer specialization) facing a group of bandits (5 bandits + 1 bandit leader). Your party is with you. Starting Resources: Toxin Vials: 7/7, Contraption Parts: 5/5. Starting Mana: 40/50. Your goal: Deploy contraptions to control the battlefield, apply poisons to your weapon, and craft concoctions mid-combat to adapt to the situation.
+      content: `The bandit leader laughs when you kneel to set up your apparatus. Good. Let him laugh. He does not know that the glass vials at your belt hold compounds refined from fog-predator venom, that the contraptions unfolding at your feet have killed things much larger than him, that his bloodstream is about to become your laboratory.
+
+**The Setup**: You're a Toxicologist (Venomancer specialization) facing a group of bandits (5 bandits + 1 bandit leader). Your party is with you. Starting Resources: Toxin Vials: 7/7, Contraption Parts: 5/5. Starting Mana: 40/50. Your goal: Deploy contraptions to control the battlefield, apply poisons to your weapon, and craft concoctions mid-combat to adapt to the situation.
 
 *This example assumes you have 1 minute of pre-combat preparation to deploy contraptions before initiative is rolled.*
 

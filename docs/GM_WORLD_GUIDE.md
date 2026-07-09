@@ -43,7 +43,7 @@ The **seven noble families** — Thalreth, Skalvyr, Tesshan, Solvan, Mereval, Or
 >
 > — from the marginalia of House Solvan's original binding-narrative
 
-Aex is not dead. Aex is woven. When the seal shattered into the seven Sundered Monoliths, Aex's tissue became the Monoliths' living surface. The Monoliths weep stellar plasma in synchrony with Sol's failed rebirth windows, and the Augurs at the Frozen Archive cannot explain why the weeping accelerates as each window approaches.
+Aex is not dead. Aex is woven. When the seal shattered into the seven Sundered Monoliths, Aex's tissue became the Monoliths' living surface. The Monoliths weep stellar plasma in synchrony with the pulses of Aex's fading scream, and the Augurs at the Frozen Archive cannot explain why the weeping accelerates as Aex weakens.
 
 **The Corruption Years (Year 3-11):** Without Sol's light, the surface world began to freeze. Darkness spread. Frost crept south. Crops failed. Children starved. The peoples of every region dug into the earth for residual warmth. Keth-Amar, denied its prey, did not rage. It waited. For eight years, the Sun-Eater whispered — not into the grand halls of the noble houses, but into kitchens, nurseries, night-watches. It learned what each region feared most and distilled that fear into a voice that sounded like reason.
 
@@ -65,7 +65,7 @@ It did not. **House Viridane refused.**
 
 When the other six families marched their children north, Viridane turned south. Something had reached them before Keth-Amar's whispers could take hold — a presence in the mist, watching from the moonlit groves, older than the Sun-Eater's hunger and more patient. They struck a counter-bargain with the Watcher in the Mist and fled into the fog. The seal should have fallen completely. But the six houses could not admit failure. They could not tell the world that the Binding had been broken. So they erased House Viridane from every record, elevated a minor Bryngloom family — **House Morrath** — as a substitute signatory, and pretended the seal was whole.
 
-Morrath's blood could not replace Viridane's. The seal remained broken. But the power of eight centuries of institutional pretense held the seal in a state of permanent fracture — **the Partial Seal**: a binding neither whole nor wholly broken. Keth-Amar could enter the vault, but not fully. It could feed on Sol's embers, but not consume the star entirely. It could drink each failed rebirth window, but it could not swallow Sol whole.
+Morrath's blood could not replace Viridane's. The seal remained broken. But the power of eight centuries of institutional pretense held the seal in a state of permanent fracture — **the Partial Seal**: a binding neither whole nor wholly broken. Keth-Amar could enter the vault, but not fully. It could feed on Sol's embers, but not consume the star entirely. It could leech each pulse of Aex's pain, but it could not swallow Sol whole.
 
 The erasure of House Viridane was not merely political. Keth-Amar hunts through knowledge — through the threads of memory, record, and thought that connect a being to its existence. When the six houses burned every portrait, sealed every archive, and let the fog swallow the name, they cut the thread Keth-Amar would have used to find the house that ran. The Sun-Eater knows something is missing. The seal refuses to break. The vault will not open to its full appetite. But Keth-Amar cannot see the gap. It cannot name the house that refused.
 

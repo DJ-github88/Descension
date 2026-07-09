@@ -11,13 +11,13 @@ const CHRONOLOGY_ERA_DISPLAY = [
     id: 'deepening',
     name: 'The Deepening',
     yearRange: 'Year 0-12',
-    description: 'Sol\'s death-rebirth trance: the twelve years of dying light. The era of the Binding, the Bargains, and the Breach.'
+    description: 'Sol\'s deepening trance: the twelve years of dying light. The Binding, the Bargains, and the Breach.'
   },
   {
     id: 'dimming',
     name: 'The Age of the Dimming',
     yearRange: 'Year 12-Present',
-    description: '~800 years of frozen twilight. Sixty-five failed rebirth cycles. Keth-Amar feeds. The Monoliths are waking.'
+    description: '~800 years of frozen twilight. Aex screamed 65 times. The Monoliths are waking.'
   }
 ];
 
@@ -28,9 +28,9 @@ const MYTHRILL_CALENDAR = {
   daysPerMonth: 30,
   months: [
     { id: 1, name: 'First Thaw', season: 'false-spring',
-      description: 'The month when the ice cracks but does not break: historically, the first sign of the rebirth window opening' },
+      description: 'The month when the ice cracks but does not break: historically, the first sign of the pulse that never came' },
     { id: 2, name: 'The False Dawn', season: 'false-spring',
-      description: 'A brief lightening of the sky: the Rebirth Window. Sol attempts to rekindle. For 65 cycles it has failed. The Augurs track the output.' },
+      description: 'A brief lightening of the sky: the failed pulse. Aex screamed 65 times. Now he is silent. The Augurs still track the output.' },
     { id: 3, name: 'Day of Binding', season: 'false-spring',
       description: 'Commemorates the entombment of Sol beneath Sundale. Solemn fasts. The scaffold-month of every dark bargain.' },
     { id: 4, name: 'Ashfall', season: 'embers',
@@ -50,19 +50,19 @@ const MYTHRILL_CALENDAR = {
     { id: 11, name: 'Midwinter', season: 'deepening-winter',
       description: 'The solstice; children born in this month are said to carry the Frostmaiden\'s blessing. The Frost-Tithe is traditionally paid.' },
     { id: 12, name: 'The Creeping Light', season: 'false-dawn',
-      description: 'The first subtle sign that another cycle will begin: or so the priests claim. For 65 cycles, the priests have been wrong.' }
+      description: 'The first subtle sign that another pulse will come: or so the priests claim. For 65 pulses, the priests have been wrong.' }
   ],
   eras: [
     { id: 'before-deepening', name: 'Before the Deepening', startYear: null, endYear: 0,
       description: 'The age when Sol still burned bright and the world was warm. Archaeological record only: no living memory remains.' },
     { id: 'deepening', name: 'The Deepening', startYear: 0, endYear: 12,
-      description: 'Sol\'s death-rebirth trance: the twelve years of dying light. The era of the Binding, the Bargains, and the Breach.' },
+      description: 'Sol\'s deepening trance: the twelve years of dying light. The Binding, the Bargains, and the Breach.' },
     { id: 'dimming', name: 'The Age of the Dimming', startYear: 12, endYear: null,
-      description: 'The current age: ~800 years of frozen twilight. Sixty-five failed rebirth cycles. Keth-Amar feeds. The Monoliths are waking.' }
+      description: 'The current age: ~800 years of frozen twilight. Aex screamed 65 times. The Monoliths are waking.' }
   ],
   holidays: [
     { id: 'binding-day', name: 'Day of Binding', date: { month: 3, day: 15 },
-      description: 'Marks the ritual entombment of Sol. Solemn fasts and candle-lighting ceremonies. The Augurs take their annual rebirth readings.' },
+      description: 'Marks the ritual entombment of Sol. Solemn fasts and candle-lighting ceremonies. The Augurs take their annual pulse readings.' },
     { id: 'midwinter', name: 'Midwinter Solstice', date: { month: 11, day: 21 },
       description: 'The longest night. Sacrifices are offered to appease the cold. Children born today are believed blessed: and the Frost-Tithe claims twice as many.' },
     { id: 'first-thaw-vigil', name: 'First Thaw Vigil', date: { month: 1, day: 1 },
@@ -73,14 +73,14 @@ const MYTHRILL_CALENDAR = {
 };
 
 const REBIRTH_CYCLES = [
-  { cycle: 1, year: 12, outputPercent: 40, significance: 'The first attempt. Sol struggles. Augurs measure 40% of expected rebirth output. The "False Dawn" month is named. Optimism begins to fray.' },
-  { cycle: 5, year: 60, outputPercent: 28, significance: 'The decline becomes undeniable. Cassia\'s successors begin systematic output-logging of every window. The first marginal settlements fail.' },
+  { cycle: 1, year: 12, outputPercent: 40, significance: 'The first pulse. Aex\'s scream measured at 40% intensity. The "False Dawn" month is named. The Augurs begin logging.' },
+  { cycle: 5, year: 60, outputPercent: 28, significance: 'The decline becomes undeniable. Cassia\'s successors begin systematic output-logging of every pulse. The first marginal settlements fail.' },
   { cycle: 10, year: 120, outputPercent: 22, significance: 'The "False Dawn" month barely lightens. A faction of Solvan Martyrs begins secretly tracking the decline: precursor to the Dawn Vigil.' },
-  { cycle: 20, year: 240, outputPercent: 15, significance: 'Barely perceptible warming. The conclusion is irrefutable: Sol is not coming back. The Dawn Vigil formalizes.' },
+  { cycle: 20, year: 240, outputPercent: 15, significance: 'Barely perceptible warming. The Dawn Vigil formalizes. The learned classes accept Aex is fading.' },
   { cycle: 30, year: 360, outputPercent: 10, significance: 'Erratic output. Some readings contradictory. First evidence of temporal friction contaminating the Augurs\' instruments.' },
-  { cycle: 40, year: 480, outputPercent: 8, significance: 'Detectable only by Augur instruments. The common person no longer sees any warming during the False Dawn. The myth of Sol\'s return dies in the general population. The False Dawn Riots erupt.' },
-  { cycle: 50, year: 600, outputPercent: 3, significance: 'Barely a flicker. The remaining detection requires precision instruments and elk-blood at the Frozen Archive. The Solbrand\'s tending-clan has been concealing the decline for decades.' },
-  { cycle: 55, year: 660, outputPercent: 0, significance: 'The last detectable rebirth attempt. Sol is too weak to even try. The Augurs record: "The star has stopped fighting." No cycle since has produced measurable output.' }
+  { cycle: 40, year: 480, outputPercent: 8, significance: 'Detectable only by Augur instruments. The common person no longer sees any warming during the False Dawn. The False Dawn Riots erupt.' },
+  { cycle: 50, year: 600, outputPercent: 3, significance: 'Barely a flicker. The remaining detection requires precision instruments and elk-blood at the Frozen Archive. The Korr have been concealing the Solbrand\'s decline for decades.' },
+  { cycle: 55, year: 660, outputPercent: 0, significance: 'The last detectable pulse. Aex is exhausted. The Augurs record: "The scream has stopped." No cycle since has produced measurable output.' }
 ];
 
 const WARMTH_PHASES = [
@@ -94,10 +94,10 @@ const WARMTH_PHASES = [
     intrusion: 'Targeted. Keth-Amar can corrupt specific individuals. Wyrd epidemic in multiple regions. The first "owned" agents appear. The Mimir Purge happens. The Vreken Over-Lit epidemic begins. The Keeper becomes noticeably distracted.',
     society: 'Survival infrastructure solidifies. The Sovereign Ledger becomes a weapon of social control. Wars break out over thermal resources. Subraces split into castes (Mimir Rupture, Sylen/Muren schism). Classes form from organized responses to Wyrd and scarcity.' },
   { id: 'squeeze', name: 'The Squeeze', years: '450-650', warmth: 'Accelerating decline. Major geothermal systems failing across all regions. The Solbrand\'s output measurably diminishes (concealed by the Korr for three generations). Rebirth windows below 8%.',
-    intrusion: 'Coordinated. The Cult of Forgotten Shadow makes two-way contact with the deep dark. Keth-Amar can whisper to specific people across vast distances and corrupt institutions. The Voice begins speaking. The dead stir.',
+    intrusion: 'Coordinated. The Cult of Forgotten Shadow makes two-way contact with the deep dark. Keth-Amar can whisper to specific people across vast distances and corrupt institutions. It speaks through the cracks directly. The dead stir.',
     society: 'Institutions fracture under pressure. The Great Revision rewrites history. The False Dawn Riots shatter the myth of Sol\'s return. The Over-Shanty becomes a permanent shadow-state. Classes form from desperation and the need to weaponize the Wyrd itself.' },
-  { id: 'intrusion', name: 'The Intrusion', years: '650-800', warmth: 'Terminal decline. The Solbrand visibly failing. The last detectable rebirth window produces nothing. Emberspire\'s vents cooling. The Frost-Tithe worsening.',
-    intrusion: 'Active assault. The Monoliths wake. The Voice issues specific instructions. Keth-Amar can blind Augurs, silence the sea, animate the dead, and corrupt arch-priests directly. The boundary between life and death weakens. Coordinated assault on the seal.',
+  { id: 'intrusion', name: 'The Intrusion', years: '650-800', warmth: 'Terminal decline. The Solbrand visibly failing. The last detectable pulse produces nothing. Emberspire\'s vents cooling. The Frost-Tithe worsening.',
+    intrusion: 'Active assault. The Monoliths wake. Keth-Amar issues specific instructions through the cracks. It can blind Augurs, silence the sea, animate the dead, and corrupt arch-priests directly. The boundary between life and death weakens. Coordinated assault on the seal.',
     society: 'The present crisis. Civil war in Sundale. The Marching Dead in Bryngloom. The Silent Sea. Temporal contamination. Every bargain is coming due at once. The campaign begins here.' }
 ];
 
@@ -243,7 +243,7 @@ const SEEDED_EVENTS = [
     type: 'cosmic',
     phase: 'false-spring',
     description:
-      'Twelve years after Sol entered the Deepening, the first rebirth window arrived. Sol attempted to rekindle. For three days, the sky lightened, the False Dawn, the month named for this event. Then Keth-Amar, newly inside the vault through the Breach wound, consumed the rekindling energy. The warming stopped. The sky darkened. The Augurs at the Frozen Archive measured: 40% of expected output. The first quantifiable data point in what would become a 65-cycle record of decline. The calendar month "The False Dawn" and the "First Thaw Vigil" holiday are cultural echoes of this moment. people still watch for a rebirth that has never come.',
+      'Twelve years after Sol entered the Deepening, the first pulse arrived. Aex screamed. For three days, the sky lightened — the False Dawn, the month named for this event. The Augurs at the Frozen Archive measured: 40% intensity. The first quantifiable data point in what would become a 65-pulse record of decline. The calendar month "The False Dawn" and the "First Thaw Vigil" holiday are cultural echoes of this moment. People still watch for a pulse that was never a rebirth.',
     locationIds: ['frozen-archive', 'sundale'],
     factionIds: [],
     classIds: ['augur'],
@@ -387,7 +387,7 @@ const SEEDED_EVENTS = [
       '• Augur (Year ~2): Cassia, a Skald star-watcher at the Frozen Archive, read the Deepening\'s hour in the steaming entrails of a sacrificed glacier-elk the moment Sol first darkened. The temporal-feedback burn incinerated her past to make space for cosmic-doom coordinate chains.\n' +
       '• Spellguard (Year ~3): Damon, an Emberth blacksmith, blocked a solar flare with an alchemical tower shield during Sol\'s entombment. His hands are preserved frozen in the shielding posture at the Shield-Forge Keeps beneath Emberspire.\n' +
       '• Martyr (Year ~5) (Sera Solvan, a mother of House Solvan, carved her sacrificed child\'s name into her forearm with volcanic obsidian when the heirs were marched north. The wound healed into a glowing solar scar) the first Vow.\n' +
-      '• Pyrofiend (Year ~12): When the first rebirth window failed, seven Solvarn occultists gathered in an obsidian cavern beneath Emberspire, drew a summoning circle in their own blood, and swallowed Wyrd-touched coals of Scathrach, the Ashen Sovereign.\n' +
+      '• Pyrofiend (Year ~12): When the first pulse failed, seven Solvarn occultists gathered in an obsidian cavern beneath Emberspire, drew a summoning circle in their own blood, and swallowed Wyrd-touched coals of Scathrach, the Ashen Sovereign.\n' +
       '• Apex (Year ~10-30): Sylas, a Mimir tracker, formalized the Silent Hunt for Wyrd-creatures emerging through the Breach cracks. He traded his hearing for vibration-sense in the deep Ironwood Heart.',
       locationIds: ['frozen-archive', 'sundale', 'emberspire-caldera', 'ironwood-heart'],
     factionIds: ['house-solvan', 'house-skalvyr'],
@@ -422,7 +422,7 @@ const SEEDED_EVENTS = [
     type: 'cosmic',
     phase: 'first-ebbing',
     description:
-      'The fifth rebirth cycle. Sol attempted to rekindle. Keth-Amar consumed the energy. Augurs measured: 28% of expected output. The decline was now undeniable. Cassia\'s successors at the Frozen Archive began systematically logging every rebirth window\'s output: a data set they still maintain, now showing the descent from 40% to 0% across sixty-five cycles.',
+      'The fifth pulse. Aex\'s scream measured at 28%. The decline was now undeniable. Cassia\'s successors at the Frozen Archive began systematically logging every pulse\'s output: a data set they still maintain, now showing the descent from 40% to 0% across sixty-five pulses.',
     locationIds: ['frozen-archive'],
     factionIds: [],
     classIds: ['augur'],
@@ -646,7 +646,7 @@ const SEEDED_EVENTS = [
     type: 'cosmic',
     phase: 'contraction',
     description:
-      'The twentieth rebirth cycle. Sol attempted to rekindle. Keth-Amar consumed the energy. Augurs measured: 15% of expected output: barely perceptible warming. After 240 years of tracking, the conclusion was irrefutable: Sol was not coming back. The myth of the rebirth, maintained for twenty generations, died in the learned classes. The common people would hold out another 240 years before the False Dawn Riots.',
+      'The twentieth pulse. Aex\'s scream measured at 15%: barely perceptible warming. After 240 years of tracking, the conclusion was irrefutable: Aex was fading. The myth of Sol\'s rebirth, maintained for twenty generations, died in the learned classes. The common people would hold out another 240 years before the False Dawn Riots.',
     locationIds: ['frozen-archive'],
     factionIds: [],
     classIds: ['augur'],
@@ -688,7 +688,7 @@ const SEEDED_EVENTS = [
     type: 'founding',
     phase: 'contraction',
       description:
-        'Originally founded as a quietist monastic order of Martyrs who tracked Monolith locations in secret. After twenty-eight failed rebirth cycles, the Vigil\'s founding premise was that Sol would not return on its own: only the reassembly of the Sundered Monoliths could restart the star. The Vigil\'s deepest secret, held by its inner circle: reassembly would summon Keth-Amar, not Sol. In recent decades, under Hierophant Aethelgard, the Vigil has militarized into Sundale\'s dominant theocracy.',
+        'Originally founded as a quietist monastic order of Martyrs who tracked Monolith locations in secret. After twenty-eight failed pulses, the Vigil\'s founding premise was that Sol would not return on its own: only the reassembly of the Sundered Monoliths could restart the star. The Vigil\'s deepest secret, held by its inner circle: reassembly would summon Keth-Amar, not Sol. In recent decades, under Hierophant Aethelgard, the Vigil has militarized into Sundale\'s dominant theocracy.',
       locationIds: ['sundale', 'emberspire-caldera'],
     factionIds: ['dawn-vigil', 'house-solvan'],
     classIds: ['martyr'],
@@ -842,7 +842,7 @@ const SEEDED_EVENTS = [
     type: 'cosmic',
     phase: 'squeeze',
     description:
-      'The fortieth rebirth cycle. Output measured at 8%: detectable only by Augur instruments. The common people saw no warming at all during the False Dawn month. The myth of Sol\'s return, maintained for 480 years by priests and augurs, died in the streets.',
+      'The fortieth pulse. Output measured at 8%: detectable only by Augur instruments. The common people saw no warming at all during the False Dawn month. The myth of Sol\'s return, maintained for 480 years by priests and augurs, died in the streets.',
     locationIds: ['frozen-archive', 'sundale'],
     factionIds: ['house-solvan'],
     classIds: ['augur'],
@@ -898,7 +898,7 @@ const SEEDED_EVENTS = [
     type: 'discovery',
     phase: 'squeeze',
     description:
-      'The Cult of Forgotten Shadow, founded long ago in the peat-crypts beneath the Over-Shanty, made the first intentional two-way contact with the deep dark since the Breach. Something answered. Not an echo. Not a Wyrd-echo. Something that knew the cultists\' names. Something that had been waiting. This was Keth-Amar\'s first direct communication with the surface in nearly six centuries: and it signaled the shift from passive consumption to active intrusion. The Voice had begun to speak. The False Prophet tradition was born within months: Li Wei, an Ordan herd-watcher in the Sundrift Vale, witnessed the contact in a vision and looked directly into the void where Sol once shone.',
+      'The Cult of Forgotten Shadow, founded long ago in the peat-crypts beneath the Over-Shanty, made the first intentional two-way contact with the deep dark since the Breach. Something answered. Not an echo. Not a Wyrd-echo. Something that knew the cultists\' names. Something that had been waiting. This was Keth-Amar\'s first direct communication with the surface in nearly six centuries: and it signaled the shift from passive consumption to active intrusion. Keth-Amar has no Voice or emissary — it speaks through the cracks directly. The False Prophet tradition was born within months: Li Wei, an Ordan herd-watcher in the Sundrift Vale, witnessed the contact in a vision and looked directly into the void where Sol once shone.',
     locationIds: ['bryngloom-forest', 'over-shanty', 'sundrift-vale'],
     factionIds: ['cult-of-forgotten-shadow'],
     classIds: ['falseProphet', 'revenant', 'harbinger'],
@@ -935,7 +935,7 @@ const SEEDED_EVENTS = [
     type: 'cosmic',
     phase: 'intrusion',
     description:
-      'The fifty-fifth rebirth cycle. For the first time in history, no output was detected. Sol was too weak to even attempt rekindling. The Augurs at the Frozen Archive recorded: "The star has stopped fighting." No cycle since has produced measurable output. The remaining Augurs (those whose accuracy had not yet collapsed) quietly removed the rebirth measurements from public record. The Frozen Archive sealed the lower chambers where the sixty-five-cycle data set is held.',
+      'The fifty-fifth pulse. For the first time in history, no output was detected. Aex was exhausted. The Augurs at the Frozen Archive recorded: "The scream has stopped." No pulse since has produced measurable output. The remaining Augurs (those whose accuracy had not yet collapsed) quietly removed the pulse measurements from public record. The Frozen Archive sealed the lower chambers where the sixty-five-pulse data set is held.',
     locationIds: ['frozen-archive', 'sundale'],
     factionIds: [],
     classIds: ['augur'],
@@ -977,7 +977,7 @@ const SEEDED_EVENTS = [
     type: 'disaster',
     phase: 'intrusion',
     description:
-      'Augur accuracy collapsed from 93% to 41% in three months. The star-arithmetic returned contradictory futures. The entrails of every sacrificed elk showed different deaths. Cause: temporal friction from the Void-Heat engine disturbing the glacier-dead, combined with Keth-Amar\'s consumption reaching a threshold that destabilized linear time itself. The world\'s early-warning system (the Augurs who had tracked every rebirth window for 760 years) was blinded at the worst possible moment. The remaining Augur elders at the Frozen Archive disagree on whether the blindness is temporary or permanent. Cassia\'s body, preserved upright in glacier-ice, has begun to weep frozen tears.',
+      'Augur accuracy collapsed from 93% to 41% in three months. The star-arithmetic returned contradictory futures. The entrails of every sacrificed elk showed different deaths. Cause: temporal friction from the Void-Heat engine disturbing the glacier-dead, combined with Keth-Amar\'s consumption reaching a threshold that destabilized linear time itself. The world\'s early-warning system (the Augurs who had tracked every pulse for 760 years) was blinded at the worst possible moment. The remaining Augur elders at the Frozen Archive disagree on whether the blindness is temporary or permanent. Cassia\'s body, preserved upright in glacier-ice, has begun to weep frozen tears.',
     locationIds: ['frozen-archive', 'nordhalla'],
     factionIds: ['house-skalvyr'],
     classIds: ['augur', 'chronarch'],

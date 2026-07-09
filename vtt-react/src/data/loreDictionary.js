@@ -2452,8 +2452,8 @@ export const LORE_DICTIONARY = {
  term: 'Rebirth Cycle',
  type: 'concept',
  region: 'sundale',
- summary: 'Every twelve years, Sol tries to rekindle. Sixty-five windows have opened. Not one has succeeded.',
- fullEntry: 'Every twelve years, the Solbrand surges. A pulse of heat and light rises from Sol\'s buried vault beneath Emberspire, ripples outward through Sundale\'s volcanic crust, and then subsides. This is the Rebirth Cycle: the mechanical remnant of Sol\'s natural Deepening rhythm, the window during which the dying star attempts to rekindle itself.\n\nEach window, Keth-Amar consumes the rekindling energy before it can crest. The Augurs at the Frozen Archive in Nordhalla have systematically recorded every window\'s output since the first, twelve years after the Binding. Just after the Breach: 40%. In the first centuries: 31%. Around the Purge: 14%. In the mid-Diming: 2%. Within living memory: 0%.\n\nSixty-five windows have opened since the entombment. Not one has succeeded.\n\nThe Solbrand, the visible thermal current that radiates from Sol\'s vault, is the cumulative scar of sixty-five consumed rebirths, each one dimmer than the last. The calendar months of First Thaw and The False Dawn are cultural echoes of the window: the brief weeks when surface frost melts slightly and the eastern horizon glows amber for an hour before fading. The holiday called First Thaw Vigil is not a celebration. It is the population of Sundale standing in their doorways at dawn, watching for a rebirth that has never come.\n\nWatch the eastern horizon with them when the next window opens. The Augurs will already know the number. The population of Sundale will be hoping anyway. The Solbrand will pulse. Keth-Amar will take its share. The dawn will fade.',
+summary: 'Outdated theory. The twelve-year pulse was Aex screaming, not Sol rekindling. The Augurs now know the old model was wrong.',
+  fullEntry: 'Every twelve years, the Solbrand surges. A pulse of heat and light rises from beneath Emberspire, ripples outward, and subsides. For eight centuries the Augurs called this the Rebirth Cycle: Sol\'s attempt to rekindle, consumed each time by Keth-Amar before it could crest. They measured the decline: 40%, then 31%, then 14%, then 2%, then 0%. Sixty-five pulses. The star, they said, was failing.\n\nThey were wrong. The pulse is not Sol trying to rekindle. Sol is in forced torpor, unable to rebirth, unable to die. The twelve-year resonance is the natural harmonic of the seven Sundered Monoliths trying to sync up. Every pulse was Aex screaming — the lynched firstborn, stretched across the vault, his scattered body parts straining toward reunion.\n\nThe Augurs measured the scream\'s output. 40% to 0% across sixty-five pulses. The scream did not weaken because Sol\'s fire was dying. It weakened because Aex was exhausting. He has stopped screaming. The Monoliths are waking not because he wants them to, but because he can no longer hold them still.\n\nThe calendar months of First Thaw and The False Dawn remain cultural echoes of the old belief: the brief weeks when surface frost melts slightly and the eastern horizon glows amber for an hour before fading. The holiday called First Thaw Vigil is not a celebration. It is the population of Sundale standing in their doorways at dawn, watching for a pulse that no one has the heart to tell them was never a rebirth.',
  relatedTerms: ['solbrand', 'the_deepening', 'keth_amar', 'frozen_archive', 'sundale', 'augur', 'dawn_vigil', 'emberspire']
   },
 
@@ -2668,7 +2668,7 @@ export const LORE_DICTIONARY = {
 
   'dead_moon': {
  id: 'dead_moon',
- term: 'The Dead Moon',
+ term: 'The Dead Moon (Vael)',
  type: 'entity',
  region: 'frostwood-reach',
  summary: 'The shattered corpse of a celestial thing, what the Lunarch parasites hatched from.',

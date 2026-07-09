@@ -321,7 +321,9 @@ The peat-bogs are reacting. In areas where Void-stasis Revenants have congregate
 
     immersiveCombatExample: {
       title: "Combat Example: Death Is Fuel",
-      content: `**The Setup**: Your party faces a powerful undead knight and three skeletal archers. You're a Level 4 Revenant (Sanguine Harvest) with 2 Death Marks active (Shrouded Veil, Crimson Pact). HP: 60/72, Mana: 40/50, Death Toll: 0, Phylactery: 10 HP, Death Shroud: OFF.
+      content: `The crypt is cold. The undead knight does not breathe, does not blink, does not hurry — it has all the time in the world. You have a different relationship with time. You have died before. You know what it costs to come back. The question is not whether you can win. The question is what you are willing to pay.
+
+**The Setup**: Your party faces a powerful undead knight and three skeletal archers. You're a Level 4 Revenant (Sanguine Harvest) with 2 Death Marks active (Shrouded Veil, Crimson Pact). HP: 60/72, Mana: 40/50, Death Toll: 0, Phylactery: 10 HP, Death Shroud: OFF.
 
 **Active Death Marks**:
 - **Shrouded Veil**: +2d6 blight damage to all spells, advantage on Stealth, -10% max HP (max 72, not 80)

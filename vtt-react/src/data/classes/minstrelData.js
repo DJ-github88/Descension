@@ -260,7 +260,9 @@ Different instruments provide different bonuses and affect your playstyle:
 
  immersiveCombatExample: {
   title: "Combat Example: The Perfect Cadence",
-  content: `**The Setup**: You're a Minstrel (Battlechoir specialization) with a war drum, facing a group of bandits (5 bandits + 1 bandit leader). Your party is with you. Starting Notes: I(1), V(1) from a previous short rest. Starting Mana: 50/60. Your goal: Build musical notes through builder spells, then resolve them into powerful cadences to support your party.
+  content: `The bandits hesitate at the sight of a war drum on the battlefield. They do not understand that the rhythm you are about to play is not music — it is a tide. The Iceheart Sea taught Lyris this cadence, and the sea does not negotiate.
+
+**The Setup**: You're a Minstrel (Battlechoir specialization) with a war drum, facing a group of bandits (5 bandits + 1 bandit leader). Your party is with you. Starting Notes: I(1), V(1) from a previous short rest. Starting Mana: 50/60. Your goal: Build musical notes through builder spells, then resolve them into powerful cadences to support your party.
 
 **Starting State**: Notes: I(1), V(1) | Mana: 50/60 | HP: 60/60
 

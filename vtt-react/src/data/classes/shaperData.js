@@ -235,7 +235,9 @@ Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (s
 
     immersiveCombatExample: {
       title: "Combat Example: The Shape of Violence",
-      content: `**Turn 1**: Free shift to Void Predator (+1 Toll). Shadow Strike hits, +2 Flux from stealth.
+      content: `You feel the old familiar hunger — the body wanting to be more than bone and tendon. The archers have not yet nocked their arrows. By the time they do, you will no longer be what you were.
+
+**Turn 1**: Free shift to Void Predator (+1 Toll). Shadow Strike hits, +2 Flux from stealth.
 **Turn 2**: Shift to Arterial Strike (2 Flux, +1 Toll). Kinetic Dissection,two hits, one crit.
 **Turn 3**: Shift to Deadened Bastion (2 Flux, +1 Toll). +20 temp HP. Toll 3,Joint Lock. Arrows bounce.
 **Turn 4**: Shift to Centrifugal Fury (3 Flux, +1 Toll). Sweep catches both archers. The kinetic engine sputters but enemies fall.`

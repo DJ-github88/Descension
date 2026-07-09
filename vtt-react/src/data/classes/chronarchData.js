@@ -252,7 +252,9 @@ If Nesta ceases to exist retroactively, the temporal friction she generated will
 
  immersiveCombatExample: {
   title: "Immersive Combat Example: The Chronal Recall",
-  content: `**Round 1, Establishing the Engine**: The battle begins as a massive ironclad vanguard charges your fragile marksman ally. You cast Chrono Bolt (5 mana) at a nearby archer, dealing 1d8 + INT storm damage and slowing it. Because you are at 0 Temporal Strain, the spell kickstarts your focus and generates 2 Time Shards (2/10). Strain: 0.
+  content: `Time is a thread. You have learned to pull it, to loop it, to fray it. The ironclad vanguard does not know that your presence rewrites the order of events. It charges. You are already three moves ahead.
+
+**Round 1, Establishing the Engine**: The battle begins as a massive ironclad vanguard charges your fragile marksman ally. You cast Chrono Bolt (5 mana) at a nearby archer, dealing 1d8 + INT storm damage and slowing it. Because you are at 0 Temporal Strain, the spell kickstarts your focus and generates 2 Time Shards (2/10). Strain: 0.
 
 **Round 2, Reaction Recovery**: The vanguard's heavy warhammer connects with your marksman. You cast Temporal Rewind as a Reaction (6 mana), rewinding the immediate trauma to heal 2d6 + Spirit. The ally's wounds knit, but you take 2 blight damage as you absorb the shock into your own nervous system as localized recoil. You gain 1 Shard (3/10). Strain: 0.
 

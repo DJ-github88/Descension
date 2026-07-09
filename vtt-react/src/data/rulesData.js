@@ -30,7 +30,7 @@ export const RULES_CATEGORIES = [
  summary: [
  'The Deepening is the ancient death-rebirth cycle of every star, and it always attracts predators.',
  'The 7 Noble Families entombed Sol beneath Sundale using the hide of Aex, Sol\'s firstborn. Six houses later broke the seal to survive. The slow feast began.',
- 'Keth-Amar now feeds on Sol from inside the vault. The Wyrd bleeds through the cracks. Sixty-five failed rebirth cycles over eight hundred years of winter.'
+ 'Keth-Amar presses against the partial seal, leeching energy through the cracks. The Wyrd bleeds through. Aex screamed sixty-five times across eight hundred years. Now Aex is silent. The Monoliths are waking.'
  ],
  content: {
  title: 'The Deepening & The Great Breach',
@@ -115,7 +115,7 @@ Pressed to extinction, **six of the seven families capitulated**. They marched t
  sections: [
  {
  title: 'The World Today',
- content: `Close your eyes. Imagine a world where the sun has not risen in eight hundred years, sixty-five times it has tried, sixty-five times it has failed. Not hidden behind clouds, **gone**. Entombed beneath volcanic crust by a desperate ritual, fed upon by a cosmic predator that grows stronger with every passing decade.
+ content: `Close your eyes. Imagine a world where the sun has not risen in eight hundred years — not hidden behind clouds, **gone**. Entombed beneath volcanic crust by a desperate ritual, pressed upon by a cosmic predator that grows stronger with every passing decade. Aex screamed sixty-five times across the centuries. Now the screaming has stopped. The Monoliths are waking.
 
 This is the world your adventurers were born into. Not a post-apocalypse, but an **ongoing apocalypse**, eight centuries deep and still accelerating.`
  },
@@ -811,7 +811,7 @@ The Corvani serve as messengers between the isolated holds, navigating whiteout 
  title: 'The Through-Line',
  content: `Mythrill is a world that chose survival at a price it is still paying, run by the descendants of the people who signed the bill.
 
-Eight hundred years and sixty-five failed rebirths ago, seven star-watching families tore the dying sun, Sol, from the sky and buried it beneath Sundale to hide it from the predator that came to eat it. When the cold came anyway, six of those families broke their own seal and fed their firstborn heirs to the dark to buy back a little warmth. The seventh family refused, and so the seal held, just barely, and the predator was forced to feed slowly, century by century, on a star it could not swallow whole. Every twelve years, Sol has struggled to rekindle. Sixty-five times it has failed, and each failure made the next bargain cheaper.
+Eight hundred years ago, seven star-watching families tore the dying sun, Sol, from the sky and buried it beneath Sundale to hide it from the predator that came to eat it. When the cold came anyway, six of those families broke their own seal — consuming their heirs as vessel-keys to crack the vault and buy back a little warmth. The seventh family, Viridane, refused, and so the seal held, just barely. Keth-Amar could not swallow Sol whole; it was forced to feed slowly, century by century, leeching energy through the cracks. The pulse measured by the Augurs every twelve years is not Sol struggling to rekindle — it is Aex screaming. Sixty-five times Aex screamed. Now he has stopped. The Monoliths wake because he can no longer hold them still.
 
 Every bargain struck since is the interest on that original debt: the fog that eats Frostwood memory, the glacier that ate Nordhalla's summer, the contract that eats a Neth's name, the storm that ate the Iceheart's calm. The present is not seven unrelated crises. It is one bill, coming due at once, presented to a world that has forgotten the terms, and governed, almost without exception, by the signatories' great-great-grandchildren.
 
@@ -821,9 +821,9 @@ To play any character in Mythrill is to play one of the debtor's heirs. The time
  title: 'The Twelve Pivotal Events',
  content: `**1. The Deepening & the Binding, at the Binding.** Sol entered its death-cycle and the Sun-Eater Keth-Amar came to feed. The binding houses tore the star from the heavens and entombed it beneath what is now Sundale, weaving the binding-seal from the hide of Aex (Sol's firstborn) and a blood-bond over their own lineages. They told the world Sol would sleep and rise again. It was the first lie. *Regions: Sundale (the tomb), all seven houses. Scar: Emberspire, the Solbrand, the binding-vault. Causes: the Long Winter that made the bargains necessary.*
 
-**2. The Great Breach, just after the Breach.** After the Binding in at the Binding, Keth-Amar spent eight years whispering into the starving nobility, a slow corrosion that turned warmth for blood from blasphemy into desperate hope over nearly a decade of dying children and failing crops. In just after the Breach, six of the seven houses marched their firstborn heirs into the dark. The heirs were the keys to the binding; devouring them cracked the vault from within. The seal shattered into the seven Sundered Monoliths, Emberspire erupted through the wound, and the Wyrd, a rot sealed in the deep earth since before humanity, bled up through the cracks and took the shape of every folk fear it found. *Regions: Sundale + worldwide. Scar: the seven Monoliths, the Wyrd, Emberspire's caldera. Causes: Keth-Amar's eight-year corruption arc, every regional Dark Bargain.*
+**2. The Great Breach, just after the Breach.** After the Binding, Keth-Amar spent eight years whispering into the starving nobility, a slow corrosion that turned desperation into bargains. In the Breach, six of the seven houses marched their heirs into the peaks to be consumed as vessel-keys. The seventh (Viridane) never agreed — the Watcher reached them first. Because only six heirs fed Keth-Amar, the vault cracked but did not shatter. The seal split into seven fragments: six true Monoliths of Aex's woven hide, and one false echo where Viridane's signature was never real. Emberspire erupted, and the Wyrd bled through the cracks. *Regions: Sundale + worldwide. Scar: seven Monoliths (6 real + 1 false), the Wyrd, Emberspire's caldera. Causes: Keth-Amar's eight-year corruption arc, every regional Dark Bargain.*
 
-**3. The Refusal & the Partial Seal, just after the Breach.** House Viridane, the seventh signatory, refused the heir-sacrifice and bonded instead with the fae of the Frostwood's moonlit groves. Because the seal did not entirely fail, Keth-Amar could not swallow Sol whole; the feast became slow, eight centuries of patient gnawing. *Regions: Frostwood Reach. Scar: the Lunarch bloodline, the moonlit groves, the dead moon that was an egg. Causes: the 800-year timescale of the Dimming, sixty-five failed rebirth windows, and Viridane's coming erasure.*
+**3. The Refusal & the Partial Seal, just after the Breach.** House Viridane, the seventh signatory, refused the heir-sacrifice — not by fleeing alone, but because the Watcher in the Mist reached them before Keth-Amar could, and they bonded with the fae of the Frostwood's moonlit groves. Because the seal did not entirely fail, Keth-Amar could not swallow Sol whole; it was forced to seeping through cracks, feeding slowly. The six houses erased Viridane from every record to keep Keth-Amar from following the memory back to the one house that said no. *Regions: Frostwood Reach. Scar: the false Monolith, the Watcher's territory, memory-fog. Causes: the 800-year Dimming, the Partial Seal, Viridane's erasure.*
 
 **4. The Seven Bargains, just after the Binding through the first centuries.** Each region paid its own price to survive the deepening winter. Just after the Binding: House Thalreth struck the Fog Compact, trading the Frostwood's spatial clarity and memory for an insulating fog. Just after the Binding: House Skalvyr struck the Glacier Bargain, trading summer itself, and setting the Frost-Tithe on the Rime-Born. Post-Breach (just after the Breach), in Bryngloom the Neth struck the First Contract with the Keeper of the Last Threshold (House Morrath to administer it). House Ordavan traded the Sundrift Vale's fertile soil for an endless migration in which only grass can root. House Mereval traded the Iceheart's calm for never-freezing, and therefore perpetual storm, lanes. House Tesshan traded Cragjaw's visibility for a blizzard-veil. And House Solvan, who had wielded the knife that flayed Aex, marched its own heirs north to be devoured and stayed to tend the tomb. *Regions: all seven. Scar: every region's defining condition. Causes: the cartel economies, the founding migrations, and every present regional crisis.*
 
@@ -851,7 +851,7 @@ To play any character in Mythrill is to play one of the debtor's heirs. The time
 
 **The Corruption Chain.** Binding (1) → eight years of Keth-Amar's whispers (across the Dimming) → Breach (2) → the Wyrd → the Monoliths → the Waking (12). Keth-Amar never forced the betrayal, it waited until the nobles corroded themselves, and it has been waiting ever since.
 
-**The Warmth Chain.** False Spring (volcanic abundance) → First Ebbing (decline) → Contraction (collapse) → Squeeze (accelerating loss) → Intrusion (terminal). Each phase forced new bargains, new migrations, and new traditions as the world's heat leaked away. The trade routes, the class traditions, and the sixty-five rebirth cycle data points all trace the same arc: a world measuring its own expiration.
+**The Warmth Chain.** False Spring (volcanic abundance) → First Ebbing (decline) → Contraction (collapse) → Squeeze (accelerating loss) → Intrusion (terminal). Each phase forced new bargains, new migrations, and new traditions as the world's heat leaked away. The trade routes, the class traditions, and the sixty-five pulses recorded by the Augurs all trace the same arc: a world measuring its own expiration.
 
 **The Seal Chain.** Binding (1) → Refusal (3) → Erasure (7). The seventh seat is empty in all but name; the Lunarch line carries the only blood that held the seal; the Scribe-Cartel's power to rewrite reality descends directly from the three-century project of un-writing Viridane. Remove any link and the seal's present, partial, failing state stops making sense.
 
@@ -859,7 +859,7 @@ To play any character in Mythrill is to play one of the debtor's heirs. The time
 
 **The Heresy Chain.** Silence Between Stars (9) → Void-Heat Heresy (10) → disturbed glacier-dead → temporal friction → Augur collapse (11) → the Waking (12). The Cult's contact with the deep did not stay in Bryngloom; it contaminated Nordhalla's time-reading, which blinded the one institution that might have foreseen the Monoliths waking.
 
-**The one-sentence test.** If a player, after one session, cannot say what Mythrill's history is about, the meta-narrative has failed. It is about this: a world that chose survival at a price it is still paying, run by the descendants of the people who signed the bill, sixty-five failed rebirths later, the bill is now due.`
+**The one-sentence test.** If a player, after one session, cannot say what Mythrill's history is about, the meta-narrative has failed. It is about this: a world that chose survival at a price it is still paying, run by the descendants of the people who signed the bill. Aex screamed sixty-five times. Now the screaming has stopped. The bill is due.`
  }
  ]
  }
@@ -1383,7 +1383,7 @@ The local village elder, **Marra of the Nine**, offers a simple bounty: recover 
  },
  {
  title: 'Sol [Pronunciation: SOHL]',
- content: '**Noun (Deity).** The star of Mythrill, who was bound and entombed beneath Emberspire in <LoreLink termId="sundale">Sundale</LoreLink> during the Deepening by the binding houses. Every twelve years Sol attempts to rekindle through the rebirth cycle; sixty-five windows have opened and sixty-five have failed. The buried star is now being slowly devoured by the cosmic hunger of <LoreLink termId="keth_amar">Keth-Amar</LoreLink>.'
+ content: '**Noun (Deity).** The star of Mythrill, bound and entombed beneath Emberspire in <LoreLink termId="sundale">Sundale</LoreLink> during the Deepening. Sol is in forced torpor — wrapped in Aex\'s hide, unable to rebirth or die. The twelve-year pulse once believed to be Sol\'s rebirth attempts was Aex screaming. Keth-Amar presses against the partial seal, leeching energy through the cracks.'
  },
  {
  title: 'Silt-Tide [Pronunciation: SILT-tyde]',
@@ -1391,11 +1391,11 @@ The local village elder, **Marra of the Nine**, offers a simple bounty: recover 
  },
  {
  title: 'Keth-Amar [Pronunciation: KETH-ah-mar]',
- content: '**Noun (Deity).** The Sun-Eater, the First Hunger, an abyssal entity that descended to consume Sol during its Deepening. Denied its prey by the Binding, it spent eight years whispering into the starving nobility until six houses broke and fed their heirs to the dark. Now trapped inside the volcanic vault under <LoreLink termId="emberspire">Emberspire</LoreLink>, it has been slowly devouring the sun\'s fading embers for eight centuries, across sixty-five failed rebirth cycles. Its influence is growing: the Monoliths are waking, the dead are marching, and the Voice has begun to speak.'
+ content: '**Noun (Entity).** The Sun-Eater, a cosmic predator that hunts stars in their Deepening cycle. Ancient, patient, cunning. It offered Sol\'s own warmth deceptively to the houses, pretending it could free heat while using the bargains to crack the seal. Six houses broke — Viridane refused. Now pressed against the partial seal, seeping through cracks, feeding on energy bleeding through. It has never broken a bargain. It has no Voice or emissary — it speaks directly through the cracks.'
  },
  {
  title: 'Aex [Pronunciation: AYKS]',
- content: '**Noun (Entity).** The firstborn of <LoreLink termId="sol">Sol</LoreLink>, a living being of pure stellar radiance who had shielded the sun through every Deepening since the first star learned to burn. When the binding houses entombed Sol beneath <LoreLink termId="sundale">Sundale</LoreLink>, the <LoreLink termId="the_warden">Warden</LoreLink> demanded Aex\'s willing sacrifice. <LoreLink termId="house_solvan">House Solvan</LoreLink> wielded the knife, flaying Aex\'s living hide to weave the binding seal, the act the world calls the Original Binding.'
+ content: '**Noun (Entity).** Sol\'s firstborn, a being of pure stellar radiance who willingly gave his living hide to weave the binding seal. <LoreLink termId="house_solvan">House Solvan</LoreLink> wielded the knife — Aex did not scream, it sang. Aex was not killed. It is lynched across the vault in perpetual agony. The <LoreLink termId="sundered_monoliths">Sundered Monoliths</LoreLink> are parts of its body. The false Monolith (Viridane\'s missing heir) means only six of seven are real — if it is corrupted, Wyrd reaches Aex\'s heart.'
  },
  {
  title: 'Astril [Pronunciation: AS-tril]',
@@ -1411,7 +1411,7 @@ The local village elder, **Marra of the Nine**, offers a simple bounty: recover 
  },
  {
  title: 'The Breach [Pronunciation: thee BREECH]',
- content: '**Noun.** The catastrophic event just after the Breach, when <LoreLink termId="keth_amar">Keth-Amar</LoreLink> devoured the firstborn heirs of the six noble houses and used their bloodline-keys to fracture the vault binding Sol. The seal shattered into seven <LoreLink termId="sundered_monoliths">Sundered Monoliths</LoreLink>, triggering the eruption of <LoreLink termId="emberspire">Emberspire</LoreLink> and letting the <LoreLink termId="wyrd">Wyrd</LoreLink> bleed through the cracks into the surface air.'
+ content: '**Noun.** The catastrophic event when six of seven noble house heirs were consumed as vessel-keys by <LoreLink termId="keth_amar">Keth-Amar</LoreLink>, cracking the vault binding Sol. The seventh (<LoreLink termId="house_viridane">Viridane</LoreLink>) never agreed — the seal fractured but did not fall. Six true <LoreLink termId="sundered_monoliths">Sundered Monoliths</LoreLink> and one false echo were scattered, <LoreLink termId="emberspire">Emberspire</LoreLink> erupted, and the <LoreLink termId="wyrd">Wyrd</LoreLink> bled through the cracks.'
  },
  {
  title: 'The Brine-Bond Syndicate [Pronunciation: thee BRYND-bond SIN-duh-kit]',
@@ -1427,7 +1427,7 @@ The local village elder, **Marra of the Nine**, offers a simple bounty: recover 
  },
  {
  title: 'The Deepening [Pronunciation: thee DEE-pen-ing]',
- content: '**Noun.** The fundamental rhythm of the Mythrill universe, the cyclical death-rebirth process by which a star sheds its exhausted light and rekindles its core. When <LoreLink termId="sol">Sol</LoreLink> entered this vulnerable state it attracted <LoreLink termId="keth_amar">Keth-Amar</LoreLink>, triggering the entombment that broke the heavens. Each Deepening opens a twelve-year rebirth window; Sol has failed all sixty-five.'
+ content: '**Noun.** The natural death-rebirth cycle of stars, interrupted when Sol entered it and was entombed beneath <LoreLink termId="sundale">Sundale</LoreLink>. The twelve-year resonance once believed to be Sol\'s rebirth window was Aex screaming — the harmonic of seven scattered fragments of his body trying to sync up. Aex has stopped screaming. The old model was wrong.'
  },
  {
  title: 'Devotion Gauge [Pronunciation: di-VO-shun GAYJ]',
@@ -1471,7 +1471,7 @@ The local village elder, **Marra of the Nine**, offers a simple bounty: recover 
  },
  {
  title: 'Rebirth Cycle [Pronunciation: REE-burth SY-kuhl]',
- content: '**Noun.** The twelve-year window each <LoreLink termId="the_deepening">Deepening</LoreLink> opens, during which a dying star must reignite its core or be extinguished. <LoreLink termId="sol">Sol</LoreLink> has entered this window sixty-five times since its entombment, and failed every time: each rekindling is consumed by <LoreLink termId="keth_amar">Keth-Amar</LoreLink> before ignition can complete. The calendar months of First Thaw and False Dawn are cultural echoes of this lost hope.'
+ content: '**Noun (Outdated Theory).** The pulse once believed to be Sol\'s twelve-year rebirth window. The Augurs now know these pulses were Aex screaming — the <LoreLink termId="sundered_monoliths">Sundered Monoliths</LoreLink> trying to sync up. Aex screamed sixty-five times. Now he is silent. The Monoliths wake because he can no longer hold them still. The calendar months of First Thaw and False Dawn are cultural echoes of this mistaken hope.'
  },
  {
  title: 'Rime-Born [Pronunciation: RYM-born]',
@@ -1731,7 +1731,7 @@ The local village elder, **Marra of the Nine**, offers a simple bounty: recover 
  },
  {
  title: 'Pyrofiend [Pronunciation: PY-ro-feend]',
- content: '**Noun (Class).** A volcanic pact-mage of <LoreLink termId="sundale">Sundale</LoreLink>, founded in just after the Breach by seven Solvarn occultists who swallowed <LoreLink termId="scathrach">Scathrach</LoreLink>\'s Wyrd-touched coals beneath <LoreLink termId="emberspire">Emberspire</LoreLink> when the first rebirth failed. They channel the Ashen Sovereign\'s Wyrd-touched fire through the <LoreLink termId="inferno_veil">Inferno Veil</LoreLink>, the most viscerally destructive tradition in the known world, and one of the shortest in average practitioner lifespan. Eventually the conversion from flesh to volcanic material completes, and Scathrach claims the soul for its eternal furnace.'
+ content: '**Noun (Class).** A volcanic pact-mage of <LoreLink termId="sundale">Sundale</LoreLink>, founded just after the Breach by seven Solvarn occultists who swallowed <LoreLink termId="scathrach">Scathrach</LoreLink>\'s Wyrd-touched coals beneath <LoreLink termId="emberspire">Emberspire</LoreLink> when the first pulse failed. They channel the Ashen Sovereign\'s Wyrd-touched fire through the <LoreLink termId="inferno_veil">Inferno Veil</LoreLink>, the most viscerally destructive tradition in the known world, and one of the shortest in average practitioner lifespan. Eventually the conversion from flesh to volcanic material completes, and Scathrach claims the soul for its eternal furnace.'
  },
  {
  title: 'Qalupalik [Pronunciation: kah-LOO-pah-lik]',
@@ -1810,7 +1810,7 @@ The local village elder, **Marra of the Nine**, offers a simple bounty: recover 
  sections: [
  {
  title: 'The World Today',
- content: `The sun has not risen in eight hundred years, sixty-five rebirths, sixty-five failures. It was buried beneath a volcano by a desperate ritual, and a cosmic predator is slowly eating it from inside its tomb. The world is freezing. Cities cluster around volcanic vents for warmth. Caravans cross snow-choked passes on bridges grown from the calcified dead. Every civilization that survives did so by making a dark bargain with the predator.
+ content: `The sun has not risen in eight hundred years. Aex screamed sixty-five times across the centuries, and now the screaming has stopped. Sol is entombed beneath volcanic crust by a desperate ritual; Keth-Amar presses against the partial seal, leeching energy through the cracks. The world is freezing. Cities cluster around volcanic vents for warmth. Caravans cross snow-choked passes on bridges grown from the calcified dead. Every civilization that survives did so by making a dark bargain with the predator.
 
 That is all you need to know to start playing. The rest you will learn as you explore.`
  },
