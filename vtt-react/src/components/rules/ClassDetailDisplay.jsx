@@ -1537,20 +1537,62 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
      <div className="overview-dossier-column">
       
       <div className="dossier-card spec-card">
-       {illustrationData && (
-        <div className="guide-illustration-wrapper-centered">
-         <div className="guide-illustration-frame">
-          <img
-           src={illustrationData.url}
-           alt={illustrationData.caption}
-           className="guide-illustration-image"
-          />
-          <div className="guide-illustration-caption">
-           {illustrationData.caption}
+       {illustrationData && (() => {
+        const fallbacks = classFallbacks[classId];
+        const hasMultiple = !classData.overview?.illustration && Array.isArray(fallbacks) && fallbacks.length > 1;
+        return (
+         <div className="guide-illustration-wrapper-centered">
+          <div className="guide-illustration-frame">
+           <img
+            src={illustrationData.url}
+            alt={illustrationData.caption}
+            className="guide-illustration-image"
+           />
+           {hasMultiple && (
+            <>
+             <button 
+              className="illus-nav-btn prev-btn" 
+              onClick={(e) => {
+               e.stopPropagation();
+               setActiveIllusIndex(prev => (prev === 0 ? fallbacks.length - 1 : prev - 1));
+              }}
+              title="Previous Portrait"
+             >
+              <i className="fas fa-chevron-left"></i>
+             </button>
+             <button 
+              className="illus-nav-btn next-btn" 
+              onClick={(e) => {
+               e.stopPropagation();
+               setActiveIllusIndex(prev => (prev + 1) % fallbacks.length);
+              }}
+              title="Next Portrait"
+             >
+              <i className="fas fa-chevron-right"></i>
+             </button>
+            </>
+           )}
+           <div className="guide-illustration-caption">
+            {illustrationData.caption}
+           </div>
+           {hasMultiple && (
+            <div className="illus-dots-indicator">
+             {fallbacks.map((_, idx) => (
+              <span 
+               key={idx} 
+               className={`illus-dot ${idx === (activeIllusIndex % fallbacks.length) ? 'active' : ''}`}
+               onClick={(e) => {
+                e.stopPropagation();
+                setActiveIllusIndex(idx);
+               }}
+              />
+             ))}
+            </div>
+           )}
           </div>
          </div>
-        </div>
-       )}
+        );
+       })()}
 
        <div className="dossier-specs-list">
         <div className="dossier-spec-row">

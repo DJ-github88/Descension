@@ -5150,5 +5150,64 @@ div.class-detail-content::-webkit-scrollbar-thumb,
   }
 }
 
+/* Navigation arrows for multiple illustrations */
+.illus-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(252, 248, 238, 0.9);
+  border: 1px solid #c8b99d;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8b4513;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  transition: all 0.2s ease;
+  z-index: 10;
+  padding: 0;
+}
 
+.illus-nav-btn:hover {
+  background: #8b4513;
+  color: #fff;
+  border-color: #8b4513;
+}
 
+.illus-nav-btn.prev-btn {
+  left: 12px;
+}
+
+.illus-nav-btn.next-btn {
+  right: 12px;
+}
+
+/* Dots indicator at the bottom of the frame */
+.illus-dots-indicator {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.illus-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(139, 69, 19, 0.22);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-block;
+}
+
+.illus-dot:hover {
+  background: rgba(139, 69, 19, 0.5);
+}
+
+.illus-dot.active {
+  background: #8b4513;
+  transform: scale(1.25);
+}
