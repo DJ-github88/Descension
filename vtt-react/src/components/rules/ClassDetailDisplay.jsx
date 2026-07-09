@@ -832,21 +832,26 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
  const [combatExampleOpen, setCombatExampleOpen] = useState(false);
  const contentContainerRef = useRef(null);
 
- const classId = (classData?.id || classData?.name || '').toLowerCase().replace(/\s+/g, '_');
- const illustrationData = useMemo(() => {
-  if (!classData) return null;
-  const overview = classData.overview || {};
-  if (overview.illustration) {
-   return { url: overview.illustration, caption: overview.illustrationCaption };
-  }
-  const fallbacks = classFallbacks[classId];
-  if (!fallbacks) return null;
-  if (Array.isArray(fallbacks)) {
-   const randomIndex = Math.floor(Math.random() * fallbacks.length);
-   return fallbacks[randomIndex];
-  }
-  return fallbacks;
- }, [classId, classData]);
+  const classId = (classData?.id || classData?.name || '').toLowerCase().replace(/\s+/g, '_');
+  const [activeIllusIndex, setActiveIllusIndex] = useState(0);
+
+  useEffect(() => {
+   setActiveIllusIndex(0);
+  }, [classId]);
+
+  const illustrationData = useMemo(() => {
+   if (!classData) return null;
+   const overview = classData.overview || {};
+   if (overview.illustration) {
+    return { url: overview.illustration, caption: overview.illustrationCaption };
+   }
+   const fallbacks = classFallbacks[classId];
+   if (!fallbacks) return null;
+   if (Array.isArray(fallbacks)) {
+    return fallbacks[activeIllusIndex % fallbacks.length];
+   }
+   return fallbacks;
+  }, [classId, classData, activeIllusIndex]);
 
  // Deep Combat Chronicle Fallbacks to guarantee content is never empty
  const combatRoleData = useMemo(() => {
