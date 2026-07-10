@@ -245,7 +245,7 @@ const formatAbilityType = (type) => {
 
 
 const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen, onClose }) => {
-  const [activeSection, setActiveSection] = useState('statistics');
+  const [activeSection, setActiveSection] = useState(initialCreature?._summonMeta?.sourceType === 'summon' ? 'summon' : 'statistics');
   const [mounted, setMounted] = useState(false);
   const windowRef = useRef(null);
   const [hoveredItem, setHoveredItem] = useState(null);
@@ -441,33 +441,45 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
     return components;
   };
 
-  // Define sections for the header navigation (matching character sheet style)
-  const sections = {
-    statistics: {
-      title: 'Statistics',
-      icon: getCustomIconUrl('Utility/Ornate Symbol', 'abilities')
-    },
-    abilities: {
-      title: 'Abilities & Spells',
-      icon: getCustomIconUrl('Radiant/Radiant Aura', 'abilities')
-    },
-    tactics: {
-      title: 'Tactics & Behavior',
-      icon: getCustomIconUrl('Arcane/Enchanted Sword', 'abilities')
-    },
-    skills: {
-      title: 'Skills',
-      icon: getCustomIconUrl('Utility/All Seeing Eye', 'abilities')
-    },
-    loot: {
-      title: 'Loot Table',
-      icon: getCustomIconUrl('Utility/Ornate Symbol', 'abilities')
-    },
-    description: {
-      title: 'Description & Lore',
-      icon: getCustomIconUrl('Utility/Ornate Symbol', 'abilities')
-    }
-  };
+  const isSummon = !!(creature?._summonMeta?.sourceType === 'summon');
+
+  // Summoned tokens (totems, traps, specters, companions, etc.) are simple
+  // placeable tokens — they have no attributes, skills, loot tables, or tactics
+  // of their own. Show ONLY the tailored Summon sheet so they read as distinct
+  // tokens rather than full creature character sheets.
+  const sections = isSummon
+    ? {
+        summon: {
+          title: 'Summon',
+          icon: getCustomIconUrl('Radiant/Radiant Aura', 'abilities')
+        }
+      }
+    : {
+        statistics: {
+          title: 'Statistics',
+          icon: getCustomIconUrl('Utility/Ornate Symbol', 'abilities')
+        },
+        abilities: {
+          title: 'Abilities & Spells',
+          icon: getCustomIconUrl('Radiant/Radiant Aura', 'abilities')
+        },
+        tactics: {
+          title: 'Tactics & Behavior',
+          icon: getCustomIconUrl('Arcane/Enchanted Sword', 'abilities')
+        },
+        skills: {
+          title: 'Skills',
+          icon: getCustomIconUrl('Utility/All Seeing Eye', 'abilities')
+        },
+        loot: {
+          title: 'Loot Table',
+          icon: getCustomIconUrl('Utility/Ornate Symbol', 'abilities')
+        },
+        description: {
+          title: 'Description & Lore',
+          icon: getCustomIconUrl('Utility/Ornate Symbol', 'abilities')
+        }
+      };
 
   // Render the content based on the active section
   // Render the Tactics & Behavior section
@@ -583,8 +595,189 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
     );
   };
 
+  // Render the type-aware Summon inspection panel for summoned creatures.
+  // Layout adapts to the summon family (totem / beast / fiend / undead /
+  // elemental / construct / companion) using _summonMeta + creature data.
+  const renderSummonSection = () => {
+    const meta = creature._summonMeta || {};
+    const type = (creature.type || '').toLowerCase();
+    const isStationary = (creature.stats?.speed || 0) === 0;
+
+    // Resolve the summon family/category. Templates set `category`; otherwise
+    // derive it (a speed-0 CONSTRUCT is treated as a totem).
+    const category = meta.category || (
+      type === 'construct'
+        ? (isStationary ? 'totem' : 'construct')
+        : (type || 'summon')
+    );
+
+    const CATEGORY_INFO = {
+      totem: { label: 'Totem', accent: '#4ade80', blurb: 'A stationary pillar that radiates its effect in an aura each turn.' },
+      beast: { label: 'Beast', accent: '#8B4513', blurb: 'A mobile creature that fights at your command.' },
+      fiend: { label: 'Fiend', accent: '#8B0000', blurb: 'A bound otherworldly creature under your command.' },
+      undead: { label: 'Undead', accent: '#4B0082', blurb: 'A risen servant bound to your will.' },
+      elemental: { label: 'Elemental', accent: '#20B2AA', blurb: 'A manifested force of nature.' },
+      construct: { label: 'Construct', accent: '#708090', blurb: 'A built engine of war.' },
+      companion: { label: 'Companion', accent: '#22c55e', blurb: 'A loyal ally bonded to you.' },
+    };
+    const cat = CATEGORY_INFO[category] || { label: (category || type || 'summon').toUpperCase(), accent: '#7a3b2e', blurb: '' };
+
+    const controlType = meta.controlType || 'autonomous';
+    const CONTROL_INFO = {
+      mental: { label: 'Mental Command', desc: 'You directly control its movement and actions each turn.' },
+      autonomous: { label: 'Autonomous', desc: 'Acts on its own each turn following its tactics.' },
+      verbal: { label: 'Verbal Command', desc: 'Controlled by spoken command within range.' },
+      empathic: { label: 'Empathic Bond', desc: 'Linked to you emotionally; acts on shared intent.' },
+    };
+    const control = CONTROL_INFO[controlType] || { label: controlType, desc: '' };
+
+    const duration = meta.duration || { value: 0, unit: 'permanent' };
+    const isPermanent = duration.unit === 'permanent';
+    const roundsRemaining = meta.roundsRemaining;
+    const durationText = isPermanent
+      ? 'Permanent'
+      : duration.unit === 'rounds'
+        ? `${roundsRemaining != null ? roundsRemaining : duration.value} rounds remaining`
+        : `${duration.value} ${duration.unit}`;
+
+    const auraRadius = meta.auraRadius;
+    const abilities = creature.abilities || [];
+
+    const maxHp = creature.stats?.maxHp || 0;
+    const curHp = token?.state?.currentHp != null ? token.state.currentHp : maxHp;
+
+    const propCard = (label, value, sub) => (
+      <div key={label} style={{
+        background: 'rgba(240, 230, 210, 0.6)',
+        border: '1px solid rgba(160, 140, 112, 0.5)',
+        borderRadius: '6px',
+        padding: '8px 10px',
+        minWidth: '120px',
+        flex: '1 1 140px',
+      }}>
+        <div style={{ fontSize: '12px', color: '#5a3a20', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: '600' }}>{label}</div>
+        <div style={{ fontSize: '16px', color: '#2a1a0a', fontWeight: 'bold', marginTop: '2px' }}>{value}</div>
+        {sub && <div style={{ fontSize: '12px', color: '#3a2a1a', marginTop: '2px', lineHeight: '1.3' }}>{sub}</div>}
+      </div>
+    );
+
+    const propCards = [
+      ...(maxHp > 0 ? [propCard('Health', token ? `${curHp} / ${maxHp}` : `${maxHp}`, 'Hit points')] : []),
+      propCard('Control', control.label, control.desc),
+      propCard('Duration', durationText, isPermanent ? 'Lasts until dismissed' : 'Counts down each round'),
+    ];
+    if (meta.ownerName) propCards.push(propCard('Summoner', meta.ownerName, 'Owns this summon'));
+    if (meta.concentration) propCards.push(propCard('Concentration', 'Required', 'Breaks if you lose concentration'));
+    if (auraRadius) propCards.push(propCard('Aura', `${auraRadius} ft`, 'Effect radiates from this point'));
+    if (isStationary) propCards.push(propCard('Mobility', 'Stationary', 'Cannot move from its placement'));
+    if (creature.stats?.speed > 0) propCards.push(propCard('Speed', `${creature.stats.speed} ft`, 'Movement per turn'));
+    if (meta.spellId) propCards.push(propCard('Source', meta.templateName || meta.spellId, `Spell id: ${meta.spellId}`));
+
+    return (
+      <div className="creature-inspect-section summon-inspect-section">
+        {/* Summoned banner */}
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: '10px',
+          padding: '8px 12px', marginBottom: '12px',
+          background: `linear-gradient(135deg, ${cat.accent}22, rgba(240,230,210,0.6))`,
+          border: `1px solid ${cat.accent}`,
+          borderRadius: '8px',
+        }}>
+          <span style={{
+            fontSize: '11px', fontWeight: 'bold', letterSpacing: '1px',
+            color: '#fff', background: cat.accent,
+            padding: '3px 8px', borderRadius: '4px', textTransform: 'uppercase',
+          }}>
+            Summoned {cat.label}
+          </span>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: '18px', color: '#2a1a0a', fontWeight: 'bold', fontFamily: "'Bookman Old Style', serif" }}>
+              {creature.name}
+            </div>
+            {cat.blurb && <div style={{ fontSize: '13px', color: '#3a2a1a', fontStyle: 'italic' }}>{cat.blurb}</div>}
+          </div>
+        </div>
+
+        {/* Property grid */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '14px' }}>
+          {propCards}
+        </div>
+
+        {/* Family-specific behavior card */}
+        {category === 'totem' ? (
+          <div className="summon-family-card" style={{
+            background: 'rgba(74, 222, 128, 0.08)', border: '1px solid rgba(74,222,128,0.4)',
+            borderRadius: '8px', padding: '10px 12px', marginBottom: '14px',
+          }}>
+            <h4 style={{ margin: '0 0 6px', fontSize: '15px', color: '#1f7a44' }}>
+              <i className="fas fa-broadcast-tower" style={{ marginRight: '6px' }}></i>
+              Aura & Zone
+            </h4>
+            <div style={{ fontSize: '14px', color: '#2a1a0a', lineHeight: '1.5' }}>
+              This totem is <b>stationary</b> and radiates its effect{auraRadius ? ` in a <b>${auraRadius} ft</b> radius` : ''} each turn.
+              It cannot be moved once placed. {controlType === 'autonomous' && 'It acts automatically with no command needed.'}
+            </div>
+          </div>
+        ) : (
+          <div className="summon-family-card" style={{
+            background: 'rgba(160, 140, 112, 0.08)', border: '1px solid rgba(160, 140, 112, 0.4)',
+            borderRadius: '8px', padding: '10px 12px', marginBottom: '14px',
+          }}>
+            <h4 style={{ margin: '0 0 6px', fontSize: '15px', color: '#4a2010' }}>
+              <i className="fas fa-paw" style={{ marginRight: '6px' }}></i>
+              Command & Combat
+            </h4>
+            <div style={{ fontSize: '14px', color: '#2a1a0a', lineHeight: '1.5' }}>
+              {control.desc} {isStationary ? 'It is stationary.' : `It can move up to <b>${creature.stats?.speed} ft</b> per turn.`}
+              {meta.concentration && ' Its presence requires your concentration.'}
+            </div>
+          </div>
+        )}
+
+        {/* Abilities / Effects */}
+        {abilities.length > 0 && (
+          <div style={{ marginTop: '4px' }}>
+            <h4 style={{ margin: '0 0 8px', fontSize: '15px', color: '#4a2010', fontFamily: "'Bookman Old Style', serif" }}>
+              <i className="fas fa-bolt" style={{ marginRight: '6px', color: '#d4af37' }}></i>
+              Abilities & Effects
+            </h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+              {abilities.map((ability, idx) => {
+                const name = typeof ability === 'string' ? ability : (ability.name || 'Ability');
+                const desc = typeof ability === 'string' ? '' : (ability.description || '');
+                return (
+                  <div key={idx} style={{
+                    display: 'flex', gap: '8px', alignItems: 'flex-start',
+                    background: 'rgba(240, 230, 210, 0.6)',
+                    border: '1px solid rgba(160, 140, 112, 0.4)',
+                    borderRadius: '6px', padding: '7px 9px',
+                  }}>
+                    <i className="fas fa-circle" style={{ fontSize: '8px', color: cat.accent, marginTop: '5px' }}></i>
+                    <div>
+                      <div style={{ fontSize: '14px', color: '#2a1a0a', fontWeight: 'bold' }}>{name}</div>
+                      {desc && <div style={{ fontSize: '13px', color: '#3a2a1a', lineHeight: '1.35', marginTop: '1px' }}>{desc}</div>}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        <div style={{
+          marginTop: '14px', padding: '8px 10px', fontSize: '13px',
+          color: '#3a2a1a', fontStyle: 'italic', borderTop: '1px solid rgba(160,140,112,0.4)', lineHeight: '1.5',
+        }}>
+          {creature.description}
+        </div>
+      </div>
+    );
+  };
+
   const renderContent = () => {
     switch (activeSection) {
+      case 'summon':
+        return renderSummonSection();
       case 'statistics':
         return renderStatsSection();
       case 'abilities':
@@ -2263,17 +2456,19 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
           renderStatsSection()
         ) : (
           <div className="creature-content-area-full">
-            <div className="creature-section-header">
-              {sections[activeSection].icon && (
-                <img
-                  src={sections[activeSection].icon}
-                  alt=""
-                  className="creature-section-icon"
-                  onError={(e) => handleImageError(e, 'Utility/Utility')}
-                />
-              )}
-              <h2 className="creature-section-title">{sections[activeSection].title}</h2>
-            </div>
+            {Object.keys(sections).length > 1 && (
+              <div className="creature-section-header">
+                {sections[activeSection].icon && (
+                  <img
+                    src={sections[activeSection].icon}
+                    alt=""
+                    className="creature-section-icon"
+                    onError={(e) => handleImageError(e, 'Utility/Utility')}
+                  />
+                )}
+                <h2 className="creature-section-title">{sections[activeSection].title}</h2>
+              </div>
+            )}
 
             <div className="creature-section-content">
               {renderContent()}

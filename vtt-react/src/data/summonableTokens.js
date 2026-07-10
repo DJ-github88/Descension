@@ -1,241 +1,135 @@
 ﻿export const TOKEN_TEMPLATES = {
 
   // =========================================================================
-  // ANIMIST (12 tokens)
+  // ANIMIST (6 tokens — one per real summon spell in animistData.js)
+  // Class resource: Ancestral Resonance. Totems are stationary (speed 0) and
+  // radiate an aura (auraRadius). Specters/guardians are mobile + mentally
+  // controlled. spellId values match animist_* spellbook entries exactly.
   // =========================================================================
   animist: [
     {
-      id: 'primalist_healing_totem',
-      name: 'Healing Totem',
-      description: 'The root-veins of Bryngloom answer the Animist\'s chant. From the deep glades of Bryngloom, the spirit-touched wood awakens with verdant light. A wooden totem carved with healing runes, glowing with green energy.',
+      id: 'animist_healing_totem',
+      name: 'Bone Sprout Totem',
+      description: 'The root-veins of Bryngloom answer the Animist\'s chant as bone tears free of living flesh. A healing totem erupts from the soil, its verdant light mending allies in a 15ft radius at the start of each turn.',
       level: 1,
-      spellId: 'primalist_basic_healing_totem',
+      spellId: 'animist_healing_totem',
+      category: 'totem',
+      auraRadius: 15,
       creature: {
-        name: 'Healing Totem',
+        name: 'Bone Sprout Totem',
         type: 'CONSTRUCT',
         size: 'SMALL',
         stats: { maxHp: 15, maxMana: 0, speed: 0 },
         tokenIcon: 'spell_nature_healingtouch',
-        abilities: ['Heals allies in 10ft radius 1d6 HP per turn'],
+        abilities: ['Heals allies in 15ft radius for 1d6 + Spirit HP at start of your turn'],
       },
       quantity: 1,
       duration: { value: 3, unit: 'rounds' },
       controlType: 'autonomous',
-      resourceCost: { mana: 6, totemic_synergy: -2, actionPoints: 1 },
+      resourceCost: { mana: 4, resonance: -3, actionPoints: 1 },
     },
     {
-      id: 'primalist_guardian_totem',
-      name: 'Guardian Totem',
-      description: 'Old Spirits are called up from the deep bog to take up the ward. Bryngloom\'s ancient stones hum with the protective whispers of forgotten guardians. A stone totem etched with protective symbols, radiating defensive energy.',
-      level: 1,
-      spellId: null,
+      id: 'animist_gale_totem',
+      name: 'Storm-Howl Totem',
+      description: 'A lightning totem wrenches free of the Animist\'s wrist, crackling with the storm-spirits of the open steppe. It shocks and repels any enemy that draws near its 15ft radius.',
+      level: 2,
+      spellId: 'animist_gale_totem',
+      category: 'totem',
+      auraRadius: 15,
       creature: {
-        name: 'Guardian Totem',
-        type: 'CONSTRUCT',
-        size: 'SMALL',
-        stats: { maxHp: 15, maxMana: 0, speed: 0 },
-        tokenIcon: 'spell_holy_devotion',
-        abilities: ['Grants allies in 10ft radius a 5-damage shield per attack'],
-      },
-      quantity: 1,
-      duration: { value: 3, unit: 'rounds' },
-      controlType: 'autonomous',
-      resourceCost: { mana: 3, totemic_synergy: -1, actionPoints: 1 },
-    },
-    {
-      id: 'primalist_earth_totem',
-      name: 'Earth Totem',
-      description: 'With a stamp upon sacred soil, the grove\'s bones are raised. The earth itself answers the call, heaving up rune-carved stone from Bryngloom\'s sacred soil. A massive stone totem covered in earth runes.',
-      level: 1,
-      spellId: null,
-      creature: {
-        name: 'Earth Totem',
+        name: 'Storm-Howl Totem',
         type: 'CONSTRUCT',
         size: 'SMALL',
         stats: { maxHp: 20, maxMana: 0, speed: 0 },
-        tokenIcon: 'spell_nature_stoneclawtotem',
-        abilities: ['Grants allies in 10ft radius +2 Armor and resistance to non-magical damage'],
+        tokenIcon: 'spell_lightning_thunderstorm',
+        abilities: ['Deals 2d6 + Spirit storm damage to enemies in 15ft radius', 'Pushes targets 10ft away (Storm Gust)'],
       },
       quantity: 1,
       duration: { value: 3, unit: 'rounds' },
       controlType: 'autonomous',
-      resourceCost: { mana: 3, totemic_synergy: -1, actionPoints: 1 },
+      resourceCost: { mana: 6, resonance: -3, actionPoints: 1 },
     },
     {
-      id: 'primalist_rejuvenation_totem',
-      name: 'Rejuvenation Totem',
-      description: 'The Animist breathes life back into the wound the world forgot. Living vines twist and pulse with the sap of Bryngloom\'s oldest groves. A living wood totem with vines, pulsing with life energy.',
-      level: 1,
-      spellId: null,
+      id: 'animist_threshold_ward',
+      name: 'Threshold Ward Totem',
+      description: 'A warding totem of bone and script anchors a safe circle of 30ft, shielding those who rest within from the Wyrd and the wild. A totem of refuge, not of war.',
+      level: 2,
+      spellId: 'animist_threshold_ward',
+      category: 'totem',
+      auraRadius: 30,
       creature: {
-        name: 'Rejuvenation Totem',
-        type: 'CONSTRUCT',
-        size: 'SMALL',
-        stats: { maxHp: 15, maxMana: 0, speed: 0 },
-        tokenIcon: 'spell_nature_rejuvenation',
-        abilities: ['Heals allies in 10ft radius 1d4 HP at start of their turn'],
-      },
-      quantity: 1,
-      duration: { value: 3, unit: 'rounds' },
-      controlType: 'autonomous',
-      resourceCost: { mana: 3, totemic_synergy: -1, actionPoints: 1 },
-    },
-    {
-      id: 'primalist_venomous_totem',
-      name: 'Venomous Totem',
-      description: 'Brewed in secret spite, the Old Spirits grant this ward their venom. The Briarqueen\'s venom drips from this totem, brewed in Bryngloom\'s deepest, darkest hollows. A totem seeping with natural toxins.',
-      level: 3,
-      spellId: 'primalist_venomous_totem',
-      creature: {
-        name: 'Venomous Totem',
+        name: 'Threshold Ward Totem',
         type: 'CONSTRUCT',
         size: 'SMALL',
         stats: { maxHp: 10, maxMana: 0, speed: 0 },
-        tokenIcon: 'spell_nature_corrosivebreath',
-        abilities: ['Deals poison/nature damage to enemies in 10ft radius each turn'],
+        tokenIcon: 'spell_holy_devotion',
+        abilities: ['Grants allies in 30ft radius refuge from Wyrd intrusion', 'Safe rest site (exploration/rest)'],
       },
       quantity: 1,
-      duration: { value: 4, unit: 'rounds' },
+      duration: { value: 10, unit: 'minutes' },
       controlType: 'autonomous',
-      resourceCost: { mana: 10, totemic_synergy: -2, actionPoints: 1 },
+      resourceCost: { mana: 4, resonance: -2, actionPoints: 1 },
     },
     {
-      id: 'primalist_spirit_wolves',
-      name: 'Spirit Wolves',
-      description: 'At the summoner\'s howl, the spectral pack leaps the mist. Spectral forms of Bryngloom\'s ancient pack leaders flicker at the edge of vision. Two spectral wolves made of primal energy.',
-      level: 4,
-      spellId: 'primalist_spirit_wolves',
+      id: 'animist_spirit_wolves',
+      name: 'Wendigo Specters',
+      description: 'Two spectral wolves leap from the Animist\'s shadow at the whispered true-name of the dead. Made of blight and hunger, they harry enemies under the summoner\'s mental command.',
+      level: 3,
+      spellId: 'animist_spirit_wolves',
+      category: 'beast',
       creature: {
-        name: 'Spirit Wolf',
+        name: 'Wendigo Specter',
         type: 'BEAST',
         size: 'MEDIUM',
         stats: { maxHp: 30, maxMana: 0, speed: 40 },
         tokenIcon: 'ability_hunter_pet_wolf',
-        abilities: ['Mental control within 60ft', '1d6+3 bite attack'],
+        abilities: ['Mental control within 60ft', '1d8+3 blight bite attack'],
       },
       quantity: 2,
       duration: { value: 5, unit: 'rounds' },
       controlType: 'mental',
-      resourceCost: { mana: 20, totemic_synergy: 5, actionPoints: 2 },
+      resourceCost: { mana: 8, resonance: -3, actionPoints: 1 },
     },
     {
-      id: 'primalist_ancestral_guardian',
-      name: 'Ancestral Guardian',
-      description: 'The oldest name is spoken, and the first guardian returns. An elder spirit from Bryngloom\'s first dawn answers the summons, clad in primal fury. A powerful ancestral spirit to protect and fight.',
-      level: 5,
-      spellId: 'primalist_ancestral_guardian',
+      id: 'animist_primeval_totem',
+      name: 'Primal Beast Totem',
+      description: 'A colossal totem of bone and root erupts, channelling the beast-totem rage of Bryngloom\'s first dawn. Allies within 30ft are emboldened by the primeval spirit\'s fury.',
+      level: 8,
+      spellId: 'animist_primeval_totem',
+      category: 'totem',
+      auraRadius: 30,
       creature: {
-        name: 'Ancestral Guardian',
-        type: 'BEAST',
+        name: 'Primal Beast Totem',
+        type: 'CONSTRUCT',
         size: 'LARGE',
-        stats: { maxHp: 50, maxMana: 0, speed: 30 },
+        stats: { maxHp: 80, maxMana: 0, speed: 0 },
         tokenIcon: 'spell_nature_elementalshields',
-        abilities: ['Concentration', 'Mental control within 60ft', 'Protects allies'],
-      },
-      quantity: 1,
-      duration: { value: 4, unit: 'rounds' },
-      controlType: 'mental',
-      resourceCost: { mana: 20, totemic_synergy: 6, actionPoints: 2 },
-    },
-    {
-      id: 'primalist_elemental_fury_totem',
-      name: 'Elemental Fury Totem',
-      description: 'Storm and ember are chained together at the Animist\'s word. The volatile heart of Bryngloom\'s storm-scarred peaks channels through this crackling spire. A totem channeling raw fire and lightning.',
-      level: 6,
-      spellId: 'primalist_elemental_fury_totem',
-      creature: {
-        name: 'Elemental Fury Totem',
-        type: 'CONSTRUCT',
-        size: 'SMALL',
-        stats: { maxHp: 40, maxMana: 0, speed: 0 },
-        tokenIcon: 'spell_fire_selfdestruct',
-        abilities: ['Deals 8d6+spirit fire/lightning damage to enemies in range each turn'],
-      },
-      quantity: 1,
-      duration: { value: 4, unit: 'rounds' },
-      controlType: 'autonomous',
-      resourceCost: { mana: 25, totemic_synergy: 6, actionPoints: 2 },
-    },
-    {
-      id: 'primalist_grand_totem_circle_healing',
-      name: 'Grand Healing Totem',
-      description: 'The full circle is opened, and the grove\'s heart laid bare. A fragment of Bryngloom\'s great circle, channeling the grove\'s restorative heartbeat. Part of the Grand Totem Circle - powerful healing.',
-      level: 8,
-      spellId: 'primalist_grand_totem_circle',
-      creature: {
-        name: 'Grand Healing Totem',
-        type: 'CONSTRUCT',
-        size: 'MEDIUM',
-        stats: { maxHp: 60, maxMana: 0, speed: 0 },
-        tokenIcon: 'spell_nature_healingtouch',
-        abilities: ['Grand healing aura'],
+        abilities: ['Allies in 30ft radius gain Beast Totem Rage: +2 attack rolls, +2 DR'],
       },
       quantity: 1,
       duration: { value: 5, unit: 'rounds' },
       controlType: 'autonomous',
-      resourceCost: { mana: 30, totemic_synergy: 10, actionPoints: 2 },
+      resourceCost: { mana: 16, resonance: 8, actionPoints: 1 },
     },
     {
-      id: 'primalist_grand_totem_circle_damage',
-      name: 'Grand Damage Totem',
-      description: 'The circle\'s wrathful half is loosed upon the foe. The destructive half of Bryngloom\'s balanced circle, unleashing the forest\'s wrath. Part of the Grand Totem Circle - destructive force.',
-      level: 8,
-      spellId: 'primalist_grand_totem_circle',
-      creature: {
-        name: 'Grand Damage Totem',
-        type: 'CONSTRUCT',
-        size: 'MEDIUM',
-        stats: { maxHp: 60, maxMana: 0, speed: 0 },
-        tokenIcon: 'spell_fire_fire',
-        abilities: ['Grand damage aura'],
-      },
-      quantity: 1,
-      duration: { value: 5, unit: 'rounds' },
-      controlType: 'autonomous',
-      resourceCost: { mana: 30, totemic_synergy: 10, actionPoints: 2 },
-    },
-    {
-      id: 'primalist_eternal_totem',
-      name: 'Eternal Totem',
-      description: 'Bedrock itself is sworn into service, unbreakable and old. Forged from Bryngloom\'s unyielding bedrock, this totem stands eternal against all foes. An indestructible totem of immense power.',
-      level: 9,
-      spellId: 'primalist_eternal_totem',
-      creature: {
-        name: 'Eternal Totem',
-        type: 'CONSTRUCT',
-        size: 'LARGE',
-        stats: { maxHp: 500, maxMana: 0, speed: 0 },
-        tokenIcon: 'spell_nature_naturetouch',
-        abilities: ['Indestructible', 'Powerful ongoing effects'],
-      },
-      quantity: 1,
-      duration: { value: 10, unit: 'rounds' },
-      controlType: 'autonomous',
-      resourceCost: { mana: 40, totemic_synergy: 15, actionPoints: 3 },
-    },
-    {
-      id: 'primalist_genesis',
-      name: 'Genesis',
-      description: 'Bryngloom answers with everything it has left. The full fury of Bryngloom\'s wild heart spills forth in a tide of tooth and claw. An army of nature spirits and creatures.',
+      id: 'animist_spectral_guardian',
+      name: 'Ancestral Colossus',
+      description: 'The oldest name is spoken, and the first guardian returns — an ancestral colossus of bone and storm, clad in primal fury. It protects the Animist and crushes their foes under mental command.',
       level: 10,
-      spellId: 'primalist_genesis',
+      spellId: 'animist_spectral_guardian',
+      category: 'beast',
       creature: {
-        name: 'Primal Beast',
+        name: 'Ancestral Colossus',
         type: 'BEAST',
-        size: 'MEDIUM',
-        stats: { maxHp: 60, maxMana: 0, speed: 40 },
+        size: 'HUGE',
+        stats: { maxHp: 150, maxMana: 0, speed: 30 },
         tokenIcon: 'ability_hunter_pet_bear',
-        abilities: ['Nature spirit creature'],
+        abilities: ['Concentration', 'Mental control within 60ft', 'Multiattack (2 actions/turn)', 'Knockdown (Tremor Slam, DC 18 STR)'],
       },
-      quantity: 7,
-      duration: { value: 10, unit: 'rounds' },
+      quantity: 1,
+      duration: { value: 4, unit: 'rounds' },
       controlType: 'mental',
-      resourceCost: { mana: 50, totemic_synergy: 18, actionPoints: 3 },
-      subTypes: [
-        { name: 'Treant', stats: { maxHp: 100 }, size: 'LARGE', quantity: 1 },
-        { name: 'Earth Elemental', stats: { maxHp: 80 }, size: 'LARGE', quantity: 2 },
-        { name: 'Primal Beast', stats: { maxHp: 60 }, size: 'MEDIUM', quantity: 4 },
-      ],
+      resourceCost: { mana: 30, resonance: 15, actionPoints: 3 },
     },
   ],
 
@@ -249,7 +143,7 @@
       name: 'Imp',
       description: 'Cold-iron wards ring as the binding-rite drags the imp forth. From the smoldering depths of Emberspire, this tiny fiend cackles with malevolent cunning. A small, cunning horror with fire bolt, flight, and invisibility.',
       level: 2,
-      spellId: 'exo_bind_imp',
+      spellId: null,
       creature: {
         name: 'Imp',
         type: 'FIEND',
@@ -268,7 +162,7 @@
       name: 'Shadow Hound',
       description: 'The Inquisitor\'s seal flares, and the shadow-pack bounds through. Emberspire\'s shadow-bred pack hunts through the veil between worlds. A shadowy Wyrd-touched hound with shadow step and pack tactics.',
       level: 3,
-      spellId: 'exo_bind_shadow_hound',
+      spellId: null,
       creature: {
         name: 'Shadow Hound',
         type: 'FIEND',
@@ -287,7 +181,7 @@
       name: 'Abyssal Brute',
       description: 'Chains of binding authority haul the brute from its forge. Forged in Emberspire\'s deepest forges, this brute knows only destruction. A hulking horror with crushing blow and Wyrd-touched resilience.',
       level: 4,
-      spellId: 'exo_bind_abyssal_brute',
+      spellId: null,
       creature: {
         name: 'Abyssal Brute',
         type: 'FIEND',
@@ -306,7 +200,7 @@
       name: 'Banshee',
       description: 'An anti-magic sigil gags the damned wail long enough to bind it. The first wail of Emberspire\'s damned souls echoes through this tormented spirit. A wailing spirit with fear aura and incorporeal form.',
       level: 4,
-      spellId: 'exo_bind_banshee',
+      spellId: null,
       creature: {
         name: 'Banshee',
         type: 'FIEND',
@@ -325,7 +219,7 @@
       name: 'Wraith',
       description: 'The horror-jailer\'s chain collars the hungering dead. A hunger from the Emberspire Abyss, forever reaching for the warmth of the living. A spectral terror with life drain and ethereal jaunt.',
       level: 4,
-      spellId: 'exo_bind_wraith',
+      spellId: null,
       creature: {
         name: 'Wraith',
         type: 'FIEND',
@@ -344,7 +238,7 @@
       name: 'Pit Fiend',
       description: 'Only the weight of the binding-seal bends a lord of the seventh circle. A lord of Emberspire\'s seventh circle, commanding legions with a flick of its claw. A powerful devil lord with 2 actions per turn.',
       level: 6,
-      spellId: 'exo_bind_pit_fiend',
+      spellId: null,
       creature: {
         name: 'Pit Fiend',
         type: 'FIEND',
@@ -363,7 +257,7 @@
       name: 'Balor',
       description: 'Cold-iron authority alone makes a general of the host kneel. The generals of Emberspire\'s host stride forth, wreathed in dying starlight and ash. A towering horror general with 3 actions per turn.',
       level: 7,
-      spellId: 'exo_bind_balor',
+      spellId: null,
       creature: {
         name: 'Balor',
         type: 'FIEND',
@@ -382,7 +276,7 @@
       name: 'Lesser Demon',
       description: 'The binding-circle ruptures, and the lower pits bleed through. The teeming legions of Emberspire\'s lower pits spill through the rupture. A squad of lesser demons from the infernal legion.',
       level: 8,
-      spellId: 'exo_infernal_legion',
+      spellId: null,
       creature: {
         name: 'Lesser Demon',
         type: 'FIEND',
@@ -401,7 +295,7 @@
       name: 'Apocalypse Demon',
       description: 'Even heralds of ash must obey the seal that names them. Emberspire\'s most devastating heralds descend, heralding an age of ash. Devastating apocalyptic demons with 2 actions per turn.',
       level: 9,
-      spellId: 'exo_apocalyptic_summoning',
+      spellId: null,
       creature: {
         name: 'Apocalypse Demon',
         type: 'FIEND',
@@ -420,7 +314,7 @@
       name: 'Demon Prince',
       description: 'No sovereign of Emberspire defies the cold-iron ward that binds it. The throne itself of Emberspire manifests, a sovereign of absolute ruin. A horror lord of immense power with 4 actions per turn.',
       level: 10,
-      spellId: 'exo_bind_demon_prince',
+      spellId: null,
       creature: {
         name: 'Demon Prince',
         type: 'FIEND',
@@ -561,7 +455,7 @@
       name: 'Mechanical Monstrosity',
       description: 'A hulking contraption animated by the plague-fumes of the fester-bogs. A large mechanical construct armed with weapons.',
       level: 8,
-      spellId: null,
+      spellId: 'tox_mechanical_monstrosity',
       creature: {
         name: 'Mechanical Monstrosity',
         type: 'CONSTRUCT',
@@ -580,7 +474,7 @@
       name: 'War Machine',
       description: 'Iron and contagion married into an engine of absolute ruin. A massive war machine bristling with weapons.',
       level: 9,
-      spellId: null,
+      spellId: 'tox_war_machine',
       creature: {
         name: 'War Machine',
         type: 'CONSTRUCT',
@@ -599,7 +493,7 @@
       name: 'Mechanical Army',
       description: 'The Plaguebringer\'s host, rendered in brass and rusting sinew. 8 combat-ready mechanical soldiers.',
       level: 10,
-      spellId: null,
+      spellId: 'tox_mechanical_army',
       creature: {
         name: 'Mechanical Soldier',
         type: 'CONSTRUCT',
@@ -622,7 +516,7 @@
     {
       id: 'falseprophet_congregation',
       name: 'Abyssal Servants',
-      description: 'Void whispers coalesce into shapes the waking mind refuses to hold. Void entities summoned from the congregation. 1d4 appear.',
+        description: 'Silence whispers coalesce into shapes the waking mind refuses to hold. Silence entities summoned from the congregation. 1d4 appear.',
       level: 6,
       spellId: 'fp_summon_congregation',
       creature: {
@@ -631,7 +525,7 @@
         size: 'MEDIUM',
         stats: { maxHp: 30, maxMana: 0, speed: 30 },
         tokenIcon: 'spell_shadow_summonvoidwalker',
-        abilities: ['Void touch', 'Verbal control within 30ft'],
+        abilities: ['Silence touch', 'Verbal control within 30ft'],
       },
       quantity: '1d4',
       duration: { value: 4, unit: 'rounds' },
@@ -641,7 +535,7 @@
     {
       id: 'falseprophet_devouring_omen',
       name: 'Devouring Omen',
-      description: 'The Lie takes form, and where it passes sanity wilts. A void apparition that frightens enemies in 15ft.',
+        description: 'The Lie takes form, and where it passes sanity wilts. A silence apparition that frightens enemies in 15ft.',
       level: 6,
       spellId: 'fp_devouring_omen',
       creature: {
@@ -668,7 +562,7 @@
       name: 'Chaos Gate Entities',
       description: 'The Bleeding Eye of Keth-Amar weeps, and chaos bleeds through the rift. 5 chaos entities from a random rollable table.',
       level: 7,
-      spellId: 'harbinger-fate_rift-chaos_gate',
+      spellId: 'harbinger-fate_rift-ultimate_chaos',
       creature: {
         name: 'Chaos Entity',
         type: 'ELEMENTAL',
@@ -682,7 +576,7 @@
       controlType: 'mental',
       resourceCost: { mana: 30, mayhem: 7, actionPoints: 2 },
       variants: [
-        'Fire Elemental', 'Void Wraith', 'Chaos Slime', 'Lightning Sprite',
+        'Fire Elemental', 'Silence Wraith', 'Chaos Slime', 'Lightning Sprite',
         'Shadow Mimic', 'Frost Wisp', 'Gravity Elemental', 'Entropy Sprite',
         'Probability Wisp', 'Cosmic Flatulence Elemental', 'Chaos God Minion',
       ],
@@ -753,7 +647,7 @@
       name: 'Ice Wall',
       description: 'Hewn from the Deep Ice of the Frozen Archive, the wall remembers its death. A 20ft x 10ft x 1ft ice wall. Blocks movement and projectiles. Vulnerable to fire, immune to frost.',
       level: 2,
-      spellId: 'lb_frozen_bastion',
+      spellId: null,
       creature: {
         name: 'Ice Wall',
         type: 'CONSTRUCT',
@@ -833,33 +727,49 @@
     {
       id: 'apex_beast_companion',
       name: 'Beast Companion',
-      description: 'Bonded at the first hunt, beast and hunter share one savage heart. A loyal beast that fights alongside the Apex.',
+      description: 'Bonded at the first hunt, beast and hunter share one savage heart. A loyal beast that fights alongside the Apex for the whole expedition.',
+      level: 1,
+      spellId: null,
+      category: 'companion',
       image: '/assets/images/tokens/apex_beast_companion.png',
-      type: 'ally',
       tier: 'basic',
-      class: 'apex',
-      stats: { hp: 30, armor: 12, damage: '1d8+2' },
-      abilities: ['Pack Attack', 'Protective Instinct'],
-      apCost: 0,
-      summonTime: 'instant',
-      duration: 'permanent',
-      maxSummons: 1
+      maxSummons: 1,
+      creature: {
+        name: 'Beast Companion',
+        type: 'BEAST',
+        size: 'MEDIUM',
+        stats: { maxHp: 30, maxMana: 0, speed: 40 },
+        tokenIcon: 'ability_hunter_pet_bear',
+        abilities: ['Pack Attack', 'Protective Instinct'],
+      },
+      quantity: 1,
+      duration: { value: 0, unit: 'permanent' },
+      controlType: 'mental',
+      resourceCost: { quarry_marks: 0, actionPoints: 0 },
     },
     {
       id: 'apex_primal_beast_spirits',
       name: 'Primal Beast Spirits',
-      description: 'Old spirits of the hunt given claw and fury, three times over. Three primal spirits that attack autonomously.',
+      description: 'Old spirits of the hunt given claw and fury, three times over. Three primal spirits that attack under the Apex\'s mental command.',
+      level: 10,
+      spellId: 'apex_primal_apocalypse',
+      category: 'beast',
       image: '/assets/images/tokens/apex_primal_beast_spirits.png',
-      type: 'ally',
       tier: 'ultimate',
-      class: 'apex',
-      stats: { hp: 50, armor: 15, damage: '2d6+4' },
-      abilities: ['Primal Fury', 'Savage Assault'],
-      apCost: 3,
-      summonTime: 'action',
-      duration: 3,
-      maxSummons: 3
-    }
+      maxSummons: 3,
+      creature: {
+        name: 'Primal Beast Spirit',
+        type: 'BEAST',
+        size: 'LARGE',
+        stats: { maxHp: 50, maxMana: 0, speed: 40 },
+        tokenIcon: 'ability_hunter_pet_wolf',
+        abilities: ['Primal Fury', 'Savage Assault'],
+      },
+      quantity: 3,
+      duration: { value: 3, unit: 'rounds' },
+      controlType: 'mental',
+      resourceCost: { actionPoints: 3, quarry_marks: 5 },
+    },
   ],
 
   // =========================================================================
@@ -1016,7 +926,7 @@ const CLASS_ID_MAP = {
   'harbinger': 'harbinger',
   'chronarch': 'chronarch',
   // 'covenbane' merged into inquisitor as Phase 1.9 consolidation
-  'inquisitor': 'exorcist',
+  'inquisitor': 'inquisitor',
   'revenant': 'revenant',
 
   // 'dreadnaught' removed (absorbed into Martyr as Ironclad specialization)
@@ -1063,6 +973,16 @@ export const getTokensForRace = (raceId, subraceId) => {
   });
 };
 
+// --- Custom template merging ---
+// Custom templates are registered at runtime from customSummonStore.
+// This allows getTokensForCharacter and getTokenTemplateById to include them.
+
+let _registeredCustomTemplates = [];
+
+export const registerCustomSummonTemplates = (templates) => {
+  _registeredCustomTemplates = Array.isArray(templates) ? templates : [];
+};
+
 export const getTokensForCharacter = (character) => {
   const tokens = [];
   if (character?.characterClass) {
@@ -1073,6 +993,14 @@ export const getTokensForCharacter = (character) => {
     const raceTokens = getTokensForRace(character.race, character.subrace);
     tokens.push(...raceTokens);
   }
+  // Merge custom templates scoped to this character/class
+  const classId = resolveClassId(character?.characterClass);
+  const charId = character?.id || character?.characterId;
+  tokens.push(..._registeredCustomTemplates.filter((t) => {
+    if (t.characterId && t.characterId !== charId) return false;
+    if (t.classId && t.classId !== classId) return false;
+    return true;
+  }));
   return tokens;
 };
 
@@ -1092,6 +1020,8 @@ export const getTokenTemplateById = (templateId) => {
     const found = group.find(t => t.id === templateId);
     if (found) return found;
   }
+  const custom = _registeredCustomTemplates.find(t => t.id === templateId);
+  if (custom) return custom;
   return null;
 };
 

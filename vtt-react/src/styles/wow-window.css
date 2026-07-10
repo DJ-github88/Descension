@@ -227,14 +227,15 @@
 .window-content {
     display: flex;
     flex-direction: column;
-    flex: 1;
-    overflow: hidden; /* Changed from auto to hidden to prevent outer scrolling */
+    flex: 1 1 0%;
+    overflow-y: auto;
+    overflow-x: hidden;
     position: relative;
     padding: 0;
     width: 100%;
-    height: calc(100% - 40px); /* Subtract header height */
+    min-height: 0;
     box-sizing: border-box;
-    background: transparent; /* Make transparent so child components control their own backgrounds */
+    background: transparent;
 
     /* Ensure crisp text rendering instead of performance optimizations that blur text */
     text-rendering: optimizeLegibility;
@@ -246,8 +247,9 @@
     /* Enhanced scroll responsiveness */
     overscroll-behavior: contain;
     scroll-padding: 0;
-    will-change: scroll-position;
-    /* Remove transform that conflicts with dragging */
+
+    /* Responsive font scaling: clamp base font sizes when window is small */
+    font-size: clamp(11px, calc(0.85vw + 11px), 14px);
 }
 
 /* Make resize handle invisible but keep functionality - exclude combat timeline */
