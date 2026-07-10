@@ -210,17 +210,17 @@ The **[Solvarn](world-lore/races-overview)** humans share the ashlands. Every mo
  icon: 'fas fa-ghost',
  theme: 'danger',
  summary: [
- 'The Wyrd is a formless spiritual rot that bled through the cracks when Emberspire erupted. It cannot create, only occupy the collective imagination.',
+ 'The Wyrd is Keth-Amar\'s corruption breathed directly into mortal fears and folklore, leaking through the cracks when Emberspire erupted. It cannot create, only occupy the collective imagination.',
  'It uses human fear and folklore as structural blueprints. Every creature in the Bestiary was born when the Wyrd found an empty shape in a culture\'s terrors.',
  'Each continent produces unique monsters. To understand a creature is to understand the fear that birthed it. That fear is always the exploit point.'
  ],
  content: {
  title: 'The Wyrd: The Folkloric Infestation',
- description: 'When Emberspire erupted, it unsealed the Wyrd: a formless spiritual rot sealed since before human memory. It cannot create, only occupy. Every ghost story whispered around a hearth becomes a blueprint it can crawl inside. This is why the Gref of Frostwood wears stolen faces while the Cinder of Sundale burns truth into liars. Full stats in the Bestiary.',
+ description: 'When Emberspire erupted, it released the Wyrd: Keth-Amar\'s corruption breathed directly into mortal fears and folklore during the Corruption Years. It cannot create, only occupy. Every ghost story whispered around a hearth becomes a blueprint it can crawl inside. This is why the Gref of Frostwood wears stolen faces while the Cinder of Sundale burns truth into liars. Full stats in the Bestiary.',
  sections: [
  {
  title: 'Mechanics of Manifestation',
- content: `The Wyrd is a formless, ancient spiritual energy that cannot manifest on its own. It must occupy something, and what it occupies is the collective imagination. When a settlement whispers cautionary tales around a hearth, they draw an accidental blueprint. The Wyrd slips inside, turning folklore into living horrors.
+ content: `The Wyrd is Keth-Amar's corruption breathed directly into mortal fears and folklore, unable to manifest on its own. It must occupy something, and what it occupies is the collective imagination. When a settlement whispers cautionary tales around a hearth, they draw an accidental blueprint. The Wyrd slips inside, turning folklore into living horrors.
 
 **Why Each Continent Has Unique Monsters:**
 - **[Frostwood Reach](world-lore/regions)** (Skald/Briaran): face-stealing Gref, oath-hunting Gambrels. Cleansers cross-reference journals; swift defenders navigate the Revel's circle.
@@ -1523,7 +1523,7 @@ The local village elder, **Marra of the Nine**, offers a simple bounty: recover 
  },
  {
  title: 'The Watcher in the Mist [Pronunciation: thee WAH-cher in the MIST]',
- content: '**Noun (Entity).** The name Briaran oral tradition gives to the ancient fey presence that spoke to <LoreLink termId="house_viridane">House Viridane</LoreLink> in the moonlit groves during their flight south. Older than <LoreLink termId="keth_amar">Keth-Amar</LoreLink>\'s hunger and more patient, it offered a counter-bargain: protection from the Sun-Eater\'s sight in exchange for a permanent bond to the groves. The <LoreLink termId="briaran">Briaran</LoreLink> have carried the physical mark of that choice, their thorns, for eight centuries.'
+ content: '**Noun (Entity).** The impartial cosmic boundary entity between life, death, memory, and oblivion, known in the Bryngloom as the Keeper of the Last Threshold. Older than <LoreLink termId="keth_amar">Keth-Amar</LoreLink>\'s interest in this system, it acts as the world\'s conscience and memory. During the Breach, the Watcher reached <LoreLink termId="house_viridane">House Viridane</LoreLink> first, offering a counter-bargain of protection and memory-fog to hide them from the Sun-Eater\'s sight. The <LoreLink termId="briaran">Briaran</LoreLink> carry the mark of this choice, their thorns, for eight centuries. The Watcher is currently fracturing under Keth-Amar\'s pressure, threatening to collapse memory and death as categories.'
  },
  {
  title: 'Atropolis [Pronunciation: uh-TROP-uh-lis]',
@@ -1691,7 +1691,7 @@ The local village elder, **Marra of the Nine**, offers a simple bounty: recover 
  },
  {
  title: 'Keeper of the Last Threshold [Pronunciation: KEE-per of the LAST THRESH-ohld]',
- content: '**Noun (Entity).** The metaphysical being that enforces the <LoreLink termId="neth">Neth</LoreLink>\'s contract system, existing at the boundary between life and death. When the Neth ancestors sought to preserve themselves against the Fading, the Keeper accepted their offer, eternal record-keeping in exchange for preserved bodies. The <LoreLink termId="vreken">Vreken</LoreLink> know this same presence as the <LoreLink termId="root_veil">Root-Veil</LoreLink>; whether the two are one entity or two intelligences sharing a substrate remains bitterly disputed.'
+ content: '**Noun (Entity).** The Bryngloom name for the Watcher in the Mist, the impartial cosmic boundary entity between life, death, memory, and oblivion. In the swamp, it is perceived as the continent-spanning mycelial network that has recycled the dead since before human memory. The Neth struck the First Contract with it, receiving silver skin and stilled breath in exchange for binding their bloodlines to its laws, while the Vreken commune with it as the Root-Veil. Like the Watcher, it is currently fracturing under Keth-Amar\'s cosmic pressure, causing contract misfires and the rising of the dead.'
  },
  {
  title: 'Root-Veil [Pronunciation: ROOT VAYL]',

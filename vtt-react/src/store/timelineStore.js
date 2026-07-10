@@ -1,4 +1,4 @@
-﻿import { create } from 'zustand';
+import { create } from 'zustand';
 
 const CHRONOLOGY_ERA_DISPLAY = [
   {
@@ -977,7 +977,7 @@ const SEEDED_EVENTS = [
     type: 'disaster',
     phase: 'intrusion',
     description:
-      'Augur accuracy collapsed from 93% to 41% in three months. The star-arithmetic returned contradictory futures. The entrails of every sacrificed elk showed different deaths. Cause: temporal friction from the Silence-Heat engine disturbing the glacier-dead, combined with Keth-Amar\'s consumption reaching a threshold that destabilized linear time itself. The elders of the Frozen Archive suspect a deeper cause: the Watcher in the Mist, the entity that remembers time and guards the boundary between life and death, is fracturing under Keth-Amar\'s pressure. If the Watcher breaks, time itself breaks with it. The timeline fracture is not a symptom of the crisis — it is the crisis. The world\'s early-warning system (the Augurs who had tracked every pulse for 760 years) was blinded at the worst possible moment. The remaining Augur elders at the Frozen Archive disagree on whether the blindness is temporary or permanent. Cassia\'s body, preserved upright in glacier-ice, has begun to weep frozen tears.',
+      'Augur accuracy collapsed from 93% to 41% in three months. The star-arithmetic returned contradictory futures. The entrails of every sacrificed elk showed different deaths. Cause: temporal friction from the Silence-Heat engine disturbing the glacier-dead, combined with Keth-Amar\'s consumption reaching a threshold that destabilized linear time itself. The elders of the Frozen Archive suspect a deeper cause: the Watcher in the Mist, the entity that remembers time and guards the boundary between life and death, is fracturing under Keth-Amar\'s pressure. If the Watcher breaks, time itself breaks with it. The timeline fracture is not a symptom of the crisis — it is the crisis. The world\'s early-warning system (the Augurs who had tracked every pulse, exactly 65 pulses: 55 logged, 10 unlogged, since logging began) was blinded at the worst possible moment. The remaining Augur elders at the Frozen Archive disagree on whether the blindness is temporary or permanent. Cassia\'s body, preserved upright in glacier-ice, has begun to weep frozen tears.',
     locationIds: ['frozen-archive', 'nordhalla'],
     factionIds: ['house-skalvyr'],
     classIds: ['augur', 'chronarch'],

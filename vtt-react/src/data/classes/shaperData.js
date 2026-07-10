@@ -1,4 +1,4 @@
-﻿export const SHAPER_DATA = {
+export const SHAPER_DATA = {
   restrictions: {
       "allowedSubraces": [
           "maskborne_mimir",
@@ -130,8 +130,9 @@
   },
 
   worldFriction: [
-    { region: 'human-settlements', status: 'distrusted', consequence: 'Form-shifting reads to most humans as Wyrd-adjacent, the Gref steals faces, and a being that reshapes its own face triggers the same reflex. A Shaper in a Thalren or Solvarn town is watched closely and barred from archive or temple interiors until they hold a single form for inspection.', workaround: 'Hold a single stable form in public; the Shaping is the art, but stillness is the camouflage. A Shaper who never transforms in view is treated as merely an unusual Mimir or Groven.' },
-    { region: 'cragjaw-peaks', location: 'frostmaw_holdfast', status: 'celebrated', consequence: 'At Frostmaw, the Shaping Hall is a respected institution and Shapers are honored as the inheritors of the Vat-Breakers\' biological heritage. Groven and Mimir Shapers receive lodging, training-access, and the protection of the Form-Convergence.' }
+    { region: 'frostwood-reach', status: 'distrusted', consequence: 'House Thalreth outlaws shape-shifting outside licensed Mimir actors, fearing that unregistered form-shifting is used by spies to bypass the Scribe-Cartel registries.', workaround: 'Shapers hide their transformations under massive, fur-lined cloaks, utilizing the constant mist to mask the flash of biological shift.' },
+    { region: 'cragjaw-peaks', location: 'frostmaw_holdfast', status: 'celebrated', consequence: 'At Frostmaw, the Shaping Hall is a respected institution and Shapers are honored as the inheritors of the Vat-Breakers\' biological heritage. Groven and Mimir Shapers receive lodging, training-access, and the protection of the Form-Convergence.' },
+    { region: 'bryngloom-forest', status: 'persecuted', consequence: 'The Neth pact-lords view form-altering as a breach of contractual identity. A Shaper who alters their physical signature to avoid a contract is branded as an Identity Thief and hunted by Debt-Revenants.', workaround: 'Shapers operate in the Over-Shanty, selling physical labor under temporary forms that have no legal names written in the First Contract.' }
   ],
 
   overview: {

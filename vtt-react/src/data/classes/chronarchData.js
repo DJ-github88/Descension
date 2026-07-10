@@ -132,8 +132,9 @@ export const CHRONARCH_DATA = {
  },
 
  worldFriction: [
- { region: 'cragjaw-peaks', location: 'frostmaw_holdfast', status: 'celebrated', consequence: 'In the Cragjaw, Chronarchs are the engineers of last resort, their temporal stitching has held collapsing spans and stalled mine-cave-ins. House Tesshan grants them privileged heat-line access, though the Jarl-Tesshan records their every stitch in knotted cord (the Chronarchs resent the surveillance).', workaround: 'A Chronarch who refuses to log a stitch is suspected of temporal crime; the knotted cord-record is both protection and leash.' },
- { region: 'nordhalla', status: 'distrusted', consequence: 'The Skald genealogists despise temporal manipulation, an unraveled moment can edit an ancestor out of the record. Chronarchs are tolerated at the Frozen Archive only under escort, and a Chronarch caught stitching near the glacier-tombs may be lawfully killed by any Rune-Keeper.' }
+  { region: 'cragjaw-peaks', location: 'frostmaw_holdfast', status: 'celebrated', consequence: 'In the Cragjaw, Chronarchs are the engineers of last resort, their temporal stitching has held collapsing spans and stalled mine-cave-ins. House Tesshan grants them privileged heat-line access, though the Jarl-Tesshan records their every stitch in knotted cord (the Chronarchs resent the surveillance).', workaround: 'A Chronarch who refuses to log a stitch is suspected of temporal crime; the knotted cord-record is both protection and leash.' },
+  { region: 'nordhalla', status: 'distrusted', consequence: 'The Skald genealogists despise temporal manipulation, an unraveled moment can edit an ancestor out of the record. Chronarchs are tolerated at the Frozen Archive only under escort, and a Chronarch caught stitching near the glacier-tombs may be lawfully killed by any Rune-Keeper.' },
+  { region: 'sundale', status: 'persecuted', consequence: 'The Dawn Vigil views chronomancy as an attempt to delay Sol\'s final Reforging, classifying temporal manipulation as a form of cosmic treason.', workaround: 'Chronarchs hide in the subterranean coal-mines of Emberspire, offering temporal stasis loops to miners trapped by tunnel collapses in exchange for food and coal.' }
  ],
 
  overview: {

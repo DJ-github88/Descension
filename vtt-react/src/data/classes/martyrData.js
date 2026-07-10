@@ -122,7 +122,8 @@ export const MARTYR_DATA = {
 
  worldFriction: [
   { region: 'sundale', status: 'celebrated-and-conscripted', consequence: 'The noble houses draft Martyrs as strategic resources; a Martyr cadre extends a battalion fight-duration threefold. Celebrated in public procession, a Sundale Martyr is in practice a conscript, refusal of "muster" is treated as desertion. The Vow-corruption (predatory absorption) is officially denied.', workaround: 'A Martyr who refuses the formal Vow but still absorbs covertly can operate as a "freelance", legally ambiguous, but the houses cannot conscript what they cannot document.' },
-  { region: 'bryngloom-forest', status: 'distrusted', consequence: 'The Neth read the Devotion Gauge as an unfiled transfer of suffering, a Martyr in Atropolis who absorbs an ally wound without a prior covenant is in technical breach of contract-law. The Velun tolerate only their own Contract-Martyr variant.' }
+  { region: 'bryngloom-forest', status: 'distrusted', consequence: 'The Neth read the Devotion Gauge as an unfiled transfer of suffering, a Martyr in Atropolis who absorbs an ally wound without a prior covenant is in technical breach of contract-law. The Velun tolerate only their own Contract-Martyr variant.' },
+   { region: 'nordhalla', status: 'hunted', consequence: 'House Skalvyr outlaws the Martyr\'s blood-vow, declaring that transferring wounds between mortals violates the ancestral lineage of the Rime-Born.', workaround: 'Martyrs serve in secret among the thrall-caste of the glacier-keeps, taking their beatings and freezing wounds onto themselves in the lightless sumps.' }
  ],
 
  overview: {

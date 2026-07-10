@@ -1,4 +1,4 @@
-﻿export const REVENANT_DATA = {
+export const REVENANT_DATA = {
   restrictions: {
       "allowedSubraces": [
           "clean_vreken",
@@ -168,7 +168,8 @@
 
   worldFriction: [
     { region: 'bryngloom-forest', status: 'persecuted', consequence: 'The bog-graves are waking and the dead march toward the Monoliths; the Neth Regency has blamed the Revenants and revoked their burial rights. A Revenant caught near a waking grave is charged with "unauthorized reanimation" and subject to the Keeper\'s Sanction, permanent, final dissolution.', workaround: 'A Drun Neth Revenant is invisible to the Keeper and thus immune to the Sanction, but a Drun in the Bryngloom cannot prove they exist, which makes defending the charge impossible.' },
-    { region: 'sundrift-vale', status: 'distrusted', consequence: 'The Ordan leave their dead to the steppe and consider any who traffic in undeath to be corpse-violators; a Revenant on the migration is refused fire, water, and passage.' }
+    { region: 'sundrift-vale', status: 'distrusted', consequence: 'The Ordan leave their dead to the steppe and consider any who traffic in undeath to be corpse-violators; a Revenant on the migration is refused fire, water, and passage.' },
+    { region: 'nordhalla', status: 'hunted', consequence: 'The Skald of House Skalvyr view the Twice-Born as abomination-kin of the glacier-dead, hunting them with cold-iron runes to protect the sanctity of ancestor-tombs.', workaround: 'Revenants hide in the rime-carved ice-caverns, pretending to be glacier-spirits or frozen hermits to avoid the Rune-Keeper patrols.' }
   ],
 
   overview: {

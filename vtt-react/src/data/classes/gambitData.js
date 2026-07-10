@@ -1,4 +1,4 @@
-﻿export const GAMBIT_DATA = {
+export const GAMBIT_DATA = {
   restrictions: {
       "allowedSubraces": [
           "merryn_human",
@@ -131,7 +131,8 @@
 
   worldFriction: [
     { region: 'iceheart-sea', location: 'merrowport', status: 'tolerated', consequence: 'The Merrowport House is a licensed institution; its Gambits operate openly as brokers, odds-makers, and contract-underwriters. A House Gambit in good standing has legal authority to adjudicate voyage-share disputes.', workaround: 'The Deck-Burners (Lyra radicals) are NOT tolerated, they are wanted by the House middle for forcing outcomes, which the House considers a breach of the wager itself.' },
-    { region: 'nordhalla', status: 'outlawed', consequence: 'The Skald consider gambling dishonorable and House Skalvyr law treats probability-manipulation as a form of theft. A Gambit caught working the glacier-keeps is stripped of voyage-shares and exiled; a Gambit who "forces" an outcome near a Skald is killed.' }
+    { region: 'nordhalla', status: 'outlawed', consequence: 'The Skald consider gambling dishonorable and House Skalvyr law treats probability-manipulation as a form of theft. A Gambit caught working the glacier-keeps is stripped of voyage-shares and exiled; a Gambit who "forces" an outcome near a Skald is killed.' },
+    { region: 'bryngloom-forest', status: 'persecuted', consequence: 'The Neth script-cartels view probability-manipulation as an unlawful modification of signed contracts. A Gambit caught using cards or dice to alter a debt-covenant is subject to immediate memory-drain at Atropolis.', workaround: 'Gambits operate in the Over-Shanty, where they sell memory-glass copies of altered odds and help Morren debtors buy back their names through underground wagers.' }
   ],
 
   overview: {

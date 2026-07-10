@@ -1836,6 +1836,17 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
           ]
         }
       },
+    },
+    {
+      "id": "lunarch_void_chill",
+      "name": "Void-Chill",
+      "description": "The parasite has made your blood a piece of the void between stars. For the duration you radiate an otherworldly cold: freeze a plane of water, crust a wet surface in ice, snuff small flames and heat-signatures, and chill drinks or preserve food. The same aura marks you as deeply, unsettlingly alien — advantage on Intimidation, disadvantage on Persuasion and warmth-based rapport. Out of combat.",
+      "level": 3,
+      "spellType": "ACTION",
+      "icon": "Frost/Ice Shard",
+      "typeConfig": { "school": "rime", "icon": "Frost/Ice Shard", "tags": ["utility", "cold", "exploration", "social", "lunarch"], "castTime": 1, "castTimeType": "IMMEDIATE" },
+      "targetingConfig": { "targetingType": "self", "rangeType": "self" },
+      "resourceCost": { "actionPoints": 1, "resourceTypes": ["mana"], "resourceValues": { "mana": 6 }, "components": ["somatic"], "somaticText": "Let the void-cold bleed out through your skin" },
       "resolution": "NONE",
         "effectTypes": ["utility"],
         "utilityConfig": {

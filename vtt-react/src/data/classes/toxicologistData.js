@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Toxicologist Class Data
  *
  * Complete class information for the Toxicologist - a master of poisons, concoctions,
@@ -137,8 +137,9 @@ export const TOXICOLOGIST_DATA = {
   },
 
   worldFriction: [
-    { region: 'human-settlements', status: 'outlawed', consequence: 'Poison-craft is universally criminalized; a known Toxicologist is barred from taverns, markets, and any gathering where food is served. Possession of a toxin-vial is a felony in six of the seven regions.', workaround: 'Frame the craft as "apothecary" or "fog-ward reagent-distillation", the line between poison and medicine is thin, and a Toxicologist with a Scribe-Cartel apothecary-license operates openly until caught dosing.' },
-    { region: 'frostwood-reach', status: 'tolerated', consequence: 'The Frostwood is the one region where Toxicologists operate in the open, the Wyrd-predators make chemical defense a civic necessity, and Greymark Keep quietly employs them as fog-predator-control. The Distillery is an open secret.' }
+    { region: 'sundale', status: 'outlawed', consequence: 'The Dawn Vigil enforces total prohibition on alchemical toxins, declaring them tools of cowards and heretics who refuse the cleansing furnace. Possession of a toxin-vial is punished by branding and forced labor in the Emberspire caldera.', workaround: 'Toxicologists operate as "soot-purifiers" or "forge-apothecaries," selling alchemical catalysts under the pretext of cleaning sulfur-buildups in the smelting ovens.' },
+    { region: 'frostwood-reach', status: 'tolerated', consequence: 'The Frostwood is the one region where Toxicologists operate in the open, the Wyrd-predators make chemical defense a civic necessity, and Greymark Keep quietly employs them as fog-predator-control. The Distillery is an open secret.' },
+    { region: 'bryngloom-forest', status: 'persecuted', consequence: 'The Neth Board of Trade outlaws unregistered alchemical distillates to protect the Moss-Wax monopoly. Any Toxicologist caught distributing un-taxed acids or poisons faces arrest and the conscription of their laboratory reagents.', workaround: 'Distill reagents in the peat-crypts beneath Over-Shanty, selling alchemical solvent to peat-cutters seeking to dissolve ironwood roots for fuel.' }
   ],
 
   overview: {

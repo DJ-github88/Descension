@@ -106,7 +106,8 @@ export const BERSERKER_DATA = {
  worldFriction: [
  { region: 'bryngloom-forest', location: 'atropolis', status: 'banned', consequence: 'Berserkers are outlawed within Atropolis as rabid beasts, a volatile Blood-Heat burst in the silver law-chambers would be catastrophic. Any identified Berserker is denied entry at the Toll-Dikes and arrested on sight.', workaround: 'Travel cold and masked; register as a laborer or forge-hand. A Berserker who has not ignited in days is nearly indistinguishable from a scarred Thrask smith, until the Heat rises.' },
  { region: 'sundale', location: 'harath_vault', status: 'celebrated', consequence: 'In the Harath-Vault arenas, Berserkers are champion-entertainers and sacred survivors. Arena victors receive lodging, patrons, and legal immunity within Sundale for the duration of their winning streak.' },
- { region: 'nordhalla', location: 'frozen_archive', status: 'distrusted', consequence: 'The Skald elders of the Frozen Archive claim jurisdiction over who may carry the Hunger Pact; an Unbound Berserker in Nordhalla faces execution without trial.' }
+ { region: 'nordhalla', location: 'frozen_archive', status: 'distrusted', consequence: 'The Skald elders of the Frozen Archive claim jurisdiction over who may carry the Hunger Pact; an Unbound Berserker in Nordhalla faces execution without trial.' },
+  { region: 'cragjaw-peaks', status: 'tolerated', consequence: 'Fexric miners value Berserkers as biological heavy excavators who can ignore the cold-chill. However, House Tesshan requires them to wear steam-dampening shackles inside the keeps to prevent accidental rage explosions.', workaround: 'Berserkers work in the deep sumps where Jarl Tesshan\'s guards rarely patrol, selling their muscle-power directly to Clan-Free forge-masters.' }
  ],
 
  overview: {

@@ -121,8 +121,9 @@ export const MINSTREL_DATA = {
  },
 
  worldFriction: [
- { region: 'iceheart-sea', location: 'merrowport', status: 'celebrated', consequence: 'In Merrowport the Tide-Choir are civic treasures, their storm-cadences have saved fleets, and a licensed Minstrel holds privileged berthing and Board-of-Trade exemption. The Drowned Opera is city-subsidized.', workaround: 'This standing is collapsing with the silence: a Minstrel who cannot make the sea sing is increasingly seen as a fraud, and desperate Minstrels are beginning to be suspected of causing the silence itself.' },
- { region: 'nordhalla', status: 'tolerated', consequence: 'The Frost Chanter tradition overlaps Minstrel craft enough that Nordhalla tolerates visiting Minstrels, provided their performances do not drown the oral-history verses the Runic Academies seek to suppress.' }
+  { region: 'iceheart-sea', location: 'merrowport', status: 'celebrated', consequence: 'In Merrowport the Tide-Choir are civic treasures, their storm-cadences have saved fleets, and a licensed Minstrel holds privileged berthing and Board-of-Trade exemption. The Drowned Opera is city-subsidized.', workaround: 'This standing is collapsing with the silence: a Minstrel who cannot make the sea sing is increasingly seen as a fraud, and desperate Minstrels are beginning to be suspected of causing the silence itself.' },
+  { region: 'nordhalla', status: 'tolerated', consequence: 'The Frost Chanter tradition overlaps Minstrel craft enough that Nordhalla tolerates visiting Minstrels, provided their performances do not drown the oral-history verses the Runic Academies seek to suppress.' },
+  { region: 'sundrift-vale', status: 'distrusted', consequence: 'House Ordavan\'s ancestor-cult strictly outlaws the Tide-Choir\'s wind-songs, believing they disturb the slumbering Sky-Singers and dilute steppe oral tradition.', workaround: 'Minstrels perform disguised as traveling merchants or steppe-heralds, using small, silent gut-string lutes to convey messages under the noses of Ordavan staves.' }
  ],
 
  overview: {
