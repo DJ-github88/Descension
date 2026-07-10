@@ -1,17 +1,17 @@
-﻿// ============================================
+// ============================================
 // FALSE PROPHET TALENT TREES
 // Each tree represents a style of preaching the silence as sacred truth.
 // Talents interact with the Madness system (generation, spending,
 // thresholds, and Convulsion) as well as the spec's core fantasy.
 // ============================================
 
-// VOIDCALLER - Fire-and-Brimstone Preaching
+// SILENCE SPEAKER - Fire-and-Brimstone Preaching
 // Aggressive damage dealer. Talents amplify Madness generation
 // and reward living at high Madness levels.
 export const FALSE_PROPHET_SILENCE_SPEAKER = [
   // Tier 0 - The First Sermon
   {
-    id: 'void_t0_void_seed',
+    id: 'silence_t0_silence_seed',
     name: 'Opening Hymn',
     description: 'The Emberspire\'s shadow stretches across the altar of creation. Your sermons begin with a taste of the silence. Generate +1 Madness whenever you deal damage with a spell for the first time each turn. Once per day, unleash silence tendrils dealing 2d8 necrotic damage per rank.',
     icon: 'spell_shadow_summonvoidwalker',
@@ -22,111 +22,111 @@ export const FALSE_PROPHET_SILENCE_SPEAKER = [
 
   // Tier 1 - Building the Fervor
   {
-    id: 'void_t1_shadow_tendrils',
+    id: 'silence_t1_shadow_tendrils',
     name: 'Congregation\'s Grasp',
     description: 'The silence spirit\'s liturgy binds the faithless in chains of shadow. Your preaching snares the unbelievers. Creatures within 10ft have speed reduced by 10ft per rank. When you generate Madness, affected enemies take 1 psychic damage per Madness point generated.',
     icon: 'spell_shadow_blackplague',
     maxRanks: 4,
     position: { x: 1, y: 1 },
-    requires: 'void_t0_void_seed',
+    requires: 'silence_t0_silence_seed',
   },
   {
-    id: 'void_t1_void_whisper',
+    id: 'silence_t1_silence_whisper',
     name: 'Heretic\'s Whisper',
     description: 'Every heretic hears the Emberspire\'s sermon in their dying breath. Whisper silence scripture that shatters sanity. One creature within 30ft takes 1d6 psychic damage per rank. Each time this damage kills a target, gain 1d4 Madness.',
     icon: 'spell_shadow_mindshear',
     maxRanks: 3,
     position: { x: 3, y: 1 },
-    requires: 'void_t0_void_seed',
+    requires: 'silence_t0_silence_seed',
   },
 
   // Tier 2 - The Sermon Intensifies
   {
-    id: 'void_t2_fervor',
+    id: 'silence_t2_fervor',
     name: 'Blinding Fervor',
     description: 'The silence rewards those who kneel before its glorious corruption. Your conviction blinds you to danger. When you generate Madness and the roll is maximum (e.g., 4 on 1d4, 6 on 1d6), you generate double the amount. Gain resistance to psychic damage.',
     icon: 'spell_shadow_nethercloak',
     maxRanks: 2,
     position: { x: 0, y: 2 },
-    requires: 'void_t1_shadow_tendrils',
+    requires: 'silence_t1_shadow_tendrils',
   },
   {
-    id: 'void_t2_void_eruption',
+    id: 'silence_t2_silence_eruption',
     name: 'Hellfire Passage',
     description: 'The Emberspire\'s rage spills forth as sacred fire. Quote the silence spirit\'s wrath. 15ft radius deals 3d6 necrotic damage, half to allies. Generates +1d4 Madness when cast.',
     icon: 'spell_shadow_shadowfury',
     maxRanks: 3,
     position: { x: 2, y: 2 },
-    requires: 'void_t1_shadow_tendrils',
+    requires: 'silence_t1_shadow_tendrils',
   },
   {
-    id: 'void_t2_emptiness',
+    id: 'silence_t2_emptiness',
     name: 'Embrace the Silence',
     description: 'To surrender to the silence spirit is to become untouchable. The silence spirit rewards the faithful. While at 10+ Madness, gain resistance to necrotic damage. Your Madness damage bonus also applies to psychic damage.',
     icon: 'spell_shadow_twilight',
     maxRanks: 2,
     position: { x: 4, y: 2 },
-    requires: 'void_t1_void_whisper',
+    requires: 'silence_t1_silence_whisper',
   },
 
   // Tier 3 - Deep Conviction
   {
-    id: 'void_t3_void_touch',
+    id: 'silence_t3_silence_touch',
     name: 'Anointed Strike',
     description: 'The Emberspire\'s corruption flows through anointed hands into the flesh of heretics. Lay hands of the silence upon the unbeliever. Next attack deals +2d6 necrotic damage per rank. If this attack drops a target below half HP, generate 1d6 Madness.',
     icon: 'spell_shadow_fingerofdeath',
     maxRanks: 4,
     position: { x: 1, y: 3 },
-    requires: 'void_t2_void_eruption',
+    requires: 'silence_t2_silence_eruption',
   },
   {
-    id: 'void_t3_abyssal_resonance',
+    id: 'silence_t3_abyssal_resonance',
     name: 'Resonant Liturgy',
     description: 'Every syllable of the silence spirit\'s name amplifies the madness within the congregation. Your sermons echo with silence power. Your sermon spells deal +1d6 damage per rank. Sermon spells generate +1 Madness per rank when cast.',
     icon: 'spell_shadow_darkritual',
     maxRanks: 3,
     position: { x: 3, y: 3 },
-    requires: 'void_t2_void_eruption',
+    requires: 'silence_t2_silence_eruption',
   },
 
   // Tier 4 - The Zealot's Power
   {
-    id: 'void_t4_void_nova',
+    id: 'silence_t4_silence_nova',
     name: 'Apocalyptic Sermon',
     description: 'The final sermon speaks of the Emberspire\'s promise: oblivion for all who refuse to kneel. Deliver the final sermon. 30ft radius deals 4d6 necrotic damage. Damage increases by +1d6 for every 5 Madness you currently have.',
     icon: 'spell_shadow_shadesofdarkness',
     maxRanks: 3,
     position: { x: 0, y: 4 },
-    requires: 'void_t3_void_touch',
+    requires: 'silence_t3_silence_touch',
   },
   {
-    id: 'void_t4_void_beacon',
+    id: 'silence_t4_silence_beacon',
     name: 'Beacon of the Silence',
     description: 'Become a living altar to the silence spirit, breathing corruption with every pulse of your heart. Summon a silence acolyte that attacks enemies. While the acolyte lives, your Madness generation rolls gain +1.',
     icon: 'spell_shadow_summonvoidwalkers',
     maxRanks: 2,
     position: { x: 2, y: 4 },
-    requires: 'void_t3_void_touch',
+    requires: 'silence_t3_silence_touch',
   },
   {
-    id: 'void_t4_cosmic_void',
+    id: 'silence_t4_cosmic_silence',
     name: 'Transcendent Conviction',
     description: 'At the precipice of true madness, the silence spirit\'s divinity burns away all worldly weakness. At 15+ Madness, your spells ignore resistance to necrotic and psychic damage. Your Convulsion self-damage is halved.',
     icon: 'spell_shadow_demonicempathy',
     maxRanks: 1,
     position: { x: 4, y: 4 },
-    requires: 'void_t3_abyssal_resonance',
+    requires: 'silence_t3_abyssal_resonance',
   },
 
   // Tier 5 - Ultimate Sermon
   {
-    id: 'void_t5_void_apocalypse',
+    id: 'silence_t5_silence_apocalypse',
     name: 'The Final Revelation',
     description: 'The Emberspire\'s final truth echoes through reality, cracking the foundations of the material world. Preach the end of all things. 60ft radius becomes difficult terrain and deals 2d6 necrotic damage per turn. If cast while at 18+ Madness, the area also silences enemies for 1 round.',
     icon: 'spell_shadow_demonicempathy',
     maxRanks: 1,
     position: { x: 2, y: 6 },
-    requires: ['void_t4_void_nova', 'void_t4_void_beacon', 'void_t4_cosmic_void'],
+    requires: ['silence_t4_silence_nova', 'silence_t4_silence_beacon', 'silence_t4_cosmic_silence'],
     requiresAll: true,
   }
 ];
@@ -292,7 +292,7 @@ export const FALSE_PROPHET_CULTIST = [
     requires: 'cult_t0_dark_ritual',
   },
   {
-    id: 'cult_t1_void_acolyte',
+    id: 'cult_t1_silence_acolyte',
     name: 'Summon Silence Acolyte',
     description: 'Every acolyte summoned in the Emberspire\'s name carries a fraction of its corrosive will. Summon a silence acolyte to perform your rites. It has armor 13 and deals 1d6 necrotic damage. When the acolyte hits an enemy, you generate 1 Madness.',
     icon: 'spell_shadow_summonfelhunter',
@@ -318,7 +318,7 @@ export const FALSE_PROPHET_CULTIST = [
     icon: 'spell_shadow_demonicpact',
     maxRanks: 2,
     position: { x: 2, y: 2 },
-    requires: 'cult_t1_void_acolyte',
+    requires: 'cult_t1_silence_acolyte',
   },
   {
     id: 'cult_t2_forbidden_knowledge',
@@ -327,7 +327,7 @@ export const FALSE_PROPHET_CULTIST = [
     icon: 'spell_shadow_grimward',
     maxRanks: 3,
     position: { x: 4, y: 2 },
-    requires: 'cult_t1_void_acolyte',
+    requires: 'cult_t1_silence_acolyte',
   },
 
   // Tier 3 - Deep Rituals

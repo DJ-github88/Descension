@@ -141,3 +141,6 @@ UTF8
 
 # Agent verification metadata
 .vibemole/
+
+# Gemini CLI cache (transcripts, logs, media, brain sessions)
+.gemini/

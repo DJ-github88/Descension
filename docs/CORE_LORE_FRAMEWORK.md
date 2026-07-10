@@ -20,7 +20,7 @@ Keth-Amar does not personally create most Wyrd-Spawns. It seeds the soil (Wyrd-T
 
 ### Cosmic Entities
 
-Seven entities. Clear roles. No overlap.
+Six principal entities (with the Dead Moon treated separately). Clear roles. No overlap.
 
 ### 1.1 — The Warden
 - Not a god, not a person, not a force. The **language reality speaks**. The grammar of consequence.
@@ -74,6 +74,14 @@ Seven entities. Clear roles. No overlap.
 - Now it **despises Keth-Amar** for what it was made into. It calls in Pyrofiend debts not to serve the Sun-Eater, but to hoard power to wound it back.
 - It is the pain of the flaying given form and malice. Aex's vengeful ghost — a ghost that has forgotten it was ever innocent.
 - Keth-Amar cannot reach into that vent anymore. Scathrach sealed it from within. A permanent irritant in the Sun-Eater's side.
+
+---
+
+### 1.7 — Nature of Magic
+
+All magic in Descension flows from the Warden's bargain-framework — the grammar of consequence that prices every exchange — and from the consequences of the Binding and the Breach. The noble houses' contracts, the Neth's First Contract, and the Pyrofiend–Scathrach pacts are all bargains struck with cosmic powers under that framework. The Lunarch's bond is lunar parasitism, rooted in the Dead Moon's fallen ecology. The False Prophets resonate with the Void, listening to the silence Aex left behind. The Animists channel ancestral bonds preserved by the Watcher's boundary. None of it is raw power; all of it is debt, contract, or infection.
+
+The Wyrd is what leaks through the broken seal. Keth-Amar cultivates corruption in the world's fears through the fracture in the Binding, and the Wyrd that grows is the predator's agriculture — rumor, myth, and nightmare seeded from the wound Aex's flayed hide no longer fully closes. Magic and corruption are two faces of the same broken bargain: every working draws on a debt someone agreed to, and every leak is the Sun-Eater collecting.
 
 ---
 
@@ -173,7 +181,7 @@ Each house made a Dark Bargain with Keth-Amar during the Corruption Years. Each 
 | **Mimir** | Forester Sylvain + doppelganger merger. Mask-bound shapeshifters. | Pre-existed |
 | **Vreken** | Fungal-lit cave species. Bioluminescent. | Pre-existed (oldest besides Fexric) |
 | **Fexric** | Goblinoid engineers. 8,000+ years. | Pre-existed |
-| **Groven** | Alchemical experiments on Thrumm trolls. Bridge-builders. | Created ~800 years ago (experiment, unrelated to cosmic events) |
+| **Groven** | Alchemical experiments on Thrumm trolls. Bridge-builders. | Created ~800 years ago by the Fexric Deep Alchemists, who forged them from Thrumm blood as a servile caste of tireless warren-laborers. The Vat-Breakers rebelled and fled into the crags; the Groven remain the Fexric-bred, alchemically reshaped descendants of the Thrumm. (An experiment, unrelated to cosmic events.) |
 
 ---
 
@@ -224,7 +232,7 @@ They are not *all* body parts in the literal sense — some are pieces of his wo
 | 3 | **Tesshan** | Rib bone | Cragjaw | In a crevasse on the highest unclimbed peak, wrapped in perpetual blizzard. | The Wind-Bone — the blizzard-veil that Tesshan traded visibility for circles this peak, isolating the Monolith. The blizzard *is* the Wyrd guarding it. |
 | 4 | **Mereval** | Lungs | Iceheart Sea | At the bottom of the deepest trench, where the perpetual storm above creates crushing pressure. | The Depth-Breath — it breathes. Underwater, miles down, the lung-tissue still expands and contracts. Storm above it cycles with its breathing. |
 | 5 | **Ordavan** | Spine | Sundrift Vale | Half-buried in the endless grass, visible as a ridge of black crystalline vertebrae running for a mile. | The Grass-Spine — the eternal darkness overhead comes from Keth-Amar drinking light through this Monolith. The grass is black where it grows over bone. |
-| 6 | **Solvan** | Heart (false) | Sundale | In the ruins of the oldest Solvan keep, beneath the floor of the hall where Aex was named to the Warden. | The Still-Heart — it beats once per hour. Each beat sends a tremor through the ground for a mile. Solvan keeps it as a reliquary, guards it with their last silence. |
+| 6 | **Solvan** | Still-Heart (mistaken) | Sundale | In the ruins of the oldest Solvan keep, beneath the floor of the hall where Aex was named to the Warden. | The Still-Heart — it beats once per hour. Each beat sends a tremor through the ground for a mile. Solvan keeps it as a reliquary, guards it with their last silence. **Note:** this is *not* the False Monolith. THE False Monolith is Viridane's hollow echo — a distinct, signature-less fragment (see §8.3) — whereas Solvan's Still-Heart is the genuine (if misidentified) heart-fragment of Aex. |
 
 ### 8.3 The False Monolith (Viridane's)
 
@@ -263,7 +271,7 @@ Each class was **founded by a specific person** in direct response to the world'
 | **Augur** | Cassia | That the future cannot be read | Listens for Aex's scream. Measures the pulse. Knows it is failing. |
 | **Spellguard** | Damon | That Sol cannot be protected | Defenders of Aex's remaining seal. Their magic resists Wyrd. |
 | **Martyr** | Sera Solvan | That sacrifice is meaningless | Takes the suffering Keth-Amar would feed on. The Vow starves the predator. |
-| **Warden** | Merrick the Bound | That the Warden has no name | Purposefully misnamed. Chain-surgeons who enforce bargains. |
+| **Warden** | Alaric the Law-Keeper | That the Warden has no name | Chain-surgeons who enforce bargains. |
 | **Animist** | Kael / Nyssa / Theron | That the dead cannot speak | Channel ancestral spirits preserved by the Watcher's boundary. |
 
 ### 9.2 — Classes That Weaponize the Crisis
@@ -291,7 +299,7 @@ These classes are not *about* the cosmic crisis — but the crisis has given the
 | **Plaguebringer** | Vespera | Disease-hosting. Decay as continuation. | The Wyrd is a disease, and Plaguebringers understand disease. They might be the only ones who can vaccinate against it. |
 | **Revenant** | Kora / Vesper | Postmortem obligation. Death does not cancel the contract. | Keth-Amar consuming Aex's consciousness* is a threat to all dead consciousness. If the boundary collapses, Revenants lose their contracts. |
 | **Inquisitor** | Orven / Elias | Wyrd-hunting. Polices supernatural breaches. | The Inquisitor's entire profession becomes more necessary with every pulse. They do the work no one else will. |
-| **Toxicologist** | Nyssa (splinter) | Chemistry as weapon. | The Wyrd has chemical signatures. A Toxicologist who can identify Wyrd compounds may find a counteragent — or a weapon. |
+| **Toxicologist** | Varis the Trembling | Chemistry as weapon. | The Wyrd has chemical signatures. A Toxicologist who can identify Wyrd compounds may find a counteragent — or a weapon. |
 
 ### 9.4 — Cosmic Relationships Per Class
 

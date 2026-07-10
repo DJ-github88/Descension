@@ -100,10 +100,10 @@ const Step8LoreDetails = () => {
                     <div className="lore-header">
                         <h2>
                             <i className="fas fa-scroll"></i>
-                            Character Chronicle
+                            Forging Your Story
                         </h2>
                         <p className="lore-description">
-                            Before you lies a blank page in a freezing world. Set down who your character is: their origin, the oaths that bind them, the dreads that hunt them. All fields are optional, but the unwritten is where the Wyrd finds its way in.
+                            The Wyrd finds its way in through the unwritten. Set down your character's origin, their oaths, and the fears that hunt them in a world where the sun is dead and the fog eats memories. All fields are optional — but the blanks are where the dark gets in.
                         </p>
                     </div>
 

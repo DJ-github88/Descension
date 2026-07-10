@@ -909,7 +909,7 @@ const useResourceFormatters = ({ spell, variant, className, library }) => {
               'frostwalker': 'Frostwalker',
               'silent_shroud': 'Silent Shroud',
               'life_leech': 'Life Leech',
-              'deep_void': 'Deep Void',
+              'deep_void': 'Deep Silence',
               'eternal_hunger': 'Eternal Hunger'
             };
             const displayName = pathNames[ascensionPath] || ascensionPath;

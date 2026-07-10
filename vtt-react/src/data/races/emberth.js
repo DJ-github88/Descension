@@ -110,7 +110,7 @@ The Risen hold to the old faith: Sol is sleeping, the ember is merely resting, a
 
 The Sunderer, a smaller, heretical faction, believe the Solbrand was never Sol's gift at all. They argue that the ember is Keth-Amar's tether, a feeding-line the predator left embedded in Emberth culture so it could consume their devotion alongside their spirit's embers. They advocate extinguishing the Solbrand entirely and beginning a new covenant.
 
-The Scoured, named for the forge-marks they ritually deface from their skin upon joining, have left both bloodlines entirely. They are scattered across Sundale, gathering fragments of the binding seal (the Sundered Monoliths) in the belief that if Keth-Amar's breach can be sealed, Sol may finally complete the Deepening and be reborn. They are regarded as dangerous fanatics by the tending-clan, as noble fools by the Sunderer, and as a quiet hope by the Thrask who fear the Solbrand's extinction.
+The Scoured, named for the forge-marks they ritually deface from their skin upon joining, have left both bloodlines entirely. They are scattered across Sundale, gathering fragments of the binding seal (the Sundered Monoliths) in the belief that if Keth-Amar's breach can be sealed, Sol may finally be released from its endless suffering. They are regarded as dangerous fanatics by the tending-clan, as noble fools by the Sunderer, and as a quiet hope by the Thrask who fear the Solbrand's extinction.
 
 The Thrask, who spend more time on the surface than any Korr, were the first to notice the evidence: ashfall shifting, vents cooling, the temperature dropping year by year. They are agitating for transparency. The Korr are refusing. The surface outposts and frontier settlements are caught between the two bloodlines, unsure which way the crisis will break.
 
@@ -473,6 +473,7 @@ The Thrask were the first to notice the evidence of the Solbrand's dimming. They
         strength: 1,
         intelligence: -1
       },
+      currentCrisis: 'The surface thermal vents the Thrask depend on are cooling. Not everywhere or all at once, but the pattern is unmistakable: secondary geothermal fields that sustained Thrask outposts for centuries are dropping in temperature year by year. Thrask scouts have returned from the northern frontier reporting that entire vent-clusters have gone cold, their basalt crusts sealing over like healed wounds. The Thrask have begun migrating their outposts southward, closer to Emberspire\'s core heat, but that brings them into direct competition with Korr-claimed territories and the forge-clan hierarchy they have spent generations avoiding. The Korr refuse to acknowledge the cooling. The Thrask cannot ignore it. For the first time in centuries, the surface-rangers are being forced to choose: freeze on the frontier or submit to a Deep-Vault hierarchy that has never respected them.',
       traits: [
         {
           id: 'border_blood_thrask',

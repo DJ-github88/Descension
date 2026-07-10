@@ -33,7 +33,7 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
     // Specialization configurations, names/passives aligned to spellguardData.js
     const specConfigs = {
         arcaneWarden: {
-            name: 'Void-Scarred Bastion',
+            name: 'Silence-Scarred Bastion',
             baseColor: '#1E3A8A',
             activeColor: '#4169E1',
             glowColor: '#6495ED',
@@ -56,7 +56,7 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
             activeColor: '#8B008B',
             glowColor: '#9932CC',
             icon: 'fa-skull',
-            passive: 'Starving Void',
+            passive: 'Starving Silence',
             passiveDesc: 'Melee attacks drain 2x mana. Per 10 mana drained: +1d6 arcane damage (stacks 5x). Offensive abilities cost -5 AEP.'
         }
     };
@@ -300,7 +300,7 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
             {/* Tooltip */}
             {showTooltip && ReactDOM.createPortal(
                 <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip" style={{ position: 'fixed', left: 0, top: 0, opacity: 0, pointerEvents: 'none' }}>
-                    <div className="tooltip-header">Void Resonance (AEP)</div>
+                    <div className="tooltip-header">Silence Resonance (AEP)</div>
 
                     <div className="tooltip-section">
                         <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
@@ -390,7 +390,7 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
                     }}
                 >
                     <div className="context-menu-main">
-                        <div className="menu-title">Void Resonance: {localAEP}/{maxAEP}</div>
+                        <div className="menu-title">Silence Resonance: {localAEP}/{maxAEP}</div>
 
                         <div className="spellguard-info-text">
                             {context === 'party' ? (

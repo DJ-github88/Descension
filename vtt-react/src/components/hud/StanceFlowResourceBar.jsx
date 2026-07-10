@@ -59,15 +59,15 @@ const StanceFlowResourceBar = ({
         // Get available transitions from current stance
         let availableTransitions = stanceNetwork[stanceValue] || [];
 
-        // Primal Shadow can enter Void Predator from any stance
-        if (selectedSpecialization === 'Primal Shadow' && !availableTransitions.includes('Void Predator')) {
-            availableTransitions = [...availableTransitions, 'Void Predator'];
+        // Primal Shadow can enter Silence Predator from any stance
+        if (selectedSpecialization === 'Primal Shadow' && !availableTransitions.includes('Silence Predator')) {
+            availableTransitions = [...availableTransitions, 'Silence Predator'];
         }
 
         // Calculate transition cost based on specialization
         const getTransitionCost = (fromStance, toStance) => {
-            // Primal Shadow: entering Void Predator from any stance costs 3 Flux
-            if (selectedSpecialization === 'Primal Shadow' && toStance === 'Void Predator') {
+            // Primal Shadow: entering Silence Predator from any stance costs 3 Flux
+            if (selectedSpecialization === 'Primal Shadow' && toStance === 'Silence Predator') {
                 return 3;
             }
 
@@ -117,7 +117,7 @@ const StanceFlowResourceBar = ({
                 bonuses: ['+1 all rolls', 'Can transition to any form (4 Flux)'],
                 penalties: ['No stance-specific defensive bonuses']
             },
-            'Void Predator': {
+            'Silence Predator': {
                 bonuses: ['Advantage on first attack', '+2d6 damage from stealth', '+10 ft movement'],
                 penalties: ['Penalties in bright light']
             }
@@ -136,7 +136,7 @@ const StanceFlowResourceBar = ({
                 },
                 'Primal Shadow': {
                     name: 'Shadow Affinity',
-                    description: 'Enter Void Predator from ANY form for 3 Flux. Void Predator: lightly obscured, +1d6 bonus damage. Stealth attacks generate +1 extra Flux and +1 Body Toll.'
+                    description: 'Enter Silence Predator from ANY form for 3 Flux. Silence Predator: lightly obscured, +1d6 bonus damage. Stealth attacks generate +1 extra Flux and +1 Body Toll.'
                 }
             };
             return passives[selectedSpecialization] || passives['Flow Master'];
@@ -496,7 +496,7 @@ const StanceFlowResourceBar = ({
                                     )}
                                     {selectedSpecialization === 'Primal Shadow' && (
                                         <div style={{ fontSize: '8px', fontWeight: 500, marginTop: '2px', color: '#2C3E50' }}>
-                                            Primal Shadow: Void Predator (3)
+                                            Primal Shadow: Silence Predator (3)
                                         </div>
                                     )}
                                 </div>

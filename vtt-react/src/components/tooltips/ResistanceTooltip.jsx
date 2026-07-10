@@ -112,13 +112,13 @@ const RESISTANCE_INFO = {
         ]
     },
     void: {
-        name: 'Void Resistance',
-        description: 'Reduces damage from void energy, the absence of existence, and consuming forces.',
+        name: 'Silence Resistance',
+        description: 'Reduces damage from silence energy, the absence of existence, and consuming forces.',
         color: '#1a1a2e',
         effects: [
-            'Take half damage from void sources',
-            'Advantage vs. void-based effects',
-            'Better resistance to nothingness and void magic'
+            'Take half damage from silence sources',
+            'Advantage vs. silence-based effects',
+            'Better resistance to nothingness and silence magic'
         ]
     },
     bludgeoning: {
@@ -204,7 +204,7 @@ const RESISTANCE_INFO = {
     },
     blight: {
         name: 'Blight Resistance',
-        description: 'Reduces damage from necrotic decay, void consumption, poison, and acid.',
+        description: 'Reduces damage from necrotic decay, Silence consumption, poison, and acid.',
         color: '#3D1F4E',
         effects: [
             'Take half damage from blight sources',

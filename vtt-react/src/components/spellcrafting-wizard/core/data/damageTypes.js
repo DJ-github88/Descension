@@ -57,7 +57,7 @@ const DAMAGE_TYPES = [
     {
       id: 'blight',
       name: 'Blight',
-      description: 'Keth-Amar\'s corruption. Necrotic decay, void consumption, poison, and acid.',
+      description: 'Keth-Amar\'s corruption. Necrotic decay, Silence consumption, poison, and acid.',
       icon: '/assets/icons/abilities/Necrotic/Drain Life.png',
       category: 'otherworldly',
       commonResistance: 'undead, constructs',

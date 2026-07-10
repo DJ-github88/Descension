@@ -30,15 +30,14 @@ export const FALSE_PROPHET_DATA = {
    "muren_astril",
    "morren_human"
   ],
-  "hardBlocks": [
-   "skald_human",
-   "thalren_human",
-   "tessen_human",
-   "emberth",
-   "ordan_human"
-  ],
-  "narrativeUnlock": true,
-  "justification": "Requires a population with congregation-proximity and cultural susceptibility to manufactured revelation. Astril host constellation-spirits that blur the line between absolute truth and parasitic deception. Morren live in debt-trapped desperation adjacent to the Keeper's power. Ordan are nomadic, a class that requires stable congregation proximity contradicts their migrating lifestyle. Skald and Thalren are too institutionally rigid."
+   "hardBlocks": [
+    "skald_human",
+    "thalren_human",
+    "tessen_human",
+    "emberth"
+   ],
+   "narrativeUnlock": true,
+   "justification": "Requires a population with congregation-proximity and cultural susceptibility to manufactured revelation. Astril host constellation-spirits that blur the line between absolute truth and parasitic deception. Morren live in debt-trapped desperation adjacent to the Keeper's power. Ordan are predominantly nomadic, but the founder Li Wei proves the exception exists — a wandering Ordan who found the Monolith and could not stop speaking. Skald and Thalren are too institutionally rigid."
  },
 
  /**
@@ -128,7 +127,7 @@ export const FALSE_PROPHET_DATA = {
  ],
 
  overview: {
- originStory: `Founded in the most recent centuries by Li Wei, who witnessed the Silence Between Stars in a Sundered Monolith crater and returned with blank white eyes and a hypnotic madness. In the starless grasslands of the Sundrift Vale, a nomadic herd-watcher named Li Wei followed a falling meteor into a deep, crystalline crater. He did not find a metal shard, but an ancient, sundered monolith humming with a black, empty vacuum. When he looked directly into the silence where Sol once shone, he did not see light; he saw the gospel of the cosmic void. The vacuum spoke not in words, but in the terrifying, silent architecture of the stars' demise.
+ originStory: `Founded in the most recent centuries by Li Wei, who witnessed the Silence Between Stars in a Sundered Monolith crater and returned with blank white eyes and a hypnotic madness. In the starless grasslands of the Sundrift Vale, a nomadic herd-watcher named Li Wei followed a falling meteor into a deep, crystalline crater. He did not find a metal shard, but an ancient, sundered monolith humming with a black, empty vacuum. When he looked directly into the silence where Sol once shone, he did not see light; he saw the gospel of the Silence. The vacuum spoke not in words, but in the terrifying, silent architecture of the stars' demise.
 
 Li Wei returned with blank, white eyes and a mind permanently shattered by the competing voices of dead stars. The False Prophet is physically blind, his skin pale and cracked, and his heart beating in erratic, asynchronous patterns. His words carry a hypnotic madness that drains the stamina of listeners, forcing them to see the phantom embers of dead stars.
 
@@ -177,7 +176,7 @@ The class is practiced by desperate humans and the constellationless <LoreLink t
 
  philosophy: {
   coreTenet: 'The universe is cold, dark, and empty. The Light is a lie people tell themselves to feel safe. The Silence is the truth, vast, and indifferent. To embrace the Silence is not to worship death; it is to finally stop being afraid of it. A False Prophet does not preach despair. They preach clarity.',
-  relationship: 'False Prophets draw power from the wyrd resonance of the Silence, the space between stars, the quiet after death, the vacuum that existed before creation. This resonance is always present, always listening, always hungry. The Prophet opens their mind to it, and it fills them with Madness. Madness is not a side effect. It is the point. The more Madness a Prophet holds, the more clearly they can perceive the Silence\'s truth, and the less human they become.',
+   relationship: 'False Prophets draw power from the Silence — the void between stars, the quiet after death. To them this is the Wyrd, and the scholars of the Frozen Archive now concur: the Silence is the resonance of the Void, the hush left where Keth-Amar\'s Breach tore reality open — one face of the Wyrd\'s corruption, not a separate or older power. The Prophet opens their mind to it, and it fills them with Madness. Madness is not a side effect. It is the point. The more Madness a Prophet holds, the more clearly they can perceive the Silence\'s truth, and the less human they become.',
   paradox: 'False Prophets preach salvation through oblivion, but they cannot practice what they preach. To fully embrace the Silence would be to dissolve, to become one with the absence they worship. But if they dissolved, who would spread the gospel? So they hold themselves at the edge of annihilation, forever teetering, forever preaching, forever denying themselves the peace they offer others.'
  },
 
@@ -390,7 +389,7 @@ The False Prophet thrives when surrounded by a congregation - allies to channel 
 3. **Temptation Abilities**: Wyrd-touched Vision cost 1d6 Madness but provided crucial tactical advantage
 4. **Risk Management**: Stayed at 19 Madness (one point from Convulsion) for maximum damage
 5. **Spending Strategy**: Used Siphon Sanity after combat to drop from 19 ? 13, avoiding Convulsion
-6. **Randomness**: If Void Tendrils had rolled 1d4 ? [4] instead of [3], would have hit 20 and triggered Convulsion
+6. **Randomness**: If Silence Tendrils had rolled 1d4 ? [4] instead of [3], would have hit 20 and triggered Convulsion
 7. **Reward**: Dealt 115 total damage in 4 turns (20 + 24 + 31 + 40) with massive Madness scaling
 
 You're not a safe, predictable caster. You're a chaos mage who gambles with sanity for power. Every spell is a dice roll. Every turn is a risk. And when you hit 19 Madness and unleash 40 damage AoE, it's all worth it. Until it isn't.`,
@@ -500,13 +499,13 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
  title: "Starting Equipment",
  choices: [
   {
-  name: "Path of the Void Oracle",
+  name: "Path of the Silence Oracle",
   icon: "Void/Consumed by Void",
   items: [
    "Ritual Dagger (1d6 piercing + psychic channeling, acts as spell focus for silence rites)",
    "Shroud of the Preacher (Light armor, no agility penalty)",
    "Tome of Stolen Sermons (Spellbook, stores 2 additional cantrips from any school)",
-   "Vial of Void Ink (Utility: inscribe temporary warding sigils on surfaces)",
+   "Vial of Silence Ink (Utility: inscribe temporary warding sigils on surfaces)",
   ],
   description: "The classic False Prophet loadout. The ritual dagger channels psychic energy through precise gestures, while the shroud marks you as a preacher of something greater. Designed for ranged spellcasting and empathetic link management.",
   },
@@ -536,7 +535,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
  // Specializations
  specializations: {
  title: "False Prophet Specializations",
- subtitle: "Three Sermons of the Void",
+ subtitle: "Three Sermons of the Silence",
 
  description: `Every False Prophet preaches the Silence as absolute truth, but the style of their sermon defines the shape of the wound. Some thunder hellfire from makeshift pulpits until the congregation's ears bleed. Others whisper poison into willing ears and call it scripture. And some simply perform the old rites, patient and inevitable, burying the knife so slowly that the victim thanks them for it. Choose your sermon. Choose your sin.`,
 
@@ -653,7 +652,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   typeConfig: {
   school: "wyrd",
   icon: "Arcane/Orb Manipulation",
-  tags: ["damage", "wyrd", "madness", "self-harm", "voidcaller"],
+  tags: ["damage", "wyrd", "madness", "self-harm", "silence_speaker"],
   castTime: 1,
   castTimeType: "IMMEDIATE",
   },
@@ -709,7 +708,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
       { id: "fp_blood_sermon_trigger", name: "Silence Toll", triggerType: "on_cast", action: "Channeling the sermon costs 3 HP — non-negotiable sacrifice to the silence." }
     ]
   },
-  tags: ["damage", "wyrd", "madness", "self-harm", "voidcaller"],
+  tags: ["damage", "wyrd", "madness", "self-harm", "silence_speaker"],
  },
  { id: "fp_hollow_blessing",
   name: "Hollow Blessing",
@@ -1439,7 +1438,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   typeConfig: {
   school: "wyrd",
   icon: "General/Increase Strength",
-  tags: ["buff", "madness", "self", "voidcaller"],
+  tags: ["buff", "madness", "self", "silence_speaker"],
   castTime: 1,
   castTimeType: "IMMEDIATE",
   },
@@ -1498,7 +1497,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   },
   },
 
-  tags: ["buff", "madness", "self", "voidcaller"],
+  tags: ["buff", "madness", "self", "silence_speaker"],
  },
  { id: "fp_befoul",
   name: "Befoul",
@@ -2027,7 +2026,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   typeConfig: {
   school: "blight",
   icon: "Necrotic/Drain Soul",
-  tags: ["temp_hp", "self", "madness", "voidcaller", "dangerous"],
+  tags: ["temp_hp", "self", "madness", "silence_speaker", "dangerous"],
   castTime: 1,
   castTimeType: "IMMEDIATE",
   },
@@ -2088,7 +2087,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   },
   },
 
-  tags: ["temp_hp", "self", "madness", "voidcaller", "dangerous"],
+  tags: ["temp_hp", "self", "madness", "silence_speaker", "dangerous"],
  },
  { id: "fp_corrupt_the_faithful",
   name: "Corrupt the Faithful",
@@ -2303,7 +2302,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   typeConfig: {
   school: "blight",
   icon: "Void/Black Hole",
-  tags: ["damage", "blight", "madness", "voidcaller"],
+  tags: ["damage", "blight", "madness", "silence_speaker"],
   castTime: 1,
   castTimeType: "IMMEDIATE",
   },
@@ -2341,7 +2340,7 @@ verbalText: "The silence answers!",
   },
   },
 
-  tags: ["damage", "blight", "madness", "voidcaller"],
+  tags: ["damage", "blight", "madness", "silence_speaker"],
  },
  { id: "fp_empathetic_agony",
   name: "Empathetic Surge",
@@ -2906,7 +2905,7 @@ verbalText: "The silence answers!",
   durationUnit: "rounds",
   commandable: true,
   actionsPerTurn: 1,
-  abilities: ["Abyssal Strike", "Void Shield"],
+  abilities: ["Abyssal Strike", "Silence Shield"],
   difficultyLevel: "moderate",
   },
 
@@ -3217,7 +3216,7 @@ verbalText: "The silence answers!",
   typeConfig: {
   school: "wyrd",
   icon: "Psychic/Mind Strike",
-  tags: ["damage", "wyrd", "aoe", "temptation", "madness", "voidcaller"],
+  tags: ["damage", "wyrd", "aoe", "temptation", "madness", "silence_speaker"],
   castTime: 1,
   castTimeType: "IMMEDIATE",
   },
@@ -3335,7 +3334,7 @@ verbalText: "The silence answers!",
   },
   },
 
-  tags: ["damage", "wyrd", "aoe", "temptation", "madness", "voidcaller"],
+  tags: ["damage", "wyrd", "aoe", "temptation", "madness", "silence_speaker"],
  },
  { id: "fp_mass_manipulation",
   name: "Mass Manipulation",

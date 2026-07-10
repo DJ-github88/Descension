@@ -18,7 +18,7 @@ const REGION_ICONS = {
   'iceheart-sea': 'fa-water',
   'cragjaw-peaks': 'fa-mountain',
   'sundrift-vale': 'fa-wind',
-  'bryngloom': 'fa-leaf'
+  'bryngloom-forest': 'fa-leaf'
 };
 
 const ATTR_LABELS = { 
@@ -147,7 +147,7 @@ const BestiaryDisplay = () => {
         <div className="bestiary-intro">
           <h3 className="bestiary-intro-title">📜 The Lore of the Wyrd</h3>
           <p className="bestiary-intro-text">
-            The Wyrd is a formless primordial spiritual energy that manifests using human fear and folklore
+            The Wyrd is Keth-Amar's corruption breathed into mortal fears — a living blueprint that uses local folklore to shape its monsters
             as a structural blueprint. It cannot create: it can only occupy. The creatures that stalk
             the seven continents are not alien invaders. They are the shape of your own nightmares, given
             flesh by an ancient corruption that has been sealed beneath the world since before the first stars.
@@ -378,7 +378,7 @@ const BestiaryDisplay = () => {
                                 <i className="fas fa-moon"></i>
                                 <span className="label">Sight:</span>
                                 <span className="value">
-                                  {currentRegion.id === 'bryngloom' || currentRegion.id === 'nordhalla' 
+                                  {currentRegion.id === 'bryngloom-forest' || currentRegion.id === 'nordhalla' 
                                     ? 'Darkvision 60 ft' 
                                     : 'Normal vision'}
                                 </span>

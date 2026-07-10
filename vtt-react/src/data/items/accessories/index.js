@@ -703,8 +703,8 @@ export const ACCESSORIES = [
     }
   },
   {
-    id: 'void-totem',
-    name: 'Void Totem',
+    id: 'silence-totem',
+        name: 'Silence Totem',
     type: 'accessory',
     subtype: 'TRINKET',
     quality: 'rare',

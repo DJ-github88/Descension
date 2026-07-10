@@ -924,7 +924,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Primal Shadow',
 
-        description: 'Shadow and flesh woven into one strike. Masters of stealth burst damage and shadow-infused transformations, striking from the void',
+        description: 'Shadow and flesh woven into one strike. Masters of stealth burst damage and shadow-infused transformations, striking from the Silence',
 
         color: '#2C3E50',
 

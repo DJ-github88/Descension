@@ -26,7 +26,7 @@ const translateErrorToFantasy = (errorMessage) => {
   }
 
   if (lowerError.includes('timeout') || lowerError.includes('timed out')) {
-    return 'Your call to distant realms echoed into the void without answer.';
+    return 'Your call to distant realms echoed into the Silence without answer.';
   }
 
   if (lowerError.includes('network') || lowerError.includes('fetch')) {
@@ -42,7 +42,7 @@ const translateErrorToFantasy = (errorMessage) => {
   }
 
   if (lowerError.includes('reconnection') || lowerError.includes('reconnect')) {
-    return 'Attempts to reforge the connection to the realm falter against the void.';
+    return 'Attempts to reforge the connection to the realm falter against the Silence.';
   }
 
   // Room/authentication errors

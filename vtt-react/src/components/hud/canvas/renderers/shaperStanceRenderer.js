@@ -63,7 +63,7 @@ const STANCE_COLORS = {
   'Centrifugal Fury': { color: '#E67E22', glow: '#F0B27A', dark: '#935116' },
   'Deadened Bastion': { color: '#7F8C8D', glow: '#AAB7B8', dark: '#4a4a4a' },
   'Fluid Apex':       { color: '#9B59B6', glow: '#C39BD3', dark: '#6c3483' },
-  'Void Predator':    { color: '#2C3E50', glow: '#85929E', dark: '#1B2631' },
+  'Silence Predator':    { color: '#2C3E50', glow: '#85929E', dark: '#1B2631' },
 };
 
 const MOMENTUM_THRESHOLDS = [
@@ -362,8 +362,8 @@ export default class ShaperStanceRenderer {
 
     ctx.save();
 
-    // Check if we should render Void Predator shadowy purple aura
-    const isShadowStep = currentStance === 'Void Predator';
+    // Check if we should render Silence Predator shadowy purple aura
+    const isShadowStep = currentStance === 'Silence Predator';
     const hasShadowAura = spec === 'Primal Shadow' && isShadowStep;
 
     const outerR = baseR * 2.2;
@@ -448,7 +448,7 @@ export default class ShaperStanceRenderer {
         const tStance = availableTransitions[i];
         
         let cost = transitionCosts[currentStance]?.[tStance] || 2;
-        if (spec === 'Primal Shadow' && tStance === 'Void Predator') {
+        if (spec === 'Primal Shadow' && tStance === 'Silence Predator') {
           cost = 3;
         } else if (spec === 'Flow Master') {
           cost = Math.max(1, cost - 1);
@@ -464,7 +464,7 @@ export default class ShaperStanceRenderer {
         
         let fillColor = tSc.color;
         let glowColor = tSc.glow;
-        const isTShadowStep = tStance === 'Void Predator';
+        const isTShadowStep = tStance === 'Silence Predator';
         const hasTDotShadowAura = spec === 'Primal Shadow' && isTShadowStep;
         
         ctx.save();
@@ -718,7 +718,7 @@ export default class ShaperStanceRenderer {
     ctx.lineTo(endX, cy);
     
     let glowColor = sc.glow;
-    if (spec === 'Primal Shadow' && config.currentStance === 'Void Predator') {
+    if (spec === 'Primal Shadow' && config.currentStance === 'Silence Predator') {
       glowColor = '#8E44AD';
     } else if (spec === 'Flow Master') {
       glowColor = '#48C9B0';
@@ -732,7 +732,7 @@ export default class ShaperStanceRenderer {
     grad.addColorStop(0, hexToRgba('#85C1E9', 0.3));
     
     let coreColor = sc.color;
-    if (spec === 'Primal Shadow' && config.currentStance === 'Void Predator') {
+    if (spec === 'Primal Shadow' && config.currentStance === 'Silence Predator') {
       coreColor = '#8E44AD';
     } else if (spec === 'Flow Master') {
       coreColor = '#48C9B0';

@@ -8,6 +8,8 @@
  * Currency system: 100 copper = 1 silver, 100 silver = 1 gold, 100 gold = 1 platinum
  */
 
+import { BACKGROUND_DATA } from './backgroundData';
+
 // Base starting currency by background
 export const BACKGROUND_STARTING_CURRENCY = {
     acolyte: {
@@ -135,30 +137,22 @@ export const BACKGROUND_STARTING_CURRENCY = {
 export const CLASS_STARTING_CURRENCY = {
     'Arcanoneer': { gold: 15 },
     'Berserker': { gold: 10 },
-    // 'Bladedancer' and 'Formbender' merged into Shaper as Phase 1.8 consolidation
     'Shaper': { gold: 13 },
     'Harbinger': { gold: 11 },
     'Chronarch': { gold: 15 },
-    // 'Covenbane' and 'Exorcist' merged into Inquisitor as Phase 1.9 consolidation
     'Inquisitor': { gold: 10 },
-    // 'Deathcaller' and 'Lichborne' merged into Revenant as Phase 1.10 consolidation
     'Revenant': { gold: 11 },
     'False Prophet': { gold: 20 },
-
     'Apex': { gold: 12 },
-    'Inscriptor': { gold: 15 },
-    // REMOVED: 'Lichborne' merged into Revenant as Phase 1.10 consolidation
+    'Animist': { gold: 12 },
     'Lunarch': { gold: 12 },
     'Martyr': { gold: 8 },
     'Minstrel': { gold: 15 },
     'Plaguebringer': { gold: 12 },
-    'Primalist': { gold: 10 },
     'Pyrofiend': { gold: 12 },
     'Spellguard': { gold: 15 },
-    // 'Titan' removed (absorbed into Warden as Monolith specialization)
     'Toxicologist': { gold: 15 },
     'Warden': { gold: 12 },
-    'Witch Doctor': { gold: 10 },
     'Augur': { gold: 15 },
 };
 
@@ -293,7 +287,9 @@ export const PATH_CURRENCY_MODIFIERS = {
  * @returns {Object} Total starting currency { platinum, gold, silver, copper }
  */
 export const calculateStartingCurrency = (background, path, className, raceId, subraceId) => {
-    const baseCurrency = BACKGROUND_STARTING_CURRENCY[background] || {
+    // Source of truth: backgroundData.js entries
+    const bgData = BACKGROUND_DATA[background];
+    const baseCurrency = bgData?.startingCurrency || BACKGROUND_STARTING_CURRENCY[background] || {
         platinum: 0,
         gold: 10,
         silver: 0,
@@ -307,7 +303,9 @@ export const calculateStartingCurrency = (background, path, className, raceId, s
         copper: 0
     };
 
-    const classModifier = CLASS_STARTING_CURRENCY[className] || {
+    // Normalize class name: strip specialization suffix (e.g., 'Martyr (Ironclad)' -> 'Martyr')
+    const baseClass = (className || '').replace(/\s*\(.*?\)\s*$/, '');
+    const classModifier = CLASS_STARTING_CURRENCY[baseClass] || {
         platinum: 0,
         gold: 0,
         silver: 0,

@@ -53,10 +53,10 @@ export const PLAGUEBRINGER_DATA = {
  subraceVariants: {
  drun_neth: {
   subraceName: 'Drun Neth',
-  title: 'The Void-Host',
+  title: 'The Silence-Host',
   reframe: `The <LoreLink termId="neth">Drun Neth</LoreLink>, the leaden-grey outcasts who severed all contracts and legally do not exist, are the Plaguebringer's ideal substrate. Their state of partial-death means their body no longer fully resists foreign biology; disease *cultivates* in them the way moss cultivates on dead wood. A Drun Plaguebringer is not a sick person wielding sickness, they are a halfway-corpse whose decay hosts an substrate.`,
   signatureAbility: {
-  name: 'Void-Cultivation',
+  name: 'Silence-Cultivation',
   description: `Cultivated diseases take root faster and more virulently in the Drun's partially-dead flesh, generating more Virulence per affliction cast. The cost: the Drun's decay *accelerates* with each cultivation, they are spending their remaining life as substrate.`
   },
   currentCrisisAngle: `The foundational strain's collapse hits the Drun as *accelerated dissolution*, as the cultivated bacteria die, they take the host's half-life with them. The Drun Plaguebringers are dying faster than the tradition can replace them, and the others are beginning to suspect the Drun knew this would happen: that they chose this path knowing it was, in the end, a faster form of the death they were already living.`,
@@ -209,7 +209,7 @@ The class is heavily practiced by the <LoreLink termId="neth">Drun Neth</LoreLin
 
  currentCrisis: `The internal substrate is collapsing. Vespera\'s original strain, the carefully balanced blend of diseases that makes Plaguebringer cultivation possible, is failing. After three centuries of adaptation, the foundational bacteria are dying. Plaguebringers across the Bryngloom are reporting the same symptoms: their cultivated diseases are becoming unstable, mutating into virulent forms that attack the host.
 
-The cause is unclear. Some blame the Void contamination spreading through the peat-bogs. Others believe the bacterial strains have simply reached the end of their evolutionary lifespan. Whatever the cause, the Plaguebringers are facing extinction. Without stable foundational strains, they cannot cultivate new diseases. Without new diseases, they cannot harvest Virulence. Without Virulence, they cannot fight. And some of them are beginning to realize that if the foundational strains die, the diseases they are carrying may turn on them.`,
+The cause is unclear. Some blame the Silence contamination spreading through the peat-bogs. Others believe the bacterial strains have simply reached the end of their evolutionary lifespan. Whatever the cause, the Plaguebringers are facing extinction. Without stable foundational strains, they cannot cultivate new diseases. Without new diseases, they cannot harvest Virulence. Without Virulence, they cannot fight. And some of them are beginning to realize that if the foundational strains die, the diseases they are carrying may turn on them.`,
 
  meaningfulTradeoffs: `To be a Plaguebringer is to be untouchable. The diseases they carry are contagious, not lethally (they have cultivated them to be host-specific), but enough to make casual physical contact dangerous. Plaguebringers cannot hug their children. Cannot share a bed. Cannot hold a dying friend\'s hand. They live in a state of permanent physical isolation, surrounded by people who flinch when they approach. Many Plaguebringers develop elaborate surrogate-contact rituals, they leave gifts at doorsteps, communicate through windows, touch via intermediaries. They are never touched.`,
 

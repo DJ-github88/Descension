@@ -119,7 +119,7 @@ const FLAVOR = {
         return tier(madness, [
             { at: 5, line: "The voices are distant. Mostly.", tone: 'calm' },
             { at: 9, line: "Whispers become words. Terrible words.", tone: 'calm' },
-            { at: 14, line: "The void is wearing your face.", tone: 'warm' },
+            { at: 14, line: "The Silence is wearing your face.", tone: 'warm' },
             { at: 19, line: "DANGER ZONE. One more revelation and you break.", tone: 'danger' },
         ]);
     },

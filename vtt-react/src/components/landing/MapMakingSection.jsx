@@ -1052,7 +1052,7 @@ const CHECKLIST_TEMPLATE = {
     { category: 'terrain', action: 'COLOR', text: 'The Root-Veil (subterranean): mycelial network beneath everything', why: 'The Keeper of the Last Threshold\'s domain', inkarnate: 'Dark layer under map' },
     { category: 'terrain', action: 'DRAW',  text: 'The Great Mere: vast central lake with small wooded islands', why: 'Trade hub, monastery on largest island', inkarnate: 'Big lake' },
     { category: 'terrain', action: 'DRAW',  text: 'Widow\'s Quagmire: stretch where the ground liquefies underfoot', why: 'The worst of the Peat-Wastes', inkarnate: 'Quagmire' },
-    { category: 'terrain', action: 'DRAW',  text: 'Black Fen: the Final Clause, legal void where the Keeper has no jurisdiction', why: 'Neth\'s dumping ground, nothing grows', inkarnate: 'Black void' },
+    { category: 'terrain', action: 'DRAW',  text: 'Black Fen: the Final Clause, legal void where the Keeper has no jurisdiction', why: 'Neth\'s dumping ground, nothing grows', inkarnate: 'Black Silence' },
     { category: 'terrain', action: 'DRAW',  text: 'Vel-Keth Bayou: the water that remembers, flows uphill', why: 'Memory-glass deposits line the banks', inkarnate: 'Bayou' },
     { category: 'terrain', action: 'DRAW',  text: 'Fangmere Grove: perfect circle of ironwood, Vreken ancestral bones in roots', why: 'Preternaturally silent, Vreken sacred wood', inkarnate: 'Sacred circle' },
     { category: 'terrain', action: 'DRAW',  text: 'Drowned Dingle: permanently flooded woodland, petrified trees chime like bells', why: 'Smuggler route, sacred to Kessen', inkarnate: 'Flooded forest' },

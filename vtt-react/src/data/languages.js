@@ -48,7 +48,7 @@ export const LANGUAGES = [
     name: 'Mound-Tongue',
     icon: 'fa-house',
     category: 'standard',
-    description: 'The throat-sung nomadic language of the Ordan steppe-peoples of Sundrift Vale. Carries across the grasslands in harmonic overtones that seem to hum from the ancestor-mounds themselves. Used to navigate when the sky offers no stars.',
+    description: 'The throat-sung nomadic language of the Ordan steppe-peoples of Sundrift Vale, spoken natively by the Ordan human subrace. Carries across the grasslands in harmonic overtones that seem to hum from the ancestor-mounds themselves. Used to navigate when the sky offers no stars.',
     sound: 'Throat-sung and resonant, with harmonic overtones that carry for miles across open steppe. Warm and rolling.',
     example: 'Oor-dan valen hum-eth',
     translation: 'The ancestors sing beneath our feet'
@@ -59,10 +59,10 @@ export const LANGUAGES = [
     name: 'Abyssal',
     icon: 'fa-fire',
     category: 'exotic',
-    description: 'The corrupted tongue of Keth-Amar\'s void-spawn and Wyrd-touched intelligences. Scathrach the Ashen Sovereign speaks it in Emberspire\'s deepest volcanic vent. Burns the throat of mortal speakers and leaves ash-taste for days.',
+    description: 'The corrupted tongue of Keth-Amar\'s silence-spawn and Wyrd-touched intelligences. Scathrach the Ashen Sovereign speaks it in Emberspire\'s deepest volcanic vent. Burns the throat of mortal speakers and leaves ash-taste for days.',
     sound: 'Corrupted and searing, with sounds that seem to scorch the air. Each word carries volcanic heat.',
     example: 'X\'keth-vorath ix\'amar\'neth',
-    translation: 'The eater hungers, the void consumes forever'
+    translation: 'The eater hungers, the silence consumes forever'
   },
   {
     name: 'Celestial',
@@ -129,11 +129,14 @@ export const LANGUAGES = [
   },
 
   // ===== ANCESTRAL & RACIAL LANGUAGES =====
+  // NOTE: The Astril people have no dedicated language id of their own. They communicate through
+  // Synod-Speak (formal discourse), Celestial (the constellation-spirits dwelling in their vessels),
+  // and Ethereal (the dream-speech of those spirits). No Astril-specific language is defined.
   {
     name: 'Old Nord',
     icon: 'fa-mountain',
     category: 'racial',
-    description: 'The ancestral language of the Skald people of Nordhalla, preserved in the Frozen Archive\'s clockwork city-library. Filled with tales of ice, endurance, and the Hunger Pact that lives in every Rime-Born bloodline. Spoken at Bloodhammer funeral-pyres.',
+    description: 'The ancestral language of the Skald people of Nordhalla, preserved in the Frozen Archive\'s clockwork city-library and spoken natively by the Skald human subrace. Filled with tales of ice, endurance, and the Hunger Pact that lives in every Rime-Born bloodline. Spoken at Bloodhammer funeral-pyres.',
     sound: 'Bold and resonant, echoing with the strength of glacier winds and the clarity of eternal winter.',
     example: 'Frosthald hungrvegr',
     translation: 'Hold fast to honor in the endless cold'

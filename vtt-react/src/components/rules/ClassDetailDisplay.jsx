@@ -744,7 +744,7 @@ const classFallbacks = {
   { url: '/assets/images/classes/berserker_illustration_3.png', caption: 'A Thalren Human Berserker holding two heavy hand-axes wreathed in blood-spatter washes.' }
  ],
  false_prophet: [
-  { url: '/assets/images/classes/false_prophet_illustration.png', caption: 'A Clean Vreken Herd-Watcher False Prophet preaching the cosmic void.' },
+  { url: '/assets/images/classes/false_prophet_illustration.png', caption: 'A Clean Vreken Herd-Watcher False Prophet preaching the cosmic Silence.' },
   { url: '/assets/images/classes/false_prophet_illustration_2.png', caption: 'A Marked Vreken Prophet with glowing lantern-eyes holding a starlight book.' },
   { url: '/assets/images/classes/false_prophet_illustration_3.png', caption: 'A Mistwoven Mimir False Prophet wearing a storm-glass mask holding a cosmic lantern.' }
  ],

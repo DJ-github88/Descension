@@ -250,7 +250,7 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
 - Bound demons provide raw physical force and supernatural damage
 
 **The Agonizing Toll (Your Fatal Flaws)**:
-- **Rejection of All Magic**: Your body is a sterile void. You cannot receive beneficial magical buffs or healing without suffering 1d10 wyrd damage from the agonizing friction
+- **Rejection of All Magic**: Your body is a sterile Silence. You cannot receive beneficial magical buffs or healing without suffering 1d10 wyrd damage from the agonizing friction
 - **Brittle Skeleton**: Silver deposits in your marrow make you fragile. You suffer a permanent 50% vulnerability to physical bludgeoning and physical damage
 - **The Hollow**: Authority decays by -1 per round when no supernatural contact occurs. At 0 Authority, bound entities make rebellion checks
 - **Mundane Famine**: Against non-supernatural enemies, you have no resource generation, no horror benefit, and no magic to devour. You are a slow, fragile mortal carrying heavy iron
@@ -399,7 +399,7 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
         icon: "Necrotic/Necrotic Skull",
         color: "#2F2F4F",
         theme: "Stealth Assassination + Demon Swarm",
-        description: "Witch Hammers are shadow-stalking horror generals who combine the Covenbane Shadowbane tradition of stealth assassination with the Exorcist Demonologist's talent for commanding multiple bound entities. They dissolve into darkness, mark their prey, and unleash a pack of chained horrors from the void. Their legion of demons compensates for their fragile bodies, turning the battlefield into a coordinated hunt where nothing supernatural escapes.",
+        description: "Witch Hammers are shadow-stalking horror generals who combine the Covenbane Shadowbane tradition of stealth assassination with the Exorcist Demonologist's talent for commanding multiple bound entities. They dissolve into darkness, mark their prey, and unleash a pack of chained horrors from the Silence. Their legion of demons compensates for their fragile bodies, turning the battlefield into a coordinated hunt where nothing supernatural escapes.",
         playstyle: "Stealth assassin with horror swarm support -- mark targets from shadow, loose demons to shred, execute from invisibility",
         strengths: [
           "Can bind up to 4 demons simultaneously (Demonologist legacy)",
@@ -502,7 +502,7 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
         ["Enemy casts a spell targeting you", "+1", "Their magic is your fuel"],
         ["Enemy casts a spell targeting ally within 30ft", "+1", "You sense the magic and it feeds you"],
         ["Successfully dispel or counterspell", "+2", "Unraveling magic is the richest feast"],
-        ["Witness enemy spell fail, fizzle, or be resisted", "+1", "The void answers failed magic"],
+        ["Witness enemy spell fail, fizzle, or be resisted", "+1", "The Silence answers failed magic"],
         ["Strike a supernatural target", "+1", "Anti-magic begets anti-magic"],
         ["Defeat supernatural enemy", "+2", "The ultimate reward for a successful hunt"],
         ["Purge curse/CC from ally", "+1", "Cleansing the corruption"],

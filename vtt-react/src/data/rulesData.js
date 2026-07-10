@@ -21,10 +21,93 @@ export const RULES_CATEGORIES = [
  id: 'world-lore',
  name: 'World Lore',
  icon: 'fas fa-globe',
- description: 'The mythic history of Mythrill: from the theft of the sun to the fractured continents',
+ description: 'Start here. A welcoming introduction to the frozen world — what happened, how people survive, and where to go next.',
  subcategories: [ {
- id: 'cosmic-mythos',
- name: 'The Deepening & The Breach',
+  id: 'introduction',
+  name: 'Welcome to Mythrill',
+  icon: 'fas fa-book-open',
+  theme: 'calm',
+  summary: [
+   'The sun has not risen in eight hundred years. The world survives on geothermal warmth, desperate bargains, and the fading ember of a dying star.',
+   'Seven continents. Seven dark bargains. Each region made a deal with a cosmic predator to survive the endless winter.',
+   'You are an adventurer in a frozen world where folklore comes alive, the dark remembers your name, and the only warmth is the one you carry.'
+  ],
+  content: {
+  title: 'Welcome to Mythrill',
+  description: 'A world without a sun. Eight hundred years of winter. Monsters born from stories. You are an adventurer. Here is what you need to know.',
+  sections: [
+  {
+  title: 'What Is Mythrill?',
+  content: `**Mythrill is a frozen world where the sun died eight hundred years ago.**
+
+Not set, not hidden behind clouds — **gone**. Entombed beneath the volcanic crust of the southern continent by a desperate ritual. A cosmic predator called **Keth-Amar** (the Sun-Eater) hunts what remains, pressing against the seals that hold the star in place, feeding on its fading warmth.
+
+The surface world survives on residual heat from geothermal vents, volcanic calderas, and boiling mud-flats. Cities cluster around these warmth-sources like campfires. Outside their walls lies the whiteout: freezing darkness, blizzards that can freeze lungs, and creatures born from the fears that people whisper around their hearths.
+
+You are not here to save the world from this fate. You are here to **survive it**, to find your place in a frozen age that has lasted longer than any living memory. The sun may rise again — or it may not. That is not your problem until the coal runs out.
+
+> *"Close your eyes. Imagine a world where the sun has not risen in eight hundred years — not hidden behind clouds, gone. This is the world your adventurers were born into. Not a post-apocalypse, but an ongoing apocalypse, eight centuries deep and still accelerating."*
+
+**Where to start?** Read **A World Without a Sun** below for the core story, then **What You Need to Know** for the essentials, or jump straight to the [Regional Overview](world-lore/regional-overview) to pick a continent.`
+  },
+  {
+  title: 'A World Without a Sun',
+  content: `Here is the story, short version:
+
+**1. The sun went to sleep.** All stars go through a death-rebirth cycle called the **Deepening**. Sol — our sun — entered its cycle. This attracted Keth-Amar, a cosmic predator that feeds on dying stars.
+
+**2. The nobles panicked.** Seven noble families, led by the Solvarn house, entombed Sol beneath the continent of Sundale. They used the living hide of **Aex** (Sol's firstborn child of light) to weave the seal. The warmth stayed underground.
+
+**3. The world froze.** Without the sun, winter became permanent. The families had promised the sun would return — but they were wrong, or they were lying.
+
+**4. Keth-Amar made a cruel offer.** The predator whispered to the starving nobles: *march your firstborn children north to me, and I will crack the seal. Your world will have geothermal warmth — at the price of their lives.* Six families accepted. One refused.
+
+**5. The seal broke.** The sacrifice shattered the binding into seven fragments called the **Sundered Monoliths**. Volcanic vents erupted across the world, providing the heat that keeps civilization alive — but the Wyrd (Keth-Amar's corruption, breathed into folklore) bled through the cracks. Folk tales became real monsters.
+
+**6. The slow feast.** Keth-Amar could not break the seal entirely. It presses against the cracks, feeding on Sol's fading warmth. Meanwhile, the Monoliths are waking. The world is running out of time — but it has been running for eight centuries, and people still need to eat, trade, fight, and survive.
+
+**That is the world. The details — the seven regions, the races, the factions, the monsters — are what you explore next.**
+`
+  },
+  {
+  title: 'What You Need to Know',
+  content: `**The most important things for a new player:**
+
+- **It is cold.** Always. Travel requires preparation, warm clothing, and access to heat sources. Frostbite is a real danger. So is freezing to death.
+- **The fog eats memories.** In the Frostwood Reach, the protective mist slowly erases your past. Everyone keeps journals and diary-keys. Losing your key means losing your identity.
+- **Monsters are born from stories.** The **Wyrd** is Keth-Amar's corruption that turns folklore into living creatures. To defeat a monster, understand the fear that created it.
+- **Magic is real and risky.** Spellcasting draws on the Wyrd, the same corrupt energy that creates monsters. Every spell is a negotiation with a hungry cosmos.
+- **Bargains matter.** Every region survived by making a deal with Keth-Amar. These bargains define politics, culture, and daily life. Breaking a bargain can have supernatural consequences.
+- **The sun might return.** The **Dawn Vigil**, a militant faction, believes the seven Sundered Monoliths can be reforged to free Sol. Whether this is hope or heresy depends on who you ask.
+
+**What you do not need to worry about (yet):**
+- The exact mechanics of star-death cycles
+- The full list of noble houses and their bloodlines
+- The deep history of pre-Binding civilizations
+
+Start with the world as it is now. The history will come as you explore.`
+  },
+  {
+  title: 'Where to Go Next',
+  content: `**Read in this order for the best introduction:**
+
+1. **[The Age of the Dimming](world-lore/world-state)** — What the world looks like today: survival, trade, politics, and the seven regional crises.
+2. **[The Seven Continents](world-lore/regional-overview)** — Pick a region that interests you and dive into its landscape, people, and conflicts.
+3. **[The Peoples of Mythrill](world-lore/races-overview)** — The races you can play and the cultures you will encounter.
+4. **[The Deepening & The Breach](world-lore/cosmic-mythos)** — The full cosmic history, once you are ready for it.
+5. **[The Timeline](world-lore/timeline)** — The complete chronology, from the first stars to the present day.
+
+**Shortcuts for the curious:**
+- Want to build a character? Go to **[Classes](class-info/overview)** or **[Races](world-lore/races-overview)**.
+- Want to fight something? Open the **[Bestiary](world-lore/bestiary)**.
+- Want to understand a specific term? Use the **[Lexicon](world-lore/lexicon)**.`
+  }
+  ]
+  }
+  },
+  {
+  id: 'cosmic-mythos',
+  name: 'The Deepening & The Breach',
  icon: 'fas fa-sun',
  theme: 'narrative',
  summary: [
@@ -412,7 +495,7 @@ The **Emberth** themselves are split by this divide. The **Korr** of the Deep-Va
 
 Sundale's Wyrd draws from pre-Binding and Solvarn folklore, producing beings of fire and judgment: **the Cinder**, a lost child who walked into the caldera and emerged as a burning entity that consumes the flesh of liars; the **Ash-Woven Oracle**, a creature of compacted ash and prophecy; and the **Husque**, a mobile fissure in reality that leaks the predator's hunger into the mining outposts.
 
-The Sundered Monolith of the region is embedded deep within the primary throat of Emberspire itself, visible only during the annual vent-calm when the volcanic smoke clears for a single hour.
+The Still-Heart Monolith of the region lies beneath the ruins of the oldest Solvan keep, in the hall where Aex was named to the Warden. It beats once per hour, each beat sending a tremor through the ground for a mile.
 
 **Daily Life, Trade & Food**
 
@@ -825,7 +908,7 @@ To play any character in Mythrill is to play one of the debtor's heirs. The time
 
 **3. The Refusal & the Partial Seal, just after the Breach.** House Viridane, the seventh signatory, refused the heir-sacrifice — not by fleeing alone, but because the Watcher in the Mist reached them before Keth-Amar could, and they bonded with the fae of the Frostwood's moonlit groves. Because the seal did not entirely fail, Keth-Amar could not swallow Sol whole; it was forced to seeping through cracks, feeding slowly. The six houses erased Viridane from every record to keep Keth-Amar from following the memory back to the one house that said no. *Regions: Frostwood Reach. Scar: the false Monolith, the Watcher's territory, memory-fog. Causes: the 800-year Dimming, the Partial Seal, Viridane's erasure.*
 
-**4. The Seven Bargains, just after the Binding through the first centuries.** Each region paid its own price to survive the deepening winter. Just after the Binding: House Thalreth struck the Fog Compact, trading the Frostwood's spatial clarity and memory for an insulating fog. Just after the Binding: House Skalvyr struck the Glacier Bargain, trading summer itself, and setting the Frost-Tithe on the Rime-Born. Post-Breach (just after the Breach), in Bryngloom the Neth struck the First Contract with the Keeper of the Last Threshold (House Morrath to administer it). House Ordavan traded the Sundrift Vale's fertile soil for an endless migration in which only grass can root. House Mereval traded the Iceheart's calm for never-freezing, and therefore perpetual storm, lanes. House Tesshan traded Cragjaw's visibility for a blizzard-veil. And House Solvan, who had wielded the knife that flayed Aex, marched its own heirs north to be devoured and stayed to tend the tomb. *Regions: all seven. Scar: every region's defining condition. Causes: the cartel economies, the founding migrations, and every present regional crisis.*
+**4. The Seven Bargains, just after the Binding through the first centuries.** Each region paid its own price to survive the deepening winter. Just after the Binding: House Thalreth struck the Fog Compact, trading the Frostwood's spatial clarity and memory for an insulating fog. Just after the Binding: House Skalvyr struck the Glacier Bargain, trading summer itself, and setting the Frost-Tithe on the Rime-Born. In the first century of the Dimming, in Bryngloom the Neth struck the First Contract with the Keeper of the Last Threshold (House Morrath to administer it). House Ordavan traded the Sundrift Vale's fertile soil for an endless migration in which only grass can root. House Mereval traded the Iceheart's calm for never-freezing, and therefore perpetual storm, lanes. House Tesshan traded Cragjaw's visibility for a blizzard-veil. And House Solvan, who had wielded the knife that flayed Aex, marched its own heirs north to be devoured and stayed to tend the tomb. *Regions: all seven. Scar: every region's defining condition. Causes: the cartel economies, the founding migrations, and every present regional crisis.*
 
 **5. The Vat-Breakers' Revolt, in the early decades of the Dimming.** In Cragjaw, the Fexric Deep Alchemists' vat-grown servitors, the Thrumm, ancestors of the Groven, shattered their containment and rose. The Groven calcified their own dead into the Ancestor-Spans, the only safe bridges across the peaks, and sealed the Alchemists into the deep tunnels. *Regions: Cragjaw Peaks. Scar: the Ancestor-Spans, Groven sovereignty, the sealed vat-labs. Causes: Cragjaw's vertical toll-politics, the Warden chain-graft tradition, and the Steam-Line Cartel's heat monopoly.*
 
@@ -1371,7 +1454,7 @@ The local village elder, **Marra of the Nine**, offers a simple bounty: recover 
  },
  {
  title: 'Scathrach, the Ashen Sovereign [Pronunciation: SKATH-rak, the ASH-en SOV-rin]',
- content: '**Noun (Deity).** An ancient, parasitic Wyrd-touched intelligence nesting deep within the volcanic caldera vaults of <LoreLink termId="emberspire">Emberspire</LoreLink> in <LoreLink termId="sundale">Sundale</LoreLink>. Scathrach answers the desperate prayers of martyrs and outcasts with destructive, absolute combustion. It serves as the sovereign patron of the Pyrofiends, slowly claiming their flesh and blood in exchange for fire magic, eventually binding their souls to the infernal furnace.'
+  content: '**Noun (Entity).** A parasitic Wyrd-touched intelligence born from a fragment of <LoreLink termId="aex">Aex</LoreLink>\'s flayed hide during the Binding, nesting deep within the volcanic caldera vaults of <LoreLink termId="emberspire">Emberspire</LoreLink> in <LoreLink termId="sundale">Sundale</LoreLink>. Scathrach was Keth-Amar\'s emissary for centuries before developing its own will, sealing the vent from within, and turning its gathered power against the Sun-Eater. It answers the desperate prayers of outcasts with destructive, absolute combustion and serves as the sovereign patron of the Pyrofiends, slowly claiming their flesh and blood in exchange for fire magic.'
  },
  {
  title: 'Shade-Walkers [Pronunciation: SHAYD-wawk-ers]',
@@ -1422,8 +1505,8 @@ The local village elder, **Marra of the Nine**, offers a simple bounty: recover 
  content: '**Noun.** Originally a quietist order of <LoreLink termId="martyr">Martyrs</LoreLink> tracking <LoreLink termId="sundered_monoliths">Monolith</LoreLink> locations, now the militant theocracy ruling <LoreLink termId="sundale">Sundale</LoreLink> under Hierophant Aethelgard. They crusade across every region to recover Monolith fragments. Their inner council has calculated that reassembling the Monoliths will not restart <LoreLink termId="sol">Sol</LoreLink>, it will summon <LoreLink termId="keth_amar">Keth-Amar</LoreLink> back to finish what it started.'
  },
  {
- title: 'The Dead Moon [Pronunciation: thee DED MOON]',
- content: '**Noun (Entity).** The shattered corpse of a celestial thing that was not a moon at all but an egg. When it broke, its fragments fell across the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink>, and the fae of the moonlit groves gathered and nurtured the largest pieces. From those fragments hatched the lunar parasites, ancient celestial predators that feed on memory, sanity, and vitality, which the <LoreLink termId="lunarch">Lunarch</LoreLink> class bonds with.'
+  title: 'The Dead Moon [Pronunciation: thee DED MOON]',
+  content: '**Noun (Entity).** A dormant star — an ancient, sleeping deity that withdrew its awareness so deep only the shell remained. When it shattered, its fragments fell across the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink>, and the fae of the moonlit groves gathered and nurtured the largest pieces. From those fragments emerged the lunar parasites, void-adapted organisms that feed on memory, sanity, and vitality, which the <LoreLink termId="lunarch">Lunarch</LoreLink> class bonds with. Some call it an egg — a metaphor for the discovery that the parasites are siblings, not singular entities — but the truth is older: a star that went dormant before Keth-Amar ever arrived.'
  },
  {
  title: 'The Deepening [Pronunciation: thee DEE-pen-ing]',
@@ -1861,7 +1944,7 @@ This quest introduces you to the core themes of Mythrill: memory, identity, and 
  },
  {
  title: 'Recommended First Character',
- content: `If you are new to Mythrill and do not want to parse 20 classes, 11 races, and 15 backgrounds, here is a safe, fun starting build:
+ content: `If you are new to Mythrill and do not want to parse 20 classes, 11 races, and 24 backgrounds, here is a safe, fun starting build:
 
 **The Fog Hunter**
 - **Race:** Human (Thalren), You are from Greymark. You know the city, the fog, and the people.
@@ -2039,7 +2122,7 @@ This quest introduces you to the core themes of Mythrill: memory, identity, and 
  },
  {
  title: 'The 5 Steps at a Glance',
- content: `The wizard has been streamlined into five focused steps, every choice matters, no screens are filler.\n\n**Step 1: Hero Draft**: Lay the foundations of your hero. Name them, choose your **Race & Subrace** (11 ancestral peoples, each with 2-3 unique subraces), pick your **Class** from 20 distinct callings, and allocate your **Ability Scores** using a tactile point-buy system. Spellcasters select their starting spells here. See [Races & Variants](character-creation/races), [Classes](character-creation/classes), and [Character Statistics](core-rules/character-statistics).\n\n**Step 2: Skills & Languages**: Choose your trained skill proficiencies, tool masteries, and spoken dialects. Skills advance through gameplay quests. See [Skills](character-creation/skills).\n\n**Step 3: Starting Equipment**: Purchase your initial weapons, armor, and traveling rations with your starting copper. See [Weapons](equipment-system/weapons) and [Armor](equipment-system/armor).\n\n**Step 4: Lore & Details**: Write your backstory, personality traits, ideals, bonds, and flaws. Select your **Background** here, 15 pre-adventuring origins (Sailor, Merchant, Soldier, etc.) that grant passive benefits and unique features. Upload a portrait for your token. See [Backgrounds](character-creation/character-backgrounds).\n\n**Step 5: Summary & Finalize**: Review your full character sheet, make any final adjustments, and confirm. Your character is now live and ready for the table.`
+ content: `The wizard has been streamlined into five focused steps, every choice matters, no screens are filler.\n\n**Step 1: Hero Draft**: Lay the foundations of your hero. Name them, choose your **Race & Subrace** (11 ancestral peoples, each with 2-3 unique subraces), pick your **Class** from 20 distinct callings, and allocate your **Ability Scores** using a tactile point-buy system. Spellcasters select their starting spells here. See [Races & Variants](character-creation/races), [Classes](character-creation/classes), and [Character Statistics](core-rules/character-statistics).\n\n**Step 2: Skills & Languages**: Choose your trained skill proficiencies, tool masteries, and spoken dialects. Skills advance through gameplay quests. See [Skills](character-creation/skills).\n\n**Step 3: Starting Equipment**: Purchase your initial weapons, armor, and traveling rations with your starting copper. See [Weapons](equipment-system/weapons) and [Armor](equipment-system/armor).\n\n**Step 4: Lore & Details**: Write your backstory, personality traits, ideals, bonds, and flaws. Select your **Background** here, 24 pre-adventuring origins tied to the setting's regions and cultures that grant passive benefits and unique features. Upload a portrait for your token. See [Backgrounds](character-creation/character-backgrounds).\n\n**Step 5: Summary & Finalize**: Review your full character sheet, make any final adjustments, and confirm. Your character is now live and ready for the table.`
  },
  {
  title: 'Race, Class & Background Restrictions',
@@ -2047,7 +2130,7 @@ This quest introduces you to the core themes of Mythrill: memory, identity, and 
  },
  {
  title: 'New Player Archetype Recommendations',
- content: `With 23 unique classes, starting character creation can feel like standing at the edge of a massive, beautiful ocean. To hold your hand on your first journey, we recommend these three classic archetypes which represent the peak of fun and mechanical clarity for new players:\n\n- **The Stout Vanguard (Classic Warrior)**\n - **Class**: *Martyr (Ironclad)* or *Warden* (Excellent high-durability defense)\n - **Ability Focus**: Constitution & Strength\n - **Background**: *Soldier* or *Blacksmith*\n\n- **The Shadow Stalker (Classic Rogue/Scout)**\n - **Class**: *Apex* or *Shaper* (Incredible mobility, single-target strikes, and adaptive form-shifting tactics)\n - **Ability Focus**: Agility & Charisma\n - **Background**: *Urchin* or *Hunter*\n\n- **The Arcane Weaver (Classic Mage/Spellcaster)**\n - **Class**: *Chronarch* (Time manipulation, extra AP tricks) or *Pyrofiend* (Visceral, explosive fire magic)\n - **Ability Focus**: Intelligence & Spirit\n - **Background**: *Scholar* or *Hermit*\n\nSelect any of these configurations during the creation steps to begin with a clear, synergistic mechanical direction!`
+ content: `With 20 unique classes, starting character creation can feel like standing at the edge of a massive, beautiful ocean. To hold your hand on your first journey, we recommend these three classic archetypes which represent the peak of fun and mechanical clarity for new players:\n\n- **The Stout Vanguard (Classic Warrior)**\n - **Class**: *Martyr (Ironclad)* or *Warden* (Excellent high-durability defense)\n - **Ability Focus**: Constitution & Strength\n - **Background**: *sumpsVeteran* (martial resilience) or *forgeWright* (craft and endurance)\n\n- **The Shadow Stalker (Classic Rogue/Scout)**\n - **Class**: *Apex* or *Shaper* (Incredible mobility, single-target strikes, and adaptive form-shifting tactics)\n - **Ability Focus**: Agility & Charisma\n - **Background**: *shantyRat* (urban stealth) or *peakTracker* (wilderness tracking)\n\n- **The Arcane Weaver (Classic Mage/Spellcaster)**\n - **Class**: *Chronarch* (Time manipulation, extra AP tricks) or *Pyrofiend* (Visceral, explosive fire magic)\n - **Ability Focus**: Intelligence & Spirit\n - **Background**: *vaultScholar* (rare lore) or *starboundScholar* (celestial knowledge)\n\nSelect any of these configurations during the creation steps to begin with a clear, synergistic mechanical direction!`
  }
  ]
  }
@@ -2588,7 +2671,7 @@ Under this rule, a player who rolled a 3-6 can immediately choose to push their 
  sections: [
  {
  title: 'Introduction: The Call of Fate',
- content: `Every hero who stands against the encroaching shadows is forged, not born. Mythrill presents a deeply flexible and complete character creation system featuring **20 unique character classes**, 11 distinct ancestral races with diverse subraces, and 15 independent background origins. This open-ended architecture allows you to bring any concept to life, weaving a rich backstory directly into tactile mechanical assets. Your character's destiny unfolds across a 5-step journey, molding their physical lineage, occupational skills, and personal lore.`
+ content: `Every hero who stands against the encroaching shadows is forged, not born. Mythrill presents a deeply flexible and complete character creation system featuring **20 unique character classes**, 11 distinct ancestral races with diverse subraces, and 24 independent background origins. This open-ended architecture allows you to bring any concept to life, weaving a rich backstory directly into tactile mechanical assets. Your character's destiny unfolds across a 5-step journey, molding their physical lineage, occupational skills, and personal lore.`
  },
  {
  title: 'The 5 Steps of Creation',
@@ -2606,7 +2689,7 @@ Under this rule, a player who rolled a 3-6 can immediately choose to push their 
  },
  {
  title: 'Combinatorial Character Building',
- content: `The Mythrill system separates race, class, and background into distinct axes. Subject to lore-based restrictions (Hard Block, Subrace Gate, and Narrative Unlock tiers), you can combine elements to create unique characters, such as a Revenant with an Urchin background, a Warden (Monolith) with a Soldier background, or a Toxicologist with a Scholar background. Non-standard combinations require DM backstory approval through the Narrative Unlock system.`
+ content: `The Mythrill system separates race, class, and background into distinct axes. Subject to lore-based restrictions (Hard Block, Subrace Gate, and Narrative Unlock tiers), you can combine elements to create unique characters, such as a Valdian Astril with a starboundScholar background, a Cragjaw Dwarf with a forgeWright background, or a Groven Revenant with a monolithHunter background. Non-standard combinations require DM backstory approval through the Narrative Unlock system.`
  }
  ]
  }
@@ -2619,7 +2702,7 @@ Under this rule, a player who rolled a 3-6 can immediately choose to push their 
  theme: 'narrative',
  content: {
  title: 'Character Backgrounds',
- description: '15 character backgrounds representing your history and origin (Sailor, Merchant, Soldier, etc.)',
+ description: '24 setting-specific backgrounds representing your history and origin, from the Monolith-hunting wilds to the codex-vaults of Fexric.',
  sections: [
  {
  title: 'What are Backgrounds?',

@@ -59,10 +59,10 @@
     clean_vreken: {
       subraceName: 'Clean Vreken',
       title: 'The Spore-Inhaler',
-      reframe: `The <LoreLink termId="vreken">Clean Vreken</LoreLink> inhale the Wyrd, the ancestral dead ride bioluminescent spores into the lungs and speak through shifting glow-patterns on the skin. Their Animism is the oldest of the three root traditions, older than <LoreLink termId="kora">Kora</LoreLink>, older than the Root-Veil contract. The dead speak through mycelium, and the Clean Vreken have been breathing the dead for centuries.`,
+       reframe: `Among the Vreken, the Wyrd wears one local mask: it is inhaled as bioluminescent spores, a regional manifestation of Keth-Amar's corruption rather than a separate origin. The <LoreLink termId="vreken">Clean Vreken</LoreLink> inhale the Wyrd through these spores, letting the ancestral dead ride fungal particles into the lungs and speak through shifting glow-patterns on the skin. Their Animism is the oldest of the three root traditions, older than <LoreLink termId="kora">Kora</LoreLink>, older than the Root-Veil contract. The dead speak through mycelium, and the Clean Vreken have been breathing the dead for centuries.`,
       signatureAbility: {
         name: 'Spore-Inhalation',
-        description: `The Wyrd must be inhaled from a specific fungal strain native to the deep <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink>; bonds form in the lungs and express as bioluminescent skin-text. The Clean Vreken's deep-glow makes their spirit-dialogue legible at a distance, but broadcasts every emotion to every Vreken nearby.`
+        description: `The Wyrd — Keth-Amar's spiritual corruption bleeding through the Breach — saturates the fungal strains native to the deep <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink>. The Clean Vreken inhale these spores as a conduit, letting the ancestral dead ride bioluminescent particles into the lungs; bonds form there and express as bioluminescent skin-text. The spores are not the Wyrd itself, but a biological medium that carries its resonance. The deep-glow makes spirit-dialogue legible at a distance, but broadcasts every emotion to every Vreken nearby.`
       },
       currentCrisisAngle: `The fungal substrate is the Clean Vreken's dialect, and that substrate is one with the <LoreLink termId="root_veil">Root-Veil</LoreLink>. When the Root-Veil shifts, the Clean Vreken hear it as a scream. The dialect-fracture feels, to them, like the forest itself is being strangled, and they are the only tradition that feels it as physical pain.`,
       signatureQuote: {
@@ -159,7 +159,7 @@
   ],
 
   overview: {
-    originStory: `Founded across in the early centuries of the Dimming by three figures whose ancestral-communion traditions developed independently: Kael (Ordan totemic), Nyssa (Vreken spore), and Theron (Skald runic). The Animist tradition was born from three independent discoveries of ancestral communion, separated by mountains and marshlands, later fused into a single, devastating art.
+    originStory: `Founded in the early centuries of the Dimming by three figures whose ancestral-communion traditions developed independently: Kael (Ordan totemic), Nyssa (Vreken spore), and Theron (Skald runic). The Animist tradition was born from three independent discoveries of ancestral communion, separated by mountains and marshlands, later fused into a single, devastating art.
 
 In the starless grasslands of the Sundrift Vale, the human herd-ranger Kael sat motionless for three seasons, letting bone and root erupt from his own flesh until the wind-spirits claimed him as kin. He discovered communion through totemic eruption: the sacrifice of physical form to channel the brutal laws of the wilderness.
 

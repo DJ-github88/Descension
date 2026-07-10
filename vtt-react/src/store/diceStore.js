@@ -79,7 +79,7 @@ export const DICE_PRESETS = {
   },
   dark: {
     id: 'dark',
-    name: 'Dark Void',
+    name: 'Dark Silence',
     icon: '🌑',
     bodyColor: '#120024',
     edgeColor: '#aa55cc',

@@ -305,7 +305,7 @@ export const BIOMES = [
       { range: [7, 7], type: 'discovery', label: 'Animal Tracks', note: 'Survival vs easy die (d6) to identify.' },
       { range: [8, 8], type: 'combat', label: 'Gref (Face-Stealer)', note: 'Territorial. Shifts appearance; Insight vs challenging die (d10) to detect.' },
       { range: [9, 9], type: 'social', label: 'Mimir Sentinel', note: 'Knows the local canopy. May share trail info.' },
-      { range: [10, 10], type: 'social', label: 'Lost Ledger Keeper', note: 'Disoriented, grateful. May know a shortcut.' },
+      { range: [10, 10], type: 'social', label: 'Lost Scribe', note: 'Disoriented, grateful. May know a shortcut.' },
       { range: [11, 11], type: 'combat', label: 'Gambrel (Oath-Hunter)', note: 'Drawn to broken promises. Stealth vs challenging die (d10) to detect.' },
       { range: [12, 12], type: 'combat', label: 'Ironwood Animated Grove', note: 'Guardians of old growth. Fire effective.' },
       { range: [13, 13], type: 'hazard', label: 'Fog Pocket / Thorn Thicket', note: 'Perception vs moderate die (d8) to avoid.' },

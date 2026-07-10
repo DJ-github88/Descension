@@ -193,7 +193,7 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
     color: '#000000',
     tileVariations: ['/assets/tiles/Abyss1.png'],
     movementCost: 99,
-    description: 'Infinite dark void'
+    description: 'Infinite dark Silence'
   },
   crystal_floor: {
     id: 'crystal_floor',
@@ -1971,7 +1971,7 @@ const TerrainSystem = () => {
 
     const wispColor = { r: 50, g: 20, b: 80 }; // Deep purple/void wisps
 
-    // Void wisps
+    // Silence wisps
     for (let i = 0; i < 5; i++) {
       const r1 = seededRandom(seed + i * 0.3);
       const r2 = seededRandom(seed + i * 0.3 + 0.01);

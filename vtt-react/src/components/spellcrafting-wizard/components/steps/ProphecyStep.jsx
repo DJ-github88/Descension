@@ -161,7 +161,7 @@ const OutcomeConfigPanel = ({ title, tier, outcome, onChange, tierClass }) => {
               <option value="poison">Poison</option>
               <option value="physical">Physical</option>
               <option value="chaos">Chaos</option>
-              <option value="void">Void</option>
+              <option value="void">Silence</option>
               <option value="radiant">Radiant</option>
             </select>
           </div>
@@ -284,7 +284,7 @@ const OutcomeConfigPanel = ({ title, tier, outcome, onChange, tierClass }) => {
               <option value="frost">Frost</option>
               <option value="physical">Physical</option>
               <option value="chaos">Chaos</option>
-              <option value="void">Void</option>
+              <option value="void">Silence</option>
               <option value="radiant">Radiant</option>
               <option value="all">All</option>
             </select>

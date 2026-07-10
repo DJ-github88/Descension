@@ -66,8 +66,8 @@ export const BACKGROUND_DATA = {
     tensionPairings: [
       { classId: 'harbinger', tension: 'Pilgrims seek restoration of the buried star; a Harbinger among them has usually left the Vigil with the doom-arithmetic instead of faith.' }
     ],
-    name: 'Emberspire Pilgrim',
-    description: 'Every year, the faithful climb the Ashen Escarpment to Emberspire, where the Solbrand burns behind sealed obsidian. Hierophant Aethelgard\'s Dawn Vigil watches over the pilgrimage, and watches the pilgrims. You made the climb. You saw the light the Reforging promises to restore, filtering through the Obsidian Citadels where Ash-Dweller bondsmen haul basalt for a spirit they are forbidden to pray to. Some descend with the Vigil\'s seal branded on their throats, ready to spread the call of rebirth to every frozen port. Others descend with doubt gnawing where the brand should be. You carried your phial of captured Solbrand-light down to Ember Lagoon, where the Vigil\'s black-hulled ships carry the faithful and the faithless alike to whatever the Dawn Vigil calls service. The sun is buried. The Vigil says it will rise again. You have seen what lies beneath the obsidian, and you cannot unsee it. What you do with that knowledge is the only question the Vigil left unanswered.',
+    name: 'Pilgrim',
+    description: 'Every year, the faithful climb the volcanic Ashen Escarpment to the temple-city of Emberspire, where the Solbrand — the buried sun — burns behind sealed obsidian. The Dawn Vigil, the order that guards the sun\'s prison, watches over the pilgrimage, and watches the pilgrims. You made the climb. You saw the light that the Reforging (the promised restoration of the sun) promises to restore, filtering through the Obsidian Citadels where indentured Ash-Dwellers haul basalt for a spirit they are forbidden to pray to. Some descend with the Vigil\'s seal branded on their throats, ready to spread the call of rebirth to every frozen port. Others descend with doubt gnawing where the brand should be. You carried your phial of captured Solbrand-light down to Ember Lagoon, where the Vigil\'s black-hulled ships carry the faithful and the faithless alike to whatever the Dawn Vigil calls service. The sun is buried. The Vigil says it will rise again. You have seen what lies beneath the obsidian, and you cannot unsee it. What you do with that knowledge is the only question the Vigil left unanswered.',
     skillProficiencies: ['Insight', 'Religion'],
     languages: 2,
     equipment: [
@@ -114,8 +114,8 @@ export const BACKGROUND_DATA = {
     tensionPairings: [
       { classId: 'arcanoneer', tension: 'A runner lives by evasion and improvisation; the contract-mage lives by pre-filed precision. The two mindsets are incompatible.' }
     ],
-    name: 'Shyr Runner',
-    description: 'The Basalt Shyr is ninety miles of volcanic road, and the Sulfur Cartel taxes every mile of it. You ran sulfur caravans and geothermal coal along its length, learning which basalt pillars shift without warning and where the magma-fracturing sumps tear holes in the air itself. The Dawn Vigil patrols the escarpment checkpoints for tithes and heretics. You learned to give them neither. Slag Gulch is where runners dodge the labor-levies and resupply before the final push. Ember Lagoon is where Cartel cargo changes hands, smuggled onto Merryn ships that ask no questions about the Vigil\'s missing sulfur. You know the Shyr the way a sailor knows a reef: by the things that have killed the careless. Now the Cartel\'s ledgers have your name in them, and the interest compounds. The road is still the only life that pays. It falls to you to outrun what you owe, or find a different kind of ending at the bottom of a magma-fracture.',
+    name: 'Courier',
+    description: 'The Basalt Shyr is a ninety-mile volcanic trade road, and the Sulfur Cartel (the Korr monopoly that controls it) taxes every mile. You ran sulfur caravans and geothermal coal along its length, learning which basalt pillars shift without warning and where the magma-fracturing sumps (reality-tearing vents) tear holes in the air itself. The Dawn Vigil patrols the escarpment checkpoints for tithes and heretics. You learned to give them neither. Slag Gulch is where runners dodge the labor-levies and resupply before the final push. Ember Lagoon is where Cartel cargo changes hands, smuggled onto Merryn ships (crewed by the seafaring Merryn people) that ask no questions about the Vigil\'s missing sulfur. You know the Shyr the way a sailor knows a reef: by the things that have killed the careless. Now the Cartel\'s ledgers have your name in them, and the interest compounds. The road is still the only life that pays. It falls to you to outrun what you owe, or find a different kind of ending at the bottom of a magma-fracture.',
     skillProficiencies: ['Deception', 'Stealth'],
     toolProficiencies: ['Thieves\' tools', 'Gaming set'],
     languages: 1,
@@ -162,8 +162,8 @@ export const BACKGROUND_DATA = {
     tensionPairings: [
       { classId: 'berserker', tension: 'An archivist chained to their journals cannot sustain the emotional singularity the Blood-Heat demands.' }
     ],
-    name: 'Ledger Keeper',
-    description: 'In the Frostwood Reach, the fog eats memory, and Jarl-Archivist Kaelen Thalreth eats dissent. You kept the identity-ledgers at Greymark Keep, where a citizen is only as real as their last entry in the Sovereign Ledger. If the fog takes your name and no scribe records the loss, you become one of the Forgotten, and no law protects the unrecorded. The Scribe-Cartel holds the monopoly on Soot-Resin Ink and Peat-Parchment. Your chained journals were the only proof that thousands of people existed. You checked papers at the Ironwood Palisade, catalogued lineages at Greythorn Copse, and bent over the prehistoric carvings at Mistbarrow trying to read what the fog had already half-erased. Kaelen\'s father Aldren started the Ledger Purge generations ago to strip the undocumented from the record. Now Aldren sits in his chambers re-reading his own journals, trying to remember who he is. The fog took him. Kaelen tells himself it won\'t take the Reach. You hold the quill that decides who is real and who is forgotten. The ink dries fast, and the fog never sleeps.',
+    name: 'Scribe',
+    description: 'In the Frostwood Reach — a region where a living fog literally erases people\'s memories — the fog eats memory, and Jarl-Archivist Kaelen Thalreth eats dissent. You kept the identity-ledgers at Greymark Keep, where a citizen is only as real as their last entry in the Sovereign Ledger, the official registry of citizens. If the fog takes your name and no scribe records the loss, you become one of the Forgotten, and no law protects the unrecorded. The Scribe-Cartel holds the monopoly on Soot-Resin Ink and Peat-Parchment. Your chained journals were the only proof that thousands of people existed. You checked papers at the Ironwood Palisade, catalogued lineages at Greythorn Copse, and bent over the prehistoric carvings at Mistbarrow trying to read what the fog had already half-erased. Kaelen\'s father Aldren started the Ledger Purge generations ago to strip the undocumented from the record. Now Aldren sits in his chambers re-reading his own journals, trying to remember who he is. The fog took him. Kaelen tells himself it won\'t take the Reach. You hold the quill that decides who is real and who is forgotten. The ink dries fast, and the fog never sleeps.',
     skillProficiencies: ['Animal Handling', 'Survival'],
     toolProficiencies: ['Artisan\'s tools', 'Vehicles (land)'],
     languages: 1,
@@ -181,7 +181,7 @@ export const BACKGROUND_DATA = {
     },
     feature: {
       name: 'Ledger-Bound Identity',
-      description: 'Your personal journal serves as incontestable legal proof of your existence under Kaelen Thalreth\'s Sovereign Ledger. When fog threatens to erase a memory, referencing your ledger allows you to recall it. Common folk and Palisade guards will provide simple accommodations to a documented Ledger Keeper.'
+      description: 'Your personal journal serves as incontestable legal proof of your existence under Kaelen Thalreth\'s Sovereign Ledger. When fog threatens to erase a memory, referencing your ledger allows you to recall it. Common folk and Palisade guards will provide simple accommodations to a documented Scribe.'
     },
     statModifiers: {
       constitution: 3,
@@ -204,8 +204,8 @@ export const BACKGROUND_DATA = {
     tensionPairings: [
       { classId: 'inquisitor', tension: 'Heirs are trained to protect house secrets; the Inquisitor exists to sever them. An heir who takes the Barbed Vow hunts their own blood.' }
     ],
-    name: 'Bloodline Heir',
-    description: 'There were eight noble houses, once. Seven remain on the rolls. The eighth, House Viridane, refused to feed its heir to Keth-Amar at the Breach, and the other houses erased it from every record that mattered. You descend from the survivors: Thalreth, Skalvyr, Solvan, Mereval, Tesshan, Ordavan, Morrath. Every one of them struck a Dark Bargain to survive the long night, and every bargain has a price that came due. Your house\'s influence fractured long ago beneath the weight of what your ancestors promised. Some houses collapsed outright. Others limp on, their authority sustained by inertia and fear. The Briaran still carry Viridane\'s blood in their thorns, though no ledger will admit it. And the Bryngloom\'s bargain was never a house\'s at all: the Neth struck it with the Keeper of the Last Threshold before any lord claimed the forest. You carry a name that opens doors and paints targets. Your ancestors bought survival with something they could not afford. The debt is still compounding, and someone has come to collect. It falls to you to decide what your house pays and what it refuses.',
+    name: 'Noble Scion',
+    description: 'The histories speak of seven noble houses that sealed the bargains of survival, but some whisper of an eighth: House Viridane, which refused to feed its heir to Keth-Amar — an ancient entity that demanded sacrifice at the Breach. The Briaran, descendants of Viridane, call themselves the eighth house because they count what the official records hide. You descend from the survivors: Thalreth, Skalvyr, Solvan, Mereval, Tesshan, Ordavan, and Morrath (elevated to replace the erased Viridane). Every one of them struck a Dark Bargain to survive the long night, and every bargain has a price that came due. Your house\'s influence fractured long ago beneath the weight of what your ancestors promised. Some houses collapsed outright. Others limp on, their authority sustained by inertia and fear. The thorned Briaran people still carry Viridane\'s blood in their veins, though no ledger will admit it. And the Bryngloom Forest\'s bargain was never a house\'s at all: the Neth people struck it with the Keeper of the Last Threshold before any lord claimed the forest. You carry a name that opens doors and paints targets. Your ancestors bought survival with something they could not afford. The debt is still compounding, and someone has come to collect. It falls to you to decide what your house pays and what it refuses.',
     skillProficiencies: ['History', 'Persuasion'],
     toolProficiencies: ['Gaming set'],
     languages: 1,
@@ -253,8 +253,8 @@ export const BACKGROUND_DATA = {
     tensionPairings: [
       { classId: 'berserker', tension: 'A scholar tempered by crystal archives and throat-sung theory rarely survives the Blood-Heat.' }
     ],
-    name: 'Synod Academic',
-    description: 'The Synod-Hold rises from the Sundrift steppe like a crystal thorn, its lattice-walls singing when the wind finds the right key. You studied there, learning to read the constellation-spirit lineages that the Astril have carried since the first ancestors knelt in the stone circles and received the stars into their chests. The crystal-lattice archives preserve every spirit-lineage that still burns. You learned the forbidden Sky-Songs, the throat-sung maps of stars that went dark when the Ordavan bargain was struck. You catalogued star-lineages carved on bone Steppe-Staves, learned to bypass the basalt Cairn-Checkpoints, and navigate Starfall Vale where the dead constellations fall. You learned to identify the Unlit Veil\'s spies inside the Synod itself. The constellation-spirits are fading. Every season, another lineage goes dark, another song loses its referent. The Synod studies the archives while the stars go out. You have the training to read the patterns. Whether you use it to preserve what remains or to understand what is killing the sky is the choice the steppe has laid at your feet.',
+    name: 'Scholar',
+    description: 'The Synod-Hold, a crystal academy of living stone, rises from the Sundrift steppe like a crystal thorn, its lattice-walls singing when the wind finds the right key. You studied there, learning to read the constellation-spirit lineages that the Astril (people born with a living star-spirit in their chest) have carried since the first ancestors knelt in the stone circles and received the stars into their bodies. The crystal-lattice archives preserve every spirit-lineage that still burns. You learned the forbidden Sky-Songs, the throat-sung maps of stars that went dark when an ancient bargain was struck. You catalogued star-lineages carved on bone Steppe-Staves (record-keeping poles), learned to bypass the basalt Cairn-Checkpoints, and navigate Starfall Vale where the dead constellations fall. You learned to identify the Unlit Veil\'s spies inside the Synod itself. The constellation-spirits are fading. Every season, another lineage goes dark, another song loses its referent. The Synod studies the archives while the stars go out. You have the training to read the patterns. Whether you use it to preserve what remains or to understand what is killing the sky is the choice the steppe has laid at your feet.',
     skillProficiencies: ['Arcana', 'History'],
     languages: 2,
     equipment: [
@@ -292,15 +292,15 @@ export const BACKGROUND_DATA = {
       "justification": "Bloodhammer Sump skirmishes and Hunger Glacier defense are Nordhalla-specific."
     },
     classHooks: [
-      { classId: 'berserker', bridge: 'The Hunger Pact lives in a Sumps Veteran blood; the Blood-Heat is its combat expression.' },
+      { classId: 'berserker', bridge: 'The Hunger Pact lives in a Veteran\'s blood; the Blood-Heat is its combat expression.' },
       { classId: 'warden', bridge: 'Frozen Archive proximity and geothermal-tunnel warfare are the surgical-graft on-ramp into the Bound.' },
       { classId: 'augur', bridge: 'A veteran of the glacier defenses has plenty of preserved dead to read at the Frozen Archive.' }
     ],
     tensionPairings: [
       { classId: 'false_prophet', tension: 'A veteran earned every scar in real combat; manufactured faith tastes like insult to someone who bled for truth.' }
     ],
-    name: 'Sumps Veteran',
-    description: 'The Bloodhammer Sump breeds soldiers the way a wound breeds salt. You fought in its geothermal skirmishes, or the War of Thousand Screams, or the endless defense of the Hunger Glaciers. Every Skald soldier carries the Hunger Pact in their blood: ancestral starvation from the Hunger Winter, the three-year blizzard that followed the Glacier Bargain, when the ancestors consumed their own dead to survive. The pact turns that memory into fury when the fighting starts. The Frost-Tithe takes its share from every family. It took someone you loved. You learned to fight in geothermal vents where the air burns and the cold above kills just as fast, through the First Thermal War and every sump-skirmish since. Now the glaciers are advancing again, and the Hunger Pact still hums beneath your skin when the fighting nears. The dead who fed your bloodline gave you their fury so you would survive. It falls to you to decide what that fury is for.',
+    name: 'Veteran',
+    description: 'The Bloodhammer Sump, a volcanic war zone of geothermal vents and constant skirmishes, breeds soldiers the way a wound breeds salt. You fought in its geothermal skirmishes, or the War of Thousand Screams, or the endless defense of the advancing Hunger Glaciers. Every Skald soldier carries the Hunger Pact in their blood: ancestral starvation from the Hunger Winter, the three-year blizzard that followed the Glacier Bargain, when the ancestors consumed their own dead to survive. The pact turns that memory into fury when the fighting starts. The Frost-Tithe, a yearly tribute of lives and resources to the encroaching cold, takes its share from every family. It took someone you loved. You learned to fight in geothermal vents where the air burns and the cold above kills just as fast, through the First Thermal War and every sump-skirmish since. Now the glaciers are advancing again, and the Hunger Pact still hums beneath your skin when the fighting nears. The dead who fed your bloodline gave you their fury so you would survive. It falls to you to decide what that fury is for.',
     skillProficiencies: ['Athletics', 'Intimidation'],
     toolProficiencies: ['Gaming set', 'Vehicles (land)'],
     languages: 1,
@@ -353,7 +353,7 @@ export const BACKGROUND_DATA = {
       { classId: 'berserker', tension: 'Contract discipline and the Blood-Heat fury are mutually exclusive states of mind.' }
     ],
     name: 'Debt Negotiator',
-    description: 'In Atropolis, everything has a price and every price is negotiable. You studied the First Contract and Neth legal tradition in the canopy city\'s contract-halls, guiding clients through Regent Morrath\'s Great Registry and the peonage the Scribe-Cartel enforces. In the Bryngloom, debt is a living thing: every agreement binds, every handshake traps, and the Postmortem Corvee can conscript your corpse if you die in default. You negotiated Memory-Glass Covenants for clients desperate to buy extra years. You learned to read a Neth contract by its silver-leaf binding and to spot the trap-clauses that bind the unwary. And you memorized the cautionary tale every negotiator learns: Saren-Vel, the greatest contract-lawyer of her generation, who burned her own name from the Contract and became the first of the Drun, legally nonexistent, living in the Over-Shanty beyond the reach of every law she once mastered. The contract-halls are busier than ever. The Keeper of the Last Threshold waits beneath the roots, patient as the mycelium, and the debt-economy grows. You have the silver tongue and the eye for loopholes. It falls to you to decide whose contracts hold and whose names burn.',
+    description: 'In Atropolis, a canopy city built in the treetops, everything has a price and every price is negotiable. You studied the First Contract (the foundational legal text of the Neth people) and Neth legal tradition in the canopy city\'s contract-halls, guiding clients through Regent Morrath\'s Great Registry (a total debt-and-citizenship registry) and navigating the debt-peonage that underpins the Bryngloom economy. In the Bryngloom Forest, debt is a living thing: every agreement binds, every handshake traps, and the Postmortem Corvee can conscript your corpse for labor if you die in default. You negotiated Memory-Glass Covenants, contracts that store and trade years of lifespan, for clients desperate to buy extra time. You learned to read a Neth contract by its silver-leaf binding and to spot the trap-clauses that bind the unwary. And you memorized the cautionary tale every negotiator learns: Saren-Vel, the greatest contract-lawyer of her generation, who burned her own name from the Contract and became the first of the Drun (the legally nonexistent), living in the Over-Shanty beyond the reach of every law she once mastered. The contract-halls are busier than ever. The Keeper of the Last Threshold waits beneath the roots, patient as the mycelium, and the debt-economy grows. You have the silver tongue and the eye for loopholes. It falls to you to decide whose contracts hold and whose names burn.',
     skillProficiencies: ['Deception', 'Sleight of Hand'],
     toolProficiencies: ['Forgery kit', 'Disguise kit'],
     languages: 1,
@@ -397,10 +397,10 @@ export const BACKGROUND_DATA = {
       { classId: 'apex', bridge: 'Throat-sung navigation and wind-reading translate directly into the sensory tracking of the Silent Hunt.' }
     ],
     tensionPairings: [
-      { classId: 'arcanoneer', tension: 'The oral archive and the written contract are rival memory-systems; a Frost Chanter trusts song where an Arcanoneer trusts filing.' }
+      { classId: 'arcanoneer', tension: 'The oral archive and the written contract are rival memory-systems; a Storyteller trusts song where an Arcanoneer trusts filing.' }
     ],
-    name: 'Frost Chanter',
-    description: 'In Nordhalla, Jarn-Tand\'s Runic Academies burn every old drum they find. So the old ways moved into the only instrument they could not confiscate: the voice. You trained as a Frost Chanter, weaving animist history into verse so dense the inquisitors hear a drinking-song and never suspect they are listening to a heresy eight centuries old. Each performance is a hidden archive. Each chorus shields the Fredlose from the Frost-Tithe\'s despair and the Academies\' erasure. In a land where the written rune is law and the spoken song is contraband, your voice is a covert hearth where the old ways still burn. The Glacier Bargain and the Hunger Winter that followed birthed the first chants; every chanter since has added a verse. The Academies are listening closer now, and the Fredlose are fewer every winter. You carry the last songs of a people the cold is slowly silencing. It falls to you to keep the verse alive, or let the old ways freeze with the last voice that remembers them.',
+    name: 'Storyteller',
+    description: 'In Nordhalla, a frozen northern region, the authoritarian Jarn-Tand\'s Runic Academies burn every old drum they find. So the old ways moved into the only instrument they could not confiscate: the voice. You trained as a chanter, weaving animist history into verse so dense the inquisitors hear a drinking-song and never suspect they are listening to a heresy eight centuries old. Each performance is a hidden archive. Each chorus shields the Fredlose (the outlaw clans who refused Jarn-Tand\'s crown) from the Frost-Tithe\'s despair and the Academies\' erasure. In a land where the written rune is law and the spoken song is contraband, your voice is a covert hearth where the old ways still burn. The Glacier Bargain and the Hunger Winter that followed — the three-year blizzard that drove the ancestors to consume their own dead — birthed the first chants; every chanter since has added a verse. The Academies are listening closer now, and the Fredlose are fewer every winter. You carry the last songs of a people the cold is slowly silencing. It falls to you to keep the verse alive, or let the old ways freeze with the last voice that remembers them.',
     skillProficiencies: ['Acrobatics', 'Performance'],
     toolProficiencies: ['Disguise kit', 'Musical instrument'],
     languages: 1,
@@ -434,15 +434,15 @@ export const BACKGROUND_DATA = {
       "justification": "Every region has some form of metalworking; the flavor shifts by region."
     },
     classHooks: [
-      { classId: 'spellguard', bridge: 'The Damon tradition treats magical defense as forge-engineering; a Forge Wright is already half-trained.' },
+      { classId: 'spellguard', bridge: 'The Damon tradition treats magical defense as forge-engineering; a Smith is already half-trained.' },
       { classId: 'warden', bridge: 'Chain-craft and gear-work are the mechanical backbone of the chain-graft surgical tradition.' },
       { classId: 'berserker', bridge: 'Skald and Thrask forge-workers who absorbed enough forge-heat sometimes find the Blood-Heat igniting on its own.' }
     ],
     tensionPairings: [
       { classId: 'plaguebringer', tension: 'The sterile forge and the cultivated bog-disease are opposite relationships to material, creation versus decay.' }
     ],
-    name: 'Forge Wright',
-    description: 'Metal remembers. Every hammer-strike, every quench, every fold of alloy is a record that outlasts the hand that made it. You apprenticed at one of the great forges: Harath-Vault beneath Emberspire, the Bloodhammer Sump\'s geothermal foundries, or the iron halls of Ironjaw Port. There you learned to read the record the way a scribe reads ink. You understand metal as living memory. Every alloy is a conversation between elements; every forge-mark, a signature. At Gearworks Gulch in the Cragjaw Peaks, you studied clockwork engineering from Fexric artisans whose gear-teeth cut as clean as their grievances. At Sol\'s Anvil Mesa in Sundale, Solvarn sun-priests still work ceremonial metal with techniques passed down from the Binding. The forges are failing. Fuel runs low, ore-veins thin, and the old guild-marks lose their meaning as fewer smiths survive to teach them. You carry the grammar of metal in your hands. It falls to you to keep the old marks honest, or let the forge-knowledge die with the last smiths who remember what the hammers used to say.',
+    name: 'Smith',
+    description: 'Metal remembers. Every hammer-strike, every quench, every fold of alloy is a record that outlasts the hand that made it. You apprenticed at one of the great forges: Harath-Vault beneath the temple-city of Emberspire, the Bloodhammer Sump\'s geothermal foundries, or the deep dock-forges of Ironjaw Port. There you learned to read the record the way a scribe reads ink. You understand metal as living memory. Every alloy is a conversation between elements; every forge-mark, a signature. At Gearworks Gulch in the Cragjaw Peaks, you studied clockwork engineering from the Fexric, a subterranean craft-oriented people whose gear-teeth cut as clean as their grievances. At Sol\'s Anvil Mesa in Sundale, Solvarn sun-priests still work ceremonial metal with techniques passed down from the Binding, the ancient ritual that first sealed the sun away. The forges are failing. Fuel runs low, ore-veins thin, and the old guild-marks lose their meaning as fewer smiths survive to teach them. You carry the grammar of metal in your hands. It falls to you to keep the old marks honest, or let the forge-knowledge die with the last smiths who remember what the hammers used to say.',
     skillProficiencies: ['Insight', 'Persuasion'],
     toolProficiencies: ['Artisan\'s tools'],
     languages: 1,
@@ -482,8 +482,8 @@ export const BACKGROUND_DATA = {
     tensionPairings: [
       { classId: 'martyr', tension: 'A survivor built their whole identity around NOT being consumed; the Vow asks them to be consumed willingly.' }
     ],
-    name: 'Hush Survivor',
-    description: 'You watched the hush take someone you loved. First the Ghost-Mycelium darkened their veins. Then it dissolved their mind. Then it drew them into the Hush-Bogs to join the Spores-Born, the mindless fungal-puppeted dead who drift the bog\'s edge. You retreated into seclusion and fortified your mind against the hush\'s seduction, brick by brick, until the song could not reach you. It almost worked. The mycelium\'s song never fully fades. You hear it in the silence between thoughts, a low hum that promises warmth and cessation. The Over-Lit epidemic that scattered concentrated Ghost-Mycelium through every Neth trade-route made the hush a regional catastrophe, and the Hush-Bogs are fuller now than they have been in generations. You survived the hush when the person beside you did not. That survival left a mark the mycelium recognizes. You know the early signs, the darkening veins, the far-away stare, the warmth that is not warmth. It falls to you to spot the infection before it takes another voice you know.',
+    name: 'Plague Warden',
+    description: 'The hush is a fungal plague that dissolves the mind and turns its victims into puppets of the mycelium. You watched it take someone you loved. First the Ghost-Mycelium, the infectious fungal agent, darkened their veins. Then it dissolved their mind. Then it drew them into the Hush-Bogs to join the Spores-Born, the mindless fungal-puppeted dead who drift the bog\'s edge. You retreated into seclusion and fortified your mind against the hush\'s seduction, brick by brick, until the song could not reach you. It almost worked. The mycelium\'s song never fully fades. You hear it in the silence between thoughts, a low hum that promises warmth and cessation. The Over-Lit epidemic that scattered concentrated Ghost-Mycelium through every trade route made the hush a regional catastrophe, and the Hush-Bogs are fuller now than they have been in generations. You survived the hush when the person beside you did not. That survival left a mark the mycelium recognizes. You know the early signs: the darkening veins, the far-away stare, the warmth that is not warmth. It falls to you to spot the infection before it takes another voice you know.',
     skillProficiencies: ['Medicine', 'Religion'],
     toolProficiencies: ['Herbalism kit'],
     languages: 1,
@@ -533,8 +533,8 @@ export const BACKGROUND_DATA = {
     tensionPairings: [
       { classId: 'minstrel', tension: 'The vertical silence of the peaks and the maritime cadence of the Iceheart are opposite acoustic worlds.' }
     ],
-    name: 'Peak Tracker',
-    description: 'The Cragjaw Peaks are a vertical labyrinth where the blizzard rewrites every path within hours of it being carved. You navigated that labyrinth with knotted cord route-markers, mapping what the storm buries and re-buries. The calcified bone-bridges the Groven dead left behind are the only crossings that hold, and you learned to read their stress-fractures before committing your weight. You evaded the Rope-Garrison toll-posts, predicted the hunting grounds of Rime-Brides and Storm-Crows, and found safe passage through the steam-pipe junctions where heat-stealing Sump-Scrabs nest. Deepchasm Keep is your home, and from its walls you watched trackers who knew one route fewer than the storm take the wrong bridge. The peaks are getting colder, and the blizzard thicker. The bone-bridges the ancestors left are not being replaced. You carry the routes in your knotted cord, the only map that outlasts the storm. It falls to you to find the passage, or watch your companions learn why the Groven carved their memorials into the spans.',
+    name: 'Mountaineer',
+    description: 'The Cragjaw Peaks are a vertical labyrinth of deadly mountains where the blizzard rewrites every path within hours of it being carved. You navigated that labyrinth with knotted cord route-markers, mapping what the storm buries and re-buries. The calcified bone-bridges called Ancestor-Spans, left behind by the Groven people (an ancient race of bone-workers), are the only crossings that hold, and you learned to read their stress-fractures before committing your weight. You evaded the Rope-Garrison toll-posts, predicted the hunting grounds of Rime-Brides (ice-elemental hunters) and Storm-Crows, and found safe passage through the steam-pipe junctions where heat-stealing Sump-Scrabs nest. Deepchasm Keep is your home, and from its walls you watched trackers who knew one route fewer than the storm take the wrong bridge. The peaks are getting colder, and the blizzard thicker. The bone-bridges the ancestors left are not being replaced. You carry the routes in your knotted cord, the only map that outlasts the storm. It falls to you to find the passage, or watch your companions learn why the Groven carved their memorials into the spans.',
     skillProficiencies: ['Athletics', 'Survival'],
     toolProficiencies: ['Musical instrument'],
     languages: 1,
@@ -587,8 +587,8 @@ export const BACKGROUND_DATA = {
     tensionPairings: [
       { classId: 'warden', tension: 'A Warden must anchor and hold; a sailor lives by movement and current. The immovable chain and the shifting tide are opposed philosophies.' }
     ],
-    name: 'Merrow Sailor',
-    description: 'The Iceheart Sea does not forgive debts, and the Board of Trade does not forget them. You sailed from Merrowport under Grand Admiral Varis Mereval\'s Sea-Charter, your arms inked with trade-tattoos that double as legal contracts. Every line of ink verifies a debt-share; every missing line is a gap the Press-Warrants can fill with lifetime service. You learned to slip the Unfreezing Booms, dodge the Luck-Ledger inquisitors who audit every sailor\'s skin for unpaid shares, and trade in Brinehorse Cove where the Brine-Bond Syndicate asks fewer questions. The Merryn tattooed their debts on their skin for centuries before the Syndicate formalized the practice. Now the ink is law, and the law is ink. The sea is freezing earlier every year, and the trade-routes the Sea-Charter protects are shrinking with the ice. You know the water, the wind, and the exact weight of ink on your skin. It falls to you to sail the routes that still pay, or find out what the Board of Trade does to a sailor whose tattoos run out before the debt does.',
+    name: 'Sailor',
+    description: 'The Iceheart Sea, a freezing northern ocean, does not forgive debts, and the Board of Trade does not forget them. You sailed from Merrowport under Grand Admiral Varis Mereval\'s Sea-Charter (the official trade license), your arms inked with trade-tattoos that double as legal contracts. Every line of ink verifies a debt-share; every missing line is a gap the Press-Warrants (forced conscription orders) can fill with lifetime naval service. You learned to slip the Unfreezing Booms, dodge the Luck-Ledger inquisitors who audit every sailor\'s skin for unpaid shares, and trade in Brinehorse Cove where the Brine-Bond Syndicate asks fewer questions. The Merryn (the seafaring human culture) tattooed their debts on their skin for centuries before the Syndicate formalized the practice. Now the ink is law, and the law is ink. The sea is freezing earlier every year, and the trade-routes the Sea-Charter protects are shrinking with the ice. You know the water, the wind, and the exact weight of ink on your skin. It falls to you to sail the routes that still pay, or find out what the Board of Trade does to a sailor whose tattoos run out before the debt does.',
     skillProficiencies: ['Athletics', 'Perception'],
     toolProficiencies: ['Navigator\'s tools', 'Vehicles (water)'],
     languages: 1,
@@ -639,8 +639,8 @@ export const BACKGROUND_DATA = {
     tensionPairings: [
       { classId: 'berserker', tension: 'Trade demands patience and read of the other party; the Blood-Heat dissolves both in seconds.' }
     ],
-    name: 'Gloomway Trader',
-    description: 'The Bryngloom Forest trades in three currencies: memory-glass, peat-oil, and the years left in a lifespan. You ran goods across its root-tangled expanse under Regent Morrath\'s Great Registry, dealing in wyrd-warded curios and the covenants that bind them. The living-ironwood Toll-Dikes tax every road, but you learned the bypasses. You bargained with Drun smugglers beneath the canopy, traded lifelines at the Mist-Gate Market where a desperate soul will sell five years for a chest of peat-oil, and rested at Morren\'s Bogpost where the forest meets the steppe. Your ledger is warded against the Inquisition\'s audit. Every entry is legal, or at least defensibly ambiguous. The Registry tightens its tariffs every season, and the Drun routes grow more dangerous as the Root-Veil spreads and the old crossings rot beneath it. You know the prices, the paths, and the faces that pay. It falls to you to run the goods the law forbids, or watch the trade-routes close and the Forest go silent.',
+    name: 'Black Market Trader',
+    description: 'The Bryngloom Forest trades in three currencies: memory-glass (crystallized memories), peat-oil, and the years left in a lifespan. You ran goods across its root-tangled expanse under Regent Morrath\'s Great Registry, dealing in wyrd-warded curios (trinkets enchanted against supernatural forces) and the covenants that bind them. The living-ironwood Toll-Dikes tax every road, but you learned the bypasses. You bargained with Drun smugglers (the legally nonexistent outcasts) beneath the canopy, traded lifelines at the Mist-Gate Market where a desperate soul will sell five years for a chest of peat-oil, and rested at Morren\'s Bogpost where the forest meets the steppe. Your ledger is warded against the Inquisition\'s audit. Every entry is legal, or at least defensibly ambiguous. The Registry tightens its tariffs every season, and the Drun routes grow more dangerous as the Root-Veil spreads and the old crossings rot beneath it. You know the prices, the paths, and the faces that pay. It falls to you to run the goods the law forbids, or watch the trade-routes close and the Forest go silent.',
     skillProficiencies: ['Insight', 'Persuasion'],
     toolProficiencies: ['Navigator\'s tools'],
     languages: 2,
@@ -685,13 +685,13 @@ export const BACKGROUND_DATA = {
     classHooks: [
       { classId: 'toxicologist', bridge: 'The black-market reagent trade of the Over-Shanty is a self-taught pharmacology degree.' },
       { classId: 'plaguebringer', bridge: 'Bog-proximity and salvage of the fungal underworld are the unwelcome apprenticeship of the Cultivar.' },
-      { classId: 'inquisitor', bridge: 'Knowing the supernatural underworld from below makes a Shanty Rat a devastating hunter when they turn.' }
+      { classId: 'inquisitor', bridge: 'Knowing the supernatural underworld from below makes an Urchin a devastating hunter when they turn.' }
     ],
     tensionPairings: [
-      { classId: 'martyr', tension: 'A Shanty Rat survived by being invisible and unrecorded; the Vow demands they be seen and broken for others.' }
+      { classId: 'martyr', tension: 'An Urchin survived by being invisible and unrecorded; the Vow demands they be seen and broken for others.' }
     ],
-    name: 'Shanty Rat',
-    description: 'The Over-Shanty hangs beneath Atropolis like a wound the canopy city refuses to acknowledge. You grew up in its rope-bridges and salvage-nests, one of the Forgotten: undocumented, unrecorded, legally nonexistent under Regent Morrath\'s Great Registry. The Registry tracks every name above. Below, the Shanty tracks only who can climb and who cannot. The slum coalesced from Drun outcasts, Morren defaulters, and merchants too desperate to check the drop. You learned which rope-bridges hold weight, how to slip past the Toll-Dike patrols, and how to bargain with Drun smugglers for black-market peat-oil. The memory-brokers know your face; the Registry never will. Atropolis thrives above, and the Shanty swells below, and the rope-bridges between them fray a little more every season. You were born outside the law. It falls to you to climb high enough to matter, or vanish into the mist like every Forgotten the Registry has already erased from the world.',
+    name: 'Urchin',
+    description: 'The Over-Shanty is a hanging slum beneath the treetop city of Atropolis, like a wound the canopy city refuses to acknowledge. You grew up in its rope-bridges and salvage-nests, one of the Forgotten: undocumented, unrecorded, legally nonexistent under Regent Morrath\'s Great Registry. The Registry tracks every name above. Below, the Shanty tracks only who can climb and who cannot. The slum coalesced from Drun outcasts (people who erased their own names from the law), Morren defaulters, and merchants too desperate to check the drop. You learned which rope-bridges hold weight, how to slip past the Toll-Dike patrols, and how to bargain with Drun smugglers for black-market peat-oil. The memory-brokers know your face; the Registry never will. Atropolis thrives above, and the Shanty swells below, and the rope-bridges between them fray a little more every season. You were born outside the law. It falls to you to climb high enough to matter, or vanish into the mist like every Forgotten the Registry has already erased from the world.',
     skillProficiencies: ['Sleight of Hand', 'Stealth'],
     toolProficiencies: ['Disguise kit', 'Thieves\' tools'],
     languages: 1,
@@ -732,8 +732,8 @@ export const BACKGROUND_DATA = {
     tensionPairings: [
       { classId: 'false_prophet', tension: 'A Hunter pursues buried truth; a False Prophet manufactures it. The two are professional enemies.' }
     ],
-    name: 'Monolith Hunter',
-    description: 'For centuries, the seven Sundered Monoliths stood silent, the shattered remnants of the seal that once bound Sol beneath the world. The Breach broke them: when Keth-Amar consumed the six sacrificed heirs, the binding cracked and the fragments scattered across every region. They hummed quietly for generations. No one bothered to listen. Now they are waking. All seven at once, their resonance rising, and the song is getting louder. You track that resonance across the frozen world with cold iron stakes to ground the Wyrd-echoes and a journal of fragment-locations that certain powers would kill to possess. The monoliths were silent for the better part of eight centuries. Whatever changed, it changed recently, and it is still changing. You carry the only map that tracks all seven fragments, and the powers who want it do not negotiate. It falls to you to reach the next Monolith before they do, and to decide whether the waking should be hastened, halted, or understood.',
+    name: 'Relic Hunter',
+    description: 'For centuries, the seven Sundered Monoliths stood silent — six true fragments of the binding seal and one hollow echo where a seventh signature was never made. The Breach broke them: when an ancient entity called Keth-Amar consumed the six sacrificed heirs of the noble houses, the binding cracked and the fragments scattered across every region. They hummed quietly for generations. No one bothered to listen. Now they are waking. All seven at once, their resonance rising, and the song is getting louder. You track that resonance across the frozen world with cold iron stakes to ground the Wyrd-echoes (supernatural magical residue) and a journal of fragment-locations that certain powers would kill to possess. The monoliths were silent for the better part of eight centuries. Whatever changed, it changed recently, and it is still changing. You carry the only map that tracks all seven fragments, and the powers who want it do not negotiate. It falls to you to reach the next Monolith before they do, and to decide whether the waking should be hastened, halted, or understood.',
     skillProficiencies: ['History', 'Investigation'],
     toolProficiencies: ['Calligrapher\'s supplies'],
     languages: 2,
@@ -773,14 +773,14 @@ export const BACKGROUND_DATA = {
       "justification": "Grove-Wardens swear the fae counter-bargain in the moonlit groves of the Frostwood Reach, a Briaran bloodline obligation. An outsider could plausibly be sworn to the grove through adoption or an unpaid life-debt."
     },
     classHooks: [
-      { classId: 'lunarch', bridge: 'The moonlit groves a Grove Warden patrols are the only place the lunar parasite is found; the patrol and the pact are one career.' },
+      { classId: 'lunarch', bridge: 'The moonlit groves a Forest Warden patrols are the only place the lunar parasite is found; the patrol and the pact are one career.' },
       { classId: 'toxicologist', bridge: 'Thorn-blood and ghost-metal cold-working are the Briaran foundation of the Distillery craft.' }
     ],
     tensionPairings: [
-      { classId: 'martyr', tension: 'The fae bargain is fundamentally transactional; the Vow asks for uncompensated self-destruction. A Grove Warden turned Martyr has betrayed one covenant for another.' }
+      { classId: 'martyr', tension: 'The fae bargain is fundamentally transactional; the Vow asks for uncompensated self-destruction. A Forest Warden turned Martyr has betrayed one covenant for another.' }
     ],
-    name: 'Grove Warden',
-    description: 'There were eight houses, not seven. The histories will tell you otherwise. The histories are wrong. You swore the old fae bargain in the moonlit groves of the Frostwood Reach, binding yourself to the Hollow-Court and the ironwood hollows where House Viridane sealed its counter-pact when the other houses marched their heirs to Keth-Amar. Viridane refused. Viridane ran. Viridane survived, in you and every Briaran who carries the thorns. You tend the Thorn-Fall, where eight centuries of shed thorns record every unfulfilled promise the fae have witnessed. You mine ghost-metal from the cold vein beneath the deep groves and enforce the fae\'s old laws against the quiet expeditions the other families send to strip what Viridane left behind. Smooth-Skinned wardens carry their oath hidden beneath borrowed names. Unshorn wardens wear their thorns openly, the only proof anywhere in the world that House Viridane existed. The families\' expeditions are growing bolder, and the Thorn-Fall is growing heavier with broken promises. You carry Viridane\'s last counter-pact in your blood and its law in your thorns. It falls to you to hold the grove, or watch the final proof of the eighth house rot into the Frostwood floor.',
+    name: 'Forest Warden',
+    description: 'There were eight noble houses, not seven. The histories will tell you otherwise. The histories are wrong. You swore the old fae bargain in the moonlit groves of the Frostwood Reach, binding yourself to the Hollow-Court (the fae court of the forest) and the ironwood hollows where House Viridane — the erased eighth house — sealed its counter-pact when the other houses marched their heirs to be sacrificed to Keth-Amar. Viridane refused. Viridane ran. Viridane survived, in you and every Briaran who carries the thorns. You tend the Thorn-Fall, where eight centuries of shed thorns record every unfulfilled promise the fae have witnessed. You mine ghost-metal from the cold vein beneath the deep groves and enforce the fae\'s old laws against the quiet expeditions the other families send to strip what Viridane left behind. You carry Viridane\'s last counter-pact in your blood and its law in your thorns. It falls to you to hold the grove, or watch the final proof of the eighth house rot into the Frostwood floor.',
     skillProficiencies: ['Insight', 'Survival'],
     toolProficiencies: ['Artisan\'s tools (ghost-metal cold-working)'],
     languages: 1,
@@ -827,10 +827,10 @@ export const BACKGROUND_DATA = {
       { classId: 'toxicologist', bridge: 'Floor-toxin brewing and intruder-detection are the Unwoven half of the Distillery.' }
     ],
     tensionPairings: [
-      { classId: 'berserker', tension: 'A Mask Warden exists to preserve fixed identity; the Blood-Heat dissolves it. The two are philosophical opposites, and a Mimir cannot be a Berserker anyway.' }
+      { classId: 'berserker', tension: 'A Guardian exists to preserve fixed identity; the Blood-Heat dissolves it. The two are philosophical opposites, and a Mimir cannot be a Berserker anyway.' }
     ],
-    name: 'Mask Warden',
-    description: 'The Mimir\'s masks are relics, and the Hunters pay fortunes for them on the black collector\'s market. You stand between the mask-wearers and the cartels that hunt them. You patrol the fog-spider-silk rope-bridges of the Spire-Aeries, watch the Watch-Bells for the next alarm, and track the detection-magicians who probe the Vales with ever-refining glass-cutters. The Mimir Purge took the birthing chambers and the last Mask-Mothers with them. The Rupture that followed restricted every surviving mask to a first-born heir, and the mothers who could have made more are ashes. Since then, Mask-Wardens have guarded what remains. Whether you are Mask-Borne aristocrat, Mist-Woven cliff-sentinel, or Unwoven floor-guide, you learned to read the spore-trails intruders leave and the silence the fog carves when an outsider moves through it. The Hunters are better funded than they have been in generations, and every mask that falls feeds a collection that grows bolder. You know their methods because you have buried the ones who got careless. It falls to you to hold the Vales, or watch the last masks disappear into glass cases in cities that will never understand what they stole.',
+    name: 'Guardian',
+    description: 'The Mimir are a masked people whose masks are ancient relics, and the Hunters (mask-collecting cartels) pay fortunes for them on the black market. You stand between the mask-wearers and the cartels that hunt them. You patrol the fog-spider-silk rope-bridges of the Spire-Aeries, watch the Watch-Bells for the next alarm, and track the detection-magicians who probe the misty Vales with ever-refining tools. The Mimir Purge took the birthing chambers and the last Mask-Mothers (the only ones who could craft new masks) with them. The Rupture that followed restricted every surviving mask to a first-born heir, and the mothers who could have made more are ashes. Since then, Keepers have guarded what remains. Whether you are Mask-Borne aristocrat, Mist-Woven cliff-sentinel, or Unwoven floor-guide, you learned to read the spore-trails intruders leave and the silence the fog carves when an outsider moves through it. The Hunters are better funded than they have been in generations, and every mask that falls feeds a collection that grows bolder. You know their methods because you have buried the ones who got careless. It falls to you to hold the misty Vales, or watch the last masks disappear into glass cases in cities that will never understand what they stole.',
     skillProficiencies: ['Perception', 'Stealth'],
     toolProficiencies: ['Navigator\'s tools', 'Disguise kit'],
     languages: 1,
@@ -875,10 +875,10 @@ export const BACKGROUND_DATA = {
       { classId: 'warden', bridge: 'Chain-graft gear-work and surgical-engineering literacy are the Fexric path into the Bound.' }
     ],
     tensionPairings: [
-      { classId: 'animist', tension: 'A Vault Scholar treats the world as a mechanism; an Animist treats it as a conversation. The two frames cannot share a skull.' }
+      { classId: 'animist', tension: 'A Machinist treats the world as a mechanism; an Animist treats it as a conversation. The two frames cannot share a skull.' }
     ],
-    name: 'Vault Scholar',
-    description: 'Deep in the Fexric warrens, behind sealed blast-doors, the guild-vaults keep their knowledge on copper-plate codices: precision gear-craft, temporal mechanics, the ancestral binding theory that makes both possible. You trained in those vaults. Whether Kethrin or Drall, you learned the same grammar of gears, and it marked you for life. Kethrin scholars spend decades memorizing proprietary blueprints under the Master Craft-Guilds\' supervision, every formula earned, catalogued, and owned. Drall dropouts learned enough before expulsion to be dangerous. They carry stolen fragment-pages stitched into their clothing, half-understood theories they improvise into working machines that sometimes work. The guild-vaults are closing their doors as the Cragjaw blizzard deepens and the old thermal-pipes freeze. What you memorized, no blast-door can lock away. It falls to you to build what the warrens need, or improvise what the vaults refuse to share.',
+    name: 'Machinist',
+    description: 'Deep in the subterranean Fexric warrens (the tunnels of a craft-oriented people), behind sealed blast-doors, the guild-vaults keep their knowledge on copper-plate codices: precision gear-craft, clockwork temporal mechanics, and the ancestral binding theory that makes both possible. You trained in those vaults. Whether you are Kethrin (a formally-trained guild scholar) or Drall (an expelled dropout who learned in secret), you learned the same grammar of gears, and it marked you for life. Kethrin scholars spend decades memorizing proprietary blueprints under the Master Craft-Guilds\' supervision, every formula earned, catalogued, and owned. Drall dropouts learned enough before expulsion to be dangerous — they carry stolen fragment-pages stitched into their clothing, half-understood theories they improvise into working machines that sometimes work. The guild-vaults are closing their doors as the Cragjaw Peaks\' blizzard deepens and the old thermal-pipes freeze. What you memorized, no blast-door can lock away. It falls to you to build what the warrens need, or improvise what the vaults refuse to share.',
     skillProficiencies: ['Arcana', 'Investigation'],
     toolProficiencies: ['Artisan\'s tools (tinkerer\'s)', 'Thieves\' tools'],
     languages: 1,
@@ -921,10 +921,10 @@ export const BACKGROUND_DATA = {
       { classId: 'animist', bridge: 'Totem-weaving from the migration-horse mane and ancestor-communion through the herd is Kael totemic root tradition.' }
     ],
     tensionPairings: [
-      { classId: 'martyr', tension: 'A Herd Guardian lives to keep the migration moving; the Vow demands they stop and be broken. Stillness is the enemy of the steppe.' }
+      { classId: 'martyr', tension: 'A Herder lives to keep the migration moving; the Vow demands they stop and be broken. Stillness is the enemy of the steppe.' }
     ],
-    name: 'Herd Guardian',
-    description: 'The Ordan follow the grass-line, and the grass-line runs from the frost. You guarded the migration herds across the Sundrift Vale, driving a hundred head of shag-ox through a circuit that never ends: ahead of the frost that claims the pasture, and back before the thaw rots what remains. The steppe kills the careless. You are not careless. You learned to read hoof-tracks in a blizzard, predict Wyrd-predator movements by the shift of the wind, and keep the herd moving when every instinct screams to shelter and wait. The herds are the Ordan\'s only wealth. Lose one animal to frost-collapse or a Wyrd-predator, and a family line starves for a generation. The grass-line is shrinking. The frost comes earlier every circuit, and the thaw rots more than it grows. You know the old routes, the safe grazes, the wind-signs that mean run. It falls to you to keep the herd alive, or watch the Ordan\'s last wealth freeze into the steppe.',
+    name: 'Herder',
+    description: 'The Ordan are steppe nomads who follow the grass-line across the vast Sundrift Vale, and the grass-line runs from the advancing frost. You guarded the migration herds, driving a hundred head of shag-ox through a circuit that never ends: ahead of the frost that claims the pasture, and back before the thaw rots what remains. The steppe kills the careless. You are not careless. You learned to read hoof-tracks in a blizzard, predict Wyrd-predator (supernatural predator) movements by the shift of the wind, and keep the herd moving when every instinct screams to shelter and wait. The herds are the Ordan\'s only wealth. Lose one animal to frost-collapse or a Wyrd-predator, and a family line starves for a generation. The grass-line is shrinking. The frost comes earlier every circuit, and the thaw rots more than it grows. You know the old routes, the safe grazes, the wind-signs that mean run. It falls to you to keep the herd alive, or watch the Ordan\'s last wealth freeze into the steppe.',
     skillProficiencies: ['Animal Handling', 'Survival'],
     toolProficiencies: ['Artisan\'s tools (leatherworker\'s)'],
     languages: 1,
@@ -972,8 +972,8 @@ export const BACKGROUND_DATA = {
     tensionPairings: [
       { classId: 'berserker', tension: 'Crystal-archive discipline and the Blood-Heat fury cannot coexist in the same nervous system.' }
     ],
-    name: 'Starbound Scholar',
-    description: 'Every Astril carries a constellation-spirit in their chest, and the Luminarchy governs that marriage of star and flesh. You trained under its hierarchy, learning the crystal-lattice techniques that keep celestial resonance from burning the host alive. Whether Sylen, who embraces the passenger\'s wild power, or Muren, who cages it behind mental discipline, you studied the same disciplines and survived them. You catalogued spirit-lineages on memory-glass, learned the forbidden Sky-Songs that map the constellations that have already gone dark, and trained to recognize the resonance-signatures of a constellation-spirit approaching the Unlit threshold. Beyond that threshold, the spirit consumes the host, and the Luminarchy has no technique that brings either back. The constellation-spirits are dimming. Every cycle, another host flickers toward the Unlit, and the Luminarchy\'s crystal techniques buy less time than they did a generation ago. You know the signs and the songs and the lattice-work that holds a star inside a ribcage. It falls to you to keep the spirits stable, or learn what happens when the last constellation goes dark.',
+    name: 'Stargazer',
+    description: 'Every Astril (a people born with a living constellation-spirit inside them) carries that star-spirit in their chest, and the Luminarchy — the religious hierarchy that governs the bond between star and flesh — regulates the union. You trained under its hierarchy, learning the crystal-lattice techniques that keep celestial resonance from burning the host alive. Whether you are Sylen, who embraces the passenger\'s wild power, or Muren, who cages it behind mental discipline, you studied the same disciplines and survived them. You catalogued spirit-lineages on memory-glass, learned the forbidden Sky-Songs that map the constellations that have already gone dark, and trained to recognize the resonance-signatures of a constellation-spirit approaching the Unlit threshold — the point at which the spirit consumes the host entirely. Beyond that threshold, the Luminarchy has no technique that brings either back. The constellation-spirits are dimming. Every cycle, another host flickers toward the Unlit, and the Luminarchy\'s crystal techniques buy less time than they did a generation ago. You know the signs and the songs and the lattice-work that holds a star inside a ribcage. It falls to you to keep the spirits stable, or learn what happens when the last constellation goes dark.',
     skillProficiencies: ['Religion', 'Arcana'],
     toolProficiencies: ['Musical instrument (throat-singing bowl)'],
     languages: 2,
@@ -1019,10 +1019,10 @@ export const BACKGROUND_DATA = {
       { classId: 'minstrel', bridge: 'The subsonic pressure-language of the abyss is the Deep-Born foundation of the Pressure-Cadence.' }
     ],
     tensionPairings: [
-      { classId: 'warden', tension: 'A Deep Current Guide lives in fluid, shifting space; a Warden must be immovable stone. The abyss and the anchor are opposed vocations.' }
+      { classId: 'warden', tension: 'A Subsea Navigator lives in fluid, shifting space; a Warden must be immovable stone. The abyss and the anchor are opposed vocations.' }
     ],
-    name: 'Deep Current Guide',
-    description: 'Beneath the Iceheart Sea\'s frozen surface, the water is still warm, and the Myrathil have always known it. You navigated the deep currents, the pressure-zones where light dies and the only maps are temperature-gradients felt through the skin. Down there, thermal vents glow against bioluminescent trench-walls, and things breathe in the dark water that remember the names of drowned sailors. You guided expeditions through the Ice Veins, the subsurface arteries where warm water still flows, and learned to read the deep-sea\'s silent language of pressure and temperature. The current-shift tells you where the ice above will crack. The silence tells you what is hunting beneath you. The cold-spots tell you where the things that remember are listening. The Ice Veins are narrowing as the surface freezes thicker every year, and the deep-currents are slowing. The abyss is patient, and it is learning the routes the Myrathil have used for generations. You know every current, every vent, every warm pocket the Ice Veins still hold open. It falls to you to guide the last expeditions through, or let the deep go silent with the sailors whose names the dark water keeps.',
+    name: 'Subsea Navigator',
+    description: 'Beneath the Iceheart Sea\'s frozen surface, the water is still warm, and the Myrathil (an aquatic people who live beneath the ice) have always known it. You navigated the deep currents, the pressure-zones where light dies and the only maps are temperature-gradients felt through the skin. Down there, thermal vents glow against bioluminescent trench-walls, and things breathe in the dark water that remember the names of drowned sailors. You guided expeditions through the Ice Veins, the subsurface warm-water channels, and learned to read the deep-sea\'s silent language of pressure and temperature. The current-shift tells you where the ice above will crack. The silence tells you what is hunting beneath you. The cold-spots tell you where the things that remember are listening. The Ice Veins are narrowing as the surface freezes thicker every year, and the deep-currents are slowing. The abyss is patient, and it is learning the routes the Myrathil have used for generations. You know every current, every vent, every warm pocket the Ice Veins still hold open. It falls to you to guide the last expeditions through, or let the deep go silent with the sailors whose names the dark water keeps.',
     skillProficiencies: ['Perception', 'Nature'],
     toolProficiencies: ['Navigator\'s tools', 'Vehicles (water)'],
     languages: 1,
@@ -1067,14 +1067,14 @@ export const BACKGROUND_DATA = {
     },
     classHooks: [
       { classId: 'apex', bridge: 'Tracing Wyrd-trails through the fog by touch and scent is the Mist-Woven and Mimir foundation of the Silent Hunt.' },
-      { classId: 'lunarch', bridge: 'Fog-dense void-light is the exact medium the lunar parasite feeds on; a Fog Reader is standing in the Lunarch recruiting-ground.' },
+      { classId: 'lunarch', bridge: 'Fog-dense Silence-light is the exact medium the lunar parasite feeds on; a Forest Guide is standing in the Lunarch recruiting-ground.' },
       { classId: 'inquisitor', bridge: 'Reading Wyrd-currents and memory-erasure patterns is the Thalren anti-Wyrd half of the Barbed Vow.' }
     ],
     tensionPairings: [
-      { classId: 'arcanoneer', tension: 'A Fog Reader trusts instinct and shifting currents; an Arcanoneer trusts pre-filed precision. The fog makes the latter impossible and the former essential.' }
+      { classId: 'arcanoneer', tension: 'A Forest Guide trusts instinct and shifting currents; an Arcanoneer trusts pre-filed precision. The fog makes the latter impossible and the former essential.' }
     ],
-    name: 'Fog Reader',
-    description: 'The fog in the Frostwood Reach is not weather. It is a living geography that responds to the thoughts of those inside it, and it eats memory by the season. You read that fog the way a sailor reads the sea: tracing density shifts, memory-erasure currents, and the Wyrd-trails things leave when they pass through it. You learned by touch, scent, and the kind of instinct that keeps you alive when the map dissolves. The Mimir navigate the canopy by spore-scent and fog-spider silk markers. The Thalren chart fog-currents on ironwood staves. The Briaran feel the fog through their thorn-root connection to the forest floor, and where the mist pools deepest, their thorns ache with the memory of what it has swallowed. You learned to read all three, because the fog respects no single tradition. The fog is thickening. Every season it eats more, and the safe routes through the Reach shrink with it. You know the currents, the silk-trails, the places the mist pools when something is hunting. It falls to you to find the path the fog has swallowed, or lose your name to it like every traveler who trusted a map over the mist.',
+    name: 'Forest Guide',
+    description: 'The fog in the Frostwood Reach is not weather. It is a living geography that responds to the thoughts of those inside it, and it literally eats memories. You read that fog the way a sailor reads the sea: tracing density shifts, memory-erasure currents, and the Wyrd-trails (supernatural residue) that things leave when they pass through it. You learned by touch, scent, and the kind of instinct that keeps you alive when the map dissolves. The masked Mimir navigate the canopy by spore-scent and fog-spider silk markers. The Thalren chart fog-currents on ironwood staves. The thorned Briaran feel the fog through their connection to the forest floor, and where the mist pools deepest, their thorns ache with the memory of what it has swallowed. You learned to read all three, because the fog respects no single tradition. The fog is thickening. Every season it eats more, and the safe routes through the Reach shrink with it. You know the currents, the silk-trails, the places the mist pools when something is hunting. It falls to you to find the path the fog has swallowed, or lose your name to it like every traveler who trusted a map over the mist.',
     skillProficiencies: ['Survival', 'Perception'],
     toolProficiencies: ['Navigator\'s tools'],
     languages: 1,
@@ -1099,7 +1099,254 @@ export const BACKGROUND_DATA = {
       spirit: 2,
       intelligence: -1
     }
+  },
+
+  chasmDelver: {
+    id: 'chasmDelver',
+    restrictions: {
+      "allowedRegions": [
+        "cragjaw-peaks"
+      ],
+      "allowedSubraces": [
+        "tessen_human",
+        "morgh_groven",
+        "ithran_groven"
+      ],
+      "narrativeUnlock": true,
+      "justification": "Requires intimate knowledge of Cragjaw geothermal tunnels and deep-chasm infrastructure."
+    },
+    classHooks: [
+      { classId: 'shaper', bridge: 'The chasm-tunnels of the Cragjaw deep-vent network are where the Shaper learns to mold flesh through heat and pressure, the deep forge of the body.' },
+      { classId: 'warden', bridge: 'A Warden who has anchored in the thermal vents learns to draw strength from the earth\'s deep pulse, holding the line with volcanic patience.' }
+    ],
+    tensionPairings: [
+      { classId: 'minstrel', tension: 'The silence of the deep tunnels and the acoustics of the open peaks are musically incompatible; one teaches stillness, the other resonance.' }
+    ],
+    name: 'Underground Delver',
+    description: 'The Cragjaw Peaks are not just a labyrinth of storm and bone. Beneath the snow-buried keeps, the geothermal vents pulse in rhythms the surface has forgotten. You are one of the Chasm-Dwellers, the pipe-wardens who descend into the steam-tunnel networks beneath the terraced mountain settlements. You maintain the geothermal pipes with knotted cord records, reinforce the calcified substructures, and read pressure-fluctuations to predict blowouts before the pipes scream. The only light in the deep is the red glow of volcanic blood. Rime-Brides (ice-elemental hunters) stalk the heat-sinks, luring tunnel-workers into the steam-ghost zone. And the Rock-Speakers — the traditional animists who commune with the deep spirits — have been silenced for generations, but their tunnels remain marked in the oldest cord-maps. The vents are pulsing faster now. The pressure is rising. Something beneath the peaks wants out, and you know the tunnels too hot to enter, the pipes about to burst, and the dark where the answers the surface refuses to hear still echo.',
+    skillProficiencies: ['Athletics', 'Survival'],
+    toolProficiencies: ['Smith\'s tools'],
+    languages: 1,
+    equipment: [
+      'Geothermal lantern',
+      'Steam-goggles',
+      'Pipe-wrench',
+      'Chalk (10 pieces)',
+      'Travel rations (5 days)',
+      'Common clothes'
+    ],
+    startingCurrency: {
+      gold: 7,
+      silver: 18,
+      copper: 0
+    },
+    feature: {
+      name: 'Deep-Path Intuition',
+      description: 'You can navigate subterranean environments and steam-tunnel networks without a map. You always know your depth relative to the surface and can sense geothermal temperature gradients that lead to safe passage, heat sources, or danger zones. You have advantage on Survival checks in subterranean environments, and you can predict pipe-blowouts and vent-eruptions within 100 feet.'
+    },
+    statModifiers: {
+      constitution: 2,
+      intelligence: 2,
+      charisma: -2
+    }
+  },
+
+  brineTrader: {
+    id: 'brineTrader',
+    restrictions: {
+      "allowedRegions": [
+        "iceheart-sea"
+      ],
+      "allowedSubraces": [
+        "merryn_human"
+      ],
+      "narrativeUnlock": true,
+      "justification": "Requires familiarity with Brine-Bond Syndicate trade routes and Iceheart coastal tariffs."
+    },
+    classHooks: [
+      { classId: 'gambit', bridge: 'The Brine-Bond trade-game — cargo manifests, bribe negotiations, Press-Warrant evasion — is a Gambit\'s native environment, every deal a gamble with Syndicate enforcers.' },
+      { classId: 'minstrel', bridge: 'Coastal taverns and Syndicate trading posts are where the Brine-Tide minstrels learn their ballads of evasion, loss, and seafront justice.' }
+    ],
+    tensionPairings: [
+      { classId: 'warden', tension: 'A Warden holds ground; a Brine-Trader would sell the ground and lease it back with options. Stasis and liquidity are fundamentally opposed philosophies.' }
+    ],
+    name: 'Coastal Trader',
+    description: 'The Iceheart Sea, a freezing northern ocean, does not forgive debts, and you learned that lesson not at the mast but at the counter. You never shipped out, but you know every cargo manifest, tariff loophole, and Press-Warrant (forced conscription) evasion that keeps the Brine-Bond Syndicate\'s coastal trade running. You memorized the weight of a bribe in every port, slipped cargo past inspectors, haggled with root-traders for frost-resistant cloth, and traded with salvagers for reclaimed cargo at a tenth of its value. The routes are freezing. The Syndicate tightens its quotas every season. And the traders who cannot adapt end up on the Press-Warrant lists, their tattoo-contracts transferred to the deck of a coal-hauler with no say in the matter. But you know the back-channels, the tax-haven coves, and the exact price of a man\'s freedom when the Board of Trade comes calling. You never needed a deck beneath your feet to navigate the Iceheart. You just needed the right contacts, the right bribes, and the nerve to use them before the ice closed in.',
+    skillProficiencies: ['Persuasion', 'Insight'],
+    toolProficiencies: ['Gaming set (dice)'],
+    languages: 1,
+    equipment: [
+      'Trade ledger',
+      'Syndicate seal ring',
+      'Fine clothes',
+      'Set of loaded dice',
+      'Travel rations (3 days)',
+      'Silk rope (50 feet)'
+    ],
+    startingCurrency: {
+      gold: 12,
+      silver: 10,
+      copper: 0
+    },
+    feature: {
+      name: 'Syndicate Back-Channel',
+      description: 'You know the Brine-Bond Syndicate\'s internal codes, territory boundaries, and bribe prices across the Iceheart coast. You can identify whose authority matters in any port (dock-master, harbormaster, Syndicate factor, or Board inspector) and how much influence is required to bypass tariffs, slip cargo past inspection, or secure the release of an indentured sailor from a Press-Warrant.'
+    },
+    statModifiers: {
+      charisma: 3,
+      intelligence: 1
+    }
   }
+};
+
+export const BACKGROUND_FLAVOR_TEXT = {
+  emberspirePilgrim: 'You climbed the Ashen Escarpment and saw the Solbrand burning behind obsidian. The Dawn Vigil branded your throat and sent you down with a phial of captured light. Now you carry a faith that might be heresy.',
+  shyrRunner: 'Ninety miles of volcanic road, and the Sulfur Cartel taxes every step. You ran the basalt pillars and magma-fractures, learning which ground kills the careless. The Cartel has your name in their ledgers, and the debt compounds.',
+  ledgerKeeper: 'In the Frostwood Reach, the fog eats memory. You kept the identity-ledgers at Greymark Keep, deciding who is real and who is forgotten. The ink dries fast, and the fog never sleeps.',
+  bloodlineHeir: 'Seven noble houses remain. The eighth was erased for refusing to feed its heir to Keth-Amar. You carry a name that opens doors and paints targets. The debt your ancestors bought is still compounding.',
+  synodAcademic: 'The Synod-Hold sings when the wind finds the right key. You learned the forbidden Sky-Songs and the constellation-spirit lineages carved on bone Steppe-Staves. The stars are going out, and you have the training to read the patterns.',
+  sumpsVeteran: 'The Bloodhammer Sump breeds soldiers the way a wound breeds salt. You carry the Hunger Pact in your blood: ancestral starvation turned to fury. The glaciers are advancing again, and the dead want you to survive.',
+  debtNegotiator: 'In Atropolis, everything has a price and every price is negotiable. You read Neth contracts by their silver-leaf binding and spot the trap-clauses that bind the unwary. The greatest lawyer of your generation burned her own name from the Contract.',
+  frostChanter: "Jarn-Tand's Academies burn every old drum they find, so the old ways moved into the voice. You weave animist history into drinking-songs that inquisitors never suspect are heresies eight centuries old. Your voice is a covert hearth.",
+  forgeWright: 'Metal remembers. Every hammer-strike is a record that outlasts the hand that made it. You understand metal as living memory, reading forge-marks the way a scribe reads ink. The forges are failing, and fewer smiths survive to teach.',
+  hushSurvivor: "You watched the hush take someone you loved. First the darkened veins, then the dissolved mind, then the Hush-Bogs. You fortified your mind against the mycelium's song, but it never fully fades. You know the early signs.",
+  peakTracker: 'The Cragjaw Peaks are a vertical labyrinth where the blizzard rewrites every path. You navigate with knotted cord route-markers, reading the stress-fractures in bone-bridges the Groven dead left behind. The peaks are getting colder.',
+  merrowSailor: 'The Iceheart Sea does not forgive debts. You sailed under the Sea-Charter, your arms inked with trade-tattoos that double as legal contracts. The sea is freezing earlier every year, and the routes are shrinking with the ice.',
+  gloomwayTrader: 'The Bryngloom trades in three currencies: memory-glass, peat-oil, and years left in a lifespan. You run goods across root-tangled expanse, dealing in wyrd-warded curios. The Registry tightens its tariffs every season.',
+  shantyRat: 'The Over-Shanty hangs beneath Atropolis like a wound the canopy city refuses to acknowledge. You grew up in rope-bridges and salvage-nests, one of the Forgotten: legally nonexistent. The rope-bridges fray a little more every season.',
+  monolithHunter: 'The seven Sundered Monoliths are waking. All seven at once, their resonance rising. You track that resonance with cold iron stakes and a journal certain powers would kill to possess. Whatever changed, it changed recently.',
+  groveWarden: 'There were eight houses, not seven. You swore the old fae bargain in moonlit groves, binding yourself to the Hollow-Court. You tend the Thorn-Fall where eight centuries of shed thorns record every unfulfilled promise.',
+  maskWarden: "The Mimir's masks are relics, and the Hunters pay fortunes for them. You stand between the mask-wearers and the cartels that hunt them, patrolling fog-spider-silk rope-bridges. Every mask that falls feeds a collection that grows bolder.",
+  vaultScholar: 'Deep in the Fexric warrens, the guild-vaults keep their knowledge on copper-plate codices: precision gear-craft, temporal mechanics. You learned the grammar of gears, and it marked you for life. What you memorized, no blast-door can lock away.',
+  herdGuardian: 'The Ordan steppe stretches endlessly, and the herds are everything. You guard the ember-hooved cattle across frozen grass, reading the wind for threats. The nomads trust your eyes more than any wall.',
+  starboundScholar: 'Every Astril carries a constellation-spirit in their chest, and the Luminarchy governs that marriage of star and flesh. You trained under its hierarchy, learning the crystal-lattice techniques that keep celestial resonance from burning the host alive.',
+  deepCurrentGuide: 'Beneath the Iceheart Sea, the water is still warm. You navigated the pressure-zones where light dies and the only maps are temperature-gradients felt through the skin. The abyss is patient, and it is learning the routes you know.',
+  fogReader: 'The fog in the Frostwood Reach is not weather. It is a living geography that responds to thought. You read its density shifts and memory-erasure currents, tracing Wyrd-trails by touch and scent. The fog is thickening, and it never stops.',
+  chasmDelver: 'Beneath the Cragjaw Peaks, the geothermal vents pulse in forgotten rhythms. You descended into the steam-tunnels where the only light is volcanic blood-red, maintaining pipes and reading pressure in the deep dark. The vents are pulsing faster now.',
+  brineTrader: 'The Iceheart Sea does not forgive debts, and you learned that at the counter, not the mast. You know every tariff loophole and bribe price from Brinehorse Cove to Merrowport, keeping the coastal trade alive as the ice closes in.'
+};
+
+export const BACKGROUND_ROLEPLAYING_HOOKS = {
+  emberspirePilgrim: [
+    'The Solbrand branded your throat at the end of a pilgrimage — what did you see in the light that the Dawn Vigil told you to forget?',
+    'Your faith borders on heresy. Which doctrine do you question, and whom have you told?',
+    'The phial of captured light you carry is more than a relic — what would you do if someone tried to take it?'
+  ],
+  shyrRunner: [
+    'The Sulfur Cartel knows your name and your debt. How close are they to collecting, and what would you do to escape?',
+    'You learned the volcanic roads by running them. What cargo did you carry that still haunts you?',
+    'The basalt pillars hold secrets for those who know where to look. What did you find in the magma-fractures?'
+  ],
+  ledgerKeeper: [
+    'The Frostwood fog eats memory, but you kept the ledgers. Whose identity did you record — and whose did you erase?',
+    'Greymark Keep trusts you with the truth. What secret are you hiding in the margins?',
+    'The fog never sleeps, and neither did you. What did you see on night-watch that changed how you read the ledgers?'
+  ],
+  bloodlineHeir: [
+    'Seven noble houses remain; the eighth was erased. Was your family responsible, or were they the victims?',
+    'Your name opens doors and paints targets. Which door do you most want to walk through, and which assassin do you most fear?',
+    'The debt your ancestors bought is still compounding. Do you intend to pay it, forgive it, or burn the ledger?'
+  ],
+  synodAcademic: [
+    'The stars are going out, and you can read the patterns. What did the last constellation you charted reveal?',
+    'You learned forbidden Sky-Songs. Which song do you sing when no one is listening, and what happens when you do?',
+    'The Synod-Hold expelled you — or you left. Which version is true, and what did you take with you?'
+  ],
+  sumpsVeteran: [
+    'The Hunger Pact lives in your blood. What was the worst deprivation you survived, and what did it cost the person next to you?',
+    'The Bloodhammer Sump makes soldiers and breaks them. Which of your squad did you fail, and how do you carry that debt?',
+    'The glaciers advance, and the dead want you to survive. What message do the dead carry for the living?'
+  ],
+  debtNegotiator: [
+    'The greatest lawyer of your generation burned her name from the Contract. What was her name, and why did she do it?',
+    'You read Neth contracts by their silver-leaf binding. Which clause did you miss that still binds you?',
+    'Atropolis runs on debt. Who owes you, and what are you willing to do to collect?'
+  ],
+  frostChanter: [
+    'Jarn-Tand burns old drums. Where did you hide the drum that carries your lineage?',
+    'Your voice is a covert hearth. Which song would get you executed if the inquisitors heard it?',
+    'You weave heresy into drinking-songs. Who has heard your true song, and did they recognize it?'
+  ],
+  forgeWright: [
+    'Metal remembers, and you read forge-marks like scripture. What did you forge that you wish you could unmake?',
+    'The forges are failing, and smiths are dying. Who taught you, and what technique died with them?',
+    'Your hammer-strikes are records. What message did you leave in your last piece that only another forgeWright could read?'
+  ],
+  hushSurvivor: [
+    'You watched the hush take someone you loved. What were their last words before the mycelium dissolved their mind?',
+    'The Hush-Bogs showed you the signs. What symptom do you scan for in strangers, and what do you do when you see it?',
+    'You fortified your mind, but the song never fully fades. What trigger still weakens your defenses?'
+  ],
+  peakTracker: [
+    'The blizzard rewrites every path. Which route did you lose that you still dream about?',
+    'The bone-bridges are not being replaced. What did you see at the far end of a span that made you cut the ropes behind you?',
+    'A Rime-Bride stalked your trail for three days. Why did it stop following?'
+  ],
+  merrowSailor: [
+    'Your arms are inked with trade-tattoos. Which line of ink represents a debt you cannot pay?',
+    'The sea freezes earlier every year. What did you see on the last open-water run that you refuse to discuss?',
+    'A Press-Warrant has your name. How long before the Syndicate finds you, and who will you sacrifice to stay free?'
+  ],
+  gloomwayTrader: [
+    'The Bryngloom trades in years of lifespan. How many of your own years have you already sold?',
+    'You dealt in wyrd-warded curios. Which item did you handle that still follows you in dreams?',
+    'The Registry tightens tariffs every season. What contraband are you currently transporting, and who hired you?'
+  ],
+  shantyRat: [
+    'The Over-Shanty hangs beneath Atropolis. Where is your nest, and what did you find in the salvage-nests that the canopy-city wants back?',
+    'You are one of the Forgotten: legally nonexistent. What would you do if someone offered to make you real?',
+    'The rope-bridges fray every season. Which bridge broke behind you, and who did you leave on the wrong side?'
+  ],
+  monolithHunter: [
+    'The seven Sundered Monoliths are waking. Which monolith called to you first, and what did it show you?',
+    'Your journal contains truths certain powers would kill to possess. What have you written on the last page?',
+    'Cold iron stakes and resonance readings. What did you find that changed your understanding of what the monoliths are?'
+  ],
+  groveWarden: [
+    'The Hollow-Court bound you with an old fae bargain. What did you swear, and what did it cost you to swear it?',
+    'The Thorn-Fall records every unfulfilled promise. Whose thorn do you carry that you cannot remove?',
+    'There were eight houses, not seven. Does the eighth still survive in some form, and are you its last keeper?'
+  ],
+  maskWarden: [
+    'The Hunters pay fortunes for Mimir masks. Which mask did you save, and which did you let fall?',
+    'You patrol fog-spider-silk rope-bridges. What did you see on patrol that the cartels would pay to learn?',
+    'Every mask that falls feeds a collection. Whose mask did you wear once, and what did it show you?'
+  ],
+  vaultScholar: [
+    'The Fexric guild-vaults hold copper-plate codices. What codex did you memorize that no blast-door can lock away?',
+    'You learned the grammar of gears. What mechanical secret did you discover that the guilds suppressed?',
+    'Temporal mechanics are forbidden knowledge. What did you calculate that made the vault elders burn the evidence?'
+  ],
+  herdGuardian: [
+    'The Ordan steppe is endless, and the herds are everything. Which ember-hooved bull did you lose in a blizzard that you still search for?',
+    'The nomads trust your eyes. What threat did you spot on the horizon that no one else believed?',
+    'You read the wind for danger. What came on a wind you misread, and who paid the price?'
+  ],
+  starboundScholar: [
+    'Every Astril carries a constellation-spirit. Whose resonance did you calibrate, and what happened when it burned too bright?',
+    'The Luminarchy governs star and flesh. Which law of the Luminarchy did you break in service of saving a host?',
+    'You learned crystal-lattice techniques. What did you see in the lattice that the hierarchy told you to forget?'
+  ],
+  deepCurrentGuide: [
+    'Beneath the Iceheart Sea, the water is still warm. What pressure-zone did you navigate that the surface charts deny exists?',
+    'The abyss is patient and learningyour routes. What creatures stir in the temperature-gradients you taught them?',
+    'Light dies in the deep. What did you learn in the dark that reshaped your understanding of the world above?'
+  ],
+  fogReader: [
+    'The fog in the Frostwood is a living geography. What thought does the fog respond to in you, and what does it reveal?',
+    'Memory-erasure currents shift with the Wyrd-trails. Whose memory did you recover from the fog, and why did it matter?',
+    'The fog thickens every year. What map of density shifts do you carry that no ink could record?'
+  ],
+  chasmDelver: [
+    'The geothermal vents pulse faster every season. What did you hear through the pipes that the Keep-Priests deny exists?',
+    'The Rock-Speakers\' tunnels remain in the oldest cord-maps. Have you ever followed one of those maps, and what did you find?',
+    'Pressure builds in the deep. What blowout did you predict that no one believed until the pipes screamed?'
+  ],
+  brineTrader: [
+    'The Syndicate tightens its quotas. Which cargo manifest did you falsify, and where is the real cargo now?',
+    'You know the exact price of a man\'s freedom. Whose freedom did you fail to buy, and whose did you sell?',
+    'The routes are freezing. What deal did you strike that keeps your name off the Press-Warrant lists?'
+  ]
 };
 
 // Helper functions

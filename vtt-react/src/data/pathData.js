@@ -241,7 +241,7 @@ export const PATH_DATA = {
     threshold_watcher: {
         id: 'threshold_watcher',
         name: 'The Threshold-Watcher',
-        description: 'You guard a boundary, physical, spiritual, or metaphysical. The threshold between regions, between life and death, between the pact and the void. A Muren who maintains their rituals is a fortress; a Muren who falters is a bomb. You do not falter.',
+        description: 'You guard a boundary, physical, spiritual, or metaphysical. The threshold between regions, between life and death, between the pact and the Silence. A Muren who maintains their rituals is a fortress; a Muren who falters is a bomb. You do not falter.',
         icon: 'fas fa-shield-alt',
         statModifiers: {
             constitution: 1,

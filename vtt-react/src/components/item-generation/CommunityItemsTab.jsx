@@ -345,7 +345,7 @@ const CommunityItemsTab = () => {
             ) : (
               <div className="loading-placeholder">
                 <i className="fas fa-spinner fa-spin"></i>
-                <p>Gazing into the void...</p>
+                <p>Gazing into the Silence...</p>
               </div>
             )}
           </div>

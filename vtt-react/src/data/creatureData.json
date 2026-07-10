@@ -1,4 +1,4 @@
-{
+﻿{
   "regions": [
     {
       "id": "frostwood-reach",
@@ -41,7 +41,7 @@
         },
         {
           "id": "oillipheist",
-          "name": "Oilliph,ist",
+           "name": "Oillipheist",
           "dangerLevel": "Very High",
           "illustration": "/assets/images/creatures/oillipheist.png",
           "illustrationCaption": "An Oilliphéist coiled in a dark peat-pool, its mossy skin glistening under the cold stars",
@@ -391,7 +391,7 @@
           "illustration": "/assets/images/creatures/mossmaiden.png",
           "illustrationCaption": "A Mossmaiden tending an elk herd, her green moss coat blending with the foliage",
           "role": "Moosfräulein/MossMaiden",
-          "origin": "Drawing from the Moosfr,ulein of Skald woodland lore and the Briaran Glaistig, the Mossmaiden is a dual-natured protector of the wild. She serves as both a gentle guide to lost travelers and a strict warden of the deep forest, balancing the preservation of nature with a thirst for mortal devotion.",
+          "origin": "Drawing from the Moosfräulein of Skald woodland lore and the Briaran Glaistig, the Mossmaiden is a dual-natured protector of the wild. She serves as both a gentle guide to lost travelers and a strict warden of the deep forest, balancing the preservation of nature with a thirst for mortal devotion.",
           "nature": "Lithe and graceful from the waist up, her upper body is covered in fine, velvet-soft moss that shifts from dark emerald in the wet seasons to a frosty white in the cold. Below, she possesses the muscular legs and cloven hooves of a grey-furred mountain goat. Her face is exceptionally beautiful, with birch-bark skin, high cheekbones, and pine-sap amber eyes with horizontal goat-pupils that glow in the dim mist beneath a crown of blooming ironwood flowers.",
           "habitat": "She resides in hidden, mist-draped groves and high meadows within the ironwood forests, following the seasonal movements of wild herds.",
           "combat": "155 HP. Goat-Kick (melee, +5 to hit, 2d6+3 bludgeoning, DC 13 AGI or knocked back 10 ft). Blood-Milk Bargain (special: offers a wooden cup; DC 14 SPI to resist drinking; drinker is bound to her grove for 7 years but gains +4 CON). Seasonal-Camouflage (passive: moss-skin changes color with temperature, +6 stealth in forest). Herd-Ward (passive: nearby elk/moose are alerted to danger within 100 ft). Vulnerable to fire.",
@@ -527,7 +527,7 @@
           "dangerLevel": "High",
           "illustration": "/assets/images/creatures/banshrond.png",
           "illustrationCaption": "A Banshrond standing in the mist, her银hair trailing like coiling fog",
-          "role": "Banshee/Bean SÃ­dhe",
+           "role": "Banshee/Bean Sídhe",
           "origin": "Born from the Briaran Banshee, whose wail foretells physical death, and the Skald Hollergeist, which mimics familiar voices to lead travelers to their doom, the Banshrond is a phantom of mental dissolution. She wanders the margins of the forest, mourning the death of lineage and recollection.",
           "nature": "This impossibly tall, slender spirit appears draped in tattered fog-shrouds woven from the ghost-pages of dissolved journals, with faint, shifting text visible in the cloth. She stands at the forest edges, combing her ankle-length silver hair with a comb carved from a rib-bone as tears of liquid memory-glass fall and shatter at her feet. Her pale, drawn face features deep hollows around the eyes and a mouth frozen in a silent, screaming circle.",
           "habitat": "She haunts the quiet borders of fog-clearings and the outskirts of Greymark settlements.",
@@ -700,7 +700,7 @@
           "illustration": "/assets/images/creatures/cailleach.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Cailleach",
           "role": "Perchta/Frau Holda",
-          "origin": "A manifestation of winter's severity and judgment, this entity is born from the Skald winter goddess Perchta and the Skaldic winter hag Cailleach. In the Frostwood, she is the architect of the protective mist, enforcing the strict social contracts of House Thalreth.",
+           "origin": "A manifestation of winter's severity and judgment, this entity is born from the Thalren winter goddess Perchta and the Skaldic winter hag Cailleach. In the Frostwood, some folk wrongly credit her with weaving the mist, though the Fog Compact is its true source, enforcing the strict social contracts of House Thalreth.",
           "nature": "This twelve-foot-tall crone presents a shifting appearance: she seems a regal woman in a gown of frost-crystals and ironwood-silk to the diligent, but appears as a skeletal horror in peat-moss rags to the lazy. She carries an ironwood distaff to spin emotion-colored memory yarn, and her face features one piercing blue eye and one hollow, fog-filled socket, with a mouth that freezes the air when she smiles.",
           "habitat": "She wanders the highest, coldest ridges of the Frostwood during winter, descending into the valleys when the fog is thickest.",
           "combat": "390 HP. Fog-Spinning (passive: generates memory-fog in a 60-ft radius; creatures inside must DC 14 SPI each round or lose one minor memory). Judgment-Gaze (special: perceives each creature's diligence; the hardworking see a radiant queen, the slothful see a skeletal horror). Distaff-Strike (melee, reach 15 ft, +6 to hit, 2d8+4 bludgeoning). Straw-Judgment (special: if she deems a household negligent, she fills their bellies with straw — DC 15 CON save or incapacitated for 24 hours with a stomach full of straw; not lethal but deeply disturbing). Vulnerable to fire.",
@@ -726,7 +726,7 @@
             "Adventurers need a component from a Cailleach to complete their quest."
           ],
           "description": "A towering winter crone who spins the memory-fog and judges the diligence of mortal record-keepers.",
-          "heritage": "Rooted in Thalren + Skaldic folklore, the myth of Cailleach originally served as a way for the community to rationalize the forces described in local tales: \"A manifestation of winter's severity and judgment, this entity is born from the Thalren winter goddess Perchta and the Skaldic winter hag Cailleach.\". When the Wyrd anomaly seeped into Frostwood Reach amidst the relentless logging of sacred ironwood forests by Drunhold woodcutters, it reacted directly to the inhabitants of Frostwood Reach. By twisting these underlying folklore patterns, the Wyrd synthesized these collective fears and tales into a tangible, living presence: In the Frostwood, she is the architect of the protective mist, enforcing the strict social contracts of House Thalreth."
+           "heritage": "Rooted in Thalren + Skaldic folklore, the myth of Cailleach originally served the Frostwood as a way to rationalize the memory-fog that eats the Reach's histories and names. When the Wyrd anomaly seeped into Frostwood Reach amidst the relentless logging of sacred ironwood forests by Drunhold woodcutters, it reacted directly to the inhabitants' dread of forgetting. By twisting these underlying folklore patterns, the Wyrd synthesized a living hag whose song thickens the mist to cloud memory, though the Fog Compact, not Cailleach, is its true source."
         },
         {
           "id": "dullahan",
@@ -1363,8 +1363,8 @@
           "dangerLevel": "Very High",
           "illustration": "/assets/images/creatures/nidhoggr.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Níðhöggr",
-          "role": "NÃ­Ã°höggr",
-          "origin": "The Nidhoggr is inspired by the Skaldic N,,h,ggr, the dragon that gnaws the roots of the World Tree, and the highland Schrat-Root, a subterranean spirit that undermines buildings. In Nordhalla, it is a blind, burrowing menace that feasts on foundations and magical pacts alike.",
+           "role": "Níðhöggr",
+          "origin": "The Nidhoggr is inspired by the Skaldic Níðhöggr, the dragon that gnaws the roots of the World Tree, and the highland Schrat-Root, a subterranean spirit that undermines buildings. In Nordhalla, it is a blind, burrowing menace that feasts on foundations and magical pacts alike.",
           "nature": "This creature appears as a tangle of black, rope-thick coils that resemble petrified roots, covered in matte black scales that are warm to the touch. It has no distinct head, instead terminating in a circular, lamprey-like maw lined with rotating rings of translucent amber teeth that act as a boring machine. Each tooth is a fragment of a consumed rune, and the tunnels it leaves behind are filled with fine black ash that smells of burnt magical energy.",
           "habitat": "It tunnels deep beneath the frozen bedrock, keep foundations, and glacial vaults of Nordhalla.",
           "combat": "380 HP. Foundation-Gnaw (special: gnaws at bedrock beneath structures; a keep with Nidhoggr infestation develops cracks within months, collapses within years — this is a campaign-level siege weapon). Oath-Corrupt (passive: consumes runic energy of blood-oaths; Bloodhammer warriors whose ancestral runes are eaten permanently lose their supernatural rage). Lamprey-Maw (melee, reach 10 ft, +6 to hit, 2d8+4 piercing + DC 14 CON or bleeding 1d8/round). Ash-Trail (passive: tunnels filled with fine black ash smelling of decayed runic energy — reveals its presence). Vulnerable to radiant.",
@@ -1433,11 +1433,11 @@
           "dangerLevel": "Very High",
           "illustration": "/assets/images/creatures/landvaettir.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Landvættir",
-          "role": "LandvÃ¦ttir",
+           "role": "Landvættir",
           "origin": "The Landv,ttir-Peak stems from the Skaldic Landv,ttir, protective spirits of the land who could be offended by hostiles, and the highland Salvanel, the wild guardians of mountain passes. In the high ridges of Nordhalla, these giants are the living embodiment of the mountains themselves.",
           "nature": "Standing fifteen to twenty feet tall, this humanoid is composed entirely of the mountain it inhabits, featuring granite skin, snow-white hair, and clothing made of living lichen. Its texture matches the local geology so perfectly that it is invisible when still, with bird-nests in its stone shoulders and mountain goats sheltered at its feet under a ring of clear sky. Its face is an ancient cliff-face with a brow like an overhang, a nose like a broken spire, and slow-blinking eyes of glacier-blue.",
           "habitat": "It resides on the high mountain peaks, cliff faces, and highland passes of Nordhalla.",
-          "combat": "450 HP. Mountain-Meld (passive: invisible against its home mountain; +12 to stealth in terrain). Wyrd-Ward (passive: 200-ft radius; no Wyrd-creature has ever breached a slope protected by a LandvÃ¦ttir). Boulder-Hurl (ranged 60 ft, +6 to hit, 3d6+5 bludgeoning). Dragon-Prohibition (special: any dragon-image, dragon-prow, or draconic rune within 100 ft triggers instant burial in a snowslide — DC 16 AGI or buried alive). Vulnerable to acid.",
+          "combat": "450 HP. Mountain-Meld (passive: invisible against its home mountain; +12 to stealth in terrain). Wyrd-Ward (passive: 200-ft radius; no Wyrd-creature has ever breached a slope protected by a Landvættir). Boulder-Hurl (ranged 60 ft, +6 to hit, 3d6+5 bludgeoning). Dragon-Prohibition (special: any dragon-image, dragon-prow, or draconic rune within 100 ft triggers instant burial in a snowslide — DC 16 AGI or buried alive). Vulnerable to acid.",
           "stats": {
             "strength": 20,
             "agility": 10,
@@ -1538,8 +1538,8 @@
           "dangerLevel": "High",
           "illustration": "/assets/images/creatures/fenris.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Fenris",
-          "role": "Fenrir/FenrisÃºlfr",
-          "origin": "The Fenris is a juvenile manifestation of the Skaldic Fenrir, the apocalyptic wolf bound by the spirits until Ragnar,k, mixed with the highland Barbegazi who navigate deep snow with ease. It manifests the restless, bound fury of the end times, hunting the frozen wastes of Nordhalla.",
+           "role": "Fenrir/Fenrisúlfr",
+          "origin": "The Fenris is a juvenile manifestation of the Skaldic Fenrir, the apocalyptic wolf bound by the spirits until Ragnarök, mixed with the highland Barbegazi who navigate deep snow with ease. It manifests the restless, bound fury of the end times, hunting the frozen wastes of Nordhalla.",
           "nature": "Though only a pup, this creature is the size of a pony, with fur that shifts between frost-white and shadow-black and giant, shield-wide paws that glide over snow drifts. It wears a collar of braided silk ribbon that glows with the golden magic of Gleipnir, and its thick tail leaves a distinct drag-mark behind it. Its face displays a puppy's oversized ears and lolling tongue, but its eyes can suddenly flash with an ancient, predatory intelligence, turning from warm brown to molten gold when it senses an oath-breaker.",
           "habitat": "It hunts across the windswept tundra and frozen plains of Nordhalla.",
           "combat": "220 HP. Bound-Hunter (passive: hunts oath-breakers; can track any creature who has broken a sworn vow within 100 miles). Gleipnir-Collar (passive: collar of braided silk prevents growth to full size; if removed (requires spirit-level strength), the pup immediately grows to full Fenrir — a continent-ending catastrophe). Puppy-Bite (melee, +6 to hit, 2d6+4 piercing). Eye-Shift (passive: eyes shift from puppy-brown to molten gold near oath-breakers, marking targets). Snowshoe-Paws (can run across deep snow without sinking). Vulnerable to fire.",
@@ -1573,7 +1573,7 @@
           "dangerLevel": "Medium",
           "illustration": "/assets/images/creatures/disir.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Disir Wraith",
-          "role": "DÃ­sir",
+           "role": "Dísir",
           "origin": "The Disir represents the Skaldic D,sir, female ancestral guardians honored during the D,sabl,t who bless or curse their descendants, and the highland Perchta's Retinue, who punish sloth and household neglect. They manifest during the deep winter to ensure ancestral traditions are upheld.",
           "nature": "This entity appears as a procession of tall, pale women in flowing white gowns who glide over the snow without leaving footprints. Each figure carries a ritual object,a distaff, a bloody spindle, a sheaf of wheat, or an iron knife,and holds a tallow candle that burns with a constant, unmeltable blue flame. They share identical, sorrowful faces with solid white, unblinking eyes, their mouths slightly parted to emit a continuous, low hum.",
           "habitat": "They travel between the longhouses and settlements of Nordhalla during the winter solstice.",
@@ -1961,7 +1961,7 @@
           "illustration": "/assets/images/creatures/tiamat.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Scale of Tiamat",
           "role": "Tiamat",
-          "origin": "In the blistering depths of the Sundale caldera, the Tiamat manifests the ancient mythic forces of primordial creation and destruction. Its lineage is tied to Tiamat, the Fexric dragon-goddess of the salt sea and mother of monsters, and Apep, the Solvarn chaos-serpent that sought to devour the sun each night. Twisted by the reality-warping influence of the Wyrd, this beast serves as an eternal enemy of cosmic order, seeking to consume light and heat wherever it can find them.",
+           "origin": "In the blistering depths of the Sundale caldera, the Tiamat manifests the ancient mythic forces of primordial creation and destruction. Its lineage is tied to Tiamat, a Wyrd-coiled volcanic glass serpent wound around the Solbrand at the Harath-Vault, revered in Solvarn and Emberth forging-lore by the Korr smiths as the mother of monsters, and Apep, the Solvarn-named chaos-serpent that sought to devour the sun each night. Twisted by the reality-warping influence of the Wyrd, this beast serves as an eternal enemy of cosmic order, seeking to consume light and heat wherever it can find them.",
           "nature": "The Tiamat is a massive, multi-headed serpent whose obsidian scales are shot through with veins of glowing, molten orange, creating a shifting crust of cooling magma. Each of its serpentine heads branches from a central, muscular trunk, terminating in a unique jaw shape,some needle-toothed and narrow, others broad and crushing,all flanking a perpetually dripping, lamprey-like mouth. The creature's belly glows with the fierce heat of a forge, and as it slithers, it sheds scales that cool into fields of razor-sharp glass. Its heads are crowned with single, iris-less eyes like burning white coals, which spin and track independently to grant the beast a complete three-hundred-and-sixty-degree view of its surroundings.",
           "habitat": "These massive glass serpents make their home in the slow-flowing lava rivers and molten channels that radiate from Emberspire. They swim effortlessly through the superheated rock, completely at home in the deepest, most volcanic crevices of the region.",
           "combat": "560 HP. Multi-Head-Strike (attacks with all heads each round; each head targets independently). Lava-Swim (can move through molten rock at full speed; immune to fire). Obsidian-Shed (passive: sheds scales that create fields of razor-sharp obsidian; difficult terrain that deals 1d6 slashing per square entered). Sun-Devour-Coil (special: coils around sources of concentrated sun-heat, draining them; if it reaches the Solbrand, it could extinguish the sun-spirit's last ember). Magma-Breath (AoE cone 30 ft, 4d6 fire, DC 16 CON or continue burning for 2d6/round). Vulnerable to cold (cold damage slows it, reducing AP by 1 per cold attack landed).",
@@ -2171,7 +2171,7 @@
           "illustration": "/assets/images/creatures/ifrit.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Ifrit",
           "role": "Ifrit/Afreets",
-          "origin": "The Ifrit is a majestic and terrifying elemental spirit born from the deep furnace of the world. Its origins are tied to the Ifrit of pre-Binding and desert folklore,powerful jinn of smokeless fire who built underground cities,and Wadjet, the Solvarn cobra-goddess whose fiery eye could incinerate the enemies of cosmic order. In the volcanic heart of Emberspire, they are revered as living extensions of the sun's primordial will.",
+          "origin": "The Ifrit is a majestic and terrifying elemental spirit born from the deep furnace of the world. Its origins are tied to the Ifrit of pre-Binding and desert folklore,powerful jinn of smokeless fire who built underground cities,and is worshipped by the Solvarn as Wadjet, the cobra-goddess whose fiery eye could incinerate the enemies of cosmic order. In the volcanic heart of Emberspire, they are revered as living extensions of the sun's primordial will.",
           "nature": "Standing ten feet tall, the Ifrit is a winged giant composed entirely of white-hot charcoal and crackling, shifting flames. Its body is unstable, constantly shedding embers and pieces of blackened carbon to reveal the liquid, molten fire burning within. Its wings are fans of superheated, rippling air that distort the surrounding light, and its head is crowned by a wide, cobra-shaped hood of flame that flares outward in anger. Its face is a mask of hardened charcoal with shifting, serpentine features, dominated by two blinding white points of light that represent the destructive eye of Wadjet.",
           "habitat": "These fiery elementals live in the deepest volcanic chambers, active magma vents, and sacred smithies of the Emberspire terrain. They are rarely seen outside these superheated zones.",
           "combat": "420 HP. Cobra-Glare (special: gaze ignites flammable material within 50 ft; any creature meeting its gaze DC 15 AGI or takes 3d6 fire and is set ablaze). Magma-Shape (1 AP: shapes molten rock with bare hands, creating barriers, weapons, or tools no mortal smith can replicate). Flame-Body (passive: melee attackers take 2d6 fire damage on contact). Coal-Hurl (ranged 40 ft, +6 to hit, 2d8 fire). Uraeus-Flare (the cobra-hood of flame flares wide when aggressive, illuminating 60 ft and blinding creatures in front — DC 14 CON or blinded 1 round). Vulnerable to cold (cold damage reduces its body temperature, lowering damage output by 25% per cold hit until it reheats).",
@@ -2526,7 +2526,7 @@
           "illustration": "/assets/images/creatures/abzu.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Abzu",
           "role": "Abzu/Apsu",
-          "origin": "The Abzu is a mysterious anomaly of freshwater and ancient magic, combining the primal water myths of Mesopotamia and Solvarn. It represents the Abzu, the Fexric underground freshwater ocean that was the source of all magic, and Nun, the Solvarn personification of the primordial waters of creation. It exists as a pocket of ancient, wise water in the middle of a dry desert.",
+           "origin": "The Abzu is a mysterious anomaly of freshwater and ancient magic, combining the primal water myths of Mesopotamia and Egypt. It represents the Abzu, the sentient freshwater pool beneath the Harath-Vault in Sundale, and Nun, the Solvarn personification of the primordial waters of creation. It exists as a pocket of ancient, wise water in the middle of a dry desert.",
           "nature": "The Abzu has no physical, solid form; it is a perfectly circular pool of clear water, fifteen feet wide, that glows with a soft, bioluminescent blue-white light. Inside the water, ancient cuneiform and hieroglyphic glyphs swim like fish, holding the secrets of the past. When it wishes to speak, it shapes a serene, water-formed face on its surface, featuring eyes of vertigo-inducing depth.",
           "habitat": "This sentient pool is located within the deep, cavernous chambers and cooling tunnels beneath the Harath-Vault in the Emberspire region.",
           "combat": "220 HP. Wisdom-Well (special: those who drink from the pool receive one piece of forgotten pre-Dimming knowledge; the pool takes a drop of blood in exchange, adding it to its eternal archive — this is a knowledge-for-blood bargain with no save). Volcanic-Coolant (passive: its underground spring feeds the cooling-channels beneath the Harath-Vault; without it, the forges overheat and the Solbrand boils dry). Glyph-Drift (passive: cuneiform and hieroglyphic glyphs drift through the water like fish; reading them requires DC 14 INT and grants +2 to one Knowledge skill for 24 hours). Water-Form (immune to physical damage; takes normal damage from cold (freezes it temporarily) and acid). Vulnerable to cold (freezes for 1d4 rounds).",
@@ -3788,11 +3788,11 @@
           "dangerLevel": "Low",
           "illustration": "/assets/images/creatures/nopperabo.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Nopperabo",
-          "role": "NopperabÅ",
+          "role": "Nopperabō",
           "origin": "The Nopperabo represents a chilling synthesis of the faceless spirits of Wyrd-kin lore, which terrify travelers by turning to reveal blank, featureless visages, and the Pishtaco, the pale-skinned bogeyman of Tesshan legend who drains the fat from human bodies. In the high bridges of this cold world, they embody a quiet, transactional horror, rendering the flesh of travelers into a commodity to preserve the setting's ancient structures.",
           "nature": "Appearing from behind as a normal traveler wrapped in a pale, hooded cloak, the creature reveals a smooth, featureless oval of pale skin with no eyes, nose, or mouth when it turns to face its prey. From beneath its heavy sleeves, it extends long, surgeon-precise fingers tipped with thin, hollow needles designed for extracting body fat without leaving a visible wound. A calm, measured, and chillingly reasonable voice projects directly from the flat plane of its blank face.",
-          "habitat": "These faceless figures haunt the narrowest corridors and drafty Spans of the Cragjaw Peaks, standing like silent sentinels in the wind.",
-          "combat": "",
+           "habitat": "These faceless figures haunt the narrowest corridors and drafty Spans of the Cragjaw Peaks, standing like silent sentinels in the wind.",
+           "combat": "A faceless ambusher that strikes from blind angles, using Pishtaco-like theft of facial identity to unmake its prey. It relies on confusion and misdirection rather than brute force, slipping away into the Spans before victims can rally.",
           "stats": {
             "strength": 10,
             "agility": 10,
@@ -3823,8 +3823,8 @@
           "role": "Tesshan ogre",
           "origin": "The Supayoni is born of the ancient ogre-horrors of Wyrd-kin lore, who carry iron clubs to bring ruin and disaster, merged with the Sovereign of the Shadow-Veins, the Cragjaw lord of the underworld who rules the deep earth and the mineral veins beneath the mountains. They are massive, imposing figures of the peaks, representing both the violent fury of the elements and a stern, subterranean justice.",
           "nature": "Standing twelve feet tall, this massively muscled humanoid possesses skin the color of deep glacier-ice and two sharp, crystalline horns that sweep upward from its temples, emitting a low, subsonic hum of terror when it prepares to strike. It carries a heavy iron club, or kanabo, made of petrified ice harder than steel, and its broad, feral face features a fanged grin, crystalline teeth, and two glowing red eyes, supplemented by a third eye on its forehead that pierces absolute darkness.",
-          "habitat": "They claim the deep, dark mine-shafts and ancient volcanic chambers beneath the Cragjaw Peaks as their personal domains.",
-          "combat": "",
+           "habitat": "They claim the deep, dark mine-shafts and ancient volcanic chambers beneath the Cragjaw Peaks as their personal domains.",
+           "combat": "The Sovereign of the Shadow-Veins commands the mountain's underdark passages, draining light and heat from the tunnels. It engulfs prey in crushing dark before dragging them into the vein-network, ruling the deep earth as a stern, subterranean lord.",
           "stats": {
             "strength": 10,
             "agility": 10,
@@ -3852,7 +3852,7 @@
           "dangerLevel": "Extreme",
           "illustration": "/assets/images/creatures/jorogumo.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary jorogumo",
-          "role": "JorÅgumo",
+          "role": "Jorōgumo",
           "origin": "The jorogumo represents the blending of the binding bride spider-spirits of Tesshan folklore, who lure unsuspecting victims with their beauty, and the Cragjaw guardian of metals and jewels who watches over the earth's hidden treasures. This fusion yields a creature of deceptive grace and metallic corruption, guarding the richest veins in the mountains with webs of precious metal.",
           "nature": "From the front, the creature appears as a beautiful woman in a shimmering bridal gown of semi-transparent silk standing on the Spans, but from behind, she reveals the massive, metallic-chitin abdomen of a spider anchored by thick golden cables. Her gown is actually a sensory web containing trace amounts of gold and silver, and her exquisite human face conceals compound eyes and rows of needle-sharp spider fangs that are exposed only when she smiles.",
           "habitat": "She makes her home on the narrowest Ancestor-Spans and rich mineral chasms of the Cragjaw Peaks.",
@@ -3873,7 +3873,7 @@
               "poison": 100
             }
           },
-          "depth": "She lures travelers by posing as a stranded maiden on the bridges, only to bind them in metallic-silk cables and hang them beneath the spans to drain their mineral-rich blood over several weeks. Because her webs are blessed by Urcaguary, they are laced with a corrosive poison that ruins excavation tools, forcing Fexric engineers to offer her precious gems in exchange for passage or access to the veins. Adventurers must tread carefully when searching for missing travelers, often facing the choice of fighting the creature or bargaining with precious jewels to free her captives.",
+          "depth": "She lures travelers by posing as a stranded maiden on the bridges, only to bind them in metallic-silk cables and hang them beneath the spans to drain their mineral-rich blood over several weeks. Because her webs are blessed by the Tesshan deep-vein entity, they are laced with a corrosive poison that ruins excavation tools, forcing Fexric engineers to offer her precious gems in exchange for passage or access to the veins. Adventurers must tread carefully when searching for missing travelers, often facing the choice of fighting the creature or bargaining with precious jewels to free her captives.",
           "hooks": [
             "A rumor spreads of a jorogumo spotted near the area.",
             "Adventurers need a component from a jorogumo to complete their quest."
@@ -4203,7 +4203,7 @@
           "dangerLevel": "Very High",
           "illustration": "/assets/images/creatures/wanyudo.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Wanyūdō",
-          "role": "WanyÅ«dÅ",
+          "role": "Wanyūdō",
           "origin": "The Wanyudo is born of the flaming souls-wheels of folklore that roll through mountain passes to steal the spirits of onlookers, merged with the ceremonial sun-wheels of the Inti-Raymi festival. In the cold, sunless world, these sacred festival-wheels have been twisted by Wyrd-corruption, turning them into cold-burning engines of eternal torment.",
           "nature": "From a distance, the creature resembles a traveler's cart rolling through the blizzard with swaying lanterns, but up close, it reveals itself as a single, enormous wheel of blue-white flame and screaming, translucent faces. The wheel's rim is bound in cold-iron, and the fire it emits produces no heat, only a freezing cold that crystallizes the mountain air. The wheel is comprised of dozens of rotating, tormented faces, each crying out in silent agony as they cycle through the flames.",
           "habitat": "They roll through the high, wind-swept passes, switchbacks, and Span-corridors of the Cragjaw Peaks during blizzards.",
@@ -4240,7 +4240,7 @@
           "illustration": "/assets/images/creatures/tsuchigumo.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Tsuchigumo",
           "role": "Tsuchigumo",
-          "origin": "The Tsuchigumo represents the convergence of the ancient, illusion-weaving earth-spiders of Wyrd-kin lore, historically associated with rebellious mountain clans, and the metallic-serpent guardians of Urcaguary who protect the earth's treasures. Birthed from stone and precious ores, these massive arachnids guard the deepest veins of the mountains with webs of solid gold and illusions of wealth.",
+          "origin": "The Tsuchigumo represents the convergence of the ancient, illusion-weaving earth-spiders of Wyrd-kin lore, historically associated with rebellious mountain clans, and the metallic-serpent guardians of the Tesshan deep-veins who protect the mountain's earth-bound treasures. Birthed from stone and precious ores, these massive arachnids guard the deepest veins of the mountains with webs of solid gold and illusions of wealth.",
           "nature": "This draft-horse-sized spider possesses a body of compressed granite, striated stone, and rich mineral veins, with jointed stone legs and an exposed geode carapace lined with sparkling crystals. It has eight gemstone eyes,ruby, emerald, sapphire, diamond, opal, topaz, amethyst, and garnet,that glow with internal fire, and its obsidian mandibles drip with metallic venom. It spins webs of shimmering, molten gold, silver, and copper threads that glow in the dark depths.",
           "habitat": "They dig their nests in the deepest mine shafts, underground caverns, and gem-rich fissures of the Cragjaw Peaks.",
           "combat": "380 HP. Golden-Web (passive: webs mineral-veins with gold-silk stronger than steel cable; touching the silk DC 15 CON or blood slowly crystallizes into metallic compounds). Illusion-Vein (passive: projects illusions of rich, unguarded mineral veins, luring miners into its web-tunnels; any vein that appears 'too good to be true' is a Tsuchigumo trap). Geode-Body (passive: body is a geode — cracked open, revealing hollow interior lined with crystal formations). Gemstone-Eyes (passive: eight eyes, each a different gemstone; each emits a different-colored beam that can be used as a ranged attack: +6 to hit, 1d6+2 of the gem's elemental type — ruby=fire, emerald=nature, sapphire=cold, diamond=psychic, opal=ice, topaz=lightning, amethyst=shadow, garnet=poison). Mandible-Clash (melee, +6 to hit, 2d6+4 slashing + metallic venom that slows). Vulnerable to fire.",
@@ -5120,8 +5120,8 @@
           "illustration": "/assets/images/creatures/ajina.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Ajina",
           "role": "Ajina / Albasti",
-          "origin": "The Ajina is born of the hairy, traveler-hunting Albasti horror of steppe folklore combined with the faceless Ordan embodiment of primordial chaos. She represents the terror of the dark, formless void that waits beyond the boundary of the campfire.",
-          "nature": "This eight-foot-tall, towering figure is composed of light-absorbing darkness that seems perpetually on the verge of dissolution. Long shadow-appendages resembling pendulous breasts drape down, whispering in multiple soft voices, while her hair is a spreading pool of living darkness that decays the grass it touches. Her face shifts constantly between a beautiful woman, a bare skull, and an empty void, anchored only by twin eyes of absolute, gravity-like darkness.",
+          "origin": "The Ajina is born of the hairy, traveler-hunting Albasti horror of steppe folklore combined with the faceless Ordan embodiment of primordial chaos. She represents the terror of the dark, formless Silence that waits beyond the boundary of the campfire.",
+          "nature": "This eight-foot-tall, towering figure is composed of light-absorbing darkness that seems perpetually on the verge of dissolution. Long shadow-appendages resembling pendulous breasts drape down, whispering in multiple soft voices, while her hair is a spreading pool of living darkness that decays the grass it touches. Her face shifts constantly between a beautiful woman, a bare skull, and an empty Silence, anchored only by twin eyes of absolute, gravity-like darkness.",
           "habitat": "She haunts the deepest, tallest grass fields and unlit hollows of the Sundrift Vale.",
           "combat": "380 HP. Shadow-Stalker (passive: perpetually half-dissolved into shadow; absorbs light rather than reflecting it; invisible in darkness). Independent-Mouths (passive: long, pendulous breasts trail to her knees, each ending in a mouth-like orifice that whispers independently — DC 13 SPI or confused 1 round). Living-Shadow (passive: her hair spreads across the ground as living shadow, darkening the grass it touches). Entropy-Wounds (melee, +6 to hit, 2d6+3 necrotic — wounds fester with entropy, dealing 1d6 necrotic per round for 3 rounds). Astril-Immunity (passive: cannot harm the Astril Unlit — those born without constellation-light; the Ajina cannot steal light they do not carry). Vulnerable to radiant (radiant damage forces her to fully materialize, losing her shadow-form for 1 round).",
           "stats": {
@@ -5141,7 +5141,7 @@
               "psychic": 50
             }
           },
-          "depth": "Stalking the high steppe-grass, the Ajina strikes from the darkness with entropic claws that leave slow-festering wounds, dissolving back into shadow before she can be targeted. Survivors of her attacks are cursed with permanent, sanity-draining nightmares of the pre-cosmic void, though the Astril Unlit remain immune due to their lack of light. Travelers must take great care when traversing the high grasses, often hiring guides who know how to detect her whispering approach.",
+          "depth": "Stalking the high steppe-grass, the Ajina strikes from the darkness with entropic claws that leave slow-festering wounds, dissolving back into shadow before she can be targeted. Survivors of her attacks are cursed with permanent, sanity-draining nightmares of the pre-cosmic Silence, though the Astril Unlit remain immune due to their lack of light. Travelers must take great care when traversing the high grasses, often hiring guides who know how to detect her whispering approach.",
           "hooks": [
             "A rumor spreads of a Ajina spotted near the area.",
             "Adventurers need a component from a Ajina to complete their quest."
@@ -5260,7 +5260,7 @@
       ]
     },
     {
-      "id": "bryngloom",
+      "id": "bryngloom-forest",
       "name": "The Bryngloom Forest",
       "folklore": "Slavic/Carpathian + Hindu/Vedic",
       "creatures": [
@@ -5621,7 +5621,7 @@
           "illustration": "/assets/images/creatures/zmey_bog.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Zmey",
           "role": "Zmey Gorynych",
-          "origin": "The Zmey-Bog merges the legendary three-headed, fire-breathing Thalren dragon Zmey Gorynych with the Makara, a composite Solbrand sea-monster representing Varuna's watery domain. Anchored in the deep peat-marshes of Mythrill, this creature acts as an ancient guardian of sunken secrets and lost documents.",
+           "origin": "The Zmey-Bog merges the legendary three-headed, fire-breathing swamp-dragon Zmey Gorynych of Neth and Vreken folklore with the Makara, a composite Root-Veil monster of Atropolis's watery domain. Anchored in the deep peat-marshes of Mythrill, this creature acts as an ancient guardian of sunken secrets and lost documents.",
           "nature": "This thirty-foot serpentine dragon features a body of mud-caked crocodile hide and fish scales, ending in a peacock-like tail capable of fanning poison-gas and iron claws forged of actual metal on its feet. Its three heads are colored red, green, and blue, breathing fire, poison, and water respectively. Each head has a unique disposition,feral, sly, and serene,yet all three share the same ancient golden eyes that remember everything with merciless clarity.",
           "habitat": "This swamp-dwelling beast hides in the deepest, muddiest pools of the Bryngloom Forest terrain.",
           "combat": "130 HP. Fever-Touch (melee, +5 to hit, 1d6+3 necrotic + DC 14 CON or gain 1 level of exhaustion — the target feels the fever of its own death). Disease-Spreader (passive: any creature that takes necrotic damage from the Utukku must DC 14 CON or contract a random disease — fever, blindness, paralysis, or wasting). Grave-Reflection (passive: appears as the target's own face, distorted in agony; DC 13 SPI or Frightened 1 round). Spirit-Drain (melee, +5 to hit, 2d6+3 psychic — drains willpower, DC 14 CON or fatigued for 8 hours). Vulnerable to radiant.",
@@ -5692,7 +5692,7 @@
           "illustration": "/assets/images/creatures/naga_root.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Naga",
           "role": "Naga",
-          "origin": "The Naga-Root is inspired by the sacred serpent-beings of Vedic mythology who guarded waters and subterranean treasures, combined with the deep earth-dwelling aspect of the Thalren dragon Zmey Gorynych. In Mythrill's depths, it acts as a primordial manager of the forest's hydrology and a keeper of buried secrets.",
+           "origin": "The Naga-Root is inspired by the sacred serpent-beings of Vedic mythology who guarded waters and subterranean treasures, combined with the deep earth-dwelling aspect of the Bryngloom swamp-dragon Zmey Gorynych. In Mythrill's depths, it acts as a primordial manager of the forest's hydrology and a keeper of buried secrets.",
           "nature": "This forty-foot-long serpent features a powerful humanoid torso and arms emerging from its coiled, scale-covered lower body, with scales the deep green of wet ironwood leaves. A cobra-like hood spreads permanently around its head like an elaborate headdress, topped by a crown of root-fiber and bog-iron, while its eight-digited hands are built for burrowing. Its face is a mix of human and serpent, marked by molten-gold eyes with vertical pupils and a jaw that unhinges to reveal fangs, set in a calm, regal expression.",
           "habitat": "This subterranean ruler crawls through the deepest root-systems of the Bryngloom Forest terrain.",
           "combat": "440 HP. World-Circle (passive: coils around the entire world; its head and tail nearly touch beneath the sea). Ocean-Maw (melee, +8 to hit, 3d8+6 piercing — a single bite can swallow ships). Venom-Drip (passive: venom drips from its fangs into the ocean, poisoning sea-water for miles; DC 14 CON or poisoned 3 rounds). Tidal-Wave (passive: when it moves, it creates tsunamis; all creatures within 1 mile must DC 15 AGI or swept away). Regeneration (regenerates 15 HP per round; only radiant or lightning damage stops regeneration). Vulnerable to radiant.",
@@ -5837,7 +5837,7 @@
           "illustrationCaption": "A hand-drawn field sketch of the legendary Drekavac",
           "role": "Drekavac",
           "origin": "The Drekavac-Wail descends from the Thalren Drekavac, a screaming nocturnal horror born from the souls of the unbaptized, and the restless Vedic Bhut, ghosts trapped on earth by their unfulfilled desires. In the marshes of Mythrill, they represent the ultimate despair of unfinished business and broken contracts.",
-          "nature": "Defying a stable description, this shape-shifting horror is witnessed as a gaunt humanoid with long limbs, a bird with tattered wings, or a multi-jointed beast. Its body appears as a semi-transparent, shimmering distortion of the air, defined by an enormous, screaming mouth that serves as its entire face,a black void ringed with teeth that look like fangs, feathers, or fingers, reflecting the viewer's death in its depths.",
+          "nature": "Defying a stable description, this shape-shifting horror is witnessed as a gaunt humanoid with long limbs, a bird with tattered wings, or a multi-jointed beast. Its body appears as a semi-transparent, shimmering distortion of the air, defined by an enormous, screaming mouth that serves as its entire face,a black Silence ringed with teeth that look like fangs, feathers, or fingers, reflecting the viewer's death in its depths.",
           "habitat": "This screaming phantom wanders the dark, misty spaces of the Bryngloom Forest terrain.",
           "combat": "160 HP. Golden-Boar (passive: mane and bristles glow with golden light; illuminates 30 ft). Sun-Force (passive: charges with the strength of the sun; +2 to attack rolls in daylight). Divine-Breed (passive: one of the sacred boars bred by the spirits; immune to disease and poison). Tusk-Gore (melee, +5 to hit, 2d6+4 piercing). Sun-Brilliance (passive: bristles shine so brightly in direct sunlight that nearby creatures must DC 13 CON or be blinded for 1 round). Vulnerable to cold (cold extinguishes its golden glow, reducing its stats by 2).",
           "stats": {
@@ -6116,7 +6116,7 @@
           "illustration": "/assets/images/creatures/sirin_song.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Sirin",
           "role": "Sirin",
-          "origin": "The Sirin-Song represents the dark Thalren Sirin, whose beautiful but sorrowful song led listeners to willingly cease living, combined with the Solbrand Navagraha, the nine cosmic forces that dictate the path of destiny. In Mythrill's deepest forest, she acts as a tragic weaver of fate and a harbinger of the end.",
+          "origin": "The Sirin-Song represents the dark Thalren Sirin, whose beautiful but sorrowful song led listeners to willingly cease living, combined with the nine cosmic forces the Solbrand faith calls the Navagraha, that dictate the path of destiny. In Mythrill's deepest forest, she acts as a tragic weaver of fate and a harbinger of the end.",
           "nature": "Having a twenty-foot wingspan, this bird-like entity has the head and upper torso of a gorgeous woman, with dark twilight plumage of indigo, violet, and black shot with silver threads. Her song projects ribbons of shadow that dim all light and drop the temperature, while she holds nine silver threads representing the aspects of fate. Her face is the most beautiful in the world, permanently still with eyes closed to hide the overwhelming sight of all time, her lips constantly moving to hum her terrible, perfect song.",
           "habitat": "This mournful singer resides at the convergence of the bog and forest in the Bryngloom Forest terrain.",
           "combat": "380 HP. Soul-Song (passive: its song contains the final words of every dead person — the last thing they said before dying; the song changes continuously as new people die). Sorrow-Aura (passive: creatures within 30 ft must DC 14 SPI or gain 1 level of exhaustion from overwhelming grief). Death-Prophecy (passive: its song foretells the manner of death for everyone within hearing range; the prophecy is always accurate). Song-of-Death (passive: those who hear the full song die of heartbreak within 24 hours — only those with strong willpower (SPI 16+) can resist). Healing-Tears (passive: weeps tears of light that can heal wounds and cure diseases; 2d6 radiant healing to one creature per round). Vulnerable to necrotic.",

@@ -15,7 +15,6 @@ export const TOXICOLOGIST_DATA = {
           "smoothskinned_briaran"
       ],
       "hardBlocks": [
-          "human",
           "emberth",
           "fexrick"
       ],
@@ -198,7 +197,7 @@ The class is heavily practiced by the Thalren humans and the <LoreLink termId="m
 
     currentCrisis: `The fog is changing the chemistry of the Frostwood Reach. The airborne toxins that Toxicologists have relied on for generations, distilled from fog-predator venom, ironwood sap, and Gref residue, are becoming unstable. Compounds that once remained viable for years are now degrading in weeks.
 
-Toxicologists have traced the cause to a change in the fog\'s composition. Something is leaching into the mist, a new element that reacts unpredictably with their stored compounds. Some believe it is a byproduct of the Void contamination spreading from the Bryngloom. Others believe the fog is simply evolving, becoming more complex as it ages. Whatever the cause, the Toxicologists are losing their arsenal. Their most powerful poisons are turning inert, and they are being forced to develop new formulations from scratch, while the Gref continue to attack.`,
+Toxicologists have traced the cause to a change in the fog\'s composition. Something is leaching into the mist, a new element that reacts unpredictably with their stored compounds. Some believe it is a byproduct of the Silence contamination spreading from the Bryngloom. Others believe the fog is simply evolving, becoming more complex as it ages. Whatever the cause, the Toxicologists are losing their arsenal. Their most powerful poisons are turning inert, and they are being forced to develop new formulations from scratch, while the Gref continue to attack.`,
 
     meaningfulTradeoffs: `To be a Toxicologist is to shake constantly. The chronic tremors caused by years of toxin exposure make fine motor control difficult. A Toxicologist cannot thread a needle, cannot sign their name legibly, cannot hold a cup of tea without sloshing. Their hands are in constant motion, a visible reminder of the price they pay. The tremors are worse when they are stressed, which makes combat particularly challenging, and particularly dangerous for anyone standing next to them when they are trying to pour a precise dose of poison into a vial.`,
 

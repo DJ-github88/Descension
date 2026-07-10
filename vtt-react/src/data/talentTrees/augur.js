@@ -246,7 +246,7 @@ export const AUGUR_HARBINGER = [
   },
   {
     id: 'harbinger_t4_void_gaze',
-    name: 'Void Gaze',
+    name: 'Silence Gaze',
     description: 'Passive: Your Malediction generation from natural 1s is tripled instead of doubled. Your aura radius increases by 10ft per rank.',
     icon: 'spell_shadow_telepathy',
     maxRanks: 2,

@@ -250,7 +250,7 @@ const SEEDED_FACTIONS = [
 
   publicDescription:
 
-   'The unyielding northern lords of Nordhalla. When titanic glaciers advanced to grind their mountain keeps into dust, House Skalvyr bargained with the Cosmic Warden to freeze the ice sheets in place permanently. Summer never returned to the north, and the Skalvyr have ruled the frozen fjords ever since, valuing cold-resistance and bloodline purity above all.',
+   'The unyielding northern lords of Nordhalla. When titanic glaciers advanced to grind their mountain keeps into dust, House Skalvyr struck a bargain within the Warden\'s framework to freeze the ice sheets in place permanently. Summer never returned to the north, and the Skalvyr have ruled the frozen fjords ever since, valuing cold-resistance and bloodline purity above all.',
 
   hiddenAgenda:
 
@@ -834,7 +834,7 @@ const SEEDED_FACTIONS = [
   colors: { primary: '#2d5a27', secondary: '#8fbc8f' },
   publicGoal: 'Survive. Remember. Wait.',
   publicDescription:
-   'The forgotten eighth house: struck from every record, erased by the seven families who sealed Keth-Amar\'s bargain. When the other houses marched their firstborn to the northern peaks as sacrifice, Viridane refused and fled south through the Frostwood Reach, making a counter-bargain with fae entities in the moonlit groves. Their descendants are the Briaran.',
+   'The forgotten seventh house: struck from every record by the six houses who sealed Keth-Amar\'s bargain. When the other houses marched their firstborn to the northern peaks as sacrifice, Viridane refused and fled south through the Frostwood Reach, making a counter-bargain with fae entities in the moonlit groves. Their descendants are the Briaran.',
   hiddenAgenda:
    'House Viridane does not seek restoration. The original bloodline made peace with being forgotten eight centuries ago. What they seek is the final truth: what spoke to them in the moonlit groves before Keth-Amar\'s whispers could reach them, and whether that presence has a price that is still due.',
   leader: {
@@ -847,7 +847,7 @@ const SEEDED_FACTIONS = [
   territory: ['ironwood-heart', 'frostwood-reach'],
   relationships: [
    { targetFactionId: 'unshorn-briaran', type: 'successor', description: 'The Unshorn Briaran are the direct descendants of House Viridane: they carry the original fae contract in their blood and thorns' },
-   { targetFactionId: 'house-thalreth', type: 'rival', description: 'The Thalreth participated in the erasure of Viridane from every record and still enforce the Sovereign Ledger\'s silence on the eighth house' }
+    { targetFactionId: 'house-thalreth', type: 'rival', description: 'The Thalreth participated in the erasure of Viridane from every record and still enforce the Sovereign Ledger\'s silence on the original seventh house, now remembered by the folk as the "eighth house" — the wound in human history' }
   ],
   classAffinities: ['lunarch', 'apex'],
   lore: 'House Viridane made a counter-bargain with ancient fae entities in the Frostwood\'s moonlit groves during their flight south generations ago. The Briaran still carry this contract in their flesh: their thorns migrate toward unfulfilled promises. The seven houses spent three centuries erasing every trace of Viridane\'s existence. The Briaran have been hiding ever since.',
@@ -868,10 +868,13 @@ const SEEDED_FACTIONS = [
   members: [],
   headquarters: 'harath-vault',
   territory: ['harath-vault'],
-  relationships: [],
-  classAffinities: ['berserker'],
-  lore: 'Founded by Grum Bloodhammer when he first ignited the Blood-Heat. Now fractured along the Unbound schism: the Pact-sworn elders hunt the deep-tunnel settlement of Berserkers who ignite without the ritual.',
-  secrets: '',
+   relationships: [
+    { targetFactionId: 'house-skalvyr', type: 'rival', description: 'The Bloodhammer line blames Skalvyr hunger-wars for the exile that drove their ancestors south to Emberspire.' },
+    { targetFactionId: 'house-solvan', type: 'allied', description: 'Both forge-cults honor Grum; the line keeps the Solvan-forged forges lit beneath Emberspire.' }
+   ],
+   classAffinities: ['berserker'],
+   lore: 'Founded by Grum Bloodhammer when he first ignited the Blood-Heat. Now fractured along the Unbound schism: the Pact-sworn elders hunt the deep-tunnel settlement of Berserkers who ignite without the ritual.',
+   secrets: 'The Pact-sworn elders know the location of the deep-tunnel Unbound settlement and have twice declined to burn it, because three of their own bloodline ignite without the rite.',
   quests: []
  },
  {
@@ -887,10 +890,13 @@ const SEEDED_FACTIONS = [
   members: [],
   headquarters: 'frozen-archive',
   territory: ['frozen-archive'],
-  relationships: [],
-  classAffinities: ['animist'],
-  lore: 'Founded when the three tradition-carriers met at a crossroads and recognized each others scars. The ancestral language is fracturing and only the Convergence-keeper can still hold all three dialects at once.',
-  secrets: '',
+   relationships: [
+    { targetFactionId: 'house-ordavan', type: 'allied', description: 'The Ordan totemic root is one of the three the Convergence binds together.' },
+    { targetFactionId: 'cult-of-forgotten-shadow', type: 'hostile', description: 'The cult speaks for the silence the Animists say is devouring the ancestors.' }
+   ],
+   classAffinities: ['animist'],
+   lore: 'Founded when the three tradition-carriers met at a crossroads and recognized each others scars. The ancestral language is fracturing and only the Convergence-keeper can still hold all three dialects at once.',
+   secrets: 'The Convergence-keeper has begun hearing a fourth dialect in the silence between the other three, one no ancestor should still be speaking.',
   quests: []
  },
  {
@@ -906,10 +912,13 @@ const SEEDED_FACTIONS = [
   members: [],
   headquarters: 'atropolis',
   territory: ['atropolis'],
-  relationships: [],
-  classAffinities: ['arcanoneer'],
-  lore: 'Heir to Valerius who drafted the First Contract with the Keeper. Now the Keeper is rejecting clauses it once accepted and arbitration cannot resolve the Velun Contingency Protocol.',
-  secrets: '',
+   relationships: [
+    { targetFactionId: 'house-morrath', type: 'allied', description: 'The Canopy-Ledger arbitrates the Neth contract-magic that holds Morrath in being.' },
+    { targetFactionId: 'unlit-veil', type: 'rival', description: 'The Veil trades in secrets the Arcanoneers are sworn to file and seal.' }
+   ],
+   classAffinities: ['arcanoneer'],
+   lore: 'Heir to Valerius who drafted the First Contract with the Keeper. Now the Keeper is rejecting clauses it once accepted and arbitration cannot resolve the Velun Contingency Protocol.',
+   secrets: 'The Velun Contingency Protocol contains a clause that would void every Morrath debt at once if a living heir were ever proven, and the Canopy-Ledger has buried it on purpose.',
   quests: []
  },
  {
@@ -925,10 +934,13 @@ const SEEDED_FACTIONS = [
   members: [],
   headquarters: 'frozen-archive',
   territory: ['frozen-archive'],
-  relationships: [],
-  classAffinities: ['augur'],
-  lore: 'Founded by Cassia, who read the Deepening in a sacrificed elk. The elk-entrail accuracy has collapsed from 93% to 41% as temporal friction contaminates the readings.',
-  secrets: '',
+   relationships: [
+    { targetFactionId: 'scribe-sentinels', type: 'allied', description: 'The Augurs depend on Sentinels to preserve the elk-rites against the fog.' },
+    { targetFactionId: 'cult-of-forgotten-shadow', type: 'hostile', description: 'The cult readings threaten to replace the elk-auguries with the silence.' }
+   ],
+   classAffinities: ['augur'],
+   lore: 'Founded by Cassia, who read the Deepening in a sacrificed elk. The elk-entrail accuracy has collapsed from 93% to 41% as temporal friction contaminates the readings.',
+   secrets: 'Cassias preserved body weeps frozen tears only when a pulse should have come; the Order has hidden three such weepings since the silence began.',
   quests: []
  },
  {
@@ -944,10 +956,13 @@ const SEEDED_FACTIONS = [
   members: [],
   headquarters: 'frostmaw-holdfast',
   territory: ['frostmaw-holdfast'],
-  relationships: [],
-  classAffinities: ['chronarch'],
-  lore: 'Heir to Nesta, who hooked a volcanic-glass time-engine into her chest. Nesta is disappearing from history; if she ceases to exist, temporal friction redistributes to every living Chronarch.',
-  secrets: '',
+   relationships: [
+    { targetFactionId: 'vat-breakers-guild', type: 'allied', description: 'The Chronarchs rebuild Nestas engine with Groven calcified stone and spans.' },
+    { targetFactionId: 'deep-alchemists', type: 'hostile', description: 'The Alchemists would seize the time-engine to refine the Wyrd.' }
+   ],
+   classAffinities: ['chronarch'],
+   lore: 'Heir to Nesta, who hooked a volcanic-glass time-engine into her chest. Nesta is disappearing from history; if she ceases to exist, temporal friction redistributes to every living Chronarch.',
+   secrets: 'The Conclave has a partial recording of Nestas voice from before she vanished, and playing it rewinds whoever listens by several heartbeats.',
   quests: []
  },
  {
@@ -963,10 +978,13 @@ const SEEDED_FACTIONS = [
   members: [],
   headquarters: 'starfall-vale',
   territory: ['starfall-vale'],
-  relationships: [],
-  classAffinities: ['false_prophet'],
-  lore: 'Founded by Li Wei, who looked into the void where Sol once shone. The Voice now gives specific instructions, descending toward the Frozen Archives lowest vault something trapped since the Deepening may be using them to free itself.',
-  secrets: '',
+   relationships: [
+    { targetFactionId: 'cult-of-forgotten-shadow', type: 'allied', description: 'The Congregation receives the same silence the cult opened.' },
+    { targetFactionId: 'dawn-vigil', type: 'rival', description: 'The Vigil calls the False Prophet heresy and hunts the cell-network.' }
+   ],
+   classAffinities: ['false_prophet'],
+   lore: 'Founded by Li Wei, who looked into the Silence where Sol once shone. The Voice now gives specific instructions, descending toward the Frozen Archives lowest vault something trapped since the Deepening may be using them to free itself.',
+   secrets: 'Mor Vereth has received instructions to open the Frozen Archives lowest vault, where something trapped since the Deepening is waiting to be freed.',
   quests: []
  },
  {
@@ -982,10 +1000,13 @@ const SEEDED_FACTIONS = [
   members: [],
   headquarters: 'merrowport',
   territory: ['merrowport'],
-  relationships: [],
-  classAffinities: ['gambit'],
-  lore: 'Heir to Jax and Lyra. Jax walked into the sea; Lyra radicalized and her Deck-Burners seek to force the universe to choose. The House middleground is shrinking.',
-  secrets: '',
+   relationships: [
+    { targetFactionId: 'house-mereval', type: 'allied', description: 'The gambling-house runs inside Mereval sea-charter waters.' },
+    { targetFactionId: 'brine-bond-syndicate', type: 'rival', description: 'The Syndicate taxes the luck the House wagers against.' }
+   ],
+   classAffinities: ['gambit'],
+   lore: 'Heir to Jax and Lyra. Jax walked into the sea; Lyra radicalized and her Deck-Burners seek to force the universe to choose. The House middleground is shrinking.',
+   secrets: 'The House sits on a deck of marked cards: it knows which Merrowport voyages the Luck-Ledger has quietly doomed, and profits from the silence.',
   quests: []
  },
  {
@@ -1001,10 +1022,13 @@ const SEEDED_FACTIONS = [
   members: [],
   headquarters: 'frozen-archive',
   territory: ['frozen-archive'],
-  relationships: [],
-  classAffinities: ['harbinger'],
-  lore: 'Co-founded by Xyris (who tore reality) and Malakor (who calculated when the tears would consume everything). Each Chaos Pocket bleeds warmth from the buried star, accelerating the end the Choir predicted.',
-  secrets: '',
+   relationships: [
+    { targetFactionId: 'house-skalvyr', type: 'allied', description: 'The Choir computes the doom-arithmetic from the Frozen Archive under Skalvyr.' },
+    { targetFactionId: 'cult-of-forgotten-shadow', type: 'hostile', description: 'The cult would hasten the end the Choir only predicts.' }
+   ],
+   classAffinities: ['harbinger'],
+   lore: 'Co-founded by Xyris (who tore reality) and Malakor (who calculated when the tears would consume everything). Each Chaos Pocket bleeds warmth from the buried star, accelerating the end the Choir predicted.',
+   secrets: 'Malakor has computed a second date, later than the first, when the tears will not consume everything, and he has told no one.',
   quests: []
  },
  {
@@ -1020,10 +1044,13 @@ const SEEDED_FACTIONS = [
   members: [],
   headquarters: 'the-sunken-spire',
   territory: ['the-sunken-spire'],
-  relationships: [],
-  classAffinities: ['inquisitor'],
-  lore: 'Forged from Orvens cold-iron Vreken root and Elias face-baiting Thalren root. Only forty-seven Inquisitors remain and the new deep-grove entities fall outside their entire art.',
-  secrets: '',
+   relationships: [
+    { targetFactionId: 'scribe-sentinels', type: 'allied', description: 'The Inquisitors share the Sentinels ledger-keep of the groves.' },
+    { targetFactionId: 'cult-of-forgotten-shadow', type: 'hostile', description: 'The cult is the deep-grove corruption the Barbed Vow was sworn to cut.' }
+   ],
+   classAffinities: ['inquisitor'],
+   lore: 'Forged from Orvens cold-iron Vreken root and Elias face-baiting Thalren root. Only forty-seven Inquisitors remain and the new deep-grove entities fall outside their entire art.',
+   secrets: 'The Inquisitors have catalogued forty-seven face-stealing contracts in the deep groves, none of which their old art was built to sever.',
   quests: []
  },
  {
@@ -1039,10 +1066,13 @@ const SEEDED_FACTIONS = [
   members: [],
   headquarters: 'ironwood-heart',
   territory: ['ironwood-heart'],
-  relationships: [],
-  classAffinities: ['lunarch'],
-  lore: 'Founded by Selene of House Viridane, who bound the dead-moon parasite. The elder parasites are synchronizing every Lunarchs phases toward an unknown convergence the hatching-song of the dead moon.',
-  secrets: '',
+   relationships: [
+    { targetFactionId: 'unshorn-briaran', type: 'allied', description: 'The Communion tends the lunar parasite bound in the groves the Unshorn guard.' },
+    { targetFactionId: 'congregation-of-the-silence', type: 'rival', description: 'The False Prophets preach a silence the Lunarchs say is devouring the moon.' }
+   ],
+   classAffinities: ['lunarch'],
+   lore: 'Founded by Selene of House Viridane, who bound the dead-moon parasite. The elder parasites are synchronizing every Lunarchs phases toward an unknown convergence the hatching-song of the dead moon.',
+   secrets: 'The Communion has decoded part of the hatching-song and believes it names a Briaran Lunarch who must be sacrificed to complete the convergence.',
   quests: []
  },
  {
@@ -1058,10 +1088,13 @@ const SEEDED_FACTIONS = [
   members: [],
   headquarters: 'ironwood-heart',
   territory: ['ironwood-heart'],
-  relationships: [],
-  classAffinities: ['lunarch'],
-  lore: 'The shadow-custodians of House Viridanes refusal, tending the groves the Lunar Communion depends on, and the only living keepers of the Silent Sevenths true name.',
-  secrets: '',
+   relationships: [
+    { targetFactionId: 'unshorn-briaran', type: 'allied', description: 'The Groves are the Unshorn custodians of the same moonlit groves.' },
+    { targetFactionId: 'house-thalreth', type: 'hostile', description: 'Thalreth erases the groves memory from every ledger it controls.' }
+   ],
+   classAffinities: ['lunarch'],
+   lore: 'The shadow-custodians of House Viridanes refusal, tending the groves the Lunar Communion depends on, and the only living keepers of the Silent Sevenths true name.',
+   secrets: 'The Groves alone still hold the Silent Sevenths true name, spoken only when a Viridane descendant is initiated into the old law.',
   quests: []
  },
  {
@@ -1077,10 +1110,13 @@ const SEEDED_FACTIONS = [
   members: [],
   headquarters: 'emberspire-caldera',
   territory: ['emberspire-caldera'],
-  relationships: [],
-  classAffinities: ['martyr'],
-  lore: 'Founded by Sera Solvan, who carved her sacrificed childs name into her arm. Now the houses conscript Martyrs through child-training, and the Devotion Gauge is corrupting into something predatory.',
-  secrets: '',
+   relationships: [
+    { targetFactionId: 'dawn-vigil', type: 'allied', description: 'The Covenant is the Vigils martyr-heart beneath Emberspire.' },
+    { targetFactionId: 'the-sunderers', type: 'hostile', description: 'The Sunderer would extinguish the Solbrand the Scar-Martyr tends.' }
+   ],
+   classAffinities: ['martyr'],
+   lore: 'Founded by Sera Solvan, who carved her sacrificed childs name into her arm. Now the houses conscript Martyrs through child-training, and the Devotion Gauge is corrupting into something predatory.',
+   secrets: 'Sol-Kaessen suspects the Devotion Gauge can be inverted to drain others suffering into a single chosen Martyr, and the houses already conscript for it.',
   quests: []
  },
  {
@@ -1096,10 +1132,13 @@ const SEEDED_FACTIONS = [
   members: [],
   headquarters: 'merrowport',
   territory: ['merrowport'],
-  relationships: [],
-  classAffinities: ['minstrel'],
-  lore: 'Founded by Lyris the Tide-Singer, who calmed the gales at the cost of her spoken voice. The sea has fallen silent and the Deep-Born fled the abyss after hearing something sing back.',
-  secrets: '',
+   relationships: [
+    { targetFactionId: 'house-mereval', type: 'allied', description: 'The Choir sings under Mereval charter from Merrowport.' },
+    { targetFactionId: 'cult-of-forgotten-shadow', type: 'hostile', description: 'The cult stilled the sea the Minstrels once calmed.' }
+   ],
+   classAffinities: ['minstrel'],
+   lore: 'Founded by Lyris the Tide-Singer, who calmed the gales at the cost of her spoken voice. The sea has fallen silent and the Deep-Born fled the abyss after hearing something sing back.',
+   secrets: 'Mer-Lyrisa recovered a lute from the silent sea that, played correctly, would shatter the nearest Monolith, and she has not told the Vigil.',
   quests: []
  },
  {
@@ -1115,10 +1154,13 @@ const SEEDED_FACTIONS = [
   members: [],
   headquarters: 'the-sunken-spire',
   territory: ['the-sunken-spire'],
-  relationships: [],
-  classAffinities: ['plaguebringer'],
-  lore: 'Founded by Vespera, who injected Sunken Spire decay-moss into her own veins. Her eight-century foundational strain is dying and every Plaguebringer trained from her blood carries a failing inheritance.',
-  secrets: '',
+   relationships: [
+    { targetFactionId: 'twice-born', type: 'allied', description: 'The Cultivar and the Revenants share the bog-dead the plague feeds on.' },
+    { targetFactionId: 'house-morrath', type: 'rival', description: 'Morrath registry taxes the disease-hosts the Cultivar will not register.' }
+   ],
+   classAffinities: ['plaguebringer'],
+   lore: 'Founded by Vespera, who injected Sunken Spire decay-moss into her own veins. Her eight-century foundational strain is dying and every Plaguebringer trained from her blood carries a failing inheritance.',
+   secrets: 'Vesperas foundational strain is dying because the bog-rot has learned to fear something in the waking graves, and is abandoning its hosts.',
   quests: []
  },
  {
@@ -1134,10 +1176,13 @@ const SEEDED_FACTIONS = [
   members: [],
   headquarters: 'emberspire-caldera',
   territory: ['emberspire-caldera'],
-  relationships: [],
-  classAffinities: ['pyrofiend'],
-  lore: 'Born when a cabal of Solvarn occultists swallowed Scathrachs burning coals. Scathrach is now calling in all debts simultaneously; no Pyrofiend has ever survived contract collection.',
-  secrets: '',
+   relationships: [
+    { targetFactionId: 'house-solvan', type: 'allied', description: 'The Communion serves Solvan forge-cults beneath Emberspire.' },
+    { targetFactionId: 'the-risen', type: 'hostile', description: 'The Risen tend the Solbrand the Ashen Communion says is already claimed.' }
+   ],
+   classAffinities: ['pyrofiend'],
+   lore: 'Born when a cabal of Solvarn occultists swallowed Scathrachs burning coals. Scathrach is now calling in all debts simultaneously; no Pyrofiend has ever survived contract collection.',
+   secrets: 'Sol-Vareths has calculated the exact moment Scathrach will collect every debt, and has prepared the Communion to greet it rather than flee.',
   quests: []
  },
  {
@@ -1153,10 +1198,13 @@ const SEEDED_FACTIONS = [
   members: [],
   headquarters: 'the-sunken-spire',
   territory: ['the-sunken-spire'],
-  relationships: [],
-  classAffinities: ['revenant'],
-  lore: 'Forged from two Bryngloom roots. The bog-graves are waking on their own and the dead march toward the Sundered Monoliths; the call routes through the Root-Veil.',
-  secrets: '',
+   relationships: [
+    { targetFactionId: 'canopy-ledger', type: 'allied', description: 'The Revenants file their death-contracts through the Canopy-Ledger.' },
+    { targetFactionId: 'cult-of-forgotten-shadow', type: 'hostile', description: 'The cult wakes the graves the Revenants are sworn to settle.' }
+   ],
+   classAffinities: ['revenant'],
+   lore: 'Forged from two Bryngloom roots. The bog-graves are waking on their own and the dead march toward the Sundered Monoliths; the call routes through the Root-Veil.',
+   secrets: 'Kor-Vasseth found twelve Revenants drained of blood with no wounds, and believes whatever calls the dead is harvesting them, not marching them.',
   quests: []
  },
  {
@@ -1172,10 +1220,13 @@ const SEEDED_FACTIONS = [
   members: [],
   headquarters: 'frostmaw-holdfast',
   territory: ['frostmaw-holdfast'],
-  relationships: [],
-  classAffinities: ['shaper'],
-  lore: 'Founded by Veyra the Mimir chronicler, who merged Sylvanuss momentum dance with Torins body-sculpting art. Young Shapers attempt every transformation at once and burn through their crystalline skin in years.',
-  secrets: '',
+   relationships: [
+    { targetFactionId: 'vat-breakers-guild', type: 'allied', description: 'The Shapers train on Groven calcified stone at Frostmaw.' },
+    { targetFactionId: 'deep-alchemists', type: 'hostile', description: 'The Alchemists would claim the Shaping Forms as body-experiment.' }
+   ],
+   classAffinities: ['shaper'],
+   lore: 'Founded by Veyra the Mimir chronicler, who merged Sylvanuss momentum dance with Torins body-sculpting art. Young Shapers attempt every transformation at once and burn through their crystalline skin in years.',
+   secrets: 'Veyra has begun teaching the six forms without the kinetic half to bone-purists, rebuilding the old Formbender art the merger was meant to erase.',
   quests: []
  },
  {
@@ -1187,14 +1238,17 @@ const SEEDED_FACTIONS = [
   colors: { primary: '#555555', secondary: '#888888' },
   publicGoal: 'Dismantle or absorb the rising ambient magic before it bursts',
   publicDescription: 'The Spellguard order at the Emberspire forge-keeps, enforcing Damons method of magical defense.',
-  leader: { npcId: 'thrak-damos', title: 'Bulwark-Captain / Warden of the Void-Scars', description: 'The Spellguard order at the Emberspire forge-keeps, enforcing Damons method of magical defense.' },
+  leader: { npcId: 'thrak-damos', title: 'Bulwark-Captain / Warden of the Silence-Scars', description: 'The Spellguard order at the Emberspire forge-keeps, enforcing Damons method of magical defense.' },
   members: [],
   headquarters: 'emberspire-caldera',
   territory: ['emberspire-caldera'],
-  relationships: [],
-  classAffinities: ['spellguard'],
-  lore: 'Founded by Damon the Emberth smith, who blocked a solar flare with an alchemical tower shield. Ambient magic is rising and Spellguards Void Resonance fills faster than they can purge it.',
-  secrets: '',
+   relationships: [
+    { targetFactionId: 'dawn-vigil', type: 'allied', description: 'The Aegis shields the Vigils forge-keeps at Emberspire.' },
+    { targetFactionId: 'cult-of-forgotten-shadow', type: 'hostile', description: 'The cult silence would unmake the Spellguard wards.' }
+   ],
+   classAffinities: ['spellguard'],
+   lore: 'Founded by Damon the Emberth smith, who blocked a solar flare with an alchemical tower shield. Ambient magic is rising and Spellguards Silence Resonance fills faster than they can purge it.',
+   secrets: 'Thrak-Damos has found a Silence Scar that, if left to fill, would purge the Solbrand itself, and he has been quietly containing it against orders.',
   quests: []
  },
  {
@@ -1210,10 +1264,13 @@ const SEEDED_FACTIONS = [
   members: [],
   headquarters: 'the-shallows',
   territory: ['the-shallows'],
-  relationships: [],
-  classAffinities: ['toxicologist'],
-  lore: 'Founded by Varis the Thalren alchemist. The changing fog is spoiling the venoms relied on for generations, degrading in weeks instead of years.',
-  secrets: '',
+   relationships: [
+    { targetFactionId: 'house-thalreth', type: 'allied', description: 'The Distillery supplies Thalreth with fog-venom defense.' },
+    { targetFactionId: 'unshorn-briaran', type: 'hostile', description: 'The Briaran withhold the mask-resin the Distillery needs.' }
+   ],
+   classAffinities: ['toxicologist'],
+   lore: 'Founded by Varis the Thalren alchemist. The changing fog is spoiling the venoms relied on for generations, degrading in weeks instead of years.',
+   secrets: 'Varis has distilled a replacement venom from the mist itself, one that the fog cannot spoil, but it requires a drop of Mimir mask-resin to stabilize.',
   quests: []
  },
  {
@@ -1229,10 +1286,13 @@ const SEEDED_FACTIONS = [
   members: [],
   headquarters: 'frostmaw-holdfast',
   territory: ['frostmaw-holdfast'],
-  relationships: [],
-  classAffinities: ['warden'],
-  lore: 'Founded by Alaric the Law-Keeper, who drove an ore-chain through his forearm to hold a specimen for three days. The iron chains are turning brittle in the cold and the Fexric Drall propose chardalyn an alloy that causes madness.',
-  secrets: '',
+   relationships: [
+    { targetFactionId: 'vat-breakers-guild', type: 'allied', description: 'The Wardens tether what the Groven will not let walk free.' },
+    { targetFactionId: 'deep-alchemists', type: 'hostile', description: 'The Alchemists breed the abominations the Bound chain.' }
+   ],
+   classAffinities: ['warden'],
+   lore: 'Founded by Alaric the Law-Keeper, who drove an ore-chain through his forearm to hold a specimen for three days. The iron chains are turning brittle in the cold and the Fexric Drall propose chardalyn an alloy that causes madness.',
+   secrets: 'Alaric kept the specimen he chained for three days alive in the Chain-Hold, and it still answers when the iron is struck.',
   quests: []
  },
  {
@@ -1248,12 +1308,236 @@ const SEEDED_FACTIONS = [
   members: [],
   headquarters: 'ironwood-heart',
   territory: ['ironwood-heart'],
-  relationships: [],
-  classAffinities: ['apex'],
-  lore: 'Founded by Sylas, who stalked a conceptual Wyrd-entity for seven days. The mist is learning to hide, deliberately unresponsive, and something large has moved through the Reach for months without trace.',
-  secrets: '',
-  quests: []
- }
+    relationships: [
+    { targetFactionId: 'unshorn-briaran', type: 'allied', description: 'The Silent Hunt shares the groves with the Unshorn trackers.' },
+    { targetFactionId: 'mist-sentinels', type: 'hostile', description: 'The Sentinels patrol the Reach the Apex say is already hunted.' }
+   ],
+    classAffinities: ['apex'],
+   lore: 'Founded by Sylas, who stalked a conceptual Wyrd-entity for seven days. The mist is learning to hide, deliberately unresponsive, and something large has moved through the Reach for months without trace.',
+   secrets: 'Sylas tracked the thing moving through the Reach for months and concluded it wears the shape of a Scribe-Sentinel who has been dead for a century.',
+   quests: []
+  },
+  {
+   id: 'watcher-in-the-mist',
+   name: 'The Watcher in the Mist',
+   type: 'entity',
+   regionId: 'frostwood-reach',
+   icon: '/assets/icons/factions/watcher.png',
+   colors: { primary: '#2a3a4a', secondary: '#6b8fa0' },
+   publicGoal: 'Maintain the boundary between life and death, memory and oblivion',
+   publicDescription: 'The impartial cosmic boundary entity between life, death, memory, and oblivion. Known as the Keeper of the Last Threshold in the Bryngloom and the Root-Veil by the Vreken. Older than Keth-Amar\'s interest in this system.',
+   leader: null,
+   members: [],
+   headquarters: null,
+   territory: ['frostwood-reach', 'bryngloom-forest'],
+    relationships: [
+     { targetFactionId: 'house-viridane', type: 'secret_ally', description: 'Reached Viridane before Keth-Amar could claim them during the Breach. Offered sanctuary in the mist.' },
+     { targetFactionId: 'cult-of-forgotten-shadow', type: 'hostile', description: 'Keth-Amar\'s pressure (channeled through the Cult of Forgotten Shadow) is fracturing the Watcher. If the boundary collapses, death and memory cease to exist as categories.' }
+    ],
+   classAffinities: ['lunarch', 'augur', 'inquisitor', 'arcanoneer'],
+   lore: 'The Watcher is the world\'s conscience and memory. It does not serve the Warden. It is not answerable to Keth-Amar. It reached House Viridane at the last possible moment during the Breach, hid the false Monolith in a pocket of forgotten memory, and now cannot find it either — the erasure worked too well. It is fracturing under Keth-Amar\'s pressure, and if it breaks, the boundary between life and death collapses entirely.',
+    secrets: 'The Watcher did not outmaneuver Keth-Amar — it gambled at the last moment and does not know if it will hold. The false Monolith is lost inside the Watcher\'s own territory, a splinter it cannot extract without unmaking itself. The timeline fracture is the Watcher\'s fracture bleeding into reality.',
+    quests: []
+   },
+
+  {
+   id: 'scribe-cartel',
+   name: 'Scribe-Cartel',
+   type: 'guild',
+   regionId: 'frostwood-reach',
+   icon: '/assets/icons/factions/scribe-cartel.png',
+   colors: { primary: '#3a2d1a', secondary: '#d4af37' },
+   publicGoal: 'Monopolize the Soot-Resin Ink and Peat-Parchment that resist the fog\'s memory-erosion',
+   publicDescription: 'The Frostwood royal monopoly on fog-resistant ink and parchment, without which no record survives the memory-fog. The Cartel taxes every shipment leaving Greymark Keep and licenses who may write.',
+   leader: { npcId: 'caedren-thalreth', title: 'Cartel-Master of the Quill', description: 'The Scribe-Cartel\'s licensing authority is held by a Thalreth Master Scribe who controls the ink-wells of the Reach.' },
+   members: [],
+   headquarters: 'scribes-tower',
+   territory: ['scribes-tower', 'greymark-keep'],
+   relationships: [
+    { targetFactionId: 'scribe-sentinels', type: 'rival', description: 'The Sentinels copy records for free; the Cartel sells the ink that makes copying possible and resents their independence.' },
+    { targetFactionId: 'house-thalreth', type: 'allied', description: 'The Cartel is the enforcement-arm of Thalreth\'s Sovereign Ledger, taxing every written word in the Reach.' }
+   ],
+   classAffinities: ['toxicologist', 'augur'],
+   lore: 'Born the same year as the Fog Compact, the Scribe-Cartel arose to monopolize Soot-Resin Ink and Peat-Parchment, the only materials the memory-fog cannot eat. It turned literacy into a licensed privilege and made the Reach\'s archives dependent on its wells.',
+   secrets: 'The Cartel quietly dilutes its ink for outlying settlements, knowing the fog will erase their records faster, which keeps them petitioning Greymark for re-registration, and paying.',
+   quests: []
+  },
+  {
+   id: 'steam-line-cartel',
+   name: 'Steam-Line Cartel',
+   type: 'guild',
+   regionId: 'cragjaw-peaks',
+   icon: '/assets/icons/factions/steam-line-cartel.png',
+   colors: { primary: '#3a2a1a', secondary: '#c08040' },
+   publicGoal: 'Control the geothermal pipeline network that keeps the Cragjaw Peaks from freezing',
+   publicDescription: 'The Cragjaw geothermal guild that consolidated from the wreckage of the First Thermal War, taxing every vent and pipeline that carries warmth through the vertical labyrinth.',
+   leader: { npcId: 'tesshan-lord', title: 'Pipe-Lord of the Sump', description: 'The Steam-Line Cartel\'s flow-charters are countersigned by House Tesshan, who depend on its pipes for survival.' },
+   members: [],
+   headquarters: 'frostmaw-holdfast',
+   territory: ['frostmaw-holdfast', 'gearworks-gulch'],
+   relationships: [
+    { targetFactionId: 'vat-breakers-guild', type: 'rival', description: 'The Groven built the spans the pipes run across; the Cartel charges them transit tolls on their own stone.' },
+    { targetFactionId: 'house-tesshan', type: 'allied', description: 'The Tessen high council licenses the Cartel\'s pipeline monopoly in exchange for guaranteed warmth.' }
+   ],
+   classAffinities: ['chronarch', 'warden'],
+   lore: 'The Steam-Line Cartel emerged from the First Thermal War\'s wreckage, consolidating control of the surviving geothermal pipes. Where the vents fail, the Cartel throttles what remains, and the Cragjaw\'s population learns which settlements matter.',
+   secrets: 'The Cartel has been quietly rerouting heat away from Groven lower-sumps toward Tesshan keeps for a generation, and the famine it caused is blamed on Emberspire.',
+   quests: []
+  },
+  {
+   id: 'mist-sentinels',
+   name: 'Mist-Sentinels',
+   type: 'military',
+   regionId: 'frostwood-reach',
+   icon: '/assets/icons/factions/mist-sentinels.png',
+   colors: { primary: '#2d3a4a', secondary: '#6b8fa0' },
+   publicGoal: 'Patrol the Ironwood Palisade and police movement between the Ledgered and the Forgotten',
+   publicDescription: 'The Frostwood memory-wardens, a border guard raised during the Memory Wars to hold the Ironwood Palisade against Forgotten fugitives and Briaran raids.',
+   leader: { npcId: 'caedren-thalreth', title: 'Warden-Captain of the Palisade', description: 'The Mist-Sentinels report to the Scribe-Cartel\'s licensing authority, who fund their patrols.' },
+   members: [],
+   headquarters: 'the-shallows',
+   territory: ['the-shallows', 'ironwood-heart', 'greythorn-copse'],
+   relationships: [
+    { targetFactionId: 'unshorn-briaran', type: 'hostile', description: 'The Briaran raid the palisade checkpoints and shelter Forgotten fugitives the Sentinels are sworn to return.' },
+    { targetFactionId: 'house-thalreth', type: 'allied', description: 'The Sentinels are the armed fist of Thalreth\'s Sovereign Ledger along the timber border.' }
+   ],
+   classAffinities: ['inquisitor', 'apex'],
+   lore: 'Raised during the Memory Wars when the Scribe-Cartel\'s ink-monopoly turned literacy into a privilege, the Mist-Sentinels police the Ironwood Palisade. They are memory-wardens first and border-guards second, and they answer to Greymark.',
+   secrets: 'A cadre of Sentinels has been quietly selling passage permits to the Forgotten they are sworn to catch, pocketing the fees in unrecorded coin.',
+   quests: []
+  },
+  {
+   id: 'brine-bond-syndicate',
+   name: 'Brine-Bond Syndicate',
+   type: 'merchant',
+   regionId: 'iceheart-sea',
+   icon: '/assets/icons/factions/brine-bond-syndicate.png',
+   colors: { primary: '#1a3a4e', secondary: '#5a9aae' },
+   publicGoal: 'Control Merrowport docking rights and tax the storm-luck of every Merryn sailor',
+   publicDescription: 'The Iceheart sea-cartel formalized at Merrowport to quantify and tax storm-luck through the Luck-Ledger, gatekeeping who may sail the storm-lanes.',
+   leader: { npcId: 'mereval-admiral', title: 'Bond-Holder of the Luck-Ledger', description: 'The Syndicate\'s charters are issued under House Mereval\'s Sea-Charter, and the Grand Admiral holds the master ledger.' },
+   members: [],
+   headquarters: 'merrowport',
+   territory: ['merrowport', 'brinehorse-cove', 'spindrift-lagoon'],
+   relationships: [
+    { targetFactionId: 'house-mereval', type: 'rival', description: 'The Syndicate was meant to serve Mereval\'s Board of Trade but now rivals it for control of the sea-lanes.' },
+    { targetFactionId: 'merrowport-house', type: 'neutral', description: 'The Merrowport gambling-house operates inside Syndicate waters and pays its luck-tolls without complaint.' }
+   ],
+   classAffinities: ['gambit', 'minstrel'],
+   lore: 'Formalized at Merrowport as the Iceheart Monolith\'s influence worsened the storms, the Brine-Bond Syndicate turned storm-luck into an inheritable, tradeable commodity. Whoever holds the Luck-Ledger holds the sea.',
+   secrets: 'The Syndicate has been quietly selling doomed voyages to debtors it wants gone, marking their luck before they sail and collecting the insurance either way.',
+   quests: []
+  },
+  {
+   id: 'drun-outcasts',
+   name: 'The Drun Outcasts',
+   type: 'tribe',
+   regionId: 'bryngloom-forest',
+   icon: '/assets/icons/factions/drun-outcasts.png',
+   colors: { primary: '#3a3a3a', secondary: '#7a7a7a' },
+   publicGoal: 'Survive outside the First Contract and the Great Registry',
+   publicDescription: 'Neth who severed their names from the First Contract, legally nonexistent, magic-immune, and invisible to the Keeper\'s enforcement. They dwell in the Over-Shanty and the deep bog.',
+   leader: { npcId: 'saren-vel', title: 'The Nameless Flame', description: 'The Drun have no single leader; the closest is the memory of Saren-Vel, who burned her name first.' },
+   members: [],
+   headquarters: 'over-shanty',
+   territory: ['over-shanty', 'black-fen', 'vel-keth-bayou'],
+   relationships: [
+    { targetFactionId: 'scribe-sentinels', type: 'hostile', description: 'The Sentinels hunt Drun as walking gaps in the ledger; the Drun answer with forged voids no quill can fill.' },
+    { targetFactionId: 'house-morrath', type: 'allied', description: 'Morrath descendants hide among the Drun; the two share the condition of being unwritten by the seventh seat.' }
+   ],
+   classAffinities: ['plaguebringer', 'revenant'],
+   lore: 'Born when Saren-Vel burned her name from the First Contract, the Drun are Neth who chose legal nonexistence over the Keeper\'s tightening cage. They cannot lie because they no longer sign, and they cannot be bound because they no longer exist.',
+   secrets: 'A Drun woman among them is a living Morrath heir who burned her name two centuries ago and does not know her bloodline, the same one the Velun have hunted for eighty years.',
+   quests: []
+  },
+  {
+   id: 'cult-of-forgotten-shadow',
+   name: 'Cult of Forgotten Shadow',
+   type: 'cult',
+   regionId: 'bryngloom-forest',
+   icon: '/assets/icons/factions/cult-of-forgotten-shadow.png',
+   colors: { primary: '#1a1a2e', secondary: '#4a2d6b' },
+   publicGoal: 'Make two-way contact with the deep dark and hasten Keth-Amar\'s intrusion',
+   publicDescription: 'The organized merger of the Over-Shanty bog-cult and disillusioned Dawn Vigil defectors who learned that Monolith reassembly summons Keth-Amar, not Sol. They serve as a channel for the Sun-Eater\'s whispers through the cracks.',
+   leader: { npcId: 'mor-vereth', title: 'Weaver of the Forgotten', description: 'The Congregation\'s Mor Vereth and the cult\'s bog-priests share the same silence; the cult speaks through both.' },
+   members: [],
+   headquarters: 'the-sunken-spire',
+   territory: ['the-sunken-spire', 'over-shanty', 'atropolis'],
+   relationships: [
+    { targetFactionId: 'dawn-vigil', type: 'rival', description: 'The Vigil hunts the cult as apostate; the cult believes the Vigil\'s secret knowledge proves them right.' },
+    { targetFactionId: 'watcher-in-the-mist', type: 'hostile', description: 'The cult\'s contact strains the Watcher\'s boundary; if the Watcher fractures, the silence they speak into becomes absolute.' }
+   ],
+   classAffinities: ['falseProphet', 'revenant'],
+   lore: 'The Cult of Forgotten Shadow is the organized union of the Over-Shanty bog-cult and Dawn Vigil defectors who learned the truth: reassembling the Monoliths summons Keth-Amar, not Sol. It acts as a channel for the Sun-Eater\'s direct whispers through the cracks, for there is no independent Voice.',
+   secrets: 'The cult has made the first intentional two-way contact with Keth-Amar since the Breach, and something answered that now knows the cultists\' names.',
+   quests: []
+  },
+  {
+   id: 'the-risen',
+   name: 'The Risen',
+   type: 'religious_order',
+   regionId: 'sundale',
+   icon: '/assets/icons/factions/the-risen.png',
+   colors: { primary: '#d4a030', secondary: '#1a1a2e' },
+   publicGoal: 'Tend the Solbrand and keep the faith that Sol will return',
+   publicDescription: 'The old Emberth faithful of Sundale who hold the Harath-Vault and tend the Solbrand, believing Sol will rise when the seal is whole again, not when the Vigil forces it.',
+   leader: { npcId: 'sol-kaessen', title: 'Vigil-Mother of the Risen', description: 'The Risen gather around the Covenant of the Scar\'s Sol-Kaessen, who still calls the Solbrand Sol\'s warmth.' },
+   members: [],
+   headquarters: 'harath-vault',
+   territory: ['harath-vault', 'emberspire-caldera'],
+   relationships: [
+    { targetFactionId: 'house-solvan', type: 'allied', description: 'The Risen are the living heart of Solvan faith; the house protects the vault they tend.' },
+    { targetFactionId: 'the-sunderers', type: 'rival', description: 'The Sunderer call the Solbrand Keth-Amar\'s feeding-line and would put it out; the Risen call them heretics and mean it.' }
+   ],
+   classAffinities: ['martyr', 'pyrofiend'],
+   lore: 'The Risen hold to the original Emberth theology: keep the Solbrand at any cost, hide the Monolith shards, and Sol will rise the day the seal is whole. They are the largest of the three Solbrand factions and the slowest to raise a hand against a brother.',
+   secrets: 'The Risen\'s Korr tenders have measured the Solbrand\'s failure for decades and concealed it, just as the Vigil once did, because the faith cannot survive the truth.',
+   quests: []
+  },
+  {
+   id: 'the-sunderers',
+   name: 'The Sunderer',
+   type: 'cult',
+   regionId: 'sundale',
+   icon: '/assets/icons/factions/the-sunderers.png',
+   colors: { primary: '#a12323', secondary: '#1a1a1a' },
+   publicGoal: 'Tear out the Solbrand and starve Keth-Amar rather than feed the dying star',
+   publicDescription: 'The heretical schism within the Scoured who believe the Solbrand is Keth-Amar\'s tether, draining Sol\'s last warmth one swallow at a time. Their answer is to put the flame out and let Sol go.',
+   leader: { npcId: 'sol-vareths', title: 'Last-Ember of the Sunderer', description: 'The Ashen Communion\'s Sol-Vareths preaches the Sunderer gospel among the younger Thrask and Vigil defectors.' },
+   members: [],
+   headquarters: 'emberspire-caldera',
+   territory: ['emberspire-caldera', 'basalt-shyr'],
+   relationships: [
+    { targetFactionId: 'the-risen', type: 'hostile', description: 'The Risen tend what the Sunderer call a mouth; the two fight over every ember of the failing flame.' },
+    { targetFactionId: 'dawn-vigil', type: 'rival', description: 'The Vigil has named the Sunderer anathema for preaching that the Solbrand must be extinguished.' }
+   ],
+   classAffinities: ['pyrofiend', 'martyr'],
+   lore: 'The Sunderer began as a radical wing of the Scoured who read the Solbrand not as Sol\'s warmth but as Keth-Amar\'s tether, the line through which the Sun-Eater drinks the dying star. They gather among younger Thrask, Vigil defectors, and Ash-Dweller conscripts who have never felt Sol\'s warmth.',
+   secrets: 'The Sunderer have identified the precise vent where the Solbrand connects to the partial seal, and a cell is already preparing to collapse it.',
+   quests: []
+  },
+  {
+   id: 'neth',
+   name: 'The Neth',
+   type: 'noble_house',
+   regionId: 'bryngloom-forest',
+   icon: '/assets/icons/factions/neth.png',
+   colors: { primary: '#3a2a4a', secondary: '#9a8fb0' },
+   publicGoal: 'Keep the First Contract and govern the Bryngloom through the Great Registry',
+   publicDescription: 'The Silver-Touched Pact-Lords, a scribe-clan who bargained with the Keeper of the Last Threshold and rose from the bog with silver skin. They divide into the Velun pact-lords, the Kessen weavers, and the Drun outcasts.',
+   leader: { npcId: 'morrath-steward', title: 'Regent of the Neth', description: 'The Neth are administered from Atropolis, where the Morrath regent signs in the Neth\'s name under the First Contract.' },
+   members: [],
+   headquarters: 'atropolis',
+   territory: ['atropolis', 'vel-keth-bayou', 'aran-glen', 'black-fen'],
+   relationships: [
+    { targetFactionId: 'house-morrath', type: 'allied', description: 'The Neth administer Morrath\'s authority through the Great Registry; the seventh seat exists only because the Neth say it does.' },
+    { targetFactionId: 'scribe-cartel', type: 'rival', description: 'The Neth cannot lie and write everything down, while the Scribe-Cartel sells the ink that decides what gets written at all.' }
+   ],
+   classAffinities: ['arcanoneer', 'revenant'],
+   lore: 'The Neth were a dying scribe-clan of the Bryngloom who bargained with the Keeper of the Last Threshold, trading death\'s finality for silver-skinned survival and an absolute prohibition on falsehood. They rose from the bog as the Silver-Touched Pact-Lords and now govern Atropolis under the First Contract.',
+   secrets: 'The Neth blood-crystallizes into volatile shards when a lie is attempted, but a hidden circle has learned to write truths so narrow they deceive without breaking the prohibition, and they rule from it.',
+   quests: []
+  }
 ];
 
 

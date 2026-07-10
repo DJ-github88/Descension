@@ -171,12 +171,12 @@ export const SKIN_ITEMS = [
     gatheringMethod: 'skinning'
   },
   {
-    id: 'void-hide',
-    name: 'Void Hide',
+    id: 'silence-hide',
+        name: 'Silence Hide',
     type: 'miscellaneous',
     subtype: 'CRAFTING',
     quality: 'epic',
-    description: 'Hide from a creature of the void. Absorbs light and has shadow properties.',
+    description: 'Hide from a creature of the Silence. Absorbs light and has shadow properties.',
     iconId: 'Misc/Profession Resources/Tailoring/resource-rolled-brown-leather-fabric',
     value: { gold: 3, silver: 0, copper: 0 },
     stackable: true,

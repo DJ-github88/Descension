@@ -249,9 +249,9 @@ const LanguagesDisplay = () => {
               )}
               {selectedLanguage.name === 'Abyssal' && (
                 <>
-                  <li><i className="fas fa-check"></i> Keth-Amar's void-spawn and demonic entities</li>
+                  <li><i className="fas fa-check"></i> Keth-Amar's silence-spawn and demonic entities</li>
                   <li><i className="fas fa-check"></i> Cultists who serve Scathrach the Ashen Sovereign</li>
-                  <li><i className="fas fa-check"></i> Corrupted creatures from the abyssal void</li>
+                  <li><i className="fas fa-check"></i> Corrupted creatures from the abyssal silence</li>
                   <li><i className="fas fa-check"></i> Exorcists and dark channelers who bind what they study</li>
                 </>
               )}

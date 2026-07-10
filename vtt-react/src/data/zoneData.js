@@ -2182,7 +2182,7 @@ export const ZONE_DATA = [
  "regionId": "cragjaw-peaks",
  "name": "Lost Brood Vats",
  "type": "ruin",
- "description": "The abandoned chambers of the Deep Alchemists, sealed after the Lost Brood rebellion three centuries ago. The vats are deep below Gearworks Gulch, accessible only through a Fexric service-shaft that was supposed to have been collapsed. Something survived the sealing. The Fexrick refuse to speak of what.",
+ "description": "The abandoned chambers of the Deep Alchemists, sealed after the Lost Brood rebellion in the early generations of the Dimming. The vats are deep below Gearworks Gulch, accessible only through a Fexric service-shaft that was supposed to have been collapsed. Something survived the sealing. The Fexrick refuse to speak of what.",
  "dangerLevel": "extreme",
  "factions": [],
  "connections": [

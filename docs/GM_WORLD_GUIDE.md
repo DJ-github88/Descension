@@ -33,9 +33,9 @@ Before there were noble houses, before there were dark bargains, before there wa
 
 When the sun-god **Sol** entered its own Deepening, the star-watchers of the seven noble families understood what followed: the trance would attract predators. And an ancient predator was waiting.
 
-**Keth-Amar** — the Sun-Eater, the First Hunger, a creature of the abyssal void older than the distinction between predator and prey — descended upon the vulnerable star. The families knew they could not fight a star-eater, but they might cage the star before it could be taken. The Warden, the universe's impartial mechanism of cosmic consequence, named the price of that cage: **Aex**.
+**Keth-Amar** — the Sun-Eater, a creature of the abyssal void older than the distinction between predator and prey — descended upon the vulnerable star. The families knew they could not fight a star-eater, but they might cage the star before it could be taken. The Warden, the universe's impartial mechanism of cosmic consequence, set the exchange rate for caging a star: **Aex**.
 
-**Aex was Sol's firstborn**, a living entity of pure stellar radiance that had guarded Sol through every Deepening since the first star learned to burn. It was the sun's child in the oldest sense — sentient light given will and voice. The Warden demanded Aex's living hide to weave the binding seal, because only a being woven from Sol's own substance could pass through the star's outer radiance and grip it at the core. House Solvan wielded a shard of crystallized starlight, the only edge that could cut a being of pure radiance. They flayed Aex's living hide in a single unbroken sheet, and the firstborn did not scream — it sang. It sang Sol's own frequency as its stellar plasma bled onto the ritual ground. The blade shattered the moment the seal was complete, its fragments divided among the houses as relics and as warnings of what the Warden charges for a star.
+**Aex was Sol's firstborn**, a living entity of pure stellar radiance that had guarded Sol through every Deepening since the first star learned to burn. It was the sun's child in the oldest sense — sentient light given will and voice. Only a being woven from Sol's own substance could pass through the star's outer radiance and grip it at the core. House Solvan wielded a shard of crystallized starlight, the only edge that could cut a being of pure radiance. They flayed Aex's living hide in a single unbroken sheet, and the firstborn did not scream — it sang. It sang Sol's own frequency as its stellar plasma bled onto the ritual ground. The blade shattered the moment the seal was complete, its fragments divided among the houses as relics and as warnings of what the price is for caging a star.
 
 The **seven noble families** — Thalreth, Skalvyr, Tesshan, Solvan, Mereval, Ordavan, and Viridane — pooled their bloodlines and bound Sol beneath the crust of Sundale. The binding was absolute: a vault with no key. The firstborn of Sol was now stretched across that vault, woven into the seal, and Aex's tissue would become the living surface of the seal — a membrane between the world and its star.
 
@@ -154,7 +154,7 @@ South of the Archive, **Skadi's Col** serves as a treacherous mountain pass wind
 
 **The Seat of Power: The Frozen Archive**
 
-Carved into the sheer face of a titanic, mile-high glacier in the Valley of Rime sits **The Frozen Archive**, the ancient, flash-frozen capital of a long-dead ten-thousand-year-old civilization. Reclaimed by the Rime-Born Rune Keepers three centuries ago, the Archive is not a traditional city of trade, but a massive library-fortress of prehistoric clockwork and runic machinery. 
+Carved into the sheer face of a titanic, mile-high glacier in the Valley of Rime sits **The Frozen Archive**, the ancient, glacier-carved fortress-city of the Skald people. Founded just after the Binding, the Archive is not a traditional city of trade, but a massive library-fortress of clockwork and runic machinery built into the living ice. 
 
 Lately, the Archive has become a place of cultural eradication. In cooperation with southern arcanists, Járn-Tand has established the **Runic Academies** within its brass-domed halls. Children displaying magical spark are taken by force from their tundra clans and brought here; their native, animistic folklore-magic is systematically suppressed in favor of "structured, controlled runic calculations" to fuel the Archive's heating grids.
 
@@ -217,7 +217,7 @@ At the Vault's absolute center is **The Great Forge**, where oversized obsidian 
 
 The population is split into two sharp castes. The **Deep-Born** are wealthy Solvarn nobles and Korr priests who live in climate-controlled luxury in the Vault’s inner rings, sheltered from the ash. The **Ash-Dwellers** are Thrask miners and impoverished Solvarn refugees who live in toxic surface shanties, suffering from "Ashen Throat" lung-rot.
 
-The **Emberth** themselves are split by this divide. The **Korr** of the Deep-Vault are the priestly elite with charcoal skin and elongated lungs. The **Thrask** of the surface badlands are the bronze-skinned rangers and miners who live in the frontier calderas, highly skeptical of the Korr's wait-and-see policy. The **Scoured** — heretical Emberth who have ritually defaced their forge-marks — scour the wastes for Sundered Monoliths, believing that only by sealing the breach can Sol be reborn.
+The **Emberth** themselves are split by this divide. The **Korr** of the Deep-Vault are the priestly elite with charcoal skin and elongated lungs. The **Thrask** of the surface badlands are the bronze-skinned rangers and miners who live in the frontier calderas, highly skeptical of the Korr's wait-and-see policy. The **Scoured** — heretical Emberth who have ritually defaced their forge-marks — scour the wastes for Sundered Monoliths, believing that sealing the breach will let Sol die in peace rather than be eaten.
 
 **Localized Threats, Persecution & The Wyrd**
 
@@ -407,7 +407,7 @@ Taverns in the Mound-Camps are large yurt structures that smell of mutton fat an
 
 **The Regional Landscape & Current Vibe**
 
-The Bryngloom Forest is a continent of contradictions: semi-frozen sinking bogs give way to ancient bioluminescent woods, sacred fungal-lit groves, and cathedral-canopies of living ironwood coaxed into shape over a thousand years. The forest does not simply grow here, it is governed. An entity called the **Keeper of the Last Threshold** (the same being the Vreken call the Root-Veil) decides what the Gloom preserves and what the Gloom consumes. This is not myth. This is legal precedent. 
+The Bryngloom Forest is a continent of contradictions: semi-frozen sinking bogs give way to ancient bioluminescent woods, sacred fungal-lit groves, and cathedral-canopies of living ironwood coaxed into shape over a thousand years. The forest does not simply grow here, it is governed. An entity called the **Keeper of the Last Threshold** (distinct from the Root-Veil the Vreken commune with) decides what the Gloom preserves and what the Gloom consumes. This is not myth. This is legal precedent. 
 
 To govern this twilight swamp, **Regent Morrath Neth ("The Scribe-King")** enforces the **First Contract**. By decree of the Contract, all citizens (humans, Neth, and Vreken) are born into a default state of debt to the Regency. All land titles, debts, and lifespans are recorded in the **Great Registry** of Atropolis. Those who attempt to live outside the Registry are branded "Uncontracted Outlaws."
 
@@ -501,7 +501,7 @@ The Emberth are a bulky, powerful people of Sundale — broad-shouldered and del
 
 The Emberth are divided into two bloodlines based on where their ancestors sheltered during the underground exile: the **Korr** of the Deep-Vault, who chose to tend the Solbrand and wait for Sol's return — still, fragile, spiritually attuned; and the **Thrask** of the High-Vault, who chose to range the frozen surface border and keep the other clans fed — swift, cold-hardened, pragmatic.
 
-The crisis of the Dimming has produced three ideological factions: the **Risen** (hold to the old faith — patience will be rewarded), the **Sunderer** (heretics who believe the Solbrand is Keth-Amar's tether, not Sol's gift), and the **Scoured** (who have defaced their forge-marks and scour the world for Sundered Monoliths, believing that sealing the breach may allow Sol to be reborn). The tending-clan has concealed the dimming for three generations. The other clans are beginning to splinter.
+The crisis of the Dimming has produced three ideological factions: the **Risen** (hold to the old faith — patience will be rewarded), the **Sunderer** (heretics who believe the Solbrand is Keth-Amar's tether, not Sol's gift), and the **Scoured** (who have defaced their forge-marks and scour the world for Sundered Monoliths, believing that sealing the breach will let Sol die in peace rather than be eaten). The tending-clan has concealed the dimming for three generations. The other clans are beginning to splinter.
 
 **Proximal Relations**
 

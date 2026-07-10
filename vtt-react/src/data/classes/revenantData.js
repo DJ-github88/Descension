@@ -237,9 +237,9 @@ The class is heavily practiced by the <LoreLink termId="vreken">Clean Vreken</Lo
 
     currentCrisis: `The bog-graves are waking up on their own. For centuries, the peat-bogs of the Bryngloom have held the dead in perfect preservation. Now the dead are calling themselves, twelve Revenants found dead in their ritual chambers, bodies drained of blood but showing no wounds, the bog-graves empty.
 
-Simultaneously, the Cult of Forgotten Shadow has discovered a way to amplify the frost stasis ritual using Void energy. Unlike traditional peat-preservation, Void-stasis requires no life force harvesting, the Void sustains the body directly. Half of the remaining Revenants have accepted this "clean immortality." The other half suspect the Void is not sustaining them but slowly consuming them, replacing their souls with something else.
+Simultaneously, the Cult of Forgotten Shadow has discovered a way to amplify the frost stasis ritual using Silence energy. Unlike traditional peat-preservation, Silence-stasis requires no life force harvesting, the Silence sustains the body directly. Half of the remaining Revenants have accepted this "clean immortality." The other half suspect the Silence is not sustaining them but slowly consuming them, replacing their souls with something else.
 
-The peat-bogs are reacting. In areas where Void-stasis Revenants have congregated, the preserving peat has turned black and acidic. The Root-Veil is withdrawing its blessing. The dead are no longer waiting for permission. They are marching toward the Sundered Monoliths, and the Revenants have lost control of their ancestral covenant.`,
+The peat-bogs are reacting. In areas where Silence-stasis Revenants have congregated, the preserving peat has turned black and acidic. The Root-Veil is withdrawing its blessing. The dead are no longer waiting for permission. They are marching toward the Sundered Monoliths, and the Revenants have lost control of their ancestral covenant.`,
 
     meaningfulTradeoffs: `To hear the dead is to lose the living. Revenants exist in a state of constant sensory overload, the voices of ancestors overlay every conversation. They feel the cold always, cannot taste food, and their relationships fail because partners realize they are competing with a chorus of dead ancestors for attention. The frost stasis that halts their decay also strips them of warmth, emotion, and physical sensation. They experience the world through frosted glass. Many survive only through an intellectual commitment to goals set centuries ago, the emotional resonance long since faded into ash.`,
 
@@ -256,13 +256,13 @@ The peat-bogs are reacting. In areas where Void-stasis Revenants have congregate
         locationId: 'peat-bog-sinks',
         description: 'The deep, preserving bogs where Revenants perform the Rite of the Cold Hearth. Acidic peat preserves organic matter, those who enter and perform the ritual emerge with their decay halted.',
         purpose: 'Initiation site and final resting place',
-        status: 'Active, sections turning black and acidic due to Void contamination',
+        status: 'Active, sections turning black and acidic due to Silence contamination',
       },
       {
         name: 'The Sunken Confessionals',
         locationId: 'over-shanty',
-        description: 'Where the Cult of Forgotten Shadow offers Void-stasis to Revenants willing to abandon the old ways.',
-        purpose: 'Void-stasis initiation',
+        description: 'Where the Cult of Forgotten Shadow offers Silence-stasis to Revenants willing to abandon the old ways.',
+        purpose: 'Silence-stasis initiation',
         status: 'Active, increasingly popular',
       },
     ],
@@ -518,7 +518,7 @@ The Revenant can switch between two casting modes:
           "7",
         ],
         [
-          "Deep Void",
+          "Deep Silence",
           "1/long rest: Negate any spell targeting you",
           "2d6 wyrd damage when used",
           "10",
@@ -654,7 +654,7 @@ The Revenant can switch between two casting modes:
         color: "#2D1B69",
         theme: "Enhanced Resurrection + Psychic/Frost Control",
 
-        description: `Phylactery Anchors are the most durable Revenants, their phylacteries expanded and reinforced through obsessive ritual. Their Death Trigger freeze radius is the largest of all specs, and their phylactery can store up to 75 HP, enough to resurrect multiple times in extended fights. The Spectral Command and Deep Void marks are their preferred scars, granting spectral army durability and spell negation. They play the long game: absorb damage, kill to charge, die strategically for the freeze, resurrect, and repeat. They are the tankiest Revenant, and the one most likely to outlast an enemy through sheer, stubborn refusal to stay dead.`,
+        description: `Phylactery Anchors are the most durable Revenants, their phylacteries expanded and reinforced through obsessive ritual. Their Death Trigger freeze radius is the largest of all specs, and their phylactery can store up to 75 HP, enough to resurrect multiple times in extended fights. The Spectral Command and Deep Silence marks are their preferred scars, granting spectral army durability and spell negation. They play the long game: absorb damage, kill to charge, die strategically for the freeze, resurrect, and repeat. They are the tankiest Revenant, and the one most likely to outlast an enemy through sheer, stubborn refusal to stay dead.`,
 
         playstyle: "Tankiest Revenant with enhanced phylactery, psychic/frost hybrid control, strategic death management",
 
@@ -1011,7 +1011,7 @@ The Revenant can switch between two casting modes:
 
     { id: "rv_soul_rend",
       name: "Soul Rend",
-      description: "You reach across the void and close your grip around their lifeblood. Something screams. You pull.",
+      description: "You reach across the Silence and close your grip around their lifeblood. Something screams. You pull.",
       level: 3,
       spellType: "ACTION",
       icon: "Necrotic/Ebon Death",

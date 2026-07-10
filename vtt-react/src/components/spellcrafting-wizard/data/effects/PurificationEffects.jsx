@@ -78,7 +78,7 @@ const MAGICAL_EFFECT_TYPES = [
   { id: 'wyrd', name: 'wyrd', icon: 'Psychic/Mind Roar', description: 'Remove psychic effects' },
   { id: 'ember', name: 'ember', icon: 'Radiant/Radiant Bolt', description: 'Remove radiant effects' },
   { id: 'storm', name: 'storm', icon: 'Lightning/Thunder', description: 'Remove thunder effects' },
-  { id: 'blight', name: 'blight', icon: 'Void/Black Hole', description: 'Remove void effects' }
+  { id: 'blight', name: 'blight', icon: 'Void/Black Hole', description: 'Remove silence effects' }
 ];
 
 // Resurrection configuration
@@ -115,7 +115,7 @@ const PURIFICATION_EFFECT_DESCRIPTIONS = {
     psychic: "Remove psychic effects from a target",
     radiant: "Remove radiant effects from a target",
     thunder: "Remove thunder effects from a target",
-    void: "Remove void effects from a target"
+    void: "Remove silence effects from a target"
   },
   resurrection: "Bring dead targets back to life"
 };

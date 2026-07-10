@@ -202,7 +202,7 @@ export const SHAPER_PRIMAL_SHADOW = [
   {
     id: 'primal_shadow_t0_shadow_essence',
     name: 'Shadow Essence',
-    description: 'Void Predator allows stealth even in combat. Stealth attacks generate +1 extra Flux. Void Predator transitions cost 1 less Flux.',
+    description: 'Silence Predator allows stealth even in combat. Stealth attacks generate +1 extra Flux. Silence Predator transitions cost 1 less Flux.',
     icon: 'ability_stealth',
     maxRanks: 5,
     position: { x: 2, y: 0 },
@@ -229,7 +229,7 @@ export const SHAPER_PRIMAL_SHADOW = [
   {
     id: 'primal_shadow_t2_phantom_step',
     name: 'Phantom Step',
-    description: 'Void Predator allows teleporting through walls and solid objects (not occupied spaces). Teleport while prone or restrained.',
+    description: 'Silence Predator allows teleporting through walls and solid objects (not occupied spaces). Teleport while prone or restrained.',
     icon: 'spell_shadow_shadowstep',
     maxRanks: 3,
     position: { x: 2, y: 2 },
@@ -247,7 +247,7 @@ export const SHAPER_PRIMAL_SHADOW = [
   {
     id: 'primal_shadow_t2_shadow_weaving',
     name: 'Shadow Weaving',
-    description: 'Transition to Void Predator from ANY form for 3 Flux. While in Void Predator, use abilities from other forms.',
+    description: 'Transition to Silence Predator from ANY form for 3 Flux. While in Silence Predator, use abilities from other forms.',
     icon: 'spell_shadow_blackplague',
     maxRanks: 2,
     position: { x: 1, y: 2 },
@@ -256,7 +256,7 @@ export const SHAPER_PRIMAL_SHADOW = [
   {
     id: 'primal_shadow_t3_darkness_within',
     name: 'Darkness Within',
-    description: 'Groven ancestor-bridges calcify into something stronger. while in Void Predator, immune to divination magic. Enemies cannot detect through tremorsense or blindsight.',
+    description: 'Groven ancestor-bridges calcify into something stronger. while in Silence Predator, immune to divination magic. Enemies cannot detect through tremorsense or blindsight.',
     icon: 'spell_shadow_shadowform',
     maxRanks: 2,
     position: { x: 1, y: 3 },
@@ -265,7 +265,7 @@ export const SHAPER_PRIMAL_SHADOW = [
   {
     id: 'primal_shadow_t3_eternal_darkness',
     name: 'Eternal Darkness',
-    description: 'Void Predator creates 15ft magical darkness zone. You see through it; enemies are blinded.',
+    description: 'Silence Predator creates 15ft magical darkness zone. You see through it; enemies are blinded.',
     icon: 'spell_shadow_darkritual',
     maxRanks: 3,
     position: { x: 3, y: 3 },
@@ -283,7 +283,7 @@ export const SHAPER_PRIMAL_SHADOW = [
   {
     id: 'primal_shadow_t5_dance_of_shadows',
     name: 'Dance of Shadows',
-    description: 'Once per turn when transitioning to Void Predator, teleport to second location within 30ft as part of transition.',
+    description: 'Once per turn when transitioning to Silence Predator, teleport to second location within 30ft as part of transition.',
     icon: 'spell_shadow_gathershadows',
     maxRanks: 1,
     position: { x: 2, y: 4 },

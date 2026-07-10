@@ -330,7 +330,7 @@ const IconSelector = ({ onSelect, onClose, currentIcon }) => {
       { id: 'Chaos/Meteor', iconPath: 'Chaos/Meteor', category: 'chaos' },
       { id: 'Chaos/Tendrils Chaos', iconPath: 'Chaos/Tendrils Chaos', category: 'chaos' },
       
-      // Void icons
+      // Silence icons
       { id: 'Void/Void Portal Mage', iconPath: 'Void Portal Mage', category: 'blight' },
       { id: 'Void/Black Hole', iconPath: 'Void/Black Hole', category: 'blight' },
       { id: 'Necrotic/Eclipse Shadow', iconPath: 'Eclipse Shadow', category: 'blight' },

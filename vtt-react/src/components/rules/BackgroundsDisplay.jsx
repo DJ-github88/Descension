@@ -1,32 +1,10 @@
 import React, { useState, useRef, useCallback } from 'react';
-import { getAllBackgrounds } from '../../data/backgroundData';
+import { getAllBackgrounds, BACKGROUND_FLAVOR_TEXT, BACKGROUND_ROLEPLAYING_HOOKS } from '../../data/backgroundData';
 import '../spellcrafting-wizard/styles/pathfinder/main.css';
 import '../spellcrafting-wizard/styles/pathfinder/components/cards.css';
 import './BackgroundSelector.css';
 
-const FLAVOR_TEXT = {
-    emberspirePilgrim: 'You climbed the Ashen Escarpment and saw the Solbrand burning behind obsidian. The Dawn Vigil branded your throat and sent you down with a phial of captured light. Now you carry a faith that might be heresy.',
-    shyrRunner: 'Ninety miles of volcanic road, and the Sulfur Cartel taxes every step. You ran the basalt pillars and magma-fractures, learning which ground kills the careless. The Cartel has your name in their ledgers, and the debt compounds.',
-    ledgerKeeper: 'In the Frostwood Reach, the fog eats memory. You kept the identity-ledgers at Greymark Keep, deciding who is real and who is forgotten. The ink dries fast, and the fog never sleeps.',
-    bloodlineHeir: 'Seven noble houses remain. The eighth was erased for refusing to feed its heir to Keth-Amar. You carry a name that opens doors and paints targets. The debt your ancestors bought is still compounding.',
-    synodAcademic: 'The Synod-Hold sings when the wind finds the right key. You learned the forbidden Sky-Songs and the constellation-spirit lineages carved on bone Steppe-Staves. The stars are going out, and you have the training to read the patterns.',
-    sumpsVeteran: 'The Bloodhammer Sump breeds soldiers the way a wound breeds salt. You carry the Hunger Pact in your blood: ancestral starvation turned to fury. The glaciers are advancing again, and the dead want you to survive.',
-    debtNegotiator: 'In Atropolis, everything has a price and every price is negotiable. You read Neth contracts by their silver-leaf binding and spot the trap-clauses that bind the unwary. The greatest lawyer of your generation burned her own name from the Contract.',
-    frostChanter: 'Jarn-Tand\'s Academies burn every old drum they find, so the old ways moved into the voice. You weave animist history into drinking-songs that inquisitors never suspect are heresies eight centuries old. Your voice is a covert hearth.',
-    forgeWright: 'Metal remembers. Every hammer-strike is a record that outlasts the hand that made it. You understand metal as living memory, reading forge-marks the way a scribe reads ink. The forges are failing, and fewer smiths survive to teach.',
-    hushSurvivor: 'You watched the hush take someone you loved. First the darkened veins, then the dissolved mind, then the Hush-Bogs. You fortified your mind against the mycelium\'s song, but it never fully fades. You know the early signs.',
-    peakTracker: 'The Cragjaw Peaks are a vertical labyrinth where the blizzard rewrites every path. You navigate with knotted cord route-markers, reading the stress-fractures in bone-bridges the Groven dead left behind. The peaks are getting colder.',
-    merrowSailor: 'The Iceheart Sea does not forgive debts. You sailed under the Sea-Charter, your arms inked with trade-tattoos that double as legal contracts. The sea is freezing earlier every year, and the routes are shrinking with the ice.',
-    gloomwayTrader: 'The Bryngloom trades in three currencies: memory-glass, peat-oil, and years left in a lifespan. You run goods across root-tangled expanse, dealing in wyrd-warded curios. The Registry tightens its tariffs every season.',
-    shantyRat: 'The Over-Shanty hangs beneath Atropolis like a wound the canopy city refuses to acknowledge. You grew up in rope-bridges and salvage-nests, one of the Forgotten: legally nonexistent. The rope-bridges fray a little more every season.',
-    monolithHunter: 'The seven Sundered Monoliths are waking. All seven at once, their resonance rising. You track that resonance with cold iron stakes and a journal certain powers would kill to possess. Whatever changed, it changed recently.',
-    groveWarden: 'There were eight houses, not seven. You swore the old fae bargain in moonlit groves, binding yourself to the Hollow-Court. You tend the Thorn-Fall where eight centuries of shed thorns record every unfulfilled promise.',
-    maskWarden: 'The Mimir\'s masks are relics, and the Hunters pay fortunes for them. You stand between the mask-wearers and the cartels that hunt them, patrolling fog-spider-silk rope-bridges. Every mask that fall feeds a collection that grows bolder.',
-    vaultScholar: 'Deep in the Fexric warrens, the guild-vaults keep their knowledge on copper-plate codices: precision gear-craft, temporal mechanics. You learned the grammar of gears, and it marked you for life. What you memorized, no blast-door can lock away.',
-    herdGuardian: 'The Ordan steppe stretches endlessly, and the herds are everything. You guard the ember-hooved cattle across frozen grass, reading the wind for threats. The nomads trust your eyes more than any wall.',
-};
-
-const getFlavorText = (bg) => FLAVOR_TEXT[bg.id] || bg.description?.substring(0, 150) + '...';
+const getFlavorText = (bg) => BACKGROUND_FLAVOR_TEXT[bg.id] || bg.description?.substring(0, 150) + '...';
 
 const getPrimaryBadge = (bg) => {
     if (bg.feature?.name) return { label: bg.feature.name, icon: 'fas fa-star', type: 'feature' };
@@ -184,18 +162,13 @@ const BackgroundsDisplay = () => {
 
                     {/* Roleplaying Section */}
                     <div className="roleplaying-section">
-                        <h4>Roleplaying a {backgroundData.name}</h4>
-                        <p>
-                            As a {backgroundData.name}, your character's past experiences shape how they interact with the world. 
-                            Consider how your background influences your motivations, relationships, and approach to challenges.
-                        </p>
+                        <h4>Narrative Hooks</h4>
+                        <p>Questions to ask yourself about your {backgroundData.name}'s past:</p>
                         <div className="roleplaying-tips">
-                            <strong>Roleplaying Tips:</strong>
                             <ul>
-                                <li>Think about what drove you to leave your previous life</li>
-                                <li>Use your background feature creatively in social encounters</li>
-                                <li>Connect with NPCs who share your background</li>
-                                <li>Let your skills and proficiencies inform your character's expertise</li>
+                                {(BACKGROUND_ROLEPLAYING_HOOKS[backgroundData.id] || ['Your past shapes how you see the world. What memory drives your decisions?']).map((hook, index) => (
+                                    <li key={index}><em>{hook}</em></li>
+                                ))}
                             </ul>
                         </div>
                     </div>

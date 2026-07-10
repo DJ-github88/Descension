@@ -1117,7 +1117,7 @@ Before combat, decide which cadences you want to prioritize:
   color: "#8B008B",
   theme: "Chaotic Sounds & Reality Warping",
 
-  description: `Dissonance Minstrels have gazed into the void between notes and found something staring back. They wield frequencies that should not exist, atonal shrieks that unravel thought, progressions that cause the inner ear to bleed, chords that make the air itself flinch. Their music is not chaos; it is a calculated assault on the fundamental structure of reality, each discordant interval a crowbar prying at the seams of existence. They carry instruments that no luthier would claim: twisted constructions of metal and nerve that produce sounds more felt than heard. To hear a Dissonance Minstrel play is to understand that madness has a melody, and it is being performed at you.`,
+  description: `Dissonance Minstrels have gazed into the silence between notes and found something staring back. They wield frequencies that should not exist, atonal shrieks that unravel thought, progressions that cause the inner ear to bleed, chords that make the air itself flinch. Their music is not chaos; it is a calculated assault on the fundamental structure of reality, each discordant interval a crowbar prying at the seams of existence. They carry instruments that no luthier would claim: twisted constructions of metal and nerve that produce sounds more felt than heard. To hear a Dissonance Minstrel play is to understand that madness has a melody, and it is being performed at you.`,
 
   playstyle:
    "Crowd control, debuffs, chaotic effects, reality manipulation",

@@ -52,7 +52,7 @@ export const LUNARCH_DATA = {
         name: 'Thorn-Debt',
         description: `The parasite's phases are synced to the host's fae-contract debt; power scales with the outstanding obligation, and the Waning phase (memory-loss) is *literally* interest collection. An Unshorn Lunarch who has fully repaid their fae-debt loses their magic, and so none ever do.`
       },
-      currentCrisisAngle: `The dead-moon-is-an-egg revelation strikes the Unshorn hardest: their fae-contract is bound to a *living* entity, and the elder parasites now communicating across hosts are the egg's siblings. The Unshorn elders fear the fae themselves were parasites all along, that the entire Briaran bloodline is a larval stage. Selene's three-week silence is, the Unshorn believe, her being *called home* to an egg she cannot refuse.`,
+      currentCrisisAngle: `The dead-moon-is-a-fallen-star revelation strikes the Unshorn hardest: their fae-contract is bound to a *living* entity, and the elder parasites now communicating across hosts are the fallen star's brood-siblings. The Unshorn elders fear the fae themselves were parasites all along, that the entire Briaran bloodline is a larval stage. Selene's three-week silence is, the Unshorn believe, her being *called home* to the fallen star she cannot refuse.`,
       signatureQuote: {
         text: '"The fae lent us the thorn and the moon collects the interest. We always knew the lender was older than the loan. We did not know the lender was still hatching."',
         speaker: 'Selene of House Viridane',
@@ -116,7 +116,7 @@ export const LUNARCH_DATA = {
         name: 'Desperation-Bond',
         description: `The parasite's hold is inversely proportional to the host's pre-existing identity; an Unwoven Lunarch with almost no self left bonds *ferociously* to the parasite, generating more power per phase than any stable host. The trade: every Waning phase erases more of a self that was already nearly gone.`
       },
-      currentCrisisAngle: `The dead-moon revelation is, for the Unwoven, a *hope* the stable variants cannot understand: if the parasite is one of many siblings, perhaps a sibling would bond more gently, or perhaps the egg's hatching would *complete* the dissolution into something other than death. The Unwoven are the only Mimir caste *welcoming* the elder-parasite communication, and the others fear they are being harvested by their own saviors.`,
+      currentCrisisAngle: `The dead-moon revelation is, for the Unwoven, a *hope* the stable variants cannot understand: if the parasite is one of many siblings, perhaps a sibling would bond more gently, or perhaps the fallen star's waking would *complete* the dissolution into something other than death. The Unwoven are the only Mimir caste *welcoming* the elder-parasite communication, and the others fear they are being harvested by their own saviors.`,
       signatureQuote: {
         text: '"You call it a parasite. I was already dissolving. It is the only thing holding my edges together. Take it from me and you take the last shape I have."',
         speaker: 'Unwoven Mir-Naeth',
@@ -154,7 +154,7 @@ export const LUNARCH_DATA = {
     founder: {
       name: '<LoreLink termId="selene">Selene of House Viridane</LoreLink>',
       status: `Alive, but silent. Selene bargained with the wildwood fae in the moonlit groves and bound a lunar parasite to her bones. Three weeks ago she stopped speaking <LoreLink termId="briaran">Briaran</LoreLink> and began whispering in a language the elders cannot identify, older than the fae-contract, older than the dead moon.`,
-      note: `The first Lunarch. Her parasite was believed singular; the discovery that the dead moon was an egg has rendered her silence terrifying rather than merely concerning.`
+      note: `The first Lunarch. Her parasite was believed singular; the discovery that the dead moon is a fallen star — and the "egg" a folk misunderstanding — has rendered her silence terrifying rather than merely concerning.`
     },
     currentLeader: {
       name: '<LoreLink termId="bri-vessela">Regent Bri-Vessela</LoreLink>',
@@ -162,7 +162,7 @@ export const LUNARCH_DATA = {
       characterization: `A senior Unshorn Briaran who has led the Communion in Selene's silence with visible reluctance. She is a theologian, not a politician, and she took the regency only because the alternative was civil war between the caste-factions. She spends her nights at Selene's side, transcribing the dead-language whispers, and her days pretending she understands what they mean.`
     },
     headquarters: { name: 'The Moonlit Groves, deep Frostwood Reach', locationId: 'frostwood-reach' },
-    crisisConnection: `<LoreLink termId="bri-vessela">Bri-Vessela</LoreLink> is presiding over a Communion that is, quietly, being *called*, the elder parasites communicating across hosts are synchronizing the phases of every Lunarch toward an unknown convergence. Selene's whispers are, <LoreLink termId="bri-vessela">Bri-Vessela</LoreLink> has begun to suspect, not madness but *instructions*: the hatching-song of the dead moon, and every Lunarch is a note in it. She does not know whether to stop the convergence or let it come, because no one alive remembers what hatches.`
+    crisisConnection: `<LoreLink termId="bri-vessela">Bri-Vessela</LoreLink> is presiding over a Communion that is, quietly, being *called*, the elder parasites communicating across hosts are synchronizing the phases of every Lunarch toward an unknown convergence. Selene's whispers are, <LoreLink termId="bri-vessela">Bri-Vessela</LoreLink> has begun to suspect, not madness but *instructions*: the waking-song of the fallen star, and every Lunarch is a note in it. She does not know whether to stop the convergence or let it come, because no one alive remembers what wakes.`
   },
 
   worldFriction: [
@@ -223,14 +223,14 @@ The class is exclusively practiced by the <LoreLink termId="briaran">Briaran</Lo
     },
 
     philosophy: {
-      coreTenet: 'We thought the moon — Vael, the old songs called it — was dead. Its ghost still orbits, its light a recording of a celestial body we believed no longer existed. But the elders have learned the truth: Vael was not a corpse. It was a dormant star — an egg — and the parasites that bond to our bones are its children. The old theology was wrong. We drew power from absence because absence was all we understood. Now we must learn to draw power from what is waking.',
+      coreTenet: 'We thought the moon — Vael, the old songs called it — was dead, its ghost a pale recording of a celestial body no longer there. The elders have since learned the truth: Vael was never a corpse but a dormant star, a sleeping deity whose slumber has no known cause. When the Broken Seal cracked, the largest fragment of that fallen star broke away and plunged into the Frostwood\'s groves — and from that fragment hatched the lunar parasites now bonded to our bones. Some Lunarch lore still speaks of the fallen star as an "egg," though in truth it was a star, not a shell waiting to hatch; and Keth-Amar itself later nested in the corpse-star\'s hollow. We drew power from absence because absence was all we understood. Now we must learn to draw power from what is waking.',
       relationship: 'The lunar parasite is not a symbiont, it is a predator that has learned to keep its host alive. It feeds on specific human experiences: the New Moon feeds on hope, the Waxing on anticipation, the Full on ecstasy, the Waning on memory. It cycles through these phases relentlessly, consuming whatever emotional energy the host is producing at that moment. The host is not in control. The parasite decides when to hunt, and the host is left to pick up the pieces of their own psyche afterward.',
       paradox: 'The Lunarch is at their most powerful when the parasite is at its most active, the Full Moon phase brings devastating power, but it consumes the host\'s most precious memories. A Lunarch who cycles through too many Full Moons will forget their own name, their family, their reason for fighting. The parasite remembers for them, but the parasite does not care. It will cheerfully trade a moment of transcendent power for a decade of the host\'s most cherished experiences.'
     },
 
-    currentCrisis: `The dead moon is calling its children home. For centuries, the lunar parasite that binds to Lunarchs was believed to be a singular entity, a fragment of the long-dead moon that persisted in orbit. The Briaran elders have discovered otherwise: the moon was not a celestial body. It was an egg, and its children are the parasites.
+    currentCrisis: `The dead moon is calling its children home. For centuries, the lunar parasite that binds to Lunarchs was believed to be a singular entity, a fragment of the long-dead moon that persisted in orbit. The Briaran elders have discovered otherwise: the dead moon was no mere ghost but a fallen star, and the parasites are not the children of an egg — they are the brood hatched from the great fragment that broke off the star and fell into the Frostwood's groves, now bonded to our bones. The "egg" was always a folk misunderstanding of the fallen star.
 
-The elder parasites, those bonded to the first Lunarchs, are beginning to communicate with each other across their hosts. They are planning something. Selene of House Viridane has been silent for three weeks, staring at the sky, occasionally whispering in a language that no living person speaks. The Briaran shamans have placed her in isolation, but they cannot stop the parasite from cycling through its phases. When the next Full Moon comes, they do not know if Selene will still be Selene, or if she will be something the egg has been waiting for.`,
+The elder parasites, those bonded to the first Lunarchs, are beginning to communicate with each other across their hosts. They are planning something. Selene of House Viridane has been silent for three weeks, staring at the sky, occasionally whispering in a language that no living person speaks. The Briaran shamans have placed her in isolation, but they cannot stop the parasite from cycling through its phases.       When the next Full Moon comes, they do not know if Selene will still be Selene, or if she will be something the fallen star has been waiting for.`,
 
     meaningfulTradeoffs: `A Lunarch cannot control when they change, what they feel, or what they remember. The parasite cycles through its phases on a fixed schedule, and the host is along for the ride. A Lunarch in the Waning phase will lose memories regardless of whether they are in combat or sitting peacefully by a fire. They can be mid-conversation when the parasite decides it is time to feed, and they will suddenly forget the person they are talking to. Relationships are nearly impossible, partners learn to read the phase-cycle and avoid the host during certain times. The Lunarch lives at the mercy of a creature that does not negotiate.`,
 
@@ -448,7 +448,7 @@ Your unique utility. Key abilities let you add or remove rounds from effects, ex
 - -2 DR, -10 max HP
 - But you're at NEGATIVE HP. The vampirism kicks in as a death-sustaining reflex.
 
-**Your Action**: Cast "Void Rend" at Matriarch and nearby Weavers (reduced cost: 8-3 = 5 mana)
+**Your Action**: Cast "Silence Rend" at Matriarch and nearby Weavers (reduced cost: 8-3 = 5 mana)
 **Damage**: 3d6 radiant ? [5, 6, 4] = 15 radiant (AoE, hits all 3 enemies)
 **Vampiric Healing**: 25% of 15, 3 targets hit = 25% of 45 = 11 HP healed!
 
@@ -1839,14 +1839,14 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
     },
     {
       "id": "lunarch_void_chill",
-      "name": "Void-Chill",
-      "description": "The parasite has made your blood a piece of the void between stars. For the duration you radiate an otherworldly cold: freeze a plane of water, crust a wet surface in ice, snuff small flames and heat-signatures, and chill drinks or preserve food. The same aura marks you as deeply, unsettlingly alien — advantage on Intimidation, disadvantage on Persuasion and warmth-based rapport. Out of combat.",
+      "name": "Silence-Chill",
+      "description": "The parasite has made your blood a piece of the Silence between stars. For the duration you radiate an otherworldly cold: freeze a plane of water, crust a wet surface in ice, snuff small flames and heat-signatures, and chill drinks or preserve food. The same aura marks you as deeply, unsettlingly alien — advantage on Intimidation, disadvantage on Persuasion and warmth-based rapport. Out of combat.",
       "level": 3,
       "spellType": "ACTION",
       "icon": "Frost/Ice Shard",
       "typeConfig": { "school": "rime", "icon": "Frost/Ice Shard", "tags": ["utility", "cold", "exploration", "social", "lunarch"], "castTime": 1, "castTimeType": "IMMEDIATE" },
       "targetingConfig": { "targetingType": "self", "rangeType": "self" },
-      "resourceCost": { "actionPoints": 1, "resourceTypes": ["mana"], "resourceValues": { "mana": 6 }, "components": ["somatic"], "somaticText": "Let the void-cold bleed out through your skin" },
+      "resourceCost": { "actionPoints": 1, "resourceTypes": ["mana"], "resourceValues": { "mana": 6 }, "components": ["somatic"], "somaticText": "Let the silence-cold bleed out through your skin" },
       "resolution": "NONE",
         "effectTypes": ["utility"],
         "utilityConfig": {

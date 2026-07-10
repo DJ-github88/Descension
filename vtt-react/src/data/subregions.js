@@ -22,11 +22,11 @@ export const SUBREGIONS = {
     dominantTerrain: 'Petrified ironwood forest, peat-bog hollows, silt-roads',
     primaryRaces: ['Thalren humans', 'Mask-Borne Mimir', 'Smooth-Skinned Briaran'],
     primaryFactions: ['House Thalreth', 'Scribe-Cartel', 'Mist-Sentinels'],
-    zoneIds: ['greymark-keep', 'scribes-tower', 'ledger-halls', 'the-shallows', 'greythorn-copse', 'skalds-landing', 'mirror-mere', 'bramble-heath', 'meadowglen-crossing', 'velling-pass']
+    zoneIds: ['greymark-keep', 'scribes-tower', 'ledger-halls', 'the-shallows', 'greythorn-copse', 'skalds-landing', 'mirror-mere', 'bramble-heath', 'meadowglen-crossing', 'velling-pass', 'ironwood-heart']
   },
   'frostwood-north-reach': {
     id: 'frostwood-north-reach',
-    name: 'The Frostfang Wastes',
+    name: 'The Northern Reach',
     regionId: 'frostwood-reach',
     description: 'The cold, stony northern half of the Frostwood Reach, far from the volcanic warmth. The forests thin into tundra and bare granite, and the ironwoods grow short and twisted. Stone structures replace living timber; carved runic monoliths and watch-posts built into cliff faces mark the few roads. Frozen lakes surface in summer; the rest of the year, only their location is remembered. Rumors persist of giant Jutul-like beings in the deep wastes, but the few who travel that far rarely return to confirm.',
     climate: 'Sub-arctic, biting wind, summer lasts eight weeks',
@@ -58,7 +58,7 @@ export const SUBREGIONS = {
     climate: 'Polar, perpetual blizzard in winter, brief white summer',
     dominantTerrain: 'Glaciers, ice fields, frozen chasms, granite peaks',
     primaryRaces: ['Rime-Born', 'Frostbound', 'Corvani (clan flocks)'],
-    primaryFactions: ['House Skalvyr (royal seat)', 'Skald Keepers', 'Cult of Forgotten Shadow'],
+    primaryFactions: ['House Skalvyr (royal seat)', 'Skald Keepers'],
     zoneIds: ['frozen-archive', 'rimors-hearth', 'hunger-glaciers', 'skadis-col', 'the-still-crag', 'frosthold-citadel', 'bearsbeards-beak']
   },
   'nordhalla-fjord-coast': {
@@ -127,7 +127,7 @@ export const SUBREGIONS = {
     description: 'A peninsula connected to the main Sundale landmass by a narrow isthmus, a half-island, lush and forested, the greenest land in the region. Crystal-rich volcanic soil supports ancient growth; the trees here drink the heat bleeding from Emberspire. Long thought uninhabitable, the Dawn Vigil\'s collapse has seen it recolonized by hermits, the Risen (old faith), and the Smooth-Skinned descendants of the old Solvarn nobility who fled the capital.',
     climate: 'Warm, humid, sheltered by mountain spine',
     dominantTerrain: 'Crystal-rich soil, ancient broadleaf forest, geothermal hot-springs, hidden valleys',
-    primaryRaces: ['The Risen (old Solvarn faith)', 'Smooth-Skinned exiles', 'Emberth hermits'],
+    primaryRaces: ['The Risen (old Emberth faith)', 'Smooth-Skinned exiles', 'Emberth hermits'],
     primaryFactions: ['The Risen', 'Free Glitterwood Council', 'Old-Sun reverence revival'],
     zoneIds: ['the-glittering-forest', 'glitterwood-heart', 'old-sun-shrine']
   },
@@ -192,7 +192,7 @@ export const SUBREGIONS = {
   },
   'iceheart-saltmaw': {
     id: 'iceheart-saltmaw',
-    name: 'The Saltmaw Estuary',
+    name: 'The Saltmaw Estuary Marshes',
     regionId: 'iceheart-sea',
     description: 'The southernmost reach of the Iceheart Sea, where a glacial river from the Bryngloom meets the salt water. The estuary is a vast marshland of half-fresh, half-salt water; the Saltmaw Bog is a place of smugglers, exiled Neth, and forgotten spirits.',
     climate: 'Damp, foggy, sea-tidal',
@@ -207,7 +207,7 @@ export const SUBREGIONS = {
   // ========================================================================
   'cragjaw-massif': {
     id: 'cragjaw-massif',
-    name: 'The Frostmaw Massif',
+    name: 'The Frostmaw Massif Range',
     regionId: 'cragjaw-peaks',
     description: 'The central spine of the Cragjaw Peaks, the highest, coldest, and most impassable. Frostmaw Holdfast, seat of House Tesshan, sits in a volcanic crater near the center. The peaks here are taller than any tree grows. Jutul, the great trolls, and the primordial Thrumm stalk the high ice. Few humans have climbed above the Terraced level and returned.',
     climate: 'Alpine, year-round blizzard above the mid-line',
@@ -244,7 +244,7 @@ export const SUBREGIONS = {
   // ========================================================================
   'sundrift-long-steppe': {
     id: 'sundrift-long-steppe',
-    name: 'The Long Steppe',
+    name: 'The Long-Steppe Commons',
     regionId: 'sundrift-vale',
     description: 'The vast central plain of the Sundrift Vale, endless grass, endless wind, endless migration. The Mounted clans roam here, following the mare-herds across The Long Steppe and the Grass Tundra. Few landmarks. The Unlit Knoll rises in the distance. The Lien-Stalked Grazes glow faintly at night.',
     climate: 'Cold-temperate steppe, perpetual wind, mild summers',
@@ -288,7 +288,7 @@ export const SUBREGIONS = {
   },
   'sundrift-blizzard-bluff': {
     id: 'sundrift-blizzard-bluff',
-    name: 'The Blizzard Bluff',
+    name: 'Blizzard Bluff',
     regionId: 'sundrift-vale',
     description: 'The northern edge of the Vale, where a high cold bluff separates the warmer steppe from the deep ice of the Frostwood Reach. The Ordavan call this the Snow-Tooth, the wind here never stops. Small Ordan sentry-posts watch the passes; Frostwood Thalren patrols meet them at the cairns.',
     climate: 'Sub-arctic, perpetual wind, deep snow in winter',
@@ -347,7 +347,7 @@ export const SUBREGIONS = {
   },
   'bryngloom-great-mere': {
     id: 'bryngloom-great-mere',
-    name: 'The Great Mere',
+    name: 'The Great Mere Basin',
     regionId: 'bryngloom-forest',
     description: 'The vast central lake of the Bryngloom, dotted with small wooded islands, some inhabited, some forbidden, some not even on any map. Merryn barges tie up at the lake-ports; Vreken shrines hide on the western islands; an old Velun monastery stands on the largest. The lake level rises and falls with the moon.',
     climate: 'Damp, mild, the islands have their own microclimates',

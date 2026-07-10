@@ -279,7 +279,7 @@ const ResourceTooltip = ({
                                         bonuses: ['+1 all rolls', 'Can transition to any form (4 Flux)'],
                                         penalties: ['No stance-specific defensive bonuses']
                                     },
-                                    'Void Predator': {
+                                    'Silence Predator': {
                                         bonuses: ['Advantage on first attack', '+2d6 damage from stealth', '+10 ft movement'],
                                         penalties: ['Penalties in bright light']
                                     }

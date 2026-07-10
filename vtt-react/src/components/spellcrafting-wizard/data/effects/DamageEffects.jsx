@@ -365,7 +365,7 @@ const DamageEffects = () => {
    { name: 'Soul Burn', formula: '3d8 + intelligence + shadowDamage + MIN(currentMana/10, 20)', description: 'Mana-scaling shadow magic' },
    { name: 'Titan Strike', formula: '6d6 + strength * 2 + constitution + (strength > 25 ? 30 : 0)', description: 'Overwhelming physical assault' },
    { name: 'Mind Blast', formula: '2d8 + intelligence * 3 + psychicDamage + (target.currentMana < 20 ? 12 : 0)', description: 'Psychic damage with mana drain bonus' },
-   { name: 'Void Rift', formula: '4d10 + intelligence + voidDamage + ROUND(currentHealth/10)', description: 'Reality-tearing magic scaling with vitality' }
+    { name: 'Silence Rift', formula: '4d10 + intelligence + voidDamage + ROUND(currentHealth/10)', description: 'Reality-tearing magic scaling with vitality' }
   ];
  };
 

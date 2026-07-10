@@ -3283,7 +3283,7 @@ const Step1CoreDraft = () => {
 
                             <i className="fas fa-exclamation-triangle" style={{ color: '#d4af37' }}></i>
 
-                            Narrative Unlock Required
+                            A Rare Path
 
                         </h3>
 

@@ -11,6 +11,7 @@ import characterMigrationService from '../../services/firebase/characterMigratio
 import localStorageManager from '../../utils/localStorageManager';
 import { getCharacterData, updateCharacterData, storeCharacterOffline } from '../../services/offlineService';
 import { getCustomBackgroundData } from '../../data/legacyDisciplineData';
+import { getBackgroundData } from '../../data/backgroundData';
 import { getEncumbranceState, getCurrentUserId, isGuestUser, getCharactersStorageKey, shouldUseFirebase, CHARACTER_AUTO_SAVE_DELAY, clearCharacterAutoSaveTimer, triggerCharacterAutoSave } from '../characterHelpers';
 
 export const createCoreSlice = (set, get) => ({
@@ -145,9 +146,15 @@ export const createCoreSlice = (set, get) => ({
 
                         // Compute backgroundDisplayName if missing
                         if (char.background && !char.backgroundDisplayName) {
-                            const customBgData = getCustomBackgroundData(char.background.toLowerCase());
+                            const bgId = char.background.toLowerCase();
+                            const customBgData = getCustomBackgroundData(bgId);
                             if (customBgData) {
                                 enriched.backgroundDisplayName = customBgData.name;
+                            } else {
+                                const bgData = getBackgroundData(bgId);
+                                if (bgData) {
+                                    enriched.backgroundDisplayName = bgData.name;
+                                }
                             }
                         }
 
@@ -220,9 +227,15 @@ export const createCoreSlice = (set, get) => ({
 
                 // Compute backgroundDisplayName if missing
                 if (char.background && !char.backgroundDisplayName) {
-                    const customBgData = getCustomBackgroundData(char.background.toLowerCase());
+                    const bgId = char.background.toLowerCase();
+                    const customBgData = getCustomBackgroundData(bgId);
                     if (customBgData) {
                         enriched.backgroundDisplayName = customBgData.name;
+                    } else {
+                        const bgData = getBackgroundData(bgId);
+                        if (bgData) {
+                            enriched.backgroundDisplayName = bgData.name;
+                        }
                     }
                 }
 
@@ -849,15 +862,19 @@ export const createCoreSlice = (set, get) => ({
                             }
                         }
 
-                        // Get proper background display name - ONLY custom backgrounds are valid
+                        // Get proper background display name
                         let backgroundDisplayName = '';
                         if (character.background) {
-                            // Only check custom backgrounds (Mystic, Zealot, Trickster, Harrow, Arcanist, Hexer, Reaver, Mercenary, Sentinel)
-                            const customBgData = getCustomBackgroundData(character.background.toLowerCase());
+                            const bgId = character.background.toLowerCase();
+                            const customBgData = getCustomBackgroundData(bgId);
                             if (customBgData) {
                                 backgroundDisplayName = customBgData.name;
+                            } else {
+                                const bgData = getBackgroundData(bgId);
+                                if (bgData) {
+                                    backgroundDisplayName = bgData.name;
+                                }
                             }
-                            // If not found, leave empty (invalid background)
                         }
 
                         partyStore.getState().updatePartyMember('current-player', {

@@ -581,11 +581,11 @@ export const CLASS_RESOURCE_TYPES = {
     shortName: 'Leech'
    },
    {
-    name: 'Deep Void',
+    name: 'Deep Silence',
     level: 13,
     boon: '1/long rest: Negate any spell targeting you',
-    curse: '2d6 wyrd damage when used (void consumption)',
-    shortName: 'Void'
+    curse: '2d6 wyrd damage when used (Silence consumption)',
+    shortName: 'Silence'
    }
   ],
   bloodTokens: {
@@ -702,7 +702,7 @@ export const CLASS_RESOURCE_TYPES = {
   name: 'Madness Points',
   shortName: 'Madness',
   type: 'madness',
-  description: 'The Lie whispers from the void behind the Emberspire\'s corruption. Eldritch madness that empowers shadow damage but risks Insanity Convulsion at 20 points',
+  description: 'The Lie whispers from the Silence behind the Emberspire\'s corruption. Eldritch madness that empowers shadow damage but risks Insanity Convulsion at 20 points',
   visual: {
    type: 'madness-gauge',
    count: 20,
@@ -1330,7 +1330,7 @@ CLASS_RESOURCE_TYPES['Shaper'] = {
     color: '#9B59B6',
     type: 'Balanced/Hub'
    },
-   'Void Predator': {
+   'Silence Predator': {
     icon: 'fas fa-ghost',
     color: '#2C3E50',
     type: 'Stealth/Burst'
@@ -1380,7 +1380,7 @@ CLASS_RESOURCE_TYPES['Shaper'] = {
     'Centrifugal Fury',
     'Deadened Bastion',
     'Fluid Apex',
-    'Void Predator'
+    'Silence Predator'
    ]
   }
  },
@@ -1392,17 +1392,17 @@ CLASS_RESOURCE_TYPES['Shaper'] = {
   showStance: true
  },
  stanceNetwork: {
-  'Ataxic Flow': ['Arterial Strike', 'Void Predator', 'Fluid Apex'],
+  'Ataxic Flow': ['Arterial Strike', 'Silence Predator', 'Fluid Apex'],
   'Arterial Strike': ['Centrifugal Fury', 'Deadened Bastion', 'Ataxic Flow'],
   'Centrifugal Fury': ['Fluid Apex', 'Deadened Bastion'],
   'Deadened Bastion': ['Arterial Strike', 'Ataxic Flow'],
-  'Fluid Apex': ['Ataxic Flow', 'Arterial Strike', 'Centrifugal Fury', 'Deadened Bastion', 'Void Predator'],
-  'Void Predator': ['Arterial Strike', 'Fluid Apex']
+  'Fluid Apex': ['Ataxic Flow', 'Arterial Strike', 'Centrifugal Fury', 'Deadened Bastion', 'Silence Predator'],
+  'Silence Predator': ['Arterial Strike', 'Fluid Apex']
  },
  transitionCosts: {
   'Ataxic Flow': {
    'Arterial Strike': 2,
-   'Void Predator': 2,
+   'Silence Predator': 2,
    'Fluid Apex': 2
   },
   'Arterial Strike': {
@@ -1423,9 +1423,9 @@ CLASS_RESOURCE_TYPES['Shaper'] = {
    'Arterial Strike': 4,
    'Centrifugal Fury': 4,
    'Deadened Bastion': 4,
-   'Void Predator': 4
+   'Silence Predator': 4
   },
-  'Void Predator': {
+  'Silence Predator': {
    'Arterial Strike': 2,
    'Fluid Apex': 2
   }

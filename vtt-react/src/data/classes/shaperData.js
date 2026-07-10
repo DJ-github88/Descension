@@ -153,7 +153,7 @@ Shape the flesh. Sharpen the bone. The dance does not end when the music stops. 
       title: "Quick Overview",
       content: `**What You Need to Know**: The Shaper merges hyper-accelerated kinetic combat with biological shape-shifting. Navigate 6 Shaping Forms that blend combat posture and physical morphology. Build **Kinetic Flux** through combat actions. **Body Toll** tracks the cumulative cost of every transformation.
 
-**Core Mechanic**: Flow between 6 Shaping Forms (Ataxic Flow, Arterial Strike, Centrifugal Fury, Deadened Bastion, Fluid Apex, Void Predator). Build Flux through form-specific combat actions. Shift forms to match the situation,but every shift adds Body Toll.
+**Core Mechanic**: Flow between 6 Shaping Forms (Ataxic Flow, Arterial Strike, Centrifugal Fury, Deadened Bastion, Fluid Apex, Silence Predator). Build Flux through form-specific combat actions. Shift forms to match the situation,but every shift adds Body Toll.
 
 **Resources**: Kinetic Flux (0-20) & Body Toll (0-10).
 
@@ -195,7 +195,7 @@ Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (s
 
     currentCrisis: `Young Shapers experience **Convergence Collapse**,kinetic momentum and biological adaptation trigger simultaneously, causing the body to attempt every transformation at once. The Mimir are burning through their semi-crystalline skin in years. A faction of purist Shapers advocates single-tradition practice while convergers push deeper integration. The schism is worsening.`,
 
-    meaningfulTradeoffs: `Every transformation leaves a permanent mark. Void Predator users retain shadow-touched vision. Deadened Bastion users develop calcified skin patches. Frequent shifters lose the ability to remember their original face. The dance is killing them, but stopping is death.`,
+    meaningfulTradeoffs: `Every transformation leaves a permanent mark. Silence Predator users retain shadow-touched vision. Deadened Bastion users develop calcified skin patches. Frequent shifters lose the ability to remember their original face. The dance is killing them, but stopping is death.`,
 
     classSpecificLocations: [
       {
@@ -209,7 +209,7 @@ Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (s
 
     combatRole: {
       title: "Combat Role",
-      content: `**Why Bring Me?**: Rewrite combat posture, physical stats, damage resistances, and movement capabilities mid-combat. Bypass armor (Arterial Strike), tank (Deadened Bastion), ambush (Void Predator).
+      content: `**Why Bring Me?**: Rewrite combat posture, physical stats, damage resistances, and movement capabilities mid-combat. Bypass armor (Arterial Strike), tank (Deadened Bastion), ambush (Silence Predator).
 
 **Weaknesses**:
 - Naked Flesh: 0 base armor — every blow lands full. You dodge or you die.
@@ -228,7 +228,7 @@ Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (s
 - Centrifugal Fury (AoE/Multi): Attacks cleave. (3 Flux)
 - Deadened Bastion (Defensive/Counter): Reaction parry, +20 temp HP. (2 Flux)
 - Fluid Apex (Hub): +1 all rolls, any transition. (4 Flux)
-- Void Predator (Stealth/Burst): Advantage first attack, +2d6 stealth. (3 Flux)
+- Silence Predator (Stealth/Burst): Advantage first attack, +2d6 stealth. (3 Flux)
 
 **Flux**: +1 hit, +2 crit, +1 dodge, +2 form-specific. -1 miss, hit taken, idle.
 **Body Toll**: +1 per shift. 3+: Joint Lock. 5+: can’t speak. 7+: Feral. 10: GM control. Recovery: -3 Short Rest, reset Long Rest.`
@@ -238,7 +238,7 @@ Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (s
       title: "Combat Example: The Shape of Violence",
       content: `You feel the old familiar hunger — the body wanting to be more than bone and tendon. The archers have not yet nocked their arrows. By the time they do, you will no longer be what you were.
 
-**Turn 1**: Free shift to Void Predator (+1 Toll). Shadow Strike hits, +2 Flux from stealth.
+**Turn 1**: Free shift to Silence Predator (+1 Toll). Shadow Strike hits, +2 Flux from stealth.
 **Turn 2**: Shift to Arterial Strike (2 Flux, +1 Toll). Kinetic Dissection,two hits, one crit.
 **Turn 3**: Shift to Deadened Bastion (2 Flux, +1 Toll). +20 temp HP. Toll 3,Joint Lock. Arrows bounce.
 **Turn 4**: Shift to Centrifugal Fury (3 Flux, +1 Toll). Sweep catches both archers. The kinetic engine sputters but enemies fall.`
@@ -278,12 +278,12 @@ Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (s
       description: "Shift posture and biology between unified combat forms.",
       headers: ["Form", "Type", "Passive", "Transitions", "Cost"],
       rows: [
-        ["Ataxic Flow", "Defensive/Agile", "+2 dodge, +10ft, adv Disengage", "Arterial Strike, Void Predator, Fluid Apex", "2 Flux"],
+        ["Ataxic Flow", "Defensive/Agile", "+2 dodge, +10ft, adv Disengage", "Arterial Strike, Silence Predator, Fluid Apex", "2 Flux"],
         ["Arterial Strike", "Offensive/Precision", "+2 attack, expanded crit", "Centrifugal Fury, Deadened Bastion, Ataxic Flow", "2 Flux"],
         ["Centrifugal Fury", "AoE/Multi", "Cleave to adjacent", "Fluid Apex, Deadened Bastion", "3 Flux"],
         ["Deadened Bastion", "Defensive/Counter", "Reaction parry, +20 temp HP", "Arterial Strike, Ataxic Flow", "2 Flux"],
         ["Fluid Apex", "Balanced/Hub", "+1 all rolls, any transition", "ANY form", "4 Flux"],
-        ["Void Predator", "Stealth/Burst", "Advantage first attack, +2d6 stealth", "Arterial Strike, Fluid Apex", "3 Flux"]
+        ["Silence Predator", "Stealth/Burst", "Advantage first attack, +2d6 stealth", "Arterial Strike, Fluid Apex", "3 Flux"]
       ]
     }
   },  equipment: {
@@ -347,9 +347,9 @@ Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (s
         theme: "Stealth Burst & Shadow Forms",
         description: "Masters of stealth burst damage and shadow-infused transformations.",
         playstyle: "Vanish into shadow, shift into predatory forms, devastating ambush attacks.",
-        strengths: ["Easy Void Predator access", "High stealth burst damage", "Shadow-infused abilities"],
+        strengths: ["Easy Silence Predator access", "High stealth burst damage", "Shadow-infused abilities"],
         weaknesses: ["Dependent on stealth", "Low sustained defense", "Accelerated Toll from shadow mutations"],
-        specPassive: { name: "Shadow Affinity", description: "Enter Void Predator from ANY form for 3 Flux. Void Predator: lightly obscured, +1d6 bonus damage. Stealth attacks from Void Predator generate +1 extra Flux and +1 Body Toll." }
+        specPassive: { name: "Shadow Affinity", description: "Enter Silence Predator from ANY form for 3 Flux. Silence Predator: lightly obscured, +1d6 bonus damage. Stealth attacks from Silence Predator generate +1 extra Flux and +1 Body Toll." }
       }
     ]
   },  spells: [
@@ -421,7 +421,7 @@ Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (s
   somaticText: "Extend a razor bone spur from your forearm, targeting the gap in their guard.",
   verbalText: "Breathe in through clenched teeth as the strike finds its mark."
 },
-    { id: "shaper_void_collapse", name: "Void Collapse", description: "Shadow-blur speed, invisible 1 round. Signature: +1 Body Toll. Requires Void Predator.", level: 4, spellType: "ACTION", icon: "Utility/Hide", typeConfig: { school: "physical", icon: "Utility/Hide", tags: ["invisibility", "burst", "signature", "form_void_predator"], castTime: 1, castTimeType: "IMMEDIATE" }, targetingConfig: { targetingType: "self", rangeType: "self" }, resourceCost: { actionPoints: 1, mana: 0, classResource: { type: "kinetic_flux", cost: 6 }, components: ["somatic"] }, resolution: "NONE", effectTypes: ["buff"], buffConfig: { buffType: "statusEffectBuff", effects: [ { id: "void_invisibility", name: "Void Invisibility", description: "Shadow-blur speed renders you invisible for 1 round." } ], durationType: "rounds", durationValue: 1, durationUnit: "rounds", concentrationRequired: false, canBeDispelled: true }, isSignatureMove: true, bodyTollGenerated: 1, formRequirement: "void_predator", cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 }, tags: ["signature", "form_void_predator", "shaper"] ,
+    { id: "shaper_void_collapse", name: "Silence Collapse", description: "Shadow-blur speed, invisible 1 round. Signature: +1 Body Toll. Requires Silence Predator.", level: 4, spellType: "ACTION", icon: "Utility/Hide", typeConfig: { school: "physical", icon: "Utility/Hide", tags: ["invisibility", "burst", "signature", "form_silence_predator"], castTime: 1, castTimeType: "IMMEDIATE" }, targetingConfig: { targetingType: "self", rangeType: "self" }, resourceCost: { actionPoints: 1, mana: 0, classResource: { type: "kinetic_flux", cost: 6 }, components: ["somatic"] }, resolution: "NONE", effectTypes: ["buff"], buffConfig: { buffType: "statusEffectBuff", effects: [ { id: "void_invisibility", name: "Silence Invisibility", description: "Shadow-blur speed renders you invisible for 1 round." } ], durationType: "rounds", durationValue: 1, durationUnit: "rounds", concentrationRequired: false, canBeDispelled: true }, isSignatureMove: true, bodyTollGenerated: 1, formRequirement: "silence_predator", cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 }, tags: ["signature", "form_silence_predator", "shaper"] ,
   triggerConfig: {
     triggers: [
       { id: "shaper_void_collapse_flux", name: "Kinetic Toll", triggerType: "on_cast", action: "Spends 6 Kinetic Flux, the mutant flesh straining." }
@@ -574,19 +574,19 @@ Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (s
 },
      { id : "shaper_void_terror",
       name: "Predator's Display",
-      description: "Erupt jagged bone spurs from your body in a threatening display, imposing the Frightened condition on a target. Requires Void Predator.",
+      description: "Erupt jagged bone spurs from your body in a threatening display, imposing the Frightened condition on a target. Requires Silence Predator.",
       level: 6,
       spellType: "ACTION",
       icon: "Necrotic/Bone Shards",
       effectTypes: ["debuff"],
-      typeConfig: { school: "physical", icon: "Necrotic/Bone Shards", tags: ["debuff","fear","form_void_predator"], castTime: 1, castTimeType: "IMMEDIATE" },
+      typeConfig: { school: "physical", icon: "Necrotic/Bone Shards", tags: ["debuff","fear","form_silence_predator"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 30, targetRestrictions: ["enemy"] },
       resourceCost: { actionPoints: 1, mana: 0, classResource: { type: "kinetic_flux", cost: 4 }, components: ["somatic","verbal"] },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       debuffConfig: { debuffType: "statusEffect", effects: [{ id : "shaper_void_fear", name: "Bone-Spike Display", description: "Target is Frightened by the sudden eruption of bone.", mechanicsText: "Frightened condition." }], durationType: "rounds", durationValue: 2, durationUnit: "rounds", canBeDispelled: true },
-      formRequirement: "void_predator",
+      formRequirement: "silence_predator",
       resolution: "NONE",
-      tags: ["debuff","fear","form_void_predator","shaper"]
+      tags: ["debuff","fear","form_silence_predator","shaper"]
     ,
   triggerConfig: {
     triggers: [
@@ -784,19 +784,19 @@ Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (s
 },
      { id : "shaper_void_phase",
       name: "Phase Shift",
-      description: "Momentarily dissolve your body into a fluid state, reforming up to 60 feet away and leaving a hardened tissue decoy. Requires Void Predator.",
+      description: "Momentarily dissolve your body into a fluid state, reforming up to 60 feet away and leaving a hardened tissue decoy. Requires Silence Predator.",
       level: 9,
       spellType: "ACTION",
       icon: "Nature/Snake Transform",
       effectTypes: ["utility"],
-      typeConfig: { school: "physical", icon: "Nature/Snake Transform", tags: ["mobility","teleport","form_void_predator"], castTime: 1, castTimeType: "IMMEDIATE" },
+      typeConfig: { school: "physical", icon: "Nature/Snake Transform", tags: ["mobility","teleport","form_silence_predator"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 60, targetRestrictions: ["any"] },
       resourceCost: { actionPoints: 1, mana: 0, classResource: { type: "kinetic_flux", cost: 8 }, components: ["somatic"] },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
       utilityConfig: { utilityType: "teleport", selectedEffects: [{ id : "void_decoy", name: "Tissue Decoy", description: "Teleport 60 feet and leave a hardened tissue decoy." }], duration: 0, durationUnit: "instant", concentration: false, power: "major" },
-      formRequirement: "void_predator",
+      formRequirement: "silence_predator",
       resolution: "NONE",
-      tags: ["mobility","teleport","form_void_predator","shaper"]
+      tags: ["mobility","teleport","form_silence_predator","shaper"]
     ,
   triggerConfig: {
     triggers: [

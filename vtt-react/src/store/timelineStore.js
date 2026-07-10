@@ -36,7 +36,7 @@ const MYTHRILL_CALENDAR = {
     { id: 4, name: 'Ashfall', season: 'embers',
       description: 'Volcanic ash drifts north from Sundale, coating the snow grey. The Emberth read ash-patterns as prophecy.' },
     { id: 5, name: 'Emberspire\'s Breath', season: 'embers',
-      description: 'Geothermal vents surge: the warmest month, though still below freezing. Forge Wrights work double shifts.' },
+      description: 'Geothermal vents surge: the warmest month, though still below freezing. Smiths work double shifts.' },
     { id: 6, name: 'The Dimming', season: 'embers',
       description: 'Even the residual volcanic glow begins to fade; the darkest month. The Day of the Breach falls here: when Keth-Amar consumed the heirs.' },
     { id: 7, name: 'First Frost', season: 'deepening-winter',
@@ -74,13 +74,23 @@ const MYTHRILL_CALENDAR = {
 
 const REBIRTH_CYCLES = [
   { cycle: 1, year: 12, outputPercent: 40, significance: 'The first pulse. Aex\'s scream measured at 40% intensity. The "False Dawn" month is named. The Augurs begin logging.' },
-  { cycle: 5, year: 60, outputPercent: 28, significance: 'The decline becomes undeniable. Cassia\'s successors begin systematic output-logging of every pulse. The first marginal settlements fail.' },
-  { cycle: 10, year: 120, outputPercent: 22, significance: 'The "False Dawn" month barely lightens. A faction of Solvan Martyrs begins secretly tracking the decline: precursor to the Dawn Vigil.' },
-  { cycle: 20, year: 240, outputPercent: 15, significance: 'Barely perceptible warming. The Dawn Vigil formalizes. The learned classes accept Aex is fading.' },
-  { cycle: 30, year: 360, outputPercent: 10, significance: 'Erratic output. Some readings contradictory. First evidence of temporal friction contaminating the Augurs\' instruments.' },
-  { cycle: 40, year: 480, outputPercent: 8, significance: 'Detectable only by Augur instruments. The common person no longer sees any warming during the False Dawn. The False Dawn Riots erupt.' },
-  { cycle: 50, year: 600, outputPercent: 3, significance: 'Barely a flicker. The remaining detection requires precision instruments and elk-blood at the Frozen Archive. The Korr have been concealing the Solbrand\'s decline for decades.' },
-  { cycle: 55, year: 660, outputPercent: 0, significance: 'The last detectable pulse. Aex is exhausted. The Augurs record: "The scream has stopped." No cycle since has produced measurable output.' }
+  { cycle: 5, year: 25, outputPercent: 38, significance: 'The decline becomes undeniable. Cassia\'s successors begin systematic output-logging of every pulse. The first marginal settlements fail.' },
+  { cycle: 10, year: 39, outputPercent: 35, significance: 'The "False Dawn" month barely lightens. A faction of Solvan Martyrs begins secretly tracking the decline: precursor to the Dawn Vigil.' },
+  { cycle: 20, year: 50, outputPercent: 33, significance: 'Barely perceptible warming. The Dawn Vigil formalizes. The learned classes accept Aex is fading.' },
+  { cycle: 30, year: 66, outputPercent: 30, significance: 'Erratic output. Some readings contradictory. First evidence of temporal friction contaminating the Augurs\' instruments.' },
+  { cycle: 40, year: 78, outputPercent: 27, significance: 'Detectable only by Augur instruments. The common person no longer sees any warming during the False Dawn. The False Dawn Riots erupt.' },
+  { cycle: 50, year: 95, outputPercent: 24, significance: 'Barely a flicker. The remaining detection requires precision instruments and elk-blood at the Frozen Archive. The Korr have been concealing the Solbrand\'s decline for decades.' },
+  { cycle: 55, year: 107, outputPercent: 21, significance: 'The last detectable pulse. Aex is exhausted. The Augurs record: "The scream has stopped." No cycle since has produced measurable output.' },
+  { cycle: 56, year: 122, outputPercent: 18, significance: 'First silent pulse. The Augurs check instruments three times. Nothing. The False Dawn month brings no warming, not even a flicker.' },
+  { cycle: 57, year: 138, outputPercent: 15, significance: 'Silent. The common people no longer mark the False Dawn. Only the Augurs still watch.' },
+  { cycle: 58, year: 151, outputPercent: 13, significance: 'Silent. The Korr quietly stop publishing the Solbrand readings. There is nothing to publish.' },
+  { cycle: 59, year: 167, outputPercent: 11, significance: 'Silent. A generation has now been born that has never felt a pulse.' },
+  { cycle: 60, year: 180, outputPercent: 9, significance: 'Silent. The Elder Augurs retire. Their successors inherit a data set of silence.' },
+  { cycle: 61, year: 196, outputPercent: 7, significance: 'Silent. The term "False Dawn" becomes archaic; young people ask what a dawn looked like.' },
+  { cycle: 62, year: 210, outputPercent: 5, significance: 'Silent. Monolith activity increases. Scholars begin to suspect the silence and the waking are connected.' },
+  { cycle: 63, year: 226, outputPercent: 3, significance: 'Silent. The Watcher\'s fracturing accelerates. Temporal friction first detected in Augur instruments.' },
+  { cycle: 64, year: 645, outputPercent: 1, significance: 'Silent. The elder parasites synchronize across Lunarch hosts. Selene stops speaking.' },
+  { cycle: 65, year: 660, outputPercent: 0, significance: 'The sixty-fifth pulse. No output. The Monoliths are waking. The silence is not absence — it is attention.' }
 ];
 
 const WARMTH_PHASES = [
@@ -187,9 +197,9 @@ const SEEDED_EVENTS = [
     type: 'catastrophe',
     phase: 'false-spring',
     description:
-      'Six of the seven noble families (their resolve worn hollow by eight years of whispered corruption) marched their firstborn heirs into the dark. Keth-Amar consumed the children not as mere sacrifice but as vessel-keys: the heirs\' bloodlines were the original signatures on the binding seal, and by devouring them, Keth-Amar cracked the vault from within. The seal shattered into seven Sundered Monoliths, each screaming with the echo of a stolen life. House Viridane (the seventh house) refused. They fled south through the Frostwood Reach, struck their name from every record, and made a counter-bargain with fae entities in the moonlit groves. Their descendants are the Briaran.',
+      'Six of the seven noble families (their resolve worn hollow by eight years of whispered corruption) marched their firstborn heirs into the dark. Keth-Amar consumed the children not as mere sacrifice but as vessel-keys: the heirs\' bloodlines were the original signatures on the binding seal, and by devouring them, Keth-Amar cracked the vault from within. The seal cracked into seven Sundered Monoliths, each screaming with the echo of a stolen life. House Viridane (the seventh house) refused. They fled south through the Frostwood Reach. The six surviving houses struck Viridane\'s name from every record. Viridane\'s heir made a counter-bargain with fae entities in the moonlit groves. Their descendants are the Briaran.',
       locationIds: ['emberspire-caldera', 'frostwood-reach', 'sundrift-vale'],
-    factionIds: ['house-solvan', 'house-ordavan', 'house-mereval', 'house-tesshan', 'house-viridane'],
+    factionIds: ['house-thalreth', 'house-skalvyr', 'house-solvan', 'house-ordavan', 'house-mereval', 'house-tesshan'],
     classIds: ['martyr', 'inquisitor', 'apex', 'revenant', 'lunarch'],
     causes: ['event-keth-amar-corruption'],
     effects: ['event-emberspire-eruption', 'event-church-founding', 'event-preservation-pact', 'event-viridane-flight']
@@ -369,9 +379,9 @@ const SEEDED_EVENTS = [
     type: 'pact',
     phase: 'false-spring',
     description:
-      'The remaining noble houses formalized the system of dark bargains that would define the Age of the Dimming. Each house carved its sacrifice into a memory-glass tablet and sealed it in the Council Chamber at Greymark Keep. The tablets are still there. Three of them have been altered.',
+      'Six houses that had broken to Keth-Amar — Thalreth, Skalvyr, Solvan, Mereval, Ordavan, and Tesshan — formalized the system of dark bargains that would define the Age of the Dimming. With Viridane fled and erased, they elevated House Morrath as a substitute seventh signatory to complete the binding ritual. Each house carved its sacrifice into a memory-glass tablet and sealed it in the Council Chamber at Greymark Keep. The tablets are still there. Three of them have been altered.',
     locationIds: ['greymark-keep'],
-    factionIds: ['house-thalreth', 'house-skalvyr', 'house-solvan', 'house-mereval', 'house-ordavan', 'house-tesshan', 'house-viridane'],
+    factionIds: ['house-thalreth', 'house-skalvyr', 'house-solvan', 'house-mereval', 'house-ordavan', 'house-tesshan', 'house-morrath'],
     classIds: ['martyr'],
     causes: ['event-keth-amar-breach'],
     effects: []
@@ -683,12 +693,12 @@ const SEEDED_EVENTS = [
   },
   {
     id: 'event-dawn-vigil-founded',
-    date: { year: 340, eraId: 'dimming' },
+    date: { year: 311, eraId: 'dimming' },
     title: 'The Dawn Vigil Founded',
     type: 'founding',
     phase: 'contraction',
       description:
-        'Originally founded as a quietist monastic order of Martyrs who tracked Monolith locations in secret. After twenty-eight failed pulses, the Vigil\'s founding premise was that Sol would not return on its own: only the reassembly of the Sundered Monoliths could restart the star. The Vigil\'s deepest secret, held by its inner circle: reassembly would summon Keth-Amar, not Sol. In recent decades, under Hierophant Aethelgard, the Vigil has militarized into Sundale\'s dominant theocracy.',
+        'Founded three centuries after the Breach, when the twelfth pulse revealed how much weaker Aex had become. Originally a quietist monastic order of Martyrs who tracked Monolith locations in secret, the Vigil\'s founding premise was that Sol would not return on its own: only the reassembly of the Sundered Monoliths could restart the star. The Vigil\'s deepest secret, held by its inner circle: reassembly would summon Keth-Amar, not Sol. In recent decades, under Hierophant Aethelgard, the Vigil has militarized into Sundale\'s dominant theocracy.',
       locationIds: ['sundale', 'emberspire-caldera'],
     factionIds: ['dawn-vigil', 'house-solvan'],
     classIds: ['martyr'],
@@ -949,7 +959,7 @@ const SEEDED_EVENTS = [
     type: 'conspiracy',
     phase: 'intrusion',
     description:
-      'With Nordhalla\'s geothermal sumps failing and the Frozen Archive\'s heating systems degrading, Frigga Skalvyr of House Skalvyr\'s younger generation made clandestine contact with outcast Emberth pyrofiends. Construction began on a volatile heat-engine powered by Emberspire obsidian, sealed beneath the Frozen Archive\'s deepest levels. The Silence-Heat engine traded the Glacier Bargain\'s slow stability for a faster, dirtier warmth: warmth stolen from the deep and from Scathrach\'s Wyrd-touched fire. The glacier-preserved dead stirred. Temporal friction began contaminating the Augurs\' readings. The engine still runs.',
+      'With Nordhalla\'s geothermal sumps failing and the Frozen Archive\'s heating systems degrading, a Skalvyr scion of the younger generation made clandestine contact with outcast Emberth pyrofiends. Construction began on a volatile heat-engine powered by Emberspire obsidian, sealed beneath the Frozen Archive\'s deepest levels. The Silence-Heat engine traded the Glacier Bargain\'s slow stability for a faster, dirtier warmth: warmth stolen from the deep and from Scathrach\'s Wyrd-touched fire. The glacier-preserved dead stirred. Temporal friction began contaminating the Augurs\' readings. The engine still runs.',
     locationIds: ['frozen-archive', 'nordhalla'],
     factionIds: ['house-skalvyr'],
     classIds: ['pyrofiend', 'augur'],

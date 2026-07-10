@@ -2203,7 +2203,7 @@ const RulesSectionItem = React.memo(({ section, idx, theme, selectedSubcategory,
 
 
 
-    } else if (selectedSubcategory === 'magic-overview' && section.title === "The Void's Shadow (Arcane Corruption)") {
+    } else if (selectedSubcategory === 'magic-overview' && section.title === "The Silence's Shadow (Arcane Corruption)") {
 
 
 
@@ -2223,7 +2223,7 @@ const RulesSectionItem = React.memo(({ section, idx, theme, selectedSubcategory,
 
 
 
-            alt="Arcane Void Swirl" 
+            alt="Arcane Silence Swirl" 
 
 
 

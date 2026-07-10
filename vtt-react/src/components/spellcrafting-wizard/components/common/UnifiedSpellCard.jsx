@@ -71,7 +71,7 @@ export const GLOBAL_STAT_MAP = {
  'storm_spell_power': 'Storm Spell Power', 'lightning_spell_power': 'Lightning Spell Power', 'thunder_spell_power': 'Thunder Spell Power', 'force_spell_power': 'Force Spell Power',
  'arcane_spell_power': 'Arcane Spell Power',
  'primal_spell_power': 'Primal Spell Power', 'nature_spell_power': 'Nature Spell Power',
- 'blight_spell_power': 'Blight Spell Power', 'necrotic_spell_power': 'Necrotic Spell Power', 'poison_spell_power': 'Poison Spell Power', 'acid_spell_power': 'Acid Spell Power', 'shadow_spell_power': 'Shadow Spell Power', 'void_spell_power': 'Void Spell Power',
+ 'blight_spell_power': 'Blight Spell Power', 'necrotic_spell_power': 'Necrotic Spell Power', 'poison_spell_power': 'Poison Spell Power', 'acid_spell_power': 'Acid Spell Power', 'shadow_spell_power': 'Shadow Spell Power', 'void_spell_power': 'Silence Spell Power',
  'wyrd_spell_power': 'Wyrd Spell Power', 'psychic_spell_power': 'Psychic Spell Power', 'chaos_spell_power': 'Chaos Spell Power',
  // Transition/Stance stats
  'multistancebenefits': 'Multi-Stance Benefits', 'multiStanceBenefits': 'Multi-Stance Benefits', 'multi_stance_benefits': 'Multi-Stance Benefits',
@@ -5436,7 +5436,7 @@ const UnifiedSpellCard = ({
                description: 'Immune to spells and magical effects. Spells cannot target or affect you.'
               },
               'void_existence': {
-               name: 'Void Existence',
+               name: 'Silence Existence',
                description: 'Exist between planes. Difficult to target, attacks against you have disadvantage.'
               },
               'teleport_anywhere': {

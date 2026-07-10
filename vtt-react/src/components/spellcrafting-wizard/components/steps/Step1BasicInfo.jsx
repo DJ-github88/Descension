@@ -27,7 +27,7 @@ const Step1BasicInfo = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
     { id: 'storm', name: 'Storm', description: 'Electrical energy that shocks and stuns', iconPath: 'Lightning/Lightning Bolt', iconCategory: 'abilities', color: '#a3811f' },
     { id: 'primal', name: 'Primal', description: 'Magic drawn from nature, growth, and the living world', iconPath: 'Nature/Nature Natural', iconCategory: 'abilities', color: '#2b5c20' },
     { id: 'arcane', name: 'Arcane', description: 'Pure magical energy that bypasses normal defenses', iconPath: 'Arcane/Orb Manipulation', iconCategory: 'abilities', color: '#6c3dbf' },
-    { id: 'blight', name: 'Blight', description: 'Death magic, toxic poison, and void corruption', iconPath: 'Necrotic/Necrotic Skull', iconCategory: 'abilities', color: '#53236e' },
+    { id: 'blight', name: 'Blight', description: 'Death magic, toxic poison, and Silence corruption', iconPath: 'Necrotic/Necrotic Skull', iconCategory: 'abilities', color: '#53236e' },
     { id: 'wyrd', name: 'Wyrd', description: 'Mind-based magic that confuses and terrifies', iconPath: 'Psychic/Brain Psionics', iconCategory: 'abilities', color: '#87206f' },
     { id: 'divine', name: 'Divine', description: 'Sacred radiance that smites the unholy and blesses the faithful', iconPath: 'Radiant/Radiant Divinity', iconCategory: 'abilities', color: '#DAA520' },
   ];

@@ -633,11 +633,11 @@ export const MIMIR_SUBRACE_ITEMS = [
     },
     {
         id: 'salt-pouch-reinforced',
-        name: 'Void-Sealed Salt Pouch',
+        name: 'Silence-Sealed Salt Pouch',
         type: 'accessory',
         subtype: 'TRINKET',
         quality: 'uncommon',
-        description: 'A pouch of salt stitched into void-resistant leather. Grants advantage on saves against salt-based vulnerability triggers. The Hollow carry these as others carry sacred symbols, protection from their own weakness.',
+        description: 'A pouch of salt stitched into Silence-resistant leather. Grants advantage on saves against salt-based vulnerability triggers. The Hollow carry these as others carry sacred symbols, protection from their own weakness.',
         iconId: 'inv_misc_bag_10',
         value: { platinum: 0, gold: 6, silver: 50, copper: 0 },
         weight: 1,

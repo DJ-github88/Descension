@@ -492,7 +492,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
  },
  {
   id: 'magic_t5_void_melody',
-  name: 'Void Melody',
+   name: 'Silence Melody',
   description: 'The leading tone cuts off all sound, a silence that descends like a predator from the canopy. When you consume Note VII as part of a cadence, all enemies within 20 feet lose their reaction until the start of their next turn per rank. The leading tone silences.',
   icon: 'spell_arcane_arcaneresilience',
   maxRanks: 2,

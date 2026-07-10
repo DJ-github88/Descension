@@ -82,6 +82,8 @@ export const templateToCreatureData = (template, character, overrides = {}) => {
       sourceType: SUMMON_SOURCE_TYPE,
       templateId: template.id,
       templateName: template.name,
+      category: template.category || null,
+      auraRadius: template.auraRadius || null,
       duration: { ...template.duration },
       roundsRemaining: template.duration.unit === 'rounds' ? template.duration.value : null,
       controlType: template.controlType,

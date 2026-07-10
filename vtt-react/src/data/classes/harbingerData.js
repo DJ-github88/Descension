@@ -325,7 +325,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
 1. **Unstable Miracles (30% Chance, Rolls 1-30)**: Time loops, localized gravity shields, and beneficial reality warping that repairs and protects allies.
 2. **Radical Area Ruin (30% Chance, Rolls 31-60)**: Atmospheric rifts, gravitational collapses, and explosive spatial distortions that devastate the environment.
 3. **Reality Reversals (20% Chance, Rolls 61-80)**: Probability inversions (hits become misses, misses become crits) and chaotic spatial swaps that scramble combatants' positions.
-4. **Devastating Physical Backlashes (20% Chance, Rolls 81-100)**: Direct tissue dissociation, temporal hemorrhages, and permanent mana capacity depletion as the Harbinger's physical form dissolves into the void.
+4. **Devastating Physical Backlashes (20% Chance, Rolls 81-100)**: Direct tissue dissociation, temporal hemorrhages, and permanent mana capacity depletion as the Harbinger's physical form dissolves into the Silence.
 
 **Prophecy Backlash**: When a prophecy rolls OUTSIDE the range, the Harbinger suffers backlash. Minor spells: 1d4 to 1d8 wyrd damage. Medium spells: 1d8 to 2d8 necrotic + mana loss. Major spells: 2d8 to 3d10 damage. Ultimate spells: 3d10+ damage + stun. The fates punish hubris.`
   }
@@ -696,7 +696,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     { range: { min: 2, max: 2 }, customName: "Glacial Freeze", effect: "Deals rime damage. Movement reduced by 20ft for 2 rounds.", effectConfig: { damageType: "rime", slowValue: -20, duration: 2 } },
     { range: { min: 3, max: 3 }, customName: "Searing Spark", effect: "Deals wyrd damage. Leaps to 2 nearby enemies within 15ft for 2d6 psychic.", effectConfig: { damageType: "wyrd", leapTargets: 2, leapDamage: "2d6" } },
     { range: { min: 4, max: 4 }, customName: "Marrow Corrosion", effect: "Deals blight damage. Physical attack rolls reduced by 3 for 2 rounds.", effectConfig: { damageType: "blight", rollPenalty: -3, duration: 2 } },
-    { range: { min: 5, max: 5 }, customName: "Deathly Void", effect: "Deals blight damage. Cannot receive healing for 2 rounds.", effectConfig: { damageType: "blight", healBlock: true, duration: 2 } },
+    { range: { min: 5, max: 5 }, customName: "Deathly Silence", effect: "Deals blight damage. Cannot receive healing for 2 rounds.", effectConfig: { damageType: "blight", healBlock: true, duration: 2 } },
     { range: { min: 6, max: 6 }, customName: "Temporal Stutter", effect: "Deals storm damage. AP cost increased by 1 for 1 round.", effectConfig: { damageType: "storm", apTax: 1, duration: 1 } },
     { range: { min: 7, max: 7 }, customName: "Planar Blindness", effect: "Deals ember damage. Blinded for 1 round.", effectConfig: { damageType: "ember", blindDuration: 1 } },
     { range: { min: 8, max: 8 }, customName: "Synaptic Shred", effect: "Deals wyrd damage + 3d6 extra psychic + disadvantage on next roll.", effectConfig: { damageType: "wyrd", extraDamage: "3d6", disadvantage: true } }
@@ -742,7 +742,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
    triggerConfig: { triggers: [{ id: "escalation_tick", name: "Doom Escalation", triggerType: "start_of_turn", action: "Increase bonus damage by 1d6 and deal 1d8 base storm damage" }] },
    tableConfig: { name: "Detonation Table", die: "1d6", rolls: [
     { roll: "1-2", effect: "Shockwave: All targets within 10ft knocked back 10ft" },
-    { roll: "3-4", effect: "Lingering Void: Target takes 1d10 force/round for 2 rounds" },
+    { roll: "3-4", effect: "Lingering Silence: Target takes 1d10 force/round for 2 rounds" },
     { roll: "5", effect: "Fate Breach: Target suffers -2 to next saving throw" },
     { roll: "6", effect: "Cascading Blast: Additional +2d10 storm damage" }
    ]},

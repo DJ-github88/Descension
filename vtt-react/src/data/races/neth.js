@@ -646,7 +646,7 @@ They view the Velun with a mixture of respect and pity, the Velun have power, bu
   name: 'Drun',
   illustration: '/assets/images/races/drun_illustration.png',
   illustrationCaption: 'A Drun outcast in simple, unmarked fabrics, silver skin slightly dulled from distance to the pact, dark eyes watching something the pact-bound cannot perceive.',
-  tooltipSummary: 'Severed void-walkers who cut their pact-seals to gain magic immunity, becoming legally nonexistent silence-walkers who bear the pact-sickness as their price.',
+  tooltipSummary: 'Severed silence-walkers who cut their pact-seals to gain magic immunity, becoming legally nonexistent silence-walkers who bear the pact-sickness as their price.',
   description: 'Founded in Year ~380 of the Dimming by Saren-Vel, who walked into the deepest bog with a flame that consumed only ink and burned her name from every active copy of the First Contract. The Drun have been legally nonexistent for ~420 years. The inheritors of the Keeper\'s silence. Through the Severing, a traumatic fire-ritual that burns their name from every active copy of the First Contract, the Drun have removed themselves from the pact entirely. They are magic-resistant, debt-null, invisible to the Keeper\'s enforcement. They are also legally non-existent: no property, no marriage, no testimony in a Neth court. Their freedom is absolute. Their vulnerability is absolute.',
   culturalBackground: `The Drun were not meant to exist. The original pact made no provision for Neth who might wish to leave it, the terms were binding in perpetuity, and "perpetuity," in Neth contract law, means "until the Keeper releases you, and the Keeper has never released anyone."
 

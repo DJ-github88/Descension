@@ -78,7 +78,7 @@ export const GAMBIT_DATA = {
         name: 'Load-Reading',
         description: `Probability is calculated as structural failure-analysis; the Gambit reads any system (a negotiation, a battle, a person) as a load-bearing structure and stakes on its failure-point. The Ithran are weakest against genuinely random events, but almost nothing in a world of bargains is genuinely random.`
       },
-      currentCrisisAngle: `The Ancestor-Spans are cracking (the Warden crisis), and every Ithran Gambit can feel it. They have begun refusing to wager on anything that crosses a span, because they can read the spans' failure-point now, and it is *soon*. The Ithran Gambits know when their own bridges will fall, and the knowing has made them the most frightened people in the Cragjaw.`,
+      currentCrisisAngle: `The Ancestor-Spans are cracking (the Warden order crisis), and every Ithran Gambit can feel it. They have begun refusing to wager on anything that crosses a span, because they can read the spans' failure-point now, and it is *soon*. The Ithran Gambits know when their own bridges will fall, and the knowing has made them the most frightened people in the Cragjaw.`,
       signatureQuote: {
         text: '"I can tell you the exact hour my grandmother\'s bridge fails. I have bet against telling her. I am losing that bet too."',
         speaker: 'Ith-Calss Span-Reader',
@@ -243,7 +243,7 @@ The Karmic Debt burden is existential: a Gambit who saves a friend by overriding
 - Spend Fortune Points to nudge rolls (1d4 wyrd damage per point, irreducible).
 - Spend Fate Reserve cards to override rolls entirely (generates Karmic Debt per override).
 
-**Managing the Dual Void**:
+**Managing the Dual Silence**:
 - Never let Fortune hit 0. Always hold a reserve point, or Cosmic Bankruptcy will trigger.
 - Never let Karmic Debt reach 13. Always track your debt accumulation, or Wyrd Collapse will end you.
 - The two systems interact: spec passives can convert self-damage into Fortune, or use Karmic Debt to amplify damage.
@@ -950,7 +950,7 @@ Your Fortune hits 0.
 
     { id: "gambler_fools_gold",
       name: "Fool's Gold",
-      description: "Reach into the empty void of your pockets and pull out a shimmering pile of coins, jewels, or cards (up to 100gp in value). The wealth is a temporary mathematical illusion; it dissolves into cold, grey ash in 1 hour or instantly if touched by Wyrd-warded steel. Siphons 1 Fortune Point.",
+      description: "Reach into the empty silence of your pockets and pull out a shimmering pile of coins, jewels, or cards (up to 100gp in value). The wealth is a temporary mathematical illusion; it dissolves into cold, grey ash in 1 hour or instantly if touched by Wyrd-warded steel. Siphons 1 Fortune Point.",
       level: 2,
       spellType: "ACTION",
       icon: "Utility/Utility",
@@ -4014,7 +4014,7 @@ Your Fortune hits 0.
     },
 
     { id: "fate_weaver_empty_hand",
-      name: "Unmoored Void",
+      name: "Unmoored Silence",
       description: "When your Fate Reserve is empty and you have 0 Karmic Debt, your temporal anchor is dangerously unmoored. You have disadvantage on all saving throws and Dodge checks until you draw a card or gain 1 debt.",
       level: 3,
       spellType: "PASSIVE",

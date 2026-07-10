@@ -149,7 +149,7 @@ const NPC_DATA = {
     personality:
       'Valeria is the last living person who studied under Malakor the Grim, the original Doomsayer. She is blunt, unsentimental, and brutally honest. She does not offer comfort because she believes comfort is a lie. She offers truth, which is cold but reliable.',
     backstory:
-      'Valeria was a young Solvarn priestess when Malakor found her. He recognized in her the same cold clarity that had driven him mad. She became his apprentice and, after his death, his successor. She sealed herself in the deepest vault of the Frozen Archive after her calculations began returning contradictory results (she believes she is close to a truth that will either save or doom everything, and she will not emerge until she knows which. Valeria\'s unnatural longevity mirrors that of her teacher, Malakor the Finite: decades sealed in the Frozen Archive\'s deepest ice-chamber) a form of deliberate temporal stasis: suspended her biological aging, though at the cost of her connection to the outside world. She emerged having aged only a decade while two centuries passed beyond the Archive\'s walls.',
+      'Valeria was a young Solvarn priestess when Malakor found her. He recognized in her the same cold clarity that had driven him mad. She became his apprentice and, in time, his successor as the keeper of the Doom-Choir's calculations. She sealed herself in the deepest vault of the Frozen Archive after her calculations began returning contradictory results (she believes she is close to a truth that will either save or doom everything, and she will not emerge until she knows which. Valeria\'s unnatural longevity mirrors that of her teacher, Malakor the Finite: decades sealed in the Frozen Archive\'s deepest ice-chamber) a form of deliberate temporal stasis: suspended her biological aging, though at the cost of her connection to the outside world. She emerged having aged only a decade while two centuries passed beyond the Archive\'s walls.',
     hooks: [
       'Valeria\'s calculations, if completed, would reveal the exact timeline of the world\'s extinction: including how much time is left',
       'The contradictory results she obtained suggest someone or something is actively interfering with the Doomsayer\'s equations'
@@ -164,16 +164,16 @@ const NPC_DATA = {
     gender: 'Female',
     factionIds: ['house-skalvyr'],
     locationIds: ['frozen-archive', 'over-shanty'],
-    age: '24',
+    age: 'Unknown: appears young (temporal friction from the engine she tends has altered her aging)',
     status: 'Active: clandestine',
     appearance:
       'A young woman with her father\'s ice-blue eyes and a sharp, intelligent face. She dresses in practical furs like any Skald hunter, but those who look closely notice the small silver brooch she always wears: a symbol of the Cult of Forgotten Shadow, hidden in plain sight as a geometric pattern.',
     personality:
-      'Frigga is idealistic, impatient, and convinced that her father\'s generation is too slow to save Nordhalla. She genuinely believes the Void-heat technology is the only solution, and she is willing to make deals she does not fully understand to secure it.',
+      'Frigga is idealistic, impatient, and convinced that her father\'s generation is too slow to save Nordhalla. She genuinely believes the Silence-heat technology is the only solution, and she is willing to make deals she does not fully understand to secure it.',
     backstory:
-      'The Jarl\'s youngest daughter, Frigga grew up watching Nordhalla freeze. She was 12 when the first geothermal sump failed. By 18, she had made contact with the Cult of Forgotten Shadow through a visiting merchant. By 22, she had facilitated the construction of the first Void-heat engine prototype beneath the Frozen Archive.',
+      'The Jarl\'s youngest daughter, Frigga grew up watching Nordhalla freeze. The conspiracy is older than she is: her grandmother\'s generation made the first contact with the Cult of Forgotten Shadow, and her parents\' generation began constructing the engine. By age 22, Frigga had overseen the completion of the first working Silence-heat engine prototype beneath the Frozen Archive, the culmination of decades of clandestine work by House Skalvyr\'s younger bloodline.',
     hooks: [
-      'Frigga knows more about the Void-heat engine than she has told her father: it is farther along than he realizes',
+      'Frigga knows more about the Silence-heat engine than she has told her father: it is farther along than he realizes',
       'She has begun hearing whispers from the engine, even when she is not near it'
     ]
   },
@@ -321,7 +321,7 @@ const NPC_DATA = {
     status: 'Active',
     appearance: 'A tall, frost-scarred Skald woman with one eye clouded to milky glass by a childhood vision-burn. She wears the grey robes of the Augur order over chainmail and carries a carved elk-horn staff she uses as much for walking the glacier-halls as for ritual.',
     personality: 'Steady, unsentimental, and privately frantic. Skadi has presided over the accuracy collapse from 93% to 41% without flinching: at least where the junior augurs can see. She believes the elk are still true and something is editing the future they can see.',
-    backstory: 'Cassia\'s great-great-granddaughter, Skadi learned the augury from a woman preserved in the glacier-ice who no longer remembers being her great-great-grandmother. She maintains the elk-herds and the ritual calendar at the Frozen Archive, defending her founder\'s method against contradictory readings. Privately she has begun a secret cross-reference suggesting the interference is temporal: the Chronarchs\' stitching.',
+    backstory: 'A distant descendant of Cassia's bloodline, Skadi learned the augury from a woman preserved in the glacier-ice who no longer remembers who she was in life. She maintains the elk-herds and the ritual calendar at the Frozen Archive, defending her founder\'s method against contradictory readings. Privately she has begun a secret cross-reference suggesting the interference is temporal: the Chronarchs\' stitching.',
     hooks: [
       'Skadi will pay handsomely for any Chronarch temporal-log that overlaps a failed elk-reading',
       'She has not told the Archive council that the founder Cassia\'s preserved lips have begun moving again',
@@ -572,7 +572,7 @@ const NPC_DATA = {
   'thrak-damos': {
     id: 'thrak-damos',
     name: 'Thrak-Damos',
-    title: 'Warden of the Void-Scars (Bulwark-Captain of the Aegis)',
+    title: 'Warden of the Silence-Scars (Bulwark-Captain of the Aegis)',
     race: 'Thrask Emberth',
     gender: 'Male',
     factionIds: ['aegis'],

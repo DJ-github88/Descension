@@ -570,8 +570,8 @@ const useCraftingStore = create(
       name: 'crafting-storage',
       version: 3,
       migrate: (persistedState, version) => {
-        // Always merge recipes to ensure all are present
-        const currentRecipes = persistedState?.availableRecipes || [];
+        const safePersisted = persistedState || {};
+        const currentRecipes = safePersisted.availableRecipes || [];
         const initialStateRecipes = initialState.availableRecipes;
         
         // Create a map of existing recipe IDs
@@ -581,26 +581,35 @@ const useCraftingStore = create(
         const newRecipes = initialStateRecipes.filter(r => !existingIds.has(r.id));
         
         return {
-          ...persistedState,
+          ...safePersisted,
+          ...initialState,
           availableRecipes: [...currentRecipes, ...newRecipes]
         };
       },
       merge: (persistedState, currentState) => {
-        // Also merge recipes during normal hydration
-        const persistedRecipes = persistedState?.availableRecipes || [];
+        const safePersisted = persistedState || {};
+        // Start from current state defaults so any missing top-level fields
+        // (e.g. craftingQueue) are never undefined.
+        const merged = { ...currentState, ...safePersisted };
+
+        // Merge recipes so newly added ones are included
+        const persistedRecipes = safePersisted.availableRecipes || [];
         const currentRecipes = currentState.availableRecipes || [];
         
         const existingIds = new Set(persistedRecipes.map(r => r.id));
         const missingRecipes = currentRecipes.filter(r => !existingIds.has(r.id));
         
-        if (missingRecipes.length > 0) {
-          return {
-            ...persistedState,
-            availableRecipes: [...persistedRecipes, ...missingRecipes]
-          };
-        }
-        
-        return persistedState;
+        merged.availableRecipes = [...persistedRecipes, ...missingRecipes];
+
+        // Guarantee array-typed collections exist
+        merged.craftingQueue = Array.isArray(safePersisted.craftingQueue)
+          ? safePersisted.craftingQueue
+          : initialState.craftingQueue;
+        merged.knownRecipes = { ...initialState.knownRecipes, ...(safePersisted.knownRecipes || {}) };
+        merged.professionLevels = { ...initialState.professionLevels, ...(safePersisted.professionLevels || {}) };
+        merged.professionExperience = { ...initialState.professionExperience, ...(safePersisted.professionExperience || {}) };
+
+        return merged;
       }
     }
   )

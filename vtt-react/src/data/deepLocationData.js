@@ -169,8 +169,8 @@ DEEP_LOCATIONS['frozen-archive'] = {
    { date: 'in the first centuries of the Dimming', event: 'Aldren Thalreth the Elder\'s self-entombment, his frozen chamber remains in the deepest vault' },
    { date: 'in the first centuries of the Dimming', event: 'Berserker founding: Grum\'s Blood-Heat occurs in Emberspire\'s caldera, recorded in Archive annals' },
    { date: 'in the later centuries of the Dimming', event: 'False Dawn Riots: Archive seals outer gates for the first time as mobs attack Augurs' },
-   { date: 'within living memory', event: 'Clandestine Void-heat engine construction began beneath the Archive' },
-   { date: 'within living memory', event: 'Void-Heat Heresy: construction of the heat-engine beneath the Archive begins in earnest' },
+   { date: 'within living memory', event: 'Clandestine Silence-heat engine construction began beneath the Archive' },
+   { date: 'within living memory', event: 'Silence-Heat Heresy: construction of the heat-engine beneath the Archive begins in earnest' },
    { date: 'within living memory', event: 'Augur Collapse: accuracy plummets from 93% to 41%; Cassia\'s preserved body weeps frozen tears' }
   ]
  },
@@ -205,7 +205,7 @@ DEEP_LOCATIONS['frozen-archive'] = {
   { factionId: 'house-skalvyr', influence: 'dominant', description: 'Absolute rulers of the Archive' },
   { factionId: 'skald-keepers', influence: 'strong', description: 'Maintain the genealogies and guard the vaults' },
   { factionId: 'solbrand-order', influence: 'moderate', description: 'Pilgrimage site; Aldren Thalreth the Elder\'s frozen chamber is a sacred destination' },
-  { factionId: 'cult-of-forgotten-shadow', influence: 'secret', description: 'Clandestine Void-heat research in sealed lower levels' }
+  { factionId: 'cult-of-forgotten-shadow', influence: 'secret', description: 'Clandestine Silence-heat research in sealed lower levels' }
  ],
  travelConnections: [
   { destinationId: 'fjord-gate', distance: '3 miles', travelTime: '2 hours', route: 'Frozen fjord-path, marked by rune-stones' },
@@ -240,7 +240,7 @@ DEEP_LOCATIONS['over-shanty'] = {
   watchPresence: 'No formal watch, but everyone in the Shanty watches everyone else. Gossip travels faster than arrows.'
  },
  economy: {
-  primary: 'Black market trade, peat-harvesting, Void-artifact trafficking',
+  primary: 'Black market trade, peat-harvesting, Silence-artifact trafficking',
   secondary: ['Information brokerage', 'Memory extraction services (Cult of Forgotten Shadow)', 'Fugitive harboring'],
   status: 'thriving'
  },
@@ -262,7 +262,7 @@ DEEP_LOCATIONS['over-shanty'] = {
   foundingStory:
    'When the Velun Neth signed the First Contract, those who could not abide its terms, who refused to surrender their names, their memories, or their autonomy, were cast down. They built platforms beneath Atropolis, then more platforms, then rope-bridges between them. The Shanty has never stopped growing.',
   significantEvents: [
-   { date: 'in the mid-Dimming centuries', event: 'Natalie Seline founded the Cult of Forgotten Shadow in a peat-crypt beneath the Shanty' },
+   { date: 'in the mid-Dimming centuries', event: 'Local legend says Natalie Seline founded the Cult of Forgotten Shadow in a peat-crypt beneath the Shanty; whether the cult truly exists — or is merely a name the Shanty assigns to the silence that lives in the deep bogs — remains an open question' },
    { date: 'in the mid-Dimming centuries', event: 'Establishment: the Over-Shanty coalesces as permanent black-market settlement at peat-bog edge' },
    { date: 'in the most recent centuries', event: 'The Silence Between Stars made first contact with the Cult\'s inner circle' },
    { date: 'in the most recent centuries', event: 'The Silence Between Stars: Cult makes first two-way contact with the deep dark; the Voice answers' },
@@ -386,7 +386,7 @@ DEEP_LOCATIONS['synod-hold'] = {
   { factionId: 'unlit-veil', influence: 'dominant', description: 'Control trade policy, information flow, and consultation contracts' }
  ],
  travelConnections: [
-  { destinationId: 'emberspire', distance: '80 miles', travelTime: '3 days', route: 'The Ash-Road, a caravan trail marked by charcoal cairns' }
+   { destinationId: 'emberspire-caldera', distance: '80 miles', travelTime: '3 days', route: 'The Ash-Road, a caravan trail marked by charcoal cairns' }
  ],
  classPresence: ['augur', 'falseProphet', 'gambit'],
  npcs: ['loras-ordavan', 'the-factotum']
@@ -1027,7 +1027,7 @@ DEEP_LOCATIONS['starfall-vale'] = {
  ],
  travelConnections: [
   { destinationId: 'synod-hold', distance: '30 miles', travelTime: '2 days', route: 'The Star-Path, marked by standing stones that hum in harmony with the shards' },
-  { destinationId: 'ancestor-wold', distance: '15 miles', travelTime: '1 day', route: 'Open steppe, guided by the hum of the ancestral mounds' }
+   { destinationId: 'ancestor-mounds', distance: '15 miles', travelTime: '1 day', route: 'Open steppe, guided by the hum of the ancestral mounds' }
  ],
  classPresence: ['augur', 'falseProphet', 'warden'],
  npcs: ['mor-vereth']
@@ -1077,7 +1077,7 @@ DEEP_LOCATIONS['harath-vault'] = {
   significantEvents: [
    { date: 'in the first centuries of the Dimming', event: 'Grum Bloodhammer ignites the first Blood-Heat; the Forge of Grum is established in the newly-formed Harath-Vault' },
    { date: 'in the early centuries of the Dimming', event: 'The Skald Council formed to govern the growing Berserker order; the Vault becomes the Council\'s permanent seat' },
-   { date: 'within living memory', event: 'The Void-Heat Heresy reaches Sundale; Hark Ash-Hammer purges the Pact-less Unbound from the Vault' },
+   { date: 'within living memory', event: 'The Silence-Heat Heresy reaches Sundale; Hark Ash-Hammer purges the Pact-less Unbound from the Vault' },
    { date: 'within living memory', event: 'Deep-tunnel settlers from Emberspire\'s lower reaches attempt to establish an independent forge-hold; Hark Ash-Hammer condemns it as heretical' }
   ]
  },
@@ -1208,7 +1208,7 @@ DEEP_LOCATIONS['frostmaw-holdfast'] = {
 // =============================================================================
 // ICEHEART SEA, Merrowport Deep-Quarter (deep)
 // =============================================================================
-DEEP_LOCATIONS['merrowport-deep'] = {
+DEEP_LOCATIONS['merrowport'] = {
  heraldry: {
   iconUrl: '/assets/heraldry/merrowport-deep.png',
   colors: { primary: '#1a3a5a', secondary: '#c4a040' },

@@ -96,7 +96,7 @@ export const PYROFIEND_DATA = {
   name: "Scathrach, the Ashen Sovereign",
   title: "The Ninth Flame of the Burning Throne",
   description:
-  "Scathrach is not a benevolent patron. It is a parasitic intelligence from the deepest furnace of the infernal deep, a thing that was never mortal, never alive in any sense that flesh understands. It feeds on desperation, answers prayers with combustion, and considers every mortal body it inhabits to be kindling. The Pyrofiend did not make a deal with Scathrach. They were chosen, selected for their particular brand of despair, their willingness to burn rather than endure. The pact is written in scar tissue. The price is paid in breath, blood, and eventual immolation.",
+   "Scathrach is not a benevolent patron. It was born during the Binding — a fragment of Aex's flayed hide that fell into Emberspire's deepest vent and was corrupted by the Wyrd seeping through Aex's stretched body. It grew sentient in the fire, served Keth-Amar for centuries as a rooting tendril, then developed its own will and sealed the vent from within. Now it despises the Sun-Eater for what it was made into, but it has not stopped feeding. It answers prayers with combustion, considers every mortal body kindling, and calls in Pyrofiend debts not to serve Keth-Amar but to hoard power to wound it back. The Pyrofiend did not make a deal with Scathrach. They were chosen, selected for their particular brand of despair, their willingness to burn rather than endure. The pact is written in scar tissue. The price is paid in breath, blood, and eventual immolation.",
  },
  utility:
   "Unmatched, escalating, exponential area-of-effect devastation. As the Inferno Veil ascends, damage multiplies to world-ending levels, capable of melting boss-tier encounters in a single turn. No other class can match the Pyrofiend's ceiling when the Veil climbs.",
@@ -141,7 +141,7 @@ Your marrow is the candle. Your blood is the wax. The Ashen Sovereign has writte
 
  quickOverview: {
   title: "Quick Overview",
-  content: `**What You Need to Know**: You did not study magic. You surrendered your flesh to Scathrach, the Ashen Sovereign, a parasitic intelligence from the infernal deep. Your power is a debt paid in blood. The Inferno Veil ascends through 10 levels (0-9), each one rewriting your body into something less human. Climb too high and the corruption kills you. Stay too low and you insult the horror that owns you.
+     content: `**What You Need to Know**: You did not study magic. You surrendered your flesh to Scathrach, the Ashen Sovereign — a parasitic Wyrd-intelligence born from a fragment of Aex's hide during the Binding. Your power is a debt paid in blood. The Inferno Veil ascends through 10 levels (0-9), each one rewriting your body into something less human. Climb too high and the corruption kills you. Stay too low and you insult the horror that owns you.
 
 **Core Mechanic**: Cast fire spells → Ascend Inferno Levels → Gain ember damage bonus (+1 to +8, then +10 at Level 9 "Scathrach's Bargain") → Suffer escalating drawbacks (self-damage, movement loss, suffocation, Wyrd-touched possession) → Use Cooling Ember to descend (imposes Mana Tax) → At Level 5+, make Spirit saves or be forced to attack the nearest living thing (friend or foe)
 
@@ -180,7 +180,7 @@ The class is heavily practiced by the Thrask Emberth and hot-blooded Solvarn hum
 
  philosophy: {
   coreTenet: 'Fire is not destruction, it is transformation. The Pyrofiend does not burn things to ash. They return them to their original state: raw, formless, potential. Ash is not waste. Ash is the universe\'s memory of what something used to be.',
-  relationship: 'Scathrach, the Ashen Sovereign, is a parasitic Wyrd-intelligence from the infernal deep. It does not possess the Pyrofiend, it rents them. The relationship is contractual: the horror provides power, and the Pyrofiend provides a body through which the horror can experience the material world. Scathrach is patient, ancient, and deeply curious about mortality. It finds humans fascinating in the way a scholar finds a dying insect interesting.',
+   relationship: 'Scathrach, the Ashen Sovereign, is a parasitic Wyrd-intelligence born from a fragment of Aex\'s hide during the Binding. It does not possess the Pyrofiend, it rents them. The relationship is contractual: the horror provides power, and the Pyrofiend provides a body through which the horror can experience the material world. Scathrach is patient and deeply curious about mortality, but it is not ancient — it was born with the Breach, and its hunger is still young. It finds humans fascinating in the way a scholar finds a dying insect interesting.',
   paradox: 'The Pyrofiend is most powerful when they are closest to permanent death. Every point of Inferno Veil brings them closer to Scathrach\'s embrace, and closer to being consumed entirely. At Veil 9, they have exactly three turns before they cease to exist, their body becoming a permanent conduit for the Ashen Sovereign. The power is intoxicating; the price is oblivion. Every Pyrofiend must decide exactly how much they are willing to burn for victory, knowing that the final flame will be themselves.'
  },
 
