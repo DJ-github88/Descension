@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Lunarch Class Data
  *
  * The Vessel of the Lunar Parasite. An ancient, unfeeling celestial entity has
@@ -33,7 +33,7 @@ export const LUNARCH_DATA = {
           "morren_human"
       ],
       "narrativeUnlock": true,
-      "justification": "Requires fog-dense environments where void-light is accessible. The parasite specifically responded to Viridane blood. Non-Briaran who enter the moonlit groves may be chosen, but the Briaran are the original bloodline."
+      "justification": "Requires fog-dense environments where silence-light is accessible. The parasite specifically responded to Viridane blood. Non-Briaran who enter the moonlit groves may be chosen, but the Briaran are the original bloodline."
   },
 
   /**
@@ -130,7 +130,7 @@ export const LUNARCH_DATA = {
       reframe: `The <LoreLink termId="skald">Thalren</LoreLink> value fixed identity above all, journals chained to belts, lineages tattooed on tapestries, and a Lunarch among them is a *heretic*, surrendering the very stability their culture worships. A Thalren Lunarch is rare, ostracized, and desperate: they have traded the recorded self for a parasitic one, and the fog that erases Thalren memory is, for them, *feeding* the moon.`,
       signatureAbility: {
         name: 'Fog-Communion',
-        description: `The parasite draws power directly from the Frostwood's memory-erasing fog; a Thalren Lunarch in dense fog is the most potent variant of the tradition, channeling void-light the fog itself filters. The cost: the Thalren's already-fading memories fade *faster*, fed to the parasite as fuel.`
+        description: `The parasite draws power directly from the Frostwood's memory-erasing fog; a Thalren Lunarch in dense fog is the most potent variant of the tradition, channeling silence-light the fog itself filters. The cost: the Thalren's already-fading memories fade *faster*, fed to the parasite as fuel.`
       },
       currentCrisisAngle: `The Thalren Lunarchs are the variant most endangered by their own people: the Scribe-Cartel has begun identifying them (the glow gives them away) and striking them from the Sovereign Ledger as *legally nonexistent*, the same erasure applied to the Forgotten. A Thalren Lunarch who is unrecorded cannot prove they exist, and the parasite, feeding on a host the world no longer acknowledges, is growing erratic.`,
       signatureQuote: {
@@ -681,13 +681,11 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
           "Phase Tear - Force-shift to Full Moon when a target must die NOW",
         ],
       },
-      { id : "void-caller",
-        name: "Void Caller",
-        icon: "Arcane/Missile",
-        color: "#2A0040",
-        theme: "Reality Warper",
-
-        description: `The parasite has opened a channel to the void between stars -- the cold, hateful space where light goes to die. The Void Caller does not 'call down stars' or 'invoke celestial energy.' They tear holes in reality through which cold, predatory starlight bleeds. These rifts contaminate everything they touch, spreading cosmic sickness that disadvantages enemies and corrodes their ability to fight. The Void Caller is a battlefield controller who warps the geometry of combat, and their AoE abilities apply 'Star-Sickness' -- a lingering contamination that represents the parasite spreading its influence through the wounds it creates.`,
+      { id : "silence-speaker",
+        name: "Silence-Speaker",
+        color: "#2C3E50",
+        theme: "Cosmic Contamination & Rifts",
+        description: `The parasite has opened a channel to the Silence between stars -- the cold, hateful space where light goes to die. The Silence-Speaker does not 'call down stars' or 'invoke celestial energy.' They tear holes in reality through which cold, predatory starlight bleeds. These rifts contaminate everything they touch, spreading cosmic sickness that disadvantages enemies and corrodes their ability to fight. The Silence-Speaker is a battlefield controller who warps the geometry of combat, and their AoE abilities apply 'Star-Sickness' -- a lingering contamination that represents the parasite spreading its influence through the wounds it creates.`,
 
         playstyle:
           "Battlefield controller who tears reality apart, spreading cosmic contamination and phase contagion across entire enemy formations",
@@ -715,12 +713,11 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
             sharedBy: "All Lunarch",
           },
           {
-            name: "Void Aperture",
+            name: "Silence Aperture",
             tier: "Specialization Passive",
             icon: "Arcane/Star Trail Path",
-            description:
-              "Your AoE spells during Full Moon apply Star-Sickness to all enemies hit: disadvantage on their next attack roll and 1d4 ember damage at the start of their next turn for 2 rounds. During Waxing Moon, all AoE spell radii increase by 5 feet as the parasite's tendrils extend through the tears in reality.",
-            uniqueTo: "Void Caller",
+            description: "Your rift spells have their radius increased by 5 ft. Entering your active rift zones deals 1d4 radiant damage per round to enemies.",
+            uniqueTo: "Silence-Speaker",
           },
           {
             name: "Phase Contagion",
@@ -728,14 +725,24 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
             icon: "Arcane/Magical Sword",
             description:
               "When you deal damage with an AoE spell, you can choose to spread your current phase's horror to one enemy hit. New Moon: target loses 1d4 mana or takes 1d4 wyrd damage. Waxing: target takes 1d4 extra necrotic. Full Moon: target has disadvantage on next save. Waning: target loses 5 ft speed for 1 round.",
-            uniqueTo: "Void Caller",
+            uniqueTo: "Silence-Speaker",
           },
+          {
+            uniqueTo: "Silence-Speaker",
+            name: "Star-Sickness Contagion",
+            description: "Enemies affected by Star-Sickness have disadvantage on all saving throws against your phase effects.",
+          },
+          {
+            uniqueTo: "Silence-Speaker",
+            name: "Eclipse Shroud",
+            description: "When standing inside a rift zone, you are treated as having total cover against ranged attacks.",
+          }
         ],
 
-        recommendedSpells: [
-          "Void Rend - Your signature AoE, tears reality and spreads Star-Sickness",
-          "Void Beam - Line attack that leaves a trail of cosmic contamination",
-          "Void Collapse - Massive AoE with phase contagion",
+        notableAbilities: [
+          "Silence Rend - Your signature AoE, tears reality and spreads Star-Sickness",
+          "Silence Beam - Line attack that leaves a trail of cosmic contamination",
+          "Silence Collapse - Massive AoE with phase contagion",
           "Total Eclipse - Ultimate reality distortion, gain two phases at double the cost",
         ],
       },
@@ -1227,15 +1234,15 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       tags: ["passive", "lunarch", "transition shock"],
     },
 
-    // STARFALL INVOKER ? VOID CALLER
-    { id : "lunarch_void_rend",
-      name: "Void Rend",
+    // STARFALL INVOKER ? SILENCE SPEAKER
+    { id : "lunarch_silence_rend",
+      name: "Silence Rend",
       description:
-        "Tear a hole in reality. Cold, hateful starlight bleeds through the rift, scorching enemies and contaminating them with cosmic sickness.",
+        "Tear reality open in a 15ft radius. Cold, predatory starlight bleeds through, dealing 2d6 radiant damage and contaminating all enemies with Star-Sickness.",
+      level: 1,
       spellType: "ACTION",
-      icon: "Arcane/Star Trail Path",
-      level: 2,
-      specialization: "void-caller",
+      icon: "Arcane/Quick Step",
+      specialization: "silence-speaker",
       effectTypes: ["damage", "debuff"],
 
       typeConfig: {
@@ -1270,7 +1277,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       resolution: "DICE",
 
       damageConfig: {
-        formula: "3d6",
+        formula: "2d6",
         damageTypes: ["ember"],
         resolution: "DICE",
         savingThrow: {
@@ -1301,12 +1308,11 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       specialMechanics: {
         phaseInteraction: {
           fullMoon: "Radius increases to 20 ft. Star-Sickness deals 1d6 radiant/turn.",
-          waxingMoon: "Radius increases by 5 ft (Void Aperture passive).",
-          waningMoon: "Heal for 25% of damage dealt to all targets.",
+          waxingMoon: "Radius increases by 5 ft (Silence Aperture passive).",
         },
       },
 
-      tags: ["ember", "damage", "aoe", "debuff", "star-sickness", "void caller"],
+      tags: ["ember", "damage", "aoe", "debuff", "star-sickness", "silence-speaker"],
     },
 
     { id : "lunarch_sanguine_transfer",
@@ -1449,14 +1455,15 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       tags: ["ember", "damage", "debuff", "mark", "hollow sentinel"],
     },
 
-    { id : "lunarch_void_beam",
-      name: "Void Beam",
+    // LEVEL 5 SPELLS
+    { id : "lunarch_silence_beam",
+      name: "Silence Beam",
       description:
-        "Open a rift along a line and pour the void's hatred through it. Enemies are scorched by cold starlight and contaminated with cosmic sickness.",
+        "Open a rift along a line and pour the Silence's hatred through it. Enemies are scorched by cold starlight and contaminated with cosmic sickness.",
+      level: 5,
       spellType: "ACTION",
       icon: "Arcane/Missile",
-      level: 3,
-      specialization: "void-caller",
+      specialization: "silence-speaker",
       effectTypes: ["damage", "debuff"],
 
       typeConfig: {
@@ -1511,7 +1518,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         effects: [
           { id : "star_sickness_beam",
             name: "Star-Sickness",
-            description: "Contaminated by void beam. Disadvantage on next attack, 1d4 radiant at start of turn.",
+            description: "Contaminated by silence beam. Disadvantage on next attack, 1d4 radiant at start of turn.",
             statusType: "sickened",
             level: "moderate",
             mechanicsText: "Disadvantage on next attack and 1d4 radiant/turn for 1 round",
@@ -1522,12 +1529,12 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       specialMechanics: {
         phaseInteraction: {
           fullMoon: "Star-Sickness 2 rounds. +1d6 damage. Line width 10 ft.",
-          waxingMoon: "Line length 40 ft. +5 ft radius (Void Aperture).",
+          waxingMoon: "Line length 40 ft. +5 ft radius (Silence Aperture).",
           waningMoon: "Heal 25% of total damage. Mana cost reduced by 2.",
         },
       },
 
-      tags: ["ember", "damage", "line", "debuff", "star-sickness", "void caller"],
+      tags: ["ember", "damage", "line", "debuff", "star-sickness", "silence-speaker"],
     },
 
     { id : "lunarch_binding_horror",
@@ -1610,343 +1617,15 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       tags: ["control", "restrain", "parasitic", "universal"],
     },
 
-    // MOONWELL GUARDIAN ? SANGUINE WARDEN
-    { id : "lunarch_fractured_timeline",
-      name: "Fractured Timeline",
-      description:
-        "Violently cycle through all four phases in rapid succession, each shift tearing a different piece of your physiology. You gain one brief benefit from each horror but pay in cumulative flesh damage.",
-      spellType: "ACTION",
-      icon: "Arcane/Magical Sword",
-      level: 4,
-      specialization: "universal",
-      effectTypes: ["buff", "utility"],
-
-      typeConfig: {
-        school: "arcane",
-        icon: "Arcane/Magical Sword",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "self",
-        rangeType: "self",
-      },
-
-      durationConfig: {
-        durationType: "instant",
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 14 },
-        actionPoints: 1,
-        components: ["verbal", "somatic"],
-        verbalText: "QUATTUOR FAMIS!",
-        somaticText: "Strain as the parasite cycles through all four feedings",
-      },
-
-      resolution: "AUTOMATIC",
-
-      buffConfig: {
-        buffType: "statEnhancement",
-        effects: [
-          { id: "fractured_timeline_new_moon",
-            name: "New Moon Fragment",
-            description: "Restore 1d4 mana and reduce the next incoming attack against you by 1d4.",
-            statModifier: { stat: "damage_reduction_next", magnitude: 1, magnitudeType: "dice" }
-          },
-          { id: "fractured_timeline_waxing",
-            name: "Waxing Fragment",
-            description: "Next spell deals +1d4 damage, or next heal is +1d6."
-          },
-          { id: "fractured_timeline_full_moon",
-            name: "Full Moon Fragment",
-            description: "Next attack deals +1d6 damage with +2 crit range."
-          },
-          { id: "fractured_timeline_waning",
-            name: "Waning Fragment",
-            description: "Next spell costs 2 less mana."
-          },
-        ],
-        durationType: "rounds",
-        durationValue: 10,
-        durationUnit: "rounds",
-        concentrationRequired: false,
-        canBeDispelled: false,
-      },
-
-      utilityConfig: {
-        utilityType: "special",
-        selectedEffects: [
-          { id: "rapid_cycle_phase_advance",
-            name: "Rapid Phase Cycle",
-            description: "Violently cycle through all four phases in succession, gaining one benefit from each phase and rolling Transition Shock once."
-          },
-        ],
-        duration: 0,
-        durationUnit: "instant",
-        concentration: false,
-        power: "major",
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
-
-      specialMechanics: {
-        rapidCycle: {
-          description: "Gain one benefit from each phase simultaneously until consumed or 1 minute:",
-          sequence: [
-            "New Moon: Restore 1d4 mana, reduce next incoming attack by 1d4",
-            "Waxing: Next spell deals +1d4 damage or next heal is +1d6",
-            "Full Moon: Next attack deals +1d6 damage with +2 crit range",
-            "Waning: Next spell costs 2 less mana",
-          ],
-          triggerConfig: {
-            triggers: [
-              { id: "rapid_cycle_phase_advance_parasitic_toll", name: "Parasitic Toll", triggerType: "on_cast", action: "The rift-parasite feeds on your flesh: selfDamage applies on cast." }
-            ]
-          },
-          selfDamage: "Take 4d4 blight damage (cumulative tissue damage from four rapid shifts). Roll Transition Shock once.",
-          phaseAdvancement: 1,
-        },
-      },
-
-      tags: ["utility", "buff", "multi phase", "universal", "self damage"],
-    },
-
-    { id : "lunarch_sanguine_rites",
-      name: "Sanguine Rites",
-      description:
-        "Open every seam in your arms simultaneously, flooding an ally with concentrated stolen life force. The price is written in your own blood.",
-      spellType: "ACTION",
-      icon: "Radiant/Radiant Golden Shield",
-      level: 5,
-      specialization: "sanguine-warden",
-      effectTypes: ["healing"],
-
-      typeConfig: {
-        school: "ember",
-        icon: "Radiant/Radiant Golden Shield",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "single",
-        rangeType: "ranged",
-        rangeDistance: 40,
-        targetRestrictions: ["ally"],
-      },
-
-      durationConfig: {
-        durationType: "instant",
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 12 },
-        actionPoints: 1,
-        components: ["somatic"],
-        somaticText: "Open every seam along both arms, channel the flood",
-      },
-
-      resolution: "DICE",
-
-      healingConfig: {
-        formula: "4d8 + spirit",
-        healingType: "direct",
-        resolution: "DICE",
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
-
-      specialMechanics: {
-        triggerConfig: {
-          triggers: [
-            { id: "lunarch_sanguine_rites_parasitic_toll", name: "Parasitic Toll", triggerType: "on_cast", action: "The rift-parasite feeds on your flesh: selfDamage applies on cast." }
-          ]
-        },
-        selfDamage: "Take 2d6 necrotic when cast. During Waxing: healing +50% but take 1d6 extra necrotic.",
-        phaseAdvancement: 1,
-        phaseInteraction: {
-          waxingMoon: "Healing increases to 4d8+spirit+2d6. Target gains 2d6 temp HP. Take 1d6 extra necrotic.",
-          fullMoon: "Can cleanse two conditions (poison, disease, curse).",
-          waningMoon: "Recover 25% of healing as self-healing. Mana cost reduced by 2.",
-        },
-      },
-
-      tags: ["healing", "cleanse", "self damage", "sanguine warden"],
-    },
-
-    { id : "lunarch_total_eclipse",
-      name: "Total Eclipse",
-      description:
-        "Force the parasite into a catastrophic overfeed, simultaneously drawing from New Moon and Full Moon. Your body becomes a warzone of competing cosmic energies at double the flesh cost. Roll Transition Shock twice.",
-      spellType: "ACTION",
-      icon: "Healing/Cure Within",
-      level: 6,
-      specialization: "universal",
-      effectTypes: ["buff", "damage"],
-
-      typeConfig: {
-        school: "ember",
-        icon: "Healing/Cure Within",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "self",
-        rangeType: "self",
-      },
-
-      durationConfig: {
-        durationType: "rounds",
-        durationValue: 2,
-        durationUnit: "rounds",
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 15 },
-        actionPoints: 2,
-        components: ["verbal", "somatic"],
-        verbalText: "CONCURRIS!",
-        somaticText: "Cross arms over chest, spread wide as body cracks with starlight",
-      },
-
-      resolution: "AUTOMATIC",
-
-      buffConfig: {
-        buffType: "dual_phase",
-        effects: [
-          { id : "new_moon_eclipse",
-            name: "Memory Eater Eclipse",
-            description: "+2 DR. Immune to charm and fear. -1 to attack rolls.",
-            mechanicsText: "+2 DR, charm/fear immune, -1 attacks",
-          },
-          { id : "full_moon_eclipse",
-            name: "Sanity Erosion Eclipse",
-            description: "+1d8 radiant on all attacks. Crit range +2. Roll Delirium each turn.",
-            mechanicsText: "+1d8 radiant, +2 crit range, Delirium each turn",
-          },
-          { id : "stellar_aura",
-            name: "Contagion Aura",
-            description: "1d6 radiant to enemies within 10 ft each turn. Applies Star-Sickness.",
-            mechanicsText: "1d6 radiant to enemies within 10 ft/turn, applies Star-Sickness",
-          },
-        ],
-        durationValue: 2,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: false,
-        canBeDispelled: true,
-      },
-
-      damageConfig: {
-        formula: "1d6",
-        damageTypes: ["ember"],
-        resolution: "AUTOMATIC",
-        dotConfig: { enabled: true, damagePerTick: "1d6", damageType: "ember", tickFrequency: "round", duration: 2, canStack: false, maxStacks: 1 },
-        description: "Contagion Aura deals 1d6 radiant damage to enemies within 10 ft each turn for 2 rounds.",
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
-
-      specialMechanics: {
-        dualPhase: {
-          triggerConfig: {
-            triggers: [
-              { id: "stellar_aura_parasitic_toll", name: "Parasitic Toll", triggerType: "on_cast", action: "The rift-parasite feeds on your flesh: selfDamage applies on cast." }
-            ]
-          },
-          selfDamage: "Take 3d6 necrotic when cast. Roll Transition Shock twice.",
-          phaseAdvancement: 1,
-          phaseLock: "Phase does not cycle during Eclipse.",
-          afterEffect: "After Eclipse ends, shift to Waning Moon (no additional cost).",
-          delirium: "Still roll Delirium each turn (Full Moon drawback persists).",
-        },
-      },
-
-      tags: ["buff", "self", "dual phase", "universal", "self damage"],
-    },
-
-    // LEVEL 7-10 SPELLS
-
     // LEVEL 7 SPELLS
-    { id : "lunarch_hollow_volley",
-      name: "Hollow Volley",
+    { id : "lunarch_silence_supernova",
+      name: "Silence Supernova",
       description:
-        "Loose a volley of parasitic bolts that seek out multiple targets. Each bolt carries a sliver of the parasite's hunger, and each one tears a seam in your flesh as it leaves.",
+        "Detonate a rift-core above your enemies. The explosion is not fire -- it is the Silence remembering what light used to be, and hating it. Enemies are scorched and contaminated with mass delirium.",
       level: 7,
       spellType: "ACTION",
-      icon: "Piercing/Rapid Arrows",
-      specialization: "hollow-sentinel",
-      effectTypes: ["damage"],
-
-      typeConfig: {
-        school: "ember",
-        icon: "Piercing/Rapid Arrows",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "multi",
-        rangeType: "ranged",
-        rangeDistance: 120,
-        maxTargets: 4,
-        targetRestrictions: ["enemy"],
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 30 },
-        actionPoints: 2,
-        components: ["somatic"],
-        somaticText: "Rip seams in both arms, let bolts seek through starlight sockets",
-      },
-
-      resolution: "DICE",
-
-      damageConfig: {
-        formula: "6d6 + agility",
-        damageTypes: ["ember"],
-        resolution: "DICE",
-        savingThrow: {
-          ability: "agility",
-          difficultyClass: 17,
-          saveOutcome: "half_damage",
-        },
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
-
-      specialMechanics: {
-        triggerConfig: {
-          triggers: [
-            { id: "lunarch_hollow_volley_parasitic_toll", name: "Parasitic Toll", triggerType: "on_cast", action: "The rift-parasite feeds on your flesh: selfDamage applies on cast." }
-          ]
-        },
-        selfDamage: "Take 2d4 blight damage per target hit (parasite feeds on each bolt).",
-        phaseAdvancement: 1,
-        phaseInteraction: {
-          fullMoon: "Can target 6 enemies. Each bolt deals +1d8 radiant. Ignore 25% DR (Starlight Sockets).",
-          waningMoon: "Heal 25% of total damage dealt. Mana cost reduced by 3.",
-        },
-      },
-
-      tags: ["damage", "multi target", "ember", "hollow sentinel"],
-    },
-
-    { id : "lunarch_void_supernova",
-      name: "Void Supernova",
-      description:
-        "Detonate a rift-core above your enemies. The explosion is not fire -- it is the void remembering what light used to be, and hating it. Enemies are scorched and contaminated with mass delirium.",
-      level: 7,
-      spellType: "ACTION",
-      icon: "Radiant/Radiant Glow",
-      specialization: "void-caller",
+      icon: "Fire/Shadowy Blaze",
+      specialization: "silence-speaker",
       effectTypes: ["damage", "debuff"],
 
       typeConfig: {
@@ -1997,7 +1676,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         effects: [
           { id : "mass_delirium",
             name: "Cosmic Delirium",
-            description: "Mind shattered by void supernova. Disadvantage on all rolls for 2 rounds.",
+            description: "Mind shattered by silence supernova. Disadvantage on all rolls for 2 rounds.",
             statusType: "confused",
             level: "strong",
             mechanicsText: "Disadvantage on all rolls for 2 rounds (Con save DC 17 to negate)",
@@ -2019,158 +1698,18 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         },
       },
 
-      tags: ["damage", "control", "debuff", "ember", "void caller"],
-    },
-
-    { id : "lunarch_sanguine_deluge",
-      name: "Sanguine Deluge",
-      description:
-        "Burst every seam in your body simultaneously. A deluge of blood-tinged moonlight erupts outward, healing allies caught in the flood while you collapse from catastrophic blood loss. This is the Sanguine Warden's final gift -- you give everything.",
-      level: 7,
-      spellType: "ACTION",
-      icon: "Radiant/Bright Explosion",
-      specialization: "sanguine-warden",
-      effectTypes: ["healing", "purification"],
-
-      typeConfig: {
-        school: "ember",
-        icon: "Radiant/Bright Explosion",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "area",
-        rangeType: "self_centered",
-        areaType: "circle",
-        areaSize: 30,
-        targetRestrictions: ["ally"],
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 32 },
-        actionPoints: 2,
-        components: ["somatic"],
-        somaticText: "Burst every seam. Let the blood-moonlight flood.",
-      },
-
-      resolution: "DICE",
-
-      healingConfig: {
-        formula: "6d8 + spirit",
-        healingType: "direct",
-        resolution: "DICE",
-        hotConfig: {
-          enabled: true,
-          healingPerTick: "2d6",
-          tickFrequency: "round",
-          duration: 3,
-        },
-      },
-
-      purificationConfig: {
-        purificationType: "cleanse",
-        targetType: "area",
-        power: "major",
-        duration: "instant",
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
-
-      specialMechanics: {
-        triggerConfig: {
-          triggers: [
-            { id: "lunarch_sanguine_deluge_parasitic_toll", name: "Parasitic Toll", triggerType: "on_cast", action: "The rift-parasite feeds on your flesh: selfDamage applies on cast." }
-          ]
-        },
-        selfDamage: "Take 4d6 blight damage. This damage cannot reduce you below 1 HP (the parasite will not let you die before it finishes feeding).",
-        phaseAdvancement: 1,
-        phaseInteraction: {
-          waxingMoon: "Direct healing +2d6. HOT +1d6. Allies gain 2d6 temp HP.",
-          newMoon: "All healed allies gain +2 DR for 1 round.",
-          waningMoon: "Recover 25% of total healing dealt as self-healing.",
-        },
-      },
-
-      tags: ["healing", "purification", "aoe", "self damage", "sanguine warden"],
+      tags: ["damage", "control", "debuff", "ember", "silence-speaker"],
     },
 
     // LEVEL 8 SPELLS
-    { id : "lunarch_hollow_annihilation",
-      name: "Hollow Annihilation",
+    { id : "lunarch_silence_constellation",
+      name: "Silence Constellation",
       description:
-        "Focus the entirety of the parasite's hunger into a single bolt that phases through all obstacles. It ignores armor, ignores cover, ignores the boundaries between spaces. Everything in its path ceases to exist as a concept.",
+        "Summon a constellation of rift-wounds across the battlefield, each one firing a beam of cold silence-light at a different enemy. The constellation persists for moments -- long enough to scar reality and everything caught in its geometry.",
       level: 8,
       spellType: "ACTION",
-      icon: "Arcane/Quick Step",
-      specialization: "hollow-sentinel",
-      effectTypes: ["damage"],
-
-      typeConfig: {
-        school: "storm",
-        icon: "Arcane/Quick Step",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "line",
-        rangeType: "ranged",
-        rangeDistance: 200,
-        lineLength: 200,
-        lineWidth: 5,
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 45 },
-        actionPoints: 2,
-        components: ["somatic"],
-        somaticText: "Drive both hands into your chest, extract the bolt from your own parasite-touched heart",
-      },
-
-      resolution: "DICE",
-
-      damageConfig: {
-        formula: "10d8 + agility * 2",
-        damageTypes: ["storm"],
-        resolution: "DICE",
-        criticalConfig: {
-          enabled: true,
-          critRange: [19, 20],
-          critMultiplier: 2,
-          critBonusDamage: "3d8",
-        },
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
-
-      specialMechanics: {
-        triggerConfig: {
-          triggers: [
-            { id: "lunarch_hollow_annihilation_parasitic_toll", name: "Parasitic Toll", triggerType: "on_cast", action: "The rift-parasite feeds on your flesh: selfDamage applies on cast." }
-          ]
-        },
-        selfDamage: "Take 4d6 blight damage. The bolt is forged from your own vital force.",
-        phaseAdvancement: 1,
-        phaseInteraction: {
-          fullMoon: "Damage +3d8 radiant. Crit range 18-20. Ignore 50% DR.",
-          waningMoon: "Heal 25% of total damage. Mana cost reduced by 5.",
-        },
-      },
-
-      tags: ["damage", "line", "storm", "hollow sentinel"],
-    },
-
-    { id : "lunarch_void_constellation",
-      name: "Void Constellation",
-      description:
-        "Summon a constellation of rift-wounds across the battlefield, each one firing a beam of cold void-light at a different enemy. The constellation persists for moments -- long enough to scar reality and everything caught in its geometry.",
-      level: 8,
-      spellType: "ACTION",
-      icon: "Arcane/Magical Sword",
-      specialization: "void-caller",
+      icon: "Arcane/Starlight Ray",
+      specialization: "silence-speaker",
       effectTypes: ["damage", "debuff"],
 
       typeConfig: {
@@ -2215,7 +1754,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         effects: [
           { id : "star_sickness_constellation",
             name: "Star-Sickness",
-            description: "Contaminated by void constellation. Disadvantage on attacks, 1d4 radiant/turn.",
+            description: "Contaminated by silence constellation. Disadvantage on attacks, 1d4 radiant/turn.",
             statusType: "sickened",
             level: "strong",
             mechanicsText: "Disadvantage on attacks and 1d4 radiant/turn for 2 rounds",
@@ -2237,87 +1776,9 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         },
       },
 
-      tags: ["damage", "multi target", "debuff", "ember", "void caller"],
+      tags: ["damage", "multi target", "debuff", "ember", "silence-speaker"],
     },
 
-    { id : "lunarch_parasitic_bulwark",
-      name: "Parasitic Bulwark",
-      description:
-        "The parasite erupts from your body in a defensive web of crystallized tendrils, forming a living barrier that absorbs attacks and reflects the damage through the starlight seams. Allies behind the bulwark are shielded. Enemies who strike it are burned.",
-      level: 8,
-      spellType: "REACTION",
-      icon: "Force/Force Field",
-      specialization: "sanguine-warden",
-      effectTypes: ["buff"],
-
-      typeConfig: {
-        school: "ember",
-        icon: "Force/Force Field",
-        castTime: 1,
-        castTimeType: "REACTION",
-      },
-
-      targetingConfig: {
-        targetingType: "area",
-        rangeType: "self_centered",
-        areaType: "circle",
-        areaSize: 20,
-        targetRestrictions: ["ally"],
-      },
-
-      durationConfig: {
-        durationType: "rounds",
-        durationValue: 2,
-        durationUnit: "rounds",
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 40 },
-        actionPoints: 0,
-        components: ["verbal"],
-        verbalText: "SURGE!",
-      },
-
-      resolution: "AUTOMATIC",
-
-      buffConfig: {
-        buffType: "damageMitigation",
-        effects: [
-          { id : "parasitic_bulwark",
-            name: "Parasitic Bulwark",
-            description: "Absorbs 50 damage. Reflects 50% of absorbed damage to attackers. Take 2d6 necrotic when cast.",
-            mechanicsText: "Absorbs 50 damage, reflects 50% to attackers, 2 round duration",
-          },
-        ],
-        durationValue: 2,
-        durationType: "rounds",
-        durationUnit: "rounds",
-        concentrationRequired: false,
-        canBeDispelled: true,
-      },
-
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
-
-      specialMechanics: {
-        triggerConfig: {
-          triggers: [
-            { id: "parasitic_bulwark_parasitic_toll", name: "Parasitic Toll", triggerType: "on_cast", action: "The rift-parasite feeds on your flesh: selfDamage applies on cast." }
-          ]
-        },
-        selfDamage: "Take 2d6 necrotic when cast (the tendrils erupt violently from your flesh).",
-        phaseAdvancement: 1,
-        phaseInteraction: {
-          newMoon: "Absorption increases to 75. Allies within gain +2 DR.",
-          fullMoon: "Reflected damage increases to 75%. Bulwark deals 1d6 radiant to attackers.",
-          waningMoon: "Duration 3 rounds. You heal for 25% of all reflected damage.",
-        },
-      },
-
-      tags: ["buff", "shield", "reflect", "reaction", "sanguine warden"],
-    },
-
-    // LEVEL 9 SPELLS
     { id : "lunarch_skyhole",
       name: "Skyhole",
       description:
@@ -2325,7 +1786,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       level: 9,
       spellType: "ACTION",
       icon: "Arcane/Star Trail Path",
-      specialization: "void-caller",
+      specialization: "silence-speaker",
       effectTypes: ["damage"],
 
       typeConfig: {
@@ -2373,493 +1834,9 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
           triggers: [
             { id: "lunarch_skyhole_parasitic_toll", name: "Parasitic Toll", triggerType: "on_cast", action: "The rift-parasite feeds on your flesh: selfDamage applies on cast." }
           ]
-        },
-        selfDamage: "Take 5d6 necrotic (the tear opens through your own body first).",
-        phaseAdvancement: 1,
-        zoneConfig: {
-          persistentDamage: "3d8 radiant per round for 3 rounds.",
-          phaseInteraction: {
-            fullMoon: "Persistent 5d8 radiant. Radius 50 ft.",
-            waningMoon: "Duration 5 rounds. You heal 25% of persistent damage each round.",
-          },
-        },
+        }
       },
-
-      tags: ["damage", "aoe", "zone", "ember", "void caller"],
-    },
-
-    { id : "lunarch_host_ascension",
-      name: "Host Ascension",
-      description:
-        "Surrender completely to the parasite. For 3 rounds, you are not the pilot -- you are the vehicle. The parasite takes full control, turning your body into a weapon of cosmic horror. Your mind watches from behind starlight-barred windows, screaming.",
-      level: 9,
-      spellType: "ACTION",
-      icon: "Radiant/Radiant Divinity",
-      specialization: "universal",
-      effectTypes: ["transformation"],
-
-      typeConfig: {
-        school: "ember",
-        icon: "Radiant/Radiant Divinity",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "self",
-        rangeType: "self",
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 55 },
-        actionPoints: 3,
-        components: ["verbal"],
-        verbalText: "Nothing. The parasite speaks through your mouth in a voice that is not yours.",
-      },
-
-      resolution: "NONE",
-
-      transformationConfig: {
-        transformationType: "parasitic",
-        targetType: "self",
-        duration: 3,
-        durationUnit: "rounds",
-        power: "major",
-        newForm: "Ascended Host",
-        description: "The parasite assumes direct control. Your body moves with alien precision.",
-        grantedAbilities: [
-          { id : "parasitic_stats",
-            name: "Alien Physiology",
-            description: "+4 to all attributes, +5 DR, immune to charm/fear/stun",
-          },
-          { id : "parasitic_damage",
-            name: "Cosmic Weapon",
-            description: "+3d8 radiant on all attacks. Attacks ignore 50% DR.",
-          },
-          { id : "parasitic_immunity",
-            name: "Starlight Form",
-            description: "Immune to radiant and blight damage. Half damage from all other sources.",
-          },
-          { id : "parasitic_flight",
-            name: "Void Step",
-            description: "60 ft fly speed. Can phase through solid objects.",
-          },
-          { id : "parasitic_contagion",
-            name: "Passive Contagion",
-            description: "All enemies within 15 ft have disadvantage on attack rolls (cosmic aura).",
-          },
-          { id : "parasitic_toll",
-            name: "The Price of Surrender",
-            description: "When transformation ends: take 4d10 necrotic, gain 2 exhaustion, shift to New Moon. No saving throw.",
-          },
-        ],
-        concentrationRequired: false,
-        canBeDispelled: false,
-      },
-
-      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-
-      specialMechanics: {
-        phaseLock: "Phase does not cycle during Ascension. All phase benefits and drawbacks are suspended.",
-        delirium: "No Delirium rolls during Ascension -- the parasite IS the delirium.",
-      },
-
-      tags: ["transformation", "ultimate", "parasitic ascension", "universal"],
-    },
-
-    // LEVEL 10 SPELLS
-    { id : "lunarch_vessel_of_the_parasite",
-      name: "Vessel of the Parasite",
-      description:
-        "Become the moon. Not a vessel -- the moon itself, made flesh. Your body dissolves into condensed starlight and reforms as a walking eclipse. The parasite does not ride you anymore. You ARE the parasite. For 4 rounds, you are a cosmic horror walking among mortals. When it ends, you will not remember being human.",
-      level: 10,
-      spellType: "ACTION",
-      icon: "Radiant/Radiant Divinity",
-      specialization: "universal",
-      effectTypes: ["transformation"],
-
-      typeConfig: {
-        school: "ember",
-        icon: "Radiant/Radiant Divinity",
-        castTime: 2,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "self",
-        rangeType: "self",
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 80 },
-        actionPoints: 3,
-        components: ["verbal"],
-        verbalText: "A sound that makes nearby creatures weep without knowing why",
-      },
-
-      resolution: "NONE",
-
-      transformationConfig: {
-        transformationType: "celestial",
-        targetType: "self",
-        duration: 4,
-        durationUnit: "rounds",
-        power: "major",
-        newForm: "The Lunar Horror",
-        description: "Your body dissolves into living starlight. You are no longer entirely mortal.",
-        grantedAbilities: [
-          { id : "lunar_stats",
-            name: "Cosmic Form",
-            description: "+6 to all attributes, +8 DR",
-          },
-          { id : "lunar_damage",
-            name: "Moonlight Incarnate",
-            description: "+5d8 radiant on all attacks. Critical hits on 18-20.",
-          },
-          { id : "lunar_immunity",
-            name: "Eclipse Body",
-            description: "Immune to radiant, necrotic, and wyrd damage. Half damage from all other sources.",
-          },
-          { id : "lunar_phasing",
-            name: "Phase Walk",
-            description: "Phase through solid objects. Immune to opportunity attacks. 60 ft fly speed.",
-          },
-          { id : "lunar_aura",
-            name: "The Feeding Zone",
-            description: "All enemies within 30 ft take 2d6 ember damage at start of each turn. You heal for 100% of this damage (the parasite feeds on a cosmic scale).",
-          },
-          { id : "lunar_exhaustion",
-            name: "The Reversion (On End)",
-            description: "When transformation ends: take 6d10 necrotic, gain 3 exhaustion, forget the last hour (narrative). Shift to New Moon. No save.",
-          },
-        ],
-        concentrationRequired: false,
-        canBeDispelled: false,
-      },
-
-      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-
-      specialMechanics: {
-        phaseLock: "Phase does not cycle during transformation. All phase mechanics suspended.",
-        permanentConsequence: "The 3 exhaustion levels are real and cumulative across uses. The narrative memory loss is at GM discretion but should be enforced.",
-      },
-
-      tags: ["transformation", "ultimate", "level 10", "cosmic horror"],
-    },
-
-    { id : "lunarch_hollowpoint",
-      name: "Hollowpoint",
-      description:
-        "Forge a single bolt from the concentrated essence of the parasite itself -- a projectile of pure cosmic hunger that annihilates everything in its path. The bolt is forged by reaching into your own chest and pulling out the part of the parasite that screams the loudest.",
-      level: 10,
-      spellType: "ACTION",
-      icon: "Radiant/Divine Blessing",
-      specialization: "hollow-sentinel",
-      effectTypes: ["damage"],
-
-      typeConfig: {
-        school: "ember",
-        icon: "Radiant/Divine Blessing",
-        castTime: 1,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingConfig: {
-        targetingType: "line",
-        rangeType: "ranged",
-        rangeDistance: 500,
-        lineLength: 500,
-        lineWidth: 10,
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 80 },
-        actionPoints: 3,
-        components: ["somatic"],
-        somaticText: "Reach into your chest, extract the screaming core, and loose it",
-      },
-
-      resolution: "DICE",
-
-      damageConfig: {
-        formula: "20d6 + agility",
-        damageTypes: ["ember"],
-        resolution: "DICE",
-        savingThrow: {
-          ability: "agility",
-          difficultyClass: 22,
-          saveOutcome: "half_damage",
-        },
-        criticalConfig: {
-          enabled: true,
-          critRange: [18, 19, 20],
-          critMultiplier: 2,
-          critBonusDamage: "4d6",
-        },
-      },
-
-      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-
-      specialMechanics: {
-        triggerConfig: {
-          triggers: [
-            { id: "lunarch_hollowpoint_parasitic_toll", name: "Parasitic Toll", triggerType: "on_cast", action: "The rift-parasite feeds on your flesh: selfDamage applies on cast." }
-          ]
-        },
-        selfDamage: "Take 6d6 blight damage. Your maximum HP is reduced by 10 until your next long rest (the parasite takes time to regenerate the portion of itself you fired).",
-        phaseAdvancement: 1,
-        specialRules: "Ignores resistance to ember damage. Destroys unattended objects in path.",
-        phaseInteraction: {
-          fullMoon: "Damage +4d6 radiant. Crit range 17-20.",
-          waningMoon: "Heal 25% of total damage. Mana cost reduced by 10.",
-        },
-      },
-
-      tags: ["damage", "line", "ember", "ultimate", "hollow sentinel"],
-    },
-
-    { id : "lunarch_sanguine_eternity",
-      name: "Sanguine Eternity",
-      description:
-        "Burst every seam in your body and create a permanent zone of blood-tinged moonlight that persists for the rest of combat. The zone is fed by your agony -- allies within are continuously healed, enemies are continuously drained. You become the living heart of a parasitic substrate.",
-      level: 10,
-      spellType: "ACTION",
-      icon: "Healing/Heart Ripple",
-      specialization: "sanguine-warden",
-      effectTypes: ["healing", "damage"],
-
-      typeConfig: {
-        school: "ember",
-        icon: "Healing/Heart Ripple",
-        castTime: 2,
-        castTimeType: "IMMEDIATE",
-      },
-
-      targetingMode: "effect",
-
-      targetingConfig: {
-        targetingType: "area",
-        rangeType: "ranged",
-        rangeDistance: 60,
-        areaType: "circle",
-        areaSize: 30,
-      },
-
-      effectTargeting: {
-        healing: {
-          targetingType: "area",
-          rangeType: "ranged",
-          rangeDistance: 60,
-          areaType: "circle",
-          areaSize: 30,
-          targetRestrictions: ["ally"],
-          description: "All allies in the zone are healed each round",
-        },
-        damage: {
-          targetingType: "area",
-          rangeType: "ranged",
-          rangeDistance: 60,
-          areaType: "circle",
-          areaSize: 30,
-          targetRestrictions: ["enemy"],
-          description: "All enemies in the zone take ember damage each round",
-        },
-      },
-
-      resourceCost: {
-        resourceTypes: ["mana"],
-        resourceValues: { mana: 80 },
-        actionPoints: 3,
-        components: ["verbal", "somatic"],
-        verbalText: "The oldest prayer, spoken in a language that died with the first moon",
-        somaticText: "Burst every seam. Become the heart.",
-      },
-
-      resolution: "DICE",
-
-      healingConfig: {
-        formula: "4d8 + spirit",
-        healingType: "hot",
-        resolution: "DICE",
-        hotConfig: {
-          enabled: true,
-          healingPerTick: "4d8",
-          tickFrequency: "round",
-          duration: 0,
-        },
-      },
-
-      damageConfig: {
-        formula: "3d8",
-        damageTypes: ["ember"],
-        resolution: "DICE",
-      },
-
-      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-
-      specialMechanics: {
-        triggerConfig: {
-          triggers: [
-            { id: "lunarch_sanguine_eternity_parasitic_toll", name: "Parasitic Toll", triggerType: "on_cast", action: "The rift-parasite feeds on your flesh: selfDamage applies on cast." }
-          ]
-        },
-        selfDamage: "Take 5d6 necrotic when cast. At the start of each subsequent turn, take 1d6 necrotic while the zone persists (your body is the pump).",
-        phaseAdvancement: 1,
-        zoneConfig: {
-          duration: "rest of combat",
-          movable: false,
-        },
-        phaseInteraction: {
-          fullMoon: "Enemy damage 5d8 radiant. Radius 40 ft.",
-          waxingMoon: "Healing +2d6. Cleanses one condition per round.",
-          newMoon: "Allies gain +2 DR while in zone.",
-          waningMoon: "Enemy damage applies 1-round slow. You heal 25% of ALL damage dealt by the zone.",
-        },
-      },
-
-      tags: ["zone", "healing", "damage", "ultimate", "sanguine warden"],
-    },
-
-      {
-        "id": "lunarch_moonlit_path",
-        "name": "Moonlit Path",
-        "description": "Call down a soft, narrow beam of pale starlight from the heavens. The light cuts through natural darkness, highlighting hidden beast tracks, secret compartments, and granting low-light vision to all allies.",
-        "level": 2,
-        "spellType": "ACTION",
-        "icon": "Radiant/Moonlight Beam",
-        "typeConfig": {
-          "school": "ember",
-          "icon": "Radiant/Moonlight Beam",
-          "tags": [
-            "utility",
-            "roleplay",
-            "lunarch"
-          ],
-          "castTime": 1,
-          "castTimeType": "IMMEDIATE"
-        },
-        "targetingConfig": {
-          "targetingType": "self",
-          "rangeType": "self"
-        },
-        "resourceCost": {
-          "actionPoints": 1,
-          "resourceTypes": [
-            "mana"
-          ],
-          "resourceValues": {
-            "mana": 4
-          },
-          "components": [
-            "verbal",
-            "somatic"
-          ],
-          "verbalText": "Ondina, ostende viam.",
-          "somaticText": "Reach both hands high, tracing the silver crescent moon in the open sky"
-        },
-        "resolution": "NONE",
-        "effectTypes": [
-          "utility"
-        ],
-        "utilityConfig": {
-          "utilityType": "perception",
-          "selectedEffects": [
-            {
-              "id": "moonlit_path_effect",
-              "name": "Moonlit Trails",
-              "description": "Highlights all hidden tracks, secret doors, and traps within a 30-foot beam of moonlight. Grants allies low-light vision in the beam."
-            }
-          ],
-          "duration": 10,
-          "durationUnit": "minutes",
-          "concentration": true,
-          "power": "minor"
-        },
-        "cooldownConfig": {
-          "cooldownType": "turn_based",
-          "cooldownValue": 0
-        },
-        "tags": [
-          "utility",
-          "roleplay",
-          "lunarch"
-        ]
-      },
-      // ===== NON-COMBAT / GRAVITY & LUNAR UTILITY (the moon's pull, out of combat) =====
-      {
-        "id": "lunarch_mass_shift",
-        "name": "Mass-Shift",
-        "description": "Bend local gravity around a single object you can touch. Halve its weight to carry or hurl a heavy stone, double it to anchor or pin, slow a falling ally or object to a safe drift, or lift/move an object too heavy for muscle alone. Living creatures resist a direct shift, but a willing fall can be feathered. Out of combat.",
-        "level": 1,
-        "spellType": "ACTION",
-        "icon": "Arcane/Spiral Vortex",
-        "typeConfig": { "school": "arcane", "icon": "Arcane/Spiral Vortex", "tags": ["utility", "gravity", "exploration", "lunarch"], "castTime": 1, "castTimeType": "IMMEDIATE" },
-        "targetingConfig": { "targetingType": "single", "rangeType": "touch", "rangeDistance": 0 },
-        "resourceCost": { "actionPoints": 1, "resourceTypes": ["mana"], "resourceValues": { "mana": 5 }, "components": ["verbal", "somatic"], "somaticText": "Press palm to the object and feel the moon pull it sideways" },
-        "resolution": "AUTOMATIC",
-        "effectTypes": ["utility"],
-        "utilityConfig": {
-          "utilityType": "telekinesis",
-          "selectedEffects": [ { "id": "mass_shift_gravity", "name": "Gravity Bend", "description": "Halve or double one object's weight for 1 minute, slow a fall to no damage, or lift/move an object up to ~500 lb that muscle could not. Living creatures resist a weight-shift but can be feathered if willing.", "mechanicsText": "Halve/double object weight; slow falls; lift/move heavy objects." } ],
-          "duration": 1, "durationUnit": "minutes", "concentration": false, "power": "moderate"
-        },
-        "cooldownConfig": { "cooldownType": "turn_based", "cooldownValue": 0 },
-        "tags": ["utility", "gravity", "exploration", "lunarch"]
-      },
-      {
-        "id": "lunarch_tide_lift",
-        "name": "Tide-Lift",
-        "description": "Draw the moon's pull through your own body and rise. You or one willing ally levitate, drifting up to ledges, across gaps, over walls, or down to a safe landing, for the duration. No momentum, no speed — just the slow, cold float of a thing the moon is holding. Out of combat.",
-        "level": 2,
-        "spellType": "ACTION",
-        "icon": "Arcane/Quick Step",
-        "typeConfig": { "school": "arcane", "icon": "Arcane/Quick Step", "tags": ["utility", "mobility", "exploration", "lunarch"], "castTime": 1, "castTimeType": "IMMEDIATE" },
-        "targetingConfig": { "targetingType": "single", "rangeType": "ranged", "rangeDistance": 30, "targetRestrictions": ["self", "ally"] },
-        "resourceCost": { "actionPoints": 1, "resourceTypes": ["mana"], "resourceValues": { "mana": 7 }, "components": ["verbal", "somatic"], "somaticText": "Open your arms to the sky and let the tide take your weight" },
-        "resolution": "NONE",
-        "effectTypes": ["utility"],
-        "utilityConfig": {
-          "utilityType": "mobility",
-          "selectedEffects": [ { "id": "tide_lift_levitate", "name": "Lunar Levitation", "description": "Levitate one willing target for up to 10 minutes: rise/lower/drift at a slow walk to reach ledges, cross gaps, or descend safely. Ends if the target makes a hostile action.", "mechanicsText": "Slow levitation for one target, 10 min." } ],
-          "duration": 10, "durationUnit": "minutes", "concentration": true, "power": "moderate"
-        },
-        "cooldownConfig": { "cooldownType": "turn_based", "cooldownValue": 1 },
-        "tags": ["utility", "mobility", "exploration", "lunarch"]
-      },
-      {
-        "id": "lunarch_moon_remembers",
-        "name": "The Moon Remembers",
-        "description": "Under open sky, ask the dead moon what its light has touched here. It shows you, in cold silver images, the shapes of creatures and events that passed beneath the sky within the last night — who walked here, what was carried, what light was cast. Fades under cover, indoors, or in daylight. Out of combat.",
-        "level": 2,
-        "spellType": "ACTION",
-        "icon": "Radiant/Moonlight Beam",
-        "typeConfig": { "school": "arcane", "icon": "Radiant/Moonlight Beam", "tags": ["utility", "divination", "investigation", "lunarch"], "castTime": 1, "castTimeType": "IMMEDIATE" },
-        "targetingConfig": { "targetingType": "self", "rangeType": "self" },
-        "resourceCost": { "actionPoints": 1, "resourceTypes": ["mana"], "resourceValues": { "mana": 8 }, "components": ["verbal", "somatic"], "somaticText": "Tilt your face to the dead moon and let it pour its memory in" },
-        "resolution": "NONE",
-        "effectTypes": ["utility"],
-        "utilityConfig": {
-          "utilityType": "divination",
-          "selectedEffects": [ { "id": "moon_remembers_record", "name": "Silver Record", "description": "Under open night sky, glimpse cold silver images of who/what passed beneath the sky here in the last night. Useless indoors, under heavy cover, or in daylight.", "mechanicsText": "See last night's sky-exposed comings/goings at a location." } ],
-          "power": "moderate"
-        },
-        "cooldownConfig": { "cooldownType": "turn_based", "cooldownValue": 1 },
-        "tags": ["utility", "divination", "investigation", "lunarch"]
-      },
-      {
-        "id": "lunarch_void_chill",
-        "name": "Void-Chill",
-        "description": "The parasite has made your blood a piece of the void between stars. For the duration you radiate an otherworldly cold: freeze a plane of water, crust a wet surface in ice, snuff small flames and heat-signatures, and chill drinks or preserve food. The same aura marks you as deeply, unsettlingly alien — advantage on Intimidation, disadvantage on Persuasion and warmth-based rapport. Out of combat.",
-        "level": 3,
-        "spellType": "ACTION",
-        "icon": "Frost/Ice Shard",
-        "typeConfig": { "school": "rime", "icon": "Frost/Ice Shard", "tags": ["utility", "cold", "exploration", "social", "lunarch"], "castTime": 1, "castTimeType": "IMMEDIATE" },
-        "targetingConfig": { "targetingType": "self", "rangeType": "self" },
-        "resourceCost": { "actionPoints": 1, "resourceTypes": ["mana"], "resourceValues": { "mana": 6 }, "components": ["somatic"], "somaticText": "Let the void-cold bleed out through your skin" },
-        "resolution": "NONE",
+      "resolution": "NONE",
         "effectTypes": ["utility"],
         "utilityConfig": {
           "utilityType": "environment",

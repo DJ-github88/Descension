@@ -56,7 +56,7 @@ export {
 } from './martyr.js';
 
 export {
-  FALSE_PROPHET_VOIDCALLER,
+  FALSE_PROPHET_SILENCE_SPEAKER,
   FALSE_PROPHET_DECEIVER,
   FALSE_PROPHET_CULTIST
 } from './falseprophet.js';

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Mythrill Damage Types
  * 9 core types + Healing (separate restorative category)
  */
@@ -42,13 +42,13 @@ const DAMAGE_TYPES = {
     },
     blight: {
       name: 'Blight',
-      description: 'Necrotic decay, void consumption, toxic poison, and caustic acid that withers all it touches.',
+      description: 'Necrotic decay, silence consumption, toxic poison, and caustic acid that withers all it touches.',
       color: '#3D1F4E',
       icon: 'Necrotic/Necrotic Wither'
     },
     wyrd: {
       name: 'Wyrd',
-      description: 'The raw, entropic blood of Keth-Amar. Spiritual rot, chaotic energy, and psychic corruption that bleeds through the cracks in the binding seal.',
+      description: 'The raw, entropic corruption of Keth-Amar. A spiritual contagion, chaotic energy, and psychic decay breathed into mortal folklore and bleeding through the cracks in the binding seal.',
       color: '#7A2040',
       icon: 'Psychic/Psychic Telepathy'
     },
@@ -80,6 +80,7 @@ const DAMAGE_TYPES = {
     shadow: 'blight',
     necrotic: 'blight',
     void: 'blight',
+    silence: 'blight',
     poison: 'blight',
     acid: 'blight',
     viscera: 'primal',

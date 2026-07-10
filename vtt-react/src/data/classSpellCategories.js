@@ -1,4 +1,4 @@
-﻿/**
+/**
 
  * Class-Based Spell Categories
 
@@ -614,11 +614,9 @@ export const CLASS_SPECIALIZATIONS = {
 
       {
 
-        id: 'void_caller',
-
-        name: 'Void Caller',
-
-        description: 'The void between the stars hungers back. Psychic devastation specialist who channels cosmic horror and manipulates Blood Tokens',
+        id: 'silence_speaker',
+        name: 'Silence-Speaker',
+        description: 'The Silence between the stars hungers back. Psychic devastation specialist who channels cosmic horror and manipulates Blood Tokens',
 
         color: '#1C1C1C',
 
@@ -694,11 +692,9 @@ export const CLASS_SPECIALIZATIONS = {
 
       {
 
-        id: 'voidcaller',
-
+        id: 'silence_speaker',
         name: 'Silence-Speaker',
-
-        description: 'Whispers from beyond the void take shape. Summoners of void entities and emptiness magic',
+        description: 'Whispers from beyond the Silence take shape. Summoners of silence entities and emptiness magic',
 
         color: '#2F1B14',
 
@@ -978,11 +974,9 @@ export const CLASS_SPECIALIZATIONS = {
 
       {
 
-        id: 'void-caller',
-
-        name: 'Void Caller',
-
-        description: 'The parasite\'s hunger given lunar shape. Shadow mages who channel the parasite\'s hunger, mastering area damage through void-infused lunar magic',
+        id: 'silence-speaker',
+        name: 'Silence-Speaker',
+        description: 'The parasite\'s hunger given lunar shape. Shadow mages who channel the parasite\'s hunger, mastering area damage through silence-infused lunar magic',
 
         color: '#2C3E50',
 

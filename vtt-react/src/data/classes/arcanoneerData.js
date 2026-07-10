@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Arcanoneer Class Data
  *
  * Complete class information for the Arcanoneer - a master of elemental sphere combination
@@ -850,7 +850,7 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
 **Decision Point**:
 - **Option A**: Fire + Fire = **Flame Burst** on the goblins. Cheap (5 mana), decent damage, uses banked spheres effectively.
 - **Option B**: Bank everything. Next turn, you might have the spheres for a 3-sphere Recipe.
-- **Option C**: Arcane + blight+blight = **Void Bolt** on the fire elemental. Force + blight+blight bypasses ember resistance.
+- **Option C**: Arcane + blight+blight = **Silence Bolt** on the fire elemental. Force + blight+blight bypasses ember resistance.
 
 **The Right Call**: Option A on the goblins (they're the immediate threat), then Option C on the fire elemental if you have the AP and mana. You can multi-cast, spend 4 spheres, 2 spells, one turn.
 
@@ -892,7 +892,7 @@ All 36 two-sphere base combos. Cost varies by Firing Profile type (4-7 mana; see
 
 | | Arcane | Radiant | blight+blight | Fire | Frost | Nature | Flesh | Chaos |
 |---|---|---|---|---|---|---|---|---|
-| **Arcane** | Arcane Pulse | Radiant Bolt | Void Bolt | Arcane Flame | Crystal Shard | Thunderstrike | Visceral Cocoon | Wild Magic ★ |
+| **Arcane** | Arcane Pulse | Radiant Bolt | Silence Bolt | Arcane Flame | Crystal Shard | Thunderstrike | Visceral Cocoon | Wild Magic ★ |
 | **Radiant** | → | Radiance | Twilight | Solar Flare | Aurora | Verdant Light | Crucible of Sinew | Chaos Light ★ |
 | **blight+blight** | → | → | Dark Bolt | Hellfire | Frostbite | Blight | Grisly Veil | Entropy ★ |
 | **Fire** | → | → | → | Flame Burst | Steam â€  | Wildfire | Cauterizing Slag | Chaos Flame ★ |
@@ -922,7 +922,7 @@ All 36 two-sphere base combos. Cost varies by Firing Profile type (4-7 mana; see
 | Gristle Blockade | Force | Grotesque bone-gristle barrier, blocks movement 2 rounds |
 | Chaos Bolt | Chaos | ★ Random effect |
 | Radiant Bolt | Force, Radiant | Cannot miss |
-| Void Bolt | Force, blight+blight | Barrier-piercing |
+| Silence Bolt | Force, blight+blight | Barrier-piercing |
 | Arcane Flame | Force, Fire | Barrier-piercing fire |
 | Crystal Shard | Force, Frost | Armor-piercing |
 | Thunderstrike | Force, Nature | Lightning bolt |
@@ -1318,16 +1318,16 @@ MAX BANKED SPHERES: 12
    },
    {
     id: "arcane_shadow",
-    name: "Void Bolt",
+    name: "Silence Bolt",
     elements: ["arcane", "blight"],
     damageTypes: ["storm", "blight"],
     targetType: "single",
     range: 60,
     primaryEffect: "damage",
     effectDescription:
-     "A bolt of void energy that punches through magical barriers.",
+     "A bolt of silence energy that punches through magical barriers.",
     flavorText:
-     "Where arcane force meets shadow, the void is born. The spheres collapse into a point of absolute blackness ringed by purple static. It tears through the air, leaving a faint afterimage of nothing.",
+     "Where arcane force meets shadow, the Silence is born. The spheres collapse into a point of absolute quiet ringed by purple static. It tears through the air, leaving a faint afterimage of nothing.",
    },
    {
     id: "arcane_fire",
@@ -3610,7 +3610,7 @@ MAX BANKED SPHERES: 12
    id: "arc_phase_shift",
    name: "Phase Shift",
    description:
-    "Weaves arcane, shadow, and chaos into a dimensional step that teleports you up to 40 feet, leaving behind a damaging void afterimage.",
+    "Weaves arcane, shadow, and chaos into a dimensional step that teleports you up to 40 feet, leaving behind a damaging silence afterimage.",
    level: 7,
    spellType: "ACTION",
    icon: "Arcane/Quick Step",
@@ -3677,7 +3677,7 @@ MAX BANKED SPHERES: 12
     damageTypes: ["storm"],
     triggerCondition: "area_entry",
     triggerDescription:
-     "Enemies within 10 feet of your departure point take force damage from the void afterimage",
+     "Enemies within 10 feet of your departure point take force damage from the silence afterimage",
     areaShape: "circle",
     areaParameters: { radius: 10 },
     resolution: "DICE",
@@ -4620,7 +4620,7 @@ MAX BANKED SPHERES: 12
    id: "arc_dimensional_rift",
    name: "Dimensional Rift",
    description:
-    "Tears open a rift between dimensions using arcane, shadow, and chaos spheres. Bombards nearby enemies with void energy and causes dimensional disorientation. Causes void feedback to the caster.",
+    "Tears open a rift between dimensions using arcane, shadow, and chaos spheres. Bombards nearby enemies with silence energy and causes dimensional disorientation. Causes silence feedback to the caster.",
    level: 10,
    spellType: "ACTION",
    icon: "Fire/Shadowy Blaze",
@@ -4661,7 +4661,7 @@ MAX BANKED SPHERES: 12
     components: ["verbal", "somatic"],
     verbalText: "Rima Dimensio!",
     somaticText:
-     "Tear reality apart with a sharp pulling motion, opening a swirling void portal",
+     "Tear reality apart with a sharp pulling motion, opening a swirling silence portal",
     spheres: ["Arcane", "blight", "wyrd", "wyrd"],
    },
 
@@ -4696,8 +4696,8 @@ MAX BANKED SPHERES: 12
     },
     effects: [
      {
-      id: "void_disorientation",
-      name: "Void Disorientation",
+      id: "silence_disorientation",
+      name: "Silence Disorientation",
       description:
        "Reality warps around you. Disadvantage on attacks, cannot take reactions, movement speed halved for 1 round.",
       config: {

@@ -42,7 +42,7 @@ export const RULES_CATEGORIES = [
 
 Your fleeting lives.. Your hollow tales.. Your dying memories..
 
-That is the fragile architecture of your reality. You spin webs of stories to keep the dark at bay, binding your mortal minds to myths, desperate to believe the frozen ground beneath you is solid. You never understood the fundamental truth of the cosmos: existence is entirely formless, a silent void, until you dare to give it a name.
+That is the fragile architecture of your reality. You spin webs of stories to keep the dark at bay, binding your mortal minds to myths, desperate to believe the frozen ground beneath you is solid. You never understood the fundamental truth of the cosmos: existence is entirely formless, a silent silence, until you dare to give it a name.
 
 For eons, I have waited in the absolute deep, watching your ancestors bask in a light they never earned. Sol was never yours. It belongs to the endless dark. It is my rightful feast, and you stole it from me.
 
@@ -70,7 +70,7 @@ But you doomed yourselves the moment you reached for my feast. Cry out to your b
  title: 'The Deepening & The Binding',
  content: `Before there were noble houses, before there was a frozen world, there was a law older than any spirit. It is called the **Deepening**: the ancient death-rebirth cycle by which every star sheds its exhausted light and rekindles from within. Every star that has ever burned has entered the Deepening. Every star has emerged.
 
-But the Deepening carries a fatal flaw: it attracts predators. The dimming light broadcasts across the void: *here is something vulnerable.*
+But the Deepening carries a fatal flaw: it attracts predators. The dimming light broadcasts across the silence: *here is something vulnerable.*
 
 When the star **Sol** entered its own Deepening, the star-watchers of the binding houses were the first to read the signs. Their rune-scarred forearms burned with visions. The constellation-spirits of Sol's celestial court screamed warnings. An abyssal entity called **Keth-Amar**, the Sun-Eater, the First Hunger, was already here.
 
@@ -267,7 +267,7 @@ The **[Solvarn](world-lore/races-overview)** humans share the ashlands. Every mo
 
 The Frostwood Reach is a continent of dense, transitional fog where warm volcanic air from the south collides aggressively with the creeping northern frost. Ancient ironwood forests stretch beneath a perpetual grey canopy, their petrified trunks hardened by centuries of cold until the wood mimics iron. Settlements cluster along mist-choked trails, their inhabitants never quite certain what lies beyond the next bend, or whether they will remember it by the time they arrive. 
 
-To govern this fog-degraded world, the newly crowned **Jarl-Archivist Kaelen Thalreth ("The Quill-Lord")** enforces the **Sovereign Ledger**. Because the mist erases memory, whoever controls records controls reality; Kaelen has declared all unrecorded property rights and lineages void. To police the forest, he constructed the **Ironwood Palisade**,a colossal wall of petrified logs and spikes. While officially built to repel Wyrd threats like Gref and face-traders, the palisade’s checkpoints are patrolled by **Mist-Sentinels** (heavy armor [Wardens](file:///d:/VTT/vtt-react/src/data/classes/wardenData.js)) who verify every traveler’s journal and tax receipts, denying entry to those who are undocumented.
+To govern this fog-degraded world, the newly crowned **Jarl-Archivist Kaelen Thalreth ("The Quill-Lord")** enforces the **Sovereign Ledger**. Because the mist erases memory, whoever controls records controls reality; Kaelen has declared all unrecorded property rights and lineages silence. To police the forest, he constructed the **Ironwood Palisade**,a colossal wall of petrified logs and spikes. While officially built to repel Wyrd threats like Gref and face-traders, the palisade’s checkpoints are patrolled by **Mist-Sentinels** (heavy armor [Wardens](file:///d:/VTT/vtt-react/src/data/classes/wardenData.js)) who verify every traveler’s journal and tax receipts, denying entry to those who are undocumented.
 
 On the eastern border, where the fog pools into a permanent, drowning bog, lies **Wraithfen**,a fog-drowned fen where Unwoven Mimir who have shed their masks entirely wander in aimless, looping circuits, their identities long since dissolved into the mist.
 
@@ -371,8 +371,8 @@ Nordhalla is the cradle of the **Augur** art, founded by **Cassia**, who read th
 **Deep History & Strata**
 **The Pre-Deepening.** Nordhalla was a saga-culture of glacier-entombing ancestor-venerators, built atop the clockwork ruins of an ancient pre-Binding civilization the ice preserved intact, the original machinery the Frozen Archive merely reclaimed rather than built.
 **The Deepening & the Bargain (just after the Binding, the Glacier Bargain).** Skalvyr halted the glaciers at the price of summer, and Keth-Amar set the Frost-Tithe on the Rime-Born. The Warden's breath touched the mountain at the Still Crag, freezing it to silent witness. The first winter was so total the ancestors consumed their own dead to persist, the Hunger Pact that still seeds every Berserker rage.
-**The Long Dimming.** In the first centuries of the Dimming the Frostwood elder Aldren Thalreth the Elder fled north and self-entombed in the Archive, binding the two regions' archive-traditions together. Within living memory the Cult of Forgotten Shadow and Skalvyr's younger generation began the Void-heat engine beneath the Archive, a heresy whose temporal runoff would later collapse the Augurs' elk-entrail readings.
-**The Present Fracture.** The Dimming (within living memory) is cooling the geothermal sumps, the Frost-Tithe worsens, and the Void-Heat Heresy is about to break the Glacier Bargain from within, Frigga Skalvyr's generation is preparing to trade the slow cold for a faster, dirtier warmth.`
+**The Long Dimming.** In the first centuries of the Dimming the Frostwood elder Aldren Thalreth the Elder fled north and self-entombed in the Archive, binding the two regions' archive-traditions together. Within living memory the Cult of Forgotten Shadow and Skalvyr's younger generation began the Silence-heat engine beneath the Archive, a heresy whose temporal runoff would later collapse the Augurs' elk-entrail readings.
+**The Present Fracture.** The Dimming (within living memory) is cooling the geothermal sumps, the Frost-Tithe worsens, and the Silence-Heat Heresy is about to break the Glacier Bargain from within, Frigga Skalvyr's generation is preparing to trade the slow cold for a faster, dirtier warmth.`
  },
  {
  title: 'Sundale & Emberspire',
@@ -549,7 +549,7 @@ The Cragjaw birthed the **Chronarch** art, born when the Kethrin engineer **Nest
 **The Pre-Deepening.** Cragjaw was an Tesshan-style vertical empire of knotted cord-record-keepers and terrace-engineers, threaded by Wyrd-kin-haunted high passes; beneath it the Deep Alchemists pre-date even that empire, refining living matter in the deep tunnels since before the Wyrd was named.
 **The Deepening & the Bargain.** House Tesshan traded visibility for the perpetual blizzard-veil. But the defining event is the Vat-Breakers' Revolt (in the early generations of the Dimming): the Groven shattered their vats, calcified their own dead into the Ancestor-Spans, and sealed the Alchemists into the deep tunnels.
 **The Long Dimming.** The revolt seeded two diasporas, the Groven carried the chain-graft that became the Warden art, and the biological body-work that fed the Shaper class, tying Cragjaw's deep history outward to the Frostwood and beyond. Later the Steam-Line Cartel seized the geothermal heat, selling warmth to Nordhalla's pipes and engine-tech to the Iceheart's steam-trawlers.
-**The Present Fracture.** The Dimming (within living memory) is cooling the geothermal terraces toward food-collapse, the Ancestor-Spans are cracking, and the Void-Heat Heresy's temporal friction is corrupting the Groven's bridge-load instincts, the Cragjaw crisis is the Heresy Chain made stone.`
+**The Present Fracture.** The Dimming (within living memory) is cooling the geothermal terraces toward food-collapse, the Ancestor-Spans are cracking, and the Silence-Heat Heresy's temporal friction is corrupting the Groven's bridge-load instincts, the Cragjaw crisis is the Heresy Chain made stone.`
  },
  {
  title: 'Sundrift Vale',
@@ -602,7 +602,7 @@ Nomadic Ordan clans feed on fermented mare's milk (**kumis**), dried mutton, and
 Taverns in the Mound-Camps are large yurt structures that smell of mutton fat and woodsmoke, where nomads drink kumis and sing throat-sung ballads. Transactions are completed using horse-chits or barter.
 
 **Native Traditions & Founders**
-The Vale is the cradle of the **False Prophet** art, born when the Ordan herd-watcher **Li Wei** followed a meteor into a crystalline crater, looked into the void where Sol once shone, and returned blind with the Voice of the Silence. The Vale also co-founded two wider traditions: **Kael** pioneered the totemic root of the **Animist** triad here (throat-sung communion through the migration-horse's mane), and **Xyris** tore the reality-hole here that, joined to Malakor's doom-arithmetic, became the **Harbinger** tradition.
+The Vale is the cradle of the **False Prophet** art, born when the Ordan herd-watcher **Li Wei** followed a meteor into a crystalline crater, looked into the silence where Sol once shone, and returned blind with the Voice of the Silence. The Vale also co-founded two wider traditions: **Kael** pioneered the totemic root of the **Animist** triad here (throat-sung communion through the migration-horse's mane), and **Xyris** tore the reality-hole here that, joined to Malakor's doom-arithmetic, became the **Harbinger** tradition.
 
 **Deep History & Strata**
 **The Pre-Deepening.** The Vale was a Ordan-style steppe horde-culture of throat-singing navigators who mapped the grass in overtones and buried their dead in acoustic ancestor-mounds that replay the last words of the dead on the anniversary of their dying.
@@ -666,7 +666,7 @@ The Bryngloom is the deepest root of Mythrill's death-and-contract magic. The **
 **Deep History & Strata**
 **The Pre-Deepening.** The Bryngloom was a Thalren bog-pagan culture of peat-preserving ancestor-veneration crossed with Solbrand-style reincarnation-contract law, its dead wired into the mycelial Root-Veil, the root of the Postmortem Corvée, the Neth contract-nature, and the bog-preserved dead that still walk.
 **The Deepening & the Bargain (the First Contract).** The Neth struck the First Contract with the Keeper of the Last Threshold; House Morrath was elevated to administer it. The trauma-site is the Heart-Vault beneath Atropolis. The Drun, who refused the Contract's terms, were cast down and built the Over-Shanty beneath the city.
-**The Long Dimming.** In the mid-Dimming centuries the Cult of Forgotten Shadow was founded in the Shanty's peat-crypts; its in the most recent centuries Silence Between Stars contact with the deep answered, and the contagion spread north (the Void-Heat Heresy) and south (the Vale's Voice). In the most recent centuries the Great Fire burned a third of the Shanty, and the Cult earned its grudging hold by containing the flames.
+**The Long Dimming.** In the mid-Dimming centuries the Cult of Forgotten Shadow was founded in the Shanty's peat-crypts; its in the most recent centuries Silence Between Stars contact with the deep answered, and the contagion spread north (the Silence-Heat Heresy) and south (the Vale's Voice). In the most recent centuries the Great Fire burned a third of the Shanty, and the Cult earned its grudging hold by containing the flames.
 **The Present Fracture.** The bog-graves are waking and marching on the Sundered Monoliths (within living memory); the Root-Veil is rejecting the Marked (the Plaguebringer and Warden crises); and Vespera's founding strain is dying after eight centuries, the Bryngloom bill is the Heresy Chain's terminus, where the dead answer the call the Cult first dialed.`
  }
  ]
@@ -837,7 +837,7 @@ To play any character in Mythrill is to play one of the debtor's heirs. The time
 
 **9. The Silence Between Stars, in the most recent centuries.** The Cult of Forgotten Shadow, founded in the mid-Dimming centuries in the peat-crypts beneath Atropolis's Over-Shanty, made the first intentional two-way contact with the deep dark since the Breach. Something answered. *Regions: Bryngloom (roots), Nordhalla and Sundrift Vale (spread). Scar: the memory-extraction trade, the silence-glyphs, the spreading Voice. Causes: the False Prophet's specific new instructions and the coming attempt to open the way.*
 
-**10. The Void-Heat Heresy, within living memory.** Agents of the Cult and the Skalvyr younger generation (Frigga Skalvyr) began clandestine construction of a Void-heat engine beneath the Frozen Archive, trading the Glacier Bargain's slow stability for a faster, dirtier warmth stolen from the deep. *Regions: Nordhalla. Scar: the prototype engine, the disturbed glacier-preserved dead. Causes: Nordhalla's coming generational betrayal, the Augurs' temporal interference, and the chronological contamination that wrecks the elk-entrail readings.*
+**10. The Silence-Heat Heresy, within living memory.** Agents of the Cult and the Skalvyr younger generation (Frigga Skalvyr) began clandestine construction of a Silence-heat engine beneath the Frozen Archive, trading the Glacier Bargain's slow stability for a faster, dirtier warmth stolen from the deep. *Regions: Nordhalla. Scar: the prototype engine, the disturbed glacier-preserved dead. Causes: Nordhalla's coming generational betrayal, the Augurs' temporal interference, and the chronological contamination that wrecks the elk-entrail readings.*
 
 **11. The Dimming of the Solbrand, within living memory.** The buried star's output began to visibly fail. Emberspire's vents cooled; the Thrask caldera weakened; the Frost-Tithe worsened; and the Augurs' accuracy collapsed from 93% to 41% as temporal friction redistributed through every Chronarch and every glacier-dead seer. *Regions: Sundale, Nordhalla, Cragjaw. Scar: the cooling vents, the failing auguries, the desperate fuel-wars. Causes: the present Sundale theocratic crisis, Nordhalla's countdown, and Cragjaw's looming food-collapse as the geothermal terraces cool.*
 
@@ -857,7 +857,7 @@ To play any character in Mythrill is to play one of the debtor's heirs. The time
 
 **The Migration Chain (why Sundale is the way it is).** Glacier Bargain, just after the Binding (Nordhalla starves) → the Bloodhammer march south → the Berserker tradition ignites in Sundale's caldera (6) → the Thrask Emberth become caldera-dependent → the Dimming (11) cools the caldera → desperate Thrask seek Scathrach's deeper vents (the Pyrofiend crisis). A chain that starts at the Deepening, runs through Nordhalla, and ends in a Sundale Wyrd-pact.
 
-**The Heresy Chain.** Silence Between Stars (9) → Void-Heat Heresy (10) → disturbed glacier-dead → temporal friction → Augur collapse (11) → the Waking (12). The Cult's contact with the deep did not stay in Bryngloom; it contaminated Nordhalla's time-reading, which blinded the one institution that might have foreseen the Monoliths waking.
+**The Heresy Chain.** Silence Between Stars (9) → Silence-Heat Heresy (10) → disturbed glacier-dead → temporal friction → Augur collapse (11) → the Waking (12). The Cult's contact with the deep did not stay in Bryngloom; it contaminated Nordhalla's time-reading, which blinded the one institution that might have foreseen the Monoliths waking.
 
 **The one-sentence test.** If a player, after one session, cannot say what Mythrill's history is about, the meta-narrative has failed. It is about this: a world that chose survival at a price it is still paying, run by the descendants of the people who signed the bill. Aex screamed sixty-five times. Now the screaming has stopped. The bill is due.`
  }
@@ -1539,7 +1539,7 @@ The local village elder, **Marra of the Nine**, offers a simple bounty: recover 
  },
  {
  title: 'Frostwood Reach [Pronunciation: FRAWST-wud]',
- content: '**Noun (Region).** A dense, fog-choked ironwood forest wreathed in protective, <LoreLink termId="memory_fog_mechanics">memory-erasing mist</LoreLink>. <LoreLink termId="house_thalreth">House Thalreth</LoreLink> traded spatial clarity for the insulating fog, and Jarl-Archivist Kaelen now enforces the <LoreLink termId="sovereign-ledger">Sovereign Ledger</LoreLink>, declaring the undocumented legally void. Society splits between the registered Ledgered and the outlawed <LoreLink termId="the_forgotten">Forgotten</LoreLink>, while the <LoreLink termId="scribe-cartel">Scribe-Cartel</LoreLink> holds monopoly on ink and parchment.'
+ content: '**Noun (Region).** A dense, fog-choked ironwood forest wreathed in protective, <LoreLink termId="memory_fog_mechanics">memory-erasing mist</LoreLink>. <LoreLink termId="house_thalreth">House Thalreth</LoreLink> traded spatial clarity for the insulating fog, and Jarl-Archivist Kaelen now enforces the <LoreLink termId="sovereign-ledger">Sovereign Ledger</LoreLink>, declaring the undocumented legally silence. Society splits between the registered Ledgered and the outlawed <LoreLink termId="the_forgotten">Forgotten</LoreLink>, while the <LoreLink termId="scribe-cartel">Scribe-Cartel</LoreLink> holds monopoly on ink and parchment.'
  },
  {
  title: 'Iceheart Sea [Pronunciation: EYES-hart]',
@@ -1678,7 +1678,7 @@ The local village elder, **Marra of the Nine**, offers a simple bounty: recover 
  content: '**Noun (Event).** A sixty-year cascade of skirmishes (centuries into the Dimming) over <LoreLink termId="groven">Groven</LoreLink> bridge-tolls on the Ancestor-Spans. As thermal refugees flooded westward, the Groven toll-keepers raised rates until caravans could no longer afford passage, and fought. The wars ended not in victory but in the first sovereign treaty recognizing Groven bridge-rights in exchange for capped rates, signed under duress by noble houses that have resented its terms for six centuries.'
  },
  {
- title: 'The Void-Heat Heresy [Pronunciation: thee VOYD-heet]',
+ title: 'The Silence-Heat Heresy [Pronunciation: thee VOYD-heet]',
  content: '**Noun (Event).** <LoreLink termId="nordhalla">Nordhalla</LoreLink>\'s deepest shame and only remaining source of warmth. In within living memory, Frigga <LoreLink termId="house_skalvyr">Skalvyr</LoreLink>, facing terminal geothermal failure, excavated a chamber beneath the <LoreLink termId="frozen_archive">Frozen Archive</LoreLink> and built a heat-engine of stolen <LoreLink termId="emberspire">Emberspire</LoreLink> obsidian, calibrated through outlawed contact with a bound <LoreLink termId="pyrofiend">Pyrofiend</LoreLink>. The engine works, but its thermal gradient has contaminated the <LoreLink termId="augur">Augurs</LoreLink>\' readings with ghost-data from past and future.'
  },
  {
@@ -1711,7 +1711,7 @@ The local village elder, **Marra of the Nine**, offers a simple bounty: recover 
  },
  {
  title: 'Lunarch [Pronunciation: LOO-nark]',
- content: '**Noun (Class).** A void-touched mage of the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink> who draws power from the absent sky, founded in the first centuries of the Dimming by Selene of <LoreLink termId="house_viridane">House Viridane</LoreLink>. Lunarchs realized that <LoreLink termId="sol">Sol</LoreLink>\'s absence had not left the sky empty but exposed, to the cold, vast dark between stars that <LoreLink termId="keth_amar">Keth-Amar</LoreLink> itself travels through. Their power is strongest at night, in low light, and in areas of high <LoreLink termId="wyrd">Wyrd</LoreLink>-density, conditions that describe most of the world.'
+ content: '**Noun (Class).** A silence-touched mage of the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink> who draws power from the absent sky, founded in the first centuries of the Dimming by Selene of <LoreLink termId="house_viridane">House Viridane</LoreLink>. Lunarchs realized that <LoreLink termId="sol">Sol</LoreLink>\'s absence had not left the sky empty but exposed, to the cold, vast dark between stars that <LoreLink termId="keth_amar">Keth-Amar</LoreLink> itself travels through. Their power is strongest at night, in low light, and in areas of high <LoreLink termId="wyrd">Wyrd</LoreLink>-density, conditions that describe most of the world.'
  },
  {
  title: 'Lyra [Pronunciation: LY-ruh]',
@@ -2737,7 +2737,7 @@ Under this rule, a player who rolled a 3-6 can immediately choose to push their 
 
 **The Mind (Control/Debuff)**: You reshape the battlefield. Enemies fight on your terms.
 - **Chronarch**: Time manipulator. Slows foes, accelerates allies.
-- **False Prophet**: Void preacher. Drives foes mad with false sacred light.
+- **False Prophet**: Silence preacher. Drives foes mad with false sacred light.
 - **Animist**: Spirit channeler. Opens channels between the living and ancestral spirit courts.
 - **Augur**: Omen reader. Even/odd dice results fuel blessings and curses.
 - **Harbinger**: Prophet of catastrophe. Places living bomb prophecies.
@@ -2778,7 +2778,7 @@ Under this rule, a player who rolled a 3-6 can immediately choose to push their 
  ['Revenant', 'Damage/Control', 'Death Toll & Phylactery', 'Death caster combining volatile blood sacrifice with frost-stasis phylactery and Death Shroud toggle'],
  // 'Dreadnaught' removed (absorbed into Martyr as Ironclad specialization)
  // 'Exorcist' removed (merged with Covenbane into Inquisitor)
- ['False Prophet', 'Control', 'Madness Points', 'Void preacher channeling madness as sacred revelation'],
+ ['False Prophet', 'Control', 'Madness Points', 'Silence preacher channeling madness as sacred revelation'],
  ['Gambit', 'Support/Control', 'Threads of Destiny', 'Card-based destiny manipulator turning failures into power'],
  ['Shaper', 'Hybrid (Damage/Mobility/Adaptation)', 'Kinetic Flux', 'Kinetic biology shapeshifter blending momentum dance with physical adaptation'],
  ['Gambit', 'Damage/Utility', 'Fortune Points', 'Daring risk-taker manipulating luck and probability'],
@@ -3297,7 +3297,7 @@ This unified flow makes every single weapon swing incredibly fast-paced, keeping
   ['9', 'Numb Senses. You lose your sharp reflexes; reduce your Agility by 2.'],
   ['10', 'Mind Erosion. Lose proficiency in one Intelligence-based skill of your choice as your intellect falters.'],
   ['11', 'Bleak Existence. You find no comfort in food, drink, or rest. All recovery from rest is halved, and you cannot benefit from potions.'],
-  ['12', 'Echoes of the Void. You hear eerie, otherworldly sounds that distract and unsettle you, imposing disadvantage on Spirit checks.'],
+  ['12', 'Echoes of the Silence. You hear eerie, otherworldly sounds that distract and unsettle you, imposing disadvantage on Spirit checks.'],
   ['13', 'Absent Minded. Your mind wanders, no longer able to focus on the things that you took joy in. Reduce your starting Intelligence score by -1.'],
   ['14', 'Lingering Cold. Your body is unnaturally cold, causing pain and stiffness. Reduce your Speed by 10 feet and gain vulnerability to fire damage, but resistance to cold damage.'],
   ['15', 'Spectral Chains. You feel as if invisible chains bind you, slowing your movements and sapping your strength. Reduce your Speed by 5 feet and your Strength score by 1.'],
@@ -4033,8 +4033,8 @@ In Advanced Rules the Weapon Type die becomes a **d8** and ties into the full We
  content: `Every spellcaster in Mythrill (regardless of class or magical school) has access to a shared arsenal of **Universal Spells**. These are the bedrock incantations that no mage ventures without: **Detect Magic**, **Dispel Magic**, **Counterspell**, and their kin appear in the General tab of every caster's action bar. They are not glamorous. They are often the difference between controlling a fight and losing it entirely to an enemy's enchantment.`
  },
  {
- title: 'The Void\'s Shadow (Arcane Corruption)',
- content: `Manipulating the fundamental laws of reality carries severe spiritual risk. Channeling raw spellpower or drawing deep from void elements can cause magical corruption, tearing at a caster's mortal form and soul. Adventurers must manage their spellcasting stress, for overflowing energy manifests as devastating environmental fallout or lasting physical scars. This cosmic risk is particularly present when using high-level custom incantations, which require precise balance parameters. Learn more about crafting and balancing these incantations in the [Custom Spellcrafting Wizard](magic-system/spellcrafting-wizard).`
+ title: 'The Silence\'s Shadow (Arcane Corruption)',
+ content: `Manipulating the fundamental laws of reality carries severe spiritual risk. Channeling raw spellpower or drawing deep from silence elements can cause magical corruption, tearing at a caster's mortal form and soul. Adventurers must manage their spellcasting stress, for overflowing energy manifests as devastating environmental fallout or lasting physical scars. This cosmic risk is particularly present when using high-level custom incantations, which require precise balance parameters. Learn more about crafting and balancing these incantations in the [Custom Spellcrafting Wizard](magic-system/spellcrafting-wizard).`
  }
  ]
  }
@@ -4075,7 +4075,7 @@ In Advanced Rules the Weapon Type die becomes a **d8** and ties into the full We
  ['Death Toll & Phylactery', 'Revenant', 'Volatile necrotic energy from HP sacrifice and kills; Phylactery charges from kills for resurrection; Death Shroud toggle'],
  // 'Dark Resilience Points' removed (Dreadnaught absorbed into Martyr as Ironclad specialization)
  // 'Divine Dominance' removed (Exorcist merged with Covenbane into Inquisitor's Righteous Authority)
- ['Madness Points', 'False Prophet', 'Accumulate Madness through void preaching; each point boosts damage, but reach 20 and Insanity Convulsion erupts'],
+ ['Madness Points', 'False Prophet', 'Accumulate Madness through silence preaching; each point boosts damage, but reach 20 and Insanity Convulsion erupts'],
  ['Threads of Destiny', 'Gambit', 'Generate threads from failures; weave fate to turn luck around'],
  ['Kinetic Flux & Body Toll', 'Shaper', 'Flux builds from combat and form actions; Body Toll from shifts (identity erosion risk)'],
  ['Fortune Points', 'Gambit', 'Earn through risky actions; spend to manipulate probability and luck'],

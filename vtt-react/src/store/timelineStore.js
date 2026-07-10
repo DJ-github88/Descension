@@ -903,7 +903,7 @@ const SEEDED_EVENTS = [
     factionIds: ['cult-of-forgotten-shadow'],
     classIds: ['falseProphet', 'revenant', 'harbinger'],
     causes: ['event-cult-founding'],
-    effects: ['event-skalyvr-void']
+    effects: ['event-skalyvr-silence']
   },
   {
     id: 'event-squeeze-traditions',
@@ -940,16 +940,16 @@ const SEEDED_EVENTS = [
     factionIds: [],
     classIds: ['augur'],
     causes: ['event-fortieth-rebirth'],
-    effects: ['event-skalyvr-void']
+    effects: ['event-skalyvr-silence']
   },
   {
-    id: 'event-skalyvr-void',
+    id: 'event-skalyvr-silence',
     date: { year: 720, eraId: 'dimming' },
-    title: 'The Void-Heat Heresy',
+    title: 'The Silence-Heat Heresy',
     type: 'conspiracy',
     phase: 'intrusion',
     description:
-      'With Nordhalla\'s geothermal sumps failing and the Frozen Archive\'s heating systems degrading, Frigga Skalvyr of House Skalvyr\'s younger generation made clandestine contact with outcast Emberth pyrofiends. Construction began on a volatile heat-engine powered by Emberspire obsidian, sealed beneath the Frozen Archive\'s deepest levels. The Void-Heat engine traded the Glacier Bargain\'s slow stability for a faster, dirtier warmth: warmth stolen from the deep and from Scathrach\'s Wyrd-touched fire. The glacier-preserved dead stirred. Temporal friction began contaminating the Augurs\' readings. The engine still runs.',
+      'With Nordhalla\'s geothermal sumps failing and the Frozen Archive\'s heating systems degrading, Frigga Skalvyr of House Skalvyr\'s younger generation made clandestine contact with outcast Emberth pyrofiends. Construction began on a volatile heat-engine powered by Emberspire obsidian, sealed beneath the Frozen Archive\'s deepest levels. The Silence-Heat engine traded the Glacier Bargain\'s slow stability for a faster, dirtier warmth: warmth stolen from the deep and from Scathrach\'s Wyrd-touched fire. The glacier-preserved dead stirred. Temporal friction began contaminating the Augurs\' readings. The engine still runs.',
     locationIds: ['frozen-archive', 'nordhalla'],
     factionIds: ['house-skalvyr'],
     classIds: ['pyrofiend', 'augur'],
@@ -977,11 +977,11 @@ const SEEDED_EVENTS = [
     type: 'disaster',
     phase: 'intrusion',
     description:
-      'Augur accuracy collapsed from 93% to 41% in three months. The star-arithmetic returned contradictory futures. The entrails of every sacrificed elk showed different deaths. Cause: temporal friction from the Void-Heat engine disturbing the glacier-dead, combined with Keth-Amar\'s consumption reaching a threshold that destabilized linear time itself. The elders of the Frozen Archive suspect a deeper cause: the Watcher in the Mist, the entity that remembers time and guards the boundary between life and death, is fracturing under Keth-Amar\'s pressure. If the Watcher breaks, time itself breaks with it. The timeline fracture is not a symptom of the crisis — it is the crisis. The world\'s early-warning system (the Augurs who had tracked every pulse for 760 years) was blinded at the worst possible moment. The remaining Augur elders at the Frozen Archive disagree on whether the blindness is temporary or permanent. Cassia\'s body, preserved upright in glacier-ice, has begun to weep frozen tears.',
+      'Augur accuracy collapsed from 93% to 41% in three months. The star-arithmetic returned contradictory futures. The entrails of every sacrificed elk showed different deaths. Cause: temporal friction from the Silence-Heat engine disturbing the glacier-dead, combined with Keth-Amar\'s consumption reaching a threshold that destabilized linear time itself. The elders of the Frozen Archive suspect a deeper cause: the Watcher in the Mist, the entity that remembers time and guards the boundary between life and death, is fracturing under Keth-Amar\'s pressure. If the Watcher breaks, time itself breaks with it. The timeline fracture is not a symptom of the crisis — it is the crisis. The world\'s early-warning system (the Augurs who had tracked every pulse for 760 years) was blinded at the worst possible moment. The remaining Augur elders at the Frozen Archive disagree on whether the blindness is temporary or permanent. Cassia\'s body, preserved upright in glacier-ice, has begun to weep frozen tears.',
     locationIds: ['frozen-archive', 'nordhalla'],
     factionIds: ['house-skalvyr'],
     classIds: ['augur', 'chronarch'],
-    causes: ['event-skalyvr-void', 'event-nethering'],
+    causes: ['event-skalyvr-silence', 'event-nethering'],
     effects: []
   },
   {

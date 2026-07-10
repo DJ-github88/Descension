@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Chronarch Class Data
  *
  * Complete class information for the Chronarch - a time manipulator
@@ -111,7 +111,7 @@ export const CHRONARCH_DATA = {
  title: "The Accidental Anchor",
  subtitle: "A Dying Vessel Bound to a Bleeding Timeline",
  utility: "Unmatched, absolute battlefield manipulation and time distortion. The Chronarch is the only class capable of freezing entire areas in perfect stasis frames, manually pausing or extending debuff clocks on enemies, and entirely rewinding an ally's HP and position back to an earlier round. They bend duration itself to their whim.",
- fatalFlaw: "Temporal Inversion and Fragility. Because they actively crack probability, their atomic alignment is dangerously thin. They possess a permanent 50% vulnerability to raw Void and blight forces, which unravels their chronal coherence. and, if they are caught in a zone that accelerates time or are struck by a heavy physical impact (forced movement/shoves), their internal clock fractures,dropping their Dodge rating to zero and triggering an instantaneous Temporal Backlash roll on their 1d6 table."
+ fatalFlaw: "Temporal Inversion and Fragility. Because they actively crack probability, their atomic alignment is dangerously thin. They possess a permanent 50% vulnerability to raw Silence and blight forces, which unravels their chronal coherence. and, if they are caught in a zone that accelerates time or are struck by a heavy physical impact (forced movement/shoves), their internal clock fractures,dropping their Dodge rating to zero and triggering an instantaneous Temporal Backlash roll on their 1d6 table."
  },
 
  // Overview section
@@ -333,7 +333,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
 
 **The Strain Economy**: The heaviest Flux spells (spending 4+ Shards) push multiple points of Temporal Strain at once — bringing you closer to the Backlash threshold. Chronomancy's cost is tracked on the Strain gauge, not in flesh: bank Shards, spend them on Flux, and manage Strain so the timeline doesn't snap back.
 
-**Vulnerability to Void/Necrotic**: Because your atomic anchor is frayed, you take 50% extra damage from all Void and Necrotic sources. and, if you are subjected to forced movement (shoves, pulls, knockbacks) or time acceleration fields, your internal clock fractures,instantly dropping your Dodge rating to 0 and triggering an immediate roll on the Temporal Backlash Table.`
+**Vulnerability to Silence/Necrotic**: Because your atomic anchor is frayed, you take 50% extra damage from all Silence and Necrotic sources. and, if you are subjected to forced movement (shoves, pulls, knockbacks) or time acceleration fields, your internal clock fractures,instantly dropping your Dodge rating to 0 and triggering an immediate roll on the Temporal Backlash Table.`
  },
 
  playingInPerson: {
@@ -674,8 +674,8 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    {
    id : "frayed_chronal_coherence",
    name: "Frayed Anchor",
-   description: "Takes 50% extra damage from Void and blight damage.",
-   mechanicsText: "Gain 50% vulnerability to Void and blight damage.",
+   description: "Takes 50% extra damage from Silence and blight damage.",
+   mechanicsText: "Gain 50% vulnerability to Silence and blight damage.",
    statusEffect: {
     type: "vulnerability",
     vulnerabilityTypes: ["blight", "blight"],

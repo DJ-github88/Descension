@@ -77,7 +77,7 @@ import {
 } from './talentTrees/martyr.js';
 
 import {
-  FALSE_PROPHET_VOIDCALLER,
+  FALSE_PROPHET_SILENCE_SPEAKER,
   FALSE_PROPHET_DECEIVER,
   FALSE_PROPHET_CULTIST
 } from './talentTrees/falseprophet.js';
@@ -231,7 +231,7 @@ export const getTreeBackdrop = (className, specId) => {
       'ascetic': 'url(/assets/backdrops/martyr-avenger.jpg)'
     },
     'False Prophet': {
-      'voidcaller': 'url(/assets/backdrops/falseprophet-voidcaller.jpg)',
+      'silence_speaker': 'url(/assets/backdrops/falseprophet-silence_speaker.jpg)',
       'deceiver': 'url(/assets/backdrops/falseprophet-deceiver.jpg)',
       'cultist': 'url(/assets/backdrops/falseprophet-cultist.jpg)'
     },
@@ -316,7 +316,7 @@ export const TALENT_TREES = {
     'ascetic': MARTYR_ASCETIC
   },
   'False Prophet': {
-    'voidcaller': FALSE_PROPHET_VOIDCALLER,
+    'silence_speaker': FALSE_PROPHET_SILENCE_SPEAKER,
     'deceiver': FALSE_PROPHET_DECEIVER,
     'cultist': FALSE_PROPHET_CULTIST
   },
