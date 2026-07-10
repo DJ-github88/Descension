@@ -696,7 +696,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         id: 'voidcaller',
 
-        name: 'Voidcaller',
+        name: 'Silence-Speaker',
 
         description: 'Whispers from beyond the void take shape. Summoners of void entities and emptiness magic',
 

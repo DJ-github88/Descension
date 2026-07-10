@@ -54,7 +54,7 @@ But a star's rebirth takes time. More time than your fleeting kind could ever ou
 
 I did not have to break your vault. I had only to wait until your own panic ripened. I whispered into the fear I had planted, and I offered a choice, warmth for blood.
 
-**Six noble houses accepted.** Blind with terror, they turned their blades upon their own children, dragging their firstborn into the dark to seal my Dark Bargain. Their blood was the key. I devoured them, and the vault cracked from within. The seal shattered into **seven Sundered Monoliths**, each screaming with a stolen life, and through that wound **Emberspire** erupted, bleeding a brutal heat across Mythrill, tearing your world into scorched wastes, choking ash, and frozen peaks. The **Wyrd**, ancient rot sealed in the deep earth since before your kind crawled from caves, bled into your air. Your folklore became your master.
+**Six noble houses accepted.** Blind with terror, they turned their blades upon their own children, dragging their firstborn into the dark to seal my Dark Bargain. Their blood was the key. I devoured them, and the vault cracked from within. The seal shattered into **seven Sundered Monoliths**, each screaming with a stolen life, and through that wound **Emberspire** erupted, bleeding a brutal heat across Mythrill, tearing your world into scorched wastes, choking ash, and frozen peaks. The **Wyrd**, Keth-Amar's corruption breathed into rumor and folklore during the Corruption Years, bled through the cracks into your air. Your folklore became your master.
 
 But the bargain was incomplete.
 
@@ -86,11 +86,11 @@ To protect Sol, the seven families pooled their bloodlines to entomb the dying s
 
 Keth-Amar, denied its prey, turned its attention to the starving. It whispered to the desperate nobles who had doomed their own people, promises of volcanic warmth, of vents that would crack the frozen earth and bleed heat back to the surface. The price: the **firstborn heirs** of each noble house.
 
-Pressed to extinction, **six of the seven families capitulated**. They marched their children to the northern peaks. Keth-Amar consumed them, not as mere sacrifice, but as **vessels**: the children's bloodlines were the original keys to the binding seal, and by devouring them, Keth-Amar cracked the vault from within. The seal shattered into **seven Sundered Monoliths**, each screaming with the echo of a sacrificed heir. The breach unleashed the eruption of **Emberspire**, the world-heart volcano. The **Wyrd**, a formless, primordial spiritual rot sealed in the deep earth since before human memory, bled through the cracks into the surface air.`
+Pressed to extinction, **six of the seven families capitulated**. They marched their children to the northern peaks. Keth-Amar consumed them, not as mere sacrifice, but as **vessels**: the children's bloodlines were the original keys to the binding seal, and by devouring them, Keth-Amar cracked the vault from within. The seal shattered into **seven Sundered Monoliths**, each screaming with the echo of a sacrificed heir. The breach unleashed the eruption of **Emberspire**, the world-heart volcano. The **Wyrd**, Keth-Amar's corruption breathed into folklore during the Corruption Years, bled through the cracks into the surface air.`
  },
  {
  title: 'The Slow Feast',
- content: `Keth-Amar is now inside the binding, inside the vault it was never meant to enter. It feeds on Sol's slumbering embers through the fractured seal, growing incrementally stronger as the world grows incrementally colder. Sol cannot wake. Sol cannot die. Sol is being eaten from within.
+ content: `Keth-Amar is not inside the vault — it is pressed against the partial seal, seeping through the cracks. It feeds on the energy bleeding through Sol's slumbering embers through the fractured seal, growing incrementally stronger as the world grows incrementally colder. Sol cannot wake. Sol cannot die. Sol is being drained from within the prison Aex built.
 
 **The Refusal:** House Viridane was the **seventh** binding family, but when Keth-Amar called, they did not answer. Something reached them before the Sun-Eater's whispers could take hold, a presence in the mist, watching from the moonlit groves, offering a way that did not end at the peaks. Viridane turned south instead of north, and the remaining six houses, unable to complete the binding ritual with only six signatures, elevated a minor family, **House Morrath**, as a substitute seventh. They spent three centuries erasing every record of Viridane's existence, but the erasure was not merely political. Keth-Amar hunts through the minds that remember it; to know Viridane was to leave a trail. The fog that swallowed their name was the only protection that could work. The Briaran call themselves the "eighth house" because they count what the official records hide: seven public names and one that was replaced before the ink dried.
 
@@ -392,7 +392,7 @@ As Emberspire's vents cool, the traditional nobility of House Solvan has collaps
 
 South of the Shyr, the landscape is punctuated by **Cinderhoodoo**, a cluster of fire-scorched rock spires that local herders swear moan when the wind shifts, and **Magma-Fracturing Sumps**,industrial mining outposts where Korr engineers detonate alchemical charges to force fresh lava to the surface. This fracturing has triggered severe earthquakes, tearing open reality fissures that leak the Wyrd.
 
-**The Dark Bargain:** Sundale's bargain is the ur-bargain, the original sin from which all others descend. Sol was bound beneath this continent. Emberspire is the wound through which Keth-Amar breached the seal. The predator now feeds on Sol's embers from inside the binding, and the region's noble family, House Solvan, watches their ancestral lands slowly die beneath ashfall.
+**The Dark Bargain:** Sundale's bargain is the ur-bargain, the original sin from which all others descend. Sol was bound beneath this continent. Emberspire is the wound through which Keth-Amar breached the seal. The predator now feeds on Sol's embers through the cracked seal, pressed against the vault from outside, and the region's noble family, House Solvan, watches their ancestral lands slowly die beneath ashfall.
 
 **The Seat of Power: The Harath-Vault & The Levies**
 
@@ -876,7 +876,7 @@ To play any character in Mythrill is to play one of the debtor's heirs. The time
  sections: [
  {
  title: 'What Is the Wyrd?',
- content: 'The Wyrd is a formless primordial spiritual energy that manifests using human fear and folklore as a structural blueprint. It cannot create, it can only occupy.'
+ content: 'The Wyrd is Keth-Amar\'s corruption — spiritual detritus of the Breach that uses human fear and folklore as a structural blueprint. It cannot create, it can only occupy.'
  }
  ]
  },
@@ -1351,7 +1351,7 @@ The local village elder, **Marra of the Nine**, offers a simple bounty: recover 
  },
  {
  title: 'Wyrd [Pronunciation: WIRD]',
- content: '**Noun.** A formless primordial spiritual rot sealed since before human memory, released when <LoreLink termId="emberspire">Emberspire</LoreLink> erupted. It cannot create, only occupy the collective imagination. It uses human fear and folklore as structural blueprints, transforming whispered cautionary tales into living, physical horrors unique to each region.'
+ content: '**Noun.** Keth-Amar\'s corruption breathed into rumor and folklore during the Corruption Years (Years 3–11). Released when the seal cracked, it uses human fear as a structural blueprint, transforming whispered cautionary tales into living horrors unique to each region.'
  },
  {
  title: 'Thrask [Pronunciation: THRASK]',

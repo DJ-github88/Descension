@@ -154,6 +154,8 @@ Each house made a Dark Bargain with Keth-Amar during the Corruption Years. Each 
 | Ordavan | Sundrift Vale | Fertile soil | Endless grass | Dark sky, constellations flee |
 | **Viridane** | Frostwood | Refused agreement | Watcher's protection | Erased from history |
 
+**Note on "Eight Houses":** The official record names 7 houses. Viridane was the original 7th. After the Breach, the 6 remaining houses elevated House Morrath as a substitute 7th, making 7 official signatures. The Briaran call themselves the "8th house" because they count Viridane as the 7th and themselves as the 8th — the living proof that one house refused. From the objective standpoint: there were 7 original houses including Viridane, and after the Breach there are 7 "official" houses including Morrath. The "8th house" is a folk truth, not a factual contradiction.
+
 ---
 
 ## 5. THE RACES & THEIR ORIGINS

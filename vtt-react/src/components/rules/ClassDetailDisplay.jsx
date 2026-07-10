@@ -735,83 +735,103 @@ const getSpellIconUrl = (spell) => {
 const classFallbacks = {
  arcanoneer: [
   { url: '/assets/images/classes/arcanoneer_illustration.png', caption: 'A Velun Neth Vault Custodian Arcanoneer with a heavy pig-iron forearm graft.' },
-  { url: '/assets/images/classes/arcanoneer_illustration_2.png', caption: 'A Kessen Neth Clause-Weaver Arcanoneer weaving obligation lines.' }
+  { url: '/assets/images/classes/arcanoneer_illustration_2.png', caption: 'A Kessen Neth Clause-Weaver Arcanoneer weaving obligation lines.' },
+  { url: '/assets/images/classes/arcanoneer_illustration_3.png', caption: 'A Drall Fexric Arcanoneer with copper filaments carrying a heavy steam pig-iron rifle.' }
  ],
  berserker: [
   { url: '/assets/images/classes/berserker_illustration.png', caption: 'A Skald Human Iceheart Outcast Berserker holding a massive blood-rusted axe.' },
-  { url: '/assets/images/classes/berserker_illustration_2.png', caption: 'A Korr Emberth Berserker wielding a massive greataxe wreathed in embers.' }
+  { url: '/assets/images/classes/berserker_illustration_2.png', caption: 'A Korr Emberth Berserker wielding a massive greataxe wreathed in embers.' },
+  { url: '/assets/images/classes/berserker_illustration_3.png', caption: 'A Thalren Human Berserker holding two heavy hand-axes wreathed in blood-spatter washes.' }
  ],
  false_prophet: [
   { url: '/assets/images/classes/false_prophet_illustration.png', caption: 'A Clean Vreken Herd-Watcher False Prophet preaching the cosmic void.' },
-  { url: '/assets/images/classes/false_prophet_illustration_2.png', caption: 'A Marked Vreken Prophet with glowing lantern-eyes holding a starlight book.' }
+  { url: '/assets/images/classes/false_prophet_illustration_2.png', caption: 'A Marked Vreken Prophet with glowing lantern-eyes holding a starlight book.' },
+  { url: '/assets/images/classes/false_prophet_illustration_3.png', caption: 'A Mistwoven Mimir False Prophet wearing a storm-glass mask holding a cosmic lantern.' }
  ],
  shaper: [
   { url: '/assets/images/classes/shaper_illustration.png', caption: 'A Morgh Groven Bone-Reader Shaper reshaping bone and sinew.' },
-  { url: '/assets/images/classes/shaper_illustration_2.png', caption: 'A Breakerborn Myrathil Shaper with curved bone-swords and water-force.' }
+  { url: '/assets/images/classes/shaper_illustration_2.png', caption: 'A Breakerborn Myrathil Shaper with curved bone-swords and water-force.' },
+  { url: '/assets/images/classes/shaper_illustration_3.png', caption: 'A Korr Emberth Shaper reshaping glowing lava-infused bones with their hands.' }
  ],
  revenant: [
   { url: '/assets/images/classes/revenant_illustration.png', caption: 'A Marked Vreken Peat-Bog Graverobber Revenant harvesting souls in the Bryngloom.' },
-  { url: '/assets/images/classes/revenant_illustration_2.png', caption: 'A Velun Neth Revenant with blank pool eyes holding a glowing soul-lantern.' }
+  { url: '/assets/images/classes/revenant_illustration_2.png', caption: 'A Velun Neth Revenant with blank pool eyes holding a glowing soul-lantern.' },
+  { url: '/assets/images/classes/revenant_illustration_3.png', caption: 'An Ithran Groven Revenant wreathed in roots with glowing swamp-green eyes.' }
  ],
  animist: [
   { url: '/assets/images/classes/animist_illustration.png', caption: 'An Unshorn Briaran Forest Ritualist Animist channeling ancestral spirits.' },
-  { url: '/assets/images/classes/animist_illustration_2.png', caption: 'An Ithran Groven Animist with stone-scale joints holding a moss-grown staff summoning a bear spirit.' }
+  { url: '/assets/images/classes/animist_illustration_2.png', caption: 'An Ithran Groven Animist with stone-scale joints holding a moss-grown staff summoning a bear spirit.' },
+  { url: '/assets/images/classes/animist_illustration_3.png', caption: 'A Velun Neth Animist with blank pool eyes holding a scroll wreathed in script spirits.' }
  ],
  pyrofiend: [
   { url: '/assets/images/classes/pyrofiend_illustration.png', caption: 'A Thrask Emberth Ashen Conduit Pyrofiend manifesting molten charcoal skin.' },
-  { url: '/assets/images/classes/pyrofiend_illustration_2.png', caption: 'A Korr Emberth Pyrofiend holding a sphere of molten flame wreathed in ash.' }
+  { url: '/assets/images/classes/pyrofiend_illustration_2.png', caption: 'A Korr Emberth Pyrofiend holding a sphere of molten flame wreathed in ash.' },
+  { url: '/assets/images/classes/pyrofiend_illustration_3.png', caption: 'A Drall Fexric Pyrofiend holding a copper combustion device wreathed in vented flames.' }
  ],
  martyr: [
   { url: '/assets/images/classes/martyr_illustration.png', caption: 'A Korr Emberth Dawn Vigil Flagellant Martyr absorbing pain through obsidian scars.' },
-  { url: '/assets/images/classes/martyr_illustration_2.png', caption: 'A Solvarn Human Martyr wreathed in iron chains holding a Solbrand stone amulet.' }
+  { url: '/assets/images/classes/martyr_illustration_2.png', caption: 'A Solvarn Human Martyr wreathed in iron chains holding a Solbrand stone amulet.' },
+  { url: '/assets/images/classes/martyr_illustration_3.png', caption: 'A Marked Vreken Martyr wreathed in starry cosmic chains absorbing stellar pain.' }
  ],
  toxicologist: [
   { url: '/assets/images/classes/toxicologist_illustration.png', caption: 'A Mistwoven Mimir Distillery Alchemist Toxicologist in a tattered bark cloak.' },
-  { url: '/assets/images/classes/toxicologist_illustration_2.png', caption: 'A Clean Vreken Toxicologist with glowing lantern-eyes holding a bubbling vial of green acid.' }
+  { url: '/assets/images/classes/toxicologist_illustration_2.png', caption: 'A Clean Vreken Toxicologist with glowing lantern-eyes holding a bubbling vial of green acid.' },
+  { url: '/assets/images/classes/toxicologist_illustration_3.png', caption: 'A Drun Neth Toxicologist in a bark cloak holding a flask bubbling with green gas.' }
  ],
  plaguebringer: [
   { url: '/assets/images/classes/plaguebringer_illustration.png', caption: 'A Drun Neth Peat-Waste Herbalist Plaguebringer hosting the Ghost-Mycelium rot.' },
-  { url: '/assets/images/classes/plaguebringer_illustration_2.png', caption: 'A Marked Vreken Plaguebringer with glowing lantern-eyes holding a smoking plague-flask.' }
+  { url: '/assets/images/classes/plaguebringer_illustration_2.png', caption: 'A Marked Vreken Plaguebringer with glowing lantern-eyes holding a smoking plague-flask.' },
+  { url: '/assets/images/classes/plaguebringer_illustration_3.png', caption: 'A Morgh Groven Plaguebringer holding a clay jar leaking thick rot vapors.' }
  ],
  minstrel: [
   { url: '/assets/images/classes/minstrel_illustration.png', caption: 'A River-fed Myrathil Tide-Choir Singer Minstrel playing a delicate lute.' },
-  { url: '/assets/images/classes/minstrel_illustration_2.png', caption: 'A Skald Human Minstrel singing a tale and playing a rustic lute.' }
+  { url: '/assets/images/classes/minstrel_illustration_2.png', caption: 'A Skald Human Minstrel singing a tale and playing a rustic lute.' },
+  { url: '/assets/images/classes/minstrel_illustration_3.png', caption: 'A Tessen Human Minstrel playing a small, ornate harp with swirling wind currents.' }
  ],
  inquisitor: [
   { url: '/assets/images/classes/inquisitor_illustration.png', caption: 'A Solvarn Human Barbed-Vow Inquisitor wreathed in cold iron chains.' },
-  { url: '/assets/images/classes/inquisitor_illustration_2.png', caption: 'A Clean Vreken Inquisitor wreathed in chains holding an iron executioner\'s gavel.' }
+  { url: '/assets/images/classes/inquisitor_illustration_2.png', caption: 'A Clean Vreken Inquisitor wreathed in chains holding an iron executioner\'s gavel.' },
+  { url: '/assets/images/classes/inquisitor_illustration_3.png', caption: 'A Morren Human Inquisitor wreathed in iron chains carrying an executioner\'s gavel.' }
  ],
  apex: [
   { url: '/assets/images/classes/apex_illustration.png', caption: 'A Smoothskinned Briaran Silent Hunter Apex drawing a recurve bow.' },
-  { url: '/assets/images/classes/apex_illustration_2.png', caption: 'An Unshorn Briaran Apex with wild thorns growing along their arms drawing a living bow.' }
+  { url: '/assets/images/classes/apex_illustration_2.png', caption: 'An Unshorn Briaran Apex with wild thorns growing along their arms drawing a living bow.' },
+  { url: '/assets/images/classes/apex_illustration_3.png', caption: 'A River-fed Myrathil Apex drawing a coral bow with a glowing water arrow.' }
  ],
  warden: [
   { url: '/assets/images/classes/warden_illustration.png', caption: 'An Ithran Groven Penitent Jailer Warden with rusted iron chains.' },
-  { url: '/assets/images/classes/warden_illustration_2.png', caption: 'A Thrask Emberth Warden wrapped in rusted iron chains dragging a spiked shackle.' }
+  { url: '/assets/images/classes/warden_illustration_2.png', caption: 'A Thrask Emberth Warden wrapped in rusted iron chains dragging a spiked shackle.' },
+  { url: '/assets/images/classes/warden_illustration_3.png', caption: 'An Ordan Human Warden in heavy iron plate armor dragging a massive shackle.' }
  ],
  gambit: [
   { url: '/assets/images/classes/gambit_illustration.png', caption: 'A Muren Astril Luck-Ledger Auditor Gambit flipping a glowing coin.' },
-  { url: '/assets/images/classes/gambit_illustration_2.png', caption: 'A Merryn Human Gambit flipping a golden coin and tracing probability lines.' }
+  { url: '/assets/images/classes/gambit_illustration_2.png', caption: 'A Merryn Human Gambit flipping a golden coin and tracing probability lines.' },
+  { url: '/assets/images/classes/gambit_illustration_3.png', caption: 'A Skald Human Gambit flipping three glowing brass coins to trace probability lines.' }
  ],
  chronarch: [
   { url: '/assets/images/classes/chronarch_illustration.png', caption: 'A Sylen Astril Starlight Astrologer Chronarch utilizing time-sand.' },
-  { url: '/assets/images/classes/chronarch_illustration_2.png', caption: 'A Mistwoven Mimir Chronarch with storm-glass mask and clockwork device.' }
+  { url: '/assets/images/classes/chronarch_illustration_2.png', caption: 'A Mistwoven Mimir Chronarch with storm-glass mask and clockwork device.' },
+  { url: '/assets/images/classes/chronarch_illustration_3.png', caption: 'A Muren Astril Chronarch tracing complex golden clockwork dials in the air.' }
  ],
  spellguard: [
   { url: '/assets/images/classes/spellguard_illustration.png', caption: 'A Kethrin Fexric Shield-Master Spellguard carrying a glowing tower shield.' },
-  { url: '/assets/images/classes/spellguard_illustration_2.png', caption: 'A Muren Astril Spellguard with four glowing eyes carrying a rune-inscribed brass shield.' }
+  { url: '/assets/images/classes/spellguard_illustration_2.png', caption: 'A Muren Astril Spellguard with four glowing eyes carrying a rune-inscribed brass shield.' },
+  { url: '/assets/images/classes/spellguard_illustration_3.png', caption: 'A Drall Fexric Spellguard with a metal-threaded beard carrying a rune tower shield.' }
  ],
  augur: [
   { url: '/assets/images/classes/augur_illustration.png', caption: 'A Deep Myrathil Nebula Seer Augur tracing stargate alignments.' },
-  { url: '/assets/images/classes/augur_illustration_2.png', caption: 'A Sylen Astril Augur with stardust skin holding a crystal ball displaying nebulae.' }
+  { url: '/assets/images/classes/augur_illustration_2.png', caption: 'A Sylen Astril Augur with stardust skin holding a crystal ball displaying nebulae.' },
+  { url: '/assets/images/classes/augur_illustration_3.png', caption: 'An Unwoven Mimir Augur tracing astronomical portals wreathed in entropic fibers.' }
  ],
  harbinger: [
   { url: '/assets/images/classes/harbinger_illustration.png', caption: 'An Unwoven Mimir Sump Archivist Harbinger channeling entropic friction.' },
-  { url: '/assets/images/classes/harbinger_illustration_2.png', caption: 'A Drun Neth Harbinger holding a clockwork device of entropic friction.' }
+  { url: '/assets/images/classes/harbinger_illustration_2.png', caption: 'A Drun Neth Harbinger holding a clockwork device of entropic friction.' },
+  { url: '/assets/images/classes/harbinger_illustration_3.png', caption: 'A Kethrin Fexric Harbinger wreathed in copper-wire carrying an entropic chronometer.' }
  ],
  lunarch: [
   { url: '/assets/images/classes/lunarch_illustration.png', caption: 'A Maskborne Mimir Moonlit Grove Sentinel Lunarch, vessel of the lunar parasite.' },
-  { url: '/assets/images/classes/lunarch_illustration_2.png', caption: 'A Deepborn Myrathil Lunarch wielding a crescent blade wreathed in starlight.' }
+  { url: '/assets/images/classes/lunarch_illustration_2.png', caption: 'A Deepborn Myrathil Lunarch wielding a crescent blade wreathed in starlight.' },
+  { url: '/assets/images/classes/lunarch_illustration_3.png', caption: 'An Unshorn Briaran Lunarch wreathed in glowing silver lunar briars.' }
  ]
 };
 

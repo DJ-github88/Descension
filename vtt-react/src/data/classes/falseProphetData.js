@@ -56,7 +56,7 @@ export const FALSE_PROPHET_DATA = {
   name: 'Borrowed Resonance',
   description: `The Prophet channels their host constellation-spirit's *genuine* resonance as cover for manufactured doctrine. The congregation experiences real celestial contact, which makes the false gospel layered into it almost impossible to disbelieve. Detecting the lie requires separating true resonance from fabricated, a feat few can manage.`
   },
-  currentCrisisAngle: `The Voice of the Silence has begun issuing instructions that the Sylen's constellation-spirits *recognize*, the imprisoned fragments of Sol's court react to the Voice with something the Sylen can only describe as fear. The False Prophets suspect the Voice is not a void-entity at all, but something the constellation-spirits remember from before the Deepening. Their constructed faith may be older than they knew.`,
+  currentCrisisAngle: `The Voice of the Silence has begun issuing instructions that the Sylen's constellation-spirits *recognize*, the imprisoned fragments of Sol's court react to the Voice with something the Sylen can only describe as fear. The False Prophets suspect the Voice is not a silence-entity at all, but something the constellation-spirits remember from before the Deepening. Their constructed faith may be older than they knew.`,
   signatureQuote: {
   text: '"My congregation feels the star in my blood and calls it proof. I have not told them the star is as fooled as they are."',
   speaker: 'Aenith the Luminous Lie',
@@ -109,7 +109,7 @@ export const FALSE_PROPHET_DATA = {
  orderName: 'The Congregation of the Silence',
  founder: {
   name: '<LoreLink termId="li-wei">Li Wei</LoreLink>',
-  status: `Alive, barely. The Ordan herd-watcher who followed a meteor into a crystalline crater, looked into the void where Sol once shone, and returned blind and mind-shattered. He cannot lead; he can only listen, and the Voice now speaks through his broken heartbeats.`,
+  status: `Alive, barely. The Ordan herd-watcher who followed a meteor into a crystalline crater, looked into the silence where Sol once shone, and returned blind and mind-shattered. He cannot lead; he can only listen, and the Voice now speaks through his broken heartbeats.`,
   note: `<LoreLink termId="li-wei">Li Wei</LoreLink> never intended to found a faith. He wanted to know what replaced the sun. The Voice answered, and the answer is still arriving. The Congregation formed around him without his consent.`
  },
  currentLeader: {
@@ -128,11 +128,11 @@ export const FALSE_PROPHET_DATA = {
  ],
 
  overview: {
- originStory: `Founded in the most recent centuries by Li Wei, who witnessed the Silence Between Stars in a Sundered Monolith crater and returned with blank white eyes and a hypnotic madness. In the starless grasslands of the Sundrift Vale, a nomadic herd-watcher named Li Wei followed a falling meteor into a deep, crystalline crater. He did not find a metal shard, but an ancient, sundered monolith humming with a black, empty vacuum. When he looked directly into the void where the sun-spirit Sol once shone, he did not see light; he saw the gospel of the cosmic void. The vacuum spoke not in words, but in the terrifying, silent architecture of the stars' demise.
+ originStory: `Founded in the most recent centuries by Li Wei, who witnessed the Silence Between Stars in a Sundered Monolith crater and returned with blank white eyes and a hypnotic madness. In the starless grasslands of the Sundrift Vale, a nomadic herd-watcher named Li Wei followed a falling meteor into a deep, crystalline crater. He did not find a metal shard, but an ancient, sundered monolith humming with a black, empty vacuum. When he looked directly into the silence where Sol once shone, he did not see light; he saw the gospel of the cosmic void. The vacuum spoke not in words, but in the terrifying, silent architecture of the stars' demise.
 
 Li Wei returned with blank, white eyes and a mind permanently shattered by the competing voices of dead stars. The False Prophet is physically blind, his skin pale and cracked, and his heart beating in erratic, asynchronous patterns. His words carry a hypnotic madness that drains the stamina of listeners, forcing them to see the phantom embers of dead stars.
 
-Speak the void's gospel. The stars are dead, and the vacuum is the only truth left. Lead them into the dark.`,
+Speak the silence's gospel. The stars are dead, and the vacuum is the only truth left. Lead them into the dark.`,
  title: "The False Prophet",
  subtitle: "The Lie That Devours the Living",
  illustration: "/assets/images/classes/false_prophet_illustration.png",
@@ -140,9 +140,9 @@ Speak the void's gospel. The stars are dead, and the vacuum is the only truth le
 
  quickOverview: {
   title: "Quick Overview",
-  content: `**What You Need to Know**: The False Prophet harvests Madness Points (0-20) by preaching the void as absolute truth, with each stolen point granting +1 damage to all psychic, void, and necrotic spells. The temptation is a noose, pull toward 20 for godlike power, but cross the threshold and an Insanity Convulsion tears through you: catastrophic self-harm, uncontrolled teleportation, stunned helplessness, or worse. Your Madness resets to zero. You begin the harvest again. You always begin again. Your empathetic link is active from Level 1, Stitch of Suffering threads an empathetic bond between ally and enemy on your very first turn.
+  content: `**What You Need to Know**: The False Prophet harvests Madness Points (0-20) by preaching the Silence as absolute truth, with each stolen point granting +1 damage to all psychic, silence, and necrotic spells. The temptation is a noose, pull toward 20 for godlike power, but cross the threshold and an Insanity Convulsion tears through you: catastrophic self-harm, uncontrolled teleportation, stunned helplessness, or worse. Your Madness resets to zero. You begin the harvest again. You always begin again. Your empathetic link is active from Level 1, Stitch of Suffering threads an empathetic bond between ally and enemy on your very first turn.
 
-**Core Mechanic**: Preach void sermons -> Roll dice for random Madness gains -> Damage scales with Madness (+1 per point to all spell damage types) -> Stitch empathetic links from Level 1 to redirect ally suffering onto enemies -> Unlock Temptation thresholds at 6, 9, 12 Madness -> Reach 20 and trigger Insanity Convulsion -> Reset to 0
+**Core Mechanic**: Preach silence sermons -> Roll dice for random Madness gains -> Damage scales with Madness (+1 per point to all spell damage types) -> Stitch empathetic links from Level 1 to redirect ally suffering onto enemies -> Unlock Temptation thresholds at 6, 9, 12 Madness -> Reach 20 and trigger Insanity Convulsion -> Reset to 0
 
 **Resource**: Madness Points (0-20 scale, random generation and spending)
 
@@ -151,7 +151,7 @@ Speak the void's gospel. The stars are dead, and the vacuum is the only truth le
 **Best For**: Players who understand that power is a disease and want to see how far the infection spreads before it kills the host`,
  },
 
- description: `The False Prophet does not worship - they channel. They preach the void as absolute revelation, accumulating Madness Points through sermons and psychic rituals that strip away the barriers between minds. This madness is not inspiration; it is the accumulated wyrd pressure of every consciousness they have touched, compressed into weaponized willpower. Their spells grow devastating with accumulated strain, but the weight threatens to overwhelm the Prophet from within. They walk a razor edge between transcendence and collapse, and every step forward is powered by the wyrd exhaustion of those who believed them.`,
+ description: `The False Prophet does not worship - they channel. They preach the Silence as absolute revelation, accumulating Madness Points through sermons and psychic rituals that strip away the barriers between minds. This madness is not inspiration; it is the accumulated wyrd pressure of every consciousness they have touched, compressed into weaponized willpower. Their spells grow devastating with accumulated strain, but the weight threatens to overwhelm the Prophet from within. They walk a razor edge between transcendence and collapse, and every step forward is powered by the wyrd exhaustion of those who believed them.`,
 
  roleplayIdentity: {
   title: "Roleplay Identity",
@@ -165,7 +165,7 @@ False Prophets are viewed with deep suspicion in civilized kingdoms, often treat
 The class is practiced by desperate humans and the constellationless <LoreLink termId="astril">Unlit Astril</LoreLink>.
 
 **NOTABLE FIGURES**
-* **Li Wei the Blind Prophet**: The herd-watcher who gouged his eyes to see the void's dead constellations.
+* **Li Wei the Blind Prophet**: The herd-watcher who gouged his eyes to see the silence in the constellations.
 * **Seraphina the Silent**: An Unlit Astril who led a small cult of starless heretics across the steppe.`
  },
 
@@ -265,7 +265,7 @@ The False Prophet thrives when surrounded by a congregation - allies to channel 
 - After Convulsion, Madness resets to 0
 
 **Specialization Synergies**:
-- **Voidcaller**: Aggressive madness generation, maximum damage output
+- **Silence-Speaker**: Aggressive madness generation, maximum damage output
 - **Deceiver**: Mind control focus, uses madness for manipulation
 - **Cultist**: Balanced corruption, sustained DoT and curse effects
 
@@ -280,15 +280,15 @@ The False Prophet thrives when surrounded by a congregation - allies to channel 
   title: "Combat Example: Dancing on the Edge of Madness",
   content: `The bandits have no idea what they are facing. To them, you are a street preacher in ragged robes, easy prey. They do not understand that the silence you carry is not emptiness — it is a presence. When you open your mouth, it will not be your voice that answers.
 
-**The Setup**: You're a False Prophet (Voidcaller specialization) facing a group of bandits (4 bandits + 1 bandit captain). Your party is with you, but you're the primary damage dealer. Starting Madness: 0. Starting Mana: 40/50. Your goal: Build Madness for maximum damage, use Temptation abilities strategically, and DON'T hit 20 Madness unless you're ready for chaos.
+**The Setup**: You're a False Prophet (Silence-Speaker specialization) facing a group of bandits (4 bandits + 1 bandit captain). Your party is with you, but you're the primary damage dealer. Starting Madness: 0. Starting Mana: 40/50. Your goal: Build Madness for maximum damage, use Temptation abilities strategically, and DON'T hit 20 Madness unless you're ready for chaos.
 
 **Starting State**: Madness: 0/20 | Shadow Damage Bonus: +0 | Mana: 40/50 | HP: 60/60
 
 **Turn 1 - Building Madness (Madness: 0 ? 5)**
 
-*The bandits charge. You raise your hands, void energy crackling between your fingers. Time to embrace the darkness.*
+*The bandits charge. You raise your hands, silence energy crackling between your fingers. Time to embrace the darkness.*
 
-**Your Action**: Cast "Void Scripture" on Bandit #1 (6 mana, generates 1d6 Madness)
+**Your Action**: Cast "Silence Scripture" on Bandit #1 (6 mana, generates 1d6 Madness)
 **Madness Roll**: 1d6 ? [5] ? +5 Madness Points
 **Madness**: 0 + 5 = **5 Madness**
 **Damage Bonus**: +5 to all spell damage
@@ -311,7 +311,7 @@ The False Prophet thrives when surrounded by a congregation - allies to channel 
 **Spell Damage**: 2d8 psychic + 11 (Madness bonus) ? [7, 6] + 11 = 24 damage!
 **Result**: Bandit #2 takes 24 damage, DEAD (overkill)
 
-*The bolt of void energy obliterates the bandit. Your vision swims. The world tilts. You're at 11 Madness - past the 9 threshold. Wyrd-touched Vision is now available.*
+*The bolt of silence energy obliterates the bandit. Your vision swims. The world tilts. You're at 11 Madness - past the 9 threshold. Wyrd-touched Vision is now available.*
 
 **Mana**: 34 - 5 = 29/50
 **Temptation Unlocked**: Wyrd-touched Vision (9+ Madness) - See through walls, detect invisible, +1d6 Madness
@@ -344,7 +344,7 @@ The False Prophet thrives when surrounded by a congregation - allies to channel 
 *1. Spend Madness with a spending spell to drop back to safety*
 *2. Keep building for maximum damage and risk hitting 20*
 
-*You're a Voidcaller. You chose this path. MAXIMUM DAMAGE.*
+*You're a Silence-Speaker. You chose this path. MAXIMUM DAMAGE.*
 
 **Your Action**: Cast "Preacher's Grasp" on remaining bandits (7 mana, generates 1d4 Madness)
 **Madness Roll**: 1d4 ? [3] ? +3 Madness Points
@@ -352,7 +352,7 @@ The False Prophet thrives when surrounded by a congregation - allies to channel 
 **Damage Bonus**: +19 to all spell damage
 **Spell Damage**: 4d6 necrotic + 19 (Madness bonus) ? [6, 5, 4, 6] + 19 = 40 damage to all bandits in 20ft radius!
 
-*Tendrils of pure void energy erupt from the ground, wrapping around the bandits. They scream as the darkness consumes them.*
+*Tendrils of pure silence energy erupt from the ground, wrapping around the bandits. They scream as the darkness consumes them.*
 
 **Results**:
 - Bandit #3: 40 damage ? DEAD
@@ -409,7 +409,7 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
   title: "Madness (0-20)",
   stats: "Escalating Damage",
   details:
-   "Each point adds +1 to ALL psychic, void, and blight damage. At 19 Madness, you deal +19 damage per spell.",
+   "Each point adds +1 to ALL psychic, silence, and blight damage. At 19 Madness, you deal +19 damage per spell.",
   },
   {
   title: "Thresholds",
@@ -470,7 +470,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
 
  strategicConsiderations: {
   title: "The Preacher's Path",
-  content: `**Voidcaller Spec**: You generate Madness faster (+1 to all rolls). You reach the "Danger Zone" twice as fast as others, but your damage scaling is unrivaled.
+  content: `**Silence-Speaker Spec**: You generate Madness faster (+1 to all rolls). You reach the "Danger Zone" twice as fast as others, but your damage scaling is unrivaled.
 
 **The Threshold Trap**: Using your most powerful abilities (like Apocalyptic Revelation) often *generates* the most Madness. If you cast your ultimate while at 15 Madness, you are almost guaranteed to Convulse immediately after.`,
  },
@@ -503,7 +503,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   name: "Path of the Void Oracle",
   icon: "Void/Consumed by Void",
   items: [
-   "Ritual Dagger (1d6 piercing + psychic channeling, acts as spell focus for void rites)",
+   "Ritual Dagger (1d6 piercing + psychic channeling, acts as spell focus for silence rites)",
    "Shroud of the Preacher (Light armor, no agility penalty)",
    "Tome of Stolen Sermons (Spellbook, stores 2 additional cantrips from any school)",
    "Vial of Void Ink (Utility: inscribe temporary warding sigils on surfaces)",
@@ -530,7 +530,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   "Hollow bone whistle (summons congregation members in emergencies)",
   "1d10 x 5 tarnished silver pieces",
  ],
- notes: "False Prophets cannot use heavy armor or shields. They rely on psychic barriers and empathetic links for protection. All weapons function as spell foci when inscribed with void sigils.",
+ notes: "False Prophets cannot use heavy armor or shields. They rely on psychic barriers and empathetic links for protection. All weapons function as spell foci when inscribed with silence sigils.",
  },
 
  // Specializations
@@ -538,17 +538,17 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
  title: "False Prophet Specializations",
  subtitle: "Three Sermons of the Void",
 
- description: `Every False Prophet preaches the void as absolute truth,but the style of their sermon defines the shape of the wound. Some thunder hellfire from makeshift pulpits until the congregation's ears bleed. Others whisper poison into willing ears and call it scripture. And some simply perform the old rites, patient and inevitable, burying the knife so slowly that the victim thanks them for it. Choose your sermon. Choose your sin.`,
+ description: `Every False Prophet preaches the Silence as absolute truth, but the style of their sermon defines the shape of the wound. Some thunder hellfire from makeshift pulpits until the congregation's ears bleed. Others whisper poison into willing ears and call it scripture. And some simply perform the old rites, patient and inevitable, burying the knife so slowly that the victim thanks them for it. Choose your sermon. Choose your sin.`,
 
  specs: [
   {
-  id : "voidcaller",
-  name: "Voidcaller",
+  id : "silence-speaker",
+  name: "Silence-Speaker",
   icon: "Void/Consumed by Void",
   color: "#9400D3",
   theme: "Fire-and-Brimstone Preaching",
 
-  description: `Voidcallers are the loudest voice in the room - not because they have something to say, but because the silence is full of echoes that used to belong to other people. They channel stolen psychic energy through thunderous, destructive sermons that crack the air with concussive force. Their preaching generates Madness faster than any other specialization, pushing them toward overwhelming power and catastrophic Convulsion in equal measure. They use empathetic links offensively, mirroring wyrd strain onto enemies with devastating efficiency. When a Voidcaller's mind buckles, someone else's consciousness shudders under the weight. It is never their burden alone. It was never their burden alone.`,
+  description: `Silence-Speakers are the loudest voice in the room - not because they have something to say, but because the silence is full of echoes that used to belong to other people. They channel stolen psychic energy through thunderous, destructive sermons that crack the air with concussive force. Their preaching generates Madness faster than any other specialization, pushing them toward overwhelming power and catastrophic Convulsion in equal measure. They use empathetic links offensively, mirroring wyrd strain onto enemies with devastating efficiency. When a Silence-Speaker's mind buckles, someone else's consciousness shudders under the weight. It is never their burden alone. It was never their burden alone.`,
 
   playstyle:
    "High-risk aggression, maximum damage output, rapid Madness generation through destructive sermons",
@@ -568,7 +568,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   ],
 
   specPassive: {
-   name: "Void Surge",
+   name: "Silence Surge",
    description: "Whenever you generate Madness Points, add +1 to the rolled amount. When you have 15 or more Madness Points, your spells deal an additional 1d8 wyrd damage.",
   },
   },
@@ -593,7 +593,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   ],
 
   weaknesses: [
-   "Lower direct damage than Voidcaller",
+   "Lower direct damage than Silence-Speaker",
    "Less effective against mindless enemies",
    "Requires strategic target selection",
    "Control effects can be resisted",
@@ -625,7 +625,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   ],
 
   weaknesses: [
-   "Lower burst damage than Voidcaller",
+   "Lower burst damage than Silence-Speaker",
    "DoT effects take time to ramp up",
    "Less impactful in short fights",
    "Requires setup time for rituals",
@@ -706,7 +706,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
 
   triggerConfig: {
     triggers: [
-      { id: "fp_blood_sermon_trigger", name: "Void Toll", triggerType: "on_cast", action: "Channeling the sermon costs 3 HP — non-negotiable sacrifice to the void." }
+      { id: "fp_blood_sermon_trigger", name: "Silence Toll", triggerType: "on_cast", action: "Channeling the sermon costs 3 HP — non-negotiable sacrifice to the silence." }
     ]
   },
   tags: ["damage", "wyrd", "madness", "self-harm", "voidcaller"],
@@ -763,7 +763,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   resourceValues: { mana: 6 },
   actionPoints: 1,
   components: ["verbal", "somatic"],
-   verbalText: "Be blessed by the void",
+   verbalText: "Be blessed by the silence",
    somaticText: "Trace hollow sigil over target",
   },
 
@@ -880,7 +880,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
  { id: "fp_siphon_devotion",
   name: "Siphon Devotion",
   description:
-  "Reach across the void and hook your fingers into a target's life force. Drain 1d6 blight damage from them, healing yourself for the same amount. The stolen vitality surges through you like a psychic current. Generates 1 Madness Point.",
+  "Reach across the silence and hook your fingers into a target's life force. Drain 1d6 blight damage from them, healing yourself for the same amount. The stolen vitality surges through you like a psychic current. Generates 1 Madness Point.",
   level: 1,
   spellType: "ACTION",
   icon: "Necrotic/Drain Soul",
@@ -1344,7 +1344,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   icon: "Necrotic/Necrotic Decay 1",
   triggerConfig: {
     triggers: [
-      { id: "fp_blood_tithe_trigger", name: "Void Toll", triggerType: "on_cast", action: "All affected allies sacrifice 1d4 HP to gain the tithe's blessing." }
+      { id: "fp_blood_tithe_trigger", name: "Silence Toll", triggerType: "on_cast", action: "All affected allies sacrifice 1d4 HP to gain the tithe's blessing." }
     ]
   },
   tags: ["buff", "sacrifice", "aoe", "madness", "cultist"],
@@ -2291,7 +2291,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   tags: ["damage", "wyrd", "control", "paranoia", "madness", "deceiver"],
  },
  { id: "fp_wrath_of_void_god",
-  name: "Wrath of the Void God",
+  name: "Wrath of the Silence",
   description:
   "Channel the wrath of something that should not be named, dealing 4d8 + Intelligence blight damage plus 2 damage per Madness Point spent. Spends 1d6 Madness Points.",
   level: 5,
@@ -2326,8 +2326,8 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   resourceValues: { mana: 20 },
   actionPoints: 2,
   components: ["verbal", "somatic"],
-   verbalText: "The void answers!",
-   somaticText: "Channel the void-god's wrath through body",
+verbalText: "The silence answers!",
+    somaticText: "Channel the silence's wrath through body",
   },
 
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
@@ -3610,9 +3610,9 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   tags: ["transformation", "ultimate", "spirit form", "madness"],
  },
  { id: "fp_void_whisper",
-  name: "Void Whisper",
+  name: "Silence Whisper",
   description:
-  "The void whispers secrets that erode your sanity. At the start of each turn, if you are not actively channeling or maintaining an effect, you take 1d4 wyrd damage.",
+  "The silence whispers secrets that erode your sanity. At the start of each turn, if you are not actively channeling or maintaining an effect, you take 1d4 wyrd damage.",
   level: 1,
   spellType: "PASSIVE",
   icon: "Psychic/Agonizing Scream",
@@ -3636,7 +3636,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   effects: [
    {
    id : "void_whisper",
-   name: "Void Whisper",
+   name: "Silence Whisper",
    description:
     "Take 1d4 wyrd damage at the start of each turn if not actively channeling.",
    mechanicsText: "Take 1d4 wyrd damage at start of each turn if not actively channeling.",
@@ -3779,16 +3779,16 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   // ===== NON-COMBAT / VOID & MIND UTILITY (the cult-leader out of combat) =====
   { id: "fp_unlit_gaze",
    name: "Unlit Gaze",
-   description: "You gouged your eyes to see the void, not the light. For the duration you see perfectly in total and magical darkness, perceive the dead, the dying, the void-touched, and undead as cold pale shapes, and read the single deepest fear of any creature you study. You are blind to bright color and fine detail in normal light. Out of combat.",
+   description: "You gouged your eyes to see the silence, not the light. For the duration you see perfectly in total and magical darkness, perceive the dead, the dying, the silence-touched, and undead as cold pale shapes, and read the single deepest fear of any creature you study. You are blind to bright color and fine detail in normal light. Out of combat.",
    level: 1,
    spellType: "ACTION",
    icon: "Psychic/Focused Mind",
    effectTypes: ["utility"],
    typeConfig: { school: "wyrd", icon: "Psychic/Focused Mind", tags: ["utility","divination","exploration","false prophet"], castTime: 1, castTimeType: "IMMEDIATE" },
    targetingConfig: { targetingType: "self", rangeType: "self" },
-   resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 4 }, components: ["somatic"], somaticText: "Open your blank eyes wide; the void-light pools in them" },
+   resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 4 }, components: ["somatic"], somaticText: "Open your blank eyes wide; the silence-light pools in them" },
    resolution: "NONE",
-   utilityConfig: { utilityType: "perception", selectedEffects: [ { id: "unlit_gaze_sight", name: "Void-Sight", description: "For 10 minutes: see in any darkness, perceive dead/dying/void-touched/undead, and read one creature's deepest fear on study. Detail-vision in bright light is blurred.", mechanicsText: "Darkvision + see dead/void-touched + read deepest fear, 10 min." } ], duration: 10, durationUnit: "minutes", power: "minor" },
+   utilityConfig: { utilityType: "perception", selectedEffects: [ { id: "unlit_gaze_sight", name: "Silence-Sight", description: "For 10 minutes: see in any darkness, perceive dead/dying/silence-touched/undead, and read one creature's deepest fear on study. Detail-vision in bright light is blurred.", mechanicsText: "Darkvision + see dead/silence-touched + read deepest fear, 10 min." } ], duration: 10, durationUnit: "minutes", power: "minor" },
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
    tags: ["utility","divination","exploration","investigation","false prophet"],
   },
@@ -3809,7 +3809,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
   },
   { id: "fp_consult_the_voice",
    name: "Consult the Voice",
-   description: "Fall silent and let the Voice answer. Ask one question; the void-entity replies truthfully, in its own words, about anything it can perceive — but the truth it speaks costs you 1d4 Madness, and it answers what it wants, sometimes more than you asked, sometimes in a way meant to further its own unknown ends. Out of combat.",
+   description: "Fall silent and let the Voice answer. Ask one question; the silence-entity replies truthfully, in its own words, about anything it can perceive — but the truth it speaks costs you 1d4 Madness, and it answers what it wants, sometimes more than you asked, sometimes in a way meant to further its own unknown ends. Out of combat.",
    level: 2,
    spellType: "ACTION",
    icon: "Psychic/Agonizing Scream",
@@ -3818,7 +3818,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
    targetingConfig: { targetingType: "self", rangeType: "self" },
    resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 8 }, components: ["verbal"], verbalText: "Ask the question aloud — the Voice is listening" },
    resolution: "NONE",
-   utilityConfig: { utilityType: "divination", selectedEffects: [ { id: "consult_voice_answer", name: "The Voice Answers", description: "Receive one truthful answer to any question the void can perceive. Costs 1d4 Madness (may push you toward Convulsion). The Voice chooses its phrasing and may volunteer unsettling extra truth; it is honest, not helpful.", mechanicsText: "1 truthful answer from the Voice; +1d4 Madness cost." } ], power: "moderate" },
+   utilityConfig: { utilityType: "divination", selectedEffects: [ { id: "consult_voice_answer", name: "The Voice Answers", description: "Receive one truthful answer to any question the silence can perceive. Costs 1d4 Madness (may push you toward Convulsion). The Voice chooses its phrasing and may volunteer unsettling extra truth; it is honest, not helpful.", mechanicsText: "1 truthful answer from the Voice; +1d4 Madness cost." } ], power: "moderate" },
    cooldownConfig: { cooldownType: "short_rest", cooldownValue: 1 },
    tags: ["utility","divination","investigation","madness","false prophet"],
   },
