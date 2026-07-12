@@ -40,7 +40,7 @@ export const ARCANONEER_DATA = {
    velun_neth: {
     subraceName: 'Velun Neth',
     title: 'The Contract-Weaver',
-    reframe: `<LoreLink termId="valerius">Valerius</LoreLink> drafted the First Contract with Morvane, framing elemental combination as legal syntax: each elemental sphere is a clause, the combined weave is a document submitted for Morvane\'s silent approval. The craft is channeled through a crystal prism, contract-scroll, or memory-glass lens  --  a focus, not a body modification. Morvane rejects internally inconsistent weaves, and the price of contradiction is severe: a Velun Arcanoneer must maintain consistency across every statement they have ever made, because a contradiction may void every contract they have ever filed. Their pale skin and stilled breath are not side-effects of the magic  --  they are its prerequisite.`,
+    reframe: `<LoreLink termId="valerius">Valerius</LoreLink> drafted the First Contract with Morvane, framing elemental combination as legal syntax: each elemental sphere is a clause, the combined weave is a document submitted for Morvane\'s silent approval. The craft is channeled through a crystal prism, contract-scroll, or memory-glass lens  —  a focus, not a body modification. Morvane rejects internally inconsistent weaves, and the price of contradiction is severe: a Velun Arcanoneer must maintain consistency across every statement they have ever made, because a contradiction may void every contract they have ever filed. Their pale skin and stilled breath are not side-effects of the magic  —  they are its prerequisite.`,
     signatureAbility: {
      name: 'Mnemonic Shard',
      description: `Silver blood crystallizes into volatile spell-anchors, held in suspension around the weaver's crystal focus. Each shard is a filed clause, a prepared spell held in legal suspension. A misfiled shard cannot be recalled, only detonated, because the contract has already been struck.`
@@ -85,14 +85,14 @@ export const ARCANONEER_DATA = {
    kethrin_fexric: {
     subraceName: 'Kethrin Fexric',
     title: 'The Gear-Weaver',
-    reframe: `Where the Velun Neth file legal documents with Morvane, the Kethrin Fexric of the Cragjaw Peaks treat elemental combination as precision engineering. Each sphere is a calibrated component; each weave is a mechanism with documented tolerances, maintenance schedules, and guild-certified safety parameters. A Kethrin Gear-Weaver carries a toolkit of elemental regulators  --  brass attenuators, thermal sinks, conductive relays  --  and approaches the combination matrix the way a siege-engineer approaches a ballista: every interaction mapped, every failure mode accounted for. They can only execute guild-certified combinations, which makes them perfectly reliable within known parameters but utterly incapable of improvisation. When the manual says Fire+Rime produces Steam at 15psi, it produces Steam at exactly 15psi. Every time.`,
+    reframe: `Where the Velun Neth file legal documents with Morvane, the Kethrin Fexric of the Cragjaw Peaks treat elemental combination as precision engineering. Each sphere is a calibrated component; each weave is a mechanism with documented tolerances, maintenance schedules, and guild-certified safety parameters. A Kethrin Gear-Weaver carries a toolkit of elemental regulators  —  brass attenuators, thermal sinks, conductive relays  —  and approaches the combination matrix the way a siege-engineer approaches a ballista: every interaction mapped, every failure mode accounted for. They can only execute guild-certified combinations, which makes them perfectly reliable within known parameters but utterly incapable of improvisation. When the manual says Fire+Rime produces Steam at 15psi, it produces Steam at exactly 15psi. Every time.`,
     signatureAbility: {
      name: 'Calibrated Matrix',
-     description: `The Gear-Weaver's regulator-toolkit enforces standardized elemental ratios. Guild-certified combinations never backfire  --  the elemental reaction is mechanically constrained to a safe output range. In exchange, uncertified combinations are physically impossible: the attenuators simply will not engage for non-standard pairings.`
+     description: `The Gear-Weaver's regulator-toolkit enforces standardized elemental ratios. Guild-certified combinations never backfire  —  the elemental reaction is mechanically constrained to a safe output range. In exchange, uncertified combinations are physically impossible: the attenuators simply will not engage for non-standard pairings.`
     },
     currentCrisisAngle: `The Canopy-Ledger fracture is, to a Kethrin Gear-Weaver, an engineering problem. Half the Ledger demands magical warfare? That is an untested load case. The other half demands dissolution? That is catastrophic structural failure. The Kethrin guild-masters have dispatched a delegation to Atropolis not to take sides, but to run the calculations both factions refuse to do. They expect to deliver a report. They do not expect anyone to read it.`,
     signatureQuote: {
-     text: '"You call it improvisation. I call it operating outside rated tolerances. When your weave fails, you learn a lesson. When mine fails, I void my guild warranty  --  and my guild warranty is the only thing between me and a very large crater."',
+     text: '"You call it improvisation. I call it operating outside rated tolerances. When your weave fails, you learn a lesson. When mine fails, I void my guild warranty  —  and my guild warranty is the only thing between me and a very large crater."',
      speaker: 'Kethrin Guild-Master',
      context: 'Response to a Velun Arcanoneer who suggested "trying something new" during a joint expedition'
     }
@@ -100,12 +100,12 @@ export const ARCANONEER_DATA = {
    drall_fexric: {
     subraceName: 'Drall Fexric',
     title: 'The Scrap-Weaver',
-    reframe: `The Drall Fexric do not have guild halls, certified regulators, or maintenance schedules. What they have is salvage: impure elemental catalysts recovered from battlefield wreckage, borrowed resonance principles copied from three different traditions, and a stubborn refusal to accept that a combination the guild says is impossible is actually impossible. A Drall Scrap-Weaver's focus is a jury-rigged mess of scavenged components  --  cracked lenses, scorched relays, a focusing chamber that was clearly meant for something else entirely  --  and their combination matrix includes entries the Kethrin guild-masters would classify as "do not attempt under any circumstances." More combinations are possible than any guild would certify. And more accidents. The unpredictability is the point; an enemy who can't predict your weave can't counter it. The Scrap-Weaver's greatest weapon is that nobody  --  including the Scrap-Weaver  --  knows exactly what will happen when they pull the trigger.`,
+    reframe: `The Drall Fexric do not have guild halls, certified regulators, or maintenance schedules. What they have is salvage: impure elemental catalysts recovered from battlefield wreckage, borrowed resonance principles copied from three different traditions, and a stubborn refusal to accept that a combination the guild says is impossible is actually impossible. A Drall Scrap-Weaver's focus is a jury-rigged mess of scavenged components  —  cracked lenses, scorched relays, a focusing chamber that was clearly meant for something else entirely  —  and their combination matrix includes entries the Kethrin guild-masters would classify as "do not attempt under any circumstances." More combinations are possible than any guild would certify. And more accidents. The unpredictability is the point; an enemy who can't predict your weave can't counter it. The Scrap-Weaver's greatest weapon is that nobody  —  including the Scrap-Weaver  —  knows exactly what will happen when they pull the trigger.`,
     signatureAbility: {
      name: 'Jury-Rigged Catalyst',
-     description: `The Scrap-Weaver can attempt any elemental combination regardless of guild certification, using impure catalysts and salvaged regulators. Each non-standard weave carries a 25% backlash chance, but when it works  --  and it works more often than any guild engineer would believe possible  --  the result is a weave that exists nowhere in the certified matrix. The Drall call this "field testing." The Kethrin call it "attempted suicide." Both are correct.`
+     description: `The Scrap-Weaver can attempt any elemental combination regardless of guild certification, using impure catalysts and salvaged regulators. Each non-standard weave carries a 25% backlash chance, but when it works  —  and it works more often than any guild engineer would believe possible  —  the result is a weave that exists nowhere in the certified matrix. The Drall call this "field testing." The Kethrin call it "attempted suicide." Both are correct.`
     },
-    currentCrisisAngle: `The Canopy-Ledger fracture has created a boom market for Drall Scrap-Weavers. As the First Contract destabilizes and guild-certified weaves begin to fail, desperate Arcanoneers and their clients are turning to the Drall for alternatives the guild would never approve. The Scrap-Weavers are, for the first time, being treated as something other than a cautionary tale  --  and they are not sure whether this is a good thing or the preamble to the worst explosion in recorded history.`,
+    currentCrisisAngle: `The Canopy-Ledger fracture has created a boom market for Drall Scrap-Weavers. As the First Contract destabilizes and guild-certified weaves begin to fail, desperate Arcanoneers and their clients are turning to the Drall for alternatives the guild would never approve. The Scrap-Weavers are, for the first time, being treated as something other than a cautionary tale  —  and they are not sure whether this is a good thing or the preamble to the worst explosion in recorded history.`,
     signatureQuote: {
      text: '"The guild says you can\'t combine Rime with Wyrd unless the thermal sink is rated for Class-3 entropy. Do you know what happens if you use a Class-2 thermal sink? Neither do I. But I\'m about to find out, and so is that thing charging toward us."',
      speaker: 'Unnamed Drall Scrap-Weaver',
@@ -118,7 +118,7 @@ export const ARCANONEER_DATA = {
  name: "Arcanoneer",
  icon: "fas fa-atom",
  imageIcon: "/assets/icons/classes/arcanoneer.png",
-  role: "Magi-ballistic Artillery (Damage/Utility -- Zero Healing)",
+  role: "Magi-ballistic Artillery (Damage/Utility — Zero Healing)",
  damageTypes: [
   "arcane",
   "ember",
@@ -144,7 +144,7 @@ export const ARCANONEER_DATA = {
    title: 'Senior Signatory of the Canopy-Ledger',
    characterization: `The eldest active Arcanoneer, whose body is more Mnemonic Shard than flesh. He has not spoken an unplanned word in thirty years, every sentence pre-filed, every utterance a legal instrument. He believes the Velun Contingency Protocol dispute can be resolved by arbitration. He is almost certainly wrong, and he knows it.`
   },
-   headquarters: { name: 'The Heart-Vault, Atropolis', locationId: 'atropolis', description: 'The Heart-Vault is not a chamber  --  it is the living ironwood at Atropolis\'s core, a hollow grown rather than carved, its walls lined with memory-glass panels that record every clause ever filed. The First Contract is visible through the heartwood like a fossil in amber. The air hums at a frequency that makes teeth ache.' },
+   headquarters: { name: 'The Heart-Vault, Atropolis', locationId: 'atropolis', description: 'The Heart-Vault is not a chamber  —  it is the living ironwood at Atropolis\'s core, a hollow grown rather than carved, its walls lined with memory-glass panels that record every clause ever filed. The First Contract is visible through the heartwood like a fossil in amber. The air hums at a frequency that makes teeth ache.' },
   crisisConnection: `<LoreLink termId="vel-otharen">Vel-Otharen</LoreLink> chairs the arbitration that cannot resolve the Contingency Protocol: half the Ledger demands magical warfare against the unknown contract-breacher, half demands the Ledger dissolve itself. His own Mnemonic Shards are degrading, clauses he filed decades ago are being rejected by Morvane, and he suspects, but cannot yet prove, that the breach originates *inside* the Heart-Vault itself.`
  },
 
@@ -155,11 +155,11 @@ export const ARCANONEER_DATA = {
  ],
 
  overview: {
-    originStory: `Founded in the first centuries of the Dimming by Valerius, a Velun Neth archivist who drafted the First Contract with Morvane. The free magic of the Bryngloom was killing Neth scribes. Morvane's contract preserved Neth bodies, but the raw elemental energies of the forest  --  the same energies that power the ironwood trees and the memory-glass  --  had no contract governing them. Neth archivists who worked too close to the Root-Veil's deeper reaches were being unmade  --  not dying, but dissolved into pure resonance, their silver-touched flesh evaporating into light. Valerius's insight was that these energies could be governed the same way Morvane governed Neth flesh: through contract. By structuring incantations as strict legal syntax and balanced clauses  --  each elemental sphere a clause, each combined weave a document submitted to Morvane's silent approval  --  he bypassed the chaotic feedback of traditional spellcasting.
+    originStory: `Founded in the first centuries of the Dimming by Valerius, a Velun Neth archivist who drafted the First Contract with Morvane. The free magic of the Bryngloom was killing Neth scribes. Morvane's contract preserved Neth bodies, but the raw elemental energies of the forest  —  the same energies that power the ironwood trees and the memory-glass  —  had no contract governing them. Neth archivists who worked too close to the Root-Veil's deeper reaches were being unmade  —  not dying, but dissolved into pure resonance, their silver-touched flesh evaporating into light. Valerius's insight was that these energies could be governed the same way Morvane governed Neth flesh: through contract. By structuring incantations as strict legal syntax and balanced clauses  —  each elemental sphere a clause, each combined weave a document submitted to Morvane's silent approval  —  he bypassed the chaotic feedback of traditional spellcasting.
 
-The craft later spread to the Fexric of the Cragjaw Peaks, who approached elemental combination not as contract-law but as precision engineering: calibrated components, documented tolerances, guild-certified parameters. Where the Velun Neth file clauses, the Fexric build mechanisms. Both approaches work. Both can fail catastrophically. The Arcanoneer does not cast spells  --  they combine elemental spheres and hope the weave holds before the elements remember they are enemies.
+The craft later spread to the Fexric of the Cragjaw Peaks, who approached elemental combination not as contract-law but as precision engineering: calibrated components, documented tolerances, guild-certified parameters. Where the Velun Neth file clauses, the Fexric build mechanisms. Both approaches work. Both can fail catastrophically. The Arcanoneer does not cast spells  —  they combine elemental spheres and hope the weave holds before the elements remember they are enemies.
 
-During the Toll Wars (Years 280-340), Neth trade delegations at Ironjaw Port required Kethrin engineers to maintain the memory-glass archives that housed copies of the First Contract. The Kethrin, observing Velun arcanoneers filing elemental clauses, recognized the pattern: this was not magic  --  it was *calibration*. Each elemental sphere was a gear; each combined weave was a mechanism. They reverse-engineered the technique over two decades of quiet observation. The Drall learned from discarded Kethrin schematics traded through the Sump-Markets.`,
+During the Toll Wars (Years 280-340), Neth trade delegations at Ironjaw Port required Kethrin engineers to maintain the memory-glass archives that housed copies of the First Contract. The Kethrin, observing Velun arcanoneers filing elemental clauses, recognized the pattern: this was not magic  —  it was *calibration*. Each elemental sphere was a gear; each combined weave was a mechanism. They reverse-engineered the technique over two decades of quiet observation. The Drall learned from discarded Kethrin schematics traded through the Sump-Markets.`,
     title: "The Arcanoneer",
     subtitle: "The Elemental Weaver",
   illustration: "/assets/images/classes/arcanoneer_illustration.png",
@@ -167,29 +167,29 @@ During the Toll Wars (Years 280-340), Neth trade delegations at Ironjaw Port req
 
   quickOverview: {
    title: "Quick Overview",
-    content: `**Who they are**: An elemental weaver who treats magic as either legal syntax or precision engineering  --  every spell is a negotiated contract between forces that would rather annihilate each other. They combine raw elemental spheres into devastating compound effects, holding two hostile elements together just long enough to release them.
+    content: `**Who they are**: An elemental weaver who treats magic as either legal syntax or precision engineering  —  every spell is a negotiated contract between forces that would rather annihilate each other. They combine raw elemental spheres into devastating compound effects, holding two hostile elements together just long enough to release them.
 
-**The hook**: Every turn you roll 4d8 to generate elemental spheres from ambient aether. Weave any two into a spell through one of five firing profiles  --  the 36-combination matrix means no two turns are ever the same, and you can produce any damage type to exploit any enemy weakness. Learned Recipes turn basic combos into battlefield-shaping ordnance.
+**The hook**: Every turn you roll 4d8 to generate elemental spheres from ambient aether. Weave any two into a spell through one of five firing profiles  —  the 36-combination matrix means no two turns are ever the same, and you can produce any damage type to exploit any enemy weakness. Learned Recipes turn basic combos into battlefield-shaping ordnance.
 
-**The cost**: Every offensive weave pins your movement to zero  --  the elements demand you stand your ground. Incompatible pairings can backfire catastrophically, damaging you and scrambling your sphere bank. Your four-element hand each turn is random  --  a bad roll leaves you with the wrong tools, and the only fix costs precious mana and health.
+**The cost**: Every offensive weave pins your movement to zero  —  the elements demand you stand your ground. Incompatible pairings can backfire catastrophically, damaging you and scrambling your sphere bank. Your four-element hand each turn is random  —  a bad roll leaves you with the wrong tools, and the only fix costs precious mana and health.
 
-**Bring one for**: Unmatched adaptive damage and the thrill of concocting the cleverest combination from whatever the dice give you  --  half Magicka-inspired chaos, half cold-blooded tactical calculus.`,
+**Bring one for**: Unmatched adaptive damage and the thrill of concocting the cleverest combination from whatever the dice give you  —  half Magicka-inspired chaos, half cold-blooded tactical calculus.`,
   },
 
-   description: `The Arcanoneer is an elemental weaver  --  a disciplined mind who combines raw elemental spheres into devastating compound effects. The craft is not about raw power; it is about precision, calculation, and the nerve to hold two forces that naturally repel each other and convince them to cooperate, briefly, before they remember they are enemies. Master of none but proficient in all, the Arcanoneer trades specialization for versatility, and every weave is a gamble that the elements will obey before they rebel.`,
+   description: `The Arcanoneer is an elemental weaver  —  a disciplined mind who combines raw elemental spheres into devastating compound effects. The craft is not about raw power; it is about precision, calculation, and the nerve to hold two forces that naturally repel each other and convince them to cooperate, briefly, before they remember they are enemies. Master of none but proficient in all, the Arcanoneer trades specialization for versatility, and every weave is a gamble that the elements will obey before they rebel.`,
 
   roleplayIdentity: {
    title: "Roleplay Identity",
     content: `**HISTORY: THE GENESIS**
-The arcanoneer's calling was born in the deep scriptorium vaults of <LoreLink termId="atropolis">Atropolis</LoreLink> within the <LoreLink termId="bryngloom-forest">Bryngloom Forest</LoreLink>. During the first centuries of the Dimming, a Velun Neth archivist named <LoreLink termId="valerius">Valerius</LoreLink> drafted the First Contract with Morvane. By structuring incantations as strict, balanced legal syntax  --  each elemental sphere a clause, each combined weave a document submitted for silent approval  --  he bypassed the chaotic feedback of traditional spellcasting.
+The arcanoneer's calling was born in the deep scriptorium vaults of <LoreLink termId="atropolis">Atropolis</LoreLink> within the <LoreLink termId="bryngloom-forest">Bryngloom Forest</LoreLink>. During the first centuries of the Dimming, a Velun Neth archivist named <LoreLink termId="valerius">Valerius</LoreLink> drafted the First Contract with Morvane. By structuring incantations as strict, balanced legal syntax  —  each elemental sphere a clause, each combined weave a document submitted for silent approval  —  he bypassed the chaotic feedback of traditional spellcasting.
 
-The craft later spread to the Fexric of the Cragjaw Peaks, who approached elemental combination as precision engineering rather than contract-law. Kethrin Fexric Gear-Weavers mapped the combination matrix with guild-certified tolerances and maintenance schedules, while Drall Fexric Scrap-Weavers  --  operating from salvage and improvisation  --  pushed the boundaries far beyond what any guild would sanction.
+The craft later spread to the Fexric of the Cragjaw Peaks, who approached elemental combination as precision engineering rather than contract-law. Kethrin Fexric Gear-Weavers mapped the combination matrix with guild-certified tolerances and maintenance schedules, while Drall Fexric Scrap-Weavers  —  operating from salvage and improvisation  —  pushed the boundaries far beyond what any guild would sanction.
 
 **CITIES & CIVIL RECEPTION**
 Arcanoneers are the most politically powerful and highly respected citizens within <LoreLink termId="atropolis">Atropolis</LoreLink>. They occupy the highest seats of the Canopy-Ledger, serving as judges, administrators, and high diplomats of the Neth empire. They are also welcomed within <LoreLink termId="ironjaw_port">Ironjaw Port</LoreLink>, where their contract-based spellcraft ensures the safety of the dock-complex.
 
 **RACES & CULTURAL AFFILIATION**
-The class originated with the <LoreLink termId="neth">Velun Neth</LoreLink>, who practice elemental weaving as contract-syntax  --  the inability to lie is their discipline's engine, not a class-wide requirement. The craft has since spread: Kessen Neth weave through the obligation-web, Drun Neth operate severed from the First Contract entirely, Kethrin Fexric treat weaving as guild engineering, and Drall Fexric weave from salvage and improvisation.
+The class originated with the <LoreLink termId="neth">Velun Neth</LoreLink>, who practice elemental weaving as contract-syntax  —  the inability to lie is their discipline's engine, not a class-wide requirement. The craft has since spread: Kessen Neth weave through the obligation-web, Drun Neth operate severed from the First Contract entirely, Kethrin Fexric treat weaving as guild engineering, and Drall Fexric weave from salvage and improvisation.
 
 **NOTABLE FIGURES**
 * **Valerius the Scriptor**: First Velun archivist to draft the First Contract with Morvane, establishing elemental combination as legal syntax.
@@ -203,16 +203,16 @@ The class originated with the <LoreLink termId="neth">Velun Neth</LoreLink>, who
    },
 
    philosophy: {
-    coreTenet: 'Magic is not a gift, not an art, not a science  --  it is a negotiation. Every sphere is a voice. Every weave is an agreement. Every backlash is a broken promise.',
+    coreTenet: 'Magic is not a gift, not an art, not a science  —  it is a negotiation. Every sphere is a voice. Every weave is an agreement. Every backlash is a broken promise.',
     relationship: 'Arcanoneers do not simply cast spells; they broker temporary alliances between forces that would rather annihilate each other. Their power flows from precision and calculation: identify compatible elements, calculate the risk, and release the result before the alliance collapses.',
-    paradox: 'The most versatile casters in the world are also the most constrained. Every weave balances on a knife\'s edge between cooperation and catastrophe. The master knows not just which elements combine  --  but which ones combine safely, which ones require bribes, and which ones should never share the same weave under any circumstances.'
+    paradox: 'The most versatile casters in the world are also the most constrained. Every weave balances on a knife\'s edge between cooperation and catastrophe. The master knows not just which elements combine  —  but which ones combine safely, which ones require bribes, and which ones should never share the same weave under any circumstances.'
    },
 
-    currentCrisis: `The Canopy-Ledger is fractured. For the first time in four centuries, the senior Arcanoneers of Atropolis cannot agree on the interpretation of a contract  --  specifically, the Velun Contingency Protocol, which governs what happens if the First Contract itself is ever breached. The Ledger has split into two named factions. The Invokers argue the Protocol authorizes total magical warfare against the breaching party. The Nullifiers argue it requires the Ledger to dissolve itself and release all Arcanoneers from their oaths. Ledger-Prime Vel-Otharen finds himself opposed by Signatory Vel-Korath, a younger Velun who argues Vel-Otharen's conservatism is why the breach is happening  --  the eldest Arcanoneer's refusal to audit the oldest clauses has allowed someone to exploit the Contract's accumulated inconsistencies over centuries.
+    currentCrisis: `The Canopy-Ledger is fractured. For the first time in four centuries, the senior Arcanoneers of Atropolis cannot agree on the interpretation of a contract  —  specifically, the Velun Contingency Protocol, which governs what happens if the First Contract itself is ever breached. The Ledger has split into two named factions. The Invokers argue the Protocol authorizes total magical warfare against the breaching party. The Nullifiers argue it requires the Ledger to dissolve itself and release all Arcanoneers from their oaths. Ledger-Prime Vel-Otharen finds himself opposed by Signatory Vel-Korath, a younger Velun who argues Vel-Otharen's conservatism is why the breach is happening  —  the eldest Arcanoneer's refusal to audit the oldest clauses has allowed someone to exploit the Contract's accumulated inconsistencies over centuries.
 
 Behind the legal dispute is a darker truth: someone IS breaching the First Contract. Morvane has begun rejecting clauses it previously accepted. Weaves are collapsing in ways that suggest intentional sabotage of the contractual framework. If the Contract collapses, every Arcanoneer's filed clauses become void, and every spell they've ever cast becomes retroactively invalid, unraveling centuries of magical infrastructure across the Bryngloom.`,
 
-   meaningfulTradeoffs: `To be an Arcanoneer is to trade safety for versatility. Every weave is a calculated risk: the elements you combine will cooperate  --  briefly  --  but they will not forget what they are. Incompatible pairings can backfire catastrophically, dealing damage to the caster, scrambling your sphere bank, or producing effects wildly different from what you intended. The Arcanoneer who plays it safe is predictable. The Arcanoneer who pushes boundaries is terrifying  --  right up until the moment the weave collapses and takes half the battlefield with it.`,
+   meaningfulTradeoffs: `To be an Arcanoneer is to trade safety for versatility. Every weave is a calculated risk: the elements you combine will cooperate  —  briefly  —  but they will not forget what they are. Incompatible pairings can backfire catastrophically, dealing damage to the caster, scrambling your sphere bank, or producing effects wildly different from what you intended. The Arcanoneer who plays it safe is predictable. The Arcanoneer who pushes boundaries is terrifying  —  right up until the moment the weave collapses and takes half the battlefield with it.`,
 
    classSpecificLocations: [
     {
@@ -225,7 +225,7 @@ Behind the legal dispute is a darker truth: someone IS breaching the First Contr
     {
      name: 'The Cragjaw Guild-Hall',
      locationId: 'cragjaw_peaks',
-     description: 'The Kethrin Fexric guild-complex where elemental combination is treated as precision engineering. Prospective Gear-Weavers spend years memorizing tolerance tables, safety parameters, and the full catalogue of guild-certified combinations. The guild hall contains the most complete  --  and most conservative  --  combination matrix in existence.',
+     description: 'The Kethrin Fexric guild-complex where elemental combination is treated as precision engineering. Prospective Gear-Weavers spend years memorizing tolerance tables, safety parameters, and the full catalogue of guild-certified combinations. The guild hall contains the most complete  —  and most conservative  —  combination matrix in existence.',
      purpose: 'Training, certification, and research into guild-approved elemental pairings',
      status: 'Active, though the guild-masters are increasingly alarmed by reports of Drall Scrap-Weavers achieving results outside certified parameters'
     }
@@ -235,13 +235,13 @@ Behind the legal dispute is a darker truth: someone IS breaching the First Contr
    title: "Combat Role",
     content: `**Primary Role**: Versatile, high-risk adaptive damage dealer
 
-**Why Bring Me? (The Arcanoneer's Promise)**: You are the ultimate adaptable caster. Your elemental weaving can produce any damage type to exploit enemy weaknesses, shatter defenses, and control the battlefield from range  --  but every weave is a gamble with backlash as the stakes.
+**Why Bring Me? (The Arcanoneer's Promise)**: You are the ultimate adaptable caster. Your elemental weaving can produce any damage type to exploit enemy weaknesses, shatter defenses, and control the battlefield from range  —  but every weave is a gamble with backlash as the stakes.
 
 **How You Fight**:
 1. **Roll your spheres** (4d8, or 5d8 for Entropy Weavers) to generate elemental essences.
 2. **Read your hand**, What elements are available? What recipes can you weave?
 3. **Decide**: Release now with what you have, or bank spheres to weave a larger combination?
-4. **Execute**, Weave the elements, pay the mana, and brace  --  releasing a hostile weave pins your movement to 0 for the turn (Elemental Backlash).
+4. **Execute**, Weave the elements, pay the mana, and brace  —  releasing a hostile weave pins your movement to 0 for the turn (Elemental Backlash).
 
 **Strengths**:
 - Unmatched versatility: can produce ANY damage type to exploit enemy weaknesses.
@@ -251,11 +251,11 @@ Behind the legal dispute is a darker truth: someone IS breaching the First Contr
 - Chaos combos provide wild swing potential (high risk, high reward).
 
 **Weaknesses**:
-- Rooted by Backlash: every offensive weave pins your movement to 0 for the turn  --  enemies reposition freely while you are anchored.
-- Elements by RNG: your damage type depends on a 4d8 roll  --  a bad hand means the wrong element for the enemy's resistances, and your only fix (Weave Reset) costs Mana and AP.
+- Rooted by Backlash: every offensive weave pins your movement to 0 for the turn  —  enemies reposition freely while you are anchored.
+- Elements by RNG: your damage type depends on a 4d8 roll  —  a bad hand means the wrong element for the enemy's resistances, and your only fix (Weave Reset) costs Mana and AP.
 - Weave-Slow: big Recipes take turns to bank; fast swarmers or ambushers reach you before a weave is ready.
-- Glass Caster: light armor and you must plant yourself to weave  --  a mobile flanker or ranged attacker can pin and shred you while you're anchored.
-- Zero Clinical Healing: you can sew flesh at a cost but cannot restore HP without a dark biological toll  --  attrition is one-way.
+- Glass Caster: light armor and you must plant yourself to weave  —  a mobile flanker or ranged attacker can pin and shred you while you're anchored.
+- Zero Clinical Healing: you can sew flesh at a cost but cannot restore HP without a dark biological toll  —  attrition is one-way.
 - Backlash Risk: incompatible element pairings can backfire, damaging you and scrambling your sphere bank.`,
   },
 
@@ -282,7 +282,7 @@ You banked all 4 spheres from Turn 1. Now you roll Arcane, Blight, Nature, Chaos
 - Start building toward a 3-sphere Recipe (need 1 more turn of banking)
 - Cast multiple 2-sphere combos if you have the action points
 
-**The Core Tension**: Spend your random hand now for immediate impact, or bank spheres for devastating multi-sphere Recipes later? Banking pays off big  --  but it costs turns, and a bad 4d8 roll can leave you with the wrong elements for the fight. There is no wrong answer, only the answer that wins this particular fight.
+**The Core Tension**: Spend your random hand now for immediate impact, or bank spheres for devastating multi-sphere Recipes later? Banking pays off big  —  but it costs turns, and a bad 4d8 roll can leave you with the wrong elements for the fight. There is no wrong answer, only the answer that wins this particular fight.
 
 **Where Mastery Lives**:
 - Knowing the 36 matrix combos by heart (or at least the ones relevant to your spec)
@@ -321,7 +321,7 @@ You banked all 4 spheres from Turn 1. Now you roll Arcane, Blight, Nature, Chaos
 *Four more spheres materialize: a violet sliver of force, a writhing blight shadow, a crackling nature spike, and a volatile chaos core.*
 
 **Your Banked Spheres**: Fire, Nature (from Turn 1)
-**Total Available**: Fire, Nature, Arcane, Blight, Nature, Chaos  --  6 spheres
+**Total Available**: Fire, Nature, Arcane, Blight, Nature, Chaos  —  6 spheres
 
 **The Decision**: You need to stop the leader, but your rolled elements are scattered and you want a massive payload. You bank all spheres, letting the focus cool slightly while gathering energy for a massive blast. Since you didn't release a weave, you take no backlash and your movement is unaffected.
 
@@ -335,7 +335,7 @@ You banked all 4 spheres from Turn 1. Now you roll Arcane, Blight, Nature, Chaos
 
 *Two dark blight spheres emerge. Perfect. You weave them together immediately.*
 
-**Your Total Spheres**: Fire, Nature, Arcane, Blight, Nature, Chaos, Blight, Blight, Frost, Radiant  --  10 spheres.
+**Your Total Spheres**: Fire, Nature, Arcane, Blight, Nature, Chaos, Blight, Blight, Frost, Radiant  —  10 spheres.
 
 *You select Blight + Blight. You unleash the Recipe: **Abyssal Maw**.*
 
@@ -372,7 +372,7 @@ With 1 AP remaining, you weave Arcane + Frost = **Crystal Shard** on a wounded b
  characterCreation: {
   title: "Creating Your Arcanoneer",
    subtitle: "The Elemental Weaver",
-   description: `The Arcanoneer is a class that rewards preparation and pattern recognition. You don't memorize spell lists  --  you learn a matrix of elemental combinations and collect Recipes that enhance specific pairings. Your power comes from reading what the dice give you and making the most of it.`,
+   description: `The Arcanoneer is a class that rewards preparation and pattern recognition. You don't memorize spell lists  —  you learn a matrix of elemental combinations and collect Recipes that enhance specific pairings. Your power comes from reading what the dice give you and making the most of it.`,
   steps: [
    {
     step: 1,
@@ -483,7 +483,7 @@ With 1 AP remaining, you weave Arcane + Frost = **Crystal Shard** on a wounded b
   resourceSystem: {
    title: "Elemental Weaving & Sphere Mechanics",
    subtitle: "Building Block Generation & Combination (Shifting Spell Crafting)",
-   description: `The Arcanoneer uses a specialized resource system centered around elemental spheres  --  condensed essences of raw magical energy drawn from ambient aether. The weaver's focus (crystal prism, contract-scroll, memory-glass lens, or mechanical regulator) channels and stabilizes these spheres for combination.
+   description: `The Arcanoneer uses a specialized resource system centered around elemental spheres  —  condensed essences of raw magical energy drawn from ambient aether. The weaver's focus (crystal prism, contract-scroll, memory-glass lens, or mechanical regulator) channels and stabilizes these spheres for combination.
 
 **Visual Representation**:
 - **Force Blocks**: Purple orbs of pure, humming force
@@ -739,7 +739,7 @@ With 1 AP remaining, you weave Arcane + Frost = **Crystal Shard** on a wounded b
        manaCost: "25-36",
        available: "Level 8+",
        description:
-        "The big guns. Bank across turns. Battlefield-shaping power  --  but the bigger the weave, the harder the backlash pins you, and the more spheres it consumes.",
+        "The big guns. Bank across turns. Battlefield-shaping power  —  but the bigger the weave, the harder the backlash pins you, and the more spheres it consumes.",
       },
      ],
     },
@@ -846,7 +846,7 @@ With 1 AP remaining, you weave Arcane + Frost = **Crystal Shard** on a wounded b
 **Reading Your Options**:
 - **Pure combos** (Ember+Ember, Rime+Rime): Focused single-target damage. Reliable.
 - **Opposing combos** (Ember+Rime, Radiant+blight+blight): Unique mixed effects. Steam, Twilight, these are the "chemistry" combos.
-- **Nature combos** (Nature+Nature, Nature+X): Defensive and utility effects -- gristle blockades, rime-frozen grafts, sinew-spark leaps, slag-sutures.
+- **Nature combos** (Nature+Nature, Nature+X): Defensive and utility effects — gristle blockades, rime-frozen grafts, sinew-spark leaps, slag-sutures.
 - **Chaos combos** (Chaos+X): Wild swings. Use them when you're desperate or when the Entropy Weaver in you wants to gamble.
 
 **The Multi-Cast Trick**: If you have the action points, you can cast TWO 2-sphere combos in one turn. Ember+Rime for Steam on the front line, then Nature+Nature for a Gristle Blockade on your flank. One turn, two spells, total battlefield control. This costs 10 mana and 2 AP, expensive, but devastating when it works.
@@ -4832,7 +4832,7 @@ MAX BANKED SPHERES: 12
    id: "arc_sphere_exhaustion",
    name: "Sphere Exhaustion",
    description:
-    "If you end your turn with 0 spheres banked, you take -1 to all spell damage on your next turn. Going all-out has a cost -- conserve or suffer.",
+    "If you end your turn with 0 spheres banked, you take -1 to all spell damage on your next turn. Going all-out has a cost — conserve or suffer.",
    level: 1,
    spellType: "PASSIVE",
    effectTypes: ["passive"],

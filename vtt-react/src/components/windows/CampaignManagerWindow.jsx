@@ -2396,7 +2396,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                                     <option value="primal">Primal</option>
                                                                     <option value="blight">Blight</option>
                                                                     <option value="wyrd">Wyrd</option>
-                                                                    <option value="divine">Divine</option>
+                                                                     <option value="sacred">Sacred</option>
                                                                 </select>
                                                             </div>
                                                             <div className="homebrew-field-row">

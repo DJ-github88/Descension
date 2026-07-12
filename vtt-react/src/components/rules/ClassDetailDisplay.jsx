@@ -130,37 +130,37 @@ const CLASS_REGIONS = {
  arcanoneer: {
   regionId: 'bryngloom-forest',
   regionName: 'Bryngloom Forest',
-  accentColor: '#16a085', // swamp-teal
-  bgGradient: 'linear-gradient(135deg, rgba(22, 160, 133, 0.06) 0%, rgba(26, 188, 156, 0.02) 100%)',
-  borderColor: '#16a085',
-  glowColor: 'rgba(22, 160, 133, 0.15)',
+  accentColor: '#5b2c6f', // arcane violet
+  bgGradient: 'linear-gradient(135deg, rgba(91, 44, 111, 0.06) 0%, rgba(142, 68, 173, 0.02) 100%)',
+  borderColor: '#5b2c6f',
+  glowColor: 'rgba(91, 44, 111, 0.15)',
   icon: 'fas fa-tree'
  },
  revenant: {
   regionId: 'bryngloom-forest',
   regionName: 'Bryngloom Forest',
-  accentColor: '#16a085',
-  bgGradient: 'linear-gradient(135deg, rgba(22, 160, 133, 0.06) 0%, rgba(26, 188, 156, 0.02) 100%)',
-  borderColor: '#16a085',
-  glowColor: 'rgba(22, 160, 133, 0.15)',
+  accentColor: '#1a5276', // ghostly slate
+  bgGradient: 'linear-gradient(135deg, rgba(26, 82, 118, 0.06) 0%, rgba(41, 128, 185, 0.02) 100%)',
+  borderColor: '#1a5276',
+  glowColor: 'rgba(26, 82, 118, 0.15)',
   icon: 'fas fa-ghost'
  },
  inquisitor: {
   regionId: 'bryngloom-forest',
   regionName: 'Bryngloom Forest',
-  accentColor: '#16a085',
-  bgGradient: 'linear-gradient(135deg, rgba(22, 160, 133, 0.06) 0%, rgba(26, 188, 156, 0.02) 100%)',
-  borderColor: '#16a085',
-  glowColor: 'rgba(22, 160, 133, 0.15)',
+  accentColor: '#784212', // judgment amber
+  bgGradient: 'linear-gradient(135deg, rgba(120, 66, 18, 0.06) 0%, rgba(180, 100, 20, 0.02) 100%)',
+  borderColor: '#784212',
+  glowColor: 'rgba(120, 66, 18, 0.15)',
   icon: 'fas fa-gavel'
  },
  plaguebringer: {
   regionId: 'bryngloom-forest',
   regionName: 'Bryngloom Forest',
-  accentColor: '#16a085',
-  bgGradient: 'linear-gradient(135deg, rgba(22, 160, 133, 0.06) 0%, rgba(26, 188, 156, 0.02) 100%)',
-  borderColor: '#16a085',
-  glowColor: 'rgba(22, 160, 133, 0.15)',
+  accentColor: '#1e8449', // plague green
+  bgGradient: 'linear-gradient(135deg, rgba(30, 132, 73, 0.06) 0%, rgba(46, 204, 113, 0.02) 100%)',
+  borderColor: '#1e8449',
+  glowColor: 'rgba(30, 132, 73, 0.15)',
   icon: 'fas fa-vial'
  },
  // REMOVED: lichborne merged into Revenant as Phase 1.10 consolidation

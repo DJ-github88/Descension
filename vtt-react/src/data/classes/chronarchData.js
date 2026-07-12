@@ -103,8 +103,8 @@ export const CHRONARCH_DATA = {
  velun_neth: {
   subraceName: 'Velun Neth',
   title: 'The Archive-Keeper',
-  reframe: `To the <LoreLink termId="velun">Velun</LoreLink>, time is not an engine  --  it is a document. Every moment is a filed entry; every erased moment is a redacted clause. A Velun Chronarch treats temporal manipulation as archival work: rewind is retrieval, loop is review, displacement is misfiling. Their temporal engine is not a gear-box but a memory-glass lattice  --  a crystal archive that stores every moment they have ever witnessed. The Velun Chronarch does not lose their memories to temporal feedback; they externalize them. The cost is that the archive grows heavier, and carrying centuries of perfectly-preserved moments requires a stillness the young Velun are beginning to find unbearable.`,
-   adoptionBridge: `The Velun Neth encountered temporal manipulation during the post-war reconstruction of Frostmaw. Neth archivists were contracted to catalog the damage to the Fexric archive-halls  --  the same memory-preservation work the Neth had done for themselves for centuries. Observing Nesta's engine, the Velun recognized a different application: time was not a mechanism to be repaired, but a document to be preserved. The engine could be replaced with a memory-glass lattice  --  an archive that stored moments instead of clauses. The first Velun Chronarch, **Archivist Vel-Thalen**, spent thirty years adapting the principle before successfully externalizing her first memory.`,
+  reframe: `To the <LoreLink termId="velun">Velun</LoreLink>, time is not an engine  —  it is a document. Every moment is a filed entry; every erased moment is a redacted clause. A Velun Chronarch treats temporal manipulation as archival work: rewind is retrieval, loop is review, displacement is misfiling. Their temporal engine is not a gear-box but a memory-glass lattice  —  a crystal archive that stores every moment they have ever witnessed. The Velun Chronarch does not lose their memories to temporal feedback; they externalize them. The cost is that the archive grows heavier, and carrying centuries of perfectly-preserved moments requires a stillness the young Velun are beginning to find unbearable.`,
+   adoptionBridge: `The Velun Neth encountered temporal manipulation during the post-war reconstruction of Frostmaw. Neth archivists were contracted to catalog the damage to the Fexric archive-halls  —  the same memory-preservation work the Neth had done for themselves for centuries. Observing Nesta's engine, the Velun recognized a different application: time was not a mechanism to be repaired, but a document to be preserved. The engine could be replaced with a memory-glass lattice  —  an archive that stored moments instead of clauses. The first Velun Chronarch, **Archivist Vel-Thalen**, spent thirty years adapting the principle before successfully externalizing her first memory.`,
    signatureAbility: {
    name: 'Memory-Glass Lattice',
    description: `Temporal effects are stored in a crystal archive rather than the body; the Velun Chronarch externalizes temporal feedback into an ever-growing memory-glass lattice, allowing them to recall any witnessed moment with perfect clarity but at the cost of an increasingly encumbered stillness the young Velun are beginning to find unbearable.`
@@ -170,13 +170,13 @@ Temporal Strain is the accumulated paradox-weight of every causality violation. 
 
  quickOverview: {
   title: "Quick Overview",
-   content: `**Who they are**: An accidental anchor  --  a dying mortal whose cells hum with high-velocity temporal friction, hooked into a time-dilation engine of volcanic glass and alchemical gears embedded in their chest. They did not choose chronomancy; it chose them.
+   content: `**Who they are**: An accidental anchor  —  a dying mortal whose cells hum with high-velocity temporal friction, hooked into a time-dilation engine of volcanic glass and alchemical gears embedded in their chest. They did not choose chronomancy; it chose them.
 
-**The hook**: Bank Time Shards through basic spells, then spend them on Flux abilities that violate causality  --  rewind an ally's fatal wound, freeze an enemy in perfect stasis, or open a dilation field that grants your party extra actions while halving enemy speed. Shards persist between fights, letting you open the next battle with devastating high-level Flux.
+**The hook**: Bank Time Shards through basic spells, then spend them on Flux abilities that violate causality  —  rewind an ally's fatal wound, freeze an enemy in perfect stasis, or open a dilation field that grants your party extra actions while halving enemy speed. Shards persist between fights, letting you open the next battle with devastating high-level Flux.
 
-**The cost**: Every Flux ability deepens Temporal Strain. At 10 Strain, the timeline snaps back, phasing you out of reality and forcing an unpredictable anomaly roll  --  hostile clones, localized gravity implosions, or accelerated aging. You take double damage from arcane and blight. One hard shove drops your dodge to zero and triggers instant backlash.
+**The cost**: Every Flux ability deepens Temporal Strain. At 10 Strain, the timeline snaps back, phasing you out of reality and forcing an unpredictable anomaly roll  —  hostile clones, localized gravity implosions, or accelerated aging. You take double damage from arcane and blight. One hard shove drops your dodge to zero and triggers instant backlash.
 
-**Bring one for**: The only class that can undo tactical mistakes  --  rewind a fatal blow, reset a spent cooldown, or trap a boss in a loop of its own movement. Errors are final without a Chronarch.`
+**Bring one for**: The only class that can undo tactical mistakes  —  rewind a fatal blow, reset a spent cooldown, or trap a boss in a loop of its own movement. Errors are final without a Chronarch.`
  },
 
  description: `The Chronarch did not choose this path, chronomancy chose them. They are Prisoners of Relativity, flesh-bound anchors tethered to a timeline that never wanted them. Every wound they rewind from an ally etches kinetic recoil onto their own body instead. Every frozen moment demands intense cellular focus. They carry hourglasses not as tools of mastery, but as reminders of the extreme metabolic cost that ticks faster with each spell cast. The Chronarch is the only living soul capable of reversing the combat state, undoing tactical errors, resetting cooldowns, trapping enemies in temporal loops of their own creation, while managing the high physical strain of altered reality.`,
@@ -234,14 +234,14 @@ If Nesta ceases to exist retroactively, the temporal friction she generated will
 **Battlefield Control**: Freeze enemies in temporal stasis, forcing them to watch helplessly as your allies reposition.
 **Damage Mitigation**: Rewind damage taken by allies, but each wound you erase grafts localized kinetic recoil into your own body.
 **Tactical Repositioning**: Displace allies and enemies through coordinates swapping, rewriting positioning that took entire turns to establish.
-**Why Your Body Pays**: Every Flux ability deepens Temporal Strain  --  your cells undergo micro-strain as you bend causality. You take increased Arcane and Blight damage because your tether to the present is frayed; those damage types resonate with the temporal fractures already embedded in your biology.
+**Why Your Body Pays**: Every Flux ability deepens Temporal Strain  —  your cells undergo micro-strain as you bend causality. You take increased Arcane and Blight damage because your tether to the present is frayed; those damage types resonate with the temporal fractures already embedded in your biology.
 
 **Weaknesses**:
-- Chronal Fragility: you take +50% Arcane and Blight damage  --  those types resonate with the fractures already laced through your body.
-- Shatter on Impact: forced movement, shoves, or heavy physical impacts crack your internal clock  --  your Dodge drops to 0 and you immediately roll the Temporal Backlash table.
-- Strain Tightrope: every Flux pushes you toward Backlash  --  you must space your big spells or the timeline snaps back at 10 Strain.
+- Chronal Fragility: you take +50% Arcane and Blight damage  —  those types resonate with the fractures already laced through your body.
+- Shatter on Impact: forced movement, shoves, or heavy physical impacts crack your internal clock  —  your Dodge drops to 0 and you immediately roll the Temporal Backlash table.
+- Strain Tightrope: every Flux pushes you toward Backlash  —  you must space your big spells or the timeline snaps back at 10 Strain.
 - Backlash at 10: hit 10 Temporal Strain and the timeline snaps back, phasing you out and forcing an unpredictable, often dangerous Anomaly roll.
-- Fragile and Dragging: light armor, and your movement slows as local chronal drag builds  --  you are not where the front line happens.
+- Fragile and Dragging: light armor, and your movement slows as local chronal drag builds  —  you are not where the front line happens.
 - Already-Lived (social): you know how every conversation, meal, and song ends; you blurt "I already know what you'll say," and your own past is going blank. You read as bored, rude, or unhinged, and you forget your own history.`
  },
 
@@ -316,7 +316,7 @@ If Nesta ceases to exist retroactively, the temporal friction she generated will
 
   overheatRules: {
    title: "Temporal Backlash (10 Strain)",
-   content: `Temporal Strain is not an abstract resource  --  it is the accumulated paradox-weight of every causality violation the Chronarch has committed. Reality tolerates small violations (rewinding a wound, looping a few seconds) but accrues resistance with each one. At 10 Strain, the timeline's self-correction instinct activates  --  not out of malice, but because the accumulated paradox has become noticeable to the fundamental laws that govern cause and effect. The backlash is reality's immune response to being edited.
+   content: `Temporal Strain is not an abstract resource  —  it is the accumulated paradox-weight of every causality violation the Chronarch has committed. Reality tolerates small violations (rewinding a wound, looping a few seconds) but accrues resistance with each one. At 10 Strain, the timeline's self-correction instinct activates  —  not out of malice, but because the accumulated paradox has become noticeable to the fundamental laws that govern cause and effect. The backlash is reality's immune response to being edited.
 
 Reaching 10 Temporal Strain causes the timeline to snap back violently, temporarily desynchronizing you from the present.
 
@@ -350,7 +350,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   title: "The Toll of Causality",
   content: `**Persistent Fuel**: Time Shards do not decay after combat. If you end an encounter with 8 shards, you begin the next fight with 8 shards. This allows you to launch devastating high-level Flux spells on Turn 1,at the cost of immediate cellular decay.
 
-**The Strain Economy**: The heaviest Flux spells (spending 4+ Shards) push multiple points of Temporal Strain at once  --  bringing you closer to the Backlash threshold. Chronomancy's cost is tracked on the Strain gauge, not in flesh: bank Shards, spend them on Flux, and manage Strain so the timeline doesn't snap back.
+**The Strain Economy**: The heaviest Flux spells (spending 4+ Shards) push multiple points of Temporal Strain at once  —  bringing you closer to the Backlash threshold. Chronomancy's cost is tracked on the Strain gauge, not in flesh: bank Shards, spend them on Flux, and manage Strain so the timeline doesn't snap back.
 
 **Vulnerability to Silence/Necrotic**: Because your atomic anchor is frayed, you take 50% extra damage from all Silence and Necrotic sources. and, if you are subjected to forced movement (shoves, pulls, knockbacks) or time acceleration fields, your internal clock fractures,instantly dropping your Dodge rating to 0 and triggering an immediate roll on the Temporal Backlash Table.`
  },
@@ -2658,7 +2658,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   // ===== NON-COMBAT / TEMPORAL UTILITY (the time-mage out of combat) =====
   { id: "temporal_deja_vu",
    name: "Deja Vu",
-   description: "Touch a surface and relive the last minute that played out in this spot as a ghostly accelerated echo  --  words spoken, who stood where, blows struck, which way they left. You see it; you cannot change it. Older echoes are fainter. Out of combat.",
+   description: "Touch a surface and relive the last minute that played out in this spot as a ghostly accelerated echo  —  words spoken, who stood where, blows struck, which way they left. You see it; you cannot change it. Older echoes are fainter. Out of combat.",
    level: 1,
    spellType: "ACTION",
    icon: "Arcane/Sands of Time",
@@ -2672,7 +2672,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    tags: ["utility","divination","investigation","chronarch"],
 
    somaticText: "Press palm flat to the surface and let the moment unspool backward.",
-   verbalText: "Tempus Revoco  --  the recent past answers.",
+   verbalText: "Tempus Revoco  —  the recent past answers.",
   },
   { id: "temporal_compression",
    name: "Temporal Compression",
@@ -2694,7 +2694,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   },
   { id: "temporal_slow_descent",
    name: "Slow Descent",
-   description: "Bend local time around a fall. You, a willing ally, or an object fall at a crawl  --  drifting safely to the ground, and you can slow a falling ally or object within range to catch or save them. No damage on landing. Out of combat or combat.",
+   description: "Bend local time around a fall. You, a willing ally, or an object fall at a crawl  —  drifting safely to the ground, and you can slow a falling ally or object within range to catch or save them. No damage on landing. Out of combat or combat.",
    level: 1,
    spellType: "REACTION",
    icon: "Arcane/Quick Step",
@@ -2730,7 +2730,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   },
   { id: "temporal_rewind_blunder",
    name: "Rewind Blunder",
-   description: "Unsay it. Undo it. Rewind the last six seconds of your own action and try again  --  re-roll a single failed out-of-combat ability check, or take back a social blunder, a botched pickpocket, or a broken object. The timeline bruises for it: you take 1 Temporal Strain and forget which version was real. Out of combat.",
+   description: "Unsay it. Undo it. Rewind the last six seconds of your own action and try again  —  re-roll a single failed out-of-combat ability check, or take back a social blunder, a botched pickpocket, or a broken object. The timeline bruises for it: you take 1 Temporal Strain and forget which version was real. Out of combat.",
    level: 3,
    spellType: "REACTION",
    icon: "Arcane/Spiral Vortex",
@@ -2744,7 +2744,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    tags: ["utility","rewinding","social","chronarch"],
 
    somaticText: "Snap your fingers backward; the broken thing un-breaks, the said word unsays.",
-   verbalText: "Tempus Redo  --  but you will not recall the first attempt.",
+   verbalText: "Tempus Redo  —  but you will not recall the first attempt.",
   },
  ],
 

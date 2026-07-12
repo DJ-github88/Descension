@@ -216,7 +216,7 @@ Each subrace distills from different sources. The Thalren draw venom from fog-pr
 
 The fog is changing chemistry. Compounds that remained viable for years now degrade in weeks. Predator venoms are spoiling. The entire pharmacopoeia is turning unstable. Two apprentices have died testing Varis's desperation project: distilling the changing fog itself.`,
     title: "The Toxicologist",
-    subtitle: "The Self-Poisoned Surgeon -- Every Cure Is for Someone Else",
+    subtitle: "The Self-Poisoned Surgeon — Every Cure Is for Someone Else",
     illustration: "/assets/images/classes/toxicologist_illustration.png",
     illustrationCaption: "A Mimir Toxicologist, a mysterious alchemist wearing a flat reflective silver mask and a tattered bark-hide cloak.",
 
@@ -317,9 +317,9 @@ Whatever the cause, the Toxicologists are losing their arsenal. Their most power
 
     combatRole: {
       title: "Combat Role",
-      content: `**Why Bring Me?** Because no other class can prepare the battlefield before initiative is rolled. You are the ONLY preparation-based alchemist. You set traps at choke points, craft poisons mid-combat, and stack debilitating debuffs -- weakened, slowed, bleeding, armor-shredded -- that no other class can apply. By the time the real fight starts, your enemies are already dying and don't know it yet.
+      content: `**Why Bring Me?** Because no other class can prepare the battlefield before initiative is rolled. You are the ONLY preparation-based alchemist. You set traps at choke points, craft poisons mid-combat, and stack debilitating debuffs — weakened, slowed, bleeding, armor-shredded — that no other class can apply. By the time the real fight starts, your enemies are already dying and don't know it yet.
 
-**Fatal Flaw**: You CANNOT heal yourself. All healing you receive from any source is reduced by 50% -- your blood rejects medicine like it rejects purity. Fire and ember damage causes your active poisons to detonate INSIDE you. You are your own worst hazard zone. Without preparation time, you are a basic combatant carrying a body full of toxins with nowhere to spend them.
+**Fatal Flaw**: You CANNOT heal yourself. All healing you receive from any source is reduced by 50% — your blood rejects medicine like it rejects purity. Fire and ember damage causes your active poisons to detonate INSIDE you. You are your own worst hazard zone. Without preparation time, you are a basic combatant carrying a body full of toxins with nowhere to spend them.
 
 **Poison Application**: Apply various poisons to weapons for DoT, debuffs, and burst damage
 **Battlefield Control**: Deploy contraptions to control enemy movement and create tactical advantages
@@ -344,7 +344,7 @@ Whatever the cause, the Toxicologists are losing their arsenal. Their most power
 - Fire/ember damage triggers internal poison detonation
 - Vulnerable when caught without prepared resources
 
-The Toxicologist shines in tactical combats where they can prepare the battlefield with contraptions, apply poisons strategically, and adapt their concoctions to counter enemy tactics. But every battle is a gamble -- the wrong flame spell turns your own blood into a weapon against you.`,
+The Toxicologist shines in tactical combats where they can prepare the battlefield with contraptions, apply poisons strategically, and adapt their concoctions to counter enemy tactics. But every battle is a gamble — the wrong flame spell turns your own blood into a weapon against you.`,
     },
 
     playstyle: {
@@ -585,13 +585,13 @@ You're an ALCHEMIST WARRIOR who controls the battlefield through preparation and
     title: "Alchemical Arsenal",
     subtitle: "Toxin Vials & Contraption Parts",
 
-    description: `Your arsenal is fed by blood extraction and scavenged wreckage. **Toxin Vials** are filled by lancing your own flesh -- each vial drawn from a body already saturated with reagents, your blood mixing with venom until the distinction is meaningless. **Contraption Parts** are pried from battlefield debris, salvaged from the dead, or assembled from components no surgeon would sanction.
+    description: `Your arsenal is fed by blood extraction and scavenged wreckage. **Toxin Vials** are filled by lancing your own flesh — each vial drawn from a body already saturated with reagents, your blood mixing with venom until the distinction is meaningless. **Contraption Parts** are pried from battlefield debris, salvaged from the dead, or assembled from components no surgeon would sanction.
 
 **Two Crafting Systems:**
 - **Weapon Poisons** (1 vial, 1 AP): Quick-apply poisons to your weapon. Lasts 3 attacks or until end of combat. Choose from 5 poison types (Neurotoxin, Hemotoxin, Cytotoxin, Myotoxin, Cardiotoxin).
-- **Brewed Concoctions** (1-3 vials, 1 AP): More powerful crafted items -- Explosive Concoctions, Smoke Bombs, Antidotes, Healing Mist. These have stronger effects but higher vial costs.
+- **Brewed Concoctions** (1-3 vials, 1 AP): More powerful crafted items — Explosive Concoctions, Smoke Bombs, Antidotes, Healing Mist. These have stronger effects but higher vial costs.
 
-**Active Contraption Limit:** A Toxicologist can have up to 3 active contraptions on the battlefield at once (Gadgeteer specialization: up to 4). Contraption parts are **recovered after combat** when you reclaim your devices -- you do not lose parts permanently by deploying contraptions that survive the encounter. Destroyed or triggered consumable contraptions (Explosive Mine) have their parts spent until recovered on rest.`,
+**Active Contraption Limit:** A Toxicologist can have up to 3 active contraptions on the battlefield at once (Gadgeteer specialization: up to 4). Contraption parts are **recovered after combat** when you reclaim your devices — you do not lose parts permanently by deploying contraptions that survive the encounter. Destroyed or triggered consumable contraptions (Explosive Mine) have their parts spent until recovered on rest.`,
     cards: [
       {
         title: "Toxin Vials",
@@ -891,7 +891,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     title: "Toxicologist Specializations",
     subtitle: "Three Paths of Self-Destruction",
 
-    description: "Three ways to weaponize your own decay. Each path deepens your corruption in a different direction -- Venomancers become the poison itself, Gadgeteers build killing machines from refuse, and Saboteurs turn the enemy's own body against them. Choose how you suffer.",
+    description: "Three ways to weaponize your own decay. Each path deepens your corruption in a different direction — Venomancers become the poison itself, Gadgeteers build killing machines from refuse, and Saboteurs turn the enemy's own body against them. Choose how you suffer.",
     passiveAbility: {
       name: "Alchemical Expertise",
       description:
@@ -903,7 +903,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         name: "Venomancer",
         icon: "fas fa-skull-crossbones",
         description:
-          "Poisoners who have made their own blood a reservoir of death. Venomancers don't just apply toxins -- they embody them, brewing concentrations so lethal that even their sweat is hazardous. Their poisons don't kill quickly. They linger, they worsen, they make the victim beg for the end.",
+          "Poisoners who have made their own blood a reservoir of death. Venomancers don't just apply toxins — they embody them, brewing concentrations so lethal that even their sweat is hazardous. Their poisons don't kill quickly. They linger, they worsen, they make the victim beg for the end.",
         passiveAbility: {
           name: "Potent Toxins",
           description:
@@ -935,7 +935,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         name: "Gadgeteer",
         icon: "fas fa-cog",
         description:
-          "Engineers of suffering who build instruments of pain from battlefield salvage. Gadgeteers cobble together death from scrap and spite -- spike traps from shattered shields, gas dispensers from condemned alchemy vials. Their contraptions are graves waiting for someone to step in.",
+          "Engineers of suffering who build instruments of pain from battlefield salvage. Gadgeteers cobble together death from scrap and spite — spike traps from shattered shields, gas dispensers from condemned alchemy vials. Their contraptions are graves waiting for someone to step in.",
         passiveAbility: {
           name: "Improved Contraptions",
           description:
@@ -967,7 +967,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         name: "Saboteur",
         icon: "fas fa-user-secret",
         description:
-          "Masters of sabotage and systemic decay. Saboteurs don't just poison the body -- they poison the plan. Every trap is a betrayal, every debuff a slow unraveling of an enemy's will to fight. Where others see a battlefield, the Saboteur sees a patient already dying.",
+          "Masters of sabotage and systemic decay. Saboteurs don't just poison the body — they poison the plan. Every trap is a betrayal, every debuff a slow unraveling of an enemy's will to fight. Where others see a battlefield, the Saboteur sees a patient already dying.",
         passiveAbility: {
           name: "Debilitating Expertise",
           description:
@@ -3421,7 +3421,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_concoction_instability",
       name: "Concoction Instability",
       description:
-        "When you take fire or ember damage, one random poison effect you have active on an enemy prematurely detonates -- dealing its remaining damage to YOU instead of the target. Your concoctions are volatile and react poorly to heat and light.",
+        "When you take fire or ember damage, one random poison effect you have active on an enemy prematurely detonates — dealing its remaining damage to YOU instead of the target. Your concoctions are volatile and react poorly to heat and light.",
       level: 3,
       spellType: "PASSIVE",
       icon: "Fire/Burning Status",

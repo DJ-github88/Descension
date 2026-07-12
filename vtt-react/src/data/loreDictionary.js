@@ -1036,7 +1036,7 @@ export const LORE_DICTIONARY = {
   },
 
   'deep_alchemists': {
- id: 'deep-alchemists',
+ id: 'deep_alchemists',
  term: 'Deep Alchemists',
  type: 'faction',
  region: 'cragjaw-peaks',
@@ -1066,7 +1066,7 @@ export const LORE_DICTIONARY = {
   },
 
   'dawn_vigil': {
- id: 'dawn-vigil',
+ id: 'dawn_vigil',
  term: 'Dawn Vigil',
  type: 'faction',
  region: 'sundale',
@@ -1076,7 +1076,7 @@ export const LORE_DICTIONARY = {
   },
 
   'vat_breakers_guild': {
- id: 'vat-breakers-guild',
+ id: 'vat_breakers_guild',
  term: 'Vat-Breakers\' Guild',
  type: 'faction',
  region: 'cragjaw-peaks',
@@ -1921,7 +1921,7 @@ export const LORE_DICTIONARY = {
  region: 'bryngloom-forest',
  summary: 'The forty-seventh Inquisitor commander at the Sunken Spire, facing entities that fall outside the entire art his order was built on.',
  fullEntry: 'Vrael the Forty-Seventh commands the last forty-seven Inquisitors of the Barbed Vow, sworn at the Sunken Spire. The order was forged from two roots: Orven the Still-Handed\'s cold-iron severance of corrupted bonds, and Elias the Salt-Scarred\'s face-baiting technique of opening his own veins to draw Wyrd horrors into living flesh where they can be named and cut. Now the deep groves are producing entities that fall outside the entire art: things that were never bonded, never wrote a contract, never made a pact. Against a horror with no oath to sever and no face to wear, the Barbed Vow has no precedent. Hold the cold iron with Vrael and you\'ll feel what he feels: the methodology that saved the world for centuries is meeting something it was never built to cut.',
- relatedTerms: ['sunken_spire', 'bryngloom-forest', 'frostwood-reach', 'ironwood-heart'],
+ relatedTerms: ['sunken_spire', 'bryngloom-forest', 'frostwood-reach', 'ironwood_heart'],
  worldFriction: 'Deep-grove entities now emerge that were never bound by pact or oath. The art has no precedent.'
   },
 
@@ -2029,7 +2029,7 @@ export const LORE_DICTIONARY = {
  region: 'frostwood-reach',
  summary: 'Keeper of the Slow Cup in the Frostwood, as the changing fog spoils venoms that held stable for generations.',
  fullEntry: 'Varis the Trembling built the Distillery, the Toxicologist order in the Frostwood, extracting raw venom from fog-predators like the Gref and the Gambrel in the ironwood canopies and distilling them into area-denial poisons. The work left him with chronic tremors and permanently stained fingers, occupational marks every Toxicologist inherits, and Varis still keeps the Slow Cup despite hands that can barely hold it. Now the fog itself is changing. Venoms that held stable for generations spoil in weeks, the chemistry of the mist has shifted, and the Toxicologists race to understand why. Brew in the Distillery and you\'ll inherit Varis\'s tremor and his race; the fog is changing the venoms faster than he can change the cures.',
- relatedTerms: ['the_shallows', 'frostwood-reach', 'greymark-keep'],
+ relatedTerms: ['the_shallows', 'frostwood-reach', 'greymark_keep'],
  worldFriction: 'The fog chemistry is changing. Venoms spoil in weeks instead of years.'
   },
 
@@ -2067,7 +2067,7 @@ export const LORE_DICTIONARY = {
  region: 'frostwood-reach',
  summary: '"The Quill-Lord," who seized control of House Thalreth amid his father\'s memory-fog and enforces the Sovereign Ledger.',
  fullEntry: 'Kaelen Thalreth runs the Frostwood Reach from behind a desk piled with Sovereign Ledgers. His father Aldren sits in a nearby chamber re-reading his own journals, trying to remember who he is. The memory-fog took Aldren\'s mind; Kaelen is determined it won\'t take the Reach. He enforces the Sovereign Ledger as absolute law: any property not recorded in the ledgers is silence, and the undocumented don\'t legally exist. He tells himself it\'s preservation. The Forgotten call it erasure by quill.',
- relatedTerms: ['greymark_keep', 'frostwood-reach', 'house_thalreth', 'scribe-sentinels']
+ relatedTerms: ['greymark_keep', 'frostwood-reach', 'house_thalreth', 'scribe_sentinels']
   },
 
   'halvar-skalvyr': {
@@ -2111,7 +2111,7 @@ export const LORE_DICTIONARY = {
  region: 'frostwood-reach',
  summary: 'The second son who knows about the ledger edits, and authorized many of them. He tells himself a managed ledger is better than no ledger at all.',
  fullEntry: 'Caedren Thalreth, second son of Lord Aldren, keeps the Scribe-Sentinels from the tower that bears his title. He knows about the edits. He authorized many of them: subtle modifications to the Sovereign Ledger that shift property boundaries, erase certain names, and insert others. He tells himself it is for the good of the Reach, that the chaos of contested claims would tear the region apart, and a carefully managed ledger, even an edited one, is better than no ledger at all. He believes this. He has to. Open a ledger in the Frostwood and ask whose name was there before yours, and Caedren is the man who knows the answer, and the man who decided you didn\'t need to.',
- relatedTerms: ['scribes_tower', 'frostwood-reach', 'house_thalreth', 'scribe-sentinels']
+ relatedTerms: ['scribes_tower', 'frostwood-reach', 'house_thalreth', 'scribe_sentinels']
   },
 
   'thorn-speaker': {
@@ -2166,7 +2166,7 @@ export const LORE_DICTIONARY = {
  region: 'cragjaw-peaks',
  summary: 'The head of the Deep Alchemists, whose body is now more graft than flesh. No one remembers their original race or gender, and they prefer it that way.',
  fullEntry: 'The Prime Alchemist leads the Deep Alchemists from the Lost Brood-Vats, the sealed laboratories deep beneath Frostmaw Holdfast where the Fexric guild-scientists pursue immortality through flesh-craft. The current Prime has replaced so much of their body with alchemical grafts that no living person remembers their original race or gender; they have become a walking catalogue of their own experiments. The Deep Alchemists maintain an uneasy detente with the Vat-Breakers above them: the Alchemists still believe the Thrumm root-stock was their finest creation, and the Groven who broke free of those same vats consider that statement an indictment. Descend to the Lost Brood-Vats and you\'ll find a Prime who forgot what they were before they began, and a workshop that never stopped improving on the mistake.',
- relatedTerms: ['lost-brood-vats', 'cragjaw-peaks', 'fexrick', 'groven', 'vat_breakers_guild', 'frostmaw_holdfast']
+ relatedTerms: ['lost_brood_vats', 'cragjaw-peaks', 'fexrick', 'groven', 'vat_breakers_guild', 'frostmaw_holdfast']
   },
 
   'vat-breaker-foreman': {
@@ -2188,7 +2188,7 @@ export const LORE_DICTIONARY = {
  region: 'sundale',
  summary: 'Caretaker of House Solvan, who refuse to call anyone Lord until the sun returns from its tomb.',
  fullEntry: 'The Steward of Emberspire manages House Solvan\'s affairs from the Great Forge, a position defined by absence: the Solvarn refuse to recognize any title higher than "Steward" until Sol, the buried star they helped entomb beneath Emberspire, is released from its prison. The current Steward oversees a house defined by guilt, vigil, and a founding crime they cannot undo. Every Solvarn Martyr who takes the Vow, every Pyrofiend who swallows Scathrach\'s coal, does so under the Steward\'s silent, complicit gaze. Hold the Steward\'s seat and you hold a house that won\'t call you Lord, a crime that won\'t stay buried, and a star that won\'t stop pressing against the door you sealed it behind.',
- relatedTerms: ['great-forge', 'sundale', 'emberspire', 'house_solvan']
+ relatedTerms: ['great_forge', 'sundale', 'emberspire', 'house_solvan']
   },
 
   'mereval-admiral': {
@@ -2255,7 +2255,7 @@ export const LORE_DICTIONARY = {
  region: 'frostwood-reach',
  summary: 'The Scribe-Sentinels\' most senior quill-keeper, who has seen the edits Caedren Thalreth authorized.',
  fullEntry: 'Vellan the Archivist keeps the Scribe-Sentinels\' deepest records from the Scribe\'s Tower in the Frostwood Reach, and she has seen the edits. She knows which names were erased and which property lines shifted. Under Caedren Thalreth\'s authority, the Sentinels maintain the Sovereign Ledger that decides who is Ledgered and who is Forgotten. Unlike Caedren, she did not authorize the edits, but she also did not stop them, and silence, in the Reach, is its own kind of quill-stroke. Read the ledger Vellan keeps and you\'ll find the names that are supposed to have always been gone; she knows they weren\'t, and the knowing is the heaviest quill she carries.',
- relatedTerms: ['scribes_tower', 'frostwood-reach', 'scribe-sentinels']
+ relatedTerms: ['scribes_tower', 'frostwood-reach', 'scribe_sentinels']
   },
 
   // ── Historical Founders ──
@@ -2648,7 +2648,7 @@ summary: 'Outdated theory. The twelve-year pulse was Aex screaming, not Sol reki
  region: 'sundrift-vale',
  summary: 'A gravitational anomaly of the Sundrift Vale. Every three months, the soil itself rises and falls like an ocean tide.',
  fullEntry: 'In the Sundrift Vale, the ground breathes. Roughly every three months, the silt and topsoil of the Vale rise in a slow wave, cresting several feet before receding. The Silt-Tide reshapes the landscape with every cycle. It is one of the lingering consequences of House Ordavan\'s dark bargain: when the fertile soil was traded away for endless migration, the land itself grew restless.\n\nThe Ordan migration routes are timed to the Silt-Tide\'s rhythm. The herds move with the tide\'s pull. The ancient cairns and mound-camps of the Vale are built only on ground the tide never reaches, the high places, the star-knolls, the ancestor-wolds. The Astril throat-singers can predict the tide\'s arrival by the way their Lumian echo resonates in response to the shifting earth. They begin the songs days before the soil moves.\n\nThe Silt-Tide does not kill. It buries. A camp pitched on low ground when the tide rises will be under several feet of silt by morning, and those who slept through it will dig themselves out alive but changed: their belongings gone, their bearings lost, and the Vale looking like a different country than the one they went to sleep in.\n\nWalk the Vale with an Ordan guide or do not walk it at all. The Silt-Tide waits for no one. The Lumian echo is singing, and the soil is already beginning to stir.',
- relatedTerms: ['sundrift-vale', 'house-ordavan', 'ordan']
+ relatedTerms: ['sundrift-vale', 'house_ordavan']
   },
 
   // ============================================================
@@ -2683,7 +2683,7 @@ summary: 'Outdated theory. The twelve-year pulse was Aex screaming, not Sol reki
  region: 'frostwood-reach',
  summary: 'An ancient fey presence in the Frostwood\'s moonlit groves, the entity that reached House Viridane before Keth-Amar could claim them.',
  fullEntry: 'Briaran oral tradition names it the Watcher in the Mist, the presence that spoke to House Viridane in the moonlit groves during their flight south. Older than Keth-Amar\'s hunger and more patient, it offered the fleeing family a counter-bargain: protection from the Sun-Eater\'s sight in exchange for a permanent bond to the groves. Its exact nature is unknown, some Briaran theologians believe it is the dreaming consciousness of the dead moon, whose shattered fragments became the lunar parasites; others believe it is the collective voice of the fae court that has inhabited the Frostwood since before humans first set foot on the continent. What is certain is that it chose Viridane, and Viridane chose it, and the Briaran have carried the physical mark of that choice, their thorns, for eight centuries. Walk the moonlit groves with thorns on your arms and you may hear what House Viridane heard; the Watcher is still there, still patient, and still offering its bargain to anyone who carries the blood to hear it.',
- relatedTerms: ['house-viridane', 'briaran', 'lunarch', 'frostwood-reach']
+ relatedTerms: ['house_viridane', 'briaran', 'lunarch', 'frostwood-reach']
   },
 
   'dead_moon': {
@@ -2704,7 +2704,7 @@ summary: 'Outdated theory. The twelve-year pulse was Aex screaming, not Sol reki
  region: 'sundale',
  summary: 'The old Emberth faith of Sundale, holding the Harath-Vault and tending the Solbrand. They believe Sol will rise when it is ready — not when the Vigil forces it. The Korr and the deep-born Solvarn still stand with them.',
  fullEntry: 'Someone has to tend the fire, or there\'s no fire to come back to. That is the whole of the Risen\'s faith. They hold to the original Emberth theology: keep the Solbrand at any cost, hide the Sundered Monolith shards from those who would reassemble them, and Sol will rise the day the seal is whole again. In a Sundale that is eating itself over what the Solbrand actually is, the Risen are the ones who still call it Sol\'s warmth and mean it.\n\nThey keep the Harath-Vault as their stronghold and draw their strength from the Korr Emberth, the Solvarn deep-born, and the old Martyr families who can still remember when the fire answered back. They are the largest of the three factions, and the slowest to raise a hand against a brother, which is why they keep losing ground to those who aren\'t.\n\nThey aren\'t alone in this war. The Sunderer preach that the Solbrand is Keth-Amar\'s feeding line and must be put out. The Scoured deface their forge-marks and hunt Monolith Shards to seal the breach rather than reassemble it. The Risen call both of them heretics, mean it, and keep tending the flame.\n\nThe Solbrand still burns, for now. If you can still feel warmth in it, the Risen have a place for you at the forge, and a long night\'s work to share.',
- relatedTerms: ['sundale', 'dawn-vigil', 'emberspire', 'sol', 'the_sunderers', 'the_scoured']
+ relatedTerms: ['sundale', 'dawn_vigil', 'emberspire', 'sol', 'the_sunderers', 'the_scoured']
   },
 
   'the_sunderers': {
@@ -2714,7 +2714,7 @@ summary: 'Outdated theory. The twelve-year pulse was Aex screaming, not Sol reki
  region: 'sundale',
  summary: 'The heretics of Sundale who call the Solbrand a feeding line: Keth-Amar\'s straw, draining the last warmth of a dying star. Their answer is to tear it out and let Sol go.',
  fullEntry: 'Not everyone in Sundale calls the Solbrand a gift. The Sunderer say it is a mouth. They preach that the flame the Risen tend so faithfully is no remnant of Sol at all, but a conduit, the line through which Keth-Amar drains the dying star\'s last warmth one swallow at a time. To feed it is to feed the thing that ate the sun.\n\nTheir answer is the simplest one in the civil war, and the cruelest: put the Solbrand out, starve Keth-Amar, and let Sol die on the chance that the Sun-Eater dies hungry. They gather among the younger Thrask Emberth, among Dawn Vigil defectors who couldn\'t keep tending what they\'d stopped believing in, and among the Ash-Dweller conscripts who have lived their whole lives under a dimming sky and never once felt Sol\'s warmth. The Dawn Vigil has named them anathema. The naming hasn\'t stopped them growing.\n\nThe Vigil hunts them in the open. The Scoured hunt Monolith Shards in the dark. The Sunderer just keep watching the Solbrand and seeing teeth in it, waiting for someone brave enough to pull the flame down.\n\nIf you\'ve stood at the Solbrand and felt nothing but hunger in the heat, the Sunderer will find you, and they\'ll tell you what you already suspect.',
- relatedTerms: ['sundale', 'dawn-vigil', 'emberspire', 'keth_amar', 'the_risen']
+ relatedTerms: ['sundale', 'dawn_vigil', 'emberspire', 'keth_amar', 'the_risen']
   },
 
   'the_scoured': {
@@ -2734,7 +2734,7 @@ summary: 'Outdated theory. The twelve-year pulse was Aex screaming, not Sol reki
  region: 'frostwood-reach',
  summary: 'The undocumented underclass of the Frostwood Reach. If the Sovereign Ledger does not name you, no Thalren court will hear you.',
  fullEntry: 'In the Frostwood Reach, the Forgotten are the people the Sovereign Ledger does not name. Their entries were lost to the fog, never recorded by the Scribe-Cartel, or deliberately erased during the Great Revision. Without a documented lineage, a Forgotten has no legal rights: no property, no marriage, no testimony that any Thalren court will hear.\n\nThey survive in the palisade-shantytowns thrown up outside Greymark Keep, and in the deeper ironwood groves beyond Cartel reach. They take work the Ledgered will not take. They marry in ceremonies no Scribe-Sentinel will witness. They die in places no Scribe-Sentinel will record. To be Forgotten is to be invisible to the only authority that recognizes existence.\n\nThe Briaran, whose oral history is immune to fog-erasure, have sheltered Forgotten fugitives since the Memory Wars. The Briaran Unwritten Word can tell a Forgotten\'s lineage back six generations from memory alone. The Sovereign Ledger cannot do the same for its own Ledgered families. This is one of the reasons the Briaran and the Cartel distrust each other across every mile of the Reach.\n\nCarry no Ledger-stamp in the Frostwood and the Scribe-Sentinels can erase you with a single line through a registry. Carry a Briaran thorn in your blood, and the Unwritten Word will remember you when the fog and the Ledger are both gone. The choice of who remembers you is yours.',
- relatedTerms: ['frostwood-reach', 'sovereign-ledger', 'scribe-cartel', 'the-great-revision', 'memory-wars']
+ relatedTerms: ['frostwood-reach', 'sovereign-ledger', 'scribe-cartel', 'the-great-revision']
   },
 
   'the_fredlose': {
@@ -2744,7 +2744,7 @@ summary: 'Outdated theory. The twelve-year pulse was Aex screaming, not Sol reki
  region: 'nordhalla',
  summary: 'The outlaw clans of Nordhalla. They refuse King-Jarl Halvar Skalvyr\'s iron crown and keep the old songs the Runic Academies want burned.',
  fullEntry: 'Beyond the Sunder-Wall, in the frozen wastes no Skalvyr tax-collector reaches, the Fredlose clans live as they did before the Glacier Bargain. Fredlose is Old Nord for "the lawless," and the clans wear the name as a boast. They refuse fealty to King-Jarl Halvar Skalvyr and his iron crown. They answer to no jarl at all.\n\nThey survive by raiding, by mammoth-hunting, and by the old ways the Runic Academies seek to burn. The Frost Chanters among them preserve the oral-history traditions that predate the Glacier Bargain, songs and stories the settled Fastboende have forgotten or been forbidden to sing. Where the Fastboende buried their past beneath the ice to halt the glaciers, the Fredlose kept theirs alive in throat and memory.\n\nThe Fredlose are divided from the settled Fastboende not by blood but by choice. The boundary between them is the Sunder-Wall. A Fastboende who walks beyond it can become Fredlose in a single winter. A Fredlose who walks back can never quite become Fastboende again: the songs do not wash out of the throat.\n\nCross the Sunder-Wall and the Fredlose will test you. Bring a song they have not heard, and they may let you sit at their fire. The glaciers do not negotiate with the iron crown, and neither do they.',
- relatedTerms: ['nordhalla', 'house-skalvyr', 'sunder-wall']
+ relatedTerms: ['nordhalla', 'house_skalvyr']
   },
 
   'the_deck_born': {
@@ -2754,7 +2754,7 @@ summary: 'Outdated theory. The twelve-year pulse was Aex screaming, not Sol reki
  region: 'iceheart-sea',
  summary: 'The officer caste of the Iceheart Sea. Born into registered Mereval families, their skin is a legal document.',
  fullEntry: 'On the Iceheart Sea, command is inherited. The Deck-Born are the officer class of the maritime society, Merryn sailors born into families registered with the Mereval Board of Trade. They command the ships. They hold the Luck-Ledger accounts. They pass their trade-tattoos, legal contracts inked on their skin, to their heirs as the only inheritance that matters.\n\nThe trade-tattoos are the Deck-Born\'s true wealth. Each one is a contract, a charter, a license, or a debt recorded in ink that cannot be erased without erasing the skin that bears it. A Deck-Born captain\'s arm is worth more than the ship beneath them. The Mereval Board of Trade recognizes the tattoos before it recognizes the family name.\n\nBelow the Deck-Born in the shipboard hierarchy are the Bilge-Dwellers: pressed sailors with no registered lineage, no Luck-Ledger accounts, and tattoos that mark them as property rather than partners. The gulf between Deck and Bilge is the central fact of Iceheart maritime life. A Bilge-Dweller who earns enough Luck-Ledger credit to buy their freedom becomes Deck-Born in a single generation, and the Deck-Born officer class fiercely resents and quietly obstructs every such ascension.\n\nTake a Deck-Born\'s post and your skin becomes a ledger. Every contract you sign goes on your arm. Every debt you owe goes on your neck. The Board of Trade reads you before it hears you.',
- relatedTerms: ['iceheart-sea', 'house-mereval', 'brine-bond-syndicate', 'the-bilge-dwellers']
+ relatedTerms: ['iceheart-sea', 'house_mereval', 'brine-bond-syndicate', 'the_bilge_dwellers']
   },
 
   'the_bilge_dwellers': {
@@ -2764,7 +2764,7 @@ summary: 'Outdated theory. The twelve-year pulse was Aex screaming, not Sol reki
  region: 'iceheart-sea',
  summary: 'The pressed-sailor underclass of the Iceheart Sea. Their tattoos are not contracts. They are property-marks.',
  fullEntry: 'Under the Mereval Board of Trade\'s Press-Warrants, any undocumented sailor on the Iceheart Sea can be conscripted into lifetime maritime service. Merryn or not, the pressed become Bilge-Dwellers. They work the bilges. They work the oar-decks. They work the storm-watch that no Deck-Born officer will take. Their service has no end-date and no wage but survival.\n\nTheir tattoos are not contracts. They are property-marks, inked at the moment of pressing to record the debt and the owner. A Bilge-Dweller\'s arm is an invoice. The ink does not wash off and the debt does not diminish. The Press-Warrant system is designed to ensure it never does.\n\nThere is one path out. A Bilge-Dweller who earns enough Luck-Ledger credit can buy their freedom and become Deck-Born in a single generation. The Deck-Born officer class fiercely resents every such ascension and quietly obstructs it at every port. The Board of Trade permits the path in principle and starves it in practice. Most Bilge-Dwellers die Bilge-Dwellers.\n\nTake a Bilge-Dweller\'s oar and the Board of Trade owns your arm. The ink goes on at the pressing. The work goes on until the sea takes you, or until you have earned enough luck to buy back the skin you were born in.',
- relatedTerms: ['iceheart-sea', 'house-mereval', 'brine-bond-syndicate', 'the-deck-born']
+ relatedTerms: ['iceheart-sea', 'house_mereval', 'brine-bond-syndicate', 'the_deck_born']
   },
 
   'the_mounted': {
@@ -2774,7 +2774,7 @@ summary: 'Outdated theory. The twelve-year pulse was Aex screaming, not Sol reki
  region: 'sundrift-vale',
  summary: 'The horse-owning aristocracy of the Ordan nomads. Under the Iron-Yurt Law, only the Mounted may speak in the clan-moots.',
  fullEntry: 'On the Sundrift Vale\'s migration circuit, a horse is citizenship. The Mounted, De Hesteborne in the Ordan tongue, are the horse-owning aristocracy of the Ordan nomads, and under the Iron-Yurt Law established by House Ordavan, only they may speak in the clan-moots.\n\nOnly the Mounted carry Steppe-Staves, the carved record of their lineage. Only the Mounted vote on migration routes. They own the herds. They command the migration. They hold the throat-singing traditions that map the starless sky. Their authority over the Unmounted is absolute, and the Iron-Yurt Law enforces it at every camp.\n\nBut the Mounted\'s hold is slipping. Horse-populations decline in the cooling Vale, and every dead mare is a family demoted. A Mounted clan that loses its horses does not become Unmounted in name alone. It becomes Unmounted in law: stripped of its Steppe-Staves, silenced in the moot, and forced to walk the circuit it once commanded. The Iron-Yurt Law does not recognize sentiment, and the frost does not spare the aristocrat.\n\nRide the Sundrift circuit as one of the Mounted and the moot will hear you. The Steppe-Stave in your hand is your voice and your vote. The herds are thinning. The frost is deepening. The law that gave you authority is the same law that will take it back the moment your last horse dies.',
- relatedTerms: ['sundrift-vale', 'house-ordavan', 'the-unmounted']
+ relatedTerms: ['sundrift-vale', 'house_ordavan', 'the_unmounted']
   },
 
   'the_unmounted': {
@@ -2784,7 +2784,7 @@ summary: 'Outdated theory. The twelve-year pulse was Aex screaming, not Sol reki
  region: 'sundrift-vale',
  summary: 'The horse-less underclass of the Ordan nomads. They walk the migration circuit behind the herds, and the Iron-Yurt Law gives them no voice.',
  fullEntry: 'On the Sundrift Vale\'s migration circuit, to walk is to be silent. The Unmounted, De Hestelose in the Ordan tongue, are the horse-less underclass of the Ordan nomads, and the Iron-Yurt Law gives them no voice in the clan-moots.\n\nThe Unmounted cannot speak at the moot. They cannot carry Steppe-Staves. They cannot vote on the migration routes they must walk. They move through the circuit behind the herds, carrying what the Mounted cannot load. They eat after the Mounted eat. They sleep where the Mounted will not sleep. The Iron-Yurt Law is clear, and the Mounted enforce it without sentiment.\n\nThe Unmounted keep their own oral traditions. Throat-sung in private, passed between walking families, the songs are unofficial and unsanctioned. The Mounted dismiss them as the complaints of the dispossessed. The Unmounted call them the true record of the Vale, because the people who walk the ground hear it differently than the people who ride above it.\n\nThe Purge of the Sky-Singers targeted the Unmounted first. The Mounted came for the throat-singers who would not stop the old songs, and the Unmounted remember. They have not forgiven, and they have not stopped singing.\n\nWalk the circuit Unmounted and the law will not hear you. The herds move on without your vote. But if you learn the unsanctioned songs and walk them in private, you carry the record the Sky-Singers died for. The frost does not ask whether you ride.',
- relatedTerms: ['sundrift-vale', 'house-ordavan', 'the-mounted']
+ relatedTerms: ['sundrift-vale', 'house_ordavan', 'the_mounted']
   },
 
   'tharun_silath': {
@@ -2794,8 +2794,37 @@ summary: 'Outdated theory. The twelve-year pulse was Aex screaming, not Sol reki
  region: 'sundrift-vale',
   summary: 'The founder of the Silath Astril path, first to suppress the Lumian echo through ritual rather than embrace.',
   fullEntry: 'Tharun Silath, an Astril of the Wolf bloodline in the early centuries of the Dimming, became the first to successfully suppress his Lumian echo through ritual rather than embrace it. His methods, the binding chants, the fasting, the scarification patterns that channel the heritage away from the conscious mind, became the foundation of the Silath path. He was assassinated at forty-two by his own Vashir sister, who believed his suppression was starving the Wolf. The Wolf chose her. She lost herself to the echo within the year, her mind drowned in the symbiosis she had prized. Walk the Silath path and you walk the line Tharun drew between mastery and starvation; the Wolf still remembers which sibling chose which.',
- relatedTerms: ['astril', 'sundrift-vale', 'Vashir-Silath-schism']
-  }
+  relatedTerms: ['astril', 'sundrift-vale']
+   },
+
+ // === STUB ENTRIES: subraces and factions referenced across multiple NPCs ===
+ 'velun': {
+  id: 'velun',
+  term: 'Velun',
+  type: 'race',
+  region: 'bryngloom-forest',
+  summary: 'The ruling subrace of the Neth, pale-skinned pact-lords who govern the Atropolis canopy and speak with Morvane\'s enforceable authority.',
+  fullEntry: 'The Velun are the pact-lords of the Neth, bound most directly to the First Contract with Morvane. Their words carry the forest entity\'s authority: every commitment made aloud by a Velun is an enforceable contract. They govern the canopy of Atropolis, arbitrate trade delegations, and preserve the contract-halls. A Velun\'s power is their voice, and a Velun who perfects their craft can seal a bargain that no signatory can ever break.',
+  relatedTerms: ['atropolis', 'keeper_of_the_last_threshold', 'neth', 'house_morrath', 'arcanoneer']
+ },
+ 'merryn': {
+  id: 'merryn',
+  term: 'Merryn',
+  type: 'race',
+  region: 'iceheart-sea',
+  summary: 'The sea-faring human subrace of the Iceheart Sea, whose tattooed skin serves as a living legal document of every contract and oath kept.',
+  fullEntry: 'The Merryn are the dominant human bloodline of the Iceheart Sea, shaped by seven centuries of storm-trade into something between sailor and storm. Their skin is a canvas: every contract, debt, and oath is tattooed into their flesh in black ink because paper rots at sea. A Merryn\'s body is a legal document, and their self is the sum of the obligations written there. House Mereval\'s Sea-Charter governs their routes, and the tattooing tradition evolved as the only record-keeping the ocean could not destroy.',
+  relatedTerms: ['merrowport', 'iceheart-sea', 'house_mereval', 'gambit', 'minstrel']
+ },
+ 'scribe_sentinels': {
+  id: 'scribe_sentinels',
+  term: 'Scribe-Sentinels',
+  type: 'faction',
+  region: 'frostwood-reach',
+  summary: 'The quill-armed patrol order of Greymark Keep that enforces the Sovereign Ledger and records every disturbance in the Frostwood Reach.',
+  fullEntry: 'The Scribe-Sentinels are the enforcement arm of Jarl-Archivist Kaelen Thalreth\'s Sovereign Ledger at Greymark Keep. They patrol the timber keeps in shifts of six, their quills always ready to record any disturbance. Part watch, part archive, they ensure that every interaction in the Reach is documented, every right registered, and every unrecorded person marked as one of the Forgotten. Their authority derives from the Ledger itself: if an event is not written down, the Scribe-Sentinels ensure it is, and if it cannot be written, it did not happen.',
+  relatedTerms: ['greymark_keep', 'frostwood-reach', 'house_thalreth', 'sovereign-ledger']
+ }
 
 
 };

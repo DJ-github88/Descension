@@ -53,7 +53,7 @@ const DAMAGE_TYPES = {
       icon: 'Psychic/Psychic Telepathy'
     },
     sacred: {
-      name: 'Divine',
+      name: 'Sacred',
       description: 'Sacred radiance drawn from the upper spheres. Smite the unholy, bless the faithful, and burn corruption with pure celestial light.',
       color: '#DAA520',
       icon: 'Radiant/Radiant Divinity'

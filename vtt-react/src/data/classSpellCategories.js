@@ -751,21 +751,21 @@ export const CLASS_SPECIALIZATIONS = {
       {
         id: 'witch_hammer',
         name: 'Witch Hammer',
-        description: 'Righteous chains bind the unholy. Shadow swarm assassin -- stealth + horror horde',
+        description: 'Righteous chains bind the unholy. Shadow swarm assassin — stealth + horror horde',
         color: '#2F1B14',
         icon: 'ability_stealth'
       },
       {
         id: 'iron_verdict',
         name: 'Iron Verdict',
-        description: 'Anti-magic authority rendered as verdict. Anti-magic bulwark -- dead zones + single powerful horror',
+        description: 'Anti-magic authority rendered as verdict. Anti-magic bulwark — dead zones + single powerful horror',
         color: '#4B0082',
         icon: 'spell_holy_dispelmagic'
       },
       {
         id: 'hollow_saint',
         name: 'Hollow Saint',
-        description: 'A horror caged within the righteous soul. Relentless channeler -- pursuit + internal horror power',
+        description: 'A horror caged within the righteous soul. Relentless channeler — pursuit + internal horror power',
         color: '#8B0000',
         icon: 'ability_hunter_markedfordeath'
       }

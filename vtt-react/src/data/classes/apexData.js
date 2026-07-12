@@ -37,7 +37,7 @@ export const APEX_DATA = {
   reframe: `The <LoreLink termId="mimir">Masked</LoreLink> anchor their identity to a fixed mask, and an Apex among them tracks through the fog with an *identity-stable perception*, the mask holds the self still while the senses range, a fixed point of awareness in the shifting mist. The Masked are the tradition's steadiest trackers, their judgment unclouded by the fog's identity-erosion.`,
   signatureAbility: {
   name: 'Anchor-Sense',
-  description: `A master hunter who has made a trade with the Frostwood fog. The fog takes something -- hearing, speech, taste, a sense the hunter will never recover. In exchange, the hunter learns to read what the fog hides.`,
+  description: `A master hunter who has made a trade with the Frostwood fog. The fog takes something — hearing, speech, taste, a sense the hunter will never recover. In exchange, the hunter learns to read what the fog hides.`,
 
   },
   currentCrisisAngle: `The mist is learning to hide (the foundational crisis), and the Masked feel it as their anchored perception *meeting resistance*, the fog no longer merely erodes, it actively *evades* their senses. Several Masked Apexes have reported the mist *looking back* through their own stabilized perception, as if the thing they are hunting is now hunting through the very clarity they rely on.`,
@@ -173,13 +173,13 @@ export const APEX_DATA = {
  orderName: 'The Silent Hunt',
  founder: {
  name: '<LoreLink termId="sylas">Sylas</LoreLink>',
- status: `Alive, and entirely deaf. A Woven Mimir sentinel on the Ironwood Palisade, Sylas walked into the Frostwood fog after the Greythorn massacre and did not return for seven days. When he came back, he was deaf  --  he had traded his hearing for vibration-sense, the ability to feel the fog's disturbances through his feet, his skin, the air itself. He had stalked and killed the first Gref, a Wyrd entity that steals faces and erases memory of its victims. He has led the Silent Hunt in sign-language ever since.`,
+ status: `Alive, and entirely deaf. A Woven Mimir sentinel on the Ironwood Palisade, Sylas walked into the Frostwood fog after the Greythorn massacre and did not return for seven days. When he came back, he was deaf  —  he had traded his hearing for vibration-sense, the ability to feel the fog's disturbances through his feet, his skin, the air itself. He had stalked and killed the first Gref, a Wyrd entity that steals faces and erases memory of its victims. He has led the Silent Hunt in sign-language ever since.`,
  note: `<LoreLink termId="sylas">Sylas</LoreLink> built the Silent Hunt on a trade the order still honors: give up one sense to sharpen the rest. Every Apex initiate chooses a sacrifice. <LoreLink termId="sylas">Sylas</LoreLink> chose hearing. The mist that is now learning to hide is teaching him that some things cannot be tracked even with every sense paid for.`
  },
  currentLeader: {
   name: '<LoreLink termId="sylas">Silent-Master Sylas</LoreLink>',
   title: 'The First Hunter',
-  characterization: `Deaf, lethal, and patient beyond any living tracker. <LoreLink termId="sylas">Sylas</LoreLink> communicates through a tactile sign-language the Hunt developed specifically because spoken words are unreliable in the <LoreLink termId="frostwood-reach">Frostwood</LoreLink> fog. He leads from the deep ironwood and has tracked the Wyrd that killed Greythorn  --  the first Gref  --  on and off, for forty years. It has never let him close. Lately, it has begun circling *him*.`
+  characterization: `Deaf, lethal, and patient beyond any living tracker. <LoreLink termId="sylas">Sylas</LoreLink> communicates through a tactile sign-language the Hunt developed specifically because spoken words are unreliable in the <LoreLink termId="frostwood-reach">Frostwood</LoreLink> fog. He leads from the deep ironwood and has tracked the Wyrd that killed Greythorn  —  the first Gref  —  on and off, for forty years. It has never let him close. Lately, it has begun circling *him*.`
  },
  headquarters: { name: 'The Still Blind, memorial site near Greythorn (Frostwood Reach)', locationId: 'frostwood-reach' },
  crisisConnection: `<LoreLink termId="sylas">Sylas</LoreLink> is the hunter realizing he has become the hunted. The mist is learning to hide, not randomly but *deliberately*, evading Apex senses that have held for centuries. He has concluded that something large has moved through the Reach for months without leaving trace, and that the something is *teaching the mist to evade the Hunt itself*. The Unwoven trackers who dissolve into the fog to find it are not coming back. <LoreLink termId="sylas">Sylas</LoreLink> is preparing to dissolve into the fog himself, knowing he may not come back either, because he is the only tracker who has ever gotten close, and the thing in the mist has noticed.`
@@ -208,13 +208,13 @@ The mist is learning to hide deliberately. Something large has moved through the
 
  quickOverview: {
   title: "Quick Overview",
-  content: `**Who they are**: A predator who traded a human sense  --  hearing, scent, or touch  --  for the ability to track things that leave no trail. Armed with a shadow glaive and bonded to a loyal beast companion, they hunt the Wyrd through fog, ice, and open steppe.
+  content: `**Who they are**: A predator who traded a human sense  —  hearing, scent, or touch  —  for the ability to track things that leave no trail. Armed with a shadow glaive and bonded to a loyal beast companion, they hunt the Wyrd through fog, ice, and open steppe.
 
-**The hook**: Your power comes from pack coordination, not individual prowess. Strike alongside your beast to build Quarry Marks, then spend them to extend your glaive's chain through entire formations of enemies  --  one swing hitting four or five targets as shadow energy arcs between them.
+**The hook**: Your power comes from pack coordination, not individual prowess. Strike alongside your beast to build Quarry Marks, then spend them to extend your glaive's chain through entire formations of enemies  —  one swing hitting four or five targets as shadow energy arcs between them.
 
-**The cost**: If your companion falls, you generate zero marks and become an ordinary glaive-fighter. If it drops below a quarter health while you hold three or more marks, it frenzies and attacks the nearest living thing  --  friend or foe. The bond runs both ways, and grief is a tactical liability your enemies can exploit.
+**The cost**: If your companion falls, you generate zero marks and become an ordinary glaive-fighter. If it drops below a quarter health while you hold three or more marks, it frenzies and attacks the nearest living thing  —  friend or foe. The bond runs both ways, and grief is a tactical liability your enemies can exploit.
 
-**Bring one for**: The most efficient multi-target melee damage in the game  --  clustered enemies become a single devastating chain, and no other class can match the hunter-and-beast synergy that turns two bodies into one killing unit.`,
+**Bring one for**: The most efficient multi-target melee damage in the game  —  clustered enemies become a single devastating chain, and no other class can match the hunter-and-beast synergy that turns two bodies into one killing unit.`,
  },
 
  description: `The Apex is a master of close-range combat who wields the legendary Shadow Glaive, a weapon capable of chaining deadly strikes between multiple enemies. Accompanied by a loyal beast companion, the Apex excels at hit-and-run tactics, weaving through enemy lines with deadly grace. Through the Quarry Marks system, she builds power through the bond with her companion, Quarry Marks represent pack coordination, not individual prowess. Glaive hits alone generate no marks; it is the synchronized rhythm of hunter and beast that fills the reservoir. This shifting class rewards tactical positioning, companion management, and the synergy between hunter and beast.`,
@@ -222,7 +222,7 @@ The mist is learning to hide deliberately. Something large has moved through the
  roleplayIdentity: {
   title: "Roleplay Identity",
   content: `**HISTORY: THE GENESIS**
-The Apex was born from the Greythorn massacre  --  forty-seven dead at a Thalren timber-camp, killed by a Gref, a Wyrd face-stealer hidden by the Frostwood's memory-eating fog. The Woven Mimir sentinel **Sylas** walked into the fog and did not return for seven days. When he came back, he was deaf  --  he had traded his hearing for the ability to feel the fog's disturbances. He had stalked and killed the first Gref. The Silent Hunt was founded that week at what is now a memorial site in the Frostwood.
+The Apex was born from the Greythorn massacre  —  forty-seven dead at a Thalren timber-camp, killed by a Gref, a Wyrd face-stealer hidden by the Frostwood's memory-eating fog. The Woven Mimir sentinel **Sylas** walked into the fog and did not return for seven days. When he came back, he was deaf  —  he had traded his hearing for the ability to feel the fog's disturbances. He had stalked and killed the first Gref. The Silent Hunt was founded that week at what is now a memorial site in the Frostwood.
 
 **CITIES & CIVIL RECEPTION**
 Apexes are welcomed as essential guides and beast-slayers in every frontier keep, though they rarely speak or enter the civilian sectors.
@@ -3527,7 +3527,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
  { id : "hunt_pack_dependency",
   name: "Pack Dependency",
   description:
-  "When you have no active animal companion, you lose access to all Pack Tactics abilities and your melee attacks deal -1d6 damage. You and your companion are one hunting unit -- without them, you are incomplete.",
+  "When you have no active animal companion, you lose access to all Pack Tactics abilities and your melee attacks deal -1d6 damage. You and your companion are one hunting unit — without them, you are incomplete.",
   level: 3,
   spellType: "PASSIVE",
   icon: "Nature/Wolf Human Split Face",

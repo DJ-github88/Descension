@@ -829,7 +829,7 @@ function analyzeEncounter(type, disp, resultArr) {
   else if (hook === "Wants Trade" && (secret === "Deep in Debt" || secret === "Flees Trouble"))
     realities.push({
       title: "Firesale Liquidation",
-      desc: "They possess highly valuable -- likely traceable or stolen -- goods that they are willing to part with for pennies on the dollar just to get away.",
+      desc: "They possess highly valuable — likely traceable or stolen — goods that they are willing to part with for pennies on the dollar just to get away.",
     });
 
   if (realities.length === 0)

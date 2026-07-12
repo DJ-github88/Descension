@@ -1201,7 +1201,7 @@ CLASS_RESOURCE_TYPES['Arcanoneer'] = {
   },
   {
    id: 'sacred',
-   name: 'Divine',
+    name: 'Sacred',
    color: '#FFD700',
    glowColor: '#FFE55C',
    d8Value: 2,

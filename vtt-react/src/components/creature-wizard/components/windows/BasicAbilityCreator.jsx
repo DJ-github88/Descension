@@ -355,7 +355,7 @@ const BasicAbilityCreator = ({ isOpen, onClose, onCreateAbility }) => {
 
   if (!isOpen) return null;
 
-  const damageTypes = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'divine'];
+  const damageTypes = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'sacred'];
   const stats = ['strength', 'agility', 'constitution', 'intelligence', 'spirit', 'charisma', 'speed', 'maxHp', 'criticalChance'];
   const buffEffectTypes = [
     { value: 'statBoost', label: 'Stat Boost' },

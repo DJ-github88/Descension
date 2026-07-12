@@ -72,7 +72,7 @@ const AuthModal = ({ isOpen, onClose, onLoginTransition, initialMode = 'login' }
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Admin dev-login interception happens first -- bypasses email format
+    // Admin dev-login interception happens first — bypasses email format
     // validation so "admin" (no @) is accepted as the admin email.
     if (mode === 'login' && isAdminLoginCredentials(formData.email, formData.password)) {
       const result = await signInAsAdmin();

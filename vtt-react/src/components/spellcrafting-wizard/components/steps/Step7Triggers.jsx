@@ -878,7 +878,7 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                                     ) : paramName === 'magic_type' ? (
                                       <>
                                         <option value="arcane">Arcane</option>
-                                        <option value="divine">Divine</option>
+                                        <option value="sacred">Sacred</option>
                                         <option value="nature">Nature</option>
                                         <option value="any">Any</option>
                                       </>
@@ -1503,7 +1503,7 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                         const magicType = trigger.parameters.magic_type || 'any';
                         const magicMap = {
                           'arcane': 'arcane magic',
-                          'divine': 'divine magic',
+                          'sacred': 'sacred magic',
                           'nature': 'nature magic',
                           'any': 'any magic'
                         };
@@ -1784,7 +1784,7 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                                     ) : paramName === 'magic_type' ? (
                                       <>
                                         <option value="arcane">Arcane</option>
-                                        <option value="divine">Divine</option>
+                                        <option value="sacred">Sacred</option>
                                         <option value="nature">Nature</option>
                                         <option value="any">Any</option>
                                       </>

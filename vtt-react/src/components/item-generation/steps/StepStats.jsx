@@ -248,7 +248,7 @@ const StepStats = ({ itemData, updateItemData }) => {
                         radiant: {
                             name: 'Radiant Magic',
                             icon: 'Radiant/Radiant Sunburst',
-                            description: 'Magic of light and divine energy',
+                            description: 'Magic of light and sacred energy',
                             color: '#FFFACD'
                         },
                         poison: {

@@ -73,7 +73,7 @@ export const CUSTOM_TRANSFORMATION_TYPES = [
   { id: 'spectral', name: 'Spectral Form', icon: 'Necrotic/Soul Exit', description: 'Become ghostly or ethereal' },
   { id: 'ascended', name: 'Ascended Form', icon: 'Radiant/Divine Illumination', description: 'Transcend mortal limitations temporarily' },
   { id: 'demonic', name: 'Wyrd Form', icon: 'Demonic Transformation', description: 'Take on wyrd-touched characteristics' },
-  { id: 'divine', name: 'Radiant Form', icon: 'Radiant/Radiant Golden Shield', description: 'Channel radiant power through your form' },
+  { id: 'sacred', name: 'Radiant Form', icon: 'Radiant/Radiant Golden Shield', description: 'Channel radiant power through your form' },
   { id: 'primal', name: 'Primal Form', icon: 'Nature/Roar', description: 'Tap into primal, bestial energy' },
   { id: 'blight', name: 'Shadow Form', icon: 'Shadow', description: 'Merge with shadows, becoming darkness' },
   { id: 'arcane', name: 'Arcane Form', icon: 'Arcane/Magical Sword', description: 'Infuse your form with raw arcane energy' }
@@ -787,7 +787,7 @@ const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultForm
                     }}
                     title="Remove transformation target"
                   >
-                    Ã - 
+                    ï¿½ - 
                   </button>
                 </div>
 

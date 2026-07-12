@@ -1,6 +1,6 @@
 ﻿// ============================================
 // INQUISITOR TALENT TREES
-// Righteous Authority System -- RA-Integrated
+// Righteous Authority System — RA-Integrated
 // ============================================
 
 export const INQUISITOR_WITCH_HAMMER = [

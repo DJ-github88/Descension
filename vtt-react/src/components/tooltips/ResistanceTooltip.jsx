@@ -222,12 +222,12 @@ const RESISTANCE_INFO = {
             'Better mental fortitude against chaos'
         ]
     },
-    divine: {
-        name: 'Divine Resistance',
+    sacred: {
+        name: 'Sacred Resistance',
         description: 'Reduces damage from sacred radiance, astral power, and sacred smiting.',
         color: '#DAA520',
         effects: [
-            'Take half damage from divine sources',
+            'Take half damage from sacred sources',
             'Advantage vs. holy and radiant effects',
             'Better resistance to sacred and blessed attacks'
         ]

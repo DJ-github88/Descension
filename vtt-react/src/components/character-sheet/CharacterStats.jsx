@@ -82,8 +82,8 @@ const DAMAGE_TYPES = {
         icon: getCustomIconUrl('Psychic/Psychic Telepathy', 'abilities'),
         color: '#7A2040'
     },
-    divine: {
-        name: 'Divine',
+    sacred: {
+        name: 'Sacred',
         icon: getCustomIconUrl('Radiant/Radiant Divinity', 'abilities'),
         color: '#DAA520'
     },
@@ -408,7 +408,7 @@ export default function CharacterStats() {
         }
 
         // Initialize spell power types if they don't exist (needed for buff effects)
-        const spellDamageTypes = ['ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'divine'];
+        const spellDamageTypes = ['ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'sacred'];
         spellDamageTypes.forEach(type => {
             const spellPowerKey = `${type}SpellPower`;
             if (!totalStats.hasOwnProperty(spellPowerKey)) {
@@ -1279,8 +1279,8 @@ export default function CharacterStats() {
                                     'slashing_resistance': 'physical',
                                     'ember_resistance': 'ember',
                                     'fire_resistance': 'ember',
-                                    'radiant_resistance': 'divine',
-                                    'divine_resistance': 'divine',
+                                    'radiant_resistance': 'sacred',
+                                    'divine_resistance': 'sacred',
                                     'rime_resistance': 'rime',
                                     'frost_resistance': 'rime',
                                     'cold_resistance': 'rime',
@@ -1338,8 +1338,8 @@ export default function CharacterStats() {
                                         'force': 'storm',
                                         'necrotic': 'blight',
                                         'blight': 'blight',
-                                        'radiant': 'divine',
-                                        'divine': 'divine',
+                                        'radiant': 'sacred',
+                                        'divine': 'sacred',
                                         'psychic': 'wyrd',
                                         'wyrd': 'wyrd',
                                         'thunder': 'storm',
@@ -1533,7 +1533,7 @@ export default function CharacterStats() {
                     const multiplier = resistanceData.multiplier || 1.0;
                     
                     if (multiplier < 0) {
-                        return `Heals ${Math.abs(multiplier)}√ -  damage`;
+                        return `Heals ${Math.abs(multiplier)}ÔøΩ -  damage`;
                     } else if (multiplier === 0 || level === 0) {
                         return 'Immune (0% damage)';
                     } else if (multiplier < 1.0) {
@@ -1656,7 +1656,7 @@ export default function CharacterStats() {
                             // Find which items provide this flat reduction
                             // Check both normalized and original damage type (e.g., necrotic and shadow)
                             const checkDamageTypes = damageType === 'blight' ? ['blight', 'necrotic', 'shadow', 'poison', 'acid', 'void'] : 
-                                                   damageType === 'divine' ? ['divine', 'radiant', 'holy'] : 
+                                                    damageType === 'sacred' ? ['sacred', 'radiant', 'holy'] : 
                                                    damageType === 'rime' ? ['rime', 'frost', 'cold', 'ice'] :
                                                    damageType === 'ember' ? ['ember', 'fire'] :
                                                    damageType === 'storm' ? ['storm', 'lightning', 'force', 'thunder'] :
@@ -2225,7 +2225,7 @@ export default function CharacterStats() {
                                         <div className="stat-info">
                                             <span className="stat-label">
                                                 {ability.charAt(0).toUpperCase() + ability.slice(1)} Save:
-                                                {isProficient && <span style={{ color: '#D4AF37', marginLeft: '8px' }}>‚ - è</span>}
+                                                {isProficient && <span style={{ color: '#D4AF37', marginLeft: '8px' }}>ÔøΩ - ÔøΩ</span>}
                                             </span>
                                         </div>
                                     </div>
@@ -2392,7 +2392,7 @@ export default function CharacterStats() {
                     onClick={() => setShowLabels(!showLabels)}
                     title={showLabels ? 'Hide Labels' : 'Show Labels'}
                 >
-                    <span className="stats-toggle-icon">{showLabels ? '‚ - Ä' : '‚ñ∂'}</span>
+                    <span className="stats-toggle-icon">{showLabels ? 'ÔøΩ - ÔøΩ' : '‚ñ∂'}</span>
                 </button>
                 {Object.entries(statGroups).map(([key, group]) => (
                     <button

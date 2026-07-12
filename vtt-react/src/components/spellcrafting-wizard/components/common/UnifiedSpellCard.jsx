@@ -5269,7 +5269,7 @@ const UnifiedSpellCard = ({
                'stance_mastery': 'Stance Mastery',
                'arcane': 'Arcane Transformation',
                'celestial': 'Celestial Transformation',
-               'divine': 'Divine Transformation',
+                'sacred': 'Sacred Transformation',
                'full': 'Full Transformation'
               };
               return typeMap[type] || type.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');

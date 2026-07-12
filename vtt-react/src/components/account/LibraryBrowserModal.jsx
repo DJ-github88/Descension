@@ -151,7 +151,7 @@ const LibraryBrowserModal = ({
                 { id: 'primal', name: 'Primal' },
                 { id: 'blight', name: 'Blight' },
                 { id: 'wyrd', name: 'Wyrd' },
-                { id: 'divine', name: 'Divine' }
+                { id: 'sacred', name: 'Sacred' }
               ]);
             } catch (error) {
               console.error('Failed to load spell data:', error);

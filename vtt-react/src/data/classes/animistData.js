@@ -20,7 +20,7 @@ export const ANIMIST_DATA = {
   },
 
   /**
-   * Subrace Variants  --  the Animist is a single ancestral discovery that spread
+   * Subrace Variants  —  the Animist is a single ancestral discovery that spread
    * across the continent through trade, war, and desperation. Each culture adapted
    * the root technique (the dead remember what the living need) to its own medium:
    * voice, rune, spore, contract, heritage, or archive. The ancestral language
@@ -160,16 +160,16 @@ export const ANIMIST_DATA = {
     orderName: 'The Silent Throat',
     founder: {
       name: 'The First Singer (name lost)',
-      status: `Died unrecorded. The practice predates writing  --  it was navigation, not philosophy. The Ordan do not know who first sang the dead into the wind, only that when the stars went dark, someone began singing ancestor-names and the herds still found their way.`,
-      note: `The Ordan throat-singer who first discovered that the dead remember migration routes when the living no longer can. The name was never written  --  the Ordan had no script, and the throat-singing tradition lives entirely in muscle-memory, teacher to student, voice to voice. Later traditions (Skald, Vreken, Morren, Astril, Velun Neth) all trace their root technique to this lost origin.`
+      status: `Died unrecorded. The practice predates writing  —  it was navigation, not philosophy. The Ordan do not know who first sang the dead into the wind, only that when the stars went dark, someone began singing ancestor-names and the herds still found their way.`,
+      note: `The Ordan throat-singer who first discovered that the dead remember migration routes when the living no longer can. The name was never written  —  the Ordan had no script, and the throat-singing tradition lives entirely in muscle-memory, teacher to student, voice to voice. Later traditions (Skald, Vreken, Morren, Astril, Velun Neth) all trace their root technique to this lost origin.`
     },
     currentLeader: {
       name: '<LoreLink termId="bayar-wind-throat">Bayar Wind-Throat</LoreLink>',
       title: 'Last Singer of the Old Route',
-      characterization: `An Ordan elder who still sings the migration-routes in the pre-Deepening tongue  --  the language that predates the dialect-fracture. Bayar has not spoken a word aloud in forty years; he communicates only through throat-sung overtones, the way the First Singer did. His vocal cords are calcified from decades of channeling ancestors who died before the stars went out. He is the living archive of the oldest form, and he watches the younger traditions drift further from the root with every generation  --  not with anger, but with the patience of someone who knows the dead will correct them eventually.`
+      characterization: `An Ordan elder who still sings the migration-routes in the pre-Deepening tongue  —  the language that predates the dialect-fracture. Bayar has not spoken a word aloud in forty years; he communicates only through throat-sung overtones, the way the First Singer did. His vocal cords are calcified from decades of channeling ancestors who died before the stars went out. He is the living archive of the oldest form, and he watches the younger traditions drift further from the root with every generation  —  not with anger, but with the patience of someone who knows the dead will correct them eventually.`
     },
     headquarters: { name: 'The Sundrift Wind-Shrine (moving camp)', locationId: 'sundrift-vale' },
-    crisisConnection: `Bayar Wind-Throat is the only living Animist who still sings the pre-fracture language. The dialect-fracture is a problem of the dead themselves  --  the oldest dead (those who died before the <LoreLink termId="monoliths">Monoliths</LoreLink> woke) speak clearly. The newer dead are confused, their voices layered with static no throat-singer can parse. Bayar suspects something is wrong with the threshold of death itself, and the Monoliths' awakening is not a cause but a symptom. He cannot prove this, because the evidence is in a language no one else remembers how to hear.`
+    crisisConnection: `Bayar Wind-Throat is the only living Animist who still sings the pre-fracture language. The dialect-fracture is a problem of the dead themselves  —  the oldest dead (those who died before the <LoreLink termId="monoliths">Monoliths</LoreLink> woke) speak clearly. The newer dead are confused, their voices layered with static no throat-singer can parse. Bayar suspects something is wrong with the threshold of death itself, and the Monoliths' awakening is not a cause but a symptom. He cannot prove this, because the evidence is in a language no one else remembers how to hear.`
   },
 
   worldFriction: [
@@ -205,19 +205,19 @@ The ancestral language that all practitioners share is fading. The older dead, t
     subtitle: "Ancestral Conduit and the Triple Toll of Communion",
     quickOverview: {
       title: "Quick Overview",
-      content: `**Who they are**: A walking archive of three dead ancestral traditions  --  totemic bone, spirit curse, and runic inscription  --  fused into a single devastating conduit. They speak three languages simultaneously, and pay for every word in flesh.
+      content: `**Who they are**: A walking archive of three dead ancestral traditions  —  totemic bone, spirit curse, and runic inscription  —  fused into a single devastating conduit. They speak three languages simultaneously, and pay for every word in flesh.
 
-**The hook**: Build Ancestral Resonance by erupting bone totems from your body, carving permanent runic networks into the earth, and spreading spirit curses. Weave all three traditions at once to reshape the entire battlefield  --  then spend your accumulated resonance on devastating invocations and network detonations.
+**The hook**: Build Ancestral Resonance by erupting bone totems from your body, carving permanent runic networks into the earth, and spreading spirit curses. Weave all three traditions at once to reshape the entire battlefield  —  then spend your accumulated resonance on devastating invocations and network detonations.
 
-**The cost**: At 15+ Resonance, the ancestors turn on you. Fire damage doubles against you. Party healing bounces off. Forced movement detonates your entire runic network in your face. And the spirits demand service  --  hoard power without spending and they claw wyrd damage into you every turn.
+**The cost**: At 15+ Resonance, the ancestors turn on you. Fire damage doubles against you. Party healing bounces off. Forced movement detonates your entire runic network in your face. And the spirits demand service  —  hoard power without spending and they claw wyrd damage into you every turn.
 
-**Bring one for**: Unrivaled battlefield terraforming through three simultaneous control systems  --  bone walls, spirit specters, and permanent runic zones that turn any ground into an ancestral kill-box.`,
+**Bring one for**: Unrivaled battlefield terraforming through three simultaneous control systems  —  bone walls, spirit specters, and permanent runic zones that turn any ground into an ancestral kill-box.`,
     },
     description: `A walking archive of three dead traditions, written in scars, bone spurs, and spiritual static. The Animist does not cast magic; they undergo intense physical transformation. Bone erupts from flesh as totems. Glowing sigils ignite across stone. The voices of ancestral spirits whisper through hallucinations that cannot be silenced. Every word of ancestral power risks Spirit Erosion � the more resonance you hoard, the more the ancestors consume you.`,
     roleplayIdentity: {
       title: "Roleplay Identity",
       content: `**HISTORY: ONE DISCOVERY, MANY VOICES**
-The Animist was born not from three founders but from a single crisis. When the stars went dark over the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink>, the Ordan throat-singers discovered that the dead remember what the living forget: the migration routes, the old paths, the names of places no living Ordan had seen. They turned their overtones from star-names to ancestor-names, and this single technique  --  the dead as compass  --  spread along the Hunger Road through trade, through the Bryngloom border through contact, through Neth contract-culture through legal adaptation, through Astril symbiosis through blood-memory, and through Velun Neth archives through citation.
+The Animist was born not from three founders but from a single crisis. When the stars went dark over the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink>, the Ordan throat-singers discovered that the dead remember what the living forget: the migration routes, the old paths, the names of places no living Ordan had seen. They turned their overtones from star-names to ancestor-names, and this single technique  —  the dead as compass  —  spread along the Hunger Road through trade, through the Bryngloom border through contact, through Neth contract-culture through legal adaptation, through Astril symbiosis through blood-memory, and through Velun Neth archives through citation.
 
 There were no three founders. There was one lost Ordan throat-singer whose name was never recorded, a Skald trader who heard the songs at a Groven span-crossing and carved the first ancestor-rune into his own skin, and a Clean Vreken who walked into the bog after trading with Ordan herders and inhaled the first spore with intent. This is how knowledge spreads: through contact, not coincidence.
 
@@ -245,15 +245,15 @@ The root technique originated among the <LoreLink termId="house_ordavan">Ordan</
       paradox: 'The Animist gains power by losing themselves across three dimensions. Physical self (totem eruption leaves permanent bone spurs), mental self (spirit channeling erases memories and causes hallucinations), and spiritual self (runic inscription trades lifespan for permanent records). The greatest Animists are covered in bone spurs, covered in runic scars, and accompanied by spirits only they can see. They have given everything to become everything.'
     },
 
-    currentCrisis: `The ancestral language is fragmenting  --  but not because the traditions have drifted apart. Something is wrong with death itself.
+    currentCrisis: `The ancestral language is fragmenting  —  but not because the traditions have drifted apart. Something is wrong with death itself.
 
-The oldest dead  --  those who died before the <LoreLink termId="monoliths">Monoliths</LoreLink> woke  --  still speak clearly. Their voices come through bone, rune, spore, and contract with perfect fidelity, across every cultural dialect. Bayar Wind-Throat can still sing their overtones without static. The Skald runes carved for pre-Deepening ancestors still glow steady. The Vreken spores carrying pre-Bog ancestors still bloom in clean patterns.
+The oldest dead  —  those who died before the <LoreLink termId="monoliths">Monoliths</LoreLink> woke  —  still speak clearly. Their voices come through bone, rune, spore, and contract with perfect fidelity, across every cultural dialect. Bayar Wind-Throat can still sing their overtones without static. The Skald runes carved for pre-Deepening ancestors still glow steady. The Vreken spores carrying pre-Bog ancestors still bloom in clean patterns.
 
-The newer dead are... confused. Their voices layer with static no throat-singer can parse. Runes carved for ancestors who died within the last two centuries flicker, migrate, or go cold. Spores carrying recently-deceased memory produce bioluminescence that spells words in languages no living culture recognizes. Morren debt-ancestors who died after the Monoliths woke are refusing to acknowledge renegotiations  --  demanding original terms in a language the living no longer speak, and in some cases, a language that never existed.
+The newer dead are... confused. Their voices layer with static no throat-singer can parse. Runes carved for ancestors who died within the last two centuries flicker, migrate, or go cold. Spores carrying recently-deceased memory produce bioluminescence that spells words in languages no living culture recognizes. Morren debt-ancestors who died after the Monoliths woke are refusing to acknowledge renegotiations  —  demanding original terms in a language the living no longer speak, and in some cases, a language that never existed.
 
-The Animists call this the Fading. The dead are not fragmenting because the traditions divided. The traditions are dividing because the dead are fragmenting  --  and every Animist, regardless of culture, is trying to hold a conversation with ancestors who increasingly do not speak the same language as each other.
+The Animists call this the Fading. The dead are not fragmenting because the traditions divided. The traditions are dividing because the dead are fragmenting  —  and every Animist, regardless of culture, is trying to hold a conversation with ancestors who increasingly do not speak the same language as each other.
 
-Some senior practitioners  --  Bayar Wind-Throat among them  --  suspect the Monoliths are not the cause but a symptom. Whatever is wrong with death began when the Monoliths woke, but it predates them. The threshold between life and death has been... thinning. Or thickening. No one can agree which. But the dead who cross it now are not the same as the dead who crossed it before, and the ancestral language  --  the single root tongue that connects every Animist tradition back to that first Ordan throat-singer  --  is eroding from the far end.`,
+Some senior practitioners  —  Bayar Wind-Throat among them  —  suspect the Monoliths are not the cause but a symptom. Whatever is wrong with death began when the Monoliths woke, but it predates them. The threshold between life and death has been... thinning. Or thickening. No one can agree which. But the dead who cross it now are not the same as the dead who crossed it before, and the ancestral language  —  the single root tongue that connects every Animist tradition back to that first Ordan throat-singer  —  is eroding from the far end.`,
 
     meaningfulTradeoffs: `To be an Animist is to never be comfortable in any environment. Buildings feel wrong to the totemic tradition (earth blocked). Cities feel overwhelming to the spirit tradition (too many spiritual echoes). Libraries feel dangerous to the runic tradition (the ink competes with blood-inscriptions). The Animist needs the wilderness for totems, the spiritual liminal spaces for invocations, and solid stone for runic carving. Finding all three in one place is nearly impossible, so they are perpetually homesick for a place that may not exist.`,
 
@@ -868,13 +868,13 @@ Some senior practitioners  --  Bayar Wind-Throat among them  --  suspect the Mon
       spellType: "ACTION",
       icon: "Healing/Golden Heart",
       effectTypes: ["healing"],
-      typeConfig: { school: "divine", icon: "Healing/Golden Heart", tags: ["healing","invocation"], castTime: 1, castTimeType: "IMMEDIATE" },
+      typeConfig: { school: "sacred", icon: "Healing/Golden Heart", tags: ["healing","invocation"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "self_centered", rangeDistance: undefined, targetRestrictions: ["allies"], areaShape: "circle", areaSize: 30 },
       resourceCost: { components: ['verbal', 'somatic'], actionPoints: 2, mana: 14, classResource: { type: "resonance", cost: 8 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
       healingConfig: { formula: "6d6 + spirit", healingType: "zone", resolution: "DICE" },
       resolution: "DICE",
-      tags: ["healing","invocation","divine"]
+      tags: ["healing","invocation","sacred"]
     ,
 
   somaticText: "Trace the target's silhouette in the air with a bloodied fingertip, anchoring the spirit to your will.",

@@ -238,14 +238,14 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
         locationId: 'the-sunken-spire',
         description: 'A deep chamber beneath the Sunken Spire where Inquisitors undergo their initiation. The walls are hung with the cold-iron blades of every Inquisitor who has taken the oath, and the floor is carved with containment circles for binding rituals.',
         purpose: 'Initiation hall, armory, ritual space, and memorial',
-        status: 'Active -- but the newest blades are being hung by people whose families now glow in the dark'
+        status: 'Active — but the newest blades are being hung by people whose families now glow in the dark'
       },
       {
         name: 'The Salt-Pans of Greymark',
         locationId: 'greymark-keep',
         description: 'A ritual space beneath Greymark Keep where Inquisitors prepare null-salt mixtures and forge binding chains. Containment circles carved into the stone floor hold bound entities in stasis.',
         purpose: 'Ritual preparation, entity containment, and training',
-        status: 'Active -- operating at capacity'
+        status: 'Active — operating at capacity'
       }
     ],
 
@@ -260,7 +260,7 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
 
 **The Strength of the Twin Doctrine**:
 - Systematically strips casters of their safety while binding their summoned creatures against them
-- Every spell cast at you fuels your Authority -- their arrogance builds your negation
+- Every spell cast at you fuels your Authority — their arrogance builds your negation
 - Protective dead-magic fields shield allies from ruinous spells
 - Devastating ember damage that burns away magical wards
 - Bound demons provide raw physical force and supernatural damage
@@ -307,7 +307,7 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
 - Position yourself in the trajectory of enemy spells to fuel your Authority
 - Maintain your silver coating or watch your anti-magic efficiency fail
 - Coordinate with your party: they protect you from physical steel, you devour the witches and demons
-- Keep your bound demons on a short leash -- every command costs Authority, and at 0 they rebel`,
+- Keep your bound demons on a short leash — every command costs Authority, and at 0 they rebel`,
     },
 
     combatExampleVsEvil: {
@@ -316,7 +316,7 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
 
 **Starting State**: HP: 85/85 | Authority: 0/8 | Shadow Hound DD: d8
 
-**Round 1 -- Scent the Blood and Loose the Hound**
+**Round 1 — Scent the Blood and Loose the Hound**
 
 *The witch screams, fingers tracing fire in the air.*
 
@@ -330,7 +330,7 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
 
 *Authority: 1 -> 2 (striking supernatural + hound hits supernatural)*
 
-**Round 2 -- The Breaking**
+**Round 2 — The Breaking**
 
 *The witch hurls a crackling firestorm at you.*
 
@@ -341,7 +341,7 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
 
 *The hound attacks again. DD degrades: d8 -> d6. The chains strain.*
 
-**Round 3 -- Iron Verdict**
+**Round 3 — Iron Verdict**
 
 *The witch desperately gathers mana for a terminal spell. The hound snaps at the air.*
 
@@ -355,7 +355,7 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
 
 *Authority: 1 -> 2 (purge action on bound entity)*
 
-**Round 4 -- Terminal Execution**
+**Round 4 — Terminal Execution**
 
 *The witch lies bleeding, magic broken. The wraith is ash.*
 
@@ -373,12 +373,12 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
 
 **Key Insight**: You have no magic to feed on. Your Authority decays. Your bones are brittle. But your hound does not care about magic.
 
-**Round 1 -- Cold Iron and Chain**
+**Round 1 — Cold Iron and Chain**
 
 *Three bandits rush from the brush, swords raised.*
 
 **Your Action**: Activate Null-Salts Strike (1 AP) -> Strike the closest bandit
-**Effect**: +1d6 blight damage (reduced -- they carry no active magic)
+**Effect**: +1d6 blight damage (reduced — they carry no active magic)
 
 *Authority: 2 -> 1 (decay, no supernatural contact)*
 
@@ -387,12 +387,12 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
 
 *Authority: 1 -> 0 (hound hits mundane, but hound itself is supernatural, so +1)*
 
-**Round 2 -- The Hollow**
+**Round 2 — The Hollow**
 
 *The bandit chief sweeps a heavy axe toward your chest.*
 
 **Your Action**: Ash Step (costs 1 Authority, 1 AP) -> Dash 30ft, advantage on next strike
-*Cannot afford -- Authority is at 0. Demon rebellion check triggered.*
+*Cannot afford — Authority is at 0. Demon rebellion check triggered.*
 
 **The Crisis**: At 0 Authority, your Shadow Hound's DD drops to d6 automatically. Rebellion Save: Spirit DC 12. Rolls... 8. The hound snarls but holds. For now.
 
@@ -416,7 +416,7 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
         color: "#2F2F4F",
         theme: "Stealth Assassination + Demon Swarm",
         description: "Witch Hammers are shadow-stalking horror generals who combine the Covenbane Shadowbane tradition of stealth assassination with the Exorcist Demonologist's talent for commanding multiple bound entities. They dissolve into darkness, mark their prey, and unleash a pack of chained horrors from the Silence. Their legion of demons compensates for their fragile bodies, turning the battlefield into a coordinated hunt where nothing supernatural escapes.",
-        playstyle: "Stealth assassin with horror swarm support -- mark targets from shadow, loose demons to shred, execute from invisibility",
+        playstyle: "Stealth assassin with horror swarm support — mark targets from shadow, loose demons to shred, execute from invisibility",
         strengths: [
           "Can bind up to 4 demons simultaneously (Demonologist legacy)",
           "Stealth attacks gain +2d6 blight damage and automatically crit at 3+ Authority",
@@ -440,7 +440,7 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
         color: "#4F2F2F",
         theme: "Anti-Magic Bulwark + Single Powerful Demon",
         description: "Iron Verdicts are the ultimate anti-magic fortresses, combining the Covenbane Spellbreaker's mastery of magical negation with the Exorcist Demon Lord's covenant of mutual destruction with a single devastating horror. They create dead-magic zones, counter every spell, and empower their singular bound beast into an apocalyptic force. When the horror attacks, reality cracks. When it falters, the Inquisitor bleeds to restore the chain.",
-        playstyle: "Anti-magic tank with one devastating horror -- create dead zones, counter spells, empower single horror to annihilate",
+        playstyle: "Anti-magic tank with one devastating horror — create dead zones, counter spells, empower single horror to annihilate",
         strengths: [
           "Can bind Tier 4 Greater Demons (most powerful)",
           "Bound horror has +2 to all stats, DD degrades every 2 actions",
@@ -449,7 +449,7 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
         ],
         weaknesses: [
           "Can only bind 1 horror at a time",
-          "All eggs in one basket -- no backup if horror escapes or dies",
+          "All eggs in one basket — no backup if horror escapes or dies",
           "Greater Demons start at d6 DD (hardest to control)",
           "Less mobile than other specs",
         ],
@@ -464,7 +464,7 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
         color: "#4F4F2F",
         theme: "Relentless Pursuit + Internal Demon Channeling",
         description: "Hollow Saints are relentless executioners who combine the Covenbane Demonhunter's unstoppable pursuit with the Exorcist Possessed's internal channeling of Wyrd-essence. They do not bind demons externally; they invite them into their own flesh, gaining supernatural physical power at the cost of constant internal warfare. They track supernatural targets by scent, cannot be stopped, and when their internal horror seizes control, it becomes an apocalyptic force directed at their enemies.",
-        playstyle: "Relentless pursuer with self-buffs and internal horror -- track, chase, channel horror power, risk losing control for devastation",
+        playstyle: "Relentless pursuer with self-buffs and internal horror — track, chase, channel horror power, risk losing control for devastation",
         strengths: [
           "Gain +2 Strength, +2 Constitution, +10 speed from internal channeling",
           "Melee attacks deal additional 1d8 blight damage",
@@ -522,9 +522,9 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
         ["Strike a supernatural target", "+1", "Anti-magic begets anti-magic"],
         ["Defeat supernatural enemy", "+2", "The ultimate reward for a successful hunt"],
         ["Purge curse/CC from ally", "+1", "Cleansing the corruption"],
-        ["Weapon Attack (Mundane Target)", "+0", "NO AUTHORITY -- you need the supernatural"],
-        ["Defeat Mundane Enemy", "+0", "NO AUTHORITY -- a hollow victory"],
-        ["No supernatural event this round", "-1", "The Hollow -- authority decays"],
+        ["Weapon Attack (Mundane Target)", "+0", "NO AUTHORITY — you need the supernatural"],
+        ["Defeat Mundane Enemy", "+0", "NO AUTHORITY — a hollow victory"],
+        ["No supernatural event this round", "-1", "The Hollow — authority decays"],
         ["Command bound entity", "+0", "Commands are free above 0 Authority; risky at 0"],
       ],
     },
@@ -569,7 +569,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
 
 **Phase 3: Judgment (5-8 Authority)**: Unleash terminal executions, anti-magic storms, or apex transformations. Against supernatural casters, these are fight-ending abilities.
 
-**The Hollow Risk**: Keep Authority above 1 at all times. At 0, your horror rebels. Plan an escape route for your horror if Authority is dropping -- dismiss is better than rebellion.`,
+**The Hollow Risk**: Keep Authority above 1 at all times. At 0, your horror rebels. Plan an escape route for your horror if Authority is dropping — dismiss is better than rebellion.`,
     },
 
     playingInPerson: {
@@ -1298,7 +1298,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
           {
             id : "radiant_vulnerability",
             name: "Radiant Vulnerability",
-            description: "Vulnerable to ember damage from all sources -- ember damage taken is doubled",
+            description: "Vulnerable to ember damage from all sources — ember damage taken is doubled",
             statPenalty: {
               stat: "radiant_vulnerability",
               value: 100,

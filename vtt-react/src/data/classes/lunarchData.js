@@ -2,7 +2,7 @@
  * Lunarch Class Data
  *
  * The Vessel of the Lunar Parasite. An ancient, unfeeling celestial entity has
- * burrowed into the Lunarch's nervous system. The moon is not their ally -- it
+ * burrowed into the Lunarch's nervous system. The moon is not their ally — it
  * is a cold, parasitic predator that feeds on memory, sensation, sanity, and
  * vitality in exchange for devastating cosmic power.
  */
@@ -154,7 +154,7 @@ export const LUNARCH_DATA = {
     founder: {
       name: '<LoreLink termId="selene">Selene of House Viridane</LoreLink>',
       status: `Alive, but silent. Selene bargained with the wildwood fae in the moonlit groves and bound a lunar parasite to her bones. Three weeks ago she stopped speaking <LoreLink termId="briaran">Briaran</LoreLink> and began whispering in a language the elders cannot identify, older than the fae-contract, older than the dead moon.`,
-      note: `The first Lunarch. Her parasite was believed singular; the discovery that the dead moon is a fallen star  --  and the "egg" a folk misunderstanding  --  has rendered her silence terrifying rather than merely concerning.`
+      note: `The first Lunarch. Her parasite was believed singular; the discovery that the dead moon is a fallen star  —  and the "egg" a folk misunderstanding  —  has rendered her silence terrifying rather than merely concerning.`
     },
     currentLeader: {
       name: '<LoreLink termId="bri-vessela">Regent Bri-Vessela</LoreLink>',
@@ -185,18 +185,18 @@ The elder parasites are communicating across their hosts. They are planning some
 
     quickOverview: {
       title: "Quick Overview",
-      content: `**Who they are**: A host to an ancient celestial parasite that has threaded tendrils of starlight through their nervous system and refuses to leave. The moon is not a symbol of hope  --  it is a cold, alien predator that has been feeding on dying stars since before flesh existed, and it chose them without asking permission.
+      content: `**Who they are**: A host to an ancient celestial parasite that has threaded tendrils of starlight through their nervous system and refuses to leave. The moon is not a symbol of hope  —  it is a cold, alien predator that has been feeding on dying stars since before flesh existed, and it chose them without asking permission.
 
-**The hook**: Every three rounds the parasite forcibly rewrites your physiology, cycling through four lunar phases  --  memory-eating New Moon, sensation-harvesting Waxing, sanity-eroding Full Moon, and vitality-draining Waning. Each phase grants devastating new abilities but extracts a different nutrient from your body. You must weaponize the horror.
+**The hook**: Every three rounds the parasite forcibly rewrites your physiology, cycling through four lunar phases  —  memory-eating New Moon, sensation-harvesting Waxing, sanity-eroding Full Moon, and vitality-draining Waning. Each phase grants devastating new abilities but extracts a different nutrient from your body. You must weaponize the horror.
 
-**The cost**: Standard magical healing deals wyrd damage to you  --  the parasite devours foreign magic. Bludgeoning trauma ruptures your parasite-interlaced organs at +25%. Every phase shift deals damage and forces a roll on the Transition Shock Table. Your body is a crime scene the parasite refuses to leave.
+**The cost**: Standard magical healing deals wyrd damage to you  —  the parasite devours foreign magic. Bludgeoning trauma ruptures your parasite-interlaced organs at +25%. Every phase shift deals damage and forces a roll on the Transition Shock Table. Your body is a crime scene the parasite refuses to leave.
 
 **Bring one for**: The only class that can warp the passage of rounds on the battlefield, imposing a cosmic feeding cycle on enemies and turning your own parasitic affliction into a weapon that spreads phase-corresponding devastation across the entire fight.`,
     },
 
-    description: `The Lunarch is not a priest. The Lunarch is a host -- a walking crime scene where an ancient, unfeeling celestial parasite has burrowed into the nervous system and refused to leave. The moon is not a symbol of hope or guidance; it is a cold, alien predator that has been feeding on the light of dying stars since before flesh existed. When it chose the Lunarch, it did not ask permission. It seeped into their spine through the soft tissue at the base of the skull, threaded tendrils of starlight through their nerve clusters, and began to feed.
+    description: `The Lunarch is not a priest. The Lunarch is a host — a walking crime scene where an ancient, unfeeling celestial parasite has burrowed into the nervous system and refused to leave. The moon is not a symbol of hope or guidance; it is a cold, alien predator that has been feeding on the light of dying stars since before flesh existed. When it chose the Lunarch, it did not ask permission. It seeped into their spine through the soft tissue at the base of the skull, threaded tendrils of starlight through their nerve clusters, and began to feed.
 
-The Lunar Cycle is not a tool. It is the parasite's feeding schedule. Every three rounds, it rewrites the host's physiology to extract a different nutrient: memory during the New Moon, physical sensation during the Waxing, sanity during the Full, and raw vitality during the Waning. Each shift tears flesh along invisible seams where starlight has replaced connective tissue. The Lunarch cannot stop it. They can only direct it -- choosing which horror to embrace, weaponizing the parasite's hunger against their enemies, and hoping their body holds together long enough to matter.
+The Lunar Cycle is not a tool. It is the parasite's feeding schedule. Every three rounds, it rewrites the host's physiology to extract a different nutrient: memory during the New Moon, physical sensation during the Waxing, sanity during the Full, and raw vitality during the Waning. Each shift tears flesh along invisible seams where starlight has replaced connective tissue. The Lunarch cannot stop it. They can only direct it — choosing which horror to embrace, weaponizing the parasite's hunger against their enemies, and hoping their body holds together long enough to matter.
 
 No other class can manipulate the passage of rounds on the battlefield. No other class can impose a cosmic feeding cycle on their enemies, spreading phase-corresponding afflictions across an entire fight. But the cost is absolute: the Lunarch is immune to standard magical healing, their parasite-interlaced organs rupture catastrophically under bludgeoning trauma, and every phase shift is a gamble with the Transition Shock Table. The Lunarch does not win fights through strength. They win by making the battlefield as hostile to existence as their own body has become.`,
 
@@ -223,12 +223,12 @@ The class is exclusively practiced by the <LoreLink termId="briaran">Briaran</Lo
     },
 
     philosophy: {
-      coreTenet: 'We thought the moon  --  Vael, the old songs called it  --  was dead, its ghost a pale recording of a celestial body no longer there. The elders have since learned the truth: Vael was never a corpse but a dormant star, a sleeping deity whose slumber has no known cause. When the Broken Seal cracked, the largest fragment of that fallen star broke away and plunged into the Frostwood\'s groves  --  and from that fragment hatched the lunar parasites now bonded to our bones. Some Lunarch lore still speaks of the fallen star as an "egg," though in truth it was a star, not a shell waiting to hatch; and Keth-Amar itself later nested in the corpse-star\'s hollow. We drew power from absence because absence was all we understood. Now we must learn to draw power from what is waking.',
+      coreTenet: 'We thought the moon  —  Vael, the old songs called it  —  was dead, its ghost a pale recording of a celestial body no longer there. The elders have since learned the truth: Vael was never a corpse but a dormant star, a sleeping deity whose slumber has no known cause. When the Broken Seal cracked, the largest fragment of that fallen star broke away and plunged into the Frostwood\'s groves  —  and from that fragment hatched the lunar parasites now bonded to our bones. Some Lunarch lore still speaks of the fallen star as an "egg," though in truth it was a star, not a shell waiting to hatch; and Keth-Amar itself later nested in the corpse-star\'s hollow. We drew power from absence because absence was all we understood. Now we must learn to draw power from what is waking.',
       relationship: 'The lunar parasite is not a symbiont, it is a predator that has learned to keep its host alive. It feeds on specific human experiences: the New Moon feeds on hope, the Waxing on anticipation, the Full on ecstasy, the Waning on memory. It cycles through these phases relentlessly, consuming whatever emotional energy the host is producing at that moment. The host is not in control. The parasite decides when to hunt, and the host is left to pick up the pieces of their own psyche afterward.',
       paradox: 'The Lunarch is at their most powerful when the parasite is at its most active, the Full Moon phase brings devastating power, but it consumes the host\'s most precious memories. A Lunarch who cycles through too many Full Moons will forget their own name, their family, their reason for fighting. The parasite remembers for them, but the parasite does not care. It will cheerfully trade a moment of transcendent power for a decade of the host\'s most cherished experiences.'
     },
 
-    currentCrisis: `The dead moon is calling its children home. For centuries, the lunar parasite that binds to Lunarchs was believed to be a singular entity, a fragment of the long-dead moon that persisted in orbit. The Briaran elders have discovered otherwise: the dead moon was no mere ghost but a fallen star, and the parasites are not the children of an egg  --  they are the brood hatched from the great fragment that broke off the star and fell into the Frostwood's groves, now bonded to our bones. The "egg" was always a folk misunderstanding of the fallen star.
+    currentCrisis: `The dead moon is calling its children home. For centuries, the lunar parasite that binds to Lunarchs was believed to be a singular entity, a fragment of the long-dead moon that persisted in orbit. The Briaran elders have discovered otherwise: the dead moon was no mere ghost but a fallen star, and the parasites are not the children of an egg  —  they are the brood hatched from the great fragment that broke off the star and fell into the Frostwood's groves, now bonded to our bones. The "egg" was always a folk misunderstanding of the fallen star.
 
 The elder parasites, those bonded to the first Lunarchs, are beginning to communicate with each other across their hosts. They are planning something. Selene of House Viridane has been silent for three weeks, staring at the sky, occasionally whispering in a language that no living person speaks. The Briaran shamans have placed her in isolation, but they cannot stop the parasite from cycling through its phases.       When the next Full Moon comes, they do not know if Selene will still be Selene, or if she will be something the fallen star has been waiting for.`,
 
@@ -249,49 +249,49 @@ The elder parasites, those bonded to the first Lunarchs, are beginning to commun
       content: `**Primary Role**: Battlefield cycle manipulator and phase-contagion spreader with adaptive damage potential
 
 **What You Bring That No One Else Can**:
-- Distort the passage of rounds -- add or remove rounds from active effects on the battlefield
+- Distort the passage of rounds — add or remove rounds from active effects on the battlefield
 - Impose phase-specific vulnerabilities on enemies across the entire battlefield
 - Force enemies to "sync" with your current phase, applying phase-corresponding debuffs (memory loss, pain amplification, radiant vulnerability, life drain)
 - The only class that can weaponize a feeding cycle as a battlefield-wide control mechanism
 
 **Combat Strengths**:
 - Unmatched battlefield control through phase contagion and round manipulation
-- Devastating burst damage during Full Moon (Sanity Erosion) -- +2d8 radiant, crit 19-20, ignores 50% DR
-- Vampiric sustain during Waning Moon (Vitality Drain) -- 25% of damage dealt returns as healing
-- Extreme survivability during New Moon (Memory Eater) -- +3 DR, immune to charm/fear
+- Devastating burst damage during Full Moon (Sanity Erosion) — +2d8 radiant, crit 19-20, ignores 50% DR
+- Vampiric sustain during Waning Moon (Vitality Drain) — 25% of damage dealt returns as healing
+- Extreme survivability during New Moon (Memory Eater) — +3 DR, immune to charm/fear
 - Every phase shift creates a reality pulse that can be weaponized against nearby enemies
 
 **Combat Weaknesses (The Fatal Flaw)**:
 - **Celestial Rejection**: +25% vulnerability to Bludgeoning damage (your starlight-infused organs rupture under blunt trauma)
-- **Healing Immunity**: Standard magical healing deals wyrd damage to you equal to 50% of the heal amount -- the parasite devours foreign magic and converts it to wyrd feedback
-- **Transition Shock**: Every phase shift (natural or manual) forces a roll on the Transition Shock Table (1d6) -- you may take extra damage, lose mana, lose AP, or go blind
+- **Healing Immunity**: Standard magical healing deals wyrd damage to you equal to 50% of the heal amount — the parasite devours foreign magic and converts it to wyrd feedback
+- **Transition Shock**: Every phase shift (natural or manual) forces a roll on the Transition Shock Table (1d6) — you may take extra damage, lose mana, lose AP, or go blind
 - **Self-Destructive Economy**: Natural cycle shifts deal 2d6 blight damage every 3 rounds. Manual shifts cost 8 mana + 1d8+2 necrotic. You are always bleeding.
-- **Full Moon Delirium**: During Sanity Erosion, you must roll on the Delirium Table each turn -- you may attack allies, lose AP, or take wyrd damage
+- **Full Moon Delirium**: During Sanity Erosion, you must roll on the Delirium Table each turn — you may attack allies, lose AP, or take wyrd damage
 
 **Optimal Positioning**:
-Medium range (30-60 feet), close enough to spread phase contagion to enemies but far enough to avoid the bludgeoning attacks that will rupture your organs. Position near allies during Waxing Moon so they benefit from your redirected parasite-feeding (Sanguine Warden). Stay far from allies during Full Moon -- the Delirium Table may force you to attack them.`,
+Medium range (30-60 feet), close enough to spread phase contagion to enemies but far enough to avoid the bludgeoning attacks that will rupture your organs. Position near allies during Waxing Moon so they benefit from your redirected parasite-feeding (Sanguine Warden). Stay far from allies during Full Moon — the Delirium Table may force you to attack them.`,
     },
 
     playstyle: {
       title: "Playstyle & Strategy",
       content: `**Phase Management (Choose Your Suffering)**:
-The Lunarch does not choose whether to suffer -- only HOW. Each phase is a different flavor of horror:
+The Lunarch does not choose whether to suffer — only HOW. Each phase is a different flavor of horror:
 
-- **New Moon (Memory Eater)**: The parasite feeds on cognition. +3 DR, immune to charm/fear, but -2 to attacks and lose 1d4 mana/turn. Use this when you're being targeted and need to survive. You are a passenger in your own body -- the parasite drives, and it has excellent reflexes but terrible aim.
+- **New Moon (Memory Eater)**: The parasite feeds on cognition. +3 DR, immune to charm/fear, but -2 to attacks and lose 1d4 mana/turn. Use this when you're being targeted and need to survive. You are a passenger in your own body — the parasite drives, and it has excellent reflexes but terrible aim.
 - **Waxing Moon (Sensation Harvest)**: The parasite feeds on nerve endings. +1d6 damage, +10ft speed, advantage on perception, but take 1d4 blight/turn and CANNOT be healed by any means. Use this for aggressive repositioning and damage bursts when you're healthy enough to absorb the feeding.
-- **Full Moon (Sanity Erosion)**: The parasite floods your brain with cosmic signal. +2d8 radiant, crit 19-20, ignores 50% DR, but roll Delirium each turn and lose 5 max HP/round. This is your nuclear option -- devastating but self-destructive. Never stay here longer than you must.
+- **Full Moon (Sanity Erosion)**: The parasite floods your brain with cosmic signal. +2d8 radiant, crit 19-20, ignores 50% DR, but roll Delirium each turn and lose 5 max HP/round. This is your nuclear option — devastating but self-destructive. Never stay here longer than you must.
 - **Waning Moon (Vitality Drain)**: The parasite drinks your life force. -3 mana costs, +10ft spell range, debuffs last +1 round, 25% vampiric healing, but -2 DR, -10ft speed, -10 max HP. Use this to recover through vampirism while controlling the field.
 
 **The Transition Shock Table**:
 Every shift (natural or manual), roll 1d6:
 | d6 | Effect |
 |---|---|
-| 1 | Tissue Strain -- Take 2d6 necrotic as flesh strains along starlight seams |
-| 2 | Synaptic Flash -- Blinded for 1 round as the parasite reroutes your optic nerves |
-| 3 | Mana Hemorrhage -- Lose 2d4 mana as the parasite drains arcane reserves |
-| 4 | Temporal Dissonance -- Lose 1 AP on your next turn as time stutters |
-| 5 | Psychic Whiplash -- Take 1d6 wyrd damage, disadvantage on next save |
-| 6 | Parasitic Mercy -- Only 1 blight damage. The parasite is sated... for now |
+| 1 | Tissue Strain — Take 2d6 necrotic as flesh strains along starlight seams |
+| 2 | Synaptic Flash — Blinded for 1 round as the parasite reroutes your optic nerves |
+| 3 | Mana Hemorrhage — Lose 2d4 mana as the parasite drains arcane reserves |
+| 4 | Temporal Dissonance — Lose 1 AP on your next turn as time stutters |
+| 5 | Psychic Whiplash — Take 1d6 wyrd damage, disadvantage on next save |
+| 6 | Parasitic Mercy — Only 1 blight damage. The parasite is sated... for now |
 
 **The Healing Problem**:
 You CANNOT be healed by standard magical means. A cleric casting healing spells on you deals wyrd damage instead. Your only recovery options are: Waning Moon vampirism (25% of damage dealt), Sanguine Warden blood-rites (cost your own HP), and specific self-damage spells that convert parasite-feeding into temporary sustenance. Plan accordingly.
@@ -304,18 +304,18 @@ Your unique utility. Key abilities let you add or remove rounds from effects, ex
 
     immersiveCombatExample: {
       title: "Combat Example: The Parasite Feeds",
-      content: `**The Setup**: You are a Level 4 Lunarch (Hollow Sentinel). Your nervous system hosts a celestial parasite that rewrites your flesh every 3 rounds. You are fighting 3 Corpse-Weavers (undead, bludgeoning attacks -- your worst nightmare) and 1 Corpse-Weaver Matriarch. Starting Phase: New Moon. Starting Mana: 50/60. HP: 55/65. Your Phylactery... you don't have one. You just have scars that glow in the dark.
+      content: `**The Setup**: You are a Level 4 Lunarch (Hollow Sentinel). Your nervous system hosts a celestial parasite that rewrites your flesh every 3 rounds. You are fighting 3 Corpse-Weavers (undead, bludgeoning attacks — your worst nightmare) and 1 Corpse-Weaver Matriarch. Starting Phase: New Moon. Starting Mana: 50/60. HP: 55/65. Your Phylactery... you don't have one. You just have scars that glow in the dark.
 
 **Starting State**: Phase: New Moon (Memory Eater) | Mana: 50/60 | HP: 55/65 | Round: 1
 
-**NEW MOON -- THE MEMORY EATER (Rounds 1-3)**
+**NEW MOON — THE MEMORY EATER (Rounds 1-3)**
 
-**Turn 1 -- The Parasite Takes the Reins (Phase: New Moon, Round 1/3)**
+**Turn 1 — The Parasite Takes the Reins (Phase: New Moon, Round 1/3)**
 
-*The Corpse-Weavers emerge from the darkness, their limbs clicking. You feel the parasite stir at the base of your skull -- cold, hungry, patient. New Moon. It is feeding on your memories. Your mother's face is already blurry.*
+*The Corpse-Weavers emerge from the darkness, their limbs clicking. You feel the parasite stir at the base of your skull — cold, hungry, patient. New Moon. It is feeding on your memories. Your mother's face is already blurry.*
 
 **New Moon (Memory Eater) Active**:
-- +3 DR (parasite controls motor function -- your body dodges before you think)
+- +3 DR (parasite controls motor function — your body dodges before you think)
 - Immune to Charm and Fear
 - -2 to all attack rolls (you can barely remember how to aim)
 - Lose 1d4 mana at start of turn (the parasite eats thought)
@@ -335,36 +335,36 @@ Your unique utility. Key abilities let you add or remove rounds from effects, ex
 **HP**: 55 - 2 = 53/65
 **Mana**: 47 - 4 = 43/60
 
-*The bolt punches through the Weaver's carapace. Cold white light bleeds from the wound. You feel a distant kinship with the thing -- something alien lives in both of you.*
+*The bolt punches through the Weaver's carapace. Cold white light bleeds from the wound. You feel a distant kinship with the thing — something alien lives in both of you.*
 
 **Corpse-Weaver #2's Turn**: Attacks you with bludgeoning slam!
 **Attack Roll**: d20+5 ? [15] = Hit!
 **Damage**: 1d8+3 bludgeoning ? [7] + 3 = 10 bludgeoning
 **CELESTIAL REJECTION (Fatal Flaw)**: +25% vulnerability to Bludgeoning ? 10, 1.25 = **12 bludgeoning damage**
 
-*The slam connects with your ribs. You feel something SHIFT inside -- not bone breaking, but the parasite's tendrils being jostled. Starlight bleeds from the impact site. Pain is distant. The Memory Eater is consuming the part of you that processes agony.*
+*The slam connects with your ribs. You feel something SHIFT inside — not bone breaking, but the parasite's tendrils being jostled. Starlight bleeds from the impact site. Pain is distant. The Memory Eater is consuming the part of you that processes agony.*
 
 **HP**: 53 - 12 = 41/65
 
 **Current State**: Phase: New Moon (Round 1/3) | Mana: 43/60 | HP: 41/65
 
-**Turn 2 -- Paying in Flesh (Phase: New Moon, Round 2/3)**
+**Turn 2 — Paying in Flesh (Phase: New Moon, Round 2/3)**
 
 **Mana Drain**: -1d4 ? [2] = -2 mana. *Your memory of last night's campfire fades.*
 **Mana**: 43 - 2 = 41/60
 
-**Your Action**: Cast "Phase Tear" -- Force shift to FULL MOON (8 mana + 1d8+2 blight self-damage)
+**Your Action**: Cast "Phase Tear" — Force shift to FULL MOON (8 mana + 1d8+2 blight self-damage)
 *You cannot endure another round of being a punching bag. You reach into the parasite's cycle and PULL yourself toward Full Moon. Your body screams.*
 
 **Phase Shift Cost**: 8 mana + 1d8+2 necrotic ? [6] + 2 = 8 blight to you
-**Transition Shock Table (1d6)**: [4] = **Temporal Dissonance** -- lose 1 AP on your next turn
+**Transition Shock Table (1d6)**: [4] = **Temporal Dissonance** — lose 1 AP on your next turn
 
-*Your skin splits along the starlight seams. Cold white light pours from the cracks. Your perception SHATTERS -- for a moment, you see through the moon's eyes. Everything is so small. Everything is so breakable.*
+*Your skin splits along the starlight seams. Cold white light pours from the cracks. Your perception SHATTERS — for a moment, you see through the moon's eyes. Everything is so small. Everything is so breakable.*
 
 **Mana**: 41 - 8 = 33/60
 **HP**: 41 - 8 = 33/65
 
-**FULL MOON -- THE SANITY EROSION (Rounds 2-4)**
+**FULL MOON — THE SANITY EROSION (Rounds 2-4)**
 
 **Full Moon Active**:
 - +2d8 ember damage on all attacks
@@ -388,7 +388,7 @@ Your unique utility. Key abilities let you add or remove rounds from effects, ex
 **Total Critical Damage**: **42 ember damage**
 **Self-Damage**: 1d4 necrotic ? [3] = 3
 
-*The bolt doesn't just hit the Weaver. It UNRAVELS it. Cold starlight erupts from every joint, every orifice, every crack in its carapace. The thing doesn't die -- it stops. Mid-motion. Frozen in a moment of cosmic horror. Then it collapses into a pile of light-bleached chitin.*
+*The bolt doesn't just hit the Weaver. It UNRAVELS it. Cold starlight erupts from every joint, every orifice, every crack in its carapace. The thing doesn't die — it stops. Mid-motion. Frozen in a moment of cosmic horror. Then it collapses into a pile of light-bleached chitin.*
 
 **Corpse-Weaver #1**: OBLITERATED
 
@@ -397,24 +397,24 @@ Your unique utility. Key abilities let you add or remove rounds from effects, ex
 
 **Current State**: Phase: Full Moon (Round 1/3) | Mana: 29/60 | HP: 26/60 (max reduced)
 
-**Turn 3 -- The Matriarch (Phase: Full Moon, Round 2/3)**
+**Turn 3 — The Matriarch (Phase: Full Moon, Round 2/3)**
 
 **Max HP Reduction**: 60 - 5 = 55 (cumulative)
 **Delirium Roll**: [1] = **Attack nearest creature.** *The parasite doesn't care about tactics. It is hungry and the Matriarch is too far.*
 
-**Your Action (FORCED)**: Attack nearest target -- Corpse-Weaver #3 (adjacent)
+**Your Action (FORCED)**: Attack nearest target — Corpse-Weaver #3 (adjacent)
 **Attack Roll**: d20+6 ? [17] = Hit!
 **Damage**: 1d8 + 2d8 radiant (Full Moon) ? [7] + [5, 8] = 20 radiant
 **Self-Damage**: 1d4 ? [1] = 1
 
 **Corpse-Weaver #3**: Severely wounded
 **HP**: 26 - 1 = 25/55
-**Mana**: 29 (no mana spent -- forced basic attack)
+**Mana**: 29 (no mana spent — forced basic attack)
 
 **Matriarch's Turn**: Slams you with bludgeoning attack!
 **Damage**: 2d8+5 bludgeoning ? [8, 6] + 5 = 19 ?,1.25 (Celestial Rejection) = **23 bludgeoning**
 
-*The Matriarch's massive limb catches you square in the chest. You HEAR your own ribs crack -- not bone, but the starlight seams rupturing. White light sprays from your mouth. You taste cold vacuum.*
+*The Matriarch's massive limb catches you square in the chest. You HEAR your own ribs crack — not bone, but the starlight seams rupturing. White light sprays from your mouth. You taste cold vacuum.*
 
 **HP**: 25 - 23 = 2/55
 
@@ -425,24 +425,24 @@ Your unique utility. Key abilities let you add or remove rounds from effects, ex
 
 **Current State**: Phase: Full Moon (Round 2/3) | Mana: 29/60 | HP: 2/55 (max reduced)
 
-**Turn 4 -- Survival Through Parasitism (Manual Shift to Waning Moon)**
+**Turn 4 — Survival Through Parasitism (Manual Shift to Waning Moon)**
 
-*You are dying. The Full Moon is eating you from the inside. You reach into the cycle and PULL yourself toward Waning. The parasite protests -- it was enjoying the Sanity Erosion. Your flesh strains again.*
+*You are dying. The Full Moon is eating you from the inside. You reach into the cycle and PULL yourself toward Waning. The parasite protests — it was enjoying the Sanity Erosion. Your flesh strains again.*
 
 **Phase Shift**: Full Moon ? Waning Moon (8 mana + 1d8+2 necrotic)
 **Shift Cost**: 1d8+2 ? [5] + 2 = 7 necrotic
-**Transition Shock**: [6] = **Parasitic Mercy** -- only 1 necrotic. *The parasite is briefly sated from the Sanity Erosion feeding. It almost feels... grateful.*
+**Transition Shock**: [6] = **Parasitic Mercy** — only 1 necrotic. *The parasite is briefly sated from the Sanity Erosion feeding. It almost feels... grateful.*
 
 **Total Self-Damage from Shift**: 7 + 1 = 8 necrotic
 **HP**: 2 - 8 = ... **-6 HP**
 
-*You collapse. Starlight bleeds from your eyes, your mouth, the seams in your skin. The parasite SCREAMS inside your skull -- not in fear, but in fury. Its host is dying and it has not finished feeding.*
+*You collapse. Starlight bleeds from your eyes, your mouth, the seams in your skin. The parasite SCREAMS inside your skull — not in fear, but in fury. Its host is dying and it has not finished feeding.*
 
 **Your Party's Tank**: "THE LUNARCH IS DOWN!"
 
-*...but then your body TWITCHES. The Waning Moon takes hold. The parasite, desperate to preserve its host, inverts its feeding -- drinking from the ambient life force of everything around you rather than from your own fading body.*
+*...but then your body TWITCHES. The Waning Moon takes hold. The parasite, desperate to preserve its host, inverts its feeding — drinking from the ambient life force of everything around you rather than from your own fading body.*
 
-**WANING MOON -- THE VITALITY DRAIN Active**:
+**WANING MOON — THE VITALITY DRAIN Active**:
 - -3 mana costs
 - 25% vampiric healing on all damage dealt
 - -2 DR, -10 max HP
@@ -463,9 +463,9 @@ Your unique utility. Key abilities let you add or remove rounds from effects, ex
 1. **Choosing Your Suffering**: New Moon for survivability at the cost of offense. Full Moon for devastation at the cost of sanity and HP. Waning for vampiric sustain at the cost of defense.
 2. **The Flesh Economy**: Every shift costs blood. The Transition Shock Table is always looming. You cannot be healed normally. Your HP is a countdown timer, not a health bar.
 3. **Celestial Rejection is Real**: That Bludgeoning vulnerability is not theoretical. Two hits took you from 55 HP to death's door. Avoid blunt weapons at all costs.
-4. **Phase Weaponization**: You don't just cycle phases for yourself -- you spread them to enemies, manipulate round counts, and force the entire battlefield to sync with your parasite's feeding schedule.
+4. **Phase Weaponization**: You don't just cycle phases for yourself — you spread them to enemies, manipulate round counts, and force the entire battlefield to sync with your parasite's feeding schedule.
 5. **The Delirium Gamble**: Full Moon's damage is unmatched, but the Delirium Table can force you to attack allies or lose your turn. Never stay in Sanity Erosion longer than absolutely necessary.
-6. **Vampiric Emergency**: Waning Moon's 25% vampirism is your only reliable self-heal. When you're dying, shifting to Waning and dealing AoE damage can pull you back from the brink -- but it requires enemies to be nearby and mana to be available.`,
+6. **Vampiric Emergency**: Waning Moon's 25% vampirism is your only reliable self-heal. When you're dying, shifting to Waning and dealing AoE damage can pull you back from the brink — but it requires enemies to be nearby and mana to be available.`,
     },
   },
 
@@ -473,32 +473,32 @@ Your unique utility. Key abilities let you add or remove rounds from effects, ex
     title: "The Lunar Parasite Economy",
     subtitle: "Flesh Is the Currency of the Cosmos",
 
-    description: `The Lunar Cycle is not a tool. It is a feeding schedule imposed by an alien parasite fused to the Lunarch's nervous system. Every three rounds, the parasite FORCEFULLY REWRITES the host's physiology to extract a different nutrient -- memory, sensation, sanity, or vitality. This is not optional. This is not free. Every natural cycle shift deals 2d6 irreducible blight damage as the Lunarch's flesh tears along invisible seams where starlight has replaced connective tissue. The Lunarch cannot stop the feeding. They can only direct it -- choosing which horror to embrace at the cost of their own blood, and praying the parasite's hunger can be weaponized against their enemies before it consumes them entirely.`,
+    description: `The Lunar Cycle is not a tool. It is a feeding schedule imposed by an alien parasite fused to the Lunarch's nervous system. Every three rounds, the parasite FORCEFULLY REWRITES the host's physiology to extract a different nutrient — memory, sensation, sanity, or vitality. This is not optional. This is not free. Every natural cycle shift deals 2d6 irreducible blight damage as the Lunarch's flesh tears along invisible seams where starlight has replaced connective tissue. The Lunarch cannot stop the feeding. They can only direct it — choosing which horror to embrace at the cost of their own blood, and praying the parasite's hunger can be weaponized against their enemies before it consumes them entirely.`,
 
     cards: [
       {
-        title: "New Moon -- The Memory Eater",
+        title: "New Moon — The Memory Eater",
         stats: "+3 DR | Immune: Charm/Fear | -2 Attacks | -1d4 Mana/turn",
         details:
-          "The parasite feeds on cognition. You lose memories, tactical awareness, and fine motor control. In exchange, the parasite drives your body autonomously -- reacting to threats faster than conscious thought. You are a passenger in your own flesh. You start every combat here.",
+          "The parasite feeds on cognition. You lose memories, tactical awareness, and fine motor control. In exchange, the parasite drives your body autonomously — reacting to threats faster than conscious thought. You are a passenger in your own flesh. You start every combat here.",
       },
       {
-        title: "Waxing Moon -- The Sensation Harvest",
+        title: "Waxing Moon — The Sensation Harvest",
         stats: "+1d6 Damage | +10ft Speed | Adv Perception | 1d4 blight/turn | No Healing",
         details:
-          "The parasite feeds on nerve endings. Every sensation is amplified into agony. Pain becomes power -- channeled into destructive force and hyper-awareness. But you CANNOT be healed by any means during this phase. The parasite intercepts all restoration and converts it into more sensation to feed on.",
+          "The parasite feeds on nerve endings. Every sensation is amplified into agony. Pain becomes power — channeled into destructive force and hyper-awareness. But you CANNOT be healed by any means during this phase. The parasite intercepts all restoration and converts it into more sensation to feed on.",
       },
       {
-        title: "Full Moon -- The Sanity Erosion",
+        title: "Full Moon — The Sanity Erosion",
         stats: "+2d8 Radiant | Crit 19-20 | Ignores 50% DR | Delirium Roll/turn | -5 Max HP/round",
         details:
-          "The parasite floods your brain with cosmic signal. Reality fractures. Your attacks become terrifying -- raw stellar radiation channeled through a breaking mind. But each turn you must roll on the Delirium Table: attack an ally, lose AP, take wyrd damage, or -- rarely -- nothing. Your max HP erodes every round you remain.",
+          "The parasite floods your brain with cosmic signal. Reality fractures. Your attacks become terrifying — raw stellar radiation channeled through a breaking mind. But each turn you must roll on the Delirium Table: attack an ally, lose AP, take wyrd damage, or — rarely — nothing. Your max HP erodes every round you remain.",
       },
       {
-        title: "Waning Moon -- The Vitality Drain",
+        title: "Waning Moon — The Vitality Drain",
         stats: "-3 Mana Costs | 25% Vampiric | +10ft Range | +1 Rnd Debuffs | -2 DR | -10 Max HP",
         details:
-          "The parasite drinks raw life force. Your body withers -- skin grays, veins blacken, breath shallows. But the siphoned vitality is converted into arcane efficiency and vampiric healing. This is your only reliable self-sustain. The 25% vampirism on all damage dealt is how you survive.",
+          "The parasite drinks raw life force. Your body withers — skin grays, veins blacken, breath shallows. But the siphoned vitality is converted into arcane efficiency and vampiric healing. This is your only reliable self-sustain. The 25% vampirism on all damage dealt is how you survive.",
       },
     ],
 
@@ -527,12 +527,12 @@ Your unique utility. Key abilities let you add or remove rounds from effects, ex
       momentum:
         "Full Moon (Sanity Erosion) is your nuclear option. +2d8 radiant, crit 19-20, ignores half DR the Delirium Table can force you to attack allies and your max HP bleeds away every round. Never stay longer than you must. Get in, unleash the abyss, get out.",
       flourish:
-        "Waning Moon (Vitality Drain) is your survival phase. The 25% vampirism is your ONLY reliable self-heal. When you're dying -- and you will be dying often -- shift to Waning and deal AoE damage to pull yourself back from the brink. The -2 DR hurts, but being dead hurts more.",
+        "Waning Moon (Vitality Drain) is your survival phase. The 25% vampirism is your ONLY reliable self-heal. When you're dying — and you will be dying often — shift to Waning and deal AoE damage to pull yourself back from the brink. The -2 DR hurts, but being dead hurts more.",
     },
 
     overheatRules: {
       title: "The Transition Shock Table",
-      content: `Every time a phase shift occurs -- natural cycle OR manual -- the Lunarch's flesh strains along the starlight seams where the parasite has replaced connective tissue. Roll 1d6:
+      content: `Every time a phase shift occurs — natural cycle OR manual — the Lunarch's flesh strains along the starlight seams where the parasite has replaced connective tissue. Roll 1d6:
 
 | d6 | Name | Effect |
 |---|---|---|
@@ -548,15 +548,15 @@ At the START of each turn during Full Moon (Sanity Erosion), roll 1d4:
 
 | d4 | Effect |
 |---|---|
-| 1 | Cosmic Hallucination -- You MUST attack the nearest creature (ally or enemy) with your next action |
-| 2 | Temporal Seizure -- Lose 1 AP this turn as your body convulses with starlight |
-| 3 | Psychic Bleed -- Take 1d6 wyrd damage as the cosmos whisper the names of dead stars |
-| 4 | Moment of Clarity -- No drawback this turn. The parasite blinks. Make it count. |`,
+| 1 | Cosmic Hallucination — You MUST attack the nearest creature (ally or enemy) with your next action |
+| 2 | Temporal Seizure — Lose 1 AP this turn as your body convulses with starlight |
+| 3 | Psychic Bleed — Take 1d6 wyrd damage as the cosmos whisper the names of dead stars |
+| 4 | Moment of Clarity — No drawback this turn. The parasite blinks. Make it count. |`,
     },
 
     strategicConsiderations: {
       title: "The Flesh Economist",
-      content: `**The 3-Round Death Clock**: Every 3 rounds, the parasite forces a natural cycle shift. This deals 2d6 blight damage AND forces a Transition Shock roll. You cannot opt out. You cannot reduce the damage. You can only choose WHICH phase you bleed into by shifting manually (which costs MORE blood). Every combat is a countdown -- how many cycles can your body survive before the parasite consumes more than you can replenish?
+      content: `**The 3-Round Death Clock**: Every 3 rounds, the parasite forces a natural cycle shift. This deals 2d6 blight damage AND forces a Transition Shock roll. You cannot opt out. You cannot reduce the damage. You can only choose WHICH phase you bleed into by shifting manually (which costs MORE blood). Every combat is a countdown — how many cycles can your body survive before the parasite consumes more than you can replenish?
 
 **The Healing Problem**: You CANNOT be healed by standard magical means. The parasite devours foreign magic and converts it to wyrd feedback. A cleric's healing spell deals wyrd damage to you equal to 50% of the heal amount. Your ONLY recovery options are:
 - Waning Moon vampirism (25% of all damage dealt returns as HP)
@@ -586,9 +586,9 @@ No other class can manipulate the passage of rounds. Key applications:
       content: `Tracking a 4-phase cycle that damages you every 3 rounds requires physical props. The Lunarch bleeds. Make it visible.
 
 **Required Materials**:
-- **Phase Dial** -- A disc marked with 4 phases. Use a red clothespin to mark the current phase. The red reminds everyone you are suffering.
-- **Damage d6** -- Roll this EVERY cycle shift. Natural or manual. No exceptions. The table should hear it.
-- **Self-Damage Tracker** -- A row of d6s or tokens showing accumulated self-damage this combat. When it gets scary, the table feels it.
+- **Phase Dial** — A disc marked with 4 phases. Use a red clothespin to mark the current phase. The red reminds everyone you are suffering.
+- **Damage d6** — Roll this EVERY cycle shift. Natural or manual. No exceptions. The table should hear it.
+- **Self-Damage Tracker** — A row of d6s or tokens showing accumulated self-damage this combat. When it gets scary, the table feels it.
 
 **The Physical Hack**:
 - **The Bleeding Token**: Start with 10 red glass beads. Every time you take self-damage from a phase shift, remove one. When you're out of beads, your character is in critical danger. The whole table can see your countdown.
@@ -613,13 +613,13 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
     title: "Lunarch Specializations",
     subtitle: "Three Expressions of the Parasite's Hunger",
 
-    description: `The parasite has fused with your nervous system, but HOW it manifests depends on which part of your anatomy it has colonized most aggressively. Every Lunarch develops one dominant expression of the infection -- a specialization that determines how the parasite's feeding is weaponized. These are not choices made at a temple or academy. They are biological mutations. The parasite reshapes you according to its own unknowable criteria, and you discover your specialization the first time you survive a phase shift that should have killed you.`,
+    description: `The parasite has fused with your nervous system, but HOW it manifests depends on which part of your anatomy it has colonized most aggressively. Every Lunarch develops one dominant expression of the infection — a specialization that determines how the parasite's feeding is weaponized. These are not choices made at a temple or academy. They are biological mutations. The parasite reshapes you according to its own unknowable criteria, and you discover your specialization the first time you survive a phase shift that should have killed you.`,
 
     sharedPassive: {
       name: "Parasitic Bond",
       icon: "Arcane/Star Trail Path",
       description:
-        "The parasite grants you darkvision up to 60 feet -- your eyes have been partially replaced with photosensitive starlight receptors. You are immune to magical charm and fear effects during Full Moon (Sanity Erosion) because there is nothing left of your 'self' for those effects to target. You can see the seams in reality where the parasite has touched the world.",
+        "The parasite grants you darkvision up to 60 feet — your eyes have been partially replaced with photosensitive starlight receptors. You are immune to magical charm and fear effects during Full Moon (Sanity Erosion) because there is nothing left of your 'self' for those effects to target. You can see the seams in reality where the parasite has touched the world.",
     },
 
     specs: [
@@ -629,20 +629,20 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         color: "#A0A0A0",
         theme: "Precision Killer",
 
-        description: `The parasite has hollowed out the Lunarch's eyes, replacing the vitreous humor with condensed starlight. They do not see the world as others do -- they perceive it through the parasite's alien geometry, a lattice of angles and trajectories where every living thing is a target and every gap in armor is a screaming invitation. The Hollow Sentinel is a precision killer, and the parasite aims through them like a weapon. During Full Moon, their strikes bypass armor entirely -- the starlight in their eyes can see through solid matter, finding the soft tissue beneath.`,
+        description: `The parasite has hollowed out the Lunarch's eyes, replacing the vitreous humor with condensed starlight. They do not see the world as others do — they perceive it through the parasite's alien geometry, a lattice of angles and trajectories where every living thing is a target and every gap in armor is a screaming invitation. The Hollow Sentinel is a precision killer, and the parasite aims through them like a weapon. During Full Moon, their strikes bypass armor entirely — the starlight in their eyes can see through solid matter, finding the soft tissue beneath.`,
 
         playstyle:
           "Precision ranged assassin who must carefully manage Full Moon (Sanity Erosion) to land devastating armor-ignoring critical strikes while surviving the Delirium Table",
 
         strengths: [
           "Ranged attacks ignore 25% of DR (the parasite calculates weak points)",
-          "Critical hits during Full Moon deal additional 2d6 wyrd damage -- the target glimpses the cosmos through the wound",
+          "Critical hits during Full Moon deal additional 2d6 wyrd damage — the target glimpses the cosmos through the wound",
           "Can mark targets, making them visible through walls and immune to concealment",
           "Devastating single-target elimination potential",
         ],
 
         weaknesses: [
-          "No AoE capability -- every shot is a single, surgical incision",
+          "No AoE capability — every shot is a single, surgical incision",
           "Full Moon Delirium can force you to attack allies instead of your marked target",
           "Extremely vulnerable when caught in melee (no close-range tools)",
           "Overwhelming dependence on Full Moon for peak performance",
@@ -685,7 +685,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         name: "Silence-Speaker",
         color: "#2C3E50",
         theme: "Cosmic Contamination & Rifts",
-        description: `The parasite has opened a channel to the Silence between stars -- the cold, hateful space where light goes to die. The Silence-Speaker does not 'call down stars' or 'invoke celestial energy.' They tear holes in reality through which cold, predatory starlight bleeds. These rifts contaminate everything they touch, spreading cosmic sickness that disadvantages enemies and corrodes their ability to fight. The Silence-Speaker is a battlefield controller who warps the geometry of combat, and their AoE abilities apply 'Star-Sickness' -- a lingering contamination that represents the parasite spreading its influence through the wounds it creates.`,
+        description: `The parasite has opened a channel to the Silence between stars — the cold, hateful space where light goes to die. The Silence-Speaker does not 'call down stars' or 'invoke celestial energy.' They tear holes in reality through which cold, predatory starlight bleeds. These rifts contaminate everything they touch, spreading cosmic sickness that disadvantages enemies and corrodes their ability to fight. The Silence-Speaker is a battlefield controller who warps the geometry of combat, and their AoE abilities apply 'Star-Sickness' — a lingering contamination that represents the parasite spreading its influence through the wounds it creates.`,
 
         playstyle:
           "Battlefield controller who tears reality apart, spreading cosmic contamination and phase contagion across entire enemy formations",
@@ -694,14 +694,14 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
           "AoE spells apply Star-Sickness: disadvantage on next attack roll, 1d4 ember damage at start of turn for 2 rounds",
           "During Waxing Moon, AoE radius increases by 5 ft (the parasite's tendrils reach further when feeding on sensation)",
           "Can spread the current phase's effects to enemies via Phase Contagion",
-          "Round manipulation -- add or remove rounds from active battlefield effects",
+          "Round manipulation — add or remove rounds from active battlefield effects",
         ],
 
         weaknesses: [
           "Lower single-target damage than Hollow Sentinel",
           "Self-damage from AoE spells is higher (the parasite feeds more aggressively when reality tears)",
           "Requires precise positioning to avoid hitting allies with contamination",
-          "Mana-intensive -- most abilities cost 2+ more mana than equivalent Hollow Sentinel spells",
+          "Mana-intensive — most abilities cost 2+ more mana than equivalent Hollow Sentinel spells",
         ],
 
         passiveAbilities: [
@@ -752,7 +752,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         color: "#8B0000",
         theme: "Sacrificial Healer",
 
-        description: `The Sanguine Warden has learned to redirect the parasite's feeding outward -- siphoning vitality from the moon's gravitational pull and channeling it through their own bleeding flesh to mend allies. This is not sacred healing. This is not spirit intervention. The Sanguine Warden literally bleeds moonlight, tearing open the starlight seams in their own body to create conduits through which stolen life force can flow into wounded companions. During Waxing Moon, their healing is increased by 50% because the parasite's sensation-feeding creates more tears to channel through -- but each heal costs the Warden 1d4 blight damage as they rip themselves open further. During Waning Moon, a vampiric feedback loop allows them to recover 25% of the healing they deal to others. The Sanguine Warden is the only Lunarch who can semi-reliably sustain themselves, and they do it by making their own suffering into medicine.`,
+        description: `The Sanguine Warden has learned to redirect the parasite's feeding outward — siphoning vitality from the moon's gravitational pull and channeling it through their own bleeding flesh to mend allies. This is not sacred healing. This is not spirit intervention. The Sanguine Warden literally bleeds moonlight, tearing open the starlight seams in their own body to create conduits through which stolen life force can flow into wounded companions. During Waxing Moon, their healing is increased by 50% because the parasite's sensation-feeding creates more tears to channel through — but each heal costs the Warden 1d4 blight damage as they rip themselves open further. During Waning Moon, a vampiric feedback loop allows them to recover 25% of the healing they deal to others. The Sanguine Warden is the only Lunarch who can semi-reliably sustain themselves, and they do it by making their own suffering into medicine.`,
 
         playstyle:
           "Sacrificial healer who bleeds moonlight to keep allies alive, sustaining themselves through vampiric feedback loops during Waning Moon",
@@ -765,7 +765,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         ],
 
         weaknesses: [
-          "Every heal costs the Warden HP -- you are literally bleeding yourself dry to keep others alive",
+          "Every heal costs the Warden HP — you are literally bleeding yourself dry to keep others alive",
           "Lowest damage output of all Lunarch specs",
           "Must stay in Waning Moon as long as possible to recover from Waxing Moon healing binges",
           "Cannot benefit from OTHER healers (Celestial Rejection applies to all magical healing)",
@@ -792,7 +792,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
             tier: "Specialization Passive",
             icon: "Healing/Prayer",
             description:
-              "During New Moon (Memory Eater), all allies within 15 feet gain +1 DR as the parasite's defensive reflexes extend to protect nearby life signatures. During Waning Moon, allies healed by you also gain 1d6 temporary HP from the parasite's residue -- starlight-scabbed wounds that harden into protective barriers.",
+              "During New Moon (Memory Eater), all allies within 15 feet gain +1 DR as the parasite's defensive reflexes extend to protect nearby life signatures. During Waning Moon, allies healed by you also gain 1d6 temporary HP from the parasite's residue — starlight-scabbed wounds that harden into protective barriers.",
             uniqueTo: "Sanguine Warden",
           },
         ],
@@ -813,7 +813,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
     { id : "lunarch_parasitic_bolt",
       name: "Parasitic Bolt",
       description:
-        "Channel a sliver of the parasite's hunger into a bolt of condensed starlight that burrows into the target. The casting opens a seam in your palm -- you bleed, they bleed, the parasite feeds on both.",
+        "Channel a sliver of the parasite's hunger into a bolt of condensed starlight that burrows into the target. The casting opens a seam in your palm — you bleed, they bleed, the parasite feeds on both.",
       spellType: "ACTION",
       icon: "Arcane/Star Trail Path",
       level: 1,
@@ -1092,7 +1092,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
     { id : "lunarch_parasitic_stride",
       name: "Parasitic Stride",
       description:
-        "The parasite partially phases your body, allowing you to glide through space trailing starlight contamination. You do not run -- you are pulled by the parasite's gravitational will.",
+        "The parasite partially phases your body, allowing you to glide through space trailing starlight contamination. You do not run — you are pulled by the parasite's gravitational will.",
       spellType: "ACTION",
       icon: "Nature/Ethereal Bird",
       level: 2,
@@ -1158,7 +1158,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
     { id : "lunarch_celestial_rejection",
       name: "Celestial Rejection",
       description:
-        "PASSIVE: +25% Bludgeoning vulnerability (starlight-infused organs rupture under blunt trauma). Immune to standard magical healing -- the parasite devours foreign magic, dealing wyrd damage equal to 50% of heal amount instead. Only your own phase-specific restoration works.",
+        "PASSIVE: +25% Bludgeoning vulnerability (starlight-infused organs rupture under blunt trauma). Immune to standard magical healing — the parasite devours foreign magic, dealing wyrd damage equal to 50% of heal amount instead. Only your own phase-specific restoration works.",
       level: 1,
       spellType: "PASSIVE",
       icon: "Force/Explosion Burst",
@@ -1540,7 +1540,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
     { id : "lunarch_binding_horror",
       name: "Binding Horror",
       description:
-        "Project parasitic tendrils from the seams in your arms that wrap around a target, constricting and feeding. The tendrils are alive -- extensions of the parasite.",
+        "Project parasitic tendrils from the seams in your arms that wrap around a target, constricting and feeding. The tendrils are alive — extensions of the parasite.",
       spellType: "ACTION",
       icon: "Frost/Confused",
       level: 3,
@@ -1621,7 +1621,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
     { id : "lunarch_silence_supernova",
       name: "Silence Supernova",
       description:
-        "Detonate a rift-core above your enemies. The explosion is not fire -- it is the Silence remembering what light used to be, and hating it. Enemies are scorched and contaminated with mass delirium.",
+        "Detonate a rift-core above your enemies. The explosion is not fire — it is the Silence remembering what light used to be, and hating it. Enemies are scorched and contaminated with mass delirium.",
       level: 7,
       spellType: "ACTION",
       icon: "Fire/Shadowy Blaze",
@@ -1705,7 +1705,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
     { id : "lunarch_silence_constellation",
       name: "Silence Constellation",
       description:
-        "Summon a constellation of rift-wounds across the battlefield, each one firing a beam of cold silence-light at a different enemy. The constellation persists for moments -- long enough to scar reality and everything caught in its geometry.",
+        "Summon a constellation of rift-wounds across the battlefield, each one firing a beam of cold silence-light at a different enemy. The constellation persists for moments — long enough to scar reality and everything caught in its geometry.",
       level: 8,
       spellType: "ACTION",
       icon: "Arcane/Starlight Ray",
@@ -1782,7 +1782,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
     { id : "lunarch_skyhole",
       name: "Skyhole",
       description:
-        "Tear open the sky above a battlefield. Raw, predatory starlight pours through the wound in reality, scorching everything below. The tear persists -- a gaping hole where the sky used to be, raining cosmic radiation each round.",
+        "Tear open the sky above a battlefield. Raw, predatory starlight pours through the wound in reality, scorching everything below. The tear persists — a gaping hole where the sky used to be, raining cosmic radiation each round.",
       level: 9,
       spellType: "ACTION",
       icon: "Arcane/Star Trail Path",
@@ -1840,7 +1840,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
     {
       "id": "lunarch_void_chill",
       "name": "Silence-Chill",
-      "description": "The parasite has made your blood a piece of the Silence between stars. For the duration you radiate an otherworldly cold: freeze a plane of water, crust a wet surface in ice, snuff small flames and heat-signatures, and chill drinks or preserve food. The same aura marks you as deeply, unsettlingly alien  --  advantage on Intimidation, disadvantage on Persuasion and warmth-based rapport. Out of combat.",
+      "description": "The parasite has made your blood a piece of the Silence between stars. For the duration you radiate an otherworldly cold: freeze a plane of water, crust a wet surface in ice, snuff small flames and heat-signatures, and chill drinks or preserve food. The same aura marks you as deeply, unsettlingly alien  —  advantage on Intimidation, disadvantage on Persuasion and warmth-based rapport. Out of combat.",
       "level": 3,
       "spellType": "ACTION",
       "icon": "Frost/Ice Shard",
@@ -1851,7 +1851,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         "effectTypes": ["utility"],
         "utilityConfig": {
           "utilityType": "environment",
-          "selectedEffects": [ { "id": "void_chill_cold", "name": "Dead-Moon Cold", "description": "For 1 hour: freeze water/crust ice, snuff small flames and heat-signatures, chill/preserve items. Your alien aura grants advantage on Intimidation but disadvantage on Persuasion  --  you radiate a cold that isn't entirely of this world.", "mechanicsText": "Freeze water/snuff flames; +Intimidation, -Persuasion 1 hour." } ],
+          "selectedEffects": [ { "id": "void_chill_cold", "name": "Dead-Moon Cold", "description": "For 1 hour: freeze water/crust ice, snuff small flames and heat-signatures, chill/preserve items. Your alien aura grants advantage on Intimidation but disadvantage on Persuasion  —  you radiate a cold that isn't entirely of this world.", "mechanicsText": "Freeze water/snuff flames; +Intimidation, -Persuasion 1 hour." } ],
           "duration": 1, "durationUnit": "hours", "concentration": false, "power": "moderate"
         },
         "cooldownConfig": { "cooldownType": "turn_based", "cooldownValue": 0 },
@@ -1860,7 +1860,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       {
         "id": "lunarch_phase_stasis",
         "name": "Phase Stasis",
-        "description": "Force the parasite into a single phase of dormancy for a few hours, buying yourself a window of lucid rest. The involuntary cycle pauses, you take no feeding damage, and you recover with advantage  --  but you cannot cast phase spells, and at the end the parasite wakes hungry, dealing a Transition Shock on emergence. Out of combat.",
+        "description": "Force the parasite into a single phase of dormancy for a few hours, buying yourself a window of lucid rest. The involuntary cycle pauses, you take no feeding damage, and you recover with advantage  —  but you cannot cast phase spells, and at the end the parasite wakes hungry, dealing a Transition Shock on emergence. Out of combat.",
         "level": 2,
         "spellType": "ACTION",
         "icon": "Utility/Utility",
@@ -1871,7 +1871,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         "effectTypes": ["utility"],
         "utilityConfig": {
           "utilityType": "rest",
-          "selectedEffects": [ { "id": "phase_stasis_dormant", "name": "Dormant Parasite", "description": "For up to 4 hours the involuntary cycle pauses: no feeding damage, no phase penalties, advantage on rest recovery. You cannot cast Lunarch spells during stasis. On emergence, roll once on the Transition Shock Table  --  the parasite wakes hungry.", "mechanicsText": "Pause parasite cycle 4h; advantage on rest; Transition Shock on wake." } ],
+          "selectedEffects": [ { "id": "phase_stasis_dormant", "name": "Dormant Parasite", "description": "For up to 4 hours the involuntary cycle pauses: no feeding damage, no phase penalties, advantage on rest recovery. You cannot cast Lunarch spells during stasis. On emergence, roll once on the Transition Shock Table  —  the parasite wakes hungry.", "mechanicsText": "Pause parasite cycle 4h; advantage on rest; Transition Shock on wake." } ],
           "duration": 4, "durationUnit": "hours", "concentration": false, "power": "moderate"
         },
         "cooldownConfig": { "cooldownType": "long_rest", "cooldownValue": 1 },

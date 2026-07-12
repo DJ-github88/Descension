@@ -171,14 +171,14 @@ const getStatDescription = (stat) => {
         'Higher power means more devastating wyrd magic'
       ]
     },
-    'Divine Power': {
-      title: 'Divine Spell Power',
+    'Sacred Power': {
+      title: 'Sacred Spell Power',
       color: '#DAA520',
       effects: [
-        'Increases damage of Divine spells',
+        'Increases damage of Sacred spells',
         'Channels sacred radiance and celestial power',
         'Based on Intelligence and magical equipment',
-        'Higher power means more powerful divine magic'
+        'Higher power means more powerful sacred magic'
       ]
     },
     'Arcane Power': {

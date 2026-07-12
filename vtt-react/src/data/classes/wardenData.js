@@ -995,7 +995,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
     // ==========================================
     { id : "warden_shadow_ambush",
       name: "Chain Leap",
-      description: "Leap from stealth, throwing rusted chains directly into the target. You cannot teleport -- you must physically travel through the air, risking opportunity attacks.",
+      description: "Leap from stealth, throwing rusted chains directly into the target. You cannot teleport — you must physically travel through the air, risking opportunity attacks.",
       spellType: "ACTION",
       icon: "Piercing/Night Dagger",
       level: 2,

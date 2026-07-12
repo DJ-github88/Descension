@@ -601,7 +601,7 @@ const transformTraitToSpell = (trait) => {
         concentrationRequired: false,
         canBeDispelled: false
       };
-      spell.tags.push('spiritual', 'divine');
+      spell.tags.push('spiritual', 'sacred');
       spell.icon = 'spell_holy_holybolt';
       break;
 

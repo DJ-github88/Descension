@@ -196,7 +196,7 @@ const DAMAGE_TYPES = {
   primal: { name: 'Primal', color: '#2D5A1E' },
   blight: { name: 'Blight', color: '#3D1F4E' },
   wyrd: { name: 'Wyrd', color: '#7A2040' },
-  divine: { name: 'Divine', color: '#DAA520' }
+  sacred: { name: 'Sacred', color: '#DAA520' }
 };
 
 // Duration types
@@ -673,7 +673,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
           // Add bonus damage type for higher quality items
           let bonusDamageType = null;
           if (containerOpts.itemQuality !== 'poor' && containerOpts.itemQuality !== 'common' && damageBonus > 0) {
-            const bonusDamageTypes = ['ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'divine'];
+            const bonusDamageTypes = ['ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'sacred'];
             bonusDamageType = bonusDamageTypes[getRandomInt(0, bonusDamageTypes.length - 1)];
           }
 
@@ -2494,7 +2494,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
                       type="button"
                       onClick={() => {
                         const reagentTypes = ['herb', 'mineral', 'crystal', 'essence', 'extract', 'powder', 'oil'];
-                        const magicTypes = ['ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'divine'];
+                        const magicTypes = ['ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'sacred'];
                         const states = ['raw', 'refined', 'processed', 'pure', 'distilled'];
                         const preservationMethods = ['fresh', 'dried', 'powdered', 'distilled', 'crystallized', 'preserved'];
 
